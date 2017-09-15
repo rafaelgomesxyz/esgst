@@ -850,11 +850,19 @@ The video above does not get embedded.
 
 ## Changelog
 
+**6.Beta.35.3 (September 15, 2017):**
+
+<ul>
+    <li>Removed obsolete functions and made minor style changes to the code.</li>
+    <li>Shortcut Keys has been separated into options so that you can decide which shortcuts to enable.</li>
+    <li>Header Refresher should now refresh individually for different accounts (closes <a href="https://github.com/revilheart/ESGST/issues/4">#4</a>).</li>
+</ul>
+
 **6.Beta.35.2 (September 13, 2017):**
 
 <ul>
     <li>Added options to Giveaway Winning Chance/Ratio that allow you to customize how the chances/ratios are shown better (by not adding 1 to the calculation and/or showing the advanced chance/ratio along with the basic one).</li>
-    <li>Fixed a bug in Train Giveaways Extractor that kept extracting when clicking on "Cancel".
+    <li>Fixed a bug in Train Giveaways Extractor that kept extracting when clicking on "Cancel".</li>
 </ul>
 <p>Removed the following features:</p>
 <ul>
