@@ -850,6 +850,16 @@ The video above does not get embedded.
 
 ## Changelog
 
+**6.Beta.36.0 (September 16, 2017):**
+
+<ul>
+    <li>Fixed a couple bugs.</li>
+</ul>
+<p>Added the following features:</p>
+<ul>
+    <li>3.3 Close/Open Discussion Button</li>
+</ul>
+
 **6.Beta.35.4 (September 16, 2017):**
 
 <ul>
