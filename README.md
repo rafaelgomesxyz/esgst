@@ -850,6 +850,14 @@ The video above does not get embedded.
 
 ## Changelog
 
+**6.Beta.35.4 (September 16, 2017):**
+
+<ul>
+    <li>Fixed a bug that was preventing features from loading in the main page (closes <a href="https://github.com/revilheart/ESGST/issues/13">#13</a>).</li>
+    <li>Fixed a bug in Header Refresher (closes <a href="https://github.com/revilheart/ESGST/issues/12">#12</a>).</li>
+    <li>Fixed a bug in Comment Formatting Helper that was not adding the selected text as title to links/images (closes <a href="https://github.com/revilheart/ESGST/issues/11">#11</a>).</li>
+</ul>
+
 **6.Beta.35.3 (September 15, 2017):**
 
 <ul>
