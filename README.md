@@ -14,6 +14,8 @@ A script that adds some cool features to SteamGifts and SteamTrades.
 
 To install the script, you must install [Greasemonkey](http://www.greasespot.net/) (not 100% compatible with the latest versions of Firefox) or [Tampermonkey](https://tampermonkey.net/) first. Then [click here](https://github.com/revilheart/ESGST/raw/master/ESGST.user.js) and you should be prompted to install it.
 
+You can also install the script in your Android through Firefox with Violentmonkey or USI. Though some features might not work.
+
 ---
 
 ## Compatibility
@@ -849,6 +851,12 @@ The video above does not get embedded.
 ---
 
 ## Changelog
+
+**6.Beta.36.1 (September 16, 2017):**
+
+<ul>
+    <li>Added the option to import/export using Dropbox.</li>
+</ul>
 
 **6.Beta.36.0 (September 16, 2017):**
 
