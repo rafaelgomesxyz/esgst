@@ -852,6 +852,13 @@ The video above does not get embedded.
 
 ## Changelog
 
+**6.Beta.36.2 (September 21, 2017):**
+
+<ul>
+    <li>Fixed a bug that was happening when commenting in giveaways.</li>
+    <li>Fixed a bug that was preventing Search Magnifying Glass Button from working.</li>
+</ul>
+
 **6.Beta.36.1 (September 16, 2017):**
 
 <ul>
