@@ -852,6 +852,13 @@ The video above does not get embedded.
 
 ## Changelog
 
+**6.Beta.36.3 (September 24, 2017):**
+
+<ul>
+    <li>Fixed image borders for giveaways with missing image.</li>
+    <li>Added the new search parameters to Advanced Giveaway Search.</li>
+</ul>
+
 **6.Beta.36.2 (September 21, 2017):**
 
 <ul>
