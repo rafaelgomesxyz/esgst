@@ -852,6 +852,13 @@ The video above does not get embedded.
 
 ## Changelog
 
+**6.Beta.36.4 (September 26, 2017):**
+
+<ul>
+    <li>Revamped all tables that used the class ".UGDData", which does not exist anymore.</li>
+    <li>Added a couple options to User Giveaways Data that allow you to gather stats about the user's playtime/achievements from won giveaways (currently it cannot check playtime/achievements for DLCs/packages).</li>
+</ul>
+
 **6.Beta.36.3 (September 24, 2017):**
 
 <ul>
