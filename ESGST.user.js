@@ -3,7 +3,7 @@
 // @namespace ESGST
 // @description Enhances SteamGifts and SteamTrades by adding some cool features to them.
 // @icon https://dl.dropboxusercontent.com/s/lr3t3bxrxfxylqe/esgstIcon.ico?raw=1
-// @version 6.Beta.36.4
+// @version 6.Beta.36.5
 // @author revilheart
 // @downloadURL https://github.com/revilheart/ESGST/raw/master/ESGST.user.js
 // @updateURL https://github.com/revilheart/ESGST/raw/master/ESGST.meta.js
@@ -55,7 +55,7 @@ this._delay(function(){n===this.counter&&this.refreshPositions(!s)})},_clear:fun
 !function(t,r){e.exports=r()}(this,function(){"use strict";function e(e){return"function"==typeof e||"object"==typeof e&&null!==e}function i(e){return"function"==typeof e}function s(e){W=e}function o(e){Y=e}function u(){return function(){return t.nextTick(l)}}function a(){return function(){V(l)}}function c(){var e=0,t=new Z(l),r=document.createTextNode("");return t.observe(r,{characterData:!0}),function(){r.data=e=++e%2}}function p(){var e=new MessageChannel;return e.port1.onmessage=l,function(){return e.port2.postMessage(0)}}function h(){var e=setTimeout;return function(){return e(l,1)}}function l(){for(var e=0;e<$;e+=2){var t=re[e],r=re[e+1];t(r),re[e]=void 0,re[e+1]=void 0}$=0}function f(){try{var e=r(19);return V=e.runOnLoop||e.runOnContext,a()}catch(e){return h()}}function d(e,t){var r=arguments,n=this,i=new this.constructor(m);void 0===i[ie]&&U(i);var s=n._state;return s?!function(){var e=r[s-1];Y(function(){return E(s,i,e,n._result)})}():C(n,i,e,t),i}function _(e){var t=this;if(e&&"object"==typeof e&&e.constructor===t)return e;var r=new t(m);return k(r,e),r}function m(){}function y(){return new TypeError("You cannot resolve a promise with itself")}function g(){return new TypeError("A promises callback cannot return that same promise.")}function v(e){try{return e.then}catch(e){return ae.error=e,ae}}function b(e,t,r,n){try{e.call(t,r,n)}catch(e){return e}}function w(e,t,r){Y(function(e){var n=!1,i=b(r,t,function(r){n||(n=!0,t!==r?k(e,r):A(e,r))},function(t){n||(n=!0,L(e,t))},"Settle: "+(e._label||" unknown promise"));!n&&i&&(n=!0,L(e,i))},e)}function q(e,t){t._state===oe?A(e,t._result):t._state===ue?L(e,t._result):C(t,void 0,function(t){return k(e,t)},function(t){return L(e,t)})}function x(e,t,r){t.constructor===e.constructor&&r===d&&t.constructor.resolve===_?q(e,t):r===ae?L(e,ae.error):void 0===r?A(e,t):i(r)?w(e,t,r):A(e,t)}function k(t,r){t===r?L(t,y()):e(r)?x(t,r,v(r)):A(t,r)}function T(e){e._onerror&&e._onerror(e._result),S(e)}function A(e,t){e._state===se&&(e._result=t,e._state=oe,0!==e._subscribers.length&&Y(S,e))}function L(e,t){e._state===se&&(e._state=ue,e._result=t,Y(T,e))}function C(e,t,r,n){var i=e._subscribers,s=i.length;e._onerror=null,i[s]=t,i[s+oe]=r,i[s+ue]=n,0===s&&e._state&&Y(S,e)}function S(e){var t=e._subscribers,r=e._state;if(0!==t.length){for(var n=void 0,i=void 0,s=e._result,o=0;o<t.length;o+=3)n=t[o],i=t[o+r],n?E(r,n,i,s):i(s);e._subscribers.length=0}}function R(){this.error=null}function D(e,t){try{return e(t)}catch(e){return ce.error=e,ce}}function E(e,t,r,n){var s=i(r),o=void 0,u=void 0,a=void 0,c=void 0;if(s){if(o=D(r,n),o===ce?(c=!0,u=o.error,o=null):a=!0,t===o)return void L(t,g())}else o=n,a=!0;t._state!==se||(s&&a?k(t,o):c?L(t,u):e===oe?A(t,o):e===ue&&L(t,o))}function F(e,t){try{t(function(t){k(e,t)},function(t){L(e,t)})}catch(t){L(e,t)}}function M(){return pe++}function U(e){e[ie]=pe++,e._state=void 0,e._result=void 0,e._subscribers=[]}function j(e,t){this._instanceConstructor=e,this.promise=new e(m),this.promise[ie]||U(this.promise),N(t)?(this._input=t,this.length=t.length,this._remaining=t.length,this._result=new Array(this.length),0===this.length?A(this.promise,this._result):(this.length=this.length||0,this._enumerate(),0===this._remaining&&A(this.promise,this._result))):L(this.promise,P())}function P(){return new Error("Array Methods must be provided an Array")}function O(e){return new j(this,e).promise}function G(e){var t=this;return new t(N(e)?function(r,n){for(var i=e.length,s=0;s<i;s++)t.resolve(e[s]).then(r,n)}:function(e,t){return t(new TypeError("You must pass an array to race."))})}function B(e){var t=this,r=new t(m);return L(r,e),r}function H(){throw new TypeError("You must pass a resolver function as the first argument to the promise constructor")}function I(){throw new TypeError("Failed to construct 'Promise': Please use the 'new' operator, this object constructor cannot be called as a function.")}function z(e){this[ie]=M(),this._result=this._state=void 0,this._subscribers=[],m!==e&&("function"!=typeof e&&H(),this instanceof z?F(this,e):I())}function X(){var e=void 0;if("undefined"!=typeof n)e=n;else if("undefined"!=typeof self)e=self;else try{e=Function("return this")()}catch(e){throw new Error("polyfill failed because global object is unavailable in this environment")}var t=e.Promise;if(t){var r=null;try{r=Object.prototype.toString.call(t.resolve())}catch(e){}if("[object Promise]"===r&&!t.cast)return}e.Promise=z}var J=void 0;J=Array.isArray?Array.isArray:function(e){return"[object Array]"===Object.prototype.toString.call(e)};var N=J,$=0,V=void 0,W=void 0,Y=function(e,t){re[$]=e,re[$+1]=t,$+=2,2===$&&(W?W(l):ne())},K="undefined"!=typeof window?window:void 0,Q=K||{},Z=Q.MutationObserver||Q.WebKitMutationObserver,ee="undefined"==typeof self&&"undefined"!=typeof t&&"[object process]"==={}.toString.call(t),te="undefined"!=typeof Uint8ClampedArray&&"undefined"!=typeof importScripts&&"undefined"!=typeof MessageChannel,re=new Array(1e3),ne=void 0;ne=ee?u():Z?c():te?p():void 0===K?f():h();var ie=Math.random().toString(36).substring(16),se=void 0,oe=1,ue=2,ae=new R,ce=new R,pe=0;return j.prototype._enumerate=function(){for(var e=this.length,t=this._input,r=0;this._state===se&&r<e;r++)this._eachEntry(t[r],r)},j.prototype._eachEntry=function(e,t){var r=this._instanceConstructor,n=r.resolve;if(n===_){var i=v(e);if(i===d&&e._state!==se)this._settledAt(e._state,t,e._result);else if("function"!=typeof i)this._remaining--,this._result[t]=e;else if(r===z){var s=new r(m);x(s,e,i),this._willSettleAt(s,t)}else this._willSettleAt(new r(function(t){return t(e)}),t)}else this._willSettleAt(n(e),t)},j.prototype._settledAt=function(e,t,r){var n=this.promise;n._state===se&&(this._remaining--,e===ue?L(n,r):this._result[t]=r),0===this._remaining&&A(n,this._result)},j.prototype._willSettleAt=function(e,t){var r=this;C(e,void 0,function(e){return r._settledAt(oe,t,e)},function(e){return r._settledAt(ue,t,e)})},z.all=O,z.race=G,z.resolve=_,z.reject=B,z._setScheduler=s,z._setAsap=o,z._asap=Y,z.prototype={constructor:z,then:d,catch:function(e){return this.then(null,e)}},X(),z.polyfill=X,z.Promise=z,z})}).call(t,r(8),function(){return this}())},function(e,t,r){function n(){}function i(e){var t={}.toString.call(e);switch(t){case"[object File]":case"[object Blob]":case"[object FormData]":return!0;default:return!1}}function s(e){if(!v(e))return e;var t=[];for(var r in e)null!=e[r]&&o(t,r,e[r]);return t.join("&")}function o(e,t,r){return Array.isArray(r)?r.forEach(function(r){o(e,t,r)}):void e.push(encodeURIComponent(t)+"="+encodeURIComponent(r))}function u(e){for(var t,r,n={},i=e.split("&"),s=0,o=i.length;s<o;++s)r=i[s],t=r.split("="),n[decodeURIComponent(t[0])]=decodeURIComponent(t[1]);return n}function a(e){var t,r,n,i,s=e.split(/\r?\n/),o={};s.pop();for(var u=0,a=s.length;u<a;++u)r=s[u],t=r.indexOf(":"),n=r.slice(0,t).toLowerCase(),i=w(r.slice(t+1)),o[n]=i;return o}function c(e){return/[\/+]json\b/.test(e)}function p(e){return e.split(/ *; */).shift()}function h(e){return y(e.split(/ *; */),function(e,t){var r=t.split(/ *= */),n=r.shift(),i=r.shift();return n&&i&&(e[n]=i),e},{})}function l(e,t){t=t||{},this.req=e,this.xhr=this.req.xhr,this.text="HEAD"!=this.req.method&&(""===this.xhr.responseType||"text"===this.xhr.responseType)||"undefined"==typeof this.xhr.responseType?this.xhr.responseText:null,this.statusText=this.req.xhr.statusText,this.setStatusProperties(this.xhr.status),this.header=this.headers=a(this.xhr.getAllResponseHeaders()),this.header["content-type"]=this.xhr.getResponseHeader("content-type"),this.setHeaderProperties(this.header),this.body="HEAD"!=this.req.method?this.parseBody(this.text?this.text:this.xhr.response):null}function f(e,t){var r=this;this._query=this._query||[],this.method=e,this.url=t,this.header={},this._header={},this.on("end",function(){var e=null,t=null;try{t=new l(r)}catch(t){return e=new Error("Parser is unable to parse the response"),e.parse=!0,e.original=t,e.rawResponse=r.xhr&&r.xhr.responseText?r.xhr.responseText:null,e.statusCode=r.xhr&&r.xhr.status?r.xhr.status:null,r.callback(e)}if(r.emit("response",t),e)return r.callback(e,t);if(t.status>=200&&t.status<300)return r.callback(e,t);var n=new Error(t.statusText||"Unsuccessful HTTP response");n.original=e,n.response=t,n.status=t.status,r.callback(n,t)})}function d(e,t){var r=b("DELETE",e);return t&&r.end(t),r}var _,m=r(7),y=r(9),g=r(10),v=r(4);_="undefined"!=typeof window?window:"undefined"!=typeof self?self:this;var b=e.exports=r(11).bind(null,f);b.getXHR=function(){if(!(!_.XMLHttpRequest||_.location&&"file:"==_.location.protocol&&_.ActiveXObject))return new XMLHttpRequest;try{return new ActiveXObject("Microsoft.XMLHTTP")}catch(e){}try{return new ActiveXObject("Msxml2.XMLHTTP.6.0")}catch(e){}try{return new ActiveXObject("Msxml2.XMLHTTP.3.0")}catch(e){}try{return new ActiveXObject("Msxml2.XMLHTTP")}catch(e){}return!1};var w="".trim?function(e){return e.trim()}:function(e){return e.replace(/(^\s*|\s*$)/g,"")};b.serializeObject=s,b.parseString=u,b.types={html:"text/html",json:"application/json",xml:"application/xml",urlencoded:"application/x-www-form-urlencoded",form:"application/x-www-form-urlencoded","form-data":"application/x-www-form-urlencoded"},b.serialize={"application/x-www-form-urlencoded":s,"application/json":JSON.stringify},b.parse={"application/x-www-form-urlencoded":u,"application/json":JSON.parse},l.prototype.get=function(e){return this.header[e.toLowerCase()]},l.prototype.setHeaderProperties=function(e){var t=this.header["content-type"]||"";this.type=p(t);var r=h(t);for(var n in r)this[n]=r[n]},l.prototype.parseBody=function(e){var t=b.parse[this.type];return!t&&c(this.type)&&(t=b.parse["application/json"]),t&&e&&(e.length||e instanceof Object)?t(e):null},l.prototype.setStatusProperties=function(e){1223===e&&(e=204);var t=e/100|0;this.status=this.statusCode=e,this.statusType=t,this.info=1==t,this.ok=2==t,this.clientError=4==t,this.serverError=5==t,this.error=(4==t||5==t)&&this.toError(),this.accepted=202==e,this.noContent=204==e,this.badRequest=400==e,this.unauthorized=401==e,this.notAcceptable=406==e,this.notFound=404==e,this.forbidden=403==e},l.prototype.toError=function(){var e=this.req,t=e.method,r=e.url,n="cannot "+t+" "+r+" ("+this.status+")",i=new Error(n);return i.status=this.status,i.method=t,i.url=r,i},b.Response=l,m(f.prototype);for(var q in g)f.prototype[q]=g[q];f.prototype.abort=function(){if(!this.aborted)return this.aborted=!0,this.xhr&&this.xhr.abort(),this.clearTimeout(),this.emit("abort"),this},f.prototype.type=function(e){return this.set("Content-Type",b.types[e]||e),this},f.prototype.responseType=function(e){return this._responseType=e,this},f.prototype.accept=function(e){return this.set("Accept",b.types[e]||e),this},f.prototype.auth=function(e,t,r){switch(r||(r={type:"basic"}),r.type){case"basic":var n=btoa(e+":"+t);this.set("Authorization","Basic "+n);break;case"auto":this.username=e,this.password=t}return this},f.prototype.query=function(e){return"string"!=typeof e&&(e=s(e)),e&&this._query.push(e),this},f.prototype.attach=function(e,t,r){return this._getFormData().append(e,t,r||t.name),this},f.prototype._getFormData=function(){return this._formData||(this._formData=new _.FormData),this._formData},f.prototype.send=function(e){var t=v(e),r=this._header["content-type"];if(t&&v(this._data))for(var n in e)this._data[n]=e[n];else"string"==typeof e?(r||this.type("form"),r=this._header["content-type"],"application/x-www-form-urlencoded"==r?this._data=this._data?this._data+"&"+e:e:this._data=(this._data||"")+e):this._data=e;return!t||i(e)?this:(r||this.type("json"),this)},l.prototype.parse=function(e){return _.console&&console.warn("Client-side parse() method has been renamed to serialize(). This method is not compatible with superagent v2.0"),this.serialize(e),this},l.prototype.serialize=function(e){return this._parser=e,this},f.prototype.callback=function(e,t){var r=this._callback;this.clearTimeout(),r(e,t)},f.prototype.crossDomainError=function(){var e=new Error("Request has been terminated\nPossible causes: the network is offline, Origin is not allowed by Access-Control-Allow-Origin, the page is being unloaded, etc.");e.crossDomain=!0,e.status=this.status,e.method=this.method,e.url=this.url,this.callback(e)},f.prototype.timeoutError=function(){var e=this._timeout,t=new Error("timeout of "+e+"ms exceeded");t.timeout=e,this.callback(t)},f.prototype.withCredentials=function(){return this._withCredentials=!0,this},f.prototype.end=function(e){var t=this,r=this.xhr=b.getXHR(),s=this._query.join("&"),o=this._timeout,u=this._formData||this._data;this._callback=e||n,r.onreadystatechange=function(){if(4==r.readyState){var e;try{e=r.status}catch(t){e=0}if(0==e){if(t.timedout)return t.timeoutError();if(t.aborted)return;return t.crossDomainError()}t.emit("end")}};var a=function(e){e.total>0&&(e.percent=e.loaded/e.total*100),e.direction="download",t.emit("progress",e)};this.hasListeners("progress")&&(r.onprogress=a);try{r.upload&&this.hasListeners("progress")&&(r.upload.onprogress=a)}catch(e){}if(o&&!this._timer&&(this._timer=setTimeout(function(){t.timedout=!0,t.abort()},o)),s&&(s=b.serializeObject(s),this.url+=~this.url.indexOf("?")?"&"+s:"?"+s),this.username&&this.password?r.open(this.method,this.url,!0,this.username,this.password):r.open(this.method,this.url,!0),this._withCredentials&&(r.withCredentials=!0),"GET"!=this.method&&"HEAD"!=this.method&&"string"!=typeof u&&!i(u)){var p=this._header["content-type"],h=this._parser||b.serialize[p?p.split(";")[0]:""];!h&&c(p)&&(h=b.serialize["application/json"]),h&&(u=h(u))}for(var l in this.header)null!=this.header[l]&&r.setRequestHeader(l,this.header[l]);return this._responseType&&(r.responseType=this._responseType),this.emit("request",this),r.send("undefined"!=typeof u?u:null),this},b.Request=f,b.get=function(e,t,r){var n=b("GET",e);return"function"==typeof t&&(r=t,t=null),t&&n.query(t),r&&n.end(r),n},b.head=function(e,t,r){var n=b("HEAD",e);return"function"==typeof t&&(r=t,t=null),t&&n.send(t),r&&n.end(r),n},b.del=d,b.delete=d,b.patch=function(e,t,r){var n=b("PATCH",e);return"function"==typeof t&&(r=t,t=null),t&&n.send(t),r&&n.end(r),n},b.post=function(e,t,r){var n=b("POST",e);return"function"==typeof t&&(r=t,t=null),t&&n.send(t),r&&n.end(r),n},b.put=function(e,t,r){var n=b("PUT",e);return"function"==typeof t&&(r=t,t=null),t&&n.send(t),r&&n.end(r),n}},function(e,t){function r(e){return"https://"+e+".dropboxapi.com/2/"}e.exports=r},function(e,t){function r(e){return null!=e&&"object"==typeof e}e.exports=r},function(e,t){function r(e){return JSON.stringify(e).replace(n,function(e){return"\\u"+("000"+e.charCodeAt(0).toString(16)).slice(-4)})}var n=/[\u007f-\uffff]/g;e.exports=r},function(e,t,r){var n,i=r(15);r(14),n=function(e){e=e||{},this.accessToken=e.accessToken,this.clientId=e.clientId,this.selectUser=e.selectUser},n.prototype.setAccessToken=function(e){this.accessToken=e},n.prototype.getAccessToken=function(){return this.accessToken},n.prototype.setClientId=function(e){this.clientId=e},n.prototype.getClientId=function(){return this.clientId},n.prototype.getAuthenticationUrl=function(e,t){var r,n="https://www.dropbox.com/oauth2/authorize",i=this.getClientId();if(!i)throw new Error("A client id is required. You can set the client id using .setClientId().");if(!e)throw new Error("A redirect uri is required.");return r=n+"?response_type=token&client_id="+i,e&&(r=r+"&redirect_uri="+e),t&&(r=r+"&state="+t),r},n.prototype.authenticateWithCordova=function(e,t){var r="https://www.dropbox.com/1/oauth2/redirect_receiver",n=this.getAuthenticationUrl(r),i=window.open(n,"_blank"),s=!1,o=function(e){window.setTimeout(function(){i.close()},10),t()},u=function(r){var n="&error=",s=r.url.indexOf(n);if(s>-1)window.setTimeout(function(){i.close()},10),t();else{var o="#access_token=",u=r.url.indexOf(o),a=r.url.indexOf("&token_type=");if(u>-1){u+=o.length,window.setTimeout(function(){i.close()},10);var c=r.url.substring(u,a);e(c)}}},a=function(e){s||(i.removeEventListener("loaderror",o),i.removeEventListener("loadstop",u),i.removeEventListener("exit",a),s=!0)};i.addEventListener("loaderror",o),i.addEventListener("loadstop",u),i.addEventListener("exit",a)},n.prototype.request=function(e,t,r,n,s){var o=null;switch(s){case i.RPC:o=this.getRpcRequest();break;case i.DOWNLOAD:o=this.getDownloadRequest();break;case i.UPLOAD:o=this.getUploadRequest();break;default:throw new Error("Invalid request style: "+s)}return o(e,t,r,n,this.getAccessToken(),this.selectUser)},n.prototype.setRpcRequest=function(e){n.prototype.rpcRequest=e},n.prototype.getRpcRequest=function(){return void 0===n.prototype.rpcRequest&&(n.prototype.rpcRequest=r(17)),n.prototype.rpcRequest},n.prototype.setDownloadRequest=function(e){n.prototype.downloadRequest=e},n.prototype.getDownloadRequest=function(){return void 0===n.prototype.downloadRequest&&(n.prototype.downloadRequest=r(12)),n.prototype.downloadRequest},n.prototype.setUploadRequest=function(e){n.prototype.uploadRequest=e},n.prototype.getUploadRequest=function(){return void 0===n.prototype.uploadRequest&&(n.prototype.uploadRequest=r(18)),n.prototype.uploadRequest},e.exports=n},function(e,t,r){function n(e){if(e)return i(e)}function i(e){for(var t in n.prototype)e[t]=n.prototype[t];return e}e.exports=n,n.prototype.on=n.prototype.addEventListener=function(e,t){return this._callbacks=this._callbacks||{},(this._callbacks["$"+e]=this._callbacks["$"+e]||[]).push(t),this},n.prototype.once=function(e,t){function r(){this.off(e,r),t.apply(this,arguments)}return r.fn=t,this.on(e,r),this},n.prototype.off=n.prototype.removeListener=n.prototype.removeAllListeners=n.prototype.removeEventListener=function(e,t){if(this._callbacks=this._callbacks||{},0==arguments.length)return this._callbacks={},this;var r=this._callbacks["$"+e];if(!r)return this;if(1==arguments.length)return delete this._callbacks["$"+e],this;for(var n,i=0;i<r.length;i++)if(n=r[i],n===t||n.fn===t){r.splice(i,1);break}return this},n.prototype.emit=function(e){this._callbacks=this._callbacks||{};var t=[].slice.call(arguments,1),r=this._callbacks["$"+e];if(r){r=r.slice(0);for(var n=0,i=r.length;n<i;++n)r[n].apply(this,t)}return this},n.prototype.listeners=function(e){return this._callbacks=this._callbacks||{},this._callbacks["$"+e]||[]},n.prototype.hasListeners=function(e){return!!this.listeners(e).length}},function(e,t){function r(){throw new Error("setTimeout has not been defined")}function n(){throw new Error("clearTimeout has not been defined")}function i(e){if(p===setTimeout)return setTimeout(e,0);if((p===r||!p)&&setTimeout)return p=setTimeout,setTimeout(e,0);try{return p(e,0)}catch(t){try{return p.call(null,e,0)}catch(t){return p.call(this,e,0)}}}function s(e){if(h===clearTimeout)return clearTimeout(e);if((h===n||!h)&&clearTimeout)return h=clearTimeout,clearTimeout(e);try{return h(e)}catch(t){try{return h.call(null,e)}catch(t){return h.call(this,e)}}}function o(){_&&f&&(_=!1,f.length?d=f.concat(d):m=-1,d.length&&u())}function u(){if(!_){var e=i(o);_=!0;for(var t=d.length;t;){for(f=d,d=[];++m<t;)f&&f[m].run();m=-1,t=d.length}f=null,_=!1,s(e)}}function a(e,t){this.fun=e,this.array=t}function c(){}var p,h,l=e.exports={};!function(){try{p="function"==typeof setTimeout?setTimeout:r}catch(e){p=r}try{h="function"==typeof clearTimeout?clearTimeout:n}catch(e){h=n}}();var f,d=[],_=!1,m=-1;l.nextTick=function(e){var t=new Array(arguments.length-1);if(arguments.length>1)for(var r=1;r<arguments.length;r++)t[r-1]=arguments[r];d.push(new a(e,t)),1!==d.length||_||i(u)},a.prototype.run=function(){this.fun.apply(null,this.array)},l.title="browser",l.browser=!0,l.env={},l.argv=[],l.version="",l.versions={},l.on=c,l.addListener=c,l.once=c,l.off=c,l.removeListener=c,l.removeAllListeners=c,l.emit=c,l.binding=function(e){throw new Error("process.binding is not supported")},l.cwd=function(){return"/"},l.chdir=function(e){throw new Error("process.chdir is not supported")},l.umask=function(){return 0}},function(e,t){e.exports=function(e,t,r){for(var n=0,i=e.length,s=3==arguments.length?r:e[n++];n<i;)s=t.call(null,s,e[n],++n,e);return s}},function(e,t,r){var n=r(4);t.clearTimeout=function(){return this._timeout=0,clearTimeout(this._timer),this},t.parse=function(e){return this._parser=e,this},t.timeout=function(e){return this._timeout=e,this},t.then=function(e,t){return this.end(function(r,n){r?t(r):e(n)})},t.use=function(e){return e(this),this},t.get=function(e){return this._header[e.toLowerCase()]},t.getHeader=t.get,t.set=function(e,t){if(n(e)){for(var r in e)this.set(r,e[r]);return this}return this._header[e.toLowerCase()]=t,this.header[e]=t,this},t.unset=function(e){return delete this._header[e.toLowerCase()],delete this.header[e],this},t.field=function(e,t){return this._getFormData().append(e,t),this}},function(e,t){function r(e,t,r){return"function"==typeof r?new e("GET",t).end(r):2==arguments.length?new e("GET",t):new e(t,r)}e.exports=r},function(e,t,r){var n,i,s,o=r(2),u=r(1).Promise,a=r(3),c=r(5);o.parse["application/octect-stream"]=function(e){return e},n=function(e,t){return{status:e.status,error:(t?t.text:null)||e.toString(),response:t}},s=function(e,t){e.text="",e.setEncoding("binary"),e.on("data",function(t){e.text+=t}),e.on("end",function(){t()})},i=function(e,t,r,i,p,h){if("user"!==r)throw new Error("Unexpected auth type: "+r);var l=function(r,u){function l(e){r&&r(e)}function f(e){u&&u(e)}function d(e,t){var r;e?f(n(e,t)):(r=JSON.parse(t.headers["dropbox-api-result"]),t.xhr?r.fileBlob=t.xhr.response:r.fileBinary=t.res.text,l(r))}var _;_=o.post(a(i)+e).set("Authorization","Bearer "+p).set("Dropbox-API-Arg",c(t)).on("request",function(){this.xhr&&(this.xhr.responseType="blob")}),h&&(_=_.set("Dropbox-API-Select-User",h)),"undefined"==typeof window?_.buffer(!0).parse(s).end(d):_.end(d)};return new u(l)},e.exports=i},function(e,t,r){var n,i=r(6),s=r(16);n=function(e){i.call(this,e)},n.prototype=Object.create(i.prototype),n.prototype.constructor=n,n.prototype=Object.assign(n.prototype,s),n.prototype.filesGetSharedLinkFile=function(e){return this.request("sharing/get_shared_link_file",e,"api","download")},e.exports=n},function(e,t){"function"!=typeof Object.assign&&!function(){Object.assign=function(e){"use strict";var t,r,n,i;if(void 0===e||null===e)throw new TypeError("Cannot convert undefined or null to object");for(t=Object(e),r=1;r<arguments.length;r++)if(n=arguments[r],void 0!==n&&null!==n)for(i in n)n.hasOwnProperty(i)&&(t[i]=n[i]);return t}}()},function(e,t){var r={RPC:"rpc",DOWNLOAD:"download",UPLOAD:"upload"};e.exports=r},function(e,t){var r={};r.authTokenFromOauth1=function(e){return this.request("auth/token/from_oauth1",e,"app","api","rpc")},r.authTokenRevoke=function(e){return this.request("auth/token/revoke",e,"user","api","rpc")},r.filesAlphaGetMetadata=function(e){return this.request("files/alpha/get_metadata",e,"user","api","rpc")},r.filesAlphaUpload=function(e){return this.request("files/alpha/upload",e,"user","content","upload")},r.filesCopy=function(e){return this.request("files/copy",e,"user","api","rpc")},r.filesCopyBatch=function(e){return this.request("files/copy_batch",e,"user","api","rpc")},r.filesCopyBatchCheck=function(e){return this.request("files/copy_batch/check",e,"user","api","rpc")},r.filesCopyReferenceGet=function(e){return this.request("files/copy_reference/get",e,"user","api","rpc")},r.filesCopyReferenceSave=function(e){return this.request("files/copy_reference/save",e,"user","api","rpc")},r.filesCopyV2=function(e){return this.request("files/copy_v2",e,"user","api","rpc")},r.filesCreateFolder=function(e){return this.request("files/create_folder",e,"user","api","rpc")},r.filesCreateFolderV2=function(e){return this.request("files/create_folder_v2",e,"user","api","rpc")},r.filesDelete=function(e){return this.request("files/delete",e,"user","api","rpc")},r.filesDeleteBatch=function(e){return this.request("files/delete_batch",e,"user","api","rpc")},r.filesDeleteBatchCheck=function(e){return this.request("files/delete_batch/check",e,"user","api","rpc")},r.filesDeleteV2=function(e){return this.request("files/delete_v2",e,"user","api","rpc")},r.filesDownload=function(e){return this.request("files/download",e,"user","content","download")},r.filesGetMetadata=function(e){return this.request("files/get_metadata",e,"user","api","rpc")},r.filesGetPreview=function(e){return this.request("files/get_preview",e,"user","content","download")},r.filesGetTemporaryLink=function(e){return this.request("files/get_temporary_link",e,"user","api","rpc")},r.filesGetThumbnail=function(e){return this.request("files/get_thumbnail",e,"user","content","download")},r.filesListFolder=function(e){return this.request("files/list_folder",e,"user","api","rpc")},r.filesListFolderContinue=function(e){return this.request("files/list_folder/continue",e,"user","api","rpc")},r.filesListFolderGetLatestCursor=function(e){return this.request("files/list_folder/get_latest_cursor",e,"user","api","rpc")},r.filesListFolderLongpoll=function(e){return this.request("files/list_folder/longpoll",e,"noauth","notify","rpc")},r.filesListRevisions=function(e){return this.request("files/list_revisions",e,"user","api","rpc")},r.filesMove=function(e){return this.request("files/move",e,"user","api","rpc")},r.filesMoveBatch=function(e){return this.request("files/move_batch",e,"user","api","rpc")},r.filesMoveBatchCheck=function(e){return this.request("files/move_batch/check",e,"user","api","rpc")},r.filesMoveV2=function(e){return this.request("files/move_v2",e,"user","api","rpc")},r.filesPermanentlyDelete=function(e){return this.request("files/permanently_delete",e,"user","api","rpc")},r.filesPropertiesAdd=function(e){return this.request("files/properties/add",e,"user","api","rpc")},r.filesPropertiesOverwrite=function(e){return this.request("files/properties/overwrite",e,"user","api","rpc")},r.filesPropertiesRemove=function(e){return this.request("files/properties/remove",e,"user","api","rpc")},r.filesPropertiesTemplateGet=function(e){return this.request("files/properties/template/get",e,"user","api","rpc")},r.filesPropertiesTemplateList=function(e){return this.request("files/properties/template/list",e,"user","api","rpc")},r.filesPropertiesUpdate=function(e){return this.request("files/properties/update",e,"user","api","rpc")},r.filesRestore=function(e){return this.request("files/restore",e,"user","api","rpc")},r.filesSaveUrl=function(e){return this.request("files/save_url",e,"user","api","rpc")},r.filesSaveUrlCheckJobStatus=function(e){return this.request("files/save_url/check_job_status",e,"user","api","rpc")},r.filesSearch=function(e){return this.request("files/search",e,"user","api","rpc")},r.filesUpload=function(e){return this.request("files/upload",e,"user","content","upload")},r.filesUploadSessionAppend=function(e){return this.request("files/upload_session/append",e,"user","content","upload")},r.filesUploadSessionAppendV2=function(e){return this.request("files/upload_session/append_v2",e,"user","content","upload")},r.filesUploadSessionFinish=function(e){return this.request("files/upload_session/finish",e,"user","content","upload")},r.filesUploadSessionFinishBatch=function(e){return this.request("files/upload_session/finish_batch",e,"user","api","rpc")},r.filesUploadSessionFinishBatchCheck=function(e){return this.request("files/upload_session/finish_batch/check",e,"user","api","rpc")},r.filesUploadSessionStart=function(e){return this.request("files/upload_session/start",e,"user","content","upload")},r.paperDocsArchive=function(e){return this.request("paper/docs/archive",e,"user","api","rpc")},r.paperDocsDownload=function(e){return this.request("paper/docs/download",e,"user","api","download")},r.paperDocsFolderUsersList=function(e){return this.request("paper/docs/folder_users/list",e,"user","api","rpc")},r.paperDocsFolderUsersListContinue=function(e){return this.request("paper/docs/folder_users/list/continue",e,"user","api","rpc")},r.paperDocsGetFolderInfo=function(e){return this.request("paper/docs/get_folder_info",e,"user","api","rpc")},r.paperDocsList=function(e){return this.request("paper/docs/list",e,"user","api","rpc")},r.paperDocsListContinue=function(e){return this.request("paper/docs/list/continue",e,"user","api","rpc")},r.paperDocsPermanentlyDelete=function(e){return this.request("paper/docs/permanently_delete",e,"user","api","rpc")},r.paperDocsSharingPolicyGet=function(e){return this.request("paper/docs/sharing_policy/get",e,"user","api","rpc")},r.paperDocsSharingPolicySet=function(e){return this.request("paper/docs/sharing_policy/set",e,"user","api","rpc")},r.paperDocsUsersAdd=function(e){return this.request("paper/docs/users/add",e,"user","api","rpc")},r.paperDocsUsersList=function(e){return this.request("paper/docs/users/list",e,"user","api","rpc")},r.paperDocsUsersListContinue=function(e){return this.request("paper/docs/users/list/continue",e,"user","api","rpc")},r.paperDocsUsersRemove=function(e){return this.request("paper/docs/users/remove",e,"user","api","rpc")},r.sharingAddFileMember=function(e){return this.request("sharing/add_file_member",e,"user","api","rpc")},r.sharingAddFolderMember=function(e){return this.request("sharing/add_folder_member",e,"user","api","rpc")},r.sharingChangeFileMemberAccess=function(e){return this.request("sharing/change_file_member_access",e,"user","api","rpc")},r.sharingCheckJobStatus=function(e){return this.request("sharing/check_job_status",e,"user","api","rpc")},r.sharingCheckRemoveMemberJobStatus=function(e){return this.request("sharing/check_remove_member_job_status",e,"user","api","rpc")},r.sharingCheckShareJobStatus=function(e){return this.request("sharing/check_share_job_status",e,"user","api","rpc")},r.sharingCreateSharedLink=function(e){return this.request("sharing/create_shared_link",e,"user","api","rpc")},r.sharingCreateSharedLinkWithSettings=function(e){return this.request("sharing/create_shared_link_with_settings",e,"user","api","rpc")},r.sharingGetFileMetadata=function(e){return this.request("sharing/get_file_metadata",e,"user","api","rpc")},r.sharingGetFileMetadataBatch=function(e){return this.request("sharing/get_file_metadata/batch",e,"user","api","rpc")},r.sharingGetFolderMetadata=function(e){return this.request("sharing/get_folder_metadata",e,"user","api","rpc")},r.sharingGetSharedLinkFile=function(e){return this.request("sharing/get_shared_link_file",e,"user","content","download")},r.sharingGetSharedLinkMetadata=function(e){return this.request("sharing/get_shared_link_metadata",e,"user","api","rpc")},r.sharingGetSharedLinks=function(e){return this.request("sharing/get_shared_links",e,"user","api","rpc")},r.sharingListFileMembers=function(e){return this.request("sharing/list_file_members",e,"user","api","rpc")},r.sharingListFileMembersBatch=function(e){return this.request("sharing/list_file_members/batch",e,"user","api","rpc")},r.sharingListFileMembersContinue=function(e){return this.request("sharing/list_file_members/continue",e,"user","api","rpc")},r.sharingListFolderMembers=function(e){return this.request("sharing/list_folder_members",e,"user","api","rpc")},r.sharingListFolderMembersContinue=function(e){return this.request("sharing/list_folder_members/continue",e,"user","api","rpc")},r.sharingListFolders=function(e){return this.request("sharing/list_folders",e,"user","api","rpc")},r.sharingListFoldersContinue=function(e){return this.request("sharing/list_folders/continue",e,"user","api","rpc")},r.sharingListMountableFolders=function(e){return this.request("sharing/list_mountable_folders",e,"user","api","rpc")},r.sharingListMountableFoldersContinue=function(e){return this.request("sharing/list_mountable_folders/continue",e,"user","api","rpc")},r.sharingListReceivedFiles=function(e){return this.request("sharing/list_received_files",e,"user","api","rpc")},r.sharingListReceivedFilesContinue=function(e){return this.request("sharing/list_received_files/continue",e,"user","api","rpc")},r.sharingListSharedLinks=function(e){return this.request("sharing/list_shared_links",e,"user","api","rpc");
 },r.sharingModifySharedLinkSettings=function(e){return this.request("sharing/modify_shared_link_settings",e,"user","api","rpc")},r.sharingMountFolder=function(e){return this.request("sharing/mount_folder",e,"user","api","rpc")},r.sharingRelinquishFileMembership=function(e){return this.request("sharing/relinquish_file_membership",e,"user","api","rpc")},r.sharingRelinquishFolderMembership=function(e){return this.request("sharing/relinquish_folder_membership",e,"user","api","rpc")},r.sharingRemoveFileMember=function(e){return this.request("sharing/remove_file_member",e,"user","api","rpc")},r.sharingRemoveFileMember2=function(e){return this.request("sharing/remove_file_member_2",e,"user","api","rpc")},r.sharingRemoveFolderMember=function(e){return this.request("sharing/remove_folder_member",e,"user","api","rpc")},r.sharingRevokeSharedLink=function(e){return this.request("sharing/revoke_shared_link",e,"user","api","rpc")},r.sharingShareFolder=function(e){return this.request("sharing/share_folder",e,"user","api","rpc")},r.sharingTransferFolder=function(e){return this.request("sharing/transfer_folder",e,"user","api","rpc")},r.sharingUnmountFolder=function(e){return this.request("sharing/unmount_folder",e,"user","api","rpc")},r.sharingUnshareFile=function(e){return this.request("sharing/unshare_file",e,"user","api","rpc")},r.sharingUnshareFolder=function(e){return this.request("sharing/unshare_folder",e,"user","api","rpc")},r.sharingUpdateFileMember=function(e){return this.request("sharing/update_file_member",e,"user","api","rpc")},r.sharingUpdateFolderMember=function(e){return this.request("sharing/update_folder_member",e,"user","api","rpc")},r.sharingUpdateFolderPolicy=function(e){return this.request("sharing/update_folder_policy",e,"user","api","rpc")},r.teamLogGetEvents=function(e){return this.request("team_log/get_events",e,"team","api","rpc")},r.teamLogGetEventsContinue=function(e){return this.request("team_log/get_events/continue",e,"team","api","rpc")},r.usersGetAccount=function(e){return this.request("users/get_account",e,"user","api","rpc")},r.usersGetAccountBatch=function(e){return this.request("users/get_account_batch",e,"user","api","rpc")},r.usersGetCurrentAccount=function(e){return this.request("users/get_current_account",e,"user","api","rpc")},r.usersGetSpaceUsage=function(e){return this.request("users/get_space_usage",e,"user","api","rpc")},e.exports=r},function(e,t,r){var n=r(2),i=r(1).Promise,s=r(3),o=function(e,t){var r;if(t)try{r=JSON.parse(t.text)}catch(e){r=t.text}return{status:e.status,error:r||e,response:t}},u=function(e,t,r,u,a,c){var p=function(i,p){function h(e){i&&i(e)}function l(e){p&&p(e)}function f(e,t){e?l(o(e,t)):h(t.body)}var d;switch(t||(t=null),d=n.post(s(u)+e).type("application/json"),r){case"team":case"user":d.set("Authorization","Bearer "+a);break;case"noauth":break;default:throw new Error("Unhandled auth type: "+r)}c&&(d=d.set("Dropbox-API-Select-User",c)),d.send(t).end(f)};return new i(p)};e.exports=u},function(e,t,r){var n=r(2),i=r(1).Promise,s=r(3),o=r(5),u=function(e,t){return{status:e.status,error:(t?t.text:null)||e.toString(),response:t}},a=function(e,t,r,a,c,p){if("user"!==r)throw new Error("Unexpected auth type: "+r);var h=function(r,i){function h(e){r&&r(e)}function l(e){i&&i(e)}function f(e,t){e?l(u(e,t)):h(t.body)}var d,_=t.contents;delete t.contents,d=n.post(s(a)+e).type("application/octet-stream").set("Authorization","Bearer "+c).set("Dropbox-API-Arg",o(t)),p&&(d=d.set("Dropbox-API-Select-User",p)),d.send(_).end(f)};return new i(h)};e.exports=a},function(e,t){}])});
 
-// ESGST - v6.Beta.36.4
+// ESGST - v6.Beta.36.5
 
 (function () {
 
@@ -471,7 +471,7 @@ this._delay(function(){n===this.counter&&this.refreshPositions(!s)})},_clear:fun
         esgst = {
             sg: location.hostname.match(/www.steamgifts.com/),
             st: location.hostname.match(/www.steamtrades.com/),
-            currentVersion: `6.Beta.36.4`,
+            currentVersion: `6.Beta.36.5`,
             icon: `data:image/x-icon;base64,AAABAAEAEBAAAAEAIABoBAAAFgAAACgAAAAQAAAAIAAAAAEAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAqv8DCbP/Hgeq+CQIrf8iCK3/Igit/yIIrf8iB6//Iwit9x8Aqv8DAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAKr0GAa2/c0DvfzfA7f83QO3/N0Dt/zdA7f83QO+/d4Gs/3OAKP1GQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACm/xQFs/n2Bcf//wW///8FwP//BcD//wW///8Fx///BbP69gC2/xUAAAAAAAAAAAAAAAAA/1UDFptOFxSZMxkLpJktAq720QW1+ugEsfvjA7b92wO2/dsEsfvjBbX66Aau/dEoiO4tUlLWGU5k3hdVVf8DEJxKHxWqT8cVrU7uE6VN0guqny0Apv8XAJfQGwBAVywAQFcsAJfQGwCx/xcogugtS2Lk0lBl6u5Qae7ISmPeHxagSSMVr07jF7lV/xOiSu0brgATAAAAAAAAAA8AAAC/AAAAwAAAABAAAAAAYznjEkth4OxWb/3/T2jv40lf4iMXnksiEq1O3RayUv8UpEnkEo0+HQAAABkAAABBAAAA8QAAAPEAAABBAAAAGUBSvxxOYeDjU2v0/05m7d1LYuEiF55LIhKtTt0Ws1L/FahN2gU1FTAAAADAAAAA7AAAAP0AAAD9AAAA7AAAAMAVG0owUGPm2lNr9P9OZu3dS2LhIheeSyISrU7dFrNS/xWoTdoFNRswAAAAvwAAAOsAAAD9AAAA/QAAAOsAAADAFRtKMFBj6NpTa/T/Tmbt3Uti4SIXnksiEq1O3RayUv8UpEnkEo0+HQAAABgAAABAAAAA8QAAAPEAAABBAAAAGT5PuR1OYeDjU2v0/05m7d1LYuEiFqBJIxWuT+QXuVX/E6JL7QC8XhMAAAAAAAAADwAAAL8AAAC/AAAAEAAAAAAOR/8SSWLh7FZv/f9PaO/jSV/iIxCUSh8Vrk7HFqxN7ROlS9JskzMt1XULGK12EhxGLgYsRy8GK612EhzVgAsYgmxxLU1i39JNZ+vtT2fwx0pj1h8AqlUDF65GFgqZUhlsiC0txH0T0s5/EujJgBPkz4QR28+EEdvJgBPkzn8Q6Md+E9KLdHosM1LWGUZo6BZVVf8DAAAAAAAAAAAAAAAA/2YAFMl9EvbgjRb/14gV/9eIFf/XiBX/14gV/9+NFv/KgBD254YAFQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAL91FRjKgRHN1IgU3s+EEt3PhBLdz4QS3c+EEt3UiBTezYMRzcJ6FBkAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACqqgADxIARHr18FiO8eA8ivHgPIrx4DyK8eA8ivXwPI8SAER7/VQADAAAAAAAAAAAAAAAA78cAAPA3AAD4FwAABCAAADGOAAAE+AAAkBEAAJ55AACYOQAAlgEAAER4AAAXaAAATnoAAPgXAAD0JwAA69cAAA==`,
             sgIcon: `data:image/x-icon;base64,AAABAAEAEBAAAAEAIABoBAAAFgAAACgAAAAQAAAAIAAAAAEAIAAAAAAAQAQAABMLAAATCwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIUAAAD5AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAPoAAACFAAAAAAAAAAAAAAD8AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA+QAAAAAAAAAAAAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAAAAAAAAAAAAP8AAAD/AAAA/wAAABwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAcAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAcAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAHAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAAAAAAAAAAAAPwAAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD5AAAAAAAAAAAAAACFAAAA+QAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD5AAAAhQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA//8AAP//AADAAwAAwAMAAMfjAADP8wAAz/MAAM/zAADP8wAAz/MAAM/zAADH4wAAwAMAAMADAAD//wAA//8AAA==`,
             stIcon: `data:image/x-icon;base64,AAABAAEAEBAAAAEAIABoBAAAFgAAACgAAAAQAAAAIAAAAAEAIAAAAAAAQAQAABMLAAATCwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABbD6SgWw+ucFsPrkBbD6SgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAWw+uYFsPr/BbD6/wWw+ucAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAFsPrmBbD6/wWw+v8FsPrmAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABbD6SQWw+uYFsPrmBbD6SQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAFKRLShSkS+cUpEvkFKRLSgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAExi4EpMYuDnTGLg5Exi4EoAAAAAAAAAABSkS+YUpEv/FKRL/xSkS+cAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABMYuDmTGLg/0xi4P9MYuDnAAAAAAAAAAAUpEvmFKRL/xSkS/8UpEvmAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAATGLg5kxi4P9MYuD/TGLg5gAAAAAAAAAAFKRLSRSkS+YUpEvmFKRLSQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAExi4ElMYuDmTGLg5kxi4EkAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAMZ9E0rGfRPnxn0T5MZ9E0oAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADGfRPmxn0T/8Z9E//GfRPnAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAxn0T5sZ9E//GfRP/xn0T5gAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAMZ9E0nGfRPmxn0T5sZ9E0kAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA//8AAPw/AAD8PwAA/D8AAPw/AAD//wAAh+EAAIfhAACH4QAAh+EAAP//AAD8PwAA/D8AAPw/AAD8PwAA//8AAA==`,
@@ -697,6 +697,7 @@ this._delay(function(){n===this.counter&&this.refreshPositions(!s)})},_clear:fun
                     gwr_e: `gwr`
                 };
                 esgst.defaultValues = {
+                    hr_minutes: 1,
                     exportBackupIndex: 0,
                     gwc_a_b: false,
                     gwr_a_b: false,
@@ -1516,7 +1517,7 @@ this._delay(function(){n===this.counter&&this.refreshPositions(!s)})},_clear:fun
                     {
                         description: `
                             <ul>
-                                <li>Refreshes the header icons (created/won/messages for SG and messages for ST) and the points on SG every 60 seconds.</li>
+                                <li>Refreshes the header icons (created/won/messages for SG and messages for ST) and the points on SG every specified number of minutes.</li>
                             </ul>
                         `,
                         features: [
@@ -1559,6 +1560,7 @@ this._delay(function(){n===this.counter&&this.refreshPositions(!s)})},_clear:fun
                             },
                         ],
                         id: `hr`,
+                        input: true,
                         load: loadHr,
                         name: `Header Refresher`,
                         sg: true,
@@ -7311,13 +7313,13 @@ this._delay(function(){n===this.counter&&this.refreshPositions(!s)})},_clear:fun
             cache = getHrCache();
             setValue(`esgst_hrCache`, JSON.stringify(cache));
             refreshHeader(cache, hr);
-            hr.refresher = setTimeout(continueHeaderRefresher, 60000, hr);
+            hr.refresher = setTimeout(continueHeaderRefresher, esgst.hr_minutes * 60000, hr);
         });
     }
 
     function continueHeaderRefresher(hr) {
         let cache = getValue(`esgst_hrCache`);
-        if (cache.username !== esgst.username || Date.now() - cache.timestamp  > 60000) {
+        if (cache.username !== esgst.username || Date.now() - cache.timestamp  > esgst.hr_minutes * 60000) {
             cache.timestamp = Date.now();
             setValue(`esgst_hrCache`, JSON.stringify(cache));
             request(null, false, esgst.sg ? `/giveaways/search?type=wishlist` : `/`, response => {
@@ -7325,11 +7327,11 @@ this._delay(function(){n===this.counter&&this.refreshPositions(!s)})},_clear:fun
                 cache = getHrCache();
                 setValue(`esgst_hrCache`, JSON.stringify(cache));
                 refreshHeader(cache, hr);
-                hr.refresher = setTimeout(continueHeaderRefresher, 60000, hr);
+                hr.refresher = setTimeout(continueHeaderRefresher, esgst.hr_minutes * 60000, hr);
             });
         } else {
             refreshHeader(JSON.parse(cache), hr);
-            setTimeout(continueHeaderRefresher, 60000, hr);
+            setTimeout(continueHeaderRefresher, esgst.hr_minutes * 60000, hr);
         }
     }
 
@@ -8358,6 +8360,18 @@ this._delay(function(){n===this.counter&&this.refreshPositions(!s)})},_clear:fun
                     setSetting(details.minKey, minFilter.value);
                     esgst[details.minKey] = minFilter.value;
                 });
+                if (details.type === `input`) {
+                    maxFilter.addEventListener(`keypress`, event => {
+                        if (event.key === `Enter`) {
+                            searchAgsQuery();
+                        }
+                    });
+                    minFilter.addEventListener(`keypress`, event => {
+                        if (event.key === `Enter`) {
+                            searchAgsQuery();
+                        }
+                    });
+                }
                 filters.push({
                     filter: minFilter,
                     key: `value`,
@@ -30478,6 +30492,16 @@ ${avatar.outerHTML}
                     setSetting(`gb_hours`, input.firstElementChild.value);
                     esgst.gb_hours = input.firstElementChild.value;
                 });
+            } else if (Feature.id === `hr`) {
+                input = insertHtml(SMFeatures, `beforeEnd`, `
+                    <div class="esgst-sm-colors">
+                        Refresh every <input type="text" value=${esgst.hr_minutes}> minutes
+                    </div>
+                `);
+                input.firstElementChild.addEventListener(`change`, function() {
+                    setSetting(`hr_minutes`, input.firstElementChild.value);
+                    esgst.hr_minutes = input.firstElementChild.value;
+                });
             }
             if (siwtchSg) {
                 siwtchSg.dependencies.push(SMFeatures);
@@ -33041,7 +33065,7 @@ ${avatar.outerHTML}
     /* Data Management */
 
     function loadDataManagement(openInTab, type) {
-        var container, context, i, input, n, option, options, popup, section, switches;
+        var container, context, i, input, n, option, options, popup, section;
         dm = {
             type: type
         };
@@ -33073,12 +33097,20 @@ ${avatar.outerHTML}
             context = popup.scrollable;
             container = popup.description;
         }
+        dm.computerSpace = insertHtml(container, `afterBegin`, `
+            <div>Used Computer Space (GM Storage): <span class="esgst-bold"></span></div>
+            <div>Used Browser Space (Local Storage): <span class="esgst-bold"></span></div>
+            <div>Total Space: <span class="esgst-bold"></span></div>
+            <div class="esgst-italic">Browser space changes if you are on SG or ST, while computer space is global.</div>
+        `);
+        dm.browserSpace = dm.computerSpace.nextElementSibling;
+        dm.totalSpace = dm.browserSpace.nextElementSibling;
         section = insertHtml(context, `beforeEnd`, `
             ${createSMSections(1, [{
                 Title: title
             }])}
         `);
-        switches = {};
+        dm.switches = {};
         dm.options = [
             {
                 check: true,
@@ -33275,7 +33307,7 @@ ${avatar.outerHTML}
         for (i = 0, n = dm.options.length; i < n; ++i) {
             option = dm.options[i];
             if (option.check) {
-                section.lastElementChild.appendChild(getDataMenu(option, switches, type));
+                section.lastElementChild.appendChild(getDataMenu(option, dm.switches, type));
             }
         }
         if (type === `import`) {
@@ -33295,22 +33327,24 @@ ${avatar.outerHTML}
         }
         dm.message = insertHtml(container, `beforeEnd`, `<div class="esgst-description"></div>`);
         dm.warning = insertHtml(container, `beforeEnd`, `<div class="esgst-description esgst-warning"></div>`);
-        container.appendChild(new ButtonSet(`green`, `grey`, `fa-circle`, `fa-circle-o-notch fa-spin`, `Select All`, ``, selectSwitches.bind(null, switches, `enable`)).set);
-        container.appendChild(new ButtonSet(`green`, `grey`, `fa-circle-o`, `fa-circle-o-notch fa-spin`, `Select None`, ``, selectSwitches.bind(null, switches, `disable`)).set);
-        container.appendChild(new ButtonSet(`green`, `grey`, `fa-dot-circle-o`, `fa-circle-o-notch fa-spin`, `Select Inverse`, ``, selectSwitches.bind(null, switches, `toggle`)).set);
-        container.appendChild(new ButtonSet(`green`, `grey`, icon, `fa-circle-o-notch fa-spin`, title, `${title}ing...`, onClick.bind(null, dm, false, false, false)).set);
+        container.appendChild(new ButtonSet(`green`, `grey`, `fa-circle`, `fa-circle-o-notch fa-spin`, `Select All`, ``, selectSwitches.bind(null, dm.switches, `enable`)).set);
+        container.appendChild(new ButtonSet(`green`, `grey`, `fa-circle-o`, `fa-circle-o-notch fa-spin`, `Select None`, ``, selectSwitches.bind(null, dm.switches, `disable`)).set);
+        container.appendChild(new ButtonSet(`green`, `grey`, `fa-dot-circle-o`, `fa-circle-o-notch fa-spin`, `Select Inverse`, ``, selectSwitches.bind(null, dm.switches, `toggle`)).set);
+        container.appendChild(new ButtonSet(`green`, `grey`, icon, `fa-circle-o-notch fa-spin`, title, `${title}ing...`, onClick.bind(null, dm, false, false, false, false)).set);
         if (type !== `delete`) {
-            container.appendChild(new ButtonSet(`green`, `grey`, `fa-dropbox`, `fa-circle-o-notch fa-spin`, `${title} (Dropbox)`, `${title}ing...`, onClick.bind(null, dm, true, false, false)).set);
+            container.appendChild(new ButtonSet(`green`, `grey`, `fa-dropbox`, `fa-circle-o-notch fa-spin`, `${title} (Dropbox)`, `${title}ing...`, onClick.bind(null, dm, true, false, false, false)).set);
         }
         if (!openInTab) {
             popup.open();
         }
+        manageData(dm, false, false, false, true);
     }
 
     function getDataMenu(option, switches, type) {
         var i, m, menu, n, options, toggleSwitch;
         menu = document.createElement(`div`);
         switches[option.key] = toggleSwitch = new ToggleSwitch(menu, `${type}_${option.key}`, false, option.name, false, false, null, esgst.settings[`${type}_${option.key}`]);
+        switches[option.key].size = insertHtml(switches[option.key].name, `beforeEnd`, ` <span class="esgst-bold"></span>`);
         if (option.options) {
             options = insertHtml(menu, `beforeEnd`, `
                 <div class="esgst-form-row-indent SMFeatures esgst-hidden"></div>
@@ -33337,7 +33371,7 @@ ${avatar.outerHTML}
         return menu;
     }
 
-    function loadImportFile(dm, dropbox, google, outlook, callback) {
+    function loadImportFile(dm, dropbox, google, outlook, space, callback) {
         var file;
         if (dropbox) {
             if (getValue(`dropboxToken`)) {
@@ -33351,7 +33385,7 @@ ${avatar.outerHTML}
                 if (file.name.match(/esgst_data_.*?\.json/)) {
                     dm.reader = new FileReader();
                     dm.reader.readAsText(file);
-                    dm.reader.onload = readImportFile.bind(null, dm, dropbox, google, outlook, callback);
+                    dm.reader.onload = readImportFile.bind(null, dm, dropbox, google, outlook, space, callback);
                 } else {
                     createFadeMessage(dm.warning, `Invalid file!`);
                     callback();
@@ -33363,51 +33397,72 @@ ${avatar.outerHTML}
         }
     }
 
-    function readImportFile(dm, dropbox, google, outlook, callback) {
+    function readImportFile(dm, dropbox, google, outlook, space, callback) {
         try {
             if (dm.reader) {
                 dm.data = JSON.parse(dm.reader.result);
             }
-            createConfirmation(`Are you sure you want to import the selected data?`, manageData.bind(null, dm, dropbox, google, outlook, callback), callback);
+            createConfirmation(`Are you sure you want to import the selected data?`, manageData.bind(null, dm, dropbox, google, outlook, space, callback), callback);
         } catch (error) {
             createFadeMessage(dm.warning, `Cannot parse file!`);
             callback();
         }
     }
 
-    function confirmDataDeletion(dm, callback) {
-        createConfirmation(`Are you sure you want to delete the selected data?`, manageData.bind(null, dm, callback), callback);
+    function confirmDataDeletion(dm, dropbox, google, outlook, space, callback) {
+        createConfirmation(`Are you sure you want to delete the selected data?`, manageData.bind(null, dm, dropbox, google, outlook, space, callback), callback);
     }
 
-    function manageData(dm, dropbox, google, outlook, callback) {
+    function convertBytes(bytes) {
+        if (bytes < 1024) {
+            return `${bytes} B`;
+        } else {
+            bytes /= 1024;
+            if (bytes < 1024) {
+                return `${Math.round(bytes * 100) / 100} KB`;
+            } else {
+                return `${Math.round(bytes / 1024 * 100) / 100} MB`;
+            }
+        }
+    }
+
+    function manageData(dm, dropbox, google, outlook, space, callback) {
         var data, dataKey, i, id, j, k, l, mergedData, mergedDataKey, mergedDataValue, newData, newDataKey, newDataValue, numMerged, numNew, numOld, numOptions, numTags, oldData, oldDataKey, oldDataValue, option, optionKey, tag, tags, username, value, valueKey, values;
         data = {};
+        let totalGM = 0;
+        let totalLocal = 0;
+        let size = 0;
         for (i = 0, numOptions = dm.options.length; i < numOptions; ++i) {
             option = dm.options[i];
             if (option.check) {
                 optionKey = option.key;
-                if (esgst.settings[`${dm.type}_${optionKey}`]) {
+                if (space || esgst.settings[`${dm.type}_${optionKey}`]) {
                     values = null;
                     switch (optionKey) {
                         case `decryptedGiveaways`:
                         case `settings`:
                             data[optionKey] = JSON.parse(getValue(optionKey, `{}`));
-                            if (dm.import) {
-                                newData = dm.data[optionKey];
-                                if (newData) {
-                                    if (esgst.settings.importAndMerge) {
-                                        mergedData = data[optionKey];
-                                        for (newDataKey in newData) {
-                                            mergedData[newDataKey] = newData[newDataKey];
+                            if (!space) {
+                                if (dm.import) {
+                                    newData = dm.data[optionKey];
+                                    if (newData) {
+                                        if (esgst.settings.importAndMerge) {
+                                            mergedData = data[optionKey];
+                                            for (newDataKey in newData) {
+                                                mergedData[newDataKey] = newData[newDataKey];
+                                            }
+                                            setValue(optionKey, JSON.stringify(mergedData));
+                                        } else {
+                                            setValue(optionKey, JSON.stringify(newData));
                                         }
-                                        setValue(optionKey, JSON.stringify(mergedData));
-                                    } else {
-                                        setValue(optionKey, JSON.stringify(newData));
                                     }
+                                } else if (dm.delete) {
+                                    delValue(optionKey);
                                 }
-                            } else if (dm.delete) {
-                                delValue(optionKey);
                             }
+                            size = (new TextEncoder(`utf-8`).encode(getValue(optionKey, ``))).length;
+                            totalGM += size;
+                            dm.switches[optionKey].size.textContent = convertBytes(size);
                             break;
                         case `discussions`:
                             if (!values) {
@@ -33460,7 +33515,7 @@ ${avatar.outerHTML}
                                             mergedDataValue = mergedData[mergedDataKey][valueKey];
                                             if (typeof mergedDataValue !== `undefined`) {
                                                 newData[valueKey] = mergedDataValue;
-                                                if (dm.delete) {
+                                                if (!space && dm.delete) {
                                                     delete mergedData[mergedDataKey][valueKey];
                                                 }
                                             }
@@ -33470,116 +33525,136 @@ ${avatar.outerHTML}
                                 if (Object.keys(newData).length > 0) {
                                     data[optionKey][mergedDataKey] = newData;
                                 }
-                                if (dm.delete && Object.keys(mergedData[mergedDataKey]).length <= 0) {
+                                if (!space && dm.delete && Object.keys(mergedData[mergedDataKey]).length <= 0) {
                                     delete mergedData[mergedDataKey];
                                 }
                             }
-                            if (dm.import) {
-                                newData = dm.data[optionKey];
-                                if (newData) {
-                                    for (newDataKey in newData) {
-                                        if (!mergedData[newDataKey]) {
-                                            mergedData[newDataKey] = {};
-                                        }
-                                        for (value in values) {
-                                            if (esgst.settings[`${dm.type}_${optionKey}_${value}`] || (!dm.delete && value === `main`)) {
-                                                if (esgst.settings.importAndMerge) {
-                                                    for (j = 0, numValues = values[value].length; j < numValues; ++j) {
-                                                        valueKey = values[value][j];
-                                                        if (valueKey === `readComments`) {
-                                                            if (mergedData[newDataKey].readComments) {
-                                                                for (id in mergedData[newDataKey].readComments) {
-                                                                    if (newData[newDataKey].readComments[id] > mergedData[newDataKey].readComments[id]) {
-                                                                        mergedData[newDataKey].readComments[id] = newData[newDataKey].readComments[id];
+                            if (!space) {
+                                if (dm.import) {
+                                    newData = dm.data[optionKey];
+                                    if (newData) {
+                                        for (newDataKey in newData) {
+                                            if (!mergedData[newDataKey]) {
+                                                mergedData[newDataKey] = {};
+                                            }
+                                            for (value in values) {
+                                                if (esgst.settings[`${dm.type}_${optionKey}_${value}`] || (!dm.delete && value === `main`)) {
+                                                    if (esgst.settings.importAndMerge) {
+                                                        for (j = 0, numValues = values[value].length; j < numValues; ++j) {
+                                                            valueKey = values[value][j];
+                                                            if (valueKey === `readComments`) {
+                                                                if (mergedData[newDataKey].readComments) {
+                                                                    for (id in mergedData[newDataKey].readComments) {
+                                                                        if (newData[newDataKey].readComments[id] > mergedData[newDataKey].readComments[id]) {
+                                                                            mergedData[newDataKey].readComments[id] = newData[newDataKey].readComments[id];
+                                                                        }
                                                                     }
+                                                                } else {
+                                                                    mergedData[newDataKey].readComments = newData[newDataKey].readComments;
                                                                 }
                                                             } else {
-                                                                mergedData[newDataKey].readComments = newData[newDataKey].readComments;
+                                                                mergedData[newDataKey][valueKey] = newData[newDataKey][valueKey];
                                                             }
-                                                        } else {
+                                                        }
+                                                    } else {
+                                                        for (j = 0, numValues = values[value].length; j < numValues; ++j) {
+                                                            valueKey = values[value][j];
                                                             mergedData[newDataKey][valueKey] = newData[newDataKey][valueKey];
                                                         }
-                                                    }
-                                                } else {
-                                                    for (j = 0, numValues = values[value].length; j < numValues; ++j) {
-                                                        valueKey = values[value][j];
-                                                        mergedData[newDataKey][valueKey] = newData[newDataKey][valueKey];
                                                     }
                                                 }
                                             }
                                         }
+                                        setValue(`esgst_${optionKey}`, JSON.stringify(mergedData));
                                     }
+                                } else if (dm.delete) {
                                     setValue(`esgst_${optionKey}`, JSON.stringify(mergedData));
                                 }
-                            } else if (dm.delete) {
-                                setValue(`esgst_${optionKey}`, JSON.stringify(mergedData));
                             }
+                            size = (new TextEncoder(`utf-8`).encode(getValue(`esgst_${optionKey}`, ``))).length;
+                            totalLocal += size;
+                            dm.switches[optionKey].size.textContent = convertBytes(size);
                             break;
                         case `emojis`:
                             data.emojis = getValue(`emojis`, ``);
-                            if (dm.import) {
-                                newData = dm.data.emojis;
-                                if (newData) {
-                                    if (esgst.settings.importAndMerge) {
-                                        mergedData = data.emojis;
-                                        newData = DOM.parse(newData).getElementsByTagName(`span`);
-                                        for (j = 0, numNew = newData.length; j < numNew; ++j) {
-                                            newDataValue = newData[j].outerHTML;
-                                            if (!mergedData.match(newDataValue)) {
-                                                mergedData = `${mergedData}${newDataValue}`;
+                            if (!space) {
+                                if (dm.import) {
+                                    newData = dm.data.emojis;
+                                    if (newData) {
+                                        if (esgst.settings.importAndMerge) {
+                                            mergedData = data.emojis;
+                                            newData = DOM.parse(newData).getElementsByTagName(`span`);
+                                            for (j = 0, numNew = newData.length; j < numNew; ++j) {
+                                                newDataValue = newData[j].outerHTML;
+                                                if (!mergedData.match(newDataValue)) {
+                                                    mergedData = `${mergedData}${newDataValue}`;
+                                                }
                                             }
+                                            setValue(`emojis`, mergedData);
+                                        } else {
+                                            setValue(`emojis`, newData);
                                         }
-                                        setValue(`emojis`, mergedData);
-                                    } else {
-                                        setValue(`emojis`, newData);
                                     }
+                                } else if (dm.delete) {
+                                    delValue(`emojis`);
                                 }
-                            } else if (dm.delete) {
-                                delValue(`emojis`);
                             }
+                            size = (new TextEncoder(`utf-8`).encode(getValue(`emojis`, ``))).length;
+                            totalGM += size;
+                            dm.switches[optionKey].size.textContent = convertBytes(size);
                             break;
                         case `entries`:
                         case `templates`:
                         case `savedReplies`:
                             data[optionKey] = JSON.parse(optionKey === `savedReplies` ? getValue(`savedReplies`, `[]`) : getValue(`esgst_${optionKey}`, `[]`));
-                            if (dm.import) {
-                                newData = dm.data[optionKey];
-                                if (newData) {
-                                    if (esgst.settings.importAndMerge) {
-                                        dataKey = optionKey === `entries` ? `timestamp` : `name`;
-                                        mergedData = data[optionKey];
-                                        for (j = 0, numNew = newData.length; j < numNew; ++j) {
-                                            newDataValue = newData[j];
-                                            for (k = 0, numMerged = mergedData.length; k < numMerged && mergedData[k][dataKey] !== newDataValue[dataKey]; ++k);
-                                            if (k < numMerged) {
-                                                mergedData[k] = newDataValue;
+                            if (!space) {
+                                if (dm.import) {
+                                    newData = dm.data[optionKey];
+                                    if (newData) {
+                                        if (esgst.settings.importAndMerge) {
+                                            dataKey = optionKey === `entries` ? `timestamp` : `name`;
+                                            mergedData = data[optionKey];
+                                            for (j = 0, numNew = newData.length; j < numNew; ++j) {
+                                                newDataValue = newData[j];
+                                                for (k = 0, numMerged = mergedData.length; k < numMerged && mergedData[k][dataKey] !== newDataValue[dataKey]; ++k);
+                                                if (k < numMerged) {
+                                                    mergedData[k] = newDataValue;
+                                                } else {
+                                                    mergedData.push(newDataValue);
+                                                }
+                                            }
+                                            if (optionKey === `savedReplies`) {
+                                                setValue(optionKey, JSON.stringify(mergedData));
                                             } else {
-                                                mergedData.push(newDataValue);
+                                                if (optionKey === `entries`) {
+                                                    mergedData = sortArrayByNumberKey(mergedData, `timestamp`);
+                                                }
+                                                setValue(`esgst_${optionKey}`, JSON.stringify(mergedData));
                                             }
-                                        }
-                                        if (optionKey === `savedReplies`) {
-                                            setValue(optionKey, JSON.stringify(mergedData));
                                         } else {
-                                            if (optionKey === `entries`) {
-                                                mergedData = sortArrayByNumberKey(mergedData, `timestamp`);
+                                            if (optionKey === `savedReplies`) {
+                                                setValue(`savedReplies`, JSON.stringify(newData));
+                                            } else {
+                                                setValue(`esgst_${optionKey}`, JSON.stringify(newData));
                                             }
-                                            setValue(`esgst_${optionKey}`, JSON.stringify(mergedData));
-                                        }
-                                    } else {
-                                        if (optionKey === `savedReplies`) {
-                                            setValue(`savedReplies`, JSON.stringify(newData));
-                                        } else {
-                                            setValue(`esgst_${optionKey}`, JSON.stringify(newData));
                                         }
                                     }
-                                }
-                            } else if (dm.delete) {
-                                if (optionKey === `savedReplies`) {
-                                    delValue(`savedReplies`);
-                                } else {
-                                    delValue(`esgst_${optionKey}`);
+                                } else if (dm.delete) {
+                                    if (optionKey === `savedReplies`) {
+                                        delValue(`savedReplies`);
+                                    } else {
+                                        delValue(`esgst_${optionKey}`);
+                                    }
                                 }
                             }
+                            if (optionKey === `savedReplies`) {
+                                size = (new TextEncoder(`utf-8`).encode(getValue(`savedReplies`, ``))).length;
+                                totalGM += size;
+                            } else {
+                                size = (new TextEncoder(`utf-8`).encode(getValue(`esgst_${optionKey}`, ``))).length;
+                                totalLocal += size;
+                            }
+                            dm.switches[optionKey].size.textContent = convertBytes(size);
                             break;
                         case `games`:
                             values = {
@@ -33606,7 +33681,7 @@ ${avatar.outerHTML}
                                             newDataValue = mergedDataValue[valueKey];
                                             if (typeof newDataValue !== `undefined`) {
                                                 newData[valueKey] = newDataValue;
-                                                if (dm.delete) {
+                                                if (!space && dm.delete) {
                                                     delete mergedDataValue[valueKey];
                                                 }
                                             }
@@ -33616,7 +33691,7 @@ ${avatar.outerHTML}
                                 if (Object.keys(newData).length > 0) {
                                     data.games.apps[mergedDataKey] = newData;
                                 }
-                                if (dm.delete && Object.keys(mergedDataValue).length <= 0) {
+                                if (!space && dm.delete && Object.keys(mergedDataValue).length <= 0) {
                                     delete mergedData.apps[mergedDataKey];
                                 }
                             }
@@ -33630,7 +33705,7 @@ ${avatar.outerHTML}
                                             newDataValue = mergedDataValue[valueKey];
                                             if (typeof newDataValue !== `undefined`) {
                                                 newData[valueKey] = newDataValue;
-                                                if (dm.delete) {
+                                                if (!space && dm.delete) {
                                                     delete mergedDataValue[valueKey];
                                                 }
                                             }
@@ -33640,192 +33715,207 @@ ${avatar.outerHTML}
                                 if (Object.keys(newData).length > 0) {
                                     data.games.subs[mergedDataKey] = newData;
                                 }
-                                if (dm.delete && Object.keys(mergedDataValue).length <= 0) {
+                                if (!space && dm.delete && Object.keys(mergedDataValue).length <= 0) {
                                     delete mergedData.subs[mergedDataKey];
                                 }
                             }
-                            if (dm.import) {
-                                newData = dm.data.games;
-                                if (newData) {
-                                    for (newDataKey in newData.apps) {
-                                        newDataValue = newData.apps[newDataKey];
-                                        if (!mergedData.apps[newDataKey]) {
-                                            mergedData.apps[newDataKey] = {};
-                                        }
-                                        mergedDataValue = mergedData.apps[newDataKey];
-                                        for (value in values) {
-                                            if (esgst.settings[`${dm.type}_games_${value}`]) {
-                                                for (j = 0, numValues = values[value].length; j < numValues; ++j) {
-                                                    valueKey = values[value][j];
-                                                    if (typeof newDataValue[valueKey] !== `undefined`) {
-                                                        if (esgst.settings.importAndMerge) {
-                                                            switch (valueKey) {
-                                                                case `entered`:
-                                                                    mergedDataValue.entered = true;
-                                                                    break;
-                                                                case `itadi`:
-                                                                    if (mergedDataValue.itadi) {
-                                                                        if (newDataValue.itadi.lastCheck > mergedDataValue.itadi.lastCheck) {
+                            if (!space) {
+                                if (dm.import) {
+                                    newData = dm.data.games;
+                                    if (newData) {
+                                        for (newDataKey in newData.apps) {
+                                            newDataValue = newData.apps[newDataKey];
+                                            if (!mergedData.apps[newDataKey]) {
+                                                mergedData.apps[newDataKey] = {};
+                                            }
+                                            mergedDataValue = mergedData.apps[newDataKey];
+                                            for (value in values) {
+                                                if (esgst.settings[`${dm.type}_games_${value}`]) {
+                                                    for (j = 0, numValues = values[value].length; j < numValues; ++j) {
+                                                        valueKey = values[value][j];
+                                                        if (typeof newDataValue[valueKey] !== `undefined`) {
+                                                            if (esgst.settings.importAndMerge) {
+                                                                switch (valueKey) {
+                                                                    case `entered`:
+                                                                        mergedDataValue.entered = true;
+                                                                        break;
+                                                                    case `itadi`:
+                                                                        if (mergedDataValue.itadi) {
+                                                                            if (newDataValue.itadi.lastCheck > mergedDataValue.itadi.lastCheck) {
+                                                                                mergedDataValue.itadi = newDataValue.itadi;
+                                                                            }
+                                                                        } else {
                                                                             mergedDataValue.itadi = newDataValue.itadi;
                                                                         }
-                                                                    } else {
-                                                                        mergedDataValue.itadi = newDataValue.itadi;
-                                                                    }
-                                                                    break;
-                                                                case `tags`:
-                                                                    if (mergedDataValue.tags) {
-                                                                        tags = newDataValue.tags;
-                                                                        for (k = 0, numTags = tags.length; k < numTags; ++k) {
-                                                                            tag = tags[k];
-                                                                            if (mergedDataValue.tags.indexOf(tag) < 0) {
-                                                                                mergedDataValue.tags.push(tag);
+                                                                        break;
+                                                                    case `tags`:
+                                                                        if (mergedDataValue.tags) {
+                                                                            tags = newDataValue.tags;
+                                                                            for (k = 0, numTags = tags.length; k < numTags; ++k) {
+                                                                                tag = tags[k];
+                                                                                if (mergedDataValue.tags.indexOf(tag) < 0) {
+                                                                                    mergedDataValue.tags.push(tag);
+                                                                                }
                                                                             }
+                                                                        } else {
+                                                                            mergedDataValue.tags = newDataValue.tags;
                                                                         }
-                                                                    } else {
-                                                                        mergedDataValue.tags = newDataValue.tags;
-                                                                    }
-                                                                    break;
-                                                                default:
-                                                                    if (newDataValue.lastCheck > mergedDataValue.lastCheck) {
-                                                                        mergedDataValue[valueKey] = newDataValue[valueKey];
-                                                                    }
-                                                                    break;
+                                                                        break;
+                                                                    default:
+                                                                        if (newDataValue.lastCheck > mergedDataValue.lastCheck) {
+                                                                            mergedDataValue[valueKey] = newDataValue[valueKey];
+                                                                        }
+                                                                        break;
+                                                                }
+                                                            } else {
+                                                                mergedDataValue[valueKey] = newDataValue[valueKey];
                                                             }
-                                                        } else {
-                                                            mergedDataValue[valueKey] = newDataValue[valueKey];
                                                         }
                                                     }
                                                 }
                                             }
                                         }
-                                    }
-                                    for (newDataKey in newData.subs) {
-                                        newDataValue = newData.subs[newDataKey];
-                                        if (!mergedData.subs[newDataKey]) {
-                                            mergedData.subs[newDataKey] = {};
-                                        }
-                                        mergedDataValue = mergedData.subs[newDataKey];
-                                        for (value in values) {
-                                            if (esgst.settings[`${dm.type}_games_${value}`]) {
-                                                for (j = 0, numValues = values[value].length; j < numValues; ++j) {
-                                                    valueKey = values[value][j];
-                                                    if (typeof newDataValue[valueKey] !== `undefined`) {
-                                                        if (esgst.settings.importAndMerge) {
-                                                            switch (valueKey) {
-                                                                case `entered`:
-                                                                    mergedDataValue.entered = true;
-                                                                    break;
-                                                                case `itadi`:
-                                                                    if (mergedDataValue.itadi) {
-                                                                        if (newDataValue.itadi.lastCheck > mergedDataValue.itadi.lastCheck) {
+                                        for (newDataKey in newData.subs) {
+                                            newDataValue = newData.subs[newDataKey];
+                                            if (!mergedData.subs[newDataKey]) {
+                                                mergedData.subs[newDataKey] = {};
+                                            }
+                                            mergedDataValue = mergedData.subs[newDataKey];
+                                            for (value in values) {
+                                                if (esgst.settings[`${dm.type}_games_${value}`]) {
+                                                    for (j = 0, numValues = values[value].length; j < numValues; ++j) {
+                                                        valueKey = values[value][j];
+                                                        if (typeof newDataValue[valueKey] !== `undefined`) {
+                                                            if (esgst.settings.importAndMerge) {
+                                                                switch (valueKey) {
+                                                                    case `entered`:
+                                                                        mergedDataValue.entered = true;
+                                                                        break;
+                                                                    case `itadi`:
+                                                                        if (mergedDataValue.itadi) {
+                                                                            if (newDataValue.itadi.lastCheck > mergedDataValue.itadi.lastCheck) {
+                                                                                mergedDataValue.itadi = newDataValue.itadi;
+                                                                            }
+                                                                        } else {
                                                                             mergedDataValue.itadi = newDataValue.itadi;
                                                                         }
-                                                                    } else {
-                                                                        mergedDataValue.itadi = newDataValue.itadi;
-                                                                    }
-                                                                    break;
-                                                                case `tags`:
-                                                                    if (mergedDataValue.tags) {
-                                                                        tags = newDataValue.tags;
-                                                                        for (k = 0, numTags = tags.length; k < numTags; ++k) {
-                                                                            tag = tags[k];
-                                                                            if (mergedDataValue.tags.indexOf(tag) < 0) {
-                                                                                mergedDataValue.tags.push(tag);
+                                                                        break;
+                                                                    case `tags`:
+                                                                        if (mergedDataValue.tags) {
+                                                                            tags = newDataValue.tags;
+                                                                            for (k = 0, numTags = tags.length; k < numTags; ++k) {
+                                                                                tag = tags[k];
+                                                                                if (mergedDataValue.tags.indexOf(tag) < 0) {
+                                                                                    mergedDataValue.tags.push(tag);
+                                                                                }
                                                                             }
+                                                                        } else {
+                                                                            mergedDataValue.tags = newDataValue.tags;
                                                                         }
-                                                                    } else {
-                                                                        mergedDataValue.tags = newDataValue.tags;
-                                                                    }
-                                                                    break;
-                                                                default:
-                                                                    if (newDataValue.lastCheck > mergedDataValue.lastCheck) {
-                                                                        mergedDataValue[valueKey] = newDataValue[valueKey];
-                                                                    }
-                                                                    break;
+                                                                        break;
+                                                                    default:
+                                                                        if (newDataValue.lastCheck > mergedDataValue.lastCheck) {
+                                                                            mergedDataValue[valueKey] = newDataValue[valueKey];
+                                                                        }
+                                                                        break;
+                                                                }
+                                                            } else {
+                                                                mergedDataValue[valueKey] = newDataValue[valueKey];
                                                             }
-                                                        } else {
-                                                            mergedDataValue[valueKey] = newDataValue[valueKey];
                                                         }
                                                     }
                                                 }
                                             }
                                         }
+                                        setValue(`games`, JSON.stringify(mergedData));
                                     }
+                                } else if (dm.delete) {
                                     setValue(`games`, JSON.stringify(mergedData));
                                 }
-                            } else if (dm.delete) {
-                                setValue(`games`, JSON.stringify(mergedData));
                             }
+                            size = (new TextEncoder(`utf-8`).encode(getValue(`games`, ``))).length;
+                            totalGM += size;
+                            dm.switches[optionKey].size.textContent = convertBytes(size);
                             break;
                         case `rerolls`:
                             data.rerolls = JSON.parse(getValue(`esgst_rerolls`, `[]`));
-                            if (dm.import) {
-                                newData = dm.data.rerolls;
-                                if (newData) {
-                                    if (esgst.settings.importAndMerge) {
-                                        mergedData = data.rerolls;
-                                        for (j = 0, numNew = newData.length; j < numNew; ++j) {
-                                            newDataValue = newData[j];
-                                            if (mergedData.indexOf(newDataValue) < 0) {
-                                                mergedData.push(newDataValue);
+                            if (!space) {
+                                if (dm.import) {
+                                    newData = dm.data.rerolls;
+                                    if (newData) {
+                                        if (esgst.settings.importAndMerge) {
+                                            mergedData = data.rerolls;
+                                            for (j = 0, numNew = newData.length; j < numNew; ++j) {
+                                                newDataValue = newData[j];
+                                                if (mergedData.indexOf(newDataValue) < 0) {
+                                                    mergedData.push(newDataValue);
+                                                }
                                             }
+                                            setValue(`esgst_rerolls`, JSON.stringify(mergedData));
+                                        } else {
+                                            setValue(`esgst_rerolls`, JSON.stringify(newData));
                                         }
-                                        setValue(`esgst_rerolls`, JSON.stringify(mergedData));
-                                    } else {
-                                        setValue(`esgst_rerolls`, JSON.stringify(newData));
                                     }
+                                } else if (dm.delete) {
+                                    delValue(`esgst_rerolls`);
                                 }
-                            } else if (dm.delete) {
-                                delValue(`esgst_rerolls`);
                             }
+                            size = (new TextEncoder(`utf-8`).encode(getValue(`esgst_rerolls`, ``))).length;
+                            totalLocal += size;
+                            dm.switches[optionKey].size.textContent = convertBytes(size);
                             break;
                         case `sgCommentHistory`:
                         case `stCommentHistory`:
                             data[optionKey] = JSON.parse(getValue(optionKey, `[]`));
-                            if (dm.import) {
-                                newData = dm.data[optionKey];
-                                if (newData) {
-                                    if (esgst.settings.importAndMerge) {
-                                        mergedData = [];
-                                        oldData = data[optionKey];
-                                        j = 0;
-                                        k = 0;
-                                        numNew = newData.length;
-                                        numOld = oldData.length;
-                                        while (j < numOld && k < numNew) {
-                                            oldDataValue = oldData[j];
-                                            newDataValue = newData[k];
-                                            if (oldDataValue.timestamp > newDataValue.timestamp) {
-                                                mergedData.push(oldDataValue);
+                            if (!space) {
+                                if (dm.import) {
+                                    newData = dm.data[optionKey];
+                                    if (newData) {
+                                        if (esgst.settings.importAndMerge) {
+                                            mergedData = [];
+                                            oldData = data[optionKey];
+                                            j = 0;
+                                            k = 0;
+                                            numNew = newData.length;
+                                            numOld = oldData.length;
+                                            while (j < numOld && k < numNew) {
+                                                oldDataValue = oldData[j];
+                                                newDataValue = newData[k];
+                                                if (oldDataValue.timestamp > newDataValue.timestamp) {
+                                                    mergedData.push(oldDataValue);
+                                                    ++j;
+                                                } else {
+                                                    for (l = 0; l < numOld && oldData[l].id !== newDataValue.id; ++l);
+                                                    if (l >= numOld) {
+                                                        mergedData.push(newDataValue);
+                                                    }
+                                                    ++k;
+                                                }
+                                            }
+                                            while (j < numOld) {
+                                                mergedData.push(oldData[j]);
                                                 ++j;
-                                            } else {
+                                            }
+                                            while (k < numNew) {
+                                                newDataValue = newData[k];
                                                 for (l = 0; l < numOld && oldData[l].id !== newDataValue.id; ++l);
                                                 if (l >= numOld) {
                                                     mergedData.push(newDataValue);
                                                 }
                                                 ++k;
                                             }
+                                            setValue(optionKey, JSON.stringify(mergedData));
+                                        } else {
+                                            setValue(optionKey, JSON.stringify(newData));
                                         }
-                                        while (j < numOld) {
-                                            mergedData.push(oldData[j]);
-                                            ++j;
-                                        }
-                                        while (k < numNew) {
-                                            newDataValue = newData[k];
-                                            for (l = 0; l < numOld && oldData[l].id !== newDataValue.id; ++l);
-                                            if (l >= numOld) {
-                                                mergedData.push(newDataValue);
-                                            }
-                                            ++k;
-                                        }
-                                        setValue(optionKey, JSON.stringify(mergedData));
-                                    } else {
-                                        setValue(optionKey, JSON.stringify(newData));
                                     }
+                                } else if (dm.delete) {
+                                    delValue(optionKey);
                                 }
-                            } else if (dm.delete) {
-                                delValue(optionKey);
                             }
+                            size = (new TextEncoder(`utf-8`).encode(getValue(optionKey, ``))).length;
+                            totalGM += size;
+                            dm.switches[optionKey].size.textContent = convertBytes(size);
                             break;
                         case `users`:
                             values = [`uf`, `notes`, `tags`, `giveaways`, `namwc`, `nrf`, `wbc`];
@@ -33846,7 +33936,7 @@ ${avatar.outerHTML}
                                         value = mergedDataValue[valueKey];
                                         if (typeof value !== `undefined`) {
                                             newData[valueKey] = value;
-                                            if (dm.delete) {
+                                            if (!space && dm.delete) {
                                                 delete mergedDataValue[valueKey];
                                             }
                                         }
@@ -33865,102 +33955,112 @@ ${avatar.outerHTML}
                                     data.users.users[mergedDataKey] = newData;
                                 }
                             }
-                            if (dm.import) {
-                                newData = dm.data.users;
-                                if (newData) {
-                                    for (newDataKey in newData.users) {
-                                        newDataValue = newData.users[newDataKey];
-                                        if (!mergedData.users[newDataKey]) {
-                                            mergedData.users[newDataKey] = {
-                                                id: newDataValue.id,
-                                                username: newDataValue.username
-                                            };
-                                            mergedData.steamIds[newDataValue.username] = newDataKey;
-                                        }
-                                        mergedDataValue = mergedData.users[newDataKey];
-                                        for (j = 0, numValues = values.length; j < numValues; ++j) {
-                                            value = values[j];
-                                            if (newDataValue[value] && esgst.settings[`${dm.type}_users_${value}`]) {
-                                                if (esgst.settings.importAndMerge) {
-                                                    switch (value) {
-                                                        case `notes`:
-                                                            mergedDataValue.notes = mergedDataValue.notes ? `${mergedDataValue.notes}\n\n${newDataValue.notes}` : newDataValue.notes;
-                                                            break;
-                                                        case `tags`:
-                                                            if (mergedDataValue.tags) {
-                                                                tags = newDataValue.tags;
-                                                                for (k = 0, numTags = tags.length; k < numTags; ++k) {
-                                                                    tag = tags[k];
-                                                                    if (mergedDataValue.tags.indexOf(tag) < 0) {
-                                                                        mergedDataValue.tags.push(tag);
+                            if (!space) {
+                                if (dm.import) {
+                                    newData = dm.data.users;
+                                    if (newData) {
+                                        for (newDataKey in newData.users) {
+                                            newDataValue = newData.users[newDataKey];
+                                            if (!mergedData.users[newDataKey]) {
+                                                mergedData.users[newDataKey] = {
+                                                    id: newDataValue.id,
+                                                    username: newDataValue.username
+                                                };
+                                                mergedData.steamIds[newDataValue.username] = newDataKey;
+                                            }
+                                            mergedDataValue = mergedData.users[newDataKey];
+                                            for (j = 0, numValues = values.length; j < numValues; ++j) {
+                                                value = values[j];
+                                                if (newDataValue[value] && esgst.settings[`${dm.type}_users_${value}`]) {
+                                                    if (esgst.settings.importAndMerge) {
+                                                        switch (value) {
+                                                            case `notes`:
+                                                                mergedDataValue.notes = mergedDataValue.notes ? `${mergedDataValue.notes}\n\n${newDataValue.notes}` : newDataValue.notes;
+                                                                break;
+                                                            case `tags`:
+                                                                if (mergedDataValue.tags) {
+                                                                    tags = newDataValue.tags;
+                                                                    for (k = 0, numTags = tags.length; k < numTags; ++k) {
+                                                                        tag = tags[k];
+                                                                        if (mergedDataValue.tags.indexOf(tag) < 0) {
+                                                                            mergedDataValue.tags.push(tag);
+                                                                        }
                                                                     }
+                                                                } else {
+                                                                    mergedDataValue.tags = newDataValue.tags;
                                                                 }
-                                                            } else {
-                                                                mergedDataValue.tags = newDataValue.tags;
-                                                            }
-                                                            break;
-                                                        case `giveaways`:
-                                                            if (mergedDataValue.giveaways) {
-                                                                if (newDataValue.giveaways.wonTimestamp > mergedDataValue.giveaways.wonTimestamp) {
-                                                                    mergedDataValue.giveaways.won = newDataValue.giveaways.won;
-                                                                    mergedDataValue.giveaways.wonTimestamp = newDataValue.giveaways.wonTimestamp;
+                                                                break;
+                                                            case `giveaways`:
+                                                                if (mergedDataValue.giveaways) {
+                                                                    if (newDataValue.giveaways.wonTimestamp > mergedDataValue.giveaways.wonTimestamp) {
+                                                                        mergedDataValue.giveaways.won = newDataValue.giveaways.won;
+                                                                        mergedDataValue.giveaways.wonTimestamp = newDataValue.giveaways.wonTimestamp;
+                                                                    }
+                                                                    if (newDataValue.giveaways.sentTimestamp > mergedDataValue.giveaways.sentTimestamp) {
+                                                                        mergedDataValue.giveaways.sent = newDataValue.giveaways.sent;
+                                                                        mergedDataValue.giveaways.sentTimestamp = newDataValue.giveaways.sentTimestamp;
+                                                                    }
+                                                                } else {
+                                                                    mergedDataValue.giveaways = newDataValue.giveaways;
                                                                 }
-                                                                if (newDataValue.giveaways.sentTimestamp > mergedDataValue.giveaways.sentTimestamp) {
-                                                                    mergedDataValue.giveaways.sent = newDataValue.giveaways.sent;
-                                                                    mergedDataValue.giveaways.sentTimestamp = newDataValue.giveaways.sentTimestamp;
-                                                                }
-                                                            } else {
-                                                                mergedDataValue.giveaways = newDataValue.giveaways;
-                                                            }
-                                                            break;
-                                                        default:
-                                                            if (mergedDataValue[value]) {
-                                                                if (newDataValue[value].lastCheck > mergedDataValue[value].lastCheck) {
+                                                                break;
+                                                            default:
+                                                                if (mergedDataValue[value]) {
+                                                                    if (newDataValue[value].lastCheck > mergedDataValue[value].lastCheck) {
+                                                                        mergedDataValue[value] = newDataValue[value];
+                                                                    }
+                                                                } else {
                                                                     mergedDataValue[value] = newDataValue[value];
                                                                 }
-                                                            } else {
-                                                                mergedDataValue[value] = newDataValue[value];
-                                                            }
-                                                            break;
+                                                                break;
+                                                        }
+                                                    } else {
+                                                        mergedDataValue[value] = newDataValue[value];
                                                     }
-                                                } else {
-                                                    mergedDataValue[value] = newDataValue[value];
                                                 }
                                             }
                                         }
+                                        setValue(`users`, JSON.stringify(mergedData));
                                     }
+                                } else if (dm.delete) {
                                     setValue(`users`, JSON.stringify(mergedData));
                                 }
-                            } else if (dm.delete) {
-                                setValue(`users`, JSON.stringify(mergedData));
                             }
+                            size = (new TextEncoder(`utf-8`).encode(getValue(`users`, ``))).length;
+                            totalGM += size;
+                            dm.switches[optionKey].size.textContent = convertBytes(size);
                             break;
                         case `winners`:
                             data.winners = JSON.parse(getValue(`esgst_winners`, `{}`));
-                            if (dm.import) {
-                                newData = dm.data.winners;
-                                if (newData) {
-                                    if (esgst.settings.importAndMerge) {
-                                        mergedData = data.winners;
-                                        for (newDataKey in newData) {
-                                            if (!mergedData[newDataKey]) {
-                                                mergedData[newDataKey] = [];
-                                            }
-                                            for (j = 0, numNew = newData[newDataKey].length; j < numNew; ++j) {
-                                                newDataValue = newData[newDataKey][j];
-                                                if (mergedData[newDataKey].indexOf(newDataValue) < 0) {
-                                                    mergedData[newDataKey].push(newDataValue);
+                            if (!space) {
+                                if (dm.import) {
+                                    newData = dm.data.winners;
+                                    if (newData) {
+                                        if (esgst.settings.importAndMerge) {
+                                            mergedData = data.winners;
+                                            for (newDataKey in newData) {
+                                                if (!mergedData[newDataKey]) {
+                                                    mergedData[newDataKey] = [];
+                                                }
+                                                for (j = 0, numNew = newData[newDataKey].length; j < numNew; ++j) {
+                                                    newDataValue = newData[newDataKey][j];
+                                                    if (mergedData[newDataKey].indexOf(newDataValue) < 0) {
+                                                        mergedData[newDataKey].push(newDataValue);
+                                                    }
                                                 }
                                             }
+                                            setValue(`esgst_winners`, JSON.stringify(mergedData));
+                                        } else {
+                                            setValue(`esgst_winners`, JSON.stringify(newData));
                                         }
-                                        setValue(`esgst_winners`, JSON.stringify(mergedData));
-                                    } else {
-                                        setValue(`esgst_winners`, JSON.stringify(newData));
                                     }
+                                } else if (dm.delete) {
+                                    delValue(`esgst_winners`);
                                 }
-                            } else if (dm.delete) {
-                                delValue(`esgst_winners`);
                             }
+                            size = (new TextEncoder(`utf-8`).encode(getValue(`esgst_winners`, ``))).length;
+                            totalLocal += size;
+                            dm.switches[optionKey].size.textContent = convertBytes(size);
                             break;
                         default:
                             break;
@@ -33968,30 +34068,35 @@ ${avatar.outerHTML}
                 }
             }
         }
-        if (dm.type === `export` || esgst.settings.exportBackup) {
-            if (dropbox || esgst.settings.exportBackupIndex === 1) {
-                if (getValue(`dropboxToken`)) {
-                    checkDropboxComplete(data, dm, null, callback);
+        if (!space) {
+            if (dm.type === `export` || esgst.settings.exportBackup) {
+                if (dropbox || (dm.type !== `export` && esgst.settings.exportBackupIndex === 1)) {
+                    if (getValue(`dropboxToken`)) {
+                        checkDropboxComplete(data, dm, null, callback);
+                    } else {
+                        checkDropboxComplete(data, dm, open(`https://www.dropbox.com/oauth2/authorize?redirect_uri=https://${location.hostname}/esgst/dropbox&response_type=token&client_id=nix7kvchwa8wdvj`), callback);
+                    }
                 } else {
-                    checkDropboxComplete(data, dm, open(`https://www.dropbox.com/oauth2/authorize?redirect_uri=https://${location.hostname}/esgst/dropbox&response_type=token&client_id=nix7kvchwa8wdvj`), callback);
+                    data = new Blob([JSON.stringify(data)]);
+                    url = URL.createObjectURL(data);
+                    file = document.createElement(`a`);
+                    file.download = `esgst_data_${new Date().toISOString()}.json`;
+                    file.href = url;
+                    document.body.appendChild(file);
+                    file.click();
+                    file.remove();
+                    URL.revokeObjectURL(url);
+                    createFadeMessage(dm.message, `Data ${dm.type}ed with success!`);
+                    callback();
                 }
             } else {
-                data = new Blob([JSON.stringify(data)]);
-                url = URL.createObjectURL(data);
-                file = document.createElement(`a`);
-                file.download = `esgst_data_${new Date().toISOString()}.json`;
-                file.href = url;
-                document.body.appendChild(file);
-                file.click();
-                file.remove();
-                URL.revokeObjectURL(url);
                 createFadeMessage(dm.message, `Data ${dm.type}ed with success!`);
                 callback();
             }
-        } else {
-            createFadeMessage(dm.message, `Data ${dm.type}ed with success!`);
-            callback();
         }
+        dm.computerSpace.lastElementChild.textContent = convertBytes(totalGM);
+        dm.browserSpace.lastElementChild.textContent = convertBytes(totalLocal);
+        dm.totalSpace.lastElementChild.textContent = convertBytes(totalGM + totalLocal);
     }
 
     function checkDropboxComplete(data, dm, win, callback) {
@@ -34030,7 +34135,7 @@ ${avatar.outerHTML}
                                         reader.readAsText(response.fileBlob);
                                         reader.onload = () => {
                                             dm.data = JSON.parse(reader.result);
-                                            manageData(dm, false, false, false, callback);
+                                            manageData(dm, false, false, false, false, callback);
                                         };
                                     });
                                 });
@@ -36106,6 +36211,17 @@ ${avatar.outerHTML}
     function loadChangelog(version) {
         var changelog, current, html, i, index, n, popup;
         changelog = [
+            {
+                date: `September 28, 2017`,
+                version: `6.Beta.36.5`,
+                changelog: `
+                    <ul>
+                        <li>When importing/exporting/deleting data you can now see how much size each type of data is takin g in the storage and how much is being used by computer/browser storage (closes <a href="https://github.com/revilheart/ESGST/issues/21">#21</a>).</li>
+                        <li>You can now specify how often you want Header Refresher to refresh.</li>
+                        <li>Hitting the Enter key in the input fields on Advanced Giveaway Search now triggers the search (closes <a href="https://github.com/revilheart/ESGST/issues/23">#23</a>).</li>
+                    </ul>
+                `
+            },
             {
                 date: `September 26, 2017`,
                 version: `6.Beta.36.4`,

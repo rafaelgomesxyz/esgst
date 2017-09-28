@@ -852,6 +852,14 @@ The video above does not get embedded.
 
 ## Changelog
 
+**6.Beta.36.5 (September 28, 2017):**
+
+<ul>
+    <li>When importing/exporting/deleting data you can now see how much size each type of data is takin g in the storage and how much is being used by computer/browser storage (closes <a href="https://github.com/revilheart/ESGST/issues/21">#21</a>).</li>
+    <li>You can now specify how often you want Header Refresher to refresh.</li>
+    <li>Hitting the Enter key in the input fields on Advanced Giveaway Search now triggers the search (closes <a href="https://github.com/revilheart/ESGST/issues/23">#23</a>).</li>
+</ul>
+
 **6.Beta.36.4 (September 26, 2017):**
 
 <ul>
