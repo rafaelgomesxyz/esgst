@@ -852,6 +852,12 @@ The video above does not get embedded.
 
 ## Changelog
 
+**6.Beta.37.1 (September 29, 2017):**
+
+<ul>
+    <li>Fixed a bug in Comment Formatting Helper that was not remembering the choice for uploading images.</li>
+</ul>
+
 **6.Beta.37.0 (September 29, 2017):**
 
 <ul>
