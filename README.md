@@ -852,6 +852,13 @@ The video above does not get embedded.
 
 ## Changelog
 
+**6.Beta.37.2 (September 29, 2017):**
+
+<ul>
+    <li>Fixed a bug that was not allowing the user to delete/undelete comments.</li>    
+    <li>Fixed a bug in Multiple Giveaways Creator that was not showing the correct name/exporting games with quotes in their title.</li>
+</ul>
+
 **6.Beta.37.1 (September 29, 2017):**
 
 <ul>
