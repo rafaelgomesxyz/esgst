@@ -852,6 +852,14 @@ The video above does not get embedded.
 
 ## Changelog
 
+**6.Beta.37.0 (September 29, 2017):**
+
+<ul>
+    <li>localStorage data has been moved back to GM storage, due to size limitations and other factors (closes <a href="https://github.com/revilheart/ESGST/issues/27">#27</a>).</li>
+    <li>Fixed a bug in Endless Scrolling that was not showing the correct link for page divisors  (closes <a href="https://github.com/revilheart/ESGST/issues/28">#28</a>).</li>
+    <li>You can now upload images to Comment Formatting Helper through Imgur (closes <a href="https://github.com/revilheart/ESGST/issues/26">#26</a>).</li>
+</ul>
+
 **6.Beta.36.5 (September 28, 2017):**
 
 <ul>
