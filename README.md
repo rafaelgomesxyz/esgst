@@ -852,6 +852,13 @@ The video above does not get embedded.
 
 ## Changelog
 
+**6.Beta.37.3 (September 29, 2017):**
+
+<ul>
+    <li>Fixed a bug that was not remembering some data.</li>
+    <li>Fixed a bug that was preventing Multiple Giveaways Creator from creating giveaways.</li>
+</ul>
+
 **6.Beta.37.2 (September 29, 2017):**
 
 <ul>
