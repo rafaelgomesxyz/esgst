@@ -852,6 +852,12 @@ The video above does not get embedded.
 
 ## Changelog
 
+**6.Beta.38.3 (October 2, 2017):**
+
+<ul>
+    <li>Fixed a bug in Old Active Discussions Design that was preventing the script from loading correctly.</li>
+</ul>
+
 **6.Beta.38.2 (October 2, 2017):**
 
 <ul>
