@@ -852,6 +852,19 @@ The video above does not get embedded.
 
 ## Changelog
 
+**6.Beta.38.1 (October 2, 2017):**
+
+<ul>
+    <li>Added an option that automatically syncs your groups/games when syncing through SG (closes <a href="https://github.com/revilheart/ESGST/issues/10">#10</a>).</li>
+    <li>Fixed a bug that was not handling some option dependencies correctly (closes <a href="https://github.com/revilheart/ESGST/issues/32">#32</a>).</li>
+    <li>Giveaway Filters exceptions are now applied to all filters instead of just to basic filters.</li>
+    <li>Fixed a bug that was preventing Discussion Filters exceptions from working correctly (closes <a href="https://github.com/revilheart/ESGST/issues/31">#31</a>).</li>
+    <li>Enter/Leave Giveaway Button now recognizes identical descriptions from the same creator and shows the description only once so you don't have to keep reading the same description over and over again (the cache is stored for 1 hour).</li>
+    <li>Added an option (2.17.1) to Enter/Leave Giveaway Button that filters out useless descriptions.</li>
+    <li>Fixed a bug in Giveaway Popup that was popping the description once again after entering the giveaway.</li>
+    <li>Added a 2 minutes delay between the creation of identical giveaways to Multiple Giveaways Creator, as SG now blocks the creation of identical giveaways in less than 2 minutes apart from each other.</li>
+</ul>
+
 **6.Beta.38.0 (October 2, 2017):**
 
 <ul>
