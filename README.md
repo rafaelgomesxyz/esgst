@@ -852,6 +852,14 @@ The video above does not get embedded.
 
 ## Changelog
 
+**6.Beta.38.2 (October 2, 2017):**
+
+<ul>
+    <li>Fixed a bug in Comment Formatting Helper that broke the heading buttons.</li>
+    <li>Fixed a style issue that had changed the font in the Comment Formatting Helper popouts (closes <a href="https://github.com/revilheart/ESGST/issues/2">#2</a>).</li>
+    <li>Added an option (Games.3.1) to Game Categories that shows the category colors as a bottom border to the giveaways in Grid View (closes <a href="https://github.com/revilheart/ESGST/issues/5">#5</a>).</li>
+</ul>
+
 **6.Beta.38.1 (October 2, 2017):**
 
 <ul>
