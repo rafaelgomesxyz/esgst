@@ -852,6 +852,13 @@ The video above does not get embedded.
 
 ## Changelog
 
+**6.Beta.38.4 (October 2, 2017):**
+
+<ul>
+    <li>Fixed a few bugs in Giveaway/Discussion Filters.</li>
+    <li>Introducing "Overrides" to Giveaway/Discussion Filters, which allows you to configure some filters to always filter no matter what exceptions are set.</li>
+</ul>
+
 **6.Beta.38.3 (October 2, 2017):**
 
 <ul>
