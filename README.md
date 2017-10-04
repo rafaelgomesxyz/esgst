@@ -852,6 +852,15 @@ The video above does not get embedded.
 
 ## Changelog
 
+**6.Beta.38.5 (October 4, 2017):**
+
+<ul>
+    <li>Fixed a bug that was happening if Giveaway Popup was enabled, but Giveaway Winning Chance/Ratio, Enter/Leave Giveaway Button and Created/Entered/Won Giveaway Details were disabled.</li>
+    <li>Extended the option to hide individual giveaways to group pages.</li>
+    <li>Added an option to Enter/Leave Giveaway Button that allows repeated descriptions from the same creator to be cached for 1 hour and only shown once.</li>
+    <li>You can now add your own description filters to Enter/Leave Giveaway Button.</li>
+</ul>
+
 **6.Beta.38.4 (October 2, 2017):**
 
 <ul>
