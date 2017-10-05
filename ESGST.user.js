@@ -10894,7 +10894,7 @@ ${avatar.outerHTML}
             }
             description = DOM.parse(response.responseText).getElementsByClassName(`page__description`)[0];
             if (description && !mainCallback) {
-                if (elgb_c) {
+                if (esgst.elgb_c) {
                     if (Date.now() - esgst.elgbCache.timestamp > 3600000) {
                         esgst.elgbCache = {
                             descriptions: {},
@@ -36485,6 +36485,15 @@ ${avatar.outerHTML}
     function loadChangelog(version) {
         var changelog, current, html, i, index, n, popup;
         changelog = [
+            {
+                date: `October 5, 2017`,
+                version: `6.Beta.38.6`,
+                changelog: `
+                    <ul>
+                        <li>Fixed a bug that was preventing Enter/Leave Giveaway Button from working correctly.</li>
+                    </ul>
+                `
+            },
             {
                 date: `October 4, 2017`,
                 version: `6.Beta.38.5`,

@@ -852,6 +852,12 @@ The video above does not get embedded.
 
 ## Changelog
 
+**6.Beta.38.6 (October 5, 2017):**
+
+<ul>
+    <li>Fixed a bug that was preventing Enter/Leave Giveaway Button from working correctly.</li>
+</ul>
+
 **6.Beta.38.5 (October 4, 2017):**
 
 <ul>
