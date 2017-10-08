@@ -852,6 +852,20 @@ The video above does not get embedded.
 
 ## Changelog
 
+**6.Beta.39.0 (October 8, 2017):**
+
+<ul>
+    <li>Fixed a bug in Fixed Sidebar that was happening if the window height was too small.</li>
+    <li>Added options to show the number of unread messages, unviewed keys and unentered wishlist giveaways from Header Refresher as browser notifications (closes <a href="https://github.com/revilheart/ESGST/issues/40">#40</a>).</li>
+    <li>Added "Previously Entered" (must have Entered Games Highlighter enabled) and "Previously Won" filters to Giveaway Filters (closes <a href="https://github.com/revilheart/ESGST/issues/17">#17</a> and <a href="https://github.com/revilheart/ESGST/issues/44">#44</a>).</li>
+    <li>Enter/Leave Giveaway Button no longer shows the enter button for previously won giveaways (closes <a href="https://github.com/revilheart/ESGST/issues/17">#17</a>).</li>
+    <li>You can now filter emojis by name when selecting them in Comment Formatting Helper.</li>
+</ul>
+<p>Renamed the following features>:</p>
+<ul>
+    <li>Train Giveaways Extractor -> Giveaways Extractor - Fixed all bugs, as far as I'm aware (closes <a href="https://github.com/revilheart/ESGST/issues/1">#1</a>).</li>
+</ul>
+
 **6.Beta.38.6 (October 5, 2017):**
 
 <ul>
