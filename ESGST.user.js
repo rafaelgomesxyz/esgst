@@ -1482,7 +1482,8 @@ this._delay(function(){n===this.counter&&this.refreshPositions(!s)})},_clear:fun
                                     {
                                         id: `hr_m_n`,
                                         name: `[NEW] Also show as a browser notification.`,
-                                        sg: true
+                                        sg: true,
+                                        st: true
                                     }
                                 ],
                                 id: `hr_m`,
@@ -7309,7 +7310,6 @@ this._delay(function(){n===this.counter&&this.refreshPositions(!s)})},_clear:fun
     function continueHeaderRefresher(hr) {
         let cache = JSON.parse(getValue(`esgst_hrCache`));
         if (cache.username !== esgst.username || Date.now() - cache.timestamp  > esgst.hr_minutes * 60000) {
-            console.log(`i'll request`);
             cache.timestamp = Date.now();
             setValue(`esgst_hrCache`, JSON.stringify(cache));
             request(null, null, false, esgst.sg ? `/giveaways/search?type=wishlist` : `/`, response => {
@@ -7320,7 +7320,6 @@ this._delay(function(){n===this.counter&&this.refreshPositions(!s)})},_clear:fun
                 hr.refresher = setTimeout(continueHeaderRefresher, esgst.hr_minutes * 60000, hr);
             });
         } else {
-            console.log(`i'll get`);
             refreshHeader(cache, hr);
             setTimeout(continueHeaderRefresher, esgst.hr_minutes * 60000, hr);
         }
