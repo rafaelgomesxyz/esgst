@@ -1,0 +1,46 @@
+{
+  "background": {
+    "scripts": ["fetch.js"]
+  },
+  "browser_action": {
+    "default_icon": {
+      "64": "icon.png"
+    }
+  },
+  "content_scripts": [
+    {
+      "matches": [
+        "*://*.steamgifts.com/*",
+        "*://*.steamtrades.com/*"
+      ],
+      "js": [
+        "jQuery.js",
+        "jQueryUI.js",
+        "esgst.js"
+      ]
+    }
+  ],
+  "description": "Enhances the SteamGifts/SteamTrades experience.",
+  "icons": {
+    "64": "icon.png"
+  },
+  "manifest_version": 2,
+  "name": "ESGST",
+  "permissions": [
+    "*://*.raw.githubusercontent.com/*",
+    "*://*.api.steampowered.com/*",
+    "*://*.store.steampowered.com/*",
+    "*://*.script.google.com/*",
+    "*://*.script.googleusercontent.com/*",
+    "*://*.sgtools.info/*",
+    "*://*.steamcommunity.com/*",
+    "*://*.steamgifts.com/*",
+    "*://*.steamtrades.com/*",
+    "*://*.isthereanydeal.com/*",
+    "*://*.api.dropboxapi.com/*",
+    "*://*.content.dropboxapi.com/*",
+    "*://*.api.imgur.com/*",
+    "storage"
+  ],
+  "version": "7.0.0"
+}
