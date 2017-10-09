@@ -861,6 +861,18 @@ The video above does not get embedded.
 
 ## Changelog
 
+**7.0.2 (October 8, 2017):**
+
+<ul>
+    <li>The extension should now update automatically on Firefox.</li>
+</ul>
+
+**7.0.1 (October 8, 2017):**
+
+<ul>
+    <li>Fixed a bug in requests for the same domain on the extension.</li>
+</ul>
+
 **7.0.0 (October 8, 2017):**
 
 <ul>
