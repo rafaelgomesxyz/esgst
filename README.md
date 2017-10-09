@@ -12,10 +12,10 @@ A script that adds some cool features to SteamGifts and SteamTrades.
 
 ## Installation
 
-To install the extension, all you have to do is download the file for your browser and drag it into the extensions/add-ons page, as also listed below:
+To install the extension:
 
-* Firefox -> [File](https://github.com/revilheart/ESGST/raw/master/Extension/esgst.xpi) -> Drag it into "chrome://extensions/".
-* Chrome -> [File](https://github.com/revilheart/ESGST/raw/master/Extension/esgst.crx) -> Drag it into "about:addons".
+* Firefox -> Download [this file](https://github.com/revilheart/ESGST/raw/master/Extension/esgst.xpi) and drag it into "about:addons".
+* Chrome -> Clone the repository to your computer, go to "chrome://extensions/", enable developer mode, click "Load unpacked extension" and select the "Extensions" folder in the repository. Using the extension on Chrome might be a nuisance, since every time you open the browser you will get a message saying that using extensions in developer mode can be unsafe.
 
 Other browsers might work with the extension, but only Firefox and Chrome have been tested and confirmed as working.
 
