@@ -12,9 +12,18 @@ A script that adds some cool features to SteamGifts and SteamTrades.
 
 ## Installation
 
-To install the script, you must install [Greasemonkey](http://www.greasespot.net/) (not 100% compatible with the latest versions of Firefox) or [Tampermonkey](https://tampermonkey.net/) first. Then [click here](https://github.com/revilheart/ESGST/raw/master/ESGST.user.js) and you should be prompted to install it.
+To install the extension, all you have to do is download the file for your browser and drag it into the extensions/add-ons page, as also listed below:
+
+* Firefox -> [File](https://github.com/revilheart/ESGST/raw/master/Extension/esgst.xpi) -> Drag it into "chrome://extensions/".
+* Chrome -> [File](https://github.com/revilheart/ESGST/raw/master/Extension/esgst.crx) -> Drag it into "about:addons".
+
+Other browsers might work with the extension, but only Firefox and Chrome have been tested and confirmed as working.
+
+To install the script, you must install [Greasemonkey](http://www.greasespot.net/) (not 100% compatible with the latest versions of Firefox), [Tampermonkey](https://tampermonkey.net/), or some other userscript manager first. Then [click here](https://github.com/revilheart/ESGST/raw/master/ESGST.user.js) and you should be prompted to install it.
 
 You can also install the script in your Android through Firefox with Violentmonkey or USI. Though some features might not work.
+
+To upgrade from the script to the extension, all you have to do is export all your data from the script, install the extension and import all the data you had exported into the extension.
 
 ---
 
@@ -22,11 +31,11 @@ You can also install the script in your Android through Firefox with Violentmonk
 
 Fully tested and working in the latest version of:
 
+* Firefox
 * Google Chrome
 
 Should be working in the latest version of:
 
-* Firefox
 * Opera
 
 May or may not be working (try at your own risk) in the latest version of:
@@ -851,6 +860,17 @@ The video above does not get embedded.
 ---
 
 ## Changelog
+
+**7.0.0 (October 8, 2017):**
+
+<ul>
+    <li>Replaced the Dropbox SDK with the HTTP endpoints, which should fix some bugs.</li>
+    <li>Fixed a bug in Header Refresher that was not updating the enter buttons in the page.</li>
+    <li>When inside a giveaway that you have no points to enter, the "Not Enough Points" button will now be replaced by Enter/Leave Giveaway Button and update accordingly when you get more points without the need to refresh the page.</li>
+</ul>
+<p>
+    <b>ESGST has been ported to an extension (currently only tested with Firefox and Chrome). Head over to the ESGST discussion or GitHub page to learn how to upgrade. The script version of ESGST will continue to be updated normally for now, whenever the extension is updated (I will decide whether or not to discontinue it based on the extension reception). The "Beta" drop in the version name does not mean the script has become stable.</b>
+</p>
 
 **6.Beta.39.0 (October 8, 2017):**
 
