@@ -228,15 +228,21 @@ class Popout {
         this.isOpen = false;
     }
     reposition(context = null) {
+        let contextLeft, contextRect, contextTop, popoutHeight, popoutWidth, popupRect;
         this.popout.style.left = `0`;
         this.popout.style.top = `0`;
         this.context = context || this.context;
-        const contextRect = this.context.getBoundingClientRect();
-        const contextLeft = contextRect.left;
-        const contextTop = contextRect.top;
-        const popoutHeight = this.popout.offsetHeight;
-        const popoutWidth = this.popout.offsetWidth;
-        const popupRect = this.popup && this.popup.getBoundingClientRect();
+        contextRect = this.context.getBoundingClientRect();
+        contextLeft = contextRect.left;
+        contextTop = contextRect.top;
+        if (contextTop > (window.innerHeight - (contextTop + contextRect.height))) {
+            this.popout.style.maxHeight = `${contextTop - 10}px`;
+        } else {
+            this.popout.style.maxHeight = `${window.innerHeight - (contextTop + contextRect.height) - 10}px`;
+        }
+        popoutHeight = this.popout.offsetHeight;
+        popoutWidth = this.popout.offsetWidth;
+        popupRect = this.popup && this.popup.getBoundingClientRect();
         if (contextLeft + popoutWidth > document.documentElement.clientWidth) {
             this.popout.style.left = `${(contextLeft - popoutWidth + contextRect.width) - (this.popup ? popupRect.left : 0)}px`;
         } else {
@@ -424,7 +430,7 @@ function loadEsgst(storage) {
         storage: storage,
         sg: location.hostname.match(/www.steamgifts.com/),
         st: location.hostname.match(/www.steamtrades.com/),
-        currentVersion: `7.0.2`,
+        currentVersion: `7.1.0`,
         icon: `data:image/x-icon;base64,AAABAAEAEBAAAAEAIABoBAAAFgAAACgAAAAQAAAAIAAAAAEAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAqv8DCbP/Hgeq+CQIrf8iCK3/Igit/yIIrf8iB6//Iwit9x8Aqv8DAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAKr0GAa2/c0DvfzfA7f83QO3/N0Dt/zdA7f83QO+/d4Gs/3OAKP1GQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACm/xQFs/n2Bcf//wW///8FwP//BcD//wW///8Fx///BbP69gC2/xUAAAAAAAAAAAAAAAAA/1UDFptOFxSZMxkLpJktAq720QW1+ugEsfvjA7b92wO2/dsEsfvjBbX66Aau/dEoiO4tUlLWGU5k3hdVVf8DEJxKHxWqT8cVrU7uE6VN0guqny0Apv8XAJfQGwBAVywAQFcsAJfQGwCx/xcogugtS2Lk0lBl6u5Qae7ISmPeHxagSSMVr07jF7lV/xOiSu0brgATAAAAAAAAAA8AAAC/AAAAwAAAABAAAAAAYznjEkth4OxWb/3/T2jv40lf4iMXnksiEq1O3RayUv8UpEnkEo0+HQAAABkAAABBAAAA8QAAAPEAAABBAAAAGUBSvxxOYeDjU2v0/05m7d1LYuEiF55LIhKtTt0Ws1L/FahN2gU1FTAAAADAAAAA7AAAAP0AAAD9AAAA7AAAAMAVG0owUGPm2lNr9P9OZu3dS2LhIheeSyISrU7dFrNS/xWoTdoFNRswAAAAvwAAAOsAAAD9AAAA/QAAAOsAAADAFRtKMFBj6NpTa/T/Tmbt3Uti4SIXnksiEq1O3RayUv8UpEnkEo0+HQAAABgAAABAAAAA8QAAAPEAAABBAAAAGT5PuR1OYeDjU2v0/05m7d1LYuEiFqBJIxWuT+QXuVX/E6JL7QC8XhMAAAAAAAAADwAAAL8AAAC/AAAAEAAAAAAOR/8SSWLh7FZv/f9PaO/jSV/iIxCUSh8Vrk7HFqxN7ROlS9JskzMt1XULGK12EhxGLgYsRy8GK612EhzVgAsYgmxxLU1i39JNZ+vtT2fwx0pj1h8AqlUDF65GFgqZUhlsiC0txH0T0s5/EujJgBPkz4QR28+EEdvJgBPkzn8Q6Md+E9KLdHosM1LWGUZo6BZVVf8DAAAAAAAAAAAAAAAA/2YAFMl9EvbgjRb/14gV/9eIFf/XiBX/14gV/9+NFv/KgBD254YAFQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAL91FRjKgRHN1IgU3s+EEt3PhBLdz4QS3c+EEt3UiBTezYMRzcJ6FBkAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACqqgADxIARHr18FiO8eA8ivHgPIrx4DyK8eA8ivXwPI8SAER7/VQADAAAAAAAAAAAAAAAA78cAAPA3AAD4FwAABCAAADGOAAAE+AAAkBEAAJ55AACYOQAAlgEAAER4AAAXaAAATnoAAPgXAAD0JwAA69cAAA==`,
         sgIcon: `data:image/x-icon;base64,AAABAAEAEBAAAAEAIABoBAAAFgAAACgAAAAQAAAAIAAAAAEAIAAAAAAAQAQAABMLAAATCwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIUAAAD5AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAPoAAACFAAAAAAAAAAAAAAD8AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA+QAAAAAAAAAAAAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAAAAAAAAAAAAP8AAAD/AAAA/wAAABwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAcAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAcAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAHAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAAAAAAAAAAAAPwAAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD5AAAAAAAAAAAAAACFAAAA+QAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD5AAAAhQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA//8AAP//AADAAwAAwAMAAMfjAADP8wAAz/MAAM/zAADP8wAAz/MAAM/zAADH4wAAwAMAAMADAAD//wAA//8AAA==`,
         stIcon: `data:image/x-icon;base64,AAABAAEAEBAAAAEAIABoBAAAFgAAACgAAAAQAAAAIAAAAAEAIAAAAAAAQAQAABMLAAATCwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABbD6SgWw+ucFsPrkBbD6SgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAWw+uYFsPr/BbD6/wWw+ucAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAFsPrmBbD6/wWw+v8FsPrmAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABbD6SQWw+uYFsPrmBbD6SQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAFKRLShSkS+cUpEvkFKRLSgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAExi4EpMYuDnTGLg5Exi4EoAAAAAAAAAABSkS+YUpEv/FKRL/xSkS+cAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABMYuDmTGLg/0xi4P9MYuDnAAAAAAAAAAAUpEvmFKRL/xSkS/8UpEvmAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAATGLg5kxi4P9MYuD/TGLg5gAAAAAAAAAAFKRLSRSkS+YUpEvmFKRLSQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAExi4ElMYuDmTGLg5kxi4EkAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAMZ9E0rGfRPnxn0T5MZ9E0oAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADGfRPmxn0T/8Z9E//GfRPnAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAxn0T5sZ9E//GfRP/xn0T5gAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAMZ9E0nGfRPmxn0T5sZ9E0kAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA//8AAPw/AAD8PwAA/D8AAPw/AAD//wAAh+EAAIfhAACH4QAAh+EAAP//AAD8PwAA/D8AAPw/AAD8PwAA//8AAA==`,
@@ -658,6 +664,7 @@ function loadEsgst(storage) {
                 gwr_e: `gwr`
             };
             esgst.defaultValues = {
+                gf_noRating: true,
                 cfh_img_remember: false,
                 cfh_img_choice: 1,
                 elgb_filters: `.|(bestof|(g(ood)?)?)(l(uck)?)?(h(ave)?)?(f(un)?)?|enjoy|(h(umble)?)?(b(undle)?)?(g(ift)?)?(l(ink)?)?`,
@@ -1401,7 +1408,7 @@ function loadEsgst(storage) {
                             features: [
                                 {
                                     id: `hr_w_n`,
-                                    name: `[NEW] Also show as a browser notification.`,
+                                    name: `Also show as a browser notification.`,
                                     sg: true
                                 }
                             ],
@@ -1418,7 +1425,7 @@ function loadEsgst(storage) {
                             features: [
                                 {
                                     id: `hr_g_n`,
-                                    name: `[NEW] Also show as a browser notification.`,
+                                    name: `Also show as a browser notification.`,
                                     sg: true
                                 }
                             ],
@@ -1430,7 +1437,7 @@ function loadEsgst(storage) {
                             features: [
                                 {
                                     id: `hr_m_n`,
-                                    name: `[NEW] Also show as a browser notification.`,
+                                    name: `Also show as a browser notification.`,
                                     sg: true,
                                     st: true
                                 }
@@ -1890,12 +1897,12 @@ function loadEsgst(storage) {
                         },
                         {
                             id: `gf_previouslyEntered`,
-                            name: `[NEW] Previously Entered`,
+                            name: `Previously Entered`,
                             sg: true
                         },
                         {
                             id: `gf_previouslyWon`,
-                            name: `[NEW] Previously Won`,
+                            name: `Previously Won`,
                             sg: true
                         },
                         {
@@ -2235,13 +2242,25 @@ function loadEsgst(storage) {
                         },
                         {
                             id: `ggl_p`,
-                            name: `Only load groups after clicking the group icon in the giveaway, as a popup.`,
+                            name: `Only load groups after hovering over the group icon in the giveaway, as a popout.`,
                             sg: true
                         }
                     ],
                     id: `ggl`,
                     load: loadGgl,
                     name: `Giveaway Groups Loader`,
+                    sg: true,
+                    type: `giveaways`
+                },
+                {
+                    description: `
+                        <ul>
+                            <li>Allows you to easily see the list of countries for a region restricted giveaway by hovering over the region restricted icon.</li>
+                        </ul>
+                    `,
+                    id: `gcp`,
+                    load: loadGcp,
+                    name: `[NEW] Giveaway Countries Popout`,
                     sg: true,
                     type: `giveaways`
                 },
@@ -5423,12 +5442,12 @@ function continueSavingUser(user, callback) {
 function lockAndSaveUser(user, callback, deleteLock) {
     var key, savedUsers;
     savedUsers = JSON.parse(getValue(`users`));
+    checkUsernameChange(savedUsers, user);
     for (key in user.values) {
         if (key !== `tags`) {
             savedUsers.users[user.steamId][key] = user.values[key];
         }
     }
-    checkUsernameChange(savedUsers, user);
     setValue(`users`, JSON.stringify(savedUsers));
     deleteLock();
     if (callback) {
@@ -5452,8 +5471,11 @@ function checkUsernameChange(savedUsers, user) {
                 }
             }
         }
-    } else if (user.values.tags) {
+    } else {
         savedUsers.users[user.steamId].tags = user.values.tags;
+    }
+    if (!savedUsers.users[user.steamId].tags) {
+        delete savedUsers.users[user.steamId].tags;
     }
 }
 
@@ -5464,6 +5486,7 @@ function addUser(user, callback) {
 function addAndSaveUser(user, callback, deleteLock) {
     var key, savedUser, savedUsers;
     savedUsers = JSON.parse(getValue(`users`));
+    checkUsernameChange(savedUsers, user);
     savedUser = getUser(savedUsers, user);
     if (!savedUser) {
         savedUsers.users[user.steamId] = {};
@@ -5480,7 +5503,6 @@ function addAndSaveUser(user, callback, deleteLock) {
             savedUsers.users[user.steamId][key] = user.values[key];
         }
     }
-    checkUsernameChange(savedUsers, user);
     setValue(`users`, JSON.stringify(savedUsers));
     deleteLock();
     if (callback) {
@@ -5580,6 +5602,7 @@ function completeUserSaving(list, callback, deleteLock) {
     savedUsers = JSON.parse(getValue(`users`));
     for (i = 0, n = list.new.length; i < n; ++i) {
         user = list.new[i];
+        checkUsernameChange(savedUsers, user);
         savedUser = getUser(savedUsers, user);
         if (!savedUser) {
             savedUsers.users[user.steamId] = {};
@@ -5596,16 +5619,15 @@ function completeUserSaving(list, callback, deleteLock) {
                 savedUsers.users[user.steamId][key] = user.values[key];
             }
         }
-        checkUsernameChange(savedUsers, user);
     }
     for (i = 0, n = list.existing.length; i < n; ++i) {
         user = list.existing[i];
+        checkUsernameChange(savedUsers, user);
         for (key in user.values) {
             if (key !== `tags`) {
                 savedUsers.users[user.steamId][key] = user.values[key];
             }
         }
-        checkUsernameChange(savedUsers, user);
     }
     setValue(`users`, JSON.stringify(savedUsers));
     deleteLock();
@@ -5644,7 +5666,7 @@ function saveComment(tradeCode, parentId, description, url, status, callback, ma
     data = `xsrf_token=${esgst.xsrfToken}&do=${esgst.sg ? `comment_new` : `comment_insert`}&trade_code=${tradeCode}&parent_id=${parentId}&description=${encodeURIComponent(description)}`;
     request(data, null, false, url, response => {
         if (esgst.sg) {
-            if (response.redirected) {
+            if (response.redirected && url === response.finalUrl) {
                 callback();
                 if (parentId) {
                     id = DOM.parse(response.responseText).querySelector(`[data-comment-id="${parentId}"]`).getElementsByClassName(`comment__children`)[0].lastElementChild.getElementsByClassName(`comment__summary`)[0].id;
@@ -5660,7 +5682,7 @@ function saveComment(tradeCode, parentId, description, url, status, callback, ma
                 } else {
                     location.href = `/go/comment/${id}`;
                 }
-            } else if (url != response.finalUrl) {
+            } else if (url !== response.finalUrl) {
                 request(data, null, false, response.finalUrl, response => {
                     callback();
                     id = parentId ? DOM.parse(response.responseText).querySelector(`[data-comment-id="${parentId}"]`).getElementsByClassName(`comment__children`)[0].lastElementChild.getElementsByClassName(`comment__summary`)[0].id : DOM.parse(response.responseText).getElementsByClassName(`comments`)[1].lastElementChild.getElementsByClassName(`comment__summary`)[0].id;
@@ -6722,6 +6744,9 @@ function saveGames(games, callback, deleteLock) {
         } else {
             saved.apps[key] = games.apps[key];
         }
+        if (!saved.apps[key].tags) {
+            delete saved.apps[key].tags;
+        }
     }
     for (key in games.subs) {
         if (saved.subs[key]) {
@@ -6730,6 +6755,9 @@ function saveGames(games, callback, deleteLock) {
             }
         } else {
             saved.subs[key] = games.subs[key];
+        }
+        if (!saved.subs[key].tags) {
+            delete saved.subs[key].tags;
         }
     }
     setValue(`games`, JSON.stringify(saved));
@@ -8947,11 +8975,17 @@ function addGfContainer(heading, popup) {
                             <div class="esgst-gf-basic-filter">
                                 <div>${name === `MinutesToEnd` ? `Minutes To End` : name} <span class="esgst-float-right"><input type="text" value="${minSavedValue}"> - <input type="text" value="${maxSavedValue}"></span></div>
                                 <div></div>
+                                <div></div>
                             </div>
                         `);
                         display = basicFilter.firstElementChild;
                         setGfOverride(gf, display, key);
                         slider = display.nextElementSibling;
+                        if (name === `Rating`) {
+                            let toggle = new ToggleSwitch(slider.nextElementSibling, `gf_noRating`, false, `Filter games with no rating.`, false, false, null, esgst.gf_noRating);
+                            toggle.onEnabled = filterGfGiveaways.bind(null, gf);
+                            toggle.onDisabled = filterGfGiveaways.bind(null, gf);
+                        }
                         gf[`${minKey}Input`] = display.firstElementChild.nextElementSibling.firstElementChild;
                         gf[`${maxKey}Input`] = gf[`${minKey}Input`].nextElementSibling;
                         gf[`${maxKey}Input`].addEventListener(`change`, changeGfMaxValue.bind(null, infinite, slider, step));
@@ -9760,8 +9794,10 @@ function filterGfGiveaway(gf, giveaway) {
                         }
                     }
                 } else if (giveaway[key] < gf[minKey] || giveaway[key] > gf[maxKey]) {
-                    filtered = true;
-                    override = gf.overrides[key];
+                    if (name !== `Rating` || giveaway.rating !== 0 || esgst.gf_noRating) {
+                        filtered = true;
+                        override = gf.overrides[key];
+                    }
                 }
             }
         }
@@ -10721,7 +10757,7 @@ function addGwcChances(giveaways, main, source) {
 }
 
 function addGwcChance(context, giveaway) {
-    let advancedChance, basicChance, colors, entries, i;
+    let advancedChance, advancedColor, basicChance, basicColor, colors, entries, i;
     entries = giveaway.entered || giveaway.ended || giveaway.created || !esgst.gwc_e ? giveaway.entries : giveaway.entries + 1;
     basicChance = entries > 0 ? Math.round(giveaway.copies / entries * 10000) / 100 : 100;
     basicChance = basicChance > 100 ? 100 : (basicChance <= 0 ? 0.01 : basicChance);
@@ -10733,9 +10769,15 @@ function addGwcChance(context, giveaway) {
     context.setAttribute(`data-chance`, giveaway.chance);
     for (i = esgst.gwc_colors.length - 1; i > -1; --i) {
         colors = esgst.gwc_colors[i];
-        if (giveaway.chance >= parseFloat(colors.lower) && giveaway.chance <= parseFloat(colors.upper)) {
-            context.style.color = colors.color;
-            context.style.fontWeight = `bold`;
+        if (basicChance >= parseFloat(colors.lower) && basicChance <= parseFloat(colors.upper)) {
+            basicColor = colors.color;
+            break;
+        }
+    }
+    for (i = esgst.gwc_colors.length - 1; i > -1; --i) {
+        colors = esgst.gwc_colors[i];
+        if (advancedChance >= parseFloat(colors.lower) && advancedChance <= parseFloat(colors.upper)) {
+            advancedColor = colors.color;
             break;
         }
     }
@@ -10743,17 +10785,17 @@ function addGwcChance(context, giveaway) {
         context.style.display = `inline-block`;
         if (esgst.gwr) {
             context.innerHTML = `
-                <span>${esgst.gwc_a && advancedChance ? (esgst.gwc_a_b ? `${basicChance}% (${advancedChance}%)` : `${advancedChance}%`) : `${basicChance}%`} / </span>
+                <span>${esgst.gwc_a && advancedChance ? (esgst.gwc_a_b ? `<span style="color: ${basicColor}; font-weight: bold;">${basicChance}%</span> (<span style="color: ${advancedColor}; font-weight: bold;">${advancedChance}%</span>)` : `<span style="color: ${advancedColor}; font-weight: bold;">${advancedChance}%</span>`) : `<span style="color: ${basicColor}; font-weight: bold;">${basicChance}%</span>`} / </span>
             `;
         } else {
             context.innerHTML = `
-                <span>${esgst.gwc_a && advancedChance ? (esgst.gwc_a_b ? `${basicChance}% (${advancedChance}%)` : `${advancedChance}%`) : `${basicChance}%`}</span>
+                <span>${esgst.gwc_a && advancedChance ? (esgst.gwc_a_b ? `<span style="color: ${basicColor}; font-weight: bold;">${basicChance}%</span> (<span style="color: ${advancedChance}; font-weight: bold;">${advancedChance}%</span>)` : `<span style="color: ${advancedColor}; font-weight: bold;">${advancedChance}%</span>`) : `<span style="color: ${basicColor}; font-weight: bold;">${basicChance}%</span>`}</span>
             `;
         }
     } else {
         context.innerHTML = `
             <i class="fa fa-area-chart"></i>
-            <span>${esgst.gwc_a && advancedChance ? (esgst.gwc_a_b ? `${basicChance}% (${advancedChance}%)` : `${advancedChance}%`) : `${basicChance}%`}</span>
+            <span>${esgst.gwc_a && advancedChance ? (esgst.gwc_a_b ? `<span style="color: ${basicColor}; font-weight: bold;">${basicChance}%</span> (<span style="color: ${advancedColor}; font-weight: bold;">${advancedChance}%</span>)` : `<span style="color: ${advancedColor}; font-weight: bold;">${advancedChance}%</span>`) : `<span style="color: ${basicColor}; font-weight: bold;">${basicChance}%</span>`}</span>
         `;
     }
 }
@@ -10777,7 +10819,7 @@ function addGwrRatios(giveaways, main, source) {
 }
 
 function addGwcRatio(context, giveaway) {
-    let advancedRatio, basicRatio, entries;
+    let advancedColor, advancedRatio, basicColor, basicRatio, colors, entries, i;
     entries = giveaway.entered || giveaway.ended || giveaway.created || !esgst.gwr_e ? giveaway.entries : giveaway.entries + 1;
     basicRatio = Math.round(entries / giveaway.copies);
     if (esgst.gwr_a && !giveaway.ended && giveaway.startTime) {
@@ -10787,21 +10829,27 @@ function addGwcRatio(context, giveaway) {
     context.setAttribute(`data-ratio`, giveaway.ratio);
     for (i = esgst.gwr_colors.length - 1; i > -1; --i) {
         colors = esgst.gwr_colors[i];
-        if (giveaway.ratio >= parseInt(colors.lower) && giveaway.ratio <= parseInt(colors.upper)) {
-            context.style.color = colors.color;
-            context.style.fontWeight = `bold`;
+        if (basicRatio >= parseInt(colors.lower) && basicRatio <= parseInt(colors.upper)) {
+            basicColor = colors.color;
+            break;
+        }
+    }
+    for (i = esgst.gwr_colors.length - 1; i > -1; --i) {
+        colors = esgst.gwr_colors[i];
+        if (advancedRatio >= parseInt(colors.lower) && advancedRatio <= parseInt(colors.upper)) {
+            advancedColor = colors.color;
             break;
         }
     }
     if (esgst.enteredPath) {
         context.style.display = `inline-block`;
         context.innerHTML = `
-            <span>${esgst.gwr_a && advancedRatio? (esgst.gwr_a_b ? `${basicRatio}:1 (${advancedRatio}:1)` : `${advancedRatio}:1`) : `${basicRatio}:1`}</span>
+            <span>${esgst.gwr_a && advancedRatio? (esgst.gwr_a_b ? `<span style="color: ${basicColor}; font-weight: bold;">${basicRatio}:1</span> (<span style="color: ${advancedColor}; font-weight: bold;">${advancedRatio}:1</span>)` : `<span style="color: ${advancedColor}; font-weight: bold;">${advancedRatio}:1</span>`) : `<span style="color: ${basicColor}; font-weight: bold;">${basicRatio}:1</span>`}</span>
         `;
     } else {
         context.innerHTML = `
             <i class="fa fa-pie-chart"></i>
-            <span>${esgst.gwr_a && advancedRatio ? (esgst.gwr_a_b ? `${basicRatio}:1 (${advancedRatio}:1)` : `${advancedRatio}:1`) : `${basicRatio}:1`}</span>
+            <span>${esgst.gwr_a && advancedRatio? (esgst.gwr_a_b ? `<span style="color: ${basicColor}; font-weight: bold;">${basicRatio}:1</span> (<span style="color: ${advancedColor}; font-weight: bold;">${advancedRatio}:1</span>)` : `<span style="color: ${advancedColor}; font-weight: bold;">${advancedRatio}:1</span>`) : `<span style="color: ${basicColor}; font-weight: bold;">${basicRatio}:1</span>`}</span>
         `;
     }
 }
@@ -10980,7 +11028,7 @@ function openElgbPopup(giveaway, main, source, mainCallback) {
                 }
                 set = new ButtonSet(`grey`, `grey`, `fa-eye`, `fa-circle-o-notch fa-spin`, `Add Description To Filters`, `Filtering...`, function (callback) {
                     esgst.elgb_filters = `${esgst.elgb_filters}|${description.textContent.replace(/[^a-zA-Z]/g, ``).toLowerCase()}`;
-                    setValue(`elgb_filters`, esgst.elgb_filters);
+                    setSetting(`elgb_filters`, esgst.elgb_filters);
                     callback();
                     set.remove();
                 }).set;
@@ -10994,7 +11042,7 @@ function openElgbPopup(giveaway, main, source, mainCallback) {
                 }
                 set = new ButtonSet(`grey`, `grey`, `fa-eye`, `fa-circle-o-notch fa-spin`, `Add Description To Filters`, `Filtering...`, function (callback) {
                     esgst.elgb_filters = `${esgst.elgb_filters}|${description.textContent.replace(/[^a-zA-Z]/g, ``).toLowerCase()}`;
-                    setValue(`elgb_filters`, esgst.elgb_filters);
+                    setSetting(`elgb_filters`, esgst.elgb_filters);
                     callback();
                     set.remove();
                 }).set;
@@ -11139,84 +11187,108 @@ function setGglButtons(giveaways, main) {
 }
 
 function setGglButton(giveaway) {
+    var exitTimeout, newGiveaways, newGroups, popout, savedGiveaways, savedGroups, timeout;
     if (giveaway.group) {
-        giveaway.group.classList.add(`esgst-ggl-button`);
-        giveaway.group.removeAttribute(`href`);
-        giveaway.group.addEventListener(`click`, function() {
-            var newGiveaways, newGroups, panel, popup, progress, savedGiveaways, savedGroups;
-            popup = new Popup(`fa-user`, `<a href="${giveaway.url}/groups">Giveaway Groups</a>`, true);
-            progress = insertHtml(popup.description, `beforeEnd`,  `
-                <div>
-                    <i class="fa fa-circle-o-notch fa-spin"></i>
-                    <span>Loading groups...</span>
-                </div>
-            `);
-            panel = insertHtml(popup.scrollable, `beforeEnd`, `
-                <div class="esgst-text-left table esgst-hidden">
-                    <div class="table__rows"></div>
-                </div>
-            `);
-            popup.open();
-            newGiveaways = {};
-            newGroups = {};
-            savedGiveaways = JSON.parse(getValue(`giveaways`, `{}`));
-            savedGroups = JSON.parse(getValue(`groups`, `[]`));
-            loadGglGroups([giveaway], 0, 1, newGiveaways, newGroups, savedGiveaways, savedGroups, function(groups) {
-                var className, code, group, groupCount, i, j, n, link;
-                if (groups) {
-                    groupCount = 0;
-                    for (i = 0, n = groups.length; i < n; ++i) {
-                        code = groups[i];
-                        for (j = savedGroups.length - 1; j >= 0 && savedGroups[j].code !== code; --j);
-                        if (j >= 0) {
-                            group = savedGroups[j];
-                        } else {
-                            group = newGroups[code];
-                        }
-                        if (group && group.member) {
-                            className = `esgst-ggl-member`;
-                            groupCount += 1;
-                        } else if (esgst.ggl_m) {
-                            className = `esgst-hidden`;
-                        } else {
-                            className = ``;
-                            groupCount += 1;
-                        }
-                        if (className !== `esgst-hidden`) {
-                            link = insertHtml(panel.lastElementChild, `beforeEnd`, `
-                                <div class="table__row-outer-wrap ${className}">
-                                    <div class="table__row-inner-wrap">
-                                        <div>
-                                            <a class="table_image_avatar" href="/group/${group.code}/" style="background-image:url(http://cdn.edgecast.steamstatic.com/steamcommunity/public/images/avatars/${group.avatar}_medium.jpg)"></a>
-                                        </div>
-                                        <div class="table__column--width-fill">
-                                            <a class="table__column__heading" href="/group/${group.code}/"></a>
-                                        </div>
-                                    </div>
-                                </div>
-                            `).getElementsByClassName(`table__column__heading`)[0];
-                            link.textContent = group.name;
-                        }
-                    }
-                    if (groupCount === 0) {
-                        progress.innerHTML = `
-                            <i class="fa fa-exclamation-mark"></i>
-                            <span>You are not a member of any group in this giveaway.</span>
-                        `;
-                    } else {
-                        panel.classList.remove(`esgst-hidden`);
-                        loadEndlessFeatures(panel);
-                        progress.remove();
-                    }
-                    popup.reposition();
+        giveaway.group.addEventListener(`mouseenter`, function() {
+            timeout = setTimeout(function() {
+                if (popout) {
+                    popout.open(giveaway.group);
                 } else {
-                    progress.innerHTML = `
-                        <i class="fa fa-times-circle"></i>
-                        <span>An error ocurred.</span>
+                    popout = new Popout(`esgst-ggl-popout`);
+                    popout.popout.innerHTML = `
+                        <i class="fa fa-circle-o-notch fa-spin"></i>
+                        <span>Loading groups...</span>
                     `;
-                    popup.reposition();
+                    popout.open(giveaway.group);
+                    newGiveaways = {};
+                    newGroups = {};
+                    savedGiveaways = JSON.parse(getValue(`giveaways`, `{}`));
+                    savedGroups = JSON.parse(getValue(`groups`, `[]`));
+                    loadGglGroups([giveaway], 0, 1, newGiveaways, newGroups, savedGiveaways, savedGroups, function(groups) {
+                        var className, code, group, groupCount, i, j, n, link;
+                        if (groups) {
+                            popout.popout.innerHTML = `
+                                <div class="esgst-text-left table esgst-hidden">
+                                    <div class="table__rows"></div>
+                                </div>
+                            `;
+                            groupCount = 0;
+                            for (i = 0, n = groups.length; i < n; ++i) {
+                                code = groups[i];
+                                for (j = savedGroups.length - 1; j >= 0 && savedGroups[j].code !== code; --j);
+                                if (j >= 0) {
+                                    group = savedGroups[j];
+                                } else {
+                                    group = newGroups[code];
+                                }
+                                if (group && group.member) {
+                                    className = `esgst-ggl-member`;
+                                    groupCount += 1;
+                                } else if (esgst.ggl_m) {
+                                    className = `esgst-hidden`;
+                                } else {
+                                    className = ``;
+                                    groupCount += 1;
+                                }
+                                if (className !== `esgst-hidden`) {
+                                    link = insertHtml(popout.popout.firstElementChild.firstElementChild, `beforeEnd`, `
+                                        <div class="table__row-outer-wrap ${className}">
+                                            <div class="table__row-inner-wrap">
+                                                <div>
+                                                    <a class="table_image_avatar" href="/group/${group.code}/" style="background-image:url(http://cdn.edgecast.steamstatic.com/steamcommunity/public/images/avatars/${group.avatar}_medium.jpg)"></a>
+                                                </div>
+                                                <div class="table__column--width-fill">
+                                                    <a class="table__column__heading" href="/group/${group.code}/"></a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    `).getElementsByClassName(`table__column__heading`)[0];
+                                    link.textContent = group.name;
+                                }
+                            }
+                            if (groupCount === 0) {
+                                popout.popout.innerHTML = `
+                                    <i class="fa fa-exclamation-mark"></i>
+                                    <span>You are not a member of any group in this giveaway.</span>
+                                `;
+                            } else {
+                                popout.popout.firstElementChild.classList.remove(`esgst-hidden`);
+                                loadEndlessFeatures(popout.popout);
+                            }
+                            popout.reposition();
+                        } else {
+                            popout.popout.innerHTML = `
+                                <i class="fa fa-times-circle"></i>
+                                <span>An error ocurred.</span>
+                            `;
+                            popout.reposition();
+                        }
+                    });
                 }
-            });
+                popout.popout.onmouseenter = function() {
+                    if (exitTimeout) {
+                        clearTimeout(exitTimeout);
+                        exitTimeout = null;
+                    }
+                };
+            }, 1000);
+        });
+        giveaway.group.addEventListener(`mouseleave`, function(event) {
+            if (timeout) {
+                clearTimeout(timeout);
+                timeout = null;
+            }
+            exitTimeout = setTimeout(function() {
+                if (popout && !popout.popout.contains(event.relatedTarget)) {
+                    popout.close();
+                }
+            }, 1000);
+        });
+        giveaway.group.addEventListener(`click`, function() {
+            if (timeout) {
+                clearTimeout(timeout);
+                timeout = null;
+            }
         });
     }
 }
@@ -11231,11 +11303,20 @@ function getGglGiveaways(giveaways) {
 }
 
 function loadGglGroups(giveaways, i, n, newGiveaways, newGroups, savedGiveaways, savedGroups, callback) {
-    var giveaway;
+    let giveaway, found, j, k;
     if (i < n) {
         giveaway = giveaways[i];
         if (giveaway.group) {
             if (savedGiveaways[giveaway.code] && Array.isArray(savedGiveaways[giveaway.code].groups)) {
+                found = true;
+                for (j = savedGiveaways[giveaway.code].groups.length - 1; j > -1 && found; --j) {
+                    for (k = esgst.groups.length - 1; k > -1 && esgst.groups[k].code !== savedGiveaways[giveaway.code].groups[j]; --k);
+                    if (k <= -1) {
+                        found = false;
+                    }
+                }
+            }
+            if (found) {
                 if (callback) {
                     callback(savedGiveaways[giveaway.code].groups);
                 } else {
@@ -11339,6 +11420,125 @@ function getGglGroups(groups, nextPage, newGroups, url, callback) {
                 setTimeout(getGglGroups, 0, groups, ++nextPage, newGroups, url, callback);
             } else {
                 setTimeout(callback, 0, groups);
+            }
+        }
+    });
+}
+
+/* [GCP] Giveaway Countries Popout */
+
+function loadGcp() {
+    esgst.giveawayFeatures.push(setGcpButtons);
+}
+
+function setGcpButtons(giveaways, main) {
+    var i, n;
+    if ((main && !esgst.createdPath && !esgst.enteredPath && !esgst.wonPath) || !main) {
+        for (i = 0, n = giveaways.length; i < n; ++i) {
+            setGcpButton(giveaways[i]);
+        }
+    }
+}
+
+function setGcpButton(giveaway) {
+    var exitTimeout, popout, timeout;
+    if (giveaway.regionRestricted) {
+        giveaway.regionRestricted.addEventListener(`mouseenter`, function() {
+            timeout = setTimeout(function() {
+                if (popout) {
+                    popout.open(giveaway.regionRestricted);
+                } else {
+                    popout = new Popout(`esgst-gcp-popout`);
+                    popout.popout.innerHTML = `
+                        <i class="fa fa-circle-o-notch fa-spin"></i>
+                        <span>Loading countries...</span>
+                    `;
+                    popout.open(giveaway.regionRestricted);
+                    getGcpCountries([], 1, `${giveaway.url}/region-restrictions/search?page=`, countries => {
+                        if (countries) {
+                            popout.popout.innerHTML = `
+                                <input placeholder="Search country..." type="text"/>
+                                <div class="esgst-text-left table">
+                                    <div class="table__rows"></div>
+                                </div>
+                            `;
+                            popout.popout.firstElementChild.addEventListener(`input`, () => {
+                                let elements, i, value;
+                                value = popout.popout.firstElementChild.value.toLowerCase();
+                                elements = popout.popout.lastElementChild.firstElementChild.children;
+                                if (value) {
+                                    for (i = elements.length - 1; i > -1; --i) {
+                                        element = elements[i];
+                                        if (element.getElementsByClassName(`table__column__heading`)[0].textContent.toLowerCase().match(value)) {
+                                            element.classList.remove(`esgst-hidden`);
+                                        } else {
+                                            element.classList.add(`esgst-hidden`);
+                                        }
+                                    }
+                                } else {
+                                    for (i = elements.length - 1; i > -1; --i) {
+                                        elements[i].classList.remove(`esgst-hidden`);
+                                    }
+                                }
+                            });
+                            countries.forEach(country => {
+                                popout.popout.lastElementChild.firstElementChild.insertAdjacentHTML(`beforeEnd`, country);
+                            });
+                            loadEndlessFeatures(popout.popout);
+                            popout.reposition();
+                        } else {
+                            popout.popout.innerHTML = `
+                                <i class="fa fa-times-circle"></i>
+                                <span>An error ocurred.</span>
+                            `;
+                            popout.reposition();
+                        }
+                    });
+                }
+                popout.popout.onmouseenter = function() {
+                    if (exitTimeout) {
+                        clearTimeout(exitTimeout);
+                        exitTimeout = null;
+                    }
+                };
+            }, 1000);
+        });
+        giveaway.regionRestricted.addEventListener(`mouseleave`, function(event) {
+            if (timeout) {
+                clearTimeout(timeout);
+                timeout = null;
+            }
+            exitTimeout = setTimeout(function() {
+                if (popout && !popout.popout.contains(event.relatedTarget)) {
+                    popout.close();
+                }
+            }, 1000);
+        });
+        giveaway.regionRestricted.addEventListener(`click`, function() {
+            if (timeout) {
+                clearTimeout(timeout);
+                timeout = null;
+            }
+        });
+    }
+}
+
+function getGcpCountries(countries, nextPage, url, callback) {
+    request(null, null, false, `${url}${nextPage}`, response => {
+        let responseHtml = DOM.parse(response.responseText);
+        if (responseHtml.getElementsByClassName(`table--summary`)[0]) {
+            setTimeout(callback, 0, null);
+        } else {
+            let elements, i, n, pagination;
+            elements = responseHtml.getElementsByClassName(`table__row-outer-wrap`);
+            for (i = 0, n = elements.length; i < n; ++i) {
+                countries.push(elements[i].outerHTML);
+            }
+            pagination = responseHtml.getElementsByClassName(`pagination__navigation`)[0];
+            if (pagination && !pagination.lastElementChild.classList.contains(`is-selected`)) {
+                setTimeout(getGcpCountries, 0, countries, ++nextPage, url, callback);
+            } else {
+                setTimeout(callback, 0, countries);
             }
         }
     });
@@ -14930,7 +15130,7 @@ function loadNpthGiveaway(next, previous, event) {
 /* [GE] Giveaways Extractor */
 
 function loadGe() {
-    if ((esgst.giveawayCommentsPath && !document.getElementsByClassName(`table--summary`)[0]) || esgst.discussionPath) {
+    if (((esgst.giveawayCommentsPath && !document.getElementsByClassName(`table--summary`)[0]) || esgst.discussionPath) && document.querySelector(`[href*="/giveaway/"]`)) {
         let ge = {
             button: insertHtml(esgst.hideButtons && esgst.hideButtons_ge ? esgst.leftButtons : esgst.mainPageHeading, `afterBegin`, `
                 <div class="esgst-heading-button" title="Extract giveaways">
@@ -24333,16 +24533,6 @@ function addCFHPanel(Context) {
                     setCFHEmojis(Emojis, CFH);
                 }
             }, {
-                Name: `Links / Images Paste Formatting`,
-                Icon: `fa-paste`,
-                Callback: function (Context) {
-                    CFH.ALIPF = Context.firstElementChild;
-                    setCFHALIPF(CFH, esgst.cfh_pasteFormatting);
-                },
-                OnClick: function () {
-                    setCFHALIPF(CFH);
-                }
-            }, {
                 ID: `cfh_g`,
                 Name: `Giveaway Encrypter`,
                 Icon: `fa-star`,
@@ -24409,9 +24599,55 @@ function addCFHPanel(Context) {
                         popout.firstElementChild.firstElementChild.focus();
                     }, 0);
                 }
+            }, {
+                Name: `Links / Images Paste Formatting`,
+                Icon: `fa-paste`,
+                Callback: function (Context) {
+                    CFH.ALIPF = Context.firstElementChild;
+                    setCFHALIPF(CFH, esgst.cfh_pasteFormatting);
+                },
+                OnClick: function () {
+                    setCFHALIPF(CFH);
+                }
+            }, {
+                Name: `Undo Formatting`,
+                Icon: `fa-rotate-left`,
+                Callback: context => {
+                    CFH.undo = context.firstElementChild;
+                    CFH.undo.classList.add(`esgst-faded`);
+                },
+                OnClick: () => {
+                    if (CFH.history.length) {
+                        CFH.backup.push(CFH.TextArea.value);
+                        CFH.TextArea.value = CFH.history.pop();
+                        CFH.redo.classList.remove(`esgst-faded`);
+                        if (!CFH.history.length) {
+                            CFH.undo.classList.add(`esgst-faded`);
+                        }
+                    }
+                }
+            }, {
+                Name: `Redo Formatting`,
+                Icon: `fa-rotate-right`,
+                Callback: context => {
+                    CFH.redo = context.firstElementChild;
+                    CFH.redo.classList.add(`esgst-faded`);
+                },
+                OnClick: () => {
+                    if (CFH.backup.length) {
+                        CFH.history.push(CFH.TextArea.value);
+                        CFH.TextArea.value = CFH.backup.pop();
+                        CFH.undo.classList.remove(`esgst-faded`);
+                        if (!CFH.backup.length) {
+                            CFH.redo.classList.add(`esgst-faded`);
+                        }
+                    }
+                }
             }],
             Panel: Context.previousElementSibling,
             TextArea: Context,
+            history: [],
+            backup: []
         };
         for (I = 0, N = CFH.Items.length; I < N; ++I) {
             addCFHItem(CFH.Items[I], CFH);
@@ -24420,13 +24656,14 @@ function addCFHPanel(Context) {
             var Value;
             if (esgst.cfh_pasteFormatting) {
                 Value = Event.clipboardData.getData(`text/plain`);
+                CFH.history.push(Value);
+                CFH.undo.classList.remove(`esgst-faded`);
                 if (Value.match(/^https?:/)) {
                     Event.preventDefault();
-                    wrapCFHLinkImage(CFH, ``, Value, Value.match(/\.(jpg|jpeg|gif|bmp|png)/) ? true : false);
+                    wrapCFHLinkImage(CFH, ``, Value, Value.match(/\.(jpg|jpeg|gif|bmp|png)/) ? true : false, true);
                 }
             }
         });
-
     }
 }
 
@@ -24661,13 +24898,21 @@ function saveCfhReply(cfh, description, descriptionArea, name, nameArea, popup, 
     }
 }
 
-function wrapCFHLinkImage(CFH, Title, URL, Image) {
+function wrapCFHLinkImage(CFH, Title, URL, Image, paste) {
     var Start, End, Value;
+    if (!paste) {
+        CFH.history.push(CFH.TextArea.value);
+        CFH.undo.classList.remove(`esgst-faded`);
+    }
     Start = CFH.TextArea.selectionStart;
     End = CFH.TextArea.selectionEnd;
     Value = `${Image ? `!` : ``}[${Title}](${URL})`;
     CFH.TextArea.value = CFH.TextArea.value.slice(0, Start) + Value + CFH.TextArea.value.slice(End);
-    CFH.TextArea.setSelectionRange(End + Value.length, End + Value.length);
+    if (Title) {
+        CFH.TextArea.setSelectionRange(End + Value.length, End + Value.length);
+    } else {
+        CFH.TextArea.setSelectionRange(Image ? 2 : 1, Image ? 2 : 1);
+    }
     CFH.TextArea.focus();
 }
 
@@ -24806,6 +25051,8 @@ function addCFHItem(Item, CFH) {
 function wrapCFHFormat(CFH, Prefix, Suffix, OrderedList, UnorderedList) {
     var Value, Start, End, N;
     Value = CFH.TextArea.value;
+    CFH.history.push(Value);
+    CFH.undo.classList.remove(`esgst-faded`);
     Start = CFH.TextArea.selectionStart;
     End = CFH.TextArea.selectionEnd;
     if (OrderedList || UnorderedList) {
@@ -29164,6 +29411,9 @@ function deleteGtTag(container, popup) {
 function saveGtTags(id, popup, type, callback) {
     var savedGames, tags;
     tags = popup.input.value.replace(/(,\s*)+/g, formatTags).split(`, `);
+    if (tags.length === 1 && !tags[0].trim()) {
+        tags = ``;
+    }
     createLock(`gameLock`, 300, function (deleteLock) {
         savedGames = JSON.parse(getValue(`games`));
         if (!savedGames[type][id]) {
@@ -30884,12 +31134,12 @@ function saveSmSource(sm) {
     setSetting(`gc_categories`, categories);
 }
 
-function addGwcrMenuPanel(context, id, key) {
+function addGwcrMenuPanel(context, id, key, name) {
     var button, colors, i, n, panel;
     panel = insertHtml(context, `beforeEnd`, `
         <div class="esgst-sm-colors">
             <div class="form__saving-button esgst-sm-colors-default">
-                <span>Add Color Setting</span>
+                <span>Add ${name} Color Setting</span>
             </div>
             <i class="fa fa-question-circle" title="Allows you to set different colors for different ${key} ranges."></i>
         </div>
@@ -31449,7 +31699,7 @@ function openManageUserTagsPopup() {
     users = {};
     for (steamId in savedUsers.users) {
         savedUser = savedUsers.users[steamId];
-        if (savedUser.tags) {
+        if (savedUser.tags && (savedUser.tags.length > 1 || savedUser.tags[0].trim())) {
             context = insertHtml(popup.scrollable, `beforeEnd`, `
                 <div>
                     <a href="/user/${savedUser.username}">${savedUser.username}</a>
@@ -31526,7 +31776,7 @@ function openManageGameTagsPopup() {
     };
     for (id in savedGames.apps) {
         savedGame = savedGames.apps[id];
-        if (savedGame.tags) {
+        if (savedGame.tags && (savedGame.tags.length > 1 || savedGame.tags[0].trim())) {
             context = insertHtml(popup.scrollable, `beforeEnd`, `
                 <div class="table__row-outer-wrap">
                     <a class="table__column__heading" href="http://store.steampowered.com/app/${id}">App - ${id}</a>
@@ -31542,7 +31792,7 @@ function openManageGameTagsPopup() {
     }
     for (id in savedGames.subs) {
         savedGame = savedGames.subs[id];
-        if (savedGame.tags) {
+        if (savedGame.tags && (savedGame.tags.length > 1 || savedGame.tags[0].trim())) {
             context = insertHtml(popup.scrollable, `beforeEnd`, `
                 <div class="table__row-outer-wrap">
                     <a class="table__column__heading" href="http://store.steampowered.com/sub/${id}">Sub - ${id}</a>
@@ -32569,6 +32819,9 @@ function formatTags(fullMatch, match1, offset, string) {
 function saveUtTags(key, popup, user, callback) {
     var tags;
     tags = popup.input.value.replace(/(,\s*)+/g, formatTags).split(`, `);
+    if (tags.length === 1 && !tags[0].trim()) {
+        tags = ``;
+    }
     user.values = {
         tags: tags
     };
@@ -33434,6 +33687,11 @@ function loadDataManagement(openInTab, type) {
         },
         {
             check: esgst.sg,
+            key: `dfPresets`,
+            name: `Discussion Filters Presets`
+        },
+        {
+            check: esgst.sg,
             key: `discussions`,
             name: `Discussions`,
             options: [
@@ -33483,6 +33741,11 @@ function loadDataManagement(openInTab, type) {
                     name: `Is There Any Data? Info`
                 }
             ]
+        },
+        {
+            check: esgst.sg,
+            key: `filterPresets`,
+            name: `Giveaway Filters Presets`
         },
         {
             check: esgst.sg,
@@ -33542,6 +33805,11 @@ function loadDataManagement(openInTab, type) {
             check: true,
             key: `stCommentHistory`,
             name: `ST Comment History`
+        },
+        {
+            check: esgst.sg,
+            key: `stickiedCountries`,
+            name: `Stickied Giveaway Countries`
         },
         {
             check: esgst.sg,
@@ -33790,18 +34058,11 @@ function manageData(dm, dropbox, google, outlook, space, callback) {
                     case `giveaways`:
                         if (!values) {
                             values = {
+                                main: [`code`, `comments`, `copies`, `creator`, `endTime`, `entries`, `gameId`, `gameName`, `gameSteamId`, `gameType`, `group`, `inviteOnly`, `level`, `points`, `regionRestricted`, `started`, `startTime`, `whitelist`, `winners`],
                                 ct: [`count`, `readComments`],
                                 gdttt: [`visited`],
                                 gf: [`hidden`],
-                                ggl: [`groups`],
-                                main: [`code`, `comments`, `copies`, `creator`, `endTime`, `entries`, `gameId`, `gameName`, `gameSteamId`, `gameType`, `group`, `inviteOnly`, `level`, `points`, `regionRestricted`, `started`, `startTime`, `whitelist`, `winners`]
-                            };
-                        }
-                    case `groups`:
-                        if (!values) {
-                            values = {
-                                main: [`avatar`, `code`, `member`, `name`],
-                                sgg: [`stickied`]
+                                ggl: [`groups`]
                             };
                         }
                     case `tickets`:
@@ -33822,8 +34083,10 @@ function manageData(dm, dropbox, google, outlook, space, callback) {
                         data[optionKey] = {};
                         for (mergedDataKey in mergedData) {
                             newData = {};
+                            let toDelete = 0;
                             for (value in values) {
-                                if (esgst.settings[`${dm.type}_${optionKey}_${value}`] || (!dm.delete && value === `main`)) {
+                                if (esgst.settings[`${dm.type}_${optionKey}_${value}`] || value === `main`) {
+                                    toDelete += 1;
                                     for (j = 0, numValues = values[value].length; j < numValues; ++j) {
                                         valueKey = values[value][j];
                                         mergedDataValue = mergedData[mergedDataKey][valueKey];
@@ -33839,7 +34102,7 @@ function manageData(dm, dropbox, google, outlook, space, callback) {
                             if (Object.keys(newData).length > 0) {
                                 data[optionKey][mergedDataKey] = newData;
                             }
-                            if (!space && dm.delete && Object.keys(mergedData[mergedDataKey]).length <= 0) {
+                            if (!space && dm.delete && toDelete === Object.keys(values).length) {
                                 delete mergedData[mergedDataKey];
                             }
                         }
@@ -33852,7 +34115,7 @@ function manageData(dm, dropbox, google, outlook, space, callback) {
                                             mergedData[newDataKey] = {};
                                         }
                                         for (value in values) {
-                                            if (esgst.settings[`${dm.type}_${optionKey}_${value}`] || (!dm.delete && value === `main`)) {
+                                            if (esgst.settings[`${dm.type}_${optionKey}_${value}`] || value === `main`) {
                                                 if (esgst.settings.importAndMerge) {
                                                     for (j = 0, numValues = values[value].length; j < numValues; ++j) {
                                                         valueKey = values[value][j];
@@ -33917,10 +34180,12 @@ function manageData(dm, dropbox, google, outlook, space, callback) {
                         totalGM += size;
                         dm.switches[optionKey].size.textContent = convertBytes(size);
                         break;
+                    case `dfPresets`:
                     case `entries`:
+                    case `filterPresets`:
                     case `templates`:
                     case `savedReplies`:
-                        data[optionKey] = JSON.parse(optionKey === `savedReplies` ? getValue(`savedReplies`, `[]`) : getValue(optionKey, `[]`));
+                        data[optionKey] = JSON.parse(getValue(optionKey, `[]`));
                         if (!space) {
                             if (dm.import) {
                                 newData = dm.data[optionKey];
@@ -33937,28 +34202,16 @@ function manageData(dm, dropbox, google, outlook, space, callback) {
                                                 mergedData.push(newDataValue);
                                             }
                                         }
-                                        if (optionKey === `savedReplies`) {
-                                            setValue(optionKey, JSON.stringify(mergedData));
-                                        } else {
-                                            if (optionKey === `entries`) {
-                                                mergedData = sortArrayByNumberKey(mergedData, `timestamp`);
-                                            }
-                                            setValue(optionKey, JSON.stringify(mergedData));
+                                        if (optionKey === `entries`) {
+                                            mergedData = sortArrayByNumberKey(mergedData, `timestamp`);
                                         }
+                                        setValue(optionKey, JSON.stringify(mergedData));
                                     } else {
-                                        if (optionKey === `savedReplies`) {
-                                            setValue(`savedReplies`, JSON.stringify(newData));
-                                        } else {
-                                            setValue(optionKey, JSON.stringify(newData));
-                                        }
+                                        setValue(optionKey, JSON.stringify(newData));
                                     }
                                 }
                             } else if (dm.delete) {
-                                if (optionKey === `savedReplies`) {
-                                    delValue(`savedReplies`);
-                                } else {
-                                    delValue(optionKey);
-                                }
+                                delValue(optionKey);
                             }
                         }
                         size = (new TextEncoder(`utf-8`).encode(getValue(optionKey, ``))).length;
@@ -33967,10 +34220,10 @@ function manageData(dm, dropbox, google, outlook, space, callback) {
                         break;
                     case `games`:
                         values = {
+                            main: [`reducedCV`, `noCV`, `hidden`, `ignored`, `owned`, `wishlisted`],
                             gt: [`tags`],
                             egh: [`entered`],
-                            itadi: [`itadi`],
-                            main: [`reducedCV`, `noCV`, `hidden`, `ignored`, `owned`, `wishlisted`]
+                            itadi: [`itadi`]
                         };
                         data.games = {
                             apps: {},
@@ -33983,8 +34236,10 @@ function manageData(dm, dropbox, google, outlook, space, callback) {
                         for (mergedDataKey in mergedData.apps) {
                             mergedDataValue = mergedData.apps[mergedDataKey];
                             newData = {};
+                            let toDelete = 0;
                             for (value in values) {
-                                if (esgst.settings[`${dm.type}_games_${value}`] || (!dm.delete && value === `main`)) {
+                                if (esgst.settings[`${dm.type}_games_${value}`] || value === `main`) {
+                                    toDelete += 1;
                                     for (j = 0, numValues = values[value].length; j < numValues; ++j) {
                                         valueKey = values[value][j];
                                         newDataValue = mergedDataValue[valueKey];
@@ -34000,15 +34255,17 @@ function manageData(dm, dropbox, google, outlook, space, callback) {
                             if (Object.keys(newData).length > 0) {
                                 data.games.apps[mergedDataKey] = newData;
                             }
-                            if (!space && dm.delete && Object.keys(mergedDataValue).length <= 0) {
+                            if (!space && dm.delete && toDelete === 4) {
                                 delete mergedData.apps[mergedDataKey];
                             }
                         }
                         for (mergedDataKey in mergedData.subs) {
                             mergedDataValue = mergedData.subs[mergedDataKey];
                             newData = {};
+                            let toDelete = 0;
                             for (value in values) {
-                                if (esgst.settings[`${dm.type}_games_${value}`]) {
+                                if (esgst.settings[`${dm.type}_games_${value}`] || value === `main`) {
+                                    toDelete += 1;
                                     for (j = 0, numValues = values[value].length; j < numValues; ++j) {
                                         valueKey = values[value][j];
                                         newDataValue = mergedDataValue[valueKey];
@@ -34024,7 +34281,7 @@ function manageData(dm, dropbox, google, outlook, space, callback) {
                             if (Object.keys(newData).length > 0) {
                                 data.games.subs[mergedDataKey] = newData;
                             }
-                            if (!space && dm.delete && Object.keys(mergedDataValue).length <= 0) {
+                            if (!space && dm.delete && toDelete === 4) {
                                 delete mergedData.subs[mergedDataKey];
                             }
                         }
@@ -34039,7 +34296,7 @@ function manageData(dm, dropbox, google, outlook, space, callback) {
                                         }
                                         mergedDataValue = mergedData.apps[newDataKey];
                                         for (value in values) {
-                                            if (esgst.settings[`${dm.type}_games_${value}`]) {
+                                            if (esgst.settings[`${dm.type}_games_${value}`] || value === `main`) {
                                                 for (j = 0, numValues = values[value].length; j < numValues; ++j) {
                                                     valueKey = values[value][j];
                                                     if (typeof newDataValue[valueKey] !== `undefined`) {
@@ -34071,9 +34328,7 @@ function manageData(dm, dropbox, google, outlook, space, callback) {
                                                                     }
                                                                     break;
                                                                 default:
-                                                                    if (newDataValue.lastCheck > mergedDataValue.lastCheck) {
-                                                                        mergedDataValue[valueKey] = newDataValue[valueKey];
-                                                                    }
+                                                                    mergedDataValue[valueKey] = newDataValue[valueKey];
                                                                     break;
                                                             }
                                                         } else {
@@ -34091,7 +34346,7 @@ function manageData(dm, dropbox, google, outlook, space, callback) {
                                         }
                                         mergedDataValue = mergedData.subs[newDataKey];
                                         for (value in values) {
-                                            if (esgst.settings[`${dm.type}_games_${value}`]) {
+                                            if (esgst.settings[`${dm.type}_games_${value}`] || value === `main`) {
                                                 for (j = 0, numValues = values[value].length; j < numValues; ++j) {
                                                     valueKey = values[value][j];
                                                     if (typeof newDataValue[valueKey] !== `undefined`) {
@@ -34123,9 +34378,7 @@ function manageData(dm, dropbox, google, outlook, space, callback) {
                                                                     }
                                                                     break;
                                                                 default:
-                                                                    if (newDataValue.lastCheck > mergedDataValue.lastCheck) {
-                                                                        mergedDataValue[valueKey] = newDataValue[valueKey];
-                                                                    }
+                                                                    mergedDataValue[valueKey] = newDataValue[valueKey];
                                                                     break;
                                                             }
                                                         } else {
@@ -34146,30 +34399,95 @@ function manageData(dm, dropbox, google, outlook, space, callback) {
                         totalGM += size;
                         dm.switches[optionKey].size.textContent = convertBytes(size);
                         break;
-                    case `rerolls`:
-                        data.rerolls = JSON.parse(getValue(`rerolls`, `[]`));
+                    case `groups`:
+                        values = {
+                            main: [`avatar`, `code`, `member`, `name`],
+                            sgg: [`stickied`]
+                        };
+                        mergedData = JSON.parse(getValue(optionKey, `[]`));
+                        data[optionKey] = [];
+                        for (j = mergedData.length - 1; j > -1; --j) {
+                            newData = {};
+                            let toDelete = 0;
+                            for (value in values) {
+                                if (esgst.settings[`${dm.type}_${optionKey}_${value}`] || value === `main`) {
+                                    toDelete += 1;
+                                    for (k = 0, numValues = values[value].length; k < numValues; ++k) {
+                                        valueKey = values[value][k];
+                                        mergedDataValue = mergedData[j][valueKey];
+                                        if (typeof mergedDataValue !== `undefined`) {
+                                            newData[valueKey] = mergedDataValue;
+                                            if (!space && dm.delete) {
+                                                delete mergedData[j][valueKey];
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                            if (Object.keys(newData).length > 0) {
+                                data[optionKey].push(newData);
+                            }
+                            if (!space && dm.delete && toDelete === 2) {
+                                mergedData.pop();
+                            }
+                        }
                         if (!space) {
                             if (dm.import) {
-                                newData = dm.data.rerolls;
+                                newData = dm.data[optionKey];
+                                if (newData) {
+                                    for (j = newData.length - 1; j > -1; --j) {
+                                        let code = newData[j].code;
+                                        for (k = mergedData.length - 1; k > -1 && mergedData[k].code !== code; --k);
+                                        if (k > -1) {
+                                            mergedDataValue = mergedData[k];
+                                        } else {
+                                            mergedDataValue = {};
+                                            mergedData.push(mergedDataValue);
+                                        }
+                                        for (value in values) {
+                                            if (esgst.settings[`${dm.type}_${optionKey}_${value}`] || value === `main`) {
+                                                for (k = 0, numValues = values[value].length; k < numValues; ++k) {
+                                                    valueKey = values[value][k];
+                                                    mergedDataValue[valueKey] = newData[j][valueKey];
+                                                }
+                                            }
+                                        }
+                                    }
+                                    setValue(optionKey, JSON.stringify(mergedData));
+                                }
+                            } else if (dm.delete) {
+                                setValue(optionKey, JSON.stringify(mergedData));
+                            }
+                        }
+                        size = (new TextEncoder(`utf-8`).encode(getValue(optionKey, ``))).length;
+                        totalGM += size;
+                        dm.switches[optionKey].size.textContent = convertBytes(size);
+                        break;
+                    case `rerolls`:
+                    case `stickiedCountries`:
+                        data[optionKey] = JSON.parse(getValue(optionKey, `[]`));
+                        if (!space) {
+                            if (dm.import) {
+                                newData = dm.data[optionKey];
                                 if (newData) {
                                     if (esgst.settings.importAndMerge) {
-                                        mergedData = data.rerolls;
+                                        mergedData = data[optionKey];
                                         for (j = 0, numNew = newData.length; j < numNew; ++j) {
                                             newDataValue = newData[j];
                                             if (mergedData.indexOf(newDataValue) < 0) {
                                                 mergedData.push(newDataValue);
                                             }
                                         }
-                                        setValue(`rerolls`, JSON.stringify(mergedData));
+                                        setValue(optionKey, JSON.stringify(mergedData));
                                     } else {
-                                        setValue(`rerolls`, JSON.stringify(newData));
+                                        setValue(optionKey, JSON.stringify(newData));
                                     }
                                 }
                             } else if (dm.delete) {
-                                delValue(`rerolls`);
+                                delValue(optionKey);
                             }
                         }
-                        size = (new TextEncoder(`utf-8`).encode(getValue(`rerolls`, ``))).length;
+                        size = (new TextEncoder(`utf-8`).encode(getValue(optionKey, ``))).length;
                         totalGM += size;
                         dm.switches[optionKey].size.textContent = convertBytes(size);
                         break;
@@ -34227,26 +34545,35 @@ function manageData(dm, dropbox, google, outlook, space, callback) {
                         dm.switches[optionKey].size.textContent = convertBytes(size);
                         break;
                     case `users`:
-                        values = [`uf`, `notes`, `tags`, `giveaways`, `namwc`, `nrf`, `wbc`];
+                        values = {
+                            main: [`whitelisted`, `whitelistedDate`, `blacklisted`, `blacklistedDate`],
+                            giveaways: [`giveaways`],
+                            namwc: [`namwc`],
+                            notes: [`notes`],
+                            nrf: [`nrf`],
+                            tags: [`tags`],
+                            uf: [`uf`],
+                            wbc: [`wbc`]
+                        };
                         data.users = {
                             steamIds: {},
                             users: {}
                         };
-                        mergedData = JSON.parse(getValue(`users`, `{
-                            "steamIds": {},
-                            "users": {}
-                        }`));
+                        mergedData = JSON.parse(getValue(`users`, `{"steamIds": {}, "users": {}}`));
                         for (mergedDataKey in mergedData.users) {
                             mergedDataValue = mergedData.users[mergedDataKey];
                             newData = {};
-                            for (j = 0, numValues = values.length; j < numValues; ++j) {
-                                valueKey = values[j];
-                                if (esgst.settings[`${dm.type}_users_${valueKey}`]) {
-                                    value = mergedDataValue[valueKey];
-                                    if (typeof value !== `undefined`) {
-                                        newData[valueKey] = value;
-                                        if (!space && dm.delete) {
-                                            delete mergedDataValue[valueKey];
+                            let toDelete = 0;
+                            for (value in values) {
+                                if (esgst.settings[`${dm.type}_users_${value}`] || value === `main`) {
+                                    toDelete += 1;
+                                    for (j = 0, numValues = values[value].length; j < numValues; ++j) {
+                                        valueKey = values[value][j];
+                                        if (typeof mergedDataValue[valueKey] !== `undefined`) {
+                                            newData[valueKey] = mergedDataValue[valueKey];
+                                            if (!space && dm.delete) {
+                                                delete mergedDataValue[valueKey];
+                                            }
                                         }
                                     }
                                 }
@@ -34263,6 +34590,10 @@ function manageData(dm, dropbox, google, outlook, space, callback) {
                                 }
                                 data.users.users[mergedDataKey] = newData;
                             }
+                            if (!space && dm.delete && toDelete === 8) {
+                                delete mergedData.steamIds[mergedDataValue.username];
+                                delete mergedData.users[mergedDataKey];
+                            }
                         }
                         if (!space) {
                             if (dm.import) {
@@ -34278,53 +34609,63 @@ function manageData(dm, dropbox, google, outlook, space, callback) {
                                             mergedData.steamIds[newDataValue.username] = newDataKey;
                                         }
                                         mergedDataValue = mergedData.users[newDataKey];
-                                        for (j = 0, numValues = values.length; j < numValues; ++j) {
-                                            value = values[j];
-                                            if (newDataValue[value] && esgst.settings[`${dm.type}_users_${value}`]) {
-                                                if (esgst.settings.importAndMerge) {
-                                                    switch (value) {
-                                                        case `notes`:
-                                                            mergedDataValue.notes = mergedDataValue.notes ? `${mergedDataValue.notes}\n\n${newDataValue.notes}` : newDataValue.notes;
-                                                            break;
-                                                        case `tags`:
-                                                            if (mergedDataValue.tags) {
-                                                                tags = newDataValue.tags;
-                                                                for (k = 0, numTags = tags.length; k < numTags; ++k) {
-                                                                    tag = tags[k];
-                                                                    if (mergedDataValue.tags.indexOf(tag) < 0) {
-                                                                        mergedDataValue.tags.push(tag);
+                                        for (value in values) {
+                                            if (esgst.settings[`${dm.type}_users_${value}`] || value === `main`) {
+                                                for (j = 0, numValues = values[value].length; j < numValues; ++j) {
+                                                    valueKey = values[value][j];
+                                                    if (newDataValue[valueKey]) {
+                                                        if (esgst.settings.importAndMerge) {
+                                                            switch (valueKey) {
+                                                                case `whitelisted`:
+                                                                case `whitelistedDate`:
+                                                                case `blacklisted`:
+                                                                case `blacklistedDate`:
+                                                                    mergedDataValue[valueKey] = newDataValue[valueKey];
+                                                                    break;
+                                                                case `notes`:
+                                                                    mergedDataValue.notes = mergedDataValue.notes ? `${mergedDataValue.notes}\n\n${newDataValue.notes}` : newDataValue.notes;
+                                                                    break;
+                                                                case `tags`:
+                                                                    if (mergedDataValue.tags) {
+                                                                        tags = newDataValue.tags;
+                                                                        for (k = 0, numTags = tags.length; k < numTags; ++k) {
+                                                                            tag = tags[k];
+                                                                            if (mergedDataValue.tags.indexOf(tag) < 0) {
+                                                                                mergedDataValue.tags.push(tag);
+                                                                            }
+                                                                        }
+                                                                    } else {
+                                                                        mergedDataValue.tags = newDataValue.tags;
                                                                     }
-                                                                }
-                                                            } else {
-                                                                mergedDataValue.tags = newDataValue.tags;
+                                                                    break;
+                                                                case `giveaways`:
+                                                                    if (mergedDataValue.giveaways) {
+                                                                        if (newDataValue.giveaways.wonTimestamp > mergedDataValue.giveaways.wonTimestamp) {
+                                                                            mergedDataValue.giveaways.won = newDataValue.giveaways.won;
+                                                                            mergedDataValue.giveaways.wonTimestamp = newDataValue.giveaways.wonTimestamp;
+                                                                        }
+                                                                        if (newDataValue.giveaways.sentTimestamp > mergedDataValue.giveaways.sentTimestamp) {
+                                                                            mergedDataValue.giveaways.sent = newDataValue.giveaways.sent;
+                                                                            mergedDataValue.giveaways.sentTimestamp = newDataValue.giveaways.sentTimestamp;
+                                                                        }
+                                                                    } else {
+                                                                        mergedDataValue.giveaways = newDataValue.giveaways;
+                                                                    }
+                                                                    break;
+                                                                default:
+                                                                    if (mergedDataValue[valueKey]) {
+                                                                        if (newDataValue[valueKey].lastCheck > mergedDataValue[valueKey].lastCheck) {
+                                                                            mergedDataValue[valueKey] = newDataValue[valueKey];
+                                                                        }
+                                                                    } else {
+                                                                        mergedDataValue[valueKey] = newDataValue[valueKey];
+                                                                    }
+                                                                    break;
                                                             }
-                                                            break;
-                                                        case `giveaways`:
-                                                            if (mergedDataValue.giveaways) {
-                                                                if (newDataValue.giveaways.wonTimestamp > mergedDataValue.giveaways.wonTimestamp) {
-                                                                    mergedDataValue.giveaways.won = newDataValue.giveaways.won;
-                                                                    mergedDataValue.giveaways.wonTimestamp = newDataValue.giveaways.wonTimestamp;
-                                                                }
-                                                                if (newDataValue.giveaways.sentTimestamp > mergedDataValue.giveaways.sentTimestamp) {
-                                                                    mergedDataValue.giveaways.sent = newDataValue.giveaways.sent;
-                                                                    mergedDataValue.giveaways.sentTimestamp = newDataValue.giveaways.sentTimestamp;
-                                                                }
-                                                            } else {
-                                                                mergedDataValue.giveaways = newDataValue.giveaways;
-                                                            }
-                                                            break;
-                                                        default:
-                                                            if (mergedDataValue[value]) {
-                                                                if (newDataValue[value].lastCheck > mergedDataValue[value].lastCheck) {
-                                                                    mergedDataValue[value] = newDataValue[value];
-                                                                }
-                                                            } else {
-                                                                mergedDataValue[value] = newDataValue[value];
-                                                            }
-                                                            break;
+                                                        } else {
+                                                            mergedDataValue[valueKey] = newDataValue[valueKey];
+                                                        }
                                                     }
-                                                } else {
-                                                    mergedDataValue[value] = newDataValue[value];
                                                 }
                                             }
                                         }
@@ -35305,9 +35646,13 @@ function addStyle() {
         .esgst-ggl-member {
             font-weight: bold;
         }
+        
+        .esgst-gcp-popout, .esgst-ggl-popout {
+            padding: 0 !important;
+        }
 
-        .esgst-ggl-button {
-            cursor: pointer;
+        .esgst-gcp-popout .table__row-outer-wrap, .esgst-ggl-popout .table__row-outer-wrap {
+            padding: 10px 5px;
         }
 
         .esgst-hidden-buttons {
@@ -35319,9 +35664,10 @@ function addStyle() {
             border: 1px solid #d2d6e0;
             border-radius: 4px;
             color: #465670;
+            left: 0;
+            overflow: auto;
             padding: 10px;
             position: absolute;
-            left: 0;
             top: 0;
             z-index: 99999;
         }
@@ -35470,7 +35816,7 @@ function addStyle() {
         }
 
         .esgst-toggle-switch input {
-            display: none;
+            display: none !important;
         }
 
         .esgst-toggle-switch-slider {
@@ -36538,6 +36884,28 @@ function addStyle() {
 function loadChangelog(version) {
     var changelog, current, html, i, index, n, popup;
     changelog = [
+        {
+            date: `October 10, 2017`,
+            version: `7.1.0`,
+            changelog: `
+                <ul>
+                    <li>Fixed various bugs that were happening when importing/exporting/deleting data, such as some data not being imported/exported and some data remaining in the storage despite having all options selected while deleting them.</li>
+                    <li>Added an option to import/export/delete discussion/giveaway filters presets (closes <a href="https://github.com/revilheart/ESGST/issues/45">#45</a>) and stickied giveaway countries data.</li>
+                    <li>Added an option not to filter games with no rating to Giveaway Filters.</li>
+                    <li>The basic and advanced chances/ratios are now colored separately.</li>
+                    <li>The option to load the groups as a popup in Giveaway Groups Loader has changed to a popout (now you simply have to hover instead of clicking).</li>
+                    <li>The Giveaways Extractor button now correctly appears only when there are giveaways on the page.</li>
+                    <li>Fixed a bug in Discussion Edits Detector that was not detecting edits and therefore not saving the comments.</li>
+                    <li>When adding a link/image without a title to Comment Formatting Helper, the pointer will now move to between the "[" and "]" (closes <a href="https://github.com/revilheart/ESGST/issues/42">#42</a>).</li>
+                    <li>You can now undo/redo formatting in Comment Formatting Helper.</li>
+                    <li>Fixed a bug in User Tags that was not detecting username changes correctly.</li>
+                </ul>
+                <p>Added the following features:</p>
+                <ul>
+                    <li>2.19 Giveaway Countries Popout</li>
+                </ul>
+            `
+        },
         {
             date: `October 8, 2017`,
             version: `7.0.2`,

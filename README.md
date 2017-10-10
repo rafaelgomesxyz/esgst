@@ -861,6 +861,25 @@ The video above does not get embedded.
 
 ## Changelog
 
+**7.1.0 (October 10, 2017):**
+
+<ul>
+    <li>Fixed various bugs that were happening when importing/exporting/deleting data, such as some data not being imported/exported and some data remaining in the storage despite having all options selected while deleting them.</li>
+    <li>Added an option to import/export/delete discussion/giveaway filters presets (closes <a href="https://github.com/revilheart/ESGST/issues/45">#45</a>) and stickied giveaway countries data.</li>
+    <li>Added an option not to filter games with no rating to Giveaway Filters.</li>
+    <li>The basic and advanced chances/ratios are now colored separately.</li>
+    <li>The option to load the groups as a popup in Giveaway Groups Loader has changed to a popout (now you simply have to hover instead of clicking).</li>
+    <li>The Giveaways Extractor button now correctly appears only when there are giveaways on the page.</li>
+    <li>Fixed a bug in Discussion Edits Detector that was not detecting edits and therefore not saving the comments.</li>
+    <li>When adding a link/image without a title to Comment Formatting Helper, the pointer will now move to between the "[" and "]" (closes <a href="https://github.com/revilheart/ESGST/issues/42">#42</a>).</li>
+    <li>You can now undo/redo formatting in Comment Formatting Helper.</li>
+    <li>Fixed a bug in User Tags that was not detecting username changes correctly.</li>
+</ul>
+<p>Added the following features:</p>
+<ul>
+    <li>2.19 Giveaway Countries Popout</li>
+</ul>
+
 **7.0.2 (October 8, 2017):**
 
 <ul>
