@@ -861,6 +861,43 @@ The video above does not get embedded.
 
 ## Changelog
 
+**7.2.1 (October 13, 2017):**
+
+<ul>
+    <li>Fixed a bug in Comment Formatting Helper that was happening in discussion pages.</li>
+</ul>
+
+**7.2.0 (October 13, 2017):**
+
+<ul>
+    <li>Removed the update button from the header menu in the extension, since you have to update it through the browser.</li>
+    <li>Added an option that was missing from the settings menu to import/export/delete Giveaway Bookmarks data.</li>
+    <li>Fixed a bug in Header Refresher that was not notifying unread messages in the icon of the tab.</li>
+    <li>Fixed a bug in One-Click Hide Giveaway Button that was happening when hiding giveaways in popups.</li>
+    <li>Fixed a bug that was showing the button to unhide giveaways everywhere instead of just in the main/giveaway pages (<a href="https://github.com/revilheart/ESGST/issues/50">#50</a>).</li>
+    <li>Added the functionality above as a feature so you can choose whether you want it or not (2.12 Unhide Giveaway Button).</li>
+    <li>You can now choose whether to load the groups in Giveaway Groups Loader on a panel upon page load (default), on a popout upon hover, on a popout upon click or on a popup upon click.</li>
+    <li>Renamed Giveaway Countries Popout to Giveaway Countries Loader.</li>
+    <li>You can now choose whether to load the countries in the feature above on a popout upon hover (default), on a popout upon click or on a popup upon click.</li>
+    <li>Revamped Comment Formatting Helper (CFH).</li>
+    <li>Fixed some bugs in CFH.</li>
+    <li>There is now only one CFH panel per page, instead of one panel per text box. When you focus on a text box, the panel will move to that box.</li>
+    <li>The buttons in the CFH panel are now faded by default and unfaded on hover.</li>
+    <li>Added a button at the end of the CFH panel that links to the comment formatting page on SG/ST.</li>
+    <li>You can now choose whether to open Avatar Popout upon hover (default) or click.</li>
+</ul>
+
+**7.1.1 (October 11, 2017):**
+
+<ul>
+    <li>Fixed a bug that was happening when trying to save data for users that were not yet on the database.</li>
+    <li>Fixed a bug in Endless Scrolling that was not updating the points after removing entries from page 2 onwards (closes <a href="https://github.com/revilheart/ESGST/issues/20">#20</a>).</li>
+    <li>You can now unhide games from the main/giveaway page (closes <a href="https://github.com/revilheart/ESGST/issues/37">#37</a>).</li>
+    <li>Fixed a bug in Real CV Calculator that was showing the wrong CV because of the recent changes to the point system on SG (closes <a href="https://github.com/revilheart/ESGST/issues/46">#46</a>).</li>
+    <li>Added a button to User/Game Tags that allows you to reset a tag to its default color.</li>
+    <li>You can now easily add tags from a list of all tags you have saved in User/Game Tags (closes <a href="https://github.com/revilheart/ESGST/issues/34">#34</a>).</li>
+</ul>
+
 **7.1.0 (October 10, 2017):**
 
 <ul>
