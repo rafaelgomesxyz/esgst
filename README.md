@@ -861,6 +861,27 @@ The video above does not get embedded.
 
 ## Changelog
 
+**7.2.2 (October 14, 2017):**
+
+<ul>
+    <li>Giveaway Bookmarks can now be accessed through "/esgst/bookmarked-giveaways".</li>
+    <li>Giveaways Encrypter/Decrypter can now be accessed through "/esgst/decrypted-giveaways".</li>
+    <li>Giveaways Extractor can now be accessed through "/esgst/extracted-giveaways?url=/giveaway/XXXXX/" or "/esgst/extracted-giveaways?url=/discussion/XXXXX/".</li>
+    <li>Added an option to each feature above to open it in a new tab using the new URL.</li>
+    <li>Fixed some style issues in Grid View with Image Borders disabled.</li>
+    <li>Fixed a bug in Giveaway/Discussion Filters that was not applying overrides correctly.</li>
+    <li>Fixed a style issue in Giveaway/Discussion Filters that was making the legend and preset panels overlap for users with few filters enabled.</li>
+    <li>Extended Giveaways Manager to every page and added the option to bookmark/unbookmark/hide multiple giveaways at once.</li>
+    <li>Fixed a bug in Enter/Leave Giveaway Button that was hiding the enter button for won giveaways marked as not received.</li>
+    <li>Next/Previous Train Hotkeys now detects previous/next links based on how many giveaway links there are in the page instead of their text (experimental).</li>
+    <li>Giveaways Extractor now extracts all giveaways in the page instead of just the ones in the giveaway description (<a href="https://github.com/revilheart/ESGST/issues/55">#55</a>).</li>
+    <li>Fixed a bug in Created/Entered/Won Giveaway Details that was opening Steam links in the same page instead of in a new tab.</li>
+    <li>Fixed a bug in Comment Formatting Helper that was not showing the Giveaway Encrypter button (<a href="https://github.com/revilheart/ESGST/issues/56">#56</a>).</li>
+    <li>Fixed a bug that was happening when adding comments to giveaways without a description (<a href="https://github.com/revilheart/ESGST/issues/53">#53</a>).</li>
+    <li>Added an option to Game Categories (Games.3.21.2) that indicates if the base game of a DLC is free or not.</li>
+    <li>Because of the new option above, added new filters to Giveaway Filters: "DLC (Free Base)" and "DLC (Non-Free Base)"</li>
+</ul>
+
 **7.2.1 (October 13, 2017):**
 
 <ul>
