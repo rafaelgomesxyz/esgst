@@ -16868,7 +16868,7 @@ function loadTb() {
             setTbAutoBump(button);
         }
     } else if (esgst.tb_a) {
-        setTbAutoBump(button);
+        setTbAutoBump();
     }
 }
 

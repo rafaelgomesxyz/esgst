@@ -16945,7 +16945,7 @@ this._delay(function(){n===this.counter&&this.refreshPositions(!s)})},_clear:fun
                 setTbAutoBump(button);
             }
         } else if (esgst.tb_a) {
-            setTbAutoBump(button);
+            setTbAutoBump();
         }
     }
 
