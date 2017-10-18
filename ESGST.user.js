@@ -2686,7 +2686,7 @@ this._delay(function(){n===this.counter&&this.refreshPositions(!s)})},_clear:fun
                             </ul>
                         `,
                         id: `hgebd`,
-                        load: loadHgebg,
+                        load: loadHgebd,
                         name: `Hidden Games Enter Button Disabler`,
                         sg: true,
                         type: `giveaways`
