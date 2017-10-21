@@ -23,7 +23,8 @@
         "jQuery.js",
         "jQueryUI.js",
         "esgst.js"
-      ]
+      ],
+      "run_at": "document_end"
     }
   ],
   "description": "Enhances the SteamGifts/SteamTrades experience.",
@@ -48,5 +49,5 @@
     "*://*.api.imgur.com/*",
     "storage"
   ],
-  "version": "7.3.0"
+  "version": "7.4.0"
 }
