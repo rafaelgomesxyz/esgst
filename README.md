@@ -861,6 +861,26 @@ The video above does not get embedded.
 
 ## Changelog
 
+**7.4.0 (October 21, 2017):**
+
+<ul>
+    <li>Made ESGST a bit more welcoming to new users (users that are installing it for the first time will now get some basic information to help them get started).</li>
+    <li>In the settings menu you will now see some red icons for features that require syncing, and upon hovering over the icons, tooltips will appear telling you which data needs to be synced to make the feature work correctly.</li>
+    <li>Moved the sync section to the top of the settings menu.</li>
+    <li>Fixed a bug that was happening for some users when syncing groups.</li>
+    <li>Added an option to the settings menu that allows you to sync previously won games.</li>
+    <li>Fixed a bug that was not allowing users to drag and drop on Firefox.</li>
+    <li>Added General.13 Attached Images Loader.</li>
+    <li>Fixed a bug that was adding the Giveaways Manager button to the right side of the main page heading instead of the left (<a href="https://github.com/revilheart/ESGST/issues/63">#63</a>).</li>
+    <li>Giveaways Extractor now extracts giveaways that cannot be accessed because of blacklist issues and colors them with a red background.</li>
+    <li>Added an option to use precise start/end dates to Giveaway Templates.</li>
+    <li>Fixed a bug in CEWGD (Created/Entered/Won Giveaway Details) that was ordering the columns in the entered page wrong.</li>
+    <li>Fixed a bug in CEWGD that was showing the wrong creator for giveaways in the won page.</li>
+    <li>Fixed a bug in Comment Formatting Helper that was not formatting some links correctly (<a href="https://github.com/revilheart/ESGST/issues/62">#62</a>).</li>
+    <li>Fixed a bug in Comment Searcher that was preventing the script from loading correctly (<a href="https://github.com/revilheart/ESGST/issues/61">#61</a>).</li>
+    <li>Fixed a bug in Not Activated/Multiple Wins Checker that was not coloring users.</li>
+</ul>
+
 **7.3.0 (October 17, 2017):**
 
 <ul>

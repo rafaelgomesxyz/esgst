@@ -280,6 +280,7 @@ class Popup {
             </div>
         `);
         if (this.isCreated) {
+            this.title = this.popup.firstElementChild.lastElementChild.firstElementChild;
             this.description = this.popup.firstElementChild.nextElementSibling;
             this.scrollable = this.description.firstElementChild;
             this.actions = this.description.nextElementSibling;
@@ -430,7 +431,7 @@ function loadEsgst(storage) {
         storage: storage,
         sg: location.hostname.match(/www.steamgifts.com/),
         st: location.hostname.match(/www.steamtrades.com/),
-        currentVersion: `7.3.0`,
+        currentVersion: `7.4.0`,
         icon: `data:image/x-icon;base64,AAABAAEAEBAAAAEAIABoBAAAFgAAACgAAAAQAAAAIAAAAAEAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAqv8DCbP/Hgeq+CQIrf8iCK3/Igit/yIIrf8iB6//Iwit9x8Aqv8DAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAKr0GAa2/c0DvfzfA7f83QO3/N0Dt/zdA7f83QO+/d4Gs/3OAKP1GQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACm/xQFs/n2Bcf//wW///8FwP//BcD//wW///8Fx///BbP69gC2/xUAAAAAAAAAAAAAAAAA/1UDFptOFxSZMxkLpJktAq720QW1+ugEsfvjA7b92wO2/dsEsfvjBbX66Aau/dEoiO4tUlLWGU5k3hdVVf8DEJxKHxWqT8cVrU7uE6VN0guqny0Apv8XAJfQGwBAVywAQFcsAJfQGwCx/xcogugtS2Lk0lBl6u5Qae7ISmPeHxagSSMVr07jF7lV/xOiSu0brgATAAAAAAAAAA8AAAC/AAAAwAAAABAAAAAAYznjEkth4OxWb/3/T2jv40lf4iMXnksiEq1O3RayUv8UpEnkEo0+HQAAABkAAABBAAAA8QAAAPEAAABBAAAAGUBSvxxOYeDjU2v0/05m7d1LYuEiF55LIhKtTt0Ws1L/FahN2gU1FTAAAADAAAAA7AAAAP0AAAD9AAAA7AAAAMAVG0owUGPm2lNr9P9OZu3dS2LhIheeSyISrU7dFrNS/xWoTdoFNRswAAAAvwAAAOsAAAD9AAAA/QAAAOsAAADAFRtKMFBj6NpTa/T/Tmbt3Uti4SIXnksiEq1O3RayUv8UpEnkEo0+HQAAABgAAABAAAAA8QAAAPEAAABBAAAAGT5PuR1OYeDjU2v0/05m7d1LYuEiFqBJIxWuT+QXuVX/E6JL7QC8XhMAAAAAAAAADwAAAL8AAAC/AAAAEAAAAAAOR/8SSWLh7FZv/f9PaO/jSV/iIxCUSh8Vrk7HFqxN7ROlS9JskzMt1XULGK12EhxGLgYsRy8GK612EhzVgAsYgmxxLU1i39JNZ+vtT2fwx0pj1h8AqlUDF65GFgqZUhlsiC0txH0T0s5/EujJgBPkz4QR28+EEdvJgBPkzn8Q6Md+E9KLdHosM1LWGUZo6BZVVf8DAAAAAAAAAAAAAAAA/2YAFMl9EvbgjRb/14gV/9eIFf/XiBX/14gV/9+NFv/KgBD254YAFQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAL91FRjKgRHN1IgU3s+EEt3PhBLdz4QS3c+EEt3UiBTezYMRzcJ6FBkAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACqqgADxIARHr18FiO8eA8ivHgPIrx4DyK8eA8ivXwPI8SAER7/VQADAAAAAAAAAAAAAAAA78cAAPA3AAD4FwAABCAAADGOAAAE+AAAkBEAAJ55AACYOQAAlgEAAER4AAAXaAAATnoAAPgXAAD0JwAA69cAAA==`,
         sgIcon: `data:image/x-icon;base64,AAABAAEAEBAAAAEAIABoBAAAFgAAACgAAAAQAAAAIAAAAAEAIAAAAAAAQAQAABMLAAATCwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIUAAAD5AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAPoAAACFAAAAAAAAAAAAAAD8AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA+QAAAAAAAAAAAAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAAAAAAAAAAAAP8AAAD/AAAA/wAAABwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAcAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAcAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAHAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAAAAAAAAAAAAPwAAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD5AAAAAAAAAAAAAACFAAAA+QAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD5AAAAhQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA//8AAP//AADAAwAAwAMAAMfjAADP8wAAz/MAAM/zAADP8wAAz/MAAM/zAADH4wAAwAMAAMADAAD//wAA//8AAA==`,
         stIcon: `data:image/x-icon;base64,AAABAAEAEBAAAAEAIABoBAAAFgAAACgAAAAQAAAAIAAAAAEAIAAAAAAAQAQAABMLAAATCwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABbD6SgWw+ucFsPrkBbD6SgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAWw+uYFsPr/BbD6/wWw+ucAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAFsPrmBbD6/wWw+v8FsPrmAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABbD6SQWw+uYFsPrmBbD6SQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAFKRLShSkS+cUpEvkFKRLSgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAExi4EpMYuDnTGLg5Exi4EoAAAAAAAAAABSkS+YUpEv/FKRL/xSkS+cAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABMYuDmTGLg/0xi4P9MYuDnAAAAAAAAAAAUpEvmFKRL/xSkS/8UpEvmAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAATGLg5kxi4P9MYuD/TGLg5gAAAAAAAAAAFKRLSRSkS+YUpEvmFKRLSQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAExi4ElMYuDmTGLg5kxi4EkAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAMZ9E0rGfRPnxn0T5MZ9E0oAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADGfRPmxn0T/8Z9E//GfRPnAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAxn0T5sZ9E//GfRP/xn0T5gAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAMZ9E0nGfRPmxn0T5sZ9E0kAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA//8AAPw/AAD8PwAA/D8AAPw/AAD//wAAh+EAAIfhAACH4QAAh+EAAP//AAD8PwAA/D8AAPw/AAD8PwAA//8AAA==`,
@@ -488,7 +489,7 @@ function loadEsgst(storage) {
         inboxPath: location.pathname.match(/^\/messages/),
         groupsPath: location.pathname.match(/^\/account\/steam\/groups/)
     };
-    esgst.version = getValue(`version`, esgst.currentVersion);
+    esgst.version = getValue(`version`);
     esgst.settings = JSON.parse(getValue(`settings`, `{}`) || `{}`);
     var logoutButton = document.getElementsByClassName(esgst.sg ? `js__logout` : `js_logout`)[0];
     if (location.pathname.match(/esgst-settings/)) {
@@ -787,6 +788,7 @@ function loadEsgst(storage) {
                 syncBlacklist: true,
                 syncHiddenGames: true,
                 syncGames: true,
+                syncWonGames: true,
                 syncReducedCvGames: true,
                 syncNoCvGames: true,
                 syncGiveaways: true,
@@ -833,6 +835,8 @@ function loadEsgst(storage) {
                 gb_hours: 1,
                 gts_preciseStart: false,
                 gts_preciseEnd: false,
+                gts_preciseStartDate: false,
+                gts_preciseEndDate: false,
                 mgc_createTrain: true,
                 mgc_bumpLast: true,
                 mgc_groupKeys: false,
@@ -1361,7 +1365,7 @@ function loadEsgst(storage) {
                         },
                         {
                             id: `cfh_cf`,
-                            name: `[NEW] Comment Formatting`,
+                            name: `Comment Formatting`,
                             sg: true,
                             st: true
                         }
@@ -1631,6 +1635,7 @@ function loadEsgst(storage) {
                     load: loadLpv,
                     name: `Level Progress Visualizer`,
                     sg: true,
+                    sync: `Giveaways`,
                     type: `general`
                 },
                 {
@@ -1681,6 +1686,21 @@ function loadEsgst(storage) {
                     load: loadLpl,
                     name: `Last Page Link`,
                     sg: true,
+                    type: `general`
+                },
+                {
+                    description: `
+                        <ul>
+                            <li>Prevents all attached images in a page from loading on page load and only loads them after clicking on "View attached image".</li>
+                            <li>This speeds up page loads for users with poor Internet connection.</li>
+                            <li>This feature obviously does not run if Visible Attached Images is enabled.</li>
+                        </ul>
+                    `,
+                    id: `ail`,
+                    load: loadAil,
+                    name: `[NEW] Attached Images Loader`,
+                    sg: true,
+                    st: true,
                     type: `general`
                 },
                 {
@@ -2137,6 +2157,7 @@ function loadEsgst(storage) {
                     load: loadGf,
                     name: `Giveaway Filters`,
                     sg: true,
+                    sync: `Hidden Games, Owned/Wishlisted/Ignored Games, Won Games, Reduced CV Games, No CV Games and Giveaways`,
                     type: `giveaways`
                 },
                 {
@@ -2270,18 +2291,6 @@ function loadEsgst(storage) {
                 {
                     description: `
                         <ul>
-                            <li>Adds more details to the created/entered/won pages, such as the number of points, the link to the Steam store page of the game, the name of the creator, the type of the giveaway and the level. It also loads the giveaway groups below the giveaway if Giveaway Groups Loader is enabled.</li>
-                        </ul>
-                    `,
-                    id: `cewgd`,
-                    load: loadCewgd,
-                    name: `Created/Entered/Won Giveaway Details`,
-                    sg: true,
-                    type: `giveaways`
-                },
-                {
-                    description: `
-                        <ul>
                             <li>Calculates your winning chance for a giveaway.</li>
                         </ul>
                         <img src="https://camo.githubusercontent.com/3f161b5a39d4723ac361a93e74b7beedc3cd5cd5/687474703a2f2f692e696d6775722e636f6d2f50696235546f6d2e706e67"/>
@@ -2350,6 +2359,18 @@ function loadEsgst(storage) {
                     id: `gwr`,
                     load: loadGwr,
                     name: `Giveaway Winning Ratio`,
+                    sg: true,
+                    type: `giveaways`
+                },
+                {
+                    description: `
+                        <ul>
+                            <li>Adds more details to the created/entered/won pages, such as the number of points, the link to the Steam store page of the game, the name of the creator, the type of the giveaway and the level. It also loads the giveaway groups below the giveaway if Giveaway Groups Loader is enabled.</li>
+                        </ul>
+                    `,
+                    id: `cewgd`,
+                    load: loadCewgd,
+                    name: `Created/Entered/Won Giveaway Details`,
                     sg: true,
                     type: `giveaways`
                 },
@@ -2436,6 +2457,7 @@ function loadEsgst(storage) {
                         values: [`Panel (On Page Load)`, `Popout (On Hover)`, `Popout (On Click)`, `Popup (On Click)`]
                     },
                     sg: true,
+                    sync: `Steam Groups`,
                     type: `giveaways`
                 },
                 {
@@ -2552,6 +2574,7 @@ function loadEsgst(storage) {
                     load: loadRcvc,
                     name: `Real CV Calculator`,
                     sg: true,
+                    sync: `Giveaways`,
                     type: `giveaways`
                 },
                 {
@@ -2648,6 +2671,7 @@ function loadEsgst(storage) {
                     load: loadHgebd,
                     name: `Hidden Games Enter Button Disabler`,
                     sg: true,
+                    sync: `Hidden Games`,
                     type: `giveaways`
                 },
                 {
@@ -3322,17 +3346,20 @@ function loadEsgst(storage) {
                                     description: ``,
                                     id: `namwc_h_i`,
                                     name: `Use icons instead of colors.`,
-                                    sg: true
+                                    sg: true,
+                                    st: true
                                 },
                                 {
                                     id: `namwc_h_f`,
                                     name: `Only highlight users who failed to pass the check.`,
-                                    sg: true
+                                    sg: true,
+                                    st: true
                                 },
                                 {
                                     id: `namwc_h_m`,
                                     name: `Highlight multiple wins as positive.`,
-                                    sg: true
+                                    sg: true,
+                                    st: true
                                 }
                             ],
                             id: `namwc_h`,
@@ -3443,6 +3470,7 @@ function loadEsgst(storage) {
                     name: `Whitelist/Blacklist Highlighter`,
                     sg: true,
                     st: true,
+                    sync: `Whitelist and Blacklist`,
                     type: `users`
                 },
                 {
@@ -3450,6 +3478,7 @@ function loadEsgst(storage) {
                     load: loadWbs,
                     name: `Whitelist/Blacklist Sorter`,
                     sg: true,
+                    sync: `Whitelist and Blacklist`,
                     type: `users`
                 },
                 {
@@ -3482,6 +3511,7 @@ function loadEsgst(storage) {
                     load: loadGh,
                     name: `Groups Highlighter`,
                     sg: true,
+                    sync: `Steam Groups`,
                     type: `groups`
                 },
                 {
@@ -4080,6 +4110,7 @@ function loadEsgst(storage) {
                     load: loadGc,
                     name: `Game Categories`,
                     sg: true,
+                    sync: `Hidden Games, Owned/Wishlisted/Ignored Games, Reduced CV Games, No CV Games and Giveaways`,
                     type: `games`
                 },
                 {
@@ -4110,7 +4141,7 @@ function loadEsgst(storage) {
                 {
                     id: `sttb`,
                     load: loadSttb,
-                    name: `[NEW] Scroll To Top Button`,
+                    name: `Scroll To Top Button`,
                     sg: true,
                     st: true,
                     type: `general`
@@ -5136,7 +5167,9 @@ function setSync(autoSync, mainCallback) {
         autoSync: autoSync,
         canceled: false
     };
-    if (syncer.autoSync || mainCallback) {
+    if (esgst.firstInstall) {
+        sync(syncer, mainCallback);
+    } else if (syncer.autoSync || mainCallback) {
         popup = new Popup(`fa-refresh`, `Sync`);
         if (!syncer.autoSync) {
             new ToggleSwitch(popup.description, `syncGroups`, false, `Steam Groups`, false, false, null, esgst.syncGroups);
@@ -5144,6 +5177,7 @@ function setSync(autoSync, mainCallback) {
             new ToggleSwitch(popup.description, `syncBlacklist`, false, `Blacklist`, false, false, null, esgst.syncBlacklist);
             new ToggleSwitch(popup.description, `syncHiddenGames`, false, `Hidden Games`, false, false, null, esgst.syncHiddenGames);
             new ToggleSwitch(popup.description, `syncGames`, false, `Owned/Wishlisted/Ignored Games`, false, false, null, esgst.syncGames);
+            new ToggleSwitch(popup.description, `syncWonGames`, false, `Won Games`, false, false, null, esgst.syncWonGames);
             new ToggleSwitch(popup.description, `syncReducedCvGames`, false, `Reduced CV Games`, false, false, null, esgst.syncReducedCvGames);
             new ToggleSwitch(popup.description, `syncNoCvGames`, false, `No CV Games`, false, false, null, esgst.syncNoCvGames);
             new ToggleSwitch(popup.description, `syncGiveaways`, false, `Giveaways`, false, false, null, esgst.syncGiveaways);
@@ -5179,14 +5213,18 @@ function cancelSync(syncer, callback) {
 }
 
 function sync(syncer, mainCallback, callback) {
-    setSetting(`lastSync`, Date.now());
-    syncer.progress.classList.remove(`esgst-hidden`);
-    syncer.progress.innerHTML = `
-        <i class="fa fa-circle-o-notch fa-spin"></i>
-        <span></span>
-    `;
+    if (!esgst.firstInstall) {
+        setSetting(`lastSync`, Date.now());
+        syncer.progress.classList.remove(`esgst-hidden`);
+        syncer.progress.innerHTML = `
+            <i class="fa fa-circle-o-notch fa-spin"></i>
+            <span></span>
+        `;
+    }
     if (!syncer.autoSync && !esgst.steamId && esgst.username) {
-        syncer.progress.lastElementChild.textContent = `Syncing your Steam id...`;
+        if (!esgst.firstInstall) {
+            syncer.progress.lastElementChild.textContent = `Syncing your Steam id...`;
+        }
         request(null, null, false, `https://www.steamgifts.com/user/${esgst.username}`, getSteamIdAndContinueSync.bind(null, syncer, completeSync.bind(null, syncer, mainCallback, callback)));
     } else {
         continueSyncStep1(syncer, completeSync.bind(null, syncer, mainCallback, callback));
@@ -5195,9 +5233,11 @@ function sync(syncer, mainCallback, callback) {
 
 function completeSync(syncer, mainCallback, callback) {
     var currentDate;
-    syncer.progress.innerHTML = `Synced!`;
-    currentDate = new Date();
-    setSetting(`lastSync`, currentDate.getTime());
+    if (!esgst.firstInstall) {
+        syncer.progress.innerHTML = `Synced!`;
+        currentDate = new Date();
+        setSetting(`lastSync`, currentDate.getTime());
+    }
     if (callback) {
         callback();
     }
@@ -5213,7 +5253,9 @@ function getSteamIdAndContinueSync(syncer, callback, response) {
 
 function continueSyncStep1(syncer, callback) {
     var i, key, n, newGroups, savedGiveaways, savedGroups;
-    if (esgst.sg && (esgst.settings.syncGroups || syncer.autoSync)) {
+    if (esgst.firstInstall) {
+        callback();
+    } else if (esgst.sg && (esgst.settings.syncGroups || syncer.autoSync)) {
         syncer.progress.lastElementChild.textContent = `Syncing your Steam groups...`;
         syncer.groups = {};
         savedGroups = JSON.parse(getValue(`groups`));
@@ -5232,7 +5274,7 @@ function continueSyncStep1(syncer, callback) {
         }
         syncer.currentGroups = {};
         for (i = 0, n = savedGroups.length; i < n; ++i) {
-            if (savedGroups[i].member && savedGroups[i].steamId) {
+            if (savedGroups[i] && savedGroups[i].member && savedGroups[i].steamId) {
                 syncer.currentGroups[savedGroups[i].steamId] = savedGroups[i].name;
             }
         }
@@ -5703,24 +5745,36 @@ function continueSyncStep5(syncer, callback, games, html) {
     if (html) {
         syncer.scrollable.insertAdjacentHTML(`beforeEnd`, html);
     }
-    if (!syncer.autoSync && esgst.settings.syncReducedCvGames) {
-        syncer.progress.lastElementChild.textContent = `Syncing reduced CV games...`;
-        request(null, null, false, `https://script.google.com/macros/s/AKfycbwJK-7RBh5ghaKprEsmx4DQ6CyXc_3_9eYiOCu3yhI6W4B3W4YN/exec`, syncCvGames.bind(null, syncer, continueSyncStep6.bind(null, syncer, callback)));
+    if (!syncer.autoSync && esgst.settings.syncWonGames) {
+        syncer.progress.lastElementChild.textContent = `Syncing your won games...`;
+        getWonGames(`0`, continueSyncStep6.bind(null, syncer, callback));
     } else {
         continueSyncStep6(syncer, callback);
     }
 }
 
-function continueSyncStep6(syncer, callback) {
-    if (!syncer.autoSync && esgst.settings.syncNoCvGames) {
-        syncer.progress.lastElementChild.textContent = `Syncing no CV games...`;
-        request(null, null, false, `https://script.google.com/macros/s/AKfycbym0nzeyr3_b93ViuiZRivkBMl9PBI2dTHQxNC0rtgeQSlCTI-P/exec`, syncCvGames.bind(null, syncer, continueSyncStep7.bind(null, syncer, callback)));
+function continueSyncStep6(syncer, callback, games, html) {
+    if (html) {
+        syncer.scrollable.insertAdjacentHTML(`beforeEnd`, html);
+    }
+    if (!syncer.autoSync && esgst.settings.syncReducedCvGames) {
+        syncer.progress.lastElementChild.textContent = `Syncing reduced CV games...`;
+        request(null, null, false, `https://script.google.com/macros/s/AKfycbwJK-7RBh5ghaKprEsmx4DQ6CyXc_3_9eYiOCu3yhI6W4B3W4YN/exec`, syncCvGames.bind(null, syncer, continueSyncStep7.bind(null, syncer, callback)));
     } else {
         continueSyncStep7(syncer, callback);
     }
 }
 
 function continueSyncStep7(syncer, callback) {
+    if (!syncer.autoSync && esgst.settings.syncNoCvGames) {
+        syncer.progress.lastElementChild.textContent = `Syncing no CV games...`;
+        request(null, null, false, `https://script.google.com/macros/s/AKfycbym0nzeyr3_b93ViuiZRivkBMl9PBI2dTHQxNC0rtgeQSlCTI-P/exec`, syncCvGames.bind(null, syncer, continueSyncStep8.bind(null, syncer, callback)));
+    } else {
+        continueSyncStep8(syncer, callback);
+    }
+}
+
+function continueSyncStep8(syncer, callback) {
     if (!syncer.autoSync && esgst.settings.syncGiveaways && esgst.sg) {
         syncer.progress.lastElementChild.textContent = `Syncing your giveaways...`;
         var user = {
@@ -5843,14 +5897,18 @@ function saveGroups(groups, sync, callback, deleteLock) {
     }
     if (sync) {
         for (i = 0, n = savedGroups.length; i < n; ++i) {
-            delete savedGroups[i].member;
+            if (savedGroups[i]) {
+                delete savedGroups[i].member;
+            }
         }
     }
     for (code in groups) {
         for (i = 0, n = savedGroups.length; i < n && savedGroups[i].code !== code; ++i);
         if (i < n) {
             for (key in groups[code]) {
-                savedGroups[i][key] = groups[code][key];
+                if (savedGroups[i]) {
+                    savedGroups[i][key] = groups[code][key];
+                }
             }
         } else {
             savedGroups.push(groups[code]);
@@ -5961,20 +6019,20 @@ function checkLock(lock) {
 
 /* Request */
 
-function request(data, headers, queue, url, callback) {
+function request(data, headers, queue, url, callback, anon) {
     if (!headers) {
         headers = {};
     }
     if (queue) {
         createLock(`requestLock`, 1000, function (closeLock) {
-            continueRequest(data, headers, url, callback, closeLock);
+            continueRequest(data, headers, url, callback, anon, closeLock);
         });
     } else {
-        continueRequest(data, headers, url, callback);
+        continueRequest(data, headers, url, callback, anon);
     }
 }
 
-function continueRequest(data, headers, url, callback, closeLock) {
+function continueRequest(data, headers, url, callback, anon, closeLock) {
     if (!headers[`Content-Type`]) {
         headers[`Content-Type`] = `application/x-www-form-urlencoded`;
     }
@@ -5982,7 +6040,7 @@ function continueRequest(data, headers, url, callback, closeLock) {
         action: `fetch`,
         parameters: JSON.stringify({
             body: data,
-            credentials: `include`,
+            credentials: anon ? `omit` : `include`,
             headers: headers,
             method: data ? `POST` : `GET`,
             redirect: `follow`
@@ -6609,7 +6667,7 @@ function refreshHeaderElements(context) {
     esgst.messageCount = esgst.messageCountContainer ? esgst.messageCountContainer.textContent : ``;
 }
 
-function getWonGames(count) {
+function getWonGames(count, callback) {
     request(null, null, false, `/giveaways/won`, response => {
         let element, elements, i, id, info, responseHtml;
         responseHtml = DOM.parse(response.responseText);
@@ -6630,6 +6688,9 @@ function getWonGames(count) {
         }
         lockAndSaveGames(savedGames, () => {
             setValue(`esgst_wonCount`, count);
+            if (callback) {
+                callback();
+            }
         });
     });
 }
@@ -7099,15 +7160,22 @@ function addLplGroupLink() {
     }
 }
 
-/* [VAI] Visible Attached Images / [AIC] Attached Images Carousel */
+/* [AIL] Attached Images Loader / [VAI] Visible Attached Images / [AIC] Attached Images Carousel */
 
-function loadVai() {
+function loadAil() {
     esgst.endlessFeatures.push(getAttachedImages);
     getAttachedImages(document);
 }
 
+function loadVai() {
+    if (!esgst.ail) {
+        esgst.endlessFeatures.push(getAttachedImages);
+        getAttachedImages(document);
+    }
+}
+
 function loadAic() {
-    if (!esgst.vai) {
+    if (!esgst.ail && !esgst.vai) {
         esgst.endlessFeatures.push(getAttachedImages);
         getAttachedImages(document);
     }
@@ -7119,26 +7187,34 @@ function getAttachedImages(context) {
     for (i = 0, n = buttons.length; i < n; ++i) {
         button = buttons[i];
         image = button.nextElementSibling.firstElementChild;
-        if (esgst.aic) {
-            i = esgst.attachedImages.length;
-            button.addEventListener(`click`, openAicCarousel.bind(null, i));
-            image.addEventListener(`click`, openAicCarousel.bind(null, i));
-            comment = button.closest(`.comment`);
-            esgst.attachedImages.push({
-                button: button,
-                image: image,
-                source: comment && comment.querySelector(`.comment__summary`).id
-            });
-        }
+        url = image.getAttribute(`src`);
         if (esgst.vai && (!esgst.inboxPath || !esgst.vai_i)) {
-            url = image.getAttribute(`src`);
             if (url && esgst.vai_gifv) {
                 url = url.replace(/\.gifv/, `.gif`);
                 image.setAttribute(`src`, url);
             }
             image.classList.remove(`is_hidden`, `is-hidden`);
         }
+        if (esgst.aic) {
+            i = esgst.attachedImages.length;
+            image.addEventListener(`click`, openAicCarousel.bind(null, i));
+            comment = button.closest(`.comment`);
+            esgst.attachedImages.push({
+                button: button,
+                image: image,
+                source: comment && comment.querySelector(`.comment__summary`).id,
+                url: url
+            });
+        }
+        if (esgst.ail && !esgst.vai) {
+            image.removeAttribute(`src`);
+            button.addEventListener(`click`, loadAilImage.bind(null, image, url));
+        }
     }
+}
+
+function loadAilImage(image, url) {
+    image.setAttribute(`src`, url);
 }
 
 function openAicCarousel(i, event) {
@@ -7155,6 +7231,9 @@ function showAicImage(carousel, i, popup) {
     carousel.innerHTML = ``;
     n = esgst.attachedImages.length;
     attachedImage = esgst.attachedImages[i];
+    if (esgst.ail) {
+        attachedImage.image.setAttribute(`src`, attachedImage.url);
+    }
     attachedImage.image.classList.remove(`is_hidden`, `is-hidden`);
     attachedImage.image.style.maxHeight = `${innerHeight * 0.9 - (popup.popup.offsetHeight - popup.scrollable.offsetHeight)}px`;
     carousel.innerHTML = `
@@ -8750,8 +8829,9 @@ function openGfPresetPopup(gf, exceptionCount, presetDisplay, presetInput) {
     popup.open();
 }
 
-function setGfSource(gf, preset, row) {
+function setGfSource(gf, preset, row, event) {
     var i, presets;
+    event.dataTransfer.setData(`text/plain`, ``);
     gf.source = row;
     presets = JSON.parse(getValue(`filterPresets`, `[]`));
     for (i = presets.length - 1; i >= 0 && presets[i].name !== preset.name; --i);
@@ -10495,7 +10575,7 @@ function addElgbButtons(giveaways, main, source) {
         for (i = 0, n = giveaways.length; i < n; ++i) {
             giveaway = giveaways[i];
             if (!giveaway.innerWrap.getElementsByClassName(`esgst-elgb-button`)[0]) {
-                if (((giveaway.inviteOnly && giveaway.url) || !giveaway.inviteOnly) && giveaway.started && !giveaway.ended && !giveaway.created && giveaway.level <= esgst.level && ((giveaway.id && ((games[giveaway.type][giveaway.id] && !games[giveaway.type][giveaway.id].owned && !games[giveaway.type][giveaway.id].won && (!games[giveaway.type][giveaway.id].hidden || !esgst.hgebd)) || !games[giveaway.type][giveaway.id])) || !giveaway.id)) {
+                if (!giveaway.blacklist && ((giveaway.inviteOnly && giveaway.url) || !giveaway.inviteOnly) && giveaway.started && !giveaway.ended && !giveaway.created && giveaway.level <= esgst.level && ((giveaway.id && ((games[giveaway.type][giveaway.id] && !games[giveaway.type][giveaway.id].owned && !games[giveaway.type][giveaway.id].won && (!games[giveaway.type][giveaway.id].hidden || !esgst.hgebd)) || !games[giveaway.type][giveaway.id])) || !giveaway.id)) {
                     if (esgst.giveawayPath && main) {
                         let sidebarButton = document.getElementsByClassName(`sidebar__error is-disabled`)[0];
                         if (sidebarButton && sidebarButton.textContent.trim() === `Not Enough Points`) {
@@ -11357,7 +11437,7 @@ function loadGts() {
 }
 
 function addGtsButtonSection(button, rows) {
-    var createGiveawayButton, delay, deletedTemplates, edit, endTime, input, message, preciseEndCheckbox, preciseEndOption, preciseStartCheckbox, preciseStartOption, reviewButton, section, set, startTime, undo, warning;
+    var createGiveawayButton, delay, deletedTemplates, edit, endTime, input, message, preciseEndCheckbox, preciseEndDateCheckbox, preciseEndOption, preciseEndDateOption, preciseStartCheckbox, preciseStartDateCheckbox, preciseStartOption, preciseStartDateOption, reviewButton, section, set, startTime, undo, warning;
     if (rows) {
         gts = {};
         deletedTemplates = [];
@@ -11407,15 +11487,33 @@ function addGtsButtonSection(button, rows) {
                 if (savedTemplate.startTime || savedTemplate.endTime) {
                     if (savedTemplate.startTime) {
                         time = new Date(savedTemplate.startTime);
-                        details += `${`0${time.getHours()}`.slice(-2)}:${`0${time.getMinutes()}`.slice(-2)}`;
+                        if (savedTemplate.startDate) {
+                            details += `${savedTemplate.startDate.year}-${savedTemplate.startDate.month + 1}-${savedTemplate.startDate.day} `;
+                        }
+                        details += `${`0${time.getHours()}`.slice(-2)}:${`0${time.getMinutes()}`.slice(-2)} to`;
                     } else {
-                        details += `?`;
+                        details += `? to`;
                     }
                     if (savedTemplate.endTime) {
                         time = new Date(savedTemplate.endTime);
-                        details += `-${`0${time.getHours()}`.slice(-2)}:${`0${time.getMinutes()}`.slice(-2)}`;
+                        if (savedTemplate.endDate) {
+                            details += ` ${savedTemplate.endDate.year}-${savedTemplate.endDate.month + 1}-${savedTemplate.endDate.day}`;
+                        }
+                        details += ` ${`0${time.getHours()}`.slice(-2)}:${`0${time.getMinutes()}`.slice(-2)}`;
                     } else {
-                        details += `-?`;
+                        details += ` ?`;
+                    }
+                    details += `, `;
+                } else if (savedTemplate.startDate || savedTemplate.endDate) {
+                    if (savedTemplate.startDate) {
+                        details += `${savedTemplate.startDate.year}-${savedTemplate.startDate.month + 1}-${savedTemplate.startDate.day} to`;
+                    } else {
+                        details += `? to`;
+                    }
+                    if (savedTemplate.endDate) {
+                        details += ` ${savedTemplate.endDate.year}-${savedTemplate.endDate.month + 1}-${savedTemplate.endDate.day}`;
+                    } else {
+                        details = ` ?`;
                     }
                     details += `, `;
                 }
@@ -11487,6 +11585,12 @@ function addGtsButtonSection(button, rows) {
                     <div>
                         <span>Use precise end time.</span>
                     </div>
+                    <div>
+                        <span>Use precise start date.</span>
+                    </div>
+                    <div>
+                        <span>Use precise end date.</span>
+                    </div>
                     <input class="form__input-small" type="text"/>
                     <span class="esgst-description esgst-hidden">Saved!</span>
                     <div class="esgst-hidden form__row__error">
@@ -11498,11 +11602,15 @@ function addGtsButtonSection(button, rows) {
         `).lastElementChild;
         preciseStartOption = section.firstElementChild;
         preciseEndOption = preciseStartOption.nextElementSibling;
-        input = preciseEndOption.nextElementSibling;
+        preciseStartDateOption = preciseEndOption.nextElementSibling;
+        preciseEndDateOption = preciseStartDateOption.nextElementSibling;
+        input = preciseEndDateOption.nextElementSibling;
         message = input.nextElementSibling;
         warning = message.nextElementSibling;
         preciseStartCheckbox = new Checkbox(preciseStartOption, esgst.gts_preciseStart);
         preciseEndCheckbox = new Checkbox(preciseEndOption, esgst.gts_preciseEnd);
+        preciseStartDateCheckbox = new Checkbox(preciseStartDateOption, esgst.gts_preciseStartDate);
+        preciseEndDateCheckbox = new Checkbox(preciseEndDateOption, esgst.gts_preciseEndDate);
         preciseStartOption.addEventListener(`click`, function () {
             setSetting(`gts_preciseStart`, preciseStartCheckbox.input.checked);
             esgst.gts_preciseStart = preciseStartCheckbox.input.checked;
@@ -11511,12 +11619,22 @@ function addGtsButtonSection(button, rows) {
             setSetting(`gts_preciseEnd`, preciseEndCheckbox.input.checked);
             esgst.gts_preciseEnd = preciseEndCheckbox.input.checked;
         });
+        preciseStartDateOption.addEventListener(`click`, function () {
+            setSetting(`gts_preciseStartDate`, preciseStartDateCheckbox.input.checked);
+            esgst.gts_preciseStartDate = preciseStartDateCheckbox.input.checked;
+        });
+        preciseEndDateOption.addEventListener(`click`, function () {
+            setSetting(`gts_preciseEndDate`, preciseEndDateCheckbox.input.checked);
+            esgst.gts_preciseEndDate = preciseEndDateCheckbox.input.checked;
+        });
         set = new ButtonSet(`green`, `grey`, `fa-check`, `fa-circle-o-notch fa-spin`, `Save Template`, `Saving...`, function (callback) {
-            var i, n, template, savedTemplates;
+            var i, n, template, savedTemplates, startDate, endDate;
             if (input.value) {
                 warning.classList.add(`esgst-hidden`);
-                startTime = new Date(document.querySelector(`[name="start_time"]`).value).getTime();
-                endTime = new Date(document.querySelector(`[name="end_time"]`).value).getTime();
+                startDate = new Date(document.querySelector(`[name="start_time"]`).value);
+                startTime = startDate.getTime();
+                endDate = new Date(document.querySelector(`[name="end_time"]`).value);
+                endTime = endDate.getTime();
                 delay = startTime - Date.now();
                 if (delay < 0) {
                     delay = 0;
@@ -11538,6 +11656,20 @@ function addGtsButtonSection(button, rows) {
                 }
                 if (preciseEndCheckbox.input.checked) {
                     template.endTime = endTime;
+                }
+                if (preciseStartDateCheckbox.input.checked) {
+                    template.startDate = {
+                        day: startDate.getDate(),
+                        month: startDate.getMonth(),
+                        year: startDate.getFullYear()
+                    };
+                }
+                if (preciseEndDateCheckbox.input.checked) {
+                    template.endDate = {
+                        day: endDate.getDate(),
+                        month: endDate.getMonth(),
+                        year: endDate.getFullYear()
+                    };
                 }
                 createLock(`templateLock`, 300, function(deleteLock) {
                     savedTemplates = JSON.parse(getValue(`templates`, `[]`));
@@ -11692,8 +11824,22 @@ function applyGtsTemplate(savedTemplate) {
         document.querySelector(`[name="start_time"]`).value = formatDate(newStartTime);
         document.querySelector(`[name="end_time"]`).value = formatDate(newEndTime);
     } else {
-        document.querySelector(`[name="start_time"]`).value = formatDate(new Date(currentDate.getTime() + savedTemplate.delay));
-        document.querySelector(`[name="end_time"]`).value = formatDate(new Date(currentDate.getTime() + savedTemplate.delay + savedTemplate.duration));
+        newStartTime = new Date(currentDate.getTime() + savedTemplate.delay);
+        newEndTime = new Date(currentDate.getTime() + savedTemplate.delay + savedTemplate.duration)
+        document.querySelector(`[name="start_time"]`).value = formatDate(newStartTime);
+        document.querySelector(`[name="end_time"]`).value = formatDate(newEndTime);
+    }
+    if (savedTemplate.startDate) {
+        newStartTime.setFullYear(savedTemplate.startDate.year);
+        newStartTime.setMonth(savedTemplate.startDate.month);
+        newStartTime.setDate(savedTemplate.startDate.day);
+        document.querySelector(`[name="start_time"]`).value = formatDate(newStartTime);
+    }
+    if (savedTemplate.endDate) {
+        newEndTime.setFullYear(savedTemplate.endDate.year);
+        newEndTime.setMonth(savedTemplate.endDate.month);
+        newEndTime.setDate(savedTemplate.endDate.day);
+        document.querySelector(`[name="end_time"]`).value = formatDate(newEndTime);
     }
     if (!savedTemplate.region.match(/^(1|0)$/)) {
         savedTemplate.region = `0`;
@@ -11767,8 +11913,9 @@ function applyGtsTemplate(savedTemplate) {
     document.querySelector(`[name="description"]`).value = savedTemplate.description;
 }
 
-function setGtsSource(gts, name, template) {
+function setGtsSource(gts, name, template, event) {
     var i, n, savedTemplates;
+    event.dataTransfer.setData(`text/plain`, ``);
     gts.source = template;
     savedTemplates = JSON.parse(getValue(`templates`, `[]`));
     for (i = 0, n = savedTemplates.length; i < n && savedTemplates[i].name !== name; ++i);
@@ -12084,8 +12231,9 @@ function setMgcValues(giveaway, mgc) {
     mgc.editButton.set.classList.remove(`esgst-hidden`);
 }
 
-function setMgcSource(giveaway, mgc) {
+function setMgcSource(giveaway, mgc, event) {
     mgc.source = giveaway;
+    event.dataTransfer.setData(`text/plain`, ``);
 }
 
 function getMgcSource(giveaway, mgc) {
@@ -14057,7 +14205,7 @@ function loadGm(context) {
     let button, toggleSwitch;
     if (context || esgst.mainPageHeading) {
         esgst.gmCheckboxes = {};
-        button = insertHtml(context || (esgst.hideButtons && esgst.hideButtons_gm ? esgst.leftButtons : esgst.mainPageHeading), `beforeEnd`, `
+        button = insertHtml(context || (esgst.hideButtons && esgst.hideButtons_gm ? esgst.leftButtons : esgst.mainPageHeading), `afterBegin`, `
             <div class="esgst-heading-button" title="Manage giveaways">
                 <span></span>
                 <i class="fa fa-gear"></i>
@@ -14641,7 +14789,7 @@ function getCewgdDetail(cewgd, giveaways, i) {
     var code, currentCode, currentGiveaway, currentGiveaways, giveaway, key, responseHtml, savedGiveaways;
         giveaway = giveaways[i];
         code = giveaway.code;
-        if (cewgd.savedGiveaways[code] && cewgd.savedGiveaways[code].gameSteamId) {
+        if (cewgd.savedGiveaways[code] && cewgd.savedGiveaways[code].gameSteamId && (!esgst.wonPath || cewgd.savedGiveaways[code].creator !== esgst.username)) {
             addCewgdDetails(giveaway, cewgd.savedGiveaways[code]);
             ++cewgd.count;
         } else {
@@ -15171,26 +15319,57 @@ function extractGeGiveaway(ge, code, callback) {
                     if (giveaway) {
                         giveaway = getGiveawayInfo(insertHtml(ge.results.lastElementChild, `beforeEnd`, giveaway.html).firstElementChild, document, esgst.games).giveaway;
                         ge.points += giveaway.points;
-                    }
-                    ge.count += 1;
-                    ge.total += 1;
-                    ge.progress.innerHTML = `
-                        <i class="fa fa-circle-o-notch fa-spin"></i>
-                        <span>${ge.total}</span> giveaways extracted.
-                    `;
-                    ge.extracted.push(code);
-                    if (!ge.bumpLink) {
-                        bumpLink = responseHtml.querySelector(`[href*="/discussion/"]`);
-                        if (bumpLink) {
-                            ge.bumpLink = bumpLink.getAttribute(`href`);
+                        ge.count += 1;
+                        ge.total += 1;
+                        ge.progress.innerHTML = `
+                            <i class="fa fa-circle-o-notch fa-spin"></i>
+                            <span>${ge.total}</span> giveaways extracted.
+                        `;
+                        ge.extracted.push(code);
+                        if (!ge.bumpLink) {
+                            bumpLink = responseHtml.querySelector(`[href*="/discussion/"]`);
+                            if (bumpLink) {
+                                ge.bumpLink = bumpLink.getAttribute(`href`);
+                            }
                         }
-                    }
-                    giveaways = getGeGiveaways(ge, responseHtml);
-                    n = giveaways.length;
-                    if (n > 0) {
-                        setTimeout(extractGeGiveaways, 0, ge, giveaways, 0, n, callback);
+                        giveaways = getGeGiveaways(ge, responseHtml);
+                        n = giveaways.length;
+                        if (n > 0) {
+                            setTimeout(extractGeGiveaways, 0, ge, giveaways, 0, n, callback);
+                        } else {
+                            callback();
+                        }
                     } else {
-                        callback();
+                        request(null, null, false, `/giveaway/${code}/`, response => {
+                            let bumpLink, context, giveaway, giveaways, n, responseHtml;
+                            responseHtml = DOM.parse(response.responseText);
+                            giveaway = buildGiveaway(responseHtml, response.finalUrl);
+                            if (giveaway) {
+                                giveaway = getGiveawayInfo(insertHtml(ge.results.lastElementChild, `beforeEnd`, giveaway.html).firstElementChild, document, esgst.games).giveaway;
+                                giveaway.outerWrap.classList.add(`esgst-red-background`);
+                                ge.points += giveaway.points;
+                            }
+                            ge.count += 1;
+                            ge.total += 1;
+                            ge.progress.innerHTML = `
+                                <i class="fa fa-circle-o-notch fa-spin"></i>
+                                <span>${ge.total}</span> giveaways extracted.
+                            `;
+                            ge.extracted.push(code);
+                            if (!ge.bumpLink) {
+                                bumpLink = responseHtml.querySelector(`[href*="/discussion/"]`);
+                                if (bumpLink) {
+                                    ge.bumpLink = bumpLink.getAttribute(`href`);
+                                }
+                            }
+                            giveaways = getGeGiveaways(ge, responseHtml);
+                            n = giveaways.length;
+                            if (n > 0) {
+                                setTimeout(extractGeGiveaways, 0, ge, giveaways, 0, n, callback);
+                            } else {
+                                callback();
+                            }
+                        }, true);
                     }
                 });
             } else {
@@ -16152,8 +16331,9 @@ function openDfPresetPopup(df, exceptionCount, presetDisplay, presetInput) {
     popup.open();
 }
 
-function setDfSource(df, preset, row) {
+function setDfSource(df, preset, row, event) {
     var i, presets;
+    event.dataTransfer.setData(`text/plain`, ``);
     df.source = row;
     presets = JSON.parse(getValue(`dfPresets`, `[]`));
     for (i = presets.length - 1; i >= 0 && presets[i].name !== preset.name; --i);
@@ -17083,7 +17263,7 @@ function loadCfh(context) {
                 url = popout.popout.firstElementChild.firstElementChild;
                 title = popout.popout.firstElementChild.nextElementSibling.firstElementChild;
                 popout.popout.lastElementChild.addEventListener(`click`, () => {
-                    formatCfhLink(`[t](u)`, title.value, url.value);
+                    formatCfhLink(title.value, url.value);
                     url.value = ``;
                     title.value = ``;
                     popout.close();
@@ -17119,7 +17299,7 @@ function loadCfh(context) {
                     });
                 });
                 popout.popout.lastElementChild.addEventListener(`click`, () => {
-                    formatCfhLink(`![t](u)`, title.value, url.value);
+                    formatCfhLink(title.value, url.value, true);
                     url.value = ``;
                     title.value = ``;
                     popout.close();
@@ -19710,7 +19890,7 @@ function loadCfh(context) {
                 code.nextElementSibling.addEventListener(`click`, () => {
                     if (code.value.match(/^[\d\w]{5}$/)) {
                         let encodedCode = encryptGedCode(code.value);
-                        formatCfhLink(`[t](u)`, ``, `ESGST-${encodedCode}`);
+                        formatCfhLink(``, `ESGST-${encodedCode}`);
                         code.value = ``;
                         popout.close();
                     } else {
@@ -19865,7 +20045,7 @@ function addCfhPanel(textArea) {
             esgst.cfh.undo.classList.remove(`esgst-faded`);
             if (value.match(/^https?:/)) {
                 event.preventDefault();
-                formatCfhLink(value.match(/\.(jpg|jpeg|gif|bmp|png)/) ? `![t](u)` : `[t](u)`, ``, value, true);
+                formatCfhLink(``, value, value.match(/\.(jpg|jpeg|gif|bmp|png)/), true);
             }
         }
     };
@@ -19895,15 +20075,15 @@ function formatCfhItem(prefix = ``, suffix = ``, multiline) {
     esgst.cfh.textArea.focus();
 }
 
-function formatCfhLink(format, title, url, paste) {
+function formatCfhLink(title, url, isImage, isPaste) {
     let end, start, value;
-    if (!paste) {
+    if (!isPaste) {
         esgst.cfh.history.push(esgst.cfh.textArea.value);
         esgst.cfh.undo.classList.remove(`esgst-faded`);
     }
     start = esgst.cfh.textArea.selectionStart;
     end = esgst.cfh.textArea.selectionEnd;
-    value = format.replace(/t/, title).replace(/u/, url);
+    value = isImage ? `![${title}](${url})` : `[${title}](${url})`;
     esgst.cfh.textArea.value = `${esgst.cfh.textArea.value.slice(0, start)}${value}${esgst.cfh.textArea.value.slice(end)}`;
     if (title) {
         esgst.cfh.textArea.setSelectionRange(end + value.length, end + value.length);
@@ -20095,8 +20275,9 @@ function setCfhReply(replies, savedReply) {
     });
 }
 
-function setCfhSource(description, name, reply) {
+function setCfhSource(description, name, reply, event) {
     let i, savedReplies;
+    event.dataTransfer.setData(`text/plain`, ``);
     esgst.cfh.source = reply;
     savedReplies = JSON.parse(getValue(`savedReplies`, `[]`));
     for (i = savedReplies.length - 1; i > -1 && savedReplies[i].name !== name.textContent && savedReplies[i].description !== description.textContent; --i);
@@ -20377,7 +20558,7 @@ function loadRbot() {
 
 function loadCs() {
     if (esgst.commentsPath && (!esgst.giveawayPath || !document.getElementsByClassName(`table--summary`)[0])) {
-        let button = insertHtml(esgst.hideButtons && esgst.hideButtons_cs ? esgst.leftButtons : esgst.mainPagination, `afterBegin`, `
+        let button = insertHtml(esgst.hideButtons && esgst.hideButtons_cs ? esgst.leftButtons : esgst.mainPageHeading, `afterBegin`, `
             <div class="esgst-heading-button" title="Search comments from specific users">
                 <i class="fa fa-comments"></i>
                 <i class="fa fa-search"></i>
@@ -20900,7 +21081,7 @@ function setMrDelete(mr) {
         mr.delete.insertAdjacentHTML(`afterEnd`, `<a class="comment__actions__button esgst-mr-delete">Delete</a>`);
         mr.delete = mr.delete.nextElementSibling;
         mr.delete.previousElementSibling.remove();
-        mr.delete.addEventListener(`click`, request.bind(null, data, null, false, `/ajax.php`, editMrReply.bind(null, mr)));
+        mr.delete.addEventListener(`click`, request.bind(null, data, null, false, `/ajax.php`, editMrReply.bind(null, mr), false));
     }
 }
 
@@ -20918,7 +21099,7 @@ function setMrUndelete(mr) {
         mr.undelete.insertAdjacentHTML(`afterEnd`, `<a class="comment__actions__button esgst-mr-undelete">Undelete</a>`);
         mr.undelete = mr.undelete.nextElementSibling;
         mr.undelete.previousElementSibling.remove();
-        mr.undelete.addEventListener(`click`, request.bind(null, data, null, false, `/ajax.php`, editMrReply.bind(null, mr)));
+        mr.undelete.addEventListener(`click`, request.bind(null, data, null, false, `/ajax.php`, editMrReply.bind(null, mr), false));
     }
 }
 
@@ -21344,7 +21525,7 @@ function addCtCommentPanel(goToUnread, markRead, markUnread) {
                 url = `/ajax.php`;
             }
             button.remove();
-            newButton.addEventListener(`click`, request.bind(null, `xsrf_token=${esgst.xsrfToken}&do=${key}`, null, false, url, markCtCommentsRead.bind(null, markRead, completeCtInboxRead.bind(null, newButton))));
+            newButton.addEventListener(`click`, request.bind(null, `xsrf_token=${esgst.xsrfToken}&do=${key}`, null, false, url, markCtCommentsRead.bind(null, markRead, completeCtInboxRead.bind(null, newButton)), false));
         }
     }
 }
@@ -22083,7 +22264,7 @@ function loadSgcGroups(profile, response) {
     profile.sgcPopup.reposition();
 }
 
-/* [RWSCVL] Real Won/Sent CL Link */
+/* [RWSCVL] Real Won/Sent CV Link */
 
 function loadRwscvl() {
     if (esgst.userPath || esgst.ap) {
@@ -22993,7 +23174,7 @@ function highlightNamwcUsers(currentUsers) {
                     matches = currentUsers[id];
                     for (i = 0, n = matches.length; i < n; ++i) {
                         context = matches[i];
-                        context.classList.add(`esgst-namwc-highlight`, highlight);
+                        context.classList.add(`esgst-namwc-highlight`, `esgst-${highlight}`);
                         context.title = title;
                     }
                 }
@@ -24697,7 +24878,8 @@ function createGtTag(popup, tag) {
     resetButton.addEventListener(`click`, resetGtColor.bind(null, bgColorInput, colorInput, tagBox));
 }
 
-function startGtDrag(container, popup) {
+function startGtDrag(container, popup, event) {
+    event.dataTransfer.setData(`text/plain`, ``);
     popup.dragged = container;
 }
 
@@ -26017,6 +26199,26 @@ function loadSMMenu(tab) {
         Title: `Manage Not Activated / Multiple Wins Checker caches.`
     }]);
     var SMMenu = Container.getElementsByClassName(`esgst-settings-menu`)[0];
+    var j = 0;
+    SMMenu.insertAdjacentHTML(`beforeEnd`, 
+        createSMSections(++j, [{
+            Title: `Sync`,
+            HTML: `
+                ${SMSyncFrequency}
+                <div class="esgst-description">Select from how many days to how many days you want the automatic sync to run (0 to disable it).</div>
+                <div class="esgst-form-sync">
+                    <div class="esgst-form-sync-data">
+                        <div class="esgst-notification esgst-notification-warning esgst-last-sync">
+                            <i class="fa fa-question-circle"></i> Never synced.
+                        </div>
+                    </div>
+                    <div class="form__sync-default esgst-sync">
+                        <i class="fa fa-refresh"></i> Sync
+                    </div>
+                </div>
+            `
+        }])
+    );
     var sections = {
         general: {
             index: 1
@@ -26046,7 +26248,6 @@ function loadSMMenu(tab) {
             index: 1
         }
     };
-    var j = 0;
     for (var key in sections) {
         if ((key === `trades` && esgst.settings.esgst_st) || key !== `trades`) {
             var title = key.replace(/^./, function (m) {
@@ -26071,28 +26272,13 @@ function loadSMMenu(tab) {
     }
     SMMenu.insertAdjacentHTML(`beforeEnd`,
         createSMSections(++j, [{
-            Title: `Sync`,
-            HTML: `
-                ${SMSyncFrequency}
-                <div class="esgst-description">Select from how many days to how many days you want the automatic sync to run (0 to disable it).</div>
-                <div class="esgst-form-sync">
-                    <div class="esgst-form-sync-data">
-                        <div class="esgst-notification esgst-notification-warning esgst-last-sync">
-                            <i class="fa fa-question-circle"></i> Never synced.
-                        </div>
-                    </div>
-                    <div class="form__sync-default esgst-sync">
-                        <i class="fa fa-refresh"></i> Sync
-                    </div>
-                </div>
-            `
-        }, {
             Title: `Steam API Key`,
             HTML: `
                 <input class="esgst-steam-api-key" type="text"/>
                 <div class="esgst-description">This is optional for syncing owned games faster and required for syncing alt accounts. Get a Steam API Key <a class="esgst-bold" href="https://steamcommunity.com/dev/apikey" target="_blank">here</a>.</div>
             `
-        }]));
+        }])
+    );
     SMManageFilteredUsers = Container.getElementsByClassName(`SMManageFilteredUsers`)[0];
     var SMManageFilteredGiveaways = Container.getElementsByClassName(`SMManageFilteredGiveaways`)[0];
     var SMManageFilteredDiscussions = Container.getElementsByClassName(`SMManageFilteredDiscussions`)[0];
@@ -26163,6 +26349,25 @@ function loadSMMenu(tab) {
     });
     if (!tab) {
         popup.open();
+        if (esgst.firstInstall) {
+            let pp = new Popup(`fa-check`, `Getting Started`, true);
+            pp.scrollable.innerHTML = `
+                <div class="esgst-bold">Here are some things you should know to help you get started:</div>
+                <br/>
+                <div class="markdown">
+                    <ul>
+                        <li>Bugs and suggestions should be reported on the <a href="https://github.com/revilheart/ESGST/issues">GitHub page</a>.</li>
+                        <li>Make sure you backup your data using the export button at the top of the menu every once in a while to prevent any data loss that might occur. It's also probably a good idea to disable automatic updates, since ESGST is in constant development.</li>
+                        <li>Hover over the <i class="fa fa-question-circle"></i> icon next to each option that has it to learn more about it and how to use it. Some options are currently missing documentation, so feel free to ask about them in the official ESGST thread.</li>
+                        <li>Some features rely on sync to work properly. These features have a <i class="fa fa-refresh esgst-negative"></i> icon next to their names, and when you hover over the icon you can see what type of data you have to sync. You should sync often to keep your data up-to-date. ESGST offers an option to automatically sync your data for you every amount of days so you don't have to do it manually. To enable the automatic sync, simply go to the sync section of the menu (section 1) and select the number of days in the dropdown.</li>
+                        <li>ESGST uses 2 terms to define a window opened in the same page: <strong>popout</strong> is when the window opens up, down, left or right from the element you clicked/hovered over (like the one you get with the description of the features) and <strong>popup</strong> is when the window opens in the center of the screen with a modal background behind it (like this one).</li>
+                        <li>That's all for now, you can close this.</li>
+                    </ul>
+                </div>
+            `;
+            pp.open();
+            esgst.firstInstall = false;
+        }
     }
 }
 
@@ -26194,7 +26399,7 @@ function getSMFeature(Feature, aaa) {
     if (siwtchSg || siwtchSt) {
     val = val1 || val2;
     Menu.insertAdjacentHTML(`beforeEnd`, `
-        <span>${esgst.settings.esgst_st ? `- ` : ``}${Feature.name}</span> ${Feature.features ? `<i class="fa fa-ellipsis-h" title="This option has sub-options"></i>` : ``} ${Feature.description ? `<i class="fa fa-question-circle esgst-clickable"></i>` : ``}
+        <span>${esgst.settings.esgst_st ? `- ` : ``}${Feature.name}</span> ${Feature.features ? `<i class="fa fa-ellipsis-h" title="This option has sub-options"></i>` : ``} ${Feature.sync ? `<i class="esgst-negative fa fa-refresh" title="This feature requires ${Feature.sync} data to be synced (section 1 of this menu)"></i>` : ``} ${Feature.description ? `<i class="fa fa-question-circle esgst-clickable"></i>` : ``}
         <div class="esgst-form-row-indent SMFeatures esgst-hidden"></div>
     `);
     SMFeatures = Menu.lastElementChild;
@@ -26535,7 +26740,8 @@ function setSkMenu(id, input) {
     });
 }
 
-function setSmSource(child, sm) {
+function setSmSource(child, sm, event) {
+    event.dataTransfer.setData(`text/plain`, ``);
     sm.source = child;
 }
 
@@ -27346,8 +27552,21 @@ function setSMCommentHistory(SMCommentHistory) {
 
 function checkNewVersion() {
     if (esgst.version !== esgst.currentVersion) {
-        if (esgst.showChangelog) {
-            loadChangelog(esgst.version);
+        if (typeof esgst.version === `undefined`) {
+            esgst.firstInstall = true;
+            popup = new Popup(`fa-smile-o`, `<i class="fa fa-circle-o-notch fa-spin"></i> Hi! ESGST is getting things ready for you. This will not take long...`, true);
+            popup.open();
+            checkSync(true, () => {
+                popup.title.innerHTML = `
+                    <i class="fa fa-check"></i> Thanks for installing ESGST, <span>${esgst.username}</span>. You are ready to go! Click on the <span>Settings</span> link below to choose which features you want to use.
+                `;
+                popup.reposition();
+                popup.reposition();
+            });
+        } else {
+            if (esgst.showChangelog) {
+                loadChangelog(esgst.version);
+            }
         }
         esgst.version = esgst.currentVersion;
         setValue(`version`, esgst.version);
@@ -27503,13 +27722,13 @@ function getGiveawayInfo(context, mainContext, games, savedUsers, ugd, ugdType, 
         giveaway.started = !giveaway.endTimeColumn.textContent.match(/Begins/);
         giveaway.endTime = parseInt(giveaway.endTimeColumn.lastElementChild.getAttribute(`data-timestamp`)) * 1e3;
         giveaway.ended = giveaway.endTime < Date.now();
-        if (giveaway.ended && main && (esgst.userPath || esgst.groupPath || ugd)) {
+        if (giveaway.ended && ((main && (esgst.userPath || esgst.groupPath)) || ugd)) {
             giveaway.startTimeColumn = giveaway.endTimeColumn.nextElementSibling.nextElementSibling;
         } else {
             giveaway.startTimeColumn = giveaway.endTimeColumn.nextElementSibling;
         }
         giveaway.startTime = parseInt(giveaway.startTimeColumn.firstElementChild.getAttribute(`data-timestamp`)) * 1e3;
-        if (!esgst.userPath || !main) {
+        if (!esgst.userPath || (ugd && ugdType === `won`) || ged) {
             giveaway.creatorContainer = giveaway.startTimeColumn.lastElementChild;
             giveaway.creator = giveaway.creatorContainer.textContent;
         }
@@ -27630,6 +27849,7 @@ function getGiveawayInfo(context, mainContext, games, savedUsers, ugd, ugdType, 
     if (esgst.rrbp && feedback) {
         feedback.addEventListener(`click`, openRrbp.bind(null, giveaway));
     }
+    giveaway.blacklist = giveaway.outerWrap.classList.contains(`esgst-red-background`);
     if (main) {
         if (esgst.gr && giveaway.ended && giveaway.creator === esgst.username && (giveaway.entries === 0 || giveaway.entries < giveaway.copies) && (!esgst.gr_r || !esgst.giveaways[giveaway.code] || !esgst.giveaways[giveaway.code].recreated) && !giveaway.headingName.parentElement.getElementsByClassName(`esgst-gr-button`)[0]) {
             var button = insertHtml(giveaway.headingName, `beforeBegin`, `
@@ -28241,7 +28461,8 @@ function createUtTag(popup, tag) {
     resetButton.addEventListener(`click`, resetUtColor.bind(null, bgColorInput, colorInput, tagBox));
 }
 
-function startUtDrag(container, popup) {
+function startUtDrag(container, popup, event) {
+    event.dataTransfer.setData(`text/plain`, ``);
     popup.dragged = container;
 }
 
@@ -29983,11 +30204,13 @@ function manageData(dm, dropbox, google, outlook, space, callback) {
                                     toDelete += 1;
                                     for (k = 0, numValues = values[value].length; k < numValues; ++k) {
                                         valueKey = values[value][k];
-                                        mergedDataValue = mergedData[j][valueKey];
-                                        if (typeof mergedDataValue !== `undefined`) {
-                                            newData[valueKey] = mergedDataValue;
-                                            if (!space && dm.delete) {
-                                                delete mergedData[j][valueKey];
+                                        if (mergedData[j]) {
+                                            mergedDataValue = mergedData[j][valueKey];
+                                            if (typeof mergedDataValue !== `undefined`) {
+                                                newData[valueKey] = mergedDataValue;
+                                                if (!space && dm.delete) {
+                                                    delete mergedData[j][valueKey];
+                                                }
                                             }
                                         }
                                     }
@@ -31177,6 +31400,10 @@ function addStyle() {
 
         .esgst-feature-description img {
             max-width: 400px;
+        }
+
+        .esgst-red-background {
+            background-color: rgba(236, 133, 131, 0.25);
         }
 
         .esgst-gm-giveaway.error {
@@ -32493,6 +32720,29 @@ function addStyle() {
 function loadChangelog(version) {
     var changelog, current, html, i, index, n, popup;
     changelog = [
+        {
+            date: `October 21, 2017`,
+            version: `7.4.0`,
+            changelog: `
+                <ul>
+                    <li>Made ESGST a bit more welcoming to new users (users that are installing it for the first time will now get some basic information to help them get started).</li>
+                    <li>In the settings menu you will now see some red icons for features that require syncing, and upon hovering over the icons, tooltips will appear telling you which data needs to be synced to make the feature work correctly.</li>
+                    <li>Moved the sync section to the top of the settings menu.</li>
+                    <li>Fixed a bug that was happening for some users when syncing groups.</li>
+                    <li>Added an option to the settings menu that allows you to sync previously won games.</li>
+                    <li>Fixed a bug that was not allowing users to drag and drop on Firefox.</li>
+                    <li>Added General.13 Attached Images Loader.</li>
+                    <li>Fixed a bug that was adding the Giveaways Manager button to the right side of the main page heading instead of the left (<a href="https://github.com/revilheart/ESGST/issues/63">#63</a>).</li>
+                    <li>Giveaways Extractor now extracts giveaways that cannot be accessed because of blacklist issues and colors them with a red background.</li>
+                    <li>Added an option to use precise start/end dates to Giveaway Templates.</li>
+                    <li>Fixed a bug in CEWGD (Created/Entered/Won Giveaway Details) that was ordering the columns in the entered page wrong.</li>
+                    <li>Fixed a bug in CEWGD that was showing the wrong creator for giveaways in the won page.</li>
+                    <li>Fixed a bug in Comment Formatting Helper that was not formatting some links correctly (<a href="https://github.com/revilheart/ESGST/issues/62">#62</a>).</li>
+                    <li>Fixed a bug in Comment Searcher that was preventing the script from loading correctly (<a href="https://github.com/revilheart/ESGST/issues/61">#61</a>).</li>
+                    <li>Fixed a bug in Not Activated/Multiple Wins Checker that was not coloring users.</li>
+                </ul>
+            `
+        },
         {
             date: `October 18, 2017`,
             version: `7.3.0`,
