@@ -6091,33 +6091,56 @@ this._delay(function(){n===this.counter&&this.refreshPositions(!s)})},_clear:fun
             continueRequest(data, headers, url, callback, anon);
         }
     }
-    
+
     function continueRequest(data, headers, url, callback, anon, closeLock) {
         if (!headers[`Content-Type`]) {
             headers[`Content-Type`] = `application/x-www-form-urlencoded`;
         }
-        chrome.runtime.sendMessage({
-            action: `fetch`,
-            parameters: JSON.stringify({
+        if (url.match(/^\//) || url.match(new RegExp(location.hostname))) {
+            url = url.replace(/^https?:/, location.href.match(/^http:/) ? `http:` : `https:`);
+            fetch(url, {
                 body: data,
                 credentials: anon ? `omit` : `include`,
                 headers: headers,
                 method: data ? `POST` : `GET`,
                 redirect: `follow`
-            }),
-            url: url.replace(/^\//, `https://${location.hostname}/`).replace(/^https?:/, location.href.match(/^http:/) ? `http:` : `https:`)
-        }, response => {
-            if (closeLock) {
-                closeLock();
-            }
-            response = JSON.parse(response);
-            if (response.finalUrl.match(/www.steamgifts.com/)) {
-                lookForPopups(response);
-            }
-            if (callback) {
-                callback(response);
-            }
-        });
+            }).then(response => {
+                response.text().then(responseText => {
+                    if (closeLock) {
+                        closeLock();
+                    }
+                    response = {
+                        finalUrl: response.url,
+                        redirected: response.redirected,
+                        responseText: responseText
+                    };
+                    if (callback) {
+                        callback(response);
+                    }
+                    if (response.finalUrl.match(/www.steamgifts.com/)) {
+                        lookForPopups(response);
+                    }
+                });
+            });
+        } else {
+            GM_xmlhttpRequest({
+                data: data,
+                headers: headers,
+                method: data ? `POST` : `GET`,
+                url: url,
+                onload: response => {
+                    if (closeLock) {
+                        closeLock();
+                    }
+                    if (callback) {
+                        callback(response);
+                    }
+                    if (response.finalUrl.match(/www.steamgifts.com/)) {
+                        lookForPopups(response);
+                    }
+                }
+            });
+        }
     }
 
     function lookForPopups(response) {
