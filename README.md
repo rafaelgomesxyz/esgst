@@ -861,6 +861,18 @@ The video above does not get embedded.
 
 ## Changelog
 
+**7.5.0 (October 22, 2017):**
+
+<ul>
+    <li>Fixed a bug that was happening when importing groups.</li>
+    <li>Giveaway descriptions are no longer mandatory in Enter/Leave Giveaway Button. Yes, for the millionth time this has changed again. Here's why: making giveaway descriptions mandatory results in many complaints and users rolling back to old versions, which is a bad thing, especially since ESGST is in constant development and bugs are constantly being fixed. In the end, I still think this falls to the user. Forcing something on someone who doesn't care about it amounts to nothing, they will still find ways to ignore it.</li>
+    <li>Giveaways Extractor now detects giveaways that you cannot enter correctly (<a href="https://github.com/revilheart/ESGST/issues/58">#58</a>).</li>
+    <li>Added Giveaways.39 Blacklist Giveaway Loader</li>
+    <li>Fixed a bug in Comment Formatting Helper that was happening for script users when pasting links/images.</li>
+    <li>Added Users.15/Users.16 Whitelist/Blacklist Manager</li>
+    <li>Added Groups.3 Group Library/Wishlist Checker</li>
+</ul>
+
 **7.4.0 (October 21, 2017):**
 
 <ul>
@@ -1080,7 +1092,7 @@ The video above does not get embedded.
 **6.Beta.37.2 (September 29, 2017):**
 
 <ul>
-    <li>Fixed a bug that was not allowing the user to delete/undelete comments.</li>    
+    <li>Fixed a bug that was not allowing the user to delete/undelete comments.</li>
     <li>Fixed a bug in Multiple Giveaways Creator that was not showing the correct name/exporting games with quotes in their title.</li>
 </ul>
 
