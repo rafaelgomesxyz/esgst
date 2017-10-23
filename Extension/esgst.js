@@ -431,7 +431,7 @@ function loadEsgst(storage) {
         storage: storage,
         sg: location.hostname.match(/www.steamgifts.com/),
         st: location.hostname.match(/www.steamtrades.com/),
-        currentVersion: `7.5.0`,
+        currentVersion: `7.5.1`,
         icon: `data:image/x-icon;base64,AAABAAEAEBAAAAEAIABoBAAAFgAAACgAAAAQAAAAIAAAAAEAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAqv8DCbP/Hgeq+CQIrf8iCK3/Igit/yIIrf8iB6//Iwit9x8Aqv8DAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAKr0GAa2/c0DvfzfA7f83QO3/N0Dt/zdA7f83QO+/d4Gs/3OAKP1GQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACm/xQFs/n2Bcf//wW///8FwP//BcD//wW///8Fx///BbP69gC2/xUAAAAAAAAAAAAAAAAA/1UDFptOFxSZMxkLpJktAq720QW1+ugEsfvjA7b92wO2/dsEsfvjBbX66Aau/dEoiO4tUlLWGU5k3hdVVf8DEJxKHxWqT8cVrU7uE6VN0guqny0Apv8XAJfQGwBAVywAQFcsAJfQGwCx/xcogugtS2Lk0lBl6u5Qae7ISmPeHxagSSMVr07jF7lV/xOiSu0brgATAAAAAAAAAA8AAAC/AAAAwAAAABAAAAAAYznjEkth4OxWb/3/T2jv40lf4iMXnksiEq1O3RayUv8UpEnkEo0+HQAAABkAAABBAAAA8QAAAPEAAABBAAAAGUBSvxxOYeDjU2v0/05m7d1LYuEiF55LIhKtTt0Ws1L/FahN2gU1FTAAAADAAAAA7AAAAP0AAAD9AAAA7AAAAMAVG0owUGPm2lNr9P9OZu3dS2LhIheeSyISrU7dFrNS/xWoTdoFNRswAAAAvwAAAOsAAAD9AAAA/QAAAOsAAADAFRtKMFBj6NpTa/T/Tmbt3Uti4SIXnksiEq1O3RayUv8UpEnkEo0+HQAAABgAAABAAAAA8QAAAPEAAABBAAAAGT5PuR1OYeDjU2v0/05m7d1LYuEiFqBJIxWuT+QXuVX/E6JL7QC8XhMAAAAAAAAADwAAAL8AAAC/AAAAEAAAAAAOR/8SSWLh7FZv/f9PaO/jSV/iIxCUSh8Vrk7HFqxN7ROlS9JskzMt1XULGK12EhxGLgYsRy8GK612EhzVgAsYgmxxLU1i39JNZ+vtT2fwx0pj1h8AqlUDF65GFgqZUhlsiC0txH0T0s5/EujJgBPkz4QR28+EEdvJgBPkzn8Q6Md+E9KLdHosM1LWGUZo6BZVVf8DAAAAAAAAAAAAAAAA/2YAFMl9EvbgjRb/14gV/9eIFf/XiBX/14gV/9+NFv/KgBD254YAFQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAL91FRjKgRHN1IgU3s+EEt3PhBLdz4QS3c+EEt3UiBTezYMRzcJ6FBkAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACqqgADxIARHr18FiO8eA8ivHgPIrx4DyK8eA8ivXwPI8SAER7/VQADAAAAAAAAAAAAAAAA78cAAPA3AAD4FwAABCAAADGOAAAE+AAAkBEAAJ55AACYOQAAlgEAAER4AAAXaAAATnoAAPgXAAD0JwAA69cAAA==`,
         sgIcon: `data:image/x-icon;base64,AAABAAEAEBAAAAEAIABoBAAAFgAAACgAAAAQAAAAIAAAAAEAIAAAAAAAQAQAABMLAAATCwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIUAAAD5AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAPoAAACFAAAAAAAAAAAAAAD8AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA+QAAAAAAAAAAAAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAAAAAAAAAAAAP8AAAD/AAAA/wAAABwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAcAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAcAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAHAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAAAAAAAAAAAAPwAAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD5AAAAAAAAAAAAAACFAAAA+QAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD5AAAAhQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA//8AAP//AADAAwAAwAMAAMfjAADP8wAAz/MAAM/zAADP8wAAz/MAAM/zAADH4wAAwAMAAMADAAD//wAA//8AAA==`,
         stIcon: `data:image/x-icon;base64,AAABAAEAEBAAAAEAIABoBAAAFgAAACgAAAAQAAAAIAAAAAEAIAAAAAAAQAQAABMLAAATCwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABbD6SgWw+ucFsPrkBbD6SgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAWw+uYFsPr/BbD6/wWw+ucAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAFsPrmBbD6/wWw+v8FsPrmAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABbD6SQWw+uYFsPrmBbD6SQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAFKRLShSkS+cUpEvkFKRLSgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAExi4EpMYuDnTGLg5Exi4EoAAAAAAAAAABSkS+YUpEv/FKRL/xSkS+cAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABMYuDmTGLg/0xi4P9MYuDnAAAAAAAAAAAUpEvmFKRL/xSkS/8UpEvmAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAATGLg5kxi4P9MYuD/TGLg5gAAAAAAAAAAFKRLSRSkS+YUpEvmFKRLSQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAExi4ElMYuDmTGLg5kxi4EkAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAMZ9E0rGfRPnxn0T5MZ9E0oAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADGfRPmxn0T/8Z9E//GfRPnAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAxn0T5sZ9E//GfRP/xn0T5gAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAMZ9E0nGfRPmxn0T5sZ9E0kAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA//8AAPw/AAD8PwAA/D8AAPw/AAD//wAAh+EAAIfhAACH4QAAh+EAAP//AAD8PwAA/D8AAPw/AAD8PwAA//8AAA==`,
@@ -1416,7 +1416,6 @@ function loadEsgst(storage) {
                         </ul>
                     `,
                     id: `ib`,
-                    load: loadIb,
                     name: `Image Borders`,
                     sg: true,
                     type: `general`
@@ -1428,7 +1427,6 @@ function loadEsgst(storage) {
                         </ul>
                     `,
                     id: `fh`,
-                    load: loadFh,
                     name: `Fixed Header`,
                     sg: true,
                     st: true,
@@ -1441,7 +1439,6 @@ function loadEsgst(storage) {
                         </ul>
                     `,
                     id: `fs`,
-                    load: loadFs,
                     name: `Fixed Sidebar`,
                     sg: true,
                     type: `general`,
@@ -1453,7 +1450,6 @@ function loadEsgst(storage) {
                         </ul>
                     `,
                     id: `fmph`,
-                    load: loadFmph,
                     name: `Fixed Main Page Heading`,
                     sg: true,
                     st: true,
@@ -1466,7 +1462,6 @@ function loadEsgst(storage) {
                         </ul>
                     `,
                     id: `ff`,
-                    load: loadFf,
                     name: `Fixed Footer`,
                     sg: true,
                     st: true,
@@ -1541,7 +1536,6 @@ function loadEsgst(storage) {
                     ],
                     id: `hr`,
                     input: true,
-                    load: loadHr,
                     name: `Header Refresher`,
                     sg: true,
                     st: true,
@@ -1555,7 +1549,6 @@ function loadEsgst(storage) {
                         <img src="https://camo.githubusercontent.com/5226f7a5e2012c40d201d9d2a44f19dd9df8ab18/687474703a2f2f696d6775722e636f6d2f524a6d436e70522e706e67"/>
                     `,
                     id: `lpv`,
-                    load: loadLpv,
                     name: `Level Progress Visualizer`,
                     sg: true,
                     sync: `Giveaways`,
@@ -1593,7 +1586,6 @@ function loadEsgst(storage) {
                         </ul>
                     `,
                     id: `pnot`,
-                    load: loadPnot,
                     name: `Pagination Navigation On Top`,
                     sg: true,
                     st: true,
@@ -1732,7 +1724,6 @@ function loadEsgst(storage) {
                         }
                     ],
                     id: `hcp`,
-                    load: loadHcp,
                     name: `Hidden Community Poll`,
                     sg: true,
                     type: `general`
@@ -1783,7 +1774,6 @@ function loadEsgst(storage) {
                         </ul>
                     `,
                     id: `hfc`,
-                    load: loadHfc,
                     name: `Hidden Featured Container`,
                     sg: true,
                     type: `giveaways`
@@ -4381,42 +4371,40 @@ function loadEsgst(storage) {
                 checkNewVersion();
                 if (esgst.oadd && esgst.giveawaysPath && esgst.activeDiscussions) {
                     loadOadd();
-                } else {
-                    if (esgst.bgl && esgst.giveawayPath) {
-                        let summary = document.getElementsByClassName(`table--summary`)[0];
-                        if (summary && summary.lastElementChild.firstElementChild.lastElementChild.textContent.match(/blacklist/)) {
-                            esgst.pageOuterWrap.innerHTML = `
-                                <i class="fa fa-circle-o-notch fa-spin"></i>
-                                <span>Loading giveaway...</span>
-                            `;
-                            request(null, null, false, location.pathname, response => {
-                                let responseHtml = DOM.parse(response.responseText);
-                                esgst.featuredContainer = insertHtml(esgst.pageOuterWrap, `beforeBegin`, `<div class="featured__container"></div>`);
-                                esgst.featuredContainer.innerHTML = responseHtml.getElementsByClassName(`featured__container`)[0].innerHTML;
-                                esgst.pageOuterWrap.innerHTML = responseHtml.getElementsByClassName(`page__outer-wrap`)[0].innerHTML;
-                                getElements(logoutButton);
-                                esgst.sidebar.insertAdjacentHTML(`afterBegin`, `
-                                    <div class="sidebar__error is-disabled">
-                                        <i class="fa fa-exclamation-circle"></i> Blacklist
-                                    </div>
-                                `);
-                                if (esgst.adots) {
-                                    loadAdots();
-                                }
-                                loadFeatures();
-                            }, true);
-                        } else {
+                } else if (esgst.bgl && esgst.giveawayPath) {
+                    let summary = document.getElementsByClassName(`table--summary`)[0];
+                    if (summary && summary.lastElementChild.firstElementChild.lastElementChild.textContent.match(/blacklist/)) {
+                        esgst.pageOuterWrap.innerHTML = `
+                            <i class="fa fa-circle-o-notch fa-spin"></i>
+                            <span>Loading giveaway...</span>
+                        `;
+                        request(null, null, false, location.pathname, response => {
+                            let responseHtml = DOM.parse(response.responseText);
+                            esgst.featuredContainer = insertHtml(esgst.pageOuterWrap, `beforeBegin`, `<div class="featured__container"></div>`);
+                            esgst.featuredContainer.innerHTML = responseHtml.getElementsByClassName(`featured__container`)[0].innerHTML;
+                            esgst.pageOuterWrap.innerHTML = responseHtml.getElementsByClassName(`page__outer-wrap`)[0].innerHTML;
+                            getElements(logoutButton);
+                            esgst.sidebar.insertAdjacentHTML(`afterBegin`, `
+                                <div class="sidebar__error is-disabled">
+                                    <i class="fa fa-exclamation-circle"></i> Blacklist
+                                </div>
+                            `);
                             if (esgst.adots) {
                                 loadAdots();
                             }
                             loadFeatures();
-                        }
+                        }, true);
                     } else {
                         if (esgst.adots) {
                             loadAdots();
                         }
                         loadFeatures();
                     }
+                } else {
+                    if (esgst.adots) {
+                        loadAdots();
+                    }
+                    loadFeatures();
                 }
             }
         }
@@ -4611,6 +4599,142 @@ function loadFeatures() {
             <div class="esgst-page-heading"></div>
         `);
     }
+
+    /* [FH] Fixed Header */
+
+    if (esgst.fh) {
+        let height;
+        esgst.header.classList.add(`esgst-fh`);
+        if (esgst.featuredContainer && (!esgst.hfc || !esgst.giveawaysPath)) {
+            esgst.featuredContainer.classList.add(`esgst-fh-sibling`);
+        } else {
+            esgst.pageOuterWrap.classList.add(`esgst-fh-sibling`);
+        }
+        height = esgst.header.offsetHeight;
+        esgst.pageTop += height;
+        esgst.commentsTop += height;
+        esgst.style.insertAdjacentText(`beforeEnd`, `
+            .esgst-fh-sibling {
+                margin-top: ${height}px;
+            }
+        `);
+    }
+
+    /* [FS] Fixed Sidebar */
+
+    if (esgst.fs && esgst.sidebar) {
+        esgst.sidebarAd = esgst.sidebar.getElementsByClassName(`sidebar__mpu`)[0];
+        esgst.sidebarSibling = esgst.sidebar.nextElementSibling;
+        document.addEventListener(`scroll`, fixFsSidebar);
+        fixFsSidebar();
+        esgst.style.insertAdjacentText(`beforeEnd`, `
+            .esgst-fs {
+                position: fixed;
+                top: ${esgst.pageTop}px;
+            }
+        `);
+    }
+
+    /* [FMPH] Fixed Main Page Heading */
+
+    if (esgst.fmph && esgst.mainPageHeading) {
+        let height;
+        esgst.mainPageHeading.insertAdjacentHTML(`afterEnd`, `
+            <div class="esgst-fmph-placeholder esgst-hidden"></div>
+            <div class="esgst-fmph-background ${esgst.pageOuterWrapClass} esgst-hidden"></div>
+        `);
+        esgst.mainPageHeadingPlaceholder = esgst.mainPageHeading.nextElementSibling;
+        esgst.mainPageHeadingBackground = esgst.mainPageHeadingPlaceholder.nextElementSibling;
+        document.addEventListener(`scroll`, fixFmphHeading);
+        fixFmphHeading();
+        height = esgst.mainPageHeading.offsetHeight;
+        newHeight = (esgst.gf && (esgst.giveawaysPath || esgst.groupsPath || esgst.createdPath || esgst.enteredPath || esgst.wonPath)) || (esgst.df && esgst.discussionsPath) ? height + 23 : height;
+        esgst.style.insertAdjacentText(`beforeEnd`, `
+            .esgst-fmph {
+                position: fixed;
+                top: ${esgst.pageTop}px;
+                z-index: 998;
+            }
+            .esgst-fmph-placeholder {
+                height: ${newHeight}px;
+            }
+            .esgst-fmph-background {
+                height: ${esgst.pageTop + newHeight + 5}px;
+                padding: 0;
+                position: fixed;
+                top: 0;
+                z-index: 997;
+            }
+            .esgst-gf-container-fixed {
+                position: fixed;
+                top: ${esgst.pageTop + 34}px;
+                z-index: 998;
+            }
+        `);
+        esgst.commentsTop += height + 30;
+    }
+
+    /* [FF] Fixed Footer */
+
+    if (esgst.ff && esgst.footer) {
+        esgst.footer.classList.add(`esgst-ff`);
+        esgst.pageOuterWrap.classList.add(`esgst-ff-sibling`);
+    }
+
+    /* [HR] Header Refresher */
+
+    if (esgst.hr) {
+        let hr = {
+            wishlist: false,
+            messages: 0,
+            points: esgst.points,
+            wins: 0
+        };
+        notifyHrChange(hr, false);
+        setValue(`esgst_hrCache`, JSON.stringify(getHrCache()));
+        startHeaderRefresher(hr);
+        if (!esgst.hr_b) {
+            addEventListener(`focus`, startHeaderRefresher.bind(null, hr));
+            addEventListener(`blur`, () => clearTimeout(hr.refresher));
+        }
+    } else if (esgst.lpv) {
+        setLpvStyle();
+    }
+    if (esgst.lpv && !esgst.cewgd && !esgst.gc && esgst.giveawayPath && document.referrer === `https://www.steamgifts.com/giveaways/new`) {
+        addGiveawayToStorage();
+    }
+
+    /* [HFC] Hidden Featured Container */
+
+    if (esgst.hfc && esgst.giveawaysPath && esgst.featuredContainer) {
+        esgst.featuredContainer.classList.add(`esgst-hidden`);
+    }
+
+    /* [HCP] Hidden Community Poll */
+
+    if (esgst.hcp && esgst.giveawaysPath && esgst.activeDiscussions) {
+        let poll = esgst.activeDiscussions.previousElementSibling;
+        if (poll && poll.classList.contains(`widget-container`)) {
+            if (!esgst.hcp_v || poll.querySelector(`.table__row-outer-wrap.is-selected`)) {
+                poll.classList.add(`esgst-hidden`);
+            }
+        }
+    }
+
+    /* [PNOT] Pagination Navigation On Top */
+
+    if (esgst.pnot && esgst.paginationNavigation && esgst.mainPageHeading) {
+        esgst.paginationNavigation.classList.add(`page_heading_btn`);
+        esgst.mainPageHeading.appendChild(esgst.paginationNavigation);
+    }
+
+    /* [IB] Image Borders */
+
+    if (esgst.ib) {
+        esgst.endlessFeatures.push(addIbBorders);
+        addIbBorders(document);
+    }
+
     esgst.toExecute.forEach(feature => {
         feature();
     });
@@ -4634,9 +4758,95 @@ function loadFeatures() {
     addEventListener(`hashchange`, function () {
         goToComment();
     });
-    if (location.pathname.match(/^\/discussion\/TDyzv\//) && esgst.checkVersion && document.querySelector(`[href*="ESGST-currentVersion"]`).getAttribute(`href`).match(/currentVersion-(.+)/)[1] !== esgst.version) {
-        createAlert(`You are not using the latest ESGST version. Please update before reporting any bugs and make sure the bugs still exist in the latest version.`);
+    if (location.pathname.match(/^\/discussion\/TDyzv\//) && esgst.checkVersion) {
+        let version = document.querySelector(`[href*="ESGST-currentVersion"]`).getAttribute(`href`).match(/currentVersion-(.+)/)[1];
+        if (version !== esgst.version && version !== getValue(`dismissedVersion`))  {
+            notifyNewVersion(version);
+        }
     }
+}
+
+function fixFsSidebar() {
+    if (esgst.sidebar.offsetTop >= esgst.pageTop) {
+        esgst.sidebarTop = esgst.sidebar.offsetTop - esgst.pageTop;
+    } else {
+        esgst.sidebarTop = esgst.sidebar.offsetTop;
+    }
+    if (scrollY > esgst.sidebarTop && document.documentElement.offsetHeight > innerHeight * 2) {
+        document.removeEventListener(`scroll`, fixFsSidebar);
+        esgst.sidebar.classList.add(`esgst-fs`);
+        if (esgst.sidebarAd) {
+            esgst.sidebarAd.classList.add(`esgst-hidden`);
+        }
+        esgst.sidebarSibling.style.marginLeft = `${esgst.sidebar.offsetWidth + 25}px`;
+        document.addEventListener(`scroll`, unfixFsSidebar);
+    }
+}
+
+function unfixFsSidebar() {
+    if (scrollY <= esgst.sidebarTop) {
+        document.removeEventListener(`scroll`, unfixFsSidebar);
+        esgst.sidebar.classList.remove(`esgst-fs`);
+        if (esgst.sidebarAd) {
+            esgst.sidebarAd.classList.remove(`esgst-hidden`);
+        }
+        esgst.sidebarSibling.style.marginLeft = `25px`;
+        document.addEventListener(`scroll`, fixFsSidebar);
+    }
+}
+
+function fixFmphHeading() {
+    if (scrollY > (esgst.mainPageHeading.offsetTop - esgst.pageTop)) {
+        document.removeEventListener(`scroll`, fixFmphHeading);
+        esgst.mainPageHeading.classList.add(`esgst-fmph`);
+        esgst.mainPageHeadingPlaceholder.classList.remove(`esgst-hidden`);
+        esgst.mainPageHeadingBackground.classList.remove(`esgst-hidden`);
+        width = `${getComputedStyle(esgst.mainPageHeading.parentElement).getPropertyValue(`width`)}`;
+        esgst.mainPageHeading.style.width = width;
+        esgst.mainPageHeadingBackground.style.width = width;
+        if (esgst.gf && esgst.gf.container) {
+            esgst.gf.container.classList.add(`esgst-gf-container-fixed`);
+            esgst.gf.container.style.width = width;
+        }
+        if (esgst.df && esgst.df.container) {
+            esgst.df.container.classList.add(`esgst-gf-container-fixed`);
+            esgst.df.container.style.width = width;
+        }
+        document.addEventListener(`scroll`, unfixFmphHeading);
+    }
+}
+
+function unfixFmphHeading() {
+    if (scrollY <= (esgst.mainPageHeadingPlaceholder.offsetTop - esgst.pageTop)) {
+        document.removeEventListener(`scroll`, unfixFmphHeading);
+        esgst.mainPageHeading.classList.remove(`esgst-fmph`);
+        esgst.mainPageHeadingPlaceholder.classList.add(`esgst-hidden`);
+        esgst.mainPageHeadingBackground.classList.add(`esgst-hidden`);
+        width = ``;
+        esgst.mainPageHeading.style.width = width;
+        esgst.mainPageHeadingBackground.style.width = width;
+        if (esgst.gf && esgst.gf.container) {
+            esgst.gf.container.classList.remove(`esgst-gf-container-fixed`);
+        }
+        if (esgst.df && esgst.df.container) {
+            esgst.df.container.classList.remove(`esgst-gf-container-fixed`);
+        }
+        document.addEventListener(`scroll`, fixFmphHeading);
+    }
+}
+
+function notifyNewVersion(version) {
+    let message, popup;
+    if (esgst.discussionPath) {
+        message = `You are not using the latest ESGST version. Please update before reporting bugs and make sure the bugs still exist in the latest version.`;
+    } else {
+        message = `A new ESGST version is available.`;
+    }
+    popup = new Popup(`fa-exclamation`, message, true);
+    popup.onClose = () => {
+        setValue(`dismissedVersion`, version);
+    };
+    popup.open();
 }
 
 function loadFeature(feature) {
@@ -5284,15 +5494,19 @@ function setSync(autoSync, mainCallback) {
     } else if (syncer.autoSync || mainCallback) {
         popup = new Popup(`fa-refresh`, `Sync`);
         if (!syncer.autoSync) {
-            new ToggleSwitch(popup.description, `syncGroups`, false, `Steam Groups`, false, false, null, esgst.syncGroups);
-            new ToggleSwitch(popup.description, `syncWhitelist`, false, `Whitelist`, false, false, null, esgst.syncWhitelist);
-            new ToggleSwitch(popup.description, `syncBlacklist`, false, `Blacklist`, false, false, null, esgst.syncBlacklist);
-            new ToggleSwitch(popup.description, `syncHiddenGames`, false, `Hidden Games`, false, false, null, esgst.syncHiddenGames);
-            new ToggleSwitch(popup.description, `syncGames`, false, `Owned/Wishlisted/Ignored Games`, false, false, null, esgst.syncGames);
-            new ToggleSwitch(popup.description, `syncWonGames`, false, `Won Games`, false, false, null, esgst.syncWonGames);
-            new ToggleSwitch(popup.description, `syncReducedCvGames`, false, `Reduced CV Games`, false, false, null, esgst.syncReducedCvGames);
-            new ToggleSwitch(popup.description, `syncNoCvGames`, false, `No CV Games`, false, false, null, esgst.syncNoCvGames);
-            new ToggleSwitch(popup.description, `syncGiveaways`, false, `Giveaways`, false, false, null, esgst.syncGiveaways);
+            let switches = {};
+            switches.syncGroups = new ToggleSwitch(popup.description, `syncGroups`, false, `Steam Groups`, false, false, null, esgst.syncGroups);
+            switches.syncWhitelist = new ToggleSwitch(popup.description, `syncWhitelist`, false, `Whitelist`, false, false, null, esgst.syncWhitelist);
+            switches.syncBlacklist = new ToggleSwitch(popup.description, `syncBlacklist`, false, `Blacklist`, false, false, null, esgst.syncBlacklist);
+            switches.syncHiddenGames = new ToggleSwitch(popup.description, `syncHiddenGames`, false, `Hidden Games`, false, false, null, esgst.syncHiddenGames);
+            switches.syncGames = new ToggleSwitch(popup.description, `syncGames`, false, `Owned/Wishlisted/Ignored Games`, false, false, null, esgst.syncGames);
+            switches.syncWonGames = new ToggleSwitch(popup.description, `syncWonGames`, false, `Won Games`, false, false, null, esgst.syncWonGames);
+            switches.syncReducedCvGames = new ToggleSwitch(popup.description, `syncReducedCvGames`, false, `Reduced CV Games`, false, false, null, esgst.syncReducedCvGames);
+            switches.syncNoCvGames = new ToggleSwitch(popup.description, `syncNoCvGames`, false, `No CV Games`, false, false, null, esgst.syncNoCvGames);
+            switches.syncGiveaways = new ToggleSwitch(popup.description, `syncGiveaways`, false, `Giveaways`, false, false, null, esgst.syncGiveaways);
+            popup.description.appendChild(new ButtonSet(`grey`, `grey`, `fa-circle`, `fa-circle-o-notch fa-spin`, `Select All`, ``, selectSwitches.bind(null, switches, `enable`)).set);
+            popup.description.appendChild(new ButtonSet(`grey`, `grey`, `fa-circle-o`, `fa-circle-o-notch fa-spin`, `Select None`, ``, selectSwitches.bind(null, switches, `disable`)).set);
+            popup.description.appendChild(new ButtonSet(`grey`, `grey`, `fa-dot-circle-o`, `fa-circle-o-notch fa-spin`, `Select Inverse`, ``, selectSwitches.bind(null, switches, `toggle`)).set);
         }
         syncer.progress = insertHtml(popup.description, `beforeEnd`, `
             <div class="esgst-hidden esgst-popup-progress"></div>
@@ -6345,181 +6559,6 @@ function formatDate(EntryDate) {
     * Features
     */
 
-/* [FH] Fixed Header */
-
-function loadFh() {
-    let height;
-    esgst.header.classList.add(`esgst-fh`);
-    if (esgst.featuredContainer && (!esgst.hfc || !esgst.giveawaysPath)) {
-        esgst.featuredContainer.classList.add(`esgst-fh-sibling`);
-    } else {
-        esgst.pageOuterWrap.classList.add(`esgst-fh-sibling`);
-    }
-    height = esgst.header.offsetHeight;
-    esgst.pageTop += height;
-    esgst.commentsTop += height;
-    esgst.style.insertAdjacentText(`beforeEnd`, `
-        .esgst-fh-sibling {
-            margin-top: ${height}px;
-        }
-    `);
-}
-
-/* [FS] Fixed Sidebar */
-
-function loadFs() {
-    var ad, sibling, top;
-    if (esgst.sidebar) {
-        ad = esgst.sidebar.getElementsByClassName(`sidebar__mpu`)[0];
-        sibling = esgst.sidebar.nextElementSibling;
-        document.addEventListener(`scroll`, fixSidebar);
-        fixSidebar();
-        esgst.style.insertAdjacentText(`beforeEnd`, `
-            .esgst-fs {
-                position: fixed;
-                top: ${esgst.pageTop}px;
-            }
-        `);
-    }
-
-    function fixSidebar() {
-        if (esgst.sidebar.offsetTop >= esgst.pageTop) {
-            top = esgst.sidebar.offsetTop - esgst.pageTop;
-        } else {
-            top = esgst.sidebar.offsetTop;
-        }
-        if (scrollY > top && document.documentElement.offsetHeight > innerHeight * 2) {
-            document.removeEventListener(`scroll`, fixSidebar);
-            esgst.sidebar.classList.add(`esgst-fs`);
-            if (ad) {
-                ad.classList.add(`esgst-hidden`);
-            }
-            sibling.style.marginLeft = `${esgst.sidebar.offsetWidth + 25}px`;
-            document.addEventListener(`scroll`, unfixSidebar);
-        }
-    }
-
-    function unfixSidebar() {
-        if (scrollY <= top) {
-            document.removeEventListener(`scroll`, unfixSidebar);
-            esgst.sidebar.classList.remove(`esgst-fs`);
-            if (ad) {
-                ad.classList.remove(`esgst-hidden`);
-            }
-            sibling.style.marginLeft = `25px`;
-            document.addEventListener(`scroll`, fixSidebar);
-        }
-    }
-}
-
-/* [FMPH] Fixed Main Page Heading */
-
-function loadFmph() {
-    var height, html, newHeight, width;
-    if (esgst.mainPageHeading) {
-        html = `
-            <div class="esgst-fmph-placeholder esgst-hidden"></div>
-            <div class="esgst-fmph-background ${esgst.pageOuterWrapClass} esgst-hidden"></div>
-        `;
-        esgst.mainPageHeading.insertAdjacentHTML(`afterEnd`, html);
-        esgst.mainPageHeadingPlaceholder = esgst.mainPageHeading.nextElementSibling;
-        esgst.mainPageHeadingBackground = esgst.mainPageHeadingPlaceholder.nextElementSibling;
-        document.addEventListener(`scroll`, fixMainPageHeading);
-        fixMainPageHeading();
-        height = esgst.mainPageHeading.offsetHeight;
-        newHeight = (esgst.gf && (esgst.giveawaysPath || esgst.groupsPath || esgst.createdPath || esgst.enteredPath || esgst.wonPath)) || (esgst.df && esgst.discussionsPath) ? height + 23 : height;
-        esgst.style.insertAdjacentText(`beforeEnd`, `
-            .esgst-fmph {
-                position: fixed;
-                top: ${esgst.pageTop}px;
-                z-index: 998;
-            }
-            .esgst-fmph-placeholder {
-                height: ${newHeight}px;
-            }
-            .esgst-fmph-background {
-                height: ${esgst.pageTop + newHeight + 5}px;
-                padding: 0;
-                position: fixed;
-                top: 0;
-                z-index: 997;
-            }
-            .esgst-gf-container-fixed {
-                position: fixed;
-                top: ${esgst.pageTop + 34}px;
-                z-index: 998;
-            }
-        `);
-        esgst.commentsTop += height + 30;
-    }
-
-    function fixMainPageHeading() {
-        if (scrollY > (esgst.mainPageHeading.offsetTop - esgst.pageTop)) {
-            document.removeEventListener(`scroll`, fixMainPageHeading);
-            esgst.mainPageHeading.classList.add(`esgst-fmph`);
-            esgst.mainPageHeadingPlaceholder.classList.remove(`esgst-hidden`);
-            esgst.mainPageHeadingBackground.classList.remove(`esgst-hidden`);
-            width = `${getComputedStyle(esgst.mainPageHeading.parentElement).getPropertyValue(`width`)}`;
-            esgst.mainPageHeading.style.width = width;
-            esgst.mainPageHeadingBackground.style.width = width;
-            if (esgst.gf && esgst.gf.container) {
-                esgst.gf.container.classList.add(`esgst-gf-container-fixed`);
-                esgst.gf.container.style.width = width;
-            }
-            if (esgst.df && esgst.df.container) {
-                esgst.df.container.classList.add(`esgst-gf-container-fixed`);
-                esgst.df.container.style.width = width;
-            }
-            document.addEventListener(`scroll`, unfixMainPageHeading);
-        }
-    }
-
-    function unfixMainPageHeading() {
-        if (scrollY <= (esgst.mainPageHeadingPlaceholder.offsetTop - esgst.pageTop)) {
-            document.removeEventListener(`scroll`, unfixMainPageHeading);
-            esgst.mainPageHeading.classList.remove(`esgst-fmph`);
-            esgst.mainPageHeadingPlaceholder.classList.add(`esgst-hidden`);
-            esgst.mainPageHeadingBackground.classList.add(`esgst-hidden`);
-            width = ``;
-            esgst.mainPageHeading.style.width = width;
-            esgst.mainPageHeadingBackground.style.width = width;
-            if (esgst.gf && esgst.gf.container) {
-                esgst.gf.container.classList.remove(`esgst-gf-container-fixed`);
-            }
-            if (esgst.df && esgst.df.container) {
-                esgst.df.container.classList.remove(`esgst-gf-container-fixed`);
-            }
-            document.addEventListener(`scroll`, fixMainPageHeading);
-        }
-    }
-}
-
-/* [FF] Fixed Footer */
-
-function loadFf() {
-    if (esgst.footer) {
-        esgst.footer.classList.add(`esgst-ff`);
-        esgst.pageOuterWrap.classList.add(`esgst-ff-sibling`);
-    }
-}
-
-/* [HFC] Hidden Feature Container */
-
-function loadHfc() {
-    if (esgst.giveawaysPath && esgst.featuredContainer) {
-        esgst.featuredContainer.classList.add(`esgst-hidden`);
-    }
-}
-
-/* [PNOT] Pagination Navigation On Top */
-
-function loadPnot() {
-    if (esgst.paginationNavigation && esgst.mainPageHeading) {
-        esgst.paginationNavigation.classList.add(`page_heading_btn`);
-        esgst.mainPageHeading.appendChild(esgst.paginationNavigation);
-    }
-}
-
 /* [SK] Shortcut Keys */
 
 function loadSk() {
@@ -6699,13 +6738,6 @@ function loadSk() {
     }
 }
 
-/* [IB] Image Borders */
-
-function loadIb() {
-    esgst.endlessFeatures.push(addIbBorders);
-    addIbBorders(document);
-}
-
 function addIbBorders(context) {
     var elements, i, n;
     elements = context.querySelectorAll(`.giveaway_image_avatar, :not(.esgst-ggl-panel) .table_image_avatar`);
@@ -6715,24 +6747,6 @@ function addIbBorders(context) {
     elements = context.querySelectorAll(`.giveaway_image_thumbnail, .giveaway_image_thumbnail_missing`);
     for (i = 0, n = elements.length; i < n; ++i) {
         elements[i].classList.add(`esgst-ib-game`);
-    }
-}
-
-/* [HR] Header Refresher */
-
-function loadHr() {
-    let hr = {
-        wishlist: false,
-        messages: 0,
-        points: esgst.points,
-        wins: 0
-    };
-    notifyHrChange(hr, false);
-    setValue(`esgst_hrCache`, JSON.stringify(getHrCache()));
-    startHeaderRefresher(hr);
-    if (!esgst.hr_b) {
-        addEventListener(`focus`, startHeaderRefresher.bind(null, hr));
-        addEventListener(`blur`, () => clearTimeout(hr.refresher));
     }
 }
 
@@ -6971,30 +6985,6 @@ function showNotification(notification) {
             });
         }
     });
-}
-
-/* [HCP] Hidden Community Poll */
-
-function loadHcp() {
-    if (esgst.giveawaysPath && esgst.activeDiscussions) {
-        var poll = esgst.activeDiscussions.previousElementSibling;
-        if (poll && poll.classList.contains(`widget-container`)) {
-            if (!esgst.hcp_v || poll.querySelector(`.table__row-outer-wrap.is-selected`)) {
-                poll.classList.add(`esgst-hidden`);
-            }
-        }
-    }
-}
-
-/* [LPV] Level Progress Visualizer */
-
-function loadLpv() {
-    if (!esgst.hr) {
-        setLpvStyle();
-    }
-    if (!esgst.cewgd && !esgst.gc && esgst.giveawayPath && document.referrer === `https://www.steamgifts.com/giveaways/new`) {
-        addGiveawayToStorage();
-    }
 }
 
 function setLpvStyle() {
@@ -13562,6 +13552,7 @@ function getUgsGiveaways(context, ugs, nextPage, callback) {
             `;
             giveaways = [];
             elements = context.getElementsByClassName(`table__row-outer-wrap`);
+            ugs.continue = false;
             for (i = 0, n = elements.length; i < n; ++i) {
                 element = elements[i];
                 unsent = element.getElementsByClassName(`fa icon-red fa-warning`)[0];
@@ -13574,6 +13565,7 @@ function getUgsGiveaways(context, ugs, nextPage, callback) {
                         name: heading.firstChild.textContent.trim().match(/(.+?)(\s\(.+\sCopies\))?$/)[1],
                         url: url
                     });
+                    ugs.continue = true;
                 }
             }
             n = giveaways.length;
@@ -13707,7 +13699,7 @@ function loadNextUgsGroupsPage(code, ugs, nextPage, url, callback, response) {
 function checkNextUgsPage(context, ugs, nextPage, callback) {
     var pagination;
     if (!ugs.canceled) {
-        if (ugs.count > 0) {
+        if (ugs.count > 0 || ugs.continue) {
             pagination = context.getElementsByClassName(`pagination__navigation`)[0];
             if (pagination && !pagination.lastElementChild.classList.contains(`is-selected`)) {
                 setTimeout(getUgsGiveaways, 0, null, ugs, nextPage, callback);
@@ -14367,7 +14359,7 @@ function setEtEntry(code, entry, name) {
 
 function loadGm(context) {
     let button, toggleSwitch;
-    if (context || esgst.mainPageHeading) {
+    if (context || esgst.giveawaysPath || esgst.createdPath || esgst.enteredPath || esgst.wonPath || esgst.userPath) {
         esgst.gmCheckboxes = {};
         button = insertHtml(context || (esgst.hideButtons && esgst.hideButtons_gm ? esgst.leftButtons : esgst.mainPageHeading), `afterBegin`, `
             <div class="esgst-heading-button" title="Manage giveaways">
@@ -20256,7 +20248,7 @@ function formatCfhLink(title, url, isImage, isPaste) {
     if (title) {
         esgst.cfh.textArea.setSelectionRange(end + value.length, end + value.length);
     } else {
-        esgst.cfh.textArea.setSelectionRange(value.indexOf(`[`) + 1, value.indexOf(`[`) + 1);
+        esgst.cfh.textArea.setSelectionRange(end + value.indexOf(`[`) + 1, end + value.indexOf(`[`) + 1);
     }
     esgst.cfh.textArea.focus();
 }
@@ -20580,6 +20572,9 @@ function setCfhAlipf(value) {
     } else {
         esgst.cfh.alipf.title = `Automatic Links / Images Paste Formatting: OFF`;
         esgst.cfh.alipf.classList.add(`esgst-faded`);
+    }
+    if (esgst.cfh.textArea) {
+        esgst.cfh.textArea.focus();
     }
 }
 
@@ -28358,10 +28353,8 @@ function checkNewVersion() {
                 popup.reposition();
                 popup.reposition();
             });
-        } else {
-            if (esgst.showChangelog) {
-                loadChangelog(esgst.version);
-            }
+        } else if (esgst.showChangelog) {
+            loadChangelog(esgst.version);
         }
         esgst.version = esgst.currentVersion;
         setValue(`version`, esgst.version);
@@ -28789,8 +28782,11 @@ function getDiscussionInfo(context, main, savedDiscussions, savedUsers) {
             match = discussion.url.match(/discussion\/(.+?)\//);
             if (match) {
                 discussion.code = match[1];
-                if (discussion.code === `TDyzv` && esgst.checkVersionMain && discussion.title.match(/v(.+?)\s/)[1] !== esgst.version) {
-                    createAlert(`There are new updates available for ESGST.`);
+                if (discussion.code === `TDyzv` && esgst.checkVersionMain) {
+                    let version = discussion.title.match(/v(.+?)\s/)[1];
+                    if (version !== esgst.version && version !== getValue(`dismissedVersion`)) {
+                        notifyNewVersion(version);
+                    }
                 }
                 if (main && esgst.df && esgst.df_h && savedDiscussions[discussion.code] && savedDiscussions[discussion.code].hidden) {
                     discussion.outerWrap.remove();
@@ -28805,7 +28801,7 @@ function getDiscussionInfo(context, main, savedDiscussions, savedUsers) {
                 discussion[discussion.category.replace(/\W/g, ``).replace(/^(.)/, (m, p1) => { return p1.toLowerCase(); })] = true;
                 discussion.createdContainer = discussion.categoryContainer.nextElementSibling;
                 discussion.createdTime = parseInt(discussion.createdContainer.getAttribute(`data-timestamp`)) * 1e3;
-                if (esgst.giveawaysPath) {
+                if (esgst.giveawaysPath && discussion.avatar) {
                     discussion.author = discussion.avatar.getAttribute(`href`).match(/\/user\/(.+)/)[1];
                 } else {
                     discussion.author = discussion.createdContainer.nextElementSibling.textContent;
@@ -33546,6 +33542,22 @@ function addStyle() {
 function loadChangelog(version) {
     var changelog, current, html, i, index, n, popup;
     changelog = [
+        {
+            date: `October 23, 2017`,
+            version: `7.5.1`,
+            changelog: `
+                <ul>
+                    <li>The popup that notifies about a new version is now dismissed when closed and only appears again for the next version (<a href="https://github.com/revilheart/ESGST/issues/65">#65</a>).</li>
+                    <li>Added a "Update" link to the popup above in the script.</li>
+                    <li>Added buttons to select all/none/inverse when syncing.</li>
+                    <li>Prevented Giveaways Manager from loading in some pages (<a href="https://github.com/revilheart/ESGST/issues/69">#69</a>).</li>
+                    <li>Possibly fixed a bug in Unsent Gifts Sender that was not sending all gifts (<a href="https://github.com/revilheart/ESGST/issues/3">#3</a>).</li>
+                    <li>Fixed a bug in CFH (Comment Formatting Helper) that was placing the cursor in the wrong place after pasting a link/image without a title.</li>
+                    <li>When toggling the Automatic Links/Images Paste Formatting in CFH, the focus now returns to the text area (<a href="https://github.com/revilheart/ESGST/issues/60">#60</a>).</li>
+                    <li>Fixed a bug that was preventing Group Library/Wishlist Checker from working properly in the script.</li>
+                </ul>
+            `
+        },
         {
             date: `October 22, 2017`,
             version: `7.5.0`,

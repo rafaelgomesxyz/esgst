@@ -861,6 +861,19 @@ The video above does not get embedded.
 
 ## Changelog
 
+**7.5.1 (October 23, 2017):**
+
+<ul>
+    <li>The popup that notifies about a new version is now dismissed when closed and only appears again for the next version (<a href="https://github.com/revilheart/ESGST/issues/65">#65</a>).</li>
+    <li>Added a "Update" link to the popup above in the script.</li>
+    <li>Added buttons to select all/none/inverse when syncing.</li>
+    <li>Prevented Giveaways Manager from loading in some pages (<a href="https://github.com/revilheart/ESGST/issues/69">#69</a>).</li>
+    <li>Possibly fixed a bug in Unsent Gifts Sender that was not sending all gifts (<a href="https://github.com/revilheart/ESGST/issues/3">#3</a>).</li>
+    <li>Fixed a bug in CFH (Comment Formatting Helper) that was placing the cursor in the wrong place after pasting a link/image without a title.</li>
+    <li>When toggling the Automatic Links/Images Paste Formatting in CFH, the focus now returns to the text area (<a href="https://github.com/revilheart/ESGST/issues/60">#60</a>).</li>
+    <li>Fixed a bug that was preventing Group Library/Wishlist Checker from working properly in the script.</li>
+</ul>
+
 **7.5.0 (October 22, 2017):**
 
 <ul>
