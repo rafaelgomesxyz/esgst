@@ -186,7 +186,7 @@ class Popout {
             });
             this.popout.addEventListener(`mouseleave`, event => {
                 timeout = setTimeout(() => {
-                    if (!this.context.contains(event.relatedTarget)) {
+                    if (event.relatedTarget && !this.context.contains(event.relatedTarget)) {
                         this.close();
                     }
                 }, this.hoverSpeed);
@@ -406,17 +406,19 @@ class ToggleSwitch {
 }
 
 var DOM, esgst;
-chrome.storage.onChanged.addListener((changes, namespace) => {
-    if (namespace === `local`) {
-        let key;
-        for (key in changes) {
-            esgst.storage[key] = changes[key].newValue;
+if (!document.getElementsByClassName(`esgst-header-menu`)[0]) {
+    chrome.storage.onChanged.addListener((changes, namespace) => {
+        if (namespace === `local`) {
+            let key;
+            for (key in changes) {
+                esgst.storage[key] = changes[key].newValue;
+            }
         }
-    }
-});
-chrome.storage.local.get(null, storage => {
-    loadEsgst(storage);
-});
+    });
+    chrome.storage.local.get(null, storage => {
+        loadEsgst(storage);
+    });
+}
 
 function parseHtml(string) {
     return DOM.parser.parseFromString(string, `text/html`);
@@ -431,7 +433,7 @@ function loadEsgst(storage) {
         storage: storage,
         sg: location.hostname.match(/www.steamgifts.com/),
         st: location.hostname.match(/www.steamtrades.com/),
-        currentVersion: `7.5.1`,
+        currentVersion: `7.6.0`,
         icon: `data:image/x-icon;base64,AAABAAEAEBAAAAEAIABoBAAAFgAAACgAAAAQAAAAIAAAAAEAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAqv8DCbP/Hgeq+CQIrf8iCK3/Igit/yIIrf8iB6//Iwit9x8Aqv8DAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAKr0GAa2/c0DvfzfA7f83QO3/N0Dt/zdA7f83QO+/d4Gs/3OAKP1GQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACm/xQFs/n2Bcf//wW///8FwP//BcD//wW///8Fx///BbP69gC2/xUAAAAAAAAAAAAAAAAA/1UDFptOFxSZMxkLpJktAq720QW1+ugEsfvjA7b92wO2/dsEsfvjBbX66Aau/dEoiO4tUlLWGU5k3hdVVf8DEJxKHxWqT8cVrU7uE6VN0guqny0Apv8XAJfQGwBAVywAQFcsAJfQGwCx/xcogugtS2Lk0lBl6u5Qae7ISmPeHxagSSMVr07jF7lV/xOiSu0brgATAAAAAAAAAA8AAAC/AAAAwAAAABAAAAAAYznjEkth4OxWb/3/T2jv40lf4iMXnksiEq1O3RayUv8UpEnkEo0+HQAAABkAAABBAAAA8QAAAPEAAABBAAAAGUBSvxxOYeDjU2v0/05m7d1LYuEiF55LIhKtTt0Ws1L/FahN2gU1FTAAAADAAAAA7AAAAP0AAAD9AAAA7AAAAMAVG0owUGPm2lNr9P9OZu3dS2LhIheeSyISrU7dFrNS/xWoTdoFNRswAAAAvwAAAOsAAAD9AAAA/QAAAOsAAADAFRtKMFBj6NpTa/T/Tmbt3Uti4SIXnksiEq1O3RayUv8UpEnkEo0+HQAAABgAAABAAAAA8QAAAPEAAABBAAAAGT5PuR1OYeDjU2v0/05m7d1LYuEiFqBJIxWuT+QXuVX/E6JL7QC8XhMAAAAAAAAADwAAAL8AAAC/AAAAEAAAAAAOR/8SSWLh7FZv/f9PaO/jSV/iIxCUSh8Vrk7HFqxN7ROlS9JskzMt1XULGK12EhxGLgYsRy8GK612EhzVgAsYgmxxLU1i39JNZ+vtT2fwx0pj1h8AqlUDF65GFgqZUhlsiC0txH0T0s5/EujJgBPkz4QR28+EEdvJgBPkzn8Q6Md+E9KLdHosM1LWGUZo6BZVVf8DAAAAAAAAAAAAAAAA/2YAFMl9EvbgjRb/14gV/9eIFf/XiBX/14gV/9+NFv/KgBD254YAFQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAL91FRjKgRHN1IgU3s+EEt3PhBLdz4QS3c+EEt3UiBTezYMRzcJ6FBkAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACqqgADxIARHr18FiO8eA8ivHgPIrx4DyK8eA8ivXwPI8SAER7/VQADAAAAAAAAAAAAAAAA78cAAPA3AAD4FwAABCAAADGOAAAE+AAAkBEAAJ55AACYOQAAlgEAAER4AAAXaAAATnoAAPgXAAD0JwAA69cAAA==`,
         sgIcon: `data:image/x-icon;base64,AAABAAEAEBAAAAEAIABoBAAAFgAAACgAAAAQAAAAIAAAAAEAIAAAAAAAQAQAABMLAAATCwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIUAAAD5AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAPoAAACFAAAAAAAAAAAAAAD8AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA+QAAAAAAAAAAAAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAAAAAAAAAAAAP8AAAD/AAAA/wAAABwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAcAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAcAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAHAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAAAAAAAAAAAAPwAAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD5AAAAAAAAAAAAAACFAAAA+QAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD5AAAAhQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA//8AAP//AADAAwAAwAMAAMfjAADP8wAAz/MAAM/zAADP8wAAz/MAAM/zAADH4wAAwAMAAMADAAD//wAA//8AAA==`,
         stIcon: `data:image/x-icon;base64,AAABAAEAEBAAAAEAIABoBAAAFgAAACgAAAAQAAAAIAAAAAEAIAAAAAAAQAQAABMLAAATCwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABbD6SgWw+ucFsPrkBbD6SgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAWw+uYFsPr/BbD6/wWw+ucAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAFsPrmBbD6/wWw+v8FsPrmAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABbD6SQWw+uYFsPrmBbD6SQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAFKRLShSkS+cUpEvkFKRLSgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAExi4EpMYuDnTGLg5Exi4EoAAAAAAAAAABSkS+YUpEv/FKRL/xSkS+cAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABMYuDmTGLg/0xi4P9MYuDnAAAAAAAAAAAUpEvmFKRL/xSkS/8UpEvmAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAATGLg5kxi4P9MYuD/TGLg5gAAAAAAAAAAFKRLSRSkS+YUpEvmFKRLSQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAExi4ElMYuDmTGLg5kxi4EkAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAMZ9E0rGfRPnxn0T5MZ9E0oAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADGfRPmxn0T/8Z9E//GfRPnAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAxn0T5sZ9E//GfRP/xn0T5gAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAMZ9E0nGfRPmxn0T5sZ9E0kAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA//8AAPw/AAD8PwAA/D8AAPw/AAD//wAAh+EAAIfhAACH4QAAh+EAAP//AAD8PwAA/D8AAPw/AAD8PwAA//8AAA==`,
@@ -593,6 +595,7 @@ function loadEsgst(storage) {
                 gwr_e: `gwr`
             };
             esgst.defaultValues = {
+                hr_w_hours: 24,
                 elgb_d: true,
                 wbm_useCache: false,
                 gf_noRating: true,
@@ -738,6 +741,7 @@ function loadEsgst(storage) {
                 gf_presetWon: null,
                 gf_presetGroups: null,
                 gf_presetPopup: null,
+                ags_type: ``,
                 ags_maxDate: ``,
                 ags_minDate: ``,
                 ags_maxScore: ``,
@@ -1294,7 +1298,6 @@ function loadEsgst(storage) {
                         }
                     ],
                     id: `cfh`,
-                    load: loadCfh,
                     name: `Comment Formatting Helper`,
                     sg: true,
                     st: true,
@@ -1491,6 +1494,12 @@ function loadEsgst(storage) {
                                     id: `hr_w_n`,
                                     name: `Also show as a browser notification.`,
                                     sg: true
+                                },
+                                {
+                                    id: `hr_w_h`,
+                                    name: `[NEW] Only indicate for giveaways ending in X hours.`,
+                                    input: true,
+                                    sg: true
                                 }
                             ],
                             id: `hr_w`,
@@ -1613,7 +1622,7 @@ function loadEsgst(storage) {
                     `,
                     id: `ail`,
                     load: loadAil,
-                    name: `[NEW] Attached Images Loader`,
+                    name: `Attached Images Loader`,
                     sg: true,
                     st: true,
                     type: `general`
@@ -1781,12 +1790,23 @@ function loadEsgst(storage) {
                 {
                     description: `
                         <ul>
+                            <li>Allows you to quickly search giveaways from any page.</li>
+                        </ul>
+                        <img src="https://i.imgur.com/JRT6tv6.png">
+                    `,
+                    id: `qgs`,
+                    name: `[NEW] Quick Giveaway Search`,
+                    sg: true,
+                    type: `giveaways`
+                },
+                {
+                    description: `
+                        <ul>
                             <li>Allows you to quickly go to wishlist/recommended/group/new giveaways from any page.</li>
                         </ul>
                         <img src="https://camo.githubusercontent.com/e831648032c40835a77ba90a0cad0a38be1ca9e2/687474703a2f2f696d6775722e636f6d2f4e4467717a466a2e706e67"/>
                     `,
                     id: `qgb`,
-                    load: loadQgb,
                     name: `Quick Giveaway Browsing`,
                     sg: true,
                     type: `giveaways`
@@ -1799,7 +1819,6 @@ function loadEsgst(storage) {
                         <img src="https://camo.githubusercontent.com/bf5009c96f65689933567f1a34718682533b7836/687474703a2f2f692e696d6775722e636f6d2f5248596d4147732e706e67"/>
                     `,
                     id: `ags`,
-                    load: loadAgs,
                     name: `Advanced Giveaway Search`,
                     sg: true,
                     type: `giveaways`
@@ -2309,7 +2328,7 @@ function loadEsgst(storage) {
                     features: [
                         {
                             id: `elgb_d`,
-                            name: `[NEW] Pop up the giveaway description when entering, if it has any.`,
+                            name: `Pop up the giveaway description when entering, if it has any.`,
                             sg: true
                         },
                         {
@@ -2670,7 +2689,7 @@ function loadEsgst(storage) {
                         </ul>
                     `,
                     id: `bgl`,
-                    name: `[NEW] Blacklist Giveaway Loader`,
+                    name: `Blacklist Giveaway Loader`,
                     sg: true,
                     type: `giveaways`
                 },
@@ -3433,7 +3452,7 @@ function loadEsgst(storage) {
                     `,
                     id: `wbm`,
                     load: loadWbm,
-                    name: `[NEW] Whitelist/Blacklist Manager`,
+                    name: `Whitelist/Blacklist Manager`,
                     sg: true,
                     type: `users`
                 },
@@ -3501,7 +3520,7 @@ function loadEsgst(storage) {
                     `,
                     id: `glwc`,
                     load: loadGlwc,
-                    name: `[NEW] Group Library/Wishlist Checker`,
+                    name: `Group Library/Wishlist Checker`,
                     sg: true,
                     type: `groups`
                 },
@@ -4137,9 +4156,6 @@ function loadEsgst(storage) {
                     load: startGiveawayFeatures
                 },
                 {
-                    load: startDiscussionFeatures
-                },
-                {
                     load: startGameFeatures
                 },
                 {
@@ -4373,7 +4389,8 @@ function loadEsgst(storage) {
                     loadOadd();
                 } else if (esgst.bgl && esgst.giveawayPath) {
                     let summary = document.getElementsByClassName(`table--summary`)[0];
-                    if (summary && summary.lastElementChild.firstElementChild.lastElementChild.textContent.match(/blacklist/)) {
+                    summary = summary && summary.lastElementChild.firstElementChild.lastElementChild.textContent.match(/you\shave\s(been\s)?blacklisted/);
+                    if (summary) {
                         esgst.pageOuterWrap.innerHTML = `
                             <i class="fa fa-circle-o-notch fa-spin"></i>
                             <span>Loading giveaway...</span>
@@ -4386,7 +4403,7 @@ function loadEsgst(storage) {
                             getElements(logoutButton);
                             esgst.sidebar.insertAdjacentHTML(`afterBegin`, `
                                 <div class="sidebar__error is-disabled">
-                                    <i class="fa fa-exclamation-circle"></i> Blacklist
+                                    <i class="fa fa-exclamation-circle"></i> ${summary[1] ? `You Are Blacklisted` : `On Your Blacklist`}
                                 </div>
                             `);
                             if (esgst.adots) {
@@ -4681,16 +4698,63 @@ function loadFeatures() {
         esgst.pageOuterWrap.classList.add(`esgst-ff-sibling`);
     }
 
+    /* [QGS] Quick Giveaway Search */
+
+    if (esgst.qgs) {
+        let container, input;
+        container = insertHtml(document.getElementsByClassName(`nav__left-container`)[0], `afterBegin`, `
+            <div class="esgst-qgs-container">
+                <input class="esgst-qgs-input" placeholder="Search..." type="text">
+                <i class="fa fa-search"></i>
+            </div>
+        `);
+        input = container.firstElementChild;
+        input.addEventListener(`keypress`, event => {
+            if (event.key === `Enter`) {
+                event.preventDefault();
+                location.href = `/giveaways/search?q=${encodeURIComponent(input.value)}`;
+            }
+        });
+        addAgsPanel(container, true);
+    }
+
+    /* [QGB] Quick Giveaway Browsing */
+
+    if (esgst.qgb) {
+        document.getElementsByClassName(`nav__absolute-dropdown`)[0].insertAdjacentHTML(`beforeEnd`, `
+            <a class="nav__row" href="/giveaways/search?type=wishlist">
+                <div class="nav__row__summary">
+                    <p class="nav__row__summary__name">Browse Wishlist Giveaways</p>
+                </div>
+            </a>
+            <a class="nav__row" href="/giveaways/search?type=recommended">
+                <div class="nav__row__summary">
+                    <p class="nav__row__summary__name">Browse Recommended Giveaways</p>
+                </div>
+            </a>
+            <a class="nav__row" href="/giveaways/search?type=group">
+                <div class="nav__row__summary">
+                    <p class="nav__row__summary__name">Browse Group Giveaways</p>
+                </div>
+            </a>
+            <a class="nav__row" href="/giveaways/search?type=new">
+                <div class="nav__row__summary">
+                    <p class="nav__row__summary__name">Browse New Giveaways</p>
+                </div>
+            </a>
+        `);
+    }
+
     /* [HR] Header Refresher */
 
     if (esgst.hr) {
         let hr = {
-            wishlist: false,
+            wishlist: 0,
             messages: 0,
             points: esgst.points,
             wins: 0
         };
-        notifyHrChange(hr, false);
+        notifyHrChange(hr, 0);
         setValue(`esgst_hrCache`, JSON.stringify(getHrCache()));
         startHeaderRefresher(hr);
         if (!esgst.hr_b) {
@@ -4733,6 +4797,2901 @@ function loadFeatures() {
     if (esgst.ib) {
         esgst.endlessFeatures.push(addIbBorders);
         addIbBorders(document);
+    }
+
+    /* [CFH] Comment Formatting Helper */
+
+    if (esgst.cfh) {
+        esgst.cfh = {
+            backup: [],
+            history: [],
+            panel: document.createElement(`div`)
+        };
+        esgst.cfh.panel.className = `esgst-cfh-panel`;
+        [
+            {
+                id: `cfh_i`,
+                icons: [`fa-italic`],
+                name: `Italic`,
+                prefix: `*`,
+                suffix: `*`
+            },
+            {
+                id: `cfh_b`,
+                icons: [`fa-bold`],
+                name: `Bold`,
+                prefix: `**`,
+                suffix: `**`
+            },
+            {
+                id: `cfh_s`,
+                icons: [`fa-eye-slash`],
+                name: `Spoiler`,
+                prefix: `~`,
+                suffix: `~`
+            },
+            {
+                id: `cfh_st`,
+                icons: [`fa-strikethrough`],
+                name: `Strikethrough`,
+                prefix: `~~`,
+                suffix: `~~`
+            },
+            {
+                id: `cfh_h1`,
+                icons: [`fa-header`],
+                name: `Heading 1`,
+                prefix: `# `,
+                text: `1`
+            },
+            {
+                id: `cfh_h2`,
+                icons: [`fa-header`],
+                name: `Heading 2`,
+                prefix: `## `,
+                text: `2`
+            },
+            {
+                id: `cfh_h3`,
+                icons: [`fa-header`],
+                name: `Heading 3`,
+                prefix: `### `,
+                text: `3`
+            },
+            {
+                id: `cfh_bq`,
+                icons: [`fa-quote-left`],
+                name: `Blockquote`,
+                prefix: `> `
+            },
+            {
+                id: `cfh_lb`,
+                icons: [`fa-minus`],
+                name: `Line Break`,
+                prefix: `---`
+            },
+            {
+                id: `cfh_ol`,
+                icons: [`fa-list-ol`],
+                multiline: true,
+                name: `Ordered List`,
+                prefix: `[n]. `
+            },
+            {
+                id: `cfh_ul`,
+                icons: [`fa-list-ul`],
+                multiline: true,
+                name: `Unordered List`,
+                prefix: `* `
+            },
+            {
+                id: `cfh_ic`,
+                icons: [`fa-code`],
+                name: `Inline Code`,
+                prefix: `\``,
+                suffix: `\``
+            },
+            {
+                id: `cfh_lc`,
+                icons: [`fa-code`, `fa-indent`],
+                name: `Line Code`,
+                prefix: `    `
+            },
+            {
+                id: `cfh_pc`,
+                icons: [`fa-code`, `fa-paragraph`],
+                name: `Paragraph Code`,
+                prefix: `\`\`\`\n`,
+                suffix: `\n\`\`\``
+            },
+            {
+                id: `cfh_l`,
+                icons: [`fa-globe`],
+                name: `Link`,
+                setPopout: popout => {
+                    let title, url;
+                    popout.popout.innerHTML = `
+                        <div>URL: <input placeholder="http://www.example.com" type="text"/></div>
+                        <div>Title: <input placeholder="Cat" type="text"/></div>
+                        <div class="form__saving-button btn_action white">Add</div>
+                    `;
+                    url = popout.popout.firstElementChild.firstElementChild;
+                    title = popout.popout.firstElementChild.nextElementSibling.firstElementChild;
+                    popout.popout.lastElementChild.addEventListener(`click`, () => {
+                        formatCfhLink(title.value, url.value);
+                        url.value = ``;
+                        title.value = ``;
+                        popout.close();
+                    });
+                },
+                callback: popout => {
+                    let title = popout.firstElementChild.nextElementSibling.firstElementChild;
+                    title.value = esgst.cfh.textArea.value.slice(esgst.cfh.textArea.selectionStart, esgst.cfh.textArea.selectionEnd);
+                    title.focus();
+                }
+            },
+            {
+                id: `cfh_img`,
+                icons: [`fa-image`],
+                name: `Image`,
+                setPopout: popout => {
+                    let title, url;
+                    popout.popout.innerHTML = `
+                        <div>URL: <input placeholder="http://www.example.com/image.jpg" type="text"/> <i class="fa fa-upload esgst-clickable" title="Upload image to Imgur and use it"></i></div>
+                        <div>Title: <input placeholder="Cat" type="text"/></div>
+                        <div class="form__saving-button btn_action white">Add</div>
+                    `;
+                    url = popout.popout.firstElementChild.firstElementChild;
+                    imgur = url.nextElementSibling;
+                    title = popout.popout.firstElementChild.nextElementSibling.firstElementChild;
+                    imgur.addEventListener(`click`, () => {
+                        multiChoice(`grey`, `fa-user-secret`, `Anonymously`, `grey`, `fa-user`, `Through Account`, `How would you like to upload?`, uploadImgurImage.bind(null, `Client-ID e25283ef48ab9aa`, popout, url), () => {
+                            if (getValue(`imgurToken`)) {
+                                checkImgurComplete(popout, url);
+                            } else {
+                                checkImgurComplete(popout, url, open(`https://api.imgur.com/oauth2/authorize?client_id=e25283ef48ab9aa&response_type=token`));
+                            }
+                        });
+                    });
+                    popout.popout.lastElementChild.addEventListener(`click`, () => {
+                        formatCfhLink(title.value, url.value, true);
+                        url.value = ``;
+                        title.value = ``;
+                        popout.close();
+                    });
+                },
+                callback: popout => {
+                    let title, url;
+                    url = popout.firstElementChild.firstElementChild;
+                    title = popout.firstElementChild.nextElementSibling.firstElementChild;
+                    title.value = esgst.cfh.textArea.value.slice(esgst.cfh.textArea.selectionStart, esgst.cfh.textArea.selectionEnd);
+                    if (url.value && title.value) {
+                        popout.lastElementChild.click();
+                    } else if (url.value) {
+                        title.focus();
+                    } else {
+                        url.focus();
+                    }
+                }
+            },
+            {
+                id: `cfh_t`,
+                icons: [`fa-table`],
+                name: `Table`,
+                setPopup: popup => {
+                    let context, insertColumn, insertRow, table;
+                    context = popup.scrollable;
+                    context.innerHTML = `
+                        <table></table>
+                        <div class="form__saving-button btn_action white">Insert Row</div>
+                        <div class="form__saving-button btn_action white">Insert Column</div>
+                        <div class="form__saving-button btn_action white">Add</div>
+                    `;
+                    table = context.firstElementChild;
+                    insertRow = table.nextElementSibling;
+                    insertColumn = insertRow.nextElementSibling;
+                    insertCfhTableRows(4, table);
+                    insertCfhTableColumns(2, table);
+                    insertRow.addEventListener(`click`, () => {
+                        insertCfhTableRows(1, table);
+                    });
+                    insertColumn.addEventListener(`click`, () => {
+                        insertCfhTableColumns(1, table);
+                    });
+                    insertColumn.nextElementSibling.addEventListener(`click`, () => {
+                        let end, i, j, numColumns, numRows, rows, start, value;
+                        rows = table.rows;
+                        for (i = 1, numRows = rows.length; i < numRows; ++i) {
+                            for (j = 1, numColumns = rows[0].cells.length; j < numColumns; ++j) {
+                                if (!rows[i].cells[j].firstElementChild.value) {
+                                    i = numRows + 1;
+                                    j = numColumns + 1;
+                                }
+                            }
+                        }
+                        if (i <= numRows || (i > numRows && confirm(`Some cells are empty. This might lead to unexpected results. Are you sure you want to continue?`))) {
+                            value = ``;
+                            for (i = 1; i < numRows; ++i) {
+                                value += `\n`;
+                                for (j = 1; j < numColumns; ++j) {
+                                    value += `${rows[i].cells[j].firstElementChild.value}${j < numColumns - 1 ? ` | ` : ``}`;
+                                }
+                            }
+                            value = value.replace(/^\n/, ``);
+                            start = esgst.cfh.textArea.selectionStart;
+                            end = esgst.cfh.textArea.selectionEnd;
+                            esgst.cfh.textArea.value = `${esgst.cfh.textArea.value.slice(0, start)}${value}${esgst.cfh.textArea.value.slice(end)}`;
+                            esgst.cfh.textArea.setSelectionRange(end + value.length, end + value.length);
+                            esgst.cfh.textArea.focus();
+                            popup.close();
+                        }
+                    });
+                }
+            },
+            {
+                id: `cfh_e`,
+                icons: [`fa-smile-o`],
+                name: `Emojis`,
+                setPopout: popout => {
+                    let emojis, popup;
+                    popout.popout.innerHTML = `
+                        <div class="esgst-cfh-emojis">${getValue(`emojis`, ``)}</div>
+                        <div class="form__saving-button btn_action white">Select Emojis</div>
+                    `;
+                    emojis = popout.popout.firstElementChild;
+                    setCfhEmojis(emojis);
+                    emojis.nextElementSibling.addEventListener(`click`, () => {
+                        if (popup) {
+                            popup.open(() => {
+                                popout.popout.classList.add(`esgst-hidden`);
+                            });
+                        } else {
+                            let emoji, emojis, filter, i;
+                            popup = new Popup(`fa-smile-o`, `Select emojis:`);
+                            popup.scrollable.insertAdjacentHTML(`afterBegin`, `
+                                <input placeholder="Filter emojis..." type="text"/>
+                                <div class="esgst-cfh-emojis"></div>
+                                <div class="esgst-description">Drag the emojis you want to use and drop them in the box below. Click on an emoji to remove it.</div>
+                                <div class="global__image-outer-wrap page_heading_btn esgst-cfh-emojis">${getValue(`emojis`, ``)}</div>
+                            `);
+                            filter = popup.scrollable.firstElementChild;
+                            emojis = filter.nextElementSibling;
+                            [
+                                {emoji: `&#xAF;&#92;&#92;&#92;&#95;&#40;&#x30C4;&#41;&#95;&#47;&#xAF;`, name: ``},
+                                {emoji: `&#40; &#x361;&#xB0; &#x35C;&#x296; &#x361;&#xB0;&#41;`, name: ``},
+                                {emoji: `&#40; &#x361;&#x2299; &#x35C;&#x296; &#x361;&#x2299;&#41;`, name: ``},
+                                {emoji: `&#40;&#x30CE;&#xCA0;&#x76CA;&#xCA0;&#41;&#x30CE;`, name: ``},
+                                {emoji: `&#40;&#x256F;&#xB0;&#x25A1;&#xB0;&#xFF09;&#x256F;&#xFE35; &#x253B;&#x2501;&#x253B;`, name: ``},
+                                {emoji: `&#x252C;&#x2500;&#x252C;&#x30CE;&#40; &#xBA; &#95; &#xBA;&#x30CE;&#41;`, name: ``},
+                                {emoji: `&#x10DA;&#40;&#xCA0;&#x76CA;&#xCA0;&#x10DA;&#41;`, name: ``},
+                                {emoji: `&#40;&#x25D5;&#x203F;-&#41;&#x270C;`, name: ``},
+                                {emoji: `&#40;&#xFF61;&#x25D5;&#x203F;&#x25D5;&#xFF61;&#41;`, name: ``},
+                                {emoji: `&#40;&#x25D1;&#x203F;&#x25D0;&#41;`, name: ``},
+                                {emoji: `&#x25D4;&#95;&#x25D4;`, name: ``},
+                                {emoji: `&#40;&#x2022;&#x203F;&#x2022;&#41;`, name: ``},
+                                {emoji: `&#40;&#xCA0;&#95;&#xCA0;&#41;`, name: ``},
+                                {emoji: `&#40;&#xAC;&#xFF64;&#xAC;&#41;`, name: ``},
+                                {emoji: `&#40;&#x2500;&#x203F;&#x203F;&#x2500;&#41;`, name: ``},
+                                {emoji: `&#40;&#xCA5;&#xFE4F;&#xCA5;&#41;`, name: ``},
+                                {emoji: `&#40;&#xCA5;&#x2038;&#xCA5;&#41;`, name: ``},
+                                {emoji: `&#40;&#x2310;&#x25A0;&#95;&#x25A0;&#41;`, name: ``},
+                                {emoji: `&#40;&#x25B0;&#x2D8;&#x25E1;&#x2D8;&#x25B0;&#41;`, name: ``},
+                                {emoji: `&#x4E41;&#40; &#x25D4; &#xC6A;&#x25D4;&#41;&#x310F;`, name: ``},
+                                {emoji: `&#40;&#xE07; &#x360;&#xB0; &#x35F;&#x296; &#x361;&#xB0;&#41;&#xE07;`, name: ``},
+                                {emoji: `&#x3B6;&#xF3C;&#x19F;&#x346;&#x644;&#x35C;&#x19F;&#x346;&#xF3D;&#x1D98;`, name: ``},
+                                {emoji: `&#x295;&#x2022;&#x1D25;&#x2022;&#x294;`, name: ``},
+                                {emoji: `&#40; &#x35D;&#xB0; &#x35C;&#x296;&#x361;&#xB0;&#41;`, name: ``},
+                                {emoji: `&#40;&#47;&#xFF9F;&#x414;&#xFF9F;&#41;&#47;`, name: ``},
+                                {emoji: `&#xB67;&#xF3C;&#xCA0;&#x76CA;&#xCA0;&#xF3D;&#xB68;`, name: ``},
+                                {emoji: `&#40;&#xE07; &#x2022;&#x300;&#95;&#x2022;&#x301;&#41;&#xE07;`, name: ``},
+                                {emoji: `&#x1F600`, name: `Grinning Face`},
+                                {emoji: `&#x1F601`, name: `Grinning Face With Smiling Eyes`},
+                                {emoji: `&#x1F602`, name: `Face With Tears Of Joy`},
+                                {emoji: `&#x1F923`, name: `Rolling On The Floor Laughing`},
+                                {emoji: `&#x1F603`, name: `Smiling Face With Open Mouth`},
+                                {emoji: `&#x1F604`, name: `Smiling Face With Open Mouth & Smiling Eyes`},
+                                {emoji: `&#x1F605`, name: `Smiling Face With Open Mouth & Cold Sweat`},
+                                {emoji: `&#x1F606`, name: `Smiling Face With Open Mouth & Closed Eyes`},
+                                {emoji: `&#x1F609`, name: `Winking Face`},
+                                {emoji: `&#x1F60A`, name: `Smiling Face With Smiling Eyes`},
+                                {emoji: `&#x1F60B`, name: `Face Savouring Delicious Food`},
+                                {emoji: `&#x1F60E`, name: `Smiling Face With Sunglasses`},
+                                {emoji: `&#x1F60D`, name: `Smiling Face With Heart-Eyes`},
+                                {emoji: `&#x1F618`, name: `Face Blowing A Kiss`},
+                                {emoji: `&#x1F617`, name: `Kissing Face`},
+                                {emoji: `&#x1F619`, name: `Kissing Face With Smiling Eyes`},
+                                {emoji: `&#x1F61A`, name: `Kissing Face With Closed Eyes`},
+                                {emoji: `&#x263A`, name: `Smiling Face`},
+                                {emoji: `&#x1F642`, name: `Slightly Smiling Face`},
+                                {emoji: `&#x1F917`, name: `Hugging Face`},
+                                {emoji: `&#x1F914`, name: `Thinking Face`},
+                                {emoji: `&#x1F610`, name: `Neutral Face`},
+                                {emoji: `&#x1F611`, name: `Expressionless Face`},
+                                {emoji: `&#x1F636`, name: `Face Without Mouth`},
+                                {emoji: `&#x1F644`, name: `Face With Rolling Eyes`},
+                                {emoji: `&#x1F60F`, name: `Smirking Face`},
+                                {emoji: `&#x1F623`, name: `Persevering Face`},
+                                {emoji: `&#x1F625`, name: `Disappointed But Relieved Face`},
+                                {emoji: `&#x1F62E`, name: `Face With Open Mouth`},
+                                {emoji: `&#x1F910`, name: `Zipper-Mouth Face`},
+                                {emoji: `&#x1F62F`, name: `Hushed Face`},
+                                {emoji: `&#x1F62A`, name: `Sleepy Face`},
+                                {emoji: `&#x1F62B`, name: `Tired Face`},
+                                {emoji: `&#x1F634`, name: `Sleeping Face`},
+                                {emoji: `&#x1F60C`, name: `Relieved Face`},
+                                {emoji: `&#x1F913`, name: `Nerd Face`},
+                                {emoji: `&#x1F61B`, name: `Face With Stuck-Out Tongue`},
+                                {emoji: `&#x1F61C`, name: `Face With Stuck-Out Tongue & Winking Eye`},
+                                {emoji: `&#x1F61D`, name: `Face With Stuck-Out Tongue & Closed Eyes`},
+                                {emoji: `&#x1F924`, name: `Drooling Face`},
+                                {emoji: `&#x1F612`, name: `Unamused Face`},
+                                {emoji: `&#x1F613`, name: `Face With Cold Sweat`},
+                                {emoji: `&#x1F614`, name: `Pensive Face`},
+                                {emoji: `&#x1F615`, name: `Confused Face`},
+                                {emoji: `&#x1F643`, name: `Upside-Down Face`},
+                                {emoji: `&#x1F911`, name: `Money-Mouth Face`},
+                                {emoji: `&#x1F632`, name: `Astonished Face`},
+                                {emoji: `&#x2639`, name: `Frowning Face`},
+                                {emoji: `&#x1F641`, name: `Slightly Frowning Face`},
+                                {emoji: `&#x1F616`, name: `Confounded Face`},
+                                {emoji: `&#x1F61E`, name: `Disappointed Face`},
+                                {emoji: `&#x1F61F`, name: `Worried Face`},
+                                {emoji: `&#x1F624`, name: `Face With Steam From Nose`},
+                                {emoji: `&#x1F622`, name: `Crying Face`},
+                                {emoji: `&#x1F62D`, name: `Loudly Crying Face`},
+                                {emoji: `&#x1F626`, name: `Frowning Face With Open Mouth`},
+                                {emoji: `&#x1F627`, name: `Anguished Face`},
+                                {emoji: `&#x1F628`, name: `Fearful Face`},
+                                {emoji: `&#x1F629`, name: `Weary Face`},
+                                {emoji: `&#x1F62C`, name: `Grimacing Face`},
+                                {emoji: `&#x1F630`, name: `Face With Open Mouth & Cold Sweat`},
+                                {emoji: `&#x1F631`, name: `Face Screaming In Fear`},
+                                {emoji: `&#x1F633`, name: `Flushed Face`},
+                                {emoji: `&#x1F635`, name: `Dizzy Face`},
+                                {emoji: `&#x1F621`, name: `Pouting Face`},
+                                {emoji: `&#x1F620`, name: `Angry Face`},
+                                {emoji: `&#x1F607`, name: `Smiling Face With Halo`},
+                                {emoji: `&#x1F920`, name: `Cowboy Hat Face`},
+                                {emoji: `&#x1F921`, name: `Clown Face`},
+                                {emoji: `&#x1F925`, name: `Lying Face`},
+                                {emoji: `&#x1F637`, name: `Face With Medical Mask`},
+                                {emoji: `&#x1F912`, name: `Face With Thermometer`},
+                                {emoji: `&#x1F915`, name: `Face With Head-Bandage`},
+                                {emoji: `&#x1F922`, name: `Nauseated Face`},
+                                {emoji: `&#x1F927`, name: `Sneezing Face`},
+                                {emoji: `&#x1F608`, name: `Smiling Face With Horns`},
+                                {emoji: `&#x1F47F`, name: `Angry Face With Horns`},
+                                {emoji: `&#x1F479`, name: `Ogre`},
+                                {emoji: `&#x1F47A`, name: `Goblin`},
+                                {emoji: `&#x1F480`, name: `Skull`},
+                                {emoji: `&#x2620`, name: `Skull And Crossbones`},
+                                {emoji: `&#x1F47B`, name: `Ghost`},
+                                {emoji: `&#x1F47D`, name: `Alien`},
+                                {emoji: `&#x1F47E`, name: `Alien Monster`},
+                                {emoji: `&#x1F916`, name: `Robot Face`},
+                                {emoji: `&#x1F4A9`, name: `Pile Of Poo`},
+                                {emoji: `&#x1F63A`, name: `Smiling Cat Face With Open Mouth`},
+                                {emoji: `&#x1F638`, name: `Grinning Cat Face With Smiling Eyes`},
+                                {emoji: `&#x1F639`, name: `Cat Face With Tears Of Joy`},
+                                {emoji: `&#x1F63B`, name: `Smiling Cat Face With Heart-Eyes`},
+                                {emoji: `&#x1F63C`, name: `Cat Face With Wry Smile`},
+                                {emoji: `&#x1F63D`, name: `Kissing Cat Face With Closed Eyes`},
+                                {emoji: `&#x1F640`, name: `Weary Cat Face`},
+                                {emoji: `&#x1F63F`, name: `Crying Cat Face`},
+                                {emoji: `&#x1F63E`, name: `Pouting Cat Face`},
+                                {emoji: `&#x1F648`, name: `See-No-Evil Monkey`},
+                                {emoji: `&#x1F649`, name: `Hear-No-Evil Monkey`},
+                                {emoji: `&#x1F64A`, name: `Speak-No-Evil Monkey`},
+                                {emoji: `&#x1F466`, name: `Boy`},
+                                {emoji: `&#x1F466&#x1F3FB`, name: `Boy: Light Skin Tone`},
+                                {emoji: `&#x1F466&#x1F3FC`, name: `Boy: Medium-Light Skin Tone`},
+                                {emoji: `&#x1F466&#x1F3FD`, name: `Boy: Medium Skin Tone`},
+                                {emoji: `&#x1F466&#x1F3FE`, name: `Boy: Medium-Dark Skin Tone`},
+                                {emoji: `&#x1F466&#x1F3FF`, name: `Boy: Dark Skin Tone`},
+                                {emoji: `&#x1F467`, name: `Girl`},
+                                {emoji: `&#x1F467&#x1F3FB`, name: `Girl: Light Skin Tone`},
+                                {emoji: `&#x1F467&#x1F3FC`, name: `Girl: Medium-Light Skin Tone`},
+                                {emoji: `&#x1F467&#x1F3FD`, name: `Girl: Medium Skin Tone`},
+                                {emoji: `&#x1F467&#x1F3FE`, name: `Girl: Medium-Dark Skin Tone`},
+                                {emoji: `&#x1F467&#x1F3FF`, name: `Girl: Dark Skin Tone`},
+                                {emoji: `&#x1F468`, name: `Man`},
+                                {emoji: `&#x1F468&#x1F3FB`, name: `Man: Light Skin Tone`},
+                                {emoji: `&#x1F468&#x1F3FC`, name: `Man: Medium-Light Skin Tone`},
+                                {emoji: `&#x1F468&#x1F3FD`, name: `Man: Medium Skin Tone`},
+                                {emoji: `&#x1F468&#x1F3FE`, name: `Man: Medium-Dark Skin Tone`},
+                                {emoji: `&#x1F468&#x1F3FF`, name: `Man: Dark Skin Tone`},
+                                {emoji: `&#x1F469`, name: `Woman`},
+                                {emoji: `&#x1F469&#x1F3FB`, name: `Woman: Light Skin Tone`},
+                                {emoji: `&#x1F469&#x1F3FC`, name: `Woman: Medium-Light Skin Tone`},
+                                {emoji: `&#x1F469&#x1F3FD`, name: `Woman: Medium Skin Tone`},
+                                {emoji: `&#x1F469&#x1F3FE`, name: `Woman: Medium-Dark Skin Tone`},
+                                {emoji: `&#x1F469&#x1F3FF`, name: `Woman: Dark Skin Tone`},
+                                {emoji: `&#x1F474`, name: `Old Man`},
+                                {emoji: `&#x1F474&#x1F3FB`, name: `Old Man: Light Skin Tone`},
+                                {emoji: `&#x1F474&#x1F3FC`, name: `Old Man: Medium-Light Skin Tone`},
+                                {emoji: `&#x1F474&#x1F3FD`, name: `Old Man: Medium Skin Tone`},
+                                {emoji: `&#x1F474&#x1F3FE`, name: `Old Man: Medium-Dark Skin Tone`},
+                                {emoji: `&#x1F474&#x1F3FF`, name: `Old Man: Dark Skin Tone`},
+                                {emoji: `&#x1F475`, name: `Old Woman`},
+                                {emoji: `&#x1F475&#x1F3FB`, name: `Old Woman: Light Skin Tone`},
+                                {emoji: `&#x1F475&#x1F3FC`, name: `Old Woman: Medium-Light Skin Tone`},
+                                {emoji: `&#x1F475&#x1F3FD`, name: `Old Woman: Medium Skin Tone`},
+                                {emoji: `&#x1F475&#x1F3FE`, name: `Old Woman: Medium-Dark Skin Tone`},
+                                {emoji: `&#x1F475&#x1F3FF`, name: `Old Woman: Dark Skin Tone`},
+                                {emoji: `&#x1F476`, name: `Baby`},
+                                {emoji: `&#x1F476&#x1F3FB`, name: `Baby: Light Skin Tone`},
+                                {emoji: `&#x1F476&#x1F3FC`, name: `Baby: Medium-Light Skin Tone`},
+                                {emoji: `&#x1F476&#x1F3FD`, name: `Baby: Medium Skin Tone`},
+                                {emoji: `&#x1F476&#x1F3FE`, name: `Baby: Medium-Dark Skin Tone`},
+                                {emoji: `&#x1F476&#x1F3FF`, name: `Baby: Dark Skin Tone`},
+                                {emoji: `&#x1F47C`, name: `Baby Angel`},
+                                {emoji: `&#x1F47C&#x1F3FB`, name: `Baby Angel: Light Skin Tone`},
+                                {emoji: `&#x1F47C&#x1F3FC`, name: `Baby Angel: Medium-Light Skin Tone`},
+                                {emoji: `&#x1F47C&#x1F3FD`, name: `Baby Angel: Medium Skin Tone`},
+                                {emoji: `&#x1F47C&#x1F3FE`, name: `Baby Angel: Medium-Dark Skin Tone`},
+                                {emoji: `&#x1F47C&#x1F3FF`, name: `Baby Angel: Dark Skin Tone`},
+                                {emoji: `&#x1F468&#x200D&#x2695&#xFE0F`, name: `Man Health Worker`},
+                                {emoji: `&#x1F468&#x1F3FB&#x200D&#x2695&#xFE0F`, name: `Man Health Worker: Light Skin Tone`},
+                                {emoji: `&#x1F468&#x1F3FC&#x200D&#x2695&#xFE0F`, name: `Man Health Worker: Medium-Light Skin Tone`},
+                                {emoji: `&#x1F468&#x1F3FD&#x200D&#x2695&#xFE0F`, name: `Man Health Worker: Medium Skin Tone`},
+                                {emoji: `&#x1F468&#x1F3FE&#x200D&#x2695&#xFE0F`, name: `Man Health Worker: Medium-Dark Skin Tone`},
+                                {emoji: `&#x1F468&#x1F3FF&#x200D&#x2695&#xFE0F`, name: `Man Health Worker: Dark Skin Tone`},
+                                {emoji: `&#x1F469&#x200D&#x2695&#xFE0F`, name: `Woman Health Worker`},
+                                {emoji: `&#x1F469&#x1F3FB&#x200D&#x2695&#xFE0F`, name: `Woman Health Worker: Light Skin Tone`},
+                                {emoji: `&#x1F469&#x1F3FC&#x200D&#x2695&#xFE0F`, name: `Woman Health Worker: Medium-Light Skin Tone`},
+                                {emoji: `&#x1F469&#x1F3FD&#x200D&#x2695&#xFE0F`, name: `Woman Health Worker: Medium Skin Tone`},
+                                {emoji: `&#x1F469&#x1F3FE&#x200D&#x2695&#xFE0F`, name: `Woman Health Worker: Medium-Dark Skin Tone`},
+                                {emoji: `&#x1F469&#x1F3FF&#x200D&#x2695&#xFE0F`, name: `Woman Health Worker: Dark Skin Tone`},
+                                {emoji: `&#x1F468&#x200D&#x1F393`, name: `Man Student`},
+                                {emoji: `&#x1F468&#x1F3FB&#x200D&#x1F393`, name: `Man Student: Light Skin Tone`},
+                                {emoji: `&#x1F468&#x1F3FC&#x200D&#x1F393`, name: `Man Student: Medium-Light Skin Tone`},
+                                {emoji: `&#x1F468&#x1F3FD&#x200D&#x1F393`, name: `Man Student: Medium Skin Tone`},
+                                {emoji: `&#x1F468&#x1F3FE&#x200D&#x1F393`, name: `Man Student: Medium-Dark Skin Tone`},
+                                {emoji: `&#x1F468&#x1F3FF&#x200D&#x1F393`, name: `Man Student: Dark Skin Tone`},
+                                {emoji: `&#x1F469&#x200D&#x1F393`, name: `Woman Student`},
+                                {emoji: `&#x1F469&#x1F3FB&#x200D&#x1F393`, name: `Woman Student: Light Skin Tone`},
+                                {emoji: `&#x1F469&#x1F3FC&#x200D&#x1F393`, name: `Woman Student: Medium-Light Skin Tone`},
+                                {emoji: `&#x1F469&#x1F3FD&#x200D&#x1F393`, name: `Woman Student: Medium Skin Tone`},
+                                {emoji: `&#x1F469&#x1F3FE&#x200D&#x1F393`, name: `Woman Student: Medium-Dark Skin Tone`},
+                                {emoji: `&#x1F469&#x1F3FF&#x200D&#x1F393`, name: `Woman Student: Dark Skin Tone`},
+                                {emoji: `&#x1F468&#x200D&#x1F3EB`, name: `Man Teacher`},
+                                {emoji: `&#x1F468&#x1F3FB&#x200D&#x1F3EB`, name: `Man Teacher: Light Skin Tone`},
+                                {emoji: `&#x1F468&#x1F3FC&#x200D&#x1F3EB`, name: `Man Teacher: Medium-Light Skin Tone`},
+                                {emoji: `&#x1F468&#x1F3FD&#x200D&#x1F3EB`, name: `Man Teacher: Medium Skin Tone`},
+                                {emoji: `&#x1F468&#x1F3FE&#x200D&#x1F3EB`, name: `Man Teacher: Medium-Dark Skin Tone`},
+                                {emoji: `&#x1F468&#x1F3FF&#x200D&#x1F3EB`, name: `Man Teacher: Dark Skin Tone`},
+                                {emoji: `&#x1F469&#x200D&#x1F3EB`, name: `Woman Teacher`},
+                                {emoji: `&#x1F469&#x1F3FB&#x200D&#x1F3EB`, name: `Woman Teacher: Light Skin Tone`},
+                                {emoji: `&#x1F469&#x1F3FC&#x200D&#x1F3EB`, name: `Woman Teacher: Medium-Light Skin Tone`},
+                                {emoji: `&#x1F469&#x1F3FD&#x200D&#x1F3EB`, name: `Woman Teacher: Medium Skin Tone`},
+                                {emoji: `&#x1F469&#x1F3FE&#x200D&#x1F3EB`, name: `Woman Teacher: Medium-Dark Skin Tone`},
+                                {emoji: `&#x1F469&#x1F3FF&#x200D&#x1F3EB`, name: `Woman Teacher: Dark Skin Tone`},
+                                {emoji: `&#x1F468&#x200D&#x2696&#xFE0F`, name: `Man Judge`},
+                                {emoji: `&#x1F468&#x1F3FB&#x200D&#x2696&#xFE0F`, name: `Man Judge: Light Skin Tone`},
+                                {emoji: `&#x1F468&#x1F3FC&#x200D&#x2696&#xFE0F`, name: `Man Judge: Medium-Light Skin Tone`},
+                                {emoji: `&#x1F468&#x1F3FD&#x200D&#x2696&#xFE0F`, name: `Man Judge: Medium Skin Tone`},
+                                {emoji: `&#x1F468&#x1F3FE&#x200D&#x2696&#xFE0F`, name: `Man Judge: Medium-Dark Skin Tone`},
+                                {emoji: `&#x1F468&#x1F3FF&#x200D&#x2696&#xFE0F`, name: `Man Judge: Dark Skin Tone`},
+                                {emoji: `&#x1F469&#x200D&#x2696&#xFE0F`, name: `Woman Judge`},
+                                {emoji: `&#x1F469&#x1F3FB&#x200D&#x2696&#xFE0F`, name: `Woman Judge: Light Skin Tone`},
+                                {emoji: `&#x1F469&#x1F3FC&#x200D&#x2696&#xFE0F`, name: `Woman Judge: Medium-Light Skin Tone`},
+                                {emoji: `&#x1F469&#x1F3FD&#x200D&#x2696&#xFE0F`, name: `Woman Judge: Medium Skin Tone`},
+                                {emoji: `&#x1F469&#x1F3FE&#x200D&#x2696&#xFE0F`, name: `Woman Judge: Medium-Dark Skin Tone`},
+                                {emoji: `&#x1F469&#x1F3FF&#x200D&#x2696&#xFE0F`, name: `Woman Judge: Dark Skin Tone`},
+                                {emoji: `&#x1F468&#x200D&#x1F33E`, name: `Man Farmer`},
+                                {emoji: `&#x1F468&#x1F3FB&#x200D&#x1F33E`, name: `Man Farmer: Light Skin Tone`},
+                                {emoji: `&#x1F468&#x1F3FC&#x200D&#x1F33E`, name: `Man Farmer: Medium-Light Skin Tone`},
+                                {emoji: `&#x1F468&#x1F3FD&#x200D&#x1F33E`, name: `Man Farmer: Medium Skin Tone`},
+                                {emoji: `&#x1F468&#x1F3FE&#x200D&#x1F33E`, name: `Man Farmer: Medium-Dark Skin Tone`},
+                                {emoji: `&#x1F468&#x1F3FF&#x200D&#x1F33E`, name: `Man Farmer: Dark Skin Tone`},
+                                {emoji: `&#x1F469&#x200D&#x1F33E`, name: `Woman Farmer`},
+                                {emoji: `&#x1F469&#x1F3FB&#x200D&#x1F33E`, name: `Woman Farmer: Light Skin Tone`},
+                                {emoji: `&#x1F469&#x1F3FC&#x200D&#x1F33E`, name: `Woman Farmer: Medium-Light Skin Tone`},
+                                {emoji: `&#x1F469&#x1F3FD&#x200D&#x1F33E`, name: `Woman Farmer: Medium Skin Tone`},
+                                {emoji: `&#x1F469&#x1F3FE&#x200D&#x1F33E`, name: `Woman Farmer: Medium-Dark Skin Tone`},
+                                {emoji: `&#x1F469&#x1F3FF&#x200D&#x1F33E`, name: `Woman Farmer: Dark Skin Tone`},
+                                {emoji: `&#x1F468&#x200D&#x1F373`, name: `Man Cook`},
+                                {emoji: `&#x1F468&#x1F3FB&#x200D&#x1F373`, name: `Man Cook: Light Skin Tone`},
+                                {emoji: `&#x1F468&#x1F3FC&#x200D&#x1F373`, name: `Man Cook: Medium-Light Skin Tone`},
+                                {emoji: `&#x1F468&#x1F3FD&#x200D&#x1F373`, name: `Man Cook: Medium Skin Tone`},
+                                {emoji: `&#x1F468&#x1F3FE&#x200D&#x1F373`, name: `Man Cook: Medium-Dark Skin Tone`},
+                                {emoji: `&#x1F468&#x1F3FF&#x200D&#x1F373`, name: `Man Cook: Dark Skin Tone`},
+                                {emoji: `&#x1F469&#x200D&#x1F373`, name: `Woman Cook`},
+                                {emoji: `&#x1F469&#x1F3FB&#x200D&#x1F373`, name: `Woman Cook: Light Skin Tone`},
+                                {emoji: `&#x1F469&#x1F3FC&#x200D&#x1F373`, name: `Woman Cook: Medium-Light Skin Tone`},
+                                {emoji: `&#x1F469&#x1F3FD&#x200D&#x1F373`, name: `Woman Cook: Medium Skin Tone`},
+                                {emoji: `&#x1F469&#x1F3FE&#x200D&#x1F373`, name: `Woman Cook: Medium-Dark Skin Tone`},
+                                {emoji: `&#x1F469&#x1F3FF&#x200D&#x1F373`, name: `Woman Cook: Dark Skin Tone`},
+                                {emoji: `&#x1F468&#x200D&#x1F527`, name: `Man Mechanic`},
+                                {emoji: `&#x1F468&#x1F3FB&#x200D&#x1F527`, name: `Man Mechanic: Light Skin Tone`},
+                                {emoji: `&#x1F468&#x1F3FC&#x200D&#x1F527`, name: `Man Mechanic: Medium-Light Skin Tone`},
+                                {emoji: `&#x1F468&#x1F3FD&#x200D&#x1F527`, name: `Man Mechanic: Medium Skin Tone`},
+                                {emoji: `&#x1F468&#x1F3FE&#x200D&#x1F527`, name: `Man Mechanic: Medium-Dark Skin Tone`},
+                                {emoji: `&#x1F468&#x1F3FF&#x200D&#x1F527`, name: `Man Mechanic: Dark Skin Tone`},
+                                {emoji: `&#x1F469&#x200D&#x1F527`, name: `Woman Mechanic`},
+                                {emoji: `&#x1F469&#x1F3FB&#x200D&#x1F527`, name: `Woman Mechanic: Light Skin Tone`},
+                                {emoji: `&#x1F469&#x1F3FC&#x200D&#x1F527`, name: `Woman Mechanic: Medium-Light Skin Tone`},
+                                {emoji: `&#x1F469&#x1F3FD&#x200D&#x1F527`, name: `Woman Mechanic: Medium Skin Tone`},
+                                {emoji: `&#x1F469&#x1F3FE&#x200D&#x1F527`, name: `Woman Mechanic: Medium-Dark Skin Tone`},
+                                {emoji: `&#x1F469&#x1F3FF&#x200D&#x1F527`, name: `Woman Mechanic: Dark Skin Tone`},
+                                {emoji: `&#x1F468&#x200D&#x1F3ED`, name: `Man Factory Worker`},
+                                {emoji: `&#x1F468&#x1F3FB&#x200D&#x1F3ED`, name: `Man Factory Worker: Light Skin Tone`},
+                                {emoji: `&#x1F468&#x1F3FC&#x200D&#x1F3ED`, name: `Man Factory Worker: Medium-Light Skin Tone`},
+                                {emoji: `&#x1F468&#x1F3FD&#x200D&#x1F3ED`, name: `Man Factory Worker: Medium Skin Tone`},
+                                {emoji: `&#x1F468&#x1F3FE&#x200D&#x1F3ED`, name: `Man Factory Worker: Medium-Dark Skin Tone`},
+                                {emoji: `&#x1F468&#x1F3FF&#x200D&#x1F3ED`, name: `Man Factory Worker: Dark Skin Tone`},
+                                {emoji: `&#x1F469&#x200D&#x1F3ED`, name: `Woman Factory Worker`},
+                                {emoji: `&#x1F469&#x1F3FB&#x200D&#x1F3ED`, name: `Woman Factory Worker: Light Skin Tone`},
+                                {emoji: `&#x1F469&#x1F3FC&#x200D&#x1F3ED`, name: `Woman Factory Worker: Medium-Light Skin Tone`},
+                                {emoji: `&#x1F469&#x1F3FD&#x200D&#x1F3ED`, name: `Woman Factory Worker: Medium Skin Tone`},
+                                {emoji: `&#x1F469&#x1F3FE&#x200D&#x1F3ED`, name: `Woman Factory Worker: Medium-Dark Skin Tone`},
+                                {emoji: `&#x1F469&#x1F3FF&#x200D&#x1F3ED`, name: `Woman Factory Worker: Dark Skin Tone`},
+                                {emoji: `&#x1F468&#x200D&#x1F4BC`, name: `Man Office Worker`},
+                                {emoji: `&#x1F468&#x1F3FB&#x200D&#x1F4BC`, name: `Man Office Worker: Light Skin Tone`},
+                                {emoji: `&#x1F468&#x1F3FC&#x200D&#x1F4BC`, name: `Man Office Worker: Medium-Light Skin Tone`},
+                                {emoji: `&#x1F468&#x1F3FD&#x200D&#x1F4BC`, name: `Man Office Worker: Medium Skin Tone`},
+                                {emoji: `&#x1F468&#x1F3FE&#x200D&#x1F4BC`, name: `Man Office Worker: Medium-Dark Skin Tone`},
+                                {emoji: `&#x1F468&#x1F3FF&#x200D&#x1F4BC`, name: `Man Office Worker: Dark Skin Tone`},
+                                {emoji: `&#x1F469&#x200D&#x1F4BC`, name: `Woman Office Worker`},
+                                {emoji: `&#x1F469&#x1F3FB&#x200D&#x1F4BC`, name: `Woman Office Worker: Light Skin Tone`},
+                                {emoji: `&#x1F469&#x1F3FC&#x200D&#x1F4BC`, name: `Woman Office Worker: Medium-Light Skin Tone`},
+                                {emoji: `&#x1F469&#x1F3FD&#x200D&#x1F4BC`, name: `Woman Office Worker: Medium Skin Tone`},
+                                {emoji: `&#x1F469&#x1F3FE&#x200D&#x1F4BC`, name: `Woman Office Worker: Medium-Dark Skin Tone`},
+                                {emoji: `&#x1F469&#x1F3FF&#x200D&#x1F4BC`, name: `Woman Office Worker: Dark Skin Tone`},
+                                {emoji: `&#x1F468&#x200D&#x1F52C`, name: `Man Scientist`},
+                                {emoji: `&#x1F468&#x1F3FB&#x200D&#x1F52C`, name: `Man Scientist: Light Skin Tone`},
+                                {emoji: `&#x1F468&#x1F3FC&#x200D&#x1F52C`, name: `Man Scientist: Medium-Light Skin Tone`},
+                                {emoji: `&#x1F468&#x1F3FD&#x200D&#x1F52C`, name: `Man Scientist: Medium Skin Tone`},
+                                {emoji: `&#x1F468&#x1F3FE&#x200D&#x1F52C`, name: `Man Scientist: Medium-Dark Skin Tone`},
+                                {emoji: `&#x1F468&#x1F3FF&#x200D&#x1F52C`, name: `Man Scientist: Dark Skin Tone`},
+                                {emoji: `&#x1F469&#x200D&#x1F52C`, name: `Woman Scientist`},
+                                {emoji: `&#x1F469&#x1F3FB&#x200D&#x1F52C`, name: `Woman Scientist: Light Skin Tone`},
+                                {emoji: `&#x1F469&#x1F3FC&#x200D&#x1F52C`, name: `Woman Scientist: Medium-Light Skin Tone`},
+                                {emoji: `&#x1F469&#x1F3FD&#x200D&#x1F52C`, name: `Woman Scientist: Medium Skin Tone`},
+                                {emoji: `&#x1F469&#x1F3FE&#x200D&#x1F52C`, name: `Woman Scientist: Medium-Dark Skin Tone`},
+                                {emoji: `&#x1F469&#x1F3FF&#x200D&#x1F52C`, name: `Woman Scientist: Dark Skin Tone`},
+                                {emoji: `&#x1F468&#x200D&#x1F4BB`, name: `Man Technologist`},
+                                {emoji: `&#x1F468&#x1F3FB&#x200D&#x1F4BB`, name: `Man Technologist: Light Skin Tone`},
+                                {emoji: `&#x1F468&#x1F3FC&#x200D&#x1F4BB`, name: `Man Technologist: Medium-Light Skin Tone`},
+                                {emoji: `&#x1F468&#x1F3FD&#x200D&#x1F4BB`, name: `Man Technologist: Medium Skin Tone`},
+                                {emoji: `&#x1F468&#x1F3FE&#x200D&#x1F4BB`, name: `Man Technologist: Medium-Dark Skin Tone`},
+                                {emoji: `&#x1F468&#x1F3FF&#x200D&#x1F4BB`, name: `Man Technologist: Dark Skin Tone`},
+                                {emoji: `&#x1F469&#x200D&#x1F4BB`, name: `Woman Technologist`},
+                                {emoji: `&#x1F469&#x1F3FB&#x200D&#x1F4BB`, name: `Woman Technologist: Light Skin Tone`},
+                                {emoji: `&#x1F469&#x1F3FC&#x200D&#x1F4BB`, name: `Woman Technologist: Medium-Light Skin Tone`},
+                                {emoji: `&#x1F469&#x1F3FD&#x200D&#x1F4BB`, name: `Woman Technologist: Medium Skin Tone`},
+                                {emoji: `&#x1F469&#x1F3FE&#x200D&#x1F4BB`, name: `Woman Technologist: Medium-Dark Skin Tone`},
+                                {emoji: `&#x1F469&#x1F3FF&#x200D&#x1F4BB`, name: `Woman Technologist: Dark Skin Tone`},
+                                {emoji: `&#x1F468&#x200D&#x1F3A4`, name: `Man Singer`},
+                                {emoji: `&#x1F468&#x1F3FB&#x200D&#x1F3A4`, name: `Man Singer: Light Skin Tone`},
+                                {emoji: `&#x1F468&#x1F3FC&#x200D&#x1F3A4`, name: `Man Singer: Medium-Light Skin Tone`},
+                                {emoji: `&#x1F468&#x1F3FD&#x200D&#x1F3A4`, name: `Man Singer: Medium Skin Tone`},
+                                {emoji: `&#x1F468&#x1F3FE&#x200D&#x1F3A4`, name: `Man Singer: Medium-Dark Skin Tone`},
+                                {emoji: `&#x1F468&#x1F3FF&#x200D&#x1F3A4`, name: `Man Singer: Dark Skin Tone`},
+                                {emoji: `&#x1F469&#x200D&#x1F3A4`, name: `Woman Singer`},
+                                {emoji: `&#x1F469&#x1F3FB&#x200D&#x1F3A4`, name: `Woman Singer: Light Skin Tone`},
+                                {emoji: `&#x1F469&#x1F3FC&#x200D&#x1F3A4`, name: `Woman Singer: Medium-Light Skin Tone`},
+                                {emoji: `&#x1F469&#x1F3FD&#x200D&#x1F3A4`, name: `Woman Singer: Medium Skin Tone`},
+                                {emoji: `&#x1F469&#x1F3FE&#x200D&#x1F3A4`, name: `Woman Singer: Medium-Dark Skin Tone`},
+                                {emoji: `&#x1F469&#x1F3FF&#x200D&#x1F3A4`, name: `Woman Singer: Dark Skin Tone`},
+                                {emoji: `&#x1F468&#x200D&#x1F3A8`, name: `Man Artist`},
+                                {emoji: `&#x1F468&#x1F3FB&#x200D&#x1F3A8`, name: `Man Artist: Light Skin Tone`},
+                                {emoji: `&#x1F468&#x1F3FC&#x200D&#x1F3A8`, name: `Man Artist: Medium-Light Skin Tone`},
+                                {emoji: `&#x1F468&#x1F3FD&#x200D&#x1F3A8`, name: `Man Artist: Medium Skin Tone`},
+                                {emoji: `&#x1F468&#x1F3FE&#x200D&#x1F3A8`, name: `Man Artist: Medium-Dark Skin Tone`},
+                                {emoji: `&#x1F468&#x1F3FF&#x200D&#x1F3A8`, name: `Man Artist: Dark Skin Tone`},
+                                {emoji: `&#x1F469&#x200D&#x1F3A8`, name: `Woman Artist`},
+                                {emoji: `&#x1F469&#x1F3FB&#x200D&#x1F3A8`, name: `Woman Artist: Light Skin Tone`},
+                                {emoji: `&#x1F469&#x1F3FC&#x200D&#x1F3A8`, name: `Woman Artist: Medium-Light Skin Tone`},
+                                {emoji: `&#x1F469&#x1F3FD&#x200D&#x1F3A8`, name: `Woman Artist: Medium Skin Tone`},
+                                {emoji: `&#x1F469&#x1F3FE&#x200D&#x1F3A8`, name: `Woman Artist: Medium-Dark Skin Tone`},
+                                {emoji: `&#x1F469&#x1F3FF&#x200D&#x1F3A8`, name: `Woman Artist: Dark Skin Tone`},
+                                {emoji: `&#x1F468&#x200D&#x2708&#xFE0F`, name: `Man Pilot`},
+                                {emoji: `&#x1F468&#x1F3FB&#x200D&#x2708&#xFE0F`, name: `Man Pilot: Light Skin Tone`},
+                                {emoji: `&#x1F468&#x1F3FC&#x200D&#x2708&#xFE0F`, name: `Man Pilot: Medium-Light Skin Tone`},
+                                {emoji: `&#x1F468&#x1F3FD&#x200D&#x2708&#xFE0F`, name: `Man Pilot: Medium Skin Tone`},
+                                {emoji: `&#x1F468&#x1F3FE&#x200D&#x2708&#xFE0F`, name: `Man Pilot: Medium-Dark Skin Tone`},
+                                {emoji: `&#x1F468&#x1F3FF&#x200D&#x2708&#xFE0F`, name: `Man Pilot: Dark Skin Tone`},
+                                {emoji: `&#x1F469&#x200D&#x2708&#xFE0F`, name: `Woman Pilot`},
+                                {emoji: `&#x1F469&#x1F3FB&#x200D&#x2708&#xFE0F`, name: `Woman Pilot: Light Skin Tone`},
+                                {emoji: `&#x1F469&#x1F3FC&#x200D&#x2708&#xFE0F`, name: `Woman Pilot: Medium-Light Skin Tone`},
+                                {emoji: `&#x1F469&#x1F3FD&#x200D&#x2708&#xFE0F`, name: `Woman Pilot: Medium Skin Tone`},
+                                {emoji: `&#x1F469&#x1F3FE&#x200D&#x2708&#xFE0F`, name: `Woman Pilot: Medium-Dark Skin Tone`},
+                                {emoji: `&#x1F469&#x1F3FF&#x200D&#x2708&#xFE0F`, name: `Woman Pilot: Dark Skin Tone`},
+                                {emoji: `&#x1F468&#x200D&#x1F680`, name: `Man Astronaut`},
+                                {emoji: `&#x1F468&#x1F3FB&#x200D&#x1F680`, name: `Man Astronaut: Light Skin Tone`},
+                                {emoji: `&#x1F468&#x1F3FC&#x200D&#x1F680`, name: `Man Astronaut: Medium-Light Skin Tone`},
+                                {emoji: `&#x1F468&#x1F3FD&#x200D&#x1F680`, name: `Man Astronaut: Medium Skin Tone`},
+                                {emoji: `&#x1F468&#x1F3FE&#x200D&#x1F680`, name: `Man Astronaut: Medium-Dark Skin Tone`},
+                                {emoji: `&#x1F468&#x1F3FF&#x200D&#x1F680`, name: `Man Astronaut: Dark Skin Tone`},
+                                {emoji: `&#x1F469&#x200D&#x1F680`, name: `Woman Astronaut`},
+                                {emoji: `&#x1F469&#x1F3FB&#x200D&#x1F680`, name: `Woman Astronaut: Light Skin Tone`},
+                                {emoji: `&#x1F469&#x1F3FC&#x200D&#x1F680`, name: `Woman Astronaut: Medium-Light Skin Tone`},
+                                {emoji: `&#x1F469&#x1F3FD&#x200D&#x1F680`, name: `Woman Astronaut: Medium Skin Tone`},
+                                {emoji: `&#x1F469&#x1F3FE&#x200D&#x1F680`, name: `Woman Astronaut: Medium-Dark Skin Tone`},
+                                {emoji: `&#x1F469&#x1F3FF&#x200D&#x1F680`, name: `Woman Astronaut: Dark Skin Tone`},
+                                {emoji: `&#x1F468&#x200D&#x1F692`, name: `Man Firefighter`},
+                                {emoji: `&#x1F468&#x1F3FB&#x200D&#x1F692`, name: `Man Firefighter: Light Skin Tone`},
+                                {emoji: `&#x1F468&#x1F3FC&#x200D&#x1F692`, name: `Man Firefighter: Medium-Light Skin Tone`},
+                                {emoji: `&#x1F468&#x1F3FD&#x200D&#x1F692`, name: `Man Firefighter: Medium Skin Tone`},
+                                {emoji: `&#x1F468&#x1F3FE&#x200D&#x1F692`, name: `Man Firefighter: Medium-Dark Skin Tone`},
+                                {emoji: `&#x1F468&#x1F3FF&#x200D&#x1F692`, name: `Man Firefighter: Dark Skin Tone`},
+                                {emoji: `&#x1F469&#x200D&#x1F692`, name: `Woman Firefighter`},
+                                {emoji: `&#x1F469&#x1F3FB&#x200D&#x1F692`, name: `Woman Firefighter: Light Skin Tone`},
+                                {emoji: `&#x1F469&#x1F3FC&#x200D&#x1F692`, name: `Woman Firefighter: Medium-Light Skin Tone`},
+                                {emoji: `&#x1F469&#x1F3FD&#x200D&#x1F692`, name: `Woman Firefighter: Medium Skin Tone`},
+                                {emoji: `&#x1F469&#x1F3FE&#x200D&#x1F692`, name: `Woman Firefighter: Medium-Dark Skin Tone`},
+                                {emoji: `&#x1F469&#x1F3FF&#x200D&#x1F692`, name: `Woman Firefighter: Dark Skin Tone`},
+                                {emoji: `&#x1F46E`, name: `Police Officer`},
+                                {emoji: `&#x1F46E&#x1F3FB`, name: `Police Officer: Light Skin Tone`},
+                                {emoji: `&#x1F46E&#x1F3FC`, name: `Police Officer: Medium-Light Skin Tone`},
+                                {emoji: `&#x1F46E&#x1F3FD`, name: `Police Officer: Medium Skin Tone`},
+                                {emoji: `&#x1F46E&#x1F3FE`, name: `Police Officer: Medium-Dark Skin Tone`},
+                                {emoji: `&#x1F46E&#x1F3FF`, name: `Police Officer: Dark Skin Tone`},
+                                {emoji: `&#x1F46E&#x200D&#x2642&#xFE0F`, name: `Man Police Officer`},
+                                {emoji: `&#x1F46E&#x1F3FB&#x200D&#x2642&#xFE0F`, name: `Man Police Officer: Light Skin Tone`},
+                                {emoji: `&#x1F46E&#x1F3FC&#x200D&#x2642&#xFE0F`, name: `Man Police Officer: Medium-Light Skin Tone`},
+                                {emoji: `&#x1F46E&#x1F3FD&#x200D&#x2642&#xFE0F`, name: `Man Police Officer: Medium Skin Tone`},
+                                {emoji: `&#x1F46E&#x1F3FE&#x200D&#x2642&#xFE0F`, name: `Man Police Officer: Medium-Dark Skin Tone`},
+                                {emoji: `&#x1F46E&#x1F3FF&#x200D&#x2642&#xFE0F`, name: `Man Police Officer: Dark Skin Tone`},
+                                {emoji: `&#x1F46E&#x200D&#x2640&#xFE0F`, name: `Woman Police Officer`},
+                                {emoji: `&#x1F46E&#x1F3FB&#x200D&#x2640&#xFE0F`, name: `Woman Police Officer: Light Skin Tone`},
+                                {emoji: `&#x1F46E&#x1F3FC&#x200D&#x2640&#xFE0F`, name: `Woman Police Officer: Medium-Light Skin Tone`},
+                                {emoji: `&#x1F46E&#x1F3FD&#x200D&#x2640&#xFE0F`, name: `Woman Police Officer: Medium Skin Tone`},
+                                {emoji: `&#x1F46E&#x1F3FE&#x200D&#x2640&#xFE0F`, name: `Woman Police Officer: Medium-Dark Skin Tone`},
+                                {emoji: `&#x1F46E&#x1F3FF&#x200D&#x2640&#xFE0F`, name: `Woman Police Officer: Dark Skin Tone`},
+                                {emoji: `&#x1F575`, name: `Detective`},
+                                {emoji: `&#x1F575&#x1F3FB`, name: `Detective: Light Skin Tone`},
+                                {emoji: `&#x1F575&#x1F3FC`, name: `Detective: Medium-Light Skin Tone`},
+                                {emoji: `&#x1F575&#x1F3FD`, name: `Detective: Medium Skin Tone`},
+                                {emoji: `&#x1F575&#x1F3FE`, name: `Detective: Medium-Dark Skin Tone`},
+                                {emoji: `&#x1F575&#x1F3FF`, name: `Detective: Dark Skin Tone`},
+                                {emoji: `&#x1F575&#xFE0F&#x200D&#x2642&#xFE0F`, name: `Man Detective`},
+                                {emoji: `&#x1F575&#x1F3FB&#x200D&#x2642&#xFE0F`, name: `Man Detective: Light Skin Tone`},
+                                {emoji: `&#x1F575&#x1F3FC&#x200D&#x2642&#xFE0F`, name: `Man Detective: Medium-Light Skin Tone`},
+                                {emoji: `&#x1F575&#x1F3FD&#x200D&#x2642&#xFE0F`, name: `Man Detective: Medium Skin Tone`},
+                                {emoji: `&#x1F575&#x1F3FE&#x200D&#x2642&#xFE0F`, name: `Man Detective: Medium-Dark Skin Tone`},
+                                {emoji: `&#x1F575&#x1F3FF&#x200D&#x2642&#xFE0F`, name: `Man Detective: Dark Skin Tone`},
+                                {emoji: `&#x1F575&#xFE0F&#x200D&#x2640&#xFE0F`, name: `Woman Detective`},
+                                {emoji: `&#x1F575&#x1F3FB&#x200D&#x2640&#xFE0F`, name: `Woman Detective: Light Skin Tone`},
+                                {emoji: `&#x1F575&#x1F3FC&#x200D&#x2640&#xFE0F`, name: `Woman Detective: Medium-Light Skin Tone`},
+                                {emoji: `&#x1F575&#x1F3FD&#x200D&#x2640&#xFE0F`, name: `Woman Detective: Medium Skin Tone`},
+                                {emoji: `&#x1F575&#x1F3FE&#x200D&#x2640&#xFE0F`, name: `Woman Detective: Medium-Dark Skin Tone`},
+                                {emoji: `&#x1F575&#x1F3FF&#x200D&#x2640&#xFE0F`, name: `Woman Detective: Dark Skin Tone`},
+                                {emoji: `&#x1F482`, name: `Guard`},
+                                {emoji: `&#x1F482&#x1F3FB`, name: `Guard: Light Skin Tone`},
+                                {emoji: `&#x1F482&#x1F3FC`, name: `Guard: Medium-Light Skin Tone`},
+                                {emoji: `&#x1F482&#x1F3FD`, name: `Guard: Medium Skin Tone`},
+                                {emoji: `&#x1F482&#x1F3FE`, name: `Guard: Medium-Dark Skin Tone`},
+                                {emoji: `&#x1F482&#x1F3FF`, name: `Guard: Dark Skin Tone`},
+                                {emoji: `&#x1F482&#x200D&#x2642&#xFE0F`, name: `Man Guard`},
+                                {emoji: `&#x1F482&#x1F3FB&#x200D&#x2642&#xFE0F`, name: `Man Guard: Light Skin Tone`},
+                                {emoji: `&#x1F482&#x1F3FC&#x200D&#x2642&#xFE0F`, name: `Man Guard: Medium-Light Skin Tone`},
+                                {emoji: `&#x1F482&#x1F3FD&#x200D&#x2642&#xFE0F`, name: `Man Guard: Medium Skin Tone`},
+                                {emoji: `&#x1F482&#x1F3FE&#x200D&#x2642&#xFE0F`, name: `Man Guard: Medium-Dark Skin Tone`},
+                                {emoji: `&#x1F482&#x1F3FF&#x200D&#x2642&#xFE0F`, name: `Man Guard: Dark Skin Tone`},
+                                {emoji: `&#x1F482&#x200D&#x2640&#xFE0F`, name: `Woman Guard`},
+                                {emoji: `&#x1F482&#x1F3FB&#x200D&#x2640&#xFE0F`, name: `Woman Guard: Light Skin Tone`},
+                                {emoji: `&#x1F482&#x1F3FC&#x200D&#x2640&#xFE0F`, name: `Woman Guard: Medium-Light Skin Tone`},
+                                {emoji: `&#x1F482&#x1F3FD&#x200D&#x2640&#xFE0F`, name: `Woman Guard: Medium Skin Tone`},
+                                {emoji: `&#x1F482&#x1F3FE&#x200D&#x2640&#xFE0F`, name: `Woman Guard: Medium-Dark Skin Tone`},
+                                {emoji: `&#x1F482&#x1F3FF&#x200D&#x2640&#xFE0F`, name: `Woman Guard: Dark Skin Tone`},
+                                {emoji: `&#x1F477`, name: `Construction Worker`},
+                                {emoji: `&#x1F477&#x1F3FB`, name: `Construction Worker: Light Skin Tone`},
+                                {emoji: `&#x1F477&#x1F3FC`, name: `Construction Worker: Medium-Light Skin Tone`},
+                                {emoji: `&#x1F477&#x1F3FD`, name: `Construction Worker: Medium Skin Tone`},
+                                {emoji: `&#x1F477&#x1F3FE`, name: `Construction Worker: Medium-Dark Skin Tone`},
+                                {emoji: `&#x1F477&#x1F3FF`, name: `Construction Worker: Dark Skin Tone`},
+                                {emoji: `&#x1F477&#x200D&#x2642&#xFE0F`, name: `Man Construction Worker`},
+                                {emoji: `&#x1F477&#x1F3FB&#x200D&#x2642&#xFE0F`, name: `Man Construction Worker: Light Skin Tone`},
+                                {emoji: `&#x1F477&#x1F3FC&#x200D&#x2642&#xFE0F`, name: `Man Construction Worker: Medium-Light Skin Tone`},
+                                {emoji: `&#x1F477&#x1F3FD&#x200D&#x2642&#xFE0F`, name: `Man Construction Worker: Medium Skin Tone`},
+                                {emoji: `&#x1F477&#x1F3FE&#x200D&#x2642&#xFE0F`, name: `Man Construction Worker: Medium-Dark Skin Tone`},
+                                {emoji: `&#x1F477&#x1F3FF&#x200D&#x2642&#xFE0F`, name: `Man Construction Worker: Dark Skin Tone`},
+                                {emoji: `&#x1F477&#x200D&#x2640&#xFE0F`, name: `Woman Construction Worker`},
+                                {emoji: `&#x1F477&#x1F3FB&#x200D&#x2640&#xFE0F`, name: `Woman Construction Worker: Light Skin Tone`},
+                                {emoji: `&#x1F477&#x1F3FC&#x200D&#x2640&#xFE0F`, name: `Woman Construction Worker: Medium-Light Skin Tone`},
+                                {emoji: `&#x1F477&#x1F3FD&#x200D&#x2640&#xFE0F`, name: `Woman Construction Worker: Medium Skin Tone`},
+                                {emoji: `&#x1F477&#x1F3FE&#x200D&#x2640&#xFE0F`, name: `Woman Construction Worker: Medium-Dark Skin Tone`},
+                                {emoji: `&#x1F477&#x1F3FF&#x200D&#x2640&#xFE0F`, name: `Woman Construction Worker: Dark Skin Tone`},
+                                {emoji: `&#x1F473`, name: `Person Wearing Turban`},
+                                {emoji: `&#x1F473&#x1F3FB`, name: `Person Wearing Turban: Light Skin Tone`},
+                                {emoji: `&#x1F473&#x1F3FC`, name: `Person Wearing Turban: Medium-Light Skin Tone`},
+                                {emoji: `&#x1F473&#x1F3FD`, name: `Person Wearing Turban: Medium Skin Tone`},
+                                {emoji: `&#x1F473&#x1F3FE`, name: `Person Wearing Turban: Medium-Dark Skin Tone`},
+                                {emoji: `&#x1F473&#x1F3FF`, name: `Person Wearing Turban: Dark Skin Tone`},
+                                {emoji: `&#x1F473&#x200D&#x2642&#xFE0F`, name: `Man Wearing Turban`},
+                                {emoji: `&#x1F473&#x1F3FB&#x200D&#x2642&#xFE0F`, name: `Man Wearing Turban: Light Skin Tone`},
+                                {emoji: `&#x1F473&#x1F3FC&#x200D&#x2642&#xFE0F`, name: `Man Wearing Turban: Medium-Light Skin Tone`},
+                                {emoji: `&#x1F473&#x1F3FD&#x200D&#x2642&#xFE0F`, name: `Man Wearing Turban: Medium Skin Tone`},
+                                {emoji: `&#x1F473&#x1F3FE&#x200D&#x2642&#xFE0F`, name: `Man Wearing Turban: Medium-Dark Skin Tone`},
+                                {emoji: `&#x1F473&#x1F3FF&#x200D&#x2642&#xFE0F`, name: `Man Wearing Turban: Dark Skin Tone`},
+                                {emoji: `&#x1F473&#x200D&#x2640&#xFE0F`, name: `Woman Wearing Turban`},
+                                {emoji: `&#x1F473&#x1F3FB&#x200D&#x2640&#xFE0F`, name: `Woman Wearing Turban: Light Skin Tone`},
+                                {emoji: `&#x1F473&#x1F3FC&#x200D&#x2640&#xFE0F`, name: `Woman Wearing Turban: Medium-Light Skin Tone`},
+                                {emoji: `&#x1F473&#x1F3FD&#x200D&#x2640&#xFE0F`, name: `Woman Wearing Turban: Medium Skin Tone`},
+                                {emoji: `&#x1F473&#x1F3FE&#x200D&#x2640&#xFE0F`, name: `Woman Wearing Turban: Medium-Dark Skin Tone`},
+                                {emoji: `&#x1F473&#x1F3FF&#x200D&#x2640&#xFE0F`, name: `Woman Wearing Turban: Dark Skin Tone`},
+                                {emoji: `&#x1F471`, name: `Blond-Haired Person`},
+                                {emoji: `&#x1F471&#x1F3FB`, name: `Blond-Haired Person: Light Skin Tone`},
+                                {emoji: `&#x1F471&#x1F3FC`, name: `Blond-Haired Person: Medium-Light Skin Tone`},
+                                {emoji: `&#x1F471&#x1F3FD`, name: `Blond-Haired Person: Medium Skin Tone`},
+                                {emoji: `&#x1F471&#x1F3FE`, name: `Blond-Haired Person: Medium-Dark Skin Tone`},
+                                {emoji: `&#x1F471&#x1F3FF`, name: `Blond-Haired Person: Dark Skin Tone`},
+                                {emoji: `&#x1F471&#x200D&#x2642&#xFE0F`, name: `Blond-Haired Man`},
+                                {emoji: `&#x1F471&#x1F3FB&#x200D&#x2642&#xFE0F`, name: `Blond-Haired Man: Light Skin Tone`},
+                                {emoji: `&#x1F471&#x1F3FC&#x200D&#x2642&#xFE0F`, name: `Blond-Haired Man: Medium-Light Skin Tone`},
+                                {emoji: `&#x1F471&#x1F3FD&#x200D&#x2642&#xFE0F`, name: `Blond-Haired Man: Medium Skin Tone`},
+                                {emoji: `&#x1F471&#x1F3FE&#x200D&#x2642&#xFE0F`, name: `Blond-Haired Man: Medium-Dark Skin Tone`},
+                                {emoji: `&#x1F471&#x1F3FF&#x200D&#x2642&#xFE0F`, name: `Blond-Haired Man: Dark Skin Tone`},
+                                {emoji: `&#x1F471&#x200D&#x2640&#xFE0F`, name: `Blond-Haired Woman`},
+                                {emoji: `&#x1F471&#x1F3FB&#x200D&#x2640&#xFE0F`, name: `Blond-Haired Woman: Light Skin Tone`},
+                                {emoji: `&#x1F471&#x1F3FC&#x200D&#x2640&#xFE0F`, name: `Blond-Haired Woman: Medium-Light Skin Tone`},
+                                {emoji: `&#x1F471&#x1F3FD&#x200D&#x2640&#xFE0F`, name: `Blond-Haired Woman: Medium Skin Tone`},
+                                {emoji: `&#x1F471&#x1F3FE&#x200D&#x2640&#xFE0F`, name: `Blond-Haired Woman: Medium-Dark Skin Tone`},
+                                {emoji: `&#x1F471&#x1F3FF&#x200D&#x2640&#xFE0F`, name: `Blond-Haired Woman: Dark Skin Tone`},
+                                {emoji: `&#x1F385`, name: `Santa Claus`},
+                                {emoji: `&#x1F385&#x1F3FB`, name: `Santa Claus: Light Skin Tone`},
+                                {emoji: `&#x1F385&#x1F3FC`, name: `Santa Claus: Medium-Light Skin Tone`},
+                                {emoji: `&#x1F385&#x1F3FD`, name: `Santa Claus: Medium Skin Tone`},
+                                {emoji: `&#x1F385&#x1F3FE`, name: `Santa Claus: Medium-Dark Skin Tone`},
+                                {emoji: `&#x1F385&#x1F3FF`, name: `Santa Claus: Dark Skin Tone`},
+                                {emoji: `&#x1F936`, name: `Mrs. Claus`},
+                                {emoji: `&#x1F936&#x1F3FB`, name: `Mrs. Claus: Light Skin Tone`},
+                                {emoji: `&#x1F936&#x1F3FC`, name: `Mrs. Claus: Medium-Light Skin Tone`},
+                                {emoji: `&#x1F936&#x1F3FD`, name: `Mrs. Claus: Medium Skin Tone`},
+                                {emoji: `&#x1F936&#x1F3FE`, name: `Mrs. Claus: Medium-Dark Skin Tone`},
+                                {emoji: `&#x1F936&#x1F3FF`, name: `Mrs. Claus: Dark Skin Tone`},
+                                {emoji: `&#x1F478`, name: `Princess`},
+                                {emoji: `&#x1F478&#x1F3FB`, name: `Princess: Light Skin Tone`},
+                                {emoji: `&#x1F478&#x1F3FC`, name: `Princess: Medium-Light Skin Tone`},
+                                {emoji: `&#x1F478&#x1F3FD`, name: `Princess: Medium Skin Tone`},
+                                {emoji: `&#x1F478&#x1F3FE`, name: `Princess: Medium-Dark Skin Tone`},
+                                {emoji: `&#x1F478&#x1F3FF`, name: `Princess: Dark Skin Tone`},
+                                {emoji: `&#x1F934`, name: `Prince`},
+                                {emoji: `&#x1F934&#x1F3FB`, name: `Prince: Light Skin Tone`},
+                                {emoji: `&#x1F934&#x1F3FC`, name: `Prince: Medium-Light Skin Tone`},
+                                {emoji: `&#x1F934&#x1F3FD`, name: `Prince: Medium Skin Tone`},
+                                {emoji: `&#x1F934&#x1F3FE`, name: `Prince: Medium-Dark Skin Tone`},
+                                {emoji: `&#x1F934&#x1F3FF`, name: `Prince: Dark Skin Tone`},
+                                {emoji: `&#x1F470`, name: `Bride With Veil`},
+                                {emoji: `&#x1F470&#x1F3FB`, name: `Bride With Veil: Light Skin Tone`},
+                                {emoji: `&#x1F470&#x1F3FC`, name: `Bride With Veil: Medium-Light Skin Tone`},
+                                {emoji: `&#x1F470&#x1F3FD`, name: `Bride With Veil: Medium Skin Tone`},
+                                {emoji: `&#x1F470&#x1F3FE`, name: `Bride With Veil: Medium-Dark Skin Tone`},
+                                {emoji: `&#x1F470&#x1F3FF`, name: `Bride With Veil: Dark Skin Tone`},
+                                {emoji: `&#x1F935`, name: `Man In Tuxedo`},
+                                {emoji: `&#x1F935&#x1F3FB`, name: `Man In Tuxedo: Light Skin Tone`},
+                                {emoji: `&#x1F935&#x1F3FC`, name: `Man In Tuxedo: Medium-Light Skin Tone`},
+                                {emoji: `&#x1F935&#x1F3FD`, name: `Man In Tuxedo: Medium Skin Tone`},
+                                {emoji: `&#x1F935&#x1F3FE`, name: `Man In Tuxedo: Medium-Dark Skin Tone`},
+                                {emoji: `&#x1F935&#x1F3FF`, name: `Man In Tuxedo: Dark Skin Tone`},
+                                {emoji: `&#x1F930`, name: `Pregnant Woman`},
+                                {emoji: `&#x1F930&#x1F3FB`, name: `Pregnant Woman: Light Skin Tone`},
+                                {emoji: `&#x1F930&#x1F3FC`, name: `Pregnant Woman: Medium-Light Skin Tone`},
+                                {emoji: `&#x1F930&#x1F3FD`, name: `Pregnant Woman: Medium Skin Tone`},
+                                {emoji: `&#x1F930&#x1F3FE`, name: `Pregnant Woman: Medium-Dark Skin Tone`},
+                                {emoji: `&#x1F930&#x1F3FF`, name: `Pregnant Woman: Dark Skin Tone`},
+                                {emoji: `&#x1F472`, name: `Man With Chinese Cap`},
+                                {emoji: `&#x1F472&#x1F3FB`, name: `Man With Chinese Cap: Light Skin Tone`},
+                                {emoji: `&#x1F472&#x1F3FC`, name: `Man With Chinese Cap: Medium-Light Skin Tone`},
+                                {emoji: `&#x1F472&#x1F3FD`, name: `Man With Chinese Cap: Medium Skin Tone`},
+                                {emoji: `&#x1F472&#x1F3FE`, name: `Man With Chinese Cap: Medium-Dark Skin Tone`},
+                                {emoji: `&#x1F472&#x1F3FF`, name: `Man With Chinese Cap: Dark Skin Tone`},
+                                {emoji: `&#x1F64D`, name: `Person Frowning`},
+                                {emoji: `&#x1F64D&#x1F3FB`, name: `Person Frowning: Light Skin Tone`},
+                                {emoji: `&#x1F64D&#x1F3FC`, name: `Person Frowning: Medium-Light Skin Tone`},
+                                {emoji: `&#x1F64D&#x1F3FD`, name: `Person Frowning: Medium Skin Tone`},
+                                {emoji: `&#x1F64D&#x1F3FE`, name: `Person Frowning: Medium-Dark Skin Tone`},
+                                {emoji: `&#x1F64D&#x1F3FF`, name: `Person Frowning: Dark Skin Tone`},
+                                {emoji: `&#x1F64D&#x200D&#x2642&#xFE0F`, name: `Man Frowning`},
+                                {emoji: `&#x1F64D&#x1F3FB&#x200D&#x2642&#xFE0F`, name: `Man Frowning: Light Skin Tone`},
+                                {emoji: `&#x1F64D&#x1F3FC&#x200D&#x2642&#xFE0F`, name: `Man Frowning: Medium-Light Skin Tone`},
+                                {emoji: `&#x1F64D&#x1F3FD&#x200D&#x2642&#xFE0F`, name: `Man Frowning: Medium Skin Tone`},
+                                {emoji: `&#x1F64D&#x1F3FE&#x200D&#x2642&#xFE0F`, name: `Man Frowning: Medium-Dark Skin Tone`},
+                                {emoji: `&#x1F64D&#x1F3FF&#x200D&#x2642&#xFE0F`, name: `Man Frowning: Dark Skin Tone`},
+                                {emoji: `&#x1F64D&#x200D&#x2640&#xFE0F`, name: `Woman Frowning`},
+                                {emoji: `&#x1F64D&#x1F3FB&#x200D&#x2640&#xFE0F`, name: `Woman Frowning: Light Skin Tone`},
+                                {emoji: `&#x1F64D&#x1F3FC&#x200D&#x2640&#xFE0F`, name: `Woman Frowning: Medium-Light Skin Tone`},
+                                {emoji: `&#x1F64D&#x1F3FD&#x200D&#x2640&#xFE0F`, name: `Woman Frowning: Medium Skin Tone`},
+                                {emoji: `&#x1F64D&#x1F3FE&#x200D&#x2640&#xFE0F`, name: `Woman Frowning: Medium-Dark Skin Tone`},
+                                {emoji: `&#x1F64D&#x1F3FF&#x200D&#x2640&#xFE0F`, name: `Woman Frowning: Dark Skin Tone`},
+                                {emoji: `&#x1F64E`, name: `Person Pouting`},
+                                {emoji: `&#x1F64E&#x1F3FB`, name: `Person Pouting: Light Skin Tone`},
+                                {emoji: `&#x1F64E&#x1F3FC`, name: `Person Pouting: Medium-Light Skin Tone`},
+                                {emoji: `&#x1F64E&#x1F3FD`, name: `Person Pouting: Medium Skin Tone`},
+                                {emoji: `&#x1F64E&#x1F3FE`, name: `Person Pouting: Medium-Dark Skin Tone`},
+                                {emoji: `&#x1F64E&#x1F3FF`, name: `Person Pouting: Dark Skin Tone`},
+                                {emoji: `&#x1F64E&#x200D&#x2642&#xFE0F`, name: `Man Pouting`},
+                                {emoji: `&#x1F64E&#x1F3FB&#x200D&#x2642&#xFE0F`, name: `Man Pouting: Light Skin Tone`},
+                                {emoji: `&#x1F64E&#x1F3FC&#x200D&#x2642&#xFE0F`, name: `Man Pouting: Medium-Light Skin Tone`},
+                                {emoji: `&#x1F64E&#x1F3FD&#x200D&#x2642&#xFE0F`, name: `Man Pouting: Medium Skin Tone`},
+                                {emoji: `&#x1F64E&#x1F3FE&#x200D&#x2642&#xFE0F`, name: `Man Pouting: Medium-Dark Skin Tone`},
+                                {emoji: `&#x1F64E&#x1F3FF&#x200D&#x2642&#xFE0F`, name: `Man Pouting: Dark Skin Tone`},
+                                {emoji: `&#x1F64E&#x200D&#x2640&#xFE0F`, name: `Woman Pouting`},
+                                {emoji: `&#x1F64E&#x1F3FB&#x200D&#x2640&#xFE0F`, name: `Woman Pouting: Light Skin Tone`},
+                                {emoji: `&#x1F64E&#x1F3FC&#x200D&#x2640&#xFE0F`, name: `Woman Pouting: Medium-Light Skin Tone`},
+                                {emoji: `&#x1F64E&#x1F3FD&#x200D&#x2640&#xFE0F`, name: `Woman Pouting: Medium Skin Tone`},
+                                {emoji: `&#x1F64E&#x1F3FE&#x200D&#x2640&#xFE0F`, name: `Woman Pouting: Medium-Dark Skin Tone`},
+                                {emoji: `&#x1F64E&#x1F3FF&#x200D&#x2640&#xFE0F`, name: `Woman Pouting: Dark Skin Tone`},
+                                {emoji: `&#x1F645`, name: `Person Gesturing NO`},
+                                {emoji: `&#x1F645&#x1F3FB`, name: `Person Gesturing NO: Light Skin Tone`},
+                                {emoji: `&#x1F645&#x1F3FC`, name: `Person Gesturing NO: Medium-Light Skin Tone`},
+                                {emoji: `&#x1F645&#x1F3FD`, name: `Person Gesturing NO: Medium Skin Tone`},
+                                {emoji: `&#x1F645&#x1F3FE`, name: `Person Gesturing NO: Medium-Dark Skin Tone`},
+                                {emoji: `&#x1F645&#x1F3FF`, name: `Person Gesturing NO: Dark Skin Tone`},
+                                {emoji: `&#x1F645&#x200D&#x2642&#xFE0F`, name: `Man Gesturing NO`},
+                                {emoji: `&#x1F645&#x1F3FB&#x200D&#x2642&#xFE0F`, name: `Man Gesturing NO: Light Skin Tone`},
+                                {emoji: `&#x1F645&#x1F3FC&#x200D&#x2642&#xFE0F`, name: `Man Gesturing NO: Medium-Light Skin Tone`},
+                                {emoji: `&#x1F645&#x1F3FD&#x200D&#x2642&#xFE0F`, name: `Man Gesturing NO: Medium Skin Tone`},
+                                {emoji: `&#x1F645&#x1F3FE&#x200D&#x2642&#xFE0F`, name: `Man Gesturing NO: Medium-Dark Skin Tone`},
+                                {emoji: `&#x1F645&#x1F3FF&#x200D&#x2642&#xFE0F`, name: `Man Gesturing NO: Dark Skin Tone`},
+                                {emoji: `&#x1F645&#x200D&#x2640&#xFE0F`, name: `Woman Gesturing NO`},
+                                {emoji: `&#x1F645&#x1F3FB&#x200D&#x2640&#xFE0F`, name: `Woman Gesturing NO: Light Skin Tone`},
+                                {emoji: `&#x1F645&#x1F3FC&#x200D&#x2640&#xFE0F`, name: `Woman Gesturing NO: Medium-Light Skin Tone`},
+                                {emoji: `&#x1F645&#x1F3FD&#x200D&#x2640&#xFE0F`, name: `Woman Gesturing NO: Medium Skin Tone`},
+                                {emoji: `&#x1F645&#x1F3FE&#x200D&#x2640&#xFE0F`, name: `Woman Gesturing NO: Medium-Dark Skin Tone`},
+                                {emoji: `&#x1F645&#x1F3FF&#x200D&#x2640&#xFE0F`, name: `Woman Gesturing NO: Dark Skin Tone`},
+                                {emoji: `&#x1F646`, name: `Person Gesturing OK`},
+                                {emoji: `&#x1F646&#x1F3FB`, name: `Person Gesturing OK: Light Skin Tone`},
+                                {emoji: `&#x1F646&#x1F3FC`, name: `Person Gesturing OK: Medium-Light Skin Tone`},
+                                {emoji: `&#x1F646&#x1F3FD`, name: `Person Gesturing OK: Medium Skin Tone`},
+                                {emoji: `&#x1F646&#x1F3FE`, name: `Person Gesturing OK: Medium-Dark Skin Tone`},
+                                {emoji: `&#x1F646&#x1F3FF`, name: `Person Gesturing OK: Dark Skin Tone`},
+                                {emoji: `&#x1F646&#x200D&#x2642&#xFE0F`, name: `Man Gesturing OK`},
+                                {emoji: `&#x1F646&#x1F3FB&#x200D&#x2642&#xFE0F`, name: `Man Gesturing OK: Light Skin Tone`},
+                                {emoji: `&#x1F646&#x1F3FC&#x200D&#x2642&#xFE0F`, name: `Man Gesturing OK: Medium-Light Skin Tone`},
+                                {emoji: `&#x1F646&#x1F3FD&#x200D&#x2642&#xFE0F`, name: `Man Gesturing OK: Medium Skin Tone`},
+                                {emoji: `&#x1F646&#x1F3FE&#x200D&#x2642&#xFE0F`, name: `Man Gesturing OK: Medium-Dark Skin Tone`},
+                                {emoji: `&#x1F646&#x1F3FF&#x200D&#x2642&#xFE0F`, name: `Man Gesturing OK: Dark Skin Tone`},
+                                {emoji: `&#x1F646&#x200D&#x2640&#xFE0F`, name: `Woman Gesturing OK`},
+                                {emoji: `&#x1F646&#x1F3FB&#x200D&#x2640&#xFE0F`, name: `Woman Gesturing OK: Light Skin Tone`},
+                                {emoji: `&#x1F646&#x1F3FC&#x200D&#x2640&#xFE0F`, name: `Woman Gesturing OK: Medium-Light Skin Tone`},
+                                {emoji: `&#x1F646&#x1F3FD&#x200D&#x2640&#xFE0F`, name: `Woman Gesturing OK: Medium Skin Tone`},
+                                {emoji: `&#x1F646&#x1F3FE&#x200D&#x2640&#xFE0F`, name: `Woman Gesturing OK: Medium-Dark Skin Tone`},
+                                {emoji: `&#x1F646&#x1F3FF&#x200D&#x2640&#xFE0F`, name: `Woman Gesturing OK: Dark Skin Tone`},
+                                {emoji: `&#x1F481`, name: `Person Tipping Hand`},
+                                {emoji: `&#x1F481&#x1F3FB`, name: `Person Tipping Hand: Light Skin Tone`},
+                                {emoji: `&#x1F481&#x1F3FC`, name: `Person Tipping Hand: Medium-Light Skin Tone`},
+                                {emoji: `&#x1F481&#x1F3FD`, name: `Person Tipping Hand: Medium Skin Tone`},
+                                {emoji: `&#x1F481&#x1F3FE`, name: `Person Tipping Hand: Medium-Dark Skin Tone`},
+                                {emoji: `&#x1F481&#x1F3FF`, name: `Person Tipping Hand: Dark Skin Tone`},
+                                {emoji: `&#x1F481&#x200D&#x2642&#xFE0F`, name: `Man Tipping Hand`},
+                                {emoji: `&#x1F481&#x1F3FB&#x200D&#x2642&#xFE0F`, name: `Man Tipping Hand: Light Skin Tone`},
+                                {emoji: `&#x1F481&#x1F3FC&#x200D&#x2642&#xFE0F`, name: `Man Tipping Hand: Medium-Light Skin Tone`},
+                                {emoji: `&#x1F481&#x1F3FD&#x200D&#x2642&#xFE0F`, name: `Man Tipping Hand: Medium Skin Tone`},
+                                {emoji: `&#x1F481&#x1F3FE&#x200D&#x2642&#xFE0F`, name: `Man Tipping Hand: Medium-Dark Skin Tone`},
+                                {emoji: `&#x1F481&#x1F3FF&#x200D&#x2642&#xFE0F`, name: `Man Tipping Hand: Dark Skin Tone`},
+                                {emoji: `&#x1F481&#x200D&#x2640&#xFE0F`, name: `Woman Tipping Hand`},
+                                {emoji: `&#x1F481&#x1F3FB&#x200D&#x2640&#xFE0F`, name: `Woman Tipping Hand: Light Skin Tone`},
+                                {emoji: `&#x1F481&#x1F3FC&#x200D&#x2640&#xFE0F`, name: `Woman Tipping Hand: Medium-Light Skin Tone`},
+                                {emoji: `&#x1F481&#x1F3FD&#x200D&#x2640&#xFE0F`, name: `Woman Tipping Hand: Medium Skin Tone`},
+                                {emoji: `&#x1F481&#x1F3FE&#x200D&#x2640&#xFE0F`, name: `Woman Tipping Hand: Medium-Dark Skin Tone`},
+                                {emoji: `&#x1F481&#x1F3FF&#x200D&#x2640&#xFE0F`, name: `Woman Tipping Hand: Dark Skin Tone`},
+                                {emoji: `&#x1F64B`, name: `Person Raising Hand`},
+                                {emoji: `&#x1F64B&#x1F3FB`, name: `Person Raising Hand: Light Skin Tone`},
+                                {emoji: `&#x1F64B&#x1F3FC`, name: `Person Raising Hand: Medium-Light Skin Tone`},
+                                {emoji: `&#x1F64B&#x1F3FD`, name: `Person Raising Hand: Medium Skin Tone`},
+                                {emoji: `&#x1F64B&#x1F3FE`, name: `Person Raising Hand: Medium-Dark Skin Tone`},
+                                {emoji: `&#x1F64B&#x1F3FF`, name: `Person Raising Hand: Dark Skin Tone`},
+                                {emoji: `&#x1F64B&#x200D&#x2642&#xFE0F`, name: `Man Raising Hand`},
+                                {emoji: `&#x1F64B&#x1F3FB&#x200D&#x2642&#xFE0F`, name: `Man Raising Hand: Light Skin Tone`},
+                                {emoji: `&#x1F64B&#x1F3FC&#x200D&#x2642&#xFE0F`, name: `Man Raising Hand: Medium-Light Skin Tone`},
+                                {emoji: `&#x1F64B&#x1F3FD&#x200D&#x2642&#xFE0F`, name: `Man Raising Hand: Medium Skin Tone`},
+                                {emoji: `&#x1F64B&#x1F3FE&#x200D&#x2642&#xFE0F`, name: `Man Raising Hand: Medium-Dark Skin Tone`},
+                                {emoji: `&#x1F64B&#x1F3FF&#x200D&#x2642&#xFE0F`, name: `Man Raising Hand: Dark Skin Tone`},
+                                {emoji: `&#x1F64B&#x200D&#x2640&#xFE0F`, name: `Woman Raising Hand`},
+                                {emoji: `&#x1F64B&#x1F3FB&#x200D&#x2640&#xFE0F`, name: `Woman Raising Hand: Light Skin Tone`},
+                                {emoji: `&#x1F64B&#x1F3FC&#x200D&#x2640&#xFE0F`, name: `Woman Raising Hand: Medium-Light Skin Tone`},
+                                {emoji: `&#x1F64B&#x1F3FD&#x200D&#x2640&#xFE0F`, name: `Woman Raising Hand: Medium Skin Tone`},
+                                {emoji: `&#x1F64B&#x1F3FE&#x200D&#x2640&#xFE0F`, name: `Woman Raising Hand: Medium-Dark Skin Tone`},
+                                {emoji: `&#x1F64B&#x1F3FF&#x200D&#x2640&#xFE0F`, name: `Woman Raising Hand: Dark Skin Tone`},
+                                {emoji: `&#x1F647`, name: `Person Bowing`},
+                                {emoji: `&#x1F647&#x1F3FB`, name: `Person Bowing: Light Skin Tone`},
+                                {emoji: `&#x1F647&#x1F3FC`, name: `Person Bowing: Medium-Light Skin Tone`},
+                                {emoji: `&#x1F647&#x1F3FD`, name: `Person Bowing: Medium Skin Tone`},
+                                {emoji: `&#x1F647&#x1F3FE`, name: `Person Bowing: Medium-Dark Skin Tone`},
+                                {emoji: `&#x1F647&#x1F3FF`, name: `Person Bowing: Dark Skin Tone`},
+                                {emoji: `&#x1F647&#x200D&#x2642&#xFE0F`, name: `Man Bowing`},
+                                {emoji: `&#x1F647&#x1F3FB&#x200D&#x2642&#xFE0F`, name: `Man Bowing: Light Skin Tone`},
+                                {emoji: `&#x1F647&#x1F3FC&#x200D&#x2642&#xFE0F`, name: `Man Bowing: Medium-Light Skin Tone`},
+                                {emoji: `&#x1F647&#x1F3FD&#x200D&#x2642&#xFE0F`, name: `Man Bowing: Medium Skin Tone`},
+                                {emoji: `&#x1F647&#x1F3FE&#x200D&#x2642&#xFE0F`, name: `Man Bowing: Medium-Dark Skin Tone`},
+                                {emoji: `&#x1F647&#x1F3FF&#x200D&#x2642&#xFE0F`, name: `Man Bowing: Dark Skin Tone`},
+                                {emoji: `&#x1F647&#x200D&#x2640&#xFE0F`, name: `Woman Bowing`},
+                                {emoji: `&#x1F647&#x1F3FB&#x200D&#x2640&#xFE0F`, name: `Woman Bowing: Light Skin Tone`},
+                                {emoji: `&#x1F647&#x1F3FC&#x200D&#x2640&#xFE0F`, name: `Woman Bowing: Medium-Light Skin Tone`},
+                                {emoji: `&#x1F647&#x1F3FD&#x200D&#x2640&#xFE0F`, name: `Woman Bowing: Medium Skin Tone`},
+                                {emoji: `&#x1F647&#x1F3FE&#x200D&#x2640&#xFE0F`, name: `Woman Bowing: Medium-Dark Skin Tone`},
+                                {emoji: `&#x1F647&#x1F3FF&#x200D&#x2640&#xFE0F`, name: `Woman Bowing: Dark Skin Tone`},
+                                {emoji: `&#x1F926`, name: `Person Facepalming`},
+                                {emoji: `&#x1F926&#x1F3FB`, name: `Person Facepalming: Light Skin Tone`},
+                                {emoji: `&#x1F926&#x1F3FC`, name: `Person Facepalming: Medium-Light Skin Tone`},
+                                {emoji: `&#x1F926&#x1F3FD`, name: `Person Facepalming: Medium Skin Tone`},
+                                {emoji: `&#x1F926&#x1F3FE`, name: `Person Facepalming: Medium-Dark Skin Tone`},
+                                {emoji: `&#x1F926&#x1F3FF`, name: `Person Facepalming: Dark Skin Tone`},
+                                {emoji: `&#x1F926&#x200D&#x2642&#xFE0F`, name: `Man Facepalming`},
+                                {emoji: `&#x1F926&#x1F3FB&#x200D&#x2642&#xFE0F`, name: `Man Facepalming: Light Skin Tone`},
+                                {emoji: `&#x1F926&#x1F3FC&#x200D&#x2642&#xFE0F`, name: `Man Facepalming: Medium-Light Skin Tone`},
+                                {emoji: `&#x1F926&#x1F3FD&#x200D&#x2642&#xFE0F`, name: `Man Facepalming: Medium Skin Tone`},
+                                {emoji: `&#x1F926&#x1F3FE&#x200D&#x2642&#xFE0F`, name: `Man Facepalming: Medium-Dark Skin Tone`},
+                                {emoji: `&#x1F926&#x1F3FF&#x200D&#x2642&#xFE0F`, name: `Man Facepalming: Dark Skin Tone`},
+                                {emoji: `&#x1F926&#x200D&#x2640&#xFE0F`, name: `Woman Facepalming`},
+                                {emoji: `&#x1F926&#x1F3FB&#x200D&#x2640&#xFE0F`, name: `Woman Facepalming: Light Skin Tone`},
+                                {emoji: `&#x1F926&#x1F3FC&#x200D&#x2640&#xFE0F`, name: `Woman Facepalming: Medium-Light Skin Tone`},
+                                {emoji: `&#x1F926&#x1F3FD&#x200D&#x2640&#xFE0F`, name: `Woman Facepalming: Medium Skin Tone`},
+                                {emoji: `&#x1F926&#x1F3FE&#x200D&#x2640&#xFE0F`, name: `Woman Facepalming: Medium-Dark Skin Tone`},
+                                {emoji: `&#x1F926&#x1F3FF&#x200D&#x2640&#xFE0F`, name: `Woman Facepalming: Dark Skin Tone`},
+                                {emoji: `&#x1F937`, name: `Person Shrugging`},
+                                {emoji: `&#x1F937&#x1F3FB`, name: `Person Shrugging: Light Skin Tone`},
+                                {emoji: `&#x1F937&#x1F3FC`, name: `Person Shrugging: Medium-Light Skin Tone`},
+                                {emoji: `&#x1F937&#x1F3FD`, name: `Person Shrugging: Medium Skin Tone`},
+                                {emoji: `&#x1F937&#x1F3FE`, name: `Person Shrugging: Medium-Dark Skin Tone`},
+                                {emoji: `&#x1F937&#x1F3FF`, name: `Person Shrugging: Dark Skin Tone`},
+                                {emoji: `&#x1F937&#x200D&#x2642&#xFE0F`, name: `Man Shrugging`},
+                                {emoji: `&#x1F937&#x1F3FB&#x200D&#x2642&#xFE0F`, name: `Man Shrugging: Light Skin Tone`},
+                                {emoji: `&#x1F937&#x1F3FC&#x200D&#x2642&#xFE0F`, name: `Man Shrugging: Medium-Light Skin Tone`},
+                                {emoji: `&#x1F937&#x1F3FD&#x200D&#x2642&#xFE0F`, name: `Man Shrugging: Medium Skin Tone`},
+                                {emoji: `&#x1F937&#x1F3FE&#x200D&#x2642&#xFE0F`, name: `Man Shrugging: Medium-Dark Skin Tone`},
+                                {emoji: `&#x1F937&#x1F3FF&#x200D&#x2642&#xFE0F`, name: `Man Shrugging: Dark Skin Tone`},
+                                {emoji: `&#x1F937&#x200D&#x2640&#xFE0F`, name: `Woman Shrugging`},
+                                {emoji: `&#x1F937&#x1F3FB&#x200D&#x2640&#xFE0F`, name: `Woman Shrugging: Light Skin Tone`},
+                                {emoji: `&#x1F937&#x1F3FC&#x200D&#x2640&#xFE0F`, name: `Woman Shrugging: Medium-Light Skin Tone`},
+                                {emoji: `&#x1F937&#x1F3FD&#x200D&#x2640&#xFE0F`, name: `Woman Shrugging: Medium Skin Tone`},
+                                {emoji: `&#x1F937&#x1F3FE&#x200D&#x2640&#xFE0F`, name: `Woman Shrugging: Medium-Dark Skin Tone`},
+                                {emoji: `&#x1F937&#x1F3FF&#x200D&#x2640&#xFE0F`, name: `Woman Shrugging: Dark Skin Tone`},
+                                {emoji: `&#x1F486`, name: `Person Getting Massage`},
+                                {emoji: `&#x1F486&#x1F3FB`, name: `Person Getting Massage: Light Skin Tone`},
+                                {emoji: `&#x1F486&#x1F3FC`, name: `Person Getting Massage: Medium-Light Skin Tone`},
+                                {emoji: `&#x1F486&#x1F3FD`, name: `Person Getting Massage: Medium Skin Tone`},
+                                {emoji: `&#x1F486&#x1F3FE`, name: `Person Getting Massage: Medium-Dark Skin Tone`},
+                                {emoji: `&#x1F486&#x1F3FF`, name: `Person Getting Massage: Dark Skin Tone`},
+                                {emoji: `&#x1F486&#x200D&#x2642&#xFE0F`, name: `Man Getting Massage`},
+                                {emoji: `&#x1F486&#x1F3FB&#x200D&#x2642&#xFE0F`, name: `Man Getting Massage: Light Skin Tone`},
+                                {emoji: `&#x1F486&#x1F3FC&#x200D&#x2642&#xFE0F`, name: `Man Getting Massage: Medium-Light Skin Tone`},
+                                {emoji: `&#x1F486&#x1F3FD&#x200D&#x2642&#xFE0F`, name: `Man Getting Massage: Medium Skin Tone`},
+                                {emoji: `&#x1F486&#x1F3FE&#x200D&#x2642&#xFE0F`, name: `Man Getting Massage: Medium-Dark Skin Tone`},
+                                {emoji: `&#x1F486&#x1F3FF&#x200D&#x2642&#xFE0F`, name: `Man Getting Massage: Dark Skin Tone`},
+                                {emoji: `&#x1F486&#x200D&#x2640&#xFE0F`, name: `Woman Getting Massage`},
+                                {emoji: `&#x1F486&#x1F3FB&#x200D&#x2640&#xFE0F`, name: `Woman Getting Massage: Light Skin Tone`},
+                                {emoji: `&#x1F486&#x1F3FC&#x200D&#x2640&#xFE0F`, name: `Woman Getting Massage: Medium-Light Skin Tone`},
+                                {emoji: `&#x1F486&#x1F3FD&#x200D&#x2640&#xFE0F`, name: `Woman Getting Massage: Medium Skin Tone`},
+                                {emoji: `&#x1F486&#x1F3FE&#x200D&#x2640&#xFE0F`, name: `Woman Getting Massage: Medium-Dark Skin Tone`},
+                                {emoji: `&#x1F486&#x1F3FF&#x200D&#x2640&#xFE0F`, name: `Woman Getting Massage: Dark Skin Tone`},
+                                {emoji: `&#x1F487`, name: `Person Getting Haircut`},
+                                {emoji: `&#x1F487&#x1F3FB`, name: `Person Getting Haircut: Light Skin Tone`},
+                                {emoji: `&#x1F487&#x1F3FC`, name: `Person Getting Haircut: Medium-Light Skin Tone`},
+                                {emoji: `&#x1F487&#x1F3FD`, name: `Person Getting Haircut: Medium Skin Tone`},
+                                {emoji: `&#x1F487&#x1F3FE`, name: `Person Getting Haircut: Medium-Dark Skin Tone`},
+                                {emoji: `&#x1F487&#x1F3FF`, name: `Person Getting Haircut: Dark Skin Tone`},
+                                {emoji: `&#x1F487&#x200D&#x2642&#xFE0F`, name: `Man Getting Haircut`},
+                                {emoji: `&#x1F487&#x1F3FB&#x200D&#x2642&#xFE0F`, name: `Man Getting Haircut: Light Skin Tone`},
+                                {emoji: `&#x1F487&#x1F3FC&#x200D&#x2642&#xFE0F`, name: `Man Getting Haircut: Medium-Light Skin Tone`},
+                                {emoji: `&#x1F487&#x1F3FD&#x200D&#x2642&#xFE0F`, name: `Man Getting Haircut: Medium Skin Tone`},
+                                {emoji: `&#x1F487&#x1F3FE&#x200D&#x2642&#xFE0F`, name: `Man Getting Haircut: Medium-Dark Skin Tone`},
+                                {emoji: `&#x1F487&#x1F3FF&#x200D&#x2642&#xFE0F`, name: `Man Getting Haircut: Dark Skin Tone`},
+                                {emoji: `&#x1F487&#x200D&#x2640&#xFE0F`, name: `Woman Getting Haircut`},
+                                {emoji: `&#x1F487&#x1F3FB&#x200D&#x2640&#xFE0F`, name: `Woman Getting Haircut: Light Skin Tone`},
+                                {emoji: `&#x1F487&#x1F3FC&#x200D&#x2640&#xFE0F`, name: `Woman Getting Haircut: Medium-Light Skin Tone`},
+                                {emoji: `&#x1F487&#x1F3FD&#x200D&#x2640&#xFE0F`, name: `Woman Getting Haircut: Medium Skin Tone`},
+                                {emoji: `&#x1F487&#x1F3FE&#x200D&#x2640&#xFE0F`, name: `Woman Getting Haircut: Medium-Dark Skin Tone`},
+                                {emoji: `&#x1F487&#x1F3FF&#x200D&#x2640&#xFE0F`, name: `Woman Getting Haircut: Dark Skin Tone`},
+                                {emoji: `&#x1F6B6`, name: `Person Walking`},
+                                {emoji: `&#x1F6B6&#x1F3FB`, name: `Person Walking: Light Skin Tone`},
+                                {emoji: `&#x1F6B6&#x1F3FC`, name: `Person Walking: Medium-Light Skin Tone`},
+                                {emoji: `&#x1F6B6&#x1F3FD`, name: `Person Walking: Medium Skin Tone`},
+                                {emoji: `&#x1F6B6&#x1F3FE`, name: `Person Walking: Medium-Dark Skin Tone`},
+                                {emoji: `&#x1F6B6&#x1F3FF`, name: `Person Walking: Dark Skin Tone`},
+                                {emoji: `&#x1F6B6&#x200D&#x2642&#xFE0F`, name: `Man Walking`},
+                                {emoji: `&#x1F6B6&#x1F3FB&#x200D&#x2642&#xFE0F`, name: `Man Walking: Light Skin Tone`},
+                                {emoji: `&#x1F6B6&#x1F3FC&#x200D&#x2642&#xFE0F`, name: `Man Walking: Medium-Light Skin Tone`},
+                                {emoji: `&#x1F6B6&#x1F3FD&#x200D&#x2642&#xFE0F`, name: `Man Walking: Medium Skin Tone`},
+                                {emoji: `&#x1F6B6&#x1F3FE&#x200D&#x2642&#xFE0F`, name: `Man Walking: Medium-Dark Skin Tone`},
+                                {emoji: `&#x1F6B6&#x1F3FF&#x200D&#x2642&#xFE0F`, name: `Man Walking: Dark Skin Tone`},
+                                {emoji: `&#x1F6B6&#x200D&#x2640&#xFE0F`, name: `Woman Walking`},
+                                {emoji: `&#x1F6B6&#x1F3FB&#x200D&#x2640&#xFE0F`, name: `Woman Walking: Light Skin Tone`},
+                                {emoji: `&#x1F6B6&#x1F3FC&#x200D&#x2640&#xFE0F`, name: `Woman Walking: Medium-Light Skin Tone`},
+                                {emoji: `&#x1F6B6&#x1F3FD&#x200D&#x2640&#xFE0F`, name: `Woman Walking: Medium Skin Tone`},
+                                {emoji: `&#x1F6B6&#x1F3FE&#x200D&#x2640&#xFE0F`, name: `Woman Walking: Medium-Dark Skin Tone`},
+                                {emoji: `&#x1F6B6&#x1F3FF&#x200D&#x2640&#xFE0F`, name: `Woman Walking: Dark Skin Tone`},
+                                {emoji: `&#x1F3C3`, name: `Person Running`},
+                                {emoji: `&#x1F3C3&#x1F3FB`, name: `Person Running: Light Skin Tone`},
+                                {emoji: `&#x1F3C3&#x1F3FC`, name: `Person Running: Medium-Light Skin Tone`},
+                                {emoji: `&#x1F3C3&#x1F3FD`, name: `Person Running: Medium Skin Tone`},
+                                {emoji: `&#x1F3C3&#x1F3FE`, name: `Person Running: Medium-Dark Skin Tone`},
+                                {emoji: `&#x1F3C3&#x1F3FF`, name: `Person Running: Dark Skin Tone`},
+                                {emoji: `&#x1F3C3&#x200D&#x2642&#xFE0F`, name: `Man Running`},
+                                {emoji: `&#x1F3C3&#x1F3FB&#x200D&#x2642&#xFE0F`, name: `Man Running: Light Skin Tone`},
+                                {emoji: `&#x1F3C3&#x1F3FC&#x200D&#x2642&#xFE0F`, name: `Man Running: Medium-Light Skin Tone`},
+                                {emoji: `&#x1F3C3&#x1F3FD&#x200D&#x2642&#xFE0F`, name: `Man Running: Medium Skin Tone`},
+                                {emoji: `&#x1F3C3&#x1F3FE&#x200D&#x2642&#xFE0F`, name: `Man Running: Medium-Dark Skin Tone`},
+                                {emoji: `&#x1F3C3&#x1F3FF&#x200D&#x2642&#xFE0F`, name: `Man Running: Dark Skin Tone`},
+                                {emoji: `&#x1F3C3&#x200D&#x2640&#xFE0F`, name: `Woman Running`},
+                                {emoji: `&#x1F3C3&#x1F3FB&#x200D&#x2640&#xFE0F`, name: `Woman Running: Light Skin Tone`},
+                                {emoji: `&#x1F3C3&#x1F3FC&#x200D&#x2640&#xFE0F`, name: `Woman Running: Medium-Light Skin Tone`},
+                                {emoji: `&#x1F3C3&#x1F3FD&#x200D&#x2640&#xFE0F`, name: `Woman Running: Medium Skin Tone`},
+                                {emoji: `&#x1F3C3&#x1F3FE&#x200D&#x2640&#xFE0F`, name: `Woman Running: Medium-Dark Skin Tone`},
+                                {emoji: `&#x1F3C3&#x1F3FF&#x200D&#x2640&#xFE0F`, name: `Woman Running: Dark Skin Tone`},
+                                {emoji: `&#x1F483`, name: `Woman Dancing`},
+                                {emoji: `&#x1F483&#x1F3FB`, name: `Woman Dancing: Light Skin Tone`},
+                                {emoji: `&#x1F483&#x1F3FC`, name: `Woman Dancing: Medium-Light Skin Tone`},
+                                {emoji: `&#x1F483&#x1F3FD`, name: `Woman Dancing: Medium Skin Tone`},
+                                {emoji: `&#x1F483&#x1F3FE`, name: `Woman Dancing: Medium-Dark Skin Tone`},
+                                {emoji: `&#x1F483&#x1F3FF`, name: `Woman Dancing: Dark Skin Tone`},
+                                {emoji: `&#x1F57A`, name: `Man Dancing`},
+                                {emoji: `&#x1F57A&#x1F3FB`, name: `Man Dancing: Light Skin Tone`},
+                                {emoji: `&#x1F57A&#x1F3FC`, name: `Man Dancing: Medium-Light Skin Tone`},
+                                {emoji: `&#x1F57A&#x1F3FD`, name: `Man Dancing: Medium Skin Tone`},
+                                {emoji: `&#x1F57A&#x1F3FE`, name: `Man Dancing: Medium-Dark Skin Tone`},
+                                {emoji: `&#x1F57A&#x1F3FF`, name: `Man Dancing: Dark Skin Tone`},
+                                {emoji: `&#x1F46F`, name: `People With Bunny Ears Partying`},
+                                {emoji: `&#x1F46F&#x200D&#x2642&#xFE0F`, name: `Men With Bunny Ears Partying`},
+                                {emoji: `&#x1F46F&#x200D&#x2640&#xFE0F`, name: `Women With Bunny Ears Partying`},
+                                {emoji: `&#x1F574`, name: `Man In Business Suit Levitating`},
+                                {emoji: `&#x1F574&#x1F3FB`, name: `Man In Business Suit Levitating: Light Skin Tone`},
+                                {emoji: `&#x1F574&#x1F3FC`, name: `Man In Business Suit Levitating: Medium-Light Skin Tone`},
+                                {emoji: `&#x1F574&#x1F3FD`, name: `Man In Business Suit Levitating: Medium Skin Tone`},
+                                {emoji: `&#x1F574&#x1F3FE`, name: `Man In Business Suit Levitating: Medium-Dark Skin Tone`},
+                                {emoji: `&#x1F574&#x1F3FF`, name: `Man In Business Suit Levitating: Dark Skin Tone`},
+                                {emoji: `&#x1F5E3`, name: `Speaking Head`},
+                                {emoji: `&#x1F464`, name: `Bust In Silhouette`},
+                                {emoji: `&#x1F465`, name: `Busts In Silhouette`},
+                                {emoji: `&#x1F93A`, name: `Person Fencing`},
+                                {emoji: `&#x1F3C7`, name: `Horse Racing`},
+                                {emoji: `&#x1F3C7&#x1F3FB`, name: `Horse Racing: Light Skin Tone`},
+                                {emoji: `&#x1F3C7&#x1F3FC`, name: `Horse Racing: Medium-Light Skin Tone`},
+                                {emoji: `&#x1F3C7&#x1F3FD`, name: `Horse Racing: Medium Skin Tone`},
+                                {emoji: `&#x1F3C7&#x1F3FE`, name: `Horse Racing: Medium-Dark Skin Tone`},
+                                {emoji: `&#x1F3C7&#x1F3FF`, name: `Horse Racing: Dark Skin Tone`},
+                                {emoji: `&#x26F7`, name: `Skier`},
+                                {emoji: `&#x1F3C2`, name: `Snowboarder`},
+                                {emoji: `&#x1F3C2&#x1F3FB`, name: `Snowboarder: Light Skin Tone`},
+                                {emoji: `&#x1F3C2&#x1F3FC`, name: `Snowboarder: Medium-Light Skin Tone`},
+                                {emoji: `&#x1F3C2&#x1F3FD`, name: `Snowboarder: Medium Skin Tone`},
+                                {emoji: `&#x1F3C2&#x1F3FE`, name: `Snowboarder: Medium-Dark Skin Tone`},
+                                {emoji: `&#x1F3C2&#x1F3FF`, name: `Snowboarder: Dark Skin Tone`},
+                                {emoji: `&#x1F3CC`, name: `Person Golfing`},
+                                {emoji: `&#x1F3CC&#x1F3FB`, name: `Person Golfing: Light Skin Tone`},
+                                {emoji: `&#x1F3CC&#x1F3FC`, name: `Person Golfing: Medium-Light Skin Tone`},
+                                {emoji: `&#x1F3CC&#x1F3FD`, name: `Person Golfing: Medium Skin Tone`},
+                                {emoji: `&#x1F3CC&#x1F3FE`, name: `Person Golfing: Medium-Dark Skin Tone`},
+                                {emoji: `&#x1F3CC&#x1F3FF`, name: `Person Golfing: Dark Skin Tone`},
+                                {emoji: `&#x1F3CC&#xFE0F&#x200D&#x2642&#xFE0F`, name: `Man Golfing`},
+                                {emoji: `&#x1F3CC&#x1F3FB&#x200D&#x2642&#xFE0F`, name: `Man Golfing: Light Skin Tone`},
+                                {emoji: `&#x1F3CC&#x1F3FC&#x200D&#x2642&#xFE0F`, name: `Man Golfing: Medium-Light Skin Tone`},
+                                {emoji: `&#x1F3CC&#x1F3FD&#x200D&#x2642&#xFE0F`, name: `Man Golfing: Medium Skin Tone`},
+                                {emoji: `&#x1F3CC&#x1F3FE&#x200D&#x2642&#xFE0F`, name: `Man Golfing: Medium-Dark Skin Tone`},
+                                {emoji: `&#x1F3CC&#x1F3FF&#x200D&#x2642&#xFE0F`, name: `Man Golfing: Dark Skin Tone`},
+                                {emoji: `&#x1F3CC&#xFE0F&#x200D&#x2640&#xFE0F`, name: `Woman Golfing`},
+                                {emoji: `&#x1F3CC&#x1F3FB&#x200D&#x2640&#xFE0F`, name: `Woman Golfing: Light Skin Tone`},
+                                {emoji: `&#x1F3CC&#x1F3FC&#x200D&#x2640&#xFE0F`, name: `Woman Golfing: Medium-Light Skin Tone`},
+                                {emoji: `&#x1F3CC&#x1F3FD&#x200D&#x2640&#xFE0F`, name: `Woman Golfing: Medium Skin Tone`},
+                                {emoji: `&#x1F3CC&#x1F3FE&#x200D&#x2640&#xFE0F`, name: `Woman Golfing: Medium-Dark Skin Tone`},
+                                {emoji: `&#x1F3CC&#x1F3FF&#x200D&#x2640&#xFE0F`, name: `Woman Golfing: Dark Skin Tone`},
+                                {emoji: `&#x1F3C4`, name: `Person Surfing`},
+                                {emoji: `&#x1F3C4&#x1F3FB`, name: `Person Surfing: Light Skin Tone`},
+                                {emoji: `&#x1F3C4&#x1F3FC`, name: `Person Surfing: Medium-Light Skin Tone`},
+                                {emoji: `&#x1F3C4&#x1F3FD`, name: `Person Surfing: Medium Skin Tone`},
+                                {emoji: `&#x1F3C4&#x1F3FE`, name: `Person Surfing: Medium-Dark Skin Tone`},
+                                {emoji: `&#x1F3C4&#x1F3FF`, name: `Person Surfing: Dark Skin Tone`},
+                                {emoji: `&#x1F3C4&#x200D&#x2642&#xFE0F`, name: `Man Surfing`},
+                                {emoji: `&#x1F3C4&#x1F3FB&#x200D&#x2642&#xFE0F`, name: `Man Surfing: Light Skin Tone`},
+                                {emoji: `&#x1F3C4&#x1F3FC&#x200D&#x2642&#xFE0F`, name: `Man Surfing: Medium-Light Skin Tone`},
+                                {emoji: `&#x1F3C4&#x1F3FD&#x200D&#x2642&#xFE0F`, name: `Man Surfing: Medium Skin Tone`},
+                                {emoji: `&#x1F3C4&#x1F3FE&#x200D&#x2642&#xFE0F`, name: `Man Surfing: Medium-Dark Skin Tone`},
+                                {emoji: `&#x1F3C4&#x1F3FF&#x200D&#x2642&#xFE0F`, name: `Man Surfing: Dark Skin Tone`},
+                                {emoji: `&#x1F3C4&#x200D&#x2640&#xFE0F`, name: `Woman Surfing`},
+                                {emoji: `&#x1F3C4&#x1F3FB&#x200D&#x2640&#xFE0F`, name: `Woman Surfing: Light Skin Tone`},
+                                {emoji: `&#x1F3C4&#x1F3FC&#x200D&#x2640&#xFE0F`, name: `Woman Surfing: Medium-Light Skin Tone`},
+                                {emoji: `&#x1F3C4&#x1F3FD&#x200D&#x2640&#xFE0F`, name: `Woman Surfing: Medium Skin Tone`},
+                                {emoji: `&#x1F3C4&#x1F3FE&#x200D&#x2640&#xFE0F`, name: `Woman Surfing: Medium-Dark Skin Tone`},
+                                {emoji: `&#x1F3C4&#x1F3FF&#x200D&#x2640&#xFE0F`, name: `Woman Surfing: Dark Skin Tone`},
+                                {emoji: `&#x1F6A3`, name: `Person Rowing Boat`},
+                                {emoji: `&#x1F6A3&#x1F3FB`, name: `Person Rowing Boat: Light Skin Tone`},
+                                {emoji: `&#x1F6A3&#x1F3FC`, name: `Person Rowing Boat: Medium-Light Skin Tone`},
+                                {emoji: `&#x1F6A3&#x1F3FD`, name: `Person Rowing Boat: Medium Skin Tone`},
+                                {emoji: `&#x1F6A3&#x1F3FE`, name: `Person Rowing Boat: Medium-Dark Skin Tone`},
+                                {emoji: `&#x1F6A3&#x1F3FF`, name: `Person Rowing Boat: Dark Skin Tone`},
+                                {emoji: `&#x1F6A3&#x200D&#x2642&#xFE0F`, name: `Man Rowing Boat`},
+                                {emoji: `&#x1F6A3&#x1F3FB&#x200D&#x2642&#xFE0F`, name: `Man Rowing Boat: Light Skin Tone`},
+                                {emoji: `&#x1F6A3&#x1F3FC&#x200D&#x2642&#xFE0F`, name: `Man Rowing Boat: Medium-Light Skin Tone`},
+                                {emoji: `&#x1F6A3&#x1F3FD&#x200D&#x2642&#xFE0F`, name: `Man Rowing Boat: Medium Skin Tone`},
+                                {emoji: `&#x1F6A3&#x1F3FE&#x200D&#x2642&#xFE0F`, name: `Man Rowing Boat: Medium-Dark Skin Tone`},
+                                {emoji: `&#x1F6A3&#x1F3FF&#x200D&#x2642&#xFE0F`, name: `Man Rowing Boat: Dark Skin Tone`},
+                                {emoji: `&#x1F6A3&#x200D&#x2640&#xFE0F`, name: `Woman Rowing Boat`},
+                                {emoji: `&#x1F6A3&#x1F3FB&#x200D&#x2640&#xFE0F`, name: `Woman Rowing Boat: Light Skin Tone`},
+                                {emoji: `&#x1F6A3&#x1F3FC&#x200D&#x2640&#xFE0F`, name: `Woman Rowing Boat: Medium-Light Skin Tone`},
+                                {emoji: `&#x1F6A3&#x1F3FD&#x200D&#x2640&#xFE0F`, name: `Woman Rowing Boat: Medium Skin Tone`},
+                                {emoji: `&#x1F6A3&#x1F3FE&#x200D&#x2640&#xFE0F`, name: `Woman Rowing Boat: Medium-Dark Skin Tone`},
+                                {emoji: `&#x1F6A3&#x1F3FF&#x200D&#x2640&#xFE0F`, name: `Woman Rowing Boat: Dark Skin Tone`},
+                                {emoji: `&#x1F3CA`, name: `Person Swimming`},
+                                {emoji: `&#x1F3CA&#x1F3FB`, name: `Person Swimming: Light Skin Tone`},
+                                {emoji: `&#x1F3CA&#x1F3FC`, name: `Person Swimming: Medium-Light Skin Tone`},
+                                {emoji: `&#x1F3CA&#x1F3FD`, name: `Person Swimming: Medium Skin Tone`},
+                                {emoji: `&#x1F3CA&#x1F3FE`, name: `Person Swimming: Medium-Dark Skin Tone`},
+                                {emoji: `&#x1F3CA&#x1F3FF`, name: `Person Swimming: Dark Skin Tone`},
+                                {emoji: `&#x1F3CA&#x200D&#x2642&#xFE0F`, name: `Man Swimming`},
+                                {emoji: `&#x1F3CA&#x1F3FB&#x200D&#x2642&#xFE0F`, name: `Man Swimming: Light Skin Tone`},
+                                {emoji: `&#x1F3CA&#x1F3FC&#x200D&#x2642&#xFE0F`, name: `Man Swimming: Medium-Light Skin Tone`},
+                                {emoji: `&#x1F3CA&#x1F3FD&#x200D&#x2642&#xFE0F`, name: `Man Swimming: Medium Skin Tone`},
+                                {emoji: `&#x1F3CA&#x1F3FE&#x200D&#x2642&#xFE0F`, name: `Man Swimming: Medium-Dark Skin Tone`},
+                                {emoji: `&#x1F3CA&#x1F3FF&#x200D&#x2642&#xFE0F`, name: `Man Swimming: Dark Skin Tone`},
+                                {emoji: `&#x1F3CA&#x200D&#x2640&#xFE0F`, name: `Woman Swimming`},
+                                {emoji: `&#x1F3CA&#x1F3FB&#x200D&#x2640&#xFE0F`, name: `Woman Swimming: Light Skin Tone`},
+                                {emoji: `&#x1F3CA&#x1F3FC&#x200D&#x2640&#xFE0F`, name: `Woman Swimming: Medium-Light Skin Tone`},
+                                {emoji: `&#x1F3CA&#x1F3FD&#x200D&#x2640&#xFE0F`, name: `Woman Swimming: Medium Skin Tone`},
+                                {emoji: `&#x1F3CA&#x1F3FE&#x200D&#x2640&#xFE0F`, name: `Woman Swimming: Medium-Dark Skin Tone`},
+                                {emoji: `&#x1F3CA&#x1F3FF&#x200D&#x2640&#xFE0F`, name: `Woman Swimming: Dark Skin Tone`},
+                                {emoji: `&#x26F9`, name: `Person Bouncing Ball`},
+                                {emoji: `&#x26F9&#x1F3FB`, name: `Person Bouncing Ball: Light Skin Tone`},
+                                {emoji: `&#x26F9&#x1F3FC`, name: `Person Bouncing Ball: Medium-Light Skin Tone`},
+                                {emoji: `&#x26F9&#x1F3FD`, name: `Person Bouncing Ball: Medium Skin Tone`},
+                                {emoji: `&#x26F9&#x1F3FE`, name: `Person Bouncing Ball: Medium-Dark Skin Tone`},
+                                {emoji: `&#x26F9&#x1F3FF`, name: `Person Bouncing Ball: Dark Skin Tone`},
+                                {emoji: `&#x26F9&#xFE0F&#x200D&#x2642&#xFE0F`, name: `Man Bouncing Ball`},
+                                {emoji: `&#x26F9&#x1F3FB&#x200D&#x2642&#xFE0F`, name: `Man Bouncing Ball: Light Skin Tone`},
+                                {emoji: `&#x26F9&#x1F3FC&#x200D&#x2642&#xFE0F`, name: `Man Bouncing Ball: Medium-Light Skin Tone`},
+                                {emoji: `&#x26F9&#x1F3FD&#x200D&#x2642&#xFE0F`, name: `Man Bouncing Ball: Medium Skin Tone`},
+                                {emoji: `&#x26F9&#x1F3FE&#x200D&#x2642&#xFE0F`, name: `Man Bouncing Ball: Medium-Dark Skin Tone`},
+                                {emoji: `&#x26F9&#x1F3FF&#x200D&#x2642&#xFE0F`, name: `Man Bouncing Ball: Dark Skin Tone`},
+                                {emoji: `&#x26F9&#xFE0F&#x200D&#x2640&#xFE0F`, name: `Woman Bouncing Ball`},
+                                {emoji: `&#x26F9&#x1F3FB&#x200D&#x2640&#xFE0F`, name: `Woman Bouncing Ball: Light Skin Tone`},
+                                {emoji: `&#x26F9&#x1F3FC&#x200D&#x2640&#xFE0F`, name: `Woman Bouncing Ball: Medium-Light Skin Tone`},
+                                {emoji: `&#x26F9&#x1F3FD&#x200D&#x2640&#xFE0F`, name: `Woman Bouncing Ball: Medium Skin Tone`},
+                                {emoji: `&#x26F9&#x1F3FE&#x200D&#x2640&#xFE0F`, name: `Woman Bouncing Ball: Medium-Dark Skin Tone`},
+                                {emoji: `&#x26F9&#x1F3FF&#x200D&#x2640&#xFE0F`, name: `Woman Bouncing Ball: Dark Skin Tone`},
+                                {emoji: `&#x1F3CB`, name: `Person Lifting Weights`},
+                                {emoji: `&#x1F3CB&#x1F3FB`, name: `Person Lifting Weights: Light Skin Tone`},
+                                {emoji: `&#x1F3CB&#x1F3FC`, name: `Person Lifting Weights: Medium-Light Skin Tone`},
+                                {emoji: `&#x1F3CB&#x1F3FD`, name: `Person Lifting Weights: Medium Skin Tone`},
+                                {emoji: `&#x1F3CB&#x1F3FE`, name: `Person Lifting Weights: Medium-Dark Skin Tone`},
+                                {emoji: `&#x1F3CB&#x1F3FF`, name: `Person Lifting Weights: Dark Skin Tone`},
+                                {emoji: `&#x1F3CB&#xFE0F&#x200D&#x2642&#xFE0F`, name: `Man Lifting Weights`},
+                                {emoji: `&#x1F3CB&#x1F3FB&#x200D&#x2642&#xFE0F`, name: `Man Lifting Weights: Light Skin Tone`},
+                                {emoji: `&#x1F3CB&#x1F3FC&#x200D&#x2642&#xFE0F`, name: `Man Lifting Weights: Medium-Light Skin Tone`},
+                                {emoji: `&#x1F3CB&#x1F3FD&#x200D&#x2642&#xFE0F`, name: `Man Lifting Weights: Medium Skin Tone`},
+                                {emoji: `&#x1F3CB&#x1F3FE&#x200D&#x2642&#xFE0F`, name: `Man Lifting Weights: Medium-Dark Skin Tone`},
+                                {emoji: `&#x1F3CB&#x1F3FF&#x200D&#x2642&#xFE0F`, name: `Man Lifting Weights: Dark Skin Tone`},
+                                {emoji: `&#x1F3CB&#xFE0F&#x200D&#x2640&#xFE0F`, name: `Woman Lifting Weights`},
+                                {emoji: `&#x1F3CB&#x1F3FB&#x200D&#x2640&#xFE0F`, name: `Woman Lifting Weights: Light Skin Tone`},
+                                {emoji: `&#x1F3CB&#x1F3FC&#x200D&#x2640&#xFE0F`, name: `Woman Lifting Weights: Medium-Light Skin Tone`},
+                                {emoji: `&#x1F3CB&#x1F3FD&#x200D&#x2640&#xFE0F`, name: `Woman Lifting Weights: Medium Skin Tone`},
+                                {emoji: `&#x1F3CB&#x1F3FE&#x200D&#x2640&#xFE0F`, name: `Woman Lifting Weights: Medium-Dark Skin Tone`},
+                                {emoji: `&#x1F3CB&#x1F3FF&#x200D&#x2640&#xFE0F`, name: `Woman Lifting Weights: Dark Skin Tone`},
+                                {emoji: `&#x1F6B4`, name: `Person Biking`},
+                                {emoji: `&#x1F6B4&#x1F3FB`, name: `Person Biking: Light Skin Tone`},
+                                {emoji: `&#x1F6B4&#x1F3FC`, name: `Person Biking: Medium-Light Skin Tone`},
+                                {emoji: `&#x1F6B4&#x1F3FD`, name: `Person Biking: Medium Skin Tone`},
+                                {emoji: `&#x1F6B4&#x1F3FE`, name: `Person Biking: Medium-Dark Skin Tone`},
+                                {emoji: `&#x1F6B4&#x1F3FF`, name: `Person Biking: Dark Skin Tone`},
+                                {emoji: `&#x1F6B4&#x200D&#x2642&#xFE0F`, name: `Man Biking`},
+                                {emoji: `&#x1F6B4&#x1F3FB&#x200D&#x2642&#xFE0F`, name: `Man Biking: Light Skin Tone`},
+                                {emoji: `&#x1F6B4&#x1F3FC&#x200D&#x2642&#xFE0F`, name: `Man Biking: Medium-Light Skin Tone`},
+                                {emoji: `&#x1F6B4&#x1F3FD&#x200D&#x2642&#xFE0F`, name: `Man Biking: Medium Skin Tone`},
+                                {emoji: `&#x1F6B4&#x1F3FE&#x200D&#x2642&#xFE0F`, name: `Man Biking: Medium-Dark Skin Tone`},
+                                {emoji: `&#x1F6B4&#x1F3FF&#x200D&#x2642&#xFE0F`, name: `Man Biking: Dark Skin Tone`},
+                                {emoji: `&#x1F6B4&#x200D&#x2640&#xFE0F`, name: `Woman Biking`},
+                                {emoji: `&#x1F6B4&#x1F3FB&#x200D&#x2640&#xFE0F`, name: `Woman Biking: Light Skin Tone`},
+                                {emoji: `&#x1F6B4&#x1F3FC&#x200D&#x2640&#xFE0F`, name: `Woman Biking: Medium-Light Skin Tone`},
+                                {emoji: `&#x1F6B4&#x1F3FD&#x200D&#x2640&#xFE0F`, name: `Woman Biking: Medium Skin Tone`},
+                                {emoji: `&#x1F6B4&#x1F3FE&#x200D&#x2640&#xFE0F`, name: `Woman Biking: Medium-Dark Skin Tone`},
+                                {emoji: `&#x1F6B4&#x1F3FF&#x200D&#x2640&#xFE0F`, name: `Woman Biking: Dark Skin Tone`},
+                                {emoji: `&#x1F6B5`, name: `Person Mountain Biking`},
+                                {emoji: `&#x1F6B5&#x1F3FB`, name: `Person Mountain Biking: Light Skin Tone`},
+                                {emoji: `&#x1F6B5&#x1F3FC`, name: `Person Mountain Biking: Medium-Light Skin Tone`},
+                                {emoji: `&#x1F6B5&#x1F3FD`, name: `Person Mountain Biking: Medium Skin Tone`},
+                                {emoji: `&#x1F6B5&#x1F3FE`, name: `Person Mountain Biking: Medium-Dark Skin Tone`},
+                                {emoji: `&#x1F6B5&#x1F3FF`, name: `Person Mountain Biking: Dark Skin Tone`},
+                                {emoji: `&#x1F6B5&#x200D&#x2642&#xFE0F`, name: `Man Mountain Biking`},
+                                {emoji: `&#x1F6B5&#x1F3FB&#x200D&#x2642&#xFE0F`, name: `Man Mountain Biking: Light Skin Tone`},
+                                {emoji: `&#x1F6B5&#x1F3FC&#x200D&#x2642&#xFE0F`, name: `Man Mountain Biking: Medium-Light Skin Tone`},
+                                {emoji: `&#x1F6B5&#x1F3FD&#x200D&#x2642&#xFE0F`, name: `Man Mountain Biking: Medium Skin Tone`},
+                                {emoji: `&#x1F6B5&#x1F3FE&#x200D&#x2642&#xFE0F`, name: `Man Mountain Biking: Medium-Dark Skin Tone`},
+                                {emoji: `&#x1F6B5&#x1F3FF&#x200D&#x2642&#xFE0F`, name: `Man Mountain Biking: Dark Skin Tone`},
+                                {emoji: `&#x1F6B5&#x200D&#x2640&#xFE0F`, name: `Woman Mountain Biking`},
+                                {emoji: `&#x1F6B5&#x1F3FB&#x200D&#x2640&#xFE0F`, name: `Woman Mountain Biking: Light Skin Tone`},
+                                {emoji: `&#x1F6B5&#x1F3FC&#x200D&#x2640&#xFE0F`, name: `Woman Mountain Biking: Medium-Light Skin Tone`},
+                                {emoji: `&#x1F6B5&#x1F3FD&#x200D&#x2640&#xFE0F`, name: `Woman Mountain Biking: Medium Skin Tone`},
+                                {emoji: `&#x1F6B5&#x1F3FE&#x200D&#x2640&#xFE0F`, name: `Woman Mountain Biking: Medium-Dark Skin Tone`},
+                                {emoji: `&#x1F6B5&#x1F3FF&#x200D&#x2640&#xFE0F`, name: `Woman Mountain Biking: Dark Skin Tone`},
+                                {emoji: `&#x1F3CE`, name: `Racing Car`},
+                                {emoji: `&#x1F3CD`, name: `Motorcycle`},
+                                {emoji: `&#x1F938`, name: `Person Cartwheeling`},
+                                {emoji: `&#x1F938&#x1F3FB`, name: `Person Cartwheeling: Light Skin Tone`},
+                                {emoji: `&#x1F938&#x1F3FC`, name: `Person Cartwheeling: Medium-Light Skin Tone`},
+                                {emoji: `&#x1F938&#x1F3FD`, name: `Person Cartwheeling: Medium Skin Tone`},
+                                {emoji: `&#x1F938&#x1F3FE`, name: `Person Cartwheeling: Medium-Dark Skin Tone`},
+                                {emoji: `&#x1F938&#x1F3FF`, name: `Person Cartwheeling: Dark Skin Tone`},
+                                {emoji: `&#x1F938&#x200D&#x2642&#xFE0F`, name: `Man Cartwheeling`},
+                                {emoji: `&#x1F938&#x1F3FB&#x200D&#x2642&#xFE0F`, name: `Man Cartwheeling: Light Skin Tone`},
+                                {emoji: `&#x1F938&#x1F3FC&#x200D&#x2642&#xFE0F`, name: `Man Cartwheeling: Medium-Light Skin Tone`},
+                                {emoji: `&#x1F938&#x1F3FD&#x200D&#x2642&#xFE0F`, name: `Man Cartwheeling: Medium Skin Tone`},
+                                {emoji: `&#x1F938&#x1F3FE&#x200D&#x2642&#xFE0F`, name: `Man Cartwheeling: Medium-Dark Skin Tone`},
+                                {emoji: `&#x1F938&#x1F3FF&#x200D&#x2642&#xFE0F`, name: `Man Cartwheeling: Dark Skin Tone`},
+                                {emoji: `&#x1F938&#x200D&#x2640&#xFE0F`, name: `Woman Cartwheeling`},
+                                {emoji: `&#x1F938&#x1F3FB&#x200D&#x2640&#xFE0F`, name: `Woman Cartwheeling: Light Skin Tone`},
+                                {emoji: `&#x1F938&#x1F3FC&#x200D&#x2640&#xFE0F`, name: `Woman Cartwheeling: Medium-Light Skin Tone`},
+                                {emoji: `&#x1F938&#x1F3FD&#x200D&#x2640&#xFE0F`, name: `Woman Cartwheeling: Medium Skin Tone`},
+                                {emoji: `&#x1F938&#x1F3FE&#x200D&#x2640&#xFE0F`, name: `Woman Cartwheeling: Medium-Dark Skin Tone`},
+                                {emoji: `&#x1F938&#x1F3FF&#x200D&#x2640&#xFE0F`, name: `Woman Cartwheeling: Dark Skin Tone`},
+                                {emoji: `&#x1F93C`, name: `People Wrestling`},
+                                {emoji: `&#x1F93C&#x200D&#x2642&#xFE0F`, name: `Men Wrestling`},
+                                {emoji: `&#x1F93C&#x200D&#x2640&#xFE0F`, name: `Women Wrestling`},
+                                {emoji: `&#x1F93D`, name: `Person Playing Water Polo`},
+                                {emoji: `&#x1F93D&#x1F3FB`, name: `Person Playing Water Polo: Light Skin Tone`},
+                                {emoji: `&#x1F93D&#x1F3FC`, name: `Person Playing Water Polo: Medium-Light Skin Tone`},
+                                {emoji: `&#x1F93D&#x1F3FD`, name: `Person Playing Water Polo: Medium Skin Tone`},
+                                {emoji: `&#x1F93D&#x1F3FE`, name: `Person Playing Water Polo: Medium-Dark Skin Tone`},
+                                {emoji: `&#x1F93D&#x1F3FF`, name: `Person Playing Water Polo: Dark Skin Tone`},
+                                {emoji: `&#x1F93D&#x200D&#x2642&#xFE0F`, name: `Man Playing Water Polo`},
+                                {emoji: `&#x1F93D&#x1F3FB&#x200D&#x2642&#xFE0F`, name: `Man Playing Water Polo: Light Skin Tone`},
+                                {emoji: `&#x1F93D&#x1F3FC&#x200D&#x2642&#xFE0F`, name: `Man Playing Water Polo: Medium-Light Skin Tone`},
+                                {emoji: `&#x1F93D&#x1F3FD&#x200D&#x2642&#xFE0F`, name: `Man Playing Water Polo: Medium Skin Tone`},
+                                {emoji: `&#x1F93D&#x1F3FE&#x200D&#x2642&#xFE0F`, name: `Man Playing Water Polo: Medium-Dark Skin Tone`},
+                                {emoji: `&#x1F93D&#x1F3FF&#x200D&#x2642&#xFE0F`, name: `Man Playing Water Polo: Dark Skin Tone`},
+                                {emoji: `&#x1F93D&#x200D&#x2640&#xFE0F`, name: `Woman Playing Water Polo`},
+                                {emoji: `&#x1F93D&#x1F3FB&#x200D&#x2640&#xFE0F`, name: `Woman Playing Water Polo: Light Skin Tone`},
+                                {emoji: `&#x1F93D&#x1F3FC&#x200D&#x2640&#xFE0F`, name: `Woman Playing Water Polo: Medium-Light Skin Tone`},
+                                {emoji: `&#x1F93D&#x1F3FD&#x200D&#x2640&#xFE0F`, name: `Woman Playing Water Polo: Medium Skin Tone`},
+                                {emoji: `&#x1F93D&#x1F3FE&#x200D&#x2640&#xFE0F`, name: `Woman Playing Water Polo: Medium-Dark Skin Tone`},
+                                {emoji: `&#x1F93D&#x1F3FF&#x200D&#x2640&#xFE0F`, name: `Woman Playing Water Polo: Dark Skin Tone`},
+                                {emoji: `&#x1F93E`, name: `Person Playing Handball`},
+                                {emoji: `&#x1F93E&#x1F3FB`, name: `Person Playing Handball: Light Skin Tone`},
+                                {emoji: `&#x1F93E&#x1F3FC`, name: `Person Playing Handball: Medium-Light Skin Tone`},
+                                {emoji: `&#x1F93E&#x1F3FD`, name: `Person Playing Handball: Medium Skin Tone`},
+                                {emoji: `&#x1F93E&#x1F3FE`, name: `Person Playing Handball: Medium-Dark Skin Tone`},
+                                {emoji: `&#x1F93E&#x1F3FF`, name: `Person Playing Handball: Dark Skin Tone`},
+                                {emoji: `&#x1F93E&#x200D&#x2642&#xFE0F`, name: `Man Playing Handball`},
+                                {emoji: `&#x1F93E&#x1F3FB&#x200D&#x2642&#xFE0F`, name: `Man Playing Handball: Light Skin Tone`},
+                                {emoji: `&#x1F93E&#x1F3FC&#x200D&#x2642&#xFE0F`, name: `Man Playing Handball: Medium-Light Skin Tone`},
+                                {emoji: `&#x1F93E&#x1F3FD&#x200D&#x2642&#xFE0F`, name: `Man Playing Handball: Medium Skin Tone`},
+                                {emoji: `&#x1F93E&#x1F3FE&#x200D&#x2642&#xFE0F`, name: `Man Playing Handball: Medium-Dark Skin Tone`},
+                                {emoji: `&#x1F93E&#x1F3FF&#x200D&#x2642&#xFE0F`, name: `Man Playing Handball: Dark Skin Tone`},
+                                {emoji: `&#x1F93E&#x200D&#x2640&#xFE0F`, name: `Woman Playing Handball`},
+                                {emoji: `&#x1F93E&#x1F3FB&#x200D&#x2640&#xFE0F`, name: `Woman Playing Handball: Light Skin Tone`},
+                                {emoji: `&#x1F93E&#x1F3FC&#x200D&#x2640&#xFE0F`, name: `Woman Playing Handball: Medium-Light Skin Tone`},
+                                {emoji: `&#x1F93E&#x1F3FD&#x200D&#x2640&#xFE0F`, name: `Woman Playing Handball: Medium Skin Tone`},
+                                {emoji: `&#x1F93E&#x1F3FE&#x200D&#x2640&#xFE0F`, name: `Woman Playing Handball: Medium-Dark Skin Tone`},
+                                {emoji: `&#x1F93E&#x1F3FF&#x200D&#x2640&#xFE0F`, name: `Woman Playing Handball: Dark Skin Tone`},
+                                {emoji: `&#x1F939`, name: `Person Juggling`},
+                                {emoji: `&#x1F939&#x1F3FB`, name: `Person Juggling: Light Skin Tone`},
+                                {emoji: `&#x1F939&#x1F3FC`, name: `Person Juggling: Medium-Light Skin Tone`},
+                                {emoji: `&#x1F939&#x1F3FD`, name: `Person Juggling: Medium Skin Tone`},
+                                {emoji: `&#x1F939&#x1F3FE`, name: `Person Juggling: Medium-Dark Skin Tone`},
+                                {emoji: `&#x1F939&#x1F3FF`, name: `Person Juggling: Dark Skin Tone`},
+                                {emoji: `&#x1F939&#x200D&#x2642&#xFE0F`, name: `Man Juggling`},
+                                {emoji: `&#x1F939&#x1F3FB&#x200D&#x2642&#xFE0F`, name: `Man Juggling: Light Skin Tone`},
+                                {emoji: `&#x1F939&#x1F3FC&#x200D&#x2642&#xFE0F`, name: `Man Juggling: Medium-Light Skin Tone`},
+                                {emoji: `&#x1F939&#x1F3FD&#x200D&#x2642&#xFE0F`, name: `Man Juggling: Medium Skin Tone`},
+                                {emoji: `&#x1F939&#x1F3FE&#x200D&#x2642&#xFE0F`, name: `Man Juggling: Medium-Dark Skin Tone`},
+                                {emoji: `&#x1F939&#x1F3FF&#x200D&#x2642&#xFE0F`, name: `Man Juggling: Dark Skin Tone`},
+                                {emoji: `&#x1F939&#x200D&#x2640&#xFE0F`, name: `Woman Juggling`},
+                                {emoji: `&#x1F939&#x1F3FB&#x200D&#x2640&#xFE0F`, name: `Woman Juggling: Light Skin Tone`},
+                                {emoji: `&#x1F939&#x1F3FC&#x200D&#x2640&#xFE0F`, name: `Woman Juggling: Medium-Light Skin Tone`},
+                                {emoji: `&#x1F939&#x1F3FD&#x200D&#x2640&#xFE0F`, name: `Woman Juggling: Medium Skin Tone`},
+                                {emoji: `&#x1F939&#x1F3FE&#x200D&#x2640&#xFE0F`, name: `Woman Juggling: Medium-Dark Skin Tone`},
+                                {emoji: `&#x1F939&#x1F3FF&#x200D&#x2640&#xFE0F`, name: `Woman Juggling: Dark Skin Tone`},
+                                {emoji: `&#x1F46B`, name: `Man And Woman Holding Hands`},
+                                {emoji: `&#x1F46C`, name: `Two Men Holding Hands`},
+                                {emoji: `&#x1F46D`, name: `Two Women Holding Hands`},
+                                {emoji: `&#x1F48F`, name: `Kiss`},
+                                {emoji: `&#x1F469&#x200D&#x2764&#xFE0F&#x200D&#x1F48B&#x200D&#x1F468`, name: `Kiss: Woman, Man`},
+                                {emoji: `&#x1F468&#x200D&#x2764&#xFE0F&#x200D&#x1F48B&#x200D&#x1F468`, name: `Kiss: Man, Man`},
+                                {emoji: `&#x1F469&#x200D&#x2764&#xFE0F&#x200D&#x1F48B&#x200D&#x1F469`, name: `Kiss: Woman, Woman`},
+                                {emoji: `&#x1F491`, name: `Couple With Heart`},
+                                {emoji: `&#x1F469&#x200D&#x2764&#xFE0F&#x200D&#x1F468`, name: `Couple With Heart: Woman, Man`},
+                                {emoji: `&#x1F468&#x200D&#x2764&#xFE0F&#x200D&#x1F468`, name: `Couple With Heart: Man, Man`},
+                                {emoji: `&#x1F469&#x200D&#x2764&#xFE0F&#x200D&#x1F469`, name: `Couple With Heart: Woman, Woman`},
+                                {emoji: `&#x1F46A`, name: `Family`},
+                                {emoji: `&#x1F468&#x200D&#x1F469&#x200D&#x1F466`, name: `Family: Man, Woman, Boy`},
+                                {emoji: `&#x1F468&#x200D&#x1F469&#x200D&#x1F467`, name: `Family: Man, Woman, Girl`},
+                                {emoji: `&#x1F468&#x200D&#x1F469&#x200D&#x1F467&#x200D&#x1F466`, name: `Family: Man, Woman, Girl, Boy`},
+                                {emoji: `&#x1F468&#x200D&#x1F469&#x200D&#x1F466&#x200D&#x1F466`, name: `Family: Man, Woman, Boy, Boy`},
+                                {emoji: `&#x1F468&#x200D&#x1F469&#x200D&#x1F467&#x200D&#x1F467`, name: `Family: Man, Woman, Girl, Girl`},
+                                {emoji: `&#x1F468&#x200D&#x1F468&#x200D&#x1F466`, name: `Family: Man, Man, Boy`},
+                                {emoji: `&#x1F468&#x200D&#x1F468&#x200D&#x1F467`, name: `Family: Man, Man, Girl`},
+                                {emoji: `&#x1F468&#x200D&#x1F468&#x200D&#x1F467&#x200D&#x1F466`, name: `Family: Man, Man, Girl, Boy`},
+                                {emoji: `&#x1F468&#x200D&#x1F468&#x200D&#x1F466&#x200D&#x1F466`, name: `Family: Man, Man, Boy, Boy`},
+                                {emoji: `&#x1F468&#x200D&#x1F468&#x200D&#x1F467&#x200D&#x1F467`, name: `Family: Man, Man, Girl, Girl`},
+                                {emoji: `&#x1F469&#x200D&#x1F469&#x200D&#x1F466`, name: `Family: Woman, Woman, Boy`},
+                                {emoji: `&#x1F469&#x200D&#x1F469&#x200D&#x1F467`, name: `Family: Woman, Woman, Girl`},
+                                {emoji: `&#x1F469&#x200D&#x1F469&#x200D&#x1F467&#x200D&#x1F466`, name: `Family: Woman, Woman, Girl, Boy`},
+                                {emoji: `&#x1F469&#x200D&#x1F469&#x200D&#x1F466&#x200D&#x1F466`, name: `Family: Woman, Woman, Boy, Boy`},
+                                {emoji: `&#x1F469&#x200D&#x1F469&#x200D&#x1F467&#x200D&#x1F467`, name: `Family: Woman, Woman, Girl, Girl`},
+                                {emoji: `&#x1F468&#x200D&#x1F466`, name: `Family: Man, Boy`},
+                                {emoji: `&#x1F468&#x200D&#x1F466&#x200D&#x1F466`, name: `Family: Man, Boy, Boy`},
+                                {emoji: `&#x1F468&#x200D&#x1F467`, name: `Family: Man, Girl`},
+                                {emoji: `&#x1F468&#x200D&#x1F467&#x200D&#x1F466`, name: `Family: Man, Girl, Boy`},
+                                {emoji: `&#x1F468&#x200D&#x1F467&#x200D&#x1F467`, name: `Family: Man, Girl, Girl`},
+                                {emoji: `&#x1F469&#x200D&#x1F466`, name: `Family: Woman, Boy`},
+                                {emoji: `&#x1F469&#x200D&#x1F466&#x200D&#x1F466`, name: `Family: Woman, Boy, Boy`},
+                                {emoji: `&#x1F469&#x200D&#x1F467`, name: `Family: Woman, Girl`},
+                                {emoji: `&#x1F469&#x200D&#x1F467&#x200D&#x1F466`, name: `Family: Woman, Girl, Boy`},
+                                {emoji: `&#x1F469&#x200D&#x1F467&#x200D&#x1F467`, name: `Family: Woman, Girl, Girl`},
+                                {emoji: `&#x1F3FB`, name: `Light Skin Tone`},
+                                {emoji: `&#x1F3FC`, name: `Medium-Light Skin Tone`},
+                                {emoji: `&#x1F3FD`, name: `Medium Skin Tone`},
+                                {emoji: `&#x1F3FE`, name: `Medium-Dark Skin Tone`},
+                                {emoji: `&#x1F3FF`, name: `Dark Skin Tone`},
+                                {emoji: `&#x1F4AA`, name: `Flexed Biceps`},
+                                {emoji: `&#x1F4AA&#x1F3FB`, name: `Flexed Biceps: Light Skin Tone`},
+                                {emoji: `&#x1F4AA&#x1F3FC`, name: `Flexed Biceps: Medium-Light Skin Tone`},
+                                {emoji: `&#x1F4AA&#x1F3FD`, name: `Flexed Biceps: Medium Skin Tone`},
+                                {emoji: `&#x1F4AA&#x1F3FE`, name: `Flexed Biceps: Medium-Dark Skin Tone`},
+                                {emoji: `&#x1F4AA&#x1F3FF`, name: `Flexed Biceps: Dark Skin Tone`},
+                                {emoji: `&#x1F933`, name: `Selfie`},
+                                {emoji: `&#x1F933&#x1F3FB`, name: `Selfie: Light Skin Tone`},
+                                {emoji: `&#x1F933&#x1F3FC`, name: `Selfie: Medium-Light Skin Tone`},
+                                {emoji: `&#x1F933&#x1F3FD`, name: `Selfie: Medium Skin Tone`},
+                                {emoji: `&#x1F933&#x1F3FE`, name: `Selfie: Medium-Dark Skin Tone`},
+                                {emoji: `&#x1F933&#x1F3FF`, name: `Selfie: Dark Skin Tone`},
+                                {emoji: `&#x1F448`, name: `Backhand Index Pointing Left`},
+                                {emoji: `&#x1F448&#x1F3FB`, name: `Backhand Index Pointing Left: Light Skin Tone`},
+                                {emoji: `&#x1F448&#x1F3FC`, name: `Backhand Index Pointing Left: Medium-Light Skin Tone`},
+                                {emoji: `&#x1F448&#x1F3FD`, name: `Backhand Index Pointing Left: Medium Skin Tone`},
+                                {emoji: `&#x1F448&#x1F3FE`, name: `Backhand Index Pointing Left: Medium-Dark Skin Tone`},
+                                {emoji: `&#x1F448&#x1F3FF`, name: `Backhand Index Pointing Left: Dark Skin Tone`},
+                                {emoji: `&#x1F449`, name: `Backhand Index Pointing Right`},
+                                {emoji: `&#x1F449&#x1F3FB`, name: `Backhand Index Pointing Right: Light Skin Tone`},
+                                {emoji: `&#x1F449&#x1F3FC`, name: `Backhand Index Pointing Right: Medium-Light Skin Tone`},
+                                {emoji: `&#x1F449&#x1F3FD`, name: `Backhand Index Pointing Right: Medium Skin Tone`},
+                                {emoji: `&#x1F449&#x1F3FE`, name: `Backhand Index Pointing Right: Medium-Dark Skin Tone`},
+                                {emoji: `&#x1F449&#x1F3FF`, name: `Backhand Index Pointing Right: Dark Skin Tone`},
+                                {emoji: `&#x261D`, name: `Index Pointing Up`},
+                                {emoji: `&#x261D&#x1F3FB`, name: `Index Pointing Up: Light Skin Tone`},
+                                {emoji: `&#x261D&#x1F3FC`, name: `Index Pointing Up: Medium-Light Skin Tone`},
+                                {emoji: `&#x261D&#x1F3FD`, name: `Index Pointing Up: Medium Skin Tone`},
+                                {emoji: `&#x261D&#x1F3FE`, name: `Index Pointing Up: Medium-Dark Skin Tone`},
+                                {emoji: `&#x261D&#x1F3FF`, name: `Index Pointing Up: Dark Skin Tone`},
+                                {emoji: `&#x1F446`, name: `Backhand Index Pointing Up`},
+                                {emoji: `&#x1F446&#x1F3FB`, name: `Backhand Index Pointing Up: Light Skin Tone`},
+                                {emoji: `&#x1F446&#x1F3FC`, name: `Backhand Index Pointing Up: Medium-Light Skin Tone`},
+                                {emoji: `&#x1F446&#x1F3FD`, name: `Backhand Index Pointing Up: Medium Skin Tone`},
+                                {emoji: `&#x1F446&#x1F3FE`, name: `Backhand Index Pointing Up: Medium-Dark Skin Tone`},
+                                {emoji: `&#x1F446&#x1F3FF`, name: `Backhand Index Pointing Up: Dark Skin Tone`},
+                                {emoji: `&#x1F595`, name: `Middle Finger`},
+                                {emoji: `&#x1F595&#x1F3FB`, name: `Middle Finger: Light Skin Tone`},
+                                {emoji: `&#x1F595&#x1F3FC`, name: `Middle Finger: Medium-Light Skin Tone`},
+                                {emoji: `&#x1F595&#x1F3FD`, name: `Middle Finger: Medium Skin Tone`},
+                                {emoji: `&#x1F595&#x1F3FE`, name: `Middle Finger: Medium-Dark Skin Tone`},
+                                {emoji: `&#x1F595&#x1F3FF`, name: `Middle Finger: Dark Skin Tone`},
+                                {emoji: `&#x1F447`, name: `Backhand Index Pointing Down`},
+                                {emoji: `&#x1F447&#x1F3FB`, name: `Backhand Index Pointing Down: Light Skin Tone`},
+                                {emoji: `&#x1F447&#x1F3FC`, name: `Backhand Index Pointing Down: Medium-Light Skin Tone`},
+                                {emoji: `&#x1F447&#x1F3FD`, name: `Backhand Index Pointing Down: Medium Skin Tone`},
+                                {emoji: `&#x1F447&#x1F3FE`, name: `Backhand Index Pointing Down: Medium-Dark Skin Tone`},
+                                {emoji: `&#x1F447&#x1F3FF`, name: `Backhand Index Pointing Down: Dark Skin Tone`},
+                                {emoji: `&#x270C`, name: `Victory Hand`},
+                                {emoji: `&#x270C&#x1F3FB`, name: `Victory Hand: Light Skin Tone`},
+                                {emoji: `&#x270C&#x1F3FC`, name: `Victory Hand: Medium-Light Skin Tone`},
+                                {emoji: `&#x270C&#x1F3FD`, name: `Victory Hand: Medium Skin Tone`},
+                                {emoji: `&#x270C&#x1F3FE`, name: `Victory Hand: Medium-Dark Skin Tone`},
+                                {emoji: `&#x270C&#x1F3FF`, name: `Victory Hand: Dark Skin Tone`},
+                                {emoji: `&#x1F91E`, name: `Crossed Fingers`},
+                                {emoji: `&#x1F91E&#x1F3FB`, name: `Crossed Fingers: Light Skin Tone`},
+                                {emoji: `&#x1F91E&#x1F3FC`, name: `Crossed Fingers: Medium-Light Skin Tone`},
+                                {emoji: `&#x1F91E&#x1F3FD`, name: `Crossed Fingers: Medium Skin Tone`},
+                                {emoji: `&#x1F91E&#x1F3FE`, name: `Crossed Fingers: Medium-Dark Skin Tone`},
+                                {emoji: `&#x1F91E&#x1F3FF`, name: `Crossed Fingers: Dark Skin Tone`},
+                                {emoji: `&#x1F596`, name: `Vulcan Salute`},
+                                {emoji: `&#x1F596&#x1F3FB`, name: `Vulcan Salute: Light Skin Tone`},
+                                {emoji: `&#x1F596&#x1F3FC`, name: `Vulcan Salute: Medium-Light Skin Tone`},
+                                {emoji: `&#x1F596&#x1F3FD`, name: `Vulcan Salute: Medium Skin Tone`},
+                                {emoji: `&#x1F596&#x1F3FE`, name: `Vulcan Salute: Medium-Dark Skin Tone`},
+                                {emoji: `&#x1F596&#x1F3FF`, name: `Vulcan Salute: Dark Skin Tone`},
+                                {emoji: `&#x1F918`, name: `Sign Of The Horns`},
+                                {emoji: `&#x1F918&#x1F3FB`, name: `Sign Of The Horns: Light Skin Tone`},
+                                {emoji: `&#x1F918&#x1F3FC`, name: `Sign Of The Horns: Medium-Light Skin Tone`},
+                                {emoji: `&#x1F918&#x1F3FD`, name: `Sign Of The Horns: Medium Skin Tone`},
+                                {emoji: `&#x1F918&#x1F3FE`, name: `Sign Of The Horns: Medium-Dark Skin Tone`},
+                                {emoji: `&#x1F918&#x1F3FF`, name: `Sign Of The Horns: Dark Skin Tone`},
+                                {emoji: `&#x1F919`, name: `Call Me Hand`},
+                                {emoji: `&#x1F919&#x1F3FB`, name: `Call Me Hand: Light Skin Tone`},
+                                {emoji: `&#x1F919&#x1F3FC`, name: `Call Me Hand: Medium-Light Skin Tone`},
+                                {emoji: `&#x1F919&#x1F3FD`, name: `Call Me Hand: Medium Skin Tone`},
+                                {emoji: `&#x1F919&#x1F3FE`, name: `Call Me Hand: Medium-Dark Skin Tone`},
+                                {emoji: `&#x1F919&#x1F3FF`, name: `Call Me Hand: Dark Skin Tone`},
+                                {emoji: `&#x1F590`, name: `Raised Hand With Fingers Splayed`},
+                                {emoji: `&#x1F590&#x1F3FB`, name: `Raised Hand With Fingers Splayed: Light Skin Tone`},
+                                {emoji: `&#x1F590&#x1F3FC`, name: `Raised Hand With Fingers Splayed: Medium-Light Skin Tone`},
+                                {emoji: `&#x1F590&#x1F3FD`, name: `Raised Hand With Fingers Splayed: Medium Skin Tone`},
+                                {emoji: `&#x1F590&#x1F3FE`, name: `Raised Hand With Fingers Splayed: Medium-Dark Skin Tone`},
+                                {emoji: `&#x1F590&#x1F3FF`, name: `Raised Hand With Fingers Splayed: Dark Skin Tone`},
+                                {emoji: `&#x270B`, name: `Raised Hand`},
+                                {emoji: `&#x270B&#x1F3FB`, name: `Raised Hand: Light Skin Tone`},
+                                {emoji: `&#x270B&#x1F3FC`, name: `Raised Hand: Medium-Light Skin Tone`},
+                                {emoji: `&#x270B&#x1F3FD`, name: `Raised Hand: Medium Skin Tone`},
+                                {emoji: `&#x270B&#x1F3FE`, name: `Raised Hand: Medium-Dark Skin Tone`},
+                                {emoji: `&#x270B&#x1F3FF`, name: `Raised Hand: Dark Skin Tone`},
+                                {emoji: `&#x1F44C`, name: `OK Hand`},
+                                {emoji: `&#x1F44C&#x1F3FB`, name: `OK Hand: Light Skin Tone`},
+                                {emoji: `&#x1F44C&#x1F3FC`, name: `OK Hand: Medium-Light Skin Tone`},
+                                {emoji: `&#x1F44C&#x1F3FD`, name: `OK Hand: Medium Skin Tone`},
+                                {emoji: `&#x1F44C&#x1F3FE`, name: `OK Hand: Medium-Dark Skin Tone`},
+                                {emoji: `&#x1F44C&#x1F3FF`, name: `OK Hand: Dark Skin Tone`},
+                                {emoji: `&#x1F44D`, name: `Thumbs Up`},
+                                {emoji: `&#x1F44D&#x1F3FB`, name: `Thumbs Up: Light Skin Tone`},
+                                {emoji: `&#x1F44D&#x1F3FC`, name: `Thumbs Up: Medium-Light Skin Tone`},
+                                {emoji: `&#x1F44D&#x1F3FD`, name: `Thumbs Up: Medium Skin Tone`},
+                                {emoji: `&#x1F44D&#x1F3FE`, name: `Thumbs Up: Medium-Dark Skin Tone`},
+                                {emoji: `&#x1F44D&#x1F3FF`, name: `Thumbs Up: Dark Skin Tone`},
+                                {emoji: `&#x1F44E`, name: `Thumbs Down`},
+                                {emoji: `&#x1F44E&#x1F3FB`, name: `Thumbs Down: Light Skin Tone`},
+                                {emoji: `&#x1F44E&#x1F3FC`, name: `Thumbs Down: Medium-Light Skin Tone`},
+                                {emoji: `&#x1F44E&#x1F3FD`, name: `Thumbs Down: Medium Skin Tone`},
+                                {emoji: `&#x1F44E&#x1F3FE`, name: `Thumbs Down: Medium-Dark Skin Tone`},
+                                {emoji: `&#x1F44E&#x1F3FF`, name: `Thumbs Down: Dark Skin Tone`},
+                                {emoji: `&#x270A`, name: `Raised Fist`},
+                                {emoji: `&#x270A&#x1F3FB`, name: `Raised Fist: Light Skin Tone`},
+                                {emoji: `&#x270A&#x1F3FC`, name: `Raised Fist: Medium-Light Skin Tone`},
+                                {emoji: `&#x270A&#x1F3FD`, name: `Raised Fist: Medium Skin Tone`},
+                                {emoji: `&#x270A&#x1F3FE`, name: `Raised Fist: Medium-Dark Skin Tone`},
+                                {emoji: `&#x270A&#x1F3FF`, name: `Raised Fist: Dark Skin Tone`},
+                                {emoji: `&#x1F44A`, name: `Oncoming Fist`},
+                                {emoji: `&#x1F44A&#x1F3FB`, name: `Oncoming Fist: Light Skin Tone`},
+                                {emoji: `&#x1F44A&#x1F3FC`, name: `Oncoming Fist: Medium-Light Skin Tone`},
+                                {emoji: `&#x1F44A&#x1F3FD`, name: `Oncoming Fist: Medium Skin Tone`},
+                                {emoji: `&#x1F44A&#x1F3FE`, name: `Oncoming Fist: Medium-Dark Skin Tone`},
+                                {emoji: `&#x1F44A&#x1F3FF`, name: `Oncoming Fist: Dark Skin Tone`},
+                                {emoji: `&#x1F91B`, name: `Left-Facing Fist`},
+                                {emoji: `&#x1F91B&#x1F3FB`, name: `Left-Facing Fist: Light Skin Tone`},
+                                {emoji: `&#x1F91B&#x1F3FC`, name: `Left-Facing Fist: Medium-Light Skin Tone`},
+                                {emoji: `&#x1F91B&#x1F3FD`, name: `Left-Facing Fist: Medium Skin Tone`},
+                                {emoji: `&#x1F91B&#x1F3FE`, name: `Left-Facing Fist: Medium-Dark Skin Tone`},
+                                {emoji: `&#x1F91B&#x1F3FF`, name: `Left-Facing Fist: Dark Skin Tone`},
+                                {emoji: `&#x1F91C`, name: `Right-Facing Fist`},
+                                {emoji: `&#x1F91C&#x1F3FB`, name: `Right-Facing Fist: Light Skin Tone`},
+                                {emoji: `&#x1F91C&#x1F3FC`, name: `Right-Facing Fist: Medium-Light Skin Tone`},
+                                {emoji: `&#x1F91C&#x1F3FD`, name: `Right-Facing Fist: Medium Skin Tone`},
+                                {emoji: `&#x1F91C&#x1F3FE`, name: `Right-Facing Fist: Medium-Dark Skin Tone`},
+                                {emoji: `&#x1F91C&#x1F3FF`, name: `Right-Facing Fist: Dark Skin Tone`},
+                                {emoji: `&#x1F91A`, name: `Raised Back Of Hand`},
+                                {emoji: `&#x1F91A&#x1F3FB`, name: `Raised Back Of Hand: Light Skin Tone`},
+                                {emoji: `&#x1F91A&#x1F3FC`, name: `Raised Back Of Hand: Medium-Light Skin Tone`},
+                                {emoji: `&#x1F91A&#x1F3FD`, name: `Raised Back Of Hand: Medium Skin Tone`},
+                                {emoji: `&#x1F91A&#x1F3FE`, name: `Raised Back Of Hand: Medium-Dark Skin Tone`},
+                                {emoji: `&#x1F91A&#x1F3FF`, name: `Raised Back Of Hand: Dark Skin Tone`},
+                                {emoji: `&#x1F44B`, name: `Waving Hand`},
+                                {emoji: `&#x1F44B&#x1F3FB`, name: `Waving Hand: Light Skin Tone`},
+                                {emoji: `&#x1F44B&#x1F3FC`, name: `Waving Hand: Medium-Light Skin Tone`},
+                                {emoji: `&#x1F44B&#x1F3FD`, name: `Waving Hand: Medium Skin Tone`},
+                                {emoji: `&#x1F44B&#x1F3FE`, name: `Waving Hand: Medium-Dark Skin Tone`},
+                                {emoji: `&#x1F44B&#x1F3FF`, name: `Waving Hand: Dark Skin Tone`},
+                                {emoji: `&#x1F44F`, name: `Clapping Hands`},
+                                {emoji: `&#x1F44F&#x1F3FB`, name: `Clapping Hands: Light Skin Tone`},
+                                {emoji: `&#x1F44F&#x1F3FC`, name: `Clapping Hands: Medium-Light Skin Tone`},
+                                {emoji: `&#x1F44F&#x1F3FD`, name: `Clapping Hands: Medium Skin Tone`},
+                                {emoji: `&#x1F44F&#x1F3FE`, name: `Clapping Hands: Medium-Dark Skin Tone`},
+                                {emoji: `&#x1F44F&#x1F3FF`, name: `Clapping Hands: Dark Skin Tone`},
+                                {emoji: `&#x270D`, name: `Writing Hand`},
+                                {emoji: `&#x270D&#x1F3FB`, name: `Writing Hand: Light Skin Tone`},
+                                {emoji: `&#x270D&#x1F3FC`, name: `Writing Hand: Medium-Light Skin Tone`},
+                                {emoji: `&#x270D&#x1F3FD`, name: `Writing Hand: Medium Skin Tone`},
+                                {emoji: `&#x270D&#x1F3FE`, name: `Writing Hand: Medium-Dark Skin Tone`},
+                                {emoji: `&#x270D&#x1F3FF`, name: `Writing Hand: Dark Skin Tone`},
+                                {emoji: `&#x1F450`, name: `Open Hands`},
+                                {emoji: `&#x1F450&#x1F3FB`, name: `Open Hands: Light Skin Tone`},
+                                {emoji: `&#x1F450&#x1F3FC`, name: `Open Hands: Medium-Light Skin Tone`},
+                                {emoji: `&#x1F450&#x1F3FD`, name: `Open Hands: Medium Skin Tone`},
+                                {emoji: `&#x1F450&#x1F3FE`, name: `Open Hands: Medium-Dark Skin Tone`},
+                                {emoji: `&#x1F450&#x1F3FF`, name: `Open Hands: Dark Skin Tone`},
+                                {emoji: `&#x1F64C`, name: `Raising Hands`},
+                                {emoji: `&#x1F64C&#x1F3FB`, name: `Raising Hands: Light Skin Tone`},
+                                {emoji: `&#x1F64C&#x1F3FC`, name: `Raising Hands: Medium-Light Skin Tone`},
+                                {emoji: `&#x1F64C&#x1F3FD`, name: `Raising Hands: Medium Skin Tone`},
+                                {emoji: `&#x1F64C&#x1F3FE`, name: `Raising Hands: Medium-Dark Skin Tone`},
+                                {emoji: `&#x1F64C&#x1F3FF`, name: `Raising Hands: Dark Skin Tone`},
+                                {emoji: `&#x1F64F`, name: `Folded Hands`},
+                                {emoji: `&#x1F64F&#x1F3FB`, name: `Folded Hands: Light Skin Tone`},
+                                {emoji: `&#x1F64F&#x1F3FC`, name: `Folded Hands: Medium-Light Skin Tone`},
+                                {emoji: `&#x1F64F&#x1F3FD`, name: `Folded Hands: Medium Skin Tone`},
+                                {emoji: `&#x1F64F&#x1F3FE`, name: `Folded Hands: Medium-Dark Skin Tone`},
+                                {emoji: `&#x1F64F&#x1F3FF`, name: `Folded Hands: Dark Skin Tone`},
+                                {emoji: `&#x1F91D`, name: `Handshake`},
+                                {emoji: `&#x1F485`, name: `Nail Polish`},
+                                {emoji: `&#x1F485&#x1F3FB`, name: `Nail Polish: Light Skin Tone`},
+                                {emoji: `&#x1F485&#x1F3FC`, name: `Nail Polish: Medium-Light Skin Tone`},
+                                {emoji: `&#x1F485&#x1F3FD`, name: `Nail Polish: Medium Skin Tone`},
+                                {emoji: `&#x1F485&#x1F3FE`, name: `Nail Polish: Medium-Dark Skin Tone`},
+                                {emoji: `&#x1F485&#x1F3FF`, name: `Nail Polish: Dark Skin Tone`},
+                                {emoji: `&#x1F442`, name: `Ear`},
+                                {emoji: `&#x1F442&#x1F3FB`, name: `Ear: Light Skin Tone`},
+                                {emoji: `&#x1F442&#x1F3FC`, name: `Ear: Medium-Light Skin Tone`},
+                                {emoji: `&#x1F442&#x1F3FD`, name: `Ear: Medium Skin Tone`},
+                                {emoji: `&#x1F442&#x1F3FE`, name: `Ear: Medium-Dark Skin Tone`},
+                                {emoji: `&#x1F442&#x1F3FF`, name: `Ear: Dark Skin Tone`},
+                                {emoji: `&#x1F443`, name: `Nose`},
+                                {emoji: `&#x1F443&#x1F3FB`, name: `Nose: Light Skin Tone`},
+                                {emoji: `&#x1F443&#x1F3FC`, name: `Nose: Medium-Light Skin Tone`},
+                                {emoji: `&#x1F443&#x1F3FD`, name: `Nose: Medium Skin Tone`},
+                                {emoji: `&#x1F443&#x1F3FE`, name: `Nose: Medium-Dark Skin Tone`},
+                                {emoji: `&#x1F443&#x1F3FF`, name: `Nose: Dark Skin Tone`},
+                                {emoji: `&#x1F463`, name: `Footprints`},
+                                {emoji: `&#x1F440`, name: `Eyes`},
+                                {emoji: `&#x1F441`, name: `Eye`},
+                                {emoji: `&#x1F441&#xFE0F&#x200D&#x1F5E8&#xFE0F`, name: `Eye In Speech Bubble`},
+                                {emoji: `&#x1F445`, name: `Tongue`},
+                                {emoji: `&#x1F444`, name: `Mouth`},
+                                {emoji: `&#x1F48B`, name: `Kiss Mark`},
+                                {emoji: `&#x1F498`, name: `Heart With Arrow`},
+                                {emoji: `&#x2764`, name: `Red Heart`},
+                                {emoji: `&#x1F493`, name: `Beating Heart`},
+                                {emoji: `&#x1F494`, name: `Broken Heart`},
+                                {emoji: `&#x1F495`, name: `Two Hearts`},
+                                {emoji: `&#x1F496`, name: `Sparkling Heart`},
+                                {emoji: `&#x1F497`, name: `Growing Heart`},
+                                {emoji: `&#x1F499`, name: `Blue Heart`},
+                                {emoji: `&#x1F49A`, name: `Green Heart`},
+                                {emoji: `&#x1F49B`, name: `Yellow Heart`},
+                                {emoji: `&#x1F49C`, name: `Purple Heart`},
+                                {emoji: `&#x1F5A4`, name: `Black Heart`},
+                                {emoji: `&#x1F49D`, name: `Heart With Ribbon`},
+                                {emoji: `&#x1F49E`, name: `Revolving Hearts`},
+                                {emoji: `&#x1F49F`, name: `Heart Decoration`},
+                                {emoji: `&#x2763`, name: `Heavy Heart Exclamation`},
+                                {emoji: `&#x1F48C`, name: `Love Letter`},
+                                {emoji: `&#x1F4A4`, name: `Zzz`},
+                                {emoji: `&#x1F4A2`, name: `Anger Symbol`},
+                                {emoji: `&#x1F4A3`, name: `Bomb`},
+                                {emoji: `&#x1F4A5`, name: `Collision`},
+                                {emoji: `&#x1F4A6`, name: `Sweat Droplets`},
+                                {emoji: `&#x1F4A8`, name: `Dashing Away`},
+                                {emoji: `&#x1F4AB`, name: `Dizzy`},
+                                {emoji: `&#x1F4AC`, name: `Speech Balloon`},
+                                {emoji: `&#x1F5E8`, name: `Left Speech Bubble`},
+                                {emoji: `&#x1F5EF`, name: `Right Anger Bubble`},
+                                {emoji: `&#x1F4AD`, name: `Thought Balloon`},
+                                {emoji: `&#x1F573`, name: `Hole`},
+                                {emoji: `&#x1F453`, name: `Glasses`},
+                                {emoji: `&#x1F576`, name: `Sunglasses`},
+                                {emoji: `&#x1F454`, name: `Necktie`},
+                                {emoji: `&#x1F455`, name: `T-Shirt`},
+                                {emoji: `&#x1F456`, name: `Jeans`},
+                                {emoji: `&#x1F457`, name: `Dress`},
+                                {emoji: `&#x1F458`, name: `Kimono`},
+                                {emoji: `&#x1F459`, name: `Bikini`},
+                                {emoji: `&#x1F45A`, name: `Woman’s Clothes`},
+                                {emoji: `&#x1F45B`, name: `Purse`},
+                                {emoji: `&#x1F45C`, name: `Handbag`},
+                                {emoji: `&#x1F45D`, name: `Clutch Bag`},
+                                {emoji: `&#x1F6CD`, name: `Shopping Bags`},
+                                {emoji: `&#x1F392`, name: `School Backpack`},
+                                {emoji: `&#x1F45E`, name: `Man’s Shoe`},
+                                {emoji: `&#x1F45F`, name: `Running Shoe`},
+                                {emoji: `&#x1F460`, name: `High-Heeled Shoe`},
+                                {emoji: `&#x1F461`, name: `Woman’s Sandal`},
+                                {emoji: `&#x1F462`, name: `Woman’s Boot`},
+                                {emoji: `&#x1F451`, name: `Crown`},
+                                {emoji: `&#x1F452`, name: `Woman’s Hat`},
+                                {emoji: `&#x1F3A9`, name: `Top Hat`},
+                                {emoji: `&#x1F393`, name: `Graduation Cap`},
+                                {emoji: `&#x26D1`, name: `Rescue Worker’s Helmet`},
+                                {emoji: `&#x1F4FF`, name: `Prayer Beads`},
+                                {emoji: `&#x1F484`, name: `Lipstick`},
+                                {emoji: `&#x1F48D`, name: `Ring`},
+                                {emoji: `&#x1F48E`, name: `Gem Stone`},
+                                {emoji: `&#x1F435`, name: `Monkey Face`},
+                                {emoji: `&#x1F412`, name: `Monkey`},
+                                {emoji: `&#x1F98D`, name: `Gorilla`},
+                                {emoji: `&#x1F436`, name: `Dog Face`},
+                                {emoji: `&#x1F415`, name: `Dog`},
+                                {emoji: `&#x1F429`, name: `Poodle`},
+                                {emoji: `&#x1F43A`, name: `Wolf Face`},
+                                {emoji: `&#x1F98A`, name: `Fox Face`},
+                                {emoji: `&#x1F431`, name: `Cat Face`},
+                                {emoji: `&#x1F408`, name: `Cat`},
+                                {emoji: `&#x1F981`, name: `Lion Face`},
+                                {emoji: `&#x1F42F`, name: `Tiger Face`},
+                                {emoji: `&#x1F405`, name: `Tiger`},
+                                {emoji: `&#x1F406`, name: `Leopard`},
+                                {emoji: `&#x1F434`, name: `Horse Face`},
+                                {emoji: `&#x1F40E`, name: `Horse`},
+                                {emoji: `&#x1F98C`, name: `Deer`},
+                                {emoji: `&#x1F984`, name: `Unicorn Face`},
+                                {emoji: `&#x1F42E`, name: `Cow Face`},
+                                {emoji: `&#x1F402`, name: `Ox`},
+                                {emoji: `&#x1F403`, name: `Water Buffalo`},
+                                {emoji: `&#x1F404`, name: `Cow`},
+                                {emoji: `&#x1F437`, name: `Pig Face`},
+                                {emoji: `&#x1F416`, name: `Pig`},
+                                {emoji: `&#x1F417`, name: `Boar`},
+                                {emoji: `&#x1F43D`, name: `Pig Nose`},
+                                {emoji: `&#x1F40F`, name: `Ram`},
+                                {emoji: `&#x1F411`, name: `Sheep`},
+                                {emoji: `&#x1F410`, name: `Goat`},
+                                {emoji: `&#x1F42A`, name: `Camel`},
+                                {emoji: `&#x1F42B`, name: `Two-Hump Camel`},
+                                {emoji: `&#x1F418`, name: `Elephant`},
+                                {emoji: `&#x1F98F`, name: `Rhinoceros`},
+                                {emoji: `&#x1F42D`, name: `Mouse Face`},
+                                {emoji: `&#x1F401`, name: `Mouse`},
+                                {emoji: `&#x1F400`, name: `Rat`},
+                                {emoji: `&#x1F439`, name: `Hamster Face`},
+                                {emoji: `&#x1F430`, name: `Rabbit Face`},
+                                {emoji: `&#x1F407`, name: `Rabbit`},
+                                {emoji: `&#x1F43F`, name: `Chipmunk`},
+                                {emoji: `&#x1F987`, name: `Bat`},
+                                {emoji: `&#x1F43B`, name: `Bear Face`},
+                                {emoji: `&#x1F428`, name: `Koala`},
+                                {emoji: `&#x1F43C`, name: `Panda Face`},
+                                {emoji: `&#x1F43E`, name: `Paw Prints`},
+                                {emoji: `&#x1F983`, name: `Turkey`},
+                                {emoji: `&#x1F414`, name: `Chicken`},
+                                {emoji: `&#x1F413`, name: `Rooster`},
+                                {emoji: `&#x1F423`, name: `Hatching Chick`},
+                                {emoji: `&#x1F424`, name: `Baby Chick`},
+                                {emoji: `&#x1F425`, name: `Front-Facing Baby Chick`},
+                                {emoji: `&#x1F426`, name: `Bird`},
+                                {emoji: `&#x1F427`, name: `Penguin`},
+                                {emoji: `&#x1F54A`, name: `Dove`},
+                                {emoji: `&#x1F985`, name: `Eagle`},
+                                {emoji: `&#x1F986`, name: `Duck`},
+                                {emoji: `&#x1F989`, name: `Owl`},
+                                {emoji: `&#x1F438`, name: `Frog Face`},
+                                {emoji: `&#x1F40A`, name: `Crocodile`},
+                                {emoji: `&#x1F422`, name: `Turtle`},
+                                {emoji: `&#x1F98E`, name: `Lizard`},
+                                {emoji: `&#x1F40D`, name: `Snake`},
+                                {emoji: `&#x1F432`, name: `Dragon Face`},
+                                {emoji: `&#x1F409`, name: `Dragon`},
+                                {emoji: `&#x1F433`, name: `Spouting Whale`},
+                                {emoji: `&#x1F40B`, name: `Whale`},
+                                {emoji: `&#x1F42C`, name: `Dolphin`},
+                                {emoji: `&#x1F41F`, name: `Fish`},
+                                {emoji: `&#x1F420`, name: `Tropical Fish`},
+                                {emoji: `&#x1F421`, name: `Blowfish`},
+                                {emoji: `&#x1F988`, name: `Shark`},
+                                {emoji: `&#x1F419`, name: `Octopus`},
+                                {emoji: `&#x1F41A`, name: `Spiral Shell`},
+                                {emoji: `&#x1F980`, name: `Crab`},
+                                {emoji: `&#x1F990`, name: `Shrimp`},
+                                {emoji: `&#x1F991`, name: `Squid`},
+                                {emoji: `&#x1F98B`, name: `Butterfly`},
+                                {emoji: `&#x1F40C`, name: `Snail`},
+                                {emoji: `&#x1F41B`, name: `Bug`},
+                                {emoji: `&#x1F41C`, name: `Ant`},
+                                {emoji: `&#x1F41D`, name: `Honeybee`},
+                                {emoji: `&#x1F41E`, name: `Lady Beetle`},
+                                {emoji: `&#x1F577`, name: `Spider`},
+                                {emoji: `&#x1F578`, name: `Spider Web`},
+                                {emoji: `&#x1F982`, name: `Scorpion`},
+                                {emoji: `&#x1F490`, name: `Bouquet`},
+                                {emoji: `&#x1F338`, name: `Cherry Blossom`},
+                                {emoji: `&#x1F4AE`, name: `White Flower`},
+                                {emoji: `&#x1F3F5`, name: `Rosette`},
+                                {emoji: `&#x1F339`, name: `Rose`},
+                                {emoji: `&#x1F940`, name: `Wilted Flower`},
+                                {emoji: `&#x1F33A`, name: `Hibiscus`},
+                                {emoji: `&#x1F33B`, name: `Sunflower`},
+                                {emoji: `&#x1F33C`, name: `Blossom`},
+                                {emoji: `&#x1F337`, name: `Tulip`},
+                                {emoji: `&#x1F331`, name: `Seedling`},
+                                {emoji: `&#x1F332`, name: `Evergreen Tree`},
+                                {emoji: `&#x1F333`, name: `Deciduous Tree`},
+                                {emoji: `&#x1F334`, name: `Palm Tree`},
+                                {emoji: `&#x1F335`, name: `Cactus`},
+                                {emoji: `&#x1F33E`, name: `Sheaf Of Rice`},
+                                {emoji: `&#x1F33F`, name: `Herb`},
+                                {emoji: `&#x2618`, name: `Shamrock`},
+                                {emoji: `&#x1F340`, name: `Four Leaf Clover`},
+                                {emoji: `&#x1F341`, name: `Maple Leaf`},
+                                {emoji: `&#x1F342`, name: `Fallen Leaf`},
+                                {emoji: `&#x1F343`, name: `Leaf Fluttering In Wind`},
+                                {emoji: `&#x1F347`, name: `Grapes`},
+                                {emoji: `&#x1F348`, name: `Melon`},
+                                {emoji: `&#x1F349`, name: `Watermelon`},
+                                {emoji: `&#x1F34A`, name: `Tangerine`},
+                                {emoji: `&#x1F34B`, name: `Lemon`},
+                                {emoji: `&#x1F34C`, name: `Banana`},
+                                {emoji: `&#x1F34D`, name: `Pineapple`},
+                                {emoji: `&#x1F34E`, name: `Red Apple`},
+                                {emoji: `&#x1F34F`, name: `Green Apple`},
+                                {emoji: `&#x1F350`, name: `Pear`},
+                                {emoji: `&#x1F351`, name: `Peach`},
+                                {emoji: `&#x1F352`, name: `Cherries`},
+                                {emoji: `&#x1F353`, name: `Strawberry`},
+                                {emoji: `&#x1F95D`, name: `Kiwi Fruit`},
+                                {emoji: `&#x1F345`, name: `Tomato`},
+                                {emoji: `&#x1F951`, name: `Avocado`},
+                                {emoji: `&#x1F346`, name: `Eggplant`},
+                                {emoji: `&#x1F954`, name: `Potato`},
+                                {emoji: `&#x1F955`, name: `Carrot`},
+                                {emoji: `&#x1F33D`, name: `Ear Of Corn`},
+                                {emoji: `&#x1F336`, name: `Hot Pepper`},
+                                {emoji: `&#x1F952`, name: `Cucumber`},
+                                {emoji: `&#x1F344`, name: `Mushroom`},
+                                {emoji: `&#x1F95C`, name: `Peanuts`},
+                                {emoji: `&#x1F330`, name: `Chestnut`},
+                                {emoji: `&#x1F35E`, name: `Bread`},
+                                {emoji: `&#x1F950`, name: `Croissant`},
+                                {emoji: `&#x1F956`, name: `Baguette Bread`},
+                                {emoji: `&#x1F95E`, name: `Pancakes`},
+                                {emoji: `&#x1F9C0`, name: `Cheese Wedge`},
+                                {emoji: `&#x1F356`, name: `Meat On Bone`},
+                                {emoji: `&#x1F357`, name: `Poultry Leg`},
+                                {emoji: `&#x1F953`, name: `Bacon`},
+                                {emoji: `&#x1F354`, name: `Hamburger`},
+                                {emoji: `&#x1F35F`, name: `French Fries`},
+                                {emoji: `&#x1F355`, name: `Pizza`},
+                                {emoji: `&#x1F32D`, name: `Hot Dog`},
+                                {emoji: `&#x1F32E`, name: `Taco`},
+                                {emoji: `&#x1F32F`, name: `Burrito`},
+                                {emoji: `&#x1F959`, name: `Stuffed Flatbread`},
+                                {emoji: `&#x1F95A`, name: `Egg`},
+                                {emoji: `&#x1F373`, name: `Cooking`},
+                                {emoji: `&#x1F958`, name: `Shallow Pan Of Food`},
+                                {emoji: `&#x1F372`, name: `Pot Of Food`},
+                                {emoji: `&#x1F957`, name: `Green Salad`},
+                                {emoji: `&#x1F37F`, name: `Popcorn`},
+                                {emoji: `&#x1F371`, name: `Bento Box`},
+                                {emoji: `&#x1F358`, name: `Rice Cracker`},
+                                {emoji: `&#x1F359`, name: `Rice Ball`},
+                                {emoji: `&#x1F35A`, name: `Cooked Rice`},
+                                {emoji: `&#x1F35B`, name: `Curry Rice`},
+                                {emoji: `&#x1F35C`, name: `Steaming Bowl`},
+                                {emoji: `&#x1F35D`, name: `Spaghetti`},
+                                {emoji: `&#x1F360`, name: `Roasted Sweet Potato`},
+                                {emoji: `&#x1F362`, name: `Oden`},
+                                {emoji: `&#x1F363`, name: `Sushi`},
+                                {emoji: `&#x1F364`, name: `Fried Shrimp`},
+                                {emoji: `&#x1F365`, name: `Fish Cake With Swirl`},
+                                {emoji: `&#x1F361`, name: `Dango`},
+                                {emoji: `&#x1F366`, name: `Soft Ice Cream`},
+                                {emoji: `&#x1F367`, name: `Shaved Ice`},
+                                {emoji: `&#x1F368`, name: `Ice Cream`},
+                                {emoji: `&#x1F369`, name: `Doughnut`},
+                                {emoji: `&#x1F36A`, name: `Cookie`},
+                                {emoji: `&#x1F382`, name: `Birthday Cake`},
+                                {emoji: `&#x1F370`, name: `Shortcake`},
+                                {emoji: `&#x1F36B`, name: `Chocolate Bar`},
+                                {emoji: `&#x1F36C`, name: `Candy`},
+                                {emoji: `&#x1F36D`, name: `Lollipop`},
+                                {emoji: `&#x1F36E`, name: `Custard`},
+                                {emoji: `&#x1F36F`, name: `Honey Pot`},
+                                {emoji: `&#x1F37C`, name: `Baby Bottle`},
+                                {emoji: `&#x1F95B`, name: `Glass Of Milk`},
+                                {emoji: `&#x2615`, name: `Hot Beverage`},
+                                {emoji: `&#x1F375`, name: `Teacup Without Handle`},
+                                {emoji: `&#x1F376`, name: `Sake`},
+                                {emoji: `&#x1F37E`, name: `Bottle With Popping Cork`},
+                                {emoji: `&#x1F377`, name: `Wine Glass`},
+                                {emoji: `&#x1F378`, name: `Cocktail Glass`},
+                                {emoji: `&#x1F379`, name: `Tropical Drink`},
+                                {emoji: `&#x1F37A`, name: `Beer Mug`},
+                                {emoji: `&#x1F37B`, name: `Clinking Beer Mugs`},
+                                {emoji: `&#x1F942`, name: `Clinking Glasses`},
+                                {emoji: `&#x1F943`, name: `Tumbler Glass`},
+                                {emoji: `&#x1F37D`, name: `Fork And Knife With Plate`},
+                                {emoji: `&#x1F374`, name: `Fork And Knife`},
+                                {emoji: `&#x1F944`, name: `Spoon`},
+                                {emoji: `&#x1F52A`, name: `Kitchen Knife`},
+                                {emoji: `&#x1F3FA`, name: `Amphora`},
+                                {emoji: `&#x1F30D`, name: `Globe Showing Europe-Africa`},
+                                {emoji: `&#x1F30E`, name: `Globe Showing Americas`},
+                                {emoji: `&#x1F30F`, name: `Globe Showing Asia-Australia`},
+                                {emoji: `&#x1F310`, name: `Globe With Meridians`},
+                                {emoji: `&#x1F5FA`, name: `World Map`},
+                                {emoji: `&#x1F5FE`, name: `Map Of Japan`},
+                                {emoji: `&#x1F3D4`, name: `Snow-Capped Mountain`},
+                                {emoji: `&#x26F0`, name: `Mountain`},
+                                {emoji: `&#x1F30B`, name: `Volcano`},
+                                {emoji: `&#x1F5FB`, name: `Mount Fuji`},
+                                {emoji: `&#x1F3D5`, name: `Camping`},
+                                {emoji: `&#x1F3D6`, name: `Beach With Umbrella`},
+                                {emoji: `&#x1F3DC`, name: `Desert`},
+                                {emoji: `&#x1F3DD`, name: `Desert Island`},
+                                {emoji: `&#x1F3DE`, name: `National Park`},
+                                {emoji: `&#x1F3DF`, name: `Stadium`},
+                                {emoji: `&#x1F3DB`, name: `Classical Building`},
+                                {emoji: `&#x1F3D7`, name: `Building Construction`},
+                                {emoji: `&#x1F3D8`, name: `House`},
+                                {emoji: `&#x1F3D9`, name: `Cityscape`},
+                                {emoji: `&#x1F3DA`, name: `Derelict House`},
+                                {emoji: `&#x1F3E0`, name: `House`},
+                                {emoji: `&#x1F3E1`, name: `House With Garden`},
+                                {emoji: `&#x1F3E2`, name: `Office Building`},
+                                {emoji: `&#x1F3E3`, name: `Japanese Post Office`},
+                                {emoji: `&#x1F3E4`, name: `Post Office`},
+                                {emoji: `&#x1F3E5`, name: `Hospital`},
+                                {emoji: `&#x1F3E6`, name: `Bank`},
+                                {emoji: `&#x1F3E8`, name: `Hotel`},
+                                {emoji: `&#x1F3E9`, name: `Love Hotel`},
+                                {emoji: `&#x1F3EA`, name: `Convenience Store`},
+                                {emoji: `&#x1F3EB`, name: `School`},
+                                {emoji: `&#x1F3EC`, name: `Department Store`},
+                                {emoji: `&#x1F3ED`, name: `Factory`},
+                                {emoji: `&#x1F3EF`, name: `Japanese Castle`},
+                                {emoji: `&#x1F3F0`, name: `Castle`},
+                                {emoji: `&#x1F492`, name: `Wedding`},
+                                {emoji: `&#x1F5FC`, name: `Tokyo Tower`},
+                                {emoji: `&#x1F5FD`, name: `Statue Of Liberty`},
+                                {emoji: `&#x26EA`, name: `Church`},
+                                {emoji: `&#x1F54C`, name: `Mosque`},
+                                {emoji: `&#x1F54D`, name: `Synagogue`},
+                                {emoji: `&#x26E9`, name: `Shinto Shrine`},
+                                {emoji: `&#x1F54B`, name: `Kaaba`},
+                                {emoji: `&#x26F2`, name: `Fountain`},
+                                {emoji: `&#x26FA`, name: `Tent`},
+                                {emoji: `&#x1F301`, name: `Foggy`},
+                                {emoji: `&#x1F303`, name: `Night With Stars`},
+                                {emoji: `&#x1F304`, name: `Sunrise Over Mountains`},
+                                {emoji: `&#x1F305`, name: `Sunrise`},
+                                {emoji: `&#x1F306`, name: `Cityscape At Dusk`},
+                                {emoji: `&#x1F307`, name: `Sunset`},
+                                {emoji: `&#x1F309`, name: `Bridge At Night`},
+                                {emoji: `&#x2668`, name: `Hot Springs`},
+                                {emoji: `&#x1F30C`, name: `Milky Way`},
+                                {emoji: `&#x1F3A0`, name: `Carousel Horse`},
+                                {emoji: `&#x1F3A1`, name: `Ferris Wheel`},
+                                {emoji: `&#x1F3A2`, name: `Roller Coaster`},
+                                {emoji: `&#x1F488`, name: `Barber Pole`},
+                                {emoji: `&#x1F3AA`, name: `Circus Tent`},
+                                {emoji: `&#x1F3AD`, name: `Performing Arts`},
+                                {emoji: `&#x1F5BC`, name: `Framed Picture`},
+                                {emoji: `&#x1F3A8`, name: `Artist Palette`},
+                                {emoji: `&#x1F3B0`, name: `Slot Machine`},
+                                {emoji: `&#x1F682`, name: `Locomotive`},
+                                {emoji: `&#x1F683`, name: `Railway Car`},
+                                {emoji: `&#x1F684`, name: `High-Speed Train`},
+                                {emoji: `&#x1F685`, name: `High-Speed Train With Bullet Nose`},
+                                {emoji: `&#x1F686`, name: `Train`},
+                                {emoji: `&#x1F687`, name: `Metro`},
+                                {emoji: `&#x1F688`, name: `Light Rail`},
+                                {emoji: `&#x1F689`, name: `Station`},
+                                {emoji: `&#x1F68A`, name: `Tram`},
+                                {emoji: `&#x1F69D`, name: `Monorail`},
+                                {emoji: `&#x1F69E`, name: `Mountain Railway`},
+                                {emoji: `&#x1F68B`, name: `Tram Car`},
+                                {emoji: `&#x1F68C`, name: `Bus`},
+                                {emoji: `&#x1F68D`, name: `Oncoming Bus`},
+                                {emoji: `&#x1F68E`, name: `Trolleybus`},
+                                {emoji: `&#x1F690`, name: `Minibus`},
+                                {emoji: `&#x1F691`, name: `Ambulance`},
+                                {emoji: `&#x1F692`, name: `Fire Engine`},
+                                {emoji: `&#x1F693`, name: `Police Car`},
+                                {emoji: `&#x1F694`, name: `Oncoming Police Car`},
+                                {emoji: `&#x1F695`, name: `Taxi`},
+                                {emoji: `&#x1F696`, name: `Oncoming Taxi`},
+                                {emoji: `&#x1F697`, name: `Automobile`},
+                                {emoji: `&#x1F698`, name: `Oncoming Automobile`},
+                                {emoji: `&#x1F699`, name: `Sport Utility Vehicle`},
+                                {emoji: `&#x1F69A`, name: `Delivery Truck`},
+                                {emoji: `&#x1F69B`, name: `Articulated Lorry`},
+                                {emoji: `&#x1F69C`, name: `Tractor`},
+                                {emoji: `&#x1F6B2`, name: `Bicycle`},
+                                {emoji: `&#x1F6F4`, name: `Kick Scooter`},
+                                {emoji: `&#x1F6F5`, name: `Motor Scooter`},
+                                {emoji: `&#x1F68F`, name: `Bus Stop`},
+                                {emoji: `&#x1F6E3`, name: `Motorway`},
+                                {emoji: `&#x1F6E4`, name: `Railway Track`},
+                                {emoji: `&#x26FD`, name: `Fuel Pump`},
+                                {emoji: `&#x1F6A8`, name: `Police Car Light`},
+                                {emoji: `&#x1F6A5`, name: `Horizontal Traffic Light`},
+                                {emoji: `&#x1F6A6`, name: `Vertical Traffic Light`},
+                                {emoji: `&#x1F6A7`, name: `Construction`},
+                                {emoji: `&#x1F6D1`, name: `Stop Sign`},
+                                {emoji: `&#x2693`, name: `Anchor`},
+                                {emoji: `&#x26F5`, name: `Sailboat`},
+                                {emoji: `&#x1F6F6`, name: `Canoe`},
+                                {emoji: `&#x1F6A4`, name: `Speedboat`},
+                                {emoji: `&#x1F6F3`, name: `Passenger Ship`},
+                                {emoji: `&#x26F4`, name: `Ferry`},
+                                {emoji: `&#x1F6E5`, name: `Motor Boat`},
+                                {emoji: `&#x1F6A2`, name: `Ship`},
+                                {emoji: `&#x2708`, name: `Airplane`},
+                                {emoji: `&#x1F6E9`, name: `Small Airplane`},
+                                {emoji: `&#x1F6EB`, name: `Airplane Departure`},
+                                {emoji: `&#x1F6EC`, name: `Airplane Arrival`},
+                                {emoji: `&#x1F4BA`, name: `Seat`},
+                                {emoji: `&#x1F681`, name: `Helicopter`},
+                                {emoji: `&#x1F69F`, name: `Suspension Railway`},
+                                {emoji: `&#x1F6A0`, name: `Mountain Cableway`},
+                                {emoji: `&#x1F6A1`, name: `Aerial Tramway`},
+                                {emoji: `&#x1F680`, name: `Rocket`},
+                                {emoji: `&#x1F6F0`, name: `Satellite`},
+                                {emoji: `&#x1F6CE`, name: `Bellhop Bell`},
+                                {emoji: `&#x1F6AA`, name: `Door`},
+                                {emoji: `&#x1F6CC`, name: `Person In Bed`},
+                                {emoji: `&#x1F6CC&#x1F3FB`, name: `Person In Bed: Light Skin Tone`},
+                                {emoji: `&#x1F6CC&#x1F3FC`, name: `Person In Bed: Medium-Light Skin Tone`},
+                                {emoji: `&#x1F6CC&#x1F3FD`, name: `Person In Bed: Medium Skin Tone`},
+                                {emoji: `&#x1F6CC&#x1F3FE`, name: `Person In Bed: Medium-Dark Skin Tone`},
+                                {emoji: `&#x1F6CC&#x1F3FF`, name: `Person In Bed: Dark Skin Tone`},
+                                {emoji: `&#x1F6CF`, name: `Bed`},
+                                {emoji: `&#x1F6CB`, name: `Couch And Lamp`},
+                                {emoji: `&#x1F6BD`, name: `Toilet`},
+                                {emoji: `&#x1F6BF`, name: `Shower`},
+                                {emoji: `&#x1F6C0`, name: `Person Taking Bath`},
+                                {emoji: `&#x1F6C0&#x1F3FB`, name: `Person Taking Bath: Light Skin Tone`},
+                                {emoji: `&#x1F6C0&#x1F3FC`, name: `Person Taking Bath: Medium-Light Skin Tone`},
+                                {emoji: `&#x1F6C0&#x1F3FD`, name: `Person Taking Bath: Medium Skin Tone`},
+                                {emoji: `&#x1F6C0&#x1F3FE`, name: `Person Taking Bath: Medium-Dark Skin Tone`},
+                                {emoji: `&#x1F6C0&#x1F3FF`, name: `Person Taking Bath: Dark Skin Tone`},
+                                {emoji: `&#x1F6C1`, name: `Bathtub`},
+                                {emoji: `&#x231B`, name: `Hourglass`},
+                                {emoji: `&#x23F3`, name: `Hourglass With Flowing Sand`},
+                                {emoji: `&#x231A`, name: `Watch`},
+                                {emoji: `&#x23F0`, name: `Alarm Clock`},
+                                {emoji: `&#x23F1`, name: `Stopwatch`},
+                                {emoji: `&#x23F2`, name: `Timer Clock`},
+                                {emoji: `&#x1F570`, name: `Mantelpiece Clock`},
+                                {emoji: `&#x1F55B`, name: `Twelve O’clock`},
+                                {emoji: `&#x1F567`, name: `Twelve-Thirty`},
+                                {emoji: `&#x1F550`, name: `One O’clock`},
+                                {emoji: `&#x1F55C`, name: `One-Thirty`},
+                                {emoji: `&#x1F551`, name: `Two O’clock`},
+                                {emoji: `&#x1F55D`, name: `Two-Thirty`},
+                                {emoji: `&#x1F552`, name: `Three O’clock`},
+                                {emoji: `&#x1F55E`, name: `Three-Thirty`},
+                                {emoji: `&#x1F553`, name: `Four O’clock`},
+                                {emoji: `&#x1F55F`, name: `Four-Thirty`},
+                                {emoji: `&#x1F554`, name: `Five O’clock`},
+                                {emoji: `&#x1F560`, name: `Five-Thirty`},
+                                {emoji: `&#x1F555`, name: `Six O’clock`},
+                                {emoji: `&#x1F561`, name: `Six-Thirty`},
+                                {emoji: `&#x1F556`, name: `Seven O’clock`},
+                                {emoji: `&#x1F562`, name: `Seven-Thirty`},
+                                {emoji: `&#x1F557`, name: `Eight O’clock`},
+                                {emoji: `&#x1F563`, name: `Eight-Thirty`},
+                                {emoji: `&#x1F558`, name: `Nine O’clock`},
+                                {emoji: `&#x1F564`, name: `Nine-Thirty`},
+                                {emoji: `&#x1F559`, name: `Ten O’clock`},
+                                {emoji: `&#x1F565`, name: `Ten-Thirty`},
+                                {emoji: `&#x1F55A`, name: `Eleven O’clock`},
+                                {emoji: `&#x1F566`, name: `Eleven-Thirty`},
+                                {emoji: `&#x1F311`, name: `New Moon`},
+                                {emoji: `&#x1F312`, name: `Waxing Crescent Moon`},
+                                {emoji: `&#x1F313`, name: `First Quarter Moon`},
+                                {emoji: `&#x1F314`, name: `Waxing Gibbous Moon`},
+                                {emoji: `&#x1F315`, name: `Full Moon`},
+                                {emoji: `&#x1F316`, name: `Waning Gibbous Moon`},
+                                {emoji: `&#x1F317`, name: `Last Quarter Moon`},
+                                {emoji: `&#x1F318`, name: `Waning Crescent Moon`},
+                                {emoji: `&#x1F319`, name: `Crescent Moon`},
+                                {emoji: `&#x1F31A`, name: `New Moon Face`},
+                                {emoji: `&#x1F31B`, name: `First Quarter Moon With Face`},
+                                {emoji: `&#x1F31C`, name: `Last Quarter Moon With Face`},
+                                {emoji: `&#x1F321`, name: `Thermometer`},
+                                {emoji: `&#x2600`, name: `Sun`},
+                                {emoji: `&#x1F31D`, name: `Full Moon With Face`},
+                                {emoji: `&#x1F31E`, name: `Sun With Face`},
+                                {emoji: `&#x2B50`, name: `White Medium Star`},
+                                {emoji: `&#x1F31F`, name: `Glowing Star`},
+                                {emoji: `&#x1F320`, name: `Shooting Star`},
+                                {emoji: `&#x2601`, name: `Cloud`},
+                                {emoji: `&#x26C5`, name: `Sun Behind Cloud`},
+                                {emoji: `&#x26C8`, name: `Cloud With Lightning And Rain`},
+                                {emoji: `&#x1F324`, name: `Sun Behind Small Cloud`},
+                                {emoji: `&#x1F325`, name: `Sun Behind Large Cloud`},
+                                {emoji: `&#x1F326`, name: `Sun Behind Rain Cloud`},
+                                {emoji: `&#x1F327`, name: `Cloud With Rain`},
+                                {emoji: `&#x1F328`, name: `Cloud With Snow`},
+                                {emoji: `&#x1F329`, name: `Cloud With Lightning`},
+                                {emoji: `&#x1F32A`, name: `Tornado`},
+                                {emoji: `&#x1F32B`, name: `Fog`},
+                                {emoji: `&#x1F32C`, name: `Wind Face`},
+                                {emoji: `&#x1F300`, name: `Cyclone`},
+                                {emoji: `&#x1F308`, name: `Rainbow`},
+                                {emoji: `&#x1F302`, name: `Closed Umbrella`},
+                                {emoji: `&#x2602`, name: `Umbrella`},
+                                {emoji: `&#x2614`, name: `Umbrella With Rain Drops`},
+                                {emoji: `&#x26F1`, name: `Umbrella On Ground`},
+                                {emoji: `&#x26A1`, name: `High Voltage`},
+                                {emoji: `&#x2744`, name: `Snowflake`},
+                                {emoji: `&#x2603`, name: `Snowman`},
+                                {emoji: `&#x26C4`, name: `Snowman Without Snow`},
+                                {emoji: `&#x2604`, name: `Comet`},
+                                {emoji: `&#x1F525`, name: `Fire`},
+                                {emoji: `&#x1F4A7`, name: `Droplet`},
+                                {emoji: `&#x1F30A`, name: `Water Wave`},
+                                {emoji: `&#x1F383`, name: `Jack-O-Lantern`},
+                                {emoji: `&#x1F384`, name: `Christmas Tree`},
+                                {emoji: `&#x1F386`, name: `Fireworks`},
+                                {emoji: `&#x1F387`, name: `Sparkler`},
+                                {emoji: `&#x2728`, name: `Sparkles`},
+                                {emoji: `&#x1F388`, name: `Balloon`},
+                                {emoji: `&#x1F389`, name: `Party Popper`},
+                                {emoji: `&#x1F38A`, name: `Confetti Ball`},
+                                {emoji: `&#x1F38B`, name: `Tanabata Tree`},
+                                {emoji: `&#x1F38D`, name: `Pine Decoration`},
+                                {emoji: `&#x1F38E`, name: `Japanese Dolls`},
+                                {emoji: `&#x1F38F`, name: `Carp Streamer`},
+                                {emoji: `&#x1F390`, name: `Wind Chime`},
+                                {emoji: `&#x1F391`, name: `Moon Viewing Ceremony`},
+                                {emoji: `&#x1F380`, name: `Ribbon`},
+                                {emoji: `&#x1F381`, name: `Wrapped Gift`},
+                                {emoji: `&#x1F397`, name: `Reminder Ribbon`},
+                                {emoji: `&#x1F39F`, name: `Admission Tickets`},
+                                {emoji: `&#x1F3AB`, name: `Ticket`},
+                                {emoji: `&#x1F396`, name: `Military Medal`},
+                                {emoji: `&#x1F3C6`, name: `Trophy`},
+                                {emoji: `&#x1F3C5`, name: `Sports Medal`},
+                                {emoji: `&#x1F947`, name: `1st Place Medal`},
+                                {emoji: `&#x1F948`, name: `2nd Place Medal`},
+                                {emoji: `&#x1F949`, name: `3rd Place Medal`},
+                                {emoji: `&#x26BD`, name: `Soccer Ball`},
+                                {emoji: `&#x26BE`, name: `Baseball`},
+                                {emoji: `&#x1F3C0`, name: `Basketball`},
+                                {emoji: `&#x1F3D0`, name: `Volleyball`},
+                                {emoji: `&#x1F3C8`, name: `American Football`},
+                                {emoji: `&#x1F3C9`, name: `Rugby Football`},
+                                {emoji: `&#x1F3BE`, name: `Tennis`},
+                                {emoji: `&#x1F3B1`, name: `Pool 8 Ball`},
+                                {emoji: `&#x1F3B3`, name: `Bowling`},
+                                {emoji: `&#x1F3CF`, name: `Cricket`},
+                                {emoji: `&#x1F3D1`, name: `Field Hockey`},
+                                {emoji: `&#x1F3D2`, name: `Ice Hockey`},
+                                {emoji: `&#x1F3D3`, name: `Ping Pong`},
+                                {emoji: `&#x1F3F8`, name: `Badminton`},
+                                {emoji: `&#x1F94A`, name: `Boxing Glove`},
+                                {emoji: `&#x1F94B`, name: `Martial Arts Uniform`},
+                                {emoji: `&#x1F945`, name: `Goal Net`},
+                                {emoji: `&#x1F3AF`, name: `Direct Hit`},
+                                {emoji: `&#x26F3`, name: `Flag In Hole`},
+                                {emoji: `&#x26F8`, name: `Ice Skate`},
+                                {emoji: `&#x1F3A3`, name: `Fishing Pole`},
+                                {emoji: `&#x1F3BD`, name: `Running Shirt`},
+                                {emoji: `&#x1F3BF`, name: `Skis`},
+                                {emoji: `&#x1F3AE`, name: `Video Game`},
+                                {emoji: `&#x1F579`, name: `Joystick`},
+                                {emoji: `&#x1F3B2`, name: `Game Die`},
+                                {emoji: `&#x2660`, name: `Spade Suit`},
+                                {emoji: `&#x2665`, name: `Heart Suit`},
+                                {emoji: `&#x2666`, name: `Diamond Suit`},
+                                {emoji: `&#x2663`, name: `Club Suit`},
+                                {emoji: `&#x1F0CF`, name: `Joker`},
+                                {emoji: `&#x1F004`, name: `Mahjong Red Dragon`},
+                                {emoji: `&#x1F3B4`, name: `Flower Playing Cards`},
+                                {emoji: `&#x1F507`, name: `Muted Speaker`},
+                                {emoji: `&#x1F508`, name: `Speaker Low Volume`},
+                                {emoji: `&#x1F509`, name: `Speaker Medium Volume`},
+                                {emoji: `&#x1F50A`, name: `Speaker High Volume`},
+                                {emoji: `&#x1F4E2`, name: `Loudspeaker`},
+                                {emoji: `&#x1F4E3`, name: `Megaphone`},
+                                {emoji: `&#x1F4EF`, name: `Postal Horn`},
+                                {emoji: `&#x1F514`, name: `Bell`},
+                                {emoji: `&#x1F515`, name: `Bell With Slash`},
+                                {emoji: `&#x1F3BC`, name: `Musical Score`},
+                                {emoji: `&#x1F3B5`, name: `Musical Note`},
+                                {emoji: `&#x1F3B6`, name: `Musical Notes`},
+                                {emoji: `&#x1F399`, name: `Studio Microphone`},
+                                {emoji: `&#x1F39A`, name: `Level Slider`},
+                                {emoji: `&#x1F39B`, name: `Control Knobs`},
+                                {emoji: `&#x1F3A4`, name: `Microphone`},
+                                {emoji: `&#x1F3A7`, name: `Headphone`},
+                                {emoji: `&#x1F4FB`, name: `Radio`},
+                                {emoji: `&#x1F3B7`, name: `Saxophone`},
+                                {emoji: `&#x1F3B8`, name: `Guitar`},
+                                {emoji: `&#x1F3B9`, name: `Musical Keyboard`},
+                                {emoji: `&#x1F3BA`, name: `Trumpet`},
+                                {emoji: `&#x1F3BB`, name: `Violin`},
+                                {emoji: `&#x1F941`, name: `Drum`},
+                                {emoji: `&#x1F4F1`, name: `Mobile Phone`},
+                                {emoji: `&#x1F4F2`, name: `Mobile Phone With Arrow`},
+                                {emoji: `&#x260E`, name: `Telephone`},
+                                {emoji: `&#x1F4DE`, name: `Telephone Receiver`},
+                                {emoji: `&#x1F4DF`, name: `Pager`},
+                                {emoji: `&#x1F4E0`, name: `Fax Machine`},
+                                {emoji: `&#x1F50B`, name: `Battery`},
+                                {emoji: `&#x1F50C`, name: `Electric Plug`},
+                                {emoji: `&#x1F4BB`, name: `Laptop Computer`},
+                                {emoji: `&#x1F5A5`, name: `Desktop Computer`},
+                                {emoji: `&#x1F5A8`, name: `Printer`},
+                                {emoji: `&#x2328`, name: `Keyboard`},
+                                {emoji: `&#x1F5B1`, name: `Computer Mouse`},
+                                {emoji: `&#x1F5B2`, name: `Trackball`},
+                                {emoji: `&#x1F4BD`, name: `Computer Disk`},
+                                {emoji: `&#x1F4BE`, name: `Floppy Disk`},
+                                {emoji: `&#x1F4BF`, name: `Optical Disk`},
+                                {emoji: `&#x1F4C0`, name: `Dvd`},
+                                {emoji: `&#x1F3A5`, name: `Movie Camera`},
+                                {emoji: `&#x1F39E`, name: `Film Frames`},
+                                {emoji: `&#x1F4FD`, name: `Film Projector`},
+                                {emoji: `&#x1F3AC`, name: `Clapper Board`},
+                                {emoji: `&#x1F4FA`, name: `Television`},
+                                {emoji: `&#x1F4F7`, name: `Camera`},
+                                {emoji: `&#x1F4F8`, name: `Camera With Flash`},
+                                {emoji: `&#x1F4F9`, name: `Video Camera`},
+                                {emoji: `&#x1F4FC`, name: `Videocassette`},
+                                {emoji: `&#x1F50D`, name: `Left-Pointing Magnifying Glass`},
+                                {emoji: `&#x1F50E`, name: `Right-Pointing Magnifying Glass`},
+                                {emoji: `&#x1F52C`, name: `Microscope`},
+                                {emoji: `&#x1F52D`, name: `Telescope`},
+                                {emoji: `&#x1F4E1`, name: `Satellite Antenna`},
+                                {emoji: `&#x1F56F`, name: `Candle`},
+                                {emoji: `&#x1F4A1`, name: `Light Bulb`},
+                                {emoji: `&#x1F526`, name: `Flashlight`},
+                                {emoji: `&#x1F3EE`, name: `Red Paper Lantern`},
+                                {emoji: `&#x1F4D4`, name: `Notebook With Decorative Cover`},
+                                {emoji: `&#x1F4D5`, name: `Closed Book`},
+                                {emoji: `&#x1F4D6`, name: `Open Book`},
+                                {emoji: `&#x1F4D7`, name: `Green Book`},
+                                {emoji: `&#x1F4D8`, name: `Blue Book`},
+                                {emoji: `&#x1F4D9`, name: `Orange Book`},
+                                {emoji: `&#x1F4DA`, name: `Books`},
+                                {emoji: `&#x1F4D3`, name: `Notebook`},
+                                {emoji: `&#x1F4D2`, name: `Ledger`},
+                                {emoji: `&#x1F4C3`, name: `Page With Curl`},
+                                {emoji: `&#x1F4DC`, name: `Scroll`},
+                                {emoji: `&#x1F4C4`, name: `Page Facing Up`},
+                                {emoji: `&#x1F4F0`, name: `Newspaper`},
+                                {emoji: `&#x1F5DE`, name: `Rolled-Up Newspaper`},
+                                {emoji: `&#x1F4D1`, name: `Bookmark Tabs`},
+                                {emoji: `&#x1F516`, name: `Bookmark`},
+                                {emoji: `&#x1F3F7`, name: `Label`},
+                                {emoji: `&#x1F4B0`, name: `Money Bag`},
+                                {emoji: `&#x1F4B4`, name: `Yen Banknote`},
+                                {emoji: `&#x1F4B5`, name: `Dollar Banknote`},
+                                {emoji: `&#x1F4B6`, name: `Euro Banknote`},
+                                {emoji: `&#x1F4B7`, name: `Pound Banknote`},
+                                {emoji: `&#x1F4B8`, name: `Money With Wings`},
+                                {emoji: `&#x1F4B3`, name: `Credit Card`},
+                                {emoji: `&#x1F4B9`, name: `Chart Increasing With Yen`},
+                                {emoji: `&#x1F4B1`, name: `Currency Exchange`},
+                                {emoji: `&#x1F4B2`, name: `Heavy Dollar Sign`},
+                                {emoji: `&#x2709`, name: `Envelope`},
+                                {emoji: `&#x1F4E7`, name: `E-Mail`},
+                                {emoji: `&#x1F4E8`, name: `Incoming Envelope`},
+                                {emoji: `&#x1F4E9`, name: `Envelope With Arrow`},
+                                {emoji: `&#x1F4E4`, name: `Outbox Tray`},
+                                {emoji: `&#x1F4E5`, name: `Inbox Tray`},
+                                {emoji: `&#x1F4E6`, name: `Package`},
+                                {emoji: `&#x1F4EB`, name: `Closed Mailbox With Raised Flag`},
+                                {emoji: `&#x1F4EA`, name: `Closed Mailbox With Lowered Flag`},
+                                {emoji: `&#x1F4EC`, name: `Open Mailbox With Raised Flag`},
+                                {emoji: `&#x1F4ED`, name: `Open Mailbox With Lowered Flag`},
+                                {emoji: `&#x1F4EE`, name: `Postbox`},
+                                {emoji: `&#x1F5F3`, name: `Ballot Box With Ballot`},
+                                {emoji: `&#x270F`, name: `Pencil`},
+                                {emoji: `&#x2712`, name: `Black Nib`},
+                                {emoji: `&#x1F58B`, name: `Fountain Pen`},
+                                {emoji: `&#x1F58A`, name: `Pen`},
+                                {emoji: `&#x1F58C`, name: `Paintbrush`},
+                                {emoji: `&#x1F58D`, name: `Crayon`},
+                                {emoji: `&#x1F4DD`, name: `Memo`},
+                                {emoji: `&#x1F4BC`, name: `Briefcase`},
+                                {emoji: `&#x1F4C1`, name: `File Folder`},
+                                {emoji: `&#x1F4C2`, name: `Open File Folder`},
+                                {emoji: `&#x1F5C2`, name: `Card Index Dividers`},
+                                {emoji: `&#x1F4C5`, name: `Calendar`},
+                                {emoji: `&#x1F4C6`, name: `Tear-Off Calendar`},
+                                {emoji: `&#x1F5D2`, name: `Spiral Notepad`},
+                                {emoji: `&#x1F5D3`, name: `Spiral Calendar`},
+                                {emoji: `&#x1F4C7`, name: `Card Index`},
+                                {emoji: `&#x1F4C8`, name: `Chart Increasing`},
+                                {emoji: `&#x1F4C9`, name: `Chart Decreasing`},
+                                {emoji: `&#x1F4CA`, name: `Bar Chart`},
+                                {emoji: `&#x1F4CB`, name: `Clipboard`},
+                                {emoji: `&#x1F4CC`, name: `Pushpin`},
+                                {emoji: `&#x1F4CD`, name: `Round Pushpin`},
+                                {emoji: `&#x1F4CE`, name: `Paperclip`},
+                                {emoji: `&#x1F587`, name: `Linked Paperclips`},
+                                {emoji: `&#x1F4CF`, name: `Straight Ruler`},
+                                {emoji: `&#x1F4D0`, name: `Triangular Ruler`},
+                                {emoji: `&#x2702`, name: `Scissors`},
+                                {emoji: `&#x1F5C3`, name: `Card File Box`},
+                                {emoji: `&#x1F5C4`, name: `File Cabinet`},
+                                {emoji: `&#x1F5D1`, name: `Wastebasket`},
+                                {emoji: `&#x1F512`, name: `Locked`},
+                                {emoji: `&#x1F513`, name: `Unlocked`},
+                                {emoji: `&#x1F50F`, name: `Locked With Pen`},
+                                {emoji: `&#x1F510`, name: `Locked With Key`},
+                                {emoji: `&#x1F511`, name: `Key`},
+                                {emoji: `&#x1F5DD`, name: `Old Key`},
+                                {emoji: `&#x1F528`, name: `Hammer`},
+                                {emoji: `&#x26CF`, name: `Pick`},
+                                {emoji: `&#x2692`, name: `Hammer And Pick`},
+                                {emoji: `&#x1F6E0`, name: `Hammer And Wrench`},
+                                {emoji: `&#x1F5E1`, name: `Dagger`},
+                                {emoji: `&#x2694`, name: `Crossed Swords`},
+                                {emoji: `&#x1F52B`, name: `Pistol`},
+                                {emoji: `&#x1F3F9`, name: `Bow And Arrow`},
+                                {emoji: `&#x1F6E1`, name: `Shield`},
+                                {emoji: `&#x1F527`, name: `Wrench`},
+                                {emoji: `&#x1F529`, name: `Nut And Bolt`},
+                                {emoji: `&#x2699`, name: `Gear`},
+                                {emoji: `&#x1F5DC`, name: `Clamp`},
+                                {emoji: `&#x2697`, name: `Alembic`},
+                                {emoji: `&#x2696`, name: `Balance Scale`},
+                                {emoji: `&#x1F517`, name: `Link`},
+                                {emoji: `&#x26D3`, name: `Chains`},
+                                {emoji: `&#x1F489`, name: `Syringe`},
+                                {emoji: `&#x1F48A`, name: `Pill`},
+                                {emoji: `&#x1F6AC`, name: `Cigarette`},
+                                {emoji: `&#x26B0`, name: `Coffin`},
+                                {emoji: `&#x26B1`, name: `Funeral Urn`},
+                                {emoji: `&#x1F5FF`, name: `Moai`},
+                                {emoji: `&#x1F6E2`, name: `Oil Drum`},
+                                {emoji: `&#x1F52E`, name: `Crystal Ball`},
+                                {emoji: `&#x1F6D2`, name: `Shopping Cart`},
+                                {emoji: `&#x1F3E7`, name: `ATM Sign`},
+                                {emoji: `&#x1F6AE`, name: `Litter In Bin Sign`},
+                                {emoji: `&#x1F6B0`, name: `Potable Water`},
+                                {emoji: `&#x267F`, name: `Wheelchair Symbol`},
+                                {emoji: `&#x1F6B9`, name: `Men’s Room`},
+                                {emoji: `&#x1F6BA`, name: `Women’s Room`},
+                                {emoji: `&#x1F6BB`, name: `Restroom`},
+                                {emoji: `&#x1F6BC`, name: `Baby Symbol`},
+                                {emoji: `&#x1F6BE`, name: `Water Closet`},
+                                {emoji: `&#x1F6C2`, name: `Passport Control`},
+                                {emoji: `&#x1F6C3`, name: `Customs`},
+                                {emoji: `&#x1F6C4`, name: `Baggage Claim`},
+                                {emoji: `&#x1F6C5`, name: `Left Luggage`},
+                                {emoji: `&#x26A0`, name: `Warning`},
+                                {emoji: `&#x1F6B8`, name: `Children Crossing`},
+                                {emoji: `&#x26D4`, name: `No Entry`},
+                                {emoji: `&#x1F6AB`, name: `Prohibited`},
+                                {emoji: `&#x1F6B3`, name: `No Bicycles`},
+                                {emoji: `&#x1F6AD`, name: `No Smoking`},
+                                {emoji: `&#x1F6AF`, name: `No Littering`},
+                                {emoji: `&#x1F6B1`, name: `Non-Potable Water`},
+                                {emoji: `&#x1F6B7`, name: `No Pedestrians`},
+                                {emoji: `&#x1F4F5`, name: `No Mobile Phones`},
+                                {emoji: `&#x1F51E`, name: `No One Under Eighteen`},
+                                {emoji: `&#x2622`, name: `Radioactive`},
+                                {emoji: `&#x2623`, name: `Biohazard`},
+                                {emoji: `&#x2B06`, name: `Up Arrow`},
+                                {emoji: `&#x2197`, name: `Up-Right Arrow`},
+                                {emoji: `&#x27A1`, name: `Right Arrow`},
+                                {emoji: `&#x2198`, name: `Down-Right Arrow`},
+                                {emoji: `&#x2B07`, name: `Down Arrow`},
+                                {emoji: `&#x2199`, name: `Down-Left Arrow`},
+                                {emoji: `&#x2B05`, name: `Left Arrow`},
+                                {emoji: `&#x2196`, name: `Up-Left Arrow`},
+                                {emoji: `&#x2195`, name: `Up-Down Arrow`},
+                                {emoji: `&#x2194`, name: `Left-Right Arrow`},
+                                {emoji: `&#x21A9`, name: `Right Arrow Curving Left`},
+                                {emoji: `&#x21AA`, name: `Left Arrow Curving Right`},
+                                {emoji: `&#x2934`, name: `Right Arrow Curving Up`},
+                                {emoji: `&#x2935`, name: `Right Arrow Curving Down`},
+                                {emoji: `&#x1F503`, name: `Clockwise Vertical Arrows`},
+                                {emoji: `&#x1F504`, name: `Anticlockwise Arrows Button`},
+                                {emoji: `&#x1F519`, name: `BACK Arrow`},
+                                {emoji: `&#x1F51A`, name: `END Arrow`},
+                                {emoji: `&#x1F51B`, name: `ON! Arrow`},
+                                {emoji: `&#x1F51C`, name: `SOON Arrow`},
+                                {emoji: `&#x1F51D`, name: `TOP Arrow`},
+                                {emoji: `&#x1F6D0`, name: `Place Of Worship`},
+                                {emoji: `&#x269B`, name: `Atom Symbol`},
+                                {emoji: `&#x1F549`, name: `Om`},
+                                {emoji: `&#x2721`, name: `Star Of David`},
+                                {emoji: `&#x2638`, name: `Wheel Of Dharma`},
+                                {emoji: `&#x262F`, name: `Yin Yang`},
+                                {emoji: `&#x271D`, name: `Latin Cross`},
+                                {emoji: `&#x2626`, name: `Orthodox Cross`},
+                                {emoji: `&#x262A`, name: `Star And Crescent`},
+                                {emoji: `&#x262E`, name: `Peace Symbol`},
+                                {emoji: `&#x1F54E`, name: `Menorah`},
+                                {emoji: `&#x1F52F`, name: `Dotted Six-Pointed Star`},
+                                {emoji: `&#x2648`, name: `Aries`},
+                                {emoji: `&#x2649`, name: `Taurus`},
+                                {emoji: `&#x264A`, name: `Gemini`},
+                                {emoji: `&#x264B`, name: `Cancer`},
+                                {emoji: `&#x264C`, name: `Leo`},
+                                {emoji: `&#x264D`, name: `Virgo`},
+                                {emoji: `&#x264E`, name: `Libra`},
+                                {emoji: `&#x264F`, name: `Scorpius`},
+                                {emoji: `&#x2650`, name: `Sagittarius`},
+                                {emoji: `&#x2651`, name: `Capricorn`},
+                                {emoji: `&#x2652`, name: `Aquarius`},
+                                {emoji: `&#x2653`, name: `Pisces`},
+                                {emoji: `&#x26CE`, name: `Ophiuchus`},
+                                {emoji: `&#x1F500`, name: `Shuffle Tracks Button`},
+                                {emoji: `&#x1F501`, name: `Repeat Button`},
+                                {emoji: `&#x1F502`, name: `Repeat Single Button`},
+                                {emoji: `&#x25B6`, name: `Play Button`},
+                                {emoji: `&#x23E9`, name: `Fast-Forward Button`},
+                                {emoji: `&#x23ED`, name: `Next Track Button`},
+                                {emoji: `&#x23EF`, name: `Play Or Pause Button`},
+                                {emoji: `&#x25C0`, name: `Reverse Button`},
+                                {emoji: `&#x23EA`, name: `Fast Reverse Button`},
+                                {emoji: `&#x23EE`, name: `Last Track Button`},
+                                {emoji: `&#x1F53C`, name: `Up Button`},
+                                {emoji: `&#x23EB`, name: `Fast Up Button`},
+                                {emoji: `&#x1F53D`, name: `Down Button`},
+                                {emoji: `&#x23EC`, name: `Fast Down Button`},
+                                {emoji: `&#x23F8`, name: `Pause Button`},
+                                {emoji: `&#x23F9`, name: `Stop Button`},
+                                {emoji: `&#x23FA`, name: `Record Button`},
+                                {emoji: `&#x23CF`, name: `Eject Button`},
+                                {emoji: `&#x1F3A6`, name: `Cinema`},
+                                {emoji: `&#x1F505`, name: `Dim Button`},
+                                {emoji: `&#x1F506`, name: `Bright Button`},
+                                {emoji: `&#x1F4F6`, name: `Antenna Bars`},
+                                {emoji: `&#x1F4F3`, name: `Vibration Mode`},
+                                {emoji: `&#x1F4F4`, name: `Mobile Phone Off`},
+                                {emoji: `&#x267B`, name: `Recycling Symbol`},
+                                {emoji: `&#x1F4DB`, name: `Name Badge`},
+                                {emoji: `&#x269C`, name: `Fleur-De-Lis`},
+                                {emoji: `&#x1F530`, name: `Japanese Symbol For Beginner`},
+                                {emoji: `&#x1F531`, name: `Trident Emblem`},
+                                {emoji: `&#x2B55`, name: `Heavy Large Circle`},
+                                {emoji: `&#x2705`, name: `White Heavy Check Mark`},
+                                {emoji: `&#x2611`, name: `Ballot Box With Check`},
+                                {emoji: `&#x2714`, name: `Heavy Check Mark`},
+                                {emoji: `&#x2716`, name: `Heavy Multiplication X`},
+                                {emoji: `&#x274C`, name: `Cross Mark`},
+                                {emoji: `&#x274E`, name: `Cross Mark Button`},
+                                {emoji: `&#x2795`, name: `Heavy Plus Sign`},
+                                {emoji: `&#x2640`, name: `Female Sign`},
+                                {emoji: `&#x2642`, name: `Male Sign`},
+                                {emoji: `&#x2695`, name: `Medical Symbol`},
+                                {emoji: `&#x2796`, name: `Heavy Minus Sign`},
+                                {emoji: `&#x2797`, name: `Heavy Division Sign`},
+                                {emoji: `&#x27B0`, name: `Curly Loop`},
+                                {emoji: `&#x27BF`, name: `Double Curly Loop`},
+                                {emoji: `&#x303D`, name: `Part Alternation Mark`},
+                                {emoji: `&#x2733`, name: `Eight-Spoked Asterisk`},
+                                {emoji: `&#x2734`, name: `Eight-Pointed Star`},
+                                {emoji: `&#x2747`, name: `Sparkle`},
+                                {emoji: `&#x203C`, name: `Double Exclamation Mark`},
+                                {emoji: `&#x2049`, name: `Exclamation Question Mark`},
+                                {emoji: `&#x2753`, name: `Question Mark`},
+                                {emoji: `&#x2754`, name: `White Question Mark`},
+                                {emoji: `&#x2755`, name: `White Exclamation Mark`},
+                                {emoji: `&#x2757`, name: `Exclamation Mark`},
+                                {emoji: `&#x3030`, name: `Wavy Dash`},
+                                {emoji: `&#x00A9`, name: `Copyright`},
+                                {emoji: `&#x00AE`, name: `Registered`},
+                                {emoji: `&#x2122`, name: `Trade Mark`},
+                                {emoji: `&#x0023&#xFE0F&#x20E3`, name: `Keycap: #`},
+                                {emoji: `&#x002A&#xFE0F&#x20E3`, name: `Keycap: *`},
+                                {emoji: `&#x0030&#xFE0F&#x20E3`, name: `Keycap: 0`},
+                                {emoji: `&#x0031&#xFE0F&#x20E3`, name: `Keycap: 1`},
+                                {emoji: `&#x0032&#xFE0F&#x20E3`, name: `Keycap: 2`},
+                                {emoji: `&#x0033&#xFE0F&#x20E3`, name: `Keycap: 3`},
+                                {emoji: `&#x0034&#xFE0F&#x20E3`, name: `Keycap: 4`},
+                                {emoji: `&#x0035&#xFE0F&#x20E3`, name: `Keycap: 5`},
+                                {emoji: `&#x0036&#xFE0F&#x20E3`, name: `Keycap: 6`},
+                                {emoji: `&#x0037&#xFE0F&#x20E3`, name: `Keycap: 7`},
+                                {emoji: `&#x0038&#xFE0F&#x20E3`, name: `Keycap: 8`},
+                                {emoji: `&#x0039&#xFE0F&#x20E3`, name: `Keycap: 9`},
+                                {emoji: `&#x1F51F`, name: `Keycap 10`},
+                                {emoji: `&#x1F4AF`, name: `Hundred Points`},
+                                {emoji: `&#x1F520`, name: `Input Latin Uppercase`},
+                                {emoji: `&#x1F521`, name: `Input Latin Lowercase`},
+                                {emoji: `&#x1F522`, name: `Input Numbers`},
+                                {emoji: `&#x1F523`, name: `Input Symbols`},
+                                {emoji: `&#x1F524`, name: `Input Latin Letters`},
+                                {emoji: `&#x1F170`, name: `A Button (blood Type)`},
+                                {emoji: `&#x1F18E`, name: `AB Button (blood Type)`},
+                                {emoji: `&#x1F171`, name: `B Button (blood Type)`},
+                                {emoji: `&#x1F191`, name: `CL Button`},
+                                {emoji: `&#x1F192`, name: `COOL Button`},
+                                {emoji: `&#x1F193`, name: `FREE Button`},
+                                {emoji: `&#x2139`, name: `Information`},
+                                {emoji: `&#x1F194`, name: `ID Button`},
+                                {emoji: `&#x24C2`, name: `Circled M`},
+                                {emoji: `&#x1F195`, name: `NEW Button`},
+                                {emoji: `&#x1F196`, name: `NG Button`},
+                                {emoji: `&#x1F17E`, name: `O Button (blood Type)`},
+                                {emoji: `&#x1F197`, name: `OK Button`},
+                                {emoji: `&#x1F17F`, name: `P Button`},
+                                {emoji: `&#x1F198`, name: `SOS Button`},
+                                {emoji: `&#x1F199`, name: `UP! Button`},
+                                {emoji: `&#x1F19A`, name: `VS Button`},
+                                {emoji: `&#x1F201`, name: `Japanese “here” Button`},
+                                {emoji: `&#x1F202`, name: `Japanese “service Charge” Button`},
+                                {emoji: `&#x1F237`, name: `Japanese “monthly Amount” Button`},
+                                {emoji: `&#x1F236`, name: `Japanese “not Free Of Charge” Button`},
+                                {emoji: `&#x1F22F`, name: `Japanese “reserved” Button`},
+                                {emoji: `&#x1F250`, name: `Japanese “bargain” Button`},
+                                {emoji: `&#x1F239`, name: `Japanese “discount” Button`},
+                                {emoji: `&#x1F21A`, name: `Japanese “free Of Charge” Button`},
+                                {emoji: `&#x1F232`, name: `Japanese “prohibited” Button`},
+                                {emoji: `&#x1F251`, name: `Japanese “acceptable” Button`},
+                                {emoji: `&#x1F238`, name: `Japanese “application” Button`},
+                                {emoji: `&#x1F234`, name: `Japanese “passing Grade” Button`},
+                                {emoji: `&#x1F233`, name: `Japanese “vacancy” Button`},
+                                {emoji: `&#x3297`, name: `Japanese “congratulations” Button`},
+                                {emoji: `&#x3299`, name: `Japanese “secret” Button`},
+                                {emoji: `&#x1F23A`, name: `Japanese “open For Business” Button`},
+                                {emoji: `&#x1F235`, name: `Japanese “no Vacancy” Button`},
+                                {emoji: `&#x25AA`, name: `Black Small Square`},
+                                {emoji: `&#x25AB`, name: `White Small Square`},
+                                {emoji: `&#x25FB`, name: `White Medium Square`},
+                                {emoji: `&#x25FC`, name: `Black Medium Square`},
+                                {emoji: `&#x25FD`, name: `White Medium-Small Square`},
+                                {emoji: `&#x25FE`, name: `Black Medium-Small Square`},
+                                {emoji: `&#x2B1B`, name: `Black Large Square`},
+                                {emoji: `&#x2B1C`, name: `White Large Square`},
+                                {emoji: `&#x1F536`, name: `Large Orange Diamond`},
+                                {emoji: `&#x1F537`, name: `Large Blue Diamond`},
+                                {emoji: `&#x1F538`, name: `Small Orange Diamond`},
+                                {emoji: `&#x1F539`, name: `Small Blue Diamond`},
+                                {emoji: `&#x1F53A`, name: `Red Triangle Pointed Up`},
+                                {emoji: `&#x1F53B`, name: `Red Triangle Pointed Down`},
+                                {emoji: `&#x1F4A0`, name: `Diamond With A Dot`},
+                                {emoji: `&#x1F518`, name: `Radio Button`},
+                                {emoji: `&#x1F532`, name: `Black Square Button`},
+                                {emoji: `&#x1F533`, name: `White Square Button`},
+                                {emoji: `&#x26AA`, name: `White Circle`},
+                                {emoji: `&#x26AB`, name: `Black Circle`},
+                                {emoji: `&#x1F534`, name: `Red Circle`},
+                                {emoji: `&#x1F535`, name: `Blue Circle`},
+                                {emoji: `&#x1F3C1`, name: `Chequered Flag`},
+                                {emoji: `&#x1F6A9`, name: `Triangular Flag`},
+                                {emoji: `&#x1F38C`, name: `Crossed Flags`},
+                                {emoji: `&#x1F3F4`, name: `Black Flag`},
+                                {emoji: `&#x1F3F3`, name: `White Flag`},
+                                {emoji: `&#x1F3F3&#xFE0F&#x200D&#x1F308`, name: `Rainbow Flag`},
+                                {emoji: `&#x1F1E6&#x1F1E8`, name: `Ascension Island`},
+                                {emoji: `&#x1F1E6&#x1F1E9`, name: `Andorra`},
+                                {emoji: `&#x1F1E6&#x1F1EA`, name: `United Arab Emirates`},
+                                {emoji: `&#x1F1E6&#x1F1EB`, name: `Afghanistan`},
+                                {emoji: `&#x1F1E6&#x1F1EC`, name: `Antigua & Barbuda`},
+                                {emoji: `&#x1F1E6&#x1F1EE`, name: `Anguilla`},
+                                {emoji: `&#x1F1E6&#x1F1F1`, name: `Albania`},
+                                {emoji: `&#x1F1E6&#x1F1F2`, name: `Armenia`},
+                                {emoji: `&#x1F1E6&#x1F1F4`, name: `Angola`},
+                                {emoji: `&#x1F1E6&#x1F1F6`, name: `Antarctica`},
+                                {emoji: `&#x1F1E6&#x1F1F7`, name: `Argentina`},
+                                {emoji: `&#x1F1E6&#x1F1F8`, name: `American Samoa`},
+                                {emoji: `&#x1F1E6&#x1F1F9`, name: `Austria`},
+                                {emoji: `&#x1F1E6&#x1F1FA`, name: `Australia`},
+                                {emoji: `&#x1F1E6&#x1F1FC`, name: `Aruba`},
+                                {emoji: `&#x1F1E6&#x1F1FD`, name: `Åland Islands`},
+                                {emoji: `&#x1F1E6&#x1F1FF`, name: `Azerbaijan`},
+                                {emoji: `&#x1F1E7&#x1F1E6`, name: `Bosnia & Herzegovina`},
+                                {emoji: `&#x1F1E7&#x1F1E7`, name: `Barbados`},
+                                {emoji: `&#x1F1E7&#x1F1E9`, name: `Bangladesh`},
+                                {emoji: `&#x1F1E7&#x1F1EA`, name: `Belgium`},
+                                {emoji: `&#x1F1E7&#x1F1EB`, name: `Burkina Faso`},
+                                {emoji: `&#x1F1E7&#x1F1EC`, name: `Bulgaria`},
+                                {emoji: `&#x1F1E7&#x1F1ED`, name: `Bahrain`},
+                                {emoji: `&#x1F1E7&#x1F1EE`, name: `Burundi`},
+                                {emoji: `&#x1F1E7&#x1F1EF`, name: `Benin`},
+                                {emoji: `&#x1F1E7&#x1F1F1`, name: `St. Barthélemy`},
+                                {emoji: `&#x1F1E7&#x1F1F2`, name: `Bermuda`},
+                                {emoji: `&#x1F1E7&#x1F1F3`, name: `Brunei`},
+                                {emoji: `&#x1F1E7&#x1F1F4`, name: `Bolivia`},
+                                {emoji: `&#x1F1E7&#x1F1F6`, name: `Caribbean Netherlands`},
+                                {emoji: `&#x1F1E7&#x1F1F7`, name: `Brazil`},
+                                {emoji: `&#x1F1E7&#x1F1F8`, name: `Bahamas`},
+                                {emoji: `&#x1F1E7&#x1F1F9`, name: `Bhutan`},
+                                {emoji: `&#x1F1E7&#x1F1FB`, name: `Bouvet Island`},
+                                {emoji: `&#x1F1E7&#x1F1FC`, name: `Botswana`},
+                                {emoji: `&#x1F1E7&#x1F1FE`, name: `Belarus`},
+                                {emoji: `&#x1F1E7&#x1F1FF`, name: `Belize`},
+                                {emoji: `&#x1F1E8&#x1F1E6`, name: `Canada`},
+                                {emoji: `&#x1F1E8&#x1F1E8`, name: `Cocos (Keeling) Islands`},
+                                {emoji: `&#x1F1E8&#x1F1E9`, name: `Congo - Kinshasa`},
+                                {emoji: `&#x1F1E8&#x1F1EB`, name: `Central African Republic`},
+                                {emoji: `&#x1F1E8&#x1F1EC`, name: `Congo - Brazzaville`},
+                                {emoji: `&#x1F1E8&#x1F1ED`, name: `Switzerland`},
+                                {emoji: `&#x1F1E8&#x1F1EE`, name: `Côte D’Ivoire`},
+                                {emoji: `&#x1F1E8&#x1F1F0`, name: `Cook Islands`},
+                                {emoji: `&#x1F1E8&#x1F1F1`, name: `Chile`},
+                                {emoji: `&#x1F1E8&#x1F1F2`, name: `Cameroon`},
+                                {emoji: `&#x1F1E8&#x1F1F3`, name: `China`},
+                                {emoji: `&#x1F1E8&#x1F1F4`, name: `Colombia`},
+                                {emoji: `&#x1F1E8&#x1F1F5`, name: `Clipperton Island`},
+                                {emoji: `&#x1F1E8&#x1F1F7`, name: `Costa Rica`},
+                                {emoji: `&#x1F1E8&#x1F1FA`, name: `Cuba`},
+                                {emoji: `&#x1F1E8&#x1F1FB`, name: `Cape Verde`},
+                                {emoji: `&#x1F1E8&#x1F1FC`, name: `Curaçao`},
+                                {emoji: `&#x1F1E8&#x1F1FD`, name: `Christmas Island`},
+                                {emoji: `&#x1F1E8&#x1F1FE`, name: `Cyprus`},
+                                {emoji: `&#x1F1E8&#x1F1FF`, name: `Czech Republic`},
+                                {emoji: `&#x1F1E9&#x1F1EA`, name: `Germany`},
+                                {emoji: `&#x1F1E9&#x1F1EC`, name: `Diego Garcia`},
+                                {emoji: `&#x1F1E9&#x1F1EF`, name: `Djibouti`},
+                                {emoji: `&#x1F1E9&#x1F1F0`, name: `Denmark`},
+                                {emoji: `&#x1F1E9&#x1F1F2`, name: `Dominica`},
+                                {emoji: `&#x1F1E9&#x1F1F4`, name: `Dominican Republic`},
+                                {emoji: `&#x1F1E9&#x1F1FF`, name: `Algeria`},
+                                {emoji: `&#x1F1EA&#x1F1E6`, name: `Ceuta & Melilla`},
+                                {emoji: `&#x1F1EA&#x1F1E8`, name: `Ecuador`},
+                                {emoji: `&#x1F1EA&#x1F1EA`, name: `Estonia`},
+                                {emoji: `&#x1F1EA&#x1F1EC`, name: `Egypt`},
+                                {emoji: `&#x1F1EA&#x1F1ED`, name: `Western Sahara`},
+                                {emoji: `&#x1F1EA&#x1F1F7`, name: `Eritrea`},
+                                {emoji: `&#x1F1EA&#x1F1F8`, name: `Spain`},
+                                {emoji: `&#x1F1EA&#x1F1F9`, name: `Ethiopia`},
+                                {emoji: `&#x1F1EA&#x1F1FA`, name: `European Union`},
+                                {emoji: `&#x1F1EB&#x1F1EE`, name: `Finland`},
+                                {emoji: `&#x1F1EB&#x1F1EF`, name: `Fiji`},
+                                {emoji: `&#x1F1EB&#x1F1F0`, name: `Falkland Islands`},
+                                {emoji: `&#x1F1EB&#x1F1F2`, name: `Micronesia`},
+                                {emoji: `&#x1F1EB&#x1F1F4`, name: `Faroe Islands`},
+                                {emoji: `&#x1F1EB&#x1F1F7`, name: `France`},
+                                {emoji: `&#x1F1EC&#x1F1E6`, name: `Gabon`},
+                                {emoji: `&#x1F1EC&#x1F1E7`, name: `United Kingdom`},
+                                {emoji: `&#x1F1EC&#x1F1E9`, name: `Grenada`},
+                                {emoji: `&#x1F1EC&#x1F1EA`, name: `Georgia`},
+                                {emoji: `&#x1F1EC&#x1F1EB`, name: `French Guiana`},
+                                {emoji: `&#x1F1EC&#x1F1EC`, name: `Guernsey`},
+                                {emoji: `&#x1F1EC&#x1F1ED`, name: `Ghana`},
+                                {emoji: `&#x1F1EC&#x1F1EE`, name: `Gibraltar`},
+                                {emoji: `&#x1F1EC&#x1F1F1`, name: `Greenland`},
+                                {emoji: `&#x1F1EC&#x1F1F2`, name: `Gambia`},
+                                {emoji: `&#x1F1EC&#x1F1F3`, name: `Guinea`},
+                                {emoji: `&#x1F1EC&#x1F1F5`, name: `Guadeloupe`},
+                                {emoji: `&#x1F1EC&#x1F1F6`, name: `Equatorial Guinea`},
+                                {emoji: `&#x1F1EC&#x1F1F7`, name: `Greece`},
+                                {emoji: `&#x1F1EC&#x1F1F8`, name: `South Georgia & South Sandwich Islands`},
+                                {emoji: `&#x1F1EC&#x1F1F9`, name: `Guatemala`},
+                                {emoji: `&#x1F1EC&#x1F1FA`, name: `Guam`},
+                                {emoji: `&#x1F1EC&#x1F1FC`, name: `Guinea-Bissau`},
+                                {emoji: `&#x1F1EC&#x1F1FE`, name: `Guyana`},
+                                {emoji: `&#x1F1ED&#x1F1F0`, name: `Hong Kong SAR China`},
+                                {emoji: `&#x1F1ED&#x1F1F2`, name: `Heard & McDonald Islands`},
+                                {emoji: `&#x1F1ED&#x1F1F3`, name: `Honduras`},
+                                {emoji: `&#x1F1ED&#x1F1F7`, name: `Croatia`},
+                                {emoji: `&#x1F1ED&#x1F1F9`, name: `Haiti`},
+                                {emoji: `&#x1F1ED&#x1F1FA`, name: `Hungary`},
+                                {emoji: `&#x1F1EE&#x1F1E8`, name: `Canary Islands`},
+                                {emoji: `&#x1F1EE&#x1F1E9`, name: `Indonesia`},
+                                {emoji: `&#x1F1EE&#x1F1EA`, name: `Ireland`},
+                                {emoji: `&#x1F1EE&#x1F1F1`, name: `Israel`},
+                                {emoji: `&#x1F1EE&#x1F1F2`, name: `Isle Of Man`},
+                                {emoji: `&#x1F1EE&#x1F1F3`, name: `India`},
+                                {emoji: `&#x1F1EE&#x1F1F4`, name: `British Indian Ocean Territory`},
+                                {emoji: `&#x1F1EE&#x1F1F6`, name: `Iraq`},
+                                {emoji: `&#x1F1EE&#x1F1F7`, name: `Iran`},
+                                {emoji: `&#x1F1EE&#x1F1F8`, name: `Iceland`},
+                                {emoji: `&#x1F1EE&#x1F1F9`, name: `Italy`},
+                                {emoji: `&#x1F1EF&#x1F1EA`, name: `Jersey`},
+                                {emoji: `&#x1F1EF&#x1F1F2`, name: `Jamaica`},
+                                {emoji: `&#x1F1EF&#x1F1F4`, name: `Jordan`},
+                                {emoji: `&#x1F1EF&#x1F1F5`, name: `Japan`},
+                                {emoji: `&#x1F1F0&#x1F1EA`, name: `Kenya`},
+                                {emoji: `&#x1F1F0&#x1F1EC`, name: `Kyrgyzstan`},
+                                {emoji: `&#x1F1F0&#x1F1ED`, name: `Cambodia`},
+                                {emoji: `&#x1F1F0&#x1F1EE`, name: `Kiribati`},
+                                {emoji: `&#x1F1F0&#x1F1F2`, name: `Comoros`},
+                                {emoji: `&#x1F1F0&#x1F1F3`, name: `St. Kitts & Nevis`},
+                                {emoji: `&#x1F1F0&#x1F1F5`, name: `North Korea`},
+                                {emoji: `&#x1F1F0&#x1F1F7`, name: `South Korea`},
+                                {emoji: `&#x1F1F0&#x1F1FC`, name: `Kuwait`},
+                                {emoji: `&#x1F1F0&#x1F1FE`, name: `Cayman Islands`},
+                                {emoji: `&#x1F1F0&#x1F1FF`, name: `Kazakhstan`},
+                                {emoji: `&#x1F1F1&#x1F1E6`, name: `Laos`},
+                                {emoji: `&#x1F1F1&#x1F1E7`, name: `Lebanon`},
+                                {emoji: `&#x1F1F1&#x1F1E8`, name: `St. Lucia`},
+                                {emoji: `&#x1F1F1&#x1F1EE`, name: `Liechtenstein`},
+                                {emoji: `&#x1F1F1&#x1F1F0`, name: `Sri Lanka`},
+                                {emoji: `&#x1F1F1&#x1F1F7`, name: `Liberia`},
+                                {emoji: `&#x1F1F1&#x1F1F8`, name: `Lesotho`},
+                                {emoji: `&#x1F1F1&#x1F1F9`, name: `Lithuania`},
+                                {emoji: `&#x1F1F1&#x1F1FA`, name: `Luxembourg`},
+                                {emoji: `&#x1F1F1&#x1F1FB`, name: `Latvia`},
+                                {emoji: `&#x1F1F1&#x1F1FE`, name: `Libya`},
+                                {emoji: `&#x1F1F2&#x1F1E6`, name: `Morocco`},
+                                {emoji: `&#x1F1F2&#x1F1E8`, name: `Monaco`},
+                                {emoji: `&#x1F1F2&#x1F1E9`, name: `Moldova`},
+                                {emoji: `&#x1F1F2&#x1F1EA`, name: `Montenegro`},
+                                {emoji: `&#x1F1F2&#x1F1EB`, name: `St. Martin`},
+                                {emoji: `&#x1F1F2&#x1F1EC`, name: `Madagascar`},
+                                {emoji: `&#x1F1F2&#x1F1ED`, name: `Marshall Islands`},
+                                {emoji: `&#x1F1F2&#x1F1F0`, name: `Macedonia`},
+                                {emoji: `&#x1F1F2&#x1F1F1`, name: `Mali`},
+                                {emoji: `&#x1F1F2&#x1F1F2`, name: `Myanmar (Burma)`},
+                                {emoji: `&#x1F1F2&#x1F1F3`, name: `Mongolia`},
+                                {emoji: `&#x1F1F2&#x1F1F4`, name: `Macau SAR China`},
+                                {emoji: `&#x1F1F2&#x1F1F5`, name: `Northern Mariana Islands`},
+                                {emoji: `&#x1F1F2&#x1F1F6`, name: `Martinique`},
+                                {emoji: `&#x1F1F2&#x1F1F7`, name: `Mauritania`},
+                                {emoji: `&#x1F1F2&#x1F1F8`, name: `Montserrat`},
+                                {emoji: `&#x1F1F2&#x1F1F9`, name: `Malta`},
+                                {emoji: `&#x1F1F2&#x1F1FA`, name: `Mauritius`},
+                                {emoji: `&#x1F1F2&#x1F1FB`, name: `Maldives`},
+                                {emoji: `&#x1F1F2&#x1F1FC`, name: `Malawi`},
+                                {emoji: `&#x1F1F2&#x1F1FD`, name: `Mexico`},
+                                {emoji: `&#x1F1F2&#x1F1FE`, name: `Malaysia`},
+                                {emoji: `&#x1F1F2&#x1F1FF`, name: `Mozambique`},
+                                {emoji: `&#x1F1F3&#x1F1E6`, name: `Namibia`},
+                                {emoji: `&#x1F1F3&#x1F1E8`, name: `New Caledonia`},
+                                {emoji: `&#x1F1F3&#x1F1EA`, name: `Niger`},
+                                {emoji: `&#x1F1F3&#x1F1EB`, name: `Norfolk Island`},
+                                {emoji: `&#x1F1F3&#x1F1EC`, name: `Nigeria`},
+                                {emoji: `&#x1F1F3&#x1F1EE`, name: `Nicaragua`},
+                                {emoji: `&#x1F1F3&#x1F1F1`, name: `Netherlands`},
+                                {emoji: `&#x1F1F3&#x1F1F4`, name: `Norway`},
+                                {emoji: `&#x1F1F3&#x1F1F5`, name: `Nepal`},
+                                {emoji: `&#x1F1F3&#x1F1F7`, name: `Nauru`},
+                                {emoji: `&#x1F1F3&#x1F1FA`, name: `Niue`},
+                                {emoji: `&#x1F1F3&#x1F1FF`, name: `New Zealand`},
+                                {emoji: `&#x1F1F4&#x1F1F2`, name: `Oman`},
+                                {emoji: `&#x1F1F5&#x1F1E6`, name: `Panama`},
+                                {emoji: `&#x1F1F5&#x1F1EA`, name: `Peru`},
+                                {emoji: `&#x1F1F5&#x1F1EB`, name: `French Polynesia`},
+                                {emoji: `&#x1F1F5&#x1F1EC`, name: `Papua New Guinea`},
+                                {emoji: `&#x1F1F5&#x1F1ED`, name: `Philippines`},
+                                {emoji: `&#x1F1F5&#x1F1F0`, name: `Pakistan`},
+                                {emoji: `&#x1F1F5&#x1F1F1`, name: `Poland`},
+                                {emoji: `&#x1F1F5&#x1F1F2`, name: `St. Pierre & Miquelon`},
+                                {emoji: `&#x1F1F5&#x1F1F3`, name: `Pitcairn Islands`},
+                                {emoji: `&#x1F1F5&#x1F1F7`, name: `Puerto Rico`},
+                                {emoji: `&#x1F1F5&#x1F1F8`, name: `Palestinian Territories`},
+                                {emoji: `&#x1F1F5&#x1F1F9`, name: `Portugal`},
+                                {emoji: `&#x1F1F5&#x1F1FC`, name: `Palau`},
+                                {emoji: `&#x1F1F5&#x1F1FE`, name: `Paraguay`},
+                                {emoji: `&#x1F1F6&#x1F1E6`, name: `Qatar`},
+                                {emoji: `&#x1F1F7&#x1F1EA`, name: `Réunion`},
+                                {emoji: `&#x1F1F7&#x1F1F4`, name: `Romania`},
+                                {emoji: `&#x1F1F7&#x1F1F8`, name: `Serbia`},
+                                {emoji: `&#x1F1F7&#x1F1FA`, name: `Russia`},
+                                {emoji: `&#x1F1F7&#x1F1FC`, name: `Rwanda`},
+                                {emoji: `&#x1F1F8&#x1F1E6`, name: `Saudi Arabia`},
+                                {emoji: `&#x1F1F8&#x1F1E7`, name: `Solomon Islands`},
+                                {emoji: `&#x1F1F8&#x1F1E8`, name: `Seychelles`},
+                                {emoji: `&#x1F1F8&#x1F1E9`, name: `Sudan`},
+                                {emoji: `&#x1F1F8&#x1F1EA`, name: `Sweden`},
+                                {emoji: `&#x1F1F8&#x1F1EC`, name: `Singapore`},
+                                {emoji: `&#x1F1F8&#x1F1ED`, name: `St. Helena`},
+                                {emoji: `&#x1F1F8&#x1F1EE`, name: `Slovenia`},
+                                {emoji: `&#x1F1F8&#x1F1EF`, name: `Svalbard & Jan Mayen`},
+                                {emoji: `&#x1F1F8&#x1F1F0`, name: `Slovakia`},
+                                {emoji: `&#x1F1F8&#x1F1F1`, name: `Sierra Leone`},
+                                {emoji: `&#x1F1F8&#x1F1F2`, name: `San Marino`},
+                                {emoji: `&#x1F1F8&#x1F1F3`, name: `Senegal`},
+                                {emoji: `&#x1F1F8&#x1F1F4`, name: `Somalia`},
+                                {emoji: `&#x1F1F8&#x1F1F7`, name: `Suriname`},
+                                {emoji: `&#x1F1F8&#x1F1F8`, name: `South Sudan`},
+                                {emoji: `&#x1F1F8&#x1F1F9`, name: `São Tomé & Príncipe`},
+                                {emoji: `&#x1F1F8&#x1F1FB`, name: `El Salvador`},
+                                {emoji: `&#x1F1F8&#x1F1FD`, name: `Sint Maarten`},
+                                {emoji: `&#x1F1F8&#x1F1FE`, name: `Syria`},
+                                {emoji: `&#x1F1F8&#x1F1FF`, name: `Swaziland`},
+                                {emoji: `&#x1F1F9&#x1F1E6`, name: `Tristan Da Cunha`},
+                                {emoji: `&#x1F1F9&#x1F1E8`, name: `Turks & Caicos Islands`},
+                                {emoji: `&#x1F1F9&#x1F1E9`, name: `Chad`},
+                                {emoji: `&#x1F1F9&#x1F1EB`, name: `French Southern Territories`},
+                                {emoji: `&#x1F1F9&#x1F1EC`, name: `Togo`},
+                                {emoji: `&#x1F1F9&#x1F1ED`, name: `Thailand`},
+                                {emoji: `&#x1F1F9&#x1F1EF`, name: `Tajikistan`},
+                                {emoji: `&#x1F1F9&#x1F1F0`, name: `Tokelau`},
+                                {emoji: `&#x1F1F9&#x1F1F1`, name: `Timor-Leste`},
+                                {emoji: `&#x1F1F9&#x1F1F2`, name: `Turkmenistan`},
+                                {emoji: `&#x1F1F9&#x1F1F3`, name: `Tunisia`},
+                                {emoji: `&#x1F1F9&#x1F1F4`, name: `Tonga`},
+                                {emoji: `&#x1F1F9&#x1F1F7`, name: `Turkey`},
+                                {emoji: `&#x1F1F9&#x1F1F9`, name: `Trinidad & Tobago`},
+                                {emoji: `&#x1F1F9&#x1F1FB`, name: `Tuvalu`},
+                                {emoji: `&#x1F1F9&#x1F1FC`, name: `Taiwan`},
+                                {emoji: `&#x1F1F9&#x1F1FF`, name: `Tanzania`},
+                                {emoji: `&#x1F1FA&#x1F1E6`, name: `Ukraine`},
+                                {emoji: `&#x1F1FA&#x1F1EC`, name: `Uganda`},
+                                {emoji: `&#x1F1FA&#x1F1F2`, name: `U.S. Outlying Islands`},
+                                {emoji: `&#x1F1FA&#x1F1F3`, name: `United Nations`},
+                                {emoji: `&#x1F1FA&#x1F1F8`, name: `United States`},
+                                {emoji: `&#x1F1FA&#x1F1FE`, name: `Uruguay`},
+                                {emoji: `&#x1F1FA&#x1F1FF`, name: `Uzbekistan`},
+                                {emoji: `&#x1F1FB&#x1F1E6`, name: `Vatican City`},
+                                {emoji: `&#x1F1FB&#x1F1E8`, name: `St. Vincent & Grenadines`},
+                                {emoji: `&#x1F1FB&#x1F1EA`, name: `Venezuela`},
+                                {emoji: `&#x1F1FB&#x1F1EC`, name: `British Virgin Islands`},
+                                {emoji: `&#x1F1FB&#x1F1EE`, name: `U.S. Virgin Islands`},
+                                {emoji: `&#x1F1FB&#x1F1F3`, name: `Vietnam`},
+                                {emoji: `&#x1F1FB&#x1F1FA`, name: `Vanuatu`},
+                                {emoji: `&#x1F1FC&#x1F1EB`, name: `Wallis & Futuna`},
+                                {emoji: `&#x1F1FC&#x1F1F8`, name: `Samoa`},
+                                {emoji: `&#x1F1FD&#x1F1F0`, name: `Kosovo`},
+                                {emoji: `&#x1F1FE&#x1F1EA`, name: `Yemen`},
+                                {emoji: `&#x1F1FE&#x1F1F9`, name: `Mayotte`},
+                                {emoji: `&#x1F1FF&#x1F1E6`, name: `South Africa`},
+                                {emoji: `&#x1F1FF&#x1F1F2`, name: `Zambia`}
+                            ].forEach(emoji => {
+                                emojis.insertAdjacentHTML(`beforeEnd`, `<span data-id="${emoji.emoji}" draggable="true" title="${emoji.name}">${emoji.emoji}</span>`);
+                                emojis.lastElementChild.addEventListener(`dragstart`, event => {
+                                    event.dataTransfer.setData(`text`, event.currentTarget.getAttribute(`data-id`));
+                                });
+                            });
+                            filter.addEventListener(`input`, () => {
+                                if (filter.value) {
+                                    for (i = emojis.children.length - 1; i > -1; --i) {
+                                        emoji = emojis.children[i];
+                                        if (emoji.getAttribute(`title`).toLowerCase().match(filter.value)) {
+                                            emoji.classList.remove(`esgst-hidden`);
+                                        } else {
+                                            emoji.classList.add(`esgst-hidden`);
+                                        }
+                                    }
+                                } else {
+                                    for (i = emojis.children.length - 1; i > -1; --i) {
+                                        emojis.children[i].classList.remove(`esgst-hidden`);
+                                    }
+                                }
+                                popup.reposition();
+                            });
+                            savedEmojis = emojis.nextElementSibling.nextElementSibling;
+                            for (i = savedEmojis.children.length - 1; i > -1; --i) {
+                                savedEmojis.children[i].addEventListener(`click`, event => {
+                                    event.currentTarget.remove();
+                                    setValue(`emojis`, savedEmojis.innerHTML);
+                                    popup.reposition();
+                                });
+                            }
+                            savedEmojis.addEventListener(`dragover`, event => {
+                                event.preventDefault();
+                            });
+                            savedEmojis.addEventListener(`drop`, event => {
+                                event.preventDefault();
+                                let id = event.dataTransfer.getData(`text`).replace(/\\/g, `\\\\`);
+                                if (!savedEmojis.querySelector(`[data-id="${id}"]`)) {
+                                    savedEmojis.appendChild(document.querySelector(`[data-id="${id}"]`).cloneNode(true));
+                                    setValue(`emojis`, savedEmojis.innerHTML);
+                                    popup.reposition();
+                                    savedEmojis.lastElementChild.addEventListener(`click`, event => {
+                                        event.currentTarget.remove();
+                                        setValue(`emojis`, savedEmojis.innerHTML);
+                                        popup.reposition();
+                                    });
+                                }
+                            });
+                            popup.open(() => {
+                                popout.popout.classList.add(`esgst-hidden`);
+                            });
+                        }
+                    });
+                },
+                callback: popout => {
+                    let emojis = popout.firstElementChild;
+                    emojis.innerHTML = getValue(`emojis`, ``);
+                    setCfhEmojis(emojis);
+                }
+            },
+            {
+                id: `cfh_g`,
+                icons: [`fa-star`],
+                name: `Giveaway Encrypter`,
+                setPopout: popout => {
+                    popout.popout.innerHTML = `
+                        Giveaway Code: <input placeholder="XXXXX" type="text"/>
+                        <div class="form__saving-button btn_action white">Add</div>
+                    `;
+                    let code = popout.popout.firstElementChild;
+                    code.nextElementSibling.addEventListener(`click`, () => {
+                        if (code.value.match(/^[\d\w]{5}$/)) {
+                            let encodedCode = encryptGedCode(code.value);
+                            formatCfhLink(``, `ESGST-${encodedCode}`);
+                            code.value = ``;
+                            popout.close();
+                        } else {
+                            alert(`Wrong format. The right format is XXXXX.`);
+                        }
+                    });
+                },
+                callback: popout => {
+                    let code = popout.firstElementChild;
+                    code.value = esgst.cfh.textArea.value.slice(esgst.cfh.textArea.selectionStart, esgst.cfh.textArea.selectionEnd);
+                    code.focus();
+                }
+            },
+            {
+                id: `cfh_sr`,
+                icons: [`fa-floppy-o`],
+                name: `Saved Replies`,
+                setPopout: function (popout) {
+                    let addBUtton, filter, i, n, replies, savedReplies;
+                    esgst.cfh.deletedReplies = [];
+                    savedReplies = JSON.parse(getValue(`savedReplies`, `[]`));
+                    popout.popout.innerHTML = `
+                        <div>
+                            <input placeholder="Filter replies..." type="text"/>
+                        </div>
+                        <div class="esgst-cfh-sr-container"></div>
+                        <div class="form__saving-button btn_action white">Add New Reply</div>
+                        <div class="esgst-clickable esgst-hidden">
+                            <i class="fa fa-rotate-left"></i>
+                            <span>Undo Delete</span>
+                        </div>
+                    `;
+                    filter = popout.popout.firstElementChild.firstElementChild;
+                    esgst.cfh.undoDelete = popout.popout.lastElementChild;
+                    addButton = esgst.cfh.undoDelete.previousElementSibling;
+                    replies = addButton.previousElementSibling;
+                    for (i = 0, n = savedReplies.length; i < n; ++i) {
+                        setCfhReply(replies, savedReplies[i]);
+                    }
+                    filter.addEventListener(`input`, filterCfhReplies.bind(null, replies));
+                    esgst.cfh.undoDelete.addEventListener(`click`, undoCfhDelete);
+                    addButton.addEventListener(`click`, openCfhReplyPopup.bind(null, null, null, replies, null));
+                },
+                callback: popout => {
+                    popout.firstElementChild.firstElementChild.focus();
+                }
+            }, {
+                icons: [`fa-paste`],
+                name: `Automatic Links / Images Paste Formatting: OFF`,
+                callback: context => {
+                    esgst.cfh.alipf = context.firstElementChild;
+                    setCfhAlipf(esgst.cfh_pasteFormatting);
+                },
+                onClick: setCfhAlipf
+            }, {
+                icons: [`fa-rotate-left`],
+                name: `Undo Formatting`,
+                callback: context => {
+                    esgst.cfh.undo = context.firstElementChild;
+                    esgst.cfh.undo.classList.add(`esgst-faded`);
+                },
+                onClick: () => {
+                    if (esgst.cfh.history.length) {
+                        esgst.cfh.backup.push(esgst.cfh.textArea.value);
+                        esgst.cfh.textArea.value = esgst.cfh.history.pop();
+                        esgst.cfh.redo.classList.remove(`esgst-faded`);
+                        if (!esgst.cfh.history.length) {
+                            esgst.cfh.undo.classList.add(`esgst-faded`);
+                        }
+                    }
+                }
+            }, {
+                icons: [`fa-rotate-right`],
+                name: `Redo Formatting`,
+                callback: context => {
+                    esgst.cfh.redo = context.firstElementChild;
+                    esgst.cfh.redo.classList.add(`esgst-faded`);
+                },
+                onClick: () => {
+                    if (esgst.cfh.backup.length) {
+                        esgst.cfh.history.push(esgst.cfh.textArea.value);
+                        esgst.cfh.textArea.value = esgst.cfh.backup.pop();
+                        esgst.cfh.undo.classList.remove(`esgst-faded`);
+                        if (!esgst.cfh.backup.length) {
+                            esgst.cfh.redo.classList.add(`esgst-faded`);
+                        }
+                    }
+                }
+            }
+        ].forEach(item => {
+            if (!item.id || esgst[item.id]) {
+                let button = insertHtml(esgst.cfh.panel, `beforeEnd`, `<div title="${item.name}"></div>`);
+                item.icons.forEach(icon => {
+                    button.insertAdjacentHTML(`beforeEnd`, `<i class="fa ${icon}"></i>`);
+                });
+                if (item.text) {
+                    button.insertAdjacentText(`beforeEnd`, item.text);
+                }
+                if (item.setPopout) {
+                    item.setPopout(new Popout(`esgst-cfh-popout`, button, 0, true, null, item.callback));
+                } else if (item.setPopup) {
+                    let popup;
+                    button.addEventListener(`click`, () => {
+                        if (popup) {
+                            popup.open();
+                        } else {
+                            popup = new Popup(`fa-table`, `Add a table:`);
+                            item.setPopup(popup);
+                            popup.open();
+                        }
+                    })
+                } else {
+                    if (item.callback) {
+                        item.callback(button);
+                    }
+                    button.addEventListener(`click`, () => {
+                        if (item.onClick) {
+                            item.onClick();
+                        } else {
+                            formatCfhItem(item.prefix, item.suffix, item.multiline);
+                        }
+                    });
+                }
+            }
+        });
+        if (esgst.cfh_cf) {
+            esgst.cfh.panel.insertAdjacentHTML(`beforeEnd`, `
+                <a href="/about/comment-formatting" title="Comment Formatting">
+                    <i class="fa fa-question-circle"></i>
+                </a>
+            `);
+        }
+        esgst.endlessFeatures.push(setCfhTextAreas);
+        setCfhTextAreas(document);
+    }
+
+    if (esgst.giveawaysPath || esgst.discussionsPath) {
+        if (esgst.giveawaysPath) {
+            if (esgst.ags) {
+                addAgsPanel(document.getElementsByClassName(`sidebar__search-container`)[0]);
+            }
+        }
+
+        // needs to run before Avatar Popout
+        esgst.endlessFeatures.push(loadDiscussionFeatures);
+        loadDiscussionFeatures(document, true);
     }
 
     esgst.toExecute.forEach(feature => {
@@ -6751,7 +9710,7 @@ function addIbBorders(context) {
 }
 
 function refreshHeaderElements(context) {
-    let giveaways, i, navigation;
+    let currentTime, giveaways, i, navigation;
     navigation = context.querySelector(`.nav__right-container, .header_inner_wrap nav`);
     esgst.mainButton = navigation.querySelector(`.nav__button--is-dropdown, .nav_btn[href^="/user/"]`);
     if (esgst.sg) {
@@ -6772,17 +9731,17 @@ function refreshHeaderElements(context) {
             }
         }
         if (esgst.hr_g && context !== document) {
-            esgst.wishlist = false;
+            esgst.wishlist = 0;
+            currentTime = Date.now();
             giveaways = getGiveaways(context, false, null, true);
             for (i = giveaways.length - 1; i >= -1; --i) {
                 giveaway = giveaways[i];
-                if (giveaway && !giveaway.pinned && !giveaway.entered && (!esgst.giveaways[giveaway.code] || esgst.giveaways[giveaway.code].visited || !esgst.giveaways[giveaway.code].hidden)) {
-                    esgst.wishlist = true;
-                    break;
+                if (giveaway && !giveaway.pinned && !giveaway.entered && (!esgst.giveaways[giveaway.code] || esgst.giveaways[giveaway.code].visited || !esgst.giveaways[giveaway.code].hidden) && (!esgst.hr_w_h || giveaway.endTime - currentTime < esgst.hr_w_hours * 3600000)) {
+                    esgst.wishlist += 1;
                 }
             }
         } else {
-            esgst.wishlist = false;
+            esgst.wishlist = 0;
         }
     }
     esgst.inboxButton = navigation.getElementsByClassName(`fa-envelope`)[0];
@@ -6939,16 +9898,19 @@ function notifyHrChange(hr, wishlist, notify) {
             title += `🏆 `;
         }
         if (wishlist) {
-            if (!hr.wishlist) {
-                wishlistNotification = true;
-                hr.wishlist = true;
+            if (hr.wishlist !== wishlist) {
+                wishlistNotification = wishlist - hr.wishlist;
+                if (wishlistNotification < 0) {
+                    wishlistNotification = 0;
+                }
+                hr.wishlist = wishlist;
             } else {
-                wishlistNotification = false;
+                wishlistNotification = 0;
             }
         } else {
-            hr.wishlist = wishlistNotification = false;
+            hr.wishlist = wishlistNotification = 0;
         }
-        if (esgst.hr_w && wishlist) {
+        if (esgst.hr_w && ((esgst.hr_w_h && wishlist) || wishlistNotification)) {
             title += `❤ `;
         }
         if (esgst.hr_p) {
@@ -6968,7 +9930,11 @@ function notifyHrChange(hr, wishlist, notify) {
             notification += `You have new gifts delivered. `;
         }
         if (wishlistNotification && esgst.hr_w && esgst.hr_w_n) {
-            notification += `You have new wishlist giveaways open. `;
+            if (esgst.hr_w_h) {
+                notification += `You have ${wishlistNotification} new wishlist giveaways ending in ${esgst.hr_w_hours} hours. `;
+            } else {
+                notification += `You have ${wishlistNotification} new wishlist giveaways. `;
+            }
         }
         if (notification) {
             showNotification(notification);
@@ -7129,7 +10095,7 @@ function setLpvStyle() {
 
 function loadSmgb() {
     let buttons, i;
-    buttons = document.querySelectorAll(`.sidebar__search-container .fa-search`);
+    buttons = document.querySelectorAll(`.sidebar__search-container .fa-search, .esgst-qgs-container .fa-search`);
     for (i = buttons.length - 1; i > -1; --i) {
         let button = buttons[i];
         button.classList.add(`esgst-clickable`);
@@ -7757,54 +10723,20 @@ function getTsArray(columnName, i, table) {
     return array;
 }
 
-/* [QGB] Quick Giveaway Browsing */
-
-function loadQgb() {
-        document.getElementsByClassName(`nav__absolute-dropdown`)[0].insertAdjacentHTML(`beforeEnd`, `
-            <a class="nav__row" href="/giveaways/search?type=wishlist">
-                <div class="nav__row__summary">
-                    <p class="nav__row__summary__name">Browse Wishlist Giveaways</p>
-                </div>
-            </a>
-            <a class="nav__row" href="/giveaways/search?type=recommended">
-                <div class="nav__row__summary">
-                    <p class="nav__row__summary__name">Browse Recommended Giveaways</p>
-                </div>
-            </a>
-            <a class="nav__row" href="/giveaways/search?type=group">
-                <div class="nav__row__summary">
-                    <p class="nav__row__summary__name">Browse Group Giveaways</p>
-                </div>
-            </a>
-            <a class="nav__row" href="/giveaways/search?type=new">
-                <div class="nav__row__summary">
-                    <p class="nav__row__summary__name">Browse New Giveaways</p>
-                </div>
-            </a>
-        `);
-}
-
-/* [AGS] Advanced Giveaway Search */
-
-function loadAgs() {
-    if (esgst.giveawaysPath) {
-        addAgsPanel();
-    }
-}
-
-function addAgsPanel() {
+function addAgsPanel(context, qgs) {
     var context, details, element, filter, filterDetails, filters, i, icon, input, match, n, panel, popout, timeout, value;
-    context = document.getElementsByClassName(`sidebar__search-container`)[0];
     context.firstElementChild.remove();
     input = insertHtml(context, `afterBegin`, `
-        <input class="sidebar__search-input" placeholder="Search..." type="text">
+        <input class="${qgs ? `esgst-qgs-input` : `sidebar__search-input`}" placeholder="Search..." type="text">
     `);
     icon = input.nextElementSibling;
     icon.classList.add(`esgst-clickable`);
     icon.title = `Use advanced search.`;
-    match = location.search.match(/q=(.*?)(&.*?)?$/);
-    if (match) {
-        input.value = decodeURIComponent(match[1]);
+    if (!qgs) {
+        match = location.search.match(/q=(.*?)(&.*?)?$/);
+        if (match) {
+            input.value = decodeURIComponent(match[1]);
+        }
     }
     if ((esgst.adots && esgst.adots_index === 0) || !esgst.adots) {
         panel = insertHtml(context, `afterEnd`, `
@@ -7814,6 +10746,34 @@ function addAgsPanel() {
         panel = new Popout(`esgst-ags-panel`, context, 100).popout;
     }
     filterDetails = [
+        {
+            key: `ags_type`,
+            parameter: `type`,
+            name: `Type`,
+            options: [
+                {
+                    name: `All`,
+                    value: ``
+                },
+                {
+                    name: `Wishlist`,
+                    value: `wishlist`
+                },
+                {
+                    name: `Recommended`,
+                    value: `recommended`
+                },
+                {
+                    name: `Group`,
+                    value: `group`
+                },
+                {
+                    name: `New`,
+                    value: `new`
+                }
+            ],
+            type: `select`
+        },
         {
             maxKey: `ags_maxDate`,
             minKey: `ags_minDate`,
@@ -7903,6 +10863,9 @@ function addAgsPanel() {
 
     function createAgsFilter(details) {
         var element, filter, html, i, maxFilter, minFilter;
+        if (details.key === `ags_type` && !qgs) {
+            return;
+        }
         if (details.type === `checkbox`) {
             element = insertHtml(panel, `beforeEnd`, `
                     <div class="esgst-ags-checkbox-filter">
@@ -7920,6 +10883,32 @@ function addAgsPanel() {
             filters.push({
                 filter: filter,
                 key: `checked`,
+                parameter: details.parameter
+            });
+        } else if (details.options) {
+            html = `
+                <select>
+            `;
+            details.options.forEach(option => {
+                html += `
+                    <option value="${option.value}">${option.name}</option>
+                `;
+            });
+            html += `
+                </select>
+            `;
+            element = insertHtml(panel, `beforeEnd`, `
+                <div style="display: block;">${details.name} <div class="esgst-ags-filter">${html}</div></div>
+            `);
+            filter = element.firstElementChild.firstElementChild;
+            filter.value = esgst[details.key];
+            filter.addEventListener(`change`, function () {
+                setSetting(details.key, filter.value);
+                esgst[detauks.key] = filter.value;
+            });
+            filters.push({
+                filter: filter,
+                key: `value`,
                 parameter: details.parameter
             });
         } else {
@@ -7990,11 +10979,13 @@ function addAgsPanel() {
         if (esgst.ags_app || esgst.ags_sub) {
             url = `https://www.steamgifts.com/giveaways/search?q=`;
         } else {
-            url = `https://www.steamgifts.com/giveaways/search?q=${input.value}`;
+            url = `https://www.steamgifts.com/giveaways/search?q=${encodeURIComponent(input.value)}`;
         }
-        match = location.search.match(/(type=.*?)(&.*?)?$/);
-        if (match) {
-            url += `&${match[1]}`;
+        if (!qgs) {
+            match = location.search.match(/(type=.*?)(&.*?)?$/);
+            if (match) {
+                url += `&${match[1]}`;
+            }
         }
         for (i = 0, n = filters.length; i < n; ++i) {
             filter = filters[i];
@@ -8722,12 +11713,12 @@ function addGfContainer(heading, popup) {
                     name = filter.name;
                     categoryFilter = insertHtml(categoryFilters, `beforeEnd`, `
                         <div class="esgst-gf-category-filter">
-                            <span>${name} ${genres ? `<i class="fa fa-question-circle" title="If disabled, no games will be filtered by genre; if enabled, only games with the listed genres will appear"></i> <input placeholder="Genre1, Genre2" type="text">` : ``}</span>
+                            <span>${name} ${genres ? `<input placeholder="Genre1, Genre2" type="text">` : ``}</span>
                         </div>
                     `);
-                    value = typeof preset[key] !== `undefined` ? preset[key] : (genres ? false : `enabled`);
+                    value = typeof preset[key] !== `undefined` ? preset[key] : `enabled`;
                     gf[key] = value;
-                    gf[`${key}Checkbox`] = new Checkbox(categoryFilter, value, genres ? false : true);
+                    gf[`${key}Checkbox`] = new Checkbox(categoryFilter, value, true);
                     setGfOverride(gf, categoryFilter, key);
                     gf[`${key}Checkbox`].checkbox.addEventListener(`click`, changeGfValue.bind(null, gf[`${key}Checkbox`], gf, key));
                     if (genres) {
@@ -8737,7 +11728,7 @@ function addGfContainer(heading, popup) {
                         gf.genreListInput.addEventListener(`change`, changeGfValue.bind(null, gf.genreListInput, gf, `genreList`));
                     }
                 } else {
-                    gf[key] = genres ? false : `enabled`;
+                    gf[key] = `enabled`;
                 }
             }
         });
@@ -8888,11 +11879,17 @@ function openGfPresetPopup(gf, exceptionCount, presetDisplay, presetInput) {
             { key: `genres`, name: `genres` }
         ].forEach(key => {
             if (preset[key.key] === `disabled`) {
-                hideAll.push(key.name);
+                if (key.key === `genres` && preset.genres && preset.genreList) {
+                    hideAll.push(`genres (${preset.genreList.toLowerCase()})`);
+                } else {
+                    hideAll.push(key.name);
+                }
             } else if (preset[key.key] === `none`) {
-                showOnly.push(key.name);
-            } else if (key.key === `genres` && preset.genres && preset.genreList) {
-                showOnly.push(`genres (${preset.genreList.toLowerCase()})`);
+                if (key.key === `genres` && preset.genres && preset.genreList) {
+                    showOnly.push(`genres (${preset.genreList.toLowerCase()})`);
+                } else {
+                    showOnly.push(key.name);
+                }
             }
         });
         if (hideAll.length > 0) {
@@ -9361,7 +12358,7 @@ function filterGfGiveaways(gf, unfilter, endless) {
 }
 
 function filterGfException(gf, giveaway) {
-    var basicFilters, categoryFilters, filtered, i, j, key, maxKey, minKey, minutes, n, name, typeFilters;
+    var basicFilters, categoryFilters, filtered, i, j, key, maxKey, minKey, minutes, n, name, typeFilters, value;
     basicFilters = [`Level`, `Entries`, `Copies`, `Points`, `MinutesToEnd`, `Chance`, `Rating`];
     typeFilters = [`pinned`, `group`, `whitelist`, `regionRestricted`, `created`, `received`, `notReceived`, `awaitingFeedback`, `entered`, `started`, `ended`, `deleted`, `owned`, `wishlisted`, `hidden`, `ignored`, `previouslyEntered`, `previouslyWon`, `fullCV`, `reducedCV`, `noCV`];
     categoryFilters = [`removed`, `tradingCards`, `achievements`, `multiplayer`, `steamCloud`, `linux`, `mac`, `dlc`, `dlcFree`, `dlcNonFree`, `package`, `genres`];
@@ -9404,16 +12401,19 @@ function filterGfException(gf, giveaway) {
     if (esgst.gc && giveaway.gcReady) {
         for (i = 0, n = categoryFilters.length; !filtered && i < n; ++i) {
             key = categoryFilters[i];
-            if (key === `genres` && gf.genres) {
+            if (key === `genres`) {
                 if (giveaway.genres) {
                     genres = gf.genreList.toLowerCase().split(/,\s/);
                     for (j = genres.length - 1; j >= 0 && giveaway.genres.indexOf(genres[j]) < 0; --j);
-                    filtered = j < 0 ? true : false;
+                    value = j >= 0;
                 } else {
-                    filtered = true;
+                    value = false;
                 }
-            } else if (gf[key]) {
-                filtered = giveaway[key] ? false : true;
+            } else {
+                value = giveaway[key];
+            }
+            if (gf[key]) {
+                filtered = value ? false : true;
             }
         }
     }
@@ -9421,7 +12421,7 @@ function filterGfException(gf, giveaway) {
 }
 
 function filterGfGiveaway(gf, giveaway) {
-    var basicFilters, categoryFilters, filtered, i, j, key, maxKey, minKey, minutes, n, name, override, typeFilters;
+    var basicFilters, categoryFilters, filtered, i, j, key, maxKey, minKey, minutes, n, name, override, typeFilters, value;
     basicFilters = [`Level`, `Entries`, `Copies`, `Points`, `MinutesToEnd`, `Chance`, `Rating`];
     typeFilters = [`pinned`, `group`, `whitelist`, `regionRestricted`, `created`, `received`, `notReceived`, `awaitingFeedback`, `entered`, `started`, `ended`, `deleted`, `owned`, `wishlisted`, `hidden`, `ignored`, `previouslyEntered`, `previouslyWon`, `fullCV`, `reducedCV`, `noCV`];
     categoryFilters = [`removed`, `tradingCards`, `achievements`, `multiplayer`, `steamCloud`, `linux`, `mac`, `dlc`, `dlcFree`, `dlcNonFree`, `package`, `genres`];
@@ -9464,19 +12464,18 @@ function filterGfGiveaway(gf, giveaway) {
         for (i = 0, n = categoryFilters.length; i < n; ++i) {
             key = categoryFilters[i];
             if (key !== `dlc` || !gf.advancedSearch) {
-                if (key === `genres` && gf.genres) {
+                if (key === `genres`) {
                     if (giveaway.genres) {
                         genres = gf.genreList.toLowerCase().split(/,\s/);
                         for (j = genres.length - 1; j >= 0 && giveaway.genres.indexOf(genres[j]) < 0; --j);
-                        if (j < 0) {
-                            filtered = true;
-                            override = gf.overrides.genres;
-                        }
+                        value = j >= 0;
                     } else {
-                        filtered = true;
-                        override = gf.overrides.genres;
+                        value = false;
                     }
-                } else if ((gf[key] === `disabled` && giveaway[key]) || (gf[key] === `none` && !giveaway[key])) {
+                } else {
+                    value = giveaway[key];
+                }
+                if ((gf[key] === `disabled` && value) || (gf[key] === `none` && !value)) {
                     filtered = true;
                     override = gf.overrides[key];
                 }
@@ -9726,10 +12725,6 @@ function loadGbGiveaways(i, n, bookmarked, gbGiveaways, popup, callback) {
                         var j, numA, numT;
                         for (j = 0, numA = anchors.length; j < numA; ++j) {
                             anchors[j].classList.add(`giveaway__icon`);
-                        }
-                        var hideButton = heading.getElementsByClassName(`featured__giveaway__hide`)[0];
-                        if (hideButton) {
-                            hideButton.remove();
                         }
                         var headingName = heading.firstElementChild;
                         headingName.outerHTML = `<a class="giveaway__heading__name" href="${url}">${headingName.innerHTML}</a>`;
@@ -17304,2889 +20299,6 @@ function addRMLLink(Context, Matches) {
     }
 }
 
-/* [CFH] Comment Formatting Helper */
-
-function loadCfh(context) {
-    esgst.cfh = {
-        backup: [],
-        history: [],
-        panel: document.createElement(`div`)
-    };
-    esgst.cfh.panel.className = `esgst-cfh-panel`;
-    [
-        {
-            id: `cfh_i`,
-            icons: [`fa-italic`],
-            name: `Italic`,
-            prefix: `*`,
-            suffix: `*`
-        },
-        {
-            id: `cfh_b`,
-            icons: [`fa-bold`],
-            name: `Bold`,
-            prefix: `**`,
-            suffix: `**`
-        },
-        {
-            id: `cfh_s`,
-            icons: [`fa-eye-slash`],
-            name: `Spoiler`,
-            prefix: `~`,
-            suffix: `~`
-        },
-        {
-            id: `cfh_st`,
-            icons: [`fa-strikethrough`],
-            name: `Strikethrough`,
-            prefix: `~~`,
-            suffix: `~~`
-        },
-        {
-            id: `cfh_h1`,
-            icons: [`fa-header`],
-            name: `Heading 1`,
-            prefix: `# `,
-            text: `1`
-        },
-        {
-            id: `cfh_h2`,
-            icons: [`fa-header`],
-            name: `Heading 2`,
-            prefix: `## `,
-            text: `2`
-        },
-        {
-            id: `cfh_h3`,
-            icons: [`fa-header`],
-            name: `Heading 3`,
-            prefix: `### `,
-            text: `3`
-        },
-        {
-            id: `cfh_bq`,
-            icons: [`fa-quote-left`],
-            name: `Blockquote`,
-            prefix: `> `
-        },
-        {
-            id: `cfh_lb`,
-            icons: [`fa-minus`],
-            name: `Line Break`,
-            prefix: `---`
-        },
-        {
-            id: `cfh_ol`,
-            icons: [`fa-list-ol`],
-            multiline: true,
-            name: `Ordered List`,
-            prefix: `[n]. `
-        },
-        {
-            id: `cfh_ul`,
-            icons: [`fa-list-ul`],
-            multiline: true,
-            name: `Unordered List`,
-            prefix: `* `
-        },
-        {
-            id: `cfh_ic`,
-            icons: [`fa-code`],
-            name: `Inline Code`,
-            prefix: `\``,
-            suffix: `\``
-        },
-        {
-            id: `cfh_lc`,
-            icons: [`fa-code`, `fa-indent`],
-            name: `Line Code`,
-            prefix: `    `
-        },
-        {
-            id: `cfh_pc`,
-            icons: [`fa-code`, `fa-paragraph`],
-            name: `Paragraph Code`,
-            prefix: `\`\`\`\n`,
-            suffix: `\n\`\`\``
-        },
-        {
-            id: `cfh_l`,
-            icons: [`fa-globe`],
-            name: `Link`,
-            setPopout: popout => {
-                let title, url;
-                popout.popout.innerHTML = `
-                    <div>URL: <input placeholder="http://www.example.com" type="text"/></div>
-                    <div>Title: <input placeholder="Cat" type="text"/></div>
-                    <div class="form__saving-button btn_action white">Add</div>
-                `;
-                url = popout.popout.firstElementChild.firstElementChild;
-                title = popout.popout.firstElementChild.nextElementSibling.firstElementChild;
-                popout.popout.lastElementChild.addEventListener(`click`, () => {
-                    formatCfhLink(title.value, url.value);
-                    url.value = ``;
-                    title.value = ``;
-                    popout.close();
-                });
-            },
-            callback: popout => {
-                let title = popout.firstElementChild.nextElementSibling.firstElementChild;
-                title.value = esgst.cfh.textArea.value.slice(esgst.cfh.textArea.selectionStart, esgst.cfh.textArea.selectionEnd);
-                title.focus();
-            }
-        },
-        {
-            id: `cfh_img`,
-            icons: [`fa-image`],
-            name: `Image`,
-            setPopout: popout => {
-                let title, url;
-                popout.popout.innerHTML = `
-                    <div>URL: <input placeholder="http://www.example.com/image.jpg" type="text"/> <i class="fa fa-upload esgst-clickable" title="Upload image to Imgur and use it"></i></div>
-                    <div>Title: <input placeholder="Cat" type="text"/></div>
-                    <div class="form__saving-button btn_action white">Add</div>
-                `;
-                url = popout.popout.firstElementChild.firstElementChild;
-                imgur = url.nextElementSibling;
-                title = popout.popout.firstElementChild.nextElementSibling.firstElementChild;
-                imgur.addEventListener(`click`, () => {
-                    multiChoice(`grey`, `fa-user-secret`, `Anonymously`, `grey`, `fa-user`, `Through Account`, `How would you like to upload?`, uploadImgurImage.bind(null, `Client-ID e25283ef48ab9aa`, popout, url), () => {
-                        if (getValue(`imgurToken`)) {
-                            checkImgurComplete(popout, url);
-                        } else {
-                            checkImgurComplete(popout, url, open(`https://api.imgur.com/oauth2/authorize?client_id=e25283ef48ab9aa&response_type=token`));
-                        }
-                    });
-                });
-                popout.popout.lastElementChild.addEventListener(`click`, () => {
-                    formatCfhLink(title.value, url.value, true);
-                    url.value = ``;
-                    title.value = ``;
-                    popout.close();
-                });
-            },
-            callback: popout => {
-                let title, url;
-                url = popout.firstElementChild.firstElementChild;
-                title = popout.firstElementChild.nextElementSibling.firstElementChild;
-                title.value = esgst.cfh.textArea.value.slice(esgst.cfh.textArea.selectionStart, esgst.cfh.textArea.selectionEnd);
-                if (url.value && title.value) {
-                    popout.lastElementChild.click();
-                } else if (url.value) {
-                    title.focus();
-                } else {
-                    url.focus();
-                }
-            }
-        },
-        {
-            id: `cfh_t`,
-            icons: [`fa-table`],
-            name: `Table`,
-            setPopup: popup => {
-                let context, insertColumn, insertRow, table;
-                context = popup.scrollable;
-                context.innerHTML = `
-                    <table></table>
-                    <div class="form__saving-button btn_action white">Insert Row</div>
-                    <div class="form__saving-button btn_action white">Insert Column</div>
-                    <div class="form__saving-button btn_action white">Add</div>
-                `;
-                table = context.firstElementChild;
-                insertRow = table.nextElementSibling;
-                insertColumn = insertRow.nextElementSibling;
-                insertCfhTableRows(4, table);
-                insertCfhTableColumns(2, table);
-                insertRow.addEventListener(`click`, () => {
-                    insertCfhTableRows(1, table);
-                });
-                insertColumn.addEventListener(`click`, () => {
-                    insertCfhTableColumns(1, table);
-                });
-                insertColumn.nextElementSibling.addEventListener(`click`, () => {
-                    let end, i, j, numColumns, numRows, rows, start, value;
-                    rows = table.rows;
-                    for (i = 1, numRows = rows.length; i < numRows; ++i) {
-                        for (j = 1, numColumns = rows[0].cells.length; j < numColumns; ++j) {
-                            if (!rows[i].cells[j].firstElementChild.value) {
-                                i = numRows + 1;
-                                j = numColumns + 1;
-                            }
-                        }
-                    }
-                    if (i <= numRows || (i > numRows && confirm(`Some cells are empty. This might lead to unexpected results. Are you sure you want to continue?`))) {
-                        value = ``;
-                        for (i = 1; i < numRows; ++i) {
-                            value += `\n`;
-                            for (j = 1; j < numColumns; ++j) {
-                                value += `${rows[i].cells[j].firstElementChild.value}${j < numColumns - 1 ? ` | ` : ``}`;
-                            }
-                        }
-                        value = value.replace(/^\n/, ``);
-                        start = esgst.cfh.textArea.selectionStart;
-                        end = esgst.cfh.textArea.selectionEnd;
-                        esgst.cfh.textArea.value = `${esgst.cfh.textArea.value.slice(0, start)}${value}${esgst.cfh.textArea.value.slice(end)}`;
-                        esgst.cfh.textArea.setSelectionRange(end + value.length, end + value.length);
-                        esgst.cfh.textArea.focus();
-                        popup.close();
-                    }
-                });
-            }
-        },
-        {
-            id: `cfh_e`,
-            icons: [`fa-smile-o`],
-            name: `Emojis`,
-            setPopout: popout => {
-                let emojis, popup;
-                popout.popout.innerHTML = `
-                    <div class="esgst-cfh-emojis">${getValue(`emojis`, ``)}</div>
-                    <div class="form__saving-button btn_action white">Select Emojis</div>
-                `;
-                emojis = popout.popout.firstElementChild;
-                setCfhEmojis(emojis);
-                emojis.nextElementSibling.addEventListener(`click`, () => {
-                    if (popup) {
-                        popup.open(() => {
-                            popout.popout.classList.add(`esgst-hidden`);
-                        });
-                    } else {
-                        let emoji, emojis, filter, i;
-                        popup = new Popup(`fa-smile-o`, `Select emojis:`);
-                        popup.scrollable.insertAdjacentHTML(`afterBegin`, `
-                            <input placeholder="Filter emojis..." type="text"/>
-                            <div class="esgst-cfh-emojis"></div>
-                            <div class="esgst-description">Drag the emojis you want to use and drop them in the box below. Click on an emoji to remove it.</div>
-                            <div class="global__image-outer-wrap page_heading_btn esgst-cfh-emojis">${getValue(`emojis`, ``)}</div>
-                        `);
-                        filter = popup.scrollable.firstElementChild;
-                        emojis = filter.nextElementSibling;
-                        [
-                            {emoji: `&#xAF;&#92;&#92;&#92;&#95;&#40;&#x30C4;&#41;&#95;&#47;&#xAF;`, name: ``},
-                            {emoji: `&#40; &#x361;&#xB0; &#x35C;&#x296; &#x361;&#xB0;&#41;`, name: ``},
-                            {emoji: `&#40; &#x361;&#x2299; &#x35C;&#x296; &#x361;&#x2299;&#41;`, name: ``},
-                            {emoji: `&#40;&#x30CE;&#xCA0;&#x76CA;&#xCA0;&#41;&#x30CE;`, name: ``},
-                            {emoji: `&#40;&#x256F;&#xB0;&#x25A1;&#xB0;&#xFF09;&#x256F;&#xFE35; &#x253B;&#x2501;&#x253B;`, name: ``},
-                            {emoji: `&#x252C;&#x2500;&#x252C;&#x30CE;&#40; &#xBA; &#95; &#xBA;&#x30CE;&#41;`, name: ``},
-                            {emoji: `&#x10DA;&#40;&#xCA0;&#x76CA;&#xCA0;&#x10DA;&#41;`, name: ``},
-                            {emoji: `&#40;&#x25D5;&#x203F;-&#41;&#x270C;`, name: ``},
-                            {emoji: `&#40;&#xFF61;&#x25D5;&#x203F;&#x25D5;&#xFF61;&#41;`, name: ``},
-                            {emoji: `&#40;&#x25D1;&#x203F;&#x25D0;&#41;`, name: ``},
-                            {emoji: `&#x25D4;&#95;&#x25D4;`, name: ``},
-                            {emoji: `&#40;&#x2022;&#x203F;&#x2022;&#41;`, name: ``},
-                            {emoji: `&#40;&#xCA0;&#95;&#xCA0;&#41;`, name: ``},
-                            {emoji: `&#40;&#xAC;&#xFF64;&#xAC;&#41;`, name: ``},
-                            {emoji: `&#40;&#x2500;&#x203F;&#x203F;&#x2500;&#41;`, name: ``},
-                            {emoji: `&#40;&#xCA5;&#xFE4F;&#xCA5;&#41;`, name: ``},
-                            {emoji: `&#40;&#xCA5;&#x2038;&#xCA5;&#41;`, name: ``},
-                            {emoji: `&#40;&#x2310;&#x25A0;&#95;&#x25A0;&#41;`, name: ``},
-                            {emoji: `&#40;&#x25B0;&#x2D8;&#x25E1;&#x2D8;&#x25B0;&#41;`, name: ``},
-                            {emoji: `&#x4E41;&#40; &#x25D4; &#xC6A;&#x25D4;&#41;&#x310F;`, name: ``},
-                            {emoji: `&#40;&#xE07; &#x360;&#xB0; &#x35F;&#x296; &#x361;&#xB0;&#41;&#xE07;`, name: ``},
-                            {emoji: `&#x3B6;&#xF3C;&#x19F;&#x346;&#x644;&#x35C;&#x19F;&#x346;&#xF3D;&#x1D98;`, name: ``},
-                            {emoji: `&#x295;&#x2022;&#x1D25;&#x2022;&#x294;`, name: ``},
-                            {emoji: `&#40; &#x35D;&#xB0; &#x35C;&#x296;&#x361;&#xB0;&#41;`, name: ``},
-                            {emoji: `&#40;&#47;&#xFF9F;&#x414;&#xFF9F;&#41;&#47;`, name: ``},
-                            {emoji: `&#xB67;&#xF3C;&#xCA0;&#x76CA;&#xCA0;&#xF3D;&#xB68;`, name: ``},
-                            {emoji: `&#40;&#xE07; &#x2022;&#x300;&#95;&#x2022;&#x301;&#41;&#xE07;`, name: ``},
-                            {emoji: `&#x1F600`, name: `Grinning Face`},
-                            {emoji: `&#x1F601`, name: `Grinning Face With Smiling Eyes`},
-                            {emoji: `&#x1F602`, name: `Face With Tears Of Joy`},
-                            {emoji: `&#x1F923`, name: `Rolling On The Floor Laughing`},
-                            {emoji: `&#x1F603`, name: `Smiling Face With Open Mouth`},
-                            {emoji: `&#x1F604`, name: `Smiling Face With Open Mouth & Smiling Eyes`},
-                            {emoji: `&#x1F605`, name: `Smiling Face With Open Mouth & Cold Sweat`},
-                            {emoji: `&#x1F606`, name: `Smiling Face With Open Mouth & Closed Eyes`},
-                            {emoji: `&#x1F609`, name: `Winking Face`},
-                            {emoji: `&#x1F60A`, name: `Smiling Face With Smiling Eyes`},
-                            {emoji: `&#x1F60B`, name: `Face Savouring Delicious Food`},
-                            {emoji: `&#x1F60E`, name: `Smiling Face With Sunglasses`},
-                            {emoji: `&#x1F60D`, name: `Smiling Face With Heart-Eyes`},
-                            {emoji: `&#x1F618`, name: `Face Blowing A Kiss`},
-                            {emoji: `&#x1F617`, name: `Kissing Face`},
-                            {emoji: `&#x1F619`, name: `Kissing Face With Smiling Eyes`},
-                            {emoji: `&#x1F61A`, name: `Kissing Face With Closed Eyes`},
-                            {emoji: `&#x263A`, name: `Smiling Face`},
-                            {emoji: `&#x1F642`, name: `Slightly Smiling Face`},
-                            {emoji: `&#x1F917`, name: `Hugging Face`},
-                            {emoji: `&#x1F914`, name: `Thinking Face`},
-                            {emoji: `&#x1F610`, name: `Neutral Face`},
-                            {emoji: `&#x1F611`, name: `Expressionless Face`},
-                            {emoji: `&#x1F636`, name: `Face Without Mouth`},
-                            {emoji: `&#x1F644`, name: `Face With Rolling Eyes`},
-                            {emoji: `&#x1F60F`, name: `Smirking Face`},
-                            {emoji: `&#x1F623`, name: `Persevering Face`},
-                            {emoji: `&#x1F625`, name: `Disappointed But Relieved Face`},
-                            {emoji: `&#x1F62E`, name: `Face With Open Mouth`},
-                            {emoji: `&#x1F910`, name: `Zipper-Mouth Face`},
-                            {emoji: `&#x1F62F`, name: `Hushed Face`},
-                            {emoji: `&#x1F62A`, name: `Sleepy Face`},
-                            {emoji: `&#x1F62B`, name: `Tired Face`},
-                            {emoji: `&#x1F634`, name: `Sleeping Face`},
-                            {emoji: `&#x1F60C`, name: `Relieved Face`},
-                            {emoji: `&#x1F913`, name: `Nerd Face`},
-                            {emoji: `&#x1F61B`, name: `Face With Stuck-Out Tongue`},
-                            {emoji: `&#x1F61C`, name: `Face With Stuck-Out Tongue & Winking Eye`},
-                            {emoji: `&#x1F61D`, name: `Face With Stuck-Out Tongue & Closed Eyes`},
-                            {emoji: `&#x1F924`, name: `Drooling Face`},
-                            {emoji: `&#x1F612`, name: `Unamused Face`},
-                            {emoji: `&#x1F613`, name: `Face With Cold Sweat`},
-                            {emoji: `&#x1F614`, name: `Pensive Face`},
-                            {emoji: `&#x1F615`, name: `Confused Face`},
-                            {emoji: `&#x1F643`, name: `Upside-Down Face`},
-                            {emoji: `&#x1F911`, name: `Money-Mouth Face`},
-                            {emoji: `&#x1F632`, name: `Astonished Face`},
-                            {emoji: `&#x2639`, name: `Frowning Face`},
-                            {emoji: `&#x1F641`, name: `Slightly Frowning Face`},
-                            {emoji: `&#x1F616`, name: `Confounded Face`},
-                            {emoji: `&#x1F61E`, name: `Disappointed Face`},
-                            {emoji: `&#x1F61F`, name: `Worried Face`},
-                            {emoji: `&#x1F624`, name: `Face With Steam From Nose`},
-                            {emoji: `&#x1F622`, name: `Crying Face`},
-                            {emoji: `&#x1F62D`, name: `Loudly Crying Face`},
-                            {emoji: `&#x1F626`, name: `Frowning Face With Open Mouth`},
-                            {emoji: `&#x1F627`, name: `Anguished Face`},
-                            {emoji: `&#x1F628`, name: `Fearful Face`},
-                            {emoji: `&#x1F629`, name: `Weary Face`},
-                            {emoji: `&#x1F62C`, name: `Grimacing Face`},
-                            {emoji: `&#x1F630`, name: `Face With Open Mouth & Cold Sweat`},
-                            {emoji: `&#x1F631`, name: `Face Screaming In Fear`},
-                            {emoji: `&#x1F633`, name: `Flushed Face`},
-                            {emoji: `&#x1F635`, name: `Dizzy Face`},
-                            {emoji: `&#x1F621`, name: `Pouting Face`},
-                            {emoji: `&#x1F620`, name: `Angry Face`},
-                            {emoji: `&#x1F607`, name: `Smiling Face With Halo`},
-                            {emoji: `&#x1F920`, name: `Cowboy Hat Face`},
-                            {emoji: `&#x1F921`, name: `Clown Face`},
-                            {emoji: `&#x1F925`, name: `Lying Face`},
-                            {emoji: `&#x1F637`, name: `Face With Medical Mask`},
-                            {emoji: `&#x1F912`, name: `Face With Thermometer`},
-                            {emoji: `&#x1F915`, name: `Face With Head-Bandage`},
-                            {emoji: `&#x1F922`, name: `Nauseated Face`},
-                            {emoji: `&#x1F927`, name: `Sneezing Face`},
-                            {emoji: `&#x1F608`, name: `Smiling Face With Horns`},
-                            {emoji: `&#x1F47F`, name: `Angry Face With Horns`},
-                            {emoji: `&#x1F479`, name: `Ogre`},
-                            {emoji: `&#x1F47A`, name: `Goblin`},
-                            {emoji: `&#x1F480`, name: `Skull`},
-                            {emoji: `&#x2620`, name: `Skull And Crossbones`},
-                            {emoji: `&#x1F47B`, name: `Ghost`},
-                            {emoji: `&#x1F47D`, name: `Alien`},
-                            {emoji: `&#x1F47E`, name: `Alien Monster`},
-                            {emoji: `&#x1F916`, name: `Robot Face`},
-                            {emoji: `&#x1F4A9`, name: `Pile Of Poo`},
-                            {emoji: `&#x1F63A`, name: `Smiling Cat Face With Open Mouth`},
-                            {emoji: `&#x1F638`, name: `Grinning Cat Face With Smiling Eyes`},
-                            {emoji: `&#x1F639`, name: `Cat Face With Tears Of Joy`},
-                            {emoji: `&#x1F63B`, name: `Smiling Cat Face With Heart-Eyes`},
-                            {emoji: `&#x1F63C`, name: `Cat Face With Wry Smile`},
-                            {emoji: `&#x1F63D`, name: `Kissing Cat Face With Closed Eyes`},
-                            {emoji: `&#x1F640`, name: `Weary Cat Face`},
-                            {emoji: `&#x1F63F`, name: `Crying Cat Face`},
-                            {emoji: `&#x1F63E`, name: `Pouting Cat Face`},
-                            {emoji: `&#x1F648`, name: `See-No-Evil Monkey`},
-                            {emoji: `&#x1F649`, name: `Hear-No-Evil Monkey`},
-                            {emoji: `&#x1F64A`, name: `Speak-No-Evil Monkey`},
-                            {emoji: `&#x1F466`, name: `Boy`},
-                            {emoji: `&#x1F466&#x1F3FB`, name: `Boy: Light Skin Tone`},
-                            {emoji: `&#x1F466&#x1F3FC`, name: `Boy: Medium-Light Skin Tone`},
-                            {emoji: `&#x1F466&#x1F3FD`, name: `Boy: Medium Skin Tone`},
-                            {emoji: `&#x1F466&#x1F3FE`, name: `Boy: Medium-Dark Skin Tone`},
-                            {emoji: `&#x1F466&#x1F3FF`, name: `Boy: Dark Skin Tone`},
-                            {emoji: `&#x1F467`, name: `Girl`},
-                            {emoji: `&#x1F467&#x1F3FB`, name: `Girl: Light Skin Tone`},
-                            {emoji: `&#x1F467&#x1F3FC`, name: `Girl: Medium-Light Skin Tone`},
-                            {emoji: `&#x1F467&#x1F3FD`, name: `Girl: Medium Skin Tone`},
-                            {emoji: `&#x1F467&#x1F3FE`, name: `Girl: Medium-Dark Skin Tone`},
-                            {emoji: `&#x1F467&#x1F3FF`, name: `Girl: Dark Skin Tone`},
-                            {emoji: `&#x1F468`, name: `Man`},
-                            {emoji: `&#x1F468&#x1F3FB`, name: `Man: Light Skin Tone`},
-                            {emoji: `&#x1F468&#x1F3FC`, name: `Man: Medium-Light Skin Tone`},
-                            {emoji: `&#x1F468&#x1F3FD`, name: `Man: Medium Skin Tone`},
-                            {emoji: `&#x1F468&#x1F3FE`, name: `Man: Medium-Dark Skin Tone`},
-                            {emoji: `&#x1F468&#x1F3FF`, name: `Man: Dark Skin Tone`},
-                            {emoji: `&#x1F469`, name: `Woman`},
-                            {emoji: `&#x1F469&#x1F3FB`, name: `Woman: Light Skin Tone`},
-                            {emoji: `&#x1F469&#x1F3FC`, name: `Woman: Medium-Light Skin Tone`},
-                            {emoji: `&#x1F469&#x1F3FD`, name: `Woman: Medium Skin Tone`},
-                            {emoji: `&#x1F469&#x1F3FE`, name: `Woman: Medium-Dark Skin Tone`},
-                            {emoji: `&#x1F469&#x1F3FF`, name: `Woman: Dark Skin Tone`},
-                            {emoji: `&#x1F474`, name: `Old Man`},
-                            {emoji: `&#x1F474&#x1F3FB`, name: `Old Man: Light Skin Tone`},
-                            {emoji: `&#x1F474&#x1F3FC`, name: `Old Man: Medium-Light Skin Tone`},
-                            {emoji: `&#x1F474&#x1F3FD`, name: `Old Man: Medium Skin Tone`},
-                            {emoji: `&#x1F474&#x1F3FE`, name: `Old Man: Medium-Dark Skin Tone`},
-                            {emoji: `&#x1F474&#x1F3FF`, name: `Old Man: Dark Skin Tone`},
-                            {emoji: `&#x1F475`, name: `Old Woman`},
-                            {emoji: `&#x1F475&#x1F3FB`, name: `Old Woman: Light Skin Tone`},
-                            {emoji: `&#x1F475&#x1F3FC`, name: `Old Woman: Medium-Light Skin Tone`},
-                            {emoji: `&#x1F475&#x1F3FD`, name: `Old Woman: Medium Skin Tone`},
-                            {emoji: `&#x1F475&#x1F3FE`, name: `Old Woman: Medium-Dark Skin Tone`},
-                            {emoji: `&#x1F475&#x1F3FF`, name: `Old Woman: Dark Skin Tone`},
-                            {emoji: `&#x1F476`, name: `Baby`},
-                            {emoji: `&#x1F476&#x1F3FB`, name: `Baby: Light Skin Tone`},
-                            {emoji: `&#x1F476&#x1F3FC`, name: `Baby: Medium-Light Skin Tone`},
-                            {emoji: `&#x1F476&#x1F3FD`, name: `Baby: Medium Skin Tone`},
-                            {emoji: `&#x1F476&#x1F3FE`, name: `Baby: Medium-Dark Skin Tone`},
-                            {emoji: `&#x1F476&#x1F3FF`, name: `Baby: Dark Skin Tone`},
-                            {emoji: `&#x1F47C`, name: `Baby Angel`},
-                            {emoji: `&#x1F47C&#x1F3FB`, name: `Baby Angel: Light Skin Tone`},
-                            {emoji: `&#x1F47C&#x1F3FC`, name: `Baby Angel: Medium-Light Skin Tone`},
-                            {emoji: `&#x1F47C&#x1F3FD`, name: `Baby Angel: Medium Skin Tone`},
-                            {emoji: `&#x1F47C&#x1F3FE`, name: `Baby Angel: Medium-Dark Skin Tone`},
-                            {emoji: `&#x1F47C&#x1F3FF`, name: `Baby Angel: Dark Skin Tone`},
-                            {emoji: `&#x1F468&#x200D&#x2695&#xFE0F`, name: `Man Health Worker`},
-                            {emoji: `&#x1F468&#x1F3FB&#x200D&#x2695&#xFE0F`, name: `Man Health Worker: Light Skin Tone`},
-                            {emoji: `&#x1F468&#x1F3FC&#x200D&#x2695&#xFE0F`, name: `Man Health Worker: Medium-Light Skin Tone`},
-                            {emoji: `&#x1F468&#x1F3FD&#x200D&#x2695&#xFE0F`, name: `Man Health Worker: Medium Skin Tone`},
-                            {emoji: `&#x1F468&#x1F3FE&#x200D&#x2695&#xFE0F`, name: `Man Health Worker: Medium-Dark Skin Tone`},
-                            {emoji: `&#x1F468&#x1F3FF&#x200D&#x2695&#xFE0F`, name: `Man Health Worker: Dark Skin Tone`},
-                            {emoji: `&#x1F469&#x200D&#x2695&#xFE0F`, name: `Woman Health Worker`},
-                            {emoji: `&#x1F469&#x1F3FB&#x200D&#x2695&#xFE0F`, name: `Woman Health Worker: Light Skin Tone`},
-                            {emoji: `&#x1F469&#x1F3FC&#x200D&#x2695&#xFE0F`, name: `Woman Health Worker: Medium-Light Skin Tone`},
-                            {emoji: `&#x1F469&#x1F3FD&#x200D&#x2695&#xFE0F`, name: `Woman Health Worker: Medium Skin Tone`},
-                            {emoji: `&#x1F469&#x1F3FE&#x200D&#x2695&#xFE0F`, name: `Woman Health Worker: Medium-Dark Skin Tone`},
-                            {emoji: `&#x1F469&#x1F3FF&#x200D&#x2695&#xFE0F`, name: `Woman Health Worker: Dark Skin Tone`},
-                            {emoji: `&#x1F468&#x200D&#x1F393`, name: `Man Student`},
-                            {emoji: `&#x1F468&#x1F3FB&#x200D&#x1F393`, name: `Man Student: Light Skin Tone`},
-                            {emoji: `&#x1F468&#x1F3FC&#x200D&#x1F393`, name: `Man Student: Medium-Light Skin Tone`},
-                            {emoji: `&#x1F468&#x1F3FD&#x200D&#x1F393`, name: `Man Student: Medium Skin Tone`},
-                            {emoji: `&#x1F468&#x1F3FE&#x200D&#x1F393`, name: `Man Student: Medium-Dark Skin Tone`},
-                            {emoji: `&#x1F468&#x1F3FF&#x200D&#x1F393`, name: `Man Student: Dark Skin Tone`},
-                            {emoji: `&#x1F469&#x200D&#x1F393`, name: `Woman Student`},
-                            {emoji: `&#x1F469&#x1F3FB&#x200D&#x1F393`, name: `Woman Student: Light Skin Tone`},
-                            {emoji: `&#x1F469&#x1F3FC&#x200D&#x1F393`, name: `Woman Student: Medium-Light Skin Tone`},
-                            {emoji: `&#x1F469&#x1F3FD&#x200D&#x1F393`, name: `Woman Student: Medium Skin Tone`},
-                            {emoji: `&#x1F469&#x1F3FE&#x200D&#x1F393`, name: `Woman Student: Medium-Dark Skin Tone`},
-                            {emoji: `&#x1F469&#x1F3FF&#x200D&#x1F393`, name: `Woman Student: Dark Skin Tone`},
-                            {emoji: `&#x1F468&#x200D&#x1F3EB`, name: `Man Teacher`},
-                            {emoji: `&#x1F468&#x1F3FB&#x200D&#x1F3EB`, name: `Man Teacher: Light Skin Tone`},
-                            {emoji: `&#x1F468&#x1F3FC&#x200D&#x1F3EB`, name: `Man Teacher: Medium-Light Skin Tone`},
-                            {emoji: `&#x1F468&#x1F3FD&#x200D&#x1F3EB`, name: `Man Teacher: Medium Skin Tone`},
-                            {emoji: `&#x1F468&#x1F3FE&#x200D&#x1F3EB`, name: `Man Teacher: Medium-Dark Skin Tone`},
-                            {emoji: `&#x1F468&#x1F3FF&#x200D&#x1F3EB`, name: `Man Teacher: Dark Skin Tone`},
-                            {emoji: `&#x1F469&#x200D&#x1F3EB`, name: `Woman Teacher`},
-                            {emoji: `&#x1F469&#x1F3FB&#x200D&#x1F3EB`, name: `Woman Teacher: Light Skin Tone`},
-                            {emoji: `&#x1F469&#x1F3FC&#x200D&#x1F3EB`, name: `Woman Teacher: Medium-Light Skin Tone`},
-                            {emoji: `&#x1F469&#x1F3FD&#x200D&#x1F3EB`, name: `Woman Teacher: Medium Skin Tone`},
-                            {emoji: `&#x1F469&#x1F3FE&#x200D&#x1F3EB`, name: `Woman Teacher: Medium-Dark Skin Tone`},
-                            {emoji: `&#x1F469&#x1F3FF&#x200D&#x1F3EB`, name: `Woman Teacher: Dark Skin Tone`},
-                            {emoji: `&#x1F468&#x200D&#x2696&#xFE0F`, name: `Man Judge`},
-                            {emoji: `&#x1F468&#x1F3FB&#x200D&#x2696&#xFE0F`, name: `Man Judge: Light Skin Tone`},
-                            {emoji: `&#x1F468&#x1F3FC&#x200D&#x2696&#xFE0F`, name: `Man Judge: Medium-Light Skin Tone`},
-                            {emoji: `&#x1F468&#x1F3FD&#x200D&#x2696&#xFE0F`, name: `Man Judge: Medium Skin Tone`},
-                            {emoji: `&#x1F468&#x1F3FE&#x200D&#x2696&#xFE0F`, name: `Man Judge: Medium-Dark Skin Tone`},
-                            {emoji: `&#x1F468&#x1F3FF&#x200D&#x2696&#xFE0F`, name: `Man Judge: Dark Skin Tone`},
-                            {emoji: `&#x1F469&#x200D&#x2696&#xFE0F`, name: `Woman Judge`},
-                            {emoji: `&#x1F469&#x1F3FB&#x200D&#x2696&#xFE0F`, name: `Woman Judge: Light Skin Tone`},
-                            {emoji: `&#x1F469&#x1F3FC&#x200D&#x2696&#xFE0F`, name: `Woman Judge: Medium-Light Skin Tone`},
-                            {emoji: `&#x1F469&#x1F3FD&#x200D&#x2696&#xFE0F`, name: `Woman Judge: Medium Skin Tone`},
-                            {emoji: `&#x1F469&#x1F3FE&#x200D&#x2696&#xFE0F`, name: `Woman Judge: Medium-Dark Skin Tone`},
-                            {emoji: `&#x1F469&#x1F3FF&#x200D&#x2696&#xFE0F`, name: `Woman Judge: Dark Skin Tone`},
-                            {emoji: `&#x1F468&#x200D&#x1F33E`, name: `Man Farmer`},
-                            {emoji: `&#x1F468&#x1F3FB&#x200D&#x1F33E`, name: `Man Farmer: Light Skin Tone`},
-                            {emoji: `&#x1F468&#x1F3FC&#x200D&#x1F33E`, name: `Man Farmer: Medium-Light Skin Tone`},
-                            {emoji: `&#x1F468&#x1F3FD&#x200D&#x1F33E`, name: `Man Farmer: Medium Skin Tone`},
-                            {emoji: `&#x1F468&#x1F3FE&#x200D&#x1F33E`, name: `Man Farmer: Medium-Dark Skin Tone`},
-                            {emoji: `&#x1F468&#x1F3FF&#x200D&#x1F33E`, name: `Man Farmer: Dark Skin Tone`},
-                            {emoji: `&#x1F469&#x200D&#x1F33E`, name: `Woman Farmer`},
-                            {emoji: `&#x1F469&#x1F3FB&#x200D&#x1F33E`, name: `Woman Farmer: Light Skin Tone`},
-                            {emoji: `&#x1F469&#x1F3FC&#x200D&#x1F33E`, name: `Woman Farmer: Medium-Light Skin Tone`},
-                            {emoji: `&#x1F469&#x1F3FD&#x200D&#x1F33E`, name: `Woman Farmer: Medium Skin Tone`},
-                            {emoji: `&#x1F469&#x1F3FE&#x200D&#x1F33E`, name: `Woman Farmer: Medium-Dark Skin Tone`},
-                            {emoji: `&#x1F469&#x1F3FF&#x200D&#x1F33E`, name: `Woman Farmer: Dark Skin Tone`},
-                            {emoji: `&#x1F468&#x200D&#x1F373`, name: `Man Cook`},
-                            {emoji: `&#x1F468&#x1F3FB&#x200D&#x1F373`, name: `Man Cook: Light Skin Tone`},
-                            {emoji: `&#x1F468&#x1F3FC&#x200D&#x1F373`, name: `Man Cook: Medium-Light Skin Tone`},
-                            {emoji: `&#x1F468&#x1F3FD&#x200D&#x1F373`, name: `Man Cook: Medium Skin Tone`},
-                            {emoji: `&#x1F468&#x1F3FE&#x200D&#x1F373`, name: `Man Cook: Medium-Dark Skin Tone`},
-                            {emoji: `&#x1F468&#x1F3FF&#x200D&#x1F373`, name: `Man Cook: Dark Skin Tone`},
-                            {emoji: `&#x1F469&#x200D&#x1F373`, name: `Woman Cook`},
-                            {emoji: `&#x1F469&#x1F3FB&#x200D&#x1F373`, name: `Woman Cook: Light Skin Tone`},
-                            {emoji: `&#x1F469&#x1F3FC&#x200D&#x1F373`, name: `Woman Cook: Medium-Light Skin Tone`},
-                            {emoji: `&#x1F469&#x1F3FD&#x200D&#x1F373`, name: `Woman Cook: Medium Skin Tone`},
-                            {emoji: `&#x1F469&#x1F3FE&#x200D&#x1F373`, name: `Woman Cook: Medium-Dark Skin Tone`},
-                            {emoji: `&#x1F469&#x1F3FF&#x200D&#x1F373`, name: `Woman Cook: Dark Skin Tone`},
-                            {emoji: `&#x1F468&#x200D&#x1F527`, name: `Man Mechanic`},
-                            {emoji: `&#x1F468&#x1F3FB&#x200D&#x1F527`, name: `Man Mechanic: Light Skin Tone`},
-                            {emoji: `&#x1F468&#x1F3FC&#x200D&#x1F527`, name: `Man Mechanic: Medium-Light Skin Tone`},
-                            {emoji: `&#x1F468&#x1F3FD&#x200D&#x1F527`, name: `Man Mechanic: Medium Skin Tone`},
-                            {emoji: `&#x1F468&#x1F3FE&#x200D&#x1F527`, name: `Man Mechanic: Medium-Dark Skin Tone`},
-                            {emoji: `&#x1F468&#x1F3FF&#x200D&#x1F527`, name: `Man Mechanic: Dark Skin Tone`},
-                            {emoji: `&#x1F469&#x200D&#x1F527`, name: `Woman Mechanic`},
-                            {emoji: `&#x1F469&#x1F3FB&#x200D&#x1F527`, name: `Woman Mechanic: Light Skin Tone`},
-                            {emoji: `&#x1F469&#x1F3FC&#x200D&#x1F527`, name: `Woman Mechanic: Medium-Light Skin Tone`},
-                            {emoji: `&#x1F469&#x1F3FD&#x200D&#x1F527`, name: `Woman Mechanic: Medium Skin Tone`},
-                            {emoji: `&#x1F469&#x1F3FE&#x200D&#x1F527`, name: `Woman Mechanic: Medium-Dark Skin Tone`},
-                            {emoji: `&#x1F469&#x1F3FF&#x200D&#x1F527`, name: `Woman Mechanic: Dark Skin Tone`},
-                            {emoji: `&#x1F468&#x200D&#x1F3ED`, name: `Man Factory Worker`},
-                            {emoji: `&#x1F468&#x1F3FB&#x200D&#x1F3ED`, name: `Man Factory Worker: Light Skin Tone`},
-                            {emoji: `&#x1F468&#x1F3FC&#x200D&#x1F3ED`, name: `Man Factory Worker: Medium-Light Skin Tone`},
-                            {emoji: `&#x1F468&#x1F3FD&#x200D&#x1F3ED`, name: `Man Factory Worker: Medium Skin Tone`},
-                            {emoji: `&#x1F468&#x1F3FE&#x200D&#x1F3ED`, name: `Man Factory Worker: Medium-Dark Skin Tone`},
-                            {emoji: `&#x1F468&#x1F3FF&#x200D&#x1F3ED`, name: `Man Factory Worker: Dark Skin Tone`},
-                            {emoji: `&#x1F469&#x200D&#x1F3ED`, name: `Woman Factory Worker`},
-                            {emoji: `&#x1F469&#x1F3FB&#x200D&#x1F3ED`, name: `Woman Factory Worker: Light Skin Tone`},
-                            {emoji: `&#x1F469&#x1F3FC&#x200D&#x1F3ED`, name: `Woman Factory Worker: Medium-Light Skin Tone`},
-                            {emoji: `&#x1F469&#x1F3FD&#x200D&#x1F3ED`, name: `Woman Factory Worker: Medium Skin Tone`},
-                            {emoji: `&#x1F469&#x1F3FE&#x200D&#x1F3ED`, name: `Woman Factory Worker: Medium-Dark Skin Tone`},
-                            {emoji: `&#x1F469&#x1F3FF&#x200D&#x1F3ED`, name: `Woman Factory Worker: Dark Skin Tone`},
-                            {emoji: `&#x1F468&#x200D&#x1F4BC`, name: `Man Office Worker`},
-                            {emoji: `&#x1F468&#x1F3FB&#x200D&#x1F4BC`, name: `Man Office Worker: Light Skin Tone`},
-                            {emoji: `&#x1F468&#x1F3FC&#x200D&#x1F4BC`, name: `Man Office Worker: Medium-Light Skin Tone`},
-                            {emoji: `&#x1F468&#x1F3FD&#x200D&#x1F4BC`, name: `Man Office Worker: Medium Skin Tone`},
-                            {emoji: `&#x1F468&#x1F3FE&#x200D&#x1F4BC`, name: `Man Office Worker: Medium-Dark Skin Tone`},
-                            {emoji: `&#x1F468&#x1F3FF&#x200D&#x1F4BC`, name: `Man Office Worker: Dark Skin Tone`},
-                            {emoji: `&#x1F469&#x200D&#x1F4BC`, name: `Woman Office Worker`},
-                            {emoji: `&#x1F469&#x1F3FB&#x200D&#x1F4BC`, name: `Woman Office Worker: Light Skin Tone`},
-                            {emoji: `&#x1F469&#x1F3FC&#x200D&#x1F4BC`, name: `Woman Office Worker: Medium-Light Skin Tone`},
-                            {emoji: `&#x1F469&#x1F3FD&#x200D&#x1F4BC`, name: `Woman Office Worker: Medium Skin Tone`},
-                            {emoji: `&#x1F469&#x1F3FE&#x200D&#x1F4BC`, name: `Woman Office Worker: Medium-Dark Skin Tone`},
-                            {emoji: `&#x1F469&#x1F3FF&#x200D&#x1F4BC`, name: `Woman Office Worker: Dark Skin Tone`},
-                            {emoji: `&#x1F468&#x200D&#x1F52C`, name: `Man Scientist`},
-                            {emoji: `&#x1F468&#x1F3FB&#x200D&#x1F52C`, name: `Man Scientist: Light Skin Tone`},
-                            {emoji: `&#x1F468&#x1F3FC&#x200D&#x1F52C`, name: `Man Scientist: Medium-Light Skin Tone`},
-                            {emoji: `&#x1F468&#x1F3FD&#x200D&#x1F52C`, name: `Man Scientist: Medium Skin Tone`},
-                            {emoji: `&#x1F468&#x1F3FE&#x200D&#x1F52C`, name: `Man Scientist: Medium-Dark Skin Tone`},
-                            {emoji: `&#x1F468&#x1F3FF&#x200D&#x1F52C`, name: `Man Scientist: Dark Skin Tone`},
-                            {emoji: `&#x1F469&#x200D&#x1F52C`, name: `Woman Scientist`},
-                            {emoji: `&#x1F469&#x1F3FB&#x200D&#x1F52C`, name: `Woman Scientist: Light Skin Tone`},
-                            {emoji: `&#x1F469&#x1F3FC&#x200D&#x1F52C`, name: `Woman Scientist: Medium-Light Skin Tone`},
-                            {emoji: `&#x1F469&#x1F3FD&#x200D&#x1F52C`, name: `Woman Scientist: Medium Skin Tone`},
-                            {emoji: `&#x1F469&#x1F3FE&#x200D&#x1F52C`, name: `Woman Scientist: Medium-Dark Skin Tone`},
-                            {emoji: `&#x1F469&#x1F3FF&#x200D&#x1F52C`, name: `Woman Scientist: Dark Skin Tone`},
-                            {emoji: `&#x1F468&#x200D&#x1F4BB`, name: `Man Technologist`},
-                            {emoji: `&#x1F468&#x1F3FB&#x200D&#x1F4BB`, name: `Man Technologist: Light Skin Tone`},
-                            {emoji: `&#x1F468&#x1F3FC&#x200D&#x1F4BB`, name: `Man Technologist: Medium-Light Skin Tone`},
-                            {emoji: `&#x1F468&#x1F3FD&#x200D&#x1F4BB`, name: `Man Technologist: Medium Skin Tone`},
-                            {emoji: `&#x1F468&#x1F3FE&#x200D&#x1F4BB`, name: `Man Technologist: Medium-Dark Skin Tone`},
-                            {emoji: `&#x1F468&#x1F3FF&#x200D&#x1F4BB`, name: `Man Technologist: Dark Skin Tone`},
-                            {emoji: `&#x1F469&#x200D&#x1F4BB`, name: `Woman Technologist`},
-                            {emoji: `&#x1F469&#x1F3FB&#x200D&#x1F4BB`, name: `Woman Technologist: Light Skin Tone`},
-                            {emoji: `&#x1F469&#x1F3FC&#x200D&#x1F4BB`, name: `Woman Technologist: Medium-Light Skin Tone`},
-                            {emoji: `&#x1F469&#x1F3FD&#x200D&#x1F4BB`, name: `Woman Technologist: Medium Skin Tone`},
-                            {emoji: `&#x1F469&#x1F3FE&#x200D&#x1F4BB`, name: `Woman Technologist: Medium-Dark Skin Tone`},
-                            {emoji: `&#x1F469&#x1F3FF&#x200D&#x1F4BB`, name: `Woman Technologist: Dark Skin Tone`},
-                            {emoji: `&#x1F468&#x200D&#x1F3A4`, name: `Man Singer`},
-                            {emoji: `&#x1F468&#x1F3FB&#x200D&#x1F3A4`, name: `Man Singer: Light Skin Tone`},
-                            {emoji: `&#x1F468&#x1F3FC&#x200D&#x1F3A4`, name: `Man Singer: Medium-Light Skin Tone`},
-                            {emoji: `&#x1F468&#x1F3FD&#x200D&#x1F3A4`, name: `Man Singer: Medium Skin Tone`},
-                            {emoji: `&#x1F468&#x1F3FE&#x200D&#x1F3A4`, name: `Man Singer: Medium-Dark Skin Tone`},
-                            {emoji: `&#x1F468&#x1F3FF&#x200D&#x1F3A4`, name: `Man Singer: Dark Skin Tone`},
-                            {emoji: `&#x1F469&#x200D&#x1F3A4`, name: `Woman Singer`},
-                            {emoji: `&#x1F469&#x1F3FB&#x200D&#x1F3A4`, name: `Woman Singer: Light Skin Tone`},
-                            {emoji: `&#x1F469&#x1F3FC&#x200D&#x1F3A4`, name: `Woman Singer: Medium-Light Skin Tone`},
-                            {emoji: `&#x1F469&#x1F3FD&#x200D&#x1F3A4`, name: `Woman Singer: Medium Skin Tone`},
-                            {emoji: `&#x1F469&#x1F3FE&#x200D&#x1F3A4`, name: `Woman Singer: Medium-Dark Skin Tone`},
-                            {emoji: `&#x1F469&#x1F3FF&#x200D&#x1F3A4`, name: `Woman Singer: Dark Skin Tone`},
-                            {emoji: `&#x1F468&#x200D&#x1F3A8`, name: `Man Artist`},
-                            {emoji: `&#x1F468&#x1F3FB&#x200D&#x1F3A8`, name: `Man Artist: Light Skin Tone`},
-                            {emoji: `&#x1F468&#x1F3FC&#x200D&#x1F3A8`, name: `Man Artist: Medium-Light Skin Tone`},
-                            {emoji: `&#x1F468&#x1F3FD&#x200D&#x1F3A8`, name: `Man Artist: Medium Skin Tone`},
-                            {emoji: `&#x1F468&#x1F3FE&#x200D&#x1F3A8`, name: `Man Artist: Medium-Dark Skin Tone`},
-                            {emoji: `&#x1F468&#x1F3FF&#x200D&#x1F3A8`, name: `Man Artist: Dark Skin Tone`},
-                            {emoji: `&#x1F469&#x200D&#x1F3A8`, name: `Woman Artist`},
-                            {emoji: `&#x1F469&#x1F3FB&#x200D&#x1F3A8`, name: `Woman Artist: Light Skin Tone`},
-                            {emoji: `&#x1F469&#x1F3FC&#x200D&#x1F3A8`, name: `Woman Artist: Medium-Light Skin Tone`},
-                            {emoji: `&#x1F469&#x1F3FD&#x200D&#x1F3A8`, name: `Woman Artist: Medium Skin Tone`},
-                            {emoji: `&#x1F469&#x1F3FE&#x200D&#x1F3A8`, name: `Woman Artist: Medium-Dark Skin Tone`},
-                            {emoji: `&#x1F469&#x1F3FF&#x200D&#x1F3A8`, name: `Woman Artist: Dark Skin Tone`},
-                            {emoji: `&#x1F468&#x200D&#x2708&#xFE0F`, name: `Man Pilot`},
-                            {emoji: `&#x1F468&#x1F3FB&#x200D&#x2708&#xFE0F`, name: `Man Pilot: Light Skin Tone`},
-                            {emoji: `&#x1F468&#x1F3FC&#x200D&#x2708&#xFE0F`, name: `Man Pilot: Medium-Light Skin Tone`},
-                            {emoji: `&#x1F468&#x1F3FD&#x200D&#x2708&#xFE0F`, name: `Man Pilot: Medium Skin Tone`},
-                            {emoji: `&#x1F468&#x1F3FE&#x200D&#x2708&#xFE0F`, name: `Man Pilot: Medium-Dark Skin Tone`},
-                            {emoji: `&#x1F468&#x1F3FF&#x200D&#x2708&#xFE0F`, name: `Man Pilot: Dark Skin Tone`},
-                            {emoji: `&#x1F469&#x200D&#x2708&#xFE0F`, name: `Woman Pilot`},
-                            {emoji: `&#x1F469&#x1F3FB&#x200D&#x2708&#xFE0F`, name: `Woman Pilot: Light Skin Tone`},
-                            {emoji: `&#x1F469&#x1F3FC&#x200D&#x2708&#xFE0F`, name: `Woman Pilot: Medium-Light Skin Tone`},
-                            {emoji: `&#x1F469&#x1F3FD&#x200D&#x2708&#xFE0F`, name: `Woman Pilot: Medium Skin Tone`},
-                            {emoji: `&#x1F469&#x1F3FE&#x200D&#x2708&#xFE0F`, name: `Woman Pilot: Medium-Dark Skin Tone`},
-                            {emoji: `&#x1F469&#x1F3FF&#x200D&#x2708&#xFE0F`, name: `Woman Pilot: Dark Skin Tone`},
-                            {emoji: `&#x1F468&#x200D&#x1F680`, name: `Man Astronaut`},
-                            {emoji: `&#x1F468&#x1F3FB&#x200D&#x1F680`, name: `Man Astronaut: Light Skin Tone`},
-                            {emoji: `&#x1F468&#x1F3FC&#x200D&#x1F680`, name: `Man Astronaut: Medium-Light Skin Tone`},
-                            {emoji: `&#x1F468&#x1F3FD&#x200D&#x1F680`, name: `Man Astronaut: Medium Skin Tone`},
-                            {emoji: `&#x1F468&#x1F3FE&#x200D&#x1F680`, name: `Man Astronaut: Medium-Dark Skin Tone`},
-                            {emoji: `&#x1F468&#x1F3FF&#x200D&#x1F680`, name: `Man Astronaut: Dark Skin Tone`},
-                            {emoji: `&#x1F469&#x200D&#x1F680`, name: `Woman Astronaut`},
-                            {emoji: `&#x1F469&#x1F3FB&#x200D&#x1F680`, name: `Woman Astronaut: Light Skin Tone`},
-                            {emoji: `&#x1F469&#x1F3FC&#x200D&#x1F680`, name: `Woman Astronaut: Medium-Light Skin Tone`},
-                            {emoji: `&#x1F469&#x1F3FD&#x200D&#x1F680`, name: `Woman Astronaut: Medium Skin Tone`},
-                            {emoji: `&#x1F469&#x1F3FE&#x200D&#x1F680`, name: `Woman Astronaut: Medium-Dark Skin Tone`},
-                            {emoji: `&#x1F469&#x1F3FF&#x200D&#x1F680`, name: `Woman Astronaut: Dark Skin Tone`},
-                            {emoji: `&#x1F468&#x200D&#x1F692`, name: `Man Firefighter`},
-                            {emoji: `&#x1F468&#x1F3FB&#x200D&#x1F692`, name: `Man Firefighter: Light Skin Tone`},
-                            {emoji: `&#x1F468&#x1F3FC&#x200D&#x1F692`, name: `Man Firefighter: Medium-Light Skin Tone`},
-                            {emoji: `&#x1F468&#x1F3FD&#x200D&#x1F692`, name: `Man Firefighter: Medium Skin Tone`},
-                            {emoji: `&#x1F468&#x1F3FE&#x200D&#x1F692`, name: `Man Firefighter: Medium-Dark Skin Tone`},
-                            {emoji: `&#x1F468&#x1F3FF&#x200D&#x1F692`, name: `Man Firefighter: Dark Skin Tone`},
-                            {emoji: `&#x1F469&#x200D&#x1F692`, name: `Woman Firefighter`},
-                            {emoji: `&#x1F469&#x1F3FB&#x200D&#x1F692`, name: `Woman Firefighter: Light Skin Tone`},
-                            {emoji: `&#x1F469&#x1F3FC&#x200D&#x1F692`, name: `Woman Firefighter: Medium-Light Skin Tone`},
-                            {emoji: `&#x1F469&#x1F3FD&#x200D&#x1F692`, name: `Woman Firefighter: Medium Skin Tone`},
-                            {emoji: `&#x1F469&#x1F3FE&#x200D&#x1F692`, name: `Woman Firefighter: Medium-Dark Skin Tone`},
-                            {emoji: `&#x1F469&#x1F3FF&#x200D&#x1F692`, name: `Woman Firefighter: Dark Skin Tone`},
-                            {emoji: `&#x1F46E`, name: `Police Officer`},
-                            {emoji: `&#x1F46E&#x1F3FB`, name: `Police Officer: Light Skin Tone`},
-                            {emoji: `&#x1F46E&#x1F3FC`, name: `Police Officer: Medium-Light Skin Tone`},
-                            {emoji: `&#x1F46E&#x1F3FD`, name: `Police Officer: Medium Skin Tone`},
-                            {emoji: `&#x1F46E&#x1F3FE`, name: `Police Officer: Medium-Dark Skin Tone`},
-                            {emoji: `&#x1F46E&#x1F3FF`, name: `Police Officer: Dark Skin Tone`},
-                            {emoji: `&#x1F46E&#x200D&#x2642&#xFE0F`, name: `Man Police Officer`},
-                            {emoji: `&#x1F46E&#x1F3FB&#x200D&#x2642&#xFE0F`, name: `Man Police Officer: Light Skin Tone`},
-                            {emoji: `&#x1F46E&#x1F3FC&#x200D&#x2642&#xFE0F`, name: `Man Police Officer: Medium-Light Skin Tone`},
-                            {emoji: `&#x1F46E&#x1F3FD&#x200D&#x2642&#xFE0F`, name: `Man Police Officer: Medium Skin Tone`},
-                            {emoji: `&#x1F46E&#x1F3FE&#x200D&#x2642&#xFE0F`, name: `Man Police Officer: Medium-Dark Skin Tone`},
-                            {emoji: `&#x1F46E&#x1F3FF&#x200D&#x2642&#xFE0F`, name: `Man Police Officer: Dark Skin Tone`},
-                            {emoji: `&#x1F46E&#x200D&#x2640&#xFE0F`, name: `Woman Police Officer`},
-                            {emoji: `&#x1F46E&#x1F3FB&#x200D&#x2640&#xFE0F`, name: `Woman Police Officer: Light Skin Tone`},
-                            {emoji: `&#x1F46E&#x1F3FC&#x200D&#x2640&#xFE0F`, name: `Woman Police Officer: Medium-Light Skin Tone`},
-                            {emoji: `&#x1F46E&#x1F3FD&#x200D&#x2640&#xFE0F`, name: `Woman Police Officer: Medium Skin Tone`},
-                            {emoji: `&#x1F46E&#x1F3FE&#x200D&#x2640&#xFE0F`, name: `Woman Police Officer: Medium-Dark Skin Tone`},
-                            {emoji: `&#x1F46E&#x1F3FF&#x200D&#x2640&#xFE0F`, name: `Woman Police Officer: Dark Skin Tone`},
-                            {emoji: `&#x1F575`, name: `Detective`},
-                            {emoji: `&#x1F575&#x1F3FB`, name: `Detective: Light Skin Tone`},
-                            {emoji: `&#x1F575&#x1F3FC`, name: `Detective: Medium-Light Skin Tone`},
-                            {emoji: `&#x1F575&#x1F3FD`, name: `Detective: Medium Skin Tone`},
-                            {emoji: `&#x1F575&#x1F3FE`, name: `Detective: Medium-Dark Skin Tone`},
-                            {emoji: `&#x1F575&#x1F3FF`, name: `Detective: Dark Skin Tone`},
-                            {emoji: `&#x1F575&#xFE0F&#x200D&#x2642&#xFE0F`, name: `Man Detective`},
-                            {emoji: `&#x1F575&#x1F3FB&#x200D&#x2642&#xFE0F`, name: `Man Detective: Light Skin Tone`},
-                            {emoji: `&#x1F575&#x1F3FC&#x200D&#x2642&#xFE0F`, name: `Man Detective: Medium-Light Skin Tone`},
-                            {emoji: `&#x1F575&#x1F3FD&#x200D&#x2642&#xFE0F`, name: `Man Detective: Medium Skin Tone`},
-                            {emoji: `&#x1F575&#x1F3FE&#x200D&#x2642&#xFE0F`, name: `Man Detective: Medium-Dark Skin Tone`},
-                            {emoji: `&#x1F575&#x1F3FF&#x200D&#x2642&#xFE0F`, name: `Man Detective: Dark Skin Tone`},
-                            {emoji: `&#x1F575&#xFE0F&#x200D&#x2640&#xFE0F`, name: `Woman Detective`},
-                            {emoji: `&#x1F575&#x1F3FB&#x200D&#x2640&#xFE0F`, name: `Woman Detective: Light Skin Tone`},
-                            {emoji: `&#x1F575&#x1F3FC&#x200D&#x2640&#xFE0F`, name: `Woman Detective: Medium-Light Skin Tone`},
-                            {emoji: `&#x1F575&#x1F3FD&#x200D&#x2640&#xFE0F`, name: `Woman Detective: Medium Skin Tone`},
-                            {emoji: `&#x1F575&#x1F3FE&#x200D&#x2640&#xFE0F`, name: `Woman Detective: Medium-Dark Skin Tone`},
-                            {emoji: `&#x1F575&#x1F3FF&#x200D&#x2640&#xFE0F`, name: `Woman Detective: Dark Skin Tone`},
-                            {emoji: `&#x1F482`, name: `Guard`},
-                            {emoji: `&#x1F482&#x1F3FB`, name: `Guard: Light Skin Tone`},
-                            {emoji: `&#x1F482&#x1F3FC`, name: `Guard: Medium-Light Skin Tone`},
-                            {emoji: `&#x1F482&#x1F3FD`, name: `Guard: Medium Skin Tone`},
-                            {emoji: `&#x1F482&#x1F3FE`, name: `Guard: Medium-Dark Skin Tone`},
-                            {emoji: `&#x1F482&#x1F3FF`, name: `Guard: Dark Skin Tone`},
-                            {emoji: `&#x1F482&#x200D&#x2642&#xFE0F`, name: `Man Guard`},
-                            {emoji: `&#x1F482&#x1F3FB&#x200D&#x2642&#xFE0F`, name: `Man Guard: Light Skin Tone`},
-                            {emoji: `&#x1F482&#x1F3FC&#x200D&#x2642&#xFE0F`, name: `Man Guard: Medium-Light Skin Tone`},
-                            {emoji: `&#x1F482&#x1F3FD&#x200D&#x2642&#xFE0F`, name: `Man Guard: Medium Skin Tone`},
-                            {emoji: `&#x1F482&#x1F3FE&#x200D&#x2642&#xFE0F`, name: `Man Guard: Medium-Dark Skin Tone`},
-                            {emoji: `&#x1F482&#x1F3FF&#x200D&#x2642&#xFE0F`, name: `Man Guard: Dark Skin Tone`},
-                            {emoji: `&#x1F482&#x200D&#x2640&#xFE0F`, name: `Woman Guard`},
-                            {emoji: `&#x1F482&#x1F3FB&#x200D&#x2640&#xFE0F`, name: `Woman Guard: Light Skin Tone`},
-                            {emoji: `&#x1F482&#x1F3FC&#x200D&#x2640&#xFE0F`, name: `Woman Guard: Medium-Light Skin Tone`},
-                            {emoji: `&#x1F482&#x1F3FD&#x200D&#x2640&#xFE0F`, name: `Woman Guard: Medium Skin Tone`},
-                            {emoji: `&#x1F482&#x1F3FE&#x200D&#x2640&#xFE0F`, name: `Woman Guard: Medium-Dark Skin Tone`},
-                            {emoji: `&#x1F482&#x1F3FF&#x200D&#x2640&#xFE0F`, name: `Woman Guard: Dark Skin Tone`},
-                            {emoji: `&#x1F477`, name: `Construction Worker`},
-                            {emoji: `&#x1F477&#x1F3FB`, name: `Construction Worker: Light Skin Tone`},
-                            {emoji: `&#x1F477&#x1F3FC`, name: `Construction Worker: Medium-Light Skin Tone`},
-                            {emoji: `&#x1F477&#x1F3FD`, name: `Construction Worker: Medium Skin Tone`},
-                            {emoji: `&#x1F477&#x1F3FE`, name: `Construction Worker: Medium-Dark Skin Tone`},
-                            {emoji: `&#x1F477&#x1F3FF`, name: `Construction Worker: Dark Skin Tone`},
-                            {emoji: `&#x1F477&#x200D&#x2642&#xFE0F`, name: `Man Construction Worker`},
-                            {emoji: `&#x1F477&#x1F3FB&#x200D&#x2642&#xFE0F`, name: `Man Construction Worker: Light Skin Tone`},
-                            {emoji: `&#x1F477&#x1F3FC&#x200D&#x2642&#xFE0F`, name: `Man Construction Worker: Medium-Light Skin Tone`},
-                            {emoji: `&#x1F477&#x1F3FD&#x200D&#x2642&#xFE0F`, name: `Man Construction Worker: Medium Skin Tone`},
-                            {emoji: `&#x1F477&#x1F3FE&#x200D&#x2642&#xFE0F`, name: `Man Construction Worker: Medium-Dark Skin Tone`},
-                            {emoji: `&#x1F477&#x1F3FF&#x200D&#x2642&#xFE0F`, name: `Man Construction Worker: Dark Skin Tone`},
-                            {emoji: `&#x1F477&#x200D&#x2640&#xFE0F`, name: `Woman Construction Worker`},
-                            {emoji: `&#x1F477&#x1F3FB&#x200D&#x2640&#xFE0F`, name: `Woman Construction Worker: Light Skin Tone`},
-                            {emoji: `&#x1F477&#x1F3FC&#x200D&#x2640&#xFE0F`, name: `Woman Construction Worker: Medium-Light Skin Tone`},
-                            {emoji: `&#x1F477&#x1F3FD&#x200D&#x2640&#xFE0F`, name: `Woman Construction Worker: Medium Skin Tone`},
-                            {emoji: `&#x1F477&#x1F3FE&#x200D&#x2640&#xFE0F`, name: `Woman Construction Worker: Medium-Dark Skin Tone`},
-                            {emoji: `&#x1F477&#x1F3FF&#x200D&#x2640&#xFE0F`, name: `Woman Construction Worker: Dark Skin Tone`},
-                            {emoji: `&#x1F473`, name: `Person Wearing Turban`},
-                            {emoji: `&#x1F473&#x1F3FB`, name: `Person Wearing Turban: Light Skin Tone`},
-                            {emoji: `&#x1F473&#x1F3FC`, name: `Person Wearing Turban: Medium-Light Skin Tone`},
-                            {emoji: `&#x1F473&#x1F3FD`, name: `Person Wearing Turban: Medium Skin Tone`},
-                            {emoji: `&#x1F473&#x1F3FE`, name: `Person Wearing Turban: Medium-Dark Skin Tone`},
-                            {emoji: `&#x1F473&#x1F3FF`, name: `Person Wearing Turban: Dark Skin Tone`},
-                            {emoji: `&#x1F473&#x200D&#x2642&#xFE0F`, name: `Man Wearing Turban`},
-                            {emoji: `&#x1F473&#x1F3FB&#x200D&#x2642&#xFE0F`, name: `Man Wearing Turban: Light Skin Tone`},
-                            {emoji: `&#x1F473&#x1F3FC&#x200D&#x2642&#xFE0F`, name: `Man Wearing Turban: Medium-Light Skin Tone`},
-                            {emoji: `&#x1F473&#x1F3FD&#x200D&#x2642&#xFE0F`, name: `Man Wearing Turban: Medium Skin Tone`},
-                            {emoji: `&#x1F473&#x1F3FE&#x200D&#x2642&#xFE0F`, name: `Man Wearing Turban: Medium-Dark Skin Tone`},
-                            {emoji: `&#x1F473&#x1F3FF&#x200D&#x2642&#xFE0F`, name: `Man Wearing Turban: Dark Skin Tone`},
-                            {emoji: `&#x1F473&#x200D&#x2640&#xFE0F`, name: `Woman Wearing Turban`},
-                            {emoji: `&#x1F473&#x1F3FB&#x200D&#x2640&#xFE0F`, name: `Woman Wearing Turban: Light Skin Tone`},
-                            {emoji: `&#x1F473&#x1F3FC&#x200D&#x2640&#xFE0F`, name: `Woman Wearing Turban: Medium-Light Skin Tone`},
-                            {emoji: `&#x1F473&#x1F3FD&#x200D&#x2640&#xFE0F`, name: `Woman Wearing Turban: Medium Skin Tone`},
-                            {emoji: `&#x1F473&#x1F3FE&#x200D&#x2640&#xFE0F`, name: `Woman Wearing Turban: Medium-Dark Skin Tone`},
-                            {emoji: `&#x1F473&#x1F3FF&#x200D&#x2640&#xFE0F`, name: `Woman Wearing Turban: Dark Skin Tone`},
-                            {emoji: `&#x1F471`, name: `Blond-Haired Person`},
-                            {emoji: `&#x1F471&#x1F3FB`, name: `Blond-Haired Person: Light Skin Tone`},
-                            {emoji: `&#x1F471&#x1F3FC`, name: `Blond-Haired Person: Medium-Light Skin Tone`},
-                            {emoji: `&#x1F471&#x1F3FD`, name: `Blond-Haired Person: Medium Skin Tone`},
-                            {emoji: `&#x1F471&#x1F3FE`, name: `Blond-Haired Person: Medium-Dark Skin Tone`},
-                            {emoji: `&#x1F471&#x1F3FF`, name: `Blond-Haired Person: Dark Skin Tone`},
-                            {emoji: `&#x1F471&#x200D&#x2642&#xFE0F`, name: `Blond-Haired Man`},
-                            {emoji: `&#x1F471&#x1F3FB&#x200D&#x2642&#xFE0F`, name: `Blond-Haired Man: Light Skin Tone`},
-                            {emoji: `&#x1F471&#x1F3FC&#x200D&#x2642&#xFE0F`, name: `Blond-Haired Man: Medium-Light Skin Tone`},
-                            {emoji: `&#x1F471&#x1F3FD&#x200D&#x2642&#xFE0F`, name: `Blond-Haired Man: Medium Skin Tone`},
-                            {emoji: `&#x1F471&#x1F3FE&#x200D&#x2642&#xFE0F`, name: `Blond-Haired Man: Medium-Dark Skin Tone`},
-                            {emoji: `&#x1F471&#x1F3FF&#x200D&#x2642&#xFE0F`, name: `Blond-Haired Man: Dark Skin Tone`},
-                            {emoji: `&#x1F471&#x200D&#x2640&#xFE0F`, name: `Blond-Haired Woman`},
-                            {emoji: `&#x1F471&#x1F3FB&#x200D&#x2640&#xFE0F`, name: `Blond-Haired Woman: Light Skin Tone`},
-                            {emoji: `&#x1F471&#x1F3FC&#x200D&#x2640&#xFE0F`, name: `Blond-Haired Woman: Medium-Light Skin Tone`},
-                            {emoji: `&#x1F471&#x1F3FD&#x200D&#x2640&#xFE0F`, name: `Blond-Haired Woman: Medium Skin Tone`},
-                            {emoji: `&#x1F471&#x1F3FE&#x200D&#x2640&#xFE0F`, name: `Blond-Haired Woman: Medium-Dark Skin Tone`},
-                            {emoji: `&#x1F471&#x1F3FF&#x200D&#x2640&#xFE0F`, name: `Blond-Haired Woman: Dark Skin Tone`},
-                            {emoji: `&#x1F385`, name: `Santa Claus`},
-                            {emoji: `&#x1F385&#x1F3FB`, name: `Santa Claus: Light Skin Tone`},
-                            {emoji: `&#x1F385&#x1F3FC`, name: `Santa Claus: Medium-Light Skin Tone`},
-                            {emoji: `&#x1F385&#x1F3FD`, name: `Santa Claus: Medium Skin Tone`},
-                            {emoji: `&#x1F385&#x1F3FE`, name: `Santa Claus: Medium-Dark Skin Tone`},
-                            {emoji: `&#x1F385&#x1F3FF`, name: `Santa Claus: Dark Skin Tone`},
-                            {emoji: `&#x1F936`, name: `Mrs. Claus`},
-                            {emoji: `&#x1F936&#x1F3FB`, name: `Mrs. Claus: Light Skin Tone`},
-                            {emoji: `&#x1F936&#x1F3FC`, name: `Mrs. Claus: Medium-Light Skin Tone`},
-                            {emoji: `&#x1F936&#x1F3FD`, name: `Mrs. Claus: Medium Skin Tone`},
-                            {emoji: `&#x1F936&#x1F3FE`, name: `Mrs. Claus: Medium-Dark Skin Tone`},
-                            {emoji: `&#x1F936&#x1F3FF`, name: `Mrs. Claus: Dark Skin Tone`},
-                            {emoji: `&#x1F478`, name: `Princess`},
-                            {emoji: `&#x1F478&#x1F3FB`, name: `Princess: Light Skin Tone`},
-                            {emoji: `&#x1F478&#x1F3FC`, name: `Princess: Medium-Light Skin Tone`},
-                            {emoji: `&#x1F478&#x1F3FD`, name: `Princess: Medium Skin Tone`},
-                            {emoji: `&#x1F478&#x1F3FE`, name: `Princess: Medium-Dark Skin Tone`},
-                            {emoji: `&#x1F478&#x1F3FF`, name: `Princess: Dark Skin Tone`},
-                            {emoji: `&#x1F934`, name: `Prince`},
-                            {emoji: `&#x1F934&#x1F3FB`, name: `Prince: Light Skin Tone`},
-                            {emoji: `&#x1F934&#x1F3FC`, name: `Prince: Medium-Light Skin Tone`},
-                            {emoji: `&#x1F934&#x1F3FD`, name: `Prince: Medium Skin Tone`},
-                            {emoji: `&#x1F934&#x1F3FE`, name: `Prince: Medium-Dark Skin Tone`},
-                            {emoji: `&#x1F934&#x1F3FF`, name: `Prince: Dark Skin Tone`},
-                            {emoji: `&#x1F470`, name: `Bride With Veil`},
-                            {emoji: `&#x1F470&#x1F3FB`, name: `Bride With Veil: Light Skin Tone`},
-                            {emoji: `&#x1F470&#x1F3FC`, name: `Bride With Veil: Medium-Light Skin Tone`},
-                            {emoji: `&#x1F470&#x1F3FD`, name: `Bride With Veil: Medium Skin Tone`},
-                            {emoji: `&#x1F470&#x1F3FE`, name: `Bride With Veil: Medium-Dark Skin Tone`},
-                            {emoji: `&#x1F470&#x1F3FF`, name: `Bride With Veil: Dark Skin Tone`},
-                            {emoji: `&#x1F935`, name: `Man In Tuxedo`},
-                            {emoji: `&#x1F935&#x1F3FB`, name: `Man In Tuxedo: Light Skin Tone`},
-                            {emoji: `&#x1F935&#x1F3FC`, name: `Man In Tuxedo: Medium-Light Skin Tone`},
-                            {emoji: `&#x1F935&#x1F3FD`, name: `Man In Tuxedo: Medium Skin Tone`},
-                            {emoji: `&#x1F935&#x1F3FE`, name: `Man In Tuxedo: Medium-Dark Skin Tone`},
-                            {emoji: `&#x1F935&#x1F3FF`, name: `Man In Tuxedo: Dark Skin Tone`},
-                            {emoji: `&#x1F930`, name: `Pregnant Woman`},
-                            {emoji: `&#x1F930&#x1F3FB`, name: `Pregnant Woman: Light Skin Tone`},
-                            {emoji: `&#x1F930&#x1F3FC`, name: `Pregnant Woman: Medium-Light Skin Tone`},
-                            {emoji: `&#x1F930&#x1F3FD`, name: `Pregnant Woman: Medium Skin Tone`},
-                            {emoji: `&#x1F930&#x1F3FE`, name: `Pregnant Woman: Medium-Dark Skin Tone`},
-                            {emoji: `&#x1F930&#x1F3FF`, name: `Pregnant Woman: Dark Skin Tone`},
-                            {emoji: `&#x1F472`, name: `Man With Chinese Cap`},
-                            {emoji: `&#x1F472&#x1F3FB`, name: `Man With Chinese Cap: Light Skin Tone`},
-                            {emoji: `&#x1F472&#x1F3FC`, name: `Man With Chinese Cap: Medium-Light Skin Tone`},
-                            {emoji: `&#x1F472&#x1F3FD`, name: `Man With Chinese Cap: Medium Skin Tone`},
-                            {emoji: `&#x1F472&#x1F3FE`, name: `Man With Chinese Cap: Medium-Dark Skin Tone`},
-                            {emoji: `&#x1F472&#x1F3FF`, name: `Man With Chinese Cap: Dark Skin Tone`},
-                            {emoji: `&#x1F64D`, name: `Person Frowning`},
-                            {emoji: `&#x1F64D&#x1F3FB`, name: `Person Frowning: Light Skin Tone`},
-                            {emoji: `&#x1F64D&#x1F3FC`, name: `Person Frowning: Medium-Light Skin Tone`},
-                            {emoji: `&#x1F64D&#x1F3FD`, name: `Person Frowning: Medium Skin Tone`},
-                            {emoji: `&#x1F64D&#x1F3FE`, name: `Person Frowning: Medium-Dark Skin Tone`},
-                            {emoji: `&#x1F64D&#x1F3FF`, name: `Person Frowning: Dark Skin Tone`},
-                            {emoji: `&#x1F64D&#x200D&#x2642&#xFE0F`, name: `Man Frowning`},
-                            {emoji: `&#x1F64D&#x1F3FB&#x200D&#x2642&#xFE0F`, name: `Man Frowning: Light Skin Tone`},
-                            {emoji: `&#x1F64D&#x1F3FC&#x200D&#x2642&#xFE0F`, name: `Man Frowning: Medium-Light Skin Tone`},
-                            {emoji: `&#x1F64D&#x1F3FD&#x200D&#x2642&#xFE0F`, name: `Man Frowning: Medium Skin Tone`},
-                            {emoji: `&#x1F64D&#x1F3FE&#x200D&#x2642&#xFE0F`, name: `Man Frowning: Medium-Dark Skin Tone`},
-                            {emoji: `&#x1F64D&#x1F3FF&#x200D&#x2642&#xFE0F`, name: `Man Frowning: Dark Skin Tone`},
-                            {emoji: `&#x1F64D&#x200D&#x2640&#xFE0F`, name: `Woman Frowning`},
-                            {emoji: `&#x1F64D&#x1F3FB&#x200D&#x2640&#xFE0F`, name: `Woman Frowning: Light Skin Tone`},
-                            {emoji: `&#x1F64D&#x1F3FC&#x200D&#x2640&#xFE0F`, name: `Woman Frowning: Medium-Light Skin Tone`},
-                            {emoji: `&#x1F64D&#x1F3FD&#x200D&#x2640&#xFE0F`, name: `Woman Frowning: Medium Skin Tone`},
-                            {emoji: `&#x1F64D&#x1F3FE&#x200D&#x2640&#xFE0F`, name: `Woman Frowning: Medium-Dark Skin Tone`},
-                            {emoji: `&#x1F64D&#x1F3FF&#x200D&#x2640&#xFE0F`, name: `Woman Frowning: Dark Skin Tone`},
-                            {emoji: `&#x1F64E`, name: `Person Pouting`},
-                            {emoji: `&#x1F64E&#x1F3FB`, name: `Person Pouting: Light Skin Tone`},
-                            {emoji: `&#x1F64E&#x1F3FC`, name: `Person Pouting: Medium-Light Skin Tone`},
-                            {emoji: `&#x1F64E&#x1F3FD`, name: `Person Pouting: Medium Skin Tone`},
-                            {emoji: `&#x1F64E&#x1F3FE`, name: `Person Pouting: Medium-Dark Skin Tone`},
-                            {emoji: `&#x1F64E&#x1F3FF`, name: `Person Pouting: Dark Skin Tone`},
-                            {emoji: `&#x1F64E&#x200D&#x2642&#xFE0F`, name: `Man Pouting`},
-                            {emoji: `&#x1F64E&#x1F3FB&#x200D&#x2642&#xFE0F`, name: `Man Pouting: Light Skin Tone`},
-                            {emoji: `&#x1F64E&#x1F3FC&#x200D&#x2642&#xFE0F`, name: `Man Pouting: Medium-Light Skin Tone`},
-                            {emoji: `&#x1F64E&#x1F3FD&#x200D&#x2642&#xFE0F`, name: `Man Pouting: Medium Skin Tone`},
-                            {emoji: `&#x1F64E&#x1F3FE&#x200D&#x2642&#xFE0F`, name: `Man Pouting: Medium-Dark Skin Tone`},
-                            {emoji: `&#x1F64E&#x1F3FF&#x200D&#x2642&#xFE0F`, name: `Man Pouting: Dark Skin Tone`},
-                            {emoji: `&#x1F64E&#x200D&#x2640&#xFE0F`, name: `Woman Pouting`},
-                            {emoji: `&#x1F64E&#x1F3FB&#x200D&#x2640&#xFE0F`, name: `Woman Pouting: Light Skin Tone`},
-                            {emoji: `&#x1F64E&#x1F3FC&#x200D&#x2640&#xFE0F`, name: `Woman Pouting: Medium-Light Skin Tone`},
-                            {emoji: `&#x1F64E&#x1F3FD&#x200D&#x2640&#xFE0F`, name: `Woman Pouting: Medium Skin Tone`},
-                            {emoji: `&#x1F64E&#x1F3FE&#x200D&#x2640&#xFE0F`, name: `Woman Pouting: Medium-Dark Skin Tone`},
-                            {emoji: `&#x1F64E&#x1F3FF&#x200D&#x2640&#xFE0F`, name: `Woman Pouting: Dark Skin Tone`},
-                            {emoji: `&#x1F645`, name: `Person Gesturing NO`},
-                            {emoji: `&#x1F645&#x1F3FB`, name: `Person Gesturing NO: Light Skin Tone`},
-                            {emoji: `&#x1F645&#x1F3FC`, name: `Person Gesturing NO: Medium-Light Skin Tone`},
-                            {emoji: `&#x1F645&#x1F3FD`, name: `Person Gesturing NO: Medium Skin Tone`},
-                            {emoji: `&#x1F645&#x1F3FE`, name: `Person Gesturing NO: Medium-Dark Skin Tone`},
-                            {emoji: `&#x1F645&#x1F3FF`, name: `Person Gesturing NO: Dark Skin Tone`},
-                            {emoji: `&#x1F645&#x200D&#x2642&#xFE0F`, name: `Man Gesturing NO`},
-                            {emoji: `&#x1F645&#x1F3FB&#x200D&#x2642&#xFE0F`, name: `Man Gesturing NO: Light Skin Tone`},
-                            {emoji: `&#x1F645&#x1F3FC&#x200D&#x2642&#xFE0F`, name: `Man Gesturing NO: Medium-Light Skin Tone`},
-                            {emoji: `&#x1F645&#x1F3FD&#x200D&#x2642&#xFE0F`, name: `Man Gesturing NO: Medium Skin Tone`},
-                            {emoji: `&#x1F645&#x1F3FE&#x200D&#x2642&#xFE0F`, name: `Man Gesturing NO: Medium-Dark Skin Tone`},
-                            {emoji: `&#x1F645&#x1F3FF&#x200D&#x2642&#xFE0F`, name: `Man Gesturing NO: Dark Skin Tone`},
-                            {emoji: `&#x1F645&#x200D&#x2640&#xFE0F`, name: `Woman Gesturing NO`},
-                            {emoji: `&#x1F645&#x1F3FB&#x200D&#x2640&#xFE0F`, name: `Woman Gesturing NO: Light Skin Tone`},
-                            {emoji: `&#x1F645&#x1F3FC&#x200D&#x2640&#xFE0F`, name: `Woman Gesturing NO: Medium-Light Skin Tone`},
-                            {emoji: `&#x1F645&#x1F3FD&#x200D&#x2640&#xFE0F`, name: `Woman Gesturing NO: Medium Skin Tone`},
-                            {emoji: `&#x1F645&#x1F3FE&#x200D&#x2640&#xFE0F`, name: `Woman Gesturing NO: Medium-Dark Skin Tone`},
-                            {emoji: `&#x1F645&#x1F3FF&#x200D&#x2640&#xFE0F`, name: `Woman Gesturing NO: Dark Skin Tone`},
-                            {emoji: `&#x1F646`, name: `Person Gesturing OK`},
-                            {emoji: `&#x1F646&#x1F3FB`, name: `Person Gesturing OK: Light Skin Tone`},
-                            {emoji: `&#x1F646&#x1F3FC`, name: `Person Gesturing OK: Medium-Light Skin Tone`},
-                            {emoji: `&#x1F646&#x1F3FD`, name: `Person Gesturing OK: Medium Skin Tone`},
-                            {emoji: `&#x1F646&#x1F3FE`, name: `Person Gesturing OK: Medium-Dark Skin Tone`},
-                            {emoji: `&#x1F646&#x1F3FF`, name: `Person Gesturing OK: Dark Skin Tone`},
-                            {emoji: `&#x1F646&#x200D&#x2642&#xFE0F`, name: `Man Gesturing OK`},
-                            {emoji: `&#x1F646&#x1F3FB&#x200D&#x2642&#xFE0F`, name: `Man Gesturing OK: Light Skin Tone`},
-                            {emoji: `&#x1F646&#x1F3FC&#x200D&#x2642&#xFE0F`, name: `Man Gesturing OK: Medium-Light Skin Tone`},
-                            {emoji: `&#x1F646&#x1F3FD&#x200D&#x2642&#xFE0F`, name: `Man Gesturing OK: Medium Skin Tone`},
-                            {emoji: `&#x1F646&#x1F3FE&#x200D&#x2642&#xFE0F`, name: `Man Gesturing OK: Medium-Dark Skin Tone`},
-                            {emoji: `&#x1F646&#x1F3FF&#x200D&#x2642&#xFE0F`, name: `Man Gesturing OK: Dark Skin Tone`},
-                            {emoji: `&#x1F646&#x200D&#x2640&#xFE0F`, name: `Woman Gesturing OK`},
-                            {emoji: `&#x1F646&#x1F3FB&#x200D&#x2640&#xFE0F`, name: `Woman Gesturing OK: Light Skin Tone`},
-                            {emoji: `&#x1F646&#x1F3FC&#x200D&#x2640&#xFE0F`, name: `Woman Gesturing OK: Medium-Light Skin Tone`},
-                            {emoji: `&#x1F646&#x1F3FD&#x200D&#x2640&#xFE0F`, name: `Woman Gesturing OK: Medium Skin Tone`},
-                            {emoji: `&#x1F646&#x1F3FE&#x200D&#x2640&#xFE0F`, name: `Woman Gesturing OK: Medium-Dark Skin Tone`},
-                            {emoji: `&#x1F646&#x1F3FF&#x200D&#x2640&#xFE0F`, name: `Woman Gesturing OK: Dark Skin Tone`},
-                            {emoji: `&#x1F481`, name: `Person Tipping Hand`},
-                            {emoji: `&#x1F481&#x1F3FB`, name: `Person Tipping Hand: Light Skin Tone`},
-                            {emoji: `&#x1F481&#x1F3FC`, name: `Person Tipping Hand: Medium-Light Skin Tone`},
-                            {emoji: `&#x1F481&#x1F3FD`, name: `Person Tipping Hand: Medium Skin Tone`},
-                            {emoji: `&#x1F481&#x1F3FE`, name: `Person Tipping Hand: Medium-Dark Skin Tone`},
-                            {emoji: `&#x1F481&#x1F3FF`, name: `Person Tipping Hand: Dark Skin Tone`},
-                            {emoji: `&#x1F481&#x200D&#x2642&#xFE0F`, name: `Man Tipping Hand`},
-                            {emoji: `&#x1F481&#x1F3FB&#x200D&#x2642&#xFE0F`, name: `Man Tipping Hand: Light Skin Tone`},
-                            {emoji: `&#x1F481&#x1F3FC&#x200D&#x2642&#xFE0F`, name: `Man Tipping Hand: Medium-Light Skin Tone`},
-                            {emoji: `&#x1F481&#x1F3FD&#x200D&#x2642&#xFE0F`, name: `Man Tipping Hand: Medium Skin Tone`},
-                            {emoji: `&#x1F481&#x1F3FE&#x200D&#x2642&#xFE0F`, name: `Man Tipping Hand: Medium-Dark Skin Tone`},
-                            {emoji: `&#x1F481&#x1F3FF&#x200D&#x2642&#xFE0F`, name: `Man Tipping Hand: Dark Skin Tone`},
-                            {emoji: `&#x1F481&#x200D&#x2640&#xFE0F`, name: `Woman Tipping Hand`},
-                            {emoji: `&#x1F481&#x1F3FB&#x200D&#x2640&#xFE0F`, name: `Woman Tipping Hand: Light Skin Tone`},
-                            {emoji: `&#x1F481&#x1F3FC&#x200D&#x2640&#xFE0F`, name: `Woman Tipping Hand: Medium-Light Skin Tone`},
-                            {emoji: `&#x1F481&#x1F3FD&#x200D&#x2640&#xFE0F`, name: `Woman Tipping Hand: Medium Skin Tone`},
-                            {emoji: `&#x1F481&#x1F3FE&#x200D&#x2640&#xFE0F`, name: `Woman Tipping Hand: Medium-Dark Skin Tone`},
-                            {emoji: `&#x1F481&#x1F3FF&#x200D&#x2640&#xFE0F`, name: `Woman Tipping Hand: Dark Skin Tone`},
-                            {emoji: `&#x1F64B`, name: `Person Raising Hand`},
-                            {emoji: `&#x1F64B&#x1F3FB`, name: `Person Raising Hand: Light Skin Tone`},
-                            {emoji: `&#x1F64B&#x1F3FC`, name: `Person Raising Hand: Medium-Light Skin Tone`},
-                            {emoji: `&#x1F64B&#x1F3FD`, name: `Person Raising Hand: Medium Skin Tone`},
-                            {emoji: `&#x1F64B&#x1F3FE`, name: `Person Raising Hand: Medium-Dark Skin Tone`},
-                            {emoji: `&#x1F64B&#x1F3FF`, name: `Person Raising Hand: Dark Skin Tone`},
-                            {emoji: `&#x1F64B&#x200D&#x2642&#xFE0F`, name: `Man Raising Hand`},
-                            {emoji: `&#x1F64B&#x1F3FB&#x200D&#x2642&#xFE0F`, name: `Man Raising Hand: Light Skin Tone`},
-                            {emoji: `&#x1F64B&#x1F3FC&#x200D&#x2642&#xFE0F`, name: `Man Raising Hand: Medium-Light Skin Tone`},
-                            {emoji: `&#x1F64B&#x1F3FD&#x200D&#x2642&#xFE0F`, name: `Man Raising Hand: Medium Skin Tone`},
-                            {emoji: `&#x1F64B&#x1F3FE&#x200D&#x2642&#xFE0F`, name: `Man Raising Hand: Medium-Dark Skin Tone`},
-                            {emoji: `&#x1F64B&#x1F3FF&#x200D&#x2642&#xFE0F`, name: `Man Raising Hand: Dark Skin Tone`},
-                            {emoji: `&#x1F64B&#x200D&#x2640&#xFE0F`, name: `Woman Raising Hand`},
-                            {emoji: `&#x1F64B&#x1F3FB&#x200D&#x2640&#xFE0F`, name: `Woman Raising Hand: Light Skin Tone`},
-                            {emoji: `&#x1F64B&#x1F3FC&#x200D&#x2640&#xFE0F`, name: `Woman Raising Hand: Medium-Light Skin Tone`},
-                            {emoji: `&#x1F64B&#x1F3FD&#x200D&#x2640&#xFE0F`, name: `Woman Raising Hand: Medium Skin Tone`},
-                            {emoji: `&#x1F64B&#x1F3FE&#x200D&#x2640&#xFE0F`, name: `Woman Raising Hand: Medium-Dark Skin Tone`},
-                            {emoji: `&#x1F64B&#x1F3FF&#x200D&#x2640&#xFE0F`, name: `Woman Raising Hand: Dark Skin Tone`},
-                            {emoji: `&#x1F647`, name: `Person Bowing`},
-                            {emoji: `&#x1F647&#x1F3FB`, name: `Person Bowing: Light Skin Tone`},
-                            {emoji: `&#x1F647&#x1F3FC`, name: `Person Bowing: Medium-Light Skin Tone`},
-                            {emoji: `&#x1F647&#x1F3FD`, name: `Person Bowing: Medium Skin Tone`},
-                            {emoji: `&#x1F647&#x1F3FE`, name: `Person Bowing: Medium-Dark Skin Tone`},
-                            {emoji: `&#x1F647&#x1F3FF`, name: `Person Bowing: Dark Skin Tone`},
-                            {emoji: `&#x1F647&#x200D&#x2642&#xFE0F`, name: `Man Bowing`},
-                            {emoji: `&#x1F647&#x1F3FB&#x200D&#x2642&#xFE0F`, name: `Man Bowing: Light Skin Tone`},
-                            {emoji: `&#x1F647&#x1F3FC&#x200D&#x2642&#xFE0F`, name: `Man Bowing: Medium-Light Skin Tone`},
-                            {emoji: `&#x1F647&#x1F3FD&#x200D&#x2642&#xFE0F`, name: `Man Bowing: Medium Skin Tone`},
-                            {emoji: `&#x1F647&#x1F3FE&#x200D&#x2642&#xFE0F`, name: `Man Bowing: Medium-Dark Skin Tone`},
-                            {emoji: `&#x1F647&#x1F3FF&#x200D&#x2642&#xFE0F`, name: `Man Bowing: Dark Skin Tone`},
-                            {emoji: `&#x1F647&#x200D&#x2640&#xFE0F`, name: `Woman Bowing`},
-                            {emoji: `&#x1F647&#x1F3FB&#x200D&#x2640&#xFE0F`, name: `Woman Bowing: Light Skin Tone`},
-                            {emoji: `&#x1F647&#x1F3FC&#x200D&#x2640&#xFE0F`, name: `Woman Bowing: Medium-Light Skin Tone`},
-                            {emoji: `&#x1F647&#x1F3FD&#x200D&#x2640&#xFE0F`, name: `Woman Bowing: Medium Skin Tone`},
-                            {emoji: `&#x1F647&#x1F3FE&#x200D&#x2640&#xFE0F`, name: `Woman Bowing: Medium-Dark Skin Tone`},
-                            {emoji: `&#x1F647&#x1F3FF&#x200D&#x2640&#xFE0F`, name: `Woman Bowing: Dark Skin Tone`},
-                            {emoji: `&#x1F926`, name: `Person Facepalming`},
-                            {emoji: `&#x1F926&#x1F3FB`, name: `Person Facepalming: Light Skin Tone`},
-                            {emoji: `&#x1F926&#x1F3FC`, name: `Person Facepalming: Medium-Light Skin Tone`},
-                            {emoji: `&#x1F926&#x1F3FD`, name: `Person Facepalming: Medium Skin Tone`},
-                            {emoji: `&#x1F926&#x1F3FE`, name: `Person Facepalming: Medium-Dark Skin Tone`},
-                            {emoji: `&#x1F926&#x1F3FF`, name: `Person Facepalming: Dark Skin Tone`},
-                            {emoji: `&#x1F926&#x200D&#x2642&#xFE0F`, name: `Man Facepalming`},
-                            {emoji: `&#x1F926&#x1F3FB&#x200D&#x2642&#xFE0F`, name: `Man Facepalming: Light Skin Tone`},
-                            {emoji: `&#x1F926&#x1F3FC&#x200D&#x2642&#xFE0F`, name: `Man Facepalming: Medium-Light Skin Tone`},
-                            {emoji: `&#x1F926&#x1F3FD&#x200D&#x2642&#xFE0F`, name: `Man Facepalming: Medium Skin Tone`},
-                            {emoji: `&#x1F926&#x1F3FE&#x200D&#x2642&#xFE0F`, name: `Man Facepalming: Medium-Dark Skin Tone`},
-                            {emoji: `&#x1F926&#x1F3FF&#x200D&#x2642&#xFE0F`, name: `Man Facepalming: Dark Skin Tone`},
-                            {emoji: `&#x1F926&#x200D&#x2640&#xFE0F`, name: `Woman Facepalming`},
-                            {emoji: `&#x1F926&#x1F3FB&#x200D&#x2640&#xFE0F`, name: `Woman Facepalming: Light Skin Tone`},
-                            {emoji: `&#x1F926&#x1F3FC&#x200D&#x2640&#xFE0F`, name: `Woman Facepalming: Medium-Light Skin Tone`},
-                            {emoji: `&#x1F926&#x1F3FD&#x200D&#x2640&#xFE0F`, name: `Woman Facepalming: Medium Skin Tone`},
-                            {emoji: `&#x1F926&#x1F3FE&#x200D&#x2640&#xFE0F`, name: `Woman Facepalming: Medium-Dark Skin Tone`},
-                            {emoji: `&#x1F926&#x1F3FF&#x200D&#x2640&#xFE0F`, name: `Woman Facepalming: Dark Skin Tone`},
-                            {emoji: `&#x1F937`, name: `Person Shrugging`},
-                            {emoji: `&#x1F937&#x1F3FB`, name: `Person Shrugging: Light Skin Tone`},
-                            {emoji: `&#x1F937&#x1F3FC`, name: `Person Shrugging: Medium-Light Skin Tone`},
-                            {emoji: `&#x1F937&#x1F3FD`, name: `Person Shrugging: Medium Skin Tone`},
-                            {emoji: `&#x1F937&#x1F3FE`, name: `Person Shrugging: Medium-Dark Skin Tone`},
-                            {emoji: `&#x1F937&#x1F3FF`, name: `Person Shrugging: Dark Skin Tone`},
-                            {emoji: `&#x1F937&#x200D&#x2642&#xFE0F`, name: `Man Shrugging`},
-                            {emoji: `&#x1F937&#x1F3FB&#x200D&#x2642&#xFE0F`, name: `Man Shrugging: Light Skin Tone`},
-                            {emoji: `&#x1F937&#x1F3FC&#x200D&#x2642&#xFE0F`, name: `Man Shrugging: Medium-Light Skin Tone`},
-                            {emoji: `&#x1F937&#x1F3FD&#x200D&#x2642&#xFE0F`, name: `Man Shrugging: Medium Skin Tone`},
-                            {emoji: `&#x1F937&#x1F3FE&#x200D&#x2642&#xFE0F`, name: `Man Shrugging: Medium-Dark Skin Tone`},
-                            {emoji: `&#x1F937&#x1F3FF&#x200D&#x2642&#xFE0F`, name: `Man Shrugging: Dark Skin Tone`},
-                            {emoji: `&#x1F937&#x200D&#x2640&#xFE0F`, name: `Woman Shrugging`},
-                            {emoji: `&#x1F937&#x1F3FB&#x200D&#x2640&#xFE0F`, name: `Woman Shrugging: Light Skin Tone`},
-                            {emoji: `&#x1F937&#x1F3FC&#x200D&#x2640&#xFE0F`, name: `Woman Shrugging: Medium-Light Skin Tone`},
-                            {emoji: `&#x1F937&#x1F3FD&#x200D&#x2640&#xFE0F`, name: `Woman Shrugging: Medium Skin Tone`},
-                            {emoji: `&#x1F937&#x1F3FE&#x200D&#x2640&#xFE0F`, name: `Woman Shrugging: Medium-Dark Skin Tone`},
-                            {emoji: `&#x1F937&#x1F3FF&#x200D&#x2640&#xFE0F`, name: `Woman Shrugging: Dark Skin Tone`},
-                            {emoji: `&#x1F486`, name: `Person Getting Massage`},
-                            {emoji: `&#x1F486&#x1F3FB`, name: `Person Getting Massage: Light Skin Tone`},
-                            {emoji: `&#x1F486&#x1F3FC`, name: `Person Getting Massage: Medium-Light Skin Tone`},
-                            {emoji: `&#x1F486&#x1F3FD`, name: `Person Getting Massage: Medium Skin Tone`},
-                            {emoji: `&#x1F486&#x1F3FE`, name: `Person Getting Massage: Medium-Dark Skin Tone`},
-                            {emoji: `&#x1F486&#x1F3FF`, name: `Person Getting Massage: Dark Skin Tone`},
-                            {emoji: `&#x1F486&#x200D&#x2642&#xFE0F`, name: `Man Getting Massage`},
-                            {emoji: `&#x1F486&#x1F3FB&#x200D&#x2642&#xFE0F`, name: `Man Getting Massage: Light Skin Tone`},
-                            {emoji: `&#x1F486&#x1F3FC&#x200D&#x2642&#xFE0F`, name: `Man Getting Massage: Medium-Light Skin Tone`},
-                            {emoji: `&#x1F486&#x1F3FD&#x200D&#x2642&#xFE0F`, name: `Man Getting Massage: Medium Skin Tone`},
-                            {emoji: `&#x1F486&#x1F3FE&#x200D&#x2642&#xFE0F`, name: `Man Getting Massage: Medium-Dark Skin Tone`},
-                            {emoji: `&#x1F486&#x1F3FF&#x200D&#x2642&#xFE0F`, name: `Man Getting Massage: Dark Skin Tone`},
-                            {emoji: `&#x1F486&#x200D&#x2640&#xFE0F`, name: `Woman Getting Massage`},
-                            {emoji: `&#x1F486&#x1F3FB&#x200D&#x2640&#xFE0F`, name: `Woman Getting Massage: Light Skin Tone`},
-                            {emoji: `&#x1F486&#x1F3FC&#x200D&#x2640&#xFE0F`, name: `Woman Getting Massage: Medium-Light Skin Tone`},
-                            {emoji: `&#x1F486&#x1F3FD&#x200D&#x2640&#xFE0F`, name: `Woman Getting Massage: Medium Skin Tone`},
-                            {emoji: `&#x1F486&#x1F3FE&#x200D&#x2640&#xFE0F`, name: `Woman Getting Massage: Medium-Dark Skin Tone`},
-                            {emoji: `&#x1F486&#x1F3FF&#x200D&#x2640&#xFE0F`, name: `Woman Getting Massage: Dark Skin Tone`},
-                            {emoji: `&#x1F487`, name: `Person Getting Haircut`},
-                            {emoji: `&#x1F487&#x1F3FB`, name: `Person Getting Haircut: Light Skin Tone`},
-                            {emoji: `&#x1F487&#x1F3FC`, name: `Person Getting Haircut: Medium-Light Skin Tone`},
-                            {emoji: `&#x1F487&#x1F3FD`, name: `Person Getting Haircut: Medium Skin Tone`},
-                            {emoji: `&#x1F487&#x1F3FE`, name: `Person Getting Haircut: Medium-Dark Skin Tone`},
-                            {emoji: `&#x1F487&#x1F3FF`, name: `Person Getting Haircut: Dark Skin Tone`},
-                            {emoji: `&#x1F487&#x200D&#x2642&#xFE0F`, name: `Man Getting Haircut`},
-                            {emoji: `&#x1F487&#x1F3FB&#x200D&#x2642&#xFE0F`, name: `Man Getting Haircut: Light Skin Tone`},
-                            {emoji: `&#x1F487&#x1F3FC&#x200D&#x2642&#xFE0F`, name: `Man Getting Haircut: Medium-Light Skin Tone`},
-                            {emoji: `&#x1F487&#x1F3FD&#x200D&#x2642&#xFE0F`, name: `Man Getting Haircut: Medium Skin Tone`},
-                            {emoji: `&#x1F487&#x1F3FE&#x200D&#x2642&#xFE0F`, name: `Man Getting Haircut: Medium-Dark Skin Tone`},
-                            {emoji: `&#x1F487&#x1F3FF&#x200D&#x2642&#xFE0F`, name: `Man Getting Haircut: Dark Skin Tone`},
-                            {emoji: `&#x1F487&#x200D&#x2640&#xFE0F`, name: `Woman Getting Haircut`},
-                            {emoji: `&#x1F487&#x1F3FB&#x200D&#x2640&#xFE0F`, name: `Woman Getting Haircut: Light Skin Tone`},
-                            {emoji: `&#x1F487&#x1F3FC&#x200D&#x2640&#xFE0F`, name: `Woman Getting Haircut: Medium-Light Skin Tone`},
-                            {emoji: `&#x1F487&#x1F3FD&#x200D&#x2640&#xFE0F`, name: `Woman Getting Haircut: Medium Skin Tone`},
-                            {emoji: `&#x1F487&#x1F3FE&#x200D&#x2640&#xFE0F`, name: `Woman Getting Haircut: Medium-Dark Skin Tone`},
-                            {emoji: `&#x1F487&#x1F3FF&#x200D&#x2640&#xFE0F`, name: `Woman Getting Haircut: Dark Skin Tone`},
-                            {emoji: `&#x1F6B6`, name: `Person Walking`},
-                            {emoji: `&#x1F6B6&#x1F3FB`, name: `Person Walking: Light Skin Tone`},
-                            {emoji: `&#x1F6B6&#x1F3FC`, name: `Person Walking: Medium-Light Skin Tone`},
-                            {emoji: `&#x1F6B6&#x1F3FD`, name: `Person Walking: Medium Skin Tone`},
-                            {emoji: `&#x1F6B6&#x1F3FE`, name: `Person Walking: Medium-Dark Skin Tone`},
-                            {emoji: `&#x1F6B6&#x1F3FF`, name: `Person Walking: Dark Skin Tone`},
-                            {emoji: `&#x1F6B6&#x200D&#x2642&#xFE0F`, name: `Man Walking`},
-                            {emoji: `&#x1F6B6&#x1F3FB&#x200D&#x2642&#xFE0F`, name: `Man Walking: Light Skin Tone`},
-                            {emoji: `&#x1F6B6&#x1F3FC&#x200D&#x2642&#xFE0F`, name: `Man Walking: Medium-Light Skin Tone`},
-                            {emoji: `&#x1F6B6&#x1F3FD&#x200D&#x2642&#xFE0F`, name: `Man Walking: Medium Skin Tone`},
-                            {emoji: `&#x1F6B6&#x1F3FE&#x200D&#x2642&#xFE0F`, name: `Man Walking: Medium-Dark Skin Tone`},
-                            {emoji: `&#x1F6B6&#x1F3FF&#x200D&#x2642&#xFE0F`, name: `Man Walking: Dark Skin Tone`},
-                            {emoji: `&#x1F6B6&#x200D&#x2640&#xFE0F`, name: `Woman Walking`},
-                            {emoji: `&#x1F6B6&#x1F3FB&#x200D&#x2640&#xFE0F`, name: `Woman Walking: Light Skin Tone`},
-                            {emoji: `&#x1F6B6&#x1F3FC&#x200D&#x2640&#xFE0F`, name: `Woman Walking: Medium-Light Skin Tone`},
-                            {emoji: `&#x1F6B6&#x1F3FD&#x200D&#x2640&#xFE0F`, name: `Woman Walking: Medium Skin Tone`},
-                            {emoji: `&#x1F6B6&#x1F3FE&#x200D&#x2640&#xFE0F`, name: `Woman Walking: Medium-Dark Skin Tone`},
-                            {emoji: `&#x1F6B6&#x1F3FF&#x200D&#x2640&#xFE0F`, name: `Woman Walking: Dark Skin Tone`},
-                            {emoji: `&#x1F3C3`, name: `Person Running`},
-                            {emoji: `&#x1F3C3&#x1F3FB`, name: `Person Running: Light Skin Tone`},
-                            {emoji: `&#x1F3C3&#x1F3FC`, name: `Person Running: Medium-Light Skin Tone`},
-                            {emoji: `&#x1F3C3&#x1F3FD`, name: `Person Running: Medium Skin Tone`},
-                            {emoji: `&#x1F3C3&#x1F3FE`, name: `Person Running: Medium-Dark Skin Tone`},
-                            {emoji: `&#x1F3C3&#x1F3FF`, name: `Person Running: Dark Skin Tone`},
-                            {emoji: `&#x1F3C3&#x200D&#x2642&#xFE0F`, name: `Man Running`},
-                            {emoji: `&#x1F3C3&#x1F3FB&#x200D&#x2642&#xFE0F`, name: `Man Running: Light Skin Tone`},
-                            {emoji: `&#x1F3C3&#x1F3FC&#x200D&#x2642&#xFE0F`, name: `Man Running: Medium-Light Skin Tone`},
-                            {emoji: `&#x1F3C3&#x1F3FD&#x200D&#x2642&#xFE0F`, name: `Man Running: Medium Skin Tone`},
-                            {emoji: `&#x1F3C3&#x1F3FE&#x200D&#x2642&#xFE0F`, name: `Man Running: Medium-Dark Skin Tone`},
-                            {emoji: `&#x1F3C3&#x1F3FF&#x200D&#x2642&#xFE0F`, name: `Man Running: Dark Skin Tone`},
-                            {emoji: `&#x1F3C3&#x200D&#x2640&#xFE0F`, name: `Woman Running`},
-                            {emoji: `&#x1F3C3&#x1F3FB&#x200D&#x2640&#xFE0F`, name: `Woman Running: Light Skin Tone`},
-                            {emoji: `&#x1F3C3&#x1F3FC&#x200D&#x2640&#xFE0F`, name: `Woman Running: Medium-Light Skin Tone`},
-                            {emoji: `&#x1F3C3&#x1F3FD&#x200D&#x2640&#xFE0F`, name: `Woman Running: Medium Skin Tone`},
-                            {emoji: `&#x1F3C3&#x1F3FE&#x200D&#x2640&#xFE0F`, name: `Woman Running: Medium-Dark Skin Tone`},
-                            {emoji: `&#x1F3C3&#x1F3FF&#x200D&#x2640&#xFE0F`, name: `Woman Running: Dark Skin Tone`},
-                            {emoji: `&#x1F483`, name: `Woman Dancing`},
-                            {emoji: `&#x1F483&#x1F3FB`, name: `Woman Dancing: Light Skin Tone`},
-                            {emoji: `&#x1F483&#x1F3FC`, name: `Woman Dancing: Medium-Light Skin Tone`},
-                            {emoji: `&#x1F483&#x1F3FD`, name: `Woman Dancing: Medium Skin Tone`},
-                            {emoji: `&#x1F483&#x1F3FE`, name: `Woman Dancing: Medium-Dark Skin Tone`},
-                            {emoji: `&#x1F483&#x1F3FF`, name: `Woman Dancing: Dark Skin Tone`},
-                            {emoji: `&#x1F57A`, name: `Man Dancing`},
-                            {emoji: `&#x1F57A&#x1F3FB`, name: `Man Dancing: Light Skin Tone`},
-                            {emoji: `&#x1F57A&#x1F3FC`, name: `Man Dancing: Medium-Light Skin Tone`},
-                            {emoji: `&#x1F57A&#x1F3FD`, name: `Man Dancing: Medium Skin Tone`},
-                            {emoji: `&#x1F57A&#x1F3FE`, name: `Man Dancing: Medium-Dark Skin Tone`},
-                            {emoji: `&#x1F57A&#x1F3FF`, name: `Man Dancing: Dark Skin Tone`},
-                            {emoji: `&#x1F46F`, name: `People With Bunny Ears Partying`},
-                            {emoji: `&#x1F46F&#x200D&#x2642&#xFE0F`, name: `Men With Bunny Ears Partying`},
-                            {emoji: `&#x1F46F&#x200D&#x2640&#xFE0F`, name: `Women With Bunny Ears Partying`},
-                            {emoji: `&#x1F574`, name: `Man In Business Suit Levitating`},
-                            {emoji: `&#x1F574&#x1F3FB`, name: `Man In Business Suit Levitating: Light Skin Tone`},
-                            {emoji: `&#x1F574&#x1F3FC`, name: `Man In Business Suit Levitating: Medium-Light Skin Tone`},
-                            {emoji: `&#x1F574&#x1F3FD`, name: `Man In Business Suit Levitating: Medium Skin Tone`},
-                            {emoji: `&#x1F574&#x1F3FE`, name: `Man In Business Suit Levitating: Medium-Dark Skin Tone`},
-                            {emoji: `&#x1F574&#x1F3FF`, name: `Man In Business Suit Levitating: Dark Skin Tone`},
-                            {emoji: `&#x1F5E3`, name: `Speaking Head`},
-                            {emoji: `&#x1F464`, name: `Bust In Silhouette`},
-                            {emoji: `&#x1F465`, name: `Busts In Silhouette`},
-                            {emoji: `&#x1F93A`, name: `Person Fencing`},
-                            {emoji: `&#x1F3C7`, name: `Horse Racing`},
-                            {emoji: `&#x1F3C7&#x1F3FB`, name: `Horse Racing: Light Skin Tone`},
-                            {emoji: `&#x1F3C7&#x1F3FC`, name: `Horse Racing: Medium-Light Skin Tone`},
-                            {emoji: `&#x1F3C7&#x1F3FD`, name: `Horse Racing: Medium Skin Tone`},
-                            {emoji: `&#x1F3C7&#x1F3FE`, name: `Horse Racing: Medium-Dark Skin Tone`},
-                            {emoji: `&#x1F3C7&#x1F3FF`, name: `Horse Racing: Dark Skin Tone`},
-                            {emoji: `&#x26F7`, name: `Skier`},
-                            {emoji: `&#x1F3C2`, name: `Snowboarder`},
-                            {emoji: `&#x1F3C2&#x1F3FB`, name: `Snowboarder: Light Skin Tone`},
-                            {emoji: `&#x1F3C2&#x1F3FC`, name: `Snowboarder: Medium-Light Skin Tone`},
-                            {emoji: `&#x1F3C2&#x1F3FD`, name: `Snowboarder: Medium Skin Tone`},
-                            {emoji: `&#x1F3C2&#x1F3FE`, name: `Snowboarder: Medium-Dark Skin Tone`},
-                            {emoji: `&#x1F3C2&#x1F3FF`, name: `Snowboarder: Dark Skin Tone`},
-                            {emoji: `&#x1F3CC`, name: `Person Golfing`},
-                            {emoji: `&#x1F3CC&#x1F3FB`, name: `Person Golfing: Light Skin Tone`},
-                            {emoji: `&#x1F3CC&#x1F3FC`, name: `Person Golfing: Medium-Light Skin Tone`},
-                            {emoji: `&#x1F3CC&#x1F3FD`, name: `Person Golfing: Medium Skin Tone`},
-                            {emoji: `&#x1F3CC&#x1F3FE`, name: `Person Golfing: Medium-Dark Skin Tone`},
-                            {emoji: `&#x1F3CC&#x1F3FF`, name: `Person Golfing: Dark Skin Tone`},
-                            {emoji: `&#x1F3CC&#xFE0F&#x200D&#x2642&#xFE0F`, name: `Man Golfing`},
-                            {emoji: `&#x1F3CC&#x1F3FB&#x200D&#x2642&#xFE0F`, name: `Man Golfing: Light Skin Tone`},
-                            {emoji: `&#x1F3CC&#x1F3FC&#x200D&#x2642&#xFE0F`, name: `Man Golfing: Medium-Light Skin Tone`},
-                            {emoji: `&#x1F3CC&#x1F3FD&#x200D&#x2642&#xFE0F`, name: `Man Golfing: Medium Skin Tone`},
-                            {emoji: `&#x1F3CC&#x1F3FE&#x200D&#x2642&#xFE0F`, name: `Man Golfing: Medium-Dark Skin Tone`},
-                            {emoji: `&#x1F3CC&#x1F3FF&#x200D&#x2642&#xFE0F`, name: `Man Golfing: Dark Skin Tone`},
-                            {emoji: `&#x1F3CC&#xFE0F&#x200D&#x2640&#xFE0F`, name: `Woman Golfing`},
-                            {emoji: `&#x1F3CC&#x1F3FB&#x200D&#x2640&#xFE0F`, name: `Woman Golfing: Light Skin Tone`},
-                            {emoji: `&#x1F3CC&#x1F3FC&#x200D&#x2640&#xFE0F`, name: `Woman Golfing: Medium-Light Skin Tone`},
-                            {emoji: `&#x1F3CC&#x1F3FD&#x200D&#x2640&#xFE0F`, name: `Woman Golfing: Medium Skin Tone`},
-                            {emoji: `&#x1F3CC&#x1F3FE&#x200D&#x2640&#xFE0F`, name: `Woman Golfing: Medium-Dark Skin Tone`},
-                            {emoji: `&#x1F3CC&#x1F3FF&#x200D&#x2640&#xFE0F`, name: `Woman Golfing: Dark Skin Tone`},
-                            {emoji: `&#x1F3C4`, name: `Person Surfing`},
-                            {emoji: `&#x1F3C4&#x1F3FB`, name: `Person Surfing: Light Skin Tone`},
-                            {emoji: `&#x1F3C4&#x1F3FC`, name: `Person Surfing: Medium-Light Skin Tone`},
-                            {emoji: `&#x1F3C4&#x1F3FD`, name: `Person Surfing: Medium Skin Tone`},
-                            {emoji: `&#x1F3C4&#x1F3FE`, name: `Person Surfing: Medium-Dark Skin Tone`},
-                            {emoji: `&#x1F3C4&#x1F3FF`, name: `Person Surfing: Dark Skin Tone`},
-                            {emoji: `&#x1F3C4&#x200D&#x2642&#xFE0F`, name: `Man Surfing`},
-                            {emoji: `&#x1F3C4&#x1F3FB&#x200D&#x2642&#xFE0F`, name: `Man Surfing: Light Skin Tone`},
-                            {emoji: `&#x1F3C4&#x1F3FC&#x200D&#x2642&#xFE0F`, name: `Man Surfing: Medium-Light Skin Tone`},
-                            {emoji: `&#x1F3C4&#x1F3FD&#x200D&#x2642&#xFE0F`, name: `Man Surfing: Medium Skin Tone`},
-                            {emoji: `&#x1F3C4&#x1F3FE&#x200D&#x2642&#xFE0F`, name: `Man Surfing: Medium-Dark Skin Tone`},
-                            {emoji: `&#x1F3C4&#x1F3FF&#x200D&#x2642&#xFE0F`, name: `Man Surfing: Dark Skin Tone`},
-                            {emoji: `&#x1F3C4&#x200D&#x2640&#xFE0F`, name: `Woman Surfing`},
-                            {emoji: `&#x1F3C4&#x1F3FB&#x200D&#x2640&#xFE0F`, name: `Woman Surfing: Light Skin Tone`},
-                            {emoji: `&#x1F3C4&#x1F3FC&#x200D&#x2640&#xFE0F`, name: `Woman Surfing: Medium-Light Skin Tone`},
-                            {emoji: `&#x1F3C4&#x1F3FD&#x200D&#x2640&#xFE0F`, name: `Woman Surfing: Medium Skin Tone`},
-                            {emoji: `&#x1F3C4&#x1F3FE&#x200D&#x2640&#xFE0F`, name: `Woman Surfing: Medium-Dark Skin Tone`},
-                            {emoji: `&#x1F3C4&#x1F3FF&#x200D&#x2640&#xFE0F`, name: `Woman Surfing: Dark Skin Tone`},
-                            {emoji: `&#x1F6A3`, name: `Person Rowing Boat`},
-                            {emoji: `&#x1F6A3&#x1F3FB`, name: `Person Rowing Boat: Light Skin Tone`},
-                            {emoji: `&#x1F6A3&#x1F3FC`, name: `Person Rowing Boat: Medium-Light Skin Tone`},
-                            {emoji: `&#x1F6A3&#x1F3FD`, name: `Person Rowing Boat: Medium Skin Tone`},
-                            {emoji: `&#x1F6A3&#x1F3FE`, name: `Person Rowing Boat: Medium-Dark Skin Tone`},
-                            {emoji: `&#x1F6A3&#x1F3FF`, name: `Person Rowing Boat: Dark Skin Tone`},
-                            {emoji: `&#x1F6A3&#x200D&#x2642&#xFE0F`, name: `Man Rowing Boat`},
-                            {emoji: `&#x1F6A3&#x1F3FB&#x200D&#x2642&#xFE0F`, name: `Man Rowing Boat: Light Skin Tone`},
-                            {emoji: `&#x1F6A3&#x1F3FC&#x200D&#x2642&#xFE0F`, name: `Man Rowing Boat: Medium-Light Skin Tone`},
-                            {emoji: `&#x1F6A3&#x1F3FD&#x200D&#x2642&#xFE0F`, name: `Man Rowing Boat: Medium Skin Tone`},
-                            {emoji: `&#x1F6A3&#x1F3FE&#x200D&#x2642&#xFE0F`, name: `Man Rowing Boat: Medium-Dark Skin Tone`},
-                            {emoji: `&#x1F6A3&#x1F3FF&#x200D&#x2642&#xFE0F`, name: `Man Rowing Boat: Dark Skin Tone`},
-                            {emoji: `&#x1F6A3&#x200D&#x2640&#xFE0F`, name: `Woman Rowing Boat`},
-                            {emoji: `&#x1F6A3&#x1F3FB&#x200D&#x2640&#xFE0F`, name: `Woman Rowing Boat: Light Skin Tone`},
-                            {emoji: `&#x1F6A3&#x1F3FC&#x200D&#x2640&#xFE0F`, name: `Woman Rowing Boat: Medium-Light Skin Tone`},
-                            {emoji: `&#x1F6A3&#x1F3FD&#x200D&#x2640&#xFE0F`, name: `Woman Rowing Boat: Medium Skin Tone`},
-                            {emoji: `&#x1F6A3&#x1F3FE&#x200D&#x2640&#xFE0F`, name: `Woman Rowing Boat: Medium-Dark Skin Tone`},
-                            {emoji: `&#x1F6A3&#x1F3FF&#x200D&#x2640&#xFE0F`, name: `Woman Rowing Boat: Dark Skin Tone`},
-                            {emoji: `&#x1F3CA`, name: `Person Swimming`},
-                            {emoji: `&#x1F3CA&#x1F3FB`, name: `Person Swimming: Light Skin Tone`},
-                            {emoji: `&#x1F3CA&#x1F3FC`, name: `Person Swimming: Medium-Light Skin Tone`},
-                            {emoji: `&#x1F3CA&#x1F3FD`, name: `Person Swimming: Medium Skin Tone`},
-                            {emoji: `&#x1F3CA&#x1F3FE`, name: `Person Swimming: Medium-Dark Skin Tone`},
-                            {emoji: `&#x1F3CA&#x1F3FF`, name: `Person Swimming: Dark Skin Tone`},
-                            {emoji: `&#x1F3CA&#x200D&#x2642&#xFE0F`, name: `Man Swimming`},
-                            {emoji: `&#x1F3CA&#x1F3FB&#x200D&#x2642&#xFE0F`, name: `Man Swimming: Light Skin Tone`},
-                            {emoji: `&#x1F3CA&#x1F3FC&#x200D&#x2642&#xFE0F`, name: `Man Swimming: Medium-Light Skin Tone`},
-                            {emoji: `&#x1F3CA&#x1F3FD&#x200D&#x2642&#xFE0F`, name: `Man Swimming: Medium Skin Tone`},
-                            {emoji: `&#x1F3CA&#x1F3FE&#x200D&#x2642&#xFE0F`, name: `Man Swimming: Medium-Dark Skin Tone`},
-                            {emoji: `&#x1F3CA&#x1F3FF&#x200D&#x2642&#xFE0F`, name: `Man Swimming: Dark Skin Tone`},
-                            {emoji: `&#x1F3CA&#x200D&#x2640&#xFE0F`, name: `Woman Swimming`},
-                            {emoji: `&#x1F3CA&#x1F3FB&#x200D&#x2640&#xFE0F`, name: `Woman Swimming: Light Skin Tone`},
-                            {emoji: `&#x1F3CA&#x1F3FC&#x200D&#x2640&#xFE0F`, name: `Woman Swimming: Medium-Light Skin Tone`},
-                            {emoji: `&#x1F3CA&#x1F3FD&#x200D&#x2640&#xFE0F`, name: `Woman Swimming: Medium Skin Tone`},
-                            {emoji: `&#x1F3CA&#x1F3FE&#x200D&#x2640&#xFE0F`, name: `Woman Swimming: Medium-Dark Skin Tone`},
-                            {emoji: `&#x1F3CA&#x1F3FF&#x200D&#x2640&#xFE0F`, name: `Woman Swimming: Dark Skin Tone`},
-                            {emoji: `&#x26F9`, name: `Person Bouncing Ball`},
-                            {emoji: `&#x26F9&#x1F3FB`, name: `Person Bouncing Ball: Light Skin Tone`},
-                            {emoji: `&#x26F9&#x1F3FC`, name: `Person Bouncing Ball: Medium-Light Skin Tone`},
-                            {emoji: `&#x26F9&#x1F3FD`, name: `Person Bouncing Ball: Medium Skin Tone`},
-                            {emoji: `&#x26F9&#x1F3FE`, name: `Person Bouncing Ball: Medium-Dark Skin Tone`},
-                            {emoji: `&#x26F9&#x1F3FF`, name: `Person Bouncing Ball: Dark Skin Tone`},
-                            {emoji: `&#x26F9&#xFE0F&#x200D&#x2642&#xFE0F`, name: `Man Bouncing Ball`},
-                            {emoji: `&#x26F9&#x1F3FB&#x200D&#x2642&#xFE0F`, name: `Man Bouncing Ball: Light Skin Tone`},
-                            {emoji: `&#x26F9&#x1F3FC&#x200D&#x2642&#xFE0F`, name: `Man Bouncing Ball: Medium-Light Skin Tone`},
-                            {emoji: `&#x26F9&#x1F3FD&#x200D&#x2642&#xFE0F`, name: `Man Bouncing Ball: Medium Skin Tone`},
-                            {emoji: `&#x26F9&#x1F3FE&#x200D&#x2642&#xFE0F`, name: `Man Bouncing Ball: Medium-Dark Skin Tone`},
-                            {emoji: `&#x26F9&#x1F3FF&#x200D&#x2642&#xFE0F`, name: `Man Bouncing Ball: Dark Skin Tone`},
-                            {emoji: `&#x26F9&#xFE0F&#x200D&#x2640&#xFE0F`, name: `Woman Bouncing Ball`},
-                            {emoji: `&#x26F9&#x1F3FB&#x200D&#x2640&#xFE0F`, name: `Woman Bouncing Ball: Light Skin Tone`},
-                            {emoji: `&#x26F9&#x1F3FC&#x200D&#x2640&#xFE0F`, name: `Woman Bouncing Ball: Medium-Light Skin Tone`},
-                            {emoji: `&#x26F9&#x1F3FD&#x200D&#x2640&#xFE0F`, name: `Woman Bouncing Ball: Medium Skin Tone`},
-                            {emoji: `&#x26F9&#x1F3FE&#x200D&#x2640&#xFE0F`, name: `Woman Bouncing Ball: Medium-Dark Skin Tone`},
-                            {emoji: `&#x26F9&#x1F3FF&#x200D&#x2640&#xFE0F`, name: `Woman Bouncing Ball: Dark Skin Tone`},
-                            {emoji: `&#x1F3CB`, name: `Person Lifting Weights`},
-                            {emoji: `&#x1F3CB&#x1F3FB`, name: `Person Lifting Weights: Light Skin Tone`},
-                            {emoji: `&#x1F3CB&#x1F3FC`, name: `Person Lifting Weights: Medium-Light Skin Tone`},
-                            {emoji: `&#x1F3CB&#x1F3FD`, name: `Person Lifting Weights: Medium Skin Tone`},
-                            {emoji: `&#x1F3CB&#x1F3FE`, name: `Person Lifting Weights: Medium-Dark Skin Tone`},
-                            {emoji: `&#x1F3CB&#x1F3FF`, name: `Person Lifting Weights: Dark Skin Tone`},
-                            {emoji: `&#x1F3CB&#xFE0F&#x200D&#x2642&#xFE0F`, name: `Man Lifting Weights`},
-                            {emoji: `&#x1F3CB&#x1F3FB&#x200D&#x2642&#xFE0F`, name: `Man Lifting Weights: Light Skin Tone`},
-                            {emoji: `&#x1F3CB&#x1F3FC&#x200D&#x2642&#xFE0F`, name: `Man Lifting Weights: Medium-Light Skin Tone`},
-                            {emoji: `&#x1F3CB&#x1F3FD&#x200D&#x2642&#xFE0F`, name: `Man Lifting Weights: Medium Skin Tone`},
-                            {emoji: `&#x1F3CB&#x1F3FE&#x200D&#x2642&#xFE0F`, name: `Man Lifting Weights: Medium-Dark Skin Tone`},
-                            {emoji: `&#x1F3CB&#x1F3FF&#x200D&#x2642&#xFE0F`, name: `Man Lifting Weights: Dark Skin Tone`},
-                            {emoji: `&#x1F3CB&#xFE0F&#x200D&#x2640&#xFE0F`, name: `Woman Lifting Weights`},
-                            {emoji: `&#x1F3CB&#x1F3FB&#x200D&#x2640&#xFE0F`, name: `Woman Lifting Weights: Light Skin Tone`},
-                            {emoji: `&#x1F3CB&#x1F3FC&#x200D&#x2640&#xFE0F`, name: `Woman Lifting Weights: Medium-Light Skin Tone`},
-                            {emoji: `&#x1F3CB&#x1F3FD&#x200D&#x2640&#xFE0F`, name: `Woman Lifting Weights: Medium Skin Tone`},
-                            {emoji: `&#x1F3CB&#x1F3FE&#x200D&#x2640&#xFE0F`, name: `Woman Lifting Weights: Medium-Dark Skin Tone`},
-                            {emoji: `&#x1F3CB&#x1F3FF&#x200D&#x2640&#xFE0F`, name: `Woman Lifting Weights: Dark Skin Tone`},
-                            {emoji: `&#x1F6B4`, name: `Person Biking`},
-                            {emoji: `&#x1F6B4&#x1F3FB`, name: `Person Biking: Light Skin Tone`},
-                            {emoji: `&#x1F6B4&#x1F3FC`, name: `Person Biking: Medium-Light Skin Tone`},
-                            {emoji: `&#x1F6B4&#x1F3FD`, name: `Person Biking: Medium Skin Tone`},
-                            {emoji: `&#x1F6B4&#x1F3FE`, name: `Person Biking: Medium-Dark Skin Tone`},
-                            {emoji: `&#x1F6B4&#x1F3FF`, name: `Person Biking: Dark Skin Tone`},
-                            {emoji: `&#x1F6B4&#x200D&#x2642&#xFE0F`, name: `Man Biking`},
-                            {emoji: `&#x1F6B4&#x1F3FB&#x200D&#x2642&#xFE0F`, name: `Man Biking: Light Skin Tone`},
-                            {emoji: `&#x1F6B4&#x1F3FC&#x200D&#x2642&#xFE0F`, name: `Man Biking: Medium-Light Skin Tone`},
-                            {emoji: `&#x1F6B4&#x1F3FD&#x200D&#x2642&#xFE0F`, name: `Man Biking: Medium Skin Tone`},
-                            {emoji: `&#x1F6B4&#x1F3FE&#x200D&#x2642&#xFE0F`, name: `Man Biking: Medium-Dark Skin Tone`},
-                            {emoji: `&#x1F6B4&#x1F3FF&#x200D&#x2642&#xFE0F`, name: `Man Biking: Dark Skin Tone`},
-                            {emoji: `&#x1F6B4&#x200D&#x2640&#xFE0F`, name: `Woman Biking`},
-                            {emoji: `&#x1F6B4&#x1F3FB&#x200D&#x2640&#xFE0F`, name: `Woman Biking: Light Skin Tone`},
-                            {emoji: `&#x1F6B4&#x1F3FC&#x200D&#x2640&#xFE0F`, name: `Woman Biking: Medium-Light Skin Tone`},
-                            {emoji: `&#x1F6B4&#x1F3FD&#x200D&#x2640&#xFE0F`, name: `Woman Biking: Medium Skin Tone`},
-                            {emoji: `&#x1F6B4&#x1F3FE&#x200D&#x2640&#xFE0F`, name: `Woman Biking: Medium-Dark Skin Tone`},
-                            {emoji: `&#x1F6B4&#x1F3FF&#x200D&#x2640&#xFE0F`, name: `Woman Biking: Dark Skin Tone`},
-                            {emoji: `&#x1F6B5`, name: `Person Mountain Biking`},
-                            {emoji: `&#x1F6B5&#x1F3FB`, name: `Person Mountain Biking: Light Skin Tone`},
-                            {emoji: `&#x1F6B5&#x1F3FC`, name: `Person Mountain Biking: Medium-Light Skin Tone`},
-                            {emoji: `&#x1F6B5&#x1F3FD`, name: `Person Mountain Biking: Medium Skin Tone`},
-                            {emoji: `&#x1F6B5&#x1F3FE`, name: `Person Mountain Biking: Medium-Dark Skin Tone`},
-                            {emoji: `&#x1F6B5&#x1F3FF`, name: `Person Mountain Biking: Dark Skin Tone`},
-                            {emoji: `&#x1F6B5&#x200D&#x2642&#xFE0F`, name: `Man Mountain Biking`},
-                            {emoji: `&#x1F6B5&#x1F3FB&#x200D&#x2642&#xFE0F`, name: `Man Mountain Biking: Light Skin Tone`},
-                            {emoji: `&#x1F6B5&#x1F3FC&#x200D&#x2642&#xFE0F`, name: `Man Mountain Biking: Medium-Light Skin Tone`},
-                            {emoji: `&#x1F6B5&#x1F3FD&#x200D&#x2642&#xFE0F`, name: `Man Mountain Biking: Medium Skin Tone`},
-                            {emoji: `&#x1F6B5&#x1F3FE&#x200D&#x2642&#xFE0F`, name: `Man Mountain Biking: Medium-Dark Skin Tone`},
-                            {emoji: `&#x1F6B5&#x1F3FF&#x200D&#x2642&#xFE0F`, name: `Man Mountain Biking: Dark Skin Tone`},
-                            {emoji: `&#x1F6B5&#x200D&#x2640&#xFE0F`, name: `Woman Mountain Biking`},
-                            {emoji: `&#x1F6B5&#x1F3FB&#x200D&#x2640&#xFE0F`, name: `Woman Mountain Biking: Light Skin Tone`},
-                            {emoji: `&#x1F6B5&#x1F3FC&#x200D&#x2640&#xFE0F`, name: `Woman Mountain Biking: Medium-Light Skin Tone`},
-                            {emoji: `&#x1F6B5&#x1F3FD&#x200D&#x2640&#xFE0F`, name: `Woman Mountain Biking: Medium Skin Tone`},
-                            {emoji: `&#x1F6B5&#x1F3FE&#x200D&#x2640&#xFE0F`, name: `Woman Mountain Biking: Medium-Dark Skin Tone`},
-                            {emoji: `&#x1F6B5&#x1F3FF&#x200D&#x2640&#xFE0F`, name: `Woman Mountain Biking: Dark Skin Tone`},
-                            {emoji: `&#x1F3CE`, name: `Racing Car`},
-                            {emoji: `&#x1F3CD`, name: `Motorcycle`},
-                            {emoji: `&#x1F938`, name: `Person Cartwheeling`},
-                            {emoji: `&#x1F938&#x1F3FB`, name: `Person Cartwheeling: Light Skin Tone`},
-                            {emoji: `&#x1F938&#x1F3FC`, name: `Person Cartwheeling: Medium-Light Skin Tone`},
-                            {emoji: `&#x1F938&#x1F3FD`, name: `Person Cartwheeling: Medium Skin Tone`},
-                            {emoji: `&#x1F938&#x1F3FE`, name: `Person Cartwheeling: Medium-Dark Skin Tone`},
-                            {emoji: `&#x1F938&#x1F3FF`, name: `Person Cartwheeling: Dark Skin Tone`},
-                            {emoji: `&#x1F938&#x200D&#x2642&#xFE0F`, name: `Man Cartwheeling`},
-                            {emoji: `&#x1F938&#x1F3FB&#x200D&#x2642&#xFE0F`, name: `Man Cartwheeling: Light Skin Tone`},
-                            {emoji: `&#x1F938&#x1F3FC&#x200D&#x2642&#xFE0F`, name: `Man Cartwheeling: Medium-Light Skin Tone`},
-                            {emoji: `&#x1F938&#x1F3FD&#x200D&#x2642&#xFE0F`, name: `Man Cartwheeling: Medium Skin Tone`},
-                            {emoji: `&#x1F938&#x1F3FE&#x200D&#x2642&#xFE0F`, name: `Man Cartwheeling: Medium-Dark Skin Tone`},
-                            {emoji: `&#x1F938&#x1F3FF&#x200D&#x2642&#xFE0F`, name: `Man Cartwheeling: Dark Skin Tone`},
-                            {emoji: `&#x1F938&#x200D&#x2640&#xFE0F`, name: `Woman Cartwheeling`},
-                            {emoji: `&#x1F938&#x1F3FB&#x200D&#x2640&#xFE0F`, name: `Woman Cartwheeling: Light Skin Tone`},
-                            {emoji: `&#x1F938&#x1F3FC&#x200D&#x2640&#xFE0F`, name: `Woman Cartwheeling: Medium-Light Skin Tone`},
-                            {emoji: `&#x1F938&#x1F3FD&#x200D&#x2640&#xFE0F`, name: `Woman Cartwheeling: Medium Skin Tone`},
-                            {emoji: `&#x1F938&#x1F3FE&#x200D&#x2640&#xFE0F`, name: `Woman Cartwheeling: Medium-Dark Skin Tone`},
-                            {emoji: `&#x1F938&#x1F3FF&#x200D&#x2640&#xFE0F`, name: `Woman Cartwheeling: Dark Skin Tone`},
-                            {emoji: `&#x1F93C`, name: `People Wrestling`},
-                            {emoji: `&#x1F93C&#x200D&#x2642&#xFE0F`, name: `Men Wrestling`},
-                            {emoji: `&#x1F93C&#x200D&#x2640&#xFE0F`, name: `Women Wrestling`},
-                            {emoji: `&#x1F93D`, name: `Person Playing Water Polo`},
-                            {emoji: `&#x1F93D&#x1F3FB`, name: `Person Playing Water Polo: Light Skin Tone`},
-                            {emoji: `&#x1F93D&#x1F3FC`, name: `Person Playing Water Polo: Medium-Light Skin Tone`},
-                            {emoji: `&#x1F93D&#x1F3FD`, name: `Person Playing Water Polo: Medium Skin Tone`},
-                            {emoji: `&#x1F93D&#x1F3FE`, name: `Person Playing Water Polo: Medium-Dark Skin Tone`},
-                            {emoji: `&#x1F93D&#x1F3FF`, name: `Person Playing Water Polo: Dark Skin Tone`},
-                            {emoji: `&#x1F93D&#x200D&#x2642&#xFE0F`, name: `Man Playing Water Polo`},
-                            {emoji: `&#x1F93D&#x1F3FB&#x200D&#x2642&#xFE0F`, name: `Man Playing Water Polo: Light Skin Tone`},
-                            {emoji: `&#x1F93D&#x1F3FC&#x200D&#x2642&#xFE0F`, name: `Man Playing Water Polo: Medium-Light Skin Tone`},
-                            {emoji: `&#x1F93D&#x1F3FD&#x200D&#x2642&#xFE0F`, name: `Man Playing Water Polo: Medium Skin Tone`},
-                            {emoji: `&#x1F93D&#x1F3FE&#x200D&#x2642&#xFE0F`, name: `Man Playing Water Polo: Medium-Dark Skin Tone`},
-                            {emoji: `&#x1F93D&#x1F3FF&#x200D&#x2642&#xFE0F`, name: `Man Playing Water Polo: Dark Skin Tone`},
-                            {emoji: `&#x1F93D&#x200D&#x2640&#xFE0F`, name: `Woman Playing Water Polo`},
-                            {emoji: `&#x1F93D&#x1F3FB&#x200D&#x2640&#xFE0F`, name: `Woman Playing Water Polo: Light Skin Tone`},
-                            {emoji: `&#x1F93D&#x1F3FC&#x200D&#x2640&#xFE0F`, name: `Woman Playing Water Polo: Medium-Light Skin Tone`},
-                            {emoji: `&#x1F93D&#x1F3FD&#x200D&#x2640&#xFE0F`, name: `Woman Playing Water Polo: Medium Skin Tone`},
-                            {emoji: `&#x1F93D&#x1F3FE&#x200D&#x2640&#xFE0F`, name: `Woman Playing Water Polo: Medium-Dark Skin Tone`},
-                            {emoji: `&#x1F93D&#x1F3FF&#x200D&#x2640&#xFE0F`, name: `Woman Playing Water Polo: Dark Skin Tone`},
-                            {emoji: `&#x1F93E`, name: `Person Playing Handball`},
-                            {emoji: `&#x1F93E&#x1F3FB`, name: `Person Playing Handball: Light Skin Tone`},
-                            {emoji: `&#x1F93E&#x1F3FC`, name: `Person Playing Handball: Medium-Light Skin Tone`},
-                            {emoji: `&#x1F93E&#x1F3FD`, name: `Person Playing Handball: Medium Skin Tone`},
-                            {emoji: `&#x1F93E&#x1F3FE`, name: `Person Playing Handball: Medium-Dark Skin Tone`},
-                            {emoji: `&#x1F93E&#x1F3FF`, name: `Person Playing Handball: Dark Skin Tone`},
-                            {emoji: `&#x1F93E&#x200D&#x2642&#xFE0F`, name: `Man Playing Handball`},
-                            {emoji: `&#x1F93E&#x1F3FB&#x200D&#x2642&#xFE0F`, name: `Man Playing Handball: Light Skin Tone`},
-                            {emoji: `&#x1F93E&#x1F3FC&#x200D&#x2642&#xFE0F`, name: `Man Playing Handball: Medium-Light Skin Tone`},
-                            {emoji: `&#x1F93E&#x1F3FD&#x200D&#x2642&#xFE0F`, name: `Man Playing Handball: Medium Skin Tone`},
-                            {emoji: `&#x1F93E&#x1F3FE&#x200D&#x2642&#xFE0F`, name: `Man Playing Handball: Medium-Dark Skin Tone`},
-                            {emoji: `&#x1F93E&#x1F3FF&#x200D&#x2642&#xFE0F`, name: `Man Playing Handball: Dark Skin Tone`},
-                            {emoji: `&#x1F93E&#x200D&#x2640&#xFE0F`, name: `Woman Playing Handball`},
-                            {emoji: `&#x1F93E&#x1F3FB&#x200D&#x2640&#xFE0F`, name: `Woman Playing Handball: Light Skin Tone`},
-                            {emoji: `&#x1F93E&#x1F3FC&#x200D&#x2640&#xFE0F`, name: `Woman Playing Handball: Medium-Light Skin Tone`},
-                            {emoji: `&#x1F93E&#x1F3FD&#x200D&#x2640&#xFE0F`, name: `Woman Playing Handball: Medium Skin Tone`},
-                            {emoji: `&#x1F93E&#x1F3FE&#x200D&#x2640&#xFE0F`, name: `Woman Playing Handball: Medium-Dark Skin Tone`},
-                            {emoji: `&#x1F93E&#x1F3FF&#x200D&#x2640&#xFE0F`, name: `Woman Playing Handball: Dark Skin Tone`},
-                            {emoji: `&#x1F939`, name: `Person Juggling`},
-                            {emoji: `&#x1F939&#x1F3FB`, name: `Person Juggling: Light Skin Tone`},
-                            {emoji: `&#x1F939&#x1F3FC`, name: `Person Juggling: Medium-Light Skin Tone`},
-                            {emoji: `&#x1F939&#x1F3FD`, name: `Person Juggling: Medium Skin Tone`},
-                            {emoji: `&#x1F939&#x1F3FE`, name: `Person Juggling: Medium-Dark Skin Tone`},
-                            {emoji: `&#x1F939&#x1F3FF`, name: `Person Juggling: Dark Skin Tone`},
-                            {emoji: `&#x1F939&#x200D&#x2642&#xFE0F`, name: `Man Juggling`},
-                            {emoji: `&#x1F939&#x1F3FB&#x200D&#x2642&#xFE0F`, name: `Man Juggling: Light Skin Tone`},
-                            {emoji: `&#x1F939&#x1F3FC&#x200D&#x2642&#xFE0F`, name: `Man Juggling: Medium-Light Skin Tone`},
-                            {emoji: `&#x1F939&#x1F3FD&#x200D&#x2642&#xFE0F`, name: `Man Juggling: Medium Skin Tone`},
-                            {emoji: `&#x1F939&#x1F3FE&#x200D&#x2642&#xFE0F`, name: `Man Juggling: Medium-Dark Skin Tone`},
-                            {emoji: `&#x1F939&#x1F3FF&#x200D&#x2642&#xFE0F`, name: `Man Juggling: Dark Skin Tone`},
-                            {emoji: `&#x1F939&#x200D&#x2640&#xFE0F`, name: `Woman Juggling`},
-                            {emoji: `&#x1F939&#x1F3FB&#x200D&#x2640&#xFE0F`, name: `Woman Juggling: Light Skin Tone`},
-                            {emoji: `&#x1F939&#x1F3FC&#x200D&#x2640&#xFE0F`, name: `Woman Juggling: Medium-Light Skin Tone`},
-                            {emoji: `&#x1F939&#x1F3FD&#x200D&#x2640&#xFE0F`, name: `Woman Juggling: Medium Skin Tone`},
-                            {emoji: `&#x1F939&#x1F3FE&#x200D&#x2640&#xFE0F`, name: `Woman Juggling: Medium-Dark Skin Tone`},
-                            {emoji: `&#x1F939&#x1F3FF&#x200D&#x2640&#xFE0F`, name: `Woman Juggling: Dark Skin Tone`},
-                            {emoji: `&#x1F46B`, name: `Man And Woman Holding Hands`},
-                            {emoji: `&#x1F46C`, name: `Two Men Holding Hands`},
-                            {emoji: `&#x1F46D`, name: `Two Women Holding Hands`},
-                            {emoji: `&#x1F48F`, name: `Kiss`},
-                            {emoji: `&#x1F469&#x200D&#x2764&#xFE0F&#x200D&#x1F48B&#x200D&#x1F468`, name: `Kiss: Woman, Man`},
-                            {emoji: `&#x1F468&#x200D&#x2764&#xFE0F&#x200D&#x1F48B&#x200D&#x1F468`, name: `Kiss: Man, Man`},
-                            {emoji: `&#x1F469&#x200D&#x2764&#xFE0F&#x200D&#x1F48B&#x200D&#x1F469`, name: `Kiss: Woman, Woman`},
-                            {emoji: `&#x1F491`, name: `Couple With Heart`},
-                            {emoji: `&#x1F469&#x200D&#x2764&#xFE0F&#x200D&#x1F468`, name: `Couple With Heart: Woman, Man`},
-                            {emoji: `&#x1F468&#x200D&#x2764&#xFE0F&#x200D&#x1F468`, name: `Couple With Heart: Man, Man`},
-                            {emoji: `&#x1F469&#x200D&#x2764&#xFE0F&#x200D&#x1F469`, name: `Couple With Heart: Woman, Woman`},
-                            {emoji: `&#x1F46A`, name: `Family`},
-                            {emoji: `&#x1F468&#x200D&#x1F469&#x200D&#x1F466`, name: `Family: Man, Woman, Boy`},
-                            {emoji: `&#x1F468&#x200D&#x1F469&#x200D&#x1F467`, name: `Family: Man, Woman, Girl`},
-                            {emoji: `&#x1F468&#x200D&#x1F469&#x200D&#x1F467&#x200D&#x1F466`, name: `Family: Man, Woman, Girl, Boy`},
-                            {emoji: `&#x1F468&#x200D&#x1F469&#x200D&#x1F466&#x200D&#x1F466`, name: `Family: Man, Woman, Boy, Boy`},
-                            {emoji: `&#x1F468&#x200D&#x1F469&#x200D&#x1F467&#x200D&#x1F467`, name: `Family: Man, Woman, Girl, Girl`},
-                            {emoji: `&#x1F468&#x200D&#x1F468&#x200D&#x1F466`, name: `Family: Man, Man, Boy`},
-                            {emoji: `&#x1F468&#x200D&#x1F468&#x200D&#x1F467`, name: `Family: Man, Man, Girl`},
-                            {emoji: `&#x1F468&#x200D&#x1F468&#x200D&#x1F467&#x200D&#x1F466`, name: `Family: Man, Man, Girl, Boy`},
-                            {emoji: `&#x1F468&#x200D&#x1F468&#x200D&#x1F466&#x200D&#x1F466`, name: `Family: Man, Man, Boy, Boy`},
-                            {emoji: `&#x1F468&#x200D&#x1F468&#x200D&#x1F467&#x200D&#x1F467`, name: `Family: Man, Man, Girl, Girl`},
-                            {emoji: `&#x1F469&#x200D&#x1F469&#x200D&#x1F466`, name: `Family: Woman, Woman, Boy`},
-                            {emoji: `&#x1F469&#x200D&#x1F469&#x200D&#x1F467`, name: `Family: Woman, Woman, Girl`},
-                            {emoji: `&#x1F469&#x200D&#x1F469&#x200D&#x1F467&#x200D&#x1F466`, name: `Family: Woman, Woman, Girl, Boy`},
-                            {emoji: `&#x1F469&#x200D&#x1F469&#x200D&#x1F466&#x200D&#x1F466`, name: `Family: Woman, Woman, Boy, Boy`},
-                            {emoji: `&#x1F469&#x200D&#x1F469&#x200D&#x1F467&#x200D&#x1F467`, name: `Family: Woman, Woman, Girl, Girl`},
-                            {emoji: `&#x1F468&#x200D&#x1F466`, name: `Family: Man, Boy`},
-                            {emoji: `&#x1F468&#x200D&#x1F466&#x200D&#x1F466`, name: `Family: Man, Boy, Boy`},
-                            {emoji: `&#x1F468&#x200D&#x1F467`, name: `Family: Man, Girl`},
-                            {emoji: `&#x1F468&#x200D&#x1F467&#x200D&#x1F466`, name: `Family: Man, Girl, Boy`},
-                            {emoji: `&#x1F468&#x200D&#x1F467&#x200D&#x1F467`, name: `Family: Man, Girl, Girl`},
-                            {emoji: `&#x1F469&#x200D&#x1F466`, name: `Family: Woman, Boy`},
-                            {emoji: `&#x1F469&#x200D&#x1F466&#x200D&#x1F466`, name: `Family: Woman, Boy, Boy`},
-                            {emoji: `&#x1F469&#x200D&#x1F467`, name: `Family: Woman, Girl`},
-                            {emoji: `&#x1F469&#x200D&#x1F467&#x200D&#x1F466`, name: `Family: Woman, Girl, Boy`},
-                            {emoji: `&#x1F469&#x200D&#x1F467&#x200D&#x1F467`, name: `Family: Woman, Girl, Girl`},
-                            {emoji: `&#x1F3FB`, name: `Light Skin Tone`},
-                            {emoji: `&#x1F3FC`, name: `Medium-Light Skin Tone`},
-                            {emoji: `&#x1F3FD`, name: `Medium Skin Tone`},
-                            {emoji: `&#x1F3FE`, name: `Medium-Dark Skin Tone`},
-                            {emoji: `&#x1F3FF`, name: `Dark Skin Tone`},
-                            {emoji: `&#x1F4AA`, name: `Flexed Biceps`},
-                            {emoji: `&#x1F4AA&#x1F3FB`, name: `Flexed Biceps: Light Skin Tone`},
-                            {emoji: `&#x1F4AA&#x1F3FC`, name: `Flexed Biceps: Medium-Light Skin Tone`},
-                            {emoji: `&#x1F4AA&#x1F3FD`, name: `Flexed Biceps: Medium Skin Tone`},
-                            {emoji: `&#x1F4AA&#x1F3FE`, name: `Flexed Biceps: Medium-Dark Skin Tone`},
-                            {emoji: `&#x1F4AA&#x1F3FF`, name: `Flexed Biceps: Dark Skin Tone`},
-                            {emoji: `&#x1F933`, name: `Selfie`},
-                            {emoji: `&#x1F933&#x1F3FB`, name: `Selfie: Light Skin Tone`},
-                            {emoji: `&#x1F933&#x1F3FC`, name: `Selfie: Medium-Light Skin Tone`},
-                            {emoji: `&#x1F933&#x1F3FD`, name: `Selfie: Medium Skin Tone`},
-                            {emoji: `&#x1F933&#x1F3FE`, name: `Selfie: Medium-Dark Skin Tone`},
-                            {emoji: `&#x1F933&#x1F3FF`, name: `Selfie: Dark Skin Tone`},
-                            {emoji: `&#x1F448`, name: `Backhand Index Pointing Left`},
-                            {emoji: `&#x1F448&#x1F3FB`, name: `Backhand Index Pointing Left: Light Skin Tone`},
-                            {emoji: `&#x1F448&#x1F3FC`, name: `Backhand Index Pointing Left: Medium-Light Skin Tone`},
-                            {emoji: `&#x1F448&#x1F3FD`, name: `Backhand Index Pointing Left: Medium Skin Tone`},
-                            {emoji: `&#x1F448&#x1F3FE`, name: `Backhand Index Pointing Left: Medium-Dark Skin Tone`},
-                            {emoji: `&#x1F448&#x1F3FF`, name: `Backhand Index Pointing Left: Dark Skin Tone`},
-                            {emoji: `&#x1F449`, name: `Backhand Index Pointing Right`},
-                            {emoji: `&#x1F449&#x1F3FB`, name: `Backhand Index Pointing Right: Light Skin Tone`},
-                            {emoji: `&#x1F449&#x1F3FC`, name: `Backhand Index Pointing Right: Medium-Light Skin Tone`},
-                            {emoji: `&#x1F449&#x1F3FD`, name: `Backhand Index Pointing Right: Medium Skin Tone`},
-                            {emoji: `&#x1F449&#x1F3FE`, name: `Backhand Index Pointing Right: Medium-Dark Skin Tone`},
-                            {emoji: `&#x1F449&#x1F3FF`, name: `Backhand Index Pointing Right: Dark Skin Tone`},
-                            {emoji: `&#x261D`, name: `Index Pointing Up`},
-                            {emoji: `&#x261D&#x1F3FB`, name: `Index Pointing Up: Light Skin Tone`},
-                            {emoji: `&#x261D&#x1F3FC`, name: `Index Pointing Up: Medium-Light Skin Tone`},
-                            {emoji: `&#x261D&#x1F3FD`, name: `Index Pointing Up: Medium Skin Tone`},
-                            {emoji: `&#x261D&#x1F3FE`, name: `Index Pointing Up: Medium-Dark Skin Tone`},
-                            {emoji: `&#x261D&#x1F3FF`, name: `Index Pointing Up: Dark Skin Tone`},
-                            {emoji: `&#x1F446`, name: `Backhand Index Pointing Up`},
-                            {emoji: `&#x1F446&#x1F3FB`, name: `Backhand Index Pointing Up: Light Skin Tone`},
-                            {emoji: `&#x1F446&#x1F3FC`, name: `Backhand Index Pointing Up: Medium-Light Skin Tone`},
-                            {emoji: `&#x1F446&#x1F3FD`, name: `Backhand Index Pointing Up: Medium Skin Tone`},
-                            {emoji: `&#x1F446&#x1F3FE`, name: `Backhand Index Pointing Up: Medium-Dark Skin Tone`},
-                            {emoji: `&#x1F446&#x1F3FF`, name: `Backhand Index Pointing Up: Dark Skin Tone`},
-                            {emoji: `&#x1F595`, name: `Middle Finger`},
-                            {emoji: `&#x1F595&#x1F3FB`, name: `Middle Finger: Light Skin Tone`},
-                            {emoji: `&#x1F595&#x1F3FC`, name: `Middle Finger: Medium-Light Skin Tone`},
-                            {emoji: `&#x1F595&#x1F3FD`, name: `Middle Finger: Medium Skin Tone`},
-                            {emoji: `&#x1F595&#x1F3FE`, name: `Middle Finger: Medium-Dark Skin Tone`},
-                            {emoji: `&#x1F595&#x1F3FF`, name: `Middle Finger: Dark Skin Tone`},
-                            {emoji: `&#x1F447`, name: `Backhand Index Pointing Down`},
-                            {emoji: `&#x1F447&#x1F3FB`, name: `Backhand Index Pointing Down: Light Skin Tone`},
-                            {emoji: `&#x1F447&#x1F3FC`, name: `Backhand Index Pointing Down: Medium-Light Skin Tone`},
-                            {emoji: `&#x1F447&#x1F3FD`, name: `Backhand Index Pointing Down: Medium Skin Tone`},
-                            {emoji: `&#x1F447&#x1F3FE`, name: `Backhand Index Pointing Down: Medium-Dark Skin Tone`},
-                            {emoji: `&#x1F447&#x1F3FF`, name: `Backhand Index Pointing Down: Dark Skin Tone`},
-                            {emoji: `&#x270C`, name: `Victory Hand`},
-                            {emoji: `&#x270C&#x1F3FB`, name: `Victory Hand: Light Skin Tone`},
-                            {emoji: `&#x270C&#x1F3FC`, name: `Victory Hand: Medium-Light Skin Tone`},
-                            {emoji: `&#x270C&#x1F3FD`, name: `Victory Hand: Medium Skin Tone`},
-                            {emoji: `&#x270C&#x1F3FE`, name: `Victory Hand: Medium-Dark Skin Tone`},
-                            {emoji: `&#x270C&#x1F3FF`, name: `Victory Hand: Dark Skin Tone`},
-                            {emoji: `&#x1F91E`, name: `Crossed Fingers`},
-                            {emoji: `&#x1F91E&#x1F3FB`, name: `Crossed Fingers: Light Skin Tone`},
-                            {emoji: `&#x1F91E&#x1F3FC`, name: `Crossed Fingers: Medium-Light Skin Tone`},
-                            {emoji: `&#x1F91E&#x1F3FD`, name: `Crossed Fingers: Medium Skin Tone`},
-                            {emoji: `&#x1F91E&#x1F3FE`, name: `Crossed Fingers: Medium-Dark Skin Tone`},
-                            {emoji: `&#x1F91E&#x1F3FF`, name: `Crossed Fingers: Dark Skin Tone`},
-                            {emoji: `&#x1F596`, name: `Vulcan Salute`},
-                            {emoji: `&#x1F596&#x1F3FB`, name: `Vulcan Salute: Light Skin Tone`},
-                            {emoji: `&#x1F596&#x1F3FC`, name: `Vulcan Salute: Medium-Light Skin Tone`},
-                            {emoji: `&#x1F596&#x1F3FD`, name: `Vulcan Salute: Medium Skin Tone`},
-                            {emoji: `&#x1F596&#x1F3FE`, name: `Vulcan Salute: Medium-Dark Skin Tone`},
-                            {emoji: `&#x1F596&#x1F3FF`, name: `Vulcan Salute: Dark Skin Tone`},
-                            {emoji: `&#x1F918`, name: `Sign Of The Horns`},
-                            {emoji: `&#x1F918&#x1F3FB`, name: `Sign Of The Horns: Light Skin Tone`},
-                            {emoji: `&#x1F918&#x1F3FC`, name: `Sign Of The Horns: Medium-Light Skin Tone`},
-                            {emoji: `&#x1F918&#x1F3FD`, name: `Sign Of The Horns: Medium Skin Tone`},
-                            {emoji: `&#x1F918&#x1F3FE`, name: `Sign Of The Horns: Medium-Dark Skin Tone`},
-                            {emoji: `&#x1F918&#x1F3FF`, name: `Sign Of The Horns: Dark Skin Tone`},
-                            {emoji: `&#x1F919`, name: `Call Me Hand`},
-                            {emoji: `&#x1F919&#x1F3FB`, name: `Call Me Hand: Light Skin Tone`},
-                            {emoji: `&#x1F919&#x1F3FC`, name: `Call Me Hand: Medium-Light Skin Tone`},
-                            {emoji: `&#x1F919&#x1F3FD`, name: `Call Me Hand: Medium Skin Tone`},
-                            {emoji: `&#x1F919&#x1F3FE`, name: `Call Me Hand: Medium-Dark Skin Tone`},
-                            {emoji: `&#x1F919&#x1F3FF`, name: `Call Me Hand: Dark Skin Tone`},
-                            {emoji: `&#x1F590`, name: `Raised Hand With Fingers Splayed`},
-                            {emoji: `&#x1F590&#x1F3FB`, name: `Raised Hand With Fingers Splayed: Light Skin Tone`},
-                            {emoji: `&#x1F590&#x1F3FC`, name: `Raised Hand With Fingers Splayed: Medium-Light Skin Tone`},
-                            {emoji: `&#x1F590&#x1F3FD`, name: `Raised Hand With Fingers Splayed: Medium Skin Tone`},
-                            {emoji: `&#x1F590&#x1F3FE`, name: `Raised Hand With Fingers Splayed: Medium-Dark Skin Tone`},
-                            {emoji: `&#x1F590&#x1F3FF`, name: `Raised Hand With Fingers Splayed: Dark Skin Tone`},
-                            {emoji: `&#x270B`, name: `Raised Hand`},
-                            {emoji: `&#x270B&#x1F3FB`, name: `Raised Hand: Light Skin Tone`},
-                            {emoji: `&#x270B&#x1F3FC`, name: `Raised Hand: Medium-Light Skin Tone`},
-                            {emoji: `&#x270B&#x1F3FD`, name: `Raised Hand: Medium Skin Tone`},
-                            {emoji: `&#x270B&#x1F3FE`, name: `Raised Hand: Medium-Dark Skin Tone`},
-                            {emoji: `&#x270B&#x1F3FF`, name: `Raised Hand: Dark Skin Tone`},
-                            {emoji: `&#x1F44C`, name: `OK Hand`},
-                            {emoji: `&#x1F44C&#x1F3FB`, name: `OK Hand: Light Skin Tone`},
-                            {emoji: `&#x1F44C&#x1F3FC`, name: `OK Hand: Medium-Light Skin Tone`},
-                            {emoji: `&#x1F44C&#x1F3FD`, name: `OK Hand: Medium Skin Tone`},
-                            {emoji: `&#x1F44C&#x1F3FE`, name: `OK Hand: Medium-Dark Skin Tone`},
-                            {emoji: `&#x1F44C&#x1F3FF`, name: `OK Hand: Dark Skin Tone`},
-                            {emoji: `&#x1F44D`, name: `Thumbs Up`},
-                            {emoji: `&#x1F44D&#x1F3FB`, name: `Thumbs Up: Light Skin Tone`},
-                            {emoji: `&#x1F44D&#x1F3FC`, name: `Thumbs Up: Medium-Light Skin Tone`},
-                            {emoji: `&#x1F44D&#x1F3FD`, name: `Thumbs Up: Medium Skin Tone`},
-                            {emoji: `&#x1F44D&#x1F3FE`, name: `Thumbs Up: Medium-Dark Skin Tone`},
-                            {emoji: `&#x1F44D&#x1F3FF`, name: `Thumbs Up: Dark Skin Tone`},
-                            {emoji: `&#x1F44E`, name: `Thumbs Down`},
-                            {emoji: `&#x1F44E&#x1F3FB`, name: `Thumbs Down: Light Skin Tone`},
-                            {emoji: `&#x1F44E&#x1F3FC`, name: `Thumbs Down: Medium-Light Skin Tone`},
-                            {emoji: `&#x1F44E&#x1F3FD`, name: `Thumbs Down: Medium Skin Tone`},
-                            {emoji: `&#x1F44E&#x1F3FE`, name: `Thumbs Down: Medium-Dark Skin Tone`},
-                            {emoji: `&#x1F44E&#x1F3FF`, name: `Thumbs Down: Dark Skin Tone`},
-                            {emoji: `&#x270A`, name: `Raised Fist`},
-                            {emoji: `&#x270A&#x1F3FB`, name: `Raised Fist: Light Skin Tone`},
-                            {emoji: `&#x270A&#x1F3FC`, name: `Raised Fist: Medium-Light Skin Tone`},
-                            {emoji: `&#x270A&#x1F3FD`, name: `Raised Fist: Medium Skin Tone`},
-                            {emoji: `&#x270A&#x1F3FE`, name: `Raised Fist: Medium-Dark Skin Tone`},
-                            {emoji: `&#x270A&#x1F3FF`, name: `Raised Fist: Dark Skin Tone`},
-                            {emoji: `&#x1F44A`, name: `Oncoming Fist`},
-                            {emoji: `&#x1F44A&#x1F3FB`, name: `Oncoming Fist: Light Skin Tone`},
-                            {emoji: `&#x1F44A&#x1F3FC`, name: `Oncoming Fist: Medium-Light Skin Tone`},
-                            {emoji: `&#x1F44A&#x1F3FD`, name: `Oncoming Fist: Medium Skin Tone`},
-                            {emoji: `&#x1F44A&#x1F3FE`, name: `Oncoming Fist: Medium-Dark Skin Tone`},
-                            {emoji: `&#x1F44A&#x1F3FF`, name: `Oncoming Fist: Dark Skin Tone`},
-                            {emoji: `&#x1F91B`, name: `Left-Facing Fist`},
-                            {emoji: `&#x1F91B&#x1F3FB`, name: `Left-Facing Fist: Light Skin Tone`},
-                            {emoji: `&#x1F91B&#x1F3FC`, name: `Left-Facing Fist: Medium-Light Skin Tone`},
-                            {emoji: `&#x1F91B&#x1F3FD`, name: `Left-Facing Fist: Medium Skin Tone`},
-                            {emoji: `&#x1F91B&#x1F3FE`, name: `Left-Facing Fist: Medium-Dark Skin Tone`},
-                            {emoji: `&#x1F91B&#x1F3FF`, name: `Left-Facing Fist: Dark Skin Tone`},
-                            {emoji: `&#x1F91C`, name: `Right-Facing Fist`},
-                            {emoji: `&#x1F91C&#x1F3FB`, name: `Right-Facing Fist: Light Skin Tone`},
-                            {emoji: `&#x1F91C&#x1F3FC`, name: `Right-Facing Fist: Medium-Light Skin Tone`},
-                            {emoji: `&#x1F91C&#x1F3FD`, name: `Right-Facing Fist: Medium Skin Tone`},
-                            {emoji: `&#x1F91C&#x1F3FE`, name: `Right-Facing Fist: Medium-Dark Skin Tone`},
-                            {emoji: `&#x1F91C&#x1F3FF`, name: `Right-Facing Fist: Dark Skin Tone`},
-                            {emoji: `&#x1F91A`, name: `Raised Back Of Hand`},
-                            {emoji: `&#x1F91A&#x1F3FB`, name: `Raised Back Of Hand: Light Skin Tone`},
-                            {emoji: `&#x1F91A&#x1F3FC`, name: `Raised Back Of Hand: Medium-Light Skin Tone`},
-                            {emoji: `&#x1F91A&#x1F3FD`, name: `Raised Back Of Hand: Medium Skin Tone`},
-                            {emoji: `&#x1F91A&#x1F3FE`, name: `Raised Back Of Hand: Medium-Dark Skin Tone`},
-                            {emoji: `&#x1F91A&#x1F3FF`, name: `Raised Back Of Hand: Dark Skin Tone`},
-                            {emoji: `&#x1F44B`, name: `Waving Hand`},
-                            {emoji: `&#x1F44B&#x1F3FB`, name: `Waving Hand: Light Skin Tone`},
-                            {emoji: `&#x1F44B&#x1F3FC`, name: `Waving Hand: Medium-Light Skin Tone`},
-                            {emoji: `&#x1F44B&#x1F3FD`, name: `Waving Hand: Medium Skin Tone`},
-                            {emoji: `&#x1F44B&#x1F3FE`, name: `Waving Hand: Medium-Dark Skin Tone`},
-                            {emoji: `&#x1F44B&#x1F3FF`, name: `Waving Hand: Dark Skin Tone`},
-                            {emoji: `&#x1F44F`, name: `Clapping Hands`},
-                            {emoji: `&#x1F44F&#x1F3FB`, name: `Clapping Hands: Light Skin Tone`},
-                            {emoji: `&#x1F44F&#x1F3FC`, name: `Clapping Hands: Medium-Light Skin Tone`},
-                            {emoji: `&#x1F44F&#x1F3FD`, name: `Clapping Hands: Medium Skin Tone`},
-                            {emoji: `&#x1F44F&#x1F3FE`, name: `Clapping Hands: Medium-Dark Skin Tone`},
-                            {emoji: `&#x1F44F&#x1F3FF`, name: `Clapping Hands: Dark Skin Tone`},
-                            {emoji: `&#x270D`, name: `Writing Hand`},
-                            {emoji: `&#x270D&#x1F3FB`, name: `Writing Hand: Light Skin Tone`},
-                            {emoji: `&#x270D&#x1F3FC`, name: `Writing Hand: Medium-Light Skin Tone`},
-                            {emoji: `&#x270D&#x1F3FD`, name: `Writing Hand: Medium Skin Tone`},
-                            {emoji: `&#x270D&#x1F3FE`, name: `Writing Hand: Medium-Dark Skin Tone`},
-                            {emoji: `&#x270D&#x1F3FF`, name: `Writing Hand: Dark Skin Tone`},
-                            {emoji: `&#x1F450`, name: `Open Hands`},
-                            {emoji: `&#x1F450&#x1F3FB`, name: `Open Hands: Light Skin Tone`},
-                            {emoji: `&#x1F450&#x1F3FC`, name: `Open Hands: Medium-Light Skin Tone`},
-                            {emoji: `&#x1F450&#x1F3FD`, name: `Open Hands: Medium Skin Tone`},
-                            {emoji: `&#x1F450&#x1F3FE`, name: `Open Hands: Medium-Dark Skin Tone`},
-                            {emoji: `&#x1F450&#x1F3FF`, name: `Open Hands: Dark Skin Tone`},
-                            {emoji: `&#x1F64C`, name: `Raising Hands`},
-                            {emoji: `&#x1F64C&#x1F3FB`, name: `Raising Hands: Light Skin Tone`},
-                            {emoji: `&#x1F64C&#x1F3FC`, name: `Raising Hands: Medium-Light Skin Tone`},
-                            {emoji: `&#x1F64C&#x1F3FD`, name: `Raising Hands: Medium Skin Tone`},
-                            {emoji: `&#x1F64C&#x1F3FE`, name: `Raising Hands: Medium-Dark Skin Tone`},
-                            {emoji: `&#x1F64C&#x1F3FF`, name: `Raising Hands: Dark Skin Tone`},
-                            {emoji: `&#x1F64F`, name: `Folded Hands`},
-                            {emoji: `&#x1F64F&#x1F3FB`, name: `Folded Hands: Light Skin Tone`},
-                            {emoji: `&#x1F64F&#x1F3FC`, name: `Folded Hands: Medium-Light Skin Tone`},
-                            {emoji: `&#x1F64F&#x1F3FD`, name: `Folded Hands: Medium Skin Tone`},
-                            {emoji: `&#x1F64F&#x1F3FE`, name: `Folded Hands: Medium-Dark Skin Tone`},
-                            {emoji: `&#x1F64F&#x1F3FF`, name: `Folded Hands: Dark Skin Tone`},
-                            {emoji: `&#x1F91D`, name: `Handshake`},
-                            {emoji: `&#x1F485`, name: `Nail Polish`},
-                            {emoji: `&#x1F485&#x1F3FB`, name: `Nail Polish: Light Skin Tone`},
-                            {emoji: `&#x1F485&#x1F3FC`, name: `Nail Polish: Medium-Light Skin Tone`},
-                            {emoji: `&#x1F485&#x1F3FD`, name: `Nail Polish: Medium Skin Tone`},
-                            {emoji: `&#x1F485&#x1F3FE`, name: `Nail Polish: Medium-Dark Skin Tone`},
-                            {emoji: `&#x1F485&#x1F3FF`, name: `Nail Polish: Dark Skin Tone`},
-                            {emoji: `&#x1F442`, name: `Ear`},
-                            {emoji: `&#x1F442&#x1F3FB`, name: `Ear: Light Skin Tone`},
-                            {emoji: `&#x1F442&#x1F3FC`, name: `Ear: Medium-Light Skin Tone`},
-                            {emoji: `&#x1F442&#x1F3FD`, name: `Ear: Medium Skin Tone`},
-                            {emoji: `&#x1F442&#x1F3FE`, name: `Ear: Medium-Dark Skin Tone`},
-                            {emoji: `&#x1F442&#x1F3FF`, name: `Ear: Dark Skin Tone`},
-                            {emoji: `&#x1F443`, name: `Nose`},
-                            {emoji: `&#x1F443&#x1F3FB`, name: `Nose: Light Skin Tone`},
-                            {emoji: `&#x1F443&#x1F3FC`, name: `Nose: Medium-Light Skin Tone`},
-                            {emoji: `&#x1F443&#x1F3FD`, name: `Nose: Medium Skin Tone`},
-                            {emoji: `&#x1F443&#x1F3FE`, name: `Nose: Medium-Dark Skin Tone`},
-                            {emoji: `&#x1F443&#x1F3FF`, name: `Nose: Dark Skin Tone`},
-                            {emoji: `&#x1F463`, name: `Footprints`},
-                            {emoji: `&#x1F440`, name: `Eyes`},
-                            {emoji: `&#x1F441`, name: `Eye`},
-                            {emoji: `&#x1F441&#xFE0F&#x200D&#x1F5E8&#xFE0F`, name: `Eye In Speech Bubble`},
-                            {emoji: `&#x1F445`, name: `Tongue`},
-                            {emoji: `&#x1F444`, name: `Mouth`},
-                            {emoji: `&#x1F48B`, name: `Kiss Mark`},
-                            {emoji: `&#x1F498`, name: `Heart With Arrow`},
-                            {emoji: `&#x2764`, name: `Red Heart`},
-                            {emoji: `&#x1F493`, name: `Beating Heart`},
-                            {emoji: `&#x1F494`, name: `Broken Heart`},
-                            {emoji: `&#x1F495`, name: `Two Hearts`},
-                            {emoji: `&#x1F496`, name: `Sparkling Heart`},
-                            {emoji: `&#x1F497`, name: `Growing Heart`},
-                            {emoji: `&#x1F499`, name: `Blue Heart`},
-                            {emoji: `&#x1F49A`, name: `Green Heart`},
-                            {emoji: `&#x1F49B`, name: `Yellow Heart`},
-                            {emoji: `&#x1F49C`, name: `Purple Heart`},
-                            {emoji: `&#x1F5A4`, name: `Black Heart`},
-                            {emoji: `&#x1F49D`, name: `Heart With Ribbon`},
-                            {emoji: `&#x1F49E`, name: `Revolving Hearts`},
-                            {emoji: `&#x1F49F`, name: `Heart Decoration`},
-                            {emoji: `&#x2763`, name: `Heavy Heart Exclamation`},
-                            {emoji: `&#x1F48C`, name: `Love Letter`},
-                            {emoji: `&#x1F4A4`, name: `Zzz`},
-                            {emoji: `&#x1F4A2`, name: `Anger Symbol`},
-                            {emoji: `&#x1F4A3`, name: `Bomb`},
-                            {emoji: `&#x1F4A5`, name: `Collision`},
-                            {emoji: `&#x1F4A6`, name: `Sweat Droplets`},
-                            {emoji: `&#x1F4A8`, name: `Dashing Away`},
-                            {emoji: `&#x1F4AB`, name: `Dizzy`},
-                            {emoji: `&#x1F4AC`, name: `Speech Balloon`},
-                            {emoji: `&#x1F5E8`, name: `Left Speech Bubble`},
-                            {emoji: `&#x1F5EF`, name: `Right Anger Bubble`},
-                            {emoji: `&#x1F4AD`, name: `Thought Balloon`},
-                            {emoji: `&#x1F573`, name: `Hole`},
-                            {emoji: `&#x1F453`, name: `Glasses`},
-                            {emoji: `&#x1F576`, name: `Sunglasses`},
-                            {emoji: `&#x1F454`, name: `Necktie`},
-                            {emoji: `&#x1F455`, name: `T-Shirt`},
-                            {emoji: `&#x1F456`, name: `Jeans`},
-                            {emoji: `&#x1F457`, name: `Dress`},
-                            {emoji: `&#x1F458`, name: `Kimono`},
-                            {emoji: `&#x1F459`, name: `Bikini`},
-                            {emoji: `&#x1F45A`, name: `Woman’s Clothes`},
-                            {emoji: `&#x1F45B`, name: `Purse`},
-                            {emoji: `&#x1F45C`, name: `Handbag`},
-                            {emoji: `&#x1F45D`, name: `Clutch Bag`},
-                            {emoji: `&#x1F6CD`, name: `Shopping Bags`},
-                            {emoji: `&#x1F392`, name: `School Backpack`},
-                            {emoji: `&#x1F45E`, name: `Man’s Shoe`},
-                            {emoji: `&#x1F45F`, name: `Running Shoe`},
-                            {emoji: `&#x1F460`, name: `High-Heeled Shoe`},
-                            {emoji: `&#x1F461`, name: `Woman’s Sandal`},
-                            {emoji: `&#x1F462`, name: `Woman’s Boot`},
-                            {emoji: `&#x1F451`, name: `Crown`},
-                            {emoji: `&#x1F452`, name: `Woman’s Hat`},
-                            {emoji: `&#x1F3A9`, name: `Top Hat`},
-                            {emoji: `&#x1F393`, name: `Graduation Cap`},
-                            {emoji: `&#x26D1`, name: `Rescue Worker’s Helmet`},
-                            {emoji: `&#x1F4FF`, name: `Prayer Beads`},
-                            {emoji: `&#x1F484`, name: `Lipstick`},
-                            {emoji: `&#x1F48D`, name: `Ring`},
-                            {emoji: `&#x1F48E`, name: `Gem Stone`},
-                            {emoji: `&#x1F435`, name: `Monkey Face`},
-                            {emoji: `&#x1F412`, name: `Monkey`},
-                            {emoji: `&#x1F98D`, name: `Gorilla`},
-                            {emoji: `&#x1F436`, name: `Dog Face`},
-                            {emoji: `&#x1F415`, name: `Dog`},
-                            {emoji: `&#x1F429`, name: `Poodle`},
-                            {emoji: `&#x1F43A`, name: `Wolf Face`},
-                            {emoji: `&#x1F98A`, name: `Fox Face`},
-                            {emoji: `&#x1F431`, name: `Cat Face`},
-                            {emoji: `&#x1F408`, name: `Cat`},
-                            {emoji: `&#x1F981`, name: `Lion Face`},
-                            {emoji: `&#x1F42F`, name: `Tiger Face`},
-                            {emoji: `&#x1F405`, name: `Tiger`},
-                            {emoji: `&#x1F406`, name: `Leopard`},
-                            {emoji: `&#x1F434`, name: `Horse Face`},
-                            {emoji: `&#x1F40E`, name: `Horse`},
-                            {emoji: `&#x1F98C`, name: `Deer`},
-                            {emoji: `&#x1F984`, name: `Unicorn Face`},
-                            {emoji: `&#x1F42E`, name: `Cow Face`},
-                            {emoji: `&#x1F402`, name: `Ox`},
-                            {emoji: `&#x1F403`, name: `Water Buffalo`},
-                            {emoji: `&#x1F404`, name: `Cow`},
-                            {emoji: `&#x1F437`, name: `Pig Face`},
-                            {emoji: `&#x1F416`, name: `Pig`},
-                            {emoji: `&#x1F417`, name: `Boar`},
-                            {emoji: `&#x1F43D`, name: `Pig Nose`},
-                            {emoji: `&#x1F40F`, name: `Ram`},
-                            {emoji: `&#x1F411`, name: `Sheep`},
-                            {emoji: `&#x1F410`, name: `Goat`},
-                            {emoji: `&#x1F42A`, name: `Camel`},
-                            {emoji: `&#x1F42B`, name: `Two-Hump Camel`},
-                            {emoji: `&#x1F418`, name: `Elephant`},
-                            {emoji: `&#x1F98F`, name: `Rhinoceros`},
-                            {emoji: `&#x1F42D`, name: `Mouse Face`},
-                            {emoji: `&#x1F401`, name: `Mouse`},
-                            {emoji: `&#x1F400`, name: `Rat`},
-                            {emoji: `&#x1F439`, name: `Hamster Face`},
-                            {emoji: `&#x1F430`, name: `Rabbit Face`},
-                            {emoji: `&#x1F407`, name: `Rabbit`},
-                            {emoji: `&#x1F43F`, name: `Chipmunk`},
-                            {emoji: `&#x1F987`, name: `Bat`},
-                            {emoji: `&#x1F43B`, name: `Bear Face`},
-                            {emoji: `&#x1F428`, name: `Koala`},
-                            {emoji: `&#x1F43C`, name: `Panda Face`},
-                            {emoji: `&#x1F43E`, name: `Paw Prints`},
-                            {emoji: `&#x1F983`, name: `Turkey`},
-                            {emoji: `&#x1F414`, name: `Chicken`},
-                            {emoji: `&#x1F413`, name: `Rooster`},
-                            {emoji: `&#x1F423`, name: `Hatching Chick`},
-                            {emoji: `&#x1F424`, name: `Baby Chick`},
-                            {emoji: `&#x1F425`, name: `Front-Facing Baby Chick`},
-                            {emoji: `&#x1F426`, name: `Bird`},
-                            {emoji: `&#x1F427`, name: `Penguin`},
-                            {emoji: `&#x1F54A`, name: `Dove`},
-                            {emoji: `&#x1F985`, name: `Eagle`},
-                            {emoji: `&#x1F986`, name: `Duck`},
-                            {emoji: `&#x1F989`, name: `Owl`},
-                            {emoji: `&#x1F438`, name: `Frog Face`},
-                            {emoji: `&#x1F40A`, name: `Crocodile`},
-                            {emoji: `&#x1F422`, name: `Turtle`},
-                            {emoji: `&#x1F98E`, name: `Lizard`},
-                            {emoji: `&#x1F40D`, name: `Snake`},
-                            {emoji: `&#x1F432`, name: `Dragon Face`},
-                            {emoji: `&#x1F409`, name: `Dragon`},
-                            {emoji: `&#x1F433`, name: `Spouting Whale`},
-                            {emoji: `&#x1F40B`, name: `Whale`},
-                            {emoji: `&#x1F42C`, name: `Dolphin`},
-                            {emoji: `&#x1F41F`, name: `Fish`},
-                            {emoji: `&#x1F420`, name: `Tropical Fish`},
-                            {emoji: `&#x1F421`, name: `Blowfish`},
-                            {emoji: `&#x1F988`, name: `Shark`},
-                            {emoji: `&#x1F419`, name: `Octopus`},
-                            {emoji: `&#x1F41A`, name: `Spiral Shell`},
-                            {emoji: `&#x1F980`, name: `Crab`},
-                            {emoji: `&#x1F990`, name: `Shrimp`},
-                            {emoji: `&#x1F991`, name: `Squid`},
-                            {emoji: `&#x1F98B`, name: `Butterfly`},
-                            {emoji: `&#x1F40C`, name: `Snail`},
-                            {emoji: `&#x1F41B`, name: `Bug`},
-                            {emoji: `&#x1F41C`, name: `Ant`},
-                            {emoji: `&#x1F41D`, name: `Honeybee`},
-                            {emoji: `&#x1F41E`, name: `Lady Beetle`},
-                            {emoji: `&#x1F577`, name: `Spider`},
-                            {emoji: `&#x1F578`, name: `Spider Web`},
-                            {emoji: `&#x1F982`, name: `Scorpion`},
-                            {emoji: `&#x1F490`, name: `Bouquet`},
-                            {emoji: `&#x1F338`, name: `Cherry Blossom`},
-                            {emoji: `&#x1F4AE`, name: `White Flower`},
-                            {emoji: `&#x1F3F5`, name: `Rosette`},
-                            {emoji: `&#x1F339`, name: `Rose`},
-                            {emoji: `&#x1F940`, name: `Wilted Flower`},
-                            {emoji: `&#x1F33A`, name: `Hibiscus`},
-                            {emoji: `&#x1F33B`, name: `Sunflower`},
-                            {emoji: `&#x1F33C`, name: `Blossom`},
-                            {emoji: `&#x1F337`, name: `Tulip`},
-                            {emoji: `&#x1F331`, name: `Seedling`},
-                            {emoji: `&#x1F332`, name: `Evergreen Tree`},
-                            {emoji: `&#x1F333`, name: `Deciduous Tree`},
-                            {emoji: `&#x1F334`, name: `Palm Tree`},
-                            {emoji: `&#x1F335`, name: `Cactus`},
-                            {emoji: `&#x1F33E`, name: `Sheaf Of Rice`},
-                            {emoji: `&#x1F33F`, name: `Herb`},
-                            {emoji: `&#x2618`, name: `Shamrock`},
-                            {emoji: `&#x1F340`, name: `Four Leaf Clover`},
-                            {emoji: `&#x1F341`, name: `Maple Leaf`},
-                            {emoji: `&#x1F342`, name: `Fallen Leaf`},
-                            {emoji: `&#x1F343`, name: `Leaf Fluttering In Wind`},
-                            {emoji: `&#x1F347`, name: `Grapes`},
-                            {emoji: `&#x1F348`, name: `Melon`},
-                            {emoji: `&#x1F349`, name: `Watermelon`},
-                            {emoji: `&#x1F34A`, name: `Tangerine`},
-                            {emoji: `&#x1F34B`, name: `Lemon`},
-                            {emoji: `&#x1F34C`, name: `Banana`},
-                            {emoji: `&#x1F34D`, name: `Pineapple`},
-                            {emoji: `&#x1F34E`, name: `Red Apple`},
-                            {emoji: `&#x1F34F`, name: `Green Apple`},
-                            {emoji: `&#x1F350`, name: `Pear`},
-                            {emoji: `&#x1F351`, name: `Peach`},
-                            {emoji: `&#x1F352`, name: `Cherries`},
-                            {emoji: `&#x1F353`, name: `Strawberry`},
-                            {emoji: `&#x1F95D`, name: `Kiwi Fruit`},
-                            {emoji: `&#x1F345`, name: `Tomato`},
-                            {emoji: `&#x1F951`, name: `Avocado`},
-                            {emoji: `&#x1F346`, name: `Eggplant`},
-                            {emoji: `&#x1F954`, name: `Potato`},
-                            {emoji: `&#x1F955`, name: `Carrot`},
-                            {emoji: `&#x1F33D`, name: `Ear Of Corn`},
-                            {emoji: `&#x1F336`, name: `Hot Pepper`},
-                            {emoji: `&#x1F952`, name: `Cucumber`},
-                            {emoji: `&#x1F344`, name: `Mushroom`},
-                            {emoji: `&#x1F95C`, name: `Peanuts`},
-                            {emoji: `&#x1F330`, name: `Chestnut`},
-                            {emoji: `&#x1F35E`, name: `Bread`},
-                            {emoji: `&#x1F950`, name: `Croissant`},
-                            {emoji: `&#x1F956`, name: `Baguette Bread`},
-                            {emoji: `&#x1F95E`, name: `Pancakes`},
-                            {emoji: `&#x1F9C0`, name: `Cheese Wedge`},
-                            {emoji: `&#x1F356`, name: `Meat On Bone`},
-                            {emoji: `&#x1F357`, name: `Poultry Leg`},
-                            {emoji: `&#x1F953`, name: `Bacon`},
-                            {emoji: `&#x1F354`, name: `Hamburger`},
-                            {emoji: `&#x1F35F`, name: `French Fries`},
-                            {emoji: `&#x1F355`, name: `Pizza`},
-                            {emoji: `&#x1F32D`, name: `Hot Dog`},
-                            {emoji: `&#x1F32E`, name: `Taco`},
-                            {emoji: `&#x1F32F`, name: `Burrito`},
-                            {emoji: `&#x1F959`, name: `Stuffed Flatbread`},
-                            {emoji: `&#x1F95A`, name: `Egg`},
-                            {emoji: `&#x1F373`, name: `Cooking`},
-                            {emoji: `&#x1F958`, name: `Shallow Pan Of Food`},
-                            {emoji: `&#x1F372`, name: `Pot Of Food`},
-                            {emoji: `&#x1F957`, name: `Green Salad`},
-                            {emoji: `&#x1F37F`, name: `Popcorn`},
-                            {emoji: `&#x1F371`, name: `Bento Box`},
-                            {emoji: `&#x1F358`, name: `Rice Cracker`},
-                            {emoji: `&#x1F359`, name: `Rice Ball`},
-                            {emoji: `&#x1F35A`, name: `Cooked Rice`},
-                            {emoji: `&#x1F35B`, name: `Curry Rice`},
-                            {emoji: `&#x1F35C`, name: `Steaming Bowl`},
-                            {emoji: `&#x1F35D`, name: `Spaghetti`},
-                            {emoji: `&#x1F360`, name: `Roasted Sweet Potato`},
-                            {emoji: `&#x1F362`, name: `Oden`},
-                            {emoji: `&#x1F363`, name: `Sushi`},
-                            {emoji: `&#x1F364`, name: `Fried Shrimp`},
-                            {emoji: `&#x1F365`, name: `Fish Cake With Swirl`},
-                            {emoji: `&#x1F361`, name: `Dango`},
-                            {emoji: `&#x1F366`, name: `Soft Ice Cream`},
-                            {emoji: `&#x1F367`, name: `Shaved Ice`},
-                            {emoji: `&#x1F368`, name: `Ice Cream`},
-                            {emoji: `&#x1F369`, name: `Doughnut`},
-                            {emoji: `&#x1F36A`, name: `Cookie`},
-                            {emoji: `&#x1F382`, name: `Birthday Cake`},
-                            {emoji: `&#x1F370`, name: `Shortcake`},
-                            {emoji: `&#x1F36B`, name: `Chocolate Bar`},
-                            {emoji: `&#x1F36C`, name: `Candy`},
-                            {emoji: `&#x1F36D`, name: `Lollipop`},
-                            {emoji: `&#x1F36E`, name: `Custard`},
-                            {emoji: `&#x1F36F`, name: `Honey Pot`},
-                            {emoji: `&#x1F37C`, name: `Baby Bottle`},
-                            {emoji: `&#x1F95B`, name: `Glass Of Milk`},
-                            {emoji: `&#x2615`, name: `Hot Beverage`},
-                            {emoji: `&#x1F375`, name: `Teacup Without Handle`},
-                            {emoji: `&#x1F376`, name: `Sake`},
-                            {emoji: `&#x1F37E`, name: `Bottle With Popping Cork`},
-                            {emoji: `&#x1F377`, name: `Wine Glass`},
-                            {emoji: `&#x1F378`, name: `Cocktail Glass`},
-                            {emoji: `&#x1F379`, name: `Tropical Drink`},
-                            {emoji: `&#x1F37A`, name: `Beer Mug`},
-                            {emoji: `&#x1F37B`, name: `Clinking Beer Mugs`},
-                            {emoji: `&#x1F942`, name: `Clinking Glasses`},
-                            {emoji: `&#x1F943`, name: `Tumbler Glass`},
-                            {emoji: `&#x1F37D`, name: `Fork And Knife With Plate`},
-                            {emoji: `&#x1F374`, name: `Fork And Knife`},
-                            {emoji: `&#x1F944`, name: `Spoon`},
-                            {emoji: `&#x1F52A`, name: `Kitchen Knife`},
-                            {emoji: `&#x1F3FA`, name: `Amphora`},
-                            {emoji: `&#x1F30D`, name: `Globe Showing Europe-Africa`},
-                            {emoji: `&#x1F30E`, name: `Globe Showing Americas`},
-                            {emoji: `&#x1F30F`, name: `Globe Showing Asia-Australia`},
-                            {emoji: `&#x1F310`, name: `Globe With Meridians`},
-                            {emoji: `&#x1F5FA`, name: `World Map`},
-                            {emoji: `&#x1F5FE`, name: `Map Of Japan`},
-                            {emoji: `&#x1F3D4`, name: `Snow-Capped Mountain`},
-                            {emoji: `&#x26F0`, name: `Mountain`},
-                            {emoji: `&#x1F30B`, name: `Volcano`},
-                            {emoji: `&#x1F5FB`, name: `Mount Fuji`},
-                            {emoji: `&#x1F3D5`, name: `Camping`},
-                            {emoji: `&#x1F3D6`, name: `Beach With Umbrella`},
-                            {emoji: `&#x1F3DC`, name: `Desert`},
-                            {emoji: `&#x1F3DD`, name: `Desert Island`},
-                            {emoji: `&#x1F3DE`, name: `National Park`},
-                            {emoji: `&#x1F3DF`, name: `Stadium`},
-                            {emoji: `&#x1F3DB`, name: `Classical Building`},
-                            {emoji: `&#x1F3D7`, name: `Building Construction`},
-                            {emoji: `&#x1F3D8`, name: `House`},
-                            {emoji: `&#x1F3D9`, name: `Cityscape`},
-                            {emoji: `&#x1F3DA`, name: `Derelict House`},
-                            {emoji: `&#x1F3E0`, name: `House`},
-                            {emoji: `&#x1F3E1`, name: `House With Garden`},
-                            {emoji: `&#x1F3E2`, name: `Office Building`},
-                            {emoji: `&#x1F3E3`, name: `Japanese Post Office`},
-                            {emoji: `&#x1F3E4`, name: `Post Office`},
-                            {emoji: `&#x1F3E5`, name: `Hospital`},
-                            {emoji: `&#x1F3E6`, name: `Bank`},
-                            {emoji: `&#x1F3E8`, name: `Hotel`},
-                            {emoji: `&#x1F3E9`, name: `Love Hotel`},
-                            {emoji: `&#x1F3EA`, name: `Convenience Store`},
-                            {emoji: `&#x1F3EB`, name: `School`},
-                            {emoji: `&#x1F3EC`, name: `Department Store`},
-                            {emoji: `&#x1F3ED`, name: `Factory`},
-                            {emoji: `&#x1F3EF`, name: `Japanese Castle`},
-                            {emoji: `&#x1F3F0`, name: `Castle`},
-                            {emoji: `&#x1F492`, name: `Wedding`},
-                            {emoji: `&#x1F5FC`, name: `Tokyo Tower`},
-                            {emoji: `&#x1F5FD`, name: `Statue Of Liberty`},
-                            {emoji: `&#x26EA`, name: `Church`},
-                            {emoji: `&#x1F54C`, name: `Mosque`},
-                            {emoji: `&#x1F54D`, name: `Synagogue`},
-                            {emoji: `&#x26E9`, name: `Shinto Shrine`},
-                            {emoji: `&#x1F54B`, name: `Kaaba`},
-                            {emoji: `&#x26F2`, name: `Fountain`},
-                            {emoji: `&#x26FA`, name: `Tent`},
-                            {emoji: `&#x1F301`, name: `Foggy`},
-                            {emoji: `&#x1F303`, name: `Night With Stars`},
-                            {emoji: `&#x1F304`, name: `Sunrise Over Mountains`},
-                            {emoji: `&#x1F305`, name: `Sunrise`},
-                            {emoji: `&#x1F306`, name: `Cityscape At Dusk`},
-                            {emoji: `&#x1F307`, name: `Sunset`},
-                            {emoji: `&#x1F309`, name: `Bridge At Night`},
-                            {emoji: `&#x2668`, name: `Hot Springs`},
-                            {emoji: `&#x1F30C`, name: `Milky Way`},
-                            {emoji: `&#x1F3A0`, name: `Carousel Horse`},
-                            {emoji: `&#x1F3A1`, name: `Ferris Wheel`},
-                            {emoji: `&#x1F3A2`, name: `Roller Coaster`},
-                            {emoji: `&#x1F488`, name: `Barber Pole`},
-                            {emoji: `&#x1F3AA`, name: `Circus Tent`},
-                            {emoji: `&#x1F3AD`, name: `Performing Arts`},
-                            {emoji: `&#x1F5BC`, name: `Framed Picture`},
-                            {emoji: `&#x1F3A8`, name: `Artist Palette`},
-                            {emoji: `&#x1F3B0`, name: `Slot Machine`},
-                            {emoji: `&#x1F682`, name: `Locomotive`},
-                            {emoji: `&#x1F683`, name: `Railway Car`},
-                            {emoji: `&#x1F684`, name: `High-Speed Train`},
-                            {emoji: `&#x1F685`, name: `High-Speed Train With Bullet Nose`},
-                            {emoji: `&#x1F686`, name: `Train`},
-                            {emoji: `&#x1F687`, name: `Metro`},
-                            {emoji: `&#x1F688`, name: `Light Rail`},
-                            {emoji: `&#x1F689`, name: `Station`},
-                            {emoji: `&#x1F68A`, name: `Tram`},
-                            {emoji: `&#x1F69D`, name: `Monorail`},
-                            {emoji: `&#x1F69E`, name: `Mountain Railway`},
-                            {emoji: `&#x1F68B`, name: `Tram Car`},
-                            {emoji: `&#x1F68C`, name: `Bus`},
-                            {emoji: `&#x1F68D`, name: `Oncoming Bus`},
-                            {emoji: `&#x1F68E`, name: `Trolleybus`},
-                            {emoji: `&#x1F690`, name: `Minibus`},
-                            {emoji: `&#x1F691`, name: `Ambulance`},
-                            {emoji: `&#x1F692`, name: `Fire Engine`},
-                            {emoji: `&#x1F693`, name: `Police Car`},
-                            {emoji: `&#x1F694`, name: `Oncoming Police Car`},
-                            {emoji: `&#x1F695`, name: `Taxi`},
-                            {emoji: `&#x1F696`, name: `Oncoming Taxi`},
-                            {emoji: `&#x1F697`, name: `Automobile`},
-                            {emoji: `&#x1F698`, name: `Oncoming Automobile`},
-                            {emoji: `&#x1F699`, name: `Sport Utility Vehicle`},
-                            {emoji: `&#x1F69A`, name: `Delivery Truck`},
-                            {emoji: `&#x1F69B`, name: `Articulated Lorry`},
-                            {emoji: `&#x1F69C`, name: `Tractor`},
-                            {emoji: `&#x1F6B2`, name: `Bicycle`},
-                            {emoji: `&#x1F6F4`, name: `Kick Scooter`},
-                            {emoji: `&#x1F6F5`, name: `Motor Scooter`},
-                            {emoji: `&#x1F68F`, name: `Bus Stop`},
-                            {emoji: `&#x1F6E3`, name: `Motorway`},
-                            {emoji: `&#x1F6E4`, name: `Railway Track`},
-                            {emoji: `&#x26FD`, name: `Fuel Pump`},
-                            {emoji: `&#x1F6A8`, name: `Police Car Light`},
-                            {emoji: `&#x1F6A5`, name: `Horizontal Traffic Light`},
-                            {emoji: `&#x1F6A6`, name: `Vertical Traffic Light`},
-                            {emoji: `&#x1F6A7`, name: `Construction`},
-                            {emoji: `&#x1F6D1`, name: `Stop Sign`},
-                            {emoji: `&#x2693`, name: `Anchor`},
-                            {emoji: `&#x26F5`, name: `Sailboat`},
-                            {emoji: `&#x1F6F6`, name: `Canoe`},
-                            {emoji: `&#x1F6A4`, name: `Speedboat`},
-                            {emoji: `&#x1F6F3`, name: `Passenger Ship`},
-                            {emoji: `&#x26F4`, name: `Ferry`},
-                            {emoji: `&#x1F6E5`, name: `Motor Boat`},
-                            {emoji: `&#x1F6A2`, name: `Ship`},
-                            {emoji: `&#x2708`, name: `Airplane`},
-                            {emoji: `&#x1F6E9`, name: `Small Airplane`},
-                            {emoji: `&#x1F6EB`, name: `Airplane Departure`},
-                            {emoji: `&#x1F6EC`, name: `Airplane Arrival`},
-                            {emoji: `&#x1F4BA`, name: `Seat`},
-                            {emoji: `&#x1F681`, name: `Helicopter`},
-                            {emoji: `&#x1F69F`, name: `Suspension Railway`},
-                            {emoji: `&#x1F6A0`, name: `Mountain Cableway`},
-                            {emoji: `&#x1F6A1`, name: `Aerial Tramway`},
-                            {emoji: `&#x1F680`, name: `Rocket`},
-                            {emoji: `&#x1F6F0`, name: `Satellite`},
-                            {emoji: `&#x1F6CE`, name: `Bellhop Bell`},
-                            {emoji: `&#x1F6AA`, name: `Door`},
-                            {emoji: `&#x1F6CC`, name: `Person In Bed`},
-                            {emoji: `&#x1F6CC&#x1F3FB`, name: `Person In Bed: Light Skin Tone`},
-                            {emoji: `&#x1F6CC&#x1F3FC`, name: `Person In Bed: Medium-Light Skin Tone`},
-                            {emoji: `&#x1F6CC&#x1F3FD`, name: `Person In Bed: Medium Skin Tone`},
-                            {emoji: `&#x1F6CC&#x1F3FE`, name: `Person In Bed: Medium-Dark Skin Tone`},
-                            {emoji: `&#x1F6CC&#x1F3FF`, name: `Person In Bed: Dark Skin Tone`},
-                            {emoji: `&#x1F6CF`, name: `Bed`},
-                            {emoji: `&#x1F6CB`, name: `Couch And Lamp`},
-                            {emoji: `&#x1F6BD`, name: `Toilet`},
-                            {emoji: `&#x1F6BF`, name: `Shower`},
-                            {emoji: `&#x1F6C0`, name: `Person Taking Bath`},
-                            {emoji: `&#x1F6C0&#x1F3FB`, name: `Person Taking Bath: Light Skin Tone`},
-                            {emoji: `&#x1F6C0&#x1F3FC`, name: `Person Taking Bath: Medium-Light Skin Tone`},
-                            {emoji: `&#x1F6C0&#x1F3FD`, name: `Person Taking Bath: Medium Skin Tone`},
-                            {emoji: `&#x1F6C0&#x1F3FE`, name: `Person Taking Bath: Medium-Dark Skin Tone`},
-                            {emoji: `&#x1F6C0&#x1F3FF`, name: `Person Taking Bath: Dark Skin Tone`},
-                            {emoji: `&#x1F6C1`, name: `Bathtub`},
-                            {emoji: `&#x231B`, name: `Hourglass`},
-                            {emoji: `&#x23F3`, name: `Hourglass With Flowing Sand`},
-                            {emoji: `&#x231A`, name: `Watch`},
-                            {emoji: `&#x23F0`, name: `Alarm Clock`},
-                            {emoji: `&#x23F1`, name: `Stopwatch`},
-                            {emoji: `&#x23F2`, name: `Timer Clock`},
-                            {emoji: `&#x1F570`, name: `Mantelpiece Clock`},
-                            {emoji: `&#x1F55B`, name: `Twelve O’clock`},
-                            {emoji: `&#x1F567`, name: `Twelve-Thirty`},
-                            {emoji: `&#x1F550`, name: `One O’clock`},
-                            {emoji: `&#x1F55C`, name: `One-Thirty`},
-                            {emoji: `&#x1F551`, name: `Two O’clock`},
-                            {emoji: `&#x1F55D`, name: `Two-Thirty`},
-                            {emoji: `&#x1F552`, name: `Three O’clock`},
-                            {emoji: `&#x1F55E`, name: `Three-Thirty`},
-                            {emoji: `&#x1F553`, name: `Four O’clock`},
-                            {emoji: `&#x1F55F`, name: `Four-Thirty`},
-                            {emoji: `&#x1F554`, name: `Five O’clock`},
-                            {emoji: `&#x1F560`, name: `Five-Thirty`},
-                            {emoji: `&#x1F555`, name: `Six O’clock`},
-                            {emoji: `&#x1F561`, name: `Six-Thirty`},
-                            {emoji: `&#x1F556`, name: `Seven O’clock`},
-                            {emoji: `&#x1F562`, name: `Seven-Thirty`},
-                            {emoji: `&#x1F557`, name: `Eight O’clock`},
-                            {emoji: `&#x1F563`, name: `Eight-Thirty`},
-                            {emoji: `&#x1F558`, name: `Nine O’clock`},
-                            {emoji: `&#x1F564`, name: `Nine-Thirty`},
-                            {emoji: `&#x1F559`, name: `Ten O’clock`},
-                            {emoji: `&#x1F565`, name: `Ten-Thirty`},
-                            {emoji: `&#x1F55A`, name: `Eleven O’clock`},
-                            {emoji: `&#x1F566`, name: `Eleven-Thirty`},
-                            {emoji: `&#x1F311`, name: `New Moon`},
-                            {emoji: `&#x1F312`, name: `Waxing Crescent Moon`},
-                            {emoji: `&#x1F313`, name: `First Quarter Moon`},
-                            {emoji: `&#x1F314`, name: `Waxing Gibbous Moon`},
-                            {emoji: `&#x1F315`, name: `Full Moon`},
-                            {emoji: `&#x1F316`, name: `Waning Gibbous Moon`},
-                            {emoji: `&#x1F317`, name: `Last Quarter Moon`},
-                            {emoji: `&#x1F318`, name: `Waning Crescent Moon`},
-                            {emoji: `&#x1F319`, name: `Crescent Moon`},
-                            {emoji: `&#x1F31A`, name: `New Moon Face`},
-                            {emoji: `&#x1F31B`, name: `First Quarter Moon With Face`},
-                            {emoji: `&#x1F31C`, name: `Last Quarter Moon With Face`},
-                            {emoji: `&#x1F321`, name: `Thermometer`},
-                            {emoji: `&#x2600`, name: `Sun`},
-                            {emoji: `&#x1F31D`, name: `Full Moon With Face`},
-                            {emoji: `&#x1F31E`, name: `Sun With Face`},
-                            {emoji: `&#x2B50`, name: `White Medium Star`},
-                            {emoji: `&#x1F31F`, name: `Glowing Star`},
-                            {emoji: `&#x1F320`, name: `Shooting Star`},
-                            {emoji: `&#x2601`, name: `Cloud`},
-                            {emoji: `&#x26C5`, name: `Sun Behind Cloud`},
-                            {emoji: `&#x26C8`, name: `Cloud With Lightning And Rain`},
-                            {emoji: `&#x1F324`, name: `Sun Behind Small Cloud`},
-                            {emoji: `&#x1F325`, name: `Sun Behind Large Cloud`},
-                            {emoji: `&#x1F326`, name: `Sun Behind Rain Cloud`},
-                            {emoji: `&#x1F327`, name: `Cloud With Rain`},
-                            {emoji: `&#x1F328`, name: `Cloud With Snow`},
-                            {emoji: `&#x1F329`, name: `Cloud With Lightning`},
-                            {emoji: `&#x1F32A`, name: `Tornado`},
-                            {emoji: `&#x1F32B`, name: `Fog`},
-                            {emoji: `&#x1F32C`, name: `Wind Face`},
-                            {emoji: `&#x1F300`, name: `Cyclone`},
-                            {emoji: `&#x1F308`, name: `Rainbow`},
-                            {emoji: `&#x1F302`, name: `Closed Umbrella`},
-                            {emoji: `&#x2602`, name: `Umbrella`},
-                            {emoji: `&#x2614`, name: `Umbrella With Rain Drops`},
-                            {emoji: `&#x26F1`, name: `Umbrella On Ground`},
-                            {emoji: `&#x26A1`, name: `High Voltage`},
-                            {emoji: `&#x2744`, name: `Snowflake`},
-                            {emoji: `&#x2603`, name: `Snowman`},
-                            {emoji: `&#x26C4`, name: `Snowman Without Snow`},
-                            {emoji: `&#x2604`, name: `Comet`},
-                            {emoji: `&#x1F525`, name: `Fire`},
-                            {emoji: `&#x1F4A7`, name: `Droplet`},
-                            {emoji: `&#x1F30A`, name: `Water Wave`},
-                            {emoji: `&#x1F383`, name: `Jack-O-Lantern`},
-                            {emoji: `&#x1F384`, name: `Christmas Tree`},
-                            {emoji: `&#x1F386`, name: `Fireworks`},
-                            {emoji: `&#x1F387`, name: `Sparkler`},
-                            {emoji: `&#x2728`, name: `Sparkles`},
-                            {emoji: `&#x1F388`, name: `Balloon`},
-                            {emoji: `&#x1F389`, name: `Party Popper`},
-                            {emoji: `&#x1F38A`, name: `Confetti Ball`},
-                            {emoji: `&#x1F38B`, name: `Tanabata Tree`},
-                            {emoji: `&#x1F38D`, name: `Pine Decoration`},
-                            {emoji: `&#x1F38E`, name: `Japanese Dolls`},
-                            {emoji: `&#x1F38F`, name: `Carp Streamer`},
-                            {emoji: `&#x1F390`, name: `Wind Chime`},
-                            {emoji: `&#x1F391`, name: `Moon Viewing Ceremony`},
-                            {emoji: `&#x1F380`, name: `Ribbon`},
-                            {emoji: `&#x1F381`, name: `Wrapped Gift`},
-                            {emoji: `&#x1F397`, name: `Reminder Ribbon`},
-                            {emoji: `&#x1F39F`, name: `Admission Tickets`},
-                            {emoji: `&#x1F3AB`, name: `Ticket`},
-                            {emoji: `&#x1F396`, name: `Military Medal`},
-                            {emoji: `&#x1F3C6`, name: `Trophy`},
-                            {emoji: `&#x1F3C5`, name: `Sports Medal`},
-                            {emoji: `&#x1F947`, name: `1st Place Medal`},
-                            {emoji: `&#x1F948`, name: `2nd Place Medal`},
-                            {emoji: `&#x1F949`, name: `3rd Place Medal`},
-                            {emoji: `&#x26BD`, name: `Soccer Ball`},
-                            {emoji: `&#x26BE`, name: `Baseball`},
-                            {emoji: `&#x1F3C0`, name: `Basketball`},
-                            {emoji: `&#x1F3D0`, name: `Volleyball`},
-                            {emoji: `&#x1F3C8`, name: `American Football`},
-                            {emoji: `&#x1F3C9`, name: `Rugby Football`},
-                            {emoji: `&#x1F3BE`, name: `Tennis`},
-                            {emoji: `&#x1F3B1`, name: `Pool 8 Ball`},
-                            {emoji: `&#x1F3B3`, name: `Bowling`},
-                            {emoji: `&#x1F3CF`, name: `Cricket`},
-                            {emoji: `&#x1F3D1`, name: `Field Hockey`},
-                            {emoji: `&#x1F3D2`, name: `Ice Hockey`},
-                            {emoji: `&#x1F3D3`, name: `Ping Pong`},
-                            {emoji: `&#x1F3F8`, name: `Badminton`},
-                            {emoji: `&#x1F94A`, name: `Boxing Glove`},
-                            {emoji: `&#x1F94B`, name: `Martial Arts Uniform`},
-                            {emoji: `&#x1F945`, name: `Goal Net`},
-                            {emoji: `&#x1F3AF`, name: `Direct Hit`},
-                            {emoji: `&#x26F3`, name: `Flag In Hole`},
-                            {emoji: `&#x26F8`, name: `Ice Skate`},
-                            {emoji: `&#x1F3A3`, name: `Fishing Pole`},
-                            {emoji: `&#x1F3BD`, name: `Running Shirt`},
-                            {emoji: `&#x1F3BF`, name: `Skis`},
-                            {emoji: `&#x1F3AE`, name: `Video Game`},
-                            {emoji: `&#x1F579`, name: `Joystick`},
-                            {emoji: `&#x1F3B2`, name: `Game Die`},
-                            {emoji: `&#x2660`, name: `Spade Suit`},
-                            {emoji: `&#x2665`, name: `Heart Suit`},
-                            {emoji: `&#x2666`, name: `Diamond Suit`},
-                            {emoji: `&#x2663`, name: `Club Suit`},
-                            {emoji: `&#x1F0CF`, name: `Joker`},
-                            {emoji: `&#x1F004`, name: `Mahjong Red Dragon`},
-                            {emoji: `&#x1F3B4`, name: `Flower Playing Cards`},
-                            {emoji: `&#x1F507`, name: `Muted Speaker`},
-                            {emoji: `&#x1F508`, name: `Speaker Low Volume`},
-                            {emoji: `&#x1F509`, name: `Speaker Medium Volume`},
-                            {emoji: `&#x1F50A`, name: `Speaker High Volume`},
-                            {emoji: `&#x1F4E2`, name: `Loudspeaker`},
-                            {emoji: `&#x1F4E3`, name: `Megaphone`},
-                            {emoji: `&#x1F4EF`, name: `Postal Horn`},
-                            {emoji: `&#x1F514`, name: `Bell`},
-                            {emoji: `&#x1F515`, name: `Bell With Slash`},
-                            {emoji: `&#x1F3BC`, name: `Musical Score`},
-                            {emoji: `&#x1F3B5`, name: `Musical Note`},
-                            {emoji: `&#x1F3B6`, name: `Musical Notes`},
-                            {emoji: `&#x1F399`, name: `Studio Microphone`},
-                            {emoji: `&#x1F39A`, name: `Level Slider`},
-                            {emoji: `&#x1F39B`, name: `Control Knobs`},
-                            {emoji: `&#x1F3A4`, name: `Microphone`},
-                            {emoji: `&#x1F3A7`, name: `Headphone`},
-                            {emoji: `&#x1F4FB`, name: `Radio`},
-                            {emoji: `&#x1F3B7`, name: `Saxophone`},
-                            {emoji: `&#x1F3B8`, name: `Guitar`},
-                            {emoji: `&#x1F3B9`, name: `Musical Keyboard`},
-                            {emoji: `&#x1F3BA`, name: `Trumpet`},
-                            {emoji: `&#x1F3BB`, name: `Violin`},
-                            {emoji: `&#x1F941`, name: `Drum`},
-                            {emoji: `&#x1F4F1`, name: `Mobile Phone`},
-                            {emoji: `&#x1F4F2`, name: `Mobile Phone With Arrow`},
-                            {emoji: `&#x260E`, name: `Telephone`},
-                            {emoji: `&#x1F4DE`, name: `Telephone Receiver`},
-                            {emoji: `&#x1F4DF`, name: `Pager`},
-                            {emoji: `&#x1F4E0`, name: `Fax Machine`},
-                            {emoji: `&#x1F50B`, name: `Battery`},
-                            {emoji: `&#x1F50C`, name: `Electric Plug`},
-                            {emoji: `&#x1F4BB`, name: `Laptop Computer`},
-                            {emoji: `&#x1F5A5`, name: `Desktop Computer`},
-                            {emoji: `&#x1F5A8`, name: `Printer`},
-                            {emoji: `&#x2328`, name: `Keyboard`},
-                            {emoji: `&#x1F5B1`, name: `Computer Mouse`},
-                            {emoji: `&#x1F5B2`, name: `Trackball`},
-                            {emoji: `&#x1F4BD`, name: `Computer Disk`},
-                            {emoji: `&#x1F4BE`, name: `Floppy Disk`},
-                            {emoji: `&#x1F4BF`, name: `Optical Disk`},
-                            {emoji: `&#x1F4C0`, name: `Dvd`},
-                            {emoji: `&#x1F3A5`, name: `Movie Camera`},
-                            {emoji: `&#x1F39E`, name: `Film Frames`},
-                            {emoji: `&#x1F4FD`, name: `Film Projector`},
-                            {emoji: `&#x1F3AC`, name: `Clapper Board`},
-                            {emoji: `&#x1F4FA`, name: `Television`},
-                            {emoji: `&#x1F4F7`, name: `Camera`},
-                            {emoji: `&#x1F4F8`, name: `Camera With Flash`},
-                            {emoji: `&#x1F4F9`, name: `Video Camera`},
-                            {emoji: `&#x1F4FC`, name: `Videocassette`},
-                            {emoji: `&#x1F50D`, name: `Left-Pointing Magnifying Glass`},
-                            {emoji: `&#x1F50E`, name: `Right-Pointing Magnifying Glass`},
-                            {emoji: `&#x1F52C`, name: `Microscope`},
-                            {emoji: `&#x1F52D`, name: `Telescope`},
-                            {emoji: `&#x1F4E1`, name: `Satellite Antenna`},
-                            {emoji: `&#x1F56F`, name: `Candle`},
-                            {emoji: `&#x1F4A1`, name: `Light Bulb`},
-                            {emoji: `&#x1F526`, name: `Flashlight`},
-                            {emoji: `&#x1F3EE`, name: `Red Paper Lantern`},
-                            {emoji: `&#x1F4D4`, name: `Notebook With Decorative Cover`},
-                            {emoji: `&#x1F4D5`, name: `Closed Book`},
-                            {emoji: `&#x1F4D6`, name: `Open Book`},
-                            {emoji: `&#x1F4D7`, name: `Green Book`},
-                            {emoji: `&#x1F4D8`, name: `Blue Book`},
-                            {emoji: `&#x1F4D9`, name: `Orange Book`},
-                            {emoji: `&#x1F4DA`, name: `Books`},
-                            {emoji: `&#x1F4D3`, name: `Notebook`},
-                            {emoji: `&#x1F4D2`, name: `Ledger`},
-                            {emoji: `&#x1F4C3`, name: `Page With Curl`},
-                            {emoji: `&#x1F4DC`, name: `Scroll`},
-                            {emoji: `&#x1F4C4`, name: `Page Facing Up`},
-                            {emoji: `&#x1F4F0`, name: `Newspaper`},
-                            {emoji: `&#x1F5DE`, name: `Rolled-Up Newspaper`},
-                            {emoji: `&#x1F4D1`, name: `Bookmark Tabs`},
-                            {emoji: `&#x1F516`, name: `Bookmark`},
-                            {emoji: `&#x1F3F7`, name: `Label`},
-                            {emoji: `&#x1F4B0`, name: `Money Bag`},
-                            {emoji: `&#x1F4B4`, name: `Yen Banknote`},
-                            {emoji: `&#x1F4B5`, name: `Dollar Banknote`},
-                            {emoji: `&#x1F4B6`, name: `Euro Banknote`},
-                            {emoji: `&#x1F4B7`, name: `Pound Banknote`},
-                            {emoji: `&#x1F4B8`, name: `Money With Wings`},
-                            {emoji: `&#x1F4B3`, name: `Credit Card`},
-                            {emoji: `&#x1F4B9`, name: `Chart Increasing With Yen`},
-                            {emoji: `&#x1F4B1`, name: `Currency Exchange`},
-                            {emoji: `&#x1F4B2`, name: `Heavy Dollar Sign`},
-                            {emoji: `&#x2709`, name: `Envelope`},
-                            {emoji: `&#x1F4E7`, name: `E-Mail`},
-                            {emoji: `&#x1F4E8`, name: `Incoming Envelope`},
-                            {emoji: `&#x1F4E9`, name: `Envelope With Arrow`},
-                            {emoji: `&#x1F4E4`, name: `Outbox Tray`},
-                            {emoji: `&#x1F4E5`, name: `Inbox Tray`},
-                            {emoji: `&#x1F4E6`, name: `Package`},
-                            {emoji: `&#x1F4EB`, name: `Closed Mailbox With Raised Flag`},
-                            {emoji: `&#x1F4EA`, name: `Closed Mailbox With Lowered Flag`},
-                            {emoji: `&#x1F4EC`, name: `Open Mailbox With Raised Flag`},
-                            {emoji: `&#x1F4ED`, name: `Open Mailbox With Lowered Flag`},
-                            {emoji: `&#x1F4EE`, name: `Postbox`},
-                            {emoji: `&#x1F5F3`, name: `Ballot Box With Ballot`},
-                            {emoji: `&#x270F`, name: `Pencil`},
-                            {emoji: `&#x2712`, name: `Black Nib`},
-                            {emoji: `&#x1F58B`, name: `Fountain Pen`},
-                            {emoji: `&#x1F58A`, name: `Pen`},
-                            {emoji: `&#x1F58C`, name: `Paintbrush`},
-                            {emoji: `&#x1F58D`, name: `Crayon`},
-                            {emoji: `&#x1F4DD`, name: `Memo`},
-                            {emoji: `&#x1F4BC`, name: `Briefcase`},
-                            {emoji: `&#x1F4C1`, name: `File Folder`},
-                            {emoji: `&#x1F4C2`, name: `Open File Folder`},
-                            {emoji: `&#x1F5C2`, name: `Card Index Dividers`},
-                            {emoji: `&#x1F4C5`, name: `Calendar`},
-                            {emoji: `&#x1F4C6`, name: `Tear-Off Calendar`},
-                            {emoji: `&#x1F5D2`, name: `Spiral Notepad`},
-                            {emoji: `&#x1F5D3`, name: `Spiral Calendar`},
-                            {emoji: `&#x1F4C7`, name: `Card Index`},
-                            {emoji: `&#x1F4C8`, name: `Chart Increasing`},
-                            {emoji: `&#x1F4C9`, name: `Chart Decreasing`},
-                            {emoji: `&#x1F4CA`, name: `Bar Chart`},
-                            {emoji: `&#x1F4CB`, name: `Clipboard`},
-                            {emoji: `&#x1F4CC`, name: `Pushpin`},
-                            {emoji: `&#x1F4CD`, name: `Round Pushpin`},
-                            {emoji: `&#x1F4CE`, name: `Paperclip`},
-                            {emoji: `&#x1F587`, name: `Linked Paperclips`},
-                            {emoji: `&#x1F4CF`, name: `Straight Ruler`},
-                            {emoji: `&#x1F4D0`, name: `Triangular Ruler`},
-                            {emoji: `&#x2702`, name: `Scissors`},
-                            {emoji: `&#x1F5C3`, name: `Card File Box`},
-                            {emoji: `&#x1F5C4`, name: `File Cabinet`},
-                            {emoji: `&#x1F5D1`, name: `Wastebasket`},
-                            {emoji: `&#x1F512`, name: `Locked`},
-                            {emoji: `&#x1F513`, name: `Unlocked`},
-                            {emoji: `&#x1F50F`, name: `Locked With Pen`},
-                            {emoji: `&#x1F510`, name: `Locked With Key`},
-                            {emoji: `&#x1F511`, name: `Key`},
-                            {emoji: `&#x1F5DD`, name: `Old Key`},
-                            {emoji: `&#x1F528`, name: `Hammer`},
-                            {emoji: `&#x26CF`, name: `Pick`},
-                            {emoji: `&#x2692`, name: `Hammer And Pick`},
-                            {emoji: `&#x1F6E0`, name: `Hammer And Wrench`},
-                            {emoji: `&#x1F5E1`, name: `Dagger`},
-                            {emoji: `&#x2694`, name: `Crossed Swords`},
-                            {emoji: `&#x1F52B`, name: `Pistol`},
-                            {emoji: `&#x1F3F9`, name: `Bow And Arrow`},
-                            {emoji: `&#x1F6E1`, name: `Shield`},
-                            {emoji: `&#x1F527`, name: `Wrench`},
-                            {emoji: `&#x1F529`, name: `Nut And Bolt`},
-                            {emoji: `&#x2699`, name: `Gear`},
-                            {emoji: `&#x1F5DC`, name: `Clamp`},
-                            {emoji: `&#x2697`, name: `Alembic`},
-                            {emoji: `&#x2696`, name: `Balance Scale`},
-                            {emoji: `&#x1F517`, name: `Link`},
-                            {emoji: `&#x26D3`, name: `Chains`},
-                            {emoji: `&#x1F489`, name: `Syringe`},
-                            {emoji: `&#x1F48A`, name: `Pill`},
-                            {emoji: `&#x1F6AC`, name: `Cigarette`},
-                            {emoji: `&#x26B0`, name: `Coffin`},
-                            {emoji: `&#x26B1`, name: `Funeral Urn`},
-                            {emoji: `&#x1F5FF`, name: `Moai`},
-                            {emoji: `&#x1F6E2`, name: `Oil Drum`},
-                            {emoji: `&#x1F52E`, name: `Crystal Ball`},
-                            {emoji: `&#x1F6D2`, name: `Shopping Cart`},
-                            {emoji: `&#x1F3E7`, name: `ATM Sign`},
-                            {emoji: `&#x1F6AE`, name: `Litter In Bin Sign`},
-                            {emoji: `&#x1F6B0`, name: `Potable Water`},
-                            {emoji: `&#x267F`, name: `Wheelchair Symbol`},
-                            {emoji: `&#x1F6B9`, name: `Men’s Room`},
-                            {emoji: `&#x1F6BA`, name: `Women’s Room`},
-                            {emoji: `&#x1F6BB`, name: `Restroom`},
-                            {emoji: `&#x1F6BC`, name: `Baby Symbol`},
-                            {emoji: `&#x1F6BE`, name: `Water Closet`},
-                            {emoji: `&#x1F6C2`, name: `Passport Control`},
-                            {emoji: `&#x1F6C3`, name: `Customs`},
-                            {emoji: `&#x1F6C4`, name: `Baggage Claim`},
-                            {emoji: `&#x1F6C5`, name: `Left Luggage`},
-                            {emoji: `&#x26A0`, name: `Warning`},
-                            {emoji: `&#x1F6B8`, name: `Children Crossing`},
-                            {emoji: `&#x26D4`, name: `No Entry`},
-                            {emoji: `&#x1F6AB`, name: `Prohibited`},
-                            {emoji: `&#x1F6B3`, name: `No Bicycles`},
-                            {emoji: `&#x1F6AD`, name: `No Smoking`},
-                            {emoji: `&#x1F6AF`, name: `No Littering`},
-                            {emoji: `&#x1F6B1`, name: `Non-Potable Water`},
-                            {emoji: `&#x1F6B7`, name: `No Pedestrians`},
-                            {emoji: `&#x1F4F5`, name: `No Mobile Phones`},
-                            {emoji: `&#x1F51E`, name: `No One Under Eighteen`},
-                            {emoji: `&#x2622`, name: `Radioactive`},
-                            {emoji: `&#x2623`, name: `Biohazard`},
-                            {emoji: `&#x2B06`, name: `Up Arrow`},
-                            {emoji: `&#x2197`, name: `Up-Right Arrow`},
-                            {emoji: `&#x27A1`, name: `Right Arrow`},
-                            {emoji: `&#x2198`, name: `Down-Right Arrow`},
-                            {emoji: `&#x2B07`, name: `Down Arrow`},
-                            {emoji: `&#x2199`, name: `Down-Left Arrow`},
-                            {emoji: `&#x2B05`, name: `Left Arrow`},
-                            {emoji: `&#x2196`, name: `Up-Left Arrow`},
-                            {emoji: `&#x2195`, name: `Up-Down Arrow`},
-                            {emoji: `&#x2194`, name: `Left-Right Arrow`},
-                            {emoji: `&#x21A9`, name: `Right Arrow Curving Left`},
-                            {emoji: `&#x21AA`, name: `Left Arrow Curving Right`},
-                            {emoji: `&#x2934`, name: `Right Arrow Curving Up`},
-                            {emoji: `&#x2935`, name: `Right Arrow Curving Down`},
-                            {emoji: `&#x1F503`, name: `Clockwise Vertical Arrows`},
-                            {emoji: `&#x1F504`, name: `Anticlockwise Arrows Button`},
-                            {emoji: `&#x1F519`, name: `BACK Arrow`},
-                            {emoji: `&#x1F51A`, name: `END Arrow`},
-                            {emoji: `&#x1F51B`, name: `ON! Arrow`},
-                            {emoji: `&#x1F51C`, name: `SOON Arrow`},
-                            {emoji: `&#x1F51D`, name: `TOP Arrow`},
-                            {emoji: `&#x1F6D0`, name: `Place Of Worship`},
-                            {emoji: `&#x269B`, name: `Atom Symbol`},
-                            {emoji: `&#x1F549`, name: `Om`},
-                            {emoji: `&#x2721`, name: `Star Of David`},
-                            {emoji: `&#x2638`, name: `Wheel Of Dharma`},
-                            {emoji: `&#x262F`, name: `Yin Yang`},
-                            {emoji: `&#x271D`, name: `Latin Cross`},
-                            {emoji: `&#x2626`, name: `Orthodox Cross`},
-                            {emoji: `&#x262A`, name: `Star And Crescent`},
-                            {emoji: `&#x262E`, name: `Peace Symbol`},
-                            {emoji: `&#x1F54E`, name: `Menorah`},
-                            {emoji: `&#x1F52F`, name: `Dotted Six-Pointed Star`},
-                            {emoji: `&#x2648`, name: `Aries`},
-                            {emoji: `&#x2649`, name: `Taurus`},
-                            {emoji: `&#x264A`, name: `Gemini`},
-                            {emoji: `&#x264B`, name: `Cancer`},
-                            {emoji: `&#x264C`, name: `Leo`},
-                            {emoji: `&#x264D`, name: `Virgo`},
-                            {emoji: `&#x264E`, name: `Libra`},
-                            {emoji: `&#x264F`, name: `Scorpius`},
-                            {emoji: `&#x2650`, name: `Sagittarius`},
-                            {emoji: `&#x2651`, name: `Capricorn`},
-                            {emoji: `&#x2652`, name: `Aquarius`},
-                            {emoji: `&#x2653`, name: `Pisces`},
-                            {emoji: `&#x26CE`, name: `Ophiuchus`},
-                            {emoji: `&#x1F500`, name: `Shuffle Tracks Button`},
-                            {emoji: `&#x1F501`, name: `Repeat Button`},
-                            {emoji: `&#x1F502`, name: `Repeat Single Button`},
-                            {emoji: `&#x25B6`, name: `Play Button`},
-                            {emoji: `&#x23E9`, name: `Fast-Forward Button`},
-                            {emoji: `&#x23ED`, name: `Next Track Button`},
-                            {emoji: `&#x23EF`, name: `Play Or Pause Button`},
-                            {emoji: `&#x25C0`, name: `Reverse Button`},
-                            {emoji: `&#x23EA`, name: `Fast Reverse Button`},
-                            {emoji: `&#x23EE`, name: `Last Track Button`},
-                            {emoji: `&#x1F53C`, name: `Up Button`},
-                            {emoji: `&#x23EB`, name: `Fast Up Button`},
-                            {emoji: `&#x1F53D`, name: `Down Button`},
-                            {emoji: `&#x23EC`, name: `Fast Down Button`},
-                            {emoji: `&#x23F8`, name: `Pause Button`},
-                            {emoji: `&#x23F9`, name: `Stop Button`},
-                            {emoji: `&#x23FA`, name: `Record Button`},
-                            {emoji: `&#x23CF`, name: `Eject Button`},
-                            {emoji: `&#x1F3A6`, name: `Cinema`},
-                            {emoji: `&#x1F505`, name: `Dim Button`},
-                            {emoji: `&#x1F506`, name: `Bright Button`},
-                            {emoji: `&#x1F4F6`, name: `Antenna Bars`},
-                            {emoji: `&#x1F4F3`, name: `Vibration Mode`},
-                            {emoji: `&#x1F4F4`, name: `Mobile Phone Off`},
-                            {emoji: `&#x267B`, name: `Recycling Symbol`},
-                            {emoji: `&#x1F4DB`, name: `Name Badge`},
-                            {emoji: `&#x269C`, name: `Fleur-De-Lis`},
-                            {emoji: `&#x1F530`, name: `Japanese Symbol For Beginner`},
-                            {emoji: `&#x1F531`, name: `Trident Emblem`},
-                            {emoji: `&#x2B55`, name: `Heavy Large Circle`},
-                            {emoji: `&#x2705`, name: `White Heavy Check Mark`},
-                            {emoji: `&#x2611`, name: `Ballot Box With Check`},
-                            {emoji: `&#x2714`, name: `Heavy Check Mark`},
-                            {emoji: `&#x2716`, name: `Heavy Multiplication X`},
-                            {emoji: `&#x274C`, name: `Cross Mark`},
-                            {emoji: `&#x274E`, name: `Cross Mark Button`},
-                            {emoji: `&#x2795`, name: `Heavy Plus Sign`},
-                            {emoji: `&#x2640`, name: `Female Sign`},
-                            {emoji: `&#x2642`, name: `Male Sign`},
-                            {emoji: `&#x2695`, name: `Medical Symbol`},
-                            {emoji: `&#x2796`, name: `Heavy Minus Sign`},
-                            {emoji: `&#x2797`, name: `Heavy Division Sign`},
-                            {emoji: `&#x27B0`, name: `Curly Loop`},
-                            {emoji: `&#x27BF`, name: `Double Curly Loop`},
-                            {emoji: `&#x303D`, name: `Part Alternation Mark`},
-                            {emoji: `&#x2733`, name: `Eight-Spoked Asterisk`},
-                            {emoji: `&#x2734`, name: `Eight-Pointed Star`},
-                            {emoji: `&#x2747`, name: `Sparkle`},
-                            {emoji: `&#x203C`, name: `Double Exclamation Mark`},
-                            {emoji: `&#x2049`, name: `Exclamation Question Mark`},
-                            {emoji: `&#x2753`, name: `Question Mark`},
-                            {emoji: `&#x2754`, name: `White Question Mark`},
-                            {emoji: `&#x2755`, name: `White Exclamation Mark`},
-                            {emoji: `&#x2757`, name: `Exclamation Mark`},
-                            {emoji: `&#x3030`, name: `Wavy Dash`},
-                            {emoji: `&#x00A9`, name: `Copyright`},
-                            {emoji: `&#x00AE`, name: `Registered`},
-                            {emoji: `&#x2122`, name: `Trade Mark`},
-                            {emoji: `&#x0023&#xFE0F&#x20E3`, name: `Keycap: #`},
-                            {emoji: `&#x002A&#xFE0F&#x20E3`, name: `Keycap: *`},
-                            {emoji: `&#x0030&#xFE0F&#x20E3`, name: `Keycap: 0`},
-                            {emoji: `&#x0031&#xFE0F&#x20E3`, name: `Keycap: 1`},
-                            {emoji: `&#x0032&#xFE0F&#x20E3`, name: `Keycap: 2`},
-                            {emoji: `&#x0033&#xFE0F&#x20E3`, name: `Keycap: 3`},
-                            {emoji: `&#x0034&#xFE0F&#x20E3`, name: `Keycap: 4`},
-                            {emoji: `&#x0035&#xFE0F&#x20E3`, name: `Keycap: 5`},
-                            {emoji: `&#x0036&#xFE0F&#x20E3`, name: `Keycap: 6`},
-                            {emoji: `&#x0037&#xFE0F&#x20E3`, name: `Keycap: 7`},
-                            {emoji: `&#x0038&#xFE0F&#x20E3`, name: `Keycap: 8`},
-                            {emoji: `&#x0039&#xFE0F&#x20E3`, name: `Keycap: 9`},
-                            {emoji: `&#x1F51F`, name: `Keycap 10`},
-                            {emoji: `&#x1F4AF`, name: `Hundred Points`},
-                            {emoji: `&#x1F520`, name: `Input Latin Uppercase`},
-                            {emoji: `&#x1F521`, name: `Input Latin Lowercase`},
-                            {emoji: `&#x1F522`, name: `Input Numbers`},
-                            {emoji: `&#x1F523`, name: `Input Symbols`},
-                            {emoji: `&#x1F524`, name: `Input Latin Letters`},
-                            {emoji: `&#x1F170`, name: `A Button (blood Type)`},
-                            {emoji: `&#x1F18E`, name: `AB Button (blood Type)`},
-                            {emoji: `&#x1F171`, name: `B Button (blood Type)`},
-                            {emoji: `&#x1F191`, name: `CL Button`},
-                            {emoji: `&#x1F192`, name: `COOL Button`},
-                            {emoji: `&#x1F193`, name: `FREE Button`},
-                            {emoji: `&#x2139`, name: `Information`},
-                            {emoji: `&#x1F194`, name: `ID Button`},
-                            {emoji: `&#x24C2`, name: `Circled M`},
-                            {emoji: `&#x1F195`, name: `NEW Button`},
-                            {emoji: `&#x1F196`, name: `NG Button`},
-                            {emoji: `&#x1F17E`, name: `O Button (blood Type)`},
-                            {emoji: `&#x1F197`, name: `OK Button`},
-                            {emoji: `&#x1F17F`, name: `P Button`},
-                            {emoji: `&#x1F198`, name: `SOS Button`},
-                            {emoji: `&#x1F199`, name: `UP! Button`},
-                            {emoji: `&#x1F19A`, name: `VS Button`},
-                            {emoji: `&#x1F201`, name: `Japanese “here” Button`},
-                            {emoji: `&#x1F202`, name: `Japanese “service Charge” Button`},
-                            {emoji: `&#x1F237`, name: `Japanese “monthly Amount” Button`},
-                            {emoji: `&#x1F236`, name: `Japanese “not Free Of Charge” Button`},
-                            {emoji: `&#x1F22F`, name: `Japanese “reserved” Button`},
-                            {emoji: `&#x1F250`, name: `Japanese “bargain” Button`},
-                            {emoji: `&#x1F239`, name: `Japanese “discount” Button`},
-                            {emoji: `&#x1F21A`, name: `Japanese “free Of Charge” Button`},
-                            {emoji: `&#x1F232`, name: `Japanese “prohibited” Button`},
-                            {emoji: `&#x1F251`, name: `Japanese “acceptable” Button`},
-                            {emoji: `&#x1F238`, name: `Japanese “application” Button`},
-                            {emoji: `&#x1F234`, name: `Japanese “passing Grade” Button`},
-                            {emoji: `&#x1F233`, name: `Japanese “vacancy” Button`},
-                            {emoji: `&#x3297`, name: `Japanese “congratulations” Button`},
-                            {emoji: `&#x3299`, name: `Japanese “secret” Button`},
-                            {emoji: `&#x1F23A`, name: `Japanese “open For Business” Button`},
-                            {emoji: `&#x1F235`, name: `Japanese “no Vacancy” Button`},
-                            {emoji: `&#x25AA`, name: `Black Small Square`},
-                            {emoji: `&#x25AB`, name: `White Small Square`},
-                            {emoji: `&#x25FB`, name: `White Medium Square`},
-                            {emoji: `&#x25FC`, name: `Black Medium Square`},
-                            {emoji: `&#x25FD`, name: `White Medium-Small Square`},
-                            {emoji: `&#x25FE`, name: `Black Medium-Small Square`},
-                            {emoji: `&#x2B1B`, name: `Black Large Square`},
-                            {emoji: `&#x2B1C`, name: `White Large Square`},
-                            {emoji: `&#x1F536`, name: `Large Orange Diamond`},
-                            {emoji: `&#x1F537`, name: `Large Blue Diamond`},
-                            {emoji: `&#x1F538`, name: `Small Orange Diamond`},
-                            {emoji: `&#x1F539`, name: `Small Blue Diamond`},
-                            {emoji: `&#x1F53A`, name: `Red Triangle Pointed Up`},
-                            {emoji: `&#x1F53B`, name: `Red Triangle Pointed Down`},
-                            {emoji: `&#x1F4A0`, name: `Diamond With A Dot`},
-                            {emoji: `&#x1F518`, name: `Radio Button`},
-                            {emoji: `&#x1F532`, name: `Black Square Button`},
-                            {emoji: `&#x1F533`, name: `White Square Button`},
-                            {emoji: `&#x26AA`, name: `White Circle`},
-                            {emoji: `&#x26AB`, name: `Black Circle`},
-                            {emoji: `&#x1F534`, name: `Red Circle`},
-                            {emoji: `&#x1F535`, name: `Blue Circle`},
-                            {emoji: `&#x1F3C1`, name: `Chequered Flag`},
-                            {emoji: `&#x1F6A9`, name: `Triangular Flag`},
-                            {emoji: `&#x1F38C`, name: `Crossed Flags`},
-                            {emoji: `&#x1F3F4`, name: `Black Flag`},
-                            {emoji: `&#x1F3F3`, name: `White Flag`},
-                            {emoji: `&#x1F3F3&#xFE0F&#x200D&#x1F308`, name: `Rainbow Flag`},
-                            {emoji: `&#x1F1E6&#x1F1E8`, name: `Ascension Island`},
-                            {emoji: `&#x1F1E6&#x1F1E9`, name: `Andorra`},
-                            {emoji: `&#x1F1E6&#x1F1EA`, name: `United Arab Emirates`},
-                            {emoji: `&#x1F1E6&#x1F1EB`, name: `Afghanistan`},
-                            {emoji: `&#x1F1E6&#x1F1EC`, name: `Antigua & Barbuda`},
-                            {emoji: `&#x1F1E6&#x1F1EE`, name: `Anguilla`},
-                            {emoji: `&#x1F1E6&#x1F1F1`, name: `Albania`},
-                            {emoji: `&#x1F1E6&#x1F1F2`, name: `Armenia`},
-                            {emoji: `&#x1F1E6&#x1F1F4`, name: `Angola`},
-                            {emoji: `&#x1F1E6&#x1F1F6`, name: `Antarctica`},
-                            {emoji: `&#x1F1E6&#x1F1F7`, name: `Argentina`},
-                            {emoji: `&#x1F1E6&#x1F1F8`, name: `American Samoa`},
-                            {emoji: `&#x1F1E6&#x1F1F9`, name: `Austria`},
-                            {emoji: `&#x1F1E6&#x1F1FA`, name: `Australia`},
-                            {emoji: `&#x1F1E6&#x1F1FC`, name: `Aruba`},
-                            {emoji: `&#x1F1E6&#x1F1FD`, name: `Åland Islands`},
-                            {emoji: `&#x1F1E6&#x1F1FF`, name: `Azerbaijan`},
-                            {emoji: `&#x1F1E7&#x1F1E6`, name: `Bosnia & Herzegovina`},
-                            {emoji: `&#x1F1E7&#x1F1E7`, name: `Barbados`},
-                            {emoji: `&#x1F1E7&#x1F1E9`, name: `Bangladesh`},
-                            {emoji: `&#x1F1E7&#x1F1EA`, name: `Belgium`},
-                            {emoji: `&#x1F1E7&#x1F1EB`, name: `Burkina Faso`},
-                            {emoji: `&#x1F1E7&#x1F1EC`, name: `Bulgaria`},
-                            {emoji: `&#x1F1E7&#x1F1ED`, name: `Bahrain`},
-                            {emoji: `&#x1F1E7&#x1F1EE`, name: `Burundi`},
-                            {emoji: `&#x1F1E7&#x1F1EF`, name: `Benin`},
-                            {emoji: `&#x1F1E7&#x1F1F1`, name: `St. Barthélemy`},
-                            {emoji: `&#x1F1E7&#x1F1F2`, name: `Bermuda`},
-                            {emoji: `&#x1F1E7&#x1F1F3`, name: `Brunei`},
-                            {emoji: `&#x1F1E7&#x1F1F4`, name: `Bolivia`},
-                            {emoji: `&#x1F1E7&#x1F1F6`, name: `Caribbean Netherlands`},
-                            {emoji: `&#x1F1E7&#x1F1F7`, name: `Brazil`},
-                            {emoji: `&#x1F1E7&#x1F1F8`, name: `Bahamas`},
-                            {emoji: `&#x1F1E7&#x1F1F9`, name: `Bhutan`},
-                            {emoji: `&#x1F1E7&#x1F1FB`, name: `Bouvet Island`},
-                            {emoji: `&#x1F1E7&#x1F1FC`, name: `Botswana`},
-                            {emoji: `&#x1F1E7&#x1F1FE`, name: `Belarus`},
-                            {emoji: `&#x1F1E7&#x1F1FF`, name: `Belize`},
-                            {emoji: `&#x1F1E8&#x1F1E6`, name: `Canada`},
-                            {emoji: `&#x1F1E8&#x1F1E8`, name: `Cocos (Keeling) Islands`},
-                            {emoji: `&#x1F1E8&#x1F1E9`, name: `Congo - Kinshasa`},
-                            {emoji: `&#x1F1E8&#x1F1EB`, name: `Central African Republic`},
-                            {emoji: `&#x1F1E8&#x1F1EC`, name: `Congo - Brazzaville`},
-                            {emoji: `&#x1F1E8&#x1F1ED`, name: `Switzerland`},
-                            {emoji: `&#x1F1E8&#x1F1EE`, name: `Côte D’Ivoire`},
-                            {emoji: `&#x1F1E8&#x1F1F0`, name: `Cook Islands`},
-                            {emoji: `&#x1F1E8&#x1F1F1`, name: `Chile`},
-                            {emoji: `&#x1F1E8&#x1F1F2`, name: `Cameroon`},
-                            {emoji: `&#x1F1E8&#x1F1F3`, name: `China`},
-                            {emoji: `&#x1F1E8&#x1F1F4`, name: `Colombia`},
-                            {emoji: `&#x1F1E8&#x1F1F5`, name: `Clipperton Island`},
-                            {emoji: `&#x1F1E8&#x1F1F7`, name: `Costa Rica`},
-                            {emoji: `&#x1F1E8&#x1F1FA`, name: `Cuba`},
-                            {emoji: `&#x1F1E8&#x1F1FB`, name: `Cape Verde`},
-                            {emoji: `&#x1F1E8&#x1F1FC`, name: `Curaçao`},
-                            {emoji: `&#x1F1E8&#x1F1FD`, name: `Christmas Island`},
-                            {emoji: `&#x1F1E8&#x1F1FE`, name: `Cyprus`},
-                            {emoji: `&#x1F1E8&#x1F1FF`, name: `Czech Republic`},
-                            {emoji: `&#x1F1E9&#x1F1EA`, name: `Germany`},
-                            {emoji: `&#x1F1E9&#x1F1EC`, name: `Diego Garcia`},
-                            {emoji: `&#x1F1E9&#x1F1EF`, name: `Djibouti`},
-                            {emoji: `&#x1F1E9&#x1F1F0`, name: `Denmark`},
-                            {emoji: `&#x1F1E9&#x1F1F2`, name: `Dominica`},
-                            {emoji: `&#x1F1E9&#x1F1F4`, name: `Dominican Republic`},
-                            {emoji: `&#x1F1E9&#x1F1FF`, name: `Algeria`},
-                            {emoji: `&#x1F1EA&#x1F1E6`, name: `Ceuta & Melilla`},
-                            {emoji: `&#x1F1EA&#x1F1E8`, name: `Ecuador`},
-                            {emoji: `&#x1F1EA&#x1F1EA`, name: `Estonia`},
-                            {emoji: `&#x1F1EA&#x1F1EC`, name: `Egypt`},
-                            {emoji: `&#x1F1EA&#x1F1ED`, name: `Western Sahara`},
-                            {emoji: `&#x1F1EA&#x1F1F7`, name: `Eritrea`},
-                            {emoji: `&#x1F1EA&#x1F1F8`, name: `Spain`},
-                            {emoji: `&#x1F1EA&#x1F1F9`, name: `Ethiopia`},
-                            {emoji: `&#x1F1EA&#x1F1FA`, name: `European Union`},
-                            {emoji: `&#x1F1EB&#x1F1EE`, name: `Finland`},
-                            {emoji: `&#x1F1EB&#x1F1EF`, name: `Fiji`},
-                            {emoji: `&#x1F1EB&#x1F1F0`, name: `Falkland Islands`},
-                            {emoji: `&#x1F1EB&#x1F1F2`, name: `Micronesia`},
-                            {emoji: `&#x1F1EB&#x1F1F4`, name: `Faroe Islands`},
-                            {emoji: `&#x1F1EB&#x1F1F7`, name: `France`},
-                            {emoji: `&#x1F1EC&#x1F1E6`, name: `Gabon`},
-                            {emoji: `&#x1F1EC&#x1F1E7`, name: `United Kingdom`},
-                            {emoji: `&#x1F1EC&#x1F1E9`, name: `Grenada`},
-                            {emoji: `&#x1F1EC&#x1F1EA`, name: `Georgia`},
-                            {emoji: `&#x1F1EC&#x1F1EB`, name: `French Guiana`},
-                            {emoji: `&#x1F1EC&#x1F1EC`, name: `Guernsey`},
-                            {emoji: `&#x1F1EC&#x1F1ED`, name: `Ghana`},
-                            {emoji: `&#x1F1EC&#x1F1EE`, name: `Gibraltar`},
-                            {emoji: `&#x1F1EC&#x1F1F1`, name: `Greenland`},
-                            {emoji: `&#x1F1EC&#x1F1F2`, name: `Gambia`},
-                            {emoji: `&#x1F1EC&#x1F1F3`, name: `Guinea`},
-                            {emoji: `&#x1F1EC&#x1F1F5`, name: `Guadeloupe`},
-                            {emoji: `&#x1F1EC&#x1F1F6`, name: `Equatorial Guinea`},
-                            {emoji: `&#x1F1EC&#x1F1F7`, name: `Greece`},
-                            {emoji: `&#x1F1EC&#x1F1F8`, name: `South Georgia & South Sandwich Islands`},
-                            {emoji: `&#x1F1EC&#x1F1F9`, name: `Guatemala`},
-                            {emoji: `&#x1F1EC&#x1F1FA`, name: `Guam`},
-                            {emoji: `&#x1F1EC&#x1F1FC`, name: `Guinea-Bissau`},
-                            {emoji: `&#x1F1EC&#x1F1FE`, name: `Guyana`},
-                            {emoji: `&#x1F1ED&#x1F1F0`, name: `Hong Kong SAR China`},
-                            {emoji: `&#x1F1ED&#x1F1F2`, name: `Heard & McDonald Islands`},
-                            {emoji: `&#x1F1ED&#x1F1F3`, name: `Honduras`},
-                            {emoji: `&#x1F1ED&#x1F1F7`, name: `Croatia`},
-                            {emoji: `&#x1F1ED&#x1F1F9`, name: `Haiti`},
-                            {emoji: `&#x1F1ED&#x1F1FA`, name: `Hungary`},
-                            {emoji: `&#x1F1EE&#x1F1E8`, name: `Canary Islands`},
-                            {emoji: `&#x1F1EE&#x1F1E9`, name: `Indonesia`},
-                            {emoji: `&#x1F1EE&#x1F1EA`, name: `Ireland`},
-                            {emoji: `&#x1F1EE&#x1F1F1`, name: `Israel`},
-                            {emoji: `&#x1F1EE&#x1F1F2`, name: `Isle Of Man`},
-                            {emoji: `&#x1F1EE&#x1F1F3`, name: `India`},
-                            {emoji: `&#x1F1EE&#x1F1F4`, name: `British Indian Ocean Territory`},
-                            {emoji: `&#x1F1EE&#x1F1F6`, name: `Iraq`},
-                            {emoji: `&#x1F1EE&#x1F1F7`, name: `Iran`},
-                            {emoji: `&#x1F1EE&#x1F1F8`, name: `Iceland`},
-                            {emoji: `&#x1F1EE&#x1F1F9`, name: `Italy`},
-                            {emoji: `&#x1F1EF&#x1F1EA`, name: `Jersey`},
-                            {emoji: `&#x1F1EF&#x1F1F2`, name: `Jamaica`},
-                            {emoji: `&#x1F1EF&#x1F1F4`, name: `Jordan`},
-                            {emoji: `&#x1F1EF&#x1F1F5`, name: `Japan`},
-                            {emoji: `&#x1F1F0&#x1F1EA`, name: `Kenya`},
-                            {emoji: `&#x1F1F0&#x1F1EC`, name: `Kyrgyzstan`},
-                            {emoji: `&#x1F1F0&#x1F1ED`, name: `Cambodia`},
-                            {emoji: `&#x1F1F0&#x1F1EE`, name: `Kiribati`},
-                            {emoji: `&#x1F1F0&#x1F1F2`, name: `Comoros`},
-                            {emoji: `&#x1F1F0&#x1F1F3`, name: `St. Kitts & Nevis`},
-                            {emoji: `&#x1F1F0&#x1F1F5`, name: `North Korea`},
-                            {emoji: `&#x1F1F0&#x1F1F7`, name: `South Korea`},
-                            {emoji: `&#x1F1F0&#x1F1FC`, name: `Kuwait`},
-                            {emoji: `&#x1F1F0&#x1F1FE`, name: `Cayman Islands`},
-                            {emoji: `&#x1F1F0&#x1F1FF`, name: `Kazakhstan`},
-                            {emoji: `&#x1F1F1&#x1F1E6`, name: `Laos`},
-                            {emoji: `&#x1F1F1&#x1F1E7`, name: `Lebanon`},
-                            {emoji: `&#x1F1F1&#x1F1E8`, name: `St. Lucia`},
-                            {emoji: `&#x1F1F1&#x1F1EE`, name: `Liechtenstein`},
-                            {emoji: `&#x1F1F1&#x1F1F0`, name: `Sri Lanka`},
-                            {emoji: `&#x1F1F1&#x1F1F7`, name: `Liberia`},
-                            {emoji: `&#x1F1F1&#x1F1F8`, name: `Lesotho`},
-                            {emoji: `&#x1F1F1&#x1F1F9`, name: `Lithuania`},
-                            {emoji: `&#x1F1F1&#x1F1FA`, name: `Luxembourg`},
-                            {emoji: `&#x1F1F1&#x1F1FB`, name: `Latvia`},
-                            {emoji: `&#x1F1F1&#x1F1FE`, name: `Libya`},
-                            {emoji: `&#x1F1F2&#x1F1E6`, name: `Morocco`},
-                            {emoji: `&#x1F1F2&#x1F1E8`, name: `Monaco`},
-                            {emoji: `&#x1F1F2&#x1F1E9`, name: `Moldova`},
-                            {emoji: `&#x1F1F2&#x1F1EA`, name: `Montenegro`},
-                            {emoji: `&#x1F1F2&#x1F1EB`, name: `St. Martin`},
-                            {emoji: `&#x1F1F2&#x1F1EC`, name: `Madagascar`},
-                            {emoji: `&#x1F1F2&#x1F1ED`, name: `Marshall Islands`},
-                            {emoji: `&#x1F1F2&#x1F1F0`, name: `Macedonia`},
-                            {emoji: `&#x1F1F2&#x1F1F1`, name: `Mali`},
-                            {emoji: `&#x1F1F2&#x1F1F2`, name: `Myanmar (Burma)`},
-                            {emoji: `&#x1F1F2&#x1F1F3`, name: `Mongolia`},
-                            {emoji: `&#x1F1F2&#x1F1F4`, name: `Macau SAR China`},
-                            {emoji: `&#x1F1F2&#x1F1F5`, name: `Northern Mariana Islands`},
-                            {emoji: `&#x1F1F2&#x1F1F6`, name: `Martinique`},
-                            {emoji: `&#x1F1F2&#x1F1F7`, name: `Mauritania`},
-                            {emoji: `&#x1F1F2&#x1F1F8`, name: `Montserrat`},
-                            {emoji: `&#x1F1F2&#x1F1F9`, name: `Malta`},
-                            {emoji: `&#x1F1F2&#x1F1FA`, name: `Mauritius`},
-                            {emoji: `&#x1F1F2&#x1F1FB`, name: `Maldives`},
-                            {emoji: `&#x1F1F2&#x1F1FC`, name: `Malawi`},
-                            {emoji: `&#x1F1F2&#x1F1FD`, name: `Mexico`},
-                            {emoji: `&#x1F1F2&#x1F1FE`, name: `Malaysia`},
-                            {emoji: `&#x1F1F2&#x1F1FF`, name: `Mozambique`},
-                            {emoji: `&#x1F1F3&#x1F1E6`, name: `Namibia`},
-                            {emoji: `&#x1F1F3&#x1F1E8`, name: `New Caledonia`},
-                            {emoji: `&#x1F1F3&#x1F1EA`, name: `Niger`},
-                            {emoji: `&#x1F1F3&#x1F1EB`, name: `Norfolk Island`},
-                            {emoji: `&#x1F1F3&#x1F1EC`, name: `Nigeria`},
-                            {emoji: `&#x1F1F3&#x1F1EE`, name: `Nicaragua`},
-                            {emoji: `&#x1F1F3&#x1F1F1`, name: `Netherlands`},
-                            {emoji: `&#x1F1F3&#x1F1F4`, name: `Norway`},
-                            {emoji: `&#x1F1F3&#x1F1F5`, name: `Nepal`},
-                            {emoji: `&#x1F1F3&#x1F1F7`, name: `Nauru`},
-                            {emoji: `&#x1F1F3&#x1F1FA`, name: `Niue`},
-                            {emoji: `&#x1F1F3&#x1F1FF`, name: `New Zealand`},
-                            {emoji: `&#x1F1F4&#x1F1F2`, name: `Oman`},
-                            {emoji: `&#x1F1F5&#x1F1E6`, name: `Panama`},
-                            {emoji: `&#x1F1F5&#x1F1EA`, name: `Peru`},
-                            {emoji: `&#x1F1F5&#x1F1EB`, name: `French Polynesia`},
-                            {emoji: `&#x1F1F5&#x1F1EC`, name: `Papua New Guinea`},
-                            {emoji: `&#x1F1F5&#x1F1ED`, name: `Philippines`},
-                            {emoji: `&#x1F1F5&#x1F1F0`, name: `Pakistan`},
-                            {emoji: `&#x1F1F5&#x1F1F1`, name: `Poland`},
-                            {emoji: `&#x1F1F5&#x1F1F2`, name: `St. Pierre & Miquelon`},
-                            {emoji: `&#x1F1F5&#x1F1F3`, name: `Pitcairn Islands`},
-                            {emoji: `&#x1F1F5&#x1F1F7`, name: `Puerto Rico`},
-                            {emoji: `&#x1F1F5&#x1F1F8`, name: `Palestinian Territories`},
-                            {emoji: `&#x1F1F5&#x1F1F9`, name: `Portugal`},
-                            {emoji: `&#x1F1F5&#x1F1FC`, name: `Palau`},
-                            {emoji: `&#x1F1F5&#x1F1FE`, name: `Paraguay`},
-                            {emoji: `&#x1F1F6&#x1F1E6`, name: `Qatar`},
-                            {emoji: `&#x1F1F7&#x1F1EA`, name: `Réunion`},
-                            {emoji: `&#x1F1F7&#x1F1F4`, name: `Romania`},
-                            {emoji: `&#x1F1F7&#x1F1F8`, name: `Serbia`},
-                            {emoji: `&#x1F1F7&#x1F1FA`, name: `Russia`},
-                            {emoji: `&#x1F1F7&#x1F1FC`, name: `Rwanda`},
-                            {emoji: `&#x1F1F8&#x1F1E6`, name: `Saudi Arabia`},
-                            {emoji: `&#x1F1F8&#x1F1E7`, name: `Solomon Islands`},
-                            {emoji: `&#x1F1F8&#x1F1E8`, name: `Seychelles`},
-                            {emoji: `&#x1F1F8&#x1F1E9`, name: `Sudan`},
-                            {emoji: `&#x1F1F8&#x1F1EA`, name: `Sweden`},
-                            {emoji: `&#x1F1F8&#x1F1EC`, name: `Singapore`},
-                            {emoji: `&#x1F1F8&#x1F1ED`, name: `St. Helena`},
-                            {emoji: `&#x1F1F8&#x1F1EE`, name: `Slovenia`},
-                            {emoji: `&#x1F1F8&#x1F1EF`, name: `Svalbard & Jan Mayen`},
-                            {emoji: `&#x1F1F8&#x1F1F0`, name: `Slovakia`},
-                            {emoji: `&#x1F1F8&#x1F1F1`, name: `Sierra Leone`},
-                            {emoji: `&#x1F1F8&#x1F1F2`, name: `San Marino`},
-                            {emoji: `&#x1F1F8&#x1F1F3`, name: `Senegal`},
-                            {emoji: `&#x1F1F8&#x1F1F4`, name: `Somalia`},
-                            {emoji: `&#x1F1F8&#x1F1F7`, name: `Suriname`},
-                            {emoji: `&#x1F1F8&#x1F1F8`, name: `South Sudan`},
-                            {emoji: `&#x1F1F8&#x1F1F9`, name: `São Tomé & Príncipe`},
-                            {emoji: `&#x1F1F8&#x1F1FB`, name: `El Salvador`},
-                            {emoji: `&#x1F1F8&#x1F1FD`, name: `Sint Maarten`},
-                            {emoji: `&#x1F1F8&#x1F1FE`, name: `Syria`},
-                            {emoji: `&#x1F1F8&#x1F1FF`, name: `Swaziland`},
-                            {emoji: `&#x1F1F9&#x1F1E6`, name: `Tristan Da Cunha`},
-                            {emoji: `&#x1F1F9&#x1F1E8`, name: `Turks & Caicos Islands`},
-                            {emoji: `&#x1F1F9&#x1F1E9`, name: `Chad`},
-                            {emoji: `&#x1F1F9&#x1F1EB`, name: `French Southern Territories`},
-                            {emoji: `&#x1F1F9&#x1F1EC`, name: `Togo`},
-                            {emoji: `&#x1F1F9&#x1F1ED`, name: `Thailand`},
-                            {emoji: `&#x1F1F9&#x1F1EF`, name: `Tajikistan`},
-                            {emoji: `&#x1F1F9&#x1F1F0`, name: `Tokelau`},
-                            {emoji: `&#x1F1F9&#x1F1F1`, name: `Timor-Leste`},
-                            {emoji: `&#x1F1F9&#x1F1F2`, name: `Turkmenistan`},
-                            {emoji: `&#x1F1F9&#x1F1F3`, name: `Tunisia`},
-                            {emoji: `&#x1F1F9&#x1F1F4`, name: `Tonga`},
-                            {emoji: `&#x1F1F9&#x1F1F7`, name: `Turkey`},
-                            {emoji: `&#x1F1F9&#x1F1F9`, name: `Trinidad & Tobago`},
-                            {emoji: `&#x1F1F9&#x1F1FB`, name: `Tuvalu`},
-                            {emoji: `&#x1F1F9&#x1F1FC`, name: `Taiwan`},
-                            {emoji: `&#x1F1F9&#x1F1FF`, name: `Tanzania`},
-                            {emoji: `&#x1F1FA&#x1F1E6`, name: `Ukraine`},
-                            {emoji: `&#x1F1FA&#x1F1EC`, name: `Uganda`},
-                            {emoji: `&#x1F1FA&#x1F1F2`, name: `U.S. Outlying Islands`},
-                            {emoji: `&#x1F1FA&#x1F1F3`, name: `United Nations`},
-                            {emoji: `&#x1F1FA&#x1F1F8`, name: `United States`},
-                            {emoji: `&#x1F1FA&#x1F1FE`, name: `Uruguay`},
-                            {emoji: `&#x1F1FA&#x1F1FF`, name: `Uzbekistan`},
-                            {emoji: `&#x1F1FB&#x1F1E6`, name: `Vatican City`},
-                            {emoji: `&#x1F1FB&#x1F1E8`, name: `St. Vincent & Grenadines`},
-                            {emoji: `&#x1F1FB&#x1F1EA`, name: `Venezuela`},
-                            {emoji: `&#x1F1FB&#x1F1EC`, name: `British Virgin Islands`},
-                            {emoji: `&#x1F1FB&#x1F1EE`, name: `U.S. Virgin Islands`},
-                            {emoji: `&#x1F1FB&#x1F1F3`, name: `Vietnam`},
-                            {emoji: `&#x1F1FB&#x1F1FA`, name: `Vanuatu`},
-                            {emoji: `&#x1F1FC&#x1F1EB`, name: `Wallis & Futuna`},
-                            {emoji: `&#x1F1FC&#x1F1F8`, name: `Samoa`},
-                            {emoji: `&#x1F1FD&#x1F1F0`, name: `Kosovo`},
-                            {emoji: `&#x1F1FE&#x1F1EA`, name: `Yemen`},
-                            {emoji: `&#x1F1FE&#x1F1F9`, name: `Mayotte`},
-                            {emoji: `&#x1F1FF&#x1F1E6`, name: `South Africa`},
-                            {emoji: `&#x1F1FF&#x1F1F2`, name: `Zambia`}
-                        ].forEach(emoji => {
-                            emojis.insertAdjacentHTML(`beforeEnd`, `<span data-id="${emoji.emoji}" draggable="true" title="${emoji.name}">${emoji.emoji}</span>`);
-                            emojis.lastElementChild.addEventListener(`dragstart`, event => {
-                                event.dataTransfer.setData(`text`, event.currentTarget.getAttribute(`data-id`));
-                            });
-                        });
-                        filter.addEventListener(`input`, () => {
-                            if (filter.value) {
-                                for (i = emojis.children.length - 1; i > -1; --i) {
-                                    emoji = emojis.children[i];
-                                    if (emoji.getAttribute(`title`).toLowerCase().match(filter.value)) {
-                                        emoji.classList.remove(`esgst-hidden`);
-                                    } else {
-                                        emoji.classList.add(`esgst-hidden`);
-                                    }
-                                }
-                            } else {
-                                for (i = emojis.children.length - 1; i > -1; --i) {
-                                    emojis.children[i].classList.remove(`esgst-hidden`);
-                                }
-                            }
-                            popup.reposition();
-                        });
-                        savedEmojis = emojis.nextElementSibling.nextElementSibling;
-                        for (i = savedEmojis.children.length - 1; i > -1; --i) {
-                            savedEmojis.children[i].addEventListener(`click`, event => {
-                                event.currentTarget.remove();
-                                setValue(`emojis`, savedEmojis.innerHTML);
-                                popup.reposition();
-                            });
-                        }
-                        savedEmojis.addEventListener(`dragover`, event => {
-                            event.preventDefault();
-                        });
-                        savedEmojis.addEventListener(`drop`, event => {
-                            event.preventDefault();
-                            let id = event.dataTransfer.getData(`text`).replace(/\\/g, `\\\\`);
-                            if (!savedEmojis.querySelector(`[data-id="${id}"]`)) {
-                                savedEmojis.appendChild(document.querySelector(`[data-id="${id}"]`).cloneNode(true));
-                                setValue(`emojis`, savedEmojis.innerHTML);
-                                popup.reposition();
-                                savedEmojis.lastElementChild.addEventListener(`click`, event => {
-                                    event.currentTarget.remove();
-                                    setValue(`emojis`, savedEmojis.innerHTML);
-                                    popup.reposition();
-                                });
-                            }
-                        });
-                        popup.open(() => {
-                            popout.popout.classList.add(`esgst-hidden`);
-                        });
-                    }
-                });
-            },
-            callback: popout => {
-                let emojis = popout.firstElementChild;
-                emojis.innerHTML = getValue(`emojis`, ``);
-                setCfhEmojis(emojis);
-            }
-        },
-        {
-            id: `cfh_g`,
-            icons: [`fa-star`],
-            name: `Giveaway Encrypter`,
-            setPopout: popout => {
-                popout.popout.innerHTML = `
-                    Giveaway Code: <input placeholder="XXXXX" type="text"/>
-                    <div class="form__saving-button btn_action white">Add</div>
-                `;
-                let code = popout.popout.firstElementChild;
-                code.nextElementSibling.addEventListener(`click`, () => {
-                    if (code.value.match(/^[\d\w]{5}$/)) {
-                        let encodedCode = encryptGedCode(code.value);
-                        formatCfhLink(``, `ESGST-${encodedCode}`);
-                        code.value = ``;
-                        popout.close();
-                    } else {
-                        alert(`Wrong format. The right format is XXXXX.`);
-                    }
-                });
-            },
-            callback: popout => {
-                let code = popout.firstElementChild;
-                code.value = esgst.cfh.textArea.value.slice(esgst.cfh.textArea.selectionStart, esgst.cfh.textArea.selectionEnd);
-                code.focus();
-            }
-        },
-        {
-            id: `cfh_sr`,
-            icons: [`fa-floppy-o`],
-            name: `Saved Replies`,
-            setPopout: function (popout) {
-                let addBUtton, filter, i, n, replies, savedReplies;
-                esgst.cfh.deletedReplies = [];
-                savedReplies = JSON.parse(getValue(`savedReplies`, `[]`));
-                popout.popout.innerHTML = `
-                    <div>
-                        <input placeholder="Filter replies..." type="text"/>
-                    </div>
-                    <div class="esgst-cfh-sr-container"></div>
-                    <div class="form__saving-button btn_action white">Add New Reply</div>
-                    <div class="esgst-clickable esgst-hidden">
-                        <i class="fa fa-rotate-left"></i>
-                        <span>Undo Delete</span>
-                    </div>
-                `;
-                filter = popout.popout.firstElementChild.firstElementChild;
-                esgst.cfh.undoDelete = popout.popout.lastElementChild;
-                addButton = esgst.cfh.undoDelete.previousElementSibling;
-                replies = addButton.previousElementSibling;
-                for (i = 0, n = savedReplies.length; i < n; ++i) {
-                    setCfhReply(replies, savedReplies[i]);
-                }
-                filter.addEventListener(`input`, filterCfhReplies.bind(null, replies));
-                esgst.cfh.undoDelete.addEventListener(`click`, undoCfhDelete);
-                addButton.addEventListener(`click`, openCfhReplyPopup.bind(null, null, null, replies, null));
-            },
-            callback: popout => {
-                popout.firstElementChild.firstElementChild.focus();
-            }
-        }, {
-            icons: [`fa-paste`],
-            name: `Automatic Links / Images Paste Formatting: OFF`,
-            callback: context => {
-                esgst.cfh.alipf = context.firstElementChild;
-                setCfhAlipf(esgst.cfh_pasteFormatting);
-            },
-            onClick: setCfhAlipf
-        }, {
-            icons: [`fa-rotate-left`],
-            name: `Undo Formatting`,
-            callback: context => {
-                esgst.cfh.undo = context.firstElementChild;
-                esgst.cfh.undo.classList.add(`esgst-faded`);
-            },
-            onClick: () => {
-                if (esgst.cfh.history.length) {
-                    esgst.cfh.backup.push(esgst.cfh.textArea.value);
-                    esgst.cfh.textArea.value = esgst.cfh.history.pop();
-                    esgst.cfh.redo.classList.remove(`esgst-faded`);
-                    if (!esgst.cfh.history.length) {
-                        esgst.cfh.undo.classList.add(`esgst-faded`);
-                    }
-                }
-            }
-        }, {
-            icons: [`fa-rotate-right`],
-            name: `Redo Formatting`,
-            callback: context => {
-                esgst.cfh.redo = context.firstElementChild;
-                esgst.cfh.redo.classList.add(`esgst-faded`);
-            },
-            onClick: () => {
-                if (esgst.cfh.backup.length) {
-                    esgst.cfh.history.push(esgst.cfh.textArea.value);
-                    esgst.cfh.textArea.value = esgst.cfh.backup.pop();
-                    esgst.cfh.undo.classList.remove(`esgst-faded`);
-                    if (!esgst.cfh.backup.length) {
-                        esgst.cfh.redo.classList.add(`esgst-faded`);
-                    }
-                }
-            }
-        }
-    ].forEach(item => {
-        if (!item.id || esgst[item.id]) {
-            let button = insertHtml(esgst.cfh.panel, `beforeEnd`, `<div title="${item.name}"></div>`);
-            item.icons.forEach(icon => {
-                button.insertAdjacentHTML(`beforeEnd`, `<i class="fa ${icon}"></i>`);
-            });
-            if (item.text) {
-                button.insertAdjacentText(`beforeEnd`, item.text);
-            }
-            if (item.setPopout) {
-                item.setPopout(new Popout(`esgst-cfh-popout`, button, 0, true, null, item.callback));
-            } else if (item.setPopup) {
-                let popup;
-                button.addEventListener(`click`, () => {
-                    if (popup) {
-                        popup.open();
-                    } else {
-                        popup = new Popup(`fa-table`, `Add a table:`);
-                        item.setPopup(popup);
-                        popup.open();
-                    }
-                })
-            } else {
-                if (item.callback) {
-                    item.callback(button);
-                }
-                button.addEventListener(`click`, () => {
-                    if (item.onClick) {
-                        item.onClick();
-                    } else {
-                        formatCfhItem(item.prefix, item.suffix, item.multiline);
-                    }
-                });
-            }
-        }
-    });
-    if (esgst.cfh_cf) {
-        esgst.cfh.panel.insertAdjacentHTML(`beforeEnd`, `
-            <a href="/about/comment-formatting" title="Comment Formatting">
-                <i class="fa fa-question-circle"></i>
-            </a>
-        `);
-    }
-    esgst.endlessFeatures.push(setCfhTextAreas);
-    setCfhTextAreas(document);
-}
-
 function setCfhTextAreas(context) {
     let i, textAreas;
     textAreas = context.querySelectorAll(`textarea[name*="description"]`);
@@ -24739,13 +24851,13 @@ function deleteWbmUsers(wbm, list, i, n, callback) {
 
 function loadGlwc() {
     if (esgst.whitelistPath || esgst.blacklistPath || esgst.groupPath) {
-        let url;
+        let parameters;
         if (esgst.whitelistPath) {
-            url = `account/manage/whitelist`;
+            parameters = `?url=account/manage/whitelist`;
         } else if (esgst.blacklistPath) {
-            url = `account/manage/blacklist`;
+            parameters = `?url=account/manage/blacklist`;
         } else {
-            url = `${location.pathname.match(/group\/.+/)}/users`;
+            parameters = `?url=${location.pathname.match(/group\/.+/)}/users&id=${document.querySelector(`[href*="/gid/"]`).getAttribute(`href`).match(/\d+/)[0]}`;
         }
         insertHtml(esgst.hideButtons && esgst.hideButtons_glwc ? esgst.leftButtons : esgst.mainPageHeading, `afterBegin`, `
             <div class="esgst-heading-button" title="Check libraries/wishlists">
@@ -24753,18 +24865,33 @@ function loadGlwc() {
                 <i class="fa fa-star"></i>
             </div>
         `).addEventListener(`click`, () => {
-            open(`/esgst/glwc?url=${url}`);
+            open(`/esgst/glwc${parameters}`);
         });
     } else if (esgst.glwcPath) {
-        let glwc = {};
+        let glwc = {}, parameters;
         glwc.context = document.body.firstElementChild.nextElementSibling.firstElementChild;
         glwc.progress = insertHtml(glwc.context, `beforeEnd`, `<div></div>`);
         glwc.overallProgress = insertHtml(glwc.context, `beforeEnd`, `<div></div>`);
-        glwc.url = getParameters().url;
+        parameters = getParameters();
+        glwc.id = parameters.id;
+        glwc.url = parameters.url;
         glwc.users = [];
         glwc.games = {};
-        glwc.overallProgress.textContent = `Step 1 of 3`;
-        getGlwcUsers(glwc, 1);
+        if (glwc.id) {
+            glwc.overallProgress.textContent = `Preparing...`;
+            request(null, null, false, `http://steamcommunity.com/gid/${glwc.id}/memberslistxml?xml=1`, response => {
+                glwc.members = [];
+                members = response.responseText.match(/<steamID64>.+?<\/steamID64>/g);
+                members.forEach(member => {
+                    glwc.members.push(member.match(/<steamID64>(.+?)<\/steamID64>/)[1]);
+                });
+                glwc.overallProgress.textContent = `Step 1 of 3`;
+                getGlwcUsers(glwc, 1);
+            });
+        } else {
+            glwc.overallProgress.textContent = `Step 1 of 3`;
+            getGlwcUsers(glwc, 1);
+        }
     }
 }
 
@@ -24825,50 +24952,54 @@ function getGlwcGames(glwc, i, n) {
                 <i class="fa fa-circle-o-notch fa-spin"></i>
                 <span>Retrieving libraries/wishlists (${i + 1} of ${n})...</span>
             `;
-            request(null, null, false, `http://api.steampowered.com/IPlayerService/GetOwnedGames/v0001/?key=${esgst.steamApiKey}&steamid=${glwc.users[i].steamId}&format=json`, response => {
-                let game, element, elements, j;
-                glwc.users[i].library = [];
-                elements = JSON.parse(response.responseText).response.games;
-                if (elements) {
-                    elements.forEach(element => {
-                        game = {
-                            id: element.appid,
-                            logo: `https://steamcdn-a.akamaihd.net/steam/apps/${element.appid}/header.jpg`,
-                            name: `${element.appid}`
-                        };
-                        if (!glwc.games[game.id]) {
-                            game.libraries = [];
-                            game.wishlists = [];
-                            glwc.games[game.id] = game;
-                        }
-                        glwc.games[game.id].libraries.push(i);
-                        glwc.users[i].library.push(game.id);
-                    });
-                }
-                request(null, null, false, `http://steamcommunity.com/profiles/${glwc.users[i].steamId}/wishlist/`, response => {
-                    glwc.users[i].wishlist = [];
-                    elements = DOM.parse(response.responseText).querySelectorAll(`.gameListRow, .wishlistRow`);
-                    for (j = elements.length - 1; j > -1; --j) {
-                        element = elements[j];
-                        game = {
-                            id: element.id.match(/^game_(.+)/)[1],
-                            logo: element.getElementsByClassName(`gameListRowLogo`)[0].firstElementChild.firstElementChild.getAttribute(`src`),
-                            name: element.getElementsByClassName(`ellipsis`)[0].textContent,
-                        };
-                        if (glwc.games[game.id]) {
-                            glwc.games[game.id].logo = game.logo;
-                            glwc.games[game.id].name = game.name;
-                        } else {
-                            game.libraries = [];
-                            game.wishlists = [];
-                            glwc.games[game.id] = game;
-                        }
-                        glwc.games[game.id].wishlists.push(i);
-                        glwc.users[i].wishlist.push(parseInt(game.id));
+            if (!glwc.id || glwc.members.indexOf(glwc.users[i].steamId) >= 0) {
+                request(null, null, false, `http://api.steampowered.com/IPlayerService/GetOwnedGames/v0001/?key=${esgst.steamApiKey}&steamid=${glwc.users[i].steamId}&format=json`, response => {
+                    let game, element, elements, j;
+                    glwc.users[i].library = [];
+                    elements = JSON.parse(response.responseText).response.games;
+                    if (elements) {
+                        elements.forEach(element => {
+                            game = {
+                                id: element.appid,
+                                logo: `https://steamcdn-a.akamaihd.net/steam/apps/${element.appid}/header.jpg`,
+                                name: `${element.appid}`
+                            };
+                            if (!glwc.games[game.id]) {
+                                game.libraries = [];
+                                game.wishlists = [];
+                                glwc.games[game.id] = game;
+                            }
+                            glwc.games[game.id].libraries.push(i);
+                            glwc.users[i].library.push(game.id);
+                        });
                     }
-                    setTimeout(getGlwcGames, 0, glwc, ++i, n);
+                    request(null, null, false, `http://steamcommunity.com/profiles/${glwc.users[i].steamId}/wishlist/`, response => {
+                        glwc.users[i].wishlist = [];
+                        elements = DOM.parse(response.responseText).querySelectorAll(`.gameListRow, .wishlistRow`);
+                        for (j = elements.length - 1; j > -1; --j) {
+                            element = elements[j];
+                            game = {
+                                id: element.id.match(/^game_(.+)/)[1],
+                                logo: element.getElementsByClassName(`gameListRowLogo`)[0].firstElementChild.firstElementChild.getAttribute(`src`),
+                                name: element.getElementsByClassName(`ellipsis`)[0].textContent,
+                            };
+                            if (glwc.games[game.id]) {
+                                glwc.games[game.id].logo = game.logo;
+                                glwc.games[game.id].name = game.name;
+                            } else {
+                                game.libraries = [];
+                                game.wishlists = [];
+                                glwc.games[game.id] = game;
+                            }
+                            glwc.games[game.id].wishlists.push(i);
+                            glwc.users[i].wishlist.push(parseInt(game.id));
+                        }
+                        setTimeout(getGlwcGames, 0, glwc, ++i, n);
+                    });
                 });
-            });
+            } else {
+                setTimeout(getGlwcGames, 0, glwc, ++i, n);
+            }
         } else {
             showGlwcResults(glwc);
         }
@@ -27438,6 +27569,17 @@ function getSMFeature(Feature, aaa) {
                 setSetting(`gb_hours`, input.firstElementChild.value);
                 esgst.gb_hours = input.firstElementChild.value;
             });
+        } else if (Feature.id === `hr_w_h`) {
+            var hours = esgst.hr_w_hours;
+            input = insertHtml(SMFeatures, `beforeEnd`, `
+                <div class="esgst-sm-colors">
+                    Hours: <input type="text" value=${hours}>
+                </div>
+            `);
+            input.firstElementChild.addEventListener(`change`, function() {
+                setSetting(`hr_w_hours`, input.firstElementChild.value);
+                esgst.hr_w_hours = input.firstElementChild.value;
+            });
         } else if (Feature.id === `hr`) {
             input = insertHtml(SMFeatures, `beforeEnd`, `
                 <div class="esgst-sm-colors">
@@ -28687,13 +28829,6 @@ function getGiveawayInfo(context, mainContext, games, savedUsers, ugd, ugdType, 
     };
 }
 
-function startDiscussionFeatures() {
-    if (esgst.giveawaysPath || esgst.discussionsPath) {
-        esgst.endlessFeatures.push(loadDiscussionFeatures);
-        loadDiscussionFeatures(document, true);
-    }
-}
-
 function loadDiscussionFeatures(context, main, source, endless) {
     var i, n, discussion, discussions, savedDiscussion, savedDiscussions;
     savedDiscussions = JSON.parse(getValue(`discussions`, `{}`));
@@ -28801,7 +28936,7 @@ function getDiscussionInfo(context, main, savedDiscussions, savedUsers) {
                 discussion[discussion.category.replace(/\W/g, ``).replace(/^(.)/, (m, p1) => { return p1.toLowerCase(); })] = true;
                 discussion.createdContainer = discussion.categoryContainer.nextElementSibling;
                 discussion.createdTime = parseInt(discussion.createdContainer.getAttribute(`data-timestamp`)) * 1e3;
-                if (esgst.giveawaysPath && discussion.avatar) {
+                if (esgst.giveawaysPath) {
                     discussion.author = discussion.avatar.getAttribute(`href`).match(/\/user\/(.+)/)[1];
                 } else {
                     discussion.author = discussion.createdContainer.nextElementSibling.textContent;
@@ -31526,7 +31661,31 @@ function addStyle() {
             }
         `;
     }
-    style += `
+    style += `    
+        .esgst-qgs-container i {
+            color: #AAB5C6;
+        }
+        
+        .esgst-qgs-container {
+            align-items: center;
+            background-color: #fff;
+            border-color: #c5cad7 #dee0e8 #dee0e8 #d2d4e0;
+            border-radius: 4px;
+            border-style: solid;
+            border-width: 1px;
+            display: flex;
+            margin-right: 5px;
+            padding: 5px 10px;
+        }
+
+        .esgst-qgs-input {
+            border: 0 !important;
+            height: 100%;
+            line-height: normal !important;
+            padding: 0 !important;
+            width: 65px;
+        }
+
         .esgst-glwc-results {
             display: flex;
         }
@@ -33543,6 +33702,22 @@ function loadChangelog(version) {
     var changelog, current, html, i, index, n, popup;
     changelog = [
         {
+            date: `October 24, 2017`,
+            version: `7.6.0`,
+            changelog: `
+                <ul>
+                    <li>Added something that should prevent ESGST from loading more than once in the same page for some users (<a href="https://github.com/revilheart/ESGST/issues/59">#59</a>).</li>
+                    <li>Added an option to Header Refresher to only notify about unentered wishlist giveaways that are ending in X hours (<a href="https://github.com/revilheart/ESGST/issues/64">#64</a>).</li>
+                    <li>Added Giveaways.2 Quick Giveaway Search.</li>
+                    <li>The genre filter in Giveaway Filters now works as a three-state filter like the others ("hide all" hides the genres listed, "show only" shows only the genres listed and "show all" shows everything).</li>
+                    <li>Fixed a bug in Unhide Giveaway Button that was not correctly detecting hidden games for Giveaway Bookmarks (<a href="https://github.com/revilheart/ESGST/issues/68">#68</a>).</li>
+                    <li>Blacklist Giveaway Loader now shows "You Are Blacklisted" if you have been blacklisted by the creator and "On Your Blacklist" if you have blacklisted the creator.</li>
+                    <li>Fixed a bug that was happening for users with Avatar Popout on click enabled.</li>
+                    <li>Group Library/Wishlist Checker now verifies if the user is still a member of the group.</li>
+                </ul>
+            `
+        },
+        {
             date: `October 23, 2017`,
             version: `7.5.1`,
             changelog: `
@@ -35281,1564 +35456,6 @@ function loadChangelog(version) {
                     <li>Fixed a bug that was moving the pagination navigation to the top in pages that had Endless Scrolling disabled.</li>
                     <li>Added options (2.4.1-2.4.3) to enable Grid View for Giveaway Bookmarks, Giveaway Encrypter/Decrypter and Train Giveaways Extractor.</li>
                     <li>Fixed a bug in Game Categories.</li>
-                </ul>
-            `
-        },
-        {
-            date: `July 23, 2017`,
-            version: `6.Beta.19.12`,
-            changelog: `
-                <ul>
-                    <li>Fixed some bugs.</li>
-                    <li>Changed the way popups behave when scrolling and which elements stay fixed.</li>
-                    <li>Added an option to export the list of bundles when syncing and another option to sync them from a file. This allows you to share bundle lists with other users, which can prevent unecessary requests to SG (here's a fresh bundle list synced a few minutes ago: https://www.dropbox.com/s/3gsl9ya04cqwa09/ESGST-Bundles-Sun%2C%2023%20Jul%202017%2021-51-21%20GMT.json?dl=0).</li>
-                    <li>The "Extract" button in Train Giveaways Extractor now changes to "Extract More" after the first extraction.</li>
-                    <li>Hovering over the Bundled category in Game Categories now shows the date that the game was bundled (requires re-sync).</li>
-                </ul>
-                <p>Train Giveaways Extractor now has two different behaviors:</p>
-                <ul>
-                    <li>It loads the giveaways in batches of 50 if at least one of the following categories are enabled: Giveaway Info, Rating, Removed, Early Access, Trading Cards, Achivements, Multiplayer, Steam Cloud, Linux, Mac, DLC, Genres.</li>
-                    <li>It loads all giveaways in a single batch if none of the categories mentioned above are enabled.</li>
-                </ul>
-            `
-        },
-        {
-            date: `July 23, 2017`,
-            version: `6.Beta.19.11`,
-            changelog: `
-                <ul>
-                    <li>Fixed a bug that was enabling Discussions Sorter in the new discussion page (closes <a href="https://github.com/revilheart/ESGST/issues/275">#275</a>).</li>
-                </ul>
-            `
-        },
-        {
-            date: `July 23, 2017`,
-            version: `6.Beta.19.10`,
-            changelog: `
-                <ul>
-                    <li>Fixed some bugs.</li>
-                    <li>Upgraded all popups to v6.</li>
-                    <li>Fixed the "Manage" link in popups (closes <a href="https://github.com/revilheart/ESGST/issues/250">#250</a>).</li>
-                    <li>Fixed a bug that was happening when importing data.</li>
-                    <li>Fixed a style issue with giveaways loaded in popups (closes <a href="https://github.com/revilheart/ESGST/issues/270">#270</a> and <a href="https://github.com/revilheart/ESGST/issues/278">#278</a>).</li>
-                    <li>Fixed a bug in Giveaways/Discussions/Tickets/Trades Tracker that was not fading discussions in the main page (closes <a href="https://github.com/revilheart/ESGST/issues/279">#279</a>).</li>
-                    <li>Fixed a bug in Giveaway Filters that was not filtering giveaways with no categories.</li>
-                    <li>Fixed a bug in Giveaway Groups Loader that was preventing groups from loading in the popup version (closes <a href="https://github.com/revilheart/ESGST/issues/283">#283</a>).</li>
-                    <li>Train Giveaways Extractor now works from discussion pages and now also extracts links to SGTools giveaways.</li>
-                    <li>Train Giveaways Extractor now extracts giveaways in batches of 50 to prevent the Steam API from blocking requests if using Game Categories. It's recommended to wait a couple minutes before extracting the next batch.</li>
-                </ul>
-            `
-        },
-        {
-            date: `July 21, 2017`,
-            version: `6.Beta.19.9`,
-            changelog: `
-                <ul>
-                    <li>Fixed a style issue with list items inside popups.</li>
-                    <li>Fixed a bug that was not importing settings (closes <a href="https://github.com/revilheart/ESGST/issues/256">#256</a>).</li>
-                    <li>Fixed a bug that was enabling Active Discussions On Top/Sidebar even when disabled.</li>
-                </ul>
-            `
-        },
-        {
-            date: `July 21, 2017`,
-            version: `6.Beta.19.8`,
-            changelog: `
-                <ul>
-                    <li>Fixed some bugs.</li>
-                    <li>Fixed a bug in Multiple Giveaways Creator that was not importing games with an ampersand in their name (closes <a href="https://github.com/revilheart/ESGST/issues/274">#274</a>).</li>
-                    <li>Fixed a bug in Giveaway Encrypter/Decrypter and Train Giveaways Extractor that was not filtering results.</li>
-                    <li>Fixed a bug in Entries Remover that was not removing the entries (closes <a href="https://github.com/revilheart/ESGST/issues/255">#255</a>).</li>
-                    <li>Adapted Active Discussions On Top/Sidebar to recent SG changes (closes <a href="https://github.com/revilheart/ESGST/issues/273">#273</a>).</li>
-                </ul>
-            `
-        },
-        {
-            date: `July 18, 2017`,
-            version: `6.Beta.19.7`,
-            changelog: `
-                <ul>
-                    <li>Fixed a bug in Giveaway Encrypter/Decrypter.</li>
-                </ul>
-            `
-        },
-        {
-            date: `July 18, 2017`,
-            version: `6.Beta.19.6`,
-            changelog: `
-                <ul>
-                    <li>Fixed a bug in Giveaway Encrypter/Decrypter.</li>
-                </ul>
-            `
-        },
-        {
-            date: `July 18, 2017`,
-            version: `6.Beta.19.5`,
-            changelog: `
-                <ul>
-                    <li>Fixed a bug in Giveaway Encrypter/Decrypter that was not showing any giveaways if opening the popup from a user's profile page.</li>
-                </ul>
-            `
-        },
-        {
-            date: `July 18, 2017`,
-            version: `6.Beta.19.4`,
-            changelog: `
-                <ul>
-                    <li>Fixed a bug in Giveaway Filters.</li>
-                </ul>
-            `
-        },
-        {
-            date: `July 18, 2017`,
-            version: `6.Beta.19.3`,
-            changelog: `
-                <ul>
-                    <li>Fixed a class conflict with the pinned giveaways button.</li>
-                    <li>Fixed a conflict between normal and popup filters in Giveaway Filters (closes <a href="https://github.com/revilheart/ESGST/issues/262">#262</a>).</li>
-                    <li>Giveaway Encrypter/Decrypter now only loads created/hidden/owned/ignored giveaways if those options are enabled in the filter, instead of loading them first and then filtering. This means that if you change one of those options in the filter, it will only take effect when you refresh the page. Also, giveaways decrypted before this version must be fully loaded (keep clicking "Load more...") if you want them to be filtered correctly.</li>
-                    <li>Added bump links to Train Giveaways Extractor (closes <a href="https://github.com/revilheart/ESGST/issues/261">#261</a>).</li>
-                    <li>Train Giveaways Extractor is now able to extract any amount of trains inside of a train (trainception :P) (closes <a href="https://github.com/revilheart/ESGST/issues/263">#263</a>).</li>
-                    <li>Added 7.4.4 "Giveaway Info" category to Game Categories (closes <a href="https://github.com/revilheart/ESGST/issues/254">#254</a>).</li>
-                </ul>
-            `
-        },
-        {
-            date: `July 18, 2017`,
-            version: `6.Beta.19.2`,
-            changelog: `
-                <ul>
-                    <li>Fixed a game sync bug.</li>
-                    <li>Fixed a bug in Train Giveaways Extractor that was not properly extracting giveaways from trains with previous links.</li>
-                    <li>Fixed a bug in Removed Game Redirecter that was redirecting any Steam page.</li>
-                </ul>
-            `
-        },
-        {
-            date: `July 18, 2017`,
-            version: `6.Beta.19.1`,
-            changelog: `
-                <ul>
-                    <li>Fixed a bug in Giveaway Filters that was not filtering giveaways. </li>
-                </ul>
-            `
-        },
-        {
-            date: `July 18, 2017`,
-            version: `6.Beta.19.0`,
-            changelog: `
-                <ul>
-                    <li>Started a process of grouping feature calls together and minimizing interactions with DOM to optimize performance.</li>
-                    <li>Fixed a bug that was happening in the automatic sync (closes <a href="https://github.com/revilheart/ESGST/issues/260">#260</a>).</li>
-                    <li>Fixed a bug in the sync that was not properly syncing games.</li>
-                    <li>Added "Hidden", "Owned", "Wishlisted", "Ignored" and "Removed" filters to Giveaway Filters.</li>
-                    <li>Extended Giveaway Filters to popups (works with Giveaway Encrypter/Decrypter and Train Giveaways Extractor) (closes <a href="https://github.com/revilheart/ESGST/issues/252">#252</a>).</li>
-                    <li>Improved Train Giveaways Extractor to work regardless of the name of the "Next" link.</li>
-                    <li>Added 7.4.3 "Hidden" filter to Game Categories (must be synced through the settings menu).</li>
-                </ul>
-                <p>Added the following features:</p>
-                <ul>
-                    <li>2.24 Hidden Games Enter Button Disabler</li>
-                </ul>
-            `
-        },
-        {
-            date: `July 17, 2017`,
-            version: `6.Beta.18.0`,
-            changelog: `
-                <p>Added the following features:</p>
-                <ul>
-                    <li>2.26 Train Giveaways Extractor</li>
-                </ul>
-            `
-        },
-        {
-            date: `July 17, 2017`,
-            version: `6.Beta.17.11`,
-            changelog: `
-                <ul>
-                    <li>Added created time to Grid View.</li>
-                </ul>
-            `
-        },
-        {
-            date: `July 16, 2017`,
-            version: `6.Beta.17.10`,
-            changelog: `
-                <ul>
-                    <li>Fixed a bug that was enabling Removed Game Redirecter even if disabled.</li>
-                </ul>
-            `
-        },
-        {
-            date: `July 15, 2017`,
-            version: `6.Beta.17.9`,
-            changelog: `
-                <ul>
-                    <li>Added an option (5.7.1.2) to only highlight users who failed to pass the check to Not Activated/Multiple Wins Checker.</li>
-                </ul>
-            `
-        },
-        {
-            date: `July 15, 2017`,
-            version: `6.Beta.17.8`,
-            changelog: `
-                <ul>
-                    <li>Fixed a bug in Entries Remover while syncing owned games (closes <a href="https://github.com/revilheart/ESGST/issues/249">#249</a>).</li>
-                    <li>Added "Removed" and "Early Access" categories to Game Categories.</li>
-                </ul>
-            `
-        },
-        {
-            date: `July 15, 2017`,
-            version: `6.Beta.17.7`,
-            changelog: `
-                <ul>
-                    <li>Fixed a bug that was enabling automatic sync even if disabled.</li>
-                </ul>
-            `
-        },
-        {
-            date: `July 15, 2017`,
-            version: `6.Beta.17.6`,
-            changelog: `
-                <ul>
-                    <li>Fixed a bug that prevented some features from running in giveaways with no descriptions and Next/Previous Train Hotkeys enabled.</li>
-                </ul>
-            `
-        },
-        {
-            date: `July 15, 2017`,
-            version: `6.Beta.17.5`,
-            changelog: `
-                <ul>
-                    <li>Fixed several bugs.</li>
-                    <li>Added back Greasemonkey support to the script (Header Refresher now works well on Greasemonkey as well).</li>
-                    <li>Fixed a bug in Whitelist/Blacklist Checker that was showing incorrect results for group/whitelist giveaways.</li>
-                </ul>
-            `
-        },
-        {
-            date: `July 15, 2017`,
-            version: `6.Beta.17.4`,
-            changelog: `
-                <ul>
-                    <li>You can now sync from ST.</li>
-                    <li>You can now sync groups/whitelist/blacklist/games separately.</li>
-                    <li>The automatic sync now opens in a new tab.</li>
-                    <li>Multiple Giveaways Creator now automatically corrects the starting time of the giveaways if it has already passed and shows error messages in the their titles if the creation process has failed (closes <a href="https://github.com/revilheart/ESGST/issues/215">#215</a>).</li>
-                </ul>
-            `
-        },
-        {
-            date: `July 14, 2017`,
-            version: `6.Beta.17.3`,
-            changelog: `
-                <ul>
-                    <li>Added an option to the new giveaway page in Multiple Giveaways Creator that allows you to choose whether or not to remove the previous/next links in the first/last wagons of the train (closes <a href="https://github.com/revilheart/ESGST/issues/240">#240</a>).</li>
-                </ul>
-            `
-        },
-        {
-            date: `July 14, 2017`,
-            version: `6.Beta.17.2`,
-            changelog: `
-                <ul>
-                    <li>Fixed a style conflict between the script and SG's jQuery UIs.</li>
-                </ul>
-            `
-        },
-        {
-            date: `July 14, 2017`,
-            version: `6.Beta.17.1`,
-            changelog: `
-                <ul>
-                    <li>Simplified the formatting for descriptions in Multiple Giveaways Creator (make sure you update your templates to the new format, as the old format is no longer supported - pay extra attention because ending tags now have a slash) (closes <a href="https://github.com/revilheart/ESGST/issues/237">#237</a>).</li>
-                </ul>
-            `
-        },
-        {
-            date: `July 14, 2017`,
-            version: `6.Beta.17.0`,
-            changelog: `
-                <ul>
-                    <li>Fixed a formatting error in the second connection style example in Multiple Giveaways Creator.</li>
-                </ul>
-                <p>Added the following features:</p>
-                <ul>
-                    <li>2.25 Next/Previous Train Hotkeys (closes <a href="https://github.com/revilheart/ESGST/issues/195">#195</a>)</li>
-                </ul>
-            `
-        },
-        {
-            date: `July 14, 2017`,
-            version: `6.Beta.16.9`,
-            changelog: `
-                <ul>
-                    <li>Improved the progress bar in Multiple Giveaways Creator.</li>
-                </ul>
-            `
-        },
-        {
-            date: `July 14, 2017`,
-            version: `6.Beta.16.8`,
-            changelog: `
-                <ul>
-                    <li>Fixed a bug in Giveaway Templates that was setting incorrect dates for templates that end in the other month.</li>
-                    <li>While importing in Multiple Giveaways Creator, the imported giveaways will now be removed from the text area and a progress bar will be shown.</li>
-                </ul>
-            `
-        },
-        {
-            date: `July 14, 2017`,
-            version: `6.Beta.16.7`,
-            changelog: `
-                <p>Renamed the following features:</p>
-                <ul>
-                    <li>Giveaway Maker -> Multiple Giveaways Creator - Fixed a bug that was creating duplicate giveaways if clicking on "Create" again after finishing a creation process (closes <a href="https://github.com/revilheart/ESGST/issues/214">#214</a>). Added an option to add a counter to trains (closes <a href="https://github.com/revilheart/ESGST/issues/209">#209</a>). Added an option to import/export giveaways.</li>
-                </ul>
-            `
-        },
-        {
-            date: `July 13, 2017`,
-            version: `6.Beta.16.6`,
-            changelog: `
-                <ul>
-                    <li>Added an option to Game Categories to show the percentage and number of reviews next to the icon in the rating category (closes <a href="https://github.com/revilheart/ESGST/issues/236">#236</a>).</li>
-                </ul>
-            `
-        },
-        {
-            date: `July 13, 2017`,
-            version: `6.Beta.16.5`,
-            changelog: `
-                <ul>
-                    <li>Fixed a bug that was exporting the old group storage instead of the v6 one.</li>
-                    <li>Fixed a bug in Giveaway Filters for the new giveaways page.</li>
-                </ul>
-            `
-        },
-        {
-            date: `July 13, 2017`,
-            version: `6.Beta.16.4`,
-            changelog: `
-                <ul>
-                    <li>Fixed a few bugs.</li>
-                    <li>Enhanced Last Page Link to show the accurate last page number (closes <a href="https://github.com/revilheart/ESGST/issues/212">#212</a>).</li>
-                    <li>Moved the "Source" link in Giveaways Encrypter/Decrypter (closes <a href="https://github.com/revilheart/ESGST/issues/210">#210</a>).</li>
-                    <li>Fixed a bug in Giveaway Filters that was not saving the max value for entries and copies.</li>
-                    <li>Fixed a bug in Giveaway Filters that was still showing the "Category Filters" heading even if Game Categories was disabled.</li>
-                    <li>Added "Ratings" filter to Giveaway Filters (games that do not have a rating, either because the Steam page doesn't have it or because the script was unable to get it, have a predefined rating of 0) (closes <a href="https://github.com/revilheart/ESGST/issues/191">#191</a>).</li>
-                    <li>Added more info about the giveaway to the popup in Enter/Leave Giveaway Button (closes <a href="https://github.com/revilheart/ESGST/issues/226">#226</a>).</li>
-                    <li>Fixed a bug that was missing some features in Discussions Highlighter when opening them outside of the main discussions page (closes <a href="https://github.com/revilheart/ESGST/issues/208">#208</a>).</li>
-                    <li>Fixed a bug that was showing the Whitelist/Blacklist Checker button in all pages (closes <a href="https://github.com/revilheart/ESGST/issues/227">#227</a>).</li>
-                    <li>Added "Package" category to Game Categories (closes <a href="https://github.com/revilheart/ESGST/issues/180">#180</a>).</li>
-                </ul>
-            `
-        },
-        {
-            date: `July 13, 2017`,
-            version: `6.Beta.16.3`,
-            changelog: `
-                <ul>
-                    <li>Fixed a bug in Whitelist/Blacklist Checker that was happening when trying to return whitelists/blacklists.</li>
-                </ul>
-            `
-        },
-        {
-            date: `July 13, 2017`,
-            version: `6.Beta.16.2`,
-            changelog: `
-                <ul>
-                    <li>Fixed some bugs and made more optimizations.</li>
-                    <li>Fixed a bug that was not showing the changelog when updating (closes <a href="https://github.com/revilheart/ESGST/issues/233">#233</a>).</li>
-                </ul>
-            `
-        },
-        {
-            date: `July 12, 2017`,
-            version: `6.Beta.16.1`,
-            changelog: `
-                <ul>
-                    <li>Fixed a bug that was not saving color settings.</li>
-                    <li>Fixed a bug that was enabling the option to pop up giveaway descriptions even if it was disabled in Enter/Leave Giveaway Button.</li>
-                    <li>Fixed a bug that was not marking things as visited in Giveaways/Discussions/Tickets/Trades Tracker if Comment Tracker was disabled (closes <a href="https://github.com/revilheart/ESGST/issues/230">#230</a>).</li>
-                </ul>
-            `
-        },
-        {
-            date: `July 10, 2017`,
-            version: `6.Beta.16.0`,
-            changelog: `
-                <ul>
-                    <li>Moved Giveaway/Discussions/Tickets/Trades Tracker to General.</li>
-                    <li>Added an option that allows users to disable the script completely for SteamTrades, which also cleans the settings menu from any ST options.</li>
-                    <li>Fixed a bug that was not showing the "Recent Username History" and "Comment History" buttons in the header menu (closes <a href="https://github.com/revilheart/ESGST/issues/231">#231</a>).</li>
-                </ul>
-                <p>Added a new feature:</p>
-                <ul>
-                    <li>Removed Game Redirecter</li>
-                </ul>
-            `
-        },
-        {
-            date: `July 10, 2017`,
-            version: `6.Beta.15.3`,
-            changelog: `
-                <ul>
-                    <li>Fixed a sync bug.</li>
-                </ul>
-            `
-        },
-        {
-            date: `July 10, 2017`,
-            version: `6.Beta.15.2`,
-            changelog: `
-                <ul>
-                    <li>Fixed a bug.</li>
-                </ul>
-            `
-        },
-        {
-            date: `July 9, 2017`,
-            version: `6.Beta.15.1`,
-            changelog: `
-                <ul>
-                    <li>Fixed a popup style issue.</li>
-                    <li>Improved discussions' loading time if Comment Formatting Helper is enabled.</li>
-                </ul>
-            `
-        },
-        {
-            date: `July 9, 2017`,
-            version: `6.Beta.15.0`,
-            changelog: `
-                <p>This update has a lot of changes, so I probably forgot to list some of them.</p>
-                <ul>
-                    <li>Removed the settings menu from the account page. It's now accessible from any page by clicking on the ESGST button.</li>
-                    <li>You can now enable features specifically for SG or ST in the settings menu.</li>
-                    <li>Revamped the settings menu and enumerated all settings, making it easier to reference them.</li>
-                    <li>All feature descriptions will now be accessible from the settings menu, without the need to keep going back and forth between the settings menu and the GitHub page (this is a work in progress, some features are currently missing their description).</li>
-                    <li>New features and functionalities will now be marked with a [NEW] tag, so it's easier to locate what's new in the current version from the settings menu.</li>
-                    <li>Started a process of cloning SG's classes so the script no longer needs to rely on them, which will prevent any possible conflict from SG's script (solves an issue that wasn't opening the header menu on Firefox, and another issue that was replacing the ESGST button with the profile button on ST).</li>
-                    <li>Optimized memory consumption and speed for sync, Game Categories and Created/Entered/Won Giveaway Details (possibly closes <a href="https://github.com/revilheart/ESGST/issues/220">#220</a> and <a href="https://github.com/revilheart/ESGST/issues/222">#222</a>).</li>
-                    <li>Brought back avatars to Grid View.</li>
-                    <li>Giveaway Groups Loader now shows group avatars again.</li>
-                    <li>Improved how the groups are synced in Stickied Giveaway Groups and upgraded the group storage (unfortunately, unlike previous storage upgrades, this upgrade cannot retain your stickied groups, so you will have to sticky your groups again). You must sync through the settings menu (section 9) immediately, otherwise none of the group features will work correctly in this version.</li>
-                    <li>Fixed some bugs in Unsent Gifts Sender.</li>
-                    <li>Comment Formatting Helper now checks to make sure the user entered the right format for encrypted giveaways (closes <a href="https://github.com/revilheart/ESGST/issues/225">#225</a>).</li>
-                    <li>Changed the comment count to red in Comment Tracker.</li>
-                    <li>Fixed a bug in User Giveaways Data that was showing "undefined" for sent data (closes <a href="https://github.com/revilheart/ESGST/issues/177">#177</a>).</li>
-                    <li>Game Categories now has links for each category (closes <a href="https://github.com/revilheart/ESGST/issues/213">#213</a>) and appears in front of the game title if the simplified mode is enabled.</li>
-                    <li>Improved a lot of other things, especially user features.</li>
-                </ul>
-                <p>Added the following features:</p>
-                <ul>
-                    <li>Giveaways/Discussions/Tickets/Trades Tracker (separated from Comment Tracker)</li>
-                    <li>Same Tab Opener</li>
-                    <li>Main Post Skipper (closes <a href="https://github.com/revilheart/ESGST/issues/22">#22</a>)</li>
-                </ul>
-            `
-        },
-        {
-            date: `June 30, 2017`,
-            version: `6.Beta.14.11-Cake.Day.Edition`,
-            changelog: `
-                <p>Check the discussions for more info.</p>
-            `
-        },
-        {
-            date: `June 29, 2017`,
-            version: `6.Beta.14.10`,
-            changelog: `
-                <ul>
-                    <li>Fixed a bug in Giveaway Filters that was filtering search results.</li>
-                </ul>
-            `
-        },
-        {
-            date: `June 29, 2017`,
-            version: `6.Beta.14.9`,
-            changelog: `
-                <ul>
-                    <li>Testing a new design for Grid View, feel free to provide feedback.</li>
-                    <li>Reduced the max points limit to 100 in Giveaway Filters.</li>
-                    <li>Fixed a bug in Giveaway Filters that was causing a conflict between points/chance filters.</li>
-                </ul>
-            `
-        },
-        {
-            date: `June 28, 2017`,
-            version: `6.Beta.14.8`,
-            changelog: `
-                <ul>
-                    <li>Fixed a style issue that wasn't enabling the pointer cursor for checkboxes.</li>
-                    <li>Endless Scrolling now remembers if you had paused it and will keep it paused when refreshing or loading a new page.</li>
-                    <li>Avanced Giveaway Search now remembers your settings.</li>
-                    <li>You can now also click in the search icon in addition to hitting Enter to trigger Advanced Giveaway Search.</li>
-                    <li>Added a slider to Grid View that allows you to choose the amount of space between the giveaways.</li>
-                    <li>Fixed a bug in Giveaway Filters that was happening when there were 0 giveaways in the page.</li>
-                    <li>Giveaway Filters now has sliders. The Entries/Copies filters are infinite, to increase/decrease their max value simply enter the new max value in the input field and it will be increased/decreased.</li>
-                </ul>
-            `
-        },
-        {
-            date: `June 28, 2017`,
-            version: `6.Beta.14.7`,
-            changelog: `
-                <ul>
-                    <li>Fixed various style issues that were brought with cg's latest changes.</li>
-                    <li>Fixed a style issue in Fixed Header for SteamTrades.</li>
-                    <li>Changed the version alert in ESGST's discussion page to a popup.</li>
-                    <li>Added the option not to show the changelog from the current version when updating.</li>
-                    <li>Fixed a bug in Giveaway Encrypter/Decrypter that was showing duplicated giveaways (closes <a href="https://github.com/revilheart/ESGST/issues/184">#184</a>).</li>
-                    <li>Giveaway Encrypter/Decrypter now appears in any page (closes <a href="https://github.com/revilheart/ESGST/issues/188">#188</a>) and the giveaways are now sorted by end date. If the page you're on has a giveaway that hasn't been decrypted yet, the icon will turn green.</li>
-                    <li>Entered giveaways are now shown correctly in Giveaway Encrypter/Decrypter.</li>
-                    <li>Added a link to the giveaways in Giveaway Encrypter/Decrypter that links to the source of the giveaway (the comment where the giveaway came from) - only works for giveaways decrypted since this version or if you revisit the page that the decrypted giveaway is from.</li>
-                    <li>Added "Points" filter to Advanced Giveaway Search and also a delay for showing the panel if you have Active Discussions on the sidebar (closes <a href="https://github.com/revilheart/ESGST/issues/207">#207</a>).</li>
-                </ul>
-            `
-        },
-        {
-            date: `June 28, 2017`,
-            version: `6.Beta.14.6`,
-            changelog: `
-                <ul>
-                    <li>Fixed a bug in Giveaway Templates that was adding 24 hours to the end time when using both precise start and end times (closes <a href="https://github.com/revilheart/ESGST/issues/205">#205</a>).</li>
-                </ul>
-            `
-        },
-        {
-            date: `June 27, 2017`,
-            version: `6.Beta.14.5`,
-            changelog: `
-                <ul>
-                    <li>Reverted the previous sidebar/page heading change.</li>
-                    <li>Steam Activation Link now works after clicking the "View Key" button.</li>
-                </ul>
-            `
-        },
-        {
-            date: `June 27, 2017`,
-            version: `6.Beta.14.4`,
-            changelog: `
-                <ul>
-                    <li>Changed the sidebar and main page heading positions from fixed to absolute so that they scroll vertically with the page in Fixed Sidebar/Main Page Heading.</li>
-                    <li>Fixed a bug that was causing giveaway features not to appear for invite only giveaways (closes <a href="https://github.com/revilheart/ESGST/issues/204">#204</a>).</li>
-                </ul>
-            `
-        },
-        {
-            date: `June 27, 2017`,
-            version: `6.Beta.14.3`,
-            changelog: `
-                <ul>
-                    <li>Fixed a style issue in Fixed Main Page Heading (closes <a href="https://github.com/revilheart/ESGST/issues/203">#203</a>).</li>
-                    <li>Fixed a bug in Giveaway Winning Chance/Ratio that was adding 1 entry to created/ended giveaways.</li>
-                </ul>
-            `
-        },
-        {
-            date: `June 27, 2017`,
-            version: `6.Beta.14.2`,
-            changelog: `
-                <ul>
-                    <li>Fixed some bugs.</li>
-                    <li>Giveaway Winning Chance and Giveaway Winning Ratio now add 1 entry to the chance/ratio calculation if you haven't entered the giveaway yet, to demonstrate what your exact chance will be when entered (closes <a href="https://github.com/revilheart/ESGST/issues/202">#202</a>).</li>
-                    <li>Increased the delay from 0.5 to 1 second in Avatar Popout, added a delay for closing the popout, and prevented the popout from opening if a click was made.</li>
-                </ul>
-            `
-        },
-        {
-            date: `June 27, 2017`,
-            version: `6.Beta.14.1`,
-            changelog: `
-                <ul>
-                    <li>Fixed some bugs.</li>
-                    <li>Changed "Everyone" to "Public" in all features that use this notation.</li>
-                    <li>Fixed a style issue in Fixed Sidebar/Fixed Main Page Heading for changing-width sidebars/descriptions (closes <a href="https://github.com/revilheart/ESGST/issues/117">#117</a>).</li>
-                    <li>Avatar Popout now works also when hovering hover an user's username.</li>
-                </ul>
-                <p>Renamed the following features:</p>
-                <ul>
-                    <li>Giveaway Train Maker -> Giveaway Maker - Made the interface less confusing and added a tooltip describing how to use the feature in more details (closes <a href="https://github.com/revilheart/ESGST/issues/200">#200</a>).</li>
-                </ul>
-            `
-        },
-        {
-            date: `June 26, 2017`,
-            version: `6.Beta.14.0`,
-            changelog: `
-                <ul>
-                    <li>Fixed a bug in Avatar Popout that was happening when quickly hovering hover an avatar.</li>
-                </ul>
-                <p>Renamed the following features:</p>
-                <ul>
-                    <li>Active Discussions On Top -> Active Discussions On Top/Sidebar - You can now choose where the active discussions appear. More info about the sidebar choice: if you have Advanced Giveaway Search enabled, it will be hidden and triggered when hovering hover the search field; the username and avatar of the user who last posted will be removed (the button to go to the last comment will remain intact); Accurate Timestamps will not run for any timestamps inside the active discussions; and any user tags you might have saved for users will be hidden inside the active discussions (they will still be visible if you click the tag button to edit them).</li>
-                </ul>
-                <p>Added the following features:</p>
-                <ul>
-                    <li>Unfaded Entered Giveaways</li>
-                </ul>
-            `
-        },
-        {
-            date: `June 26, 2017`,
-            version: `6.Beta.13.0`,
-            changelog: `
-                <ul>
-                    <li>The script no longer prompts alerts when features fail to load.</li>
-                    <li>Header Refresher now changes the SG icon to red when there are unviewed keys for wins based on cg's implementation.</li>
-                </ul>
-                <p>Added the following features:</p>
-                <ul>
-                    <li>Created/Entered/Won Giveaway Details (closes <a href="https://github.com/revilheart/ESGST/issues/193">#193</a>)</li>
-                    <li>Is There Any Deal? Info (closes <a href="https://github.com/revilheart/ESGST/issues/194">#194</a>)</li>
-                </ul>
-                <p>Removed the following features:</p>
-                <ul>
-                    <li>Delivered Gifts Notifier - This feature has been implemented by cg.</li>
-                </ul>
-            `
-        },
-        {
-            date: `June 25, 2017`,
-            version: `6.Beta.12.4`,
-            changelog: `
-                <ul>
-                    <li>Avatar Popout now works on hover, with a delay of 0.5 seconds. This should prevent accidental hovers and unnecessary requests, which were my main concerns about this functionality.</li>
-                </ul>
-            `
-        },
-        {
-            date: `June 25, 2017`,
-            version: `6.Beta.12.3`,
-            changelog: `
-                <ul>
-                    <li>The script no longer prompts alerts when errors happen, and should now only run if the page has properly loaded (no error pages) and you're logged in.</li>
-                    <li>Fixed more bugs with giveaway features being enabled where they shouldn't.</li>
-                    <li>Added a filtered count to each page in Giveaway Filters (closes <a href="https://github.com/revilheart/ESGST/issues/80">#80</a>).</li>
-                </ul>
-            `
-        },
-        {
-            date: `June 23, 2017`,
-            version: `6.Beta.12.2`,
-            changelog: `
-                <ul>
-                    <li>The script no longer runs when you aren't logged in.</li>
-                    <li>Game Categories should now retrieve correct categories if you're a non-English user (closes <a href="https://github.com/revilheart/ESGST/issues/189">#189</a>).</li>
-                    <li>Header Refresher is back to altering the icon of the tab (must be enabled through the settings menu). You can also choose to show the number of delivered wins in the icon if Delivered Gifts Notifier is enabled (it will be shown as yellow to the left of the unread message count, which remains red).</li>
-                    <li>Fixed a bug in Not Activated/Multiple Wins Checker that was linking the wrong page for multiple wins.</li>
-                </ul>
-            `
-        },
-        {
-            date: `June 20, 2017`,
-            version: `6.Beta.12.1`,
-            changelog: `
-                <ul>
-                    <li>Fixed a bug that was not enabling Grid View if none of the other giveaway features were enabled.</li>
-                </ul>
-            `
-        },
-        {
-            date: `June 20, 2017`,
-            version: `6.Beta.12.0`,
-            changelog: `
-                <ul>
-                    <li>Fixed more bugs with giveaway features being enabled where they shouldn't.</li>
-                    <li>Fixed a bug in Endless Scrolling that was not properly reversing discussions with 100+ pages.</li>
-                    <li>Fixed a bug in Endless Scrolling that was always reversing discussions, making it impossible to go to page 1 without scrolling down from page 2. Now the reverse scrolling will only kick in if you came to page 1 from the discussions page ("/discussions"). If you came to page 1 from anywhere else, it will not reverse the discussion.</li>
-                    <li>Extended Giveaway Filters to work in group pages.</li>
-                    <li>Fixed a bug in Comment Tracker that was not properly going to the first unread comment of discussions with 100+ pages (closes <a href="https://github.com/revilheart/ESGST/issues/134">#134</a>).</li>
-                </ul>
-                <p>Added the following features:</p>
-                <ul>
-                    <li>Last Page Link (closes <a href="https://github.com/revilheart/ESGST/issues/138">#138</a>)</li>
-                </ul>
-            `
-        },
-        {
-            date: `June 20, 2017`,
-            version: `6.Beta.11.2`,
-            changelog: `
-                <ul>
-                    <li>Fixed a bug that was applying Grid View to the list of bookmarked giveaways.</li>
-                    <li>Fixed a bug in Enter/Leave Giveaway Button that was not showing the error message on hover when failing to enter a giveaway.</li>
-                </ul>
-                <p>Upgraded the following features to v6:</p>
-                <ul>
-                    <li>Grid View - The icons are now displayed inside the image instead of outside, leaving room for more giveaways per row (on 1440x900 resolutions there should now be 5 giveaways per row instead of 4). Changed the position of the avatar to reduce white space. Moved the giveaway panel (Giveaway Winning Chance, Giveaway Winning Ratio and Enter/Leave Giveaway Button) to the left side. Added a minimum width of 400px.</li>
-                </ul>
-            `
-        },
-        {
-            date: `June 20, 2017`,
-            version: `6.Beta.11.1`,
-            changelog: `
-                <ul>
-                    <li>Fixed a bug that was not enabling automatic sync.</li>
-                    <li>Added an option to display .gifv images to Visible Attached Images.</li>
-                    <li>Fixed a bug that was not enabling Giveaway Bookmarks in the bookmarked giveaways list and was not unbookmarking a giveaway when entering it.</li>
-                    <li>Changed how Giveaway Winning Chance and Giveaway Winning Ratio are shown in the entered page.</li>
-                    <li>Fixed a bug in Enter/Leave Giveaway Button that was not resetting the "Entering..." button when closing the popup without entering.</li>
-                    <li>When entering a giveaway that has no description with "Popup reply box when entering / include it in the description popup." enabled, Enter/Leave Giveaway Button will now immediately enter the giveaway and then pop up the reply box if you want to add a comment.</li>
-                    <li>Fixed a bug that was not enabling Comment Tracker for page 2+ while using Endless Scrolling.</li>
-                    <li>Fixed a bug in Groups Stats while using Endless Scrolling.</li>
-                </ul>
-            `
-        },
-        {
-            date: `June 20, 2017`,
-            version: `6.Beta.11.0`,
-            changelog: `
-                <ul>
-                    <li>Fixed a typo in Giveaway Templates.</li>
-                </ul>
-                <p>Added the following features:</p>
-                <ul>
-                    <li>Giveaway Train Maker</li>
-                </ul>
-            `
-        },
-        {
-            date: `June 20, 2017`,
-            version: `6.Beta.10.3`,
-            changelog: `
-                <ul>
-                    <li>Fixed a bug in Giveaway Bookmarks that was not bookmarking giveaways from the entered page.</li>
-                </ul>
-                <p>Upgraded the following features to v6:</p>
-                <ul>
-                    <li>Giveaway Templates - Changed how the data is stored (just like with previous storage upgrades, your data should be transferred without any losses, but let me know about any missing data). Revamped the feature (closes <a href="https://github.com/revilheart/ESGST/issues/52">#52</a>). Added options to use precise start/end time. The "Review Giveaway" button now appears both at the top and at the bottom of the page. Added a new "Create Giveaway" button that creates the giveaway directly without passing through the review step.</li>
-                </ul>
-            `
-        },
-        {
-            date: `June 20, 2017`,
-            version: `6.Beta.10.2`,
-            changelog: `
-                <ul>
-                    <li>Fixed a bug in Giveaway Bookmarks caused by the last update.</li>
-                </ul>
-            `
-        },
-        {
-            date: `June 20, 2017`,
-            version: `6.Beta.10.1`,
-            changelog: `
-                <ul>
-                    <li>Fixed a bug that was not saving the hours for Giveaway Bookmarks correctly from the settings menu.</li>
-                    <li>Giveaway Bookmarks now works with giveaways that have not started yet. Here's more info about it: giveaways that have not started yet will not appear in the list of bookmarked giveaways; instead, they will stay in a sort of hidden state until they start; when they start, the header bookmark button will turn green, indicating that you must open the list of bookmarked giveaways so that the started giveaways can be updated with their end times; when giveaways are about to end, the button will continue to turn red as before, but if there are both started and ending giveaways, the button will be colored with a brown-ish color; hovering over the button also gives you more details about how many giveaways have started and/or are ending.</li>
-                </ul>
-            `
-        },
-        {
-            date: `June 20, 2017`,
-            version: `6.Beta.10.0`,
-            changelog: `
-                <ul>
-                    <li>Fixed more bugs for giveaway features being enabled in places where they shouldn't (closes <a href="https://github.com/revilheart/ESGST/issues/186">#186</a>).</li>
-                    <li>Added a sorting feature to Giveaway Winning Chance (closes <a href="https://github.com/revilheart/ESGST/issues/44">#44</a>).</li>
-                    <li>Disabled Giveaway Bookmarks for giveaways that have not started yet because the feature is not configured to work well with them and will always alert that they are ending (I'll figure out a way to make it work later).</li>
-                </ul>
-                <p>Added the following features:</p>
-                <ul>
-                    <li>Discussions Sorter</li>
-                </ul>
-            `
-        },
-        {
-            date: `June 20, 2017`,
-            version: `6.Beta.9.0`,
-            changelog: `
-                <ul>
-                    <li>Fixed a bug in Comment Tracker that was not correctly going to the first unread comment of a page (closes <a href="https://github.com/revilheart/ESGST/issues/185">#185</a>).</li>
-                </ul>
-                <p>Added the following features:</p>
-                <ul>
-                    <li>Whitelist/Blacklist Sorter - Must sync through the settings menu for it to work properly (closes <a href="https://github.com/revilheart/ESGST/issues/46">#46</a>).</li>
-                </ul>
-            `
-        },
-        {
-            date: `June 20, 2017`,
-            version: `6.Beta.8.3`,
-            changelog: `
-                <ul>
-                    <li>Fixed a bug that was happening in the new giveaway page (closes <a href="https://github.com/revilheart/ESGST/issues/183">#183</a>).</li>
-                    <li>Every time you visit the ESGST discussion, the script will now check if you are on the latest version by checking for a hidden element in the OP (no requests required) and will give you an alert if you aren't (closes <a href="https://github.com/revilheart/ESGST/issues/147">#147</a>).</li>
-                    <li>Fixed a bug in Giveaway Filters that was filtering giveaways from Giveaway Bookmarks (closes <a href="https://github.com/revilheart/ESGST/issues/169">#169</a>).</li>
-                    <li>Fixed a bug in Comment History that was happening when loading the history (closes <a href="https://github.com/revilheart/ESGST/issues/182">#182</a>).</li>
-                </ul>
-            `
-        },
-        {
-            date: `June 20, 2017`,
-            version: `6.Beta.8.2`,
-            changelog: `
-                <ul>
-                    <li>Fixed some issues with where some giveaway features were being enabled.</li>
-                    <li>Fixed a bug in Giveaway Filters that was not filtering giveaways by chance.</li>
-                    <li>Added a loading icon while marking comments as read/unread in Comment Tracker.</li>
-                    <li>All game features are now supported for discussion tables (works well with RaCharts).</li>
-                </ul>
-            `
-        },
-        {
-            date: `June 19, 2017`,
-            version: `6.Beta.8.1`,
-            changelog: `
-                <ul>
-                    <li>Fixed a bug in Giveaway Filters that was not filtering giveaways on page load unless Game Categories was enabled.</li>
-                    <li>Fixed a bug in Game Categories that was trying to filter giveaways on user pages.</li>
-                </ul>
-            `
-        },
-        {
-            date: `June 18, 2017`,
-            version: `6.Beta.8.0`,
-            changelog: `
-                <ul>
-                    <li>Fixed a bug that was not properly handling username changes (closes <a href="https://github.com/revilheart/ESGST/issues/176">#176</a>).</li>
-                    <li>Fixed a bug in Giveaway Filters that was not applying category filters (closes <a href="https://github.com/revilheart/ESGST/issues/173">#173</a>).</li>
-                    <li>Game Categories should now load a lot faster, unless "Rating" or "User-Defined Tags" are enabled.</li>
-                </ul>
-                <p>Added the following features:</p>
-                <ul>
-                    <li>Steam Activation Link (closes <a href="https://github.com/revilheart/ESGST/issues/177">#177</a>)</li>
-                </ul>
-            `
-        },
-        {
-            date: `June 15, 2017`,
-            version: `6.Beta.7.2`,
-            changelog: `
-                <ul>
-                    <li>Fixed a bug in Unsent Gifts Sender that was happening while sending gifts with the option to only send gifts to users with 0 not activated/multiple wins enabled.</li>
-                </ul>
-            `
-        },
-        {
-            date: `June 15, 2017`,
-            version: `6.Beta.7.1`,
-            changelog: `
-                <ul>
-                    <li>Fixed a bug that wasn't applying the popup class for some popups.</li>
-                    <li>Fixed a bug in Enter/Leave Giveaway Button.</li>
-                    <li>Made some optimizations to Enter/Leave Giveaway Button that should reduce memory usage when entering multiple giveaways in a row.</li>
-                </ul>
-            `
-        },
-        {
-            date: `June 14, 2017`,
-            version: `6.Beta.7.0`,
-            changelog: `
-                <ul>
-                    <li>Moved Shared Groups Checker to the same place as Username History and User Notes.</li>
-                </ul>
-                <p>Added the following features:</p>
-                <ul>
-                    <li>User Filters (closes <a href="https://github.com/revilheart/ESGST/issues/51">#51</a>)</li>
-                </ul>
-            `
-        },
-        {
-            date: `June 14, 2017`,
-            version: `6.Beta.6.3`,
-            changelog: `
-                <ul>
-                    <li>Removed periods from all tooltips (closes <a href="https://github.com/revilheart/ESGST/issues/166">#166</a>).</li>
-                    <li>Added tooltip to User Notes button (closes <a href="https://github.com/revilheart/ESGST/issues/167">#167</a>).</li>
-                    <li>Fixed a bug that was enabling some giveaway features where they shouldn't (closes <a href="https://github.com/revilheart/ESGST/issues/168">#168</a>).</li>
-                    <li>Entered giveaways are now automatically unbookmarked in Giveaway Bookmarks.</li>
-                    <li>The option to change the background instead of fading out has been removed from Comment Tracker and implemented by default on hover (#closes 143).</li>
-                </ul>
-            `
-        },
-        {
-            date: `June 14, 2017`,
-            version: `6.Beta.6.2`,
-            changelog: `
-                <ul>
-                    <li>Fixed a bug that was preventing the script from running.</li>
-                </ul>
-            `
-        },
-        {
-            date: `June 14, 2017`,
-            version: `6.Beta.6.1`,
-            changelog: `
-                <ul>
-                    <li>Fixed a bug that was preventing the script from running.</li>
-                </ul>
-            `
-        },
-        {
-            date: `June 14, 2017`,
-            version: `6.Beta.6.0`,
-            changelog: `
-                <ul>
-                    <li>Fixed a bug that was happening in the entered page if Giveaway Winning Chance, Giveaway Winning Ratio and Enter/Leave Giveaway Button were disabled.</li>
-                    <li>Changed the position of Giveaway Filters to above the pinned giveaways, so that it is fixed when filtering the giveaways (closes <a href="https://github.com/revilheart/ESGST/issues/165">#165</a>).</li>
-                    <li>Added back the background highlight to groups that you are a member of to the popup option in Giveaway Groups Loader.</li>
-                    <li>Fixed a bug that was not running Comment Tracker in Active Discussions (closes <a href="https://github.com/revilheart/ESGST/issues/162">#162</a>).</li>
-                    <li>Fixed a bug in Comment Tracker that was not showing the read/unread button under the OP.</li>
-                    <li>Fixed a bug in Comment Tracker that was not unfading a comment when making it as unread.</li>
-                    <li>OPs are no longer counted as comments in Comment Tracker (closes <a href="https://github.com/revilheart/ESGST/issues/159">#159</a>).</li>
-                    <li>You can now mark discussions as unvisited in Comment Tracker.</li>
-                </ul>
-                <p>Added the following features:</p>
-                <ul>
-                    <li>Giveaway Bookmarks</li>
-                </ul>
-            `
-        },
-        {
-            date: `June 14, 2017`,
-            version: `6.Beta.5.5`,
-            changelog: `
-                <ul>
-                    <li>Removed the minimum popout size from Grid View.</li>
-                </ul>
-            `
-        },
-        {
-            date: `June 14, 2017`,
-            version: `6.Beta.5.4`,
-            changelog: `
-                <ul>
-                    <li>Another possible fix to the Comment Tracker bug.</li>
-                </ul>
-            `
-        },
-        {
-            date: `June 14, 2017`,
-            version: `6.Beta.5.3`,
-            changelog: `
-                <ul>
-                    <li>Fixed a bug in Grid View that wasn't working well with Giveaway Filters.</li>
-                    <li>Set a fixed width to the Grid View popout to 600px to prevent things from inflating the page.</li>
-                    <li>Possibly fixed a bug in Comment Tracker that was showing the wrong comment count for discussions (possibly closes <a href="https://github.com/revilheart/ESGST/issues/134">#134</a> and <a href="https://github.com/revilheart/ESGST/issues/160">#160</a>).</li>
-                </ul>
-            `
-        },
-        {
-            date: `June 13, 2017`,
-            version: `6.Beta.5.2`,
-            changelog: `
-                <ul>
-                    <li>Fixed a bug in Giveaway Groups Loader that wasn't showing some groups (closes <a href="https://github.com/revilheart/ESGST/issues/158">#158</a>).</li>
-                    <li>Added an option to only show groups that you are a member of to Giveaway Groups Loader.</li>
-                    <li>Added back the option to use a popup to load giveaway groups to Giveaway Groups Loader.</li>
-                    <li>Fixed a bug in Enter/Leave Giveaway Button that was still popping up the description even if it was disabled when leaving a giveaway and entering it again.</li>
-                    <li>Fixed a bug that was not enabling Discussions Highlighter in the main discussions page if Comment Tracker was disabled.</li>
-                    <li>Added back the option that was missing from Comment Tracker to mark discussions as visited.</li>
-                    <li>Fixed a bug in Not Activated/Multiple Wins Checker that was getting stuck at the first user while checking.</li>
-                </ul>
-            `
-        },
-        {
-            date: `June 13, 2017`,
-            version: `6.Beta.5.1`,
-            changelog: `
-                <ul>
-                    <li>Fixed a bug that was preventing the script from running.</li>
-                    <li>Decrypted Giveaways are no longer cached (they are now retrieved in real time for accurate number of entries/comments, etc) (closes <a href="https://github.com/revilheart/ESGST/issues/141">#141</a>).</li>
-                    <li>Removed an extra underline that popup links had (closes <a href="https://github.com/revilheart/ESGST/issues/127">#127</a>).</li>
-                </ul>
-            `
-        },
-        {
-            date: `June 13, 2017`,
-            version: `6.Beta.5.0`,
-            changelog: `
-                <ul>
-                    <li>Fixed a bug that was happening when visiting deleted giveaways.</li>
-                    <li>Major user storage upgrade to v6. As with the previous upgrades, your data should be transferred without any losses, but let me know about any missing data (if you do find missing data, do not panic - none of the v5 storage is deleted, so it can be easily recovered). As a result, managing tags from the settings menu has been temporarily disabled until it has been rewritten for v6.</li>
-                    <li>Added options to manage user data individually to the settings menu (closes <a href="https://github.com/revilheart/ESGST/issues/139">#139</a>).</li>
-                    <li>Fixed an issue that was breaking discussion titles (closes <a href="https://github.com/revilheart/ESGST/issues/153">#153</a>).</li>
-                    <li>Disabled the giveaway panel, which makes the icons of the giveaway appear in the entries/comments row, if you don't have Giveaway Winning Chance, Giveaway Winning Ratio and Enter/Leave Giveaway Button, as these make the row too large with the icons in the default row.</li>
-                    <li>Corrected created time for the list of highlighted discussions (closes <a href="https://github.com/revilheart/ESGST/issues/155">#155</a>).</li>
-                    <li>You can now use the Enter key to save tags.</li>
-                    <li>If you hover hover whitelist/blacklist highlights, you will now see when you whitelisted/blacklisted that user (must be synced through the settings menu).</li>
-                </ul>
-                <p>Added the following features:</p>
-                <ul>
-                    <li>Giveaway Grops Loader - Replaces Giveaway Groups Popup (can be added back if there is demand for it).</li>
-                    <li>One-Click Giveaway Hider (closes <a href="https://github.com/revilheart/ESGST/issues/156">#156</a>)</li>
-                </ul>
-            `
-        },
-        {
-            date: `June 12, 2017`,
-            version: `6.Beta.4.8`,
-            changelog: `
-                <ul>
-                    <li>Fixed an exploit that could be used to check all pages under "/discussions", "/users" and "/archive" in Whitelist/Blacklist Checker.</li>
-                </ul>
-            `
-        },
-        {
-            date: `June 12, 2017`,
-            version: `6.Beta.4.7`,
-            changelog: `
-                <ul>
-                    <li>Fixed some bugs.</li>
-                    <li>Added back the option to disable description popups to Enter/Leave Giveaway Button, but made the popups enabled by default.</li>
-                    <li>Fixed a bug in Comment Tracker that wasn't resetting the loading icon when using reverse order to find an unread comment.</li>
-                    <li>Fixed a typo in Comment Tracker (closes <a href="https://github.com/revilheart/ESGST/issues/154">#154</a>).</li>
-                    <li>Enhanced the option to mark all comments as unread in a discussion in Comment Tracker to prevent it from making any requests (closes <a href="https://github.com/revilheart/ESGST/issues/152">#152</a>).</li>
-                </ul>
-                <p>Upgraded the following features to v6:</p>
-                <ul>
-                    <li>Avatar Popout - Completely revamped the feature using the styling from SquishedPotatoe's dark theme (it might also be incompatible with the theme for the moment because of class name changing) (closes <a href="https://github.com/revilheart/ESGST/issues/67">#67</a>).</li>
-                </ul>
-            `
-        },
-        {
-            date: `June 12, 2017`,
-            version: `6.Beta.4.6`,
-            changelog: `
-                <ul>
-                    <li>Added additional information to error alerts, so that the users properly report errors when they happen.</li>
-                    <li>Reverted Comment History's default behavior to fading out.</li>
-                </ul>
-            `
-        },
-        {
-            date: `June 11, 2017`,
-            version: `6.Beta.4.5`,
-            changelog: `
-                <ul>
-                    <li>Fixed more Comment Tracker bugs.</li>
-                    <li>Darkened the highlight in Comment Tracker.</li>
-                </ul>
-            `
-        },
-        {
-            date: `June 11, 2017`,
-            version: `6.Beta.4.4`,
-            changelog: `
-                <ul>
-                    <li>Fixed a bug that was not updating the sync date after syncing the bundle list (closes <a href="https://github.com/revilheart/ESGST/issues/99">#99</a>).</li>
-                    <li>Prevented some buttons from appearing in places where they shouldn't (closes <a href="https://github.com/revilheart/ESGST/issues/103">#103</a>).</li>
-                    <li>Added "Created" filter to Giveaway Filters (closes <a href="https://github.com/revilheart/ESGST/issues/137">#137</a>).</li>
-                    <li>Fixed some bugs in Comment Tracker.</li>
-                    <li>Fixed a bug in Whitelist/Blacklist Checker that was retrieving the wrong pages if the URL had a hash (closes <a href="https://github.com/revilheart/ESGST/issues/57">#57</a>).</li>
-                    <li>Re-enabled the full list check option for the main giveaway pages in Whitelist/Blacklist Checker.</li>
-                </ul>
-            `
-        },
-        {
-            date: `June 11, 2017`,
-            version: `6.Beta.4.3`,
-            changelog: `
-                <ul>
-                    <li>Fixed a couple bugs in Header Refresher on SteamTrades.</li>
-                </ul>
-            `
-        },
-        {
-            date: `June 11, 2017`,
-            version: `6.Beta.4.2`,
-            changelog: `
-                <ul>
-                    <li>Fixed a bug in Grid View.</li>
-                    <li>Added "Last Checked" information to the tooltip of Whitelist/Blacklist Checker and Not Activated/Multiple Wins Checker highlights (closes <a href="https://github.com/revilheart/ESGST/issues/142">#142</a>).</li>
-                </ul>
-                <p>Upgraded the following features to v6:</p>
-                <ul>
-                    <li>Comment Tracker - Fixed some bugs (possible solution to <a href="https://github.com/revilheart/ESGST/issues/134">#134</a>). Changed how the data is stored (your data should be transferred without any losses, but let me know about any missing data). You can now mark comments as unread (closes <a href="https://github.com/revilheart/ESGST/issues/128">#128</a>). Read comments and visited giveaways/discussions are no longer faded out - their background now changes to grey (possible solution to <a href="https://github.com/revilheart/ESGST/issues/143">#143</a>). The feature now works in the inbox page.</li>
-                    <li>Discussion Highlighter - You can now view your highlighted discussions through the Discussions header button (closes <a href="https://github.com/revilheart/ESGST/issues/133">#133</a>).</li>
-                </ul>
-            `
-        },
-        {
-            date: `June 11, 2017`,
-            version: `6.Beta.4.1`,
-            changelog: `
-                <ul>
-                    <li>Fixed a bug that was erasing game data when syncing owned games.</li>
-                </ul>
-            `
-        },
-        {
-            date: `June 11, 2017`,
-            version: `6.Beta.4.0`,
-            changelog: `
-                <ul>
-                    <li>Revamped Header Refresher to work better with Enter/Leave Giveaway Button and discontinued its support for Greasemonkey (if you are using Greasemonkey and you open multiple tabs, only one tab will refresh the header).</li>
-                    <li>Level Progress Visualizer now takes up the entire main button. As a result, the hover effect has been disabled.</li>
-                    <li>Giveaway Filters now has a separate setting for each of the giveaway pages (all, recommended, wishlist, group, new).</li>
-                    <li>Added some titles and tooltips to Giveaway Filters.</li>
-                    <li>Giveaway Filters now works if an advanced search was made, but the basic filters and the region restricted/dlc filters are disabled, as they are part of the advanced search.</li>
-                </ul>
-                <p>Upgraded the following features to v6:</p>
-                <ul>
-                    <li>Giveaway Winning Chance - Separated it into Giveaway Winning Chance and Giveaway Winning Ratio.</li>
-                    <li>Enter/Leave Giveaway Button - Fixed some bugs (closes <a href="https://github.com/revilheart/ESGST/issues/136">#136</a> and <a href="https://github.com/revilheart/ESGST/issues/146">#146</a>). The feature now automatically detects if you own the game (you must of course sync through the settings menu) or if the giveaway is for a higher level than you and does not show the Enter button in case one of these is true (closes <a href="https://github.com/revilheart/ESGST/issues/132">#132</a>). Entered giveaways are now immediately hidden if the filter is enabled (closes <a href="https://github.com/revilheart/ESGST/issues/129">#129</a>). If an error occurs while entering a giveaway or if you don't have enough points, the button will simply turn red instead of adding an additional button to its side (partial solution to <a href="https://github.com/revilheart/ESGST/issues/89">#89</a>). Brought back the option to add a comment to the giveaway upon entering.</li>
-                </ul>
-                <p>Added the following features:</p>
-                <ul>
-                    <li>Quick Giveaway Browsing</li>
-                </ul>
-            `
-        },
-        {
-            date: `June 10, 2017`,
-            version: `6.Beta.3.18`,
-            changelog: `
-                <ul>
-                    <li>You can manage Comment History/Game data again through the settings menu.</li>
-                    <li>You can now manage Game data individually between Game Tags, Entered Games Highlighter and Game Categories data.</li>
-                    <li>Fixed some bugs and improved some things.</li>
-                </ul>
-            `
-        },
-        {
-            date: `June 9, 2017`,
-            version: `6.Beta.3.17`,
-            changelog: `
-                <ul>
-                    <li>Fixed a bug in Level Progress Visualizer.</li>
-                    <li>Fixed a bug in Enter/Leave Giveaway Button that was not resetting the button when closing the giveaway description popup.</li>
-                </ul>
-            `
-        },
-        {
-            date: `June 9, 2017`,
-            version: `6.Beta.3.16`,
-            changelog: `
-                <ul>
-                    <li>Changed how the comment history data is stored (your old data should be transferred without any problems, but let me know about any missing data). As a result, the option to import/export comment history data has been temporarily disabled until it is rewritten for the new system.</li>
-                    <li>Comment History has been completely revamped and there are now two different data storages (one for SG and one for ST). The new data storages should also take much less memory space.</li>
-                    <li>Fixed a bug in Game Categories that wasn't applying the negative class for "Rating" category.</li>
-                    <li>Added an option to Enter/Leave Giveaway Button to pop up the giveaway description in the same window instead of opening it in another tab.</li>
-                    <li>Fixed a bug in Enter/Leave Giveaway Button that was opening the giveaway description when leaving a giveaway.</li>
-                </ul>
-                <p>Added the following features:</p>
-                <ul>
-                    <li>Level Progress Visualizer (closes <a href="https://github.com/revilheart/ESGST/issues/144">#144</a>)</li>
-                </ul>
-            `
-        },
-        {
-            date: `June 9, 2017`,
-            version: `6.Beta.3.15`,
-            changelog: `
-                <ul>
-                    <li>Fixed a bug from v6.Beta.3.14.</li>
-                </ul>
-            `
-        },
-        {
-            date: `June 9, 2017`,
-            version: `6.Beta.3.14`,
-            changelog: `
-                <ul>
-                    <li>Fixed some bugs and made some improvements.</li>
-                    <li>Changed how the game data is stored (your old data should be transferred without any problems, but let me know about any missing data).</li>
-                    <li>Fixed a conflict between games' app/sub ids. As a result, Multi-Tag and the option to import/export game data have been temporarily disabled until they are rewritten for the new system.</li>
-                    <li>Reinforced how the gama data is saved to further prevent data from being overwritten. As a result, you might notice that game features now take a bit longer to save.</li>
-                    <li>Added "Rating" and "User-Defined Tags" categories to Game Categories (closes <a href="https://github.com/revilheart/ESGST/issues/130">#130</a>).</li>
-                    <li>Changed the default colors for Game Categories and added a button to the settings menu that allows you to reset the colors to their default values.</li>
-                    <li>Changed the "Wishlisted" and "Ignored" icons in Game Categories.</li>
-                    <li>Game Categories now works on any page (closes <a href="https://github.com/revilheart/ESGST/issues/108">#108</a>).</li>
-                    <li>Game Categories now retrieves data from the US store (closes <a href="https://github.com/revilheart/ESGST/issues/123">#123</a>).</li>
-                </ul>
-                <p>Renamed the following features:</p>
-                <ul>
-                    <li>Games Highlighter -> Entered Games Highlighter - Fixed some bugs and made some improvements. The star icon should now be immediately added upon entering a giveaway.</li>
-                </ul>
-                <p>Removed the following features:</p>
-                <ul>
-                    <li>Giveaway Description/Comment Box Popup - Upon clicking the Enter/Leave giveaway button, the script now checks for a description. If it finds one, it opens the giveaway in a new tab so you can read it before entering, otherwise it enters the giveaway automatically.</li>
-                </ul>
-            `
-        },
-        {
-            date: `June 2, 2017`,
-            version: `6.Beta.3.13`,
-            changelog: `
-                <ul>
-                    <li>Added the option to show points in the title to Header Refresher, and the option to show an icon in the title to highlight new messages. The icon chosen was "fire", because you got new messages, so you're "hot". If anyone has a better suggestion, feel free to let me know.</li>
-                    <li>Separated the option to notify delivered gifts from Header Refresher back into Delivered Gifts Notifier.</li>
-                    <li>Fixed a bug in Endless Scrolling that was happening while refreshing a page.</li>
-                    <li>Fixed a bug in Giveaway Encrypter/Decrypter that was happening for giveaways with multiple copies.</li>
-                </ul>
-            `
-        },
-        {
-            date: `May 29, 2017`,
-            version: `6.Beta.3.12`,
-            changelog: `
-                <ul>
-                    <li>Internally tweaked Visible Attached Images, Embedded Videos and Pagination Navigation On Top a little.</li>
-                    <li>Added the options to use a 24-hour clock and to show seconds in Accurate Timestamps and shortened the name of the months to the Mmm notation.</li>
-                    <li>Fixed a bug in Giveaway Winning Chance that was happening for giveaways that have not started yet (closes <a href="https://github.com/revilheart/ESGST/issues/131">#131</a>).</li>
-                </ul>
-            `
-        },
-        {
-            date: `May 29, 2017`,
-            version: `6.Beta.3.11`,
-            changelog: `
-                <ul>
-                    <li>Header Icons Refresher, Points Refresher and Delivered Gifts Notifier have been merged into a single Header Refresher feature (see more details below).</li>
-                    <li>Endless Scrolling no longer alters the title/URL of the page.</li>
-                    <li>Added/changed some icons in the simplified version of Game Categories.</li>
-                </ul>
-                <p>Upgraded the following features to v6:</p>
-                <ul>
-                    <li>Header Refresher - If multiple tabs are open, only one tab will now make requests to refresh the header and then it will sync the changes with the other tabs (this happens instantly with Tampermonkey). The number of delivered wins will now appear in the title of the tab e.g. (2W). The icon of the tab is no longer changed, the message count will now appear in the title of the tab e.g. (5M). The level on SG and the reputation on ST are now refreshed as well, but they will not appear in the title of the tab. Points are updated instantly and refreshed across all open tabs when using Enter/Leave Giveaway Button with Tampermonkey (with Greasemonkey, it will still update, but only after 60 seconds). An example of all items combined: (2W) (5M) (150P) SteamGifts</li>
-                </ul>
-            `
-        },
-        {
-            date: `May 26, 2017`,
-            version: `6.Beta.3.10`,
-            changelog: `
-                <ul>
-                    <li>Added back the option to sync using the Steam API key, but made it optional. If there is a Steam API key saved, it will sync using both Steam API key and login, otherwise it will sync using only login.</li>
-                    <li>Added the option to enable a simplified version of Game Categories that can either show initials of the categories or icons (suggestions for the icons are always welcome, as I wasn't sure which icon to choose for some categories).</li>
-                </ul>
-            `
-        },
-        {
-            date: `May 26, 2017`,
-            version: `6.Beta.3.9`,
-            changelog: `
-                <ul>
-                    <li>Changed the way the sync works (it no longer requires a Steam API key, but you must be logged in on Steam).</li>
-                    <li>Category filters are now applied to exceptions in Giveaway Filters (closes <a href="https://github.com/revilheart/ESGST/issues/115">#115</a>).</li>
-                    <li>Added "Chance" and "Genres" filters to Giveaway Filters (closes <a href="https://github.com/revilheart/ESGST/issues/101">#101</a>).</li>
-                    <li>Added "Ignored" category to Game Categories (must be synced through the settings menu).</li>
-                </ul>
-            `
-        },
-        {
-            date: `May 26, 2017`,
-            version: `6.Beta.3.8`,
-            changelog: `
-                <ul>
-                    <li>Fixed a bug in Giveaway Encrypter/Decrypter.</li>
-                    <li>Added the option to add an icon next to the usernames instead of coloring them to Not Activated/Multiple Wins Checker.</li>
-                    <li>Added the option to highlight multiple wins as positive to Not Activated/Multiple Wins Checker, as multiple wins often cannot be fixed.</li>
-                    <li>Added the option to color the usernames instead of adding an icon next to them to Whitelist/Blacklist Checker. If this option is enabled, Not Activated/Multiple Wins Checker highlights will automatically appear as icons to avoid conflict.</li>
-                </ul>
-            `
-        },
-        {
-            date: `May 26, 2017`,
-            version: `6.Beta.3.7`,
-            changelog: `
-                <ul>
-                    <li>Fixed a bug in Comment Tracker that was unmarking some comments as read because of the last update.</li>
-                </ul>
-            `
-        },
-        {
-            date: `May 26, 2017`,
-            version: `6.Beta.3.6`,
-            changelog: `
-                <ul>
-                    <li>Fixed a bug in Exclusive Giveaways that was happening for games that the user has hidden (closes <a href="https://github.com/revilheart/ESGST/issues/126">#126</a>).</li>
-                    <li>Fixed a bug in Exclusive Giveaways that was duplicating elements when using endless scrolling.</li>
-                    <li>Fixed a bug in Embedded Videos that was trying to embed channels/playlists (closes <a href="https://github.com/revilheart/ESGST/issues/112">#112</a>).</li>
-                    <li>Your own comments are now automatically marked as read in Comment Tracker.</li>
-                </ul>
-                <p>Renamed the following features:</p>
-                <ul>
-                    <li>Exclusive Giveaways -> Giveaways Encrypter/Decrypter - This prevents any confusion about the nature of this feature. The giveaways are not really exclusive (anyone can see them in the source code of the page), this feature simply decrypts them and hands them over to the user (closes <a href="https://github.com/revilheart/ESGST/issues/125">#125</a>).</li>
-                </ul>
-                <p>Upgraded the following features to v6:</p>
-                <ul>
-                    <li>Username History</li>
-                    <li>User Notes - Fixed a bug that was not loading it on SteamTrades.</li>
-                </ul>
-            `
-        },
-        {
-            date: `May 25, 2017`,
-            version: `6.Beta.3.5`,
-            changelog: `
-                <ul>
-                    <li>New updates of the script will now show a popup with the changelog from the current version (closes <a href="https://github.com/revilheart/ESGST/issues/119">#119</a>).</li>
-                    <li>Fixed a bug that was not exporting all settings (closes <a href="https://github.com/revilheart/ESGST/issues/122">#122</a>).</li>
-                    <li>Added an option to the settings menu that allows you to merge the imported data with the current data when importing.</li>
-                    <li>Added the option to export Exclusive Giveaways data to the settings menu.</li>
-                    <li>Improved the update link in the header button: it now checks if there is an update before loading the link (closes <a href="https://github.com/revilheart/ESGST/issues/118">#118</a>).</li>
-                    <li>Fixed a bug in Exclusive Giveaways that was happening in the inbox page.</li>
-                    <li>Revamped the Exclusive Giveaways popup and improved the feature: the giveaways are now requested to gather information about them (only appears in the popup), new giveaways appear with the tag [NEW] (closes <a href="https://github.com/revilheart/ESGST/issues/121">#121</a>), and ended giveaways no longer appear.</li>
-                    <li>Added an option to User Notes that prompts for notes when whitelisting/blacklisting an user.</li>
-                    <li>Fixed a typo in the link to the changelog on SteamGifts (closes <a href="https://github.com/revilheart/ESGST/issues/109">#109</a>).</li>
-                </ul>
-            `
-        },
-        {
-            date: `May 25, 2017`,
-            version: `6.Beta.3.4`,
-            changelog: `
-                <ul>
-                    <li>Fixed a bug that was disabling Real CV Calculator every time a giveaway was created (closes <a href="https://github.com/revilheart/ESGST/issues/124">#124</a>).</li>
-                </ul>
-            `
-        },
-        {
-            date: `May 23, 2017`,
-            version: `6.Beta.3.3`,
-            changelog: `
-                <ul>
-                    <li>Reverted the script back to a single file instead of separate ones. This is actually more maintainable than using separate files, and also allows users to customize the script more easily.</li>
-                </ul>
-            `
-        },
-        {
-            date: `May 23, 2017`,
-            version: `6.Beta.3.2`,
-            changelog: `
-                <ul>
-                    <li>Added the icon of the script to the metadata.</li>
-                    <li>Fixed a bug that was injecting the script several times in Firefox-based browsers and causing several errors.</li>
-                </ul>
-            `
-        },
-        {
-            date: `May 23, 2017`,
-            version: `6.Beta.3.1`,
-            changelog: `
-                <ul>
-                    <li>Added an exception to Exclusive Giveaways to be enabled by default upon installation.</li>
-                    <li>Added a line break to the list of giveaways in Exclusive Giveaways and also a star icon to comments that have hidden giveaways.</li>
-                </ul>
-            `
-        },
-        {
-            date: `May 23, 2017`,
-            version: `6.Beta.3.0`,
-            changelog: `
-                <ul>
-                    <li>Fixed a bug in Header Icons Refresher that was showing a "+" icon when there were no messages.</li>
-                    <li>Fixed a bug in Giveaway Filters that was enabling it for SteamTrades.</li>
-                </ul>
-                <p>Added the following features:</p>
-                <ul>
-                    <li>Real CV Calculator</li>
-                    <li>Exclusive Giveaways</li>
-                </ul>
-            `
-        },
-        {
-            date: `May 23, 2017`,
-            version: `6.Beta.2.4`,
-            changelog: `
-                <ul>
-                    <li>Fixed a bug in Endless Scrolling that didn't update the filtered count from Giveaway Filters upon refreshing the page.</li>
-                    <li>Prevented Giveaway Filters from running if an advanced search has been made.</li>
-                    <li>Added "Wishlist" exception to Giveaway Filters.</li>
-                    <li>Fixed a bug in Entries Remover that happened when syncing owned games (closes <a href="https://github.com/revilheart/ESGST/issues/110">#110</a>).</li>
-                    <li>Added an option to Whitelist/Blacklist Checker that automatically saves notes to users that have been whitelisted/blacklisted in return (closes <a href="https://github.com/revilheart/ESGST/issues/59">#59</a>).</li>
-                    <li>Fixed a bug in Whitelist/Blacklist Checker that was returning wrong results for blacklisted users.</li>
-                </ul>
-            `
-        },
-        {
-            date: `May 23, 2017`,
-            version: `6.Beta.2.3`,
-            changelog: `
-                <ul>
-                    <li>The automatic sync is now less intrusive and appears as a button in the header (which you can click to see the current progress), and only works in the main and account pages.</li>
-                    <li>Fixed a bug in Giveaway Filters that wasn't running it for page 2+ with Endless Scrolling.</li>
-                    <li>Added exceptions to Giveaway Filters (closes <a href="https://github.com/revilheart/ESGST/issues/106">#106</a>).</li>
-                    <li>Filters for the wishlist and group pages are now saved separately in Giveaway Filters (closes <a href="https://github.com/revilheart/ESGST/issues/107">#107</a>).</li>
-                    <li>Fixed a bug in Game Categories that was preventing Giveaway Description/Reply Box Popup from working in user pages (closes <a href="https://github.com/revilheart/ESGST/issues/105">#105</a>).</li>
-                </ul>
-            `
-        },
-        {
-            date: `May 23, 2017`,
-            version: `6.Beta.2.2`,
-            changelog: `
-                <ul>
-                    <li>Changed the script to disable all features upon the first installation.</li>
-                    <li>Updated Giveaway Filters to work with three-state checkboxes: none, only and all.</li>
-                    <li>Added "Pinned", "Group" and "Whitelist" filters to Giveaway Filters.</li>
-                    <li>Fixed a bug in Giveaway Filters that wasn't filtering out entered giveaways with Grid View enabled (closes <a href="https://github.com/revilheart/ESGST/issues/104">#104</a>).</li>
-                    <li>Added "Owned" tag to Game Categories (must sync owned games through the settings menu).</li>
-                    <li>Fixed a bug in Game Categories where multiplayer and mac had the same id.</li>
-                    <li>Fixed a bug in Game Categories that was not loading tags for certain games.</li>
-                </ul>
-            `
-        },
-        {
-            date: `May 22, 2017`,
-            version: `6.Beta.2.1`,
-            changelog: `
-                <ul>
-                    <li>The links from the header button now open in the same page instead of in a new window (closes <a href="https://github.com/revilheart/ESGST/issues/102">#102</a>).</li>
-                    <li>Changed the table creation in Comment Formatting Helper from a popout to a popup (closes <a href="https://github.com/revilheart/ESGST/issues/70">#70</a>).</li>
-                    <li>Increased the Game Categories cache to 1 month, as it was previously 24 hours for testing purposes.</li>
-                    <li>Prevented the bundle tags in Game Categories to be displayed if the user has not synced yet.</li>
-                    <li>Fixed a bug in Game Categories that was displaying "Not Bundled" tags even if the bundled category was disabled (closes <a href="https://github.com/revilheart/ESGST/issues/100">#100</a>).</li>
-                    <li>Fixed a bug in Game Categories that was happening while creating a giveaway (closes <a href="https://github.com/revilheart/ESGST/issues/98">#98</a>).</li>
-                </ul>
-            `
-        },
-        {
-            date: `May 22, 2017`,
-            version: `6.Beta.2.0`,
-            changelog: `
-                <p>Added the following features:</p>
-                <ul>
-                    <li>Giveaway Filters (replaces Entered Giveaways Filter)</li>
-                </ul>
-            `
-        },
-        {
-            date: `May 22, 2017`,
-            version: `6.Beta.1.4`,
-            changelog: `
-                <ul>
-                    <li>Fixed a bug on SteamTrades that was leaking popups at the end of the page.</li>
-                    <li>Fixed a bug in Giveaway Templates that was preventing templates from being applied.</li>
-                    <li>Added a "Wishlist" category for Game Categories (must be synced through the settings menu).</li>
-                </ul>
-            `
-        },
-        {
-            date: `May 22, 2017`,
-            version: `6.Beta.1.3`,
-            changelog: `
-                <ul>
-                    <li>Added a "Not Bundled" category for Game Categories and the option to customize the colors.</li>
-                    <li>Fixed a bug in Game Categories that was showing incorrect categories for the new giveaway page.</li>
-                </ul>
-            `
-        },
-        {
-            date: `May 22, 2017`,
-            version: `6.Beta.1.2`,
-            changelog: `
-                <ul>
-                    <li>Added more categories to Game Categories and added support for giveaway comment pages.</li>
-                </ul>
-            `
-        },
-        {
-            date: `May 21, 2017`,
-            version: `6.Beta.1.1`,
-            changelog: `
-                <ul>
-                    <li>Fixed a the resource link to the style file.</li>
-                </ul>
-            `
-        },
-        {
-            date: `May 21, 2017`,
-            version: `6.Beta.1.0`,
-            changelog: `
-                <ul>
-                    <li>Fixed a bug in Giveaway Winning Chance that was loading it every time a new page was loaded through Endless Scrolling in the giveaway comment pages.</li>
-                </ul>
-                <p>Added the following features:</p>
-                <ul>
-                    <li>Game Categories (closes <a href="https://github.com/revilheart/ESGST/issues/93">#93</a>)</li>
-                </ul>
-            `
-        },
-        {
-            date: `May 21, 2017`,
-            version: `6.Beta.0.4`,
-            changelog: `
-                <ul>
-                    <li>Fixed a bug that happened when trying to retrieve the xsrf_token from the page.</li>
-                    <li>Fixed a bug that was mixing the script's popups with SteamTrades' popups (closes <a href="https://github.com/revilheart/ESGST/issues/72">#72</a>).</li>
-                    <li>The popups are now repositioned upon clicking on them (closes <a href="https://github.com/revilheart/ESGST/issues/83">#83</a>).</li>
-                    <li>Changed the max width of popups to 75% (it was previously not set, which was making some popups have a 100% width).</li>
-                    <li>Fixed a bug on SteamTrades that happened when going to the permalink of a comment.</li>
-                    <li>Fixed a bug in Visible Attached Images and added support for images in the format .gifv.</li>
-                    <li>Fixed a bug in Embedded Videos.</li>
-                    <li>Added endless scrolling support to Giveaway Description/Reply Box Popup.</li>
-                    <li>Added the option to only send gifts to users who are still members of at least one of the groups for group giveaways in Unsent Gifts Sender and added endless scrolling support for it (closes <a href="https://github.com/revilheart/ESGST/issues/90">#90</a>).</li>
-                    <li>Fixed a bug on SteamTrades that was enabling Discussion Edit Detector in the user pages.</li>
-                    <li>Fixed a bug in Comment Formatting Helper that was not enabling endless scrolling support for it.</li>
-                    <li>Fixed a bug in Reply Box On Top for the user pages on SteamTrades.</li>
-                </ul>
-            `
-        },
-        {
-            date: `May 21, 2017`,
-            version: `6.Beta.0.3`,
-            changelog: `
-                <ul>
-                    <li>Fixed a bug in Endless Scrolling that was not stopping at the last page and continuously loading it.</li>
-                </ul>
-            `
-        },
-        {
-            date: `May 21, 2017`,
-            version: `6.Beta.0.2`,
-            changelog: `
-                <ul>
-                    <li>Fixed a bug in Embedded Videos and added more link formats.</li>
-                    <li>Fixed a bug in Endless Scrolling that was removing filters from the URL.</li>
-                    <li>Added support for the new DLC filter to Advanced Giveaway Search.</li>
-                    <li>Fixed a bug in Comment Formatting Helper that was not adding the helper to all text areas of the page.</li>
-                    <li>Added endless scrolling support and an option to clear the cache to User Giveaways Data.</li>
-                    <li>Fixed some bugs in Whitelist / Blacklist Checker, added support for the Two-Way Blacklists update and an option to clear the caches.</li>
-                </ul>
-            `
-        },
-        {
-            date: `May 21, 2017`,
-            version: `6.Beta.0.1`,
-            changelog: `
-                <ul>
-                    <li>Fixed a bug in User Giveaways Data that was not returning complete results.</li>
-                    <li>Fixed a bug that was running Accurate Timestamps even if it was disabled.</li>
-                </ul>
-            `
-        },
-        {
-            date: `May 20, 2017`,
-            version: `6.Beta.0.0`,
-            changelog: `
-                <ul>
-                    <li>Created an icon for the script.</li>
-                    <li>Separated all features into different files.</li>
-                    <li>Fixed some typos in the README file (closes <a href="https://github.com/revilheart/ESGST/issues/94">#94</a>).</li>
-                    <li>Created new icons for Header Icons Refresher and added support for SteamTrades.</li>
-                    <li>Fixed a bug in Comment Tracker that was not marking some discussions as visited from the main page (closes <a href="https://github.com/revilheart/ESGST/issues/95">#95</a>).</li>
-                    <li>The URL field for link and image in Comment Formatting Helper is now automatically focused upon opening and you can now select a part of the text to use as Title.</li>
-                    <li>Fixed a bug in User Giveaways Data that was not updating the data correctly for users with ongoing giveaways (closes <a href="https://github.com/revilheart/ESGST/issues/68">#68</a>).</li>
-                </ul>
-                <p>Renamed the following features:</p>
-                <ul>
-                    <li>Blacklist Stats Hider -> Hidden Blacklist Stats</li>
-                    <li>Featured Container Hider -> Hidden Featured Container</li>
-                    <li>Giveaway Description/Comment Box Popup -> Giveaway Description/Reply Box Popup</li>
-                    <li>Main Comment Box Popup -> Reply Box Popup</li>
-                    <li>Permanent User Notes -> User Notes</li>
-                    <li>Permanent User Tags -> User Tags</li>
-                    <li>Entered Games Highlighter -> Games Highlighter</li>
-                </ul>
-                <p>Upgraded the following features to v6:</p>
-                <ul>
-                    <li>Fixed Elements - Separated the feature into individual features (Fixed Header, Fixed Sidebar, Fixed Main Page Heading and Fixed Footer). Fixed Main Page Heading works much more smoother, especially in small pages.</li>
-                    <li>Visible Attached Images</li>
-                    <li>Accurate Timestamps - Changed the timestamp format to match SteamGifts' format.</li>
-                    <li>Endless Scrolling - Fixed several bugs (closes <a href="https://github.com/revilheart/ESGST/issues/50">#50</a>) and made several improvements. Reverse scrolling now loads the last page first.</li>
-                    <li>Hidden Featured Container</li>
-                    <li>Active Discussions On Top - The ad is no longer brought to the top.</li>
-                </ul>
-                <p>Added the following features:</p>
-                <ul>
-                    <li>Header Button</li>
-                    <li>Embedded Videos - Partial solution to <a href="https://github.com/revilheart/ESGST/issues/89">#89</a>.</li>
-                    <li>Pagination Navigation On Top</li>
-                    <li>Reply Box On Top</li>
                 </ul>
             `
         }

@@ -861,6 +861,19 @@ The video above does not get embedded.
 
 ## Changelog
 
+**7.6.0 (October 24, 2017):**
+
+<ul>
+    <li>Added something that should prevent ESGST from loading more than once in the same page for some users (<a href="https://github.com/revilheart/ESGST/issues/59">#59</a>).</li>
+    <li>Added an option to Header Refresher to only notify about unentered wishlist giveaways that are ending in X hours (<a href="https://github.com/revilheart/ESGST/issues/64">#64</a>).</li>
+    <li>Added Giveaways.2 Quick Giveaway Search.</li>
+    <li>The genre filter in Giveaway Filters now works as a three-state filter like the others ("hide all" hides the genres listed, "show only" shows only the genres listed and "show all" shows everything).</li>
+    <li>Fixed a bug in Unhide Giveaway Button that was not correctly detecting hidden games for Giveaway Bookmarks (<a href="https://github.com/revilheart/ESGST/issues/68">#68</a>).</li>
+    <li>Blacklist Giveaway Loader now shows "You Are Blacklisted" if you have been blacklisted by the creator and "On Your Blacklist" if you have blacklisted the creator.</li>
+    <li>Fixed a bug that was happening for users with Avatar Popout on click enabled.</li>
+    <li>Group Library/Wishlist Checker now verifies if the user is still a member of the group.</li>
+</ul>
+
 **7.5.1 (October 23, 2017):**
 
 <ul>
