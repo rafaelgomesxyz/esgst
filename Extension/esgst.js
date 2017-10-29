@@ -405,20 +405,7 @@ class ToggleSwitch {
     }
 }
 
-var DOM, esgst;
-if (!document.getElementsByClassName(`esgst-header-menu`)[0]) {
-    chrome.storage.onChanged.addListener((changes, namespace) => {
-        if (namespace === `local`) {
-            let key;
-            for (key in changes) {
-                esgst.storage[key] = changes[key].newValue;
-            }
-        }
-    });
-    chrome.storage.local.get(null, storage => {
-        loadEsgst(storage);
-    });
-}
+let DOM, esgst;
 
 function parseHtml(string) {
     return DOM.parser.parseFromString(string, `text/html`);
@@ -433,7 +420,7 @@ function loadEsgst(storage) {
         storage: storage,
         sg: location.hostname.match(/www.steamgifts.com/),
         st: location.hostname.match(/www.steamtrades.com/),
-        currentVersion: `7.6.0`,
+        currentVersion: `7.6.1`,
         icon: `data:image/x-icon;base64,AAABAAEAEBAAAAEAIABoBAAAFgAAACgAAAAQAAAAIAAAAAEAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAqv8DCbP/Hgeq+CQIrf8iCK3/Igit/yIIrf8iB6//Iwit9x8Aqv8DAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAKr0GAa2/c0DvfzfA7f83QO3/N0Dt/zdA7f83QO+/d4Gs/3OAKP1GQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACm/xQFs/n2Bcf//wW///8FwP//BcD//wW///8Fx///BbP69gC2/xUAAAAAAAAAAAAAAAAA/1UDFptOFxSZMxkLpJktAq720QW1+ugEsfvjA7b92wO2/dsEsfvjBbX66Aau/dEoiO4tUlLWGU5k3hdVVf8DEJxKHxWqT8cVrU7uE6VN0guqny0Apv8XAJfQGwBAVywAQFcsAJfQGwCx/xcogugtS2Lk0lBl6u5Qae7ISmPeHxagSSMVr07jF7lV/xOiSu0brgATAAAAAAAAAA8AAAC/AAAAwAAAABAAAAAAYznjEkth4OxWb/3/T2jv40lf4iMXnksiEq1O3RayUv8UpEnkEo0+HQAAABkAAABBAAAA8QAAAPEAAABBAAAAGUBSvxxOYeDjU2v0/05m7d1LYuEiF55LIhKtTt0Ws1L/FahN2gU1FTAAAADAAAAA7AAAAP0AAAD9AAAA7AAAAMAVG0owUGPm2lNr9P9OZu3dS2LhIheeSyISrU7dFrNS/xWoTdoFNRswAAAAvwAAAOsAAAD9AAAA/QAAAOsAAADAFRtKMFBj6NpTa/T/Tmbt3Uti4SIXnksiEq1O3RayUv8UpEnkEo0+HQAAABgAAABAAAAA8QAAAPEAAABBAAAAGT5PuR1OYeDjU2v0/05m7d1LYuEiFqBJIxWuT+QXuVX/E6JL7QC8XhMAAAAAAAAADwAAAL8AAAC/AAAAEAAAAAAOR/8SSWLh7FZv/f9PaO/jSV/iIxCUSh8Vrk7HFqxN7ROlS9JskzMt1XULGK12EhxGLgYsRy8GK612EhzVgAsYgmxxLU1i39JNZ+vtT2fwx0pj1h8AqlUDF65GFgqZUhlsiC0txH0T0s5/EujJgBPkz4QR28+EEdvJgBPkzn8Q6Md+E9KLdHosM1LWGUZo6BZVVf8DAAAAAAAAAAAAAAAA/2YAFMl9EvbgjRb/14gV/9eIFf/XiBX/14gV/9+NFv/KgBD254YAFQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAL91FRjKgRHN1IgU3s+EEt3PhBLdz4QS3c+EEt3UiBTezYMRzcJ6FBkAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACqqgADxIARHr18FiO8eA8ivHgPIrx4DyK8eA8ivXwPI8SAER7/VQADAAAAAAAAAAAAAAAA78cAAPA3AAD4FwAABCAAADGOAAAE+AAAkBEAAJ55AACYOQAAlgEAAER4AAAXaAAATnoAAPgXAAD0JwAA69cAAA==`,
         sgIcon: `data:image/x-icon;base64,AAABAAEAEBAAAAEAIABoBAAAFgAAACgAAAAQAAAAIAAAAAEAIAAAAAAAQAQAABMLAAATCwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIUAAAD5AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAPoAAACFAAAAAAAAAAAAAAD8AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA+QAAAAAAAAAAAAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAAAAAAAAAAAAP8AAAD/AAAA/wAAABwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAcAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAcAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAHAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAAAAAAAAAAAAPwAAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD5AAAAAAAAAAAAAACFAAAA+QAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD5AAAAhQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA//8AAP//AADAAwAAwAMAAMfjAADP8wAAz/MAAM/zAADP8wAAz/MAAM/zAADH4wAAwAMAAMADAAD//wAA//8AAA==`,
         stIcon: `data:image/x-icon;base64,AAABAAEAEBAAAAEAIABoBAAAFgAAACgAAAAQAAAAIAAAAAEAIAAAAAAAQAQAABMLAAATCwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABbD6SgWw+ucFsPrkBbD6SgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAWw+uYFsPr/BbD6/wWw+ucAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAFsPrmBbD6/wWw+v8FsPrmAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABbD6SQWw+uYFsPrmBbD6SQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAFKRLShSkS+cUpEvkFKRLSgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAExi4EpMYuDnTGLg5Exi4EoAAAAAAAAAABSkS+YUpEv/FKRL/xSkS+cAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABMYuDmTGLg/0xi4P9MYuDnAAAAAAAAAAAUpEvmFKRL/xSkS/8UpEvmAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAATGLg5kxi4P9MYuD/TGLg5gAAAAAAAAAAFKRLSRSkS+YUpEvmFKRLSQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAExi4ElMYuDmTGLg5kxi4EkAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAMZ9E0rGfRPnxn0T5MZ9E0oAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADGfRPmxn0T/8Z9E//GfRPnAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAxn0T5sZ9E//GfRP/xn0T5gAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAMZ9E0nGfRPmxn0T5sZ9E0kAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA//8AAPw/AAD8PwAA/D8AAPw/AAD//wAAh+EAAIfhAACH4QAAh+EAAP//AAD8PwAA/D8AAPw/AAD8PwAA//8AAA==`,
@@ -479,6 +466,7 @@ function loadEsgst(storage) {
         discussionsPath: location.pathname.match(/^\/discussions(?!\/new)/),
         newDiscussionPath: location.pathname.match(/^\/discussions\/new/),
         editDiscussionPath: location.pathname.match(/^\/discussions\/edit/),
+        createdDiscussionsPath: location.pathname.match(/^\/discussions\/created/),
         newGiveawayPath: location.pathname.match(/^\/giveaways\/new/),
         newTicketPath: location.pathname.match(/^\/support\/tickets\/new/),
         wishlistPath: location.pathname.match(/^\/giveaways\/wishlist/),
@@ -720,7 +708,9 @@ function loadEsgst(storage) {
                 syncGiveaways: true,
                 ged: true,
                 df_enable: true,
+                df_enableCreated: false,
                 df_preset: null,
+                df_presetCreated: null,
                 gf_enable: true,
                 gf_enableWishlist: true,
                 gf_enableRecommended: true,
@@ -7794,20 +7784,6 @@ function unfixFmphHeading() {
     }
 }
 
-function notifyNewVersion(version) {
-    let message, popup;
-    if (esgst.discussionPath) {
-        message = `You are not using the latest ESGST version. Please update before reporting bugs and make sure the bugs still exist in the latest version.`;
-    } else {
-        message = `A new ESGST version is available.`;
-    }
-    popup = new Popup(`fa-exclamation`, message, true);
-    popup.onClose = () => {
-        setValue(`dismissedVersion`, version);
-    };
-    popup.open();
-}
-
 function loadFeature(feature) {
     var i, id, n;
     id = feature.id;
@@ -7855,97 +7831,6 @@ function getSetting(key, sg, st) {
         }
         return esgst.settings[localKey];
     }
-}
-
-function addHeaderMenu() {
-    var arrow, button, chRow, changelogRow, className, context, dropdown, html, menu, position, uhRow;
-    html = `
-        <div class="esgst-header-menu">
-            <div class="esgst-header-menu-relative-dropdown esgst-hidden">
-                <div class="esgst-header-menu-absolute-dropdown">
-                    <a class="esgst-header-menu-row" href="https://github.com/revilheart/ESGST">
-                        <i class="fa fa-fw fa-github grey"></i>
-                        <div>
-                            <p class="esgst-header-menu-name">GitHub</p>
-                            <p class="esgst-header-menu-description">Visit the GitHub page.</p>
-                        </div>
-                    </a>
-                    <a class="esgst-header-menu-row" href="https://www.steamgifts.com/discussion/TDyzv/">
-                        <i class="fa fa-fw fa-commenting green"></i>
-                        <div>
-                            <p class="esgst-header-menu-name">Discussion</p>
-                            <p class="esgst-header-menu-description">Visit the discussion page.</p>
-                        </div>
-                    </a>
-                    <div class="esgst-header-menu-row">
-                        <i class="fa fa-fw fa-user red"></i>
-                        <div>
-                            <p class="esgst-header-menu-name">Recent Username Changes</p>
-                            <p class="esgst-header-menu-description">Check out the recent username changes.</p>
-                        </div>
-                    </div>
-                    <div class="esgst-header-menu-row">
-                        <i class="fa fa-fw fa-comments yellow"></i>
-                        <div>
-                            <p class="esgst-header-menu-name">Comment History</p>
-                            <p class="esgst-header-menu-description">Check out your comment history.</p>
-                        </div>
-                    </div>
-                    <div class="esgst-header-menu-row">
-                        <i class="fa fa-fw fa-file-text-o grey"></i>
-                        <div>
-                            <p class="esgst-header-menu-name">Changelog</p>
-                            <p class="esgst-header-menu-description">Check out the script's changelog.</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="esgst-header-menu-button">
-                <i class="fa">
-                    <img src="${esgst.icon}"/>
-                </i>
-                <span>ESGST</span>
-            </div>
-            <div class="esgst-header-menu-button arrow">
-                <i class="fa fa-angle-down"></i>
-            </div>
-        </div>
-    `;
-    if (esgst.sg) {
-        className = `nav__left-container`;
-        position = `beforeEnd`;
-    } else {
-        className = `nav_logo`;
-        position = `afterEnd`;
-    }
-    context = document.getElementsByClassName(className)[0];
-    menu = insertHtml(context, position, html);
-    dropdown = menu.firstElementChild;
-    button = dropdown.nextElementSibling;
-    arrow = button.nextElementSibling;
-    uhRow = dropdown.firstElementChild.firstElementChild.nextElementSibling.nextElementSibling;
-    chRow = uhRow.nextElementSibling;
-    changelogRow = chRow.nextElementSibling;
-    if (esgst.uh) {
-        setSMRecentUsernameChanges(uhRow);
-    } else {
-        uhRow.classList.add(`esgst-hidden`);
-    }
-    if (esgst.ch) {
-        setSMCommentHistory(chRow);
-    } else {
-        chRow.classList.add(`esgst-hidden`);
-    }
-    button.addEventListener(`click`, function () {
-        if (esgst.openSettingsInTab) {
-            open(`/esgst/settings`);
-        } else {
-            loadSMMenu();
-        }
-    });
-    arrow.addEventListener(`click`, toggleHeaderMenu.bind(null, arrow, dropdown));
-    document.addEventListener(`click`, closeHeaderMenu.bind(null, arrow, dropdown, menu), true);
-    changelogRow.addEventListener(`click`, loadChangelog);
 }
 
 function toggleHeaderMenu(arrow, dropdown) {
@@ -8008,31 +7893,6 @@ function insertHtml(context, position, html) {
         afterEnd: `nextElementSibling`
     };
     return context[positions[position]];
-}
-
-function setValue(key, value) {
-    if (key.match(/^esgst_/)) {
-        localStorage.setItem(key, value);
-    } else {
-        chrome.storage.local.set({[key]: value});
-        esgst.storage[key] = value;
-    }
-}
-
-function getValue(key, value = undefined) {
-    if (key.match(/^esgst_/)) {
-        return (localStorage.getItem(key) || value);
-    } else {
-        return (typeof esgst.storage[key] === `undefined` ? value : esgst.storage[key]);
-    }
-}
-
-function delValue(key) {
-    if (key.match(/^esgst_/)) {
-        localStorage.removeItem(key);
-    } else {
-        chrome.storage.local.remove(key);
-    }
 }
 
 /* User Saving System */
@@ -9300,49 +9160,6 @@ function checkLock(lock) {
     } else {
         setTimeout(checkLock, lock.threshold / 3, lock);
     }
-}
-
-/* Request */
-
-function request(data, headers, queue, url, callback, anon) {
-    if (!headers) {
-        headers = {};
-    }
-    if (queue) {
-        createLock(`requestLock`, 1000, function (closeLock) {
-            continueRequest(data, headers, url, callback, anon, closeLock);
-        });
-    } else {
-        continueRequest(data, headers, url, callback, anon);
-    }
-}
-
-function continueRequest(data, headers, url, callback, anon, closeLock) {
-    if (!headers[`Content-Type`]) {
-        headers[`Content-Type`] = `application/x-www-form-urlencoded`;
-    }
-    chrome.runtime.sendMessage({
-        action: `fetch`,
-        parameters: JSON.stringify({
-            body: data,
-            credentials: anon ? `omit` : `include`,
-            headers: headers,
-            method: data ? `POST` : `GET`,
-            redirect: `follow`
-        }),
-        url: url.replace(/^\//, `https://${location.hostname}/`).replace(/^https?:/, location.href.match(/^http:/) ? `http:` : `https:`)
-    }, response => {
-        if (closeLock) {
-            closeLock();
-        }
-        response = JSON.parse(response);
-        if (response.finalUrl.match(/www.steamgifts.com/)) {
-            lookForPopups(response);
-        }
-        if (callback) {
-            callback(response);
-        }
-    });
 }
 
 function lookForPopups(response) {
@@ -10738,7 +10555,7 @@ function addAgsPanel(context, qgs) {
             input.value = decodeURIComponent(match[1]);
         }
     }
-    if ((esgst.adots && esgst.adots_index === 0) || !esgst.adots) {
+    if (!qgs && ((esgst.adots && esgst.adots_index === 0) || !esgst.adots)) {
         panel = insertHtml(context, `afterEnd`, `
             <div class="esgst-ags-panel"></div>
         `);
@@ -12678,6 +12495,17 @@ function loadGbGibs(bookmarked, container, context, popup) {
     var i = 0;
     var n = bookmarked.length;
     var gbGiveaways = insertHtml(context, `beforeEnd`, `<div class="esgst-text-left"></div>`);
+    if (esgst.gf || esgst.gm) {
+        let heading = insertHtml(context, `afterBegin`, `
+            <div class="page__heading"></div>
+        `);
+        if (esgst.gf) {
+            heading.appendChild(addGfContainer(heading, true));
+        }
+        if (esgst.gm) {
+            loadGm(heading);
+        }
+    }
     var set = new ButtonSet(`green`, `grey`, `fa-plus`, `fa-circle-o-notch fa-spin`, `Load more...`, `Loading more...`, function (callback) {
         loadGbGiveaways(i, i + 5, bookmarked, gbGiveaways, popup, function (value) {
             i = value;
@@ -18426,6 +18254,7 @@ function openGePopup(ge) {
                 }
             });
         }
+        ge.set.trigger();
     }
     ge.popup.open();
 }
@@ -19160,8 +18989,10 @@ function addDfContainer(heading) {
         <span class="esgst-gf-toggle-switch"></span>
         <i class="fa fa-sliders" title="Manage presets"></i>
     `;
-    toggleSwitch = new ToggleSwitch(headingButton.firstElementChild, `df_enable`, true, ``, false, false, null, esgst.df_enable);
-    esgst.df = df = {};
+    esgst.df = df = {
+        type: esgst.createdDiscussionsPath ? `Created` : ``
+    };
+    toggleSwitch = new ToggleSwitch(headingButton.firstElementChild, `df_enable${esgst.df.type}`, true, ``, false, false, null, esgst[`df_enable${esgst.df.type}`]);
     toggleSwitch.onEnabled = filterDfDiscussions.bind(null, df);
     toggleSwitch.onDisabled = filterDfDiscussions.bind(null, df, true);
     presetButton = headingButton.lastElementChild;
@@ -19236,7 +19067,7 @@ function addDfContainer(heading) {
     `).firstElementChild;
     presetDisplay = df.filteredCount.nextElementSibling;
     presetButton.addEventListener(`click`, openDfPresetPopup.bind(null, df, exceptionCount, presetDisplay, presetInput));
-    name = esgst[`df_preset`];
+    name = esgst[`df_preset${esgst.df.type}`];
     if (name) {
         presets = JSON.parse(getValue(`dfPresets`, `[]`));
         for (i = presets.length - 1; i >= 0 && presets[i].name !== name; --i);
@@ -19248,7 +19079,7 @@ function addDfContainer(heading) {
         }
     }
     if (!preset) {
-        name = `Default`;
+        name = `Default${esgst.df.type}`;
         preset = { name };
         [`maxComments`, `minComments`, `announcements`, `bugs_suggestions`, `deals`, `general`, `groupRecruitment`, `letsPlayTogether`, `offTopic`, `puzzles`, `uncategorized`, `created`, `poll`, `highlighted`, `visited`, `unread`].forEach(key => {
             preset[key] = esgst.settings[`df_${key}`];
@@ -19256,7 +19087,7 @@ function addDfContainer(heading) {
         presets = JSON.parse(getValue(`dfPresets`, `[]`));
         presets.push(preset);
         setValue(`dfPresets`, JSON.stringify(presets));
-        setSetting(`df_preset`, name);
+        setSetting(`df_preset${esgst.df.type}`, name);
         presetDisplay.textContent = presetInput.value = name;
     }
     if (preset.exceptions) {
@@ -19397,7 +19228,7 @@ function saveDfPreset(df, presetInput, presetMessage, presetWarning, callback) {
             presets.push(preset);
         }
         setValue(`dfPresets`, JSON.stringify(presets));
-        setSetting(`df_preset`, name);
+        setSetting(`df_preset${esgst.df.type}`, name);
         createFadeMessage(presetMessage, `Saved!`);
         callback();
     } else {
@@ -19538,7 +19369,7 @@ function applyDfPreset(df, exceptionCount, popup, preset, presetDisplay, presetI
     for (key in gf.overrideButtons) {
         gf.overrideButtons[key].change();
     }
-    setSetting(`df_preset`, preset.name);
+    setSetting(`df_preset${esgst.df.type}`, preset.name);
     popup.close();
     filterDfDiscussions(df);
 }
@@ -19556,8 +19387,8 @@ function renameDfPreset(heading, preset, presetDisplay, presetInput, event) {
         if (presetInput.value === oldName) {
             presetDisplay.textContent = presetInput.value = newName;
         }
-        if (esgst[`df_preset`] === oldName) {
-            setSetting(`df_preset`, newName);
+        if (esgst[`df_preset${esgst.df.type}`] === oldName) {
+            setSetting(`df_preset${esgst.df.type}`, newName);
         }
         event.currentTarget.classList.add(`esgst-hidden`);
         heading.classList.remove(`esgst-hidden`);
@@ -21904,7 +21735,7 @@ function addCtDiscussionPanels(context, main, source, endless, dh) {
             }
         }
     }
-    if (esgst.df && esgst.df.filteredCount && esgst[`df_enable`]) {
+    if (esgst.df && esgst.df.filteredCount && esgst[`df_enable${esgst.df.type}`]) {
         filterDfDiscussions(esgst.df, false, endless);
     }
 }
@@ -24940,6 +24771,7 @@ function getGlwcSteamIds(glwc, i, n) {
             }
         } else {
             glwc.overallProgress.textContent = `Step 3 of 3 (this might take a while)`;
+            glwc.memberCount = 0;
             getGlwcGames(glwc, 0, glwc.users.length);
         }
     }
@@ -24994,6 +24826,7 @@ function getGlwcGames(glwc, i, n) {
                             glwc.games[game.id].wishlists.push(i);
                             glwc.users[i].wishlist.push(parseInt(game.id));
                         }
+                        glwc.memberCount += 1;
                         setTimeout(getGlwcGames, 0, glwc, ++i, n);
                     });
                 });
@@ -25088,7 +24921,7 @@ function showGlwcResults(glwc) {
                         </p>
                     </div>
                     <div class="table__column--width-small text-center">
-                        <span class="table__column__secondary-link esgst-clickable">${game.libraries.length} (${Math.round(game.libraries.length / glwc.users.length * 10000) / 100}%)</span>
+                        <span class="table__column__secondary-link esgst-clickable">${game.libraries.length} (${Math.round(game.libraries.length / glwc.memberCount * 10000) / 100}%)</span>
                     </div>
                 </div>
             </div>
@@ -25129,7 +24962,7 @@ function showGlwcResults(glwc) {
                         </p>
                     </div>
                     <div class="table__column--width-small text-center">
-                        <span class="table__column__secondary-link esgst-clickable">${game.wishlists.length} (${Math.round(game.wishlists.length / glwc.users.length * 10000) / 100}%)</span>
+                        <span class="table__column__secondary-link esgst-clickable">${game.wishlists.length} (${Math.round(game.wishlists.length / glwc.memberCount * 10000) / 100}%)</span>
                     </div>
                 </div>
             </div>
@@ -25162,7 +24995,7 @@ function showGlwcResults(glwc) {
                                     </p>
                                 </div>
                                 <div class="table__column--width-small text-center">
-                                    <span class="table__column__secondary-link esgst-clickable">${game.libraries.length} (${Math.round(game.libraries.length / glwc.users.length * 10000) / 100}%)</span>
+                                    <span class="table__column__secondary-link esgst-clickable">${game.libraries.length} (${Math.round(game.libraries.length / glwc.memberCount * 10000) / 100}%)</span>
                                 </div>
                             </div>
                         </div>
@@ -25197,7 +25030,7 @@ function showGlwcResults(glwc) {
                                         </p>
                                     </div>
                                     <div class="table__column--width-small text-center">
-                                        <span class="table__column__secondary-link esgst-clickable">${game.libraries.length} (${Math.round(game.libraries.length / glwc.users.length * 10000) / 100}%)</span>
+                                        <span class="table__column__secondary-link esgst-clickable">${game.libraries.length} (${Math.round(game.libraries.length / glwc.memberCount * 10000) / 100}%)</span>
                                     </div>
                                 </div>
                             </div>
@@ -25242,7 +25075,7 @@ function showGlwcResults(glwc) {
                                     </p>
                                 </div>
                                 <div class="table__column--width-small text-center">
-                                    <span class="table__column__secondary-link esgst-clickable">${game.wishlists.length} (${Math.round(game.wishlists.length / glwc.users.length * 10000) / 100}%)</span>
+                                    <span class="table__column__secondary-link esgst-clickable">${game.wishlists.length} (${Math.round(game.wishlists.length / glwc.memberCount * 10000) / 100}%)</span>
                                 </div>
                             </div>
                         </div>
@@ -25277,7 +25110,7 @@ function showGlwcResults(glwc) {
                                         </p>
                                     </div>
                                     <div class="table__column--width-small text-center">
-                                        <span class="table__column__secondary-link esgst-clickable">${game.wishlists.length} (${Math.round(game.wishlists.length / glwc.users.length * 10000) / 100}%)</span>
+                                        <span class="table__column__secondary-link esgst-clickable">${game.wishlists.length} (${Math.round(game.wishlists.length / glwc.memberCount * 10000) / 100}%)</span>
                                     </div>
                                 </div>
                             </div>
@@ -28873,7 +28706,7 @@ function loadDiscussionFeatures(context, main, source, endless) {
             }
         }
     }
-    if (esgst.df && esgst.df.filteredCount && esgst[`df_enable`]) {
+    if (esgst.df && esgst.df.filteredCount && esgst[`df_enable${esgst.df.type}`]) {
         filterDfDiscussions(esgst.df, false, endless);
     }
     if (esgst.ds && esgst.ds_auto) {
@@ -31661,11 +31494,11 @@ function addStyle() {
             }
         `;
     }
-    style += `    
+    style += `
         .esgst-qgs-container i {
             color: #AAB5C6;
         }
-        
+
         .esgst-qgs-container {
             align-items: center;
             background-color: #fff;
@@ -33702,6 +33535,19 @@ function loadChangelog(version) {
     var changelog, current, html, i, index, n, popup;
     changelog = [
         {
+            date: `October 29, 2017`,
+            version: `7.6.1`,
+            changelog: `
+                <ul>
+                    <li>Fixed a bug in Quick Giveaway Search that was messing the header (<a href="https://github.com/revilheart/ESGST/issues/72">#72</a>).</li>
+                    <li>Extended Giveaway Filters and Giveaways Manager to Giveaway Bookmarks.</li>
+                    <li>When using Giveaways Extractor, you no longer have to click on "Extract" to start extracting - it now starts automatically.</li>
+                    <li>Discussion Filters now has a different preset for the created discussions page (<a href="https://github.com/revilheart/ESGST/issues/71">#71</a>).</li>
+                    <li>Fixed a bug in Group Library/Wishlist Checker that was showing the wrong percentages.</li>
+                </ul>
+            `
+        },
+        {
             date: `October 24, 2017`,
             version: `7.6.0`,
             changelog: `
@@ -35477,4 +35323,191 @@ function loadChangelog(version) {
     popup = new Popup(`fa-file-text-o`, `Changelog`, true);
     popup.scrollable.insertAdjacentHTML(`afterBegin`, `<div class="esgst-text-left markdown">${html.join(``)}</div>`);
     popup.open();
+}
+
+// This part of the code is different in the script
+
+function setValue(key, value) {
+    if (key.match(/^esgst_/)) {
+        localStorage.setItem(key, value);
+    } else {
+        chrome.storage.local.set({[key]: value});
+        esgst.storage[key] = value;
+    }
+}
+
+function getValue(key, value = undefined) {
+    if (key.match(/^esgst_/)) {
+        return (localStorage.getItem(key) || value);
+    } else {
+        return (typeof esgst.storage[key] === `undefined` ? value : esgst.storage[key]);
+    }
+}
+
+function delValue(key) {
+    if (key.match(/^esgst_/)) {
+        localStorage.removeItem(key);
+    } else {
+        chrome.storage.local.remove(key);
+    }
+}
+
+function request(data, headers, queue, url, callback, anon) {
+    if (!headers) {
+        headers = {};
+    }
+    if (queue) {
+        createLock(`requestLock`, 1000, function (closeLock) {
+            continueRequest(data, headers, url, callback, anon, closeLock);
+        });
+    } else {
+        continueRequest(data, headers, url, callback, anon);
+    }
+}
+
+function continueRequest(data, headers, url, callback, anon, closeLock) {
+    if (!headers[`Content-Type`]) {
+        headers[`Content-Type`] = `application/x-www-form-urlencoded`;
+    }
+    chrome.runtime.sendMessage({
+        action: `fetch`,
+        parameters: JSON.stringify({
+            body: data,
+            credentials: anon ? `omit` : `include`,
+            headers: headers,
+            method: data ? `POST` : `GET`,
+            redirect: `follow`
+        }),
+        url: url.replace(/^\//, `https://${location.hostname}/`).replace(/^https?:/, location.href.match(/^http:/) ? `http:` : `https:`)
+    }, response => {
+        if (closeLock) {
+            closeLock();
+        }
+        response = JSON.parse(response);
+        if (response.finalUrl.match(/www.steamgifts.com/)) {
+            lookForPopups(response);
+        }
+        if (callback) {
+            callback(response);
+        }
+    });
+}
+
+function addHeaderMenu() {
+    var arrow, button, chRow, changelogRow, className, context, dropdown, html, menu, position, uhRow;
+    html = `
+        <div class="esgst-header-menu">
+            <div class="esgst-header-menu-relative-dropdown esgst-hidden">
+                <div class="esgst-header-menu-absolute-dropdown">
+                    <a class="esgst-header-menu-row" href="https://github.com/revilheart/ESGST">
+                        <i class="fa fa-fw fa-github grey"></i>
+                        <div>
+                            <p class="esgst-header-menu-name">GitHub</p>
+                            <p class="esgst-header-menu-description">Visit the GitHub page.</p>
+                        </div>
+                    </a>
+                    <a class="esgst-header-menu-row" href="https://www.steamgifts.com/discussion/TDyzv/">
+                        <i class="fa fa-fw fa-commenting green"></i>
+                        <div>
+                            <p class="esgst-header-menu-name">Discussion</p>
+                            <p class="esgst-header-menu-description">Visit the discussion page.</p>
+                        </div>
+                    </a>
+                    <div class="esgst-header-menu-row">
+                        <i class="fa fa-fw fa-user red"></i>
+                        <div>
+                            <p class="esgst-header-menu-name">Recent Username Changes</p>
+                            <p class="esgst-header-menu-description">Check out the recent username changes.</p>
+                        </div>
+                    </div>
+                    <div class="esgst-header-menu-row">
+                        <i class="fa fa-fw fa-comments yellow"></i>
+                        <div>
+                            <p class="esgst-header-menu-name">Comment History</p>
+                            <p class="esgst-header-menu-description">Check out your comment history.</p>
+                        </div>
+                    </div>
+                    <div class="esgst-header-menu-row">
+                        <i class="fa fa-fw fa-file-text-o grey"></i>
+                        <div>
+                            <p class="esgst-header-menu-name">Changelog</p>
+                            <p class="esgst-header-menu-description">Check out the script's changelog.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="esgst-header-menu-button">
+                <i class="fa">
+                    <img src="${esgst.icon}"/>
+                </i>
+                <span>ESGST</span>
+            </div>
+            <div class="esgst-header-menu-button arrow">
+                <i class="fa fa-angle-down"></i>
+            </div>
+        </div>
+    `;
+    if (esgst.sg) {
+        className = `nav__left-container`;
+        position = `beforeEnd`;
+    } else {
+        className = `nav_logo`;
+        position = `afterEnd`;
+    }
+    context = document.getElementsByClassName(className)[0];
+    menu = insertHtml(context, position, html);
+    dropdown = menu.firstElementChild;
+    button = dropdown.nextElementSibling;
+    arrow = button.nextElementSibling;
+    uhRow = dropdown.firstElementChild.firstElementChild.nextElementSibling.nextElementSibling;
+    chRow = uhRow.nextElementSibling;
+    changelogRow = chRow.nextElementSibling;
+    if (esgst.uh) {
+        setSMRecentUsernameChanges(uhRow);
+    } else {
+        uhRow.classList.add(`esgst-hidden`);
+    }
+    if (esgst.ch) {
+        setSMCommentHistory(chRow);
+    } else {
+        chRow.classList.add(`esgst-hidden`);
+    }
+    button.addEventListener(`click`, function () {
+        if (esgst.openSettingsInTab) {
+            open(`/esgst/settings`);
+        } else {
+            loadSMMenu();
+        }
+    });
+    arrow.addEventListener(`click`, toggleHeaderMenu.bind(null, arrow, dropdown));
+    document.addEventListener(`click`, closeHeaderMenu.bind(null, arrow, dropdown, menu), true);
+    changelogRow.addEventListener(`click`, loadChangelog);
+}
+
+function notifyNewVersion(version) {
+    let message, popup;
+    if (esgst.discussionPath) {
+        message = `You are not using the latest ESGST version. Please update before reporting bugs and make sure the bugs still exist in the latest version.`;
+    } else {
+        message = `A new ESGST version is available.`;
+    }
+    popup = new Popup(`fa-exclamation`, message, true);
+    popup.onClose = () => {
+        setValue(`dismissedVersion`, version);
+    };
+    popup.open();
+}
+
+if (!document.getElementsByClassName(`esgst-header-menu`)[0]) {
+    chrome.storage.onChanged.addListener((changes, namespace) => {
+        if (namespace === `local`) {
+            let key;
+            for (key in changes) {
+                esgst.storage[key] = changes[key].newValue;
+            }
+        }
+    });
+    chrome.storage.local.get(null, storage => {
+        loadEsgst(storage);
+    });
 }

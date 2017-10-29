@@ -15,7 +15,7 @@ A script that adds some cool features to SteamGifts and SteamTrades.
 To install the extension:
 
 * Firefox -> Download [this file](https://github.com/revilheart/ESGST/raw/master/Extension/esgst.xpi) and drag it into "about:addons".
-* Chrome -> Clone the repository to your computer, go to "chrome://extensions/", enable developer mode, click "Load unpacked extension" and select the "Extensions" folder in the repository. Using the extension on Chrome might be a nuisance, since every time you open the browser you will get a message saying that using extensions in developer mode can be unsafe.
+* Chrome -> Download [this zip](https://github.com/revilheart/ESGST/archive/master.zip), extract it to a folder on your computer, go to "chrome://extensions/", tick "Developer mode" in the top right corner, click "Load unpacked extension" and select the "Extensions" folder where you extracted the zip to. Using the extension on Chrome might be a nuisance, since every time you open the browser you will get a message saying that using extensions in developer mode can be unsafe, and every time a new version is released you will have to download the zip again, extract it to the same folder, replacing the previous files, go to the extensions page and click "Reload" under ESGST.
 
 Other browsers might work with the extension, but only Firefox and Chrome have been tested and confirmed as working.
 
@@ -860,6 +860,16 @@ The video above does not get embedded.
 ---
 
 ## Changelog
+
+**7.6.1 (October 29, 2017):**
+
+<ul>
+    <li>Fixed a bug in Quick Giveaway Search that was messing the header (<a href="https://github.com/revilheart/ESGST/issues/72">#72</a>).</li>
+    <li>Extended Giveaway Filters and Giveaways Manager to Giveaway Bookmarks.</li>
+    <li>When using Giveaways Extractor, you no longer have to click on "Extract" to start extracting - it now starts automatically.</li>
+    <li>Discussion Filters now has a different preset for the created discussions page (<a href="https://github.com/revilheart/ESGST/issues/71">#71</a>).</li>
+    <li>Fixed a bug in Group Library/Wishlist Checker that was showing the wrong percentages.</li>
+</ul>
 
 **7.6.0 (October 24, 2017):**
 
