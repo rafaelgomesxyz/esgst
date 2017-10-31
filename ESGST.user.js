@@ -3,7 +3,7 @@
 // @namespace ESGST
 // @description Enhances SteamGifts and SteamTrades by adding some cool features to them.
 // @icon https://dl.dropboxusercontent.com/s/lr3t3bxrxfxylqe/esgstIcon.ico?raw=1
-// @version 7.6.1
+// @version 7.6.2
 // @author revilheart
 // @downloadURL https://github.com/revilheart/ESGST/raw/master/ESGST.user.js
 // @updateURL https://github.com/revilheart/ESGST/raw/master/ESGST.meta.js
@@ -46,7 +46,7 @@ this.isMultiLine=o||!a&&this._isContentEditable(this.element),this.valueMethod=t
 },_refresh:function(){this._createRange(),this._createHandles(),this._setupEvents(),this._refreshValue()},_createHandles:function(){var e,i,s=this.options,n=this.element.find(".ui-slider-handle"),o="<span tabindex='0'></span>",a=[];for(i=s.values&&s.values.length||1,n.length>i&&(n.slice(i).remove(),n=n.slice(0,i)),e=n.length;i>e;e++)a.push(o);this.handles=n.add(t(a.join("")).appendTo(this.element)),this._addClass(this.handles,"ui-slider-handle","ui-state-default"),this.handle=this.handles.eq(0),this.handles.each(function(e){t(this).data("ui-slider-handle-index",e).attr("tabIndex",0)})},_createRange:function(){var e=this.options;e.range?(e.range===!0&&(e.values?e.values.length&&2!==e.values.length?e.values=[e.values[0],e.values[0]]:t.isArray(e.values)&&(e.values=e.values.slice(0)):e.values=[this._valueMin(),this._valueMin()]),this.range&&this.range.length?(this._removeClass(this.range,"ui-slider-range-min ui-slider-range-max"),this.range.css({left:"",bottom:""})):(this.range=t("<div>").appendTo(this.element),this._addClass(this.range,"ui-slider-range")),("min"===e.range||"max"===e.range)&&this._addClass(this.range,"ui-slider-range-"+e.range)):(this.range&&this.range.remove(),this.range=null)},_setupEvents:function(){this._off(this.handles),this._on(this.handles,this._handleEvents),this._hoverable(this.handles),this._focusable(this.handles)},_destroy:function(){this.handles.remove(),this.range&&this.range.remove(),this._mouseDestroy()},_mouseCapture:function(e){var i,s,n,o,a,r,h,l,c=this,u=this.options;return u.disabled?!1:(this.elementSize={width:this.element.outerWidth(),height:this.element.outerHeight()},this.elementOffset=this.element.offset(),i={x:e.pageX,y:e.pageY},s=this._normValueFromMouse(i),n=this._valueMax()-this._valueMin()+1,this.handles.each(function(e){var i=Math.abs(s-c.values(e));(n>i||n===i&&(e===c._lastChangedValue||c.values(e)===u.min))&&(n=i,o=t(this),a=e)}),r=this._start(e,a),r===!1?!1:(this._mouseSliding=!0,this._handleIndex=a,this._addClass(o,null,"ui-state-active"),o.trigger("focus"),h=o.offset(),l=!t(e.target).parents().addBack().is(".ui-slider-handle"),this._clickOffset=l?{left:0,top:0}:{left:e.pageX-h.left-o.width()/2,top:e.pageY-h.top-o.height()/2-(parseInt(o.css("borderTopWidth"),10)||0)-(parseInt(o.css("borderBottomWidth"),10)||0)+(parseInt(o.css("marginTop"),10)||0)},this.handles.hasClass("ui-state-hover")||this._slide(e,a,s),this._animateOff=!0,!0))},_mouseStart:function(){return!0},_mouseDrag:function(t){var e={x:t.pageX,y:t.pageY},i=this._normValueFromMouse(e);return this._slide(t,this._handleIndex,i),!1},_mouseStop:function(t){return this._removeClass(this.handles,null,"ui-state-active"),this._mouseSliding=!1,this._stop(t,this._handleIndex),this._change(t,this._handleIndex),this._handleIndex=null,this._clickOffset=null,this._animateOff=!1,!1},_detectOrientation:function(){this.orientation="vertical"===this.options.orientation?"vertical":"horizontal"},_normValueFromMouse:function(t){var e,i,s,n,o;return"horizontal"===this.orientation?(e=this.elementSize.width,i=t.x-this.elementOffset.left-(this._clickOffset?this._clickOffset.left:0)):(e=this.elementSize.height,i=t.y-this.elementOffset.top-(this._clickOffset?this._clickOffset.top:0)),s=i/e,s>1&&(s=1),0>s&&(s=0),"vertical"===this.orientation&&(s=1-s),n=this._valueMax()-this._valueMin(),o=this._valueMin()+s*n,this._trimAlignValue(o)},_uiHash:function(t,e,i){var s={handle:this.handles[t],handleIndex:t,value:void 0!==e?e:this.value()};return this._hasMultipleValues()&&(s.value=void 0!==e?e:this.values(t),s.values=i||this.values()),s},_hasMultipleValues:function(){return this.options.values&&this.options.values.length},_start:function(t,e){return this._trigger("start",t,this._uiHash(e))},_slide:function(t,e,i){var s,n,o=this.value(),a=this.values();this._hasMultipleValues()&&(n=this.values(e?0:1),o=this.values(e),2===this.options.values.length&&this.options.range===!0&&(i=0===e?Math.min(n,i):Math.max(n,i)),a[e]=i),i!==o&&(s=this._trigger("slide",t,this._uiHash(e,i,a)),s!==!1&&(this._hasMultipleValues()?this.values(e,i):this.value(i)))},_stop:function(t,e){this._trigger("stop",t,this._uiHash(e))},_change:function(t,e){this._keySliding||this._mouseSliding||(this._lastChangedValue=e,this._trigger("change",t,this._uiHash(e)))},value:function(t){return arguments.length?(this.options.value=this._trimAlignValue(t),this._refreshValue(),this._change(null,0),void 0):this._value()},values:function(e,i){var s,n,o;if(arguments.length>1)return this.options.values[e]=this._trimAlignValue(i),this._refreshValue(),this._change(null,e),void 0;if(!arguments.length)return this._values();if(!t.isArray(arguments[0]))return this._hasMultipleValues()?this._values(e):this.value();for(s=this.options.values,n=arguments[0],o=0;s.length>o;o+=1)s[o]=this._trimAlignValue(n[o]),this._change(null,o);this._refreshValue()},_setOption:function(e,i){var s,n=0;switch("range"===e&&this.options.range===!0&&("min"===i?(this.options.value=this._values(0),this.options.values=null):"max"===i&&(this.options.value=this._values(this.options.values.length-1),this.options.values=null)),t.isArray(this.options.values)&&(n=this.options.values.length),this._super(e,i),e){case"orientation":this._detectOrientation(),this._removeClass("ui-slider-horizontal ui-slider-vertical")._addClass("ui-slider-"+this.orientation),this._refreshValue(),this.options.range&&this._refreshRange(i),this.handles.css("horizontal"===i?"bottom":"left","");break;case"value":this._animateOff=!0,this._refreshValue(),this._change(null,0),this._animateOff=!1;break;case"values":for(this._animateOff=!0,this._refreshValue(),s=n-1;s>=0;s--)this._change(null,s);this._animateOff=!1;break;case"step":case"min":case"max":this._animateOff=!0,this._calculateNewMax(),this._refreshValue(),this._animateOff=!1;break;case"range":this._animateOff=!0,this._refresh(),this._animateOff=!1}},_setOptionDisabled:function(t){this._super(t),this._toggleClass(null,"ui-state-disabled",!!t)},_value:function(){var t=this.options.value;return t=this._trimAlignValue(t)},_values:function(t){var e,i,s;if(arguments.length)return e=this.options.values[t],e=this._trimAlignValue(e);if(this._hasMultipleValues()){for(i=this.options.values.slice(),s=0;i.length>s;s+=1)i[s]=this._trimAlignValue(i[s]);return i}return[]},_trimAlignValue:function(t){if(this._valueMin()>=t)return this._valueMin();if(t>=this._valueMax())return this._valueMax();var e=this.options.step>0?this.options.step:1,i=(t-this._valueMin())%e,s=t-i;return 2*Math.abs(i)>=e&&(s+=i>0?e:-e),parseFloat(s.toFixed(5))},_calculateNewMax:function(){var t=this.options.max,e=this._valueMin(),i=this.options.step,s=Math.round((t-e)/i)*i;t=s+e,t>this.options.max&&(t-=i),this.max=parseFloat(t.toFixed(this._precision()))},_precision:function(){var t=this._precisionOf(this.options.step);return null!==this.options.min&&(t=Math.max(t,this._precisionOf(this.options.min))),t},_precisionOf:function(t){var e=""+t,i=e.indexOf(".");return-1===i?0:e.length-i-1},_valueMin:function(){return this.options.min},_valueMax:function(){return this.max},_refreshRange:function(t){"vertical"===t&&this.range.css({width:"",left:""}),"horizontal"===t&&this.range.css({height:"",bottom:""})},_refreshValue:function(){var e,i,s,n,o,a=this.options.range,r=this.options,h=this,l=this._animateOff?!1:r.animate,c={};this._hasMultipleValues()?this.handles.each(function(s){i=100*((h.values(s)-h._valueMin())/(h._valueMax()-h._valueMin())),c["horizontal"===h.orientation?"left":"bottom"]=i+"%",t(this).stop(1,1)[l?"animate":"css"](c,r.animate),h.options.range===!0&&("horizontal"===h.orientation?(0===s&&h.range.stop(1,1)[l?"animate":"css"]({left:i+"%"},r.animate),1===s&&h.range[l?"animate":"css"]({width:i-e+"%"},{queue:!1,duration:r.animate})):(0===s&&h.range.stop(1,1)[l?"animate":"css"]({bottom:i+"%"},r.animate),1===s&&h.range[l?"animate":"css"]({height:i-e+"%"},{queue:!1,duration:r.animate}))),e=i}):(s=this.value(),n=this._valueMin(),o=this._valueMax(),i=o!==n?100*((s-n)/(o-n)):0,c["horizontal"===this.orientation?"left":"bottom"]=i+"%",this.handle.stop(1,1)[l?"animate":"css"](c,r.animate),"min"===a&&"horizontal"===this.orientation&&this.range.stop(1,1)[l?"animate":"css"]({width:i+"%"},r.animate),"max"===a&&"horizontal"===this.orientation&&this.range.stop(1,1)[l?"animate":"css"]({width:100-i+"%"},r.animate),"min"===a&&"vertical"===this.orientation&&this.range.stop(1,1)[l?"animate":"css"]({height:i+"%"},r.animate),"max"===a&&"vertical"===this.orientation&&this.range.stop(1,1)[l?"animate":"css"]({height:100-i+"%"},r.animate))},_handleEvents:{keydown:function(e){var i,s,n,o,a=t(e.target).data("ui-slider-handle-index");switch(e.keyCode){case t.ui.keyCode.HOME:case t.ui.keyCode.END:case t.ui.keyCode.PAGE_UP:case t.ui.keyCode.PAGE_DOWN:case t.ui.keyCode.UP:case t.ui.keyCode.RIGHT:case t.ui.keyCode.DOWN:case t.ui.keyCode.LEFT:if(e.preventDefault(),!this._keySliding&&(this._keySliding=!0,this._addClass(t(e.target),null,"ui-state-active"),i=this._start(e,a),i===!1))return}switch(o=this.options.step,s=n=this._hasMultipleValues()?this.values(a):this.value(),e.keyCode){case t.ui.keyCode.HOME:n=this._valueMin();break;case t.ui.keyCode.END:n=this._valueMax();break;case t.ui.keyCode.PAGE_UP:n=this._trimAlignValue(s+(this._valueMax()-this._valueMin())/this.numPages);break;case t.ui.keyCode.PAGE_DOWN:n=this._trimAlignValue(s-(this._valueMax()-this._valueMin())/this.numPages);break;case t.ui.keyCode.UP:case t.ui.keyCode.RIGHT:if(s===this._valueMax())return;n=this._trimAlignValue(s+o);break;case t.ui.keyCode.DOWN:case t.ui.keyCode.LEFT:if(s===this._valueMin())return;n=this._trimAlignValue(s-o)}this._slide(e,a,n)},keyup:function(e){var i=t(e.target).data("ui-slider-handle-index");this._keySliding&&(this._keySliding=!1,this._stop(e,i),this._change(e,i),this._removeClass(t(e.target),null,"ui-state-active"))}}}),t.widget("ui.sortable",t.ui.mouse,{version:"1.12.1",widgetEventPrefix:"sort",ready:!1,options:{appendTo:"parent",axis:!1,connectWith:!1,containment:!1,cursor:"auto",cursorAt:!1,dropOnEmpty:!0,forcePlaceholderSize:!1,forceHelperSize:!1,grid:!1,handle:!1,helper:"original",items:"> *",opacity:!1,placeholder:!1,revert:!1,scroll:!0,scrollSensitivity:20,scrollSpeed:20,scope:"default",tolerance:"intersect",zIndex:1e3,activate:null,beforeStop:null,change:null,deactivate:null,out:null,over:null,receive:null,remove:null,sort:null,start:null,stop:null,update:null},_isOverAxis:function(t,e,i){return t>=e&&e+i>t},_isFloating:function(t){return/left|right/.test(t.css("float"))||/inline|table-cell/.test(t.css("display"))},_create:function(){this.containerCache={},this._addClass("ui-sortable"),this.refresh(),this.offset=this.element.offset(),this._mouseInit(),this._setHandleClassName(),this.ready=!0},_setOption:function(t,e){this._super(t,e),"handle"===t&&this._setHandleClassName()},_setHandleClassName:function(){var e=this;this._removeClass(this.element.find(".ui-sortable-handle"),"ui-sortable-handle"),t.each(this.items,function(){e._addClass(this.instance.options.handle?this.item.find(this.instance.options.handle):this.item,"ui-sortable-handle")})},_destroy:function(){this._mouseDestroy();for(var t=this.items.length-1;t>=0;t--)this.items[t].item.removeData(this.widgetName+"-item");return this},_mouseCapture:function(e,i){var s=null,n=!1,o=this;return this.reverting?!1:this.options.disabled||"static"===this.options.type?!1:(this._refreshItems(e),t(e.target).parents().each(function(){return t.data(this,o.widgetName+"-item")===o?(s=t(this),!1):void 0}),t.data(e.target,o.widgetName+"-item")===o&&(s=t(e.target)),s?!this.options.handle||i||(t(this.options.handle,s).find("*").addBack().each(function(){this===e.target&&(n=!0)}),n)?(this.currentItem=s,this._removeCurrentsFromItems(),!0):!1:!1)},_mouseStart:function(e,i,s){var n,o,a=this.options;if(this.currentContainer=this,this.refreshPositions(),this.helper=this._createHelper(e),this._cacheHelperProportions(),this._cacheMargins(),this.scrollParent=this.helper.scrollParent(),this.offset=this.currentItem.offset(),this.offset={top:this.offset.top-this.margins.top,left:this.offset.left-this.margins.left},t.extend(this.offset,{click:{left:e.pageX-this.offset.left,top:e.pageY-this.offset.top},parent:this._getParentOffset(),relative:this._getRelativeOffset()}),this.helper.css("position","absolute"),this.cssPosition=this.helper.css("position"),this.originalPosition=this._generatePosition(e),this.originalPageX=e.pageX,this.originalPageY=e.pageY,a.cursorAt&&this._adjustOffsetFromHelper(a.cursorAt),this.domPosition={prev:this.currentItem.prev()[0],parent:this.currentItem.parent()[0]},this.helper[0]!==this.currentItem[0]&&this.currentItem.hide(),this._createPlaceholder(),a.containment&&this._setContainment(),a.cursor&&"auto"!==a.cursor&&(o=this.document.find("body"),this.storedCursor=o.css("cursor"),o.css("cursor",a.cursor),this.storedStylesheet=t("<style>*{ cursor: "+a.cursor+" !important; }</style>").appendTo(o)),a.opacity&&(this.helper.css("opacity")&&(this._storedOpacity=this.helper.css("opacity")),this.helper.css("opacity",a.opacity)),a.zIndex&&(this.helper.css("zIndex")&&(this._storedZIndex=this.helper.css("zIndex")),this.helper.css("zIndex",a.zIndex)),this.scrollParent[0]!==this.document[0]&&"HTML"!==this.scrollParent[0].tagName&&(this.overflowOffset=this.scrollParent.offset()),this._trigger("start",e,this._uiHash()),this._preserveHelperProportions||this._cacheHelperProportions(),!s)for(n=this.containers.length-1;n>=0;n--)this.containers[n]._trigger("activate",e,this._uiHash(this));return t.ui.ddmanager&&(t.ui.ddmanager.current=this),t.ui.ddmanager&&!a.dropBehaviour&&t.ui.ddmanager.prepareOffsets(this,e),this.dragging=!0,this._addClass(this.helper,"ui-sortable-helper"),this._mouseDrag(e),!0},_mouseDrag:function(e){var i,s,n,o,a=this.options,r=!1;for(this.position=this._generatePosition(e),this.positionAbs=this._convertPositionTo("absolute"),this.lastPositionAbs||(this.lastPositionAbs=this.positionAbs),this.options.scroll&&(this.scrollParent[0]!==this.document[0]&&"HTML"!==this.scrollParent[0].tagName?(this.overflowOffset.top+this.scrollParent[0].offsetHeight-e.pageY<a.scrollSensitivity?this.scrollParent[0].scrollTop=r=this.scrollParent[0].scrollTop+a.scrollSpeed:e.pageY-this.overflowOffset.top<a.scrollSensitivity&&(this.scrollParent[0].scrollTop=r=this.scrollParent[0].scrollTop-a.scrollSpeed),this.overflowOffset.left+this.scrollParent[0].offsetWidth-e.pageX<a.scrollSensitivity?this.scrollParent[0].scrollLeft=r=this.scrollParent[0].scrollLeft+a.scrollSpeed:e.pageX-this.overflowOffset.left<a.scrollSensitivity&&(this.scrollParent[0].scrollLeft=r=this.scrollParent[0].scrollLeft-a.scrollSpeed)):(e.pageY-this.document.scrollTop()<a.scrollSensitivity?r=this.document.scrollTop(this.document.scrollTop()-a.scrollSpeed):this.window.height()-(e.pageY-this.document.scrollTop())<a.scrollSensitivity&&(r=this.document.scrollTop(this.document.scrollTop()+a.scrollSpeed)),e.pageX-this.document.scrollLeft()<a.scrollSensitivity?r=this.document.scrollLeft(this.document.scrollLeft()-a.scrollSpeed):this.window.width()-(e.pageX-this.document.scrollLeft())<a.scrollSensitivity&&(r=this.document.scrollLeft(this.document.scrollLeft()+a.scrollSpeed))),r!==!1&&t.ui.ddmanager&&!a.dropBehaviour&&t.ui.ddmanager.prepareOffsets(this,e)),this.positionAbs=this._convertPositionTo("absolute"),this.options.axis&&"y"===this.options.axis||(this.helper[0].style.left=this.position.left+"px"),this.options.axis&&"x"===this.options.axis||(this.helper[0].style.top=this.position.top+"px"),i=this.items.length-1;i>=0;i--)if(s=this.items[i],n=s.item[0],o=this._intersectsWithPointer(s),o&&s.instance===this.currentContainer&&n!==this.currentItem[0]&&this.placeholder[1===o?"next":"prev"]()[0]!==n&&!t.contains(this.placeholder[0],n)&&("semi-dynamic"===this.options.type?!t.contains(this.element[0],n):!0)){if(this.direction=1===o?"down":"up","pointer"!==this.options.tolerance&&!this._intersectsWithSides(s))break;this._rearrange(e,s),this._trigger("change",e,this._uiHash());break}return this._contactContainers(e),t.ui.ddmanager&&t.ui.ddmanager.drag(this,e),this._trigger("sort",e,this._uiHash()),this.lastPositionAbs=this.positionAbs,!1},_mouseStop:function(e,i){if(e){if(t.ui.ddmanager&&!this.options.dropBehaviour&&t.ui.ddmanager.drop(this,e),this.options.revert){var s=this,n=this.placeholder.offset(),o=this.options.axis,a={};o&&"x"!==o||(a.left=n.left-this.offset.parent.left-this.margins.left+(this.offsetParent[0]===this.document[0].body?0:this.offsetParent[0].scrollLeft)),o&&"y"!==o||(a.top=n.top-this.offset.parent.top-this.margins.top+(this.offsetParent[0]===this.document[0].body?0:this.offsetParent[0].scrollTop)),this.reverting=!0,t(this.helper).animate(a,parseInt(this.options.revert,10)||500,function(){s._clear(e)})}else this._clear(e,i);return!1}},cancel:function(){if(this.dragging){this._mouseUp(new t.Event("mouseup",{target:null})),"original"===this.options.helper?(this.currentItem.css(this._storedCSS),this._removeClass(this.currentItem,"ui-sortable-helper")):this.currentItem.show();for(var e=this.containers.length-1;e>=0;e--)this.containers[e]._trigger("deactivate",null,this._uiHash(this)),this.containers[e].containerCache.over&&(this.containers[e]._trigger("out",null,this._uiHash(this)),this.containers[e].containerCache.over=0)}return this.placeholder&&(this.placeholder[0].parentNode&&this.placeholder[0].parentNode.removeChild(this.placeholder[0]),"original"!==this.options.helper&&this.helper&&this.helper[0].parentNode&&this.helper.remove(),t.extend(this,{helper:null,dragging:!1,reverting:!1,_noFinalSort:null}),this.domPosition.prev?t(this.domPosition.prev).after(this.currentItem):t(this.domPosition.parent).prepend(this.currentItem)),this},serialize:function(e){var i=this._getItemsAsjQuery(e&&e.connected),s=[];return e=e||{},t(i).each(function(){var i=(t(e.item||this).attr(e.attribute||"id")||"").match(e.expression||/(.+)[\-=_](.+)/);i&&s.push((e.key||i[1]+"[]")+"="+(e.key&&e.expression?i[1]:i[2]))}),!s.length&&e.key&&s.push(e.key+"="),s.join("&")},toArray:function(e){var i=this._getItemsAsjQuery(e&&e.connected),s=[];return e=e||{},i.each(function(){s.push(t(e.item||this).attr(e.attribute||"id")||"")}),s},_intersectsWith:function(t){var e=this.positionAbs.left,i=e+this.helperProportions.width,s=this.positionAbs.top,n=s+this.helperProportions.height,o=t.left,a=o+t.width,r=t.top,h=r+t.height,l=this.offset.click.top,c=this.offset.click.left,u="x"===this.options.axis||s+l>r&&h>s+l,d="y"===this.options.axis||e+c>o&&a>e+c,p=u&&d;return"pointer"===this.options.tolerance||this.options.forcePointerForContainers||"pointer"!==this.options.tolerance&&this.helperProportions[this.floating?"width":"height"]>t[this.floating?"width":"height"]?p:e+this.helperProportions.width/2>o&&a>i-this.helperProportions.width/2&&s+this.helperProportions.height/2>r&&h>n-this.helperProportions.height/2},_intersectsWithPointer:function(t){var e,i,s="x"===this.options.axis||this._isOverAxis(this.positionAbs.top+this.offset.click.top,t.top,t.height),n="y"===this.options.axis||this._isOverAxis(this.positionAbs.left+this.offset.click.left,t.left,t.width),o=s&&n;return o?(e=this._getDragVerticalDirection(),i=this._getDragHorizontalDirection(),this.floating?"right"===i||"down"===e?2:1:e&&("down"===e?2:1)):!1},_intersectsWithSides:function(t){var e=this._isOverAxis(this.positionAbs.top+this.offset.click.top,t.top+t.height/2,t.height),i=this._isOverAxis(this.positionAbs.left+this.offset.click.left,t.left+t.width/2,t.width),s=this._getDragVerticalDirection(),n=this._getDragHorizontalDirection();return this.floating&&n?"right"===n&&i||"left"===n&&!i:s&&("down"===s&&e||"up"===s&&!e)},_getDragVerticalDirection:function(){var t=this.positionAbs.top-this.lastPositionAbs.top;return 0!==t&&(t>0?"down":"up")},_getDragHorizontalDirection:function(){var t=this.positionAbs.left-this.lastPositionAbs.left;return 0!==t&&(t>0?"right":"left")},refresh:function(t){return this._refreshItems(t),this._setHandleClassName(),this.refreshPositions(),this},_connectWith:function(){var t=this.options;return t.connectWith.constructor===String?[t.connectWith]:t.connectWith},_getItemsAsjQuery:function(e){function i(){r.push(this)}var s,n,o,a,r=[],h=[],l=this._connectWith();if(l&&e)for(s=l.length-1;s>=0;s--)for(o=t(l[s],this.document[0]),n=o.length-1;n>=0;n--)a=t.data(o[n],this.widgetFullName),a&&a!==this&&!a.options.disabled&&h.push([t.isFunction(a.options.items)?a.options.items.call(a.element):t(a.options.items,a.element).not(".ui-sortable-helper").not(".ui-sortable-placeholder"),a]);for(h.push([t.isFunction(this.options.items)?this.options.items.call(this.element,null,{options:this.options,item:this.currentItem}):t(this.options.items,this.element).not(".ui-sortable-helper").not(".ui-sortable-placeholder"),this]),s=h.length-1;s>=0;s--)h[s][0].each(i);return t(r)},_removeCurrentsFromItems:function(){var e=this.currentItem.find(":data("+this.widgetName+"-item)");this.items=t.grep(this.items,function(t){for(var i=0;e.length>i;i++)if(e[i]===t.item[0])return!1;return!0})},_refreshItems:function(e){this.items=[],this.containers=[this];var i,s,n,o,a,r,h,l,c=this.items,u=[[t.isFunction(this.options.items)?this.options.items.call(this.element[0],e,{item:this.currentItem}):t(this.options.items,this.element),this]],d=this._connectWith();if(d&&this.ready)for(i=d.length-1;i>=0;i--)for(n=t(d[i],this.document[0]),s=n.length-1;s>=0;s--)o=t.data(n[s],this.widgetFullName),o&&o!==this&&!o.options.disabled&&(u.push([t.isFunction(o.options.items)?o.options.items.call(o.element[0],e,{item:this.currentItem}):t(o.options.items,o.element),o]),this.containers.push(o));for(i=u.length-1;i>=0;i--)for(a=u[i][1],r=u[i][0],s=0,l=r.length;l>s;s++)h=t(r[s]),h.data(this.widgetName+"-item",a),c.push({item:h,instance:a,width:0,height:0,left:0,top:0})},refreshPositions:function(e){this.floating=this.items.length?"x"===this.options.axis||this._isFloating(this.items[0].item):!1,this.offsetParent&&this.helper&&(this.offset.parent=this._getParentOffset());var i,s,n,o;for(i=this.items.length-1;i>=0;i--)s=this.items[i],s.instance!==this.currentContainer&&this.currentContainer&&s.item[0]!==this.currentItem[0]||(n=this.options.toleranceElement?t(this.options.toleranceElement,s.item):s.item,e||(s.width=n.outerWidth(),s.height=n.outerHeight()),o=n.offset(),s.left=o.left,s.top=o.top);if(this.options.custom&&this.options.custom.refreshContainers)this.options.custom.refreshContainers.call(this);else for(i=this.containers.length-1;i>=0;i--)o=this.containers[i].element.offset(),this.containers[i].containerCache.left=o.left,this.containers[i].containerCache.top=o.top,this.containers[i].containerCache.width=this.containers[i].element.outerWidth(),this.containers[i].containerCache.height=this.containers[i].element.outerHeight();return this},_createPlaceholder:function(e){e=e||this;var i,s=e.options;s.placeholder&&s.placeholder.constructor!==String||(i=s.placeholder,s.placeholder={element:function(){var s=e.currentItem[0].nodeName.toLowerCase(),n=t("<"+s+">",e.document[0]);return e._addClass(n,"ui-sortable-placeholder",i||e.currentItem[0].className)._removeClass(n,"ui-sortable-helper"),"tbody"===s?e._createTrPlaceholder(e.currentItem.find("tr").eq(0),t("<tr>",e.document[0]).appendTo(n)):"tr"===s?e._createTrPlaceholder(e.currentItem,n):"img"===s&&n.attr("src",e.currentItem.attr("src")),i||n.css("visibility","hidden"),n},update:function(t,n){(!i||s.forcePlaceholderSize)&&(n.height()||n.height(e.currentItem.innerHeight()-parseInt(e.currentItem.css("paddingTop")||0,10)-parseInt(e.currentItem.css("paddingBottom")||0,10)),n.width()||n.width(e.currentItem.innerWidth()-parseInt(e.currentItem.css("paddingLeft")||0,10)-parseInt(e.currentItem.css("paddingRight")||0,10)))}}),e.placeholder=t(s.placeholder.element.call(e.element,e.currentItem)),e.currentItem.after(e.placeholder),s.placeholder.update(e,e.placeholder)},_createTrPlaceholder:function(e,i){var s=this;e.children().each(function(){t("<td>&#160;</td>",s.document[0]).attr("colspan",t(this).attr("colspan")||1).appendTo(i)})},_contactContainers:function(e){var i,s,n,o,a,r,h,l,c,u,d=null,p=null;for(i=this.containers.length-1;i>=0;i--)if(!t.contains(this.currentItem[0],this.containers[i].element[0]))if(this._intersectsWith(this.containers[i].containerCache)){if(d&&t.contains(this.containers[i].element[0],d.element[0]))continue;d=this.containers[i],p=i}else this.containers[i].containerCache.over&&(this.containers[i]._trigger("out",e,this._uiHash(this)),this.containers[i].containerCache.over=0);if(d)if(1===this.containers.length)this.containers[p].containerCache.over||(this.containers[p]._trigger("over",e,this._uiHash(this)),this.containers[p].containerCache.over=1);else{for(n=1e4,o=null,c=d.floating||this._isFloating(this.currentItem),a=c?"left":"top",r=c?"width":"height",u=c?"pageX":"pageY",s=this.items.length-1;s>=0;s--)t.contains(this.containers[p].element[0],this.items[s].item[0])&&this.items[s].item[0]!==this.currentItem[0]&&(h=this.items[s].item.offset()[a],l=!1,e[u]-h>this.items[s][r]/2&&(l=!0),n>Math.abs(e[u]-h)&&(n=Math.abs(e[u]-h),o=this.items[s],this.direction=l?"up":"down"));if(!o&&!this.options.dropOnEmpty)return;if(this.currentContainer===this.containers[p])return this.currentContainer.containerCache.over||(this.containers[p]._trigger("over",e,this._uiHash()),this.currentContainer.containerCache.over=1),void 0;o?this._rearrange(e,o,null,!0):this._rearrange(e,null,this.containers[p].element,!0),this._trigger("change",e,this._uiHash()),this.containers[p]._trigger("change",e,this._uiHash(this)),this.currentContainer=this.containers[p],this.options.placeholder.update(this.currentContainer,this.placeholder),this.containers[p]._trigger("over",e,this._uiHash(this)),this.containers[p].containerCache.over=1}},_createHelper:function(e){var i=this.options,s=t.isFunction(i.helper)?t(i.helper.apply(this.element[0],[e,this.currentItem])):"clone"===i.helper?this.currentItem.clone():this.currentItem;return s.parents("body").length||t("parent"!==i.appendTo?i.appendTo:this.currentItem[0].parentNode)[0].appendChild(s[0]),s[0]===this.currentItem[0]&&(this._storedCSS={width:this.currentItem[0].style.width,height:this.currentItem[0].style.height,position:this.currentItem.css("position"),top:this.currentItem.css("top"),left:this.currentItem.css("left")}),(!s[0].style.width||i.forceHelperSize)&&s.width(this.currentItem.width()),(!s[0].style.height||i.forceHelperSize)&&s.height(this.currentItem.height()),s},_adjustOffsetFromHelper:function(e){"string"==typeof e&&(e=e.split(" ")),t.isArray(e)&&(e={left:+e[0],top:+e[1]||0}),"left"in e&&(this.offset.click.left=e.left+this.margins.left),"right"in e&&(this.offset.click.left=this.helperProportions.width-e.right+this.margins.left),"top"in e&&(this.offset.click.top=e.top+this.margins.top),"bottom"in e&&(this.offset.click.top=this.helperProportions.height-e.bottom+this.margins.top)},_getParentOffset:function(){this.offsetParent=this.helper.offsetParent();var e=this.offsetParent.offset();return"absolute"===this.cssPosition&&this.scrollParent[0]!==this.document[0]&&t.contains(this.scrollParent[0],this.offsetParent[0])&&(e.left+=this.scrollParent.scrollLeft(),e.top+=this.scrollParent.scrollTop()),(this.offsetParent[0]===this.document[0].body||this.offsetParent[0].tagName&&"html"===this.offsetParent[0].tagName.toLowerCase()&&t.ui.ie)&&(e={top:0,left:0}),{top:e.top+(parseInt(this.offsetParent.css("borderTopWidth"),10)||0),left:e.left+(parseInt(this.offsetParent.css("borderLeftWidth"),10)||0)}},_getRelativeOffset:function(){if("relative"===this.cssPosition){var t=this.currentItem.position();return{top:t.top-(parseInt(this.helper.css("top"),10)||0)+this.scrollParent.scrollTop(),left:t.left-(parseInt(this.helper.css("left"),10)||0)+this.scrollParent.scrollLeft()}}return{top:0,left:0}},_cacheMargins:function(){this.margins={left:parseInt(this.currentItem.css("marginLeft"),10)||0,top:parseInt(this.currentItem.css("marginTop"),10)||0}},_cacheHelperProportions:function(){this.helperProportions={width:this.helper.outerWidth(),height:this.helper.outerHeight()}},_setContainment:function(){var e,i,s,n=this.options;"parent"===n.containment&&(n.containment=this.helper[0].parentNode),("document"===n.containment||"window"===n.containment)&&(this.containment=[0-this.offset.relative.left-this.offset.parent.left,0-this.offset.relative.top-this.offset.parent.top,"document"===n.containment?this.document.width():this.window.width()-this.helperProportions.width-this.margins.left,("document"===n.containment?this.document.height()||document.body.parentNode.scrollHeight:this.window.height()||this.document[0].body.parentNode.scrollHeight)-this.helperProportions.height-this.margins.top]),/^(document|window|parent)$/.test(n.containment)||(e=t(n.containment)[0],i=t(n.containment).offset(),s="hidden"!==t(e).css("overflow"),this.containment=[i.left+(parseInt(t(e).css("borderLeftWidth"),10)||0)+(parseInt(t(e).css("paddingLeft"),10)||0)-this.margins.left,i.top+(parseInt(t(e).css("borderTopWidth"),10)||0)+(parseInt(t(e).css("paddingTop"),10)||0)-this.margins.top,i.left+(s?Math.max(e.scrollWidth,e.offsetWidth):e.offsetWidth)-(parseInt(t(e).css("borderLeftWidth"),10)||0)-(parseInt(t(e).css("paddingRight"),10)||0)-this.helperProportions.width-this.margins.left,i.top+(s?Math.max(e.scrollHeight,e.offsetHeight):e.offsetHeight)-(parseInt(t(e).css("borderTopWidth"),10)||0)-(parseInt(t(e).css("paddingBottom"),10)||0)-this.helperProportions.height-this.margins.top])},_convertPositionTo:function(e,i){i||(i=this.position);var s="absolute"===e?1:-1,n="absolute"!==this.cssPosition||this.scrollParent[0]!==this.document[0]&&t.contains(this.scrollParent[0],this.offsetParent[0])?this.scrollParent:this.offsetParent,o=/(html|body)/i.test(n[0].tagName);return{top:i.top+this.offset.relative.top*s+this.offset.parent.top*s-("fixed"===this.cssPosition?-this.scrollParent.scrollTop():o?0:n.scrollTop())*s,left:i.left+this.offset.relative.left*s+this.offset.parent.left*s-("fixed"===this.cssPosition?-this.scrollParent.scrollLeft():o?0:n.scrollLeft())*s}},_generatePosition:function(e){var i,s,n=this.options,o=e.pageX,a=e.pageY,r="absolute"!==this.cssPosition||this.scrollParent[0]!==this.document[0]&&t.contains(this.scrollParent[0],this.offsetParent[0])?this.scrollParent:this.offsetParent,h=/(html|body)/i.test(r[0].tagName);return"relative"!==this.cssPosition||this.scrollParent[0]!==this.document[0]&&this.scrollParent[0]!==this.offsetParent[0]||(this.offset.relative=this._getRelativeOffset()),this.originalPosition&&(this.containment&&(e.pageX-this.offset.click.left<this.containment[0]&&(o=this.containment[0]+this.offset.click.left),e.pageY-this.offset.click.top<this.containment[1]&&(a=this.containment[1]+this.offset.click.top),e.pageX-this.offset.click.left>this.containment[2]&&(o=this.containment[2]+this.offset.click.left),e.pageY-this.offset.click.top>this.containment[3]&&(a=this.containment[3]+this.offset.click.top)),n.grid&&(i=this.originalPageY+Math.round((a-this.originalPageY)/n.grid[1])*n.grid[1],a=this.containment?i-this.offset.click.top>=this.containment[1]&&i-this.offset.click.top<=this.containment[3]?i:i-this.offset.click.top>=this.containment[1]?i-n.grid[1]:i+n.grid[1]:i,s=this.originalPageX+Math.round((o-this.originalPageX)/n.grid[0])*n.grid[0],o=this.containment?s-this.offset.click.left>=this.containment[0]&&s-this.offset.click.left<=this.containment[2]?s:s-this.offset.click.left>=this.containment[0]?s-n.grid[0]:s+n.grid[0]:s)),{top:a-this.offset.click.top-this.offset.relative.top-this.offset.parent.top+("fixed"===this.cssPosition?-this.scrollParent.scrollTop():h?0:r.scrollTop()),left:o-this.offset.click.left-this.offset.relative.left-this.offset.parent.left+("fixed"===this.cssPosition?-this.scrollParent.scrollLeft():h?0:r.scrollLeft())}},_rearrange:function(t,e,i,s){i?i[0].appendChild(this.placeholder[0]):e.item[0].parentNode.insertBefore(this.placeholder[0],"down"===this.direction?e.item[0]:e.item[0].nextSibling),this.counter=this.counter?++this.counter:1;var n=this.counter;
 this._delay(function(){n===this.counter&&this.refreshPositions(!s)})},_clear:function(t,e){function i(t,e,i){return function(s){i._trigger(t,s,e._uiHash(e))}}this.reverting=!1;var s,n=[];if(!this._noFinalSort&&this.currentItem.parent().length&&this.placeholder.before(this.currentItem),this._noFinalSort=null,this.helper[0]===this.currentItem[0]){for(s in this._storedCSS)("auto"===this._storedCSS[s]||"static"===this._storedCSS[s])&&(this._storedCSS[s]="");this.currentItem.css(this._storedCSS),this._removeClass(this.currentItem,"ui-sortable-helper")}else this.currentItem.show();for(this.fromOutside&&!e&&n.push(function(t){this._trigger("receive",t,this._uiHash(this.fromOutside))}),!this.fromOutside&&this.domPosition.prev===this.currentItem.prev().not(".ui-sortable-helper")[0]&&this.domPosition.parent===this.currentItem.parent()[0]||e||n.push(function(t){this._trigger("update",t,this._uiHash())}),this!==this.currentContainer&&(e||(n.push(function(t){this._trigger("remove",t,this._uiHash())}),n.push(function(t){return function(e){t._trigger("receive",e,this._uiHash(this))}}.call(this,this.currentContainer)),n.push(function(t){return function(e){t._trigger("update",e,this._uiHash(this))}}.call(this,this.currentContainer)))),s=this.containers.length-1;s>=0;s--)e||n.push(i("deactivate",this,this.containers[s])),this.containers[s].containerCache.over&&(n.push(i("out",this,this.containers[s])),this.containers[s].containerCache.over=0);if(this.storedCursor&&(this.document.find("body").css("cursor",this.storedCursor),this.storedStylesheet.remove()),this._storedOpacity&&this.helper.css("opacity",this._storedOpacity),this._storedZIndex&&this.helper.css("zIndex","auto"===this._storedZIndex?"":this._storedZIndex),this.dragging=!1,e||this._trigger("beforeStop",t,this._uiHash()),this.placeholder[0].parentNode.removeChild(this.placeholder[0]),this.cancelHelperRemoval||(this.helper[0]!==this.currentItem[0]&&this.helper.remove(),this.helper=null),!e){for(s=0;n.length>s;s++)n[s].call(this,t);this._trigger("stop",t,this._uiHash())}return this.fromOutside=!1,!this.cancelHelperRemoval},_trigger:function(){t.Widget.prototype._trigger.apply(this,arguments)===!1&&this.cancel()},_uiHash:function(e){var i=e||this;return{helper:i.helper,placeholder:i.placeholder||t([]),position:i.position,originalPosition:i.originalPosition,offset:i.positionAbs,item:i.currentItem,sender:e?e.element:null}}}),t.widget("ui.spinner",{version:"1.12.1",defaultElement:"<input>",widgetEventPrefix:"spin",options:{classes:{"ui-spinner":"ui-corner-all","ui-spinner-down":"ui-corner-br","ui-spinner-up":"ui-corner-tr"},culture:null,icons:{down:"ui-icon-triangle-1-s",up:"ui-icon-triangle-1-n"},incremental:!0,max:null,min:null,numberFormat:null,page:10,step:1,change:null,spin:null,start:null,stop:null},_create:function(){this._setOption("max",this.options.max),this._setOption("min",this.options.min),this._setOption("step",this.options.step),""!==this.value()&&this._value(this.element.val(),!0),this._draw(),this._on(this._events),this._refresh(),this._on(this.window,{beforeunload:function(){this.element.removeAttr("autocomplete")}})},_getCreateOptions:function(){var e=this._super(),i=this.element;return t.each(["min","max","step"],function(t,s){var n=i.attr(s);null!=n&&n.length&&(e[s]=n)}),e},_events:{keydown:function(t){this._start(t)&&this._keydown(t)&&t.preventDefault()},keyup:"_stop",focus:function(){this.previous=this.element.val()},blur:function(t){return this.cancelBlur?(delete this.cancelBlur,void 0):(this._stop(),this._refresh(),this.previous!==this.element.val()&&this._trigger("change",t),void 0)},mousewheel:function(t,e){if(e){if(!this.spinning&&!this._start(t))return!1;this._spin((e>0?1:-1)*this.options.step,t),clearTimeout(this.mousewheelTimer),this.mousewheelTimer=this._delay(function(){this.spinning&&this._stop(t)},100),t.preventDefault()}},"mousedown .ui-spinner-button":function(e){function i(){var e=this.element[0]===t.ui.safeActiveElement(this.document[0]);e||(this.element.trigger("focus"),this.previous=s,this._delay(function(){this.previous=s}))}var s;s=this.element[0]===t.ui.safeActiveElement(this.document[0])?this.previous:this.element.val(),e.preventDefault(),i.call(this),this.cancelBlur=!0,this._delay(function(){delete this.cancelBlur,i.call(this)}),this._start(e)!==!1&&this._repeat(null,t(e.currentTarget).hasClass("ui-spinner-up")?1:-1,e)},"mouseup .ui-spinner-button":"_stop","mouseenter .ui-spinner-button":function(e){return t(e.currentTarget).hasClass("ui-state-active")?this._start(e)===!1?!1:(this._repeat(null,t(e.currentTarget).hasClass("ui-spinner-up")?1:-1,e),void 0):void 0},"mouseleave .ui-spinner-button":"_stop"},_enhance:function(){this.uiSpinner=this.element.attr("autocomplete","off").wrap("<span>").parent().append("<a></a><a></a>")},_draw:function(){this._enhance(),this._addClass(this.uiSpinner,"ui-spinner","ui-widget ui-widget-content"),this._addClass("ui-spinner-input"),this.element.attr("role","spinbutton"),this.buttons=this.uiSpinner.children("a").attr("tabIndex",-1).attr("aria-hidden",!0).button({classes:{"ui-button":""}}),this._removeClass(this.buttons,"ui-corner-all"),this._addClass(this.buttons.first(),"ui-spinner-button ui-spinner-up"),this._addClass(this.buttons.last(),"ui-spinner-button ui-spinner-down"),this.buttons.first().button({icon:this.options.icons.up,showLabel:!1}),this.buttons.last().button({icon:this.options.icons.down,showLabel:!1}),this.buttons.height()>Math.ceil(.5*this.uiSpinner.height())&&this.uiSpinner.height()>0&&this.uiSpinner.height(this.uiSpinner.height())},_keydown:function(e){var i=this.options,s=t.ui.keyCode;switch(e.keyCode){case s.UP:return this._repeat(null,1,e),!0;case s.DOWN:return this._repeat(null,-1,e),!0;case s.PAGE_UP:return this._repeat(null,i.page,e),!0;case s.PAGE_DOWN:return this._repeat(null,-i.page,e),!0}return!1},_start:function(t){return this.spinning||this._trigger("start",t)!==!1?(this.counter||(this.counter=1),this.spinning=!0,!0):!1},_repeat:function(t,e,i){t=t||500,clearTimeout(this.timer),this.timer=this._delay(function(){this._repeat(40,e,i)},t),this._spin(e*this.options.step,i)},_spin:function(t,e){var i=this.value()||0;this.counter||(this.counter=1),i=this._adjustValue(i+t*this._increment(this.counter)),this.spinning&&this._trigger("spin",e,{value:i})===!1||(this._value(i),this.counter++)},_increment:function(e){var i=this.options.incremental;return i?t.isFunction(i)?i(e):Math.floor(e*e*e/5e4-e*e/500+17*e/200+1):1},_precision:function(){var t=this._precisionOf(this.options.step);return null!==this.options.min&&(t=Math.max(t,this._precisionOf(this.options.min))),t},_precisionOf:function(t){var e=""+t,i=e.indexOf(".");return-1===i?0:e.length-i-1},_adjustValue:function(t){var e,i,s=this.options;return e=null!==s.min?s.min:0,i=t-e,i=Math.round(i/s.step)*s.step,t=e+i,t=parseFloat(t.toFixed(this._precision())),null!==s.max&&t>s.max?s.max:null!==s.min&&s.min>t?s.min:t},_stop:function(t){this.spinning&&(clearTimeout(this.timer),clearTimeout(this.mousewheelTimer),this.counter=0,this.spinning=!1,this._trigger("stop",t))},_setOption:function(t,e){var i,s,n;return"culture"===t||"numberFormat"===t?(i=this._parse(this.element.val()),this.options[t]=e,this.element.val(this._format(i)),void 0):(("max"===t||"min"===t||"step"===t)&&"string"==typeof e&&(e=this._parse(e)),"icons"===t&&(s=this.buttons.first().find(".ui-icon"),this._removeClass(s,null,this.options.icons.up),this._addClass(s,null,e.up),n=this.buttons.last().find(".ui-icon"),this._removeClass(n,null,this.options.icons.down),this._addClass(n,null,e.down)),this._super(t,e),void 0)},_setOptionDisabled:function(t){this._super(t),this._toggleClass(this.uiSpinner,null,"ui-state-disabled",!!t),this.element.prop("disabled",!!t),this.buttons.button(t?"disable":"enable")},_setOptions:r(function(t){this._super(t)}),_parse:function(t){return"string"==typeof t&&""!==t&&(t=window.Globalize&&this.options.numberFormat?Globalize.parseFloat(t,10,this.options.culture):+t),""===t||isNaN(t)?null:t},_format:function(t){return""===t?"":window.Globalize&&this.options.numberFormat?Globalize.format(t,this.options.numberFormat,this.options.culture):t},_refresh:function(){this.element.attr({"aria-valuemin":this.options.min,"aria-valuemax":this.options.max,"aria-valuenow":this._parse(this.element.val())})},isValid:function(){var t=this.value();return null===t?!1:t===this._adjustValue(t)},_value:function(t,e){var i;""!==t&&(i=this._parse(t),null!==i&&(e||(i=this._adjustValue(i)),t=this._format(i))),this.element.val(t),this._refresh()},_destroy:function(){this.element.prop("disabled",!1).removeAttr("autocomplete role aria-valuemin aria-valuemax aria-valuenow"),this.uiSpinner.replaceWith(this.element)},stepUp:r(function(t){this._stepUp(t)}),_stepUp:function(t){this._start()&&(this._spin((t||1)*this.options.step),this._stop())},stepDown:r(function(t){this._stepDown(t)}),_stepDown:function(t){this._start()&&(this._spin((t||1)*-this.options.step),this._stop())},pageUp:r(function(t){this._stepUp((t||1)*this.options.page)}),pageDown:r(function(t){this._stepDown((t||1)*this.options.page)}),value:function(t){return arguments.length?(r(this._value).call(this,t),void 0):this._parse(this.element.val())},widget:function(){return this.uiSpinner}}),t.uiBackCompat!==!1&&t.widget("ui.spinner",t.ui.spinner,{_enhance:function(){this.uiSpinner=this.element.attr("autocomplete","off").wrap(this._uiSpinnerHtml()).parent().append(this._buttonHtml())},_uiSpinnerHtml:function(){return"<span>"},_buttonHtml:function(){return"<a></a><a></a>"}}),t.ui.spinner,t.widget("ui.tabs",{version:"1.12.1",delay:300,options:{active:null,classes:{"ui-tabs":"ui-corner-all","ui-tabs-nav":"ui-corner-all","ui-tabs-panel":"ui-corner-bottom","ui-tabs-tab":"ui-corner-top"},collapsible:!1,event:"click",heightStyle:"content",hide:null,show:null,activate:null,beforeActivate:null,beforeLoad:null,load:null},_isLocal:function(){var t=/#.*$/;return function(e){var i,s;i=e.href.replace(t,""),s=location.href.replace(t,"");try{i=decodeURIComponent(i)}catch(n){}try{s=decodeURIComponent(s)}catch(n){}return e.hash.length>1&&i===s}}(),_create:function(){var e=this,i=this.options;this.running=!1,this._addClass("ui-tabs","ui-widget ui-widget-content"),this._toggleClass("ui-tabs-collapsible",null,i.collapsible),this._processTabs(),i.active=this._initialActive(),t.isArray(i.disabled)&&(i.disabled=t.unique(i.disabled.concat(t.map(this.tabs.filter(".ui-state-disabled"),function(t){return e.tabs.index(t)}))).sort()),this.active=this.options.active!==!1&&this.anchors.length?this._findActive(i.active):t(),this._refresh(),this.active.length&&this.load(i.active)},_initialActive:function(){var e=this.options.active,i=this.options.collapsible,s=location.hash.substring(1);return null===e&&(s&&this.tabs.each(function(i,n){return t(n).attr("aria-controls")===s?(e=i,!1):void 0}),null===e&&(e=this.tabs.index(this.tabs.filter(".ui-tabs-active"))),(null===e||-1===e)&&(e=this.tabs.length?0:!1)),e!==!1&&(e=this.tabs.index(this.tabs.eq(e)),-1===e&&(e=i?!1:0)),!i&&e===!1&&this.anchors.length&&(e=0),e},_getCreateEventData:function(){return{tab:this.active,panel:this.active.length?this._getPanelForTab(this.active):t()}},_tabKeydown:function(e){var i=t(t.ui.safeActiveElement(this.document[0])).closest("li"),s=this.tabs.index(i),n=!0;if(!this._handlePageNav(e)){switch(e.keyCode){case t.ui.keyCode.RIGHT:case t.ui.keyCode.DOWN:s++;break;case t.ui.keyCode.UP:case t.ui.keyCode.LEFT:n=!1,s--;break;case t.ui.keyCode.END:s=this.anchors.length-1;break;case t.ui.keyCode.HOME:s=0;break;case t.ui.keyCode.SPACE:return e.preventDefault(),clearTimeout(this.activating),this._activate(s),void 0;case t.ui.keyCode.ENTER:return e.preventDefault(),clearTimeout(this.activating),this._activate(s===this.options.active?!1:s),void 0;default:return}e.preventDefault(),clearTimeout(this.activating),s=this._focusNextTab(s,n),e.ctrlKey||e.metaKey||(i.attr("aria-selected","false"),this.tabs.eq(s).attr("aria-selected","true"),this.activating=this._delay(function(){this.option("active",s)},this.delay))}},_panelKeydown:function(e){this._handlePageNav(e)||e.ctrlKey&&e.keyCode===t.ui.keyCode.UP&&(e.preventDefault(),this.active.trigger("focus"))},_handlePageNav:function(e){return e.altKey&&e.keyCode===t.ui.keyCode.PAGE_UP?(this._activate(this._focusNextTab(this.options.active-1,!1)),!0):e.altKey&&e.keyCode===t.ui.keyCode.PAGE_DOWN?(this._activate(this._focusNextTab(this.options.active+1,!0)),!0):void 0},_findNextTab:function(e,i){function s(){return e>n&&(e=0),0>e&&(e=n),e}for(var n=this.tabs.length-1;-1!==t.inArray(s(),this.options.disabled);)e=i?e+1:e-1;return e},_focusNextTab:function(t,e){return t=this._findNextTab(t,e),this.tabs.eq(t).trigger("focus"),t},_setOption:function(t,e){return"active"===t?(this._activate(e),void 0):(this._super(t,e),"collapsible"===t&&(this._toggleClass("ui-tabs-collapsible",null,e),e||this.options.active!==!1||this._activate(0)),"event"===t&&this._setupEvents(e),"heightStyle"===t&&this._setupHeightStyle(e),void 0)},_sanitizeSelector:function(t){return t?t.replace(/[!"$%&'()*+,.\/:;<=>?@\[\]\^`{|}~]/g,"\\$&"):""},refresh:function(){var e=this.options,i=this.tablist.children(":has(a[href])");e.disabled=t.map(i.filter(".ui-state-disabled"),function(t){return i.index(t)}),this._processTabs(),e.active!==!1&&this.anchors.length?this.active.length&&!t.contains(this.tablist[0],this.active[0])?this.tabs.length===e.disabled.length?(e.active=!1,this.active=t()):this._activate(this._findNextTab(Math.max(0,e.active-1),!1)):e.active=this.tabs.index(this.active):(e.active=!1,this.active=t()),this._refresh()},_refresh:function(){this._setOptionDisabled(this.options.disabled),this._setupEvents(this.options.event),this._setupHeightStyle(this.options.heightStyle),this.tabs.not(this.active).attr({"aria-selected":"false","aria-expanded":"false",tabIndex:-1}),this.panels.not(this._getPanelForTab(this.active)).hide().attr({"aria-hidden":"true"}),this.active.length?(this.active.attr({"aria-selected":"true","aria-expanded":"true",tabIndex:0}),this._addClass(this.active,"ui-tabs-active","ui-state-active"),this._getPanelForTab(this.active).show().attr({"aria-hidden":"false"})):this.tabs.eq(0).attr("tabIndex",0)},_processTabs:function(){var e=this,i=this.tabs,s=this.anchors,n=this.panels;this.tablist=this._getList().attr("role","tablist"),this._addClass(this.tablist,"ui-tabs-nav","ui-helper-reset ui-helper-clearfix ui-widget-header"),this.tablist.on("mousedown"+this.eventNamespace,"> li",function(e){t(this).is(".ui-state-disabled")&&e.preventDefault()}).on("focus"+this.eventNamespace,".ui-tabs-anchor",function(){t(this).closest("li").is(".ui-state-disabled")&&this.blur()}),this.tabs=this.tablist.find("> li:has(a[href])").attr({role:"tab",tabIndex:-1}),this._addClass(this.tabs,"ui-tabs-tab","ui-state-default"),this.anchors=this.tabs.map(function(){return t("a",this)[0]}).attr({role:"presentation",tabIndex:-1}),this._addClass(this.anchors,"ui-tabs-anchor"),this.panels=t(),this.anchors.each(function(i,s){var n,o,a,r=t(s).uniqueId().attr("id"),h=t(s).closest("li"),l=h.attr("aria-controls");e._isLocal(s)?(n=s.hash,a=n.substring(1),o=e.element.find(e._sanitizeSelector(n))):(a=h.attr("aria-controls")||t({}).uniqueId()[0].id,n="#"+a,o=e.element.find(n),o.length||(o=e._createPanel(a),o.insertAfter(e.panels[i-1]||e.tablist)),o.attr("aria-live","polite")),o.length&&(e.panels=e.panels.add(o)),l&&h.data("ui-tabs-aria-controls",l),h.attr({"aria-controls":a,"aria-labelledby":r}),o.attr("aria-labelledby",r)}),this.panels.attr("role","tabpanel"),this._addClass(this.panels,"ui-tabs-panel","ui-widget-content"),i&&(this._off(i.not(this.tabs)),this._off(s.not(this.anchors)),this._off(n.not(this.panels)))},_getList:function(){return this.tablist||this.element.find("ol, ul").eq(0)},_createPanel:function(e){return t("<div>").attr("id",e).data("ui-tabs-destroy",!0)},_setOptionDisabled:function(e){var i,s,n;for(t.isArray(e)&&(e.length?e.length===this.anchors.length&&(e=!0):e=!1),n=0;s=this.tabs[n];n++)i=t(s),e===!0||-1!==t.inArray(n,e)?(i.attr("aria-disabled","true"),this._addClass(i,null,"ui-state-disabled")):(i.removeAttr("aria-disabled"),this._removeClass(i,null,"ui-state-disabled"));this.options.disabled=e,this._toggleClass(this.widget(),this.widgetFullName+"-disabled",null,e===!0)},_setupEvents:function(e){var i={};e&&t.each(e.split(" "),function(t,e){i[e]="_eventHandler"}),this._off(this.anchors.add(this.tabs).add(this.panels)),this._on(!0,this.anchors,{click:function(t){t.preventDefault()}}),this._on(this.anchors,i),this._on(this.tabs,{keydown:"_tabKeydown"}),this._on(this.panels,{keydown:"_panelKeydown"}),this._focusable(this.tabs),this._hoverable(this.tabs)},_setupHeightStyle:function(e){var i,s=this.element.parent();"fill"===e?(i=s.height(),i-=this.element.outerHeight()-this.element.height(),this.element.siblings(":visible").each(function(){var e=t(this),s=e.css("position");"absolute"!==s&&"fixed"!==s&&(i-=e.outerHeight(!0))}),this.element.children().not(this.panels).each(function(){i-=t(this).outerHeight(!0)}),this.panels.each(function(){t(this).height(Math.max(0,i-t(this).innerHeight()+t(this).height()))}).css("overflow","auto")):"auto"===e&&(i=0,this.panels.each(function(){i=Math.max(i,t(this).height("").height())}).height(i))},_eventHandler:function(e){var i=this.options,s=this.active,n=t(e.currentTarget),o=n.closest("li"),a=o[0]===s[0],r=a&&i.collapsible,h=r?t():this._getPanelForTab(o),l=s.length?this._getPanelForTab(s):t(),c={oldTab:s,oldPanel:l,newTab:r?t():o,newPanel:h};e.preventDefault(),o.hasClass("ui-state-disabled")||o.hasClass("ui-tabs-loading")||this.running||a&&!i.collapsible||this._trigger("beforeActivate",e,c)===!1||(i.active=r?!1:this.tabs.index(o),this.active=a?t():o,this.xhr&&this.xhr.abort(),l.length||h.length||t.error("jQuery UI Tabs: Mismatching fragment identifier."),h.length&&this.load(this.tabs.index(o),e),this._toggle(e,c))},_toggle:function(e,i){function s(){o.running=!1,o._trigger("activate",e,i)}function n(){o._addClass(i.newTab.closest("li"),"ui-tabs-active","ui-state-active"),a.length&&o.options.show?o._show(a,o.options.show,s):(a.show(),s())}var o=this,a=i.newPanel,r=i.oldPanel;this.running=!0,r.length&&this.options.hide?this._hide(r,this.options.hide,function(){o._removeClass(i.oldTab.closest("li"),"ui-tabs-active","ui-state-active"),n()}):(this._removeClass(i.oldTab.closest("li"),"ui-tabs-active","ui-state-active"),r.hide(),n()),r.attr("aria-hidden","true"),i.oldTab.attr({"aria-selected":"false","aria-expanded":"false"}),a.length&&r.length?i.oldTab.attr("tabIndex",-1):a.length&&this.tabs.filter(function(){return 0===t(this).attr("tabIndex")}).attr("tabIndex",-1),a.attr("aria-hidden","false"),i.newTab.attr({"aria-selected":"true","aria-expanded":"true",tabIndex:0})},_activate:function(e){var i,s=this._findActive(e);s[0]!==this.active[0]&&(s.length||(s=this.active),i=s.find(".ui-tabs-anchor")[0],this._eventHandler({target:i,currentTarget:i,preventDefault:t.noop}))},_findActive:function(e){return e===!1?t():this.tabs.eq(e)},_getIndex:function(e){return"string"==typeof e&&(e=this.anchors.index(this.anchors.filter("[href$='"+t.ui.escapeSelector(e)+"']"))),e},_destroy:function(){this.xhr&&this.xhr.abort(),this.tablist.removeAttr("role").off(this.eventNamespace),this.anchors.removeAttr("role tabIndex").removeUniqueId(),this.tabs.add(this.panels).each(function(){t.data(this,"ui-tabs-destroy")?t(this).remove():t(this).removeAttr("role tabIndex aria-live aria-busy aria-selected aria-labelledby aria-hidden aria-expanded")}),this.tabs.each(function(){var e=t(this),i=e.data("ui-tabs-aria-controls");i?e.attr("aria-controls",i).removeData("ui-tabs-aria-controls"):e.removeAttr("aria-controls")}),this.panels.show(),"content"!==this.options.heightStyle&&this.panels.css("height","")},enable:function(e){var i=this.options.disabled;i!==!1&&(void 0===e?i=!1:(e=this._getIndex(e),i=t.isArray(i)?t.map(i,function(t){return t!==e?t:null}):t.map(this.tabs,function(t,i){return i!==e?i:null})),this._setOptionDisabled(i))},disable:function(e){var i=this.options.disabled;if(i!==!0){if(void 0===e)i=!0;else{if(e=this._getIndex(e),-1!==t.inArray(e,i))return;i=t.isArray(i)?t.merge([e],i).sort():[e]}this._setOptionDisabled(i)}},load:function(e,i){e=this._getIndex(e);var s=this,n=this.tabs.eq(e),o=n.find(".ui-tabs-anchor"),a=this._getPanelForTab(n),r={tab:n,panel:a},h=function(t,e){"abort"===e&&s.panels.stop(!1,!0),s._removeClass(n,"ui-tabs-loading"),a.removeAttr("aria-busy"),t===s.xhr&&delete s.xhr};this._isLocal(o[0])||(this.xhr=t.ajax(this._ajaxSettings(o,i,r)),this.xhr&&"canceled"!==this.xhr.statusText&&(this._addClass(n,"ui-tabs-loading"),a.attr("aria-busy","true"),this.xhr.done(function(t,e,n){setTimeout(function(){a.html(t),s._trigger("load",i,r),h(n,e)},1)}).fail(function(t,e){setTimeout(function(){h(t,e)},1)})))},_ajaxSettings:function(e,i,s){var n=this;return{url:e.attr("href").replace(/#.*$/,""),beforeSend:function(e,o){return n._trigger("beforeLoad",i,t.extend({jqXHR:e,ajaxSettings:o},s))}}},_getPanelForTab:function(e){var i=t(e).attr("aria-controls");return this.element.find(this._sanitizeSelector("#"+i))}}),t.uiBackCompat!==!1&&t.widget("ui.tabs",t.ui.tabs,{_processTabs:function(){this._superApply(arguments),this._addClass(this.tabs,"ui-tab")}}),t.ui.tabs,t.widget("ui.tooltip",{version:"1.12.1",options:{classes:{"ui-tooltip":"ui-corner-all ui-widget-shadow"},content:function(){var e=t(this).attr("title")||"";return t("<a>").text(e).html()},hide:!0,items:"[title]:not([disabled])",position:{my:"left top+15",at:"left bottom",collision:"flipfit flip"},show:!0,track:!1,close:null,open:null},_addDescribedBy:function(e,i){var s=(e.attr("aria-describedby")||"").split(/\s+/);s.push(i),e.data("ui-tooltip-id",i).attr("aria-describedby",t.trim(s.join(" ")))},_removeDescribedBy:function(e){var i=e.data("ui-tooltip-id"),s=(e.attr("aria-describedby")||"").split(/\s+/),n=t.inArray(i,s);-1!==n&&s.splice(n,1),e.removeData("ui-tooltip-id"),s=t.trim(s.join(" ")),s?e.attr("aria-describedby",s):e.removeAttr("aria-describedby")},_create:function(){this._on({mouseover:"open",focusin:"open"}),this.tooltips={},this.parents={},this.liveRegion=t("<div>").attr({role:"log","aria-live":"assertive","aria-relevant":"additions"}).appendTo(this.document[0].body),this._addClass(this.liveRegion,null,"ui-helper-hidden-accessible"),this.disabledTitles=t([])},_setOption:function(e,i){var s=this;this._super(e,i),"content"===e&&t.each(this.tooltips,function(t,e){s._updateContent(e.element)})},_setOptionDisabled:function(t){this[t?"_disable":"_enable"]()},_disable:function(){var e=this;t.each(this.tooltips,function(i,s){var n=t.Event("blur");n.target=n.currentTarget=s.element[0],e.close(n,!0)}),this.disabledTitles=this.disabledTitles.add(this.element.find(this.options.items).addBack().filter(function(){var e=t(this);return e.is("[title]")?e.data("ui-tooltip-title",e.attr("title")).removeAttr("title"):void 0}))},_enable:function(){this.disabledTitles.each(function(){var e=t(this);e.data("ui-tooltip-title")&&e.attr("title",e.data("ui-tooltip-title"))}),this.disabledTitles=t([])},open:function(e){var i=this,s=t(e?e.target:this.element).closest(this.options.items);s.length&&!s.data("ui-tooltip-id")&&(s.attr("title")&&s.data("ui-tooltip-title",s.attr("title")),s.data("ui-tooltip-open",!0),e&&"mouseover"===e.type&&s.parents().each(function(){var e,s=t(this);s.data("ui-tooltip-open")&&(e=t.Event("blur"),e.target=e.currentTarget=this,i.close(e,!0)),s.attr("title")&&(s.uniqueId(),i.parents[this.id]={element:this,title:s.attr("title")},s.attr("title",""))}),this._registerCloseHandlers(e,s),this._updateContent(s,e))},_updateContent:function(t,e){var i,s=this.options.content,n=this,o=e?e.type:null;return"string"==typeof s||s.nodeType||s.jquery?this._open(e,t,s):(i=s.call(t[0],function(i){n._delay(function(){t.data("ui-tooltip-open")&&(e&&(e.type=o),this._open(e,t,i))})}),i&&this._open(e,t,i),void 0)},_open:function(e,i,s){function n(t){l.of=t,a.is(":hidden")||a.position(l)}var o,a,r,h,l=t.extend({},this.options.position);if(s){if(o=this._find(i))return o.tooltip.find(".ui-tooltip-content").html(s),void 0;i.is("[title]")&&(e&&"mouseover"===e.type?i.attr("title",""):i.removeAttr("title")),o=this._tooltip(i),a=o.tooltip,this._addDescribedBy(i,a.attr("id")),a.find(".ui-tooltip-content").html(s),this.liveRegion.children().hide(),h=t("<div>").html(a.find(".ui-tooltip-content").html()),h.removeAttr("name").find("[name]").removeAttr("name"),h.removeAttr("id").find("[id]").removeAttr("id"),h.appendTo(this.liveRegion),this.options.track&&e&&/^mouse/.test(e.type)?(this._on(this.document,{mousemove:n}),n(e)):a.position(t.extend({of:i},this.options.position)),a.hide(),this._show(a,this.options.show),this.options.track&&this.options.show&&this.options.show.delay&&(r=this.delayedShow=setInterval(function(){a.is(":visible")&&(n(l.of),clearInterval(r))},t.fx.interval)),this._trigger("open",e,{tooltip:a})}},_registerCloseHandlers:function(e,i){var s={keyup:function(e){if(e.keyCode===t.ui.keyCode.ESCAPE){var s=t.Event(e);s.currentTarget=i[0],this.close(s,!0)}}};i[0]!==this.element[0]&&(s.remove=function(){this._removeTooltip(this._find(i).tooltip)}),e&&"mouseover"!==e.type||(s.mouseleave="close"),e&&"focusin"!==e.type||(s.focusout="close"),this._on(!0,i,s)},close:function(e){var i,s=this,n=t(e?e.currentTarget:this.element),o=this._find(n);return o?(i=o.tooltip,o.closing||(clearInterval(this.delayedShow),n.data("ui-tooltip-title")&&!n.attr("title")&&n.attr("title",n.data("ui-tooltip-title")),this._removeDescribedBy(n),o.hiding=!0,i.stop(!0),this._hide(i,this.options.hide,function(){s._removeTooltip(t(this))}),n.removeData("ui-tooltip-open"),this._off(n,"mouseleave focusout keyup"),n[0]!==this.element[0]&&this._off(n,"remove"),this._off(this.document,"mousemove"),e&&"mouseleave"===e.type&&t.each(this.parents,function(e,i){t(i.element).attr("title",i.title),delete s.parents[e]}),o.closing=!0,this._trigger("close",e,{tooltip:i}),o.hiding||(o.closing=!1)),void 0):(n.removeData("ui-tooltip-open"),void 0)},_tooltip:function(e){var i=t("<div>").attr("role","tooltip"),s=t("<div>").appendTo(i),n=i.uniqueId().attr("id");return this._addClass(s,"ui-tooltip-content"),this._addClass(i,"ui-tooltip","ui-widget ui-widget-content"),i.appendTo(this._appendTo(e)),this.tooltips[n]={element:e,tooltip:i}},_find:function(t){var e=t.data("ui-tooltip-id");return e?this.tooltips[e]:null},_removeTooltip:function(t){t.remove(),delete this.tooltips[t.attr("id")]},_appendTo:function(t){var e=t.closest(".ui-front, dialog");return e.length||(e=this.document[0].body),e},_destroy:function(){var e=this;t.each(this.tooltips,function(i,s){var n=t.Event("blur"),o=s.element;n.target=n.currentTarget=o[0],e.close(n,!0),t("#"+i).remove(),o.data("ui-tooltip-title")&&(o.attr("title")||o.attr("title",o.data("ui-tooltip-title")),o.removeData("ui-tooltip-title"))}),this.liveRegion.remove()}}),t.uiBackCompat!==!1&&t.widget("ui.tooltip",t.ui.tooltip,{options:{tooltipClass:null},_tooltip:function(){var t=this._superApply(arguments);return this.options.tooltipClass&&t.tooltip.addClass(this.options.tooltipClass),t}}),t.ui.tooltip});
 
-// ESGST - v7.6.1
+// ESGST - v7.6.2
 
 (function () {
 
@@ -239,6 +239,7 @@ this._delay(function(){n===this.counter&&this.refreshPositions(!s)})},_clear:fun
                 this.popout.addEventListener(`mouseleave`, event => {
                     timeout = setTimeout(() => {
                         if (event.relatedTarget && !this.context.contains(event.relatedTarget)) {
+                            this.context.classList.remove(`esgst-qgs-container-expanded`);
                             this.close();
                         }
                     }, this.hoverSpeed);
@@ -472,7 +473,7 @@ this._delay(function(){n===this.counter&&this.refreshPositions(!s)})},_clear:fun
             storage: storage,
             sg: location.hostname.match(/www.steamgifts.com/),
             st: location.hostname.match(/www.steamtrades.com/),
-            currentVersion: `7.6.1`,
+            currentVersion: `7.6.2`,
             icon: `data:image/x-icon;base64,AAABAAEAEBAAAAEAIABoBAAAFgAAACgAAAAQAAAAIAAAAAEAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAqv8DCbP/Hgeq+CQIrf8iCK3/Igit/yIIrf8iB6//Iwit9x8Aqv8DAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAKr0GAa2/c0DvfzfA7f83QO3/N0Dt/zdA7f83QO+/d4Gs/3OAKP1GQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACm/xQFs/n2Bcf//wW///8FwP//BcD//wW///8Fx///BbP69gC2/xUAAAAAAAAAAAAAAAAA/1UDFptOFxSZMxkLpJktAq720QW1+ugEsfvjA7b92wO2/dsEsfvjBbX66Aau/dEoiO4tUlLWGU5k3hdVVf8DEJxKHxWqT8cVrU7uE6VN0guqny0Apv8XAJfQGwBAVywAQFcsAJfQGwCx/xcogugtS2Lk0lBl6u5Qae7ISmPeHxagSSMVr07jF7lV/xOiSu0brgATAAAAAAAAAA8AAAC/AAAAwAAAABAAAAAAYznjEkth4OxWb/3/T2jv40lf4iMXnksiEq1O3RayUv8UpEnkEo0+HQAAABkAAABBAAAA8QAAAPEAAABBAAAAGUBSvxxOYeDjU2v0/05m7d1LYuEiF55LIhKtTt0Ws1L/FahN2gU1FTAAAADAAAAA7AAAAP0AAAD9AAAA7AAAAMAVG0owUGPm2lNr9P9OZu3dS2LhIheeSyISrU7dFrNS/xWoTdoFNRswAAAAvwAAAOsAAAD9AAAA/QAAAOsAAADAFRtKMFBj6NpTa/T/Tmbt3Uti4SIXnksiEq1O3RayUv8UpEnkEo0+HQAAABgAAABAAAAA8QAAAPEAAABBAAAAGT5PuR1OYeDjU2v0/05m7d1LYuEiFqBJIxWuT+QXuVX/E6JL7QC8XhMAAAAAAAAADwAAAL8AAAC/AAAAEAAAAAAOR/8SSWLh7FZv/f9PaO/jSV/iIxCUSh8Vrk7HFqxN7ROlS9JskzMt1XULGK12EhxGLgYsRy8GK612EhzVgAsYgmxxLU1i39JNZ+vtT2fwx0pj1h8AqlUDF65GFgqZUhlsiC0txH0T0s5/EujJgBPkz4QR28+EEdvJgBPkzn8Q6Md+E9KLdHosM1LWGUZo6BZVVf8DAAAAAAAAAAAAAAAA/2YAFMl9EvbgjRb/14gV/9eIFf/XiBX/14gV/9+NFv/KgBD254YAFQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAL91FRjKgRHN1IgU3s+EEt3PhBLdz4QS3c+EEt3UiBTezYMRzcJ6FBkAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACqqgADxIARHr18FiO8eA8ivHgPIrx4DyK8eA8ivXwPI8SAER7/VQADAAAAAAAAAAAAAAAA78cAAPA3AAD4FwAABCAAADGOAAAE+AAAkBEAAJ55AACYOQAAlgEAAER4AAAXaAAATnoAAPgXAAD0JwAA69cAAA==`,
             sgIcon: `data:image/x-icon;base64,AAABAAEAEBAAAAEAIABoBAAAFgAAACgAAAAQAAAAIAAAAAEAIAAAAAAAQAQAABMLAAATCwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIUAAAD5AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAPoAAACFAAAAAAAAAAAAAAD8AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA+QAAAAAAAAAAAAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAAAAAAAAAAAAP8AAAD/AAAA/wAAABwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAcAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAcAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAHAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAAAAAAAAAAAAPwAAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD5AAAAAAAAAAAAAACFAAAA+QAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD5AAAAhQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA//8AAP//AADAAwAAwAMAAMfjAADP8wAAz/MAAM/zAADP8wAAz/MAAM/zAADH4wAAwAMAAMADAAD//wAA//8AAA==`,
             stIcon: `data:image/x-icon;base64,AAABAAEAEBAAAAEAIABoBAAAFgAAACgAAAAQAAAAIAAAAAEAIAAAAAAAQAQAABMLAAATCwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABbD6SgWw+ucFsPrkBbD6SgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAWw+uYFsPr/BbD6/wWw+ucAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAFsPrmBbD6/wWw+v8FsPrmAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABbD6SQWw+uYFsPrmBbD6SQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAFKRLShSkS+cUpEvkFKRLSgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAExi4EpMYuDnTGLg5Exi4EoAAAAAAAAAABSkS+YUpEv/FKRL/xSkS+cAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABMYuDmTGLg/0xi4P9MYuDnAAAAAAAAAAAUpEvmFKRL/xSkS/8UpEvmAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAATGLg5kxi4P9MYuD/TGLg5gAAAAAAAAAAFKRLSRSkS+YUpEvmFKRLSQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAExi4ElMYuDmTGLg5kxi4EkAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAMZ9E0rGfRPnxn0T5MZ9E0oAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADGfRPmxn0T/8Z9E//GfRPnAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAxn0T5sZ9E//GfRP/xn0T5gAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAMZ9E0nGfRPmxn0T5sZ9E0kAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA//8AAPw/AAD8PwAA/D8AAPw/AAD//wAAh+EAAIfhAACH4QAAh+EAAP//AAD8PwAA/D8AAPw/AAD8PwAA//8AAA==`,
@@ -1836,6 +1837,13 @@ this._delay(function(){n===this.counter&&this.refreshPositions(!s)})},_clear:fun
                             </ul>
                             <img src="https://i.imgur.com/JRT6tv6.png">
                         `,
+                        features: [
+                            {
+                                id: `qgs_h`,
+                                name: `[NEW] Hide the native search when on the main giveaway pages.`,
+                                sg: true
+                            }
+                        ],
                         id: `qgs`,
                         name: `[NEW] Quick Giveaway Search`,
                         sg: true,
@@ -4751,6 +4759,14 @@ this._delay(function(){n===this.counter&&this.refreshPositions(!s)})},_clear:fun
                 </div>
             `);
             input = container.firstElementChild;
+            container.addEventListener(`mouseenter`, event => {
+                container.classList.add(`esgst-qgs-container-expanded`);
+            });
+            container.addEventListener(`mouseleave`, event => {
+                if (!event.relatedTarget.closest(`.esgst-popout`)) {
+                    container.classList.remove(`esgst-qgs-container-expanded`);
+                }
+            });
             input.addEventListener(`keypress`, event => {
                 if (event.key === `Enter`) {
                     event.preventDefault();
@@ -4758,6 +4774,9 @@ this._delay(function(){n===this.counter&&this.refreshPositions(!s)})},_clear:fun
                 }
             });
             addAgsPanel(container, true);
+            if (esgst.qgs_h && esgst.giveawaysPath) {
+                document.getElementsByClassName(`sidebar__search-container`)[0].remove();
+            }
         }
 
         /* [QGB] Quick Giveaway Browsing */
@@ -7726,7 +7745,7 @@ this._delay(function(){n===this.counter&&this.refreshPositions(!s)})},_clear:fun
 
         if (esgst.giveawaysPath || esgst.discussionsPath) {
             if (esgst.giveawaysPath) {
-                if (esgst.ags) {
+                if (esgst.ags && (!esgst.qgs || !esgst.qgs_h)) {
                     addAgsPanel(document.getElementsByClassName(`sidebar__search-container`)[0]);
                 }
             }
@@ -11185,7 +11204,7 @@ this._delay(function(){n===this.counter&&this.refreshPositions(!s)})},_clear:fun
     /* [GF] Giveaway Filters */
 
     function loadGf() {
-        if (esgst.giveawaysPath || esgst.createdPath || esgst.enteredPath || esgst.wonPath || esgst.groupPath) {
+        if (esgst.giveawaysPath || esgst.createdPath || esgst.enteredPath || esgst.wonPath || esgst.groupPath || esgst.userPath) {
             if (esgst.hideButtons && esgst.hideButtons_gf) {
                 esgst.leftButtons.insertBefore(addGfContainer(esgst.mainPageHeading), esgst.leftButtons.firstElementChild);
             } else {
@@ -11314,7 +11333,7 @@ this._delay(function(){n===this.counter&&this.refreshPositions(!s)})},_clear:fun
         var basicFilter, basicFilters, box, button, categoryFilter, categoryFilters, collapseButton, display, exceptionButton, exceptionCount, exceptionPanel, expandButton, filters, genres, gf, headingButton, i, id, infinite, key, maxKey, maxSavedValue, maxValue, minKey, minSavedValue, minValue, name, preset, presetButton, presetDisplay, presetInput, presetMessage, presetPanel, presets, presetWarning, slider, step, toggleSwitch, typeFilter, typeFilters, value;
         gf = {
             advancedSearch: location.search.match(/q=/),
-            type: popup ? `Popup` : (esgst.groupPath ? `Groups` : (location.search.match(/type/) ? { wishlist: `Wishlist`, recommended: `Recommended`, group: `Group`, new: `New` }[location.search.match(/type=(wishlist|recommended|group|new)/)[1]] : (esgst.createdPath ? `Created` : (esgst.enteredPath ? `Entered` : (esgst.wonPath ? `Won` : ``)))))
+            type: popup ? `Popup` : (esgst.groupPath ? `Groups` : (location.search.match(/type/) ? { wishlist: `Wishlist`, recommended: `Recommended`, group: `Group`, new: `New` }[location.search.match(/type=(wishlist|recommended|group|new)/)[1]] : (esgst.createdPath ? `Created` : (esgst.enteredPath ? `Entered` : (esgst.wonPath ? `Won` : (esgst.userPath ? `User` : ``))))))
         };
         if (popup) {
             esgst.gfPopup = gf;
@@ -12591,91 +12610,81 @@ this._delay(function(){n===this.counter&&this.refreshPositions(!s)})},_clear:fun
                     var responseHtml = DOM.parse(response.responseText);
                     var container = responseHtml.getElementsByClassName(`featured__outer-wrap--giveaway`)[0];
                     if (container) {
-                        if (responseHtml.querySelector(`.sidebar__entry-insert:not(.is-hidden)`)) {
-                            var heading = responseHtml.getElementsByClassName(`featured__heading`)[0];
-                            var columns = heading.nextElementSibling;
-                            var remaining = columns.firstElementChild;
-                            endTime = 0;
-                            if (!bookmarked[i].started && !remaining.textContent.match(/Begins/)) {
-                                endTime = parseInt(remaining.lastElementChild.getAttribute(`data-timestamp`)) * 1e3;
-                            }
-                            var url = response.finalUrl;
-                            var gameId = container.getAttribute(`data-game-id`);
-                            var anchors = heading.getElementsByTagName(`a`);
-                            var j, numA, numT;
-                            for (j = 0, numA = anchors.length; j < numA; ++j) {
-                                anchors[j].classList.add(`giveaway__icon`);
-                            }
-                            var headingName = heading.firstElementChild;
-                            headingName.outerHTML = `<a class="giveaway__heading__name" href="${url}">${headingName.innerHTML}</a>`;
-                            var thinHeadings = heading.getElementsByClassName(`featured__heading__small`);
-                            for (j = 0, numT = thinHeadings.length; j < numT; ++j) {
-                                thinHeadings[0].outerHTML = `<span class="giveaway__heading__thin">${thinHeadings[0].innerHTML}</span>`;
-                            }
-                            remaining.classList.remove(`featured__column`);
-                            var created = remaining.nextElementSibling;
-                            created.classList.remove(`featured__column`, `featured__column--width-fill`);
-                            created.classList.add(`giveaway__column--width-fill`);
-                            created.lastElementChild.classList.add(`giveaway__username`);
-                            var avatar = columns.lastElementChild;
-                            avatar.remove();
-                            var element = created.nextElementSibling;
-                            while (element) {
-                                element.classList.remove(`featured__column`);
-                                element.className = element.className.replace(/featured/g, `giveaway`);
-                                element = element.nextElementSibling;
-                            }
-                            var counts = responseHtml.getElementsByClassName(`sidebar__navigation__item__count`);
-                            var image = responseHtml.getElementsByClassName(`global__image-outer-wrap--game-large`)[0].firstElementChild.getAttribute(`src`);
-                            var popupHtml = `${Date.now() > bookmarked[i].endTime && !gbGiveaways.getElementsByClassName(`row-spacer`)[0] ? `<div class="row-spacer"></div>` : ``}
-                                <div>
-                                    <div class="giveaway__row-outer-wrap" data-game-id="${gameId}">
-                                        <div class="giveaway__row-inner-wrap">
-                                            <div class="giveaway__summary">
-                                                <h2 class="giveaway__heading">${heading.innerHTML}</h2>
-                                                <div class="giveaway__columns">${columns.innerHTML}</div>
-                                                <div class="giveaway__links">
-                                                    <a href="${url}/entries">
-                                                        <i class="fa fa-tag"></i>
-                                                        <span>${(counts[1] && counts[1].textContent) || 0} entries</span>
-                                                    </a>
-                                                    <a href="${url}/comments">
-                                                        <i class="fa fa-comment"></i>
-                                                        <span>${counts[0].textContent} comments</span>
-                                                    </a>
-                                                </div>
+                        var heading = responseHtml.getElementsByClassName(`featured__heading`)[0];
+                        var columns = heading.nextElementSibling;
+                        var remaining = columns.firstElementChild;
+                        endTime = 0;
+                        if (!bookmarked[i].started && !remaining.textContent.match(/Begins/)) {
+                            endTime = parseInt(remaining.lastElementChild.getAttribute(`data-timestamp`)) * 1e3;
+                        }
+                        var url = response.finalUrl;
+                        var gameId = container.getAttribute(`data-game-id`);
+                        var anchors = heading.getElementsByTagName(`a`);
+                        var j, numA, numT;
+                        for (j = 0, numA = anchors.length; j < numA; ++j) {
+                            anchors[j].classList.add(`giveaway__icon`);
+                        }
+                        var headingName = heading.firstElementChild;
+                        headingName.outerHTML = `<a class="giveaway__heading__name" href="${url}">${headingName.innerHTML}</a>`;
+                        var thinHeadings = heading.getElementsByClassName(`featured__heading__small`);
+                        for (j = 0, numT = thinHeadings.length; j < numT; ++j) {
+                            thinHeadings[0].outerHTML = `<span class="giveaway__heading__thin">${thinHeadings[0].innerHTML}</span>`;
+                        }
+                        remaining.classList.remove(`featured__column`);
+                        var created = remaining.nextElementSibling;
+                        created.classList.remove(`featured__column`, `featured__column--width-fill`);
+                        created.classList.add(`giveaway__column--width-fill`);
+                        created.lastElementChild.classList.add(`giveaway__username`);
+                        var avatar = columns.lastElementChild;
+                        avatar.remove();
+                        var element = created.nextElementSibling;
+                        while (element) {
+                            element.classList.remove(`featured__column`);
+                            element.className = element.className.replace(/featured/g, `giveaway`);
+                            element = element.nextElementSibling;
+                        }
+                        var counts = responseHtml.getElementsByClassName(`sidebar__navigation__item__count`);
+                        var image = responseHtml.getElementsByClassName(`global__image-outer-wrap--game-large`)[0].firstElementChild.getAttribute(`src`);
+                        var popupHtml = `${Date.now() > bookmarked[i].endTime && !gbGiveaways.getElementsByClassName(`row-spacer`)[0] ? `<div class="row-spacer"></div>` : ``}
+                            <div>
+                                <div class="giveaway__row-outer-wrap" data-game-id="${gameId}">
+                                    <div class="giveaway__row-inner-wrap">
+                                        <div class="giveaway__summary">
+                                            <h2 class="giveaway__heading">${heading.innerHTML}</h2>
+                                            <div class="giveaway__columns">${columns.innerHTML}</div>
+                                            <div class="giveaway__links">
+                                                <a href="${url}/entries">
+                                                    <i class="fa fa-tag"></i>
+                                                    <span>${(counts[1] && counts[1].textContent) || 0} entries</span>
+                                                </a>
+                                                <a href="${url}/comments">
+                                                    <i class="fa fa-comment"></i>
+                                                    <span>${counts[0].textContent} comments</span>
+                                                </a>
                                             </div>
-                                            ${avatar.outerHTML}
-                                            <a class="giveaway_image_thumbnail" href="${url}" style="background-image: url(${image})"></a>
                                         </div>
+                                        ${avatar.outerHTML}
+                                        <a class="giveaway_image_thumbnail" href="${url}" style="background-image: url(${image})"></a>
                                     </div>
                                 </div>
-                            `;
-                            gbGiveaways.insertAdjacentHTML(`beforeEnd`, popupHtml);
-                            loadEndlessFeatures(gbGiveaways.lastElementChild, false, `gb`);
-                            if (popup) {
-                                popup.reposition();
-                            }
-                            if (endTime > 0) {
-                                createLock(`giveawayLock`, 300, function (deleteLock) {
-                                    var giveaways = JSON.parse(getValue(`giveaways`));
-                                    giveaways[bookmarked[i].code].started = true;
-                                    giveaways[bookmarked[i].code].endTime = endTime;
-                                    setValue(`giveaways`, JSON.stringify(giveaways));
-                                    deleteLock();
-                                    setTimeout(loadGbGiveaways, 0, ++i, n, bookmarked, gbGiveaways, popup, callback);
-                                });
-                            } else {
-                                setTimeout(loadGbGiveaways, 0, ++i, n, bookmarked, gbGiveaways, popup, callback);
-                            }
-                        } else {
+                            </div>
+                        `;
+                        gbGiveaways.insertAdjacentHTML(`beforeEnd`, popupHtml);
+                        loadEndlessFeatures(gbGiveaways.lastElementChild, false, `gb`);
+                        if (popup) {
+                            popup.reposition();
+                        }
+                        if (endTime > 0) {
                             createLock(`giveawayLock`, 300, function (deleteLock) {
                                 var giveaways = JSON.parse(getValue(`giveaways`));
-                                delete giveaways[bookmarked[i].code].bookmarked;
+                                giveaways[bookmarked[i].code].started = true;
+                                giveaways[bookmarked[i].code].endTime = endTime;
                                 setValue(`giveaways`, JSON.stringify(giveaways));
                                 deleteLock();
                                 setTimeout(loadGbGiveaways, 0, ++i, n, bookmarked, gbGiveaways, popup, callback);
                             });
+                        } else {
+                            setTimeout(loadGbGiveaways, 0, ++i, n, bookmarked, gbGiveaways, popup, callback);
                         }
                     } else {
                         setTimeout(loadGbGiveaways, 0, ++i, n, bookmarked, gbGiveaways, popup, callback);
@@ -19417,9 +19426,9 @@ this._delay(function(){n===this.counter&&this.refreshPositions(!s)})},_clear:fun
         } else {
             exceptionCount.textContent = 0;
         }
-        gf.overrides = preset.overrides || {};
-        for (key in gf.overrideButtons) {
-            gf.overrideButtons[key].change();
+        df.overrides = preset.overrides || {};
+        for (key in df.overrideButtons) {
+            df.overrideButtons[key].change();
         }
         setSetting(`df_preset${esgst.df.type}`, preset.name);
         popup.close();
@@ -31563,12 +31572,24 @@ this._delay(function(){n===this.counter&&this.refreshPositions(!s)})},_clear:fun
                 padding: 5px 10px;
             }
 
+            .esgst-qgs-container-expanded {
+                position: absolute;
+            }
+
+            .esgst-qgs-container-expanded .esgst-qgs-input {
+                width: 300px;
+            }
+
+            .esgst-qgs-container-expanded + .nav__button-container {
+                margin-left: 40px;
+            }
+
             .esgst-qgs-input {
                 border: 0 !important;
                 height: 100%;
                 line-height: normal !important;
                 padding: 0 !important;
-                width: 65px;
+                width: 0;
             }
 
             .esgst-glwc-results {
@@ -33587,6 +33608,18 @@ this._delay(function(){n===this.counter&&this.refreshPositions(!s)})},_clear:fun
         var changelog, current, html, i, index, n, popup;
         changelog = [
             {
+                date: `October 31, 2017`,
+                version: `7.6.2`,
+                changelog: `
+                    <ul>
+                        <li>Made some style alterations to Quick Giveaway Search and added an option (Giveaways.2.1) to hide the native search when on the main giveaway pages (<a href="https://github.com/revilheart/ESGST/issues/77">#77</a>).</li>
+                        <li>Extended Giveaway Filters to the profile pages.</li>
+                        <li>Fixed a bug in Giveaway Bookmarks that was unbookmarking giveaways for which there were not enough points to enter.</li>
+                        <li>Fixed a bug in Discussion Filters that was not filtering discussions automatically (<a href="https://github.com/revilheart/ESGST/issues/76">#76</a>).</li>
+                    </ul>
+                `
+            },
+            {
                 date: `October 29, 2017`,
                 version: `7.6.1`,
                 changelog: `
@@ -33808,1553 +33841,6 @@ this._delay(function(){n===this.counter&&this.refreshPositions(!s)})},_clear:fun
                     <p>
                         <b>ESGST has been ported to an extension (currently only tested with Firefox and Chrome). Head over to the ESGST discussion or GitHub page to learn how to upgrade. The script version of ESGST will continue to be updated normally for now, whenever the extension is updated (I will decide whether or not to discontinue it based on the extension reception). The "Beta" drop in the version name does not mean the script has become stable.</b>
                     </p>
-                `
-            },
-            {
-                date: `October 8, 2017`,
-                version: `6.Beta.39.0`,
-                changelog: `
-                    <ul>
-                        <li>Fixed a bug in Fixed Sidebar that was happening if the window height was too small.</li>
-                        <li>Added options to show the number of unread messages, unviewed keys and unentered wishlist giveaways from Header Refresher as browser notifications (closes <a href="https://github.com/revilheart/ESGST/issues/40">#40</a>).</li>
-                        <li>Added "Previously Entered" (must have Entered Games Highlighter enabled) and "Previously Won" filters to Giveaway Filters (closes <a href="https://github.com/revilheart/ESGST/issues/17">#17</a> and <a href="https://github.com/revilheart/ESGST/issues/44">#44</a>).</li>
-                        <li>Enter/Leave Giveaway Button no longer shows the enter button for previously won giveaways (closes <a href="https://github.com/revilheart/ESGST/issues/17">#17</a>).</li>
-                        <li>You can now filter emojis by name when selecting them in Comment Formatting Helper.</li>
-                    </ul>
-                    <p>Renamed the following features>:</p>
-                    <ul>
-                        <li>Train Giveaways Extractor -> Giveaways Extractor - Fixed all bugs, as far as I'm aware (closes <a href="https://github.com/revilheart/ESGST/issues/1">#1</a>).</li>
-                    </ul>
-                `
-            },
-            {
-                date: `October 5, 2017`,
-                version: `6.Beta.38.6`,
-                changelog: `
-                    <ul>
-                        <li>Fixed a bug that was preventing Enter/Leave Giveaway Button from working correctly.</li>
-                    </ul>
-                `
-            },
-            {
-                date: `October 4, 2017`,
-                version: `6.Beta.38.5`,
-                changelog: `
-                    <ul>
-                        <li>Fixed a bug that was happening if Giveaway Popup was enabled, but Giveaway Winning Chance/Ratio, Enter/Leave Giveaway Button and Created/Entered/Won Giveaway Details were disabled.</li>
-                        <li>Extended the option to hide individual giveaways to group pages.</li>
-                        <li>Added an option to Enter/Leave Giveaway Button that allows repeated descriptions from the same creator to be cached for 1 hour and only shown once.</li>
-                        <li>You can now add your own description filters to Enter/Leave Giveaway Button.</li>
-                    </ul>
-                `
-            },
-            {
-                date: `October 2, 2017`,
-                version: `6.Beta.38.4`,
-                changelog: `
-                    <ul>
-                        <li>Fixed a few bugs in Giveaway/Discussion Filters.</li>
-                        <li>Introducing "Overrides" to Giveaway/Discussion Filters, which allows you to configure some filters to always filter no matter what exceptions are set.</li>
-                    </ul>
-                `
-            },
-            {
-                date: `October 2, 2017`,
-                version: `6.Beta.38.3`,
-                changelog: `
-                    <ul>
-                        <li>Fixed a bug in Old Active Discussions Design that was preventing the script from loading correctly.</li>
-                    </ul>
-                `
-            },
-            {
-                date: `October 2, 2017`,
-                version: `6.Beta.38.2`,
-                changelog: `
-                    <ul>
-                        <li>Fixed a bug in Comment Formatting Helper that broke the heading buttons.</li>
-                        <li>Fixed a style issue that had changed the font in the Comment Formatting Helper popouts (closes <a href="https://github.com/revilheart/ESGST/issues/2">#2</a>).</li>
-                        <li>Added an option (Games.3.1) to Game Categories that shows the category colors as a bottom border to the giveaways in Grid View (closes <a href="https://github.com/revilheart/ESGST/issues/5">#5</a>).</li>
-                    </ul>
-                `
-            },
-            {
-                date: `October 2, 2017`,
-                version: `6.Beta.38.1`,
-                changelog: `
-                    <ul>
-                        <li>Added an option that automatically syncs your groups/games when syncing through SG (closes <a href="https://github.com/revilheart/ESGST/issues/10">#10</a>).</li>
-                        <li>Fixed a bug that was not handling some option dependencies correctly (closes <a href="https://github.com/revilheart/ESGST/issues/32">#32</a>).</li>
-                        <li>Giveaway Filters exceptions are now applied to all filters instead of just to basic filters.</li>
-                        <li>Fixed a bug that was preventing Discussion Filters exceptions from working correctly (closes <a href="https://github.com/revilheart/ESGST/issues/31">#31</a>).</li>
-                        <li>Enter/Leave Giveaway Button now recognizes identical descriptions from the same creator and shows the description only once so you don't have to keep reading the same description over and over again (the cache is stored for 1 hour).</li>
-                        <li>Added an option (2.17.1) to Enter/Leave Giveaway Button that filters out useless descriptions.</li>
-                        <li>Fixed a bug in Giveaway Popup that was popping the description once again after entering the giveaway.</li>
-                        <li>Added a 2 minutes delay between the creation of identical giveaways to Multiple Giveaways Creator, as SG now blocks the creation of identical giveaways in less than 2 minutes apart from each other.</li>
-                    </ul>
-                `
-            },
-            {
-                date: `October 2, 2017`,
-                version: `6.Beta.38.0`,
-                changelog: `
-                    <ul>
-                        <li>Made some style changes to the code.</li>
-                        <li>Removed obsolete classes and renamed a few classes.</li>
-                        <li>Opening the giveaway description is now mandatory in Enter/Leave Giveaway Button.</li>
-                    </ul>
-                    <p>Added the following features:</p>
-                    <ul>
-                        <li>2.16 Giveaway Popup</li>
-                    </ul>
-                `
-            },
-            {
-                date: `September 30, 2017`,
-                version: `6.Beta.37.3`,
-                changelog: `
-                    <ul>
-                        <li>Fixed a bug that was not remembering some data (closes <a href="https://github.com/revilheart/ESGST/issues/29">#29</a>).</li>
-                        <li>Fixed a bug that was preventing Multiple Giveaways Creator from creating giveaways.</li>
-                    </ul>
-                `
-            },
-            {
-                date: `September 29, 2017`,
-                version: `6.Beta.37.2`,
-                changelog: `
-                    <ul>
-                        <li>Fixed a bug that was not allowing the user to delete/undelete comments.</li>
-                        <li>Fixed a bug in Multiple Giveaways Creator that was not showing the correct name/exporting games with quotes in their title.</li>
-                    </ul>
-                `
-            },
-            {
-                date: `September 29, 2017`,
-                version: `6.Beta.37.1`,
-                changelog: `
-                    <ul>
-                        <li>Fixed a bug in Comment Formatting Helper that was not remembering the choice for uploading images.</li>
-                    </ul>
-                `
-            },
-            {
-                date: `September 29, 2017`,
-                version: `6.Beta.37.0`,
-                changelog: `
-                    <ul>
-                        <li>localStorage data has been moved back to GM storage, due to size limitations and other factors (closes <a href="https://github.com/revilheart/ESGST/issues/27">#27</a>).</li>
-                        <li>Fixed a bug in Endless Scrolling that was not showing the correct link for page divisors  (closes <a href="https://github.com/revilheart/ESGST/issues/28">#28</a>).</li>
-                        <li>You can now upload images to Comment Formatting Helper through Imgur (closes <a href="https://github.com/revilheart/ESGST/issues/26">#26</a>).</li>
-                    </ul>
-                `
-            },
-            {
-                date: `September 28, 2017`,
-                version: `6.Beta.36.5`,
-                changelog: `
-                    <ul>
-                        <li>When importing/exporting/deleting data you can now see how much size each type of data is takin g in the storage and how much is being used by computer/browser storage (closes <a href="https://github.com/revilheart/ESGST/issues/21">#21</a>).</li>
-                        <li>You can now specify how often you want Header Refresher to refresh.</li>
-                        <li>Hitting the Enter key in the input fields on Advanced Giveaway Search now triggers the search (closes <a href="https://github.com/revilheart/ESGST/issues/23">#23</a>).</li>
-                    </ul>
-                `
-            },
-            {
-                date: `September 26, 2017`,
-                version: `6.Beta.36.4`,
-                changelog: `
-                    <ul>
-                        <li>Revamped all tables that used the class ".UGDData", which does not exist anymore.</li>
-                        <li>Added a couple options to User Giveaways Data that allow you to gather stats about the user's playtime/achievements from won giveaways (currently it cannot check playtime/achievements for DLCs/packages).</li>
-                    </ul>
-                `
-            },
-            {
-                date: `September 23, 2017`,
-                version: `6.Beta.36.3`,
-                changelog: `
-                    <ul>
-                        <li>Fixed image borders for giveaways with missing image.</li>
-                        <li>Added the new search parameters to Advanced Giveaway Search.</li>
-                    </ul>
-                `
-            },
-            {
-                date: `September 21, 2017`,
-                version: `6.Beta.36.2`,
-                changelog: `
-                    <ul>
-                        <li>Fixed a bug that was happening when commenting in giveaways.</li>
-                        <li>Fixed a bug that was preventing Search Magnifying Glass Button from working.</li>
-                    </ul>
-                `
-            },
-            {
-                date: `September 16, 2017`,
-                version: `6.Beta.36.1`,
-                changelog: `
-                    <ul>
-                        <li>Added the option to import/export using Dropbox.</li>
-                    </ul>
-                `
-            },
-            {
-                date: `September 16, 2017`,
-                version: `6.Beta.36.0`,
-                changelog: `
-                    <ul>
-                        <li>Fixed a couple bugs.</li>
-                    </ul>
-                    <p>Added the following features:</p>
-                    <ul>
-                        <li>3.3 Close/Open Discussion Button</li>
-                    </ul>
-                `
-            },
-            {
-                date: `September 16, 2017`,
-                version: `6.Beta.35.4`,
-                changelog: `
-                    <ul>
-                        <li>Fixed a bug that was preventing features from loading in the main page (closes <a href="https://github.com/revilheart/ESGST/issues/13">#13</a>).</li>
-                        <li>Fixed a bug in Header Refresher (closes <a href="https://github.com/revilheart/ESGST/issues/12">#12</a>).</li>
-                        <li>Fixed a bug in Comment Formatting Helper that was not adding the selected text as title to links/images (closes <a href="https://github.com/revilheart/ESGST/issues/11">#11</a>).</li>
-                    </ul>
-                `
-            },
-            {
-                date: `September 15, 2017`,
-                version: `6.Beta.35.3`,
-                changelog: `
-                    <ul>
-                        <li>Removed obsolete functions and made minor style changes to the code.</li>
-                        <li>Shortcut Keys has been separated into options so that you can decide which shortcuts to enable.</li>
-                        <li>Header Refresher should now refresh individually for different accounts (closes <a href="https://github.com/revilheart/ESGST/issues/4">#4</a>).</li>
-                    </ul>
-                `
-            },
-            {
-                date: `September 13, 2017`,
-                version: `6.Beta.35.2`,
-                changelog: `
-                    <ul>
-                        <li>Added options to Giveaway Winning Chance/Ratio that allow you to customize how the chances/ratios are shown better (by not adding 1 to the calculation and/or showing the advanced chance/ratio along with the basic one).</li>
-                        <li>Fixed a bug in Train Giveaways Extractor that kept extracting when clicking on "Cancel".</li>
-                    </ul>
-                    <p>Removed the following features:</p>
-                    <ul>
-                        <li>Entries Remover - <a href="https://www.steamgifts.com/discussion/L5URh/">Implemented on SG.</a></li>
-                    </ul>
-                `
-            },
-            {
-                date: `September 8, 2017`,
-                version: `6.Beta.35.1`,
-                changelog: `
-                    <ul>
-                        <li>Fixed a bug in Endless Scrolling that was not loading One-Click Hide Giveaway Button for pages 2+.</li>
-                        <li>Fixed a bug in Train Giveaways Extractor that was getting the extraction stuck in an endless loop (closes <a href="https://github.com/revilheart/ESGST/issues/407">#407</a>).</li>
-                    </ul>
-                `
-            },
-            {
-                date: `September 8, 2017`,
-                version: `6.Beta.35.0`,
-                changelog: `
-                    <ul>
-                        <li>Fixed the script for the recent <a href="https://www.steamgifts.com/discussion/0X36E/">SG changes</a> (closes <a href="https://github.com/revilheart/ESGST/issues/408">#408</a>).</li>
-                    </ul>
-                    <p>Added the following features:</p>
-                    <ul>
-                        <li>2.22 Stickied Giveaway Countries</li>
-                    </ul>
-                `
-            },
-            {
-                date: `September 6, 2017`,
-                version: `6.Beta.34.21`,
-                changelog: `
-                    <ul>
-                        <li>Fixed a bug that was not positioning popouts correctly inside of popups.</li>
-                        <li>Train Giveaways Extractor now detects badly formed links such as "https://www.steamgifts.com/giveaway/abcde" and corrects them to "https://www.steamgifts.com/giveaway/abcde/" (closes <a href="https://github.com/revilheart/ESGST/issues/406">#406</a>).</li>
-                    </ul>
-                `
-            },
-            {
-                date: `September 6, 2017`,
-                version: `6.Beta.34.20`,
-                changelog: `
-                    <ul>
-                        <li>Fixed a bug that was happening when closing some popups.</li>
-                    </ul>
-                `
-            },
-            {
-                date: `September 6, 2017`,
-                version: `6.Beta.34.19`,
-                changelog: `
-                    <ul>
-                        <li>Fixed various bugs.</li>
-                        <li>Experimenting with Javascript Classes.</li>
-                        <li>Added options (Other.6-Other.7) that allow you disable the popup message about new ESGST updates (closes <a href="https://github.com/revilheart/ESGST/issues/403">#403</a>).</li>
-                    </ul>
-                `
-            },
-            {
-                date: `September 4, 2017`,
-                version: `6.Beta.34.18`,
-                changelog: `
-                    <ul>
-                        <li>Removed obsolete functions/classes, replaced all checkboxes in checkers with toggle switches, and renamed various classess.</li>
-                        <li>Fixed a bug in Tables Sorter that was not sorting numbers in the format XX.XX correctly (closes <a href="https://github.com/revilheart/ESGST/issues/402">#402</a>)</li>
-                        <li>Fixed a bug in Discussion Filters that was still enabling the option to hide discussions automatically.</li>
-                    </ul>
-                `
-            },
-            {
-                date: `September 4, 2017`,
-                version: `6.Beta.34.17`,
-                changelog: `
-                    <ul>
-                        <li>Fixed a bug in Level Progress Visualizer that was still not showing the bar correctly for cases when the user will move to the next level.</li>
-                    </ul>
-                    <p>Added the following features:</p>
-                    <ul>
-                        <li>2.33 Delete Keys Confirmation (closes <a href="https://github.com/revilheart/ESGST/issues/399">#399</a>)</li>
-                    </ul>
-                `
-            },
-            {
-                date: `September 4, 2017`,
-                version: `6.Beta.34.16`,
-                changelog: `
-                    <ul>
-                        <li>Fixed a bug in Level Progress Visualizer that was not showing the bar and title correctly for cases when the user will move to the next level.</li>
-                    </ul>
-                `
-            },
-            {
-                date: `September 4, 2017`,
-                version: `6.Beta.34.15`,
-                changelog: `
-                    <ul>
-                        <li>Fixed a bug that was always showing the new update message for users with the option to show changelog disabled.</li>
-                        <li>Fixed a bug in Discussion Filters that was enabling the option to hide discussions automatically.</li>
-                        <li>Fixed a bug in Discussion Filters that was not scrolling the bar with the page.</li>
-                    </ul>
-                `
-            },
-            {
-                date: `September 4, 2017`,
-                version: `6.Beta.34.14`,
-                changelog: `
-                    <ul>
-                        <li>All required files are now located inside of the script.</li>
-                        <li>Removed all uses of GM_info.</li>
-                        <li>All uses of GM_setValue/GM_getValue/GM_deleteValue and localStorage are now handled in a single place, which makes future modifications to the storage methods easier and standardizes data management.</li>
-                    </ul>
-                `
-            },
-            {
-                date: `September 3, 2017`,
-                version: `6.Beta.34.13`,
-                changelog: `
-                    <ul>
-                        <li>All same-origin requests in the script are now made using Javascript's Fetch API instead of GM_xmlhttpRequest (it's still used for cross-origin requests though).</li>
-                        <li>Fixed more Endless Scrolling bugs.</li>
-                        <li>Discussion Filters has been extended and now has advanced filters just like Giveaway Filters.</li>
-                    </ul>
-                `
-            },
-            {
-                date: `September 3, 2017`,
-                version: `6.Beta.34.12`,
-                changelog: `
-                    <ul>
-                        <li>The script now also checks if you are on the latest version if you visit the main discussions page and the ESGST discussion is in the current page.</li>
-                        <li>Fixed a bug in Multi-Reply that didn't allow you to write a second reply to a comment after submitting another reply.</li>
-                    </ul>
-                `
-            },
-            {
-                date: `September 3, 2017`,
-                version: `6.Beta.34.11`,
-                changelog: `
-                    <ul>
-                        <li>Page divisors in Endless Scrolling are now removed when sorting tables by ascending/descending and added back when sorting them by default.</li>
-                        <li>Added an option (3.5.1) to Discussions Highlighter that brings all highlighted discussions in the current page to the top of the page.</li>
-                        <li>Tables Sorter now supports Endless Scrolling (closes <a href="https://github.com/revilheart/ESGST/issues/391">#391</a>).</li>
-                    </ul>
-                `
-            },
-            {
-                date: `September 2, 2017`,
-                version: `6.Beta.34.10`,
-                changelog: `
-                    <ul>
-                        <li>The icons in Tables Sorter now correspond to the current state of the table, not the state that it will be when clicked.</li>
-                        <li>Fixed more Endless Scrolling bugs (closes <a href="https://github.com/revilheart/ESGST/issues/387">#387</a> and <a href="https://github.com/revilheart/ESGST/issues/390">#390</a>).</li>
-                        <li>Added an option to show only the link to the Steam Client or the link to the browser or both to Steam Activation Links.</li>
-                    </ul>
-                `
-            },
-            {
-                date: `August 31, 2017`,
-                version: `6.Beta.34.9`,
-                changelog: `
-                    <ul>
-                        <li>Fixed an undefined variable that was causing a bug to Firefox users with Visible Attached Images enabled.</li>
-                        <li>Fixed a couple bugs in Endless Scrolling that were being caused by Game Categories and Collapse/Expand Replies Button.</li>
-                    </ul>
-                `
-            },
-            {
-                date: `August 30, 2017`,
-                version: `6.Beta.34.8`,
-                changelog: `
-                    <ul>
-                        <li>The script's icon is now stored inside of the script.</li>
-                        <li>Added an option (1.14.2) to disable Visible Attached Images in the inbox page.</li>
-                        <li>Steam Activation Links now has an additional button to activate the game through the <a href="https://store.steampowered.com/account/registerkey">browser</a> (closes <a href="https://github.com/revilheart/ESGST/issues/388">#388</a>).</li>
-                    </ul>
-                `
-            },
-            {
-                date: `August 29, 2017`,
-                version: `6.Beta.34.7`,
-                changelog: `
-                    <ul>
-                        <li>Fixed a bug that was showing the left/right buttons from option 8.6 (SG)/9.6 (ST) even when no buttons were hidden.</li>
-                        <li>Added an option to reset the sorted contents to their default positions to Giveaways Sorter, Discussions Sorter and Tables Sorter.</li>
-                    </ul>
-                `
-            },
-            {
-                date: `August 29, 2017`,
-                version: `6.Beta.34.6`,
-                changelog: `
-                    <ul>
-                        <li>Removed obsolete functions.</li>
-                        <li>The option to enable new features and functionalities by default will have some exceptions from now on. Options that disable/hide/remove stuff will no longer be enabled by default, because they could give the user the feeling that something stopped working.</li>
-                        <li>Fixed a bug that was not importing user data.</li>
-                        <li>Fixed a bug that was happening when syncing from "/esgst/sync" (closes <a href="https://github.com/revilheart/ESGST/issues/385">#385</a>).</li>
-                        <li>Added an option (8.6 - SG/9.6 - ST) to the settings menu that allows you to hide certain buttons at the left/right sides of the main page heading to reduce the used space.</li>
-                        <li>Fixed more bugs in Endless Scrolling.</li>
-                        <li>Fixed a bug in Endless Scrolling that was not loading discussion features for page 2+.</li>
-                        <li>Fixed a bug in Giveaway Filters that was not showing the correct number of filtered giveaways in the pagination counter.</li>
-                        <li>Hidden Games Enter Button Disabler is now responsible for removing the enter button in giveaways for hidden games on the main page (this was previously a default behavior).</li>
-                    </ul>
-                `
-            },
-            {
-                date: `August 28, 2017`,
-                version: `6.Beta.34.5`,
-                changelog: `
-                    <ul>
-                        <li>Reduced the size of the color inputs and added a line break in the "Alt Account" lines in the settings menu (closes <a href="https://github.com/revilheart/ESGST/issues/384">#384</a>).</li>
-                    </ul>
-                `
-            },
-            {
-                date: `August 28, 2017`,
-                version: `6.Beta.34.4`,
-                changelog: `
-                    <ul>
-                        <li>Fixed more Endless Scrolling bugs.</li>
-                        <li>Added options to Endless Scrolling that brings back page divisors and can be enabled for different types of pages separately.</li>
-                        <li>Removed the character limits for User/Game Tags (they were going to be a pain in the ass for Multi-Tag :P).</li>
-                        <li>Multi-Tag and the option to manage tags through the settings menu are back (closes <a href="https://github.com/revilheart/ESGST/issues/269">#269</a>).</li>
-                    </ul>
-                `
-            },
-            {
-                date: `August 27, 2017`,
-                version: `6.Beta.34.3`,
-                changelog: `
-                    <ul>
-                        <li>Fixed more Endless Scrolling bugs.</li>
-                    </ul>
-                `
-            },
-            {
-                date: `August 27, 2017`,
-                version: `6.Beta.34.2`,
-                changelog: `
-                    <ul>
-                        <li>Fixed a few bugs in Endless Scrolling.</li>
-                        <li>Fixed a bug in Giveaway Filters that was not filtering giveaways after page 1 with Endless Scrolling.</li>
-                    </ul>
-                    <p>Removed the following features:</p>
-                    <ul>
-                        <li>Removed Game Redirecter - I've made a separate script for this: <a href="https://www.steamgifts.com/discussion/YpiUk/">https://www.steamgifts.com/discussion/YpiUk/</a>.</li>
-                    </ul>
-                `
-            },
-            {
-                date: `August 27, 2017`,
-                version: `6.Beta.34.1`,
-                changelog: `
-                    <ul>
-                        <li>Fixed a bug in Tables Sorter that was duplicating the button.</li>
-                        <li>Fixed a bug in Users Stats that was conflicting with other popups.</li>
-                    </ul>
-                `
-            },
-            {
-                date: `August 27, 2017`,
-                version: `6.Beta.34.0`,
-                changelog: `
-                    <ul>
-                        <li>Fixed a typo that was not showing the description for Users Stats in the settings menu.</li>
-                        <li>Fixed a bug that was happening in browsers that don't support the use of "forEach" in NodeLists.</li>
-                        <li>Fixed a bug that was not properly setting default values in the localStorage.</li>
-                        <li>The results in Unsent Gifts Sender now link to the winners page of the giveaways.</li>
-                    </ul>
-                    <p>Revamped Endless Scrolling:</p>
-                    <ul>
-                        <li>Fixed a bug that would not load the next page if the page was too small in certain cases (closes <a href="https://github.com/revilheart/ESGST/issues/174">#174</a>).</li>
-                        <li>The pages are no longer divided - it's now truly endless.</li>
-                        <li>The feature no longer enables Fixed Main Page Heading and Pagination Navigation On Top by default.</li>
-                        <li>Added a button that allows you to refresh all currently loaded pages at once.</li>
-                        <li>Added a button that allows you to scroll back to the top of the page.</li>
-                        <li>The scrolling when clicking on a page number in the pagination from a page that has been loaded is now animated.</li>
-                    </ul>
-                    <p>Added the following features:</p>
-                    <ul>
-                        <li>1.19 Tables Sorter</li>
-                    </ul>
-                `
-            },
-            {
-                date: `August 26, 2017`,
-                version: `6.Beta.33.5`,
-                changelog: `
-                    <ul>
-                        <li>Extended Giveaway Filters to the created/entered/won pages with 4 new filters specific to the created page: "Received", "Not Received", "Awaiting Feedback" and "Deleted" (closes <a href="https://github.com/revilheart/ESGST/issues/223">#223</a>).</li>
-                    </ul>
-                `
-            },
-            {
-                date: `August 26, 2017`,
-                version: `6.Beta.33.4`,
-                changelog: `
-                    <ul>
-                        <li>Implemented a possible solution for <a href="https://github.com/revilheart/ESGST/issues/353">#353</a>. It would be useful if someone could test it if they know they're going to win a giveaway (100% chance) by not opening another tab when the giveaway ends and performing an action in the current tab that makes a request to SG (for example, refreshing a page through Endless Scrolling) to see if the popup appears.</li>
-                        <li>Added a more detailed tooltip to the "Add Alt Account" button in the settings menu, with instructions on how to add the alt account.</li>
-                        <li>You can now edit individual giveaways in Multiple Giveaways Creator. Instructions on how to do so are below the trash icon (closes <a href="https://github.com/revilheart/ESGST/issues/381">#381</a>).</li>
-                    </ul>
-                `
-            },
-            {
-                date: `August 26, 2017`,
-                version: `6.Beta.33.3`,
-                changelog: `
-                    <ul>
-                        <li>Popouts are now properly stacked.</li>
-                        <li>Fixed a bug in Giveaways Manager that was not properly exporting giveaways to encrypted giveaways (closes <a href="https://github.com/revilheart/ESGST/issues/379">#379</a>).</li>
-                        <li>Giveaways Manager now works with Multiple Giveaways Creator results (closes <a href="https://github.com/revilheart/ESGST/issues/276">#276</a>).</li>
-                        <li>Multiple Giveaways Creator now saves a cache whenever you add/import giveaways in case you accidentaly close the page or you have a power outrage so that you don't lose your progress. The cache is automatically loaded when you visit the page again and is only deleted if you click "Empty" or if you successully create the giveaways (closes <a href="https://github.com/revilheart/ESGST/issues/327">#327</a>).</li>
-                    </ul>
-                `
-            },
-            {
-                date: `August 26, 2017`,
-                version: `6.Beta.33.2`,
-                changelog: `
-                    <ul>
-                        <li>Added an option (7.4.3.2 - SG/8.4.3.2 - ST) to enable "Giveaway Info" category in Game Categories only in the created/entered/won pages.</li>
-                        <li>Game Categories now tries to retrieve price and rating information for games that have failed immediately when accessing the page again, instead of waiting 1 week.</li>
-                        <li>Added support for alt accounts in the "Owned" category in Game Categories (closes <a href="https://github.com/revilheart/ESGST/issues/280">#280</a>).</li>
-                        <li>Fixed Users Stats for the Whitelist/Blacklist Sorter popup (closes <a href="https://github.com/revilheart/ESGST/issues/378">#378</a>).</li>
-                    </ul>
-                `
-            },
-            {
-                date: `August 26, 2017`,
-                version: `6.Beta.33.1`,
-                changelog: `
-                    <ul>
-                        <li>Fixed a bug in Giveaway Encrypter/Decrypter where the icon in the header was always green if the encrypted giveaway was a giveaway that the user cannot access.</li>
-                        <li>Giveaways that have not started yet now appear normally in Giveaway Encrypter/Decrypter (closes <a href="https://github.com/revilheart/ESGST/issues/375">#375</a>).</li>
-                    </ul>
-                `
-            },
-            {
-                date: `August 26, 2017`,
-                version: `6.Beta.33.0`,
-                changelog: `
-                    <ul>
-                        <li>Fixed a bug that was enabling Collapse/Expand Replies Button for popups.</li>
-                    </ul>
-                    <p>Added the following features:</p>
-                    <ul>
-                        <li>2.29 Hidden Games Remover (closes <a href="https://github.com/revilheart/ESGST/issues/299">#299</a>)</li>
-                        <li>5.15 (SG)/6.16 (ST) Users Stats (closes <a href="https://github.com/revilheart/ESGST/issues/307">#307</a>)</li>
-                    </ul>
-                `
-            },
-            {
-                date: `August 26, 2017`,
-                version: `6.Beta.32.0`,
-                changelog: `
-                    <ul>
-                        <li>Fixed a bug in Shortcut Keys that was firing keys when focused on an input or text area (closes <a href="https://github.com/revilheart/ESGST/issues/377">#377</a>).</li>
-                        <li>Fixed a bug that was not showing Giveaway Winning Chance/Ratio for active invite only giveaways in popups.</li>
-                        <li>When trying to create a train in Multiple Giveaways Creator with no previous/next/bump links format in the description, an alert will now be shown (closes <a href="https://github.com/revilheart/ESGST/issues/376">#376</a>).</li>
-                        <li>You can now use only one type of link in Multiple Giveaways Creator. Before the description had to contain both previous and next links, otherwise it wouldn't work. Now you can have only next links in your train, for example.</li>
-                        <li>Fixed a bug in Game Categories that was still not showing rating for non-English users.</li>
-                    </ul>
-                    <p>Added the following features:</p>
-                    <ul>
-                        <li>1.12 Attached Images Carousel (closes <a href="https://github.com/revilheart/ESGST/issues/364">#364</a>)</li>
-                    </ul>
-                `
-            },
-            {
-                date: `August 25, 2017`,
-                version: `6.Beta.31.15`,
-                changelog: `
-                    <ul>
-                        <li>If the option "Show blacklist information." is disabled in Whitelist/Blacklist Checker the word "blacklist" is now wiped from everywhere (closes <a href="https://github.com/revilheart/ESGST/issues/374">#374</a>).</li>
-                    </ul>
-                `
-            },
-            {
-                date: `August 25, 2017`,
-                version: `6.Beta.31.14`,
-                changelog: `
-                    <ul>
-                        <li>Fixed a style issue in the exception popup in Giveaway Filters for users with small-height screens.</li>
-                        <li>You can now enable the simplified version for Game Categories individually.</li>
-                    </ul>
-                `
-            },
-            {
-                date: `August 25, 2017`,
-                version: `6.Beta.31.13`,
-                changelog: `
-                    <ul>
-                        <li>Revamped the exception popup in Giveaway Filters.</li>
-                    </ul>
-                `
-            },
-            {
-                date: `August 25, 2017`,
-                version: `6.Beta.31.12`,
-                changelog: `
-                    <ul>
-                        <li>Fixed a bug in Grid View that was happening when opening popups from a discussion page.</li>
-                        <li>Fixed a typo in the Giveaway Encrypter/Decrypter source links.</li>
-                        <li>When you create a discussion with encrypted giveaways, they are now immediately decrypted and the icon in the header no longer turns green.</li>
-                        <li>Added an option to Whitelist/Blacklist Checker to only check users who have not whitelisted/blacklisted you (<a href="https://github.com/revilheart/ESGST/issues/315">#315</a>)).</li>
-                    </ul>
-                `
-            },
-            {
-                date: `August 25, 2017`,
-                version: `6.Beta.31.11`,
-                changelog: `
-                    <ul>
-                        <li>All popups with a "Load more..." button now support Endless Scrolling (they must be enabled through options 1.19.7-1.19.13) (<a href="https://github.com/revilheart/ESGST/issues/244">#244</a>)).</li>
-                        <li>If at least one giveaway in the current batch has been filtered in the Giveaway Encrypter/Decrypter and Train Giveaways Extractor popups, the next batch will now be loaded automatically.</li>
-                        <li>When you save a comment with encrypted giveaways, they are now immediately decrypted and the icon in the header no longer turns green (<a href="https://github.com/revilheart/ESGST/issues/272">#272</a>)).</li>
-                        <li>Fixed a bug in Giveaway Encrypter/Decrypter that was missing the source for encrypted giveaways added to the OP of a discussion.</li>
-                    </ul>
-                `
-            },
-            {
-                date: `August 24, 2017`,
-                version: `6.Beta.31.10`,
-                changelog: `
-                    <ul>
-                        <li>Fixed a typo in checkers that was showing a first number higher than the second i.e. 10 of 9 (<a href="https://github.com/revilheart/ESGST/issues/320">#320</a>)).</li>
-                        <li>You can now choose which filters you want for Giveaway Filters through the settings menu.</li>
-                        <li>Added the option to attach discussions to trains to Multiple Giveaways Creator so that bump links are automatically added when creating trains (<a href="https://github.com/revilheart/ESGST/issues/248">#248</a>)).</li>
-                        <li>Made some enhancements to the import popup in Multiple Giveaways Creator (<a href="https://github.com/revilheart/ESGST/issues/372">#372</a>)).
-                    </ul>
-                `
-            },
-            {
-                date: `August 24, 2017`,
-                version: `6.Beta.31.9`,
-                changelog: `
-                    <ul>
-                        <li>The exceptions in Giveaway Filters should now correctly apply only to the basic filters.</li>
-                    </ul>
-                `
-            },
-            {
-                date: `August 24, 2017`,
-                version: `6.Beta.31.8`,
-                changelog: `
-                    <ul>
-                        <li>Added an option (1.15.1) to Hidden Community Poll that only hides the poll if you already voted (closes <a href="https://github.com/revilheart/ESGST/issues/317">#317</a>).</li>
-                    </ul>
-                `
-            },
-            {
-                date: `August 24, 2017`,
-                version: `6.Beta.31.7`,
-                changelog: `
-                    <ul>
-                        <li>Changed the icon used to indicate if an option has sub-options in the settings menu to an ellipsis.</li>
-                    </ul>
-                `
-            },
-            {
-                date: `August 24, 2017`,
-                version: `6.Beta.31.6`,
-                changelog: `
-                    <ul>
-                        <li>The sidebar in Fixed Sidebar now gets fixed if the page is larger than the window (before it would only get fixed if the page was larger than 2 times the window).</li>
-                        <li>Fixed a bug in Giveaway Filters that was filtering all ended giveaways.</li>
-                    </ul>
-                `
-            },
-            {
-                date: `August 24, 2017`,
-                version: `6.Beta.31.5`,
-                changelog: `
-                    <ul>
-                        <li>Improved the tooltip when creating exceptions in Giveaway Filters to clarify that each exception works as an AND conjunction.</li>
-                    </ul>
-                `
-            },
-            {
-                date: `August 24, 2017`,
-                version: `6.Beta.31.4`,
-                changelog: `
-                    <ul>
-                        <li>Fixed a bug in Giveaway Filters that was filtering exceptions higher or lower than, but not equal.</li>
-                    </ul>
-                `
-            },
-            {
-                date: `August 23, 2017`,
-                version: `6.Beta.31.3`,
-                changelog: `
-                    <ul>
-                        <li>Moved the script's icon to Dropbox.</li>
-                        <li>The script's changelog is now stored inside of the script.</li>
-                    </ul>
-                `
-            },
-            {
-                date: `August 23, 2017`,
-                version: `6.Beta.31.2`,
-                changelog: `
-                    <ul>
-                        <li>Each option in the settings menu that has sub-options now has a plus icon indicating that.</li>
-                        <li>Made the backup download when importing/deleting data an option.</li>
-                        <li>Added a confirmation popup that was missing when deleting data.</li>
-                        <li>Fixed a bug that was duplicating permalink icons because of recent SG changes.</li>
-                        <li>Fixed a bug that was not loading Hidden Blacklist Stats on Firefox (closes <a href="https://github.com/revilheart/ESGST/issues/362">#362</a>).</li>
-                        <li>Fixed a bug in Train Giveaways Extractor that was not extracting giveaways correctly when the number of giveaways to be extracted was a multiple of 50 (closes <a href="https://github.com/revilheart/ESGST/issues/363">#363</a>).</li>
-                        <li>Fixed a bug in Collapse/Expand Replies Button that was not correctly going to permalinks (closes <a href="https://github.com/revilheart/ESGST/issues/358">#358</a>).</li>
-                        <li>Fixed a bug in User Giveaways Data that was happening for invite only giveaways when checking other users (closes <a href="https://github.com/revilheart/ESGST/issues/368">#368</a>).</li>
-                        <li>Fixed a bug in Game Categories that was not retrieving rating for non-English users.</li>
-                    </ul>
-                `
-            },
-            {
-                date: `August 23, 2017`,
-                version: `6.Beta.31.1`,
-                changelog: `
-                    <ul>
-                        <li>Fixed a bug in Giveaway Filters that was preventing the script from loading correctly in group pages.</li>
-                        <li>Giveaway Copies Highlighter no longer highlights pinned giveaways (closes <a href="https://github.com/revilheart/ESGST/issues/370">#370</a>).</li>
-                        <li>Added an option to Unsent Gifts Sender that does not send gifts to blacklisted users.</li>
-                        <li>Fixed a bug in Game Categories that was not showing "Full CV" category when first loading a page.</li>
-                        <li>You can now color genres in Game Categories from 7.4.23 - SG / 8.4.23 - ST (closes <a href="https://github.com/revilheart/ESGST/issues/369">#369</a>).</li>
-                        <li>Duplicates between genres and user-defined tags in Game Categories are now removed.</li>
-                    </ul>
-                `
-            },
-            {
-                date: `August 23, 2017`,
-                version: `6.Beta.31.0`,
-                changelog: `
-                    <ul>
-                        <li>Renamed the class ".rhHidden" to ".esgst-hidden".</li>
-                        <li>Removed useless classes.</li>
-                        <li>Fixed a typo in the Level Progress Visualizer tooltip (closes <a href="https://github.com/revilheart/ESGST/issues/367">#367</a>).</li>
-                        <li>Fixed a bug in Giveaway Filters that was not properly counting the points to enter all unfiltered giveaways.</li>
-                        <li>Added "Minutes To End" filter to Giveaway Filters (closes <a href="https://github.com/revilheart/ESGST/issues/322">#322</a>).</li>
-                        <li>Giveaway Filters now has an advanced exceptions tool that allows you to set individual exceptions for all filters (closes <a href="https://github.com/revilheart/ESGST/issues/322">#322</a>).</li>
-                        <li>Renaming presets in Giveaway Filters is now much easier: you no longer need to apply the preset to rename it, and upon renaming a preset, it also renames in all pages that are using that preset (closes <a href="https://github.com/revilheart/ESGST/issues/313">#313</a>).</li>
-                    </ul>
-                    <p>Added the following features:</p>
-                    <ul>
-                        <li>2.11 Giveaway Copies Highlighter (closes <a href="https://github.com/revilheart/ESGST/issues/322">#322</a>)</li>
-                    </ul>
-                `
-            },
-            {
-                date: `August 21, 2017`,
-                version: `6.Beta.30.4`,
-                changelog: `
-                    <ul>
-                        <li>Added an option to manage Discussion Filters data to the settings menu.</li>
-                        <li>Added a description to Entered Games Highlighter in the settings menu.</li>
-                        <li>Enter/Leave Giveaway Button no longer adds a button to giveaways for hidden games in popups.</li>
-                        <li>Fixed a bug in Unsent Gifts Sender and Whitelist/Blacklist Checker that was not detecting groups correctly. As a result, the way the groups are stored has changed (you must sync your groups immediately after this version).</li>
-                        <li>Fixed the first emoji in Comment Formatting Helper (¯\\_(ツ)_/¯ -> ¯\\\_(ツ)_/¯).</li>
-                        <li>Added an option (7.4.8.1 - SG / 8.4.8.1 - ST) to Game Categories that does not show "Reduced CV" if a game has both "Reduced CV" and "No CV".</li>
-                    </ul>
-                `
-            },
-            {
-                date: `August 20, 2017`,
-                version: `6.Beta.30.3`,
-                changelog: `
-                    <ul>
-                        <li>Fixed a typo in the sync that was showing the same message for syncing hidden and wishlisted/owned/ignored games.</li>
-                        <li>Fixed a bug that was happening when storing/syncing giveaways (closes <a href="https://github.com/revilheart/ESGST/issues/365">#365</a>).</li>
-                        <li>Fixed a bug in Header Refresher that was not filtering entered giveaways after entering them.</li>
-                        <li>Fixed a bug in Main Post Popup that was preventing the script from loading correctly.</li>
-                        <li>Fixed a bug in Comment Formatting Helper that was not saving emojis.</li>
-                        <li>Fixed a bug in Shared Groups Checker that was not indentifying shared groups with uppercase letters.</li>
-                    </ul>
-                `
-            },
-            {
-                date: `August 19, 2017`,
-                version: `6.Beta.30.2`,
-                changelog: `
-                    <ul>
-                        <li>Added an option (2.18.1) to Giveaway Recreator to remove the button for giveaways that have been recreated.</li>
-                        <li>Giveaway Recreator now runs on the created page, opens in a new tab and is also shown for giveaways with less entries than copies.</li>
-                        <li>Deleting presets, templates and saved replies no longer prompts for a confirmation. Instead a "Undo Delete" button will appear so you can restore them if you deleted them by mistake (closes <a href="https://github.com/revilheart/ESGST/issues/206">#206</a>).</li>
-                        <li>Fixed a style issue in Giveaway Groups Loader that was not repositioning popups (closes <a href="https://github.com/revilheart/ESGST/issues/232">#232</a>).</li>
-                        <li>Fixed a style issue in Giveaway Groups Loader that was adding double underlines to groups (closes <a href="https://github.com/revilheart/ESGST/issues/247">#247</a>).</li>
-                        <li>Removed the user icon from Giveaway Groups Loader, since the feature shows avatars again.</li>
-                    </ul>
-                `
-            },
-            {
-                date: `August 19, 2017`,
-                version: `6.Beta.30.1`,
-                changelog: `
-                    <ul>
-                        <li>Fixed a bug that was not enabling Giveaway Recreator in profile pages other than page 1.</li>
-                    </ul>
-                `
-            },
-            {
-                date: `August 19, 2017`,
-                version: `6.Beta.30.0`,
-                changelog: `
-                    <ul>
-                        <li>Fixed a bug that was preventing the script from running in the entered/won pages.</li>
-                        <li>Giveaways visited or hidden no longer count for the option in Header Refresher to indicate if there are unentered wishlist giveaways open.</li>
-                        <li>Fixed a bug in Endless Scrolling that was not reversing the pages correctly.</li>
-                    </ul>
-                    <p>Added the following features:</p>
-                    <ul>
-                        <li>2.18 Giveaway Recreator</li>
-                    </ul>
-                `
-            },
-            {
-                date: `August 19, 2017`,
-                version: `6.Beta.29.0`,
-                changelog: `
-                    <ul>
-                        <li>Added an option to sync your giveaways from the settings menu, without the need to use User Giveaways Data.</li>
-                        <li>Fixed a bug that was not showing the button to manage hidden discussions in the settings menu.</li>
-                        <li>If you have Level Progress Visualizer, Created/Entered/Won Giveaway Details, Real CV Calculator or the "Giveaway Info" category in Game Categories enabled, when you create a giveaway you will now get a popup asking you to wait a few seconds until the giveaway is saved in the storage for those features.</li>
-                        <li>Level Progress Visualizer now projects what your level will be after your active giveaways end and get marked as received (only works for giveaways created after v6.Beta.29.0) (closes <a href="https://github.com/revilheart/ESGST/issues/181">#181</a>).</li>
-                        <li>Real CV Calculator and the "Giveaway Info" category in Game Categories now both take into account active giveaways for calculation (closes <a href="https://github.com/revilheart/ESGST/issues/297">#297</a>).</li>
-                        <li>Fixed a bug in Giveaway Filters that was not filtering some filters (closes <a href="https://github.com/revilheart/ESGST/issues/359">#359</a>).</li>
-                        <li>Changed how User Giveaways Data is stored.</li>
-                        <li>Fixed a bug in Game Categories that was showing the wrong icon/label for the "Multiplayer" category.</li>
-                    </ul>
-                    <p>Added the following features:</p>
-                    <ul>
-                        <li>2.25 Giveaways Manager (closes <a href="https://github.com/revilheart/ESGST/issues/197">#197</a>)</li>
-                    </ul>
-                `
-            },
-            {
-                date: `August 17, 2017`,
-                version: `6.Beta.28.3`,
-                changelog: `
-                    <ul>
-                        <li>Moved all the instructions on Multiple Giveaways Creator to tooltips.</li>
-                        <li>Multiple Giveaways Creator now automatically recognizes if the key is before or after the game name when importing (closes <a href="https://github.com/revilheart/ESGST/issues/267">#267</a>).</li>
-                        <li>Added the "Portal ABCDE-FGHIJ-KLMNO ABCDE-FGHIJ-PQRST" format to Multiple Giveaways Creator, which allows you to put all keys for a giveaway in front of each other instead of in separate lines.</li>
-                        <li>Fixed a bug in Game Categories that was showing the "Full CV" category for no CV games.</li>
-                    </ul>
-                `
-            },
-            {
-                date: `August 17, 2017`,
-                version: `6.Beta.28.2`,
-                changelog: `
-                    <ul>
-                        <li>Fixed a bug that was deleting data from the other list when syncing only one of whitelist/blacklist.</li>
-                        <li>Fixed a bug that was enabling Giveaway Templates even when disabled.</li>
-                        <li>Fixed a bug that was happening in the created/entered/won pages if the popup option was enabled in Giveaway Groups Loader.</li>
-                    </ul>
-                `
-            },
-            {
-                date: `August 16, 2017`,
-                version: `6.Beta.28.1`,
-                changelog: `
-                    <ul>
-                        <li>Shortcut Keys and the option 1.17.2 are now enabled for SteamTrades (they should have been all along, but I somehow forgot to do it).</li>
-                        <li>You can now mark discussions/trades as read in Giveaways/Discussions/Tickets/Trades Tracker from inside of them if option 1.17.2 is disabled.</li>
-                        <li>Added support for active giveaways to Sent Keys Searcher. Keys from active giveaways will have a "[UNASSIGNED]" tag next to them.</li>
-                        <li>The number of unread comments in Comment Tracker is now also shown inside of giveaways/discussions/tickets/trades and changes as you read/unread comments in the page.</li>
-                    </ul>
-                `
-            },
-            {
-                date: `August 16, 2017`,
-                version: `6.Beta.28.0`,
-                changelog: `
-                    <ul>
-                        <li>Popups are now properly stacked.</li>
-                        <li>Added the hide game buttons to popups (closes <a href="https://github.com/revilheart/ESGST/issues/337">#337</a>).</li>
-                        <li>Fixed a bug in Endless Scrolling that was reversing the comments even with the feature disabled.</li>
-                        <li>Giveaway Filters now shows how many points are required to enter all unfiltered giveaways.</li>
-                        <li>Added an option (2.15.1) to Enter/Leave Giveaway Button that allows you to enable the feature only for popups (closes <a href="https://github.com/revilheart/ESGST/issues/341">#341</a>).</li>
-                        <li>Train Giveaways Extractor now shows how many points are required to enter all giveaways in the train (closes <a href="https://github.com/revilheart/ESGST/issues/341">#341</a>).</li>
-                        <li>Fixed a bug that was enabling Not Received Finder for users when it shouldn't.</li>
-                        <li>Fixed a bug in Game Categories that was showing the "Hidden" icon for "Wishlisted" icons.</li>
-                        <li>Moved the icon descriptions in Game Categories to tooltips (closes <a href="https://github.com/revilheart/ESGST/issues/355">#355</a>).</li>
-                    </ul>
-                    <p>Added the following features:</p>
-                    <ul>
-                        <li>2.23 Sent Keys Searcher (closes <a href="https://github.com/revilheart/ESGST/issues/331">#331</a>)</li>
-                        <li>3.3 Discussion Filters (closes <a href="https://github.com/revilheart/ESGST/issues/336">#336</a>)</li>
-                        <li>[4.1 - SG / 5.1 - ST] Collapse/Expand Replies Button (closes <a href="https://github.com/revilheart/ESGST/issues/346">#346</a>)</li>
-                    </ul>
-                `
-            },
-            {
-                date: `August 16, 2017`,
-                version: `6.Beta.27.4`,
-                changelog: `
-                    <ul>
-                        <li>Fixed a bug that was happening in Entered Games Highlighter.</li>
-                        <li>Fixed a bug in Game Categories that was showing the default label for some categories in the settings menu instead of the custom one.</li>
-                        <li>Increased the Game Categories cache from 24 hours to 1 week and separated the cache for each game.</li>
-                    </ul>
-                `
-            },
-            {
-                date: `August 16, 2017`,
-                version: `6.Beta.27.3`,
-                changelog: `
-                    <ul>
-                        <li>Fixed a returning style issue that was not centering the outdated version popup.</li>
-                        <li>Added 3 buttons below the comments in Comment Tracker: "mark this comment as read and go to the next unread comment", "mark all comments from this comment upwards as read" and "mark all comments from this comment upwards as unread".</li>
-                        <li>Fixed a bug in Game Categories that was happening when making too many requests to the Steam store in a short amount of time (closes <a href="https://github.com/revilheart/ESGST/issues/352">#352</a>).</li>
-                        <li>Fixed a style issue in Game Categories that was breaking polls (closes <a href="https://github.com/revilheart/ESGST/issues/342">#342</a>).</li>
-                        <li>Added an option (7.4.2 - SG / 8.4.2 - ST) to Game Categories that allows you to decide whether to show the categories next to the game name or below it.</li>
-                        <li>Added an option (7.4.4.1 - SG / 8.4.4.1 - ST) to Game Categories to only show the "Giveaway Info" category in discussion tables (closes <a href="https://github.com/revilheart/ESGST/issues/265">#265</a>).</li>
-                    </ul>
-                `
-            },
-            {
-                date: `August 16, 2017`,
-                version: `6.Beta.27.2`,
-                changelog: `
-                    <ul>
-                        <li>Fixed some style issues in popups (closes <a href="https://github.com/revilheart/ESGST/issues/347">#347</a> and <a href="https://github.com/revilheart/ESGST/issues/350">#350</a>).</li>
-                        <li>You can now use custom icons/labels for Game Categories.</li>
-                    </ul>
-                `
-            },
-            {
-                date: `August 16, 2017`,
-                version: `6.Beta.27.1`,
-                changelog: `
-                    <ul>
-                        <li>Fixed a style issue that was adding an additional column to created/won pages.</li>
-                        <li>Fixed a bug in Giveaway Filters that was not saving started/ended filter settings.</li>
-                        <li>Fixed a style issue that was adding a plus sign instead of a minus sign to Enter/Leave Giveaway Button inside of popups.</li>
-                        <li>Fixed a bug that was running Giveaway Winners Link inside of giveaways (closes <a href="https://github.com/revilheart/ESGST/issues/351">#351</a>).</li>
-                        <li>Fixed a bug that was preventing Giveaway Error Search Links from running.</li>
-                    </ul>
-                `
-            },
-            {
-                date: `August 15, 2017`,
-                version: `6.Beta.27.0`,
-                changelog: `
-                    <ul>
-                        <li>Fixed a bug in Giveaway Templates that was not closing the template popup when applying a template (closes <a href="https://github.com/revilheart/ESGST/issues/349">#349</a>).</li>
-                        <li>Giveaway Templates no longer displays "?-?" if a template does not have precise start and end times (closes <a href="https://github.com/revilheart/ESGST/issues/339">#339</a>).</li>
-                    </ul>
-                    <p>Added the following features:</p>
-                    <ul>
-                        <li>Shortcut Keys (closes <a href="https://github.com/revilheart/ESGST/issues/348">#348</a>)</li>
-                    </ul>
-                `
-            },
-            {
-                date: `August 15, 2017`,
-                version: `6.Beta.26.10`,
-                changelog: `
-                    <ul>
-                        <li>Fixed a Comment Tracker bug.</li>
-                        <li>Separated the default Giveaway Bookmarks behavior of automatically unbookmarking ended giveaways into an option (2.9.2). With this option disabled, ended giveaways will remain in the bookmarked list until manually unbookmarked.</li>
-                    </ul>
-                `
-            },
-            {
-                date: `August 15, 2017`,
-                version: `6.Beta.26.9`,
-                changelog: `
-                    <ul>
-                        <li>Fixed a typo in the description of Whitelist/Blacklist Highlighter.</li>
-                        <li>Separated the default Giveaways/Discussions/Tickets/Trades Tracker behavior of marking the pages as visited when visiting them into an option (1.16.2). With this option disabled, the only way to mark them as visited is manually through the check button.</li>
-                        <li>Fixed a bug in Giveaway Winners Link that was not enabling it everywhere.</li>
-                        <li>Fixed a bug in Unsent Gifts Sender that was not sending all gifts if a winner was being rerolled.</li>
-                    </ul>
-                `
-            },
-            {
-                date: `August 15, 2017`,
-                version: `6.Beta.26.8`,
-                changelog: `
-                    <ul>
-                        <li>Fixed a bug that was not showing "Rating" category in Game Categories.</li>
-                    </ul>
-                `
-            },
-            {
-                date: `August 15, 2017`,
-                version: `6.Beta.26.7`,
-                changelog: `
-                    <ul>
-                        <li>Fixed a bug that was happening for new users.</li>
-                    </ul>
-                `
-            },
-            {
-                date: `August 15, 2017`,
-                version: `6.Beta.26.6`,
-                changelog: `
-                    <ul>
-                        <li>Fixed a style issue that was blurring popups (closes <a href="https://github.com/revilheart/ESGST/issues/347">#347</a>).</li>
-                        <li>Rolled Game Categories back to retrieving the categories manually, since Google Sheets was not able to handle the quota, but kept the 24-hour cache.</li>
-                    </ul>
-                `
-            },
-            {
-                date: `August 14, 2017`,
-                version: `6.Beta.26.5`,
-                changelog: `
-                    <ul>
-                        <li>Popups are now fixed in the center of the page (closes <a href="https://github.com/revilheart/ESGST/issues/238">#238</a>).</li>
-                        <li>Added a small 24-hour cache to Game Categories.</li>
-                    </ul>
-                `
-            },
-            {
-                date: `August 14, 2017`,
-                version: `6.Beta.26.4`,
-                changelog: `
-                    <ul>
-                        <li>Fixed a bug that was not showing some categories or was duplicating some categories in Game Categories (closes <a href="https://github.com/revilheart/ESGST/issues/340">#340</a>).</li>
-                    </ul>
-                `
-            },
-            {
-                date: `August 14, 2017`,
-                version: `6.Beta.26.3`,
-                changelog: `
-                    <ul>
-                        <li>Added an option to sync "No CV Games" to the settings menu and renamed the option to sync bundles to "Reduced CV Games".</li>
-                        <li>Removed the "Bundled" and "Not Bundled" categories from Game Categories and added the "Full CV", "Reduced CV" and "No CV" categories. The "No CV" category is currently updated manually, so it might take some time until a game is added to the list. You must sync "Reduced CV Games" through the settings menu in this update otherwise the old "bundled" data will not appear.</li>
-                        <li>The "Giveaway Info" category from Game Categories and Real CV Calculator now both use the "No CV" data to correctly calculate the CV.</li>
-                    </ul>
-                `
-            },
-            {
-                date: `August 14, 2017`,
-                version: `6.Beta.26.2`,
-                changelog: `
-                    <ul>
-                        <li>Removed Game Categories from the new giveaway page, since SG now shows an asterisk there if the game is bundled.</li>
-                        <li>You can now sort the categories in Game Categories from the settings menu (you will find it at the end of the Game Categories section - Games.4).</li>
-                        <li>EXPERIMENTAL: Game Categories are now loaded from a Google Sheet instead of being stored locally (closes <a href="https://github.com/revilheart/ESGST/issues/291">#291</a> and <a href="https://github.com/revilheart/ESGST/issues/302">#302</a>). If you're requesting games for the first time, it should take around 15 seconds for the categories to load, but every other time it should be a lot faster, sometimes loading instantly or after around 2 seconds. I believe this is a worth time to wait considering this method doesn't consume any memory. This method is experimental though, since I'm not sure if Google Sheets will be able to handle the request quota, but worst case scenario I can add a manual request method as fallback later.</li>
-                        <li>Added Game Categories data to the "Wipe Storage" button in the settings menu, now that this data is no longer stored locally and therefore useless to keep.</li>
-                    </ul>
-                `
-            },
-            {
-                date: `August 13, 2017`,
-                version: `6.Beta.26.1`,
-                changelog: `
-                    <ul>
-                        <li>Fixed a bug that was preventing some users from exporting data (closes <a href="https://github.com/revilheart/ESGST/issues/335">#335</a>).</li>
-                    </ul>
-                `
-            },
-            {
-                date: `August 13, 2017`,
-                version: `6.Beta.26.0`,
-                changelog: `
-                    <ul>
-                        <li>Completely removed support for storages from older versions. Users coming from very old versions will now have to downgrade to v25.5 before upgrading to 26.0 to carry their data on.</li>
-                        <li>Added buttons that allow you to select all/none/inverse when importing/exporting/deleting (closes <a href="https://github.com/revilheart/ESGST/issues/251">#251</a>).</li>
-                        <li>Fixed a bug that was adding the Comment Formatting Helper panel to the keys text area in the new giveaway page.</li>
-                    </ul>
-                    <p>Renamed the settings and sync pages:</p>
-                    <ul>
-                        <li>/esgst-settings -> /esgst/settings</li>
-                        <li>/esgst-sync -> /esgst/sync</li>
-                    </ul>
-                    <p>Revamped the import/export/delete tools and added specific pages for them:</p>
-                    <ul>
-                        <li>/esgst/import</li>
-                        <li>/esgst/export</li>
-                        <li>/esgst/delete</li>
-                    </ul>
-                    <p>WARNING: Any exported files from versions prior to v26.0 are no longer supported. If you have old exported files that you wish to make compatible with v26.0+, you'll have to downgrade to v25.5, import the file, upgrade to v26.0 and export it.</p>
-                `
-            },
-            {
-                date: `August 11, 2017`,
-                version: `6.Beta.25.5`,
-                changelog: `
-                    <ul>
-                        <li>Fixed a bug that was replacing giveaway data for users who did not previously update to 25.0.</li>
-                    </ul>
-                `
-            },
-            {
-                date: `August 11, 2017`,
-                version: `6.Beta.25.4`,
-                changelog: `
-                    <ul>
-                        <li>Fixed a bug in Giveaways/Discussions/Tickets/Trades Tracker that was not fading out visited places.</li>
-                    </ul>
-                `
-            },
-            {
-                date: `August 11, 2017`,
-                version: `6.Beta.25.3`,
-                changelog: `
-                    <ul>
-                        <li>Fixed a bug with the Comment Tracker localStorage.</li>
-                    </ul>
-                `
-            },
-            {
-                date: `August 11, 2017`,
-                version: `6.Beta.25.2`,
-                changelog: `
-                    <ul>
-                        <li>Moved Comment Tracker data to localStorage.</li>
-                        <li>Removed tooltips from the manage popup in the settings menu, as they were redundant (closes <a href="https://github.com/revilheart/ESGST/issues/196">#196</a>).</li>
-                        <li>Removed redundant "data" and period from the manage popup in the settings menu (closes <a href="https://github.com/revilheart/ESGST/issues/253">#253</a>).</li>
-                        <li>Fixed a bug that was duplicating the Comment Formatting Helper panel in some places (closes <a href="https://github.com/revilheart/ESGST/issues/330">#330</a>).</li>
-                    </ul>
-                `
-            },
-            {
-                date: `August 10, 2017`,
-                version: `6.Beta.25.1`,
-                changelog: `
-                    <ul>
-                        <li>Fixed a bug with the rerolls/winners localStorage (possible solution for <a href="https://github.com/revilheart/ESGST/issues/329">#329</a>).</li>
-                    </ul>
-                `
-            },
-            {
-                date: `August 10, 2017`,
-                version: `6.Beta.25.0`,
-                changelog: `
-                    <ul>
-                        <li>Moved all data that doesn't need to be shared between SG and ST to localStorage, to start getting rid of GM_setValue/GM_getValue and hopefully improve the script's performance. This data includes: entries, giveaways, groups, rerolls, templates and winners. As a result, this data can no longer be managed through SteamTrades, only through SteamGifts. A button has been added to the settings menu to wipe the GM_setValue/GM_getValue data from the storage (make sure to backup through Tampermonkey before doing this).</li>
-                        <li>The script's settings page now has the title "ESGST Settings" and the icon of the script as favicon.</li>
-                        <li>Fixed a style issue that was making tooltips appear behind popups/popouts (closes <a href="https://github.com/revilheart/ESGST/issues/321">#321</a>).</li>
-                        <li>Fixed a style issue with the source link in Giveaways Encrypter/Decrypter that was affecting non-grid view (closes <a href="https://github.com/revilheart/ESGST/issues/326">#326</a>).</li>
-                        <li>The currently used preset in Giveaway Filters is now highlighted in the preset list (closes <a href="https://github.com/revilheart/ESGST/issues/312">#312</a>).</li>
-                        <li>Chances lower than 0.01 are now rounded up to 0.01 in Giveaway Winning Chance (closes <a href="https://github.com/revilheart/ESGST/issues/324">#324</a>).</li>
-                        <li>Added a confirmation dialog to Multiple Giveaways Creator when trying to leave the new giveaway page if giveaways have been added (closes <a href="https://github.com/revilheart/ESGST/issues/328">#328</a>).</li>
-                        <li>Fixed a bug in Comment Formatting Helper that was not adding the panel to text areas in the new ticket page (closes <a href="https://github.com/revilheart/ESGST/issues/325">#325</a>).</li>        </ul>
-                    <p>Added the following features:</p>
-                    <ul>
-                        <li>General.8 Search Maginifying Glass Button (closes <a href="https://github.com/revilheart/ESGST/issues/319">#319</a>)</li>
-                    </ul>
-                `
-            },
-            {
-                date: `August 6, 2017`,
-                version: `6.Beta.24.2`,
-                changelog: `
-                    <ul>
-                        <li>Fixed a bug in Header Refresher that was no longer indicating the unread messages in the tab icon.</li>
-                        <li>The name of the preset currently being used is now displayed next to the filtered count in Giveaway Filters (closes <a href="https://github.com/revilheart/ESGST/issues/314">#314</a>).</li>
-                        <li>Fixed a bug in Active Discussions On Top/Sidebar that was using classes from the sidebar option in the top option.</li>
-                        <li>Fixed a bug in Game Categories that was coloring all categories red.</li>
-                    </ul>
-                `
-            },
-            {
-                date: `August 6, 2017`,
-                version: `6.Beta.24.1`,
-                changelog: `
-                    <ul>
-                        <li>Removed all uses of GM_addStyle and GM_getResourceURL.</li>
-                        <li>Improved CSS injection (all CSS is now injected at once).</li>
-                        <li>Cloned most SG classes for the settings menu.</li>
-                        <li>Added an option (Other.3) to open the settings in a new tab.</li>
-                    </ul>
-                `
-            },
-            {
-                date: `August 6, 2017`,
-                version: `6.Beta.24.0`,
-                changelog: `
-                    <ul>
-                        <li>Fixed a bug in Givewaways Encrypter/Decrypter that was duplicating decrypted giveaways when editing a comment (closes <a href="https://github.com/revilheart/ESGST/issues/304">#304</a>).</li>
-                        <li>Fixed a bug that was not calculating ratio/chance inside of invite only giveaways.</li>
-                        <li>Added "Started" and "Ended" filters to Giveaway Filters.</li>
-                        <li>Whitelist/Blacklist Checker now only stores data if the result is either whitelisted or blacklisted. Any other data will be wiped from the storage.</li>
-                    </ul>
-                    <p>Added the following features:</p>
-                    <ul>
-                        <li>Comments.5 Received Reply Box Popup (closes <a href="https://github.com/revilheart/ESGST/issues/305">#305</a>)</li>
-                    </ul>
-                `
-            },
-            {
-                date: `August 4, 2017`,
-                version: `6.Beta.23.7`,
-                changelog: `
-                    <ul>
-                        <li>Fixed some bugs caused by cg's latest changes.</li>
-                        <li>Removed the option to automatically load the CV when opening users' profiles from Real Won/Sent CV Links, since this has been added by cg.</li>
-                        <li>The ratio in Sent/Won Ratio is now more detailed, breaking down the ratio between full value, reduced value and no value, and also showing the dollar ratio (with real value included).</li>
-                    </ul>
-                `
-            },
-            {
-                date: `August 2, 2017`,
-                version: `6.Beta.23.6`,
-                changelog: `
-                    <ul>
-                        <li>Fixed a bug in Fixed Sidebar that was fixing the sidebar immediately without scrolling the page.</li>
-                        <li>When syncing, the script will now show a list of missing/new groups/games (closes <a href="https://github.com/revilheart/ESGST/issues/268">#268</a>).</li>
-                        <li>Unsent Gifts Sender no longer shows the sent/unsent items if 0 gifts were sent/unsent (closes <a href="https://github.com/revilheart/ESGST/issues/290">#290</a>).</li>
-                        <li>Moved the area where the results appear in Unsent Gifts Sender to below the button.</li>
-                        <li>Fixed a bug in Entries Remover that was not going through the pages correctly.</li>
-                    </ul>
-                `
-            },
-            {
-                date: `August 1, 2017`,
-                version: `6.Beta.23.5`,
-                changelog: `
-                    <ul>
-                        <li>Separated the functionality of fading giveaways in One-Click Hide Giveaway Button into an option (Giveaways.11.1).</li>
-                        <li>Fixed a bug that was showing chance/ratio in the review giveaway page (closes <a href="https://github.com/revilheart/ESGST/issues/201">#201</a>).</li>
-                        <li>Fixed a bug that was not showing chance/ratio for ended invite only giveaways.</li>
-                        <li>Next/Previous Train Hotkeys now uses the browser history to go to the previous wagon if there isn't a previous link (closes <a href="https://github.com/revilheart/ESGST/issues/300">#300</a>).</li>
-                    </ul>
-                `
-            },
-            {
-                date: `July 31, 2017`,
-                version: `6.Beta.23.4`,
-                changelog: `
-                    <ul>
-                        <li>Fixed a bug in Giveaway Filters that was not detecting "Owned", "Wishlisted", "Hidden", "Ignored" and "Bundled" filters in popup filters.</li>
-                        <li>Moved Giveaway Filters to the main page heading, so that it scrolls with the page.</li>
-                        <li>One-Click Hide Giveaway Button no longer immediately removes the giveaways (closes <a href="https://github.com/revilheart/ESGST/issues/271">#271</a>), but simply fades them, in case of accidental clicks, and also adds a button to unhide the giveaway.</li>
-                    </ul>
-                `
-            },
-            {
-                date: `July 30, 2017`,
-                version: `6.Beta.23.3`,
-                changelog: `
-                    <ul>
-                        <li>Giveaways Sorter and Discussions Sorted now remember the last selected option and have an option to auto sort the pages when loading them.</li>
-                        <li>Extended Giveaways Sorter to user and group pages.</li>
-                        <li>Added a button to Giveaway Filters that allows you to enable/disable all filters for the current page (closes <a href="https://github.com/revilheart/ESGST/issues/292">#292</a>).</li>
-                        <li>"Owned", "Wishlisted", "Hidden", "Ignored" and "Bundled" filters have been moved from category filters to type filters and now work with Game Categories disabled.</li>
-                        <li>Giveaway Filters now works with presets (closes <a href="https://github.com/revilheart/ESGST/issues/192">#192</a>) and no longer saves automatically when altering filters (you have to click "Save" to update the current preset).</li>
-                        <li>Fixed a bug in Created/Entered/Won Giveaway Details that was switching headers in the created/won pages.</li>
-                        <li>Prevented "Bundled" category in Game Categories from loading in the bundle list page.</li>
-                    </ul>
-                `
-            },
-            {
-                date: `July 29, 2017`,
-                version: `6.Beta.23.2`,
-                changelog: `
-                    <ul>
-                        <li>Renamed the CSS variables in Level Progress Visualizer to make them unique.</li>
-                    </ul>
-                `
-            },
-            {
-                date: `July 29, 2017`,
-                version: `6.Beta.23.1`,
-                changelog: `
-                    <ul>
-                        <li>Fixed a bug that was corrupting the user data when importing without "Merge" enabled.</li>
-                    </ul>
-                `
-            },
-            {
-                date: `July 29, 2017`,
-                version: `6.Beta.23.0`,
-                changelog: `
-                    <ul>
-                        <li>Bundles are now synced from a Google Sheet database that is updated daily. To get more info about the database, check this thread: https://www.steamgifts.com/discussion/qcvQE/</li>
-                        <li>All checkers now show how many pages there are left to check (closes <a href="https://github.com/revilheart/ESGST/issues/53">#53</a>).</li>
-                        <li>Added some CSS variables to Level Progress Visualizer so themes are able to customize it.</li>
-                        <li>Expanded Discussions Sorter.</li>
-                        <li>The created trades page is now refreshed if open when auto bumping from Trades Bumper.</li>
-                        <li>Decrypted giveaways added to posts during editing now appear immediately without having to refresh the page (only works with Multi-Reply or Reply From Inbox) (closes <a href="https://github.com/revilheart/ESGST/issues/228">#228</a>).</li>
-                        <li>Added an option (Comments.7.1) to Reply From Inbox that keeps the replies in the inbox page when refreshing (closes <a href="https://github.com/revilheart/ESGST/issues/179">#179</a>).</li>
-                    </ul>
-                    <p>Added the following features:</p>
-                    <ul>
-                        <li>General.13 Hidden Community Poll</li>
-                        <li>Giveaways.4 Giveaways Sorter (closes <a href="https://github.com/revilheart/ESGST/issues/198">#198</a>)</li>
-                    </ul>
-                `
-            },
-            {
-                date: `July 28, 2017`,
-                version: `6.Beta.22.3`,
-                changelog: `
-                    <ul>
-                        <li>Fixed a bug in Level Progress Visualizer.</li>
-                    </ul>
-                `
-            },
-            {
-                date: `July 28, 2017`,
-                version: `6.Beta.22.2`,
-                changelog: `
-                    <ul>
-                        <li>Added some tooltips to the color pickers in User/Game Tags.</li>
-                    </ul>
-                `
-            },
-            {
-                date: `July 28, 2017`,
-                version: `6.Beta.22.1`,
-                changelog: `
-                    <ul>
-                        <li>Fixed a typo in Giveaways.14 (closes <a href="https://github.com/revilheart/ESGST/issues/294">#294</a>).</li>
-                        <li>Fixed a style issue in Level Progress Visualizer (closes <a href="https://github.com/revilheart/ESGST/issues/150">#150</a>).</li>
-                        <li>Fixed a bug that was enabling Pagination Navigation On Top even if it was disabled.</li>
-                        <li>Fixed a bug in Giveaway Filters that was preventing the script from loading correctly for some users.</li>
-                        <li>You can now drag and drop templates in Giveaway Templates (closes <a href="https://github.com/revilheart/ESGST/issues/246">#246</a>).</li>
-                        <li>Fixed a bug in Giveaway Winning Chance/Ratio that was miscalculation entered giveaways if visiting them (closes <a href="https://github.com/revilheart/ESGST/issues/296">#296</a>).</li>
-                        <li>Multiple Giveaways Creator now trims the list of games before importing to make sure there are no empty lines or lines with white space at the beginning/end. (closes <a href="https://github.com/revilheart/ESGST/issues/298">#298</a>).</li>
-                        <li>Fixed a bug in Unsent Gifts Sender that was not sending gifts if none of the options were enabled (closes <a href="https://github.com/revilheart/ESGST/issues/301">#301</a>).</li>
-                        <li>Added some limits to User/Game Tags: you are now allowed a maximum character count of 64 for user tags and 32 for game tags.</li>
-                        <li>User/Game Tags can now be colored individually.</li>
-                        <li>The buttons in User/Game Tags are now faded out if there are no tags saved (useful for places where the tags are not displayed, such as inside Active Discussions On Sidebar or Grid View).</li>
-                        <li>Fixed a bug in Game Categories that was adding user-defined tags to the list of genres even if the option was disabled (partial solution to <a href="https://github.com/revilheart/ESGST/issues/291">#291</a>).</li>
-                    </ul>
-                `
-            },
-            {
-                date: `July 27, 2017`,
-                version: `6.Beta.22.0`,
-                changelog: `
-                    <ul>
-                        <li>The heading "Chance / Ratio" in the entered page now changes to "Chance" or "Ratio" if one of the features is disabled.</li>
-                        <li>Fixed a bug in Giveaway Winning Chance that was unable to calculate the advanced formula in the entered page due to the lack of the start time information (the advanced formula now only works outside of the entered page).</li>
-                        <li>Added the advanced formula and color settings from Giveaway Winning Chance also to Giveaway Winning Ratio.</li>
-                        <li>Added an option (Trades.1.1) that auto bumps your trades every hour.</li>
-                        <li>Fixed a bug in Comment Tracker that was preventing users from making comments in giveaways.</li>
-                    </ul>
-                    <p>Added the following features:</p>
-                    <ul>
-                        <li>Giveaways.22 Entries Tracker</li>
-                        <li>Comments.2 Comment Searcher</li>
-                    </ul>
-                `
-            },
-            {
-                date: `July 27, 2017`,
-                version: `6.Beta.21.5`,
-                changelog: `
-                    <ul>
-                        <li>Prevended the advanced formula in Giveaway Winning Chance from loading for ended giveaways.</li>
-                        <li>Added an option (Comments.2.20) to Comment Formatting Helper that allows you to save replies for later use (closes <a href="https://github.com/revilheart/ESGST/issues/170">#170</a>).</li>
-                        <li>Separated the Comment Tracker change from the last update into a new option (Comments.7.1.1).</li>
-                    </ul>
-                    <p>Upgraded the following features to v6:</p>
-                    <ul>
-                        <li>Groups.2 Groups Stats - No major changes, simply removed the request limit.</li>
-                    </ul>
-                `
-            },
-            {
-                date: `July 26, 2017`,
-                version: `6.Beta.21.4`,
-                changelog: `
-                    <ul>
-                        <li>Added an option (2.12.1) to Giveaway Winning Chance that uses an advanced formula to calculate the chance, involving the start and end times of the giveaway.</li>
-                        <li>Added an option (2.12) to Giveaway Winning Chance that allows you to color chances from different ranges.</li>
-                        <li>The simplified version of Comment Tracker now counts all comments as read if the discussion hasn't been visited yet.</li>
-                    </ul>
-                `
-            },
-            {
-                date: `July 26, 2017`,
-                version: `6.Beta.21.3`,
-                changelog: `
-                    <ul>
-                        <li>Added a class to Image Borders elements.</li>
-                    </ul>
-                `
-            },
-            {
-                date: `July 26, 2017`,
-                version: `6.Beta.21.2`,
-                changelog: `
-                    <ul>
-                        <li>Added an option to import/export/delete Inbox Winners Highlighter data.</li>
-                        <li>Removed a gap in Grid View that was being added between the image and the popout.</li>
-                        <li>Added an option (Other.2) that automatically updates your whitelist/blacklist when you add/remove a user to/from those lists, without the need of syncing through the settings menu.</li>
-                        <li>Fixed a bug in Entries Remover that was not resetting the button (closes <a href="https://github.com/revilheart/ESGST/issues/286">#286</a>).</li>
-                        <li>Fixed a bug in Comment Tracker that was not marking replies as read from the inbox page on SteamTrades.</li>
-                    </ul>
-                    <p>Upgraded the following features to v6:</p>
-                    <ul>
-                        <li>Giveaways.2.21 Unsent Gifts Sender - Revamped the feature, fixed some bugs and made some improvements (closes <a href="https://github.com/revilheart/ESGST/issues/69">#69</a>, <a href="https://github.com/revilheart/ESGST/issues/163">#163</a>, <a href="https://github.com/revilheart/ESGST/issues/234">#234</a>, <a href="https://github.com/revilheart/ESGST/issues/241">#241</a>, <a href="https://github.com/revilheart/ESGST/issues/264">#264</a> and <a href="https://github.com/revilheart/ESGST/issues/287">#287</a>). Added an option to only send gifts to group members with a certain gift difference.</li>
-                    </ul>
-                `
-            },
-            {
-                date: `July 26, 2017`,
-                version: `6.Beta.21.1`,
-                changelog: `
-                    <ul>
-                        <li>Fixed a bug that was preventing the script from running if some features were disabled.</li>
-                        <li>Fixed a bug in Fixed Header for SteamTrades.</li>
-                        <li>Fixed a bug in Trades Bumper that wasn't bumping the trades.</li>
-                        <li>Fixed a bug in Comment Tracker that wasn't loading the feature for the other pages when using Endless Scrolling.</li>
-                        <li>Added an option (Comments.7.2) to Comment Tracker to automatically mark all comments in the inbox as read when clicking on the "Mark as Read" button.</li>
-                    </ul>
-                `
-            },
-            {
-                date: `July 25, 2017`,
-                version: `6.Beta.21.0`,
-                changelog: `
-                    <ul>
-                        <li>Fixed a bug that was showing the trades section in the settings menu even if the script was disabled for SteamTrades (closes <a href="https://github.com/revilheart/ESGST/issues/288">#288</a>).</li>
-                        <li>Renamed "Manage" to "Settings" in popups and removed the manage link from the settings popup (closes <a href="https://github.com/revilheart/ESGST/issues/289">#289</a>).</li>
-                        <li>Fixed a bug in Giveaway Filters that was removing the heading of hidden giveaways inside of them.</li>
-                        <li>Hidden giveaways are now automatically removed from the list when ended in Giveaway Filters.</li>
-                        <li>Added an option (Giveaways.14.2.1) to Enter/Leave Giveaway Button to only pop up a reply box if the giveaway has a description.</li>
-                        <li>Optimized Comment Tracker.</li>
-                        <li>Added a simplified version of Comment Tracker (Comments.7.1) that simply shows the number of comments added since the last visit.</li>
-                        <li>Fixed a bug in Comment Tracker that was going to the wrong comments when using the option to go to the first unread comment.</li>
-                        <li>Fixed a bug in Comment Tracker that was not marking all comments as read from the inbox page.</li>
-                        <li>Added loading icons to the heading buttons in Comment Tracker, to let you know when the process is finished.</li>
-                        <li>If clicking on the button to go to the first unread comment when there isn't an unread comment in the page, a popup will appear saying that no unread comments were found.</li>
-                        <li>The option to go to the first unread comment of a discussion from the main discussions page now opens the result in the same tab if Same Tab Opener is enabled.</li>
-                        <li>Avatar Popout now shows if the user is suspended/banned.</li>
-                    </ul>
-                    <p>Added the following features:</p>
-                    <ul>
-                        <li>General.1 Image Borders</li>
-                        <li>Discussions.1 Active Discussions</li>
-                    </ul>
-                `
-            },
-            {
-                date: `July 25, 2017`,
-                version: `6.Beta.20.0`,
-                changelog: `
-                    <ul>
-                        <li>Fixed a bug in Header Refresher that was not indicating unviewed keys in the tab.</li>
-                        <li>Changed the unviewed keys indicator in Header Refresher from coloring the icon to showing a trophy emoji in the title.</li>
-                        <li>Added an option (1.5.2) to indicate if there are unentered wishlist giveaways open to Header Refresher.</li>
-                        <li>Added an option (2.5.1) to Giveaway Filters that allows you to hide giveaways in the main page (closes <a href="https://github.com/revilheart/ESGST/issues/224">#224</a>).</li>
-                    </ul>
-                    <p>Added the following features:</p>
-                    <ul>
-                        <li>4.1 Trades Bumper</li>
-                    </ul>
-                `
-            },
-            {
-                date: `July 25, 2017`,
-                version: `6.Beta.19.19`,
-                changelog: `
-                    <ul>
-                        <li>Fixed a small bug in Enter/Leave Giveaway Button.</li>
-                    </ul>
-                `
-            },
-            {
-                date: `July 25, 2017`,
-                version: `6.Beta.19.18`,
-                changelog: `
-                    <ul>
-                        <li>Enter/Leave Giveaway Button now immediately enters the giveaway and then checks for the description/opens the popup to reply if those options are enabled.</li>
-                        <li>Added a "Leave" button to the popup in Enter/Leave Giveaway Button if a description has been found.</li>
-                        <li>Fixed a bug in Whitelist/Blacklist Checker that was not checking users correctly if the option to show blacklist information was disabled and the user had not enabled the option to also check for whitelist previously.</li>
-                    </ul>
-                `
-            },
-            {
-                date: `July 24, 2017`,
-                version: `6.Beta.19.17`,
-                changelog: `
-                    <ul>
-                        <li>Fixed a bug in Train Giveaways Extractor that was happening for trains that have not started yet.</li>
-                    </ul>
-                `
-            },
-            {
-                date: `July 24, 2017`,
-                version: `6.Beta.19.16`,
-                changelog: `
-                    <ul>
-                        <li>Fixed a style issue in Grid View for popups.</li>
-                    </ul>
-                `
-            },
-            {
-                date: `July 24, 2017`,
-                version: `6.Beta.19.15`,
-                changelog: `
-                    <ul>
-                        <li>Minor style change.</li>
-                    </ul>
-                `
-            },
-            {
-                date: `July 24, 2017`,
-                version: `6.Beta.19.14`,
-                changelog: `
-                    <ul>
-                        <li>Fixed a bug in User Filters that was not filtering discussions in the main page and was causing a bug (closes <a href="https://github.com/revilheart/ESGST/issues/284">#284</a> and <a href="https://github.com/revilheart/ESGST/issues/285">#285</a>).</li>
-                    </ul>
-                `
-            },
-            {
-                date: `July 24, 2017`,
-                version: `6.Beta.19.13`,
-                changelog: `
-                    <ul>
-                        <li>Fixed a bug that was moving the pagination navigation to the top in pages that had Endless Scrolling disabled.</li>
-                        <li>Added options (2.4.1-2.4.3) to enable Grid View for Giveaway Bookmarks, Giveaway Encrypter/Decrypter and Train Giveaways Extractor.</li>
-                        <li>Fixed a bug in Game Categories.</li>
-                    </ul>
                 `
             }
         ];
