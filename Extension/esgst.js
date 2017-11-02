@@ -22442,21 +22442,40 @@ function openSgcPopup(profile) {
             </div>
         `);
         profile.sgcResults = insertHtml(profile.sgcPopup.scrollable, `beforeEnd`, `
-            <div class="esgst-text-left table esgst-hidden">
-                <div class="table__heading">
-                    <div class="table__column--width-fill">Group</div>
+            <div class="esgst-sgc-results esgst-glwc-results esgst-text-left">
+                <div>
+                    <div class="esgst-glwc-heading">Public</div>
+                    <div class="table esgst-hidden">
+                        <div class="table__heading">
+                            <div class="table__column--width-fill">Group</div>
+                        </div>
+                        <div class="table__rows"></div>
+                    </div>
                 </div>
-                <div class="table__rows"></div>
+                <div>
+                    <div class="esgst-glwc-heading">Private</div>
+                    <div class="table esgst-hidden">
+                        <div class="table__heading">
+                            <div class="table__column--width-fill">Group</div>
+                        </div>
+                        <div class="table__rows"></div>
+                    </div>
+                </div>
             </div>
         `);
+        profile.sgcPublic = profile.sgcResults.firstElementChild.lastElementChild;
+        profile.sgcPublicResults = profile.sgcPublic.lastElementChild;
+        profile.sgcPrivate = profile.sgcResults.lastElementChild.lastElementChild;
+        profile.sgcPrivateResults = profile.sgcPrivate.lastElementChild;
         profile.sgcPopup.open();
         request(null, null, false, `http://steamcommunity.com/profiles/${profile.steamId}/groups`, loadSgcGroups.bind(null, profile));
     }
 }
 
 function loadSgcGroups(profile, response) {
-    var avatar, element, elements, groups, i, n, name, responseHtml, savedGroup, savedGroups;
-    groups = [];
+    var avatar, element, elements, i, n, n1, n2, name, privateGroups, publicGroups, responseHtml, savedGroup, savedGroups;
+    publicGroups = [];
+    privateGroups = [];
     savedGroups = JSON.parse(getValue(`groups`, `[]`));
     responseHtml = DOM.parse(response.responseText);
     elements = responseHtml.getElementsByClassName(`groupBlock`);
@@ -22466,7 +22485,7 @@ function loadSgcGroups(profile, response) {
         avatar = element.getElementsByClassName(`playerAvatar`)[0].firstElementChild.firstElementChild.getAttribute(`src`);
         for (j = savedGroups.length - 1; j >= 0 && savedGroups[j].name !== name; --j);
         if (j >= 0 && savedGroups[j].member) {
-            groups.push({
+            (element.getElementsByClassName(`pubGroup`)[0] ? publicGroups : privateGroups).push({
                 name: name,
                 html: `
                     <div class="table__row-outer-wrap">
@@ -22483,22 +22502,37 @@ function loadSgcGroups(profile, response) {
             });
         }
     }
-    n = groups.length;
-    if (n > 0) {
-        groups = sortArrayByKey(groups, `name`);
-        profile.sgcResults.classList.remove(`esgst-hidden`);
-        for (i = 0; i < n; ++i) {
-            insertHtml(profile.sgcResults.lastElementChild, `beforeEnd`, groups[i].html).getElementsByClassName(`table__column__heading`)[0].textContent = groups[i].name;
+    n1 = publicGroups.length;
+    n2 = privateGroups.length;
+    if (n1 > 0 || n2 > 0) {
+        if (n1 > 0) {
+            publicGroups = sortArrayByKey(publicGroups, `name`);
+            profile.sgcPublic.classList.remove(`esgst-hidden`);
+            for (i = 0; i < n1; ++i) {
+                insertHtml(profile.sgcPublicResults, `beforeEnd`, publicGroups[i].html).getElementsByClassName(`table__column__heading`)[0].textContent = publicGroups[i].name;
+            }
+        } else {
+            profile.sgcPublic.outerHTML = `
+                <div>No shared public groups found.</div>
+            `;
+        }
+        if (n2 > 0) {
+            privateGroups = sortArrayByKey(privateGroups, `name`);
+            profile.sgcPrivate.classList.remove(`esgst-hidden`);
+            for (i = 0; i < n2; ++i) {
+                insertHtml(profile.sgcPrivateResults, `beforeEnd`, privateGroups[i].html).getElementsByClassName(`table__column__heading`)[0].textContent = privateGroups[i].name;
+            }
+        } else {
+            profile.sgcPrivate.outerHTML = `
+                <div>No shared private groups found.</div>
+            `;
         }
         profile.sgcProgress.remove();
         profile.sgcProgress = null;
-        loadEndlessFeatures(profile.sgcResults);
-        profile.sgcPopup.reposition();
     } else {
-        profile.sgcProgress.innerHTML = `
-            <div>No shared groups found.</div>
-        `;
+        profile.sgcProgress.innerHTML = `No shared groups found.`;
     }
+    loadEndlessFeatures(profile.sgcResults);
     profile.sgcPopup.reposition();
 }
 
@@ -31667,6 +31701,10 @@ function addStyle() {
             line-height: normal !important;
             padding: 0 !important;
             width: 0;
+        }
+
+        .esgst-sgc-results .table__row-outer-wrap {
+            padding: 10px 5px;
         }
 
         .esgst-glwc-results {
