@@ -4417,8 +4417,12 @@ function loadEsgst(storage) {
             } else {
                 addHeaderMenu();
                 checkNewVersion();
-                if (esgst.oadd && esgst.giveawaysPath && esgst.activeDiscussions) {
-                    loadOadd();
+                if (esgst.giveawaysPath && esgst.activeDiscussions) {
+                    if (esgst.oadd) {
+                        loadOadd();
+                    } else {
+                        checkMissingDiscussions();
+                    }
                 } else if (esgst.bgl && esgst.giveawayPath) {
                     let summary = document.getElementsByClassName(`table--summary`)[0];
                     summary = summary && summary.lastElementChild.firstElementChild.lastElementChild.textContent.match(/you\shave\s(been\s)?blacklisted/);
@@ -4438,21 +4442,12 @@ function loadEsgst(storage) {
                                     <i class="fa fa-exclamation-circle"></i> ${summary[1] ? `You Are Blacklisted` : `On Your Blacklist`}
                                 </div>
                             `);
-                            if (esgst.adots) {
-                                loadAdots();
-                            }
                             loadFeatures();
                         }, true);
                     } else {
-                        if (esgst.adots) {
-                            loadAdots();
-                        }
                         loadFeatures();
                     }
                 } else {
-                    if (esgst.adots) {
-                        loadAdots();
-                    }
                     loadFeatures();
                 }
             }
@@ -18647,7 +18642,7 @@ function searchASGame(AS, URL, NextPage, Callback) {
 /* [OADD] Old Active Discussions Design */
 
 function loadOadd() {
-    var deals, dealsRows, dealsSwitch, discussions, discussionsRows, discussionsSwitch, elements, i, j, n, response1Html, response2Html, revisedElements, rows;
+    var deals, dealsRows, dealsSwitch, discussions, discussionsRows, discussionsSwitch, element, elements, i, j, n, response1Html, response2Html, revisedElements, rows, savedDiscussions;
     request(null, null, false, `/discussions`, function (response1) {
         request(null, null, false, `/discussions/deals`, function (response2) {
             response1Html = DOM.parse(response1.responseText);
@@ -18703,21 +18698,20 @@ function loadOadd() {
             discussionsRows = discussions.lastElementChild.lastElementChild;
             dealsSwitch = deals.firstElementChild.firstElementChild;
             dealsRows = deals.lastElementChild.lastElementChild;
-            elements = getDiscussions(response1Html, false, JSON.parse(getValue(`discussions`, `{}`)));
+            savedDiscussions = JSON.parse(getValue(`discussions`, `{}`));
+            elements = getDiscussions(response1Html, true, savedDiscussions);
             revisedElements = [];
             elements.forEach(element => {
                 if (element.category !== `Deals`) {
                     revisedElements.push(element);
                 }
             });
-            j = revisedElements.length - 1;
-            for (i = 0; i < 5; ++i) {
+            for (i = 0, j = revisedElements.length - 1; i < 5; ++i, --j) {
                 discussionsRows.appendChild(revisedElements[j].outerWrap);
-                j -= 1;
             }
-            elements = response2Html.getElementsByClassName(`table__row-outer-wrap`);
-            for (i = 0; i < 5; ++i) {
-                dealsRows.appendChild(elements[0]);
+            elements = getDiscussions(response2Html, true, savedDiscussions);
+            for (i = 0, j = elements.length - 1; i < 5; ++i, --j) {
+                dealsRows.appendChild(elements[j].outerWrap);
             }
             discussionsSwitch.addEventListener(`click`, function () {
                 discussions.classList.add(`esgst-hidden`);
@@ -18843,6 +18837,80 @@ function changeAdotsTab(button1, button2, first, second) {
     first.classList.remove(`esgst-hidden`);
     second.classList.add(`esgst-hidden`);
     button1.classList.add(`esgst-selected`);
+}
+
+function checkMissingDiscussions() {    
+    let deals, discussions, numDeals, numDiscussions, rows, savedDiscussions;    
+    savedDiscussions = JSON.parse(getValue(`discussions`, `{}`));
+    rows = document.getElementsByClassName(`table__rows`);
+    discussions = getDiscussions(rows[0], true, savedDiscussions);
+    deals = getDiscussions(rows[1], true, savedDiscussions);
+    numDiscussions = discussions.length;
+    numDeals = deals.length;
+    if (numDiscussions < 5 || numDeals < 5) {
+        request(null, null, false, `/discussions`, response1 => {
+            request(null, null, false, `/discussions/deals`, response2 => {
+                let elements, i, j, response1Html, response2Html, revisedElements;
+                response1Html = DOM.parse(response1.responseText);
+                response2Html = DOM.parse(response2.responseText);
+                elements = getDiscussions(response1Html, true, savedDiscussions);
+                revisedElements = [];
+                elements.forEach(element => {
+                    if (element.category !== `Deals`) {
+                        revisedElements.push(element);
+                    }
+                });
+                i = revisedElements.length - (numDiscussions + 1);
+                while (numDiscussions < 5) {
+                    setMissingDiscussion(revisedElements[i]);
+                    rows[0].appendChild(revisedElements[i].outerWrap);
+                    i -= 1;
+                    numDiscussions += 1;
+                }
+                elements = getDiscussions(response2Html, true, savedDiscussions);
+                i = elements.length - (numDeals + 1);
+                while (numDeals < 5) {
+                    setMissingDiscussion(elements[i]);
+                    rows[1].appendChild(elements[i].outerWrap);
+                    i -= 1;
+                    numDeals += 1;
+                }
+                if (esgst.adots) {
+                    loadAdots();
+                }
+                loadFeatures();
+            });
+        });
+    } else {
+        if (esgst.adots) {
+            loadAdots();
+        }
+        loadFeatures();
+    }
+}
+
+function setMissingDiscussion(context) {
+    context.outerWrap.innerHTML = `
+        <div class="table__row-outer-wrap" style="padding: 15px 0;">
+            <div class="table__row-inner-wrap">
+                <div>
+                    <a class="table_image_avatar" href="/user/${context.author}" style="background-image:${context.avatar.style.backgroundImage.replace(/"/g, `'`)};"></a>
+                </div>
+                <div class="table__column--width-fill">
+                    <h3 style="margin-bottom: 2px;">
+                        <a class="homepage_table_column_heading" href="${context.url}">${context.title}</a>
+                    </h3>
+                    <p>
+                        <a class="table__column__secondary-link" href="${context.url}">${context.comments} Comments</a> - Last post <span data-timestamp="${context.lastPostTimestamp}">${context.lastPostTime}</span> ago by <a class="table__column__secondary-link" href="/user/${context.lastPostAuthor}">${context.lastPostAuthor}</a>
+                        <a class="icon-green table__last-comment-icon" href="/go/comment/${context.lastPostCode}">
+                            <i class="fa fa-chevron-circle-right"></i>
+                        </a>
+                    </p>
+                </div>
+            </div>
+        </div>
+    `;
+    context.outerWrap = context.outerWrap.firstElementChild;
 }
 
 /* [DS] Discussions Sorter */
@@ -28909,9 +28977,21 @@ function getDiscussionInfo(context, main, savedDiscussions, savedUsers) {
                 }
                 discussion.created = discussion.author === esgst.username;
                 discussion.poll = discussion.outerWrap.getElementsByClassName(`fa-align-left`)[0];
-                if (esgst.discussionsPath) {
+                if (discussion.headingColumn) {
                     discussion.commentsColumn = discussion.headingColumn.nextElementSibling;
-                    discussion.comments = parseInt(discussion.commentsColumn.firstElementChild.textContent.replace(/,/g, ``));
+                    if (discussion.commentsColumn) {
+                        discussion.comments = parseInt(discussion.commentsColumn.firstElementChild.textContent.replace(/,/g, ``));
+                    }
+                }
+                discussion.lastPost = discussion.outerWrap.getElementsByClassName(`table__column--last-comment`)[0];
+                if (discussion.lastPost) {
+                    discussion.lastPostTime = discussion.lastPost.firstElementChild.firstElementChild;
+                    discussion.lastPostAuthor = discussion.lastPostTime.nextElementSibling;
+                    discussion.lastPostCode = discussion.lastPostAuthor.lastElementChild.getAttribute(`href`).match(/\/comment\/(.+)/)[1];
+                    discussion.lastPostAuthor = discussion.lastPostAuthor.firstElementChild.textContent;
+                    discussion.lastPostTime = discussion.lastPostTime.firstElementChild;
+                    discussion.lastPostTimestamp = discussion.lastPostTime.getAttribute(`data-timestamp`);
+                    discussion.lastPostTime = discussion.lastPostTime.textContent;
                 }
                 if (esgst.uf && savedUsers) {
                     savedUser = getUser(savedUsers, {
