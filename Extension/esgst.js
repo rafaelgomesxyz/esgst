@@ -22450,7 +22450,7 @@ function openSgcPopup(profile) {
             </div>
         `);
         profile.sgcPopup.open();
-        request(null, null, false, `http://www.steamcommunity.com/profiles/${profile.steamId}/groups`, loadSgcGroups.bind(null, profile));
+        request(null, null, false, `http://steamcommunity.com/profiles/${profile.steamId}/groups`, loadSgcGroups.bind(null, profile));
     }
 }
 
