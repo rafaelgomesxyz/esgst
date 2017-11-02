@@ -861,6 +861,21 @@ The video above does not get embedded.
 
 ## Changelog
 
+**7.6.3 (November 2, 2017):**
+
+<ul>
+    <li><a href="https://github.com/revilheart/ESGST/issues/7">#7</a> Add an option to prevent Game Categories from being links in Grid View</li>
+    <li><a href="https://github.com/revilheart/ESGST/issues/54">#54</a> Fix a bug in Header Refresher that shows duplicate notifications</li>
+    <li><a href="https://github.com/revilheart/ESGST/issues/78">#78</a> Fix a bug in Giveaways Recreator that uses assigned keys instead of unassigned</li>
+    <li><a href="https://github.com/revilheart/ESGST/issues/79">#79</a> Fix a bug in Giveaway Filters that duplicates the DefaultUser preset every time a profile page is loaded</li>
+    <li><a href="https://github.com/revilheart/ESGST/issues/80">#80</a> Allow separate Giveaway Filters presets/settings for Giveaway Bookmarks, Giveaways Extractor and Giveaways Encrypter/Decrypter</li>
+    <li><a href="https://github.com/revilheart/ESGST/issues/81">#81</a> Fix a bug in User Tags that does not delete tags</li>
+    <li><a href="https://github.com/revilheart/ESGST/issues/82">#82</a> Add 3 new encryption methods to Giveaways Encrypter/Decrypter</li>
+    <li><a href="https://github.com/revilheart/ESGST/issues/83">#83</a> Fix a bug in Main Post Popup that scrolls down the page when the main post is hidden</li>
+    <li><a href="https://github.com/revilheart/ESGST/issues/84">#84</a> Fix a bug in Header Refresher that sometimes does not notify about wishlist giveaways in the tab title</li>
+    <li><a href="https://github.com/revilheart/ESGST/issues/85">#85</a> Fix a bug in Giveaway Filters that does not rename presets globally</li>
+</ul>
+
 **7.6.2 (October 31, 2017):**
 
 <ul>
