@@ -7648,12 +7648,17 @@ function loadFeatures() {
                     esgst.cfh.undo.classList.add(`esgst-faded`);
                 },
                 onClick: () => {
+                    let end, value;
                     if (esgst.cfh.history.length) {
                         redoCfhFormatting(esgst.cfh.textArea, esgst.cfh.textArea.value);
-                        esgst.cfh.textArea.value = esgst.cfh.history.pop();
+                        value = esgst.cfh.history.pop();
+                        end = esgst.cfh.textArea.selectionEnd - (esgst.cfh.textArea.value.length - value.length);
+                        esgst.cfh.textArea.value = value;
+                        esgst.cfh.textArea.setSelectionRange(end, end);
                         if (!esgst.cfh.history.length) {
                             esgst.cfh.undo.classList.add(`esgst-faded`);
                         }
+                        esgst.cfh.textArea.focus();
                     }
                 }
             }, {
@@ -7664,12 +7669,17 @@ function loadFeatures() {
                     esgst.cfh.redo.classList.add(`esgst-faded`);
                 },
                 onClick: () => {
+                    let end, value;
                     if (esgst.cfh.backup.length) {
                         undoCfhFormatting(esgst.cfh.textArea, esgst.cfh.textArea.value);
-                        esgst.cfh.textArea.value = esgst.cfh.backup.pop();
+                        value = esgst.cfh.backup.pop();
+                        end = esgst.cfh.textArea.selectionEnd + (value.length - esgst.cfh.textArea.value.length);
+                        esgst.cfh.textArea.value = value;
+                        esgst.cfh.textArea.setSelectionRange(end, end);
                         if (!esgst.cfh.backup.length) {
                             esgst.cfh.redo.classList.add(`esgst-faded`);
                         }
+                        esgst.cfh.textArea.focus();
                     }
                 }
             }
