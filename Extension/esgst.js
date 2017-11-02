@@ -18652,7 +18652,7 @@ function searchASGame(AS, URL, NextPage, Callback) {
 /* [OADD] Old Active Discussions Design */
 
 function loadOadd() {
-    var deals, dealsRows, dealsSwitch, discussions, discussionsRows, discussionsSwitch, elements, i, n, response1Html, response2Html, rows;
+    var deals, dealsRows, dealsSwitch, discussions, discussionsRows, discussionsSwitch, elements, i, j, n, response1Html, response2Html, revisedElements, rows;
     request(null, null, false, `/discussions`, function (response1) {
         request(null, null, false, `/discussions/deals`, function (response2) {
             response1Html = DOM.parse(response1.responseText);
@@ -18708,9 +18708,17 @@ function loadOadd() {
             discussionsRows = discussions.lastElementChild.lastElementChild;
             dealsSwitch = deals.firstElementChild.firstElementChild;
             dealsRows = deals.lastElementChild.lastElementChild;
-            elements = response1Html.getElementsByClassName(`table__row-outer-wrap`);
+            elements = getDiscussions(response1Html, false, JSON.parse(getValue(`discussions`, `{}`)));
+            revisedElements = [];
+            elements.forEach(element => {
+                if (element.category !== `Deals`) {
+                    revisedElements.push(element);
+                }
+            });
+            j = revisedElements.length - 1;
             for (i = 0; i < 5; ++i) {
-                discussionsRows.appendChild(elements[0]);
+                discussionsRows.appendChild(revisedElements[j].outerWrap);
+                j -= 1;
             }
             elements = response2Html.getElementsByClassName(`table__row-outer-wrap`);
             for (i = 0; i < 5; ++i) {
