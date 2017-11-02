@@ -20242,12 +20242,14 @@ function addCfhPanel(textArea) {
     textArea.onfocus = addCfhPanel.bind(null, textArea);
     textArea.onpaste = event => {
         if (esgst.cfh_pasteFormatting) {
-            let value = event.clipboardData.getData(`text/plain`);
-            esgst.cfh.history.push(value);
-            esgst.cfh.undo.classList.remove(`esgst-faded`);
-            if (value.match(/^https?:/)) {
+            let clipboard, value;
+            clipboard = event.clipboardData.getData(`text/plain`);
+            if (clipboard.match(/^https?:/)) {
                 event.preventDefault();
-                formatCfhLink(``, value, value.match(/\.(jpg|jpeg|gif|bmp|png)/), true);
+                value = textArea.value;
+                esgst.cfh.history.push(`${value.slice(0, textArea.selectionStart)}${clipboard}${value.slice(textArea.selectionEnd)}`);
+                esgst.cfh.undo.classList.remove(`esgst-faded`);
+                formatCfhLink(``, clipboard, clipboard.match(/\.(jpg|jpeg|gif|bmp|png)/), true);
             }
         }
     };
