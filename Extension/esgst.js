@@ -24867,10 +24867,10 @@ function getGlwcUsers(glwc, nextPage) {
         request(null, null, false, `/${glwc.url}/search?page=${nextPage}`, response => {
             let elements, i, n, pagination, responseHtml;
             responseHtml = DOM.parse(response.responseText);
-            elements = responseHtml.getElementsByClassName(`table__column__heading`);
+            elements = responseHtml.querySelectorAll(`.table__row-inner-wrap:not(.is-faded)`);
             for (i = 0, n = elements.length; i < n; ++i) {
                 glwc.users.push({
-                    username: elements[i].textContent
+                    username: elements[i].getElementsByClassName(`table__column__heading`)[0].textContent
                 });
             }
             pagination = responseHtml.getElementsByClassName(`pagination__navigation`)[0];
