@@ -259,6 +259,7 @@ class Popout {
 
 class Popup {
     constructor(icon, title, temp, settings, popup = null) {
+        esgst.popups.push(this);
         this.isCreated = popup ? false : true;
         this.temp = temp;
         this.popup = popup || insertHtml(document.body, `beforeEnd`, `
@@ -297,7 +298,6 @@ class Popup {
                 });
             }
             this.description.nextElementSibling.lastElementChild.addEventListener(`click`, () => this.close());
-            this.popup.addEventListener(`click`, () => this.reposition());
         } else {
             const closeButton = this.popup.getElementsByClassName(`b-close`)[0];
             if (closeButton) {
@@ -306,6 +306,7 @@ class Popup {
         }
     }
     open(callback) {
+        this.isOpen = true;
         this.modal = insertHtml(document.body, `beforeEnd`, `
             <div class="esgst-popup-modal"></div>
         `);
@@ -338,6 +339,7 @@ class Popup {
         if (this.onClose) {
             this.onClose();
         }
+        this.isOpen = false;
     }
     reposition() {
         if (this.isCreated) {
@@ -435,6 +437,7 @@ function loadEsgst(storage) {
         popupGiveaways: [],
         currentDiscussions: [],
         profileFeatures: [],
+        popups: [],
         elgbCache: JSON.parse(getValue(`esgst_elgbCache`, `{"descriptions": {}, "timestamp": ${Date.now()}}`)),
         menuPath: location.pathname.match(/^\/esgst\//),
         settingsPath: location.pathname.match(/^\/esgst\/settings/),
@@ -7533,14 +7536,12 @@ function loadFeatures() {
                                         emojis.children[i].classList.remove(`esgst-hidden`);
                                     }
                                 }
-                                popup.reposition();
                             });
                             savedEmojis = emojis.nextElementSibling.nextElementSibling;
                             for (i = savedEmojis.children.length - 1; i > -1; --i) {
                                 savedEmojis.children[i].addEventListener(`click`, event => {
                                     event.currentTarget.remove();
                                     setValue(`emojis`, savedEmojis.innerHTML);
-                                    popup.reposition();
                                 });
                             }
                             savedEmojis.addEventListener(`dragover`, event => {
@@ -7552,11 +7553,9 @@ function loadFeatures() {
                                 if (!savedEmojis.querySelector(`[data-id="${id}"]`)) {
                                     savedEmojis.appendChild(document.querySelector(`[data-id="${id}"]`).cloneNode(true));
                                     setValue(`emojis`, savedEmojis.innerHTML);
-                                    popup.reposition();
                                     savedEmojis.lastElementChild.addEventListener(`click`, event => {
                                         event.currentTarget.remove();
                                         setValue(`emojis`, savedEmojis.innerHTML);
-                                        popup.reposition();
                                     });
                                 }
                             });
@@ -7771,6 +7770,16 @@ function loadFeatures() {
             notifyNewVersion(version);
         }
     }
+    repositionPopups();
+}
+
+function repositionPopups() {
+    esgst.popups.forEach(popup => {
+        if (popup.isOpen) {
+            popup.reposition();
+        }
+    });
+    setTimeout(repositionPopups, 1000);
 }
 
 function fixFsSidebar() {
@@ -10200,8 +10209,7 @@ function showAicImage(carousel, i, popup) {
     if (i < n - 1) {
         carousel.lastElementChild.addEventListener(`click`, showAicImage.bind(null, carousel, i + 1, popup));
     }
-    popup.reposition();
-    popup.reposition();
+
 }
 
 /* [EV] Embedded Videos */
@@ -12661,7 +12669,6 @@ function loadGbGiveaways(i, n, bookmarked, gbGiveaways, popup, callback) {
                     gbGiveaways.insertAdjacentHTML(`beforeEnd`, popupHtml);
                     loadEndlessFeatures(gbGiveaways.lastElementChild, false, `gb`);
                     if (popup) {
-                        popup.reposition();
                     }
                     if (endTime > 0) {
                         createLock(`giveawayLock`, 300, function (deleteLock) {
@@ -12946,7 +12953,6 @@ function loadGed() {
                             `);
                         }
                         if (popup) {
-                            popup.reposition();
                         }
                         if (keys) {
                             results.lastElementChild.getElementsByClassName(`giveaway__heading__name`)[0].insertAdjacentText(`afterBegin`, `[NEW] `);
@@ -15377,7 +15383,6 @@ function importMgcGiveaways(mgc, callback) {
     popup.open(focusMgcTextArea.bind(null, textArea));
     textArea.style.height = `${innerHeight * 0.9 - (popup.popup.offsetHeight - popup.scrollable.offsetHeight) - 25}px`;
     textArea.style.overflow = `auto`;
-    popup.reposition();
     textArea.addEventListener(`paste`, resizeMgcTextArea.bind(null, popup, textArea));
 }
 
@@ -15389,7 +15394,6 @@ function resizeMgcTextArea(popup, textArea) {
             clearInterval(interval);
             textArea.style.height = `${innerHeight * 0.9 - (popup.popup.offsetHeight - popup.scrollable.offsetHeight) - 25}px`;
             textArea.style.overflow = `auto`;
-            popup.reposition();
         }
     }, 250);
 }
@@ -15541,7 +15545,6 @@ function getMgcGiveaway(giveaways, i, j, mgc, n, name, popup, progress, textArea
             textArea.value = textArea.value.replace(/^(.+?)\n/, ``);
             --j;
         } while (j > 0);
-        popup.reposition();
         setTimeout(importMgcGiveaway, 0, giveaways, ++i, mgc, n, popup, progress, textArea, mainCallback, callback);
     } else {
         createAlert(`${name} was not found! Please correct the title of the game and click on "Import" again to continue importing (it must be exactly like on Steam).`);
@@ -16451,14 +16454,12 @@ function startUgsSender(ugs, callback) {
         ugs.button.classList.remove(`esgst-busy`);
         ugs.progress.innerHTML = `You do not have any unsent gifts.`;
         callback();
-        ugs.popup.reposition();
     }
 }
 
 function getUgsGiveaways(context, ugs, nextPage, callback) {
     var element, elements, giveaways, heading, i, n, unsent, url;
     if (!ugs.canceled) {
-        ugs.popup.reposition();
         if (context) {
             if (nextPage === esgst.currentPage) {
                 ugs.lastPage = getLastPage(context);
@@ -16522,7 +16523,6 @@ function setUgsGiveaways(giveaways, ugs, i, n, callback) {
 
 function getUgsWinners(code, ugs, nextPage, url, callback) {
     if (!ugs.canceled) {
-        ugs.popup.reposition();
         request(null, null, false, `${url}${nextPage}`, loadNextUgsWinnersPage.bind(null, code, ugs, nextPage, url, callback));
     }
 }
@@ -16580,7 +16580,6 @@ function checkUgsGiveawayGroups(giveaway, giveaways, ugs, i, n, callback) {
 
 function getUgsGroups(code, ugs, nextPage, url, callback) {
     if (!ugs.canceled) {
-        ugs.popup.reposition();
         request(null, null, false, `${url}${nextPage}`, loadNextUgsGroupsPage.bind(null, code, ugs, nextPage, url, callback));
     }
 }
@@ -16651,7 +16650,6 @@ function continueUgsSender(ugs, callback) {
             ugs.button.classList.remove(`esgst-busy`);
             ugs.progress.innerHTML = `You do not have any unsent gifts.`;
             callback();
-            ugs.popup.reposition();
         }
     }
 }
@@ -16664,7 +16662,6 @@ function checkUgsGifts(codes, ugs, i, n, callback) {
                 <i class="fa fa-circle-o-notch fa-spin"></i>
                 <span>Checking winners...</span>
             `;
-            ugs.popup.reposition();
             ugs.overallProgress.textContent = `${i} of ${n} giveaways checked...`;
             code = codes[i];
             giveaway = ugs.giveaways[code];
@@ -16747,7 +16744,6 @@ function checkUgsRules(code, ugs, i, n, callback) {
                 <i class="fa fa-circle-o-notch fa-spin"></i>
                 <span>Checking if ${winner.username} has not activated/multiple wins...</span>
             `;
-            ugs.popup.reposition();
             if (ugs.rerolls.indexOf(winner.winnerId) < 0) {
                 namwc = {
                     lastCheck: Date.now(),
@@ -16801,7 +16797,6 @@ function checkUgsGroups(code, ugs, i, n, callback) {
                 <i class="fa fa-circle-o-notch fa-spin"></i>
                 <span>Checking if ${winner.username} is a member of one of the groups...</span>
             `;
-            ugs.popup.reposition();
             if (ugs.rerolls.indexOf(winner.winnerId) < 0) {
                 getSteamId(null, false, esgst.users, winner, getUgsGroupMembers.bind(null, giveaway, ugs, 0, numGroups, winner, checkUgsUserGroups.bind(null, giveaway, ugs, winner, setTimeout.bind(null, checkUgsGroups, 0, code, ugs, ++i, n, callback))));
             } else {
@@ -16836,7 +16831,6 @@ function checkUgsGroupMembers(giveaway, ugs, i, n, winner, callback, response) {
                     <i class="fa fa-circle-o-notch fa-spin"></i>
                     <span>Checking if ${winner.username} has a gift difference higher than the one set...</span>
                 `;
-                ugs.popup.reposition();
                 group = giveaway.groups[i];
                 request(null, null, false, `/group/${group.code}/${group.name}/users/search?q=${winner.username}`, checkUgsDifference.bind(null, ugs, winner, callback));
             } else {
@@ -16898,7 +16892,6 @@ function sendUgsGifts(code, ugs, i, n, callback) {
                 <span>Sending gifts...</span>
             `;
             ugs.overallProgress.textContent = `${i} of ${n} gifts sent...`;
-            ugs.popup.reposition();
             giveaway = ugs.giveaways[code];
             winner = giveaway.winners[i];
             if (!ugs.winners[winner.username]) {
@@ -16927,7 +16920,6 @@ function sendUgsGifts(code, ugs, i, n, callback) {
                         <i class="fa fa-question-circle" title="${winner.username} already won ${giveaway.name} from another giveaway of yours."></i>
                     </span>
                 `);
-                ugs.popup.reposition();
                 setTimeout(sendUgsGifts, 0, code, ugs, ++i, n, callback);
             }
         } else {
@@ -16949,7 +16941,6 @@ function sendUgsGift(code, giveaway, ugs, i, n, winner, callback) {
                 <a href="/user/${winner.username}">${winner.username}</a> (<a href="${giveaway.url}/winners">${giveaway.name}</a>)
             </span>
         `);
-        ugs.popup.reposition();
         if (!ugs.winners[winner.username]) {
             ugs.winners[winner.username] = [];
         }
@@ -16986,12 +16977,10 @@ function completeUgsSender(ugs, callback) {
             <span>Saving data...</span>
         `;
         ugs.overallProgress.textContent = ``;
-        ugs.popup.reposition();
         saveUsers(savedUsers, function() {
             ugs.button.classList.remove(`esgst-busy`);
             ugs.progress.innerHTML = ``;
             callback();
-            ugs.popup.reposition();
         });
     }
 }
@@ -17001,7 +16990,6 @@ function cancelUgsSender(ugs) {
     ugs.button.classList.remove(`esgst-busy`);
     ugs.progress.innerHTML = ``;
     ugs.overallProgress.textContent = ``;
-    ugs.popup.reposition();
 }
 
 /* [SKS] Sent Keys Searcher */
@@ -17063,7 +17051,6 @@ function searchSksGiveaways(sks, callback) {
 function getSksGiveaways(context, nextPage, sks, callback) {
     var element, elements, giveaways, heading, i, n, unsent, url;
     if (!sks.canceled) {
-        sks.popup.reposition();
         if (context) {
             if (nextPage === esgst.currentPage) {
                 sks.lastPage = getLastPage(context);
@@ -17198,7 +17185,6 @@ function completeSksSearch(sks, callback) {
         URL.revokeObjectURL(url);
     }
     sks.progress.innerHTML = ``;
-    sks.popup.reposition();
     sks.button.classList.remove(`esgst-busy`);
     callback();
 }
@@ -17436,22 +17422,18 @@ function searchGmGiveawaysAndReplace(gm, i, n, callback) {
                             responseJson = JSON.parse(response.responseText);
                             if (responseJson.type === `success`) {
                                 gm.results.insertAdjacentHTML(`beforeEnd`, `<li>Found and replaced in <a href="${giveaway.url}">${giveaway.name}</a></li>`);
-                                gm.popup.reposition();
                                 setTimeout(searchGmGiveawaysAndReplace, 0, gm, ++i, n, callback);
                             } else {
                                 gm.results.insertAdjacentHTML(`beforeEnd`, `<li>Found, but failed to replace, in <a href="${giveaway.url}">${giveaway.name}</a></li>`);
-                                gm.popup.reposition();
                                 setTimeout(searchGmGiveawaysAndReplace, 0, gm, ++i, n, callback);
                             }
                         });
                     } else {
                         gm.results.insertAdjacentHTML(`beforeEnd`, `<li>Not found in <a href="${giveaway.url}">${giveaway.name}</a></li>`);
-                        gm.popup.reposition();
                         setTimeout(searchGmGiveawaysAndReplace, 0, gm, ++i, n, callback);
                     }
                 } else {
                     gm.results.insertAdjacentHTML(`beforeEnd`, `<li>Not found in <a href="${giveaway.url}">${giveaway.name}</a></li>`);
-                    gm.popup.reposition();
                     setTimeout(searchGmGiveawaysAndReplace, 0, gm, ++i, n, callback);
                 }
             });
@@ -17661,7 +17643,6 @@ function removeHgrGames(context, currentPage, hgr, nextPage, url, callback) {
                         hgr.removed.insertAdjacentHTML(`beforeEnd`, `
                             <a href="http://store.steampowered.com/${info.type.slice(0, -1)}/${info.id}">${heading.textContent}</a>
                         `);
-                        hgr.popup.reposition();
                     }
                 }
             }
@@ -18373,7 +18354,6 @@ function extractGeGiveaway(ge, code, callback) {
             loadEndlessFeatures(ge.results.lastElementChild, false, `ge`);
             ge.set.set.firstElementChild.lastElementChild.textContent = `Extract More`;
             ge.progress.firstElementChild.remove();
-            ge.popup.reposition();
             ge.callback = extractGeGiveaway.bind(null, ge, code, callback);
             filtered = false;
             children = ge.results.lastElementChild.children;
@@ -18473,7 +18453,6 @@ function getGeGiveaways(ge, context) {
             ge.extracted.push(code);
         }
     }
-    ge.popup.reposition();
     giveaways = [];
     elements = context.querySelectorAll(`[href*="/giveaway/"]`);
     for (i = 0, n = elements.length; i < n; ++i) {
@@ -18508,7 +18487,6 @@ function completeGeExtraction(ge, callback) {
     ge.results.insertAdjacentHTML(`beforeEnd`, html);
     ge.set.set.remove();
     ge.set = null;
-    ge.popup.reposition();
 }
 
 /* [GESL] Giveaway Error Search Links (by Royalgamer06) */
@@ -18564,7 +18542,6 @@ function loadAs() {
         popup.description.appendChild(new ButtonSet(`green`, `grey`, `fa-search`, `fa-times-circle`, `Search`, `Cancel`, function (Callback) {
             ASButton.classList.add(`esgst-busy`);
             AS.Progress.innerHTML = AS.OverallProgress.innerHTML = AS.Results.innerHTML = ``;
-            AS.popup.reposition();
             AS.Canceled = false;
             AS.Query = popup.TextInput.value;
             if (AS.Query) {
@@ -18643,7 +18620,6 @@ function searchASGame(AS, URL, NextPage, Callback) {
                 if (Title.toLowerCase() === AS.Query) {
                     AS.Results.appendChild(Matches[I].cloneNode(true));
                     loadEndlessFeatures(AS.Results.lastElementChild);
-                    AS.popup.reposition();
                 }
             }
             AS.OverallProgress.textContent = `${AS.Results.children.length} giveaways found...`;
@@ -20006,7 +19982,6 @@ function getDhHighlightedDiscussions(discussions, i, j, keys, n, popup, callback
                         }
                         loadDiscussionFeatures(popup.highlightedDiscussions.lastElementChild);
                     }
-                    popup.reposition();
                     setTimeout(getDhHighlightedDiscussions, 0, discussions, ++i, ++j, keys, n, popup, callback);
                 });
             } else {
@@ -20900,7 +20875,6 @@ function getNextCsPage(cs, nextPage, url, callback, response) {
             if (cs.usernames.indexOf(element.querySelector(`.comment__username, .author_name`).textContent.trim().toLowerCase()) >= 0) {
                 cs.results.insertAdjacentHTML(`beforeEnd`, html);
             }
-            cs.popup.reposition();
         }
         pagination = responseHtml.getElementsByClassName(`pagination__navigation`)[0];
         if (pagination && !pagination.lastElementChild.classList.contains(esgst.selectedClass)) {
@@ -22130,7 +22104,6 @@ function getChComments(comments, i, n, popup, callback) {
                 }
                 popup.commentHistory.insertAdjacentHTML(`beforeEnd`, `<div class="comment comments comment_outer">${html}</div>`);
                 loadEndlessFeatures(popup.commentHistory.lastElementChild);
-                popup.reposition();
                 setTimeout(getChComments, 0, comments, ++i, n, popup, callback);
             });
         } else {
@@ -22533,7 +22506,6 @@ function loadSgcGroups(profile, response) {
         profile.sgcProgress.innerHTML = `No shared groups found.`;
     }
     loadEndlessFeatures(profile.sgcResults);
-    profile.sgcPopup.reposition();
 }
 
 /* [RWSCVL] Real Won/Sent CV Link */
@@ -22966,7 +22938,6 @@ function checkUgdComplete(popup, UGD, callback) {
         popup.Results.innerHTML = UGD.HTML;
         UGD.Progress.innerHTML = ``;
         loadEndlessFeatures(popup.Results);
-        UGD.popup.reposition();
         callback();
     } else {
         setTimeout(checkUgdComplete, 250, popup, UGD, callback);
@@ -23227,7 +23198,6 @@ function setNAMWCCheck(NAMWC, Callback) {
     NAMWC.unknown.classList.add(`esgst-hidden`);
     NAMWC.activatedCount.textContent = NAMWC.notMultipleCount.textContent = NAMWC.notActivatedCount.textContent = NAMWC.multipleCount.textContent = NAMWC.unknownCount.textContent = `0`;
     NAMWC.activatedUsers.innerHTML = NAMWC.notMultipleUsers.textContent = NAMWC.notActivatedUsers.innerHTML = NAMWC.multipleUsers.innerHTML = NAMWC.unknownUsers.innerHTML = ``;
-    NAMWC.popup.reposition();
     NAMWC.Users = [];
     NAMWC.Canceled = false;
     if (NAMWC.ShowResults) {
@@ -23245,7 +23215,6 @@ function setNAMWCCheck(NAMWC, Callback) {
             };
             setNAMWCResult(NAMWC, user, SavedUsers.users[SavedUsers.steamIds[NAMWC.Users[I]]].namwc, false);
         }
-        NAMWC.popup.reposition();
     } else if (NAMWC.User) {
         NAMWC.Users.push(NAMWC.User.Username);
         checkNAMWCUsers(NAMWC, 0, 1, Callback);
@@ -23316,7 +23285,6 @@ function setNAMWCResult(NAMWC, user, namwc, New, I, N, Callback) {
                 `);
             }
         }
-        NAMWC.popup.reposition();
         if (!NAMWC.ShowResults) {
             user.values = {
                 namwc: namwc
@@ -23518,7 +23486,6 @@ function setNRFPopup(NRF, NRFButton, profile) {
 
 function setNRFSearch(NRF, profile, Callback) {
     NRF.Progress.innerHTML = NRF.OverallProgress.innerHTML = NRF.Results.innerHTML = ``;
-    NRF.popup.reposition();
     NRF.Canceled = false;
     var user = {
         steamId: profile.steamId,
@@ -23555,7 +23522,6 @@ function setNRFSearch(NRF, profile, Callback) {
             } else {
                 NRF.Results.innerHTML = nrf.results;
                 NRF.OverallProgress.innerHTML = `${nrf.found} of ${nrf.total} not received giveaways found...`;
-                NRF.popup.reposition();
                 loadEndlessFeatures(NRF.Results);
                 Callback();
             }
@@ -23577,7 +23543,6 @@ function searchNRFUser(NRF, username, NextPage, CurrentPage, URL, Callback, Cont
             for (I = 0, N = Matches.length; I < N; ++I) {
                 NRF.I += Matches[I].querySelectorAll(`a[href*="/user/"]`).length;
                 NRF.Results.appendChild(Matches[I].closest(`.giveaway__row-outer-wrap`).cloneNode(true));
-                NRF.popup.reposition();
             }
             NRF.OverallProgress.innerHTML = `${NRF.I} of ${NRF.N} not received giveaways found...`;
             if (NRF.I < NRF.N) {
@@ -23987,7 +23952,6 @@ function setWBCCheck(WBC, Callback) {
     WBC.unknown.classList.add(`esgst-hidden`);
     WBC.whitelistedCount.textContent = WBC.blacklistedCount.textContent = WBC.noneCount.textContent = WBC.notBlacklistedCount.textContent = WBC.unknownCount.textContent = `0`;
     WBC.whitelistedUsers.innerHTML = WBC.blacklistedUsers.innerHTML = WBC.noneUsers.innerHTML = WBC.notBlacklistedUsers.innerHTML = WBC.unknownUsers.innerHTML = ``;
-    WBC.popup.reposition();
     WBC.Users = [];
     WBC.Canceled = false;
     if (WBC.Update) {
@@ -24007,7 +23971,6 @@ function setWBCCheck(WBC, Callback) {
                 };
                 setWBCResult(WBC, user, SavedUsers.users[SavedUsers.steamIds[WBC.Users[I]]].wbc, SavedUsers.users[SavedUsers.steamIds[WBC.Users[I]]].notes, SavedUsers.users[SavedUsers.steamIds[WBC.Users[I]]].whitelisted, SavedUsers.users[SavedUsers.steamIds[WBC.Users[I]]].blacklisted, false);
             }
-            WBC.popup.reposition();
         } else {
             checkWBCUsers(WBC, 0, WBC.Users.length, Callback);
         }
@@ -24076,7 +24039,6 @@ function setWBCResult(WBC, user, wbc, notes, whitelisted, blacklisted, New, I, N
         WBC[Key].classList.remove(`esgst-hidden`);
         WBC[`${Key}Count`].textContent = parseInt(WBC[`${Key}Count`].textContent) + 1;
         WBC[`${Key}Users`].insertAdjacentHTML(`beforeEnd`, `<a ${New ? `class="esgst-bold esgst-italic" ` : ``}href="/user/${user.username}">${user.username}</a>`);
-        WBC.popup.reposition();
         if (!WBC.ShowResults) {
             if ((esgst.wbc_returnWhitelist && (wbc.result === `whitelisted`) && !whitelisted) || (WBC.B && esgst.wbc_returnBlacklist && (wbc.result === `blacklisted`) && !blacklisted)) {
                 if (user.id) {
@@ -25756,7 +25718,6 @@ function createGtTags(popup) {
     for (i = 0, n = tags.length; i < n; ++i) {
         createGtTag(popup, tags[i]);
     }
-    popup.reposition();
 }
 
 function createGtTag(popup, tag) {
@@ -25824,7 +25785,6 @@ function endGtDrag(popup) {
         tags.push(children[i].firstElementChild.firstElementChild.textContent);
     }
     popup.input.value = tags.join(`, `);
-    popup.reposition();
 }
 
 function editGtTag(bgColorInput, colorInput, input, popup, tagBox, tagContainer, event) {
@@ -25869,7 +25829,6 @@ function showGtEdit(input, tagBox, tagContainer) {
     input.classList.remove(`esgst-hidden`);
     input.value = tagBox.textContent;
     input.focus();
-    popup.reposition();
 }
 
 function deleteGtTag(container, popup) {
@@ -25915,7 +25874,6 @@ function loadGtTags(id, popup, type) {
                 createGtTag(popup, tags[i]);
             }
             popup.input.value = tags.join(`, `);
-            popup.reposition();
         }
     }
 }
@@ -26938,7 +26896,6 @@ function loadMtTags(mt, popup) {
         });
     }
     popup.input.value = mt.tags.join(`, `);
-    popup.reposition();
 }
 
 function saveMtTags(mt, popup, callback) {
@@ -28081,7 +28038,6 @@ function getDfDiscussions(hidden, i, j, n, popup, callback) {
                     }
                     loadDiscussionFeatures(popup.discussions.lastElementChild);
                 }
-                popup.reposition();
                 setTimeout(getDfDiscussions, 0, hidden, ++i, ++j, n, popup, callback);
             });
         } else {
@@ -28151,7 +28107,6 @@ function loadGfGiveaways(i, n, hidden, gfGiveaways, popup, callback) {
                 if (giveaway) {
                     gfGiveaways.insertAdjacentHTML(`beforeEnd`, giveaway.html);
                     loadEndlessFeatures(gfGiveaways.lastElementChild, false, `gf`);
-                    popup.reposition();
                     setTimeout(loadGfGiveaways, 0, ++i, n, hidden, gfGiveaways, popup, callback);
                 } else {
                     setTimeout(loadGfGiveaways, 0, ++i, n, hidden, gfGiveaways, popup, callback);
@@ -28314,7 +28269,6 @@ function filterUserTags(current, mt, popup, users, event) {
         disableMt(mt);
         enableMt(mt, current);
     }
-    popup.reposition();
 }
 
 function openManageGameTagsPopup() {
@@ -28421,7 +28375,6 @@ function filterGameTags(current, games, mt, popup, event) {
         disableMt(mt);
         enableMt(mt, current);
     }
-    popup.reposition();
 }
 
 function setSMRecentUsernameChanges(SMRecentUsernameChanges) {
@@ -28449,7 +28402,6 @@ function setSMRecentUsernameChanges(SMRecentUsernameChanges) {
             if (esgst.sg) {
                 loadEndlessFeatures(popup.Results);
             }
-            popup.reposition();
         });
         popup.open();
     });
@@ -28496,8 +28448,7 @@ function checkNewVersion() {
                 popup.title.innerHTML = `
                     <i class="fa fa-check"></i> Thanks for installing ESGST, <span>${esgst.username}</span>. You are ready to go! Click on the <span>Settings</span> link below to choose which features you want to use.
                 `;
-                popup.reposition();
-                popup.reposition();
+
             });
         } else if (esgst.showChangelog) {
             loadChangelog(esgst.version);
@@ -29350,7 +29301,6 @@ function createUtTags(popup) {
     for (i = 0, n = tags.length; i < n; ++i) {
         createUtTag(popup, tags[i]);
     }
-    popup.reposition();
 }
 
 function createUtTag(popup, tag) {
@@ -29418,7 +29368,6 @@ function endUtDrag(popup) {
         tags.push(children[i].firstElementChild.firstElementChild.textContent);
     }
     popup.input.value = tags.join(`, `);
-    popup.reposition();
 }
 
 function editUtTag(bgColorInput, colorInput, input, popup, tagBox, tagContainer, event) {
@@ -29463,7 +29412,6 @@ function showUtEdit(input, tagBox, tagContainer) {
     input.classList.remove(`esgst-hidden`);
     input.value = tagBox.textContent;
     input.focus();
-    popup.reposition();
 }
 
 function deleteUtTag(container, popup) {
@@ -29506,7 +29454,6 @@ function loadUtTags(popup, user) {
                 createUtTag(popup, tags[i]);
             }
             popup.input.value = tags.join(`, `);
-            popup.reposition();
         }
     }
 }
@@ -32540,6 +32487,7 @@ function addStyle() {
             position: fixed;
             text-align: center;
             text-shadow: 1px 1px rgba(255,255,255,0.94);
+            transition: 500ms ease;
         }
 
         .esgst-popup li:before {
