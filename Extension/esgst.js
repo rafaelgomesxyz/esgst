@@ -19997,7 +19997,7 @@ function addDhHighlightButton(code, container, context) {
         button = insertHtml(context, `afterBegin`, `
             <div class="esgst-dh-button" title="Click to highlight this discussion">
                 <i class="fa fa-star-o"></i>
-            <div>
+            </div>
         `);
         button.addEventListener(`click`, function() {
             highlightDhDiscussion(code, container, true);
