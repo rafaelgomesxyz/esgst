@@ -10132,6 +10132,14 @@ function loadAic() {
         esgst.endlessFeatures.push(getAttachedImages);
         getAttachedImages(document);
     }
+    document.addEventListener(`keydown`, event => {
+        if (event.key === `ArrowLeft` && esgst.aicPrevious) {
+            esgst.aicPrevious.click();
+        }
+        if (event.key === `ArrowRight` && esgst.aicNext) {
+            esgst.aicNext.click();
+        }
+    });
 }
 
 function getAttachedImages(context) {
@@ -10203,11 +10211,14 @@ function showAicImage(carousel, i, popup) {
         </div>
         ` : ``}
     `;
+    esgst.aicPrevious = esgst.aicNext = null;
     if (i > 0) {
-        carousel.firstElementChild.addEventListener(`click`, showAicImage.bind(null, carousel, i - 1, popup));
+        esgst.aicPrevious = carousel.firstElementChild;
+        esgst.aicPrevious.addEventListener(`click`, showAicImage.bind(null, carousel, i - 1, popup));
     }
     if (i < n - 1) {
-        carousel.lastElementChild.addEventListener(`click`, showAicImage.bind(null, carousel, i + 1, popup));
+        esgst.aicNext = carousel.lastElementChild;
+        esgst.aicNext.addEventListener(`click`, showAicImage.bind(null, carousel, i + 1, popup));
     }
 
 }
