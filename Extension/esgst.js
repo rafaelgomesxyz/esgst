@@ -13848,7 +13848,7 @@ function enterElgbGiveaway(giveaway, main, popup, source, callback) {
             if (esgst.gf && esgst.gf.filteredCount && esgst[`gf_enable${esgst.gf.type}`]) {
                 filterGfGiveaways(esgst.gf);
             }
-            if (esgst.gfPopup && esgst.gfPopup.filteredCount && esgst[`gf_enable${esgst.gf.type}`]) {
+            if (esgst.gfPopup && esgst.gfPopup.filteredCount && esgst[`gf_enable${esgst.gfPopup.type}`]) {
                 filterGfGiveaways(esgst.gfPopup);
             }
             callback();
@@ -13889,7 +13889,7 @@ function leaveElgbGiveaway(giveaway, main, source, callback) {
             if (esgst.gf && esgst.gf.filteredCount && esgst[`gf_enable${esgst.gf.type}`]) {
                 filterGfGiveaways(esgst.gf);
             }
-            if (esgst.gfPopup && esgst.gfPopup.filteredCount && esgst[`gf_enable${esgst.gf.type}`]) {
+            if (esgst.gfPopup && esgst.gfPopup.filteredCount && esgst[`gf_enable${esgst.gfPopup.type}`]) {
                 filterGfGiveaways(esgst.gfPopup);
             }
             callback();
@@ -26230,7 +26230,7 @@ function addGcCategories(games, gc, endless) {
     if (esgst.gf && esgst.gf.filteredCount && esgst[`gf_enable${esgst.gf.type}`]) {
         filterGfGiveaways(esgst.gf, false, endless);
     }
-    if (esgst.gfPopup && esgst.gfPopup.filteredCount && esgst[`gf_enable${esgst.gf.type}`]) {
+    if (esgst.gfPopup && esgst.gfPopup.filteredCount && esgst[`gf_enable${esgst.gfPopup.type}`]) {
         filterGfGiveaways(esgst.gfPopup);
     }
 }
@@ -28465,7 +28465,7 @@ function loadGiveawayFeatures(context, main, source, endless) {
     if (esgst.gf && esgst.gf.filteredCount && esgst[`gf_enable${esgst.gf.type}`]) {
         filterGfGiveaways(esgst.gf, false, endless);
     }
-    if (esgst.gfPopup && esgst.gfPopup.filteredCount && esgst[`gf_enable${esgst.gf.type}`]) {
+    if (esgst.gfPopup && esgst.gfPopup.filteredCount && esgst[`gf_enable${esgst.gfPopup.type}`]) {
         filterGfGiveaways(esgst.gfPopup);
     }
     if (esgst.gm_enable && esgst.gmCheckboxes) {
