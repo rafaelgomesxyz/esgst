@@ -7649,9 +7649,8 @@ function loadFeatures() {
                 },
                 onClick: () => {
                     if (esgst.cfh.history.length) {
-                        esgst.cfh.backup.push(esgst.cfh.textArea.value);
+                        redoCfhFormatting(esgst.cfh.textArea, esgst.cfh.textArea.value);
                         esgst.cfh.textArea.value = esgst.cfh.history.pop();
-                        esgst.cfh.redo.classList.remove(`esgst-faded`);
                         if (!esgst.cfh.history.length) {
                             esgst.cfh.undo.classList.add(`esgst-faded`);
                         }
@@ -7666,9 +7665,8 @@ function loadFeatures() {
                 },
                 onClick: () => {
                     if (esgst.cfh.backup.length) {
-                        esgst.cfh.history.push(esgst.cfh.textArea.value);
+                        undoCfhFormatting(esgst.cfh.textArea, esgst.cfh.textArea.value);
                         esgst.cfh.textArea.value = esgst.cfh.backup.pop();
-                        esgst.cfh.undo.classList.remove(`esgst-faded`);
                         if (!esgst.cfh.backup.length) {
                             esgst.cfh.redo.classList.add(`esgst-faded`);
                         }
@@ -20247,8 +20245,7 @@ function addCfhPanel(textArea) {
             if (clipboard.match(/^https?:/)) {
                 event.preventDefault();
                 value = textArea.value;
-                esgst.cfh.history.push(`${value.slice(0, textArea.selectionStart)}${clipboard}${value.slice(textArea.selectionEnd)}`);
-                esgst.cfh.undo.classList.remove(`esgst-faded`);
+                undoCfhFormatting(textArea, `${value.slice(0, textArea.selectionStart)}${clipboard}${value.slice(textArea.selectionEnd)}`);
                 formatCfhLink(``, clipboard, clipboard.match(/\.(jpg|jpeg|gif|bmp|png)/), true);
             }
         }
@@ -20256,11 +20253,36 @@ function addCfhPanel(textArea) {
     esgst.cfh.textArea = textArea;
 }
 
+function undoCfhFormatting(textArea, value) {
+    esgst.cfh.history.push(value);
+    esgst.cfh.undo.classList.remove(`esgst-faded`);
+    textArea.onkeydown = event => {
+        textArea.onkeydown = null;
+        if (event.key === `Backspace`) {
+            event.preventDefault();
+            esgst.cfh.undo.click();
+        }
+    };
+}
+
+function redoCfhFormatting(textArea, value) {
+    esgst.cfh.backup.push(value);
+    esgst.cfh.redo.classList.remove(`esgst-faded`);
+    textArea.onkeydown = event => {
+        if (event.key !== `Shift`) {
+            textArea.onkeydown = null;
+            if (event.shiftKey && event.key === `Backspace`) {
+                event.preventDefault();
+                esgst.cfh.redo.click();
+            }
+        }
+    };
+}
+
 function formatCfhItem(prefix = ``, suffix = ``, multiline) {
     let end, n, range, start, text, value;
     value = esgst.cfh.textArea.value;
-    esgst.cfh.history.push(value);
-    esgst.cfh.undo.classList.remove(`esgst-faded`);
+    undoCfhFormatting(esgst.cfh.textArea, value);
     start = esgst.cfh.textArea.selectionStart;
     end = esgst.cfh.textArea.selectionEnd;
     text = value.slice(start, end);
@@ -20282,8 +20304,7 @@ function formatCfhItem(prefix = ``, suffix = ``, multiline) {
 function formatCfhLink(title, url, isImage, isPaste) {
     let end, start, value;
     if (!isPaste) {
-        esgst.cfh.history.push(esgst.cfh.textArea.value);
-        esgst.cfh.undo.classList.remove(`esgst-faded`);
+        undoCfhFormatting(esgst.cfh.textArea, esgst.cfh.textArea.value);
     }
     start = esgst.cfh.textArea.selectionStart;
     end = esgst.cfh.textArea.selectionEnd;
