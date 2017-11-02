@@ -259,7 +259,6 @@ class Popout {
 
 class Popup {
     constructor(icon, title, temp, settings, popup = null) {
-        esgst.popups.push(this);
         this.isCreated = popup ? false : true;
         this.temp = temp;
         this.popup = popup || insertHtml(document.body, `beforeEnd`, `
@@ -307,6 +306,8 @@ class Popup {
     }
     open(callback) {
         this.isOpen = true;
+        esgst.openPopups += 1;
+        esgst.popups.push(this);
         this.modal = insertHtml(document.body, `beforeEnd`, `
             <div class="esgst-popup-modal"></div>
         `);
@@ -321,6 +322,9 @@ class Popup {
         this.popup.style.zIndex = n + 1;
         this.modal.addEventListener(`click`, () => this.close());
         this.reposition();
+        if (!esgst.isRepositioning) {
+            setTimeout(repositionPopups, 2000);
+        }
         if (callback) {
             callback();
         }
@@ -339,6 +343,8 @@ class Popup {
         if (this.onClose) {
             this.onClose();
         }
+        esgst.openPopups -= 1;
+        esgst.popups.pop();
         this.isOpen = false;
     }
     reposition() {
@@ -438,6 +444,7 @@ function loadEsgst(storage) {
         currentDiscussions: [],
         profileFeatures: [],
         popups: [],
+        openPopups: 0,
         elgbCache: JSON.parse(getValue(`esgst_elgbCache`, `{"descriptions": {}, "timestamp": ${Date.now()}}`)),
         menuPath: location.pathname.match(/^\/esgst\//),
         settingsPath: location.pathname.match(/^\/esgst\/settings/),
@@ -7765,16 +7772,17 @@ function loadFeatures() {
             notifyNewVersion(version);
         }
     }
-    repositionPopups();
+    setTimeout(repositionPopups, 2000);
 }
 
 function repositionPopups() {
-    esgst.popups.forEach(popup => {
-        if (popup.isOpen) {
-            popup.reposition();
-        }
-    });
-    setTimeout(repositionPopups, 1000);
+    if (esgst.openPopups > 0) {
+        esgst.popups.forEach(popup => popup.reposition());
+        esgst.isRepositioning = true;
+        setTimeout(repositionPopups, 2000);
+    } else {
+        esgst.isRepositioning = false;
+    }
 }
 
 function fixFsSidebar() {
