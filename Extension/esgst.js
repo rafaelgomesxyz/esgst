@@ -18237,16 +18237,28 @@ function deleteDkcKey(link) {
 /* [NPTH] Next/Previous Train Hotkeys */
 
 function loadNpth() {
-    var description, element, elements, i, n, next, nextMatch, previous, previousMatch;
+    var description, element, elements, i, n, next, previous, text;
     if (esgst.giveawayCommentsPath) {
         description = document.getElementsByClassName(`page__description`)[0];
         if (description) {
             elements = description.querySelectorAll(`[href*="/giveaway/"]`);
-            if (elements.length > 1) {
-                previous = elements[0];
-                next = elements[1];
-            } else {
-                next = elements[0];
+            n = elements.length;
+            for (i = 0; i < n && (!previous || !next); ++i) {
+                element = elements[i];
+                text = element.textContent.toLowerCase();
+                if (!previous && text.match(/back|last|less|prev|<|←/)) {
+                    previous = element;
+                } else if (!next && text.match(/forw|more|next|>|→/)) {
+                    next = element;
+                }
+            }
+            if (!previous || !next) {
+                if (n > 1) {
+                    previous = elements[0];
+                    next = elements[1];
+                } else {
+                    next = elements[0];
+                }
             }
             if (previous || next) {
                 document.addEventListener(`keydown`, loadNpthGiveaway.bind(null, next, previous));
