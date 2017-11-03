@@ -28292,12 +28292,9 @@ function loadGfGiveaways(i, n, hidden, gfGiveaways, popup, callback) {
     }
 }
 
-function getMonthDay(timestamp) {
-    var date, month, months;
-    date = new Date(timestamp);
-    months = [`Jan`, `Feb`, `Mar`, `Apr`, `May`, `Jun`, `Jul`, `Aug`, `Sep`, `Oct`, `Nov`, `Dec`];
-    month = months[date.getMonth()];
-    return `${month} ${date.getDate()}`;
+function getDate(timestamp) {
+    let date = new Date(timestamp);
+    return `${[`Jan`, `Feb`, `Mar`, `Apr`, `May`, `Jun`, `Jul`, `Aug`, `Sep`, `Oct`, `Nov`, `Dec`][date.getMonth()]} ${date.getDate()}, ${date.getFullYear()}`;
 }
 
 function setSMManageEntriesTracker(button) {
@@ -28313,17 +28310,19 @@ function setSMManageEntriesTracker(button) {
                     ${entry.entry ? `Entered` : `Left`} <a href="/giveaway/${entry.code}/">${entry.name}</a> on ${getTimestamp(entry.timestamp / 1e3, esgst.at_24, esgst.at_s)}
                 </li>
             `;
-            date = getMonthDay(entry.timestamp);
-            if (!dates[date]) {
-                dates[date] = {
+            date = getDate(entry.timestamp);
+            key = new Date(date).getTime();
+            if (!dates[key]) {
+                dates[key] = {
+                    date: date,
                     entered: 0,
                     left: 0
                 };
             }
             if (entry.entry) {
-                dates[date].entered += 1;
+                dates[key].entered += 1;
             } else {
-                dates[date].left += 1;
+                dates[key].left += 1;
             }
         }
         tableHtml = `
@@ -28338,12 +28337,12 @@ function setSMManageEntriesTracker(button) {
         keys = Object.keys(dates);
         keys.sort();
         total = 0;
-        for (i = keys.length - 1; i >= 0; --i) {
+        for (i = keys.length - 1; i > -1; --i) {
             key = keys[i];
             tableHtml += `
                 <div class="table__row-outer-wrap">
                     <div class="table__row-inner-wrap">
-                        <div class="table__column--width-small">${key}</div>
+                        <div class="table__column--width-small">${dates[key].date}</div>
                         <div class="table__column--width-small">${dates[key].entered}</div>
                         <div class="table__column--width-small">${dates[key].left}</div>
                     </div>
