@@ -12326,7 +12326,7 @@ function filterGfException(gf, giveaway) {
         for (i = 0, n = categoryFilters.length; !filtered && i < n; ++i) {
             key = categoryFilters[i];
             if (key === `genres`) {
-                if (giveaway.genres) {
+                if (giveaway.genres && gf.genreList) {
                     genres = gf.genreList.toLowerCase().split(/,\s/);
                     for (j = genres.length - 1; j >= 0 && giveaway.genres.indexOf(genres[j]) < 0; --j);
                     value = j >= 0;
@@ -12389,7 +12389,7 @@ function filterGfGiveaway(gf, giveaway) {
             key = categoryFilters[i];
             if (key !== `dlc` || !gf.advancedSearch) {
                 if (key === `genres`) {
-                    if (giveaway.genres) {
+                    if (giveaway.genres && gf.genreList) {
                         genres = gf.genreList.toLowerCase().split(/,\s/);
                         for (j = genres.length - 1; j >= 0 && giveaway.genres.indexOf(genres[j]) < 0; --j);
                         value = j >= 0;
