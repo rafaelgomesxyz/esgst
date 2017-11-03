@@ -9764,9 +9764,9 @@ function notifyHrChange(hr, wishlist, notify) {
             context.fillText(messageCount, 9, 14);
             esgst.favicon.href = canvas.toDataURL(`image/png`);
         };
-        image.src = esgst[`${esgst.name}Icon`];
+        image.src = esgst.menuPath ? esgst.icon : esgst[`${esgst.name}Icon`];
     } else {
-        esgst.favicon.href = esgst[`${esgst.name}Icon`];
+        esgst.favicon.href = esgst.menuPath ? esgst.icon : esgst[`${esgst.name}Icon`];
     }
     if (esgst.sg) {
         if (hr.points !== esgst.points) {
