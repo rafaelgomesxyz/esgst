@@ -2760,6 +2760,18 @@ function loadEsgst(storage) {
                             <li>Brings back SG's old active discussions design, while keeping the new Deals section.</li>
                         </ul>
                     `,
+                    features: [
+                        {
+                            description: `
+                                <ul>
+                                    <li>By default, deals are excluded from the discussions section, since they can be accessed by clicking the top left button in the active discussions container.</li>
+                                </ul>
+                            `,
+                            id: `oadd_d`,
+                            name: `[NEW] Show deals in the discussions section.`,
+                            sg: true
+                        }
+                    ],
                     id: `oadd`,
                     name: `Old Active Discussions Design`,
                     sg: true,
@@ -18754,14 +18766,17 @@ function loadOadd() {
             dealsRows = deals.lastElementChild.lastElementChild;
             savedDiscussions = JSON.parse(getValue(`discussions`, `{}`));
             elements = getDiscussions(response1Html, true, savedDiscussions);
-            revisedElements = [];
-            elements.forEach(element => {
-                if (element.category !== `Deals`) {
-                    revisedElements.push(element);
-                }
-            });
-            for (i = 0, j = revisedElements.length - 1; i < 5; ++i, --j) {
-                discussionsRows.appendChild(revisedElements[j].outerWrap);
+            if (!esgst.oadd_d) {
+                revisedElements = [];
+                elements.forEach(element => {
+                    if (element.category !== `Deals`) {
+                        revisedElements.push(element);
+                    }
+                });
+                elements = revisedElements;
+            }
+            for (i = 0, j = elements.length - 1; i < 5; ++i, --j) {
+                discussionsRows.appendChild(elements[j].outerWrap);
             }
             elements = getDiscussions(response2Html, true, savedDiscussions);
             for (i = 0, j = elements.length - 1; i < 5; ++i, --j) {
