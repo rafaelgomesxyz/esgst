@@ -34273,6 +34273,20 @@ function addHeaderMenu() {
                             <p class="esgst-header-menu-description">Visit the GitHub page.</p>
                         </div>
                     </a>
+                    <a class="esgst-header-menu-row" href="https://github.com/revilheart/ESGST/issues">
+                        <i class="fa fa-fw fa-bug grey"></i>
+                        <div>
+                            <p class="esgst-header-menu-name">Bugs/Suggestions</p>
+                            <p class="esgst-header-menu-description">Report bugs and/or make suggestions.</p>
+                        </div>
+                    </a>
+                    <a class="esgst-header-menu-row" href="https://github.com/revilheart/ESGST/milestones">
+                        <i class="fa fa-fw fa-map-signs grey"></i>
+                        <div>
+                            <p class="esgst-header-menu-name">Milestones</p>
+                            <p class="esgst-header-menu-description">Check out what's coming in the next version.</p>
+                        </div>
+                    </a>
                     <a class="esgst-header-menu-row" href="https://www.steamgifts.com/discussion/TDyzv/">
                         <i class="fa fa-fw fa-commenting green"></i>
                         <div>
@@ -34298,7 +34312,7 @@ function addHeaderMenu() {
                         <i class="fa fa-fw fa-file-text-o grey"></i>
                         <div>
                             <p class="esgst-header-menu-name">Changelog</p>
-                            <p class="esgst-header-menu-description">Check out the script's changelog.</p>
+                            <p class="esgst-header-menu-description">Check out the changelog.</p>
                         </div>
                     </div>
                 </div>
