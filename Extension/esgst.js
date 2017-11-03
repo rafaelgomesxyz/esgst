@@ -12370,7 +12370,7 @@ function filterGfGiveaway(gf, giveaway) {
     filtered = false;
     override = 0;
     if (!gf.advancedSearch) {
-        for (i = 0, n = basicFilters.length; i < n; ++i) {
+        for (i = 0, n = basicFilters.length; i < n && (!filtered || !override); ++i) {
             name = basicFilters[i];
             if ((name === `Rating` && esgst.gc && giveaway.gcReady) || name !== `Rating`) {
                 key = name.toLowerCase();
@@ -12393,7 +12393,7 @@ function filterGfGiveaway(gf, giveaway) {
             }
         }
     }
-    for (i = 0, n = typeFilters.length; i < n; ++i) {
+    for (i = 0, n = typeFilters.length; i < n && (!filtered || !override); ++i) {
         key = typeFilters[i];
         if ((key === `regionRestricted` && !gf.advancedSearch) || key !== `regionRestricted`) {
             if ((key === `fullCV` && ((gf.fullCV === `disabled` && !giveaway.reducedCV && !giveaway.noCV) || (gf.fullCV === `none` && (giveaway.reducedCV || giveaway.noCV)))) || (key !== `fullCV` && ((gf[key] === `disabled` && giveaway[key]) || (gf[key] === `none` && !giveaway[key])))) {
@@ -12406,7 +12406,7 @@ function filterGfGiveaway(gf, giveaway) {
         }
     }
     if (esgst.gc && giveaway.gcReady) {
-        for (i = 0, n = categoryFilters.length; i < n; ++i) {
+        for (i = 0, n = categoryFilters.length; i < n && (!filtered || !override); ++i) {
             key = categoryFilters[i];
             if (key !== `dlc` || !gf.advancedSearch) {
                 if (key === `genres`) {
@@ -19929,7 +19929,7 @@ function filterDfDiscussion(df, discussion) {
     typeFilters = [`announcements`, `bugs_suggestions`, `deals`, `general`, `groupRecruitment`, `letsPlayTogether`, `offTopic`, `puzzles`, `uncategorized`, `created`, `poll`, `highlighted`, `visited`, `unread`];
     filtered = false;
     override = 0;
-    for (i = 0, n = basicFilters.length; i < n; ++i) {
+    for (i = 0, n = basicFilters.length; i < n && (!filtered || !override); ++i) {
         name = basicFilters[i];
         key = name.toLowerCase();
         maxKey = `max${name}`;
@@ -19939,7 +19939,7 @@ function filterDfDiscussion(df, discussion) {
             override = df.overrides[key];
         }
     }
-    for (i = 0, n = typeFilters.length; i < n; ++i) {
+    for (i = 0, n = typeFilters.length; i < n && (!filtered || !override); ++i) {
         key = typeFilters[i];
         if ((df[key] === `disabled` && discussion[key]) || (df[key] === `none` && !discussion[key])) {
             filtered = true;
