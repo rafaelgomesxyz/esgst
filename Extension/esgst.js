@@ -524,6 +524,8 @@ function loadEsgst(storage) {
             };
             esgst.lastPage = getLastPage(document, true);
             esgst.oldValues = {
+                df_s: `df_h`,
+                gf_s: `gf_h`,
                 ge: `tge`,
                 hideButtons_ge: `hideButtons_tge`,
                 gv_ge: `gv_tge`,
@@ -594,6 +596,8 @@ function loadEsgst(storage) {
                 gwr_e: `gwr`
             };
             esgst.defaultValues = {
+                df_m: true,
+                gf_m: true,
                 ge_p_bgColor: `#ccccdd`,
                 ge_g_bgColor: `#ccddcc`,
                 ge_b_bgColor: `#ddcccc`,
@@ -1894,211 +1898,224 @@ function loadEsgst(storage) {
                         {
                             description: `
                                 <ul>
-                                    <li>Hidden giveaways can be unhidden through the settings menu.</li>
+                                    <li>Allows you to hide individual giveaways.</li>
+                                    <li>Hidden giveaways can only be unhidden through the settings menu.</li>
                                 </ul>
                             `,
-                            id: `gf_h`,
-                            name: `Enable the option to hide giveaways.`,
+                            id: `gf_s`,
+                            name: `[NEW] Single Filters`,
                             sg: true
                         },
                         {
-                            id: `gf_level`,
-                            name: `Level`,
-                            sg: true
-                        },
-                        {
-                            id: `gf_entries`,
-                            name: `Entries`,
-                            sg: true
-                        },
-                        {
-                            id: `gf_copies`,
-                            name: `Copies`,
-                            sg: true
-                        },
-                        {
-                            id: `gf_points`,
-                            name: `Points`,
-                            sg: true
-                        },
-                        {
-                            id: `gf_minutesToEnd`,
-                            name: `Minutes To End`,
-                            sg: true
-                        },
-                        {
-                            id: `gf_chance`,
-                            name: `Chance`,
-                            sg: true
-                        },
-                        {
-                            id: `gf_rating`,
-                            name: `Rating`,
-                            sg: true
-                        },
-                        {
-                            id: `gf_pinned`,
-                            name: `Pinned`,
-                            sg: true
-                        },
-                        {
-                            id: `gf_group`,
-                            name: `Group`,
-                            sg: true
-                        },
-                        {
-                            id: `gf_whitelist`,
-                            name: `Whitelist`,
-                            sg: true
-                        },
-                        {
-                            id: `gf_regionRestricted`,
-                            name: `Region Restricted`,
-                            sg: true
-                        },
-                        {
-                            id: `gf_created`,
-                            name: `Created`,
-                            sg: true
-                        },
-                        {
-                            id: `gf_received`,
-                            name: `Received`,
-                            sg: true
-                        },
-                        {
-                            id: `gf_notReceived`,
-                            name: `Not Received`,
-                            sg: true
-                        },
-                        {
-                            id: `gf_awaitingFeedback`,
-                            name: `Awaiting Feedback`,
-                            sg: true
-                        },
-                        {
-                            id: `gf_entered`,
-                            name: `Entered`,
-                            sg: true
-                        },
-                        {
-                            id: `gf_started`,
-                            name: `Started`,
-                            sg: true
-                        },
-                        {
-                            id: `gf_ended`,
-                            name: `Ended`,
-                            sg: true
-                        },
-                        {
-                            id: `gf_deleted`,
-                            name: `Deleted`,
-                            sg: true
-                        },
-                        {
-                            id: `gf_owned`,
-                            name: `Owned`,
-                            sg: true
-                        },
-                        {
-                            id: `gf_wishlisted`,
-                            name: `Wishlisted`,
-                            sg: true
-                        },
-                        {
-                            id: `gf_hidden`,
-                            name: `Hidden`,
-                            sg: true
-                        },
-                        {
-                            id: `gf_ignored`,
-                            name: `Ignored`,
-                            sg: true
-                        },
-                        {
-                            id: `gf_previouslyEntered`,
-                            name: `Previously Entered`,
-                            sg: true
-                        },
-                        {
-                            id: `gf_previouslyWon`,
-                            name: `Previously Won`,
-                            sg: true
-                        },
-                        {
-                            id: `gf_fullCV`,
-                            name: `Full CV`,
-                            sg: true
-                        },
-                        {
-                            id: `gf_reducedCV`,
-                            name: `Reduced CV`,
-                            sg: true
-                        },
-                        {
-                            id: `gf_noCV`,
-                            name: `No CV`,
-                            sg: true
-                        },
-                        {
-                            id: `gf_removed`,
-                            name: `Removed`,
-                            sg: true
-                        },
-                        {
-                            id: `gf_tradingCards`,
-                            name: `Trading Cards`,
-                            sg: true
-                        },
-                        {
-                            id: `gf_achievements`,
-                            name: `Achievements`,
-                            sg: true
-                        },
-                        {
-                            id: `gf_multiplayer`,
-                            name: `Multiplayer`,
-                            sg: true
-                        },
-                        {
-                            id: `gf_steamCloud`,
-                            name: `Steam Cloud`,
-                            sg: true
-                        },
-                        {
-                            id: `gf_linux`,
-                            name: `Linux`,
-                            sg: true
-                        },
-                        {
-                            id: `gf_mac`,
-                            name: `Mac`,
-                            sg: true
-                        },
-                        {
-                            id: `gf_dlc`,
-                            name: `DLC`,
-                            sg: true
-                        },
-                        {
-                            id: `gf_dlcFree`,
-                            name: `DLC (Free Base)`,
-                            sg: true
-                        },
-                        {
-                            id: `gf_dlcNonFree`,
-                            name: `DLC (Non-Free Base)`,
-                            sg: true
-                        },
-                        {
-                            id: `gf_package`,
-                            name: `Package`,
-                            sg: true
-                        },
-                        {
-                            id: `gf_genres`,
-                            name: `Genres`,
+                            description: `
+                                <ul>
+                                    <li>Allows you to filter giveaways.</li>
+                                </ul>
+                            `,
+                            features: [
+                                {
+                                    id: `gf_level`,
+                                    name: `Level`,
+                                    sg: true
+                                },
+                                {
+                                    id: `gf_entries`,
+                                    name: `Entries`,
+                                    sg: true
+                                },
+                                {
+                                    id: `gf_copies`,
+                                    name: `Copies`,
+                                    sg: true
+                                },
+                                {
+                                    id: `gf_points`,
+                                    name: `Points`,
+                                    sg: true
+                                },
+                                {
+                                    id: `gf_minutesToEnd`,
+                                    name: `Minutes To End`,
+                                    sg: true
+                                },
+                                {
+                                    id: `gf_chance`,
+                                    name: `Chance`,
+                                    sg: true
+                                },
+                                {
+                                    id: `gf_rating`,
+                                    name: `Rating`,
+                                    sg: true
+                                },
+                                {
+                                    id: `gf_pinned`,
+                                    name: `Pinned`,
+                                    sg: true
+                                },
+                                {
+                                    id: `gf_group`,
+                                    name: `Group`,
+                                    sg: true
+                                },
+                                {
+                                    id: `gf_whitelist`,
+                                    name: `Whitelist`,
+                                    sg: true
+                                },
+                                {
+                                    id: `gf_regionRestricted`,
+                                    name: `Region Restricted`,
+                                    sg: true
+                                },
+                                {
+                                    id: `gf_created`,
+                                    name: `Created`,
+                                    sg: true
+                                },
+                                {
+                                    id: `gf_received`,
+                                    name: `Received`,
+                                    sg: true
+                                },
+                                {
+                                    id: `gf_notReceived`,
+                                    name: `Not Received`,
+                                    sg: true
+                                },
+                                {
+                                    id: `gf_awaitingFeedback`,
+                                    name: `Awaiting Feedback`,
+                                    sg: true
+                                },
+                                {
+                                    id: `gf_entered`,
+                                    name: `Entered`,
+                                    sg: true
+                                },
+                                {
+                                    id: `gf_started`,
+                                    name: `Started`,
+                                    sg: true
+                                },
+                                {
+                                    id: `gf_ended`,
+                                    name: `Ended`,
+                                    sg: true
+                                },
+                                {
+                                    id: `gf_deleted`,
+                                    name: `Deleted`,
+                                    sg: true
+                                },
+                                {
+                                    id: `gf_owned`,
+                                    name: `Owned`,
+                                    sg: true
+                                },
+                                {
+                                    id: `gf_wishlisted`,
+                                    name: `Wishlisted`,
+                                    sg: true
+                                },
+                                {
+                                    id: `gf_hidden`,
+                                    name: `Hidden`,
+                                    sg: true
+                                },
+                                {
+                                    id: `gf_ignored`,
+                                    name: `Ignored`,
+                                    sg: true
+                                },
+                                {
+                                    id: `gf_previouslyEntered`,
+                                    name: `Previously Entered`,
+                                    sg: true
+                                },
+                                {
+                                    id: `gf_previouslyWon`,
+                                    name: `Previously Won`,
+                                    sg: true
+                                },
+                                {
+                                    id: `gf_fullCV`,
+                                    name: `Full CV`,
+                                    sg: true
+                                },
+                                {
+                                    id: `gf_reducedCV`,
+                                    name: `Reduced CV`,
+                                    sg: true
+                                },
+                                {
+                                    id: `gf_noCV`,
+                                    name: `No CV`,
+                                    sg: true
+                                },
+                                {
+                                    id: `gf_removed`,
+                                    name: `Removed`,
+                                    sg: true
+                                },
+                                {
+                                    id: `gf_tradingCards`,
+                                    name: `Trading Cards`,
+                                    sg: true
+                                },
+                                {
+                                    id: `gf_achievements`,
+                                    name: `Achievements`,
+                                    sg: true
+                                },
+                                {
+                                    id: `gf_multiplayer`,
+                                    name: `Multiplayer`,
+                                    sg: true
+                                },
+                                {
+                                    id: `gf_steamCloud`,
+                                    name: `Steam Cloud`,
+                                    sg: true
+                                },
+                                {
+                                    id: `gf_linux`,
+                                    name: `Linux`,
+                                    sg: true
+                                },
+                                {
+                                    id: `gf_mac`,
+                                    name: `Mac`,
+                                    sg: true
+                                },
+                                {
+                                    id: `gf_dlc`,
+                                    name: `DLC`,
+                                    sg: true
+                                },
+                                {
+                                    id: `gf_dlcFree`,
+                                    name: `DLC (Free Base)`,
+                                    sg: true
+                                },
+                                {
+                                    id: `gf_dlcNonFree`,
+                                    name: `DLC (Non-Free Base)`,
+                                    sg: true
+                                },
+                                {
+                                    id: `gf_package`,
+                                    name: `Package`,
+                                    sg: true
+                                },
+                                {
+                                    id: `gf_genres`,
+                                    name: `Genres`,
+                                    sg: true
+                                }
+                            ],
+                            id: `gf_m`,
+                            name: `[NEW] Multiple Filters`,
                             sg: true
                         }
                     ],
@@ -2821,86 +2838,99 @@ function loadEsgst(storage) {
                         {
                             description: `
                                 <ul>
-                                    <li>Hidden discussions can be unhidden through the settings menu.</li>
+                                    <li>Allows you to hide individual discussions.</li>
+                                    <li>Hidden discussions can only be unhidden through the settings menu.</li>
                                 </ul>
                             `,
-                            id: `df_h`,
-                            name: `Enable the option to hide discussions.`,
+                            id: `df_s`,
+                            name: `[NEW] Single Filters`,
                             sg: true
                         },
                         {
-                            id: `df_comments`,
-                            name: `Comments`,
-                            sg: true
-                        },
-                        {
-                            id: `df_announcements`,
-                            name: `Announcements`,
-                            sg: true
-                        },
-                        {
-                            id: `df_bugsSuggestions`,
-                            name: `Bugs / Suggestions`,
-                            sg: true
-                        },
-                        {
-                            id: `df_deals`,
-                            name: `Deals`,
-                            sg: true
-                        },
-                        {
-                            id: `df_general`,
-                            name: `General`,
-                            sg: true
-                        },
-                        {
-                            id: `df_groupRecruitment`,
-                            name: `Group Recruitment`,
-                            sg: true
-                        },
-                        {
-                            id: `df_letsPlayTogether`,
-                            name: `Let's Play Together`,
-                            sg: true
-                        },
-                        {
-                            id: `df_offTopic`,
-                            name: `Off-Topic`,
-                            sg: true
-                        },
-                        {
-                            id: `df_puzzles`,
-                            name: `Puzzles`,
-                            sg: true
-                        },
-                        {
-                            id: `df_uncategorized`,
-                            name: `Uncategorized`,
-                            sg: true
-                        },
-                        {
-                            id: `df_created`,
-                            name: `Created`,
-                            sg: true
-                        },
-                        {
-                            id: `df_poll`,
-                            name: `Poll`,
-                            sg: true
-                        },
-                        {
-                            id: `df_highlighted`,
-                            name: `Highlighted`,
-                            sg: true
-                        },
-                        {
-                            id: `df_visited`,
-                            name: `Visited`,
-                            sg: true
-                        },
-                        {
-                            id: `df_unread`,
-                            name: `Unread`,
+                            description: `
+                                <ul>
+                                    <li>Allows you to filter discussions.</li>
+                                </ul>
+                            `,
+                            features: [
+                                {
+                                    id: `df_comments`,
+                                    name: `Comments`,
+                                    sg: true
+                                },
+                                {
+                                    id: `df_announcements`,
+                                    name: `Announcements`,
+                                    sg: true
+                                },
+                                {
+                                    id: `df_bugsSuggestions`,
+                                    name: `Bugs / Suggestions`,
+                                    sg: true
+                                },
+                                {
+                                    id: `df_deals`,
+                                    name: `Deals`,
+                                    sg: true
+                                },
+                                {
+                                    id: `df_general`,
+                                    name: `General`,
+                                    sg: true
+                                },
+                                {
+                                    id: `df_groupRecruitment`,
+                                    name: `Group Recruitment`,
+                                    sg: true
+                                },
+                                {
+                                    id: `df_letsPlayTogether`,
+                                    name: `Let's Play Together`,
+                                    sg: true
+                                },
+                                {
+                                    id: `df_offTopic`,
+                                    name: `Off-Topic`,
+                                    sg: true
+                                },
+                                {
+                                    id: `df_puzzles`,
+                                    name: `Puzzles`,
+                                    sg: true
+                                },
+                                {
+                                    id: `df_uncategorized`,
+                                    name: `Uncategorized`,
+                                    sg: true
+                                },
+                                {
+                                    id: `df_created`,
+                                    name: `Created`,
+                                    sg: true
+                                },
+                                {
+                                    id: `df_poll`,
+                                    name: `Poll`,
+                                    sg: true
+                                },
+                                {
+                                    id: `df_highlighted`,
+                                    name: `Highlighted`,
+                                    sg: true
+                                },
+                                {
+                                    id: `df_visited`,
+                                    name: `Visited`,
+                                    sg: true
+                                },
+                                {
+                                    id: `df_unread`,
+                                    name: `Unread`,
+                                    sg: true
+                                }
+                            ],
+                            id: `df_m`,
+                            name: `[NEW] Multiple Filters`,
                             sg: true
                         }
                     ],
@@ -4736,7 +4766,7 @@ function loadFeatures() {
         document.addEventListener(`scroll`, fixFmphHeading);
         fixFmphHeading();
         height = esgst.mainPageHeading.offsetHeight;
-        newHeight = (esgst.gf && (esgst.giveawaysPath || esgst.groupsPath || esgst.createdPath || esgst.enteredPath || esgst.wonPath)) || (esgst.df && esgst.discussionsPath) ? height + 23 : height;
+        newHeight = (esgst.gf && esgst.gf_m && (esgst.giveawaysPath || esgst.groupsPath || esgst.createdPath || esgst.enteredPath || esgst.wonPath)) || (esgst.df && esgst.df_m && esgst.discussionsPath) ? height + 23 : height;
         esgst.style.insertAdjacentText(`beforeEnd`, `
             .esgst-fmph {
                 position: fixed;
@@ -11254,15 +11284,15 @@ function setGvContainer(giveaway, spacing) {
 /* [GF] Giveaway Filters */
 
 function loadGf() {
-    if (esgst.giveawaysPath || esgst.createdPath || esgst.enteredPath || esgst.wonPath || esgst.groupPath || esgst.userPath) {
+    if (esgst.gf_s) {
+        esgst.giveawayFeatures.push(getGfGiveaways);
+    }
+    if (esgst.gf_m && (esgst.giveawaysPath || esgst.createdPath || esgst.enteredPath || esgst.wonPath || esgst.groupPath || esgst.userPath)) {
         if (esgst.hideButtons && esgst.hideButtons_gf) {
             esgst.leftButtons.insertBefore(addGfContainer(esgst.mainPageHeading), esgst.leftButtons.firstElementChild);
         } else {
             esgst.mainPageHeading.insertBefore(addGfContainer(esgst.mainPageHeading), esgst.mainPageHeading.firstElementChild);
         }
-    }
-    if (esgst.gf_h) {
-        esgst.giveawayFeatures.push(getGfGiveaways);
     }
 }
 
@@ -12623,11 +12653,11 @@ function loadGbGibs(bookmarked, container, context, popup) {
     var i = 0;
     var n = bookmarked.length;
     var gbGiveaways = insertHtml(context, `beforeEnd`, `<div class="esgst-text-left"></div>`);
-    if (esgst.gf || esgst.gm) {
+    if ((esgst.gf && esgst.gf_m) || esgst.gm) {
         let heading = insertHtml(context, `afterBegin`, `
             <div class="page__heading"></div>
         `);
-        if (esgst.gf) {
+        if (esgst.gf && esgst.gf_m) {
             heading.appendChild(addGfContainer(heading, `Gb`));
         }
         if (esgst.gm) {
@@ -12934,11 +12964,11 @@ function loadGed() {
 
     function loadGedGiveaways(container, context, popup) {
         results = insertHtml(context, `beforeEnd`, `<div class="esgst-text-left"></div>`);
-        if (esgst.gf || esgst.gm) {
+        if ((esgst.gf && esgst.gf_m) || esgst.gm) {
             let heading = insertHtml(context, `afterBegin`, `
                 <div class="page__heading"></div>
             `);
-            if (esgst.gf) {
+            if (esgst.gf && esgst.gf_m) {
                 heading.appendChild(addGfContainer(heading, `Ged`));
             }
             if (esgst.gm) {
@@ -17410,7 +17440,7 @@ function openGmPopout(giveaways, gm) {
             gm.popout.popout.appendChild(new ButtonSet(`green`, `grey`, `fa-bookmark`, `fa-circle-o-notch fa-spin`, `Bookmark`, `Bookmarking...`, bookmarkGmGiveaways.bind(null, giveaways, gm)).set);
             gm.popout.popout.appendChild(new ButtonSet(`green`, `grey`, `fa-bookmark-o`, `fa-circle-o-notch fa-spin`, `Unbookmark`, `Unbookmarking...`, unbookmarkGmGiveaways.bind(null, giveaways, gm)).set);
         }
-        if (esgst.gf && esgst.gf_h) {
+        if (esgst.gf && esgst.gf_s) {
             gm.popout.popout.appendChild(new ButtonSet(`green`, `grey`, `fa-eye-slash`, `fa-circle-o-notch fa-spin`, `Hide Individual GAs`, `Hiding...`, hideGmGiveaways.bind(null, giveaways, gm)).set);
         }
     }
@@ -18360,11 +18390,11 @@ function openGePopup(ge) {
             ge.popup = new Popup(`fa-gift`, `Extracted giveaways:`);
         }
         ge.results = insertHtml(ge.popup.scrollable, `beforeEnd`, `<div class="esgst-text-left"></div>`);
-        if (esgst.gf || esgst.gm) {
+        if ((esgst.gf && esgst.gf_m) || esgst.gm) {
             let heading = insertHtml(ge.popup.scrollable, `afterBegin`, `
                 <div class="page__heading"></div>
             `);
-            if (esgst.gf) {
+            if (esgst.gf && esgst.gf_m) {
                 heading.appendChild(addGfContainer(heading, `Ge`));
             }
             if (esgst.gm) {
@@ -18924,8 +18954,8 @@ function changeAdotsTab(button1, button2, first, second) {
     button1.classList.add(`esgst-selected`);
 }
 
-function checkMissingDiscussions() {    
-    let deals, discussions, numDeals, numDiscussions, rows, savedDiscussions;    
+function checkMissingDiscussions() {
+    let deals, discussions, numDeals, numDiscussions, rows, savedDiscussions;
     savedDiscussions = JSON.parse(getValue(`discussions`, `{}`));
     rows = document.getElementsByClassName(`table__rows`);
     discussions = getDiscussions(rows[0], true, savedDiscussions);
@@ -19206,13 +19236,7 @@ function setDfOverride(df, context, key) {
 }
 
 function loadDf() {
-    if (esgst.discussionsPath && !esgst.editDiscussionPath) {
-        if (esgst.hideButtons && esgst.hideButtons_df) {
-            esgst.leftButtons.insertBefore(addDfContainer(esgst.mainPageHeading), esgst.leftButtons.firstElementChild);
-        } else {
-            esgst.mainPageHeading.insertBefore(addDfContainer(esgst.mainPageHeading), esgst.mainPageHeading.firstElementChild);
-        }
-    } else if (esgst.discussionPath && esgst.df_h) {
+    if (esgst.df_s && esgst.discussionPath) {
         let discussion, savedDiscussions;
         discussion = {
             code: location.pathname.match(/^\/discussion\/(.+?)\//)[1],
@@ -19224,6 +19248,13 @@ function loadDf() {
             addDfUnhideButton(discussion, true);
         } else {
             addDfHideButton(discussion, true);
+        }
+    }
+    if (esgst.df_m && esgst.discussionsPath && !esgst.editDiscussionPath) {
+        if (esgst.hideButtons && esgst.hideButtons_df) {
+            esgst.leftButtons.insertBefore(addDfContainer(esgst.mainPageHeading), esgst.leftButtons.firstElementChild);
+        } else {
+            esgst.mainPageHeading.insertBefore(addDfContainer(esgst.mainPageHeading), esgst.mainPageHeading.firstElementChild);
         }
     }
 }
@@ -27213,12 +27244,12 @@ function loadSMMenu(tab) {
         Name: `SMManageFilteredUsers esgst-heading-button`,
         Title: `See list of filtered users.`
     }, {
-        Check: esgst.sg && esgst.gf && esgst.gf_h,
+        Check: esgst.sg && esgst.gf && esgst.gf_s,
         Icons: [`fa-gift`, `fa-eye-slash`],
         Name: `SMManageFilteredGiveaways esgst-heading-button`,
         Title: `Manage hidden giveaways.`
     }, {
-        Check: esgst.sg && esgst.df && esgst.df_h,
+        Check: esgst.sg && esgst.df && esgst.df_s,
         Icons: [`fa-comments`, `fa-eye-slash`],
         Name: `SMManageFilteredDiscussions esgst-heading-button`,
         Title: `Manage hidden discussions`
@@ -28868,7 +28899,7 @@ function getGiveawayInfo(context, mainContext, games, savedUsers, ugd, ugdType, 
             }
         }
     }
-    if (esgst.gf && esgst.gf_h && main) {
+    if (esgst.gf && esgst.gf_s && main) {
         var savedGiveaway = esgst.giveaways[giveaway.code];
         if ((esgst.giveawaysPath || esgst.groupPath) && savedGiveaway && savedGiveaway.hidden && savedGiveaway.code) {
             giveaway.outerWrap.remove();
@@ -28989,12 +29020,12 @@ function loadDiscussionFeatures(context, main, source, endless) {
     if (esgst.codb) {
         addCodbButtons(discussions);
     }
-    if ((esgst.df && esgst.df_h) || esgst.dh) {
+    if ((esgst.df && esgst.df_s) || esgst.dh) {
         for (i = 0, n = discussions.length; i < n; ++i) {
             discussion = discussions[i];
             savedDiscussion = savedDiscussions[discussion.code];
             if (savedDiscussion) {
-                if (esgst.df && esgst.df_h) {
+                if (esgst.df && esgst.df_s) {
                     if (savedDiscussion.hidden) {
                         addDfUnhideButton(discussion, main);
                     } else {
@@ -29013,7 +29044,7 @@ function loadDiscussionFeatures(context, main, source, endless) {
                     }
                 }
             } else {
-                if (esgst.df && esgst.df_h) {
+                if (esgst.df && esgst.df_s) {
                     addDfHideButton(discussion, main);
                 }
                 if (esgst.dh) {
@@ -29072,7 +29103,7 @@ function getDiscussionInfo(context, main, savedDiscussions, savedUsers) {
                         notifyNewVersion(version);
                     }
                 }
-                if (main && esgst.df && esgst.df_h && savedDiscussions[discussion.code] && savedDiscussions[discussion.code].hidden) {
+                if (main && esgst.df && esgst.df_s && savedDiscussions[discussion.code] && savedDiscussions[discussion.code].hidden) {
                     discussion.outerWrap.remove();
                     return null;
                 }
