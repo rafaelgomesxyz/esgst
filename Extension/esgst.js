@@ -2257,6 +2257,17 @@ function loadEsgst(storage) {
                 {
                     description: `
                         <ul>
+                            <li>Calculates how much time you have to wait until you have enough points to enter a giveaway.</li>
+                        </ul>
+                        <img src="https://i.imgur.com/3z6t263.png">
+                    `,
+                    id: `ttec`,
+                    name: `[NEW] Time To Enter Calculator`,
+                    sg: true
+                },
+                {
+                    description: `
+                        <ul>
                             <li>Calculates your winning chance for a giveaway.</li>
                         </ul>
                         <img src="https://camo.githubusercontent.com/3f161b5a39d4723ac361a93e74b7beedc3cd5cd5/687474703a2f2f692e696d6775722e636f6d2f50696235546f6d2e706e67"/>
@@ -7808,6 +7819,10 @@ function loadFeatures() {
         // needs to run before Avatar Popout
         esgst.endlessFeatures.push(loadDiscussionFeatures);
         loadDiscussionFeatures(document, true);
+    }
+
+    if (esgst.ttec) {
+        esgst.giveawayFeatures.push(calculateTtecTime);
     }
 
     esgst.toExecute.forEach(feature => {
@@ -13512,6 +13527,51 @@ function completeOchgbProcess(button, giveaway, key, main) {
     }
 }
 
+/* [TTEC] Time To Enter Calculator */
+
+function calculateTtecTime(giveaways, main, source) {
+    let nextRefresh, time;
+    if (!main || (!esgst.createdPath && !esgst.enteredPath && !esgst.wonPath && !esgst.newGiveawayPath)) {
+        nextRefresh = 60 - new Date().getMinutes();
+        while (nextRefresh > 15) {
+            nextRefresh -= 15;
+        }
+        giveaways.forEach(giveaway => {
+            if (!giveaway.ended && !giveaway.entered && giveaway.points > esgst.points) {
+                if (!giveaway.ttec) {
+                    giveaway.ttec = insertHtml(giveaway.panel, (esgst.gv && ((main && esgst.giveawaysPath) || (source === `gb` && esgst.gv_gb) || (source === `ged` && esgst.gv_ged) || (source === `ge` && esgst.gv_ge))) ? `beforeEnd` : `afterBegin`, `<div class="${esgst.giveawayPath ? `featured__column` : ``} esgst-ttec" title="Time to wait until you have enough points to enter this giveaway"></div>`);
+                }
+                giveaway.ttec.classList.remove(`esgst-hidden`);
+                giveaway.ttec.innerHTML = `
+                    <i class="fa fa-clock-o"></i> ${getTtecTime(Math.round((nextRefresh + (15 * Math.floor((giveaway.points - esgst.points) / 6))) * 100) / 100)}
+                `;
+            } else if (giveaway.ttec) {
+                giveaway.ttec.classList.add(`esgst-hidden`);
+            }
+        });
+    }
+}
+
+function getTtecTime(m) {
+    let d, h, w;
+    h = Math.round(m / 60 * 10) / 10;
+    if (Math.floor(h) > 0) {
+        d = Math.round(m / 60 / 24 * 10) / 10;
+        if (Math.floor(d) > 0) {
+            w = Math.round(d / 60 / 24 / 7 * 10) / 10;
+            if (Math.floor(w) > 0) {
+                return `${w}w`;
+            } else {
+                return `${d}d`;
+            }
+        } else {
+            return `${h}h`;
+        }
+    } else {
+        return `${m}m`;
+    }
+}
+
 /* [GWC] Giveaway Winning Chance */
 
 function loadGwc() {
@@ -14010,6 +14070,9 @@ function updateElgbButtons() {
         if (giveaway.elgbButton && !giveaway.entered) {
             addElgbButton(giveaway, true);
         }
+    }
+    if (esgst.ttec) {
+        calculateTtecTime(esgst.currentGiveaways, true);
     }
 }
 
