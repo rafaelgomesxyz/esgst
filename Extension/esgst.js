@@ -18992,8 +18992,8 @@ function openDsPopout(ds) {
                 <option value="title_desc">Title - Descending</option>
                 <option value="category_asc">Category - Ascending</option>
                 <option value="category_desc">Category - Descending</option>
-                <option value="createdTime_asc">Created Time - Ascending</option>
-                <option value="createdTime_desc">Created Time - Descending</option>
+                <option value="createdTimestamp_asc">Created Time - Ascending</option>
+                <option value="createdTimestamp_desc">Created Time - Descending</option>
                 <option value="author_asc">Author - Ascending</option>
                 <option value="author_desc">Author - Descending</option>
                 <option value="comments_asc">Comments - Ascending</option>
