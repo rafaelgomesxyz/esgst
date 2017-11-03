@@ -4419,6 +4419,10 @@ function loadEsgst(storage) {
                             document.title = `ESGST - Group Library/Wishlist Checker`;
                             esgst.originalTitle = `ESGST - Group Library/Wishlist Checker`;
                         }
+
+                        // Make the header dropdown menus work
+                        $("nav .nav__button--is-dropdown-arrow").click(function(e){var t=$(this).hasClass("is-selected");$("nav .nav__button").removeClass("is-selected"),$("nav .nav__relative-dropdown").addClass("is-hidden"),t||$(this).addClass("is-selected").siblings(".nav__relative-dropdown").removeClass("is-hidden"),e.stopPropagation()});
+                        $("html").click(function(){$("nav .nav__button, .page__heading__button--is-dropdown").removeClass("is-selected"),$("nav .nav__relative-dropdown").addClass("is-hidden")});
                     });
                 }
             } else {
