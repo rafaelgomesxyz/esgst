@@ -8426,7 +8426,7 @@ function setSync(autoSync, mainCallback) {
             <div class="esgst-hidden esgst-popup-progress"></div>
         `);
         syncer.scrollable = popup.scrollable;
-        set = new ButtonSet(`green`, `grey`, `fa-refresh`, `fa-times`, `Sync`, `Cancel`, sync.bind(null, syncer, mainCallback), cancelSync.bind(null, syncer, mainCallback));
+        set = new ButtonSet(`green`, `grey`, `fa-refresh`, `fa-times`, `Sync`, `Cancel`, sync.bind(null, syncer, mainCallback, null), cancelSync.bind(null, syncer, mainCallback));
         popup.description.appendChild(set.set);
         popup.onClose = mainCallback;
         popup.open();
@@ -8831,9 +8831,8 @@ function continueGameSync(altAccount, html, syncer, callback, response1, respons
         }
     }
     if (response1) {
-        responseText = response1.responseText;
-        if (!responseText.match(/(<title>Forbidden<\/title>|<TITLE>Access Denied<\/TITLE>)/)) {
-            ownedGames = JSON.parse(responseText).response.games;
+        try {
+            ownedGames = JSON.parse(response1.responseText).response.games;
             for (i = 0, n = ownedGames.length; i < n; ++i) {
                 id = ownedGames[i].appid;
                 if (!savedGames.apps[id]) {
@@ -8843,58 +8842,60 @@ function continueGameSync(altAccount, html, syncer, callback, response1, respons
                 ++owned;
                 newOwned.apps.push(id.toString());
             }
-        }
+        } catch (e) {}
     }
-    if (response2 && !response2.responseText.match(/<TITLE>Access Denied<\/TITLE>/)) {
-        responseJson = JSON.parse(response2.responseText);
-        numOwned = responseJson.rgOwnedApps.length;
-        if (numOwned > 0) {
-            types = [
-                {
-                    key: `wishlisted`,
-                    mainKey: `apps`,
-                    name: `rgWishlist`
-                },
-                {
-                    key: `owned`,
-                    mainKey: `apps`,
-                    name: `rgOwnedApps`
-                },
-                {
-                    key: `owned`,
-                    mainKey: `subs`,
-                    name: `rgOwnedPackages`
-                },
-                {
-                    key: `ignored`,
-                    mainKey: `apps`,
-                    name: `rgIgnoredApps`
-                },
-                {
-                    key: `ignored`,
-                    mainKey: `subs`,
-                    name: `rgIgnoredPackages`
-                }
-            ];
-            for (i = 0, n = types.length; i < n; ++i) {
-                type = types[i];
-                key = type.key;
-                mainKey = type.mainKey;
-                values = responseJson[type.name];
-                for (j = 0, numValues = values.length; j < numValues; ++j) {
-                    id = values[j];
-                    if (!savedGames[mainKey][id]) {
-                        savedGames[mainKey][id] = {};
+    if (response2) {
+        try {
+            responseJson = JSON.parse(response2.responseText);
+            numOwned = responseJson.rgOwnedApps.length;
+            if (numOwned > 0) {
+                types = [
+                    {
+                        key: `wishlisted`,
+                        mainKey: `apps`,
+                        name: `rgWishlist`
+                    },
+                    {
+                        key: `owned`,
+                        mainKey: `apps`,
+                        name: `rgOwnedApps`
+                    },
+                    {
+                        key: `owned`,
+                        mainKey: `subs`,
+                        name: `rgOwnedPackages`
+                    },
+                    {
+                        key: `ignored`,
+                        mainKey: `apps`,
+                        name: `rgIgnoredApps`
+                    },
+                    {
+                        key: `ignored`,
+                        mainKey: `subs`,
+                        name: `rgIgnoredPackages`
                     }
-                    oldValue = savedGames[mainKey][id][key];
-                    savedGames[mainKey][id][key] = true;
-                    if (key === `owned` && !oldValue) {
-                        ++owned;
-                        newOwned[mainKey].push(id.toString());
+                ];
+                for (i = 0, n = types.length; i < n; ++i) {
+                    type = types[i];
+                    key = type.key;
+                    mainKey = type.mainKey;
+                    values = responseJson[type.name];
+                    for (j = 0, numValues = values.length; j < numValues; ++j) {
+                        id = values[j];
+                        if (!savedGames[mainKey][id]) {
+                            savedGames[mainKey][id] = {};
+                        }
+                        oldValue = savedGames[mainKey][id][key];
+                        savedGames[mainKey][id][key] = true;
+                        if (key === `owned` && !oldValue) {
+                            ++owned;
+                            newOwned[mainKey].push(id.toString());
+                        }
                     }
                 }
             }
-        }
+        } catch (e) {}
     }
     if (!altAccount) {
         if (response1 || response2) {
