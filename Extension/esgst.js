@@ -11704,6 +11704,9 @@ function slideGfSlider(gf, maxKey, minKey, event, ui) {
 }
 
 function changeGfValue(context, gf, key) {
+    if (key === `ended`) {
+        esgst.stopEs = false;
+    }
     gf[key] = context.value;
     filterGfGiveaways(gf);
 }
@@ -12381,6 +12384,9 @@ function filterGfGiveaway(gf, giveaway) {
             if ((key === `fullCV` && ((gf.fullCV === `disabled` && !giveaway.reducedCV && !giveaway.noCV) || (gf.fullCV === `none` && (giveaway.reducedCV || giveaway.noCV)))) || (key !== `fullCV` && ((gf[key] === `disabled` && giveaway[key]) || (gf[key] === `none` && !giveaway[key])))) {
                 filtered = true;
                 override = gf.overrides[key];
+                if (key === `ended` && gf.ended === `disabled` && (esgst.createdPath || esgst.enteredPath || esgst.wonPath || esgst.userPath)) {
+                    esgst.stopEs = true;
+                }
             }
         }
     }
@@ -30064,7 +30070,7 @@ function loadEs() {
     }
 
     function loadNextPage() {
-        if (!busy && !paused && !ended && scrollY >= document.body.offsetHeight - innerHeight * 2) {
+        if (!esgst.stopEs && !busy && !paused && !ended && scrollY >= document.body.offsetHeight - innerHeight * 2) {
             busy = true;
             document.removeEventListener(`scroll`, loadNextPage);
             progress = insertHtml(esgst.pagination.firstElementChild, `beforeEnd`, `
