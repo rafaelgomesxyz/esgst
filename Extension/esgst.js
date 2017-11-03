@@ -18811,8 +18811,10 @@ function loadAdots() {
                     parent = comments.parentElement;
                     panel = insertHtml(parent, `afterEnd`, `<p></p><div style="clear: both;"></div>`);
                     panel.appendChild(comments);
-                    parent.lastElementChild.classList.add(`esgst-float-right`);
-                    panel.appendChild(parent.lastElementChild);
+                    if (parent.lastElementChild.classList.contains(`table__last-comment-icon`)) {
+                        parent.lastElementChild.classList.add(`esgst-float-right`);
+                        panel.appendChild(parent.lastElementChild);
+                    }
                     parent.remove();
                 }
                 elements = deals.getElementsByClassName(`table__row-outer-wrap`);
@@ -18822,8 +18824,10 @@ function loadAdots() {
                     parent = comments.parentElement;
                     panel = insertHtml(parent, `afterEnd`, `<p></p><div style="clear: both;"></div>`);
                     panel.appendChild(comments);
-                    parent.lastElementChild.classList.add(`esgst-float-right`);
-                    panel.appendChild(parent.lastElementChild);
+                    if (parent.lastElementChild.classList.contains(`table__last-comment-icon`)) {
+                        parent.lastElementChild.classList.add(`esgst-float-right`);
+                        panel.appendChild(parent.lastElementChild);
+                    }
                     parent.remove();
                 }
             }
@@ -18909,10 +18913,14 @@ function setMissingDiscussion(context) {
                         <a class="homepage_table_column_heading" href="${context.url}">${context.title}</a>
                     </h3>
                     <p>
-                        <a class="table__column__secondary-link" href="${context.url}">${context.comments} Comments</a> - Last post <span data-timestamp="${context.lastPostTimestamp}">${context.lastPostTime}</span> ago by <a class="table__column__secondary-link" href="/user/${context.lastPostAuthor}">${context.lastPostAuthor}</a>
-                        <a class="icon-green table__last-comment-icon" href="/go/comment/${context.lastPostCode}">
-                            <i class="fa fa-chevron-circle-right"></i>
-                        </a>
+                        ${context.lastPostTime ? `
+                            <a class="table__column__secondary-link" href="${context.url}">${context.comments} Comments</a> - Last post <span data-timestamp="${context.lastPostTimestamp}">${context.lastPostTime}</span> ago by <a class="table__column__secondary-link" href="/user/${context.lastPostAuthor}">${context.lastPostAuthor}</a>
+                            <a class="icon-green table__last-comment-icon" href="/go/comment/${context.lastPostCode}">
+                                <i class="fa fa-chevron-circle-right"></i>
+                            </a>
+                        ` : `
+                            <a class="table__column__secondary-link" href="${context.url}">${context.comments} Comments</a> - Created <span data-timestamp="${context.createdTimestamp}">${context.createdTime}</span> ago by <a class="table__column__secondary-link" href="/user/${context.author}">${context.author}</a>
+                        `}
                     </p>
                 </div>
             </div>
@@ -28977,11 +28985,14 @@ function getDiscussionInfo(context, main, savedDiscussions, savedUsers) {
                 discussion.category = discussion.categoryContainer.textContent;
                 discussion[discussion.category.replace(/\W/g, ``).replace(/^(.)/, (m, p1) => { return p1.toLowerCase(); })] = true;
                 discussion.createdContainer = discussion.categoryContainer.nextElementSibling;
-                discussion.createdTime = parseInt(discussion.createdContainer.getAttribute(`data-timestamp`)) * 1e3;
-                if (esgst.giveawaysPath) {
-                    discussion.author = discussion.avatar.getAttribute(`href`).match(/\/user\/(.+)/)[1];
-                } else {
-                    discussion.author = discussion.createdContainer.nextElementSibling.textContent;
+                if (discussion.createdContainer) {
+                    discussion.createdTime = discussion.createdContainer.textContent;
+                    discussion.createdTimestamp = parseInt(discussion.createdContainer.getAttribute(`data-timestamp`)) * 1e3;
+                    if (esgst.giveawaysPath) {
+                        discussion.author = discussion.avatar.getAttribute(`href`).match(/\/user\/(.+)/)[1];
+                    } else {
+                        discussion.author = discussion.createdContainer.nextElementSibling.textContent;
+                    }
                 }
                 discussion.created = discussion.author === esgst.username;
                 discussion.poll = discussion.outerWrap.getElementsByClassName(`fa-align-left`)[0];
@@ -28992,7 +29003,7 @@ function getDiscussionInfo(context, main, savedDiscussions, savedUsers) {
                     }
                 }
                 discussion.lastPost = discussion.outerWrap.getElementsByClassName(`table__column--last-comment`)[0];
-                if (discussion.lastPost) {
+                if (discussion.lastPost && discussion.lastPost.firstElementChild) {
                     discussion.lastPostTime = discussion.lastPost.firstElementChild.firstElementChild;
                     discussion.lastPostAuthor = discussion.lastPostTime.nextElementSibling;
                     discussion.lastPostCode = discussion.lastPostAuthor.lastElementChild.getAttribute(`href`).match(/\/comment\/(.+)/)[1];
