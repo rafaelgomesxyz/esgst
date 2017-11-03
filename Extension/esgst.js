@@ -594,6 +594,9 @@ function loadEsgst(storage) {
                 gwr_e: `gwr`
             };
             esgst.defaultValues = {
+                ge_p_bgColor: `#ccccdd`,
+                ge_g_bgColor: `#ccddcc`,
+                ge_b_bgColor: `#ddcccc`,
                 hr_w_hours: 24,
                 elgb_d: true,
                 wbm_useCache: false,
@@ -2678,6 +2681,24 @@ function loadEsgst(storage) {
                         </ul>
                     `,
                     features: [
+                        {
+                            background: true,
+                            id: `ge_p`,
+                            name: `[NEW] Highlight public giveaways.`,
+                            sg: true
+                        },
+                        {
+                            background: true,
+                            id: `ge_g`,
+                            name: `[NEW] Highlight group giveaways.`,
+                            sg: true
+                        },
+                        {
+                            background: true,
+                            id: `ge_b`,
+                            name: `[NEW] Highlight giveaways that cannot be entered because of blacklist issues.`,
+                            sg: true
+                        },
                         {
                             id: `ge_t`,
                             name: `Open in a new tab.`,
@@ -18391,6 +18412,14 @@ function extractGeGiveaway(ge, code, callback) {
                     giveaway = buildGiveaway(responseHtml, response.finalUrl);
                     if (giveaway) {
                         giveaway = getGiveawayInfo(insertHtml(ge.results.lastElementChild, `beforeEnd`, giveaway.html).firstElementChild, document, esgst.games).giveaway;
+                        if (giveaway.public && esgst.ge_p) {
+                            giveaway.outerWrap.classList.add(`esgst-ge-public`);
+                            giveaway.summary.classList.add(`esgst-ge-public`);
+                        }
+                        if ((giveaway.group || giveaway.whitelist) && esgst.ge_g) {
+                            giveaway.outerWrap.classList.add(`esgst-ge-group`);
+                            giveaway.summary.classList.add(`esgst-ge-group`);
+                        }
                         button = responseHtml.getElementsByClassName(`sidebar__error`)[0];
                         if (button) {
                             giveaway.outerWrap.setAttribute(`data-error`, button.textContent);
@@ -18423,7 +18452,11 @@ function extractGeGiveaway(ge, code, callback) {
                             giveaway = buildGiveaway(responseHtml, response.finalUrl);
                             if (giveaway) {
                                 giveaway = getGiveawayInfo(insertHtml(ge.results.lastElementChild, `beforeEnd`, giveaway.html).firstElementChild, document, esgst.games).giveaway;
-                                giveaway.outerWrap.classList.add(`esgst-red-background`);
+                                giveaway.outerWrap.setAttribute(`data-blacklist`, true);
+                                if (esgst.ge_b) {
+                                    giveaway.outerWrap.classList.add(`esgst-ge-blacklist`);
+                                    giveaway.summary.classList.add(`esgst-ge-blacklist`);
+                                }
                                 ge.points += giveaway.points;
                             }
                             ge.count += 1;
@@ -27537,24 +27570,28 @@ function getSMFeature(Feature, aaa) {
         addGwcrMenuPanel(SMFeatures, `gwc_colors`, `chance`);
     } else if (Feature.id === `gwr`) {
         addGwcrMenuPanel(SMFeatures, `gwr_colors`, `ratio`);
-    } else if (Feature.colors) {
+    } else if (Feature.colors || Feature.background) {
         var color = esgst[`${Feature.id}_color`];
         var bgColor = esgst[`${Feature.id}_bgColor`];
         var html = `
             <div class="esgst-sm-colors">
-                Text: <input type="color" value="${color}">
+                ${Feature.background ? `` : `Text: <input type="color" value="${color}">`}
                 Background: <input type="color" value="${bgColor}">
                 <div class="form__saving-button esgst-sm-colors-default">Use Default</div>
             </div>
         `;
         SMFeatures.insertAdjacentHTML(`beforeEnd`, html);
         var colorContext = SMFeatures.lastElementChild.firstElementChild;
-        var bgColorContext = colorContext.nextElementSibling;
-        addColorObserver(colorContext, Feature.id, `color`);
+        var bgColorContext = Feature.background ? colorContext : colorContext.nextElementSibling;
+        if (!Feature.background) {
+            addColorObserver(colorContext, Feature.id, `color`);
+        }
         addColorObserver(bgColorContext, Feature.id, `bgColor`);
         bgColorContext.nextElementSibling.addEventListener(`click`, function () {
-            colorContext.value = esgst.defaultValues[`${Feature.id}_color`];
-            setSetting(`${Feature.id}_color`, colorContext.value);
+            if (!Feature.background) {
+                colorContext.value = esgst.defaultValues[`${Feature.id}_color`];
+                setSetting(`${Feature.id}_color`, colorContext.value);
+            }
             bgColorContext.value = esgst.defaultValues[`${Feature.id}_bgColor`];
             setSetting(`${Feature.id}_bgColor`, bgColorContext.value);
         });
@@ -28827,13 +28864,14 @@ function getGiveawayInfo(context, mainContext, games, savedUsers, ugd, ugdType, 
     giveaway.regionRestricted = giveaway.outerWrap.querySelector(`.giveaway__column--region-restricted, .featured__column--region-restricted`);
     giveaway.group = giveaway.outerWrap.querySelector(`.giveaway__column--group, .featured__column--group`);
     giveaway.whitelist = giveaway.outerWrap.querySelector(`.giveaway__column--whitelist, .featured__column--whitelist`);
+    giveaway.public = !giveaway.inviteOnly && !giveaway.regionRestricted && !giveaway.group && !giveaway.whitelist;
     chance = context.getElementsByClassName(`esgst-gwc`)[0];
     giveaway.chance = chance ? parseFloat(chance.getAttribute(`data-chance`)) : 0;
     var feedback = giveaway.outerWrap.getElementsByClassName(`table__gift-feedback-awaiting-reply`)[0];
     if (esgst.rrbp && feedback) {
         feedback.addEventListener(`click`, openRrbp.bind(null, giveaway));
     }
-    giveaway.blacklist = giveaway.outerWrap.classList.contains(`esgst-red-background`);
+    giveaway.blacklist = giveaway.outerWrap.getAttribute(`data-blacklist`);
     giveaway.error = giveaway.outerWrap.getAttribute(`data-error`);
     if (main) {
         if (esgst.gr && giveaway.ended && giveaway.creator === esgst.username && (giveaway.entries === 0 || giveaway.entries < giveaway.copies) && (!esgst.gr_r || !esgst.giveaways[giveaway.code] || !esgst.giveaways[giveaway.code].recreated) && !giveaway.headingName.parentElement.getElementsByClassName(`esgst-gr-button`)[0]) {
@@ -31715,6 +31753,21 @@ function addStyle() {
             id: `wbh_b`,
             key: `blacklisted`,
             mainKey: `esgst-wbh-highlight`
+        },
+        {
+            id: `ge_p`,
+            key: `public`,
+            mainKey: `esgst-ge`
+        },
+        {
+            id: `ge_g`,
+            key: `group`,
+            mainKey: `esgst-ge`
+        },
+        {
+            id: `ge_b`,
+            key: `blacklist`,
+            mainKey: `esgst-ge`
         }
     ];
     for (i = 0, n = colors.length; i < n; ++i) {
@@ -31722,7 +31775,7 @@ function addStyle() {
         backgroundColor = esgst[`${colors[i].id}_bgColor`];
         style += `
             .${colors[i].mainKey}-${colors[i].key} {
-                color: ${color} !important;
+                ${color ? `color: ${color} !important;` : ``}
                 background-color: ${backgroundColor} !important;
             }
         `;
@@ -32463,10 +32516,6 @@ function addStyle() {
 
         .esgst-feature-description img {
             max-width: 400px;
-        }
-
-        .esgst-red-background {
-            background-color: rgba(236, 133, 131, 0.25);
         }
 
         .esgst-gm-giveaway.error {
