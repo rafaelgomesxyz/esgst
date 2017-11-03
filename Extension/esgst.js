@@ -28298,7 +28298,7 @@ function getDate(timestamp) {
 }
 
 function setSMManageEntriesTracker(button) {
-    var average, date, dates, entry, entries, history, historyHtml, i, key, keys, popup, table, tableHtml, total;
+    var average, date, dates, entry, entries, highest, history, historyHtml, i, key, keys, lowest, popup, table, tableHtml, total;
     button.addEventListener(`click`, function () {
         entries = JSON.parse(getValue(`entries`, `[]`));
         historyHtml = ``;
@@ -28336,6 +28336,14 @@ function setSMManageEntriesTracker(button) {
         `;
         keys = Object.keys(dates);
         keys.sort();
+        lowest = {
+            count: 999999999,
+            date: null
+        };
+        highest = {
+            count: 0,
+            date: null
+        };
         total = 0;
         for (i = keys.length - 1; i > -1; --i) {
             key = keys[i];
@@ -28349,6 +28357,14 @@ function setSMManageEntriesTracker(button) {
                 </div>
             `;
             total += dates[key].entered;
+            if (dates[key].entered < lowest.count) {
+                lowest.count = dates[key].entered;
+                lowest.date = dates[key].date;
+            }
+            if (dates[key].entered > highest.count) {
+                highest.count = dates[key].entered;
+                highest.date = dates[key].date;
+            }
         }
         tableHtml += `
                 </div>
@@ -28359,6 +28375,12 @@ function setSMManageEntriesTracker(button) {
         popup.description.insertAdjacentHTML(`afterBegin`, `
             <div>
                 You enter on average <span class="esgst-bold">${average}</span> giveaways per day.
+            </div>
+            <div>
+                Your highest entry count was on <span class="esgst-italic">${highest.date}</span> with <span class="esgst-bold">${highest.count}</span> entries.
+            </div>
+            <div>
+                Your lowest entry count was on <span class="esgst-italic">${lowest.date}</span> with <span class="esgst-bold">${lowest.count}</span> entries.
             </div>
         `);
         history = insertHtml(popup.scrollable, `beforeEnd`, `
