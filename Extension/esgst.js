@@ -19068,31 +19068,33 @@ function checkMissingDiscussions() {
 }
 
 function setMissingDiscussion(context) {
-    context.outerWrap.innerHTML = `
-        <div class="table__row-outer-wrap" style="padding: 15px 0;">
-            <div class="table__row-inner-wrap">
-                <div>
-                    <a class="table_image_avatar" href="/user/${context.author}" style="background-image:${context.avatar.style.backgroundImage.replace(/"/g, `'`)};"></a>
-                </div>
-                <div class="table__column--width-fill">
-                    <h3 style="margin-bottom: 2px;">
-                        <a class="homepage_table_column_heading" href="${context.url}">${context.title}</a>
-                    </h3>
-                    <p>
-                        ${context.lastPostTime ? `
-                            <a class="table__column__secondary-link" href="${context.url}">${context.comments} Comments</a> - Last post <span data-timestamp="${context.lastPostTimestamp}">${context.lastPostTime}</span> ago by <a class="table__column__secondary-link" href="/user/${context.lastPostAuthor}">${context.lastPostAuthor}</a>
-                            <a class="icon-green table__last-comment-icon" href="/go/comment/${context.lastPostCode}">
-                                <i class="fa fa-chevron-circle-right"></i>
-                            </a>
-                        ` : `
-                            <a class="table__column__secondary-link" href="${context.url}">${context.comments} Comments</a> - Created <span data-timestamp="${context.createdTimestamp}">${context.createdTime}</span> ago by <a class="table__column__secondary-link" href="/user/${context.author}">${context.author}</a>
-                        `}
-                    </p>
+    if (context) {
+        context.outerWrap.innerHTML = `
+            <div class="table__row-outer-wrap" style="padding: 15px 0;">
+                <div class="table__row-inner-wrap">
+                    <div>
+                        <a class="table_image_avatar" href="/user/${context.author}" style="background-image:${context.avatar.style.backgroundImage.replace(/"/g, `'`)};"></a>
+                    </div>
+                    <div class="table__column--width-fill">
+                        <h3 style="margin-bottom: 2px;">
+                            <a class="homepage_table_column_heading" href="${context.url}">${context.title}</a>
+                        </h3>
+                        <p>
+                            ${context.lastPostTime ? `
+                                <a class="table__column__secondary-link" href="${context.url}">${context.comments} Comments</a> - Last post <span data-timestamp="${context.lastPostTimestamp}">${context.lastPostTime}</span> ago by <a class="table__column__secondary-link" href="/user/${context.lastPostAuthor}">${context.lastPostAuthor}</a>
+                                <a class="icon-green table__last-comment-icon" href="/go/comment/${context.lastPostCode}">
+                                    <i class="fa fa-chevron-circle-right"></i>
+                                </a>
+                            ` : `
+                                <a class="table__column__secondary-link" href="${context.url}">${context.comments} Comments</a> - Created <span data-timestamp="${context.createdTimestamp}">${context.createdTime}</span> ago by <a class="table__column__secondary-link" href="/user/${context.author}">${context.author}</a>
+                            `}
+                        </p>
+                    </div>
                 </div>
             </div>
-        </div>
-    `;
-    context.outerWrap = context.outerWrap.firstElementChild;
+        `;
+        context.outerWrap = context.outerWrap.firstElementChild;
+    }
 }
 
 /* [DS] Discussions Sorter */
