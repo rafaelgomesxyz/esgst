@@ -49,5 +49,5 @@
     "*://*.api.imgur.com/*",
     "storage"
   ],
-  "version": "7.6.3"
+  "version": "7.6.4"
 }
