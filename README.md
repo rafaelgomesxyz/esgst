@@ -861,6 +861,13 @@ The video above does not get embedded.
 
 ## Changelog
 
+**7.7.2 (November 4, 2017):**
+
+<ul>
+    <li><a href="https://github.com/revilheart/ESGST/issues/133">#133</a> Fix a typo in the URL for groups in Group Library/Wishlist Checker</li>
+    <li><a href="https://github.com/revilheart/ESGST/issues/134">#134</a> Fix a bug that does not update the last sync date when performing an automatic sync</li>
+</ul>
+
 **7.7.1 (November 4, 2017):**
 
 <ul>
