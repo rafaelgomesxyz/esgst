@@ -481,7 +481,7 @@ this._delay(function(){n===this.counter&&this.refreshPositions(!s)})},_clear:fun
             storage: storage,
             sg: location.hostname.match(/www.steamgifts.com/),
             st: location.hostname.match(/www.steamtrades.com/),
-            currentVersion: `7.7.0`,
+            currentVersion: `7.7.1`,
             icon: `data:image/x-icon;base64,AAABAAEAEBAAAAEAIABoBAAAFgAAACgAAAAQAAAAIAAAAAEAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAqv8DCbP/Hgeq+CQIrf8iCK3/Igit/yIIrf8iB6//Iwit9x8Aqv8DAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAKr0GAa2/c0DvfzfA7f83QO3/N0Dt/zdA7f83QO+/d4Gs/3OAKP1GQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACm/xQFs/n2Bcf//wW///8FwP//BcD//wW///8Fx///BbP69gC2/xUAAAAAAAAAAAAAAAAA/1UDFptOFxSZMxkLpJktAq720QW1+ugEsfvjA7b92wO2/dsEsfvjBbX66Aau/dEoiO4tUlLWGU5k3hdVVf8DEJxKHxWqT8cVrU7uE6VN0guqny0Apv8XAJfQGwBAVywAQFcsAJfQGwCx/xcogugtS2Lk0lBl6u5Qae7ISmPeHxagSSMVr07jF7lV/xOiSu0brgATAAAAAAAAAA8AAAC/AAAAwAAAABAAAAAAYznjEkth4OxWb/3/T2jv40lf4iMXnksiEq1O3RayUv8UpEnkEo0+HQAAABkAAABBAAAA8QAAAPEAAABBAAAAGUBSvxxOYeDjU2v0/05m7d1LYuEiF55LIhKtTt0Ws1L/FahN2gU1FTAAAADAAAAA7AAAAP0AAAD9AAAA7AAAAMAVG0owUGPm2lNr9P9OZu3dS2LhIheeSyISrU7dFrNS/xWoTdoFNRswAAAAvwAAAOsAAAD9AAAA/QAAAOsAAADAFRtKMFBj6NpTa/T/Tmbt3Uti4SIXnksiEq1O3RayUv8UpEnkEo0+HQAAABgAAABAAAAA8QAAAPEAAABBAAAAGT5PuR1OYeDjU2v0/05m7d1LYuEiFqBJIxWuT+QXuVX/E6JL7QC8XhMAAAAAAAAADwAAAL8AAAC/AAAAEAAAAAAOR/8SSWLh7FZv/f9PaO/jSV/iIxCUSh8Vrk7HFqxN7ROlS9JskzMt1XULGK12EhxGLgYsRy8GK612EhzVgAsYgmxxLU1i39JNZ+vtT2fwx0pj1h8AqlUDF65GFgqZUhlsiC0txH0T0s5/EujJgBPkz4QR28+EEdvJgBPkzn8Q6Md+E9KLdHosM1LWGUZo6BZVVf8DAAAAAAAAAAAAAAAA/2YAFMl9EvbgjRb/14gV/9eIFf/XiBX/14gV/9+NFv/KgBD254YAFQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAL91FRjKgRHN1IgU3s+EEt3PhBLdz4QS3c+EEt3UiBTezYMRzcJ6FBkAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACqqgADxIARHr18FiO8eA8ivHgPIrx4DyK8eA8ivXwPI8SAER7/VQADAAAAAAAAAAAAAAAA78cAAPA3AAD4FwAABCAAADGOAAAE+AAAkBEAAJ55AACYOQAAlgEAAER4AAAXaAAATnoAAPgXAAD0JwAA69cAAA==`,
             sgIcon: `data:image/x-icon;base64,AAABAAEAEBAAAAEAIABoBAAAFgAAACgAAAAQAAAAIAAAAAEAIAAAAAAAQAQAABMLAAATCwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIUAAAD5AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAPoAAACFAAAAAAAAAAAAAAD8AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA+QAAAAAAAAAAAAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAAAAAAAAAAAAP8AAAD/AAAA/wAAABwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAcAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAcAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAHAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAAAAAAAAAAAAPwAAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD5AAAAAAAAAAAAAACFAAAA+QAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD5AAAAhQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA//8AAP//AADAAwAAwAMAAMfjAADP8wAAz/MAAM/zAADP8wAAz/MAAM/zAADH4wAAwAMAAMADAAD//wAA//8AAA==`,
             stIcon: `data:image/x-icon;base64,AAABAAEAEBAAAAEAIABoBAAAFgAAACgAAAAQAAAAIAAAAAEAIAAAAAAAQAQAABMLAAATCwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABbD6SgWw+ucFsPrkBbD6SgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAWw+uYFsPr/BbD6/wWw+ucAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAFsPrmBbD6/wWw+v8FsPrmAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABbD6SQWw+uYFsPrmBbD6SQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAFKRLShSkS+cUpEvkFKRLSgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAExi4EpMYuDnTGLg5Exi4EoAAAAAAAAAABSkS+YUpEv/FKRL/xSkS+cAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABMYuDmTGLg/0xi4P9MYuDnAAAAAAAAAAAUpEvmFKRL/xSkS/8UpEvmAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAATGLg5kxi4P9MYuD/TGLg5gAAAAAAAAAAFKRLSRSkS+YUpEvmFKRLSQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAExi4ElMYuDmTGLg5kxi4EkAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAMZ9E0rGfRPnxn0T5MZ9E0oAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADGfRPmxn0T/8Z9E//GfRPnAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAxn0T5sZ9E//GfRP/xn0T5gAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAMZ9E0nGfRPmxn0T5sZ9E0kAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA//8AAPw/AAD8PwAA/D8AAPw/AAD//wAAh+EAAIfhAACH4QAAh+EAAP//AAD8PwAA/D8AAPw/AAD8PwAA//8AAA==`,
@@ -2349,7 +2349,8 @@ this._delay(function(){n===this.counter&&this.refreshPositions(!s)})},_clear:fun
                         `,
                         id: `ttec`,
                         name: `[NEW] Time To Enter Calculator`,
-                        sg: true
+                        sg: true,
+                        type: `giveaways`
                     },
                     {
                         description: `
@@ -9571,7 +9572,11 @@ this._delay(function(){n===this.counter&&this.refreshPositions(!s)})},_clear:fun
         for (key in games.apps) {
             if (saved.apps[key]) {
                 for (subKey in games.apps[key]) {
-                    saved.apps[key][subKey] = games.apps[key][subKey];
+                    if (games.apps[key][subKey] === null) {
+                        delete saved.apps[key][subKey];
+                    } else {
+                        saved.apps[key][subKey] = games.apps[key][subKey];
+                    }
                 }
             } else {
                 saved.apps[key] = games.apps[key];
@@ -9583,7 +9588,11 @@ this._delay(function(){n===this.counter&&this.refreshPositions(!s)})},_clear:fun
         for (key in games.subs) {
             if (saved.subs[key]) {
                 for (subKey in games.subs[key]) {
-                    saved.subs[key][subKey] = games.subs[key][subKey];
+                    if (games.subs[key][subKey] === null) {
+                        delete saved.subs[key][subKey];
+                    } else {
+                        saved.subs[key][subKey] = games.subs[key][subKey];
+                    }
                 }
             } else {
                 saved.subs[key] = games.subs[key];
@@ -9863,17 +9872,21 @@ this._delay(function(){n===this.counter&&this.refreshPositions(!s)})},_clear:fun
         request(null, null, false, `/giveaways/won`, response => {
             let element, elements, i, id, info, responseHtml;
             responseHtml = DOM.parse(response.responseText);
-            elements = responseHtml.querySelectorAll(`.table__gift-feedback-awaiting-reply[data-feedback="1"]:not(.is-hidden)`);
             savedGames = JSON.parse(getValue(`games`));
             for (id in savedGames.apps) {
-                delete savedGames.apps[id].won;
+                if (savedGames.apps[id].won) {
+                    savedGames.apps[id].won = null;
+                }
             }
             for (id in savedGames.subs) {
-                delete savedGames.subs[id].won;
+                if (savedGames.subs[id].won) {
+                    savedGames.subs[id].won = null;
+                }
             }
+            elements = responseHtml.querySelectorAll(`.table__gift-feedback-awaiting-reply[data-feedback="1"]:not(.is-hidden)`);
             for (i = elements.length - 1; i > -1; --i) {
                 element = elements[i].closest(`.table__row-inner-wrap`);
-                if (element.querySelector(`.table__gift-feedback-awaiting-reply[data-feedback="0"]:not(.is-hidden)`)) {
+                if (element.querySelector(`.table__gift-feedback-awaiting-reply[data-feedback="0"]:not(.is-hidden), [data-popup="popup--not-received"]`)) {
                     info = getGameInfo(element);
                     savedGames[info.type][info.id].won = 1;
                 }
@@ -11774,7 +11787,7 @@ this._delay(function(){n===this.counter&&this.refreshPositions(!s)})},_clear:fun
             { check: (!esgst.createdPath && !esgst.enteredPah && !esgst.wonPath) || popup, key: `entered`, name: `Entered` },
             { check: (!esgst.enteredPath && !esgst.wonPath) || popup, key: `started`, name: `Started` },
             { check: !esgst.wonPath || popup, key: `ended`, name: `Ended` },
-            { check: esgst.createdPath, key: `deleted`, name: `Deleted` },
+            { check: esgst.createdPath || esgst.enteredPath, key: `deleted`, name: `Deleted` },
             { check: true, key: `owned`, name: `Owned` },
             { check: true, key: `wishlisted`, name: `Wishlisted` },
             { check: true, key: `hidden`, name: `Hidden` },
@@ -12557,7 +12570,7 @@ this._delay(function(){n===this.counter&&this.refreshPositions(!s)})},_clear:fun
                     maxKey = `max${name}`;
                     minKey = `min${name}`;
                     if (name === `MinutesToEnd`) {
-                        if (!giveaway.ended) {
+                        if (!giveaway.ended && !giveaway.deleted) {
                             minutes = (giveaway.endTime - Date.now()) / 60000;
                             if (minutes < gf[minKey] || minutes > gf[maxKey]) {
                                 filtered = true;
@@ -29003,7 +29016,7 @@ this._delay(function(){n===this.counter&&this.refreshPositions(!s)})},_clear:fun
             giveaway.endTimeColumn = giveaway.columns.firstElementChild;
             giveaway.started = !giveaway.endTimeColumn.textContent.match(/Begins/);
             giveaway.endTime = parseInt(giveaway.endTimeColumn.lastElementChild.getAttribute(`data-timestamp`)) * 1e3;
-            giveaway.ended = giveaway.endTime < Date.now();
+            giveaway.ended = !giveaway.deleted && giveaway.endTime < Date.now();
             if (giveaway.ended && ((main && (esgst.userPath || esgst.groupPath)) || ugd)) {
                 giveaway.startTimeColumn = giveaway.endTimeColumn.nextElementSibling.nextElementSibling;
             } else {
@@ -29028,7 +29041,7 @@ this._delay(function(){n===this.counter&&this.refreshPositions(!s)})},_clear:fun
             } else {
                 giveaway.endTime = 0;
             }
-            giveaway.ended = giveaway.endTime < Date.now();
+            giveaway.ended = !giveaway.deleted && giveaway.endTime < Date.now();
         }
         if (!giveaway.ended) {
             giveaway.winners = 0;
@@ -34150,6 +34163,18 @@ this._delay(function(){n===this.counter&&this.refreshPositions(!s)})},_clear:fun
     function loadChangelog(version) {
         var changelog, current, html, i, index, n, popup;
         changelog = [
+            {
+                date: `November 4, 2017`,
+                version: `7.7.1`,
+                changelog: `
+                    <ul>
+                        <li><a href="https://github.com/revilheart/ESGST/issues/128">#128</a> Fix a bug that does not show Time To Enter Calculator in the settings menu</li>
+                        <li><a href="https://github.com/revilheart/ESGST/issues/130">#130</a> Fix a bug in Endless Scrolling that does not load the next page when the ended filter is set to hide all and there is a deleted giveaway in the page</li>
+                        <li><a href="https://github.com/revilheart/ESGST/issues/131">#131</a> Extend deleted filter to the entered page in Giveaway Filters</li>
+                        <li><a href="https://github.com/revilheart/ESGST/issues/132">#132</a> Fix a bug that does not detect won games correctly</li>
+                    </ul>
+                `
+            },
             {
                 date: `November 4, 2017`,
                 version: `7.7.0`,
