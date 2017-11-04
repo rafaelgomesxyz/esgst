@@ -2297,7 +2297,8 @@ function loadEsgst(storage) {
                     `,
                     id: `ttec`,
                     name: `[NEW] Time To Enter Calculator`,
-                    sg: true
+                    sg: true,
+                    type: `giveaways`
                 },
                 {
                     description: `
