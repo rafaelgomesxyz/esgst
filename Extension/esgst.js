@@ -21810,8 +21810,9 @@ function checkCtComments(count, comments, index, goToUnread, markRead, markUnrea
                     if (comment.author === esgst.username) {
                         markCtCommentRead(comment, saved);
                     } else if (!saved[comment.type][comment.code].readComments[comment.id] || comment.timestamp !== saved[comment.type][comment.code].readComments[comment.id]) {
-                        if (goToUnread) {
-                            if ((esgst.discussionPath && ((esgst.ct_r && esgst.es_r) || (!esgst.ct_r && !esgst.es_r))) || (!esgst.discussionPath && !esgst.ct_r)) {
+                        if (goToUnread && (!esgst.ctGoToUnread || ((((esgst.ct_r && !esgst.es_r) || (!esgst.ct_r && esgst.es_r)) && comment.comment.offsetTop < scrollY + esgst.commentsTop) || (((!esgst.ct_r && !esgst.es_r) || (esgst.ct_r && esgst.es_r)) && comment.comment.offsetTop > scrollY + esgst.commentsTop)))) {
+                            esgst.ctGoToUnread = true;
+                            if ((esgst.discussionPath && ((!esgst.ct_r && !esgst.es_r) || (esgst.ct_r && esgst.es_r))) || (!esgst.discussionPath && !esgst.ct_r)) {
                                 unread = comment;
                                 found = true;
                             } else {
