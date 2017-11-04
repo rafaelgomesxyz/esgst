@@ -24436,7 +24436,7 @@ function setWBCResult(WBC, user, wbc, notes, whitelisted, blacklisted, New, I, N
                         });
                     });
                 }
-            } else if (wbc.result === `whitelisted` || wbc.result === `blacklisted`) {
+            } else if (wbc.result === `whitelisted` || wbc.result === `blacklisted` || whitelisted || blacklisted) {
                 user.values = {
                     wbc: wbc
                 };
