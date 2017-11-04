@@ -481,7 +481,7 @@ this._delay(function(){n===this.counter&&this.refreshPositions(!s)})},_clear:fun
             storage: storage,
             sg: location.hostname.match(/www.steamgifts.com/),
             st: location.hostname.match(/www.steamtrades.com/),
-            currentVersion: `7.6.4`,
+            currentVersion: `7.7.0`,
             icon: `data:image/x-icon;base64,AAABAAEAEBAAAAEAIABoBAAAFgAAACgAAAAQAAAAIAAAAAEAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAqv8DCbP/Hgeq+CQIrf8iCK3/Igit/yIIrf8iB6//Iwit9x8Aqv8DAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAKr0GAa2/c0DvfzfA7f83QO3/N0Dt/zdA7f83QO+/d4Gs/3OAKP1GQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACm/xQFs/n2Bcf//wW///8FwP//BcD//wW///8Fx///BbP69gC2/xUAAAAAAAAAAAAAAAAA/1UDFptOFxSZMxkLpJktAq720QW1+ugEsfvjA7b92wO2/dsEsfvjBbX66Aau/dEoiO4tUlLWGU5k3hdVVf8DEJxKHxWqT8cVrU7uE6VN0guqny0Apv8XAJfQGwBAVywAQFcsAJfQGwCx/xcogugtS2Lk0lBl6u5Qae7ISmPeHxagSSMVr07jF7lV/xOiSu0brgATAAAAAAAAAA8AAAC/AAAAwAAAABAAAAAAYznjEkth4OxWb/3/T2jv40lf4iMXnksiEq1O3RayUv8UpEnkEo0+HQAAABkAAABBAAAA8QAAAPEAAABBAAAAGUBSvxxOYeDjU2v0/05m7d1LYuEiF55LIhKtTt0Ws1L/FahN2gU1FTAAAADAAAAA7AAAAP0AAAD9AAAA7AAAAMAVG0owUGPm2lNr9P9OZu3dS2LhIheeSyISrU7dFrNS/xWoTdoFNRswAAAAvwAAAOsAAAD9AAAA/QAAAOsAAADAFRtKMFBj6NpTa/T/Tmbt3Uti4SIXnksiEq1O3RayUv8UpEnkEo0+HQAAABgAAABAAAAA8QAAAPEAAABBAAAAGT5PuR1OYeDjU2v0/05m7d1LYuEiFqBJIxWuT+QXuVX/E6JL7QC8XhMAAAAAAAAADwAAAL8AAAC/AAAAEAAAAAAOR/8SSWLh7FZv/f9PaO/jSV/iIxCUSh8Vrk7HFqxN7ROlS9JskzMt1XULGK12EhxGLgYsRy8GK612EhzVgAsYgmxxLU1i39JNZ+vtT2fwx0pj1h8AqlUDF65GFgqZUhlsiC0txH0T0s5/EujJgBPkz4QR28+EEdvJgBPkzn8Q6Md+E9KLdHosM1LWGUZo6BZVVf8DAAAAAAAAAAAAAAAA/2YAFMl9EvbgjRb/14gV/9eIFf/XiBX/14gV/9+NFv/KgBD254YAFQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAL91FRjKgRHN1IgU3s+EEt3PhBLdz4QS3c+EEt3UiBTezYMRzcJ6FBkAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACqqgADxIARHr18FiO8eA8ivHgPIrx4DyK8eA8ivXwPI8SAER7/VQADAAAAAAAAAAAAAAAA78cAAPA3AAD4FwAABCAAADGOAAAE+AAAkBEAAJ55AACYOQAAlgEAAER4AAAXaAAATnoAAPgXAAD0JwAA69cAAA==`,
             sgIcon: `data:image/x-icon;base64,AAABAAEAEBAAAAEAIABoBAAAFgAAACgAAAAQAAAAIAAAAAEAIAAAAAAAQAQAABMLAAATCwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIUAAAD5AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAPoAAACFAAAAAAAAAAAAAAD8AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA+QAAAAAAAAAAAAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAAAAAAAAAAAAP8AAAD/AAAA/wAAABwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAcAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAcAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAHAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAAAAAAAAAAAAPwAAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD5AAAAAAAAAAAAAACFAAAA+QAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD5AAAAhQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA//8AAP//AADAAwAAwAMAAMfjAADP8wAAz/MAAM/zAADP8wAAz/MAAM/zAADH4wAAwAMAAMADAAD//wAA//8AAA==`,
             stIcon: `data:image/x-icon;base64,AAABAAEAEBAAAAEAIABoBAAAFgAAACgAAAAQAAAAIAAAAAEAIAAAAAAAQAQAABMLAAATCwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABbD6SgWw+ucFsPrkBbD6SgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAWw+uYFsPr/BbD6/wWw+ucAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAFsPrmBbD6/wWw+v8FsPrmAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABbD6SQWw+uYFsPrmBbD6SQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAFKRLShSkS+cUpEvkFKRLSgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAExi4EpMYuDnTGLg5Exi4EoAAAAAAAAAABSkS+YUpEv/FKRL/xSkS+cAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABMYuDmTGLg/0xi4P9MYuDnAAAAAAAAAAAUpEvmFKRL/xSkS/8UpEvmAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAATGLg5kxi4P9MYuD/TGLg5gAAAAAAAAAAFKRLSRSkS+YUpEvmFKRLSQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAExi4ElMYuDmTGLg5kxi4EkAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAMZ9E0rGfRPnxn0T5MZ9E0oAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADGfRPmxn0T/8Z9E//GfRPnAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAxn0T5sZ9E//GfRP/xn0T5gAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAMZ9E0nGfRPmxn0T5sZ9E0kAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA//8AAPw/AAD8PwAA/D8AAPw/AAD//wAAh+EAAIfhAACH4QAAh+EAAP//AAD8PwAA/D8AAPw/AAD8PwAA//8AAA==`,
@@ -576,6 +576,8 @@ this._delay(function(){n===this.counter&&this.refreshPositions(!s)})},_clear:fun
                 };
                 esgst.lastPage = getLastPage(document, true);
                 esgst.oldValues = {
+                    df_s: `df_h`,
+                    gf_s: `gf_h`,
                     ge: `tge`,
                     hideButtons_ge: `hideButtons_tge`,
                     gv_ge: `gv_tge`,
@@ -643,9 +645,29 @@ this._delay(function(){n===this.counter&&this.refreshPositions(!s)})},_clear:fun
                     wbc_checkNew: `WBC_RC`,
                     wbc_clearCache: `WBC_CC`,
                     gwc_e: `gwc`,
-                    gwr_e: `gwr`
+                    gwr_e: `gwr`,
+                    autoSyncGroups: `syncFrequency`,
+                    autoSyncWhitelist: `syncFrequency`,
+                    autoSyncBlacklist: `syncFrequency`,
+                    autoSyncHiddenGames: `syncFrequency`,
+                    autoSyncGames: `syncFrequency`,
+                    autoSyncWonGames: `syncFrequency`,
+                    autoSyncReducedCvGames: `syncFrequency`,
+                    autoSyncNoCvGames: `syncFrequency`,
+                    autoSyncGiveaways: `syncFrequency`,
+                    lastSyncGroups: `lastSync`,
+                    lastSyncWhitelist: `lastSync`,
+                    lastSyncBlacklist: `lastSync`,
+                    lastSyncHiddenGames: `lastSync`,
+                    lastSyncGames: `lastSync`,
+                    lastSyncWonGames: `lastSync`,
+                    lastSyncReducedCvGames: `lastSync`,
+                    lastSyncNoCvGames: `lastSync`,
+                    lastSyncGiveaways: `lastSync`
                 };
                 esgst.defaultValues = {
+                    df_m: true,
+                    gf_m: true,
                     ge_p_bgColor: `#ccccdd`,
                     ge_g_bgColor: `#ccddcc`,
                     ge_b_bgColor: `#ddcccc`,
@@ -772,6 +794,24 @@ this._delay(function(){n===this.counter&&this.refreshPositions(!s)})},_clear:fun
                     syncReducedCvGames: true,
                     syncNoCvGames: true,
                     syncGiveaways: true,
+                    autoSyncGroups: 0,
+                    autoSyncWhitelist: 0,
+                    autoSyncBlacklist: 0,
+                    autoSyncHiddenGames: 0,
+                    autoSyncGames: 0,
+                    autoSyncWonGames: 0,
+                    autoSyncReducedCvGames: 0,
+                    autoSyncNoCvGames: 0,
+                    autoSyncGiveaways: 0,
+                    lastSyncGroups: 0,
+                    lastSyncWhitelist: 0,
+                    lastSyncBlacklist: 0,
+                    lastSyncHiddenGames: 0,
+                    lastSyncGames: 0,
+                    lastSyncWonGames: 0,
+                    lastSyncReducedCvGames: 0,
+                    lastSyncNoCvGames: 0,
+                    lastSyncGiveaways: 0,
                     ged: true,
                     df_enable: true,
                     df_enableCreated: false,
@@ -884,9 +924,7 @@ this._delay(function(){n===this.counter&&this.refreshPositions(!s)})},_clear:fun
                     avatar: ``,
                     username: ``,
                     steamId: ``,
-                    steamApiKey: ``,
-                    lastSync: 0,
-                    syncFrequency: 0
+                    steamApiKey: ``
                 };
                 esgst.users = getValue(`users`);
                 if (typeof esgst.users === `undefined`) {
@@ -1946,211 +1984,224 @@ this._delay(function(){n===this.counter&&this.refreshPositions(!s)})},_clear:fun
                             {
                                 description: `
                                     <ul>
-                                        <li>Hidden giveaways can be unhidden through the settings menu.</li>
+                                        <li>Allows you to hide individual giveaways.</li>
+                                        <li>Hidden giveaways can only be unhidden through the settings menu.</li>
                                     </ul>
                                 `,
-                                id: `gf_h`,
-                                name: `Enable the option to hide giveaways.`,
+                                id: `gf_s`,
+                                name: `[NEW] Single Filters`,
                                 sg: true
                             },
                             {
-                                id: `gf_level`,
-                                name: `Level`,
-                                sg: true
-                            },
-                            {
-                                id: `gf_entries`,
-                                name: `Entries`,
-                                sg: true
-                            },
-                            {
-                                id: `gf_copies`,
-                                name: `Copies`,
-                                sg: true
-                            },
-                            {
-                                id: `gf_points`,
-                                name: `Points`,
-                                sg: true
-                            },
-                            {
-                                id: `gf_minutesToEnd`,
-                                name: `Minutes To End`,
-                                sg: true
-                            },
-                            {
-                                id: `gf_chance`,
-                                name: `Chance`,
-                                sg: true
-                            },
-                            {
-                                id: `gf_rating`,
-                                name: `Rating`,
-                                sg: true
-                            },
-                            {
-                                id: `gf_pinned`,
-                                name: `Pinned`,
-                                sg: true
-                            },
-                            {
-                                id: `gf_group`,
-                                name: `Group`,
-                                sg: true
-                            },
-                            {
-                                id: `gf_whitelist`,
-                                name: `Whitelist`,
-                                sg: true
-                            },
-                            {
-                                id: `gf_regionRestricted`,
-                                name: `Region Restricted`,
-                                sg: true
-                            },
-                            {
-                                id: `gf_created`,
-                                name: `Created`,
-                                sg: true
-                            },
-                            {
-                                id: `gf_received`,
-                                name: `Received`,
-                                sg: true
-                            },
-                            {
-                                id: `gf_notReceived`,
-                                name: `Not Received`,
-                                sg: true
-                            },
-                            {
-                                id: `gf_awaitingFeedback`,
-                                name: `Awaiting Feedback`,
-                                sg: true
-                            },
-                            {
-                                id: `gf_entered`,
-                                name: `Entered`,
-                                sg: true
-                            },
-                            {
-                                id: `gf_started`,
-                                name: `Started`,
-                                sg: true
-                            },
-                            {
-                                id: `gf_ended`,
-                                name: `Ended`,
-                                sg: true
-                            },
-                            {
-                                id: `gf_deleted`,
-                                name: `Deleted`,
-                                sg: true
-                            },
-                            {
-                                id: `gf_owned`,
-                                name: `Owned`,
-                                sg: true
-                            },
-                            {
-                                id: `gf_wishlisted`,
-                                name: `Wishlisted`,
-                                sg: true
-                            },
-                            {
-                                id: `gf_hidden`,
-                                name: `Hidden`,
-                                sg: true
-                            },
-                            {
-                                id: `gf_ignored`,
-                                name: `Ignored`,
-                                sg: true
-                            },
-                            {
-                                id: `gf_previouslyEntered`,
-                                name: `Previously Entered`,
-                                sg: true
-                            },
-                            {
-                                id: `gf_previouslyWon`,
-                                name: `Previously Won`,
-                                sg: true
-                            },
-                            {
-                                id: `gf_fullCV`,
-                                name: `Full CV`,
-                                sg: true
-                            },
-                            {
-                                id: `gf_reducedCV`,
-                                name: `Reduced CV`,
-                                sg: true
-                            },
-                            {
-                                id: `gf_noCV`,
-                                name: `No CV`,
-                                sg: true
-                            },
-                            {
-                                id: `gf_removed`,
-                                name: `Removed`,
-                                sg: true
-                            },
-                            {
-                                id: `gf_tradingCards`,
-                                name: `Trading Cards`,
-                                sg: true
-                            },
-                            {
-                                id: `gf_achievements`,
-                                name: `Achievements`,
-                                sg: true
-                            },
-                            {
-                                id: `gf_multiplayer`,
-                                name: `Multiplayer`,
-                                sg: true
-                            },
-                            {
-                                id: `gf_steamCloud`,
-                                name: `Steam Cloud`,
-                                sg: true
-                            },
-                            {
-                                id: `gf_linux`,
-                                name: `Linux`,
-                                sg: true
-                            },
-                            {
-                                id: `gf_mac`,
-                                name: `Mac`,
-                                sg: true
-                            },
-                            {
-                                id: `gf_dlc`,
-                                name: `DLC`,
-                                sg: true
-                            },
-                            {
-                                id: `gf_dlcFree`,
-                                name: `DLC (Free Base)`,
-                                sg: true
-                            },
-                            {
-                                id: `gf_dlcNonFree`,
-                                name: `DLC (Non-Free Base)`,
-                                sg: true
-                            },
-                            {
-                                id: `gf_package`,
-                                name: `Package`,
-                                sg: true
-                            },
-                            {
-                                id: `gf_genres`,
-                                name: `Genres`,
+                                description: `
+                                    <ul>
+                                        <li>Allows you to filter giveaways.</li>
+                                    </ul>
+                                `,
+                                features: [
+                                    {
+                                        id: `gf_level`,
+                                        name: `Level`,
+                                        sg: true
+                                    },
+                                    {
+                                        id: `gf_entries`,
+                                        name: `Entries`,
+                                        sg: true
+                                    },
+                                    {
+                                        id: `gf_copies`,
+                                        name: `Copies`,
+                                        sg: true
+                                    },
+                                    {
+                                        id: `gf_points`,
+                                        name: `Points`,
+                                        sg: true
+                                    },
+                                    {
+                                        id: `gf_minutesToEnd`,
+                                        name: `Minutes To End`,
+                                        sg: true
+                                    },
+                                    {
+                                        id: `gf_chance`,
+                                        name: `Chance`,
+                                        sg: true
+                                    },
+                                    {
+                                        id: `gf_rating`,
+                                        name: `Rating`,
+                                        sg: true
+                                    },
+                                    {
+                                        id: `gf_pinned`,
+                                        name: `Pinned`,
+                                        sg: true
+                                    },
+                                    {
+                                        id: `gf_group`,
+                                        name: `Group`,
+                                        sg: true
+                                    },
+                                    {
+                                        id: `gf_whitelist`,
+                                        name: `Whitelist`,
+                                        sg: true
+                                    },
+                                    {
+                                        id: `gf_regionRestricted`,
+                                        name: `Region Restricted`,
+                                        sg: true
+                                    },
+                                    {
+                                        id: `gf_created`,
+                                        name: `Created`,
+                                        sg: true
+                                    },
+                                    {
+                                        id: `gf_received`,
+                                        name: `Received`,
+                                        sg: true
+                                    },
+                                    {
+                                        id: `gf_notReceived`,
+                                        name: `Not Received`,
+                                        sg: true
+                                    },
+                                    {
+                                        id: `gf_awaitingFeedback`,
+                                        name: `Awaiting Feedback`,
+                                        sg: true
+                                    },
+                                    {
+                                        id: `gf_entered`,
+                                        name: `Entered`,
+                                        sg: true
+                                    },
+                                    {
+                                        id: `gf_started`,
+                                        name: `Started`,
+                                        sg: true
+                                    },
+                                    {
+                                        id: `gf_ended`,
+                                        name: `Ended`,
+                                        sg: true
+                                    },
+                                    {
+                                        id: `gf_deleted`,
+                                        name: `Deleted`,
+                                        sg: true
+                                    },
+                                    {
+                                        id: `gf_owned`,
+                                        name: `Owned`,
+                                        sg: true
+                                    },
+                                    {
+                                        id: `gf_wishlisted`,
+                                        name: `Wishlisted`,
+                                        sg: true
+                                    },
+                                    {
+                                        id: `gf_hidden`,
+                                        name: `Hidden`,
+                                        sg: true
+                                    },
+                                    {
+                                        id: `gf_ignored`,
+                                        name: `Ignored`,
+                                        sg: true
+                                    },
+                                    {
+                                        id: `gf_previouslyEntered`,
+                                        name: `Previously Entered`,
+                                        sg: true
+                                    },
+                                    {
+                                        id: `gf_previouslyWon`,
+                                        name: `Previously Won`,
+                                        sg: true
+                                    },
+                                    {
+                                        id: `gf_fullCV`,
+                                        name: `Full CV`,
+                                        sg: true
+                                    },
+                                    {
+                                        id: `gf_reducedCV`,
+                                        name: `Reduced CV`,
+                                        sg: true
+                                    },
+                                    {
+                                        id: `gf_noCV`,
+                                        name: `No CV`,
+                                        sg: true
+                                    },
+                                    {
+                                        id: `gf_removed`,
+                                        name: `Removed`,
+                                        sg: true
+                                    },
+                                    {
+                                        id: `gf_tradingCards`,
+                                        name: `Trading Cards`,
+                                        sg: true
+                                    },
+                                    {
+                                        id: `gf_achievements`,
+                                        name: `Achievements`,
+                                        sg: true
+                                    },
+                                    {
+                                        id: `gf_multiplayer`,
+                                        name: `Multiplayer`,
+                                        sg: true
+                                    },
+                                    {
+                                        id: `gf_steamCloud`,
+                                        name: `Steam Cloud`,
+                                        sg: true
+                                    },
+                                    {
+                                        id: `gf_linux`,
+                                        name: `Linux`,
+                                        sg: true
+                                    },
+                                    {
+                                        id: `gf_mac`,
+                                        name: `Mac`,
+                                        sg: true
+                                    },
+                                    {
+                                        id: `gf_dlc`,
+                                        name: `DLC`,
+                                        sg: true
+                                    },
+                                    {
+                                        id: `gf_dlcFree`,
+                                        name: `DLC (Free Base)`,
+                                        sg: true
+                                    },
+                                    {
+                                        id: `gf_dlcNonFree`,
+                                        name: `DLC (Non-Free Base)`,
+                                        sg: true
+                                    },
+                                    {
+                                        id: `gf_package`,
+                                        name: `Package`,
+                                        sg: true
+                                    },
+                                    {
+                                        id: `gf_genres`,
+                                        name: `Genres`,
+                                        sg: true
+                                    }
+                                ],
+                                id: `gf_m`,
+                                name: `[NEW] Multiple Filters`,
                                 sg: true
                             }
                         ],
@@ -2288,6 +2339,17 @@ this._delay(function(){n===this.counter&&this.refreshPositions(!s)})},_clear:fun
                         name: `One-Click Hide Giveaway Button`,
                         sg: true,
                         type: `giveaways`
+                    },
+                    {
+                        description: `
+                            <ul>
+                                <li>Calculates how much time you have to wait until you have enough points to enter a giveaway.</li>
+                            </ul>
+                            <img src="https://i.imgur.com/3z6t263.png">
+                        `,
+                        id: `ttec`,
+                        name: `[NEW] Time To Enter Calculator`,
+                        sg: true
                     },
                     {
                         description: `
@@ -2812,6 +2874,18 @@ this._delay(function(){n===this.counter&&this.refreshPositions(!s)})},_clear:fun
                                 <li>Brings back SG's old active discussions design, while keeping the new Deals section.</li>
                             </ul>
                         `,
+                        features: [
+                            {
+                                description: `
+                                    <ul>
+                                        <li>By default, deals are excluded from the discussions section, since they can be accessed by clicking the top left button in the active discussions container.</li>
+                                    </ul>
+                                `,
+                                id: `oadd_d`,
+                                name: `[NEW] Show deals in the discussions section.`,
+                                sg: true
+                            }
+                        ],
                         id: `oadd`,
                         name: `Old Active Discussions Design`,
                         sg: true,
@@ -2861,86 +2935,99 @@ this._delay(function(){n===this.counter&&this.refreshPositions(!s)})},_clear:fun
                             {
                                 description: `
                                     <ul>
-                                        <li>Hidden discussions can be unhidden through the settings menu.</li>
+                                        <li>Allows you to hide individual discussions.</li>
+                                        <li>Hidden discussions can only be unhidden through the settings menu.</li>
                                     </ul>
                                 `,
-                                id: `df_h`,
-                                name: `Enable the option to hide discussions.`,
+                                id: `df_s`,
+                                name: `[NEW] Single Filters`,
                                 sg: true
                             },
                             {
-                                id: `df_comments`,
-                                name: `Comments`,
-                                sg: true
-                            },
-                            {
-                                id: `df_announcements`,
-                                name: `Announcements`,
-                                sg: true
-                            },
-                            {
-                                id: `df_bugsSuggestions`,
-                                name: `Bugs / Suggestions`,
-                                sg: true
-                            },
-                            {
-                                id: `df_deals`,
-                                name: `Deals`,
-                                sg: true
-                            },
-                            {
-                                id: `df_general`,
-                                name: `General`,
-                                sg: true
-                            },
-                            {
-                                id: `df_groupRecruitment`,
-                                name: `Group Recruitment`,
-                                sg: true
-                            },
-                            {
-                                id: `df_letsPlayTogether`,
-                                name: `Let's Play Together`,
-                                sg: true
-                            },
-                            {
-                                id: `df_offTopic`,
-                                name: `Off-Topic`,
-                                sg: true
-                            },
-                            {
-                                id: `df_puzzles`,
-                                name: `Puzzles`,
-                                sg: true
-                            },
-                            {
-                                id: `df_uncategorized`,
-                                name: `Uncategorized`,
-                                sg: true
-                            },
-                            {
-                                id: `df_created`,
-                                name: `Created`,
-                                sg: true
-                            },
-                            {
-                                id: `df_poll`,
-                                name: `Poll`,
-                                sg: true
-                            },
-                            {
-                                id: `df_highlighted`,
-                                name: `Highlighted`,
-                                sg: true
-                            },
-                            {
-                                id: `df_visited`,
-                                name: `Visited`,
-                                sg: true
-                            },
-                            {
-                                id: `df_unread`,
-                                name: `Unread`,
+                                description: `
+                                    <ul>
+                                        <li>Allows you to filter discussions.</li>
+                                    </ul>
+                                `,
+                                features: [
+                                    {
+                                        id: `df_comments`,
+                                        name: `Comments`,
+                                        sg: true
+                                    },
+                                    {
+                                        id: `df_announcements`,
+                                        name: `Announcements`,
+                                        sg: true
+                                    },
+                                    {
+                                        id: `df_bugsSuggestions`,
+                                        name: `Bugs / Suggestions`,
+                                        sg: true
+                                    },
+                                    {
+                                        id: `df_deals`,
+                                        name: `Deals`,
+                                        sg: true
+                                    },
+                                    {
+                                        id: `df_general`,
+                                        name: `General`,
+                                        sg: true
+                                    },
+                                    {
+                                        id: `df_groupRecruitment`,
+                                        name: `Group Recruitment`,
+                                        sg: true
+                                    },
+                                    {
+                                        id: `df_letsPlayTogether`,
+                                        name: `Let's Play Together`,
+                                        sg: true
+                                    },
+                                    {
+                                        id: `df_offTopic`,
+                                        name: `Off-Topic`,
+                                        sg: true
+                                    },
+                                    {
+                                        id: `df_puzzles`,
+                                        name: `Puzzles`,
+                                        sg: true
+                                    },
+                                    {
+                                        id: `df_uncategorized`,
+                                        name: `Uncategorized`,
+                                        sg: true
+                                    },
+                                    {
+                                        id: `df_created`,
+                                        name: `Created`,
+                                        sg: true
+                                    },
+                                    {
+                                        id: `df_poll`,
+                                        name: `Poll`,
+                                        sg: true
+                                    },
+                                    {
+                                        id: `df_highlighted`,
+                                        name: `Highlighted`,
+                                        sg: true
+                                    },
+                                    {
+                                        id: `df_visited`,
+                                        name: `Visited`,
+                                        sg: true
+                                    },
+                                    {
+                                        id: `df_unread`,
+                                        name: `Unread`,
+                                        sg: true
+                                    }
+                                ],
+                                id: `df_m`,
+                                name: `[NEW] Multiple Filters`,
                                 sg: true
                             }
                         ],
@@ -4776,7 +4863,7 @@ this._delay(function(){n===this.counter&&this.refreshPositions(!s)})},_clear:fun
             document.addEventListener(`scroll`, fixFmphHeading);
             fixFmphHeading();
             height = esgst.mainPageHeading.offsetHeight;
-            newHeight = (esgst.gf && (esgst.giveawaysPath || esgst.groupsPath || esgst.createdPath || esgst.enteredPath || esgst.wonPath)) || (esgst.df && esgst.discussionsPath) ? height + 23 : height;
+            newHeight = (esgst.gf && esgst.gf_m && (esgst.giveawaysPath || esgst.groupsPath || esgst.createdPath || esgst.enteredPath || esgst.wonPath)) || (esgst.df && esgst.df_m && esgst.discussionsPath) ? height + 23 : height;
             esgst.style.insertAdjacentText(`beforeEnd`, `
                 .esgst-fmph {
                     position: fixed;
@@ -7820,6 +7907,10 @@ this._delay(function(){n===this.counter&&this.refreshPositions(!s)})},_clear:fun
             loadDiscussionFeatures(document, true);
         }
 
+        if (esgst.ttec) {
+            esgst.giveawayFeatures.push(calculateTtecTime);
+        }
+
         esgst.toExecute.forEach(feature => {
             feature();
         });
@@ -7974,7 +8065,10 @@ this._delay(function(){n===this.counter&&this.refreshPositions(!s)})},_clear:fun
                 if (typeof defaultValue === `undefined`) {
                     defaultValue = key === `gc_lp` ? true : (key.match(/^sk_/) ? true : (key.match(/^gc_.+?_s$/) ? esgst.settings.gc_s_sg : (key.match(/^gc_.+?_s_i$/) ? esgst.settings.gc_s_i_sg : (key.match(/^(g|d)f_(?!h$)/) ? true : (key.match(/^hide/) ? false : (esgst.enableByDefault || false))))));
                 }
-                esgst.settings[localKey] = getValue(esgst.oldValues[key] || key, defaultValue);
+                esgst.settings[localKey] = esgst.settings[esgst.oldValues[key]];
+                if (typeof esgst.settings[localKey] === `undefined`) {
+                    esgst.settings[localKey] = defaultValue;
+                }
             }
             return esgst.settings[localKey];
         }
@@ -8438,14 +8532,22 @@ this._delay(function(){n===this.counter&&this.refreshPositions(!s)})},_clear:fun
                 }
             }
             setSync(false, callback);
-        } else if (esgst.syncFrequency && Date.now() - esgst.lastSync > esgst.syncFrequency * 86400000) {
-            if (esgst.sg) {
-                setSetting(`username`, document.getElementsByClassName(`nav__avatar-outer-wrap`)[0].href.match(/\/user\/(.+)/)[1]);
-                setSetting(`avatar`, document.getElementsByClassName(`nav__avatar-inner-wrap`)[0].style.backgroundImage.match(/\("(.+)"\)/)[1]);
-            } else {
-                setSetting(`avatar`, document.getElementsByClassName(`nav_avatar`)[0].style.backgroundImage.match(/\("(.+)"\)/)[1]);
+        } else {
+            let parameters = ``;
+            [`Groups`, `Whitelist`, `Blacklist`, `HiddenGames`, `Games`, `WonGames`, `ReducedCvGames`, `NoCvGames`, `Giveaways`].forEach(key => {
+                if (esgst[`autoSync${key}`] && Date.now() - esgst[`lastSync${key}`] > esgst[`autoSync${key}`] * 86400000) {
+                    parameters += `${key}=1&`;
+                }
+            });
+            if (parameters) {
+                if (esgst.sg) {
+                    setSetting(`username`, document.getElementsByClassName(`nav__avatar-outer-wrap`)[0].href.match(/\/user\/(.+)/)[1]);
+                    setSetting(`avatar`, document.getElementsByClassName(`nav__avatar-inner-wrap`)[0].style.backgroundImage.match(/\("(.+)"\)/)[1]);
+                } else {
+                    setSetting(`avatar`, document.getElementsByClassName(`nav_avatar`)[0].style.backgroundImage.match(/\("(.+)"\)/)[1]);
+                }
+                open(`/esgst/sync?${parameters.replace(/&$/, ``)}`);
             }
-            open(`/esgst/sync`);
         }
     }
 
@@ -8459,20 +8561,26 @@ this._delay(function(){n===this.counter&&this.refreshPositions(!s)})},_clear:fun
             sync(syncer, mainCallback);
         } else if (syncer.autoSync || mainCallback) {
             popup = new Popup(`fa-refresh`, `Sync`);
+            popup.description.insertAdjacentHTML(`afterBegin`, `<div class="esgst-description">By selecting a number X in the dropdown menu next to each data other than 0, you are enabling automatic sync for that data (which means the data will be synced every X days).</div>`);
             if (!syncer.autoSync) {
-                let switches = {};
-                switches.syncGroups = new ToggleSwitch(popup.description, `syncGroups`, false, `Steam Groups`, false, false, null, esgst.syncGroups);
-                switches.syncWhitelist = new ToggleSwitch(popup.description, `syncWhitelist`, false, `Whitelist`, false, false, null, esgst.syncWhitelist);
-                switches.syncBlacklist = new ToggleSwitch(popup.description, `syncBlacklist`, false, `Blacklist`, false, false, null, esgst.syncBlacklist);
-                switches.syncHiddenGames = new ToggleSwitch(popup.description, `syncHiddenGames`, false, `Hidden Games`, false, false, null, esgst.syncHiddenGames);
-                switches.syncGames = new ToggleSwitch(popup.description, `syncGames`, false, `Owned/Wishlisted/Ignored Games`, false, false, null, esgst.syncGames);
-                switches.syncWonGames = new ToggleSwitch(popup.description, `syncWonGames`, false, `Won Games`, false, false, null, esgst.syncWonGames);
-                switches.syncReducedCvGames = new ToggleSwitch(popup.description, `syncReducedCvGames`, false, `Reduced CV Games`, false, false, null, esgst.syncReducedCvGames);
-                switches.syncNoCvGames = new ToggleSwitch(popup.description, `syncNoCvGames`, false, `No CV Games`, false, false, null, esgst.syncNoCvGames);
-                switches.syncGiveaways = new ToggleSwitch(popup.description, `syncGiveaways`, false, `Giveaways`, false, false, null, esgst.syncGiveaways);
-                popup.description.appendChild(new ButtonSet(`grey`, `grey`, `fa-circle`, `fa-circle-o-notch fa-spin`, `Select All`, ``, selectSwitches.bind(null, switches, `enable`)).set);
-                popup.description.appendChild(new ButtonSet(`grey`, `grey`, `fa-circle-o`, `fa-circle-o-notch fa-spin`, `Select None`, ``, selectSwitches.bind(null, switches, `disable`)).set);
-                popup.description.appendChild(new ButtonSet(`grey`, `grey`, `fa-dot-circle-o`, `fa-circle-o-notch fa-spin`, `Select Inverse`, ``, selectSwitches.bind(null, switches, `toggle`)).set);
+                syncer.switches = {
+                    syncGroups: new ToggleSwitch(popup.description, `syncGroups`, false, `Steam Groups`, false, false, null, esgst.syncGroups),
+                    syncWhitelist: new ToggleSwitch(popup.description, `syncWhitelist`, false, `Whitelist`, false, false, null, esgst.syncWhitelist),
+                    syncBlacklist: new ToggleSwitch(popup.description, `syncBlacklist`, false, `Blacklist`, false, false, null, esgst.syncBlacklist),
+                    syncHiddenGames: new ToggleSwitch(popup.description, `syncHiddenGames`, false, `Hidden Games`, false, false, null, esgst.syncHiddenGames),
+                    syncGames: new ToggleSwitch(popup.description, `syncGames`, false, `Owned/Wishlisted/Ignored Games`, false, false, null, esgst.syncGames),
+                    syncWonGames: new ToggleSwitch(popup.description, `syncWonGames`, false, `Won Games`, false, false, null, esgst.syncWonGames),
+                    syncReducedCvGames: new ToggleSwitch(popup.description, `syncReducedCvGames`, false, `Reduced CV Games`, false, false, null, esgst.syncReducedCvGames),
+                    syncNoCvGames: new ToggleSwitch(popup.description, `syncNoCvGames`, false, `No CV Games`, false, false, null, esgst.syncNoCvGames),
+                    syncGiveaways: new ToggleSwitch(popup.description, `syncGiveaways`, false, `Giveaways`, false, false, null, esgst.syncGiveaways)
+                };
+                let id;
+                for (id in syncer.switches) {
+                    setAutoSync(id, syncer.switches);
+                }
+                popup.description.appendChild(new ButtonSet(`grey`, `grey`, `fa-circle`, `fa-circle-o-notch fa-spin`, `Select All`, ``, selectSwitches.bind(null, syncer.switches, `enable`)).set);
+                popup.description.appendChild(new ButtonSet(`grey`, `grey`, `fa-circle-o`, `fa-circle-o-notch fa-spin`, `Select None`, ``, selectSwitches.bind(null, syncer.switches, `disable`)).set);
+                popup.description.appendChild(new ButtonSet(`grey`, `grey`, `fa-dot-circle-o`, `fa-circle-o-notch fa-spin`, `Select Inverse`, ``, selectSwitches.bind(null, syncer.switches, `toggle`)).set);
             }
             syncer.progress = insertHtml(popup.description, `beforeEnd`, `
                 <div class="esgst-hidden esgst-popup-progress"></div>
@@ -8495,13 +8603,38 @@ this._delay(function(){n===this.counter&&this.refreshPositions(!s)})},_clear:fun
             `);
             syncer.scrollable = description.firstElementChild;
             syncer.progress = description.lastElementChild;
+            syncer.parameters = getParameters();
             sync(syncer);
+        }
+    }
+
+    function setAutoSync(id, switches) {
+        let html, i, key, select, toggleSwitch;
+        key = id.replace(/^sync/, ``);
+        toggleSwitch = switches[id];
+        html = `<select class="esgst-auto-sync">`;
+        for (i = 0; i < 31; ++i) {
+            html += `<option>${i}</option>`;
+        }
+        html += `</select>`;
+        select = insertHtml(toggleSwitch.name, `beforeEnd`, html);
+        select.selectedIndex = esgst[`autoSync${key}`];
+        select.addEventListener(`change`, function () {
+            setSetting(`autoSync${key}`, select.selectedIndex);
+            esgst[`autoSync${key}`] = select.selectedIndex;
+        });
+        if (esgst[`lastSync${key}`]) {
+            toggleSwitch.date = insertHtml(toggleSwitch.name, `beforeEnd`, `<span><i class="fa fa-check-circle"></i> Last synced ${new Date(esgst[`lastSync${key}`]).toLocaleString()}</span>`);
+        } else {
+            toggleSwitch.date = insertHtml(toggleSwitch.name, `beforeEnd`, `<span><i class="fa fa-times"></i> Never synced.</span>`);
         }
     }
 
     function cancelSync(syncer, callback) {
         syncer.canceled = true;
-        callback();
+        if (callback) {
+            callback();
+        }
     }
 
     function sync(syncer, mainCallback, callback) {
@@ -8524,17 +8657,26 @@ this._delay(function(){n===this.counter&&this.refreshPositions(!s)})},_clear:fun
     }
 
     function completeSync(syncer, mainCallback, callback) {
-        var currentDate;
         if (!esgst.firstInstall) {
+            let currentDate, currentTime, id, key, string;
             syncer.progress.innerHTML = `Synced!`;
             currentDate = new Date();
-            setSetting(`lastSync`, currentDate.getTime());
+            currentTime = currentDate.getTime();
+            string = currentDate.toLocaleString();
+            for (id in syncer.switches) {
+                if (esgst.settings[id]) {
+                    key = id.replace(/^sync/, ``);
+                    setSetting(`lastSync${key}`, currentTime);
+                    esgst[`lastSync${key}`] = currentTime;
+                    syncer.switches[id].date.innerHTML = `<i class="fa fa-check-circle"></i> Last synced ${string}`;
+                }
+            }
         }
         if (callback) {
             callback();
         }
         if (mainCallback) {
-            mainCallback(currentDate);
+            mainCallback();
         }
     }
 
@@ -8547,7 +8689,7 @@ this._delay(function(){n===this.counter&&this.refreshPositions(!s)})},_clear:fun
         var i, key, n, newGroups, savedGiveaways, savedGroups;
         if (esgst.firstInstall) {
             callback();
-        } else if (esgst.sg && (esgst.settings.syncGroups || syncer.autoSync)) {
+        } else if (esgst.sg && ((syncer.parameters && syncer.parameters.Groups) || (!syncer.parameters && (esgst.settings.syncGroups || syncer.autoSync)))) {
             syncer.progress.lastElementChild.textContent = `Syncing your Steam groups...`;
             syncer.groups = {};
             savedGroups = JSON.parse(getValue(`groups`));
@@ -8669,7 +8811,7 @@ this._delay(function(){n===this.counter&&this.refreshPositions(!s)})},_clear:fun
     }
 
     function continueSyncStep2(syncer, callback) {
-        if (!syncer.autoSync && (esgst.settings.syncWhitelist || esgst.settings.syncBlacklist)) {
+        if (!syncer.autoSync && ((syncer.parameters && (syncer.parameters.Whitelist || syncer.parameters.Blacklist)) || (!syncer.parameters && (esgst.settings.syncWhitelist || esgst.settings.syncBlacklist)))) {
             syncWhitelistBlacklist(syncer, continueSyncStep3.bind(null, syncer, callback));
         } else {
             continueSyncStep3(syncer, callback);
@@ -8678,9 +8820,9 @@ this._delay(function(){n===this.counter&&this.refreshPositions(!s)})},_clear:fun
 
     function syncWhitelistBlacklist(syncer, callback) {
         if (!syncer.canceled) {
-            if (esgst.settings.syncWhitelist && esgst.settings.syncBlacklist) {
+            if ((syncer.parameters && syncer.parameters.Whitelist && syncer.parameters.Blacklist) || (!syncer.parameters && esgst.settings.syncWhitelist && esgst.settings.syncBlacklist)) {
                 deleteUserValues([`whitelisted`, `whitelistedDate`, `blacklisted`, `blacklistedDate`], continueWhitelistBlacklistSync.bind(null, syncer, callback));
-            } else if (esgst.settings.syncWhitelist) {
+            } else if ((syncer.parameters && syncer.parameters.Whitelist) || (!syncer.parameters && esgst.settings.syncWhitelist)) {
                 deleteUserValues([`whitelisted`, `whitelistedDate`], continueWhitelistBlacklistSync.bind(null, syncer, callback));
             } else {
                 deleteUserValues([`blacklisted`, `blacklistedDate`], continueWhitelistBlacklistSync.bind(null, syncer, callback));
@@ -8689,7 +8831,7 @@ this._delay(function(){n===this.counter&&this.refreshPositions(!s)})},_clear:fun
     }
 
     function continueWhitelistBlacklistSync(syncer, callback) {
-        if (esgst.settings.syncWhitelist) {
+        if ((syncer.parameters && syncer.parameters.Whitelist) || (!syncer.parameters && esgst.settings.syncWhitelist)) {
             syncer.progress.lastElementChild.textContent = `Syncing your whitelist...`;
             syncer.users = [];
             getWhitelistBlacklist(`whitelisted`, 1, syncer, `https://www.steamgifts.com/account/manage/whitelist/search?page=`, checkBlacklistSync.bind(null, syncer, callback));
@@ -8730,7 +8872,7 @@ this._delay(function(){n===this.counter&&this.refreshPositions(!s)})},_clear:fun
     }
 
     function checkBlacklistSync(syncer, callback) {
-        if (esgst.settings.syncBlacklist) {
+        if ((syncer.parameters && syncer.parameters.Blacklist) || (!syncer.parameters && esgst.settings.syncBlacklist)) {
             syncer.progress.lastElementChild.textContent = `Syncing your blacklist...`;
             getWhitelistBlacklist(`blacklisted`, 1, syncer, `https://www.steamgifts.com/account/manage/blacklist/search?page=`, completeWhitelistBlacklistSync.bind(null, syncer, callback));
         } else {
@@ -8746,7 +8888,7 @@ this._delay(function(){n===this.counter&&this.refreshPositions(!s)})},_clear:fun
     }
 
     function continueSyncStep3(syncer, callback) {
-        if (!syncer.autoSync && esgst.settings.syncHiddenGames) {
+        if (!syncer.autoSync && ((syncer.parameters && syncer.parameters.HiddenGames) || (!syncer.parameters && esgst.settings.syncHiddenGames))) {
             syncer.progress.lastElementChild.textContent = `Syncing your hidden games...`;
             syncer.hiddenGames = {
                 apps: [],
@@ -8807,7 +8949,7 @@ this._delay(function(){n===this.counter&&this.refreshPositions(!s)})},_clear:fun
     }
 
     function continueSyncStep4(syncer, callback) {
-        if (syncer.autoSync || esgst.settings.syncGames) {
+        if ((syncer.parameters && syncer.parameters.Games) || (!syncer.parameters && (syncer.autoSync || esgst.settings.syncGames))) {
             syncer.progress.lastElementChild.textContent = `Syncing your wishlisted/owned/ignored games...`;
             syncGames(syncer, syncAltAccounts.bind(null, 0, esgst.settings.gc_o_altAccounts.length, syncer, continueSyncStep5.bind(null, syncer, callback)));
         } else {
@@ -8883,9 +9025,8 @@ this._delay(function(){n===this.counter&&this.refreshPositions(!s)})},_clear:fun
             }
         }
         if (response1) {
-            responseText = response1.responseText;
-            if (!responseText.match(/(<title>Forbidden<\/title>|<TITLE>Access Denied<\/TITLE>)/)) {
-                ownedGames = JSON.parse(responseText).response.games;
+            try {
+                ownedGames = JSON.parse(response1.responseText).response.games;
                 for (i = 0, n = ownedGames.length; i < n; ++i) {
                     id = ownedGames[i].appid;
                     if (!savedGames.apps[id]) {
@@ -8895,58 +9036,60 @@ this._delay(function(){n===this.counter&&this.refreshPositions(!s)})},_clear:fun
                     ++owned;
                     newOwned.apps.push(id.toString());
                 }
-            }
+            } catch (e) {}
         }
-        if (response2 && !response2.responseText.match(/<TITLE>Access Denied<\/TITLE>/)) {
-            responseJson = JSON.parse(response2.responseText);
-            numOwned = responseJson.rgOwnedApps.length;
-            if (numOwned > 0) {
-                types = [
-                    {
-                        key: `wishlisted`,
-                        mainKey: `apps`,
-                        name: `rgWishlist`
-                    },
-                    {
-                        key: `owned`,
-                        mainKey: `apps`,
-                        name: `rgOwnedApps`
-                    },
-                    {
-                        key: `owned`,
-                        mainKey: `subs`,
-                        name: `rgOwnedPackages`
-                    },
-                    {
-                        key: `ignored`,
-                        mainKey: `apps`,
-                        name: `rgIgnoredApps`
-                    },
-                    {
-                        key: `ignored`,
-                        mainKey: `subs`,
-                        name: `rgIgnoredPackages`
-                    }
-                ];
-                for (i = 0, n = types.length; i < n; ++i) {
-                    type = types[i];
-                    key = type.key;
-                    mainKey = type.mainKey;
-                    values = responseJson[type.name];
-                    for (j = 0, numValues = values.length; j < numValues; ++j) {
-                        id = values[j];
-                        if (!savedGames[mainKey][id]) {
-                            savedGames[mainKey][id] = {};
+        if (response2) {
+            try {
+                responseJson = JSON.parse(response2.responseText);
+                numOwned = responseJson.rgOwnedApps.length;
+                if (numOwned > 0) {
+                    types = [
+                        {
+                            key: `wishlisted`,
+                            mainKey: `apps`,
+                            name: `rgWishlist`
+                        },
+                        {
+                            key: `owned`,
+                            mainKey: `apps`,
+                            name: `rgOwnedApps`
+                        },
+                        {
+                            key: `owned`,
+                            mainKey: `subs`,
+                            name: `rgOwnedPackages`
+                        },
+                        {
+                            key: `ignored`,
+                            mainKey: `apps`,
+                            name: `rgIgnoredApps`
+                        },
+                        {
+                            key: `ignored`,
+                            mainKey: `subs`,
+                            name: `rgIgnoredPackages`
                         }
-                        oldValue = savedGames[mainKey][id][key];
-                        savedGames[mainKey][id][key] = true;
-                        if (key === `owned` && !oldValue) {
-                            ++owned;
-                            newOwned[mainKey].push(id.toString());
+                    ];
+                    for (i = 0, n = types.length; i < n; ++i) {
+                        type = types[i];
+                        key = type.key;
+                        mainKey = type.mainKey;
+                        values = responseJson[type.name];
+                        for (j = 0, numValues = values.length; j < numValues; ++j) {
+                            id = values[j];
+                            if (!savedGames[mainKey][id]) {
+                                savedGames[mainKey][id] = {};
+                            }
+                            oldValue = savedGames[mainKey][id][key];
+                            savedGames[mainKey][id][key] = true;
+                            if (key === `owned` && !oldValue) {
+                                ++owned;
+                                newOwned[mainKey].push(id.toString());
+                            }
                         }
                     }
                 }
-            }
+            } catch (e) {}
         }
         if (!altAccount) {
             if (response1 || response2) {
@@ -9037,7 +9180,7 @@ this._delay(function(){n===this.counter&&this.refreshPositions(!s)})},_clear:fun
         if (html) {
             syncer.scrollable.insertAdjacentHTML(`beforeEnd`, html);
         }
-        if (!syncer.autoSync && esgst.settings.syncWonGames) {
+        if (!syncer.autoSync && ((syncer.parameters && syncer.parameters.WonGames) || (!syncer.parameters && esgst.settings.syncWonGames))) {
             syncer.progress.lastElementChild.textContent = `Syncing your won games...`;
             getWonGames(`0`, continueSyncStep6.bind(null, syncer, callback));
         } else {
@@ -9049,7 +9192,7 @@ this._delay(function(){n===this.counter&&this.refreshPositions(!s)})},_clear:fun
         if (html) {
             syncer.scrollable.insertAdjacentHTML(`beforeEnd`, html);
         }
-        if (!syncer.autoSync && esgst.settings.syncReducedCvGames) {
+        if (!syncer.autoSync && ((syncer.parameters && syncer.parameters.ReducedCvGames) || (!syncer.parameters && esgst.settings.syncReducedCvGames))) {
             syncer.progress.lastElementChild.textContent = `Syncing reduced CV games...`;
             request(null, null, false, `https://script.google.com/macros/s/AKfycbwJK-7RBh5ghaKprEsmx4DQ6CyXc_3_9eYiOCu3yhI6W4B3W4YN/exec`, syncCvGames.bind(null, syncer, continueSyncStep7.bind(null, syncer, callback)));
         } else {
@@ -9058,7 +9201,7 @@ this._delay(function(){n===this.counter&&this.refreshPositions(!s)})},_clear:fun
     }
 
     function continueSyncStep7(syncer, callback) {
-        if (!syncer.autoSync && esgst.settings.syncNoCvGames) {
+        if (!syncer.autoSync && ((syncer.parameters && syncer.parameters.NoCvGames) || (!syncer.parameters && esgst.settings.syncNoCvGames))) {
             syncer.progress.lastElementChild.textContent = `Syncing no CV games...`;
             request(null, null, false, `https://script.google.com/macros/s/AKfycbym0nzeyr3_b93ViuiZRivkBMl9PBI2dTHQxNC0rtgeQSlCTI-P/exec`, syncCvGames.bind(null, syncer, continueSyncStep8.bind(null, syncer, callback)));
         } else {
@@ -9067,7 +9210,7 @@ this._delay(function(){n===this.counter&&this.refreshPositions(!s)})},_clear:fun
     }
 
     function continueSyncStep8(syncer, callback) {
-        if (!syncer.autoSync && esgst.settings.syncGiveaways && esgst.sg) {
+        if (!syncer.autoSync && ((syncer.parameters && syncer.parameters.Giveaways) || (!syncer.parameters && esgst.settings.syncGiveaways)) && esgst.sg) {
             syncer.progress.lastElementChild.textContent = `Syncing your giveaways...`;
             var user = {
                 steamId: esgst.steamId,
@@ -11291,15 +11434,15 @@ this._delay(function(){n===this.counter&&this.refreshPositions(!s)})},_clear:fun
     /* [GF] Giveaway Filters */
 
     function loadGf() {
-        if (esgst.giveawaysPath || esgst.createdPath || esgst.enteredPath || esgst.wonPath || esgst.groupPath || esgst.userPath) {
+        if (esgst.gf_s) {
+            esgst.giveawayFeatures.push(getGfGiveaways);
+        }
+        if (esgst.gf_m && (esgst.giveawaysPath || esgst.createdPath || esgst.enteredPath || esgst.wonPath || esgst.groupPath || esgst.userPath)) {
             if (esgst.hideButtons && esgst.hideButtons_gf) {
                 esgst.leftButtons.insertBefore(addGfContainer(esgst.mainPageHeading), esgst.leftButtons.firstElementChild);
             } else {
                 esgst.mainPageHeading.insertBefore(addGfContainer(esgst.mainPageHeading), esgst.mainPageHeading.firstElementChild);
             }
-        }
-        if (esgst.gf_h) {
-            esgst.giveawayFeatures.push(getGfGiveaways);
         }
     }
 
@@ -11756,6 +11899,9 @@ this._delay(function(){n===this.counter&&this.refreshPositions(!s)})},_clear:fun
     }
 
     function changeGfValue(context, gf, key) {
+        if (key === `ended`) {
+            esgst.stopEs = false;
+        }
         gf[key] = context.value;
         filterGfGiveaways(gf);
     }
@@ -12404,7 +12550,7 @@ this._delay(function(){n===this.counter&&this.refreshPositions(!s)})},_clear:fun
         filtered = false;
         override = 0;
         if (!gf.advancedSearch) {
-            for (i = 0, n = basicFilters.length; i < n; ++i) {
+            for (i = 0, n = basicFilters.length; i < n && (!filtered || !override); ++i) {
                 name = basicFilters[i];
                 if ((name === `Rating` && esgst.gc && giveaway.gcReady) || name !== `Rating`) {
                     key = name.toLowerCase();
@@ -12427,17 +12573,20 @@ this._delay(function(){n===this.counter&&this.refreshPositions(!s)})},_clear:fun
                 }
             }
         }
-        for (i = 0, n = typeFilters.length; i < n; ++i) {
+        for (i = 0, n = typeFilters.length; i < n && (!filtered || !override); ++i) {
             key = typeFilters[i];
             if ((key === `regionRestricted` && !gf.advancedSearch) || key !== `regionRestricted`) {
                 if ((key === `fullCV` && ((gf.fullCV === `disabled` && !giveaway.reducedCV && !giveaway.noCV) || (gf.fullCV === `none` && (giveaway.reducedCV || giveaway.noCV)))) || (key !== `fullCV` && ((gf[key] === `disabled` && giveaway[key]) || (gf[key] === `none` && !giveaway[key])))) {
                     filtered = true;
                     override = gf.overrides[key];
+                    if (key === `ended` && gf.ended === `disabled` && (esgst.createdPath || esgst.enteredPath || esgst.wonPath || esgst.userPath)) {
+                        esgst.stopEs = true;
+                    }
                 }
             }
         }
         if (esgst.gc && giveaway.gcReady) {
-            for (i = 0, n = categoryFilters.length; i < n; ++i) {
+            for (i = 0, n = categoryFilters.length; i < n && (!filtered || !override); ++i) {
                 key = categoryFilters[i];
                 if (key !== `dlc` || !gf.advancedSearch) {
                     if (key === `genres`) {
@@ -12654,11 +12803,11 @@ this._delay(function(){n===this.counter&&this.refreshPositions(!s)})},_clear:fun
         var i = 0;
         var n = bookmarked.length;
         var gbGiveaways = insertHtml(context, `beforeEnd`, `<div class="esgst-text-left"></div>`);
-        if (esgst.gf || esgst.gm) {
+        if ((esgst.gf && esgst.gf_m) || esgst.gm) {
             let heading = insertHtml(context, `afterBegin`, `
                 <div class="page__heading"></div>
             `);
-            if (esgst.gf) {
+            if (esgst.gf && esgst.gf_m) {
                 heading.appendChild(addGfContainer(heading, `Gb`));
             }
             if (esgst.gm) {
@@ -12965,11 +13114,11 @@ this._delay(function(){n===this.counter&&this.refreshPositions(!s)})},_clear:fun
 
         function loadGedGiveaways(container, context, popup) {
             results = insertHtml(context, `beforeEnd`, `<div class="esgst-text-left"></div>`);
-            if (esgst.gf || esgst.gm) {
+            if ((esgst.gf && esgst.gf_m) || esgst.gm) {
                 let heading = insertHtml(context, `afterBegin`, `
                     <div class="page__heading"></div>
                 `);
-                if (esgst.gf) {
+                if (esgst.gf && esgst.gf_m) {
                     heading.appendChild(addGfContainer(heading, `Ged`));
                 }
                 if (esgst.gm) {
@@ -13513,6 +13662,51 @@ this._delay(function(){n===this.counter&&this.refreshPositions(!s)})},_clear:fun
         }
     }
 
+    /* [TTEC] Time To Enter Calculator */
+
+    function calculateTtecTime(giveaways, main, source) {
+        let nextRefresh, time;
+        if (!main || (!esgst.createdPath && !esgst.enteredPath && !esgst.wonPath && !esgst.newGiveawayPath)) {
+            nextRefresh = 60 - new Date().getMinutes();
+            while (nextRefresh > 15) {
+                nextRefresh -= 15;
+            }
+            giveaways.forEach(giveaway => {
+                if (!giveaway.ended && !giveaway.entered && giveaway.points > esgst.points) {
+                    if (!giveaway.ttec) {
+                        giveaway.ttec = insertHtml(giveaway.panel, (esgst.gv && ((main && esgst.giveawaysPath) || (source === `gb` && esgst.gv_gb) || (source === `ged` && esgst.gv_ged) || (source === `ge` && esgst.gv_ge))) ? `beforeEnd` : `afterBegin`, `<div class="${esgst.giveawayPath ? `featured__column` : ``} esgst-ttec" title="Time to wait until you have enough points to enter this giveaway"></div>`);
+                    }
+                    giveaway.ttec.classList.remove(`esgst-hidden`);
+                    giveaway.ttec.innerHTML = `
+                        <i class="fa fa-clock-o"></i> ${getTtecTime(Math.round((nextRefresh + (15 * Math.floor((giveaway.points - esgst.points) / 6))) * 100) / 100)}
+                    `;
+                } else if (giveaway.ttec) {
+                    giveaway.ttec.classList.add(`esgst-hidden`);
+                }
+            });
+        }
+    }
+
+    function getTtecTime(m) {
+        let d, h, w;
+        h = Math.round(m / 60 * 10) / 10;
+        if (Math.floor(h) > 0) {
+            d = Math.round(m / 60 / 24 * 10) / 10;
+            if (Math.floor(d) > 0) {
+                w = Math.round(d / 60 / 24 / 7 * 10) / 10;
+                if (Math.floor(w) > 0) {
+                    return `${w}w`;
+                } else {
+                    return `${d}d`;
+                }
+            } else {
+                return `${h}h`;
+            }
+        } else {
+            return `${m}m`;
+        }
+    }
+
     /* [GWC] Giveaway Winning Chance */
 
     function loadGwc() {
@@ -14011,6 +14205,9 @@ this._delay(function(){n===this.counter&&this.refreshPositions(!s)})},_clear:fun
             if (giveaway.elgbButton && !giveaway.entered) {
                 addElgbButton(giveaway, true);
             }
+        }
+        if (esgst.ttec) {
+            calculateTtecTime(esgst.currentGiveaways, true);
         }
     }
 
@@ -17441,7 +17638,7 @@ this._delay(function(){n===this.counter&&this.refreshPositions(!s)})},_clear:fun
                 gm.popout.popout.appendChild(new ButtonSet(`green`, `grey`, `fa-bookmark`, `fa-circle-o-notch fa-spin`, `Bookmark`, `Bookmarking...`, bookmarkGmGiveaways.bind(null, giveaways, gm)).set);
                 gm.popout.popout.appendChild(new ButtonSet(`green`, `grey`, `fa-bookmark-o`, `fa-circle-o-notch fa-spin`, `Unbookmark`, `Unbookmarking...`, unbookmarkGmGiveaways.bind(null, giveaways, gm)).set);
             }
-            if (esgst.gf && esgst.gf_h) {
+            if (esgst.gf && esgst.gf_s) {
                 gm.popout.popout.appendChild(new ButtonSet(`green`, `grey`, `fa-eye-slash`, `fa-circle-o-notch fa-spin`, `Hide Individual GAs`, `Hiding...`, hideGmGiveaways.bind(null, giveaways, gm)).set);
             }
         }
@@ -18268,16 +18465,28 @@ this._delay(function(){n===this.counter&&this.refreshPositions(!s)})},_clear:fun
     /* [NPTH] Next/Previous Train Hotkeys */
 
     function loadNpth() {
-        var description, element, elements, i, n, next, nextMatch, previous, previousMatch;
+        var description, element, elements, i, n, next, previous, text;
         if (esgst.giveawayCommentsPath) {
             description = document.getElementsByClassName(`page__description`)[0];
             if (description) {
                 elements = description.querySelectorAll(`[href*="/giveaway/"]`);
-                if (elements.length > 1) {
-                    previous = elements[0];
-                    next = elements[1];
-                } else {
-                    next = elements[0];
+                n = elements.length;
+                for (i = 0; i < n && (!previous || !next); ++i) {
+                    element = elements[i];
+                    text = element.textContent.toLowerCase();
+                    if (!previous && text.match(/back|last|less|prev|<|←/)) {
+                        previous = element;
+                    } else if (!next && text.match(/forw|more|next|>|→/)) {
+                        next = element;
+                    }
+                }
+                if (!previous || !next) {
+                    if (n > 1) {
+                        previous = elements[0];
+                        next = elements[1];
+                    } else {
+                        next = elements[0];
+                    }
                 }
                 if (previous || next) {
                     document.addEventListener(`keydown`, loadNpthGiveaway.bind(null, next, previous));
@@ -18379,11 +18588,11 @@ this._delay(function(){n===this.counter&&this.refreshPositions(!s)})},_clear:fun
                 ge.popup = new Popup(`fa-gift`, `Extracted giveaways:`);
             }
             ge.results = insertHtml(ge.popup.scrollable, `beforeEnd`, `<div class="esgst-text-left"></div>`);
-            if (esgst.gf || esgst.gm) {
+            if ((esgst.gf && esgst.gf_m) || esgst.gm) {
                 let heading = insertHtml(ge.popup.scrollable, `afterBegin`, `
                     <div class="page__heading"></div>
                 `);
-                if (esgst.gf) {
+                if (esgst.gf && esgst.gf_m) {
                     heading.appendChild(addGfContainer(heading, `Ge`));
                 }
                 if (esgst.gm) {
@@ -18797,14 +19006,17 @@ this._delay(function(){n===this.counter&&this.refreshPositions(!s)})},_clear:fun
                 dealsRows = deals.lastElementChild.lastElementChild;
                 savedDiscussions = JSON.parse(getValue(`discussions`, `{}`));
                 elements = getDiscussions(response1Html, true, savedDiscussions);
-                revisedElements = [];
-                elements.forEach(element => {
-                    if (element.category !== `Deals`) {
-                        revisedElements.push(element);
-                    }
-                });
-                for (i = 0, j = revisedElements.length - 1; i < 5; ++i, --j) {
-                    discussionsRows.appendChild(revisedElements[j].outerWrap);
+                if (!esgst.oadd_d) {
+                    revisedElements = [];
+                    elements.forEach(element => {
+                        if (element.category !== `Deals`) {
+                            revisedElements.push(element);
+                        }
+                    });
+                    elements = revisedElements;
+                }
+                for (i = 0, j = elements.length - 1; i < 5; ++i, --j) {
+                    discussionsRows.appendChild(elements[j].outerWrap);
                 }
                 elements = getDiscussions(response2Html, true, savedDiscussions);
                 for (i = 0, j = elements.length - 1; i < 5; ++i, --j) {
@@ -18991,31 +19203,33 @@ this._delay(function(){n===this.counter&&this.refreshPositions(!s)})},_clear:fun
     }
 
     function setMissingDiscussion(context) {
-        context.outerWrap.innerHTML = `
-            <div class="table__row-outer-wrap" style="padding: 15px 0;">
-                <div class="table__row-inner-wrap">
-                    <div>
-                        <a class="table_image_avatar" href="/user/${context.author}" style="background-image:${context.avatar.style.backgroundImage.replace(/"/g, `'`)};"></a>
-                    </div>
-                    <div class="table__column--width-fill">
-                        <h3 style="margin-bottom: 2px;">
-                            <a class="homepage_table_column_heading" href="${context.url}">${context.title}</a>
-                        </h3>
-                        <p>
-                            ${context.lastPostTime ? `
-                                <a class="table__column__secondary-link" href="${context.url}">${context.comments} Comments</a> - Last post <span data-timestamp="${context.lastPostTimestamp}">${context.lastPostTime}</span> ago by <a class="table__column__secondary-link" href="/user/${context.lastPostAuthor}">${context.lastPostAuthor}</a>
-                                <a class="icon-green table__last-comment-icon" href="/go/comment/${context.lastPostCode}">
-                                    <i class="fa fa-chevron-circle-right"></i>
-                                </a>
-                            ` : `
-                                <a class="table__column__secondary-link" href="${context.url}">${context.comments} Comments</a> - Created <span data-timestamp="${context.createdTimestamp}">${context.createdTime}</span> ago by <a class="table__column__secondary-link" href="/user/${context.author}">${context.author}</a>
-                            `}
-                        </p>
+        if (context) {
+            context.outerWrap.innerHTML = `
+                <div class="table__row-outer-wrap" style="padding: 15px 0;">
+                    <div class="table__row-inner-wrap">
+                        <div>
+                            <a class="table_image_avatar" href="/user/${context.author}" style="background-image:${context.avatar.style.backgroundImage.replace(/"/g, `'`)};"></a>
+                        </div>
+                        <div class="table__column--width-fill">
+                            <h3 style="margin-bottom: 2px;">
+                                <a class="homepage_table_column_heading" href="${context.url}">${context.title}</a>
+                            </h3>
+                            <p>
+                                ${context.lastPostTime ? `
+                                    <a class="table__column__secondary-link" href="${context.url}">${context.comments} Comments</a> - Last post <span data-timestamp="${context.lastPostTimestamp}">${context.lastPostTime}</span> ago by <a class="table__column__secondary-link" href="/user/${context.lastPostAuthor}">${context.lastPostAuthor}</a>
+                                    <a class="icon-green table__last-comment-icon" href="/go/comment/${context.lastPostCode}">
+                                        <i class="fa fa-chevron-circle-right"></i>
+                                    </a>
+                                ` : `
+                                    <a class="table__column__secondary-link" href="${context.url}">${context.comments} Comments</a> - Created <span data-timestamp="${context.createdTimestamp}">${context.createdTime}</span> ago by <a class="table__column__secondary-link" href="/user/${context.author}">${context.author}</a>
+                                `}
+                            </p>
+                        </div>
                     </div>
                 </div>
-            </div>
-        `;
-        context.outerWrap = context.outerWrap.firstElementChild;
+            `;
+            context.outerWrap = context.outerWrap.firstElementChild;
+        }
     }
 
     /* [DS] Discussions Sorter */
@@ -19044,8 +19258,8 @@ this._delay(function(){n===this.counter&&this.refreshPositions(!s)})},_clear:fun
                     <option value="title_desc">Title - Descending</option>
                     <option value="category_asc">Category - Ascending</option>
                     <option value="category_desc">Category - Descending</option>
-                    <option value="createdTime_asc">Created Time - Ascending</option>
-                    <option value="createdTime_desc">Created Time - Descending</option>
+                    <option value="createdTimestamp_asc">Created Time - Ascending</option>
+                    <option value="createdTimestamp_desc">Created Time - Descending</option>
                     <option value="author_asc">Author - Ascending</option>
                     <option value="author_desc">Author - Descending</option>
                     <option value="comments_asc">Comments - Ascending</option>
@@ -19222,13 +19436,7 @@ this._delay(function(){n===this.counter&&this.refreshPositions(!s)})},_clear:fun
     }
 
     function loadDf() {
-        if (esgst.discussionsPath && !esgst.editDiscussionPath) {
-            if (esgst.hideButtons && esgst.hideButtons_df) {
-                esgst.leftButtons.insertBefore(addDfContainer(esgst.mainPageHeading), esgst.leftButtons.firstElementChild);
-            } else {
-                esgst.mainPageHeading.insertBefore(addDfContainer(esgst.mainPageHeading), esgst.mainPageHeading.firstElementChild);
-            }
-        } else if (esgst.discussionPath && esgst.df_h) {
+        if (esgst.df_s && esgst.discussionPath) {
             let discussion, savedDiscussions;
             discussion = {
                 code: location.pathname.match(/^\/discussion\/(.+?)\//)[1],
@@ -19240,6 +19448,13 @@ this._delay(function(){n===this.counter&&this.refreshPositions(!s)})},_clear:fun
                 addDfUnhideButton(discussion, true);
             } else {
                 addDfHideButton(discussion, true);
+            }
+        }
+        if (esgst.df_m && esgst.discussionsPath && !esgst.editDiscussionPath) {
+            if (esgst.hideButtons && esgst.hideButtons_df) {
+                esgst.leftButtons.insertBefore(addDfContainer(esgst.mainPageHeading), esgst.leftButtons.firstElementChild);
+            } else {
+                esgst.mainPageHeading.insertBefore(addDfContainer(esgst.mainPageHeading), esgst.mainPageHeading.firstElementChild);
             }
         }
     }
@@ -19945,7 +20160,7 @@ this._delay(function(){n===this.counter&&this.refreshPositions(!s)})},_clear:fun
         typeFilters = [`announcements`, `bugs_suggestions`, `deals`, `general`, `groupRecruitment`, `letsPlayTogether`, `offTopic`, `puzzles`, `uncategorized`, `created`, `poll`, `highlighted`, `visited`, `unread`];
         filtered = false;
         override = 0;
-        for (i = 0, n = basicFilters.length; i < n; ++i) {
+        for (i = 0, n = basicFilters.length; i < n && (!filtered || !override); ++i) {
             name = basicFilters[i];
             key = name.toLowerCase();
             maxKey = `max${name}`;
@@ -19955,7 +20170,7 @@ this._delay(function(){n===this.counter&&this.refreshPositions(!s)})},_clear:fun
                 override = df.overrides[key];
             }
         }
-        for (i = 0, n = typeFilters.length; i < n; ++i) {
+        for (i = 0, n = typeFilters.length; i < n && (!filtered || !override); ++i) {
             key = typeFilters[i];
             if ((df[key] === `disabled` && discussion[key]) || (df[key] === `none` && !discussion[key])) {
                 filtered = true;
@@ -20521,6 +20736,14 @@ this._delay(function(){n===this.counter&&this.refreshPositions(!s)})},_clear:fun
                 callback();
             }
         }).set);
+        if (esgst.cfh_img_remember) {
+            popup.description.appendChild(new ButtonSet(`grey`, `grey`, `fa-rotate-left`, `fa-circle-o-notch fa-spin`, `Reset`, `Resetting...`, callback => {
+                setSetting(`cfh_img_remember`, false);
+                esgst.cfh_img_remember = false;
+                callback();
+                popup.close();
+            }).set);
+        }
         popup.open();
     }
 
@@ -21639,8 +21862,9 @@ this._delay(function(){n===this.counter&&this.refreshPositions(!s)})},_clear:fun
                         if (comment.author === esgst.username) {
                             markCtCommentRead(comment, saved);
                         } else if (!saved[comment.type][comment.code].readComments[comment.id] || comment.timestamp !== saved[comment.type][comment.code].readComments[comment.id]) {
-                            if (goToUnread) {
-                                if ((esgst.discussionPath && ((esgst.ct_r && esgst.es_r) || (!esgst.ct_r && !esgst.es_r))) || (!esgst.discussionPath && !esgst.ct_r)) {
+                            if (goToUnread && (!esgst.ctGoToUnread || ((((esgst.ct_r && !esgst.es_r) || (!esgst.ct_r && esgst.es_r)) && comment.comment.offsetTop < scrollY + esgst.commentsTop) || (((!esgst.ct_r && !esgst.es_r) || (esgst.ct_r && esgst.es_r)) && comment.comment.offsetTop > scrollY + esgst.commentsTop)))) {
+                                esgst.ctGoToUnread = true;
+                                if ((esgst.discussionPath && ((!esgst.ct_r && !esgst.es_r) || (esgst.ct_r && esgst.es_r))) || (!esgst.discussionPath && !esgst.ct_r)) {
                                     unread = comment;
                                     found = true;
                                 } else {
@@ -24264,7 +24488,7 @@ this._delay(function(){n===this.counter&&this.refreshPositions(!s)})},_clear:fun
                             });
                         });
                     }
-                } else if (wbc.result === `whitelisted` || wbc.result === `blacklisted`) {
+                } else if (wbc.result === `whitelisted` || wbc.result === `blacklisted` || whitelisted || blacklisted) {
                     user.values = {
                         wbc: wbc
                     };
@@ -27186,10 +27410,7 @@ this._delay(function(){n===this.counter&&this.refreshPositions(!s)})},_clear:fun
     /* */
 
     function loadSMMenu(tab) {
-        var Selected, Item, SMSyncFrequency, I, Container, SMGeneral, SMGiveaways, SMDiscussions, SMCommenting, SMUsers, SMOthers, SMManageFilteredUsers,
-            SMGeneralFeatures, SMGiveawayFeatures, SMDiscussionFeatures, SMCommentingFeatures, SMUserGroupGamesFeatures, SMOtherFeatures,
-            SMLastSync, LastSync, SMAPIKey;
-        var popup;
+        let I, Container, SMManageFilteredUsers, SMAPIKey, popup;
         if (tab) {
             document.body.className = `esgst-tab-menu`;
             Container = document.body;
@@ -27198,17 +27419,17 @@ this._delay(function(){n===this.counter&&this.refreshPositions(!s)})},_clear:fun
             popup.description.classList.add(`esgst-text-left`);
             Container = popup.scrollable;
         }
-        SMSyncFrequency = `<select class="esgst-sync-frequency">`;
-        for (I = 0; I <= 30; ++I) {
-            SMSyncFrequency += `<option>${I}</option>`;
-        }
-        SMSyncFrequency += `</select>`;
         Container.innerHTML = `
             <div class="esgst-page-heading"></div>
             <div class="esgst-settings-menu"></div>
         `;
         var heading = Container.getElementsByClassName(`esgst-page-heading`)[0];
         createSMButtons(heading, [{
+            Check: true,
+            Icons: [`fa-refresh`],
+            Name: `esgst-heading-button`,
+            Title: `Sync data`
+        }, {
             Check: true,
             Icons: [`fa-arrow-circle-up`],
             Name: `esgst-heading-button`,
@@ -27224,17 +27445,22 @@ this._delay(function(){n===this.counter&&this.refreshPositions(!s)})},_clear:fun
             Name: `esgst-heading-button`,
             Title: `Delete data`
         }, {
+            Check: true,
+            Icons: [`fa-gear`, `fa-arrow-circle-down`],
+            Name: `esgst-heading-button`,
+            Title: `Export settings (exports settings without personal data so you can easily share them with other users)`
+        }, {
             Check: esgst.uf,
             Icons: [`fa-user`, `fa-eye-slash`],
             Name: `SMManageFilteredUsers esgst-heading-button`,
             Title: `See list of filtered users.`
         }, {
-            Check: esgst.sg && esgst.gf && esgst.gf_h,
+            Check: esgst.sg && esgst.gf && esgst.gf_s,
             Icons: [`fa-gift`, `fa-eye-slash`],
             Name: `SMManageFilteredGiveaways esgst-heading-button`,
             Title: `Manage hidden giveaways.`
         }, {
-            Check: esgst.sg && esgst.df && esgst.df_h,
+            Check: esgst.sg && esgst.df && esgst.df_s,
             Icons: [`fa-comments`, `fa-eye-slash`],
             Name: `SMManageFilteredDiscussions esgst-heading-button`,
             Title: `Manage hidden discussions`
@@ -27266,25 +27492,6 @@ this._delay(function(){n===this.counter&&this.refreshPositions(!s)})},_clear:fun
         }]);
         var SMMenu = Container.getElementsByClassName(`esgst-settings-menu`)[0];
         var j = 0;
-        SMMenu.insertAdjacentHTML(`beforeEnd`,
-            createSMSections(++j, [{
-                Title: `Sync`,
-                HTML: `
-                    ${SMSyncFrequency}
-                    <div class="esgst-description">Select from how many days to how many days you want the automatic sync to run (0 to disable it).</div>
-                    <div class="esgst-form-sync">
-                        <div class="esgst-form-sync-data">
-                            <div class="esgst-notification esgst-notification-warning esgst-last-sync">
-                                <i class="fa fa-question-circle"></i> Never synced.
-                            </div>
-                        </div>
-                        <div class="form__sync-default esgst-sync">
-                            <i class="fa fa-refresh"></i> Sync
-                        </div>
-                    </div>
-                `
-            }])
-        );
         var sections = {
             general: {
                 index: 1
@@ -27351,7 +27558,6 @@ this._delay(function(){n===this.counter&&this.refreshPositions(!s)})},_clear:fun
         var SMManageEntriesTracker = Container.getElementsByClassName(`SMManageEntriesTracker`)[0];
         var SMManageUserTags = Container.getElementsByClassName(`SMManageUserTags`)[0];
         var SMManageGameTags = Container.getElementsByClassName(`SMManageGameTags`)[0];
-        SMSyncFrequency = Container.getElementsByClassName(`esgst-sync-frequency`)[0];
         if (esgst.wbc) {
             addWBCButton(null, Container.getElementsByClassName(`esgst-wbc-button`)[0]);
         }
@@ -27359,39 +27565,21 @@ this._delay(function(){n===this.counter&&this.refreshPositions(!s)})},_clear:fun
         if (esgst.namwc) {
             setNAMWCPopup(SMNAMWCButton, null, true);
         }
-        SMLastSync = Container.getElementsByClassName(`esgst-last-sync`)[0];
-        var SMSync = Container.getElementsByClassName(`esgst-sync`)[0];
         SMAPIKey = Container.getElementsByClassName(`esgst-steam-api-key`)[0];
-        SMSyncFrequency.selectedIndex = esgst.syncFrequency;
-        LastSync = esgst.lastSync;
-        if (LastSync) {
-            SMLastSync.classList.remove(`esgst-notification-warning`);
-            SMLastSync.classList.add(`esgst-notification-success`);
-            SMLastSync.innerHTML = `<i class="fa fa-check-circle"></i> Last synced ${new Date(LastSync).toLocaleString()}.`;
-        }
-        SMSync.addEventListener(`click`, function () {
-            SMSync.classList.add(`esgst-busy`);
-            checkSync(true, function (CurrentDate) {
-                SMSync.classList.remove(`esgst-busy`);
-                if (CurrentDate) {
-                    SMLastSync.classList.remove(`esgst-notification-warning`);
-                    SMLastSync.classList.add(`esgst-notification-success`);
-                    SMLastSync.innerHTML = `
-                        <i class="fa fa-check-circle"></i> Last synced ${CurrentDate.toLocaleString()}.
-                    `;
-                }
-            });
-        });
         key = esgst.steamApiKey;
         if (key) {
             SMAPIKey.value = key;
         }
-        SMSyncFrequency.addEventListener(`change`, function () {
-            setSetting(`syncFrequency`, SMSyncFrequency.selectedIndex);
+        heading.firstElementChild.addEventListener(`click`, () => {
+            heading.firstElementChild.classList.add(`esgst-busy`);
+            checkSync(true, () => {
+                heading.firstElementChild.classList.remove(`esgst-busy`);
+            });
         });
-        heading.firstElementChild.addEventListener(`click`, loadDataManagement.bind(null, false, `import`));
-        heading.firstElementChild.nextElementSibling.addEventListener(`click`, loadDataManagement.bind(null, false, `export`));
-        heading.firstElementChild.nextElementSibling.nextElementSibling.addEventListener(`click`, loadDataManagement.bind(null, false, `delete`));
+        heading.firstElementChild.nextElementSibling.addEventListener(`click`, loadDataManagement.bind(null, false, `import`));
+        heading.firstElementChild.nextElementSibling.nextElementSibling.addEventListener(`click`, loadDataManagement.bind(null, false, `export`));
+        heading.firstElementChild.nextElementSibling.nextElementSibling.nextElementSibling.addEventListener(`click`, loadDataManagement.bind(null, false, `delete`));
+        heading.firstElementChild.nextElementSibling.nextElementSibling.nextElementSibling.nextElementSibling.addEventListener(`click`, exportSettings);
         if (SMManageUserTags) {
             SMManageUserTags.addEventListener(`click`, openManageUserTagsPopup);
         }
@@ -28308,16 +28496,13 @@ this._delay(function(){n===this.counter&&this.refreshPositions(!s)})},_clear:fun
         }
     }
 
-    function getMonthDay(timestamp) {
-        var date, month, months;
-        date = new Date(timestamp);
-        months = [`Jan`, `Feb`, `Mar`, `Apr`, `May`, `Jun`, `Jul`, `Aug`, `Sep`, `Oct`, `Nov`, `Dec`];
-        month = months[date.getMonth()];
-        return `${month} ${date.getDate()}`;
+    function getDate(timestamp) {
+        let date = new Date(timestamp);
+        return `${[`Jan`, `Feb`, `Mar`, `Apr`, `May`, `Jun`, `Jul`, `Aug`, `Sep`, `Oct`, `Nov`, `Dec`][date.getMonth()]} ${date.getDate()}, ${date.getFullYear()}`;
     }
 
     function setSMManageEntriesTracker(button) {
-        var average, date, dates, entry, entries, history, historyHtml, i, key, keys, popup, table, tableHtml, total;
+        var average, date, dates, entry, entries, highest, history, historyHtml, i, key, keys, lowest, popup, table, tableHtml, total;
         button.addEventListener(`click`, function () {
             entries = JSON.parse(getValue(`entries`, `[]`));
             historyHtml = ``;
@@ -28329,17 +28514,19 @@ this._delay(function(){n===this.counter&&this.refreshPositions(!s)})},_clear:fun
                         ${entry.entry ? `Entered` : `Left`} <a href="/giveaway/${entry.code}/">${entry.name}</a> on ${getTimestamp(entry.timestamp / 1e3, esgst.at_24, esgst.at_s)}
                     </li>
                 `;
-                date = getMonthDay(entry.timestamp);
-                if (!dates[date]) {
-                    dates[date] = {
+                date = getDate(entry.timestamp);
+                key = new Date(date).getTime();
+                if (!dates[key]) {
+                    dates[key] = {
+                        date: date,
                         entered: 0,
                         left: 0
                     };
                 }
                 if (entry.entry) {
-                    dates[date].entered += 1;
+                    dates[key].entered += 1;
                 } else {
-                    dates[date].left += 1;
+                    dates[key].left += 1;
                 }
             }
             tableHtml = `
@@ -28353,19 +28540,35 @@ this._delay(function(){n===this.counter&&this.refreshPositions(!s)})},_clear:fun
             `;
             keys = Object.keys(dates);
             keys.sort();
+            lowest = {
+                count: 999999999,
+                date: null
+            };
+            highest = {
+                count: 0,
+                date: null
+            };
             total = 0;
-            for (i = keys.length - 1; i >= 0; --i) {
+            for (i = keys.length - 1; i > -1; --i) {
                 key = keys[i];
                 tableHtml += `
                     <div class="table__row-outer-wrap">
                         <div class="table__row-inner-wrap">
-                            <div class="table__column--width-small">${key}</div>
+                            <div class="table__column--width-small">${dates[key].date}</div>
                             <div class="table__column--width-small">${dates[key].entered}</div>
                             <div class="table__column--width-small">${dates[key].left}</div>
                         </div>
                     </div>
                 `;
                 total += dates[key].entered;
+                if (dates[key].entered < lowest.count) {
+                    lowest.count = dates[key].entered;
+                    lowest.date = dates[key].date;
+                }
+                if (dates[key].entered > highest.count) {
+                    highest.count = dates[key].entered;
+                    highest.date = dates[key].date;
+                }
             }
             tableHtml += `
                     </div>
@@ -28376,6 +28579,12 @@ this._delay(function(){n===this.counter&&this.refreshPositions(!s)})},_clear:fun
             popup.description.insertAdjacentHTML(`afterBegin`, `
                 <div>
                     You enter on average <span class="esgst-bold">${average}</span> giveaways per day.
+                </div>
+                <div>
+                    Your highest entry count was on <span class="esgst-italic">${highest.date}</span> with <span class="esgst-bold">${highest.count}</span> entries.
+                </div>
+                <div>
+                    Your lowest entry count was on <span class="esgst-italic">${lowest.date}</span> with <span class="esgst-bold">${lowest.count}</span> entries.
                 </div>
             `);
             history = insertHtml(popup.scrollable, `beforeEnd`, `
@@ -28863,7 +29072,7 @@ this._delay(function(){n===this.counter&&this.refreshPositions(!s)})},_clear:fun
                 }
             }
         }
-        if (esgst.gf && esgst.gf_h && main) {
+        if (esgst.gf && esgst.gf_s && main) {
             var savedGiveaway = esgst.giveaways[giveaway.code];
             if ((esgst.giveawaysPath || esgst.groupPath) && savedGiveaway && savedGiveaway.hidden && savedGiveaway.code) {
                 giveaway.outerWrap.remove();
@@ -28984,12 +29193,12 @@ this._delay(function(){n===this.counter&&this.refreshPositions(!s)})},_clear:fun
         if (esgst.codb) {
             addCodbButtons(discussions);
         }
-        if ((esgst.df && esgst.df_h) || esgst.dh) {
+        if ((esgst.df && esgst.df_s) || esgst.dh) {
             for (i = 0, n = discussions.length; i < n; ++i) {
                 discussion = discussions[i];
                 savedDiscussion = savedDiscussions[discussion.code];
                 if (savedDiscussion) {
-                    if (esgst.df && esgst.df_h) {
+                    if (esgst.df && esgst.df_s) {
                         if (savedDiscussion.hidden) {
                             addDfUnhideButton(discussion, main);
                         } else {
@@ -29008,7 +29217,7 @@ this._delay(function(){n===this.counter&&this.refreshPositions(!s)})},_clear:fun
                         }
                     }
                 } else {
-                    if (esgst.df && esgst.df_h) {
+                    if (esgst.df && esgst.df_s) {
                         addDfHideButton(discussion, main);
                     }
                     if (esgst.dh) {
@@ -29067,7 +29276,7 @@ this._delay(function(){n===this.counter&&this.refreshPositions(!s)})},_clear:fun
                             notifyNewVersion(version);
                         }
                     }
-                    if (main && esgst.df && esgst.df_h && savedDiscussions[discussion.code] && savedDiscussions[discussion.code].hidden) {
+                    if (main && esgst.df && esgst.df_s && savedDiscussions[discussion.code] && savedDiscussions[discussion.code].hidden) {
                         discussion.outerWrap.remove();
                         return null;
                     }
@@ -30116,7 +30325,7 @@ this._delay(function(){n===this.counter&&this.refreshPositions(!s)})},_clear:fun
         }
 
         function loadNextPage() {
-            if (!busy && !paused && !ended && scrollY >= document.body.offsetHeight - innerHeight * 2) {
+            if (!esgst.stopEs && !busy && !paused && !ended && scrollY >= document.body.offsetHeight - innerHeight * 2) {
                 busy = true;
                 document.removeEventListener(`scroll`, loadNextPage);
                 progress = insertHtml(esgst.pagination.firstElementChild, `beforeEnd`, `
@@ -30304,6 +30513,12 @@ this._delay(function(){n===this.counter&&this.refreshPositions(!s)})},_clear:fun
                 <i class="fa fa-circle-o-notch fa-spin"></i>
             `;
             request(null, null, false, `${esgst.searchUrl}${pageIndex}`, getNextPage.bind(null, true, false));
+            if (!esgst.hr) {
+                request(null, null, false, esgst.sg ? `/giveaways/search?type=wishlist` : `/`, response => {
+                    refreshHeaderElements(DOM.parse(response.responseText));
+                    refreshHeader(getHrCache());
+                });
+            }
         }
 
         function refreshAllPages() {
@@ -30320,6 +30535,12 @@ this._delay(function(){n===this.counter&&this.refreshPositions(!s)})},_clear:fun
                 request(null, null, false, `${esgst.searchUrl}${page}`, getNextPage.bind(null, true, page));
             }
             setTimeout(checkRefreshComplete, 250);
+            if (!esgst.hr) {
+                request(null, null, false, esgst.sg ? `/giveaways/search?type=wishlist` : `/`, response => {
+                    refreshHeaderElements(DOM.parse(response.responseText));
+                    refreshHeader(getHrCache());
+                });
+            }
         }
 
         function checkRefreshComplete() {
@@ -31636,6 +31857,28 @@ this._delay(function(){n===this.counter&&this.refreshPositions(!s)})},_clear:fun
         dm.computerSpace.lastElementChild.textContent = convertBytes(totalGM);
     }
 
+    function exportSettings() {
+        let data, url;
+        data = {
+            settings: JSON.parse(getValue(`settings`, `{}`))
+        };
+        delete data.settings.avatar;
+        delete data.settings.lastSync;
+        delete data.settings.steamApiKey;
+        delete data.settings.steamId;
+        delete data.settings.syncFrequency;
+        delete data.settings.username;
+        data = new Blob([JSON.stringify(data)]);
+        url = URL.createObjectURL(data);
+        file = document.createElement(`a`);
+        file.download = `esgst_data_${new Date().toISOString()}.json`;
+        file.href = url;
+        document.body.appendChild(file);
+        file.click();
+        file.remove();
+        URL.revokeObjectURL(url);
+    }
+
     function checkDropboxComplete(data, dm, win, callback) {
         if (!win || win.closed) {
             if (dm.type === `export` || (data && esgst.settings.exportBackup)) {
@@ -32135,9 +32378,11 @@ this._delay(function(){n===this.counter&&this.refreshPositions(!s)})},_clear:fun
                 border-bottom: 1px dotted;
             }
 
-            .esgst-sync-frequency {
-                display: block;
-                width: 200px;
+            .esgst-auto-sync {
+                display: inline-block;
+                margin: -5px 5px 0;
+                padding: 2px;
+                width: 50px;
             }
 
             .esgst-ap-popout .featured__table__row__left:not(.esgst-uh-title), .esgst-mr-reply, .esgst-mr-edit, .esgst-mr-delete, .esgst-mr-undelete {
@@ -33096,6 +33341,26 @@ this._delay(function(){n===this.counter&&this.refreshPositions(!s)})},_clear:fun
                 margin: 0 0 0 5px;
             }
 
+            .esgst-gv-popout .esgst-gwc, .esgst-gv-popout .esgst-gwr, .esgst-gv-popout .esgst-ttec {
+                display: inline-block;
+                margin: 0 !important;
+                padding: 0 5px !important;
+                width: 67px !important;
+                vertical-align: top;
+            }
+
+            .esgst-gv-popout .esgst-gp-button {
+                display: inline-block;
+                margin: 0 !important;
+                width: auto !important;
+                vertical-align: top;
+            }
+
+            .esgst-gv-popout .esgst-gp-button >* {
+                padding: 0 5px !important;
+                width: 67px !important;
+            }
+
             .esgst-giveaway-panel .form__submit-button, .esgst-giveaway-panel .form__saving-button {
                 margin-bottom: 0;
                 min-width: 0;
@@ -33885,6 +34150,34 @@ this._delay(function(){n===this.counter&&this.refreshPositions(!s)})},_clear:fun
     function loadChangelog(version) {
         var changelog, current, html, i, index, n, popup;
         changelog = [
+            {
+                date: `November 4, 2017`,
+                version: `7.7.0`,
+                changelog: `
+                    <ul>
+                        <li><a href="https://github.com/revilheart/ESGST/issues/106">#106</a> Fix a bug in Discussions Sorter that does not sort by created time correctly</li>
+                        <li><a href="https://github.com/revilheart/ESGST/issues/107">#107</a> Stop Endless Scrolling in the entered page when reaching ended giveaways with the ended filter enabled as "hide all"</li>
+                        <li><a href="https://github.com/revilheart/ESGST/issues/108">#108</a> Allow setting different automatic sync frequencies for each data</li>
+                        <li><a href="https://github.com/revilheart/ESGST/issues/109">#109</a> Separate single giveaway filters from multiple filters</li>
+                        <li><a href="https://github.com/revilheart/ESGST/issues/110">#110</a> Add a fallback method to Next/Previous Train Hotkeys</li>
+                        <li><a href="https://github.com/revilheart/ESGST/issues/111">#111</a> Add an option not to exclude deals from the discussions section in Old Active Discussions Design</li>
+                        <li><a href="https://github.com/revilheart/ESGST/issues/112">#112</a> Add a feature: Time To Enter Calculator</li>
+                        <li><a href="https://github.com/revilheart/ESGST/issues/113">#113</a> Fix a bug that happens when syncing games</li>
+                        <li><a href="https://github.com/revilheart/ESGST/issues/115">#115</a> Fix a bug in Entries Tracker that does not sort the dates correctly</li>
+                        <li><a href="https://github.com/revilheart/ESGST/issues/116">#116</a> Add more stats to Entries Tracker</li>
+                        <li><a href="https://github.com/revilheart/ESGST/issues/117">#117</a> Fix a bug in Giveaway Filters that does not apply overrides correctly</li>
+                        <li><a href="https://github.com/revilheart/ESGST/issues/118">#118</a> Add 2 new links to the header menu</li>
+                        <li><a href="https://github.com/revilheart/ESGST/issues/120">#120</a> Allow exporting settings without personal data</li>
+                        <li><a href="https://github.com/revilheart/ESGST/issues/121">#121</a> Fix a bug that happens when completing the active discussions/deals</li>
+                        <li><a href="https://github.com/revilheart/ESGST/issues/122">#122</a> Refresh header when refreshing page through Endless Scrolling if Header Refresher is disabled</li>
+                        <li><a href="https://github.com/revilheart/ESGST/issues/123">#123</a> Add a button to reset the Imgur setting in Comment Formatting Helper</li>
+                        <li><a href="https://github.com/revilheart/ESGST/issues/124">#124</a> Separate the Grid View elements below the enter/leave button in two columns</li>
+                        <li><a href="https://github.com/revilheart/ESGST/issues/125">#125</a> Fix a bug that does not set the default value for new settings correctly</li>
+                        <li><a href="https://github.com/revilheart/ESGST/issues/126">#126</a> Go to the next unread comment after going to the first in Comment Tracker</li>
+                        <li><a href="https://github.com/revilheart/ESGST/issues/127">#127</a> Save data for whitelisted/blacklisted users in Whitelist/Blacklist Checker</li>
+                    </ul>
+                `
+            },
             {
                 date: `November 3, 2017`,
                 version: `7.6.4`,
