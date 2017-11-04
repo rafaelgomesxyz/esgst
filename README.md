@@ -861,6 +861,31 @@ The video above does not get embedded.
 
 ## Changelog
 
+**7.7.0 (November 4, 2017):**
+
+<ul>
+    <li><a href="https://github.com/revilheart/ESGST/issues/106">#106</a> Fix a bug in Discussions Sorter that does not sort by created time correctly</li>
+    <li><a href="https://github.com/revilheart/ESGST/issues/107">#107</a> Stop Endless Scrolling in the entered page when reaching ended giveaways with the ended filter enabled as "hide all"</li>
+    <li><a href="https://github.com/revilheart/ESGST/issues/108">#108</a> Allow setting different automatic sync frequencies for each data</li>
+    <li><a href="https://github.com/revilheart/ESGST/issues/109">#109</a> Separate single giveaway filters from multiple filters</li>
+    <li><a href="https://github.com/revilheart/ESGST/issues/110">#110</a> Add a fallback method to Next/Previous Train Hotkeys</li>
+    <li><a href="https://github.com/revilheart/ESGST/issues/111">#111</a> Add an option not to exclude deals from the discussions section in Old Active Discussions Design</li>
+    <li><a href="https://github.com/revilheart/ESGST/issues/112">#112</a> Add a feature: Time To Enter Calculator</li>
+    <li><a href="https://github.com/revilheart/ESGST/issues/113">#113</a> Fix a bug that happens when syncing games</li>
+    <li><a href="https://github.com/revilheart/ESGST/issues/115">#115</a> Fix a bug in Entries Tracker that does not sort the dates correctly</li>
+    <li><a href="https://github.com/revilheart/ESGST/issues/116">#116</a> Add more stats to Entries Tracker</li>
+    <li><a href="https://github.com/revilheart/ESGST/issues/117">#117</a> Fix a bug in Giveaway Filters that does not apply overrides correctly</li>
+    <li><a href="https://github.com/revilheart/ESGST/issues/118">#118</a> Add 2 new links to the header menu</li>
+    <li><a href="https://github.com/revilheart/ESGST/issues/120">#120</a> Allow exporting settings without personal data</li>
+    <li><a href="https://github.com/revilheart/ESGST/issues/121">#121</a> Fix a bug that happens when completing the active discussions/deals</li>
+    <li><a href="https://github.com/revilheart/ESGST/issues/122">#122</a> Refresh header when refreshing page through Endless Scrolling if Header Refresher is disabled</li>
+    <li><a href="https://github.com/revilheart/ESGST/issues/123">#123</a> Add a button to reset the Imgur setting in Comment Formatting Helper</li>
+    <li><a href="https://github.com/revilheart/ESGST/issues/124">#124</a> Separate the Grid View elements below the enter/leave button in two columns</li>
+    <li><a href="https://github.com/revilheart/ESGST/issues/125">#125</a> Fix a bug that does not set the default value for new settings correctly</li>
+    <li><a href="https://github.com/revilheart/ESGST/issues/126">#126</a> Go to the next unread comment after going to the first in Comment Tracker</li>
+    <li><a href="https://github.com/revilheart/ESGST/issues/127">#127</a> Save data for whitelisted/blacklisted users in Whitelist/Blacklist Checker</li>
+</ul>
+
 **7.6.4 (November 3, 2017):**
 
 <ul>
