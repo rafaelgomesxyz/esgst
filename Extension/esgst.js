@@ -593,7 +593,25 @@ function loadEsgst(storage) {
                 wbc_checkNew: `WBC_RC`,
                 wbc_clearCache: `WBC_CC`,
                 gwc_e: `gwc`,
-                gwr_e: `gwr`
+                gwr_e: `gwr`,
+                autoSyncGroups: `syncFrequency`,
+                autoSyncWhitelist: `syncFrequency`,
+                autoSyncBlacklist: `syncFrequency`,
+                autoSyncHiddenGames: `syncFrequency`,
+                autoSyncGames: `syncFrequency`,
+                autoSyncWonGames: `syncFrequency`,
+                autoSyncReducedCvGames: `syncFrequency`,
+                autoSyncNoCvGames: `syncFrequency`,
+                autoSyncGiveaways: `syncFrequency`,
+                lastSyncGroups: `lastSync`,
+                lastSyncWhitelist: `lastSync`,
+                lastSyncBlacklist: `lastSync`,
+                lastSyncHiddenGames: `lastSync`,
+                lastSyncGames: `lastSync`,
+                lastSyncWonGames: `lastSync`,
+                lastSyncReducedCvGames: `lastSync`,
+                lastSyncNoCvGames: `lastSync`,
+                lastSyncGiveaways: `lastSync`
             };
             esgst.defaultValues = {
                 df_m: true,
@@ -724,6 +742,24 @@ function loadEsgst(storage) {
                 syncReducedCvGames: true,
                 syncNoCvGames: true,
                 syncGiveaways: true,
+                autoSyncGroups: 0,
+                autoSyncWhitelist: 0,
+                autoSyncBlacklist: 0,
+                autoSyncHiddenGames: 0,
+                autoSyncGames: 0,
+                autoSyncWonGames: 0,
+                autoSyncReducedCvGames: 0,
+                autoSyncNoCvGames: 0,
+                autoSyncGiveaways: 0,
+                lastSyncGroups: 0,
+                lastSyncWhitelist: 0,
+                lastSyncBlacklist: 0,
+                lastSyncHiddenGames: 0,
+                lastSyncGames: 0,
+                lastSyncWonGames: 0,
+                lastSyncReducedCvGames: 0,
+                lastSyncNoCvGames: 0,
+                lastSyncGiveaways: 0,
                 ged: true,
                 df_enable: true,
                 df_enableCreated: false,
@@ -836,9 +872,7 @@ function loadEsgst(storage) {
                 avatar: ``,
                 username: ``,
                 steamId: ``,
-                steamApiKey: ``,
-                lastSync: 0,
-                syncFrequency: 0
+                steamApiKey: ``
             };
             esgst.users = getValue(`users`);
             if (typeof esgst.users === `undefined`) {
@@ -8443,14 +8477,22 @@ function checkSync(menu, callback) {
             }
         }
         setSync(false, callback);
-    } else if (esgst.syncFrequency && Date.now() - esgst.lastSync > esgst.syncFrequency * 86400000) {
-        if (esgst.sg) {
-            setSetting(`username`, document.getElementsByClassName(`nav__avatar-outer-wrap`)[0].href.match(/\/user\/(.+)/)[1]);
-            setSetting(`avatar`, document.getElementsByClassName(`nav__avatar-inner-wrap`)[0].style.backgroundImage.match(/\("(.+)"\)/)[1]);
-        } else {
-            setSetting(`avatar`, document.getElementsByClassName(`nav_avatar`)[0].style.backgroundImage.match(/\("(.+)"\)/)[1]);
+    } else {
+        let parameters = ``;
+        [`Groups`, `Whitelist`, `Blacklist`, `HiddenGames`, `Games`, `WonGames`, `ReducedCvGames`, `NoCvGames`, `Giveaways`].forEach(key => {
+            if (esgst[`autoSync${key}`] && Date.now() - esgst[`lastSync${key}`] > esgst[`autoSync${key}`] * 86400000) {
+                parameters += `${key}=1&`;
+            }
+        });
+        if (parameters) {
+            if (esgst.sg) {
+                setSetting(`username`, document.getElementsByClassName(`nav__avatar-outer-wrap`)[0].href.match(/\/user\/(.+)/)[1]);
+                setSetting(`avatar`, document.getElementsByClassName(`nav__avatar-inner-wrap`)[0].style.backgroundImage.match(/\("(.+)"\)/)[1]);
+            } else {
+                setSetting(`avatar`, document.getElementsByClassName(`nav_avatar`)[0].style.backgroundImage.match(/\("(.+)"\)/)[1]);
+            }
+            open(`/esgst/sync?${parameters.replace(/&$/, ``)}`);
         }
-        open(`/esgst/sync`);
     }
 }
 
@@ -8464,20 +8506,26 @@ function setSync(autoSync, mainCallback) {
         sync(syncer, mainCallback);
     } else if (syncer.autoSync || mainCallback) {
         popup = new Popup(`fa-refresh`, `Sync`);
+        popup.description.insertAdjacentHTML(`afterBegin`, `<div class="esgst-description">By selecting a number X in the dropdown menu next to each data other than 0, you are enabling automatic sync for that data (which means the data will be synced every X days).</div>`);
         if (!syncer.autoSync) {
-            let switches = {};
-            switches.syncGroups = new ToggleSwitch(popup.description, `syncGroups`, false, `Steam Groups`, false, false, null, esgst.syncGroups);
-            switches.syncWhitelist = new ToggleSwitch(popup.description, `syncWhitelist`, false, `Whitelist`, false, false, null, esgst.syncWhitelist);
-            switches.syncBlacklist = new ToggleSwitch(popup.description, `syncBlacklist`, false, `Blacklist`, false, false, null, esgst.syncBlacklist);
-            switches.syncHiddenGames = new ToggleSwitch(popup.description, `syncHiddenGames`, false, `Hidden Games`, false, false, null, esgst.syncHiddenGames);
-            switches.syncGames = new ToggleSwitch(popup.description, `syncGames`, false, `Owned/Wishlisted/Ignored Games`, false, false, null, esgst.syncGames);
-            switches.syncWonGames = new ToggleSwitch(popup.description, `syncWonGames`, false, `Won Games`, false, false, null, esgst.syncWonGames);
-            switches.syncReducedCvGames = new ToggleSwitch(popup.description, `syncReducedCvGames`, false, `Reduced CV Games`, false, false, null, esgst.syncReducedCvGames);
-            switches.syncNoCvGames = new ToggleSwitch(popup.description, `syncNoCvGames`, false, `No CV Games`, false, false, null, esgst.syncNoCvGames);
-            switches.syncGiveaways = new ToggleSwitch(popup.description, `syncGiveaways`, false, `Giveaways`, false, false, null, esgst.syncGiveaways);
-            popup.description.appendChild(new ButtonSet(`grey`, `grey`, `fa-circle`, `fa-circle-o-notch fa-spin`, `Select All`, ``, selectSwitches.bind(null, switches, `enable`)).set);
-            popup.description.appendChild(new ButtonSet(`grey`, `grey`, `fa-circle-o`, `fa-circle-o-notch fa-spin`, `Select None`, ``, selectSwitches.bind(null, switches, `disable`)).set);
-            popup.description.appendChild(new ButtonSet(`grey`, `grey`, `fa-dot-circle-o`, `fa-circle-o-notch fa-spin`, `Select Inverse`, ``, selectSwitches.bind(null, switches, `toggle`)).set);
+            syncer.switches = {
+                syncGroups: new ToggleSwitch(popup.description, `syncGroups`, false, `Steam Groups`, false, false, null, esgst.syncGroups),
+                syncWhitelist: new ToggleSwitch(popup.description, `syncWhitelist`, false, `Whitelist`, false, false, null, esgst.syncWhitelist),
+                syncBlacklist: new ToggleSwitch(popup.description, `syncBlacklist`, false, `Blacklist`, false, false, null, esgst.syncBlacklist),
+                syncHiddenGames: new ToggleSwitch(popup.description, `syncHiddenGames`, false, `Hidden Games`, false, false, null, esgst.syncHiddenGames),
+                syncGames: new ToggleSwitch(popup.description, `syncGames`, false, `Owned/Wishlisted/Ignored Games`, false, false, null, esgst.syncGames),
+                syncWonGames: new ToggleSwitch(popup.description, `syncWonGames`, false, `Won Games`, false, false, null, esgst.syncWonGames),
+                syncReducedCvGames: new ToggleSwitch(popup.description, `syncReducedCvGames`, false, `Reduced CV Games`, false, false, null, esgst.syncReducedCvGames),
+                syncNoCvGames: new ToggleSwitch(popup.description, `syncNoCvGames`, false, `No CV Games`, false, false, null, esgst.syncNoCvGames),
+                syncGiveaways: new ToggleSwitch(popup.description, `syncGiveaways`, false, `Giveaways`, false, false, null, esgst.syncGiveaways)
+            };
+            let id;
+            for (id in syncer.switches) {
+                setAutoSync(id, syncer.switches);
+            }
+            popup.description.appendChild(new ButtonSet(`grey`, `grey`, `fa-circle`, `fa-circle-o-notch fa-spin`, `Select All`, ``, selectSwitches.bind(null, syncer.switches, `enable`)).set);
+            popup.description.appendChild(new ButtonSet(`grey`, `grey`, `fa-circle-o`, `fa-circle-o-notch fa-spin`, `Select None`, ``, selectSwitches.bind(null, syncer.switches, `disable`)).set);
+            popup.description.appendChild(new ButtonSet(`grey`, `grey`, `fa-dot-circle-o`, `fa-circle-o-notch fa-spin`, `Select Inverse`, ``, selectSwitches.bind(null, syncer.switches, `toggle`)).set);
         }
         syncer.progress = insertHtml(popup.description, `beforeEnd`, `
             <div class="esgst-hidden esgst-popup-progress"></div>
@@ -8500,7 +8548,30 @@ function setSync(autoSync, mainCallback) {
         `);
         syncer.scrollable = description.firstElementChild;
         syncer.progress = description.lastElementChild;
+        syncer.parameters = getParameters();
         sync(syncer);
+    }
+}
+
+function setAutoSync(id, switches) {
+    let html, i, key, select, toggleSwitch;
+    key = id.replace(/^sync/, ``);
+    toggleSwitch = switches[id];
+    html = `<select class="esgst-auto-sync">`;
+    for (i = 0; i < 31; ++i) {
+        html += `<option>${i}</option>`;
+    }
+    html += `</select>`;
+    select = insertHtml(toggleSwitch.name, `beforeEnd`, html);
+    select.selectedIndex = esgst[`autoSync${key}`];
+    select.addEventListener(`change`, function () {
+        setSetting(`autoSync${key}`, select.selectedIndex);
+        esgst[`autoSync${key}`] = select.selectedIndex;
+    });
+    if (esgst[`lastSync${key}`]) {
+        toggleSwitch.date = insertHtml(toggleSwitch.name, `beforeEnd`, `<span><i class="fa fa-check-circle"></i> Last synced ${new Date(esgst[`lastSync${key}`]).toLocaleString()}</span>`);
+    } else {
+        toggleSwitch.date = insertHtml(toggleSwitch.name, `beforeEnd`, `<span><i class="fa fa-times"></i> Never synced.</span>`);
     }
 }
 
@@ -8531,17 +8602,26 @@ function sync(syncer, mainCallback, callback) {
 }
 
 function completeSync(syncer, mainCallback, callback) {
-    var currentDate;
     if (!esgst.firstInstall) {
+        let currentDate, currentTime, id, key, string;
         syncer.progress.innerHTML = `Synced!`;
         currentDate = new Date();
-        setSetting(`lastSync`, currentDate.getTime());
+        currentTime = currentDate.getTime();
+        string = currentDate.toLocaleString();
+        for (id in syncer.switches) {
+            if (esgst.settings[id]) {
+                key = id.replace(/^sync/, ``);
+                setSetting(`lastSync${key}`, currentTime);
+                esgst[`lastSync${key}`] = currentTime;
+                syncer.switches[id].date.innerHTML = `<i class="fa fa-check-circle"></i> Last synced ${string}`;
+            }
+        }
     }
     if (callback) {
         callback();
     }
     if (mainCallback) {
-        mainCallback(currentDate);
+        mainCallback();
     }
 }
 
@@ -8554,7 +8634,7 @@ function continueSyncStep1(syncer, callback) {
     var i, key, n, newGroups, savedGiveaways, savedGroups;
     if (esgst.firstInstall) {
         callback();
-    } else if (esgst.sg && (esgst.settings.syncGroups || syncer.autoSync)) {
+    } else if (esgst.sg && ((syncer.parameters && syncer.parameters.Groups) || (!syncer.parameters && (esgst.settings.syncGroups || syncer.autoSync)))) {
         syncer.progress.lastElementChild.textContent = `Syncing your Steam groups...`;
         syncer.groups = {};
         savedGroups = JSON.parse(getValue(`groups`));
@@ -8676,7 +8756,7 @@ function getGroupId(avatar, code, elements, i, n, name, syncer, callback, respon
 }
 
 function continueSyncStep2(syncer, callback) {
-    if (!syncer.autoSync && (esgst.settings.syncWhitelist || esgst.settings.syncBlacklist)) {
+    if (!syncer.autoSync && ((syncer.parameters && (syncer.parameters.Whitelist || syncer.parameters.Blacklist)) || (!syncer.parameters && (esgst.settings.syncWhitelist || esgst.settings.syncBlacklist)))) {
         syncWhitelistBlacklist(syncer, continueSyncStep3.bind(null, syncer, callback));
     } else {
         continueSyncStep3(syncer, callback);
@@ -8685,9 +8765,9 @@ function continueSyncStep2(syncer, callback) {
 
 function syncWhitelistBlacklist(syncer, callback) {
     if (!syncer.canceled) {
-        if (esgst.settings.syncWhitelist && esgst.settings.syncBlacklist) {
+        if ((syncer.parameters && syncer.parameters.Whitelist && syncer.parameters.Blacklist) || (!syncer.parameters && esgst.settings.syncWhitelist && esgst.settings.syncBlacklist)) {
             deleteUserValues([`whitelisted`, `whitelistedDate`, `blacklisted`, `blacklistedDate`], continueWhitelistBlacklistSync.bind(null, syncer, callback));
-        } else if (esgst.settings.syncWhitelist) {
+        } else if ((syncer.parameters && syncer.parameters.Whitelist) || (!syncer.parameters && esgst.settings.syncWhitelist)) {
             deleteUserValues([`whitelisted`, `whitelistedDate`], continueWhitelistBlacklistSync.bind(null, syncer, callback));
         } else {
             deleteUserValues([`blacklisted`, `blacklistedDate`], continueWhitelistBlacklistSync.bind(null, syncer, callback));
@@ -8696,7 +8776,7 @@ function syncWhitelistBlacklist(syncer, callback) {
 }
 
 function continueWhitelistBlacklistSync(syncer, callback) {
-    if (esgst.settings.syncWhitelist) {
+    if ((syncer.parameters && syncer.parameters.Whitelist) || (!syncer.parameters && esgst.settings.syncWhitelist)) {
         syncer.progress.lastElementChild.textContent = `Syncing your whitelist...`;
         syncer.users = [];
         getWhitelistBlacklist(`whitelisted`, 1, syncer, `https://www.steamgifts.com/account/manage/whitelist/search?page=`, checkBlacklistSync.bind(null, syncer, callback));
@@ -8737,7 +8817,7 @@ function getWhitelistBlacklistAndContinueSync(key, nextPage, syncer, url, callba
 }
 
 function checkBlacklistSync(syncer, callback) {
-    if (esgst.settings.syncBlacklist) {
+    if ((syncer.parameters && syncer.parameters.Blacklist) || (!syncer.parameters && esgst.settings.syncBlacklist)) {
         syncer.progress.lastElementChild.textContent = `Syncing your blacklist...`;
         getWhitelistBlacklist(`blacklisted`, 1, syncer, `https://www.steamgifts.com/account/manage/blacklist/search?page=`, completeWhitelistBlacklistSync.bind(null, syncer, callback));
     } else {
@@ -8753,7 +8833,7 @@ function completeWhitelistBlacklistSync(syncer, callback) {
 }
 
 function continueSyncStep3(syncer, callback) {
-    if (!syncer.autoSync && esgst.settings.syncHiddenGames) {
+    if (!syncer.autoSync && ((syncer.parameters && syncer.parameters.HiddenGames) || (!syncer.parameters && esgst.settings.syncHiddenGames))) {
         syncer.progress.lastElementChild.textContent = `Syncing your hidden games...`;
         syncer.hiddenGames = {
             apps: [],
@@ -8814,7 +8894,7 @@ function saveHiddenGames(syncer, callback, deleteLock) {
 }
 
 function continueSyncStep4(syncer, callback) {
-    if (syncer.autoSync || esgst.settings.syncGames) {
+    if ((syncer.parameters && syncer.parameters.Games) || (!syncer.parameters && (syncer.autoSync || esgst.settings.syncGames))) {
         syncer.progress.lastElementChild.textContent = `Syncing your wishlisted/owned/ignored games...`;
         syncGames(syncer, syncAltAccounts.bind(null, 0, esgst.settings.gc_o_altAccounts.length, syncer, continueSyncStep5.bind(null, syncer, callback)));
     } else {
@@ -9045,7 +9125,7 @@ function continueSyncStep5(syncer, callback, games, html) {
     if (html) {
         syncer.scrollable.insertAdjacentHTML(`beforeEnd`, html);
     }
-    if (!syncer.autoSync && esgst.settings.syncWonGames) {
+    if (!syncer.autoSync && ((syncer.parameters && syncer.parameters.WonGames) || (!syncer.parameters && esgst.settings.syncWonGames))) {
         syncer.progress.lastElementChild.textContent = `Syncing your won games...`;
         getWonGames(`0`, continueSyncStep6.bind(null, syncer, callback));
     } else {
@@ -9057,7 +9137,7 @@ function continueSyncStep6(syncer, callback, games, html) {
     if (html) {
         syncer.scrollable.insertAdjacentHTML(`beforeEnd`, html);
     }
-    if (!syncer.autoSync && esgst.settings.syncReducedCvGames) {
+    if (!syncer.autoSync && ((syncer.parameters && syncer.parameters.ReducedCvGames) || (!syncer.parameters && esgst.settings.syncReducedCvGames))) {
         syncer.progress.lastElementChild.textContent = `Syncing reduced CV games...`;
         request(null, null, false, `https://script.google.com/macros/s/AKfycbwJK-7RBh5ghaKprEsmx4DQ6CyXc_3_9eYiOCu3yhI6W4B3W4YN/exec`, syncCvGames.bind(null, syncer, continueSyncStep7.bind(null, syncer, callback)));
     } else {
@@ -9066,7 +9146,7 @@ function continueSyncStep6(syncer, callback, games, html) {
 }
 
 function continueSyncStep7(syncer, callback) {
-    if (!syncer.autoSync && esgst.settings.syncNoCvGames) {
+    if (!syncer.autoSync && ((syncer.parameters && syncer.parameters.NoCvGames) || (!syncer.parameters && esgst.settings.syncNoCvGames))) {
         syncer.progress.lastElementChild.textContent = `Syncing no CV games...`;
         request(null, null, false, `https://script.google.com/macros/s/AKfycbym0nzeyr3_b93ViuiZRivkBMl9PBI2dTHQxNC0rtgeQSlCTI-P/exec`, syncCvGames.bind(null, syncer, continueSyncStep8.bind(null, syncer, callback)));
     } else {
@@ -9075,7 +9155,7 @@ function continueSyncStep7(syncer, callback) {
 }
 
 function continueSyncStep8(syncer, callback) {
-    if (!syncer.autoSync && esgst.settings.syncGiveaways && esgst.sg) {
+    if (!syncer.autoSync && ((syncer.parameters && syncer.parameters.Giveaways) || (!syncer.parameters && esgst.settings.syncGiveaways)) && esgst.sg) {
         syncer.progress.lastElementChild.textContent = `Syncing your giveaways...`;
         var user = {
             steamId: esgst.steamId,
@@ -27274,10 +27354,7 @@ function completeMtSave(mt, popup, callback) {
 /* */
 
 function loadSMMenu(tab) {
-    var Selected, Item, SMSyncFrequency, I, Container, SMGeneral, SMGiveaways, SMDiscussions, SMCommenting, SMUsers, SMOthers, SMManageFilteredUsers,
-        SMGeneralFeatures, SMGiveawayFeatures, SMDiscussionFeatures, SMCommentingFeatures, SMUserGroupGamesFeatures, SMOtherFeatures,
-        SMLastSync, LastSync, SMAPIKey;
-    var popup;
+    let I, Container, SMManageFilteredUsers, SMAPIKey, popup;
     if (tab) {
         document.body.className = `esgst-tab-menu`;
         Container = document.body;
@@ -27286,17 +27363,17 @@ function loadSMMenu(tab) {
         popup.description.classList.add(`esgst-text-left`);
         Container = popup.scrollable;
     }
-    SMSyncFrequency = `<select class="esgst-sync-frequency">`;
-    for (I = 0; I <= 30; ++I) {
-        SMSyncFrequency += `<option>${I}</option>`;
-    }
-    SMSyncFrequency += `</select>`;
     Container.innerHTML = `
         <div class="esgst-page-heading"></div>
         <div class="esgst-settings-menu"></div>
     `;
     var heading = Container.getElementsByClassName(`esgst-page-heading`)[0];
     createSMButtons(heading, [{
+        Check: true,
+        Icons: [`fa-refresh`],
+        Name: `esgst-heading-button`,
+        Title: `Sync data`
+    }, {
         Check: true,
         Icons: [`fa-arrow-circle-up`],
         Name: `esgst-heading-button`,
@@ -27359,25 +27436,6 @@ function loadSMMenu(tab) {
     }]);
     var SMMenu = Container.getElementsByClassName(`esgst-settings-menu`)[0];
     var j = 0;
-    SMMenu.insertAdjacentHTML(`beforeEnd`,
-        createSMSections(++j, [{
-            Title: `Sync`,
-            HTML: `
-                ${SMSyncFrequency}
-                <div class="esgst-description">Select from how many days to how many days you want the automatic sync to run (0 to disable it).</div>
-                <div class="esgst-form-sync">
-                    <div class="esgst-form-sync-data">
-                        <div class="esgst-notification esgst-notification-warning esgst-last-sync">
-                            <i class="fa fa-question-circle"></i> Never synced.
-                        </div>
-                    </div>
-                    <div class="form__sync-default esgst-sync">
-                        <i class="fa fa-refresh"></i> Sync
-                    </div>
-                </div>
-            `
-        }])
-    );
     var sections = {
         general: {
             index: 1
@@ -27444,7 +27502,6 @@ function loadSMMenu(tab) {
     var SMManageEntriesTracker = Container.getElementsByClassName(`SMManageEntriesTracker`)[0];
     var SMManageUserTags = Container.getElementsByClassName(`SMManageUserTags`)[0];
     var SMManageGameTags = Container.getElementsByClassName(`SMManageGameTags`)[0];
-    SMSyncFrequency = Container.getElementsByClassName(`esgst-sync-frequency`)[0];
     if (esgst.wbc) {
         addWBCButton(null, Container.getElementsByClassName(`esgst-wbc-button`)[0]);
     }
@@ -27452,40 +27509,21 @@ function loadSMMenu(tab) {
     if (esgst.namwc) {
         setNAMWCPopup(SMNAMWCButton, null, true);
     }
-    SMLastSync = Container.getElementsByClassName(`esgst-last-sync`)[0];
-    var SMSync = Container.getElementsByClassName(`esgst-sync`)[0];
     SMAPIKey = Container.getElementsByClassName(`esgst-steam-api-key`)[0];
-    SMSyncFrequency.selectedIndex = esgst.syncFrequency;
-    LastSync = esgst.lastSync;
-    if (LastSync) {
-        SMLastSync.classList.remove(`esgst-notification-warning`);
-        SMLastSync.classList.add(`esgst-notification-success`);
-        SMLastSync.innerHTML = `<i class="fa fa-check-circle"></i> Last synced ${new Date(LastSync).toLocaleString()}.`;
-    }
-    SMSync.addEventListener(`click`, function () {
-        SMSync.classList.add(`esgst-busy`);
-        checkSync(true, function (CurrentDate) {
-            SMSync.classList.remove(`esgst-busy`);
-            if (CurrentDate) {
-                SMLastSync.classList.remove(`esgst-notification-warning`);
-                SMLastSync.classList.add(`esgst-notification-success`);
-                SMLastSync.innerHTML = `
-                    <i class="fa fa-check-circle"></i> Last synced ${CurrentDate.toLocaleString()}.
-                `;
-            }
-        });
-    });
     key = esgst.steamApiKey;
     if (key) {
         SMAPIKey.value = key;
     }
-    SMSyncFrequency.addEventListener(`change`, function () {
-        setSetting(`syncFrequency`, SMSyncFrequency.selectedIndex);
+    heading.firstElementChild.addEventListener(`click`, () => {
+        heading.firstElementChild.classList.add(`esgst-busy`);
+        checkSync(true, () => {
+            heading.firstElementChild.classList.remove(`esgst-busy`);
+        });
     });
-    heading.firstElementChild.addEventListener(`click`, loadDataManagement.bind(null, false, `import`));
-    heading.firstElementChild.nextElementSibling.addEventListener(`click`, loadDataManagement.bind(null, false, `export`));
-    heading.firstElementChild.nextElementSibling.nextElementSibling.addEventListener(`click`, loadDataManagement.bind(null, false, `delete`));
-    heading.firstElementChild.nextElementSibling.nextElementSibling.nextElementSibling.addEventListener(`click`, exportSettings);
+    heading.firstElementChild.nextElementSibling.addEventListener(`click`, loadDataManagement.bind(null, false, `import`));
+    heading.firstElementChild.nextElementSibling.nextElementSibling.addEventListener(`click`, loadDataManagement.bind(null, false, `export`));
+    heading.firstElementChild.nextElementSibling.nextElementSibling.nextElementSibling.addEventListener(`click`, loadDataManagement.bind(null, false, `delete`));
+    heading.firstElementChild.nextElementSibling.nextElementSibling.nextElementSibling.nextElementSibling.addEventListener(`click`, exportSettings);
     if (SMManageUserTags) {
         SMManageUserTags.addEventListener(`click`, openManageUserTagsPopup);
     }
@@ -30419,7 +30457,7 @@ function loadEs() {
             <i class="fa fa-circle-o-notch fa-spin"></i>
         `;
         request(null, null, false, `${esgst.searchUrl}${pageIndex}`, getNextPage.bind(null, true, false));
-        if (!esgst.hr) {        
+        if (!esgst.hr) {
             request(null, null, false, esgst.sg ? `/giveaways/search?type=wishlist` : `/`, response => {
                 refreshHeaderElements(DOM.parse(response.responseText));
                 refreshHeader(getHrCache());
@@ -30441,7 +30479,7 @@ function loadEs() {
             request(null, null, false, `${esgst.searchUrl}${page}`, getNextPage.bind(null, true, page));
         }
         setTimeout(checkRefreshComplete, 250);
-        if (!esgst.hr) {        
+        if (!esgst.hr) {
             request(null, null, false, esgst.sg ? `/giveaways/search?type=wishlist` : `/`, response => {
                 refreshHeaderElements(DOM.parse(response.responseText));
                 refreshHeader(getHrCache());
@@ -32284,9 +32322,11 @@ function addStyle() {
             border-bottom: 1px dotted;
         }
 
-        .esgst-sync-frequency {
-            display: block;
-            width: 200px;
+        .esgst-auto-sync {
+            display: inline-block;
+            margin: -5px 5px 0;
+            padding: 2px;
+            width: 50px;
         }
 
         .esgst-ap-popout .featured__table__row__left:not(.esgst-uh-title), .esgst-mr-reply, .esgst-mr-edit, .esgst-mr-delete, .esgst-mr-undelete {
@@ -33263,7 +33303,7 @@ function addStyle() {
         .esgst-gv-popout .esgst-gp-button >* {
             padding: 0 5px !important;
             width: 67px !important;
-        }     
+        }
 
         .esgst-giveaway-panel .form__submit-button, .esgst-giveaway-panel .form__saving-button {
             margin-bottom: 0;
