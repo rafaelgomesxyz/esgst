@@ -861,6 +861,15 @@ The video above does not get embedded.
 
 ## Changelog
 
+**7.7.1 (November 4, 2017):**
+
+<ul>
+    <li><a href="https://github.com/revilheart/ESGST/issues/128">#128</a> Fix a bug that does not show Time To Enter Calculator in the settings menu</li>
+    <li><a href="https://github.com/revilheart/ESGST/issues/130">#130</a> Fix a bug in Endless Scrolling that does not load the next page when the ended filter is set to hide all and there is a deleted giveaway in the page</li>
+    <li><a href="https://github.com/revilheart/ESGST/issues/131">#131</a> Extend deleted filter to the entered page in Giveaway Filters</li>
+    <li><a href="https://github.com/revilheart/ESGST/issues/132">#132</a> Fix a bug that does not detect won games correctly</li>
+</ul>
+
 **7.7.0 (November 4, 2017):**
 
 <ul>
