@@ -9520,7 +9520,11 @@ function saveGames(games, callback, deleteLock) {
     for (key in games.apps) {
         if (saved.apps[key]) {
             for (subKey in games.apps[key]) {
-                saved.apps[key][subKey] = games.apps[key][subKey];
+                if (games.apps[key][subKey] === null) {
+                    delete saved.apps[key][subKey];
+                } else {
+                    saved.apps[key][subKey] = games.apps[key][subKey];
+                }
             }
         } else {
             saved.apps[key] = games.apps[key];
@@ -9532,7 +9536,11 @@ function saveGames(games, callback, deleteLock) {
     for (key in games.subs) {
         if (saved.subs[key]) {
             for (subKey in games.subs[key]) {
-                saved.subs[key][subKey] = games.subs[key][subKey];
+                if (games.subs[key][subKey] === null) {
+                    delete saved.subs[key][subKey];
+                } else {
+                    saved.subs[key][subKey] = games.subs[key][subKey];
+                }
             }
         } else {
             saved.subs[key] = games.subs[key];
@@ -9812,17 +9820,21 @@ function getWonGames(count, callback) {
     request(null, null, false, `/giveaways/won`, response => {
         let element, elements, i, id, info, responseHtml;
         responseHtml = DOM.parse(response.responseText);
-        elements = responseHtml.querySelectorAll(`.table__gift-feedback-awaiting-reply[data-feedback="1"]:not(.is-hidden)`);
         savedGames = JSON.parse(getValue(`games`));
         for (id in savedGames.apps) {
-            delete savedGames.apps[id].won;
+            if (savedGames.apps[id].won) {
+                savedGames.apps[id].won = null;
+            }
         }
         for (id in savedGames.subs) {
-            delete savedGames.subs[id].won;
+            if (savedGames.subs[id].won) {
+                savedGames.subs[id].won = null;
+            }
         }
+        elements = responseHtml.querySelectorAll(`.table__gift-feedback-awaiting-reply[data-feedback="1"]:not(.is-hidden)`);
         for (i = elements.length - 1; i > -1; --i) {
             element = elements[i].closest(`.table__row-inner-wrap`);
-            if (element.querySelector(`.table__gift-feedback-awaiting-reply[data-feedback="0"]:not(.is-hidden)`)) {
+            if (element.querySelector(`.table__gift-feedback-awaiting-reply[data-feedback="0"]:not(.is-hidden), [data-popup="popup--not-received"]`)) {
                 info = getGameInfo(element);
                 savedGames[info.type][info.id].won = 1;
             }
