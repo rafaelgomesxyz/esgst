@@ -20601,6 +20601,14 @@ function uploadImgurImage(authorization, popout, url) {
             callback();
         }
     }).set);
+    if (esgst.cfh_img_remember) {
+        popup.description.appendChild(new ButtonSet(`grey`, `grey`, `fa-rotate-left`, `fa-circle-o-notch fa-spin`, `Reset`, `Resetting...`, callback => {
+            setSetting(`cfh_img_remember`, false);
+            esgst.cfh_img_remember = false;
+            callback();
+            popup.close();
+        }).set);
+    }
     popup.open();
 }
 
