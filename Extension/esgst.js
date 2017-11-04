@@ -8607,19 +8607,21 @@ function sync(syncer, mainCallback, callback) {
 
 function completeSync(syncer, mainCallback, callback) {
     if (!esgst.firstInstall) {
-        let currentDate, currentTime, id, key, string;
+        let currentDate, currentTime, id, string;
         syncer.progress.innerHTML = `Synced!`;
         currentDate = new Date();
         currentTime = currentDate.getTime();
         string = currentDate.toLocaleString();
-        for (id in syncer.switches) {
-            if (esgst.settings[id]) {
-                key = id.replace(/^sync/, ``);
+        [`Groups`, `Whitelist`, `Blacklist`, `HiddenGames`, `Games`, `WonGames`, `ReducedCvGames`, `NoCvGames`, `Giveaways`].forEach(key => {
+            id = `sync${key}`;
+            if ((syncer.parameters && syncer.parameters[key]) || (!syncer.parameters && esgst.settings[id])) {
                 setSetting(`lastSync${key}`, currentTime);
                 esgst[`lastSync${key}`] = currentTime;
-                syncer.switches[id].date.innerHTML = `<i class="fa fa-check-circle"></i> Last synced ${string}`;
+                if (syncer.switches && syncer.switches[id]) {
+                    syncer.switches[id].date.innerHTML = `<i class="fa fa-check-circle"></i> Last synced ${string}`;
+                }
             }
-        }
+        });
     }
     if (callback) {
         callback();
