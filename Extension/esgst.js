@@ -11723,7 +11723,7 @@ function addGfContainer(heading, popup) {
         { check: (!esgst.createdPath && !esgst.enteredPah && !esgst.wonPath) || popup, key: `entered`, name: `Entered` },
         { check: (!esgst.enteredPath && !esgst.wonPath) || popup, key: `started`, name: `Started` },
         { check: !esgst.wonPath || popup, key: `ended`, name: `Ended` },
-        { check: esgst.createdPath, key: `deleted`, name: `Deleted` },
+        { check: esgst.createdPath || esgst.enteredPath, key: `deleted`, name: `Deleted` },
         { check: true, key: `owned`, name: `Owned` },
         { check: true, key: `wishlisted`, name: `Wishlisted` },
         { check: true, key: `hidden`, name: `Hidden` },
