@@ -12506,7 +12506,7 @@ function filterGfGiveaway(gf, giveaway) {
                 maxKey = `max${name}`;
                 minKey = `min${name}`;
                 if (name === `MinutesToEnd`) {
-                    if (!giveaway.ended) {
+                    if (!giveaway.ended && !giveaway.deleted) {
                         minutes = (giveaway.endTime - Date.now()) / 60000;
                         if (minutes < gf[minKey] || minutes > gf[maxKey]) {
                             filtered = true;
@@ -28952,7 +28952,7 @@ function getGiveawayInfo(context, mainContext, games, savedUsers, ugd, ugdType, 
         giveaway.endTimeColumn = giveaway.columns.firstElementChild;
         giveaway.started = !giveaway.endTimeColumn.textContent.match(/Begins/);
         giveaway.endTime = parseInt(giveaway.endTimeColumn.lastElementChild.getAttribute(`data-timestamp`)) * 1e3;
-        giveaway.ended = giveaway.endTime < Date.now();
+        giveaway.ended = !giveaway.deleted && giveaway.endTime < Date.now();
         if (giveaway.ended && ((main && (esgst.userPath || esgst.groupPath)) || ugd)) {
             giveaway.startTimeColumn = giveaway.endTimeColumn.nextElementSibling.nextElementSibling;
         } else {
@@ -28977,7 +28977,7 @@ function getGiveawayInfo(context, mainContext, games, savedUsers, ugd, ugdType, 
         } else {
             giveaway.endTime = 0;
         }
-        giveaway.ended = giveaway.endTime < Date.now();
+        giveaway.ended = !giveaway.deleted && giveaway.endTime < Date.now();
     }
     if (!giveaway.ended) {
         giveaway.winners = 0;
