@@ -25185,7 +25185,7 @@ function loadGlwc() {
         } else if (esgst.blacklistPath) {
             parameters = `?url=account/manage/blacklist`;
         } else {
-            parameters = `?url=${location.pathname.match(/(\/group\/(.+?)\/(.+?))(\/.*)?$/)[1]}/users&id=${document.querySelector(`[href*="/gid/"]`).getAttribute(`href`).match(/\d+/)[0]}`;
+            parameters = `?url=${location.pathname.match(/\/(group\/(.+?)\/(.+?))(\/.*)?$/)[1]}/users&id=${document.querySelector(`[href*="/gid/"]`).getAttribute(`href`).match(/\d+/)[0]}`;
         }
         insertHtml(esgst.hideButtons && esgst.hideButtons_glwc ? esgst.leftButtons : esgst.mainPageHeading, `afterBegin`, `
             <div class="esgst-heading-button" title="Check libraries/wishlists">
