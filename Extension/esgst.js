@@ -27304,6 +27304,11 @@ function loadSMMenu(tab) {
         Name: `esgst-heading-button`,
         Title: `Delete data`
     }, {
+        Check: true,
+        Icons: [`fa-gear`, `fa-arrow-circle-down`],
+        Name: `esgst-heading-button`,
+        Title: `Export settings (exports settings without personal data so you can easily share them with other users)`
+    }, {
         Check: esgst.uf,
         Icons: [`fa-user`, `fa-eye-slash`],
         Name: `SMManageFilteredUsers esgst-heading-button`,
@@ -27472,6 +27477,7 @@ function loadSMMenu(tab) {
     heading.firstElementChild.addEventListener(`click`, loadDataManagement.bind(null, false, `import`));
     heading.firstElementChild.nextElementSibling.addEventListener(`click`, loadDataManagement.bind(null, false, `export`));
     heading.firstElementChild.nextElementSibling.nextElementSibling.addEventListener(`click`, loadDataManagement.bind(null, false, `delete`));
+    heading.firstElementChild.nextElementSibling.nextElementSibling.nextElementSibling.addEventListener(`click`, exportSettings);
     if (SMManageUserTags) {
         SMManageUserTags.addEventListener(`click`, openManageUserTagsPopup);
     }
@@ -31735,6 +31741,28 @@ function manageData(dm, dropbox, google, outlook, space, callback) {
         }
     }
     dm.computerSpace.lastElementChild.textContent = convertBytes(totalGM);
+}
+
+function exportSettings() {
+    let data, url;
+    data = {
+        settings: JSON.parse(getValue(`settings`, `{}`))
+    };
+    delete data.settings.avatar;
+    delete data.settings.lastSync;
+    delete data.settings.steamApiKey;
+    delete data.settings.steamId;
+    delete data.settings.syncFrequency;
+    delete data.settings.username;
+    data = new Blob([JSON.stringify(data)]);
+    url = URL.createObjectURL(data);
+    file = document.createElement(`a`);
+    file.download = `esgst_data_${new Date().toISOString()}.json`;
+    file.href = url;
+    document.body.appendChild(file);
+    file.click();
+    file.remove();
+    URL.revokeObjectURL(url);
 }
 
 function checkDropboxComplete(data, dm, win, callback) {
