@@ -33245,6 +33245,26 @@ function addStyle() {
             margin: 0 0 0 5px;
         }
 
+        .esgst-gv-popout .esgst-gwc, .esgst-gv-popout .esgst-gwr, .esgst-gv-popout .esgst-ttec {
+            display: inline-block;
+            margin: 0 !important;
+            padding: 0 5px !important;
+            width: 67px !important;
+            vertical-align: top;
+        }
+
+        .esgst-gv-popout .esgst-gp-button {
+            display: inline-block;
+            margin: 0 !important;
+            width: auto !important;
+            vertical-align: top;
+        }
+
+        .esgst-gv-popout .esgst-gp-button >* {
+            padding: 0 5px !important;
+            width: 67px !important;
+        }     
+
         .esgst-giveaway-panel .form__submit-button, .esgst-giveaway-panel .form__saving-button {
             margin-bottom: 0;
             min-width: 0;
