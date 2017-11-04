@@ -30411,6 +30411,12 @@ function loadEs() {
             <i class="fa fa-circle-o-notch fa-spin"></i>
         `;
         request(null, null, false, `${esgst.searchUrl}${pageIndex}`, getNextPage.bind(null, true, false));
+        if (!esgst.hr) {        
+            request(null, null, false, esgst.sg ? `/giveaways/search?type=wishlist` : `/`, response => {
+                refreshHeaderElements(DOM.parse(response.responseText));
+                refreshHeader(getHrCache());
+            });
+        }
     }
 
     function refreshAllPages() {
@@ -30427,6 +30433,12 @@ function loadEs() {
             request(null, null, false, `${esgst.searchUrl}${page}`, getNextPage.bind(null, true, page));
         }
         setTimeout(checkRefreshComplete, 250);
+        if (!esgst.hr) {        
+            request(null, null, false, esgst.sg ? `/giveaways/search?type=wishlist` : `/`, response => {
+                refreshHeaderElements(DOM.parse(response.responseText));
+                refreshHeader(getHrCache());
+            });
+        }
     }
 
     function checkRefreshComplete() {
