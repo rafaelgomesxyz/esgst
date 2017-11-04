@@ -8013,10 +8013,7 @@ function getSetting(key, sg, st) {
             if (typeof defaultValue === `undefined`) {
                 defaultValue = key === `gc_lp` ? true : (key.match(/^sk_/) ? true : (key.match(/^gc_.+?_s$/) ? esgst.settings.gc_s_sg : (key.match(/^gc_.+?_s_i$/) ? esgst.settings.gc_s_i_sg : (key.match(/^(g|d)f_(?!h$)/) ? true : (key.match(/^hide/) ? false : (esgst.enableByDefault || false))))));
             }
-            esgst.settings[localKey] = esgst.settings[esgst.oldValues[key]];
-            if (typeof esgst.settings[localKey] === `undefined`) {
-                esgst.settings[localKey] = defaultValue;
-            }
+            esgst.settings[localKey] = getValue(esgst.oldValues[key] || key, defaultValue);
         }
         return esgst.settings[localKey];
     }
