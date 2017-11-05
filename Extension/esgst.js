@@ -4764,6 +4764,19 @@ function loadFeatures() {
         `);
     }
 
+    if (esgst.ch) {
+        let dropdowns = document.getElementsByClassName(esgst.sg ? `nav__absolute-dropdown` : `dropdown`);
+        setSMCommentHistory(insertHtml(esgst.sg ? dropdowns[dropdowns.length - 1].lastElementChild : dropdowns[dropdowns.length - 1].firstElementChild.lastElementChild, `beforeBegin`, `        
+            <div class="esgst-header-menu-row">
+                <i class="fa fa-fw fa-comments yellow"></i>
+                <div>
+                    <p class="esgst-header-menu-name">My Comment History</p>
+                    <p class="esgst-header-menu-description">View your comment history.</p>
+                </div>
+            </div>
+        `));
+    }
+
     /* [FH] Fixed Header */
 
     if (esgst.fh) {
@@ -27413,6 +27426,11 @@ function loadSMMenu(tab) {
         Name: `esgst-heading-button`,
         Title: `Export settings (exports settings without personal data so you can easily share them with other users)`
     }, {
+        Check: true,
+        Icons: [`fa-user`, `fa-history`],
+        Name: `SMViewUsernameChanges esgst-heading-button`,
+        Title: `View recent username changes`
+    }, {
         Check: esgst.uf,
         Icons: [`fa-user`, `fa-eye-slash`],
         Name: `SMManageFilteredUsers esgst-heading-button`,
@@ -27521,6 +27539,7 @@ function loadSMMenu(tab) {
     var SMManageEntriesTracker = Container.getElementsByClassName(`SMManageEntriesTracker`)[0];
     var SMManageUserTags = Container.getElementsByClassName(`SMManageUserTags`)[0];
     var SMManageGameTags = Container.getElementsByClassName(`SMManageGameTags`)[0];
+    var SMViewUsernameChanges = Container.getElementsByClassName(`SMViewUsernameChanges`)[0];
     if (esgst.wbc) {
         addWBCButton(null, Container.getElementsByClassName(`esgst-wbc-button`)[0]);
     }
@@ -27560,6 +27579,9 @@ function loadSMMenu(tab) {
     }
     if (SMManageEntriesTracker) {
         setSMManageEntriesTracker(SMManageEntriesTracker);
+    }
+    if (SMViewUsernameChanges) {        
+        setSMRecentUsernameChanges(SMViewUsernameChanges);
     }
     SMAPIKey.addEventListener(`input`, function () {
         setSetting(`steamApiKey`, SMAPIKey.value);
@@ -34534,8 +34556,16 @@ function continueRequest(data, headers, url, callback, anon, closeLock) {
 }
 
 function addHeaderMenu() {
-    var arrow, button, chRow, changelogRow, className, context, dropdown, html, menu, position, uhRow;
-    html = `
+    var arrow, button, className, context, dropdown, menu, position;
+    if (esgst.sg) {
+        className = `nav__left-container`;
+        position = `beforeEnd`;
+    } else {
+        className = `nav_logo`;
+        position = `afterEnd`;
+    }
+    context = document.getElementsByClassName(className)[0];
+    menu = insertHtml(context, position, `
         <div class="esgst-header-menu">
             <div class="esgst-header-menu-relative-dropdown esgst-hidden">
                 <div class="esgst-header-menu-absolute-dropdown">
@@ -34547,14 +34577,14 @@ function addHeaderMenu() {
                         </div>
                     </a>
                     <a class="esgst-header-menu-row" href="https://github.com/revilheart/ESGST/issues">
-                        <i class="fa fa-fw fa-bug grey"></i>
+                        <i class="fa fa-fw fa-bug red"></i>
                         <div>
                             <p class="esgst-header-menu-name">Bugs/Suggestions</p>
                             <p class="esgst-header-menu-description">Report bugs and/or make suggestions.</p>
                         </div>
                     </a>
                     <a class="esgst-header-menu-row" href="https://github.com/revilheart/ESGST/milestones">
-                        <i class="fa fa-fw fa-map-signs grey"></i>
+                        <i class="fa fa-fw fa-map-signs blue"></i>
                         <div>
                             <p class="esgst-header-menu-name">Milestones</p>
                             <p class="esgst-header-menu-description">Check out what's coming in the next version.</p>
@@ -34568,21 +34598,7 @@ function addHeaderMenu() {
                         </div>
                     </a>
                     <div class="esgst-header-menu-row">
-                        <i class="fa fa-fw fa-user red"></i>
-                        <div>
-                            <p class="esgst-header-menu-name">Recent Username Changes</p>
-                            <p class="esgst-header-menu-description">Check out the recent username changes.</p>
-                        </div>
-                    </div>
-                    <div class="esgst-header-menu-row">
-                        <i class="fa fa-fw fa-comments yellow"></i>
-                        <div>
-                            <p class="esgst-header-menu-name">Comment History</p>
-                            <p class="esgst-header-menu-description">Check out your comment history.</p>
-                        </div>
-                    </div>
-                    <div class="esgst-header-menu-row">
-                        <i class="fa fa-fw fa-file-text-o grey"></i>
+                        <i class="fa fa-fw fa-file-text-o yellow"></i>
                         <div>
                             <p class="esgst-header-menu-name">Changelog</p>
                             <p class="esgst-header-menu-description">Check out the changelog.</p>
@@ -34600,32 +34616,10 @@ function addHeaderMenu() {
                 <i class="fa fa-angle-down"></i>
             </div>
         </div>
-    `;
-    if (esgst.sg) {
-        className = `nav__left-container`;
-        position = `beforeEnd`;
-    } else {
-        className = `nav_logo`;
-        position = `afterEnd`;
-    }
-    context = document.getElementsByClassName(className)[0];
-    menu = insertHtml(context, position, html);
+    `);
     dropdown = menu.firstElementChild;
     button = dropdown.nextElementSibling;
     arrow = button.nextElementSibling;
-    uhRow = dropdown.firstElementChild.firstElementChild.nextElementSibling.nextElementSibling.nextElementSibling.nextElementSibling;
-    chRow = uhRow.nextElementSibling;
-    changelogRow = chRow.nextElementSibling;
-    if (esgst.uh) {
-        setSMRecentUsernameChanges(uhRow);
-    } else {
-        uhRow.classList.add(`esgst-hidden`);
-    }
-    if (esgst.ch) {
-        setSMCommentHistory(chRow);
-    } else {
-        chRow.classList.add(`esgst-hidden`);
-    }
     button.addEventListener(`click`, function () {
         if (esgst.openSettingsInTab) {
             open(`/esgst/settings`);
@@ -34635,7 +34629,7 @@ function addHeaderMenu() {
     });
     arrow.addEventListener(`click`, toggleHeaderMenu.bind(null, arrow, dropdown));
     document.addEventListener(`click`, closeHeaderMenu.bind(null, arrow, dropdown, menu), true);
-    changelogRow.addEventListener(`click`, loadChangelog);
+    dropdown.firstElementChild.lastElementChild.addEventListener(`click`, loadChangelog);
 }
 
 function notifyNewVersion(version) {
