@@ -11377,9 +11377,11 @@ function setGvContainer(giveaway, spacing) {
         icons.appendChild(giveaway.regionRestricted);
     }
     if (giveaway.group) {
+        giveaway.group.lastChild.remove();
         icons.appendChild(giveaway.group);
     }
     if (giveaway.whitelist) {
+        giveaway.whitelist.lastChild.remove();
         icons.appendChild(giveaway.whitelist);
     }
     if (giveaway.levelColumn) {
