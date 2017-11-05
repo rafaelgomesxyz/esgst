@@ -17617,6 +17617,9 @@ function openGmPopout(giveaways, gm) {
         if (esgst.gf && esgst.gf_s) {
             gm.popout.popout.appendChild(new ButtonSet(`green`, `grey`, `fa-eye-slash`, `fa-circle-o-notch fa-spin`, `Hide Individual GAs`, `Hiding...`, hideGmGiveaways.bind(null, giveaways, gm)).set);
         }
+        if (esgst.ttec) {
+            gm.popout.popout.appendChild(new ButtonSet(`green`, `grey`, `fa-clock-o`, `fa-circle-o-notch fa-spin`, `Calculate Time to Enter`, `Calculating...`, calculateGmGiveaways.bind(null, giveaways, gm)).set);
+        }
     }
 }
 
@@ -17831,6 +17834,29 @@ function hideGmGiveaways(giveaways, gm, callback) {
         }
     });
     lockAndSaveGiveaways(newGiveaways, callback);
+}
+
+function calculateGmGiveaways(giveaways, gm, callback) {
+    let nextRefresh, points;
+    if (!giveaways) {
+        giveaways = esgst[gm.context ? `popupGiveaways` : `currentGiveaways`];
+    }
+    points = 0;
+    giveaways.forEach(giveaway => {
+        if (giveaway.gm && !giveaway.outerWrap.classList.contains(`esgst-hidden`) && !giveaway.ended) {
+            points += giveaway.points;
+        }
+    });
+    nextRefresh = 60 - new Date().getMinutes();
+    while (nextRefresh > 15) {
+        nextRefresh -= 15;
+    }
+    if (points > esgst.points) {
+        gm.textArea.value = `You will need to wait ${getTtecTime(Math.round((nextRefresh + (15 * Math.floor((points - esgst.points) / 6))) * 100) / 100)} to enter all selected giveaways for a total of ${points}P.${points > 400 ? `\n\nSince each 400P regeneration takes about 17h, you will need to return in 17h and use all your points so more can be regenerated.` : ``}`;
+    } else {
+        gm.textArea.value = `You have enough points to enter all giveaways right now.`;
+    }
+    callback();
 }
 
 /* [HGR] Hidden Games Remover */
