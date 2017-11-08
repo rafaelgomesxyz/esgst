@@ -3552,7 +3552,6 @@ function loadEsgst(storage) {
                 },
                 {
                     id: `wbs`,
-                    load: loadWbs,
                     name: `Whitelist/Blacklist Sorter`,
                     sg: true,
                     sync: `Whitelist and Blacklist`,
@@ -7867,6 +7866,32 @@ function loadFeatures() {
         // needs to run before Avatar Popout
         esgst.endlessFeatures.push(loadDiscussionFeatures);
         loadDiscussionFeatures(document, true);
+    }
+
+    if (esgst.whitelistPath || esgst.blacklistPath) {
+        if (esgst.wbs) {
+            let button2, button1, dateKey, key, saveKey;
+            button2 = insertHtml(esgst.hideButtons && esgst.hideButtons_wbsDesc ? esgst.leftButtons : esgst.mainPageHeading, `afterBegin`, `
+                <div class="esgst-heading-button" title="Sort by added date from newest to oldest">
+                    <i class="fa fa-sort-amount-desc"></i>
+                </div>
+            `);
+            button1 = insertHtml(esgst.hideButtons && esgst.hideButtons_wbsAsc ? esgst.leftButtons : esgst.mainPageHeading, `afterBegin`, `
+                <div class="esgst-heading-button" title="Sort by added date from oldest to newest">
+                    <i class="fa fa-sort-amount-asc"></i>
+                </div>
+            `);
+            if (esgst.whitelistPath) {
+                dateKey = `whitelistedDate`;
+                key = `whitelist`;
+                saveKey = `whitelisted`;
+            } else {
+                dateKey = `blacklistedDate`;
+                key = `blacklist`;
+                saveKey = `blacklisted`;
+            }
+            addWbsButton(dateKey, key, saveKey, button1, button2);
+        }
     }
 
     if (esgst.ttec) {
@@ -24893,32 +24918,6 @@ function addWbhIcons(currentUsers) {
 }
 
 /* [WBS] Whitelist/Blacklist Sorter */
-
-function loadWbs() {
-    if (esgst.whitelistPath || esgst.blacklistPath) {
-        let button2, button1, dateKey, key, saveKey;
-        button2 = insertHtml(esgst.hideButtons && esgst.hideButtons_wbsDesc ? esgst.leftButtons : esgst.mainPageHeading, `afterBegin`, `
-            <div class="esgst-heading-button" title="Sort by added date from newest to oldest">
-                <i class="fa fa-sort-amount-desc"></i>
-            </div>
-        `);
-        button1 = insertHtml(esgst.hideButtons && esgst.hideButtons_wbsAsc ? esgst.leftButtons : esgst.mainPageHeading, `afterBegin`, `
-            <div class="esgst-heading-button" title="Sort by added date from oldest to newest">
-                <i class="fa fa-sort-amount-asc"></i>
-            </div>
-        `);
-        if (esgst.whitelistPath) {
-            dateKey = `whitelistedDate`;
-            key = `whitelist`;
-            saveKey = `whitelisted`;
-        } else {
-            dateKey = `blacklistedDate`;
-            key = `blacklist`;
-            saveKey = `blacklisted`;
-        }
-        addWbsButton(`whitelistedDate`, `whitelist`, `whitelisted`, button1, button2);
-    }
-}
 
 function addWbsButton(dateKey, key, saveKey, sortAscButton, sortDescButton) {
     sortAscButton.addEventListener(`click`, function () {
