@@ -4544,7 +4544,7 @@ function loadEsgst(storage) {
                     }
                 } else if (esgst.bgl && esgst.giveawayPath) {
                     let summary = document.getElementsByClassName(`table--summary`)[0];
-                    summary = summary && summary.lastElementChild.firstElementChild.lastElementChild.textContent.match(/you\shave\s(been\s)?blacklisted/);
+                    summary = summary && summary.lastElementChild.firstElementChild.lastElementChild.textContent.match(/you\s(have\s(been\s)?|previously\s)blacklisted/);
                     if (summary) {
                         esgst.pageOuterWrap.innerHTML = `
                             <i class="fa fa-circle-o-notch fa-spin"></i>
