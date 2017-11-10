@@ -34667,6 +34667,12 @@ function notifyNewVersion(version) {
         message = `A new ESGST version is available.`;
     }
     popup = new Popup(`fa-exclamation`, message, true);
+    if (typeof browser === `undefined`) {
+        popup.description.appendChild(new ButtonSet(`green`, ``, `fa-download`, ``, `Download .zip`, ``, callback => {
+            callback();
+            open(`https://github.com/revilheart/ESGST/releases/download/${version}/extension.zip`);
+        }).set);
+    }
     popup.onClose = () => {
         setValue(`dismissedVersion`, version);
     };
