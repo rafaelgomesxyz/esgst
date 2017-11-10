@@ -21595,7 +21595,7 @@ function saveRfiReply(id, reply, url, edit) {
 }
 
 function getRfiReplies(comments, main) {
-    var children, comment, i, id, ids, j, key, n, numReplies, saved, toDelte;
+    var children, comment, i, id, ids, j, key, n, numReplies, saved;
     ids = [];
     saved = JSON.parse(getValue(`${esgst.name}RfiCache`, `{}`));
     for (i = 0, n = comments.length; i < n; ++i) {
@@ -21604,7 +21604,7 @@ function getRfiReplies(comments, main) {
         if (id && saved[id]) {
             children = comment.comment.closest(`.comment, .comment_outer`).querySelector(`.comment__children, .comment_children`);
             for (j = 0, numReplies = saved[id].length; j < numReplies; ++j) {
-                children.insertAdjacentHTML(`beforeEnd`, saved[id][j].reply);
+                insertHtml(children, `beforeEnd`, saved[id][j].reply).querySelector(`[data-timestamp]`).textContent = getTimeSince(saved[id][j].timestamp);
             }
             if (main) {
                 loadEndlessFeatures(children);
@@ -21624,6 +21624,33 @@ function getRfiReplies(comments, main) {
         }
     }
     setValue(`${esgst.name}RfiCache`, JSON.stringify(saved));
+}
+
+function getTimeSince(timestamp) {
+    let n, s;
+    s = Math.floor((Date.now() - timestamp) / 1000);
+    n = Math.floor(s / 31104000);
+    if (n >= 1) {
+        return `${n} year${n === 1 ? `` : `s`}`;
+    }
+    n = Math.floor(s / 2592000);
+    if (n >= 1) {
+        return `${n} month${n === 1 ? `` : `s`}`;
+    }
+    n = Math.floor(s / 86400);
+    if (n >= 1) {
+        return `${n} day${n === 1 ? `` : `s`}`;
+    }
+    n = Math.floor(s / 3600);
+    if (n >= 1) {
+        return `${n} hour${n === 1 ? `` : `s`}`;
+    }
+    n = Math.floor(s / 60);
+    if (n >= 1) {
+        return `${n} minute${n === 1 ? `` : `s`}`;
+    }
+    n = Math.floor(s);
+    return `${n} second${n === 1 ? `` : `s`}`;
 }
 
 function setMREdit(MR) {
