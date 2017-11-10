@@ -4765,7 +4765,7 @@ function loadFeatures() {
 
     if (esgst.ch) {
         let dropdowns = document.getElementsByClassName(esgst.sg ? `nav__absolute-dropdown` : `dropdown`);
-        setSMCommentHistory(insertHtml(esgst.sg ? dropdowns[dropdowns.length - 1].lastElementChild : dropdowns[dropdowns.length - 1].firstElementChild.lastElementChild, `beforeBegin`, `        
+        setSMCommentHistory(insertHtml(esgst.sg ? dropdowns[dropdowns.length - 1].lastElementChild : dropdowns[dropdowns.length - 1].firstElementChild.lastElementChild, `beforeBegin`, `
             <div class="esgst-header-menu-row">
                 <i class="fa fa-fw fa-comments yellow"></i>
                 <div>
@@ -8554,15 +8554,15 @@ function setSync(autoSync, mainCallback) {
         popup.description.insertAdjacentHTML(`afterBegin`, `<div class="esgst-description">By selecting a number X in the dropdown menu next to each data other than 0, you are enabling automatic sync for that data (which means the data will be synced every X days).</div>`);
         if (!syncer.autoSync) {
             syncer.switches = {
-                syncGroups: new ToggleSwitch(popup.description, `syncGroups`, false, `Steam Groups`, false, false, null, esgst.syncGroups),
-                syncWhitelist: new ToggleSwitch(popup.description, `syncWhitelist`, false, `Whitelist`, false, false, null, esgst.syncWhitelist),
-                syncBlacklist: new ToggleSwitch(popup.description, `syncBlacklist`, false, `Blacklist`, false, false, null, esgst.syncBlacklist),
-                syncHiddenGames: new ToggleSwitch(popup.description, `syncHiddenGames`, false, `Hidden Games`, false, false, null, esgst.syncHiddenGames),
-                syncGames: new ToggleSwitch(popup.description, `syncGames`, false, `Owned/Wishlisted/Ignored Games`, false, false, null, esgst.syncGames),
-                syncWonGames: new ToggleSwitch(popup.description, `syncWonGames`, false, `Won Games`, false, false, null, esgst.syncWonGames),
-                syncReducedCvGames: new ToggleSwitch(popup.description, `syncReducedCvGames`, false, `Reduced CV Games`, false, false, null, esgst.syncReducedCvGames),
-                syncNoCvGames: new ToggleSwitch(popup.description, `syncNoCvGames`, false, `No CV Games`, false, false, null, esgst.syncNoCvGames),
-                syncGiveaways: new ToggleSwitch(popup.description, `syncGiveaways`, false, `Giveaways`, false, false, null, esgst.syncGiveaways)
+                syncGroups: new ToggleSwitch(popup.scrollable, `syncGroups`, false, `Steam Groups`, false, false, null, esgst.syncGroups),
+                syncWhitelist: new ToggleSwitch(popup.scrollable, `syncWhitelist`, false, `Whitelist`, false, false, null, esgst.syncWhitelist),
+                syncBlacklist: new ToggleSwitch(popup.scrollable, `syncBlacklist`, false, `Blacklist`, false, false, null, esgst.syncBlacklist),
+                syncHiddenGames: new ToggleSwitch(popup.scrollable, `syncHiddenGames`, false, `Hidden Games`, false, false, null, esgst.syncHiddenGames),
+                syncGames: new ToggleSwitch(popup.scrollable, `syncGames`, false, `Owned/Wishlisted/Ignored Games`, false, false, null, esgst.syncGames),
+                syncWonGames: new ToggleSwitch(popup.scrollable, `syncWonGames`, false, `Won Games`, false, false, null, esgst.syncWonGames),
+                syncReducedCvGames: new ToggleSwitch(popup.scrollable, `syncReducedCvGames`, false, `Reduced CV Games`, false, false, null, esgst.syncReducedCvGames),
+                syncNoCvGames: new ToggleSwitch(popup.scrollable, `syncNoCvGames`, false, `No CV Games`, false, false, null, esgst.syncNoCvGames),
+                syncGiveaways: new ToggleSwitch(popup.scrollable, `syncGiveaways`, false, `Giveaways`, false, false, null, esgst.syncGiveaways)
             };
             let id;
             for (id in syncer.switches) {
@@ -8756,7 +8756,7 @@ function getGroupsAndContinueSync(nextPage, syncer, url, callback, response) {
                         </div>
                     `;
                 }
-                syncer.scrollable.insertAdjacentHTML(`beforeEnd`, html);
+                syncer.scrollable.insertAdjacentHTML(`afterBegin`, html);
                 callback();
             });
         }
@@ -8977,201 +8977,189 @@ function getStoreResponseAndContinueSync(syncer, callback, response1, response2)
     createLock(`gameLock`, 300, continueGameSync.bind(null, null, null, syncer, callback, response1, response2));
 }
 
-function continueGameSync(altAccount, html, syncer, callback, response1, response2, deleteLock) {
-    var currentOwned, newOwned, i, id, j, key, mainKey, n, numOwned, numValues, oldValue, owned, ownedGames, responseJson, responseText, result, savedGames, type, types, values;
-    owned = 0;
-    if (altAccount) {
-        savedGames = altAccount.games;
-    } else {
-        savedGames = JSON.parse(getValue(`games`));
-    }
-    currentOwned = {
-        apps: [],
-        subs: []
-    };
-    newOwned = {
-        apps: [],
-        subs: []
-    };
-    for (key in savedGames.apps) {
-        if (savedGames.apps[key].owned) {
-            currentOwned.apps.push(key);
+function continueGameSync(altAccount, html, syncer, callback, apiResponse, storeResponse, deleteLock) {
+    let addedOwned, id, key, newOwned, numOwned, oldOwned, removedOwned, result, savedGames, storeJson, type;
+    try {
+        storeJson = JSON.parse(storeResponse.responseText);
+    } catch (e) {}
+    if (storeJson && storeJson.rgOwnedApps.length > 0) {
+        savedGames = (altAccount && altAccount.games) || JSON.parse(getValue(`games`));
+        oldOwned = {
+            apps: [],
+            subs: []
+        };
+        newOwned = {
+            apps: [],
+            subs: []
+        };
+        for (id in savedGames.apps) {
+            if (savedGames.apps[id].owned) {
+                oldOwned.apps.push(id);
+                delete savedGames.apps[id].owned;
+            }
+            delete savedGames.apps[id].wishlisted;
+            delete savedGames.apps[id].ignored;
+            if (Object.keys(savedGames.apps[id]).length === 0) {
+                delete savedGames.apps[id];
+            }
         }
-        delete savedGames.apps[key].wishlist;
-        delete savedGames.apps[key].wishlisted;
-        delete savedGames.apps[key].owned;
-        delete savedGames.apps[key].ignored;
-        if (!Object.keys(savedGames.apps[key]).length) {
-            delete savedGames.apps[key];
+        for (id in savedGames.subs) {
+            if (savedGames.subs[id].owned) {
+                oldOwned.subs.push(id);
+                delete savedGames.subs[id].owned;
+            }
+            delete savedGames.subs[id].wishlisted;
+            delete savedGames.subs[id].ignored;
+            if (Object.keys(savedGames.subs[id]).length === 0) {
+                delete savedGames.subs[id];
+            }
         }
-    }
-    for (key in savedGames.subs) {
-        if (savedGames.subs[key].owned) {
-            currentOwned.subs.push(key);
-        }
-        delete savedGames.subs[key].wishlist;
-        delete savedGames.subs[key].wishlisted;
-        delete savedGames.subs[key].owned;
-        delete savedGames.subs[key].ignored;
-        if (!Object.keys(savedGames.subs[key]).length) {
-            delete savedGames.subs[key];
-        }
-    }
-    if (response1) {
+        numOwned = 0;
         try {
-            ownedGames = JSON.parse(response1.responseText).response.games;
-            for (i = 0, n = ownedGames.length; i < n; ++i) {
-                id = ownedGames[i].appid;
+            JSON.parse(apiResponse.responseText).response.games.forEach(game => {
+                id = game.appid;
                 if (!savedGames.apps[id]) {
                     savedGames.apps[id] = {};
                 }
                 savedGames.apps[id].owned = true;
-                ++owned;
                 newOwned.apps.push(id.toString());
-            }
+                numOwned += 1;
+            });
         } catch (e) {}
-    }
-    if (response2) {
-        try {
-            responseJson = JSON.parse(response2.responseText);
-            numOwned = responseJson.rgOwnedApps.length;
-            if (numOwned > 0) {
-                types = [
-                    {
-                        key: `wishlisted`,
-                        mainKey: `apps`,
-                        name: `rgWishlist`
-                    },
-                    {
-                        key: `owned`,
-                        mainKey: `apps`,
-                        name: `rgOwnedApps`
-                    },
-                    {
-                        key: `owned`,
-                        mainKey: `subs`,
-                        name: `rgOwnedPackages`
-                    },
-                    {
-                        key: `ignored`,
-                        mainKey: `apps`,
-                        name: `rgIgnoredApps`
-                    },
-                    {
-                        key: `ignored`,
-                        mainKey: `subs`,
-                        name: `rgIgnoredPackages`
-                    }
-                ];
-                for (i = 0, n = types.length; i < n; ++i) {
-                    type = types[i];
-                    key = type.key;
-                    mainKey = type.mainKey;
-                    values = responseJson[type.name];
-                    for (j = 0, numValues = values.length; j < numValues; ++j) {
-                        id = values[j];
-                        if (!savedGames[mainKey][id]) {
-                            savedGames[mainKey][id] = {};
-                        }
-                        oldValue = savedGames[mainKey][id][key];
-                        savedGames[mainKey][id][key] = true;
-                        if (key === `owned` && !oldValue) {
-                            ++owned;
-                            newOwned[mainKey].push(id.toString());
-                        }
-                    }
+        [
+            {
+                jsonKey: `rgWishlist`,
+                key: `wishlisted`,
+                type: `apps`
+            },
+            {
+                jsonKey: `rgOwnedApps`,
+                key: `owned`,
+                type: `apps`
+            },
+            {
+                jsonKey: `rgOwnedPackages`,
+                key: `owned`,
+                type: `subs`
+            },
+            {
+                jsonKey: `rgIgnoredApps`,
+                key: `ignored`,
+                type: `apps`
+            },
+            {
+                jsonKey: `rgIgnoredPackages`,
+                key: `ignored`,
+                type: `subs`
+            }
+        ].forEach(item => {
+            key = item.key;
+            type = item.type;
+            storeJson[item.jsonKey].forEach(id => {
+                if (!savedGames[type][id]) {
+                    savedGames[type][id] = {};
                 }
-            }
-        } catch (e) {}
-    }
-    if (!altAccount) {
-        if (response1 || response2) {
-            if (owned !== getValue(`ownedGames`, 0)) {
-                setValue(`ownedGames`, owned);
+                value = savedGames[type][id][key];
+                savedGames[type][id][key] = true;
+                if (key === `owned` && !value) {
+                    newOwned[type].push(id.toString());
+                    numOwned += 1;
+                }
+            });
+        });
+        if (!altAccount) {
+            if (numOwned !== getValue(`ownedGames`, 0)) {
+                setValue(`ownedGames`, numOwned);
                 result = 1;
             } else {
                 result = 2;
             }
-        } else {
+            setValue(`games`, JSON.stringify(savedGames));
+            deleteLock();
+        }
+        removedOwned = {
+            apps: [],
+            subs: []
+        };
+        addedOwned = {
+            apps: [],
+            subs: []
+        };
+        oldOwned.apps.forEach(id => {
+            if (newOwned.apps.indexOf(id) < 0) {
+                removedOwned.apps.push(`<a href="http://store.steampowered.com/app/${id}">${id}</a>`);
+            }
+        });
+        oldOwned.subs.forEach(id => {
+            if (newOwned.subs.indexOf(id) < 0) {
+                removedOwned.subs.push(`<a href="http://store.steampowered.com/sub/${id}">${id}</a>`);
+            }
+        });
+        newOwned.apps.forEach(id => {
+            if (oldOwned.apps.indexOf(id) < 0) {
+                addedOwned.apps.push(`<a href="http://store.steampowered.com/app/${id}">${id}</a>`);
+            }
+        });
+        newOwned.subs.forEach(id => {
+            if (oldOwned.subs.indexOf(id) < 0) {
+                addedOwned.subs.push(`<a href="http://store.steampowered.com/sub/${id}">${id}</a>`);
+            }
+        });
+        if (!html) {
+            html = ``;
+        }
+        if (altAccount) {
+            html += `
+                <div>Alt Account - ${altAccount.name}</div>
+            `;
+        }
+        if (removedOwned.apps.length > 0) {
+            html += `
+                <div>
+                    <span class="esgst-bold">Removed apps:</span> ${removedOwned.apps.join(`, `)}
+                </div>
+            `;
+        }
+        if (removedOwned.subs.length > 0) {
+            html += `
+                <div>
+                    <span class="esgst-bold">Removed packages:</span> ${removedOwned.subs.join(`, `)}
+                </div>
+            `;
+        }
+        if (addedOwned.apps.length > 0) {
+            html += `
+                <div>
+                    <span class="esgst-bold">Added apps:</span> ${addedOwned.apps.join(`, `)}
+                </div>
+            `;
+        }
+        if (addedOwned.subs.length > 0) {
+            html += `
+                <div>
+                    <span class="esgst-bold">Added packages:</span> ${addedOwned.subs.join(`, `)}
+                </div>
+            `;
+        }
+        callback(savedGames, html, result);
+    } else {
+        if (!html) {
+            html = ``;
+        }
+        html += `
+            <div>An error ocurred when trying to sync your owned/wishlisted/ignored games, either because you are not logged in on Steam through the browser or the Steam API is currently unavailable (try again later).</div>
+        `;
+        if (!altAccount) {
             result = 3;
+            deleteLock();
         }
-        setValue(`games`, JSON.stringify(savedGames));
-        deleteLock();
+        callback(savedGames, html, result);
     }
-    var missing = {
-        apps: [],
-        subs: []
-    };
-    var neww = {
-        apps: [],
-        subs: []
-    };
-    for (i = 0, n = currentOwned.apps.length; i < n; ++i) {
-        id = currentOwned.apps[i];
-        if (newOwned.apps.indexOf(id) < 0) {
-            missing.apps.push(`<a href="http://store.steampowered.com/app/${id}">${id}</a>`);
-        }
-    }
-    for (i = 0, n = currentOwned.subs.length; i < n; ++i) {
-        id = currentOwned.subs[i];
-        if (newOwned.subs.indexOf(id) < 0) {
-            missing.subs.push(`<a href="http://store.steampowered.com/sub/${id}">${id}</a>`);
-        }
-    }
-    for (i = 0, n = newOwned.apps.length; i < n; ++i) {
-        id = newOwned.apps[i];
-        if (currentOwned.apps.indexOf(id) < 0) {
-            neww.apps.push(`<a href="http://store.steampowered.com/app/${id}">${id}</a>`);
-        }
-    }
-    for (i = 0, n = newOwned.subs.length; i < n; ++i) {
-        id = newOwned.subs[i];
-        if (currentOwned.subs.indexOf(id) < 0) {
-            neww.subs.push(`<a href="http://store.steampowered.com/sub/${id}">${id}</a>`);
-        }
-    }
-    if (!html) {
-        html = ``;
-    }
-    if (altAccount) {
-        html += `
-            <div>Alt Account - ${altAccount.name}</div>
-        `;
-    }
-    if (missing.apps.length) {
-        html += `
-            <div>
-                <span class="esgst-bold">Missing apps:</span> ${missing.apps.join(`, `)}
-            </div>
-        `;
-    }
-    if (missing.subs.length) {
-        html += `
-            <div>
-                <span class="esgst-bold">Missing packages:</span> ${missing.subs.join(`, `)}
-            </div>
-        `;
-    }
-    if (neww.apps.length) {
-        html += `
-            <div>
-                <span class="esgst-bold">New apps:</span> ${neww.apps.join(`, `)}
-            </div>
-        `;
-    }
-    if (neww.subs.length) {
-        html += `
-            <div>
-                <span class="esgst-bold">New packages:</span> ${neww.subs.join(`, `)}
-            </div>
-        `;
-    }
-    callback(savedGames, html, result);
 }
 
 function continueSyncStep5(syncer, callback, games, html) {
     if (html) {
-        syncer.scrollable.insertAdjacentHTML(`beforeEnd`, html);
+        syncer.scrollable.insertAdjacentHTML(`afterBegin`, html);
     }
     if (!syncer.autoSync && ((syncer.parameters && syncer.parameters.WonGames) || (!syncer.parameters && esgst.settings.syncWonGames))) {
         syncer.progress.lastElementChild.textContent = `Syncing your won games...`;
@@ -9183,7 +9171,7 @@ function continueSyncStep5(syncer, callback, games, html) {
 
 function continueSyncStep6(syncer, callback, games, html) {
     if (html) {
-        syncer.scrollable.insertAdjacentHTML(`beforeEnd`, html);
+        syncer.scrollable.insertAdjacentHTML(`afterBegin`, html);
     }
     if (!syncer.autoSync && ((syncer.parameters && syncer.parameters.ReducedCvGames) || (!syncer.parameters && esgst.settings.syncReducedCvGames))) {
         syncer.progress.lastElementChild.textContent = `Syncing reduced CV games...`;
@@ -27638,7 +27626,7 @@ function loadSMMenu(tab) {
     if (SMManageEntriesTracker) {
         setSMManageEntriesTracker(SMManageEntriesTracker);
     }
-    if (SMViewUsernameChanges) {        
+    if (SMViewUsernameChanges) {
         setSMRecentUsernameChanges(SMViewUsernameChanges);
     }
     SMAPIKey.addEventListener(`input`, function () {
