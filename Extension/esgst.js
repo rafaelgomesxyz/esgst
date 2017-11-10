@@ -31081,11 +31081,9 @@ function getDataMenu(option, switches, type) {
 function loadImportFile(dm, dropbox, google, outlook, space, callback) {
     var file;
     if (dropbox) {
-        if (getValue(`dropboxToken`)) {
-            checkDropboxComplete(null, dm, null, callback);
-        } else {
-            checkDropboxComplete(null, dm, open(`https://www.dropbox.com/oauth2/authorize?redirect_uri=https://${location.hostname}/esgst/dropbox&response_type=token&client_id=nix7kvchwa8wdvj`), callback);
-        }
+        delValue(`dropboxToken`);
+        open(`https://www.dropbox.com/oauth2/authorize?redirect_uri=https://${location.hostname}/esgst/dropbox&response_type=token&client_id=nix7kvchwa8wdvj`);
+        checkDropboxComplete(null, dm, callback);
     } else {
         file = dm.input.files[0];
         if (file) {
@@ -31862,11 +31860,9 @@ function manageData(dm, dropbox, google, outlook, space, callback) {
     if (!space) {
         if (dm.type === `export` || esgst.settings.exportBackup) {
             if (dropbox || (dm.type !== `export` && esgst.settings.exportBackupIndex === 1)) {
-                if (getValue(`dropboxToken`)) {
-                    checkDropboxComplete(data, dm, null, callback);
-                } else {
-                    checkDropboxComplete(data, dm, open(`https://www.dropbox.com/oauth2/authorize?redirect_uri=https://${location.hostname}/esgst/dropbox&response_type=token&client_id=nix7kvchwa8wdvj`), callback);
-                }
+                delValue(`dropboxToken`);
+                open(`https://www.dropbox.com/oauth2/authorize?redirect_uri=https://${location.hostname}/esgst/dropbox&response_type=token&client_id=nix7kvchwa8wdvj`);
+                checkDropboxComplete(data, dm, callback);
             } else {
                 data = new Blob([JSON.stringify(data)]);
                 url = URL.createObjectURL(data);
@@ -31910,8 +31906,8 @@ function exportSettings() {
     URL.revokeObjectURL(url);
 }
 
-function checkDropboxComplete(data, dm, win, callback) {
-    if (!win || win.closed) {
+function checkDropboxComplete(data, dm, callback) {
+    if (getValue(`dropboxToken`)) {
         if (dm.type === `export` || (data && esgst.settings.exportBackup)) {
             request(JSON.stringify(data), {authorization: `Bearer ${getValue(`dropboxToken`)}`, [`Dropbox-API-Arg`]: `{"path": "/esgst_data_${new Date().toISOString()}.json"}`, [`Content-Type`]: `application/octet-stream`}, false, `https://content.dropboxapi.com/2/files/upload`, response => {
                 createFadeMessage(dm.message, `Data ${dm.type}ed with success!`);
@@ -31953,7 +31949,7 @@ function checkDropboxComplete(data, dm, win, callback) {
             });
         }
     } else {
-        setTimeout(checkDropboxComplete, 250, data, dm, win, callback);
+        setTimeout(checkDropboxComplete, 250, data, dm, callback);
     }
 }
 
