@@ -34558,6 +34558,7 @@ function delValue(key) {
     } else {
         chrome.storage.local.remove(key);
     }
+    delete esgst.storage[key];
 }
 
 function request(data, headers, queue, url, callback, anon) {
