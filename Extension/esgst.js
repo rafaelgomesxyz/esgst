@@ -26557,7 +26557,7 @@ function getGcCategories(gc, id, type) {
                     categories.tags = tags.join(`, `);
                 }
                 gc.cache[type][id] = categories;
-                if (categories.dlc && esgst.gc_dlc_b) {
+                if (esgst.gc_dlc_b && categories.dlc && data.fullgame && data.fullgame.appid) {
                     request(null, null, false, `http://store.steampowered.com/api/appdetails?appids=${data.fullgame.appid}&filters=basic&cc=us&l=en`, response => {
                         categories.freeBase = JSON.parse(response.responseText)[data.fullgame.appid].data.is_free;
                         gc.count += 1;
