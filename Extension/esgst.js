@@ -8519,8 +8519,9 @@ function checkSync(menu, callback) {
             }
         }
         setSync(false, callback);
-    } else {
+    } else if (!getValue(`esgst_isSyncing`)) {
         let parameters = ``;
+        setValue(`esgst_isSyncing`, 1);
         [`Groups`, `Whitelist`, `Blacklist`, `HiddenGames`, `Games`, `WonGames`, `ReducedCvGames`, `NoCvGames`, `Giveaways`].forEach(key => {
             if (esgst[`autoSync${key}`] && Date.now() - esgst[`lastSync${key}`] > esgst[`autoSync${key}`] * 86400000) {
                 parameters += `${key}=1&`;
@@ -8534,6 +8535,8 @@ function checkSync(menu, callback) {
                 setSetting(`avatar`, document.getElementsByClassName(`nav_avatar`)[0].style.backgroundImage.match(/\("(.+)"\)/)[1]);
             }
             open(`/esgst/sync?${parameters.replace(/&$/, ``)}`);
+        } else {
+            delValue(`esgst_isSyncing`);
         }
     }
 }
@@ -8660,6 +8663,7 @@ function completeSync(syncer, mainCallback, callback) {
                 }
             }
         });
+        delValue(`esgst_isSyncing`);
     }
     if (callback) {
         callback();
