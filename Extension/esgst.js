@@ -503,6 +503,9 @@ function loadEsgst(storage) {
     } else if (location.pathname.match(/^\/esgst\/dropbox/)) {
         setValue(`dropboxToken`, location.hash.match(/access_token=(.+?)\&/)[1]);
         close();
+    } else if (location.pathname.match(/^\/esgst\/google-drive/)) {
+        setValue(`googleDriveToken`, location.hash.match(/access_token=(.+?)\&/)[1]);
+        close();
     } else if (location.pathname.match(/^\/esgst\/imgur/)) {
         setValue(`imgurToken`, location.hash.match(/access_token=(.+?)\&/)[1]);
         close();
@@ -31020,13 +31023,13 @@ function loadDataManagement(openInTab, type) {
     if (type === `import`) {
         dm.input = insertHtml(container, `beforeEnd`, `<input type="file"/>`);
         new ToggleSwitch(container, `importAndMerge`, false, `Merge`, false, false, `Merges the current data with the imported data instead of replacing`, esgst.settings.importAndMerge);
-        let select = new ToggleSwitch(container, `exportBackup`, false, `Export backup to <select><option>Computer</option><option>Dropbox</option></select>`, false, false, `Exports the current data as a backup`, esgst.settings.exportBackup).name.firstElementChild;
+        let select = new ToggleSwitch(container, `exportBackup`, false, `Export backup to <select><option>Computer</option><option>Dropbox</option><option>Google Drive</option></select>`, false, false, `Exports the current data as a backup`, esgst.settings.exportBackup).name.firstElementChild;
         select.selectedIndex = esgst.settings.exportBackupIndex;
         select.addEventListener(`change`, () => {
             setSetting(`exportBackupIndex`, select.selectedIndex);
         });
     } else if (type === `delete`) {
-        let select = new ToggleSwitch(container, `exportBackup`, false, `Export backup to <select><option>Computer</option><option>Dropbox</option></select>`, false, false, `Exports the current data as a backup`, esgst.settings.exportBackup).name.firstElementChild;
+        let select = new ToggleSwitch(container, `exportBackup`, false, `Export backup to <select><option>Computer</option><option>Dropbox</option><option>Google Drive</option></select>`, false, false, `Exports the current data as a backup`, esgst.settings.exportBackup).name.firstElementChild;
         select.selectedIndex = esgst.settings.exportBackupIndex;
         select.addEventListener(`change`, () => {
             setSetting(`exportBackupIndex`, select.selectedIndex);
@@ -31040,6 +31043,7 @@ function loadDataManagement(openInTab, type) {
     container.appendChild(new ButtonSet(`green`, `grey`, icon, `fa-circle-o-notch fa-spin`, title, `${title}ing...`, onClick.bind(null, dm, false, false, false, false)).set);
     if (type !== `delete`) {
         container.appendChild(new ButtonSet(`green`, `grey`, `fa-dropbox`, `fa-circle-o-notch fa-spin`, `${title} (Dropbox)`, `${title}ing...`, onClick.bind(null, dm, true, false, false, false)).set);
+        container.appendChild(new ButtonSet(`green`, `grey`, `fa-google`, `fa-circle-o-notch fa-spin`, `${title} (Google Drive)`, `${title}ing...`, onClick.bind(null, dm, false, true, false, false)).set);
     }
     if (!openInTab) {
         popup.open();
@@ -31078,19 +31082,23 @@ function getDataMenu(option, switches, type) {
     return menu;
 }
 
-function loadImportFile(dm, dropbox, google, outlook, space, callback) {
+function loadImportFile(dm, dropbox, googleDrive, outlook, space, callback) {
     var file;
     if (dropbox) {
         delValue(`dropboxToken`);
         open(`https://www.dropbox.com/oauth2/authorize?redirect_uri=https://${location.hostname}/esgst/dropbox&response_type=token&client_id=nix7kvchwa8wdvj`);
         checkDropboxComplete(null, dm, callback);
+    } else if (googleDrive) {
+        delValue(`googleDriveToken`);
+        open(`https://accounts.google.com/o/oauth2/v2/auth?redirect_uri=https://${location.hostname}/esgst/google-drive&response_type=token&client_id=102804278399-95kit5e09mdskdta7eq97ra7tuj20qps.apps.googleusercontent.com&scope=https://www.googleapis.com/auth/drive.appdata`);
+        checkGoogleDriveComplete(null, dm, callback);
     } else {
         file = dm.input.files[0];
         if (file) {
             if (file.name.match(/esgst_data_.*?\.json/)) {
                 dm.reader = new FileReader();
                 dm.reader.readAsText(file);
-                dm.reader.onload = readImportFile.bind(null, dm, dropbox, google, outlook, space, callback);
+                dm.reader.onload = readImportFile.bind(null, dm, dropbox, googleDrive, outlook, space, callback);
             } else {
                 createFadeMessage(dm.warning, `Invalid file!`);
                 callback();
@@ -31102,20 +31110,20 @@ function loadImportFile(dm, dropbox, google, outlook, space, callback) {
     }
 }
 
-function readImportFile(dm, dropbox, google, outlook, space, callback) {
+function readImportFile(dm, dropbox, googleDrive, outlook, space, callback) {
     try {
         if (dm.reader) {
             dm.data = JSON.parse(dm.reader.result);
         }
-        createConfirmation(`Are you sure you want to import the selected data?`, manageData.bind(null, dm, dropbox, google, outlook, space, callback), callback);
+        createConfirmation(`Are you sure you want to import the selected data?`, manageData.bind(null, dm, dropbox, googleDrive, outlook, space, callback), callback);
     } catch (error) {
         createFadeMessage(dm.warning, `Cannot parse file!`);
         callback();
     }
 }
 
-function confirmDataDeletion(dm, dropbox, google, outlook, space, callback) {
-    createConfirmation(`Are you sure you want to delete the selected data?`, manageData.bind(null, dm, dropbox, google, outlook, space, callback), callback);
+function confirmDataDeletion(dm, dropbox, googleDrive, outlook, space, callback) {
+    createConfirmation(`Are you sure you want to delete the selected data?`, manageData.bind(null, dm, dropbox, googleDrive, outlook, space, callback), callback);
 }
 
 function convertBytes(bytes) {
@@ -31131,7 +31139,7 @@ function convertBytes(bytes) {
     }
 }
 
-function manageData(dm, dropbox, google, outlook, space, callback) {
+function manageData(dm, dropbox, googleDrive, outlook, space, callback) {
     var data, dataKey, i, id, j, k, l, mergedData, mergedDataKey, mergedDataValue, newData, newDataKey, newDataValue, numMerged, numNew, numOld, numOptions, numTags, oldData, oldDataKey, oldDataValue, option, optionKey, tag, tags, username, value, valueKey, values;
     data = {};
     let totalGM = 0;
@@ -31863,6 +31871,10 @@ function manageData(dm, dropbox, google, outlook, space, callback) {
                 delValue(`dropboxToken`);
                 open(`https://www.dropbox.com/oauth2/authorize?redirect_uri=https://${location.hostname}/esgst/dropbox&response_type=token&client_id=nix7kvchwa8wdvj`);
                 checkDropboxComplete(data, dm, callback);
+            } else if (googleDrive || (dm.type !== `export` && esgst.settings.exportBackupIndex === 2)) {
+                delValue(`googleDriveToken`);
+                open(`https://accounts.google.com/o/oauth2/v2/auth?redirect_uri=https://${location.hostname}/esgst/google-drive&response_type=token&client_id=102804278399-95kit5e09mdskdta7eq97ra7tuj20qps.apps.googleusercontent.com&scope=https://www.googleapis.com/auth/drive.appdata`);
+                checkGoogleDriveComplete(data, dm, callback);
             } else {
                 data = new Blob([JSON.stringify(data)]);
                 url = URL.createObjectURL(data);
@@ -31950,6 +31962,51 @@ function checkDropboxComplete(data, dm, callback) {
         }
     } else {
         setTimeout(checkDropboxComplete, 250, data, dm, callback);
+    }
+}
+
+function checkGoogleDriveComplete(data, dm, callback) {
+    if (getValue(`googleDriveToken`)) {
+        if (dm.type === `export` || (data && esgst.settings.exportBackup)) {
+            request(`--esgst\nContent-Type: application/json; charset=UTF-8\n\n{"mimeType": "mime/type", "name": "esgst_data_${new Date().toISOString()}.json", "parents": ["appDataFolder"]}\n\n--esgst\nContent-Type: mime/type\n\n${JSON.stringify(data)}\n--esgst--`, {authorization: `Bearer ${getValue(`googleDriveToken`)}`, [`Content-Type`]: `multipart/related; boundary=esgst`}, false, `https://www.googleapis.com/upload/drive/v3/files?uploadType=multipart`, response => {
+                createFadeMessage(dm.message, `Data ${dm.type}ed with success!`);
+                callback();
+            });
+        } else {
+            request(null, {authorization: `Bearer ${getValue(`googleDriveToken`)}`}, false, `https://www.googleapis.com/drive/v3/files?spaces=appDataFolder`, response => {
+                let canceled = true;
+                let popup = new Popup(`fa-google`, `Select a file to import:`, true);
+                let entries = insertHtml(popup.scrollable, `beforeEnd`, `<div class="popup__keys__list"></div>`);
+                JSON.parse(response.responseText).files.forEach(file => {
+                    if (file.name.match(/esgst_data_.*?\.json/)) {
+                        let item = insertHtml(entries, `beforeEnd`, `
+                            <div class="esgst-clickable">${file.name}</div>
+                        `);
+                        item.addEventListener(`click`, () => {
+                            createConfirmation(`Are you sure you want to import the selected data?`, () => {
+                                canceled = false;
+                                popup.close();
+                                request(null, {authorization: `Bearer ${getValue(`googleDriveToken`)}`}, false, `https://www.googleapis.com/drive/v3/files/${file.id}?alt=media`, response => {
+                                    dm.data = JSON.parse(response.responseText);
+                                    manageData(dm, false, false, false, false, callback);
+                                });
+                            });
+                        });
+                    } else {
+                        createFadeMessage(dm.warning, `No files found!`);
+                        callback();
+                    }
+                });
+                popup.onClose = () => {
+                    if (canceled) {
+                        callback();
+                    }
+                };
+                popup.open();
+            });
+        }
+    } else {
+        setTimeout(checkGoogleDriveComplete, 250, data, dm, callback);
     }
 }
 
