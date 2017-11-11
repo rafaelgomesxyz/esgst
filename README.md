@@ -861,6 +861,31 @@ The video above does not get embedded.
 
 ## Changelog
 
+**7.7.3 (November 11, 2017):**
+
+<ul>
+    <li><a href="https://github.com/revilheart/ESGST/issues/136">#136</a> Move recent username changes and comment history from the header menu</li>
+    <li><a href="https://github.com/revilheart/ESGST/issues/139">#139</a> Extend Time To Enter Calculator to Giveaways Manager</li>
+    <li><a href="https://github.com/revilheart/ESGST/issues/138">#138</a> Remove text from giveaway icons in popups</li>
+    <li><a href="https://github.com/revilheart/ESGST/issues/146">#146</a> Fix a bug in Whitelist/Blacklist Sorter that opens the whitelist in the blacklist page</li>
+    <li><a href="https://github.com/revilheart/ESGST/issues/135">#135</a> Add download link to the update notification popup in the extension</li>
+    <li><a href="https://github.com/revilheart/ESGST/issues/148">#148</a> Extend Blacklist Giveaway Loader to situations where the user has unblacklisted the other user</li>
+    <li><a href="https://github.com/revilheart/ESGST/issues/140">#140</a> Fix a bug in Reply From Inbox that shows the wrong time ago for replies</li>
+    <li><a href="https://github.com/revilheart/ESGST/issues/150">#150</a> Fix a bug that opens the automatic sync multiple times</li>
+    <li><a href="https://github.com/revilheart/ESGST/issues/151">#151</a> Prevent sync from clearing game data when store method is unavailable</li>
+    <li><a href="https://github.com/revilheart/ESGST/issues/149">#149</a> Fix a bug in Game Categories that happens when the Steam store does not have information about the base game of a DLC</li>
+    <li><a href="https://github.com/revilheart/ESGST/issues/154">#154</a> Fix a bug that does not update the storage in the current session when deleting data</li>
+    <li><a href="https://github.com/revilheart/ESGST/issues/155">#155</a> Fix a bug that happens when importing/exporting data through Dropbox</li>
+    <li><a href="https://github.com/revilheart/ESGST/issues/156">#156</a> Add option to import/export through Google Drive</li>
+    <li><a href="https://github.com/revilheart/ESGST/issues/157">#157</a> Add option to import/export through OneDrive</li>
+    <li><a href="https://github.com/revilheart/ESGST/issues/158">#158</a> Fix a bug that calculates the size of files incorrectly when importing through Dropbox/OneDrive</li>
+    <li><a href="https://github.com/revilheart/ESGST/issues/159">#159</a> Make the buttons in the import/export/delete menus inline so there is more room for the options</li>
+    <li><a href="https://github.com/revilheart/ESGST/issues/160">#160</a> Color the buttons in the import/export/delete menus white</li>
+    <li><a href="https://github.com/revilheart/ESGST/issues/161">#161</a> Extend #159 to other places where there are multiple buttons</li>
+    <li><a href="https://github.com/revilheart/ESGST/issues/153">#153</a> Add option to shuffle giveaways to Multiple Giveaways Creator</li>
+    <li><a href="https://github.com/revilheart/ESGST/issues/162">#162</a> Fix a bug that does not update the cache when reordering/deleting giveaways in Multiple Giveaways Creator</li>
+</ul>
+
 **7.7.2 (November 4, 2017):**
 
 <ul>
