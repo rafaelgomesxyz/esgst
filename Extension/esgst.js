@@ -15485,8 +15485,7 @@ function addMgcSection() {
         `).firstElementChild;
         removeIcon = mgc.giveaways.nextElementSibling;
         removeIcon.addEventListener(`dragenter`, removeMgcGiveaway.bind(null, mgc));
-        var cache = JSON.parse(getValue(`esgst_mgcCache`, `[]`));
-        cache.forEach(values => {
+        JSON.parse(getValue(`esgst_mgcCache`, `[]`)).forEach(values => {
             addMgcGiveaway(false, mgc, values);
         });
     }
@@ -15515,13 +15514,7 @@ function getMgcValues(edit, mgc, callback) {
         if ((esgst.mgc_createTrain && mgc.description.value.match(/\[ESGST-P\]|\[ESGST-N\]/)) || !esgst.mgc_createTrain) {
             if ((mgc.discussion && mgc.description.value.match(/\[ESGST-B\]/)) || !mgc.discussion) {
                 addMgcGiveaway(edit, mgc, values);
-                cache = JSON.parse(getValue(`esgst_mgcCache`, `[]`));
-                if (edit) {
-                    cache[mgc.editPos] = values;
-                } else {
-                    cache.push(values);
-                }
-                setValue(`esgst_mgcCache`, JSON.stringify(cache));
+                updateMgcCache(mgc);
                 mgc.copies.value = `1`;
                 mgc.keys.value = ``;
             } else {
@@ -15617,10 +15610,12 @@ function getMgcSource(giveaway, mgc) {
         current = current.previousElementSibling;
         if (current && current === giveaway) {
             mgc.giveaways.insertBefore(mgc.source, giveaway);
+            updateMgcCache(mgc);
             return;
         }
     } while (current);
     mgc.giveaways.insertBefore(mgc.source, giveaway.nextElementSibling);
+    updateMgcCache(mgc);
 }
 
 function importMgcGiveaways(mgc, callback) {
@@ -15721,7 +15716,10 @@ function getMgcGiveaways(mgc, popup, progress, textArea, callback) {
                 });
                 progress.total.textContent = n;
             }
-            importMgcGiveaway(giveaways, 0, mgc, n, popup, progress, textArea, () => popup.close(), callback);
+            importMgcGiveaway(giveaways, 0, mgc, n, popup, progress, textArea, () => {
+                updateMgcCache(mgc);
+                popup.close();
+            }, callback);
         } else {
             createAlert(`The bump link format is missing from the description.`);
             callback();
@@ -15827,9 +15825,6 @@ function getMgcGiveaway(giveaways, i, j, mgc, n, name, popup, progress, textArea
     if (k < numElements) {
         values.gameId = elements[k].getAttribute(`data-autocomplete-id`);
         addMgcGiveaway(false, mgc, values);
-        cache = JSON.parse(getValue(`esgst_mgcCache`, `[]`));
-        cache.push(values);
-        setValue(`esgst_mgcCache`, JSON.stringify(cache));
         value = $(progress.bar).progressbar(`option`, `value`) + j;
         $(progress.bar).progressbar(`option`, `value`, value);
         progress.current.textContent = value;
@@ -16203,7 +16198,17 @@ function shuffleMgcGiveaways(mgc, callback) {
     for (i = mgc.giveaways.children.length; i > -1; --i) {
         mgc.giveaways.appendChild(mgc.giveaways.children[Math.random() * i | 0]);
     }
+    updateMgcCache(mgc);
     callback();
+}
+
+function updateMgcCache(mgc) {
+    let cache, i, n;
+    cache = [];
+    for (i = 0, n = mgc.giveaways.children.length; i < n; ++i) {
+        cache.push(mgc.values[parseInt(mgc.giveaways.children[i].textContent) - 1]);
+    }
+    setValue(`esgst_mgcCache`, JSON.stringify(cache));
 }
 
 function attachMgcDiscussion(mgc, callback) {
@@ -16322,6 +16327,7 @@ function removeMgcGiveaway(mgc) {
     if (confirm(`Are you sure you want to remove this giveaway?`)) {
         mgc.source.remove();
         mgc.source = null;
+        updateMgcCache(mgc);
     }
 }
 
