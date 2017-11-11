@@ -30764,7 +30764,7 @@ function createFadeMessage(context, message) {
 /* Data Management */
 
 function loadDataManagement(openInTab, type) {
-    var container, context, i, input, n, option, options, popup, section;
+    var container, context, group1, group2, i, icon, input, n, onClick, option, options, prep, popup, section, title1, title2;
     dm = {
         type: type
     };
@@ -30772,18 +30772,24 @@ function loadDataManagement(openInTab, type) {
     switch (type) {
         case `import`:
             icon = `fa-arrow-circle-up`;
-            onClick = loadImportFile,
-            title = `Import`
+            onClick = loadImportFile;
+            prep = `from`;
+            title1 = `Import`;
+            title2 = `Importing`;
             break;
         case `export`:
             icon = `fa-arrow-circle-down`;
-            onClick = manageData,
-            title = `Export`;
+            onClick = manageData;
+            prep = `to`;
+            title1 = `Export`;
+            title2 = `Exporting`;
             break;
         case `delete`:
             icon = `fa-trash`;
-            onClick = confirmDataDeletion,
-            title = `Delete`;
+            onClick = confirmDataDeletion;
+            prep = `from`;
+            title1 = `Delete`;
+            title2 = `Deleting`;
             break;
     }
     if (openInTab) {
@@ -30791,7 +30797,7 @@ function loadDataManagement(openInTab, type) {
         context = container = document.body;
         context.innerHTML = ``;
     } else {
-        popup = new Popup(icon, title, true, true);
+        popup = new Popup(icon, title1, true, true);
         popup.description.classList.add(`esgst-text-left`);
         context = popup.scrollable;
         container = popup.description;
@@ -30801,7 +30807,7 @@ function loadDataManagement(openInTab, type) {
     `);
     section = insertHtml(context, `beforeEnd`, `
         ${createSMSections(1, [{
-            Title: title
+            Title: title1
         }])}
     `);
     dm.switches = {};
@@ -31023,15 +31029,11 @@ function loadDataManagement(openInTab, type) {
             section.lastElementChild.appendChild(getDataMenu(option, dm.switches, type));
         }
     }
-    if (type === `import`) {
-        dm.input = insertHtml(container, `beforeEnd`, `<input type="file"/>`);
-        new ToggleSwitch(container, `importAndMerge`, false, `Merge`, false, false, `Merges the current data with the imported data instead of replacing`, esgst.settings.importAndMerge);
-        let select = new ToggleSwitch(container, `exportBackup`, false, `Export backup to <select><option>Computer</option><option>Dropbox</option><option>Google Drive</option><option>OneDrive</option></select>`, false, false, `Exports the current data as a backup`, esgst.settings.exportBackup).name.firstElementChild;
-        select.selectedIndex = esgst.settings.exportBackupIndex;
-        select.addEventListener(`change`, () => {
-            setSetting(`exportBackupIndex`, select.selectedIndex);
-        });
-    } else if (type === `delete`) {
+    if (type === `import` || type === `delete`) {
+        if (type === `import`) {
+            dm.input = insertHtml(container, `beforeEnd`, `<input type="file"/>`);
+            new ToggleSwitch(container, `importAndMerge`, false, `Merge`, false, false, `Merges the current data with the imported data instead of replacing`, esgst.settings.importAndMerge);
+        }
         let select = new ToggleSwitch(container, `exportBackup`, false, `Export backup to <select><option>Computer</option><option>Dropbox</option><option>Google Drive</option><option>OneDrive</option></select>`, false, false, `Exports the current data as a backup`, esgst.settings.exportBackup).name.firstElementChild;
         select.selectedIndex = esgst.settings.exportBackupIndex;
         select.addEventListener(`change`, () => {
@@ -31040,14 +31042,16 @@ function loadDataManagement(openInTab, type) {
     }
     dm.message = insertHtml(container, `beforeEnd`, `<div class="esgst-description"></div>`);
     dm.warning = insertHtml(container, `beforeEnd`, `<div class="esgst-description esgst-warning"></div>`);
-    container.appendChild(new ButtonSet(`green`, `grey`, `fa-circle`, `fa-circle-o-notch fa-spin`, `Select All`, ``, selectSwitches.bind(null, dm.switches, `enable`)).set);
-    container.appendChild(new ButtonSet(`green`, `grey`, `fa-circle-o`, `fa-circle-o-notch fa-spin`, `Select None`, ``, selectSwitches.bind(null, dm.switches, `disable`)).set);
-    container.appendChild(new ButtonSet(`green`, `grey`, `fa-dot-circle-o`, `fa-circle-o-notch fa-spin`, `Select Inverse`, ``, selectSwitches.bind(null, dm.switches, `toggle`)).set);
-    container.appendChild(new ButtonSet(`green`, `grey`, icon, `fa-circle-o-notch fa-spin`, title, `${title}ing...`, onClick.bind(null, dm, false, false, false, false)).set);
+    group1 = insertHtml(container, `beforeEnd`, `<div class="esgst-button-group">Select:</div>`);
+    group1.appendChild(new ButtonSet(`green`, `grey`, `fa-circle`, `fa-circle-o-notch fa-spin`, `All`, ``, selectSwitches.bind(null, dm.switches, `enable`)).set);
+    group1.appendChild(new ButtonSet(`green`, `grey`, `fa-circle-o`, `fa-circle-o-notch fa-spin`, `None`, ``, selectSwitches.bind(null, dm.switches, `disable`)).set);
+    group1.appendChild(new ButtonSet(`green`, `grey`, `fa-dot-circle-o`, `fa-circle-o-notch fa-spin`, `Inverse`, ``, selectSwitches.bind(null, dm.switches, `toggle`)).set);
+    group2 = insertHtml(container, `beforeEnd`, `<div class="esgst-button-group">${title1} ${prep}:</div>`);
+    group2.appendChild(new ButtonSet(`green`, `grey`, icon, `fa-circle-o-notch fa-spin`, `Computer`, title2, onClick.bind(null, dm, false, false, false, false)).set);
     if (type !== `delete`) {
-        container.appendChild(new ButtonSet(`green`, `grey`, `fa-dropbox`, `fa-circle-o-notch fa-spin`, `${title} (Dropbox)`, `${title}ing...`, onClick.bind(null, dm, true, false, false, false)).set);
-        container.appendChild(new ButtonSet(`green`, `grey`, `fa-google`, `fa-circle-o-notch fa-spin`, `${title} (Google Drive)`, `${title}ing...`, onClick.bind(null, dm, false, true, false, false)).set);
-        container.appendChild(new ButtonSet(`green`, `grey`, `fa-windows`, `fa-circle-o-notch fa-spin`, `${title} (OneDrive)`, `${title}ing...`, onClick.bind(null, dm, false, false, true, false)).set);
+        group2.appendChild(new ButtonSet(`green`, `grey`, `fa-dropbox`, `fa-circle-o-notch fa-spin`, `Dropbox`, title2, onClick.bind(null, dm, true, false, false, false)).set);
+        group2.appendChild(new ButtonSet(`green`, `grey`, `fa-google`, `fa-circle-o-notch fa-spin`, `Google Drive`, title2, onClick.bind(null, dm, false, true, false, false)).set);
+        group2.appendChild(new ButtonSet(`green`, `grey`, `fa-windows`, `fa-circle-o-notch fa-spin`, `OneDrive`, title2, onClick.bind(null, dm, false, false, true, false)).set);
     }
     if (!openInTab) {
         popup.open();
@@ -32982,6 +32986,15 @@ function addStyle() {
 
         .esgst-button-set .sidebar__entry-delete, .esgst-button-set .sidebar__error {
             display: inline-block;
+        }
+
+        .esgst-button-group {
+            display: block;
+        }
+
+        .esgst-button-group >* {
+            display: inline-block;
+            margin-left: 5px;
         }
 
         .esgst-ggl-panel {
