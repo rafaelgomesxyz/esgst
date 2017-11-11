@@ -506,6 +506,9 @@ function loadEsgst(storage) {
     } else if (location.pathname.match(/^\/esgst\/google-drive/)) {
         setValue(`googleDriveToken`, location.hash.match(/access_token=(.+?)\&/)[1]);
         close();
+    } else if (location.pathname.match(/^\/esgst\/onedrive/)) {
+        setValue(`oneDriveToken`, location.hash.match(/access_token=(.+?)\&/)[1]);
+        close();
     } else if (location.pathname.match(/^\/esgst\/imgur/)) {
         setValue(`imgurToken`, location.hash.match(/access_token=(.+?)\&/)[1]);
         close();
@@ -4497,7 +4500,7 @@ function loadEsgst(storage) {
                     document.title = `ESGST - Delete`;
                     loadDataManagement(true, `delete`);
                 } else {
-                    request(null, null, false, `/`, response => {
+                    request(null, null, `GET`, false, `/`, response => {
                         responseHtml = DOM.parse(response.responseText);
                         document.body.className = `esgst-tab-menu esgst-tab-menu-header`;
                         document.body.innerHTML = `
@@ -4553,7 +4556,7 @@ function loadEsgst(storage) {
                             <i class="fa fa-circle-o-notch fa-spin"></i>
                             <span>Loading giveaway...</span>
                         `;
-                        request(null, null, false, location.pathname, response => {
+                        request(null, null, `GET`, false, location.pathname, response => {
                             let responseHtml = DOM.parse(response.responseText);
                             esgst.featuredContainer = insertHtml(esgst.pageOuterWrap, `beforeBegin`, `<div class="featured__container"></div>`);
                             esgst.featuredContainer.innerHTML = responseHtml.getElementsByClassName(`featured__container`)[0].innerHTML;
@@ -8275,7 +8278,7 @@ function addAndSaveUser(user, callback, deleteLock) {
 }
 
 function getUsername(list, save, user, callback) {
-    request(null, null, false, `https://www.steamgifts.com/go/user/${user.steamId}`, lockAndGetUsername.bind(null, list, save, user, callback));
+    request(null, null, `GET`, false, `https://www.steamgifts.com/go/user/${user.steamId}`, lockAndGetUsername.bind(null, list, save, user, callback));
 }
 
 function lockAndGetUsername(list, save, user, callback, response) {
@@ -8304,7 +8307,7 @@ function lockAndGetUsername(list, save, user, callback, response) {
 function getSteamId(list, save, savedUsers, user, callback) {
     var savedUsers, steamId;
     if (save) {
-        request(null, null, false, `https://www.steamgifts.com/user/${user.username}`, lockAndGetSteamId.bind(null, list, save, user, callback));
+        request(null, null, `GET`, false, `https://www.steamgifts.com/user/${user.username}`, lockAndGetSteamId.bind(null, list, save, user, callback));
     } else {
         if (!savedUsers) {
             savedUsers = JSON.parse(getValue(`users`));
@@ -8314,7 +8317,7 @@ function getSteamId(list, save, savedUsers, user, callback) {
             user.steamId = steamId;
             callback();
         } else {
-            request(null, null, false, `https://www.steamgifts.com/user/${user.username}`, lockAndGetSteamId.bind(null, list, save, user, callback));
+            request(null, null, `GET`, false, `https://www.steamgifts.com/user/${user.username}`, lockAndGetSteamId.bind(null, list, save, user, callback));
         }
     }
 }
@@ -8436,7 +8439,7 @@ function getUserId(user, callback) {
 function saveComment(tradeCode, parentId, description, url, status, callback, mainCallback) {
     let data, elements, id;
     data = `xsrf_token=${esgst.xsrfToken}&do=${esgst.sg ? `comment_new` : `comment_insert`}&trade_code=${tradeCode}&parent_id=${parentId}&description=${encodeURIComponent(description)}`;
-    request(data, null, false, url, response => {
+    request(data, null, `POST`, false, url, response => {
         if (esgst.sg) {
             if (response.redirected && url === response.finalUrl) {
                 callback();
@@ -8455,7 +8458,7 @@ function saveComment(tradeCode, parentId, description, url, status, callback, ma
                     location.href = `/go/comment/${id}`;
                 }
             } else if (url !== response.finalUrl) {
-                request(data, null, false, response.finalUrl, response => {
+                request(data, null, `POST`, false, response.finalUrl, response => {
                     callback();
                     if (parentId) {
                         id = DOM.parse(response.responseText).querySelector(`[data-comment-id="${parentId}"]`).getElementsByClassName(`comment__children`)[0].lastElementChild.getElementsByClassName(`comment__summary`)[0].id;
@@ -8643,7 +8646,7 @@ function sync(syncer, mainCallback, callback) {
         if (!esgst.firstInstall) {
             syncer.progress.lastElementChild.textContent = `Syncing your Steam id...`;
         }
-        request(null, null, false, `https://www.steamgifts.com/user/${esgst.username}`, getSteamIdAndContinueSync.bind(null, syncer, completeSync.bind(null, syncer, mainCallback, callback)));
+        request(null, null, `GET`, false, `https://www.steamgifts.com/user/${esgst.username}`, getSteamIdAndContinueSync.bind(null, syncer, completeSync.bind(null, syncer, mainCallback, callback)));
     } else {
         continueSyncStep1(syncer, completeSync.bind(null, syncer, mainCallback, callback));
     }
@@ -8718,7 +8721,7 @@ function continueSyncStep1(syncer, callback) {
 
 function syncGroups(nextPage, syncer, url, callback) {
     if (!syncer.canceled) {
-        request(null, null, false, `${url}${nextPage}`, getGroupsAndContinueSync.bind(null, nextPage, syncer, url, callback));
+        request(null, null, `GET`, false, `${url}${nextPage}`, getGroupsAndContinueSync.bind(null, nextPage, syncer, url, callback));
     }
 }
 
@@ -8784,7 +8787,7 @@ function getGroupIds(elements, i, n, syncer, callback) {
                 setTimeout(getGroupIds, 0, elements, ++i, n, syncer, callback);
             } else {
                 avatar = element.getElementsByClassName(`table_image_avatar`)[0].style.backgroundImage.match(/\/avatars\/(.+)_medium/)[1];
-                request(null, null, false, `/group/${code}/`, getGroupId.bind(null, avatar, code, elements, i, n, name, syncer, callback));
+                request(null, null, `GET`, false, `/group/${code}/`, getGroupId.bind(null, avatar, code, elements, i, n, name, syncer, callback));
             };
         } else {
             callback();
@@ -8840,7 +8843,7 @@ function continueWhitelistBlacklistSync(syncer, callback) {
 
 function getWhitelistBlacklist(key, nextPage, syncer, url, callback) {
     if (!syncer.canceled) {
-        request(null, null, false, `${url}${nextPage}`, getWhitelistBlacklistAndContinueSync.bind(null, key, nextPage, syncer, url, callback));
+        request(null, null, `GET`, false, `${url}${nextPage}`, getWhitelistBlacklistAndContinueSync.bind(null, key, nextPage, syncer, url, callback));
     }
 }
 
@@ -8897,7 +8900,7 @@ function continueSyncStep3(syncer, callback) {
 }
 
 function syncHiddenGames(nextPage, syncer, url, callback) {
-    request(null, null, false, `${url}${nextPage}`, getHiddenGames.bind(null, nextPage, syncer, url, callback));
+    request(null, null, `GET`, false, `${url}${nextPage}`, getHiddenGames.bind(null, nextPage, syncer, url, callback));
 }
 
 function getHiddenGames(nextPage, syncer, url, callback, response) {
@@ -8955,9 +8958,9 @@ function continueSyncStep4(syncer, callback) {
 
 function syncGames(syncer, callback) {
     if (esgst.steamApiKey) {
-        request(null, null, false, `http://api.steampowered.com/IPlayerService/GetOwnedGames/v0001/?key=${esgst.steamApiKey}&steamid=${esgst.steamId}&format=json`, getApiResponseAndContinueSync.bind(null, syncer, callback));
+        request(null, null, `GET`, false, `http://api.steampowered.com/IPlayerService/GetOwnedGames/v0001/?key=${esgst.steamApiKey}&steamid=${esgst.steamId}&format=json`, getApiResponseAndContinueSync.bind(null, syncer, callback));
     } else {
-        request(null, null, false, `http://store.steampowered.com/dynamicstore/userdata`, getStoreResponseAndContinueSync.bind(null, syncer, callback, null));
+        request(null, null, `GET`, false, `http://store.steampowered.com/dynamicstore/userdata`, getStoreResponseAndContinueSync.bind(null, syncer, callback, null));
     }
 }
 
@@ -8965,7 +8968,7 @@ function syncAltAccounts(i, n, syncer, callback, games, html) {
     var altAccount;
     if (i < n) {
         altAccount = esgst.settings.gc_o_altAccounts[i];
-        request(null, null, false, `http://api.steampowered.com/IPlayerService/GetOwnedGames/v0001/?key=${esgst.steamApiKey}&steamid=${altAccount.steamId}&format=json`, continueGameSync.bind(null, altAccount, html, syncer, setTimeout.bind(null, syncAltAccounts, 0, ++i, n, syncer, callback)));
+        request(null, null, `GET`, false, `http://api.steampowered.com/IPlayerService/GetOwnedGames/v0001/?key=${esgst.steamApiKey}&steamid=${altAccount.steamId}&format=json`, continueGameSync.bind(null, altAccount, html, syncer, setTimeout.bind(null, syncAltAccounts, 0, ++i, n, syncer, callback)));
     } else {
         setSetting(`gc_o_altAccounts`, esgst.settings.gc_o_altAccounts);
         callback(null, html);
@@ -8973,7 +8976,7 @@ function syncAltAccounts(i, n, syncer, callback, games, html) {
 }
 
 function getApiResponseAndContinueSync(syncer, callback, response) {
-    request(null, null, false, `http://store.steampowered.com/dynamicstore/userdata`, getStoreResponseAndContinueSync.bind(null, syncer, callback, response));
+    request(null, null, `GET`, false, `http://store.steampowered.com/dynamicstore/userdata`, getStoreResponseAndContinueSync.bind(null, syncer, callback, response));
 }
 
 function getStoreResponseAndContinueSync(syncer, callback, response1, response2) {
@@ -9178,7 +9181,7 @@ function continueSyncStep6(syncer, callback, games, html) {
     }
     if (!syncer.autoSync && ((syncer.parameters && syncer.parameters.ReducedCvGames) || (!syncer.parameters && esgst.settings.syncReducedCvGames))) {
         syncer.progress.lastElementChild.textContent = `Syncing reduced CV games...`;
-        request(null, null, false, `https://script.google.com/macros/s/AKfycbwJK-7RBh5ghaKprEsmx4DQ6CyXc_3_9eYiOCu3yhI6W4B3W4YN/exec`, syncCvGames.bind(null, syncer, continueSyncStep7.bind(null, syncer, callback)));
+        request(null, null, `GET`, false, `https://script.google.com/macros/s/AKfycbwJK-7RBh5ghaKprEsmx4DQ6CyXc_3_9eYiOCu3yhI6W4B3W4YN/exec`, syncCvGames.bind(null, syncer, continueSyncStep7.bind(null, syncer, callback)));
     } else {
         continueSyncStep7(syncer, callback);
     }
@@ -9187,7 +9190,7 @@ function continueSyncStep6(syncer, callback, games, html) {
 function continueSyncStep7(syncer, callback) {
     if (!syncer.autoSync && ((syncer.parameters && syncer.parameters.NoCvGames) || (!syncer.parameters && esgst.settings.syncNoCvGames))) {
         syncer.progress.lastElementChild.textContent = `Syncing no CV games...`;
-        request(null, null, false, `https://script.google.com/macros/s/AKfycbym0nzeyr3_b93ViuiZRivkBMl9PBI2dTHQxNC0rtgeQSlCTI-P/exec`, syncCvGames.bind(null, syncer, continueSyncStep8.bind(null, syncer, callback)));
+        request(null, null, `GET`, false, `https://script.google.com/macros/s/AKfycbym0nzeyr3_b93ViuiZRivkBMl9PBI2dTHQxNC0rtgeQSlCTI-P/exec`, syncCvGames.bind(null, syncer, continueSyncStep8.bind(null, syncer, callback)));
     } else {
         continueSyncStep8(syncer, callback);
     }
@@ -9852,7 +9855,7 @@ function refreshHeaderElements(context) {
 }
 
 function getWonGames(count, callback) {
-    request(null, null, false, `/giveaways/won`, response => {
+    request(null, null, `GET`, false, `/giveaways/won`, response => {
         let element, elements, i, id, info, responseHtml;
         responseHtml = DOM.parse(response.responseText);
         savedGames = JSON.parse(getValue(`games`));
@@ -9900,7 +9903,7 @@ function getHrCache() {
 
 function startHeaderRefresher(hr) {
     let cache;
-    request(null, null, false, esgst.sg ? `/giveaways/search?type=wishlist` : `/`, response => {
+    request(null, null, `GET`, false, esgst.sg ? `/giveaways/search?type=wishlist` : `/`, response => {
         refreshHeaderElements(DOM.parse(response.responseText));
         cache = getHrCache();
         setValue(`esgst_hrCache`, JSON.stringify(cache));
@@ -9914,7 +9917,7 @@ function continueHeaderRefresher(hr) {
     if (cache.username !== esgst.username || Date.now() - cache.timestamp  > esgst.hr_minutes * 60000) {
         cache.timestamp = Date.now();
         setValue(`esgst_hrCache`, JSON.stringify(cache));
-        request(null, null, false, esgst.sg ? `/giveaways/search?type=wishlist` : `/`, response => {
+        request(null, null, `GET`, false, esgst.sg ? `/giveaways/search?type=wishlist` : `/`, response => {
             refreshHeaderElements(DOM.parse(response.responseText));
             cache = getHrCache();
             setValue(`esgst_hrCache`, JSON.stringify(cache));
@@ -12840,7 +12843,7 @@ function loadGbGibs(bookmarked, container, context, popup) {
 function loadGbGiveaways(i, n, bookmarked, gbGiveaways, popup, callback) {
     if (i < n) {
         if (bookmarked[i]) {
-            request(null, null, true, `/giveaway/${bookmarked[i].code}/`, function (response) {
+            request(null, null, `GET`, true, `/giveaway/${bookmarked[i].code}/`, function (response) {
                 var endTime;
                 var responseHtml = DOM.parse(response.responseText);
                 var container = responseHtml.getElementsByClassName(`featured__outer-wrap--giveaway`)[0];
@@ -13177,7 +13180,7 @@ function loadGed() {
                 giveaway = giveaways[i];
             }
             if (giveaway) {
-                request(null, null, false, `/giveaway/${giveaway.code}/`, function (response) {
+                request(null, null, `GET`, false, `/giveaway/${giveaway.code}/`, function (response) {
                     responseHtml = DOM.parse(response.responseText);
                     builtGiveaway = buildGiveaway(responseHtml, response.finalUrl);
                     if (builtGiveaway) {
@@ -13293,7 +13296,7 @@ function hideGame(button, id, name) {
     var elements, i, popup;
     popup = new Popup(`fa-eye-slash`, `Would you like to hide all giveaways for <span class="esgst-bold">${name}</span>?`, true);
     popup.description.appendChild(new ButtonSet(`green`, `grey`, `fa-check-circle`, `fa-refresh fa-spin`, `Yes`, `Please wait...`, callback => {
-        request(`xsrf_token=${esgst.xsrfToken}&do=hide_giveaways_by_game_id&game_id=${id}`, null, false, `/ajax.php`, () => {
+        request(`xsrf_token=${esgst.xsrfToken}&do=hide_giveaways_by_game_id&game_id=${id}`, null, `POST`, false, `/ajax.php`, () => {
             elements = document.querySelectorAll(`.giveaway__row-outer-wrap[data-game-id="${id}"]`);
             for (i = elements.length - 1; i > -1; --i) {
                 elements[i].remove();
@@ -13313,7 +13316,7 @@ function unhideGame(button, id, name) {
     var elements, i, popup;
     popup = new Popup(`fa-eye-slash`, `Would you like to unhide all giveaways for <span class="esgst-bold">${name}</span>?`, true);
     popup.description.appendChild(new ButtonSet(`green`, `grey`, `fa-check-circle`, `fa-refresh fa-spin`, `Yes`, `Please wait...`, callback => {
-        request(`xsrf_token=${esgst.xsrfToken}&do=remove_filter&game_id=${id}`, null, false, `/ajax.php`, () => {
+        request(`xsrf_token=${esgst.xsrfToken}&do=remove_filter&game_id=${id}`, null, `POST`, false, `/ajax.php`, () => {
             button.remove();
             callback();
             popup.close();
@@ -13504,7 +13507,7 @@ function saveGedGiveaways(codes, source, callback) {
                     };
                     ged.count += 1;
                 } else {
-                    request(null, null, false, `/giveaway/${code}/`, function (response) {
+                    request(null, null, `GET`, false, `/giveaway/${code}/`, function (response) {
                         giveaway = getGiveaways(DOM.parse(response.responseText), false, response.finalUrl, false, null, true)[0];
                         ged.giveaways[code] = giveaway;
                         ged.decryptedGiveaways[code] = {
@@ -13630,12 +13633,12 @@ function unfadeOchgbGiveaway(giveaway, main) {
 
 function hideOchgbGiveaway(giveaway, main, event) {
     event.currentTarget.className = `giveaway__icon fa fa-circle-o-notch fa-spin`;
-    request(`xsrf_token=${esgst.xsrfToken}&do=hide_giveaways_by_game_id&game_id=${giveaway.gameId}`, null, false, `/ajax.php`, completeOchgbProcess.bind(null, event.currentTarget, giveaway, `fade`, main));
+    request(`xsrf_token=${esgst.xsrfToken}&do=hide_giveaways_by_game_id&game_id=${giveaway.gameId}`, null, `POST`, false, `/ajax.php`, completeOchgbProcess.bind(null, event.currentTarget, giveaway, `fade`, main));
 }
 
 function unhideOchgbGiveaway(giveaway, main, event) {
     event.currentTarget.className = `giveaway__icon fa fa-circle-o-notch fa-spin`;
-    request(`xsrf_token=${esgst.xsrfToken}&do=remove_filter&game_id=${giveaway.gameId}`, null, false, `/ajax.php`, completeOchgbProcess.bind(null, event.currentTarget, giveaway, `unfade`, main));
+    request(`xsrf_token=${esgst.xsrfToken}&do=remove_filter&game_id=${giveaway.gameId}`, null, `POST`, false, `/ajax.php`, completeOchgbProcess.bind(null, event.currentTarget, giveaway, `unfade`, main));
 }
 
 function completeOchgbProcess(button, giveaway, key, main) {
@@ -13939,7 +13942,7 @@ function addElgbButton(giveaway, main, source) {
 function openElgbPopup(giveaway, main, source, mainCallback) {
     var box, description, popup, set;
     if (esgst.elgb_d || (esgst.elgb_r && esgst.elgb_r_d) || mainCallback) {
-        request(null, null, false, giveaway.url, function(response) {
+        request(null, null, `GET`, false, giveaway.url, function(response) {
             popup = new Popup(`fa-file-text-o`, `<a href="${giveaway.url}"><span>${giveaway.name}</span></a> by <a href="/user/${giveaway.creator}">${giveaway.creator}</a>`, true);
             if (giveaway.entered) {
                 set = new ButtonSet(`yellow`, `grey`, `fa-minus-circle`, `fa-circle-o-notch fa-spin`, `Leave Giveaway`, `Leaving...`, function (callback) {
@@ -14005,7 +14008,7 @@ function openElgbPopup(giveaway, main, source, mainCallback) {
                     }
                     popup.description.appendChild(new ButtonSet(`green`, `grey`, `fa-arrow-circle-right`, `fa-circle-o-notch fa-spin`, `Add Comment`, `Saving...`, function (callback) {
                         if (box.value) {
-                            request(`xsrf_token=${esgst.xsrfToken}&do=comment_new&description=${box.value}`, null, false, giveaway.url, function() {
+                            request(`xsrf_token=${esgst.xsrfToken}&do=comment_new&description=${box.value}`, null, `POST`, false, giveaway.url, function() {
                                 callback();
                                 popup.close();
                             });
@@ -14047,7 +14050,7 @@ function openElgbPopup(giveaway, main, source, mainCallback) {
                 }
                 popup.description.appendChild(new ButtonSet(`green`, `grey`, `fa-arrow-circle-right`, `fa-circle-o-notch fa-spin`, `Add Comment`, `Saving...`, function (callback) {
                     if (box.value) {
-                        request(`xsrf_token=${esgst.xsrfToken}&do=comment_new&description=${box.value}`, null, false, giveaway.url, function() {
+                        request(`xsrf_token=${esgst.xsrfToken}&do=comment_new&description=${box.value}`, null, `POST`, false, giveaway.url, function() {
                             callback();
                             popup.close();
                         });
@@ -14092,7 +14095,7 @@ function openElgbPopup(giveaway, main, source, mainCallback) {
         }
         popup.description.appendChild(new ButtonSet(`green`, `grey`, `fa-arrow-circle-right`, `fa-circle-o-notch fa-spin`, `Add Comment`, `Saving...`, function (callback) {
             if (box.value) {
-                request(`xsrf_token=${esgst.xsrfToken}&do=comment_new&description=${box.value}`, null, false, giveaway.url, function() {
+                request(`xsrf_token=${esgst.xsrfToken}&do=comment_new&description=${box.value}`, null, `POST`, false, giveaway.url, function() {
                     callback();
                     popup.close();
                 });
@@ -14111,7 +14114,7 @@ function openElgbPopup(giveaway, main, source, mainCallback) {
 }
 
 function enterElgbGiveaway(giveaway, main, popup, source, callback) {
-    request(`xsrf_token=${esgst.xsrfToken}&do=entry_insert&code=${giveaway.code}`, null, false, `/ajax.php`, function(response) {
+    request(`xsrf_token=${esgst.xsrfToken}&do=entry_insert&code=${giveaway.code}`, null, `POST`, false, `/ajax.php`, function(response) {
         var responseJson;
         responseJson = JSON.parse(response.responseText);
         if (responseJson.type === `success`) {
@@ -14166,7 +14169,7 @@ function enterElgbGiveaway(giveaway, main, popup, source, callback) {
 }
 
 function leaveElgbGiveaway(giveaway, main, source, callback) {
-    request(`xsrf_token=${esgst.xsrfToken}&do=entry_delete&code=${giveaway.code}`, null, false, `/ajax.php`, function(response) {
+    request(`xsrf_token=${esgst.xsrfToken}&do=entry_delete&code=${giveaway.code}`, null, `POST`, false, `/ajax.php`, function(response) {
         var responseJson;
         responseJson = JSON.parse(response.responseText);
         if (responseJson.type === `success`) {
@@ -14486,7 +14489,7 @@ function addGglPanel(giveaway, groups, newGroups, savedGroups) {
 
 function getGglGroups(groups, nextPage, newGroups, url, callback) {
     var code, element, elements, error, heading, i, match, n, pagination, responseHtml;
-    request(null, null, false, `${url}${nextPage}`, function(response) {
+    request(null, null, `GET`, false, `${url}${nextPage}`, function(response) {
         responseHtml = DOM.parse(response.responseText);
         error = responseHtml.getElementsByClassName(`table--summary`)[0];
         if (error) {
@@ -14664,7 +14667,7 @@ function setGclButton(giveaway) {
 }
 
 function getGclCountries(countries, nextPage, url, callback) {
-    request(null, null, false, `${url}${nextPage}`, response => {
+    request(null, null, `GET`, false, `${url}${nextPage}`, response => {
         let responseHtml = DOM.parse(response.responseText);
         if (responseHtml.getElementsByClassName(`table--summary`)[0]) {
             setTimeout(callback, 0, null);
@@ -14716,7 +14719,7 @@ function recreateGrGiveaway(button, giveaway) {
     var context, elements, giveaways, i, keys, n, responseJson, template;
     button.innerHTML = `<i class="fa fa-circle-o-notch fa-spin"></i>`;
     if (esgst.createdPath) {
-        request(null, null, false, giveaway.url, function (response) {
+        request(null, null, `GET`, false, giveaway.url, function (response) {
             saveGrTemplate(button, getGiveaways(DOM.parse(response.responseText), false, response.finalUrl, false, `giveaway`)[0] || giveaway);
         });
     } else {
@@ -14725,7 +14728,7 @@ function recreateGrGiveaway(button, giveaway) {
 }
 
 function saveGrTemplate(button, giveaway) {
-    request(`do=autocomplete_giveaway_game&page_number=1&search_query=${encodeURIComponent(giveaway.name)}`, null, false, `/ajax.php`, function(response) {
+    request(`do=autocomplete_giveaway_game&page_number=1&search_query=${encodeURIComponent(giveaway.name)}`, null, `POST`, false, `/ajax.php`, function(response) {
         template = {
             delay: 0,
             description: ``,
@@ -14750,7 +14753,7 @@ function saveGrTemplate(button, giveaway) {
         if (i < n) {
             template.gameId = elements[i].getAttribute(`data-autocomplete-id`);
         }
-        request(`xsrf_token=${esgst.xsrfToken}&do=popup_keys&code=${giveaway.code}`, null, false, `/ajax.php`, function (response) {
+        request(`xsrf_token=${esgst.xsrfToken}&do=popup_keys&code=${giveaway.code}`, null, `POST`, false, `/ajax.php`, function (response) {
             responseJson = JSON.parse(response.responseText);
             keys = [];
             context = DOM.parse(JSON.parse(response.responseText).html).getElementsByClassName(`popup__keys__heading`);
@@ -14826,7 +14829,7 @@ function addGtsButtonSection(button, rows) {
             data += `whitelist=${document.querySelector(`.form__row--who-can-enter [name="whitelist"]`).value}&`;
             data += `contributor_level=${document.querySelector(`[name="contributor_level"]`).value}&`;
             data += `description=${encodeURIComponent(document.querySelector(`[name="description"]`).value)}`;
-            request(data, null, false, `/giveaways/new`, function (response) {
+            request(data, null, `POST`, false, `/giveaways/new`, function (response) {
                 callback();
                 location.href = response.finalUrl;
             });
@@ -15336,14 +15339,14 @@ function loadMgc() {
         if (getValue(`esgst_mgcAttach_step2`)) {
             delValue(`esgst_mgcAttach_step2`);
             setValue(`esgst_mgcAttach_step3`, location.pathname.match(/\/discussion\/(.+?)\//)[1]);
-            request(`xsrf_token=${esgst.xsrfToken}&do=close_discussion`, null, false, location.href, function () {
+            request(`xsrf_token=${esgst.xsrfToken}&do=close_discussion`, null, `POST`, false, location.href, function () {
                 close();
             });
         } else if (getValue(`esgst_mgcAttach_step4`)) {
             document.querySelector(`form[action="/discussions/edit"]`).submit();
         } else if (getValue(`esgst_mgcAttach_step5`)) {
             delValue(`esgst_mgcAttach_step5`);
-            request(`xsrf_token=${esgst.xsrfToken}&do=reopen_discussion`, null, false, location.href, function () {
+            request(`xsrf_token=${esgst.xsrfToken}&do=reopen_discussion`, null, `POST`, false, location.href, function () {
                 setValue(`esgst_mgcAttach_step6`, true);
                 location.reload();
             });
@@ -15804,7 +15807,7 @@ function importMgcGiveaway(giveaways, i, mgc, n, popup, progress, textArea, main
                     }
                 } while (found);
             }
-            request(`do=autocomplete_giveaway_game&page_number=1&search_query=${encodeURIComponent(name)}`, null, false, `/ajax.php`, getMgcGiveaway.bind(null, giveaways, i, j, mgc, n, name, popup, progress, textArea, values, mainCallback, callback));
+            request(`do=autocomplete_giveaway_game&page_number=1&search_query=${encodeURIComponent(name)}`, null, `POST`, false, `/ajax.php`, getMgcGiveaway.bind(null, giveaways, i, j, mgc, n, name, popup, progress, textArea, values, mainCallback, callback));
         } else {
             createAlert(`The next giveaway is not in the right format. Please correct it and click on "Import" again to continue importing.`);
             callback();
@@ -15923,10 +15926,10 @@ function createMgcGiveaway(i, mgc, n, callback) {
                 popup.open();
                 setTimeout(() => {
                     popup.close();
-                    request(mgc.datas[j].replace(/start_time=(.+?)&/, correctMgcTime), null, false, `/giveaways/new`, checkMgcCreation.bind(null, i, mgc, n, callback));
+                    request(mgc.datas[j].replace(/start_time=(.+?)&/, correctMgcTime), `POST`, null, false, `/giveaways/new`, checkMgcCreation.bind(null, i, mgc, n, callback));
                 }, 120000);
             } else {
-                request(mgc.datas[j].replace(/start_time=(.+?)&/, correctMgcTime), null, false, `/giveaways/new`, checkMgcCreation.bind(null, i, mgc, n, callback));
+                request(mgc.datas[j].replace(/start_time=(.+?)&/, correctMgcTime), `POST`, null, false, `/giveaways/new`, checkMgcCreation.bind(null, i, mgc, n, callback));
             }
         } else {
             setTimeout(createMgcGiveaway, 0, ++i, mgc, n, callback);
@@ -16058,7 +16061,7 @@ function createMgcTrain(i, mgc, n, callback) {
     if (i >= n || n - 1 === 0) {
         callback();
     } else {
-        request(null, null, false, mgc.created[i].url, createMgcWagon.bind(null, i, mgc, n, callback));
+        request(null, null, `GET`, false, mgc.created[i].url, createMgcWagon.bind(null, i, mgc, n, callback));
     }
 }
 
@@ -16083,7 +16086,7 @@ function createMgcWagon(i, mgc, n, callback, response) {
     } else {
         description = description.replace(/\[ESGST-B\](.+?)\[\/ESGST-B\]/g, ``);
     }
-    request(`xsrf_token=${esgst.xsrfToken}&do=edit_giveaway_description&giveaway_id=${id}&description=${encodeURIComponent(description.trim())}`, null, false, `/ajax.php`, connectMgcWagon.bind(null, i, mgc, n, callback));
+    request(`xsrf_token=${esgst.xsrfToken}&do=edit_giveaway_description&giveaway_id=${id}&description=${encodeURIComponent(description.trim())}`, null, `POST`, false, `/ajax.php`, connectMgcWagon.bind(null, i, mgc, n, callback));
 }
 
 function getMgcNext(i, mgc, single, fullMatch, match1, match2, match3) {
@@ -16553,7 +16556,7 @@ function loadRcvc() {
                 var i, n;
                 var headings = document.getElementsByClassName(`featured__heading__small`);
                 var copies = headings.length > 1 ? parseInt(headings[0].textContent.match(/\d+/)[0]) : 1;
-                request(null, null, false, `http://store.steampowered.com/api/${type === `apps` ? `appdetails?appids` : `packagedetails?packageids`}=${id}&cc=us&filters=price,price_overview`, response => {
+                request(null, null, `GET`, false, `http://store.steampowered.com/api/${type === `apps` ? `appdetails?appids` : `packagedetails?packageids`}=${id}&cc=us&filters=price,price_overview`, response => {
                     var responseJson = JSON.parse(response.responseText)[id].data;
                     var value = Math.ceil((responseJson.price_overview || responseJson.price).initial / 100);
                     var games = JSON.parse(getValue(`games`));
@@ -16782,7 +16785,7 @@ function getUgsGiveaways(context, ugs, nextPage, callback) {
         } else if (document.getElementsByClassName(`esgst-es-page-${nextPage}}`)[0]) {
             setTimeout(getUgsGiveaways, 0, null, ugs, ++nextPage, callback);
         } else if (!ugs.canceled) {
-            request(null, null, false, `/giveaways/created/search?page=${nextPage}`, loadNextUgsPage.bind(null, ugs, nextPage, callback));
+            request(null, null, `GET`, false, `/giveaways/created/search?page=${nextPage}`, loadNextUgsPage.bind(null, ugs, nextPage, callback));
         }
     }
 }
@@ -16809,7 +16812,7 @@ function setUgsGiveaways(giveaways, ugs, i, n, callback) {
 
 function getUgsWinners(code, ugs, nextPage, url, callback) {
     if (!ugs.canceled) {
-        request(null, null, false, `${url}${nextPage}`, loadNextUgsWinnersPage.bind(null, code, ugs, nextPage, url, callback));
+        request(null, null, `GET`, false, `${url}${nextPage}`, loadNextUgsWinnersPage.bind(null, code, ugs, nextPage, url, callback));
     }
 }
 
@@ -16866,7 +16869,7 @@ function checkUgsGiveawayGroups(giveaway, giveaways, ugs, i, n, callback) {
 
 function getUgsGroups(code, ugs, nextPage, url, callback) {
     if (!ugs.canceled) {
-        request(null, null, false, `${url}${nextPage}`, loadNextUgsGroupsPage.bind(null, code, ugs, nextPage, url, callback));
+        request(null, null, `GET`, false, `${url}${nextPage}`, loadNextUgsGroupsPage.bind(null, code, ugs, nextPage, url, callback));
     }
 }
 
@@ -17101,7 +17104,7 @@ function getUgsGroupMembers(giveaway, ugs, i, n, winner, callback) {
         if (i < n) {
             code = giveaway.groups[i].code;
             for (j = esgst.groups.length - 1; j >= 0 && esgst.groups[j].code !== code; --j);
-            request(null, null, false, `http://steamcommunity.com/gid/${esgst.groups[j].steamId}/memberslistxml?xml=1`, checkUgsGroupMembers.bind(null, giveaway, ugs, i, n, winner, callback));
+            request(null, null, `GET`, false, `http://steamcommunity.com/gid/${esgst.groups[j].steamId}/memberslistxml?xml=1`, checkUgsGroupMembers.bind(null, giveaway, ugs, i, n, winner, callback));
         } else {
             callback();
         }
@@ -17118,7 +17121,7 @@ function checkUgsGroupMembers(giveaway, ugs, i, n, winner, callback, response) {
                     <span>Checking if ${winner.username} has a gift difference higher than the one set...</span>
                 `;
                 group = giveaway.groups[i];
-                request(null, null, false, `/group/${group.code}/${group.name}/users/search?q=${winner.username}`, checkUgsDifference.bind(null, ugs, winner, callback));
+                request(null, null, `GET`, false, `/group/${group.code}/${group.name}/users/search?q=${winner.username}`, checkUgsDifference.bind(null, ugs, winner, callback));
             } else {
                 callback(true);
             }
@@ -17195,7 +17198,7 @@ function sendUgsGifts(code, ugs, i, n, callback) {
                     `);
                     setTimeout(sendUgsGifts, 0, code, ugs, ++i, n, callback);
                 } else if (!ugs.canceled) {
-                    request(`xsrf_token=${esgst.xsrfToken}&do=sent_feedback&action=1&winner_id=${winner.winnerId}`, null, false, `/ajax.php`, sendUgsGift.bind(null, code, giveaway, ugs, i, n, winner, callback));
+                    request(`xsrf_token=${esgst.xsrfToken}&do=sent_feedback&action=1&winner_id=${winner.winnerId}`, null, `POST`, false, `/ajax.php`, sendUgsGift.bind(null, code, giveaway, ugs, i, n, winner, callback));
                 }
             } else {
                 ugs.unsent.classList.remove(`esgst-hidden`);
@@ -17365,7 +17368,7 @@ function getSksGiveaways(context, nextPage, sks, callback) {
         } else if (document.getElementsByClassName(`esgst-es-page-${nextPage}}`)[0]) {
             setTimeout(getSksGiveaways, 0, null, ++nextPage, sks, callback);
         } else if (!sks.canceled) {
-            request(null, null, false, `/giveaways/created/search?page=${nextPage}`, loadNextSksPage.bind(null, nextPage, sks, callback));
+            request(null, null, `GET`, false, `/giveaways/created/search?page=${nextPage}`, loadNextSksPage.bind(null, nextPage, sks, callback));
         }
     }
 }
@@ -17373,7 +17376,7 @@ function getSksGiveaways(context, nextPage, sks, callback) {
 function checkSksGiveaways(giveaways, i, n, sks, callback) {
     if (!sks.canceled) {
         if (i < n) {
-            request(`xsrf_token=${esgst.xsrfToken}&do=popup_keys&code=${giveaways[i].code}`, null, false, `/ajax.php`, checkSksGiveaway.bind(null, giveaways, i, n, sks, callback));
+            request(`xsrf_token=${esgst.xsrfToken}&do=popup_keys&code=${giveaways[i].code}`, null, `POST`, false, `/ajax.php`, checkSksGiveaway.bind(null, giveaways, i, n, sks, callback));
         } else {
             callback();
         }
@@ -17702,12 +17705,12 @@ function searchGmGiveawaysAndReplace(gm, i, n, callback) {
                 <span>Searching & replacing (${i + 1} of ${n})</span>
             `;
             giveaway = gm.giveaways[i];
-            request(null, null, false, giveaway.url, function (response) {
+            request(null, null, `GET`, false, giveaway.url, function (response) {
                 description = DOM.parse(response.responseText).querySelector(`.page__description textarea[name=description]`);
                 if (description) {
                     match = description.value.match(gm.searchValue);
                     if (match) {
-                        request(`xsrf_token=${esgst.xsrfToken}&do=edit_giveaway_description&giveaway_id=${description.previousElementSibling.value}&description=${encodeURIComponent(description.value.replace(gm.searchValue, gm.replaceValue))}`, null, false, `/ajax.php`, function (response) {
+                        request(`xsrf_token=${esgst.xsrfToken}&do=edit_giveaway_description&giveaway_id=${description.previousElementSibling.value}&description=${encodeURIComponent(description.value.replace(gm.searchValue, gm.replaceValue))}`, `POST`, null, false, `/ajax.php`, function (response) {
                             responseJson = JSON.parse(response.responseText);
                             if (responseJson.type === `success`) {
                                 gm.results.insertAdjacentHTML(`beforeEnd`, `<li>Found and replaced in <a href="${giveaway.url}">${giveaway.name}</a></li>`);
@@ -17949,7 +17952,7 @@ function removeHgrGames(context, currentPage, hgr, nextPage, url, callback) {
                         if (context === document) {
                             button.click();
                         } else {
-                            request(`xsrf_token=${esgst.xsrfToken}&do=remove_filter&game_id=${button.parentElement.querySelector(`[name="game_id"]`).value}`, null, false, `/ajax.php`);
+                            request(`xsrf_token=${esgst.xsrfToken}&do=remove_filter&game_id=${button.parentElement.querySelector(`[name="game_id"]`).value}`, null, `POST`, false, `/ajax.php`);
                         }
                         heading = element.getElementsByClassName(`table__column__heading`)[0];
                         hgr.removed.insertAdjacentHTML(`beforeEnd`, `
@@ -17965,7 +17968,7 @@ function removeHgrGames(context, currentPage, hgr, nextPage, url, callback) {
                 callback();
             }
         } else if (!hgr.canceled) {
-            request(null, null, false, `${url}${nextPage}`, getNextHgrPage.bind(null, currentPage, hgr, nextPage, url, callback));
+            request(null, null, `GET`, false, `${url}${nextPage}`, getNextHgrPage.bind(null, currentPage, hgr, nextPage, url, callback));
         }
     }
 }
@@ -18160,7 +18163,7 @@ function getCewgdDetail(cewgd, giveaways, i) {
         addCewgdDetails(giveaway, cewgd.savedGiveaways[code]);
         ++cewgd.count;
     } else {
-        request(null, null, false, giveaway.url, function (response) {
+        request(null, null, `GET`, false, giveaway.url, function (response) {
             responseHtml = DOM.parse(response.responseText);
             currentGiveaways = getGiveaways(responseHtml, false, response.finalUrl);
             if (currentGiveaways.length) {
@@ -18257,9 +18260,9 @@ function getItadiInfo(giveaways, main) {
                         <i class="fa fa-circle-o-notch fa-spin"></i> Loading Is There Any Deal? info...
                     </h3>
                 `);
-                request(null, null, true, `https://isthereanydeal.com/ajax/game/info?plain=${plain}`, function (infoResponse) {
+                request(null, null, `GET`, true, `https://isthereanydeal.com/ajax/game/info?plain=${plain}`, function (infoResponse) {
                     if (esgst.itadi_h) {
-                        request(null, null, true, `https://isthereanydeal.com/ajax/game/price?plain=${plain}`, function (priceResponse) {
+                        request(null, null, `GET`, true, `https://isthereanydeal.com/ajax/game/price?plain=${plain}`, function (priceResponse) {
                             loadItadiInfo(giveaway, infoResponse, loading, plain, priceResponse);
                         });
                     } else {
@@ -18478,7 +18481,7 @@ function deleteDkcKey(link) {
     row.getElementsByClassName(`form__key-loading`)[0].classList.remove(`is-hidden`);
     row.querySelector(`[name="key_value"]`).value = ``;
     row.getElementsByClassName(`form__key-value`)[0].textContent = ``;
-    request(`xsrf_token=${esgst.xsrfToken}&do=set_gift_key&key_value=&winner_id=${row.querySelector(`[name="winner_id"]`).value}`, null, false, `/ajax.php`, function () {
+    request(`xsrf_token=${esgst.xsrfToken}&do=set_gift_key&key_value=&winner_id=${row.querySelector(`[name="winner_id"]`).value}`, null, `POST`, false, `/ajax.php`, function () {
         row.getElementsByClassName(`form__key-loading`)[0].classList.add(`is-hidden`);
         row.getElementsByClassName(`form__key-insert`)[0].classList.remove(`is-hidden`);
         row.getElementsByClassName(`js__sent-text`)[0].textContent = `Sent Gift`;
@@ -18584,7 +18587,7 @@ function loadGe() {
             }
         });
     } else if (esgst.gePath) {
-        request(null, null, false, getParameters().url, response => {
+        request(null, null, `GET`, false, getParameters().url, response => {
             let ge = {
                 context: DOM.parse(response.responseText)
             };
@@ -18691,7 +18694,7 @@ function extractGeGiveaway(ge, code, callback) {
             }
         } else {
             if (ge.extracted.indexOf(code) < 0) {
-                request(null, null, false, `/giveaway/${code}/`, response => {
+                request(null, null, `GET`, false, `/giveaway/${code}/`, response => {
                     let bumpLink, button, context, giveaway, giveaways, n, responseHtml;
                     responseHtml = DOM.parse(response.responseText);
                     giveaway = buildGiveaway(responseHtml, response.finalUrl);
@@ -18731,7 +18734,7 @@ function extractGeGiveaway(ge, code, callback) {
                             callback();
                         }
                     } else {
-                        request(null, null, false, `/giveaway/${code}/`, response => {
+                        request(null, null, `GET`, false, `/giveaway/${code}/`, response => {
                             let bumpLink, context, giveaway, giveaways, n, responseHtml;
                             responseHtml = DOM.parse(response.responseText);
                             giveaway = buildGiveaway(responseHtml, response.finalUrl);
@@ -18886,7 +18889,7 @@ function loadAs() {
                         <i class="fa fa-circle-o-notch fa-spin"></i>
                         <span>Retrieving game title...</span>
                     `;
-                    request(null, null, false, `https://steamcommunity.com/app/${AS.Query}`, function (Response) {
+                    request(null, null, `GET`, false, `https://steamcommunity.com/app/${AS.Query}`, function (Response) {
                         var Title;
                         Title = DOM.parse(Response.responseText).getElementsByClassName(`apphub_AppName`)[0];
                         if (Title) {
@@ -18947,7 +18950,7 @@ function searchASGame(AS, URL, NextPage, Callback) {
             <i class="fa fa-circle-o-notch fa-spin"></i>
             <span>Loading page ${NextPage}...</span>
         `;
-        request(null, null, true, URL + NextPage, function (Response) {
+        request(null, null, `GET`, true, URL + NextPage, function (Response) {
             var ResponseHTML, Matches, I, N, Title, Pagination;
             ResponseHTML = DOM.parse(Response.responseText);
             Matches = ResponseHTML.getElementsByClassName(`table__row-outer-wrap`);
@@ -18973,8 +18976,8 @@ function searchASGame(AS, URL, NextPage, Callback) {
 
 function loadOadd() {
     var deals, dealsRows, dealsSwitch, discussions, discussionsRows, discussionsSwitch, element, elements, i, j, n, response1Html, response2Html, revisedElements, rows, savedDiscussions;
-    request(null, null, false, `/discussions`, function (response1) {
-        request(null, null, false, `/discussions/deals`, function (response2) {
+    request(null, null, `GET`, false, `/discussions`, function (response1) {
+        request(null, null, `GET`, false, `/discussions/deals`, function (response2) {
             response1Html = DOM.parse(response1.responseText);
             response2Html = DOM.parse(response2.responseText);
             esgst.activeDiscussions.classList.add(`esgst-oadd`);
@@ -19185,8 +19188,8 @@ function checkMissingDiscussions() {
     numDiscussions = discussions.length;
     numDeals = deals.length;
     if (numDiscussions < 5 || numDeals < 5) {
-        request(null, null, false, `/discussions`, response1 => {
-            request(null, null, false, `/discussions/deals`, response2 => {
+        request(null, null, `GET`, false, `/discussions`, response1 => {
+            request(null, null, `GET`, false, `/discussions/deals`, response2 => {
                 let elements, i, j, response1Html, response2Html, revisedElements;
                 response1Html = DOM.parse(response1.responseText);
                 response2Html = DOM.parse(response2.responseText);
@@ -19326,7 +19329,7 @@ function addCodbCloseButton(button, discussion) {
     }
     button.firstElementChild.addEventListener(`click`, function() {
         button.innerHTML = `<i class="fa fa-circle-o-notch fa-spin"></i>`;
-        request(`xsrf_token=${esgst.xsrfToken}&do=close_discussion`, null, false, discussion.url, response => {
+        request(`xsrf_token=${esgst.xsrfToken}&do=close_discussion`, null, `POST`, false, discussion.url, response => {
             button.innerHTML = `<i class="fa fa-lock"></i>`;
             if (DOM.parse(response.responseText).getElementsByClassName(`page__heading__button--red`)[0]) {
                 button.classList.add(`icon-red`);
@@ -19349,7 +19352,7 @@ function addCodbOpenButton(button, discussion) {
     }
     button.firstElementChild.addEventListener(`click`, function() {
         button.innerHTML = `<i class="fa fa-circle-o-notch fa-spin"></i>`;
-        request(`xsrf_token=${esgst.xsrfToken}&do=reopen_discussion`, null, false, discussion.url, response => {
+        request(`xsrf_token=${esgst.xsrfToken}&do=reopen_discussion`, null, `POST`, false, discussion.url, response => {
             button.innerHTML = `<i class="fa fa-lock"></i>`;
             if (!DOM.parse(response.responseText).getElementsByClassName(`page__heading__button--red`)[0]) {
                 button.classList.remove(`icon-red`);
@@ -20365,7 +20368,7 @@ function getDhHighlightedDiscussions(discussions, i, j, keys, n, popup, callback
         key = keys[j];
         if (key) {
             if (discussions[key].highlighted) {
-                request(null, null, false, `/discussion/${key}/`, function(response) {
+                request(null, null, `GET`, false, `/discussion/${key}/`, function(response) {
                     var breadcrumbs, categoryLink, context, usernameLink;
                     context = DOM.parse(response.responseText);
                     breadcrumbs = context.getElementsByClassName(`page__heading__breadcrumbs`);
@@ -20511,7 +20514,7 @@ function addDEDButton(Context, CommentURL, DEDCallback) {
     DEDButton.appendChild(new ButtonSet(`grey`, `grey`, `fa-send`, `fa-circle-o-notch fa-spin`, `Submit`, `Saving...`, function (Callback) {
         DEDStatus.innerHTML = ``;
         if (CommentURL) {
-            request(null, null, false, CommentURL, function (Response) {
+            request(null, null, `GET`, false, CommentURL, function (Response) {
                 ResponseHTML = DOM.parse(Response.responseText);
                 TradeCode = esgst.sg ? `` : Response.finalUrl.match(/\/trade\/(.+?)\//)[1];
                 ParentID = ResponseHTML.getElementById(CommentURL.match(/\/comment\/(.+)/)[1]);
@@ -20563,7 +20566,7 @@ function getTbTrades(button, context, callback) {
 
 function bumpTbTrades(button, elements, i, n, callback) {
     if (i < n) {
-        request(`xsrf_token=${esgst.xsrfToken}&do=trade_bump&code=${elements[i].querySelector(`[href*="/trade/"]`).getAttribute(`href`).match(/\/trade\/(.+?)\//)[1]}`, null, false, `https://www.steamtrades.com/ajax.php`, bumpTbTrades.bind(null, button, elements, ++i, n, callback));
+        request(`xsrf_token=${esgst.xsrfToken}&do=trade_bump&code=${elements[i].querySelector(`[href*="/trade/"]`).getAttribute(`href`).match(/\/trade\/(.+?)\//)[1]}`, null, `POST`, false, `https://www.steamtrades.com/ajax.php`, bumpTbTrades.bind(null, button, elements, ++i, n, callback));
     } else {
         if (button) {
             button.innerHTML = `
@@ -20595,7 +20598,7 @@ function autoBumpTbTrades(button) {
     if (location.href.match(new RegExp(`\\/trades\\/search\\?user=${esgst.steamId}`))) {
         getTbTrades(button, document);
     } else {
-        request(null, null, true, `https://www.steamtrades.com/trades/search?user=${esgst.steamId}`, loadTbTrades.bind(null, button));
+        request(null, null, `GET`, true, `https://www.steamtrades.com/trades/search?user=${esgst.steamId}`, loadTbTrades.bind(null, button));
     }
 }
 
@@ -20772,7 +20775,7 @@ function uploadImgurImage(authorization, popout, url) {
 }
 
 function readImgurFile(authorization, popout, popup, reader, url, warning, callback) {
-    request(`image=${encodeURIComponent(reader.result.match(/base64,(.+)/)[1])}`, {authorization}, false, `https://api.imgur.com/3/image`, response => {
+    request(`image=${encodeURIComponent(reader.result.match(/base64,(.+)/)[1])}`, {authorization}, `POST`, false, `https://api.imgur.com/3/image`, response => {
         let responseJson = JSON.parse(response.responseText);
         if (responseJson.success) {
             callback();
@@ -21252,7 +21255,7 @@ function startCsSearch(cs, callback) {
 
 function searchCsComments(cs, nextPage, url, callback) {
     if (!cs.canceled) {
-        request(null, null, false, `${url}${nextPage}`, getNextCsPage.bind(null, cs, nextPage, url, callback));
+        request(null, null, `GET`, false, `${url}${nextPage}`, getNextCsPage.bind(null, cs, nextPage, url, callback));
     }
 }
 
@@ -21684,7 +21687,7 @@ function setMREdit(MR) {
             Description.value = Temp;
         });
         EditSave.addEventListener(`click`, function () {
-            request(`xsrf_token=${esgst.xsrfToken}&do=comment_edit&comment_id=${ID}&allow_replies=${AllowReplies}&description=${encodeURIComponent(Description.value)}`, null, false,
+            request(`xsrf_token=${esgst.xsrfToken}&do=comment_edit&comment_id=${ID}&allow_replies=${AllowReplies}&description=${encodeURIComponent(Description.value)}`, null, `POST`, false,
                 `/ajax.php`, function (Response) {
                     var codes, encryptedCode, ResponseJSON, ResponseHTML;
                     ResponseJSON = JSON.parse(Response.responseText);
@@ -21751,7 +21754,7 @@ function setMrDelete(mr) {
         mr.delete.insertAdjacentHTML(`afterEnd`, `<a class="comment__actions__button esgst-mr-delete">Delete</a>`);
         mr.delete = mr.delete.nextElementSibling;
         mr.delete.previousElementSibling.remove();
-        mr.delete.addEventListener(`click`, request.bind(null, data, null, false, `/ajax.php`, editMrReply.bind(null, mr), false));
+        mr.delete.addEventListener(`click`, request.bind(null, data, null, `POST`, false, `/ajax.php`, editMrReply.bind(null, mr), false));
     }
 }
 
@@ -21769,7 +21772,7 @@ function setMrUndelete(mr) {
         mr.undelete.insertAdjacentHTML(`afterEnd`, `<a class="comment__actions__button esgst-mr-undelete">Undelete</a>`);
         mr.undelete = mr.undelete.nextElementSibling;
         mr.undelete.previousElementSibling.remove();
-        mr.undelete.addEventListener(`click`, request.bind(null, data, null, false, `/ajax.php`, editMrReply.bind(null, mr), false));
+        mr.undelete.addEventListener(`click`, request.bind(null, data, null, `POST`, false, `/ajax.php`, editMrReply.bind(null, mr), false));
     }
 }
 
@@ -22196,7 +22199,7 @@ function addCtCommentPanel(goToUnread, markRead, markUnread) {
                 url = `/ajax.php`;
             }
             button.remove();
-            newButton.addEventListener(`click`, request.bind(null, `xsrf_token=${esgst.xsrfToken}&do=${key}`, null, false, url, markCtCommentsRead.bind(null, markRead, completeCtInboxRead.bind(null, newButton)), false));
+            newButton.addEventListener(`click`, request.bind(null, `xsrf_token=${esgst.xsrfToken}&do=${key}`, null, `POST`, false, url, markCtCommentsRead.bind(null, markRead, completeCtInboxRead.bind(null, newButton)), false));
         }
     }
 }
@@ -22467,7 +22470,7 @@ function addCtDiscussionPanel(code, comments, container, context, count, diff, u
 }
 
 function markCtCommentsReadUnread(firstRun, goToUnread, lastPageMissing, markRead, markUnread, nextPage, url, callback) {
-    request(null, null, true, `${url}${nextPage}`, function(response) {
+    request(null, null, `GET`, true, `${url}${nextPage}`, function(response) {
         var context, lastLink, pagination;
         context = DOM.parse(response.responseText);
         getCtComments(0, getComments(context, context), null, goToUnread, markRead, markUnread);
@@ -22530,7 +22533,7 @@ function getChComments(comments, i, n, popup, callback) {
         comment = comments[i];
         if (comment) {
             id = comment.id;
-            request(null, null, false, `https://${location.hostname}/go/comment/${id}`, function (response) {
+            request(null, null, `GET`, false, `https://${location.hostname}/go/comment/${id}`, function (response) {
                 var html, parent, responseHtml;
                 responseHtml = DOM.parse(response.responseText);
                 comment = responseHtml.getElementById(id);
@@ -22617,7 +22620,7 @@ function toggleUhBox(box, profile, list) {
             </div>
         `);
         url = `https://script.google.com/macros/s/AKfycbzvOuHG913mRIXOsqHIeAuQUkLYyxTHOZim5n8iP-k80iza6g0/exec?Action=1&SteamID64=${profile.steamId}&Username=${profile.username}`;
-        request(null, null, false, url, loadUhList.bind(null, list, progress));
+        request(null, null, `GET`, false, url, loadUhList.bind(null, list, progress));
     }
 }
 
@@ -22900,7 +22903,7 @@ function openSgcPopup(profile) {
         profile.sgcPrivate = profile.sgcResults.lastElementChild.lastElementChild;
         profile.sgcPrivateResults = profile.sgcPrivate.lastElementChild;
         profile.sgcPopup.open();
-        request(null, null, false, `http://steamcommunity.com/profiles/${profile.steamId}/groups`, loadSgcGroups.bind(null, profile));
+        request(null, null, `GET`, false, `http://steamcommunity.com/profiles/${profile.steamId}/groups`, loadSgcGroups.bind(null, profile));
     }
 }
 
@@ -23246,7 +23249,7 @@ function addUgdButton(Context, Key, user) {
                                     </div>
                                     <div class="table__rows">
                             `;
-                            request(null, null, false, `https://api.steampowered.com/IPlayerService/GetOwnedGames/v0001/?key=${esgst.steamApiKey}&steamid=${user.steamId}&format=json`, response => {
+                            request(null, null, `GET`, false, `https://api.steampowered.com/IPlayerService/GetOwnedGames/v0001/?key=${esgst.steamApiKey}&steamid=${user.steamId}&format=json`, response => {
                                 let games = JSON.parse(response.responseText).response.games, id;
                                 UGD.count = 0;
                                 UGD.playedCount = 0;
@@ -23266,7 +23269,7 @@ function addUgdButton(Context, Key, user) {
                                         time2Weeks = time2Weeks && time2Weeks > 0 ? (time2Weeks > 60 ? `${Math.round(time2Weeks / 60 * 100) / 100}h` : `${time2Weeks}m`) : `0`;
                                         timeForever = timeForever > 0 ? (timeForever > 60 ? `${Math.round(timeForever / 60 * 100) / 100}h` : `${timeForever}m`) : `0`;
                                         if (esgst.ugd_getAchievements) {
-                                            request(null, null, false, `http://api.steampowered.com/ISteamUserStats/GetPlayerAchievements/v0001/?appid=${game.appid}&key=${esgst.steamApiKey}&steamid=${user.steamId}`, response => {
+                                            request(null, null, `GET`, false, `http://api.steampowered.com/ISteamUserStats/GetPlayerAchievements/v0001/?appid=${game.appid}&key=${esgst.steamApiKey}&steamid=${user.steamId}`, response => {
                                                 let responseJson = JSON.parse(response.responseText).playerstats, achievements, count = 0, total = 0;
                                                 if (responseJson.success && responseJson.achievements) {
                                                     responseJson.achievements.forEach(achievement => {
@@ -23533,7 +23536,7 @@ function getUGDGiveaways(UGD, giveaways, NextPage, URL, username, Callback, Cont
                 lockAndSaveGiveaways(UGD.giveaways, Callback.bind(null, giveaways));
             }
         } else if (!UGD.Canceled) {
-            request(null, null, true, URL + NextPage, function (Response) {
+            request(null, null, `GET`, true, URL + NextPage, function (Response) {
                 setTimeout(getUGDGiveaways, 0, UGD, giveaways, ++NextPage, URL, username, Callback, DOM.parse(Response.responseText));
             });
         }
@@ -23789,7 +23792,7 @@ function checkNAMWCNotActivated(NAMWC, namwc, username, Callback) {
                 <span>Retrieving ${username}'s not activated wins...</span>
             `;
         }
-        request(null, null, true, `http://www.sgtools.info/nonactivated/${username}`, function (Response) {
+        request(null, null, `GET`, true, `http://www.sgtools.info/nonactivated/${username}`, function (Response) {
             ResponseText = Response.responseText;
             if (ResponseText.match(/has a private profile/)) {
                 namwc.results.activated = false;
@@ -23816,7 +23819,7 @@ function checkNAMWCMultiple(NAMWC, namwc, username, Callback) {
                 <span>Retrieving ${username}'s multiple wins...</span>
             `;
         }
-        request(null, null, true, `http://www.sgtools.info/multiple/${username}`, function (Response) {
+        request(null, null, `GET`, true, `http://www.sgtools.info/multiple/${username}`, function (Response) {
             N = DOM.parse(Response.responseText).getElementsByClassName(`multiplewins`).length;
             namwc.results.notMultiple = N === 0 ? true : false;
             namwc.results.multiple = N;
@@ -24026,7 +24029,7 @@ function searchNRFUser(NRF, username, NextPage, CurrentPage, URL, Callback, Cont
                 Callback();
             }
         } else if (!NRF.Canceled) {
-            request(null, null, true, URL + NextPage, function (Response) {
+            request(null, null, `GET`, true, URL + NextPage, function (Response) {
                 setTimeout(searchNRFUser, 0, NRF, username, ++NextPage, CurrentPage, URL, Callback, DOM.parse(Response.responseText));
             });
         }
@@ -24058,7 +24061,7 @@ function searchNRFMultiple(NRF, I, N, Callback) {
 
 function searchNRFGiveaway(NRF, URL, NextPage, Callback) {
     if (!NRF.Canceled) {
-        request(null, null, true, URL + NextPage, function (Response) {
+        request(null, null, `GET`, true, URL + NextPage, function (Response) {
             var ResponseHTML, Matches, I, N, Found, Pagination;
             ResponseHTML = DOM.parse(Response.responseText);
             Matches = ResponseHTML.getElementsByClassName(`table__column--width-small`);
@@ -24581,7 +24584,7 @@ function returnWBCWhitelistBlacklist(WBC, wbc, username, id, notes, Callback) {
             }
             Callback(true, notes);
         } else {
-            request(`xsrf_token=${esgst.xsrfToken}&do=${Type}&child_user_id=${id}&action=insert`, null, true, `/ajax.php`, function (Response) {
+            request(`xsrf_token=${esgst.xsrfToken}&do=${Type}&child_user_id=${id}&action=insert`, null, `POST`, true, `/ajax.php`, function (Response) {
                 var success = false;
                 if (JSON.parse(Response.responseText).type === `success`) {
                     success = true;
@@ -24630,7 +24633,7 @@ function checkWBCUser(WBC, wbc, username, Callback) {
 
 function checkWBCGiveaway(WBC, wbc, Callback) {
     if (!WBC.Canceled) {
-        request(null, null, true, wbc.whitelistGiveaway || wbc.giveaway, function (Response) {
+        request(null, null, `GET`, true, wbc.whitelistGiveaway || wbc.giveaway, function (Response) {
             var responseHtml = DOM.parse(Response.responseText);
             var errorMessage = responseHtml.getElementsByClassName(`table--summary`)[0];
             var stop;
@@ -24745,7 +24748,7 @@ function getWBCGiveaways(WBC, wbc, username, NextPage, CurrentPage, URL, Callbac
             }
         } else if (!WBC.Canceled) {
             if (CurrentPage != NextPage) {
-                request(null, null, true, URL + NextPage, function (Response) {
+                request(null, null, `GET`, true, URL + NextPage, function (Response) {
                     if (Response.finalUrl.match(/\/user\//)) {
                         setTimeout(getWBCGiveaways, 0, WBC, wbc, username, ++NextPage, CurrentPage, URL, Callback, DOM.parse(Response.responseText));
                     } else {
@@ -24784,7 +24787,7 @@ function getWBCGroupGiveaways(WBC, I, N, wbc, username, Callback) {
 
 function getWBCGroups(WBC, URL, NextPage, wbc, Callback) {
     if (!WBC.Canceled) {
-        request(null, null, true, URL + NextPage, function (Response) {
+        request(null, null, `GET`, true, URL + NextPage, function (Response) {
             var ResponseText, ResponseHTML, Groups, N, GroupGiveaway, I, Group, Pagination;
             ResponseText = Response.responseText;
             ResponseHTML = DOM.parse(ResponseText);
@@ -24853,7 +24856,7 @@ function getWBCUsers(WBC, NextPage, CurrentPage, URL, Callback, Context) {
             }
         } else if (!WBC.Canceled) {
             if (CurrentPage != NextPage) {
-                request(null, null, true, URL + NextPage, function (Response) {
+                request(null, null, `GET`, true, URL + NextPage, function (Response) {
                     setTimeout(getWBCUsers, 0, WBC, ++NextPage, CurrentPage, URL, Callback, DOM.parse(Response.responseText));
                 });
             } else {
@@ -25031,7 +25034,7 @@ function setWbsRemove(dateKey, key, row, saveKey, steamId, user) {
     removeButton.addEventListener(`click`, function () {
         removeButton.classList.add(`esgst-hidden`);
         removingButton.classList.remove(`esgst-hidden`);
-        request(`xsrf_token=${esgst.xsrfToken}&do=${key}&action=delete&child_user_id=${user.id}`, null, false, `/ajax.php`, function () {
+        request(`xsrf_token=${esgst.xsrfToken}&do=${key}&action=delete&child_user_id=${user.id}`, null, `POST`, false, `/ajax.php`, function () {
             createLock(`userLock`, 300, function (deleteLock) {
                 savedUsers = JSON.parse(getValue(`users`));
                 delete savedUsers.users[steamId][saveKey];
@@ -25131,7 +25134,7 @@ function insertWbmUsers(wbm, list, i, n, callback) {
             <span>Importing list (${i} of ${n})...</span>
         `;
         if (i < n) {
-            request(`xsrf_token=${esgst.xsrfToken}&do=${wbm.key}&action=insert&child_user_id=${list[i]}`, null, false, `/ajax.php`, setTimeout.bind(null, insertWbmUsers, 0, wbm, list, ++i, n, callback));
+            request(`xsrf_token=${esgst.xsrfToken}&do=${wbm.key}&action=insert&child_user_id=${list[i]}`, null, `POST`, false, `/ajax.php`, setTimeout.bind(null, insertWbmUsers, 0, wbm, list, ++i, n, callback));
         } else {
             createFadeMessage(wbm.message, `List imported with success!`);
             callback();
@@ -25163,7 +25166,7 @@ function exportWbmList(wbm, list, nextPage, callback) {
                 <i class="fa fa-circle-o-notch fa-spin"></i>
                 <span>Retrieving list (page ${nextPage})...</span>
             `;
-            request(null, null, false, `https://www.steamgifts.com/account/manage/${wbm.key}/search?page=${nextPage}`, response => {
+            request(null, null, `GET`, false, `https://www.steamgifts.com/account/manage/${wbm.key}/search?page=${nextPage}`, response => {
                 let elements, i, n, pagination, responseHtml;
                 responseHtml = DOM.parse(response.responseText);
                 elements = responseHtml.querySelectorAll(`[name="child_user_id"]`);
@@ -25206,7 +25209,7 @@ function clearWbmList(wbm, list, nextPage, callback) {
                 <i class="fa fa-circle-o-notch fa-spin"></i>
                 <span>Retrieving list (page ${nextPage})...</span>
             `;
-            request(null, null, false, `https://www.steamgifts.com/account/manage/${wbm.key}/search?page=${nextPage}`, response => {
+            request(null, null, `GET`, false, `https://www.steamgifts.com/account/manage/${wbm.key}/search?page=${nextPage}`, response => {
                 let elements, i, n, pagination, responseHtml;
                 responseHtml = DOM.parse(response.responseText);
                 elements = responseHtml.querySelectorAll(`[name="child_user_id"]`);
@@ -25231,7 +25234,7 @@ function deleteWbmUsers(wbm, list, i, n, callback) {
             <span>Clearing list (${i} of ${n})...</span>
         `;
         if (i < n) {
-            request(`xsrf_token=${esgst.xsrfToken}&do=${wbm.key}&action=delete&child_user_id=${list[i]}`, null, false, `/ajax.php`, setTimeout.bind(null, deleteWbmUsers, 0, wbm, list, ++i, n, callback));
+            request(`xsrf_token=${esgst.xsrfToken}&do=${wbm.key}&action=delete&child_user_id=${list[i]}`, null, `POST`, false, `/ajax.php`, setTimeout.bind(null, deleteWbmUsers, 0, wbm, list, ++i, n, callback));
         } else {
             createFadeMessage(wbm.message, `List cleared with success!`);
             callback();
@@ -25271,7 +25274,7 @@ function loadGlwc() {
         glwc.games = {};
         if (glwc.id) {
             glwc.overallProgress.textContent = `Preparing...`;
-            request(null, null, false, `http://steamcommunity.com/gid/${glwc.id}/memberslistxml?xml=1`, response => {
+            request(null, null, `GET`, false, `http://steamcommunity.com/gid/${glwc.id}/memberslistxml?xml=1`, response => {
                 glwc.members = [];
                 members = response.responseText.match(/<steamID64>.+?<\/steamID64>/g);
                 members.forEach(member => {
@@ -25293,7 +25296,7 @@ function getGlwcUsers(glwc, nextPage) {
             <i class="fa fa-circle-o-notch fa-spin"></i>
             <span>Retrieving users (page ${nextPage})...</span>
         `;
-        request(null, null, false, `/${glwc.url}/search?page=${nextPage}`, response => {
+        request(null, null, `GET`, false, `/${glwc.url}/search?page=${nextPage}`, response => {
             let elements, i, n, pagination, responseHtml;
             responseHtml = DOM.parse(response.responseText);
             elements = responseHtml.querySelectorAll(`.table__row-inner-wrap:not(.is-faded)`);
@@ -25325,7 +25328,7 @@ function getGlwcSteamIds(glwc, i, n) {
                 glwc.users[i].steamId = steamId;
                 setTimeout(getGlwcSteamIds, 0, glwc, ++i, n);
             } else {
-                request(null, null, false, `/user/${glwc.users[i].username}`, response => {
+                request(null, null, `GET`, false, `/user/${glwc.users[i].username}`, response => {
                     glwc.users[i].steamId = DOM.parse(response.responseText).querySelector(`[href*="/profiles/"]`).getAttribute(`href`).match(/\d+/)[0];
                     setTimeout(getGlwcSteamIds, 0, glwc, ++i, n);
                 });
@@ -25346,7 +25349,7 @@ function getGlwcGames(glwc, i, n) {
                 <span>Retrieving libraries/wishlists (${i + 1} of ${n})...</span>
             `;
             if (!glwc.id || glwc.members.indexOf(glwc.users[i].steamId) >= 0) {
-                request(null, null, false, `http://api.steampowered.com/IPlayerService/GetOwnedGames/v0001/?key=${esgst.steamApiKey}&steamid=${glwc.users[i].steamId}&format=json`, response => {
+                request(null, null, `GET`, false, `http://api.steampowered.com/IPlayerService/GetOwnedGames/v0001/?key=${esgst.steamApiKey}&steamid=${glwc.users[i].steamId}&format=json`, response => {
                     let game, element, elements, j;
                     glwc.users[i].library = [];
                     elements = JSON.parse(response.responseText).response.games;
@@ -25366,7 +25369,7 @@ function getGlwcGames(glwc, i, n) {
                             glwc.users[i].library.push(game.id);
                         });
                     }
-                    request(null, null, false, `http://steamcommunity.com/profiles/${glwc.users[i].steamId}/wishlist/`, response => {
+                    request(null, null, `GET`, false, `http://steamcommunity.com/profiles/${glwc.users[i].steamId}/wishlist/`, response => {
                         glwc.users[i].wishlist = [];
                         elements = DOM.parse(response.responseText).querySelectorAll(`.gameListRow, .wishlistRow`);
                         for (j = elements.length - 1; j > -1; --j) {
@@ -25724,7 +25727,7 @@ function getUsUsers(context, main) {
             total: Object.keys(users).length
         };
         for (username in users) {
-            request(null, null, false, `/user/${username}`, loadUsStats.bind(null, users[username], us, username));
+            request(null, null, `GET`, false, `/user/${username}`, loadUsStats.bind(null, users[username], us, username));
         }
         checkUsComplete(us);
     }
@@ -25918,7 +25921,7 @@ function addGsStatus(groups, i, n) {
     if (i < n) {
         group = groups[i];
         url = `${group.getElementsByClassName(`table__column__heading`)[0].getAttribute(`href`)}/users/search?q=${esgst.username}`;
-        request(null, null, false, url, function (response) {
+        request(null, null, `GET`, false, url, function (response) {
             var Matches, I, N;
             responseHtml = DOM.parse(response.responseText);
             element = responseHtml.getElementsByClassName(`table__row-inner-wrap`)[0];
@@ -26450,7 +26453,7 @@ function getGcGames(games, endless) {
 
 function getGcCategories(gc, id, type) {
     var categories, data, elements, genres, i, match, n, platforms, price, response, responseHtml, responseJson, tags;
-    request(null, null, false, `http://store.steampowered.com/api/${type === `apps` ? `appdetails?appids=` : `packagedetails?packageids=`}${id}&filters=basic,categories,genres,name,platforms,price,price_overview&cc=us&l=en`, function (response) {
+    request(null, null, `GET`, false, `http://store.steampowered.com/api/${type === `apps` ? `appdetails?appids=` : `packagedetails?packageids=`}${id}&filters=basic,categories,genres,name,platforms,price,price_overview&cc=us&l=en`, function (response) {
         try {
             categories = {
                 achievements: 0,
@@ -26515,7 +26518,7 @@ function getGcCategories(gc, id, type) {
                     categories.price = price ? (price.currency === `USD` ? Math.ceil(price.initial / 100) : -1) : 0;
                 }
             }
-            request(null, null, false, `http://store.steampowered.com/${type.slice(0, -1)}/${id}`, function (response) {
+            request(null, null, `GET`, false, `http://store.steampowered.com/${type.slice(0, -1)}/${id}`, function (response) {
                 responseHtml = DOM.parse(response.responseText);
                 if (response.finalUrl.match(id)) {
                     elements = responseHtml.getElementsByClassName(`user_reviews_summary_row`);
@@ -26561,7 +26564,7 @@ function getGcCategories(gc, id, type) {
                 }
                 gc.cache[type][id] = categories;
                 if (esgst.gc_dlc_b && categories.dlc && data.fullgame && data.fullgame.appid) {
-                    request(null, null, false, `http://store.steampowered.com/api/appdetails?appids=${data.fullgame.appid}&filters=basic&cc=us&l=en`, response => {
+                    request(null, null, `GET`, false, `http://store.steampowered.com/api/appdetails?appids=${data.fullgame.appid}&filters=basic&cc=us&l=en`, response => {
                         categories.freeBase = JSON.parse(response.responseText)[data.fullgame.appid].data.is_free;
                         gc.count += 1;
                     });
@@ -28408,7 +28411,7 @@ function getDfDiscussions(hidden, i, j, n, popup, callback) {
     var key;
     if (i < n) {
         if (hidden[i]) {
-            request(null, null, false, `/discussion/${hidden[i]}/`, function(response) {
+            request(null, null, `GET`, false, `/discussion/${hidden[i]}/`, function(response) {
                 var breadcrumbs, categoryLink, context, usernameLink;
                 context = DOM.parse(response.responseText);
                 breadcrumbs = context.getElementsByClassName(`page__heading__breadcrumbs`);
@@ -28512,7 +28515,7 @@ function loadGfGiveaways(i, n, hidden, gfGiveaways, popup, callback) {
     var giveaway;
     if (i < n) {
         if (hidden[i]) {
-            request(null, null, true, `https://www.steamgifts.com/giveaway/${hidden[i]}/`, function (response) {
+            request(null, null, `GET`, true, `https://www.steamgifts.com/giveaway/${hidden[i]}/`, function (response) {
                 giveaway = buildGiveaway(DOM.parse(response.responseText), response.finalUrl);
                 if (giveaway) {
                     gfGiveaways.insertAdjacentHTML(`beforeEnd`, giveaway.html);
@@ -28821,7 +28824,7 @@ function setSMRecentUsernameChanges(SMRecentUsernameChanges) {
         popup.Results = insertHtml(popup.scrollable, `beforeEnd`, `
             <div class="esgst-uh-popup"></div>
         `);
-        request(null, null, false, `https://script.google.com/macros/s/AKfycbzvOuHG913mRIXOsqHIeAuQUkLYyxTHOZim5n8iP-k80iza6g0/exec?Action=2`, function (Response) {
+        request(null, null, `GET`, false, `https://script.google.com/macros/s/AKfycbzvOuHG913mRIXOsqHIeAuQUkLYyxTHOZim5n8iP-k80iza6g0/exec?Action=2`, function (Response) {
             var RecentChanges, HTML, I, N;
             popup.Progress.innerHTML = ``;
             RecentChanges = JSON.parse(Response.responseText).RecentChanges;
@@ -30163,7 +30166,7 @@ function setApAvatar(apAvatar) {
                             <span>Loading ${type}...</span>
                         `;
                         popout.open(apAvatar);
-                        request(null, null, false, url, function (response) {
+                        request(null, null, `GET`, false, url, function (response) {
                             var avatar, columns, i, link, n, reportButton, responseHtml, table;
                             responseHtml = DOM.parse(response.responseText);
                             popout.popout.innerHTML = ``;
@@ -30365,7 +30368,7 @@ function loadEs() {
             progress = insertHtml(esgst.pagination.firstElementChild, `beforeEnd`, `
                 <span class="esgst-bold"><i class="fa fa-circle-o-notch fa-spin"></i> Loading next page...</span>
             `);
-            request(null, null, false, `${esgst.searchUrl}${nextPage}`, getNextPage.bind(null, false, false));
+            request(null, null, `GET`, false, `${esgst.searchUrl}${nextPage}`, getNextPage.bind(null, false, false));
         }
     }
 
@@ -30546,9 +30549,9 @@ function loadEs() {
         refreshButton.innerHTML = `
             <i class="fa fa-circle-o-notch fa-spin"></i>
         `;
-        request(null, null, false, `${esgst.searchUrl}${pageIndex}`, getNextPage.bind(null, true, false));
+        request(null, null, `GET`, false, `${esgst.searchUrl}${pageIndex}`, getNextPage.bind(null, true, false));
         if (!esgst.hr) {
-            request(null, null, false, esgst.sg ? `/giveaways/search?type=wishlist` : `/`, response => {
+            request(null, null, `GET`, false, esgst.sg ? `/giveaways/search?type=wishlist` : `/`, response => {
                 refreshHeaderElements(DOM.parse(response.responseText));
                 refreshHeader(getHrCache());
             });
@@ -30566,11 +30569,11 @@ function loadEs() {
         for (i = 0; i < total; ++i) {
             pagination = paginations[i];
             page = reverseScrolling ? pageBase - (i + 1) : pageBase + (i + 1);
-            request(null, null, false, `${esgst.searchUrl}${page}`, getNextPage.bind(null, true, page));
+            request(null, null, `GET`, false, `${esgst.searchUrl}${page}`, getNextPage.bind(null, true, page));
         }
         setTimeout(checkRefreshComplete, 250);
         if (!esgst.hr) {
-            request(null, null, false, esgst.sg ? `/giveaways/search?type=wishlist` : `/`, response => {
+            request(null, null, `GET`, false, esgst.sg ? `/giveaways/search?type=wishlist` : `/`, response => {
                 refreshHeaderElements(DOM.parse(response.responseText));
                 refreshHeader(getHrCache());
             });
@@ -30652,7 +30655,7 @@ function removeESEntry(Context) {
             for (I = 0, N = Values.length; I < N; ++I) {
                 Data += `${Values[I].getAttribute(`name`)}=${Values[I].value}${I < (N - 1) ? `&` : ``}`;
             }
-            request(Data, null, false, `/ajax.php`, function (Response) {
+            request(Data, null, `POST`, false, `/ajax.php`, function (Response) {
                 Loading.classList.toggle(`is-hidden`);
                 let responseJson = JSON.parse(Response.responseText);
                 if (responseJson.type === `success`) {
@@ -31023,13 +31026,13 @@ function loadDataManagement(openInTab, type) {
     if (type === `import`) {
         dm.input = insertHtml(container, `beforeEnd`, `<input type="file"/>`);
         new ToggleSwitch(container, `importAndMerge`, false, `Merge`, false, false, `Merges the current data with the imported data instead of replacing`, esgst.settings.importAndMerge);
-        let select = new ToggleSwitch(container, `exportBackup`, false, `Export backup to <select><option>Computer</option><option>Dropbox</option><option>Google Drive</option></select>`, false, false, `Exports the current data as a backup`, esgst.settings.exportBackup).name.firstElementChild;
+        let select = new ToggleSwitch(container, `exportBackup`, false, `Export backup to <select><option>Computer</option><option>Dropbox</option><option>Google Drive</option><option>OneDrive</option></select>`, false, false, `Exports the current data as a backup`, esgst.settings.exportBackup).name.firstElementChild;
         select.selectedIndex = esgst.settings.exportBackupIndex;
         select.addEventListener(`change`, () => {
             setSetting(`exportBackupIndex`, select.selectedIndex);
         });
     } else if (type === `delete`) {
-        let select = new ToggleSwitch(container, `exportBackup`, false, `Export backup to <select><option>Computer</option><option>Dropbox</option><option>Google Drive</option></select>`, false, false, `Exports the current data as a backup`, esgst.settings.exportBackup).name.firstElementChild;
+        let select = new ToggleSwitch(container, `exportBackup`, false, `Export backup to <select><option>Computer</option><option>Dropbox</option><option>Google Drive</option><option>OneDrive</option></select>`, false, false, `Exports the current data as a backup`, esgst.settings.exportBackup).name.firstElementChild;
         select.selectedIndex = esgst.settings.exportBackupIndex;
         select.addEventListener(`change`, () => {
             setSetting(`exportBackupIndex`, select.selectedIndex);
@@ -31044,6 +31047,7 @@ function loadDataManagement(openInTab, type) {
     if (type !== `delete`) {
         container.appendChild(new ButtonSet(`green`, `grey`, `fa-dropbox`, `fa-circle-o-notch fa-spin`, `${title} (Dropbox)`, `${title}ing...`, onClick.bind(null, dm, true, false, false, false)).set);
         container.appendChild(new ButtonSet(`green`, `grey`, `fa-google`, `fa-circle-o-notch fa-spin`, `${title} (Google Drive)`, `${title}ing...`, onClick.bind(null, dm, false, true, false, false)).set);
+        container.appendChild(new ButtonSet(`green`, `grey`, `fa-windows`, `fa-circle-o-notch fa-spin`, `${title} (OneDrive)`, `${title}ing...`, onClick.bind(null, dm, false, false, true, false)).set);
     }
     if (!openInTab) {
         popup.open();
@@ -31082,7 +31086,7 @@ function getDataMenu(option, switches, type) {
     return menu;
 }
 
-function loadImportFile(dm, dropbox, googleDrive, outlook, space, callback) {
+function loadImportFile(dm, dropbox, googleDrive, oneDrive, space, callback) {
     var file;
     if (dropbox) {
         delValue(`dropboxToken`);
@@ -31092,13 +31096,17 @@ function loadImportFile(dm, dropbox, googleDrive, outlook, space, callback) {
         delValue(`googleDriveToken`);
         open(`https://accounts.google.com/o/oauth2/v2/auth?redirect_uri=https://${location.hostname}/esgst/google-drive&response_type=token&client_id=102804278399-95kit5e09mdskdta7eq97ra7tuj20qps.apps.googleusercontent.com&scope=https://www.googleapis.com/auth/drive.appdata`);
         checkGoogleDriveComplete(null, dm, callback);
+    } else if (oneDrive) {
+        delValue(`oneDriveToken`);
+        open(`https://login.microsoftonline.com/common/oauth2/v2.0/authorize?redirect_uri=https://www.steamgifts.com/esgst/onedrive&response_type=token&client_id=1781429b-289b-4e6e-877a-e50015c0af21&scope=files.readwrite`);
+        checkOneDriveComplete(null, dm, callback);
     } else {
         file = dm.input.files[0];
         if (file) {
             if (file.name.match(/esgst_data_.*?\.json/)) {
                 dm.reader = new FileReader();
                 dm.reader.readAsText(file);
-                dm.reader.onload = readImportFile.bind(null, dm, dropbox, googleDrive, outlook, space, callback);
+                dm.reader.onload = readImportFile.bind(null, dm, dropbox, googleDrive, oneDrive, space, callback);
             } else {
                 createFadeMessage(dm.warning, `Invalid file!`);
                 callback();
@@ -31110,20 +31118,20 @@ function loadImportFile(dm, dropbox, googleDrive, outlook, space, callback) {
     }
 }
 
-function readImportFile(dm, dropbox, googleDrive, outlook, space, callback) {
+function readImportFile(dm, dropbox, googleDrive, oneDrive, space, callback) {
     try {
         if (dm.reader) {
             dm.data = JSON.parse(dm.reader.result);
         }
-        createConfirmation(`Are you sure you want to import the selected data?`, manageData.bind(null, dm, dropbox, googleDrive, outlook, space, callback), callback);
+        createConfirmation(`Are you sure you want to import the selected data?`, manageData.bind(null, dm, dropbox, googleDrive, oneDrive, space, callback), callback);
     } catch (error) {
         createFadeMessage(dm.warning, `Cannot parse file!`);
         callback();
     }
 }
 
-function confirmDataDeletion(dm, dropbox, googleDrive, outlook, space, callback) {
-    createConfirmation(`Are you sure you want to delete the selected data?`, manageData.bind(null, dm, dropbox, googleDrive, outlook, space, callback), callback);
+function confirmDataDeletion(dm, dropbox, googleDrive, oneDrive, space, callback) {
+    createConfirmation(`Are you sure you want to delete the selected data?`, manageData.bind(null, dm, dropbox, googleDrive, oneDrive, space, callback), callback);
 }
 
 function convertBytes(bytes) {
@@ -31139,7 +31147,7 @@ function convertBytes(bytes) {
     }
 }
 
-function manageData(dm, dropbox, googleDrive, outlook, space, callback) {
+function manageData(dm, dropbox, googleDrive, oneDrive, space, callback) {
     var data, dataKey, i, id, j, k, l, mergedData, mergedDataKey, mergedDataValue, newData, newDataKey, newDataValue, numMerged, numNew, numOld, numOptions, numTags, oldData, oldDataKey, oldDataValue, option, optionKey, tag, tags, username, value, valueKey, values;
     data = {};
     let totalGM = 0;
@@ -31875,6 +31883,10 @@ function manageData(dm, dropbox, googleDrive, outlook, space, callback) {
                 delValue(`googleDriveToken`);
                 open(`https://accounts.google.com/o/oauth2/v2/auth?redirect_uri=https://${location.hostname}/esgst/google-drive&response_type=token&client_id=102804278399-95kit5e09mdskdta7eq97ra7tuj20qps.apps.googleusercontent.com&scope=https://www.googleapis.com/auth/drive.appdata`);
                 checkGoogleDriveComplete(data, dm, callback);
+            } else if (oneDrive || (dm.type !== `export` && esgst.settings.exportBackupIndex === 3)) {
+                delValue(`oneDriveToken`);
+                open(`https://login.microsoftonline.com/common/oauth2/v2.0/authorize?redirect_uri=https://www.steamgifts.com/esgst/onedrive&response_type=token&client_id=1781429b-289b-4e6e-877a-e50015c0af21&scope=files.readwrite`);
+                checkOneDriveComplete(data, dm, callback);
             } else {
                 data = new Blob([JSON.stringify(data)]);
                 url = URL.createObjectURL(data);
@@ -31921,12 +31933,12 @@ function exportSettings() {
 function checkDropboxComplete(data, dm, callback) {
     if (getValue(`dropboxToken`)) {
         if (dm.type === `export` || (data && esgst.settings.exportBackup)) {
-            request(JSON.stringify(data), {authorization: `Bearer ${getValue(`dropboxToken`)}`, [`Dropbox-API-Arg`]: `{"path": "/esgst_data_${new Date().toISOString()}.json"}`, [`Content-Type`]: `application/octet-stream`}, false, `https://content.dropboxapi.com/2/files/upload`, response => {
+            request(JSON.stringify(data), {authorization: `Bearer ${getValue(`dropboxToken`)}`, [`Dropbox-API-Arg`]: `{"path": "/esgst_data_${new Date().toISOString()}.json"}`, [`Content-Type`]: `application/octet-stream`}, `POST`, false, `https://content.dropboxapi.com/2/files/upload`, response => {
                 createFadeMessage(dm.message, `Data ${dm.type}ed with success!`);
                 callback();
             });
         } else {
-            request(`{"path": ""}`, {authorization: `Bearer ${getValue(`dropboxToken`)}`, [`Content-Type`]: `application/json`}, false, `https://api.dropboxapi.com/2/files/list_folder`, response => {
+            request(`{"path": ""}`, {authorization: `Bearer ${getValue(`dropboxToken`)}`, [`Content-Type`]: `application/json`}, `POST`, false, `https://api.dropboxapi.com/2/files/list_folder`, response => {
                 let canceled = true;
                 let popup = new Popup(`fa-dropbox`, `Select a file to import:`, true);
                 let entries = insertHtml(popup.scrollable, `beforeEnd`, `<div class="popup__keys__list"></div>`);
@@ -31941,7 +31953,7 @@ function checkDropboxComplete(data, dm, callback) {
                             createConfirmation(`Are you sure you want to import the selected data?`, () => {
                                 canceled = false;
                                 popup.close();
-                                request(null, {authorization: `Bearer ${getValue(`dropboxToken`)}`, [`Dropbox-API-Arg`]: `{"path": "/${entry.name}"}`, [`Content-Type`]: `text/plain`}, false, `https://content.dropboxapi.com/2/files/download`, response => {
+                                request(null, {authorization: `Bearer ${getValue(`dropboxToken`)}`, [`Dropbox-API-Arg`]: `{"path": "/${entry.name}"}`, [`Content-Type`]: `text/plain`}, `GET`, false, `https://content.dropboxapi.com/2/files/download`, response => {
                                     dm.data = JSON.parse(response.responseText);
                                     manageData(dm, false, false, false, false, callback);
                                 });
@@ -31968,12 +31980,12 @@ function checkDropboxComplete(data, dm, callback) {
 function checkGoogleDriveComplete(data, dm, callback) {
     if (getValue(`googleDriveToken`)) {
         if (dm.type === `export` || (data && esgst.settings.exportBackup)) {
-            request(`--esgst\nContent-Type: application/json; charset=UTF-8\n\n{"mimeType": "mime/type", "name": "esgst_data_${new Date().toISOString()}.json", "parents": ["appDataFolder"]}\n\n--esgst\nContent-Type: mime/type\n\n${JSON.stringify(data)}\n--esgst--`, {authorization: `Bearer ${getValue(`googleDriveToken`)}`, [`Content-Type`]: `multipart/related; boundary=esgst`}, false, `https://www.googleapis.com/upload/drive/v3/files?uploadType=multipart`, response => {
+            request(`--esgst\nContent-Type: application/json; charset=UTF-8\n\n{"mimeType": "mime/type", "name": "esgst_data_${new Date().toISOString()}.json", "parents": ["appDataFolder"]}\n\n--esgst\nContent-Type: mime/type\n\n${JSON.stringify(data)}\n--esgst--`, {authorization: `Bearer ${getValue(`googleDriveToken`)}`, [`Content-Type`]: `multipart/related; boundary=esgst`}, `POST`, false, `https://www.googleapis.com/upload/drive/v3/files?uploadType=multipart`, response => {
                 createFadeMessage(dm.message, `Data ${dm.type}ed with success!`);
                 callback();
             });
         } else {
-            request(null, {authorization: `Bearer ${getValue(`googleDriveToken`)}`}, false, `https://www.googleapis.com/drive/v3/files?spaces=appDataFolder`, response => {
+            request(null, {authorization: `Bearer ${getValue(`googleDriveToken`)}`}, `GET`, false, `https://www.googleapis.com/drive/v3/files?spaces=appDataFolder`, response => {
                 let canceled = true;
                 let popup = new Popup(`fa-google`, `Select a file to import:`, true);
                 let entries = insertHtml(popup.scrollable, `beforeEnd`, `<div class="popup__keys__list"></div>`);
@@ -31986,7 +31998,7 @@ function checkGoogleDriveComplete(data, dm, callback) {
                             createConfirmation(`Are you sure you want to import the selected data?`, () => {
                                 canceled = false;
                                 popup.close();
-                                request(null, {authorization: `Bearer ${getValue(`googleDriveToken`)}`}, false, `https://www.googleapis.com/drive/v3/files/${file.id}?alt=media`, response => {
+                                request(null, {authorization: `Bearer ${getValue(`googleDriveToken`)}`}, `GET`, false, `https://www.googleapis.com/drive/v3/files/${file.id}?alt=media`, response => {
                                     dm.data = JSON.parse(response.responseText);
                                     manageData(dm, false, false, false, false, callback);
                                 });
@@ -32007,6 +32019,53 @@ function checkGoogleDriveComplete(data, dm, callback) {
         }
     } else {
         setTimeout(checkGoogleDriveComplete, 250, data, dm, callback);
+    }
+}
+
+function checkOneDriveComplete(data, dm, callback) {
+    if (getValue(`oneDriveToken`)) {
+        if (dm.type === `export` || (data && esgst.settings.exportBackup)) {
+            request(JSON.stringify(data), {Authorization: `bearer ${getValue(`oneDriveToken`)}`, [`Content-Type`]: `application/json`}, `PUT`, false, `https://graph.microsoft.com/v1.0/me/drive/special/approot:/esgst_data_${new Date().toISOString().replace(/:/g, `__`)}.json:/content`, response => {
+                createFadeMessage(dm.message, `Data ${dm.type}ed with success!`);
+                callback();
+            }, true);
+        } else {
+            request(null, {Authorization: `bearer ${getValue(`oneDriveToken`)}`}, `GET`, false, `https://graph.microsoft.com/v1.0/me/drive/special/approot/children`, response => {
+                let canceled = true;
+                let popup = new Popup(`fa-windows`, `Select a file to import:`, true);
+                let entries = insertHtml(popup.scrollable, `beforeEnd`, `<div class="popup__keys__list"></div>`);
+                JSON.parse(response.responseText).value.forEach(file => {
+                    if (file.name.match(/esgst_data_.*?\.json/)) {
+                        let size = file.size / 1048576;
+                        size = size < 1 ? `${Math.round(file.size * 100) / 100} KB` : `${Math.round(size * 100) / 100} MB`;
+                        let item = insertHtml(entries, `beforeEnd`, `
+                            <div class="esgst-clickable">${file.name.replace(/__/g, `:`)} - ${size}</div>
+                        `);
+                        item.addEventListener(`click`, () => {
+                            createConfirmation(`Are you sure you want to import the selected data?`, () => {
+                                canceled = false;
+                                popup.close();
+                                request(null, {authorization: `Bearer ${getValue(`oneDriveToken`)}`}, `GET`, false, `https://graph.microsoft.com/v1.0/me/drive/items/${file.id}/content`, response => {
+                                    dm.data = JSON.parse(response.responseText);
+                                    manageData(dm, false, false, false, false, callback);
+                                }, true);
+                            });
+                        });
+                    } else {
+                        createFadeMessage(dm.warning, `No files found!`);
+                        callback();
+                    }
+                });
+                popup.onClose = () => {
+                    if (canceled) {
+                        callback();
+                    }
+                };
+                popup.open();
+            }, true);
+        }
+    } else {
+        setTimeout(checkOneDriveComplete, 250, data, dm, callback);
     }
 }
 
@@ -34614,20 +34673,20 @@ function delValue(key) {
     delete esgst.storage[key];
 }
 
-function request(data, headers, queue, url, callback, anon) {
+function request(data, headers, method, queue, url, callback, anon) {
     if (!headers) {
         headers = {};
     }
     if (queue) {
         createLock(`requestLock`, 1000, function (closeLock) {
-            continueRequest(data, headers, url, callback, anon, closeLock);
+            continueRequest(data, headers, method, url, callback, anon, closeLock);
         });
     } else {
-        continueRequest(data, headers, url, callback, anon);
+        continueRequest(data, headers, method, url, callback, anon);
     }
 }
 
-function continueRequest(data, headers, url, callback, anon, closeLock) {
+function continueRequest(data, headers, method, url, callback, anon, closeLock) {
     if (!headers[`Content-Type`]) {
         headers[`Content-Type`] = `application/x-www-form-urlencoded`;
     }
@@ -34637,7 +34696,7 @@ function continueRequest(data, headers, url, callback, anon, closeLock) {
             body: data,
             credentials: anon ? `omit` : `include`,
             headers: headers,
-            method: data ? `POST` : `GET`,
+            method: method,
             redirect: `follow`
         }),
         url: url.replace(/^\//, `https://${location.hostname}/`).replace(/^https?:/, location.href.match(/^http:/) ? `http:` : `https:`)
