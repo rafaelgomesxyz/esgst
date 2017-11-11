@@ -15359,7 +15359,7 @@ function loadMgc() {
 }
 
 function addMgcSection() {
-    var addButton, attachButton, createButton, createTrainDescription, createTrainOption, createTrainSwitch, detach, emptyButton, exportButton, importButton, mgc, removeIcon, rows, section, viewButton;
+    var addButton, attachButton, createButton, createTrainDescription, createTrainOption, createTrainSwitch, detach, emptyButton, exportButton, importButton, mgc, removeIcon, rows, section, shuffleButton, viewButton;
     rows = document.getElementsByClassName(`form__rows`)[0];
     if (rows) {
         mgc = {
@@ -15447,6 +15447,7 @@ function addMgcSection() {
         addButton = new ButtonSet(`green`, `grey`, `fa-plus-circle`, `fa-circle-o-notch fa-spin`, `Add`, `Adding...`, getMgcValues.bind(null, false, mgc));
         importButton = new ButtonSet(`green`, `grey`, `fa-arrow-circle-up`, `fa-circle-o-notch fa-spin`, `Import`, `Importing...`, importMgcGiveaways.bind(null, mgc));
         exportButton = new ButtonSet(`green`, `grey`, `fa-arrow-circle-down`, `fa-circle-o-notch fa-spin`, `Export`, `Exporting...`, exportMgcGiveaways.bind(null, mgc));
+        shuffleButton = new ButtonSet(`green`, `grey`, `fa-random`, `fa-circle-o-notch fa-spin`, `Shuffle`, `Shuffling...`, shuffleMgcGiveaways.bind(null, mgc));
         emptyButton = new ButtonSet(`green`, `grey`, `fa-trash`, `fa-circle-o-notch fa-spin`, `Empty`, `Emptying...`, emptyMgcGiveaways.bind(null, mgc));
         attachButton = new ButtonSet(`green`, `grey`, `fa-paperclip`, `fa-circle-o-notch fa-spin`, `Attach Discussion`, `Attaching...`, attachMgcDiscussion.bind(null, mgc));
         createTrainSwitch.dependencies.push(attachButton.set);
@@ -15460,6 +15461,7 @@ function addMgcSection() {
         section.appendChild(addButton.set);
         section.appendChild(importButton.set);
         section.appendChild(exportButton.set);
+        section.appendChild(shuffleButton.set);
         section.appendChild(emptyButton.set);
         section.appendChild(attachButton.set);
         section.appendChild(createButton.set);
@@ -16194,6 +16196,14 @@ function completeMgcCreation(mgc, viewButton, callback) {
         }
         callback();
     }
+}
+
+function shuffleMgcGiveaways(mgc, callback) {
+    let i;
+    for (i = mgc.giveaways.children.length; i > -1; --i) {
+        mgc.giveaways.appendChild(mgc.giveaways.children[Math.random() * i | 0]);
+    }
+    callback();
 }
 
 function attachMgcDiscussion(mgc, callback) {
@@ -32997,7 +33007,7 @@ function addStyle() {
             display: block;
         }
 
-        .esgst-button-group >* {            
+        .esgst-button-group >* {
             display: inline-block;
         }
 
