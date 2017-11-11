@@ -31944,10 +31944,8 @@ function checkDropboxComplete(data, dm, callback) {
                 let entries = insertHtml(popup.scrollable, `beforeEnd`, `<div class="popup__keys__list"></div>`);
                 JSON.parse(response.responseText).entries.forEach(entry => {
                     if (entry[`.tag`] === `file` && entry.name.match(/esgst_data_.*?\.json/)) {
-                        let size = entry.size / 1048576;
-                        size = size < 1 ? `${Math.round(entry.size * 100) / 100} KB` : `${Math.round(size * 100) / 100} MB`;
                         let item = insertHtml(entries, `beforeEnd`, `
-                            <div class="esgst-clickable">${entry.name} - ${size}</div>
+                            <div class="esgst-clickable">${entry.name} - ${convertBytes(entry.size)}</div>
                         `);
                         item.addEventListener(`click`, () => {
                             createConfirmation(`Are you sure you want to import the selected data?`, () => {
@@ -32036,10 +32034,8 @@ function checkOneDriveComplete(data, dm, callback) {
                 let entries = insertHtml(popup.scrollable, `beforeEnd`, `<div class="popup__keys__list"></div>`);
                 JSON.parse(response.responseText).value.forEach(file => {
                     if (file.name.match(/esgst_data_.*?\.json/)) {
-                        let size = file.size / 1048576;
-                        size = size < 1 ? `${Math.round(file.size * 100) / 100} KB` : `${Math.round(size * 100) / 100} MB`;
                         let item = insertHtml(entries, `beforeEnd`, `
-                            <div class="esgst-clickable">${file.name.replace(/__/g, `:`)} - ${size}</div>
+                            <div class="esgst-clickable">${file.name.replace(/__/g, `:`)} - ${convertBytes(file.size)}</div>
                         `);
                         item.addEventListener(`click`, () => {
                             createConfirmation(`Are you sure you want to import the selected data?`, () => {
