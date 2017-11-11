@@ -31043,9 +31043,9 @@ function loadDataManagement(openInTab, type) {
     dm.message = insertHtml(container, `beforeEnd`, `<div class="esgst-description"></div>`);
     dm.warning = insertHtml(container, `beforeEnd`, `<div class="esgst-description esgst-warning"></div>`);
     group1 = insertHtml(container, `beforeEnd`, `<div class="esgst-button-group">Select:</div>`);
-    group1.appendChild(new ButtonSet(`green`, `grey`, `fa-circle`, `fa-circle-o-notch fa-spin`, `All`, ``, selectSwitches.bind(null, dm.switches, `enable`)).set);
-    group1.appendChild(new ButtonSet(`green`, `grey`, `fa-circle-o`, `fa-circle-o-notch fa-spin`, `None`, ``, selectSwitches.bind(null, dm.switches, `disable`)).set);
-    group1.appendChild(new ButtonSet(`green`, `grey`, `fa-dot-circle-o`, `fa-circle-o-notch fa-spin`, `Inverse`, ``, selectSwitches.bind(null, dm.switches, `toggle`)).set);
+    group1.appendChild(new ButtonSet(`grey`, `grey`, `fa-circle`, `fa-circle-o-notch fa-spin`, `All`, ``, selectSwitches.bind(null, dm.switches, `enable`)).set);
+    group1.appendChild(new ButtonSet(`grey`, `grey`, `fa-circle-o`, `fa-circle-o-notch fa-spin`, `None`, ``, selectSwitches.bind(null, dm.switches, `disable`)).set);
+    group1.appendChild(new ButtonSet(`grey`, `grey`, `fa-dot-circle-o`, `fa-circle-o-notch fa-spin`, `Inverse`, ``, selectSwitches.bind(null, dm.switches, `toggle`)).set);
     group2 = insertHtml(container, `beforeEnd`, `<div class="esgst-button-group">${title1} ${prep}:</div>`);
     group2.appendChild(new ButtonSet(`green`, `grey`, icon, `fa-circle-o-notch fa-spin`, `Computer`, title2, onClick.bind(null, dm, false, false, false, false)).set);
     if (type !== `delete`) {
