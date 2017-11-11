@@ -8574,9 +8574,10 @@ function setSync(autoSync, mainCallback) {
             for (id in syncer.switches) {
                 setAutoSync(id, syncer.switches);
             }
-            popup.description.appendChild(new ButtonSet(`grey`, `grey`, `fa-circle`, `fa-circle-o-notch fa-spin`, `Select All`, ``, selectSwitches.bind(null, syncer.switches, `enable`)).set);
-            popup.description.appendChild(new ButtonSet(`grey`, `grey`, `fa-circle-o`, `fa-circle-o-notch fa-spin`, `Select None`, ``, selectSwitches.bind(null, syncer.switches, `disable`)).set);
-            popup.description.appendChild(new ButtonSet(`grey`, `grey`, `fa-dot-circle-o`, `fa-circle-o-notch fa-spin`, `Select Inverse`, ``, selectSwitches.bind(null, syncer.switches, `toggle`)).set);
+            let group = insertHtml(popup.description, `beforeEnd`, `<div class="esgst-button-group"><span>Select:</span></div>`);
+            group.appendChild(new ButtonSet(`grey`, `grey`, `fa-circle`, `fa-circle-o-notch fa-spin`, `All`, ``, selectSwitches.bind(null, syncer.switches, `enable`)).set);
+            group.appendChild(new ButtonSet(`grey`, `grey`, `fa-circle-o`, `fa-circle-o-notch fa-spin`, `None`, ``, selectSwitches.bind(null, syncer.switches, `disable`)).set);
+            group.appendChild(new ButtonSet(`grey`, `grey`, `fa-dot-circle-o`, `fa-circle-o-notch fa-spin`, `Inverse`, ``, selectSwitches.bind(null, syncer.switches, `toggle`)).set);
         }
         syncer.progress = insertHtml(popup.description, `beforeEnd`, `
             <div class="esgst-hidden esgst-popup-progress"></div>
@@ -17606,16 +17607,29 @@ function disableGm(popup, giveaways) {
 }
 
 function openGmPopout(giveaways, gm) {
-    var checkboxContext, checkbox, textArea, toggleSwitch;
+    var checkboxContext, checkbox, group, textArea, toggleSwitch;
     if (!gm.popout) {
         gm.popout = new Popout(`esgst-gm-popout`, gm.button, 0, true);
-        gm.popout.popout.appendChild(new ButtonSet(`grey`, `grey`, `fa-circle`, `fa-circle-o-notch fa-spin`, `Select All`, ``, selectSwitches.bind(null, esgst.gmCheckboxes, `check`)).set);
-        gm.popout.popout.appendChild(new ButtonSet(`grey`, `grey`, `fa-circle-o`, `fa-circle-o-notch fa-spin`, `Select None`, ``, selectSwitches.bind(null, esgst.gmCheckboxes, `uncheck`)).set);
-        gm.popout.popout.appendChild(new ButtonSet(`grey`, `grey`, `fa-dot-circle-o`, `fa-circle-o-notch fa-spin`, `Select Inverse`, ``, selectSwitches.bind(null, esgst.gmCheckboxes, `toggle`)).set);
-        gm.popout.popout.appendChild(new ButtonSet(`green`, ``, `fa-search`, ``, `Search & Replace`, ``, openGmPopup.bind(null, giveaways, gm)).set);
-        gm.popout.popout.appendChild(new ButtonSet(`green`, `grey`, `fa-puzzle-piece`, `fa-circle-o-notch fa-spin`, `Export to Encrypted Giveaways`, `Exporting...`, exportGmEncrypted.bind(null, giveaways, gm)).set);
-        gm.popout.popout.appendChild(new ButtonSet(`green`, `grey`, `fa-globe`, `fa-circle-o-notch fa-spin`, `Export to Links`, `Exporting...`, exportGmLinks.bind(null, giveaways, gm)).set);
-        gm.popout.popout.appendChild(new ButtonSet(`green`, `grey`, `fa-pencil`, `fa-circle-o-notch fa-spin`, `Export to Custom Format`, `Exporting...`, exportGmCustom.bind(null, giveaways, gm)).set);
+        group = insertHtml(gm.popout.popout, `beforeEnd`, `<div class="esgst-button-group"><span>Select:</span></div>`);
+        group.appendChild(new ButtonSet(`grey`, `grey`, `fa-circle`, `fa-circle-o-notch fa-spin`, `All`, ``, selectSwitches.bind(null, esgst.gmCheckboxes, `check`)).set);
+        group.appendChild(new ButtonSet(`grey`, `grey`, `fa-circle-o`, `fa-circle-o-notch fa-spin`, `None`, ``, selectSwitches.bind(null, esgst.gmCheckboxes, `uncheck`)).set);
+        group.appendChild(new ButtonSet(`grey`, `grey`, `fa-dot-circle-o`, `fa-circle-o-notch fa-spin`, `Inverse`, ``, selectSwitches.bind(null, esgst.gmCheckboxes, `toggle`)).set);
+        group = insertHtml(gm.popout.popout, `beforeEnd`, `<div class="esgst-button-group"></div>`);
+        group.appendChild(new ButtonSet(`green`, ``, `fa-search`, ``, `Search & Replace`, ``, openGmPopup.bind(null, giveaways, gm)).set);
+        if (esgst.gb) {
+            group.appendChild(new ButtonSet(`green`, `grey`, `fa-bookmark`, `fa-circle-o-notch fa-spin`, `Bookmark`, `Bookmarking...`, bookmarkGmGiveaways.bind(null, giveaways, gm)).set);
+            group.appendChild(new ButtonSet(`green`, `grey`, `fa-bookmark-o`, `fa-circle-o-notch fa-spin`, `Unbookmark`, `Unbookmarking...`, unbookmarkGmGiveaways.bind(null, giveaways, gm)).set);
+        }
+        if (esgst.gf && esgst.gf_s) {
+            group.appendChild(new ButtonSet(`green`, `grey`, `fa-eye-slash`, `fa-circle-o-notch fa-spin`, `Hide`, `Hiding...`, hideGmGiveaways.bind(null, giveaways, gm)).set);
+        }
+        if (esgst.ttec) {
+            group.appendChild(new ButtonSet(`green`, `grey`, `fa-clock-o`, `fa-circle-o-notch fa-spin`, `Calculate`, `Calculating...`, calculateGmGiveaways.bind(null, giveaways, gm)).set);
+        }
+        group = insertHtml(gm.popout.popout, `beforeEnd`, `<div class="esgst-button-group"><span>Export to:</span></div>`);
+        group.appendChild(new ButtonSet(`green`, `grey`, `fa-puzzle-piece`, `fa-circle-o-notch fa-spin`, `Encrypted Giveaways`, `Exporting...`, exportGmEncrypted.bind(null, giveaways, gm)).set);
+        group.appendChild(new ButtonSet(`green`, `grey`, `fa-globe`, `fa-circle-o-notch fa-spin`, `Links`, `Exporting...`, exportGmLinks.bind(null, giveaways, gm)).set);
+        group.appendChild(new ButtonSet(`green`, `grey`, `fa-pencil`, `fa-circle-o-notch fa-spin`, `Custom Format`, `Exporting...`, exportGmCustom.bind(null, giveaways, gm)).set);
         createTooltip(insertHtml(gm.popout.popout, `beforeEnd`, `
             <div class="esgst-description">
                 Enter the custom format below. <i class="fa fa-question-circle"></i>
@@ -17635,16 +17649,6 @@ function openGmPopout(giveaways, gm) {
         }
         gm.message = insertHtml(gm.popout.popout, `beforeEnd`, `<div class="esgst-description"></div>`);
         gm.popout.popout.appendChild(new ButtonSet(`grey`, `grey`, `fa-copy`, `fa-circle-o-notch fa-spin`, `Copy`, `Copying...`, copyGmOutput.bind(null, gm)).set);
-        if (esgst.gb) {
-            gm.popout.popout.appendChild(new ButtonSet(`green`, `grey`, `fa-bookmark`, `fa-circle-o-notch fa-spin`, `Bookmark`, `Bookmarking...`, bookmarkGmGiveaways.bind(null, giveaways, gm)).set);
-            gm.popout.popout.appendChild(new ButtonSet(`green`, `grey`, `fa-bookmark-o`, `fa-circle-o-notch fa-spin`, `Unbookmark`, `Unbookmarking...`, unbookmarkGmGiveaways.bind(null, giveaways, gm)).set);
-        }
-        if (esgst.gf && esgst.gf_s) {
-            gm.popout.popout.appendChild(new ButtonSet(`green`, `grey`, `fa-eye-slash`, `fa-circle-o-notch fa-spin`, `Hide Individual GAs`, `Hiding...`, hideGmGiveaways.bind(null, giveaways, gm)).set);
-        }
-        if (esgst.ttec) {
-            gm.popout.popout.appendChild(new ButtonSet(`green`, `grey`, `fa-clock-o`, `fa-circle-o-notch fa-spin`, `Calculate Time to Enter`, `Calculating...`, calculateGmGiveaways.bind(null, giveaways, gm)).set);
-        }
     }
 }
 
@@ -27161,9 +27165,10 @@ function disableMt(mt) {
 function openMtPopout(mt) {
     if (!mt.popout) {
         mt.popout = new Popout(`esgst-mt-popout`, mt.button, 0, true);
-        mt.popout.popout.appendChild(new ButtonSet(`grey`, `grey`, `fa-circle`, `fa-circle-o-notch fa-spin`, `Select All`, ``, selectMtCheckboxes.bind(null, mt, `check`)).set);
-        mt.popout.popout.appendChild(new ButtonSet(`grey`, `grey`, `fa-circle-o`, `fa-circle-o-notch fa-spin`, `Select None`, ``, selectMtCheckboxes.bind(null, mt, `uncheck`)).set);
-        mt.popout.popout.appendChild(new ButtonSet(`grey`, `grey`, `fa-dot-circle-o`, `fa-circle-o-notch fa-spin`, `Select Inverse`, ``, selectMtCheckboxes.bind(null, mt, `toggle`)).set);
+        group = insertHtml(mt.popout.popout, `beforeEnd`, `<div class="esgst-button-group"><span>Select:</span></div>`);
+        group.appendChild(new ButtonSet(`grey`, `grey`, `fa-circle`, `fa-circle-o-notch fa-spin`, `All`, ``, selectMtCheckboxes.bind(null, mt, `check`)).set);
+        group.appendChild(new ButtonSet(`grey`, `grey`, `fa-circle-o`, `fa-circle-o-notch fa-spin`, `None`, ``, selectMtCheckboxes.bind(null, mt, `uncheck`)).set);
+        group.appendChild(new ButtonSet(`grey`, `grey`, `fa-dot-circle-o`, `fa-circle-o-notch fa-spin`, `Inverse`, ``, selectMtCheckboxes.bind(null, mt, `toggle`)).set);
         mt.tagButton = new ButtonSet(`green`, ``, `fa-tags`, ``, `Multi-Tag`, ``, openMtPopup.bind(null, mt)).set;
         mt.tagButton.classList.add(`esgst-hidden`);
         mt.popout.popout.appendChild(mt.tagButton);
@@ -31042,11 +31047,11 @@ function loadDataManagement(openInTab, type) {
     }
     dm.message = insertHtml(container, `beforeEnd`, `<div class="esgst-description"></div>`);
     dm.warning = insertHtml(container, `beforeEnd`, `<div class="esgst-description esgst-warning"></div>`);
-    group1 = insertHtml(container, `beforeEnd`, `<div class="esgst-button-group">Select:</div>`);
+    group1 = insertHtml(container, `beforeEnd`, `<div class="esgst-button-group"><span>Select:</span></div>`);
     group1.appendChild(new ButtonSet(`grey`, `grey`, `fa-circle`, `fa-circle-o-notch fa-spin`, `All`, ``, selectSwitches.bind(null, dm.switches, `enable`)).set);
     group1.appendChild(new ButtonSet(`grey`, `grey`, `fa-circle-o`, `fa-circle-o-notch fa-spin`, `None`, ``, selectSwitches.bind(null, dm.switches, `disable`)).set);
     group1.appendChild(new ButtonSet(`grey`, `grey`, `fa-dot-circle-o`, `fa-circle-o-notch fa-spin`, `Inverse`, ``, selectSwitches.bind(null, dm.switches, `toggle`)).set);
-    group2 = insertHtml(container, `beforeEnd`, `<div class="esgst-button-group">${title1} ${prep}:</div>`);
+    group2 = insertHtml(container, `beforeEnd`, `<div class="esgst-button-group"><span>${title1} ${prep}:</span></div>`);
     group2.appendChild(new ButtonSet(`green`, `grey`, icon, `fa-circle-o-notch fa-spin`, `Computer`, title2, onClick.bind(null, dm, false, false, false, false)).set);
     if (type !== `delete`) {
         group2.appendChild(new ButtonSet(`green`, `grey`, `fa-dropbox`, `fa-circle-o-notch fa-spin`, `Dropbox`, title2, onClick.bind(null, dm, true, false, false, false)).set);
@@ -32992,9 +32997,22 @@ function addStyle() {
             display: block;
         }
 
-        .esgst-button-group >* {
+        .esgst-button-group >* {            
             display: inline-block;
+        }
+
+        .esgst-button-group >*:not(:first-child) {
             margin-left: 5px;
+        }
+
+        .esgst-gm-popout .esgst-button-group {
+            align-items: center;
+            display: flex;
+            margin-bottom: 5px;
+        }
+
+        .esgst-gm-popout .esgst-button-group >*:not(:first-child) {
+            flex: 1;
         }
 
         .esgst-ggl-panel {
