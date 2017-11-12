@@ -21196,7 +21196,7 @@ function getCerbReplies(collapse, expand, permalink, context) {
             `), permalink && reply.contains(permalink), reply, replies.children);
         }
     }
-    if (context === document && esgst.cerb_a) {
+    if (esgst.cerb_a) {
         collapseAllCerbReplies(collapse, expand);
     }
 }
