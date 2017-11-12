@@ -4770,8 +4770,8 @@ function loadFeatures() {
     }
 
     if (esgst.ch) {
-        let dropdowns = document.getElementsByClassName(esgst.sg ? `nav__absolute-dropdown` : `dropdown`);
-        setSMCommentHistory(insertHtml(esgst.sg ? dropdowns[dropdowns.length - 1].lastElementChild : dropdowns[dropdowns.length - 1].firstElementChild.lastElementChild, `beforeBegin`, `
+        let dropdown = esgst.mainButton.parentElement.getElementsByClassName(esgst.sg ? `nav__absolute-dropdown` : `dropdown`)[0];
+        setSMCommentHistory(insertHtml(esgst.sg ? dropdown.lastElementChild : dropdown.firstElementChild.lastElementChild, `beforeBegin`, `
             <div class="esgst-header-menu-row">
                 <i class="fa fa-fw fa-comments yellow"></i>
                 <div>
