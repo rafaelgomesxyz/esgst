@@ -4555,25 +4555,30 @@ function loadEsgst(storage) {
                     }
                 } else if (esgst.bgl && esgst.giveawayPath) {
                     let summary = document.getElementsByClassName(`table--summary`)[0];
-                    summary = summary && summary.lastElementChild.firstElementChild.lastElementChild.textContent.match(/you\s(have\s(been\s)?|previously\s)blacklisted/);
+                    summary = summary && summary.lastElementChild.firstElementChild.lastElementChild;
                     if (summary) {
-                        esgst.pageOuterWrap.innerHTML = `
-                            <i class="fa fa-circle-o-notch fa-spin"></i>
-                            <span>Loading giveaway...</span>
-                        `;
-                        request(null, null, `GET`, false, location.pathname, response => {
-                            let responseHtml = DOM.parse(response.responseText);
-                            esgst.featuredContainer = insertHtml(esgst.pageOuterWrap, `beforeBegin`, `<div class="featured__container"></div>`);
-                            esgst.featuredContainer.innerHTML = responseHtml.getElementsByClassName(`featured__container`)[0].innerHTML;
-                            esgst.pageOuterWrap.innerHTML = responseHtml.getElementsByClassName(`page__outer-wrap`)[0].innerHTML;
-                            getElements(logoutButton);
-                            esgst.sidebar.insertAdjacentHTML(`afterBegin`, `
-                                <div class="sidebar__error is-disabled">
-                                    <i class="fa fa-exclamation-circle"></i> ${summary[1] ? `You Are Blacklisted` : `On Your Blacklist`}
-                                </div>
-                            `);
+                        let match = summary.textContent.match(/you\s(have\s(been\s)?|previously\s)blacklisted/);
+                        if (match) {
+                            esgst.pageOuterWrap.innerHTML = `
+                                <i class="fa fa-circle-o-notch fa-spin"></i>
+                                <span>Loading giveaway...</span>
+                            `;
+                            request(null, null, `GET`, false, location.pathname, response => {
+                                let responseHtml = DOM.parse(response.responseText);
+                                esgst.featuredContainer = insertHtml(esgst.pageOuterWrap, `beforeBegin`, `<div class="featured__container"></div>`);
+                                esgst.featuredContainer.innerHTML = responseHtml.getElementsByClassName(`featured__container`)[0].innerHTML;
+                                esgst.pageOuterWrap.innerHTML = responseHtml.getElementsByClassName(`page__outer-wrap`)[0].innerHTML;
+                                getElements(logoutButton);
+                                esgst.sidebar.insertAdjacentHTML(`afterBegin`, `
+                                    <div class="sidebar__error is-disabled">
+                                        <i class="fa fa-exclamation-circle"></i> ${match[1] ? (match[1] === `previously ` ? `Off Your Blacklist<br>(${summary.firstElementChild.outerHTML})` : `You Are Blacklisted`) : `On Your Blacklist`}
+                                    </div>
+                                `);
+                                loadFeatures();
+                            }, true);
+                        } else {
                             loadFeatures();
-                        }, true);
+                        }
                     } else {
                         loadFeatures();
                     }
