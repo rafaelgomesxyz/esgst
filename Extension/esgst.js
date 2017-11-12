@@ -11429,18 +11429,15 @@ function setGvContainer(giveaway, spacing) {
         </div>
     `);
     if (giveaway.inviteOnly) {
-        giveaway.inviteOnly.innerHTML = `<i class="fa fa-lock"></i>`;
         icons.appendChild(giveaway.inviteOnly);
     }
     if (giveaway.regionRestricted) {
         icons.appendChild(giveaway.regionRestricted);
     }
     if (giveaway.group) {
-        giveaway.group.innerHTML = `<i class="fa fa-user"></i>`;
         icons.appendChild(giveaway.group);
     }
     if (giveaway.whitelist) {
-        giveaway.whitelist.innerHTML = `<i class="fa fa-heart"></i>`;
         icons.appendChild(giveaway.whitelist);
     }
     if (giveaway.levelColumn) {
@@ -29248,6 +29245,17 @@ function getGiveawayInfo(context, mainContext, games, savedUsers, ugd, ugdType, 
     giveaway.group = giveaway.outerWrap.querySelector(`.giveaway__column--group, .featured__column--group`);
     giveaway.whitelist = giveaway.outerWrap.querySelector(`.giveaway__column--whitelist, .featured__column--whitelist`);
     giveaway.public = !giveaway.inviteOnly && !giveaway.regionRestricted && !giveaway.group && !giveaway.whitelist;
+    if (!main || !esgst.giveawayPath) {    
+        if (giveaway.inviteOnly) {
+            giveaway.inviteOnly.innerHTML = `<i class="fa fa-lock"></i>`;
+        }
+        if (giveaway.group) {
+            giveaway.group.innerHTML = `<i class="fa fa-user"></i>`;
+        }
+        if (giveaway.whitelist) {
+            giveaway.whitelist.innerHTML = `<i class="fa fa-heart"></i>`;
+        }
+    }
     chance = context.getElementsByClassName(`esgst-gwc`)[0];
     giveaway.chance = chance ? parseFloat(chance.getAttribute(`data-chance`)) : 0;
     var feedback = giveaway.outerWrap.getElementsByClassName(`table__gift-feedback-awaiting-reply`)[0];
