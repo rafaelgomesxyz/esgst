@@ -10467,6 +10467,9 @@ function showAicImage(carousel, i, popup) {
         esgst.aicPrevious = carousel.firstElementChild;
         esgst.aicPrevious.addEventListener(`click`, showAicImage.bind(null, carousel, i - 1, popup));
     }
+    if (attachedImage.source) {
+        ((esgst.aicPrevious && esgst.aicPrevious.nextElementSibling.nextElementSibling) || carousel.firstElementChild.nextElementSibling).addEventListener(`click`, () => popup.close());
+    }
     if (i < n - 1) {
         esgst.aicNext = carousel.lastElementChild;
         esgst.aicNext.addEventListener(`click`, showAicImage.bind(null, carousel, i + 1, popup));
