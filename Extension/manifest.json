@@ -47,6 +47,8 @@
     "*://*.api.dropboxapi.com/*",
     "*://*.content.dropboxapi.com/*",
     "*://*.api.imgur.com/*",
+    "*://*.googleapis.com/*",
+    "*://*.graph.microsoft.com/*",
     "storage"
   ],
   "version": "7.7.3"
