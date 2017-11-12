@@ -4658,7 +4658,6 @@ function getElements(logoutButton) {
     }
     esgst.activeDiscussions = document.querySelector(`.widget-container--margin-top:last-of-type`);
     esgst.pinnedGiveaways = document.getElementsByClassName(`pinned-giveaways__outer-wrap`)[0];
-    esgst.pinnedGiveawaysButton = document.getElementsByClassName(`pinned-giveaways__button`)[0];
     var mainPageHeadingIndex;
     if (esgst.commentsPath) {
         mainPageHeadingIndex = 1;
@@ -12677,7 +12676,8 @@ function updateGfCount(gf, endless) {
 /* [PGB] Pinned Giveaways Button */
 
 function loadPgb() {
-    var PGBContainer, HTML, PGBIcon;
+    var PGBContainer, HTML, PGBIcon;    
+    esgst.pinnedGiveawaysButton = document.getElementsByClassName(`pinned-giveaways__button`)[0];
     if (esgst.pinnedGiveawaysButton) {
         PGBContainer = esgst.pinnedGiveawaysButton.previousElementSibling;
         PGBContainer.classList.add(`esgst-pgb-container`);
@@ -19023,7 +19023,7 @@ function searchASGame(AS, URL, NextPage, Callback) {
 
 /* [OADD] Old Active Discussions Design */
 
-function loadOadd() {
+function loadOadd(refresh) {
     var deals, dealsRows, dealsSwitch, discussions, discussionsRows, discussionsSwitch, element, elements, i, j, n, response1Html, response2Html, revisedElements, rows, savedDiscussions;
     request(null, null, `GET`, false, `/discussions`, function (response1) {
         request(null, null, `GET`, false, `/discussions/deals`, function (response2) {
@@ -19107,66 +19107,78 @@ function loadOadd() {
                 deals.classList.add(`esgst-hidden`);
             });
             if (esgst.adots) {
-                loadAdots();
+                loadAdots(refresh);
             }
-            loadFeatures();
+            if (refresh) {
+                loadEndlessFeatures(esgst.activeDiscussions);
+            } else {
+                loadFeatures();
+            }
         });
     });
 }
 
 /* [ADOTS] Active Discussions On Top/Sidebar */
 
-function loadAdots() {
-    var parent, panel, size, tabHeading1, tabHeading2, activeDiscussions, discussions, deals, element, elements, i, icon, n, comments, parent, panel;
+function loadAdots(refresh) {
+    var parent, panel, size, tabHeading1, tabHeading2, activeDiscussions, discussions, deals, element, elements, i, icon, n, comments, parent, panel, rows;
     if (esgst.activeDiscussions) {
-        esgst.activeDiscussions.classList.remove(`widget-container--margin-top`);
-        esgst.activeDiscussions.classList.add(`esgst-adots`);
+        if (!refresh) {
+            esgst.activeDiscussions.classList.remove(`widget-container--margin-top`);
+            esgst.activeDiscussions.classList.add(`esgst-adots`);
+        }
         if (esgst.adots_index === 0) {
-            parent = esgst.activeDiscussions.parentElement;
-            parent.insertBefore(esgst.activeDiscussions, parent.firstElementChild);
-        } else {
-            if (esgst.ib) {
-                size = 45;
-            } else {
-                size = 35;
+            if (!refresh) {
+                parent = esgst.activeDiscussions.parentElement;
+                parent.insertBefore(esgst.activeDiscussions, parent.firstElementChild);
             }
-            esgst.style.insertAdjacentText(`beforeEnd`, `
-                .esgst-adots .table__row-inner-wrap >:first-child {
-                    float: left;
-                    width: ${size}px;
-                    height: ${size}px;
+        } else {
+            if (!refresh) {
+                if (esgst.ib) {
+                    size = 45;
+                } else {
+                    size = 35;
                 }
-                .esgst-adots .table__row-inner-wrap >:first-child >* {
-                    width: ${size}px;
-                    height: ${size}px;
-                }
-                .esgst-adots .table__row-inner-wrap >:last-child {
-                    margin-left: ${size + 5}px;
-                    text-align: left;
-                    width: auto;
-                }
-                .esgst-adots .table__column--width-fill {
-                    margin-left: 5px;
-                    vertical-align: top;
-                    width: calc(100% - ${size + 15}px);
-                }
-            `);
-            panel = insertHtml(esgst.sidebar, `beforeEnd`, `
-                <h3 class="sidebar__heading">
-                    <span class="esgst-adots-tab-heading esgst-selected">Discussions</span>
-                    <span class="esgst-adots-tab-heading">Deals</span>
-                    <a class="esgst-float-right sidebar__navigation__item__name" href="/discussions">More</a>
-                </h3>
-            `);
-            tabHeading1 = panel.firstElementChild;
-            tabHeading2 = tabHeading1.nextElementSibling;
+                esgst.style.insertAdjacentText(`beforeEnd`, `
+                    .esgst-adots .table__row-inner-wrap >:first-child {
+                        float: left;
+                        width: ${size}px;
+                        height: ${size}px;
+                    }
+                    .esgst-adots .table__row-inner-wrap >:first-child >* {
+                        width: ${size}px;
+                        height: ${size}px;
+                    }
+                    .esgst-adots .table__row-inner-wrap >:last-child {
+                        margin-left: ${size + 5}px;
+                        text-align: left;
+                        width: auto;
+                    }
+                    .esgst-adots .table__column--width-fill {
+                        margin-left: 5px;
+                        vertical-align: top;
+                        width: calc(100% - ${size + 15}px);
+                    }
+                `);
+                panel = insertHtml(esgst.sidebar, `beforeEnd`, `
+                    <h3 class="sidebar__heading">
+                        <span class="esgst-adots-tab-heading esgst-selected">Discussions</span>
+                        <span class="esgst-adots-tab-heading">Deals</span>
+                        <a class="esgst-float-right sidebar__navigation__item__name" href="/discussions">More</a>
+                    </h3>
+                `);
+                tabHeading1 = panel.firstElementChild;
+                tabHeading2 = tabHeading1.nextElementSibling;
+            }
             if (esgst.oadd) {
-                discussions = esgst.activeDiscussions.firstElementChild;
-                deals = esgst.activeDiscussions.lastElementChild;
-                discussions.firstElementChild.remove();
-                discussions.firstElementChild.firstElementChild.remove();
-                deals.firstElementChild.remove();
-                deals.firstElementChild.firstElementChild.remove();
+                if (!refresh) {
+                    discussions = esgst.activeDiscussions.firstElementChild;
+                    deals = esgst.activeDiscussions.lastElementChild;
+                    discussions.firstElementChild.remove();
+                    discussions.firstElementChild.firstElementChild.remove();
+                    deals.firstElementChild.remove();
+                    deals.firstElementChild.firstElementChild.remove();
+                }
                 elements = esgst.activeDiscussions.getElementsByClassName(`table__column--last-comment`);
                 for (i = 0, n = elements.length; i < n; ++i) {
                     icon = elements[0].getElementsByClassName(`table__last-comment-icon`)[0];
@@ -19176,11 +19188,19 @@ function loadAdots() {
                     }
                     elements[0].remove();
                 }
-                discussions = discussions.firstElementChild.firstElementChild;
-                deals = deals.firstElementChild.firstElementChild;
+                if (!refresh) {
+                    discussions = discussions.firstElementChild.firstElementChild;
+                    deals = deals.firstElementChild.firstElementChild;
+                }
             } else {
-                discussions = esgst.activeDiscussions.firstElementChild.firstElementChild.lastElementChild;
-                deals = esgst.activeDiscussions.lastElementChild.firstElementChild.lastElementChild;
+                if (refresh) {                    
+                    rows = document.getElementsByClassName(`table__rows`);
+                    discussions = rows[0];
+                    deals = rows[1];
+                } else {
+                    discussions = esgst.activeDiscussions.firstElementChild.firstElementChild.lastElementChild;
+                    deals = esgst.activeDiscussions.lastElementChild.firstElementChild.lastElementChild;
+                }
                 elements = discussions.getElementsByClassName(`table__row-outer-wrap`);
                 for (i = 0, n = elements.length; i < n; ++i) {
                     element = elements[i];
@@ -19208,15 +19228,17 @@ function loadAdots() {
                     parent.remove();
                 }
             }
-            deals.classList.add(`esgst-hidden`, `esgst-adots`);
-            discussions.classList.add(`esgst-adots`);
-            activeDiscussions = insertHtml(esgst.sidebar, `beforeEnd`, `<div></div>`);
-            activeDiscussions.appendChild(discussions);
-            activeDiscussions.appendChild(deals);
-            tabHeading1.addEventListener(`click`, changeAdotsTab.bind(null, tabHeading1, tabHeading2, discussions, deals));
-            tabHeading2.addEventListener(`click`, changeAdotsTab.bind(null, tabHeading2, tabHeading1, deals, discussions));
-            esgst.activeDiscussions.remove();
-            esgst.activeDiscussions = activeDiscussions;
+            if (!refresh) {
+                deals.classList.add(`esgst-hidden`, `esgst-adots`);
+                discussions.classList.add(`esgst-adots`);
+                activeDiscussions = insertHtml(esgst.sidebar, `beforeEnd`, `<div></div>`);
+                activeDiscussions.appendChild(discussions);
+                activeDiscussions.appendChild(deals);
+                tabHeading1.addEventListener(`click`, changeAdotsTab.bind(null, tabHeading1, tabHeading2, discussions, deals));
+                tabHeading2.addEventListener(`click`, changeAdotsTab.bind(null, tabHeading2, tabHeading1, deals, discussions));
+                esgst.activeDiscussions.remove();
+                esgst.activeDiscussions = activeDiscussions;
+            }
         }
     }
 }
@@ -19228,14 +19250,21 @@ function changeAdotsTab(button1, button2, first, second) {
     button1.classList.add(`esgst-selected`);
 }
 
-function checkMissingDiscussions() {
+function checkMissingDiscussions(refresh) {
     let deals, discussions, numDeals, numDiscussions, rows, savedDiscussions;
     savedDiscussions = JSON.parse(getValue(`discussions`, `{}`));
     rows = document.getElementsByClassName(`table__rows`);
-    discussions = getDiscussions(rows[0], true, savedDiscussions);
-    deals = getDiscussions(rows[1], true, savedDiscussions);
-    numDiscussions = discussions.length;
-    numDeals = deals.length;
+    if (refresh) {
+        rows[0].innerHTML = ``;
+        rows[1].innerHTML = ``;
+        numDiscussions = 0;
+        numDeals = 0;
+    } else {
+        discussions = getDiscussions(rows[0], true, savedDiscussions);
+        deals = getDiscussions(rows[1], true, savedDiscussions);
+        numDiscussions = discussions.length;
+        numDeals = deals.length;
+    }
     if (numDiscussions < 5 || numDeals < 5) {
         request(null, null, `GET`, false, `/discussions`, response1 => {
             request(null, null, `GET`, false, `/discussions/deals`, response2 => {
@@ -19265,9 +19294,13 @@ function checkMissingDiscussions() {
                     numDeals += 1;
                 }
                 if (esgst.adots) {
-                    loadAdots();
+                    loadAdots(refresh);
                 }
-                loadFeatures();
+                if (refresh) {
+                    loadEndlessFeatures(esgst.activeDiscussions);
+                } else {
+                    loadFeatures();
+                }
             });
         });
     } else {
@@ -30594,7 +30627,21 @@ function loadEs() {
         refreshButton.innerHTML = `
             <i class="fa fa-circle-o-notch fa-spin"></i>
         `;
-        request(null, null, `GET`, false, `${esgst.searchUrl}${pageIndex}`, getNextPage.bind(null, true, false));
+        request(null, null, `GET`, false, `${esgst.searchUrl}${pageIndex}`, response => {
+            getNextPage(true, false, response);
+            if (esgst.giveawaysPath) {
+                if (esgst.oadd) {
+                    loadOadd(true);
+                } else {
+                    checkMissingDiscussions(true);
+                }
+            }
+            if (esgst.pinnedGiveaways) {
+                esgst.pinnedGiveaways.innerHTML = DOM.parse(response.responseText).getElementsByClassName(`pinned-giveaways__outer-wrap`)[0].innerHTML;
+                loadEndlessFeatures(esgst.pinnedGiveaways, true);
+                loadPgb();
+            }
+        });
         if (!esgst.hr) {
             request(null, null, `GET`, false, esgst.sg ? `/giveaways/search?type=wishlist` : `/`, response => {
                 refreshHeaderElements(DOM.parse(response.responseText));
@@ -30604,19 +30651,22 @@ function loadEs() {
     }
 
     function refreshAllPages() {
-        var i, page, pagination;
+        var i, page;
         refreshAllButton.removeEventListener(`click`, refreshAllPages);
         refreshAllButton.innerHTML = `
             <i class="fa fa-circle-o-notch fa-spin"></i>
         `;
         count = 0;
         total = paginations.length;
-        for (i = 0; i < total; ++i) {
-            pagination = paginations[i];
-            page = reverseScrolling ? pageBase - (i + 1) : pageBase + (i + 1);
-            request(null, null, `GET`, false, `${esgst.searchUrl}${page}`, getNextPage.bind(null, true, page));
-        }
-        setTimeout(checkRefreshComplete, 250);
+        page = reverseScrolling ? pageBase - 1 : pageBase + 1;
+        request(null, null, `GET`, false, `${esgst.searchUrl}${page}`, response => {
+            getNextPage(true, page, response);
+            for (i = 1; i < total; ++i) {
+                page = reverseScrolling ? pageBase - (i + 1) : pageBase + (i + 1);
+                request(null, null, `GET`, false, `${esgst.searchUrl}${page}`, getNextPage.bind(null, true, page));
+            }
+            setTimeout(checkRefreshComplete, 250, response);
+        });
         if (!esgst.hr) {
             request(null, null, `GET`, false, esgst.sg ? `/giveaways/search?type=wishlist` : `/`, response => {
                 refreshHeaderElements(DOM.parse(response.responseText));
@@ -30625,7 +30675,7 @@ function loadEs() {
         }
     }
 
-    function checkRefreshComplete() {
+    function checkRefreshComplete(response) {
         if (count >= total) {
             loadEndlessFeatures(mainContext, true);
             setESRemoveEntry(mainContext);
@@ -30642,8 +30692,20 @@ function loadEs() {
             if (esgst.ts && !esgst.us) {
                 sortTsTables();
             }
+            if (esgst.giveawaysPath) {
+                if (esgst.oadd) {
+                    loadOadd(true);
+                } else {
+                    checkMissingDiscussions(true);
+                }
+            }
+            if (esgst.pinnedGiveaways) {
+                esgst.pinnedGiveaways.innerHTML = DOM.parse(response.responseText).getElementsByClassName(`pinned-giveaways__outer-wrap`)[0].innerHTML;
+                loadEndlessFeatures(esgst.pinnedGiveaways, true);
+                loadPgb();
+            }
         } else {
-            setTimeout(checkRefreshComplete, 250);
+            setTimeout(checkRefreshComplete, 250, response);
         }
     }
 }
