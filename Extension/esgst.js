@@ -19075,11 +19075,11 @@ function loadOadd() {
                 });
                 elements = revisedElements;
             }
-            for (i = 0, j = elements.length - 1; i < 5; ++i, --j) {
+            for (i = 0, j = elements.length - 1; i < 5 && j > -1; ++i, --j) {
                 discussionsRows.appendChild(elements[j].outerWrap);
             }
             elements = getDiscussions(response2Html, true, savedDiscussions);
-            for (i = 0, j = elements.length - 1; i < 5; ++i, --j) {
+            for (i = 0, j = elements.length - 1; i < 5 && j > -1; ++i, --j) {
                 dealsRows.appendChild(elements[j].outerWrap);
             }
             discussionsSwitch.addEventListener(`click`, function () {
@@ -19234,7 +19234,7 @@ function checkMissingDiscussions() {
                     }
                 });
                 i = revisedElements.length - (numDiscussions + 1);
-                while (numDiscussions < 5) {
+                while (numDiscussions < 5 && i > -1) {
                     setMissingDiscussion(revisedElements[i]);
                     rows[0].appendChild(revisedElements[i].outerWrap);
                     i -= 1;
@@ -19242,7 +19242,7 @@ function checkMissingDiscussions() {
                 }
                 elements = getDiscussions(response2Html, true, savedDiscussions);
                 i = elements.length - (numDeals + 1);
-                while (numDeals < 5) {
+                while (numDeals < 5 && i > -1) {
                     setMissingDiscussion(elements[i]);
                     rows[1].appendChild(elements[i].outerWrap);
                     i -= 1;
