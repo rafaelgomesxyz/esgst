@@ -1596,6 +1596,11 @@ function loadEsgst(storage) {
                             name: `Show the number of points in the tab title.`,
                             sg: true
                         },
+                        {
+                            id: `hr_fp`,
+                            name: `[NEW] Show browser notification if there are 400P or more.`,
+                            sg: true
+                        }
                     ],
                     id: `hr`,
                     input: true,
@@ -9962,7 +9967,7 @@ function refreshHeader(cache, hr, notify) {
 }
 
 function notifyHrChange(hr, wishlist, notify) {
-    let canvas, context, deliveredNotification, image, messageNotification, messageCount, notification, title, wishlistNotification;
+    let canvas, context, deliveredNotification, image, messageNotification, messageCount, notification, pointsNotification, title, wishlistNotification;
     messageCount = esgst.messageCount;
     if (messageCount !== hr.messageCount) {
         messageNotification = messageCount - hr.messageCount;
@@ -10001,6 +10006,9 @@ function notifyHrChange(hr, wishlist, notify) {
         if (hr.points !== esgst.points) {
             hr.points = esgst.points;
             updateElgbButtons(hr.points);
+            if (esgst.points >= 400) {
+                pointsNotification = true;
+            }
         }
         title = ``;
         delivered = esgst.wonButton.getElementsByClassName(`fade_infinite`)[0];
@@ -10043,17 +10051,20 @@ function notifyHrChange(hr, wishlist, notify) {
     }
     if (notify) {
         notification = ``;
+        if (pointsNotification && esgst.hr_fp) {
+            notification += `You have ${esgst.points}P.\n\n`;
+        }
         if (messageNotification && esgst.hr_m && esgst.hr_m_n) {
-            notification += `You have ${messageNotification} new messages. `;
+            notification += `You have ${messageNotification} new messages.\n\n`;
         }
         if (deliveredNotification && esgst.hr_g && esgst.hr_g_n) {
-            notification += `You have new gifts delivered. `;
+            notification += `You have new gifts delivered.\n\n`;
         }
         if (wishlistNotification && esgst.hr_w && esgst.hr_w_n) {
             if (esgst.hr_w_h) {
-                notification += `You have ${wishlistNotification} new wishlist giveaways ending in ${esgst.hr_w_hours} hours. `;
+                notification += `You have ${wishlistNotification} new wishlist giveaways ending in ${esgst.hr_w_hours} hours.`;
             } else {
-                notification += `You have ${wishlistNotification} new wishlist giveaways. `;
+                notification += `You have ${wishlistNotification} new wishlist giveaways.`;
             }
         }
         if (notification) {
