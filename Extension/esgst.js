@@ -620,6 +620,7 @@ function loadEsgst(storage) {
                 lastSyncGiveaways: `lastSync`
             };
             esgst.defaultValues = {
+                ge_o: false,
                 df_m: true,
                 gf_m: true,
                 ge_p_bgColor: `#ccccdd`,
@@ -1948,7 +1949,7 @@ function loadEsgst(storage) {
                                 </ul>
                             `,
                             id: `gf_s`,
-                            name: `[NEW] Single Filters`,
+                            name: `Single Filters`,
                             sg: true
                         },
                         {
@@ -2160,7 +2161,7 @@ function loadEsgst(storage) {
                                 }
                             ],
                             id: `gf_m`,
-                            name: `[NEW] Multiple Filters`,
+                            name: `Multiple Filters`,
                             sg: true
                         }
                     ],
@@ -2307,7 +2308,7 @@ function loadEsgst(storage) {
                         <img src="https://i.imgur.com/3z6t263.png">
                     `,
                     id: `ttec`,
-                    name: `[NEW] Time To Enter Calculator`,
+                    name: `Time To Enter Calculator`,
                     sg: true,
                     type: `giveaways`
                 },
@@ -2758,19 +2759,30 @@ function loadEsgst(storage) {
                         {
                             background: true,
                             id: `ge_p`,
-                            name: `[NEW] Highlight public giveaways.`,
+                            name: `Highlight public giveaways.`,
                             sg: true
                         },
                         {
                             background: true,
                             id: `ge_g`,
-                            name: `[NEW] Highlight group giveaways.`,
+                            name: `Highlight group giveaways.`,
                             sg: true
                         },
                         {
                             background: true,
                             id: `ge_b`,
-                            name: `[NEW] Highlight giveaways that cannot be entered because of blacklist issues.`,
+                            name: `Highlight giveaways that cannot be entered because of blacklist issues.`,
+                            sg: true
+                        },
+                        {
+                            description: `
+                                <ul>
+                                    <li>The default behavior of the extractor is to extract all giveaways. So, for example, if you enter a train in the 8th cart, the extractor will go back all the way to the 1st cart before continuing to the 9th cart. Enable this option to make the extractor ignore the 1st-7th carts in this example.</li>
+                                    <li>This method is not 100% accurate. If the link to the next giveaway does not contain a "next" variation or a counter, the extraction will stop.</li>
+                                </ul>
+                            `,
+                            id: `ge_o`,
+                            name: `[NEW] Only extract from the current giveaway onwards.`,
                             sg: true
                         },
                         {
@@ -2842,7 +2854,7 @@ function loadEsgst(storage) {
                                 </ul>
                             `,
                             id: `oadd_d`,
-                            name: `[NEW] Show deals in the discussions section.`,
+                            name: `Show deals in the discussions section.`,
                             sg: true
                         }
                     ],
@@ -2900,7 +2912,7 @@ function loadEsgst(storage) {
                                 </ul>
                             `,
                             id: `df_s`,
-                            name: `[NEW] Single Filters`,
+                            name: `Single Filters`,
                             sg: true
                         },
                         {
@@ -2987,7 +2999,7 @@ function loadEsgst(storage) {
                                 }
                             ],
                             id: `df_m`,
-                            name: `[NEW] Multiple Filters`,
+                            name: `Multiple Filters`,
                             sg: true
                         }
                     ],
@@ -3714,12 +3726,12 @@ function loadEsgst(storage) {
                             features: [
                                 {
                                     id: `gc_lp_gv`,
-                                    name: `[NEW] Enable for Grid View.`,
+                                    name: `Enable for Grid View.`,
                                     sg: true
                                 }
                             ],
                             id: `gc_lp`,
-                            name: `[NEW] Link each category to its related page.`,
+                            name: `Link each category to its related page.`,
                             sg: true
                         },
                         {
@@ -8078,7 +8090,9 @@ function getSetting(key, sg, st) {
             if (typeof defaultValue === `undefined`) {
                 defaultValue = key === `gc_lp` ? true : (key.match(/^sk_/) ? true : (key.match(/^gc_.+?_s$/) ? esgst.settings.gc_s_sg : (key.match(/^gc_.+?_s_i$/) ? esgst.settings.gc_s_i_sg : (key.match(/^(g|d)f_(?!h$)/) ? true : (key.match(/^hide/) ? false : (esgst.enableByDefault || false))))));
             }
-            esgst.settings[localKey] = esgst.settings[esgst.oldValues[key]];
+            if (typeof esgst.oldValues[key] !== `undefined`) {
+                esgst.settings[localKey] = esgst.settings[esgst.oldValues[key]];
+            }
             if (typeof esgst.settings[localKey] === `undefined`) {
                 esgst.settings[localKey] = defaultValue;
             }
@@ -18837,7 +18851,7 @@ function extractGeGiveaway(ge, code, callback) {
 }
 
 function getGeGiveaways(ge, context) {
-    let code, elements, giveaways, i, n, url;
+    let code, count, element, elements, giveaways, i, match, n, next, url;
     elements = context.querySelectorAll(`[href*="sgtools.info/giveaways/"]`);
     for (i = 0, n = elements.length; i < n; ++i) {
         url = elements[i].getAttribute(`href`);
@@ -18852,12 +18866,36 @@ function getGeGiveaways(ge, context) {
         }
     }
     giveaways = [];
-    elements = context.querySelectorAll(`[href*="/giveaway/"]`);
+    if (context === ge.context) {
+        giveaways.push(getParameters().url.match(/\/giveaway\/(.+?)\//)[1]);
+    } else if (context === document && esgst.giveawayPath) {
+        giveaways.push(location.href.match(/\/giveaway\/(.+?)\//)[1]);
+    }
+    elements = context.querySelectorAll(`.markdown [href*="/giveaway/"]`);
+    next = {
+        code: null,
+        count: 0
+    };
     for (i = 0, n = elements.length; i < n; ++i) {
-        code = elements[i].getAttribute(`href`).match(/\/giveaway\/(.+?)(\/.*)?$/)[1];
-        if (ge.extracted.indexOf(code) < 0 && giveaways.indexOf(code) < 0) {
-            giveaways.push(code);
+        element = elements[i];
+        code = element.getAttribute(`href`).match(/\/giveaway\/(.+?)(\/.*)?$/)[1];
+        if (!esgst.ge_o || esgst.discussionPath || element.textContent.toLowerCase().match(/forw|more|next|>|→/)) {
+            if (ge.extracted.indexOf(code) < 0 && giveaways.indexOf(code) < 0) {
+                giveaways.push(code);
+            }
+        } else {
+            match = element.textContent.match(/\d+/);
+            if (match) {
+                count = parseInt(match[0]);
+                if (count > next.count && ge.extracted.indexOf(code) < 0 && giveaways.indexOf(code) < 0) {
+                    next.code = code;
+                    next.count = count;
+                }
+            }
         }
+    }
+    if (next.count > 0) {
+        giveaways.push(next.code);
     }
     return giveaways;
 }
