@@ -34825,34 +34825,6 @@ function loadChangelog(version) {
     popup.open();
 }
 
-// This part of the code is different in the script
-
-function setValue(key, value) {
-    if (key.match(/^esgst_/)) {
-        localStorage.setItem(key, value);
-    } else {
-        chrome.storage.local.set({[key]: value});
-        esgst.storage[key] = value;
-    }
-}
-
-function getValue(key, value = undefined) {
-    if (key.match(/^esgst_/)) {
-        return (localStorage.getItem(key) || value);
-    } else {
-        return (typeof esgst.storage[key] === `undefined` ? value : esgst.storage[key]);
-    }
-}
-
-function delValue(key) {
-    if (key.match(/^esgst_/)) {
-        localStorage.removeItem(key);
-    } else {
-        chrome.storage.local.remove(key);
-    }
-    delete esgst.storage[key];
-}
-
 function request(data, headers, method, queue, url, callback, anon) {
     if (!headers) {
         headers = {};
@@ -34866,141 +34838,351 @@ function request(data, headers, method, queue, url, callback, anon) {
     }
 }
 
-function continueRequest(data, headers, method, url, callback, anon, closeLock) {
-    if (!headers[`Content-Type`]) {
-        headers[`Content-Type`] = `application/x-www-form-urlencoded`;
-    }
-    chrome.runtime.sendMessage({
-        action: `fetch`,
-        parameters: JSON.stringify({
-            body: data,
-            credentials: anon ? `omit` : `include`,
-            headers: headers,
-            method: method,
-            redirect: `follow`
-        }),
-        url: url.replace(/^\//, `https://${location.hostname}/`).replace(/^https?:/, location.href.match(/^http:/) ? `http:` : `https:`)
-    }, response => {
-        if (closeLock) {
-            closeLock();
-        }
-        response = JSON.parse(response);
-        if (response.finalUrl.match(/www.steamgifts.com/)) {
-            lookForPopups(response);
-        }
-        if (callback) {
-            callback(response);
+function checkUpdate() {
+    request(null, null, `GET`, false, `https://raw.githubusercontent.com/revilheart/ESGST/master/ESGST.meta.js`, function (response) {
+        var version = response.responseText.match(/@version (.+)/);
+        if (version) {
+            if (version[1] != esgst.version) {
+                location.href = `https://raw.githubusercontent.com/revilheart/ESGST/master/ESGST.user.js`;
+            } else {
+                alert(`No ESGST updates found!`);
+            }
+        } else {
+            alert(`No ESGST updates found!`);
         }
     });
 }
 
-function addHeaderMenu() {
-    var arrow, button, className, context, dropdown, menu, position;
-    if (esgst.sg) {
-        className = `nav__left-container`;
-        position = `beforeEnd`;
-    } else {
-        className = `nav_logo`;
-        position = `afterEnd`;
-    }
-    context = document.getElementsByClassName(className)[0];
-    menu = insertHtml(context, position, `
-        <div class="esgst-header-menu">
-            <div class="esgst-header-menu-relative-dropdown esgst-hidden">
-                <div class="esgst-header-menu-absolute-dropdown">
-                    <a class="esgst-header-menu-row" href="https://github.com/revilheart/ESGST">
-                        <i class="fa fa-fw fa-github grey"></i>
-                        <div>
-                            <p class="esgst-header-menu-name">GitHub</p>
-                            <p class="esgst-header-menu-description">Visit the GitHub page.</p>
-                        </div>
-                    </a>
-                    <a class="esgst-header-menu-row" href="https://github.com/revilheart/ESGST/issues">
-                        <i class="fa fa-fw fa-bug red"></i>
-                        <div>
-                            <p class="esgst-header-menu-name">Bugs/Suggestions</p>
-                            <p class="esgst-header-menu-description">Report bugs and/or make suggestions.</p>
-                        </div>
-                    </a>
-                    <a class="esgst-header-menu-row" href="https://github.com/revilheart/ESGST/milestones">
-                        <i class="fa fa-fw fa-map-signs blue"></i>
-                        <div>
-                            <p class="esgst-header-menu-name">Milestones</p>
-                            <p class="esgst-header-menu-description">Check out what's coming in the next version.</p>
-                        </div>
-                    </a>
-                    <a class="esgst-header-menu-row" href="https://www.steamgifts.com/discussion/TDyzv/">
-                        <i class="fa fa-fw fa-commenting green"></i>
-                        <div>
-                            <p class="esgst-header-menu-name">Discussion</p>
-                            <p class="esgst-header-menu-description">Visit the discussion page.</p>
-                        </div>
-                    </a>
-                    <div class="esgst-header-menu-row">
-                        <i class="fa fa-fw fa-file-text-o yellow"></i>
-                        <div>
-                            <p class="esgst-header-menu-name">Changelog</p>
-                            <p class="esgst-header-menu-description">Check out the changelog.</p>
+if (typeof GM_setValue === `undefined`) {
+    setValue = (key, value) => {
+        if (key.match(/^esgst_/)) {
+            localStorage.setItem(key, value);
+        } else {
+            chrome.storage.local.set({[key]: value});
+            esgst.storage[key] = value;
+        }
+    };
+    getValue = (key, value = undefined) => {
+        if (key.match(/^esgst_/)) {
+            return (localStorage.getItem(key) || value);
+        } else {
+            return (typeof esgst.storage[key] === `undefined` ? value : esgst.storage[key]);
+        }
+    };
+    delValue = key => {
+        if (key.match(/^esgst_/)) {
+            localStorage.removeItem(key);
+        } else {
+            chrome.storage.local.remove(key);
+        }
+        delete esgst.storage[key];
+    };
+    continueRequest = (data, headers, method, url, callback, anon, closeLock) => {
+        if (!headers[`Content-Type`]) {
+            headers[`Content-Type`] = `application/x-www-form-urlencoded`;
+        }
+        chrome.runtime.sendMessage({
+            action: `fetch`,
+            parameters: JSON.stringify({
+                body: data,
+                credentials: anon ? `omit` : `include`,
+                headers: headers,
+                method: method,
+                redirect: `follow`
+            }),
+            url: url.replace(/^\//, `https://${location.hostname}/`).replace(/^https?:/, location.href.match(/^http:/) ? `http:` : `https:`)
+        }, response => {
+            if (closeLock) {
+                closeLock();
+            }
+            response = JSON.parse(response);
+            if (response.finalUrl.match(/www.steamgifts.com/)) {
+                lookForPopups(response);
+            }
+            if (callback) {
+                callback(response);
+            }
+        });
+    };
+    addHeaderMenu = () => {
+        var arrow, button, className, context, dropdown, menu, position;
+        if (esgst.sg) {
+            className = `nav__left-container`;
+            position = `beforeEnd`;
+        } else {
+            className = `nav_logo`;
+            position = `afterEnd`;
+        }
+        context = document.getElementsByClassName(className)[0];
+        menu = insertHtml(context, position, `
+            <div class="esgst-header-menu">
+                <div class="esgst-header-menu-relative-dropdown esgst-hidden">
+                    <div class="esgst-header-menu-absolute-dropdown">
+                        <a class="esgst-header-menu-row" href="https://github.com/revilheart/ESGST">
+                            <i class="fa fa-fw fa-github grey"></i>
+                            <div>
+                                <p class="esgst-header-menu-name">GitHub</p>
+                                <p class="esgst-header-menu-description">Visit the GitHub page.</p>
+                            </div>
+                        </a>
+                        <a class="esgst-header-menu-row" href="https://github.com/revilheart/ESGST/issues">
+                            <i class="fa fa-fw fa-bug red"></i>
+                            <div>
+                                <p class="esgst-header-menu-name">Bugs/Suggestions</p>
+                                <p class="esgst-header-menu-description">Report bugs and/or make suggestions.</p>
+                            </div>
+                        </a>
+                        <a class="esgst-header-menu-row" href="https://github.com/revilheart/ESGST/milestones">
+                            <i class="fa fa-fw fa-map-signs blue"></i>
+                            <div>
+                                <p class="esgst-header-menu-name">Milestones</p>
+                                <p class="esgst-header-menu-description">Check out what's coming in the next version.</p>
+                            </div>
+                        </a>
+                        <a class="esgst-header-menu-row" href="https://www.steamgifts.com/discussion/TDyzv/">
+                            <i class="fa fa-fw fa-commenting green"></i>
+                            <div>
+                                <p class="esgst-header-menu-name">Discussion</p>
+                                <p class="esgst-header-menu-description">Visit the discussion page.</p>
+                            </div>
+                        </a>
+                        <div class="esgst-header-menu-row">
+                            <i class="fa fa-fw fa-file-text-o yellow"></i>
+                            <div>
+                                <p class="esgst-header-menu-name">Changelog</p>
+                                <p class="esgst-header-menu-description">Check out the changelog.</p>
+                            </div>
                         </div>
                     </div>
                 </div>
+                <div class="esgst-header-menu-button">
+                    <i class="fa">
+                        <img src="${esgst.icon}"/>
+                    </i>
+                    <span>ESGST</span>
+                </div>
+                <div class="esgst-header-menu-button arrow">
+                    <i class="fa fa-angle-down"></i>
+                </div>
             </div>
-            <div class="esgst-header-menu-button">
-                <i class="fa">
-                    <img src="${esgst.icon}"/>
-                </i>
-                <span>ESGST</span>
-            </div>
-            <div class="esgst-header-menu-button arrow">
-                <i class="fa fa-angle-down"></i>
-            </div>
-        </div>
-    `);
-    dropdown = menu.firstElementChild;
-    button = dropdown.nextElementSibling;
-    arrow = button.nextElementSibling;
-    button.addEventListener(`click`, function () {
-        if (esgst.openSettingsInTab) {
-            open(`/esgst/settings`);
-        } else {
-            loadSMMenu();
-        }
-    });
-    arrow.addEventListener(`click`, toggleHeaderMenu.bind(null, arrow, dropdown));
-    document.addEventListener(`click`, closeHeaderMenu.bind(null, arrow, dropdown, menu), true);
-    dropdown.firstElementChild.lastElementChild.addEventListener(`click`, loadChangelog);
-}
-
-function notifyNewVersion(version) {
-    let message, popup;
-    if (esgst.discussionPath) {
-        message = `You are not using the latest ESGST version. Please update before reporting bugs and make sure the bugs still exist in the latest version.`;
-    } else {
-        message = `A new ESGST version is available.`;
-    }
-    popup = new Popup(`fa-exclamation`, message, true);
-    if (typeof browser === `undefined`) {
-        popup.description.appendChild(new ButtonSet(`green`, ``, `fa-download`, ``, `Download .zip`, ``, callback => {
-            callback();
-            open(`https://github.com/revilheart/ESGST/releases/download/${version}/extension.zip`);
-        }).set);
-    }
-    popup.onClose = () => {
-        setValue(`dismissedVersion`, version);
-    };
-    popup.open();
-}
-
-if (!document.getElementsByClassName(`esgst-header-menu`)[0]) {
-    chrome.storage.onChanged.addListener((changes, namespace) => {
-        if (namespace === `local`) {
-            let key;
-            for (key in changes) {
-                esgst.storage[key] = changes[key].newValue;
+        `);
+        dropdown = menu.firstElementChild;
+        button = dropdown.nextElementSibling;
+        arrow = button.nextElementSibling;
+        button.addEventListener(`click`, function () {
+            if (esgst.openSettingsInTab) {
+                open(`/esgst/settings`);
+            } else {
+                loadSMMenu();
             }
+        });
+        arrow.addEventListener(`click`, toggleHeaderMenu.bind(null, arrow, dropdown));
+        document.addEventListener(`click`, closeHeaderMenu.bind(null, arrow, dropdown, menu), true);
+        dropdown.firstElementChild.lastElementChild.addEventListener(`click`, loadChangelog);
+    };
+    notifyNewVersion = version => {
+        let message, popup;
+        if (esgst.discussionPath) {
+            message = `You are not using the latest ESGST version. Please update before reporting bugs and make sure the bugs still exist in the latest version.`;
+        } else {
+            message = `A new ESGST version is available.`;
         }
-    });
-    chrome.storage.local.get(null, storage => {
-        loadEsgst(storage);
-    });
+        popup = new Popup(`fa-exclamation`, message, true);
+        if (typeof browser === `undefined`) {
+            popup.description.appendChild(new ButtonSet(`green`, ``, `fa-download`, ``, `Download .zip`, ``, callback => {
+                callback();
+                open(`https://github.com/revilheart/ESGST/releases/download/${version}/extension.zip`);
+            }).set);
+        }
+        popup.onClose = () => {
+            setValue(`dismissedVersion`, version);
+        };
+        popup.open();
+    };
+    if (!document.getElementsByClassName(`esgst-header-menu`)[0]) {
+        chrome.storage.onChanged.addListener((changes, namespace) => {
+            if (namespace === `local`) {
+                let key;
+                for (key in changes) {
+                    esgst.storage[key] = changes[key].newValue;
+                }
+            }
+        });
+        chrome.storage.local.get(null, storage => {
+            loadEsgst(storage);
+        });
+    }
+} else {
+    setValue = (key, value) => {
+        if (key.match(/^esgst_/)) {
+            localStorage.setItem(key, value);
+        } else {
+            GM_setValue(key, value);
+        }
+    };
+    getValue = (key, value = undefined) => {
+        if (key.match(/^esgst_/)) {
+            return (localStorage.getItem(key) || value);
+        } else {
+            return GM_getValue(key, value);
+        }
+    };
+    delValue = key => {
+        if (key.match(/^esgst_/)) {
+            localStorage.removeItem(key);
+        } else {
+            GM_deleteValue(key);
+        }
+    };
+    continueRequest = (data, headers, method, url, callback, anon, closeLock) => {
+        if (!headers[`Content-Type`]) {
+            headers[`Content-Type`] = `application/x-www-form-urlencoded`;
+        }
+        if (url.match(/^\//) || url.match(new RegExp(location.hostname))) {
+            url = url.replace(/^https?:/, location.href.match(/^http:/) ? `http:` : `https:`);
+            fetch(url, {
+                body: data,
+                credentials: anon ? `omit` : `include`,
+                headers: headers,
+                method: method,
+                redirect: `follow`
+            }).then(response => {
+                response.text().then(responseText => {
+                    if (closeLock) {
+                        closeLock();
+                    }
+                    response = {
+                        finalUrl: response.url,
+                        redirected: response.redirected,
+                        responseText: responseText
+                    };
+                    if (callback) {
+                        callback(response);
+                    }
+                    if (response.finalUrl.match(/www.steamgifts.com/)) {
+                        lookForPopups(response);
+                    }
+                });
+            });
+        } else {
+            GM_xmlhttpRequest({
+                data: data,
+                headers: headers,
+                method: method,
+                url: url,
+                onload: response => {
+                    if (closeLock) {
+                        closeLock();
+                    }
+                    if (callback) {
+                        callback(response);
+                    }
+                    if (response.finalUrl.match(/www.steamgifts.com/)) {
+                        lookForPopups(response);
+                    }
+                }
+            });
+        }
+    };
+    addHeaderMenu = () => {
+        var arrow, button, changelogRow, className, context, dropdown, html, menu, position;
+        if (esgst.sg) {
+            className = `nav__left-container`;
+            position = `beforeEnd`;
+        } else {
+            className = `nav_logo`;
+            position = `afterEnd`;
+        }
+        context = document.getElementsByClassName(className)[0];
+        menu = insertHtml(context, position, `
+            <div class="esgst-header-menu">
+                <div class="esgst-header-menu-relative-dropdown esgst-hidden">
+                    <div class="esgst-header-menu-absolute-dropdown">
+                        <div class="esgst-header-menu-row">
+                            <i class="fa fa-fw fa-refresh blue"></i>
+                            <div>
+                                <p class="esgst-header-menu-name">Update</p>
+                                <p class="esgst-header-menu-description">Check for updates.</p>
+                            </div>
+                        </div>
+                        <a class="esgst-header-menu-row" href="https://github.com/revilheart/ESGST">
+                            <i class="fa fa-fw fa-github grey"></i>
+                            <div>
+                                <p class="esgst-header-menu-name">GitHub</p>
+                                <p class="esgst-header-menu-description">Visit the GitHub page.</p>
+                            </div>
+                        </a>
+                        <a class="esgst-header-menu-row" href="https://github.com/revilheart/ESGST/issues">
+                            <i class="fa fa-fw fa-bug red"></i>
+                            <div>
+                                <p class="esgst-header-menu-name">Bugs/Suggestions</p>
+                                <p class="esgst-header-menu-description">Report bugs and/or make suggestions.</p>
+                            </div>
+                        </a>
+                        <a class="esgst-header-menu-row" href="https://github.com/revilheart/ESGST/milestones">
+                            <i class="fa fa-fw fa-map-signs blue"></i>
+                            <div>
+                                <p class="esgst-header-menu-name">Milestones</p>
+                                <p class="esgst-header-menu-description">Check out what's coming in the next version.</p>
+                            </div>
+                        </a>
+                        <a class="esgst-header-menu-row" href="https://www.steamgifts.com/discussion/TDyzv/">
+                            <i class="fa fa-fw fa-commenting green"></i>
+                            <div>
+                                <p class="esgst-header-menu-name">Discussion</p>
+                                <p class="esgst-header-menu-description">Visit the discussion page.</p>
+                            </div>
+                        </a>
+                        <div class="esgst-header-menu-row">
+                            <i class="fa fa-fw fa-file-text-o yellow"></i>
+                            <div>
+                                <p class="esgst-header-menu-name">Changelog</p>
+                                <p class="esgst-header-menu-description">Check out the changelog.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="esgst-header-menu-button">
+                    <i class="fa">
+                        <img src="${esgst.icon}"/>
+                    </i>
+                    <span>ESGST</span>
+                </div>
+                <div class="esgst-header-menu-button arrow">
+                    <i class="fa fa-angle-down"></i>
+                </div>
+            </div>
+        `);
+        dropdown = menu.firstElementChild;
+        button = dropdown.nextElementSibling;
+        arrow = button.nextElementSibling;
+        button.addEventListener(`click`, function () {
+            if (esgst.openSettingsInTab) {
+                open(`/esgst/settings`);
+            } else {
+                loadSMMenu();
+            }
+        });
+        arrow.addEventListener(`click`, toggleHeaderMenu.bind(null, arrow, dropdown));
+        document.addEventListener(`click`, closeHeaderMenu.bind(null, arrow, dropdown, menu), true);
+        dropdown.firstElementChild.firstElementChild.addEventListener(`click`, checkUpdate);
+        dropdown.firstElementChild.lastElementChild.addEventListener(`click`, loadChangelog);
+    };
+    notifyNewVersion = version => {
+        let message, popup;
+        if (esgst.discussionPath) {
+            message = `You are not using the latest ESGST version. Please update before reporting bugs and make sure the bugs still exist in the latest version.`;
+        } else {
+            message = `A new ESGST version is available.`;
+        }
+        popup = new Popup(`fa-exclamation`, message, true);
+        insertHtml(popup.actions, `afterBegin`, `<span>Update</span>`).addEventListener(`click`, checkUpdate);
+        popup.onClose = () => {
+            setValue(`dismissedVersion`, version);
+        };
+        popup.open();
+    };
+    if (!document.getElementsByClassName(`esgst-header-menu`)[0]) {
+        loadEsgst();
+    }
 }
