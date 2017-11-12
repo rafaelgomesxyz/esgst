@@ -861,6 +861,31 @@ The video above does not get embedded.
 
 ## Changelog
 
+**7.7.4 (November 12, 2017):**
+
+<ul>
+    <li><a href="https://github.com/revilheart/ESGST/issues/167">#167</a> Fix a Comment History conflict with other scripts</li>
+    <li><a href="https://github.com/revilheart/ESGST/issues/168">#168</a> Move entries tracker from settings menu to the user menu in the header</li>
+    <li><a href="https://github.com/revilheart/ESGST/issues/166">#166</a> Fix a bug that happens when trying to create multiple giveaways</li>
+    <li><a href="https://github.com/revilheart/ESGST/issues/169">#169</a> Fix a bug that happens when there are less than 5 unhidden discussions</li>
+    <li><a href="https://github.com/revilheart/ESGST/issues/171">#171</a> Fix a bug that shows the wrong message for cases where the user has unblacklisted another user in Blacklist Giveaway Loader</li>
+    <li><a href="https://github.com/revilheart/ESGST/issues/172">#172</a> Fix a bug in Group Library/Wishlist Checker that does not check only wishlist if there is no Steam API key set</li>
+    <li><a href="https://github.com/revilheart/ESGST/issues/173">#173</a> Fix a bug that prevents some giveaway features from loading</li>
+    <li><a href="https://github.com/revilheart/ESGST/issues/175">#175</a> Refresh active discussions and pinned giveaways when refreshing main giveaway pages in Endless Scrolling</li>
+    <li><a href="https://github.com/revilheart/ESGST/issues/174">#174</a> Fix a bug in Giveaway Winning Ratio that does not round up the ratio correctly</li>
+    <li><a href="https://github.com/revilheart/ESGST/issues/176">#176</a> Fix a bug in Attached Images Carousel that does not close the popup when clicking on the source link</li>
+    <li><a href="https://github.com/revilheart/ESGST/issues/177">#177</a> Fix a bug that happens when uploading images through Imgur</li>
+    <li><a href="https://github.com/revilheart/ESGST/issues/178">#178</a> Fix a bug in Tables Sorter that does not sort some columns correctly</li>
+    <li><a href="https://github.com/revilheart/ESGST/issues/179">#179</a> Remove text from giveaway icons in popups in normal view</li>
+    <li><a href="https://github.com/revilheart/ESGST/issues/164">#164</a> Fix a bug that does not automatically collapse replies in Collapse/Expand Replies Button when using Endless Scrolling</li>
+    <li><a href="https://github.com/revilheart/ESGST/issues/163">#163</a> Fix a bug that does not set the gift/key field correctly when editing a giveaway in Multiple Giveaways Creator</li>
+    <li><a href="https://github.com/revilheart/ESGST/issues/181">#181</a> Fix a bug that happens when trying to import/export through Google Drive/OneDrive using the script or the extension on Firefox</li>
+    <li><a href="https://github.com/revilheart/ESGST/issues/180">#180</a> Fix a bug in Multiple Giveaways Creator that alters the date when editing a giveaway</li>
+    <li><a href="https://github.com/revilheart/ESGST/issues/182">#182</a> Fix a bug that shows wrong chance/ratio in the entered page</li>
+    <li><a href="https://github.com/revilheart/ESGST/issues/183">#183</a> Add the script code to the extension code</li>
+    <li><a href="https://github.com/revilheart/ESGST/issues/145">#145</a> Add option to Giveaways Extractor to only extract from the current giveaway onwards</li>
+</ul>
+
 **7.7.3 (November 11, 2017):**
 
 <ul>
