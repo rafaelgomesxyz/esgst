@@ -29084,6 +29084,8 @@ function getGiveawayInfo(context, mainContext, games, savedUsers, ugd, ugdType, 
         if (button) {
             giveaway.entered = !button.classList.contains(`is-hidden`);
         }
+    } else if (esgst.enteredPath && main) {
+        giveaway.entered = true;
     } else {
         giveaway.entered = giveaway.innerWrap.classList.contains(`is-faded`);
     }
