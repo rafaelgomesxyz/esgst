@@ -10838,16 +10838,22 @@ function getTsArray(columnName, i, table) {
                     case `Trending`:
                         element.value = column.getElementsByClassName(`fa-caret-up`).length - column.getElementsByClassName(`fa-caret-down`).length;
                         break;
-                    case `Date Entered`:
-                    case `Last Post`:
                     case `Added`:
+                    case `Date Entered`:
                     case `Last Online`:
+                    case `Last Post`:
                     case `Last Update`:
                         element.value = value.match(/Online\sNow/) ? Date.now() : parseInt(column.querySelector(`[data-timestamp]`).getAttribute(`data-timestamp`)) * 1e3;
                         break;
-                    case `User`:
-                    case `Type`:
                     case `Game`:
+                    case `Giveaway`:
+                    case `Group`:
+                    case `Received`:
+                    case `Sent`:
+                    case `Status`:
+                    case `Summary`:
+                    case `Type`:
+                    case `User`:
                         element.value = value;
                         break;
                     default:
