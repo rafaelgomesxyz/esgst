@@ -5144,11 +5144,9 @@ function loadFeatures() {
                     title = popout.popout.firstElementChild.nextElementSibling.firstElementChild;
                     imgur.addEventListener(`click`, () => {
                         multiChoice(`grey`, `fa-user-secret`, `Anonymously`, `grey`, `fa-user`, `Through Account`, `How would you like to upload?`, uploadImgurImage.bind(null, `Client-ID e25283ef48ab9aa`, popout, url), () => {
-                            if (getValue(`imgurToken`)) {
-                                checkImgurComplete(popout, url);
-                            } else {
-                                checkImgurComplete(popout, url, open(`https://api.imgur.com/oauth2/authorize?client_id=e25283ef48ab9aa&response_type=token`));
-                            }
+                            delValue(`imgurToken`);
+                            open(`https://api.imgur.com/oauth2/authorize?client_id=e25283ef48ab9aa&response_type=token`);
+                            checkImgurComplete(popout, url);
                         });
                     });
                     popout.popout.lastElementChild.addEventListener(`click`, () => {
@@ -20814,11 +20812,11 @@ function formatCfhLink(title, url, isImage, isPaste) {
     esgst.cfh.textArea.focus();
 }
 
-function checkImgurComplete(popout, url, win) {
-    if (!win || win.closed) {
+function checkImgurComplete(popout, url) {
+    if (getValue(`imgurToken`)) {
         uploadImgurImage(`Bearer ${getValue(`imgurToken`)}`, popout, url);
     } else {
-        setTimeout(checkImgurComplete, 250, popout, url, win);
+        setTimeout(checkImgurComplete, 250, popout, url);
     }
 }
 
