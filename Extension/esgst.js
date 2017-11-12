@@ -28940,10 +28940,8 @@ function checkNewVersion() {
 }
 
 function startGiveawayFeatures() {
-    if (esgst.gv || esgst.ochgb || esgst.ggl || esgst.gb || esgst.gwc || esgst.gwr || esgst.elgb || esgst.gwl || esgst.gf || esgst.uf) {
-        esgst.endlessFeatures.push(loadGiveawayFeatures);
-        loadGiveawayFeatures(document, true);
-    }
+    esgst.endlessFeatures.push(loadGiveawayFeatures);
+    loadGiveawayFeatures(document, true);
 }
 
 function loadGiveawayFeatures(context, main, source, endless) {
