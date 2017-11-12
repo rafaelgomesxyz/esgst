@@ -15270,12 +15270,12 @@ function applyGtsTemplate(savedTemplate) {
     if (savedTemplate.gameId) {
         document.querySelector(`[name="game_id"]`).value = savedTemplate.gameId;
     }
-    if (savedTemplate.copies) {
-        document.querySelector(`[data-checkbox-value="gift"]`).click();
-        document.querySelector(`[name="copies"]`).value = savedTemplate.copies;
-    } else if (savedTemplate.keys) {
+    if (savedTemplate.keys) {
         document.querySelector(`[data-checkbox-value="key"]`).click();
         document.querySelector(`[name="key_string"]`).value = savedTemplate.keys;
+    } else if (savedTemplate.copies) {
+        document.querySelector(`[data-checkbox-value="gift"]`).click();
+        document.querySelector(`[name="copies"]`).value = savedTemplate.copies;
     }
     if (savedTemplate.type === `groups`) {
         matches = document.querySelector(`.form_list[data-input="group_item_string"]`).children;
