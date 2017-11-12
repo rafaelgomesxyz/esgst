@@ -25400,24 +25400,26 @@ function getGlwcGames(glwc, i, n) {
             if (!glwc.id || glwc.members.indexOf(glwc.users[i].steamId) >= 0) {
                 request(null, null, `GET`, false, `http://api.steampowered.com/IPlayerService/GetOwnedGames/v0001/?key=${esgst.steamApiKey}&steamid=${glwc.users[i].steamId}&format=json`, response => {
                     let game, element, elements, j;
-                    glwc.users[i].library = [];
-                    elements = JSON.parse(response.responseText).response.games;
-                    if (elements) {
-                        elements.forEach(element => {
-                            game = {
-                                id: element.appid,
-                                logo: `https://steamcdn-a.akamaihd.net/steam/apps/${element.appid}/header.jpg`,
-                                name: `${element.appid}`
-                            };
-                            if (!glwc.games[game.id]) {
-                                game.libraries = [];
-                                game.wishlists = [];
-                                glwc.games[game.id] = game;
-                            }
-                            glwc.games[game.id].libraries.push(i);
-                            glwc.users[i].library.push(game.id);
-                        });
-                    }
+                    try {
+                        glwc.users[i].library = [];
+                        elements = JSON.parse(response.responseText).response.games;
+                        if (elements) {
+                            elements.forEach(element => {
+                                game = {
+                                    id: element.appid,
+                                    logo: `https://steamcdn-a.akamaihd.net/steam/apps/${element.appid}/header.jpg`,
+                                    name: `${element.appid}`
+                                };
+                                if (!glwc.games[game.id]) {
+                                    game.libraries = [];
+                                    game.wishlists = [];
+                                    glwc.games[game.id] = game;
+                                }
+                                glwc.games[game.id].libraries.push(i);
+                                glwc.users[i].library.push(game.id);
+                            });
+                        }
+                    } catch (e) {}
                     request(null, null, `GET`, false, `http://steamcommunity.com/profiles/${glwc.users[i].steamId}/wishlist/`, response => {
                         glwc.users[i].wishlist = [];
                         elements = DOM.parse(response.responseText).querySelectorAll(`.gameListRow, .wishlistRow`);
@@ -25499,46 +25501,50 @@ function showGlwcResults(glwc) {
             wishlist.push(glwc.games[id]);
         }
     }
-    library = library.sort((a, b) => {
-        if (a.libraries.length > b.libraries.length) {
-            return -1;
-        } else if (a.libraries.length < b.libraries.length) {
-            return 1;
-        } else {
-            return 0;
-        }
-    });
-    for (i = 0, n = library.length; i < 100 && i < n; ++i) {
-        game = library[i];
-        if (i <= 0 || game.libraries.length !== library[i - 1].libraries.length) {
-            j = i + 1;
-        }
-        users = [];
-        game.libraries.forEach(k => {
-            user = glwc.users[k];
-            users.push(`<a href="http://steamcommunity.com/profiles/${user.steamId}/games?tab=all">${user.username}</a>`);
+    if (library.length > 0) {
+        library = library.sort((a, b) => {
+            if (a.libraries.length > b.libraries.length) {
+                return -1;
+            } else if (a.libraries.length < b.libraries.length) {
+                return 1;
+            } else {
+                return 0;
+            }
         });
-        createTooltip(insertHtml(libraryResults, `beforeEnd`, `
-            <div class="table__row-outer-wrap">
-                <div class="table__row-inner-wrap">
-                    <div class="table__column--width-small text-center">
-                        <span class="table__column__rank">${j}.</span>
-                    </div>
-                    <div>
-                        <div class="table_image_thumbnail" style="background-image:url(${game.logo});"></div>
-                    </div>
-                    <div class="table__column--width-fill">
-                        <p class="table__column__heading">${game.name}</p>
-                        <p>
-                            <a class="table__column__secondary-link" href="http://store.steampowered.com/app/${game.id}" rel="nofollow" target="_blank">http://store.steampowered.com/app/${game.id}</a>
-                        </p>
-                    </div>
-                    <div class="table__column--width-small text-center">
-                        <span class="table__column__secondary-link esgst-clickable">${game.libraries.length} (${Math.round(game.libraries.length / glwc.memberCount * 10000) / 100}%)</span>
+        for (i = 0, n = library.length; i < 100 && i < n; ++i) {
+            game = library[i];
+            if (i <= 0 || game.libraries.length !== library[i - 1].libraries.length) {
+                j = i + 1;
+            }
+            users = [];
+            game.libraries.forEach(k => {
+                user = glwc.users[k];
+                users.push(`<a href="http://steamcommunity.com/profiles/${user.steamId}/games?tab=all">${user.username}</a>`);
+            });
+            createTooltip(insertHtml(libraryResults, `beforeEnd`, `
+                <div class="table__row-outer-wrap">
+                    <div class="table__row-inner-wrap">
+                        <div class="table__column--width-small text-center">
+                            <span class="table__column__rank">${j}.</span>
+                        </div>
+                        <div>
+                            <div class="table_image_thumbnail" style="background-image:url(${game.logo});"></div>
+                        </div>
+                        <div class="table__column--width-fill">
+                            <p class="table__column__heading">${game.name}</p>
+                            <p>
+                                <a class="table__column__secondary-link" href="http://store.steampowered.com/app/${game.id}" rel="nofollow" target="_blank">http://store.steampowered.com/app/${game.id}</a>
+                            </p>
+                        </div>
+                        <div class="table__column--width-small text-center">
+                            <span class="table__column__secondary-link esgst-clickable">${game.libraries.length} (${Math.round(game.libraries.length / glwc.memberCount * 10000) / 100}%)</span>
+                        </div>
                     </div>
                 </div>
-            </div>
-        `).firstElementChild.lastElementChild.firstElementChild, users.join(`, `));
+            `).firstElementChild.lastElementChild.firstElementChild, users.join(`, `));
+        }
+    } else {
+        libraryResults.innerHTML = `To get libraries data you must have a Steam API key set in the settings menu.`;
     }
     wishlist = wishlist.sort((a, b) => {
         if (a.wishlists.length > b.wishlists.length) {
