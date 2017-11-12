@@ -13833,9 +13833,9 @@ function addGwrRatios(giveaways, main, source) {
 function addGwcRatio(context, giveaway) {
     let advancedColor, advancedRatio, basicColor, basicRatio, colors, entries, i;
     entries = giveaway.entered || giveaway.ended || giveaway.created || !esgst.gwr_e ? giveaway.entries : giveaway.entries + 1;
-    basicRatio = Math.round(entries / giveaway.copies);
+    basicRatio = Math.ceil(entries / giveaway.copies);
     if (esgst.gwr_a && !giveaway.ended && giveaway.startTime) {
-        advancedRatio = Math.round((entries / (Date.now() - giveaway.startTime) * (giveaway.endTime - giveaway.startTime)) / giveaway.copies);
+        advancedRatio = Math.ceil((entries / (Date.now() - giveaway.startTime) * (giveaway.endTime - giveaway.startTime)) / giveaway.copies);
     }
     giveaway.ratio = esgst.gwr_a && !esgst.gwr_a_b ? advancedRatio : basicRatio;
     context.setAttribute(`data-ratio`, giveaway.ratio);
