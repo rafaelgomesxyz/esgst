@@ -15190,61 +15190,66 @@ function addGtsButtonSection(button, rows) {
 function applyGtsTemplate(savedTemplate) {
     var context, countries, currentDate, days, endTime, groups, i, id, j, matches, n, newEndTime, newEndTimeBackup, newStartTime, startTime, selected;
     currentDate = new Date();
-    if (savedTemplate.startTime && savedTemplate.endTime) {
-        startTime = new Date(savedTemplate.startTime);
-        newStartTime = new Date(currentDate.getTime());
-        newStartTime.setHours(startTime.getHours(), startTime.getMinutes(), startTime.getSeconds(), startTime.getMilliseconds());
-        if (newStartTime.getTime() < currentDate.getTime()) {
-            newStartTime.setDate(newStartTime.getDate() + 1);
-        }
-        endTime = new Date(savedTemplate.endTime);
-        newEndTime = new Date(newStartTime.getTime());
-        if (endTime.getMonth() !== startTime.getMonth()) {
-            days = (new Date(startTime.getFullYear(), startTime.getMonth() + 1, 0).getDate()) - newStartTime.getDate() + endTime.getDate();
-        } else {
-            days = endTime.getDate() - startTime.getDate();
-        }
-        newEndTime.setDate(newStartTime.getDate() + days);
-        newEndTime.setHours(endTime.getHours(), endTime.getMinutes(), endTime.getSeconds(), endTime.getMilliseconds());
-        document.querySelector(`[name="start_time"]`).value = formatDate(newStartTime);
-        document.querySelector(`[name="end_time"]`).value = formatDate(newEndTime);
-    } else if (savedTemplate.startTime) {
-        startTime = new Date(savedTemplate.startTime);
-        newStartTime = new Date(currentDate.getTime());
-        newStartTime.setHours(startTime.getHours(), startTime.getMinutes(), startTime.getSeconds(), startTime.getMilliseconds());
-        if (newStartTime.getTime() < currentDate.getTime()) {
-            newStartTime.setDate(newStartTime.getDate() + 1);
-        }
-        newEndTime = new Date(newStartTime.getTime() + savedTemplate.duration);
-        document.querySelector(`[name="start_time"]`).value = formatDate(newStartTime);
-        document.querySelector(`[name="end_time"]`).value = formatDate(newEndTime);
-    } else if (savedTemplate.endTime) {
-        endTime = new Date(savedTemplate.endTime);
-        newStartTime = new Date(currentDate.getTime() + savedTemplate.delay);
-        newEndTime = new Date(newStartTime.getTime() + savedTemplate.duration);
-        newEndTime.setHours(endTime.getHours(), endTime.getMinutes(), endTime.getSeconds(), endTime.getMilliseconds());
-        if (newEndTime.getTime() < newStartTime.getTime()) {
-            newEndTime.setDate(newEndTime.getDate() + 1);
-        }
-        document.querySelector(`[name="start_time"]`).value = formatDate(newStartTime);
-        document.querySelector(`[name="end_time"]`).value = formatDate(newEndTime);
+    if (savedTemplate.edit) {
+        document.querySelector(`[name="start_time"]`).value = savedTemplate.startTime;
+        document.querySelector(`[name="end_time"]`).value = savedTemplate.endTime;
     } else {
-        newStartTime = new Date(currentDate.getTime() + savedTemplate.delay);
-        newEndTime = new Date(currentDate.getTime() + savedTemplate.delay + savedTemplate.duration)
-        document.querySelector(`[name="start_time"]`).value = formatDate(newStartTime);
-        document.querySelector(`[name="end_time"]`).value = formatDate(newEndTime);
-    }
-    if (savedTemplate.startDate) {
-        newStartTime.setFullYear(savedTemplate.startDate.year);
-        newStartTime.setMonth(savedTemplate.startDate.month);
-        newStartTime.setDate(savedTemplate.startDate.day);
-        document.querySelector(`[name="start_time"]`).value = formatDate(newStartTime);
-    }
-    if (savedTemplate.endDate) {
-        newEndTime.setFullYear(savedTemplate.endDate.year);
-        newEndTime.setMonth(savedTemplate.endDate.month);
-        newEndTime.setDate(savedTemplate.endDate.day);
-        document.querySelector(`[name="end_time"]`).value = formatDate(newEndTime);
+        if (savedTemplate.startTime && savedTemplate.endTime) {
+            startTime = new Date(savedTemplate.startTime);
+            newStartTime = new Date(currentDate.getTime());
+            newStartTime.setHours(startTime.getHours(), startTime.getMinutes(), startTime.getSeconds(), startTime.getMilliseconds());
+            if (newStartTime.getTime() < currentDate.getTime()) {
+                newStartTime.setDate(newStartTime.getDate() + 1);
+            }
+            endTime = new Date(savedTemplate.endTime);
+            newEndTime = new Date(newStartTime.getTime());
+            if (endTime.getMonth() !== startTime.getMonth()) {
+                days = (new Date(startTime.getFullYear(), startTime.getMonth() + 1, 0).getDate()) - newStartTime.getDate() + endTime.getDate();
+            } else {
+                days = endTime.getDate() - startTime.getDate();
+            }
+            newEndTime.setDate(newStartTime.getDate() + days);
+            newEndTime.setHours(endTime.getHours(), endTime.getMinutes(), endTime.getSeconds(), endTime.getMilliseconds());
+            document.querySelector(`[name="start_time"]`).value = formatDate(newStartTime);
+            document.querySelector(`[name="end_time"]`).value = formatDate(newEndTime);
+        } else if (savedTemplate.startTime) {
+            startTime = new Date(savedTemplate.startTime);
+            newStartTime = new Date(currentDate.getTime());
+            newStartTime.setHours(startTime.getHours(), startTime.getMinutes(), startTime.getSeconds(), startTime.getMilliseconds());
+            if (newStartTime.getTime() < currentDate.getTime()) {
+                newStartTime.setDate(newStartTime.getDate() + 1);
+            }
+            newEndTime = new Date(newStartTime.getTime() + savedTemplate.duration);
+            document.querySelector(`[name="start_time"]`).value = formatDate(newStartTime);
+            document.querySelector(`[name="end_time"]`).value = formatDate(newEndTime);
+        } else if (savedTemplate.endTime) {
+            endTime = new Date(savedTemplate.endTime);
+            newStartTime = new Date(currentDate.getTime() + savedTemplate.delay);
+            newEndTime = new Date(newStartTime.getTime() + savedTemplate.duration);
+            newEndTime.setHours(endTime.getHours(), endTime.getMinutes(), endTime.getSeconds(), endTime.getMilliseconds());
+            if (newEndTime.getTime() < newStartTime.getTime()) {
+                newEndTime.setDate(newEndTime.getDate() + 1);
+            }
+            document.querySelector(`[name="start_time"]`).value = formatDate(newStartTime);
+            document.querySelector(`[name="end_time"]`).value = formatDate(newEndTime);
+        } else {
+            newStartTime = new Date(currentDate.getTime() + savedTemplate.delay);
+            newEndTime = new Date(currentDate.getTime() + savedTemplate.delay + savedTemplate.duration)
+            document.querySelector(`[name="start_time"]`).value = formatDate(newStartTime);
+            document.querySelector(`[name="end_time"]`).value = formatDate(newEndTime);
+        }
+        if (savedTemplate.startDate) {
+            newStartTime.setFullYear(savedTemplate.startDate.year);
+            newStartTime.setMonth(savedTemplate.startDate.month);
+            newStartTime.setDate(savedTemplate.startDate.day);
+            document.querySelector(`[name="start_time"]`).value = formatDate(newStartTime);
+        }
+        if (savedTemplate.endDate) {
+            newEndTime.setFullYear(savedTemplate.endDate.year);
+            newEndTime.setMonth(savedTemplate.endDate.month);
+            newEndTime.setDate(savedTemplate.endDate.day);
+            document.querySelector(`[name="end_time"]`).value = formatDate(newEndTime);
+        }
     }
     if (!savedTemplate.region.match(/^(1|0)$/)) {
         savedTemplate.region = `0`;
@@ -15626,6 +15631,7 @@ function setMgcValues(giveaway, mgc) {
     mgc.groups.value = values.groups;
     mgc.level.value = values.level;
     mgc.description.value = values.description;
+    values.edit = true;
     applyGtsTemplate(values);
     mgc.editPos = pos;
     mgc.editButton.set.classList.remove(`esgst-hidden`);
