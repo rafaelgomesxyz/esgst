@@ -4769,17 +4769,30 @@ function loadFeatures() {
         `);
     }
 
-    if (esgst.ch) {
-        let dropdown = esgst.mainButton.parentElement.getElementsByClassName(esgst.sg ? `nav__absolute-dropdown` : `dropdown`)[0];
-        setSMCommentHistory(insertHtml(esgst.sg ? dropdown.lastElementChild : dropdown.firstElementChild.lastElementChild, `beforeBegin`, `
-            <div class="esgst-header-menu-row">
-                <i class="fa fa-fw fa-comments yellow"></i>
-                <div>
-                    <p class="esgst-header-menu-name">My Comment History</p>
-                    <p class="esgst-header-menu-description">View your comment history.</p>
+    if (esgst.ch || esgst.et) {
+        let context = esgst.sg ? esgst.mainButton.parentElement.getElementsByClassName(`nav__absolute-dropdown`)[0].lastElementChild : esgst.mainButton.parentElement.getElementsByClassName(`dropdown`)[0].firstElementChild.lastElementChild;
+        if (esgst.ch) {
+            setSMCommentHistory(insertHtml(context, `beforeBegin`, `
+                <div class="esgst-header-menu-row">
+                    <i class="fa fa-fw fa-comments yellow"></i>
+                    <div>
+                        <p class="esgst-header-menu-name">My Comment History</p>
+                        <p class="esgst-header-menu-description">View your comment history.</p>
+                    </div>
                 </div>
-            </div>
-        `));
+            `));
+        }
+        if (esgst.et && esgst.sg) {
+            setSMManageEntriesTracker(insertHtml(context, `beforeBegin`, `
+                <div class="esgst-header-menu-row">
+                    <i class="fa fa-fw fa-ticket red"></i>
+                    <div>
+                        <p class="esgst-header-menu-name">My Entry History</p>
+                        <p class="esgst-header-menu-description">View your entry history.</p>
+                    </div>
+                </div>
+            `));
+        }
     }
 
     /* [FH] Fixed Header */
@@ -27519,11 +27532,6 @@ function loadSMMenu(tab) {
         Name: `SMManageFilteredDiscussions esgst-heading-button`,
         Title: `Manage hidden discussions`
     }, {
-        Check: esgst.sg && esgst.et,
-        Icons: [`fa-ticket`, `fa-history`],
-        Name: `SMManageEntriesTracker esgst-heading-button`,
-        Title: `Manage Entries Tracker stats.`
-    }, {
         Check: esgst.ut,
         Icons: [`fa-user`, `fa-tags`],
         Name: `SMManageUserTags esgst-heading-button`,
@@ -27609,7 +27617,6 @@ function loadSMMenu(tab) {
     SMManageFilteredUsers = Container.getElementsByClassName(`SMManageFilteredUsers`)[0];
     var SMManageFilteredGiveaways = Container.getElementsByClassName(`SMManageFilteredGiveaways`)[0];
     var SMManageFilteredDiscussions = Container.getElementsByClassName(`SMManageFilteredDiscussions`)[0];
-    var SMManageEntriesTracker = Container.getElementsByClassName(`SMManageEntriesTracker`)[0];
     var SMManageUserTags = Container.getElementsByClassName(`SMManageUserTags`)[0];
     var SMManageGameTags = Container.getElementsByClassName(`SMManageGameTags`)[0];
     var SMViewUsernameChanges = Container.getElementsByClassName(`SMViewUsernameChanges`)[0];
@@ -27649,9 +27656,6 @@ function loadSMMenu(tab) {
     }
     if (SMManageFilteredDiscussions) {
         setSMManageFilteredDiscussions(SMManageFilteredDiscussions);
-    }
-    if (SMManageEntriesTracker) {
-        setSMManageEntriesTracker(SMManageEntriesTracker);
     }
     if (SMViewUsernameChanges) {
         setSMRecentUsernameChanges(SMViewUsernameChanges);
