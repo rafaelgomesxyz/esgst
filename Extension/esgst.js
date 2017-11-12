@@ -15937,10 +15937,10 @@ function createMgcGiveaway(i, mgc, n, callback) {
                 popup.open();
                 setTimeout(() => {
                     popup.close();
-                    request(mgc.datas[j].replace(/start_time=(.+?)&/, correctMgcTime), `POST`, null, false, `/giveaways/new`, checkMgcCreation.bind(null, i, mgc, n, callback));
+                    request(mgc.datas[j].replace(/start_time=(.+?)&/, correctMgcTime), null, `POST`, false, `/giveaways/new`, checkMgcCreation.bind(null, i, mgc, n, callback));
                 }, 120000);
             } else {
-                request(mgc.datas[j].replace(/start_time=(.+?)&/, correctMgcTime), `POST`, null, false, `/giveaways/new`, checkMgcCreation.bind(null, i, mgc, n, callback));
+                request(mgc.datas[j].replace(/start_time=(.+?)&/, correctMgcTime), null, `POST`, false, `/giveaways/new`, checkMgcCreation.bind(null, i, mgc, n, callback));
             }
         } else {
             setTimeout(createMgcGiveaway, 0, ++i, mgc, n, callback);
@@ -17743,7 +17743,7 @@ function searchGmGiveawaysAndReplace(gm, i, n, callback) {
                 if (description) {
                     match = description.value.match(gm.searchValue);
                     if (match) {
-                        request(`xsrf_token=${esgst.xsrfToken}&do=edit_giveaway_description&giveaway_id=${description.previousElementSibling.value}&description=${encodeURIComponent(description.value.replace(gm.searchValue, gm.replaceValue))}`, `POST`, null, false, `/ajax.php`, function (response) {
+                        request(`xsrf_token=${esgst.xsrfToken}&do=edit_giveaway_description&giveaway_id=${description.previousElementSibling.value}&description=${encodeURIComponent(description.value.replace(gm.searchValue, gm.replaceValue))}`, null, `POST`, false, `/ajax.php`, function (response) {
                             responseJson = JSON.parse(response.responseText);
                             if (responseJson.type === `success`) {
                                 gm.results.insertAdjacentHTML(`beforeEnd`, `<li>Found and replaced in <a href="${giveaway.url}">${giveaway.name}</a></li>`);
