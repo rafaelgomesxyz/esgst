@@ -22,6 +22,7 @@
       "js": [
         "jQuery.js",
         "jQueryUI.js",
+        "Parsedown.js",
         "esgst.js"
       ],
       "run_at": "document_end"
