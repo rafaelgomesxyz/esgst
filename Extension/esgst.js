@@ -1713,6 +1713,7 @@ Parsedown = (() => {
                     lastSyncGiveaways: `lastSync`
                 };
                 esgst.defaultValues = {
+                    collapseSections: false,
                     ge_o: false,
                     df_m: true,
                     gf_m: true,
@@ -2096,6 +2097,13 @@ Parsedown = (() => {
                         id: `updateWhitelistBlacklist`,
                         name: `Automatically update whitelist/blacklist when adding/removing a user to/from those lists.`,
                         sg: true,
+                        type: `other`
+                    },
+                    {
+                        id: `collapseSections`,
+                        name: `[NEW] Collapse sections in the settings menu by default.`,
+                        sg: true,
+                        st: true,
                         type: `other`
                     },
                     {
@@ -28844,11 +28852,7 @@ Parsedown = (() => {
                 var title = key.replace(/^./, function (m) {
                     return m.toUpperCase();
                 });
-                sections[key].section = insertHtml(SMMenu, `beforeEnd`, `
-                    ${createSMSections(++j, [{
-                        Title: title
-                    }])}
-                `);
+                sections[key].section = createMenuSection(SMMenu, null, ++j, title);
             }
         }
         for (var i = 0, n = esgst.features.length; i < n; ++i) {
@@ -28861,15 +28865,10 @@ Parsedown = (() => {
                 }
             }
         }
-        SMMenu.insertAdjacentHTML(`beforeEnd`,
-            createSMSections(++j, [{
-                Title: `Steam API Key`,
-                HTML: `
-                    <input class="esgst-steam-api-key" type="text"/>
-                    <div class="esgst-description">This is optional for syncing owned games faster and required for syncing alt accounts. Get a Steam API Key <a class="esgst-bold" href="https://steamcommunity.com/dev/apikey" target="_blank">here</a>.</div>
-                `
-            }])
-        );
+        createMenuSection(SMMenu, `
+            <input class="esgst-steam-api-key" type="text"/>
+            <div class="esgst-description">This is optional for syncing owned games faster and required for syncing alt accounts. Get a Steam API Key <a class="esgst-bold" href="https://steamcommunity.com/dev/apikey" target="_blank">here</a>.</div>
+        `, ++j, `Steam API Key`);
         SMManageFilteredUsers = Container.getElementsByClassName(`SMManageFilteredUsers`)[0];
         var SMManageFilteredGiveaways = Container.getElementsByClassName(`SMManageFilteredGiveaways`)[0];
         var SMManageFilteredDiscussions = Container.getElementsByClassName(`SMManageFilteredDiscussions`)[0];
@@ -29562,22 +29561,39 @@ Parsedown = (() => {
         });
     }
 
-    function createSMSections(J, Sections) {
-        var SectionsHTML, I, N;
-        SectionsHTML = ``;
-        for (I = 0, N = Sections.length; I < N; ++I) {
-            SectionsHTML += `
-                <div class="esgst-form-row">
-                    <div class="esgst-form-heading">
-                        <div class="esgst-form-heading-number">${J}.</div>
-                        <div class="esgst-form-heading-text">${Sections[I].Title}</div>
-                    </div>
-                    <div class="esgst-form-row-indent${Sections[I].Name ? ` ${Sections[I].Name}` : ``}">${Sections[I].HTML ? Sections[I].HTML : ``}</div>
+    function createMenuSection(context, html, number, title) {
+        let section = insertHtml(context, `beforeEnd`, `
+            <div class="esgst-form-row">
+                <div class="esgst-form-heading">
+                    <div class="esgst-form-heading-number">${number}.</div>
+                    <div class="esgst-form-heading-text">${title}</div>
                 </div>
-            `;
-            ++J;
+                <div class="esgst-form-row-indent">${html ? html : ``}</div>
+            </div>
+        `);
+        if (esgst.collapseSections) {
+            let button, container, isExpanded;
+            button = insertHtml(section.firstElementChild, `afterBegin`, `            
+                <span class="esgst-clickable" style="margin-right: 5px;">
+                    <i class="fa fa-plus-square" title="Expand section"></i>
+                </span>
+            `);
+            container = section.lastElementChild;
+            container.classList.add(`esgst-hidden`);
+            isExpanded = false;
+            button.addEventListener(`click`, () => {
+                if (isExpanded) {
+                    container.classList.add(`esgst-hidden`);
+                    button.innerHTML = `<i class="fa fa-plus-square" title="Expand section"></i>`;
+                    isExpanded = false;
+                } else {
+                    container.classList.remove(`esgst-hidden`);
+                    button.innerHTML = `<i class="fa fa-minus-square" title="Collapse section"></i>`;
+                    isExpanded = true;
+                }
+            });
         }
-        return SectionsHTML;
+        return section;
     }
 
     function createSMButtons(Heading, Items) {
@@ -32126,11 +32142,7 @@ Parsedown = (() => {
         dm.computerSpace = insertHtml(container, `afterBegin`, `
             <div>Total: <span class="esgst-bold"></span></div>
         `);
-        section = insertHtml(context, `beforeEnd`, `
-            ${createSMSections(1, [{
-                Title: title1
-            }])}
-        `);
+        section = createMenuSection(context, null, 1, title1);
         dm.switches = {};
         dm.options = [
             {
