@@ -14107,7 +14107,7 @@ Parsedown = (() => {
             var savedGiveaways = JSON.parse(getValue(`giveaways`, `{}`));
             for (var i = 0, n = giveaways.length; i < n; ++i) {
                 var giveaway = giveaways[i];
-                if (((esgst.archivePath && !main) || !esgst.archivePath) && giveaway.creator !== esgst.username && !giveaway.entered && giveaway.url && !giveaway.innerWrap.getElementsByClassName(`esgst-gb-button`)[0]) {
+                if (((esgst.archivePath && !main) || !esgst.archivePath) && giveaway.creator !== esgst.username && (!giveaway.entered || (esgst.enteredPath && main)) && giveaway.url && !giveaway.innerWrap.getElementsByClassName(`esgst-gb-button`)[0]) {
                     if (savedGiveaways[giveaway.code] && savedGiveaways[giveaway.code].bookmarked) {
                         addGbUnbookmarkButton(giveaway);
                     } else if (!giveaway.ended) {
