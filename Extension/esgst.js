@@ -11030,7 +11030,7 @@ Parsedown = (() => {
                 giveaways = getGiveaways(context, false, null, true);
                 for (i = giveaways.length - 1; i >= -1; --i) {
                     giveaway = giveaways[i];
-                    if (giveaway && !giveaway.pinned && !giveaway.entered && (!esgst.giveaways[giveaway.code] || esgst.giveaways[giveaway.code].visited || !esgst.giveaways[giveaway.code].hidden) && (!esgst.hr_w_h || giveaway.endTime - currentTime < esgst.hr_w_hours * 3600000)) {
+                    if (giveaway && giveaway.level <= esgst.level && !giveaway.pinned && !giveaway.entered && (!esgst.giveaways[giveaway.code] || esgst.giveaways[giveaway.code].visited || !esgst.giveaways[giveaway.code].hidden) && (!esgst.hr_w_h || giveaway.endTime - currentTime < esgst.hr_w_hours * 3600000)) {
                         esgst.wishlist += 1;
                     }
                 }
