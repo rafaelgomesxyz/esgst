@@ -34990,7 +34990,7 @@ function checkUpdate() {
     });
 }
 
-if (typeof GM_setValue === `undefined`) {
+if (typeof GM_setValue === `undefined` && typeof GM === `undefined`) {
     setValue = (key, value) => {
         if (key.match(/^esgst_/)) {
             localStorage.setItem(key, value);
@@ -35150,25 +35150,48 @@ if (typeof GM_setValue === `undefined`) {
         });
     }
 } else {
+    if (typeof GM === `undefined`) {
+        GM = {
+            deleteValue: `GM_deleteValue`,
+            getValue: `GM_getValue`,
+            setValue: `GM_setValue`,
+            xmlHttpRequest: `GM_xmlhttpRequest`
+        };
+        let key;
+        for (key in GM) {
+            let old = this[GM[key]];
+            if (old) {
+                GM[key] = function() {
+                    return new Promise((resolve, reject) => {
+                        try {
+                            resolve(old.apply(this, arguments));
+                        } catch (e) {
+                            reject(e);
+                        }
+                    });
+                };
+            }
+        }
+    }
     setValue = (key, value) => {
         if (key.match(/^esgst_/)) {
             localStorage.setItem(key, value);
         } else {
-            GM_setValue(key, value);
+            await GM.setValue(key, value);
         }
     };
     getValue = (key, value = undefined) => {
         if (key.match(/^esgst_/)) {
             return (localStorage.getItem(key) || value);
         } else {
-            return GM_getValue(key, value);
+            return await GM.getValue(key, value);
         }
     };
     delValue = key => {
         if (key.match(/^esgst_/)) {
             localStorage.removeItem(key);
         } else {
-            GM_deleteValue(key);
+            await GM.deleteValue(key);
         }
     };
     continueRequest = (data, headers, method, url, callback, anon, closeLock) => {
@@ -35202,7 +35225,7 @@ if (typeof GM_setValue === `undefined`) {
                 });
             });
         } else {
-            GM_xmlhttpRequest({
+            GM.xmlHttpRequest({
                 data: data,
                 headers: headers,
                 method: method,
