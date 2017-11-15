@@ -29654,7 +29654,7 @@ Parsedown = (() => {
                 <div class="esgst-form-row-indent">${html ? html : ``}</div>
             </div>
         `);
-        if (esgst.collapseSections) {
+        if (esgst.collapseSections && !title.match(/(Im|Ex)port|Delete/)) {
             let button, container, isExpanded;
             button = insertHtml(section.firstElementChild, `afterBegin`, `            
                 <span class="esgst-clickable" style="margin-right: 5px;">
