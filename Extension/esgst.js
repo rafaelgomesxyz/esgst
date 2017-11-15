@@ -19988,7 +19988,10 @@ Parsedown = (() => {
         }
         giveaways = [];
         if (context === ge.context) {
-            giveaways.push(getParameters().url.match(/\/giveaway\/(.+?)\//)[1]);
+            match = getParameters().url.match(/\/giveaway\/(.+?)\//);
+            if (match) {
+                giveaways.push(match[1]);
+            }
         } else if (context === document && esgst.giveawayPath) {
             giveaways.push(location.href.match(/\/giveaway\/(.+?)\//)[1]);
         }
