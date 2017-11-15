@@ -414,10 +414,14 @@ class ToggleSwitch {
     }
 }
 
-let DOM, esgst;
+let DOM, esgst, Markdown;
 
 function parseHtml(string) {
     return DOM.parser.parseFromString(string, `text/html`);
+}
+
+function parseMarkdown(string) {
+    return Markdown.parser.text(string);
 }
 
 function loadEsgst(storage) {
@@ -425,6 +429,12 @@ function loadEsgst(storage) {
         parse: parseHtml,
         parser: new DOMParser()
     };
+    Markdown = {
+        parse: parseMarkdown,
+        parser: new Parsedown()
+    };
+    Markdown.parser.setBreaksEnabled(true);
+    Markdown.parser.setMarkupEscaped(true);
     esgst = {
         storage: storage,
         sg: location.hostname.match(/www.steamgifts.com/),
@@ -1348,6 +1358,20 @@ function loadEsgst(storage) {
                         {
                             id: `cfh_cf`,
                             name: `Comment Formatting`,
+                            sg: true,
+                            st: true
+                        },
+                        {
+                            features: [
+                                {
+                                    id: `cfh_p_a`,
+                                    name: `Automatically preview while typing.`,
+                                    sg: true,
+                                    st: true
+                                }
+                            ],
+                            id: `cfh_p`,
+                            name: `[NEW] Preview`,
                             sg: true,
                             st: true
                         }
@@ -5015,7 +5039,8 @@ function loadFeatures() {
         esgst.cfh = {
             backup: [],
             history: [],
-            panel: document.createElement(`div`)
+            panel: document.createElement(`div`),
+            preview: document.createElement(`div`)
         };
         esgst.cfh.panel.className = `esgst-cfh-panel`;
         [
@@ -7890,6 +7915,17 @@ function loadFeatures() {
                 </a>
             `);
         }
+        if (esgst.cfh_p && !esgst.cfh_p_a) {
+            insertHtml(esgst.cfh.panel, `beforeEnd`, `
+                <div title="Preview">
+                    <i class="fa fa-eye"></i>
+                </div>
+            `).addEventListener(`click`, () => {
+                esgst.cfh.preview.innerHTML = Markdown.parse(esgst.cfh.textArea.value);
+                formatCfhImages(esgst.cfh.preview);
+            });
+        }
+        esgst.cfh.preview.className = `esgst-cfh-preview markdown`;
         esgst.endlessFeatures.push(setCfhTextAreas);
         setCfhTextAreas(document);
     }
@@ -20776,22 +20812,34 @@ function setCfhTextAreas(context) {
     }
 }
 
-function addCfhPanel(textArea) {
-    textArea.parentElement.insertBefore(esgst.cfh.panel, textArea);
-    textArea.onfocus = addCfhPanel.bind(null, textArea);
-    textArea.onpaste = event => {
-        if (esgst.cfh_pasteFormatting) {
-            let clipboard, value;
-            clipboard = event.clipboardData.getData(`text/plain`);
-            if (clipboard.match(/^https?:/)) {
-                event.preventDefault();
-                value = textArea.value;
-                undoCfhFormatting(textArea, `${value.slice(0, textArea.selectionStart)}${clipboard}${value.slice(textArea.selectionEnd)}`);
-                formatCfhLink(``, clipboard, clipboard.match(/\.(jpg|jpeg|gif|bmp|png)/), true);
+function addCfhPanel(textArea) {    
+    if (textArea !== esgst.cfh.textArea) {
+        textArea.parentElement.insertBefore(esgst.cfh.panel, textArea);
+        textArea.onfocus = addCfhPanel.bind(null, textArea);
+        textArea.onpaste = event => {
+            if (esgst.cfh_pasteFormatting) {
+                let clipboard, value;
+                clipboard = event.clipboardData.getData(`text/plain`);
+                if (clipboard.match(/^https?:/)) {
+                    event.preventDefault();
+                    value = textArea.value;
+                    undoCfhFormatting(textArea, `${value.slice(0, textArea.selectionStart)}${clipboard}${value.slice(textArea.selectionEnd)}`);
+                    formatCfhLink(``, clipboard, clipboard.match(/\.(jpg|jpeg|gif|bmp|png)/), true);
+                }
+            }
+        };
+        if (esgst.cfh_p) {
+            esgst.cfh.preview.innerHTML = ``;
+            textArea.parentElement.insertBefore(esgst.cfh.preview, textArea.nextElementSibling);
+            if (esgst.cfh_p_a) {
+                textArea.oninput = () => {
+                    esgst.cfh.preview.innerHTML = Markdown.parse(textArea.value);
+                    formatCfhImages(esgst.cfh.preview);
+                };
             }
         }
-    };
-    esgst.cfh.textArea = textArea;
+        esgst.cfh.textArea = textArea;
+    }
 }
 
 function undoCfhFormatting(textArea, value) {
@@ -21189,6 +21237,24 @@ function setCfhAlipf(value) {
     }
     if (esgst.cfh.textArea) {
         esgst.cfh.textArea.focus();
+    }
+}
+
+function formatCfhImages(context) {
+    let i, images, n;
+    images = context.getElementsByTagName(`img`);
+    for (i = 0, n = images.length; i < n; ++i) {
+        image = images[0];
+        context.appendChild(image);
+        image.classList.add(`is-hidden`, `is_hidden`);
+        image.outerHTML = `
+            <div>
+                <div class="${esgst.sg ? `comment__toggle-attached` : `view_attached`}">View attached image.</div>
+                <a href="${image.getAttribute(`src`)}" rel="nofollow noreferrer" target="_blank">
+                    ${image.outerHTML}
+                </a>
+            </div>
+        `;
     }
 }
 
@@ -32387,6 +32453,11 @@ function addStyle() {
         `;
     }
     style += `
+        .esgst-cfh-preview {
+            margin: 5px 0;
+            text-align: left;
+        }
+
         .esgst-qgs-container i {
             color: #AAB5C6;
         }
