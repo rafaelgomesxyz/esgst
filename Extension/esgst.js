@@ -1648,6 +1648,7 @@ Parsedown = (() => {
                     es_c: `es_dttc`,
                     es_l: `es_r`,
                     es_r: `es_rs`,
+                    cr: `es_r`,
                     ags_maxLevel: `agsMaxLevel`,
                     ags_minLevel: `agsMinLevel`,
                     ags_maxEntries: `agsMaxEntries`,
@@ -4239,6 +4240,19 @@ Parsedown = (() => {
                     {
                         description: `
                             <ul>
+                                <li>Reverses the comments in a page so that they are ordered from newest to oldest.</li>
+                            </ul>
+                        `,
+                        id: `cr`,
+                        name: `Comments Reverser`,
+                        new: true,
+                        sg: true,
+                        st: true,
+                        type: `comments`
+                    },
+                    {
+                        description: `
+                            <ul>
                                 <li>Allows you to collapse/expand all replies (level 2+ comments) in a page.</li>
                             </ul>
                         `,
@@ -5536,6 +5550,12 @@ Parsedown = (() => {
                                 st: true
                             },
                             {
+                                description: `
+                                    <ul>
+                                        <li>Loads pages in descending order.</li>
+                                        <li>When visiting a discussion from the main discussions page, the last page will automatically be loaded and shown.</li>
+                                    </ul>
+                                `,
                                 id: `es_r`,
                                 name: `Enable reverse scrolling.`,
                                 sg: true
@@ -23212,9 +23232,9 @@ Parsedown = (() => {
                         if (comment.author === esgst.username) {
                             markCtCommentRead(comment, saved);
                         } else if (!saved[comment.type][comment.code].readComments[comment.id] || comment.timestamp !== saved[comment.type][comment.code].readComments[comment.id]) {
-                            if (goToUnread && (!esgst.ctGoToUnread || ((((esgst.ct_r && !esgst.es_r) || (!esgst.ct_r && esgst.es_r)) && comment.comment.offsetTop < scrollY + esgst.commentsTop) || (((!esgst.ct_r && !esgst.es_r) || (esgst.ct_r && esgst.es_r)) && comment.comment.offsetTop > scrollY + esgst.commentsTop)))) {
+                            if (goToUnread && (!esgst.ctGoToUnread || ((((esgst.ct_r && !esgst.cr) || (!esgst.ct_r && esgst.cr)) && comment.comment.offsetTop < scrollY + esgst.commentsTop) || (((!esgst.ct_r && !esgst.cr) || (esgst.ct_r && esgst.cr)) && comment.comment.offsetTop > scrollY + esgst.commentsTop)))) {
                                 esgst.ctGoToUnread = true;
-                                if ((esgst.discussionPath && ((!esgst.ct_r && !esgst.es_r) || (esgst.ct_r && esgst.es_r))) || (!esgst.discussionPath && !esgst.ct_r)) {
+                                if ((esgst.discussionPath && ((!esgst.ct_r && !esgst.cr) || (esgst.ct_r && esgst.cr))) || (!esgst.discussionPath && !esgst.ct_r)) {
                                     unread = comment;
                                     found = true;
                                 } else {
@@ -30778,7 +30798,7 @@ Parsedown = (() => {
 
     function startCommentFeatures() {
         if (esgst.commentsPath || esgst.inboxPath) {
-            if (esgst.es && esgst.es_r && esgst.discussionPath && esgst.pagination) {
+            if (esgst.cr && esgst.discussionPath && esgst.pagination) {
                 reverseComments(esgst.pagination.previousElementSibling);
             }
             esgst.endlessFeatures.push(loadCommentFeatures);
@@ -31799,7 +31819,7 @@ Parsedown = (() => {
                 paginations.push(paginationNavigation.innerHTML);
             }
             fragment = document.createDocumentFragment();
-            if (reverseScrolling) {
+            if (esgst.cr) {
                 reverseComments(context);
             }
             if (!refreshAll) {
