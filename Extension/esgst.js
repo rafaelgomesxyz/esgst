@@ -2101,7 +2101,8 @@ Parsedown = (() => {
                     },
                     {
                         id: `collapseSections`,
-                        name: `[NEW] Collapse sections in the settings menu by default.`,
+                        name: `Collapse sections in the settings menu by default.`,
+                        new: true,
                         sg: true,
                         st: true,
                         type: `other`
@@ -2462,13 +2463,15 @@ Parsedown = (() => {
                                     }
                                 ],
                                 id: `cfh_p`,
-                                name: `[NEW] Preview`,
+                                name: `Preview`,
+                                new: true,
                                 sg: true,
                                 st: true
                             }
                         ],
                         id: `cfh`,
                         name: `Comment Formatting Helper`,
+                        newBelow: true,
                         sg: true,
                         st: true,
                         type: `comments`
@@ -2714,13 +2717,15 @@ Parsedown = (() => {
                             },
                             {
                                 id: `hr_fp`,
-                                name: `[NEW] Show browser notification if there are 400P or more.`,
+                                name: `Show browser notification if there are 400P or more.`,
+                                new: true,
                                 sg: true
                             }
                         ],
                         id: `hr`,
                         input: true,
                         name: `Header Refresher`,
+                        newBelow: true,
                         sg: true,
                         st: true,
                         type: `general`
@@ -3897,7 +3902,7 @@ Parsedown = (() => {
                                     </ul>
                                 `,
                                 id: `ge_o`,
-                                name: `[NEW] Only extract from the current giveaway onwards.`,
+                                name: `Only extract from the current giveaway onwards.`,
                                 sg: true
                             },
                             {
@@ -28820,7 +28825,8 @@ Parsedown = (() => {
         var j = 0;
         var sections = {
             general: {
-                index: 1
+                index: 1,
+                newBelow: true
             },
             giveaways: {
                 index: 1
@@ -28832,7 +28838,8 @@ Parsedown = (() => {
                 index: 1
             },
             comments: {
-                index: 1
+                index: 1,
+                newBelow: true
             },
             users: {
                 index: 1
@@ -28844,7 +28851,8 @@ Parsedown = (() => {
                 index: 1
             },
             other: {
-                index: 1
+                index: 1,
+                newBelow: true
             }
         };
         for (var key in sections) {
@@ -28852,7 +28860,12 @@ Parsedown = (() => {
                 var title = key.replace(/^./, function (m) {
                     return m.toUpperCase();
                 });
-                sections[key].section = createMenuSection(SMMenu, null, ++j, title);
+                sections[key].section = createMenuSection(SMMenu, null, ++j, sections[key].newBelow ? `
+                    <span class="esgst-bold esgst-red" title="There is a new feature/option in this section">
+                        <i class="fa fa-chevron-down"></i>
+                    </span>
+                    ${title}
+                ` : title);
             }
         }
         for (var i = 0, n = esgst.features.length; i < n; ++i) {
@@ -28948,6 +28961,19 @@ Parsedown = (() => {
         Menu.insertAdjacentHTML(`beforeEnd`, `
             <div class="esgst-sm-small-number esgst-form-heading-number">${aaa}.</div>
         `);
+        if (Feature.new) {
+            Menu.insertAdjacentHTML(`beforeEnd`, `
+                <span class="esgst-bold esgst-red" title="This is a new feature/option">
+                    <i class="fa fa-star"></i>
+                </span>
+            `);
+        } else if (Feature.newBelow) {
+            Menu.insertAdjacentHTML(`beforeEnd`, `
+                <span class="esgst-bold esgst-red" title="There is a new feature/option in this section">
+                    <i class="fa fa-chevron-down"></i>
+                </span>
+            `);
+        }
         var ID, localID, val, val1, val2;
         ID = Feature.id;
         var siwtchSg, siwtchSt;
