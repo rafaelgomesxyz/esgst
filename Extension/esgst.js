@@ -9710,7 +9710,9 @@ Parsedown = (() => {
             sync(syncer, mainCallback);
         } else if (syncer.autoSync || mainCallback) {
             popup = new Popup(`fa-refresh`, `Sync`);
-            popup.description.insertAdjacentHTML(`afterBegin`, `<div class="esgst-description">By selecting a number X in the dropdown menu next to each data other than 0, you are enabling automatic sync for that data (which means the data will be synced every X days).</div>`);
+            if (!syncer.autoSync) {
+                popup.description.insertAdjacentHTML(`afterBegin`, `<div class="esgst-description">By selecting a number X in the dropdown menu next to each data other than 0, you are enabling automatic sync for that data (which means the data will be synced every X days).</div>`);
+            }
             if (!syncer.autoSync) {
                 syncer.switches = {
                     syncGroups: new ToggleSwitch(popup.scrollable, `syncGroups`, false, `Steam Groups`, false, false, null, esgst.syncGroups),
