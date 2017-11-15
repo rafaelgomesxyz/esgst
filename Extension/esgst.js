@@ -4111,7 +4111,6 @@ Parsedown = (() => {
                             }
                         ],
                         id: `df`,
-                        load: loadDf,
                         name: `Discussion Filters`,
                         sg: true,
                         type: `discussions`
@@ -9011,6 +9010,30 @@ Parsedown = (() => {
             esgst.cfh.preview.className = `esgst-cfh-preview markdown`;
             esgst.endlessFeatures.push(setCfhTextAreas);
             setCfhTextAreas(document);
+        }
+
+        if (esgst.df) {
+            if (esgst.df_s && esgst.discussionPath) {
+                let discussion, savedDiscussions;
+                discussion = {
+                    code: location.pathname.match(/^\/discussion\/(.+?)\//)[1],
+                    heading: document.getElementsByClassName(`page__heading__breadcrumbs`)[0],
+                    headingContainer: document.getElementsByClassName(`page__heading`)[0]
+                };
+                savedDiscussions = JSON.parse(getValue(`discussions`));
+                if (savedDiscussions[discussion.code] && savedDiscussions[discussion.code].hidden) {
+                    addDfUnhideButton(discussion, true);
+                } else {
+                    addDfHideButton(discussion, true);
+                }
+            }
+            if (esgst.df_m && esgst.discussionsPath && !esgst.editDiscussionPath) {
+                if (esgst.hideButtons && esgst.hideButtons_df) {
+                    esgst.leftButtons.insertBefore(addDfContainer(esgst.mainPageHeading), esgst.leftButtons.firstElementChild);
+                } else {
+                    esgst.mainPageHeading.insertBefore(addDfContainer(esgst.mainPageHeading), esgst.mainPageHeading.firstElementChild);
+                }
+            }
         }
 
         if (esgst.giveawaysPath || esgst.discussionsPath) {
@@ -20714,30 +20737,6 @@ Parsedown = (() => {
             df.overrideButtons[key].change();
             filterDfDiscussions(df);
         });
-    }
-
-    function loadDf() {
-        if (esgst.df_s && esgst.discussionPath) {
-            let discussion, savedDiscussions;
-            discussion = {
-                code: location.pathname.match(/^\/discussion\/(.+?)\//)[1],
-                heading: document.getElementsByClassName(`page__heading__breadcrumbs`)[0],
-                headingContainer: document.getElementsByClassName(`page__heading`)[0]
-            };
-            savedDiscussions = JSON.parse(getValue(`discussions`));
-            if (savedDiscussions[discussion.code] && savedDiscussions[discussion.code].hidden) {
-                addDfUnhideButton(discussion, true);
-            } else {
-                addDfHideButton(discussion, true);
-            }
-        }
-        if (esgst.df_m && esgst.discussionsPath && !esgst.editDiscussionPath) {
-            if (esgst.hideButtons && esgst.hideButtons_df) {
-                esgst.leftButtons.insertBefore(addDfContainer(esgst.mainPageHeading), esgst.leftButtons.firstElementChild);
-            } else {
-                esgst.mainPageHeading.insertBefore(addDfContainer(esgst.mainPageHeading), esgst.mainPageHeading.firstElementChild);
-            }
-        }
     }
 
     function addDfContainer(heading) {
