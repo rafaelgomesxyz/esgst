@@ -25900,7 +25900,7 @@ Parsedown = (() => {
     }
 
     function checkWBCUser(WBC, wbc, username, Callback) {
-        var Match;
+        let match;
         if (!WBC.Canceled) {
             if (esgst.wbc_clearCache) {
                 wbc = null;
@@ -25911,15 +25911,45 @@ Parsedown = (() => {
                     timestamp: 0
                 };
             }
+            if (wbc.giveaway) {
+                match = wbc.giveaway.match(/\/giveaway\/(.+?)\//);
+                if (match) {
+                    delete wbc.giveaway;
+                    wbc.ga = match[1];
+                }
+            }
+            if (wbc.whitelistGiveaway) {
+                match = wbc.whitelistGiveaway.match(/\/giveaway\/(.+?)\//);
+                if (match) {
+                    delete wbc.whitelistGiveaway;
+                    wbc.wl_ga = match[1];
+                }
+            }
+            if (wbc.groupGiveaways) {
+                let key;
+                for (key in wbc.groupGiveaways) {                    
+                    match = key.match(/^(.+?)\//);
+                    if (match) {
+                        if (!wbc.g_wl_gas) {
+                            wbc.g_wl_gas = {};
+                        }
+                        wbc.g_wl_gas[match[1]] = wbc.groupGiveaways[key];
+                        delete wbc.groupGiveaways[key];
+                    }
+                }
+                if (Object.keys(wbc.groupGiveaways).length === 0) {
+                    delete wbc.groupGiveaways;
+                }
+            }
             if (((Date.now() - wbc.lastCheck) > 86400000) || WBC.Update) {
-                if (((esgst.wbc_checkWhitelist || !WBC.B) && wbc.whitelistGiveaway) || (!esgst.wbc_checkWhitelist && WBC.B && wbc.giveaway)) {
+                if (((esgst.wbc_checkWhitelist || !WBC.B) && (wbc.wl_ga || wbc.g_wl_ga)) || (!esgst.wbc_checkWhitelist && WBC.B && wbc.ga)) {
                     WBC.Timestamp = wbc.timestamp;
-                    checkWBCGiveaway(WBC, wbc, Callback);
+                    checkWBCGiveaway(WBC, wbc, username, Callback);
                 } else {
                     WBC.Timestamp = 0;
                     WBC.GroupGiveaways = [];
-                    Match = location.href.match(new RegExp(`\/user\/${username}(\/search\?page=(\d+))?`));
-                    getWBCGiveaways(WBC, wbc, username, 1, Match ? (Match[2] ? parseInt(Match[2]) : 1) : 0, `/user/${username}/search?page=`, Callback);
+                    match = location.href.match(new RegExp(`\/user\/${username}(\/search\?page=(\d+))?`));
+                    getWBCGiveaways(WBC, wbc, username, 1, match ? (match[2] ? parseInt(match[2]) : 1) : 0, `/user/${username}/search?page=`, Callback);
                 }
             } else {
                 Callback(wbc);
@@ -25927,9 +25957,9 @@ Parsedown = (() => {
         }
     }
 
-    function checkWBCGiveaway(WBC, wbc, Callback) {
+    function checkWBCGiveaway(WBC, wbc, username, Callback) {
         if (!WBC.Canceled) {
-            request(null, null, `GET`, true, wbc.whitelistGiveaway || wbc.giveaway, function (Response) {
+            request(null, null, `GET`, true, `/giveaway/${wbc.wl_ga || wbc.g_wl_ga || wbc.ga}/`, function (Response) {
                 var responseHtml = DOM.parse(Response.responseText);
                 var errorMessage = responseHtml.getElementsByClassName(`table--summary`)[0];
                 var stop;
@@ -25945,14 +25975,41 @@ Parsedown = (() => {
                     } else {
                         wbc.result = `notBlacklisted`;
                     }
-                } else if (wbc.whitelistGiveaway) {
+                    wbc.lastCheck = Date.now();
+                    wbc.timestamp = WBC.Timestamp;
+                    Callback(wbc, stop);
+                } else if (wbc.wl_ga) {
                     wbc.result = `whitelisted`;
+                    wbc.lastCheck = Date.now();
+                    wbc.timestamp = WBC.Timestamp;
+                    Callback(wbc, stop);
+                } else if (wbc.g_wl_ga) {
+                    let found, groups, i, j, n;
+                    found = false;
+                    groups = JSON.parse(getValue(`groups`, `[]`));
+                    for (i = 0, n = wbc.g_wl_gas[wbc.g_wl_ga].length; i < n && !found; ++i) {
+                        for (j = groups.length - 1; j > -1 && groups[j].code !== wbc.g_wl_gas[wbc.g_wl_ga][i]; --j);
+                        if (j > -1 && groups[j].member) {
+                            found = true;
+                        }
+                    }
+                    if (found) {
+                        WBC.Timestamp = 0;
+                        WBC.GroupGiveaways = [];
+                        let match = location.href.match(new RegExp(`\/user\/${username}(\/search\?page=(\d+))?`));
+                        getWBCGiveaways(WBC, wbc, username, 1, match ? (match[2] ? parseInt(match[2]) : 1) : 0, `/user/${username}/search?page=`, Callback);
+                    } else {
+                        wbc.result = `whitelisted`;                        
+                        wbc.lastCheck = Date.now();
+                        wbc.timestamp = WBC.Timestamp;
+                        Callback(wbc, stop);
+                    }
                 } else {
                     wbc.result = `notBlacklisted`;
+                    wbc.lastCheck = Date.now();
+                    wbc.timestamp = WBC.Timestamp;
+                    Callback(wbc, stop);
                 }
-                wbc.lastCheck = Date.now();
-                wbc.timestamp = WBC.Timestamp;
-                Callback(wbc, stop);
             });
         }
     }
@@ -25969,9 +26026,9 @@ Parsedown = (() => {
                     <i class="fa fa-circle-o-notch fa-spin"></i>
                     <span>Retrieving ${username}'s giveaways (page ${NextPage - 1}${WBC.lastPage})...</span>
                 `;
-                if (!wbc.giveaway) {
+                if (!wbc.ga) {
                     Giveaway = Context.querySelector(`[class="giveaway__heading__name"][href*="/giveaway/"]`);
-                    wbc.giveaway = Giveaway ? Giveaway.getAttribute(`href`) : null;
+                    wbc.ga = Giveaway ? Giveaway.getAttribute(`href`).match(/\/giveaway\/(.+?)\//)[1] : null;
                 }
                 Pagination = Context.getElementsByClassName(`pagination__navigation`)[0];
                 Giveaway = Context.getElementsByClassName(`giveaway__summary`)[0];
@@ -25981,33 +26038,33 @@ Parsedown = (() => {
                         WBC.Timestamp = 0;
                     }
                 }
-                if (wbc.giveaway) {
-                    checkWBCGiveaway(WBC, wbc, function (wbc, stop) {
+                if (wbc.ga) {
+                    checkWBCGiveaway(WBC, wbc, username, function (wbc, stop) {
                         var WhitelistGiveaways, I, N, GroupGiveaway;
                         if ((wbc.result === `notBlacklisted`) && !stop && (esgst.wbc_checkWhitelist || !WBC.B)) {
                             WhitelistGiveaways = Context.getElementsByClassName(`giveaway__column--whitelist`);
-                            for (I = 0, N = WhitelistGiveaways.length; (I < N) && !wbc.whitelistGiveaway; ++I) {
+                            for (I = 0, N = WhitelistGiveaways.length; (I < N) && !wbc.wl_ga; ++I) {
                                 GroupGiveaway = WhitelistGiveaways[I].parentElement.getElementsByClassName(`giveaway__column--group`)[0];
                                 if (GroupGiveaway) {
-                                    WBC.GroupGiveaways.push(GroupGiveaway.getAttribute(`href`));
+                                    WBC.GroupGiveaways.push(GroupGiveaway.getAttribute(`href`).match(/\/giveaway\/(.+?)\//)[1]);
                                 } else {
-                                    wbc.whitelistGiveaway = WhitelistGiveaways[I].closest(`.giveaway__summary`).getElementsByClassName(`giveaway__heading__name`)[0].getAttribute(`href`);
+                                    wbc.wl_ga = WhitelistGiveaways[I].closest(`.giveaway__summary`).getElementsByClassName(`giveaway__heading__name`)[0].getAttribute(`href`).match(/\/giveaway\/(.+?)\//)[1];
                                 }
                             }
-                            if (wbc.whitelistGiveaway) {
-                                checkWBCGiveaway(WBC, wbc, Callback);
+                            if (wbc.wl_ga) {
+                                checkWBCGiveaway(WBC, wbc, username, Callback);
                             } else if (((WBC.Timestamp >= wbc.timestamp) || (WBC.Timestamp === 0)) && Pagination && !Pagination.lastElementChild.classList.contains(`is-selected`)) {
                                 setTimeout(getWBCGiveaways, 0, WBC, wbc, username, NextPage, CurrentPage, URL, Callback);
-                            } else if ((wbc.groupGiveaways && wbc.groupGiveaways.length) || WBC.GroupGiveaways.length) {
+                            } else if ((wbc.g_wl_gas && Object.keys(wbc.g_wl_gas).length) || WBC.GroupGiveaways.length) {
                                 getWBCGroupGiveaways(WBC, 0, WBC.GroupGiveaways.length, wbc, username, function (wbc, Result) {
                                     var Groups, GroupGiveaways, Found, J, NumGroups;
                                     if (Result) {
                                         Callback(wbc);
                                     } else {
                                         Groups = JSON.parse(getValue(`groups`, `[]`));
-                                        for (GroupGiveaway in wbc.groupGiveaways) {
+                                        for (GroupGiveaway in wbc.g_wl_gas) {
                                             Found = false;
-                                            GroupGiveaways = wbc.groupGiveaways[GroupGiveaway];
+                                            GroupGiveaways = wbc.g_wl_gas[GroupGiveaway];
                                             for (I = 0, N = GroupGiveaways.length; (I < N) && !Found; ++I) {
                                                 var i;
                                                 for (i = Groups.length - 1; i >= 0 && Groups[i].code !== GroupGiveaways[I]; --i);
@@ -26016,6 +26073,7 @@ Parsedown = (() => {
                                                 }
                                             }
                                             if (!Found) {
+                                                wbc.g_wl_ga = GroupGiveaway;
                                                 break;
                                             }
                                         }
@@ -26068,13 +26126,17 @@ Parsedown = (() => {
                     <i class="fa fa-circle-o-notch"></i>
                     <span>Retrieving ${username}'s group giveaways (${I - 1} of ${N})...</span>
                 `;
-                getWBCGroups(WBC, `${WBC.GroupGiveaways[I]}/search?page=`, 1, wbc, function (wbc, Result) {
-                    if (Result) {
-                        Callback(wbc, Result);
-                    } else {
-                        setTimeout(getWBCGroupGiveaways, 0, WBC, ++I, N, wbc, username, Callback);
-                    }
-                });
+                if (wbc.groupGiveaways && wbc.groupGiveaways[WBC.GroupGiveaways[I]]) {
+                    setTimeout(getWBCGroupGiveaways, 0, WBC, ++I, N, wbc, username, callback);
+                } else {
+                    getWBCGroups(WBC, `/giveaway/${WBC.GroupGiveaways[I]}/_/groups/search?page=`, 1, wbc, function (wbc, Result) {
+                        if (Result) {
+                            Callback(wbc, Result);
+                        } else {
+                            setTimeout(getWBCGroupGiveaways, 0, WBC, ++I, N, wbc, username, Callback);
+                        }
+                    });
+                }
             } else {
                 Callback(wbc);
             }
@@ -26090,33 +26152,28 @@ Parsedown = (() => {
                 Groups = ResponseHTML.getElementsByClassName(`table__column__heading`);
                 N = Groups.length;
                 if (N > 0) {
-                    if (!wbc.groupGiveaways) {
-                        wbc.groupGiveaways = {};
+                    if (!wbc.g_wl_gas) {
+                        wbc.g_wl_gas = {};
                     }
-                    GroupGiveaway = URL.match(/\/giveaway\/(.+)\//)[1];
-                    if (!wbc.groupGiveaways[GroupGiveaway]) {
-                        wbc.groupGiveaways[GroupGiveaway] = [];
+                    GroupGiveaway = URL.match(/\/giveaway\/(.+?)\//)[1];
+                    if (!wbc.g_wl_gas[GroupGiveaway]) {
+                        wbc.g_wl_gas[GroupGiveaway] = [];
                     }
                     for (I = 0; I < N; ++I) {
                         Group = Groups[I].getAttribute(`href`).match(/\/group\/(.+?)\//)[1];
-                        if (wbc.groupGiveaways[GroupGiveaway].indexOf(Group) < 0) {
-                            wbc.groupGiveaways[GroupGiveaway].push(Group);
+                        if (wbc.g_wl_gas[GroupGiveaway].indexOf(Group) < 0) {
+                            wbc.g_wl_gas[GroupGiveaway].push(Group);
                         }
                     }
                     Pagination = ResponseHTML.getElementsByClassName(`pagination__navigation`)[0];
                     if (Pagination && !Pagination.lastElementChild.classList.contains(`is-selected`)) {
-                        setTimeout(getWBCGroups, 0, WBC, URL, ++NextPage, wbc, Callback);
+                        setTimeout(getWBCGroups, 0, WBC, NextPage === 1 ? `${Response.finalUrl}/search?page=` : URL, ++NextPage, wbc, Callback);
                     } else {
                         Callback(wbc);
                     }
                 } else {
-                    var errorMessage = ResponseHTML.getElementsByClassName(`table--summary`)[0];
-                    if (errorMessage && errorMessage.textContent.match(/not a member of the giveaway creator's whitelist/)) {
-                        wbc.result = `none`;
-                        Callback(wbc, true);
-                    } else {
-                        Callback(wbc, true);
-                    }
+                    wbc.result = `none`;
+                    Callback(wbc, true);
                 }
             });
         }
