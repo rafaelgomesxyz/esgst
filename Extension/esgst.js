@@ -1716,6 +1716,7 @@ Parsedown = (() => {
                     lastSyncGiveaways: `lastSync`
                 };
                 esgst.defaultValues = {
+                    hpg: false,
                     wbc_checkSelected: false,
                     wbc_skipUsers: false,
                     wbc_pages: 0,
@@ -2966,6 +2967,18 @@ Parsedown = (() => {
                         `,
                         id: `hfc`,
                         name: `Hidden Featured Container`,
+                        sg: true,
+                        type: `giveaways`
+                    },
+                    {
+                        description: `
+                            <ul>
+                                <li>Hides the pinned giveaways in the main pages.</li>
+                            </ul>
+                        `,
+                        id: `hpg`,
+                        name: `Hidden Pinned Giveaways`,
+                        new: true,
                         sg: true,
                         type: `giveaways`
                     },
@@ -6164,6 +6177,12 @@ Parsedown = (() => {
 
         if (esgst.hfc && esgst.giveawaysPath && esgst.featuredContainer) {
             esgst.featuredContainer.classList.add(`esgst-hidden`);
+        }
+
+        /* [HPG] Hidden Pinned Giveaways */
+
+        if (esgst.hpg && esgst.giveawaysPath && esgst.pinnedGiveaways) {
+            esgst.pinnedGiveaways.classList.add(`esgst-hidden`);
         }
 
         /* [HCP] Hidden Community Poll */
