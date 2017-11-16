@@ -3917,6 +3917,25 @@ Parsedown = (() => {
                                 <code>steamgifts.com/giveaway/*</code>
                             </p>
                             <ul>
+                                <li>Checks how many users commented without entering, how many users entered without commenting, and how many users commented & entered in a giveaway.</li>
+                                <li>If the giveaway has a bump link it will also check for comments in the discussion.</li>
+                            </ul>
+                        `,
+                        id: `cec`,
+                        name: `Comments/Entries Checker`,
+                        new: true,
+                        sg: true,
+                        type: `giveaways`
+                    },
+                    {
+                        description: `
+                            <p>
+                                You will find the feature in the following URLs:
+                                <br/>
+                                <br/>
+                                <code>steamgifts.com/giveaway/*</code>
+                            </p>
+                            <ul>
                                 <li>Loads giveaways that you cannot access because of blacklist issues as if you were not logged in, allowing you to view them without having to actually log out or open them in an incognito window.</li>
                             </ul>
                         `,
@@ -5932,7 +5951,7 @@ Parsedown = (() => {
             `);
         }
 
-        if (esgst.ch || esgst.et) {
+        if (esgst.ch || (esgst.et && esgst.sg)) {
             let context = esgst.sg ? esgst.mainButton.parentElement.getElementsByClassName(`nav__absolute-dropdown`)[0].lastElementChild : esgst.mainButton.parentElement.getElementsByClassName(`dropdown`)[0].firstElementChild.lastElementChild;
             if (esgst.ch) {
                 setSMCommentHistory(insertHtml(context, `beforeBegin`, `
@@ -9112,6 +9131,19 @@ Parsedown = (() => {
 
         if (esgst.ttec) {
             esgst.giveawayFeatures.push(calculateTtecTime);
+        }
+
+        if (esgst.giveawayPath && esgst.mainPageHeading) {
+            if (esgst.cec) {
+                button = insertHtml(esgst.hideButtons && esgst.hideButtons_cec ? esgst.leftButtons : esgst.mainPageHeading, `afterBegin`, `
+                    <div class="esgst-heading-button" title="Check comments/entries">
+                        <i class="fa fa-comments"></i>
+                        <i class="fa fa-ticket"></i>
+                        <i class="fa fa-question-circle"></i>
+                    </div>
+                `);
+                button.addEventListener(`click`, openCecPopup.bind(null, {button}));
+            }
         }
 
         esgst.toExecute.forEach(feature => {
@@ -20108,6 +20140,145 @@ Parsedown = (() => {
         ge.set = null;
     }
 
+    /* [CEC] Comments/Entries Checker */
+
+    function openCecPopup(cec) {
+        if (!cec.popup) {
+            cec.popup = new Popup(`fa-question`, `Check Comments/Entries`);
+            cec.set = new ButtonSet(`green`, `grey`, `fa-arrow-right`, `fa-times`, `Check`, `Cancel`, callback => {
+                cec.button.classList.add(`esgst-busy`);
+                cec.canceled = false;
+                cec.comments = [];
+                cec.entries = [];
+                getCecComments(cec, null, 0, 0, 1, `/giveaway/${location.pathname.match(/\/giveaway\/(.+?)\//)[1]}/`, url => {
+                    getCecEntries(cec, 1, `${url.replace(/\/search\?page=/, ``)}/entries/search?page=`, () => {
+                        let both, commented, entered, total;
+                        cec.set.set.remove();
+                        cec.button.classList.remove(`esgst-busy`);
+                        cec.progress.innerHTML = ``;
+                        cec.comments = Array.from(new Set(cec.comments)).sort((a, b) => {
+                            return a.localeCompare(b, {
+                                sensitivity: `base`
+                            });
+                        });
+                        cec.entries = Array.from(new Set(cec.entries)).sort((a, b) => {
+                            return a.localeCompare(b, {
+                                sensitivity: `base`
+                            });
+                        });
+                        both = [];
+                        commented = [];
+                        entered = [];
+                        cec.comments.forEach(user => {
+                            if (cec.entries.indexOf(user) > -1) {
+                                both.push(`<a href="/user/${user}">${user}</a>`);
+                            } else {
+                                commented.push(`<a href="/user/${user}">${user}</a>`);
+                            }
+                        });
+                        total = cec.comments.length;
+                        cec.entries.forEach(user => {
+                            if (cec.comments.indexOf(user) < 0) {
+                                entered.push(`<a href="/user/${user}">${user}</a>`);
+                                total += 1;
+                            }
+                        });
+                        cec.popup.scrollable.insertAdjacentHTML(`beforeEnd`, `
+                            ${both.length > 0 ? `
+                                <div>
+                                    <span class="esgst-bold">${both.length} user${both.length > 1 ? `s` : ``} commented and entered (${Math.round(both.length / total * 10000) / 100}%):</span> ${both.join(`, `)}
+                                </div>
+                            ` : ``}
+                            ${commented.length > 0 ? `
+                                <div>
+                                    <span class="esgst-bold">${commented.length} user${commented.length > 1 ? `s` : ``} commented but did not enter (${Math.round(commented.length / total * 10000) / 100}%):</span> ${commented.join(`, `)}
+                                </div>
+                            ` : ``}
+                            ${entered.length > 0 ? `
+                                <div>
+                                    <span class="esgst-bold">${entered.length} user${entered.length > 1 ? `s` : ``} entered but did not comment (${Math.round(entered.length / total * 10000) / 100}%):</span> ${entered.join(`, `)}
+                                </div>
+                            ` : ``}
+                        `);
+                    });
+                });
+            }, () => {
+                cec.canceled = true;
+                cec.button.classList.remove(`esgst-busy`);
+                cec.progress.innerHTML = ``;
+            });
+            cec.popup.description.appendChild(cec.set.set);
+            cec.progress = insertHtml(cec.popup.description, `beforeEnd`, `<div></div>`);
+            cec.set.trigger();
+        }
+        cec.popup.open();
+    }
+
+    function getCecComments(cec, discussions, i, n, nextPage, url, callback) {
+        if (!cec.canceled) {
+            cec.progress.innerHTML = `
+                <i class="fa fa-circle-o-notch fa-spin"></i>
+                <span>Retrieving ${discussions ? `bumps ` : `comments `} (page ${nextPage})...</span>
+            `;
+            request(null, null, `GET`, true, `${url}${nextPage}`, response => {
+                let elements, j, pagination, responseHtml;
+                responseHtml = DOM.parse(response.responseText);
+                elements = responseHtml.querySelectorAll(`.comment:not(.comment--submit) .comment__username:not(.comment__username--op):not(.comment__username--deleted)`);
+                for (j = elements.length - 1; j > -1; --j) {
+                    cec.comments.push(elements[j].textContent.trim());
+                }
+                pagination = responseHtml.getElementsByClassName(`pagination__navigation`)[0];
+                if (pagination && !pagination.lastElementChild.classList.contains(`is-selected`)) {
+                    setTimeout(getCecComments, 0, cec, discussions, i, n, nextPage + 1, nextPage === 1 ? `${response.finalUrl}/search?page=` : url, callback);
+                } else {
+                    if (discussions) {
+                        if (i < n) {
+                            setTimeout(getCecComments, 0, cec, discussions, i + 1, n, 1, `/discussion/${discussions[i]}/`, callback.bind(null, nextPage === 1 ? `${response.finalUrl}/search?page=` : url));
+                        } else {
+                            callback();
+                        }
+                    } else {
+                        let links, n;
+                        links = responseHtml.querySelectorAll(`.page__description [href*="/discussion/"]`);
+                        n = links.length;
+                        if (n > 0) {
+                            let discussions = [];
+                            for (j = 0; j < n; ++j) {
+                                discussions.push(links[j].getAttribute(`href`).match(/\/discussion\/(.+?)\//)[1]);
+                            }
+                            setTimeout(getCecComments, 0, cec, discussions, i + 1, n, 1, `/discussion/${discussions[i]}/`, callback.bind(null, nextPage === 1 ? `${response.finalUrl}/search?page=` : url));
+                        } else {
+                            callback(nextPage === 1 ? `${response.finalUrl}/search?page=` : url);
+                        }
+                    }
+                }
+            });
+        }
+    }
+
+    function getCecEntries(cec, nextPage, url, callback) {
+        if (!cec.canceled) {
+            cec.progress.innerHTML = `
+                <i class="fa fa-circle-o-notch fa-spin"></i>
+                <span>Retrieving entries (page ${nextPage})...</span>
+            `;
+            request(null, null, `GET`, true, `${url}${nextPage}`, response => {console.log(response);
+                let elements, i, pagination, responseHtml;
+                responseHtml = DOM.parse(response.responseText);
+                elements = responseHtml.getElementsByClassName(`table__column__heading`);
+                for (i = elements.length - 1; i > -1; --i) {
+                    cec.entries.push(elements[i].textContent.trim());
+                }
+                pagination = responseHtml.getElementsByClassName(`pagination__navigation`)[0];
+                if (pagination && !pagination.lastElementChild.classList.contains(`is-selected`)) {
+                    setTimeout(getCecEntries, 0, cec, nextPage + 1, url, callback);
+                } else {
+                    callback();
+                }
+            });
+        }
+    }
+
     /* [GESL] Giveaway Error Search Links (by Royalgamer06) */
 
     function loadGesl() {
@@ -28994,7 +29165,8 @@ Parsedown = (() => {
                 newBelow: true
             },
             giveaways: {
-                index: 1
+                index: 1,
+                newBelow: true
             },
             discussions: {
                 index: 1
