@@ -10203,7 +10203,7 @@ Parsedown = (() => {
         try {
             storeJson = JSON.parse(storeResponse.responseText);
         } catch (e) {}
-        if (storeJson && storeJson.rgOwnedApps.length > 0) {
+        if (altAccount || (storeJson && storeJson.rgOwnedApps.length > 0)) {
             savedGames = (altAccount && altAccount.games) || JSON.parse(getValue(`games`));
             oldOwned = {
                 apps: [],
@@ -10247,48 +10247,48 @@ Parsedown = (() => {
                     numOwned += 1;
                 });
             } catch (e) {}
-            [
-                {
-                    jsonKey: `rgWishlist`,
-                    key: `wishlisted`,
-                    type: `apps`
-                },
-                {
-                    jsonKey: `rgOwnedApps`,
-                    key: `owned`,
-                    type: `apps`
-                },
-                {
-                    jsonKey: `rgOwnedPackages`,
-                    key: `owned`,
-                    type: `subs`
-                },
-                {
-                    jsonKey: `rgIgnoredApps`,
-                    key: `ignored`,
-                    type: `apps`
-                },
-                {
-                    jsonKey: `rgIgnoredPackages`,
-                    key: `ignored`,
-                    type: `subs`
-                }
-            ].forEach(item => {
-                key = item.key;
-                type = item.type;
-                storeJson[item.jsonKey].forEach(id => {
-                    if (!savedGames[type][id]) {
-                        savedGames[type][id] = {};
-                    }
-                    value = savedGames[type][id][key];
-                    savedGames[type][id][key] = true;
-                    if (key === `owned` && !value) {
-                        newOwned[type].push(id.toString());
-                        numOwned += 1;
-                    }
-                });
-            });
             if (!altAccount) {
+                [
+                    {
+                        jsonKey: `rgWishlist`,
+                        key: `wishlisted`,
+                        type: `apps`
+                    },
+                    {
+                        jsonKey: `rgOwnedApps`,
+                        key: `owned`,
+                        type: `apps`
+                    },
+                    {
+                        jsonKey: `rgOwnedPackages`,
+                        key: `owned`,
+                        type: `subs`
+                    },
+                    {
+                        jsonKey: `rgIgnoredApps`,
+                        key: `ignored`,
+                        type: `apps`
+                    },
+                    {
+                        jsonKey: `rgIgnoredPackages`,
+                        key: `ignored`,
+                        type: `subs`
+                    }
+                ].forEach(item => {
+                    key = item.key;
+                    type = item.type;
+                    storeJson[item.jsonKey].forEach(id => {
+                        if (!savedGames[type][id]) {
+                            savedGames[type][id] = {};
+                        }
+                        value = savedGames[type][id][key];
+                        savedGames[type][id][key] = true;
+                        if (key === `owned` && !value) {
+                            newOwned[type].push(id.toString());
+                            numOwned += 1;
+                        }
+                    });
+                });
                 if (numOwned !== getValue(`ownedGames`, 0)) {
                     setValue(`ownedGames`, numOwned);
                     result = 1;
