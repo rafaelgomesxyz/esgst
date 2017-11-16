@@ -861,6 +861,36 @@ The video above does not get embedded.
 
 ## Changelog
 
+**7.8.0 (November 16, 2017):**
+
+<ul>
+    <li><a href="https://github.com/revilheart/ESGST/issues/9">#9</a> Add option to preview comments to Comment Formatting Helper</li>
+    <li><a href="https://github.com/revilheart/ESGST/issues/184">#184</a> Add "unlimitedStorage" permission to extension</li>
+    <li><a href="https://github.com/revilheart/ESGST/issues/191">#191</a> Fully add the script code to the extension code</li>
+    <li><a href="https://github.com/revilheart/ESGST/issues/190">#190</a> Fix a bug that does not load Giveaway Bookmarks in the entered page</li>
+    <li><a href="https://github.com/revilheart/ESGST/issues/186">#186</a> Remove text from SG sync</li>
+    <li><a href="https://github.com/revilheart/ESGST/issues/189">#189</a> Fix a bug in Giveaways Extractor that happens when opening in a new tab</li>
+    <li><a href="https://github.com/revilheart/ESGST/issues/76">#76</a> Fix a bug that does not filter discussions on page load if Comment Tracker is disabled</li>
+    <li><a href="https://github.com/revilheart/ESGST/issues/185">#185</a> Add option to collapse sections in the settings menu</li>
+    <li><a href="https://github.com/revilheart/ESGST/issues/192">#192</a> Make new features/options more visible in the settings menu</li>
+    <li><a href="https://github.com/revilheart/ESGST/issues/137">#137</a> Prevent Header Refresher from notifying about wishlist giveaways that are above the user's level</li>
+    <li><a href="https://github.com/revilheart/ESGST/issues/142">#142</a> Improve how Whitelist/Blacklist Checker results are stored</li>
+    <li><a href="https://github.com/revilheart/ESGST/issues/193">#193</a> Fix a side effect from #185 that collapses the import/export/delete menus</li>
+    <li><a href="https://github.com/revilheart/ESGST/issues/194">#194</a> Separate option to reverse comments from Endless Scrolling into a new feature: Comments Reverser</li>
+    <li><a href="https://github.com/revilheart/ESGST/issues/195">#195</a> Add option to Whitelist/Blacklist Checker to skip a user if X pages have been checked without any result</li>
+    <li><a href="https://github.com/revilheart/ESGST/issues/196">#196</a> Add button to Whitelist/Blacklist Checker to manually skip users</li>
+    <li><a href="https://github.com/revilheart/ESGST/issues/197">#197</a> Add option to Whitelist/Blacklist Checker to check only selected users in the page</li>
+    <li><a href="https://github.com/revilheart/ESGST/issues/199">#199</a> Fix a bug that does not sync alt accounts</li>
+    <li><a href="https://github.com/revilheart/ESGST/issues/198">#198</a> Add a feature: Comments/Entries Checker</li>
+    <li><a href="https://github.com/revilheart/ESGST/issues/202">#202</a> Fix a bug in Real CV Calculator that happens when reviewing a giveaway</li>
+    <li><a href="https://github.com/revilheart/ESGST/issues/204">#204</a> Fix a bug in Giveaway Filters that does not filter giveaways correctly when using Endless Scrolling</li>
+    <li><a href="https://github.com/revilheart/ESGST/issues/205">#205</a> Move the scroll to top button more to the bottom/right</li>
+    <li><a href="https://github.com/revilheart/ESGST/issues/206">#206</a> Add option to show scroll to top button inside of footer</li>
+    <li><a href="https://github.com/revilheart/ESGST/issues/200">#200</a> Add option to make popups static</li>
+    <li><a href="https://github.com/revilheart/ESGST/issues/203">#203</a> Show game names instead of IDs when syncing</li>
+    <li><a href="https://github.com/revilheart/ESGST/issues/207">#207</a> Add a feature: Hidden Pinned Giveaways</li>
+</ul>
+
 **7.7.4 (November 12, 2017):**
 
 <ul>
