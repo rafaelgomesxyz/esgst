@@ -52,7 +52,7 @@ this._delay(function(){n===this.counter&&this.refreshPositions(!s)})},_clear:fun
 
 Parsedown = (() => {
     // functions taken from http://locutus.io/
-    
+
     function rtrim(string, charList) {
         charList = !charList ? ` \\s\u00A0` : `${charList}`.replace(/([[\]().?/*{}+$^:])/g, `\\$1`);
         return `${string}`.replace(new RegExp(`[${charList}]+$`, `g`), ``);
@@ -201,7 +201,7 @@ Parsedown = (() => {
     methods = {
         lines: lines => {
             let block, blocks, blockType, blockTypes, currentBlock, i, j, indent, line, marker, markup, n1, n2, parts, text;
-            currentBlock = null;            
+            currentBlock = null;
             blocks = [];
             main: for (i = 0, n1 = lines.length; i < n1; ++i) {
                 line = lines[i];
@@ -429,7 +429,7 @@ Parsedown = (() => {
                         };
                     }
                 }
-                block.li = {                    
+                block.li = {
                     handler: `li`,
                     name: `li`,
                     text: [matches[2]]
@@ -725,7 +725,7 @@ Parsedown = (() => {
             marker = excerpt.text[0];
             matches = excerpt.text.match(new RegExp(`^(${marker}+)[ ]*(.+?)[ ]*(${marker})?\\1`, `s`)); // original regex: /^('.$marker.'+)[ ]*(.+?)[ ]*(?<!'.$marker.')\1(?!'.$marker.')/s
             if (matches && !matches[3]) {
-                return {                    
+                return {
                     element: {
                         name: `code`,
                         text: matches[2].replace(/</g, `&lt;`).replace(/>/g, `&gt;`).replace(/[ ]*\n/, ``)
@@ -5467,9 +5467,19 @@ Parsedown = (() => {
                         type: `general`
                     },
                     {
+                        features: [
+                            {
+                                id: `sttb_f`,
+                                name: `Show inside of the footer.`,
+                                new: true,
+                                sg: true,
+                                st: true
+                            }
+                        ],
                         id: `sttb`,
                         load: loadSttb,
                         name: `Scroll To Top Button`,
+                        newBelow: true,
                         sg: true,
                         st: true,
                         type: `general`
@@ -13906,7 +13916,7 @@ Parsedown = (() => {
     /* [PGB] Pinned Giveaways Button */
 
     function loadPgb() {
-        var PGBContainer, HTML, PGBIcon;    
+        var PGBContainer, HTML, PGBIcon;
         esgst.pinnedGiveawaysButton = document.getElementsByClassName(`pinned-giveaways__button`)[0];
         if (esgst.pinnedGiveawaysButton) {
             PGBContainer = esgst.pinnedGiveawaysButton.previousElementSibling;
@@ -20597,7 +20607,7 @@ Parsedown = (() => {
                         deals = deals.firstElementChild.firstElementChild;
                     }
                 } else {
-                    if (refresh) {                    
+                    if (refresh) {
                         rows = document.getElementsByClassName(`table__rows`);
                         discussions = rows[0];
                         deals = rows[1];
@@ -22108,7 +22118,7 @@ Parsedown = (() => {
         }
     }
 
-    function addCfhPanel(textArea) {    
+    function addCfhPanel(textArea) {
         if (textArea !== esgst.cfh.textArea) {
             textArea.parentElement.insertBefore(esgst.cfh.panel, textArea);
             textArea.onfocus = addCfhPanel.bind(null, textArea);
@@ -25817,10 +25827,10 @@ Parsedown = (() => {
             checkAllSwitch = new ToggleSwitch(popup.Options, `wbc_checkAll`, false, `Check all pages.`, false, false, `If disabled, only the current page will be checked.`, esgst.wbc_checkAll);
         }
         new ToggleSwitch(popup.Options, `wbc_returnWhitelist`, false, `Return whitelists.`, false, false, `If enabled, everyone who has whitelisted you will be whitelisted back.`, esgst.wbc_returnWhitelist);
-        if (WBC.B) {            
+        if (WBC.B) {
             new ToggleSwitch(popup.Options, `wbc_returnBlacklist`, false, `Return blacklists.`, false, false, `If enabled, everyone who has blacklisted you will be blacklisted back.`, esgst.wbc_returnBlacklist);
         }
-        new ToggleSwitch(popup.Options, `wbc_checkNew`, false, `Only check users who have not whitelisted ${WBC.B ? `/blacklisted` : ``} you.`, false, false, `If enabled, everyone who has whitelisted ${WBC.B ? `/blacklisted` : ``} you will be ignored (might lead to outdated data if someone who had whitelisted ${WBC.B ? `/blacklisted` : ``} you in the past removed you from those lists).`, esgst.wbc_checkNew);        
+        new ToggleSwitch(popup.Options, `wbc_checkNew`, false, `Only check users who have not whitelisted ${WBC.B ? `/blacklisted` : ``} you.`, false, false, `If enabled, everyone who has whitelisted ${WBC.B ? `/blacklisted` : ``} you will be ignored (might lead to outdated data if someone who had whitelisted ${WBC.B ? `/blacklisted` : ``} you in the past removed you from those lists).`, esgst.wbc_checkNew);
         new ToggleSwitch(popup.Options, `wbc_skipUsers`, false, `Skip users after <input class="esgst-ugs-difference" type="number" value="${esgst.wbc_pages}"/> pages.`, false, false, `If enabled, when a user check passes the number of pages specified, the user will be skipped.`, esgst.wbc_skipUsers).name.firstElementChild.addEventListener(`change`, event => {
             setSetting(`wbc_pages`, event.currentTarget.value);
             esgst.wbc_pages = event.currentTarget.value;
@@ -25843,7 +25853,7 @@ Parsedown = (() => {
                 }
             }
             if (checkAllSwitch) {
-                if (checkSingleSwitch) {                    
+                if (checkSingleSwitch) {
                     checkAllSwitch.exclusions.push(checkSingleSwitch.container);
                 }
                 checkSelectedSwitch.exclusions.push(checkAllSwitch.container);
@@ -25946,7 +25956,7 @@ Parsedown = (() => {
                     };
                     setWBCResult(WBC, user, SavedUsers.users[SavedUsers.steamIds[WBC.Users[I]]].wbc, SavedUsers.users[SavedUsers.steamIds[WBC.Users[I]]].notes, SavedUsers.users[SavedUsers.steamIds[WBC.Users[I]]].whitelisted, SavedUsers.users[SavedUsers.steamIds[WBC.Users[I]]].blacklisted, false);
                 }
-            } else {                
+            } else {
                 skip.appendChild(new ButtonSet(`green`, ``, `fa-forward`, ``, `Skip User`, ``, callback => {
                     callback();
                     WBC.manualSkip = true;
@@ -25967,7 +25977,7 @@ Parsedown = (() => {
                 }
             }
             if (esgst.wbc_checkAll && ((((WBC.User && !esgst.wbc_checkSingle) || !WBC.User) && !WBC.Update && !location.pathname.match(/^\/(discussions|users|archive)/)))) {
-                getWBCUsers(WBC, 1, esgst.currentPage, esgst.searchUrl, function () {                    
+                getWBCUsers(WBC, 1, esgst.currentPage, esgst.searchUrl, function () {
                     skip.appendChild(new ButtonSet(`green`, ``, `fa-forward`, ``, `Skip User`, ``, callback => {
                         callback();
                         WBC.manualSkip = true;
@@ -26180,7 +26190,7 @@ Parsedown = (() => {
                 }
                 if (wbc.groupGiveaways) {
                     let key;
-                    for (key in wbc.groupGiveaways) {                    
+                    for (key in wbc.groupGiveaways) {
                         match = key.match(/^(.+?)\//);
                         if (match) {
                             if (!wbc.g_wl_gas) {
@@ -26253,7 +26263,7 @@ Parsedown = (() => {
                         let match = location.href.match(new RegExp(`\/user\/${username}(\/search\?page=(\d+))?`));
                         getWBCGiveaways(WBC, wbc, username, 1, match ? (match[2] ? parseInt(match[2]) : 1) : 0, `/user/${username}/search?page=`, Callback);
                     } else {
-                        wbc.result = `whitelisted`;                        
+                        wbc.result = `whitelisted`;
                         wbc.lastCheck = Date.now();
                         wbc.timestamp = WBC.Timestamp;
                         Callback(wbc, stop);
@@ -29939,7 +29949,7 @@ Parsedown = (() => {
         `);
         if (esgst.collapseSections && !title.match(/(Im|Ex)port|Delete/)) {
             let button, container, isExpanded;
-            button = insertHtml(section.firstElementChild, `afterBegin`, `            
+            button = insertHtml(section.firstElementChild, `afterBegin`, `
                 <span class="esgst-clickable" style="margin-right: 5px;">
                     <i class="fa fa-plus-square" title="Expand section"></i>
                 </span>
@@ -30826,7 +30836,7 @@ Parsedown = (() => {
         giveaway.group = giveaway.outerWrap.querySelector(`.giveaway__column--group, .featured__column--group`);
         giveaway.whitelist = giveaway.outerWrap.querySelector(`.giveaway__column--whitelist, .featured__column--whitelist`);
         giveaway.public = !giveaway.inviteOnly && !giveaway.regionRestricted && !giveaway.group && !giveaway.whitelist;
-        if (!main || !esgst.giveawayPath) {    
+        if (!main || !esgst.giveawayPath) {
             if (giveaway.inviteOnly) {
                 giveaway.inviteOnly.innerHTML = `<i class="fa fa-lock"></i>`;
             }
@@ -31895,18 +31905,21 @@ Parsedown = (() => {
     /* [STTB] Scroll To Top Button */
 
     function loadSttb() {
-        button = insertHtml(document.body, `beforeEnd`, `
-            <div class="esgst-sttb-button esgst-hidden" title="Scroll to top">
+        button = insertHtml(esgst.sttb_f ? esgst.footer.firstElementChild.lastElementChild : document.body, `beforeEnd`, `
+            <div class="esgst-sttb-button" title="Scroll to top">
                 <i class="fa fa-chevron-up"></i>
             </div>
         `);
-        addEventListener(`scroll`, () => {
-            if (scrollY > 100) {
-                button.classList.remove(`esgst-hidden`);
-            } else {
-                button.classList.add(`esgst-hidden`);
-            }
-        });
+        if (!esgst.sttb_f) {
+            button.classList.add(`esgst-hidden`);
+            addEventListener(`scroll`, () => {
+                if (scrollY > 100) {
+                    button.classList.remove(`esgst-hidden`);
+                } else {
+                    button.classList.add(`esgst-hidden`);
+                }
+            });
+        }
         button.addEventListener(`click`, animateScroll.bind(null, 0));
     }
 
@@ -33991,6 +34004,13 @@ Parsedown = (() => {
                 right: 5px;
             }
 
+            .footer__outer-wrap .esgst-sttb-button, footer .esgst-sttb-button {
+                background: none;
+                border: none;
+                position: static;
+                padding: 0;
+            }
+
             .esgst-bold {
                 font-weight: bold;
             }
@@ -34513,6 +34533,7 @@ Parsedown = (() => {
             }
 
             .esgst-ff >* {
+                max-width: none;
                 padding: 15px 25px;
             }
 
