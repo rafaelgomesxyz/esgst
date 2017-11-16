@@ -1714,6 +1714,8 @@ Parsedown = (() => {
                     lastSyncGiveaways: `lastSync`
                 };
                 esgst.defaultValues = {
+                    wbc_skipUsers: false,
+                    wbc_pages: 0,
                     collapseSections: false,
                     ge_o: false,
                     df_m: true,
@@ -25615,7 +25617,7 @@ Parsedown = (() => {
     }
 
     function addWBCButton(Context, WBCButton) {
-        var popup, WBC;
+        var checkAllSwitch, checkSingleSwitch, popup, WBC;
         WBC = {
             Update: (Context ? false : true),
             B: esgst.wbc_b,
@@ -25630,44 +25632,34 @@ Parsedown = (() => {
             };
         }
         popup.Options = insertHtml(popup.description, `beforeEnd`, `<div></div>`);
-        popup.Options.appendChild(createOptions([{
-            check: WBC.User,
-            description: `Only check ${WBC.User ? WBC.User.Username : `current user`}.`,
-            exclusions: [`wbc_checkAll`],
-            id: `wbc_checkSingle`,
-            tooltip: `If disabled, all users in the current page will be checked.`
-        }, {
-            check: WBC.B,
-            description: `Also check whitelist.`,
-            id: `wbc_checkWhitelist`,
-            tooltip: `If disabled, a blacklist-only check will be performed (faster).`
-        }, {
-            check: ((((WBC.User && !esgst.wbc_checkSingle) || !WBC.User) && !WBC.Update && !location.pathname.match(/^\/(discussions|users|archive)/)) ? true : false),
-            description: `Check all pages.`,
-            exclusions: [`wbc_checkSingle`],
-            id: `wbc_checkAll`,
-            tooltip: `If disabled, only the current page will be checked.`
-        }, {
-            check: true,
-            description: `Return whitelists.`,
-            id: `wbc_returnWhitelist`,
-            tooltip: `If enabled, everyone who has whitelisted you will be whitelisted back.`,
-        }, {
-            check: WBC.B,
-            description: `Return blacklists.`,
-            id: `wbc_returnBlacklist`,
-            tooltip: `If enabled, everyone who has blacklisted you will be blacklisted back.`,
-        }, {
-            check: true,
-            description: `Only check users who have not whitelisted ${WBC.B ? `/blacklisted` : ``} you.`,
-            id: `wbc_checkNew`,
-            tooltip: `If enabled, everyone who has whitelisted ${WBC.B ? `/blacklisted` : ``} you will be ignored (might lead to outdated data if someone who had whitelisted ${WBC.B ? `/blacklisted` : ``} you in the past removed you from those lists).`
-        }, {
-            check: true,
-            description: `Clear caches.`,
-            id: `wbc_clearCache`,
-            tooltip: `If enabled, the caches of all checked users will be cleared (slower).`
-        }]));
+        if (WBC.User) {
+            checkSingleSwitch = new ToggleSwitch(popup.Options, `wbc_checkSingle`, false, `Only check ${WBC.User ? WBC.User.Username : `current user`}.`, false, false, `If disabled, all users in the current page will be checked.`, esgst.wbc_checkSingle);
+        }
+        if (WBC.B) {
+            new ToggleSwitch(popup.Options, `wbc_checkWhitelist`, false, `Also check whitelist.`, false, false, `If disabled, a blacklist-only check will be performed (faster).`, esgst.wbc_checkWhitelist);
+        }
+        if (!WBC.Update && !location.pathname.match(/^\/(discussions|users|archive)/)) {
+            checkAllSwitch = new ToggleSwitch(popup.Options, `wbc_checkAll`, false, `Check all pages.`, false, false, `If disabled, only the current page will be checked.`, esgst.wbc_checkAll);
+        }
+        new ToggleSwitch(popup.Options, `wbc_returnWhitelist`, false, `Return whitelists.`, false, false, `If enabled, everyone who has whitelisted you will be whitelisted back.`, esgst.wbc_returnWhitelist);
+        if (WBC.B) {            
+            new ToggleSwitch(popup.Options, `wbc_returnBlacklist`, false, `Return blacklists.`, false, false, `If enabled, everyone who has blacklisted you will be blacklisted back.`, esgst.wbc_returnBlacklist);
+        }
+        new ToggleSwitch(popup.Options, `wbc_checkNew`, false, `Only check users who have not whitelisted ${WBC.B ? `/blacklisted` : ``} you.`, false, false, `If enabled, everyone who has whitelisted ${WBC.B ? `/blacklisted` : ``} you will be ignored (might lead to outdated data if someone who had whitelisted ${WBC.B ? `/blacklisted` : ``} you in the past removed you from those lists).`, esgst.wbc_checkNew);        
+        new ToggleSwitch(popup.Options, `wbc_skipUsers`, false, `Skip users after <input class="esgst-ugs-difference" type="number" value="${esgst.wbc_pages}"/> pages.`, false, false, `If enabled, when a user check passes the number of pages specified, the user will be skipped.`, esgst.wbc_skipUsers).name.firstElementChild.addEventListener(`change`, event => {
+            setSetting(`wbc_pages`, event.currentTarget.value);
+            esgst.wbc_pages = event.currentTarget.value;
+        });
+        new ToggleSwitch(popup.Options, `wbc_clearCache`, false, `Clear caches.`, false, false, `If enabled, the caches of all checked users will be cleared (slower).`, esgst.wbc_clearCache);
+        if (checkSingleSwitch && checkAllSwitch) {
+            checkSingleSwitch.exclusions.push(checkAllSwitch.container);
+            checkAllSwitch.exclusions.push(checkSingleSwitch.container);
+            if (checkSingleSwitch && esgst.wbc_checkSingle) {
+                checkAllSwitch.container.classList.add(`esgst-hidden`);
+            } else if (checkAllSwitch && esgst.wbc_checkAll) {
+                checkSingleSwitch.container.classList.add(`esgst-hidden`);
+            }
+        }
         popup.Options.insertAdjacentHTML(`afterEnd`, `<div class="esgst-description">If an user is highlighted, that means they have been either checked for the first time or updated.</div>`);
         popup.description.appendChild(new ButtonSet(`green`, `grey`, WBC.Update ? `fa-refresh` : `fa-question-circle`, `fa-times-circle`, WBC.Update ? `Update` : `Check`, `Cancel`, function (Callback) {
             WBC.ShowResults = false;
@@ -25708,6 +25700,10 @@ Parsedown = (() => {
             Icon: `<i class="fa fa-question-circle"></i> `,
             Description: `There is not enough information to know if you are whitelisted${WBC.B ? ` or blacklisted` : ``} by`,
             Key: `unknown`
+        }, {
+            Icon: `<i class="fa fa-forward"></i> `,
+            Description: `Skipped users`,
+            Key: `skipped`
         }]);
         WBCButton.addEventListener(`click`, function () {
             WBC.popup = popup;
@@ -25728,8 +25724,9 @@ Parsedown = (() => {
         WBC.none.classList.add(`esgst-hidden`);
         WBC.notBlacklisted.classList.add(`esgst-hidden`);
         WBC.unknown.classList.add(`esgst-hidden`);
-        WBC.whitelistedCount.textContent = WBC.blacklistedCount.textContent = WBC.noneCount.textContent = WBC.notBlacklistedCount.textContent = WBC.unknownCount.textContent = `0`;
-        WBC.whitelistedUsers.innerHTML = WBC.blacklistedUsers.innerHTML = WBC.noneUsers.innerHTML = WBC.notBlacklistedUsers.innerHTML = WBC.unknownUsers.innerHTML = ``;
+        WBC.skipped.classList.add(`esgst-hidden`);
+        WBC.whitelistedCount.textContent = WBC.blacklistedCount.textContent = WBC.noneCount.textContent = WBC.notBlacklistedCount.textContent = WBC.unknownCount.textContent = WBC.skippedCount.textContent = `0`;
+        WBC.whitelistedUsers.innerHTML = WBC.blacklistedUsers.innerHTML = WBC.noneUsers.innerHTML = WBC.notBlacklistedUsers.innerHTML = WBC.unknownUsers.innerHTML = WBC.skippedUsers.innerHTML = ``;
         WBC.Users = [];
         WBC.Canceled = false;
         if (WBC.Update) {
@@ -25799,7 +25796,14 @@ Parsedown = (() => {
                 }
                 if (!wbc || !esgst.wbc_checkNew) {
                     checkWBCUser(WBC, wbc, user.username, function (wbc) {
-                        setTimeout(setWBCResult, 0, WBC, user, wbc, notes, whitelisted, blacklisted, (Result != wbc.result) ? true : false, I, N, Callback);
+                        if (wbc) {
+                            setTimeout(setWBCResult, 0, WBC, user, wbc, notes, whitelisted, blacklisted, (Result != wbc.result) ? true : false, I, N, Callback);
+                        } else {
+                            WBC.skipped.classList.remove(`esgst-hidden`);
+                            WBC.skippedCount.textContent = parseInt(WBC.skippedCount.textContent) + 1;
+                            WBC.skippedUsers.insertAdjacentHTML(`beforeEnd`, `<a href="/user/${user.username}">${user.username}</a>`);
+                            setTimeout(checkWBCUsers, 0, WBC, ++I, N, Callback);
+                        }
                     });
                 } else {
                     setTimeout(setWBCResult, 0, WBC, user, wbc, notes, whitelisted, blacklisted, (Result != wbc.result) ? true : false, I, N, Callback);
@@ -26037,104 +26041,108 @@ Parsedown = (() => {
     function getWBCGiveaways(WBC, wbc, username, NextPage, CurrentPage, URL, Callback, Context) {
         var Giveaway, Pagination;
         if (!WBC.Canceled) {
-            if (Context) {
-                if (NextPage === 2) {
-                    WBC.lastPage = getLastPage(Context, false, false, true);
-                    WBC.lastPage = WBC.lastPage === 999999999 ? `` : ` of ${WBC.lastPage}`;
-                }
-                WBC.Progress.innerHTML = `
-                    <i class="fa fa-circle-o-notch fa-spin"></i>
-                    <span>Retrieving ${username}'s giveaways (page ${NextPage - 1}${WBC.lastPage})...</span>
-                `;
-                if (!wbc.ga) {
-                    Giveaway = Context.querySelector(`[class="giveaway__heading__name"][href*="/giveaway/"]`);
-                    wbc.ga = Giveaway ? Giveaway.getAttribute(`href`).match(/\/giveaway\/(.+?)\//)[1] : null;
-                }
-                Pagination = Context.getElementsByClassName(`pagination__navigation`)[0];
-                Giveaway = Context.getElementsByClassName(`giveaway__summary`)[0];
-                if (Giveaway && (WBC.Timestamp === 0)) {
-                    WBC.Timestamp = parseInt(Giveaway.querySelector(`[data-timestamp]`).getAttribute(`data-timestamp`));
-                    if (WBC.Timestamp >= (new Date().getTime())) {
-                        WBC.Timestamp = 0;
+            if (!esgst.wbc_skipUsers || NextPage - 1 <= esgst.wbc_pages) {
+                if (Context) {
+                    if (NextPage === 2) {
+                        WBC.lastPage = getLastPage(Context, false, false, true);
+                        WBC.lastPage = WBC.lastPage === 999999999 ? `` : ` of ${WBC.lastPage}`;
                     }
-                }
-                if (wbc.ga) {
-                    checkWBCGiveaway(WBC, wbc, username, function (wbc, stop) {
-                        var WhitelistGiveaways, I, N, GroupGiveaway;
-                        if ((wbc.result === `notBlacklisted`) && !stop && (esgst.wbc_checkWhitelist || !WBC.B)) {
-                            WhitelistGiveaways = Context.getElementsByClassName(`giveaway__column--whitelist`);
-                            for (I = 0, N = WhitelistGiveaways.length; (I < N) && !wbc.wl_ga; ++I) {
-                                GroupGiveaway = WhitelistGiveaways[I].parentElement.getElementsByClassName(`giveaway__column--group`)[0];
-                                if (GroupGiveaway) {
-                                    WBC.GroupGiveaways.push(GroupGiveaway.getAttribute(`href`).match(/\/giveaway\/(.+?)\//)[1]);
-                                } else {
-                                    wbc.wl_ga = WhitelistGiveaways[I].closest(`.giveaway__summary`).getElementsByClassName(`giveaway__heading__name`)[0].getAttribute(`href`).match(/\/giveaway\/(.+?)\//)[1];
-                                }
-                            }
-                            if (wbc.wl_ga) {
-                                checkWBCGiveaway(WBC, wbc, username, Callback);
-                            } else if (((WBC.Timestamp >= wbc.timestamp) || (WBC.Timestamp === 0)) && Pagination && !Pagination.lastElementChild.classList.contains(`is-selected`)) {
-                                setTimeout(getWBCGiveaways, 0, WBC, wbc, username, NextPage, CurrentPage, URL, Callback);
-                            } else if ((wbc.g_wl_gas && Object.keys(wbc.g_wl_gas).length) || WBC.GroupGiveaways.length) {
-                                getWBCGroupGiveaways(WBC, 0, WBC.GroupGiveaways.length, wbc, username, function (wbc, Result) {
-                                    var Groups, GroupGiveaways, Found, J, NumGroups;
-                                    if (Result) {
-                                        Callback(wbc);
+                    WBC.Progress.innerHTML = `
+                        <i class="fa fa-circle-o-notch fa-spin"></i>
+                        <span>Retrieving ${username}'s giveaways (page ${NextPage - 1}${WBC.lastPage})...</span>
+                    `;
+                    if (!wbc.ga) {
+                        Giveaway = Context.querySelector(`[class="giveaway__heading__name"][href*="/giveaway/"]`);
+                        wbc.ga = Giveaway ? Giveaway.getAttribute(`href`).match(/\/giveaway\/(.+?)\//)[1] : null;
+                    }
+                    Pagination = Context.getElementsByClassName(`pagination__navigation`)[0];
+                    Giveaway = Context.getElementsByClassName(`giveaway__summary`)[0];
+                    if (Giveaway && (WBC.Timestamp === 0)) {
+                        WBC.Timestamp = parseInt(Giveaway.querySelector(`[data-timestamp]`).getAttribute(`data-timestamp`));
+                        if (WBC.Timestamp >= (new Date().getTime())) {
+                            WBC.Timestamp = 0;
+                        }
+                    }
+                    if (wbc.ga) {
+                        checkWBCGiveaway(WBC, wbc, username, function (wbc, stop) {
+                            var WhitelistGiveaways, I, N, GroupGiveaway;
+                            if ((wbc.result === `notBlacklisted`) && !stop && (esgst.wbc_checkWhitelist || !WBC.B)) {
+                                WhitelistGiveaways = Context.getElementsByClassName(`giveaway__column--whitelist`);
+                                for (I = 0, N = WhitelistGiveaways.length; (I < N) && !wbc.wl_ga; ++I) {
+                                    GroupGiveaway = WhitelistGiveaways[I].parentElement.getElementsByClassName(`giveaway__column--group`)[0];
+                                    if (GroupGiveaway) {
+                                        WBC.GroupGiveaways.push(GroupGiveaway.getAttribute(`href`).match(/\/giveaway\/(.+?)\//)[1]);
                                     } else {
-                                        Groups = JSON.parse(getValue(`groups`, `[]`));
-                                        for (GroupGiveaway in wbc.g_wl_gas) {
-                                            Found = false;
-                                            GroupGiveaways = wbc.g_wl_gas[GroupGiveaway];
-                                            for (I = 0, N = GroupGiveaways.length; (I < N) && !Found; ++I) {
-                                                var i;
-                                                for (i = Groups.length - 1; i >= 0 && Groups[i].code !== GroupGiveaways[I]; --i);
-                                                if (i >= 0 && Groups[i].member) {
-                                                    Found = true;
-                                                }
-                                            }
-                                            if (!Found) {
-                                                wbc.g_wl_ga = GroupGiveaway;
-                                                break;
-                                            }
-                                        }
-                                        if (Found) {
+                                        wbc.wl_ga = WhitelistGiveaways[I].closest(`.giveaway__summary`).getElementsByClassName(`giveaway__heading__name`)[0].getAttribute(`href`).match(/\/giveaway\/(.+?)\//)[1];
+                                    }
+                                }
+                                if (wbc.wl_ga) {
+                                    checkWBCGiveaway(WBC, wbc, username, Callback);
+                                } else if (((WBC.Timestamp >= wbc.timestamp) || (WBC.Timestamp === 0)) && Pagination && !Pagination.lastElementChild.classList.contains(`is-selected`)) {
+                                    setTimeout(getWBCGiveaways, 0, WBC, wbc, username, NextPage, CurrentPage, URL, Callback);
+                                } else if ((wbc.g_wl_gas && Object.keys(wbc.g_wl_gas).length) || WBC.GroupGiveaways.length) {
+                                    getWBCGroupGiveaways(WBC, 0, WBC.GroupGiveaways.length, wbc, username, function (wbc, Result) {
+                                        var Groups, GroupGiveaways, Found, J, NumGroups;
+                                        if (Result) {
                                             Callback(wbc);
                                         } else {
-                                            wbc.result = `whitelisted`;
-                                            Callback(wbc);
+                                            Groups = JSON.parse(getValue(`groups`, `[]`));
+                                            for (GroupGiveaway in wbc.g_wl_gas) {
+                                                Found = false;
+                                                GroupGiveaways = wbc.g_wl_gas[GroupGiveaway];
+                                                for (I = 0, N = GroupGiveaways.length; (I < N) && !Found; ++I) {
+                                                    var i;
+                                                    for (i = Groups.length - 1; i >= 0 && Groups[i].code !== GroupGiveaways[I]; --i);
+                                                    if (i >= 0 && Groups[i].member) {
+                                                        Found = true;
+                                                    }
+                                                }
+                                                if (!Found) {
+                                                    wbc.g_wl_ga = GroupGiveaway;
+                                                    break;
+                                                }
+                                            }
+                                            if (Found) {
+                                                Callback(wbc);
+                                            } else {
+                                                wbc.result = `whitelisted`;
+                                                Callback(wbc);
+                                            }
                                         }
-                                    }
-                                });
+                                    });
+                                } else {
+                                    Callback(wbc);
+                                }
                             } else {
                                 Callback(wbc);
                             }
-                        } else {
-                            Callback(wbc);
-                        }
-                    });
-                } else if (((WBC.Timestamp >= wbc.timestamp) || (WBC.Timestamp === 0)) && Pagination && !Pagination.lastElementChild.classList.contains(`is-selected`)) {
-                    setTimeout(getWBCGiveaways, 0, WBC, wbc, username, NextPage, CurrentPage, URL, Callback);
-                } else {
-                    wbc.result = `unknown`;
-                    wbc.lastCheck = Date.now();
-                    wbc.timestamp = WBC.Timestamp;
-                    Callback(wbc);
+                        });
+                    } else if (((WBC.Timestamp >= wbc.timestamp) || (WBC.Timestamp === 0)) && Pagination && !Pagination.lastElementChild.classList.contains(`is-selected`)) {
+                        setTimeout(getWBCGiveaways, 0, WBC, wbc, username, NextPage, CurrentPage, URL, Callback);
+                    } else {
+                        wbc.result = `unknown`;
+                        wbc.lastCheck = Date.now();
+                        wbc.timestamp = WBC.Timestamp;
+                        Callback(wbc);
+                    }
+                } else if (!WBC.Canceled) {
+                    if (CurrentPage != NextPage) {
+                        request(null, null, `GET`, true, URL + NextPage, function (Response) {
+                            if (Response.finalUrl.match(/\/user\//)) {
+                                setTimeout(getWBCGiveaways, 0, WBC, wbc, username, ++NextPage, CurrentPage, URL, Callback, DOM.parse(Response.responseText));
+                            } else {
+                                wbc.result = `unknown`;
+                                wbc.lastCheck = Date.now();
+                                wbc.timestamp = WBC.Timestamp;
+                                Callback(wbc);
+                            }
+                        });
+                    } else {
+                        setTimeout(getWBCGiveaways, 0, WBC, wbc, username, ++NextPage, CurrentPage, URL, Callback, document);
+                    }
                 }
-            } else if (!WBC.Canceled) {
-                if (CurrentPage != NextPage) {
-                    request(null, null, `GET`, true, URL + NextPage, function (Response) {
-                        if (Response.finalUrl.match(/\/user\//)) {
-                            setTimeout(getWBCGiveaways, 0, WBC, wbc, username, ++NextPage, CurrentPage, URL, Callback, DOM.parse(Response.responseText));
-                        } else {
-                            wbc.result = `unknown`;
-                            wbc.lastCheck = Date.now();
-                            wbc.timestamp = WBC.Timestamp;
-                            Callback(wbc);
-                        }
-                    });
-                } else {
-                    setTimeout(getWBCGiveaways, 0, WBC, wbc, username, ++NextPage, CurrentPage, URL, Callback, document);
-                }
+            } else {
+                Callback();
             }
         }
     }
