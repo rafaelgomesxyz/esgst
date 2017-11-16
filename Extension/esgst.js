@@ -20264,7 +20264,7 @@ Parsedown = (() => {
                 <i class="fa fa-circle-o-notch fa-spin"></i>
                 <span>Retrieving entries (page ${nextPage})...</span>
             `;
-            request(null, null, `GET`, true, `${url}${nextPage}`, response => {console.log(response);
+            request(null, null, `GET`, true, `${url}${nextPage}`, response => {
                 let elements, i, pagination, responseHtml;
                 responseHtml = DOM.parse(response.responseText);
                 elements = responseHtml.getElementsByClassName(`table__column__heading`);
@@ -28239,7 +28239,7 @@ Parsedown = (() => {
         categories = [`achievements`, `dlc`, `dlcFree`, `dlcNonFree`, `genres`, `linux`, `mac`, `multiplayer`, `package`, `rating`, `removed`, `steamCloud`, `tradingCards`];
         for (i = 0, n = esgst.currentGiveaways.length; i < n; ++i) {
             giveaway = esgst.currentGiveaways[i];
-            if (!giveaway.gcReady && giveaway.outerWrap.getElementsByClassName(`esgst-gc-panel`)[0]) {
+            if (!giveaway.gcReady && giveaway.outerWrap.querySelector(`[data-gcReady]`)) {
                 for (j = 0, numCategories = categories.length; j < numCategories; ++j) {
                     id = categories[j];
                     category = giveaway.outerWrap.getElementsByClassName(`esgst-gc-${id}`)[0];
@@ -28287,7 +28287,7 @@ Parsedown = (() => {
         }
         for (i = 0, n = esgst.popupGiveaways.length; i < n; ++i) {
             giveaway = esgst.popupGiveaways[i];
-            if (!giveaway.gcReady && giveaway.outerWrap.getElementsByClassName(`esgst-gc-panel`)[0]) {
+            if (!giveaway.gcReady && giveaway.outerWrap.querySelector(`[data-gcReady]`)) {
                 for (j = 0, numCategories = categories.length; j < numCategories; ++j) {
                     id = categories[j];
                     category = giveaway.outerWrap.getElementsByClassName(`esgst-gc-${id}`)[0];
@@ -28578,7 +28578,7 @@ Parsedown = (() => {
         html = elements.join(``);
         for (i = 0, n = games.length; i < n; ++i) {
             panel = games[i].container.getElementsByClassName(`esgst-gc-panel`)[0];
-            if (panel && !panel.innerHTML) {
+            if (panel && !panel.getAttribute(`data-gcReady`)) {
                 if (esgst.gc_il && !esgst.giveawayPath) {
                     panel.previousElementSibling.style.display = `inline-block`;
                     panel.classList.add(`esgst-gc-panel-inline`);
@@ -28589,6 +28589,7 @@ Parsedown = (() => {
                         panel.children[j].removeAttribute(`href`);
                     }
                 }
+                panel.setAttribute(`data-gcReady`, 1);
             }
         }
     }
