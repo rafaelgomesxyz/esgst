@@ -33980,7 +33980,7 @@ Parsedown = (() => {
             }
 
             .esgst-sttb-button {
-                bottom: 69px;
+                bottom: ${esgst.ff ? 49 : 5}px;
                 background-color: #fff;
                 border: 1px solid #d2d6e0;
                 border-radius: 4px;
@@ -33988,7 +33988,7 @@ Parsedown = (() => {
                 cursor: pointer;
                 padding: 5px 15px;
                 position: fixed;
-                right: 25px;
+                right: 5px;
             }
 
             .esgst-bold {
