@@ -1400,12 +1400,12 @@ Parsedown = (() => {
                 this.popup.style.display = `block`;
                 this.popup.style.position = `absolute`;
             }
-            const n = 9999 + document.querySelectorAll(`.esgst-popup:not(.esgst-hidden), .esgst-popout:not(.esgst-hidden)`).length;
+            let n = 9999 + document.querySelectorAll(`.esgst-popup:not(.esgst-hidden), .esgst-popout:not(.esgst-hidden)`).length;
             this.modal.style.zIndex = n;
             this.popup.style.zIndex = n + 1;
             this.modal.addEventListener(`click`, () => this.close());
             this.reposition();
-            if (!esgst.isRepositioning) {
+            if (!esgst.isRepositioning && !esgst.staticPopups) {
                 setTimeout(repositionPopups, 2000);
             }
             if (callback) {
@@ -1434,8 +1434,10 @@ Parsedown = (() => {
             if (this.isCreated) {
                 this.scrollable.style.maxHeight = `${innerHeight * 0.9 - (this.popup.offsetHeight - this.scrollable.offsetHeight)}px`;
             }
-            this.popup.style.left = `${(innerWidth - this.popup.offsetWidth) / 2}px`;
-            this.popup.style.top = `${(innerHeight - this.popup.offsetHeight) / 2}px`;
+            if (!esgst.staticPopups) {
+                this.popup.style.left = `${(innerWidth - this.popup.offsetWidth) / 2}px`;
+                this.popup.style.top = `${(innerHeight - this.popup.offsetHeight) / 2}px`;
+            }
         }
     }
 
@@ -1718,6 +1720,7 @@ Parsedown = (() => {
                     wbc_skipUsers: false,
                     wbc_pages: 0,
                     collapseSections: false,
+                    staticPopups: false,
                     ge_o: false,
                     df_m: true,
                     gf_m: true,
@@ -2106,6 +2109,14 @@ Parsedown = (() => {
                     {
                         id: `collapseSections`,
                         name: `Collapse sections in the settings menu by default.`,
+                        new: true,
+                        sg: true,
+                        st: true,
+                        type: `other`
+                    },
+                    {
+                        id: `staticPopups`,
+                        name: `Make popups static (they are fixed at the top left corner of the page instead of being automatically centered).`,
                         new: true,
                         sg: true,
                         st: true,
@@ -34832,12 +34843,16 @@ Parsedown = (() => {
                 background-color: #f0f2f5;
                 border-radius: 4px;
                 color: #465670;
-                max-width: 75%;
+                max-width: calc(90% - 200px);
                 padding: 35px 100px;
                 position: fixed;
                 text-align: center;
                 text-shadow: 1px 1px rgba(255,255,255,0.94);
                 transition: 500ms ease;
+                ${esgst.staticPopups ? `
+                    left: 5%;
+                    top: 5%;
+                ` : ``}
             }
 
             .esgst-popup li:before {
