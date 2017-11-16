@@ -10434,6 +10434,7 @@ Parsedown = (() => {
     function continueSyncStep5(syncer, callback, games, html) {
         if (html) {
             syncer.scrollable.insertAdjacentHTML(`afterBegin`, html);
+            getSyncGameNames(syncer.scrollable);
         }
         if (!syncer.autoSync && ((syncer.parameters && syncer.parameters.WonGames) || (!syncer.parameters && esgst.settings.syncWonGames))) {
             syncer.progress.lastElementChild.textContent = `Syncing your won games...`;
@@ -10443,10 +10444,27 @@ Parsedown = (() => {
         }
     }
 
-    function continueSyncStep6(syncer, callback, games, html) {
-        if (html) {
-            syncer.scrollable.insertAdjacentHTML(`afterBegin`, html);
+    function getSyncGameNames(context) {
+        let i, links;
+        links = context.getElementsByTagName(`a`);
+        for (i = links.length - 1; i > -1; --i) {
+            let link, match;
+            link = links[i];
+            match = link.getAttribute(`href`).match(/\/(app|sub)\/(.+)/);
+            if (match) {
+                let id, type;
+                type = match[1];
+                id = match[2];
+                request(null, null, `GET`, false, `http://store.steampowered.com/api/${type === `app` ? `appdetails?appids` : `packagedetails?packageids`}=${id}&filters=basic`, response => {
+                    try {
+                        link.textContent = JSON.parse(response.responseText)[id].data.name;
+                    } catch (e) {}
+                });
+            }
         }
+    }
+
+    function continueSyncStep6(syncer, callback) {
         if (!syncer.autoSync && ((syncer.parameters && syncer.parameters.ReducedCvGames) || (!syncer.parameters && esgst.settings.syncReducedCvGames))) {
             syncer.progress.lastElementChild.textContent = `Syncing reduced CV games...`;
             request(null, null, `GET`, false, `https://script.google.com/macros/s/AKfycbwJK-7RBh5ghaKprEsmx4DQ6CyXc_3_9eYiOCu3yhI6W4B3W4YN/exec`, syncCvGames.bind(null, syncer, continueSyncStep7.bind(null, syncer, callback)));
