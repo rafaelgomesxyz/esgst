@@ -17839,72 +17839,74 @@ Parsedown = (() => {
                     var headings = document.getElementsByClassName(`featured__heading__small`);
                     var copies = headings.length > 1 ? parseInt(headings[0].textContent.match(/\d+/)[0]) : 1;
                     request(null, null, `GET`, false, `http://store.steampowered.com/api/${type === `apps` ? `appdetails?appids` : `packagedetails?packageids`}=${id}&cc=us&filters=price,price_overview`, response => {
-                        var responseJson = JSON.parse(response.responseText)[id].data;
-                        var value = Math.ceil((responseJson.price_overview || responseJson.price).initial / 100);
-                        var games = JSON.parse(getValue(`games`));
-                        if (games[type][id]) {
-                            if (games[type][id].noCV) {
-                                value = 0;
-                            } else if (games[type][id].reducedCV) {
-                                value *= 0.15;
+                        try {
+                            var responseJson = JSON.parse(response.responseText)[id].data;
+                            var value = Math.ceil((responseJson.price_overview || responseJson.price).initial / 100);
+                            var games = JSON.parse(getValue(`games`));
+                            if (games[type][id]) {
+                                if (games[type][id].noCV) {
+                                    value = 0;
+                                } else if (games[type][id].reducedCV) {
+                                    value *= 0.15;
+                                }
                             }
-                        }
-                        var user = {
-                            Username: esgst.username,
-                            SteamID64: esgst.steamId
-                        };
-                        var users = JSON.parse(getValue(`users`));
-                        var savedUser = users.users[user.SteamID64];
-                        var sent = 0;
-                        var currentDate = Date.now();
-                        if (savedUser && savedUser.giveaways && savedUser.giveaways.sent && savedUser.giveaways.sent[type][id]) {
-                            var giveaways = savedUser.giveaways.sent[type][id];
-                            for (i = 0, n = giveaways.length; i < n; ++i) {
-                                var giveaway = esgst.giveaways[giveaways[i]];
-                                if (giveaway && (currentDate < giveaway.endTime || (((giveaways.entries < 5) && !giveaway.inviteOnly && !giveaway.group && !giveaway.whitelist) || (giveaway.entries >= 5)))) {
-                                    if (giveaway.entries >= giveaway.copies || currentDate < giveaway.endTime) {
-                                        sent += giveaway.copies;
-                                    } else {
-                                        sent += giveaway.entries;
+                            var user = {
+                                Username: esgst.username,
+                                SteamID64: esgst.steamId
+                            };
+                            var users = JSON.parse(getValue(`users`));
+                            var savedUser = users.users[user.SteamID64];
+                            var sent = 0;
+                            var currentDate = Date.now();
+                            if (savedUser && savedUser.giveaways && savedUser.giveaways.sent && savedUser.giveaways.sent[type][id]) {
+                                var giveaways = savedUser.giveaways.sent[type][id];
+                                for (i = 0, n = giveaways.length; i < n; ++i) {
+                                    var giveaway = esgst.giveaways[giveaways[i]];
+                                    if (giveaway && (currentDate < giveaway.endTime || (((giveaways.entries < 5) && !giveaway.inviteOnly && !giveaway.group && !giveaway.whitelist) || (giveaway.entries >= 5)))) {
+                                        if (giveaway.entries >= giveaway.copies || currentDate < giveaway.endTime) {
+                                            sent += giveaway.copies;
+                                        } else {
+                                            sent += giveaway.entries;
+                                        }
+                                    }
+                                }
+                                if (sent > 5) {
+                                    for (i = 0, n = sent - 5; i < n; ++i) {
+                                        value *= 0.90;
                                     }
                                 }
                             }
-                            if (sent > 5) {
-                                for (i = 0, n = sent - 5; i < n; ++i) {
-                                    value *= 0.90;
+                            var cv;
+                            if (copies > 1) {
+                                var total = copies + sent;
+                                if (total > 5) {
+                                    n = total - 5;
+                                    cv = (copies - n) * value;
+                                    for (i = 0; i < n; ++i) {
+                                        value *= 0.90;
+                                        cv += value;
+                                    }
+                                } else {
+                                    cv = value * copies;
                                 }
-                            }
-                        }
-                        var cv;
-                        if (copies > 1) {
-                            var total = copies + sent;
-                            if (total > 5) {
-                                n = total - 5;
-                                cv = (copies - n) * value;
-                                for (i = 0; i < n; ++i) {
-                                    value *= 0.90;
-                                    cv += value;
-                                }
+                            } else if ((sent + 1) > 5) {
+                                cv = value * 0.90;
                             } else {
-                                cv = value * copies;
+                                cv = value;
                             }
-                        } else if ((sent + 1) > 5) {
-                            cv = value * 0.90;
-                        } else {
-                            cv = value;
-                        }
-                        cv = Math.round(cv * 100) / 100;
-                        var html = `
-                            <div class="table__row-outer-wrap">
-                                <div class="table__row-inner-wrap">
-                                    <div class="table__column--width-medium table__column--align-top">
-                                        <span class="esgst-bold">Real CV</span>
+                            cv = Math.round(cv * 100) / 100;
+                            var html = `
+                                <div class="table__row-outer-wrap">
+                                    <div class="table__row-inner-wrap">
+                                        <div class="table__column--width-medium table__column--align-top">
+                                            <span class="esgst-bold">Real CV</span>
+                                        </div>
+                                        <div class="table__column--width-fill">You should get ~$${cv} real CV for this giveaway.</div>
                                     </div>
-                                    <div class="table__column--width-fill">You should get ~$${cv} real CV for this giveaway.</div>
                                 </div>
-                            </div>
-                        `;
-                        table.insertAdjacentHTML(`beforeEnd`, html);
+                            `;
+                            table.insertAdjacentHTML(`beforeEnd`, html);
+                        } catch (e) {}
                         button = document.getElementsByClassName(`js__submit-form`)[0];
                         button.addEventListener(`click`, function () {
                             delValue(`rcvcGame`);
