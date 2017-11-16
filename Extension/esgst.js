@@ -1714,6 +1714,7 @@ Parsedown = (() => {
                     lastSyncGiveaways: `lastSync`
                 };
                 esgst.defaultValues = {
+                    wbc_checkSelected: false,
                     wbc_skipUsers: false,
                     wbc_pages: 0,
                     collapseSections: false,
@@ -2744,19 +2745,6 @@ Parsedown = (() => {
                         name: `Level Progress Visualizer`,
                         sg: true,
                         sync: `Giveaways`,
-                        type: `general`
-                    },
-                    {
-                        description: `
-                            <ul>
-                                <li>Allows you to tag multiple users/games at the same time.</li>
-                            </ul>
-                        `,
-                        id: `mt`,
-                        load: loadMt,
-                        name: `Multi-Tag`,
-                        sg: true,
-                        st: true,
                         type: `general`
                     },
                     {
@@ -4682,6 +4670,19 @@ Parsedown = (() => {
                         name: `Whitelist/Blacklist Checker`,
                         sg: true,
                         type: `users`
+                    },
+                    {
+                        description: `
+                            <ul>
+                                <li>Allows you to tag multiple users/games at the same time.</li>
+                            </ul>
+                        `,
+                        id: `mt`,
+                        load: loadMt,
+                        name: `Multi-Tag`,
+                        sg: true,
+                        st: true,
+                        type: `general`
                     },
                     {
                         features: [
@@ -25635,6 +25636,7 @@ Parsedown = (() => {
         if (WBC.User) {
             checkSingleSwitch = new ToggleSwitch(popup.Options, `wbc_checkSingle`, false, `Only check ${WBC.User ? WBC.User.Username : `current user`}.`, false, false, `If disabled, all users in the current page will be checked.`, esgst.wbc_checkSingle);
         }
+        checkSelectedSwitch = new ToggleSwitch(popup.Options, `wbc_checkSelected`, false, `Only check selected.`, false, false, `To check only selected users in the page, enable the user selector at the left side of the Whitelist/Blacklist Checker button (same selector used for Multi-Tags) and select the users. Then come back here, enable this option if you haven't done so already and check.`, esgst.wbc_checkSelected);
         if (WBC.B) {
             new ToggleSwitch(popup.Options, `wbc_checkWhitelist`, false, `Also check whitelist.`, false, false, `If disabled, a blacklist-only check will be performed (faster).`, esgst.wbc_checkWhitelist);
         }
@@ -25651,13 +25653,36 @@ Parsedown = (() => {
             esgst.wbc_pages = event.currentTarget.value;
         });
         new ToggleSwitch(popup.Options, `wbc_clearCache`, false, `Clear caches.`, false, false, `If enabled, the caches of all checked users will be cleared (slower).`, esgst.wbc_clearCache);
-        if (checkSingleSwitch && checkAllSwitch) {
-            checkSingleSwitch.exclusions.push(checkAllSwitch.container);
-            checkAllSwitch.exclusions.push(checkSingleSwitch.container);
-            if (checkSingleSwitch && esgst.wbc_checkSingle) {
-                checkAllSwitch.container.classList.add(`esgst-hidden`);
-            } else if (checkAllSwitch && esgst.wbc_checkAll) {
-                checkSingleSwitch.container.classList.add(`esgst-hidden`);
+        if (checkSingleSwitch || checkAllSwitch) {
+            if (checkSingleSwitch) {
+                if (checkAllSwitch) {
+                    checkSingleSwitch.exclusions.push(checkAllSwitch.container);
+                }
+                checkSingleSwitch.exclusions.push(checkSelectedSwitch.container);
+                checkSelectedSwitch.exclusions.push(checkSingleSwitch.container);
+                if (esgst.wbc_checkSingle) {
+                    if (checkAllSwitch) {
+                        checkAllSwitch.container.classList.add(`esgst-hidden`);
+                    }
+                    checkSelectedSwitch.container.classList.add(`esgst-hidden`);
+                } else if (esgst.wbc_checkSelected) {
+                    checkSingleSwitch.container.classList.add(`esgst-hidden`);
+                }
+            }
+            if (checkAllSwitch) {
+                if (checkSingleSwitch) {                    
+                    checkAllSwitch.exclusions.push(checkSingleSwitch.container);
+                }
+                checkSelectedSwitch.exclusions.push(checkAllSwitch.container);
+                checkAllSwitch.exclusions.push(checkSelectedSwitch.container);
+                if (esgst.wbc_checkAll) {
+                    if (checkSingleSwitch) {
+                        checkSingleSwitch.container.classList.add(`esgst-hidden`);
+                    }
+                    checkSelectedSwitch.container.classList.add(`esgst-hidden`);
+                } else if (esgst.wbc_checkSelected) {
+                    checkAllSwitch.container.classList.add(`esgst-hidden`);
+                }
             }
         }
         popup.Options.insertAdjacentHTML(`afterEnd`, `<div class="esgst-description">If an user is highlighted, that means they have been either checked for the first time or updated.</div>`);
@@ -25759,9 +25784,13 @@ Parsedown = (() => {
             WBC.Users.push(WBC.User.Username);
             checkWBCUsers(WBC, 0, 1, Callback);
         } else {
-            for (Username in esgst.currentUsers) {
-                if (Username != WBC.Username) {
-                    WBC.Users.push(Username);
+            if (esgst.wbc_checkSelected) {
+                WBC.Users = Array.from(esgst.mtUsers);
+            } else {
+                for (Username in esgst.currentUsers) {
+                    if (Username != WBC.Username) {
+                        WBC.Users.push(Username);
+                    }
                 }
             }
             if (esgst.wbc_checkAll && ((((WBC.User && !esgst.wbc_checkSingle) || !WBC.User) && !WBC.Update && !location.pathname.match(/^\/(discussions|users|archive)/)))) {
@@ -28396,13 +28425,12 @@ Parsedown = (() => {
     function loadMt() {
         if (esgst.mainPageHeading) {
             let mt, toggleSwitch;
-            if (esgst.ut) {
+            if (esgst.ut || esgst.wbc) {
                 esgst.mtUserButton = insertHtml(esgst.hideButtons && esgst.hideButtons_mtUsers ? esgst.leftButtons : esgst.mainPageHeading, `afterBegin`, `
-                    <div class="esgst-heading-button esgst-hidden" title="Multi-tag users">
+                    <div class="esgst-heading-button esgst-hidden" title="Manage users">
                         <span></span>
                         <span>
                             <i class="fa fa-user"></i>
-                            <i class="fa fa-tags"></i>
                         </span>
                     </div>
                 `);
@@ -28442,7 +28470,7 @@ Parsedown = (() => {
         if (mt.type === `user`) {
             mt.users = {};
             mt.userCheckboxes = [];
-            mt.selectedUsers = [];
+            esgst.mtUsers = mt.selectedUsers = [];
             if (!current) {
                 current = esgst.currentUsers;
             }
@@ -28532,7 +28560,7 @@ Parsedown = (() => {
             });
             count = parseInt(mt.count.textContent) + 1
             mt.count.textContent = count;
-            if (count > 1) {
+            if (count > 1 && mt.tagButton) {
                 mt.tagButton.classList.remove(`esgst-hidden`);
             }
         }
@@ -28548,7 +28576,7 @@ Parsedown = (() => {
             });
             count = parseInt(mt.count.textContent) - 1;
             mt.count.textContent = count;
-            if (count <= 1) {
+            if (count <= 1 && mt.tagButton) {
                 mt.tagButton.classList.add(`esgst-hidden`);
             }
         }
@@ -28563,7 +28591,7 @@ Parsedown = (() => {
             });
             count = parseInt(mt.count.textContent) + 1
             mt.count.textContent = count;
-            if (count > 1) {
+            if (count > 1 && mt.tagButton) {
                 mt.tagButton.classList.remove(`esgst-hidden`);
             }
         }
@@ -28579,7 +28607,7 @@ Parsedown = (() => {
             });
             count = parseInt(mt.count.textContent) - 1;
             mt.count.textContent = count;
-            if (count <= 1) {
+            if (count <= 1 && mt.tagButton) {
                 mt.tagButton.classList.add(`esgst-hidden`);
             }
         }
@@ -28590,7 +28618,9 @@ Parsedown = (() => {
             checkbox.checkbox.parentElement.remove();
         });
         mt.count.textContent = 0;
-        mt.tagButton.classList.add(`esgst-hidden`);
+        if (mt.tagButton) {
+            mt.tagButton.classList.add(`esgst-hidden`);
+        }
     }
 
     function openMtPopout(mt) {
@@ -28600,9 +28630,11 @@ Parsedown = (() => {
             group.appendChild(new ButtonSet(`grey`, `grey`, `fa-circle`, `fa-circle-o-notch fa-spin`, `All`, ``, selectMtCheckboxes.bind(null, mt, `check`)).set);
             group.appendChild(new ButtonSet(`grey`, `grey`, `fa-circle-o`, `fa-circle-o-notch fa-spin`, `None`, ``, selectMtCheckboxes.bind(null, mt, `uncheck`)).set);
             group.appendChild(new ButtonSet(`grey`, `grey`, `fa-dot-circle-o`, `fa-circle-o-notch fa-spin`, `Inverse`, ``, selectMtCheckboxes.bind(null, mt, `toggle`)).set);
-            mt.tagButton = new ButtonSet(`green`, ``, `fa-tags`, ``, `Multi-Tag`, ``, openMtPopup.bind(null, mt)).set;
-            mt.tagButton.classList.add(`esgst-hidden`);
-            mt.popout.popout.appendChild(mt.tagButton);
+            if (mt.type !== `user` || esgst.ut) {
+                mt.tagButton = new ButtonSet(`green`, ``, `fa-tags`, ``, `Multi-Tag`, ``, openMtPopup.bind(null, mt)).set;
+                mt.tagButton.classList.add(`esgst-hidden`);
+                mt.popout.popout.appendChild(mt.tagButton);
+            }
             mt.count = insertHtml(mt.popout.popout, `beforeEnd`, `
                 <div><span>0</span> selected.</div>
             `).firstElementChild;
