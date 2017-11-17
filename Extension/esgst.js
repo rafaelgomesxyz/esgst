@@ -11517,12 +11517,15 @@ Parsedown = (() => {
         let buttons, i;
         buttons = document.querySelectorAll(`.sidebar__search-container .fa-search, .esgst-qgs-container .fa-search`);
         for (i = buttons.length - 1; i > -1; --i) {
-            let button = buttons[i];
+            let button, input;
+            button = buttons[i];
+            input = button.previousElementSibling;
             button.classList.add(`esgst-clickable`);
             button.addEventListener(`click`, event => {
-                let newEvent = new Event(`keypress`);
-                newEvent.which = 13;
-                button.previousElementSibling.dispatchEvent(newEvent);
+                let value = input.value.trim();
+                if (value) {
+                    location.href = `${esgst.searchUrl.replace(/page=/, ``)}q=${value}`;
+                }
             });
         }
     }
