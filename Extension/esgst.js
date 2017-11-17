@@ -5720,8 +5720,10 @@ Parsedown = (() => {
                                 <div class="page__outer-wrap">
                                     <div class="page__inner-wrap"></div>
                                 </div>
+                                ${responseHtml.getElementsByClassName(`footer__outer-wrap`)[0].outerHTML}
                             `;
                             esgst.header = document.body.firstElementChild;
+                            esgst.footer = document.body.lastElementChild;
                             esgst.headerNavigationLeft = document.getElementsByClassName(`nav__left-container`)[0];
                             esgst.pageOuterWrap = esgst.header.nextElementSibling;
                             esgst.mainContext = esgst.pageOuterWrap.lastElementChild;
@@ -34572,10 +34574,11 @@ Parsedown = (() => {
             }
 
             .esgst-ff {
-                background-color: inherit;
+                background-color: #95a4c0;
                 bottom: 0;
                 padding: 0;
                 position: fixed;
+                text-shadow: none;
                 width: 100%;
                 z-index: 999;
             }
