@@ -723,7 +723,7 @@ Parsedown = (() => {
         inlineCode: excerpt => {
             let marker, matches;
             marker = excerpt.text[0];
-            matches = excerpt.text.match(new RegExp(`^(${marker}+)[ ]*(.+?)[ ]*(${marker})?\\1`, `s`)); // original regex: /^('.$marker.'+)[ ]*(.+?)[ ]*(?<!'.$marker.')\1(?!'.$marker.')/s
+            matches = excerpt.text.match(new RegExp(`^(${marker}+)[ ]*([\\S\\s]+?)[ ]*(${marker})?\\1`)); // original regex: /^('.$marker.'+)[ ]*(.+?)[ ]*(?<!'.$marker.')\1(?!'.$marker.')/s
             if (matches && !matches[3]) {
                 return {
                     element: {
