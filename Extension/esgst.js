@@ -29281,7 +29281,7 @@ Parsedown = (() => {
                 });
                 sections[key].section = createMenuSection(SMMenu, null, ++j, sections[key].newBelow ? `
                     <span class="esgst-bold esgst-red" title="There is a new feature/option in this section">
-                        <i class="fa fa-chevron-down"></i>
+                        <i class="fa fa-star"></i>
                     </span>
                     ${title}
                 ` : title);
@@ -29382,14 +29382,12 @@ Parsedown = (() => {
         `);
         if (Feature.new) {
             Menu.insertAdjacentHTML(`beforeEnd`, `
-                <span class="esgst-bold esgst-red" title="This is a new feature/option">
-                    <i class="fa fa-star"></i>
-                </span>
+                <span class="esgst-bold esgst-red" title="This is a new feature/option">[NEW]</span>
             `);
         } else if (Feature.newBelow) {
             Menu.insertAdjacentHTML(`beforeEnd`, `
                 <span class="esgst-bold esgst-red" title="There is a new feature/option in this section">
-                    <i class="fa fa-chevron-down"></i>
+                    <i class="fa fa-star"></i>
                 </span>
             `);
         }
