@@ -32170,7 +32170,7 @@ Parsedown = (() => {
                 paginations.push(paginationNavigation.innerHTML);
             }
             fragment = document.createDocumentFragment();
-            if (esgst.cr) {
+            if (esgst.cr && esgst.discussionPath) {
                 reverseComments(context);
             }
             if (!refreshAll) {
