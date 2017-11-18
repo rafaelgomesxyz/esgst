@@ -35863,11 +35863,15 @@ Parsedown = (() => {
                     align-items: center;
                 }
 
+                .esgst-header-menu-row:last-child {
+                    cursor: default;
+                }
+
                 .esgst-header-menu-row:not(:first-child) {
                     border-top: 1px dotted #d2d6e0;
                 }
 
-                .esgst-header-menu-row:hover, .esgst.header-menu-button:hover + .esgst-header-menu-button {
+                .esgst-header-menu-row:not(:last-child):hover, .esgst.header-menu-button:hover + .esgst-header-menu-button {
                     border-top-color: transparent;
                 }
 
@@ -35880,7 +35884,7 @@ Parsedown = (() => {
                     color: #fff
                 }
 
-                .esgst-header-menu-row:hover{
+                .esgst-header-menu-row:not(:last-child):hover{
                     background-image: linear-gradient(#63a0f4 0%, #63a0f4 100%);
                     text-shadow: none;
                 }
@@ -35915,11 +35919,11 @@ Parsedown = (() => {
                     font: 11px/13px Arial, sans-serif
                 }
 
-                .esgst-header-menu-row:hover .esgst-header-menu-name {
+                .esgst-header-menu-row:not(:last-child):hover .esgst-header-menu-name {
                     color: #fff;
                 }
 
-                .esgst-header-menu-row:hover .esgst-header-menu-description {
+                .esgst-header-menu-row:not(:last-child):hover .esgst-header-menu-description {
                     color: rgba(255, 255, 255, 0.7);
                 }
 
@@ -36667,6 +36671,11 @@ Parsedown = (() => {
                                     <p class="esgst-header-menu-description">Check out the changelog.</p>
                                 </div>
                             </div>
+                            <div class="esgst-header-menu-row">
+                                <div>
+                                    <p class="esgst-header-menu-description">Current Version: ${esgst.currentVersion}</p>
+                                </div>
+                            </div>
                         </div>
                     </div>
                     <div class="esgst-header-menu-button">
@@ -36692,7 +36701,7 @@ Parsedown = (() => {
             });
             arrow.addEventListener(`click`, toggleHeaderMenu.bind(null, arrow, dropdown));
             document.addEventListener(`click`, closeHeaderMenu.bind(null, arrow, dropdown, menu), true);
-            dropdown.firstElementChild.lastElementChild.addEventListener(`click`, loadChangelog);
+            dropdown.firstElementChild.lastElementChild.previousElementSibling.addEventListener(`click`, loadChangelog);
         };
         notifyNewVersion = version => {
             let message, popup;
@@ -36854,6 +36863,11 @@ Parsedown = (() => {
                                     <p class="esgst-header-menu-description">Check out the changelog.</p>
                                 </div>
                             </div>
+                            <div class="esgst-header-menu-row">
+                                <div>
+                                    <p class="esgst-header-menu-description">Current Version: ${esgst.currentVersion}</p>
+                                </div>
+                            </div>
                         </div>
                     </div>
                     <div class="esgst-header-menu-button">
@@ -36880,7 +36894,7 @@ Parsedown = (() => {
             arrow.addEventListener(`click`, toggleHeaderMenu.bind(null, arrow, dropdown));
             document.addEventListener(`click`, closeHeaderMenu.bind(null, arrow, dropdown, menu), true);
             dropdown.firstElementChild.firstElementChild.addEventListener(`click`, checkUpdate);
-            dropdown.firstElementChild.lastElementChild.addEventListener(`click`, loadChangelog);
+            dropdown.firstElementChild.lastElementChild.previousElementSibling.addEventListener(`click`, loadChangelog);
         };
         notifyNewVersion = version => {
             let message, popup;
