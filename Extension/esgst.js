@@ -34854,18 +34854,27 @@ Parsedown = (() => {
                 max-width: 100%;
             }
 
-            .esgst-aic-left-button {
+            .esgst-aic-left-button, .esgst-aic-right-button {
+                align-items: center;
                 cursor: pointer;
-                left: 60px;
+                display: flex;
+                height: 100%;
+                justify-content: center;
                 position: absolute;
-                top: 50%;
+                top: 0;
+                width: 25px;
+            }
+
+            .esgst-aic-left-button i, .esgst-aic-right-button i {
+                font-size: 25px;
+            }
+
+            .esgst-aic-left-button {
+                left: 50px;
             }
 
             .esgst-aic-right-button {
-                cursor: pointer;
                 right: 50px;
-                position: absolute;
-                top: 50%;
             }
 
             .esgst-popup-modal {
