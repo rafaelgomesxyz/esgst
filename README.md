@@ -861,6 +861,23 @@ The video above does not get embedded.
 
 ## Changelog
 
+**7.8.1 (November 18, 2017):**
+
+<ul>
+    <li><a href="https://github.com/revilheart/ESGST/issues/214">#214</a> Fix a bug in Scroll To Top Button that happens in ESGST-generated pages</li>
+    <li><a href="https://github.com/revilheart/ESGST/issues/215">#215</a> Fix a bug that happens when typing \` in Comment Formatting Helper with preview enabled</li>
+    <li><a href="https://github.com/revilheart/ESGST/issues/212">#212</a> Fix a bug in Search Magnifying Glass Button that does not work outside of the main page</li>
+    <li><a href="https://github.com/revilheart/ESGST/issues/210">#210</a> Show script version in the header menu</li>
+    <li><a href="https://github.com/revilheart/ESGST/issues/209">#209</a> Improve the left/right buttons in Attached Images Carousel</li>
+    <li><a href="https://github.com/revilheart/ESGST/issues/208">#208</a> Add button to start Attached Images Carousel from the header</li>
+    <li><a href="https://github.com/revilheart/ESGST/issues/218">#218</a> Revert how new features/options are highlighted to the [NEW] text instead of the star icon</li>
+    <li><a href="https://github.com/revilheart/ESGST/issues/219">#219</a> Fix a bug that happens when trying to load a group/whitelist giveaway in Blacklist Giveaway Loader</li>
+    <li><a href="https://github.com/revilheart/ESGST/issues/220">#220</a> Fix a bug in Comments Reverser that reverses giveaways in the main page</li>
+    <li><a href="https://github.com/revilheart/ESGST/issues/222">#222</a> Fix a bug that happens when syncing won games</li>
+    <li><a href="https://github.com/revilheart/ESGST/issues/221">#221</a> Fix a style issue where popups keep shaking when already repositioned</li>
+    <li><a href="https://github.com/revilheart/ESGST/issues/223">#223</a> Add option to open the automatic sync in a new tab</li>
+</ul>
+
 **7.8.0 (November 16, 2017):**
 
 <ul>

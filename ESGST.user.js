@@ -3,7 +3,7 @@
 // @namespace ESGST
 // @description Enhances SteamGifts and SteamTrades by adding some cool features to them.
 // @icon https://dl.dropboxusercontent.com/s/lr3t3bxrxfxylqe/esgstIcon.ico?raw=1
-// @version 7.8.0
+// @version 7.8.1
 // @author revilheart
 // @downloadURL https://github.com/revilheart/ESGST/raw/master/ESGST.user.js
 // @updateURL https://github.com/revilheart/ESGST/raw/master/ESGST.meta.js
@@ -723,7 +723,7 @@ Parsedown = (() => {
         inlineCode: excerpt => {
             let marker, matches;
             marker = excerpt.text[0];
-            matches = excerpt.text.match(new RegExp(`^(${marker}+)[ ]*(.+?)[ ]*(${marker})?\\1`, `s`)); // original regex: /^('.$marker.'+)[ ]*(.+?)[ ]*(?<!'.$marker.')\1(?!'.$marker.')/s
+            matches = excerpt.text.match(new RegExp(`^(${marker}+)[ ]*([\\S\\s]+?)[ ]*(${marker})?\\1`)); // original regex: /^('.$marker.'+)[ ]*(.+?)[ ]*(?<!'.$marker.')\1(?!'.$marker.')/s
             if (matches && !matches[3]) {
                 return {
                     element: {
@@ -1364,6 +1364,7 @@ Parsedown = (() => {
                 </div>
             `);
             if (this.isCreated) {
+                this.icon = this.popup.firstElementChild.firstElementChild.firstElementChild;
                 this.title = this.popup.firstElementChild.lastElementChild.firstElementChild;
                 this.description = this.popup.firstElementChild.nextElementSibling;
                 this.scrollable = this.description.firstElementChild;
@@ -1435,8 +1436,13 @@ Parsedown = (() => {
                 this.scrollable.style.maxHeight = `${innerHeight * 0.9 - (this.popup.offsetHeight - this.scrollable.offsetHeight)}px`;
             }
             if (!esgst.staticPopups) {
-                this.popup.style.left = `${(innerWidth - this.popup.offsetWidth) / 2}px`;
-                this.popup.style.top = `${(innerHeight - this.popup.offsetHeight) / 2}px`;
+                let newLeft, newTop;
+                newLeft = (innerWidth - this.popup.offsetWidth) / 2;
+                newTop = (innerHeight - this.popup.offsetHeight) / 2;
+                if (Math.abs(newLeft - this.popup.offsetLeft) > 5 || Math.abs(newTop - this.popup.offsetTop) > 5) {
+                    this.popup.style.left = `${newLeft}px`;
+                    this.popup.style.top = `${newTop}px`;
+                }
             }
         }
     }
@@ -1524,7 +1530,7 @@ Parsedown = (() => {
             storage: storage,
             sg: location.hostname.match(/www.steamgifts.com/),
             st: location.hostname.match(/www.steamtrades.com/),
-            currentVersion: `7.8.0`,
+            currentVersion: `7.8.1`,
             icon: `data:image/x-icon;base64,AAABAAEAEBAAAAEAIABoBAAAFgAAACgAAAAQAAAAIAAAAAEAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAqv8DCbP/Hgeq+CQIrf8iCK3/Igit/yIIrf8iB6//Iwit9x8Aqv8DAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAKr0GAa2/c0DvfzfA7f83QO3/N0Dt/zdA7f83QO+/d4Gs/3OAKP1GQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACm/xQFs/n2Bcf//wW///8FwP//BcD//wW///8Fx///BbP69gC2/xUAAAAAAAAAAAAAAAAA/1UDFptOFxSZMxkLpJktAq720QW1+ugEsfvjA7b92wO2/dsEsfvjBbX66Aau/dEoiO4tUlLWGU5k3hdVVf8DEJxKHxWqT8cVrU7uE6VN0guqny0Apv8XAJfQGwBAVywAQFcsAJfQGwCx/xcogugtS2Lk0lBl6u5Qae7ISmPeHxagSSMVr07jF7lV/xOiSu0brgATAAAAAAAAAA8AAAC/AAAAwAAAABAAAAAAYznjEkth4OxWb/3/T2jv40lf4iMXnksiEq1O3RayUv8UpEnkEo0+HQAAABkAAABBAAAA8QAAAPEAAABBAAAAGUBSvxxOYeDjU2v0/05m7d1LYuEiF55LIhKtTt0Ws1L/FahN2gU1FTAAAADAAAAA7AAAAP0AAAD9AAAA7AAAAMAVG0owUGPm2lNr9P9OZu3dS2LhIheeSyISrU7dFrNS/xWoTdoFNRswAAAAvwAAAOsAAAD9AAAA/QAAAOsAAADAFRtKMFBj6NpTa/T/Tmbt3Uti4SIXnksiEq1O3RayUv8UpEnkEo0+HQAAABgAAABAAAAA8QAAAPEAAABBAAAAGT5PuR1OYeDjU2v0/05m7d1LYuEiFqBJIxWuT+QXuVX/E6JL7QC8XhMAAAAAAAAADwAAAL8AAAC/AAAAEAAAAAAOR/8SSWLh7FZv/f9PaO/jSV/iIxCUSh8Vrk7HFqxN7ROlS9JskzMt1XULGK12EhxGLgYsRy8GK612EhzVgAsYgmxxLU1i39JNZ+vtT2fwx0pj1h8AqlUDF65GFgqZUhlsiC0txH0T0s5/EujJgBPkz4QR28+EEdvJgBPkzn8Q6Md+E9KLdHosM1LWGUZo6BZVVf8DAAAAAAAAAAAAAAAA/2YAFMl9EvbgjRb/14gV/9eIFf/XiBX/14gV/9+NFv/KgBD254YAFQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAL91FRjKgRHN1IgU3s+EEt3PhBLdz4QS3c+EEt3UiBTezYMRzcJ6FBkAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACqqgADxIARHr18FiO8eA8ivHgPIrx4DyK8eA8ivXwPI8SAER7/VQADAAAAAAAAAAAAAAAA78cAAPA3AAD4FwAABCAAADGOAAAE+AAAkBEAAJ55AACYOQAAlgEAAER4AAAXaAAATnoAAPgXAAD0JwAA69cAAA==`,
             sgIcon: `data:image/x-icon;base64,AAABAAEAEBAAAAEAIABoBAAAFgAAACgAAAAQAAAAIAAAAAEAIAAAAAAAQAQAABMLAAATCwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIUAAAD5AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAPoAAACFAAAAAAAAAAAAAAD8AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA+QAAAAAAAAAAAAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAAAAAAAAAAAAP8AAAD/AAAA/wAAABwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAcAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAcAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAHAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAAAAAAAAAAAAPwAAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD5AAAAAAAAAAAAAACFAAAA+QAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD5AAAAhQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA//8AAP//AADAAwAAwAMAAMfjAADP8wAAz/MAAM/zAADP8wAAz/MAAM/zAADH4wAAwAMAAMADAAD//wAA//8AAA==`,
             stIcon: `data:image/x-icon;base64,AAABAAEAEBAAAAEAIABoBAAAFgAAACgAAAAQAAAAIAAAAAEAIAAAAAAAQAQAABMLAAATCwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABbD6SgWw+ucFsPrkBbD6SgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAWw+uYFsPr/BbD6/wWw+ucAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAFsPrmBbD6/wWw+v8FsPrmAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABbD6SQWw+uYFsPrmBbD6SQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAFKRLShSkS+cUpEvkFKRLSgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAExi4EpMYuDnTGLg5Exi4EoAAAAAAAAAABSkS+YUpEv/FKRL/xSkS+cAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABMYuDmTGLg/0xi4P9MYuDnAAAAAAAAAAAUpEvmFKRL/xSkS/8UpEvmAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAATGLg5kxi4P9MYuD/TGLg5gAAAAAAAAAAFKRLSRSkS+YUpEvmFKRLSQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAExi4ElMYuDmTGLg5kxi4EkAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAMZ9E0rGfRPnxn0T5MZ9E0oAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADGfRPmxn0T/8Z9E//GfRPnAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAxn0T5sZ9E//GfRP/xn0T5gAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAMZ9E0nGfRPmxn0T5sZ9E0kAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA//8AAPw/AAD8PwAA/D8AAPw/AAD//wAAh+EAAIfhAACH4QAAh+EAAP//AAD8PwAA/D8AAPw/AAD8PwAA//8AAA==`,
@@ -2131,6 +2137,14 @@ Parsedown = (() => {
                         type: `other`
                     },
                     {
+                        id: `openSyncInTab`,
+                        name: `Open the automatic sync in a new tab.`,
+                        new: true,
+                        sg: true,
+                        st: true,
+                        type: `other`
+                    },
+                    {
                         id: `enableByDefault`,
                         name: `Enable new features and functionalities by default.`,
                         sg: true,
@@ -2167,6 +2181,12 @@ Parsedown = (() => {
                             {
                                 id: `hideButtons_as`,
                                 name: `Archive Searcher Button`,
+                                sg: true
+                            },
+                            {
+                                id: `hideButtons_aic`,
+                                name: `Attached Images Carousel Button`,
+                                new: true,
                                 sg: true
                             },
                             {
@@ -5720,8 +5740,10 @@ Parsedown = (() => {
                                 <div class="page__outer-wrap">
                                     <div class="page__inner-wrap"></div>
                                 </div>
+                                ${responseHtml.getElementsByClassName(`footer__outer-wrap`)[0].outerHTML}
                             `;
                             esgst.header = document.body.firstElementChild;
+                            esgst.footer = document.body.lastElementChild;
                             esgst.headerNavigationLeft = document.getElementsByClassName(`nav__left-container`)[0];
                             esgst.pageOuterWrap = esgst.header.nextElementSibling;
                             esgst.mainContext = esgst.pageOuterWrap.lastElementChild;
@@ -5761,7 +5783,9 @@ Parsedown = (() => {
                             checkMissingDiscussions();
                         }
                     } else if (esgst.bgl && esgst.giveawayPath) {
-                        let summary = document.getElementsByClassName(`table--summary`)[0];
+                        let backup, summary;
+                        backup = esgst.pageOuterWrap.innerHTML;
+                        summary = document.getElementsByClassName(`table--summary`)[0];
                         summary = summary && summary.lastElementChild.firstElementChild.lastElementChild;
                         if (summary) {
                             let match = summary.textContent.match(/you\s(have\s(been\s)?|previously\s)blacklisted/);
@@ -5772,16 +5796,22 @@ Parsedown = (() => {
                                 `;
                                 request(null, null, `GET`, false, location.pathname, response => {
                                     let responseHtml = DOM.parse(response.responseText);
-                                    esgst.featuredContainer = insertHtml(esgst.pageOuterWrap, `beforeBegin`, `<div class="featured__container"></div>`);
-                                    esgst.featuredContainer.innerHTML = responseHtml.getElementsByClassName(`featured__container`)[0].innerHTML;
-                                    esgst.pageOuterWrap.innerHTML = responseHtml.getElementsByClassName(`page__outer-wrap`)[0].innerHTML;
-                                    getElements(logoutButton);
-                                    esgst.sidebar.insertAdjacentHTML(`afterBegin`, `
-                                        <div class="sidebar__error is-disabled">
-                                            <i class="fa fa-exclamation-circle"></i> ${match[1] ? (match[1] === `previously ` ? `Off Your Blacklist<br>(${summary.firstElementChild.outerHTML})` : `You Are Blacklisted`) : `On Your Blacklist`}
-                                        </div>
-                                    `);
-                                    loadFeatures();
+                                    if (responseHtml.getElementsByClassName(`table--summary`)[0]) {
+                                        esgst.pageOuterWrap.innerHTML = backup;
+                                        esgst.pageOuterWrap.getElementsByClassName(`table--summary`)[0].lastElementChild.firstElementChild.lastElementChild.insertAdjacentHTML(`beforeEnd`, `<br><br><span class="esgst-red">This is a group/whitelist giveaway and therefore cannot be loaded by Blacklist Giveaway Loader.</span>`);
+                                        loadFeatures();
+                                    } else {
+                                        esgst.featuredContainer = insertHtml(esgst.pageOuterWrap, `beforeBegin`, `<div class="featured__container"></div>`);
+                                        esgst.featuredContainer.innerHTML = responseHtml.getElementsByClassName(`featured__container`)[0].innerHTML;
+                                        esgst.pageOuterWrap.innerHTML = responseHtml.getElementsByClassName(`page__outer-wrap`)[0].innerHTML;
+                                        getElements(logoutButton);
+                                        esgst.sidebar.insertAdjacentHTML(`afterBegin`, `
+                                            <div class="sidebar__error is-disabled">
+                                                <i class="fa fa-exclamation-circle"></i> ${match[1] ? (match[1] === `previously ` ? `Off Your Blacklist<br>(${summary.firstElementChild.outerHTML})` : `You Are Blacklisted`) : `On Your Blacklist`}
+                                            </div>
+                                        `);
+                                        loadFeatures();
+                                    }
                                 }, true);
                             } else {
                                 loadFeatures();
@@ -9810,28 +9840,43 @@ Parsedown = (() => {
             }
             setSync(false, callback);
         } else if (!getValue(`esgst_isSyncing`)) {
-            let parameters = ``;
-            setValue(`esgst_isSyncing`, 1);
-            [`Groups`, `Whitelist`, `Blacklist`, `HiddenGames`, `Games`, `WonGames`, `ReducedCvGames`, `NoCvGames`, `Giveaways`].forEach(key => {
-                if (esgst[`autoSync${key}`] && Date.now() - esgst[`lastSync${key}`] > esgst[`autoSync${key}`] * 86400000) {
-                    parameters += `${key}=1&`;
-                }
-            });
-            if (parameters) {
-                if (esgst.sg) {
-                    setSetting(`username`, document.getElementsByClassName(`nav__avatar-outer-wrap`)[0].href.match(/\/user\/(.+)/)[1]);
-                    setSetting(`avatar`, document.getElementsByClassName(`nav__avatar-inner-wrap`)[0].style.backgroundImage.match(/\("(.+)"\)/)[1]);
+            if (esgst.openSyncInTab) {
+                let parameters = ``;
+                setValue(`esgst_isSyncing`, 1);
+                [`Groups`, `Whitelist`, `Blacklist`, `HiddenGames`, `Games`, `WonGames`, `ReducedCvGames`, `NoCvGames`, `Giveaways`].forEach(key => {
+                    if (esgst[`autoSync${key}`] && Date.now() - esgst[`lastSync${key}`] > esgst[`autoSync${key}`] * 86400000) {
+                        parameters += `${key}=1&`;
+                    }
+                });
+                if (parameters) {
+                    if (esgst.sg) {
+                        setSetting(`username`, document.getElementsByClassName(`nav__avatar-outer-wrap`)[0].href.match(/\/user\/(.+)/)[1]);
+                        setSetting(`avatar`, document.getElementsByClassName(`nav__avatar-inner-wrap`)[0].style.backgroundImage.match(/\("(.+)"\)/)[1]);
+                    } else {
+                        setSetting(`avatar`, document.getElementsByClassName(`nav_avatar`)[0].style.backgroundImage.match(/\("(.+)"\)/)[1]);
+                    }
+                    open(`/esgst/sync?${parameters.replace(/&$/, ``)}`);
                 } else {
-                    setSetting(`avatar`, document.getElementsByClassName(`nav_avatar`)[0].style.backgroundImage.match(/\("(.+)"\)/)[1]);
+                    delValue(`esgst_isSyncing`);
                 }
-                open(`/esgst/sync?${parameters.replace(/&$/, ``)}`);
             } else {
-                delValue(`esgst_isSyncing`);
+                let parameters = {};
+                setValue(`esgst_isSyncing`, 1);
+                [`Groups`, `Whitelist`, `Blacklist`, `HiddenGames`, `Games`, `WonGames`, `ReducedCvGames`, `NoCvGames`, `Giveaways`].forEach(key => {
+                    if (esgst[`autoSync${key}`] && Date.now() - esgst[`lastSync${key}`] > esgst[`autoSync${key}`] * 86400000) {
+                        parameters[key] = 1;
+                    }
+                });
+                if (Object.keys(parameters).length > 0) {
+                    setSync(false, null, parameters);
+                } else {
+                    delValue(`esgst_isSyncing`);
+                }
             }
         }
     }
 
-    function setSync(autoSync, mainCallback) {
+    function setSync(autoSync, mainCallback, parameters) {
         var popup, syncer;
         syncer = {
             autoSync: autoSync,
@@ -9839,12 +9884,10 @@ Parsedown = (() => {
         };
         if (esgst.firstInstall) {
             sync(syncer, mainCallback);
-        } else if (syncer.autoSync || mainCallback) {
-            popup = new Popup(`fa-refresh`, `Sync`);
-            if (!syncer.autoSync) {
+        } else if (syncer.autoSync || mainCallback || parameters) {
+           syncer.popup = popup = new Popup(parameters ? `fa-circle-o-notch fa-spin` : `fa-refresh`, parameters ? `ESGST is syncing... Please wait until the sync is complete to close this popup.` : `Sync`);
+            if (!syncer.autoSync && !parameters) {
                 popup.description.insertAdjacentHTML(`afterBegin`, `<div class="esgst-description">By selecting a number X in the dropdown menu next to each data other than 0, you are enabling automatic sync for that data (which means the data will be synced every X days).</div>`);
-            }
-            if (!syncer.autoSync) {
                 syncer.switches = {
                     syncGroups: new ToggleSwitch(popup.scrollable, `syncGroups`, false, `Steam Groups`, false, false, null, esgst.syncGroups),
                     syncWhitelist: new ToggleSwitch(popup.scrollable, `syncWhitelist`, false, `Whitelist`, false, false, null, esgst.syncWhitelist),
@@ -9869,12 +9912,19 @@ Parsedown = (() => {
                 <div class="esgst-hidden esgst-popup-progress"></div>
             `);
             syncer.scrollable = popup.scrollable;
-            set = new ButtonSet(`green`, `grey`, `fa-refresh`, `fa-times`, `Sync`, `Cancel`, sync.bind(null, syncer, mainCallback), cancelSync.bind(null, syncer, mainCallback));
-            popup.description.appendChild(set.set);
-            popup.onClose = mainCallback;
+            if (!parameters) {
+                set = new ButtonSet(`green`, `grey`, `fa-refresh`, `fa-times`, `Sync`, `Cancel`, sync.bind(null, syncer, mainCallback), cancelSync.bind(null, syncer, mainCallback));
+                popup.description.appendChild(set.set);
+            }
+            if (mainCallback) {
+                popup.onClose = mainCallback;
+            }
             popup.open();
             if (syncer.autoSync) {
                 set.trigger();
+            } else if (parameters) {
+                syncer.parameters = parameters;
+                sync(syncer)
             }
         } else {
             document.body.innerHTML = ``;
@@ -9963,6 +10013,11 @@ Parsedown = (() => {
         }
         if (mainCallback) {
             mainCallback();
+        }
+        if (syncer.parameters && syncer.popup) {
+            syncer.popup.icon.classList.remove(`fa-circle-o-notch`, `fa-spin`);
+            syncer.popup.icon.classList.add(`fa-check`);
+            syncer.popup.title.textContent = `Done! You can close this now.`;
         }
     }
 
@@ -11179,6 +11234,9 @@ Parsedown = (() => {
                 element = elements[i].closest(`.table__row-inner-wrap`);
                 if (element.querySelector(`.table__gift-feedback-awaiting-reply[data-feedback="0"]:not(.is-hidden), [data-popup="popup--not-received"]`)) {
                     info = getGameInfo(element);
+                    if (!savedGames[info.type][info.id]) {
+                        savedGames[info.type][info.id] = {};
+                    }
                     savedGames[info.type][info.id].won = 1;
                 }
             }
@@ -11515,12 +11573,15 @@ Parsedown = (() => {
         let buttons, i;
         buttons = document.querySelectorAll(`.sidebar__search-container .fa-search, .esgst-qgs-container .fa-search`);
         for (i = buttons.length - 1; i > -1; --i) {
-            let button = buttons[i];
+            let button, input;
+            button = buttons[i];
+            input = button.previousElementSibling;
             button.classList.add(`esgst-clickable`);
             button.addEventListener(`click`, event => {
-                let newEvent = new Event(`keypress`);
-                newEvent.which = 13;
-                button.previousElementSibling.dispatchEvent(newEvent);
+                let value = input.value.trim();
+                if (value) {
+                    location.href = `${esgst.searchUrl.replace(/page=/, ``)}q=${value}`;
+                }
             });
         }
     }
@@ -11699,6 +11760,16 @@ Parsedown = (() => {
                     source: comment && comment.querySelector(`.comment__summary`).id,
                     url: url
                 });
+                if (!esgst.aicButton) {
+                    esgst.aicButton = insertHtml(esgst.hideButtons && esgst.hideButtons_aic ? esgst.leftButtons : esgst.mainPageHeading, `afterBegin`, `
+                        <div class="esgst-heading-button" title="View attached images">
+                            <i class="fa fa-image"></i>
+                        </div>
+                    `);
+                    esgst.aicButton.addEventListener(`click`, () => {
+                        esgst.attachedImages[0].image.dispatchEvent(new Event(`click`));
+                    });
+                }
             }
             if (esgst.ail && !esgst.vai) {
                 image.removeAttribute(`src`);
@@ -29260,7 +29331,7 @@ Parsedown = (() => {
                 });
                 sections[key].section = createMenuSection(SMMenu, null, ++j, sections[key].newBelow ? `
                     <span class="esgst-bold esgst-red" title="There is a new feature/option in this section">
-                        <i class="fa fa-chevron-down"></i>
+                        <i class="fa fa-star"></i>
                     </span>
                     ${title}
                 ` : title);
@@ -29361,14 +29432,12 @@ Parsedown = (() => {
         `);
         if (Feature.new) {
             Menu.insertAdjacentHTML(`beforeEnd`, `
-                <span class="esgst-bold esgst-red" title="This is a new feature/option">
-                    <i class="fa fa-star"></i>
-                </span>
+                <span class="esgst-bold esgst-red" title="This is a new feature/option">[NEW]</span>
             `);
         } else if (Feature.newBelow) {
             Menu.insertAdjacentHTML(`beforeEnd`, `
                 <span class="esgst-bold esgst-red" title="There is a new feature/option in this section">
-                    <i class="fa fa-chevron-down"></i>
+                    <i class="fa fa-star"></i>
                 </span>
             `);
         }
@@ -32143,7 +32212,7 @@ Parsedown = (() => {
                 paginations.push(paginationNavigation.innerHTML);
             }
             fragment = document.createDocumentFragment();
-            if (esgst.cr) {
+            if (esgst.cr && esgst.discussionPath) {
                 reverseComments(context);
             }
             if (!refreshAll) {
@@ -34572,10 +34641,11 @@ Parsedown = (() => {
             }
 
             .esgst-ff {
-                background-color: inherit;
+                background-color: #95a4c0;
                 bottom: 0;
                 padding: 0;
                 position: fixed;
+                text-shadow: none;
                 width: 100%;
                 z-index: 999;
             }
@@ -34848,18 +34918,27 @@ Parsedown = (() => {
                 max-width: 100%;
             }
 
-            .esgst-aic-left-button {
+            .esgst-aic-left-button, .esgst-aic-right-button {
+                align-items: center;
                 cursor: pointer;
-                left: 60px;
+                display: flex;
+                height: 100%;
+                justify-content: center;
                 position: absolute;
-                top: 50%;
+                top: 0;
+                width: 25px;
+            }
+
+            .esgst-aic-left-button i, .esgst-aic-right-button i {
+                font-size: 25px;
+            }
+
+            .esgst-aic-left-button {
+                left: 50px;
             }
 
             .esgst-aic-right-button {
-                cursor: pointer;
                 right: 50px;
-                position: absolute;
-                top: 50%;
             }
 
             .esgst-popup-modal {
@@ -35857,11 +35936,15 @@ Parsedown = (() => {
                     align-items: center;
                 }
 
+                .esgst-header-menu-row:last-child {
+                    cursor: default;
+                }
+
                 .esgst-header-menu-row:not(:first-child) {
                     border-top: 1px dotted #d2d6e0;
                 }
 
-                .esgst-header-menu-row:hover, .esgst.header-menu-button:hover + .esgst-header-menu-button {
+                .esgst-header-menu-row:not(:last-child):hover, .esgst.header-menu-button:hover + .esgst-header-menu-button {
                     border-top-color: transparent;
                 }
 
@@ -35874,7 +35957,7 @@ Parsedown = (() => {
                     color: #fff
                 }
 
-                .esgst-header-menu-row:hover{
+                .esgst-header-menu-row:not(:last-child):hover{
                     background-image: linear-gradient(#63a0f4 0%, #63a0f4 100%);
                     text-shadow: none;
                 }
@@ -35909,11 +35992,11 @@ Parsedown = (() => {
                     font: 11px/13px Arial, sans-serif
                 }
 
-                .esgst-header-menu-row:hover .esgst-header-menu-name {
+                .esgst-header-menu-row:not(:last-child):hover .esgst-header-menu-name {
                     color: #fff;
                 }
 
-                .esgst-header-menu-row:hover .esgst-header-menu-description {
+                .esgst-header-menu-row:not(:last-child):hover .esgst-header-menu-description {
                     color: rgba(255, 255, 255, 0.7);
                 }
 
@@ -36092,6 +36175,26 @@ Parsedown = (() => {
     function loadChangelog(version) {
         var changelog, current, html, i, index, n, popup;
         changelog = [
+            {
+                date: `November 18, 2017`,
+                version: `7.8.1`,
+                changelog: `
+                    <ul>
+                        <li><a href="https://github.com/revilheart/ESGST/issues/214">#214</a> Fix a bug in Scroll To Top Button that happens in ESGST-generated pages</li>
+                        <li><a href="https://github.com/revilheart/ESGST/issues/215">#215</a> Fix a bug that happens when typing \` in Comment Formatting Helper with preview enabled</li>
+                        <li><a href="https://github.com/revilheart/ESGST/issues/212">#212</a> Fix a bug in Search Magnifying Glass Button that does not work outside of the main page</li>
+                        <li><a href="https://github.com/revilheart/ESGST/issues/210">#210</a> Show script version in the header menu</li>
+                        <li><a href="https://github.com/revilheart/ESGST/issues/209">#209</a> Improve the left/right buttons in Attached Images Carousel</li>
+                        <li><a href="https://github.com/revilheart/ESGST/issues/208">#208</a> Add button to start Attached Images Carousel from the header</li>
+                        <li><a href="https://github.com/revilheart/ESGST/issues/218">#218</a> Revert how new features/options are highlighted to the [NEW] text instead of the star icon</li>
+                        <li><a href="https://github.com/revilheart/ESGST/issues/219">#219</a> Fix a bug that happens when trying to load a group/whitelist giveaway in Blacklist Giveaway Loader</li>
+                        <li><a href="https://github.com/revilheart/ESGST/issues/220">#220</a> Fix a bug in Comments Reverser that reverses giveaways in the main page</li>
+                        <li><a href="https://github.com/revilheart/ESGST/issues/222">#222</a> Fix a bug that happens when syncing won games</li>
+                        <li><a href="https://github.com/revilheart/ESGST/issues/221">#221</a> Fix a style issue where popups keep shaking when already repositioned</li>
+                        <li><a href="https://github.com/revilheart/ESGST/issues/223">#223</a> Add option to open the automatic sync in a new tab</li>
+                    </ul>
+                `
+            },
             {
                 date: `November 16, 2017`,
                 version: `7.8.0`,
@@ -36661,6 +36764,11 @@ Parsedown = (() => {
                                     <p class="esgst-header-menu-description">Check out the changelog.</p>
                                 </div>
                             </div>
+                            <div class="esgst-header-menu-row">
+                                <div>
+                                    <p class="esgst-header-menu-description">Current Version: ${esgst.currentVersion}</p>
+                                </div>
+                            </div>
                         </div>
                     </div>
                     <div class="esgst-header-menu-button">
@@ -36686,7 +36794,7 @@ Parsedown = (() => {
             });
             arrow.addEventListener(`click`, toggleHeaderMenu.bind(null, arrow, dropdown));
             document.addEventListener(`click`, closeHeaderMenu.bind(null, arrow, dropdown, menu), true);
-            dropdown.firstElementChild.lastElementChild.addEventListener(`click`, loadChangelog);
+            dropdown.firstElementChild.lastElementChild.previousElementSibling.addEventListener(`click`, loadChangelog);
         };
         notifyNewVersion = version => {
             let message, popup;
@@ -36848,6 +36956,11 @@ Parsedown = (() => {
                                     <p class="esgst-header-menu-description">Check out the changelog.</p>
                                 </div>
                             </div>
+                            <div class="esgst-header-menu-row">
+                                <div>
+                                    <p class="esgst-header-menu-description">Current Version: ${esgst.currentVersion}</p>
+                                </div>
+                            </div>
                         </div>
                     </div>
                     <div class="esgst-header-menu-button">
@@ -36874,7 +36987,7 @@ Parsedown = (() => {
             arrow.addEventListener(`click`, toggleHeaderMenu.bind(null, arrow, dropdown));
             document.addEventListener(`click`, closeHeaderMenu.bind(null, arrow, dropdown, menu), true);
             dropdown.firstElementChild.firstElementChild.addEventListener(`click`, checkUpdate);
-            dropdown.firstElementChild.lastElementChild.addEventListener(`click`, loadChangelog);
+            dropdown.firstElementChild.lastElementChild.previousElementSibling.addEventListener(`click`, loadChangelog);
         };
         notifyNewVersion = version => {
             let message, popup;
