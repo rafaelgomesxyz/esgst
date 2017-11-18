@@ -11198,6 +11198,9 @@ Parsedown = (() => {
                 element = elements[i].closest(`.table__row-inner-wrap`);
                 if (element.querySelector(`.table__gift-feedback-awaiting-reply[data-feedback="0"]:not(.is-hidden), [data-popup="popup--not-received"]`)) {
                     info = getGameInfo(element);
+                    if (!savedGames[info.type][info.id]) {
+                        savedGames[info.type][info.id] = {};
+                    }
                     savedGames[info.type][info.id].won = 1;
                 }
             }
