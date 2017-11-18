@@ -2170,6 +2170,12 @@ Parsedown = (() => {
                                 sg: true
                             },
                             {
+                                id: `hideButtons_aic`,
+                                name: `Attached Images Carousel Button`,
+                                new: true,
+                                sg: true
+                            },
+                            {
                                 id: `hideButtons_cs`,
                                 name: `Comment Searcher`,
                                 sg: true,
@@ -11704,6 +11710,16 @@ Parsedown = (() => {
                     source: comment && comment.querySelector(`.comment__summary`).id,
                     url: url
                 });
+                if (!esgst.aicButton) {
+                    esgst.aicButton = insertHtml(esgst.hideButtons && esgst.hideButtons_aic ? esgst.leftButtons : esgst.mainPageHeading, `afterBegin`, `
+                        <div class="esgst-heading-button" title="View attached images">
+                            <i class="fa fa-image"></i>
+                        </div>
+                    `);
+                    esgst.aicButton.addEventListener(`click`, () => {
+                        esgst.attachedImages[0].image.dispatchEvent(new Event(`click`));
+                    });
+                }
             }
             if (esgst.ail && !esgst.vai) {
                 image.removeAttribute(`src`);
