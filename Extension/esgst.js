@@ -1364,6 +1364,7 @@ Parsedown = (() => {
                 </div>
             `);
             if (this.isCreated) {
+                this.icon = this.popup.firstElementChild.firstElementChild.firstElementChild;
                 this.title = this.popup.firstElementChild.lastElementChild.firstElementChild;
                 this.description = this.popup.firstElementChild.nextElementSibling;
                 this.scrollable = this.description.firstElementChild;
@@ -2129,6 +2130,14 @@ Parsedown = (() => {
                     {
                         id: `openSettingsInTab`,
                         name: `Open settings menu in a separate tab.`,
+                        sg: true,
+                        st: true,
+                        type: `other`
+                    },
+                    {
+                        id: `openSyncInTab`,
+                        name: `Open the automatic sync in a new tab.`,
+                        new: true,
                         sg: true,
                         st: true,
                         type: `other`
@@ -9829,28 +9838,43 @@ Parsedown = (() => {
             }
             setSync(false, callback);
         } else if (!getValue(`esgst_isSyncing`)) {
-            let parameters = ``;
-            setValue(`esgst_isSyncing`, 1);
-            [`Groups`, `Whitelist`, `Blacklist`, `HiddenGames`, `Games`, `WonGames`, `ReducedCvGames`, `NoCvGames`, `Giveaways`].forEach(key => {
-                if (esgst[`autoSync${key}`] && Date.now() - esgst[`lastSync${key}`] > esgst[`autoSync${key}`] * 86400000) {
-                    parameters += `${key}=1&`;
-                }
-            });
-            if (parameters) {
-                if (esgst.sg) {
-                    setSetting(`username`, document.getElementsByClassName(`nav__avatar-outer-wrap`)[0].href.match(/\/user\/(.+)/)[1]);
-                    setSetting(`avatar`, document.getElementsByClassName(`nav__avatar-inner-wrap`)[0].style.backgroundImage.match(/\("(.+)"\)/)[1]);
+            if (esgst.openSyncInTab) {
+                let parameters = ``;
+                setValue(`esgst_isSyncing`, 1);
+                [`Groups`, `Whitelist`, `Blacklist`, `HiddenGames`, `Games`, `WonGames`, `ReducedCvGames`, `NoCvGames`, `Giveaways`].forEach(key => {
+                    if (esgst[`autoSync${key}`] && Date.now() - esgst[`lastSync${key}`] > esgst[`autoSync${key}`] * 86400000) {
+                        parameters += `${key}=1&`;
+                    }
+                });
+                if (parameters) {
+                    if (esgst.sg) {
+                        setSetting(`username`, document.getElementsByClassName(`nav__avatar-outer-wrap`)[0].href.match(/\/user\/(.+)/)[1]);
+                        setSetting(`avatar`, document.getElementsByClassName(`nav__avatar-inner-wrap`)[0].style.backgroundImage.match(/\("(.+)"\)/)[1]);
+                    } else {
+                        setSetting(`avatar`, document.getElementsByClassName(`nav_avatar`)[0].style.backgroundImage.match(/\("(.+)"\)/)[1]);
+                    }
+                    open(`/esgst/sync?${parameters.replace(/&$/, ``)}`);
                 } else {
-                    setSetting(`avatar`, document.getElementsByClassName(`nav_avatar`)[0].style.backgroundImage.match(/\("(.+)"\)/)[1]);
+                    delValue(`esgst_isSyncing`);
                 }
-                open(`/esgst/sync?${parameters.replace(/&$/, ``)}`);
             } else {
-                delValue(`esgst_isSyncing`);
+                let parameters = {};
+                setValue(`esgst_isSyncing`, 1);
+                [`Groups`, `Whitelist`, `Blacklist`, `HiddenGames`, `Games`, `WonGames`, `ReducedCvGames`, `NoCvGames`, `Giveaways`].forEach(key => {
+                    if (esgst[`autoSync${key}`] && Date.now() - esgst[`lastSync${key}`] > esgst[`autoSync${key}`] * 86400000) {
+                        parameters[key] = 1;
+                    }
+                });
+                if (Object.keys(parameters).length > 0) {
+                    setSync(false, null, parameters);
+                } else {
+                    delValue(`esgst_isSyncing`);
+                }
             }
         }
     }
 
-    function setSync(autoSync, mainCallback) {
+    function setSync(autoSync, mainCallback, parameters) {
         var popup, syncer;
         syncer = {
             autoSync: autoSync,
@@ -9858,12 +9882,10 @@ Parsedown = (() => {
         };
         if (esgst.firstInstall) {
             sync(syncer, mainCallback);
-        } else if (syncer.autoSync || mainCallback) {
-            popup = new Popup(`fa-refresh`, `Sync`);
-            if (!syncer.autoSync) {
+        } else if (syncer.autoSync || mainCallback || parameters) {
+           syncer.popup = popup = new Popup(parameters ? `fa-circle-o-notch fa-spin` : `fa-refresh`, parameters ? `ESGST is syncing... Please wait until the sync is complete to close this popup.` : `Sync`);
+            if (!syncer.autoSync && !parameters) {
                 popup.description.insertAdjacentHTML(`afterBegin`, `<div class="esgst-description">By selecting a number X in the dropdown menu next to each data other than 0, you are enabling automatic sync for that data (which means the data will be synced every X days).</div>`);
-            }
-            if (!syncer.autoSync) {
                 syncer.switches = {
                     syncGroups: new ToggleSwitch(popup.scrollable, `syncGroups`, false, `Steam Groups`, false, false, null, esgst.syncGroups),
                     syncWhitelist: new ToggleSwitch(popup.scrollable, `syncWhitelist`, false, `Whitelist`, false, false, null, esgst.syncWhitelist),
@@ -9888,12 +9910,19 @@ Parsedown = (() => {
                 <div class="esgst-hidden esgst-popup-progress"></div>
             `);
             syncer.scrollable = popup.scrollable;
-            set = new ButtonSet(`green`, `grey`, `fa-refresh`, `fa-times`, `Sync`, `Cancel`, sync.bind(null, syncer, mainCallback), cancelSync.bind(null, syncer, mainCallback));
-            popup.description.appendChild(set.set);
-            popup.onClose = mainCallback;
+            if (!parameters) {
+                set = new ButtonSet(`green`, `grey`, `fa-refresh`, `fa-times`, `Sync`, `Cancel`, sync.bind(null, syncer, mainCallback), cancelSync.bind(null, syncer, mainCallback));
+                popup.description.appendChild(set.set);
+            }
+            if (mainCallback) {
+                popup.onClose = mainCallback;
+            }
             popup.open();
             if (syncer.autoSync) {
                 set.trigger();
+            } else if (parameters) {
+                syncer.parameters = parameters;
+                sync(syncer)
             }
         } else {
             document.body.innerHTML = ``;
@@ -9982,6 +10011,11 @@ Parsedown = (() => {
         }
         if (mainCallback) {
             mainCallback();
+        }
+        if (syncer.parameters && syncer.popup) {
+            syncer.popup.icon.classList.remove(`fa-circle-o-notch`, `fa-spin`);
+            syncer.popup.icon.classList.add(`fa-check`);
+            syncer.popup.title.textContent = `Done! You can close this now.`;
         }
     }
 
