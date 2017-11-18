@@ -1436,11 +1436,8 @@ Parsedown = (() => {
                 this.scrollable.style.maxHeight = `${innerHeight * 0.9 - (this.popup.offsetHeight - this.scrollable.offsetHeight)}px`;
             }
             if (!esgst.staticPopups) {
-                let newLeft = (innerWidth - this.popup.offsetWidth) / 2;
-                if (Math.abs(newLeft - this.popup.offsetLeft) > 10) {
-                    this.popup.style.left = `${newLeft}px`;
-                    this.popup.style.top = `${(innerHeight - this.popup.offsetHeight) / 2}px`;
-                }
+                this.popup.style.left = `${(innerWidth - this.popup.offsetWidth) / 2}px`;
+                this.popup.style.top = `${(innerHeight - this.popup.offsetHeight) / 2}px`;
             }
         }
     }
