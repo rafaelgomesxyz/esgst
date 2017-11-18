@@ -1436,8 +1436,13 @@ Parsedown = (() => {
                 this.scrollable.style.maxHeight = `${innerHeight * 0.9 - (this.popup.offsetHeight - this.scrollable.offsetHeight)}px`;
             }
             if (!esgst.staticPopups) {
-                this.popup.style.left = `${(innerWidth - this.popup.offsetWidth) / 2}px`;
-                this.popup.style.top = `${(innerHeight - this.popup.offsetHeight) / 2}px`;
+                let newLeft, newTop;
+                newLeft = (innerWidth - this.popup.offsetWidth) / 2;
+                newTop = (innerHeight - this.popup.offsetHeight) / 2;
+                if (Math.abs(newLeft - this.popup.offsetLeft) > 5 || Math.abs(newTop - this.popup.offsetTop) > 5) {
+                    this.popup.style.left = `${newLeft}px`;
+                    this.popup.style.top = `${newTop}px`;
+                }
             }
         }
     }
