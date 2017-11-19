@@ -3145,6 +3145,12 @@ Parsedown = (() => {
                                         sg: true
                                     },
                                     {
+                                        id: `gf_ratio`,
+                                        name: `Ratio`,
+                                        new: true,
+                                        sg: true
+                                    },
+                                    {
                                         id: `gf_rating`,
                                         name: `Rating`,
                                         sg: true
@@ -3317,12 +3323,14 @@ Parsedown = (() => {
                                 ],
                                 id: `gf_m`,
                                 name: `Multiple Filters`,
+                                newBelow: true,
                                 sg: true
                             }
                         ],
                         id: `gf`,
                         load: loadGf,
                         name: `Giveaway Filters`,
+                        newBelow: true,
                         sg: true,
                         sync: `Hidden Games, Owned/Wishlisted/Ignored Games, Won Games, Reduced CV Games, No CV Games and Giveaways`,
                         type: `giveaways`
@@ -13085,11 +13093,12 @@ Parsedown = (() => {
         if (!gf.advancedSearch) {
             basicFilters.classList.remove(`esgst-hidden`);
             [ { check: ((!esgst.createdPath || esgst.cewgd) && (!esgst.enteredPath || esgst.cewgd) && (!esgst.wonPath || esgst.cewgd)) || popup, maxValue: 10, minValue: 0, name: `Level` },
-                { check: !esgst.wonPath || popup, infinite: true, maxValue: 999999999, minValue: 0, name: `Entries` },
-                { check: !esgst.wonPath || popup, infinite: true, maxValue: 999999999, minValue: 1, name: `Copies` },
+                { check: !esgst.wonPath || popup, infinite: true, maxValue: 99999, minValue: 0, name: `Entries` },
+                { check: !esgst.wonPath || popup, infinite: true, maxValue: 99999, minValue: 1, name: `Copies` },
                 { check: ((!esgst.createdPath || esgst.cewgd) && (!esgst.enteredPath || esgst.cewgd) && (!esgst.wonPath || esgst.cewgd)) || popup, maxValue: 100, minValue: 0, name: `Points` },
                 { check: !esgst.wonPath || popup, maxValue: 43800, minValue: 0, name: `MinutesToEnd` },
                 { check: ((!esgst.enteredPath || esgst.cewgd) && !esgst.createdPath && !esgst.wonPath) || popup, maxValue: 100, minValue: 0, name: `Chance`, step: 0.01 },
+                { check: ((!esgst.enteredPath || esgst.cewgd) && !esgst.createdPath && !esgst.wonPath) || popup, maxValue: 99999, minValue: 0, name: `Ratio` },
                 { check: true, maxValue: 100, minValue: 0, name: `Rating` }
             ].forEach(filter => {
                 if (filter.check) {
@@ -13349,6 +13358,7 @@ Parsedown = (() => {
                 { key: `Points`, name: `points` },
                 { key: `MinutesToEnd`, name: `minutes to end` },
                 { key: `Chance`, name: `chance` },
+                { key: `Ratio`, name: `ratio` },
                 { key: `Rating`, name: `rating` }
             ].forEach(filter => {
                 if (typeof preset[`max${filter.key}`] !== `undefined`) {
@@ -13601,6 +13611,7 @@ Parsedown = (() => {
                     { key: `Points`, name: `points` },
                     { key: `MinutesToEnd`, name: `minutes to end` },
                     { key: `Chance`, name: `chance` },
+                    { key: `Ratio`, name: `ratio` },
                     { key: `Rating`, name: `rating` }
                 ].forEach(filter => {
                     max = exception[`max${filter.key}`];
@@ -13693,6 +13704,7 @@ Parsedown = (() => {
             { key: `Points`, name: `Points` },
             { key: `MinutesToEnd`, name: `Minutes To End` },
             { key: `Chance`, name: `Chance` },
+            { key: `Ratio`, name: `Ratio` },
             { key: `Rating`, name: `Rating` }
         ].forEach(filter => {
             context = insertHtml(basicFilters, `beforeEnd`, `
@@ -13767,7 +13779,7 @@ Parsedown = (() => {
     function saveGfException(exceptionCount, gf, preset, popup, callback) {
         var exception, i, presets;
         exception = { name: popup.name.value };
-        [`Level`, `Entries`, `Copies`, `Points`, `MinutesToEnd`, `Chance`, `Rating`].forEach(name => {
+        [`Level`, `Entries`, `Copies`, `Points`, `MinutesToEnd`, `Chance`, `Ratio`, `Rating`].forEach(name => {
             if (popup[`max${name}`].value.length) {
                 exception[`max${name}`] = parseFloat(popup[`max${name}`].value);
             }
@@ -13870,7 +13882,7 @@ Parsedown = (() => {
 
     function filterGfException(gf, giveaway) {
         var basicFilters, categoryFilters, filtered, i, j, key, maxKey, minKey, minutes, n, name, typeFilters, value;
-        basicFilters = [`Level`, `Entries`, `Copies`, `Points`, `MinutesToEnd`, `Chance`, `Rating`];
+        basicFilters = [`Level`, `Entries`, `Copies`, `Points`, `MinutesToEnd`, `Chance`, `Ratio`, `Rating`];
         typeFilters = [`pinned`, `group`, `whitelist`, `regionRestricted`, `created`, `received`, `notReceived`, `awaitingFeedback`, `entered`, `started`, `ended`, `deleted`, `owned`, `wishlisted`, `hidden`, `ignored`, `previouslyEntered`, `previouslyWon`, `fullCV`, `reducedCV`, `noCV`];
         categoryFilters = [`removed`, `tradingCards`, `achievements`, `multiplayer`, `steamCloud`, `linux`, `mac`, `dlc`, `dlcFree`, `dlcNonFree`, `package`, `genres`];
         filtered = false;
@@ -13933,7 +13945,7 @@ Parsedown = (() => {
 
     function filterGfGiveaway(gf, giveaway) {
         var basicFilters, categoryFilters, filtered, i, j, key, maxKey, minKey, minutes, n, name, override, typeFilters, value;
-        basicFilters = [`Level`, `Entries`, `Copies`, `Points`, `MinutesToEnd`, `Chance`, `Rating`];
+        basicFilters = [`Level`, `Entries`, `Copies`, `Points`, `MinutesToEnd`, `Chance`, `Ratio`, `Rating`];
         typeFilters = [`pinned`, `group`, `whitelist`, `regionRestricted`, `created`, `received`, `notReceived`, `awaitingFeedback`, `entered`, `started`, `ended`, `deleted`, `owned`, `wishlisted`, `hidden`, `ignored`, `previouslyEntered`, `previouslyWon`, `fullCV`, `reducedCV`, `noCV`];
         categoryFilters = [`removed`, `tradingCards`, `achievements`, `multiplayer`, `steamCloud`, `linux`, `mac`, `dlc`, `dlcFree`, `dlcNonFree`, `package`, `genres`];
         filtered = false;
