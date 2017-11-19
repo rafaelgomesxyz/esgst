@@ -15409,13 +15409,15 @@ Parsedown = (() => {
                         if (mainCallback) {
                             popup.onClose = mainCallback;
                         }
-                        set = new ButtonSet(`grey`, `grey`, `fa-eye`, `fa-circle-o-notch fa-spin`, `Add Description To Filters`, `Filtering...`, function (callback) {
-                            esgst.elgb_filters = `${esgst.elgb_filters}|${description.textContent.replace(/[^a-zA-Z]/g, ``).toLowerCase()}`;
-                            setSetting(`elgb_filters`, esgst.elgb_filters);
-                            callback();
-                            set.remove();
-                        }).set;
-                        popup.description.appendChild(set);
+                        if (esgst.elgb_f) {
+                            set = new ButtonSet(`grey`, `grey`, `fa-eye`, `fa-circle-o-notch fa-spin`, `Add Description To Filters`, `Filtering...`, function (callback) {
+                                esgst.elgb_filters = `${esgst.elgb_filters}|${description.textContent.replace(/[^a-zA-Z]/g, ``).toLowerCase()}`;
+                                setSetting(`elgb_filters`, esgst.elgb_filters);
+                                callback();
+                                set.remove();
+                            }).set;
+                            popup.description.appendChild(set);
+                        }
                         popup.open(function () {
                             box.focus();
                         });
@@ -15423,13 +15425,15 @@ Parsedown = (() => {
                         if (mainCallback) {
                             popup.onClose = mainCallback;
                         }
-                        set = new ButtonSet(`grey`, `grey`, `fa-eye`, `fa-circle-o-notch fa-spin`, `Add Description To Filters`, `Filtering...`, function (callback) {
-                            esgst.elgb_filters = `${esgst.elgb_filters}|${description.textContent.replace(/[^a-zA-Z]/g, ``).toLowerCase()}`;
-                            setSetting(`elgb_filters`, esgst.elgb_filters);
-                            callback();
-                            set.remove();
-                        }).set;
-                        popup.description.appendChild(set);
+                        if (esgst.elgb_f) {
+                            set = new ButtonSet(`grey`, `grey`, `fa-eye`, `fa-circle-o-notch fa-spin`, `Add Description To Filters`, `Filtering...`, function (callback) {
+                                esgst.elgb_filters = `${esgst.elgb_filters}|${description.textContent.replace(/[^a-zA-Z]/g, ``).toLowerCase()}`;
+                                setSetting(`elgb_filters`, esgst.elgb_filters);
+                                callback();
+                                set.remove();
+                            }).set;
+                            popup.description.appendChild(set);
+                        }
                         popup.open();
                     }
                 } else if ((esgst.elgb_r && !esgst.elgb_r_d) || mainCallback) {
