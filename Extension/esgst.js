@@ -32921,19 +32921,23 @@ Parsedown = (() => {
         return menu;
     }
 
+    function openSmallWindow(url) {
+        open(url, `esgst`, `height=600,left=${(screen.width - 600) / 2},top=${(screen.height - 600) / 2},width=600`);
+    }
+
     function loadImportFile(dm, dropbox, googleDrive, oneDrive, space, callback) {
         var file;
         if (dropbox) {
             delValue(`dropboxToken`);
-            open(`https://www.dropbox.com/oauth2/authorize?redirect_uri=https://${location.hostname}/esgst/dropbox&response_type=token&client_id=nix7kvchwa8wdvj`);
+            openSmallWindow(`https://www.dropbox.com/oauth2/authorize?redirect_uri=https://${location.hostname}/esgst/dropbox&response_type=token&client_id=nix7kvchwa8wdvj`);
             checkDropboxComplete(null, dm, callback);
         } else if (googleDrive) {
             delValue(`googleDriveToken`);
-            open(`https://accounts.google.com/o/oauth2/v2/auth?redirect_uri=https://${location.hostname}/esgst/google-drive&response_type=token&client_id=102804278399-95kit5e09mdskdta7eq97ra7tuj20qps.apps.googleusercontent.com&scope=https://www.googleapis.com/auth/drive.appdata`);
+            openSmallWindow(`https://accounts.google.com/o/oauth2/v2/auth?redirect_uri=https://${location.hostname}/esgst/google-drive&response_type=token&client_id=102804278399-95kit5e09mdskdta7eq97ra7tuj20qps.apps.googleusercontent.com&scope=https://www.googleapis.com/auth/drive.appdata`);
             checkGoogleDriveComplete(null, dm, callback);
         } else if (oneDrive) {
             delValue(`oneDriveToken`);
-            open(`https://login.microsoftonline.com/common/oauth2/v2.0/authorize?redirect_uri=https://www.steamgifts.com/esgst/onedrive&response_type=token&client_id=1781429b-289b-4e6e-877a-e50015c0af21&scope=files.readwrite`);
+            openSmallWindow(`https://login.microsoftonline.com/common/oauth2/v2.0/authorize?redirect_uri=https://www.steamgifts.com/esgst/onedrive&response_type=token&client_id=1781429b-289b-4e6e-877a-e50015c0af21&scope=files.readwrite`);
             checkOneDriveComplete(null, dm, callback);
         } else {
             file = dm.input.files[0];
@@ -33712,15 +33716,15 @@ Parsedown = (() => {
             if (dm.type === `export` || esgst.settings.exportBackup) {
                 if (dropbox || (dm.type !== `export` && esgst.settings.exportBackupIndex === 1)) {
                     delValue(`dropboxToken`);
-                    open(`https://www.dropbox.com/oauth2/authorize?redirect_uri=https://${location.hostname}/esgst/dropbox&response_type=token&client_id=nix7kvchwa8wdvj`);
+                    openSmallWindow(`https://www.dropbox.com/oauth2/authorize?redirect_uri=https://${location.hostname}/esgst/dropbox&response_type=token&client_id=nix7kvchwa8wdvj`);
                     checkDropboxComplete(data, dm, callback);
                 } else if (googleDrive || (dm.type !== `export` && esgst.settings.exportBackupIndex === 2)) {
                     delValue(`googleDriveToken`);
-                    open(`https://accounts.google.com/o/oauth2/v2/auth?redirect_uri=https://${location.hostname}/esgst/google-drive&response_type=token&client_id=102804278399-95kit5e09mdskdta7eq97ra7tuj20qps.apps.googleusercontent.com&scope=https://www.googleapis.com/auth/drive.appdata`);
+                    openSmallWindow(`https://accounts.google.com/o/oauth2/v2/auth?redirect_uri=https://${location.hostname}/esgst/google-drive&response_type=token&client_id=102804278399-95kit5e09mdskdta7eq97ra7tuj20qps.apps.googleusercontent.com&scope=https://www.googleapis.com/auth/drive.appdata`);
                     checkGoogleDriveComplete(data, dm, callback);
                 } else if (oneDrive || (dm.type !== `export` && esgst.settings.exportBackupIndex === 3)) {
                     delValue(`oneDriveToken`);
-                    open(`https://login.microsoftonline.com/common/oauth2/v2.0/authorize?redirect_uri=https://www.steamgifts.com/esgst/onedrive&response_type=token&client_id=1781429b-289b-4e6e-877a-e50015c0af21&scope=files.readwrite`);
+                    openSmallWindow(`https://login.microsoftonline.com/common/oauth2/v2.0/authorize?redirect_uri=https://www.steamgifts.com/esgst/onedrive&response_type=token&client_id=1781429b-289b-4e6e-877a-e50015c0af21&scope=files.readwrite`);
                     checkOneDriveComplete(data, dm, callback);
                 } else {
                     data = new Blob([JSON.stringify(data)]);
