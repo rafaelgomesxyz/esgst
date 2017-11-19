@@ -32079,7 +32079,7 @@ Parsedown = (() => {
             paginations = [esgst.paginationNavigation ? esgst.paginationNavigation.innerHTML : ``];
             reverseScrolling = esgst.es_r && esgst.discussionPath;
             if (reverseScrolling) {
-                if (esgst.currentPage === 1 && esgst.paginationNavigation && document.referrer.match(/\/discussions/)) {
+                if (esgst.currentPage === 1 && esgst.paginationNavigation && document.referrer.match(/www.steamgifts.com\/($|discussions|messages)/)) {
                     for (i = 0, n = mainContext.children.length; i < n; ++i) {
                         mainContext.children[0].remove();
                     }
