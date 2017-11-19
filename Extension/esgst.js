@@ -23141,6 +23141,7 @@ Parsedown = (() => {
                         addRMLLink(MR.Container, [Reply]);
                         loadEndlessFeatures(Reply);
                         MR.Box.remove();
+                        MR.Box = null;
                         MR.Children.appendChild(Reply);
                         location.hash = id;
                     });
@@ -23169,6 +23170,7 @@ Parsedown = (() => {
                         addRMLLink(MR.Container, [Reply]);
                         loadEndlessFeatures(Reply);
                         MR.Box.remove();
+                        MR.Box = null;
                         MR.Children.appendChild(Reply);
                         location.hash = id;
                     });
