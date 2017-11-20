@@ -5119,7 +5119,7 @@ Parsedown = (() => {
                 addStyle();
                 var sibling, height;
                 if (esgst.profilePath && esgst.autoSync) {
-                    document.getElementsByClassName(`form__sync-default`)[0].addEventListener(`click`, setSync.bind(null, true, null));
+                    document.getElementsByClassName(`form__sync-default`)[0].addEventListener(`click`, setSync.bind(null, true, null, null));
                 }
                 if (esgst.menuPath) {
                     esgst.favicon.href = esgst.icon;
