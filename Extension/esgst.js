@@ -9948,7 +9948,7 @@ Parsedown = (() => {
         if (mainCallback) {
             mainCallback();
         }
-        if (syncer.set) {
+        if (syncer.set && syncer.autoSync) {
             syncer.set.set.remove();
         }
         if (syncer.parameters && syncer.popup) {
