@@ -9845,7 +9845,7 @@ Parsedown = (() => {
             syncer.progress = insertHtml(popup.description, `beforeEnd`, `
                 <div class="esgst-hidden esgst-popup-progress"></div>
             `);
-            syncer.scrollable = popup.scrollable;
+            syncer.results = insertHtml(popup.scrollable, `afterBegin`, `<div></div>`);
             if (!parameters) {
                 syncer.set = new ButtonSet(`green`, `grey`, `fa-refresh`, `fa-times`, `Sync`, `Cancel`, sync.bind(null, syncer, mainCallback), cancelSync.bind(null, syncer, mainCallback));
                 popup.description.appendChild(syncer.set.set);
@@ -9868,7 +9868,7 @@ Parsedown = (() => {
                     <div></div>
                 </div>
             `);
-            syncer.scrollable = description.firstElementChild;
+            syncer.results = description.firstElementChild;
             syncer.progress = description.lastElementChild;
             syncer.parameters = getParameters();
             sync(syncer);
@@ -9907,6 +9907,7 @@ Parsedown = (() => {
     function sync(syncer, mainCallback, callback) {
         if (!esgst.firstInstall) {
             setSetting(`lastSync`, Date.now());
+            syncer.results.innerHTML = ``;
             syncer.progress.classList.remove(`esgst-hidden`);
             syncer.progress.innerHTML = `
                 <i class="fa fa-circle-o-notch fa-spin"></i>
@@ -10041,7 +10042,7 @@ Parsedown = (() => {
                             </div>
                         `;
                     }
-                    syncer.scrollable.insertAdjacentHTML(`afterBegin`, html);
+                    syncer.results.insertAdjacentHTML(`afterBegin`, html);
                     callback();
                 });
             }
@@ -10444,8 +10445,8 @@ Parsedown = (() => {
 
     function continueSyncStep5(syncer, callback, games, html) {
         if (html) {
-            syncer.scrollable.insertAdjacentHTML(`afterBegin`, html);
-            getSyncGameNames(syncer.scrollable);
+            syncer.results.insertAdjacentHTML(`afterBegin`, html);
+            getSyncGameNames(syncer.results);
         }
         if (!syncer.autoSync && ((syncer.parameters && syncer.parameters.WonGames) || (!syncer.parameters && esgst.settings.syncWonGames))) {
             syncer.progress.lastElementChild.textContent = `Syncing your won games...`;
