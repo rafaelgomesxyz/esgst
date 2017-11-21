@@ -1587,6 +1587,7 @@ Parsedown = (() => {
             enteredPath: location.pathname.match(/^\/giveaways\/entered/),
             commentsPath: location.pathname.match(/^\/(giveaway\/(?!.*\/(entries|winners|groups))|discussion\/|support\/ticket\/|trade\/)/),
             accountPath: location.pathname.match(/^\/account/),
+            aboutPath: location.pathname.match(/^\/(about|legal)/),
             whitelistPath: location.pathname.match(/^\/account\/manage\/whitelist/),
             blacklistPath: location.pathname.match(/^\/account\/manage\/blacklist/),
             inboxPath: location.pathname.match(/^\/messages/),
@@ -9088,9 +9089,6 @@ Parsedown = (() => {
                     </div>
                 `));
             }
-            if (esgst.namwc_h) {
-                esgst.userFeatures.push(highlightNamwcUsers);
-            }
         }
 
         if (esgst.wbc) {            
@@ -9115,17 +9113,10 @@ Parsedown = (() => {
                 `);
                 addWBCButton(true, esgst.wbcButton);
             }
-            if (esgst.wbc_h) {
-                esgst.userFeatures.push(addWbcIcons);
-            }
         }
 
         if (esgst.mt) {
             loadMt();
-        }
-
-        if (esgst.wbh && !esgst.accountPath) {
-            esgst.userFeatures.push(addWbhIcons);
         }
 
         if (esgst.iwh && (esgst.winnersPath || esgst.inboxPath)) {
@@ -9160,14 +9151,9 @@ Parsedown = (() => {
             esgst.gameFeatures.push(getGcGames);
         }
 
-        if (esgst.ut) {            
-            esgst.userFeatures.push(getUtTags);
-        }
-
         if (esgst.ap) {            
             esgst.endlessFeatures.push(getApAvatars);
             getApAvatars(document);
-            esgst.userFeatures.push(getInlineApAvatars);
         }
 
         if (esgst.sttb) {
@@ -24982,62 +24968,6 @@ Parsedown = (() => {
         }
     }
 
-    function highlightNamwcUsers(currentUsers) {
-        var container, context, highlight, html, i, icon, id, key, matches, n, notActivated, results, savedUser, title;
-        for (key in esgst.users.users) {
-            savedUser = esgst.users.users[key];
-            if (esgst.sg) {
-                id = savedUser.username;
-            } else {
-                id = key;
-            }
-            if (currentUsers[id] && savedUser.namwc && savedUser.namwc.results) {
-                results = savedUser.namwc.results;
-                if (results.activated && (results.notMultiple || (results.multiple && esgst.namwc_h_m))) {
-                    highlight = `positive`;
-                    icon = `fa-thumbs-up`;
-                } else if (results.unknown) {
-                    highlight = `unknown`;
-                    icon = `fa-warning`;
-                } else {
-                    highlight = `negative`;
-                    icon = `fa-thumbs-down`;
-                }
-                if (((highlight === `positive` || highlight === `unknown`) && !esgst.namwc_h_f) || highlight === `negative`) {
-                    if (results.unknown) {
-                        notActivated = `?`;
-                    } else {
-                        notActivated = results.notActivated;
-                    }
-                    title = `${savedUser.username} has ${notActivated} not activated wins and ${results.multiple} multiple wins (last checked ${getTimestamp(savedUser.namwc.lastCheck / 1e3)})`;
-                    if (esgst.namwc_h_i || esgst.wbh_w || esgst.wbh_b) {
-                        html = `
-                            <span class="esgst-user-icon" title="${title}">
-                                <i class="fa ${icon} esgst-${highlight}"></i>
-                            </span>
-                        `;
-                        matches = currentUsers[id];
-                        for (i = 0, n = matches.length; i < n; ++i) {
-                            context = matches[i];
-                            container = context.parentElement;
-                            if (container.classList.contains(`comment__username`)) {
-                                context = container;
-                            }
-                            context.insertAdjacentHTML(`beforeBegin`, html);
-                        }
-                    } else {
-                        matches = currentUsers[id];
-                        for (i = 0, n = matches.length; i < n; ++i) {
-                            context = matches[i];
-                            context.classList.add(`esgst-namwc-highlight`, `esgst-${highlight}`);
-                            context.title = title;
-                        }
-                    }
-                }
-            }
-        }
-    }
-
     /* [NRF] Not Received Finder */
 
     function addNrfButton(profile, savedUser) {
@@ -26096,76 +26026,6 @@ Parsedown = (() => {
                     });
                 } else {
                     setTimeout(getWBCUsers, 0, WBC, ++NextPage, CurrentPage, URL, Callback, document);
-                }
-            }
-        }
-    }
-
-    function addWbcIcons(currentUsers) {
-        var container, context, html, i, id, key, lastChecked, matches, n, result, savedUser;
-        for (key in esgst.users.users) {
-            savedUser = esgst.users.users[key];
-            id = esgst.sg ? savedUser.username : key;
-            if (currentUsers[id] && savedUser.wbc) {
-                result = savedUser.wbc.result;
-                if ((result === `whitelisted`) || ((result === `blacklisted`) && esgst.wbc_b)) {
-                    lastChecked = getTimestamp(savedUser.wbc.lastCheck / 1e3);
-                    html = `
-                        <span class="esgst-user-icon" title="${savedUser.username} has ${result} you (last checked ${lastChecked})">
-                            <i class="fa ${(result === `whitelisted`) ? `fa-check esgst-whitelist` : `fa-times esgst-blacklist`}"></i>
-                        </span>
-                    `;
-                    matches = currentUsers[id];
-                    for (i = 0, n = matches.length; i < n; ++i) {
-                        context = matches[i];
-                        container = context.parentElement;
-                        if (container.classList.contains(`comment__username`)) {
-                            context = container;
-                        }
-                        context.insertAdjacentHTML(`beforeBegin`, html);
-                    }
-                }
-            }
-        }
-    }
-
-    /* [WBH] Whitelist/Blacklist Highlighter */
-
-    function addWbhIcons(currentUsers) {
-        var container, context, html, i, icon, id, key, matches, n, savedUser, status, title;
-        for (key in esgst.users.users) {
-            savedUser = esgst.users.users[key];
-            id = esgst.sg ? savedUser.username : key;
-            if (currentUsers[id] && (savedUser.whitelisted || savedUser.blacklisted)) {
-                if (savedUser.whitelisted) {
-                    status = `whitelisted`;
-                    icon = `fa-heart sidebar__shortcut__whitelist`;
-                } else {
-                    status = `blacklisted`;
-                    icon = `fa-ban sidebar__shortcut__blacklist`;
-                }
-                title = `You ${status} ${savedUser.username} on ${getTimestamp(savedUser[`${status}Date`] / 1e3)}`;
-                matches = currentUsers[id];
-                if ((esgst.wbh_w && savedUser.whitelisted) || (esgst.wbh_b && savedUser.blacklisted)) {
-                    for (i = 0, n = matches.length; i < n; ++i) {
-                        context = matches[i];
-                        context.classList.add(`esgst-wbh-highlight`, `esgst-wbh-highlight-${status}`);
-                        context.title = title;
-                    }
-                } else {
-                    html = `
-                        <span class="esgst-user-icon" title="${title}">
-                            <i class="fa ${icon} esgst-${status.slice(0, -2)}"></i>
-                        </span>
-                    `;
-                    for (i = 0, n = matches.length; i < n; ++i) {
-                        context = matches[i];
-                        container = context.parentElement;
-                        if (container.classList.contains(`comment__username`)) {
-                            context = container;
-                        }
-                        insertHtml(context, `beforeBegin`, html);
-                    }
                 }
             }
         }
@@ -28188,7 +28048,7 @@ Parsedown = (() => {
                 current = esgst.currentUsers;
             }
             for (id in current) {
-                current[id].forEach(element => {
+                current[id].elements.forEach(element => {
                     container = element.parentElement;
                     if (!container.classList.contains(`esgst-hidden`)) {
                         if (container.classList.contains(`comment__username`)) {
@@ -29833,7 +29693,9 @@ Parsedown = (() => {
                         <a href="/user/${savedUser.username}">${savedUser.username}</a>
                     </div>
                 `);
-                current[savedUser.username] = [context.firstElementChild];
+                current[savedUser.username] = {
+                    elements: [context.firstElementChild]
+                };
                 users[savedUser.username] = {
                     context: context
                 };
@@ -30793,23 +30655,6 @@ Parsedown = (() => {
         }
     }
 
-    /* [UT] User Tags */
-
-    function getUtTags(currentUsers) {
-        var key, i, n, steamId, user, username;
-        for (key in currentUsers) {
-            steamId = esgst.sg ? esgst.users.steamIds[key] : key;
-            username = esgst.sg ? key : esgst.users.users[key] && esgst.users.users[key].username;
-            for (i = 0, n = currentUsers[key].length; i < n; ++i) {
-                addUtButton(currentUsers[key][i], key, steamId, username);
-            }
-            user = esgst.sg ? steamId && esgst.users.users[steamId] : esgst.users.users[key];
-            if (user && user.tags) {
-                addUtTags(key, user.tags);
-            }
-        }
-    }
-
     function addUtButton(context, key, steamId, username) {
         var container;
         container = context.parentElement;
@@ -31066,7 +30911,7 @@ Parsedown = (() => {
 
     function addUtTags(key, tags) {
         var button, children, colors, container, context, elements, html, i, n, prefix, suffix, tagsBox, tagsContainer;
-        elements = esgst.currentUsers[key];
+        elements = esgst.currentUsers[key].elements;
         prefix = `<span class="global__image-outer-wrap author_avatar is_icon">`;
         suffix = `</span>`;
         html = tags.length && tags[0] ? `${prefix}${tags.join(`${suffix}${prefix}`)}${suffix}` : ``;
@@ -31098,42 +30943,116 @@ Parsedown = (() => {
         }
     }
 
-    function loadUserFeatures(context) {
-        var currentUsers, element, elements, i, id, match, n, savedUsers;
-        elements = context.querySelectorAll(`a[href*='/user/']`);
-        currentUsers = {};
-        for (i = 0, n = elements.length; i < n; ++i) {
+    function loadUserFeatures(mainContext) {
+        let container, context, element, elements, found, highlight, html, i, icon, id, match, result, results, savedUser, status, steamId, title;
+        elements = mainContext.querySelectorAll(`a[href*='/user/']`);
+        for (i = elements.length - 1; i > -1; --i) {
             element = elements[i];
             match = element.getAttribute(`href`).match(/\/user\/(.+)/);
             if (match) {
                 id = match[1];
                 if (((esgst.sg && element.textContent === id) || (!esgst.sg && element.textContent && !element.children.length)) && !element.closest(`.markdown`)) {
                     if (!esgst.currentUsers[id]) {
-                        esgst.currentUsers[id] = [];
+                        esgst.currentUsers[id] = {
+                            elements: []
+                        };
+                        steamId = esgst.sg ? esgst.users.steamIds[id] : id;
+                        esgst.currentUsers[id].savedUser = esgst.users.users[steamId];
+                        if (esgst.currentUsers[id].savedUser) {
+                            esgst.currentUsers[id].steamId = steamId;
+                        }
                     }
-                    if (!currentUsers[id]) {
-                        currentUsers[id] = [];
+                    esgst.currentUsers[id].elements.push(element);
+                    savedUser = esgst.currentUsers[id].savedUser;
+                    container = element.parentElement;
+                    context = container.classList.contains(`comment__username`) ? container : element; 
+                    if (savedUser) {
+                        html = ``;
+                        if (esgst.namwc && esgst.namwc_h && savedUser.namwc && savedUser.namwc.results) {
+                            results = savedUser.namwc.results;
+                            if (results.activated && (results.notMultiple || (results.multiple && esgst.namwc_h_m))) {
+                                highlight = `positive`;
+                                icon = `fa-thumbs-up`;
+                            } else if (results.unknown) {
+                                highlight = `unknown`;
+                                icon = `fa-warning`;
+                            } else {
+                                highlight = `negative`;
+                                icon = `fa-thumbs-down`;
+                            }
+                            if (((highlight === `positive` || highlight === `unknown`) && !esgst.namwc_h_f) || highlight === `negative`) {
+                                title = `${savedUser.username} has ${results.unknown ? `?` : results.notActivated} not activated wins and ${results.multiple} multiple wins (last checked ${getTimestamp(savedUser.namwc.lastCheck / 1e3)})`;
+                                if (esgst.namwc_h_i || (esgst.wbh && (esgst.wbh_w || esgst.wbh_b))) {
+                                    html += `
+                                        <span class="esgst-user-icon" title="${title}">
+                                            <i class="fa ${icon} esgst-${highlight}"></i>
+                                        </span>
+                                    `;
+                                } else {
+                                    element.classList.add(`esgst-namwc-highlight`, `esgst-${highlight}`);
+                                    element.title = title;
+                                }
+                            }
+                        }
+                        if (esgst.wbc && esgst.wbc_h && savedUser.wbc) {
+                            result = savedUser.wbc.result;
+                            if ((result === `whitelisted`) || ((result === `blacklisted`) && esgst.wbc_b)) {
+                                html += `
+                                    <span class="esgst-user-icon" title="${savedUser.username} has ${result} you (last checked ${getTimestamp(savedUser.wbc.lastCheck / 1e3)})">
+                                        <i class="fa ${(result === `whitelisted`) ? `fa-check esgst-whitelist` : `fa-times esgst-blacklist`}"></i>
+                                    </span>
+                                `;
+                            }
+                        }
+                        if (esgst.wbh && !esgst.accountPath && (savedUser.whitelisted || savedUser.blacklisted)) {
+                            if (savedUser.whitelisted) {
+                                status = `whitelisted`;
+                                icon = `fa-heart sidebar__shortcut__whitelist`;
+                            } else {
+                                status = `blacklisted`;
+                                icon = `fa-ban sidebar__shortcut__blacklist`;
+                            }
+                            title = `You ${status} ${savedUser.username} on ${getTimestamp(savedUser[`${status}Date`] / 1e3)}`;
+                            if ((esgst.wbh_w && savedUser.whitelisted) || (esgst.wbh_b && savedUser.blacklisted)) {
+                                element.classList.add(`esgst-wbh-highlight`, `esgst-wbh-highlight-${status}`);
+                                element.title = title;
+                            } else {
+                                html += `
+                                    <span class="esgst-user-icon" title="${title}">
+                                        <i class="fa ${icon} esgst-${status.slice(0, -2)}"></i>
+                                    </span>
+                                `;
+                            }
+                        }
+                        if (html) {
+                            insertHtml(context, `beforeBegin`, html);
+                        }
+                        if (esgst.ut) {
+                            addUtButton(context, id, esgst.currentUsers[id].steamId, savedUser.username);
+                            if (savedUser.tags) {
+                                addUtTags(id, savedUser.tags);
+                            }
+                        }
+                        if (esgst.ap) {
+                            setApAvatar(element);
+                        }
+                    } else if (esgst.ut) {
+                        addUtButton(context, id, esgst.sg ? null : id, esgst.sg ? id : null);
                     }
-                    esgst.currentUsers[id].push(element);
-                    currentUsers[id].push(element);
+                    if (!found) {
+                        found = true;
+                    }
                 }
             }
         }
-        var keys = Object.keys(currentUsers);
-        var length = keys.length;
-        if (length > 0) {
-            if ((length > 1 || (keys[0] !== `cg` && keys[0] !== esgst.username)) && (esgst.wbcButton || esgst.mtUserButton) && context === document) {
-                if (esgst.wbcButton) {
-                    esgst.wbcButton.classList.remove(`esgst-hidden`);
-                    esgst.wbcButton.parentElement.classList.remove(`esgst-hidden`);
-                }
-                if (esgst.mtUserButton) {
-                    esgst.mtUserButton.classList.remove(`esgst-hidden`);
-                    esgst.mtUserButton.parentElement.classList.remove(`esgst-hidden`);
-                }
+        if (found && (esgst.wbcButton || esgst.mtUserButton) && mainContext === document && !esgst.aboutPath) {
+            if (esgst.wbcButton) {
+                esgst.wbcButton.classList.remove(`esgst-hidden`);
+                esgst.wbcButton.parentElement.classList.remove(`esgst-hidden`);
             }
-            for (i = 0, n = esgst.userFeatures.length; i < n; ++i) {
-                esgst.userFeatures[i](currentUsers);
+            if (esgst.mtUserButton) {
+                esgst.mtUserButton.classList.remove(`esgst-hidden`);
+                esgst.mtUserButton.parentElement.classList.remove(`esgst-hidden`);
             }
         }
     }
@@ -31242,15 +31161,6 @@ Parsedown = (() => {
         matches = context.querySelectorAll(`.global__image-outer-wrap--avatar-small, .giveaway_image_avatar, .table_image_avatar, .featured_giveaway_image_avatar`);
         for (i = 0, n = matches.length; i < n; ++i) {
             setApAvatar(matches[i]);
-        }
-    }
-
-    function getInlineApAvatars(currentUsers) {
-        var i, key, n;
-        for (key in currentUsers) {
-            for (i = 0, n = currentUsers[key].length; i < n; ++i) {
-                setApAvatar(currentUsers[key][i]);
-            }
         }
     }
 
