@@ -10240,7 +10240,7 @@ Parsedown = (() => {
         if (esgst.steamApiKey) {
             request(null, null, `GET`, false, `http://api.steampowered.com/IPlayerService/GetOwnedGames/v0001/?key=${esgst.steamApiKey}&steamid=${esgst.steamId}&format=json`, getApiResponseAndContinueSync.bind(null, syncer, callback));
         } else {
-            request(null, null, `GET`, false, `http://store.steampowered.com/dynamicstore/userdata`, getStoreResponseAndContinueSync.bind(null, syncer, callback, null));
+            request(null, null, `GET`, false, `http://store.steampowered.com/dynamicstore/userdata?${Math.random().toString().split(`.`)[1]}`, getStoreResponseAndContinueSync.bind(null, syncer, callback, null));
         }
     }
 
@@ -10256,7 +10256,7 @@ Parsedown = (() => {
     }
 
     function getApiResponseAndContinueSync(syncer, callback, response) {
-        request(null, null, `GET`, false, `http://store.steampowered.com/dynamicstore/userdata`, getStoreResponseAndContinueSync.bind(null, syncer, callback, response));
+        request(null, null, `GET`, false, `http://store.steampowered.com/dynamicstore/userdata?${Math.random().toString().split(`.`)[1]}`, getStoreResponseAndContinueSync.bind(null, syncer, callback, response));
     }
 
     function getStoreResponseAndContinueSync(syncer, callback, response1, response2) {
