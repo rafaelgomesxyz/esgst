@@ -1535,8 +1535,6 @@ Parsedown = (() => {
             sgIcon: `data:image/x-icon;base64,AAABAAEAEBAAAAEAIABoBAAAFgAAACgAAAAQAAAAIAAAAAEAIAAAAAAAQAQAABMLAAATCwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIUAAAD5AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAPoAAACFAAAAAAAAAAAAAAD8AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA+QAAAAAAAAAAAAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAAAAAAAAAAAAP8AAAD/AAAA/wAAABwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAcAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAcAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAHAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAAAAAAAAAAAAPwAAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD5AAAAAAAAAAAAAACFAAAA+QAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD5AAAAhQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA//8AAP//AADAAwAAwAMAAMfjAADP8wAAz/MAAM/zAADP8wAAz/MAAM/zAADH4wAAwAMAAMADAAD//wAA//8AAA==`,
             stIcon: `data:image/x-icon;base64,AAABAAEAEBAAAAEAIABoBAAAFgAAACgAAAAQAAAAIAAAAAEAIAAAAAAAQAQAABMLAAATCwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABbD6SgWw+ucFsPrkBbD6SgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAWw+uYFsPr/BbD6/wWw+ucAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAFsPrmBbD6/wWw+v8FsPrmAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABbD6SQWw+uYFsPrmBbD6SQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAFKRLShSkS+cUpEvkFKRLSgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAExi4EpMYuDnTGLg5Exi4EoAAAAAAAAAABSkS+YUpEv/FKRL/xSkS+cAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABMYuDmTGLg/0xi4P9MYuDnAAAAAAAAAAAUpEvmFKRL/xSkS/8UpEvmAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAATGLg5kxi4P9MYuD/TGLg5gAAAAAAAAAAFKRLSRSkS+YUpEvmFKRLSQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAExi4ElMYuDmTGLg5kxi4EkAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAMZ9E0rGfRPnxn0T5MZ9E0oAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADGfRPmxn0T/8Z9E//GfRPnAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAxn0T5sZ9E//GfRP/xn0T5gAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAMZ9E0nGfRPmxn0T5sZ9E0kAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA//8AAPw/AAD8PwAA/D8AAPw/AAD//wAAh+EAAIfhAACH4QAAh+EAAP//AAD8PwAA/D8AAPw/AAD8PwAA//8AAA==`,
             endlessFeatures: [],
-            gameFeatures: [],
-            userFeatures: [],
             giveawayFeatures: [],
             currentGiveaways: [],
             attachedImages: [],
@@ -9137,18 +9135,6 @@ Parsedown = (() => {
 
         if (esgst.glwc) {
             loadGlwc();
-        }
-
-        if (esgst.egh) {
-            loadEgh();
-        }
-
-        if (esgst.gt) {
-            loadGt();
-        }
-
-        if (esgst.gc && ((!esgst.menuPath || esgst.gbPath || esgst.gedPath || esgst.gePath) && !esgst.newGiveawayPath)) {
-            esgst.gameFeatures.push(getGcGames);
         }
 
         if (esgst.ap) {            
@@ -26990,33 +26976,6 @@ Parsedown = (() => {
 
     /* [EGH] Entered Games Highlighter */
 
-    function loadEgh() {
-        if (esgst.giveawayPath) {
-            setEghObserver(document);
-        }
-        if (!esgst.menuPath) {
-            esgst.gameFeatures.push(function (games) {
-                var savedGames;
-                savedGames = JSON.parse(getValue(`games`));
-                highlightEghGames(games.apps, savedGames.apps, `apps`);
-                highlightEghGames(games.subs, savedGames.subs, `subs`);
-            });
-        }
-    }
-
-    function setEghObserver(context) {
-        var button, info;
-        button = context.querySelector(`.sidebar__entry-insert`);
-        if (button) {
-            info = getGameInfo(context);
-            if (info) {
-                button.addEventListener(`click`, function () {
-                    saveEghGame(info.id, info.type);
-                });
-            }
-        }
-    }
-
     function saveEghGame(id, type) {
         var games;
         if (id && type) {
@@ -27035,34 +26994,12 @@ Parsedown = (() => {
         }
     }
 
-    function highlightEghGames(games, savedGames, type) {
-        var i, id, n;
-        for (id in savedGames) {
-            if (savedGames[id].entered && games[id]) {
-                for (i = 0, n = games[id].length; i < n; ++i) {
-                    if (!games[id][i].container.getElementsByClassName(`esgst-egh-button`)[0] && ((games[id][i].table && esgst.egh_t) || !games[id][i].table)) {
-                        addEghIcon(games[id][i], id, type);
-                    }
-                }
-            }
-        }
-    }
-
-    function addEghIcon(game, id, type) {
-        var icon;
-        icon = insertHtml((game.container.closest(`.poll`) && game.container.getElementsByClassName(`table__column__heading`)[0]) || game.headingName, `beforeBegin`, `
-            <a class="esgst-egh-button">
-                <i class="fa fa-star esgst-egh-icon" title="You have entered giveaways for this game before. Click to unhighlight it"></i>
-            </a>
-        `);
-        icon.addEventListener(`click`, unhighlightGame);
-
-        function unhighlightGame() {
-            icon.removeEventListener(`click`, unhighlightGame);
+    function unhighlightEghGame(id, type, event) {
+        let icon = event.currenTarget;
+        if (!icon.classList.contains(`fa-spin`)) {
             icon.innerHTML = `<i class="fa fa-circle-o-notch fa-spin"></i>`;
-            createLock(`gameLock`, 300, function (deleteLock) {
-                var games;
-                games = JSON.parse(getValue(`games`));
+            createLock(`gameLock`, 300, deleteLock => {
+                let games = JSON.parse(getValue(`games`));
                 delete games[type][id].entered;
                 setValue(`games`, JSON.stringify(games));
                 icon.remove();
@@ -27073,45 +27010,9 @@ Parsedown = (() => {
 
     /* [GT] Game Tags */
 
-    function loadGt() {
-        var savedGames;
-        esgst.gameFeatures.push(function (games, table) {
-            savedGames = JSON.parse(getValue(`games`));
-            getGtGames(games.apps, savedGames.apps, `apps`);
-            getGtGames(games.subs, savedGames.subs, `subs`);
-        });
-    }
-
-    function getGtGames(games, savedGames, type) {
-        var i, id, n;
-        for (id in games) {
-            for (i = 0, n = games[id].length; i < n; ++i) {
-                if ((games[id][i].table && esgst.gt_t) || !games[id][i].table) {
-                    addGtButton(games[id][i], id, type);
-                }
-            }
-        }
-        for (id in savedGames) {
-            if (savedGames[id].tags && games[id]) {
-                addGtTags(games[id], id, savedGames[id].tags, type);
-            }
-        }
-    }
-
-    function addGtButton(game, id, type) {
-        if (!game.container.getElementsByClassName(`esgst-gt-button`)[0]) {
-            insertHtml((game.container.closest(`.poll`) && game.container.getElementsByClassName(`table__column__heading`)[0]) || game.heading.lastElementChild || game.heading, `afterEnd`, `
-                <a class="esgst-faded esgst-gt-button" title="Edit game tags">
-                    <i class="fa fa-tag"></i>
-                    <span class="esgst-gt-tags"></span>
-                </a>
-            `).addEventListener(`click`, openGtPopup.bind(null, game, id, type));
-        }
-    }
-
-    function openGtPopup(game, id, type) {
+    function openGtPopup(id, name, type) {
         var popup, set;
-        popup = new Popup(`fa-tag`, `Edit game tags for <span>${game.name}</span>:`);
+        popup = new Popup(`fa-tag`, `Edit game tags for <span>${name}</span>:`);
         set = new ButtonSet(`green`, `grey`, `fa-check`, `fa-circle-o-notch fa-spin`, `Save`, `Saving...`, saveGtTags.bind(null, id, popup, type));
         popup.description.insertAdjacentHTML(`beforeEnd`, `<div class="esgst-description">Drag the tags to move them.<br/><br/>When editing a tag color, it will also alter the color for all games with that tag (you have to refresh the page for it to take effect).</div>`);
         popup.tags = insertHtml(popup.description, `beforeEnd`, `<div class="esgst-gt-tags"></div>`);
@@ -31058,8 +30959,9 @@ Parsedown = (() => {
     }
 
     function loadGameFeatures(context, main, source, endless) {
-        var found, games, i, id, n;
-        games = getGames(context, main);
+        var found, games, i, id, n, savedGames;
+        savedGames = JSON.parse(getValue(`games`));
+        games = getGames(context, main, savedGames);
         if (main) {
             found = false;
             for (id in games.apps) {
@@ -31085,13 +30987,13 @@ Parsedown = (() => {
                 esgst.mtGameButton.parentElement.classList.remove(`esgst-hidden`);
             }
         }
-        for (i = 0, n = esgst.gameFeatures.length; i < n; ++i) {
-            esgst.gameFeatures[i](games, endless);
+        if (esgst.gc && ((!esgst.menuPath || esgst.gbPath || esgst.gedPath || esgst.gePath) && !esgst.newGiveawayPath)) {
+            getGcGames(games, endless);
         }
     }
 
-    function getGames(context, main) {
-        var games, heading, headingName, name, i, id, info, match, matches, n, headingQuery, matchesQuery, table, type;
+    function getGames(context, main, savedGames) {
+        var game, games, name, i, id, info, matches, n, headingQuery, matchesQuery, type;
         games = {
             apps: {},
             subs: {}
@@ -31105,30 +31007,52 @@ Parsedown = (() => {
         }
         matches = context.querySelectorAll(matchesQuery);
         for (i = 0, n = matches.length; i < n; ++i) {
-            match = matches[i];
-            if (match.closest(`table`)) {
-                table = true;
-            } else {
-                table = false;
-            }
-            info = getGameInfo(match);
-            heading = match.querySelector(headingQuery);
-            if (info && heading) {
-                headingName = heading.querySelector(`.featured__heading__medium, .giveaway__heading__name`) || heading;
-                name = headingName.textContent;
+            game = {
+                container: matches[i]
+            };
+            game.table = game.container.closest(`table`) ? true : false;
+            game.grid = game.container.closest(`.esgst-gv-view`);
+            info = getGameInfo(game.container);
+            game.heading = game.container.querySelector(headingQuery);
+            if (info && game.heading) {
+                game.headingName = game.heading.querySelector(`.featured__heading__medium, .giveaway__heading__name`) || game.heading;
+                game.name = game.headingName.textContent;
                 id = info.id;
                 type = info.type;
                 if (!games[type][id]) {
                     games[type][id] = [];
                 }
-                games[type][id].push({
-                    container: match,
-                    grid: match.closest(`.esgst-gv-view`),
-                    heading: heading,
-                    headingName: headingName,
-                    name: name,
-                    table: table
-                });
+                if (main) {
+                    if (esgst.egh) {
+                        if (esgst.giveawayPath) {
+                            let button = document.querySelector(`.sidebar__entry-insert`);
+                            if (button) {
+                                button.addEventListener(`click`, saveEghGame.bind(null, id, type));
+                            }
+                        }
+                        if (!esgst.menuPath && savedGames[type][id] && savedGames[type][id].entered && !game.container.getElementsByClassName(`esgst-egh-button`)[0] && (!game.table || esgst.egh_t)) {
+                            insertHtml((game.container.closest(`.poll`) && game.container.getElementsByClassName(`table__column__heading`)[0]) || game.headingName, `beforeBegin`, `
+                                <a class="esgst-egh-button">
+                                    <i class="fa fa-star esgst-egh-icon" title="You have entered giveaways for this game before. Click to unhighlight it"></i>
+                                </a>
+                            `).addEventListener(`click`, unhighlightEghGame.bind(null, id, type));
+                        }
+                    }
+                    if (esgst.gt) {
+                        if (!game.container.getElementsByClassName(`esgst-gt-button`)[0] && (!game.table || esgst.gt_t)) {
+                            insertHtml((game.container.closest(`.poll`) && game.container.getElementsByClassName(`table__column__heading`)[0]) || game.heading.lastElementChild || game.heading, `afterEnd`, `
+                                <a class="esgst-faded esgst-gt-button" title="Edit game tags">
+                                    <i class="fa fa-tag"></i>
+                                    <span class="esgst-gt-tags"></span>
+                                </a>
+                            `).addEventListener(`click`, openGtPopup.bind(null, id, game.name, type));
+                        }
+                        if (savedGames[type][id] && savedGames[type][id].tags) {
+                            addGtTags([game], id, savedGames[type][id].tags, type);
+                        }
+                    }
+                }
+                games[type][id].push(game);
             }
         }
         return games;
