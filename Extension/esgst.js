@@ -10390,7 +10390,7 @@ Parsedown = (() => {
             if (!html) {
                 html = ``;
             }
-            if (altAccount) {
+            if (altAccount && (removedOwned.apps.length > 0 || removedOwned.subs.length > 0 || addedOwned.apps.length > 0 && addedOwned.subs.length > 0)) {
                 html += `
                     <div>Alt Account - ${altAccount.name}</div>
                 `;
