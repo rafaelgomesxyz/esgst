@@ -2491,6 +2491,19 @@ Parsedown = (() => {
                                 sg: true,
                                 st: true
                             },
+                            stbb: {
+                                features: {
+                                    stbb_f: {
+                                        name: `Show inside of the footer.`,
+                                        sg: true,
+                                        st: true
+                                    }
+                                },
+                                name: `Scroll To Bottom Button`,
+                                new: true,
+                                sg: true,
+                                st: true
+                            },
                             sttb: {
                                 features: {
                                     sttb_f: {
@@ -3462,7 +3475,7 @@ Parsedown = (() => {
                                 `,
                                 name: `Time To Enter Calculator`,
                                 sg: true
-                            },                    
+                            },
                             ueg: {
                                 description: `
                                     <ul>
@@ -3480,7 +3493,7 @@ Parsedown = (() => {
                                 `,
                                 name: `Unhide Giveaway Button`,
                                 sg: true
-                            },   
+                            },
                             ugs: {
                                 description: `
                                     <ul>
@@ -3729,7 +3742,7 @@ Parsedown = (() => {
                                 name: `Trades Bumper`,
                                 sg: true,
                                 st: true
-                            }                            
+                            }
                         }
                     },
                     comments: {
@@ -4155,7 +4168,7 @@ Parsedown = (() => {
                                 `,
                                 name: `SteamTrades Profile Button`,
                                 sg: true
-                            },  
+                            },
                             uf: {
                                 description: `
                                     <ul>
@@ -4205,13 +4218,13 @@ Parsedown = (() => {
                                 name: `User Notes`,
                                 sg: true,
                                 st: true
-                            },           
+                            },
                             ut: {
                                 description: ``,
                                 name: `User Tags`,
                                 sg: true,
                                 st: true
-                            },     
+                            },
                             uh: {
                                 description: `
                                     <ul>
@@ -5635,7 +5648,7 @@ Parsedown = (() => {
             esgst.paginationNavigation.classList.add(`page_heading_btn`);
             esgst.mainPageHeading.appendChild(esgst.paginationNavigation);
         }
-        
+
         if (esgst.lpl && esgst.paginationNavigation) {
             if (esgst.discussionPath) {
                 addLplDiscussionLink();
@@ -8628,7 +8641,7 @@ Parsedown = (() => {
                 `);
                 wbm.button.addEventListener(`click`, openWbmPopup.bind(null, wbm));
             }
-            if (esgst.us) {                
+            if (esgst.us) {
                 esgst.endlessFeatures.push(getUsUsers);
                 getUsUsers(document, true);
             }
@@ -8659,10 +8672,10 @@ Parsedown = (() => {
             loadSmgb();
         }
 
-        if (esgst.ail || esgst.vai || esgst.aic) {            
+        if (esgst.ail || esgst.vai || esgst.aic) {
             esgst.endlessFeatures.push(getAttachedImages);
             getAttachedImages(document);
-            if (esgst.aic) {                
+            if (esgst.aic) {
                 document.addEventListener(`keydown`, event => {
                     if (event.key === `ArrowLeft` && esgst.aicPrevious) {
                         esgst.aicPrevious.click();
@@ -8674,7 +8687,7 @@ Parsedown = (() => {
             }
         }
 
-        if (esgst.ev) {            
+        if (esgst.ev) {
             esgst.endlessFeatures.push(getEvVideos);
             getEvVideos(document);
         }
@@ -8700,7 +8713,7 @@ Parsedown = (() => {
             loadGv();
         }
 
-        if (esgst.gf) {            
+        if (esgst.gf) {
             if (esgst.gf_s) {
                 esgst.giveawayFeatures.push(getGfGiveaways);
             }
@@ -8717,12 +8730,12 @@ Parsedown = (() => {
             loadPgb();
         }
 
-        if (esgst.ueg) {            
+        if (esgst.ueg) {
             esgst.endlessFeatures.push(removeUegFade);
             removeUegFade(document);
         }
 
-        if (esgst.gb) {            
+        if (esgst.gb) {
             esgst.giveawayFeatures.push(getGbGiveaways);
             addGbButton();
         }
@@ -8731,19 +8744,19 @@ Parsedown = (() => {
             loadGed();
         }
 
-        if (esgst.ugb) {            
+        if (esgst.ugb) {
             esgst.giveawayFeatures.push(addUgbButtons);
         }
 
-        if (esgst.ochgb) {            
+        if (esgst.ochgb) {
             esgst.giveawayFeatures.push(setOchgbButtons);
         }
 
         if (esgst.gwc || esgst.gwr) {
-            if (esgst.gwc) {            
+            if (esgst.gwc) {
                 esgst.giveawayFeatures.push(addGwcChances);
             }
-            if (esgst.gwr) {                
+            if (esgst.gwr) {
                 esgst.giveawayFeatures.push(addGwrRatios);
             }
             if (esgst.enteredPath) {
@@ -8758,7 +8771,7 @@ Parsedown = (() => {
             addCewgdHeading(document);
         }
 
-        if (esgst.gp) {            
+        if (esgst.gp) {
             esgst.giveawayFeatures.push(addGpButtons);
         }
 
@@ -8830,7 +8843,7 @@ Parsedown = (() => {
         if (esgst.rcvc) {
             loadRcvc();
         }
-        
+
         if (esgst.sks && esgst.createdPath) {
             button = insertHtml(esgst.hideButtons && esgst.hideButtons_sks ? esgst.leftButtons : esgst.mainPageHeading, `afterBegin`, `
                 <div class="esgst-heading-button" title="Search keys">
@@ -8841,7 +8854,7 @@ Parsedown = (() => {
             button.addEventListener(`click`, openSksPopup.bind(null, {button}));
         }
 
-        if (esgst.ugs) {            
+        if (esgst.ugs) {
             if (esgst.createdPath) {
                 let button;
                 button = insertHtml(esgst.hideButtons && esgst.hideButtons_ugs ? esgst.leftButtons : esgst.mainPageHeading, `afterBegin`, `
@@ -8860,7 +8873,7 @@ Parsedown = (() => {
             loadGm();
         }
 
-        if (esgst.et) {            
+        if (esgst.et) {
             if (esgst.enteredPath) {
                 esgst.endlessFeatures.push(getEtEntries);
                 getEtEntries(document);
@@ -8882,7 +8895,7 @@ Parsedown = (() => {
             `);
             button.addEventListener(`click`, openHgrPopup.bind(null, {button}));
         }
-        
+
         if (esgst.sal && esgst.wonPath) {
             esgst.endlessFeatures.push(addSalLinks);
             addSalLinks(document);
@@ -8910,7 +8923,7 @@ Parsedown = (() => {
             if (esgst.itadi) {
                 esgst.giveawayFeatures.push(getItadiInfo);
             }
-            if (esgst.dkc) {                
+            if (esgst.dkc) {
                 esgst.endlessFeatures.push(getDkcLinks);
                 getDkcLinks(document);
             }
@@ -8928,7 +8941,7 @@ Parsedown = (() => {
             loadGesl();
         }
 
-        if (esgst.as) {            
+        if (esgst.as) {
             loadAs();
         }
 
@@ -8958,7 +8971,7 @@ Parsedown = (() => {
             addDEDButton(esgst.replyBox);
         }
 
-        if (esgst.tb) {            
+        if (esgst.tb) {
             if (location.href.match(new RegExp(`\\/trades\\/search\\?user=${esgst.steamId}`))) {
                 let button = insertHtml(esgst.hideButtons && esgst.hideButtons_tb ? esgst.leftButtons : esgst.mainPageHeading, `afterBegin`, `
                     <div class="esgst-heading-button" title="Bump trades">
@@ -9089,7 +9102,7 @@ Parsedown = (() => {
             }
         }
 
-        if (esgst.wbc) {            
+        if (esgst.wbc) {
             if (esgst.mainPageHeading) {
                 let html, title;
                 if (esgst.wbc_b) {
@@ -9137,9 +9150,13 @@ Parsedown = (() => {
             loadGlwc();
         }
 
-        if (esgst.ap) {            
+        if (esgst.ap) {
             esgst.endlessFeatures.push(getApAvatars);
             getApAvatars(document);
+        }
+
+        if (esgst.stbb) {
+            loadStbb();
         }
 
         if (esgst.sttb) {
@@ -9155,8 +9172,8 @@ Parsedown = (() => {
         loadGameFeatures(document, true);
         esgst.endlessFeatures.push(loadUserFeatures);
         loadUserFeatures(document);
-        
-        if (esgst.ts) {            
+
+        if (esgst.ts) {
             esgst.endlessFeatures.push(getTsTables);
             getTsTables(document);
         }
@@ -9165,7 +9182,7 @@ Parsedown = (() => {
             loadEs();
         }
 
-        if (esgst.sto) {            
+        if (esgst.sto) {
             esgst.endlessFeatures.push(setStoLinks);
             setStoLinks(document);
         }
@@ -30870,7 +30887,7 @@ Parsedown = (() => {
                     esgst.currentUsers[id].elements.push(element);
                     savedUser = esgst.currentUsers[id].savedUser;
                     container = element.parentElement;
-                    context = container.classList.contains(`comment__username`) ? container : element; 
+                    context = container.classList.contains(`comment__username`) ? container : element;
                     if (savedUser) {
                         html = ``;
                         if (esgst.namwc && esgst.namwc_h && savedUser.namwc && savedUser.namwc.results) {
@@ -31196,10 +31213,26 @@ Parsedown = (() => {
         }
     }
 
-    /* [STTB] Scroll To Top Button */
+    function loadStbb() {
+        let button = insertHtml(esgst.stbb_f ? esgst.footer.firstElementChild.lastElementChild : document.body, `beforeEnd`, `
+            <div class="esgst-stbb-button" title="Scroll to bottom">
+                <i class="fa fa-chevron-down"></i>
+            </div>
+        `);
+        if (!esgst.stbb_f) {
+            addEventListener(`scroll`, () => {
+                if (document.documentElement.offsetHeight - innerHeight >= scrollY + 100) {
+                    button.classList.remove(`esgst-hidden`);
+                } else {
+                    button.classList.add(`esgst-hidden`);
+                }
+            });
+        }
+        button.addEventListener(`click`, animateScroll.bind(null, document.documentElement.offsetHeight));
+    }
 
     function loadSttb() {
-        button = insertHtml(esgst.sttb_f ? esgst.footer.firstElementChild.lastElementChild : document.body, `beforeEnd`, `
+        let button = insertHtml(esgst.sttb_f ? esgst.footer.firstElementChild.lastElementChild : document.body, `beforeEnd`, `
             <div class="esgst-sttb-button" title="Scroll to top">
                 <i class="fa fa-chevron-up"></i>
             </div>
@@ -33285,7 +33318,7 @@ Parsedown = (() => {
                 text-align: center;
             }
 
-            .esgst-sttb-button {
+            .esgst-stbb-button, .esgst-sttb-button {
                 bottom: ${esgst.ff ? 49 : 5}px;
                 background-color: #fff;
                 border: 1px solid #d2d6e0;
@@ -33297,11 +33330,15 @@ Parsedown = (() => {
                 right: 5px;
             }
 
-            .footer__outer-wrap .esgst-sttb-button, footer .esgst-sttb-button {
+            .footer__outer-wrap .esgst-stbb-button, footer .esgst-stbb-button, .footer__outer-wrap .esgst-sttb-button, footer .esgst-sttb-button {
                 background: none;
                 border: none;
                 position: static;
                 padding: 0;
+            }
+
+            .esgst-stbb-button:not(.esgst-hidden) + .esgst-sttb-button {
+                bottom: 79px;
             }
 
             .esgst-bold {
