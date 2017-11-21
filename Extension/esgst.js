@@ -9847,15 +9847,15 @@ Parsedown = (() => {
             `);
             syncer.scrollable = popup.scrollable;
             if (!parameters) {
-                set = new ButtonSet(`green`, `grey`, `fa-refresh`, `fa-times`, `Sync`, `Cancel`, sync.bind(null, syncer, mainCallback), cancelSync.bind(null, syncer, mainCallback));
-                popup.description.appendChild(set.set);
+                syncer.set = new ButtonSet(`green`, `grey`, `fa-refresh`, `fa-times`, `Sync`, `Cancel`, sync.bind(null, syncer, mainCallback), cancelSync.bind(null, syncer, mainCallback));
+                popup.description.appendChild(syncer.set.set);
             }
             if (mainCallback) {
                 popup.onClose = mainCallback;
             }
             popup.open();
             if (syncer.autoSync) {
-                set.trigger();
+                syncer.set.trigger();
             } else if (parameters) {
                 syncer.parameters = parameters;
                 sync(syncer)
@@ -9947,6 +9947,9 @@ Parsedown = (() => {
         }
         if (mainCallback) {
             mainCallback();
+        }
+        if (syncer.set) {
+            syncer.set.set.remove();
         }
         if (syncer.parameters && syncer.popup) {
             syncer.popup.icon.classList.remove(`fa-circle-o-notch`, `fa-spin`);
