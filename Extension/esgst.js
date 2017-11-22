@@ -29992,6 +29992,9 @@ Parsedown = (() => {
             giveaway.ended = !giveaway.deleted && giveaway.endTime < Date.now();
             if (giveaway.ended && ((main && (esgst.userPath || esgst.groupPath)) || ugd)) {
                 giveaway.startTimeColumn = giveaway.endTimeColumn.nextElementSibling.nextElementSibling;
+                if (giveaway.startTimeColumn.classList.contains(`giveaway__column--negative`)) {
+                    giveaway.startTimeColumn = giveaway.startTimeColumn.nextElementSibling;
+                }
             } else {
                 giveaway.startTimeColumn = giveaway.endTimeColumn.nextElementSibling;
             }
