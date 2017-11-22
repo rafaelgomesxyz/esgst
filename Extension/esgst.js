@@ -2163,6 +2163,11 @@ Parsedown = (() => {
                                     </ul>
                                 `,
                                 features: {
+                                    es_rd: {
+                                        name: `Refresh active discussions/deals when refreshing the main page.`,
+                                        new: true,
+                                        sg: true
+                                    },
                                     es_c: {
                                         features: {
                                             es_c_d: {
@@ -2257,6 +2262,7 @@ Parsedown = (() => {
                                     }
                                 },
                                 name: `Endless Scrolling`,
+                                newBelow: true,
                                 sg: true,
                                 st: true
                             },
@@ -31600,7 +31606,7 @@ Parsedown = (() => {
             `;
             request(null, null, `GET`, false, `${esgst.searchUrl}${pageIndex}`, response => {
                 getNextPage(true, false, response);
-                if (esgst.giveawaysPath) {
+                if (esgst.giveawaysPath && esgst.es_rd) {
                     if (esgst.oadd) {
                         loadOadd(true);
                     } else {
@@ -31663,7 +31669,7 @@ Parsedown = (() => {
                 if (esgst.ts && !esgst.us) {
                     sortTsTables();
                 }
-                if (esgst.giveawaysPath) {
+                if (esgst.giveawaysPath && esgst.es_rd) {
                     if (esgst.oadd) {
                         loadOadd(true);
                     } else {
