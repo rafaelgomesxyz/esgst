@@ -16153,7 +16153,7 @@ Parsedown = (() => {
                             details += `, groups`;
                         }
                     }
-                    details += `, level ${savedTemplate.level}+`;
+                    details += `, level ${savedTemplate.level}`;
                     template = insertHtml(templates, `beforeEnd`, `
                         <div draggable="true">
                             <div class="esgst-clickable" style="float: left;">
@@ -16787,7 +16787,7 @@ Parsedown = (() => {
                 details += `Groups\n`;
             }
         }
-        details += `Level ${values.level}+\n\n${values.description}`;
+        details += `Level ${values.level}\n\n${values.description}`;
         data = `xsrf_token=${esgst.xsrfToken}&next_step=3&game_id=${values.gameId}&type=${values.gameType}&copies=${values.copies}&key_string=${values.keys}&start_time=${values.startTime}&end_time=${values.endTime}&region_restricted=${values.region}&country_item_string=${values.countries}&who_can_enter=${values.type}&whitelist=${values.whitelist}&group_item_string=${values.groups}&contributor_level=${values.level}&description=${encodeURIComponent(values.description)}`;
         if (edit) {
             mgc.datas[mgc.editPos] = data;
@@ -19353,7 +19353,7 @@ Parsedown = (() => {
         }
         (giveaway.panel || giveaway.innerWrap.firstElementChild.nextElementSibling).insertAdjacentHTML(`afterEnd`, `
             <div class="table__column--width-small text-center">${type}</div>
-            <div class="table__column--width-small text-center">${details.level}+</div>
+            <div class="table__column--width-small text-center">${details.level}</div>
         `);
         if (esgst.enteredPath || esgst.wonPath) {
             giveaway.endTimeColumn.insertAdjacentHTML(`beforeEnd`, `
