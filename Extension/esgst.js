@@ -1721,6 +1721,9 @@ Parsedown = (() => {
                     lastSyncGiveaways: `lastSync`
                 };
                 esgst.defaultValues = {
+                    lastBackup: 0,
+                    autoBackup_index: 0,
+                    autoBackup_days: 1,
                     hpg: false,
                     wbc_checkSelected: false,
                     wbc_skipUsers: false,
@@ -4903,6 +4906,17 @@ Parsedown = (() => {
                                 name: `Enable ESGST for SteamTrades.`,
                                 st: true
                             },
+                            autoBackup: {
+                                input: true,
+                                name: `Automatically backup your data every X days.`,
+                                new: true,
+                                options: {
+                                    title: `Backup to:`,
+                                    values: [`Computer`, `Dropbox`, `Google Drive`, `OneDrive`]
+                                },
+                                sg: true,
+                                st: true
+                            },
                             autoSync: {
                                 name: `Automatically sync games/groups when syncing through SG.`,
                                 sg: true
@@ -5118,6 +5132,9 @@ Parsedown = (() => {
                 }
                 if (esgst.sg && !esgst.menuPath) {
                     checkSync();
+                }
+                if (esgst.autoBackup) {
+                    checkBackup();
                 }
                 delete esgst.settings.users;
                 delete esgst.settings.comments;
@@ -28538,9 +28555,9 @@ Parsedown = (() => {
                 heading.firstElementChild.classList.remove(`esgst-busy`);
             });
         });
-        heading.firstElementChild.nextElementSibling.addEventListener(`click`, loadDataManagement.bind(null, false, `import`));
-        heading.firstElementChild.nextElementSibling.nextElementSibling.addEventListener(`click`, loadDataManagement.bind(null, false, `export`));
-        heading.firstElementChild.nextElementSibling.nextElementSibling.nextElementSibling.addEventListener(`click`, loadDataManagement.bind(null, false, `delete`));
+        heading.firstElementChild.nextElementSibling.addEventListener(`click`, loadDataManagement.bind(null, false, `import`, null));
+        heading.firstElementChild.nextElementSibling.nextElementSibling.addEventListener(`click`, loadDataManagement.bind(null, false, `export`, null));
+        heading.firstElementChild.nextElementSibling.nextElementSibling.nextElementSibling.addEventListener(`click`, loadDataManagement.bind(null, false, `delete`, null));
         heading.firstElementChild.nextElementSibling.nextElementSibling.nextElementSibling.nextElementSibling.addEventListener(`click`, exportSettings);
         if (SMManageUserTags) {
             SMManageUserTags.addEventListener(`click`, openManageUserTagsPopup);
@@ -28892,6 +28909,17 @@ Parsedown = (() => {
                     setSetting(`hr_w_hours`, input.firstElementChild.value);
                     esgst.hr_w_hours = input.firstElementChild.value;
                 });
+            } else if (ID === `autoBackup`) {
+                var days = esgst.autoBackup_days;
+                input = insertHtml(SMFeatures, `beforeEnd`, `
+                    <div class="esgst-sm-colors">
+                        Days: <input type="text" value=${days}>
+                    </div>
+                `);
+                input.firstElementChild.addEventListener(`change`, function() {
+                    setSetting(`autoBackup_days`, input.firstElementChild.value);
+                    esgst.autoBackup_days = input.firstElementChild.value;
+                });
             } else if (ID === `hr`) {
                 input = insertHtml(SMFeatures, `beforeEnd`, `
                     <div class="esgst-sm-colors">
@@ -28922,7 +28950,8 @@ Parsedown = (() => {
             if (val) {
                 SMFeatures.classList.remove(`esgst-hidden`);
             }
-        } else if (Feature.options) {
+        }
+        if (Feature.options) {
             var index = esgst[`${ID}_index`];
             var options = ``;
             for (var j = 0, jj = Feature.options.values.length; j < jj; ++j) {
@@ -31807,9 +31836,17 @@ Parsedown = (() => {
 
     /* Data Management */
 
-    function loadDataManagement(openInTab, type) {
+    function checkBackup() {
+        if (!getValue(`esgst_isBackingUp`) && Date.now() - esgst.lastBackup > esgst.autoBackup_days * 86400000) {
+            setValue(`esgst_isBackingUp`, 1);
+            loadDataManagement(false, `export`, true);
+        }
+    }
+
+    function loadDataManagement(openInTab, type, autoBackup) {
         var container, context, group1, group2, i, icon, input, n, onClick, option, options, prep, popup, section, title1, title2;
         dm = {
+            autoBackup: autoBackup,
             type: type
         };
         dm[type] = true;
@@ -31841,15 +31878,21 @@ Parsedown = (() => {
             context = container = document.body;
             context.innerHTML = ``;
         } else {
-            popup = new Popup(icon, title1, true, true);
+            if (dm.autoBackup) {
+                popup = new Popup(`fa-circle-o-notch fa-spin`, `ESGST is backing up your data... Please do not close this window until it is done.`, true, true);
+            } else {
+                popup = new Popup(icon, title1, true, true);
+            }
             popup.description.classList.add(`esgst-text-left`);
             context = popup.scrollable;
             container = popup.description;
         }
-        dm.computerSpace = insertHtml(container, `afterBegin`, `
-            <div>Total: <span class="esgst-bold"></span></div>
-        `);
-        section = createMenuSection(context, null, 1, title1);
+        if (!dm.autoBackup) {
+            dm.computerSpace = insertHtml(container, `afterBegin`, `
+                <div>Total: <span class="esgst-bold"></span></div>
+            `);
+            section = createMenuSection(context, null, 1, title1);
+        }
         dm.switches = {};
         dm.options = [
             {
@@ -32063,40 +32106,63 @@ Parsedown = (() => {
                 name: `Winners`
             }
         ];
-        for (i = 0, n = dm.options.length; i < n; ++i) {
-            option = dm.options[i];
-            if (option.check) {
-                section.lastElementChild.appendChild(getDataMenu(option, dm.switches, type));
+        if (dm.autoBackup) {
+            let dropbox, googleDrive, oneDrive;
+            switch (esgst.autoBackup_index) {
+                case 0:
+                    break;
+                case 1:
+                    dropbox = true;
+                    break;
+                case 2:
+                    googleDrive = true;
+                    break;
+                case 3:
+                    oneDrive = true;
+                    break;
             }
-        }
-        if (type === `import` || type === `delete`) {
-            if (type === `import`) {
-                dm.input = insertHtml(container, `beforeEnd`, `<input type="file"/>`);
-                new ToggleSwitch(container, `importAndMerge`, false, `Merge`, false, false, `Merges the current data with the imported data instead of replacing`, esgst.settings.importAndMerge);
-            }
-            let select = new ToggleSwitch(container, `exportBackup`, false, `Export backup to <select><option>Computer</option><option>Dropbox</option><option>Google Drive</option><option>OneDrive</option></select>`, false, false, `Exports the current data as a backup`, esgst.settings.exportBackup).name.firstElementChild;
-            select.selectedIndex = esgst.settings.exportBackupIndex;
-            select.addEventListener(`change`, () => {
-                setSetting(`exportBackupIndex`, select.selectedIndex);
-            });
-        }
-        dm.message = insertHtml(container, `beforeEnd`, `<div class="esgst-description"></div>`);
-        dm.warning = insertHtml(container, `beforeEnd`, `<div class="esgst-description esgst-warning"></div>`);
-        group1 = insertHtml(container, `beforeEnd`, `<div class="esgst-button-group"><span>Select:</span></div>`);
-        group1.appendChild(new ButtonSet(`grey`, `grey`, `fa-circle`, `fa-circle-o-notch fa-spin`, `All`, ``, selectSwitches.bind(null, dm.switches, `enable`)).set);
-        group1.appendChild(new ButtonSet(`grey`, `grey`, `fa-circle-o`, `fa-circle-o-notch fa-spin`, `None`, ``, selectSwitches.bind(null, dm.switches, `disable`)).set);
-        group1.appendChild(new ButtonSet(`grey`, `grey`, `fa-dot-circle-o`, `fa-circle-o-notch fa-spin`, `Inverse`, ``, selectSwitches.bind(null, dm.switches, `toggle`)).set);
-        group2 = insertHtml(container, `beforeEnd`, `<div class="esgst-button-group"><span>${title1} ${prep}:</span></div>`);
-        group2.appendChild(new ButtonSet(`green`, `grey`, icon, `fa-circle-o-notch fa-spin`, `Computer`, title2, onClick.bind(null, dm, false, false, false, false)).set);
-        if (type !== `delete`) {
-            group2.appendChild(new ButtonSet(`green`, `grey`, `fa-dropbox`, `fa-circle-o-notch fa-spin`, `Dropbox`, title2, onClick.bind(null, dm, true, false, false, false)).set);
-            group2.appendChild(new ButtonSet(`green`, `grey`, `fa-google`, `fa-circle-o-notch fa-spin`, `Google Drive`, title2, onClick.bind(null, dm, false, true, false, false)).set);
-            group2.appendChild(new ButtonSet(`green`, `grey`, `fa-windows`, `fa-circle-o-notch fa-spin`, `OneDrive`, title2, onClick.bind(null, dm, false, false, true, false)).set);
-        }
-        if (!openInTab) {
             popup.open();
+            manageData(dm, dropbox, googleDrive, oneDrive, false, () => {
+                delValue(`esgst_isBackingUp`);
+                setSetting(`lastBackup`, Date.now());
+                popup.close();
+            });
+        } else {
+            for (i = 0, n = dm.options.length; i < n; ++i) {
+                option = dm.options[i];
+                if (option.check) {
+                    section.lastElementChild.appendChild(getDataMenu(option, dm.switches, type));
+                }
+            }
+            if (type === `import` || type === `delete`) {
+                if (type === `import`) {
+                    dm.input = insertHtml(container, `beforeEnd`, `<input type="file"/>`);
+                    new ToggleSwitch(container, `importAndMerge`, false, `Merge`, false, false, `Merges the current data with the imported data instead of replacing`, esgst.settings.importAndMerge);
+                }
+                let select = new ToggleSwitch(container, `exportBackup`, false, `Export backup to <select><option>Computer</option><option>Dropbox</option><option>Google Drive</option><option>OneDrive</option></select>`, false, false, `Exports the current data as a backup`, esgst.settings.exportBackup).name.firstElementChild;
+                select.selectedIndex = esgst.settings.exportBackupIndex;
+                select.addEventListener(`change`, () => {
+                    setSetting(`exportBackupIndex`, select.selectedIndex);
+                });
+            }
+            dm.message = insertHtml(container, `beforeEnd`, `<div class="esgst-description"></div>`);
+            dm.warning = insertHtml(container, `beforeEnd`, `<div class="esgst-description esgst-warning"></div>`);
+            group1 = insertHtml(container, `beforeEnd`, `<div class="esgst-button-group"><span>Select:</span></div>`);
+            group1.appendChild(new ButtonSet(`grey`, `grey`, `fa-circle`, `fa-circle-o-notch fa-spin`, `All`, ``, selectSwitches.bind(null, dm.switches, `enable`)).set);
+            group1.appendChild(new ButtonSet(`grey`, `grey`, `fa-circle-o`, `fa-circle-o-notch fa-spin`, `None`, ``, selectSwitches.bind(null, dm.switches, `disable`)).set);
+            group1.appendChild(new ButtonSet(`grey`, `grey`, `fa-dot-circle-o`, `fa-circle-o-notch fa-spin`, `Inverse`, ``, selectSwitches.bind(null, dm.switches, `toggle`)).set);
+            group2 = insertHtml(container, `beforeEnd`, `<div class="esgst-button-group"><span>${title1} ${prep}:</span></div>`);
+            group2.appendChild(new ButtonSet(`green`, `grey`, icon, `fa-circle-o-notch fa-spin`, `Computer`, title2, onClick.bind(null, dm, false, false, false, false)).set);
+            if (type !== `delete`) {
+                group2.appendChild(new ButtonSet(`green`, `grey`, `fa-dropbox`, `fa-circle-o-notch fa-spin`, `Dropbox`, title2, onClick.bind(null, dm, true, false, false, false)).set);
+                group2.appendChild(new ButtonSet(`green`, `grey`, `fa-google`, `fa-circle-o-notch fa-spin`, `Google Drive`, title2, onClick.bind(null, dm, false, true, false, false)).set);
+                group2.appendChild(new ButtonSet(`green`, `grey`, `fa-windows`, `fa-circle-o-notch fa-spin`, `OneDrive`, title2, onClick.bind(null, dm, false, false, true, false)).set);
+            }
+            if (!openInTab) {
+                popup.open();
+            }
+            manageData(dm, false, false, false, true);
         }
-        manageData(dm, false, false, false, true);
     }
 
     function getDataMenu(option, switches, type) {
@@ -32204,7 +32270,7 @@ Parsedown = (() => {
             option = dm.options[i];
             if (option.check) {
                 optionKey = option.key;
-                if (space || esgst.settings[`${dm.type}_${optionKey}`]) {
+                if (dm.autoBackup || space || esgst.settings[`${dm.type}_${optionKey}`]) {
                     values = null;
                     switch (optionKey) {
                         case `decryptedGiveaways`:
@@ -32228,9 +32294,11 @@ Parsedown = (() => {
                                     delValue(optionKey);
                                 }
                             }
-                            size = (new TextEncoder(`utf-8`).encode(getValue(optionKey, ``))).length;
-                            totalGM += size;
-                            dm.switches[optionKey].size.textContent = convertBytes(size);
+                            if (!dm.autoBackup) {
+                                size = (new TextEncoder(`utf-8`).encode(getValue(optionKey, ``))).length;
+                                totalGM += size;
+                                dm.switches[optionKey].size.textContent = convertBytes(size);
+                            }
                             break;
                         case `discussions`:
                             if (!values) {
@@ -32335,9 +32403,11 @@ Parsedown = (() => {
                                     setValue(optionKey, JSON.stringify(mergedData));
                                 }
                             }
-                            size = (new TextEncoder(`utf-8`).encode(getValue(optionKey, ``))).length;
-                            totalGM += size;
-                            dm.switches[optionKey].size.textContent = convertBytes(size);
+                            if (!dm.autoBackup) {
+                                size = (new TextEncoder(`utf-8`).encode(getValue(optionKey, ``))).length;
+                                totalGM += size;
+                                dm.switches[optionKey].size.textContent = convertBytes(size);
+                            }
                             break;
                         case `emojis`:
                             data.emojis = getValue(`emojis`, ``);
@@ -32362,10 +32432,12 @@ Parsedown = (() => {
                                 } else if (dm.delete) {
                                     delValue(`emojis`);
                                 }
+                            }                            
+                            if (!dm.autoBackup) {
+                                size = (new TextEncoder(`utf-8`).encode(getValue(optionKey, ``))).length;
+                                totalGM += size;
+                                dm.switches[optionKey].size.textContent = convertBytes(size);
                             }
-                            size = (new TextEncoder(`utf-8`).encode(getValue(`emojis`, ``))).length;
-                            totalGM += size;
-                            dm.switches[optionKey].size.textContent = convertBytes(size);
                             break;
                         case `dfPresets`:
                         case `entries`:
@@ -32401,9 +32473,11 @@ Parsedown = (() => {
                                     delValue(optionKey);
                                 }
                             }
-                            size = (new TextEncoder(`utf-8`).encode(getValue(optionKey, ``))).length;
-                            totalGM += size;
-                            dm.switches[optionKey].size.textContent = convertBytes(size);
+                            if (!dm.autoBackup) {
+                                size = (new TextEncoder(`utf-8`).encode(getValue(optionKey, ``))).length;
+                                totalGM += size;
+                                dm.switches[optionKey].size.textContent = convertBytes(size);
+                            }
                             break;
                         case `games`:
                             values = {
@@ -32582,9 +32656,11 @@ Parsedown = (() => {
                                     setValue(`games`, JSON.stringify(mergedData));
                                 }
                             }
-                            size = (new TextEncoder(`utf-8`).encode(getValue(`games`, ``))).length;
-                            totalGM += size;
-                            dm.switches[optionKey].size.textContent = convertBytes(size);
+                            if (!dm.autoBackup) {
+                                size = (new TextEncoder(`utf-8`).encode(getValue(optionKey, ``))).length;
+                                totalGM += size;
+                                dm.switches[optionKey].size.textContent = convertBytes(size);
+                            }
                             break;
                         case `groups`:
                             values = {
@@ -32662,9 +32738,11 @@ Parsedown = (() => {
                                     setValue(optionKey, JSON.stringify(mergedData));
                                 }
                             }
-                            size = (new TextEncoder(`utf-8`).encode(getValue(optionKey, ``))).length;
-                            totalGM += size;
-                            dm.switches[optionKey].size.textContent = convertBytes(size);
+                            if (!dm.autoBackup) {
+                                size = (new TextEncoder(`utf-8`).encode(getValue(optionKey, ``))).length;
+                                totalGM += size;
+                                dm.switches[optionKey].size.textContent = convertBytes(size);
+                            }
                             break;
                         case `rerolls`:
                         case `stickiedCountries`:
@@ -32690,9 +32768,11 @@ Parsedown = (() => {
                                     delValue(optionKey);
                                 }
                             }
-                            size = (new TextEncoder(`utf-8`).encode(getValue(optionKey, ``))).length;
-                            totalGM += size;
-                            dm.switches[optionKey].size.textContent = convertBytes(size);
+                            if (!dm.autoBackup) {
+                                size = (new TextEncoder(`utf-8`).encode(getValue(optionKey, ``))).length;
+                                totalGM += size;
+                                dm.switches[optionKey].size.textContent = convertBytes(size);
+                            }
                             break;
                         case `sgCommentHistory`:
                         case `stCommentHistory`:
@@ -32743,9 +32823,11 @@ Parsedown = (() => {
                                     delValue(optionKey);
                                 }
                             }
-                            size = (new TextEncoder(`utf-8`).encode(getValue(optionKey, ``))).length;
-                            totalGM += size;
-                            dm.switches[optionKey].size.textContent = convertBytes(size);
+                            if (!dm.autoBackup) {
+                                size = (new TextEncoder(`utf-8`).encode(getValue(optionKey, ``))).length;
+                                totalGM += size;
+                                dm.switches[optionKey].size.textContent = convertBytes(size);
+                            }
                             break;
                         case `users`:
                             values = {
@@ -32879,9 +32961,11 @@ Parsedown = (() => {
                                     setValue(`users`, JSON.stringify(mergedData));
                                 }
                             }
-                            size = (new TextEncoder(`utf-8`).encode(getValue(`users`, ``))).length;
-                            totalGM += size;
-                            dm.switches[optionKey].size.textContent = convertBytes(size);
+                            if (!dm.autoBackup) {
+                                size = (new TextEncoder(`utf-8`).encode(getValue(optionKey, ``))).length;
+                                totalGM += size;
+                                dm.switches[optionKey].size.textContent = convertBytes(size);
+                            }
                             break;
                         case `winners`:
                             data.winners = JSON.parse(getValue(`winners`, `{}`));
@@ -32911,9 +32995,11 @@ Parsedown = (() => {
                                     delValue(`winners`);
                                 }
                             }
-                            size = (new TextEncoder(`utf-8`).encode(getValue(`winners`, ``))).length;
-                            totalGM += size;
-                            dm.switches[optionKey].size.textContent = convertBytes(size);
+                            if (!dm.autoBackup) {
+                                size = (new TextEncoder(`utf-8`).encode(getValue(optionKey, ``))).length;
+                                totalGM += size;
+                                dm.switches[optionKey].size.textContent = convertBytes(size);
+                            }
                             break;
                         default:
                             break;
@@ -32945,7 +33031,9 @@ Parsedown = (() => {
                     file.click();
                     file.remove();
                     URL.revokeObjectURL(url);
-                    createFadeMessage(dm.message, `Data ${dm.type}ed with success!`);
+                    if (!dm.autoBackup) {
+                        createFadeMessage(dm.message, `Data ${dm.type}ed with success!`);
+                    }
                     callback();
                 }
             } else {
@@ -32953,7 +33041,9 @@ Parsedown = (() => {
                 callback();
             }
         }
-        dm.computerSpace.lastElementChild.textContent = convertBytes(totalGM);
+        if (!dm.autoBackup) {
+            dm.computerSpace.lastElementChild.textContent = convertBytes(totalGM);
+        }
     }
 
     function exportSettings() {
@@ -32982,7 +33072,9 @@ Parsedown = (() => {
         if (getValue(`dropboxToken`)) {
             if (dm.type === `export` || (data && esgst.settings.exportBackup)) {
                 request(JSON.stringify(data), {authorization: `Bearer ${getValue(`dropboxToken`)}`, [`Dropbox-API-Arg`]: `{"path": "/esgst_data_${new Date().toISOString()}.json"}`, [`Content-Type`]: `application/octet-stream`}, `POST`, false, `https://content.dropboxapi.com/2/files/upload`, response => {
-                    createFadeMessage(dm.message, `Data ${dm.type}ed with success!`);
+                    if (!dm.autoBackup) {
+                        createFadeMessage(dm.message, `Data ${dm.type}ed with success!`);
+                    }
                     callback();
                 });
             } else {
@@ -33027,7 +33119,9 @@ Parsedown = (() => {
         if (getValue(`googleDriveToken`)) {
             if (dm.type === `export` || (data && esgst.settings.exportBackup)) {
                 request(`--esgst\nContent-Type: application/json; charset=UTF-8\n\n{"mimeType": "mime/type", "name": "esgst_data_${new Date().toISOString()}.json", "parents": ["appDataFolder"]}\n\n--esgst\nContent-Type: mime/type\n\n${JSON.stringify(data)}\n--esgst--`, {authorization: `Bearer ${getValue(`googleDriveToken`)}`, [`Content-Type`]: `multipart/related; boundary=esgst`}, `POST`, false, `https://www.googleapis.com/upload/drive/v3/files?uploadType=multipart`, response => {
-                    createFadeMessage(dm.message, `Data ${dm.type}ed with success!`);
+                    if (!dm.autoBackup) {
+                        createFadeMessage(dm.message, `Data ${dm.type}ed with success!`);
+                    }
                     callback();
                 });
             } else {
@@ -33072,7 +33166,9 @@ Parsedown = (() => {
         if (getValue(`oneDriveToken`)) {
             if (dm.type === `export` || (data && esgst.settings.exportBackup)) {
                 request(JSON.stringify(data), {Authorization: `bearer ${getValue(`oneDriveToken`)}`, [`Content-Type`]: `application/json`}, `PUT`, false, `https://graph.microsoft.com/v1.0/me/drive/special/approot:/esgst_data_${new Date().toISOString().replace(/:/g, `__`)}.json:/content`, response => {
-                    createFadeMessage(dm.message, `Data ${dm.type}ed with success!`);
+                    if (!dm.autoBackup) {
+                        createFadeMessage(dm.message, `Data ${dm.type}ed with success!`);
+                    }
                     callback();
                 }, true);
             } else {
