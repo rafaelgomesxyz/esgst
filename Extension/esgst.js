@@ -5832,7 +5832,7 @@ Parsedown = (() => {
                         imgur.addEventListener(`click`, () => {
                             multiChoice(`grey`, `fa-user-secret`, `Anonymously`, `grey`, `fa-user`, `Through Account`, `How would you like to upload?`, uploadImgurImage.bind(null, `Client-ID e25283ef48ab9aa`, popout, url), () => {
                                 delValue(`imgurToken`);
-                                open(`https://api.imgur.com/oauth2/authorize?client_id=e25283ef48ab9aa&response_type=token`);
+                                openSmallWindow(`https://api.imgur.com/oauth2/authorize?client_id=e25283ef48ab9aa&response_type=token`);
                                 checkImgurComplete(popout, url);
                             });
                         });
