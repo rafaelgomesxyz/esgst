@@ -25929,11 +25929,11 @@ Parsedown = (() => {
         }
     }
 
-    function getWBCGroupGiveaways(WBC, I, N, wbc, username, Callback) {
+    function getWBCGroupGiveaways(WBC, I, N, wbc, username, callback) {
         if (!WBC.Canceled) {
             if (I < N) {
                 if (WBC.manualSkip) {
-                    Callback();
+                    callback();
                 } else {
                     WBC.Progress.innerHTML = `
                         <i class="fa fa-circle-o-notch"></i>
@@ -25945,18 +25945,18 @@ Parsedown = (() => {
                         getWBCGroups(WBC, `/giveaway/${WBC.GroupGiveaways[I]}/_/groups/search?page=`, 1, wbc, username, function (wbc, Result) {
                             if (wbc) {
                                 if (Result) {
-                                    Callback(wbc, Result);
+                                    callback(wbc, Result);
                                 } else {
-                                    setTimeout(getWBCGroupGiveaways, 0, WBC, ++I, N, wbc, username, Callback);
+                                    setTimeout(getWBCGroupGiveaways, 0, WBC, ++I, N, wbc, username, callback);
                                 }
                             } else {
-                                Callback();
+                                callback();
                             }
                         });
                     }
                 }
             } else {
-                Callback(wbc);
+                callback(wbc);
             }
         }
     }
