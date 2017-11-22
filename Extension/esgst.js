@@ -10487,7 +10487,10 @@ Parsedown = (() => {
                 request(null, null, `GET`, false, `http://store.steampowered.com/api/${type === `app` ? `appdetails?appids` : `packagedetails?packageids`}=${id}&filters=basic`, response => {
                     try {
                         link.textContent = JSON.parse(response.responseText)[id].data.name;
-                    } catch (e) {}
+                    } catch (e) {
+                        link.classList.add(`esgst-red`);
+                        link.title = `Unable to retrieve name for this game`;
+                    }
                 });
             }
         }
