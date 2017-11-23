@@ -33103,7 +33103,7 @@ Parsedown = (() => {
                     data = new Blob([JSON.stringify(data)]);
                     url = URL.createObjectURL(data);
                     file = document.createElement(`a`);
-                    file.download = `esgst_data_${new Date().toISOString()}.json`;
+                    file.download = `esgst_data_${new Date().toISOString().replace(/:/g, `_`)}.json`;
                     file.href = url;
                     document.body.appendChild(file);
                     file.click();
@@ -33138,7 +33138,7 @@ Parsedown = (() => {
         data = new Blob([JSON.stringify(data)]);
         url = URL.createObjectURL(data);
         file = document.createElement(`a`);
-        file.download = `esgst_data_${new Date().toISOString()}.json`;
+        file.download = `esgst_data_${new Date().toISOString().replace(/:/g, `_`)}.json`;
         file.href = url;
         document.body.appendChild(file);
         file.click();
@@ -33149,7 +33149,7 @@ Parsedown = (() => {
     function checkDropboxComplete(data, dm, callback) {
         if (getValue(`dropboxToken`)) {
             if (dm.type === `export` || (data && esgst.settings.exportBackup)) {
-                request(JSON.stringify(data), {authorization: `Bearer ${getValue(`dropboxToken`)}`, [`Dropbox-API-Arg`]: `{"path": "/esgst_data_${new Date().toISOString()}.json"}`, [`Content-Type`]: `application/octet-stream`}, `POST`, false, `https://content.dropboxapi.com/2/files/upload`, response => {
+                request(JSON.stringify(data), {authorization: `Bearer ${getValue(`dropboxToken`)}`, [`Dropbox-API-Arg`]: `{"path": "/esgst_data_${new Date().toISOString().replace(/:/g, `_`)}.json"}`, [`Content-Type`]: `application/octet-stream`}, `POST`, false, `https://content.dropboxapi.com/2/files/upload`, response => {
                     if (!dm.autoBackup) {
                         createFadeMessage(dm.message, `Data ${dm.type}ed with success!`);
                     }
@@ -33196,7 +33196,7 @@ Parsedown = (() => {
     function checkGoogleDriveComplete(data, dm, callback) {
         if (getValue(`googleDriveToken`)) {
             if (dm.type === `export` || (data && esgst.settings.exportBackup)) {
-                request(`--esgst\nContent-Type: application/json; charset=UTF-8\n\n{"mimeType": "mime/type", "name": "esgst_data_${new Date().toISOString()}.json", "parents": ["appDataFolder"]}\n\n--esgst\nContent-Type: mime/type\n\n${JSON.stringify(data)}\n--esgst--`, {authorization: `Bearer ${getValue(`googleDriveToken`)}`, [`Content-Type`]: `multipart/related; boundary=esgst`}, `POST`, false, `https://www.googleapis.com/upload/drive/v3/files?uploadType=multipart`, response => {
+                request(`--esgst\nContent-Type: application/json; charset=UTF-8\n\n{"mimeType": "mime/type", "name": "esgst_data_${new Date().toISOString().replace(/:/g, `_`)}.json", "parents": ["appDataFolder"]}\n\n--esgst\nContent-Type: mime/type\n\n${JSON.stringify(data)}\n--esgst--`, {authorization: `Bearer ${getValue(`googleDriveToken`)}`, [`Content-Type`]: `multipart/related; boundary=esgst`}, `POST`, false, `https://www.googleapis.com/upload/drive/v3/files?uploadType=multipart`, response => {
                     if (!dm.autoBackup) {
                         createFadeMessage(dm.message, `Data ${dm.type}ed with success!`);
                     }
@@ -33243,7 +33243,7 @@ Parsedown = (() => {
     function checkOneDriveComplete(data, dm, callback) {
         if (getValue(`oneDriveToken`)) {
             if (dm.type === `export` || (data && esgst.settings.exportBackup)) {
-                request(JSON.stringify(data), {Authorization: `bearer ${getValue(`oneDriveToken`)}`, [`Content-Type`]: `application/json`}, `PUT`, false, `https://graph.microsoft.com/v1.0/me/drive/special/approot:/esgst_data_${new Date().toISOString().replace(/:/g, `__`)}.json:/content`, response => {
+                request(JSON.stringify(data), {Authorization: `bearer ${getValue(`oneDriveToken`)}`, [`Content-Type`]: `application/json`}, `PUT`, false, `https://graph.microsoft.com/v1.0/me/drive/special/approot:/esgst_data_${new Date().toISOString().replace(/:/g, `_`)}.json:/content`, response => {
                     if (!dm.autoBackup) {
                         createFadeMessage(dm.message, `Data ${dm.type}ed with success!`);
                     }
@@ -33257,7 +33257,7 @@ Parsedown = (() => {
                     JSON.parse(response.responseText).value.forEach(file => {
                         if (file.name.match(/esgst_data_.*?\.json/)) {
                             let item = insertHtml(entries, `beforeEnd`, `
-                                <div class="esgst-clickable">${file.name.replace(/__/g, `:`)} - ${convertBytes(file.size)}</div>
+                                <div class="esgst-clickable">${file.name} - ${convertBytes(file.size)}</div>
                             `);
                             item.addEventListener(`click`, () => {
                                 createConfirmation(`Are you sure you want to import the selected data?`, () => {
