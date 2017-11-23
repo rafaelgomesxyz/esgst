@@ -29998,7 +29998,7 @@ Parsedown = (() => {
 
     function loadGiveawayFeatures(context, main, source, endless) {
         var giveaways, i, n, savedGiveaways;
-        giveaways = getGiveaways(context, main, null, false, null, false, endless);
+        giveaways = getGiveaways(context, main, null, false, null, false, endless, source);
         if (main) {
             for (i = giveaways.length - 1; i > -1; --i) {
                 giveaways[i].sortIndex = esgst.currentGiveaways.length;
@@ -30031,7 +30031,7 @@ Parsedown = (() => {
         }
     }
 
-    function getGiveaways(context, main, mainUrl, hr, key, ged, endless) {
+    function getGiveaways(context, main, mainUrl, hr, key, ged, endless, source) {
         var games, giveaway, giveaways, i, mainContext, matches, n, query, savedUsers;
         games = JSON.parse(getValue(`games`));
         savedUsers = JSON.parse(getValue(`users`));
@@ -30054,7 +30054,7 @@ Parsedown = (() => {
         }
         matches = context.querySelectorAll(query);
         for (i = matches.length - 1; i > -1; --i) {
-            giveaway = getGiveawayInfo(matches[i], mainContext, games, savedUsers, null, null, main, mainUrl, ged, endless);
+            giveaway = getGiveawayInfo(matches[i], mainContext, games, savedUsers, null, null, main, mainUrl, ged, endless, source);
             if (giveaway) {
                 giveaways.push(giveaway[key]);
             }
@@ -30062,7 +30062,7 @@ Parsedown = (() => {
         return giveaways;
     }
 
-    function getGiveawayInfo(context, mainContext, games, savedUsers, ugd, ugdType, main, mainUrl, ged, endless) {
+    function getGiveawayInfo(context, mainContext, games, savedUsers, ugd, ugdType, main, mainUrl, ged, endless, source) {
         var category, categories, chance, element, giveaway, i, id, info, key, keys, match, n, savedUser, uf, thinHeadings;
         giveaway = {};
         giveaway.outerWrap = context;
@@ -30088,7 +30088,7 @@ Parsedown = (() => {
         giveaway.avatar = giveaway.outerWrap.querySelector(`.giveaway_image_avatar, .featured_giveaway_image_avatar`);
         giveaway.image = giveaway.outerWrap.querySelector(`.giveaway_image_thumbnail, .giveaway_image_thumbnail_missing, .global__image-outer-wrap--game-medium`);
         giveaway.summary = giveaway.innerWrap.querySelector(`.giveaway__summary, .featured__summary, .table__column--width-fill`);
-        if (esgst.giveawayPath && main) {
+        if ((esgst.giveawayPath && main) || source === `gb`) {
             var button = mainContext.getElementsByClassName(`sidebar__entry-delete`)[0];
             if (button) {
                 giveaway.entered = !button.classList.contains(`is-hidden`);
