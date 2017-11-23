@@ -28493,6 +28493,22 @@ Parsedown = (() => {
 
     /* */
 
+    function debug() {
+        let popup, textArea;
+        popup = new Popup(`fa-bug`, `Debug`);
+        popup.description.insertAdjacentHTML(`afterBegin`, `<div class="esgst-description">Insert the Javascript code below to debug it. To open the console, use Ctrl + Shift + I.<br><br><span class="esgst-bold esgst-red">BE CAREFUL! Only do this if you know what you are doing or if you have been instructed to.<br><br>Playing with this when you do not know what you are doing could lead to serious consequences, such as having your entire data wiped out.<br><br>YOU HAVE BEEN WARNED!</span></div>`);
+        textArea = insertHtml(popup.scrollable, `beforeEnd`, `<textarea class="esgst-debug"></textarea>`);
+        popup.description.appendChild(new ButtonSet(`green`, ``, `fa-bug`, ``, `Debug`, ``, callback => {
+            callback();
+            try {
+                eval(textArea.value);
+            } catch (e) {
+                console.log(e);
+            }
+        }).set);
+        popup.open(() => textArea.focus());
+    }
+
     function loadSMMenu(tab) {
         let I, Container, SMManageFilteredUsers, SMAPIKey, popup;
         if (tab) {
@@ -28573,6 +28589,11 @@ Parsedown = (() => {
             Icons: [`fa-trophy`, `fa-cog`],
             Name: `esgst-namwc-button esgst-heading-button`,
             Title: `Manage Not Activated / Multiple Wins Checker caches.`
+        }, {
+            Check: true,
+            Icons: [`fa-bug`],
+            Name: `esgst-heading-button`,
+            Title: `Debug`
         }]);
         var SMMenu = Container.getElementsByClassName(`esgst-settings-menu`)[0];
         let i, type;
@@ -28632,6 +28653,7 @@ Parsedown = (() => {
         heading.firstElementChild.nextElementSibling.nextElementSibling.addEventListener(`click`, loadDataManagement.bind(null, false, `export`, null));
         heading.firstElementChild.nextElementSibling.nextElementSibling.nextElementSibling.addEventListener(`click`, loadDataManagement.bind(null, false, `delete`, null));
         heading.firstElementChild.nextElementSibling.nextElementSibling.nextElementSibling.nextElementSibling.addEventListener(`click`, exportSettings);
+        heading.lastElementChild.addEventListener(`click`, debug);
         if (SMManageUserTags) {
             SMManageUserTags.addEventListener(`click`, openManageUserTagsPopup);
         }
@@ -33415,6 +33437,11 @@ Parsedown = (() => {
             `;
         }
         style += `
+            .esgst-debug {
+                height: 300px;
+                width: 600px;
+            }
+
             .esgst-radb-button {
                 cursor: pointer;
                 display: inline-block;
