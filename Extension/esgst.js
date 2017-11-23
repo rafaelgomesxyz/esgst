@@ -14248,16 +14248,16 @@ Parsedown = (() => {
                 var giveaway = giveaways[i];
                 if (((esgst.archivePath && !main) || !esgst.archivePath) && giveaway.creator !== esgst.username && (!giveaway.entered || (esgst.enteredPath && main)) && giveaway.url && !giveaway.innerWrap.getElementsByClassName(`esgst-gb-button`)[0]) {
                     if (savedGiveaways[giveaway.code] && savedGiveaways[giveaway.code].bookmarked) {
-                        addGbUnbookmarkButton(giveaway);
+                        addGbUnbookmarkButton(giveaway, main);
                     } else if (!giveaway.ended) {
-                        addGbBookmarkButton(giveaway);
+                        addGbBookmarkButton(giveaway, main);
                     }
                 }
             }
         }
     }
 
-    function addGbBookmarkButton(giveaway) {
+    function addGbBookmarkButton(giveaway, main) {
         var button;
         button = insertHtml(giveaway.headingName, `beforeBegin`, `
             <div class="esgst-gb-button" title="Bookmark giveaway">
@@ -14268,7 +14268,7 @@ Parsedown = (() => {
             button.innerHTML = `<i class="fa fa-circle-o-notch fa-spin"></i>`;
             bookmarkGbGiveaway(giveaway, function() {
                 button.remove();
-                addGbUnbookmarkButton(giveaway);
+                addGbUnbookmarkButton(giveaway, main);
             });
         });
     }
@@ -14292,7 +14292,7 @@ Parsedown = (() => {
         });
     }
 
-    function addGbUnbookmarkButton(giveaway) {
+    function addGbUnbookmarkButton(giveaway, main) {
         var button;
         button = insertHtml(giveaway.headingName, `beforeBegin`, `
             <div class="esgst-gb-button" title="Unbookmark giveaway">
@@ -14303,24 +14303,32 @@ Parsedown = (() => {
             button.innerHTML = `<i class="fa fa-circle-o-notch fa-spin"></i>`;
             unbookmarkGbGiveaway(giveaway, function() {
                 button.remove();
-                addGbBookmarkButton(giveaway);
+                addGbBookmarkButton(giveaway, main);
             });
         });
+        if (main && esgst.enterGiveawayButton) {
+            esgst.enterGiveawayButton.addEventListener(`click`, function() {
+                button.innerHTML = `<i class="fa fa-circle-o-notch fa-spin"></i>`;
+                unbookmarkGbGiveaway(giveaway, function() {
+                    button.remove();
+                });
+            });
+        }
     }
 
     function unbookmarkGbGiveaway(giveaway, callback) {
-            createLock(`giveawayLock`, 300, function(deleteLock) {
-                var giveaways;
-                giveaways = JSON.parse(getValue(`giveaways`, `{}`));
-                if (giveaways[giveaway.code]) {
-                    delete giveaways[giveaway.code].bookmarked;
-                }
-                setValue(`giveaways`, JSON.stringify(giveaways));
-                deleteLock();
-                if (callback) {
-                    callback();
-                }
-            });
+        createLock(`giveawayLock`, 300, function(deleteLock) {
+            var giveaways;
+            giveaways = JSON.parse(getValue(`giveaways`, `{}`));
+            if (giveaways[giveaway.code]) {
+                delete giveaways[giveaway.code].bookmarked;
+            }
+            setValue(`giveaways`, JSON.stringify(giveaways));
+            deleteLock();
+            if (callback) {
+                callback();
+            }
+        });
     }
 
     /* [GED] Giveaway Encrypter/Decrypter */
@@ -15419,7 +15427,7 @@ Parsedown = (() => {
                     if (button) {
                         unbookmarkGbGiveaway(giveaway, function() {
                             button.remove();
-                            addGbBookmarkButton(giveaway);
+                            addGbBookmarkButton(giveaway, main);
                         });
                     }
                 }
