@@ -20597,7 +20597,7 @@ Parsedown = (() => {
                     if (esgst.adots) {
                         loadAdots(refresh);
                     } else if (esgst.radb && !refresh) {
-                        addRadbButtons();                   
+                        addRadbButtons();
                     }
                     if (refresh) {
                         loadEndlessFeatures(esgst.activeDiscussions);
@@ -20622,7 +20622,7 @@ Parsedown = (() => {
         }
     }
 
-    function addRadbButtons() {        
+    function addRadbButtons() {
         let elements, i;
         elements = esgst.activeDiscussions.querySelectorAll(`.homepage_heading, .esgst-heading-button`);
         for (i = elements.length - 1; i > -1; --i) {
@@ -20633,7 +20633,7 @@ Parsedown = (() => {
             `).addEventListener(`click`, event => {
                 let icon = event.currentTarget.firstElementChild;
                 icon.classList.add(`fa-spin`);
-                if (esgst.oadd) {                    
+                if (esgst.oadd) {
                     loadOadd(true, () => {
                         icon.classList.remove(`fa-spin`);
                     });
@@ -28532,6 +28532,55 @@ Parsedown = (() => {
         popup.open(() => textArea.focus());
     }
 
+    function filterSm(event) {
+        let found, id, type, typeFound, value;
+        value = event.currentTarget.value.toLowerCase().trim();
+        for (type in esgst.features) {
+            found = false;
+            typeFound = false;
+            for (id in esgst.features[type].features) {
+                found = filterSmFeature(esgst.features[type].features[id], id, value);
+                if (found) {
+                    typeFound = true;
+                    unhideSmFeature(esgst.features[type].features[id], id);
+                }
+            }
+            if (typeFound) {
+                document.getElementById(`esgst_${type}`).classList.remove(`esgst-hidden`);
+            } else {
+                document.getElementById(`esgst_${type}`).classList.add(`esgst-hidden`);
+            }
+        }
+    }
+
+    function filterSmFeature(feature, id, value) {
+        let found, subId;
+        found = false;
+        if (feature.features) {
+            for (subId in feature.features) {
+                found = found || filterSmFeature(feature.features[subId], subId, value);
+            }
+            found = found || (feature.description && feature.description.toLowerCase().match(value)) || feature.name.toLowerCase().match(value);
+        } else {
+            found = (feature.description && feature.description.toLowerCase().match(value)) || feature.name.toLowerCase().match(value);
+        }
+        if (found) {
+            document.getElementById(`esgst_${id}`).classList.remove(`esgst-hidden`);
+        } else {
+            document.getElementById(`esgst_${id}`).classList.add(`esgst-hidden`);
+        }
+        return found;
+    }
+
+    function unhideSmFeature(feature, id) {
+        document.getElementById(`esgst_${id}`).classList.remove(`esgst-hidden`);
+        if (feature.features) {
+            for (id in feature.features) {
+                unhideSmFeature(feature.features[id], id);
+            }
+        }
+    }
+
     function loadSMMenu(tab) {
         let I, Container, SMManageFilteredUsers, SMAPIKey, popup;
         if (tab) {
@@ -28544,8 +28593,10 @@ Parsedown = (() => {
         }
         Container.innerHTML = `
             <div class="esgst-page-heading"></div>
+            <input placeholder="Filter features..." type="text">
             <div class="esgst-settings-menu"></div>
         `;
+        Container.firstElementChild.nextElementSibling.addEventListener(`input`, filterSm);
         var heading = Container.getElementsByClassName(`esgst-page-heading`)[0];
         createSMButtons(heading, [{
             Check: true,
@@ -28630,7 +28681,7 @@ Parsedown = (() => {
                         <i class="fa fa-star"></i>
                     </span>
                     ${title}
-                ` : title);
+                ` : title, type);
                 j = 1;
                 for (id in esgst.features[type].features) {
                     let feature, ft;
@@ -28725,6 +28776,7 @@ Parsedown = (() => {
     function getSMFeature(Feature, ID, aaa) {
         var Menu, Checkbox, CheckboxInput, SMFeatures;
         Menu = document.createElement(`div`);
+        Menu.id = `esgst_${ID}`;
         Menu.insertAdjacentHTML(`beforeEnd`, `
             <div class="esgst-sm-small-number esgst-form-heading-number">${aaa}.</div>
         `);
@@ -29366,9 +29418,9 @@ Parsedown = (() => {
         });
     }
 
-    function createMenuSection(context, html, number, title) {
+    function createMenuSection(context, html, number, title, type) {
         let section = insertHtml(context, `beforeEnd`, `
-            <div class="esgst-form-row">
+            <div class="esgst-form-row" id="esgst_${type}">
                 <div class="esgst-form-heading">
                     <div class="esgst-form-heading-number">${number}.</div>
                     <div class="esgst-form-heading-text">${title}</div>
@@ -32545,7 +32597,7 @@ Parsedown = (() => {
                                 } else if (dm.delete) {
                                     delValue(`emojis`);
                                 }
-                            }                            
+                            }
                             if (!dm.autoBackup) {
                                 size = (new TextEncoder(`utf-8`).encode(getValue(optionKey, ``))).length;
                                 totalGM += size;
