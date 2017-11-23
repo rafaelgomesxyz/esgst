@@ -26278,22 +26278,17 @@ Parsedown = (() => {
     function importWbmList(wbm, callback) {
         let file = wbm.input.files[0];
         if (file) {
-            if (file.name.match(/esgst_.*?\.json/)) {
-                let reader = new FileReader();
-                reader.readAsText(file);
-                reader.onload = () => {
-                    try {
-                        let list = JSON.parse(reader.result);
-                        insertWbmUsers(wbm, list, 0, list.length, callback);
-                    } catch (error) {
-                        createFadeMessage(wbm.warning, `Cannot parse file!`);
-                        callback();
-                    }
-                };
-            } else {
-                createFadeMessage(wbm.warning, `Invalid file!`);
-                callback();
-            }
+            let reader = new FileReader();
+            reader.readAsText(file);
+            reader.onload = () => {
+                try {
+                    let list = JSON.parse(reader.result);
+                    insertWbmUsers(wbm, list, 0, list.length, callback);
+                } catch (error) {
+                    createFadeMessage(wbm.warning, `Cannot parse file!`);
+                    callback();
+                }
+            };
         } else {
             createFadeMessage(wbm.warning, `No file was loaded!`);
             callback();
@@ -32295,14 +32290,9 @@ Parsedown = (() => {
         } else {
             file = dm.input.files[0];
             if (file) {
-                if (file.name.match(/esgst_data_.*?\.json/)) {
-                    dm.reader = new FileReader();
-                    dm.reader.readAsText(file);
-                    dm.reader.onload = readImportFile.bind(null, dm, dropbox, googleDrive, oneDrive, space, callback);
-                } else {
-                    createFadeMessage(dm.warning, `Invalid file!`);
-                    callback();
-                }
+                dm.reader = new FileReader();
+                dm.reader.readAsText(file);
+                dm.reader.onload = readImportFile.bind(null, dm, dropbox, googleDrive, oneDrive, space, callback);
             } else {
                 createFadeMessage(dm.warning, `No file was loaded!`);
                 callback();
@@ -33103,7 +33093,7 @@ Parsedown = (() => {
                     data = new Blob([JSON.stringify(data)]);
                     url = URL.createObjectURL(data);
                     file = document.createElement(`a`);
-                    file.download = `esgst_data_${new Date().toISOString().replace(/:/g, `_`)}.json`;
+                    file.download = `${prompt(`Enter the name of the file:`, `esgst_data_${new Date().toISOString().replace(/:/g, `_`)}`)}.json`;
                     file.href = url;
                     document.body.appendChild(file);
                     file.click();
@@ -33138,7 +33128,7 @@ Parsedown = (() => {
         data = new Blob([JSON.stringify(data)]);
         url = URL.createObjectURL(data);
         file = document.createElement(`a`);
-        file.download = `esgst_data_${new Date().toISOString().replace(/:/g, `_`)}.json`;
+        file.download = `${prompt(`Enter the name of the file:`, `esgst_data_${new Date().toISOString().replace(/:/g, `_`)}`)}.json`;
         file.href = url;
         document.body.appendChild(file);
         file.click();
@@ -33149,7 +33139,8 @@ Parsedown = (() => {
     function checkDropboxComplete(data, dm, callback) {
         if (getValue(`dropboxToken`)) {
             if (dm.type === `export` || (data && esgst.settings.exportBackup)) {
-                request(JSON.stringify(data), {authorization: `Bearer ${getValue(`dropboxToken`)}`, [`Dropbox-API-Arg`]: `{"path": "/esgst_data_${new Date().toISOString().replace(/:/g, `_`)}.json"}`, [`Content-Type`]: `application/octet-stream`}, `POST`, false, `https://content.dropboxapi.com/2/files/upload`, response => {
+                let name = prompt(`Enter the name of the file:`, `esgst_data_${new Date().toISOString().replace(/:/g, `_`)}`);
+                request(JSON.stringify(data), {authorization: `Bearer ${getValue(`dropboxToken`)}`, [`Dropbox-API-Arg`]: `{"path": "/${name}.json"}`, [`Content-Type`]: `application/octet-stream`}, `POST`, false, `https://content.dropboxapi.com/2/files/upload`, response => {
                     if (!dm.autoBackup) {
                         createFadeMessage(dm.message, `Data ${dm.type}ed with success!`);
                     }
@@ -33161,24 +33152,19 @@ Parsedown = (() => {
                     let popup = new Popup(`fa-dropbox`, `Select a file to import:`, true);
                     let entries = insertHtml(popup.scrollable, `beforeEnd`, `<div class="popup__keys__list"></div>`);
                     JSON.parse(response.responseText).entries.forEach(entry => {
-                        if (entry[`.tag`] === `file` && entry.name.match(/esgst_data_.*?\.json/)) {
-                            let item = insertHtml(entries, `beforeEnd`, `
-                                <div class="esgst-clickable">${entry.name} - ${convertBytes(entry.size)}</div>
-                            `);
-                            item.addEventListener(`click`, () => {
-                                createConfirmation(`Are you sure you want to import the selected data?`, () => {
-                                    canceled = false;
-                                    popup.close();
-                                    request(null, {authorization: `Bearer ${getValue(`dropboxToken`)}`, [`Dropbox-API-Arg`]: `{"path": "/${entry.name}"}`, [`Content-Type`]: `text/plain`}, `GET`, false, `https://content.dropboxapi.com/2/files/download`, response => {
-                                        dm.data = JSON.parse(response.responseText);
-                                        manageData(dm, false, false, false, false, callback);
-                                    });
+                        let item = insertHtml(entries, `beforeEnd`, `
+                            <div class="esgst-clickable">${entry.name} - ${convertBytes(entry.size)}</div>
+                        `);
+                        item.addEventListener(`click`, () => {
+                            createConfirmation(`Are you sure you want to import the selected data?`, () => {
+                                canceled = false;
+                                popup.close();
+                                request(null, {authorization: `Bearer ${getValue(`dropboxToken`)}`, [`Dropbox-API-Arg`]: `{"path": "/${entry.name}"}`, [`Content-Type`]: `text/plain`}, `GET`, false, `https://content.dropboxapi.com/2/files/download`, response => {
+                                    dm.data = JSON.parse(response.responseText);
+                                    manageData(dm, false, false, false, false, callback);
                                 });
                             });
-                        } else {
-                            createFadeMessage(dm.warning, `No files found!`);
-                            callback();
-                        }
+                        });
                     });
                     popup.onClose = () => {
                         if (canceled) {
@@ -33196,7 +33182,8 @@ Parsedown = (() => {
     function checkGoogleDriveComplete(data, dm, callback) {
         if (getValue(`googleDriveToken`)) {
             if (dm.type === `export` || (data && esgst.settings.exportBackup)) {
-                request(`--esgst\nContent-Type: application/json; charset=UTF-8\n\n{"mimeType": "mime/type", "name": "esgst_data_${new Date().toISOString().replace(/:/g, `_`)}.json", "parents": ["appDataFolder"]}\n\n--esgst\nContent-Type: mime/type\n\n${JSON.stringify(data)}\n--esgst--`, {authorization: `Bearer ${getValue(`googleDriveToken`)}`, [`Content-Type`]: `multipart/related; boundary=esgst`}, `POST`, false, `https://www.googleapis.com/upload/drive/v3/files?uploadType=multipart`, response => {
+                let name = prompt(`Enter the name of the file:`, `esgst_data_${new Date().toISOString().replace(/:/g, `_`)}`);
+                request(`--esgst\nContent-Type: application/json; charset=UTF-8\n\n{"mimeType": "mime/type", "name": "${name}.json", "parents": ["appDataFolder"]}\n\n--esgst\nContent-Type: mime/type\n\n${JSON.stringify(data)}\n--esgst--`, {authorization: `Bearer ${getValue(`googleDriveToken`)}`, [`Content-Type`]: `multipart/related; boundary=esgst`}, `POST`, false, `https://www.googleapis.com/upload/drive/v3/files?uploadType=multipart`, response => {
                     if (!dm.autoBackup) {
                         createFadeMessage(dm.message, `Data ${dm.type}ed with success!`);
                     }
@@ -33208,24 +33195,19 @@ Parsedown = (() => {
                     let popup = new Popup(`fa-google`, `Select a file to import:`, true);
                     let entries = insertHtml(popup.scrollable, `beforeEnd`, `<div class="popup__keys__list"></div>`);
                     JSON.parse(response.responseText).files.forEach(file => {
-                        if (file.name.match(/esgst_data_.*?\.json/)) {
-                            let item = insertHtml(entries, `beforeEnd`, `
-                                <div class="esgst-clickable">${file.name}</div>
-                            `);
-                            item.addEventListener(`click`, () => {
-                                createConfirmation(`Are you sure you want to import the selected data?`, () => {
-                                    canceled = false;
-                                    popup.close();
-                                    request(null, {authorization: `Bearer ${getValue(`googleDriveToken`)}`}, `GET`, false, `https://www.googleapis.com/drive/v3/files/${file.id}?alt=media`, response => {
-                                        dm.data = JSON.parse(response.responseText);
-                                        manageData(dm, false, false, false, false, callback);
-                                    });
+                        let item = insertHtml(entries, `beforeEnd`, `
+                            <div class="esgst-clickable">${file.name}</div>
+                        `);
+                        item.addEventListener(`click`, () => {
+                            createConfirmation(`Are you sure you want to import the selected data?`, () => {
+                                canceled = false;
+                                popup.close();
+                                request(null, {authorization: `Bearer ${getValue(`googleDriveToken`)}`}, `GET`, false, `https://www.googleapis.com/drive/v3/files/${file.id}?alt=media`, response => {
+                                    dm.data = JSON.parse(response.responseText);
+                                    manageData(dm, false, false, false, false, callback);
                                 });
                             });
-                        } else {
-                            createFadeMessage(dm.warning, `No files found!`);
-                            callback();
-                        }
+                        });
                     });
                     popup.onClose = () => {
                         if (canceled) {
@@ -33243,7 +33225,8 @@ Parsedown = (() => {
     function checkOneDriveComplete(data, dm, callback) {
         if (getValue(`oneDriveToken`)) {
             if (dm.type === `export` || (data && esgst.settings.exportBackup)) {
-                request(JSON.stringify(data), {Authorization: `bearer ${getValue(`oneDriveToken`)}`, [`Content-Type`]: `application/json`}, `PUT`, false, `https://graph.microsoft.com/v1.0/me/drive/special/approot:/esgst_data_${new Date().toISOString().replace(/:/g, `_`)}.json:/content`, response => {
+                let name = prompt(`Enter the name of the file:`, `esgst_data_${new Date().toISOString().replace(/:/g, `_`)}`);
+                request(JSON.stringify(data), {Authorization: `bearer ${getValue(`oneDriveToken`)}`, [`Content-Type`]: `application/json`}, `PUT`, false, `https://graph.microsoft.com/v1.0/me/drive/special/approot:/${name}.json:/content`, response => {
                     if (!dm.autoBackup) {
                         createFadeMessage(dm.message, `Data ${dm.type}ed with success!`);
                     }
@@ -33255,24 +33238,19 @@ Parsedown = (() => {
                     let popup = new Popup(`fa-windows`, `Select a file to import:`, true);
                     let entries = insertHtml(popup.scrollable, `beforeEnd`, `<div class="popup__keys__list"></div>`);
                     JSON.parse(response.responseText).value.forEach(file => {
-                        if (file.name.match(/esgst_data_.*?\.json/)) {
-                            let item = insertHtml(entries, `beforeEnd`, `
-                                <div class="esgst-clickable">${file.name} - ${convertBytes(file.size)}</div>
-                            `);
-                            item.addEventListener(`click`, () => {
-                                createConfirmation(`Are you sure you want to import the selected data?`, () => {
-                                    canceled = false;
-                                    popup.close();
-                                    request(null, {authorization: `Bearer ${getValue(`oneDriveToken`)}`}, `GET`, false, `https://graph.microsoft.com/v1.0/me/drive/items/${file.id}/content`, response => {
-                                        dm.data = JSON.parse(response.responseText);
-                                        manageData(dm, false, false, false, false, callback);
-                                    }, true);
-                                });
+                        let item = insertHtml(entries, `beforeEnd`, `
+                            <div class="esgst-clickable">${file.name} - ${convertBytes(file.size)}</div>
+                        `);
+                        item.addEventListener(`click`, () => {
+                            createConfirmation(`Are you sure you want to import the selected data?`, () => {
+                                canceled = false;
+                                popup.close();
+                                request(null, {authorization: `Bearer ${getValue(`oneDriveToken`)}`}, `GET`, false, `https://graph.microsoft.com/v1.0/me/drive/items/${file.id}/content`, response => {
+                                    dm.data = JSON.parse(response.responseText);
+                                    manageData(dm, false, false, false, false, callback);
+                                }, true);
                             });
-                        } else {
-                            createFadeMessage(dm.warning, `No files found!`);
-                            callback();
-                        }
+                        });
                     });
                     popup.onClose = () => {
                         if (canceled) {
