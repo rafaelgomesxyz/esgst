@@ -1721,6 +1721,7 @@ Parsedown = (() => {
                     lastSyncGiveaways: `lastSync`
                 };
                 esgst.defaultValues = {
+                    gb_ue: true,
                     radb: true,
                     lastBackup: 0,
                     autoBackup_index: 0,
@@ -2814,6 +2815,16 @@ Parsedown = (() => {
                                         name: `Highlight the button when giveaways have started and/or are about to end.`,
                                         sg: true
                                     },
+                                    gb_se: {
+                                        name: `Show the button for entered giveaways.`,
+                                        new: true,
+                                        sg: true
+                                    },
+                                    gb_ue: {
+                                        name: `Automatically unbookmark entered giveaways.`,
+                                        new: true,
+                                        sg: true
+                                    },
                                     gb_u: {
                                         description: `
                                             <ul>
@@ -2829,6 +2840,7 @@ Parsedown = (() => {
                                     }
                                 },
                                 name: `Giveaway Bookmarks`,
+                                newBelow: true,
                                 sg: true
                             },
                             gch: {
@@ -14246,7 +14258,7 @@ Parsedown = (() => {
             var savedGiveaways = JSON.parse(getValue(`giveaways`, `{}`));
             for (var i = 0, n = giveaways.length; i < n; ++i) {
                 var giveaway = giveaways[i];
-                if (((esgst.archivePath && !main) || !esgst.archivePath) && giveaway.creator !== esgst.username && (!giveaway.entered || (esgst.enteredPath && main)) && giveaway.url && !giveaway.innerWrap.getElementsByClassName(`esgst-gb-button`)[0]) {
+                if (((esgst.archivePath && !main) || !esgst.archivePath) && giveaway.creator !== esgst.username && (!giveaway.entered || (esgst.enteredPath && main) || esgst.gb_se) && giveaway.url && !giveaway.innerWrap.getElementsByClassName(`esgst-gb-button`)[0]) {
                     if (savedGiveaways[giveaway.code] && savedGiveaways[giveaway.code].bookmarked) {
                         addGbUnbookmarkButton(giveaway, main);
                     } else if (!giveaway.ended) {
@@ -14306,11 +14318,14 @@ Parsedown = (() => {
                 addGbBookmarkButton(giveaway, main);
             });
         });
-        if (main && esgst.enterGiveawayButton) {
+        if (esgst.gb_ue && main && esgst.enterGiveawayButton) {
             esgst.enterGiveawayButton.addEventListener(`click`, function() {
                 button.innerHTML = `<i class="fa fa-circle-o-notch fa-spin"></i>`;
                 unbookmarkGbGiveaway(giveaway, function() {
                     button.remove();
+                    if (esgst.gb_se) {
+                        addGbBookmarkButton(giveaway, main);
+                    }
                 });
             });
         }
@@ -15422,7 +15437,7 @@ Parsedown = (() => {
                 if (esgst.egh) {
                     saveEghGame(giveaway.id, giveaway.type);
                 }
-                if (esgst.gb) {
+                if (esgst.gb && esgst.gb_ue) {
                     var button = giveaway.outerWrap.getElementsByClassName(`esgst-gb-button`)[0];
                     if (button) {
                         unbookmarkGbGiveaway(giveaway, function() {
