@@ -1721,6 +1721,7 @@ Parsedown = (() => {
                     lastSyncGiveaways: `lastSync`
                 };
                 esgst.defaultValues = {
+                    radb: true,
                     lastBackup: 0,
                     autoBackup_index: 0,
                     autoBackup_days: 1,
@@ -3721,6 +3722,16 @@ Parsedown = (() => {
                                     }
                                 },
                                 name: `Old Active Discussions Design`,
+                                sg: true
+                            },
+                            radb: {
+                                description: `
+                                    <ul>
+                                        <li>Allows you to refresh the active discussions without having to refresh the entire page.</li>
+                                    </ul>
+                                `,
+                                name: `Refresh Active Discussions Button`,
+                                new: true,
                                 sg: true
                             }
                         },
@@ -20263,7 +20274,7 @@ Parsedown = (() => {
 
     /* [OADD] Old Active Discussions Design */
 
-    function loadOadd(refresh) {
+    function loadOadd(refresh, callback) {
         var deals, dealsRows, dealsSwitch, discussions, discussionsRows, discussionsSwitch, element, elements, i, j, n, response1Html, response2Html, revisedElements, rows, savedDiscussions;
         request(null, null, `GET`, false, `/discussions`, function (response1) {
             request(null, null, `GET`, false, `/discussions/deals`, function (response2) {
@@ -20348,11 +20359,16 @@ Parsedown = (() => {
                 });
                 if (esgst.adots) {
                     loadAdots(refresh);
+                } else if (esgst.radb) {
+                    addRadbButtons();
                 }
                 if (refresh) {
                     loadEndlessFeatures(esgst.activeDiscussions);
                 } else {
                     loadFeatures();
+                }
+                if (callback) {
+                    callback();
                 }
             });
         });
@@ -20371,6 +20387,11 @@ Parsedown = (() => {
                 if (!refresh) {
                     parent = esgst.activeDiscussions.parentElement;
                     parent.insertBefore(esgst.activeDiscussions, parent.firstElementChild);
+                    if (esgst.radb) {
+                        addRadbButtons();
+                    }
+                } else if (esgst.oadd && esgst.radb) {
+                    addRadbButtons();
                 }
             } else {
                 if (!refresh) {
@@ -20409,16 +20430,33 @@ Parsedown = (() => {
                     `);
                     tabHeading1 = panel.firstElementChild;
                     tabHeading2 = tabHeading1.nextElementSibling;
+                    if (esgst.radb) {
+                        insertHtml(tabHeading2.nextElementSibling, `beforeBegin`, `
+                            <div class="esgst-radb-button">
+                                <i class="fa fa-refresh" title="Refresh active discussions/deals"></i>
+                            </div>
+                        `).addEventListener(`click`, event => {
+                            let icon = event.currentTarget.firstElementChild;
+                            icon.classList.add(`fa-spin`);
+                            if (esgst.oadd) {
+                                loadOadd(true, () => {
+                                    icon.classList.remove(`fa-spin`);
+                                });
+                            } else {
+                                checkMissingDiscussions(true, () => {
+                                    icon.classList.remove(`fa-spin`);
+                                });
+                            }
+                        });
+                    }
                 }
                 if (esgst.oadd) {
-                    if (!refresh) {
-                        discussions = esgst.activeDiscussions.firstElementChild;
-                        deals = esgst.activeDiscussions.lastElementChild;
-                        discussions.firstElementChild.remove();
-                        discussions.firstElementChild.firstElementChild.remove();
-                        deals.firstElementChild.remove();
-                        deals.firstElementChild.firstElementChild.remove();
-                    }
+                    discussions = esgst.activeDiscussions.firstElementChild;
+                    deals = esgst.activeDiscussions.lastElementChild;
+                    discussions.firstElementChild.remove();
+                    discussions.firstElementChild.firstElementChild.remove();
+                    deals.firstElementChild.remove();
+                    deals.firstElementChild.firstElementChild.remove();
                     elements = esgst.activeDiscussions.getElementsByClassName(`table__column--last-comment`);
                     for (i = 0, n = elements.length; i < n; ++i) {
                         icon = elements[0].getElementsByClassName(`table__last-comment-icon`)[0];
@@ -20434,7 +20472,7 @@ Parsedown = (() => {
                     }
                 } else {
                     if (refresh) {
-                        rows = document.getElementsByClassName(`table__rows`);
+                        rows = document.getElementsByClassName(`table`);
                         discussions = rows[0];
                         deals = rows[1];
                     } else {
@@ -20468,14 +20506,14 @@ Parsedown = (() => {
                         parent.remove();
                     }
                 }
+                deals.classList.add(`esgst-hidden`, `esgst-adots`);
+                discussions.classList.add(`esgst-adots`);
                 if (!refresh) {
-                    deals.classList.add(`esgst-hidden`, `esgst-adots`);
-                    discussions.classList.add(`esgst-adots`);
                     activeDiscussions = insertHtml(esgst.sidebar, `beforeEnd`, `<div></div>`);
                     activeDiscussions.appendChild(discussions);
                     activeDiscussions.appendChild(deals);
-                    tabHeading1.addEventListener(`click`, changeAdotsTab.bind(null, tabHeading1, tabHeading2, discussions, deals));
-                    tabHeading2.addEventListener(`click`, changeAdotsTab.bind(null, tabHeading2, tabHeading1, deals, discussions));
+                    tabHeading1.addEventListener(`click`, changeAdotsTab.bind(null, tabHeading1, tabHeading2));
+                    tabHeading2.addEventListener(`click`, changeAdotsTab.bind(null, tabHeading2, tabHeading1));
                     esgst.activeDiscussions.remove();
                     esgst.activeDiscussions = activeDiscussions;
                 }
@@ -20483,14 +20521,14 @@ Parsedown = (() => {
         }
     }
 
-    function changeAdotsTab(button1, button2, first, second) {
-        button2.classList.remove(`esgst-selected`);
-        first.classList.remove(`esgst-hidden`);
-        second.classList.add(`esgst-hidden`);
-        button1.classList.add(`esgst-selected`);
+    function changeAdotsTab(button1, button2) {
+        button1.classList.toggle(`esgst-selected`);
+        button2.classList.toggle(`esgst-selected`);
+        button1.parentElement.nextElementSibling.firstElementChild.classList.toggle(`esgst-hidden`);
+        button1.parentElement.nextElementSibling.lastElementChild.classList.toggle(`esgst-hidden`);
     }
 
-    function checkMissingDiscussions(refresh) {
+    function checkMissingDiscussions(refresh, callback) {
         let deals, discussions, numDeals, numDiscussions, rows, savedDiscussions;
         savedDiscussions = JSON.parse(getValue(`discussions`, `{}`));
         rows = document.getElementsByClassName(`table__rows`);
@@ -20535,19 +20573,53 @@ Parsedown = (() => {
                     }
                     if (esgst.adots) {
                         loadAdots(refresh);
+                    } else if (esgst.radb && !refresh) {
+                        addRadbButtons();                   
                     }
                     if (refresh) {
                         loadEndlessFeatures(esgst.activeDiscussions);
                     } else {
                         loadFeatures();
                     }
+                    if (callback) {
+                        callback();
+                    }
                 });
             });
         } else {
             if (esgst.adots) {
                 loadAdots();
+            } else if (esgst.radb && !refresh) {
+                addRadbButtons();
             }
             loadFeatures();
+            if (callback) {
+                callback();
+            }
+        }
+    }
+
+    function addRadbButtons() {        
+        let elements, i;
+        elements = esgst.activeDiscussions.querySelectorAll(`.homepage_heading, .esgst-heading-button`);
+        for (i = elements.length - 1; i > -1; --i) {
+            insertHtml(elements[i], `beforeBegin`, `
+                <div class="esgst-radb-button${esgst.oadd ? `` : ` homepage_heading`}">
+                    <i class="fa fa-refresh" title="Refresh active discussions/deals"></i>
+                </div>
+            `).addEventListener(`click`, event => {
+                let icon = event.currentTarget.firstElementChild;
+                icon.classList.add(`fa-spin`);
+                if (esgst.oadd) {                    
+                    loadOadd(true, () => {
+                        icon.classList.remove(`fa-spin`);
+                    });
+                } else {
+                    checkMissingDiscussions(true, () => {
+                        icon.classList.remove(`fa-spin`);
+                    });
+                }
+            });
         }
     }
 
@@ -33365,6 +33437,24 @@ Parsedown = (() => {
             `;
         }
         style += `
+            .esgst-radb-button {
+                cursor: pointer;
+                display: inline-block;
+            }
+
+            .esgst-radb-button.homepage_heading {
+                margin-right: 5px;
+            }
+
+            :not(.page__heading) > .esgst-radb-button:not(.homepage_heading) {
+                margin-left: 5px;
+            }
+
+            .esgst-radb-button + .homepage_heading {
+                display: inline-block;
+                width: calc(100% - 80px);
+            }
+
             .esgst-cfh-preview {
                 margin: 5px 0;
                 text-align: left;
