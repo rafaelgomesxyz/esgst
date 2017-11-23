@@ -33586,6 +33586,10 @@ Parsedown = (() => {
                 margin: 0 5px 0 0;
             }
 
+            .esgst-gm-popout {
+                min-width: 725px;
+            }
+
             .esgst-gm-popout textarea {
                 height: 150px !important;
                 overflow-y: auto !important;
