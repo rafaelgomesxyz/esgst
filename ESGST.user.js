@@ -3,7 +3,7 @@
 // @namespace ESGST
 // @description Enhances SteamGifts and SteamTrades by adding some cool features to them.
 // @icon https://dl.dropboxusercontent.com/s/lr3t3bxrxfxylqe/esgstIcon.ico?raw=1
-// @version 7.8.1
+// @version 7.9.0
 // @author revilheart
 // @downloadURL https://github.com/revilheart/ESGST/raw/master/ESGST.user.js
 // @updateURL https://github.com/revilheart/ESGST/raw/master/ESGST.meta.js
@@ -1530,13 +1530,11 @@ Parsedown = (() => {
             storage: storage,
             sg: location.hostname.match(/www.steamgifts.com/),
             st: location.hostname.match(/www.steamtrades.com/),
-            currentVersion: `7.8.1`,
+            currentVersion: `7.9.0`,
             icon: `data:image/x-icon;base64,AAABAAEAEBAAAAEAIABoBAAAFgAAACgAAAAQAAAAIAAAAAEAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAqv8DCbP/Hgeq+CQIrf8iCK3/Igit/yIIrf8iB6//Iwit9x8Aqv8DAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAKr0GAa2/c0DvfzfA7f83QO3/N0Dt/zdA7f83QO+/d4Gs/3OAKP1GQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACm/xQFs/n2Bcf//wW///8FwP//BcD//wW///8Fx///BbP69gC2/xUAAAAAAAAAAAAAAAAA/1UDFptOFxSZMxkLpJktAq720QW1+ugEsfvjA7b92wO2/dsEsfvjBbX66Aau/dEoiO4tUlLWGU5k3hdVVf8DEJxKHxWqT8cVrU7uE6VN0guqny0Apv8XAJfQGwBAVywAQFcsAJfQGwCx/xcogugtS2Lk0lBl6u5Qae7ISmPeHxagSSMVr07jF7lV/xOiSu0brgATAAAAAAAAAA8AAAC/AAAAwAAAABAAAAAAYznjEkth4OxWb/3/T2jv40lf4iMXnksiEq1O3RayUv8UpEnkEo0+HQAAABkAAABBAAAA8QAAAPEAAABBAAAAGUBSvxxOYeDjU2v0/05m7d1LYuEiF55LIhKtTt0Ws1L/FahN2gU1FTAAAADAAAAA7AAAAP0AAAD9AAAA7AAAAMAVG0owUGPm2lNr9P9OZu3dS2LhIheeSyISrU7dFrNS/xWoTdoFNRswAAAAvwAAAOsAAAD9AAAA/QAAAOsAAADAFRtKMFBj6NpTa/T/Tmbt3Uti4SIXnksiEq1O3RayUv8UpEnkEo0+HQAAABgAAABAAAAA8QAAAPEAAABBAAAAGT5PuR1OYeDjU2v0/05m7d1LYuEiFqBJIxWuT+QXuVX/E6JL7QC8XhMAAAAAAAAADwAAAL8AAAC/AAAAEAAAAAAOR/8SSWLh7FZv/f9PaO/jSV/iIxCUSh8Vrk7HFqxN7ROlS9JskzMt1XULGK12EhxGLgYsRy8GK612EhzVgAsYgmxxLU1i39JNZ+vtT2fwx0pj1h8AqlUDF65GFgqZUhlsiC0txH0T0s5/EujJgBPkz4QR28+EEdvJgBPkzn8Q6Md+E9KLdHosM1LWGUZo6BZVVf8DAAAAAAAAAAAAAAAA/2YAFMl9EvbgjRb/14gV/9eIFf/XiBX/14gV/9+NFv/KgBD254YAFQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAL91FRjKgRHN1IgU3s+EEt3PhBLdz4QS3c+EEt3UiBTezYMRzcJ6FBkAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACqqgADxIARHr18FiO8eA8ivHgPIrx4DyK8eA8ivXwPI8SAER7/VQADAAAAAAAAAAAAAAAA78cAAPA3AAD4FwAABCAAADGOAAAE+AAAkBEAAJ55AACYOQAAlgEAAER4AAAXaAAATnoAAPgXAAD0JwAA69cAAA==`,
             sgIcon: `data:image/x-icon;base64,AAABAAEAEBAAAAEAIABoBAAAFgAAACgAAAAQAAAAIAAAAAEAIAAAAAAAQAQAABMLAAATCwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIUAAAD5AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAPoAAACFAAAAAAAAAAAAAAD8AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA+QAAAAAAAAAAAAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAAAAAAAAAAAAP8AAAD/AAAA/wAAABwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAcAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAcAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAHAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAAAAAAAAAAAAPwAAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD5AAAAAAAAAAAAAACFAAAA+QAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD5AAAAhQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA//8AAP//AADAAwAAwAMAAMfjAADP8wAAz/MAAM/zAADP8wAAz/MAAM/zAADH4wAAwAMAAMADAAD//wAA//8AAA==`,
             stIcon: `data:image/x-icon;base64,AAABAAEAEBAAAAEAIABoBAAAFgAAACgAAAAQAAAAIAAAAAEAIAAAAAAAQAQAABMLAAATCwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABbD6SgWw+ucFsPrkBbD6SgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAWw+uYFsPr/BbD6/wWw+ucAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAFsPrmBbD6/wWw+v8FsPrmAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABbD6SQWw+uYFsPrmBbD6SQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAFKRLShSkS+cUpEvkFKRLSgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAExi4EpMYuDnTGLg5Exi4EoAAAAAAAAAABSkS+YUpEv/FKRL/xSkS+cAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABMYuDmTGLg/0xi4P9MYuDnAAAAAAAAAAAUpEvmFKRL/xSkS/8UpEvmAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAATGLg5kxi4P9MYuD/TGLg5gAAAAAAAAAAFKRLSRSkS+YUpEvmFKRLSQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAExi4ElMYuDmTGLg5kxi4EkAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAMZ9E0rGfRPnxn0T5MZ9E0oAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADGfRPmxn0T/8Z9E//GfRPnAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAxn0T5sZ9E//GfRP/xn0T5gAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAMZ9E0nGfRPmxn0T5sZ9E0kAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA//8AAPw/AAD8PwAA/D8AAPw/AAD//wAAh+EAAIfhAACH4QAAh+EAAP//AAD8PwAA/D8AAPw/AAD8PwAA//8AAA==`,
             endlessFeatures: [],
-            gameFeatures: [],
-            userFeatures: [],
             giveawayFeatures: [],
             currentGiveaways: [],
             attachedImages: [],
@@ -1587,6 +1585,7 @@ Parsedown = (() => {
             enteredPath: location.pathname.match(/^\/giveaways\/entered/),
             commentsPath: location.pathname.match(/^\/(giveaway\/(?!.*\/(entries|winners|groups))|discussion\/|support\/ticket\/|trade\/)/),
             accountPath: location.pathname.match(/^\/account/),
+            aboutPath: location.pathname.match(/^\/(about|legal)/),
             whitelistPath: location.pathname.match(/^\/account\/manage\/whitelist/),
             blacklistPath: location.pathname.match(/^\/account\/manage\/blacklist/),
             inboxPath: location.pathname.match(/^\/messages/),
@@ -1722,6 +1721,13 @@ Parsedown = (() => {
                     lastSyncGiveaways: `lastSync`
                 };
                 esgst.defaultValues = {
+                    leftButtonIds: [`wbsDesc`, `wbsAsc`, `wbc`, `ugs`, `tb`, `sks`, `rbp`, `namwc`, `mtUsers`, `mtGames`, `mpp`, `hgr`, `gv`, `gts`, `gm`, `gf`, `ge`, `gas`, `ds`, `df`, `ctUnread`, `ctRead`, `ctGo`, `cs`, `as`, `aic`],
+                    rightButtonIds: [`esResume`, `esPause`, `esRefresh`, `esRefreshAll`],
+                    gb_ue: true,
+                    radb: true,
+                    lastBackup: 0,
+                    autoBackup_index: 0,
+                    autoBackup_days: 1,
                     hpg: false,
                     wbc_checkSelected: false,
                     wbc_skipUsers: false,
@@ -2089,3619 +2095,3072 @@ Parsedown = (() => {
                     esgst.games = JSON.parse(esgst.games);
                 }
                 esgst.values = {};
-                esgst.features = [
-                    {
-                        id: `esgst`,
-                        name: `Enable ESGST for SteamTrades.`,
-                        st: true,
-                        type: `other`
-                    },
-                    {
-                        id: `autoSync`,
-                        name: `Automatically sync games/groups when syncing through SG.`,
-                        sg: true,
-                        type: `other`
-                    },
-                    {
-                        description: `
-                            <ul>
-                                <li>With this enabled, you no longer have to sync your whitelist/blacklist every time you add/remove a user to/from those lists.</li>
-                            </ul>
-                        `,
-                        id: `updateWhitelistBlacklist`,
-                        name: `Automatically update whitelist/blacklist when adding/removing a user to/from those lists.`,
-                        sg: true,
-                        type: `other`
-                    },
-                    {
-                        id: `collapseSections`,
-                        name: `Collapse sections in the settings menu by default.`,
-                        new: true,
-                        sg: true,
-                        st: true,
-                        type: `other`
-                    },
-                    {
-                        id: `staticPopups`,
-                        name: `Make popups static (they are fixed at the top left corner of the page instead of being automatically centered).`,
-                        new: true,
-                        sg: true,
-                        st: true,
-                        type: `other`
-                    },
-                    {
-                        id: `openSettingsInTab`,
-                        name: `Open settings menu in a separate tab.`,
-                        sg: true,
-                        st: true,
-                        type: `other`
-                    },
-                    {
-                        id: `openSyncInTab`,
-                        name: `Open the automatic sync in a new tab.`,
-                        new: true,
-                        sg: true,
-                        st: true,
-                        type: `other`
-                    },
-                    {
-                        id: `enableByDefault`,
-                        name: `Enable new features and functionalities by default.`,
-                        sg: true,
-                        st: true,
-                        type: `other`
-                    },
-                    {
-                        id: `showChangelog`,
-                        name: `Show changelog from the new version when updating.`,
-                        sg: true,
-                        st: true,
-                        type: `other`
-                    },
-                    {
-                        id: `checkVersionMain`,
-                        name: `Check whether or not you are on the current version when visiting the main discussions page if the ESGST discussion is in the current page.`,
-                        sg: true,
-                        type: `other`
-                    },
-                    {
-                        id: `checkVersion`,
-                        name: `Check whether or not you are on the current version when visiting the ESGST discussion.`,
-                        sg: true,
-                        type: `other`
-                    },
-                    {
-                        description: `
-                            <p>Before:</p>
-                            <img src="http://i.imgur.com/5QVoZGO.png"/>
-                            <p>After:</p>
-                            <img src="http://i.imgur.com/gkwzYuS.png"/>
-                        `,
-                        features: [
-                            {
-                                id: `hideButtons_as`,
-                                name: `Archive Searcher Button`,
-                                sg: true
-                            },
-                            {
-                                id: `hideButtons_aic`,
-                                name: `Attached Images Carousel Button`,
-                                new: true,
-                                sg: true
-                            },
-                            {
-                                id: `hideButtons_cs`,
-                                name: `Comment Searcher`,
-                                sg: true,
-                                st: true
-                            },
-                            {
-                                id: `hideButtons_ctGo`,
-                                name: `Comment Tracker Button - Go to first unread.`,
-                                sg: true,
-                                st: true
-                            },
-                            {
-                                id: `hideButtons_ctRead`,
-                                name: `Comment Tracker Button - Read all.`,
-                                sg: true,
-                                st: true
-                            },
-                            {
-                                id: `hideButtons_ctUnread`,
-                                name: `Comment Tracker Button - Unread all.`,
-                                sg: true,
-                                st: true
-                            },
-                            {
-                                id: `hideButtons_df`,
-                                name: `Discussion Filters Button`,
-                                sg: true
-                            },
-                            {
-                                id: `hideButtons_ds`,
-                                name: `Discussions Sorter Button`,
-                                sg: true
-                            },
-                            {
-                                id: `hideButtons_esPause`,
-                                name: `Endless Scrolling Button - Pause/Resume`,
-                                sg: true,
-                                st: true
-                            },
-                            {
-                                id: `hideButtons_esRefresh`,
-                                name: `Endless Scrolling Button - Refresh`,
-                                sg: true,
-                                st: true
-                            },
-                            {
-                                id: `hideButtons_esRefreshAll`,
-                                name: `Endless Scrolling Button - Refresh All`,
-                                sg: true,
-                                st: true
-                            },
-                            {
-                                id: `hideButtons_esTop`,
-                                name: `Endless Scrolling Button - Scroll To Top`,
-                                sg: true,
-                                st: true
-                            },
-                            {
-                                id: `hideButtons_gas`,
-                                name: `Giveaways Sorter Button`,
-                                sg: true
-                            },
-                            {
-                                id: `hideButtons_gf`,
-                                name: `Giveaway Filters Button`,
-                                sg: true
-                            },
-                            {
-                                id: `hideButtons_gm`,
-                                name: `Giveaways Manager Button`,
-                                sg: true
-                            },
-                            {
-                                id: `hideButtons_gts`,
-                                name: `Giveaway Templates Button`,
-                                sg: true
-                            },
-                            {
-                                id: `hideButtons_gv`,
-                                name: `Grid View Button`,
-                                sg: true
-                            },
-                            {
-                                id: `hideButtons_hgr`,
-                                name: `Hidden Games Remover Button`,
-                                sg: true
-                            },
-                            {
-                                id: `hideButtons_mpp`,
-                                name: `Main Post Popup Button`,
-                                sg: true,
-                                st: true
-                            },
-                            {
-                                id: `hideButtons_mtGames`,
-                                name: `Multi-Tag Button - Games`,
-                                sg: true,
-                                st: true
-                            },
-                            {
-                                id: `hideButtons_mtUsers`,
-                                name: `Multi-Tag Button - Users`,
-                                sg: true,
-                                st: true
-                            },
-                            {
-                                id: `hideButtons_namwc`,
-                                name: `Not Activated/Multiple Wins Checker Button`,
-                                sg: true
-                            },
-                            {
-                                id: `hideButtons_rbp`,
-                                name: `Reply Box Popup Button`,
-                                sg: true,
-                                st: true
-                            },
-                            {
-                                id: `hideButtons_sks`,
-                                name: `Sent Keys Searcher Button`,
-                                sg: true
-                            },
-                            {
-                                id: `hideButtons_tb`,
-                                name: `Trades Bumper Button`,
-                                st: true
-                            },
-                            {
-                                id: `hideButtons_ge`,
-                                name: `Giveaways Extractor Button`,
-                                sg: true
-                            },
-                            {
-                                id: `hideButtons_ugs`,
-                                name: `Unsent Gifts Sender Button`,
-                                sg: true
-                            },
-                            {
-                                id: `hideButtons_wbc`,
-                                name: `Whitelist/Blacklist Checker Button`,
-                                sg: true
-                            },
-                            {
-                                id: `hideButtons_wbcAsc`,
-                                name: `Whitelist/Blacklist Sorter Button - Ascending`,
-                                sg: true
-                            },
-                            {
-                                id: `hideButtons_wbcDesc`,
-                                name: `Whitelist/Blacklist Sorter Button - Descending`,
-                                sg: true
-                            }
-                        ],
-                        id: `hideButtons`,
-                        name: `Hide buttons at the left/right sides of the main page heading to reduce used space.`,
-                        sg: true,
-                        st: true,
-                        type: `other`
-                    },
-                    {
-                        description: `
-                            <ul>
-                                <li>Adds a panel that helps you with comment formatting.</li>
-                                <li>Has an option that automatically formats pasted links/images.</li>
-                            </ul>
-                            <img src="https://camo.githubusercontent.com/b542cdc0dfcc08a52936603e1da2dcc855ebd33a/687474703a2f2f692e696d6775722e636f6d2f673943336530672e706e67"/>
-                        `,
-                        features: [
-                            {
-                                id: `cfh_i`,
-                                name: `Italic`,
-                                sg: true,
-                                st: true
-                            },
-                            {
-                                id: `cfh_b`,
-                                name: `Bold`,
-                                sg: true,
-                                st: true
-                            },
-                            {
-                                id: `cfh_s`,
-                                name: `Spoiler`,
-                                sg: true,
-                                st: true
-                            },
-                            {
-                                id: `cfh_st`,
-                                name: `Strikethrough`,
-                                sg: true,
-                                st: true
-                            },
-                            {
-                                id: `cfh_h1`,
-                                name: `Heading 1`,
-                                sg: true,
-                                st: true
-                            },
-                            {
-                                id: `cfh_h2`,
-                                name: `Heading 2`,
-                                sg: true,
-                                st: true
-                            },
-                            {
-                                id: `cfh_h3`,
-                                name: `Heading 3`,
-                                sg: true,
-                                st: true
-                            },
-                            {
-                                id: `cfh_bq`,
-                                name: `Blockquote`,
-                                sg: true,
-                                st: true
-                            },
-                            {
-                                id: `cfh_lb`,
-                                name: `Line Break`,
-                                sg: true,
-                                st: true
-                            },
-                            {
-                                id: `cfh_ol`,
-                                name: `Ordered List`,
-                                sg: true,
-                                st: true
-                            },
-                            {
-                                id: `cfh_ul`,
-                                name: `Unordered List`,
-                                sg: true,
-                                st: true
-                            },
-                            {
-                                id: `cfh_ic`,
-                                name: `Inline Code`,
-                                sg: true,
-                                st: true
-                            },
-                            {
-                                id: `cfh_lc`,
-                                name: `Line Code`,
-                                sg: true,
-                                st: true
-                            },
-                            {
-                                id: `cfh_pc`,
-                                name: `Paragraph Code`,
-                                sg: true,
-                                st: true
-                            },
-                            {
-                                id: `cfh_l`,
-                                name: `Link`,
-                                sg: true,
-                                st: true
-                            },
-                            {
-                                id: `cfh_img`,
-                                name: `Image`,
-                                sg: true,
-                                st: true
-                            },
-                            {
-                                id: `cfh_t`,
-                                name: `Table`,
-                                sg: true,
-                                st: true
-                            },
-                            {
-                                id: `cfh_e`,
-                                name: `Emojis`,
-                                sg: true,
-                                st: true
-                            },
-                            {
-                                id: `cfh_g`,
-                                name: `Giveaway Encrypter`,
-                                sg: true,
-                                st: true
-                            },
-                            {
+                esgst.features = {
+                    general: {
+                        features: {
+                            aic: {
                                 description: `
                                     <ul>
-                                        <li>Allows you to save replies that you constantly use to quickly post them later.</li>
-                                        <img src="http://i.imgur.com/lJJDNah.png"/>
+                                        <li>Opens the attached images in a carousel.</li>
                                     </ul>
+                                    <img src="http://imgur.com/iJjAs3W.png"/>
                                 `,
-                                id: `cfh_sr`,
-                                name: `Saved Replies`,
+                                name: `Attached Images Carousel`,
                                 sg: true,
                                 st: true
                             },
-                            {
-                                id: `cfh_cf`,
-                                name: `Comment Formatting`,
-                                sg: true,
-                                st: true
-                            },
-                            {
-                                features: [
-                                    {
-                                        id: `cfh_p_a`,
-                                        name: `Automatically preview while typing.`,
-                                        sg: true,
-                                        st: true
-                                    }
-                                ],
-                                id: `cfh_p`,
-                                name: `Preview`,
-                                new: true,
-                                sg: true,
-                                st: true
-                            }
-                        ],
-                        id: `cfh`,
-                        name: `Comment Formatting Helper`,
-                        newBelow: true,
-                        sg: true,
-                        st: true,
-                        type: `comments`
-                    },
-                    {
-                        description: `
-                            <ul>
-                                <li>Performs specific tasks when certain keys are pressed.</li>
-                            </ul>
-                        `,
-                        features: [
-                            {
-                                id: `sk_cp`,
-                                input: `sk_closePopups`,
-                                name: `Close all currently opened popups.`,
-                                sg: true,
-                                st: true
-                            },
-                            {
-                                id: `sk_sb`,
-                                input: `sk_searchBox`,
-                                name: `Focus on the search box.`,
-                                sg: true,
-                                st: true
-                            },
-                            {
-                                id: `sk_fp`,
-                                input: `sk_firstPage`,
-                                name: `Go to the first page.`,
-                                sg: true,
-                                st: true
-                            },
-                            {
-                                id: `sk_pp`,
-                                input: `sk_previousPage`,
-                                name: `Go to the previous page.`,
-                                sg: true,
-                                st: true
-                            },
-                            {
-                                id: `sk_np`,
-                                input: `sk_nextPage`,
-                                name: `Go to the next page.`,
-                                sg: true,
-                                st: true
-                            },
-                            {
-                                id: `sk_lp`,
-                                input: `sk_lastPage`,
-                                name: `Go to the last page.`,
-                                sg: true,
-                                st: true
-                            },
-                            {
-                                id: `sk_tf`,
-                                input: `sk_toggleFilters`,
-                                name: `Toggle the giveaway filters.`,
-                                sg: true
-                            },
-                            {
-                                id: `sk_hg`,
-                                input: `sk_hideGame`,
-                                name: `Hide the game when inside of a giveaway.`,
-                                sg: true
-                            },
-                            {
-                                id: `sk_hga`,
-                                input: `sk_hideGiveaway`,
-                                name: `Hide the giveaway when inside of a giveaway.`,
-                                sg: true
-                            },
-                            {
-                                id: `sk_ge`,
-                                input: `sk_giveawayEntry`,
-                                name: `Enter/leave the giveaway when inside of a giveaway.`,
-                                sg: true
-                            },
-                            {
-                                id: `sk_c`,
-                                input: `sk_creator`,
-                                name: `Insert the username of the creator of the giveaway/discussion/trade to the current reply box.`,
-                                sg: true,
-                                st: true
-                            },
-                            {
-                                id: `sk_rb`,
-                                input: `sk_replyBox`,
-                                name: `Focus on the reply box.`,
-                                sg: true,
-                                st: true
-                            },
-                            {
-                                id: `sk_ru`,
-                                input: `sk_replyUser`,
-                                name: `Insert the username of the user to whom you are replying to the current reply box.`,
-                                sg: true,
-                                st: true
-                            },
-                            {
-                                id: `sk_sr`,
-                                input: `sk_submitReply`,
-                                name: `Submit the current reply.`,
-                                sg: true,
-                                st: true
-                            }
-                        ],
-                        id: `sk`,
-                        load: loadSk,
-                        name: `Shortcut Keys`,
-                        sg: true,
-                        st: true,
-                        type: `general`
-                    },
-                    {
-                        description: `
-                            <ul>
-                                <li>Brings back image borders to SG.</li>
-                            </ul>
-                        `,
-                        id: `ib`,
-                        name: `Image Borders`,
-                        sg: true,
-                        type: `general`
-                    },
-                    {
-                        description: `
-                            <ul>
-                                <li>Allows the header to stay fixed at the top while you scroll down the page.</li>
-                            </ul>
-                        `,
-                        id: `fh`,
-                        name: `Fixed Header`,
-                        sg: true,
-                        st: true,
-                        type: `general`
-                    },
-                    {
-                        description: `
-                            <ul>
-                                <li>Allows the sidebar to stay fixed at the side while you scroll down the page.</li>
-                            </ul>
-                        `,
-                        id: `fs`,
-                        name: `Fixed Sidebar`,
-                        sg: true,
-                        type: `general`,
-                    },
-                    {
-                        description: `
-                            <ul>
-                                <li>Allows the main page heading to stay fixed at the top while you scroll down the page.</li>
-                            </ul>
-                        `,
-                        id: `fmph`,
-                        name: `Fixed Main Page Heading`,
-                        sg: true,
-                        st: true,
-                        type: `general`
-                    },
-                    {
-                        description: `
-                            <ul>
-                                <li>Allows the footer to stay fixed at the bottom while you scroll down the page.</li>
-                            </ul>
-                        `,
-                        id: `ff`,
-                        name: `Fixed Footer`,
-                        sg: true,
-                        st: true,
-                        type: `general`
-                    },
-                    {
-                        description: `
-                            <ul>
-                                <li>Refreshes the header icons (created/won/messages for SG and messages for ST) and the points on SG every specified number of minutes.</li>
-                            </ul>
-                        `,
-                        features: [
-                            {
-                                id: `hr_b`,
-                                name: `Keep refreshing in the background when you go to another tab or minimize the browser.`,
-                                sg: true,
-                                st: true
-                            },
-                            {
+                            ail: {
                                 description: `
                                     <ul>
-                                        <li>A heart icon will appear in the title.</li>
+                                        <li>Prevents all attached images in a page from loading on page load and only loads them after clicking on "View attached image".</li>
+                                        <li>This speeds up page loads for users with poor Internet connection.</li>
+                                        <li>This feature obviously does not run if Visible Attached Images is enabled.</li>
                                     </ul>
                                 `,
-                                features: [
-                                    {
-                                        id: `hr_w_n`,
-                                        name: `Also show as a browser notification.`,
+                                name: `Attached Images Loader`,
+                                sg: true,
+                                st: true
+                            },
+                            ap: {
+                                description: `
+                                    <ul>
+                                        <li>Pops out user/group info when hovering their avatars.</li>
+                                    </ul>
+                                `,
+                                name: `Avatar Popout`,
+                                options: {
+                                    title: `Open on:`,
+                                    values: [`Hover`, `Click`]
+                                },
+                                sg: true
+                            },
+                            at: {
+                                description: `
+                                    <ul>
+                                        <li>Shows accurate timestamps. For example, "1/1/2017, 0:00:00 AM" instead of "2 hours ago".</li>
+                                    </ul>
+                                `,
+                                features: {
+                                    at_g: {
+                                        name: `Enable for giveaways in the main page.`,
                                         sg: true
                                     },
-                                    {
-                                        id: `hr_w_h`,
-                                        name: `Only indicate for giveaways ending in X hours.`,
-                                        input: true,
-                                        sg: true
-                                    }
-                                ],
-                                id: `hr_w`,
-                                name: `Indicate if there are unentered wishlist giveaways open.`,
-                                sg: true
-                            },
-                            {
-                                description: `
-                                    <ul>
-                                        <li>A trophy icon will appear in the title.</li>
-                                    </ul>
-                                `,
-                                features: [
-                                    {
-                                        id: `hr_g_n`,
-                                        name: `Also show as a browser notification.`,
-                                        sg: true
-                                    }
-                                ],
-                                id: `hr_g`,
-                                name: `Indicate if there are unviewed keys for won gifts in the tab title.`,
-                                sg: true
-                            },
-                            {
-                                features: [
-                                    {
-                                        id: `hr_m_n`,
-                                        name: `Also show as a browser notification.`,
+                                    at_s: {
+                                        name: `Show seconds.`,
+                                        sg: true,
+                                        st: true
+                                    },
+                                    at_24: {
+                                        name: `Use a 24-hour clock.`,
                                         sg: true,
                                         st: true
                                     }
-                                ],
-                                id: `hr_m`,
-                                name: `Show the number of unread messages in the tab icon.`,
+                                },
+                                name: `Accurate Timestamps`,
                                 sg: true,
                                 st: true
                             },
-                            {
-                                id: `hr_p`,
-                                name: `Show the number of points in the tab title.`,
-                                sg: true
-                            },
-                            {
-                                id: `hr_fp`,
-                                name: `Show browser notification if there are 400P or more.`,
-                                new: true,
-                                sg: true
-                            }
-                        ],
-                        id: `hr`,
-                        input: true,
-                        name: `Header Refresher`,
-                        newBelow: true,
-                        sg: true,
-                        st: true,
-                        type: `general`
-                    },
-                    {
-                        description: `
-                            <ul>
-                                <li>Shows your level progress in the main button of the page.</li>
-                            </ul>
-                            <img src="https://camo.githubusercontent.com/5226f7a5e2012c40d201d9d2a44f19dd9df8ab18/687474703a2f2f696d6775722e636f6d2f524a6d436e70522e706e67"/>
-                        `,
-                        id: `lpv`,
-                        name: `Level Progress Visualizer`,
-                        sg: true,
-                        sync: `Giveaways`,
-                        type: `general`
-                    },
-                    {
-                        description: `
-                            <ul>
-                                <li>Transforms every magnifying glass in search fields into buttons.</li>
-                            </ul>
-                        `,
-                        id: `smgb`,
-                        load: loadSmgb,
-                        name: `Search Magnifying Glass Button`,
-                        sg: true,
-                        type: `general`
-                    },
-                    {
-                        description: `
-                            <ul>
-                                <li>Moves the pagination navigation to the top of the page.</li>
-                            </ul>
-                        `,
-                        id: `pnot`,
-                        name: `Pagination Navigation On Top`,
-                        sg: true,
-                        st: true,
-                        type: `general`
-                    },
-                    {
-                        description: `
-                            <ul>
-                                <li>Adds a "Last Page" link to some places that are missing it, for example: discussion pages with 100+ pages, user pages, group pages with 100+ pages.</li>
-                            </ul>
-                        `,
-                        id: `lpl`,
-                        load: loadLpl,
-                        name: `Last Page Link`,
-                        sg: true,
-                        type: `general`
-                    },
-                    {
-                        description: `
-                            <ul>
-                                <li>Prevents all attached images in a page from loading on page load and only loads them after clicking on "View attached image".</li>
-                                <li>This speeds up page loads for users with poor Internet connection.</li>
-                                <li>This feature obviously does not run if Visible Attached Images is enabled.</li>
-                            </ul>
-                        `,
-                        id: `ail`,
-                        load: loadAil,
-                        name: `Attached Images Loader`,
-                        sg: true,
-                        st: true,
-                        type: `general`
-                    },
-                    {
-                        description: `
-                            <ul>
-                                <li>Opens the attached images in a carousel.</li>
-                            </ul>
-                            <img src="http://imgur.com/iJjAs3W.png"/>
-                        `,
-                        id: `aic`,
-                        load: loadAic,
-                        name: `Attached Images Carousel`,
-                        sg: true,
-                        st: true,
-                        type: `general`
-                    },
-                    {
-                        description: `
-                            <ul>
-                                <li>Shows all attached images by default.</li>
-                            </ul>
-                            <img src="https://camo.githubusercontent.com/e12760aaef77b2d9f6832190291ca43fab1d0622/687474703a2f2f692e696d6775722e636f6d2f496f5a374a684b2e706e67"/>
-                        `,
-                        features: [
-                            {
-                                id: `vai_gifv`,
-                                name: `Rename .gifv images to .gif, so they are properly attached.`,
-                                sg: true,
-                                st: true
-                            },
-                            {
-                                id: `vai_i`,
-                                name: `Disable for the inbox page.`,
-                                sg: true,
-                                st: true
-                            }
-                        ],
-                        id: `vai`,
-                        load: loadVai,
-                        name: `Visible Attached Images`,
-                        sg: true,
-                        st: true,
-                        type: `general`
-                    },
-                    {
-                        description: `
-                            <ul>
-                                <li>Embeds YouTube and Vimeo videos into the page.</li>
-                            </ul>
-                            <p>Videos are only embedded if they are the only content in a line. For example:</p´>
-                            <ul>
-                                <li>[Orange Sphincter To The Rescue](https://www.youtube.com/watch?v=cD1e0BNNifk) -> Gets embedded.</li>
-                                <li>I watched [https://www.youtube.com/watch?v=cD1e0BNNifk](https://www.youtube.com/watch?v=cD1e0BNNifk) and it was hilarious. -> Does not get embedded.</li>
-                            </ul>
-                        `,
-                        id: `ev`,
-                        load: loadEv,
-                        name: `Embedded Videos`,
-                        sg: true,
-                        st: true,
-                        type: `general`
-                    },
-                    {
-                        description: `
-                            <ul>
-                                <li>Shows accurate timestamps. For example, "1/1/2017, 0:00:00 AM" instead of "2 hours ago".</li>
-                            </ul>
-                        `,
-                        features: [
-                            {
-                                id: `at_24`,
-                                name: `Use a 24-hour clock.`,
-                                sg: true,
-                                st: true
-                            },
-                            {
-                                id: `at_s`,
-                                name: `Show seconds.`,
-                                sg: true,
-                                st: true
-                            },
-                            {
-                                id: `at_g`,
-                                name: `Enable for giveaways in the main page.`,
-                                sg: true
-                            }
-                        ],
-                        id: `at`,
-                        load: loadAt,
-                        name: `Accurate Timestamps`,
-                        sg: true,
-                        st: true,
-                        type: `general`
-                    },
-                    {
-                        description: `
-                            <ul>
-                                <li>Hides the community poll.</li>
-                            </ul>
-                        `,
-                        features :[
-                            {
-                                id: `hcp_v`,
-                                name: `Only hide the poll if you already voted.`,
-                                sg: true
-                            }
-                        ],
-                        id: `hcp`,
-                        name: `Hidden Community Poll`,
-                        sg: true,
-                        type: `general`
-                    },
-                    {
-                        description: `
-                            <ul>
-                                <li>Hides blacklist stats in the stats page.</li>
-                            </ul>
-                            <img src="https://camo.githubusercontent.com/96accb906d4bb1554a2f9ddfaeb0abce1b54b808/687474703a2f2f692e696d6775722e636f6d2f794233705153492e706e67"/>
-                        `,
-                        id: `hbs`,
-                        load: loadHbs,
-                        name: `Hidden Blacklist Stats`,
-                        sg: true,
-                        type: `general`
-                    },
-                    {
-                        description: `
-                            <ul>
-                                <li>Keeps track of your visited giveaways/discussions/tickets/trades and fades them.</li>
-                            </ul>
-                        `,
-                        features: [
-                            {
-                                id: `gdttt_g`,
-                                name: `Fade visited giveaways.`,
-                                sg: true
-                            },
-                            {
-                                id: `gdttt_v`,
-                                name: `Mark the pages as visited when visiting them.`,
-                                sg: true,
-                                st: true
-                            }
-                        ],
-                        id: `gdttt`,
-                        load: loadGdttt,
-                        name: `Giveaways/Discussions/Tickets/Trades Tracker`,
-                        sg: true,
-                        st: true,
-                        type: `general`
-                    },
-                    {
-                        description: `
-                            <ul>
-                                <li>Hides the featured container in the main pages.</li>
-                            </ul>
-                        `,
-                        id: `hfc`,
-                        name: `Hidden Featured Container`,
-                        sg: true,
-                        type: `giveaways`
-                    },
-                    {
-                        description: `
-                            <ul>
-                                <li>Hides the pinned giveaways in the main pages.</li>
-                            </ul>
-                        `,
-                        id: `hpg`,
-                        name: `Hidden Pinned Giveaways`,
-                        new: true,
-                        sg: true,
-                        type: `giveaways`
-                    },
-                    {
-                        description: `
-                            <ul>
-                                <li>Allows you to quickly search giveaways from any page.</li>
-                            </ul>
-                            <img src="https://i.imgur.com/JRT6tv6.png">
-                        `,
-                        features: [
-                            {
-                                id: `qgs_h`,
-                                name: `Hide the native search when on the main giveaway pages.`,
-                                sg: true
-                            }
-                        ],
-                        id: `qgs`,
-                        name: `Quick Giveaway Search`,
-                        sg: true,
-                        type: `giveaways`
-                    },
-                    {
-                        description: `
-                            <ul>
-                                <li>Allows you to quickly go to wishlist/recommended/group/new giveaways from any page.</li>
-                            </ul>
-                            <img src="https://camo.githubusercontent.com/e831648032c40835a77ba90a0cad0a38be1ca9e2/687474703a2f2f696d6775722e636f6d2f4e4467717a466a2e706e67"/>
-                        `,
-                        id: `qgb`,
-                        name: `Quick Giveaway Browsing`,
-                        sg: true,
-                        type: `giveaways`
-                    },
-                    {
-                        description: `
-                            <ul>
-                                <li>Allows you to easily search giveaways using SG's <a href="https://www.steamgifts.com/discussion/8SzdT/">search parameters</a>.</li>
-                            </ul>
-                            <img src="https://camo.githubusercontent.com/bf5009c96f65689933567f1a34718682533b7836/687474703a2f2f692e696d6775722e636f6d2f5248596d4147732e706e67"/>
-                        `,
-                        id: `ags`,
-                        name: `Advanced Giveaway Search`,
-                        sg: true,
-                        type: `giveaways`
-                    },
-                    {
-                        description: `
-                            <ul>
-                                <li>Allows you to sort giveaways.</li>
-                            </ul>
-                        `,
-                        id: `gas`,
-                        load: loadGas,
-                        name: `Giveaways Sorter`,
-                        sg: true,
-                        type: `giveaways`
-                    },
-                    {
-                        description: `
-                            <ul>
-                                <li>Shows giveaways as a grid.</li>
-                            </ul>
-                            <img src="https://camo.githubusercontent.com/daaefaee73d0f1f51fb7f830064cdd97d0455998/687474703a2f2f692e696d6775722e636f6d2f6a6864316d34412e706e67"/>
-                        `,
-                        features: [
-                            {
-                                id: `gv_gb`,
-                                name: `Extend to Giveaway Bookmarks.`,
-                                sg: true
-                            },
-                            {
-                                id: `gv_ged`,
-                                name: `Extend to Giveaway Encrypter / Decrypter.`,
-                                sg: true
-                            },
-                            {
-                                id: `gv_ge`,
-                                name: `Extend to Giveaways Extractor.`,
-                                sg: true
-                            }
-                        ],
-                        id: `gv`,
-                        load: loadGv,
-                        name: `Grid View`,
-                        sg: true,
-                        type: `giveaways`
-                    },
-                    {
-                        description: `
-                            <ul>
-                                <li>Allows you to filter giveaways.</li>
-                                <li>Supports Game Categories.</li>
-                            </ul>
-                            <img src="https://camo.githubusercontent.com/d302b8f1a79edae54fd32c943201f452e6378802/687474703a2f2f692e696d6775722e636f6d2f457a344e794d6d2e706e67"/>
-                        `,
-                        features: [
-                            {
+                            es: {
                                 description: `
                                     <ul>
-                                        <li>Allows you to hide individual giveaways.</li>
-                                        <li>Hidden giveaways can only be unhidden through the settings menu.</li>
+                                        <li>Allows you to endlessly scroll through pages.</li>
                                     </ul>
                                 `,
-                                id: `gf_s`,
-                                name: `Single Filters`,
+                                features: {
+                                    es_rd: {
+                                        name: `Refresh active discussions/deals when refreshing the main page.`,
+                                        new: true,
+                                        sg: true
+                                    },
+                                    es_c: {
+                                        features: {
+                                            es_c_d: {
+                                                name: `Enable page divisors.`,
+                                                sg: true,
+                                                st: true
+                                            }
+                                        },
+                                        name: `Enable for comments.`,
+                                        sg: true,
+                                        st: true
+                                    },
+                                    es_d: {
+                                        features: {
+                                            es_d_d: {
+                                                name: `Enable page divisors.`,
+                                                sg: true
+                                            }
+                                        },
+                                        name: `Enable for discussions/tickets.`,
+                                        sg: true
+                                    },
+                                    es_g: {
+                                        features: {
+                                            es_g_d: {
+                                                name: `Enable page divisors.`,
+                                                sg: true
+                                            }
+                                        },
+                                        name: `Enable for giveaways in the main page.`,
+                                        sg: true
+                                    },
+                                    es_l: {
+                                        features: {
+                                            es_l_d: {
+                                                name: `Enable page divisors.`,
+                                                sg: true,
+                                                st: true
+                                            }
+                                        },
+                                        name: `Enable for lists.`,
+                                        sg: true,
+                                        st: true
+                                    },
+                                    es_t: {
+                                        features: {
+                                            es_t_d: {
+                                                name: `Enable page divisors.`,
+                                                st: true
+                                            }
+                                        },
+                                        name: `Enable for trades`,
+                                        st: true
+                                    },
+                                    es_r: {
+                                        description: `
+                                            <ul>
+                                                <li>Loads pages in descending order.</li>
+                                                <li>When visiting a discussion from the main discussions page, the last page will automatically be loaded and shown.</li>
+                                            </ul>
+                                        `,
+                                        name: `Enable reverse scrolling.`,
+                                        sg: true
+                                    },
+                                    es_ch: {
+                                        name: `Enable for Comment History.`,
+                                        sg: true
+                                    },
+                                    es_df: {
+                                        name: `Enable for Discussion Filters.`,
+                                        sg: true
+                                    },
+                                    es_dh: {
+                                        name: `Enable for Discussions Highlighter.`,
+                                        sg: true
+                                    },
+                                    es_gb: {
+                                        name: `Enable for Giveaway Bookmarks.`,
+                                        sg: true
+                                    },
+                                    es_ged: {
+                                        name: `Enable for Giveaway Encrypter/Decrypter.`,
+                                        sg: true
+                                    },
+                                    es_ge: {
+                                        name: `Enable for Giveaways Extractor.`,
+                                        sg: true
+                                    },
+                                    es_gf: {
+                                        name: `Enable for Giveaway Filters.`,
+                                        sg: true
+                                    }
+                                },
+                                name: `Endless Scrolling`,
+                                newBelow: true,
+                                sg: true,
+                                st: true
+                            },
+                            ev: {
+                                description: `
+                                    <ul>
+                                        <li>Embeds YouTube and Vimeo videos into the page.</li>
+                                    </ul>
+                                    <p>Videos are only embedded if they are the only content in a line. For example:</p´>
+                                    <ul>
+                                        <li>[Orange Sphincter To The Rescue](https://www.youtube.com/watch?v=cD1e0BNNifk) -> Gets embedded.</li>
+                                        <li>I watched [https://www.youtube.com/watch?v=cD1e0BNNifk](https://www.youtube.com/watch?v=cD1e0BNNifk) and it was hilarious. -> Does not get embedded.</li>
+                                    </ul>
+                                `,
+                                name: `Embedded Videos`,
+                                sg: true,
+                                st: true
+                            },
+                            ff: {
+                                description: `
+                                    <ul>
+                                        <li>Allows the footer to stay fixed at the bottom while you scroll down the page.</li>
+                                    </ul>
+                                `,
+                                name: `Fixed Footer`,
+                                sg: true,
+                                st: true
+                            },
+                            fh: {
+                                description: `
+                                    <ul>
+                                        <li>Allows the header to stay fixed at the top while you scroll down the page.</li>
+                                    </ul>
+                                `,
+                                name: `Fixed Header`,
+                                sg: true,
+                                st: true
+                            },
+                            fmph: {
+                                description: `
+                                    <ul>
+                                        <li>Allows the main page heading to stay fixed at the top while you scroll down the page.</li>
+                                    </ul>
+                                `,
+                                name: `Fixed Main Page Heading`,
+                                sg: true,
+                                st: true
+                            },
+                            fs: {
+                                description: `
+                                    <ul>
+                                        <li>Allows the sidebar to stay fixed at the side while you scroll down the page.</li>
+                                    </ul>
+                                `,
+                                name: `Fixed Sidebar`,
+                                sg: true,
+                            },
+                            gdttt: {
+                                description: `
+                                    <ul>
+                                        <li>Keeps track of your visited giveaways/discussions/tickets/trades and fades them.</li>
+                                    </ul>
+                                `,
+                                features: {
+                                    gdttt_g: {
+                                        name: `Fade visited giveaways.`,
+                                        sg: true
+                                    },
+                                    gdttt_v: {
+                                        name: `Mark the pages as visited when visiting them.`,
+                                        sg: true,
+                                        st: true
+                                    }
+                                },
+                                name: `Giveaways/Discussions/Tickets/Trades Tracker`,
+                                sg: true,
+                                st: true
+                            },
+                            hbs: {
+                                description: `
+                                    <ul>
+                                        <li>Hides blacklist stats in the stats page.</li>
+                                    </ul>
+                                    <img src="https://camo.githubusercontent.com/96accb906d4bb1554a2f9ddfaeb0abce1b54b808/687474703a2f2f692e696d6775722e636f6d2f794233705153492e706e67"/>
+                                `,
+                                name: `Hidden Blacklist Stats`,
                                 sg: true
                             },
-                            {
+                            hcp: {
+                                description: `
+                                    <ul>
+                                        <li>Hides the community poll.</li>
+                                    </ul>
+                                `,
+                                features: {
+                                    hcp_v: {
+                                        name: `Only hide the poll if you already voted.`,
+                                        sg: true
+                                    }
+                                },
+                                name: `Hidden Community Poll`,
+                                sg: true
+                            },
+                            hr: {
+                                description: `
+                                    <ul>
+                                        <li>Refreshes the header icons (created/won/messages for SG and messages for ST) and the points on SG every specified number of minutes.</li>
+                                    </ul>
+                                `,
+                                features: {
+                                    hr_w: {
+                                        description: `
+                                            <ul>
+                                                <li>A heart icon will appear in the title.</li>
+                                            </ul>
+                                        `,
+                                        features: {
+                                            hr_w_n: {
+                                                name: `Also show as a browser notification.`,
+                                                sg: true
+                                            },
+                                            hr_w_h: {
+                                                name: `Only indicate for giveaways ending in X hours.`,
+                                                input: true,
+                                                sg: true
+                                            }
+                                        },
+                                        name: `Indicate if there are unentered wishlist giveaways open.`,
+                                        sg: true
+                                    },
+                                    hr_g: {
+                                        description: `
+                                            <ul>
+                                                <li>A trophy icon will appear in the title.</li>
+                                            </ul>
+                                        `,
+                                        features: {
+                                            hr_g_n: {
+                                                name: `Also show as a browser notification.`,
+                                                sg: true
+                                            }
+                                        },
+                                        name: `Indicate if there are unviewed keys for won gifts in the tab title.`,
+                                        sg: true
+                                    },
+                                    hr_b: {
+                                        name: `Keep refreshing in the background when you go to another tab or minimize the browser.`,
+                                        sg: true,
+                                        st: true
+                                    },
+                                    hr_fp: {
+                                        name: `Show browser notification if there are 400P or more.`,
+                                        new: true,
+                                        sg: true
+                                    },
+                                    hr_p: {
+                                        name: `Show the number of points in the tab title.`,
+                                        sg: true
+                                    },
+                                    hr_m: {
+                                        features: {
+                                            hr_m_n: {
+                                                name: `Also show as a browser notification.`,
+                                                sg: true,
+                                                st: true
+                                            }
+                                        },
+                                        name: `Show the number of unread messages in the tab icon.`,
+                                        sg: true,
+                                        st: true
+                                    }
+                                },
+                                input: true,
+                                name: `Header Refresher`,
+                                newBelow: true,
+                                sg: true,
+                                st: true
+                            },
+                            ib: {
+                                description: `
+                                    <ul>
+                                        <li>Brings back image borders to SG.</li>
+                                    </ul>
+                                `,
+                                name: `Image Borders`,
+                                sg: true
+                            },
+                            lpl: {
+                                description: `
+                                    <ul>
+                                        <li>Adds a "Last Page" link to some places that are missing it, for example: discussion pages with 100+ pages, user pages, group pages with 100+ pages.</li>
+                                    </ul>
+                                `,
+                                name: `Last Page Link`,
+                                sg: true
+                            },
+                            lpv: {
+                                description: `
+                                    <ul>
+                                        <li>Shows your level progress in the main button of the page.</li>
+                                    </ul>
+                                    <img src="https://camo.githubusercontent.com/5226f7a5e2012c40d201d9d2a44f19dd9df8ab18/687474703a2f2f696d6775722e636f6d2f524a6d436e70522e706e67"/>
+                                `,
+                                name: `Level Progress Visualizer`,
+                                sg: true,
+                                sync: `Giveaways`
+                            },
+                            mt: {
+                                description: `
+                                    <ul>
+                                        <li>Allows you to tag multiple users/games at the same time.</li>
+                                    </ul>
+                                `,
+                                name: `Multi-Tag`,
+                                sg: true,
+                                st: true
+                            },
+                            pnot: {
+                                description: `
+                                    <ul>
+                                        <li>Moves the pagination navigation to the top of the page.</li>
+                                    </ul>
+                                `,
+                                name: `Pagination Navigation On Top`,
+                                sg: true,
+                                st: true
+                            },
+                            sto: {
+                                description: `
+                                    <ul>
+                                        <li>Opens all links in the same tab.</li>
+                                    </ul>
+                                `,
+                                name: `Same Tab Opener`,
+                                sg: true,
+                                st: true
+                            },
+                            stbb: {
+                                features: {
+                                    stbb_f: {
+                                        name: `Show inside of the footer.`,
+                                        sg: true,
+                                        st: true
+                                    }
+                                },
+                                name: `Scroll To Bottom Button`,
+                                new: true,
+                                sg: true,
+                                st: true
+                            },
+                            sttb: {
+                                features: {
+                                    sttb_f: {
+                                        name: `Show inside of the footer.`,
+                                        new: true,
+                                        sg: true,
+                                        st: true
+                                    }
+                                },
+                                name: `Scroll To Top Button`,
+                                newBelow: true,
+                                sg: true,
+                                st: true
+                            },
+                            smgb: {
+                                description: `
+                                    <ul>
+                                        <li>Transforms every magnifying glass in search fields into buttons.</li>
+                                    </ul>
+                                `,
+                                name: `Search Magnifying Glass Button`,
+                                sg: true
+                            },
+                            sk: {
+                                description: `
+                                    <ul>
+                                        <li>Performs specific tasks when certain keys are pressed.</li>
+                                    </ul>
+                                `,
+                                features: {
+                                    sk_cp: {
+                                        input: `sk_closePopups`,
+                                        name: `Close all currently opened popups.`,
+                                        sg: true,
+                                        st: true
+                                    },
+                                    sk_sb: {
+                                        input: `sk_searchBox`,
+                                        name: `Focus on the search box.`,
+                                        sg: true,
+                                        st: true
+                                    },
+                                    sk_fp: {
+                                        input: `sk_firstPage`,
+                                        name: `Go to the first page.`,
+                                        sg: true,
+                                        st: true
+                                    },
+                                    sk_pp: {
+                                        input: `sk_previousPage`,
+                                        name: `Go to the previous page.`,
+                                        sg: true,
+                                        st: true
+                                    },
+                                    sk_np: {
+                                        input: `sk_nextPage`,
+                                        name: `Go to the next page.`,
+                                        sg: true,
+                                        st: true
+                                    },
+                                    sk_lp: {
+                                        input: `sk_lastPage`,
+                                        name: `Go to the last page.`,
+                                        sg: true,
+                                        st: true
+                                    },
+                                    sk_tf: {
+                                        input: `sk_toggleFilters`,
+                                        name: `Toggle the giveaway filters.`,
+                                        sg: true
+                                    },
+                                    sk_hg: {
+                                        input: `sk_hideGame`,
+                                        name: `Hide the game when inside of a giveaway.`,
+                                        sg: true
+                                    },
+                                    sk_hga: {
+                                        input: `sk_hideGiveaway`,
+                                        name: `Hide the giveaway when inside of a giveaway.`,
+                                        sg: true
+                                    },
+                                    sk_ge: {
+                                        input: `sk_giveawayEntry`,
+                                        name: `Enter/leave the giveaway when inside of a giveaway.`,
+                                        sg: true
+                                    },
+                                    sk_c: {
+                                        input: `sk_creator`,
+                                        name: `Insert the username of the creator of the giveaway/discussion/trade to the current reply box.`,
+                                        sg: true,
+                                        st: true
+                                    },
+                                    sk_rb: {
+                                        input: `sk_replyBox`,
+                                        name: `Focus on the reply box.`,
+                                        sg: true,
+                                        st: true
+                                    },
+                                    sk_ru: {
+                                        input: `sk_replyUser`,
+                                        name: `Insert the username of the user to whom you are replying to the current reply box.`,
+                                        sg: true,
+                                        st: true
+                                    },
+                                    sk_sr: {
+                                        input: `sk_submitReply`,
+                                        name: `Submit the current reply.`,
+                                        sg: true,
+                                        st: true
+                                    }
+                                },
+                                name: `Shortcut Keys`,
+                                sg: true,
+                                st: true
+                            },
+                            ts: {
+                                description: `
+                                    <ul>
+                                        <li>Allows you to sort tables.</li>
+                                    </ul>
+                                    <img src="http://i.imgur.com/hmWWriM.png"/>
+                                `,
+                                name: `Tables Sorter`,
+                                sg: true,
+                                st: true
+                            },
+                            vai: {
+                                description: `
+                                    <ul>
+                                        <li>Shows all attached images by default.</li>
+                                    </ul>
+                                    <img src="https://camo.githubusercontent.com/e12760aaef77b2d9f6832190291ca43fab1d0622/687474703a2f2f692e696d6775722e636f6d2f496f5a374a684b2e706e67"/>
+                                `,
+                                features: {
+                                    vai_gifv: {
+                                        name: `Rename .gifv images to .gif, so they are properly attached.`,
+                                        sg: true,
+                                        st: true
+                                    },
+                                    vai_i: {
+                                        name: `Disable for the inbox page.`,
+                                        sg: true,
+                                        st: true
+                                    }
+                                },
+                                name: `Visible Attached Images`,
+                                sg: true,
+                                st: true
+                            }
+                        },
+                        newBelow: true
+                    },
+                    giveaways: {
+                        features: {
+                            ags: {
+                                description: `
+                                    <ul>
+                                        <li>Allows you to easily search giveaways using SG's <a href="https://www.steamgifts.com/discussion/8SzdT/">search parameters</a>.</li>
+                                    </ul>
+                                    <img src="https://camo.githubusercontent.com/bf5009c96f65689933567f1a34718682533b7836/687474703a2f2f692e696d6775722e636f6d2f5248596d4147732e706e67"/>
+                                `,
+                                name: `Advanced Giveaway Search`,
+                                sg: true
+                            },
+                            as: {
+                                description: `
+                                    <ul>
+                                        <li>Allows you to search the archive by exact title/app id.</li>
+                                    </ul>
+                                `,
+                                name: `Archive Searcher`,
+                                sg: true
+                            },
+                            bgl: {
+                                description: `
+                                    <p>
+                                        You will find the feature in the following URLs:
+                                        <br/>
+                                        <br/>
+                                        <code>steamgifts.com/giveaway/*</code>
+                                    </p>
+                                    <ul>
+                                        <li>Loads giveaways that you cannot access because of blacklist issues as if you were not logged in, allowing you to view them without having to actually log out or open them in an incognito window.</li>
+                                    </ul>
+                                `,
+                                name: `Blacklist Giveaway Loader`,
+                                sg: true
+                            },
+                            cec: {
+                                description: `
+                                    <p>
+                                        You will find the feature in the following URLs:
+                                        <br/>
+                                        <br/>
+                                        <code>steamgifts.com/giveaway/*</code>
+                                    </p>
+                                    <ul>
+                                        <li>Checks how many users commented without entering, how many users entered without commenting, and how many users commented & entered in a giveaway.</li>
+                                        <li>If the giveaway has a bump link it will also check for comments in the discussion.</li>
+                                    </ul>
+                                `,
+                                name: `Comments/Entries Checker`,
+                                new: true,
+                                sg: true
+                            },
+                            cewgd: {
+                                description: `
+                                    <ul>
+                                        <li>Adds more details to the created/entered/won pages, such as the number of points, the link to the Steam store page of the game, the name of the creator, the type of the giveaway and the level. It also loads the giveaway groups below the giveaway if Giveaway Groups Loader is enabled.</li>
+                                    </ul>
+                                `,
+                                name: `Created/Entered/Won Giveaway Details`,
+                                sg: true
+                            },
+                            dkc: {
+                                description: `
+                                    <ul>
+                                        <li>Shows a confirmation window when trying to delete keys on the giveaway winners page.</li>
+                                    </ul>
+                                `,
+                                name: `Delete Keys Confirmation`,
+                                sg: true
+                            },
+                            elgb: {
+                                description: `
+                                    <ul>
+                                        <li>Allows you to quickly enter giveaways from any page.</li>
+                                    </ul>
+                                `,
+                                features: {
+                                    elgb_d: {
+                                        name: `Pop up the giveaway description when entering, if it has any.`,
+                                        sg: true
+                                    },
+                                    elgb_c: {
+                                        name: `Cache repeated descriptions from the same creator for 1 hour and only show them once.`,
+                                        sg: true
+                                    },
+                                    elgb_f: {
+                                        input: true,
+                                        name: `Filter out useless descriptions.`,
+                                        sg: true
+                                    },
+                                    elgb_p: {
+                                        description: `
+                                            <ul>
+                                                <li>Only shows the enter button in popups (Giveaway Encrypter/Decrypter, Giveaways Extractor, etc...), basically any giveaway that is loaded dynamically by the script.</li>
+                                            </ul>
+                                        `,
+                                        name: `Only enable for popups.`,
+                                        sg: true
+                                    },
+                                    elgb_r: {
+                                        features: {
+                                            elgb_r_d: {
+                                                name: `Only pop up if the giveaway has a description.`,
+                                                sg: true
+                                            }
+                                        },
+                                        name: `Pop up a box to reply to the giveaway when entering.`,
+                                        sg: true
+                                    }
+                                },
+                                name: `Enter/Leave Giveaway Button`,
+                                sg: true
+                            },
+                            et: {
+                                description: `
+                                    <ul>
+                                        <li>Tracks your entries and allows you to see your average/history.</li>
+                                    </ul>
+                                    <img src="http://i.imgur.com/HfLPZTd.png"/>
+                                    <img src="http://i.imgur.com/d9YgvBp.png"/>
+                                `,
+                                name: `Entries Tracker`,
+                                sg: true
+                            },
+                            gb: {
+                                description: `
+                                    <ul>
+                                        <li>Allows you to bookmark giveaways to enter later.</li>
+                                    </ul>
+                                    <img src="https://camo.githubusercontent.com/a774e048e349d066cdc7b8122e3a9a58da58adc2/687474703a2f2f692e696d6775722e636f6d2f36653855794c332e706e67"/>
+                                `,
+                                features: {
+                                    gb_h: {
+                                        description: `
+                                            <ul>
+                                                <li>Giveaways that have not started yet will not appear in the list of bookmarked giveaways. Instead, they will stay in a sort of hidden state until they start. When they start, the header bookmark button will turn green, indicating that you must open the list of bookmarked giveaways so that the started giveaways can be updated with their end times.</li>
+                                                <li>When giveaways are about to end, the button will red.</li>
+                                                <li>If there are both started and ending giveaways, the button will be colored with a brown-ish color.</li>
+                                                <li>Hovering over the button also gives you more details about how many giveaways have started and/or are ending.</li>
+                                            </ul>
+                                            <img src="https://camo.githubusercontent.com/b049009beacaba74aa340d8c6760c39c200b8366/687474703a2f2f692e696d6775722e636f6d2f6b4e7845445a562e706e67"/>
+                                            <img src="https://camo.githubusercontent.com/6366d5af053ed27538ddc352a2dffb0f75da1756/687474703a2f2f692e696d6775722e636f6d2f374f41595861392e706e67"/>
+                                        `,
+                                        input: true,
+                                        name: `Highlight the button when giveaways have started and/or are about to end.`,
+                                        sg: true
+                                    },
+                                    gb_se: {
+                                        name: `Show the button for entered giveaways.`,
+                                        new: true,
+                                        sg: true
+                                    },
+                                    gb_ue: {
+                                        name: `Automatically unbookmark entered giveaways.`,
+                                        new: true,
+                                        sg: true
+                                    },
+                                    gb_u: {
+                                        description: `
+                                            <ul>
+                                                <li>If disabled, ended giveaways will remain in the bookmarked list until manually unbookmarked.</li>
+                                            </ul>
+                                        `,
+                                        name: `Automatically unbookmark ended giveaways.`,
+                                        sg: true
+                                    },
+                                    gb_t: {
+                                        name: `Open in a new tab.`,
+                                        sg: true
+                                    }
+                                },
+                                name: `Giveaway Bookmarks`,
+                                newBelow: true,
+                                sg: true
+                            },
+                            gch: {
+                                description: `
+                                    <ul>
+                                        <li>Highlights the number of copies in giveaways with bold and red.</li>
+                                    </ul>
+                                    <img src="http://i.imgur.com/IF32HZ5.png"/>
+                                `,
+                                name: `Giveaway Copies Highlighter`,
+                                sg: true
+                            },
+                            gcl: {
+                                description: `
+                                    <ul>
+                                        <li>Allows you to easily see the list of countries for a region restricted giveaway by hovering over the region restricted icon.</li>
+                                    </ul>
+                                `,
+                                name: `Giveaway Countries Loader`,
+                                options: {
+                                    title: `Load as:`,
+                                    values: [`Popout (On Hover)`, `Popout (On Click)`, `Popup (On Click)`]
+                                },
+                                sg: true
+                            },
+                            ged: {
+                                features: {
+                                    ged_t: {
+                                        name: `Open in a new tab.`,
+                                        sg: true
+                                    }
+                                },
+                                name: `Giveaway Encrypter/Decrypter`,
+                                sg: true
+                            },
+                            gesl: {
+                                // by Royalgamer06
+                                description: `
+                                    <ul>
+                                        <li>Provides search links for the game when you cannot access a giveaway.</li>
+                                    </ul>
+                                    <img src="https://camo.githubusercontent.com/030a1474fdbb0b0bbc12b5e0e07937934de227eb/687474703a2f2f692e696d6775722e636f6d2f474d36625833732e706e67"/>
+                                `,
+                                name: `Giveaway Error Search Links`,
+                                sg: true
+                            },
+                            gf: {
                                 description: `
                                     <ul>
                                         <li>Allows you to filter giveaways.</li>
+                                        <li>Supports Game Categories.</li>
                                     </ul>
+                                    <img src="https://camo.githubusercontent.com/d302b8f1a79edae54fd32c943201f452e6378802/687474703a2f2f692e696d6775722e636f6d2f457a344e794d6d2e706e67"/>
                                 `,
-                                features: [
-                                    {
-                                        id: `gf_level`,
-                                        name: `Level`,
+                                features: {
+                                    gf_s: {
+                                        description: `
+                                            <ul>
+                                                <li>Allows you to hide individual giveaways.</li>
+                                                <li>Hidden giveaways can only be unhidden through the settings menu.</li>
+                                            </ul>
+                                        `,
+                                        name: `Single Filters`,
                                         sg: true
                                     },
-                                    {
-                                        id: `gf_entries`,
-                                        name: `Entries`,
-                                        sg: true
-                                    },
-                                    {
-                                        id: `gf_copies`,
-                                        name: `Copies`,
-                                        sg: true
-                                    },
-                                    {
-                                        id: `gf_points`,
-                                        name: `Points`,
-                                        sg: true
-                                    },
-                                    {
-                                        id: `gf_minutesToEnd`,
-                                        name: `Minutes To End`,
-                                        sg: true
-                                    },
-                                    {
-                                        id: `gf_chance`,
-                                        name: `Chance`,
-                                        sg: true
-                                    },
-                                    {
-                                        id: `gf_rating`,
-                                        name: `Rating`,
-                                        sg: true
-                                    },
-                                    {
-                                        id: `gf_pinned`,
-                                        name: `Pinned`,
-                                        sg: true
-                                    },
-                                    {
-                                        id: `gf_group`,
-                                        name: `Group`,
-                                        sg: true
-                                    },
-                                    {
-                                        id: `gf_whitelist`,
-                                        name: `Whitelist`,
-                                        sg: true
-                                    },
-                                    {
-                                        id: `gf_regionRestricted`,
-                                        name: `Region Restricted`,
-                                        sg: true
-                                    },
-                                    {
-                                        id: `gf_created`,
-                                        name: `Created`,
-                                        sg: true
-                                    },
-                                    {
-                                        id: `gf_received`,
-                                        name: `Received`,
-                                        sg: true
-                                    },
-                                    {
-                                        id: `gf_notReceived`,
-                                        name: `Not Received`,
-                                        sg: true
-                                    },
-                                    {
-                                        id: `gf_awaitingFeedback`,
-                                        name: `Awaiting Feedback`,
-                                        sg: true
-                                    },
-                                    {
-                                        id: `gf_entered`,
-                                        name: `Entered`,
-                                        sg: true
-                                    },
-                                    {
-                                        id: `gf_started`,
-                                        name: `Started`,
-                                        sg: true
-                                    },
-                                    {
-                                        id: `gf_ended`,
-                                        name: `Ended`,
-                                        sg: true
-                                    },
-                                    {
-                                        id: `gf_deleted`,
-                                        name: `Deleted`,
-                                        sg: true
-                                    },
-                                    {
-                                        id: `gf_owned`,
-                                        name: `Owned`,
-                                        sg: true
-                                    },
-                                    {
-                                        id: `gf_wishlisted`,
-                                        name: `Wishlisted`,
-                                        sg: true
-                                    },
-                                    {
-                                        id: `gf_hidden`,
-                                        name: `Hidden`,
-                                        sg: true
-                                    },
-                                    {
-                                        id: `gf_ignored`,
-                                        name: `Ignored`,
-                                        sg: true
-                                    },
-                                    {
-                                        id: `gf_previouslyEntered`,
-                                        name: `Previously Entered`,
-                                        sg: true
-                                    },
-                                    {
-                                        id: `gf_previouslyWon`,
-                                        name: `Previously Won`,
-                                        sg: true
-                                    },
-                                    {
-                                        id: `gf_fullCV`,
-                                        name: `Full CV`,
-                                        sg: true
-                                    },
-                                    {
-                                        id: `gf_reducedCV`,
-                                        name: `Reduced CV`,
-                                        sg: true
-                                    },
-                                    {
-                                        id: `gf_noCV`,
-                                        name: `No CV`,
-                                        sg: true
-                                    },
-                                    {
-                                        id: `gf_removed`,
-                                        name: `Removed`,
-                                        sg: true
-                                    },
-                                    {
-                                        id: `gf_tradingCards`,
-                                        name: `Trading Cards`,
-                                        sg: true
-                                    },
-                                    {
-                                        id: `gf_achievements`,
-                                        name: `Achievements`,
-                                        sg: true
-                                    },
-                                    {
-                                        id: `gf_multiplayer`,
-                                        name: `Multiplayer`,
-                                        sg: true
-                                    },
-                                    {
-                                        id: `gf_steamCloud`,
-                                        name: `Steam Cloud`,
-                                        sg: true
-                                    },
-                                    {
-                                        id: `gf_linux`,
-                                        name: `Linux`,
-                                        sg: true
-                                    },
-                                    {
-                                        id: `gf_mac`,
-                                        name: `Mac`,
-                                        sg: true
-                                    },
-                                    {
-                                        id: `gf_dlc`,
-                                        name: `DLC`,
-                                        sg: true
-                                    },
-                                    {
-                                        id: `gf_dlcFree`,
-                                        name: `DLC (Free Base)`,
-                                        sg: true
-                                    },
-                                    {
-                                        id: `gf_dlcNonFree`,
-                                        name: `DLC (Non-Free Base)`,
-                                        sg: true
-                                    },
-                                    {
-                                        id: `gf_package`,
-                                        name: `Package`,
-                                        sg: true
-                                    },
-                                    {
-                                        id: `gf_genres`,
-                                        name: `Genres`,
+                                    gf_m: {
+                                        description: `
+                                            <ul>
+                                                <li>Allows you to filter giveaways.</li>
+                                            </ul>
+                                        `,
+                                        features: {
+                                            gf_level: {
+                                                name: `Level`,
+                                                sg: true
+                                            },
+                                            gf_entries: {
+                                                name: `Entries`,
+                                                sg: true
+                                            },
+                                            gf_copies: {
+                                                name: `Copies`,
+                                                sg: true
+                                            },
+                                            gf_points: {
+                                                name: `Points`,
+                                                sg: true
+                                            },
+                                            gf_minutesToEnd: {
+                                                name: `Minutes To End`,
+                                                sg: true
+                                            },
+                                            gf_chance: {
+                                                name: `Chance`,
+                                                sg: true
+                                            },
+                                            gf_ratio: {
+                                                name: `Ratio`,
+                                                new: true,
+                                                sg: true
+                                            },
+                                            gf_rating: {
+                                                name: `Rating`,
+                                                sg: true
+                                            },
+                                            gf_pinned: {
+                                                name: `Pinned`,
+                                                sg: true
+                                            },
+                                            gf_group: {
+                                                name: `Group`,
+                                                sg: true
+                                            },
+                                            gf_whitelist: {
+                                                name: `Whitelist`,
+                                                sg: true
+                                            },
+                                            gf_regionRestricted: {
+                                                name: `Region Restricted`,
+                                                sg: true
+                                            },
+                                            gf_created: {
+                                                name: `Created`,
+                                                sg: true
+                                            },
+                                            gf_received: {
+                                                name: `Received`,
+                                                sg: true
+                                            },
+                                            gf_notReceived: {
+                                                name: `Not Received`,
+                                                sg: true
+                                            },
+                                            gf_awaitingFeedback: {
+                                                name: `Awaiting Feedback`,
+                                                sg: true
+                                            },
+                                            gf_entered: {
+                                                name: `Entered`,
+                                                sg: true
+                                            },
+                                            gf_started: {
+                                                name: `Started`,
+                                                sg: true
+                                            },
+                                            gf_ended: {
+                                                name: `Ended`,
+                                                sg: true
+                                            },
+                                            gf_deleted: {
+                                                name: `Deleted`,
+                                                sg: true
+                                            },
+                                            gf_owned: {
+                                                name: `Owned`,
+                                                sg: true
+                                            },
+                                            gf_wishlisted: {
+                                                name: `Wishlisted`,
+                                                sg: true
+                                            },
+                                            gf_hidden: {
+                                                name: `Hidden`,
+                                                sg: true
+                                            },
+                                            gf_ignored: {
+                                                name: `Ignored`,
+                                                sg: true
+                                            },
+                                            gf_previouslyEntered: {
+                                                name: `Previously Entered`,
+                                                sg: true
+                                            },
+                                            gf_previouslyWon: {
+                                                name: `Previously Won`,
+                                                sg: true
+                                            },
+                                            gf_fullCV: {
+                                                name: `Full CV`,
+                                                sg: true
+                                            },
+                                            gf_reducedCV: {
+                                                name: `Reduced CV`,
+                                                sg: true
+                                            },
+                                            gf_noCV: {
+                                                name: `No CV`,
+                                                sg: true
+                                            },
+                                            gf_removed: {
+                                                name: `Removed`,
+                                                sg: true
+                                            },
+                                            gf_tradingCards: {
+                                                name: `Trading Cards`,
+                                                sg: true
+                                            },
+                                            gf_achievements: {
+                                                name: `Achievements`,
+                                                sg: true
+                                            },
+                                            gf_multiplayer: {
+                                                name: `Multiplayer`,
+                                                sg: true
+                                            },
+                                            gf_steamCloud: {
+                                                name: `Steam Cloud`,
+                                                sg: true
+                                            },
+                                            gf_linux: {
+                                                name: `Linux`,
+                                                sg: true
+                                            },
+                                            gf_mac: {
+                                                name: `Mac`,
+                                                sg: true
+                                            },
+                                            gf_dlc: {
+                                                name: `DLC`,
+                                                sg: true
+                                            },
+                                            gf_dlcFree: {
+                                                name: `DLC (Free Base)`,
+                                                sg: true
+                                            },
+                                            gf_dlcNonFree: {
+                                                name: `DLC (Non-Free Base)`,
+                                                sg: true
+                                            },
+                                            gf_package: {
+                                                name: `Package`,
+                                                sg: true
+                                            },
+                                            gf_genres: {
+                                                name: `Genres`,
+                                                sg: true
+                                            }
+                                        },
+                                        name: `Multiple Filters`,
+                                        newBelow: true,
                                         sg: true
                                     }
-                                ],
-                                id: `gf_m`,
-                                name: `Multiple Filters`,
-                                sg: true
-                            }
-                        ],
-                        id: `gf`,
-                        load: loadGf,
-                        name: `Giveaway Filters`,
-                        sg: true,
-                        sync: `Hidden Games, Owned/Wishlisted/Ignored Games, Won Games, Reduced CV Games, No CV Games and Giveaways`,
-                        type: `giveaways`
-                    },
-                    {
-                        description: `
-                            <ul>
-                                <li>Allows you to collapse the pinned giveaways container after expanding it.</li>
-                            </ul>
-                            <img src="https://camo.githubusercontent.com/50049f73629b0d6dc17a41fcd52e2184d69b2035/687474703a2f2f692e696d6775722e636f6d2f6f6958644c78332e706e67"/>
-                        `,
-                        id: `pgb`,
-                        load: loadPgb,
-                        name: `Pinned Giveaways Button`,
-                        sg: true,
-                        type: `giveaways`
-                    },
-                    {
-                        description: `
-                            <ul>
-                                <li>Removes SG's default fade for entered giveaways.</li>
-                            </ul>
-                        `,
-                        id: `ueg`,
-                        load: loadUeg,
-                        name: `Unfaded Entered Giveaways`,
-                        sg: true,
-                        type: `giveaways`
-                    },
-                    {
-                        description: `
-                            <ul>
-                                <li>Allows you to bookmark giveaways to enter later.</li>
-                            </ul>
-                            <img src="https://camo.githubusercontent.com/a774e048e349d066cdc7b8122e3a9a58da58adc2/687474703a2f2f692e696d6775722e636f6d2f36653855794c332e706e67"/>
-                        `,
-                        features: [
-                            {
+                                },
+                                name: `Giveaway Filters`,
+                                newBelow: true,
+                                sg: true,
+                                sync: `Hidden Games, Owned/Wishlisted/Ignored Games, Won Games, Reduced CV Games, No CV Games and Giveaways`
+                            },
+                            ggl: {
                                 description: `
                                     <ul>
-                                        <li>Giveaways that have not started yet will not appear in the list of bookmarked giveaways. Instead, they will stay in a sort of hidden state until they start. When they start, the header bookmark button will turn green, indicating that you must open the list of bookmarked giveaways so that the started giveaways can be updated with their end times.</li>
-                                        <li>When giveaways are about to end, the button will red.</li>
-                                        <li>If there are both started and ending giveaways, the button will be colored with a brown-ish color.</li>
-                                        <li>Hovering over the button also gives you more details about how many giveaways have started and/or are ending.</li>
+                                        <li>Allows you to easily see the list of groups for a giveaway.</li>
+                                        <li>Groups that you are a member of are highlighted.</li>
                                     </ul>
-                                    <img src="https://camo.githubusercontent.com/b049009beacaba74aa340d8c6760c39c200b8366/687474703a2f2f692e696d6775722e636f6d2f6b4e7845445a562e706e67"/>
-                                    <img src="https://camo.githubusercontent.com/6366d5af053ed27538ddc352a2dffb0f75da1756/687474703a2f2f692e696d6775722e636f6d2f374f41595861392e706e67"/>
+                                    <img src="https://camo.githubusercontent.com/47417953189500c9f18a5d30bf528e1b8ce30342/687474703a2f2f692e696d6775722e636f6d2f504e37337068762e706e67"/>
                                 `,
-                                id: `gb_h`,
+                                features: {
+                                    ggl_m: {
+                                        name: `Only show groups that you're a member of.`,
+                                        sg: true
+                                    }
+                                },
+                                name: `Giveaway Groups Loader`,
+                                options: {
+                                    title: `Load as:`,
+                                    values: [`Panel (On Page Load)`, `Popout (On Hover)`, `Popout (On Click)`, `Popup (On Click)`]
+                                },
+                                sg: true,
+                                sync: `Steam Groups`
+                            },
+                            gr: {
+                                description: `
+                                    <ul>
+                                        <li>Adds an icon to ended giveaways with 0 entries in your profile or inside of the giveaways that allows you to recreate those giveaways.</li>
+                                    </ul>
+                                    <img src="http://i.imgur.com/DReWyEi.png"/>
+                                `,
+                                features: {
+                                    gr_r: {
+                                        name: `Remove the button for giveaways that have been recreated.`,
+                                        sg: true
+                                    }
+                                },
+                                name: `Giveaway Recreator`,
+                                sg: true
+                            },
+                            gp: {
+                                description: `
+                                    <ul>
+                                        <li>Same popup from Enter/Leave Giveaway Button, except it doesn't enter the giveaway before opening the popup, which allows you to see the giveaway description or add a comment to the giveaway without entering it.</li>
+                                    </ul>
+                                    <img src="https://i.imgur.com/HV3SfSx.png"/>
+                                `,
+                                name: `Giveaway Popup`,
+                                sg: true
+                            },
+                            gts: {
+                                description: `
+                                    <ul>
+                                        <li>Allows you to save giveaway templates for later use.</li>
+                                    </ul>
+                                `,
+                                name: `Giveaway Templates`,
+                                sg: true
+                            },
+                            gwl: {
+                                description: `
+                                    <ul>
+                                        <li>Adds a link to the winners page of ended giveaways.</li>
+                                    </ul>
+                                    <img src="https://camo.githubusercontent.com/c7253c39157cbde30b3337b90267260de33e4cab/687474703a2f2f692e696d6775722e636f6d2f67326b614644392e706e67"/>
+                                `,
+                                name: `Giveaway Winners Link`,
+                                sg: true
+                            },
+                            gwc: {
+                                description: `
+                                    <ul>
+                                        <li>Calculates your winning chance for a giveaway.</li>
+                                    </ul>
+                                    <img src="https://camo.githubusercontent.com/3f161b5a39d4723ac361a93e74b7beedc3cd5cd5/687474703a2f2f692e696d6775722e636f6d2f50696235546f6d2e706e67"/>
+                                `,
+                                features: {
+                                    gwc_e: {
+                                        name: `Show what the chance will be when you enter the giveaway instead of the current chance.`,
+                                        sg: true
+                                    },
+                                    gwc_a: {
+                                        description: `
+                                            <ul>
+                                                <li>Uses an advanced formula to calculate the chance based on how long ago the giveaway was created, how many entries it currently has, and how long it is until the giveaway ends.</li>
+                                            </ul>
+                                        `,
+                                        features: {
+                                            gwc_a_b: {
+                                                name: `Show the basic chance along with the advanced one (the advanced chance will appear in a parenthesis: "Basic% (Advanced%)").`,
+                                                sg: true
+                                            }
+                                        },
+                                        name: `Use advanced formula.`,
+                                        sg: true
+                                    }
+                                },
+                                name: `Giveaway Winning Chance`,
+                                sg: true
+                            },
+                            gwr: {
+                                description: `
+                                    <ul>
+                                        <li>Calculates your winning ratio for a giveaway.</li>
+                                    </ul>
+                                    <img src="https://camo.githubusercontent.com/3f161b5a39d4723ac361a93e74b7beedc3cd5cd5/687474703a2f2f692e696d6775722e636f6d2f50696235546f6d2e706e67"/>
+                                `,
+                                features: {
+                                    gwr_e: {
+                                        name: `Show what the ratio will be when you enter the giveaway instead of the current ratio.`,
+                                        sg: true
+                                    },
+                                    gwr_a: {
+                                        description: `
+                                            <ul>
+                                                <li>Uses an advanced formula to calculate the chance based on how long ago the giveaway was created, how many entries it currently has, and how long it is until the giveaway ends.</li>
+                                            </ul>
+                                        `,
+                                        features: {
+                                            gwr_a_b: {
+                                                name: `Show the basic ratio along with the advanced one (the advanced ratio will appear in a parenthesis: "Basic% (Advanced%)").`,
+                                                sg: true
+                                            }
+                                        },
+                                        name: `Use advanced formula.`,
+                                        sg: true
+                                    }
+                                },
+                                name: `Giveaway Winning Ratio`,
+                                sg: true
+                            },
+                            ge: {
+                                description: `
+                                    <ul>
+                                        <li>Extracts all giveaways linked from a discussion/giveaway.</li>
+                                        <li>You will find the button in discussions/giveaways that have a giveaway link.</li>
+                                    </ul>
+                                `,
+                                features: {
+                                    ge_p: {
+                                        background: true,
+                                        name: `Highlight public giveaways.`,
+                                        sg: true
+                                    },
+                                    ge_g: {
+                                        background: true,
+                                        name: `Highlight group giveaways.`,
+                                        sg: true
+                                    },
+                                    ge_b: {
+                                        background: true,
+                                        name: `Highlight giveaways that cannot be entered because of blacklist issues.`,
+                                        sg: true
+                                    },
+                                    ge_o: {
+                                        description: `
+                                            <ul>
+                                                <li>The default behavior of the extractor is to extract all giveaways. So, for example, if you enter a train in the 8th cart, the extractor will go back all the way to the 1st cart before continuing to the 9th cart. Enable this option to make the extractor ignore the 1st-7th carts in this example.</li>
+                                                <li>This method is not 100% accurate. If the link to the next giveaway does not contain a "next" variation or a counter, the extraction will stop.</li>
+                                            </ul>
+                                        `,
+                                        name: `Only extract from the current giveaway onwards.`,
+                                        sg: true
+                                    },
+                                    ge_t: {
+                                        name: `Open in a new tab.`,
+                                        sg: true
+                                    }
+                                },
+                                name: `Giveaways Extractor`,
+                                sg: true
+                            },
+                            gm: {
+                                description: `
+                                    <ul>
+                                        <li>Allows you to manage your created giveaways by exporting them to specific formats and searching & replacing something in their description.</li>
+                                    </ul>
+                                    <img src="http://i.imgur.com/fSBKj9Z.png"/>
+                                `,
+                                name: `Giveaways Manager`,
+                                sg: true
+                            },
+                            gas: {
+                                description: `
+                                    <ul>
+                                        <li>Allows you to sort giveaways.</li>
+                                    </ul>
+                                `,
+                                name: `Giveaways Sorter`,
+                                sg: true
+                            },
+                            gv: {
+                                description: `
+                                    <ul>
+                                        <li>Shows giveaways as a grid.</li>
+                                    </ul>
+                                    <img src="https://camo.githubusercontent.com/daaefaee73d0f1f51fb7f830064cdd97d0455998/687474703a2f2f692e696d6775722e636f6d2f6a6864316d34412e706e67"/>
+                                `,
+                                features: {
+                                    gv_gb: {
+                                        name: `Extend to Giveaway Bookmarks.`,
+                                        sg: true
+                                    },
+                                    gv_ged: {
+                                        name: `Extend to Giveaway Encrypter / Decrypter.`,
+                                        sg: true
+                                    },
+                                    gv_ge: {
+                                        name: `Extend to Giveaways Extractor.`,
+                                        sg: true
+                                    }
+                                },
+                                name: `Grid View`,
+                                sg: true
+                            },
+                            hfc: {
+                                description: `
+                                    <ul>
+                                        <li>Hides the featured container in the main pages.</li>
+                                    </ul>
+                                `,
+                                name: `Hidden Featured Container`,
+                                sg: true
+                            },
+                            hgebd: {
+                                description: `
+                                    <ul>
+                                        <li>Disables the enter button for giveaways for games that you have hidden.</li>
+                                    </ul>
+                                `,
+                                name: `Hidden Games Enter Button Disabler`,
+                                sg: true,
+                                sync: `Hidden Games`
+                            },
+                            hgr: {
+                                description: `
+                                    <ul>
+                                        <li>Allows you to remove owned games from the <a href="https://www.steamgifts.com/account/settings/giveaways/filters">hidden list</a>.</li>
+                                    </ul>
+                                    <img src="http://i.imgur.com/a653YCb.png"/>
+                                `,
+                                name: `Hidden Games Remover`,
+                                sg: true
+                            },
+                            hpg: {
+                                description: `
+                                    <ul>
+                                        <li>Hides the pinned giveaways in the main pages.</li>
+                                    </ul>
+                                `,
+                                name: `Hidden Pinned Giveaways`,
+                                new: true,
+                                sg: true
+                            },
+                            itadi: {
+                                description: `
+                                    <ul>
+                                        <li>Adds Is There Any Deal? info to giveaway pages, including the best current deal, the historical lowest price (optional) and the list of bundles that the game has been in, with a cache that can be updated after 24 hours since the last check.</li>
+                                    </ul>
+                                    <img src="https://camo.githubusercontent.com/0d413190b988c4d78ca53abd89f4101b60693491/687474703a2f2f692e696d6775722e636f6d2f65704632616d332e706e67"/>
+                                `,
+                                features: {
+                                    itadi_h: {
+                                        name: `Also load the historical lowest price of the game (takes longer).`,
+                                        sg: true
+                                    }
+                                },
+                                name: `Is There Any Deal? Info`,
+                                sg: true
+                            },
+                            mgc: {
+                                description: `
+                                    <ul>
+                                        <li>Allows you to create multiple giveaways or a train of giveaways (multiple giveaways that are linked to one another).</li>
+                                        <li>You can view detailed information about a giveaway by hovering over it.</li>
+                                        <li>You can re-order/remove the giveaways by dragging and dropping them in the correspondent areas.</li>
+                                        <li>All giveaways will be created without reviewing or validating, so make sure all fields are filled correctly, or the giveaway creation will fail (if a train is being created, the failed giveaway will be disconnected and the previous giveaway will be connected to the next instead).</li>
+                                    </ul>
+                                    <img src="https://camo.githubusercontent.com/1b21ba088a8cdeefbc8787636e7084eddb1c5b84/687474703a2f2f692e696d6775722e636f6d2f5066396a37674e2e706e67"/>
+                                `,
+                                name: `Multiple Giveaways Creator`,
+                                sg: true
+                            },
+                            npth: {
+                                description: `
+                                    <ul>
+                                        <li>Allows you to move across trains using hotkeys (use Ctrl with the hotkeys to open the giveaways in new tabs). Does not work if you are typing in an input/text area.</li>
+                                    </ul>
+                                `,
+                                name: `Next/Previous Train Hotkeys`,
                                 input: true,
-                                name: `Highlight the button when giveaways have started and/or are about to end.`,
                                 sg: true
                             },
-                            {
+                            ochgb: {
                                 description: `
                                     <ul>
-                                        <li>If disabled, ended giveaways will remain in the bookmarked list until manually unbookmarked.</li>
+                                        <li>Allows you to hide giveaways with one click.</li>
                                     </ul>
                                 `,
-                                id: `gb_u`,
-                                name: `Automatically unbookmark ended giveaways.`,
-                                sg: true
-                            },
-                            {
-                                id: `gb_t`,
-                                name: `Open in a new tab.`,
-                                sg: true
-                            }
-                        ],
-                        id: `gb`,
-                        load: loadGb,
-                        name: `Giveaway Bookmarks`,
-                        sg: true,
-                        type: `giveaways`
-                    },
-                    {
-                        features: [
-                            {
-                                id: `ged_t`,
-                                name: `Open in a new tab.`,
-                                sg: true
-                            }
-                        ],
-                        id: `ged`,
-                        load: loadGed,
-                        name: `Giveaway Encrypter/Decrypter`,
-                        sg: true,
-                        type: `giveaways`
-                    },
-                    {
-                        description: `
-                            <ul>
-                                <li>Highlights the number of copies in giveaways with bold and red.</li>
-                            </ul>
-                            <img src="http://i.imgur.com/IF32HZ5.png"/>
-                        `,
-                        id: `gch`,
-                        name: `Giveaway Copies Highlighter`,
-                        sg: true,
-                        type: `giveaways`
-                    },
-                    {
-                        description: `
-                            <ul>
-                                <li>Allows you to unhide giveaways directly from the main/giveaway pages.</li>
-                            </ul>
-                        `,
-                        id: `ugb`,
-                        load: loadUgb,
-                        name: `Unhide Giveaway Button`,
-                        sg: true,
-                        type: `giveaways`
-                    },
-                    {
-                        description: `
-                            <ul>
-                                <li>Allows you to hide giveaways with one click.</li>
-                            </ul>
-                        `,
-                        features: [
-                            {
-                                id: `ochgb_f`,
-                                name: `Fade hidden giveaways instead of removing them.`,
-                                sg: true
-                            }
-                        ],
-                        id: `ochgb`,
-                        load: loadOchgb,
-                        name: `One-Click Hide Giveaway Button`,
-                        sg: true,
-                        type: `giveaways`
-                    },
-                    {
-                        description: `
-                            <ul>
-                                <li>Calculates how much time you have to wait until you have enough points to enter a giveaway.</li>
-                            </ul>
-                            <img src="https://i.imgur.com/3z6t263.png">
-                        `,
-                        id: `ttec`,
-                        name: `Time To Enter Calculator`,
-                        sg: true,
-                        type: `giveaways`
-                    },
-                    {
-                        description: `
-                            <ul>
-                                <li>Calculates your winning chance for a giveaway.</li>
-                            </ul>
-                            <img src="https://camo.githubusercontent.com/3f161b5a39d4723ac361a93e74b7beedc3cd5cd5/687474703a2f2f692e696d6775722e636f6d2f50696235546f6d2e706e67"/>
-                        `,
-                        features: [
-                            {
-                                id: `gwc_e`,
-                                name: `Show what the chance will be when you enter the giveaway instead of the current chance.`,
-                                sg: true
-                            },
-                            {
-                                description: `
-                                    <ul>
-                                        <li>Uses an advanced formula to calculate the chance based on how long ago the giveaway was created, how many entries it currently has, and how long it is until the giveaway ends.</li>
-                                    </ul>
-                                `,
-                                features: [
-                                    {
-                                        id: `gwc_a_b`,
-                                        name: `Show the basic chance along with the advanced one (the advanced chance will appear in a parenthesis: "Basic% (Advanced%)").`,
+                                features: {
+                                    ochgb_f: {
+                                        name: `Fade hidden giveaways instead of removing them.`,
                                         sg: true
                                     }
-                                ],
-                                id: `gwc_a`,
-                                name: `Use advanced formula.`,
-                                sg: true
-                            }
-                        ],
-                        id: `gwc`,
-                        load: loadGwc,
-                        name: `Giveaway Winning Chance`,
-                        sg: true,
-                        type: `giveaways`
-                    },
-                    {
-                        description: `
-                            <ul>
-                                <li>Calculates your winning ratio for a giveaway.</li>
-                            </ul>
-                            <img src="https://camo.githubusercontent.com/3f161b5a39d4723ac361a93e74b7beedc3cd5cd5/687474703a2f2f692e696d6775722e636f6d2f50696235546f6d2e706e67"/>
-                        `,
-                        features: [
-                            {
-                                id: `gwr_e`,
-                                name: `Show what the ratio will be when you enter the giveaway instead of the current ratio.`,
+                                },
+                                name: `One-Click Hide Giveaway Button`,
                                 sg: true
                             },
-                            {
+                            pgb: {
                                 description: `
                                     <ul>
-                                        <li>Uses an advanced formula to calculate the chance based on how long ago the giveaway was created, how many entries it currently has, and how long it is until the giveaway ends.</li>
+                                        <li>Allows you to collapse the pinned giveaways container after expanding it.</li>
                                     </ul>
+                                    <img src="https://camo.githubusercontent.com/50049f73629b0d6dc17a41fcd52e2184d69b2035/687474703a2f2f692e696d6775722e636f6d2f6f6958644c78332e706e67"/>
                                 `,
-                                features: [
-                                    {
-                                        id: `gwr_a_b`,
-                                        name: `Show the basic ratio along with the advanced one (the advanced ratio will appear in a parenthesis: "Basic% (Advanced%)").`,
+                                name: `Pinned Giveaways Button`,
+                                sg: true
+                            },
+                            qgb: {
+                                description: `
+                                    <ul>
+                                        <li>Allows you to quickly go to wishlist/recommended/group/new giveaways from any page.</li>
+                                    </ul>
+                                    <img src="https://camo.githubusercontent.com/e831648032c40835a77ba90a0cad0a38be1ca9e2/687474703a2f2f696d6775722e636f6d2f4e4467717a466a2e706e67"/>
+                                `,
+                                name: `Quick Giveaway Browsing`,
+                                sg: true
+                            },
+                            qgs: {
+                                description: `
+                                    <ul>
+                                        <li>Allows you to quickly search giveaways from any page.</li>
+                                    </ul>
+                                    <img src="https://i.imgur.com/JRT6tv6.png">
+                                `,
+                                features: {
+                                    qgs_h: {
+                                        name: `Hide the native search when on the main giveaway pages.`,
                                         sg: true
                                     }
-                                ],
-                                id: `gwr_a`,
-                                name: `Use advanced formula.`,
-                                sg: true
-                            }
-                        ],
-                        id: `gwr`,
-                        load: loadGwr,
-                        name: `Giveaway Winning Ratio`,
-                        sg: true,
-                        type: `giveaways`
-                    },
-                    {
-                        description: `
-                            <ul>
-                                <li>Adds more details to the created/entered/won pages, such as the number of points, the link to the Steam store page of the game, the name of the creator, the type of the giveaway and the level. It also loads the giveaway groups below the giveaway if Giveaway Groups Loader is enabled.</li>
-                            </ul>
-                        `,
-                        id: `cewgd`,
-                        load: loadCewgd,
-                        name: `Created/Entered/Won Giveaway Details`,
-                        sg: true,
-                        type: `giveaways`
-                    },
-                    {
-                        description: `
-                            <ul>
-                                <li>Same popup from Enter/Leave Giveaway Button, except it doesn't enter the giveaway before opening the popup, which allows you to see the giveaway description or add a comment to the giveaway without entering it.</li>
-                            </ul>
-                            <img src="https://i.imgur.com/HV3SfSx.png"/>
-                        `,
-                        id: `gp`,
-                        load: loadGp,
-                        name: `Giveaway Popup`,
-                        sg: true,
-                        type: `giveaways`
-                    },
-                    {
-                        description: `
-                            <ul>
-                                <li>Allows you to quickly enter giveaways from any page.</li>
-                            </ul>
-                        `,
-                        features: [
-                            {
-                                id: `elgb_d`,
-                                name: `Pop up the giveaway description when entering, if it has any.`,
+                                },
+                                name: `Quick Giveaway Search`,
                                 sg: true
                             },
-                            {
-                                id: `elgb_c`,
-                                name: `Cache repeated descriptions from the same creator for 1 hour and only show them once.`,
-                                sg: true
+                            rcvc: {
+                                decription: `
+                                    <ul>
+                                        <li>Calculates how much real CV you should get for a giveaway.</li>
+                                        <li>It's only accurate if you have synced the reduced CV/no CV lists from the settings menu and also scanned your sent giveaways using User Giveaways Data. But even then, it's only 100% accurate if the user has 0 not received giveaways, since User Giveaways Data doesn't currently know if the giveaways have been received or not.</li>
+                                    </ul>
+                                    <p>In the example below, as I had previously given away 3 copies of Max Payne 3, the sixth copy is worth 10% less (18P). So the 3 new copies would equal 58P:</p>
+                                    <img src="https://camo.githubusercontent.com/7b57fc903dddbf988ec3b700412fbfcd16bfed3a/687474703a2f2f692e696d6775722e636f6d2f6f4347537455712e706e67"/>
+                                `,
+                                name: `Real CV Calculator`,
+                                sg: true,
+                                sync: `Giveaways`
                             },
-                            {
-                                id: `elgb_f`,
-                                input: true,
-                                name: `Filter out useless descriptions.`,
-                                sg: true
-                            },
-                            {
+                            sks: {
                                 description: `
                                     <ul>
-                                        <li>Only shows the enter button in popups (Giveaway Encrypter/Decrypter, Giveaways Extractor, etc...), basically any giveaway that is loaded dynamically by the script.</li>
+                                        <li>Allows you to search all your sent giveaways for certain keys to check if you have already made giveaways with those keys.</li>
+                                        <li>Allows you to export all keys you ever sent to a text file.</li>
                                     </ul>
                                 `,
-                                id: `elgb_p`,
-                                name: `Only enable for popups.`,
+                                name: `Sent Keys Searcher`,
                                 sg: true
                             },
-                            {
-                                features: [
-                                    {
-                                        id: `elgb_r_d`,
-                                        name: `Only pop up if the giveaway has a description.`,
-                                        sg: true
-                                    }
-                                ],
-                                id: `elgb_r`,
-                                name: `Pop up a box to reply to the giveaway when entering.`,
-                                sg: true
-                            }
-                        ],
-                        id: `elgb`,
-                        load: loadElgb,
-                        name: `Enter/Leave Giveaway Button`,
-                        sg: true,
-                        type: `giveaways`
-                    },
-                    {
-                        description: `
-                            <ul>
-                                <li>Allows you to easily see the list of groups for a giveaway.</li>
-                                <li>Groups that you are a member of are highlighted.</li>
-                            </ul>
-                            <img src="https://camo.githubusercontent.com/47417953189500c9f18a5d30bf528e1b8ce30342/687474703a2f2f692e696d6775722e636f6d2f504e37337068762e706e67"/>
-                        `,
-                        features: [
-                            {
-                                id: `ggl_m`,
-                                name: `Only show groups that you're a member of.`,
-                                sg: true
-                            }
-                        ],
-                        id: `ggl`,
-                        load: loadGgl,
-                        name: `Giveaway Groups Loader`,
-                        options: {
-                            title: `Load as:`,
-                            values: [`Panel (On Page Load)`, `Popout (On Hover)`, `Popout (On Click)`, `Popup (On Click)`]
-                        },
-                        sg: true,
-                        sync: `Steam Groups`,
-                        type: `giveaways`
-                    },
-                    {
-                        description: `
-                            <ul>
-                                <li>Allows you to easily see the list of countries for a region restricted giveaway by hovering over the region restricted icon.</li>
-                            </ul>
-                        `,
-                        id: `gcl`,
-                        load: loadGcl,
-                        name: `Giveaway Countries Loader`,
-                        options: {
-                            title: `Load as:`,
-                            values: [`Popout (On Hover)`, `Popout (On Click)`, `Popup (On Click)`]
-                        },
-                        sg: true,
-                        type: `giveaways`
-                    },
-                    {
-                        description: `
-                            <ul>
-                                <li>Adds a link to the winners page of ended giveaways.</li>
-                            </ul>
-                            <img src="https://camo.githubusercontent.com/c7253c39157cbde30b3337b90267260de33e4cab/687474703a2f2f692e696d6775722e636f6d2f67326b614644392e706e67"/>
-                        `,
-                        id: `gwl`,
-                        name: `Giveaway Winners Link`,
-                        sg: true,
-                        type: `giveaways`
-                    },
-                    {
-                        description: `
-                            <ul>
-                                <li>Adds an icon to ended giveaways with 0 entries in your profile or inside of the giveaways that allows you to recreate those giveaways.</li>
-                            </ul>
-                            <img src="http://i.imgur.com/DReWyEi.png"/>
-                        `,
-                        features: [
-                            {
-                                id: `gr_r`,
-                                name: `Remove the button for giveaways that have been recreated.`,
-                                sg: true
-                            }
-                        ],
-                        id: `gr`,
-                        load: loadGr,
-                        name: `Giveaway Recreator`,
-                        sg: true,
-                        type: `giveaways`
-                    },
-                    {
-                        description: `
-                            <ul>
-                                <li>Allows you to save giveaway templates for later use.</li>
-                            </ul>
-                        `,
-                        id: `gts`,
-                        load: loadGts,
-                        name: `Giveaway Templates`,
-                        sg: true,
-                        type: `giveaways`
-                    },
-                    {
-                        description: `
-                            <ul>
-                                <li>Allows you to create multiple giveaways or a train of giveaways (multiple giveaways that are linked to one another).</li>
-                                <li>You can view detailed information about a giveaway by hovering over it.</li>
-                                <li>You can re-order/remove the giveaways by dragging and dropping them in the correspondent areas.</li>
-                                <li>All giveaways will be created without reviewing or validating, so make sure all fields are filled correctly, or the giveaway creation will fail (if a train is being created, the failed giveaway will be disconnected and the previous giveaway will be connected to the next instead).</li>
-                            </ul>
-                            <img src="https://camo.githubusercontent.com/1b21ba088a8cdeefbc8787636e7084eddb1c5b84/687474703a2f2f692e696d6775722e636f6d2f5066396a37674e2e706e67"/>
-                        `,
-                        id: `mgc`,
-                        load: loadMgc,
-                        name: `Multiple Giveaways Creator`,
-                        sg: true,
-                        type: `giveaways`
-                    },
-                    {
-                        description: `
-                            <ul>
-                                <li>Allows you to sticky countries so that they appear at the top of the country list while creating a giveaway.</li>
-                            </ul>
-                        `,
-                        id: `sgac`,
-                        load: loadSgac,
-                        name: `Stickied Giveaway Countries`,
-                        sg: true,
-                        type: `giveaways`
-                    },
-                    {
-                        description: `
-                            <ul>
-                                <li>Allows you to sticky groups so that they appear at the top of the group list while creating a giveaway.</li>
-                            </ul>
-                            <img src="https://camo.githubusercontent.com/171d8b4db67798b71e9d758ae1e25e5314c5dd4b/687474703a2f2f692e696d6775722e636f6d2f3551654b4f37652e706e67"/>
-                        `,
-                        id: `sgg`,
-                        load: loadSgg,
-                        name: `Stickied Giveaway Groups`,
-                        sg: true,
-                        type: `giveaways`
-                    },
-                    {
-                        decription: `
-                            <ul>
-                                <li>Calculates how much real CV you should get for a giveaway.</li>
-                                <li>It's only accurate if you have synced the reduced CV/no CV lists from the settings menu and also scanned your sent giveaways using User Giveaways Data. But even then, it's only 100% accurate if the user has 0 not received giveaways, since User Giveaways Data doesn't currently know if the giveaways have been received or not.</li>
-                            </ul>
-                            <p>In the example below, as I had previously given away 3 copies of Max Payne 3, the sixth copy is worth 10% less (18P). So the 3 new copies would equal 58P:</p>
-                            <img src="https://camo.githubusercontent.com/7b57fc903dddbf988ec3b700412fbfcd16bfed3a/687474703a2f2f692e696d6775722e636f6d2f6f4347537455712e706e67"/>
-                        `,
-                        id: `rcvc`,
-                        load: loadRcvc,
-                        name: `Real CV Calculator`,
-                        sg: true,
-                        sync: `Giveaways`,
-                        type: `giveaways`
-                    },
-                    {
-                        description: `
-                            <ul>
-                                <li>Allows you to search all your sent giveaways for certain keys to check if you have already made giveaways with those keys.</li>
-                                <li>Allows you to export all keys you ever sent to a text file.</li>
-                            </ul>
-                        `,
-                        id: `sks`,
-                        load: loadSks,
-                        name: `Sent Keys Searcher`,
-                        sg: true,
-                        type: `giveaways`
-                    },
-                    {
-                        description: `
-                            <ul>
-                                <li>Allows you to send all your unsent gifts directly from your created page.</li>
-                            </ul>
-                            <img src="https://camo.githubusercontent.com/2c54c2015bc7bd8c3aa5f79afa3a4065e4d6e94a/687474703a2f2f692e696d6775722e636f6d2f363977626b55502e706e67"/>
-                        `,
-                        id: `ugs`,
-                        load: loadUgs,
-                        name: `Unsent Gifts Sender`,
-                        sg: true,
-                        type: `giveaways`
-                    },
-                    {
-                        description: `
-                            <ul>
-                                <li>Allows you to manage your created giveaways by exporting them to specific formats and searching & replacing something in their description.</li>
-                            </ul>
-                            <img src="http://i.imgur.com/fSBKj9Z.png"/>
-                        `,
-                        id: `gm`,
-                        load: loadGm,
-                        name: `Giveaways Manager`,
-                        sg: true,
-                        type: `giveaways`
-                    },
-                    {
-                        description: `
-                            <ul>
-                                <li>Tracks your entries and allows you to see your average/history.</li>
-                            </ul>
-                            <img src="http://i.imgur.com/HfLPZTd.png"/>
-                            <img src="http://i.imgur.com/d9YgvBp.png"/>
-                        `,
-                        id: `et`,
-                        load: loadEt,
-                        name: `Entries Tracker`,
-                        sg: true,
-                        type: `giveaways`
-                    },
-                    {
-                        description: `
-                            <ul>
-                                <li>Allows you to remove owned games from the <a href="https://www.steamgifts.com/account/settings/giveaways/filters">hidden list</a>.</li>
-                            </ul>
-                            <img src="http://i.imgur.com/a653YCb.png"/>
-                        `,
-                        id: `hgr`,
-                        load: loadHgr,
-                        name: `Hidden Games Remover`,
-                        sg: true,
-                        type: `giveaways`
-                    },
-                    {
-                        description: `
-                            <ul>
-                                <li>Allows you to easily activate won games.</li>
-                                <li>The key is automatically copied when clicking the button.</li>
-                            </ul>
-                            <img src="https://camo.githubusercontent.com/e16ae91d578df91e788ec62ea9623984b71247b9/687474703a2f2f692e696d6775722e636f6d2f30686e593079442e706e67"/>
-                        `,
-                        id: `sal`,
-                        load: loadSal,
-                        name: `Steam Activation Links`,
-                        options: {
-                            title: `Show links to:`,
-                            values: [`Steam Client`, `Browser`, `Both`]
-                        },
-                        sg: true,
-                        type: `giveaways`
-                    },
-                    {
-                        description: `
-                            <ul>
-                                <li>Disables the enter button for giveaways for games that you have hidden.</li>
-                            </ul>
-                        `,
-                        id: `hgebd`,
-                        load: loadHgebd,
-                        name: `Hidden Games Enter Button Disabler`,
-                        sg: true,
-                        sync: `Hidden Games`,
-                        type: `giveaways`
-                    },
-                    {
-                        description: `
-                            <ul>
-                                <li>Adds Is There Any Deal? info to giveaway pages, including the best current deal, the historical lowest price (optional) and the list of bundles that the game has been in, with a cache that can be updated after 24 hours since the last check.</li>
-                            </ul>
-                            <img src="https://camo.githubusercontent.com/0d413190b988c4d78ca53abd89f4101b60693491/687474703a2f2f692e696d6775722e636f6d2f65704632616d332e706e67"/>
-                        `,
-                        features: [
-                            {
-                                id: `itadi_h`,
-                                name: `Also load the historical lowest price of the game (takes longer).`,
-                                sg: true
-                            }
-                        ],
-                        id: `itadi`,
-                        load: loadItadi,
-                        name: `Is There Any Deal? Info`,
-                        sg: true,
-                        type: `giveaways`
-                    },
-                    {
-                        description: `
-                            <ul>
-                                <li>Shows a confirmation window when trying to delete keys on the giveaway winners page.</li>
-                            </ul>
-                        `,
-                        id: `dkc`,
-                        load: loadDkc,
-                        name: `Delete Keys Confirmation`,
-                        sg: true,
-                        type: `giveaways`
-                    },
-                    {
-                        description: `
-                            <ul>
-                                <li>Allows you to move across trains using hotkeys (use Ctrl with the hotkeys to open the giveaways in new tabs). Does not work if you are typing in an input/text area.</li>
-                            </ul>
-                        `,
-                        id: `npth`,
-                        load: loadNpth,
-                        name: `Next/Previous Train Hotkeys`,
-                        input: true,
-                        sg: true,
-                        type: `giveaways`
-                    },
-                    {
-                        description: `
-                            <ul>
-                                <li>Extracts all giveaways linked from a discussion/giveaway.</li>
-                                <li>You will find the button in discussions/giveaways that have a giveaway link.</li>
-                            </ul>
-                        `,
-                        features: [
-                            {
-                                background: true,
-                                id: `ge_p`,
-                                name: `Highlight public giveaways.`,
-                                sg: true
-                            },
-                            {
-                                background: true,
-                                id: `ge_g`,
-                                name: `Highlight group giveaways.`,
-                                sg: true
-                            },
-                            {
-                                background: true,
-                                id: `ge_b`,
-                                name: `Highlight giveaways that cannot be entered because of blacklist issues.`,
-                                sg: true
-                            },
-                            {
+                            sal: {
                                 description: `
                                     <ul>
-                                        <li>The default behavior of the extractor is to extract all giveaways. So, for example, if you enter a train in the 8th cart, the extractor will go back all the way to the 1st cart before continuing to the 9th cart. Enable this option to make the extractor ignore the 1st-7th carts in this example.</li>
-                                        <li>This method is not 100% accurate. If the link to the next giveaway does not contain a "next" variation or a counter, the extraction will stop.</li>
+                                        <li>Allows you to easily activate won games.</li>
+                                        <li>The key is automatically copied when clicking the button.</li>
                                     </ul>
+                                    <img src="https://camo.githubusercontent.com/e16ae91d578df91e788ec62ea9623984b71247b9/687474703a2f2f692e696d6775722e636f6d2f30686e593079442e706e67"/>
                                 `,
-                                id: `ge_o`,
-                                name: `Only extract from the current giveaway onwards.`,
+                                name: `Steam Activation Links`,
+                                options: {
+                                    title: `Show links to:`,
+                                    values: [`Steam Client`, `Browser`, `Both`]
+                                },
                                 sg: true
                             },
-                            {
-                                id: `ge_t`,
-                                name: `Open in a new tab.`,
-                                sg: true
-                            }
-                        ],
-                        id: `ge`,
-                        load: loadGe,
-                        name: `Giveaways Extractor`,
-                        sg: true,
-                        type: `giveaways`
-                    },
-                    {
-                        description: `
-                            <p>
-                                You will find the feature in the following URLs:
-                                <br/>
-                                <br/>
-                                <code>steamgifts.com/giveaway/*</code>
-                            </p>
-                            <ul>
-                                <li>Checks how many users commented without entering, how many users entered without commenting, and how many users commented & entered in a giveaway.</li>
-                                <li>If the giveaway has a bump link it will also check for comments in the discussion.</li>
-                            </ul>
-                        `,
-                        id: `cec`,
-                        name: `Comments/Entries Checker`,
-                        new: true,
-                        sg: true,
-                        type: `giveaways`
-                    },
-                    {
-                        description: `
-                            <p>
-                                You will find the feature in the following URLs:
-                                <br/>
-                                <br/>
-                                <code>steamgifts.com/giveaway/*</code>
-                            </p>
-                            <ul>
-                                <li>Loads giveaways that you cannot access because of blacklist issues as if you were not logged in, allowing you to view them without having to actually log out or open them in an incognito window.</li>
-                            </ul>
-                        `,
-                        id: `bgl`,
-                        name: `Blacklist Giveaway Loader`,
-                        sg: true,
-                        type: `giveaways`
-                    },
-                    {
-                        // by Royalgamer06
-                        description: `
-                            <ul>
-                                <li>Provides search links for the game when you cannot access a giveaway.</li>
-                            </ul>
-                            <img src="https://camo.githubusercontent.com/030a1474fdbb0b0bbc12b5e0e07937934de227eb/687474703a2f2f692e696d6775722e636f6d2f474d36625833732e706e67"/>
-                        `,
-                        id: `gesl`,
-                        load: loadGesl,
-                        name: `Giveaway Error Search Links`,
-                        sg: true,
-                        type: `giveaways`
-                    },
-                    {
-                        description: `
-                            <ul>
-                                <li>Allows you to search the archive by exact title/app id.</li>
-                            </ul>
-                        `,
-                        id: `as`,
-                        load: loadAs,
-                        name: `Archive Searcher`,
-                        sg: true,
-                        type: `giveaways`
-                    },
-                    {
-                        description: `
-                            <ul>
-                                <li>Brings back SG's old active discussions design, while keeping the new Deals section.</li>
-                            </ul>
-                        `,
-                        features: [
-                            {
+                            sgac: {
                                 description: `
                                     <ul>
-                                        <li>By default, deals are excluded from the discussions section, since they can be accessed by clicking the top left button in the active discussions container.</li>
+                                        <li>Allows you to sticky countries so that they appear at the top of the country list while creating a giveaway.</li>
                                     </ul>
                                 `,
-                                id: `oadd_d`,
-                                name: `Show deals in the discussions section.`,
+                                name: `Stickied Giveaway Countries`,
+                                sg: true
+                            },
+                            sgg: {
+                                description: `
+                                    <ul>
+                                        <li>Allows you to sticky groups so that they appear at the top of the group list while creating a giveaway.</li>
+                                    </ul>
+                                    <img src="https://camo.githubusercontent.com/171d8b4db67798b71e9d758ae1e25e5314c5dd4b/687474703a2f2f692e696d6775722e636f6d2f3551654b4f37652e706e67"/>
+                                `,
+                                name: `Stickied Giveaway Groups`,
+                                sg: true
+                            },
+                            ttec: {
+                                description: `
+                                    <ul>
+                                        <li>Calculates how much time you have to wait until you have enough points to enter a giveaway.</li>
+                                    </ul>
+                                    <img src="https://i.imgur.com/3z6t263.png">
+                                `,
+                                name: `Time To Enter Calculator`,
+                                sg: true
+                            },
+                            ueg: {
+                                description: `
+                                    <ul>
+                                        <li>Removes SG's default fade for entered giveaways.</li>
+                                    </ul>
+                                `,
+                                name: `Unfaded Entered Giveaways`,
+                                sg: true
+                            },
+                            ugb: {
+                                description: `
+                                    <ul>
+                                        <li>Allows you to unhide giveaways directly from the main/giveaway pages.</li>
+                                    </ul>
+                                `,
+                                name: `Unhide Giveaway Button`,
+                                sg: true
+                            },
+                            ugs: {
+                                description: `
+                                    <ul>
+                                        <li>Allows you to send all your unsent gifts directly from your created page.</li>
+                                    </ul>
+                                    <img src="https://camo.githubusercontent.com/2c54c2015bc7bd8c3aa5f79afa3a4065e4d6e94a/687474703a2f2f692e696d6775722e636f6d2f363977626b55502e706e67"/>
+                                `,
+                                name: `Unsent Gifts Sender`,
                                 sg: true
                             }
-                        ],
-                        id: `oadd`,
-                        name: `Old Active Discussions Design`,
-                        sg: true,
-                        type: `discussions`
-                    },
-                    {
-                        description: `
-                            <ul>
-                                <li>Moves the active discussions to the top/sidebar of the page.</li>
-                            </ul>
-                            <p>More about the sidebar option:</p>
-                            <ul>
-                                <li>If you have Advanced Giveaway Search enabled, it will be hidden and triggered when hovering hover the search field.</li>
-                                <li>The username and avatar of the user who last posted will be removed (the button to go to the last comment will remain intact).</li>
-                                <li>Accurate Timestamps will not run for any timestamps inside the active discussions.</li>
-                                <li>Any user tags you might have saved for users will be hidden inside the active discussions (they will still be visible if you click the tag button to edit them).</li>
-                            </ul>
-                            <img src="https://camo.githubusercontent.com/9f0ebf4ffbf3489529819653853c6cc725cc0047/687474703a2f2f692e696d6775722e636f6d2f584565726f566e2e706e67"/>
-                        `,
-                        id: `adots`,
-                        name: `Active Discussions On Top/Sidebar`,
-                        options: {
-                            title: `Move to:`,
-                            values: [`Top`, `Sidebar`]
                         },
-                        sg: true,
-                        type: `discussions`
+                        newBelow: true
                     },
-                    {
-                        description: `
-                            <ul>
-                                <li>Allows you to close/open discussions without having to enter them.</li>
-                            </ul>
-                        `,
-                        id: `codb`,
-                        name: `Close/Open Discussion Button`,
-                        sg: true,
-                        type: `discussions`
-                    },
-                    {
-                        description: `
-                            <ul>
-                                <li>Allows you to filter discussions.</li>
-                            </ul>
-                        `,
-                        features: [
-                            {
+                    discussions: {
+                        features: {
+                            adots: {
                                 description: `
                                     <ul>
-                                        <li>Allows you to hide individual discussions.</li>
-                                        <li>Hidden discussions can only be unhidden through the settings menu.</li>
+                                        <li>Moves the active discussions to the top/sidebar of the page.</li>
                                     </ul>
+                                    <p>More about the sidebar option:</p>
+                                    <ul>
+                                        <li>If you have Advanced Giveaway Search enabled, it will be hidden and triggered when hovering hover the search field.</li>
+                                        <li>The username and avatar of the user who last posted will be removed (the button to go to the last comment will remain intact).</li>
+                                        <li>Accurate Timestamps will not run for any timestamps inside the active discussions.</li>
+                                        <li>Any user tags you might have saved for users will be hidden inside the active discussions (they will still be visible if you click the tag button to edit them).</li>
+                                    </ul>
+                                    <img src="https://camo.githubusercontent.com/9f0ebf4ffbf3489529819653853c6cc725cc0047/687474703a2f2f692e696d6775722e636f6d2f584565726f566e2e706e67"/>
                                 `,
-                                id: `df_s`,
-                                name: `Single Filters`,
+                                name: `Active Discussions On Top/Sidebar`,
+                                options: {
+                                    title: `Move to:`,
+                                    values: [`Top`, `Sidebar`]
+                                },
                                 sg: true
                             },
-                            {
+                            codb: {
+                                description: `
+                                    <ul>
+                                        <li>Allows you to close/open discussions without having to enter them.</li>
+                                    </ul>
+                                `,
+                                name: `Close/Open Discussion Button`,
+                                sg: true
+                            },
+                            ded: {
+                                description: `
+                                    <ul>
+                                        <li>Detects if the discussion you're posting a comment to has been edited since the time you opened it and saves your comment correctly.</li>
+                                        <li>This fixes a bug on SteamGifts that does not save your comment to a discussion if you submit it after the discussion has been edited.</li>
+                                        <li>The feature also replaces every single native "Submit" button with its own "Submit" button, to gather info about comments when posting, which is required for some comment features, like Comment History.</li>
+                                    </ul>
+                                `,
+                                name: `Discussion Edits Detector`,
+                                sg: true,
+                                st: true
+                            },
+                            df: {
                                 description: `
                                     <ul>
                                         <li>Allows you to filter discussions.</li>
                                     </ul>
                                 `,
-                                features: [
-                                    {
-                                        id: `df_comments`,
-                                        name: `Comments`,
+                                features: {
+                                    df_s: {
+                                        description: `
+                                            <ul>
+                                                <li>Allows you to hide individual discussions.</li>
+                                                <li>Hidden discussions can only be unhidden through the settings menu.</li>
+                                            </ul>
+                                        `,
+                                        name: `Single Filters`,
                                         sg: true
                                     },
-                                    {
-                                        id: `df_announcements`,
-                                        name: `Announcements`,
-                                        sg: true
-                                    },
-                                    {
-                                        id: `df_bugsSuggestions`,
-                                        name: `Bugs / Suggestions`,
-                                        sg: true
-                                    },
-                                    {
-                                        id: `df_deals`,
-                                        name: `Deals`,
-                                        sg: true
-                                    },
-                                    {
-                                        id: `df_general`,
-                                        name: `General`,
-                                        sg: true
-                                    },
-                                    {
-                                        id: `df_groupRecruitment`,
-                                        name: `Group Recruitment`,
-                                        sg: true
-                                    },
-                                    {
-                                        id: `df_letsPlayTogether`,
-                                        name: `Let's Play Together`,
-                                        sg: true
-                                    },
-                                    {
-                                        id: `df_offTopic`,
-                                        name: `Off-Topic`,
-                                        sg: true
-                                    },
-                                    {
-                                        id: `df_puzzles`,
-                                        name: `Puzzles`,
-                                        sg: true
-                                    },
-                                    {
-                                        id: `df_uncategorized`,
-                                        name: `Uncategorized`,
-                                        sg: true
-                                    },
-                                    {
-                                        id: `df_created`,
-                                        name: `Created`,
-                                        sg: true
-                                    },
-                                    {
-                                        id: `df_poll`,
-                                        name: `Poll`,
-                                        sg: true
-                                    },
-                                    {
-                                        id: `df_highlighted`,
-                                        name: `Highlighted`,
-                                        sg: true
-                                    },
-                                    {
-                                        id: `df_visited`,
-                                        name: `Visited`,
-                                        sg: true
-                                    },
-                                    {
-                                        id: `df_unread`,
-                                        name: `Unread`,
+                                    df_m: {
+                                        description: `
+                                            <ul>
+                                                <li>Allows you to filter discussions.</li>
+                                            </ul>
+                                        `,
+                                        features: {
+                                            df_comments: {
+                                                name: `Comments`,
+                                                sg: true
+                                            },
+                                            df_announcements: {
+                                                name: `Announcements`,
+                                                sg: true
+                                            },
+                                            df_bugsSuggestions: {
+                                                name: `Bugs / Suggestions`,
+                                                sg: true
+                                            },
+                                            df_deals: {
+                                                name: `Deals`,
+                                                sg: true
+                                            },
+                                            df_general: {
+                                                name: `General`,
+                                                sg: true
+                                            },
+                                            df_groupRecruitment: {
+                                                name: `Group Recruitment`,
+                                                sg: true
+                                            },
+                                            df_letsPlayTogether: {
+                                                name: `Let's Play Together`,
+                                                sg: true
+                                            },
+                                            df_offTopic: {
+                                                name: `Off-Topic`,
+                                                sg: true
+                                            },
+                                            df_puzzles: {
+                                                name: `Puzzles`,
+                                                sg: true
+                                            },
+                                            df_uncategorized: {
+                                                name: `Uncategorized`,
+                                                sg: true
+                                            },
+                                            df_created: {
+                                                name: `Created`,
+                                                sg: true
+                                            },
+                                            df_poll: {
+                                                name: `Poll`,
+                                                sg: true
+                                            },
+                                            df_highlighted: {
+                                                name: `Highlighted`,
+                                                sg: true
+                                            },
+                                            df_visited: {
+                                                name: `Visited`,
+                                                sg: true
+                                            },
+                                            df_unread: {
+                                                name: `Unread`,
+                                                sg: true
+                                            }
+                                        },
+                                        name: `Multiple Filters`,
                                         sg: true
                                     }
-                                ],
-                                id: `df_m`,
-                                name: `Multiple Filters`,
+                                },
+                                name: `Discussion Filters`,
                                 sg: true
-                            }
-                        ],
-                        id: `df`,
-                        name: `Discussion Filters`,
-                        sg: true,
-                        type: `discussions`
-                    },
-                    {
-                        description: `
-                            <ul>
-                                <li>Allows you to sort discussions by creation date (from newest to oldest).</li>
-                            </ul>
-                            <img src="https://camo.githubusercontent.com/9fd9d276d5c6fc9377b2b9f36fe69c8d4d39562d/687474703a2f2f692e696d6775722e636f6d2f704d416f5671392e706e67"/>
-                        `,
-                        id: `ds`,
-                        load: loadDs,
-                        name: `Discussions Sorter`,
-                        sg: true,
-                        type: `discussions`
-                    },
-                    {
-                        description: `
-                            <ul>
-                                <li>Allows you to highlight discussions.</li>
-                            </ul>
-                            <img src="https://camo.githubusercontent.com/62f0877abb79ad392f24d92bc096c947398f9344/687474703a2f2f692e696d6775722e636f6d2f41326f313479772e706e67"/>
-                        `,
-                        features: [
-                            {
-                                id: `dh_t`,
-                                name: `Bring the highlighted discussions to the top of the page if there are any in the current page.`,
-                                sg: true
-                            }
-                        ],
-                        id: `dh`,
-                        load: loadDh,
-                        name: `Discussions Highlighter`,
-                        sg: true,
-                        type: `discussions`
-                    },
-                    {
-                        description: `
-                            <ul>
-                                <li>Skips to the comments of a discussion if you've used pagination navigation. For example, you enter a discussion and go to page 2, on page 2 the feature will skip the main post and take you directly to the comments.</li>
-                            </ul>
-                        `,
-                        id: `mps`,
-                        load: loadMps,
-                        name: `Main Post Skipper`,
-                        sg: true,
-                        type: `discussions`
-                    },
-                    {
-                        description: `
-                            <ul>
-                                <li>Hides the main post of discussions and adds a button that pops it up.</li>
-                            </ul>
-                            <img src="https://camo.githubusercontent.com/8bc51996cbe378add7adecf071cdc747a711e384/687474703a2f2f692e696d6775722e636f6d2f6c4139514e4c4d2e706e67"/>
-                        `,
-                        features: [
-                            {
-                                id: `mpp_r`,
-                                name: `Only hide the main post if it has been marked as read (requires Comment Tracker).`,
-                                sg: true
-                            }
-                        ],
-                        id: `mpp`,
-                        load: loadMpp,
-                        name: `Main Post Popup`,
-                        sg: true,
-                        type: `discussions`
-                    },
-                    {
-                        description: `
-                            <ul>
-                                <li>Detects if the discussion you're posting a comment to has been edited since the time you opened it and saves your comment correctly.</li>
-                                <li>This fixes a bug on SteamGifts that does not save your comment to a discussion if you submit it after the discussion has been edited.</li>
-                                <li>The feature also replaces every single native "Submit" button with its own "Submit" button, to gather info about comments when posting, which is required for some comment features, like Comment History.</li>
-                            </ul>
-                        `,
-                        id: `ded`,
-                        load: loadDed,
-                        name: `Discussion Edits Detector`,
-                        sg: true,
-                        st: true,
-                        type: `discussions`
-                    },
-                    {
-                        description: `
-                            <ul>
-                                <li>Allows you to bump all your current trades with a single click.</li>
-                                <li>You will find the button in you created trades page.</li>
-                            </ul>
-                        `,
-                        features: [
-                            {
+                            },
+                            dh: {
                                 description: `
                                     <ul>
-                                        <li>Auto bumps all your trades every hour.</li>
-                                        <li>Requires you to leave SG or ST open.</li>
+                                        <li>Allows you to highlight discussions.</li>
                                     </ul>
+                                    <img src="https://camo.githubusercontent.com/62f0877abb79ad392f24d92bc096c947398f9344/687474703a2f2f692e696d6775722e636f6d2f41326f313479772e706e67"/>
                                 `,
-                                id: `tb_a`,
-                                name: `Auto bump every hour.`,
-                                sg: true,
-                                st: true
-                            }
-                        ],
-                        id: `tb`,
-                        load: loadTb,
-                        name: `Trades Bumper`,
-                        sg: true,
-                        st: true,
-                        type: `trades`
-                    },
-                    {
-                        description: `
-                            <ul>
-                                <li>Reverses the comments in a page so that they are ordered from newest to oldest.</li>
-                            </ul>
-                        `,
-                        id: `cr`,
-                        name: `Comments Reverser`,
-                        new: true,
-                        sg: true,
-                        st: true,
-                        type: `comments`
-                    },
-                    {
-                        description: `
-                            <ul>
-                                <li>Allows you to collapse/expand all replies (level 2+ comments) in a page.</li>
-                            </ul>
-                        `,
-                        features: [
-                            {
-                                id: `cerb_a`,
-                                name: `Automatically collapse all replies when visiting a page.`,
-                                sg: true,
-                                st: true
-                            }
-                        ],
-                        id: `cerb`,
-                        load: loadCerb,
-                        name: `Collapse/Expand Replies Button`,
-                        sg: true,
-                        st: true,
-                        type: `comments`
-                    },
-                    {
-                        description: `
-                            <ul>
-                                <li>Adds a mention link to the comment replied to.</li>
-                            </ul>
-                            <img src="https://camo.githubusercontent.com/696ce80a48aa3b78f15dc9deb856fa321a88fd68/687474703a2f2f692e696d6775722e636f6d2f5367457a6a58432e706e67"/>
-                        `,
-                        id: `rml`,
-                        load: loadRml,
-                        name: `Reply Mention Link`,
-                        sg: true,
-                        st: true,
-                        type: `comments`
-                    },
-                    {
-                        description: `
-                            <ul>
-                                <li>Allows you to search a giveaway/discussion/ticket/trade for comments from specific users.</li>
-                            </ul>
-                            <img src="http://i.imgur.com/KpcVxXk.png"/>
-                            <img src="http://i.imgur.com/y0QykIf.png"/>
-                        `,
-                        id: `cs`,
-                        load: loadCs,
-                        name: `Comment Searcher`,
-                        sg: true,
-                        st: true,
-                        type: `comments`
-                    },
-                    {
-                        description: `
-                            <ul>
-                                <li>Moves the reply box to the top of the page.</li>
-                            </ul>
-                        `,
-                        id: `rbot`,
-                        load: loadRbot,
-                        name: `Reply Box On Top`,
-                        sg: true,
-                        st: true,
-                        type: `comments`
-                    },
-                    {
-                        description: `
-                            <ul>
-                                <li>Pops up a reply box when marking a giveaway as received.</li>
-                            </ul>
-                        `,
-                        id: `rrbp`,
-                        name: `Received Reply Box Popup`,
-                        sg: true,
-                        type: `comments`
-                    },
-                    {
-                        description: `
-                            <ul>
-                                <li>Adds a button that pops up a box which allows you to add comments to the page.</li>
-                                <li>Has Discussion Edit Detector built-in.</li>
-                            </ul>
-                            <img src="https://camo.githubusercontent.com/7227b3cad4190a531ee5d109303fec7fe747b65d/687474703a2f2f692e696d6775722e636f6d2f436c477a424e532e706e67"/>
-                        `,
-                        id: `rbp`,
-                        load: loadRbp,
-                        name: `Reply Box Popup`,
-                        sg: true,
-                        st: true,
-                        type: `comments`
-                    },
-                    {
-                        description: `
-                            <ul>
-                                <li>Allows you to reply to multiple comments at the same time, since each comment has their own comment box and the page isn't reloaded after submitting it.</li>
-                                <li>Has Discussion Edit Detector built-in.</li>
-                            </ul>
-                        `,
-                        id: `mr`,
-                        load: loadMr,
-                        name: `Multi-Reply`,
-                        sg: true,
-                        st: true,
-                        type: `comments`
-                    },
-                    {
-                        description: `
-                            <ul>
-                                <li>Allows you to reply to your messages directly from your inbox.</li>
-                                <li>Has Multi-Reply built-in.</li>
-                            </ul>
-                        `,
-                        features: [
-                            {
+                                features: {
+                                    dh_t: {
+                                        name: `Bring the highlighted discussions to the top of the page if there are any in the current page.`,
+                                        sg: true
+                                    }
+                                },
+                                name: `Discussions Highlighter`,
+                                sg: true
+                            },
+                            ds: {
                                 description: `
                                     <ul>
-                                        <li>Saves replies made from the inbox so that they are still there when you refresh the page.</li>
-                                        <li>Replies are deleted from the cache after 1 week.</li>
-                                        <li>Editing/deleting/undeleting a saved reply also updates its cache and makes it last 1 week longer.</li>
+                                        <li>Allows you to sort discussions by creation date (from newest to oldest).</li>
                                     </ul>
+                                    <img src="https://camo.githubusercontent.com/9fd9d276d5c6fc9377b2b9f36fe69c8d4d39562d/687474703a2f2f692e696d6775722e636f6d2f704d416f5671392e706e67"/>
                                 `,
-                                id: `rfi_s`,
-                                name: `Save replies.`,
-                                sg: true,
-                                st: true
-                            }
-                        ],
-                        id: `rfi`,
-                        load: loadRfi,
-                        name: `Reply From Inbox`,
-                        sg: true,
-                        st: true,
-                        type: `comments`
-                    },
-                    {
-                        description: `
-                            <ul>
-                                <li>Fades giveaways / discussions / support tickets / trades you have already visited. Note that this does not mean every comment inside the page has been read, it simply means you have visited it.</li>
-                                <li>Keeps track of comments / editions.</li>
-                                <li>To mark a comment as read/unread, click on the eye icon below it.</li>
-                                <li>Keeps track of discussion comments and shows how many comments are unread on the discussions page.</li>
-                                <li>Allows you to go to the first unread comment of a discussion or mark all its comments as read directly from the discussions page.</li>
-                            </ul>
-                            <img src="https://camo.githubusercontent.com/2688dcd381fc20a68c3f7d8e5c3aa4b7366efa99/687474703a2f2f692e696d6775722e636f6d2f366e414c6838792e706e67"/>
-                            <img src="https://camo.githubusercontent.com/3f0bbfef8a301dcfc91bec0d62e9d20c0b6c45e9/687474703a2f2f692e696d6775722e636f6d2f554362353576692e706e67"/>
-                            <img src="https://camo.githubusercontent.com/94672a1b6ebb4adeaad8c311c184ddded32f6afc/687474703a2f2f692e696d6775722e636f6d2f3866504d776a472e706e67"/>
-                        `,
-                        features: [
-                            {
+                                name: `Discussions Sorter`,
+                                sg: true
+                            },
+                            mpp: {
                                 description: `
                                     <ul>
-                                        <li>Simply shows the number of comments since the last visit.</li>
-                                        <li>Marking a discussion as visited with Giveaways/Discussions/Tickets/Trades Tracker will update the count without having to enter the discussion.</li>
-                                        <li>Marking a discussion as unvisited will reset the count to 0.</li>
+                                        <li>Hides the main post of discussions and adds a button that pops it up.</li>
                                     </ul>
+                                    <img src="https://camo.githubusercontent.com/8bc51996cbe378add7adecf071cdc747a711e384/687474703a2f2f692e696d6775722e636f6d2f6c4139514e4c4d2e706e67"/>
                                 `,
-                                features: [
-                                    {
-                                        id: `ct_s_h`,
-                                        name: `Hide count if you haven't visited the discussion yet.`,
-                                        sg: true,
-                                        st: true
+                                features: {
+                                    mpp_r: {
+                                        name: `Only hide the main post if it has been marked as read (requires Comment Tracker).`,
+                                        sg: true
                                     }
-                                ],
-                                id: `ct_s`,
-                                name: `Enable simplified version.`,
-                                sg: true,
-                                st: true
+                                },
+                                name: `Main Post Popup`,
+                                sg: true
                             },
-                            {
-                                id: `ct_a`,
-                                name: `Automatically mark comments as read in the inbox when clicking on the "Mark as Read" button.`,
-                                sg: true,
-                                st: true
-                            },
-                            {
+                            mps: {
                                 description: `
                                     <ul>
-                                        <li>Scans the page from the bottom to top if reverse scrolling is disabled, or from the top to bottom if it's enabled.</li>
+                                        <li>Skips to the comments of a discussion if you've used pagination navigation. For example, you enter a discussion and go to page 2, on page 2 the feature will skip the main post and take you directly to the comments.</li>
                                     </ul>
                                 `,
-                                id: `ct_r`,
-                                name: `Search for the first unread comment in reverse order.`,
-                                sg: true,
-                                st: true
-                            }
-                        ],
-                        id: `ct`,
-                        load: loadCt,
-                        name: `Comment Tracker`,
-                        sg: true,
-                        st: true,
-                        type: `comments`
-                    },
-                    {
-                        description: `
-                            <ul>
-                                <li>Keeps track of the comments you make (they can be seen from header menu).</li>
-                                <li>This feature <span class="esgst-bold">only</span> works with Main Comment Box Popup, Discussion Edit Detector and Multi-Reply / Reply From Inbox. If you submit a comment though SG's native comment box, the comment will not be tracked.</li>
-                            </ul>
-                        `,
-                        id: `ch`,
-                        name: `Comment History`,
-                        sg: true,
-                        st: true,
-                        type: `comments`
-                    },
-                    {
-                        load: startCommentFeatures
-                    },
-                    {
-                        description: `
-                            <ul>
-                                <li>Keeps track of users from the database and detects username changes every month and every time someone loads the username history of a user.</li>
-                                <li>Users that are not already in the database are added when a user loads their username history.</li>
-                            </ul>
-                        `,
-                        id: `uh`,
-                        load: loadUh,
-                        name: `Username History`,
-                        sg: true,
-                        type: `users`
-                    },
-                    {
-                        description: `
-                            <ul>
-                                <li>Allows you to add notes to users.</li>
-                                <li>The notes are tied to the user's Steam id, so they do not vanish when a user changes their username.</li>
-                                <li>If a user has notes saved, the icon will be full. Otherwise it will be empty.</li>
-                            </ul>
-                        `,
-                        features: [
-                            {
-                                id: `un_p`,
-                                name: `Pop up when whitelisting/blacklisting a user.`,
-                                sg: true
-                            }
-                        ],
-                        id: `un`,
-                        load: loadUn,
-                        name: `User Notes`,
-                        sg: true,
-                        st: true,
-                        type: `users`
-                    },
-                    {
-                        description: `
-                            <ul>
-                                <li>Allows you to filter users' giveaways, discussions and posts.</li>
-                            </ul>
-                        `,
-                        features: [
-                            {
-                                id: `uf_g`,
-                                name: `Automatically hide giveaways from blacklisted users.`,
+                                name: `Main Post Skipper`,
                                 sg: true
                             },
-                            {
-                                id: `uf_d`,
-                                name: `Automatically hide discussions from blacklisted users.`,
-                                sg: true
-                            },
-                            {
-                                id: `uf_p`,
-                                name: `Automatically hide posts from blacklisted users.`,
-                                sg: true
-                            }
-                        ],
-                        id: `uf`,
-                        load: loadUf,
-                        name: `User Filters`,
-                        sg: true,
-                        type: `users`
-                    },
-                    {
-                        description: `
-                            <ul>
-                                <li>Allows you to see which groups you have in common with a user.</li>
-                            </ul>
-                        `,
-                        id: `sgc`,
-                        load: loadSgc,
-                        name: `Shared Groups Checker`,
-                        sg: true,
-                        type: `users`
-                    },
-                    {
-                        description: `
-                            <ul>
-                                <li>Allows you to view the real won/sent CV of users directly from their profile.</li>
-                            </ul>
-                        `,
-                        features: [
-                            {
-                                id: `rwscvl_r`,
-                                name: `Link SGTool's reverse page (from newest to oldest).`,
-                                sg: true
-                            }
-                        ],
-                        id: `rwscvl`,
-                        load: loadRwscvl,
-                        name: `Real Won/Sent CV Links`,
-                        sg: true,
-                        type: `users`
-                    },
-                    {
-                        description: `
-                            <ul>
-                                <li>Shows data about a user's giveaways.</li>
-                            </ul>
-                        `,
-                        id: `ugd`,
-                        load: loadUgd,
-                        name: `User Giveaways Data`,
-                        sg: true,
-                        type: `users`
-                    },
-                    {
-                        description: `
-                            <ul>
-                                <li>Allows you to check if a user has any not activated/multiple wins.</li>
-                            </ul>
-                        `,
-                        features: [
-                            {
-                                description: ``,
-                                features: [
-                                    {
-                                        description: ``,
-                                        id: `namwc_h_i`,
-                                        name: `Use icons instead of colors.`,
-                                        sg: true,
-                                        st: true
-                                    },
-                                    {
-                                        id: `namwc_h_f`,
-                                        name: `Only highlight users who failed to pass the check.`,
-                                        sg: true,
-                                        st: true
-                                    },
-                                    {
-                                        id: `namwc_h_m`,
-                                        name: `Highlight multiple wins as positive.`,
-                                        sg: true,
-                                        st: true
-                                    }
-                                ],
-                                id: `namwc_h`,
-                                name: `Highlight checked users.`,
-                                sg: true,
-                                st: true
-                            }
-                        ],
-                        id: `namwc`,
-                        load: loadNamwc,
-                        name: `Not Activated/Multiple Wins Checker`,
-                        sg: true,
-                        type: `users`
-                    },
-                    {
-                        description: ``,
-                        id: `nrf`,
-                        load: loadNrf,
-                        name: `Not Received Finder`,
-                        sg: true,
-                        type: `users`
-                    },
-                    {
-                        description: ``,
-                        id: `swr`,
-                        load: loadSwr,
-                        name: `Sent/Won Ratio`,
-                        sg: true,
-                        type: `users`
-                    },
-                    {
-                        description: ``,
-                        id: `luc`,
-                        load: loadLuc,
-                        name: `Level Up Calculator`,
-                        sg: true,
-                        type: `users`
-                    },
-                    {
-                        description: `
-                            <ul>
-                                <li>Allows you to easily go to a user's SteamGifts profile from SteamTrades.</li>
-                            </ul>
-                        `,
-                        id: `sgpb`,
-                        load: loadSgpb,
-                        name: `SteamGifts Profile Button`,
-                        st: true,
-                        type: `users`
-                    },
-                    {
-                        description: `
-                            <ul>
-                                <li>Allows you to easily go to a user's SteamTrades profile from SteamGifts.</li>
-                            </ul>
-                        `,
-                        id: `stpb`,
-                        load: loadStpb,
-                        name: `SteamTrades Profile Button`,
-                        sg: true,
-                        type: `users`
-                    },
-                    {
-                        description: ``,
-                        features: [
-                            {
-                                id: `wbc_b`,
-                                name: `Show blacklist information.`,
-                                sg: true
-                            },
-                            {
-                                id: `wbc_h`,
-                                name: `Highlight users who have whitelisted/blacklisted you.`,
-                                sg: true,
-                                st: true
-                            },
-                            {
-                                id: `wbc_n`,
-                                name: `Save automatic notes to users that you returned whitelist/blacklist for.`,
-                                sg: true
-                            }
-                        ],
-                        id: `wbc`,
-                        load: loadWbc,
-                        name: `Whitelist/Blacklist Checker`,
-                        sg: true,
-                        type: `users`
-                    },
-                    {
-                        description: `
-                            <ul>
-                                <li>Allows you to tag multiple users/games at the same time.</li>
-                            </ul>
-                        `,
-                        id: `mt`,
-                        load: loadMt,
-                        name: `Multi-Tag`,
-                        sg: true,
-                        st: true,
-                        type: `general`
-                    },
-                    {
-                        features: [
-                            {
-                                colors: true,
-                                id: `wbh_w`,
-                                name: `Color whitelisted users instead of adding a heart icon next to their username.`,
-                                sg: true,
-                                st: true
-                            },
-                            {
-                                colors: true,
-                                id: `wbh_b`,
-                                name: `Color blacklisted users instead of adding a ban icon next to their username.`,
-                                sg: true,
-                                st: true
-                            }
-                        ],
-                        id: `wbh`,
-                        load: loadWbh,
-                        name: `Whitelist/Blacklist Highlighter`,
-                        sg: true,
-                        st: true,
-                        sync: `Whitelist and Blacklist`,
-                        type: `users`
-                    },
-                    {
-                        id: `wbs`,
-                        name: `Whitelist/Blacklist Sorter`,
-                        sg: true,
-                        sync: `Whitelist and Blacklist`,
-                        type: `users`
-                    },
-                    {
-                        description: `
-                            <p>
-                                You will find the feature in the following URLs:
-                                <br/>
-                                <br/>
-                                <code>steamgifts.com/account/manage/whitelist*</code>
-                                <br/>
-                                <code>steamgifts.com/account/manage/blacklist*</code>
-                            </p>
-                            <img src="https://i.imgur.com/8npwILS.png"/>
-                            <ul>
-                                <li>Allows you to import/export/clear your whitelist/blacklist.</li>
-                            </ul>
-                        `,
-                        id: `wbm`,
-                        load: loadWbm,
-                        name: `Whitelist/Blacklist Manager`,
-                        sg: true,
-                        type: `users`
-                    },
-                    {
-                        description: `
-                            <ul>
-                                <li>Adds users status to the whitelist/blacklist pages, such as last online, gifts sent, gifts won, ratio and contributor value.</li>
-                            </ul>
-                            <img src="http://i.imgur.com/SnWasiw.png"/>
-                        `,
-                        id: `us`,
-                        load: loadUs,
-                        name: `Users Stats`,
-                        sg: true,
-                        type: `users`
-                    },
-                    {
-                        id: `iwh`,
-                        load: loadIwh,
-                        name: `Inbox Winners Highlighter`,
-                        sg: true,
-                        type: `users`
-                    },
-                    {
-                        description: `
-                            <ul>
-                                <li>Highlights groups that you are a member of.</li>
-                            </ul>
-                        `,
-                        id: `gh`,
-                        load: loadGh,
-                        name: `Groups Highlighter`,
-                        sg: true,
-                        sync: `Steam Groups`,
-                        type: `groups`
-                    },
-                    {
-                        id: `gs`,
-                        load: loadGs,
-                        name: `Group Stats`,
-                        sg: true,
-                        type: `groups`
-                    },
-                    {
-                        description: `
-                            <p>
-                                You will find the feature in the following URLs:
-                                <br/>
-                                <br/>
-                                <code>steamgifts.com/account/manage/whitelist*</code>
-                                <br/>
-                                <code>steamgifts.com/account/manage/blacklist*</code>
-                                <br/>
-                                <code>steamgifts.com/group/*</code>
-                            </p>
-                            <img src="https://i.imgur.com/cvUbsKK.png"/>
-                            <ul>
-                                <li>Allows you to check the libraries and wishlists of groups (including your whitelist/blacklist).</li>
-                                <li>The first 100 results are shown, but you can use the search function to find games that are outside of the top 100.</li>
-                                <li>Hovering over the number of libraries/wishlists gives you the name of the users.</li>
-                                <li>Requires a Steam API Key for libraries data. If a key is not set, it will only retrieve wishlists data. You can set a key in the last section of this menu.</li>
-                                <li>Some games show their app id instead of their name - these are the games retrieved from the libraries data that were not found in the wishlists data, as getting that extra information for them would generate more requests. This means it's more accurate to search by app id instead of by game name if you're searching in the libraries results.</li>
-                            </ul>
-                            <img src="https://i.imgur.com/cCcYiR5.png"/>
-                        `,
-                        id: `glwc`,
-                        load: loadGlwc,
-                        name: `Group Library/Wishlist Checker`,
-                        sg: true,
-                        type: `groups`
-                    },
-                    {
-                        description: `
-                            <ul>
-                                <li>Highlights games that you have already entered giveaways for.</li>
-                            </ul>
-                        `,
-                        features: [
-                            {
-                                id: `egh_t`,
-                                name: `Enable for discussion tables.`,
-                                sg: true
-                            }
-                        ],
-                        id: `egh`,
-                        load: loadEgh,
-                        name: `Entered Games Highlighter`,
-                        sg: true,
-                        type: `games`
-                    },
-                    {
-                        features: [
-                            {
-                                id: `gt_t`,
-                                name: `Enable for discussion tables.`,
-                                sg: true
-                            }
-                        ],
-                        id: `gt`,
-                        load: loadGt,
-                        name: `Game Tags`,
-                        sg: true,
-                        type: `games`
-                    },
-                    {
-                        description: `
-                            <ul>
-                                <li>Shows information about games.</li>
-                            </ul>
-                        `,
-                        features: [
-                            {
+                            oadd: {
                                 description: `
                                     <ul>
-                                        <li>Achievements links to the <a href="http://steamcommunity.com/stats">http://steamcommunity.com/stats</a> page of the game.</li>
-                                        <li>Full CV, Reduced CV and No CV link to the <a href="https://www.steamgifts.com/bundle-games">https://www.steamgifts.com/bundle-games</a> page of the game.</li>
-                                        <li>Giveaway Info links to your profile page.</li>
-                                        <li>Hidden links to the <a href="https://www.steamgifts.com/account/settings/giveaways/filters">https://www.steamgifts.com/account/settings/giveaways/filters</a> page of the game.</li>
-                                        <li>Owned links to the <a href="https://www.steamgifts.com/account/steam/games">https://www.steamgifts.com/account/steam/games</a> page of the game.</li>
-                                        <li>Removed links to the <a href="http://steamdb.info">http://steamdb.info</a> page of the game.</li>
-                                        <li>Trading Cards links to the <a href="http://www.steamcardexchange.net/index.php">http://www.steamcardexchange.net/index.php</a> page of the game.</li>
-                                        <li>Wishlist links to the <a href="https://www.steamgifts.com/account/steam/wishlist">https://www.steamgifts.com/account/steam/wishlist</a> page of the game.</li>
-                                        <li>Every other category links to the <a href="http://store.steampowered.com">http://store.steampowered.com</a> page of the game.</li>
+                                        <li>Brings back SG's old active discussions design, while keeping the new Deals section.</li>
                                     </ul>
                                 `,
-                                features: [
-                                    {
-                                        id: `gc_lp_gv`,
-                                        name: `Enable for Grid View.`,
+                                features: {
+                                    oadd_d: {
+                                        description: `
+                                            <ul>
+                                                <li>By default, deals are excluded from the discussions section, since they can be accessed by clicking the top left button in the active discussions container.</li>
+                                            </ul>
+                                        `,
+                                        name: `Show deals in the discussions section.`,
                                         sg: true
                                     }
-                                ],
-                                id: `gc_lp`,
-                                name: `Link each category to its related page.`,
+                                },
+                                name: `Old Active Discussions Design`,
                                 sg: true
                             },
-                            {
-                                id: `gc_b`,
-                                name: `Show the category colors as a bottom border to the giveaways in Grid View.`,
-                                sg: true
-                            },
-                            {
-                                id: `gc_t`,
-                                name: `Enable for discussion tables.`,
-                                sg: true
-                            },
-                            {
-                                id: `gc_il`,
-                                name: `Show the panel inline (next to the game name instead of below it).`,
-                                sg: true
-                            },
-                            {
-                                colors: true,
+                            radb: {
                                 description: `
                                     <ul>
-                                        <li>Shows how many giveaways you have already made for a game and how much CV you should get for a new giveaway.</li>
-                                        <li>In order for the feature to work properly, you must scan your profile with User Giveaways Data (currently this must be done every time your giveaways end, if you want to keep it updated).</li>
-                                        <li>The information is not 100% accurate because it cannot know if all the copies were sent when it comes to giveaways with multiple copies, at the moment.</li>
+                                        <li>Allows you to refresh the active discussions without having to refresh the entire page.</li>
                                     </ul>
                                 `,
-                                features: [
-                                    {
-                                        id: `gc_gi_t`,
-                                        name: `Only show in discussion tables.`,
-                                        sg: true
-                                    },
-                                    {
-                                        id: `gc_gi_cew`,
-                                        name: `Only show in the created/entered/won pages.`,
-                                        sg: true
-                                    }
-                                ],
-                                id: `gc_gi`,
-                                name: `Giveaway Info`,
-                                sg: true
-                            },
-                            {
-                                features: [
-                                    {
-                                        id: `gc_r_s`,
-                                        name: `Show the percentage and number of reviews next to the icon.`,
-                                        sg: true
-                                    }
-                                ],
-                                id: `gc_r`,
-                                name: `Rating`,
-                                sg: true
-                            },
-                            {
-                                colors: true,
-                                features: [
-                                    {
-                                        description: `
-                                            <ul>
-                                                <li>Shows the category initials instead of its full name.</li>
-                                                <li>Not compatible with custom labels.</li>
-                                            </ul>
-                                        `,
-                                        features: [
-                                            {
-                                                id: `gc_fcv_s_i`,
-                                                name: `Use icons instead of initials.`,
-                                                sg: true
-                                            }
-                                        ],
-                                        id: `gc_fcv_s`,
-                                        name: `Enable the simplified version.`,
-                                        sg: true
-                                    }
-                                ],
-                                id: `gc_fcv`,
-                                input: true,
-                                name: `Full CV`,
-                                sg: true
-                            },
-                            {
-                                colors: true,
-                                features: [
-                                    {
-                                        description: `
-                                            <ul>
-                                                <li>Shows the category initials instead of its full name.</li>
-                                                <li>Not compatible with custom labels.</li>
-                                            </ul>
-                                        `,
-                                        features: [
-                                            {
-                                                id: `gc_rcv_s_i`,
-                                                name: `Use icons instead of initials.`,
-                                                sg: true
-                                            }
-                                        ],
-                                        id: `gc_rcv_s`,
-                                        name: `Enable the simplified version.`,
-                                        sg: true
-                                    }
-                                ],
-                                id: `gc_rcv`,
-                                input: true,
-                                name: `Reduced CV`,
-                                sg: true
-                            },
-                            {
-                                colors: true,
-                                features: [
-                                    {
-                                        description: `
-                                            <ul>
-                                                <li>Shows the category initials instead of its full name.</li>
-                                                <li>Not compatible with custom labels.</li>
-                                            </ul>
-                                        `,
-                                        features: [
-                                            {
-                                                id: `gc_ncv_s_i`,
-                                                name: `Use icons instead of initials.`,
-                                                sg: true
-                                            }
-                                        ],
-                                        id: `gc_ncv_s`,
-                                        name: `Enable the simplified version.`,
-                                        sg: true
-                                    },
-                                    {
-                                        id: `gc_ncv_o`,
-                                        name: `Only display "No CV" if game also has "Reduced CV".`,
-                                        sg: true
-                                    }
-                                ],
-                                id: `gc_ncv`,
-                                input: true,
-                                name: `No CV`,
-                                sg: true
-                            },
-                            {
-                                colors: true,
-                                features: [
-                                    {
-                                        description: `
-                                            <ul>
-                                                <li>Shows the category initials instead of its full name.</li>
-                                                <li>Not compatible with custom labels.</li>
-                                            </ul>
-                                        `,
-                                        features: [
-                                            {
-                                                id: `gc_h_s_i`,
-                                                name: `Use icons instead of initials.`,
-                                                sg: true
-                                            }
-                                        ],
-                                        id: `gc_h_s`,
-                                        name: `Enable the simplified version.`,
-                                        sg: true
-                                    }
-                                ],
-                                id: `gc_h`,
-                                input: true,
-                                name: `Hidden`,
-                                sg: true
-                            },
-                            {
-                                colors: true,
-                                features: [
-                                    {
-                                        description: `
-                                            <ul>
-                                                <li>Shows the category initials instead of its full name.</li>
-                                                <li>Not compatible with custom labels.</li>
-                                            </ul>
-                                        `,
-                                        features: [
-                                            {
-                                                id: `gc_i_s_i`,
-                                                name: `Use icons instead of initials.`,
-                                                sg: true
-                                            }
-                                        ],
-                                        id: `gc_i_s`,
-                                        name: `Enable the simplified version.`,
-                                        sg: true
-                                    }
-                                ],
-                                id: `gc_i`,
-                                input: true,
-                                name: `Ignored`,
-                                sg: true
-                            },
-                            {
-                                colors: true,
-                                features: [
-                                    {
-                                        description: `
-                                            <ul>
-                                                <li>Shows the category initials instead of its full name.</li>
-                                                <li>Not compatible with custom labels.</li>
-                                            </ul>
-                                        `,
-                                        features: [
-                                            {
-                                                id: `gc_o_s_i`,
-                                                name: `Use icons instead of initials.`,
-                                                sg: true
-                                            }
-                                        ],
-                                        id: `gc_o_s`,
-                                        name: `Enable the simplified version.`,
-                                        sg: true
-                                    },
-                                    {
-                                        id: `gc_o_t`,
-                                        name: `Only show if games are owned by alt accounts in discussion tables.`,
-                                        sg: true
-                                    }
-                                ],
-                                id: `gc_o`,
-                                input: true,
-                                name: `Owned`,
-                                sg: true
-                            },
-                            {
-                                colors: true,
-                                features: [
-                                    {
-                                        description: `
-                                            <ul>
-                                                <li>Shows the category initials instead of its full name.</li>
-                                                <li>Not compatible with custom labels.</li>
-                                            </ul>
-                                        `,
-                                        features: [
-                                            {
-                                                id: `gc_w_s_i`,
-                                                name: `Use icons instead of initials.`,
-                                                sg: true
-                                            }
-                                        ],
-                                        id: `gc_w_s`,
-                                        name: `Enable the simplified version.`,
-                                        sg: true
-                                    }
-                                ],
-                                id: `gc_w`,
-                                input: true,
-                                name: `Wishlisted`,
-                                sg: true
-                            },
-                            {
-                                colors: true,
-                                features: [
-                                    {
-                                        description: `
-                                            <ul>
-                                                <li>Shows the category initials instead of its full name.</li>
-                                                <li>Not compatible with custom labels.</li>
-                                            </ul>
-                                        `,
-                                        features: [
-                                            {
-                                                id: `gc_a_s_i`,
-                                                name: `Use icons instead of initials.`,
-                                                sg: true
-                                            }
-                                        ],
-                                        id: `gc_a_s`,
-                                        name: `Enable the simplified version.`,
-                                        sg: true
-                                    }
-                                ],
-                                id: `gc_a`,
-                                input: true,
-                                name: `Achievements`,
-                                sg: true
-                            },
-                            {
-                                colors: true,
-                                features: [
-                                    {
-                                        description: `
-                                            <ul>
-                                                <li>Shows the category initials instead of its full name.</li>
-                                                <li>Not compatible with custom labels.</li>
-                                            </ul>
-                                        `,
-                                        features: [
-                                            {
-                                                id: `gc_mp_s_i`,
-                                                name: `Use icons instead of initials.`,
-                                                sg: true
-                                            }
-                                        ],
-                                        id: `gc_mp_s`,
-                                        name: `Enable the simplified version.`,
-                                        sg: true
-                                    }
-                                ],
-                                id: `gc_mp`,
-                                input: true,
-                                name: `Multiplayer`,
-                                sg: true
-                            },
-                            {
-                                colors: true,
-                                features: [
-                                    {
-                                        description: `
-                                            <ul>
-                                                <li>Shows the category initials instead of its full name.</li>
-                                                <li>Not compatible with custom labels.</li>
-                                            </ul>
-                                        `,
-                                        features: [
-                                            {
-                                                id: `gc_sc_s_i`,
-                                                name: `Use icons instead of initials.`,
-                                                sg: true
-                                            }
-                                        ],
-                                        id: `gc_sc_s`,
-                                        name: `Enable the simplified version.`,
-                                        sg: true
-                                    }
-                                ],
-                                id: `gc_sc`,
-                                input: true,
-                                name: `Steam Cloud`,
-                                sg: true
-                            },
-                            {
-                                colors: true,
-                                features: [
-                                    {
-                                        description: `
-                                            <ul>
-                                                <li>Shows the category initials instead of its full name.</li>
-                                                <li>Not compatible with custom labels.</li>
-                                            </ul>
-                                        `,
-                                        features: [
-                                            {
-                                                id: `gc_tc_s_i`,
-                                                name: `Use icons instead of initials.`,
-                                                sg: true
-                                            }
-                                        ],
-                                        id: `gc_tc_s`,
-                                        name: `Enable the simplified version.`,
-                                        sg: true
-                                    }
-                                ],
-                                id: `gc_tc`,
-                                input: true,
-                                name: `Trading Cards`,
-                                sg: true
-                            },
-                            {
-                                colors: true,
-                                features: [
-                                    {
-                                        description: `
-                                            <ul>
-                                                <li>Shows the category initials instead of its full name.</li>
-                                                <li>Not compatible with custom labels.</li>
-                                            </ul>
-                                        `,
-                                        features: [
-                                            {
-                                                id: `gc_l_s_i`,
-                                                name: `Use icons instead of initials.`,
-                                                sg: true
-                                            }
-                                        ],
-                                        id: `gc_l_s`,
-                                        name: `Enable the simplified version.`,
-                                        sg: true
-                                    }
-                                ],
-                                id: `gc_l`,
-                                input: true,
-                                name: `Linux`,
-                                sg: true
-                            },
-                            {
-                                colors: true,
-                                features: [
-                                    {
-                                        description: `
-                                            <ul>
-                                                <li>Shows the category initials instead of its full name.</li>
-                                                <li>Not compatible with custom labels.</li>
-                                            </ul>
-                                        `,
-                                        features: [
-                                            {
-                                                id: `gc_m_s_i`,
-                                                name: `Use icons instead of initials.`,
-                                                sg: true
-                                            }
-                                        ],
-                                        id: `gc_m_s`,
-                                        name: `Enable the simplified version.`,
-                                        sg: true
-                                    }
-                                ],
-                                id: `gc_m`,
-                                input: true,
-                                name: `Mac`,
-                                sg: true
-                            },
-                            {
-                                colors: true,
-                                features: [
-                                    {
-                                        description: `
-                                            <ul>
-                                                <li>Shows the category initials instead of its full name.</li>
-                                                <li>Not compatible with custom labels.</li>
-                                            </ul>
-                                        `,
-                                        features: [
-                                            {
-                                                id: `gc_ea_s_i`,
-                                                name: `Use icons instead of initials.`,
-                                                sg: true
-                                            }
-                                        ],
-                                        id: `gc_ea_s`,
-                                        name: `Enable the simplified version.`,
-                                        sg: true
-                                    }
-                                ],
-                                id: `gc_ea`,
-                                input: true,
-                                name: `Early Access`,
-                                sg: true
-                            },
-                            {
-                                colors: true,
-                                features: [
-                                    {
-                                        description: `
-                                            <ul>
-                                                <li>Shows the category initials instead of its full name.</li>
-                                                <li>Not compatible with custom labels.</li>
-                                            </ul>
-                                        `,
-                                        features: [
-                                            {
-                                                id: `gc_rm_s_i`,
-                                                name: `Use icons instead of initials.`,
-                                                sg: true
-                                            }
-                                        ],
-                                        id: `gc_rm_s`,
-                                        name: `Enable the simplified version.`,
-                                        sg: true
-                                    }
-                                ],
-                                id: `gc_rm`,
-                                input: true,
-                                name: `Removed`,
-                                sg: true
-                            },
-                            {
-                                colors: true,
-                                features: [
-                                    {
-                                        description: `
-                                            <ul>
-                                                <li>Shows the category initials instead of its full name.</li>
-                                                <li>Not compatible with custom labels.</li>
-                                            </ul>
-                                        `,
-                                        features: [
-                                            {
-                                                id: `gc_dlc_s_i`,
-                                                name: `Use icons instead of initials.`,
-                                                sg: true
-                                            }
-                                        ],
-                                        id: `gc_dlc_s`,
-                                        name: `Enable the simplified version.`,
-                                        sg: true
-                                    },
-                                    {
-                                        description: `
-                                            <ul>
-                                                <li>A certificate icon will be added if the base is free, a money icon will be added if it's not, and no icon will be added if the information is unavailable.</li>
-                                            </ul>
-                                        `,
-                                        id: `gc_dlc_b`,
-                                        name: `Indicate if the base game of the DLC is free.`,
-                                        sg: true
-                                    }
-                                ],
-                                id: `gc_dlc`,
-                                input: true,
-                                name: `DLC`,
-                                sg: true
-                            },
-                            {
-                                colors: true,
-                                features: [
-                                    {
-                                        description: `
-                                            <ul>
-                                                <li>Shows the category initials instead of its full name.</li>
-                                                <li>Not compatible with custom labels.</li>
-                                            </ul>
-                                        `,
-                                        features: [
-                                            {
-                                                id: `gc_p_s_i`,
-                                                name: `Use icons instead of initials.`,
-                                                sg: true
-                                            }
-                                        ],
-                                        id: `gc_p_s`,
-                                        name: `Enable the simplified version.`,
-                                        sg: true
-                                    }
-                                ],
-                                id: `gc_p`,
-                                input: true,
-                                name: `Package`,
-                                sg: true
-                            },
-                            {
-                                colors: true,
-                                features: [
-                                    {
-                                        id: `gc_g_udt`,
-                                        name: `User-Defined Tags`,
-                                        sg: true
-                                    }
-                                ],
-                                id: `gc_g`,
-                                name: `Genres`,
+                                name: `Refresh Active Discussions Button`,
+                                new: true,
                                 sg: true
                             }
-                        ],
-                        id: `gc`,
-                        load: loadGc,
-                        name: `Game Categories`,
-                        sg: true,
-                        sync: `Hidden Games, Owned/Wishlisted/Ignored Games, Reduced CV Games, No CV Games and Giveaways`,
-                        type: `games`
-                    },
-                    {
-                        description: ``,
-                        id: `ut`,
-                        load: loadUt,
-                        name: `User Tags`,
-                        sg: true,
-                        st: true,
-                        type: `users`
-                    },
-                    {
-                        description: `
-                            <ul>
-                                <li>Pops out user/group info when hovering their avatars.</li>
-                            </ul>
-                        `,
-                        id: `ap`,
-                        load: loadAp,
-                        name: `Avatar Popout`,
-                        options: {
-                            title: `Open on:`,
-                            values: [`Hover`, `Click`]
                         },
-                        sg: true,
-                        type: `general`
+                        newBelow: true
                     },
-                    {
-                        features: [
-                            {
-                                id: `sttb_f`,
-                                name: `Show inside of the footer.`,
+                    trades: {
+                        features: {
+                            tb: {
+                                description: `
+                                    <ul>
+                                        <li>Allows you to bump all your current trades with a single click.</li>
+                                        <li>You will find the button in you created trades page.</li>
+                                    </ul>
+                                `,
+                                features: {
+                                    tb_a: {
+                                        description: `
+                                            <ul>
+                                                <li>Auto bumps all your trades every hour.</li>
+                                                <li>Requires you to leave SG or ST open.</li>
+                                            </ul>
+                                        `,
+                                        name: `Auto bump every hour.`,
+                                        sg: true,
+                                        st: true
+                                    }
+                                },
+                                name: `Trades Bumper`,
+                                sg: true,
+                                st: true
+                            }
+                        }
+                    },
+                    comments: {
+                        features: {
+                            cerb: {
+                                description: `
+                                    <ul>
+                                        <li>Allows you to collapse/expand all replies (level 2+ comments) in a page.</li>
+                                    </ul>
+                                `,
+                                features: {
+                                    cerb_a: {
+                                        name: `Automatically collapse all replies when visiting a page.`,
+                                        sg: true,
+                                        st: true
+                                    }
+                                },
+                                name: `Collapse/Expand Replies Button`,
+                                sg: true,
+                                st: true
+                            },
+                            cfh: {
+                                description: `
+                                    <ul>
+                                        <li>Adds a panel that helps you with comment formatting.</li>
+                                        <li>Has an option that automatically formats pasted links/images.</li>
+                                    </ul>
+                                    <img src="https://camo.githubusercontent.com/b542cdc0dfcc08a52936603e1da2dcc855ebd33a/687474703a2f2f692e696d6775722e636f6d2f673943336530672e706e67"/>
+                                `,
+                                features: {
+                                    cfh_i: {
+                                        name: `Italic`,
+                                        sg: true,
+                                        st: true
+                                    },
+                                    cfh_b: {
+                                        name: `Bold`,
+                                        sg: true,
+                                        st: true
+                                    },
+                                    cfh_s: {
+                                        name: `Spoiler`,
+                                        sg: true,
+                                        st: true
+                                    },
+                                    cfh_st: {
+                                        name: `Strikethrough`,
+                                        sg: true,
+                                        st: true
+                                    },
+                                    cfh_h1: {
+                                        name: `Heading 1`,
+                                        sg: true,
+                                        st: true
+                                    },
+                                    cfh_h2: {
+                                        name: `Heading 2`,
+                                        sg: true,
+                                        st: true
+                                    },
+                                    cfh_h3: {
+                                        name: `Heading 3`,
+                                        sg: true,
+                                        st: true
+                                    },
+                                    cfh_bq: {
+                                        name: `Blockquote`,
+                                        sg: true,
+                                        st: true
+                                    },
+                                    cfh_lb: {
+                                        name: `Line Break`,
+                                        sg: true,
+                                        st: true
+                                    },
+                                    cfh_ol: {
+                                        name: `Ordered List`,
+                                        sg: true,
+                                        st: true
+                                    },
+                                    cfh_ul: {
+                                        name: `Unordered List`,
+                                        sg: true,
+                                        st: true
+                                    },
+                                    cfh_ic: {
+                                        name: `Inline Code`,
+                                        sg: true,
+                                        st: true
+                                    },
+                                    cfh_lc: {
+                                        name: `Line Code`,
+                                        sg: true,
+                                        st: true
+                                    },
+                                    cfh_pc: {
+                                        name: `Paragraph Code`,
+                                        sg: true,
+                                        st: true
+                                    },
+                                    cfh_l: {
+                                        name: `Link`,
+                                        sg: true,
+                                        st: true
+                                    },
+                                    cfh_img: {
+                                        name: `Image`,
+                                        sg: true,
+                                        st: true
+                                    },
+                                    cfh_t: {
+                                        name: `Table`,
+                                        sg: true,
+                                        st: true
+                                    },
+                                    cfh_e: {
+                                        name: `Emojis`,
+                                        sg: true,
+                                        st: true
+                                    },
+                                    cfh_g: {
+                                        name: `Giveaway Encrypter`,
+                                        sg: true,
+                                        st: true
+                                    },
+                                    cfh_sr: {
+                                        description: `
+                                            <ul>
+                                                <li>Allows you to save replies that you constantly use to quickly post them later.</li>
+                                                <img src="http://i.imgur.com/lJJDNah.png"/>
+                                            </ul>
+                                        `,
+                                        name: `Saved Replies`,
+                                        sg: true,
+                                        st: true
+                                    },
+                                    cfh_cf: {
+                                        name: `Comment Formatting`,
+                                        sg: true,
+                                        st: true
+                                    },
+                                    cfh_p: {
+                                        features: {
+                                            cfh_p_a: {
+                                                name: `Automatically preview while typing.`,
+                                                sg: true,
+                                                st: true
+                                            }
+                                        },
+                                        name: `Preview`,
+                                        new: true,
+                                        sg: true,
+                                        st: true
+                                    }
+                                },
+                                name: `Comment Formatting Helper`,
+                                newBelow: true,
+                                sg: true,
+                                st: true
+                            },
+                            ch: {
+                                description: `
+                                    <ul>
+                                        <li>Keeps track of the comments you make (they can be seen from header menu).</li>
+                                        <li>This feature <span class="esgst-bold">only</span> works with Main Comment Box Popup, Discussion Edit Detector and Multi-Reply / Reply From Inbox. If you submit a comment though SG's native comment box, the comment will not be tracked.</li>
+                                    </ul>
+                                `,
+                                name: `Comment History`,
+                                sg: true,
+                                st: true
+                            },
+                            cs: {
+                                description: `
+                                    <ul>
+                                        <li>Allows you to search a giveaway/discussion/ticket/trade for comments from specific users.</li>
+                                    </ul>
+                                    <img src="http://i.imgur.com/KpcVxXk.png"/>
+                                    <img src="http://i.imgur.com/y0QykIf.png"/>
+                                `,
+                                name: `Comment Searcher`,
+                                sg: true,
+                                st: true
+                            },
+                            ct: {
+                                description: `
+                                    <ul>
+                                        <li>Fades giveaways / discussions / support tickets / trades you have already visited. Note that this does not mean every comment inside the page has been read, it simply means you have visited it.</li>
+                                        <li>Keeps track of comments / editions.</li>
+                                        <li>To mark a comment as read/unread, click on the eye icon below it.</li>
+                                        <li>Keeps track of discussion comments and shows how many comments are unread on the discussions page.</li>
+                                        <li>Allows you to go to the first unread comment of a discussion or mark all its comments as read directly from the discussions page.</li>
+                                    </ul>
+                                    <img src="https://camo.githubusercontent.com/2688dcd381fc20a68c3f7d8e5c3aa4b7366efa99/687474703a2f2f692e696d6775722e636f6d2f366e414c6838792e706e67"/>
+                                    <img src="https://camo.githubusercontent.com/3f0bbfef8a301dcfc91bec0d62e9d20c0b6c45e9/687474703a2f2f692e696d6775722e636f6d2f554362353576692e706e67"/>
+                                    <img src="https://camo.githubusercontent.com/94672a1b6ebb4adeaad8c311c184ddded32f6afc/687474703a2f2f692e696d6775722e636f6d2f3866504d776a472e706e67"/>
+                                `,
+                                features: {
+                                    ct_s: {
+                                        description: `
+                                            <ul>
+                                                <li>Simply shows the number of comments since the last visit.</li>
+                                                <li>Marking a discussion as visited with Giveaways/Discussions/Tickets/Trades Tracker will update the count without having to enter the discussion.</li>
+                                                <li>Marking a discussion as unvisited will reset the count to 0.</li>
+                                            </ul>
+                                        `,
+                                        features: {
+                                            ct_s_h: {
+                                                name: `Hide count if you haven't visited the discussion yet.`,
+                                                sg: true,
+                                                st: true
+                                            }
+                                        },
+                                        name: `Enable simplified version.`,
+                                        sg: true,
+                                        st: true
+                                    },
+                                    ct_a: {
+                                        name: `Automatically mark comments as read in the inbox when clicking on the "Mark as Read" button.`,
+                                        sg: true,
+                                        st: true
+                                    },
+                                    ct_r: {
+                                        description: `
+                                            <ul>
+                                                <li>Scans the page from the bottom to top if reverse scrolling is disabled, or from the top to bottom if it's enabled.</li>
+                                            </ul>
+                                        `,
+                                        name: `Search for the first unread comment in reverse order.`,
+                                        sg: true,
+                                        st: true
+                                    }
+                                },
+                                name: `Comment Tracker`,
+                                sg: true,
+                                st: true
+                            },
+                            cr: {
+                                description: `
+                                    <ul>
+                                        <li>Reverses the comments in a page so that they are ordered from newest to oldest.</li>
+                                    </ul>
+                                `,
+                                name: `Comments Reverser`,
                                 new: true,
                                 sg: true,
                                 st: true
-                            }
-                        ],
-                        id: `sttb`,
-                        load: loadSttb,
-                        name: `Scroll To Top Button`,
-                        newBelow: true,
-                        sg: true,
-                        st: true,
-                        type: `general`
-                    },
-                    {
-                        load: startProfileFeatures
-                    },
-                    {
-                        load: startGiveawayFeatures
-                    },
-                    {
-                        load: startGameFeatures
-                    },
-                    {
-                        load: startUserFeatures
-                    },
-                    {
-                        description: `
-                            <ul>
-                                <li>Allows you to sort tables.</li>
-                            </ul>
-                            <img src="http://i.imgur.com/hmWWriM.png"/>
-                        `,
-                        id: `ts`,
-                        load: loadTs,
-                        name: `Tables Sorter`,
-                        sg: true,
-                        st: true,
-                        type: `general`
-                    },
-                    {
-                        description: `
-                            <ul>
-                                <li>Allows you to endlessly scroll through pages.</li>
-                            </ul>
-                        `,
-                        features: [
-                            {
-                                features: [
-                                    {
-                                        id: `es_g_d`,
-                                        name: `Enable page divisors.`,
-                                        sg: true
-                                    }
-                                ],
-                                id: `es_g`,
-                                name: `Enable for giveaways in the main page.`,
-                                sg: true
                             },
-                            {
-                                features: [
-                                    {
-                                        id: `es_d_d`,
-                                        name: `Enable page divisors.`,
-                                        sg: true
-                                    }
-                                ],
-                                id: `es_d`,
-                                name: `Enable for discussions/tickets.`,
-                                sg: true
-                            },
-                            {
-                                features: [
-                                    {
-                                        id: `es_t_d`,
-                                        name: `Enable page divisors.`,
-                                        st: true
-                                    }
-                                ],
-                                id: `es_t`,
-                                name: `Enable for trades`,
-                                st: true
-                            },
-                            {
-                                features: [
-                                    {
-                                        id: `es_c_d`,
-                                        name: `Enable page divisors.`,
-                                        sg: true,
-                                        st: true
-                                    }
-                                ],
-                                id: `es_c`,
-                                name: `Enable for comments.`,
-                                sg: true,
-                                st: true
-                            },
-                            {
-                                features: [
-                                    {
-                                        id: `es_l_d`,
-                                        name: `Enable page divisors.`,
-                                        sg: true,
-                                        st: true
-                                    }
-                                ],
-                                id: `es_l`,
-                                name: `Enable for lists.`,
-                                sg: true,
-                                st: true
-                            },
-                            {
+                            mr: {
                                 description: `
                                     <ul>
-                                        <li>Loads pages in descending order.</li>
-                                        <li>When visiting a discussion from the main discussions page, the last page will automatically be loaded and shown.</li>
+                                        <li>Allows you to reply to multiple comments at the same time, since each comment has their own comment box and the page isn't reloaded after submitting it.</li>
+                                        <li>Has Discussion Edit Detector built-in.</li>
                                     </ul>
                                 `,
-                                id: `es_r`,
-                                name: `Enable reverse scrolling.`,
+                                name: `Multi-Reply`,
+                                sg: true,
+                                st: true
+                            },
+                            rrbp: {
+                                description: `
+                                    <ul>
+                                        <li>Pops up a reply box when marking a giveaway as received.</li>
+                                    </ul>
+                                `,
+                                name: `Received Reply Box Popup`,
                                 sg: true
                             },
-                            {
-                                id: `es_gb`,
-                                name: `Enable for Giveaway Bookmarks.`,
+                            rbot: {
+                                description: `
+                                    <ul>
+                                        <li>Moves the reply box to the top of the page.</li>
+                                    </ul>
+                                `,
+                                name: `Reply Box On Top`,
+                                sg: true,
+                                st: true
+                            },
+                            rbp: {
+                                description: `
+                                    <ul>
+                                        <li>Adds a button that pops up a box which allows you to add comments to the page.</li>
+                                        <li>Has Discussion Edit Detector built-in.</li>
+                                    </ul>
+                                    <img src="https://camo.githubusercontent.com/7227b3cad4190a531ee5d109303fec7fe747b65d/687474703a2f2f692e696d6775722e636f6d2f436c477a424e532e706e67"/>
+                                `,
+                                name: `Reply Box Popup`,
+                                sg: true,
+                                st: true
+                            },
+                            rfi: {
+                                description: `
+                                    <ul>
+                                        <li>Allows you to reply to your messages directly from your inbox.</li>
+                                        <li>Has Multi-Reply built-in.</li>
+                                    </ul>
+                                `,
+                                features: {
+                                    rfi_s: {
+                                        description: `
+                                            <ul>
+                                                <li>Saves replies made from the inbox so that they are still there when you refresh the page.</li>
+                                                <li>Replies are deleted from the cache after 1 week.</li>
+                                                <li>Editing/deleting/undeleting a saved reply also updates its cache and makes it last 1 week longer.</li>
+                                            </ul>
+                                        `,
+                                        name: `Save replies.`,
+                                        sg: true,
+                                        st: true
+                                    }
+                                },
+                                name: `Reply From Inbox`,
+                                sg: true,
+                                st: true
+                            },
+                            rml: {
+                                description: `
+                                    <ul>
+                                        <li>Adds a mention link to the comment replied to.</li>
+                                    </ul>
+                                    <img src="https://camo.githubusercontent.com/696ce80a48aa3b78f15dc9deb856fa321a88fd68/687474703a2f2f692e696d6775722e636f6d2f5367457a6a58432e706e67"/>
+                                `,
+                                name: `Reply Mention Link`,
+                                sg: true,
+                                st: true
+                            }
+                        },
+                        newBelow: true
+                    },
+                    users: {
+                        features: {
+                            iwh: {
+                                name: `Inbox Winners Highlighter`,
                                 sg: true
                             },
-                            {
-                                id: `es_ged`,
-                                name: `Enable for Giveaway Encrypter/Decrypter.`,
+                            luc: {
+                                description: ``,
+                                name: `Level Up Calculator`,
                                 sg: true
                             },
-                            {
-                                id: `es_ge`,
-                                name: `Enable for Giveaways Extractor.`,
+                            namwc: {
+                                description: `
+                                    <ul>
+                                        <li>Allows you to check if a user has any not activated/multiple wins.</li>
+                                    </ul>
+                                `,
+                                features: {
+                                    namwc_h: {
+                                        description: ``,
+                                        features: {
+                                            namwc_h_i: {
+                                                description: ``,
+                                                name: `Use icons instead of colors.`,
+                                                sg: true,
+                                                st: true
+                                            },
+                                            namwc_h_f: {
+                                                name: `Only highlight users who failed to pass the check.`,
+                                                sg: true,
+                                                st: true
+                                            },
+                                            namwc_h_m: {
+                                                name: `Highlight multiple wins as positive.`,
+                                                sg: true,
+                                                st: true
+                                            }
+                                        },
+                                        name: `Highlight checked users.`,
+                                        sg: true,
+                                        st: true
+                                    }
+                                },
+                                name: `Not Activated/Multiple Wins Checker`,
                                 sg: true
                             },
-                            {
-                                id: `es_dh`,
-                                name: `Enable for Discussions Highlighter.`,
+                            nrf: {
+                                description: ``,
+                                name: `Not Received Finder`,
                                 sg: true
                             },
-                            {
-                                id: `es_ch`,
-                                name: `Enable for Comment History.`,
+                            rwscvl: {
+                                description: `
+                                    <ul>
+                                        <li>Allows you to view the real won/sent CV of users directly from their profile.</li>
+                                    </ul>
+                                `,
+                                features: {
+                                    rwscvl_r: {
+                                        name: `Link SGTool's reverse page (from newest to oldest).`,
+                                        sg: true
+                                    }
+                                },
+                                name: `Real Won/Sent CV Links`,
                                 sg: true
                             },
-                            {
-                                id: `es_gf`,
-                                name: `Enable for Giveaway Filters.`,
+                            swr: {
+                                description: ``,
+                                name: `Sent/Won Ratio`,
                                 sg: true
                             },
-                            {
-                                id: `es_df`,
-                                name: `Enable for Discussion Filters.`,
+                            sgc: {
+                                description: `
+                                    <ul>
+                                        <li>Allows you to see which groups you have in common with a user.</li>
+                                    </ul>
+                                `,
+                                name: `Shared Groups Checker`,
+                                sg: true
+                            },
+                            sgpb: {
+                                description: `
+                                    <ul>
+                                        <li>Allows you to easily go to a user's SteamGifts profile from SteamTrades.</li>
+                                    </ul>
+                                `,
+                                name: `SteamGifts Profile Button`,
+                                st: true
+                            },
+                            stpb: {
+                                description: `
+                                    <ul>
+                                        <li>Allows you to easily go to a user's SteamTrades profile from SteamGifts.</li>
+                                    </ul>
+                                `,
+                                name: `SteamTrades Profile Button`,
+                                sg: true
+                            },
+                            uf: {
+                                description: `
+                                    <ul>
+                                        <li>Allows you to filter users' giveaways, discussions and posts.</li>
+                                    </ul>
+                                `,
+                                features: {
+                                    uf_g: {
+                                        name: `Automatically hide giveaways from blacklisted users.`,
+                                        sg: true
+                                    },
+                                    uf_d: {
+                                        name: `Automatically hide discussions from blacklisted users.`,
+                                        sg: true
+                                    },
+                                    uf_p: {
+                                        name: `Automatically hide posts from blacklisted users.`,
+                                        sg: true
+                                    }
+                                },
+                                name: `User Filters`,
+                                sg: true
+                            },
+                            ugd: {
+                                description: `
+                                    <ul>
+                                        <li>Shows data about a user's giveaways.</li>
+                                    </ul>
+                                `,
+                                name: `User Giveaways Data`,
+                                sg: true
+                            },
+                            un: {
+                                description: `
+                                    <ul>
+                                        <li>Allows you to add notes to users.</li>
+                                        <li>The notes are tied to the user's Steam id, so they do not vanish when a user changes their username.</li>
+                                        <li>If a user has notes saved, the icon will be full. Otherwise it will be empty.</li>
+                                    </ul>
+                                `,
+                                features: {
+                                    un_p: {
+                                        name: `Pop up when whitelisting/blacklisting a user.`,
+                                        sg: true
+                                    }
+                                },
+                                name: `User Notes`,
+                                sg: true,
+                                st: true
+                            },
+                            ut: {
+                                description: ``,
+                                name: `User Tags`,
+                                sg: true,
+                                st: true
+                            },
+                            uh: {
+                                description: `
+                                    <ul>
+                                        <li>Keeps track of users from the database and detects username changes every month and every time someone loads the username history of a user.</li>
+                                        <li>Users that are not already in the database are added when a user loads their username history.</li>
+                                    </ul>
+                                `,
+                                name: `Username History`,
+                                sg: true
+                            },
+                            us: {
+                                description: `
+                                    <ul>
+                                        <li>Adds users status to the whitelist/blacklist pages, such as last online, gifts sent, gifts won, ratio and contributor value.</li>
+                                    </ul>
+                                    <img src="http://i.imgur.com/SnWasiw.png"/>
+                                `,
+                                name: `Users Stats`,
+                                sg: true
+                            },
+                            wbc: {
+                                description: ``,
+                                features: {
+                                    wbc_b: {
+                                        name: `Show blacklist information.`,
+                                        sg: true
+                                    },
+                                    wbc_h: {
+                                        name: `Highlight users who have whitelisted/blacklisted you.`,
+                                        sg: true,
+                                        st: true
+                                    },
+                                    wbc_n: {
+                                        name: `Save automatic notes to users that you returned whitelist/blacklist for.`,
+                                        sg: true
+                                    }
+                                },
+                                name: `Whitelist/Blacklist Checker`,
+                                sg: true
+                            },
+                            wbh: {
+                                features: {
+                                    wbh_w: {
+                                        colors: true,
+                                        name: `Color whitelisted users instead of adding a heart icon next to their username.`,
+                                        sg: true,
+                                        st: true
+                                    },
+                                    wbh_b: {
+                                        colors: true,
+                                        name: `Color blacklisted users instead of adding a ban icon next to their username.`,
+                                        sg: true,
+                                        st: true
+                                    }
+                                },
+                                name: `Whitelist/Blacklist Highlighter`,
+                                sg: true,
+                                st: true,
+                                sync: `Whitelist and Blacklist`
+                            },
+                            wbm: {
+                                description: `
+                                    <p>
+                                        You will find the feature in the following URLs:
+                                        <br/>
+                                        <br/>
+                                        <code>steamgifts.com/account/manage/whitelist*</code>
+                                        <br/>
+                                        <code>steamgifts.com/account/manage/blacklist*</code>
+                                    </p>
+                                    <img src="https://i.imgur.com/8npwILS.png"/>
+                                    <ul>
+                                        <li>Allows you to import/export/clear your whitelist/blacklist.</li>
+                                    </ul>
+                                `,
+                                name: `Whitelist/Blacklist Manager`,
+                                sg: true
+                            },
+                            wbs: {
+                                name: `Whitelist/Blacklist Sorter`,
+                                sg: true,
+                                sync: `Whitelist and Blacklist`
+                            }
+                        }
+                    },
+                    groups: {
+                        features: {
+                            glwc: {
+                                description: `
+                                    <p>
+                                        You will find the feature in the following URLs:
+                                        <br/>
+                                        <br/>
+                                        <code>steamgifts.com/account/manage/whitelist*</code>
+                                        <br/>
+                                        <code>steamgifts.com/account/manage/blacklist*</code>
+                                        <br/>
+                                        <code>steamgifts.com/group/*</code>
+                                    </p>
+                                    <img src="https://i.imgur.com/cvUbsKK.png"/>
+                                    <ul>
+                                        <li>Allows you to check the libraries and wishlists of groups (including your whitelist/blacklist).</li>
+                                        <li>The first 100 results are shown, but you can use the search function to find games that are outside of the top 100.</li>
+                                        <li>Hovering over the number of libraries/wishlists gives you the name of the users.</li>
+                                        <li>Requires a Steam API Key for libraries data. If a key is not set, it will only retrieve wishlists data. You can set a key in the last section of this menu.</li>
+                                        <li>Some games show their app id instead of their name - these are the games retrieved from the libraries data that were not found in the wishlists data, as getting that extra information for them would generate more requests. This means it's more accurate to search by app id instead of by game name if you're searching in the libraries results.</li>
+                                    </ul>
+                                    <img src="https://i.imgur.com/cCcYiR5.png"/>
+                                `,
+                                name: `Group Library/Wishlist Checker`,
+                                sg: true
+                            },
+                            gs: {
+                                name: `Group Stats`,
+                                sg: true
+                            },
+                            gh: {
+                                description: `
+                                    <ul>
+                                        <li>Highlights groups that you are a member of.</li>
+                                    </ul>
+                                `,
+                                name: `Groups Highlighter`,
+                                sg: true,
+                                sync: `Steam Groups`
+                            }
+                        }
+                    },
+                    games: {
+                        features: {
+                            egh: {
+                                description: `
+                                    <ul>
+                                        <li>Highlights games that you have already entered giveaways for.</li>
+                                    </ul>
+                                `,
+                                features: {
+                                    egh_t: {
+                                        name: `Enable for discussion tables.`,
+                                        sg: true
+                                    }
+                                },
+                                name: `Entered Games Highlighter`,
+                                sg: true
+                            },
+                            gc: {
+                                description: `
+                                    <ul>
+                                        <li>Shows information about games.</li>
+                                    </ul>
+                                `,
+                                features: {
+                                    gc_lp: {
+                                        description: `
+                                            <ul>
+                                                <li>Achievements links to the <a href="http://steamcommunity.com/stats">http://steamcommunity.com/stats</a> page of the game.</li>
+                                                <li>Full CV, Reduced CV and No CV link to the <a href="https://www.steamgifts.com/bundle-games">https://www.steamgifts.com/bundle-games</a> page of the game.</li>
+                                                <li>Giveaway Info links to your profile page.</li>
+                                                <li>Hidden links to the <a href="https://www.steamgifts.com/account/settings/giveaways/filters">https://www.steamgifts.com/account/settings/giveaways/filters</a> page of the game.</li>
+                                                <li>Owned links to the <a href="https://www.steamgifts.com/account/steam/games">https://www.steamgifts.com/account/steam/games</a> page of the game.</li>
+                                                <li>Removed links to the <a href="http://steamdb.info">http://steamdb.info</a> page of the game.</li>
+                                                <li>Trading Cards links to the <a href="http://www.steamcardexchange.net/index.php">http://www.steamcardexchange.net/index.php</a> page of the game.</li>
+                                                <li>Wishlist links to the <a href="https://www.steamgifts.com/account/steam/wishlist">https://www.steamgifts.com/account/steam/wishlist</a> page of the game.</li>
+                                                <li>Every other category links to the <a href="http://store.steampowered.com">http://store.steampowered.com</a> page of the game.</li>
+                                            </ul>
+                                        `,
+                                        features: {
+                                            gc_lp_gv: {
+                                                name: `Enable for Grid View.`,
+                                                sg: true
+                                            }
+                                        },
+                                        name: `Link each category to its related page.`,
+                                        sg: true
+                                    },
+                                    gc_b: {
+                                        name: `Show the category colors as a bottom border to the giveaways in Grid View.`,
+                                        sg: true
+                                    },
+                                    gc_t: {
+                                        name: `Enable for discussion tables.`,
+                                        sg: true
+                                    },
+                                    gc_il: {
+                                        name: `Show the panel inline (next to the game name instead of below it).`,
+                                        sg: true
+                                    },
+                                    gc_gi: {
+                                        colors: true,
+                                        description: `
+                                            <ul>
+                                                <li>Shows how many giveaways you have already made for a game and how much CV you should get for a new giveaway.</li>
+                                                <li>In order for the feature to work properly, you must scan your profile with User Giveaways Data (currently this must be done every time your giveaways end, if you want to keep it updated).</li>
+                                                <li>The information is not 100% accurate because it cannot know if all the copies were sent when it comes to giveaways with multiple copies, at the moment.</li>
+                                            </ul>
+                                        `,
+                                        features: {
+                                            gc_gi_t: {
+                                                name: `Only show in discussion tables.`,
+                                                sg: true
+                                            },
+                                            gc_gi_cew: {
+                                                name: `Only show in the created/entered/won pages.`,
+                                                sg: true
+                                            }
+                                        },
+                                        name: `Giveaway Info`,
+                                        sg: true
+                                    },
+                                    gc_r: {
+                                        features: {
+                                            gc_r_s: {
+                                                name: `Show the percentage and number of reviews next to the icon.`,
+                                                sg: true
+                                            }
+                                        },
+                                        name: `Rating`,
+                                        sg: true
+                                    },
+                                    gc_fcv: {
+                                        colors: true,
+                                        features: {
+                                            gc_fcv_s: {
+                                                description: `
+                                                    <ul>
+                                                        <li>Shows the category initials instead of its full name.</li>
+                                                        <li>Not compatible with custom labels.</li>
+                                                    </ul>
+                                                `,
+                                                features: {
+                                                    gc_fcv_s_i: {
+                                                        name: `Use icons instead of initials.`,
+                                                        sg: true
+                                                    }
+                                                },
+                                                name: `Enable the simplified version.`,
+                                                sg: true
+                                            }
+                                        },
+                                        input: true,
+                                        name: `Full CV`,
+                                        sg: true
+                                    },
+                                    gc_rcv: {
+                                        colors: true,
+                                        features: {
+                                            gc_rcv_s: {
+                                                description: `
+                                                    <ul>
+                                                        <li>Shows the category initials instead of its full name.</li>
+                                                        <li>Not compatible with custom labels.</li>
+                                                    </ul>
+                                                `,
+                                                features: {
+                                                    gc_rcv_s_i: {
+                                                        name: `Use icons instead of initials.`,
+                                                        sg: true
+                                                    }
+                                                },
+                                                name: `Enable the simplified version.`,
+                                                sg: true
+                                            }
+                                        },
+                                        input: true,
+                                        name: `Reduced CV`,
+                                        sg: true
+                                    },
+                                    gc_ncv: {
+                                        colors: true,
+                                        features: {
+                                            gc_ncv_s: {
+                                                description: `
+                                                    <ul>
+                                                        <li>Shows the category initials instead of its full name.</li>
+                                                        <li>Not compatible with custom labels.</li>
+                                                    </ul>
+                                                `,
+                                                features: {
+                                                    gc_ncv_s_i: {
+                                                        name: `Use icons instead of initials.`,
+                                                        sg: true
+                                                    }
+                                                },
+                                                name: `Enable the simplified version.`,
+                                                sg: true
+                                            },
+                                            gc_ncv_o: {
+                                                name: `Only display "No CV" if game also has "Reduced CV".`,
+                                                sg: true
+                                            }
+                                        },
+                                        input: true,
+                                        name: `No CV`,
+                                        sg: true
+                                    },
+                                    gc_h: {
+                                        colors: true,
+                                        features: {
+                                            gc_h_s: {
+                                                description: `
+                                                    <ul>
+                                                        <li>Shows the category initials instead of its full name.</li>
+                                                        <li>Not compatible with custom labels.</li>
+                                                    </ul>
+                                                `,
+                                                features: {
+                                                    gc_h_s_i: {
+                                                        name: `Use icons instead of initials.`,
+                                                        sg: true
+                                                    }
+                                                },
+                                                name: `Enable the simplified version.`,
+                                                sg: true
+                                            }
+                                        },
+                                        input: true,
+                                        name: `Hidden`,
+                                        sg: true
+                                    },
+                                    gc_i: {
+                                        colors: true,
+                                        features: {
+                                            gc_i_s: {
+                                                description: `
+                                                    <ul>
+                                                        <li>Shows the category initials instead of its full name.</li>
+                                                        <li>Not compatible with custom labels.</li>
+                                                    </ul>
+                                                `,
+                                                features: {
+                                                    gc_i_s_i: {
+                                                        name: `Use icons instead of initials.`,
+                                                        sg: true
+                                                    }
+                                                },
+                                                name: `Enable the simplified version.`,
+                                                sg: true
+                                            }
+                                        },
+                                        input: true,
+                                        name: `Ignored`,
+                                        sg: true
+                                    },
+                                    gc_o: {
+                                        colors: true,
+                                        features: {
+                                            gc_o_s: {
+                                                description: `
+                                                    <ul>
+                                                        <li>Shows the category initials instead of its full name.</li>
+                                                        <li>Not compatible with custom labels.</li>
+                                                    </ul>
+                                                `,
+                                                features: {
+                                                    gc_o_s_i: {
+                                                        name: `Use icons instead of initials.`,
+                                                        sg: true
+                                                    }
+                                                },
+                                                name: `Enable the simplified version.`,
+                                                sg: true
+                                            },
+                                            gc_o_t: {
+                                                name: `Only show if games are owned by alt accounts in discussion tables.`,
+                                                sg: true
+                                            }
+                                        },
+                                        input: true,
+                                        name: `Owned`,
+                                        sg: true
+                                    },
+                                    gc_w: {
+                                        colors: true,
+                                        features: {
+                                            gc_w_s: {
+                                                description: `
+                                                    <ul>
+                                                        <li>Shows the category initials instead of its full name.</li>
+                                                        <li>Not compatible with custom labels.</li>
+                                                    </ul>
+                                                `,
+                                                features: {
+                                                    gc_w_s_i: {
+                                                        name: `Use icons instead of initials.`,
+                                                        sg: true
+                                                    }
+                                                },
+                                                name: `Enable the simplified version.`,
+                                                sg: true
+                                            }
+                                        },
+                                        input: true,
+                                        name: `Wishlisted`,
+                                        sg: true
+                                    },
+                                    gc_a: {
+                                        colors: true,
+                                        features: {
+                                            gc_a_s: {
+                                                description: `
+                                                    <ul>
+                                                        <li>Shows the category initials instead of its full name.</li>
+                                                        <li>Not compatible with custom labels.</li>
+                                                    </ul>
+                                                `,
+                                                features: {
+                                                    gc_a_s_i: {
+                                                        name: `Use icons instead of initials.`,
+                                                        sg: true
+                                                    }
+                                                },
+                                                name: `Enable the simplified version.`,
+                                                sg: true
+                                            }
+                                        },
+                                        input: true,
+                                        name: `Achievements`,
+                                        sg: true
+                                    },
+                                    gc_mp: {
+                                        colors: true,
+                                        features: {
+                                            gc_mp_s: {
+                                                description: `
+                                                    <ul>
+                                                        <li>Shows the category initials instead of its full name.</li>
+                                                        <li>Not compatible with custom labels.</li>
+                                                    </ul>
+                                                `,
+                                                features: {
+                                                    gc_mp_s_i: {
+                                                        name: `Use icons instead of initials.`,
+                                                        sg: true
+                                                    }
+                                                },
+                                                name: `Enable the simplified version.`,
+                                                sg: true
+                                            }
+                                        },
+                                        input: true,
+                                        name: `Multiplayer`,
+                                        sg: true
+                                    },
+                                    gc_sc: {
+                                        colors: true,
+                                        features: {
+                                            gc_sc_s: {
+                                                description: `
+                                                    <ul>
+                                                        <li>Shows the category initials instead of its full name.</li>
+                                                        <li>Not compatible with custom labels.</li>
+                                                    </ul>
+                                                `,
+                                                features: {
+                                                    gc_sc_s_i: {
+                                                        name: `Use icons instead of initials.`,
+                                                        sg: true
+                                                    }
+                                                },
+                                                name: `Enable the simplified version.`,
+                                                sg: true
+                                            }
+                                        },
+                                        input: true,
+                                        name: `Steam Cloud`,
+                                        sg: true
+                                    },
+                                    gc_tc: {
+                                        colors: true,
+                                        features: {
+                                            gc_tc_s: {
+                                                description: `
+                                                    <ul>
+                                                        <li>Shows the category initials instead of its full name.</li>
+                                                        <li>Not compatible with custom labels.</li>
+                                                    </ul>
+                                                `,
+                                                features: {
+                                                    gc_tc_s_i: {
+                                                        name: `Use icons instead of initials.`,
+                                                        sg: true
+                                                    }
+                                                },
+                                                name: `Enable the simplified version.`,
+                                                sg: true
+                                            }
+                                        },
+                                        input: true,
+                                        name: `Trading Cards`,
+                                        sg: true
+                                    },
+                                    gc_l: {
+                                        colors: true,
+                                        features: {
+                                            gc_l_s: {
+                                                description: `
+                                                    <ul>
+                                                        <li>Shows the category initials instead of its full name.</li>
+                                                        <li>Not compatible with custom labels.</li>
+                                                    </ul>
+                                                `,
+                                                features: {
+                                                    gc_l_s_i: {
+                                                        name: `Use icons instead of initials.`,
+                                                        sg: true
+                                                    }
+                                                },
+                                                name: `Enable the simplified version.`,
+                                                sg: true
+                                            }
+                                        },
+                                        input: true,
+                                        name: `Linux`,
+                                        sg: true
+                                    },
+                                    gc_m: {
+                                        colors: true,
+                                        features: {
+                                            gc_m_s: {
+                                                description: `
+                                                    <ul>
+                                                        <li>Shows the category initials instead of its full name.</li>
+                                                        <li>Not compatible with custom labels.</li>
+                                                    </ul>
+                                                `,
+                                                features: {
+                                                    gc_m_s_i: {
+                                                        name: `Use icons instead of initials.`,
+                                                        sg: true
+                                                    }
+                                                },
+                                                name: `Enable the simplified version.`,
+                                                sg: true
+                                            }
+                                        },
+                                        input: true,
+                                        name: `Mac`,
+                                        sg: true
+                                    },
+                                    gc_ea: {
+                                        colors: true,
+                                        features: {
+                                            gc_ea_s: {
+                                                description: `
+                                                    <ul>
+                                                        <li>Shows the category initials instead of its full name.</li>
+                                                        <li>Not compatible with custom labels.</li>
+                                                    </ul>
+                                                `,
+                                                features: {
+                                                    gc_ea_s_i: {
+                                                        name: `Use icons instead of initials.`,
+                                                        sg: true
+                                                    }
+                                                },
+                                                name: `Enable the simplified version.`,
+                                                sg: true
+                                            }
+                                        },
+                                        input: true,
+                                        name: `Early Access`,
+                                        sg: true
+                                    },
+                                    gc_rm: {
+                                        colors: true,
+                                        features: {
+                                            gc_rm_s: {
+                                                description: `
+                                                    <ul>
+                                                        <li>Shows the category initials instead of its full name.</li>
+                                                        <li>Not compatible with custom labels.</li>
+                                                    </ul>
+                                                `,
+                                                features: {
+                                                    gc_rm_s_i: {
+                                                        name: `Use icons instead of initials.`,
+                                                        sg: true
+                                                    }
+                                                },
+                                                name: `Enable the simplified version.`,
+                                                sg: true
+                                            }
+                                        },
+                                        input: true,
+                                        name: `Removed`,
+                                        sg: true
+                                    },
+                                    gc_dlc: {
+                                        colors: true,
+                                        features: {
+                                            gc_dlc_s: {
+                                                description: `
+                                                    <ul>
+                                                        <li>Shows the category initials instead of its full name.</li>
+                                                        <li>Not compatible with custom labels.</li>
+                                                    </ul>
+                                                `,
+                                                features: {
+                                                    gc_dlc_s_i: {
+                                                        name: `Use icons instead of initials.`,
+                                                        sg: true
+                                                    }
+                                                },
+                                                name: `Enable the simplified version.`,
+                                                sg: true
+                                            },
+                                            gc_dlc_b: {
+                                                description: `
+                                                    <ul>
+                                                        <li>A certificate icon will be added if the base is free, a money icon will be added if it's not, and no icon will be added if the information is unavailable.</li>
+                                                    </ul>
+                                                `,
+                                                name: `Indicate if the base game of the DLC is free.`,
+                                                sg: true
+                                            }
+                                        },
+                                        input: true,
+                                        name: `DLC`,
+                                        sg: true
+                                    },
+                                    gc_p: {
+                                        colors: true,
+                                        features: {
+                                            gc_p_s: {
+                                                description: `
+                                                    <ul>
+                                                        <li>Shows the category initials instead of its full name.</li>
+                                                        <li>Not compatible with custom labels.</li>
+                                                    </ul>
+                                                `,
+                                                features: {
+                                                    gc_p_s_i: {
+                                                        name: `Use icons instead of initials.`,
+                                                        sg: true
+                                                    }
+                                                },
+                                                name: `Enable the simplified version.`,
+                                                sg: true
+                                            }
+                                        },
+                                        input: true,
+                                        name: `Package`,
+                                        sg: true
+                                    },
+                                    gc_g: {
+                                        colors: true,
+                                        features: {
+                                            gc_g_udt: {
+                                                name: `User-Defined Tags`,
+                                                sg: true
+                                            }
+                                        },
+                                        name: `Genres`,
+                                        sg: true
+                                    }
+                                },
+                                name: `Game Categories`,
+                                sg: true,
+                                sync: `Hidden Games, Owned/Wishlisted/Ignored Games, Reduced CV Games, No CV Games and Giveaways`
+                            },
+                            gt: {
+                                features: {
+                                    gt_t: {
+                                        name: `Enable for discussion tables.`,
+                                        sg: true
+                                    }
+                                },
+                                name: `Game Tags`,
                                 sg: true
                             }
-                        ],
-                        id: `es`,
-                        load: loadEs,
-                        name: `Endless Scrolling`,
-                        sg: true,
-                        st: true,
-                        type: `general`
+                        }
                     },
-                    {
-                        description: `
-                            <ul>
-                                <li>Opens all links in the same tab.</li>
-                            </ul>
-                        `,
-                        id: `sto`,
-                        load: loadSto,
-                        name: `Same Tab Opener`,
-                        sg: true,
-                        st: true,
-                        type: `general`
+                    others: {
+                        features: {
+                            esgst: {
+                                name: `Enable ESGST for SteamTrades.`,
+                                st: true
+                            },
+                            autoBackup: {
+                                input: true,
+                                name: `Automatically backup your data every X days.`,
+                                new: true,
+                                options: {
+                                    title: `Backup to:`,
+                                    values: [`Computer`, `Dropbox`, `Google Drive`, `OneDrive`]
+                                },
+                                sg: true,
+                                st: true
+                            },
+                            autoSync: {
+                                name: `Automatically sync games/groups when syncing through SG.`,
+                                sg: true
+                            },
+                            updateWhitelistBlacklist: {
+                                description: `
+                                    <ul>
+                                        <li>With this enabled, you no longer have to sync your whitelist/blacklist every time you add/remove a user to/from those lists.</li>
+                                    </ul>
+                                `,
+                                name: `Automatically update whitelist/blacklist when adding/removing a user to/from those lists.`,
+                                sg: true
+                            },
+                            collapseSections: {
+                                name: `Collapse sections in the settings menu by default.`,
+                                new: true,
+                                sg: true,
+                                st: true
+                            },
+                            staticPopups: {
+                                name: `Make popups static (they are fixed at the top left corner of the page instead of being automatically centered).`,
+                                new: true,
+                                sg: true,
+                                st: true
+                            },
+                            openSettingsInTab: {
+                                name: `Open settings menu in a separate tab.`,
+                                sg: true,
+                                st: true
+                            },
+                            openSyncInTab: {
+                                name: `Open the automatic sync in a new tab.`,
+                                new: true,
+                                sg: true,
+                                st: true
+                            },
+                            enableByDefault: {
+                                name: `Enable new features and functionalities by default.`,
+                                sg: true,
+                                st: true
+                            },
+                            showChangelog: {
+                                name: `Show changelog from the new version when updating.`,
+                                sg: true,
+                                st: true
+                            },
+                            checkVersionMain: {
+                                name: `Check whether or not you are on the current version when visiting the main discussions page if the ESGST discussion is in the current page.`,
+                                sg: true
+                            },
+                            checkVersion: {
+                                name: `Check whether or not you are on the current version when visiting the ESGST discussion.`,
+                                sg: true
+                            },
+                            hideButtons: {
+                                description: `
+                                    <p>Before:</p>
+                                    <img src="http://i.imgur.com/5QVoZGO.png"/>
+                                    <p>After:</p>
+                                    <img src="http://i.imgur.com/gkwzYuS.png"/>
+                                `,
+                                features: {
+                                    hideButtons_as: {
+                                        name: `Archive Searcher Button`,
+                                        sg: true
+                                    },
+                                    hideButtons_aic: {
+                                        name: `Attached Images Carousel Button`,
+                                        new: true,
+                                        sg: true
+                                    },
+                                    hideButtons_cs: {
+                                        name: `Comment Searcher`,
+                                        sg: true,
+                                        st: true
+                                    },
+                                    hideButtons_ctGo: {
+                                        name: `Comment Tracker Button - Go to first unread.`,
+                                        sg: true,
+                                        st: true
+                                    },
+                                    hideButtons_ctRead: {
+                                        name: `Comment Tracker Button - Read all.`,
+                                        sg: true,
+                                        st: true
+                                    },
+                                    hideButtons_ctUnread: {
+                                        name: `Comment Tracker Button - Unread all.`,
+                                        sg: true,
+                                        st: true
+                                    },
+                                    hideButtons_df: {
+                                        name: `Discussion Filters Button`,
+                                        sg: true
+                                    },
+                                    hideButtons_ds: {
+                                        name: `Discussions Sorter Button`,
+                                        sg: true
+                                    },
+                                    hideButtons_esPause: {
+                                        name: `Endless Scrolling Button - Pause/Resume`,
+                                        sg: true,
+                                        st: true
+                                    },
+                                    hideButtons_esRefresh: {
+                                        name: `Endless Scrolling Button - Refresh`,
+                                        sg: true,
+                                        st: true
+                                    },
+                                    hideButtons_esRefreshAll: {
+                                        name: `Endless Scrolling Button - Refresh All`,
+                                        sg: true,
+                                        st: true
+                                    },
+                                    hideButtons_gas: {
+                                        name: `Giveaways Sorter Button`,
+                                        sg: true
+                                    },
+                                    hideButtons_gf: {
+                                        name: `Giveaway Filters Button`,
+                                        sg: true
+                                    },
+                                    hideButtons_gm: {
+                                        name: `Giveaways Manager Button`,
+                                        sg: true
+                                    },
+                                    hideButtons_gts: {
+                                        name: `Giveaway Templates Button`,
+                                        sg: true
+                                    },
+                                    hideButtons_gv: {
+                                        name: `Grid View Button`,
+                                        sg: true
+                                    },
+                                    hideButtons_hgr: {
+                                        name: `Hidden Games Remover Button`,
+                                        sg: true
+                                    },
+                                    hideButtons_mpp: {
+                                        name: `Main Post Popup Button`,
+                                        sg: true,
+                                        st: true
+                                    },
+                                    hideButtons_mtGames: {
+                                        name: `Multi-Tag Button - Games`,
+                                        sg: true,
+                                        st: true
+                                    },
+                                    hideButtons_mtUsers: {
+                                        name: `Multi-Tag Button - Users`,
+                                        sg: true,
+                                        st: true
+                                    },
+                                    hideButtons_namwc: {
+                                        name: `Not Activated/Multiple Wins Checker Button`,
+                                        sg: true
+                                    },
+                                    hideButtons_rbp: {
+                                        name: `Reply Box Popup Button`,
+                                        sg: true,
+                                        st: true
+                                    },
+                                    hideButtons_sks: {
+                                        name: `Sent Keys Searcher Button`,
+                                        sg: true
+                                    },
+                                    hideButtons_tb: {
+                                        name: `Trades Bumper Button`,
+                                        st: true
+                                    },
+                                    hideButtons_ge: {
+                                        name: `Giveaways Extractor Button`,
+                                        sg: true
+                                    },
+                                    hideButtons_ugs: {
+                                        name: `Unsent Gifts Sender Button`,
+                                        sg: true
+                                    },
+                                    hideButtons_wbc: {
+                                        name: `Whitelist/Blacklist Checker Button`,
+                                        sg: true
+                                    },
+                                    hideButtons_wbsAsc: {
+                                        name: `Whitelist/Blacklist Sorter Button - Ascending`,
+                                        sg: true
+                                    },
+                                    hideButtons_wbsDesc: {
+                                        name: `Whitelist/Blacklist Sorter Button - Descending`,
+                                        sg: true
+                                    }
+                                },
+                                name: `Hide buttons at the left/right sides of the main page heading to reduce used space.`,
+                                sg: true,
+                                st: true
+                            }
+                        },
+                        newBelow: true
                     }
-                ];
+                };
                 for (var key in esgst.defaultValues) {
                     esgst[key] = getSetting(key);
+                }
+                for (var key in esgst.settings) {
+                    let match;
+                    if (match = key.match(new RegExp(`(.+?)_${esgst.name}$`))) {
+                        esgst[match[1]] = esgst.settings[key];
+                    }
                 }
                 if (esgst.sg && !esgst.menuPath) {
                     checkSync();
                 }
-                esgst.toExecute = [];
-                for (i = 0, n = esgst.features.length; i < n; ++i) {
-                    loadFeature(esgst.features[i]);
+                if (esgst.autoBackup) {
+                    checkBackup();
                 }
                 delete esgst.settings.users;
                 delete esgst.settings.comments;
@@ -5715,7 +5174,7 @@ Parsedown = (() => {
                 addStyle();
                 var sibling, height;
                 if (esgst.profilePath && esgst.autoSync) {
-                    document.getElementsByClassName(`form__sync-default`)[0].addEventListener(`click`, setSync.bind(null, true, null));
+                    document.getElementsByClassName(`form__sync-default`)[0].addEventListener(`click`, setSync.bind(null, true, null, null));
                 }
                 if (esgst.menuPath) {
                     esgst.favicon.href = esgst.icon;
@@ -6199,7 +5658,7 @@ Parsedown = (() => {
         } else if (esgst.lpv) {
             setLpvStyle();
         }
-        if (esgst.lpv && !esgst.cewgd && !esgst.gc && esgst.giveawayPath && document.referrer === `https://www.steamgifts.com/giveaways/new`) {
+        if ((esgst.lpv || esgst.cewgd || (esgst.gc && esgst.gc_gi)) && esgst.giveawayPath && document.referrer === `https://www.steamgifts.com/giveaways/new`) {
             addGiveawayToStorage();
         }
 
@@ -6231,6 +5690,16 @@ Parsedown = (() => {
         if (esgst.pnot && esgst.paginationNavigation && esgst.mainPageHeading) {
             esgst.paginationNavigation.classList.add(`page_heading_btn`);
             esgst.mainPageHeading.appendChild(esgst.paginationNavigation);
+        }
+
+        if (esgst.lpl && esgst.paginationNavigation) {
+            if (esgst.discussionPath) {
+                addLplDiscussionLink();
+            } else if (esgst.userPath) {
+                addLplUserLink();
+            } else if (esgst.groupPath) {
+                addLplGroupLink();
+            }
         }
 
         /* [IB] Image Borders */
@@ -6389,7 +5858,7 @@ Parsedown = (() => {
                         imgur.addEventListener(`click`, () => {
                             multiChoice(`grey`, `fa-user-secret`, `Anonymously`, `grey`, `fa-user`, `Through Account`, `How would you like to upload?`, uploadImgurImage.bind(null, `Client-ID e25283ef48ab9aa`, popout, url), () => {
                                 delValue(`imgurToken`);
-                                open(`https://api.imgur.com/oauth2/authorize?client_id=e25283ef48ab9aa&response_type=token`);
+                                openSmallWindow(`https://api.imgur.com/oauth2/authorize?client_id=e25283ef48ab9aa&response_type=token`);
                                 checkImgurComplete(popout, url);
                             });
                         });
@@ -9154,7 +8623,11 @@ Parsedown = (() => {
             }
             if (esgst.df_m && esgst.discussionsPath && !esgst.editDiscussionPath) {
                 if (esgst.hideButtons && esgst.hideButtons_df) {
-                    esgst.leftButtons.insertBefore(addDfContainer(esgst.mainPageHeading), esgst.leftButtons.firstElementChild);
+                    if (esgst.leftButtonIds.indexOf(`df`) > -1) {
+                        esgst.leftButtons.insertBefore(addDfContainer(esgst.mainPageHeading), esgst.leftButtons.firstElementChild);
+                    } else {
+                        esgst.rightButtons.appendChild(addDfContainer(esgst.mainPageHeading));
+                    }
                 } else {
                     esgst.mainPageHeading.insertBefore(addDfContainer(esgst.mainPageHeading), esgst.mainPageHeading.firstElementChild);
                 }
@@ -9175,14 +8648,29 @@ Parsedown = (() => {
 
         if (esgst.whitelistPath || esgst.blacklistPath) {
             if (esgst.wbs) {
-                let button2, button1, dateKey, key, saveKey;
-                button2 = insertHtml(esgst.hideButtons && esgst.hideButtons_wbsDesc ? esgst.leftButtons : esgst.mainPageHeading, `afterBegin`, `
-                    <div class="esgst-heading-button" title="Sort by added date from newest to oldest">
+                let button2, button1, dateKey, saveKey;
+                let key, position;
+                if (esgst.leftButtonIds.indexOf(`wbsDesc`) > -1) {
+                    key = `leftButtons`;
+                    position = `afterBegin`;
+                } else {
+                    key = `rightButtons`;
+                    position = `beforeEnd`;
+                }
+                button2 = insertHtml(esgst.hideButtons && esgst.hideButtons_wbsDesc ? esgst[key] : esgst.mainPageHeading, position, `
+                    <div class="esgst-heading-button" id="esgst-wbsDesc" title="Sort by added date from newest to oldest">
                         <i class="fa fa-sort-amount-desc"></i>
                     </div>
                 `);
-                button1 = insertHtml(esgst.hideButtons && esgst.hideButtons_wbsAsc ? esgst.leftButtons : esgst.mainPageHeading, `afterBegin`, `
-                    <div class="esgst-heading-button" title="Sort by added date from oldest to newest">
+                if (esgst.leftButtonIds.indexOf(`wbsAsc`) > -1) {
+                    key = `leftButtons`;
+                    position = `afterBegin`;
+                } else {
+                    key = `rightButtons`;
+                    position = `beforeEnd`;
+                }
+                button1 = insertHtml(esgst.hideButtons && esgst.hideButtons_wbsAsc ? esgst[key] : esgst.mainPageHeading, position, `
+                    <div class="esgst-heading-button" id="esgst-wbsAsc" title="Sort by added date from oldest to newest">
                         <i class="fa fa-sort-amount-asc"></i>
                     </div>
                 `);
@@ -9197,6 +8685,36 @@ Parsedown = (() => {
                 }
                 addWbsButton(dateKey, key, saveKey, button1, button2);
             }
+            if (esgst.wbm) {
+                let wbm = {};
+                if (esgst.whitelistPath) {
+                    wbm.key = `whitelist`;
+                    wbm.name = `Whitelist`;
+                } else {
+                    wbm.key = `blacklist`;
+                    wbm.name = `Blacklist`;
+                }
+                let key, position;
+                if (esgst.leftButtonIds.indexOf(`wbm`) > -1) {
+                    key = `leftButtons`;
+                    position = `afterBegin`;
+                } else {
+                    key = `rightButtons`;
+                    position = `beforeEnd`;
+                }
+                wbm.button = insertHtml(esgst.hideButtons && esgst.hideButtons_wbm ? esgst[key] : esgst.mainPageHeading, position, `
+                    <div class="esgst-heading-button" id="esgst-wbm" title="Manage ${wbm.key}">
+                        <i class="fa fa-arrow-up"></i>
+                        <i class="fa fa-arrow-down"></i>
+                        <i class="fa fa-trash"></i>
+                    </div>
+                `);
+                wbm.button.addEventListener(`click`, openWbmPopup.bind(null, wbm));
+            }
+            if (esgst.us) {
+                esgst.endlessFeatures.push(getUsUsers);
+                getUsUsers(document, true);
+            }
         }
 
         if (esgst.ttec) {
@@ -9205,8 +8723,16 @@ Parsedown = (() => {
 
         if (esgst.giveawayPath && esgst.mainPageHeading) {
             if (esgst.cec) {
-                button = insertHtml(esgst.hideButtons && esgst.hideButtons_cec ? esgst.leftButtons : esgst.mainPageHeading, `afterBegin`, `
-                    <div class="esgst-heading-button" title="Check comments/entries">
+                let key, position;
+                if (esgst.leftButtonIds.indexOf(`cec`) > -1) {
+                    key = `leftButtons`;
+                    position = `afterBegin`;
+                } else {
+                    key = `rightButtons`;
+                    position = `beforeEnd`;
+                }
+                button = insertHtml(esgst.hideButtons && esgst.hideButtons_cec ? esgst[key] : esgst.mainPageHeading, position, `
+                    <div class="esgst-heading-button" id="esgst-cec" title="Check comments/entries">
                         <i class="fa fa-comments"></i>
                         <i class="fa fa-ticket"></i>
                         <i class="fa fa-question-circle"></i>
@@ -9216,9 +8742,606 @@ Parsedown = (() => {
             }
         }
 
-        esgst.toExecute.forEach(feature => {
-            feature();
-        });
+        if (esgst.sk) {
+            loadSk();
+        }
+
+        if (esgst.smgb) {
+            loadSmgb();
+        }
+
+        if (esgst.ail || esgst.vai || esgst.aic) {
+            esgst.endlessFeatures.push(getAttachedImages);
+            getAttachedImages(document);
+            if (esgst.aic) {
+                document.addEventListener(`keydown`, event => {
+                    if (event.key === `ArrowLeft` && esgst.aicPrevious) {
+                        esgst.aicPrevious.click();
+                    }
+                    if (event.key === `ArrowRight` && esgst.aicNext) {
+                        esgst.aicNext.click();
+                    }
+                });
+            }
+        }
+
+        if (esgst.ev) {
+            esgst.endlessFeatures.push(getEvVideos);
+            getEvVideos(document);
+        }
+
+        if (esgst.at && (!esgst.giveawaysPath || esgst.at_g)) {
+            esgst.endlessFeatures.push(getTimestamps);
+            getTimestamps(document);
+        }
+
+        if (esgst.hbs) {
+            loadHbs();
+        }
+
+        if (esgst.gdttt) {
+            loadGdttt();
+        }
+
+        if (esgst.gas) {
+            loadGas();
+        }
+
+        if (esgst.gv) {
+            loadGv();
+        }
+
+        if (esgst.gf) {
+            if (esgst.gf_s) {
+                esgst.giveawayFeatures.push(getGfGiveaways);
+            }
+            if (esgst.gf_m && (esgst.giveawaysPath || esgst.createdPath || esgst.enteredPath || esgst.wonPath || esgst.groupPath || esgst.userPath)) {
+                if (esgst.hideButtons && esgst.hideButtons_gf) {
+                    if (esgst.leftButtonIds.indexOf(`gf`) > -1) {
+                        esgst.leftButtons.insertBefore(addGfContainer(esgst.mainPageHeading), esgst.leftButtons.firstElementChild);
+                    } else {
+                        esgst.rightButtons.appendChild(addGfContainer(esgst.mainPageHeading));
+                    }
+                } else {
+                    esgst.mainPageHeading.insertBefore(addGfContainer(esgst.mainPageHeading), esgst.mainPageHeading.firstElementChild);
+                }
+            }
+        }
+
+        if (esgst.pgb) {
+            loadPgb();
+        }
+
+        if (esgst.ueg) {
+            esgst.endlessFeatures.push(removeUegFade);
+            removeUegFade(document);
+        }
+
+        if (esgst.gb) {
+            esgst.giveawayFeatures.push(getGbGiveaways);
+            addGbButton();
+        }
+
+        if (esgst.ged) {
+            loadGed();
+        }
+
+        if (esgst.ugb) {
+            esgst.giveawayFeatures.push(addUgbButtons);
+        }
+
+        if (esgst.ochgb) {
+            esgst.giveawayFeatures.push(setOchgbButtons);
+        }
+
+        if (esgst.gwc || esgst.gwr) {
+            if (esgst.gwc) {
+                esgst.giveawayFeatures.push(addGwcChances);
+            }
+            if (esgst.gwr) {
+                esgst.giveawayFeatures.push(addGwrRatios);
+            }
+            if (esgst.enteredPath) {
+                esgst.endlessFeatures.push(addGwcrHeading);
+                addGwcrHeading(document, true);
+            }
+        }
+
+        if (esgst.cewgd && (esgst.createdPath || esgst.enteredPath || esgst.wonPath)) {
+            esgst.giveawayFeatures.push(getCewgdDetails);
+            esgst.endlessFeatures.push(addCewgdHeading);
+            addCewgdHeading(document);
+        }
+
+        if (esgst.gp) {
+            esgst.giveawayFeatures.push(addGpButtons);
+        }
+
+        if (esgst.elgb) {
+            esgst.giveawayFeatures.push(addElgbButtons);
+        }
+
+        if (esgst.ggl) {
+            if (esgst.ggl_index === 0) {
+                esgst.giveawayFeatures.push(getGglGiveaways);
+            } else {
+                esgst.giveawayFeatures.push(setGglButtons);
+            }
+        }
+
+        if (esgst.gcl) {
+            esgst.giveawayFeatures.push(setGclButtons);
+        }
+
+        if (esgst.newGiveawayPath) {
+            if (esgst.gr) {
+                loadGrGiveaway();
+            }
+            let rows = document.getElementsByClassName(`form__rows`)[0];
+            if (rows) {
+                if (esgst.gts) {
+                    let key, position;
+                    if (esgst.leftButtonIds.indexOf(`gts`) > -1) {
+                        key = `leftButtons`;
+                        position = `afterBegin`;
+                    } else {
+                        key = `rightButtons`;
+                        position = `beforeEnd`;
+                    }
+                    addGtsButtonSection(insertHtml(esgst.hideButtons && esgst.hideButtons_gts ? esgst[key] : esgst.mainPageHeading, position, `
+                        <div class="esgst-gts-button esgst-heading-button" id="esgst-gts" title="View/apply templates">
+                            <i class="fa fa-file"></i>
+                        </div>
+                    `), rows);
+                }
+                if (esgst.sgac) {
+                    let container, context, elements, i, id, n, separator, stickiedCountries;
+                    stickiedCountries = JSON.parse(getValue(`stickiedCountries`, `[]`));
+                    container = document.querySelector(`.form_list[data-input="country_item_string"]`);
+                    separator = container.firstElementChild;
+                    elements = container.children;
+                    for (i = 0, n = elements.length; i < n; ++i) {
+                        context = elements[i];
+                        id = context.getAttribute(`data-item-id`);
+                        if (stickiedCountries.indexOf(id) >= 0) {
+                            if (context === separator) {
+                                separator = separator.nextElementSibling;
+                            }
+                            container.insertBefore(context, separator);
+                            addSgacUnstickyButton(container, context, id, separator);
+                        } else {
+                            addSgacStickyButton(container, context, id, separator);
+                        }
+                    }
+                }
+            }
+        }
+
+        if (esgst.mgc) {
+            loadMgc();
+        }
+
+        if (esgst.sgg) {
+            if (esgst.newGiveawayPath && !document.getElementsByClassName(`table--summary`)[0]) {
+                setSggGiveawayGroups();
+            } else if (esgst.groupsPath) {
+                esgst.endlessFeatures.push(setSggGroups);
+                setSggGroups(document);
+            }
+        }
+
+        if (esgst.rcvc) {
+            loadRcvc();
+        }
+
+        if (esgst.sks && esgst.createdPath) {
+            let key, position;
+            if (esgst.leftButtonIds.indexOf(`sks`) > -1) {
+                key = `leftButtons`;
+                position = `afterBegin`;
+            } else {
+                key = `rightButtons`;
+                position = `beforeEnd`;
+            }
+            let button = insertHtml(esgst.hideButtons && esgst.hideButtons_sks ? esgst[key] : esgst.mainPageHeading, position, `
+                <div class="esgst-heading-button" id="esgst-sks" title="Search keys">
+                    <i class="fa fa-key"></i>
+                    <i class="fa fa-search"></i>
+                </div>
+            `);
+            button.addEventListener(`click`, openSksPopup.bind(null, {button}));
+        }
+
+        if (esgst.ugs) {
+            if (esgst.createdPath) {
+                let button;
+                let key, position;
+                if (esgst.leftButtonIds.indexOf(`ugs`) > -1) {
+                    key = `leftButtons`;
+                    position = `afterBegin`;
+                } else {
+                    key = `rightButtons`;
+                    position = `beforeEnd`;
+                }
+                button = insertHtml(esgst.hideButtons && esgst.hideButtons_ugs ? esgst[key] : esgst.mainPageHeading, position, `
+                    <div class="esgst-heading-button" id="esgst-ugs" title="Send unsent gifts">
+                        <i class="fa fa-gift"></i>
+                        <i class="fa fa-send"></i>
+                    </div>
+                `);
+                button.addEventListener(`click`, openUgsPopup.bind(null, {button}));
+            } else if (esgst.newTicketPath) {
+                document.getElementsByClassName(`form__submit-button`)[0].addEventListener(`click`, saveUgsReroll.bind(null, document.querySelector(`[name="category_id"]`), document.querySelector(`[name="reroll_winner_id"]`)));
+            }
+        }
+
+        if (esgst.gm) {
+            loadGm();
+        }
+
+        if (esgst.et) {
+            if (esgst.enteredPath) {
+                esgst.endlessFeatures.push(getEtEntries);
+                getEtEntries(document);
+            } else if (esgst.giveawayPath && !document.getElementsByClassName(`table--summary`)[0] && esgst.enterGiveawayButton) {
+                let code, name;
+                code = location.pathname.match(/^\/giveaway\/(.+?)\//)[1];
+                name = document.getElementsByClassName(`featured__heading__medium`)[0].textContent;
+                esgst.enterGiveawayButton.addEventListener(`click`, setEtEntry.bind(null, code, true, name));
+                esgst.leaveGiveawayButton.addEventListener(`click`, setEtEntry.bind(null, code, false, name));
+            }
+        }
+
+        if (esgst.hgr && location.pathname.match(/^\/account\/settings\/giveaways\/filters/)) {
+            let key, position;
+            if (esgst.leftButtonIds.indexOf(`hgr`) > -1) {
+                key = `leftButtons`;
+                position = `afterBegin`;
+            } else {
+                key = `rightButtons`;
+                position = `beforeEnd`;
+            }
+            let button = insertHtml(esgst.hideButtons && esgst.hideButtons_hgr ? esgst[key] : esgst.mainPageHeading, position, `
+                <div class="esgst-heading-button" id="esgst-hgr" title="Remove owned games from the list">
+                    <i class="fa fa-eye-slash"></i>
+                    <i class="fa fa-times-circle"></i>
+                </div>
+            `);
+            button.addEventListener(`click`, openHgrPopup.bind(null, {button}));
+        }
+
+        if (esgst.sal && esgst.wonPath) {
+            esgst.endlessFeatures.push(addSalLinks);
+            addSalLinks(document);
+            esgst.endlessFeatures.push(addSalObservers);
+            addSalObservers(document);
+        }
+
+        if (esgst.hgebd && esgst.giveawayPath && !document.getElementsByClassName(`table--summary`)[0]) {
+            let hideButton;
+            hideButton = document.getElementsByClassName(`featured__giveaway__hide`)[0];
+            if (esgst.enterGiveawayButton && !hideButton) {
+                let parent = esgst.enterGiveawayButton.parentElement;
+                if (esgst.enterGiveawayButton) {
+                    esgst.enterGiveawayButton.remove();
+                }
+                parent.insertAdjacentHTML(`afterBegin`, `
+                    <div class="sidebar__error is-disabled">
+                        <i class="fa fa-exclamation-circle"></i> Hidden Game
+                    </div>
+                `);
+            }
+        }
+
+        if (esgst.giveawayPath) {
+            if (esgst.itadi) {
+                esgst.giveawayFeatures.push(getItadiInfo);
+            }
+            if (esgst.dkc) {
+                esgst.endlessFeatures.push(getDkcLinks);
+                getDkcLinks(document);
+            }
+        }
+
+        if (esgst.npth) {
+            loadNpth();
+        }
+
+        if (esgst.ge) {
+            loadGe();
+        }
+
+        if (esgst.gesl) {
+            loadGesl();
+        }
+
+        if (esgst.as) {
+            loadAs();
+        }
+
+        if (esgst.ds && esgst.discussionsPath) {
+            let ds = {};
+            let key, position;
+            if (esgst.leftButtonIds.indexOf(`ds`) > -1) {
+                key = `leftButtons`;
+                position = `afterBegin`;
+            } else {
+                key = `rightButtons`;
+                position = `beforeEnd`;
+            }
+            ds.button = insertHtml(esgst.hideButtons && esgst.hideButtons_ds ? esgst[key] : esgst.mainPageHeading, position, `
+                <div class="esgst-heading-button" id="esgst-ds" title="Sort discussions">
+                    <i class="fa fa-sort"></i>
+                </div>
+            `);
+            ds.button.addEventListener(`click`, openDsPopout.bind(null, ds));
+        }
+
+        if (esgst.dh) {
+            loadDh();
+        }
+
+        if (esgst.mps && esgst.discussionPath && esgst.paginationNavigation && document.referrer.match(new RegExp(`/discussion/${[location.pathname.match(/^\/discussion\/(.+?)\//)[1]]}/`))) {
+            goToComment(``, esgst.pagination.previousElementSibling.firstElementChild.firstElementChild);
+        }
+
+        if (esgst.mpp) {
+            loadMpp();
+        }
+
+        if (esgst.ded && esgst.replyBox && !esgst.userPath) {
+            addDEDButton(esgst.replyBox);
+        }
+
+        if (esgst.tb) {
+            if (location.href.match(new RegExp(`\\/trades\\/search\\?user=${esgst.steamId}`))) {
+                let key, position;
+                if (esgst.leftButtonIds.indexOf(`tb`) > -1) {
+                    key = `leftButtons`;
+                    position = `afterBegin`;
+                } else {
+                    key = `rightButtons`;
+                    position = `beforeEnd`;
+                }
+                let button = insertHtml(esgst.hideButtons && esgst.hideButtons_tb ? esgst[key] : esgst.mainPageHeading, position, `
+                    <div class="esgst-heading-button" id="esgst-tb" title="Bump trades">
+                        <i class="fa fa-chevron-circle-up"></i>
+                    </div>
+                `);
+                button.addEventListener(`click`, getTbTrades.bind(null, button));
+                if (esgst.tb_a) {
+                    setTbAutoBump(button);
+                }
+            } else if (esgst.tb_a) {
+                setTbAutoBump();
+            }
+        }
+
+        if (esgst.cerb && esgst.commentsPath) {
+            let button, collapse, comments, expand, id;
+            comments = document.getElementsByClassName(`comments`)[0];
+            if (comments && comments.children.length) {
+                esgst.cerbButtons = [];
+                button = insertHtml(esgst.mainPageHeadingBackground || esgst.mainPageHeading, `afterEnd`, `
+                    <div class="esgst-cerb-button esgst-clickable">
+                        <span>
+                            <i class="fa fa-minus-square"></i> Collapse all replies
+                        </span>
+                        <span class="esgst-hidden">
+                            <i class="fa fa-plus-square"></i> Expand all replies
+                        </span>
+                    </div>
+                `);
+                collapse = button.firstElementChild;
+                expand = collapse.nextElementSibling;
+                collapse.addEventListener(`click`, collapseAllCerbReplies.bind(null, collapse, expand));
+                expand.addEventListener(`click`, expandAllCerbReplies.bind(null, collapse, expand));
+                esgst.endlessFeatures.push(getCerbReplies.bind(null, collapse, expand, null));
+                id = location.hash.replace(/#/, ``);
+                getCerbReplies(collapse, expand, id ? document.getElementById(id) : null, document);
+            }
+        }
+
+        if (esgst.rml) {
+            esgst.endlessFeatures.push(addRmlLinks);
+            addRmlLinks(document);
+        }
+
+        if (esgst.cs && esgst.commentsPath && (!esgst.giveawayPath || !document.getElementsByClassName(`table--summary`)[0])) {
+            let key, position;
+            if (esgst.leftButtonIds.indexOf(`cs`) > -1) {
+                key = `leftButtons`;
+                position = `afterBegin`;
+            } else {
+                key = `rightButtons`;
+                position = `beforeEnd`;
+            }
+            let button = insertHtml(esgst.hideButtons && esgst.hideButtons_cs ? esgst[key] : esgst.mainPageHeading, position, `
+                <div class="esgst-heading-button" id="esgst-cs" title="Search comments from specific users">
+                    <i class="fa fa-comments"></i>
+                    <i class="fa fa-search"></i>
+                </div>
+            `);
+            button.addEventListener(`click`, openCsPopup.bind(null, {button}));
+        }
+
+        if (esgst.rbot) {
+            loadRbot();
+        }
+
+        if (esgst.rbp) {
+            loadRbp();
+        }
+
+        if ((esgst.mr && !esgst.inboxPath) || (esgst.rfi && esgst.inboxPath)) {
+            esgst.endlessFeatures.push(getMrRfiButtons);
+            getMrRfiButtons(document);
+        }
+
+        if (esgst.ct) {
+            loadCt();
+        }
+
+        if (esgst.commentsPath || esgst.inboxPath) {
+            if (esgst.cr && esgst.discussionPath && esgst.pagination) {
+                reverseComments(esgst.pagination.previousElementSibling);
+            }
+            esgst.endlessFeatures.push(loadCommentFeatures);
+            loadCommentFeatures(document, true);
+        }
+
+        if (esgst.userPath || esgst.ap) {
+            if (esgst.uh) {
+                esgst.profileFeatures.push(addUhContainer);
+            }
+            if (esgst.un) {
+                esgst.profileFeatures.push(addUnButton);
+            }
+            if (esgst.uf) {
+                esgst.profileFeatures.push(addUfButton);
+            }
+            if (esgst.sgc) {
+                esgst.profileFeatures.push(addSgcButton);
+            }
+            if (esgst.rwscvl) {
+                esgst.profileFeatures.push(addRwscvlLinks);
+            }
+            if (esgst.ugd) {
+                esgst.profileFeatures.push(addUgdButtons);
+            }
+            if (esgst.namwc) {
+                esgst.profileFeatures.push(addNamwcProfileButton);
+            }
+            if (esgst.nrf) {
+                esgst.profileFeatures.push(addNrfButton);
+            }
+            if (esgst.swr) {
+                esgst.profileFeatures.push(addSwrRatio);
+            }
+            if (esgst.luc) {
+                esgst.profileFeatures.push(calculateLuvValue);
+            }
+            if (esgst.sgpb && esgst.userPath) {
+                esgst.profileFeatures.push(addSgpbButton);
+            }
+            if (esgst.stpb) {
+                esgst.profileFeatures.push(addStpbButton);
+            }
+        }
+
+        if (esgst.namwc) {
+            if (esgst.winnersPath) {
+                let key, position;
+                if (esgst.leftButtonIds.indexOf(`namwc`) > -1) {
+                    key = `leftButtons`;
+                    position = `afterBegin`;
+                } else {
+                    key = `rightButtons`;
+                    position = `beforeEnd`;
+                }
+                setNAMWCPopup(insertHtml(esgst.hideButtons && esgst.hideButtons_namwc ? esgst[key] : esgst.mainPageHeading, position, `
+                    <div class="esgst-heading-button" id="esgst-namwc" title="Check for not activated/multiple wins">
+                        <i class="fa fa-trophy"></i>
+                        <i class="fa fa-question-circle"></i>
+                    </div>
+                `));
+            }
+        }
+
+        if (esgst.wbc) {
+            if (esgst.mainPageHeading) {
+                let html, title;
+                if (esgst.wbc_b) {
+                    title = `Check for whitelists/blacklists.`;
+                    html = `
+                        <i class="fa fa-heart"></i>
+                        <i class="fa fa-ban"></i>
+                        <i class="fa fa-question-circle"></i>
+                    `;
+                } else {
+                    title = `Check for whitelists.`;
+                    html = `
+                        <i class="fa fa-heart"></i>
+                        <i class="fa fa-question-circle"></i>
+                    `;
+                }
+                let key, position;
+                if (esgst.leftButtonIds.indexOf(`wbc`) > -1) {
+                    key = `leftButtons`;
+                    position = `afterBegin`;
+                } else {
+                    key = `rightButtons`;
+                    position = `beforeEnd`;
+                }
+                esgst.wbcButton = insertHtml(esgst.hideButtons && esgst.hideButtons_wbc ? esgst[key] : esgst.mainPageHeading, position, `
+                    <div class="esgst-heading-button esgst-hidden" id="esgst-wbc" title="${title}">${html}</div>
+                `);
+                addWBCButton(true, esgst.wbcButton);
+            }
+        }
+
+        if (esgst.mt) {
+            loadMt();
+        }
+
+        if (esgst.iwh && (esgst.winnersPath || esgst.inboxPath)) {
+            esgst.endlessFeatures.push(getIwhUsers);
+            getIwhUsers(document);
+        }
+
+        if (esgst.groupsPath) {
+            if (esgst.gs) {
+                esgst.endlessFeatures.push(getGsGroups);
+                addGSHeading();
+                getGsGroups(document);
+            }
+        } else if (esgst.gh) {
+            esgst.endlessFeatures.push(highlightGhGroups);
+            highlightGhGroups(document);
+        }
+
+        if (esgst.glwc) {
+            loadGlwc();
+        }
+
+        if (esgst.ap) {
+            esgst.endlessFeatures.push(getApAvatars);
+            getApAvatars(document);
+        }
+
+        if (esgst.stbb) {
+            loadStbb();
+        }
+
+        if (esgst.sttb) {
+            loadSttb();
+        }
+
+        if (esgst.userPath) {
+            loadProfileFeatures(document);
+        }
+        esgst.endlessFeatures.push(loadGiveawayFeatures);
+        loadGiveawayFeatures(document, true);
+        esgst.endlessFeatures.push(loadGameFeatures);
+        loadGameFeatures(document, true);
+        esgst.endlessFeatures.push(loadUserFeatures);
+        loadUserFeatures(document);
+
+        if (esgst.ts) {
+            esgst.endlessFeatures.push(getTsTables);
+            getTsTables(document);
+        }
+
+        if (esgst.es) {
+            loadEs();
+        }
+
+        if (esgst.sto) {
+            esgst.endlessFeatures.push(setStoLinks);
+            setStoLinks(document);
+        }
+
+
         if (esgst.hideButtons && esgst.mainPageHeading) {
             if (!esgst.leftButtons.querySelector(`.esgst-heading-button:not(.esgst-hidden)`)) {
                 hiddenButtonsBefore.classList.add(`esgst-hidden`);
@@ -9229,6 +9352,7 @@ Parsedown = (() => {
             esgst.mainPageHeading.insertBefore(hiddenButtonsBefore, esgst.mainPageHeading.firstElementChild);
             esgst.mainPageHeading.appendChild(hiddenButtonsAfter);
         }
+        reorderButtons(hiddenButtonsBefore, esgst.leftButtons, hiddenButtonsAfter, esgst.rightButtons);
         goToComment(esgst.originalHash);
         addEventListener(`beforeunload`, function (event) {
             if (document.getElementsByClassName(`esgst-busy`)[0] || esgst.busy) {
@@ -9246,6 +9370,124 @@ Parsedown = (() => {
             }
         }
         setTimeout(repositionPopups, 2000);
+    }
+
+    function reorderButtons(leftButton, leftButtons, rightButton, rightButtons) {
+        let leftHidden, rightHidden, source;
+        leftHidden = leftButton && leftButton.classList.contains(`esgst-hidden`);
+        rightHidden = rightButton && rightButton.classList.contains(`esgst-hidden`);
+        esgst.leftButtonIds.forEach(id => {
+            let button = document.getElementById(`esgst-${id}`);
+            if (button) {
+                let key = id === `esResume` ? `hideButtons_esPause` : `hideButtons_${id}`;
+                button.parentElement.insertBefore(button, leftHidden || !esgst.hideButtons || esgst[key] ? button.parentElement.firstElementChild : button.parentElement.firstElementChild.nextElementSibling);
+                button.setAttribute(`draggable`, true);
+                button.addEventListener(`dragstart`, event => {
+                    event.dataTransfer.setData(`text/plain`, ``);
+                    source = button;
+                });
+                button.addEventListener(`dragenter`, () => {
+                    let current, i;
+                    current = source;
+                    i = 0;
+                    do {
+                        current = current.previousElementSibling;
+                        if (current && current === button) {
+                            current.parentElement.insertBefore(source, current);
+                            return;
+                        }
+                        ++i;
+                    } while (current);
+                    button.parentElement.insertBefore(source, button.nextElementSibling);
+                });
+                button.addEventListener(`dragend`, () => {
+                    let i, nextSiblingId, previousSiblingId, siblingId;
+                    if (esgst.hideButtons) {
+                        if (leftButtons.contains(button) || rightButtons.contains(button)) {
+                            if (!esgst[key]) {
+                                setSetting(key, true, esgst.sg, esgst.st);
+                            }
+                        } else if (esgst[key]) {
+                            setSetting(key, false, esgst.sg, esgst.st);
+                        }
+                    }
+                    previousSiblingId = button.previousElementSibling && !button.previousElementSibling.classList.contains(`esgst-hidden`) && button.previousElementSibling.id;
+                    nextSiblingId = button.nextElementSibling && !button.nextElementSibling.classList.contains(`esgst-hidden`) && button.nextElementSibling.id;
+                    siblingId = previousSiblingId || nextSiblingId;
+                    if (siblingId) {
+                        i = esgst.rightButtonIds.indexOf(siblingId.split(`esgst-`)[1]);
+                        esgst.leftButtonIds.splice(esgst.leftButtonIds.indexOf(id), 1);
+                        if (i > -1) {
+                            esgst.rightButtonIds.splice(i, 0, id);
+                        } else if (previousSiblingId) {
+                            esgst.leftButtonIds.splice(esgst.leftButtonIds.indexOf(previousSiblingId.split(`esgst-`)[1]), 0, id);
+                        } else {
+                            esgst.leftButtonIds.splice(esgst.leftButtonIds.indexOf(nextSiblingId.split(`esgst-`)[1]) + 1, 0, id);
+                        }
+                        setSetting(`leftButtonIds`, esgst.leftButtonIds);
+                        setSetting(`rightButtonIds`, esgst.rightButtonIds);
+                    }
+                });
+            }
+        });
+        esgst.rightButtonIds.forEach(id => {
+            let button = document.getElementById(`esgst-${id}`);
+            if (button) {
+                let key = id === `esResume` ? `hideButtons_esPause` : `hideButtons_${id}`;
+                if (rightHidden || !esgst.hideButtons || esgst[key]) {
+                    button.parentElement.appendChild(button);
+                } else {
+                    button.parentElement.insertBefore(button, button.parentElement.lastElementChild);
+                }
+                button.setAttribute(`draggable`, true);
+                button.addEventListener(`dragstart`, event => {
+                    event.dataTransfer.setData(`text/plain`, ``);
+                    source = button;
+                });
+                button.addEventListener(`dragenter`, () => {
+                    let current, i;
+                    current = source;
+                    i = 0;
+                    do {
+                        current = current.previousElementSibling;
+                        if (current && current === button) {
+                            current.parentElement.insertBefore(source, current);
+                            return;
+                        }
+                        ++i;
+                    } while (current);
+                    button.parentElement.insertBefore(source, button.nextElementSibling);
+                });
+                button.addEventListener(`dragend`, () => {
+                    let i, nextSiblingId, previousSiblingId, siblingId;
+                    if (esgst.hideButtons) {
+                        if (leftButtons.contains(button) || rightButtons.contains(button)) {
+                            if (!esgst[key]) {
+                                setSetting(key, true, esgst.sg, esgst.st);
+                            }
+                        } else if (esgst[key]) {
+                            setSetting(key, false, esgst.sg, esgst.st);
+                        }
+                    }
+                    previousSiblingId = button.previousElementSibling && !button.previousElementSibling.classList.contains(`esgst-hidden`) && button.previousElementSibling.id;
+                    nextSiblingId = button.nextElementSibling && !button.nextElementSibling.classList.contains(`esgst-hidden`) && button.nextElementSibling.id;
+                    siblingId = previousSiblingId || nextSiblingId;
+                    if (siblingId) {
+                        i = esgst.leftButtonIds.indexOf(siblingId.split(`esgst-`)[1]);
+                        esgst.rightButtonIds.splice(esgst.rightButtonIds.indexOf(id), 1);
+                        if (i > -1) {
+                            esgst.leftButtonIds.splice(i, 0, id);
+                        } else if (previousSiblingId) {
+                            esgst.rightButtonIds.splice(esgst.rightButtonIds.indexOf(previousSiblingId.split(`esgst-`)[1]) + 1, 0, id);
+                        } else {
+                            esgst.rightButtonIds.splice(esgst.rightButtonIds.indexOf(nextSiblingId.split(`esgst-`)[1]), 0, id);
+                        }
+                        setSetting(`leftButtonIds`, esgst.leftButtonIds);
+                        setSetting(`rightButtonIds`, esgst.rightButtonIds);
+                    }
+                });
+            }
+        });
     }
 
     function repositionPopups() {
@@ -9324,24 +9566,6 @@ Parsedown = (() => {
                 esgst.df.container.classList.remove(`esgst-gf-container-fixed`);
             }
             document.addEventListener(`scroll`, fixFmphHeading);
-        }
-    }
-
-    function loadFeature(feature) {
-        var i, id, n;
-        id = feature.id;
-        if (id) {
-            esgst[id] = getSetting(id, feature.sg, feature.st);
-            if (esgst[id] && feature.load) {
-                esgst.toExecute.push(feature.load);
-            }
-        } else if (feature.load) {
-            esgst.toExecute.push(feature.load);
-        }
-        if (feature.features) {
-            for (i = 0, n = feature.features.length; i < n; ++i) {
-                loadFeature(feature.features[i]);
-            }
         }
     }
 
@@ -9911,17 +10135,17 @@ Parsedown = (() => {
             syncer.progress = insertHtml(popup.description, `beforeEnd`, `
                 <div class="esgst-hidden esgst-popup-progress"></div>
             `);
-            syncer.scrollable = popup.scrollable;
+            syncer.results = insertHtml(popup.scrollable, `afterBegin`, `<div></div>`);
             if (!parameters) {
-                set = new ButtonSet(`green`, `grey`, `fa-refresh`, `fa-times`, `Sync`, `Cancel`, sync.bind(null, syncer, mainCallback), cancelSync.bind(null, syncer, mainCallback));
-                popup.description.appendChild(set.set);
+                syncer.set = new ButtonSet(`green`, `grey`, `fa-refresh`, `fa-times`, `Sync`, `Cancel`, sync.bind(null, syncer, mainCallback), cancelSync.bind(null, syncer, mainCallback));
+                popup.description.appendChild(syncer.set.set);
             }
             if (mainCallback) {
                 popup.onClose = mainCallback;
             }
             popup.open();
             if (syncer.autoSync) {
-                set.trigger();
+                syncer.set.trigger();
             } else if (parameters) {
                 syncer.parameters = parameters;
                 sync(syncer)
@@ -9934,7 +10158,7 @@ Parsedown = (() => {
                     <div></div>
                 </div>
             `);
-            syncer.scrollable = description.firstElementChild;
+            syncer.results = description.firstElementChild;
             syncer.progress = description.lastElementChild;
             syncer.parameters = getParameters();
             sync(syncer);
@@ -9973,6 +10197,7 @@ Parsedown = (() => {
     function sync(syncer, mainCallback, callback) {
         if (!esgst.firstInstall) {
             setSetting(`lastSync`, Date.now());
+            syncer.results.innerHTML = ``;
             syncer.progress.classList.remove(`esgst-hidden`);
             syncer.progress.innerHTML = `
                 <i class="fa fa-circle-o-notch fa-spin"></i>
@@ -10013,6 +10238,9 @@ Parsedown = (() => {
         }
         if (mainCallback) {
             mainCallback();
+        }
+        if (syncer.set && syncer.autoSync) {
+            syncer.set.set.remove();
         }
         if (syncer.parameters && syncer.popup) {
             syncer.popup.icon.classList.remove(`fa-circle-o-notch`, `fa-spin`);
@@ -10104,7 +10332,7 @@ Parsedown = (() => {
                             </div>
                         `;
                     }
-                    syncer.scrollable.insertAdjacentHTML(`afterBegin`, html);
+                    syncer.results.insertAdjacentHTML(`afterBegin`, html);
                     callback();
                 });
             }
@@ -10302,7 +10530,7 @@ Parsedown = (() => {
         if (esgst.steamApiKey) {
             request(null, null, `GET`, false, `http://api.steampowered.com/IPlayerService/GetOwnedGames/v0001/?key=${esgst.steamApiKey}&steamid=${esgst.steamId}&format=json`, getApiResponseAndContinueSync.bind(null, syncer, callback));
         } else {
-            request(null, null, `GET`, false, `http://store.steampowered.com/dynamicstore/userdata`, getStoreResponseAndContinueSync.bind(null, syncer, callback, null));
+            request(null, null, `GET`, false, `http://store.steampowered.com/dynamicstore/userdata?${Math.random().toString().split(`.`)[1]}`, getStoreResponseAndContinueSync.bind(null, syncer, callback, null));
         }
     }
 
@@ -10318,7 +10546,7 @@ Parsedown = (() => {
     }
 
     function getApiResponseAndContinueSync(syncer, callback, response) {
-        request(null, null, `GET`, false, `http://store.steampowered.com/dynamicstore/userdata`, getStoreResponseAndContinueSync.bind(null, syncer, callback, response));
+        request(null, null, `GET`, false, `http://store.steampowered.com/dynamicstore/userdata?${Math.random().toString().split(`.`)[1]}`, getStoreResponseAndContinueSync.bind(null, syncer, callback, response));
     }
 
     function getStoreResponseAndContinueSync(syncer, callback, response1, response2) {
@@ -10456,7 +10684,7 @@ Parsedown = (() => {
             if (!html) {
                 html = ``;
             }
-            if (altAccount) {
+            if (altAccount && (removedOwned.apps.length > 0 || removedOwned.subs.length > 0 || addedOwned.apps.length > 0 && addedOwned.subs.length > 0)) {
                 html += `
                     <div>Alt Account - ${altAccount.name}</div>
                 `;
@@ -10507,8 +10735,8 @@ Parsedown = (() => {
 
     function continueSyncStep5(syncer, callback, games, html) {
         if (html) {
-            syncer.scrollable.insertAdjacentHTML(`afterBegin`, html);
-            getSyncGameNames(syncer.scrollable);
+            syncer.results.insertAdjacentHTML(`afterBegin`, html);
+            getSyncGameNames(syncer.results);
         }
         if (!syncer.autoSync && ((syncer.parameters && syncer.parameters.WonGames) || (!syncer.parameters && esgst.settings.syncWonGames))) {
             syncer.progress.lastElementChild.textContent = `Syncing your won games...`;
@@ -10532,7 +10760,10 @@ Parsedown = (() => {
                 request(null, null, `GET`, false, `http://store.steampowered.com/api/${type === `app` ? `appdetails?appids` : `packagedetails?packageids`}=${id}&filters=basic`, response => {
                     try {
                         link.textContent = JSON.parse(response.responseText)[id].data.name;
-                    } catch (e) {}
+                    } catch (e) {
+                        link.classList.add(`esgst-red`);
+                        link.title = `Unable to retrieve name for this game`;
+                    }
                 });
             }
         }
@@ -11638,18 +11869,6 @@ Parsedown = (() => {
         return lastPage;
     }
 
-    function loadLpl() {
-        if (esgst.paginationNavigation) {
-            if (esgst.discussionPath) {
-                addLplDiscussionLink();
-            } else if (esgst.userPath) {
-                addLplUserLink();
-            } else if (esgst.groupPath) {
-                addLplGroupLink();
-            }
-        }
-    }
-
     function addLplDiscussionLink() {
         var lastLink, url;
         url = `${location.pathname.replace(`/search`, ``)}/search?page=${esgst.lastPage}`;
@@ -11709,33 +11928,6 @@ Parsedown = (() => {
 
     /* [AIL] Attached Images Loader / [VAI] Visible Attached Images / [AIC] Attached Images Carousel */
 
-    function loadAil() {
-        esgst.endlessFeatures.push(getAttachedImages);
-        getAttachedImages(document);
-    }
-
-    function loadVai() {
-        if (!esgst.ail) {
-            esgst.endlessFeatures.push(getAttachedImages);
-            getAttachedImages(document);
-        }
-    }
-
-    function loadAic() {
-        if (!esgst.ail && !esgst.vai) {
-            esgst.endlessFeatures.push(getAttachedImages);
-            getAttachedImages(document);
-        }
-        document.addEventListener(`keydown`, event => {
-            if (event.key === `ArrowLeft` && esgst.aicPrevious) {
-                esgst.aicPrevious.click();
-            }
-            if (event.key === `ArrowRight` && esgst.aicNext) {
-                esgst.aicNext.click();
-            }
-        });
-    }
-
     function getAttachedImages(context) {
         var button, buttons, comment, i, image, n, url;
         buttons = context.querySelectorAll(`.comment__toggle-attached, .view_attached`);
@@ -11761,8 +11953,16 @@ Parsedown = (() => {
                     url: url
                 });
                 if (!esgst.aicButton) {
-                    esgst.aicButton = insertHtml(esgst.hideButtons && esgst.hideButtons_aic ? esgst.leftButtons : esgst.mainPageHeading, `afterBegin`, `
-                        <div class="esgst-heading-button" title="View attached images">
+                    let key, position;
+                    if (esgst.leftButtonIds.indexOf(`aic`) > -1) {
+                        key = `leftButtons`;
+                        position = `afterBegin`;
+                    } else {
+                        key = `rightButtons`;
+                        position = `beforeEnd`;
+                    }
+                    esgst.aicButton = insertHtml(esgst.hideButtons && esgst.hideButtons_aic ? esgst[key] : esgst.mainPageHeading, position, `
+                        <div class="esgst-heading-button" id="esgst-aic" title="View attached images">
                             <i class="fa fa-image"></i>
                         </div>
                     `);
@@ -11783,59 +11983,66 @@ Parsedown = (() => {
     }
 
     function openAicCarousel(i, event) {
-        var popup;
         event.preventDefault();
         event.stopPropagation();
-        popup = new Popup(null, null, true);
-        popup.open();
-        showAicImage(insertHtml(popup.description, `beforeEnd`, `<div class="esgst-aic-carousel markdown"></div>`), i, popup);
+        let carousel = insertHtml(document.body, `beforeEnd`, `<div class="esgst-popup-modal esgst-aic-carousel"></div>`);
+        carousel.style.zIndex = 9999 + document.querySelectorAll(`.esgst-popup:not(.esgst-hidden), .esgst-popout:not(.esgst-hidden)`).length;
+        carousel.addEventListener(`click`, event => {
+            if (!event.target.closest(`.esgst-aic-panel`) && !event.target.closest(`img`)) {
+                carousel.remove();
+            }
+        });
+        showAicImage(carousel, i);
     }
 
-    function showAicImage(carousel, i, popup) {
-        var attachedImage, n;
-        carousel.innerHTML = ``;
+    function showAicImage(carousel, i) {
+        let attachedImage, height, image, n, panel;
         n = esgst.attachedImages.length;
         attachedImage = esgst.attachedImages[i];
         if (esgst.ail) {
             attachedImage.image.setAttribute(`src`, attachedImage.url);
         }
         attachedImage.image.classList.remove(`is_hidden`, `is-hidden`);
-        attachedImage.image.style.maxHeight = `${innerHeight * 0.9 - (popup.popup.offsetHeight - popup.scrollable.offsetHeight)}px`;
         carousel.innerHTML = `
-            ${i > 0 ? `
-            <div class="esgst-aic-left-button">
-                <i class="fa fa-chevron-left"></i>
+            <div class="esgst-aic-panel">
+                ${i > 0 ? `
+                    <div class="esgst-aic-left-button">
+                        <i class="fa fa-chevron-left"></i>
+                    </div>
+                ` : ``}
+                ${i < n - 1 ? `
+                    <div class="esgst-aic-right-button">
+                        <i class="fa fa-chevron-right"></i>
+                    </div>
+                ` : ``}
+                ${attachedImage.source ? `
+                    <div class="esgst-aic-source">
+                        <a href="#${attachedImage.source}">Source</a>
+                    </div>
+                ` : ``}
             </div>
-            ` : ``}
             ${attachedImage.image.outerHTML}
-            ${attachedImage.source ? `<div><a href="#${attachedImage.source}">Source</a></div>` : ``}
-            ${i < n - 1 ? `
-            <div class="esgst-aic-right-button">
-                <i class="fa fa-chevron-right"></i>
-            </div>
-            ` : ``}
         `;
+        panel = carousel.firstElementChild;
+        image = panel.nextElementSibling;
+        height = panel.offsetHeight + 25;
+        image.style.maxHeight = `calc(90% - ${height}px)`;
+        image.style.marginTop = `${height}px`;
         esgst.aicPrevious = esgst.aicNext = null;
         if (i > 0) {
-            esgst.aicPrevious = carousel.firstElementChild;
-            esgst.aicPrevious.addEventListener(`click`, showAicImage.bind(null, carousel, i - 1, popup));
-        }
-        if (attachedImage.source) {
-            ((esgst.aicPrevious && esgst.aicPrevious.nextElementSibling.nextElementSibling) || carousel.firstElementChild.nextElementSibling).addEventListener(`click`, () => popup.close());
+            esgst.aicPrevious = panel.firstElementChild;
+            esgst.aicPrevious.addEventListener(`click`, showAicImage.bind(null, carousel, i - 1));
         }
         if (i < n - 1) {
-            esgst.aicNext = carousel.lastElementChild;
-            esgst.aicNext.addEventListener(`click`, showAicImage.bind(null, carousel, i + 1, popup));
+            esgst.aicNext = (esgst.aicPrevious && esgst.aicPrevious.nextElementSibling) || panel.firstElementChild;
+            esgst.aicNext.addEventListener(`click`, showAicImage.bind(null, carousel, i + 1));
         }
-
+        if (attachedImage.source) {
+            panel.lastElementChild.addEventListener(`click`, () => carousel.remove());
+        }
     }
 
     /* [EV] Embedded Videos */
-
-    function loadEv() {
-        esgst.endlessFeatures.push(getEvVideos);
-        getEvVideos(document);
-    }
 
     function getEvVideos(context) {
         var types, i, numTypes, type, videos, j, numVideos, video, previous, next, embedUrl, url, text, title;
@@ -11894,13 +12101,6 @@ Parsedown = (() => {
     }
 
     /* [AT] Accurate Timestamps */
-
-    function loadAt() {
-        if (!esgst.giveawaysPath || esgst.at_g) {
-            esgst.endlessFeatures.push(getTimestamps);
-            getTimestamps(document);
-        }
-    }
 
     function getTimestamps(context) {
         var timestamps, i, n, timestamp, text, edited, seconds, accurateTimestamp;
@@ -12078,11 +12278,6 @@ Parsedown = (() => {
     }
 
     /* [TS] Tables Sorter */
-
-    function loadTs() {
-        esgst.endlessFeatures.push(getTsTables);
-        getTsTables(document);
-    }
 
     function getTsTables(context, main, source, endless) {
         var i, n, tables;
@@ -12537,13 +12732,18 @@ Parsedown = (() => {
             esgst.gas.optionKey = `gas_option${type}`;
             gas.button = document.createElement(`div`);
             gas.button.className = `esgst-heading-button`;
+            gas.button.id = `esgst-gas`;
             gas.button.title = `Sort giveaways`;
             gas.button.innerHTML = `
                 <i class="fa fa-sort"></i>
             `;
             gas.button.addEventListener(`click`, openGasPopout.bind(null, gas));
             if (esgst.hideButtons && esgst.hideButtons_gas) {
-                esgst.leftButtons.insertBefore(gas.button, esgst.leftButtons.firstElementChild);
+                if (esgst.leftButtonIds.indexOf(`gas`) > -1) {
+                    esgst.leftButtons.insertBefore(gas.button, esgst.leftButtons.firstElementChild);
+                } else {
+                    esgst.rightButtons.appendChild(gas.button);
+                }
             } else {
                 esgst.mainPageHeading.insertBefore(gas.button, esgst.mainPageHeading.firstElementChild);
             }
@@ -12685,8 +12885,16 @@ Parsedown = (() => {
             `);
             if (esgst.giveawaysPath) {
                 let button, display, element, elements, i, n, popout, spacing, slider;
-                button = insertHtml(esgst.hideButtons && esgst.hideButtons_gv ? esgst.rightButtons : esgst.mainPageHeading, `beforeEnd`, `
-                    <div class="esgst-heading-button" title="Set Grid View spacing">
+                let key, position;
+                if (esgst.leftButtonIds.indexOf(`gv`) > -1) {
+                    key = `leftButtons`;
+                    position = `afterBegin`;
+                } else {
+                    key = `rightButtons`;
+                    position = `beforeEnd`;
+                }
+                button = insertHtml(esgst.hideButtons && esgst.hideButtons_gv ? esgst[key] : esgst.mainPageHeading, position, `
+                    <div class="esgst-heading-button" id="esgst-gv" title="Set Grid View spacing">
                         <i class="fa fa-th-large"></i>
                     </div>
                 `);
@@ -12822,19 +13030,6 @@ Parsedown = (() => {
 
     /* [GF] Giveaway Filters */
 
-    function loadGf() {
-        if (esgst.gf_s) {
-            esgst.giveawayFeatures.push(getGfGiveaways);
-        }
-        if (esgst.gf_m && (esgst.giveawaysPath || esgst.createdPath || esgst.enteredPath || esgst.wonPath || esgst.groupPath || esgst.userPath)) {
-            if (esgst.hideButtons && esgst.hideButtons_gf) {
-                esgst.leftButtons.insertBefore(addGfContainer(esgst.mainPageHeading), esgst.leftButtons.firstElementChild);
-            } else {
-                esgst.mainPageHeading.insertBefore(addGfContainer(esgst.mainPageHeading), esgst.mainPageHeading.firstElementChild);
-            }
-        }
-    }
-
     function getGfGiveaways(giveaways, main, source) {
         var giveaway, i, n, savedGiveaways;
         savedGiveaways = JSON.parse(getValue(`giveaways`, `{}`));
@@ -12962,6 +13157,7 @@ Parsedown = (() => {
         }
         headingButton = document.createElement(`div`);
         headingButton.className = `esgst-heading-button esgst-gf-heading-button`;
+        headingButton.id = `esgst-gf`;
         headingButton.innerHTML = `
             <span class="esgst-gf-toggle-switch"></span>
             <i class="fa fa-sliders" title="Manage presets"></i>
@@ -13085,11 +13281,12 @@ Parsedown = (() => {
         if (!gf.advancedSearch) {
             basicFilters.classList.remove(`esgst-hidden`);
             [ { check: ((!esgst.createdPath || esgst.cewgd) && (!esgst.enteredPath || esgst.cewgd) && (!esgst.wonPath || esgst.cewgd)) || popup, maxValue: 10, minValue: 0, name: `Level` },
-                { check: !esgst.wonPath || popup, infinite: true, maxValue: 999999999, minValue: 0, name: `Entries` },
-                { check: !esgst.wonPath || popup, infinite: true, maxValue: 999999999, minValue: 1, name: `Copies` },
+                { check: !esgst.wonPath || popup, infinite: true, maxValue: 99999, minValue: 0, name: `Entries` },
+                { check: !esgst.wonPath || popup, infinite: true, maxValue: 99999, minValue: 1, name: `Copies` },
                 { check: ((!esgst.createdPath || esgst.cewgd) && (!esgst.enteredPath || esgst.cewgd) && (!esgst.wonPath || esgst.cewgd)) || popup, maxValue: 100, minValue: 0, name: `Points` },
                 { check: !esgst.wonPath || popup, maxValue: 43800, minValue: 0, name: `MinutesToEnd` },
                 { check: ((!esgst.enteredPath || esgst.cewgd) && !esgst.createdPath && !esgst.wonPath) || popup, maxValue: 100, minValue: 0, name: `Chance`, step: 0.01 },
+                { check: ((!esgst.enteredPath || esgst.cewgd) && !esgst.createdPath && !esgst.wonPath) || popup, maxValue: 99999, minValue: 0, name: `Ratio` },
                 { check: true, maxValue: 100, minValue: 0, name: `Rating` }
             ].forEach(filter => {
                 if (filter.check) {
@@ -13349,6 +13546,7 @@ Parsedown = (() => {
                 { key: `Points`, name: `points` },
                 { key: `MinutesToEnd`, name: `minutes to end` },
                 { key: `Chance`, name: `chance` },
+                { key: `Ratio`, name: `ratio` },
                 { key: `Rating`, name: `rating` }
             ].forEach(filter => {
                 if (typeof preset[`max${filter.key}`] !== `undefined`) {
@@ -13601,6 +13799,7 @@ Parsedown = (() => {
                     { key: `Points`, name: `points` },
                     { key: `MinutesToEnd`, name: `minutes to end` },
                     { key: `Chance`, name: `chance` },
+                    { key: `Ratio`, name: `ratio` },
                     { key: `Rating`, name: `rating` }
                 ].forEach(filter => {
                     max = exception[`max${filter.key}`];
@@ -13693,6 +13892,7 @@ Parsedown = (() => {
             { key: `Points`, name: `Points` },
             { key: `MinutesToEnd`, name: `Minutes To End` },
             { key: `Chance`, name: `Chance` },
+            { key: `Ratio`, name: `Ratio` },
             { key: `Rating`, name: `Rating` }
         ].forEach(filter => {
             context = insertHtml(basicFilters, `beforeEnd`, `
@@ -13767,7 +13967,7 @@ Parsedown = (() => {
     function saveGfException(exceptionCount, gf, preset, popup, callback) {
         var exception, i, presets;
         exception = { name: popup.name.value };
-        [`Level`, `Entries`, `Copies`, `Points`, `MinutesToEnd`, `Chance`, `Rating`].forEach(name => {
+        [`Level`, `Entries`, `Copies`, `Points`, `MinutesToEnd`, `Chance`, `Ratio`, `Rating`].forEach(name => {
             if (popup[`max${name}`].value.length) {
                 exception[`max${name}`] = parseFloat(popup[`max${name}`].value);
             }
@@ -13870,7 +14070,7 @@ Parsedown = (() => {
 
     function filterGfException(gf, giveaway) {
         var basicFilters, categoryFilters, filtered, i, j, key, maxKey, minKey, minutes, n, name, typeFilters, value;
-        basicFilters = [`Level`, `Entries`, `Copies`, `Points`, `MinutesToEnd`, `Chance`, `Rating`];
+        basicFilters = [`Level`, `Entries`, `Copies`, `Points`, `MinutesToEnd`, `Chance`, `Ratio`, `Rating`];
         typeFilters = [`pinned`, `group`, `whitelist`, `regionRestricted`, `created`, `received`, `notReceived`, `awaitingFeedback`, `entered`, `started`, `ended`, `deleted`, `owned`, `wishlisted`, `hidden`, `ignored`, `previouslyEntered`, `previouslyWon`, `fullCV`, `reducedCV`, `noCV`];
         categoryFilters = [`removed`, `tradingCards`, `achievements`, `multiplayer`, `steamCloud`, `linux`, `mac`, `dlc`, `dlcFree`, `dlcNonFree`, `package`, `genres`];
         filtered = false;
@@ -13933,7 +14133,7 @@ Parsedown = (() => {
 
     function filterGfGiveaway(gf, giveaway) {
         var basicFilters, categoryFilters, filtered, i, j, key, maxKey, minKey, minutes, n, name, override, typeFilters, value;
-        basicFilters = [`Level`, `Entries`, `Copies`, `Points`, `MinutesToEnd`, `Chance`, `Rating`];
+        basicFilters = [`Level`, `Entries`, `Copies`, `Points`, `MinutesToEnd`, `Chance`, `Ratio`, `Rating`];
         typeFilters = [`pinned`, `group`, `whitelist`, `regionRestricted`, `created`, `received`, `notReceived`, `awaitingFeedback`, `entered`, `started`, `ended`, `deleted`, `owned`, `wishlisted`, `hidden`, `ignored`, `previouslyEntered`, `previouslyWon`, `fullCV`, `reducedCV`, `noCV`];
         categoryFilters = [`removed`, `tradingCards`, `achievements`, `multiplayer`, `steamCloud`, `linux`, `mac`, `dlc`, `dlcFree`, `dlcNonFree`, `package`, `genres`];
         filtered = false;
@@ -14061,11 +14261,6 @@ Parsedown = (() => {
 
     /* [UEG] Unfaded Entered Giveaways */
 
-    function loadUeg() {
-        esgst.endlessFeatures.push(removeUegFade);
-        removeUegFade(document);
-    }
-
     function removeUegFade(context) {
         var elements, i, n;
         elements = context.getElementsByClassName(`giveaway__row-inner-wrap is-faded`);
@@ -14075,11 +14270,6 @@ Parsedown = (() => {
     }
 
     /* [GB] Giveaway Bookmarks */
-
-    function loadGb() {
-        esgst.giveawayFeatures.push(getGbGiveaways);
-        addGbButton();
-    }
 
     function addGbButton() {
         var button, context, i, n, html;
@@ -14329,18 +14519,18 @@ Parsedown = (() => {
             var savedGiveaways = JSON.parse(getValue(`giveaways`, `{}`));
             for (var i = 0, n = giveaways.length; i < n; ++i) {
                 var giveaway = giveaways[i];
-                if (((esgst.archivePath && !main) || !esgst.archivePath) && giveaway.creator !== esgst.username && (!giveaway.entered || (esgst.enteredPath && main)) && giveaway.url && !giveaway.innerWrap.getElementsByClassName(`esgst-gb-button`)[0]) {
+                if (((esgst.archivePath && !main) || !esgst.archivePath) && giveaway.creator !== esgst.username && (!giveaway.entered || (esgst.enteredPath && main) || esgst.gb_se) && giveaway.url && !giveaway.innerWrap.getElementsByClassName(`esgst-gb-button`)[0]) {
                     if (savedGiveaways[giveaway.code] && savedGiveaways[giveaway.code].bookmarked) {
-                        addGbUnbookmarkButton(giveaway);
+                        addGbUnbookmarkButton(giveaway, main);
                     } else if (!giveaway.ended) {
-                        addGbBookmarkButton(giveaway);
+                        addGbBookmarkButton(giveaway, main);
                     }
                 }
             }
         }
     }
 
-    function addGbBookmarkButton(giveaway) {
+    function addGbBookmarkButton(giveaway, main) {
         var button;
         button = insertHtml(giveaway.headingName, `beforeBegin`, `
             <div class="esgst-gb-button" title="Bookmark giveaway">
@@ -14351,7 +14541,7 @@ Parsedown = (() => {
             button.innerHTML = `<i class="fa fa-circle-o-notch fa-spin"></i>`;
             bookmarkGbGiveaway(giveaway, function() {
                 button.remove();
-                addGbUnbookmarkButton(giveaway);
+                addGbUnbookmarkButton(giveaway, main);
             });
         });
     }
@@ -14375,7 +14565,7 @@ Parsedown = (() => {
         });
     }
 
-    function addGbUnbookmarkButton(giveaway) {
+    function addGbUnbookmarkButton(giveaway, main) {
         var button;
         button = insertHtml(giveaway.headingName, `beforeBegin`, `
             <div class="esgst-gb-button" title="Unbookmark giveaway">
@@ -14386,24 +14576,35 @@ Parsedown = (() => {
             button.innerHTML = `<i class="fa fa-circle-o-notch fa-spin"></i>`;
             unbookmarkGbGiveaway(giveaway, function() {
                 button.remove();
-                addGbBookmarkButton(giveaway);
+                addGbBookmarkButton(giveaway, main);
             });
         });
+        if (esgst.gb_ue && main && esgst.enterGiveawayButton) {
+            esgst.enterGiveawayButton.addEventListener(`click`, function() {
+                button.innerHTML = `<i class="fa fa-circle-o-notch fa-spin"></i>`;
+                unbookmarkGbGiveaway(giveaway, function() {
+                    button.remove();
+                    if (esgst.gb_se) {
+                        addGbBookmarkButton(giveaway, main);
+                    }
+                });
+            });
+        }
     }
 
     function unbookmarkGbGiveaway(giveaway, callback) {
-            createLock(`giveawayLock`, 300, function(deleteLock) {
-                var giveaways;
-                giveaways = JSON.parse(getValue(`giveaways`, `{}`));
-                if (giveaways[giveaway.code]) {
-                    delete giveaways[giveaway.code].bookmarked;
-                }
-                setValue(`giveaways`, JSON.stringify(giveaways));
-                deleteLock();
-                if (callback) {
-                    callback();
-                }
-            });
+        createLock(`giveawayLock`, 300, function(deleteLock) {
+            var giveaways;
+            giveaways = JSON.parse(getValue(`giveaways`, `{}`));
+            if (giveaways[giveaway.code]) {
+                delete giveaways[giveaway.code].bookmarked;
+            }
+            setValue(`giveaways`, JSON.stringify(giveaways));
+            deleteLock();
+            if (callback) {
+                callback();
+            }
+        });
     }
 
     /* [GED] Giveaway Encrypter/Decrypter */
@@ -14933,10 +15134,6 @@ Parsedown = (() => {
 
     /* [UGB] Unhide Giveaway Button */
 
-    function loadUgb() {
-        esgst.giveawayFeatures.push(addUgbButtons);
-    }
-
     function addUgbButtons(giveaways, main) {
         giveaways.forEach(giveaway => {
             let hideButton = giveaway.innerWrap.querySelector(`.giveaway__hide, .featured__giveaway__hide`);
@@ -14958,10 +15155,6 @@ Parsedown = (() => {
     }
 
     /* [OCHGB] One-Click Hide Giveaway Button */
-
-    function loadOchgb() {
-        esgst.giveawayFeatures.push(setOchgbButtons);
-    }
 
     function setOchgbButtons(giveaways, main) {
         var button, giveaway, i, n, unhide;
@@ -15099,14 +15292,6 @@ Parsedown = (() => {
 
     /* [GWC] Giveaway Winning Chance */
 
-    function loadGwc() {
-        esgst.giveawayFeatures.push(addGwcChances);
-        if (esgst.enteredPath) {
-            esgst.endlessFeatures.push(addGwcrHeading);
-            addGwcrHeading(document, true);
-        }
-    }
-
     function addGwcChances(giveaways, main, source) {
         var giveaway, i, n;
         if (((esgst.createdPath || esgst.wonPath || esgst.newGiveawayPath) && !main) || (!esgst.createdPath && !esgst.wonPath && !esgst.newGiveawayPath)) {
@@ -15168,14 +15353,6 @@ Parsedown = (() => {
     }
 
     /* [GWR] Giveaway Winning Ratio */
-
-    function loadGwr() {
-        esgst.giveawayFeatures.push(addGwrRatios);
-        if (esgst.enteredPath && !esgst.gwc) {
-            esgst.endlessFeatures.push(addGwcrHeading);
-            addGwcrHeading(document, true);
-        }
-    }
 
     function addGwrRatios(giveaways, main, source) {
         var giveaway, i, n;
@@ -15244,10 +15421,6 @@ Parsedown = (() => {
 
     /* [GP] Giveaway Popup */
 
-    function loadGp() {
-        esgst.giveawayFeatures.push(addGpButtons);
-    }
-
     function addGpButtons(giveaways, main, source) {
         let buttonSet;
         if (((esgst.createdPath || esgst.enteredPath || esgst.wonPath || esgst.giveawayPath || esgst.newGiveawayPath) && !main) || (!esgst.createdPath && !esgst.enteredPath && !esgst.wonPath && !esgst.giveawayPath && !esgst.newGiveawayPath)) {
@@ -15263,10 +15436,6 @@ Parsedown = (() => {
     }
 
     /* [ELGB] Enter/Leave Giveaway Button */
-
-    function loadElgb() {
-        esgst.giveawayFeatures.push(addElgbButtons);
-    }
 
     function addElgbButtons(giveaways, main, source) {
         var games, giveaway, i, n;
@@ -15409,13 +15578,15 @@ Parsedown = (() => {
                         if (mainCallback) {
                             popup.onClose = mainCallback;
                         }
-                        set = new ButtonSet(`grey`, `grey`, `fa-eye`, `fa-circle-o-notch fa-spin`, `Add Description To Filters`, `Filtering...`, function (callback) {
-                            esgst.elgb_filters = `${esgst.elgb_filters}|${description.textContent.replace(/[^a-zA-Z]/g, ``).toLowerCase()}`;
-                            setSetting(`elgb_filters`, esgst.elgb_filters);
-                            callback();
-                            set.remove();
-                        }).set;
-                        popup.description.appendChild(set);
+                        if (esgst.elgb_f) {
+                            set = new ButtonSet(`grey`, `grey`, `fa-eye`, `fa-circle-o-notch fa-spin`, `Add Description To Filters`, `Filtering...`, function (callback) {
+                                esgst.elgb_filters = `${esgst.elgb_filters}|${description.textContent.replace(/[^a-zA-Z]/g, ``).toLowerCase()}`;
+                                setSetting(`elgb_filters`, esgst.elgb_filters);
+                                callback();
+                                set.remove();
+                            }).set;
+                            popup.description.appendChild(set);
+                        }
                         popup.open(function () {
                             box.focus();
                         });
@@ -15423,13 +15594,15 @@ Parsedown = (() => {
                         if (mainCallback) {
                             popup.onClose = mainCallback;
                         }
-                        set = new ButtonSet(`grey`, `grey`, `fa-eye`, `fa-circle-o-notch fa-spin`, `Add Description To Filters`, `Filtering...`, function (callback) {
-                            esgst.elgb_filters = `${esgst.elgb_filters}|${description.textContent.replace(/[^a-zA-Z]/g, ``).toLowerCase()}`;
-                            setSetting(`elgb_filters`, esgst.elgb_filters);
-                            callback();
-                            set.remove();
-                        }).set;
-                        popup.description.appendChild(set);
+                        if (esgst.elgb_f) {
+                            set = new ButtonSet(`grey`, `grey`, `fa-eye`, `fa-circle-o-notch fa-spin`, `Add Description To Filters`, `Filtering...`, function (callback) {
+                                esgst.elgb_filters = `${esgst.elgb_filters}|${description.textContent.replace(/[^a-zA-Z]/g, ``).toLowerCase()}`;
+                                setSetting(`elgb_filters`, esgst.elgb_filters);
+                                callback();
+                                set.remove();
+                            }).set;
+                            popup.description.appendChild(set);
+                        }
                         popup.open();
                     }
                 } else if ((esgst.elgb_r && !esgst.elgb_r_d) || mainCallback) {
@@ -15525,12 +15698,12 @@ Parsedown = (() => {
                 if (esgst.egh) {
                     saveEghGame(giveaway.id, giveaway.type);
                 }
-                if (esgst.gb) {
+                if (esgst.gb && esgst.gb_ue) {
                     var button = giveaway.outerWrap.getElementsByClassName(`esgst-gb-button`)[0];
                     if (button) {
                         unbookmarkGbGiveaway(giveaway, function() {
                             button.remove();
-                            addGbBookmarkButton(giveaway);
+                            addGbBookmarkButton(giveaway, main);
                         });
                     }
                 }
@@ -15602,14 +15775,6 @@ Parsedown = (() => {
     }
 
     /* [GGL] Giveaway Groups Loader */
-
-    function loadGgl() {
-        if (esgst.ggl_index === 0) {
-            esgst.giveawayFeatures.push(getGglGiveaways);
-        } else {
-            esgst.giveawayFeatures.push(setGglButtons);
-        }
-    }
 
     function setGglButtons(giveaways, main) {
         var i, n;
@@ -15909,10 +16074,6 @@ Parsedown = (() => {
 
     /* [GCL] Giveaway Countries Loader */
 
-    function loadGcl() {
-        esgst.giveawayFeatures.push(setGclButtons);
-    }
-
     function setGclButtons(giveaways, main) {
         var i, n;
         if ((main && !esgst.createdPath && !esgst.enteredPath && !esgst.wonPath) || !main) {
@@ -16098,12 +16259,6 @@ Parsedown = (() => {
 
     /* [GR] Giveaway Recreator */
 
-    function loadGr() {
-        if (esgst.newGiveawayPath) {
-            loadGrGiveaway();
-        }
-    }
-
     function recreateGrGiveaway(button, giveaway) {
         var context, elements, giveaways, i, keys, n, responseJson, template;
         button.innerHTML = `<i class="fa fa-circle-o-notch fa-spin"></i>`;
@@ -16182,19 +16337,6 @@ Parsedown = (() => {
     }
 
     /* [GTS] Giveaway Templates */
-
-    function loadGts() {
-        if (esgst.newGiveawayPath) {
-            let rows = document.getElementsByClassName(`form__rows`)[0];
-            if (rows) {
-                addGtsButtonSection(insertHtml(esgst.hideButtons && esgst.hideButtons_gts ? esgst.leftButtons : esgst.mainPageHeading, `afterBegin`, `
-                    <div class="esgst-gts-button esgst-heading-button" title="View/apply templates">
-                        <i class="fa fa-file"></i>
-                    </div>
-                `), rows);
-            }
-        }
-    }
 
     function addGtsButtonSection(button, rows) {
         var createGiveawayButton, delay, deletedTemplates, edit, endTime, input, message, preciseEndCheckbox, preciseEndDateCheckbox, preciseEndOption, preciseEndDateOption, preciseStartCheckbox, preciseStartDateCheckbox, preciseStartOption, preciseStartDateOption, reviewButton, section, set, startTime, undo, warning;
@@ -16312,7 +16454,7 @@ Parsedown = (() => {
                             details += `, groups`;
                         }
                     }
-                    details += `, level ${savedTemplate.level}+`;
+                    details += `, level ${savedTemplate.level}`;
                     template = insertHtml(templates, `beforeEnd`, `
                         <div draggable="true">
                             <div class="esgst-clickable" style="float: left;">
@@ -16946,7 +17088,7 @@ Parsedown = (() => {
                 details += `Groups\n`;
             }
         }
-        details += `Level ${values.level}+\n\n${values.description}`;
+        details += `Level ${values.level}\n\n${values.description}`;
         data = `xsrf_token=${esgst.xsrfToken}&next_step=3&game_id=${values.gameId}&type=${values.gameType}&copies=${values.copies}&key_string=${values.keys}&start_time=${values.startTime}&end_time=${values.endTime}&region_restricted=${values.region}&country_item_string=${values.countries}&who_can_enter=${values.type}&whitelist=${values.whitelist}&group_item_string=${values.groups}&contributor_level=${values.level}&description=${encodeURIComponent(values.description)}`;
         if (edit) {
             mgc.datas[mgc.editPos] = data;
@@ -17727,29 +17869,6 @@ Parsedown = (() => {
 
     /* [SGAC] Stickied Giveaway Countries */
 
-    function loadSgac() {
-        if (esgst.newGiveawayPath && !document.getElementsByClassName(`table--summary`)[0]) {
-            const stickiedCountries = JSON.parse(getValue(`stickiedCountries`, `[]`));
-            const container = document.querySelector(`.form_list[data-input="country_item_string"]`);
-            let separator = container.firstElementChild;
-            const elements = container.children;
-            let context, i, id, n;
-            for (i = 0, n = elements.length; i < n; ++i) {
-                context = elements[i];
-                id = context.getAttribute(`data-item-id`);
-                if (stickiedCountries.indexOf(id) >= 0) {
-                    if (context === separator) {
-                        separator = separator.nextElementSibling;
-                    }
-                    container.insertBefore(context, separator);
-                    addSgacUnstickyButton(container, context, id, separator);
-                } else {
-                    addSgacStickyButton(container, context, id, separator);
-                }
-            }
-        }
-    }
-
     function addSgacStickyButton(container, context, id, separator, button) {
         if (button) {
             button.remove();
@@ -17812,15 +17931,6 @@ Parsedown = (() => {
     }
 
     /* [SGG] Stickied Giveaway Groups */
-
-    function loadSgg() {
-        if (esgst.newGiveawayPath && !document.getElementsByClassName(`table--summary`)[0]) {
-            setSggGiveawayGroups();
-        } else if (esgst.groupsPath) {
-            esgst.endlessFeatures.push(setSggGroups);
-            setSggGroups(document);
-        }
-    }
 
     function setSggGiveawayGroups() {
         var avatar, code, container, context, elements, i, id, j, n, savedGroups, separator, stickied;
@@ -18056,27 +18166,9 @@ Parsedown = (() => {
                 });
             }
         }
-        if (!esgst.cewgd && !esgst.gc && !esgst.lpv && esgst.giveawayPath && document.referrer === `https://www.steamgifts.com/giveaways/new`) {
-            addGiveawayToStorage();
-        }
     }
 
     /* [UGS] Unsent Gifts Sender */
-
-    function loadUgs() {
-        if (esgst.createdPath) {
-            let button;
-            button = insertHtml(esgst.hideButtons && esgst.hideButtons_ugs ? esgst.leftButtons : esgst.mainPageHeading, `afterBegin`, `
-                <div class="esgst-heading-button" title="Send unsent gifts">
-                    <i class="fa fa-gift"></i>
-                    <i class="fa fa-send"></i>
-                </div>
-            `);
-            button.addEventListener(`click`, openUgsPopup.bind(null, {button}));
-        } else if (esgst.newTicketPath) {
-            document.getElementsByClassName(`form__submit-button`)[0].addEventListener(`click`, saveUgsReroll.bind(null, document.querySelector(`[name="category_id"]`), document.querySelector(`[name="reroll_winner_id"]`)));
-        }
-    }
 
     function saveUgsReroll(category, winner) {
         var rerolls;
@@ -18696,18 +18788,6 @@ Parsedown = (() => {
 
     /* [SKS] Sent Keys Searcher */
 
-    function loadSks() {
-        if (esgst.createdPath) {
-            button = insertHtml(esgst.hideButtons && esgst.hideButtons_sks ? esgst.leftButtons : esgst.mainPageHeading, `afterBegin`, `
-                <div class="esgst-heading-button" title="Search keys">
-                    <i class="fa fa-key"></i>
-                    <i class="fa fa-search"></i>
-                </div>
-            `);
-            button.addEventListener(`click`, openSksPopup.bind(null, {button}));
-        }
-    }
-
     function openSksPopup(sks) {
         if (!sks.popup) {
             sks.popup = new Popup(`fa-key`, `Search for keys:`);
@@ -18897,40 +18977,7 @@ Parsedown = (() => {
         sks.progress.innerHTML = ``;
     }
 
-    /* [HGEBD] Hidden Games Enter Button Disabler */
-
-    function loadHgebd() {
-        if (esgst.giveawayPath && !document.getElementsByClassName(`table--summary`)[0]) {
-            let hideButton;
-            hideButton = document.getElementsByClassName(`featured__giveaway__hide`)[0];
-            if (esgst.enterGiveawayButton && !hideButton) {
-                let parent = esgst.enterGiveawayButton.parentElement;
-                if (esgst.enterGiveawayButton) {
-                    esgst.enterGiveawayButton.remove();
-                }
-                parent.insertAdjacentHTML(`afterBegin`, `
-                    <div class="sidebar__error is-disabled">
-                        <i class="fa fa-exclamation-circle"></i> Hidden Game
-                    </div>
-                `);
-            }
-        }
-    }
-
     /* [ET] Entries Tracker */
-
-    function loadEt() {
-        if (esgst.enteredPath) {
-            esgst.endlessFeatures.push(getEtEntries);
-            getEtEntries(document);
-        } else if (esgst.giveawayPath && !document.getElementsByClassName(`table--summary`)[0] && esgst.enterGiveawayButton) {
-            let code, name;
-            code = location.pathname.match(/^\/giveaway\/(.+?)\//)[1];
-            name = document.getElementsByClassName(`featured__heading__medium`)[0].textContent;
-            esgst.enterGiveawayButton.addEventListener(`click`, setEtEntry.bind(null, code, true, name));
-            esgst.leaveGiveawayButton.addEventListener(`click`, setEtEntry.bind(null, code, false, name));
-        }
-    }
 
     function getEtEntries(context) {
         var elements, i, n;
@@ -18967,8 +19014,16 @@ Parsedown = (() => {
         let button, toggleSwitch;
         if (context || esgst.giveawaysPath || esgst.createdPath || esgst.enteredPath || esgst.wonPath || esgst.userPath) {
             esgst.gmCheckboxes = {};
-            button = insertHtml(context || (esgst.hideButtons && esgst.hideButtons_gm ? esgst.leftButtons : esgst.mainPageHeading), `afterBegin`, `
-                <div class="esgst-heading-button" title="Manage giveaways">
+            let key, position;
+            if (esgst.leftButtonIds.indexOf(`gm`) > -1) {
+                key = `leftButtons`;
+                position = `afterBegin`;
+            } else {
+                key = `rightButtons`;
+                position = `beforeEnd`;
+            }
+            button = insertHtml(context || (esgst.hideButtons && esgst.hideButtons_gm ? esgst[key] : esgst.mainPageHeading), position, `
+                <div class="esgst-heading-button" id="esgst-gm" title="Manage giveaways">
                     <span></span>
                     <i class="fa fa-gear"></i>
                 </div>
@@ -19302,18 +19357,6 @@ Parsedown = (() => {
 
     /* [HGR] Hidden Games Remover */
 
-    function loadHgr() {
-        if (location.pathname.match(/^\/account\/settings\/giveaways\/filters/)) {
-            let button = insertHtml(esgst.hideButtons && esgst.hideButtons_hgr ? esgst.leftButtons : esgst.mainPageHeading, `afterBegin`, `
-                <div class="esgst-heading-button" title="Remove owned games from the list">
-                    <i class="fa fa-eye-slash"></i>
-                    <i class="fa fa-times-circle"></i>
-                </div>
-            `);
-            button.addEventListener(`click`, openHgrPopup.bind(null, {button}));
-        }
-    }
-
     function openHgrPopup(hgr) {
         if (!hgr.popup) {
             hgr.popup = new Popup(`fa-times`, `Remove owned games:`);
@@ -19410,15 +19453,6 @@ Parsedown = (() => {
 
     /* [SAL] Steam Activation Links */
 
-    function loadSal() {
-        if (esgst.wonPath) {
-            esgst.endlessFeatures.push(addSalLinks);
-            addSalLinks(document);
-            esgst.endlessFeatures.push(addSalObservers);
-            addSalObservers(document);
-        }
-    }
-
     function addSalObservers(context) {
         var elements, i, n;
         elements = context.getElementsByClassName(`view_key_btn`);
@@ -19510,17 +19544,6 @@ Parsedown = (() => {
     }
 
     /* [CEWGD] Created/Entered/Won Giveaway Details */
-
-    function loadCewgd() {
-        if (esgst.createdPath || esgst.enteredPath || esgst.wonPath) {
-            esgst.giveawayFeatures.push(getCewgdDetails);
-            esgst.endlessFeatures.push(addCewgdHeading);
-            addCewgdHeading(document);
-        }
-        if (esgst.giveawayPath && document.referrer === `https://www.steamgifts.com/giveaways/new`) {
-            addGiveawayToStorage();
-        }
-    }
 
     function addCewgdHeading(context) {
         var table;
@@ -19639,7 +19662,7 @@ Parsedown = (() => {
         }
         (giveaway.panel || giveaway.innerWrap.firstElementChild.nextElementSibling).insertAdjacentHTML(`afterEnd`, `
             <div class="table__column--width-small text-center">${type}</div>
-            <div class="table__column--width-small text-center">${details.level}+</div>
+            <div class="table__column--width-small text-center">${details.level}</div>
         `);
         if (esgst.enteredPath || esgst.wonPath) {
             giveaway.endTimeColumn.insertAdjacentHTML(`beforeEnd`, `
@@ -19653,12 +19676,6 @@ Parsedown = (() => {
     }
 
     /* [ITADI] Is There Any Deal? Info */
-
-    function loadItadi() {
-        if (esgst.giveawayPath) {
-            esgst.giveawayFeatures.push(getItadiInfo);
-        }
-    }
 
     function getItadiInfo(giveaways, main) {
         var game, games, giveaway, loading, plain;
@@ -19870,13 +19887,6 @@ Parsedown = (() => {
 
     /* [DKC] Delete Keys Confirmation */
 
-    function loadDkc() {
-        if (esgst.giveawayPath) {
-            esgst.endlessFeatures.push(getDkcLinks);
-            getDkcLinks(document);
-        }
-    }
-
     function getDkcLinks(context) {
         var i, link, links, newLink;
         links = context.getElementsByClassName(`form__key-btn-delete`);
@@ -19987,9 +19997,17 @@ Parsedown = (() => {
 
     function loadGe() {
         if (((esgst.giveawayCommentsPath && !document.getElementsByClassName(`table--summary`)[0]) || esgst.discussionPath) && document.querySelector(`[href*="/giveaway/"]`)) {
+            let key, position;
+            if (esgst.leftButtonIds.indexOf(`ge`) > -1) {
+                key = `leftButtons`;
+                position = `afterBegin`;
+            } else {
+                key = `rightButtons`;
+                position = `beforeEnd`;
+            }
             let ge = {
-                button: insertHtml(esgst.hideButtons && esgst.hideButtons_ge ? esgst.leftButtons : esgst.mainPageHeading, `afterBegin`, `
-                    <div class="esgst-heading-button" title="Extract giveaways">
+                button: insertHtml(esgst.hideButtons && esgst.hideButtons_ge ? esgst[key] : esgst.mainPageHeading, position, `
+                    <div class="esgst-heading-button" id="esgst-ge" title="Extract giveaways">
                         <i class="fa fa-gift"></i>
                         <i class="fa fa-search"></i>
                     </div>
@@ -20444,8 +20462,16 @@ Parsedown = (() => {
     function loadAs() {
         if (esgst.archivePath) {
             let ASButton, Category, popup;
-            ASButton = insertHtml(esgst.hideButtons && esgst.hideButtons_as ? esgst.leftButtons : esgst.mainPageHeading, `afterBegin`, `
-                <div class="esgst-heading-button" title="Search archive">
+            let key, position;
+            if (esgst.leftButtonIds.indexOf(`as`) > -1) {
+                key = `leftButtons`;
+                position = `afterBegin`;
+            } else {
+                key = `rightButtons`;
+                position = `beforeEnd`;
+            }
+            ASButton = insertHtml(esgst.hideButtons && esgst.hideButtons_as ? esgst[key] : esgst.mainPageHeading, position, `
+                <div class="esgst-heading-button" id="esgst-as" title="Search archive">
                     <i class="fa fa-folder"></i>
                     <i class="fa fa-search"></i>
                 </div>
@@ -20556,7 +20582,7 @@ Parsedown = (() => {
 
     /* [OADD] Old Active Discussions Design */
 
-    function loadOadd(refresh) {
+    function loadOadd(refresh, callback) {
         var deals, dealsRows, dealsSwitch, discussions, discussionsRows, discussionsSwitch, element, elements, i, j, n, response1Html, response2Html, revisedElements, rows, savedDiscussions;
         request(null, null, `GET`, false, `/discussions`, function (response1) {
             request(null, null, `GET`, false, `/discussions/deals`, function (response2) {
@@ -20641,11 +20667,16 @@ Parsedown = (() => {
                 });
                 if (esgst.adots) {
                     loadAdots(refresh);
+                } else if (esgst.radb) {
+                    addRadbButtons();
                 }
                 if (refresh) {
                     loadEndlessFeatures(esgst.activeDiscussions);
                 } else {
                     loadFeatures();
+                }
+                if (callback) {
+                    callback();
                 }
             });
         });
@@ -20664,6 +20695,11 @@ Parsedown = (() => {
                 if (!refresh) {
                     parent = esgst.activeDiscussions.parentElement;
                     parent.insertBefore(esgst.activeDiscussions, parent.firstElementChild);
+                    if (esgst.radb) {
+                        addRadbButtons();
+                    }
+                } else if (esgst.oadd && esgst.radb) {
+                    addRadbButtons();
                 }
             } else {
                 if (!refresh) {
@@ -20702,16 +20738,33 @@ Parsedown = (() => {
                     `);
                     tabHeading1 = panel.firstElementChild;
                     tabHeading2 = tabHeading1.nextElementSibling;
+                    if (esgst.radb) {
+                        insertHtml(tabHeading2.nextElementSibling, `beforeBegin`, `
+                            <div class="esgst-radb-button">
+                                <i class="fa fa-refresh" title="Refresh active discussions/deals"></i>
+                            </div>
+                        `).addEventListener(`click`, event => {
+                            let icon = event.currentTarget.firstElementChild;
+                            icon.classList.add(`fa-spin`);
+                            if (esgst.oadd) {
+                                loadOadd(true, () => {
+                                    icon.classList.remove(`fa-spin`);
+                                });
+                            } else {
+                                checkMissingDiscussions(true, () => {
+                                    icon.classList.remove(`fa-spin`);
+                                });
+                            }
+                        });
+                    }
                 }
                 if (esgst.oadd) {
-                    if (!refresh) {
-                        discussions = esgst.activeDiscussions.firstElementChild;
-                        deals = esgst.activeDiscussions.lastElementChild;
-                        discussions.firstElementChild.remove();
-                        discussions.firstElementChild.firstElementChild.remove();
-                        deals.firstElementChild.remove();
-                        deals.firstElementChild.firstElementChild.remove();
-                    }
+                    discussions = esgst.activeDiscussions.firstElementChild;
+                    deals = esgst.activeDiscussions.lastElementChild;
+                    discussions.firstElementChild.remove();
+                    discussions.firstElementChild.firstElementChild.remove();
+                    deals.firstElementChild.remove();
+                    deals.firstElementChild.firstElementChild.remove();
                     elements = esgst.activeDiscussions.getElementsByClassName(`table__column--last-comment`);
                     for (i = 0, n = elements.length; i < n; ++i) {
                         icon = elements[0].getElementsByClassName(`table__last-comment-icon`)[0];
@@ -20727,7 +20780,7 @@ Parsedown = (() => {
                     }
                 } else {
                     if (refresh) {
-                        rows = document.getElementsByClassName(`table__rows`);
+                        rows = document.getElementsByClassName(`table`);
                         discussions = rows[0];
                         deals = rows[1];
                     } else {
@@ -20761,14 +20814,14 @@ Parsedown = (() => {
                         parent.remove();
                     }
                 }
+                deals.classList.add(`esgst-hidden`, `esgst-adots`);
+                discussions.classList.add(`esgst-adots`);
                 if (!refresh) {
-                    deals.classList.add(`esgst-hidden`, `esgst-adots`);
-                    discussions.classList.add(`esgst-adots`);
                     activeDiscussions = insertHtml(esgst.sidebar, `beforeEnd`, `<div></div>`);
                     activeDiscussions.appendChild(discussions);
                     activeDiscussions.appendChild(deals);
-                    tabHeading1.addEventListener(`click`, changeAdotsTab.bind(null, tabHeading1, tabHeading2, discussions, deals));
-                    tabHeading2.addEventListener(`click`, changeAdotsTab.bind(null, tabHeading2, tabHeading1, deals, discussions));
+                    tabHeading1.addEventListener(`click`, changeAdotsTab.bind(null, tabHeading1, tabHeading2));
+                    tabHeading2.addEventListener(`click`, changeAdotsTab.bind(null, tabHeading2, tabHeading1));
                     esgst.activeDiscussions.remove();
                     esgst.activeDiscussions = activeDiscussions;
                 }
@@ -20776,14 +20829,14 @@ Parsedown = (() => {
         }
     }
 
-    function changeAdotsTab(button1, button2, first, second) {
-        button2.classList.remove(`esgst-selected`);
-        first.classList.remove(`esgst-hidden`);
-        second.classList.add(`esgst-hidden`);
-        button1.classList.add(`esgst-selected`);
+    function changeAdotsTab(button1, button2) {
+        button1.classList.toggle(`esgst-selected`);
+        button2.classList.toggle(`esgst-selected`);
+        button1.parentElement.nextElementSibling.firstElementChild.classList.toggle(`esgst-hidden`);
+        button1.parentElement.nextElementSibling.lastElementChild.classList.toggle(`esgst-hidden`);
     }
 
-    function checkMissingDiscussions(refresh) {
+    function checkMissingDiscussions(refresh, callback) {
         let deals, discussions, numDeals, numDiscussions, rows, savedDiscussions;
         savedDiscussions = JSON.parse(getValue(`discussions`, `{}`));
         rows = document.getElementsByClassName(`table__rows`);
@@ -20828,19 +20881,53 @@ Parsedown = (() => {
                     }
                     if (esgst.adots) {
                         loadAdots(refresh);
+                    } else if (esgst.radb && !refresh) {
+                        addRadbButtons();
                     }
                     if (refresh) {
                         loadEndlessFeatures(esgst.activeDiscussions);
                     } else {
                         loadFeatures();
                     }
+                    if (callback) {
+                        callback();
+                    }
                 });
             });
         } else {
             if (esgst.adots) {
                 loadAdots();
+            } else if (esgst.radb && !refresh) {
+                addRadbButtons();
             }
             loadFeatures();
+            if (callback) {
+                callback();
+            }
+        }
+    }
+
+    function addRadbButtons() {
+        let elements, i;
+        elements = esgst.activeDiscussions.querySelectorAll(`.homepage_heading, .esgst-heading-button`);
+        for (i = elements.length - 1; i > -1; --i) {
+            insertHtml(elements[i], `beforeBegin`, `
+                <div class="esgst-radb-button${esgst.oadd ? `` : ` homepage_heading`}">
+                    <i class="fa fa-refresh" title="Refresh active discussions/deals"></i>
+                </div>
+            `).addEventListener(`click`, event => {
+                let icon = event.currentTarget.firstElementChild;
+                icon.classList.add(`fa-spin`);
+                if (esgst.oadd) {
+                    loadOadd(true, () => {
+                        icon.classList.remove(`fa-spin`);
+                    });
+                } else {
+                    checkMissingDiscussions(true, () => {
+                        icon.classList.remove(`fa-spin`);
+                    });
+                }
+            });
         }
     }
 
@@ -20875,19 +20962,6 @@ Parsedown = (() => {
     }
 
     /* [DS] Discussions Sorter */
-
-    function loadDs() {
-        if (esgst.discussionsPath) {
-            let ds = {};
-            ds.button = insertHtml(esgst.hideButtons && esgst.hideButtons_ds ? esgst.leftButtons : esgst.mainPageHeading, `afterBegin`, `
-                <div class="esgst-heading-button" title="Sort discussions">
-                    <i class="fa fa-sort"></i>
-                </div>
-            `);
-            ds.button.addEventListener(`click`, openDsPopout.bind(null, ds));
-            return ds.button;
-        }
-    }
 
     function openDsPopout(ds) {
         if (!ds.popout) {
@@ -21081,6 +21155,7 @@ Parsedown = (() => {
         var basicFilter, basicFilters, box, button, categoryFilter, categoryFilters, collapseButton, display, exceptionButton, exceptionCount, exceptionPanel, expandButton, filters, genres, df, headingButton, i, id, infinite, key, maxKey, maxSavedValue, maxValue, minKey, minSavedValue, minValue, name, preset, presetButton, presetDisplay, presetInput, presetMessage, presetPanel, presets, presetWarning, slider, step, toggleSwitch, typeFilter, typeFilters, value;
         headingButton = document.createElement(`div`);
         headingButton.className = `esgst-heading-button esgst-gf-heading-button`;
+        headingButton.id = `esgst-df`;
         headingButton.innerHTML = `
             <span class="esgst-gf-toggle-switch"></span>
             <i class="fa fa-sliders" title="Manage presets"></i>
@@ -22012,23 +22087,21 @@ Parsedown = (() => {
         }
     }
 
-    /* [MPS] Main Post Skipper */
-
-    function loadMps() {
-        if (esgst.discussionPath && esgst.paginationNavigation) {
-            if (document.referrer.match(new RegExp(`/discussion/${[location.pathname.match(/^\/discussion\/(.+?)\//)[1]]}/`))) {
-                goToComment(``, esgst.pagination.previousElementSibling.firstElementChild.firstElementChild);
-            }
-        }
-    }
-
     /* [MPP] Main Post Popup */
 
-    function loadMpp(button) {
+    function loadMpp() {
         if (esgst.discussionPath) {
             let button, discussion, MPPPost, Sibling, Visited, Timestamp, Hidden;
-            button = insertHtml(esgst.hideButtons && esgst.hideButtons_mpp ? esgst.leftButtons : esgst.mainPageHeading, `afterBegin`, `
-                <div class="esgst-heading-button" title="Open the main post">
+            let key, position;
+            if (esgst.leftButtonIds.indexOf(`mpp`) > -1) {
+                key = `leftButtons`;
+                position = `afterBegin`;
+            } else {
+                key = `rightButtons`;
+                position = `beforeEnd`;
+            }
+            button = insertHtml(esgst.hideButtons && esgst.hideButtons_mpp ? esgst[key] : esgst.mainPageHeading, position, `
+                <div class="esgst-heading-button" id="esgst-mpp" title="Open the main post">
                     <i class="fa fa-home"></i>
                 </div>
             `);
@@ -22083,12 +22156,6 @@ Parsedown = (() => {
 
     /* [DED] Discussion Edits Detector */
 
-    function loadDed() {
-        if (esgst.replyBox && !esgst.userPath) {
-            addDEDButton(esgst.replyBox);
-        }
-    }
-
     function addDEDButton(Context, CommentURL, DEDCallback) {
         var TradeCode, ParentID, Description, URL, DEDButton, DEDStatus, ResponseHTML;
         TradeCode = Context.querySelector(`[name="trade_code"]`);
@@ -22120,22 +22187,6 @@ Parsedown = (() => {
     }
 
     /* [TB] Trades Bumper */
-
-    function loadTb() {
-        if (location.href.match(new RegExp(`\\/trades\\/search\\?user=${esgst.steamId}`))) {
-            let button = insertHtml(esgst.hideButtons && esgst.hideButtons_tb ? esgst.leftButtons : esgst.mainPageHeading, `afterBegin`, `
-                <div class="esgst-heading-button" title="Bump trades">
-                    <i class="fa fa-chevron-circle-up"></i>
-                </div>
-            `);
-            button.addEventListener(`click`, getTbTrades.bind(null, button));
-            if (esgst.tb_a) {
-                setTbAutoBump(button);
-            }
-        } else if (esgst.tb_a) {
-            setTbAutoBump();
-        }
-    }
 
     function getTbTrades(button, context, callback) {
         var elements, i, n;
@@ -22198,11 +22249,6 @@ Parsedown = (() => {
     }
 
     /* [RML] Reply Mention Link */
-
-    function loadRml() {
-        esgst.endlessFeatures.push(addRmlLinks);
-        addRmlLinks(document);
-    }
 
     function addRmlLinks(context) {
         var matches = context.getElementsByClassName(esgst.sg ? `comment__children` : `comment_children`);
@@ -22685,33 +22731,6 @@ Parsedown = (() => {
 
     /* [CERB] Collapse/Expand Replies Button */
 
-    function loadCerb() {
-        var button, collapse, comments, expand, id;
-        if (esgst.cerb && esgst.commentsPath) {
-            comments = document.getElementsByClassName(`comments`)[0];
-            if (comments && comments.children.length) {
-                esgst.cerbButtons = [];
-                button = insertHtml(esgst.mainPageHeadingBackground || esgst.mainPageHeading, `afterEnd`, `
-                    <div class="esgst-cerb-button esgst-clickable">
-                        <span>
-                            <i class="fa fa-minus-square"></i> Collapse all replies
-                        </span>
-                        <span class="esgst-hidden">
-                            <i class="fa fa-plus-square"></i> Expand all replies
-                        </span>
-                    </div>
-                `);
-                collapse = button.firstElementChild;
-                expand = collapse.nextElementSibling;
-                collapse.addEventListener(`click`, collapseAllCerbReplies.bind(null, collapse, expand));
-                expand.addEventListener(`click`, expandAllCerbReplies.bind(null, collapse, expand));
-                esgst.endlessFeatures.push(getCerbReplies.bind(null, collapse, expand, null));
-                id = location.hash.replace(/#/, ``);
-                getCerbReplies(collapse, expand, id ? document.getElementById(id) : null, document);
-            }
-        }
-    }
-
     function getCerbReplies(collapse, expand, permalink, context) {
         var elements, i, n, reply, replies;
         elements = context.querySelectorAll(`:not(.esgst-popup) .comments > .comment, :not(.esgst-popup) .comments > .comment_outer`);
@@ -22823,18 +22842,6 @@ Parsedown = (() => {
     }
 
     /* [CS] Comment Searcher */
-
-    function loadCs() {
-        if (esgst.commentsPath && (!esgst.giveawayPath || !document.getElementsByClassName(`table--summary`)[0])) {
-            let button = insertHtml(esgst.hideButtons && esgst.hideButtons_cs ? esgst.leftButtons : esgst.mainPageHeading, `afterBegin`, `
-                <div class="esgst-heading-button" title="Search comments from specific users">
-                    <i class="fa fa-comments"></i>
-                    <i class="fa fa-search"></i>
-                </div>
-            `);
-            button.addEventListener(`click`, openCsPopup.bind(null, {button}));
-        }
-    }
 
     function openCsPopup(cs) {
         if (!cs.popup) {
@@ -22977,11 +22984,19 @@ Parsedown = (() => {
 
     /* [RBP] Reply Box Popup */
 
-    function loadRbp(button) {
+    function loadRbp() {
         if (esgst.replyBox) {
             let button, popup;
-            button = insertHtml(esgst.hideButtons && esgst.hideButtons_rbp ? esgst.leftButtons : esgst.mainPageHeading, `afterBegin`, `
-                <div class="esgst-heading-button" title="Add a comment">
+            let key, position;
+            if (esgst.leftButtonIds.indexOf(`rbp`) > -1) {
+                key = `leftButtons`;
+                position = `afterBegin`;
+            } else {
+                key = `rightButtons`;
+                position = `beforeEnd`;
+            }
+            button = insertHtml(esgst.hideButtons && esgst.hideButtons_rbp ? esgst[key] : esgst.mainPageHeading, position, `
+                <div class="esgst-heading-button" id="esgst-rbp" title="Add a comment">
                     <i class="fa fa-comment"></i>
                 </div>
             `);
@@ -23006,20 +23021,6 @@ Parsedown = (() => {
 
     /* [MR] Multi-Reply */
     /* [RFI] Reply From Inbox */
-
-    function loadMr() {
-        if (!esgst.inboxPath) {
-            esgst.endlessFeatures.push(getMrRfiButtons);
-            getMrRfiButtons(document);
-        }
-    }
-
-    function loadRfi() {
-        if (esgst.inboxPath) {
-            esgst.endlessFeatures.push(getMrRfiButtons);
-            getMrRfiButtons(document);
-        }
-    }
 
     function getMrRfiButtons(context) {
         var matches = context.getElementsByClassName(esgst.sg ? `comment__actions` : `action_list`);
@@ -23141,6 +23142,7 @@ Parsedown = (() => {
                         addRMLLink(MR.Container, [Reply]);
                         loadEndlessFeatures(Reply);
                         MR.Box.remove();
+                        MR.Box = null;
                         MR.Children.appendChild(Reply);
                         location.hash = id;
                     });
@@ -23169,6 +23171,7 @@ Parsedown = (() => {
                         addRMLLink(MR.Container, [Reply]);
                         loadEndlessFeatures(Reply);
                         MR.Box.remove();
+                        MR.Box = null;
                         MR.Children.appendChild(Reply);
                         location.hash = id;
                     });
@@ -23439,18 +23442,40 @@ Parsedown = (() => {
         if (((esgst.commentsPath && (!esgst.giveawayPath || !document.getElementsByClassName(`table--summary`)[0])) || esgst.inboxPath) && !esgst.ct_s) {
             if (!esgst.ct_s) {
                 let button1, button2, button3;
-                button3 = insertHtml(esgst.hideButtons && esgst.hideButtons_ctUnread ? esgst.leftButtons : esgst.mainPageHeading, `afterBegin`, `
-                    <div class="esgst-heading-button" title="Mark all comments in this page as unread">
+                let key, position;
+                if (esgst.leftButtonIds.indexOf(`ctUnread`) > -1) {
+                    key = `leftButtons`;
+                    position = `afterBegin`;
+                } else {
+                    key = `rightButtons`;
+                    position = `beforeEnd`;
+                }
+                button3 = insertHtml(esgst.hideButtons && esgst.hideButtons_ctUnread ? esgst[key] : esgst.mainPageHeading, position, `
+                    <div class="esgst-heading-button" id="esgst-ctUnread" title="Mark all comments in this page as unread">
                         <i class="fa fa-eye-slash"></i>
                     </div>
                 `);
-                button2 = insertHtml(esgst.hideButtons && esgst.hideButtons_ctRead ? esgst.leftButtons : esgst.mainPageHeading, `afterBegin`, `
-                    <div class="esgst-heading-button" title="Mark all comments in this page as read">
+                if (esgst.leftButtonIds.indexOf(`ctRead`) > -1) {
+                    key = `leftButtons`;
+                    position = `afterBegin`;
+                } else {
+                    key = `rightButtons`;
+                    position = `beforeEnd`;
+                }
+                button2 = insertHtml(esgst.hideButtons && esgst.hideButtons_ctRead ? esgst[key] : esgst.mainPageHeading, position, `
+                    <div class="esgst-heading-button" id="esgst-ctRead" title="Mark all comments in this page as read">
                         <i class="fa fa-eye"></i>
                     </div>
                 `);
-                button1 = insertHtml(esgst.hideButtons && esgst.hideButtons_ctGo ? esgst.leftButtons : esgst.mainPageHeading, `afterBegin`, `
-                    <div class="esgst-heading-button" title="Go to the first unread comment of this page">
+                if (esgst.leftButtonIds.indexOf(`ctGo`) > -1) {
+                    key = `leftButtons`;
+                    position = `afterBegin`;
+                } else {
+                    key = `rightButtons`;
+                    position = `beforeEnd`;
+                }
+                button1 = insertHtml(esgst.hideButtons && esgst.hideButtons_ctGo ? esgst[key] : esgst.mainPageHeading, position, `
+                    <div class="esgst-heading-button" id="esgst-ctGo" title="Go to the first unread comment of this page">
                         <i class="fa fa-comments-o"></i>
                     </div>
                 `);
@@ -24199,12 +24224,6 @@ Parsedown = (() => {
 
     /* [UH] Username History */
 
-    function loadUh() {
-        if (esgst.userPath || esgst.ap) {
-            esgst.profileFeatures.push(addUhContainer);
-        }
-    }
-
     function addUhContainer(profile) {
         var button, box, container, list;
         container = insertHtml(profile.heading, `beforeEnd`, `
@@ -24260,12 +24279,6 @@ Parsedown = (() => {
     }
 
     /* [UN] User Notes */
-
-    function loadUn() {
-        if (esgst.userPath || esgst.ap) {
-            esgst.profileFeatures.push(addUnButton);
-        }
-    }
 
     function addUnButton(profile, savedUser) {
         var blacklistButton, position, whitelistButton;
@@ -24349,12 +24362,6 @@ Parsedown = (() => {
     }
 
     /* [UF] User Filters */
-
-    function loadUf() {
-        if (esgst.userPath || esgst.ap) {
-            esgst.profileFeatures.push(addUfButton);
-        }
-    }
 
     function addUfButton(profile, savedUser) {
         var uf;
@@ -24468,12 +24475,6 @@ Parsedown = (() => {
     }
 
     /* [SGC] Shared Groups Checker */
-
-    function loadSgc() {
-        if (esgst.userPath || esgst.ap) {
-            esgst.profileFeatures.push(addSgcButton);
-        }
-    }
 
     function addSgcButton(profile) {
         if (profile.username !== esgst.username) {
@@ -24593,12 +24594,6 @@ Parsedown = (() => {
 
     /* [RWSCVL] Real Won/Sent CV Link */
 
-    function loadRwscvl() {
-        if (esgst.userPath || esgst.ap) {
-            esgst.profileFeatures.push(addRwscvlLinks);
-        }
-    }
-
     function addRwscvlLinks(profile, savedUser) {
         var sentUrl, wonUrl;
         wonUrl = `http://www.sgtools.info/won/${profile.username}`;
@@ -24615,13 +24610,7 @@ Parsedown = (() => {
         `;
     }
 
-        /* [UGD] User Giveaways Data */
-
-    function loadUgd() {
-        if (esgst.userPath || esgst.ap) {
-            esgst.profileFeatures.push(addUgdButtons);
-        }
-    }
+    /* [UGD] User Giveaways Data */
 
     function addUgdButtons(profile) {
         var user = {
@@ -25166,25 +25155,6 @@ Parsedown = (() => {
 
     /* [NAMWC] Not Activated/Multiple Wins Checker */
 
-    function loadNamwc() {
-        if (esgst.sg) {
-            if (esgst.userPath || esgst.ap) {
-                esgst.profileFeatures.push(addNamwcProfileButton);
-            }
-            if (esgst.winnersPath) {
-                setNAMWCPopup(insertHtml(esgst.hideButtons && esgst.hideButtons_namwc ? esgst.leftButtons : esgst.mainPageHeading, `afterBegin`, `
-                    <div class="esgst-heading-button" title="Check for not activated/multiple wins">
-                        <i class="fa fa-trophy"></i>
-                        <i class="fa fa-question-circle"></i>
-                    </div>
-                `));
-            }
-        }
-        if (esgst.namwc_h) {
-            esgst.userFeatures.push(highlightNamwcUsers);
-        }
-    }
-
     function addNamwcProfileButton(profile) {
         setNAMWCPopup(insertHtml(profile.wonRowLeft, `beforeEnd`, `
             <span class="esgst-namwc-button">
@@ -25450,69 +25420,7 @@ Parsedown = (() => {
         }
     }
 
-    function highlightNamwcUsers(currentUsers) {
-        var container, context, highlight, html, i, icon, id, key, matches, n, notActivated, results, savedUser, title;
-        for (key in esgst.users.users) {
-            savedUser = esgst.users.users[key];
-            if (esgst.sg) {
-                id = savedUser.username;
-            } else {
-                id = key;
-            }
-            if (currentUsers[id] && savedUser.namwc && savedUser.namwc.results) {
-                results = savedUser.namwc.results;
-                if (results.activated && (results.notMultiple || (results.multiple && esgst.namwc_h_m))) {
-                    highlight = `positive`;
-                    icon = `fa-thumbs-up`;
-                } else if (results.unknown) {
-                    highlight = `unknown`;
-                    icon = `fa-warning`;
-                } else {
-                    highlight = `negative`;
-                    icon = `fa-thumbs-down`;
-                }
-                if (((highlight === `positive` || highlight === `unknown`) && !esgst.namwc_h_f) || highlight === `negative`) {
-                    if (results.unknown) {
-                        notActivated = `?`;
-                    } else {
-                        notActivated = results.notActivated;
-                    }
-                    title = `${savedUser.username} has ${notActivated} not activated wins and ${results.multiple} multiple wins (last checked ${getTimestamp(savedUser.namwc.lastCheck / 1e3)})`;
-                    if (esgst.namwc_h_i || esgst.wbh_w || esgst.wbh_b) {
-                        html = `
-                            <span class="esgst-user-icon" title="${title}">
-                                <i class="fa ${icon} esgst-${highlight}"></i>
-                            </span>
-                        `;
-                        matches = currentUsers[id];
-                        for (i = 0, n = matches.length; i < n; ++i) {
-                            context = matches[i];
-                            container = context.parentElement;
-                            if (container.classList.contains(`comment__username`)) {
-                                context = container;
-                            }
-                            context.insertAdjacentHTML(`beforeBegin`, html);
-                        }
-                    } else {
-                        matches = currentUsers[id];
-                        for (i = 0, n = matches.length; i < n; ++i) {
-                            context = matches[i];
-                            context.classList.add(`esgst-namwc-highlight`, `esgst-${highlight}`);
-                            context.title = title;
-                        }
-                    }
-                }
-            }
-        }
-    }
-
     /* [NRF] Not Received Finder */
-
-    function loadNrf(Context, User) {
-        if (esgst.userPath || esgst.ap) {
-            esgst.profileFeatures.push(addNrfButton);
-        }
-    }
 
     function addNrfButton(profile, savedUser) {
         var NRF;
@@ -25708,12 +25616,6 @@ Parsedown = (() => {
 
     /* [SWR] Sent/Won Ratio */
 
-    function loadSwr() {
-        if (esgst.userPath || esgst.ap) {
-            esgst.profileFeatures.push(addSwrRatio);
-        }
-    }
-
     function addSwrRatio(profile) {
         var ratio, fullRatio, reducedRatio, zeroRatio, cvRatio, realCVRatio;
         ratio = profile.wonCount > 0 ? Math.round(profile.sentCount / profile.wonCount * 100) / 100 : 0;
@@ -25816,12 +25718,6 @@ Parsedown = (() => {
 
     /* [LUC] Level Up Calculator */
 
-    function loadLuc() {
-        if (esgst.userPath || esgst.ap) {
-            esgst.profileFeatures.push(calculateLuvValue);
-        }
-    }
-
     function calculateLuvValue(profile) {
         var base, lower, upper, value, values;
         base = parseInt(profile.level);
@@ -25835,12 +25731,6 @@ Parsedown = (() => {
     }
 
     /* [SGPB] SteamGifts Profile Button */
-
-    function loadSgpb() {
-        if (esgst.userPath) {
-            esgst.profileFeatures.push(addSgpbButton);
-        }
-    }
 
     function addSgpbButton(profile) {
         var button;
@@ -25858,12 +25748,6 @@ Parsedown = (() => {
     }
 
     /* [STPB] SteamTrades Profile Button */
-
-    function loadStpb() {
-        if (esgst.userPath || esgst.ap) {
-            esgst.profileFeatures.push(addStpbButton);
-        }
-    }
 
     function addStpbButton(profile) {
         var button, tooltip;
@@ -25891,33 +25775,6 @@ Parsedown = (() => {
     }
 
     /* [WBC] Whitelist/Blacklist Checker */
-
-    function loadWbc() {
-        if (esgst.mainPageHeading) {
-            let html, title;
-            if (esgst.wbc_b) {
-                title = `Check for whitelists/blacklists.`;
-                html = `
-                    <i class="fa fa-heart"></i>
-                    <i class="fa fa-ban"></i>
-                    <i class="fa fa-question-circle"></i>
-                `;
-            } else {
-                title = `Check for whitelists.`;
-                html = `
-                    <i class="fa fa-heart"></i>
-                    <i class="fa fa-question-circle"></i>
-                `;
-            }
-            esgst.wbcButton = insertHtml(esgst.hideButtons && esgst.hideButtons_wbc ? esgst.leftButtons : esgst.mainPageHeading, `afterBegin`, `
-                <div class="esgst-heading-button esgst-hidden" title="${title}">${html}</div>
-            `);
-            addWBCButton(true, esgst.wbcButton);
-        }
-        if (esgst.wbc_h) {
-            esgst.userFeatures.push(addWbcIcons);
-        }
-    }
 
     function addWBCButton(Context, WBCButton) {
         var checkAllSwitch, checkSingleSwitch, popup, skip, WBC;
@@ -26514,11 +26371,11 @@ Parsedown = (() => {
         }
     }
 
-    function getWBCGroupGiveaways(WBC, I, N, wbc, username, Callback) {
+    function getWBCGroupGiveaways(WBC, I, N, wbc, username, callback) {
         if (!WBC.Canceled) {
             if (I < N) {
                 if (WBC.manualSkip) {
-                    Callback();
+                    callback();
                 } else {
                     WBC.Progress.innerHTML = `
                         <i class="fa fa-circle-o-notch"></i>
@@ -26530,18 +26387,18 @@ Parsedown = (() => {
                         getWBCGroups(WBC, `/giveaway/${WBC.GroupGiveaways[I]}/_/groups/search?page=`, 1, wbc, username, function (wbc, Result) {
                             if (wbc) {
                                 if (Result) {
-                                    Callback(wbc, Result);
+                                    callback(wbc, Result);
                                 } else {
-                                    setTimeout(getWBCGroupGiveaways, 0, WBC, ++I, N, wbc, username, Callback);
+                                    setTimeout(getWBCGroupGiveaways, 0, WBC, ++I, N, wbc, username, callback);
                                 }
                             } else {
-                                Callback();
+                                callback();
                             }
                         });
                     }
                 }
             } else {
-                Callback(wbc);
+                callback(wbc);
             }
         }
     }
@@ -26621,82 +26478,6 @@ Parsedown = (() => {
                     });
                 } else {
                     setTimeout(getWBCUsers, 0, WBC, ++NextPage, CurrentPage, URL, Callback, document);
-                }
-            }
-        }
-    }
-
-    function addWbcIcons(currentUsers) {
-        var container, context, html, i, id, key, lastChecked, matches, n, result, savedUser;
-        for (key in esgst.users.users) {
-            savedUser = esgst.users.users[key];
-            id = esgst.sg ? savedUser.username : key;
-            if (currentUsers[id] && savedUser.wbc) {
-                result = savedUser.wbc.result;
-                if ((result === `whitelisted`) || ((result === `blacklisted`) && esgst.wbc_b)) {
-                    lastChecked = getTimestamp(savedUser.wbc.lastCheck / 1e3);
-                    html = `
-                        <span class="esgst-user-icon" title="${savedUser.username} has ${result} you (last checked ${lastChecked})">
-                            <i class="fa ${(result === `whitelisted`) ? `fa-check esgst-whitelist` : `fa-times esgst-blacklist`}"></i>
-                        </span>
-                    `;
-                    matches = currentUsers[id];
-                    for (i = 0, n = matches.length; i < n; ++i) {
-                        context = matches[i];
-                        container = context.parentElement;
-                        if (container.classList.contains(`comment__username`)) {
-                            context = container;
-                        }
-                        context.insertAdjacentHTML(`beforeBegin`, html);
-                    }
-                }
-            }
-        }
-    }
-
-    /* [WBH] Whitelist/Blacklist Highlighter */
-
-    function loadWbh() {
-        if (!esgst.accountPath) {
-            esgst.userFeatures.push(addWbhIcons);
-        }
-    }
-
-    function addWbhIcons(currentUsers) {
-        var container, context, html, i, icon, id, key, matches, n, savedUser, status, title;
-        for (key in esgst.users.users) {
-            savedUser = esgst.users.users[key];
-            id = esgst.sg ? savedUser.username : key;
-            if (currentUsers[id] && (savedUser.whitelisted || savedUser.blacklisted)) {
-                if (savedUser.whitelisted) {
-                    status = `whitelisted`;
-                    icon = `fa-heart sidebar__shortcut__whitelist`;
-                } else {
-                    status = `blacklisted`;
-                    icon = `fa-ban sidebar__shortcut__blacklist`;
-                }
-                title = `You ${status} ${savedUser.username} on ${getTimestamp(savedUser[`${status}Date`] / 1e3)}`;
-                matches = currentUsers[id];
-                if ((esgst.wbh_w && savedUser.whitelisted) || (esgst.wbh_b && savedUser.blacklisted)) {
-                    for (i = 0, n = matches.length; i < n; ++i) {
-                        context = matches[i];
-                        context.classList.add(`esgst-wbh-highlight`, `esgst-wbh-highlight-${status}`);
-                        context.title = title;
-                    }
-                } else {
-                    html = `
-                        <span class="esgst-user-icon" title="${title}">
-                            <i class="fa ${icon} esgst-${status.slice(0, -2)}"></i>
-                        </span>
-                    `;
-                    for (i = 0, n = matches.length; i < n; ++i) {
-                        context = matches[i];
-                        container = context.parentElement;
-                        if (container.classList.contains(`comment__username`)) {
-                            context = container;
-                        }
-                        insertHtml(context, `beforeBegin`, html);
-                    }
                 }
             }
         }
@@ -26809,27 +26590,6 @@ Parsedown = (() => {
 
     /* [WBM] Whitelist/Blacklist Manager */
 
-    function loadWbm() {
-        if (esgst.whitelistPath || esgst.blacklistPath) {
-            let wbm = {};
-            if (esgst.whitelistPath) {
-                wbm.key = `whitelist`;
-                wbm.name = `Whitelist`;
-            } else {
-                wbm.key = `blacklist`;
-                wbm.name = `Blacklist`;
-            }
-            wbm.button = insertHtml(esgst.hideButtons && esgst.hideButtons_wbm ? esgst.leftButtons : esgst.mainPageHeading, `afterBegin`, `
-                <div class="esgst-heading-button" title="Manage ${wbm.key}">
-                    <i class="fa fa-arrow-up"></i>
-                    <i class="fa fa-arrow-down"></i>
-                    <i class="fa fa-trash"></i>
-                </div>
-            `);
-            wbm.button.addEventListener(`click`, openWbmPopup.bind(null, wbm));
-        }
-    }
-
     function openWbmPopup(wbm) {
         if (!wbm.popup) {
             wbm.popup = new Popup(`fa-gear`, `Manage ${wbm.name}:`);
@@ -26865,22 +26625,17 @@ Parsedown = (() => {
     function importWbmList(wbm, callback) {
         let file = wbm.input.files[0];
         if (file) {
-            if (file.name.match(/esgst_.*?\.json/)) {
-                let reader = new FileReader();
-                reader.readAsText(file);
-                reader.onload = () => {
-                    try {
-                        let list = JSON.parse(reader.result);
-                        insertWbmUsers(wbm, list, 0, list.length, callback);
-                    } catch (error) {
-                        createFadeMessage(wbm.warning, `Cannot parse file!`);
-                        callback();
-                    }
-                };
-            } else {
-                createFadeMessage(wbm.warning, `Invalid file!`);
-                callback();
-            }
+            let reader = new FileReader();
+            reader.readAsText(file);
+            reader.onload = () => {
+                try {
+                    let list = JSON.parse(reader.result);
+                    insertWbmUsers(wbm, list, 0, list.length, callback);
+                } catch (error) {
+                    createFadeMessage(wbm.warning, `Cannot parse file!`);
+                    callback();
+                }
+            };
         } else {
             createFadeMessage(wbm.warning, `No file was loaded!`);
             callback();
@@ -27014,8 +26769,16 @@ Parsedown = (() => {
             } else {
                 parameters = `?url=${location.pathname.match(/\/(group\/(.+?)\/(.+?))(\/.*)?$/)[1]}/users&id=${document.querySelector(`[href*="/gid/"]`).getAttribute(`href`).match(/\d+/)[0]}`;
             }
-            insertHtml(esgst.hideButtons && esgst.hideButtons_glwc ? esgst.leftButtons : esgst.mainPageHeading, `afterBegin`, `
-                <div class="esgst-heading-button" title="Check libraries/wishlists">
+            let key, position;
+            if (esgst.leftButtonIds.indexOf(`glwc`) > -1) {
+                key = `leftButtons`;
+                position = `afterBegin`;
+            } else {
+                key = `rightButtons`;
+                position = `beforeEnd`;
+            }
+            insertHtml(esgst.hideButtons && esgst.hideButtons_glwc ? esgst[key] : esgst.mainPageHeading, position, `
+                <div class="esgst-heading-button" id="esgst-glwc" title="Check libraries/wishlists">
                     <i class="fa fa-folder"></i>
                     <i class="fa fa-star"></i>
                 </div>
@@ -27463,13 +27226,6 @@ Parsedown = (() => {
 
     /* [US] Users Stats */
 
-    function loadUs() {
-        if (esgst.whitelistPath || esgst.blacklistPath) {
-            esgst.endlessFeatures.push(getUsUsers);
-            getUsUsers(document, true);
-        }
-    }
-
     function getUsUsers(context, main) {
         var element, elements, i, n, us, username, users;
         if (main || context.closest(`.esgst-wbs-popup`)) {
@@ -27574,13 +27330,6 @@ Parsedown = (() => {
 
     /* [IBH] Inbox Winners Highlighter */
 
-    function loadIwh() {
-        if (esgst.winnersPath || esgst.inboxPath) {
-            esgst.endlessFeatures.push(getIwhUsers);
-            getIwhUsers(document);
-        }
-    }
-
     function getIwhUsers(context) {
         var className;
         var callback;
@@ -27635,13 +27384,6 @@ Parsedown = (() => {
 
     /* [GH] Groups Highlighter */
 
-    function loadGh() {
-        if (!esgst.groupsPath) {
-            esgst.endlessFeatures.push(highlightGhGroups);
-            highlightGhGroups(document);
-        }
-    }
-
     function highlightGhGroups(context) {
         var code, element, elements, i, j, key, n, savedGroups;
         savedGroups = JSON.parse(getValue(`groups`, `[]`));
@@ -27657,14 +27399,6 @@ Parsedown = (() => {
     }
 
     /* [GS] Group Stats */
-
-    function loadGs() {
-        if (esgst.groupsPath) {
-            esgst.endlessFeatures.push(getGsGroups);
-            addGSHeading();
-            getGsGroups(document);
-        }
-    }
 
     function getGsGroups(context) {
         elements = context.getElementsByClassName(`table__row-inner-wrap`);
@@ -27711,33 +27445,6 @@ Parsedown = (() => {
 
     /* [EGH] Entered Games Highlighter */
 
-    function loadEgh() {
-        if (esgst.giveawayPath) {
-            setEghObserver(document);
-        }
-        if (!esgst.menuPath) {
-            esgst.gameFeatures.push(function (games) {
-                var savedGames;
-                savedGames = JSON.parse(getValue(`games`));
-                highlightEghGames(games.apps, savedGames.apps, `apps`);
-                highlightEghGames(games.subs, savedGames.subs, `subs`);
-            });
-        }
-    }
-
-    function setEghObserver(context) {
-        var button, info;
-        button = context.querySelector(`.sidebar__entry-insert`);
-        if (button) {
-            info = getGameInfo(context);
-            if (info) {
-                button.addEventListener(`click`, function () {
-                    saveEghGame(info.id, info.type);
-                });
-            }
-        }
-    }
-
     function saveEghGame(id, type) {
         var games;
         if (id && type) {
@@ -27756,34 +27463,12 @@ Parsedown = (() => {
         }
     }
 
-    function highlightEghGames(games, savedGames, type) {
-        var i, id, n;
-        for (id in savedGames) {
-            if (savedGames[id].entered && games[id]) {
-                for (i = 0, n = games[id].length; i < n; ++i) {
-                    if (!games[id][i].container.getElementsByClassName(`esgst-egh-button`)[0] && ((games[id][i].table && esgst.egh_t) || !games[id][i].table)) {
-                        addEghIcon(games[id][i], id, type);
-                    }
-                }
-            }
-        }
-    }
-
-    function addEghIcon(game, id, type) {
-        var icon;
-        icon = insertHtml((game.container.closest(`.poll`) && game.container.getElementsByClassName(`table__column__heading`)[0]) || game.headingName, `beforeBegin`, `
-            <a class="esgst-egh-button">
-                <i class="fa fa-star esgst-egh-icon" title="You have entered giveaways for this game before. Click to unhighlight it"></i>
-            </a>
-        `);
-        icon.addEventListener(`click`, unhighlightGame);
-
-        function unhighlightGame() {
-            icon.removeEventListener(`click`, unhighlightGame);
+    function unhighlightEghGame(id, type, event) {
+        let icon = event.currenTarget;
+        if (!icon.classList.contains(`fa-spin`)) {
             icon.innerHTML = `<i class="fa fa-circle-o-notch fa-spin"></i>`;
-            createLock(`gameLock`, 300, function (deleteLock) {
-                var games;
-                games = JSON.parse(getValue(`games`));
+            createLock(`gameLock`, 300, deleteLock => {
+                let games = JSON.parse(getValue(`games`));
                 delete games[type][id].entered;
                 setValue(`games`, JSON.stringify(games));
                 icon.remove();
@@ -27794,45 +27479,9 @@ Parsedown = (() => {
 
     /* [GT] Game Tags */
 
-    function loadGt() {
-        var savedGames;
-        esgst.gameFeatures.push(function (games, table) {
-            savedGames = JSON.parse(getValue(`games`));
-            getGtGames(games.apps, savedGames.apps, `apps`);
-            getGtGames(games.subs, savedGames.subs, `subs`);
-        });
-    }
-
-    function getGtGames(games, savedGames, type) {
-        var i, id, n;
-        for (id in games) {
-            for (i = 0, n = games[id].length; i < n; ++i) {
-                if ((games[id][i].table && esgst.gt_t) || !games[id][i].table) {
-                    addGtButton(games[id][i], id, type);
-                }
-            }
-        }
-        for (id in savedGames) {
-            if (savedGames[id].tags && games[id]) {
-                addGtTags(games[id], id, savedGames[id].tags, type);
-            }
-        }
-    }
-
-    function addGtButton(game, id, type) {
-        if (!game.container.getElementsByClassName(`esgst-gt-button`)[0]) {
-            insertHtml((game.container.closest(`.poll`) && game.container.getElementsByClassName(`table__column__heading`)[0]) || game.heading.lastElementChild || game.heading, `afterEnd`, `
-                <a class="esgst-faded esgst-gt-button" title="Edit game tags">
-                    <i class="fa fa-tag"></i>
-                    <span class="esgst-gt-tags"></span>
-                </a>
-            `).addEventListener(`click`, openGtPopup.bind(null, game, id, type));
-        }
-    }
-
-    function openGtPopup(game, id, type) {
+    function openGtPopup(id, name, type) {
         var popup, set;
-        popup = new Popup(`fa-tag`, `Edit game tags for <span>${game.name}</span>:`);
+        popup = new Popup(`fa-tag`, `Edit game tags for <span>${name}</span>:`);
         set = new ButtonSet(`green`, `grey`, `fa-check`, `fa-circle-o-notch fa-spin`, `Save`, `Saving...`, saveGtTags.bind(null, id, popup, type));
         popup.description.insertAdjacentHTML(`beforeEnd`, `<div class="esgst-description">Drag the tags to move them.<br/><br/>When editing a tag color, it will also alter the color for all games with that tag (you have to refresh the page for it to take effect).</div>`);
         popup.tags = insertHtml(popup.description, `beforeEnd`, `<div class="esgst-gt-tags"></div>`);
@@ -28115,15 +27764,6 @@ Parsedown = (() => {
     }
 
     /* [GC] Game Categories */
-
-    function loadGc() {
-        if ((!esgst.menuPath || esgst.gbPath || esgst.gedPath || esgst.gePath) && !esgst.newGiveawayPath) {
-            esgst.gameFeatures.push(getGcGames);
-        }
-        if (!esgst.cewgd && esgst.gc_gi && esgst.giveawayPath && document.referrer === `https://www.steamgifts.com/giveaways/new`) {
-            addGiveawayToStorage();
-        }
-    }
 
     function getGcGames(games, endless) {
         var gc, element, elements, i, id, missingApps, missingSubs, n, numApps, numSubs, savedGames;
@@ -28729,8 +28369,16 @@ Parsedown = (() => {
         if (esgst.mainPageHeading) {
             let mt, toggleSwitch;
             if (esgst.ut || esgst.wbc) {
-                esgst.mtUserButton = insertHtml(esgst.hideButtons && esgst.hideButtons_mtUsers ? esgst.leftButtons : esgst.mainPageHeading, `afterBegin`, `
-                    <div class="esgst-heading-button esgst-hidden" title="Manage users">
+                let key, position;
+                if (esgst.leftButtonIds.indexOf(`mtUsers`) > -1) {
+                    key = `leftButtons`;
+                    position = `afterBegin`;
+                } else {
+                    key = `rightButtons`;
+                    position = `beforeEnd`;
+                }
+                esgst.mtUserButton = insertHtml(esgst.hideButtons && esgst.hideButtons_mtUsers ? esgst[key] : esgst.mainPageHeading, position, `
+                    <div class="esgst-heading-button esgst-hidden" id="esgst-mtUsers" title="Manage users">
                         <span></span>
                         <span>
                             <i class="fa fa-user"></i>
@@ -28747,8 +28395,16 @@ Parsedown = (() => {
                 esgst.mtUserButton.addEventListener(`click`, openMtPopout.bind(null, mt));
             }
             if (esgst.gt) {
-                esgst.mtGameButton = insertHtml(esgst.hideButtons && esgst.hideButtons_mtGames ? esgst.leftButtons : esgst.mainPageHeading, `afterBegin`, `
-                    <div class="esgst-heading-button esgst-hidden" title="Multi-tag games">
+                let key, position;
+                if (esgst.leftButtonIds.indexOf(`mtGames`) > -1) {
+                    key = `leftButtons`;
+                    position = `afterBegin`;
+                } else {
+                    key = `rightButtons`;
+                    position = `beforeEnd`;
+                }
+                esgst.mtGameButton = insertHtml(esgst.hideButtons && esgst.hideButtons_mtGames ? esgst[key] : esgst.mainPageHeading, position, `
+                    <div class="esgst-heading-button esgst-hidden" id="esgst-mtGames" title="Multi-tag games">
                         <span></span>
                         <span>
                             <i class="fa fa-gamepad"></i>
@@ -28778,7 +28434,7 @@ Parsedown = (() => {
                 current = esgst.currentUsers;
             }
             for (id in current) {
-                current[id].forEach(element => {
+                current[id].elements.forEach(element => {
                     container = element.parentElement;
                     if (!container.classList.contains(`esgst-hidden`)) {
                         if (container.classList.contains(`comment__username`)) {
@@ -29208,6 +28864,71 @@ Parsedown = (() => {
 
     /* */
 
+    function debug() {
+        let popup, textArea;
+        popup = new Popup(`fa-bug`, `Debug`);
+        popup.description.insertAdjacentHTML(`afterBegin`, `<div class="esgst-description">Insert the Javascript code below to debug it. To open the console, use Ctrl + Shift + I.<br><br><span class="esgst-bold esgst-red">BE CAREFUL! Only do this if you know what you are doing or if you have been instructed to.<br><br>Playing with this when you do not know what you are doing could lead to serious consequences, such as having your entire data wiped out.<br><br>YOU HAVE BEEN WARNED!</span></div>`);
+        textArea = insertHtml(popup.scrollable, `beforeEnd`, `<textarea class="esgst-debug"></textarea>`);
+        popup.description.appendChild(new ButtonSet(`green`, ``, `fa-bug`, ``, `Debug`, ``, callback => {
+            callback();
+            try {
+                eval(textArea.value);
+            } catch (e) {
+                console.log(e);
+            }
+        }).set);
+        popup.open(() => textArea.focus());
+    }
+
+    function filterSm(event) {
+        let found, id, type, typeFound, value;
+        value = event.currentTarget.value.toLowerCase().trim();
+        for (type in esgst.features) {
+            found = false;
+            typeFound = false;
+            for (id in esgst.features[type].features) {
+                found = filterSmFeature(esgst.features[type].features[id], id, value);
+                if (found) {
+                    typeFound = true;
+                    unhideSmFeature(esgst.features[type].features[id], id);
+                }
+            }
+            if (typeFound) {
+                document.getElementById(`esgst_${type}`).classList.remove(`esgst-hidden`);
+            } else {
+                document.getElementById(`esgst_${type}`).classList.add(`esgst-hidden`);
+            }
+        }
+    }
+
+    function filterSmFeature(feature, id, value) {
+        let found, subId;
+        found = false;
+        if (feature.features) {
+            for (subId in feature.features) {
+                found = found || filterSmFeature(feature.features[subId], subId, value);
+            }
+            found = found || (feature.description && feature.description.toLowerCase().match(value)) || feature.name.toLowerCase().match(value);
+        } else {
+            found = (feature.description && feature.description.toLowerCase().match(value)) || feature.name.toLowerCase().match(value);
+        }
+        if (found) {
+            document.getElementById(`esgst_${id}`).classList.remove(`esgst-hidden`);
+        } else {
+            document.getElementById(`esgst_${id}`).classList.add(`esgst-hidden`);
+        }
+        return found;
+    }
+
+    function unhideSmFeature(feature, id) {
+        document.getElementById(`esgst_${id}`).classList.remove(`esgst-hidden`);
+        if (feature.features) {
+            for (id in feature.features) {
+                unhideSmFeature(feature.features[id], id);
+            }
+        }
+    }
+
     function loadSMMenu(tab) {
         let I, Container, SMManageFilteredUsers, SMAPIKey, popup;
         if (tab) {
@@ -29220,8 +28941,10 @@ Parsedown = (() => {
         }
         Container.innerHTML = `
             <div class="esgst-page-heading"></div>
+            <input placeholder="Filter features..." type="text">
             <div class="esgst-settings-menu"></div>
         `;
+        Container.firstElementChild.nextElementSibling.addEventListener(`input`, filterSm);
         var heading = Container.getElementsByClassName(`esgst-page-heading`)[0];
         createSMButtons(heading, [{
             Check: true,
@@ -29288,69 +29011,42 @@ Parsedown = (() => {
             Icons: [`fa-trophy`, `fa-cog`],
             Name: `esgst-namwc-button esgst-heading-button`,
             Title: `Manage Not Activated / Multiple Wins Checker caches.`
+        }, {
+            Check: true,
+            Icons: [`fa-bug`],
+            Name: `esgst-heading-button`,
+            Title: `Debug`
         }]);
         var SMMenu = Container.getElementsByClassName(`esgst-settings-menu`)[0];
-        var j = 0;
-        var sections = {
-            general: {
-                index: 1,
-                newBelow: true
-            },
-            giveaways: {
-                index: 1,
-                newBelow: true
-            },
-            discussions: {
-                index: 1
-            },
-            trades: {
-                index: 1
-            },
-            comments: {
-                index: 1,
-                newBelow: true
-            },
-            users: {
-                index: 1
-            },
-            groups: {
-                index: 1
-            },
-            games: {
-                index: 1
-            },
-            other: {
-                index: 1,
-                newBelow: true
-            }
-        };
-        for (var key in sections) {
-            if ((key === `trades` && esgst.settings.esgst_st) || key !== `trades`) {
-                var title = key.replace(/^./, function (m) {
-                    return m.toUpperCase();
-                });
-                sections[key].section = createMenuSection(SMMenu, null, ++j, sections[key].newBelow ? `
+        let i, type;
+        i = 1;
+        for (type in esgst.features) {
+            if (type !== `trades` || esgst.settings.esgst_st) {
+                let id, j, section, title;
+                title = type.replace(/^./, m => { return m.toUpperCase() });
+                section = createMenuSection(SMMenu, null, i, esgst.features[type].newBelow ? `
                     <span class="esgst-bold esgst-red" title="There is a new feature/option in this section">
                         <i class="fa fa-star"></i>
                     </span>
                     ${title}
-                ` : title);
-            }
-        }
-        for (var i = 0, n = esgst.features.length; i < n; ++i) {
-            var feature = esgst.features[i];
-            if (feature.type && ((feature.type === `trades` && esgst.settings.esgst_st) || feature.type !== `trades`)) {
-                var ft = getSMFeature(feature, sections[feature.type].index);
-                if (ft) {
-                    sections[feature.type].section.lastElementChild.appendChild(ft);
-                    ++sections[feature.type].index;
+                ` : title, type);
+                j = 1;
+                for (id in esgst.features[type].features) {
+                    let feature, ft;
+                    feature = esgst.features[type].features[id];
+                    ft = getSMFeature(feature, id, j);
+                    if (ft) {
+                        section.lastElementChild.appendChild(ft);
+                        j += 1;
+                    }
                 }
+                i += 1;
             }
         }
         createMenuSection(SMMenu, `
             <input class="esgst-steam-api-key" type="text"/>
             <div class="esgst-description">This is optional for syncing owned games faster and required for syncing alt accounts. Get a Steam API Key <a class="esgst-bold" href="https://steamcommunity.com/dev/apikey" target="_blank">here</a>.</div>
-        `, ++j, `Steam API Key`);
+        `, i, `Steam API Key`);
         SMManageFilteredUsers = Container.getElementsByClassName(`SMManageFilteredUsers`)[0];
         var SMManageFilteredGiveaways = Container.getElementsByClassName(`SMManageFilteredGiveaways`)[0];
         var SMManageFilteredDiscussions = Container.getElementsByClassName(`SMManageFilteredDiscussions`)[0];
@@ -29375,10 +29071,11 @@ Parsedown = (() => {
                 heading.firstElementChild.classList.remove(`esgst-busy`);
             });
         });
-        heading.firstElementChild.nextElementSibling.addEventListener(`click`, loadDataManagement.bind(null, false, `import`));
-        heading.firstElementChild.nextElementSibling.nextElementSibling.addEventListener(`click`, loadDataManagement.bind(null, false, `export`));
-        heading.firstElementChild.nextElementSibling.nextElementSibling.nextElementSibling.addEventListener(`click`, loadDataManagement.bind(null, false, `delete`));
+        heading.firstElementChild.nextElementSibling.addEventListener(`click`, loadDataManagement.bind(null, false, `import`, null));
+        heading.firstElementChild.nextElementSibling.nextElementSibling.addEventListener(`click`, loadDataManagement.bind(null, false, `export`, null));
+        heading.firstElementChild.nextElementSibling.nextElementSibling.nextElementSibling.addEventListener(`click`, loadDataManagement.bind(null, false, `delete`, null));
         heading.firstElementChild.nextElementSibling.nextElementSibling.nextElementSibling.nextElementSibling.addEventListener(`click`, exportSettings);
+        heading.lastElementChild.addEventListener(`click`, debug);
         if (SMManageUserTags) {
             SMManageUserTags.addEventListener(`click`, openManageUserTagsPopup);
         }
@@ -29424,9 +29121,10 @@ Parsedown = (() => {
         }
     }
 
-    function getSMFeature(Feature, aaa) {
+    function getSMFeature(Feature, ID, aaa) {
         var Menu, Checkbox, CheckboxInput, SMFeatures;
         Menu = document.createElement(`div`);
+        Menu.id = `esgst_${ID}`;
         Menu.insertAdjacentHTML(`beforeEnd`, `
             <div class="esgst-sm-small-number esgst-form-heading-number">${aaa}.</div>
         `);
@@ -29441,8 +29139,7 @@ Parsedown = (() => {
                 </span>
             `);
         }
-        var ID, localID, val, val1, val2;
-        ID = Feature.id;
+        var localID, val, val1, val2;
         var siwtchSg, siwtchSt;
         if (Feature.sg) {
             localID = `${ID}_sg`;
@@ -29452,7 +29149,7 @@ Parsedown = (() => {
             }
             siwtchSg = new ToggleSwitch(Menu, ID, true, esgst.settings.esgst_st ? `[SG]` : ``, true, false, null, val1);
         }
-        if (Feature.st && (esgst.settings.esgst_st || Feature.id === `esgst`)) {
+        if (Feature.st && (esgst.settings.esgst_st || ID === `esgst`)) {
             localID = `${ID}_st`;
             val2 = esgst.settings[localID];
             if (typeof val2 === `undefined`) {
@@ -29476,10 +29173,13 @@ Parsedown = (() => {
             popout.popout.innerHTML = Feature.description;
         }
         if (Feature.features) {
-            for (var i = 0, n = Feature.features.length; i < n; ++i) {
-                var ft = getSMFeature(Feature.features[i], i + 1);
+            let ft, i, id;
+            i = 1;
+            for (id in Feature.features) {
+                ft = getSMFeature(Feature.features[id], id, i);
                 if (ft) {
                     SMFeatures.appendChild(ft);
+                    i += 1;
                 }
             }
             if (siwtchSg) {
@@ -29492,7 +29192,7 @@ Parsedown = (() => {
                 SMFeatures.classList.remove(`esgst-hidden`);
             }
         }
-        if (Feature.id === `gc`) {
+        if (ID === `gc`) {
             var elements = [];
             for (i = 0, n = esgst.gc_categories.length; i < n; ++i) {
                 switch (esgst.gc_categories[i]) {
@@ -29616,13 +29316,13 @@ Parsedown = (() => {
                 child.addEventListener(`dragenter`, getSmSource.bind(null, child, sm));
                 child.addEventListener(`dragend`, saveSmSource.bind(null, sm));
             }
-        } else if (Feature.id === `gwc`) {
+        } else if (ID === `gwc`) {
             addGwcrMenuPanel(SMFeatures, `gwc_colors`, `chance`);
-        } else if (Feature.id === `gwr`) {
+        } else if (ID === `gwr`) {
             addGwcrMenuPanel(SMFeatures, `gwr_colors`, `ratio`);
         } else if (Feature.colors || Feature.background) {
-            var color = esgst[`${Feature.id}_color`];
-            var bgColor = esgst[`${Feature.id}_bgColor`];
+            var color = esgst[`${ID}_color`];
+            var bgColor = esgst[`${ID}_bgColor`];
             var html = `
                 <div class="esgst-sm-colors">
                     ${Feature.background ? `` : `Text: <input type="color" value="${color}">`}
@@ -29634,38 +29334,38 @@ Parsedown = (() => {
             var colorContext = SMFeatures.lastElementChild.firstElementChild;
             var bgColorContext = Feature.background ? colorContext : colorContext.nextElementSibling;
             if (!Feature.background) {
-                addColorObserver(colorContext, Feature.id, `color`);
+                addColorObserver(colorContext, ID, `color`);
             }
-            addColorObserver(bgColorContext, Feature.id, `bgColor`);
+            addColorObserver(bgColorContext, ID, `bgColor`);
             bgColorContext.nextElementSibling.addEventListener(`click`, function () {
                 if (!Feature.background) {
-                    colorContext.value = esgst.defaultValues[`${Feature.id}_color`];
-                    setSetting(`${Feature.id}_color`, colorContext.value);
+                    colorContext.value = esgst.defaultValues[`${ID}_color`];
+                    setSetting(`${ID}_color`, colorContext.value);
                 }
-                bgColorContext.value = esgst.defaultValues[`${Feature.id}_bgColor`];
-                setSetting(`${Feature.id}_bgColor`, bgColorContext.value);
+                bgColorContext.value = esgst.defaultValues[`${ID}_bgColor`];
+                setSetting(`${ID}_bgColor`, bgColorContext.value);
             });
-            if (Feature.id === `gc_g`) {
+            if (ID === `gc_g`) {
                 addGcMenuPanel(SMFeatures);
-            } else if (Feature.id === `gc_o`) {
+            } else if (ID === `gc_o`) {
                 addGcAltMenuPanel(SMFeatures);
             }
             if (Feature.input) {
                 input = insertHtml(SMFeatures, `beforeEnd`, `
                     <div class="esgst-sm-colors">
-                        Icon: <input type="text" value="${esgst[`${Feature.id}Icon`]}"> <i class="esgst-clickable fa fa-question-circle"></i>
+                        Icon: <input type="text" value="${esgst[`${ID}Icon`]}"> <i class="esgst-clickable fa fa-question-circle"></i>
                         <br/>
-                        Label: <input type="text" value="${esgst[`${Feature.id}Label`]}">
+                        Label: <input type="text" value="${esgst[`${ID}Label`]}">
                     </div>
                 `);
                 createTooltip(input.firstElementChild.nextElementSibling, `The name of the icon must be any name in this page: <a href="http://fontawesome.io/icons/">http://fontawesome.io/icons/</a> (except for the 41 new icons from 4.7, SG doesn't support that)`);
                 input.firstElementChild.addEventListener(`change`, function() {
-                    setSetting(`${Feature.id}Icon`, input.firstElementChild.value);
-                    esgst[`${Feature.id}Icon`] = input.firstElementChild.value;
+                    setSetting(`${ID}Icon`, input.firstElementChild.value);
+                    esgst[`${ID}Icon`] = input.firstElementChild.value;
                 });
                 input.lastElementChild.addEventListener(`change`, function() {
-                    setSetting(`${Feature.id}Label`, input.lastElementChild.value);
-                    esgst[`${Feature.id}Label`] = input.lastElementChild.value;
+                    setSetting(`${ID}Label`, input.lastElementChild.value);
+                    esgst[`${ID}Label`] = input.lastElementChild.value;
                 });
             }
             if (siwtchSg) {
@@ -29679,7 +29379,7 @@ Parsedown = (() => {
             }
         } else if (Feature.input) {
             var input, prev, next;
-            if (Feature.id === `npth`) {
+            if (ID === `npth`) {
                 input = insertHtml(SMFeatures, `beforeEnd`, `
                     <div class="esgst-sm-colors">
                         Enter the key you want to use for previous links: <input type="text" value=${esgst.npth_previousKey}>
@@ -29701,11 +29401,11 @@ Parsedown = (() => {
                     esgst.npth_nextKey = e.key;
                     next.value = e.key;
                 });
-            } else if (Feature.id.match(/^sk_/)) {
+            } else if (ID.match(/^sk_/)) {
                 setSkMenu(Feature.input, insertHtml(SMFeatures, `beforeEnd`, `
                     <div class="esgst-sm-colors"></div>`
                 ));
-            } else if (Feature.id === `gb_h`) {
+            } else if (ID === `gb_h`) {
                 var hours = esgst.gb_hours;
                 input = insertHtml(SMFeatures, `beforeEnd`, `
                     <div class="esgst-sm-colors">
@@ -29716,7 +29416,7 @@ Parsedown = (() => {
                     setSetting(`gb_hours`, input.firstElementChild.value);
                     esgst.gb_hours = input.firstElementChild.value;
                 });
-            } else if (Feature.id === `hr_w_h`) {
+            } else if (ID === `hr_w_h`) {
                 var hours = esgst.hr_w_hours;
                 input = insertHtml(SMFeatures, `beforeEnd`, `
                     <div class="esgst-sm-colors">
@@ -29727,7 +29427,18 @@ Parsedown = (() => {
                     setSetting(`hr_w_hours`, input.firstElementChild.value);
                     esgst.hr_w_hours = input.firstElementChild.value;
                 });
-            } else if (Feature.id === `hr`) {
+            } else if (ID === `autoBackup`) {
+                var days = esgst.autoBackup_days;
+                input = insertHtml(SMFeatures, `beforeEnd`, `
+                    <div class="esgst-sm-colors">
+                        Days: <input type="text" value=${days}>
+                    </div>
+                `);
+                input.firstElementChild.addEventListener(`change`, function() {
+                    setSetting(`autoBackup_days`, input.firstElementChild.value);
+                    esgst.autoBackup_days = input.firstElementChild.value;
+                });
+            } else if (ID === `hr`) {
                 input = insertHtml(SMFeatures, `beforeEnd`, `
                     <div class="esgst-sm-colors">
                         Refresh every <input type="text" value=${esgst.hr_minutes}> minutes
@@ -29737,7 +29448,7 @@ Parsedown = (() => {
                     setSetting(`hr_minutes`, input.firstElementChild.value);
                     esgst.hr_minutes = input.firstElementChild.value;
                 });
-            } else if (Feature.id === `elgb_f`) {
+            } else if (ID === `elgb_f`) {
                 input = insertHtml(SMFeatures, `beforeEnd`, `
                     <div class="esgst-sm-colors">
                         Filters: <input style="width: 300px;" type="text" value="${esgst.elgb_filters}"> <i class="fa fa-question-circle" title="Enter only lowercase letters with no spaces and separate filters with '|'.\n\nFor example, if you want to filter out 'Good luck! No need to thank, unless you're the winner.', use the filter 'goodlucknoneedtothankunlessyourethewinner'.\n\nIf you're familiar with regular expressions, you can also use them. For example, to include a variation of the description above that uses 'you are' instead of 'you're' you could use the filter 'goodlucknoneedtothankunlessyoua?rethewinner'. 'a?' will match or not an 'a' between 'you' and 're'.\n\nThe '.' filter, for example, filters out any descriptions that only have one letter."></i>
@@ -29757,8 +29468,9 @@ Parsedown = (() => {
             if (val) {
                 SMFeatures.classList.remove(`esgst-hidden`);
             }
-        } else if (Feature.options) {
-            var index = esgst[`${Feature.id}_index`];
+        }
+        if (Feature.options) {
+            var index = esgst[`${ID}_index`];
             var options = ``;
             for (var j = 0, jj = Feature.options.values.length; j < jj; ++j) {
                 options += `<option>${Feature.options.values[j]}</option>`;
@@ -29773,8 +29485,8 @@ Parsedown = (() => {
             `);
             select.firstElementChild.selectedIndex = index;
             select.firstElementChild.addEventListener(`change`, function() {
-                setSetting(`${Feature.id}_index`, select.firstElementChild.selectedIndex);
-                esgst[`${Feature.id}_index`] = select.firstElementChild.selectedIndex;
+                setSetting(`${ID}_index`, select.firstElementChild.selectedIndex);
+                esgst[`${ID}_index`] = select.firstElementChild.selectedIndex;
             });
             if (siwtchSg) {
                 siwtchSg.dependencies.push(SMFeatures);
@@ -30054,9 +29766,9 @@ Parsedown = (() => {
         });
     }
 
-    function createMenuSection(context, html, number, title) {
+    function createMenuSection(context, html, number, title, type) {
         let section = insertHtml(context, `beforeEnd`, `
-            <div class="esgst-form-row">
+            <div class="esgst-form-row" id="esgst_${type}">
                 <div class="esgst-form-heading">
                     <div class="esgst-form-heading-number">${number}.</div>
                     <div class="esgst-form-heading-text">${title}</div>
@@ -30453,7 +30165,9 @@ Parsedown = (() => {
                         <a href="/user/${savedUser.username}">${savedUser.username}</a>
                     </div>
                 `);
-                current[savedUser.username] = [context.firstElementChild];
+                current[savedUser.username] = {
+                    elements: [context.firstElementChild]
+                };
                 users[savedUser.username] = {
                     context: context
                 };
@@ -30682,14 +30396,9 @@ Parsedown = (() => {
         }
     }
 
-    function startGiveawayFeatures() {
-        esgst.endlessFeatures.push(loadGiveawayFeatures);
-        loadGiveawayFeatures(document, true);
-    }
-
     function loadGiveawayFeatures(context, main, source, endless) {
         var giveaways, i, n, savedGiveaways;
-        giveaways = getGiveaways(context, main, null, false, null, false, endless);
+        giveaways = getGiveaways(context, main, null, false, null, false, endless, source);
         if (main) {
             for (i = giveaways.length - 1; i > -1; --i) {
                 giveaways[i].sortIndex = esgst.currentGiveaways.length;
@@ -30722,7 +30431,7 @@ Parsedown = (() => {
         }
     }
 
-    function getGiveaways(context, main, mainUrl, hr, key, ged, endless) {
+    function getGiveaways(context, main, mainUrl, hr, key, ged, endless, source) {
         var games, giveaway, giveaways, i, mainContext, matches, n, query, savedUsers;
         games = JSON.parse(getValue(`games`));
         savedUsers = JSON.parse(getValue(`users`));
@@ -30745,7 +30454,7 @@ Parsedown = (() => {
         }
         matches = context.querySelectorAll(query);
         for (i = matches.length - 1; i > -1; --i) {
-            giveaway = getGiveawayInfo(matches[i], mainContext, games, savedUsers, null, null, main, mainUrl, ged, endless);
+            giveaway = getGiveawayInfo(matches[i], mainContext, games, savedUsers, null, null, main, mainUrl, ged, endless, source);
             if (giveaway) {
                 giveaways.push(giveaway[key]);
             }
@@ -30753,7 +30462,7 @@ Parsedown = (() => {
         return giveaways;
     }
 
-    function getGiveawayInfo(context, mainContext, games, savedUsers, ugd, ugdType, main, mainUrl, ged, endless) {
+    function getGiveawayInfo(context, mainContext, games, savedUsers, ugd, ugdType, main, mainUrl, ged, endless, source) {
         var category, categories, chance, element, giveaway, i, id, info, key, keys, match, n, savedUser, uf, thinHeadings;
         giveaway = {};
         giveaway.outerWrap = context;
@@ -30779,7 +30488,7 @@ Parsedown = (() => {
         giveaway.avatar = giveaway.outerWrap.querySelector(`.giveaway_image_avatar, .featured_giveaway_image_avatar`);
         giveaway.image = giveaway.outerWrap.querySelector(`.giveaway_image_thumbnail, .giveaway_image_thumbnail_missing, .global__image-outer-wrap--game-medium`);
         giveaway.summary = giveaway.innerWrap.querySelector(`.giveaway__summary, .featured__summary, .table__column--width-fill`);
-        if (esgst.giveawayPath && main) {
+        if ((esgst.giveawayPath && main) || source === `gb`) {
             var button = mainContext.getElementsByClassName(`sidebar__entry-delete`)[0];
             if (button) {
                 giveaway.entered = !button.classList.contains(`is-hidden`);
@@ -30833,6 +30542,9 @@ Parsedown = (() => {
             giveaway.ended = !giveaway.deleted && giveaway.endTime < Date.now();
             if (giveaway.ended && ((main && (esgst.userPath || esgst.groupPath)) || ugd)) {
                 giveaway.startTimeColumn = giveaway.endTimeColumn.nextElementSibling.nextElementSibling;
+                if (giveaway.startTimeColumn.classList.contains(`giveaway__column--negative`)) {
+                    giveaway.startTimeColumn = giveaway.startTimeColumn.nextElementSibling;
+                }
             } else {
                 giveaway.startTimeColumn = giveaway.endTimeColumn.nextElementSibling;
             }
@@ -31186,16 +30898,6 @@ Parsedown = (() => {
         }
     }
 
-    function startCommentFeatures() {
-        if (esgst.commentsPath || esgst.inboxPath) {
-            if (esgst.cr && esgst.discussionPath && esgst.pagination) {
-                reverseComments(esgst.pagination.previousElementSibling);
-            }
-            esgst.endlessFeatures.push(loadCommentFeatures);
-            loadCommentFeatures(document, true);
-        }
-    }
-
     function loadCommentFeatures(context, main) {
         var count, comments, i, n, pagination;
         comments = getComments(context, document, main);
@@ -31318,12 +31020,6 @@ Parsedown = (() => {
         }
     }
 
-    function startProfileFeatures() {
-        if (esgst.userPath) {
-            loadProfileFeatures(document);
-        }
-    }
-
     function loadProfileFeatures(context) {
         var action, cvrow, element, elements, i, input, key, match, n, profile, rows, savedUsers;
         profile = {};
@@ -31431,27 +31127,6 @@ Parsedown = (() => {
     function triggerSetOnEnter(set, event) {
         if (event.key === `Enter`) {
             set.trigger();
-        }
-    }
-
-    /* [UT] User Tags */
-
-    function loadUt() {
-        esgst.userFeatures.push(getUtTags);
-    }
-
-    function getUtTags(currentUsers) {
-        var key, i, n, steamId, user, username;
-        for (key in currentUsers) {
-            steamId = esgst.sg ? esgst.users.steamIds[key] : key;
-            username = esgst.sg ? key : esgst.users.users[key] && esgst.users.users[key].username;
-            for (i = 0, n = currentUsers[key].length; i < n; ++i) {
-                addUtButton(currentUsers[key][i], key, steamId, username);
-            }
-            user = esgst.sg ? steamId && esgst.users.users[steamId] : esgst.users.users[key];
-            if (user && user.tags) {
-                addUtTags(key, user.tags);
-            }
         }
     }
 
@@ -31711,7 +31386,7 @@ Parsedown = (() => {
 
     function addUtTags(key, tags) {
         var button, children, colors, container, context, elements, html, i, n, prefix, suffix, tagsBox, tagsContainer;
-        elements = esgst.currentUsers[key];
+        elements = esgst.currentUsers[key].elements;
         prefix = `<span class="global__image-outer-wrap author_avatar is_icon">`;
         suffix = `</span>`;
         html = tags.length && tags[0] ? `${prefix}${tags.join(`${suffix}${prefix}`)}${suffix}` : ``;
@@ -31743,59 +31418,124 @@ Parsedown = (() => {
         }
     }
 
-    function startUserFeatures() {
-        esgst.endlessFeatures.push(loadUserFeatures);
-        loadUserFeatures(document);
-    }
-
-    function loadUserFeatures(context) {
-        var currentUsers, element, elements, i, id, match, n, savedUsers;
-        elements = context.querySelectorAll(`a[href*='/user/']`);
-        currentUsers = {};
-        for (i = 0, n = elements.length; i < n; ++i) {
+    function loadUserFeatures(mainContext) {
+        let container, context, element, elements, found, highlight, html, i, icon, id, match, result, results, savedUser, status, steamId, title;
+        elements = mainContext.querySelectorAll(`a[href*='/user/']`);
+        for (i = elements.length - 1; i > -1; --i) {
             element = elements[i];
             match = element.getAttribute(`href`).match(/\/user\/(.+)/);
             if (match) {
                 id = match[1];
                 if (((esgst.sg && element.textContent === id) || (!esgst.sg && element.textContent && !element.children.length)) && !element.closest(`.markdown`)) {
                     if (!esgst.currentUsers[id]) {
-                        esgst.currentUsers[id] = [];
+                        esgst.currentUsers[id] = {
+                            elements: []
+                        };
+                        steamId = esgst.sg ? esgst.users.steamIds[id] : id;
+                        esgst.currentUsers[id].savedUser = esgst.users.users[steamId];
+                        if (esgst.currentUsers[id].savedUser) {
+                            esgst.currentUsers[id].steamId = steamId;
+                        }
                     }
-                    if (!currentUsers[id]) {
-                        currentUsers[id] = [];
+                    esgst.currentUsers[id].elements.push(element);
+                    savedUser = esgst.currentUsers[id].savedUser;
+                    container = element.parentElement;
+                    context = container.classList.contains(`comment__username`) ? container : element;
+                    if (savedUser) {
+                        html = ``;
+                        if (esgst.namwc && esgst.namwc_h && savedUser.namwc && savedUser.namwc.results) {
+                            results = savedUser.namwc.results;
+                            if (results.activated && (results.notMultiple || (results.multiple && esgst.namwc_h_m))) {
+                                highlight = `positive`;
+                                icon = `fa-thumbs-up`;
+                            } else if (results.unknown) {
+                                highlight = `unknown`;
+                                icon = `fa-warning`;
+                            } else {
+                                highlight = `negative`;
+                                icon = `fa-thumbs-down`;
+                            }
+                            if (((highlight === `positive` || highlight === `unknown`) && !esgst.namwc_h_f) || highlight === `negative`) {
+                                title = `${savedUser.username} has ${results.unknown ? `?` : results.notActivated} not activated wins and ${results.multiple} multiple wins (last checked ${getTimestamp(savedUser.namwc.lastCheck / 1e3)})`;
+                                if (esgst.namwc_h_i || (esgst.wbh && (esgst.wbh_w || esgst.wbh_b))) {
+                                    html += `
+                                        <span class="esgst-user-icon" title="${title}">
+                                            <i class="fa ${icon} esgst-${highlight}"></i>
+                                        </span>
+                                    `;
+                                } else {
+                                    element.classList.add(`esgst-namwc-highlight`, `esgst-${highlight}`);
+                                    element.title = title;
+                                }
+                            }
+                        }
+                        if (esgst.wbc && esgst.wbc_h && savedUser.wbc) {
+                            result = savedUser.wbc.result;
+                            if ((result === `whitelisted`) || ((result === `blacklisted`) && esgst.wbc_b)) {
+                                html += `
+                                    <span class="esgst-user-icon" title="${savedUser.username} has ${result} you (last checked ${getTimestamp(savedUser.wbc.lastCheck / 1e3)})">
+                                        <i class="fa ${(result === `whitelisted`) ? `fa-check esgst-whitelist` : `fa-times esgst-blacklist`}"></i>
+                                    </span>
+                                `;
+                            }
+                        }
+                        if (esgst.wbh && !esgst.accountPath && (savedUser.whitelisted || savedUser.blacklisted)) {
+                            if (savedUser.whitelisted) {
+                                status = `whitelisted`;
+                                icon = `fa-heart sidebar__shortcut__whitelist`;
+                            } else {
+                                status = `blacklisted`;
+                                icon = `fa-ban sidebar__shortcut__blacklist`;
+                            }
+                            title = `You ${status} ${savedUser.username} on ${getTimestamp(savedUser[`${status}Date`] / 1e3)}`;
+                            if ((esgst.wbh_w && savedUser.whitelisted) || (esgst.wbh_b && savedUser.blacklisted)) {
+                                element.classList.add(`esgst-wbh-highlight`, `esgst-wbh-highlight-${status}`);
+                                element.title = title;
+                            } else {
+                                html += `
+                                    <span class="esgst-user-icon" title="${title}">
+                                        <i class="fa ${icon} esgst-${status.slice(0, -2)}"></i>
+                                    </span>
+                                `;
+                            }
+                        }
+                        if (html) {
+                            insertHtml(context, `beforeBegin`, html);
+                        }
+                        if (esgst.ut) {
+                            addUtButton(context, id, esgst.currentUsers[id].steamId, savedUser.username);
+                            if (savedUser.tags) {
+                                addUtTags(id, savedUser.tags);
+                            }
+                        }
+                        if (esgst.ap) {
+                            setApAvatar(element);
+                        }
+                    } else if (esgst.ut) {
+                        addUtButton(context, id, esgst.sg ? null : id, esgst.sg ? id : null);
                     }
-                    esgst.currentUsers[id].push(element);
-                    currentUsers[id].push(element);
+                    if (!found) {
+                        found = true;
+                    }
                 }
             }
         }
-        var keys = Object.keys(currentUsers);
-        var length = keys.length;
-        if (length > 0) {
-            if ((length > 1 || (keys[0] !== `cg` && keys[0] !== esgst.username)) && (esgst.wbcButton || esgst.mtUserButton) && context === document) {
-                if (esgst.wbcButton) {
-                    esgst.wbcButton.classList.remove(`esgst-hidden`);
-                    esgst.wbcButton.parentElement.classList.remove(`esgst-hidden`);
-                }
-                if (esgst.mtUserButton) {
-                    esgst.mtUserButton.classList.remove(`esgst-hidden`);
-                    esgst.mtUserButton.parentElement.classList.remove(`esgst-hidden`);
-                }
+        if (found && (esgst.wbcButton || esgst.mtUserButton) && mainContext === document && !esgst.aboutPath) {
+            if (esgst.wbcButton) {
+                esgst.wbcButton.classList.remove(`esgst-hidden`);
+                esgst.wbcButton.parentElement.classList.remove(`esgst-hidden`);
             }
-            for (i = 0, n = esgst.userFeatures.length; i < n; ++i) {
-                esgst.userFeatures[i](currentUsers);
+            if (esgst.mtUserButton) {
+                esgst.mtUserButton.classList.remove(`esgst-hidden`);
+                esgst.mtUserButton.parentElement.classList.remove(`esgst-hidden`);
             }
         }
-    }
-
-    function startGameFeatures() {
-        esgst.endlessFeatures.push(loadGameFeatures);
-        loadGameFeatures(document, true);
     }
 
     function loadGameFeatures(context, main, source, endless) {
-        var found, games, i, id, n;
-        games = getGames(context, main);
+        var found, games, i, id, n, savedGames;
+        savedGames = JSON.parse(getValue(`games`));
+        games = getGames(context, main, savedGames);
         if (main) {
             found = false;
             for (id in games.apps) {
@@ -31821,13 +31561,13 @@ Parsedown = (() => {
                 esgst.mtGameButton.parentElement.classList.remove(`esgst-hidden`);
             }
         }
-        for (i = 0, n = esgst.gameFeatures.length; i < n; ++i) {
-            esgst.gameFeatures[i](games, endless);
+        if (esgst.gc && ((!esgst.menuPath || esgst.gbPath || esgst.gedPath || esgst.gePath) && !esgst.newGiveawayPath)) {
+            getGcGames(games, endless);
         }
     }
 
-    function getGames(context, main) {
-        var games, heading, headingName, name, i, id, info, match, matches, n, headingQuery, matchesQuery, table, type;
+    function getGames(context, main, savedGames) {
+        var game, games, name, i, id, info, matches, n, headingQuery, matchesQuery, type;
         games = {
             apps: {},
             subs: {}
@@ -31841,30 +31581,52 @@ Parsedown = (() => {
         }
         matches = context.querySelectorAll(matchesQuery);
         for (i = 0, n = matches.length; i < n; ++i) {
-            match = matches[i];
-            if (match.closest(`table`)) {
-                table = true;
-            } else {
-                table = false;
-            }
-            info = getGameInfo(match);
-            heading = match.querySelector(headingQuery);
-            if (info && heading) {
-                headingName = heading.querySelector(`.featured__heading__medium, .giveaway__heading__name`) || heading;
-                name = headingName.textContent;
+            game = {
+                container: matches[i]
+            };
+            game.table = game.container.closest(`table`) ? true : false;
+            game.grid = game.container.closest(`.esgst-gv-view`);
+            info = getGameInfo(game.container);
+            game.heading = game.container.querySelector(headingQuery);
+            if (info && game.heading) {
+                game.headingName = game.heading.querySelector(`.featured__heading__medium, .giveaway__heading__name`) || game.heading;
+                game.name = game.headingName.textContent;
                 id = info.id;
                 type = info.type;
                 if (!games[type][id]) {
                     games[type][id] = [];
                 }
-                games[type][id].push({
-                    container: match,
-                    grid: match.closest(`.esgst-gv-view`),
-                    heading: heading,
-                    headingName: headingName,
-                    name: name,
-                    table: table
-                });
+                if (main) {
+                    if (esgst.egh) {
+                        if (esgst.giveawayPath) {
+                            let button = document.querySelector(`.sidebar__entry-insert`);
+                            if (button) {
+                                button.addEventListener(`click`, saveEghGame.bind(null, id, type));
+                            }
+                        }
+                        if (!esgst.menuPath && savedGames[type][id] && savedGames[type][id].entered && !game.container.getElementsByClassName(`esgst-egh-button`)[0] && (!game.table || esgst.egh_t)) {
+                            insertHtml((game.container.closest(`.poll`) && game.container.getElementsByClassName(`table__column__heading`)[0]) || game.headingName, `beforeBegin`, `
+                                <a class="esgst-egh-button">
+                                    <i class="fa fa-star esgst-egh-icon" title="You have entered giveaways for this game before. Click to unhighlight it"></i>
+                                </a>
+                            `).addEventListener(`click`, unhighlightEghGame.bind(null, id, type));
+                        }
+                    }
+                    if (esgst.gt) {
+                        if (!game.container.getElementsByClassName(`esgst-gt-button`)[0] && (!game.table || esgst.gt_t)) {
+                            insertHtml((game.container.closest(`.poll`) && game.container.getElementsByClassName(`table__column__heading`)[0]) || game.heading.lastElementChild || game.heading, `afterEnd`, `
+                                <a class="esgst-faded esgst-gt-button" title="Edit game tags">
+                                    <i class="fa fa-tag"></i>
+                                    <span class="esgst-gt-tags"></span>
+                                </a>
+                            `).addEventListener(`click`, openGtPopup.bind(null, id, game.name, type));
+                        }
+                        if (savedGames[type][id] && savedGames[type][id].tags) {
+                            addGtTags([game], id, savedGames[type][id].tags, type);
+                        }
+                    }
+                }
+                games[type][id].push(game);
             }
         }
         return games;
@@ -31892,26 +31654,11 @@ Parsedown = (() => {
 
     /* [AP] Avatar Popout */
 
-    function loadAp() {
-        esgst.endlessFeatures.push(getApAvatars);
-        getApAvatars(document);
-        esgst.userFeatures.push(getInlineApAvatars);
-    }
-
     function getApAvatars(context) {
         var i, matches, n;
         matches = context.querySelectorAll(`.global__image-outer-wrap--avatar-small, .giveaway_image_avatar, .table_image_avatar, .featured_giveaway_image_avatar`);
         for (i = 0, n = matches.length; i < n; ++i) {
             setApAvatar(matches[i]);
-        }
-    }
-
-    function getInlineApAvatars(currentUsers) {
-        var i, key, n;
-        for (key in currentUsers) {
-            for (i = 0, n = currentUsers[key].length; i < n; ++i) {
-                setApAvatar(currentUsers[key][i]);
-            }
         }
     }
 
@@ -32019,10 +31766,26 @@ Parsedown = (() => {
         }
     }
 
-    /* [STTB] Scroll To Top Button */
+    function loadStbb() {
+        let button = insertHtml(esgst.stbb_f ? esgst.footer.firstElementChild.lastElementChild : document.body, `beforeEnd`, `
+            <div class="esgst-stbb-button" title="Scroll to bottom">
+                <i class="fa fa-chevron-down"></i>
+            </div>
+        `);
+        if (!esgst.stbb_f) {
+            addEventListener(`scroll`, () => {
+                if (document.documentElement.offsetHeight - innerHeight >= scrollY + 100) {
+                    button.classList.remove(`esgst-hidden`);
+                } else {
+                    button.classList.add(`esgst-hidden`);
+                }
+            });
+        }
+        button.addEventListener(`click`, animateScroll.bind(null, document.documentElement.offsetHeight));
+    }
 
     function loadSttb() {
-        button = insertHtml(esgst.sttb_f ? esgst.footer.firstElementChild.lastElementChild : document.body, `beforeEnd`, `
+        let button = insertHtml(esgst.sttb_f ? esgst.footer.firstElementChild.lastElementChild : document.body, `beforeEnd`, `
             <div class="esgst-sttb-button" title="Scroll to top">
                 <i class="fa fa-chevron-up"></i>
             </div>
@@ -32079,7 +31842,7 @@ Parsedown = (() => {
             paginations = [esgst.paginationNavigation ? esgst.paginationNavigation.innerHTML : ``];
             reverseScrolling = esgst.es_r && esgst.discussionPath;
             if (reverseScrolling) {
-                if (esgst.currentPage === 1 && esgst.paginationNavigation && document.referrer.match(/\/discussions/)) {
+                if (esgst.currentPage === 1 && esgst.paginationNavigation && document.referrer.match(/www.steamgifts.com\/($|discussions|messages)/)) {
                     for (i = 0, n = mainContext.children.length; i < n; ++i) {
                         mainContext.children[0].remove();
                     }
@@ -32120,24 +31883,53 @@ Parsedown = (() => {
             for (i = 0, n = mainContext.children.length; i < n; ++i) {
                 mainContext.children[i].classList.add(`esgst-es-page-${currentPage}`);
             }
-            pauseButton = insertHtml(esgst.hideButtons && esgst.hideButtons_esPause ? esgst.rightButtons : esgst.mainPageHeading, `beforeEnd`, `
-                <div class="esgst-heading-button esgst-es-pause-button" title="Pause the endless scrolling">
+            let key, position;
+            if (esgst.leftButtonIds.indexOf(`esPause`) > -1) {
+                key = `leftButtons`;
+                position = `afterBegin`;
+            } else {
+                key = `rightButtons`;
+                position = `beforeEnd`;
+            }
+            pauseButton = insertHtml(esgst.hideButtons && esgst.hideButtons_esPause ? esgst[key] : esgst.mainPageHeading, position, `
+                <div class="esgst-heading-button esgst-es-pause-button" id="esgst-esPause" title="Pause the endless scrolling">
                     <i class="fa fa-pause"></i>
                 </div>
             `);
-            resumeButton = insertHtml(esgst.hideButtons && esgst.hideButtons_esPause ? esgst.rightButtons : esgst.mainPageHeading, `beforeEnd`, `
-                <div class="esgst-heading-button esgst-es-resume-button esgst-hidden" title="Resume the endless scrolling">
+            if (esgst.leftButtonIds.indexOf(`esResume`) > -1) {
+                key = `leftButtons`;
+                position = `afterBegin`;
+            } else {
+                key = `rightButtons`;
+                position = `beforeEnd`;
+            }
+            resumeButton = insertHtml(esgst.hideButtons && esgst.hideButtons_esPause ? esgst[key] : esgst.mainPageHeading, position, `
+                <div class="esgst-heading-button esgst-es-resume-button esgst-hidden" id="esgst-esResume" title="Resume the endless scrolling">
                     <i class="fa fa-play"></i>
                 </div>
             `);
-            refreshButton = insertHtml(esgst.hideButtons && esgst.hideButtons_esRefresh ? esgst.rightButtons : esgst.mainPageHeading, `beforeEnd`, `
-                <div class="esgst-heading-button esgst-es-refresh-button" title="Refresh current page">
+            if (esgst.leftButtonIds.indexOf(`esRefresh`) > -1) {
+                key = `leftButtons`;
+                position = `afterBegin`;
+            } else {
+                key = `rightButtons`;
+                position = `beforeEnd`;
+            }
+            refreshButton = insertHtml(esgst.hideButtons && esgst.hideButtons_esRefresh ? esgst[key] : esgst.mainPageHeading, position, `
+                <div class="esgst-heading-button esgst-es-refresh-button" id="esgst-esRefresh" title="Refresh current page">
                     <i class="fa fa-refresh"></i>
                     <i class="fa fa-map-marker"></i>
                 </div>
             `);
-            refreshAllButton = insertHtml(esgst.hideButtons && esgst.hideButtons_esRefreshAll ? esgst.rightButtons : esgst.mainPageHeading, `beforeEnd`, `
-                <div class="esgst-heading-button esgst-es-refresh-all-button" title="Refresh all pages">
+            if (esgst.leftButtonIds.indexOf(`esRefreshAll`) > -1) {
+                key = `leftButtons`;
+                position = `afterBegin`;
+            } else {
+                key = `rightButtons`;
+                position = `beforeEnd`;
+            }
+            refreshAllButton = insertHtml(esgst.hideButtons && esgst.hideButtons_esRefreshAll ? esgst[key] : esgst.mainPageHeading, position, `
+                <div class="esgst-heading-button esgst-es-refresh-all-button" id="esgst-esRefreshAll" title="Refresh all pages">
                     <i class="fa fa-refresh"></i>
                 </div>
             `);
@@ -32355,7 +32147,7 @@ Parsedown = (() => {
             `;
             request(null, null, `GET`, false, `${esgst.searchUrl}${pageIndex}`, response => {
                 getNextPage(true, false, response);
-                if (esgst.giveawaysPath) {
+                if (esgst.giveawaysPath && esgst.es_rd) {
                     if (esgst.oadd) {
                         loadOadd(true);
                     } else {
@@ -32418,7 +32210,7 @@ Parsedown = (() => {
                 if (esgst.ts && !esgst.us) {
                     sortTsTables();
                 }
-                if (esgst.giveawaysPath) {
+                if (esgst.giveawaysPath && esgst.es_rd) {
                     if (esgst.oadd) {
                         loadOadd(true);
                     } else {
@@ -32512,11 +32304,6 @@ Parsedown = (() => {
 
     /* [STO] Same Tab Opener */
 
-    function loadSto() {
-        esgst.endlessFeatures.push(setStoLinks);
-        setStoLinks(document);
-    }
-
     function setStoLinks(context) {
         var elements, i, n;
         elements = context.querySelectorAll(`[target="_blank"]`);
@@ -32596,9 +32383,17 @@ Parsedown = (() => {
 
     /* Data Management */
 
-    function loadDataManagement(openInTab, type) {
+    function checkBackup() {
+        if (!getValue(`esgst_isBackingUp`) && Date.now() - esgst.lastBackup > esgst.autoBackup_days * 86400000) {
+            setValue(`esgst_isBackingUp`, 1);
+            loadDataManagement(false, `export`, true);
+        }
+    }
+
+    function loadDataManagement(openInTab, type, autoBackup) {
         var container, context, group1, group2, i, icon, input, n, onClick, option, options, prep, popup, section, title1, title2;
         dm = {
+            autoBackup: autoBackup,
             type: type
         };
         dm[type] = true;
@@ -32630,15 +32425,21 @@ Parsedown = (() => {
             context = container = document.body;
             context.innerHTML = ``;
         } else {
-            popup = new Popup(icon, title1, true, true);
+            if (dm.autoBackup) {
+                popup = new Popup(`fa-circle-o-notch fa-spin`, `ESGST is backing up your data... Please do not close this window until it is done.`, true, true);
+            } else {
+                popup = new Popup(icon, title1, true, true);
+            }
             popup.description.classList.add(`esgst-text-left`);
             context = popup.scrollable;
             container = popup.description;
         }
-        dm.computerSpace = insertHtml(container, `afterBegin`, `
-            <div>Total: <span class="esgst-bold"></span></div>
-        `);
-        section = createMenuSection(context, null, 1, title1);
+        if (!dm.autoBackup) {
+            dm.computerSpace = insertHtml(container, `afterBegin`, `
+                <div>Total: <span class="esgst-bold"></span></div>
+            `);
+            section = createMenuSection(context, null, 1, title1);
+        }
         dm.switches = {};
         dm.options = [
             {
@@ -32852,40 +32653,63 @@ Parsedown = (() => {
                 name: `Winners`
             }
         ];
-        for (i = 0, n = dm.options.length; i < n; ++i) {
-            option = dm.options[i];
-            if (option.check) {
-                section.lastElementChild.appendChild(getDataMenu(option, dm.switches, type));
+        if (dm.autoBackup) {
+            let dropbox, googleDrive, oneDrive;
+            switch (esgst.autoBackup_index) {
+                case 0:
+                    break;
+                case 1:
+                    dropbox = true;
+                    break;
+                case 2:
+                    googleDrive = true;
+                    break;
+                case 3:
+                    oneDrive = true;
+                    break;
             }
-        }
-        if (type === `import` || type === `delete`) {
-            if (type === `import`) {
-                dm.input = insertHtml(container, `beforeEnd`, `<input type="file"/>`);
-                new ToggleSwitch(container, `importAndMerge`, false, `Merge`, false, false, `Merges the current data with the imported data instead of replacing`, esgst.settings.importAndMerge);
-            }
-            let select = new ToggleSwitch(container, `exportBackup`, false, `Export backup to <select><option>Computer</option><option>Dropbox</option><option>Google Drive</option><option>OneDrive</option></select>`, false, false, `Exports the current data as a backup`, esgst.settings.exportBackup).name.firstElementChild;
-            select.selectedIndex = esgst.settings.exportBackupIndex;
-            select.addEventListener(`change`, () => {
-                setSetting(`exportBackupIndex`, select.selectedIndex);
-            });
-        }
-        dm.message = insertHtml(container, `beforeEnd`, `<div class="esgst-description"></div>`);
-        dm.warning = insertHtml(container, `beforeEnd`, `<div class="esgst-description esgst-warning"></div>`);
-        group1 = insertHtml(container, `beforeEnd`, `<div class="esgst-button-group"><span>Select:</span></div>`);
-        group1.appendChild(new ButtonSet(`grey`, `grey`, `fa-circle`, `fa-circle-o-notch fa-spin`, `All`, ``, selectSwitches.bind(null, dm.switches, `enable`)).set);
-        group1.appendChild(new ButtonSet(`grey`, `grey`, `fa-circle-o`, `fa-circle-o-notch fa-spin`, `None`, ``, selectSwitches.bind(null, dm.switches, `disable`)).set);
-        group1.appendChild(new ButtonSet(`grey`, `grey`, `fa-dot-circle-o`, `fa-circle-o-notch fa-spin`, `Inverse`, ``, selectSwitches.bind(null, dm.switches, `toggle`)).set);
-        group2 = insertHtml(container, `beforeEnd`, `<div class="esgst-button-group"><span>${title1} ${prep}:</span></div>`);
-        group2.appendChild(new ButtonSet(`green`, `grey`, icon, `fa-circle-o-notch fa-spin`, `Computer`, title2, onClick.bind(null, dm, false, false, false, false)).set);
-        if (type !== `delete`) {
-            group2.appendChild(new ButtonSet(`green`, `grey`, `fa-dropbox`, `fa-circle-o-notch fa-spin`, `Dropbox`, title2, onClick.bind(null, dm, true, false, false, false)).set);
-            group2.appendChild(new ButtonSet(`green`, `grey`, `fa-google`, `fa-circle-o-notch fa-spin`, `Google Drive`, title2, onClick.bind(null, dm, false, true, false, false)).set);
-            group2.appendChild(new ButtonSet(`green`, `grey`, `fa-windows`, `fa-circle-o-notch fa-spin`, `OneDrive`, title2, onClick.bind(null, dm, false, false, true, false)).set);
-        }
-        if (!openInTab) {
             popup.open();
+            manageData(dm, dropbox, googleDrive, oneDrive, false, () => {
+                delValue(`esgst_isBackingUp`);
+                setSetting(`lastBackup`, Date.now());
+                popup.close();
+            });
+        } else {
+            for (i = 0, n = dm.options.length; i < n; ++i) {
+                option = dm.options[i];
+                if (option.check) {
+                    section.lastElementChild.appendChild(getDataMenu(option, dm.switches, type));
+                }
+            }
+            if (type === `import` || type === `delete`) {
+                if (type === `import`) {
+                    dm.input = insertHtml(container, `beforeEnd`, `<input type="file"/>`);
+                    new ToggleSwitch(container, `importAndMerge`, false, `Merge`, false, false, `Merges the current data with the imported data instead of replacing`, esgst.settings.importAndMerge);
+                }
+                let select = new ToggleSwitch(container, `exportBackup`, false, `Export backup to <select><option>Computer</option><option>Dropbox</option><option>Google Drive</option><option>OneDrive</option></select>`, false, false, `Exports the current data as a backup`, esgst.settings.exportBackup).name.firstElementChild;
+                select.selectedIndex = esgst.settings.exportBackupIndex;
+                select.addEventListener(`change`, () => {
+                    setSetting(`exportBackupIndex`, select.selectedIndex);
+                });
+            }
+            dm.message = insertHtml(container, `beforeEnd`, `<div class="esgst-description"></div>`);
+            dm.warning = insertHtml(container, `beforeEnd`, `<div class="esgst-description esgst-warning"></div>`);
+            group1 = insertHtml(container, `beforeEnd`, `<div class="esgst-button-group"><span>Select:</span></div>`);
+            group1.appendChild(new ButtonSet(`grey`, `grey`, `fa-circle`, `fa-circle-o-notch fa-spin`, `All`, ``, selectSwitches.bind(null, dm.switches, `enable`)).set);
+            group1.appendChild(new ButtonSet(`grey`, `grey`, `fa-circle-o`, `fa-circle-o-notch fa-spin`, `None`, ``, selectSwitches.bind(null, dm.switches, `disable`)).set);
+            group1.appendChild(new ButtonSet(`grey`, `grey`, `fa-dot-circle-o`, `fa-circle-o-notch fa-spin`, `Inverse`, ``, selectSwitches.bind(null, dm.switches, `toggle`)).set);
+            group2 = insertHtml(container, `beforeEnd`, `<div class="esgst-button-group"><span>${title1} ${prep}:</span></div>`);
+            group2.appendChild(new ButtonSet(`green`, `grey`, icon, `fa-circle-o-notch fa-spin`, `Computer`, title2, onClick.bind(null, dm, false, false, false, false)).set);
+            if (type !== `delete`) {
+                group2.appendChild(new ButtonSet(`green`, `grey`, `fa-dropbox`, `fa-circle-o-notch fa-spin`, `Dropbox`, title2, onClick.bind(null, dm, true, false, false, false)).set);
+                group2.appendChild(new ButtonSet(`green`, `grey`, `fa-google`, `fa-circle-o-notch fa-spin`, `Google Drive`, title2, onClick.bind(null, dm, false, true, false, false)).set);
+                group2.appendChild(new ButtonSet(`green`, `grey`, `fa-windows`, `fa-circle-o-notch fa-spin`, `OneDrive`, title2, onClick.bind(null, dm, false, false, true, false)).set);
+            }
+            if (!openInTab) {
+                popup.open();
+            }
+            manageData(dm, false, false, false, true);
         }
-        manageData(dm, false, false, false, true);
     }
 
     function getDataMenu(option, switches, type) {
@@ -32919,31 +32743,30 @@ Parsedown = (() => {
         return menu;
     }
 
+    function openSmallWindow(url) {
+        open(url, `esgst`, `height=600,left=${(screen.width - 600) / 2},top=${(screen.height - 600) / 2},width=600`);
+    }
+
     function loadImportFile(dm, dropbox, googleDrive, oneDrive, space, callback) {
         var file;
         if (dropbox) {
             delValue(`dropboxToken`);
-            open(`https://www.dropbox.com/oauth2/authorize?redirect_uri=https://${location.hostname}/esgst/dropbox&response_type=token&client_id=nix7kvchwa8wdvj`);
+            openSmallWindow(`https://www.dropbox.com/oauth2/authorize?redirect_uri=https://${location.hostname}/esgst/dropbox&response_type=token&client_id=nix7kvchwa8wdvj`);
             checkDropboxComplete(null, dm, callback);
         } else if (googleDrive) {
             delValue(`googleDriveToken`);
-            open(`https://accounts.google.com/o/oauth2/v2/auth?redirect_uri=https://${location.hostname}/esgst/google-drive&response_type=token&client_id=102804278399-95kit5e09mdskdta7eq97ra7tuj20qps.apps.googleusercontent.com&scope=https://www.googleapis.com/auth/drive.appdata`);
+            openSmallWindow(`https://accounts.google.com/o/oauth2/v2/auth?redirect_uri=https://${location.hostname}/esgst/google-drive&response_type=token&client_id=102804278399-95kit5e09mdskdta7eq97ra7tuj20qps.apps.googleusercontent.com&scope=https://www.googleapis.com/auth/drive.appdata`);
             checkGoogleDriveComplete(null, dm, callback);
         } else if (oneDrive) {
             delValue(`oneDriveToken`);
-            open(`https://login.microsoftonline.com/common/oauth2/v2.0/authorize?redirect_uri=https://www.steamgifts.com/esgst/onedrive&response_type=token&client_id=1781429b-289b-4e6e-877a-e50015c0af21&scope=files.readwrite`);
+            openSmallWindow(`https://login.microsoftonline.com/common/oauth2/v2.0/authorize?redirect_uri=https://www.steamgifts.com/esgst/onedrive&response_type=token&client_id=1781429b-289b-4e6e-877a-e50015c0af21&scope=files.readwrite`);
             checkOneDriveComplete(null, dm, callback);
         } else {
             file = dm.input.files[0];
             if (file) {
-                if (file.name.match(/esgst_data_.*?\.json/)) {
-                    dm.reader = new FileReader();
-                    dm.reader.readAsText(file);
-                    dm.reader.onload = readImportFile.bind(null, dm, dropbox, googleDrive, oneDrive, space, callback);
-                } else {
-                    createFadeMessage(dm.warning, `Invalid file!`);
-                    callback();
-                }
+                dm.reader = new FileReader();
+                dm.reader.readAsText(file);
+                dm.reader.onload = readImportFile.bind(null, dm, dropbox, googleDrive, oneDrive, space, callback);
             } else {
                 createFadeMessage(dm.warning, `No file was loaded!`);
                 callback();
@@ -32989,7 +32812,7 @@ Parsedown = (() => {
             option = dm.options[i];
             if (option.check) {
                 optionKey = option.key;
-                if (space || esgst.settings[`${dm.type}_${optionKey}`]) {
+                if (dm.autoBackup || space || esgst.settings[`${dm.type}_${optionKey}`]) {
                     values = null;
                     switch (optionKey) {
                         case `decryptedGiveaways`:
@@ -33013,9 +32836,11 @@ Parsedown = (() => {
                                     delValue(optionKey);
                                 }
                             }
-                            size = (new TextEncoder(`utf-8`).encode(getValue(optionKey, ``))).length;
-                            totalGM += size;
-                            dm.switches[optionKey].size.textContent = convertBytes(size);
+                            if (!dm.autoBackup) {
+                                size = (new TextEncoder(`utf-8`).encode(getValue(optionKey, ``))).length;
+                                totalGM += size;
+                                dm.switches[optionKey].size.textContent = convertBytes(size);
+                            }
                             break;
                         case `discussions`:
                             if (!values) {
@@ -33120,9 +32945,11 @@ Parsedown = (() => {
                                     setValue(optionKey, JSON.stringify(mergedData));
                                 }
                             }
-                            size = (new TextEncoder(`utf-8`).encode(getValue(optionKey, ``))).length;
-                            totalGM += size;
-                            dm.switches[optionKey].size.textContent = convertBytes(size);
+                            if (!dm.autoBackup) {
+                                size = (new TextEncoder(`utf-8`).encode(getValue(optionKey, ``))).length;
+                                totalGM += size;
+                                dm.switches[optionKey].size.textContent = convertBytes(size);
+                            }
                             break;
                         case `emojis`:
                             data.emojis = getValue(`emojis`, ``);
@@ -33148,9 +32975,11 @@ Parsedown = (() => {
                                     delValue(`emojis`);
                                 }
                             }
-                            size = (new TextEncoder(`utf-8`).encode(getValue(`emojis`, ``))).length;
-                            totalGM += size;
-                            dm.switches[optionKey].size.textContent = convertBytes(size);
+                            if (!dm.autoBackup) {
+                                size = (new TextEncoder(`utf-8`).encode(getValue(optionKey, ``))).length;
+                                totalGM += size;
+                                dm.switches[optionKey].size.textContent = convertBytes(size);
+                            }
                             break;
                         case `dfPresets`:
                         case `entries`:
@@ -33186,9 +33015,11 @@ Parsedown = (() => {
                                     delValue(optionKey);
                                 }
                             }
-                            size = (new TextEncoder(`utf-8`).encode(getValue(optionKey, ``))).length;
-                            totalGM += size;
-                            dm.switches[optionKey].size.textContent = convertBytes(size);
+                            if (!dm.autoBackup) {
+                                size = (new TextEncoder(`utf-8`).encode(getValue(optionKey, ``))).length;
+                                totalGM += size;
+                                dm.switches[optionKey].size.textContent = convertBytes(size);
+                            }
                             break;
                         case `games`:
                             values = {
@@ -33367,9 +33198,11 @@ Parsedown = (() => {
                                     setValue(`games`, JSON.stringify(mergedData));
                                 }
                             }
-                            size = (new TextEncoder(`utf-8`).encode(getValue(`games`, ``))).length;
-                            totalGM += size;
-                            dm.switches[optionKey].size.textContent = convertBytes(size);
+                            if (!dm.autoBackup) {
+                                size = (new TextEncoder(`utf-8`).encode(getValue(optionKey, ``))).length;
+                                totalGM += size;
+                                dm.switches[optionKey].size.textContent = convertBytes(size);
+                            }
                             break;
                         case `groups`:
                             values = {
@@ -33447,9 +33280,11 @@ Parsedown = (() => {
                                     setValue(optionKey, JSON.stringify(mergedData));
                                 }
                             }
-                            size = (new TextEncoder(`utf-8`).encode(getValue(optionKey, ``))).length;
-                            totalGM += size;
-                            dm.switches[optionKey].size.textContent = convertBytes(size);
+                            if (!dm.autoBackup) {
+                                size = (new TextEncoder(`utf-8`).encode(getValue(optionKey, ``))).length;
+                                totalGM += size;
+                                dm.switches[optionKey].size.textContent = convertBytes(size);
+                            }
                             break;
                         case `rerolls`:
                         case `stickiedCountries`:
@@ -33475,9 +33310,11 @@ Parsedown = (() => {
                                     delValue(optionKey);
                                 }
                             }
-                            size = (new TextEncoder(`utf-8`).encode(getValue(optionKey, ``))).length;
-                            totalGM += size;
-                            dm.switches[optionKey].size.textContent = convertBytes(size);
+                            if (!dm.autoBackup) {
+                                size = (new TextEncoder(`utf-8`).encode(getValue(optionKey, ``))).length;
+                                totalGM += size;
+                                dm.switches[optionKey].size.textContent = convertBytes(size);
+                            }
                             break;
                         case `sgCommentHistory`:
                         case `stCommentHistory`:
@@ -33528,9 +33365,11 @@ Parsedown = (() => {
                                     delValue(optionKey);
                                 }
                             }
-                            size = (new TextEncoder(`utf-8`).encode(getValue(optionKey, ``))).length;
-                            totalGM += size;
-                            dm.switches[optionKey].size.textContent = convertBytes(size);
+                            if (!dm.autoBackup) {
+                                size = (new TextEncoder(`utf-8`).encode(getValue(optionKey, ``))).length;
+                                totalGM += size;
+                                dm.switches[optionKey].size.textContent = convertBytes(size);
+                            }
                             break;
                         case `users`:
                             values = {
@@ -33664,9 +33503,11 @@ Parsedown = (() => {
                                     setValue(`users`, JSON.stringify(mergedData));
                                 }
                             }
-                            size = (new TextEncoder(`utf-8`).encode(getValue(`users`, ``))).length;
-                            totalGM += size;
-                            dm.switches[optionKey].size.textContent = convertBytes(size);
+                            if (!dm.autoBackup) {
+                                size = (new TextEncoder(`utf-8`).encode(getValue(optionKey, ``))).length;
+                                totalGM += size;
+                                dm.switches[optionKey].size.textContent = convertBytes(size);
+                            }
                             break;
                         case `winners`:
                             data.winners = JSON.parse(getValue(`winners`, `{}`));
@@ -33696,9 +33537,11 @@ Parsedown = (() => {
                                     delValue(`winners`);
                                 }
                             }
-                            size = (new TextEncoder(`utf-8`).encode(getValue(`winners`, ``))).length;
-                            totalGM += size;
-                            dm.switches[optionKey].size.textContent = convertBytes(size);
+                            if (!dm.autoBackup) {
+                                size = (new TextEncoder(`utf-8`).encode(getValue(optionKey, ``))).length;
+                                totalGM += size;
+                                dm.switches[optionKey].size.textContent = convertBytes(size);
+                            }
                             break;
                         default:
                             break;
@@ -33710,27 +33553,29 @@ Parsedown = (() => {
             if (dm.type === `export` || esgst.settings.exportBackup) {
                 if (dropbox || (dm.type !== `export` && esgst.settings.exportBackupIndex === 1)) {
                     delValue(`dropboxToken`);
-                    open(`https://www.dropbox.com/oauth2/authorize?redirect_uri=https://${location.hostname}/esgst/dropbox&response_type=token&client_id=nix7kvchwa8wdvj`);
+                    openSmallWindow(`https://www.dropbox.com/oauth2/authorize?redirect_uri=https://${location.hostname}/esgst/dropbox&response_type=token&client_id=nix7kvchwa8wdvj`);
                     checkDropboxComplete(data, dm, callback);
                 } else if (googleDrive || (dm.type !== `export` && esgst.settings.exportBackupIndex === 2)) {
                     delValue(`googleDriveToken`);
-                    open(`https://accounts.google.com/o/oauth2/v2/auth?redirect_uri=https://${location.hostname}/esgst/google-drive&response_type=token&client_id=102804278399-95kit5e09mdskdta7eq97ra7tuj20qps.apps.googleusercontent.com&scope=https://www.googleapis.com/auth/drive.appdata`);
+                    openSmallWindow(`https://accounts.google.com/o/oauth2/v2/auth?redirect_uri=https://${location.hostname}/esgst/google-drive&response_type=token&client_id=102804278399-95kit5e09mdskdta7eq97ra7tuj20qps.apps.googleusercontent.com&scope=https://www.googleapis.com/auth/drive.appdata`);
                     checkGoogleDriveComplete(data, dm, callback);
                 } else if (oneDrive || (dm.type !== `export` && esgst.settings.exportBackupIndex === 3)) {
                     delValue(`oneDriveToken`);
-                    open(`https://login.microsoftonline.com/common/oauth2/v2.0/authorize?redirect_uri=https://www.steamgifts.com/esgst/onedrive&response_type=token&client_id=1781429b-289b-4e6e-877a-e50015c0af21&scope=files.readwrite`);
+                    openSmallWindow(`https://login.microsoftonline.com/common/oauth2/v2.0/authorize?redirect_uri=https://www.steamgifts.com/esgst/onedrive&response_type=token&client_id=1781429b-289b-4e6e-877a-e50015c0af21&scope=files.readwrite`);
                     checkOneDriveComplete(data, dm, callback);
                 } else {
                     data = new Blob([JSON.stringify(data)]);
                     url = URL.createObjectURL(data);
                     file = document.createElement(`a`);
-                    file.download = `esgst_data_${new Date().toISOString()}.json`;
+                    file.download = `${prompt(`Enter the name of the file:`, `esgst_data_${new Date().toISOString().replace(/:/g, `_`)}`)}.json`;
                     file.href = url;
                     document.body.appendChild(file);
                     file.click();
                     file.remove();
                     URL.revokeObjectURL(url);
-                    createFadeMessage(dm.message, `Data ${dm.type}ed with success!`);
+                    if (!dm.autoBackup) {
+                        createFadeMessage(dm.message, `Data ${dm.type}ed with success!`);
+                    }
                     callback();
                 }
             } else {
@@ -33738,7 +33583,9 @@ Parsedown = (() => {
                 callback();
             }
         }
-        dm.computerSpace.lastElementChild.textContent = convertBytes(totalGM);
+        if (!dm.autoBackup) {
+            dm.computerSpace.lastElementChild.textContent = convertBytes(totalGM);
+        }
     }
 
     function exportSettings() {
@@ -33755,7 +33602,7 @@ Parsedown = (() => {
         data = new Blob([JSON.stringify(data)]);
         url = URL.createObjectURL(data);
         file = document.createElement(`a`);
-        file.download = `esgst_data_${new Date().toISOString()}.json`;
+        file.download = `${prompt(`Enter the name of the file:`, `esgst_data_${new Date().toISOString().replace(/:/g, `_`)}`)}.json`;
         file.href = url;
         document.body.appendChild(file);
         file.click();
@@ -33766,8 +33613,11 @@ Parsedown = (() => {
     function checkDropboxComplete(data, dm, callback) {
         if (getValue(`dropboxToken`)) {
             if (dm.type === `export` || (data && esgst.settings.exportBackup)) {
-                request(JSON.stringify(data), {authorization: `Bearer ${getValue(`dropboxToken`)}`, [`Dropbox-API-Arg`]: `{"path": "/esgst_data_${new Date().toISOString()}.json"}`, [`Content-Type`]: `application/octet-stream`}, `POST`, false, `https://content.dropboxapi.com/2/files/upload`, response => {
-                    createFadeMessage(dm.message, `Data ${dm.type}ed with success!`);
+                let name = prompt(`Enter the name of the file:`, `esgst_data_${new Date().toISOString().replace(/:/g, `_`)}`);
+                request(JSON.stringify(data), {authorization: `Bearer ${getValue(`dropboxToken`)}`, [`Dropbox-API-Arg`]: `{"path": "/${name}.json"}`, [`Content-Type`]: `application/octet-stream`}, `POST`, false, `https://content.dropboxapi.com/2/files/upload`, response => {
+                    if (!dm.autoBackup) {
+                        createFadeMessage(dm.message, `Data ${dm.type}ed with success!`);
+                    }
                     callback();
                 });
             } else {
@@ -33776,24 +33626,19 @@ Parsedown = (() => {
                     let popup = new Popup(`fa-dropbox`, `Select a file to import:`, true);
                     let entries = insertHtml(popup.scrollable, `beforeEnd`, `<div class="popup__keys__list"></div>`);
                     JSON.parse(response.responseText).entries.forEach(entry => {
-                        if (entry[`.tag`] === `file` && entry.name.match(/esgst_data_.*?\.json/)) {
-                            let item = insertHtml(entries, `beforeEnd`, `
-                                <div class="esgst-clickable">${entry.name} - ${convertBytes(entry.size)}</div>
-                            `);
-                            item.addEventListener(`click`, () => {
-                                createConfirmation(`Are you sure you want to import the selected data?`, () => {
-                                    canceled = false;
-                                    popup.close();
-                                    request(null, {authorization: `Bearer ${getValue(`dropboxToken`)}`, [`Dropbox-API-Arg`]: `{"path": "/${entry.name}"}`, [`Content-Type`]: `text/plain`}, `GET`, false, `https://content.dropboxapi.com/2/files/download`, response => {
-                                        dm.data = JSON.parse(response.responseText);
-                                        manageData(dm, false, false, false, false, callback);
-                                    });
+                        let item = insertHtml(entries, `beforeEnd`, `
+                            <div class="esgst-clickable">${entry.name} - ${convertBytes(entry.size)}</div>
+                        `);
+                        item.addEventListener(`click`, () => {
+                            createConfirmation(`Are you sure you want to import the selected data?`, () => {
+                                canceled = false;
+                                popup.close();
+                                request(null, {authorization: `Bearer ${getValue(`dropboxToken`)}`, [`Dropbox-API-Arg`]: `{"path": "/${entry.name}"}`, [`Content-Type`]: `text/plain`}, `GET`, false, `https://content.dropboxapi.com/2/files/download`, response => {
+                                    dm.data = JSON.parse(response.responseText);
+                                    manageData(dm, false, false, false, false, callback);
                                 });
                             });
-                        } else {
-                            createFadeMessage(dm.warning, `No files found!`);
-                            callback();
-                        }
+                        });
                     });
                     popup.onClose = () => {
                         if (canceled) {
@@ -33811,8 +33656,11 @@ Parsedown = (() => {
     function checkGoogleDriveComplete(data, dm, callback) {
         if (getValue(`googleDriveToken`)) {
             if (dm.type === `export` || (data && esgst.settings.exportBackup)) {
-                request(`--esgst\nContent-Type: application/json; charset=UTF-8\n\n{"mimeType": "mime/type", "name": "esgst_data_${new Date().toISOString()}.json", "parents": ["appDataFolder"]}\n\n--esgst\nContent-Type: mime/type\n\n${JSON.stringify(data)}\n--esgst--`, {authorization: `Bearer ${getValue(`googleDriveToken`)}`, [`Content-Type`]: `multipart/related; boundary=esgst`}, `POST`, false, `https://www.googleapis.com/upload/drive/v3/files?uploadType=multipart`, response => {
-                    createFadeMessage(dm.message, `Data ${dm.type}ed with success!`);
+                let name = prompt(`Enter the name of the file:`, `esgst_data_${new Date().toISOString().replace(/:/g, `_`)}`);
+                request(`--esgst\nContent-Type: application/json; charset=UTF-8\n\n{"mimeType": "mime/type", "name": "${name}.json", "parents": ["appDataFolder"]}\n\n--esgst\nContent-Type: mime/type\n\n${JSON.stringify(data)}\n--esgst--`, {authorization: `Bearer ${getValue(`googleDriveToken`)}`, [`Content-Type`]: `multipart/related; boundary=esgst`}, `POST`, false, `https://www.googleapis.com/upload/drive/v3/files?uploadType=multipart`, response => {
+                    if (!dm.autoBackup) {
+                        createFadeMessage(dm.message, `Data ${dm.type}ed with success!`);
+                    }
                     callback();
                 });
             } else {
@@ -33821,24 +33669,19 @@ Parsedown = (() => {
                     let popup = new Popup(`fa-google`, `Select a file to import:`, true);
                     let entries = insertHtml(popup.scrollable, `beforeEnd`, `<div class="popup__keys__list"></div>`);
                     JSON.parse(response.responseText).files.forEach(file => {
-                        if (file.name.match(/esgst_data_.*?\.json/)) {
-                            let item = insertHtml(entries, `beforeEnd`, `
-                                <div class="esgst-clickable">${file.name}</div>
-                            `);
-                            item.addEventListener(`click`, () => {
-                                createConfirmation(`Are you sure you want to import the selected data?`, () => {
-                                    canceled = false;
-                                    popup.close();
-                                    request(null, {authorization: `Bearer ${getValue(`googleDriveToken`)}`}, `GET`, false, `https://www.googleapis.com/drive/v3/files/${file.id}?alt=media`, response => {
-                                        dm.data = JSON.parse(response.responseText);
-                                        manageData(dm, false, false, false, false, callback);
-                                    });
+                        let item = insertHtml(entries, `beforeEnd`, `
+                            <div class="esgst-clickable">${file.name}</div>
+                        `);
+                        item.addEventListener(`click`, () => {
+                            createConfirmation(`Are you sure you want to import the selected data?`, () => {
+                                canceled = false;
+                                popup.close();
+                                request(null, {authorization: `Bearer ${getValue(`googleDriveToken`)}`}, `GET`, false, `https://www.googleapis.com/drive/v3/files/${file.id}?alt=media`, response => {
+                                    dm.data = JSON.parse(response.responseText);
+                                    manageData(dm, false, false, false, false, callback);
                                 });
                             });
-                        } else {
-                            createFadeMessage(dm.warning, `No files found!`);
-                            callback();
-                        }
+                        });
                     });
                     popup.onClose = () => {
                         if (canceled) {
@@ -33856,8 +33699,11 @@ Parsedown = (() => {
     function checkOneDriveComplete(data, dm, callback) {
         if (getValue(`oneDriveToken`)) {
             if (dm.type === `export` || (data && esgst.settings.exportBackup)) {
-                request(JSON.stringify(data), {Authorization: `bearer ${getValue(`oneDriveToken`)}`, [`Content-Type`]: `application/json`}, `PUT`, false, `https://graph.microsoft.com/v1.0/me/drive/special/approot:/esgst_data_${new Date().toISOString().replace(/:/g, `__`)}.json:/content`, response => {
-                    createFadeMessage(dm.message, `Data ${dm.type}ed with success!`);
+                let name = prompt(`Enter the name of the file:`, `esgst_data_${new Date().toISOString().replace(/:/g, `_`)}`);
+                request(JSON.stringify(data), {Authorization: `bearer ${getValue(`oneDriveToken`)}`, [`Content-Type`]: `application/json`}, `PUT`, false, `https://graph.microsoft.com/v1.0/me/drive/special/approot:/${name}.json:/content`, response => {
+                    if (!dm.autoBackup) {
+                        createFadeMessage(dm.message, `Data ${dm.type}ed with success!`);
+                    }
                     callback();
                 }, true);
             } else {
@@ -33866,24 +33712,19 @@ Parsedown = (() => {
                     let popup = new Popup(`fa-windows`, `Select a file to import:`, true);
                     let entries = insertHtml(popup.scrollable, `beforeEnd`, `<div class="popup__keys__list"></div>`);
                     JSON.parse(response.responseText).value.forEach(file => {
-                        if (file.name.match(/esgst_data_.*?\.json/)) {
-                            let item = insertHtml(entries, `beforeEnd`, `
-                                <div class="esgst-clickable">${file.name.replace(/__/g, `:`)} - ${convertBytes(file.size)}</div>
-                            `);
-                            item.addEventListener(`click`, () => {
-                                createConfirmation(`Are you sure you want to import the selected data?`, () => {
-                                    canceled = false;
-                                    popup.close();
-                                    request(null, {authorization: `Bearer ${getValue(`oneDriveToken`)}`}, `GET`, false, `https://graph.microsoft.com/v1.0/me/drive/items/${file.id}/content`, response => {
-                                        dm.data = JSON.parse(response.responseText);
-                                        manageData(dm, false, false, false, false, callback);
-                                    }, true);
-                                });
+                        let item = insertHtml(entries, `beforeEnd`, `
+                            <div class="esgst-clickable">${file.name} - ${convertBytes(file.size)}</div>
+                        `);
+                        item.addEventListener(`click`, () => {
+                            createConfirmation(`Are you sure you want to import the selected data?`, () => {
+                                canceled = false;
+                                popup.close();
+                                request(null, {authorization: `Bearer ${getValue(`oneDriveToken`)}`}, `GET`, false, `https://graph.microsoft.com/v1.0/me/drive/items/${file.id}/content`, response => {
+                                    dm.data = JSON.parse(response.responseText);
+                                    manageData(dm, false, false, false, false, callback);
+                                }, true);
                             });
-                        } else {
-                            createFadeMessage(dm.warning, `No files found!`);
-                            callback();
-                        }
+                        });
                     });
                     popup.onClose = () => {
                         if (canceled) {
@@ -34048,6 +33889,33 @@ Parsedown = (() => {
             `;
         }
         style += `
+            .esgst-changelog img {
+                max-width: 98%;
+            }
+
+            .esgst-debug {
+                height: 300px;
+                width: 600px;
+            }
+
+            .esgst-radb-button {
+                cursor: pointer;
+                display: inline-block;
+            }
+
+            .esgst-radb-button.homepage_heading {
+                margin-right: 5px;
+            }
+
+            :not(.page__heading) > .esgst-radb-button:not(.homepage_heading) {
+                margin-left: 5px;
+            }
+
+            .esgst-radb-button + .homepage_heading {
+                display: inline-block;
+                width: calc(100% - 80px);
+            }
+
             .esgst-cfh-preview {
                 margin: 5px 0;
                 text-align: left;
@@ -34109,7 +33977,7 @@ Parsedown = (() => {
                 text-align: center;
             }
 
-            .esgst-sttb-button {
+            .esgst-stbb-button, .esgst-sttb-button {
                 bottom: ${esgst.ff ? 49 : 5}px;
                 background-color: #fff;
                 border: 1px solid #d2d6e0;
@@ -34121,11 +33989,15 @@ Parsedown = (() => {
                 right: 5px;
             }
 
-            .footer__outer-wrap .esgst-sttb-button, footer .esgst-sttb-button {
+            .footer__outer-wrap .esgst-stbb-button, footer .esgst-stbb-button, .footer__outer-wrap .esgst-sttb-button, footer .esgst-sttb-button {
                 background: none;
                 border: none;
                 position: static;
                 padding: 0;
+            }
+
+            .esgst-stbb-button:not(.esgst-hidden) + .esgst-sttb-button {
+                bottom: 79px;
             }
 
             .esgst-bold {
@@ -34145,6 +34017,10 @@ Parsedown = (() => {
                 cursor: pointer;
                 display: inline-block;
                 margin: 0 5px 0 0;
+            }
+
+            .esgst-gm-popout {
+                min-width: 725px;
             }
 
             .esgst-gm-popout textarea {
@@ -34914,18 +34790,31 @@ Parsedown = (() => {
                 z-index: 99999;
             }
 
+            .esgst-aic-carousel {
+                align-items: center;
+                cursor: default !important;
+                display: flex;
+                justify-content: center;
+            }
+
             .esgst-aic-carousel img {
-                max-width: 100%;
+                border: 5px solid #fff;
+                border-radius: 5px;
+                max-width: 90%;
+            }
+
+            .esgst-aic-panel {
+                color: #fff;
+                position: absolute;
+                text-align: center;
+                top: 25px;
             }
 
             .esgst-aic-left-button, .esgst-aic-right-button {
-                align-items: center;
                 cursor: pointer;
-                display: flex;
-                height: 100%;
-                justify-content: center;
-                position: absolute;
-                top: 0;
+                display: inline-block;
+                margin: 10px;
+                text-align: center;
                 width: 25px;
             }
 
@@ -34933,12 +34822,10 @@ Parsedown = (() => {
                 font-size: 25px;
             }
 
-            .esgst-aic-left-button {
-                left: 50px;
-            }
-
-            .esgst-aic-right-button {
-                right: 50px;
+            .esgst-aic-source {
+                font-weight: bold;
+                margin-top: 10px;
+                text-decoration: underline;
             }
 
             .esgst-popup-modal {
@@ -36176,6 +36063,44 @@ Parsedown = (() => {
         var changelog, current, html, i, index, n, popup;
         changelog = [
             {
+                date: `November 24, 2017`,
+                version: `7.9.0`,
+                changelog: `
+                    <ul>
+                        <li><a href="https://github.com/revilheart/ESGST/issues/224">#224</a> Also trigger reverse scrolling from the main and inbox pages in Endless Scrolling</li>
+                        <li><a href="https://github.com/revilheart/ESGST/issues/225">#225</a> Fix a bug that does not allow adding a second reply to a comment without refreshing the page in Multi-Reply/Reply From Inbox</li>
+                        <li><a href="https://github.com/revilheart/ESGST/issues/226">#226</a> Open the authentication window for Dropbox, Google Drive and OneDrive in a small window instead of in a new tab</li>
+                        <li><a href="https://github.com/revilheart/ESGST/issues/227">#227</a> Only show button to add description to filters if the option to filter useless descriptions is enabled in Enter/Leave Giveaway Button</li>
+                        <li><a href="https://github.com/revilheart/ESGST/issues/228">#228</a> Add ratio filter to Giveaway Filters</li>
+                        <li><a href="https://github.com/revilheart/ESGST/issues/229">#229</a> Make some changes to the structure of the code</li>
+                        <li><a href="https://github.com/revilheart/ESGST/issues/230">#230</a> Fix a bug that happens when syncing from the account page</li>
+                        <li><a href="https://github.com/revilheart/ESGST/issues/232">#232</a> Make some optimizations</li>
+                        <li><a href="https://github.com/revilheart/ESGST/issues/236">#236</a> Remove sync button after the sync is complete when syncing through the account page</li>
+                        <li><a href="https://github.com/revilheart/ESGST/issues/237">#237</a> Prevent sync results from duplicating when clicking on the sync button again</li>
+                        <li><a href="https://github.com/revilheart/ESGST/issues/238">#238</a> Fix a bug that sometimes does not detect if the user is logged in to Steam in when syncing</li>
+                        <li><a href="https://github.com/revilheart/ESGST/issues/239">#239</a> Add a feature: Scroll To Bottom Button</li>
+                        <li><a href="https://github.com/revilheart/ESGST/issues/240">#240</a> Fix a bug that moves the start time column of a giveaway if it has both received and not received copies</li>
+                        <li><a href="https://github.com/revilheart/ESGST/issues/234">#234</a> Highlight game ids for games that are not in the Steam API when syncing and therefore cannot be converted to a name</li>
+                        <li><a href="https://github.com/revilheart/ESGST/issues/241">#241</a> Fix a bug in Whitelist/Blacklist Checker that happens when checking group giveaways</li>
+                        <li><a href="https://github.com/revilheart/ESGST/issues/243">#243</a> Add option to automatically backup data every X days</li>
+                        <li><a href="https://github.com/revilheart/ESGST/issues/244">#244</a> Remove the plus sign after the level in Created/Entered/Won Giveaway Details</li>
+                        <li><a href="https://github.com/revilheart/ESGST/issues/245">#245</a> Extend #226 to Imgur uploads</li>
+                        <li><a href="https://github.com/revilheart/ESGST/issues/246">#246</a> Add option to refresh active discussions when refreshing giveaways in the main page through Endless Scrolling</li>
+                        <li><a href="https://github.com/revilheart/ESGST/issues/248">#248</a> Add a feature: Refresh Active Discussions Button</li>
+                        <li><a href="https://github.com/revilheart/ESGST/issues/247">#247</a> Replace colon with underline in exported file names</li>
+                        <li><a href="https://github.com/revilheart/ESGST/issues/249">#249</a> Allow custom names for exported files</li>
+                        <li><a href="https://github.com/revilheart/ESGST/issues/250">#250</a> Add an easy way to debug directly from ESGST</li>
+                        <li><a href="https://github.com/revilheart/ESGST/issues/254">#254</a> Fix a bug in Giveaway Bookmarks that does not unbookmark a giveaway when entering it through SG's native button</li>
+                        <li><a href="https://github.com/revilheart/ESGST/issues/255">#255</a> Add options to Giveaway Bookmarks to automatically unbookmark entered giveaways and show the button for entered giveaways</li>
+                        <li><a href="https://github.com/revilheart/ESGST/issues/256">#256</a> Fix a bug that does not detect entered giveaways in the Giveaway Bookmarks list</li>
+                        <li><a href="https://github.com/revilheart/ESGST/issues/252">#252</a> Fix a style issue in Giveaways Manager</li>
+                        <li><a href="https://github.com/revilheart/ESGST/issues/253">#253</a> Add search filters to the settings menu</li>
+                        <li><a href="https://github.com/revilheart/ESGST/issues/257">#257</a> Make some visual changes to Attached Images Carousel</li>
+                        <li><a href="https://github.com/revilheart/ESGST/issues/258">#258</a> Allow users to order the heading buttons however they want</li>
+                    </ul>
+                `
+            },
+            {
                 date: `November 18, 2017`,
                 version: `7.8.1`,
                 changelog: `
@@ -36632,7 +36557,24 @@ Parsedown = (() => {
             --index;
         }
         popup = new Popup(`fa-file-text-o`, `Changelog`, true);
-        popup.scrollable.insertAdjacentHTML(`afterBegin`, `<div class="esgst-text-left markdown">${html.join(``)}</div>`);
+        if (version) {
+            popup.scrollable.insertAdjacentHTML(`afterBegin`, `
+                <div class="esgst-changelog esgst-text-left markdown">
+                    <h2>Highlights from v7.9.0:</h2>
+                    <h3>Debug easily from ESGST (only use it if you know what you are doing or if you have been instructed to)</h3>
+                    <img src="https://i.imgur.com/RdEXVFi.gif">
+                    <h3>Search for features in the settings menu</h3>
+                    <img src="https://i.imgur.com/iHWyyXk.gif">
+                    <h3>Order heading buttons by dragging them</h3>
+                    <img src="https://i.imgur.com/xUOp8h2.gif">
+                    <hr>
+                    <h3>Full changelog:</h3>
+                    ${html.join(``)}
+                </div>
+            `);
+        } else {
+            popup.scrollable.insertAdjacentHTML(`afterBegin`, `<div class="esgst-text-left markdown">${html.join(``)}</div>`);
+        }
         popup.open();
     }
 
@@ -36794,7 +36736,7 @@ Parsedown = (() => {
             });
             arrow.addEventListener(`click`, toggleHeaderMenu.bind(null, arrow, dropdown));
             document.addEventListener(`click`, closeHeaderMenu.bind(null, arrow, dropdown, menu), true);
-            dropdown.firstElementChild.lastElementChild.previousElementSibling.addEventListener(`click`, loadChangelog);
+            dropdown.firstElementChild.lastElementChild.previousElementSibling.addEventListener(`click`, loadChangelog.bind(null, null));
         };
         notifyNewVersion = version => {
             let message, popup;
@@ -36987,7 +36929,7 @@ Parsedown = (() => {
             arrow.addEventListener(`click`, toggleHeaderMenu.bind(null, arrow, dropdown));
             document.addEventListener(`click`, closeHeaderMenu.bind(null, arrow, dropdown, menu), true);
             dropdown.firstElementChild.firstElementChild.addEventListener(`click`, checkUpdate);
-            dropdown.firstElementChild.lastElementChild.previousElementSibling.addEventListener(`click`, loadChangelog);
+            dropdown.firstElementChild.lastElementChild.previousElementSibling.addEventListener(`click`, loadChangelog.bind(null, null));
         };
         notifyNewVersion = version => {
             let message, popup;

@@ -3,7 +3,7 @@
 // @namespace ESGST
 // @description Enhances SteamGifts and SteamTrades by adding some cool features to them.
 // @icon https://dl.dropboxusercontent.com/s/lr3t3bxrxfxylqe/esgstIcon.ico?raw=1
-// @version 7.8.1
+// @version 7.9.0
 // @author revilheart
 // @downloadURL https://github.com/revilheart/ESGST/raw/master/ESGST.user.js
 // @updateURL https://github.com/revilheart/ESGST/raw/master/ESGST.meta.js
@@ -1530,7 +1530,7 @@ Parsedown = (() => {
             storage: storage,
             sg: location.hostname.match(/www.steamgifts.com/),
             st: location.hostname.match(/www.steamtrades.com/),
-            currentVersion: `7.8.1`,
+            currentVersion: `7.9.0`,
             icon: `data:image/x-icon;base64,AAABAAEAEBAAAAEAIABoBAAAFgAAACgAAAAQAAAAIAAAAAEAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAqv8DCbP/Hgeq+CQIrf8iCK3/Igit/yIIrf8iB6//Iwit9x8Aqv8DAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAKr0GAa2/c0DvfzfA7f83QO3/N0Dt/zdA7f83QO+/d4Gs/3OAKP1GQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACm/xQFs/n2Bcf//wW///8FwP//BcD//wW///8Fx///BbP69gC2/xUAAAAAAAAAAAAAAAAA/1UDFptOFxSZMxkLpJktAq720QW1+ugEsfvjA7b92wO2/dsEsfvjBbX66Aau/dEoiO4tUlLWGU5k3hdVVf8DEJxKHxWqT8cVrU7uE6VN0guqny0Apv8XAJfQGwBAVywAQFcsAJfQGwCx/xcogugtS2Lk0lBl6u5Qae7ISmPeHxagSSMVr07jF7lV/xOiSu0brgATAAAAAAAAAA8AAAC/AAAAwAAAABAAAAAAYznjEkth4OxWb/3/T2jv40lf4iMXnksiEq1O3RayUv8UpEnkEo0+HQAAABkAAABBAAAA8QAAAPEAAABBAAAAGUBSvxxOYeDjU2v0/05m7d1LYuEiF55LIhKtTt0Ws1L/FahN2gU1FTAAAADAAAAA7AAAAP0AAAD9AAAA7AAAAMAVG0owUGPm2lNr9P9OZu3dS2LhIheeSyISrU7dFrNS/xWoTdoFNRswAAAAvwAAAOsAAAD9AAAA/QAAAOsAAADAFRtKMFBj6NpTa/T/Tmbt3Uti4SIXnksiEq1O3RayUv8UpEnkEo0+HQAAABgAAABAAAAA8QAAAPEAAABBAAAAGT5PuR1OYeDjU2v0/05m7d1LYuEiFqBJIxWuT+QXuVX/E6JL7QC8XhMAAAAAAAAADwAAAL8AAAC/AAAAEAAAAAAOR/8SSWLh7FZv/f9PaO/jSV/iIxCUSh8Vrk7HFqxN7ROlS9JskzMt1XULGK12EhxGLgYsRy8GK612EhzVgAsYgmxxLU1i39JNZ+vtT2fwx0pj1h8AqlUDF65GFgqZUhlsiC0txH0T0s5/EujJgBPkz4QR28+EEdvJgBPkzn8Q6Md+E9KLdHosM1LWGUZo6BZVVf8DAAAAAAAAAAAAAAAA/2YAFMl9EvbgjRb/14gV/9eIFf/XiBX/14gV/9+NFv/KgBD254YAFQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAL91FRjKgRHN1IgU3s+EEt3PhBLdz4QS3c+EEt3UiBTezYMRzcJ6FBkAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACqqgADxIARHr18FiO8eA8ivHgPIrx4DyK8eA8ivXwPI8SAER7/VQADAAAAAAAAAAAAAAAA78cAAPA3AAD4FwAABCAAADGOAAAE+AAAkBEAAJ55AACYOQAAlgEAAER4AAAXaAAATnoAAPgXAAD0JwAA69cAAA==`,
             sgIcon: `data:image/x-icon;base64,AAABAAEAEBAAAAEAIABoBAAAFgAAACgAAAAQAAAAIAAAAAEAIAAAAAAAQAQAABMLAAATCwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIUAAAD5AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAPoAAACFAAAAAAAAAAAAAAD8AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA+QAAAAAAAAAAAAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAAAAAAAAAAAAP8AAAD/AAAA/wAAABwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAcAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAcAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAHAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAAAAAAAAAAAAPwAAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD5AAAAAAAAAAAAAACFAAAA+QAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD5AAAAhQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA//8AAP//AADAAwAAwAMAAMfjAADP8wAAz/MAAM/zAADP8wAAz/MAAM/zAADH4wAAwAMAAMADAAD//wAA//8AAA==`,
             stIcon: `data:image/x-icon;base64,AAABAAEAEBAAAAEAIABoBAAAFgAAACgAAAAQAAAAIAAAAAEAIAAAAAAAQAQAABMLAAATCwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABbD6SgWw+ucFsPrkBbD6SgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAWw+uYFsPr/BbD6/wWw+ucAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAFsPrmBbD6/wWw+v8FsPrmAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABbD6SQWw+uYFsPrmBbD6SQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAFKRLShSkS+cUpEvkFKRLSgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAExi4EpMYuDnTGLg5Exi4EoAAAAAAAAAABSkS+YUpEv/FKRL/xSkS+cAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABMYuDmTGLg/0xi4P9MYuDnAAAAAAAAAAAUpEvmFKRL/xSkS/8UpEvmAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAATGLg5kxi4P9MYuD/TGLg5gAAAAAAAAAAFKRLSRSkS+YUpEvmFKRLSQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAExi4ElMYuDmTGLg5kxi4EkAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAMZ9E0rGfRPnxn0T5MZ9E0oAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADGfRPmxn0T/8Z9E//GfRPnAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAxn0T5sZ9E//GfRP/xn0T5gAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAMZ9E0nGfRPmxn0T5sZ9E0kAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA//8AAPw/AAD8PwAA/D8AAPw/AAD//wAAh+EAAIfhAACH4QAAh+EAAP//AAD8PwAA/D8AAPw/AAD8PwAA//8AAA==`,
@@ -8796,7 +8796,7 @@ Parsedown = (() => {
                 esgst.giveawayFeatures.push(getGfGiveaways);
             }
             if (esgst.gf_m && (esgst.giveawaysPath || esgst.createdPath || esgst.enteredPath || esgst.wonPath || esgst.groupPath || esgst.userPath)) {
-                if (esgst.hideButtons && esgst.hideButtons_gf) {                    
+                if (esgst.hideButtons && esgst.hideButtons_gf) {
                     if (esgst.leftButtonIds.indexOf(`gf`) > -1) {
                         esgst.leftButtons.insertBefore(addGfContainer(esgst.mainPageHeading), esgst.leftButtons.firstElementChild);
                     } else {
@@ -9378,7 +9378,7 @@ Parsedown = (() => {
         rightHidden = rightButton && rightButton.classList.contains(`esgst-hidden`);
         esgst.leftButtonIds.forEach(id => {
             let button = document.getElementById(`esgst-${id}`);
-            if (button) {                
+            if (button) {
                 let key = id === `esResume` ? `hideButtons_esPause` : `hideButtons_${id}`;
                 button.parentElement.insertBefore(button, leftHidden || !esgst.hideButtons || esgst[key] ? button.parentElement.firstElementChild : button.parentElement.firstElementChild.nextElementSibling);
                 button.setAttribute(`draggable`, true);
@@ -12021,7 +12021,7 @@ Parsedown = (() => {
                     </div>
                 ` : ``}
             </div>
-            ${attachedImage.image.outerHTML}            
+            ${attachedImage.image.outerHTML}
         `;
         panel = carousel.firstElementChild;
         image = panel.nextElementSibling;
@@ -22995,7 +22995,7 @@ Parsedown = (() => {
                 key = `rightButtons`;
                 position = `beforeEnd`;
             }
-            button = insertHtml(esgst.hideButtons && esgst.hideButtons_rbp ? esgst[key] : esgst.mainPageHeading, position `
+            button = insertHtml(esgst.hideButtons && esgst.hideButtons_rbp ? esgst[key] : esgst.mainPageHeading, position, `
                 <div class="esgst-heading-button" id="esgst-rbp" title="Add a comment">
                     <i class="fa fa-comment"></i>
                 </div>
@@ -33889,6 +33889,10 @@ Parsedown = (() => {
             `;
         }
         style += `
+            .esgst-changelog img {
+                max-width: 98%;
+            }
+
             .esgst-debug {
                 height: 300px;
                 width: 600px;
@@ -36059,6 +36063,44 @@ Parsedown = (() => {
         var changelog, current, html, i, index, n, popup;
         changelog = [
             {
+                date: `November 24, 2017`,
+                version: `7.9.0`,
+                changelog: `
+                    <ul>
+                        <li><a href="https://github.com/revilheart/ESGST/issues/224">#224</a> Also trigger reverse scrolling from the main and inbox pages in Endless Scrolling</li>
+                        <li><a href="https://github.com/revilheart/ESGST/issues/225">#225</a> Fix a bug that does not allow adding a second reply to a comment without refreshing the page in Multi-Reply/Reply From Inbox</li>
+                        <li><a href="https://github.com/revilheart/ESGST/issues/226">#226</a> Open the authentication window for Dropbox, Google Drive and OneDrive in a small window instead of in a new tab</li>
+                        <li><a href="https://github.com/revilheart/ESGST/issues/227">#227</a> Only show button to add description to filters if the option to filter useless descriptions is enabled in Enter/Leave Giveaway Button</li>
+                        <li><a href="https://github.com/revilheart/ESGST/issues/228">#228</a> Add ratio filter to Giveaway Filters</li>
+                        <li><a href="https://github.com/revilheart/ESGST/issues/229">#229</a> Make some changes to the structure of the code</li>
+                        <li><a href="https://github.com/revilheart/ESGST/issues/230">#230</a> Fix a bug that happens when syncing from the account page</li>
+                        <li><a href="https://github.com/revilheart/ESGST/issues/232">#232</a> Make some optimizations</li>
+                        <li><a href="https://github.com/revilheart/ESGST/issues/236">#236</a> Remove sync button after the sync is complete when syncing through the account page</li>
+                        <li><a href="https://github.com/revilheart/ESGST/issues/237">#237</a> Prevent sync results from duplicating when clicking on the sync button again</li>
+                        <li><a href="https://github.com/revilheart/ESGST/issues/238">#238</a> Fix a bug that sometimes does not detect if the user is logged in to Steam in when syncing</li>
+                        <li><a href="https://github.com/revilheart/ESGST/issues/239">#239</a> Add a feature: Scroll To Bottom Button</li>
+                        <li><a href="https://github.com/revilheart/ESGST/issues/240">#240</a> Fix a bug that moves the start time column of a giveaway if it has both received and not received copies</li>
+                        <li><a href="https://github.com/revilheart/ESGST/issues/234">#234</a> Highlight game ids for games that are not in the Steam API when syncing and therefore cannot be converted to a name</li>
+                        <li><a href="https://github.com/revilheart/ESGST/issues/241">#241</a> Fix a bug in Whitelist/Blacklist Checker that happens when checking group giveaways</li>
+                        <li><a href="https://github.com/revilheart/ESGST/issues/243">#243</a> Add option to automatically backup data every X days</li>
+                        <li><a href="https://github.com/revilheart/ESGST/issues/244">#244</a> Remove the plus sign after the level in Created/Entered/Won Giveaway Details</li>
+                        <li><a href="https://github.com/revilheart/ESGST/issues/245">#245</a> Extend #226 to Imgur uploads</li>
+                        <li><a href="https://github.com/revilheart/ESGST/issues/246">#246</a> Add option to refresh active discussions when refreshing giveaways in the main page through Endless Scrolling</li>
+                        <li><a href="https://github.com/revilheart/ESGST/issues/248">#248</a> Add a feature: Refresh Active Discussions Button</li>
+                        <li><a href="https://github.com/revilheart/ESGST/issues/247">#247</a> Replace colon with underline in exported file names</li>
+                        <li><a href="https://github.com/revilheart/ESGST/issues/249">#249</a> Allow custom names for exported files</li>
+                        <li><a href="https://github.com/revilheart/ESGST/issues/250">#250</a> Add an easy way to debug directly from ESGST</li>
+                        <li><a href="https://github.com/revilheart/ESGST/issues/254">#254</a> Fix a bug in Giveaway Bookmarks that does not unbookmark a giveaway when entering it through SG's native button</li>
+                        <li><a href="https://github.com/revilheart/ESGST/issues/255">#255</a> Add options to Giveaway Bookmarks to automatically unbookmark entered giveaways and show the button for entered giveaways</li>
+                        <li><a href="https://github.com/revilheart/ESGST/issues/256">#256</a> Fix a bug that does not detect entered giveaways in the Giveaway Bookmarks list</li>
+                        <li><a href="https://github.com/revilheart/ESGST/issues/252">#252</a> Fix a style issue in Giveaways Manager</li>
+                        <li><a href="https://github.com/revilheart/ESGST/issues/253">#253</a> Add search filters to the settings menu</li>
+                        <li><a href="https://github.com/revilheart/ESGST/issues/257">#257</a> Make some visual changes to Attached Images Carousel</li>
+                        <li><a href="https://github.com/revilheart/ESGST/issues/258">#258</a> Allow users to order the heading buttons however they want</li>
+                    </ul>
+                `
+            },
+            {
                 date: `November 18, 2017`,
                 version: `7.8.1`,
                 changelog: `
@@ -36515,7 +36557,24 @@ Parsedown = (() => {
             --index;
         }
         popup = new Popup(`fa-file-text-o`, `Changelog`, true);
-        popup.scrollable.insertAdjacentHTML(`afterBegin`, `<div class="esgst-text-left markdown">${html.join(``)}</div>`);
+        if (version) {
+            popup.scrollable.insertAdjacentHTML(`afterBegin`, `
+                <div class="esgst-changelog esgst-text-left markdown">
+                    <h2>Highlights from v7.9.0:</h2>
+                    <h3>Debug easily from ESGST (only use it if you know what you are doing or if you have been instructed to)</h3>
+                    <img src="https://i.imgur.com/RdEXVFi.gif">
+                    <h3>Search for features in the settings menu</h3>
+                    <img src="https://i.imgur.com/iHWyyXk.gif">
+                    <h3>Order heading buttons by dragging them</h3>
+                    <img src="https://i.imgur.com/xUOp8h2.gif">
+                    <hr>
+                    <h3>Full changelog:</h3>
+                    ${html.join(``)}
+                </div>
+            `);
+        } else {
+            popup.scrollable.insertAdjacentHTML(`afterBegin`, `<div class="esgst-text-left markdown">${html.join(``)}</div>`);
+        }
         popup.open();
     }
 
