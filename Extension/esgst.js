@@ -9374,15 +9374,15 @@ Parsedown = (() => {
 
     function reorderButtons(leftButton, leftButtons, rightButton, rightButtons) {
         let leftHidden, rightHidden, source;
-        leftHidden = leftButton.classList.contains(`esgst-hidden`);
-        rightHidden = leftButton.classList.contains(`esgst-hidden`);
+        leftHidden = leftButton && leftButton.classList.contains(`esgst-hidden`);
+        rightHidden = rightButton && rightButton.classList.contains(`esgst-hidden`);
         esgst.leftButtonIds.forEach(id => {
             let button = document.getElementById(`esgst-${id}`);
             if (!button && id === `esPause`) {
                 button = document.getElementById(`esgst-esPause`);
             }
             if (button) {
-                button.parentElement.insertBefore(button, leftHidden || esgst[`hideButtons_${id}`] ? button.parentElement.firstElementChild : button.parentElement.firstElementChild.nextElementSibling);
+                button.parentElement.insertBefore(button, leftHidden || !esgst.hideButtons || esgst[`hideButtons_${id}`] ? button.parentElement.firstElementChild : button.parentElement.firstElementChild.nextElementSibling);
                 button.setAttribute(`draggable`, true);
                 button.addEventListener(`dragstart`, event => {
                     event.dataTransfer.setData(`text/plain`, ``);
@@ -9404,33 +9404,37 @@ Parsedown = (() => {
                 });
                 button.addEventListener(`dragend`, () => {
                     let i, nextSiblingId, previousSiblingId, siblingId;
-                    if (leftButtons.contains(button) || rightButtons.contains(button)) {
-                        if (!esgst[`hideButtons_${id}`]) {
-                            setSetting(`hideButtons_${id}`, true, esgst.sg, esgst.st);
+                    if (esgst.hideButtons) {
+                        if (leftButtons.contains(button) || rightButtons.contains(button)) {
+                            if (!esgst[`hideButtons_${id}`]) {
+                                setSetting(`hideButtons_${id}`, true, esgst.sg, esgst.st);
+                            }
+                        } else if (esgst[`hideButtons_${id}`]) {
+                            setSetting(`hideButtons_${id}`, false, esgst.sg, esgst.st);
                         }
-                    } else if (esgst[`hideButtons_${id}`]) {
-                        setSetting(`hideButtons_${id}`, false, esgst.sg, esgst.st);
                     }
-                    previousSiblingId = button.previousElementSibling && button.previousElementSibling.id;
+                    previousSiblingId = button.previousElementSibling && !button.previousElementSibling.classList.contains(`esgst-hidden`) && button.previousElementSibling.id;
                     if (previousSiblingId === `esResume`) {
                         previousSiblingId = `esPause`;
                     }
-                    nextSiblingId = button.nextElementSibling && button.nextElementSibling.id;
+                    nextSiblingId = button.nextElementSibling && !button.nextElementSibling.classList.contains(`esgst-hidden`) && button.nextElementSibling.id;
                     if (nextSiblingId === `esResume`) {
                         nextSiblingId = `esPause`;
                     }
                     siblingId = previousSiblingId || nextSiblingId;
-                    i = esgst.rightButtonIds.indexOf(siblingId.split(`esgst-`)[1]);
-                    esgst.leftButtonIds.splice(esgst.leftButtonIds.indexOf(id), 1);
-                    if (i > -1) {
-                        esgst.rightButtonIds.splice(i, 0, id);
-                    } else if (previousSiblingId) {
-                        esgst.leftButtonIds.splice(esgst.leftButtonIds.indexOf(previousSiblingId.split(`esgst-`)[1]), 0, id);
-                    } else {
-                        esgst.leftButtonIds.splice(esgst.leftButtonIds.indexOf(nextSiblingId.split(`esgst-`)[1]) + 1, 0, id);
+                    if (siblingId) {
+                        i = esgst.rightButtonIds.indexOf(siblingId.split(`esgst-`)[1]);
+                        esgst.leftButtonIds.splice(esgst.leftButtonIds.indexOf(id), 1);
+                        if (i > -1) {
+                            esgst.rightButtonIds.splice(i, 0, id);
+                        } else if (previousSiblingId) {
+                            esgst.leftButtonIds.splice(esgst.leftButtonIds.indexOf(previousSiblingId.split(`esgst-`)[1]), 0, id);
+                        } else {
+                            esgst.leftButtonIds.splice(esgst.leftButtonIds.indexOf(nextSiblingId.split(`esgst-`)[1]) + 1, 0, id);
+                        }
+                        setSetting(`leftButtonIds`, esgst.leftButtonIds);
+                        setSetting(`rightButtonIds`, esgst.rightButtonIds);
                     }
-                    setSetting(`leftButtonIds`, esgst.leftButtonIds);
-                    setSetting(`rightButtonIds`, esgst.rightButtonIds);
                 });
             }
         });
@@ -9440,7 +9444,7 @@ Parsedown = (() => {
                 button = document.getElementById(`esgst-esResume`);
             }
             if (button) {
-                if (rightHidden || esgst[`hideButtons_${id}`]) {
+                if (rightHidden || !esgst.hideButtons || esgst[`hideButtons_${id}`]) {
                     button.parentElement.appendChild(button);
                 } else {
                     button.parentElement.insertBefore(button, button.parentElement.lastElementChild);
@@ -9466,33 +9470,37 @@ Parsedown = (() => {
                 });
                 button.addEventListener(`dragend`, () => {
                     let i, nextSiblingId, previousSiblingId, siblingId;
-                    if (leftButtons.contains(button) || rightButtons.contains(button)) {
-                        if (!esgst[`hideButtons_${id}`]) {
-                            setSetting(`hideButtons_${id}`, true, esgst.sg, esgst.st);
+                    if (esgst.hideButtons) {
+                        if (leftButtons.contains(button) || rightButtons.contains(button)) {
+                            if (!esgst[`hideButtons_${id}`]) {
+                                setSetting(`hideButtons_${id}`, true, esgst.sg, esgst.st);
+                            }
+                        } else if (esgst[`hideButtons_${id}`]) {
+                            setSetting(`hideButtons_${id}`, false, esgst.sg, esgst.st);
                         }
-                    } else if (esgst[`hideButtons_${id}`]) {
-                        setSetting(`hideButtons_${id}`, false, esgst.sg, esgst.st);
                     }
-                    previousSiblingId = button.previousElementSibling && button.previousElementSibling.id;
+                    previousSiblingId = button.previousElementSibling && !button.previousElementSibling.classList.contains(`esgst-hidden`) && button.previousElementSibling.id;
                     if (previousSiblingId === `esResume`) {
                         previousSiblingId = `esPause`;
                     }
-                    nextSiblingId = button.nextElementSibling && button.nextElementSibling.id;
+                    nextSiblingId = button.nextElementSibling && !button.nextElementSibling.classList.contains(`esgst-hidden`) && button.nextElementSibling.id;
                     if (nextSiblingId === `esResume`) {
                         nextSiblingId = `esPause`;
                     }
                     siblingId = previousSiblingId || nextSiblingId;
-                    i = esgst.leftButtonIds.indexOf(siblingId.split(`esgst-`)[1]);
-                    esgst.rightButtonIds.splice(esgst.rightButtonIds.indexOf(id), 1);
-                    if (i > -1) {
-                        esgst.leftButtonIds.splice(i, 0, id);
-                    } else if (previousSiblingId) {
-                        esgst.rightButtonIds.splice(esgst.rightButtonIds.indexOf(previousSiblingId.split(`esgst-`)[1]) + 1, 0, id);
-                    } else {
-                        esgst.rightButtonIds.splice(esgst.rightButtonIds.indexOf(nextSiblingId.split(`esgst-`)[1]), 0, id);
+                    if (siblingId) {
+                        i = esgst.leftButtonIds.indexOf(siblingId.split(`esgst-`)[1]);
+                        esgst.rightButtonIds.splice(esgst.rightButtonIds.indexOf(id), 1);
+                        if (i > -1) {
+                            esgst.leftButtonIds.splice(i, 0, id);
+                        } else if (previousSiblingId) {
+                            esgst.rightButtonIds.splice(esgst.rightButtonIds.indexOf(previousSiblingId.split(`esgst-`)[1]) + 1, 0, id);
+                        } else {
+                            esgst.rightButtonIds.splice(esgst.rightButtonIds.indexOf(nextSiblingId.split(`esgst-`)[1]), 0, id);
+                        }
+                        setSetting(`leftButtonIds`, esgst.leftButtonIds);
+                        setSetting(`rightButtonIds`, esgst.rightButtonIds);
                     }
-                    setSetting(`leftButtonIds`, esgst.leftButtonIds);
-                    setSetting(`rightButtonIds`, esgst.rightButtonIds);
                 });
             }
         });
@@ -36685,7 +36693,7 @@ Parsedown = (() => {
             });
             arrow.addEventListener(`click`, toggleHeaderMenu.bind(null, arrow, dropdown));
             document.addEventListener(`click`, closeHeaderMenu.bind(null, arrow, dropdown, menu), true);
-            dropdown.firstElementChild.lastElementChild.previousElementSibling.addEventListener(`click`, loadChangelog);
+            dropdown.firstElementChild.lastElementChild.previousElementSibling.addEventListener(`click`, loadChangelog.bind(null, null));
         };
         notifyNewVersion = version => {
             let message, popup;
@@ -36878,7 +36886,7 @@ Parsedown = (() => {
             arrow.addEventListener(`click`, toggleHeaderMenu.bind(null, arrow, dropdown));
             document.addEventListener(`click`, closeHeaderMenu.bind(null, arrow, dropdown, menu), true);
             dropdown.firstElementChild.firstElementChild.addEventListener(`click`, checkUpdate);
-            dropdown.firstElementChild.lastElementChild.previousElementSibling.addEventListener(`click`, loadChangelog);
+            dropdown.firstElementChild.lastElementChild.previousElementSibling.addEventListener(`click`, loadChangelog.bind(null, null));
         };
         notifyNewVersion = version => {
             let message, popup;
