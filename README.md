@@ -861,6 +861,41 @@ The video above does not get embedded.
 
 ## Changelog
 
+**7.9.0 (November 24, 2017):**
+
+<ul>
+    <li><a href="https://github.com/revilheart/ESGST/issues/224">#224</a> Also trigger reverse scrolling from the main and inbox pages in Endless Scrolling</li>
+    <li><a href="https://github.com/revilheart/ESGST/issues/225">#225</a> Fix a bug that does not allow adding a second reply to a comment without refreshing the page in Multi-Reply/Reply From Inbox</li>
+    <li><a href="https://github.com/revilheart/ESGST/issues/226">#226</a> Open the authentication window for Dropbox, Google Drive and OneDrive in a small window instead of in a new tab</li>
+    <li><a href="https://github.com/revilheart/ESGST/issues/227">#227</a> Only show button to add description to filters if the option to filter useless descriptions is enabled in Enter/Leave Giveaway Button</li>
+    <li><a href="https://github.com/revilheart/ESGST/issues/228">#228</a> Add ratio filter to Giveaway Filters</li>
+    <li><a href="https://github.com/revilheart/ESGST/issues/229">#229</a> Make some changes to the structure of the code</li>
+    <li><a href="https://github.com/revilheart/ESGST/issues/230">#230</a> Fix a bug that happens when syncing from the account page</li>
+    <li><a href="https://github.com/revilheart/ESGST/issues/232">#232</a> Make some optimizations</li>
+    <li><a href="https://github.com/revilheart/ESGST/issues/236">#236</a> Remove sync button after the sync is complete when syncing through the account page</li>
+    <li><a href="https://github.com/revilheart/ESGST/issues/237">#237</a> Prevent sync results from duplicating when clicking on the sync button again</li>
+    <li><a href="https://github.com/revilheart/ESGST/issues/238">#238</a> Fix a bug that sometimes does not detect if the user is logged in to Steam in when syncing</li>
+    <li><a href="https://github.com/revilheart/ESGST/issues/239">#239</a> Add a feature: Scroll To Bottom Button</li>
+    <li><a href="https://github.com/revilheart/ESGST/issues/240">#240</a> Fix a bug that moves the start time column of a giveaway if it has both received and not received copies</li>
+    <li><a href="https://github.com/revilheart/ESGST/issues/234">#234</a> Highlight game ids for games that are not in the Steam API when syncing and therefore cannot be converted to a name</li>
+    <li><a href="https://github.com/revilheart/ESGST/issues/241">#241</a> Fix a bug in Whitelist/Blacklist Checker that happens when checking group giveaways</li>
+    <li><a href="https://github.com/revilheart/ESGST/issues/243">#243</a> Add option to automatically backup data every X days</li>
+    <li><a href="https://github.com/revilheart/ESGST/issues/244">#244</a> Remove the plus sign after the level in Created/Entered/Won Giveaway Details</li>
+    <li><a href="https://github.com/revilheart/ESGST/issues/245">#245</a> Extend #226 to Imgur uploads</li>
+    <li><a href="https://github.com/revilheart/ESGST/issues/246">#246</a> Add option to refresh active discussions when refreshing giveaways in the main page through Endless Scrolling</li>
+    <li><a href="https://github.com/revilheart/ESGST/issues/248">#248</a> Add a feature: Refresh Active Discussions Button</li>
+    <li><a href="https://github.com/revilheart/ESGST/issues/247">#247</a> Replace colon with underline in exported file names</li>
+    <li><a href="https://github.com/revilheart/ESGST/issues/249">#249</a> Allow custom names for exported files</li>
+    <li><a href="https://github.com/revilheart/ESGST/issues/250">#250</a> Add an easy way to debug directly from ESGST</li>
+    <li><a href="https://github.com/revilheart/ESGST/issues/254">#254</a> Fix a bug in Giveaway Bookmarks that does not unbookmark a giveaway when entering it through SG's native button</li>
+    <li><a href="https://github.com/revilheart/ESGST/issues/255">#255</a> Add options to Giveaway Bookmarks to automatically unbookmark entered giveaways and show the button for entered giveaways</li>
+    <li><a href="https://github.com/revilheart/ESGST/issues/256">#256</a> Fix a bug that does not detect entered giveaways in the Giveaway Bookmarks list</li>
+    <li><a href="https://github.com/revilheart/ESGST/issues/252">#252</a> Fix a style issue in Giveaways Manager</li>
+    <li><a href="https://github.com/revilheart/ESGST/issues/253">#253</a> Add search filters to the settings menu</li>
+    <li><a href="https://github.com/revilheart/ESGST/issues/257">#257</a> Make some visual changes to Attached Images Carousel</li>
+    <li><a href="https://github.com/revilheart/ESGST/issues/258">#258</a> Allow users to order the heading buttons however they want</li>
+</ul>
+
 **7.8.1 (November 18, 2017):**
 
 <ul>
