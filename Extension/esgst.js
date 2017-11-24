@@ -11748,51 +11748,63 @@ Parsedown = (() => {
     }
 
     function openAicCarousel(i, event) {
-        var popup;
         event.preventDefault();
         event.stopPropagation();
-        popup = new Popup(null, null, true);
-        popup.open();
-        showAicImage(insertHtml(popup.description, `beforeEnd`, `<div class="esgst-aic-carousel markdown"></div>`), i, popup);
+        let carousel = insertHtml(document.body, `beforeEnd`, `<div class="esgst-popup-modal esgst-aic-carousel"></div>`);
+        carousel.style.zIndex = 9999 + document.querySelectorAll(`.esgst-popup:not(.esgst-hidden), .esgst-popout:not(.esgst-hidden)`).length;
+        carousel.addEventListener(`click`, event => {
+            if (!event.target.closest(`.esgst-aic-panel`) && !event.target.closest(`img`)) {
+                carousel.remove();
+            }
+        });
+        showAicImage(carousel, i);
     }
 
-    function showAicImage(carousel, i, popup) {
-        var attachedImage, n;
-        carousel.innerHTML = ``;
+    function showAicImage(carousel, i) {
+        let attachedImage, height, image, n, panel;
         n = esgst.attachedImages.length;
         attachedImage = esgst.attachedImages[i];
         if (esgst.ail) {
             attachedImage.image.setAttribute(`src`, attachedImage.url);
         }
         attachedImage.image.classList.remove(`is_hidden`, `is-hidden`);
-        attachedImage.image.style.maxHeight = `${innerHeight * 0.9 - (popup.popup.offsetHeight - popup.scrollable.offsetHeight)}px`;
         carousel.innerHTML = `
-            ${i > 0 ? `
-            <div class="esgst-aic-left-button">
-                <i class="fa fa-chevron-left"></i>
+            <div class="esgst-aic-panel">
+                ${i > 0 ? `
+                    <div class="esgst-aic-left-button">
+                        <i class="fa fa-chevron-left"></i>
+                    </div>
+                ` : ``}
+                ${i < n - 1 ? `
+                    <div class="esgst-aic-right-button">
+                        <i class="fa fa-chevron-right"></i>
+                    </div>
+                ` : ``}
+                ${attachedImage.source ? `
+                    <div class="esgst-aic-source">
+                        <a href="#${attachedImage.source}">Source</a>
+                    </div>
+                ` : ``}
             </div>
-            ` : ``}
-            ${attachedImage.image.outerHTML}
-            ${attachedImage.source ? `<div><a href="#${attachedImage.source}">Source</a></div>` : ``}
-            ${i < n - 1 ? `
-            <div class="esgst-aic-right-button">
-                <i class="fa fa-chevron-right"></i>
-            </div>
-            ` : ``}
+            ${attachedImage.image.outerHTML}            
         `;
+        panel = carousel.firstElementChild;
+        image = panel.nextElementSibling;
+        height = panel.offsetHeight + 25;
+        image.style.maxHeight = `calc(90% - ${height}px)`;
+        image.style.marginTop = `${height}px`;
         esgst.aicPrevious = esgst.aicNext = null;
         if (i > 0) {
-            esgst.aicPrevious = carousel.firstElementChild;
-            esgst.aicPrevious.addEventListener(`click`, showAicImage.bind(null, carousel, i - 1, popup));
-        }
-        if (attachedImage.source) {
-            ((esgst.aicPrevious && esgst.aicPrevious.nextElementSibling.nextElementSibling) || carousel.firstElementChild.nextElementSibling).addEventListener(`click`, () => popup.close());
+            esgst.aicPrevious = panel.firstElementChild;
+            esgst.aicPrevious.addEventListener(`click`, showAicImage.bind(null, carousel, i - 1));
         }
         if (i < n - 1) {
-            esgst.aicNext = carousel.lastElementChild;
-            esgst.aicNext.addEventListener(`click`, showAicImage.bind(null, carousel, i + 1, popup));
+            esgst.aicNext = (esgst.aicPrevious && esgst.aicPrevious.nextElementSibling) || panel.firstElementChild;
+            esgst.aicNext.addEventListener(`click`, showAicImage.bind(null, carousel, i + 1));
         }
-
+        if (attachedImage.source) {
+            panel.lastElementChild.addEventListener(`click`, () => carousel.remove());
+        }
     }
 
     /* [EV] Embedded Videos */
@@ -34409,18 +34421,31 @@ Parsedown = (() => {
                 z-index: 99999;
             }
 
+            .esgst-aic-carousel {
+                align-items: center;
+                cursor: default !important;
+                display: flex;
+                justify-content: center;
+            }
+
             .esgst-aic-carousel img {
-                max-width: 100%;
+                border: 5px solid #fff;
+                border-radius: 5px;
+                max-width: 90%;
+            }
+
+            .esgst-aic-panel {
+                color: #fff;
+                position: absolute;
+                text-align: center;
+                top: 25px;
             }
 
             .esgst-aic-left-button, .esgst-aic-right-button {
-                align-items: center;
                 cursor: pointer;
-                display: flex;
-                height: 100%;
-                justify-content: center;
-                position: absolute;
-                top: 0;
+                display: inline-block;
+                margin: 10px;
+                text-align: center;
                 width: 25px;
             }
 
@@ -34428,12 +34453,10 @@ Parsedown = (() => {
                 font-size: 25px;
             }
 
-            .esgst-aic-left-button {
-                left: 50px;
-            }
-
-            .esgst-aic-right-button {
-                right: 50px;
+            .esgst-aic-source {
+                font-weight: bold;
+                margin-top: 10px;
+                text-decoration: underline;
             }
 
             .esgst-popup-modal {
