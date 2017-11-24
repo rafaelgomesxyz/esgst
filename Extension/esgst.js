@@ -1722,7 +1722,7 @@ Parsedown = (() => {
                 };
                 esgst.defaultValues = {
                     leftButtonIds: [`wbsDesc`, `wbsAsc`, `wbc`, `ugs`, `tb`, `sks`, `rbp`, `namwc`, `mtUsers`, `mtGames`, `mpp`, `hgr`, `gv`, `gts`, `gm`, `gf`, `ge`, `gas`, `ds`, `df`, `ctUnread`, `ctRead`, `ctGo`, `cs`, `as`, `aic`],
-                    rightButtonIds: [`esPause`, `esRefresh`, `esRefreshAll`],
+                    rightButtonIds: [`esResume`, `esPause`, `esRefresh`, `esRefreshAll`],
                     gb_ue: true,
                     radb: true,
                     lastBackup: 0,
@@ -9378,11 +9378,9 @@ Parsedown = (() => {
         rightHidden = rightButton && rightButton.classList.contains(`esgst-hidden`);
         esgst.leftButtonIds.forEach(id => {
             let button = document.getElementById(`esgst-${id}`);
-            if (!button && id === `esPause`) {
-                button = document.getElementById(`esgst-esPause`);
-            }
-            if (button) {
-                button.parentElement.insertBefore(button, leftHidden || !esgst.hideButtons || esgst[`hideButtons_${id}`] ? button.parentElement.firstElementChild : button.parentElement.firstElementChild.nextElementSibling);
+            if (button) {                
+                let key = id === `esResume` ? `hideButtons_esPause` : `hideButtons_${id}`;
+                button.parentElement.insertBefore(button, leftHidden || !esgst.hideButtons || esgst[key] ? button.parentElement.firstElementChild : button.parentElement.firstElementChild.nextElementSibling);
                 button.setAttribute(`draggable`, true);
                 button.addEventListener(`dragstart`, event => {
                     event.dataTransfer.setData(`text/plain`, ``);
@@ -9406,21 +9404,15 @@ Parsedown = (() => {
                     let i, nextSiblingId, previousSiblingId, siblingId;
                     if (esgst.hideButtons) {
                         if (leftButtons.contains(button) || rightButtons.contains(button)) {
-                            if (!esgst[`hideButtons_${id}`]) {
-                                setSetting(`hideButtons_${id}`, true, esgst.sg, esgst.st);
+                            if (!esgst[key]) {
+                                setSetting(key, true, esgst.sg, esgst.st);
                             }
-                        } else if (esgst[`hideButtons_${id}`]) {
-                            setSetting(`hideButtons_${id}`, false, esgst.sg, esgst.st);
+                        } else if (esgst[key]) {
+                            setSetting(key, false, esgst.sg, esgst.st);
                         }
                     }
                     previousSiblingId = button.previousElementSibling && !button.previousElementSibling.classList.contains(`esgst-hidden`) && button.previousElementSibling.id;
-                    if (previousSiblingId === `esResume`) {
-                        previousSiblingId = `esPause`;
-                    }
                     nextSiblingId = button.nextElementSibling && !button.nextElementSibling.classList.contains(`esgst-hidden`) && button.nextElementSibling.id;
-                    if (nextSiblingId === `esResume`) {
-                        nextSiblingId = `esPause`;
-                    }
                     siblingId = previousSiblingId || nextSiblingId;
                     if (siblingId) {
                         i = esgst.rightButtonIds.indexOf(siblingId.split(`esgst-`)[1]);
@@ -9440,11 +9432,9 @@ Parsedown = (() => {
         });
         esgst.rightButtonIds.forEach(id => {
             let button = document.getElementById(`esgst-${id}`);
-            if (!button && id === `esPause`) {
-                button = document.getElementById(`esgst-esResume`);
-            }
             if (button) {
-                if (rightHidden || !esgst.hideButtons || esgst[`hideButtons_${id}`]) {
+                let key = id === `esResume` ? `hideButtons_esPause` : `hideButtons_${id}`;
+                if (rightHidden || !esgst.hideButtons || esgst[key]) {
                     button.parentElement.appendChild(button);
                 } else {
                     button.parentElement.insertBefore(button, button.parentElement.lastElementChild);
@@ -9472,21 +9462,15 @@ Parsedown = (() => {
                     let i, nextSiblingId, previousSiblingId, siblingId;
                     if (esgst.hideButtons) {
                         if (leftButtons.contains(button) || rightButtons.contains(button)) {
-                            if (!esgst[`hideButtons_${id}`]) {
-                                setSetting(`hideButtons_${id}`, true, esgst.sg, esgst.st);
+                            if (!esgst[key]) {
+                                setSetting(key, true, esgst.sg, esgst.st);
                             }
-                        } else if (esgst[`hideButtons_${id}`]) {
-                            setSetting(`hideButtons_${id}`, false, esgst.sg, esgst.st);
+                        } else if (esgst[key]) {
+                            setSetting(key, false, esgst.sg, esgst.st);
                         }
                     }
                     previousSiblingId = button.previousElementSibling && !button.previousElementSibling.classList.contains(`esgst-hidden`) && button.previousElementSibling.id;
-                    if (previousSiblingId === `esResume`) {
-                        previousSiblingId = `esPause`;
-                    }
                     nextSiblingId = button.nextElementSibling && !button.nextElementSibling.classList.contains(`esgst-hidden`) && button.nextElementSibling.id;
-                    if (nextSiblingId === `esResume`) {
-                        nextSiblingId = `esPause`;
-                    }
                     siblingId = previousSiblingId || nextSiblingId;
                     if (siblingId) {
                         i = esgst.leftButtonIds.indexOf(siblingId.split(`esgst-`)[1]);
