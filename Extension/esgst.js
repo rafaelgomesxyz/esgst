@@ -1721,6 +1721,8 @@ Parsedown = (() => {
                     lastSyncGiveaways: `lastSync`
                 };
                 esgst.defaultValues = {
+                    leftButtonIds: [`wbsDesc`, `wbsAsc`, `wbc`, `ugs`, `tb`, `sks`, `rbp`, `namwc`, `mtUsers`, `mtGames`, `mpp`, `hgr`, `gv`, `gts`, `gm`, `gf`, `ge`, `gas`, `ds`, `df`, `ctUnread`, `ctRead`, `ctGo`, `cs`, `as`, `aic`],
+                    rightButtonIds: [`esPause`, `esRefresh`, `esRefreshAll`],
                     gb_ue: true,
                     radb: true,
                     lastBackup: 0,
@@ -5060,11 +5062,6 @@ Parsedown = (() => {
                                         sg: true,
                                         st: true
                                     },
-                                    hideButtons_esTop: {
-                                        name: `Endless Scrolling Button - Scroll To Top`,
-                                        sg: true,
-                                        st: true
-                                    },
                                     hideButtons_gas: {
                                         name: `Giveaways Sorter Button`,
                                         sg: true
@@ -5133,11 +5130,11 @@ Parsedown = (() => {
                                         name: `Whitelist/Blacklist Checker Button`,
                                         sg: true
                                     },
-                                    hideButtons_wbcAsc: {
+                                    hideButtons_wbsAsc: {
                                         name: `Whitelist/Blacklist Sorter Button - Ascending`,
                                         sg: true
                                     },
-                                    hideButtons_wbcDesc: {
+                                    hideButtons_wbsDesc: {
                                         name: `Whitelist/Blacklist Sorter Button - Descending`,
                                         sg: true
                                     }
@@ -8626,7 +8623,11 @@ Parsedown = (() => {
             }
             if (esgst.df_m && esgst.discussionsPath && !esgst.editDiscussionPath) {
                 if (esgst.hideButtons && esgst.hideButtons_df) {
-                    esgst.leftButtons.insertBefore(addDfContainer(esgst.mainPageHeading), esgst.leftButtons.firstElementChild);
+                    if (esgst.leftButtonIds.indexOf(`df`) > -1) {
+                        esgst.leftButtons.insertBefore(addDfContainer(esgst.mainPageHeading), esgst.leftButtons.firstElementChild);
+                    } else {
+                        esgst.rightButtons.appendChild(addDfContainer(esgst.mainPageHeading));
+                    }
                 } else {
                     esgst.mainPageHeading.insertBefore(addDfContainer(esgst.mainPageHeading), esgst.mainPageHeading.firstElementChild);
                 }
@@ -8647,14 +8648,29 @@ Parsedown = (() => {
 
         if (esgst.whitelistPath || esgst.blacklistPath) {
             if (esgst.wbs) {
-                let button2, button1, dateKey, key, saveKey;
-                button2 = insertHtml(esgst.hideButtons && esgst.hideButtons_wbsDesc ? esgst.leftButtons : esgst.mainPageHeading, `afterBegin`, `
-                    <div class="esgst-heading-button" title="Sort by added date from newest to oldest">
+                let button2, button1, dateKey, saveKey;
+                let key, position;
+                if (esgst.leftButtonIds.indexOf(`wbsDesc`) > -1) {
+                    key = `leftButtons`;
+                    position = `afterBegin`;
+                } else {
+                    key = `rightButtons`;
+                    position = `beforeEnd`;
+                }
+                button2 = insertHtml(esgst.hideButtons && esgst.hideButtons_wbsDesc ? esgst[key] : esgst.mainPageHeading, position, `
+                    <div class="esgst-heading-button" id="esgst-wbsDesc" title="Sort by added date from newest to oldest">
                         <i class="fa fa-sort-amount-desc"></i>
                     </div>
                 `);
-                button1 = insertHtml(esgst.hideButtons && esgst.hideButtons_wbsAsc ? esgst.leftButtons : esgst.mainPageHeading, `afterBegin`, `
-                    <div class="esgst-heading-button" title="Sort by added date from oldest to newest">
+                if (esgst.leftButtonIds.indexOf(`wbsAsc`) > -1) {
+                    key = `leftButtons`;
+                    position = `afterBegin`;
+                } else {
+                    key = `rightButtons`;
+                    position = `beforeEnd`;
+                }
+                button1 = insertHtml(esgst.hideButtons && esgst.hideButtons_wbsAsc ? esgst[key] : esgst.mainPageHeading, position, `
+                    <div class="esgst-heading-button" id="esgst-wbsAsc" title="Sort by added date from oldest to newest">
                         <i class="fa fa-sort-amount-asc"></i>
                     </div>
                 `);
@@ -8678,8 +8694,16 @@ Parsedown = (() => {
                     wbm.key = `blacklist`;
                     wbm.name = `Blacklist`;
                 }
-                wbm.button = insertHtml(esgst.hideButtons && esgst.hideButtons_wbm ? esgst.leftButtons : esgst.mainPageHeading, `afterBegin`, `
-                    <div class="esgst-heading-button" title="Manage ${wbm.key}">
+                let key, position;
+                if (esgst.leftButtonIds.indexOf(`wbm`) > -1) {
+                    key = `leftButtons`;
+                    position = `afterBegin`;
+                } else {
+                    key = `rightButtons`;
+                    position = `beforeEnd`;
+                }
+                wbm.button = insertHtml(esgst.hideButtons && esgst.hideButtons_wbm ? esgst[key] : esgst.mainPageHeading, position, `
+                    <div class="esgst-heading-button" id="esgst-wbm" title="Manage ${wbm.key}">
                         <i class="fa fa-arrow-up"></i>
                         <i class="fa fa-arrow-down"></i>
                         <i class="fa fa-trash"></i>
@@ -8699,8 +8723,16 @@ Parsedown = (() => {
 
         if (esgst.giveawayPath && esgst.mainPageHeading) {
             if (esgst.cec) {
-                button = insertHtml(esgst.hideButtons && esgst.hideButtons_cec ? esgst.leftButtons : esgst.mainPageHeading, `afterBegin`, `
-                    <div class="esgst-heading-button" title="Check comments/entries">
+                let key, position;
+                if (esgst.leftButtonIds.indexOf(`cec`) > -1) {
+                    key = `leftButtons`;
+                    position = `afterBegin`;
+                } else {
+                    key = `rightButtons`;
+                    position = `beforeEnd`;
+                }
+                button = insertHtml(esgst.hideButtons && esgst.hideButtons_cec ? esgst[key] : esgst.mainPageHeading, position, `
+                    <div class="esgst-heading-button" id="esgst-cec" title="Check comments/entries">
                         <i class="fa fa-comments"></i>
                         <i class="fa fa-ticket"></i>
                         <i class="fa fa-question-circle"></i>
@@ -8764,8 +8796,12 @@ Parsedown = (() => {
                 esgst.giveawayFeatures.push(getGfGiveaways);
             }
             if (esgst.gf_m && (esgst.giveawaysPath || esgst.createdPath || esgst.enteredPath || esgst.wonPath || esgst.groupPath || esgst.userPath)) {
-                if (esgst.hideButtons && esgst.hideButtons_gf) {
-                    esgst.leftButtons.insertBefore(addGfContainer(esgst.mainPageHeading), esgst.leftButtons.firstElementChild);
+                if (esgst.hideButtons && esgst.hideButtons_gf) {                    
+                    if (esgst.leftButtonIds.indexOf(`gf`) > -1) {
+                        esgst.leftButtons.insertBefore(addGfContainer(esgst.mainPageHeading), esgst.leftButtons.firstElementChild);
+                    } else {
+                        esgst.rightButtons.appendChild(addGfContainer(esgst.mainPageHeading));
+                    }
                 } else {
                     esgst.mainPageHeading.insertBefore(addGfContainer(esgst.mainPageHeading), esgst.mainPageHeading.firstElementChild);
                 }
@@ -8844,8 +8880,16 @@ Parsedown = (() => {
             let rows = document.getElementsByClassName(`form__rows`)[0];
             if (rows) {
                 if (esgst.gts) {
-                    addGtsButtonSection(insertHtml(esgst.hideButtons && esgst.hideButtons_gts ? esgst.leftButtons : esgst.mainPageHeading, `afterBegin`, `
-                        <div class="esgst-gts-button esgst-heading-button" title="View/apply templates">
+                    let key, position;
+                    if (esgst.leftButtonIds.indexOf(`gts`) > -1) {
+                        key = `leftButtons`;
+                        position = `afterBegin`;
+                    } else {
+                        key = `rightButtons`;
+                        position = `beforeEnd`;
+                    }
+                    addGtsButtonSection(insertHtml(esgst.hideButtons && esgst.hideButtons_gts ? esgst[key] : esgst.mainPageHeading, position, `
+                        <div class="esgst-gts-button esgst-heading-button" id="esgst-gts" title="View/apply templates">
                             <i class="fa fa-file"></i>
                         </div>
                     `), rows);
@@ -8891,8 +8935,16 @@ Parsedown = (() => {
         }
 
         if (esgst.sks && esgst.createdPath) {
-            button = insertHtml(esgst.hideButtons && esgst.hideButtons_sks ? esgst.leftButtons : esgst.mainPageHeading, `afterBegin`, `
-                <div class="esgst-heading-button" title="Search keys">
+            let key, position;
+            if (esgst.leftButtonIds.indexOf(`sks`) > -1) {
+                key = `leftButtons`;
+                position = `afterBegin`;
+            } else {
+                key = `rightButtons`;
+                position = `beforeEnd`;
+            }
+            let button = insertHtml(esgst.hideButtons && esgst.hideButtons_sks ? esgst[key] : esgst.mainPageHeading, position, `
+                <div class="esgst-heading-button" id="esgst-sks" title="Search keys">
                     <i class="fa fa-key"></i>
                     <i class="fa fa-search"></i>
                 </div>
@@ -8903,8 +8955,16 @@ Parsedown = (() => {
         if (esgst.ugs) {
             if (esgst.createdPath) {
                 let button;
-                button = insertHtml(esgst.hideButtons && esgst.hideButtons_ugs ? esgst.leftButtons : esgst.mainPageHeading, `afterBegin`, `
-                    <div class="esgst-heading-button" title="Send unsent gifts">
+                let key, position;
+                if (esgst.leftButtonIds.indexOf(`ugs`) > -1) {
+                    key = `leftButtons`;
+                    position = `afterBegin`;
+                } else {
+                    key = `rightButtons`;
+                    position = `beforeEnd`;
+                }
+                button = insertHtml(esgst.hideButtons && esgst.hideButtons_ugs ? esgst[key] : esgst.mainPageHeading, position, `
+                    <div class="esgst-heading-button" id="esgst-ugs" title="Send unsent gifts">
                         <i class="fa fa-gift"></i>
                         <i class="fa fa-send"></i>
                     </div>
@@ -8933,8 +8993,16 @@ Parsedown = (() => {
         }
 
         if (esgst.hgr && location.pathname.match(/^\/account\/settings\/giveaways\/filters/)) {
-            let button = insertHtml(esgst.hideButtons && esgst.hideButtons_hgr ? esgst.leftButtons : esgst.mainPageHeading, `afterBegin`, `
-                <div class="esgst-heading-button" title="Remove owned games from the list">
+            let key, position;
+            if (esgst.leftButtonIds.indexOf(`hgr`) > -1) {
+                key = `leftButtons`;
+                position = `afterBegin`;
+            } else {
+                key = `rightButtons`;
+                position = `beforeEnd`;
+            }
+            let button = insertHtml(esgst.hideButtons && esgst.hideButtons_hgr ? esgst[key] : esgst.mainPageHeading, position, `
+                <div class="esgst-heading-button" id="esgst-hgr" title="Remove owned games from the list">
                     <i class="fa fa-eye-slash"></i>
                     <i class="fa fa-times-circle"></i>
                 </div>
@@ -8993,8 +9061,16 @@ Parsedown = (() => {
 
         if (esgst.ds && esgst.discussionsPath) {
             let ds = {};
-            ds.button = insertHtml(esgst.hideButtons && esgst.hideButtons_ds ? esgst.leftButtons : esgst.mainPageHeading, `afterBegin`, `
-                <div class="esgst-heading-button" title="Sort discussions">
+            let key, position;
+            if (esgst.leftButtonIds.indexOf(`ds`) > -1) {
+                key = `leftButtons`;
+                position = `afterBegin`;
+            } else {
+                key = `rightButtons`;
+                position = `beforeEnd`;
+            }
+            ds.button = insertHtml(esgst.hideButtons && esgst.hideButtons_ds ? esgst[key] : esgst.mainPageHeading, position, `
+                <div class="esgst-heading-button" id="esgst-ds" title="Sort discussions">
                     <i class="fa fa-sort"></i>
                 </div>
             `);
@@ -9019,8 +9095,16 @@ Parsedown = (() => {
 
         if (esgst.tb) {
             if (location.href.match(new RegExp(`\\/trades\\/search\\?user=${esgst.steamId}`))) {
-                let button = insertHtml(esgst.hideButtons && esgst.hideButtons_tb ? esgst.leftButtons : esgst.mainPageHeading, `afterBegin`, `
-                    <div class="esgst-heading-button" title="Bump trades">
+                let key, position;
+                if (esgst.leftButtonIds.indexOf(`tb`) > -1) {
+                    key = `leftButtons`;
+                    position = `afterBegin`;
+                } else {
+                    key = `rightButtons`;
+                    position = `beforeEnd`;
+                }
+                let button = insertHtml(esgst.hideButtons && esgst.hideButtons_tb ? esgst[key] : esgst.mainPageHeading, position, `
+                    <div class="esgst-heading-button" id="esgst-tb" title="Bump trades">
                         <i class="fa fa-chevron-circle-up"></i>
                     </div>
                 `);
@@ -9064,8 +9148,16 @@ Parsedown = (() => {
         }
 
         if (esgst.cs && esgst.commentsPath && (!esgst.giveawayPath || !document.getElementsByClassName(`table--summary`)[0])) {
-            let button = insertHtml(esgst.hideButtons && esgst.hideButtons_cs ? esgst.leftButtons : esgst.mainPageHeading, `afterBegin`, `
-                <div class="esgst-heading-button" title="Search comments from specific users">
+            let key, position;
+            if (esgst.leftButtonIds.indexOf(`cs`) > -1) {
+                key = `leftButtons`;
+                position = `afterBegin`;
+            } else {
+                key = `rightButtons`;
+                position = `beforeEnd`;
+            }
+            let button = insertHtml(esgst.hideButtons && esgst.hideButtons_cs ? esgst[key] : esgst.mainPageHeading, position, `
+                <div class="esgst-heading-button" id="esgst-cs" title="Search comments from specific users">
                     <i class="fa fa-comments"></i>
                     <i class="fa fa-search"></i>
                 </div>
@@ -9139,8 +9231,16 @@ Parsedown = (() => {
 
         if (esgst.namwc) {
             if (esgst.winnersPath) {
-                setNAMWCPopup(insertHtml(esgst.hideButtons && esgst.hideButtons_namwc ? esgst.leftButtons : esgst.mainPageHeading, `afterBegin`, `
-                    <div class="esgst-heading-button" title="Check for not activated/multiple wins">
+                let key, position;
+                if (esgst.leftButtonIds.indexOf(`namwc`) > -1) {
+                    key = `leftButtons`;
+                    position = `afterBegin`;
+                } else {
+                    key = `rightButtons`;
+                    position = `beforeEnd`;
+                }
+                setNAMWCPopup(insertHtml(esgst.hideButtons && esgst.hideButtons_namwc ? esgst[key] : esgst.mainPageHeading, position, `
+                    <div class="esgst-heading-button" id="esgst-namwc" title="Check for not activated/multiple wins">
                         <i class="fa fa-trophy"></i>
                         <i class="fa fa-question-circle"></i>
                     </div>
@@ -9165,8 +9265,16 @@ Parsedown = (() => {
                         <i class="fa fa-question-circle"></i>
                     `;
                 }
-                esgst.wbcButton = insertHtml(esgst.hideButtons && esgst.hideButtons_wbc ? esgst.leftButtons : esgst.mainPageHeading, `afterBegin`, `
-                    <div class="esgst-heading-button esgst-hidden" title="${title}">${html}</div>
+                let key, position;
+                if (esgst.leftButtonIds.indexOf(`wbc`) > -1) {
+                    key = `leftButtons`;
+                    position = `afterBegin`;
+                } else {
+                    key = `rightButtons`;
+                    position = `beforeEnd`;
+                }
+                esgst.wbcButton = insertHtml(esgst.hideButtons && esgst.hideButtons_wbc ? esgst[key] : esgst.mainPageHeading, position, `
+                    <div class="esgst-heading-button esgst-hidden" id="esgst-wbc" title="${title}">${html}</div>
                 `);
                 addWBCButton(true, esgst.wbcButton);
             }
@@ -9244,6 +9352,7 @@ Parsedown = (() => {
             esgst.mainPageHeading.insertBefore(hiddenButtonsBefore, esgst.mainPageHeading.firstElementChild);
             esgst.mainPageHeading.appendChild(hiddenButtonsAfter);
         }
+        reorderButtons(hiddenButtonsBefore, esgst.leftButtons, hiddenButtonsAfter, esgst.rightButtons);
         goToComment(esgst.originalHash);
         addEventListener(`beforeunload`, function (event) {
             if (document.getElementsByClassName(`esgst-busy`)[0] || esgst.busy) {
@@ -9261,6 +9370,132 @@ Parsedown = (() => {
             }
         }
         setTimeout(repositionPopups, 2000);
+    }
+
+    function reorderButtons(leftButton, leftButtons, rightButton, rightButtons) {
+        let leftHidden, rightHidden, source;
+        leftHidden = leftButton.classList.contains(`esgst-hidden`);
+        rightHidden = leftButton.classList.contains(`esgst-hidden`);
+        esgst.leftButtonIds.forEach(id => {
+            let button = document.getElementById(`esgst-${id}`);
+            if (!button && id === `esPause`) {
+                button = document.getElementById(`esgst-esPause`);
+            }
+            if (button) {
+                button.parentElement.insertBefore(button, leftHidden || esgst[`hideButtons_${id}`] ? button.parentElement.firstElementChild : button.parentElement.firstElementChild.nextElementSibling);
+                button.setAttribute(`draggable`, true);
+                button.addEventListener(`dragstart`, event => {
+                    event.dataTransfer.setData(`text/plain`, ``);
+                    source = button;
+                });
+                button.addEventListener(`dragenter`, () => {
+                    let current, i;
+                    current = source;
+                    i = 0;
+                    do {
+                        current = current.previousElementSibling;
+                        if (current && current === button) {
+                            current.parentElement.insertBefore(source, current);
+                            return;
+                        }
+                        ++i;
+                    } while (current);
+                    button.parentElement.insertBefore(source, button.nextElementSibling);
+                });
+                button.addEventListener(`dragend`, () => {
+                    let i, nextSiblingId, previousSiblingId, siblingId;
+                    if (leftButtons.contains(button) || rightButtons.contains(button)) {
+                        if (!esgst[`hideButtons_${id}`]) {
+                            setSetting(`hideButtons_${id}`, true, esgst.sg, esgst.st);
+                        }
+                    } else if (esgst[`hideButtons_${id}`]) {
+                        setSetting(`hideButtons_${id}`, false, esgst.sg, esgst.st);
+                    }
+                    previousSiblingId = button.previousElementSibling && button.previousElementSibling.id;
+                    if (previousSiblingId === `esResume`) {
+                        previousSiblingId = `esPause`;
+                    }
+                    nextSiblingId = button.nextElementSibling && button.nextElementSibling.id;
+                    if (nextSiblingId === `esResume`) {
+                        nextSiblingId = `esPause`;
+                    }
+                    siblingId = previousSiblingId || nextSiblingId;
+                    i = esgst.rightButtonIds.indexOf(siblingId.split(`esgst-`)[1]);
+                    esgst.leftButtonIds.splice(esgst.leftButtonIds.indexOf(id), 1);
+                    if (i > -1) {
+                        esgst.rightButtonIds.splice(i, 0, id);
+                    } else if (previousSiblingId) {
+                        esgst.leftButtonIds.splice(esgst.leftButtonIds.indexOf(previousSiblingId.split(`esgst-`)[1]), 0, id);
+                    } else {
+                        esgst.leftButtonIds.splice(esgst.leftButtonIds.indexOf(nextSiblingId.split(`esgst-`)[1]) + 1, 0, id);
+                    }
+                    setSetting(`leftButtonIds`, esgst.leftButtonIds);
+                    setSetting(`rightButtonIds`, esgst.rightButtonIds);
+                });
+            }
+        });
+        esgst.rightButtonIds.forEach(id => {
+            let button = document.getElementById(`esgst-${id}`);
+            if (!button && id === `esPause`) {
+                button = document.getElementById(`esgst-esResume`);
+            }
+            if (button) {
+                if (rightHidden || esgst[`hideButtons_${id}`]) {
+                    button.parentElement.appendChild(button);
+                } else {
+                    button.parentElement.insertBefore(button, button.parentElement.lastElementChild);
+                }
+                button.setAttribute(`draggable`, true);
+                button.addEventListener(`dragstart`, event => {
+                    event.dataTransfer.setData(`text/plain`, ``);
+                    source = button;
+                });
+                button.addEventListener(`dragenter`, () => {
+                    let current, i;
+                    current = source;
+                    i = 0;
+                    do {
+                        current = current.previousElementSibling;
+                        if (current && current === button) {
+                            current.parentElement.insertBefore(source, current);
+                            return;
+                        }
+                        ++i;
+                    } while (current);
+                    button.parentElement.insertBefore(source, button.nextElementSibling);
+                });
+                button.addEventListener(`dragend`, () => {
+                    let i, nextSiblingId, previousSiblingId, siblingId;
+                    if (leftButtons.contains(button) || rightButtons.contains(button)) {
+                        if (!esgst[`hideButtons_${id}`]) {
+                            setSetting(`hideButtons_${id}`, true, esgst.sg, esgst.st);
+                        }
+                    } else if (esgst[`hideButtons_${id}`]) {
+                        setSetting(`hideButtons_${id}`, false, esgst.sg, esgst.st);
+                    }
+                    previousSiblingId = button.previousElementSibling && button.previousElementSibling.id;
+                    if (previousSiblingId === `esResume`) {
+                        previousSiblingId = `esPause`;
+                    }
+                    nextSiblingId = button.nextElementSibling && button.nextElementSibling.id;
+                    if (nextSiblingId === `esResume`) {
+                        nextSiblingId = `esPause`;
+                    }
+                    siblingId = previousSiblingId || nextSiblingId;
+                    i = esgst.leftButtonIds.indexOf(siblingId.split(`esgst-`)[1]);
+                    esgst.rightButtonIds.splice(esgst.rightButtonIds.indexOf(id), 1);
+                    if (i > -1) {
+                        esgst.leftButtonIds.splice(i, 0, id);
+                    } else if (previousSiblingId) {
+                        esgst.rightButtonIds.splice(esgst.rightButtonIds.indexOf(previousSiblingId.split(`esgst-`)[1]) + 1, 0, id);
+                    } else {
+                        esgst.rightButtonIds.splice(esgst.rightButtonIds.indexOf(nextSiblingId.split(`esgst-`)[1]), 0, id);
+                    }
+                    setSetting(`leftButtonIds`, esgst.leftButtonIds);
+                    setSetting(`rightButtonIds`, esgst.rightButtonIds);
+                });
+            }
+        });
     }
 
     function repositionPopups() {
@@ -11726,8 +11961,16 @@ Parsedown = (() => {
                     url: url
                 });
                 if (!esgst.aicButton) {
-                    esgst.aicButton = insertHtml(esgst.hideButtons && esgst.hideButtons_aic ? esgst.leftButtons : esgst.mainPageHeading, `afterBegin`, `
-                        <div class="esgst-heading-button" title="View attached images">
+                    let key, position;
+                    if (esgst.leftButtonIds.indexOf(`aic`) > -1) {
+                        key = `leftButtons`;
+                        position = `afterBegin`;
+                    } else {
+                        key = `rightButtons`;
+                        position = `beforeEnd`;
+                    }
+                    esgst.aicButton = insertHtml(esgst.hideButtons && esgst.hideButtons_aic ? esgst[key] : esgst.mainPageHeading, position, `
+                        <div class="esgst-heading-button" id="esgst-aic" title="View attached images">
                             <i class="fa fa-image"></i>
                         </div>
                     `);
@@ -12497,13 +12740,18 @@ Parsedown = (() => {
             esgst.gas.optionKey = `gas_option${type}`;
             gas.button = document.createElement(`div`);
             gas.button.className = `esgst-heading-button`;
+            gas.button.id = `esgst-gas`;
             gas.button.title = `Sort giveaways`;
             gas.button.innerHTML = `
                 <i class="fa fa-sort"></i>
             `;
             gas.button.addEventListener(`click`, openGasPopout.bind(null, gas));
             if (esgst.hideButtons && esgst.hideButtons_gas) {
-                esgst.leftButtons.insertBefore(gas.button, esgst.leftButtons.firstElementChild);
+                if (esgst.leftButtonIds.indexOf(`gas`) > -1) {
+                    esgst.leftButtons.insertBefore(gas.button, esgst.leftButtons.firstElementChild);
+                } else {
+                    esgst.rightButtons.appendChild(gas.button);
+                }
             } else {
                 esgst.mainPageHeading.insertBefore(gas.button, esgst.mainPageHeading.firstElementChild);
             }
@@ -12645,8 +12893,16 @@ Parsedown = (() => {
             `);
             if (esgst.giveawaysPath) {
                 let button, display, element, elements, i, n, popout, spacing, slider;
-                button = insertHtml(esgst.hideButtons && esgst.hideButtons_gv ? esgst.rightButtons : esgst.mainPageHeading, `beforeEnd`, `
-                    <div class="esgst-heading-button" title="Set Grid View spacing">
+                let key, position;
+                if (esgst.leftButtonIds.indexOf(`gv`) > -1) {
+                    key = `leftButtons`;
+                    position = `afterBegin`;
+                } else {
+                    key = `rightButtons`;
+                    position = `beforeEnd`;
+                }
+                button = insertHtml(esgst.hideButtons && esgst.hideButtons_gv ? esgst[key] : esgst.mainPageHeading, position, `
+                    <div class="esgst-heading-button" id="esgst-gv" title="Set Grid View spacing">
                         <i class="fa fa-th-large"></i>
                     </div>
                 `);
@@ -12909,6 +13165,7 @@ Parsedown = (() => {
         }
         headingButton = document.createElement(`div`);
         headingButton.className = `esgst-heading-button esgst-gf-heading-button`;
+        headingButton.id = `esgst-gf`;
         headingButton.innerHTML = `
             <span class="esgst-gf-toggle-switch"></span>
             <i class="fa fa-sliders" title="Manage presets"></i>
@@ -18765,8 +19022,16 @@ Parsedown = (() => {
         let button, toggleSwitch;
         if (context || esgst.giveawaysPath || esgst.createdPath || esgst.enteredPath || esgst.wonPath || esgst.userPath) {
             esgst.gmCheckboxes = {};
-            button = insertHtml(context || (esgst.hideButtons && esgst.hideButtons_gm ? esgst.leftButtons : esgst.mainPageHeading), `afterBegin`, `
-                <div class="esgst-heading-button" title="Manage giveaways">
+            let key, position;
+            if (esgst.leftButtonIds.indexOf(`gm`) > -1) {
+                key = `leftButtons`;
+                position = `afterBegin`;
+            } else {
+                key = `rightButtons`;
+                position = `beforeEnd`;
+            }
+            button = insertHtml(context || (esgst.hideButtons && esgst.hideButtons_gm ? esgst[key] : esgst.mainPageHeading), position, `
+                <div class="esgst-heading-button" id="esgst-gm" title="Manage giveaways">
                     <span></span>
                     <i class="fa fa-gear"></i>
                 </div>
@@ -19740,9 +20005,17 @@ Parsedown = (() => {
 
     function loadGe() {
         if (((esgst.giveawayCommentsPath && !document.getElementsByClassName(`table--summary`)[0]) || esgst.discussionPath) && document.querySelector(`[href*="/giveaway/"]`)) {
+            let key, position;
+            if (esgst.leftButtonIds.indexOf(`ge`) > -1) {
+                key = `leftButtons`;
+                position = `afterBegin`;
+            } else {
+                key = `rightButtons`;
+                position = `beforeEnd`;
+            }
             let ge = {
-                button: insertHtml(esgst.hideButtons && esgst.hideButtons_ge ? esgst.leftButtons : esgst.mainPageHeading, `afterBegin`, `
-                    <div class="esgst-heading-button" title="Extract giveaways">
+                button: insertHtml(esgst.hideButtons && esgst.hideButtons_ge ? esgst[key] : esgst.mainPageHeading, position, `
+                    <div class="esgst-heading-button" id="esgst-ge" title="Extract giveaways">
                         <i class="fa fa-gift"></i>
                         <i class="fa fa-search"></i>
                     </div>
@@ -20197,8 +20470,16 @@ Parsedown = (() => {
     function loadAs() {
         if (esgst.archivePath) {
             let ASButton, Category, popup;
-            ASButton = insertHtml(esgst.hideButtons && esgst.hideButtons_as ? esgst.leftButtons : esgst.mainPageHeading, `afterBegin`, `
-                <div class="esgst-heading-button" title="Search archive">
+            let key, position;
+            if (esgst.leftButtonIds.indexOf(`as`) > -1) {
+                key = `leftButtons`;
+                position = `afterBegin`;
+            } else {
+                key = `rightButtons`;
+                position = `beforeEnd`;
+            }
+            ASButton = insertHtml(esgst.hideButtons && esgst.hideButtons_as ? esgst[key] : esgst.mainPageHeading, position, `
+                <div class="esgst-heading-button" id="esgst-as" title="Search archive">
                     <i class="fa fa-folder"></i>
                     <i class="fa fa-search"></i>
                 </div>
@@ -20882,6 +21163,7 @@ Parsedown = (() => {
         var basicFilter, basicFilters, box, button, categoryFilter, categoryFilters, collapseButton, display, exceptionButton, exceptionCount, exceptionPanel, expandButton, filters, genres, df, headingButton, i, id, infinite, key, maxKey, maxSavedValue, maxValue, minKey, minSavedValue, minValue, name, preset, presetButton, presetDisplay, presetInput, presetMessage, presetPanel, presets, presetWarning, slider, step, toggleSwitch, typeFilter, typeFilters, value;
         headingButton = document.createElement(`div`);
         headingButton.className = `esgst-heading-button esgst-gf-heading-button`;
+        headingButton.id = `esgst-df`;
         headingButton.innerHTML = `
             <span class="esgst-gf-toggle-switch"></span>
             <i class="fa fa-sliders" title="Manage presets"></i>
@@ -21818,8 +22100,16 @@ Parsedown = (() => {
     function loadMpp() {
         if (esgst.discussionPath) {
             let button, discussion, MPPPost, Sibling, Visited, Timestamp, Hidden;
-            button = insertHtml(esgst.hideButtons && esgst.hideButtons_mpp ? esgst.leftButtons : esgst.mainPageHeading, `afterBegin`, `
-                <div class="esgst-heading-button" title="Open the main post">
+            let key, position;
+            if (esgst.leftButtonIds.indexOf(`mpp`) > -1) {
+                key = `leftButtons`;
+                position = `afterBegin`;
+            } else {
+                key = `rightButtons`;
+                position = `beforeEnd`;
+            }
+            button = insertHtml(esgst.hideButtons && esgst.hideButtons_mpp ? esgst[key] : esgst.mainPageHeading, position, `
+                <div class="esgst-heading-button" id="esgst-mpp" title="Open the main post">
                     <i class="fa fa-home"></i>
                 </div>
             `);
@@ -22705,8 +22995,16 @@ Parsedown = (() => {
     function loadRbp() {
         if (esgst.replyBox) {
             let button, popup;
-            button = insertHtml(esgst.hideButtons && esgst.hideButtons_rbp ? esgst.leftButtons : esgst.mainPageHeading, `afterBegin`, `
-                <div class="esgst-heading-button" title="Add a comment">
+            let key, position;
+            if (esgst.leftButtonIds.indexOf(`rbp`) > -1) {
+                key = `leftButtons`;
+                position = `afterBegin`;
+            } else {
+                key = `rightButtons`;
+                position = `beforeEnd`;
+            }
+            button = insertHtml(esgst.hideButtons && esgst.hideButtons_rbp ? esgst[key] : esgst.mainPageHeading, position `
+                <div class="esgst-heading-button" id="esgst-rbp" title="Add a comment">
                     <i class="fa fa-comment"></i>
                 </div>
             `);
@@ -23152,18 +23450,40 @@ Parsedown = (() => {
         if (((esgst.commentsPath && (!esgst.giveawayPath || !document.getElementsByClassName(`table--summary`)[0])) || esgst.inboxPath) && !esgst.ct_s) {
             if (!esgst.ct_s) {
                 let button1, button2, button3;
-                button3 = insertHtml(esgst.hideButtons && esgst.hideButtons_ctUnread ? esgst.leftButtons : esgst.mainPageHeading, `afterBegin`, `
-                    <div class="esgst-heading-button" title="Mark all comments in this page as unread">
+                let key, position;
+                if (esgst.leftButtonIds.indexOf(`ctUnread`) > -1) {
+                    key = `leftButtons`;
+                    position = `afterBegin`;
+                } else {
+                    key = `rightButtons`;
+                    position = `beforeEnd`;
+                }
+                button3 = insertHtml(esgst.hideButtons && esgst.hideButtons_ctUnread ? esgst[key] : esgst.mainPageHeading, position, `
+                    <div class="esgst-heading-button" id="esgst-ctUnread" title="Mark all comments in this page as unread">
                         <i class="fa fa-eye-slash"></i>
                     </div>
                 `);
-                button2 = insertHtml(esgst.hideButtons && esgst.hideButtons_ctRead ? esgst.leftButtons : esgst.mainPageHeading, `afterBegin`, `
-                    <div class="esgst-heading-button" title="Mark all comments in this page as read">
+                if (esgst.leftButtonIds.indexOf(`ctRead`) > -1) {
+                    key = `leftButtons`;
+                    position = `afterBegin`;
+                } else {
+                    key = `rightButtons`;
+                    position = `beforeEnd`;
+                }
+                button2 = insertHtml(esgst.hideButtons && esgst.hideButtons_ctRead ? esgst[key] : esgst.mainPageHeading, position, `
+                    <div class="esgst-heading-button" id="esgst-ctRead" title="Mark all comments in this page as read">
                         <i class="fa fa-eye"></i>
                     </div>
                 `);
-                button1 = insertHtml(esgst.hideButtons && esgst.hideButtons_ctGo ? esgst.leftButtons : esgst.mainPageHeading, `afterBegin`, `
-                    <div class="esgst-heading-button" title="Go to the first unread comment of this page">
+                if (esgst.leftButtonIds.indexOf(`ctGo`) > -1) {
+                    key = `leftButtons`;
+                    position = `afterBegin`;
+                } else {
+                    key = `rightButtons`;
+                    position = `beforeEnd`;
+                }
+                button1 = insertHtml(esgst.hideButtons && esgst.hideButtons_ctGo ? esgst[key] : esgst.mainPageHeading, position, `
+                    <div class="esgst-heading-button" id="esgst-ctGo" title="Go to the first unread comment of this page">
                         <i class="fa fa-comments-o"></i>
                     </div>
                 `);
@@ -26457,8 +26777,16 @@ Parsedown = (() => {
             } else {
                 parameters = `?url=${location.pathname.match(/\/(group\/(.+?)\/(.+?))(\/.*)?$/)[1]}/users&id=${document.querySelector(`[href*="/gid/"]`).getAttribute(`href`).match(/\d+/)[0]}`;
             }
-            insertHtml(esgst.hideButtons && esgst.hideButtons_glwc ? esgst.leftButtons : esgst.mainPageHeading, `afterBegin`, `
-                <div class="esgst-heading-button" title="Check libraries/wishlists">
+            let key, position;
+            if (esgst.leftButtonIds.indexOf(`glwc`) > -1) {
+                key = `leftButtons`;
+                position = `afterBegin`;
+            } else {
+                key = `rightButtons`;
+                position = `beforeEnd`;
+            }
+            insertHtml(esgst.hideButtons && esgst.hideButtons_glwc ? esgst[key] : esgst.mainPageHeading, position, `
+                <div class="esgst-heading-button" id="esgst-glwc" title="Check libraries/wishlists">
                     <i class="fa fa-folder"></i>
                     <i class="fa fa-star"></i>
                 </div>
@@ -28049,8 +28377,16 @@ Parsedown = (() => {
         if (esgst.mainPageHeading) {
             let mt, toggleSwitch;
             if (esgst.ut || esgst.wbc) {
-                esgst.mtUserButton = insertHtml(esgst.hideButtons && esgst.hideButtons_mtUsers ? esgst.leftButtons : esgst.mainPageHeading, `afterBegin`, `
-                    <div class="esgst-heading-button esgst-hidden" title="Manage users">
+                let key, position;
+                if (esgst.leftButtonIds.indexOf(`mtUsers`) > -1) {
+                    key = `leftButtons`;
+                    position = `afterBegin`;
+                } else {
+                    key = `rightButtons`;
+                    position = `beforeEnd`;
+                }
+                esgst.mtUserButton = insertHtml(esgst.hideButtons && esgst.hideButtons_mtUsers ? esgst[key] : esgst.mainPageHeading, position, `
+                    <div class="esgst-heading-button esgst-hidden" id="esgst-mtUsers" title="Manage users">
                         <span></span>
                         <span>
                             <i class="fa fa-user"></i>
@@ -28067,8 +28403,16 @@ Parsedown = (() => {
                 esgst.mtUserButton.addEventListener(`click`, openMtPopout.bind(null, mt));
             }
             if (esgst.gt) {
-                esgst.mtGameButton = insertHtml(esgst.hideButtons && esgst.hideButtons_mtGames ? esgst.leftButtons : esgst.mainPageHeading, `afterBegin`, `
-                    <div class="esgst-heading-button esgst-hidden" title="Multi-tag games">
+                let key, position;
+                if (esgst.leftButtonIds.indexOf(`mtGames`) > -1) {
+                    key = `leftButtons`;
+                    position = `afterBegin`;
+                } else {
+                    key = `rightButtons`;
+                    position = `beforeEnd`;
+                }
+                esgst.mtGameButton = insertHtml(esgst.hideButtons && esgst.hideButtons_mtGames ? esgst[key] : esgst.mainPageHeading, position, `
+                    <div class="esgst-heading-button esgst-hidden" id="esgst-mtGames" title="Multi-tag games">
                         <span></span>
                         <span>
                             <i class="fa fa-gamepad"></i>
@@ -31547,24 +31891,53 @@ Parsedown = (() => {
             for (i = 0, n = mainContext.children.length; i < n; ++i) {
                 mainContext.children[i].classList.add(`esgst-es-page-${currentPage}`);
             }
-            pauseButton = insertHtml(esgst.hideButtons && esgst.hideButtons_esPause ? esgst.rightButtons : esgst.mainPageHeading, `beforeEnd`, `
-                <div class="esgst-heading-button esgst-es-pause-button" title="Pause the endless scrolling">
+            let key, position;
+            if (esgst.leftButtonIds.indexOf(`esPause`) > -1) {
+                key = `leftButtons`;
+                position = `afterBegin`;
+            } else {
+                key = `rightButtons`;
+                position = `beforeEnd`;
+            }
+            pauseButton = insertHtml(esgst.hideButtons && esgst.hideButtons_esPause ? esgst[key] : esgst.mainPageHeading, position, `
+                <div class="esgst-heading-button esgst-es-pause-button" id="esgst-esPause" title="Pause the endless scrolling">
                     <i class="fa fa-pause"></i>
                 </div>
             `);
-            resumeButton = insertHtml(esgst.hideButtons && esgst.hideButtons_esPause ? esgst.rightButtons : esgst.mainPageHeading, `beforeEnd`, `
-                <div class="esgst-heading-button esgst-es-resume-button esgst-hidden" title="Resume the endless scrolling">
+            if (esgst.leftButtonIds.indexOf(`esResume`) > -1) {
+                key = `leftButtons`;
+                position = `afterBegin`;
+            } else {
+                key = `rightButtons`;
+                position = `beforeEnd`;
+            }
+            resumeButton = insertHtml(esgst.hideButtons && esgst.hideButtons_esPause ? esgst[key] : esgst.mainPageHeading, position, `
+                <div class="esgst-heading-button esgst-es-resume-button esgst-hidden" id="esgst-esResume" title="Resume the endless scrolling">
                     <i class="fa fa-play"></i>
                 </div>
             `);
-            refreshButton = insertHtml(esgst.hideButtons && esgst.hideButtons_esRefresh ? esgst.rightButtons : esgst.mainPageHeading, `beforeEnd`, `
-                <div class="esgst-heading-button esgst-es-refresh-button" title="Refresh current page">
+            if (esgst.leftButtonIds.indexOf(`esRefresh`) > -1) {
+                key = `leftButtons`;
+                position = `afterBegin`;
+            } else {
+                key = `rightButtons`;
+                position = `beforeEnd`;
+            }
+            refreshButton = insertHtml(esgst.hideButtons && esgst.hideButtons_esRefresh ? esgst[key] : esgst.mainPageHeading, position, `
+                <div class="esgst-heading-button esgst-es-refresh-button" id="esgst-esRefresh" title="Refresh current page">
                     <i class="fa fa-refresh"></i>
                     <i class="fa fa-map-marker"></i>
                 </div>
             `);
-            refreshAllButton = insertHtml(esgst.hideButtons && esgst.hideButtons_esRefreshAll ? esgst.rightButtons : esgst.mainPageHeading, `beforeEnd`, `
-                <div class="esgst-heading-button esgst-es-refresh-all-button" title="Refresh all pages">
+            if (esgst.leftButtonIds.indexOf(`esRefreshAll`) > -1) {
+                key = `leftButtons`;
+                position = `afterBegin`;
+            } else {
+                key = `rightButtons`;
+                position = `beforeEnd`;
+            }
+            refreshAllButton = insertHtml(esgst.hideButtons && esgst.hideButtons_esRefreshAll ? esgst[key] : esgst.mainPageHeading, position, `
+                <div class="esgst-heading-button esgst-es-refresh-all-button" id="esgst-esRefreshAll" title="Refresh all pages">
                     <i class="fa fa-refresh"></i>
                 </div>
             `);
