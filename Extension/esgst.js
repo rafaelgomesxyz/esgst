@@ -28883,7 +28883,7 @@ Parsedown = (() => {
     }
 
     function filterSm(event) {
-        let found, id, type, typeFound, value;
+        let element, found, id, type, typeFound, value;
         value = event.currentTarget.value.toLowerCase().trim();
         for (type in esgst.features) {
             found = false;
@@ -28895,16 +28895,19 @@ Parsedown = (() => {
                     unhideSmFeature(esgst.features[type].features[id], id);
                 }
             }
-            if (typeFound) {
-                document.getElementById(`esgst_${type}`).classList.remove(`esgst-hidden`);
-            } else {
-                document.getElementById(`esgst_${type}`).classList.add(`esgst-hidden`);
+            element = document.getElementById(`esgst_${type}`);
+            if (element) {
+                if (typeFound) {
+                    element.classList.remove(`esgst-hidden`);
+                } else {
+                    element.classList.add(`esgst-hidden`);
+                }
             }
         }
     }
 
     function filterSmFeature(feature, id, value) {
-        let found, subId;
+        let element, found, subId;
         found = false;
         if (feature.features) {
             for (subId in feature.features) {
@@ -28914,16 +28917,22 @@ Parsedown = (() => {
         } else {
             found = (feature.description && feature.description.toLowerCase().match(value)) || feature.name.toLowerCase().match(value);
         }
-        if (found) {
-            document.getElementById(`esgst_${id}`).classList.remove(`esgst-hidden`);
-        } else {
-            document.getElementById(`esgst_${id}`).classList.add(`esgst-hidden`);
+        element = document.getElementById(`esgst_${id}`);
+        if (element) {
+            if (found) {
+                element.classList.remove(`esgst-hidden`);
+            } else {
+                element.classList.add(`esgst-hidden`);
+            }
         }
         return found;
     }
 
     function unhideSmFeature(feature, id) {
-        document.getElementById(`esgst_${id}`).classList.remove(`esgst-hidden`);
+        let element = document.getElementById(`esgst_${id}`);
+        if (element) {
+            element.classList.remove(`esgst-hidden`);
+        }
         if (feature.features) {
             for (id in feature.features) {
                 unhideSmFeature(feature.features[id], id);
