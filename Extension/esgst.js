@@ -34906,7 +34906,7 @@ Parsedown = (() => {
             .esgst-popup-heading {
                 display: flex;
                 align-items: center;
-                margin-bottom: 25px;
+                margin-bottom: 5px;
             }
 
             .esgst-popup-icon {
