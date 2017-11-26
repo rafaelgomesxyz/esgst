@@ -1717,8 +1717,10 @@ Parsedown = (() => {
                     lastSyncGiveaways: `lastSync`
                 };
                 esgst.defaultValues = {
+                    stbb_index: 0,
+                    sttb_index: 0,
                     leftButtonIds: [`wbsDesc`, `wbsAsc`, `wbc`, `ugs`, `tb`, `sks`, `rbp`, `namwc`, `mtUsers`, `mtGames`, `mpp`, `hgr`, `gv`, `gts`, `gm`, `gf`, `ge`, `gas`, `ds`, `df`, `ctUnread`, `ctRead`, `ctGo`, `cs`, `as`, `aic`],
-                    rightButtonIds: [`esResume`, `esPause`, `esRefresh`, `esRefreshAll`],
+                    rightButtonIds: [`esResume`, `esPause`, `esRefresh`, `esRefreshAll`, `stbb`, `sttb`],
                     gb_ue: true,
                     radb: true,
                     lastBackup: 0,
@@ -2501,29 +2503,22 @@ Parsedown = (() => {
                                 st: true
                             },
                             stbb: {
-                                features: {
-                                    stbb_f: {
-                                        name: `Show inside of the footer.`,
-                                        sg: true,
-                                        st: true
-                                    }
-                                },
                                 name: `Scroll To Bottom Button`,
                                 new: true,
+                                options: {
+                                    title: `Show in:`,
+                                    values: [`Bottom Right Corner`, `Main Page Heading`, `Footer`]
+                                },
                                 sg: true,
                                 st: true
                             },
                             sttb: {
-                                features: {
-                                    sttb_f: {
-                                        name: `Show inside of the footer.`,
-                                        new: true,
-                                        sg: true,
-                                        st: true
-                                    }
-                                },
                                 name: `Scroll To Top Button`,
                                 newBelow: true,
+                                options: {
+                                    title: `Show in:`,
+                                    values: [`Bottom Right Corner`, `Main Page Heading`, `Footer`]
+                                },
                                 sg: true,
                                 st: true
                             },
@@ -5110,6 +5105,16 @@ Parsedown = (() => {
                                         name: `Sent Keys Searcher Button`,
                                         sg: true
                                     },
+                                    hideButtons_stbb: {
+                                        name: `Scroll To Bottom  Button`,
+                                        new: true,
+                                        sg: true
+                                    },
+                                    hideButtons_sttb: {
+                                        name: `Scroll To Top Button`,
+                                        new: true,
+                                        sg: true
+                                    },
                                     hideButtons_tb: {
                                         name: `Trades Bumper Button`,
                                         st: true
@@ -5136,6 +5141,7 @@ Parsedown = (() => {
                                     }
                                 },
                                 name: `Hide buttons at the left/right sides of the main page heading to reduce used space.`,
+                                newBelow: true,
                                 sg: true,
                                 st: true
                             }
@@ -5152,6 +5158,14 @@ Parsedown = (() => {
                         esgst[match[1]] = esgst.settings[key];
                     }
                 }
+                [{id: `stbb`, side: `right`},
+                 {id: `sttb`, side: `right`}].forEach(item => {
+                    if (esgst.leftButtonIds.indexOf(item.id) < 0 && esgst.rightButtonIds.indexOf(item.id) < 0) {
+                        esgst[`${item.side}ButtonIds`].push(item.id);
+                        esgst.settings.leftButtonIds = esgst.leftButtonIds;
+                        esgst.settings.rightButtonIds = esgst.rightButtonIds;
+                    }
+                });
                 if (esgst.sg && !esgst.menuPath) {
                     checkSync();
                 }
@@ -31787,38 +31801,86 @@ Parsedown = (() => {
     }
 
     function loadStbb() {
-        let button = insertHtml(esgst.stbb_f ? esgst.footer.firstElementChild.lastElementChild : document.body, `beforeEnd`, `
-            <div class="esgst-stbb-button" title="Scroll to bottom">
-                <i class="fa fa-chevron-down"></i>
-            </div>
-        `);
-        if (!esgst.stbb_f) {
-            addEventListener(`scroll`, () => {
-                if (document.documentElement.offsetHeight - innerHeight >= scrollY + 100) {
-                    button.classList.remove(`esgst-hidden`);
+        let button, key, position;
+        switch (esgst.stbb_index) {
+            case 0:
+                button = insertHtml(document.body, `beforeEnd`, `
+                    <div class="esgst-stbb-button" title="Scroll to bottom">
+                        <i class="fa fa-chevron-down"></i>
+                    </div>
+                `);
+                addEventListener(`scroll`, () => {
+                    if (document.documentElement.offsetHeight - innerHeight >= scrollY + 100) {
+                        button.classList.remove(`esgst-hidden`);
+                    } else {
+                        button.classList.add(`esgst-hidden`);
+                    }
+                });
+                break;
+            case 1:
+                if (esgst.leftButtonIds.indexOf(`stbb`) > -1) {
+                    key = `leftButtons`;
+                    position = `afterBegin`;
                 } else {
-                    button.classList.add(`esgst-hidden`);
+                    key = `rightButtons`;
+                    position = `beforeEnd`;
                 }
-            });
+                button = insertHtml(esgst.hideButtons && esgst.hideButtons_stbb ? esgst[key] : esgst.mainPageHeading, position, `
+                    <div class="esgst-stbb-button esgst-heading-button" id="esgst-stbb" title="Scroll to bottom">
+                        <i class="fa fa-chevron-down"></i>
+                    </div>
+                `);
+                break;
+            case 2:
+                button = insertHtml(esgst.footer.firstElementChild.lastElementChild, `beforeEnd`, `
+                    <div class="esgst-stbb-button" title="Scroll to bottom">
+                        <i class="fa fa-chevron-down"></i>
+                    </div>
+                `);
+                break;
         }
         button.addEventListener(`click`, () => animateScroll(document.documentElement.offsetHeight));
     }
 
     function loadSttb() {
-        let button = insertHtml(esgst.sttb_f ? esgst.footer.firstElementChild.lastElementChild : document.body, `beforeEnd`, `
-            <div class="esgst-sttb-button" title="Scroll to top">
-                <i class="fa fa-chevron-up"></i>
-            </div>
-        `);
-        if (!esgst.sttb_f) {
-            button.classList.add(`esgst-hidden`);
-            addEventListener(`scroll`, () => {
-                if (scrollY > 100) {
-                    button.classList.remove(`esgst-hidden`);
+        let button, key, position;
+        switch (esgst.sttb_index) {
+            case 0:
+                button = insertHtml(document.body, `beforeEnd`, `
+                    <div class="esgst-sttb-button" title="Scroll to top">
+                        <i class="fa fa-chevron-up"></i>
+                    </div>
+                `);
+                button.classList.add(`esgst-hidden`);
+                addEventListener(`scroll`, () => {
+                    if (scrollY > 100) {
+                        button.classList.remove(`esgst-hidden`);
+                    } else {
+                        button.classList.add(`esgst-hidden`);
+                    }
+                });
+                break;
+            case 1:
+                if (esgst.leftButtonIds.indexOf(`sttb`) > -1) {
+                    key = `leftButtons`;
+                    position = `afterBegin`;
                 } else {
-                    button.classList.add(`esgst-hidden`);
+                    key = `rightButtons`;
+                    position = `beforeEnd`;
                 }
-            });
+                button = insertHtml(esgst.hideButtons && esgst.hideButtons_sttb ? esgst[key] : esgst.mainPageHeading, position, `
+                    <div class="esgst-sttb-button esgst-heading-button" id="esgst-sttb" title="Scroll to top">
+                        <i class="fa fa-chevron-up"></i>
+                    </div>
+                `);
+                break;
+            case 2:
+                button = insertHtml(esgst.footer.firstElementChild.lastElementChild, `beforeEnd`, `
+                    <div class="esgst-sttb-button" title="Scroll to top">
+                        <i class="fa fa-chevron-up"></i>
+                    </div>
+                `);
+                break;
         }
         button.addEventListener(`click`, animateScroll.bind(null, 0));
     }
@@ -33998,22 +34060,18 @@ Parsedown = (() => {
             }
 
             .esgst-stbb-button, .esgst-sttb-button {
+                cursor: pointer;
+            }
+
+            :not(.page__heading):not(.page_heading) > .esgst-stbb-button, :not(.footer__outer-wrap):not(footer) >>> .esgst-stbb-button, :not(.page__heading):not(.page_heading) > .esgst-sttb-button, :not(.footer__outer-wrap):not(footer) >>> .esgst-sttb-button {
                 bottom: ${esgst.ff ? 49 : 5}px;
                 background-color: #fff;
                 border: 1px solid #d2d6e0;
                 border-radius: 4px;
                 color: #4B72D4;
-                cursor: pointer;
                 padding: 5px 15px;
                 position: fixed;
                 right: 5px;
-            }
-
-            .footer__outer-wrap .esgst-stbb-button, footer .esgst-stbb-button, .footer__outer-wrap .esgst-sttb-button, footer .esgst-sttb-button {
-                background: none;
-                border: none;
-                position: static;
-                padding: 0;
             }
 
             .esgst-stbb-button:not(.esgst-hidden) + .esgst-sttb-button {
