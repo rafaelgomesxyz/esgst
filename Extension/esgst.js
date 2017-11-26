@@ -1346,26 +1346,22 @@ Parsedown = (() => {
             this.temp = temp;
             this.popup = popup || insertHtml(document.body, `beforeEnd`, `
                 <div class="esgst-hidden esgst-popup">
-                    <div class="popup_summary">
-                        <div class="${icon ? `` : `esgst-hidden `}popup_icon">
-                            <i class="popup__icon fa ${icon} esgst-popup-icon"></i>
-                        </div>
-                        <div class="${title ? `` : `esgst-hidden `}popup__heading popup_heading">
-                            <div class="popup_heading_h2 esgst-popup-title">${title}</div>
-                        </div>
+                    <div class="esgst-popup-heading">
+                        <i class="fa ${icon} esgst-popup-icon${icon ? `` : ` esgst-hidden`}"></i>
+                        <div class="esgst-popup-title${title ? `` : ` esgst-hidden`}">${title}</div>
                     </div>
-                    <div class="popup_description esgst-popup-description">
+                    <div class="esgst-popup-description">
                         <div class="esgst-popup-scrollable"></div>
                     </div>
-                    <div class="popup__actions popup_actions">
+                    <div class="esgst-popup-actions">
                         <span class="esgst-hidden">Settings</span>
                         <span class="esgst-popup-close">Close</span>
                     </div>
                 </div>
             `);
             if (this.isCreated) {
-                this.icon = this.popup.firstElementChild.firstElementChild.firstElementChild;
-                this.title = this.popup.firstElementChild.lastElementChild.firstElementChild;
+                this.icon = this.popup.firstElementChild.firstElementChild;
+                this.title = this.icon.nextElementSibling;
                 this.description = this.popup.firstElementChild.nextElementSibling;
                 this.scrollable = this.description.firstElementChild;
                 this.actions = this.description.nextElementSibling;
@@ -34850,8 +34846,8 @@ Parsedown = (() => {
                 background-color: #f0f2f5;
                 border-radius: 4px;
                 color: #465670;
-                max-width: calc(90% - 200px);
-                padding: 35px 100px;
+                max-width: calc(90% - 50px);
+                padding: 25px;
                 position: fixed;
                 text-align: center;
                 text-shadow: 1px 1px rgba(255,255,255,0.94);
@@ -34874,12 +34870,24 @@ Parsedown = (() => {
                 margin: 10px 0 0 !important;
             }
 
-            .esgst-popup-scrollable {
-                overflow: auto;
+            .esgst-popup-actions {
+                color: #4b72d4;
+                margin-top: 15px;
             }
 
-            .esgst-popup .popup__actions >* {
+            .esgst-popup-actions >* {
+                border-bottom: 1px dotted;
+                box-shadow: 0 1px 0 #fff;
+                cursor: pointer;
                 display: inline-block;
+            }
+
+            .esgst-popup-actions >*:not(:last-child) {
+                margin-right: 15px;
+            }
+
+            .esgst-popup-scrollable {
+                overflow: auto;
             }
 
             .esgst-popup .popup__keys__list {
@@ -34895,9 +34903,19 @@ Parsedown = (() => {
                 margin-top: 25px;
             }
 
+            .esgst-popup-heading {
+                display: flex;
+                align-items: center;
+                margin-bottom: 25px;
+            }
+
             .esgst-popup-icon {
-                height: 48px;
-                width: 48px;
+                font-size: 25px;
+                margin-right: 10px;
+            }
+
+            .esgst-popup-title {
+                font: 300 18px 'Open Sans', sans-serif;
             }
 
             .esgst-popup-title span {
@@ -35720,6 +35738,7 @@ Parsedown = (() => {
 
             .esgst-ut-existing-button {
                 padding: 8px;
+                right: 25px;
                 position: absolute;
             }
 
