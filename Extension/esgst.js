@@ -11093,7 +11093,7 @@ Parsedown = (() => {
                 <li class="esgst-hidden">
                     ${Results[I].Icon}
                     <span class="esgst-bold">${Results[I].Description} (<span>0</span>):</span>
-                    <span class="popup__actions"></span>
+                    <span class="esgst-popup-actions"></span>
                 </li>
             `);
             Key = Results[I].Key;
@@ -34897,10 +34897,6 @@ Parsedown = (() => {
             .esgst-heading-button {
                 display: inline-block;
                 cursor: pointer;
-            }
-
-            .esgst-popup .popup__actions {
-                margin-top: 25px;
             }
 
             .esgst-popup-heading {
