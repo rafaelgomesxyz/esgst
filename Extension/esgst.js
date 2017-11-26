@@ -31781,7 +31781,7 @@ Parsedown = (() => {
                 }
             });
         }
-        button.addEventListener(`click`, animateScroll.bind(null, document.documentElement.offsetHeight));
+        button.addEventListener(`click`, () => animateScroll(document.documentElement.offsetHeight));
     }
 
     function loadSttb() {
