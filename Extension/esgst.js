@@ -31508,11 +31508,11 @@ Parsedown = (() => {
                                 addUtTags(id, savedUser.tags);
                             }
                         }
-                        if (esgst.ap) {
-                            setApAvatar(element);
-                        }
                     } else if (esgst.ut) {
                         addUtButton(context, id, esgst.sg ? null : id, esgst.sg ? id : null);
+                    }
+                    if (esgst.ap) {
+                        setApAvatar(element);
                     }
                     if (!found) {
                         found = true;
