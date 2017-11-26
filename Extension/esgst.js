@@ -13186,30 +13186,33 @@ Parsedown = (() => {
                                 <span class="esgst-bold">Category Filters:</span>
                             </div>
                         </div>
-                        <div class="esgst-gf-legend-panel">
-                            <div>
-                                <span class="esgst-bold">Legend:</span>
-                                <i class="fa fa-question-circle" title="This legend applies to the type/category filters, except where noted"></i>
+                        <div class="esgst-gf-right-panel">
+                            <div class="esgst-gf-legend-panel">
+                                <div>
+                                    <span class="esgst-bold">Legend:</span>
+                                    <i class="fa fa-question-circle" title="This legend applies to the type/category filters, except where noted"></i>
+                                </div>
+                                <div class="esgst-gf-legend"><i class="fa fa-circle-o"></i> - Hide all.</div>
+                                <div class="esgst-gf-legend"><i class="fa fa-circle"></i> - Show only.</div>
+                                <div class="esgst-gf-legend"><i class="fa fa-check-circle"></i> - Show all.</div>
+                                <div class="esgst-gf-legend"><i class="fa fa-exclamation esgst-faded"></i> - Overridable <i class="fa fa-question-circle" title="Overridable filters can be overridden by exceptions"></i></div>
+                                <div class="esgst-gf-legend"><i class="fa fa-exclamation"></i> - Non-Overridable <i class="fa fa-question-circle" title="Non-Overridable filters cannot be overridden by exceptions"></i></div>
                             </div>
-                            <div class="esgst-gf-legend"><i class="fa fa-circle-o"></i> - Hide all.</div>
-                            <div class="esgst-gf-legend"><i class="fa fa-circle"></i> - Show only.</div>
-                            <div class="esgst-gf-legend"><i class="fa fa-check-circle"></i> - Show all.</div>
-                            <div class="esgst-gf-legend"><i class="fa fa-exclamation esgst-faded"></i> - Overridable <i class="fa fa-question-circle" title="Overridable filters can be overridden by exceptions"></i></div>
-                            <div class="esgst-gf-legend"><i class="fa fa-exclamation"></i> - Non-Overridable <i class="fa fa-question-circle" title="Non-Overridable filters cannot be overridden by exceptions"></i></div>
-                        </div>
-                        <div class="esgst-gf-preset-panel">
-                            <div>
-                                <span class="esgst-bold">Preset:</span>
+                            <br>
+                            <div class="esgst-gf-preset-panel">
+                                <div>
+                                    <span class="esgst-bold">Preset:</span>
+                                </div>
+                                <div>
+                                    <span></span> exceptions <i class="esgst-clickable fa fa-gear" title="Manage exceptions"></i>
+                                </div>
+                                <input class="form__input-small" type="text"/>
+                                <div class="esgst-description esgst-bold"></div>
+                                <div class="form__row__error esgst-hidden">
+                                    <i class="fa fa-exclamation-circle"></i> Please enter a name for the preset.
+                                </div>
+                                <div class="esgst-description">The name of the preset.</div>
                             </div>
-                            <div>
-                                <span></span> exceptions <i class="esgst-clickable fa fa-gear" title="Manage exceptions"></i>
-                            </div>
-                            <input class="form__input-small" type="text"/>
-                            <div class="esgst-description esgst-bold"></div>
-                            <div class="form__row__error esgst-hidden">
-                                <i class="fa fa-exclamation-circle"></i> Please enter a name for the preset.
-                            </div>
-                            <div class="esgst-description">The name of the preset.</div>
                         </div>
                     </div>
                 </div>
@@ -13223,7 +13226,7 @@ Parsedown = (() => {
         basicFilters = filters.firstElementChild;
         typeFilters = basicFilters.nextElementSibling;
         categoryFilters = typeFilters.nextElementSibling;
-        presetPanel = categoryFilters.nextElementSibling.nextElementSibling;
+        presetPanel = categoryFilters.nextElementSibling.lastElementChild;
         exceptionPanel = presetPanel.firstElementChild.nextElementSibling;
         exceptionCount = exceptionPanel.firstElementChild;
         exceptionButton = exceptionCount.nextElementSibling;
@@ -21182,30 +21185,33 @@ Parsedown = (() => {
                                 <span class="esgst-bold">Type Filters:</span>
                             </div>
                         </div>
-                        <div class="esgst-gf-legend-panel">
-                            <div>
-                                <span class="esgst-bold">Legend:</span>
-                                <i class="fa fa-question-circle" title="This legend applies to the type filters, except where noted"></i>
+                        <div class="esgst-gf-right-panel">
+                            <div class="esgst-gf-legend-panel">
+                                <div>
+                                    <span class="esgst-bold">Legend:</span>
+                                    <i class="fa fa-question-circle" title="This legend applies to the type filters, except where noted"></i>
+                                </div>
+                                <div class="esgst-gf-legend"><i class="fa fa-circle-o"></i> - Hide all.</div>
+                                <div class="esgst-gf-legend"><i class="fa fa-circle"></i> - Show only.</div>
+                                <div class="esgst-gf-legend"><i class="fa fa-check-circle"></i> - Show all.</div>
+                                <div class="esgst-gf-legend"><i class="fa fa-exclamation esgst-faded"></i> - Overridable <i class="fa fa-question-circle" title="Overridable filters can be overridden by exceptions"></i></div>
+                                <div class="esgst-gf-legend"><i class="fa fa-exclamation"></i> - Non-Overridable <i class="fa fa-question-circle" title="Non-Overridable filters cannot be overridden by exceptions"></i></div>
                             </div>
-                            <div class="esgst-gf-legend"><i class="fa fa-circle-o"></i> - Hide all.</div>
-                            <div class="esgst-gf-legend"><i class="fa fa-circle"></i> - Show only.</div>
-                            <div class="esgst-gf-legend"><i class="fa fa-check-circle"></i> - Show all.</div>
-                            <div class="esgst-gf-legend"><i class="fa fa-exclamation esgst-faded"></i> - Overridable <i class="fa fa-question-circle" title="Overridable filters can be overridden by exceptions"></i></div>
-                            <div class="esgst-gf-legend"><i class="fa fa-exclamation"></i> - Non-Overridable <i class="fa fa-question-circle" title="Non-Overridable filters cannot be overridden by exceptions"></i></div>
-                        </div>
-                        <div class="esgst-gf-preset-panel">
-                            <div>
-                                <span class="esgst-bold">Preset:</span>
+                            <br>
+                            <div class="esgst-gf-preset-panel">
+                                <div>
+                                    <span class="esgst-bold">Preset:</span>
+                                </div>
+                                <div>
+                                    <span></span> exceptions <i class="esgst-clickable fa fa-gear" title="Manage exceptions"></i>
+                                </div>
+                                <input class="form__input-small" type="text"/>
+                                <div class="esgst-description esgst-bold"></div>
+                                <div class="form__row__error esgst-hidden">
+                                    <i class="fa fa-exclamation-circle"></i> Please enter a name for the preset.
+                                </div>
+                                <div class="esgst-description">The name of the preset.</div>
                             </div>
-                            <div>
-                                <span></span> exceptions <i class="esgst-clickable fa fa-gear" title="Manage exceptions"></i>
-                            </div>
-                            <input class="form__input-small" type="text"/>
-                            <div class="esgst-description esgst-bold"></div>
-                            <div class="form__row__error esgst-hidden">
-                                <i class="fa fa-exclamation-circle"></i> Please enter a name for the preset.
-                            </div>
-                            <div class="esgst-description">The name of the preset.</div>
                         </div>
                     </div>
                 </div>
@@ -21218,7 +21224,7 @@ Parsedown = (() => {
         filters = box.firstElementChild;
         basicFilters = filters.firstElementChild;
         typeFilters = basicFilters.nextElementSibling;
-        presetPanel = typeFilters.nextElementSibling.nextElementSibling;
+        presetPanel = typeFilters.nextElementSibling.lastElementChild;
         exceptionPanel = presetPanel.firstElementChild.nextElementSibling;
         exceptionCount = exceptionPanel.firstElementChild;
         exceptionButton = exceptionCount.nextElementSibling;
@@ -35092,23 +35098,22 @@ Parsedown = (() => {
                 white-space: nowrap;
             }
 
-            .esgst-gf-legend-panel {
-                position: absolute;
-                right: 0;
-                text-align: right;
-                top: 0;
+            .esgst-gf-right-panel {
+                float: right;
             }
 
-            .esgst-gf-preset-panel {
-                bottom: 0;
-                position: absolute;
-                right: 0;
+            .esgst-gf-legend-panel, .esgst-gf-preset-panel {
+                margin: 5px;
                 text-align: right;
             }
 
             .esgst-gf-override {
                 cursor: pointer;
                 margin-right: 5px;
+            }
+
+            .esgst-gf-container {
+                text-align: left;
             }
 
             .esgst-gf-container:not(.esgst-popup-scrollable) {
@@ -35128,7 +35133,7 @@ Parsedown = (() => {
             }
 
             .esgst-gf-filters {
-                min-height: 300px;
+                overflow: auto;
                 position: relative;
             }
 
