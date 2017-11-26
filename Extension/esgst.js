@@ -31602,34 +31602,32 @@ Parsedown = (() => {
                 if (!games[type][id]) {
                     games[type][id] = [];
                 }
-                if (main) {
-                    if (esgst.egh) {
-                        if (esgst.giveawayPath) {
-                            let button = document.querySelector(`.sidebar__entry-insert`);
-                            if (button) {
-                                button.addEventListener(`click`, saveEghGame.bind(null, id, type));
-                            }
-                        }
-                        if (!esgst.menuPath && savedGames[type][id] && savedGames[type][id].entered && !game.container.getElementsByClassName(`esgst-egh-button`)[0] && (!game.table || esgst.egh_t)) {
-                            insertHtml((game.container.closest(`.poll`) && game.container.getElementsByClassName(`table__column__heading`)[0]) || game.headingName, `beforeBegin`, `
-                                <a class="esgst-egh-button">
-                                    <i class="fa fa-star esgst-egh-icon" title="You have entered giveaways for this game before. Click to unhighlight it"></i>
-                                </a>
-                            `).addEventListener(`click`, unhighlightEghGame.bind(null, id, type));
+                if (esgst.egh) {
+                    if (esgst.giveawayPath) {
+                        let button = document.querySelector(`.sidebar__entry-insert`);
+                        if (button) {
+                            button.addEventListener(`click`, saveEghGame.bind(null, id, type));
                         }
                     }
-                    if (esgst.gt) {
-                        if (!game.container.getElementsByClassName(`esgst-gt-button`)[0] && (!game.table || esgst.gt_t)) {
-                            insertHtml((game.container.closest(`.poll`) && game.container.getElementsByClassName(`table__column__heading`)[0]) || game.heading.lastElementChild || game.heading, `afterEnd`, `
-                                <a class="esgst-faded esgst-gt-button" title="Edit game tags">
-                                    <i class="fa fa-tag"></i>
-                                    <span class="esgst-gt-tags"></span>
-                                </a>
-                            `).addEventListener(`click`, openGtPopup.bind(null, id, game.name, type));
-                        }
-                        if (savedGames[type][id] && savedGames[type][id].tags) {
-                            addGtTags([game], id, savedGames[type][id].tags, type);
-                        }
+                    if (!esgst.menuPath && savedGames[type][id] && savedGames[type][id].entered && !game.container.getElementsByClassName(`esgst-egh-button`)[0] && (!game.table || esgst.egh_t)) {
+                        insertHtml((game.container.closest(`.poll`) && game.container.getElementsByClassName(`table__column__heading`)[0]) || game.headingName, `beforeBegin`, `
+                            <a class="esgst-egh-button">
+                                <i class="fa fa-star esgst-egh-icon" title="You have entered giveaways for this game before. Click to unhighlight it"></i>
+                            </a>
+                        `).addEventListener(`click`, unhighlightEghGame.bind(null, id, type));
+                    }
+                }
+                if (esgst.gt) {
+                    if (!game.container.getElementsByClassName(`esgst-gt-button`)[0] && (!game.table || esgst.gt_t)) {
+                        insertHtml((game.container.closest(`.poll`) && game.container.getElementsByClassName(`table__column__heading`)[0]) || game.heading.lastElementChild || game.heading, `afterEnd`, `
+                            <a class="esgst-faded esgst-gt-button" title="Edit game tags">
+                                <i class="fa fa-tag"></i>
+                                <span class="esgst-gt-tags"></span>
+                            </a>
+                        `).addEventListener(`click`, openGtPopup.bind(null, id, game.name, type));
+                    }
+                    if (savedGames[type][id] && savedGames[type][id].tags) {
+                        addGtTags([game], id, savedGames[type][id].tags, type);
                     }
                 }
                 games[type][id].push(game);
