@@ -28883,7 +28883,7 @@ Parsedown = (() => {
     }
 
     function filterSm(event) {
-        let element, found, id, type, typeFound, value;
+        let collapse, element, expand, found, id, type, typeFound, value;
         value = event.currentTarget.value.toLowerCase().trim();
         for (type in esgst.features) {
             found = false;
@@ -28901,6 +28901,17 @@ Parsedown = (() => {
                     element.classList.remove(`esgst-hidden`);
                 } else {
                     element.classList.add(`esgst-hidden`);
+                }
+                if (value) {                    
+                    expand = element.getElementsByClassName(`fa-plus-square`)[0];
+                    if (expand) {
+                        expand.click();
+                    }
+                } else {
+                    collapse = element.getElementsByClassName(`fa-minus-square`)[0];
+                    if (collapse) {
+                        collapse.click();
+                    }
                 }
             }
         }
