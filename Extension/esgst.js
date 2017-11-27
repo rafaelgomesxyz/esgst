@@ -12051,6 +12051,7 @@ Parsedown = (() => {
         image.style.maxHeight = `calc(90% - ${height}px)`;
         image.style.marginTop = `${height}px`;
         image.firstElementChild.style.maxHeight = `${image.offsetHeight - 10}px`;
+        image.firstElementChild.style.maxWidth = `${image.offsetWidth - 10}px`;
         esgst.aicPrevious = panel.firstElementChild;
         esgst.aicNext = esgst.aicPrevious.nextElementSibling;
         if (i > 0) {
@@ -34900,6 +34901,10 @@ Parsedown = (() => {
                 border: 5px solid #fff;
                 border-radius: 5px;
                 max-width: 90%;
+            }
+
+            .esgst-aic-carousel img {
+                display: block;
             }
 
             .esgst-aic-panel {
