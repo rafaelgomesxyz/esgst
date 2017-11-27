@@ -14510,9 +14510,13 @@ Parsedown = (() => {
                         }
                         var counts = responseHtml.getElementsByClassName(`sidebar__navigation__item__count`);
                         var image = responseHtml.getElementsByClassName(`global__image-outer-wrap--game-large`)[0].firstElementChild.getAttribute(`src`);
+                        let entered = responseHtml.getElementsByClassName(`sidebar__entry-delete`)[0];
+                        if (entered) {
+                            entered = !entered.classList.contains(`is-hidden`);
+                        }
                         var popupHtml = `${Date.now() > bookmarked[i].endTime && !gbGiveaways.getElementsByClassName(`row-spacer`)[0] ? `<div class="row-spacer"></div>` : ``}
                             <div>
-                                <div class="giveaway__row-outer-wrap" data-game-id="${gameId}">
+                                <div class="giveaway__row-outer-wrap" ${entered ? `data-entered="true"` : ``}data-game-id="${gameId}">
                                     <div class="giveaway__row-inner-wrap">
                                         <div class="giveaway__summary">
                                             <h2 class="giveaway__heading">${heading.innerHTML}</h2>
@@ -30562,7 +30566,9 @@ Parsedown = (() => {
         giveaway.avatar = giveaway.outerWrap.querySelector(`.giveaway_image_avatar, .featured_giveaway_image_avatar`);
         giveaway.image = giveaway.outerWrap.querySelector(`.giveaway_image_thumbnail, .giveaway_image_thumbnail_missing, .global__image-outer-wrap--game-medium`);
         giveaway.summary = giveaway.innerWrap.querySelector(`.giveaway__summary, .featured__summary, .table__column--width-fill`);
-        if ((esgst.giveawayPath && main) || source === `gb`) {
+        if (source === `gb`) {
+            giveaway.entered = giveaway.outerWrap.getAttribute(`data-entered`);
+        } else if (esgst.giveawayPath && main) {
             var button = mainContext.getElementsByClassName(`sidebar__entry-delete`)[0];
             if (button) {
                 giveaway.entered = !button.classList.contains(`is-hidden`);
