@@ -14435,6 +14435,7 @@ Parsedown = (() => {
     }
 
     function loadGbGibs(bookmarked, container, context, popup) {
+        let info;
         var i = 0;
         var n = bookmarked.length;
         var gbGiveaways = insertHtml(context, `beforeEnd`, `<div class="esgst-text-left"></div>`);
@@ -14450,7 +14451,7 @@ Parsedown = (() => {
             }
         }
         var set = new ButtonSet(`green`, `grey`, `fa-plus`, `fa-circle-o-notch fa-spin`, `Load more...`, `Loading more...`, function (callback) {
-            loadGbGiveaways(i, i + 5, bookmarked, gbGiveaways, popup, function (value) {
+            loadGbGiveaways(i, i + 5, bookmarked, gbGiveaways, info, popup, function (value) {
                 i = value;
                 if (i > n) {
                     set.set.remove();
@@ -14464,6 +14465,11 @@ Parsedown = (() => {
         if (popup) {
             popup.open();
         }
+        info = insertHtml(container, `beforeEnd`, `
+            <div>
+                <span>0</span>P required to enter all <span>0</span> giveaways.
+            </div>
+        `);
         set.trigger();
         if (esgst.es_gb) {
             context.addEventListener(`scroll`, function () {
@@ -14474,7 +14480,7 @@ Parsedown = (() => {
         }
     }
 
-    function loadGbGiveaways(i, n, bookmarked, gbGiveaways, popup, callback) {
+    function loadGbGiveaways(i, n, bookmarked, gbGiveaways, info, popup, callback) {
         if (i < n) {
             if (bookmarked[i]) {
                 request(null, null, `GET`, true, `/giveaway/${bookmarked[i].code}/`, function (response) {
@@ -14499,7 +14505,10 @@ Parsedown = (() => {
                         var headingName = heading.firstElementChild;
                         headingName.outerHTML = `<a class="giveaway__heading__name" href="${url}">${headingName.innerHTML}</a>`;
                         var thinHeadings = heading.getElementsByClassName(`featured__heading__small`);
-                        for (j = 0, numT = thinHeadings.length; j < numT; ++j) {
+                        numT = thinHeadings.length
+                        info.firstElementChild.textContent = parseInt(info.firstElementChild.textContent) + parseInt(thinHeadings[numT - 1].textContent.match(/\d+/)[0]);
+                        info.lastElementChild.textContent = parseInt(info.lastElementChild.textContent) + 1;
+                        for (j = 0; j < numT; ++j) {
                             thinHeadings[0].outerHTML = `<span class="giveaway__heading__thin">${thinHeadings[0].innerHTML}</span>`;
                         }
                         remaining.classList.remove(`featured__column`);
@@ -14556,13 +14565,13 @@ Parsedown = (() => {
                                 giveaways[bookmarked[i].code].endTime = endTime;
                                 setValue(`giveaways`, JSON.stringify(giveaways));
                                 deleteLock();
-                                setTimeout(loadGbGiveaways, 0, ++i, n, bookmarked, gbGiveaways, popup, callback);
+                                setTimeout(loadGbGiveaways, 0, ++i, n, bookmarked, gbGiveaways, info, popup, callback);
                             });
                         } else {
-                            setTimeout(loadGbGiveaways, 0, ++i, n, bookmarked, gbGiveaways, popup, callback);
+                            setTimeout(loadGbGiveaways, 0, ++i, n, bookmarked, gbGiveaways, info, popup, callback);
                         }
                     } else {
-                        setTimeout(loadGbGiveaways, 0, ++i, n, bookmarked, gbGiveaways, popup, callback);
+                        setTimeout(loadGbGiveaways, 0, ++i, n, bookmarked, gbGiveaways, info, popup, callback);
                     }
                 });
             } else {
