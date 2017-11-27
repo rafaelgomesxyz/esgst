@@ -5019,6 +5019,11 @@ Parsedown = (() => {
                                         new: true,
                                         sg: true
                                     },
+                                    hideButtons_cec: {
+                                        name: `Comments/Entries Checker Button`,
+                                        new: true,
+                                        sg: true
+                                    },
                                     hideButtons_cs: {
                                         name: `Comment Searcher`,
                                         sg: true,
@@ -5069,6 +5074,11 @@ Parsedown = (() => {
                                     hideButtons_gf: {
                                         name: `Giveaway Filters Button`,
                                         sg: true
+                                    },
+                                    hideButtons_glwc: {
+                                        name: `Group Library/Wishlist Checker Button`,
+                                        new: true,
+                                        sg: true,
                                     },
                                     hideButtons_gm: {
                                         name: `Giveaways Manager Button`,
@@ -5140,6 +5150,11 @@ Parsedown = (() => {
                                         name: `Whitelist/Blacklist Checker Button`,
                                         sg: true
                                     },
+                                    hideButtons_wbm: {
+                                        name: `Whitelist/Blacklist Manager Button`,
+                                        new: true,
+                                        sg: true
+                                    },
                                     hideButtons_wbsAsc: {
                                         name: `Whitelist/Blacklist Sorter Button - Ascending`,
                                         sg: true
@@ -5167,8 +5182,11 @@ Parsedown = (() => {
                         esgst[match[1]] = esgst.settings[key];
                     }
                 }
-                [{id: `stbb`, side: `right`},
-                 {id: `sttb`, side: `right`}].forEach(item => {
+                [{id: `cec`, side: `left`},
+                 {id: `glwc`, side: `left`},
+                 {id: `stbb`, side: `right`},
+                 {id: `sttb`, side: `right`},
+                 {id: `wbm`, side: `left`}].forEach(item => {
                     if (esgst.leftButtonIds.indexOf(item.id) < 0 && esgst.rightButtonIds.indexOf(item.id) < 0) {
                         esgst[`${item.side}ButtonIds`].push(item.id);
                         esgst.settings.leftButtonIds = esgst.leftButtonIds;
