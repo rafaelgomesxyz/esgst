@@ -5052,6 +5052,12 @@ Parsedown = (() => {
                                         name: `Discussions Sorter Button`,
                                         sg: true
                                     },
+                                    hideButtons_esContinuous: {
+                                        name: `Endless Scrolling Button - Continuously Load`,
+                                        new: true,
+                                        sg: true,
+                                        st: true
+                                    },
                                     hideButtons_esPause: {
                                         name: `Endless Scrolling Button - Pause/Resume`,
                                         sg: true,
@@ -5183,6 +5189,7 @@ Parsedown = (() => {
                     }
                 }
                 [{id: `cec`, side: `left`},
+                 {id: `esContinuous`, side: `right`},
                  {id: `glwc`, side: `left`},
                  {id: `stbb`, side: `right`},
                  {id: `sttb`, side: `right`},
@@ -31957,7 +31964,7 @@ Parsedown = (() => {
     /* [ES] Endless Scrolling */
 
     function loadEs() {
-        let busy, count, currentPage, divisors, ended, i, lastLink, mainContext, n, nextPage, pageIndex, paginations, pageBase, pauseButton, paused, progress, refreshAllButton, refreshButton, resumeButton, reversePages, reverseScrolling, row, total;
+        let busy, continuous, continuousButton, count, currentPage, divisors, ended, i, lastLink, mainContext, n, nextPage, pageIndex, paginations, pageBase, pauseButton, paused, progress, refreshAllButton, refreshButton, resumeButton, reversePages, reverseScrolling, row, total;
         if (esgst.es && esgst.mainPageHeading && esgst.pagination && ((esgst.es_g && esgst.giveawaysPath) || (esgst.es_d && esgst.discussionsTicketsPath) || (esgst.es_t && esgst.tradesPath) || (esgst.es_c && esgst.commentsPath) || (esgst.es_l && !esgst.giveawaysPath && !esgst.discussionsTicketsPath && !esgst.tradesPath && !esgst.commentsPath))) {
             divisors = ((esgst.es_g_d && esgst.giveawaysPath) || (esgst.es_d_d && esgst.discussionsTicketsPath) || (esgst.es_t_d && esgst.tradesPath) || (esgst.es_c_d && esgst.commentsPath) || (esgst.es_l_d && !esgst.giveawaysPath && !esgst.discussionsTicketsPath && !esgst.tradesPath && !esgst.commentsPath));
             mainContext = esgst.pagination.previousElementSibling;
@@ -32010,12 +32017,27 @@ Parsedown = (() => {
                 mainContext.children[i].classList.add(`esgst-es-page-${currentPage}`);
             }
             let key, position;
+            if (esgst.leftButtonIds.indexOf(`esContinuous`) > -1) {
+                key = `leftButtons`;
+                position = `afterBegin`;
+            } else {
+                key = `rightButtons`;
+                position = `beforeEnd`;
+            }
+            continuousButton = insertHtml(esgst.hideButtons && esgst.hideButtons_esContinuous ? esgst[key] : esgst.mainPageHeading, position, `
+                <div class="esgst-heading-button esgst-es-continuous-button" id="esgst-esContinuous" title="Continuously load pages">
+                    <i class="fa fa-fast-forward"></i>
+                </div>
+            `);
             if (esgst.leftButtonIds.indexOf(`esPause`) > -1) {
                 key = `leftButtons`;
                 position = `afterBegin`;
             } else {
                 key = `rightButtons`;
                 position = `beforeEnd`;
+            }
+            if (ended) {
+                continuousButton.classList.add(`esgst-hidden`);
             }
             pauseButton = insertHtml(esgst.hideButtons && esgst.hideButtons_esPause ? esgst[key] : esgst.mainPageHeading, position, `
                 <div class="esgst-heading-button esgst-es-pause-button" id="esgst-esPause" title="Pause the endless scrolling">
@@ -32061,6 +32083,7 @@ Parsedown = (() => {
             `);
             refreshButton.addEventListener(`click`, refreshPage);
             refreshAllButton.addEventListener(`click`, refreshAllPages);
+            continuousButton.addEventListener(`click`, continuouslyLoad);
             pauseButton.addEventListener(`click`, pauseEndlessScrolling);
             resumeButton.addEventListener(`click`, resumeEndlessScrolling);
             if (esgst.paginationNavigation) {
@@ -32083,18 +32106,20 @@ Parsedown = (() => {
             esgst.checkEndlessScrolling = loadNextPage;
         }
 
-        function loadNextPage() {
-            if (!esgst.stopEs && !busy && !paused && !ended && scrollY >= document.body.offsetHeight - innerHeight * 2) {
+        function loadNextPage(callback) {
+            if (!esgst.stopEs && !busy && !paused && !ended && (continuous || scrollY >= document.body.offsetHeight - innerHeight * 2)) {
                 busy = true;
                 document.removeEventListener(`scroll`, loadNextPage);
                 progress = insertHtml(esgst.pagination.firstElementChild, `beforeEnd`, `
                     <span class="esgst-bold"><i class="fa fa-circle-o-notch fa-spin"></i> Loading next page...</span>
                 `);
-                request(null, null, `GET`, false, `${esgst.searchUrl}${nextPage}`, getNextPage.bind(null, false, false));
+                request(null, null, `GET`, false, `${esgst.searchUrl}${nextPage}`, getNextPage.bind(null, false, false, callback));
+            } else if (callback) {
+                callback();
             }
         }
 
-        function getNextPage(refresh, refreshAll, response) {
+        function getNextPage(refresh, refreshAll, callback, response) {
             var child, context, element, elements, fragment, i, n, oldN, rows, pagination, paginationNavigation;
             pagination = DOM.parse(response.responseText).getElementsByClassName(`pagination`)[0];
             context = pagination.previousElementSibling;
@@ -32194,18 +32219,28 @@ Parsedown = (() => {
                     busy = false;
                     if (nextPage <= 0) {
                         ended = true;
+                        if (callback) {
+                            callback();
+                        }
                     } else if (!paused) {
-                        document.addEventListener(`scroll`, loadNextPage);
-                        loadNextPage();
+                        if (!continuous) {
+                            document.addEventListener(`scroll`, loadNextPage);
+                        }
+                        loadNextPage(callback);
                     }
                 } else {
                     ++nextPage;
                     busy = false;
                     if (paginationNavigation.lastElementChild.classList.contains(esgst.selectedClass)) {
                         ended = true;
+                        if (callback) {
+                            callback();
+                        }
                     } else if (!paused) {
-                        document.addEventListener(`scroll`, loadNextPage);
-                        loadNextPage();
+                        if (!continuous) {
+                            document.addEventListener(`scroll`, loadNextPage);
+                        }
+                        loadNextPage(callback);
                     }
                 }
             }
@@ -32245,6 +32280,17 @@ Parsedown = (() => {
             }
         }
 
+        function continuouslyLoad() {
+            continuousButton.innerHTML = `<i class="fa fa-circle-o-notch fa-spin"></i>`;
+            continuous = true;
+            resumeEndlessScrolling();
+            document.addEventListener(`scroll`, loadNextPage);
+            loadNextPage(() => {
+                continuous = false;
+                continuousButton.innerHTML = `<i class="fa fa-fast-forward"></i>`;
+            });
+        }
+
         function pauseEndlessScrolling() {
             if (!ended) {
                 document.removeEventListener(`scroll`, loadNextPage);
@@ -32253,6 +32299,8 @@ Parsedown = (() => {
             resumeButton.classList.remove(`esgst-hidden`);
             paused = true;
             setValue(`esPause`, paused);
+            continuous = false;
+            continuousButton.innerHTML = `<i class="fa fa-fast-forward"></i>`;
         }
 
         function resumeEndlessScrolling() {
@@ -32260,7 +32308,7 @@ Parsedown = (() => {
             pauseButton.classList.remove(`esgst-hidden`);
             paused = false;
             setValue(`esPause`, paused);
-            if (!ended) {
+            if (!ended && !continuous) {
                 document.addEventListener(`scroll`, loadNextPage);
                 loadNextPage();
             }
