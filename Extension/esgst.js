@@ -14610,15 +14610,18 @@ Parsedown = (() => {
             });
         });
         if (esgst.gb_ue && main && esgst.enterGiveawayButton) {
-            esgst.enterGiveawayButton.addEventListener(`click`, function() {
-                button.innerHTML = `<i class="fa fa-circle-o-notch fa-spin"></i>`;
-                unbookmarkGbGiveaway(giveaway, function() {
-                    button.remove();
-                    if (esgst.gb_se) {
-                        addGbBookmarkButton(giveaway, main);
-                    }
-                });
-            });
+            esgst.enterGiveawayButton.onclick = function() {
+                let button = giveaway.outerWrap.getElementsByClassName(`esgst-gb-button`)[0];
+                if (button && button.firstElementChild.classList.contains(`fa-bookmark`)) {
+                    button.innerHTML = `<i class="fa fa-circle-o-notch fa-spin"></i>`;
+                    unbookmarkGbGiveaway(giveaway, function() {
+                        button.remove();
+                        if (esgst.gb_se) {
+                            addGbBookmarkButton(giveaway, main);
+                        }
+                    });
+                }
+            };
         }
     }
 
