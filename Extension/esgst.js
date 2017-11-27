@@ -1626,6 +1626,10 @@ Parsedown = (() => {
                 };
                 esgst.lastPage = getLastPage(document, true);
                 esgst.oldValues = {
+                    gdttt_vg: `gdttt_v`,
+                    gdttt_vd: `gdttt_v`,
+                    gdttt_vt: `gdttt_v`,
+                    gdttt_vts: `gdttt_v`,
                     df_s: `df_h`,
                     gf_s: `gf_h`,
                     ge: `tge`,
@@ -2342,13 +2346,29 @@ Parsedown = (() => {
                                         name: `Fade visited giveaways.`,
                                         sg: true
                                     },
-                                    gdttt_v: {
-                                        name: `Mark the pages as visited when visiting them.`,
-                                        sg: true,
+                                    gdttt_vg: {
+                                        name: `Mark giveaways as visited when visiting them.`,
+                                        new: true,
+                                        sg: true
+                                    },
+                                    gdttt_vd: {
+                                        name: `Mark discussions as visited when visiting them.`,
+                                        new: true,
+                                        sg: true
+                                    },
+                                    gdttt_vt: {
+                                        name: `Mark tickets as visited when visiting them.`,
+                                        new: true,
+                                        sg: true
+                                    },
+                                    gdttt_vts: {
+                                        name: `Mark trades as visited when visiting them.`,
+                                        new: true,
                                         st: true
                                     }
                                 },
                                 name: `Giveaways/Discussions/Tickets/Trades Tracker`,
+                                newBelow: true,
                                 sg: true,
                                 st: true
                             },
@@ -12232,7 +12252,12 @@ Parsedown = (() => {
             var type = `${match[1]}s`;
             var code = match[2];
             var savedComments = JSON.parse(getValue(type, `{}`));
-            if (esgst.gdttt_v) {
+            if (esgst[`gdttt_v${{
+                giveaways: `g`,
+                discussions: `d`,
+                tickets: `t`,
+                trades: `ts`
+            }[type]}`]) {
                 if (!esgst.ct) {
                     createLock(`commentLock`, 300, function (deleteLock) {
                         if (!savedComments[code]) {
@@ -23628,7 +23653,12 @@ Parsedown = (() => {
                     if (count > 0) {
                         saved[comment.type][comment.code].count = count;
                     }
-                    if (esgst.gdttt && esgst.gdttt_v) {
+                    if (esgst.gdttt && esgst[`gdttt_v${{
+                        giveaways: `g`,
+                        discussions: `d`,
+                        tickets: `t`,
+                        trades: `ts`
+                    }[comment.type]}`]) {
                         saved[comment.type][comment.code].visited = true;
                     }
                     if (!esgst.ct_s) {
