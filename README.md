@@ -861,6 +861,21 @@ The video above does not get embedded.
 
 ## Changelog
 
+**7.9.1 (November 26, 2017):**
+
+<ul>
+    <li><a href="https://github.com/revilheart/ESGST/issues/261">#261</a> Fix a bug that does not load the entire changelog</li>
+    <li><a href="https://github.com/revilheart/ESGST/issues/260">#260</a> Fix a bug in Avatar Popout that does not load for some users</li>
+    <li><a href="https://github.com/revilheart/ESGST/issues/262">#262</a> Fix a style issue in Giveaway/Discussion Filters</li>
+    <li><a href="https://github.com/revilheart/ESGST/issues/263">#263</a> Fix a bug that does not load Entered Games Highlighter and Game Tags in popups</li>
+    <li><a href="https://github.com/revilheart/ESGST/issues/264">#264</a> Reduce useless space in popups</li>
+    <li><a href="https://github.com/revilheart/ESGST/issues/265">#265</a> Fix a bug in Scroll To Bottom Button that does not scroll all the way down with Endless Scrolling</li>
+    <li><a href="https://github.com/revilheart/ESGST/issues/266">#266</a> Fix a bug that happens when filtering features in the settings menu</li>
+    <li><a href="https://github.com/revilheart/ESGST/issues/267">#267</a> Automatically expand sections when filtering features in the settings menu</li>
+    <li><a href="https://github.com/revilheart/ESGST/issues/268">#268</a> Add option to show Scroll To Top/Bottom Button in the main page heading</li>
+    <li><a href="https://github.com/revilheart/ESGST/issues/269">#269</a> More changes to Attached Images Carousel</li>
+</ul>
+
 **7.9.0 (November 24, 2017):**
 
 <ul>

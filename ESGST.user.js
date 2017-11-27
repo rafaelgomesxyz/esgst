@@ -3,7 +3,7 @@
 // @namespace ESGST
 // @description Enhances SteamGifts and SteamTrades by adding some cool features to them.
 // @icon https://dl.dropboxusercontent.com/s/lr3t3bxrxfxylqe/esgstIcon.ico?raw=1
-// @version 7.9.0
+// @version 7.9.1
 // @author revilheart
 // @downloadURL https://github.com/revilheart/ESGST/raw/master/ESGST.user.js
 // @updateURL https://github.com/revilheart/ESGST/raw/master/ESGST.meta.js
@@ -1346,26 +1346,22 @@ Parsedown = (() => {
             this.temp = temp;
             this.popup = popup || insertHtml(document.body, `beforeEnd`, `
                 <div class="esgst-hidden esgst-popup">
-                    <div class="popup_summary">
-                        <div class="${icon ? `` : `esgst-hidden `}popup_icon">
-                            <i class="popup__icon fa ${icon} esgst-popup-icon"></i>
-                        </div>
-                        <div class="${title ? `` : `esgst-hidden `}popup__heading popup_heading">
-                            <div class="popup_heading_h2 esgst-popup-title">${title}</div>
-                        </div>
+                    <div class="esgst-popup-heading">
+                        <i class="fa ${icon} esgst-popup-icon${icon ? `` : ` esgst-hidden`}"></i>
+                        <div class="esgst-popup-title${title ? `` : ` esgst-hidden`}">${title}</div>
                     </div>
-                    <div class="popup_description esgst-popup-description">
+                    <div class="esgst-popup-description">
                         <div class="esgst-popup-scrollable"></div>
                     </div>
-                    <div class="popup__actions popup_actions">
+                    <div class="esgst-popup-actions">
                         <span class="esgst-hidden">Settings</span>
                         <span class="esgst-popup-close">Close</span>
                     </div>
                 </div>
             `);
             if (this.isCreated) {
-                this.icon = this.popup.firstElementChild.firstElementChild.firstElementChild;
-                this.title = this.popup.firstElementChild.lastElementChild.firstElementChild;
+                this.icon = this.popup.firstElementChild.firstElementChild;
+                this.title = this.icon.nextElementSibling;
                 this.description = this.popup.firstElementChild.nextElementSibling;
                 this.scrollable = this.description.firstElementChild;
                 this.actions = this.description.nextElementSibling;
@@ -1530,7 +1526,7 @@ Parsedown = (() => {
             storage: storage,
             sg: location.hostname.match(/www.steamgifts.com/),
             st: location.hostname.match(/www.steamtrades.com/),
-            currentVersion: `7.9.0`,
+            currentVersion: `7.9.1`,
             icon: `data:image/x-icon;base64,AAABAAEAEBAAAAEAIABoBAAAFgAAACgAAAAQAAAAIAAAAAEAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAqv8DCbP/Hgeq+CQIrf8iCK3/Igit/yIIrf8iB6//Iwit9x8Aqv8DAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAKr0GAa2/c0DvfzfA7f83QO3/N0Dt/zdA7f83QO+/d4Gs/3OAKP1GQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACm/xQFs/n2Bcf//wW///8FwP//BcD//wW///8Fx///BbP69gC2/xUAAAAAAAAAAAAAAAAA/1UDFptOFxSZMxkLpJktAq720QW1+ugEsfvjA7b92wO2/dsEsfvjBbX66Aau/dEoiO4tUlLWGU5k3hdVVf8DEJxKHxWqT8cVrU7uE6VN0guqny0Apv8XAJfQGwBAVywAQFcsAJfQGwCx/xcogugtS2Lk0lBl6u5Qae7ISmPeHxagSSMVr07jF7lV/xOiSu0brgATAAAAAAAAAA8AAAC/AAAAwAAAABAAAAAAYznjEkth4OxWb/3/T2jv40lf4iMXnksiEq1O3RayUv8UpEnkEo0+HQAAABkAAABBAAAA8QAAAPEAAABBAAAAGUBSvxxOYeDjU2v0/05m7d1LYuEiF55LIhKtTt0Ws1L/FahN2gU1FTAAAADAAAAA7AAAAP0AAAD9AAAA7AAAAMAVG0owUGPm2lNr9P9OZu3dS2LhIheeSyISrU7dFrNS/xWoTdoFNRswAAAAvwAAAOsAAAD9AAAA/QAAAOsAAADAFRtKMFBj6NpTa/T/Tmbt3Uti4SIXnksiEq1O3RayUv8UpEnkEo0+HQAAABgAAABAAAAA8QAAAPEAAABBAAAAGT5PuR1OYeDjU2v0/05m7d1LYuEiFqBJIxWuT+QXuVX/E6JL7QC8XhMAAAAAAAAADwAAAL8AAAC/AAAAEAAAAAAOR/8SSWLh7FZv/f9PaO/jSV/iIxCUSh8Vrk7HFqxN7ROlS9JskzMt1XULGK12EhxGLgYsRy8GK612EhzVgAsYgmxxLU1i39JNZ+vtT2fwx0pj1h8AqlUDF65GFgqZUhlsiC0txH0T0s5/EujJgBPkz4QR28+EEdvJgBPkzn8Q6Md+E9KLdHosM1LWGUZo6BZVVf8DAAAAAAAAAAAAAAAA/2YAFMl9EvbgjRb/14gV/9eIFf/XiBX/14gV/9+NFv/KgBD254YAFQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAL91FRjKgRHN1IgU3s+EEt3PhBLdz4QS3c+EEt3UiBTezYMRzcJ6FBkAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACqqgADxIARHr18FiO8eA8ivHgPIrx4DyK8eA8ivXwPI8SAER7/VQADAAAAAAAAAAAAAAAA78cAAPA3AAD4FwAABCAAADGOAAAE+AAAkBEAAJ55AACYOQAAlgEAAER4AAAXaAAATnoAAPgXAAD0JwAA69cAAA==`,
             sgIcon: `data:image/x-icon;base64,AAABAAEAEBAAAAEAIABoBAAAFgAAACgAAAAQAAAAIAAAAAEAIAAAAAAAQAQAABMLAAATCwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIUAAAD5AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAPoAAACFAAAAAAAAAAAAAAD8AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA+QAAAAAAAAAAAAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAAAAAAAAAAAAP8AAAD/AAAA/wAAABwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAcAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAcAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAHAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAAAAAAAAAAAAPwAAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD5AAAAAAAAAAAAAACFAAAA+QAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD5AAAAhQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA//8AAP//AADAAwAAwAMAAMfjAADP8wAAz/MAAM/zAADP8wAAz/MAAM/zAADH4wAAwAMAAMADAAD//wAA//8AAA==`,
             stIcon: `data:image/x-icon;base64,AAABAAEAEBAAAAEAIABoBAAAFgAAACgAAAAQAAAAIAAAAAEAIAAAAAAAQAQAABMLAAATCwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABbD6SgWw+ucFsPrkBbD6SgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAWw+uYFsPr/BbD6/wWw+ucAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAFsPrmBbD6/wWw+v8FsPrmAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABbD6SQWw+uYFsPrmBbD6SQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAFKRLShSkS+cUpEvkFKRLSgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAExi4EpMYuDnTGLg5Exi4EoAAAAAAAAAABSkS+YUpEv/FKRL/xSkS+cAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABMYuDmTGLg/0xi4P9MYuDnAAAAAAAAAAAUpEvmFKRL/xSkS/8UpEvmAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAATGLg5kxi4P9MYuD/TGLg5gAAAAAAAAAAFKRLSRSkS+YUpEvmFKRLSQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAExi4ElMYuDmTGLg5kxi4EkAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAMZ9E0rGfRPnxn0T5MZ9E0oAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADGfRPmxn0T/8Z9E//GfRPnAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAxn0T5sZ9E//GfRP/xn0T5gAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAMZ9E0nGfRPmxn0T5sZ9E0kAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA//8AAPw/AAD8PwAA/D8AAPw/AAD//wAAh+EAAIfhAACH4QAAh+EAAP//AAD8PwAA/D8AAPw/AAD8PwAA//8AAA==`,
@@ -1721,8 +1717,10 @@ Parsedown = (() => {
                     lastSyncGiveaways: `lastSync`
                 };
                 esgst.defaultValues = {
+                    stbb_index: 0,
+                    sttb_index: 0,
                     leftButtonIds: [`wbsDesc`, `wbsAsc`, `wbc`, `ugs`, `tb`, `sks`, `rbp`, `namwc`, `mtUsers`, `mtGames`, `mpp`, `hgr`, `gv`, `gts`, `gm`, `gf`, `ge`, `gas`, `ds`, `df`, `ctUnread`, `ctRead`, `ctGo`, `cs`, `as`, `aic`],
-                    rightButtonIds: [`esResume`, `esPause`, `esRefresh`, `esRefreshAll`],
+                    rightButtonIds: [`esResume`, `esPause`, `esRefresh`, `esRefreshAll`, `stbb`, `sttb`],
                     gb_ue: true,
                     radb: true,
                     lastBackup: 0,
@@ -2105,7 +2103,16 @@ Parsedown = (() => {
                                     </ul>
                                     <img src="http://imgur.com/iJjAs3W.png"/>
                                 `,
+                                features: {
+                                    aic_b: {
+                                        name: `Only trigger the carousel when clicking on the button in the main page heading.`,
+                                        new: true,
+                                        sg: true,
+                                        st: true
+                                    }
+                                },
                                 name: `Attached Images Carousel`,
+                                newBelow: true,
                                 sg: true,
                                 st: true
                             },
@@ -2505,29 +2512,22 @@ Parsedown = (() => {
                                 st: true
                             },
                             stbb: {
-                                features: {
-                                    stbb_f: {
-                                        name: `Show inside of the footer.`,
-                                        sg: true,
-                                        st: true
-                                    }
-                                },
                                 name: `Scroll To Bottom Button`,
                                 new: true,
+                                options: {
+                                    title: `Show in:`,
+                                    values: [`Bottom Right Corner`, `Main Page Heading`, `Footer`]
+                                },
                                 sg: true,
                                 st: true
                             },
                             sttb: {
-                                features: {
-                                    sttb_f: {
-                                        name: `Show inside of the footer.`,
-                                        new: true,
-                                        sg: true,
-                                        st: true
-                                    }
-                                },
                                 name: `Scroll To Top Button`,
                                 newBelow: true,
+                                options: {
+                                    title: `Show in:`,
+                                    values: [`Bottom Right Corner`, `Main Page Heading`, `Footer`]
+                                },
                                 sg: true,
                                 st: true
                             },
@@ -5114,6 +5114,16 @@ Parsedown = (() => {
                                         name: `Sent Keys Searcher Button`,
                                         sg: true
                                     },
+                                    hideButtons_stbb: {
+                                        name: `Scroll To Bottom  Button`,
+                                        new: true,
+                                        sg: true
+                                    },
+                                    hideButtons_sttb: {
+                                        name: `Scroll To Top Button`,
+                                        new: true,
+                                        sg: true
+                                    },
                                     hideButtons_tb: {
                                         name: `Trades Bumper Button`,
                                         st: true
@@ -5140,6 +5150,7 @@ Parsedown = (() => {
                                     }
                                 },
                                 name: `Hide buttons at the left/right sides of the main page heading to reduce used space.`,
+                                newBelow: true,
                                 sg: true,
                                 st: true
                             }
@@ -5156,6 +5167,14 @@ Parsedown = (() => {
                         esgst[match[1]] = esgst.settings[key];
                     }
                 }
+                [{id: `stbb`, side: `right`},
+                 {id: `sttb`, side: `right`}].forEach(item => {
+                    if (esgst.leftButtonIds.indexOf(item.id) < 0 && esgst.rightButtonIds.indexOf(item.id) < 0) {
+                        esgst[`${item.side}ButtonIds`].push(item.id);
+                        esgst.settings.leftButtonIds = esgst.leftButtonIds;
+                        esgst.settings.rightButtonIds = esgst.rightButtonIds;
+                    }
+                });
                 if (esgst.sg && !esgst.menuPath) {
                     checkSync();
                 }
@@ -11097,7 +11116,7 @@ Parsedown = (() => {
                 <li class="esgst-hidden">
                     ${Results[I].Icon}
                     <span class="esgst-bold">${Results[I].Description} (<span>0</span>):</span>
-                    <span class="popup__actions"></span>
+                    <span class="esgst-popup-actions"></span>
                 </li>
             `);
             Key = Results[I].Key;
@@ -11944,7 +11963,9 @@ Parsedown = (() => {
             }
             if (esgst.aic) {
                 i = esgst.attachedImages.length;
-                image.addEventListener(`click`, openAicCarousel.bind(null, i));
+                if (!esgst.aic_b) {
+                    image.addEventListener(`click`, openAicCarousel.bind(null, i));
+                }
                 comment = button.closest(`.comment`);
                 esgst.attachedImages.push({
                     button: button,
@@ -11966,9 +11987,7 @@ Parsedown = (() => {
                             <i class="fa fa-image"></i>
                         </div>
                     `);
-                    esgst.aicButton.addEventListener(`click`, () => {
-                        esgst.attachedImages[0].image.dispatchEvent(new Event(`click`));
-                    });
+                    esgst.aicButton.addEventListener(`click`, openAicCarousel.bind(null, 0, null));
                 }
             }
             if (esgst.ail && !esgst.vai) {
@@ -11983,8 +12002,10 @@ Parsedown = (() => {
     }
 
     function openAicCarousel(i, event) {
-        event.preventDefault();
-        event.stopPropagation();
+        if (event) {
+            event.preventDefault();
+            event.stopPropagation();
+        }
         let carousel = insertHtml(document.body, `beforeEnd`, `<div class="esgst-popup-modal esgst-aic-carousel"></div>`);
         carousel.style.zIndex = 9999 + document.querySelectorAll(`.esgst-popup:not(.esgst-hidden), .esgst-popout:not(.esgst-hidden)`).length;
         carousel.addEventListener(`click`, event => {
@@ -12005,37 +12026,42 @@ Parsedown = (() => {
         attachedImage.image.classList.remove(`is_hidden`, `is-hidden`);
         carousel.innerHTML = `
             <div class="esgst-aic-panel">
-                ${i > 0 ? `
-                    <div class="esgst-aic-left-button">
-                        <i class="fa fa-chevron-left"></i>
-                    </div>
-                ` : ``}
-                ${i < n - 1 ? `
-                    <div class="esgst-aic-right-button">
-                        <i class="fa fa-chevron-right"></i>
-                    </div>
-                ` : ``}
+                <div class="esgst-aic-left-button">
+                    <i class="fa fa-chevron-left"></i>
+                </div>
+                <div class="esgst-aic-right-button">
+                    <i class="fa fa-chevron-right"></i>
+                </div>
+                <div>
+                    ${i + 1}/${n}
+                </div>
                 ${attachedImage.source ? `
                     <div class="esgst-aic-source">
                         <a href="#${attachedImage.source}">Source</a>
                     </div>
                 ` : ``}
             </div>
-            ${attachedImage.image.outerHTML}
+            <a href="${attachedImage.url}" rel="nofollow noreferrer" target="_blank">
+                ${attachedImage.image.outerHTML}
+            </a>
         `;
         panel = carousel.firstElementChild;
         image = panel.nextElementSibling;
         height = panel.offsetHeight + 25;
         image.style.maxHeight = `calc(90% - ${height}px)`;
         image.style.marginTop = `${height}px`;
-        esgst.aicPrevious = esgst.aicNext = null;
+        image.firstElementChild.style.maxHeight = `${image.offsetHeight - 10}px`;
+        esgst.aicPrevious = panel.firstElementChild;
+        esgst.aicNext = esgst.aicPrevious.nextElementSibling;
         if (i > 0) {
-            esgst.aicPrevious = panel.firstElementChild;
             esgst.aicPrevious.addEventListener(`click`, showAicImage.bind(null, carousel, i - 1));
+        } else {
+            esgst.aicPrevious.classList.add(`esgst-disabled`);
         }
         if (i < n - 1) {
-            esgst.aicNext = (esgst.aicPrevious && esgst.aicPrevious.nextElementSibling) || panel.firstElementChild;
             esgst.aicNext.addEventListener(`click`, showAicImage.bind(null, carousel, i + 1));
+        } else {
+            esgst.aicNext.classList.add(`esgst-disabled`);
         }
         if (attachedImage.source) {
             panel.lastElementChild.addEventListener(`click`, () => carousel.remove());
@@ -13186,30 +13212,33 @@ Parsedown = (() => {
                                 <span class="esgst-bold">Category Filters:</span>
                             </div>
                         </div>
-                        <div class="esgst-gf-legend-panel">
-                            <div>
-                                <span class="esgst-bold">Legend:</span>
-                                <i class="fa fa-question-circle" title="This legend applies to the type/category filters, except where noted"></i>
+                        <div class="esgst-gf-right-panel">
+                            <div class="esgst-gf-legend-panel">
+                                <div>
+                                    <span class="esgst-bold">Legend:</span>
+                                    <i class="fa fa-question-circle" title="This legend applies to the type/category filters, except where noted"></i>
+                                </div>
+                                <div class="esgst-gf-legend"><i class="fa fa-circle-o"></i> - Hide all.</div>
+                                <div class="esgst-gf-legend"><i class="fa fa-circle"></i> - Show only.</div>
+                                <div class="esgst-gf-legend"><i class="fa fa-check-circle"></i> - Show all.</div>
+                                <div class="esgst-gf-legend"><i class="fa fa-exclamation esgst-faded"></i> - Overridable <i class="fa fa-question-circle" title="Overridable filters can be overridden by exceptions"></i></div>
+                                <div class="esgst-gf-legend"><i class="fa fa-exclamation"></i> - Non-Overridable <i class="fa fa-question-circle" title="Non-Overridable filters cannot be overridden by exceptions"></i></div>
                             </div>
-                            <div class="esgst-gf-legend"><i class="fa fa-circle-o"></i> - Hide all.</div>
-                            <div class="esgst-gf-legend"><i class="fa fa-circle"></i> - Show only.</div>
-                            <div class="esgst-gf-legend"><i class="fa fa-check-circle"></i> - Show all.</div>
-                            <div class="esgst-gf-legend"><i class="fa fa-exclamation esgst-faded"></i> - Overridable <i class="fa fa-question-circle" title="Overridable filters can be overridden by exceptions"></i></div>
-                            <div class="esgst-gf-legend"><i class="fa fa-exclamation"></i> - Non-Overridable <i class="fa fa-question-circle" title="Non-Overridable filters cannot be overridden by exceptions"></i></div>
-                        </div>
-                        <div class="esgst-gf-preset-panel">
-                            <div>
-                                <span class="esgst-bold">Preset:</span>
+                            <br>
+                            <div class="esgst-gf-preset-panel">
+                                <div>
+                                    <span class="esgst-bold">Preset:</span>
+                                </div>
+                                <div>
+                                    <span></span> exceptions <i class="esgst-clickable fa fa-gear" title="Manage exceptions"></i>
+                                </div>
+                                <input class="form__input-small" type="text"/>
+                                <div class="esgst-description esgst-bold"></div>
+                                <div class="form__row__error esgst-hidden">
+                                    <i class="fa fa-exclamation-circle"></i> Please enter a name for the preset.
+                                </div>
+                                <div class="esgst-description">The name of the preset.</div>
                             </div>
-                            <div>
-                                <span></span> exceptions <i class="esgst-clickable fa fa-gear" title="Manage exceptions"></i>
-                            </div>
-                            <input class="form__input-small" type="text"/>
-                            <div class="esgst-description esgst-bold"></div>
-                            <div class="form__row__error esgst-hidden">
-                                <i class="fa fa-exclamation-circle"></i> Please enter a name for the preset.
-                            </div>
-                            <div class="esgst-description">The name of the preset.</div>
                         </div>
                     </div>
                 </div>
@@ -13223,7 +13252,7 @@ Parsedown = (() => {
         basicFilters = filters.firstElementChild;
         typeFilters = basicFilters.nextElementSibling;
         categoryFilters = typeFilters.nextElementSibling;
-        presetPanel = categoryFilters.nextElementSibling.nextElementSibling;
+        presetPanel = categoryFilters.nextElementSibling.lastElementChild;
         exceptionPanel = presetPanel.firstElementChild.nextElementSibling;
         exceptionCount = exceptionPanel.firstElementChild;
         exceptionButton = exceptionCount.nextElementSibling;
@@ -21182,30 +21211,33 @@ Parsedown = (() => {
                                 <span class="esgst-bold">Type Filters:</span>
                             </div>
                         </div>
-                        <div class="esgst-gf-legend-panel">
-                            <div>
-                                <span class="esgst-bold">Legend:</span>
-                                <i class="fa fa-question-circle" title="This legend applies to the type filters, except where noted"></i>
+                        <div class="esgst-gf-right-panel">
+                            <div class="esgst-gf-legend-panel">
+                                <div>
+                                    <span class="esgst-bold">Legend:</span>
+                                    <i class="fa fa-question-circle" title="This legend applies to the type filters, except where noted"></i>
+                                </div>
+                                <div class="esgst-gf-legend"><i class="fa fa-circle-o"></i> - Hide all.</div>
+                                <div class="esgst-gf-legend"><i class="fa fa-circle"></i> - Show only.</div>
+                                <div class="esgst-gf-legend"><i class="fa fa-check-circle"></i> - Show all.</div>
+                                <div class="esgst-gf-legend"><i class="fa fa-exclamation esgst-faded"></i> - Overridable <i class="fa fa-question-circle" title="Overridable filters can be overridden by exceptions"></i></div>
+                                <div class="esgst-gf-legend"><i class="fa fa-exclamation"></i> - Non-Overridable <i class="fa fa-question-circle" title="Non-Overridable filters cannot be overridden by exceptions"></i></div>
                             </div>
-                            <div class="esgst-gf-legend"><i class="fa fa-circle-o"></i> - Hide all.</div>
-                            <div class="esgst-gf-legend"><i class="fa fa-circle"></i> - Show only.</div>
-                            <div class="esgst-gf-legend"><i class="fa fa-check-circle"></i> - Show all.</div>
-                            <div class="esgst-gf-legend"><i class="fa fa-exclamation esgst-faded"></i> - Overridable <i class="fa fa-question-circle" title="Overridable filters can be overridden by exceptions"></i></div>
-                            <div class="esgst-gf-legend"><i class="fa fa-exclamation"></i> - Non-Overridable <i class="fa fa-question-circle" title="Non-Overridable filters cannot be overridden by exceptions"></i></div>
-                        </div>
-                        <div class="esgst-gf-preset-panel">
-                            <div>
-                                <span class="esgst-bold">Preset:</span>
+                            <br>
+                            <div class="esgst-gf-preset-panel">
+                                <div>
+                                    <span class="esgst-bold">Preset:</span>
+                                </div>
+                                <div>
+                                    <span></span> exceptions <i class="esgst-clickable fa fa-gear" title="Manage exceptions"></i>
+                                </div>
+                                <input class="form__input-small" type="text"/>
+                                <div class="esgst-description esgst-bold"></div>
+                                <div class="form__row__error esgst-hidden">
+                                    <i class="fa fa-exclamation-circle"></i> Please enter a name for the preset.
+                                </div>
+                                <div class="esgst-description">The name of the preset.</div>
                             </div>
-                            <div>
-                                <span></span> exceptions <i class="esgst-clickable fa fa-gear" title="Manage exceptions"></i>
-                            </div>
-                            <input class="form__input-small" type="text"/>
-                            <div class="esgst-description esgst-bold"></div>
-                            <div class="form__row__error esgst-hidden">
-                                <i class="fa fa-exclamation-circle"></i> Please enter a name for the preset.
-                            </div>
-                            <div class="esgst-description">The name of the preset.</div>
                         </div>
                     </div>
                 </div>
@@ -21218,7 +21250,7 @@ Parsedown = (() => {
         filters = box.firstElementChild;
         basicFilters = filters.firstElementChild;
         typeFilters = basicFilters.nextElementSibling;
-        presetPanel = typeFilters.nextElementSibling.nextElementSibling;
+        presetPanel = typeFilters.nextElementSibling.lastElementChild;
         exceptionPanel = presetPanel.firstElementChild.nextElementSibling;
         exceptionCount = exceptionPanel.firstElementChild;
         exceptionButton = exceptionCount.nextElementSibling;
@@ -28881,7 +28913,7 @@ Parsedown = (() => {
     }
 
     function filterSm(event) {
-        let found, id, type, typeFound, value;
+        let collapse, element, expand, found, id, type, typeFound, value;
         value = event.currentTarget.value.toLowerCase().trim();
         for (type in esgst.features) {
             found = false;
@@ -28893,16 +28925,30 @@ Parsedown = (() => {
                     unhideSmFeature(esgst.features[type].features[id], id);
                 }
             }
-            if (typeFound) {
-                document.getElementById(`esgst_${type}`).classList.remove(`esgst-hidden`);
-            } else {
-                document.getElementById(`esgst_${type}`).classList.add(`esgst-hidden`);
+            element = document.getElementById(`esgst_${type}`);
+            if (element) {
+                if (typeFound) {
+                    element.classList.remove(`esgst-hidden`);
+                } else {
+                    element.classList.add(`esgst-hidden`);
+                }
+                if (value) {                    
+                    expand = element.getElementsByClassName(`fa-plus-square`)[0];
+                    if (expand) {
+                        expand.click();
+                    }
+                } else {
+                    collapse = element.getElementsByClassName(`fa-minus-square`)[0];
+                    if (collapse) {
+                        collapse.click();
+                    }
+                }
             }
         }
     }
 
     function filterSmFeature(feature, id, value) {
-        let found, subId;
+        let element, found, subId;
         found = false;
         if (feature.features) {
             for (subId in feature.features) {
@@ -28912,16 +28958,22 @@ Parsedown = (() => {
         } else {
             found = (feature.description && feature.description.toLowerCase().match(value)) || feature.name.toLowerCase().match(value);
         }
-        if (found) {
-            document.getElementById(`esgst_${id}`).classList.remove(`esgst-hidden`);
-        } else {
-            document.getElementById(`esgst_${id}`).classList.add(`esgst-hidden`);
+        element = document.getElementById(`esgst_${id}`);
+        if (element) {
+            if (found) {
+                element.classList.remove(`esgst-hidden`);
+            } else {
+                element.classList.add(`esgst-hidden`);
+            }
         }
         return found;
     }
 
     function unhideSmFeature(feature, id) {
-        document.getElementById(`esgst_${id}`).classList.remove(`esgst-hidden`);
+        let element = document.getElementById(`esgst_${id}`);
+        if (element) {
+            element.classList.remove(`esgst-hidden`);
+        }
         if (feature.features) {
             for (id in feature.features) {
                 unhideSmFeature(feature.features[id], id);
@@ -31508,11 +31560,11 @@ Parsedown = (() => {
                                 addUtTags(id, savedUser.tags);
                             }
                         }
-                        if (esgst.ap) {
-                            setApAvatar(element);
-                        }
                     } else if (esgst.ut) {
                         addUtButton(context, id, esgst.sg ? null : id, esgst.sg ? id : null);
+                    }
+                    if (esgst.ap) {
+                        setApAvatar(element);
                     }
                     if (!found) {
                         found = true;
@@ -31596,34 +31648,32 @@ Parsedown = (() => {
                 if (!games[type][id]) {
                     games[type][id] = [];
                 }
-                if (main) {
-                    if (esgst.egh) {
-                        if (esgst.giveawayPath) {
-                            let button = document.querySelector(`.sidebar__entry-insert`);
-                            if (button) {
-                                button.addEventListener(`click`, saveEghGame.bind(null, id, type));
-                            }
-                        }
-                        if (!esgst.menuPath && savedGames[type][id] && savedGames[type][id].entered && !game.container.getElementsByClassName(`esgst-egh-button`)[0] && (!game.table || esgst.egh_t)) {
-                            insertHtml((game.container.closest(`.poll`) && game.container.getElementsByClassName(`table__column__heading`)[0]) || game.headingName, `beforeBegin`, `
-                                <a class="esgst-egh-button">
-                                    <i class="fa fa-star esgst-egh-icon" title="You have entered giveaways for this game before. Click to unhighlight it"></i>
-                                </a>
-                            `).addEventListener(`click`, unhighlightEghGame.bind(null, id, type));
+                if (esgst.egh) {
+                    if (esgst.giveawayPath) {
+                        let button = document.querySelector(`.sidebar__entry-insert`);
+                        if (button) {
+                            button.addEventListener(`click`, saveEghGame.bind(null, id, type));
                         }
                     }
-                    if (esgst.gt) {
-                        if (!game.container.getElementsByClassName(`esgst-gt-button`)[0] && (!game.table || esgst.gt_t)) {
-                            insertHtml((game.container.closest(`.poll`) && game.container.getElementsByClassName(`table__column__heading`)[0]) || game.heading.lastElementChild || game.heading, `afterEnd`, `
-                                <a class="esgst-faded esgst-gt-button" title="Edit game tags">
-                                    <i class="fa fa-tag"></i>
-                                    <span class="esgst-gt-tags"></span>
-                                </a>
-                            `).addEventListener(`click`, openGtPopup.bind(null, id, game.name, type));
-                        }
-                        if (savedGames[type][id] && savedGames[type][id].tags) {
-                            addGtTags([game], id, savedGames[type][id].tags, type);
-                        }
+                    if (!esgst.menuPath && savedGames[type][id] && savedGames[type][id].entered && !game.container.getElementsByClassName(`esgst-egh-button`)[0] && (!game.table || esgst.egh_t)) {
+                        insertHtml((game.container.closest(`.poll`) && game.container.getElementsByClassName(`table__column__heading`)[0]) || game.headingName, `beforeBegin`, `
+                            <a class="esgst-egh-button">
+                                <i class="fa fa-star esgst-egh-icon" title="You have entered giveaways for this game before. Click to unhighlight it"></i>
+                            </a>
+                        `).addEventListener(`click`, unhighlightEghGame.bind(null, id, type));
+                    }
+                }
+                if (esgst.gt) {
+                    if (!game.container.getElementsByClassName(`esgst-gt-button`)[0] && (!game.table || esgst.gt_t)) {
+                        insertHtml((game.container.closest(`.poll`) && game.container.getElementsByClassName(`table__column__heading`)[0]) || game.heading.lastElementChild || game.heading, `afterEnd`, `
+                            <a class="esgst-faded esgst-gt-button" title="Edit game tags">
+                                <i class="fa fa-tag"></i>
+                                <span class="esgst-gt-tags"></span>
+                            </a>
+                        `).addEventListener(`click`, openGtPopup.bind(null, id, game.name, type));
+                    }
+                    if (savedGames[type][id] && savedGames[type][id].tags) {
+                        addGtTags([game], id, savedGames[type][id].tags, type);
                     }
                 }
                 games[type][id].push(game);
@@ -31767,38 +31817,86 @@ Parsedown = (() => {
     }
 
     function loadStbb() {
-        let button = insertHtml(esgst.stbb_f ? esgst.footer.firstElementChild.lastElementChild : document.body, `beforeEnd`, `
-            <div class="esgst-stbb-button" title="Scroll to bottom">
-                <i class="fa fa-chevron-down"></i>
-            </div>
-        `);
-        if (!esgst.stbb_f) {
-            addEventListener(`scroll`, () => {
-                if (document.documentElement.offsetHeight - innerHeight >= scrollY + 100) {
-                    button.classList.remove(`esgst-hidden`);
+        let button, key, position;
+        switch (esgst.stbb_index) {
+            case 0:
+                button = insertHtml(document.body, `beforeEnd`, `
+                    <div class="esgst-stbb-button" title="Scroll to bottom">
+                        <i class="fa fa-chevron-down"></i>
+                    </div>
+                `);
+                addEventListener(`scroll`, () => {
+                    if (document.documentElement.offsetHeight - innerHeight >= scrollY + 100) {
+                        button.classList.remove(`esgst-hidden`);
+                    } else {
+                        button.classList.add(`esgst-hidden`);
+                    }
+                });
+                break;
+            case 1:
+                if (esgst.leftButtonIds.indexOf(`stbb`) > -1) {
+                    key = `leftButtons`;
+                    position = `afterBegin`;
                 } else {
-                    button.classList.add(`esgst-hidden`);
+                    key = `rightButtons`;
+                    position = `beforeEnd`;
                 }
-            });
+                button = insertHtml(esgst.hideButtons && esgst.hideButtons_stbb ? esgst[key] : esgst.mainPageHeading, position, `
+                    <div class="esgst-stbb-button esgst-heading-button" id="esgst-stbb" title="Scroll to bottom">
+                        <i class="fa fa-chevron-down"></i>
+                    </div>
+                `);
+                break;
+            case 2:
+                button = insertHtml(esgst.footer.firstElementChild.lastElementChild, `beforeEnd`, `
+                    <div class="esgst-stbb-button" title="Scroll to bottom">
+                        <i class="fa fa-chevron-down"></i>
+                    </div>
+                `);
+                break;
         }
-        button.addEventListener(`click`, animateScroll.bind(null, document.documentElement.offsetHeight));
+        button.addEventListener(`click`, () => animateScroll(document.documentElement.offsetHeight));
     }
 
     function loadSttb() {
-        let button = insertHtml(esgst.sttb_f ? esgst.footer.firstElementChild.lastElementChild : document.body, `beforeEnd`, `
-            <div class="esgst-sttb-button" title="Scroll to top">
-                <i class="fa fa-chevron-up"></i>
-            </div>
-        `);
-        if (!esgst.sttb_f) {
-            button.classList.add(`esgst-hidden`);
-            addEventListener(`scroll`, () => {
-                if (scrollY > 100) {
-                    button.classList.remove(`esgst-hidden`);
+        let button, key, position;
+        switch (esgst.sttb_index) {
+            case 0:
+                button = insertHtml(document.body, `beforeEnd`, `
+                    <div class="esgst-sttb-button" title="Scroll to top">
+                        <i class="fa fa-chevron-up"></i>
+                    </div>
+                `);
+                button.classList.add(`esgst-hidden`);
+                addEventListener(`scroll`, () => {
+                    if (scrollY > 100) {
+                        button.classList.remove(`esgst-hidden`);
+                    } else {
+                        button.classList.add(`esgst-hidden`);
+                    }
+                });
+                break;
+            case 1:
+                if (esgst.leftButtonIds.indexOf(`sttb`) > -1) {
+                    key = `leftButtons`;
+                    position = `afterBegin`;
                 } else {
-                    button.classList.add(`esgst-hidden`);
+                    key = `rightButtons`;
+                    position = `beforeEnd`;
                 }
-            });
+                button = insertHtml(esgst.hideButtons && esgst.hideButtons_sttb ? esgst[key] : esgst.mainPageHeading, position, `
+                    <div class="esgst-sttb-button esgst-heading-button" id="esgst-sttb" title="Scroll to top">
+                        <i class="fa fa-chevron-up"></i>
+                    </div>
+                `);
+                break;
+            case 2:
+                button = insertHtml(esgst.footer.firstElementChild.lastElementChild, `beforeEnd`, `
+                    <div class="esgst-sttb-button" title="Scroll to top">
+                        <i class="fa fa-chevron-up"></i>
+                    </div>
+                `);
+                break;
         }
         button.addEventListener(`click`, animateScroll.bind(null, 0));
     }
@@ -33889,6 +33987,11 @@ Parsedown = (() => {
             `;
         }
         style += `
+            .esgst-disabled {
+                cursor: default !important;
+                opacity: 0.5;
+            }
+
             .esgst-changelog img {
                 max-width: 98%;
             }
@@ -33978,22 +34081,18 @@ Parsedown = (() => {
             }
 
             .esgst-stbb-button, .esgst-sttb-button {
+                cursor: pointer;
+            }
+
+            :not(.page__heading):not(.page_heading) > .esgst-stbb-button, :not(.footer__outer-wrap):not(footer) >>> .esgst-stbb-button, :not(.page__heading):not(.page_heading) > .esgst-sttb-button, :not(.footer__outer-wrap):not(footer) >>> .esgst-sttb-button {
                 bottom: ${esgst.ff ? 49 : 5}px;
                 background-color: #fff;
                 border: 1px solid #d2d6e0;
                 border-radius: 4px;
                 color: #4B72D4;
-                cursor: pointer;
                 padding: 5px 15px;
                 position: fixed;
                 right: 5px;
-            }
-
-            .footer__outer-wrap .esgst-stbb-button, footer .esgst-stbb-button, .footer__outer-wrap .esgst-sttb-button, footer .esgst-sttb-button {
-                background: none;
-                border: none;
-                position: static;
-                padding: 0;
             }
 
             .esgst-stbb-button:not(.esgst-hidden) + .esgst-sttb-button {
@@ -34797,7 +34896,7 @@ Parsedown = (() => {
                 justify-content: center;
             }
 
-            .esgst-aic-carousel img {
+            .esgst-aic-carousel >:last-child {
                 border: 5px solid #fff;
                 border-radius: 5px;
                 max-width: 90%;
@@ -34846,8 +34945,8 @@ Parsedown = (() => {
                 background-color: #f0f2f5;
                 border-radius: 4px;
                 color: #465670;
-                max-width: calc(90% - 200px);
-                padding: 35px 100px;
+                max-width: calc(90% - 50px);
+                padding: 25px;
                 position: fixed;
                 text-align: center;
                 text-shadow: 1px 1px rgba(255,255,255,0.94);
@@ -34870,12 +34969,24 @@ Parsedown = (() => {
                 margin: 10px 0 0 !important;
             }
 
-            .esgst-popup-scrollable {
-                overflow: auto;
+            .esgst-popup-actions {
+                color: #4b72d4;
+                margin-top: 15px;
             }
 
-            .esgst-popup .popup__actions >* {
+            .esgst-popup-actions >* {
+                border-bottom: 1px dotted;
+                box-shadow: 0 1px 0 #fff;
+                cursor: pointer;
                 display: inline-block;
+            }
+
+            .esgst-popup-actions >*:not(:last-child) {
+                margin-right: 15px;
+            }
+
+            .esgst-popup-scrollable {
+                overflow: auto;
             }
 
             .esgst-popup .popup__keys__list {
@@ -34887,13 +34998,19 @@ Parsedown = (() => {
                 cursor: pointer;
             }
 
-            .esgst-popup .popup__actions {
-                margin-top: 25px;
+            .esgst-popup-heading {
+                display: flex;
+                align-items: center;
+                margin-bottom: 5px;
             }
 
             .esgst-popup-icon {
-                height: 48px;
-                width: 48px;
+                font-size: 25px;
+                margin-right: 10px;
+            }
+
+            .esgst-popup-title {
+                font: 300 18px 'Open Sans', sans-serif;
             }
 
             .esgst-popup-title span {
@@ -35092,23 +35209,22 @@ Parsedown = (() => {
                 white-space: nowrap;
             }
 
-            .esgst-gf-legend-panel {
-                position: absolute;
-                right: 0;
-                text-align: right;
-                top: 0;
+            .esgst-gf-right-panel {
+                float: right;
             }
 
-            .esgst-gf-preset-panel {
-                bottom: 0;
-                position: absolute;
-                right: 0;
+            .esgst-gf-legend-panel, .esgst-gf-preset-panel {
+                margin: 5px;
                 text-align: right;
             }
 
             .esgst-gf-override {
                 cursor: pointer;
                 margin-right: 5px;
+            }
+
+            .esgst-gf-container {
+                text-align: left;
             }
 
             .esgst-gf-container:not(.esgst-popup-scrollable) {
@@ -35128,7 +35244,7 @@ Parsedown = (() => {
             }
 
             .esgst-gf-filters {
-                min-height: 300px;
+                overflow: auto;
                 position: relative;
             }
 
@@ -35717,6 +35833,7 @@ Parsedown = (() => {
 
             .esgst-ut-existing-button {
                 padding: 8px;
+                right: 25px;
                 position: absolute;
             }
 
@@ -36062,6 +36179,24 @@ Parsedown = (() => {
     function loadChangelog(version) {
         var changelog, current, html, i, index, n, popup;
         changelog = [
+            {
+                date: `November 26, 2017`,
+                version: `7.9.1`,
+                changelog: `
+                    <ul>
+                        <li><a href="https://github.com/revilheart/ESGST/issues/261">#261</a> Fix a bug that does not load the entire changelog</li>
+                        <li><a href="https://github.com/revilheart/ESGST/issues/260">#260</a> Fix a bug in Avatar Popout that does not load for some users</li>
+                        <li><a href="https://github.com/revilheart/ESGST/issues/262">#262</a> Fix a style issue in Giveaway/Discussion Filters</li>
+                        <li><a href="https://github.com/revilheart/ESGST/issues/263">#263</a> Fix a bug that does not load Entered Games Highlighter and Game Tags in popups</li>
+                        <li><a href="https://github.com/revilheart/ESGST/issues/264">#264</a> Reduce useless space in popups</li>
+                        <li><a href="https://github.com/revilheart/ESGST/issues/265">#265</a> Fix a bug in Scroll To Bottom Button that does not scroll all the way down with Endless Scrolling</li>
+                        <li><a href="https://github.com/revilheart/ESGST/issues/266">#266</a> Fix a bug that happens when filtering features in the settings menu</li>
+                        <li><a href="https://github.com/revilheart/ESGST/issues/267">#267</a> Automatically expand sections when filtering features in the settings menu</li>
+                        <li><a href="https://github.com/revilheart/ESGST/issues/268">#268</a> Add option to show Scroll To Top/Bottom Button in the main page heading</li>
+                        <li><a href="https://github.com/revilheart/ESGST/issues/269">#269</a> More changes to Attached Images Carousel</li>
+                    </ul>
+                `
+            },
             {
                 date: `November 24, 2017`,
                 version: `7.9.0`,
@@ -36736,7 +36871,7 @@ Parsedown = (() => {
             });
             arrow.addEventListener(`click`, toggleHeaderMenu.bind(null, arrow, dropdown));
             document.addEventListener(`click`, closeHeaderMenu.bind(null, arrow, dropdown, menu), true);
-            dropdown.firstElementChild.lastElementChild.previousElementSibling.addEventListener(`click`, loadChangelog.bind(null, null));
+            dropdown.firstElementChild.lastElementChild.previousElementSibling.addEventListener(`click`, loadChangelog);
         };
         notifyNewVersion = version => {
             let message, popup;
@@ -36929,7 +37064,7 @@ Parsedown = (() => {
             arrow.addEventListener(`click`, toggleHeaderMenu.bind(null, arrow, dropdown));
             document.addEventListener(`click`, closeHeaderMenu.bind(null, arrow, dropdown, menu), true);
             dropdown.firstElementChild.firstElementChild.addEventListener(`click`, checkUpdate);
-            dropdown.firstElementChild.lastElementChild.previousElementSibling.addEventListener(`click`, loadChangelog.bind(null, null));
+            dropdown.firstElementChild.lastElementChild.previousElementSibling.addEventListener(`click`, loadChangelog);
         };
         notifyNewVersion = version => {
             let message, popup;
