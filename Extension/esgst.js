@@ -9646,7 +9646,7 @@ Parsedown = (() => {
     }
 
     function getSetting(key, sg, st) {
-        var defaultValue, i, localKey, n;
+        var defaultValue, i, localKey, n, oldKey;
         if ((esgst.name === `sg` && sg) || (esgst.name === `st` && st) || (!sg && !st)) {
             if (sg || st) {
                 localKey = `${key}_${esgst.name}`;
@@ -9658,8 +9658,10 @@ Parsedown = (() => {
                 if (typeof defaultValue === `undefined`) {
                     defaultValue = key === `gc_lp` ? true : (key.match(/^sk_/) ? true : (key.match(/^gc_.+?_s$/) ? esgst.settings.gc_s_sg : (key.match(/^gc_.+?_s_i$/) ? esgst.settings.gc_s_i_sg : (key.match(/^(g|d)f_(?!h$)/) ? true : (key.match(/^hide/) ? false : (esgst.enableByDefault || false))))));
                 }
-                if (typeof esgst.oldValues[key] !== `undefined`) {
-                    esgst.settings[localKey] = esgst.settings[esgst.oldValues[key]];
+                oldKey = esgst.oldValues[key];
+                if (typeof oldKey !== `undefined`) {
+                    oldKey = sg || st ? `${oldKey}_${esgst.name}` : oldKey;
+                    esgst.settings[localKey] = esgst.settings[oldKey];
                 }
                 if (typeof esgst.settings[localKey] === `undefined`) {
                     esgst.settings[localKey] = defaultValue;
