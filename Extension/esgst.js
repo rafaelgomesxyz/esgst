@@ -2103,7 +2103,16 @@ Parsedown = (() => {
                                     </ul>
                                     <img src="http://imgur.com/iJjAs3W.png"/>
                                 `,
+                                features: {
+                                    aic_b: {
+                                        name: `Only trigger the carousel when clicking on the button in the main page heading.`,
+                                        new: true,
+                                        sg: true,
+                                        st: true
+                                    }
+                                },
                                 name: `Attached Images Carousel`,
+                                newBelow: true,
                                 sg: true,
                                 st: true
                             },
@@ -11954,7 +11963,9 @@ Parsedown = (() => {
             }
             if (esgst.aic) {
                 i = esgst.attachedImages.length;
-                image.addEventListener(`click`, openAicCarousel.bind(null, i));
+                if (!esgst.aic_b) {
+                    image.addEventListener(`click`, openAicCarousel.bind(null, i));
+                }
                 comment = button.closest(`.comment`);
                 esgst.attachedImages.push({
                     button: button,
@@ -11976,9 +11987,7 @@ Parsedown = (() => {
                             <i class="fa fa-image"></i>
                         </div>
                     `);
-                    esgst.aicButton.addEventListener(`click`, () => {
-                        esgst.attachedImages[0].image.dispatchEvent(new Event(`click`));
-                    });
+                    esgst.aicButton.addEventListener(`click`, openAicCarousel.bind(null, 0, null));
                 }
             }
             if (esgst.ail && !esgst.vai) {
@@ -11993,8 +12002,10 @@ Parsedown = (() => {
     }
 
     function openAicCarousel(i, event) {
-        event.preventDefault();
-        event.stopPropagation();
+        if (event) {
+            event.preventDefault();
+            event.stopPropagation();
+        }
         let carousel = insertHtml(document.body, `beforeEnd`, `<div class="esgst-popup-modal esgst-aic-carousel"></div>`);
         carousel.style.zIndex = 9999 + document.querySelectorAll(`.esgst-popup:not(.esgst-hidden), .esgst-popout:not(.esgst-hidden)`).length;
         carousel.addEventListener(`click`, event => {
@@ -12015,37 +12026,42 @@ Parsedown = (() => {
         attachedImage.image.classList.remove(`is_hidden`, `is-hidden`);
         carousel.innerHTML = `
             <div class="esgst-aic-panel">
-                ${i > 0 ? `
-                    <div class="esgst-aic-left-button">
-                        <i class="fa fa-chevron-left"></i>
-                    </div>
-                ` : ``}
-                ${i < n - 1 ? `
-                    <div class="esgst-aic-right-button">
-                        <i class="fa fa-chevron-right"></i>
-                    </div>
-                ` : ``}
+                <div class="esgst-aic-left-button">
+                    <i class="fa fa-chevron-left"></i>
+                </div>
+                <div class="esgst-aic-right-button">
+                    <i class="fa fa-chevron-right"></i>
+                </div>
+                <div>
+                    ${i + 1}/${n}
+                </div>
                 ${attachedImage.source ? `
                     <div class="esgst-aic-source">
                         <a href="#${attachedImage.source}">Source</a>
                     </div>
                 ` : ``}
             </div>
-            ${attachedImage.image.outerHTML}
+            <a href="${attachedImage.url}" rel="nofollow noreferrer" target="_blank">
+                ${attachedImage.image.outerHTML}
+            </a>
         `;
         panel = carousel.firstElementChild;
         image = panel.nextElementSibling;
         height = panel.offsetHeight + 25;
         image.style.maxHeight = `calc(90% - ${height}px)`;
         image.style.marginTop = `${height}px`;
-        esgst.aicPrevious = esgst.aicNext = null;
+        image.firstElementChild.style.maxHeight = `${image.offsetHeight - 10}px`;
+        esgst.aicPrevious = panel.firstElementChild;
+        esgst.aicNext = esgst.aicPrevious.nextElementSibling;
         if (i > 0) {
-            esgst.aicPrevious = panel.firstElementChild;
             esgst.aicPrevious.addEventListener(`click`, showAicImage.bind(null, carousel, i - 1));
+        } else {
+            esgst.aicPrevious.classList.add(`esgst-disabled`);
         }
         if (i < n - 1) {
-            esgst.aicNext = (esgst.aicPrevious && esgst.aicPrevious.nextElementSibling) || panel.firstElementChild;
             esgst.aicNext.addEventListener(`click`, showAicImage.bind(null, carousel, i + 1));
+        } else {
+            esgst.aicNext.classList.add(`esgst-disabled`);
         }
         if (attachedImage.source) {
             panel.lastElementChild.addEventListener(`click`, () => carousel.remove());
@@ -33971,6 +33987,11 @@ Parsedown = (() => {
             `;
         }
         style += `
+            .esgst-disabled {
+                cursor: default !important;
+                opacity: 0.5;
+            }
+
             .esgst-changelog img {
                 max-width: 98%;
             }
@@ -34875,7 +34896,7 @@ Parsedown = (() => {
                 justify-content: center;
             }
 
-            .esgst-aic-carousel img {
+            .esgst-aic-carousel >:last-child {
                 border: 5px solid #fff;
                 border-radius: 5px;
                 max-width: 90%;
