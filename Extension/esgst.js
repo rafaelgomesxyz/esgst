@@ -32155,7 +32155,7 @@ Parsedown = (() => {
                     <span class="esgst-bold"><i class="fa fa-circle-o-notch fa-spin"></i> Loading next page...</span>
                 `);
                 request(null, null, `GET`, false, `${esgst.searchUrl}${nextPage}`, getNextPage.bind(null, false, false, callback));
-            } else if (callback) {
+            } else if (callback && typeof callback === `function`) {
                 callback();
             }
         }
@@ -32260,7 +32260,7 @@ Parsedown = (() => {
                     busy = false;
                     if (nextPage <= 0) {
                         ended = true;
-                        if (callback) {
+                        if (callback && typeof callback === `function`) {
                             callback();
                         }
                     } else if (!paused) {
@@ -32274,7 +32274,7 @@ Parsedown = (() => {
                     busy = false;
                     if (paginationNavigation.lastElementChild.classList.contains(esgst.selectedClass)) {
                         ended = true;
-                        if (callback) {
+                        if (callback && typeof callback === `function`) {
                             callback();
                         }
                     } else if (!paused) {
