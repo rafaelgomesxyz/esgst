@@ -27841,7 +27841,7 @@ Parsedown = (() => {
         suffix = `</span>`;
         html = tags.length && tags[0] ? `${prefix}${tags.join(`${suffix}${prefix}`)}${suffix}` : ``;
         if (!games) {
-            games = getGames(document)[type][id];
+            games = getGames(document, true, JSON.parse(getValue(`games`)))[type][id];
         }
         if (games) {
             for (i = 0, n = games.length; i < n; ++i) {
