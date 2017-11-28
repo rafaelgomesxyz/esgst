@@ -33019,10 +33019,9 @@ Parsedown = (() => {
     }
 
     function manageData(dm, dropbox, googleDrive, oneDrive, space, callback) {
-        var data, dataKey, i, id, j, k, l, mergedData, mergedDataKey, mergedDataValue, newData, newDataKey, newDataValue, numMerged, numNew, numOld, numOptions, numTags, oldData, oldDataKey, oldDataValue, option, optionKey, tag, tags, username, value, valueKey, values;
+        let data, dataKey, found, i, id, j, k, key, l, mainFound, mainUsernameFound, mergedData, mergedDataKey, mergedDataValue, newData, newDataKey, newDataValue, numMerged, numNew, numOld, numOptions, numTags, oldData, oldDataKey, oldDataValue, option, optionKey, size, sizes, tag, tags, temp, toDelete, totalSize, username, value, valueKey, values;
         data = {};
-        let totalGM = 0;
-        let size = 0;
+        totalSize = 0;
         for (i = 0, numOptions = dm.options.length; i < numOptions; ++i) {
             option = dm.options[i];
             if (option.check) {
@@ -33033,7 +33032,11 @@ Parsedown = (() => {
                         case `decryptedGiveaways`:
                         case `settings`:
                             data[optionKey] = JSON.parse(getValue(optionKey, `{}`));
-                            if (!space) {
+                            if (space) {
+                                size = (new TextEncoder(`utf-8`).encode(`{"${optionKey}":${getValue(optionKey, `{}`)}}`)).length;
+                                totalSize += size;
+                                dm.switches[optionKey].size.textContent = convertBytes(size);
+                            } else {
                                 if (dm.import) {
                                     newData = dm.data[optionKey];
                                     if (newData) {
@@ -33050,11 +33053,6 @@ Parsedown = (() => {
                                 } else if (dm.delete) {
                                     delValue(optionKey);
                                 }
-                            }
-                            if (!dm.autoBackup) {
-                                size = (new TextEncoder(`utf-8`).encode(getValue(optionKey, ``))).length;
-                                totalGM += size;
-                                dm.switches[optionKey].size.textContent = convertBytes(size);
                             }
                             break;
                         case `discussions`:
@@ -33093,17 +33091,34 @@ Parsedown = (() => {
                             }
                             mergedData = JSON.parse(getValue(optionKey, `{}`));
                             data[optionKey] = {};
+                            sizes = {
+                                ct: 0,
+                                df: 0,
+                                dh: 0,
+                                gb: 0,
+                                gdttt: 0,
+                                gf: 0,
+                                ggl: 0,
+                                main: 0,
+                                total: 0
+                            };
+                            mainFound = false;
                             for (mergedDataKey in mergedData) {
                                 newData = {};
-                                let toDelete = 0;
+                                toDelete = 0;
+                                found = null;
                                 for (value in values) {
-                                    if (esgst.settings[`${dm.type}_${optionKey}_${value}`] || value === `main`) {
+                                    if (space || esgst.settings[`${dm.type}_${optionKey}_${value}`] || value === `main`) {
                                         toDelete += 1;
                                         for (j = 0, numValues = values[value].length; j < numValues; ++j) {
                                             valueKey = values[value][j];
                                             mergedDataValue = mergedData[mergedDataKey][valueKey];
                                             if (typeof mergedDataValue !== `undefined`) {
                                                 newData[valueKey] = mergedDataValue;
+                                                size = (new TextEncoder(`utf-8`).encode(`"${valueKey}":${JSON.stringify(mergedDataValue)},`)).length;
+                                                sizes[value] += size;
+                                                sizes.total += size;
+                                                found = value;
                                                 if (!space && dm.delete) {
                                                     delete mergedData[mergedDataKey][valueKey];
                                                 }
@@ -33111,14 +33126,37 @@ Parsedown = (() => {
                                         }
                                     }
                                 }
+                                if (found) {
+                                    sizes[found] -= 1;
+                                    sizes.total -= 1;
+                                }
                                 if (Object.keys(newData).length > 0) {
                                     data[optionKey][mergedDataKey] = newData;
+                                    size = (new TextEncoder(`utf-8`).encode(`"${mergedDataKey}":{},`)).length;
+                                    sizes.main += size;
+                                    sizes.total += size;
+                                    mainFound = true;
                                 }
                                 if (!space && dm.delete && toDelete === Object.keys(values).length) {
                                     delete mergedData[mergedDataKey];
                                 }
                             }
-                            if (!space) {
+                            if (space) {
+                                if (mainFound) {
+                                    sizes.main -= 1;
+                                    sizes.total -= 1;
+                                }
+                                size = (new TextEncoder(`utf-8`).encode(`{"${optionKey}":{}}`)).length;
+                                sizes.main += size;
+                                sizes.total += size;
+                                for (value in values) {
+                                    if (value !== `main` && dm.switches[`${optionKey}_${value}`]) {
+                                        dm.switches[`${optionKey}_${value}`].size.textContent = convertBytes(sizes[value]);
+                                    }
+                                }
+                                dm.switches[optionKey].size.textContent = `(Main: ${convertBytes(sizes.main)} / Total: ${convertBytes(sizes.total)})`;
+                                totalSize += sizes.total;
+                            } else {
                                 if (dm.import) {
                                     newData = dm.data[optionKey];
                                     if (newData) {
@@ -33160,15 +33198,14 @@ Parsedown = (() => {
                                     setValue(optionKey, JSON.stringify(mergedData));
                                 }
                             }
-                            if (!dm.autoBackup) {
-                                size = (new TextEncoder(`utf-8`).encode(getValue(optionKey, ``))).length;
-                                totalGM += size;
-                                dm.switches[optionKey].size.textContent = convertBytes(size);
-                            }
                             break;
                         case `emojis`:
                             data.emojis = getValue(`emojis`, ``);
-                            if (!space) {
+                            if (space) {
+                                size = (new TextEncoder(`utf-8`).encode(`{"${optionKey}":${getValue(optionKey, `""`)}}`)).length;
+                                totalSize += size;
+                                dm.switches[optionKey].size.textContent = convertBytes(size);
+                            } else {
                                 if (dm.import) {
                                     newData = dm.data.emojis;
                                     if (newData) {
@@ -33190,11 +33227,6 @@ Parsedown = (() => {
                                     delValue(`emojis`);
                                 }
                             }
-                            if (!dm.autoBackup) {
-                                size = (new TextEncoder(`utf-8`).encode(getValue(optionKey, ``))).length;
-                                totalGM += size;
-                                dm.switches[optionKey].size.textContent = convertBytes(size);
-                            }
                             break;
                         case `dfPresets`:
                         case `entries`:
@@ -33202,7 +33234,11 @@ Parsedown = (() => {
                         case `templates`:
                         case `savedReplies`:
                             data[optionKey] = JSON.parse(getValue(optionKey, `[]`));
-                            if (!space) {
+                            if (space) {
+                                size = (new TextEncoder(`utf-8`).encode(`{"${optionKey}":${getValue(optionKey, `[]`)}}`)).length;
+                                totalSize += size;
+                                dm.switches[optionKey].size.textContent = convertBytes(size);
+                            } else {
                                 if (dm.import) {
                                     newData = dm.data[optionKey];
                                     if (newData) {
@@ -33230,11 +33266,6 @@ Parsedown = (() => {
                                     delValue(optionKey);
                                 }
                             }
-                            if (!dm.autoBackup) {
-                                size = (new TextEncoder(`utf-8`).encode(getValue(optionKey, ``))).length;
-                                totalGM += size;
-                                dm.switches[optionKey].size.textContent = convertBytes(size);
-                            }
                             break;
                         case `games`:
                             values = {
@@ -33251,18 +33282,31 @@ Parsedown = (() => {
                                 "apps": {}
                                 "subs": {}
                             }`));
+                            sizes = {
+                                egh: 0,
+                                gt: 0,
+                                itadi: 0,
+                                main: 0,
+                                total: 0
+                            };
+                            mainFound = false;
                             for (mergedDataKey in mergedData.apps) {
                                 mergedDataValue = mergedData.apps[mergedDataKey];
                                 newData = {};
-                                let toDelete = 0;
+                                toDelete = 0;
+                                found = null;
                                 for (value in values) {
-                                    if (esgst.settings[`${dm.type}_games_${value}`] || value === `main`) {
+                                    if (space || esgst.settings[`${dm.type}_games_${value}`] || value === `main`) {
                                         toDelete += 1;
                                         for (j = 0, numValues = values[value].length; j < numValues; ++j) {
                                             valueKey = values[value][j];
                                             newDataValue = mergedDataValue[valueKey];
                                             if (typeof newDataValue !== `undefined`) {
                                                 newData[valueKey] = newDataValue;
+                                                size = (new TextEncoder(`utf-8`).encode(`"${valueKey}":${JSON.stringify(newDataValue)},`)).length;
+                                                sizes[value] += size;
+                                                sizes.total += size;
+                                                found = value;
                                                 if (!space && dm.delete) {
                                                     delete mergedDataValue[valueKey];
                                                 }
@@ -33270,17 +33314,31 @@ Parsedown = (() => {
                                         }
                                     }
                                 }
+                                if (found) {
+                                    sizes[found] -= 1;
+                                    sizes.total -= 1;
+                                }
                                 if (Object.keys(newData).length > 0) {
                                     data.games.apps[mergedDataKey] = newData;
+                                    size = (new TextEncoder(`utf-8`).encode(`"${mergedDataKey}":{},`)).length;
+                                    sizes.main += size;
+                                    sizes.total += size;
+                                    mainFound = true;
                                 }
                                 if (!space && dm.delete && toDelete === 4) {
                                     delete mergedData.apps[mergedDataKey];
                                 }
                             }
+                            if (mainFound) {
+                                sizes.main -= 1;
+                                sizes.total -= 1;
+                            }
+                            mainFound = false;
                             for (mergedDataKey in mergedData.subs) {
                                 mergedDataValue = mergedData.subs[mergedDataKey];
                                 newData = {};
-                                let toDelete = 0;
+                                toDelete = 0;
+                                found = null;
                                 for (value in values) {
                                     if (esgst.settings[`${dm.type}_games_${value}`] || value === `main`) {
                                         toDelete += 1;
@@ -33289,6 +33347,10 @@ Parsedown = (() => {
                                             newDataValue = mergedDataValue[valueKey];
                                             if (typeof newDataValue !== `undefined`) {
                                                 newData[valueKey] = newDataValue;
+                                                size = (new TextEncoder(`utf-8`).encode(`"${valueKey}":${JSON.stringify(newDataValue)},`)).length;
+                                                sizes[value] += size;
+                                                sizes.total += size;
+                                                found = value;
                                                 if (!space && dm.delete) {
                                                     delete mergedDataValue[valueKey];
                                                 }
@@ -33296,14 +33358,37 @@ Parsedown = (() => {
                                         }
                                     }
                                 }
+                                if (found) {
+                                    sizes[found] -= 1;
+                                    sizes.total -= 1;
+                                }
                                 if (Object.keys(newData).length > 0) {
                                     data.games.subs[mergedDataKey] = newData;
+                                    size = (new TextEncoder(`utf-8`).encode(`"${mergedDataKey}":{},`)).length;
+                                    sizes.main += size;
+                                    sizes.total += size;
+                                    mainFound = true;
                                 }
                                 if (!space && dm.delete && toDelete === 4) {
                                     delete mergedData.subs[mergedDataKey];
                                 }
                             }
-                            if (!space) {
+                            if (mainFound) {
+                                sizes.main -= 1;
+                                sizes.total -= 1;
+                            }
+                            if (space) {
+                                size = (new TextEncoder(`utf-8`).encode(`{"${optionKey}":{"apps":{},"subs":{}}}`)).length;
+                                sizes.main += size;
+                                sizes.total += size;
+                                for (value in values) {
+                                    if (value !== `main` && dm.switches[`${optionKey}_${value}`]) {
+                                        dm.switches[`${optionKey}_${value}`].size.textContent = convertBytes(sizes[value]);
+                                    }
+                                }
+                                dm.switches[optionKey].size.textContent = `(Main: ${convertBytes(sizes.main)} / Total: ${convertBytes(sizes.total)})`;
+                                totalSize += sizes.total;
+                            } else {
                                 if (dm.import) {
                                     newData = dm.data.games;
                                     if (newData) {
@@ -33413,11 +33498,6 @@ Parsedown = (() => {
                                     setValue(`games`, JSON.stringify(mergedData));
                                 }
                             }
-                            if (!dm.autoBackup) {
-                                size = (new TextEncoder(`utf-8`).encode(getValue(optionKey, ``))).length;
-                                totalGM += size;
-                                dm.switches[optionKey].size.textContent = convertBytes(size);
-                            }
                             break;
                         case `groups`:
                             values = {
@@ -33426,18 +33506,25 @@ Parsedown = (() => {
                             };
                             mergedData = JSON.parse(getValue(optionKey, `[]`));
                             if (!Array.isArray(mergedData)) {
-                                let key, temp = [];
+                                temp = [];
                                 for (key in mergedData) {
                                     temp.push(mergedData[key]);
                                 }
                                 mergedData = temp;
                             }
                             data[optionKey] = [];
+                            sizes = {
+                                main: 0,
+                                sgg: 0,
+                                total: 0
+                            };
+                            mainFound = false;
                             for (j = mergedData.length - 1; j > -1; --j) {
                                 newData = {};
-                                let toDelete = 0;
+                                toDelete = 0;
+                                found = null;
                                 for (value in values) {
-                                    if (esgst.settings[`${dm.type}_${optionKey}_${value}`] || value === `main`) {
+                                    if (space || esgst.settings[`${dm.type}_${optionKey}_${value}`] || value === `main`) {
                                         toDelete += 1;
                                         for (k = 0, numValues = values[value].length; k < numValues; ++k) {
                                             valueKey = values[value][k];
@@ -33445,6 +33532,10 @@ Parsedown = (() => {
                                                 mergedDataValue = mergedData[j][valueKey];
                                                 if (typeof mergedDataValue !== `undefined`) {
                                                     newData[valueKey] = mergedDataValue;
+                                                    size = (new TextEncoder(`utf-8`).encode(`"${valueKey}":${JSON.stringify(mergedDataValue)},`)).length;
+                                                    sizes[value] += size;
+                                                    sizes.total += size;
+                                                    found = value;
                                                     if (!space && dm.delete) {
                                                         delete mergedData[j][valueKey];
                                                     }
@@ -33453,14 +33544,37 @@ Parsedown = (() => {
                                         }
                                     }
                                 }
+                                if (found) {
+                                    sizes[found] -= 1;
+                                    sizes.total -= 1;
+                                }
                                 if (Object.keys(newData).length > 0) {
                                     data[optionKey].push(newData);
+                                    size = (new TextEncoder(`utf-8`).encode(`{},`)).length;
+                                    sizes.main += size;
+                                    sizes.total += size;
+                                    mainFound = true;
                                 }
                                 if (!space && dm.delete && toDelete === 2) {
                                     mergedData.pop();
                                 }
                             }
-                            if (!space) {
+                            if (mainFound) {
+                                sizes.main -= 1;
+                                sizes.total -= 1;
+                            }
+                            if (space) {
+                                size = (new TextEncoder(`utf-8`).encode(`{"${optionKey}":[]}`)).length;
+                                sizes.main += size;
+                                sizes.total += size;
+                                for (value in values) {
+                                    if (value !== `main` && dm.switches[`${optionKey}_${value}`]) {
+                                        dm.switches[`${optionKey}_${value}`].size.textContent = convertBytes(sizes[value]);
+                                    }
+                                }
+                                dm.switches[optionKey].size.textContent = `(Main: ${convertBytes(sizes.main)} / Total: ${convertBytes(sizes.total)})`;
+                                totalSize += sizes.total;
+                            } else {
                                 if (dm.import) {
                                     newData = dm.data[optionKey];
                                     if (!Array.isArray(newData)) {
@@ -33495,16 +33609,15 @@ Parsedown = (() => {
                                     setValue(optionKey, JSON.stringify(mergedData));
                                 }
                             }
-                            if (!dm.autoBackup) {
-                                size = (new TextEncoder(`utf-8`).encode(getValue(optionKey, ``))).length;
-                                totalGM += size;
-                                dm.switches[optionKey].size.textContent = convertBytes(size);
-                            }
                             break;
                         case `rerolls`:
                         case `stickiedCountries`:
                             data[optionKey] = JSON.parse(getValue(optionKey, `[]`));
-                            if (!space) {
+                            if (space) {
+                                size = (new TextEncoder(`utf-8`).encode(`{"${optionKey}":${getValue(optionKey, `[]`)}}`)).length;
+                                totalSize += size;
+                                dm.switches[optionKey].size.textContent = convertBytes(size);
+                            } else {
                                 if (dm.import) {
                                     newData = dm.data[optionKey];
                                     if (newData) {
@@ -33525,16 +33638,15 @@ Parsedown = (() => {
                                     delValue(optionKey);
                                 }
                             }
-                            if (!dm.autoBackup) {
-                                size = (new TextEncoder(`utf-8`).encode(getValue(optionKey, ``))).length;
-                                totalGM += size;
-                                dm.switches[optionKey].size.textContent = convertBytes(size);
-                            }
                             break;
                         case `sgCommentHistory`:
                         case `stCommentHistory`:
                             data[optionKey] = JSON.parse(getValue(optionKey, `[]`));
-                            if (!space) {
+                            if (space) {
+                                size = (new TextEncoder(`utf-8`).encode(`{"${optionKey}":${getValue(optionKey, `[]`)}}`)).length;
+                                totalSize += size;
+                                dm.switches[optionKey].size.textContent = convertBytes(size);
+                            } else {
                                 if (dm.import) {
                                     newData = dm.data[optionKey];
                                     if (newData) {
@@ -33580,11 +33692,6 @@ Parsedown = (() => {
                                     delValue(optionKey);
                                 }
                             }
-                            if (!dm.autoBackup) {
-                                size = (new TextEncoder(`utf-8`).encode(getValue(optionKey, ``))).length;
-                                totalGM += size;
-                                dm.switches[optionKey].size.textContent = convertBytes(size);
-                            }
                             break;
                         case `users`:
                             values = {
@@ -33602,17 +33709,35 @@ Parsedown = (() => {
                                 users: {}
                             };
                             mergedData = JSON.parse(getValue(`users`, `{"steamIds": {}, "users": {}}`));
+                            sizes = {
+                                giveaways: 0,
+                                namwc: 0,
+                                notes: 0,
+                                nrf: 0,
+                                main: 0,
+                                tags: 0,
+                                total: 0,
+                                uf: 0,
+                                wbc: 0
+                            };
+                            mainFound = false;
+                            mainUsernameFound = false;
                             for (mergedDataKey in mergedData.users) {
                                 mergedDataValue = mergedData.users[mergedDataKey];
                                 newData = {};
-                                let toDelete = 0;
+                                toDelete = 0;
+                                found = null;
                                 for (value in values) {
-                                    if (esgst.settings[`${dm.type}_users_${value}`] || value === `main`) {
+                                    if (space || esgst.settings[`${dm.type}_users_${value}`] || value === `main`) {
                                         toDelete += 1;
                                         for (j = 0, numValues = values[value].length; j < numValues; ++j) {
                                             valueKey = values[value][j];
                                             if (typeof mergedDataValue[valueKey] !== `undefined`) {
                                                 newData[valueKey] = mergedDataValue[valueKey];
+                                                size = (new TextEncoder(`utf-8`).encode(`"${valueKey}":${JSON.stringify(mergedDataValue[valueKey])},`)).length;
+                                                sizes[value] += size;
+                                                sizes.total += size;
+                                                found = value;
                                                 if (!space && dm.delete) {
                                                     delete mergedDataValue[valueKey];
                                                 }
@@ -33620,24 +33745,55 @@ Parsedown = (() => {
                                         }
                                     }
                                 }
+                                if (found) {
+                                    sizes[found] -= 1;
+                                    sizes.total -= 1;
+                                }
                                 if (Object.keys(newData).length > 0) {
                                     id = mergedDataValue.id;
                                     username = mergedDataValue.username;
+                                    size = 0;
                                     if (id) {
                                         newData.id = id;
+                                        size += (new TextEncoder(`utf-8`).encode(`"id":"${id}",`)).length;
                                     }
                                     if (username) {
                                         newData.username = username;
                                         data.users.steamIds[username] = mergedDataKey;
+                                        size += (new TextEncoder(`utf-8`).encode(`"username":"${username}","${username}":"${mergedDataKey}",`)).length;
+                                        mainUsernameFound = true;
                                     }
                                     data.users.users[mergedDataKey] = newData;
+                                    size += (new TextEncoder(`utf-8`).encode(`"${mergedDataKey}":{},`)).length;
+                                    sizes.main += size;
+                                    sizes.total += size;
+                                    mainFound = true;
                                 }
                                 if (!space && dm.delete && toDelete === 8) {
                                     delete mergedData.steamIds[mergedDataValue.username];
                                     delete mergedData.users[mergedDataKey];
                                 }
                             }
-                            if (!space) {
+                            if (mainFound) {
+                                sizes.main -= 1;
+                                sizes.total -= 1;
+                            }
+                            if (mainUsernameFound) {
+                                sizes.main -= 1;
+                                sizes.total -= 1;
+                            }
+                            if (space) {
+                                size = (new TextEncoder(`utf-8`).encode(`{"${optionKey}":{"steamIds":{},"users":{}}}`)).length;
+                                sizes.main += size;
+                                sizes.total += size;
+                                for (value in values) {
+                                    if (value !== `main` && dm.switches[`${optionKey}_${value}`]) {
+                                        dm.switches[`${optionKey}_${value}`].size.textContent = convertBytes(sizes[value]);
+                                    }
+                                }
+                                dm.switches[optionKey].size.textContent = `(Main: ${convertBytes(sizes.main)} / Total: ${convertBytes(sizes.total)})`;
+                                totalSize += sizes.total;
+                            } else {
                                 if (dm.import) {
                                     newData = dm.data.users;
                                     if (newData) {
@@ -33718,15 +33874,14 @@ Parsedown = (() => {
                                     setValue(`users`, JSON.stringify(mergedData));
                                 }
                             }
-                            if (!dm.autoBackup) {
-                                size = (new TextEncoder(`utf-8`).encode(getValue(optionKey, ``))).length;
-                                totalGM += size;
-                                dm.switches[optionKey].size.textContent = convertBytes(size);
-                            }
                             break;
                         case `winners`:
                             data.winners = JSON.parse(getValue(`winners`, `{}`));
-                            if (!space) {
+                            if (space) {
+                                size = (new TextEncoder(`utf-8`).encode(`{"${optionKey}":${getValue(optionKey, `{}`)}}`)).length;
+                                totalSize += size;
+                                dm.switches[optionKey].size.textContent = convertBytes(size);
+                            } else {
                                 if (dm.import) {
                                     newData = dm.data.winners;
                                     if (newData) {
@@ -33751,11 +33906,6 @@ Parsedown = (() => {
                                 } else if (dm.delete) {
                                     delValue(`winners`);
                                 }
-                            }
-                            if (!dm.autoBackup) {
-                                size = (new TextEncoder(`utf-8`).encode(getValue(optionKey, ``))).length;
-                                totalGM += size;
-                                dm.switches[optionKey].size.textContent = convertBytes(size);
                             }
                             break;
                         default:
@@ -33799,7 +33949,7 @@ Parsedown = (() => {
             }
         }
         if (!dm.autoBackup) {
-            dm.computerSpace.lastElementChild.textContent = convertBytes(totalGM);
+            dm.computerSpace.lastElementChild.textContent = convertBytes(totalSize);
         }
     }
 
