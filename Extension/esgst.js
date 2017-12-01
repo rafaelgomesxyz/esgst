@@ -8803,7 +8803,7 @@ Parsedown = (() => {
             addGbButton();
         }
 
-        if (esgst.ged) {
+        if (esgst.sg && esgst.ged) {
             loadGed();
         }
 
