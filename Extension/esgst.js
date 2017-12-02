@@ -5129,6 +5129,11 @@ Parsedown = (() => {
                 for (var key in esgst.defaultValues) {
                     esgst[key] = getSetting(key);
                 }
+                for (var type in esgst.features) {
+                    for (var id in esgst.features[type].features) {
+                        getFeatureSetting(esgst.features[type].features[id], id);
+                    }
+                }
                 for (var key in esgst.settings) {
                     let match;
                     if (match = key.match(new RegExp(`(.+?)_${esgst.name}$`))) {
@@ -9572,12 +9577,15 @@ Parsedown = (() => {
         esgst.settings[id] = value;
     }
 
-    function getSetting(key) {
+    function getSetting(key, sg, st) {
         var defaultValue, oldKey;
         if (typeof esgst.settings[key] === `undefined`) {
+            if (sg || st) {
+                key = sg ? `${key}_sg` : `${key}_st`;
+            }
             defaultValue = esgst.defaultValues[key];
             if (typeof defaultValue === `undefined`) {
-                defaultValue = esgst.enableByDefault || false;
+                defaultValue = esgst[`enableByDefault_${esgst.name}`] || false;
             }
             oldKey = esgst.oldValues[key];
             if (typeof oldKey !== `undefined`) {
@@ -9588,6 +9596,15 @@ Parsedown = (() => {
             }
         }
         return esgst.settings[key];
+    }
+
+    function getFeatureSetting(feature, id) {
+        esgst[id] = getSetting(id, feature.sg, feature.st);
+        if (feature.features) {
+            for (id in feature.features) {
+                getFeatureSetting(feature.features[id], id);
+            }
+        }
     }
 
     function toggleHeaderMenu(arrow, dropdown) {
