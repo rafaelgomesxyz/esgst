@@ -2566,6 +2566,16 @@ Parsedown = (() => {
                                 sg: true,
                                 st: true
                             },
+                            ttpcc: {
+                                description: `
+                                    <ul>
+                                        <li>Shows how much time you have until you hit the point cap when you hover over the points in the header.</li>
+                                    </ul>
+                                `,
+                                name: `Time To Point Cap Calculator`,
+                                new: true,
+                                sg: true
+                            },
                             ts: {
                                 description: `
                                     <ul>
@@ -11384,6 +11394,13 @@ Parsedown = (() => {
         if (esgst.sg) {
             esgst.pointsContainer = esgst.mainButton.firstElementChild;
             esgst.points = parseInt(esgst.pointsContainer.textContent.match(/\d+/)[0]);
+            if (esgst.ttpcc && esgst.points < 400) {
+                let nextRefresh = 60 - new Date().getMinutes();
+                while (nextRefresh > 15) {
+                    nextRefresh -= 15;
+                }
+                esgst.pointsContainer.title = `${getTtecTime(Math.round((nextRefresh + (15 * Math.floor((400 - esgst.points) / 6))) * 100) / 100)} to 400P`;
+            }
             esgst.levelContainer = esgst.mainButton.lastElementChild;
             esgst.level = parseInt(esgst.levelContainer.textContent.match(/\d+/)[0]);
             esgst.createdButton = navigation.getElementsByClassName(`fa-gift`)[0];
