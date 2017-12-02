@@ -31840,7 +31840,7 @@ Parsedown = (() => {
         switch (esgst.stbb_index) {
             case 0:
                 button = insertHtml(document.body, `beforeEnd`, `
-                    <div class="esgst-stbb-button" title="Scroll to bottom">
+                    <div class="esgst-stbb-button esgst-stbb-button-fixed" title="Scroll to bottom">
                         <i class="fa fa-chevron-down"></i>
                     </div>
                 `);
@@ -31882,7 +31882,7 @@ Parsedown = (() => {
         switch (esgst.sttb_index) {
             case 0:
                 button = insertHtml(document.body, `beforeEnd`, `
-                    <div class="esgst-sttb-button" title="Scroll to top">
+                    <div class="esgst-sttb-button esgst-sttb-button-fixed" title="Scroll to top">
                         <i class="fa fa-chevron-up"></i>
                     </div>
                 `);
@@ -34294,7 +34294,7 @@ Parsedown = (() => {
                 cursor: pointer;
             }
 
-            :not(.page__heading):not(.page_heading) > .esgst-stbb-button, :not(.footer__outer-wrap):not(footer) >>> .esgst-stbb-button, :not(.page__heading):not(.page_heading) > .esgst-sttb-button, :not(.footer__outer-wrap):not(footer) >>> .esgst-sttb-button {
+            .esgst-stbb-button-fixed, .esgst-sttb-button-fixed {
                 bottom: ${esgst.ff ? 49 : 5}px;
                 background-color: #fff;
                 border: 1px solid #d2d6e0;
