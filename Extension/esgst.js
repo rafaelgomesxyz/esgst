@@ -27514,7 +27514,7 @@ Parsedown = (() => {
     }
 
     function unhighlightEghGame(id, type, event) {
-        let icon = event.currenTarget;
+        let icon = event.currentTarget;
         if (!icon.classList.contains(`fa-spin`)) {
             icon.innerHTML = `<i class="fa fa-circle-o-notch fa-spin"></i>`;
             createLock(`gameLock`, 300, deleteLock => {
