@@ -9577,12 +9577,9 @@ Parsedown = (() => {
         esgst.settings[id] = value;
     }
 
-    function getSetting(key, sg, st) {
+    function getSetting(key) {
         var defaultValue, oldKey;
         if (typeof esgst.settings[key] === `undefined`) {
-            if (sg || st) {
-                key = sg ? `${key}_sg` : `${key}_st`;
-            }
             defaultValue = esgst.defaultValues[key];
             if (typeof defaultValue === `undefined`) {
                 defaultValue = esgst[`enableByDefault_${esgst.name}`] || false;
@@ -9599,7 +9596,11 @@ Parsedown = (() => {
     }
 
     function getFeatureSetting(feature, id) {
-        esgst[id] = getSetting(id, feature.sg, feature.st);
+        if (feature.sg && esgst.sg) {
+            esgst[id] = getSetting(`${id}_sg`);
+        } else if (feature.st && esgst.st) {
+            esgst[id] = getSetting(`${id}_st`);
+        }
         if (feature.features) {
             for (id in feature.features) {
                 getFeatureSetting(feature.features[id], id);
