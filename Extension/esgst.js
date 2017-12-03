@@ -13100,7 +13100,7 @@ Parsedown = (() => {
             }
             giveaways[giveaway.code].code = giveaway.code;
             giveaways[giveaway.code].endTime = giveaway.endTime;
-            giveaways[giveaway.code].hidden = true;
+            giveaways[giveaway.code].hidden = Date.now();
             setValue(`giveaways`, JSON.stringify(giveaways));
             deleteLock();
             if (callback) {
@@ -13132,7 +13132,7 @@ Parsedown = (() => {
             var giveaways;
             giveaways = JSON.parse(getValue(`giveaways`, `{}`));
             if (giveaways[giveaway.code]) {
-                giveaways[giveaway.code].hidden = false;
+                delete giveaways[giveaway.code].hidden;
                 setValue(`giveaways`, JSON.stringify(giveaways));
             }
             deleteLock();
@@ -21125,7 +21125,7 @@ Parsedown = (() => {
             if (!discussions[discussion.code]) {
                 discussions[discussion.code] = {};
             }
-            discussions[discussion.code].hidden = true;
+            discussions[discussion.code].hidden = Date.now();
             setValue(`discussions`, JSON.stringify(discussions));
             deleteLock();
             if (callback) {
@@ -21159,7 +21159,7 @@ Parsedown = (() => {
             var discussions;
             discussions = JSON.parse(getValue(`discussions`, `{}`));
             if (discussions[discussion.code]) {
-                discussions[discussion.code].hidden = false;
+                delete discussions[discussion.code].hidden;
                 setValue(`discussions`, JSON.stringify(discussions));
             }
             deleteLock();
@@ -29936,7 +29936,7 @@ Parsedown = (() => {
     }
 
     function setSMManageFilteredDiscussions(SMManageFilteredDiscussions) {
-        var discussions, hidden, i, popup, set;
+        var discussion, discussions, hidden, i, popup, set;
         SMManageFilteredDiscussions.addEventListener(`click`, function() {
             popup = new Popup(`fa-comments`, `Hidden Discussions`);
             popup.discussions = insertHtml(popup.scrollable, `afterBegin`, `
@@ -29951,9 +29951,22 @@ Parsedown = (() => {
             hidden = [];
             for (key in discussions) {
                 if (discussions[key].hidden) {
-                    hidden.push(key);
+                    discussion = {
+                        code: key,
+                        hidden: discussions[key].hidden
+                    };
+                    hidden.push(discussion);
                 }
             }
+            hidden = hidden.sort((a, b) => {
+                if (a.hidden > b.hidden) {
+                    return -1;
+                } else if (a.hidden < b.hidden) {
+                    return 1;
+                } else {
+                    return 0;
+                }
+            });
             i = 0;
             set = new ButtonSet(`green`, `grey`, `fa-plus`, `fa-circle-o-notch fa-spin`, `Load more...`, `Loading more...`, function (callback) {
                 getDfDiscussions(hidden, i, i, i + 5, popup, function (value) {
@@ -29983,7 +29996,7 @@ Parsedown = (() => {
         var key;
         if (i < n) {
             if (hidden[i]) {
-                request(null, null, `GET`, false, `/discussion/${hidden[i]}/`, function(response) {
+                request(null, null, `GET`, false, `/discussion/${hidden[i].code}/`, function(response) {
                     var breadcrumbs, categoryLink, context, usernameLink;
                     context = DOM.parse(response.responseText);
                     breadcrumbs = context.getElementsByClassName(`page__heading__breadcrumbs`);
@@ -29998,7 +30011,7 @@ Parsedown = (() => {
                                     </div>
                                     <div class="table__column--width-fill">
                                         <h3>
-                                            <a class="table__column__heading" href="/discussion/${hidden[i]}/">${categoryLink.nextElementSibling.nextElementSibling.firstElementChild.textContent}</a>
+                                            <a class="table__column__heading" href="/discussion/${hidden[i].code}/">${categoryLink.nextElementSibling.nextElementSibling.firstElementChild.textContent}</a>
                                         </h3>
                                         <p>
                                             <a class="table__column__secondary-link" href="${categoryLink.getAttribute(`href`)}">${categoryLink.textContent}</a> -
@@ -30007,7 +30020,7 @@ Parsedown = (() => {
                                         </p>
                                     </div>
                                     <div class="table__column--width-small text-center">
-                                        <a class="table__column__secondary-link" href="/discussion/${hidden[i]}/">${breadcrumbs[1].textContent.match(/(.+) Comments/)[1]}</a>
+                                        <a class="table__column__secondary-link" href="/discussion/${hidden[i].code}/">${breadcrumbs[1].textContent.match(/(.+) Comments/)[1]}</a>
                                     </div>
                                 </div>
                             </div>
@@ -30042,14 +30055,23 @@ Parsedown = (() => {
                 giveaway = esgst.giveaways[key];
                 if (giveaway.hidden && giveaway.code && giveaway.endTime) {
                     if (Date.now() >= giveaway.endTime) {
-                        giveaway.hidden = false;
+                        delete giveaway.hidden;
                     } else {
-                        hidden.push(giveaway.code);
+                        hidden.push(giveaway);
                     }
                 } else {
-                    giveaway.hidden = false;
+                    delete giveaway.hidden;
                 }
             }
+            hidden = hidden.sort((a, b) => {
+                if (a.hidden > b.hidden) {
+                    return -1;
+                } else if (a.hidden < b.hidden) {
+                    return 1;
+                } else {
+                    return 0;
+                }
+            });
             setValue(`giveaways`, JSON.stringify(esgst.giveaways));
             i = 0;
             n = hidden.length;
@@ -30087,7 +30109,7 @@ Parsedown = (() => {
         var giveaway;
         if (i < n) {
             if (hidden[i]) {
-                request(null, null, `GET`, true, `https://www.steamgifts.com/giveaway/${hidden[i]}/`, function (response) {
+                request(null, null, `GET`, true, `https://www.steamgifts.com/giveaway/${hidden[i].code}/`, function (response) {
                     giveaway = buildGiveaway(DOM.parse(response.responseText), response.finalUrl);
                     if (giveaway) {
                         gfGiveaways.insertAdjacentHTML(`beforeEnd`, giveaway.html);
