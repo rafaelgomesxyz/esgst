@@ -861,6 +861,29 @@ The video above does not get embedded.
 
 ## Changelog
 
+**7.10.0 (December 3, 2017):**
+
+<ul>
+    <li><a href="https://github.com/revilheart/ESGST/issues/270">#270</a> Fix a style issue in Attached Images Carousel that does not scale images correctly</li>
+    <li><a href="https://github.com/revilheart/ESGST/issues/271">#271</a> Fix a bug that duplicates the button when bookmarking/unbookmarking/bookmarking a giveaway and entering it</li>
+    <li><a href="https://github.com/revilheart/ESGST/issues/272">#272</a> Add missing buttons to the option to hide buttons in the main page heading</li>
+    <li><a href="https://github.com/revilheart/ESGST/issues/273">#273</a> Fix a bug that does not detect the status of bookmarked giveaways correctly</li>
+    <li><a href="https://github.com/revilheart/ESGST/issues/274">#274</a> Add option to Endless Scrolling to continuously load pages</li>
+    <li><a href="https://github.com/revilheart/ESGST/issues/275">#275</a> Add points/total info to Giveaway Bookmarks</li>
+    <li><a href="https://github.com/revilheart/ESGST/issues/276">#276</a> Split option to mark pages as visited when visiting them in Giveaways/Discussions/Tickets/Trades Tracker</li>
+    <li><a href="https://github.com/revilheart/ESGST/issues/277">#277</a> Fix a bug that does not remember settings correctly when they are renamed</li>
+    <li><a href="https://github.com/revilheart/ESGST/issues/278">#278</a> Show sizes of sub-options in the import/export/delete menus</li>
+    <li><a href="https://github.com/revilheart/ESGST/issues/279">#279</a> Fix a bug that happens when adding game tags</li>
+    <li><a href="https://github.com/revilheart/ESGST/issues/282">#282</a> Fix an Endless Scrolling bug</li>
+    <li><a href="https://github.com/revilheart/ESGST/issues/286">#286</a> Fix a bug in SteamTrades that prevents some features from loading</li>
+    <li><a href="https://github.com/revilheart/ESGST/issues/283">#283</a> Add a feature: Time To Point Cap Calculator</li>
+    <li><a href="https://github.com/revilheart/ESGST/issues/288">#288</a> Fix a bug that does not show scroll to bottom/top buttons when bottom right corner option is selected</li>
+    <li><a href="https://github.com/revilheart/ESGST/issues/289">#289</a> Fix a bug that does not unhighlight entered games</li>
+    <li><a href="https://github.com/revilheart/ESGST/issues/290">#290</a> Fix a bug that happens when exporting to custom format in Giveaways Manager</li>
+    <li><a href="https://github.com/revilheart/ESGST/issues/291">#291</a> Allow importing/exporting/deleting main data</li>
+    <li><a href="https://github.com/revilheart/ESGST/issues/293">#293</a> Fix a bug that happens when checking playtime stats in User Giveaways Data</li>
+</ul>
+
 **7.9.1 (November 26, 2017):**
 
 <ul>

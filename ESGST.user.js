@@ -3,7 +3,7 @@
 // @namespace ESGST
 // @description Enhances SteamGifts and SteamTrades by adding some cool features to them.
 // @icon https://dl.dropboxusercontent.com/s/lr3t3bxrxfxylqe/esgstIcon.ico?raw=1
-// @version 7.9.1
+// @version 7.10.0
 // @author revilheart
 // @downloadURL https://github.com/revilheart/ESGST/raw/master/ESGST.user.js
 // @updateURL https://github.com/revilheart/ESGST/raw/master/ESGST.meta.js
@@ -1526,7 +1526,7 @@ Parsedown = (() => {
             storage: storage,
             sg: location.hostname.match(/www.steamgifts.com/),
             st: location.hostname.match(/www.steamtrades.com/),
-            currentVersion: `7.9.1`,
+            currentVersion: `7.10.0`,
             icon: `data:image/x-icon;base64,AAABAAEAEBAAAAEAIABoBAAAFgAAACgAAAAQAAAAIAAAAAEAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAqv8DCbP/Hgeq+CQIrf8iCK3/Igit/yIIrf8iB6//Iwit9x8Aqv8DAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAKr0GAa2/c0DvfzfA7f83QO3/N0Dt/zdA7f83QO+/d4Gs/3OAKP1GQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACm/xQFs/n2Bcf//wW///8FwP//BcD//wW///8Fx///BbP69gC2/xUAAAAAAAAAAAAAAAAA/1UDFptOFxSZMxkLpJktAq720QW1+ugEsfvjA7b92wO2/dsEsfvjBbX66Aau/dEoiO4tUlLWGU5k3hdVVf8DEJxKHxWqT8cVrU7uE6VN0guqny0Apv8XAJfQGwBAVywAQFcsAJfQGwCx/xcogugtS2Lk0lBl6u5Qae7ISmPeHxagSSMVr07jF7lV/xOiSu0brgATAAAAAAAAAA8AAAC/AAAAwAAAABAAAAAAYznjEkth4OxWb/3/T2jv40lf4iMXnksiEq1O3RayUv8UpEnkEo0+HQAAABkAAABBAAAA8QAAAPEAAABBAAAAGUBSvxxOYeDjU2v0/05m7d1LYuEiF55LIhKtTt0Ws1L/FahN2gU1FTAAAADAAAAA7AAAAP0AAAD9AAAA7AAAAMAVG0owUGPm2lNr9P9OZu3dS2LhIheeSyISrU7dFrNS/xWoTdoFNRswAAAAvwAAAOsAAAD9AAAA/QAAAOsAAADAFRtKMFBj6NpTa/T/Tmbt3Uti4SIXnksiEq1O3RayUv8UpEnkEo0+HQAAABgAAABAAAAA8QAAAPEAAABBAAAAGT5PuR1OYeDjU2v0/05m7d1LYuEiFqBJIxWuT+QXuVX/E6JL7QC8XhMAAAAAAAAADwAAAL8AAAC/AAAAEAAAAAAOR/8SSWLh7FZv/f9PaO/jSV/iIxCUSh8Vrk7HFqxN7ROlS9JskzMt1XULGK12EhxGLgYsRy8GK612EhzVgAsYgmxxLU1i39JNZ+vtT2fwx0pj1h8AqlUDF65GFgqZUhlsiC0txH0T0s5/EujJgBPkz4QR28+EEdvJgBPkzn8Q6Md+E9KLdHosM1LWGUZo6BZVVf8DAAAAAAAAAAAAAAAA/2YAFMl9EvbgjRb/14gV/9eIFf/XiBX/14gV/9+NFv/KgBD254YAFQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAL91FRjKgRHN1IgU3s+EEt3PhBLdz4QS3c+EEt3UiBTezYMRzcJ6FBkAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACqqgADxIARHr18FiO8eA8ivHgPIrx4DyK8eA8ivXwPI8SAER7/VQADAAAAAAAAAAAAAAAA78cAAPA3AAD4FwAABCAAADGOAAAE+AAAkBEAAJ55AACYOQAAlgEAAER4AAAXaAAATnoAAPgXAAD0JwAA69cAAA==`,
             sgIcon: `data:image/x-icon;base64,AAABAAEAEBAAAAEAIABoBAAAFgAAACgAAAAQAAAAIAAAAAEAIAAAAAAAQAQAABMLAAATCwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIUAAAD5AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAPoAAACFAAAAAAAAAAAAAAD8AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA+QAAAAAAAAAAAAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAAAAAAAAAAAAP8AAAD/AAAA/wAAABwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAcAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAcAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAHAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAAAAAAAAAAAAPwAAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD5AAAAAAAAAAAAAACFAAAA+QAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD5AAAAhQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA//8AAP//AADAAwAAwAMAAMfjAADP8wAAz/MAAM/zAADP8wAAz/MAAM/zAADH4wAAwAMAAMADAAD//wAA//8AAA==`,
             stIcon: `data:image/x-icon;base64,AAABAAEAEBAAAAEAIABoBAAAFgAAACgAAAAQAAAAIAAAAAEAIAAAAAAAQAQAABMLAAATCwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABbD6SgWw+ucFsPrkBbD6SgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAWw+uYFsPr/BbD6/wWw+ucAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAFsPrmBbD6/wWw+v8FsPrmAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABbD6SQWw+uYFsPrmBbD6SQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAFKRLShSkS+cUpEvkFKRLSgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAExi4EpMYuDnTGLg5Exi4EoAAAAAAAAAABSkS+YUpEv/FKRL/xSkS+cAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABMYuDmTGLg/0xi4P9MYuDnAAAAAAAAAAAUpEvmFKRL/xSkS/8UpEvmAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAATGLg5kxi4P9MYuD/TGLg5gAAAAAAAAAAFKRLSRSkS+YUpEvmFKRLSQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAExi4ElMYuDmTGLg5kxi4EkAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAMZ9E0rGfRPnxn0T5MZ9E0oAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADGfRPmxn0T/8Z9E//GfRPnAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAxn0T5sZ9E//GfRP/xn0T5gAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAMZ9E0nGfRPmxn0T5sZ9E0kAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA//8AAPw/AAD8PwAA/D8AAPw/AAD//wAAh+EAAIfhAACH4QAAh+EAAP//AAD8PwAA/D8AAPw/AAD8PwAA//8AAA==`,
@@ -1626,134 +1626,99 @@ Parsedown = (() => {
                 };
                 esgst.lastPage = getLastPage(document, true);
                 esgst.oldValues = {
-                    df_s: `df_h`,
-                    gf_s: `gf_h`,
-                    ge: `tge`,
-                    hideButtons_ge: `hideButtons_tge`,
-                    gv_ge: `gv_tge`,
-                    es_ge: `es_tge`,
-                    enableByDefault: `sm_ebd`,
-                    showChangelog: `sm_c`,
-                    hr_g: `hr_dw`,
-                    hr_m: `hr_mc`,
-                    at_24: `at_c24`,
-                    elgb_r: `elgb_rb`,
-                    gts: `gt`,
-                    cfh_g: `cfh_ge`,
-                    un_p: `un_wb`,
-                    rwscvl_r: `rwscvl_ro`,
-                    wbh_w: `wbh_cw`,
-                    wbh_b: `wbh_cb`,
-                    gt: `ggt`,
-                    gt_t: `ggt_t`,
-                    es_d: `es_dtt`,
-                    es_t: `es_dtt`,
-                    es_c: `es_dttc`,
-                    es_l: `es_r`,
-                    es_r: `es_rs`,
-                    cr: `es_r`,
-                    ags_maxLevel: `agsMaxLevel`,
-                    ags_minLevel: `agsMinLevel`,
-                    ags_maxEntries: `agsMaxEntries`,
-                    ags_minEntries: `agsMinEntries`,
-                    ags_maxCopies: `agsMaxCopies`,
-                    ags_minCopies: `agsMinCopies`,
-                    ags_maxPoints: `agsMaxPoints`,
-                    ags_minPoints: `agsMinPoints`,
-                    ags_regionRestricted: `agsRegionRestricted`,
-                    ags_dlc: `agsDlc`,
-                    gv_spacing: `gvSpacing`,
-                    gb_hours: `gbHours`,
-                    gts_preciseStart: `gts_ps`,
-                    gts_preciseEnd: `gts_pe`,
-                    mgc: `gm`,
-                    mgc_createTrain: `gm_createTrain`,
-                    cfh_pasteFormatting: `CFH_ALIPF`,
-                    wbh_w_color: `wbh_cw_color`,
-                    wbh_w_bgColor: `wbh_cw_bgColor`,
-                    wbh_b_color: `wbh_cb_color`,
-                    wbh_b_bgColor: `wbh_cb_bgColor`,
-                    avatar: `Avatar`,
-                    username: `Username`,
-                    steamId: `SteamID64`,
-                    steamApiKey: `SteamAPIKey`,
-                    lastSync: `LastSync`,
-                    syncFrequency: `SyncFrequency`,
-                    ugs: `UGS`,
-                    ugs_checkRules: `UGS_SANM`,
-                    ugs_checkWhitelist: `UGS_SW`,
-                    ugs_checkMember: `UGS_G`,
-                    as_searchAppId: `AS_AIS`,
-                    ugd_clearCache: `UGD_CC`,
-                    namwc_checkNotActivated: `NAMWC_NAC`,
-                    namwc_checkMultiple: `NAMWC_MC`,
-                    nrf_searchMultiple: `NRF_FS`,
-                    wbc_checkSingle: `WBC_SC`,
-                    wbc_checkWhitelist: `WBC_FC`,
-                    wbc_checkAll: `WBC_FLC`,
-                    wbc_returnWhitelists: `WBC_RW`,
-                    wbc_returnBlacklists: `WBC_RB`,
-                    wbc_checkNew: `WBC_RC`,
-                    wbc_clearCache: `WBC_CC`,
-                    gwc_e: `gwc`,
-                    gwr_e: `gwr`,
-                    autoSyncGroups: `syncFrequency`,
-                    autoSyncWhitelist: `syncFrequency`,
-                    autoSyncBlacklist: `syncFrequency`,
-                    autoSyncHiddenGames: `syncFrequency`,
-                    autoSyncGames: `syncFrequency`,
-                    autoSyncWonGames: `syncFrequency`,
-                    autoSyncReducedCvGames: `syncFrequency`,
-                    autoSyncNoCvGames: `syncFrequency`,
-                    autoSyncGiveaways: `syncFrequency`,
-                    lastSyncGroups: `lastSync`,
-                    lastSyncWhitelist: `lastSync`,
-                    lastSyncBlacklist: `lastSync`,
-                    lastSyncHiddenGames: `lastSync`,
-                    lastSyncGames: `lastSync`,
-                    lastSyncWonGames: `lastSync`,
-                    lastSyncReducedCvGames: `lastSync`,
-                    lastSyncNoCvGames: `lastSync`,
-                    lastSyncGiveaways: `lastSync`
+                    gdttt_vg_sg: `gdttt_v_sg`,
+                    gdttt_vd_sg: `gdttt_v_sg`,
+                    gdttt_vt_sg: `gdttt_v_sg`,
+                    gdttt_vts_st: `gdttt_v_st`
                 };
                 esgst.defaultValues = {
-                    stbb_index: 0,
-                    sttb_index: 0,
-                    leftButtonIds: [`wbsDesc`, `wbsAsc`, `wbc`, `ugs`, `tb`, `sks`, `rbp`, `namwc`, `mtUsers`, `mtGames`, `mpp`, `hgr`, `gv`, `gts`, `gm`, `gf`, `ge`, `gas`, `ds`, `df`, `ctUnread`, `ctRead`, `ctGo`, `cs`, `as`, `aic`],
-                    rightButtonIds: [`esResume`, `esPause`, `esRefresh`, `esRefreshAll`, `stbb`, `sttb`],
-                    gb_ue: true,
-                    radb: true,
-                    lastBackup: 0,
-                    autoBackup_index: 0,
+                    enableByDefault_sg: false,
+                    enableByDefault_st: false,
+                    checkVersion_sg: true,
+                    checkVersionMain_sg: true,
+                    collapseSections_sg: false,
+                    collapseSections_st: false,
+                    df_m_sg: true,
+                    elgb_d_sg: true,
+                    gb_ue_sg: true,
+                    ge_o_sg: false,
+                    gf_m_sg: true,
+                    gwc_a_b_sg: false,
+                    gwr_a_b_sg: false,
+                    hpg_sg: false,
+                    radb_sg: true,
+                    showChangelog_sg: true,
+                    showChangelog_st: true,
+                    staticPopups_sg: false,
+                    staticPopups_st: false,
+                    vai_i_sg: false,
+                    avatar: ``,
+                    steamId: ``,
+                    steamApiKey: ``,
+                    username: ``,
+                    adots_index: 0,
+                    ags_type: ``,
+                    ags_maxDate: ``,
+                    ags_minDate: ``,
+                    ags_maxScore: ``,
+                    ags_minScore: ``,
+                    ags_maxLevel: ``,
+                    ags_minLevel: ``,
+                    ags_maxEntries: ``,
+                    ags_minEntries: ``,
+                    ags_maxCopies: ``,
+                    ags_minCopies: ``,
+                    ags_maxPoints: ``,
+                    ags_minPoints: ``,
+                    ags_regionRestricted: false,
+                    ags_dlc: false,
+                    ags_app: false,
+                    ags_sub: false,
+                    ap_index: 0,
+                    as_searchAppId: false,
                     autoBackup_days: 1,
-                    hpg: false,
-                    wbc_checkSelected: false,
-                    wbc_skipUsers: false,
-                    wbc_pages: 0,
-                    collapseSections: false,
-                    staticPopups: false,
-                    ge_o: false,
-                    df_m: true,
-                    gf_m: true,
-                    ge_p_bgColor: `#ccccdd`,
-                    ge_g_bgColor: `#ccddcc`,
-                    ge_b_bgColor: `#ddcccc`,
-                    hr_w_hours: 24,
-                    elgb_d: true,
-                    wbm_useCache: false,
-                    gf_noRating: true,
-                    cfh_img_remember: false,
+                    autoBackup_index: 0,
+                    autoSyncGroups: 0,
+                    autoSyncWhitelist: 0,
+                    autoSyncBlacklist: 0,
+                    autoSyncHiddenGames: 0,
+                    autoSyncGames: 0,
+                    autoSyncWonGames: 0,
+                    autoSyncReducedCvGames: 0,
+                    autoSyncNoCvGames: 0,
+                    autoSyncGiveaways: 0,
+                    cfh_pasteFormatting: true,
                     cfh_img_choice: 1,
+                    cfh_img_remember: false,
+                    df_enable: true,
+                    df_enableCreated: false,
+                    df_preset: null,
+                    df_presetCreated: null,
+                    ds_auto: false,
+                    ds_option: `sortIndex_asc`,
                     elgb_filters: `.|(bestof|(g(ood)?)?)(l(uck)?)?(h(ave)?)?(f(un)?)?|enjoy|(h(umble)?)?(b(undle)?)?(g(ift)?)?(l(ink)?)?`,
-                    hr_minutes: 1,
-                    exportBackupIndex: 0,
-                    gwc_a_b: false,
-                    gwr_a_b: false,
-                    vai_i: false,
                     exportBackup: true,
-                    gm_enable: false,
-                    gm_useRegExp: false,
-                    sks_exportKeys: false,
+                    exportBackupIndex: 0,
+                    gas_auto: false,
+                    gas_option: `sortIndex_asc`,
+                    gas_autoWishlist: false,
+                    gas_optionWishlist: `sortIndex_asc`,
+                    gas_autoRecommended: false,
+                    gas_optionRecommended: `sortIndex_asc`,
+                    gas_autoGroup: false,
+                    gas_optionGroup: `sortIndex_asc`,
+                    gas_autoNew: false,
+                    gas_optionNew: `sortIndex_asc`,
+                    gas_autoEntered: false,
+                    gas_optionEntered: `sortIndex_asc`,
+                    gas_autoUser: false,
+                    gas_optionUser: `sortIndex_asc`,
+                    gas_autoGroups: false,
+                    gas_optionGroups: `sortIndex_asc`,
+                    gb_hours: 1,
+                    gc_categories: [`gc_gi`, `gc_r`, `gc_fcv`, `gc_rcv`, `gc_ncv`, `gc_h`, `gc_i`, `gc_o`, `gc_w`, `gc_a`, `gc_mp`, `gc_sc`, `gc_tc`, `gc_l`, `gc_m`, `gc_ea`, `gc_rm`, `gc_dlc`, `gc_p`, `gc_g`],
+                    gc_o_altAccounts: [],
+                    gc_g_colors: [],
                     gc_fcvIcon: `calendar`,
                     gc_rcvIcon: `calendar-minus-o`,
                     gc_ncvIcon: `calendar-times-o`,
@@ -1788,162 +1753,6 @@ Parsedown = (() => {
                     gc_rmLabel: `Removed`,
                     gc_dlcLabel: `DLC`,
                     gc_pLabel: `Package`,
-                    sk_closePopups: `escape`,
-                    sk_searchBox: `ctrlKey + q`,
-                    sk_firstPage: `ctrlKey + arrowup`,
-                    sk_previousPage: `ctrlKey + arrowleft`,
-                    sk_nextPage: `ctrlKey + arrowright`,
-                    sk_lastPage: `ctrlKey + arrowdown`,
-                    sk_toggleFilters: `altKey + q`,
-                    sk_hideGame: `altKey + g`,
-                    sk_hideGiveaway: `altKey + h`,
-                    sk_giveawayEntry: `ctrlKey + enter`,
-                    sk_creator: `altKey + c`,
-                    sk_replyBox: `ctrlKey +  `,
-                    sk_replyUser: `altKey + u`,
-                    sk_submitReply: `ctrlKey + enter`,
-                    gc_categories: [`gc_gi`, `gc_r`, `gc_fcv`, `gc_rcv`, `gc_ncv`, `gc_h`, `gc_i`, `gc_o`, `gc_w`, `gc_a`, `gc_mp`, `gc_sc`, `gc_tc`, `gc_l`, `gc_m`, `gc_ea`, `gc_rm`, `gc_dlc`, `gc_p`, `gc_g`],
-                    gas_auto: false,
-                    gas_option: `sortIndex_asc`,
-                    gas_autoWishlist: false,
-                    gas_optionWishlist: `sortIndex_asc`,
-                    gas_autoRecommended: false,
-                    gas_optionRecommended: `sortIndex_asc`,
-                    gas_autoGroup: false,
-                    gas_optionGroup: `sortIndex_asc`,
-                    gas_autoNew: false,
-                    gas_optionNew: `sortIndex_asc`,
-                    gas_autoEntered: false,
-                    gas_optionEntered: `sortIndex_asc`,
-                    gas_autoUser: false,
-                    gas_optionUser: `sortIndex_asc`,
-                    gas_autoGroups: false,
-                    gas_optionGroups: `sortIndex_asc`,
-                    ds_auto: false,
-                    ds_option: `sortIndex_asc`,
-                    gc_o_altAccounts: [],
-                    gc_g_colors: [],
-                    gwc_colors: [],
-                    gwr_colors: [],
-                    ut_colors: {},
-                    gt_colors: {},
-                    ugs_checkRules: false,
-                    ugs_checkWhitelist: false,
-                    ugs_checkBlacklist: false,
-                    ugs_checkMember: false,
-                    ugs_checkDifference: false,
-                    ugs_difference: 0,
-                    as_searchAppId: false,
-                    ugd_getPlaytime: true,
-                    ugd_getAchievements: false,
-                    ugd_clearCache: false,
-                    namwc_checkNotActivated: false,
-                    namwc_checkMultiple: false,
-                    nrf_searchMultiple: false,
-                    wbc_checkSingle: false,
-                    wbc_checkWhitelist: true,
-                    wbc_checkAll: false,
-                    wbc_returnWhitelists: false,
-                    wbc_returnBlacklists: false,
-                    wbc_checkNew: false,
-                    wbc_clearCache: false,
-                    openSettingsInTab: false,
-                    enableByDefault: false,
-                    showChangelog: true,
-                    checkVersionMain: true,
-                    checkVersion: true,
-                    syncGroups: true,
-                    syncWhitelist: true,
-                    syncBlacklist: true,
-                    syncHiddenGames: true,
-                    syncGames: true,
-                    syncWonGames: true,
-                    syncReducedCvGames: true,
-                    syncNoCvGames: true,
-                    syncGiveaways: true,
-                    autoSyncGroups: 0,
-                    autoSyncWhitelist: 0,
-                    autoSyncBlacklist: 0,
-                    autoSyncHiddenGames: 0,
-                    autoSyncGames: 0,
-                    autoSyncWonGames: 0,
-                    autoSyncReducedCvGames: 0,
-                    autoSyncNoCvGames: 0,
-                    autoSyncGiveaways: 0,
-                    lastSyncGroups: 0,
-                    lastSyncWhitelist: 0,
-                    lastSyncBlacklist: 0,
-                    lastSyncHiddenGames: 0,
-                    lastSyncGames: 0,
-                    lastSyncWonGames: 0,
-                    lastSyncReducedCvGames: 0,
-                    lastSyncNoCvGames: 0,
-                    lastSyncGiveaways: 0,
-                    ged: true,
-                    df_enable: true,
-                    df_enableCreated: false,
-                    df_preset: null,
-                    df_presetCreated: null,
-                    gf_enable: true,
-                    gf_enableWishlist: true,
-                    gf_enableRecommended: true,
-                    gf_enableNew: true,
-                    gf_enableGroup: true,
-                    gf_enableCreated: true,
-                    gf_enableEntered: true,
-                    gf_enableWon: true,
-                    gf_enableGroups: true,
-                    gf_enableUser: true,
-                    gf_enableGb: true,
-                    gf_enableGe: true,
-                    gf_enableGed: true,
-                    gf_preset: null,
-                    gf_presetWishlist: null,
-                    gf_presetRecommended: null,
-                    gf_presetNew: null,
-                    gf_presetGroup: null,
-                    gf_presetCreated: null,
-                    gf_presetEntered: null,
-                    gf_presetWon: null,
-                    gf_presetGroups: null,
-                    gf_presetUser: null,
-                    gf_presetGb: esgst.settings.gf_presetPopup || null,
-                    gf_presetGe: esgst.settings.gf_presetPopup || null,
-                    gf_presetGed: esgst.settings.gf_presetPopup || null,
-                    ags_type: ``,
-                    ags_maxDate: ``,
-                    ags_minDate: ``,
-                    ags_maxScore: ``,
-                    ags_minScore: ``,
-                    ags_maxLevel: ``,
-                    ags_minLevel: ``,
-                    ags_maxEntries: ``,
-                    ags_minEntries: ``,
-                    ags_maxCopies: ``,
-                    ags_minCopies: ``,
-                    ags_maxPoints: ``,
-                    ags_minPoints: ``,
-                    ags_regionRestricted: false,
-                    ags_dlc: false,
-                    ags_app: false,
-                    ags_sub: false,
-                    gv_spacing: 0,
-                    gb_hours: 1,
-                    gts_preciseStart: false,
-                    gts_preciseEnd: false,
-                    gts_preciseStartDate: false,
-                    gts_preciseEndDate: false,
-                    mgc_createTrain: true,
-                    mgc_bumpLast: true,
-                    mgc_groupKeys: false,
-                    mgc_reversePosition: false,
-                    mgc_removeLinks: true,
-                    ggl_index: 0,
-                    gcl_index: 0,
-                    ap_index: 0,
-                    adots_index: 0,
-                    sal_index: 2,
-                    cfh_pasteFormatting: true,
                     gc_h_color: `#ffffff`,
                     gc_gi_color: `#ffffff`,
                     gc_fcv_color: `#ffffff`,
@@ -1982,16 +1791,125 @@ Parsedown = (() => {
                     gc_dlc_bgColor: `#8e44ad`,
                     gc_p_bgColor: `#8e44ad`,
                     gc_g_bgColor: `#7f8c8d`,
+                    gcl_index: 0,
+                    ge_b_bgColor: `#ddcccc`,
+                    ge_g_bgColor: `#ccddcc`,
+                    ge_p_bgColor: `#ccccdd`,
+                    ged: true,
+                    gf_enable: true,
+                    gf_enableWishlist: true,
+                    gf_enableRecommended: true,
+                    gf_enableNew: true,
+                    gf_enableGroup: true,
+                    gf_enableCreated: true,
+                    gf_enableEntered: true,
+                    gf_enableWon: true,
+                    gf_enableGroups: true,
+                    gf_enableUser: true,
+                    gf_enableGb: true,
+                    gf_enableGe: true,
+                    gf_enableGed: true,
+                    gf_preset: null,
+                    gf_presetWishlist: null,
+                    gf_presetRecommended: null,
+                    gf_presetNew: null,
+                    gf_presetGroup: null,
+                    gf_presetCreated: null,
+                    gf_presetEntered: null,
+                    gf_presetWon: null,
+                    gf_presetGroups: null,
+                    gf_presetUser: null,
+                    gf_presetGb: esgst.settings.gf_presetPopup || null,
+                    gf_presetGe: esgst.settings.gf_presetPopup || null,
+                    gf_presetGed: esgst.settings.gf_presetPopup || null,
+                    gf_noRating: true,
+                    ggl_index: 0,
+                    gm_enable: false,
+                    gm_useRegExp: false,
+                    gt_colors: {},
+                    gts_preciseStart: false,
+                    gts_preciseEnd: false,
+                    gts_preciseStartDate: false,
+                    gts_preciseEndDate: false,
+                    gv_spacing: 0,
+                    gwc_colors: [],
+                    gwr_colors: [],
+                    hr_minutes: 1,
+                    hr_w_hours: 24,
+                    lastBackup: 0,
+                    lastSyncGroups: 0,
+                    lastSyncWhitelist: 0,
+                    lastSyncBlacklist: 0,
+                    lastSyncHiddenGames: 0,
+                    lastSyncGames: 0,
+                    lastSyncWonGames: 0,
+                    lastSyncReducedCvGames: 0,
+                    lastSyncNoCvGames: 0,
+                    lastSyncGiveaways: 0,
+                    leftButtonIds: [`wbsDesc`, `wbsAsc`, `wbc`, `ugs`, `tb`, `sks`, `rbp`, `namwc`, `mtUsers`, `mtGames`, `mpp`, `hgr`, `gv`, `gts`, `gm`, `gf`, `ge`, `gas`, `ds`, `df`, `ctUnread`, `ctRead`, `ctGo`, `cs`, `as`, `aic`],
+                    mgc_createTrain: true,
+                    mgc_bumpLast: true,
+                    mgc_groupKeys: false,
+                    mgc_reversePosition: false,
+                    mgc_removeLinks: true,
+                    namwc_checkNotActivated: false,
+                    namwc_checkMultiple: false,
+                    npth_previousKey: `ArrowLeft`,
+                    npth_nextKey: `ArrowRight`,
+                    nrf_searchMultiple: false,
+                    rightButtonIds: [`esResume`, `esPause`, `esRefresh`, `esRefreshAll`, `stbb`, `sttb`],
+                    sal_index: 2,
+                    sk_closePopups: `escape`,
+                    sk_searchBox: `ctrlKey + q`,
+                    sk_firstPage: `ctrlKey + arrowup`,
+                    sk_previousPage: `ctrlKey + arrowleft`,
+                    sk_nextPage: `ctrlKey + arrowright`,
+                    sk_lastPage: `ctrlKey + arrowdown`,
+                    sk_toggleFilters: `altKey + q`,
+                    sk_hideGame: `altKey + g`,
+                    sk_hideGiveaway: `altKey + h`,
+                    sk_giveawayEntry: `ctrlKey + enter`,
+                    sk_creator: `altKey + c`,
+                    sk_replyBox: `ctrlKey +  `,
+                    sk_replyUser: `altKey + u`,
+                    sk_submitReply: `ctrlKey + enter`,
+                    sks_exportKeys: false,
+                    stbb_index: 0,
+                    sttb_index: 0,
+                    syncGroups: true,
+                    syncWhitelist: true,
+                    syncBlacklist: true,
+                    syncHiddenGames: true,
+                    syncGames: true,
+                    syncWonGames: true,
+                    syncReducedCvGames: true,
+                    syncNoCvGames: true,
+                    syncGiveaways: true,
+                    ugd_getPlaytime: true,
+                    ugd_getAchievements: false,
+                    ugd_clearCache: false,
+                    ugs_checkRules: false,
+                    ugs_checkWhitelist: false,
+                    ugs_checkBlacklist: false,
+                    ugs_checkMember: false,
+                    ugs_checkDifference: false,
+                    ugs_difference: 0,
+                    ut_colors: {},
+                    wbc_checkSingle: false,
+                    wbc_checkWhitelist: true,
+                    wbc_checkAll: false,
+                    wbc_returnWhitelists: false,
+                    wbc_returnBlacklists: false,
+                    wbc_checkSelected: false,
+                    wbc_pages: 0,
+                    wbc_skipUsers: false,
+                    wbm_useCache: false,
+                    wbc_checkNew: false,
+                    wbc_clearCache: false,
                     wbh_w_color: `#ffffff`,
                     wbh_w_bgColor: `#228b22`,
                     wbh_b_color: `#ffffff`,
-                    wbh_b_bgColor: `#ff4500`,
-                    npth_previousKey: `ArrowLeft`,
-                    npth_nextKey: `ArrowRight`,
-                    avatar: ``,
-                    username: ``,
-                    steamId: ``,
-                    steamApiKey: ``
+                    wbh_b_bgColor: `#ff4500`
                 };
                 esgst.users = getValue(`users`);
                 if (typeof esgst.users === `undefined`) {
@@ -2342,13 +2260,29 @@ Parsedown = (() => {
                                         name: `Fade visited giveaways.`,
                                         sg: true
                                     },
-                                    gdttt_v: {
-                                        name: `Mark the pages as visited when visiting them.`,
-                                        sg: true,
+                                    gdttt_vg: {
+                                        name: `Mark giveaways as visited when visiting them.`,
+                                        new: true,
+                                        sg: true
+                                    },
+                                    gdttt_vd: {
+                                        name: `Mark discussions as visited when visiting them.`,
+                                        new: true,
+                                        sg: true
+                                    },
+                                    gdttt_vt: {
+                                        name: `Mark tickets as visited when visiting them.`,
+                                        new: true,
+                                        sg: true
+                                    },
+                                    gdttt_vts: {
+                                        name: `Mark trades as visited when visiting them.`,
+                                        new: true,
                                         st: true
                                     }
                                 },
                                 name: `Giveaways/Discussions/Tickets/Trades Tracker`,
+                                newBelow: true,
                                 sg: true,
                                 st: true
                             },
@@ -2631,6 +2565,16 @@ Parsedown = (() => {
                                 name: `Shortcut Keys`,
                                 sg: true,
                                 st: true
+                            },
+                            ttpcc: {
+                                description: `
+                                    <ul>
+                                        <li>Shows how much time you have until you hit the point cap when you hover over the points in the header.</li>
+                                    </ul>
+                                `,
+                                name: `Time To Point Cap Calculator`,
+                                new: true,
+                                sg: true
                             },
                             ts: {
                                 description: `
@@ -5019,6 +4963,11 @@ Parsedown = (() => {
                                         new: true,
                                         sg: true
                                     },
+                                    hideButtons_cec: {
+                                        name: `Comments/Entries Checker Button`,
+                                        new: true,
+                                        sg: true
+                                    },
                                     hideButtons_cs: {
                                         name: `Comment Searcher`,
                                         sg: true,
@@ -5047,6 +4996,12 @@ Parsedown = (() => {
                                         name: `Discussions Sorter Button`,
                                         sg: true
                                     },
+                                    hideButtons_esContinuous: {
+                                        name: `Endless Scrolling Button - Continuously Load`,
+                                        new: true,
+                                        sg: true,
+                                        st: true
+                                    },
                                     hideButtons_esPause: {
                                         name: `Endless Scrolling Button - Pause/Resume`,
                                         sg: true,
@@ -5069,6 +5024,11 @@ Parsedown = (() => {
                                     hideButtons_gf: {
                                         name: `Giveaway Filters Button`,
                                         sg: true
+                                    },
+                                    hideButtons_glwc: {
+                                        name: `Group Library/Wishlist Checker Button`,
+                                        new: true,
+                                        sg: true,
                                     },
                                     hideButtons_gm: {
                                         name: `Giveaways Manager Button`,
@@ -5140,6 +5100,11 @@ Parsedown = (() => {
                                         name: `Whitelist/Blacklist Checker Button`,
                                         sg: true
                                     },
+                                    hideButtons_wbm: {
+                                        name: `Whitelist/Blacklist Manager Button`,
+                                        new: true,
+                                        sg: true
+                                    },
                                     hideButtons_wbsAsc: {
                                         name: `Whitelist/Blacklist Sorter Button - Ascending`,
                                         sg: true
@@ -5158,8 +5123,16 @@ Parsedown = (() => {
                         newBelow: true
                     }
                 };
+                for (var key in esgst.oldValues) {
+                    esgst[key] = getSetting(key);
+                }
                 for (var key in esgst.defaultValues) {
                     esgst[key] = getSetting(key);
+                }
+                for (var type in esgst.features) {
+                    for (var id in esgst.features[type].features) {
+                        getFeatureSetting(esgst.features[type].features[id], id);
+                    }
                 }
                 for (var key in esgst.settings) {
                     let match;
@@ -5167,8 +5140,12 @@ Parsedown = (() => {
                         esgst[match[1]] = esgst.settings[key];
                     }
                 }
-                [{id: `stbb`, side: `right`},
-                 {id: `sttb`, side: `right`}].forEach(item => {
+                [{id: `cec`, side: `left`},
+                 {id: `esContinuous`, side: `right`},
+                 {id: `glwc`, side: `left`},
+                 {id: `stbb`, side: `right`},
+                 {id: `sttb`, side: `right`},
+                 {id: `wbm`, side: `left`}].forEach(item => {
                     if (esgst.leftButtonIds.indexOf(item.id) < 0 && esgst.rightButtonIds.indexOf(item.id) < 0) {
                         esgst[`${item.side}ButtonIds`].push(item.id);
                         esgst.settings.leftButtonIds = esgst.leftButtonIds;
@@ -8841,7 +8818,7 @@ Parsedown = (() => {
             addGbButton();
         }
 
-        if (esgst.ged) {
+        if (esgst.sg && esgst.ged) {
             loadGed();
         }
 
@@ -9600,27 +9577,34 @@ Parsedown = (() => {
         esgst.settings[id] = value;
     }
 
-    function getSetting(key, sg, st) {
-        var defaultValue, i, localKey, n;
-        if ((esgst.name === `sg` && sg) || (esgst.name === `st` && st) || (!sg && !st)) {
-            if (sg || st) {
-                localKey = `${key}_${esgst.name}`;
-            } else {
-                localKey = key;
+    function getSetting(key) {
+        var defaultValue, oldKey;
+        if (typeof esgst.settings[key] === `undefined`) {
+            defaultValue = esgst.defaultValues[key];
+            if (typeof defaultValue === `undefined`) {
+                defaultValue = esgst[`enableByDefault_${esgst.name}`] || false;
             }
-            if (typeof esgst.settings[localKey] === `undefined` && (key[0] === key[0].toLowerCase())) {
-                defaultValue = esgst.defaultValues[key];
-                if (typeof defaultValue === `undefined`) {
-                    defaultValue = key === `gc_lp` ? true : (key.match(/^sk_/) ? true : (key.match(/^gc_.+?_s$/) ? esgst.settings.gc_s_sg : (key.match(/^gc_.+?_s_i$/) ? esgst.settings.gc_s_i_sg : (key.match(/^(g|d)f_(?!h$)/) ? true : (key.match(/^hide/) ? false : (esgst.enableByDefault || false))))));
-                }
-                if (typeof esgst.oldValues[key] !== `undefined`) {
-                    esgst.settings[localKey] = esgst.settings[esgst.oldValues[key]];
-                }
-                if (typeof esgst.settings[localKey] === `undefined`) {
-                    esgst.settings[localKey] = defaultValue;
-                }
+            oldKey = esgst.oldValues[key];
+            if (typeof oldKey !== `undefined`) {
+                esgst.settings[key] = esgst.settings[oldKey];
             }
-            return esgst.settings[localKey];
+            if (typeof esgst.settings[key] === `undefined`) {
+                esgst.settings[key] = defaultValue;
+            }
+        }
+        return esgst.settings[key];
+    }
+
+    function getFeatureSetting(feature, id) {
+        if (feature.sg && esgst.sg) {
+            esgst[id] = getSetting(`${id}_sg`);
+        } else if (feature.st && esgst.st) {
+            esgst[id] = getSetting(`${id}_st`);
+        }
+        if (feature.features) {
+            for (id in feature.features) {
+                getFeatureSetting(feature.features[id], id);
+            }
         }
     }
 
@@ -11428,6 +11412,13 @@ Parsedown = (() => {
         if (esgst.sg) {
             esgst.pointsContainer = esgst.mainButton.firstElementChild;
             esgst.points = parseInt(esgst.pointsContainer.textContent.match(/\d+/)[0]);
+            if (esgst.ttpcc && esgst.points < 400) {
+                let nextRefresh = 60 - new Date().getMinutes();
+                while (nextRefresh > 15) {
+                    nextRefresh -= 15;
+                }
+                esgst.pointsContainer.title = `${getTtecTime(Math.round((nextRefresh + (15 * Math.floor((400 - esgst.points) / 6))) * 100) / 100)} to 400P`;
+            }
             esgst.levelContainer = esgst.mainButton.lastElementChild;
             esgst.level = parseInt(esgst.levelContainer.textContent.match(/\d+/)[0]);
             esgst.createdButton = navigation.getElementsByClassName(`fa-gift`)[0];
@@ -12051,6 +12042,7 @@ Parsedown = (() => {
         image.style.maxHeight = `calc(90% - ${height}px)`;
         image.style.marginTop = `${height}px`;
         image.firstElementChild.style.maxHeight = `${image.offsetHeight - 10}px`;
+        image.firstElementChild.style.maxWidth = `${image.offsetWidth - 10}px`;
         esgst.aicPrevious = panel.firstElementChild;
         esgst.aicNext = esgst.aicPrevious.nextElementSibling;
         if (i > 0) {
@@ -12206,7 +12198,12 @@ Parsedown = (() => {
             var type = `${match[1]}s`;
             var code = match[2];
             var savedComments = JSON.parse(getValue(type, `{}`));
-            if (esgst.gdttt_v) {
+            if (esgst[`gdttt_v${{
+                giveaways: `g`,
+                discussions: `d`,
+                tickets: `t`,
+                trades: `ts`
+            }[type]}`]) {
                 if (!esgst.ct) {
                     createLock(`commentLock`, 300, function (deleteLock) {
                         if (!savedComments[code]) {
@@ -14409,6 +14406,7 @@ Parsedown = (() => {
     }
 
     function loadGbGibs(bookmarked, container, context, popup) {
+        let info;
         var i = 0;
         var n = bookmarked.length;
         var gbGiveaways = insertHtml(context, `beforeEnd`, `<div class="esgst-text-left"></div>`);
@@ -14424,7 +14422,7 @@ Parsedown = (() => {
             }
         }
         var set = new ButtonSet(`green`, `grey`, `fa-plus`, `fa-circle-o-notch fa-spin`, `Load more...`, `Loading more...`, function (callback) {
-            loadGbGiveaways(i, i + 5, bookmarked, gbGiveaways, popup, function (value) {
+            loadGbGiveaways(i, i + 5, bookmarked, gbGiveaways, info, popup, function (value) {
                 i = value;
                 if (i > n) {
                     set.set.remove();
@@ -14438,6 +14436,11 @@ Parsedown = (() => {
         if (popup) {
             popup.open();
         }
+        info = insertHtml(container, `beforeEnd`, `
+            <div>
+                <span>0</span>P required to enter all <span>0</span> giveaways.
+            </div>
+        `);
         set.trigger();
         if (esgst.es_gb) {
             context.addEventListener(`scroll`, function () {
@@ -14448,7 +14451,7 @@ Parsedown = (() => {
         }
     }
 
-    function loadGbGiveaways(i, n, bookmarked, gbGiveaways, popup, callback) {
+    function loadGbGiveaways(i, n, bookmarked, gbGiveaways, info, popup, callback) {
         if (i < n) {
             if (bookmarked[i]) {
                 request(null, null, `GET`, true, `/giveaway/${bookmarked[i].code}/`, function (response) {
@@ -14473,7 +14476,10 @@ Parsedown = (() => {
                         var headingName = heading.firstElementChild;
                         headingName.outerHTML = `<a class="giveaway__heading__name" href="${url}">${headingName.innerHTML}</a>`;
                         var thinHeadings = heading.getElementsByClassName(`featured__heading__small`);
-                        for (j = 0, numT = thinHeadings.length; j < numT; ++j) {
+                        numT = thinHeadings.length
+                        info.firstElementChild.textContent = parseInt(info.firstElementChild.textContent) + parseInt(thinHeadings[numT - 1].textContent.match(/\d+/)[0]);
+                        info.lastElementChild.textContent = parseInt(info.lastElementChild.textContent) + 1;
+                        for (j = 0; j < numT; ++j) {
                             thinHeadings[0].outerHTML = `<span class="giveaway__heading__thin">${thinHeadings[0].innerHTML}</span>`;
                         }
                         remaining.classList.remove(`featured__column`);
@@ -14491,9 +14497,13 @@ Parsedown = (() => {
                         }
                         var counts = responseHtml.getElementsByClassName(`sidebar__navigation__item__count`);
                         var image = responseHtml.getElementsByClassName(`global__image-outer-wrap--game-large`)[0].firstElementChild.getAttribute(`src`);
+                        let entered = responseHtml.getElementsByClassName(`sidebar__entry-delete`)[0];
+                        if (entered) {
+                            entered = !entered.classList.contains(`is-hidden`);
+                        }
                         var popupHtml = `${Date.now() > bookmarked[i].endTime && !gbGiveaways.getElementsByClassName(`row-spacer`)[0] ? `<div class="row-spacer"></div>` : ``}
                             <div>
-                                <div class="giveaway__row-outer-wrap" data-game-id="${gameId}">
+                                <div class="giveaway__row-outer-wrap" ${entered ? `data-entered="true"` : ``}data-game-id="${gameId}">
                                     <div class="giveaway__row-inner-wrap">
                                         <div class="giveaway__summary">
                                             <h2 class="giveaway__heading">${heading.innerHTML}</h2>
@@ -14526,13 +14536,13 @@ Parsedown = (() => {
                                 giveaways[bookmarked[i].code].endTime = endTime;
                                 setValue(`giveaways`, JSON.stringify(giveaways));
                                 deleteLock();
-                                setTimeout(loadGbGiveaways, 0, ++i, n, bookmarked, gbGiveaways, popup, callback);
+                                setTimeout(loadGbGiveaways, 0, ++i, n, bookmarked, gbGiveaways, info, popup, callback);
                             });
                         } else {
-                            setTimeout(loadGbGiveaways, 0, ++i, n, bookmarked, gbGiveaways, popup, callback);
+                            setTimeout(loadGbGiveaways, 0, ++i, n, bookmarked, gbGiveaways, info, popup, callback);
                         }
                     } else {
-                        setTimeout(loadGbGiveaways, 0, ++i, n, bookmarked, gbGiveaways, popup, callback);
+                        setTimeout(loadGbGiveaways, 0, ++i, n, bookmarked, gbGiveaways, info, popup, callback);
                     }
                 });
             } else {
@@ -14609,15 +14619,18 @@ Parsedown = (() => {
             });
         });
         if (esgst.gb_ue && main && esgst.enterGiveawayButton) {
-            esgst.enterGiveawayButton.addEventListener(`click`, function() {
-                button.innerHTML = `<i class="fa fa-circle-o-notch fa-spin"></i>`;
-                unbookmarkGbGiveaway(giveaway, function() {
-                    button.remove();
-                    if (esgst.gb_se) {
-                        addGbBookmarkButton(giveaway, main);
-                    }
-                });
-            });
+            esgst.enterGiveawayButton.onclick = function() {
+                let button = giveaway.outerWrap.getElementsByClassName(`esgst-gb-button`)[0];
+                if (button && button.firstElementChild.classList.contains(`fa-bookmark`)) {
+                    button.innerHTML = `<i class="fa fa-circle-o-notch fa-spin"></i>`;
+                    unbookmarkGbGiveaway(giveaway, function() {
+                        button.remove();
+                        if (esgst.gb_se) {
+                            addGbBookmarkButton(giveaway, main);
+                        }
+                    });
+                }
+            };
         }
     }
 
@@ -19286,7 +19299,7 @@ Parsedown = (() => {
         for (i = 0, n = giveaways.length; i < n; ++i) {
             giveaway = giveaways[i];
             if (giveaway.gm && !giveaway.outerWrap.classList.contains(`esgst-hidden`)) {
-                links.push(line.replace(/\[TYPE\]/g, giveaway.type.slice(0, -1)).replace(/\[ID\]/g, giveaway.id).replace(/\[STEAM\]/g, `http://store.steampowered.com/${giveaway.type.slice(0, -1)}/${giveaway.id}`).replace(/\[NAME\]/g, giveaway.name).replace(/\[CODE\]/g, giveaway.code).replace(/\[SHORT-URL\]/g, `https://www.steamgifts.com/giveaway/${giveaway.code}/`).replace(/\[URL\]/g, `https://www.steamgifts.com${giveaway.url}`).replace(/\[POINTS\]/g, giveaway.points).replace(/\[LEVEL\]/g, giveaway.level));
+                links.push(line.replace(/\[TYPE\]/g, giveaway.type.slice(0, -1)).replace(/\[ID\]/g, giveaway.id).replace(/\[STEAM\]/g, `http://store.steampowered.com/${giveaway.type.slice(0, -1)}/${giveaway.id}`).replace(/\[NAME\]/g, giveaway.name).replace(/\[CODE\]/g, giveaway.code).replace(/\[SHORT-URL\]/g, `https://www.steamgifts.com/giveaway/${giveaway.code}/`).replace(/\[URL\]/g, `https://www.steamgifts.com${giveaway.url.match(/\/giveaway\/.+/)[0]}`).replace(/\[POINTS\]/g, giveaway.points).replace(/\[LEVEL\]/g, giveaway.level));
             }
         }
         gm.textArea.value = gm.textArea.value.replace(/\[LINE\].+\[\/LINE\]/, links.join(`\n`));
@@ -23586,7 +23599,12 @@ Parsedown = (() => {
                     if (count > 0) {
                         saved[comment.type][comment.code].count = count;
                     }
-                    if (esgst.gdttt && esgst.gdttt_v) {
+                    if (esgst.gdttt && esgst[`gdttt_v${{
+                        giveaways: `g`,
+                        discussions: `d`,
+                        tickets: `t`,
+                        trades: `ts`
+                    }[comment.type]}`]) {
                         saved[comment.type][comment.code].visited = true;
                     }
                     if (!esgst.ct_s) {
@@ -24900,7 +24918,7 @@ Parsedown = (() => {
                                     UGD.total = Object.keys(Giveaways.apps).length + Object.keys(Giveaways.subs).length;
                                     for (id in Giveaways.apps) {
                                         for (i = games.length - 1; i >= 0 && games[i].appid !== parseInt(id); --i);
-                                        let giveaway = esgst.giveaways[Giveaways.apps[id][0]];
+                                        let giveaway = typeof Giveaways.apps[id][0] === `string` ? esgst.giveaways[Giveaways.apps[id][0]] : Giveaways.apps[id][0];
                                         if (i >= 0) {
                                             let game = games[i];
                                             let time2Weeks = game.playtime_2weeks;
@@ -24970,7 +24988,7 @@ Parsedown = (() => {
                                         }
                                     }
                                     for (id in Giveaways.subs) {
-                                        let giveaway = esgst.giveaways[Giveaways.subs[id][0]];
+                                        let giveaway = typeof Giveaways.subs[id][0] === `string` ? esgst.giveaways[Giveaways.subs[id][0]] : Giveaways.subs[id][0];
                                         UGD.HTML += `
                                             <div class="table__row-outer-wrap">
                                                 <div class="table__row-inner-wrap">
@@ -27496,7 +27514,7 @@ Parsedown = (() => {
     }
 
     function unhighlightEghGame(id, type, event) {
-        let icon = event.currenTarget;
+        let icon = event.currentTarget;
         if (!icon.classList.contains(`fa-spin`)) {
             icon.innerHTML = `<i class="fa fa-circle-o-notch fa-spin"></i>`;
             createLock(`gameLock`, 300, deleteLock => {
@@ -27767,7 +27785,7 @@ Parsedown = (() => {
         suffix = `</span>`;
         html = tags.length && tags[0] ? `${prefix}${tags.join(`${suffix}${prefix}`)}${suffix}` : ``;
         if (!games) {
-            games = getGames(document)[type][id];
+            games = getGames(document, true, JSON.parse(getValue(`games`)))[type][id];
         }
         if (games) {
             for (i = 0, n = games.length; i < n; ++i) {
@@ -28932,7 +28950,7 @@ Parsedown = (() => {
                 } else {
                     element.classList.add(`esgst-hidden`);
                 }
-                if (value) {                    
+                if (value) {
                     expand = element.getElementsByClassName(`fa-plus-square`)[0];
                     if (expand) {
                         expand.click();
@@ -30540,7 +30558,9 @@ Parsedown = (() => {
         giveaway.avatar = giveaway.outerWrap.querySelector(`.giveaway_image_avatar, .featured_giveaway_image_avatar`);
         giveaway.image = giveaway.outerWrap.querySelector(`.giveaway_image_thumbnail, .giveaway_image_thumbnail_missing, .global__image-outer-wrap--game-medium`);
         giveaway.summary = giveaway.innerWrap.querySelector(`.giveaway__summary, .featured__summary, .table__column--width-fill`);
-        if ((esgst.giveawayPath && main) || source === `gb`) {
+        if (source === `gb`) {
+            giveaway.entered = giveaway.outerWrap.getAttribute(`data-entered`);
+        } else if (esgst.giveawayPath && main) {
             var button = mainContext.getElementsByClassName(`sidebar__entry-delete`)[0];
             if (button) {
                 giveaway.entered = !button.classList.contains(`is-hidden`);
@@ -31821,7 +31841,7 @@ Parsedown = (() => {
         switch (esgst.stbb_index) {
             case 0:
                 button = insertHtml(document.body, `beforeEnd`, `
-                    <div class="esgst-stbb-button" title="Scroll to bottom">
+                    <div class="esgst-stbb-button esgst-stbb-button-fixed" title="Scroll to bottom">
                         <i class="fa fa-chevron-down"></i>
                     </div>
                 `);
@@ -31863,7 +31883,7 @@ Parsedown = (() => {
         switch (esgst.sttb_index) {
             case 0:
                 button = insertHtml(document.body, `beforeEnd`, `
-                    <div class="esgst-sttb-button" title="Scroll to top">
+                    <div class="esgst-sttb-button esgst-sttb-button-fixed" title="Scroll to top">
                         <i class="fa fa-chevron-up"></i>
                     </div>
                 `);
@@ -31929,7 +31949,7 @@ Parsedown = (() => {
     /* [ES] Endless Scrolling */
 
     function loadEs() {
-        let busy, count, currentPage, divisors, ended, i, lastLink, mainContext, n, nextPage, pageIndex, paginations, pageBase, pauseButton, paused, progress, refreshAllButton, refreshButton, resumeButton, reversePages, reverseScrolling, row, total;
+        let busy, continuous, continuousButton, count, currentPage, divisors, ended, i, lastLink, mainContext, n, nextPage, pageIndex, paginations, pageBase, pauseButton, paused, progress, refreshAllButton, refreshButton, resumeButton, reversePages, reverseScrolling, row, total;
         if (esgst.es && esgst.mainPageHeading && esgst.pagination && ((esgst.es_g && esgst.giveawaysPath) || (esgst.es_d && esgst.discussionsTicketsPath) || (esgst.es_t && esgst.tradesPath) || (esgst.es_c && esgst.commentsPath) || (esgst.es_l && !esgst.giveawaysPath && !esgst.discussionsTicketsPath && !esgst.tradesPath && !esgst.commentsPath))) {
             divisors = ((esgst.es_g_d && esgst.giveawaysPath) || (esgst.es_d_d && esgst.discussionsTicketsPath) || (esgst.es_t_d && esgst.tradesPath) || (esgst.es_c_d && esgst.commentsPath) || (esgst.es_l_d && !esgst.giveawaysPath && !esgst.discussionsTicketsPath && !esgst.tradesPath && !esgst.commentsPath));
             mainContext = esgst.pagination.previousElementSibling;
@@ -31982,12 +32002,27 @@ Parsedown = (() => {
                 mainContext.children[i].classList.add(`esgst-es-page-${currentPage}`);
             }
             let key, position;
+            if (esgst.leftButtonIds.indexOf(`esContinuous`) > -1) {
+                key = `leftButtons`;
+                position = `afterBegin`;
+            } else {
+                key = `rightButtons`;
+                position = `beforeEnd`;
+            }
+            continuousButton = insertHtml(esgst.hideButtons && esgst.hideButtons_esContinuous ? esgst[key] : esgst.mainPageHeading, position, `
+                <div class="esgst-heading-button esgst-es-continuous-button" id="esgst-esContinuous" title="Continuously load pages">
+                    <i class="fa fa-fast-forward"></i>
+                </div>
+            `);
             if (esgst.leftButtonIds.indexOf(`esPause`) > -1) {
                 key = `leftButtons`;
                 position = `afterBegin`;
             } else {
                 key = `rightButtons`;
                 position = `beforeEnd`;
+            }
+            if (ended) {
+                continuousButton.classList.add(`esgst-hidden`);
             }
             pauseButton = insertHtml(esgst.hideButtons && esgst.hideButtons_esPause ? esgst[key] : esgst.mainPageHeading, position, `
                 <div class="esgst-heading-button esgst-es-pause-button" id="esgst-esPause" title="Pause the endless scrolling">
@@ -32033,6 +32068,7 @@ Parsedown = (() => {
             `);
             refreshButton.addEventListener(`click`, refreshPage);
             refreshAllButton.addEventListener(`click`, refreshAllPages);
+            continuousButton.addEventListener(`click`, continuouslyLoad);
             pauseButton.addEventListener(`click`, pauseEndlessScrolling);
             resumeButton.addEventListener(`click`, resumeEndlessScrolling);
             if (esgst.paginationNavigation) {
@@ -32055,18 +32091,20 @@ Parsedown = (() => {
             esgst.checkEndlessScrolling = loadNextPage;
         }
 
-        function loadNextPage() {
-            if (!esgst.stopEs && !busy && !paused && !ended && scrollY >= document.body.offsetHeight - innerHeight * 2) {
+        function loadNextPage(callback) {
+            if (!esgst.stopEs && !busy && !paused && !ended && (continuous || scrollY >= document.body.offsetHeight - innerHeight * 2)) {
                 busy = true;
                 document.removeEventListener(`scroll`, loadNextPage);
                 progress = insertHtml(esgst.pagination.firstElementChild, `beforeEnd`, `
                     <span class="esgst-bold"><i class="fa fa-circle-o-notch fa-spin"></i> Loading next page...</span>
                 `);
-                request(null, null, `GET`, false, `${esgst.searchUrl}${nextPage}`, getNextPage.bind(null, false, false));
+                request(null, null, `GET`, false, `${esgst.searchUrl}${nextPage}`, getNextPage.bind(null, false, false, callback));
+            } else if (callback && typeof callback === `function`) {
+                callback();
             }
         }
 
-        function getNextPage(refresh, refreshAll, response) {
+        function getNextPage(refresh, refreshAll, callback, response) {
             var child, context, element, elements, fragment, i, n, oldN, rows, pagination, paginationNavigation;
             pagination = DOM.parse(response.responseText).getElementsByClassName(`pagination`)[0];
             context = pagination.previousElementSibling;
@@ -32166,18 +32204,28 @@ Parsedown = (() => {
                     busy = false;
                     if (nextPage <= 0) {
                         ended = true;
+                        if (callback && typeof callback === `function`) {
+                            callback();
+                        }
                     } else if (!paused) {
-                        document.addEventListener(`scroll`, loadNextPage);
-                        loadNextPage();
+                        if (!continuous) {
+                            document.addEventListener(`scroll`, loadNextPage);
+                        }
+                        loadNextPage(callback);
                     }
                 } else {
                     ++nextPage;
                     busy = false;
                     if (paginationNavigation.lastElementChild.classList.contains(esgst.selectedClass)) {
                         ended = true;
+                        if (callback && typeof callback === `function`) {
+                            callback();
+                        }
                     } else if (!paused) {
-                        document.addEventListener(`scroll`, loadNextPage);
-                        loadNextPage();
+                        if (!continuous) {
+                            document.addEventListener(`scroll`, loadNextPage);
+                        }
+                        loadNextPage(callback);
                     }
                 }
             }
@@ -32217,6 +32265,17 @@ Parsedown = (() => {
             }
         }
 
+        function continuouslyLoad() {
+            continuousButton.innerHTML = `<i class="fa fa-circle-o-notch fa-spin"></i>`;
+            continuous = true;
+            resumeEndlessScrolling();
+            document.addEventListener(`scroll`, loadNextPage);
+            loadNextPage(() => {
+                continuous = false;
+                continuousButton.innerHTML = `<i class="fa fa-fast-forward"></i>`;
+            });
+        }
+
         function pauseEndlessScrolling() {
             if (!ended) {
                 document.removeEventListener(`scroll`, loadNextPage);
@@ -32225,6 +32284,8 @@ Parsedown = (() => {
             resumeButton.classList.remove(`esgst-hidden`);
             paused = true;
             setValue(`esPause`, paused);
+            continuous = false;
+            continuousButton.innerHTML = `<i class="fa fa-fast-forward"></i>`;
         }
 
         function resumeEndlessScrolling() {
@@ -32232,7 +32293,7 @@ Parsedown = (() => {
             pauseButton.classList.remove(`esgst-hidden`);
             paused = false;
             setValue(`esPause`, paused);
-            if (!ended) {
+            if (!ended && !continuous) {
                 document.addEventListener(`scroll`, loadNextPage);
                 loadNextPage();
             }
@@ -32556,6 +32617,10 @@ Parsedown = (() => {
                 name: `Discussions`,
                 options: [
                     {
+                        key: `discussions_main`,
+                        name: `Main`
+                    },
+                    {
                         key: `discussions_ct`,
                         name: `Comment Tracker`
                     },
@@ -32589,6 +32654,10 @@ Parsedown = (() => {
                 name: `Games`,
                 options: [
                     {
+                        key: `games_main`,
+                        name: `Main`
+                    },
+                    {
                         key: `games_egh`,
                         name: `Entered Games Highlighter`
                     },
@@ -32612,6 +32681,10 @@ Parsedown = (() => {
                 key: `giveaways`,
                 name: `Giveaways`,
                 options: [
+                    {
+                        key: `giveaways_main`,
+                        name: `Main`
+                    },
                     {
                         key: `giveaways_ct`,
                         name: `Comment Tracker`
@@ -32639,6 +32712,10 @@ Parsedown = (() => {
                 key: `groups`,
                 name: `Groups`,
                 options: [
+                    {
+                        key: `groups_main`,
+                        name: `Main`
+                    },
                     {
                         key: `groups_sgg`,
                         name: `Stickied Giveaway Groups`
@@ -32686,6 +32763,10 @@ Parsedown = (() => {
                 name: `Tickets`,
                 options: [
                     {
+                        key: `tickets_main`,
+                        name: `Main`
+                    },
+                    {
                         key: `tickets_ct`,
                         name: `Comment Tracker`
                     },
@@ -32701,6 +32782,10 @@ Parsedown = (() => {
                 name: `Trades`,
                 options: [
                     {
+                        key: `trades_main`,
+                        name: `Main`
+                    },
+                    {
                         key: `trades_ct`,
                         name: `Comment Tracker`
                     },
@@ -32715,6 +32800,10 @@ Parsedown = (() => {
                 key: `users`,
                 name: `Users`,
                 options: [
+                    {
+                        key: `users_main`,
+                        name: `Main`
+                    },
                     {
                         key: `users_namwc`,
                         name: `Not Activated/Multiple Wins Checker`
@@ -32797,11 +32886,31 @@ Parsedown = (() => {
             group1.appendChild(new ButtonSet(`grey`, `grey`, `fa-circle-o`, `fa-circle-o-notch fa-spin`, `None`, ``, selectSwitches.bind(null, dm.switches, `disable`)).set);
             group1.appendChild(new ButtonSet(`grey`, `grey`, `fa-dot-circle-o`, `fa-circle-o-notch fa-spin`, `Inverse`, ``, selectSwitches.bind(null, dm.switches, `toggle`)).set);
             group2 = insertHtml(container, `beforeEnd`, `<div class="esgst-button-group"><span>${title1} ${prep}:</span></div>`);
-            group2.appendChild(new ButtonSet(`green`, `grey`, icon, `fa-circle-o-notch fa-spin`, `Computer`, title2, onClick.bind(null, dm, false, false, false, false)).set);
+            group2.appendChild(new ButtonSet(`green`, `grey`, icon, `fa-circle-o-notch fa-spin`, `Computer`, title2, callback => {
+                onClick(dm, false, false, false, false, () => {
+                    manageData(dm, false, false, false, true);
+                    callback();
+                });
+            }).set);
             if (type !== `delete`) {
-                group2.appendChild(new ButtonSet(`green`, `grey`, `fa-dropbox`, `fa-circle-o-notch fa-spin`, `Dropbox`, title2, onClick.bind(null, dm, true, false, false, false)).set);
-                group2.appendChild(new ButtonSet(`green`, `grey`, `fa-google`, `fa-circle-o-notch fa-spin`, `Google Drive`, title2, onClick.bind(null, dm, false, true, false, false)).set);
-                group2.appendChild(new ButtonSet(`green`, `grey`, `fa-windows`, `fa-circle-o-notch fa-spin`, `OneDrive`, title2, onClick.bind(null, dm, false, false, true, false)).set);
+                group2.appendChild(new ButtonSet(`green`, `grey`, `fa-dropbox`, `fa-circle-o-notch fa-spin`, `Dropbox`, title2, callback => {
+                    onClick(dm, true, false, false, false, () => {
+                        manageData(dm, false, false, false, true);
+                        callback();
+                    });
+                }).set);
+                group2.appendChild(new ButtonSet(`green`, `grey`, `fa-google`, `fa-circle-o-notch fa-spin`, `Google Drive`, title2, callback => {
+                    onClick(dm, false, true, false, false, () => {
+                        manageData(dm, false, false, false, true);
+                        callback();
+                    });
+                }).set);
+                group2.appendChild(new ButtonSet(`green`, `grey`, `fa-windows`, `fa-circle-o-notch fa-spin`, `OneDrive`, title2, callback => {
+                    onClick(dm, false, false, true, false, () => {
+                        manageData(dm, false, false, false, true);
+                        callback();
+                    });
+                }).set);
             }
             if (!openInTab) {
                 popup.open();
@@ -32815,6 +32924,9 @@ Parsedown = (() => {
         menu = document.createElement(`div`);
         switches[option.key] = toggleSwitch = new ToggleSwitch(menu, `${type}_${option.key}`, false, option.name, false, false, null, esgst.settings[`${type}_${option.key}`]);
         switches[option.key].size = insertHtml(switches[option.key].name, `beforeEnd`, ` <span class="esgst-bold"></span>`);
+        if (option.name === `Main`) {
+            switches[option.key].name.insertAdjacentHTML(`beforeEnd`, ` <i class="fa fa-question-circle" title="Main data is the data that is needed by other sub-options. Because of that dependency, when deleting main data not all data may be deleted, but if you delete another sub-option first and then delete main data, all data that was required exclusively by that sub-option will be deleted."></i>`);
+        }
         if (option.options) {
             options = insertHtml(menu, `beforeEnd`, `
                 <div class="esgst-form-row-indent SMFeatures esgst-hidden"></div>
@@ -32902,10 +33014,9 @@ Parsedown = (() => {
     }
 
     function manageData(dm, dropbox, googleDrive, oneDrive, space, callback) {
-        var data, dataKey, i, id, j, k, l, mergedData, mergedDataKey, mergedDataValue, newData, newDataKey, newDataValue, numMerged, numNew, numOld, numOptions, numTags, oldData, oldDataKey, oldDataValue, option, optionKey, tag, tags, username, value, valueKey, values;
+        let data, dataKey, deletedSub, found, foundSub, i, id, j, k, key, l, mainFound, mainUsernameFound, mergedData, mergedDataKey, mergedDataValue, newData, newDataKey, newDataValue, numMerged, numNew, numOld, numOptions, numTags, oldData, oldDataKey, oldDataValue, option, optionKey, size, sizes, tag, tags, temp, toDelete, toExport, totalSize, username, value, valueKey, values;
         data = {};
-        let totalGM = 0;
-        let size = 0;
+        totalSize = 0;
         for (i = 0, numOptions = dm.options.length; i < numOptions; ++i) {
             option = dm.options[i];
             if (option.check) {
@@ -32935,14 +33046,15 @@ Parsedown = (() => {
                                 }
                             }
                             if (!dm.autoBackup) {
-                                size = (new TextEncoder(`utf-8`).encode(getValue(optionKey, ``))).length;
-                                totalGM += size;
+                                size = (new TextEncoder(`utf-8`).encode(`{"${optionKey}":${getValue(optionKey, `{}`)}}`)).length;
+                                totalSize += size;
                                 dm.switches[optionKey].size.textContent = convertBytes(size);
                             }
                             break;
                         case `discussions`:
                             if (!values) {
                                 values = {
+                                    main: [],
                                     ct: [`count`, `readComments`],
                                     df: [`hidden`],
                                     dh: [`highlighted`],
@@ -32963,6 +33075,7 @@ Parsedown = (() => {
                         case `tickets`:
                             if (!values) {
                                 values = {
+                                    main: [],
                                     ct: [`count`, `readComments`],
                                     gdttt: [`visited`]
                                 };
@@ -32970,34 +33083,72 @@ Parsedown = (() => {
                         case `trades`:
                             if (!values) {
                                 values = {
+                                    main: [],
                                     ct: [`count`, `readComments`],
                                     gdttt: [`visited`]
                                 };
                             }
                             mergedData = JSON.parse(getValue(optionKey, `{}`));
                             data[optionKey] = {};
+                            sizes = {
+                                ct: 0,
+                                df: 0,
+                                dh: 0,
+                                gb: 0,
+                                gdttt: 0,
+                                gf: 0,
+                                ggl: 0,
+                                main: 0,
+                                total: 0
+                            };
+                            mainFound = false;
                             for (mergedDataKey in mergedData) {
                                 newData = {};
-                                let toDelete = 0;
+                                toDelete = 0;
+                                foundSub = 0;
+                                deletedSub = 0;
+                                found = null;
+                                toExport = false;
                                 for (value in values) {
-                                    if (esgst.settings[`${dm.type}_${optionKey}_${value}`] || value === `main`) {
+                                    if (esgst.settings[`${dm.type}_${optionKey}_${value}`]) {
                                         toDelete += 1;
-                                        for (j = 0, numValues = values[value].length; j < numValues; ++j) {
-                                            valueKey = values[value][j];
-                                            mergedDataValue = mergedData[mergedDataKey][valueKey];
-                                            if (typeof mergedDataValue !== `undefined`) {
+                                    }
+                                    for (j = 0, numValues = values[value].length; j < numValues; ++j) {
+                                        valueKey = values[value][j];
+                                        mergedDataValue = mergedData[mergedDataKey][valueKey];
+                                        if (typeof mergedDataValue !== `undefined`) {
+                                            if (value !== `main`) {
+                                                foundSub += 1;
+                                            }
+                                            if (esgst.settings[`${dm.type}_${optionKey}_${value}`] || value === `main`) {
                                                 newData[valueKey] = mergedDataValue;
-                                                if (!space && dm.delete) {
-                                                    delete mergedData[mergedDataKey][valueKey];
+                                                if (value !== `main`) {
+                                                    toExport = true;
                                                 }
+                                            }
+                                            size = (new TextEncoder(`utf-8`).encode(`"${valueKey}":${JSON.stringify(mergedDataValue)},`)).length;
+                                            sizes[value] += size;
+                                            sizes.total += size;
+                                            found = value;
+                                            if (!space && dm.delete && esgst.settings[`${dm.type}_${optionKey}_${value}`] && value !== `main`) {
+                                                deletedSub += 1;
+                                                delete mergedData[mergedDataKey][valueKey];
                                             }
                                         }
                                     }
                                 }
-                                if (Object.keys(newData).length > 0) {
-                                    data[optionKey][mergedDataKey] = newData;
+                                if (found) {
+                                    sizes[found] -= 1;
+                                    sizes.total -= 1;
                                 }
-                                if (!space && dm.delete && toDelete === Object.keys(values).length) {
+                                if (toExport || esgst.settings[`${dm.type}_${optionKey}_main`]) {
+                                    data[optionKey][mergedDataKey] = newData;
+                                    mainFound = true;
+                                }
+                                size = (new TextEncoder(`utf-8`).encode(`"${mergedDataKey}":{},`)).length;
+                                sizes.main += size;
+                                sizes.total += size;
+                                if (!space && dm.delete && ((esgst.settings[`${dm.type}_${optionKey}_main`] && foundSub === deletedSub) || toDelete === Object.keys(values).length)) {
                                     delete mergedData[mergedDataKey];
                                 }
                             }
@@ -33010,7 +33161,7 @@ Parsedown = (() => {
                                                 mergedData[newDataKey] = {};
                                             }
                                             for (value in values) {
-                                                if (esgst.settings[`${dm.type}_${optionKey}_${value}`] || value === `main`) {
+                                                if (esgst.settings[`${dm.type}_${optionKey}_${value}`]) {
                                                     if (esgst.settings.importAndMerge) {
                                                         for (j = 0, numValues = values[value].length; j < numValues; ++j) {
                                                             valueKey = values[value][j];
@@ -33043,10 +33194,21 @@ Parsedown = (() => {
                                     setValue(optionKey, JSON.stringify(mergedData));
                                 }
                             }
+                            if (mainFound) {
+                                sizes.main -= 1;
+                                sizes.total -= 1;
+                            }
                             if (!dm.autoBackup) {
-                                size = (new TextEncoder(`utf-8`).encode(getValue(optionKey, ``))).length;
-                                totalGM += size;
-                                dm.switches[optionKey].size.textContent = convertBytes(size);
+                                size = (new TextEncoder(`utf-8`).encode(`{"${optionKey}":{}}`)).length;
+                                sizes.main += size;
+                                sizes.total += size;
+                                for (value in values) {
+                                    if (dm.switches[`${optionKey}_${value}`]) {
+                                        dm.switches[`${optionKey}_${value}`].size.textContent = convertBytes(sizes[value]);
+                                    }
+                                }
+                                dm.switches[optionKey].size.textContent = convertBytes(sizes.total);
+                                totalSize += sizes.total;
                             }
                             break;
                         case `emojis`:
@@ -33074,8 +33236,8 @@ Parsedown = (() => {
                                 }
                             }
                             if (!dm.autoBackup) {
-                                size = (new TextEncoder(`utf-8`).encode(getValue(optionKey, ``))).length;
-                                totalGM += size;
+                                size = (new TextEncoder(`utf-8`).encode(`{"${optionKey}":${getValue(optionKey, `""`)}}`)).length;
+                                totalSize += size;
                                 dm.switches[optionKey].size.textContent = convertBytes(size);
                             }
                             break;
@@ -33114,8 +33276,8 @@ Parsedown = (() => {
                                 }
                             }
                             if (!dm.autoBackup) {
-                                size = (new TextEncoder(`utf-8`).encode(getValue(optionKey, ``))).length;
-                                totalGM += size;
+                                size = (new TextEncoder(`utf-8`).encode(`{"${optionKey}":${getValue(optionKey, `[]`)}}`)).length;
+                                totalSize += size;
                                 dm.switches[optionKey].size.textContent = convertBytes(size);
                             }
                             break;
@@ -33134,57 +33296,124 @@ Parsedown = (() => {
                                 "apps": {}
                                 "subs": {}
                             }`));
+                            sizes = {
+                                egh: 0,
+                                gt: 0,
+                                itadi: 0,
+                                main: 0,
+                                total: 0
+                            };
+                            mainFound = false;
                             for (mergedDataKey in mergedData.apps) {
                                 mergedDataValue = mergedData.apps[mergedDataKey];
                                 newData = {};
-                                let toDelete = 0;
+                                toDelete = 0;
+                                foundSub = 0;
+                                deletedSub = 0;
+                                found = null;
+                                toExport = false;
                                 for (value in values) {
-                                    if (esgst.settings[`${dm.type}_games_${value}`] || value === `main`) {
+                                    if (esgst.settings[`${dm.type}_games_${value}`]) {
                                         toDelete += 1;
-                                        for (j = 0, numValues = values[value].length; j < numValues; ++j) {
-                                            valueKey = values[value][j];
-                                            newDataValue = mergedDataValue[valueKey];
-                                            if (typeof newDataValue !== `undefined`) {
+                                    }
+                                    for (j = 0, numValues = values[value].length; j < numValues; ++j) {
+                                        valueKey = values[value][j];
+                                        newDataValue = mergedDataValue[valueKey];
+                                        if (typeof newDataValue !== `undefined`) {
+                                            if (value !== `main`) {
+                                                foundSub += 1;
+                                            }
+                                            if (esgst.settings[`${dm.type}_games_${value}`] || value === `main`) {
                                                 newData[valueKey] = newDataValue;
-                                                if (!space && dm.delete) {
-                                                    delete mergedDataValue[valueKey];
+                                                if (value !== `main`) {
+                                                    toExport = true;
                                                 }
+                                            }
+                                            size = (new TextEncoder(`utf-8`).encode(`"${valueKey}":${JSON.stringify(newDataValue)},`)).length;
+                                            sizes[value] += size;
+                                            sizes.total += size;
+                                            found = value;
+                                            if (!space && dm.delete && esgst.settings[`${dm.type}_games_${value}`] && value !== `main`) {
+                                                deletedSub += 1;
+                                                delete mergedDataValue[valueKey];
                                             }
                                         }
                                     }
                                 }
-                                if (Object.keys(newData).length > 0) {
-                                    data.games.apps[mergedDataKey] = newData;
+                                if (found) {
+                                    sizes[found] -= 1;
+                                    sizes.total -= 1;
                                 }
-                                if (!space && dm.delete && toDelete === 4) {
+                                if (toExport || esgst.settings[`${dm.type}_${optionKey}_main`]) {
+                                    data.games.apps[mergedDataKey] = newData;
+                                    mainFound = true;
+                                }
+                                size = (new TextEncoder(`utf-8`).encode(`"${mergedDataKey}":{},`)).length;
+                                sizes.main += size;
+                                sizes.total += size;
+                                if (!space && dm.delete && ((esgst.settings[`${dm.type}_${optionKey}_main`] && foundSub === deletedSub) || toDelete === Object.keys(values).length)) {
                                     delete mergedData.apps[mergedDataKey];
                                 }
                             }
+                            if (mainFound) {
+                                sizes.main -= 1;
+                                sizes.total -= 1;
+                            }
+                            mainFound = false;
                             for (mergedDataKey in mergedData.subs) {
                                 mergedDataValue = mergedData.subs[mergedDataKey];
                                 newData = {};
-                                let toDelete = 0;
+                                toDelete = 0;
+                                foundSub = 0;
+                                deletedSub = 0;
+                                found = null;
+                                toExport = false;
                                 for (value in values) {
-                                    if (esgst.settings[`${dm.type}_games_${value}`] || value === `main`) {
+                                    if (esgst.settings[`${dm.type}_games_${value}`]) {
                                         toDelete += 1;
-                                        for (j = 0, numValues = values[value].length; j < numValues; ++j) {
-                                            valueKey = values[value][j];
-                                            newDataValue = mergedDataValue[valueKey];
-                                            if (typeof newDataValue !== `undefined`) {
+                                    }
+                                    for (j = 0, numValues = values[value].length; j < numValues; ++j) {
+                                        valueKey = values[value][j];
+                                        newDataValue = mergedDataValue[valueKey];
+                                        if (typeof newDataValue !== `undefined`) {
+                                            if (value !== `main`) {
+                                                foundSub += 1;
+                                            }
+                                            if (esgst.settings[`${dm.type}_games_${value}`] || value === `main`) {
                                                 newData[valueKey] = newDataValue;
-                                                if (!space && dm.delete) {
-                                                    delete mergedDataValue[valueKey];
+                                                if (value !== `main`) {
+                                                    toExport = true;
                                                 }
+                                            }
+                                            size = (new TextEncoder(`utf-8`).encode(`"${valueKey}":${JSON.stringify(newDataValue)},`)).length;
+                                            sizes[value] += size;
+                                            sizes.total += size;
+                                            found = value;
+                                            if (!space && dm.delete && esgst.settings[`${dm.type}_games_${value}`] && value !== `main`) {
+                                                deletedSub += 1;
+                                                delete mergedDataValue[valueKey];
                                             }
                                         }
                                     }
                                 }
-                                if (Object.keys(newData).length > 0) {
-                                    data.games.subs[mergedDataKey] = newData;
+                                if (found) {
+                                    sizes[found] -= 1;
+                                    sizes.total -= 1;
                                 }
-                                if (!space && dm.delete && toDelete === 4) {
+                                if (toExport || esgst.settings[`${dm.type}_${optionKey}_main`]) {
+                                    data.games.subs[mergedDataKey] = newData;
+                                    mainFound = true;
+                                }
+                                size = (new TextEncoder(`utf-8`).encode(`"${mergedDataKey}":{},`)).length;
+                                sizes.main += size;
+                                sizes.total += size;
+                                if (!space && dm.delete && ((esgst.settings[`${dm.type}_${optionKey}_main`] && foundSub === deletedSub) || toDelete === Object.keys(values).length)) {
                                     delete mergedData.subs[mergedDataKey];
                                 }
+                            }
+                            if (mainFound) {
+                                sizes.main -= 1;
+                                sizes.total -= 1;
                             }
                             if (!space) {
                                 if (dm.import) {
@@ -33197,7 +33426,7 @@ Parsedown = (() => {
                                             }
                                             mergedDataValue = mergedData.apps[newDataKey];
                                             for (value in values) {
-                                                if (esgst.settings[`${dm.type}_games_${value}`] || value === `main`) {
+                                                if (esgst.settings[`${dm.type}_games_${value}`]) {
                                                     for (j = 0, numValues = values[value].length; j < numValues; ++j) {
                                                         valueKey = values[value][j];
                                                         if (typeof newDataValue[valueKey] !== `undefined`) {
@@ -33247,7 +33476,7 @@ Parsedown = (() => {
                                             }
                                             mergedDataValue = mergedData.subs[newDataKey];
                                             for (value in values) {
-                                                if (esgst.settings[`${dm.type}_games_${value}`] || value === `main`) {
+                                                if (esgst.settings[`${dm.type}_games_${value}`]) {
                                                     for (j = 0, numValues = values[value].length; j < numValues; ++j) {
                                                         valueKey = values[value][j];
                                                         if (typeof newDataValue[valueKey] !== `undefined`) {
@@ -33297,9 +33526,16 @@ Parsedown = (() => {
                                 }
                             }
                             if (!dm.autoBackup) {
-                                size = (new TextEncoder(`utf-8`).encode(getValue(optionKey, ``))).length;
-                                totalGM += size;
-                                dm.switches[optionKey].size.textContent = convertBytes(size);
+                                size = (new TextEncoder(`utf-8`).encode(`{"${optionKey}":{"apps":{},"subs":{}}}`)).length;
+                                sizes.main += size;
+                                sizes.total += size;
+                                for (value in values) {
+                                    if (dm.switches[`${optionKey}_${value}`]) {
+                                        dm.switches[`${optionKey}_${value}`].size.textContent = convertBytes(sizes[value]);
+                                    }
+                                }
+                                dm.switches[optionKey].size.textContent = convertBytes(sizes.total);
+                                totalSize += sizes.total;
                             }
                             break;
                         case `groups`:
@@ -33309,39 +33545,74 @@ Parsedown = (() => {
                             };
                             mergedData = JSON.parse(getValue(optionKey, `[]`));
                             if (!Array.isArray(mergedData)) {
-                                let key, temp = [];
+                                temp = [];
                                 for (key in mergedData) {
                                     temp.push(mergedData[key]);
                                 }
                                 mergedData = temp;
                             }
                             data[optionKey] = [];
+                            sizes = {
+                                main: 0,
+                                sgg: 0,
+                                total: 0
+                            };
+                            mainFound = false;
                             for (j = mergedData.length - 1; j > -1; --j) {
                                 newData = {};
-                                let toDelete = 0;
+                                toDelete = 0;
+                                foundSub = 0;
+                                deletedSub = 0;
+                                found = null;
+                                toExport = false;
                                 for (value in values) {
-                                    if (esgst.settings[`${dm.type}_${optionKey}_${value}`] || value === `main`) {
+                                    if (esgst.settings[`${dm.type}_${optionKey}_${value}`]) {
                                         toDelete += 1;
-                                        for (k = 0, numValues = values[value].length; k < numValues; ++k) {
-                                            valueKey = values[value][k];
-                                            if (mergedData[j]) {
-                                                mergedDataValue = mergedData[j][valueKey];
-                                                if (typeof mergedDataValue !== `undefined`) {
+                                    }
+                                    for (k = 0, numValues = values[value].length; k < numValues; ++k) {
+                                        valueKey = values[value][k];
+                                        if (mergedData[j]) {
+                                            mergedDataValue = mergedData[j][valueKey];
+                                            if (typeof mergedDataValue !== `undefined`) {
+                                                if (value !== `main`) {
+                                                    foundSub += 1;
+                                                }
+                                                if (esgst.settings[`${dm.type}_${optionKey}_${value}`] || value === `main`) {
                                                     newData[valueKey] = mergedDataValue;
-                                                    if (!space && dm.delete) {
-                                                        delete mergedData[j][valueKey];
+                                                    if (value !== `main`) {
+                                                        toExport = true;
                                                     }
+                                                }
+                                                size = (new TextEncoder(`utf-8`).encode(`"${valueKey}":${JSON.stringify(mergedDataValue)},`)).length;
+                                                sizes[value] += size;
+                                                sizes.total += size;
+                                                found = value;
+                                                if (!space && dm.delete && esgst.settings[`${dm.type}_${optionKey}_${value}`] && value !== `main`) {
+                                                    deletedSub += 1;
+                                                    delete mergedData[j][valueKey];
                                                 }
                                             }
                                         }
                                     }
                                 }
-                                if (Object.keys(newData).length > 0) {
-                                    data[optionKey].push(newData);
+                                if (found) {
+                                    sizes[found] -= 1;
+                                    sizes.total -= 1;
                                 }
-                                if (!space && dm.delete && toDelete === 2) {
+                                if (toExport || esgst.settings[`${dm.type}_${optionKey}_main`]) {
+                                    data[optionKey].push(newData);
+                                    mainFound = true;
+                                }
+                                size = (new TextEncoder(`utf-8`).encode(`{},`)).length;
+                                sizes.main += size;
+                                sizes.total += size;
+                                if (!space && dm.delete && ((esgst.settings[`${dm.type}_${optionKey}_main`] && foundSub === deletedSub) || toDelete === Object.keys(values).length)) {
                                     mergedData.pop();
                                 }
+                            }
+                            if (mainFound) {
+                                sizes.main -= 1;
+                                sizes.total -= 1;
                             }
                             if (!space) {
                                 if (dm.import) {
@@ -33364,7 +33635,7 @@ Parsedown = (() => {
                                                 mergedData.push(mergedDataValue);
                                             }
                                             for (value in values) {
-                                                if (esgst.settings[`${dm.type}_${optionKey}_${value}`] || value === `main`) {
+                                                if (esgst.settings[`${dm.type}_${optionKey}_${value}`]) {
                                                     for (k = 0, numValues = values[value].length; k < numValues; ++k) {
                                                         valueKey = values[value][k];
                                                         mergedDataValue[valueKey] = newData[j][valueKey];
@@ -33379,9 +33650,16 @@ Parsedown = (() => {
                                 }
                             }
                             if (!dm.autoBackup) {
-                                size = (new TextEncoder(`utf-8`).encode(getValue(optionKey, ``))).length;
-                                totalGM += size;
-                                dm.switches[optionKey].size.textContent = convertBytes(size);
+                                size = (new TextEncoder(`utf-8`).encode(`{"${optionKey}":[]}`)).length;
+                                sizes.main += size;
+                                sizes.total += size;
+                                for (value in values) {
+                                    if (dm.switches[`${optionKey}_${value}`]) {
+                                        dm.switches[`${optionKey}_${value}`].size.textContent = convertBytes(sizes[value]);
+                                    }
+                                }
+                                dm.switches[optionKey].size.textContent = convertBytes(sizes.total);
+                                totalSize += sizes.total;
                             }
                             break;
                         case `rerolls`:
@@ -33409,8 +33687,8 @@ Parsedown = (() => {
                                 }
                             }
                             if (!dm.autoBackup) {
-                                size = (new TextEncoder(`utf-8`).encode(getValue(optionKey, ``))).length;
-                                totalGM += size;
+                                size = (new TextEncoder(`utf-8`).encode(`{"${optionKey}":${getValue(optionKey, `[]`)}}`)).length;
+                                totalSize += size;
                                 dm.switches[optionKey].size.textContent = convertBytes(size);
                             }
                             break;
@@ -33464,8 +33742,8 @@ Parsedown = (() => {
                                 }
                             }
                             if (!dm.autoBackup) {
-                                size = (new TextEncoder(`utf-8`).encode(getValue(optionKey, ``))).length;
-                                totalGM += size;
+                                size = (new TextEncoder(`utf-8`).encode(`{"${optionKey}":${getValue(optionKey, `[]`)}}`)).length;
+                                totalSize += size;
                                 dm.switches[optionKey].size.textContent = convertBytes(size);
                             }
                             break;
@@ -33485,40 +33763,94 @@ Parsedown = (() => {
                                 users: {}
                             };
                             mergedData = JSON.parse(getValue(`users`, `{"steamIds": {}, "users": {}}`));
+                            sizes = {
+                                giveaways: 0,
+                                namwc: 0,
+                                notes: 0,
+                                nrf: 0,
+                                main: 0,
+                                tags: 0,
+                                total: 0,
+                                uf: 0,
+                                wbc: 0
+                            };
+                            mainFound = false;
+                            mainUsernameFound = false;
                             for (mergedDataKey in mergedData.users) {
                                 mergedDataValue = mergedData.users[mergedDataKey];
                                 newData = {};
-                                let toDelete = 0;
+                                toDelete = 0;
+                                foundSub = 0;
+                                deletedSub = 0;
+                                found = null;
+                                toExport = false;
                                 for (value in values) {
-                                    if (esgst.settings[`${dm.type}_users_${value}`] || value === `main`) {
+                                    if (esgst.settings[`${dm.type}_users_${value}`]) {
                                         toDelete += 1;
-                                        for (j = 0, numValues = values[value].length; j < numValues; ++j) {
-                                            valueKey = values[value][j];
-                                            if (typeof mergedDataValue[valueKey] !== `undefined`) {
+                                    }
+                                    for (j = 0, numValues = values[value].length; j < numValues; ++j) {
+                                        valueKey = values[value][j];
+                                        if (typeof mergedDataValue[valueKey] !== `undefined`) {
+                                            if (value !== `main`) {
+                                                foundSub += 1;
+                                            }
+                                            if (esgst.settings[`${dm.type}_users_${value}`] || value === `main`) {
                                                 newData[valueKey] = mergedDataValue[valueKey];
-                                                if (!space && dm.delete) {
-                                                    delete mergedDataValue[valueKey];
+                                                if (value !== `main`) {
+                                                    toExport = true;
                                                 }
+                                            }
+                                            size = (new TextEncoder(`utf-8`).encode(`"${valueKey}":${JSON.stringify(mergedDataValue[valueKey])},`)).length;
+                                            sizes[value] += size;
+                                            sizes.total += size;
+                                            found = value;
+                                            if (!space && dm.delete && esgst.settings[`${dm.type}_users_${value}`] && value !== `main`) {
+                                                deletedSub += 1;
+                                                delete mergedDataValue[valueKey];
                                             }
                                         }
                                     }
                                 }
-                                if (Object.keys(newData).length > 0) {
-                                    id = mergedDataValue.id;
-                                    username = mergedDataValue.username;
+                                if (found) {
+                                    sizes[found] -= 1;
+                                    sizes.total -= 1;
+                                }
+                                id = mergedDataValue.id;
+                                username = mergedDataValue.username;
+                                size = 0;
+                                if (id) {
+                                    size += (new TextEncoder(`utf-8`).encode(`"id":"${id}",`)).length;
+                                }
+                                if (username) {
+                                    size += (new TextEncoder(`utf-8`).encode(`"username":"${username}","${username}":"${mergedDataKey}",`)).length;
+                                }
+                                if (toExport || esgst.settings[`${dm.type}_${optionKey}_main`]) {
                                     if (id) {
                                         newData.id = id;
                                     }
                                     if (username) {
                                         newData.username = username;
                                         data.users.steamIds[username] = mergedDataKey;
+                                        mainUsernameFound = true;
                                     }
                                     data.users.users[mergedDataKey] = newData;
+                                    mainFound = true;
                                 }
-                                if (!space && dm.delete && toDelete === 8) {
+                                size += (new TextEncoder(`utf-8`).encode(`"${mergedDataKey}":{},`)).length;
+                                sizes.main += size;
+                                sizes.total += size;
+                                if (!space && dm.delete && ((esgst.settings[`${dm.type}_${optionKey}_main`] && foundSub === deletedSub) || toDelete === Object.keys(values).length)) {
                                     delete mergedData.steamIds[mergedDataValue.username];
                                     delete mergedData.users[mergedDataKey];
                                 }
+                            }
+                            if (mainFound) {
+                                sizes.main -= 1;
+                                sizes.total -= 1;
+                            }
+                            if (mainUsernameFound) {
+                                sizes.main -= 1;
+                                sizes.total -= 1;
                             }
                             if (!space) {
                                 if (dm.import) {
@@ -33535,7 +33867,7 @@ Parsedown = (() => {
                                             }
                                             mergedDataValue = mergedData.users[newDataKey];
                                             for (value in values) {
-                                                if (esgst.settings[`${dm.type}_users_${value}`] || value === `main`) {
+                                                if (esgst.settings[`${dm.type}_users_${value}`]) {
                                                     for (j = 0, numValues = values[value].length; j < numValues; ++j) {
                                                         valueKey = values[value][j];
                                                         if (newDataValue[valueKey]) {
@@ -33602,9 +33934,16 @@ Parsedown = (() => {
                                 }
                             }
                             if (!dm.autoBackup) {
-                                size = (new TextEncoder(`utf-8`).encode(getValue(optionKey, ``))).length;
-                                totalGM += size;
-                                dm.switches[optionKey].size.textContent = convertBytes(size);
+                                size = (new TextEncoder(`utf-8`).encode(`{"${optionKey}":{"steamIds":{},"users":{}}}`)).length;
+                                sizes.main += size;
+                                sizes.total += size;
+                                for (value in values) {
+                                    if (dm.switches[`${optionKey}_${value}`]) {
+                                        dm.switches[`${optionKey}_${value}`].size.textContent = convertBytes(sizes[value]);
+                                    }
+                                }
+                                dm.switches[optionKey].size.textContent = convertBytes(sizes.total);
+                                totalSize += sizes.total;
                             }
                             break;
                         case `winners`:
@@ -33636,8 +33975,8 @@ Parsedown = (() => {
                                 }
                             }
                             if (!dm.autoBackup) {
-                                size = (new TextEncoder(`utf-8`).encode(getValue(optionKey, ``))).length;
-                                totalGM += size;
+                                size = (new TextEncoder(`utf-8`).encode(`{"${optionKey}":${getValue(optionKey, `{}`)}}`)).length;
+                                totalSize += size;
                                 dm.switches[optionKey].size.textContent = convertBytes(size);
                             }
                             break;
@@ -33646,6 +33985,9 @@ Parsedown = (() => {
                     }
                 }
             }
+        }
+        if (!dm.autoBackup) {
+            dm.computerSpace.lastElementChild.textContent = convertBytes(totalSize);
         }
         if (!space) {
             if (dm.type === `export` || esgst.settings.exportBackup) {
@@ -33680,9 +34022,6 @@ Parsedown = (() => {
                 createFadeMessage(dm.message, `Data ${dm.type}ed with success!`);
                 callback();
             }
-        }
-        if (!dm.autoBackup) {
-            dm.computerSpace.lastElementChild.textContent = convertBytes(totalGM);
         }
     }
 
@@ -34084,7 +34423,7 @@ Parsedown = (() => {
                 cursor: pointer;
             }
 
-            :not(.page__heading):not(.page_heading) > .esgst-stbb-button, :not(.footer__outer-wrap):not(footer) >>> .esgst-stbb-button, :not(.page__heading):not(.page_heading) > .esgst-sttb-button, :not(.footer__outer-wrap):not(footer) >>> .esgst-sttb-button {
+            .esgst-stbb-button-fixed, .esgst-sttb-button-fixed {
                 bottom: ${esgst.ff ? 49 : 5}px;
                 background-color: #fff;
                 border: 1px solid #d2d6e0;
@@ -34900,6 +35239,10 @@ Parsedown = (() => {
                 border: 5px solid #fff;
                 border-radius: 5px;
                 max-width: 90%;
+            }
+
+            .esgst-aic-carousel img {
+                display: block;
             }
 
             .esgst-aic-panel {
@@ -36179,6 +36522,32 @@ Parsedown = (() => {
     function loadChangelog(version) {
         var changelog, current, html, i, index, n, popup;
         changelog = [
+            {
+                date: `December 3, 2017`,
+                version: `7.10.0`,
+                changelog: `
+                    <ul>
+                        <li><a href="https://github.com/revilheart/ESGST/issues/270">#270</a> Fix a style issue in Attached Images Carousel that does not scale images correctly</li>
+                        <li><a href="https://github.com/revilheart/ESGST/issues/271">#271</a> Fix a bug that duplicates the button when bookmarking/unbookmarking/bookmarking a giveaway and entering it</li>
+                        <li><a href="https://github.com/revilheart/ESGST/issues/272">#272</a> Add missing buttons to the option to hide buttons in the main page heading</li>
+                        <li><a href="https://github.com/revilheart/ESGST/issues/273">#273</a> Fix a bug that does not detect the status of bookmarked giveaways correctly</li>
+                        <li><a href="https://github.com/revilheart/ESGST/issues/274">#274</a> Add option to Endless Scrolling to continuously load pages</li>
+                        <li><a href="https://github.com/revilheart/ESGST/issues/275">#275</a> Add points/total info to Giveaway Bookmarks</li>
+                        <li><a href="https://github.com/revilheart/ESGST/issues/276">#276</a> Split option to mark pages as visited when visiting them in Giveaways/Discussions/Tickets/Trades Tracker</li>
+                        <li><a href="https://github.com/revilheart/ESGST/issues/277">#277</a> Fix a bug that does not remember settings correctly when they are renamed</li>
+                        <li><a href="https://github.com/revilheart/ESGST/issues/278">#278</a> Show sizes of sub-options in the import/export/delete menus</li>
+                        <li><a href="https://github.com/revilheart/ESGST/issues/279">#279</a> Fix a bug that happens when adding game tags</li>
+                        <li><a href="https://github.com/revilheart/ESGST/issues/282">#282</a> Fix an Endless Scrolling bug</li>
+                        <li><a href="https://github.com/revilheart/ESGST/issues/286">#286</a> Fix a bug in SteamTrades that prevents some features from loading</li>
+                        <li><a href="https://github.com/revilheart/ESGST/issues/283">#283</a> Add a feature: Time To Point Cap Calculator</li>
+                        <li><a href="https://github.com/revilheart/ESGST/issues/288">#288</a> Fix a bug that does not show scroll to bottom/top buttons when bottom right corner option is selected</li>
+                        <li><a href="https://github.com/revilheart/ESGST/issues/289">#289</a> Fix a bug that does not unhighlight entered games</li>
+                        <li><a href="https://github.com/revilheart/ESGST/issues/290">#290</a> Fix a bug that happens when exporting to custom format in Giveaways Manager</li>
+                        <li><a href="https://github.com/revilheart/ESGST/issues/291">#291</a> Allow importing/exporting/deleting main data</li>
+                        <li><a href="https://github.com/revilheart/ESGST/issues/293">#293</a> Fix a bug that happens when checking playtime stats in User Giveaways Data</li>
+                    </ul>
+                `
+            },
             {
                 date: `November 26, 2017`,
                 version: `7.9.1`,
