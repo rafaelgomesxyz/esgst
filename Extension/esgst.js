@@ -24918,7 +24918,7 @@ Parsedown = (() => {
                                     UGD.total = Object.keys(Giveaways.apps).length + Object.keys(Giveaways.subs).length;
                                     for (id in Giveaways.apps) {
                                         for (i = games.length - 1; i >= 0 && games[i].appid !== parseInt(id); --i);
-                                        let giveaway = esgst.giveaways[Giveaways.apps[id][0]];
+                                        let giveaway = typeof Giveaways.apps[id][0] === `string` ? esgst.giveaways[Giveaways.apps[id][0]] : Giveaways.apps[id][0];
                                         if (i >= 0) {
                                             let game = games[i];
                                             let time2Weeks = game.playtime_2weeks;
@@ -24988,7 +24988,7 @@ Parsedown = (() => {
                                         }
                                     }
                                     for (id in Giveaways.subs) {
-                                        let giveaway = esgst.giveaways[Giveaways.subs[id][0]];
+                                        let giveaway = typeof Giveaways.subs[id][0] === `string` ? esgst.giveaways[Giveaways.subs[id][0]] : Giveaways.subs[id][0];
                                         UGD.HTML += `
                                             <div class="table__row-outer-wrap">
                                                 <div class="table__row-inner-wrap">
