@@ -12041,8 +12041,10 @@ Parsedown = (() => {
         height = panel.offsetHeight + 25;
         image.style.maxHeight = `calc(90% - ${height}px)`;
         image.style.marginTop = `${height}px`;
-        image.firstElementChild.style.maxHeight = `${image.offsetHeight - 10}px`;
-        image.firstElementChild.style.maxWidth = `${image.offsetWidth - 10}px`;
+        image.firstElementChild.onload = () => {
+            image.firstElementChild.style.maxHeight = `${image.offsetHeight - 10}px`;
+            image.firstElementChild.style.maxWidth = `${image.offsetWidth - 10}px`;
+        };
         esgst.aicPrevious = panel.firstElementChild;
         esgst.aicNext = esgst.aicPrevious.nextElementSibling;
         if (i > 0) {
