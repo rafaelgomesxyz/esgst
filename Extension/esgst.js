@@ -32329,7 +32329,7 @@ Parsedown = (() => {
                 <i class="fa fa-circle-o-notch fa-spin"></i>
             `;
             request(null, null, `GET`, false, `${esgst.searchUrl}${pageIndex}`, response => {
-                getNextPage(true, false, response);
+                getNextPage(true, false, null, response);
                 if (esgst.giveawaysPath && esgst.es_rd) {
                     if (esgst.oadd) {
                         loadOadd(true);
@@ -32361,10 +32361,10 @@ Parsedown = (() => {
             total = paginations.length;
             page = reverseScrolling ? pageBase - 1 : pageBase + 1;
             request(null, null, `GET`, false, `${esgst.searchUrl}${page}`, response => {
-                getNextPage(true, page, response);
+                getNextPage(true, page, null, response);
                 for (i = 1; i < total; ++i) {
                     page = reverseScrolling ? pageBase - (i + 1) : pageBase + (i + 1);
-                    request(null, null, `GET`, false, `${esgst.searchUrl}${page}`, getNextPage.bind(null, true, page));
+                    request(null, null, `GET`, false, `${esgst.searchUrl}${page}`, getNextPage.bind(null, true, page, null));
                 }
                 setTimeout(checkRefreshComplete, 250, response);
             });
