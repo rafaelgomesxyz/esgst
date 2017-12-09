@@ -20040,7 +20040,7 @@ Parsedown = (() => {
     }
 
     function loadGe() {
-        if (((esgst.giveawayCommentsPath && !document.getElementsByClassName(`table--summary`)[0]) || esgst.discussionPath) && document.querySelector(`[href*="/giveaway/"]`)) {
+        if (((esgst.giveawayCommentsPath && !document.getElementsByClassName(`table--summary`)[0]) || esgst.discussionPath) && (document.querySelector(`[href*="/giveaway/"]`) || document.querySelector(`[href*="sgtools.info/giveaways/"]`))) {
             let key, position;
             if (esgst.leftButtonIds.indexOf(`ge`) > -1) {
                 key = `leftButtons`;
