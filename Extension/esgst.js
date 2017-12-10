@@ -30879,7 +30879,7 @@ Parsedown = (() => {
         if (esgst.codb) {
             addCodbButtons(discussions);
         }
-        if ((esgst.df && esgst.df_s) || esgst.dh) {
+        if ((esgst.df && esgst.df_s) || esgst.dh || esgst.pm) {
             for (i = 0, n = discussions.length; i < n; ++i) {
                 discussion = discussions[i];
                 savedDiscussion = savedDiscussions[discussion.code];
