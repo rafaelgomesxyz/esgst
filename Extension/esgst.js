@@ -35086,6 +35086,12 @@ Parsedown = (() => {
                 position: absolute;
             }
 
+            .page__heading .esgst-pm-button {
+                display: inline-block;
+                margin: 0 5px 0 0;
+                position: static;
+            }
+
             .comment__actions .esgst-ct-comment-button {
                 margin: 0 0 0 10px;
             }
