@@ -8830,7 +8830,7 @@ Parsedown = (() => {
         if (esgst.cewgd && (esgst.createdPath || esgst.enteredPath || esgst.wonPath)) {
             esgst.giveawayFeatures.push(getCewgdDetails);
             esgst.endlessFeatures.push(addCewgdHeading);
-            addCewgdHeading(document);
+            addCewgdHeading(document, true);
         }
 
         if (esgst.gp) {
@@ -10886,6 +10886,14 @@ Parsedown = (() => {
                 Key: `sent`
             };
             UGD.giveaways = {};
+            if (!giveaways.version) {
+                giveaways.sent = {
+                    apps: {},
+                    subs: {}
+                };
+                giveaways.sentTimestamp = 0;
+                giveaways.version = `7.11.1`;
+            }
             getUGDGiveaways(UGD, giveaways, 1, `/user/${esgst.username}/search?page=`, esgst.username, function (giveaways) {
                 user.values = {
                     giveaways: giveaways,
@@ -11717,10 +11725,22 @@ Parsedown = (() => {
                         giveaway = esgst.giveaways[apps[id][i]];
                         if (giveaway) {
                             value = giveaway.points;
-                            if (currentTime < giveaway.endTime) {
+                            if (giveaway.entries >= 5 || (!giveaway.inviteOnly && !giveaway.group && !giveaway.whitelist)) {
+                                if (Array.isArray(giveaway.winners)) {
+                                    if (giveaway.winners.length > 0) {
+                                        giveaway.winners.forEach(winner => {
+                                            if (winner.received) {
+                                                sent += 1;
+                                            }
+                                        });
+                                    } else if (currentTime < giveaway.endTime) {
+                                        active += giveaway.copies;
+                                    }
+                                } else if (giveaway.winners > 0) {
+                                    sent += Math.min(giveaway.entries, giveaway.winners);
+                                }
+                            } else if (currentTime < giveaway.endTime) {
                                 active += giveaway.copies;
-                            } else if (((giveaways.entries < 5) && !giveaway.inviteOnly && !giveaway.group && !giveaway.whitelist) || giveaway.entries >= 5) {
-                                sent += giveaway.entries >= giveaway.copies ? giveaway.copies : giveaway.entries;
                             }
                         }
                     }
@@ -11754,10 +11774,22 @@ Parsedown = (() => {
                         giveaway = esgst.giveaways[subs[id][i]];
                         if (giveaway) {
                             value = giveaway.points;
-                            if (currentTime < giveaway.endTime) {
+                            if (giveaway.entries >= 5 || (!giveaway.inviteOnly && !giveaway.group && !giveaway.whitelist)) {
+                                if (Array.isArray(giveaway.winners)) {
+                                    if (giveaway.winners.length > 0) {
+                                        giveaway.winners.forEach(winner => {
+                                            if (winner.received) {
+                                                sent += 1;
+                                            }
+                                        });
+                                    } else if (currentTime < giveaway.endTime) {
+                                        active += giveaway.copies;
+                                    }
+                                } else if (giveaway.winners > 0) {
+                                    sent += Math.min(giveaway.entries, giveaway.winners);
+                                }
+                            } else if (currentTime < giveaway.endTime) {
                                 active += giveaway.copies;
-                            } else if (((giveaways.entries < 5) && !giveaway.inviteOnly && !giveaway.group && !giveaway.whitelist) || giveaway.entries >= 5) {
-                                sent += giveaway.entries >= giveaway.copies ? giveaway.copies : giveaway.entries;
                             }
                         }
                     }
@@ -12456,6 +12488,7 @@ Parsedown = (() => {
                         case `Summary`:
                         case `Type`:
                         case `User`:
+                        case `Winner(s)`:
                             element.value = value;
                             break;
                         default:
@@ -18172,11 +18205,23 @@ Parsedown = (() => {
                                 var giveaways = savedUser.giveaways.sent[type][id];
                                 for (i = 0, n = giveaways.length; i < n; ++i) {
                                     var giveaway = esgst.giveaways[giveaways[i]];
-                                    if (giveaway && (currentDate < giveaway.endTime || (((giveaways.entries < 5) && !giveaway.inviteOnly && !giveaway.group && !giveaway.whitelist) || (giveaway.entries >= 5)))) {
-                                        if (giveaway.entries >= giveaway.copies || currentDate < giveaway.endTime) {
+                                    if (giveaway) {
+                                        if (giveaway.entries >= 5 || (!giveaway.inviteOnly && !giveaway.group && !giveaway.whitelist)) {
+                                            if (Array.isArray(giveaway.winners)) {
+                                                if (giveaway.winners.length > 0) {
+                                                    giveaway.winners.forEach(winner => {
+                                                        if (winner.received) {
+                                                            sent += 1;
+                                                        }
+                                                    });
+                                                } else if (currentDate < giveaway.endTime) {
+                                                    sent += giveaway.copies;
+                                                }
+                                            } else if (giveaway.winners > 0) {
+                                                sent += Math.min(giveaway.entries, giveaway.winners);
+                                            }
+                                        } else if (currentDate < giveaway.endTime) {
                                             sent += giveaway.copies;
-                                        } else {
-                                            sent += giveaway.entries;
                                         }
                                     }
                                 }
@@ -19616,14 +19661,19 @@ Parsedown = (() => {
 
     /* [CEWGD] Created/Entered/Won Giveaway Details */
 
-    function addCewgdHeading(context) {
+    function addCewgdHeading(context, main) {
         var table;
-        table = context.getElementsByClassName(`table__heading`)[0];
-        if (table && !table.getElementsByClassName(`esgst-cewgd-heading`)[0]) {
-            ((esgst.gwc || esgst.gwr) && esgst.enteredPath ? table.firstElementChild.nextElementSibling : table.firstElementChild).insertAdjacentHTML(`afterEnd`, `
-                <div class="table__column--width-small text-center esgst-cewgd-heading">Type</div>
-                <div class="table__column--width-small text-center esgst-cewgd-heading">Level</div>
-            `);
+        if (main) {
+            table = context.getElementsByClassName(`table__heading`)[0];
+            if (table && !table.getElementsByClassName(`esgst-cewgd-heading`)[0]) {
+                ((esgst.gwc || esgst.gwr) && esgst.enteredPath ? table.firstElementChild.nextElementSibling : table.firstElementChild).insertAdjacentHTML(`afterEnd`, `
+                    <div class="table__column--width-small text-center esgst-cewgd-heading">Type</div>
+                    <div class="table__column--width-small text-center esgst-cewgd-heading">Level</div>
+                    ${esgst.createdPath ? `
+                        <div class="table__column--width-small text-center esgst-cewgd-heading">Winner(s)</div>
+                    ` : ``}
+                `);
+            }
         }
     }
 
@@ -19666,34 +19716,76 @@ Parsedown = (() => {
     }
 
     function getCewgdDetail(cewgd, giveaways, i) {
-        var code, currentCode, currentGiveaway, currentGiveaways, giveaway, key, responseHtml, savedGiveaways;
+        let code, giveaway;
         giveaway = giveaways[i];
         code = giveaway.code;
-        if (cewgd.savedGiveaways[code] && cewgd.savedGiveaways[code].gameSteamId && (!esgst.wonPath || cewgd.savedGiveaways[code].creator !== esgst.username)) {
+        if (cewgd.savedGiveaways[code] && cewgd.savedGiveaways[code].gameSteamId && (!esgst.createdPath || Array.isArray(cewgd.savedGiveaways[code].winners)) && (!esgst.wonPath || cewgd.savedGiveaways[code].creator !== esgst.username)) {
             addCewgdDetails(giveaway, cewgd.savedGiveaways[code]);
-            ++cewgd.count;
+            cewgd.count += 1;
+        } else if (esgst.createdPath) {
+            getCewgdWinners(cewgd, null, giveaway, 1, `${giveaway.url}/winners/search?page=`);
         } else {
             request(null, null, `GET`, false, giveaway.url, function (response) {
+                let currentGiveaway, currentGiveaways, responseHtml;
                 responseHtml = DOM.parse(response.responseText);
                 currentGiveaways = getGiveaways(responseHtml, false, response.finalUrl);
-                if (currentGiveaways.length) {
+                if (currentGiveaways.length > 0) {
                     currentGiveaway = currentGiveaways[0];
                     cewgd.giveaways.push(currentGiveaway);
                     addCewgdDetails(giveaway, currentGiveaway);
-                    ++cewgd.count;
+                    cewgd.count += 1;
                 } else {
                     (giveaway.panel || (esgst.gm_enable && esgst.createdPath ? giveaway.innerWrap.firstElementChild.nextElementSibling.nextElementSibling : giveaway.innerWrap.firstElementChild.nextElementSibling)).insertAdjacentHTML(`afterEnd`, `
                         <div class="table__column--width-small text-center">-</div>
                         <div class="table__column--width-small text-center">-</div>
                     `);
-                    ++cewgd.count;
+                    cewgd.count += 1;
                 }
             });
         }
     }
 
+    function getCewgdWinners(cewgd, currentGiveaway, giveaway, nextPage, url) {
+        request(null, null, `GET`, false, `${url}${nextPage}`, response => {
+            let responseHtml = DOM.parse(response.responseText);
+            if (!currentGiveaway) {
+                let currentGiveaways = getGiveaways(responseHtml, false, response.finalUrl);
+                if (currentGiveaways.length > 0) {
+                    currentGiveaway = currentGiveaways[0];
+                    currentGiveaway.winners = [];
+                }
+            }
+            if (currentGiveaway) {
+                let element, elements, i, n, pagination;
+                elements = responseHtml.getElementsByClassName(`table__row-inner-wrap`);
+                for (i = 0, n = elements.length; i < n; ++i) {
+                    element = elements[i];
+                    currentGiveaway.winners.push({
+                        received: element.lastElementChild.textContent.trim() === `Received` ? 1 : 0,
+                        username: element.firstElementChild.nextElementSibling.firstElementChild.textContent.trim()
+                    });
+                }
+                pagination = responseHtml.getElementsByClassName(`pagination__navigation`)[0];
+                if (pagination && !pagination.lastElementChild.classList.contains(`is-selected`)) {
+                    setTimeout(getCewgdWinners, 0, cewgd, currentGiveaway, giveaway, nextPage + 1, url);
+                } else {
+                    cewgd.giveaways.push(currentGiveaway);
+                    addCewgdDetails(giveaway, currentGiveaway);
+                    cewgd.count += 1;
+                }
+            } else {
+                (giveaway.panel || (esgst.gm_enable && esgst.createdPath ? giveaway.innerWrap.firstElementChild.nextElementSibling.nextElementSibling : giveaway.innerWrap.firstElementChild.nextElementSibling)).insertAdjacentHTML(`afterEnd`, `
+                    <div class="table__column--width-small text-center">-</div>
+                    <div class="table__column--width-small text-center">-</div>
+                    <div class="table__column--width-small text-center">-</div>
+                `);
+                cewgd.count += 1;
+            }
+        });
+    }
+
     function addCewgdDetails(giveaway, details) {
-        var type;
+        let type, typeColumn;
         giveaway.points = details.points;
         giveaway.level = details.level;
         giveaway.headingName.insertAdjacentHTML(`beforeEnd`, `
@@ -19731,11 +19823,71 @@ Parsedown = (() => {
         } else {
             type = `Public`;
         }
-        (giveaway.panel || giveaway.innerWrap.firstElementChild.nextElementSibling).insertAdjacentHTML(`afterEnd`, `
+        typeColumn = insertHtml(giveaway.panel || giveaway.innerWrap.firstElementChild.nextElementSibling, `afterEnd`, `
             <div class="table__column--width-small text-center">${type}</div>
             <div class="table__column--width-small text-center">${details.level}</div>
+            ${esgst.createdPath ? `
+                <div class="table__column--width-small text-center"></div>
+            ` : ``}
         `);
-        if (esgst.enteredPath || esgst.wonPath) {
+        if (esgst.createdPath) {
+            let n, winner, winnersColumn;
+            winnersColumn = typeColumn.nextElementSibling.nextElementSibling;
+            n = details.winners.length;
+            if (n > 0) {
+                if (n > 1) {
+                    winner = details.winners[0].username;
+                    winnersColumn.innerHTML = `<a class="table__column__secondary-link" href="/user/${winner}">${winner}</a> <span class="esgst-clickable table__column__secondary-link">(+${n - 1} more)</span>`;
+                    winnersColumn.lastElementChild.addEventListener(`click`, () => {
+                        let html, popup;
+                        popup = new Popup(`fa-users`, `Winners`);
+                        html = `
+                            <div class="table__heading">
+                                <div class="table__column--width-small">Winner</div>
+                                <div class="table__column--width-small">Received</div>
+                            </div>
+                            <div class="table__rows">
+                        `;
+                        details.winners.forEach(winner => {
+                            html += `
+                                <div class="table__row-outer-wrap">
+                                    <div class="table__row-inner-wrap">
+                                        <div class="table__column--width-small">
+                                            <a class="table__column__secondary-link" href="/user/${winner.username}">${winner.username}</a>
+                                        </div>
+                                        <div class="table__column--width-small">
+                                        ${winner.received ? `
+                                            <i class="fa fa-check-circle esgst-green"></i>
+                                        ` : `
+                                            <i class="fa fa-times-circle esgst-red"></i>
+                                        `}
+                                        </div>
+                                    </div>
+                                </div>
+                            `;
+                        });
+                        html += `
+                            </div>
+                        `;
+                        popup.scrollable.innerHTML = html;
+                        popup.open();
+                        loadEndlessFeatures(popup.scrollable);
+                    });
+                    let received = 0;
+                    details.winners.forEach(winner => {
+                        if (winner.received) {
+                            received += 1;
+                        }
+                    });
+                    giveaway.innerWrap.lastElementChild.insertAdjacentText(`beforeEnd`, ` (${received}/${n})`);
+                } else {
+                    winner = details.winners[0].username;
+                    winnersColumn.innerHTML = `<a class="table__column__secondary-link" href="/user/${winner}">${winner}</a>`;
+                }
+            } else {
+                winnersColumn.textContent = `-`;
+            }
+        } else if (esgst.enteredPath || esgst.wonPath) {
             giveaway.endTimeColumn.insertAdjacentHTML(`beforeEnd`, `
                 by <a class="table__column__secondary-link" href="/user/${details.creator}">${details.creator}</a>
             `);
@@ -24829,6 +24981,14 @@ Parsedown = (() => {
                 };
                 giveaways.wonTimestamp = 0;
             }
+            if (UGD.Key === `sent` && user.username === esgst.username && !giveaways.version) {
+                giveaways.sent = {
+                    apps: {},
+                    subs: {}
+                };
+                giveaways.sentTimestamp = 0;
+                giveaways.version = `7.11.1`;
+            }
             var Match = location.pathname.match(new RegExp(`^\/user\/${user.username}${UGD.Key === `won` ? `/giveaways/won` : ``}`));
             var CurrentPage = location.href.match(/page=(\d+)/);
             CurrentPage = Match ? (CurrentPage ? parseInt(CurrentPage[1]) : 1) : 0;
@@ -25211,9 +25371,10 @@ Parsedown = (() => {
                     `;
                 }
                 Giveaways = Context.getElementsByClassName(`giveaway__row-outer-wrap`);
+                let toGiveaways = [];
                 for (I = 0, NumGiveaways = Giveaways.length; I < NumGiveaways; ++I) {
                     Giveaway = getGiveawayInfo(Giveaways[I], document, null, null, username, UGD.Key).data;
-                    if (Giveaway.endTime < (new Date().getTime())) {
+                    if (Giveaway.endTime < new Date().getTime()) {
                         if (!UGD.Timestamp) {
                             UGD.Timestamp = Giveaway.endTime;
                         }
@@ -25228,6 +25389,7 @@ Parsedown = (() => {
                                 } else {
                                     giveaways[UGD.Key][Giveaway.gameType][Giveaway.gameSteamId].push(Giveaway);
                                 }
+                                toGiveaways.push(Giveaway);
                             }
                         } else {
                             Found = true;
@@ -25235,12 +25397,24 @@ Parsedown = (() => {
                         }
                     }
                 }
-                Pagination = Context.getElementsByClassName(`pagination__navigation`)[0];
-                if (!Found && Pagination && !Pagination.lastElementChild.classList.contains(`is-selected`)) {
-                    setTimeout(getUGDGiveaways, 0, UGD, giveaways, NextPage, URL, username, Callback);
+                if (UGD.Key === `sent` && username === esgst.username) {
+                    getUgdGiveaway(toGiveaways, 0, toGiveaways.length, () => {
+                        Pagination = Context.getElementsByClassName(`pagination__navigation`)[0];
+                        if (!Found && Pagination && !Pagination.lastElementChild.classList.contains(`is-selected`)) {
+                            setTimeout(getUGDGiveaways, 0, UGD, giveaways, NextPage, URL, username, Callback);
+                        } else {
+                            giveaways[`${UGD.Key}Timestamp`] = UGD.Timestamp;
+                            lockAndSaveGiveaways(UGD.giveaways, Callback.bind(null, giveaways));
+                        }
+                    });
                 } else {
-                    giveaways[`${UGD.Key}Timestamp`] = UGD.Timestamp;
-                    lockAndSaveGiveaways(UGD.giveaways, Callback.bind(null, giveaways));
+                    Pagination = Context.getElementsByClassName(`pagination__navigation`)[0];
+                    if (!Found && Pagination && !Pagination.lastElementChild.classList.contains(`is-selected`)) {
+                        setTimeout(getUGDGiveaways, 0, UGD, giveaways, NextPage, URL, username, Callback);
+                    } else {
+                        giveaways[`${UGD.Key}Timestamp`] = UGD.Timestamp;
+                        lockAndSaveGiveaways(UGD.giveaways, Callback.bind(null, giveaways));
+                    }
                 }
             } else if (!UGD.Canceled) {
                 request(null, null, `GET`, true, URL + NextPage, function (Response) {
@@ -25248,6 +25422,44 @@ Parsedown = (() => {
                 });
             }
         }
+    }
+
+    function getUgdGiveaway(giveaways, i, n, callback) {
+        if (i < n) {
+            let giveaway = giveaways[i];
+            if (giveaway.code) {
+                giveaway.winners = [];
+                getUgdWinners(giveaway, 1, `/giveaway/${giveaway.code}/_/winners/search?page=`, setTimeout.bind(null, getUgdGiveaway, 0, giveaways, i + 1, n, callback));
+            } else {
+                setTimeout(getUgdGiveaway, 0, giveaways, i + 1, n, callback);
+            }
+        } else {
+            callback();
+        }
+    }
+
+    function getUgdWinners(giveaway, nextPage, url, callback) {
+        request(null, null, `GET`, false, `${url}${nextPage}`, response => {
+            let element, elements, i, n, pagination, responseHtml;
+            responseHtml = DOM.parse(response.responseText);
+            elements = responseHtml.getElementsByClassName(`table__row-inner-wrap`);
+            for (i = 0, n = elements.length; i < n; ++i) {
+                element = elements[i];
+                giveaway.winners.push({
+                    received: element.lastElementChild.textContent.trim() === `Received` ? 1 : 0,
+                    username: element.firstElementChild.nextElementSibling.firstElementChild.textContent.trim()
+                });
+            }
+            pagination = responseHtml.getElementsByClassName(`pagination__navigation`)[0];
+            if (pagination && !pagination.lastElementChild.classList.contains(`is-selected`)) {
+                if (nextPage === 1) {
+                    url = `${response.finalUrl}/search?page=`;
+                }
+                setTimeout(getUgdWinners, 0, giveaway, nextPage + 1, url, callback);
+            } else {
+                callback();
+            }
+        });
     }
 
     /* [NAMWC] Not Activated/Multiple Wins Checker */
@@ -28208,7 +28420,7 @@ Parsedown = (() => {
     }
 
     function addGcCategory(cache, games, id, savedGame, type) {
-        var category, colored, count, cv, elements, encodedName, genre, genreList, genres, giveaway, giveaways, html, i, icons, j, k, n, panel, name, ratingType, sent, singularType, user, value;
+        var active, category, colored, count, cv, elements, encodedName, genre, genreList, genres, giveaway, giveaways, html, i, icons, j, k, n, panel, name, ratingType, sent, singularType, user, value;
         singularType = type.slice(0, -1);
         name = cache ? cache.name : games[0].name;
         encodedName = encodeURIComponent(name.replace(/\.\.\.$/, ``));
@@ -28283,19 +28495,33 @@ Parsedown = (() => {
                                 giveaways = user.giveaways;
                                 if (giveaways) {
                                     giveaways = giveaways.sent[type][id];
+                                    active = 0;
                                     count = 0;
+                                    sent = 0;
                                     if (giveaways) {
-                                        sent = 0;
                                         var currentDate = Date.now();
                                         for (j = 0, numGiveaways = giveaways.length; j < numGiveaways; ++j) {
                                             giveaway = esgst.giveaways[giveaways[j]];
-                                            if (giveaway && (currentDate < giveaway.endTime || (((giveaways.entries < 5) && !giveaway.inviteOnly && !giveaway.group && !giveaway.whitelist) || (giveaway.entries >= 5)))) {
-                                                sent += giveaway.entries >= giveaway.copies || currentDate < giveaway.endTime ? giveaway.copies : giveaway.entries;
-                                            }
-                                            if (giveaway.winners > 0) {
-                                                count += giveaway.winners;
-                                            } else if (currentDate < giveaway.endTime) {
-                                                count += giveaway.copies;
+                                            if (giveaway) {
+                                                if (Array.isArray(giveaway.winners)) {
+                                                    if (giveaway.winners.length > 0) {
+                                                        giveaway.winners.forEach(winner => {
+                                                            count += 1;
+                                                            if ((giveaway.entries >= 5 || (!giveaway.inviteOnly && !giveaway.group && !giveaway.whitelist)) && winner.received) {
+                                                                sent += 1;
+                                                            }
+                                                        });
+                                                    } else if (currentDate < giveaway.endTime) {
+                                                        active += giveaway.copies;
+                                                    }
+                                                } else if (giveaway.winners > 0) {
+                                                    count += Math.min(giveaway.entries, giveaway.winners);
+                                                    if (giveaway.entries >= 5 || (!giveaway.inviteOnly && !giveaway.group && !giveaway.whitelist)) {
+                                                        sent += Math.min(giveaway.entries, giveaway.winners);
+                                                    }
+                                                } else if (currentDate < giveaway.endTime) {
+                                                    active += giveaway.copies;
+                                                }
                                             }
                                         }
                                         value = cache.price;
@@ -28325,7 +28551,7 @@ Parsedown = (() => {
                                         cv = Math.round(value * 100) / 100;
                                     }
                                     elements.push(`
-                                        <a class="esgst-gc esgst-gc-giveawayInfo" href="https://www.steamgifts.com/user/${esgst.username}" title="You have made ${count} giveaways for this game. You should get \$${cv} real CV if you make a new giveaway for this game."><i class="fa fa-info"></i> ${count} <i class="fa fa-dollar"></i> ${cv}</a>
+                                        <a class="esgst-gc esgst-gc-giveawayInfo" href="https://www.steamgifts.com/user/${esgst.username}" title="You have sent ${count} copies of this game (${sent} of which added to your CV)${active ? `\nYou currently have ${active} open giveaways for this game` : ``}\nYou should get \$${cv} real CV for sending a new copy of this game"><i class="fa fa-info"></i> ${count} <i class="fa fa-dollar"></i> ${cv}</a>
                                     `);
                                 }
                             }
@@ -30581,7 +30807,7 @@ Parsedown = (() => {
         games = JSON.parse(getValue(`games`));
         savedUsers = JSON.parse(getValue(`users`));
         giveaways = [];
-        if (!hr && (esgst.createdPath || esgst.enteredPath || esgst.wonPath)) {
+        if (!hr && main && (esgst.createdPath || esgst.enteredPath || esgst.wonPath)) {
             query = `.giveaway__row-outer-wrap, .featured__outer-wrap--giveaway, .table:not(.table--summary) .table__row-outer-wrap`;
         } else {
             query = `.giveaway__row-outer-wrap, .featured__outer-wrap--giveaway`;
