@@ -3,7 +3,7 @@
 // @namespace ESGST
 // @description Enhances SteamGifts and SteamTrades by adding some cool features to them.
 // @icon https://dl.dropboxusercontent.com/s/lr3t3bxrxfxylqe/esgstIcon.ico?raw=1
-// @version 7.10.0
+// @version 7.11.0
 // @author revilheart
 // @downloadURL https://github.com/revilheart/ESGST/raw/master/ESGST.user.js
 // @updateURL https://github.com/revilheart/ESGST/raw/master/ESGST.meta.js
@@ -1526,7 +1526,7 @@ Parsedown = (() => {
             storage: storage,
             sg: location.hostname.match(/www.steamgifts.com/),
             st: location.hostname.match(/www.steamtrades.com/),
-            currentVersion: `7.10.0`,
+            currentVersion: `7.11.0`,
             icon: `data:image/x-icon;base64,AAABAAEAEBAAAAEAIABoBAAAFgAAACgAAAAQAAAAIAAAAAEAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAqv8DCbP/Hgeq+CQIrf8iCK3/Igit/yIIrf8iB6//Iwit9x8Aqv8DAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAKr0GAa2/c0DvfzfA7f83QO3/N0Dt/zdA7f83QO+/d4Gs/3OAKP1GQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACm/xQFs/n2Bcf//wW///8FwP//BcD//wW///8Fx///BbP69gC2/xUAAAAAAAAAAAAAAAAA/1UDFptOFxSZMxkLpJktAq720QW1+ugEsfvjA7b92wO2/dsEsfvjBbX66Aau/dEoiO4tUlLWGU5k3hdVVf8DEJxKHxWqT8cVrU7uE6VN0guqny0Apv8XAJfQGwBAVywAQFcsAJfQGwCx/xcogugtS2Lk0lBl6u5Qae7ISmPeHxagSSMVr07jF7lV/xOiSu0brgATAAAAAAAAAA8AAAC/AAAAwAAAABAAAAAAYznjEkth4OxWb/3/T2jv40lf4iMXnksiEq1O3RayUv8UpEnkEo0+HQAAABkAAABBAAAA8QAAAPEAAABBAAAAGUBSvxxOYeDjU2v0/05m7d1LYuEiF55LIhKtTt0Ws1L/FahN2gU1FTAAAADAAAAA7AAAAP0AAAD9AAAA7AAAAMAVG0owUGPm2lNr9P9OZu3dS2LhIheeSyISrU7dFrNS/xWoTdoFNRswAAAAvwAAAOsAAAD9AAAA/QAAAOsAAADAFRtKMFBj6NpTa/T/Tmbt3Uti4SIXnksiEq1O3RayUv8UpEnkEo0+HQAAABgAAABAAAAA8QAAAPEAAABBAAAAGT5PuR1OYeDjU2v0/05m7d1LYuEiFqBJIxWuT+QXuVX/E6JL7QC8XhMAAAAAAAAADwAAAL8AAAC/AAAAEAAAAAAOR/8SSWLh7FZv/f9PaO/jSV/iIxCUSh8Vrk7HFqxN7ROlS9JskzMt1XULGK12EhxGLgYsRy8GK612EhzVgAsYgmxxLU1i39JNZ+vtT2fwx0pj1h8AqlUDF65GFgqZUhlsiC0txH0T0s5/EujJgBPkz4QR28+EEdvJgBPkzn8Q6Md+E9KLdHosM1LWGUZo6BZVVf8DAAAAAAAAAAAAAAAA/2YAFMl9EvbgjRb/14gV/9eIFf/XiBX/14gV/9+NFv/KgBD254YAFQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAL91FRjKgRHN1IgU3s+EEt3PhBLdz4QS3c+EEt3UiBTezYMRzcJ6FBkAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACqqgADxIARHr18FiO8eA8ivHgPIrx4DyK8eA8ivXwPI8SAER7/VQADAAAAAAAAAAAAAAAA78cAAPA3AAD4FwAABCAAADGOAAAE+AAAkBEAAJ55AACYOQAAlgEAAER4AAAXaAAATnoAAPgXAAD0JwAA69cAAA==`,
             sgIcon: `data:image/x-icon;base64,AAABAAEAEBAAAAEAIABoBAAAFgAAACgAAAAQAAAAIAAAAAEAIAAAAAAAQAQAABMLAAATCwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIUAAAD5AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAPoAAACFAAAAAAAAAAAAAAD8AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA+QAAAAAAAAAAAAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAAAAAAAAAAAAP8AAAD/AAAA/wAAABwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAcAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAcAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAHAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAAAAAAAAAAAAPwAAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD5AAAAAAAAAAAAAACFAAAA+QAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD5AAAAhQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA//8AAP//AADAAwAAwAMAAMfjAADP8wAAz/MAAM/zAADP8wAAz/MAAM/zAADH4wAAwAMAAMADAAD//wAA//8AAA==`,
             stIcon: `data:image/x-icon;base64,AAABAAEAEBAAAAEAIABoBAAAFgAAACgAAAAQAAAAIAAAAAEAIAAAAAAAQAQAABMLAAATCwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABbD6SgWw+ucFsPrkBbD6SgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAWw+uYFsPr/BbD6/wWw+ucAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAFsPrmBbD6/wWw+v8FsPrmAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABbD6SQWw+uYFsPrmBbD6SQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAFKRLShSkS+cUpEvkFKRLSgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAExi4EpMYuDnTGLg5Exi4EoAAAAAAAAAABSkS+YUpEv/FKRL/xSkS+cAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABMYuDmTGLg/0xi4P9MYuDnAAAAAAAAAAAUpEvmFKRL/xSkS/8UpEvmAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAATGLg5kxi4P9MYuD/TGLg5gAAAAAAAAAAFKRLSRSkS+YUpEvmFKRLSQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAExi4ElMYuDmTGLg5kxi4EkAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAMZ9E0rGfRPnxn0T5MZ9E0oAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADGfRPmxn0T/8Z9E//GfRPnAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAxn0T5sZ9E//GfRP/xn0T5gAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAMZ9E0nGfRPmxn0T5sZ9E0kAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA//8AAPw/AAD8PwAA/D8AAPw/AAD//wAAh+EAAIfhAACH4QAAh+EAAP//AAD8PwAA/D8AAPw/AAD8PwAA//8AAA==`,
@@ -1646,6 +1646,7 @@ Parsedown = (() => {
                     gwc_a_b_sg: false,
                     gwr_a_b_sg: false,
                     hpg_sg: false,
+                    pm_a: false,
                     radb_sg: true,
                     showChangelog_sg: true,
                     showChangelog_st: true,
@@ -1690,6 +1691,20 @@ Parsedown = (() => {
                     cfh_pasteFormatting: true,
                     cfh_img_choice: 1,
                     cfh_img_remember: false,
+                    cleanDiscussions: true,
+                    cleanEntries: true,
+                    cleanGiveaways: true,
+                    cleanSgCommentHistory: true,
+                    cleanStCommentHistory: true,
+                    cleanTickets: true,
+                    cleanTrades: true,
+                    cleanDiscussions_days: 30,
+                    cleanEntries_days: 30,
+                    cleanGiveaways_days: 30,
+                    cleanSgCommentHistory_days: 30,
+                    cleanStCommentHistory_days: 30,
+                    cleanTickets_days: 30,
+                    cleanTrades_days: 30,
                     df_enable: true,
                     df_enableCreated: false,
                     df_preset: null,
@@ -2024,13 +2039,11 @@ Parsedown = (() => {
                                 features: {
                                     aic_b: {
                                         name: `Only trigger the carousel when clicking on the button in the main page heading.`,
-                                        new: true,
                                         sg: true,
                                         st: true
                                     }
                                 },
                                 name: `Attached Images Carousel`,
-                                newBelow: true,
                                 sg: true,
                                 st: true
                             },
@@ -2094,7 +2107,6 @@ Parsedown = (() => {
                                 features: {
                                     es_rd: {
                                         name: `Refresh active discussions/deals when refreshing the main page.`,
-                                        new: true,
                                         sg: true
                                     },
                                     es_c: {
@@ -2191,7 +2203,6 @@ Parsedown = (() => {
                                     }
                                 },
                                 name: `Endless Scrolling`,
-                                newBelow: true,
                                 sg: true,
                                 st: true
                             },
@@ -2262,27 +2273,22 @@ Parsedown = (() => {
                                     },
                                     gdttt_vg: {
                                         name: `Mark giveaways as visited when visiting them.`,
-                                        new: true,
                                         sg: true
                                     },
                                     gdttt_vd: {
                                         name: `Mark discussions as visited when visiting them.`,
-                                        new: true,
                                         sg: true
                                     },
                                     gdttt_vt: {
                                         name: `Mark tickets as visited when visiting them.`,
-                                        new: true,
                                         sg: true
                                     },
                                     gdttt_vts: {
                                         name: `Mark trades as visited when visiting them.`,
-                                        new: true,
                                         st: true
                                     }
                                 },
                                 name: `Giveaways/Discussions/Tickets/Trades Tracker`,
-                                newBelow: true,
                                 sg: true,
                                 st: true
                             },
@@ -2360,7 +2366,6 @@ Parsedown = (() => {
                                     },
                                     hr_fp: {
                                         name: `Show browser notification if there are 400P or more.`,
-                                        new: true,
                                         sg: true
                                     },
                                     hr_p: {
@@ -2382,7 +2387,6 @@ Parsedown = (() => {
                                 },
                                 input: true,
                                 name: `Header Refresher`,
-                                newBelow: true,
                                 sg: true,
                                 st: true
                             },
@@ -2447,7 +2451,6 @@ Parsedown = (() => {
                             },
                             stbb: {
                                 name: `Scroll To Bottom Button`,
-                                new: true,
                                 options: {
                                     title: `Show in:`,
                                     values: [`Bottom Right Corner`, `Main Page Heading`, `Footer`]
@@ -2457,7 +2460,6 @@ Parsedown = (() => {
                             },
                             sttb: {
                                 name: `Scroll To Top Button`,
-                                newBelow: true,
                                 options: {
                                     title: `Show in:`,
                                     values: [`Bottom Right Corner`, `Main Page Heading`, `Footer`]
@@ -2573,7 +2575,6 @@ Parsedown = (() => {
                                     </ul>
                                 `,
                                 name: `Time To Point Cap Calculator`,
-                                new: true,
                                 sg: true
                             },
                             ts: {
@@ -2610,8 +2611,7 @@ Parsedown = (() => {
                                 sg: true,
                                 st: true
                             }
-                        },
-                        newBelow: true
+                        }
                     },
                     giveaways: {
                         features: {
@@ -2663,7 +2663,6 @@ Parsedown = (() => {
                                     </ul>
                                 `,
                                 name: `Comments/Entries Checker`,
-                                new: true,
                                 sg: true
                             },
                             cewgd: {
@@ -2763,12 +2762,10 @@ Parsedown = (() => {
                                     },
                                     gb_se: {
                                         name: `Show the button for entered giveaways.`,
-                                        new: true,
                                         sg: true
                                     },
                                     gb_ue: {
                                         name: `Automatically unbookmark entered giveaways.`,
-                                        new: true,
                                         sg: true
                                     },
                                     gb_u: {
@@ -2786,7 +2783,6 @@ Parsedown = (() => {
                                     }
                                 },
                                 name: `Giveaway Bookmarks`,
-                                newBelow: true,
                                 sg: true
                             },
                             gch: {
@@ -2885,7 +2881,6 @@ Parsedown = (() => {
                                             },
                                             gf_ratio: {
                                                 name: `Ratio`,
-                                                new: true,
                                                 sg: true
                                             },
                                             gf_rating: {
@@ -3026,12 +3021,10 @@ Parsedown = (() => {
                                             }
                                         },
                                         name: `Multiple Filters`,
-                                        newBelow: true,
                                         sg: true
                                     }
                                 },
                                 name: `Giveaway Filters`,
-                                newBelow: true,
                                 sg: true,
                                 sync: `Hidden Games, Owned/Wishlisted/Ignored Games, Won Games, Reduced CV Games, No CV Games and Giveaways`
                             },
@@ -3284,7 +3277,6 @@ Parsedown = (() => {
                                     </ul>
                                 `,
                                 name: `Hidden Pinned Giveaways`,
-                                new: true,
                                 sg: true
                             },
                             itadi: {
@@ -3472,8 +3464,8 @@ Parsedown = (() => {
                                 name: `Unsent Gifts Sender`,
                                 sg: true
                             }
-                        },
-                        newBelow: true
+                        }
+
                     },
                     discussions: {
                         features: {
@@ -3682,6 +3674,22 @@ Parsedown = (() => {
                                 name: `Old Active Discussions Design`,
                                 sg: true
                             },
+                            pm: {
+                                description: `
+                                    <ul>
+                                        <li>Allows you to mark discussions categorized as puzzles as unsolved/in progress/solved.</li>
+                                    </ul>
+                                `,
+                                features: {
+                                    pm_a: {
+                                        name: `Show the marker for all discussions, regardless of their category.`,
+                                        sg: true
+                                    }
+                                },
+                                name: `Puzzle Marker`,
+                                new: true,
+                                sg: true,
+                            },
                             radb: {
                                 description: `
                                     <ul>
@@ -3689,7 +3697,6 @@ Parsedown = (() => {
                                     </ul>
                                 `,
                                 name: `Refresh Active Discussions Button`,
-                                new: true,
                                 sg: true
                             }
                         },
@@ -3871,13 +3878,11 @@ Parsedown = (() => {
                                             }
                                         },
                                         name: `Preview`,
-                                        new: true,
                                         sg: true,
                                         st: true
                                     }
                                 },
                                 name: `Comment Formatting Helper`,
-                                newBelow: true,
                                 sg: true,
                                 st: true
                             },
@@ -3964,7 +3969,6 @@ Parsedown = (() => {
                                     </ul>
                                 `,
                                 name: `Comments Reverser`,
-                                new: true,
                                 sg: true,
                                 st: true
                             },
@@ -4046,8 +4050,7 @@ Parsedown = (() => {
                                 sg: true,
                                 st: true
                             }
-                        },
-                        newBelow: true
+                        }
                     },
                     users: {
                         features: {
@@ -4884,7 +4887,6 @@ Parsedown = (() => {
                             autoBackup: {
                                 input: true,
                                 name: `Automatically backup your data every X days.`,
-                                new: true,
                                 options: {
                                     title: `Backup to:`,
                                     values: [`Computer`, `Dropbox`, `Google Drive`, `OneDrive`]
@@ -4907,13 +4909,11 @@ Parsedown = (() => {
                             },
                             collapseSections: {
                                 name: `Collapse sections in the settings menu by default.`,
-                                new: true,
                                 sg: true,
                                 st: true
                             },
                             staticPopups: {
                                 name: `Make popups static (they are fixed at the top left corner of the page instead of being automatically centered).`,
-                                new: true,
                                 sg: true,
                                 st: true
                             },
@@ -4924,7 +4924,6 @@ Parsedown = (() => {
                             },
                             openSyncInTab: {
                                 name: `Open the automatic sync in a new tab.`,
-                                new: true,
                                 sg: true,
                                 st: true
                             },
@@ -4960,12 +4959,10 @@ Parsedown = (() => {
                                     },
                                     hideButtons_aic: {
                                         name: `Attached Images Carousel Button`,
-                                        new: true,
                                         sg: true
                                     },
                                     hideButtons_cec: {
                                         name: `Comments/Entries Checker Button`,
-                                        new: true,
                                         sg: true
                                     },
                                     hideButtons_cs: {
@@ -4998,6 +4995,11 @@ Parsedown = (() => {
                                     },
                                     hideButtons_esContinuous: {
                                         name: `Endless Scrolling Button - Continuously Load`,
+                                        sg: true,
+                                        st: true
+                                    },
+                                    hideButtons_esNext: {
+                                        name: `Endless Scrolling Button - Load Next Page`,
                                         new: true,
                                         sg: true,
                                         st: true
@@ -5027,7 +5029,6 @@ Parsedown = (() => {
                                     },
                                     hideButtons_glwc: {
                                         name: `Group Library/Wishlist Checker Button`,
-                                        new: true,
                                         sg: true,
                                     },
                                     hideButtons_gm: {
@@ -5076,12 +5077,10 @@ Parsedown = (() => {
                                     },
                                     hideButtons_stbb: {
                                         name: `Scroll To Bottom  Button`,
-                                        new: true,
                                         sg: true
                                     },
                                     hideButtons_sttb: {
                                         name: `Scroll To Top Button`,
-                                        new: true,
                                         sg: true
                                     },
                                     hideButtons_tb: {
@@ -5102,7 +5101,6 @@ Parsedown = (() => {
                                     },
                                     hideButtons_wbm: {
                                         name: `Whitelist/Blacklist Manager Button`,
-                                        new: true,
                                         sg: true
                                     },
                                     hideButtons_wbsAsc: {
@@ -5115,7 +5113,6 @@ Parsedown = (() => {
                                     }
                                 },
                                 name: `Hide buttons at the left/right sides of the main page heading to reduce used space.`,
-                                newBelow: true,
                                 sg: true,
                                 st: true
                             }
@@ -5142,6 +5139,7 @@ Parsedown = (() => {
                 }
                 [{id: `cec`, side: `left`},
                  {id: `esContinuous`, side: `right`},
+                 {id: `esNext`, side: `right`},
                  {id: `glwc`, side: `left`},
                  {id: `stbb`, side: `right`},
                  {id: `sttb`, side: `right`},
@@ -8603,20 +8601,6 @@ Parsedown = (() => {
         }
 
         if (esgst.df) {
-            if (esgst.df_s && esgst.discussionPath) {
-                let discussion, savedDiscussions;
-                discussion = {
-                    code: location.pathname.match(/^\/discussion\/(.+?)\//)[1],
-                    heading: document.getElementsByClassName(`page__heading__breadcrumbs`)[0],
-                    headingContainer: document.getElementsByClassName(`page__heading`)[0]
-                };
-                savedDiscussions = JSON.parse(getValue(`discussions`));
-                if (savedDiscussions[discussion.code] && savedDiscussions[discussion.code].hidden) {
-                    addDfUnhideButton(discussion, true);
-                } else {
-                    addDfHideButton(discussion, true);
-                }
-            }
             if (esgst.df_m && esgst.discussionsPath && !esgst.editDiscussionPath) {
                 if (esgst.hideButtons && esgst.hideButtons_df) {
                     if (esgst.leftButtonIds.indexOf(`df`) > -1) {
@@ -9075,6 +9059,46 @@ Parsedown = (() => {
 
         if (esgst.dh) {
             loadDh();
+        }
+
+        if (esgst.discussionPath) {
+            let discussion, savedDiscussions;
+            discussion = {
+                code: location.pathname.match(/^\/discussion\/(.+?)\//)[1],
+                heading: document.getElementsByClassName(`page__heading__breadcrumbs`)[0],
+                headingContainer: document.getElementsByClassName(`page__heading`)[0]
+            };
+            savedDiscussions = JSON.parse(getValue(`discussions`));
+            if (savedDiscussions[discussion.code]) {
+                if (esgst.df && esgst.df_s) {
+                    if (savedDiscussions[discussion.code].hidden) {
+                        addDfUnhideButton(discussion, true);
+                    } else {
+                        addDfHideButton(discussion, true);
+                    }
+                }
+                if (esgst.dh) {
+                    if (savedDiscussions[discussion.code].highlighted) {
+                        highlightDhDiscussion(discussion.code, discussion.heading);
+                        addDhUnhighlightButton(discussion.code, discussion.heading, discussion.headingContainer);
+                    } else {
+                        addDhHighlightButton(discussion.code, discussion.heading, discussion.headingContainer);
+                    }
+                }
+                if (esgst.pm && (esgst.pm_a || discussion.heading.firstElementChild.nextElementSibling.nextElementSibling.textContent === `Puzzles`)) {
+                    addPmButton(discussion.code, discussion.headingContainer, savedDiscussions[discussion.code].status || `off`);
+                }
+            } else {
+                if (esgst.df && esgst.df_s) {
+                    addDfHideButton(discussion, true);
+                }
+                if (esgst.dh) {
+                    addDhHighlightButton(discussion.code, discussion.heading, discussion.headingContainer);
+                }
+                if (esgst.pm && (esgst.pm_a || discussion.heading.firstElementChild.nextElementSibling.nextElementSibling.textContent === `Puzzles`)) {
+                    addPmButton(discussion.code, discussion.headingContainer, `off`);
+                }
+            }
         }
 
         if (esgst.mps && esgst.discussionPath && esgst.paginationNavigation && document.referrer.match(new RegExp(`/discussion/${[location.pathname.match(/^\/discussion\/(.+?)\//)[1]]}/`))) {
@@ -11439,7 +11463,7 @@ Parsedown = (() => {
                 giveaways = getGiveaways(context, false, null, true);
                 for (i = giveaways.length - 1; i >= -1; --i) {
                     giveaway = giveaways[i];
-                    if (giveaway && giveaway.level <= esgst.level && !giveaway.pinned && !giveaway.entered && (!esgst.giveaways[giveaway.code] || esgst.giveaways[giveaway.code].visited || !esgst.giveaways[giveaway.code].hidden) && (!esgst.hr_w_h || giveaway.endTime - currentTime < esgst.hr_w_hours * 3600000)) {
+                    if (giveaway && giveaway.level <= esgst.level && !giveaway.pinned && !giveaway.entered && (!esgst.giveaways[giveaway.code] || (!esgst.giveaways[giveaway.code].visited && !esgst.giveaways[giveaway.code].hidden)) && (!esgst.hr_w_h || giveaway.endTime - currentTime < esgst.hr_w_hours * 3600000)) {
                         esgst.wishlist += 1;
                     }
                 }
@@ -12041,8 +12065,10 @@ Parsedown = (() => {
         height = panel.offsetHeight + 25;
         image.style.maxHeight = `calc(90% - ${height}px)`;
         image.style.marginTop = `${height}px`;
-        image.firstElementChild.style.maxHeight = `${image.offsetHeight - 10}px`;
-        image.firstElementChild.style.maxWidth = `${image.offsetWidth - 10}px`;
+        image.firstElementChild.onload = () => {
+            image.firstElementChild.style.maxHeight = `${image.offsetHeight - 10}px`;
+            image.firstElementChild.style.maxWidth = `${image.offsetWidth - 10}px`;
+        };
         esgst.aicPrevious = panel.firstElementChild;
         esgst.aicNext = esgst.aicPrevious.nextElementSibling;
         if (i > 0) {
@@ -12212,6 +12238,7 @@ Parsedown = (() => {
                             };
                         }
                         savedComments[code].visited = true;
+                        savedComments[code].lastUsed = Date.now();
                         setValue(type, JSON.stringify(savedComments));
                         deleteLock();
                     });
@@ -12272,6 +12299,7 @@ Parsedown = (() => {
                     comments[code].count = count;
                 }
                 comments[code].visited = true;
+                comments[code].lastUsed = Date.now();
                 setValue(type, JSON.stringify(comments));
                 deleteLock();
                 addGdtttMarkUnvisitedButton(button, code, context, type);
@@ -12293,6 +12321,7 @@ Parsedown = (() => {
                     delete comments[code].count;
                 }
                 delete comments[code].visited;
+                comments[code].lastUsed = Date.now();
                 setValue(type, JSON.stringify(comments));
                 deleteLock();
                 addGdtttMarkVisitedButton(button, code, context, type);
@@ -13100,7 +13129,7 @@ Parsedown = (() => {
             }
             giveaways[giveaway.code].code = giveaway.code;
             giveaways[giveaway.code].endTime = giveaway.endTime;
-            giveaways[giveaway.code].hidden = true;
+            giveaways[giveaway.code].hidden = Date.now();
             setValue(`giveaways`, JSON.stringify(giveaways));
             deleteLock();
             if (callback) {
@@ -13132,7 +13161,7 @@ Parsedown = (() => {
             var giveaways;
             giveaways = JSON.parse(getValue(`giveaways`, `{}`));
             if (giveaways[giveaway.code]) {
-                giveaways[giveaway.code].hidden = false;
+                delete giveaways[giveaway.code].hidden;
                 setValue(`giveaways`, JSON.stringify(giveaways));
             }
             deleteLock();
@@ -20038,7 +20067,7 @@ Parsedown = (() => {
     }
 
     function loadGe() {
-        if (((esgst.giveawayCommentsPath && !document.getElementsByClassName(`table--summary`)[0]) || esgst.discussionPath) && document.querySelector(`[href*="/giveaway/"]`)) {
+        if (((esgst.giveawayCommentsPath && !document.getElementsByClassName(`table--summary`)[0]) || esgst.discussionPath) && (document.querySelector(`[href*="/giveaway/"]`) || document.querySelector(`[href*="sgtools.info/giveaways/"]`))) {
             let key, position;
             if (esgst.leftButtonIds.indexOf(`ge`) > -1) {
                 key = `leftButtons`;
@@ -20076,6 +20105,7 @@ Parsedown = (() => {
         if (!ge.popup) {
             ge.count = 0;
             ge.total = 0;
+            ge.sgtools = [];
             ge.extracted = [];
             ge.bumpLink = ``;
             ge.points = 0;
@@ -20260,11 +20290,14 @@ Parsedown = (() => {
             url = elements[i].getAttribute(`href`);
             code = url.match(/\/giveaways\/(.+)/)[1];
             if (ge.extracted.indexOf(code) < 0) {
-                ge.results.insertAdjacentHTML(`afterBegin`, `
-                    <div>
-                        <a href="${url}">${url}</a>
-                    </div>
-                `);
+                ge.sgtools.push({
+                    code: code,
+                    element: insertHtml(ge.results, `afterBegin`, `
+                        <div class="markdown esgst-text-center">
+                            <a href="${url}">${url}</a>
+                        </div>
+                    `).firstElementChild
+                });
                 ge.extracted.push(code);
             }
         }
@@ -20315,6 +20348,14 @@ Parsedown = (() => {
             callback();
         }
         loadEndlessFeatures(ge.results.lastElementChild, false, `ge`);
+        if (ge.sgtools.length > 0) {
+            ge.sgtools.forEach(giveaway => {
+                request(null, null, `GET`, false, `http://www.sgtools.info/giveaways/${giveaway.code}`, response => {
+                    let context = DOM.parse(response.responseText).getElementsByClassName(`featured__outer-wrap`)[0];
+                    giveaway.element.textContent = `${context.getElementsByClassName(`featured__heading`)[0].textContent.trim()} - Level ${context.getElementsByClassName(`featured__column--contributor-level`)[0].textContent.match(/\d+/)[0]} (SGTools)`;
+                });
+            });
+        }
         let html = `
             <div class="markdown esgst-text-center">
                 ${ge.bumpLink && !esgst.discussionPath ? `
@@ -20856,14 +20897,25 @@ Parsedown = (() => {
                         parent.remove();
                     }
                 }
-                deals.classList.add(`esgst-hidden`, `esgst-adots`);
-                discussions.classList.add(`esgst-adots`);
+                if (!tabHeading1) {
+                    tabHeading1 = discussions.parentElement.previousElementSibling.firstElementChild;
+                    tabHeading2 = tabHeading1.nextElementSibling;
+                }
+                if (tabHeading1.classList.contains(`esgst-selected`)) {
+                    deals.classList.add(`esgst-hidden`, `esgst-adots`);
+                    discussions.classList.add(`esgst-adots`);
+                    discussions.classList.remove(`esgst-hidden`);
+                } else {
+                    discussions.classList.add(`esgst-hidden`, `esgst-adots`);
+                    deals.classList.add(`esgst-adots`);
+                    deals.classList.remove(`esgst-hidden`);
+                }
                 if (!refresh) {
                     activeDiscussions = insertHtml(esgst.sidebar, `beforeEnd`, `<div></div>`);
                     activeDiscussions.appendChild(discussions);
                     activeDiscussions.appendChild(deals);
                     tabHeading1.addEventListener(`click`, changeAdotsTab.bind(null, tabHeading1, tabHeading2));
-                    tabHeading2.addEventListener(`click`, changeAdotsTab.bind(null, tabHeading2, tabHeading1));
+                    tabHeading2.addEventListener(`click`, changeAdotsTab.bind(null, tabHeading1, tabHeading2));
                     esgst.activeDiscussions.remove();
                     esgst.activeDiscussions = activeDiscussions;
                 }
@@ -20871,11 +20923,13 @@ Parsedown = (() => {
         }
     }
 
-    function changeAdotsTab(button1, button2) {
-        button1.classList.toggle(`esgst-selected`);
-        button2.classList.toggle(`esgst-selected`);
-        button1.parentElement.nextElementSibling.firstElementChild.classList.toggle(`esgst-hidden`);
-        button1.parentElement.nextElementSibling.lastElementChild.classList.toggle(`esgst-hidden`);
+    function changeAdotsTab(button1, button2, event) {
+        if ((button1.classList.contains(`esgst-selected`) && event.currentTarget === button2) || (button2.classList.contains(`esgst-selected`) && event.currentTarget === button1)) {
+            button1.classList.toggle(`esgst-selected`);
+            button2.classList.toggle(`esgst-selected`);
+            button1.parentElement.nextElementSibling.firstElementChild.classList.toggle(`esgst-hidden`);
+            button1.parentElement.nextElementSibling.lastElementChild.classList.toggle(`esgst-hidden`);
+        }
     }
 
     function checkMissingDiscussions(refresh, callback) {
@@ -21125,7 +21179,7 @@ Parsedown = (() => {
             if (!discussions[discussion.code]) {
                 discussions[discussion.code] = {};
             }
-            discussions[discussion.code].hidden = true;
+            discussions[discussion.code].hidden = discussions[discussion.code].lastUsed = Date.now();
             setValue(`discussions`, JSON.stringify(discussions));
             deleteLock();
             if (callback) {
@@ -21159,7 +21213,8 @@ Parsedown = (() => {
             var discussions;
             discussions = JSON.parse(getValue(`discussions`, `{}`));
             if (discussions[discussion.code]) {
-                discussions[discussion.code].hidden = false;
+                delete discussions[discussion.code].hidden;
+                discussions[discussion.code].lastUsed = Date.now();
                 setValue(`discussions`, JSON.stringify(discussions));
             }
             deleteLock();
@@ -21944,66 +21999,51 @@ Parsedown = (() => {
 
     function loadDh() {
         var button, code, comments, container, heading, source;
-            button = insertHtml(document.getElementsByClassName(`nav__absolute-dropdown`)[1], `beforeEnd`, `
-                <div class="nav__row esgst-dh-view-button">
-                    <i class="icon-yellow fa fa-fw fa-star"></i>
-                    <div class="nav__row__summary">
-                        <p class="nav__row__summary__name">Highlighted Discussions</p>
-                        <p class="nav__row__summary__description">View your highlighted discussions.</p>
+        button = insertHtml(document.getElementsByClassName(`nav__absolute-dropdown`)[1], `beforeEnd`, `
+            <div class="nav__row esgst-dh-view-button">
+                <i class="icon-yellow fa fa-fw fa-star"></i>
+                <div class="nav__row__summary">
+                    <p class="nav__row__summary__name">Highlighted Discussions</p>
+                    <p class="nav__row__summary__description">View your highlighted discussions.</p>
+                </div>
+            </div>
+        `);
+        button.addEventListener(`click`, function() {
+            var discussions, i, keys, popup, set;
+            popup = new Popup(`fa-star`, `Highlighted Discussions`);
+            popup.highlightedDiscussions = insertHtml(popup.scrollable, `afterBegin`, `
+                <div class="table esgst-text-left">
+                    <div class="table__heading">
+                        <div class="table__column--width-fill">Summary</div>
+                        <div class="table__column--width-small text-center">Comments</div>
                     </div>
                 </div>
             `);
-            button.addEventListener(`click`, function() {
-                var discussions, i, keys, popup, set;
-                popup = new Popup(`fa-star`, `Highlighted Discussions`);
-                popup.highlightedDiscussions = insertHtml(popup.scrollable, `afterBegin`, `
-                    <div class="table esgst-text-left">
-                        <div class="table__heading">
-                            <div class="table__column--width-fill">Summary</div>
-                            <div class="table__column--width-small text-center">Comments</div>
-                        </div>
-                    </div>
-                `);
-                discussions = JSON.parse(getValue(`discussions`));
-                keys = Object.keys(discussions);
-                i = 0;
-                set = new ButtonSet(`green`, `grey`, `fa-plus`, `fa-circle-o-notch fa-spin`, `Load more...`, `Loading more...`, function (callback) {
-                    getDhHighlightedDiscussions(discussions, i, i, keys, i + 5, popup, function (value) {
-                        i = value;
-                        if (i > keys.length) {
-                            set.set.remove();
-                        } else if (esgst.es_dh && popup.scrollable.scrollHeight <= popup.scrollable.offsetHeight) {
-                            set.trigger();
-                        }
-                        callback();
-                    });
-                });
-                popup.description.appendChild(set.set);
-                popup.open();
-                set.trigger();
-                if (esgst.es_dh) {
-                    popup.scrollable.addEventListener(`scroll`, function () {
-                        if ((popup.scrollable.scrollTop + popup.scrollable.offsetHeight) >= popup.scrollable.scrollHeight && !set.busy) {
-                            set.trigger();
-                        }
-                    });
-                }
-            });
-            if (esgst.discussionPath) {
-                comments = JSON.parse(getValue(`discussions`));
-                source = location.pathname.match(/^\/discussion\/(.+?)(\/.*)?$/);
-                if (source) {
-                    code = source[1];
-                    container = document.getElementsByClassName(`page__heading`)[0];
-                    heading = container.getElementsByClassName(`page__heading__breadcrumbs`)[0];
-                    if (comments[code] && comments[code].highlighted) {
-                        highlightDhDiscussion(code, heading);
-                        addDhUnhighlightButton(code, heading, container);
-                    } else {
-                        addDhHighlightButton(code, heading, container);
+            discussions = JSON.parse(getValue(`discussions`));
+            keys = Object.keys(discussions);
+            i = 0;
+            set = new ButtonSet(`green`, `grey`, `fa-plus`, `fa-circle-o-notch fa-spin`, `Load more...`, `Loading more...`, function (callback) {
+                getDhHighlightedDiscussions(discussions, i, i, keys, i + 5, popup, function (value) {
+                    i = value;
+                    if (i > keys.length) {
+                        set.set.remove();
+                    } else if (esgst.es_dh && popup.scrollable.scrollHeight <= popup.scrollable.offsetHeight) {
+                        set.trigger();
                     }
-                }
+                    callback();
+                });
+            });
+            popup.description.appendChild(set.set);
+            popup.open();
+            set.trigger();
+            if (esgst.es_dh) {
+                popup.scrollable.addEventListener(`scroll`, function () {
+                    if ((popup.scrollable.scrollTop + popup.scrollable.offsetHeight) >= popup.scrollable.scrollHeight && !set.busy) {
+                        set.trigger();
+                    }
+                });
             }
+        });
     }
 
     function highlightDhDiscussion(code, context, save) {
@@ -22017,6 +22057,7 @@ Parsedown = (() => {
                     };
                 }
                 comments[code].highlighted = true;
+                comments[code].lastUsed = Date.now();
                 setValue(`discussions`, JSON.stringify(comments));
                 context.classList.add(`esgst-dh-highlighted`);
                 deleteLock();
@@ -22032,6 +22073,7 @@ Parsedown = (() => {
                 var comments;
                 comments = JSON.parse(getValue(`discussions`));
                 delete comments[code].highlighted;
+                comments[code].lastUsed = Date.now();
                 setValue(`discussions`, JSON.stringify(comments));
                 context.classList.remove(`esgst-dh-highlighted`);
                 deleteLock();
@@ -23607,6 +23649,7 @@ Parsedown = (() => {
                     }[comment.type]}`]) {
                         saved[comment.type][comment.code].visited = true;
                     }
+                    saved[comment.type][comment.code].lastUsed = Date.now();
                     if (!esgst.ct_s) {
                         buttons = comment.comment.getElementsByClassName(`esgst-ct-comment-button`);
                         if (comment.author === esgst.username) {
@@ -23711,6 +23754,7 @@ Parsedown = (() => {
                 if (count > 0) {
                     saved[type][code].count = count;
                 }
+                saved[type][code].lastUsed = Date.now();
                 if (esgst.sg) {
                     setValue(`giveaways`, JSON.stringify(saved.giveaways));
                     setValue(`discussions`, JSON.stringify(saved.discussions));
@@ -24095,6 +24139,7 @@ Parsedown = (() => {
                 for (key in comments[code].readComments) {
                     delete comments[code].readComments[key];
                 }
+                comments[code].lastUsed = Date.now();
                 setValue(`discussions`, JSON.stringify(comments));
                 deleteLock();
                 loadingIcon.classList.add(`esgst-hidden`);
@@ -24122,6 +24167,7 @@ Parsedown = (() => {
                     diffContainer.textContent = ``;
                 }
                 comments[code].visited = true;
+                comments[code].lastUsed = Date.now();
                 setValue(type, JSON.stringify(comments));
                 deleteLock();
                 loadingIcon.classList.add(`esgst-hidden`);
@@ -24149,6 +24195,7 @@ Parsedown = (() => {
                     diffContainer.textContent = `(+${count})`;
                 }
                 delete comments[code].visited;
+                comments[code].lastUsed = Date.now();
                 setValue(type, JSON.stringify(comments));
                 deleteLock();
                 loadingIcon.classList.add(`esgst-hidden`);
@@ -29043,6 +29090,11 @@ Parsedown = (() => {
             Title: `Export settings (exports settings without personal data so you can easily share them with other users)`
         }, {
             Check: true,
+            Icons: [`fa-paint-brush`],
+            Name: `esgst-heading-button`,
+            Title: `Clean old data`
+        }, {
+            Check: true,
             Icons: [`fa-user`, `fa-history`],
             Name: `SMViewUsernameChanges esgst-heading-button`,
             Title: `View recent username changes`
@@ -29145,6 +29197,7 @@ Parsedown = (() => {
         heading.firstElementChild.nextElementSibling.nextElementSibling.addEventListener(`click`, loadDataManagement.bind(null, false, `export`, null));
         heading.firstElementChild.nextElementSibling.nextElementSibling.nextElementSibling.addEventListener(`click`, loadDataManagement.bind(null, false, `delete`, null));
         heading.firstElementChild.nextElementSibling.nextElementSibling.nextElementSibling.nextElementSibling.addEventListener(`click`, exportSettings);
+        heading.firstElementChild.nextElementSibling.nextElementSibling.nextElementSibling.nextElementSibling.nextElementSibling.addEventListener(`click`, loadDataCleaner);
         heading.lastElementChild.addEventListener(`click`, debug);
         if (SMManageUserTags) {
             SMManageUserTags.addEventListener(`click`, openManageUserTagsPopup);
@@ -29936,7 +29989,7 @@ Parsedown = (() => {
     }
 
     function setSMManageFilteredDiscussions(SMManageFilteredDiscussions) {
-        var discussions, hidden, i, popup, set;
+        var discussion, discussions, hidden, i, popup, set;
         SMManageFilteredDiscussions.addEventListener(`click`, function() {
             popup = new Popup(`fa-comments`, `Hidden Discussions`);
             popup.discussions = insertHtml(popup.scrollable, `afterBegin`, `
@@ -29951,9 +30004,22 @@ Parsedown = (() => {
             hidden = [];
             for (key in discussions) {
                 if (discussions[key].hidden) {
-                    hidden.push(key);
+                    discussion = {
+                        code: key,
+                        hidden: discussions[key].hidden
+                    };
+                    hidden.push(discussion);
                 }
             }
+            hidden = hidden.sort((a, b) => {
+                if (a.hidden > b.hidden) {
+                    return -1;
+                } else if (a.hidden < b.hidden) {
+                    return 1;
+                } else {
+                    return 0;
+                }
+            });
             i = 0;
             set = new ButtonSet(`green`, `grey`, `fa-plus`, `fa-circle-o-notch fa-spin`, `Load more...`, `Loading more...`, function (callback) {
                 getDfDiscussions(hidden, i, i, i + 5, popup, function (value) {
@@ -29983,7 +30049,7 @@ Parsedown = (() => {
         var key;
         if (i < n) {
             if (hidden[i]) {
-                request(null, null, `GET`, false, `/discussion/${hidden[i]}/`, function(response) {
+                request(null, null, `GET`, false, `/discussion/${hidden[i].code}/`, function(response) {
                     var breadcrumbs, categoryLink, context, usernameLink;
                     context = DOM.parse(response.responseText);
                     breadcrumbs = context.getElementsByClassName(`page__heading__breadcrumbs`);
@@ -29998,7 +30064,7 @@ Parsedown = (() => {
                                     </div>
                                     <div class="table__column--width-fill">
                                         <h3>
-                                            <a class="table__column__heading" href="/discussion/${hidden[i]}/">${categoryLink.nextElementSibling.nextElementSibling.firstElementChild.textContent}</a>
+                                            <a class="table__column__heading" href="/discussion/${hidden[i].code}/">${categoryLink.nextElementSibling.nextElementSibling.firstElementChild.textContent}</a>
                                         </h3>
                                         <p>
                                             <a class="table__column__secondary-link" href="${categoryLink.getAttribute(`href`)}">${categoryLink.textContent}</a> -
@@ -30007,7 +30073,7 @@ Parsedown = (() => {
                                         </p>
                                     </div>
                                     <div class="table__column--width-small text-center">
-                                        <a class="table__column__secondary-link" href="/discussion/${hidden[i]}/">${breadcrumbs[1].textContent.match(/(.+) Comments/)[1]}</a>
+                                        <a class="table__column__secondary-link" href="/discussion/${hidden[i].code}/">${breadcrumbs[1].textContent.match(/(.+) Comments/)[1]}</a>
                                     </div>
                                 </div>
                             </div>
@@ -30042,14 +30108,23 @@ Parsedown = (() => {
                 giveaway = esgst.giveaways[key];
                 if (giveaway.hidden && giveaway.code && giveaway.endTime) {
                     if (Date.now() >= giveaway.endTime) {
-                        giveaway.hidden = false;
+                        delete giveaway.hidden;
                     } else {
-                        hidden.push(giveaway.code);
+                        hidden.push(giveaway);
                     }
                 } else {
-                    giveaway.hidden = false;
+                    delete giveaway.hidden;
                 }
             }
+            hidden = hidden.sort((a, b) => {
+                if (a.hidden > b.hidden) {
+                    return -1;
+                } else if (a.hidden < b.hidden) {
+                    return 1;
+                } else {
+                    return 0;
+                }
+            });
             setValue(`giveaways`, JSON.stringify(esgst.giveaways));
             i = 0;
             n = hidden.length;
@@ -30087,7 +30162,7 @@ Parsedown = (() => {
         var giveaway;
         if (i < n) {
             if (hidden[i]) {
-                request(null, null, `GET`, true, `https://www.steamgifts.com/giveaway/${hidden[i]}/`, function (response) {
+                request(null, null, `GET`, true, `https://www.steamgifts.com/giveaway/${hidden[i].code}/`, function (response) {
                     giveaway = buildGiveaway(DOM.parse(response.responseText), response.finalUrl);
                     if (giveaway) {
                         gfGiveaways.insertAdjacentHTML(`beforeEnd`, giveaway.html);
@@ -30815,7 +30890,7 @@ Parsedown = (() => {
         if (esgst.codb) {
             addCodbButtons(discussions);
         }
-        if ((esgst.df && esgst.df_s) || esgst.dh) {
+        if ((esgst.df && esgst.df_s) || esgst.dh || esgst.pm) {
             for (i = 0, n = discussions.length; i < n; ++i) {
                 discussion = discussions[i];
                 savedDiscussion = savedDiscussions[discussion.code];
@@ -30838,12 +30913,18 @@ Parsedown = (() => {
                             addDhHighlightButton(discussion.code, discussion.outerWrap, discussion.heading.parentElement);
                         }
                     }
+                    if (esgst.pm && (esgst.pm_a || discussion.category === `Puzzles`)) {
+                        addPmButton(discussion.code, discussion.heading.parentElement, savedDiscussion.status || `off`);
+                    }
                 } else {
                     if (esgst.df && esgst.df_s) {
                         addDfHideButton(discussion, main);
                     }
                     if (esgst.dh) {
                         addDhHighlightButton(discussion.code, discussion.outerWrap, discussion.heading.parentElement);
+                    }
+                    if (esgst.pm && (esgst.pm_a || discussion.category === `Puzzles`)) {
+                        addPmButton(discussion.code, discussion.heading.parentElement, `off`);
                     }
                 }
             }
@@ -30967,6 +31048,57 @@ Parsedown = (() => {
             }
         } else {
             return null;
+        }
+    }
+
+    function addPmButton(code, context, status) {
+        if (!context.getElementsByClassName(`esgst-pm-button`)[0]) {
+            let button, colors, icons, nextStatuses;
+            colors = {
+                'off': `grey`,
+                'unsolved': `red`,
+                'in progress': `orange`,
+                'solved': `green`
+            };
+            icons = {
+                'off': `circle-o`,
+                'unsolved': `times-circle`,
+                'in progress': `exclamation-circle`,
+                'solved': `check-circle`
+            };
+            nextStatuses = {
+                'off': `unsolved`,
+                'unsolved': `in progress`,
+                'in progress': `solved`,
+                'solved': `off`
+            };
+            button = insertHtml(context, `afterBegin`, `
+                <div class="esgst-pm-button esgst-${colors[status]}" title="Current status is '${status}'. Click to change to '${nextStatuses[status]}'.">
+                    <i class="fa fa-${icons[status]}"></i>
+                </div>
+            `);
+            button.addEventListener(`click`, () => {
+                createLock(`commentLock`, 300, deleteLock => {
+                    let discussions = JSON.parse(getValue(`discussions`));
+                    if (!discussions[code]) {
+                        discussions[code] = {
+                            readComments: {}
+                        };
+                    }
+                    status = nextStatuses[status];
+                    if (status === `off`) {
+                        delete discussions[code].status;
+                    } else {
+                        discussions[code].status = status;
+                    }
+                    discussions[code].lastUsed = Date.now();
+                    setValue(`discussions`, JSON.stringify(discussions));
+                    deleteLock();
+                    button.className = `esgst-pm-button esgst-${colors[status]}`;
+                    button.title = `Current status is '${status}'. Click to change to '${nextStatuses[status]}'.`;
+                    button.firstElementChild.className = `fa fa-${icons[status]}`;
+                });
+            });
         }
     }
 
@@ -31949,7 +32081,7 @@ Parsedown = (() => {
     /* [ES] Endless Scrolling */
 
     function loadEs() {
-        let busy, continuous, continuousButton, count, currentPage, divisors, ended, i, lastLink, mainContext, n, nextPage, pageIndex, paginations, pageBase, pauseButton, paused, progress, refreshAllButton, refreshButton, resumeButton, reversePages, reverseScrolling, row, total;
+        let busy, continuous, continuousButton, count, currentPage, divisors, ended, i, lastLink, mainContext, n, nextButton, nextPage, pageIndex, paginations, pageBase, pauseButton, paused, progress, refreshAllButton, refreshButton, resumeButton, reversePages, reverseScrolling, row, step, total;
         if (esgst.es && esgst.mainPageHeading && esgst.pagination && ((esgst.es_g && esgst.giveawaysPath) || (esgst.es_d && esgst.discussionsTicketsPath) || (esgst.es_t && esgst.tradesPath) || (esgst.es_c && esgst.commentsPath) || (esgst.es_l && !esgst.giveawaysPath && !esgst.discussionsTicketsPath && !esgst.tradesPath && !esgst.commentsPath))) {
             divisors = ((esgst.es_g_d && esgst.giveawaysPath) || (esgst.es_d_d && esgst.discussionsTicketsPath) || (esgst.es_t_d && esgst.tradesPath) || (esgst.es_c_d && esgst.commentsPath) || (esgst.es_l_d && !esgst.giveawaysPath && !esgst.discussionsTicketsPath && !esgst.tradesPath && !esgst.commentsPath));
             mainContext = esgst.pagination.previousElementSibling;
@@ -32002,6 +32134,18 @@ Parsedown = (() => {
                 mainContext.children[i].classList.add(`esgst-es-page-${currentPage}`);
             }
             let key, position;
+            if (esgst.leftButtonIds.indexOf(`esNext`) > -1) {
+                key = `leftButtons`;
+                position = `afterBegin`;
+            } else {
+                key = `rightButtons`;
+                position = `beforeEnd`;
+            }
+            nextButton = insertHtml(esgst.hideButtons && esgst.hideButtons_esNext ? esgst[key] : esgst.mainPageHeading, position, `
+                <div class="esgst-heading-button esgst-es-next-button" id="esgst-esNext" title="Load next page">
+                    <i class="fa fa-step-forward"></i>
+                </div>
+            `);
             if (esgst.leftButtonIds.indexOf(`esContinuous`) > -1) {
                 key = `leftButtons`;
                 position = `afterBegin`;
@@ -32069,6 +32213,7 @@ Parsedown = (() => {
             refreshButton.addEventListener(`click`, refreshPage);
             refreshAllButton.addEventListener(`click`, refreshAllPages);
             continuousButton.addEventListener(`click`, continuouslyLoad);
+            nextButton.addEventListener(`click`, stepNextPage);
             pauseButton.addEventListener(`click`, pauseEndlessScrolling);
             resumeButton.addEventListener(`click`, resumeEndlessScrolling);
             if (esgst.paginationNavigation) {
@@ -32092,7 +32237,7 @@ Parsedown = (() => {
         }
 
         function loadNextPage(callback) {
-            if (!esgst.stopEs && !busy && !paused && !ended && (continuous || scrollY >= document.body.offsetHeight - innerHeight * 2)) {
+            if (!esgst.stopEs && !busy && !paused && !ended && (continuous || step || scrollY >= document.body.offsetHeight - innerHeight * 2)) {
                 busy = true;
                 document.removeEventListener(`scroll`, loadNextPage);
                 progress = insertHtml(esgst.pagination.firstElementChild, `beforeEnd`, `
@@ -32207,11 +32352,13 @@ Parsedown = (() => {
                         if (callback && typeof callback === `function`) {
                             callback();
                         }
-                    } else if (!paused) {
+                    } else if (!paused && !step) {
                         if (!continuous) {
                             document.addEventListener(`scroll`, loadNextPage);
                         }
                         loadNextPage(callback);
+                    } else if (callback && typeof callback === `function`) {
+                        callback();
                     }
                 } else {
                     ++nextPage;
@@ -32221,11 +32368,13 @@ Parsedown = (() => {
                         if (callback && typeof callback === `function`) {
                             callback();
                         }
-                    } else if (!paused) {
+                    } else if (!paused && !step) {
                         if (!continuous) {
                             document.addEventListener(`scroll`, loadNextPage);
                         }
                         loadNextPage(callback);
+                    } else if (callback && typeof callback === `function`) {
+                        callback();
                     }
                 }
             }
@@ -32265,15 +32414,31 @@ Parsedown = (() => {
             }
         }
 
+        function stepNextPage() {
+            if (!step) {
+                nextButton.innerHTML = `<i class="fa fa-circle-o-notch fa-spin"></i>`;
+                step = true;
+                resumeEndlessScrolling();
+                document.addEventListener(`scroll`, loadNextPage);
+                loadNextPage(() => {
+                    step = false;
+                    pauseEndlessScrolling();
+                    nextButton.innerHTML = `<i class="fa fa-step-forward"></i>`;
+                });
+            }
+        }
+
         function continuouslyLoad() {
-            continuousButton.innerHTML = `<i class="fa fa-circle-o-notch fa-spin"></i>`;
-            continuous = true;
-            resumeEndlessScrolling();
-            document.addEventListener(`scroll`, loadNextPage);
-            loadNextPage(() => {
-                continuous = false;
-                continuousButton.innerHTML = `<i class="fa fa-fast-forward"></i>`;
-            });
+            if (!continuous) {
+                continuousButton.innerHTML = `<i class="fa fa-circle-o-notch fa-spin"></i>`;
+                continuous = true;
+                resumeEndlessScrolling();
+                document.addEventListener(`scroll`, loadNextPage);
+                loadNextPage(() => {
+                    continuous = false;
+                    continuousButton.innerHTML = `<i class="fa fa-fast-forward"></i>`;
+                });
+            }
         }
 
         function pauseEndlessScrolling() {
@@ -32293,7 +32458,7 @@ Parsedown = (() => {
             pauseButton.classList.remove(`esgst-hidden`);
             paused = false;
             setValue(`esPause`, paused);
-            if (!ended && !continuous) {
+            if (!ended && !continuous && !step) {
                 document.addEventListener(`scroll`, loadNextPage);
                 loadNextPage();
             }
@@ -32305,7 +32470,7 @@ Parsedown = (() => {
                 <i class="fa fa-circle-o-notch fa-spin"></i>
             `;
             request(null, null, `GET`, false, `${esgst.searchUrl}${pageIndex}`, response => {
-                getNextPage(true, false, response);
+                getNextPage(true, false, null, response);
                 if (esgst.giveawaysPath && esgst.es_rd) {
                     if (esgst.oadd) {
                         loadOadd(true);
@@ -32337,10 +32502,10 @@ Parsedown = (() => {
             total = paginations.length;
             page = reverseScrolling ? pageBase - 1 : pageBase + 1;
             request(null, null, `GET`, false, `${esgst.searchUrl}${page}`, response => {
-                getNextPage(true, page, response);
+                getNextPage(true, page, null, response);
                 for (i = 1; i < total; ++i) {
                     page = reverseScrolling ? pageBase - (i + 1) : pageBase + (i + 1);
-                    request(null, null, `GET`, false, `${esgst.searchUrl}${page}`, getNextPage.bind(null, true, page));
+                    request(null, null, `GET`, false, `${esgst.searchUrl}${page}`, getNextPage.bind(null, true, page, null));
                 }
                 setTimeout(checkRefreshComplete, 250, response);
             });
@@ -32635,6 +32800,10 @@ Parsedown = (() => {
                     {
                         key: `discussions_gdttt`,
                         name: `Giveaways/Discussions/Tickets/Trades Tracker`
+                    },
+                    {
+                        key: `discussions_pm`,
+                        name: `Puzzle Marker`
                     }
                 ]
             },
@@ -32919,6 +33088,130 @@ Parsedown = (() => {
         }
     }
 
+    function loadDataCleaner() {
+        let popup = new Popup(`fa-paint-brush`, `Clean old data:`);
+        popup.description.insertAdjacentHTML(`afterBegin`, `<div class="esgst-bold esgst-description esgst-red">Make sure to backup your data before using the cleaner.</div>`);
+        new ToggleSwitch(popup.description, `cleanDiscussions`, false, `Discussions data older than <input class="esgst-switch-input" type="text" value="${esgst.cleanDiscussions_days}"> days.`, false, false, `Discussions data only started being date-tracked since v7.11.0, so not all old data may be cleaned.`, esgst.cleanDiscussions).name.firstElementChild.addEventListener(`change`, event => {
+            let value = parseInt(event.currentTarget.value);
+            setSetting(`cleanDiscussions_days`, value);
+            esgst.cleanDiscussions_days = parseInt(value);
+        });
+        new ToggleSwitch(popup.description, `cleanEntries`, false, `Entries data older than <input class="esgst-switch-input" type="text" value="${esgst.cleanEntries_days}"> days.`, false, false, ``, esgst.cleanEntries).name.firstElementChild.addEventListener(`change`, event => {
+            let value = parseInt(event.currentTarget.value);
+            setSetting(`cleanEntries_days`, value);
+            esgst.cleanEntries_days = parseInt(value);
+        });
+        new ToggleSwitch(popup.description, `cleanGiveaways`, false, `Giveaways data older than <input class="esgst-switch-input" type="text" value="${esgst.cleanGiveaways_days}"> days.`, false, false, `Some giveaways data only started being date-tracked since v7.11.0, so not all old data may be cleaned.`, esgst.cleanGiveaways).name.firstElementChild.addEventListener(`change`, event => {
+            let value = parseInt(event.currentTarget.value);
+            setSetting(`cleanGiveaways_days`, value);
+            esgst.cleanGiveaways_days = parseInt(value);
+        });
+        new ToggleSwitch(popup.description, `cleanSgCommentHistory`, false, `SteamGifts comment history data older than <input class="esgst-switch-input" type="text" value="${esgst.cleanSgCommentHistory_days}"> days.`, false, false, ``, esgst.cleanSgCommentHistory).name.firstElementChild.addEventListener(`change`, event => {
+            let value = parseInt(event.currentTarget.value);
+            setSetting(`cleanSgCommentHistory_days`, value);
+            esgst.cleanSgCommentHistory_days = parseInt(value);
+        });
+        new ToggleSwitch(popup.description, `cleanStCommentHistory`, false, `SteamTrades comment history data older than <input class="esgst-switch-input" type="text" value="${esgst.cleanStCommentHistory_days}"> days.`, false, false, ``, esgst.cleanStCommentHistory).name.firstElementChild.addEventListener(`change`, event => {
+            let value = parseInt(event.currentTarget.value);
+            setSetting(`cleanStCommentHistory_days`, value);
+            esgst.cleanStCommentHistory_days = parseInt(value);
+        });
+        new ToggleSwitch(popup.description, `cleanTickets`, false, `Tickets data older than <input class="esgst-switch-input" type="text" value="${esgst.cleanTickets_days}"> days.`, false, false, `Tickets data only started being date-tracked since v7.11.0, so not all old data may be cleaned.`, esgst.cleanTickets).name.firstElementChild.addEventListener(`change`, event => {
+            let value = parseInt(event.currentTarget.value);
+            setSetting(`cleanTickets_days`, value);
+            esgst.cleanTickets_days = parseInt(value);
+        });
+        new ToggleSwitch(popup.description, `cleanTrades`, false, `Trades data older than <input class="esgst-switch-input" type="text" value="${esgst.cleanTrades_days}"> days.`, false, false, `Trades data only started being date-tracked since v7.11.0, so not all old data may be cleaned.`, esgst.cleanTrades).name.firstElementChild.addEventListener(`change`, event => {
+            let value = parseInt(event.currentTarget.value);
+            setSetting(`cleanTrades_days`, value);
+            esgst.cleanTrades_days = parseInt(value);
+        });
+        popup.description.appendChild(new ButtonSet(`green`, `grey`, `fa-check`, `fa-circle-o-notch fa-spin`, `Clean`, `Cleaning...`, callback => {
+            let code, currentTime, days, item, items, newItems;
+            currentTime = Date.now();
+            if (esgst.cleanDiscussions) {
+                days = esgst.cleanDiscussions_days * 86400000;
+                items = JSON.parse(getValue(`discussions`));
+                for (code in items) {
+                    item = items[code];
+                    if (item.author !== esgst.username && item.lastUsed && currentTime - item.lastUsed > days) {
+                        delete items[code];
+                    }
+                }
+                setValue(`discussions`, JSON.stringify(items));
+            }
+            if (esgst.cleanEntries) {
+                days = esgst.cleanEntries_days * 86400000;
+                items = JSON.parse(getValue(`entries`));
+                newItems = [];
+                items.forEach(item => {
+                    if (currentTime - item.timestamp <= days) {
+                        newItems.push(item);
+                    }
+                });
+                setValue(`entries`, JSON.stringify(newItems));
+            }
+            if (esgst.cleanGiveaways) {
+                days = esgst.cleanGiveaways_days * 86400000;
+                items = JSON.parse(getValue(`giveaways`));
+                for (code in items) {
+                    item = items[code];
+                    if (item.creator !== esgst.username && ((item.endTime && currentTime - item.endTime > days) || (item.lastUsed && currentTime - item.lastUsed > days))) {
+                        delete items[code];
+                    }
+                }
+                setValue(`giveaways`, JSON.stringify(items));
+            }
+            if (esgst.cleanSgCommentHistory) {
+                days = esgst.cleanSgCommentHistory_days * 86400000;
+                items = JSON.parse(getValue(`sgCommentHistory`));
+                newItems = [];
+                items.forEach(item => {
+                    if (currentTime - item.timestamp <= days) {
+                        newItems.push(item);
+                    }
+                });
+                setValue(`sgCommentHistory`, JSON.stringify(newItems));
+            }
+            if (esgst.cleanStCommentHistory) {
+                days = esgst.cleanStCommentHistory_days * 86400000;
+                items = JSON.parse(getValue(`stCommentHistory`));
+                newItems = [];
+                items.forEach(item => {
+                    if (currentTime - item.timestamp <= days) {
+                        newItems.push(item);
+                    }
+                });
+                setValue(`stCommentHistory`, JSON.stringify(newItems));
+            }
+            if (esgst.cleanTickets) {
+                days = esgst.cleanTickets_days * 86400000;
+                items = JSON.parse(getValue(`tickets`));
+                for (code in items) {
+                    item = items[code];
+                    if (item.author !== esgst.username && item.lastUsed && currentTime - item.lastUsed > days) {
+                        delete items[code];
+                    }
+                }
+                setValue(`tickets`, JSON.stringify(items));
+            }
+            if (esgst.cleanTrades) {
+                days = esgst.cleanTrades_days * 86400000;
+                items = JSON.parse(getValue(`trades`));
+                for (code in items) {
+                    item = items[code];
+                    if (item.author !== esgst.username && item.lastUsed && currentTime - item.lastUsed > days) {
+                        delete items[code];
+                    }
+                }
+                setValue(`trades`, JSON.stringify(items));
+            }
+            callback();
+            popup.close();
+        }).set);
+        popup.open();
+    }
+
     function getDataMenu(option, switches, type) {
         var i, m, menu, n, options, toggleSwitch;
         menu = document.createElement(`div`);
@@ -33054,17 +33347,18 @@ Parsedown = (() => {
                         case `discussions`:
                             if (!values) {
                                 values = {
-                                    main: [],
+                                    main: [`lastUsed`],
                                     ct: [`count`, `readComments`],
                                     df: [`hidden`],
                                     dh: [`highlighted`],
-                                    gdttt: [`visited`]
+                                    gdttt: [`visited`],
+                                    pm: [`status`]
                                 };
                             }
                         case `giveaways`:
                             if (!values) {
                                 values = {
-                                    main: [`code`, `comments`, `copies`, `creator`, `endTime`, `entries`, `gameId`, `gameName`, `gameSteamId`, `gameType`, `group`, `inviteOnly`, `level`, `points`, `regionRestricted`, `started`, `startTime`, `whitelist`, `winners`],
+                                    main: [`code`, `comments`, `copies`, `creator`, `endTime`, `entries`, `gameId`, `gameName`, `gameSteamId`, `gameType`, `group`, `inviteOnly`, `lastUsed`, `level`, `points`, `regionRestricted`, `started`, `startTime`, `whitelist`, `winners`],
                                     ct: [`count`, `readComments`],
                                     gb: [`bookmarked`],
                                     gdttt: [`visited`],
@@ -33075,7 +33369,7 @@ Parsedown = (() => {
                         case `tickets`:
                             if (!values) {
                                 values = {
-                                    main: [],
+                                    main: [`lastUsed`],
                                     ct: [`count`, `readComments`],
                                     gdttt: [`visited`]
                                 };
@@ -33083,7 +33377,7 @@ Parsedown = (() => {
                         case `trades`:
                             if (!values) {
                                 values = {
-                                    main: [],
+                                    main: [`lastUsed`],
                                     ct: [`count`, `readComments`],
                                     gdttt: [`visited`]
                                 };
@@ -33099,6 +33393,7 @@ Parsedown = (() => {
                                 gf: 0,
                                 ggl: 0,
                                 main: 0,
+                                pm: 0,
                                 total: 0
                             };
                             mainFound = false;
@@ -34838,6 +35133,23 @@ Parsedown = (() => {
                 margin: 0 5px 0 0;
             }
 
+            .esgst-pm-button {
+                cursor: pointer;
+                margin-left: -65px;
+                margin-top: 8.5px;
+                position: absolute;
+            }
+
+            .page__heading .esgst-pm-button {
+                display: inline-block;
+                margin: 0 5px 0 0;
+                position: static;
+            }
+
+            .esgst-adots .esgst-pm-button {
+                margin-left: -58px;
+            }
+
             .comment__actions .esgst-ct-comment-button {
                 margin: 0 0 0 10px;
             }
@@ -35802,8 +36114,24 @@ Parsedown = (() => {
                 opacity: 0.5;
             }
 
+            .esgst-green {
+                color: #96c468 !important;
+            }
+
+            .esgst-grey {
+                color: #77899a !important;
+            }
+
+            .esgst-orange {
+                color: #c1a576 !important;
+            }
+
             .esgst-red {
-                color: #e9202a !important;
+                color: #ec8583 !important;
+            }
+
+            .esgst-yellow {
+                color: #fecc66 !important;
             }
 
             .esgst-warning {
@@ -36034,7 +36362,7 @@ Parsedown = (() => {
                 margin: 5px;
             }
 
-            .esgst-ugs-difference {
+            .esgst-ugs-difference, .esgst-switch-input {
                 display: inline-block;
                 padding: 0 !important;
                 width: 50px;
@@ -36522,6 +36850,24 @@ Parsedown = (() => {
     function loadChangelog(version) {
         var changelog, current, html, i, index, n, popup;
         changelog = [
+            {
+                date: `December 10, 2017`,
+                version: `7.11.0`,
+                changelog: `
+                    <ul>
+                        <li><a href="https://github.com/revilheart/ESGST/issues/294">#294</a> Fix a bug in Header Refresher that counts visited & hidden wishlisted giveaways</li>
+                        <li><a href="https://github.com/revilheart/ESGST/issues/295">#295</a> Show hidden giveaways/discussions by added date (from most recently added)</li>
+                        <li><a href="https://github.com/revilheart/ESGST/issues/297">#297</a> Fix a bug that calculates height and width of first load of images as 0 in Attached Images Carousel</li>
+                        <li><a href="https://github.com/revilheart/ESGST/issues/298">#298</a> Fix a bug that happens when refreshing pages in Endless Scrolling</li>
+                        <li><a href="https://github.com/revilheart/ESGST/issues/280">#280</a> Also load Giveaways Extractor when there are only SGTools giveaways</li>
+                        <li><a href="https://github.com/revilheart/ESGST/issues/300">#300</a> Extract details from SGTools giveaways in Giveaways Extractor</li>
+                        <li><a href="https://github.com/revilheart/ESGST/issues/301">#301</a> Add a feature: Puzzle Marker</li>
+                        <li><a href="https://github.com/revilheart/ESGST/issues/305">#305</a> Add tool to clean old data</li>
+                        <li><a href="https://github.com/revilheart/ESGST/issues/306">#306</a> Fix a bug that happens when refreshing active discussions/deals</li>
+                        <li><a href="https://github.com/revilheart/ESGST/issues/307">#307</a> Add button to load only the next page in Endless Scrolling</li>
+                    </ul>
+                `
+            },
             {
                 date: `December 3, 2017`,
                 version: `7.10.0`,
@@ -37064,13 +37410,13 @@ Parsedown = (() => {
         if (version) {
             popup.scrollable.insertAdjacentHTML(`afterBegin`, `
                 <div class="esgst-changelog esgst-text-left markdown">
-                    <h2>Highlights from v7.9.0:</h2>
-                    <h3>Debug easily from ESGST (only use it if you know what you are doing or if you have been instructed to)</h3>
-                    <img src="https://i.imgur.com/RdEXVFi.gif">
-                    <h3>Search for features in the settings menu</h3>
-                    <img src="https://i.imgur.com/iHWyyXk.gif">
-                    <h3>Order heading buttons by dragging them</h3>
-                    <img src="https://i.imgur.com/xUOp8h2.gif">
+                    <h2>Highlights from v7.11.0:</h2>
+                    <h3>Clean old data</h3>
+                    <img src="https://i.imgur.com/vNPYR5r.gif">
+                    <h3>Load the next page in Endless Scrolling without continuing to load more pages</h3>
+                    <img src="https://i.imgur.com/d5fCgx2.gif">
+                    <h3>Mark puzzles as unsolved/in progress/solved (Discussions.10 Puzzle Maker)</h3>
+                    <img src="https://i.imgur.com/7zpCt3E.gif">
                     <hr>
                     <h3>Full changelog:</h3>
                     ${html.join(``)}
