@@ -20078,6 +20078,7 @@ Parsedown = (() => {
         if (!ge.popup) {
             ge.count = 0;
             ge.total = 0;
+            ge.sgtools = [];
             ge.extracted = [];
             ge.bumpLink = ``;
             ge.points = 0;
@@ -20262,11 +20263,14 @@ Parsedown = (() => {
             url = elements[i].getAttribute(`href`);
             code = url.match(/\/giveaways\/(.+)/)[1];
             if (ge.extracted.indexOf(code) < 0) {
-                ge.results.insertAdjacentHTML(`afterBegin`, `
-                    <div>
-                        <a href="${url}">${url}</a>
-                    </div>
-                `);
+                ge.sgtools.push({
+                    code: code,
+                    element: insertHtml(ge.results, `afterBegin`, `
+                        <div class="markdown esgst-text-center">
+                            <a href="${url}">${url}</a>
+                        </div>
+                    `).firstElementChild
+                });
                 ge.extracted.push(code);
             }
         }
@@ -20317,6 +20321,14 @@ Parsedown = (() => {
             callback();
         }
         loadEndlessFeatures(ge.results.lastElementChild, false, `ge`);
+        if (ge.sgtools.length > 0) {
+            ge.sgtools.forEach(giveaway => {
+                request(null, null, `GET`, false, `http://www.sgtools.info/giveaways/${giveaway.code}`, response => {
+                    let context = DOM.parse(response.responseText).getElementsByClassName(`featured__outer-wrap`)[0];
+                    giveaway.element.textContent = `${context.getElementsByClassName(`featured__heading`)[0].textContent.trim()} - Level ${context.getElementsByClassName(`featured__column--contributor-level`)[0].textContent.match(/\d+/)[0]} (SGTools)`;
+                });
+            });
+        }
         let html = `
             <div class="markdown esgst-text-center">
                 ${ge.bumpLink && !esgst.discussionPath ? `
