@@ -20889,14 +20889,25 @@ Parsedown = (() => {
                         parent.remove();
                     }
                 }
-                deals.classList.add(`esgst-hidden`, `esgst-adots`);
-                discussions.classList.add(`esgst-adots`);
+                if (!tabHeading1) {
+                    tabHeading1 = discussions.parentElement.previousElementSibling.firstElementChild;
+                    tabHeading2 = tabHeading1.nextElementSibling;
+                }
+                if (tabHeading1.classList.contains(`esgst-selected`)) {
+                    deals.classList.add(`esgst-hidden`, `esgst-adots`);
+                    discussions.classList.add(`esgst-adots`);
+                    discussions.classList.remove(`esgst-hidden`);
+                } else {
+                    discussions.classList.add(`esgst-hidden`, `esgst-adots`);
+                    deals.classList.add(`esgst-adots`);
+                    deals.classList.remove(`esgst-hidden`);
+                }
                 if (!refresh) {
                     activeDiscussions = insertHtml(esgst.sidebar, `beforeEnd`, `<div></div>`);
                     activeDiscussions.appendChild(discussions);
                     activeDiscussions.appendChild(deals);
                     tabHeading1.addEventListener(`click`, changeAdotsTab.bind(null, tabHeading1, tabHeading2));
-                    tabHeading2.addEventListener(`click`, changeAdotsTab.bind(null, tabHeading2, tabHeading1));
+                    tabHeading2.addEventListener(`click`, changeAdotsTab.bind(null, tabHeading1, tabHeading2));
                     esgst.activeDiscussions.remove();
                     esgst.activeDiscussions = activeDiscussions;
                 }
@@ -20904,11 +20915,13 @@ Parsedown = (() => {
         }
     }
 
-    function changeAdotsTab(button1, button2) {
-        button1.classList.toggle(`esgst-selected`);
-        button2.classList.toggle(`esgst-selected`);
-        button1.parentElement.nextElementSibling.firstElementChild.classList.toggle(`esgst-hidden`);
-        button1.parentElement.nextElementSibling.lastElementChild.classList.toggle(`esgst-hidden`);
+    function changeAdotsTab(button1, button2, event) {
+        if ((button1.classList.contains(`esgst-selected`) && event.currentTarget === button2) || (button2.classList.contains(`esgst-selected`) && event.currentTarget === button1)) {
+            button1.classList.toggle(`esgst-selected`);
+            button2.classList.toggle(`esgst-selected`);
+            button1.parentElement.nextElementSibling.firstElementChild.classList.toggle(`esgst-hidden`);
+            button1.parentElement.nextElementSibling.lastElementChild.classList.toggle(`esgst-hidden`);
+        }
     }
 
     function checkMissingDiscussions(refresh, callback) {
