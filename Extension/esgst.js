@@ -35105,6 +35105,10 @@ Parsedown = (() => {
                 position: static;
             }
 
+            .esgst-adots .esgst-pm-button {
+                margin-left: -58px;
+            }
+
             .comment__actions .esgst-ct-comment-button {
                 margin: 0 0 0 10px;
             }
