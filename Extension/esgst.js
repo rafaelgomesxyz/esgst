@@ -1691,6 +1691,20 @@ Parsedown = (() => {
                     cfh_pasteFormatting: true,
                     cfh_img_choice: 1,
                     cfh_img_remember: false,
+                    cleanDiscussions: true,
+                    cleanEntries: true,
+                    cleanGiveaways: true,
+                    cleanSgCommentHistory: true,
+                    cleanStCommentHistory: true,
+                    cleanTickets: true,
+                    cleanTrades: true,
+                    cleanDiscussions_days: 30,
+                    cleanEntries_days: 30,
+                    cleanGiveaways_days: 30,
+                    cleanSgCommentHistory_days: 30,
+                    cleanStCommentHistory_days: 30,
+                    cleanTickets_days: 30,
+                    cleanTrades_days: 30,
                     df_enable: true,
                     df_enableCreated: false,
                     df_preset: null,
@@ -2025,13 +2039,11 @@ Parsedown = (() => {
                                 features: {
                                     aic_b: {
                                         name: `Only trigger the carousel when clicking on the button in the main page heading.`,
-                                        new: true,
                                         sg: true,
                                         st: true
                                     }
                                 },
                                 name: `Attached Images Carousel`,
-                                newBelow: true,
                                 sg: true,
                                 st: true
                             },
@@ -2095,7 +2107,6 @@ Parsedown = (() => {
                                 features: {
                                     es_rd: {
                                         name: `Refresh active discussions/deals when refreshing the main page.`,
-                                        new: true,
                                         sg: true
                                     },
                                     es_c: {
@@ -2192,7 +2203,6 @@ Parsedown = (() => {
                                     }
                                 },
                                 name: `Endless Scrolling`,
-                                newBelow: true,
                                 sg: true,
                                 st: true
                             },
@@ -2263,27 +2273,22 @@ Parsedown = (() => {
                                     },
                                     gdttt_vg: {
                                         name: `Mark giveaways as visited when visiting them.`,
-                                        new: true,
                                         sg: true
                                     },
                                     gdttt_vd: {
                                         name: `Mark discussions as visited when visiting them.`,
-                                        new: true,
                                         sg: true
                                     },
                                     gdttt_vt: {
                                         name: `Mark tickets as visited when visiting them.`,
-                                        new: true,
                                         sg: true
                                     },
                                     gdttt_vts: {
                                         name: `Mark trades as visited when visiting them.`,
-                                        new: true,
                                         st: true
                                     }
                                 },
                                 name: `Giveaways/Discussions/Tickets/Trades Tracker`,
-                                newBelow: true,
                                 sg: true,
                                 st: true
                             },
@@ -2361,7 +2366,6 @@ Parsedown = (() => {
                                     },
                                     hr_fp: {
                                         name: `Show browser notification if there are 400P or more.`,
-                                        new: true,
                                         sg: true
                                     },
                                     hr_p: {
@@ -2383,7 +2387,6 @@ Parsedown = (() => {
                                 },
                                 input: true,
                                 name: `Header Refresher`,
-                                newBelow: true,
                                 sg: true,
                                 st: true
                             },
@@ -2448,7 +2451,6 @@ Parsedown = (() => {
                             },
                             stbb: {
                                 name: `Scroll To Bottom Button`,
-                                new: true,
                                 options: {
                                     title: `Show in:`,
                                     values: [`Bottom Right Corner`, `Main Page Heading`, `Footer`]
@@ -2458,7 +2460,6 @@ Parsedown = (() => {
                             },
                             sttb: {
                                 name: `Scroll To Top Button`,
-                                newBelow: true,
                                 options: {
                                     title: `Show in:`,
                                     values: [`Bottom Right Corner`, `Main Page Heading`, `Footer`]
@@ -2574,7 +2575,6 @@ Parsedown = (() => {
                                     </ul>
                                 `,
                                 name: `Time To Point Cap Calculator`,
-                                new: true,
                                 sg: true
                             },
                             ts: {
@@ -2611,8 +2611,7 @@ Parsedown = (() => {
                                 sg: true,
                                 st: true
                             }
-                        },
-                        newBelow: true
+                        }
                     },
                     giveaways: {
                         features: {
@@ -2664,7 +2663,6 @@ Parsedown = (() => {
                                     </ul>
                                 `,
                                 name: `Comments/Entries Checker`,
-                                new: true,
                                 sg: true
                             },
                             cewgd: {
@@ -2764,12 +2762,10 @@ Parsedown = (() => {
                                     },
                                     gb_se: {
                                         name: `Show the button for entered giveaways.`,
-                                        new: true,
                                         sg: true
                                     },
                                     gb_ue: {
                                         name: `Automatically unbookmark entered giveaways.`,
-                                        new: true,
                                         sg: true
                                     },
                                     gb_u: {
@@ -2787,7 +2783,6 @@ Parsedown = (() => {
                                     }
                                 },
                                 name: `Giveaway Bookmarks`,
-                                newBelow: true,
                                 sg: true
                             },
                             gch: {
@@ -2886,7 +2881,6 @@ Parsedown = (() => {
                                             },
                                             gf_ratio: {
                                                 name: `Ratio`,
-                                                new: true,
                                                 sg: true
                                             },
                                             gf_rating: {
@@ -3027,12 +3021,10 @@ Parsedown = (() => {
                                             }
                                         },
                                         name: `Multiple Filters`,
-                                        newBelow: true,
                                         sg: true
                                     }
                                 },
                                 name: `Giveaway Filters`,
-                                newBelow: true,
                                 sg: true,
                                 sync: `Hidden Games, Owned/Wishlisted/Ignored Games, Won Games, Reduced CV Games, No CV Games and Giveaways`
                             },
@@ -3285,7 +3277,6 @@ Parsedown = (() => {
                                     </ul>
                                 `,
                                 name: `Hidden Pinned Giveaways`,
-                                new: true,
                                 sg: true
                             },
                             itadi: {
@@ -3473,8 +3464,8 @@ Parsedown = (() => {
                                 name: `Unsent Gifts Sender`,
                                 sg: true
                             }
-                        },
-                        newBelow: true
+                        }
+
                     },
                     discussions: {
                         features: {
@@ -3706,7 +3697,6 @@ Parsedown = (() => {
                                     </ul>
                                 `,
                                 name: `Refresh Active Discussions Button`,
-                                new: true,
                                 sg: true
                             }
                         },
@@ -3888,13 +3878,11 @@ Parsedown = (() => {
                                             }
                                         },
                                         name: `Preview`,
-                                        new: true,
                                         sg: true,
                                         st: true
                                     }
                                 },
                                 name: `Comment Formatting Helper`,
-                                newBelow: true,
                                 sg: true,
                                 st: true
                             },
@@ -3981,7 +3969,6 @@ Parsedown = (() => {
                                     </ul>
                                 `,
                                 name: `Comments Reverser`,
-                                new: true,
                                 sg: true,
                                 st: true
                             },
@@ -4063,8 +4050,7 @@ Parsedown = (() => {
                                 sg: true,
                                 st: true
                             }
-                        },
-                        newBelow: true
+                        }
                     },
                     users: {
                         features: {
@@ -4901,7 +4887,6 @@ Parsedown = (() => {
                             autoBackup: {
                                 input: true,
                                 name: `Automatically backup your data every X days.`,
-                                new: true,
                                 options: {
                                     title: `Backup to:`,
                                     values: [`Computer`, `Dropbox`, `Google Drive`, `OneDrive`]
@@ -4924,13 +4909,11 @@ Parsedown = (() => {
                             },
                             collapseSections: {
                                 name: `Collapse sections in the settings menu by default.`,
-                                new: true,
                                 sg: true,
                                 st: true
                             },
                             staticPopups: {
                                 name: `Make popups static (they are fixed at the top left corner of the page instead of being automatically centered).`,
-                                new: true,
                                 sg: true,
                                 st: true
                             },
@@ -4941,7 +4924,6 @@ Parsedown = (() => {
                             },
                             openSyncInTab: {
                                 name: `Open the automatic sync in a new tab.`,
-                                new: true,
                                 sg: true,
                                 st: true
                             },
@@ -4977,12 +4959,10 @@ Parsedown = (() => {
                                     },
                                     hideButtons_aic: {
                                         name: `Attached Images Carousel Button`,
-                                        new: true,
                                         sg: true
                                     },
                                     hideButtons_cec: {
                                         name: `Comments/Entries Checker Button`,
-                                        new: true,
                                         sg: true
                                     },
                                     hideButtons_cs: {
@@ -5015,7 +4995,6 @@ Parsedown = (() => {
                                     },
                                     hideButtons_esContinuous: {
                                         name: `Endless Scrolling Button - Continuously Load`,
-                                        new: true,
                                         sg: true,
                                         st: true
                                     },
@@ -5044,7 +5023,6 @@ Parsedown = (() => {
                                     },
                                     hideButtons_glwc: {
                                         name: `Group Library/Wishlist Checker Button`,
-                                        new: true,
                                         sg: true,
                                     },
                                     hideButtons_gm: {
@@ -5093,12 +5071,10 @@ Parsedown = (() => {
                                     },
                                     hideButtons_stbb: {
                                         name: `Scroll To Bottom  Button`,
-                                        new: true,
                                         sg: true
                                     },
                                     hideButtons_sttb: {
                                         name: `Scroll To Top Button`,
-                                        new: true,
                                         sg: true
                                     },
                                     hideButtons_tb: {
@@ -5119,7 +5095,6 @@ Parsedown = (() => {
                                     },
                                     hideButtons_wbm: {
                                         name: `Whitelist/Blacklist Manager Button`,
-                                        new: true,
                                         sg: true
                                     },
                                     hideButtons_wbsAsc: {
@@ -5132,12 +5107,10 @@ Parsedown = (() => {
                                     }
                                 },
                                 name: `Hide buttons at the left/right sides of the main page heading to reduce used space.`,
-                                newBelow: true,
                                 sg: true,
                                 st: true
                             }
-                        },
-                        newBelow: true
+                        }
                     }
                 };
                 for (var key in esgst.oldValues) {
@@ -9079,7 +9052,7 @@ Parsedown = (() => {
         if (esgst.dh) {
             loadDh();
         }
-        
+
         if (esgst.discussionPath) {
             let discussion, savedDiscussions;
             discussion = {
@@ -12257,6 +12230,7 @@ Parsedown = (() => {
                             };
                         }
                         savedComments[code].visited = true;
+                        savedComments[code].lastUsed = Date.now();
                         setValue(type, JSON.stringify(savedComments));
                         deleteLock();
                     });
@@ -12317,6 +12291,7 @@ Parsedown = (() => {
                     comments[code].count = count;
                 }
                 comments[code].visited = true;
+                comments[code].lastUsed = Date.now();
                 setValue(type, JSON.stringify(comments));
                 deleteLock();
                 addGdtttMarkUnvisitedButton(button, code, context, type);
@@ -12338,6 +12313,7 @@ Parsedown = (() => {
                     delete comments[code].count;
                 }
                 delete comments[code].visited;
+                comments[code].lastUsed = Date.now();
                 setValue(type, JSON.stringify(comments));
                 deleteLock();
                 addGdtttMarkVisitedButton(button, code, context, type);
@@ -21182,7 +21158,7 @@ Parsedown = (() => {
             if (!discussions[discussion.code]) {
                 discussions[discussion.code] = {};
             }
-            discussions[discussion.code].hidden = Date.now();
+            discussions[discussion.code].hidden = discussions[discussion.code].lastUsed = Date.now();
             setValue(`discussions`, JSON.stringify(discussions));
             deleteLock();
             if (callback) {
@@ -21217,6 +21193,7 @@ Parsedown = (() => {
             discussions = JSON.parse(getValue(`discussions`, `{}`));
             if (discussions[discussion.code]) {
                 delete discussions[discussion.code].hidden;
+                discussions[discussion.code].lastUsed = Date.now();
                 setValue(`discussions`, JSON.stringify(discussions));
             }
             deleteLock();
@@ -22059,6 +22036,7 @@ Parsedown = (() => {
                     };
                 }
                 comments[code].highlighted = true;
+                comments[code].lastUsed = Date.now();
                 setValue(`discussions`, JSON.stringify(comments));
                 context.classList.add(`esgst-dh-highlighted`);
                 deleteLock();
@@ -22074,6 +22052,7 @@ Parsedown = (() => {
                 var comments;
                 comments = JSON.parse(getValue(`discussions`));
                 delete comments[code].highlighted;
+                comments[code].lastUsed = Date.now();
                 setValue(`discussions`, JSON.stringify(comments));
                 context.classList.remove(`esgst-dh-highlighted`);
                 deleteLock();
@@ -23649,6 +23628,7 @@ Parsedown = (() => {
                     }[comment.type]}`]) {
                         saved[comment.type][comment.code].visited = true;
                     }
+                    saved[comment.type][comment.code].lastUsed = Date.now();
                     if (!esgst.ct_s) {
                         buttons = comment.comment.getElementsByClassName(`esgst-ct-comment-button`);
                         if (comment.author === esgst.username) {
@@ -23753,6 +23733,7 @@ Parsedown = (() => {
                 if (count > 0) {
                     saved[type][code].count = count;
                 }
+                saved[type][code].lastUsed = Date.now();
                 if (esgst.sg) {
                     setValue(`giveaways`, JSON.stringify(saved.giveaways));
                     setValue(`discussions`, JSON.stringify(saved.discussions));
@@ -24137,6 +24118,7 @@ Parsedown = (() => {
                 for (key in comments[code].readComments) {
                     delete comments[code].readComments[key];
                 }
+                comments[code].lastUsed = Date.now();
                 setValue(`discussions`, JSON.stringify(comments));
                 deleteLock();
                 loadingIcon.classList.add(`esgst-hidden`);
@@ -24164,6 +24146,7 @@ Parsedown = (() => {
                     diffContainer.textContent = ``;
                 }
                 comments[code].visited = true;
+                comments[code].lastUsed = Date.now();
                 setValue(type, JSON.stringify(comments));
                 deleteLock();
                 loadingIcon.classList.add(`esgst-hidden`);
@@ -24191,6 +24174,7 @@ Parsedown = (() => {
                     diffContainer.textContent = `(+${count})`;
                 }
                 delete comments[code].visited;
+                comments[code].lastUsed = Date.now();
                 setValue(type, JSON.stringify(comments));
                 deleteLock();
                 loadingIcon.classList.add(`esgst-hidden`);
@@ -29085,6 +29069,11 @@ Parsedown = (() => {
             Title: `Export settings (exports settings without personal data so you can easily share them with other users)`
         }, {
             Check: true,
+            Icons: [`fa-paint-brush`],
+            Name: `esgst-heading-button`,
+            Title: `Clean old data`
+        }, {
+            Check: true,
             Icons: [`fa-user`, `fa-history`],
             Name: `SMViewUsernameChanges esgst-heading-button`,
             Title: `View recent username changes`
@@ -29187,6 +29176,7 @@ Parsedown = (() => {
         heading.firstElementChild.nextElementSibling.nextElementSibling.addEventListener(`click`, loadDataManagement.bind(null, false, `export`, null));
         heading.firstElementChild.nextElementSibling.nextElementSibling.nextElementSibling.addEventListener(`click`, loadDataManagement.bind(null, false, `delete`, null));
         heading.firstElementChild.nextElementSibling.nextElementSibling.nextElementSibling.nextElementSibling.addEventListener(`click`, exportSettings);
+        heading.firstElementChild.nextElementSibling.nextElementSibling.nextElementSibling.nextElementSibling.nextElementSibling.addEventListener(`click`, loadDataCleaner);
         heading.lastElementChild.addEventListener(`click`, debug);
         if (SMManageUserTags) {
             SMManageUserTags.addEventListener(`click`, openManageUserTagsPopup);
@@ -31080,6 +31070,7 @@ Parsedown = (() => {
                     } else {
                         discussions[code].status = status;
                     }
+                    discussions[code].lastUsed = Date.now();
                     setValue(`discussions`, JSON.stringify(discussions));
                     deleteLock();
                     button.className = `esgst-pm-button esgst-${colors[status]}`;
@@ -33043,6 +33034,130 @@ Parsedown = (() => {
         }
     }
 
+    function loadDataCleaner() {
+        let popup = new Popup(`fa-paint-brush`, `Clean old data:`);
+        popup.description.insertAdjacentHTML(`afterBegin`, `<div class="esgst-bold esgst-description esgst-red">Make sure to backup your data before using the cleaner.</div>`);
+        new ToggleSwitch(popup.description, `cleanDiscussions`, false, `Discussions data older than <input class="esgst-switch-input" type="text" value="${esgst.cleanDiscussions_days}"> days.`, false, false, `Discussions data only started being date-tracked since v7.11.0, so not all old data may be cleaned.`, esgst.cleanDiscussions).name.firstElementChild.addEventListener(`change`, event => {
+            let value = parseInt(event.currentTarget.value);
+            setSetting(`cleanDiscussions_days`, value);
+            esgst.cleanDiscussions_days = parseInt(value);
+        });
+        new ToggleSwitch(popup.description, `cleanEntries`, false, `Entries data older than <input class="esgst-switch-input" type="text" value="${esgst.cleanEntries_days}"> days.`, false, false, ``, esgst.cleanEntries).name.firstElementChild.addEventListener(`change`, event => {
+            let value = parseInt(event.currentTarget.value);
+            setSetting(`cleanEntries_days`, value);
+            esgst.cleanEntries_days = parseInt(value);
+        });
+        new ToggleSwitch(popup.description, `cleanGiveaways`, false, `Giveaways data older than <input class="esgst-switch-input" type="text" value="${esgst.cleanGiveaways_days}"> days.`, false, false, `Some giveaways data only started being date-tracked since v7.11.0, so not all old data may be cleaned.`, esgst.cleanGiveaways).name.firstElementChild.addEventListener(`change`, event => {
+            let value = parseInt(event.currentTarget.value);
+            setSetting(`cleanGiveaways_days`, value);
+            esgst.cleanGiveaways_days = parseInt(value);
+        });
+        new ToggleSwitch(popup.description, `cleanSgCommentHistory`, false, `SteamGifts comment history data older than <input class="esgst-switch-input" type="text" value="${esgst.cleanSgCommentHistory_days}"> days.`, false, false, ``, esgst.cleanSgCommentHistory).name.firstElementChild.addEventListener(`change`, event => {
+            let value = parseInt(event.currentTarget.value);
+            setSetting(`cleanSgCommentHistory_days`, value);
+            esgst.cleanSgCommentHistory_days = parseInt(value);
+        });
+        new ToggleSwitch(popup.description, `cleanStCommentHistory`, false, `SteamTrades comment history data older than <input class="esgst-switch-input" type="text" value="${esgst.cleanStCommentHistory_days}"> days.`, false, false, ``, esgst.cleanStCommentHistory).name.firstElementChild.addEventListener(`change`, event => {
+            let value = parseInt(event.currentTarget.value);
+            setSetting(`cleanStCommentHistory_days`, value);
+            esgst.cleanStCommentHistory_days = parseInt(value);
+        });
+        new ToggleSwitch(popup.description, `cleanTickets`, false, `Tickets data older than <input class="esgst-switch-input" type="text" value="${esgst.cleanTickets_days}"> days.`, false, false, `Tickets data only started being date-tracked since v7.11.0, so not all old data may be cleaned.`, esgst.cleanTickets).name.firstElementChild.addEventListener(`change`, event => {
+            let value = parseInt(event.currentTarget.value);
+            setSetting(`cleanTickets_days`, value);
+            esgst.cleanTickets_days = parseInt(value);
+        });
+        new ToggleSwitch(popup.description, `cleanTrades`, false, `Trades data older than <input class="esgst-switch-input" type="text" value="${esgst.cleanTrades_days}"> days.`, false, false, `Trades data only started being date-tracked since v7.11.0, so not all old data may be cleaned.`, esgst.cleanTrades).name.firstElementChild.addEventListener(`change`, event => {
+            let value = parseInt(event.currentTarget.value);
+            setSetting(`cleanTrades_days`, value);
+            esgst.cleanTrades_days = parseInt(value);
+        });
+        popup.description.appendChild(new ButtonSet(`green`, `grey`, `fa-check`, `fa-circle-o-notch fa-spin`, `Clean`, `Cleaning...`, callback => {
+            let code, currentTime, days, item, items, newItems;
+            currentTime = Date.now();
+            if (esgst.cleanDiscussions) {
+                days = esgst.cleanDiscussions_days * 86400000;
+                items = JSON.parse(getValue(`discussions`));
+                for (code in items) {
+                    item = items[code];
+                    if (item.author !== esgst.username && item.lastUsed && currentTime - item.lastUsed > days) {
+                        delete items[code];
+                    }
+                }
+                setValue(`discussions`, JSON.stringify(items));
+            }
+            if (esgst.cleanEntries) {
+                days = esgst.cleanEntries_days * 86400000;
+                items = JSON.parse(getValue(`entries`));
+                newItems = [];
+                items.forEach(item => {
+                    if (currentTime - item.timestamp <= days) {
+                        newItems.push(item);
+                    }
+                });
+                setValue(`entries`, JSON.stringify(newItems));
+            }
+            if (esgst.cleanGiveaways) {
+                days = esgst.cleanGiveaways_days * 86400000;
+                items = JSON.parse(getValue(`giveaways`));
+                for (code in items) {
+                    item = items[code];
+                    if (item.creator !== esgst.username && ((item.endTime && currentTime - item.endTime > days) || (item.lastUsed && currentTime - item.lastUsed > days))) {
+                        delete items[code];
+                    }
+                }
+                setValue(`giveaways`, JSON.stringify(items));
+            }
+            if (esgst.cleanSgCommentHistory) {
+                days = esgst.cleanSgCommentHistory_days * 86400000;
+                items = JSON.parse(getValue(`sgCommentHistory`));
+                newItems = [];
+                items.forEach(item => {
+                    if (currentTime - item.timestamp <= days) {
+                        newItems.push(item);
+                    }
+                });
+                setValue(`sgCommentHistory`, JSON.stringify(newItems));
+            }
+            if (esgst.cleanStCommentHistory) {
+                days = esgst.cleanStCommentHistory_days * 86400000;
+                items = JSON.parse(getValue(`stCommentHistory`));
+                newItems = [];
+                items.forEach(item => {
+                    if (currentTime - item.timestamp <= days) {
+                        newItems.push(item);
+                    }
+                });
+                setValue(`stCommentHistory`, JSON.stringify(newItems));
+            }
+            if (esgst.cleanTickets) {
+                days = esgst.cleanTickets_days * 86400000;
+                items = JSON.parse(getValue(`tickets`));
+                for (code in items) {
+                    item = items[code];
+                    if (item.author !== esgst.username && item.lastUsed && currentTime - item.lastUsed > days) {
+                        delete items[code];
+                    }
+                }
+                setValue(`tickets`, JSON.stringify(items));
+            }
+            if (esgst.cleanTrades) {
+                days = esgst.cleanTrades_days * 86400000;
+                items = JSON.parse(getValue(`trades`));
+                for (code in items) {
+                    item = items[code];
+                    if (item.author !== esgst.username && item.lastUsed && currentTime - item.lastUsed > days) {
+                        delete items[code];
+                    }
+                }
+                setValue(`trades`, JSON.stringify(items));
+            }
+            callback();
+            popup.close();
+        }).set);
+        popup.open();
+    }
+
     function getDataMenu(option, switches, type) {
         var i, m, menu, n, options, toggleSwitch;
         menu = document.createElement(`div`);
@@ -33178,7 +33293,7 @@ Parsedown = (() => {
                         case `discussions`:
                             if (!values) {
                                 values = {
-                                    main: [],
+                                    main: [`lastUsed`],
                                     ct: [`count`, `readComments`],
                                     df: [`hidden`],
                                     dh: [`highlighted`],
@@ -33189,7 +33304,7 @@ Parsedown = (() => {
                         case `giveaways`:
                             if (!values) {
                                 values = {
-                                    main: [`code`, `comments`, `copies`, `creator`, `endTime`, `entries`, `gameId`, `gameName`, `gameSteamId`, `gameType`, `group`, `inviteOnly`, `level`, `points`, `regionRestricted`, `started`, `startTime`, `whitelist`, `winners`],
+                                    main: [`code`, `comments`, `copies`, `creator`, `endTime`, `entries`, `gameId`, `gameName`, `gameSteamId`, `gameType`, `group`, `inviteOnly`, `lastUsed`, `level`, `points`, `regionRestricted`, `started`, `startTime`, `whitelist`, `winners`],
                                     ct: [`count`, `readComments`],
                                     gb: [`bookmarked`],
                                     gdttt: [`visited`],
@@ -33200,7 +33315,7 @@ Parsedown = (() => {
                         case `tickets`:
                             if (!values) {
                                 values = {
-                                    main: [],
+                                    main: [`lastUsed`],
                                     ct: [`count`, `readComments`],
                                     gdttt: [`visited`]
                                 };
@@ -33208,7 +33323,7 @@ Parsedown = (() => {
                         case `trades`:
                             if (!values) {
                                 values = {
-                                    main: [],
+                                    main: [`lastUsed`],
                                     ct: [`count`, `readComments`],
                                     gdttt: [`visited`]
                                 };
@@ -36176,7 +36291,7 @@ Parsedown = (() => {
                 margin: 5px;
             }
 
-            .esgst-ugs-difference {
+            .esgst-ugs-difference, .esgst-switch-input {
                 display: inline-block;
                 padding: 0 !important;
                 width: 50px;
