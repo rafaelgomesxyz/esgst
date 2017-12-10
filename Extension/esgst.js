@@ -1646,6 +1646,7 @@ Parsedown = (() => {
                     gwc_a_b_sg: false,
                     gwr_a_b_sg: false,
                     hpg_sg: false,
+                    pm_a: false,
                     radb_sg: true,
                     showChangelog_sg: true,
                     showChangelog_st: true,
@@ -3681,6 +3682,22 @@ Parsedown = (() => {
                                 },
                                 name: `Old Active Discussions Design`,
                                 sg: true
+                            },
+                            pm: {
+                                description: `
+                                    <ul>
+                                        <li>Allows you to mark discussions categorized as puzzles as unsolved/in progress/solved.</li>
+                                    </ul>
+                                `,
+                                features: {
+                                    pm_a: {
+                                        name: `Show the marker for all discussions, regardless of their category.`,
+                                        sg: true
+                                    }
+                                },
+                                name: `Puzzle Marker`,
+                                new: true,
+                                sg: true,
                             },
                             radb: {
                                 description: `
@@ -8603,20 +8620,6 @@ Parsedown = (() => {
         }
 
         if (esgst.df) {
-            if (esgst.df_s && esgst.discussionPath) {
-                let discussion, savedDiscussions;
-                discussion = {
-                    code: location.pathname.match(/^\/discussion\/(.+?)\//)[1],
-                    heading: document.getElementsByClassName(`page__heading__breadcrumbs`)[0],
-                    headingContainer: document.getElementsByClassName(`page__heading`)[0]
-                };
-                savedDiscussions = JSON.parse(getValue(`discussions`));
-                if (savedDiscussions[discussion.code] && savedDiscussions[discussion.code].hidden) {
-                    addDfUnhideButton(discussion, true);
-                } else {
-                    addDfHideButton(discussion, true);
-                }
-            }
             if (esgst.df_m && esgst.discussionsPath && !esgst.editDiscussionPath) {
                 if (esgst.hideButtons && esgst.hideButtons_df) {
                     if (esgst.leftButtonIds.indexOf(`df`) > -1) {
@@ -9075,6 +9078,46 @@ Parsedown = (() => {
 
         if (esgst.dh) {
             loadDh();
+        }
+        
+        if (esgst.discussionPath) {
+            let discussion, savedDiscussions;
+            discussion = {
+                code: location.pathname.match(/^\/discussion\/(.+?)\//)[1],
+                heading: document.getElementsByClassName(`page__heading__breadcrumbs`)[0],
+                headingContainer: document.getElementsByClassName(`page__heading`)[0]
+            };
+            savedDiscussions = JSON.parse(getValue(`discussions`));
+            if (savedDiscussions[discussion.code]) {
+                if (esgst.df && esgst.df_s) {
+                    if (savedDiscussions[discussion.code].hidden) {
+                        addDfUnhideButton(discussion, true);
+                    } else {
+                        addDfHideButton(discussion, true);
+                    }
+                }
+                if (esgst.dh) {
+                    if (savedDiscussions[discussion.code].highlighted) {
+                        highlightDhDiscussion(discussion.code, discussion.heading);
+                        addDhUnhighlightButton(discussion.code, discussion.heading, discussion.headingContainer);
+                    } else {
+                        addDhHighlightButton(discussion.code, discussion.heading, discussion.headingContainer);
+                    }
+                }
+                if (esgst.pm && (esgst.pm_a || discussion.heading.firstElementChild.nextElementSibling.nextElementSibling.textContent === `Puzzles`)) {
+                    addPmButton(discussion.code, discussion.headingContainer, savedDiscussions[discussion.code].status || `off`);
+                }
+            } else {
+                if (esgst.df && esgst.df_s) {
+                    addDfHideButton(discussion, true);
+                }
+                if (esgst.dh) {
+                    addDhHighlightButton(discussion.code, discussion.heading, discussion.headingContainer);
+                }
+                if (esgst.pm && (esgst.pm_a || discussion.heading.firstElementChild.nextElementSibling.nextElementSibling.textContent === `Puzzles`)) {
+                    addPmButton(discussion.code, discussion.headingContainer, `off`);
+                }
+            }
         }
 
         if (esgst.mps && esgst.discussionPath && esgst.paginationNavigation && document.referrer.match(new RegExp(`/discussion/${[location.pathname.match(/^\/discussion\/(.+?)\//)[1]]}/`))) {
@@ -21958,66 +22001,51 @@ Parsedown = (() => {
 
     function loadDh() {
         var button, code, comments, container, heading, source;
-            button = insertHtml(document.getElementsByClassName(`nav__absolute-dropdown`)[1], `beforeEnd`, `
-                <div class="nav__row esgst-dh-view-button">
-                    <i class="icon-yellow fa fa-fw fa-star"></i>
-                    <div class="nav__row__summary">
-                        <p class="nav__row__summary__name">Highlighted Discussions</p>
-                        <p class="nav__row__summary__description">View your highlighted discussions.</p>
+        button = insertHtml(document.getElementsByClassName(`nav__absolute-dropdown`)[1], `beforeEnd`, `
+            <div class="nav__row esgst-dh-view-button">
+                <i class="icon-yellow fa fa-fw fa-star"></i>
+                <div class="nav__row__summary">
+                    <p class="nav__row__summary__name">Highlighted Discussions</p>
+                    <p class="nav__row__summary__description">View your highlighted discussions.</p>
+                </div>
+            </div>
+        `);
+        button.addEventListener(`click`, function() {
+            var discussions, i, keys, popup, set;
+            popup = new Popup(`fa-star`, `Highlighted Discussions`);
+            popup.highlightedDiscussions = insertHtml(popup.scrollable, `afterBegin`, `
+                <div class="table esgst-text-left">
+                    <div class="table__heading">
+                        <div class="table__column--width-fill">Summary</div>
+                        <div class="table__column--width-small text-center">Comments</div>
                     </div>
                 </div>
             `);
-            button.addEventListener(`click`, function() {
-                var discussions, i, keys, popup, set;
-                popup = new Popup(`fa-star`, `Highlighted Discussions`);
-                popup.highlightedDiscussions = insertHtml(popup.scrollable, `afterBegin`, `
-                    <div class="table esgst-text-left">
-                        <div class="table__heading">
-                            <div class="table__column--width-fill">Summary</div>
-                            <div class="table__column--width-small text-center">Comments</div>
-                        </div>
-                    </div>
-                `);
-                discussions = JSON.parse(getValue(`discussions`));
-                keys = Object.keys(discussions);
-                i = 0;
-                set = new ButtonSet(`green`, `grey`, `fa-plus`, `fa-circle-o-notch fa-spin`, `Load more...`, `Loading more...`, function (callback) {
-                    getDhHighlightedDiscussions(discussions, i, i, keys, i + 5, popup, function (value) {
-                        i = value;
-                        if (i > keys.length) {
-                            set.set.remove();
-                        } else if (esgst.es_dh && popup.scrollable.scrollHeight <= popup.scrollable.offsetHeight) {
-                            set.trigger();
-                        }
-                        callback();
-                    });
-                });
-                popup.description.appendChild(set.set);
-                popup.open();
-                set.trigger();
-                if (esgst.es_dh) {
-                    popup.scrollable.addEventListener(`scroll`, function () {
-                        if ((popup.scrollable.scrollTop + popup.scrollable.offsetHeight) >= popup.scrollable.scrollHeight && !set.busy) {
-                            set.trigger();
-                        }
-                    });
-                }
-            });
-            if (esgst.discussionPath) {
-                comments = JSON.parse(getValue(`discussions`));
-                source = location.pathname.match(/^\/discussion\/(.+?)(\/.*)?$/);
-                if (source) {
-                    code = source[1];
-                    container = document.getElementsByClassName(`page__heading`)[0];
-                    heading = container.getElementsByClassName(`page__heading__breadcrumbs`)[0];
-                    if (comments[code] && comments[code].highlighted) {
-                        highlightDhDiscussion(code, heading);
-                        addDhUnhighlightButton(code, heading, container);
-                    } else {
-                        addDhHighlightButton(code, heading, container);
+            discussions = JSON.parse(getValue(`discussions`));
+            keys = Object.keys(discussions);
+            i = 0;
+            set = new ButtonSet(`green`, `grey`, `fa-plus`, `fa-circle-o-notch fa-spin`, `Load more...`, `Loading more...`, function (callback) {
+                getDhHighlightedDiscussions(discussions, i, i, keys, i + 5, popup, function (value) {
+                    i = value;
+                    if (i > keys.length) {
+                        set.set.remove();
+                    } else if (esgst.es_dh && popup.scrollable.scrollHeight <= popup.scrollable.offsetHeight) {
+                        set.trigger();
                     }
-                }
+                    callback();
+                });
+            });
+            popup.description.appendChild(set.set);
+            popup.open();
+            set.trigger();
+            if (esgst.es_dh) {
+                popup.scrollable.addEventListener(`scroll`, function () {
+                    if ((popup.scrollable.scrollTop + popup.scrollable.offsetHeight) >= popup.scrollable.scrollHeight && !set.busy) {
+                        set.trigger();
+                    }
+                });
             }
+        });
     }
 
     function highlightDhDiscussion(code, context, save) {
@@ -30874,12 +30902,18 @@ Parsedown = (() => {
                             addDhHighlightButton(discussion.code, discussion.outerWrap, discussion.heading.parentElement);
                         }
                     }
+                    if (esgst.pm && (esgst.pm_a || discussion.category === `Puzzles`)) {
+                        addPmButton(discussion.code, discussion.heading.parentElement, savedDiscussion.status || `off`);
+                    }
                 } else {
                     if (esgst.df && esgst.df_s) {
                         addDfHideButton(discussion, main);
                     }
                     if (esgst.dh) {
                         addDhHighlightButton(discussion.code, discussion.outerWrap, discussion.heading.parentElement);
+                    }
+                    if (esgst.pm && (esgst.pm_a || discussion.category === `Puzzles`)) {
+                        addPmButton(discussion.code, discussion.heading.parentElement, `off`);
                     }
                 }
             }
@@ -31003,6 +31037,56 @@ Parsedown = (() => {
             }
         } else {
             return null;
+        }
+    }
+
+    function addPmButton(code, context, status) {
+        if (!context.getElementsByClassName(`esgst-pm-button`)[0]) {
+            let button, colors, icons, nextStatuses;
+            colors = {
+                'off': `grey`,
+                'unsolved': `red`,
+                'in progress': `orange`,
+                'solved': `green`
+            };
+            icons = {
+                'off': `circle-o`,
+                'unsolved': `times-circle`,
+                'in progress': `exclamation-circle`,
+                'solved': `check-circle`
+            };
+            nextStatuses = {
+                'off': `unsolved`,
+                'unsolved': `in progress`,
+                'in progress': `solved`,
+                'solved': `off`
+            };
+            button = insertHtml(context, `afterBegin`, `
+                <div class="esgst-pm-button esgst-${colors[status]}" title="Current status is '${status}'. Click to change to '${nextStatuses[status]}'.">
+                    <i class="fa fa-${icons[status]}"></i>
+                </div>
+            `);
+            button.addEventListener(`click`, () => {
+                createLock(`commentLock`, 300, deleteLock => {
+                    let discussions = JSON.parse(getValue(`discussions`));
+                    if (!discussions[code]) {
+                        discussions[code] = {
+                            readComments: {}
+                        };
+                    }
+                    status = nextStatuses[status];
+                    if (status === `off`) {
+                        delete discussions[code].status;
+                    } else {
+                        discussions[code].status = status;
+                    }
+                    setValue(`discussions`, JSON.stringify(discussions));
+                    deleteLock();
+                    button.className = `esgst-pm-button esgst-${colors[status]}`;
+                    button.title = `Current status is '${status}'. Click to change to '${nextStatuses[status]}'.`;
+                    button.firstElementChild.className = `fa fa-${icons[status]}`;
+                });
+            });
         }
     }
 
@@ -32671,6 +32755,10 @@ Parsedown = (() => {
                     {
                         key: `discussions_gdttt`,
                         name: `Giveaways/Discussions/Tickets/Trades Tracker`
+                    },
+                    {
+                        key: `discussions_pm`,
+                        name: `Puzzle Marker`
                     }
                 ]
             },
@@ -33094,7 +33182,8 @@ Parsedown = (() => {
                                     ct: [`count`, `readComments`],
                                     df: [`hidden`],
                                     dh: [`highlighted`],
-                                    gdttt: [`visited`]
+                                    gdttt: [`visited`],
+                                    pm: [`status`]
                                 };
                             }
                         case `giveaways`:
@@ -33135,6 +33224,7 @@ Parsedown = (() => {
                                 gf: 0,
                                 ggl: 0,
                                 main: 0,
+                                pm: 0,
                                 total: 0
                             };
                             mainFound = false;
@@ -34869,7 +34959,7 @@ Parsedown = (() => {
                 background-color: rgba(119, 137, 154, 0.1) !important;
             }
 
-            .esgst-gf-hide-button, .esgst-gf-unhide-button, .esgst-gb-button, .esgst-gdttt-button, .esgst-df-button, .esgst-dh-button {
+            .esgst-gf-hide-button, .esgst-gf-unhide-button, .esgst-gb-button, .esgst-gdttt-button, .esgst-df-button, .esgst-dh-button, .esgst-pm-button {
                 cursor: pointer; display: inline-block;
                 margin: 0 5px 0 0;
             }
@@ -35838,8 +35928,24 @@ Parsedown = (() => {
                 opacity: 0.5;
             }
 
+            .esgst-green {
+                color: #96c468 !important;
+            }
+
+            .esgst-grey {
+                color: #77899a !important;
+            }
+
+            .esgst-orange {
+                color: #c1a576 !important;
+            }
+
             .esgst-red {
-                color: #e9202a !important;
+                color: #ec8583 !important;
+            }
+
+            .esgst-yellow {
+                color: #fecc66 !important;
             }
 
             .esgst-warning {
