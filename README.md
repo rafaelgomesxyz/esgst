@@ -861,6 +861,21 @@ The video above does not get embedded.
 
 ## Changelog
 
+**7.11.0 (December 10, 2017):**
+
+<ul>
+    <li><a href="https://github.com/revilheart/ESGST/issues/294">#294</a> Fix a bug in Header Refresher that counts visited & hidden wishlisted giveaways</li>
+    <li><a href="https://github.com/revilheart/ESGST/issues/295">#295</a> Show hidden giveaways/discussions by added date (from most recently added)</li>
+    <li><a href="https://github.com/revilheart/ESGST/issues/297">#297</a> Fix a bug that calculates height and width of first load of images as 0 in Attached Images Carousel</li>
+    <li><a href="https://github.com/revilheart/ESGST/issues/298">#298</a> Fix a bug that happens when refreshing pages in Endless Scrolling</li>
+    <li><a href="https://github.com/revilheart/ESGST/issues/280">#280</a> Also load Giveaways Extractor when there are only SGTools giveaways</li>
+    <li><a href="https://github.com/revilheart/ESGST/issues/300">#300</a> Extract details from SGTools giveaways in Giveaways Extractor</li>
+    <li><a href="https://github.com/revilheart/ESGST/issues/301">#301</a> Add a feature: Puzzle Marker</li>
+    <li><a href="https://github.com/revilheart/ESGST/issues/305">#305</a> Add tool to clean old data</li>
+    <li><a href="https://github.com/revilheart/ESGST/issues/306">#306</a> Fix a bug that happens when refreshing active discussions/deals</li>
+    <li><a href="https://github.com/revilheart/ESGST/issues/307">#307</a> Add button to load only the next page in Endless Scrolling</li>
+</ul>
+
 **7.10.0 (December 3, 2017):**
 
 <ul>
