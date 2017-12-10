@@ -32081,7 +32081,7 @@ Parsedown = (() => {
     /* [ES] Endless Scrolling */
 
     function loadEs() {
-        let busy, continuous, continuousButton, count, currentPage, divisors, ended, i, lastLink, mainContext, n, nextButton, nextPage, pageIndex, paginations, pageBase, pauseButton, paused, progress, refreshAllButton, refreshButton, resumeButton, reversePages, reverseScrolling, row, total;
+        let busy, continuous, continuousButton, count, currentPage, divisors, ended, i, lastLink, mainContext, n, nextButton, nextPage, pageIndex, paginations, pageBase, pauseButton, paused, progress, refreshAllButton, refreshButton, resumeButton, reversePages, reverseScrolling, row, step, total;
         if (esgst.es && esgst.mainPageHeading && esgst.pagination && ((esgst.es_g && esgst.giveawaysPath) || (esgst.es_d && esgst.discussionsTicketsPath) || (esgst.es_t && esgst.tradesPath) || (esgst.es_c && esgst.commentsPath) || (esgst.es_l && !esgst.giveawaysPath && !esgst.discussionsTicketsPath && !esgst.tradesPath && !esgst.commentsPath))) {
             divisors = ((esgst.es_g_d && esgst.giveawaysPath) || (esgst.es_d_d && esgst.discussionsTicketsPath) || (esgst.es_t_d && esgst.tradesPath) || (esgst.es_c_d && esgst.commentsPath) || (esgst.es_l_d && !esgst.giveawaysPath && !esgst.discussionsTicketsPath && !esgst.tradesPath && !esgst.commentsPath));
             mainContext = esgst.pagination.previousElementSibling;
@@ -32237,7 +32237,7 @@ Parsedown = (() => {
         }
 
         function loadNextPage(callback) {
-            if (!esgst.stopEs && !busy && !paused && !ended && (continuous || scrollY >= document.body.offsetHeight - innerHeight * 2)) {
+            if (!esgst.stopEs && !busy && !paused && !ended && (continuous || step || scrollY >= document.body.offsetHeight - innerHeight * 2)) {
                 busy = true;
                 document.removeEventListener(`scroll`, loadNextPage);
                 progress = insertHtml(esgst.pagination.firstElementChild, `beforeEnd`, `
@@ -32352,11 +32352,13 @@ Parsedown = (() => {
                         if (callback && typeof callback === `function`) {
                             callback();
                         }
-                    } else if (!paused) {
+                    } else if (!paused && !step) {
                         if (!continuous) {
                             document.addEventListener(`scroll`, loadNextPage);
                         }
                         loadNextPage(callback);
+                    } else if (callback && typeof callback === `function`) {
+                        callback();
                     }
                 } else {
                     ++nextPage;
@@ -32366,11 +32368,13 @@ Parsedown = (() => {
                         if (callback && typeof callback === `function`) {
                             callback();
                         }
-                    } else if (!paused) {
+                    } else if (!paused && !step) {
                         if (!continuous) {
                             document.addEventListener(`scroll`, loadNextPage);
                         }
                         loadNextPage(callback);
+                    } else if (callback && typeof callback === `function`) {
+                        callback();
                     }
                 }
             }
@@ -32411,25 +32415,30 @@ Parsedown = (() => {
         }
 
         function stepNextPage() {
-            nextButton.innerHTML = `<i class="fa fa-circle-o-notch fa-spin"></i>`;
-            resumeEndlessScrolling();
-            document.addEventListener(`scroll`, loadNextPage);
-            loadNextPage(() => {
-                document.removeEventListener(`scroll`, loadNextPage);
-                pauseEndlessScrolling();
-                nextButton.innerHTML = `<i class="fa fa-step-forward"></i>`;
-            });
+            if (!step) {
+                nextButton.innerHTML = `<i class="fa fa-circle-o-notch fa-spin"></i>`;
+                step = true;
+                resumeEndlessScrolling();
+                document.addEventListener(`scroll`, loadNextPage);
+                loadNextPage(() => {
+                    step = false;
+                    pauseEndlessScrolling();
+                    nextButton.innerHTML = `<i class="fa fa-step-forward"></i>`;
+                });
+            }
         }
 
         function continuouslyLoad() {
-            continuousButton.innerHTML = `<i class="fa fa-circle-o-notch fa-spin"></i>`;
-            continuous = true;
-            resumeEndlessScrolling();
-            document.addEventListener(`scroll`, loadNextPage);
-            loadNextPage(() => {
-                continuous = false;
-                continuousButton.innerHTML = `<i class="fa fa-fast-forward"></i>`;
-            });
+            if (!continuous) {
+                continuousButton.innerHTML = `<i class="fa fa-circle-o-notch fa-spin"></i>`;
+                continuous = true;
+                resumeEndlessScrolling();
+                document.addEventListener(`scroll`, loadNextPage);
+                loadNextPage(() => {
+                    continuous = false;
+                    continuousButton.innerHTML = `<i class="fa fa-fast-forward"></i>`;
+                });
+            }
         }
 
         function pauseEndlessScrolling() {
@@ -32449,7 +32458,7 @@ Parsedown = (() => {
             pauseButton.classList.remove(`esgst-hidden`);
             paused = false;
             setValue(`esPause`, paused);
-            if (!ended && !continuous) {
+            if (!ended && !continuous && !step) {
                 document.addEventListener(`scroll`, loadNextPage);
                 loadNextPage();
             }
@@ -37383,13 +37392,13 @@ Parsedown = (() => {
         if (version) {
             popup.scrollable.insertAdjacentHTML(`afterBegin`, `
                 <div class="esgst-changelog esgst-text-left markdown">
-                    <h2>Highlights from v7.9.0:</h2>
-                    <h3>Debug easily from ESGST (only use it if you know what you are doing or if you have been instructed to)</h3>
-                    <img src="https://i.imgur.com/RdEXVFi.gif">
-                    <h3>Search for features in the settings menu</h3>
-                    <img src="https://i.imgur.com/iHWyyXk.gif">
-                    <h3>Order heading buttons by dragging them</h3>
-                    <img src="https://i.imgur.com/xUOp8h2.gif">
+                    <h2>Highlights from v7.11.0:</h2>
+                    <h3>Clean old data</h3>
+                    <img src="https://i.imgur.com/vNPYR5r.gif">
+                    <h3>Load the next page in Endless Scrolling without continuing to load more pages</h3>
+                    <img src="https://i.imgur.com/d5fCgx2.gif">
+                    <h3>Mark puzzles as unsolved/in progress/solved (Discussions.10 Puzzle Maker)</h3>
+                    <img src="https://i.imgur.com/7zpCt3E.gif">
                     <hr>
                     <h3>Full changelog:</h3>
                     ${html.join(``)}
