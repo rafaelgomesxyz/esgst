@@ -35074,9 +35074,16 @@ Parsedown = (() => {
                 background-color: rgba(119, 137, 154, 0.1) !important;
             }
 
-            .esgst-gf-hide-button, .esgst-gf-unhide-button, .esgst-gb-button, .esgst-gdttt-button, .esgst-df-button, .esgst-dh-button, .esgst-pm-button {
+            .esgst-gf-hide-button, .esgst-gf-unhide-button, .esgst-gb-button, .esgst-gdttt-button, .esgst-df-button, .esgst-dh-button {
                 cursor: pointer; display: inline-block;
                 margin: 0 5px 0 0;
+            }
+
+            .esgst-pm-button {
+                cursor: pointer;
+                margin-left: -65px;
+                margin-top: 8.5px;
+                position: absolute;
             }
 
             .comment__actions .esgst-ct-comment-button {
