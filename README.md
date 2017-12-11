@@ -195,6 +195,109 @@ May or may not be working (try at your own risk) in the latest version of:
 
 ---
 
+### Attached Images Carousel
+
+SG & ST
+
+<ul>
+    <li>Allows you to navigate through all attached images of a page.</li>
+    <li>You will find the feature in every page that has attached images.</li>
+    <li>Open the carousel by clicking either an attached image or the button in the main page heading, depending on your preferred settings.</li>
+</ul>
+<img src="https://i.imgur.com/gnXYNE6.png">
+<img src="https://i.imgur.com/Csegj00.png">
+
+### Attached Images Loader
+
+SG & ST
+
+<ul>
+    <li>Allows you to load attached images on demand, when you click on "View attached image".</li>
+    <li>Speeds up page loads if you have a slow Internet connection.</li>
+    <li>The feature runs automatically in every page that has attached images.</li>
+</ul>
+
+### Avatar Popout
+
+SG
+
+<ul>
+    <li>Allows you to view information about a user/group by hovering over/clicking their avatar/link, depending on your preferred settings.</li>
+    <li>You will find the feature in every page that has user/group avatars/links.</li>
+</ul>
+<img src="https://i.imgur.com/SsG4VuQ.png">
+<img src="https://i.imgur.com/0JPC9qD.png">
+
+### Accurate Timestamps
+
+SG & ST
+
+<ul>
+    <li>Shows accurate timestamps, for example, "Jan 1, 2017, 0:00:00 - 2 hours ago" instead of just "2 hours ago".</li>
+    <li>You can choose whether to enable it for giveaways in the main page or not, whether to show seconds or not and whether to use a 12-hour clock or a 24-hour one.</li>
+    <li>The feature runs automatically in every page.</li>
+</ul>
+
+### Endless Scrolling
+
+SG & ST
+
+<ul>
+    <li>Loads the next page when you scroll down to the end of the page, allowing you to endlessly scroll through pages.</li>
+    <li>You can choose for which types of pages to enable it (comments, discussions/tickets, giveaways, lists and trades) and whether to show page divisors in each of them or not.</li>
+    <li>Has a reverse scrolling option for discussions that loads pages in descending order and loads the last page instead of the first one when visiting discussions from the main pages.</li>
+    <li>Use the buttons in the main page heading to pause/resume it, load the next page, continuously load pages, refresh the current page and refresh all pages.</li>
+    <li>If you use the pagination navigation to try to go to a page that is currently loaded, it will scroll to where the page begins instead of opening it.</li>
+</ul>
+<img src="https://i.imgur.com/xLD7YZN.png">
+
+### Embedded Videos
+
+SG & ST
+
+<ul>
+    <li>Embeds YouTube and Vimeo videos into the page.</li>
+    <li>Videos are only embedded if their links are in the [URL](URL) format and are the only content in a line, for example, "[https://youtu.be/ihd9dKek2gc](https://youtu.be/ihd9dKek2gc)" gets embedded, while "[Watch this!](https://youtu.be/ihd9dKek2gc)" and "Watch this: [https://youtu.be/ihd9dKek2gc](https://youtu.be/ihd9dKek2gc)" do not.</li>
+    <li>The feature runs automatically in every page that has YouTube/Vimeo links.</li>
+</ul>
+<img src="https://i.imgur.com/jE2Xmna.png">
+
+### Fixed Footer
+
+SG & ST
+
+<ul>
+    <li>Fixes the footer so that it stays at the bottom of the window while you scroll down the page.</li>
+    <img src="https://i.imgur.com/XLE0Wpm.png">
+</ul>
+
+### Fixed Header
+
+SG & ST
+
+<ul>
+    <li>Fixes the header so that it stays at the top of the window while you scroll down the page.</li>
+    <img src="https://i.imgur.com/RvvzGj1.png">
+</ul>
+
+### Fixed Main Page Heading
+
+SG & ST
+
+<ul>
+    <li>Fixes the main page heading so that it stays at the top of the window while you scroll down the page.</li>
+    <img src="https://i.imgur.com/Bl7YWNk.png">
+</ul>
+
+### Fixed Sidebar
+
+SG
+
+<ul>
+    <li>Fixes the sidebar so that it stays at the left side of the window while you scroll down the page.</li>
+    <img src="https://i.imgur.com/lD6noac.png">
+</ul>
+
 ### Unfaded Entered Giveaways
 
 `steamgifts.com/*`
@@ -357,32 +460,6 @@ May or may not be working (try at your own risk) in the latest version of:
 ![](http://i.imgur.com/yB3pQSI.png)
 
 * Hides blacklist stats in the stats page.
-
-### Fixed Header
-### Fixed Sidebar
-### Fixed Main Page Heading
-### Fixed Footer
-
-`(steamgifts|steamtrades).com/*`
-
-* Allows you to fix the header, heading, sidebar and footer, so that they scroll together with the page.
-* You can disable any of the elements through the settings menu.
-* In case it isn't clear, this is the heading:
-
-![](http://i.imgur.com/6Hk0nus.png)
-
-### Endless Scrolling
-
-`(steamgifts|steamtrades).com/*`
-
-![](http://i.imgur.com/sCJ97Dk.png)
-
-* Allows you to endlessly scroll through pages.
-* You can choose in which pages you want to enable the endless scrolling from the settings menu.
-* If you click on the link to a page and that page is currently loaded, it will jump to the page instead of loading it. This only works on SteamGifts though, and if you jump between pages that aren't next to each other, the pagination gets messed up, but you can fix it by then going to the immediate previous / next page and returning.
-* You can refresh pages without leaving the page.
-* You can pause / resume the endless scrolling.
-* You can enable reverse scrolling for discussions.
 
 ### Active Discussions On Top/Sidebar
 
@@ -576,16 +653,6 @@ May or may not be working (try at your own risk) in the latest version of:
 * Highlights the winners of your giveaways in your inbox.
 * A winner is added to the storage when you send the gift to them through the winners page of the giveaway or through Unsent Gifts Sender.
 
-### Avatar Popout
-
-`steamgifts.com/*`
-
-![](http://i.imgur.com/aEEKnim.png)
-![](http://i.imgur.com/o8os3un.png)
-
-* Pops out a box with info about an user / group if you click on their avatar.
-* Has all the features that run on `steamgifts.com/user/*` built-in.
-
 ### Unsent Gifts Sender
 
 `steamgifts.com/created/*`
@@ -777,13 +844,6 @@ May or may not be working (try at your own risk) in the latest version of:
 * Keeps track of discussion comments and shows how many comments are unread on the discussions page.
 * Allows you to go to the first unread comment of a discussion or mark all its comments as read directly from the discussions page.
 
-### Accurate Timestamps
-
-`(steamgifts|steamtrades).com/*`
-
-* Increases the accuracy of timestamps by changing them from `2 hours ago` to `1/1/2017, 0:00:00 AM - 2 hours ago`.
-* You can disable it in the main giveaways pages through the settings menu.
-
 ### Comment Formatting Helper
 
 `(steamgifts|steamtrades).com/*`
@@ -868,27 +928,6 @@ May or may not be working (try at your own risk) in the latest version of:
 ![](http://i.imgur.com/bkUPFuV.png)
 
 * Allows you to search the archive by exact title / AppID.
-
-### Embedded Videos
-
-`steamgifts|steamtrades.com*`
-
-* Embeds YouTube and Vimeo videos into the page.
-* Videos are only embedded if the links are in the format [URL](URL) and the only content in a line.
-
-For example:
-
-[https://www.youtube.com/watch?v=cD1e0BNNifk](https://www.youtube.com/watch?v=cD1e0BNNifk)
-
-The video above gets embedded.
-
-[Orange Sphincter To The Rescue](https://www.youtube.com/watch?v=cD1e0BNNifk)
-
-The video above does not get embedded.
-
-I watched [https://www.youtube.com/watch?v=cD1e0BNNifk](https://www.youtube.com/watch?v=cD1e0BNNifk) and it was hilarious.
-
-The video above does not get embedded.
 
 ### Pagination Navigation On Top
 
