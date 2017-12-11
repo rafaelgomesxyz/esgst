@@ -201,7 +201,6 @@ SG & ST
 
 <ul>
     <li>Allows you to navigate through all attached images of a page.</li>
-    <li>You will find the feature in every page that has attached images.</li>
     <li>Open the carousel by clicking either an attached image or the button in the main page heading, depending on your preferred settings.</li>
 </ul>
 <img src="https://i.imgur.com/gnXYNE6.png">
@@ -214,7 +213,6 @@ SG & ST
 <ul>
     <li>Allows you to load attached images on demand, when you click on "View attached image".</li>
     <li>Speeds up page loads if you have a slow Internet connection.</li>
-    <li>The feature runs automatically in every page that has attached images.</li>
 </ul>
 
 ### Avatar Popout
@@ -223,7 +221,6 @@ SG
 
 <ul>
     <li>Allows you to view information about a user/group by hovering over/clicking their avatar/link, depending on your preferred settings.</li>
-    <li>You will find the feature in every page that has user/group avatars/links.</li>
 </ul>
 <img src="https://i.imgur.com/SsG4VuQ.png">
 <img src="https://i.imgur.com/0JPC9qD.png">
@@ -235,7 +232,6 @@ SG & ST
 <ul>
     <li>Shows accurate timestamps, for example, "Jan 1, 2017, 0:00:00 - 2 hours ago" instead of just "2 hours ago".</li>
     <li>You can choose whether to enable it for giveaways in the main page or not, whether to show seconds or not and whether to use a 12-hour clock or a 24-hour one.</li>
-    <li>The feature runs automatically in every page.</li>
 </ul>
 
 ### Endless Scrolling
@@ -258,7 +254,6 @@ SG & ST
 <ul>
     <li>Embeds YouTube and Vimeo videos into the page.</li>
     <li>Videos are only embedded if their links are in the [URL](URL) format and are the only content in a line, for example, "[https://youtu.be/ihd9dKek2gc](https://youtu.be/ihd9dKek2gc)" gets embedded, while "[Watch this!](https://youtu.be/ihd9dKek2gc)" and "Watch this: [https://youtu.be/ihd9dKek2gc](https://youtu.be/ihd9dKek2gc)" do not.</li>
-    <li>The feature runs automatically in every page that has YouTube/Vimeo links.</li>
 </ul>
 <img src="https://i.imgur.com/jE2Xmna.png">
 
