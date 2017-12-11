@@ -15627,43 +15627,90 @@ Parsedown = (() => {
                     }
                 }
                 description = DOM.parse(response.responseText).getElementsByClassName(`page__description`)[0];
-                if (description && !mainCallback) {
-                    if (esgst.elgb_c) {
-                        if (Date.now() - esgst.elgbCache.timestamp > 3600000) {
-                            esgst.elgbCache = {
-                                descriptions: {},
-                                timestamp: Date.now()
-                            };
-                            setValue(`esgst_elgbCache`, JSON.stringify(esgst.elgbCache));
-                        }
-                        if (!esgst.elgbCache.descriptions[giveaway.creator]) {
-                            esgst.elgbCache.descriptions[giveaway.creator] = [];
-                        }
-                        let html = description.innerHTML, i;
-                        for (i = esgst.elgbCache.descriptions[giveaway.creator].length - 1; i > -1 && esgst.elgbCache.descriptions[giveaway.creator][i] !== html; --i);
-                        if (i > -1) {
-                            description = null;
-                        } else {
-                            esgst.elgbCache.descriptions[giveaway.creator].push(html);
-                            setValue(`esgst_elgbCache`, JSON.stringify(esgst.elgbCache));
-                            if (esgst.elgb_f) {
-                                let text = description.textContent.replace(/[^a-zA-Z]/g, ``).toLowerCase();
-                                if (text.match(new RegExp(`^(${esgst.elgb_filters})$`))) {
-                                    description = null;
+                if (description && description.textContent.trim()) {
+                    if (!mainCallback) {
+                        if (esgst.elgb_c) {
+                            if (Date.now() - esgst.elgbCache.timestamp > 3600000) {
+                                esgst.elgbCache = {
+                                    descriptions: {},
+                                    timestamp: Date.now()
+                                };
+                                setValue(`esgst_elgbCache`, JSON.stringify(esgst.elgbCache));
+                            }
+                            if (!esgst.elgbCache.descriptions[giveaway.creator]) {
+                                esgst.elgbCache.descriptions[giveaway.creator] = [];
+                            }
+                            let html = description.innerHTML, i;
+                            for (i = esgst.elgbCache.descriptions[giveaway.creator].length - 1; i > -1 && esgst.elgbCache.descriptions[giveaway.creator][i] !== html; --i);
+                            if (i > -1) {
+                                description = null;
+                            } else {
+                                esgst.elgbCache.descriptions[giveaway.creator].push(html);
+                                setValue(`esgst_elgbCache`, JSON.stringify(esgst.elgbCache));
+                                if (esgst.elgb_f) {
+                                    let text = description.textContent.replace(/[^a-zA-Z]/g, ``).toLowerCase();
+                                    if (text.match(new RegExp(`^(${esgst.elgb_filters})$`))) {
+                                        description = null;
+                                    }
                                 }
                             }
-                        }
-                    } else if (esgst.elgb_f) {
-                        let text = description.textContent.replace(/[^a-zA-Z]/g, ``).toLowerCase();
-                        if (text.match(new RegExp(`^(${esgst.elgb_filters})$`))) {
-                            description = null;
+                        } else if (esgst.elgb_f) {
+                            let text = description.textContent.replace(/[^a-zA-Z]/g, ``).toLowerCase();
+                            if (text.match(new RegExp(`^(${esgst.elgb_filters})$`))) {
+                                description = null;
+                            }
                         }
                     }
-                }
-                if (description) {
-                    description.classList.add(`esgst-text-left`);
-                    popup.scrollable.insertAdjacentHTML(`beforeEnd`, description.outerHTML);
-                    if (esgst.elgb_r || mainCallback) {
+                    if (description) {
+                        description.classList.add(`esgst-text-left`);
+                        popup.scrollable.insertAdjacentHTML(`beforeEnd`, description.outerHTML);
+                        if (esgst.elgb_r || mainCallback) {
+                            box = insertHtml(popup.scrollable, `beforeEnd`, `<textarea></textarea>`);
+                            if (esgst.cfh) {
+                                addCfhPanel(box);
+                            }
+                            popup.description.appendChild(new ButtonSet(`green`, `grey`, `fa-arrow-circle-right`, `fa-circle-o-notch fa-spin`, `Add Comment`, `Saving...`, function (callback) {
+                                if (box.value) {
+                                    request(`xsrf_token=${esgst.xsrfToken}&do=comment_new&description=${box.value}`, null, `POST`, false, giveaway.url, function() {
+                                        callback();
+                                        popup.close();
+                                    });
+                                } else {
+                                    callback();
+                                    popup.close();
+                                }
+                            }).set);
+                            if (mainCallback) {
+                                popup.onClose = mainCallback;
+                            }
+                            if (esgst.elgb_f) {
+                                set = new ButtonSet(`grey`, `grey`, `fa-eye`, `fa-circle-o-notch fa-spin`, `Add Description To Filters`, `Filtering...`, function (callback) {
+                                    esgst.elgb_filters = `${esgst.elgb_filters}|${description.textContent.replace(/[^a-zA-Z]/g, ``).toLowerCase()}`;
+                                    setSetting(`elgb_filters`, esgst.elgb_filters);
+                                    callback();
+                                    set.remove();
+                                }).set;
+                                popup.description.appendChild(set);
+                            }
+                            popup.open(function () {
+                                box.focus();
+                            });
+                        } else {
+                            if (mainCallback) {
+                                popup.onClose = mainCallback;
+                            }
+                            if (esgst.elgb_f) {
+                                set = new ButtonSet(`grey`, `grey`, `fa-eye`, `fa-circle-o-notch fa-spin`, `Add Description To Filters`, `Filtering...`, function (callback) {
+                                    esgst.elgb_filters = `${esgst.elgb_filters}|${description.textContent.replace(/[^a-zA-Z]/g, ``).toLowerCase()}`;
+                                    setSetting(`elgb_filters`, esgst.elgb_filters);
+                                    callback();
+                                    set.remove();
+                                }).set;
+                                popup.description.appendChild(set);
+                            }
+                            popup.open();
+                        }
+                    } else if ((esgst.elgb_r && !esgst.elgb_r_d) || mainCallback) {
                         box = insertHtml(popup.scrollable, `beforeEnd`, `<textarea></textarea>`);
                         if (esgst.cfh) {
                             addCfhPanel(box);
@@ -15682,32 +15729,9 @@ Parsedown = (() => {
                         if (mainCallback) {
                             popup.onClose = mainCallback;
                         }
-                        if (esgst.elgb_f) {
-                            set = new ButtonSet(`grey`, `grey`, `fa-eye`, `fa-circle-o-notch fa-spin`, `Add Description To Filters`, `Filtering...`, function (callback) {
-                                esgst.elgb_filters = `${esgst.elgb_filters}|${description.textContent.replace(/[^a-zA-Z]/g, ``).toLowerCase()}`;
-                                setSetting(`elgb_filters`, esgst.elgb_filters);
-                                callback();
-                                set.remove();
-                            }).set;
-                            popup.description.appendChild(set);
-                        }
                         popup.open(function () {
                             box.focus();
                         });
-                    } else {
-                        if (mainCallback) {
-                            popup.onClose = mainCallback;
-                        }
-                        if (esgst.elgb_f) {
-                            set = new ButtonSet(`grey`, `grey`, `fa-eye`, `fa-circle-o-notch fa-spin`, `Add Description To Filters`, `Filtering...`, function (callback) {
-                                esgst.elgb_filters = `${esgst.elgb_filters}|${description.textContent.replace(/[^a-zA-Z]/g, ``).toLowerCase()}`;
-                                setSetting(`elgb_filters`, esgst.elgb_filters);
-                                callback();
-                                set.remove();
-                            }).set;
-                            popup.description.appendChild(set);
-                        }
-                        popup.open();
                     }
                 } else if ((esgst.elgb_r && !esgst.elgb_r_d) || mainCallback) {
                     box = insertHtml(popup.scrollable, `beforeEnd`, `<textarea></textarea>`);
