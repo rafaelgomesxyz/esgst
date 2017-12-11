@@ -1,12 +1,12 @@
+**ESGST will not be compatible with Greasemonkey v4. Since Greasemonkey v4's API works asynchronously, I would have to rewrite the entire structure of the script to make it compatible and that's just not going to happen. You can either use another userscript manager or switch to the extension, which is compatible with Firefox v57.**
+
+---
+
 # ESGST - Enhanced SteamGifts & SteamTrades
 
 A script that adds some cool features to SteamGifts and SteamTrades.
 
----
-
-## [Patrons](https://www.patreon.com/revilheart) - Thank you!
-
-* [Pilda](https://www.steamgifts.com/user/Pilda)
+If you find any bugs or have any feature requests, please file an issue [here](https://github.com/revilheart/ESGST/issues).
 
 ---
 
@@ -19,11 +19,13 @@ To install the extension:
 
 Other browsers might work with the extension, but only Firefox and Chrome have been tested and confirmed as working.
 
-To install the script, you must install [Greasemonkey](http://www.greasespot.net/) (not 100% compatible with the latest versions of Firefox), [Tampermonkey](https://tampermonkey.net/), or some other userscript manager first. Then [click here](https://github.com/revilheart/ESGST/raw/master/ESGST.user.js) and you should be prompted to install it.
+To install the script, you must install [Greasemonkey](http://www.greasespot.net/) (the script is not compatible with Greasemonkey v4), [Tampermonkey](https://tampermonkey.net/), or some other userscript manager first. Then [click here](https://github.com/revilheart/ESGST/raw/master/ESGST.user.js) and you should be prompted to install it.
 
 You can also install the script in your Android through Firefox with Violentmonkey or USI. Though some features might not work.
 
 To upgrade from the script to the extension, all you have to do is export all your data from the script, install the extension and import all the data you had exported into the extension.
+
+* [Changelog](https://github.com/revilheart/ESGST#changelog)
 
 ---
 
@@ -31,8 +33,8 @@ To upgrade from the script to the extension, all you have to do is export all yo
 
 Fully tested and working in the latest version of:
 
-* Firefox
 * Google Chrome
+* Firefox
 
 Should be working in the latest version of:
 
@@ -44,103 +46,152 @@ May or may not be working (try at your own risk) in the latest version of:
 
 ---
 
-# Features
+## Features
 
----
+### General
 
-## General
+* [Attached Images Carousel](https://github.com/revilheart/ESGST/blob/master/README.md#attached-images-carousel)
+* [Attached Images Loader](https://github.com/revilheart/ESGST/blob/master/README.md#attached-images-loader)
+* [Avatar Popout](https://github.com/revilheart/ESGST/blob/master/README.md#avatar-popout)
+* [Accurate Timestamps](https://github.com/revilheart/ESGST/blob/master/README.md#accurate-timestamps)
+* [Endless Scrolling](https://github.com/revilheart/ESGST/blob/master/README.md#endless-scrolling)
+* [Embedded Videos](https://github.com/revilheart/ESGST/blob/master/README.md#embedded-videos)
+* [Fixed Footer](https://github.com/revilheart/ESGST/blob/master/README.md#fixed-footer)
+* [Fixed Header](https://github.com/revilheart/ESGST/blob/master/README.md#fixed-header)
+* [Fixed Main Page Heading](https://github.com/revilheart/ESGST/blob/master/README.md#fixed-main-page-heading)
+* [Fixed Sidebar](https://github.com/revilheart/ESGST/blob/master/README.md#fixed-sidebar)
+* [Giveaways/Discussions/Tickets/Trades Tracker](https://github.com/revilheart/ESGST/blob/master/README.md#giveawaysdiscussionsticketstrades-tracker)
+* [Hidden Blacklist Stats](https://github.com/revilheart/ESGST/blob/master/README.md#hidden-blacklist-stats)
+* [Hidden Community Poll](https://github.com/revilheart/ESGST/blob/master/README.md#hidden-community-poll)
+* [Header Refresher](https://github.com/revilheart/ESGST/blob/master/README.md#header-refresher)
+* [Image Borders](https://github.com/revilheart/ESGST/blob/master/README.md#image-borders)
+* [Last Page Link](https://github.com/revilheart/ESGST/blob/master/README.md#last-page-link)
+* [Level Progress Visualizer](https://github.com/revilheart/ESGST/blob/master/README.md#level-progress-visualizer)
+* [Multi-Tag](https://github.com/revilheart/ESGST/blob/master/README.md#multi-tag)
+* [Pagination Navigation On Top](https://github.com/revilheart/ESGST/blob/master/README.md#pagination-navigation-on-top)
+* [Same Tab Opener](https://github.com/revilheart/ESGST/blob/master/README.md#same-tab-opener)
+* [Scroll To Bottom Button](https://github.com/revilheart/ESGST/blob/master/README.md#scroll-to-bottom-button)
+* [Scroll To Top Button](https://github.com/revilheart/ESGST/blob/master/README.md#scroll-to-top-button)
+* [Search Magnifying Glass Button](https://github.com/revilheart/ESGST/blob/master/README.md#search-magnifying-glass-button)
+* [Shortcut Keys](https://github.com/revilheart/ESGST/blob/master/README.md#shortcut-keys)
+* [Time To Point Cap Calculator](https://github.com/revilheart/ESGST/blob/master/README.md#time-to-point-cap-calculator)
+* [Tables Sorter](https://github.com/revilheart/ESGST/blob/master/README.md#tables-sorter)
+* [Visible Attached Images](https://github.com/revilheart/ESGST/blob/master/README.md#visible-attached-images)
 
-* [Fixed Elements](#fixed-elements)
-* [Endless Scrolling](#endless-scrolling)
-* [Grid View](#grid-view)
-* [Header Icons Refresher](#header-icons-refresher)
-* [Accurate Timestamp](#accurate-timestamp)
-* [Points Refresher](#points-refresher)
-* [Visible Attached Images](#visible-attached-images)
+### Giveaways
 
----
+* [Advanced Giveaway Search](https://github.com/revilheart/ESGST/blob/master/README.md#advanced-giveaway-search)
+* [Archive Searcher](https://github.com/revilheart/ESGST/blob/master/README.md#archive-searcher)
+* [Blacklist Giveaway Loader](https://github.com/revilheart/ESGST/blob/master/README.md#blacklist-giveaway-loader)
+* [Comments/Entries Checker](https://github.com/revilheart/ESGST/blob/master/README.md#commentsentries-checker)
+* [Created/Entered/Won Giveaway Details](https://github.com/revilheart/ESGST/blob/master/README.md#createdenteredwon-giveaway-details)
+* [Delete Keys Confirmation](https://github.com/revilheart/ESGST/blob/master/README.md#delete-keys-confirmation)
+* [Enter/Leave Giveaway Button](https://github.com/revilheart/ESGST/blob/master/README.md#enterleave-giveaway-button)
+* [Entries Tracker](https://github.com/revilheart/ESGST/blob/master/README.md#entries-tracker)
+* [Giveaway Bookmarks](https://github.com/revilheart/ESGST/blob/master/README.md#giveaway-bookmarks)
+* [Giveaway Copies Highlighter](https://github.com/revilheart/ESGST/blob/master/README.md#giveaway-copies-highlighter)
+* [Giveaway Countries Loader](https://github.com/revilheart/ESGST/blob/master/README.md#giveaway-countries-loader)
+* [Giveaway Encrypter/Decrypter](https://github.com/revilheart/ESGST/blob/master/README.md#giveaway-encrypterdecrypter)
+* [Giveaway Error Search Links](https://github.com/revilheart/ESGST/blob/master/README.md#giveaway-error-search-links)
+* [Giveaway Filters](https://github.com/revilheart/ESGST/blob/master/README.md#giveaway-filters)
+* [Giveaway Groups Loader](https://github.com/revilheart/ESGST/blob/master/README.md#giveaway-groups-loader)
+* [Giveaway Recreator](https://github.com/revilheart/ESGST/blob/master/README.md#giveaway-recreator)
+* [Giveaway Popup](https://github.com/revilheart/ESGST/blob/master/README.md#giveaway-popup)
+* [Giveaway Templates](https://github.com/revilheart/ESGST/blob/master/README.md#giveaway-templates)
+* [Giveaway Winners Link](https://github.com/revilheart/ESGST/blob/master/README.md#giveaway-winners-link)
+* [Giveaway Winning Chance](https://github.com/revilheart/ESGST/blob/master/README.md#giveaway-winning-chance)
+* [Giveaway Winning Ratio](https://github.com/revilheart/ESGST/blob/master/README.md#giveaway-winning-ratio)
+* [Giveaways Extractor](https://github.com/revilheart/ESGST/blob/master/README.md#giveaways-extractor)
+* [Giveaways Manager](https://github.com/revilheart/ESGST/blob/master/README.md#giveaways-manager)
+* [Giveaways Sorter](https://github.com/revilheart/ESGST/blob/master/README.md#giveaways-sorter)
+* [Grid View](https://github.com/revilheart/ESGST/blob/master/README.md#grid-view)
+* [Hidden Featured Container](https://github.com/revilheart/ESGST/blob/master/README.md#hidden-featured-container)
+* [Hidden Games Enter Button Disabler](https://github.com/revilheart/ESGST/blob/master/README.md#hidden-games-enter-button-disabler)
+* [Hidden Games Remover](https://github.com/revilheart/ESGST/blob/master/README.md#hidden-games-remover)
+* [Hidden Pinned Giveaways](https://github.com/revilheart/ESGST/blob/master/README.md#hidden-pinned-giveaways)
+* [Is There Any Deal? Info](https://github.com/revilheart/ESGST/blob/master/README.md#is-there-any-deal?-info)
+* [Multiple Giveaways Creator](https://github.com/revilheart/ESGST/blob/master/README.md#multiple-giveaways-creator)
+* [Next/Previous Train Hotkeys](https://github.com/revilheart/ESGST/blob/master/README.md#nextprevious-train-hotkeys)
+* [One-Click Hide Giveaway Button](https://github.com/revilheart/ESGST/blob/master/README.md#one-click-hide-giveaway-button)
+* [Pinned Giveaways Button](https://github.com/revilheart/ESGST/blob/master/README.md#pinned-giveaways-button)
+* [Quick Giveaway Browsing](https://github.com/revilheart/ESGST/blob/master/README.md#quick-giveaway-browsing)
+* [Quick Giveaway Search](https://github.com/revilheart/ESGST/blob/master/README.md#quick-giveaway-search)
+* [Real CV Calculator](https://github.com/revilheart/ESGST/blob/master/README.md#real-cv-calculator)
+* [Sent Keys Searcher](https://github.com/revilheart/ESGST/blob/master/README.md#sent-keys-searcher)
+* [Steam Activation Links](https://github.com/revilheart/ESGST/blob/master/README.md#steam-activation-links)
+* [Stickied Giveaway Countries](https://github.com/revilheart/ESGST/blob/master/README.md#stickied-giveaway-countries)
+* [Stickied Giveaway Groups](https://github.com/revilheart/ESGST/blob/master/README.md#stickied-giveaway-groups)
+* [Time To Enter Calculator](https://github.com/revilheart/ESGST/blob/master/README.md#time-to-enter-calculator)
+* [Unfaded Entered Giveaways](https://github.com/revilheart/ESGST/blob/master/README.md#unfaded-entered-giveaways)
+* [Unhide Giveaway Button](https://github.com/revilheart/ESGST/blob/master/README.md#unhide-giveaway-button)
+* [Unsent Gifts Sender](https://github.com/revilheart/ESGST/blob/master/README.md#unsent-gifts-sender)
 
-## Giveaways
+### Discussions
 
-* [Giveaway Templates](#giveaway-templates)
-* [Stickied Giveaway Groups](#stickied-giveaway-groups)
-* [Advanced Giveaway Search](#advanced-giveaway-search)
-* [Pinned Giveaways Button](#pinned-giveaways-button)
-* [Giveaway Filters](#giveaway-filters)
-* [Entered Giveaways Filter](#entered-giveaways-filter)
-* [Enter / Leave Giveaway Button](#enter--leave-giveaway-button)
-* [Giveaway Description / Comment Box Popup](#giveaway-description--comment-box-popup)
-* [Giveaway Winning Chance](#giveaway-winning-chance)
-* [Giveaway Groups Popup](#giveaway-groups-popup)
-* [Giveaway Winners Link](#giveaway-winners-link)
-* [Giveaway Error Search Links](#giveaway-error-search-links)
-* [Delivered Gifts Notifier](#delivered-gifts-notifier)
-* [Unsent Gifts Sender](#unsent-gifts-sender)
-* [Entries Remover](#entries-remover)
+* [Active Discussions On Top/Sidebar](https://github.com/revilheart/ESGST/blob/master/README.md#active-discussions-on-top-sidebar)
+* [Close/Open Discussion Button](https://github.com/revilheart/ESGST/blob/master/README.md#closeopen-discussion-button)
+* [Discussion Edits Detector](https://github.com/revilheart/ESGST/blob/master/README.md#discussion-edits-detector)
+* [Discussion Filters](https://github.com/revilheart/ESGST/blob/master/README.md#discussion-filters)
+* [Discussions Highlighter](https://github.com/revilheart/ESGST/blob/master/README.md#discussions-highlighter)
+* [Discussions Sorter](https://github.com/revilheart/ESGST/blob/master/README.md#discussions-sorter)
+* [Main Post Popup](https://github.com/revilheart/ESGST/blob/master/README.md#main-post-popup)
+* [Main Post Skipper](https://github.com/revilheart/ESGST/blob/master/README.md#main-post-skipper)
+* [Old Active Discussions Design](https://github.com/revilheart/ESGST/blob/master/README.md#old-active-discussions-design)
+* [Puzzle Marker](https://github.com/revilheart/ESGST/blob/master/README.md#puzzle-marker)
+* [Refresh Active Discussions Button](https://github.com/revilheart/ESGST/blob/master/README.md#refresh-active-discussions-button)
 
----
+### Trades
 
-## Discussions
+* [Trades Bumper](https://github.com/revilheart/ESGST/blob/master/README.md#trades-bumper)
 
-* [Active Discussions On Top](#active-discussions-on-top)
-* [Discussions Highlighter](#discussions-highlighter)
-* [Main Post Popup](#main-post-popup)
-* [Discussion Edit Detector](#discussion-edit-detector)
+### Comments
 
----
+* [Collapse/Expand Replies Button](https://github.com/revilheart/ESGST/blob/master/README.md#collapseexpand-replies-button)
+* [Comment Formatting Helper](https://github.com/revilheart/ESGST/blob/master/README.md#comment-formatting-helper)
+* [Comment History](https://github.com/revilheart/ESGST/blob/master/README.md#comment-history)
+* [Comment Searcher](https://github.com/revilheart/ESGST/blob/master/README.md#comment-searcher)
+* [Comment Tracker](https://github.com/revilheart/ESGST/blob/master/README.md#comment-tracker)
+* [Comments Reverser](https://github.com/revilheart/ESGST/blob/master/README.md#comments-reverser)
+* [Multi-Reply](https://github.com/revilheart/ESGST/blob/master/README.md#multi-reply)
+* [Received Reply Box Popup](https://github.com/revilheart/ESGST/blob/master/README.md#received-reply-box-popup)
+* [Reply Box On Top](https://github.com/revilheart/ESGST/blob/master/README.md#reply-box-on-top)
+* [Reply Box Popup](https://github.com/revilheart/ESGST/blob/master/README.md#reply-box-popup)
+* [Reply From Inbox](https://github.com/revilheart/ESGST/blob/master/README.md#reply-from-inbox)
+* [Reply Mention Link](https://github.com/revilheart/ESGST/blob/master/README.md#reply-mention-link)
 
-## Commenting
+### Users
 
-* [Comment History](#comment-history)
-* [Comment Tracker](#comment-tracker)
-* [Comment Formatting Helper](#comment-formatting-helper)
-* [Main Comment Box Popup](#main-comment-box-popup)
-* [Multi-Reply](#multi-reply)
-* [Reply From Inbox](#reply-from-inbox)
-* [Reply Mention Link](#reply-mention-link)
+* [Inbox Winners Highlighter](https://github.com/revilheart/ESGST/blob/master/README.md#inbox-winners-highlighter)
+* [Level Up Calculator](https://github.com/revilheart/ESGST/blob/master/README.md#level-up-calculator)
+* [Not Activated/Multiple Wins Checker](https://github.com/revilheart/ESGST/blob/master/README.md#not-activatedmultiple-wins-checker)
+* [Not Received Finder](https://github.com/revilheart/ESGST/blob/master/README.md#not-received-finder)
+* [Real Won/Sent CV Links](https://github.com/revilheart/ESGST/blob/master/README.md#real-wonsent-cv-links)
+* [Sent/Won Ratio](https://github.com/revilheart/ESGST/blob/master/README.md#sentwon-ratio)
+* [Shared Groups Checker](https://github.com/revilheart/ESGST/blob/master/README.md#shared-groups-checker)
+* [SteamGifts Profile Button](https://github.com/revilheart/ESGST/blob/master/README.md#steamgifts-profile-button)
+* [SteamTrades Profile Button](https://github.com/revilheart/ESGST/blob/master/README.md#steamtrades-profile-button)
+* [User Filters](https://github.com/revilheart/ESGST/blob/master/README.md#user-filters)
+* [User Giveaways Data](https://github.com/revilheart/ESGST/blob/master/README.md#user-giveaways-data)
+* [User Notes](https://github.com/revilheart/ESGST/blob/master/README.md#user-notes)
+* [User Tags](https://github.com/revilheart/ESGST/blob/master/README.md#user-tags)
+* [Username History](https://github.com/revilheart/ESGST/blob/master/README.md#username-history)
+* [Users Stats](https://github.com/revilheart/ESGST/blob/master/README.md#users-stats)
+* [Whitelist/Blacklist Checker](https://github.com/revilheart/ESGST/blob/master/README.md#whitelistblacklist-checker)
+* [Whitelist/Blacklist Highlighter](https://github.com/revilheart/ESGST/blob/master/README.md#whitelistblacklist-highlighter)
+* [Whitelist/Blacklist Manager](https://github.com/revilheart/ESGST/blob/master/README.md#whitelistblacklist-manager)
+* [Whitelist/Blacklist Sorter](https://github.com/revilheart/ESGST/blob/master/README.md#whitelistblacklist-sorter)
 
----
+### Groups
 
-## Users, Groups & Games
+* [Group Library/Wishlist Checker](https://github.com/revilheart/ESGST/blob/master/README.md#group-librarywishlist-checker)
+* [Group Stats](https://github.com/revilheart/ESGST/blob/master/README.md#group-stats)
+* [Groups Highlighter](https://github.com/revilheart/ESGST/blob/master/README.md#groups-highlighter)
 
-* [Username History](#username-history)
-* [Permanent User Notes](#permanent-user-notes)
-* [Real Won / Sent CV Links](#real-won--sent-cv-links)
-* [Sent / Won Ratio](#sent--won-ratio)
-* [SteamGifts Profile Button](#steamgifts-profile-button)
-* [SteamTrades Profile Button](#steamtrades-profile-button)
-* [Shared Groups Checker](#shared-groups-checker)
-* [Permanent User Tags](#permanent-user-tags)
-* [Whitelist / Blacklist Highlighter](#whitelist--blacklist-highlighter)
-* [Whitelist / Blacklist Checker](#whitelist--blacklist-checker)
-* [Not Activated / Multiple Wins Checker](#not-activated--multiple-wins-checker)
-* [Not Received Finder](#not-received-finder)
-* [User Giveaways Data](#user-giveaways-data)
-* [Inbox Winners Highlighter](#inbox-winners-highlighter)
-* [Avatar Popout](#avatar-popout)
-* [Game Categories](#game-categories)
+### Games
 
----
-
-## Games
-
-* [Entered Games Highlighter](#entered-games-highlighter)
-* [Game Tags](#game-tags)
-
----
-
-## Other
-
-* [Featured Container Hider](#featured-container-hider)
-* [Blacklist Stats Hider](#blacklist-stats-hider)
-* [Multi-Tag](#multi-tag)
-* [Groups Highlighter](#groups-highlighter)
-* [Groups Stats](#groups-stats)
-* [Archive Searcher](#archive-searcher)
-
----
-
-* [Other Info](#other-info)
+* [Entered Games Highlighter](https://github.com/revilheart/ESGST/blob/master/README.md#entered-games-highlighter)
+* [Game Categories](https://github.com/revilheart/ESGST/blob/master/README.md#game-categories)
+* [Game Tags](https://github.com/revilheart/ESGST/blob/master/README.md#game-tags)
 
 ---
 
