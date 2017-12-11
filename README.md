@@ -197,7 +197,7 @@ May or may not be working (try at your own risk) in the latest version of:
 
 ### Attached Images Carousel
 
-SG & ST
+<code>SG & ST</code>
 
 <ul>
     <li>Allows you to navigate through all attached images of a page.</li>
@@ -208,7 +208,7 @@ SG & ST
 
 ### Attached Images Loader
 
-SG & ST
+<code>SG & ST</code>
 
 <ul>
     <li>Allows you to load attached images on demand, when you click on "View attached image".</li>
@@ -217,7 +217,7 @@ SG & ST
 
 ### Avatar Popout
 
-SG
+<code>SG</code>
 
 <ul>
     <li>Allows you to view information about a user/group by hovering over/clicking their avatar/link, depending on your preferred settings.</li>
@@ -227,7 +227,7 @@ SG
 
 ### Accurate Timestamps
 
-SG & ST
+<code>SG & ST</code>
 
 <ul>
     <li>Shows accurate timestamps, for example, "Jan 1, 2017, 0:00:00 - 2 hours ago" instead of just "2 hours ago".</li>
@@ -236,7 +236,7 @@ SG & ST
 
 ### Endless Scrolling
 
-SG & ST
+<code>SG & ST</code>
 
 <ul>
     <li>Loads the next page when you scroll down to the end of the page, allowing you to endlessly scroll through pages.</li>
@@ -249,7 +249,7 @@ SG & ST
 
 ### Embedded Videos
 
-SG & ST
+<code>SG & ST</code>
 
 <ul>
     <li>Embeds YouTube and Vimeo videos into the page.</li>
@@ -259,39 +259,39 @@ SG & ST
 
 ### Fixed Footer
 
-SG & ST
+<code>SG & ST</code>
 
 <ul>
     <li>Fixes the footer so that it stays at the bottom of the window while you scroll down the page.</li>
-    <img src="https://i.imgur.com/XLE0Wpm.png">
 </ul>
+<img src="https://i.imgur.com/XLE0Wpm.png">
 
 ### Fixed Header
 
-SG & ST
+<code>SG & ST</code>
 
 <ul>
     <li>Fixes the header so that it stays at the top of the window while you scroll down the page.</li>
-    <img src="https://i.imgur.com/RvvzGj1.png">
 </ul>
+<img src="https://i.imgur.com/RvvzGj1.png">
 
 ### Fixed Main Page Heading
 
-SG & ST
+<code>SG & ST</code>
 
 <ul>
     <li>Fixes the main page heading so that it stays at the top of the window while you scroll down the page.</li>
-    <img src="https://i.imgur.com/Bl7YWNk.png">
 </ul>
+<img src="https://i.imgur.com/Bl7YWNk.png">
 
 ### Fixed Sidebar
 
-SG
+<code>SG</code>
 
 <ul>
     <li>Fixes the sidebar so that it stays at the left side of the window while you scroll down the page.</li>
-    <img src="https://i.imgur.com/lD6noac.png">
 </ul>
+<img src="https://i.imgur.com/lD6noac.png">
 
 ### Unfaded Entered Giveaways
 
