@@ -32765,11 +32765,16 @@ Parsedown = (() => {
             if (!step) {
                 nextButton.innerHTML = `<i class="fa fa-circle-o-notch fa-spin"></i>`;
                 step = true;
+                let wasPaused = paused;
                 resumeEndlessScrolling();
                 document.addEventListener(`scroll`, loadNextPage);
                 loadNextPage(() => {
                     step = false;
-                    pauseEndlessScrolling();
+                    if (wasPaused) {
+                        pauseEndlessScrolling();
+                    } else {
+                        resumeEndlessScrolling();
+                    }
                     nextButton.innerHTML = `<i class="fa fa-step-forward"></i>`;
                 });
             }
