@@ -22386,7 +22386,7 @@ Parsedown = (() => {
                                             </p>
                                         </div>
                                         <div class="table__column--width-small text-center">
-                                            <a class="table__column__secondary-link" href="/discussion/${key}/">${breadcrumbs[1].textContent.match(/(.+) Comments/)[1]}</a>
+                                            <a class="table__column__secondary-link" href="/discussion/${key}/">${breadcrumbs[1].textContent.match(/(.+) Comments?/)[1]}</a>
                                         </div>
                                     </div>
                                 </div>
@@ -30419,7 +30419,7 @@ Parsedown = (() => {
                                         </p>
                                     </div>
                                     <div class="table__column--width-small text-center">
-                                        <a class="table__column__secondary-link" href="/discussion/${hidden[i].code}/">${breadcrumbs[1].textContent.match(/(.+) Comments/)[1]}</a>
+                                        <a class="table__column__secondary-link" href="/discussion/${hidden[i].code}/">${breadcrumbs[1].textContent.match(/(.+) Comments?/)[1]}</a>
                                     </div>
                                 </div>
                             </div>
