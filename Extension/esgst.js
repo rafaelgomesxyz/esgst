@@ -24656,6 +24656,11 @@ Parsedown = (() => {
             <textarea></textarea>
         `);
         set = new ButtonSet(`green`, `grey`, `fa-check`, `fa-circle-o-notch fa-spin`, `Save`, `Saving...`, saveUnNotes.bind(null, profile));
+        profile.unTextArea.addEventListener(`keydown`, event => {
+            if (event.ctrlKey && event.key === `Enter`) {
+                set.trigger();
+            }
+        });
         profile.unPopup.description.appendChild(set.set);
         profile.unPopup.open(getUnNotes.bind(null, profile));
     }
