@@ -3,7 +3,7 @@
 // @namespace ESGST
 // @description Enhances SteamGifts and SteamTrades by adding some cool features to them.
 // @icon https://dl.dropboxusercontent.com/s/lr3t3bxrxfxylqe/esgstIcon.ico?raw=1
-// @version 7.11.0
+// @version 7.11.1
 // @author revilheart
 // @downloadURL https://github.com/revilheart/ESGST/raw/master/ESGST.user.js
 // @updateURL https://github.com/revilheart/ESGST/raw/master/ESGST.meta.js
@@ -1474,17 +1474,17 @@ Parsedown = (() => {
                 esgst[this.id] = this.value;
             }
             if (this.value) {
+                this.dependencies.forEach(dependency => dependency.classList.remove(`esgst-hidden`));
+                this.exclusions.forEach(exclusion => exclusion.classList.add(`esgst-hidden`));
                 if (this.onEnabled) {
                     this.onEnabled();
                 }
-                this.dependencies.forEach(dependency => dependency.classList.remove(`esgst-hidden`));
-                this.exclusions.forEach(exclusion => exclusion.classList.add(`esgst-hidden`));
             } else {
+                this.dependencies.forEach(dependency => dependency.classList.add(`esgst-hidden`));
+                this.exclusions.forEach(exclusion => exclusion.classList.remove(`esgst-hidden`));
                 if (this.onDisabled) {
                     this.onDisabled();
                 }
-                this.dependencies.forEach(dependency => dependency.classList.add(`esgst-hidden`));
-                this.exclusions.forEach(exclusion => exclusion.classList.remove(`esgst-hidden`));
             }
         }
         enable() {
@@ -1526,7 +1526,7 @@ Parsedown = (() => {
             storage: storage,
             sg: location.hostname.match(/www.steamgifts.com/),
             st: location.hostname.match(/www.steamtrades.com/),
-            currentVersion: `7.11.0`,
+            currentVersion: `7.11.1`,
             icon: `data:image/x-icon;base64,AAABAAEAEBAAAAEAIABoBAAAFgAAACgAAAAQAAAAIAAAAAEAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAqv8DCbP/Hgeq+CQIrf8iCK3/Igit/yIIrf8iB6//Iwit9x8Aqv8DAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAKr0GAa2/c0DvfzfA7f83QO3/N0Dt/zdA7f83QO+/d4Gs/3OAKP1GQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACm/xQFs/n2Bcf//wW///8FwP//BcD//wW///8Fx///BbP69gC2/xUAAAAAAAAAAAAAAAAA/1UDFptOFxSZMxkLpJktAq720QW1+ugEsfvjA7b92wO2/dsEsfvjBbX66Aau/dEoiO4tUlLWGU5k3hdVVf8DEJxKHxWqT8cVrU7uE6VN0guqny0Apv8XAJfQGwBAVywAQFcsAJfQGwCx/xcogugtS2Lk0lBl6u5Qae7ISmPeHxagSSMVr07jF7lV/xOiSu0brgATAAAAAAAAAA8AAAC/AAAAwAAAABAAAAAAYznjEkth4OxWb/3/T2jv40lf4iMXnksiEq1O3RayUv8UpEnkEo0+HQAAABkAAABBAAAA8QAAAPEAAABBAAAAGUBSvxxOYeDjU2v0/05m7d1LYuEiF55LIhKtTt0Ws1L/FahN2gU1FTAAAADAAAAA7AAAAP0AAAD9AAAA7AAAAMAVG0owUGPm2lNr9P9OZu3dS2LhIheeSyISrU7dFrNS/xWoTdoFNRswAAAAvwAAAOsAAAD9AAAA/QAAAOsAAADAFRtKMFBj6NpTa/T/Tmbt3Uti4SIXnksiEq1O3RayUv8UpEnkEo0+HQAAABgAAABAAAAA8QAAAPEAAABBAAAAGT5PuR1OYeDjU2v0/05m7d1LYuEiFqBJIxWuT+QXuVX/E6JL7QC8XhMAAAAAAAAADwAAAL8AAAC/AAAAEAAAAAAOR/8SSWLh7FZv/f9PaO/jSV/iIxCUSh8Vrk7HFqxN7ROlS9JskzMt1XULGK12EhxGLgYsRy8GK612EhzVgAsYgmxxLU1i39JNZ+vtT2fwx0pj1h8AqlUDF65GFgqZUhlsiC0txH0T0s5/EujJgBPkz4QR28+EEdvJgBPkzn8Q6Md+E9KLdHosM1LWGUZo6BZVVf8DAAAAAAAAAAAAAAAA/2YAFMl9EvbgjRb/14gV/9eIFf/XiBX/14gV/9+NFv/KgBD254YAFQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAL91FRjKgRHN1IgU3s+EEt3PhBLdz4QS3c+EEt3UiBTezYMRzcJ6FBkAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACqqgADxIARHr18FiO8eA8ivHgPIrx4DyK8eA8ivXwPI8SAER7/VQADAAAAAAAAAAAAAAAA78cAAPA3AAD4FwAABCAAADGOAAAE+AAAkBEAAJ55AACYOQAAlgEAAER4AAAXaAAATnoAAPgXAAD0JwAA69cAAA==`,
             sgIcon: `data:image/x-icon;base64,AAABAAEAEBAAAAEAIABoBAAAFgAAACgAAAAQAAAAIAAAAAEAIAAAAAAAQAQAABMLAAATCwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIUAAAD5AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAPoAAACFAAAAAAAAAAAAAAD8AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA+QAAAAAAAAAAAAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAAAAAAAAAAAAP8AAAD/AAAA/wAAABwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAcAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAcAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAHAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAAAAAAAAAAAAPwAAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD5AAAAAAAAAAAAAACFAAAA+QAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD5AAAAhQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA//8AAP//AADAAwAAwAMAAMfjAADP8wAAz/MAAM/zAADP8wAAz/MAAM/zAADH4wAAwAMAAMADAAD//wAA//8AAA==`,
             stIcon: `data:image/x-icon;base64,AAABAAEAEBAAAAEAIABoBAAAFgAAACgAAAAQAAAAIAAAAAEAIAAAAAAAQAQAABMLAAATCwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABbD6SgWw+ucFsPrkBbD6SgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAWw+uYFsPr/BbD6/wWw+ucAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAFsPrmBbD6/wWw+v8FsPrmAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABbD6SQWw+uYFsPrmBbD6SQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAFKRLShSkS+cUpEvkFKRLSgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAExi4EpMYuDnTGLg5Exi4EoAAAAAAAAAABSkS+YUpEv/FKRL/xSkS+cAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABMYuDmTGLg/0xi4P9MYuDnAAAAAAAAAAAUpEvmFKRL/xSkS/8UpEvmAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAATGLg5kxi4P9MYuD/TGLg5gAAAAAAAAAAFKRLSRSkS+YUpEvmFKRLSQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAExi4ElMYuDmTGLg5kxi4EkAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAMZ9E0rGfRPnxn0T5MZ9E0oAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADGfRPmxn0T/8Z9E//GfRPnAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAxn0T5sZ9E//GfRP/xn0T5gAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAMZ9E0nGfRPmxn0T5sZ9E0kAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA//8AAPw/AAD8PwAA/D8AAPw/AAD//wAAh+EAAIfhAACH4QAAh+EAAP//AAD8PwAA/D8AAPw/AAD8PwAA//8AAA==`,
@@ -2032,9 +2032,11 @@ Parsedown = (() => {
                             aic: {
                                 description: `
                                     <ul>
-                                        <li>Opens the attached images in a carousel.</li>
+                                        <li>Allows you to navigate through all attached images of a page.</li>
+                                        <li>Open the carousel by clicking either an attached image or the button in the main page heading, depending on your preferred settings.</li>
                                     </ul>
-                                    <img src="http://imgur.com/iJjAs3W.png"/>
+                                    <img src="https://i.imgur.com/gnXYNE6.png">
+                                    <img src="https://i.imgur.com/Csegj00.png">
                                 `,
                                 features: {
                                     aic_b: {
@@ -2048,11 +2050,13 @@ Parsedown = (() => {
                                 st: true
                             },
                             ail: {
+                                conflicts: [
+                                    {id: `vai`, name: `Visible Attached Images`}
+                                ],
                                 description: `
                                     <ul>
-                                        <li>Prevents all attached images in a page from loading on page load and only loads them after clicking on "View attached image".</li>
-                                        <li>This speeds up page loads for users with poor Internet connection.</li>
-                                        <li>This feature obviously does not run if Visible Attached Images is enabled.</li>
+                                        <li>Allows you to load attached images on demand, when you click on "View attached image".</li>
+                                        <li>Speeds up page loads if you have a slow Internet connection.</li>
                                     </ul>
                                 `,
                                 name: `Attached Images Loader`,
@@ -2062,8 +2066,10 @@ Parsedown = (() => {
                             ap: {
                                 description: `
                                     <ul>
-                                        <li>Pops out user/group info when hovering their avatars.</li>
+                                        <li>Allows you to view information about a user/group by hovering over/clicking their avatar/link, depending on your preferred settings.</li>
                                     </ul>
+                                    <img src="https://i.imgur.com/SsG4VuQ.png">
+                                    <img src="https://i.imgur.com/0JPC9qD.png">
                                 `,
                                 name: `Avatar Popout`,
                                 options: {
@@ -2075,7 +2081,8 @@ Parsedown = (() => {
                             at: {
                                 description: `
                                     <ul>
-                                        <li>Shows accurate timestamps. For example, "1/1/2017, 0:00:00 AM" instead of "2 hours ago".</li>
+                                        <li>Shows accurate timestamps, for example, "Jan 1, 2017, 0:00:00 - 2 hours ago" instead of just "2 hours ago".</li>
+                                        <li>You can choose whether to enable it for giveaways in the main page or not, whether to show seconds or not and whether to use a 12-hour clock or a 24-hour one.</li>
                                     </ul>
                                 `,
                                 features: {
@@ -2101,8 +2108,13 @@ Parsedown = (() => {
                             es: {
                                 description: `
                                     <ul>
-                                        <li>Allows you to endlessly scroll through pages.</li>
+                                        <li>Loads the next page when you scroll down to the end of the page, allowing you to endlessly scroll through pages.</li>
+                                        <li>You can choose for which types of pages to enable it (comments, discussions/tickets, giveaways, lists and trades) and whether to show page divisors in each of them or not.</li>
+                                        <li>Has a reverse scrolling option for discussions that loads pages in descending order and loads the last page instead of the first one when visiting discussions from the main pages.</li>
+                                        <li>Use the buttons in the main page heading to pause/resume it, load the next page, continuously load pages, refresh the current page and refresh all pages.</li>
+                                        <li>If you use the pagination navigation to try to go to a page that is currently loaded, it will scroll to where the page begins instead of opening it.</li>
                                     </ul>
+                                    <img src="https://i.imgur.com/xLD7YZN.png">
                                 `,
                                 features: {
                                     es_rd: {
@@ -2210,12 +2222,9 @@ Parsedown = (() => {
                                 description: `
                                     <ul>
                                         <li>Embeds YouTube and Vimeo videos into the page.</li>
+                                        <li>Videos are only embedded if their links are in the [URL](URL) format and are the only content in a line, for example, "[https://youtu.be/ihd9dKek2gc](https://youtu.be/ihd9dKek2gc)" gets embedded, while "[Watch this!](https://youtu.be/ihd9dKek2gc)" and "Watch this: [https://youtu.be/ihd9dKek2gc](https://youtu.be/ihd9dKek2gc)" do not.</li>
                                     </ul>
-                                    <p>Videos are only embedded if they are the only content in a line. For example:</p´>
-                                    <ul>
-                                        <li>[Orange Sphincter To The Rescue](https://www.youtube.com/watch?v=cD1e0BNNifk) -> Gets embedded.</li>
-                                        <li>I watched [https://www.youtube.com/watch?v=cD1e0BNNifk](https://www.youtube.com/watch?v=cD1e0BNNifk) and it was hilarious. -> Does not get embedded.</li>
-                                    </ul>
+                                    <img src="https://i.imgur.com/jE2Xmna.png">
                                 `,
                                 name: `Embedded Videos`,
                                 sg: true,
@@ -2224,8 +2233,9 @@ Parsedown = (() => {
                             ff: {
                                 description: `
                                     <ul>
-                                        <li>Allows the footer to stay fixed at the bottom while you scroll down the page.</li>
+                                        <li>Fixes the footer so that it stays at the bottom of the window while you scroll down the page.</li>
                                     </ul>
+                                    <img src="https://i.imgur.com/XLE0Wpm.png">
                                 `,
                                 name: `Fixed Footer`,
                                 sg: true,
@@ -2234,8 +2244,9 @@ Parsedown = (() => {
                             fh: {
                                 description: `
                                     <ul>
-                                        <li>Allows the header to stay fixed at the top while you scroll down the page.</li>
+                                        <li>Fixes the header so that it stays at the top of the window while you scroll down the page.</li>
                                     </ul>
+                                    <img src="https://i.imgur.com/RvvzGj1.png">
                                 `,
                                 name: `Fixed Header`,
                                 sg: true,
@@ -2244,8 +2255,9 @@ Parsedown = (() => {
                             fmph: {
                                 description: `
                                     <ul>
-                                        <li>Allows the main page heading to stay fixed at the top while you scroll down the page.</li>
+                                        <li>Fixes the main page heading so that it stays at the top of the window while you scroll down the page.</li>
                                     </ul>
+                                    <img src="https://i.imgur.com/Bl7YWNk.png">
                                 `,
                                 name: `Fixed Main Page Heading`,
                                 sg: true,
@@ -2254,8 +2266,9 @@ Parsedown = (() => {
                             fs: {
                                 description: `
                                     <ul>
-                                        <li>Allows the sidebar to stay fixed at the side while you scroll down the page.</li>
+                                        <li>Fixes the sidebar so that it stays at the left side of the window while you scroll down the page.</li>
                                     </ul>
+                                    <img src="https://i.imgur.com/lD6noac.png">
                                 `,
                                 name: `Fixed Sidebar`,
                                 sg: true,
@@ -2589,6 +2602,9 @@ Parsedown = (() => {
                                 st: true
                             },
                             vai: {
+                                conflicts: [
+                                    {id: `ail`, name: `Attached Images Loader`}
+                                ],
                                 description: `
                                     <ul>
                                         <li>Shows all attached images by default.</li>
@@ -8830,7 +8846,7 @@ Parsedown = (() => {
         if (esgst.cewgd && (esgst.createdPath || esgst.enteredPath || esgst.wonPath)) {
             esgst.giveawayFeatures.push(getCewgdDetails);
             esgst.endlessFeatures.push(addCewgdHeading);
-            addCewgdHeading(document);
+            addCewgdHeading(document, true);
         }
 
         if (esgst.gp) {
@@ -8859,6 +8875,16 @@ Parsedown = (() => {
             }
             let rows = document.getElementsByClassName(`form__rows`)[0];
             if (rows) {
+                if (esgst.gc) {
+                    let ipt = document.getElementsByClassName(`js__autocomplete-name`)[0];
+                    let tb = ipt.nextElementSibling;
+                    ipt.addEventListener(`input`, () => {
+                        if (!esgst.isCheckingGc) {
+                            esgst.isCheckingGc = true;
+                            checkGcNewGiveaway(tb);
+                        }
+                    });
+                }
                 if (esgst.gts) {
                     let key, position;
                     if (esgst.leftButtonIds.indexOf(`gts`) > -1) {
@@ -10886,6 +10912,14 @@ Parsedown = (() => {
                 Key: `sent`
             };
             UGD.giveaways = {};
+            if (!giveaways.version) {
+                giveaways.sent = {
+                    apps: {},
+                    subs: {}
+                };
+                giveaways.sentTimestamp = 0;
+                giveaways.version = `7.11.1`;
+            }
             getUGDGiveaways(UGD, giveaways, 1, `/user/${esgst.username}/search?page=`, esgst.username, function (giveaways) {
                 user.values = {
                     giveaways: giveaways,
@@ -10990,22 +11024,22 @@ Parsedown = (() => {
         });
     }
 
-    function setSiblingsOpacity(Element, Opacity) {
+    function setSiblingsOpacity(element, Opacity) {
         var Siblings, I, N;
-        Siblings = Element.parentElement.children;
+        Siblings = element.parentElement.children;
         for (I = 0, N = Siblings.length; I < N; ++I) {
-            if (Siblings[I] != Element) {
+            if (Siblings[I] != element) {
                 Siblings[I].style.opacity = Opacity;
             }
         }
     }
 
-    function setHoverOpacity(Element, EnterOpacity, LeaveOpacity) {
-        Element.addEventListener(`mouseenter`, function () {
-            Element.style.opacity = EnterOpacity;
+    function setHoverOpacity(element, EnterOpacity, LeaveOpacity) {
+        element.addEventListener(`mouseenter`, function () {
+            element.style.opacity = EnterOpacity;
         });
-        Element.addEventListener(`mouseleave`, function () {
-            Element.style.opacity = LeaveOpacity;
+        element.addEventListener(`mouseleave`, function () {
+            element.style.opacity = LeaveOpacity;
         });
     }
 
@@ -11117,42 +11151,42 @@ Parsedown = (() => {
         return context;
     }
 
-    function createResults(Context, Element, Results) {
+    function createResults(Context, element, Results) {
         var I, N, Key;
         for (I = 0, N = Results.length; I < N; ++I) {
             Context.insertAdjacentHTML(`beforeEnd`, `
-                <li class="esgst-hidden">
+                <div class="esgst-hidden">
                     ${Results[I].Icon}
                     <span class="esgst-bold">${Results[I].Description} (<span>0</span>):</span>
                     <span class="esgst-popup-actions"></span>
-                </li>
+                </div>
             `);
             Key = Results[I].Key;
-            Element[Key] = Context.lastElementChild;
-            Element[`${Key}Count`] = Element[Key].firstElementChild.nextElementSibling.firstElementChild;
-            Element[`${Key}Users`] = Element[Key].lastElementChild;
+            element[Key] = Context.lastElementChild;
+            element[`${Key}Count`] = element[Key].firstElementChild.nextElementSibling.firstElementChild;
+            element[`${Key}Users`] = element[Key].lastElementChild;
         }
     }
 
-    function goToComment(hash, Element) {
+    function goToComment(hash, element) {
         var element, ID, Top, Permalink;
         if (!hash) {
             hash = location.hash;
         }
         ID = hash.replace(/#/, ``);
-        if ((ID || Element) && !location.pathname.match(/^\/account/)) {
-            if (!Element && ID) {
-                Element = document.getElementById(ID);
+        if ((ID || element) && !location.pathname.match(/^\/account/)) {
+            if (!element && ID) {
+                element = document.getElementById(ID);
             }
-            if (Element) {
-                Top = Element.offsetTop;
+            if (element) {
+                Top = element.offsetTop;
                 scrollTo(0, Top);
                 scrollBy(0, -esgst.commentsTop);
                 Permalink = document.getElementsByClassName(esgst.sg ? `is_permalink` : `author_permalink`)[0];
                 if (Permalink) {
                     Permalink.remove();
                 }
-                element = Element.getElementsByClassName(esgst.sg ? `comment__username` : `author_avatar`)[0];
+                element = element.getElementsByClassName(esgst.sg ? `comment__username` : `author_avatar`)[0];
                 if (element) {
                     element.insertAdjacentHTML(esgst.sg ? `beforeBegin` : `afterEnd`, `
                         <i class="fa fa-share is_permalink author_permalink"></i>
@@ -11419,11 +11453,11 @@ Parsedown = (() => {
 
     function addIbBorders(context) {
         var elements, i, n;
-        elements = context.querySelectorAll(`.giveaway_image_avatar, :not(.esgst-ggl-panel) .table_image_avatar`);
+        elements = context.querySelectorAll(`.giveaway_image_avatar, .featured_giveaway_image_avatar, :not(.esgst-ggl-panel) .table_image_avatar`);
         for (i = 0, n = elements.length; i < n; ++i) {
             elements[i].classList.add(`esgst-ib-user`);
         }
-        elements = context.querySelectorAll(`.giveaway_image_thumbnail, .giveaway_image_thumbnail_missing`);
+        elements = context.querySelectorAll(`.giveaway_image_thumbnail, .giveaway_image_thumbnail_missing, .table_image_thumbnail, .table_image_thumbnail_missing`);
         for (i = 0, n = elements.length; i < n; ++i) {
             elements[i].classList.add(`esgst-ib-game`);
         }
@@ -11717,10 +11751,22 @@ Parsedown = (() => {
                         giveaway = esgst.giveaways[apps[id][i]];
                         if (giveaway) {
                             value = giveaway.points;
-                            if (currentTime < giveaway.endTime) {
+                            if (giveaway.entries >= 5 || (!giveaway.inviteOnly && !giveaway.group && !giveaway.whitelist)) {
+                                if (Array.isArray(giveaway.winners)) {
+                                    if (giveaway.winners.length > 0) {
+                                        giveaway.winners.forEach(winner => {
+                                            if (winner.received) {
+                                                sent += 1;
+                                            }
+                                        });
+                                    } else if (currentTime < giveaway.endTime) {
+                                        active += giveaway.copies;
+                                    }
+                                } else if (giveaway.winners > 0) {
+                                    sent += Math.min(giveaway.entries, giveaway.winners);
+                                }
+                            } else if (currentTime < giveaway.endTime) {
                                 active += giveaway.copies;
-                            } else if (((giveaways.entries < 5) && !giveaway.inviteOnly && !giveaway.group && !giveaway.whitelist) || giveaway.entries >= 5) {
-                                sent += giveaway.entries >= giveaway.copies ? giveaway.copies : giveaway.entries;
                             }
                         }
                     }
@@ -11754,10 +11800,22 @@ Parsedown = (() => {
                         giveaway = esgst.giveaways[subs[id][i]];
                         if (giveaway) {
                             value = giveaway.points;
-                            if (currentTime < giveaway.endTime) {
+                            if (giveaway.entries >= 5 || (!giveaway.inviteOnly && !giveaway.group && !giveaway.whitelist)) {
+                                if (Array.isArray(giveaway.winners)) {
+                                    if (giveaway.winners.length > 0) {
+                                        giveaway.winners.forEach(winner => {
+                                            if (winner.received) {
+                                                sent += 1;
+                                            }
+                                        });
+                                    } else if (currentTime < giveaway.endTime) {
+                                        active += giveaway.copies;
+                                    }
+                                } else if (giveaway.winners > 0) {
+                                    sent += Math.min(giveaway.entries, giveaway.winners);
+                                }
+                            } else if (currentTime < giveaway.endTime) {
                                 active += giveaway.copies;
-                            } else if (((giveaways.entries < 5) && !giveaway.inviteOnly && !giveaway.group && !giveaway.whitelist) || giveaway.entries >= 5) {
-                                sent += giveaway.entries >= giveaway.copies ? giveaway.copies : giveaway.entries;
                             }
                         }
                     }
@@ -12038,7 +12096,6 @@ Parsedown = (() => {
         if (esgst.ail) {
             attachedImage.image.setAttribute(`src`, attachedImage.url);
         }
-        attachedImage.image.classList.remove(`is_hidden`, `is-hidden`);
         carousel.innerHTML = `
             <div class="esgst-aic-panel">
                 <div class="esgst-aic-left-button">
@@ -12057,7 +12114,7 @@ Parsedown = (() => {
                 ` : ``}
             </div>
             <a href="${attachedImage.url}" rel="nofollow noreferrer" target="_blank">
-                ${attachedImage.image.outerHTML}
+                ${attachedImage.image.outerHTML.replace(/is_hidden|is-hidden/, ``)}
             </a>
         `;
         panel = carousel.firstElementChild;
@@ -12456,6 +12513,7 @@ Parsedown = (() => {
                         case `Summary`:
                         case `Type`:
                         case `User`:
+                        case `Winner(s)`:
                             element.value = value;
                             break;
                         default:
@@ -12848,6 +12906,8 @@ Parsedown = (() => {
                 optionsHtml += `
                     <option value="chance_asc">Chance - Ascending</option>
                     <option value="chance_desc">Chance - Descending</option>
+                    <option value="chancePerPoint_asc">Chance Per Point - Ascending</option>
+                    <option value="chancePerPoint_desc">Chance Per Point - Descending</option>
                 `;
             }
             if (esgst.gwr) {
@@ -13199,6 +13259,7 @@ Parsedown = (() => {
         var basicFilter, basicFilters, box, button, categoryFilter, categoryFilters, collapseButton, display, exceptionButton, exceptionCount, exceptionPanel, expandButton, filters, genres, gf, headingButton, i, id, infinite, key, maxKey, maxSavedValue, maxValue, minKey, minSavedValue, minValue, name, preset, presetButton, presetDisplay, presetInput, presetMessage, presetPanel, presets, presetWarning, slider, step, toggleSwitch, typeFilter, typeFilters, value;
         gf = {
             advancedSearch: location.search.match(/q=/),
+            counters: {},
             popup: popup,
             type: popup || (esgst.groupPath ? `Groups` : (location.search.match(/type/) ? { wishlist: `Wishlist`, recommended: `Recommended`, group: `Group`, new: `New` }[location.search.match(/type=(wishlist|recommended|group|new)/)[1]] : (esgst.createdPath ? `Created` : (esgst.enteredPath ? `Entered` : (esgst.wonPath ? `Won` : (esgst.userPath ? `User` : ``))))))
         };
@@ -13315,7 +13376,7 @@ Parsedown = (() => {
         if (!preset) {
             name = `Default${gf.type}`;
             preset = { name };
-            [`maxLevel`, `minLevel`, `maxEntries`, `minEntries`, `maxCopies`, `minCopies`, `maxPoints`, `minPoints`, `maxMinutesToEnd`, `minMinutesToEnd`, `maxChance`, `minChance`, `maxRating`, `minRating`, `pinned`, `group`, `whitelist`, `regionRestricted`, `created`, `received`, `notReceived`, `awaitingFeedabck`, `entered`, `started`, `ended`, `deleted`, `hidden`, `fullCV`, `reducedCV`, `noCV`, `owned`, `wishlisted`, `ignored`, `previouslyEntered`, `previouslyWon`, `removed`, `tradingCards`, `achievements`, `multiplayer`, `steamCloud`, `linux`, `mac`, `dlc`, `dlcFree`, `dlcNonFree`, `package`, `genres`, `genreList`].forEach(key => {
+            [`maxLevel`, `minLevel`, `maxEntries`, `minEntries`, `maxCopies`, `minCopies`, `maxPoints`, `minPoints`, `maxMinutesToEnd`, `minMinutesToEnd`, `maxChance`, `minChance`, `maxRatio`, `minRatio`, `maxRating`, `minRating`, `pinned`, `group`, `whitelist`, `regionRestricted`, `created`, `received`, `notReceived`, `awaitingFeedabck`, `entered`, `started`, `ended`, `deleted`, `hidden`, `fullCV`, `reducedCV`, `noCV`, `owned`, `wishlisted`, `ignored`, `previouslyEntered`, `previouslyWon`, `removed`, `tradingCards`, `achievements`, `multiplayer`, `steamCloud`, `linux`, `mac`, `dlc`, `dlcFree`, `dlcNonFree`, `package`, `genres`, `genreList`].forEach(key => {
                 preset[key] = esgst.settings[`gf_${key}${gf.type}`];
             });
             presets = JSON.parse(getValue(`filterPresets`, `[]`));
@@ -13364,7 +13425,7 @@ Parsedown = (() => {
                             gf[minKey] = minSavedValue;
                             basicFilter = insertHtml(basicFilters, `beforeEnd`, `
                                 <div class="esgst-gf-basic-filter">
-                                    <div>${name === `MinutesToEnd` ? `Minutes To End` : name} <span class="esgst-float-right"><input type="text" value="${minSavedValue}"> - <input type="text" value="${maxSavedValue}"></span></div>
+                                    <div>${name === `MinutesToEnd` ? `Minutes To End` : name} <span class="esgst-gf-filter-count" title="Number of giveaways this filter is filtering">0</span> <span class="esgst-float-right"><input type="text" value="${minSavedValue}"> - <input type="text" value="${maxSavedValue}"></span></div>
                                     <div></div>
                                     <div></div>
                                 </div>
@@ -13377,7 +13438,8 @@ Parsedown = (() => {
                                 toggle.onEnabled = filterGfGiveaways.bind(null, gf);
                                 toggle.onDisabled = filterGfGiveaways.bind(null, gf);
                             }
-                            gf[`${minKey}Input`] = display.firstElementChild.nextElementSibling.firstElementChild;
+                            gf.counters[name.toLowerCase()] = display.firstElementChild.nextElementSibling;
+                            gf[`${minKey}Input`] = gf.counters[name.toLowerCase()].nextElementSibling.firstElementChild;
                             gf[`${maxKey}Input`] = gf[`${minKey}Input`].nextElementSibling;
                             gf[`${maxKey}Input`].addEventListener(`change`, changeGfMaxValue.bind(null, infinite, slider, step));
                             gf[`${minKey}Input`].addEventListener(`change`, changeGfMinValue.bind(null, slider, step));
@@ -13434,6 +13496,7 @@ Parsedown = (() => {
                         typeFilter = insertHtml(typeFilters, `beforeEnd`, `
                             <div class="esgst-gf-type-filter">
                                 <span>${name}</span>
+                                <span class="esgst-gf-filter-count" title="Number of giveaways this filter is filtering">0</span>
                             </div>
                         `);
                         value = preset[key] || `enabled`;
@@ -13441,6 +13504,7 @@ Parsedown = (() => {
                         gf[`${key}Checkbox`] = new Checkbox(typeFilter, value, true);
                         setGfOverride(gf, typeFilter, key);
                         gf[`${key}Checkbox`].checkbox.addEventListener(`click`, changeGfValue.bind(null, gf[`${key}Checkbox`], gf, key));
+                        gf.counters[key] = typeFilter.lastElementChild;
                     } else {
                         gf[key] = `enabled`;
                     }
@@ -13474,15 +13538,17 @@ Parsedown = (() => {
                         categoryFilter = insertHtml(categoryFilters, `beforeEnd`, `
                             <div class="esgst-gf-category-filter">
                                 <span>${name} ${genres ? `<input placeholder="Genre1, Genre2" type="text">` : ``}</span>
+                                <span class="esgst-gf-filter-count" title="Number of giveaways this filter is filtering">0</span>
                             </div>
                         `);
                         value = typeof preset[key] !== `undefined` ? preset[key] : `enabled`;
                         gf[key] = value;
                         gf[`${key}Checkbox`] = new Checkbox(categoryFilter, value, true);
                         setGfOverride(gf, categoryFilter, key);
-                        gf[`${key}Checkbox`].checkbox.addEventListener(`click`, changeGfValue.bind(null, gf[`${key}Checkbox`], gf, key));
+                        gf[`${key}Checkbox`].checkbox.addEventListener(`click`, changeGfValue.bind(null, gf[`${key}Checkbox`], gf, key));                        
+                        gf.counters[key] = categoryFilter.lastElementChild;
                         if (genres) {
-                            gf.genreListInput = categoryFilter.lastElementChild.lastElementChild;
+                            gf.genreListInput = categoryFilter.firstElementChild.lastElementChild;
                             value = (preset.genreList && preset.genreList.replace(/,(?!\s)/g, `, `)) || ``;
                             gf.genreList = gf.genreListInput.value = value;
                             gf.genreListInput.addEventListener(`change`, changeGfValue.bind(null, gf.genreListInput, gf, `genreList`));
@@ -13553,7 +13619,7 @@ Parsedown = (() => {
         if (name) {
             presetWarning.classList.add(`esgst-hidden`);
             preset = { name };
-            [`maxLevel`, `minLevel`, `maxEntries`, `minEntries`, `maxCopies`, `minCopies`, `maxPoints`, `minPoints`, `maxMinutesToEnd`, `minMinutesToEnd`, `maxChance`, `minChance`, `maxRating`, `minRating`, `pinned`, `group`, `whitelist`, `regionRestricted`, `created`, `received`, `notReceived`, `awaitingFeedback`, `entered`, `started`, `ended`, `deleted`, `hidden`, `fullCV`, `reducedCV`, `noCV`, `owned`, `wishlisted`, `ignored`, `previouslyEntered`, `previouslyWon`, `removed`, `tradingCards`, `achievements`, `multiplayer`, `steamCloud`, `linux`, `mac`, `dlc`, `dlcFree`, `dlcNonFree`, `package`, `genres`, `genreList`].forEach(key => {
+            [`maxLevel`, `minLevel`, `maxEntries`, `minEntries`, `maxCopies`, `minCopies`, `maxPoints`, `minPoints`, `maxMinutesToEnd`, `minMinutesToEnd`, `maxChance`, `minChance`, `maxRatio`, `minRatio`, `maxRating`, `minRating`, `pinned`, `group`, `whitelist`, `regionRestricted`, `created`, `received`, `notReceived`, `awaitingFeedback`, `entered`, `started`, `ended`, `deleted`, `hidden`, `fullCV`, `reducedCV`, `noCV`, `owned`, `wishlisted`, `ignored`, `previouslyEntered`, `previouslyWon`, `removed`, `tradingCards`, `achievements`, `multiplayer`, `steamCloud`, `linux`, `mac`, `dlc`, `dlcFree`, `dlcNonFree`, `package`, `genres`, `genreList`].forEach(key => {
                 if (typeof gf[key] !== `undefined`) {
                     preset[key] = gf[key];
                 }
@@ -13727,7 +13793,7 @@ Parsedown = (() => {
 
     function applyGfPreset(gf, exceptionCount, popup, preset, presetDisplay, presetInput) {
         var checkbox, input, key;
-        [`maxLevel`, `minLevel`, `maxEntries`, `minEntries`, `maxCopies`, `minCopies`, `maxPoints`, `minPoints`, `maxMinutesToEnd`, `minMinutesToEnd`, `maxChance`, `minChance`, `maxRating`, `minRating`, `pinned`, `group`, `whitelist`, `regionRestricted`, `created`, `received`, `notReceived`, `awaitingFeedabck`, `entered`, `started`, `ended`, `deleted`, `hidden`, `fullCV`, `reducedCV`, `noCV`, `owned`, `wishlisted`, `ignored`, `previouslyEntered`, `previouslyWon`, `removed`, `tradingCards`, `achievements`, `multiplayer`, `steamCloud`, `linux`, `mac`, `dlc`, `dlcFree`, `dlcNonFree`, `package`, `genres`, `genreList`].forEach(key => {
+        [`maxLevel`, `minLevel`, `maxEntries`, `minEntries`, `maxCopies`, `minCopies`, `maxPoints`, `minPoints`, `maxMinutesToEnd`, `minMinutesToEnd`, `maxChance`, `minChance`, `maxRatio`, `minRatio`, `maxRating`, `minRating`, `pinned`, `group`, `whitelist`, `regionRestricted`, `created`, `received`, `notReceived`, `awaitingFeedabck`, `entered`, `started`, `ended`, `deleted`, `hidden`, `fullCV`, `reducedCV`, `noCV`, `owned`, `wishlisted`, `ignored`, `previouslyEntered`, `previouslyWon`, `removed`, `tradingCards`, `achievements`, `multiplayer`, `steamCloud`, `linux`, `mac`, `dlc`, `dlcFree`, `dlcNonFree`, `package`, `genres`, `genreList`].forEach(key => {
             checkbox = gf[`${key}Checkbox`];
             if (checkbox) {
                 if (checkbox.isThreeState) {
@@ -14102,7 +14168,10 @@ Parsedown = (() => {
     }
 
     function filterGfGiveaways(gf, unfilter, endless) {
-        var giveaways;
+        let giveaways, key;
+        for (key in gf.counters) {
+            gf.counters[key].textContent = `0`;
+        }
         giveaways = gf.popup ? esgst.popupGiveaways : esgst.currentGiveaways;
         giveaways.forEach(giveaway => {
             if (unfilter) {
@@ -14187,7 +14256,7 @@ Parsedown = (() => {
     }
 
     function filterGfGiveaway(gf, giveaway) {
-        var basicFilters, categoryFilters, filtered, i, j, key, maxKey, minKey, minutes, n, name, override, typeFilters, value;
+        var basicFilters, categoryFilters, counterKey, filtered, i, j, key, maxKey, minKey, minutes, n, name, override, typeFilters, value;
         basicFilters = [`Level`, `Entries`, `Copies`, `Points`, `MinutesToEnd`, `Chance`, `Ratio`, `Rating`];
         typeFilters = [`pinned`, `group`, `whitelist`, `regionRestricted`, `created`, `received`, `notReceived`, `awaitingFeedback`, `entered`, `started`, `ended`, `deleted`, `owned`, `wishlisted`, `hidden`, `ignored`, `previouslyEntered`, `previouslyWon`, `fullCV`, `reducedCV`, `noCV`];
         categoryFilters = [`removed`, `tradingCards`, `achievements`, `multiplayer`, `steamCloud`, `linux`, `mac`, `dlc`, `dlcFree`, `dlcNonFree`, `package`, `genres`];
@@ -14206,12 +14275,14 @@ Parsedown = (() => {
                             if (minutes < gf[minKey] || minutes > gf[maxKey]) {
                                 filtered = true;
                                 override = gf.overrides.minutesToEnd;
+                                counterKey = key;
                             }
                         }
                     } else if (giveaway[key] < gf[minKey] || giveaway[key] > gf[maxKey]) {
                         if (name !== `Rating` || giveaway.rating !== 0 || esgst.gf_noRating) {
                             filtered = true;
                             override = gf.overrides[key];
+                            counterKey = key;
                         }
                     }
                 }
@@ -14223,6 +14294,9 @@ Parsedown = (() => {
                 if ((key === `fullCV` && ((gf.fullCV === `disabled` && !giveaway.reducedCV && !giveaway.noCV) || (gf.fullCV === `none` && (giveaway.reducedCV || giveaway.noCV)))) || (key !== `fullCV` && ((gf[key] === `disabled` && giveaway[key]) || (gf[key] === `none` && !giveaway[key])))) {
                     filtered = true;
                     override = gf.overrides[key];
+                    if (!counterKey) {
+                        counterKey = key;
+                    }
                     if (key === `ended` && gf.ended === `disabled` && (esgst.createdPath || esgst.enteredPath || esgst.wonPath || esgst.userPath)) {
                         esgst.stopEs = true;
                     }
@@ -14247,6 +14321,9 @@ Parsedown = (() => {
                     if ((gf[key] === `disabled` && value) || (gf[key] === `none` && !value)) {
                         filtered = true;
                         override = gf.overrides[key];
+                        if (!counterKey) {
+                            counterKey = key;
+                        }
                     }
                 }
             }
@@ -14255,6 +14332,9 @@ Parsedown = (() => {
             for (i = gf.exceptions.length - 1; i >= 0 && filtered; --i) {
                 filtered = filterGfException(gf.exceptions[i], giveaway);
             }
+        }
+        if (filtered) {            
+            gf.counters[counterKey].textContent = parseInt(gf.counters[counterKey].textContent) + 1;
         }
         return filtered;
     }
@@ -15274,14 +15354,14 @@ Parsedown = (() => {
         if ((esgst.giveawayPath && !main) || !esgst.giveawayPath) {
             giveaway.innerWrap.classList.add(`esgst-faded`);
         }
-        addOchgbUnhideButton(giveaway);
+        addOchgbUnhideButton(giveaway, main);
     }
 
     function unfadeOchgbGiveaway(giveaway, main) {
         if ((esgst.giveawayPath && !main) || !esgst.giveawayPath) {
             giveaway.innerWrap.classList.remove(`esgst-faded`);
         }
-        addOchgbHideButton(giveaway);
+        addOchgbHideButton(giveaway, main);
     }
 
     function hideOchgbGiveaway(giveaway, main, event) {
@@ -15373,6 +15453,7 @@ Parsedown = (() => {
                         addGwcChance(insertHtml(giveaway.panel, (esgst.gv && ((main && esgst.giveawaysPath) || (source === `gb` && esgst.gv_gb) || (source === `ged` && esgst.gv_ged) || (source === `ge` && esgst.gv_ge))) ? `afterBegin` : `beforeEnd`, `<div class="${esgst.giveawayPath ? `featured__column` : ``} esgst-gwc" title="Giveaway Winning Chance">`), giveaway);
                     } else {
                         giveaway.chance = 100;
+                        giveaway.chancePerPoint = Math.round(100 / giveaway.points * 100) / 100;
                     }
                 }
             }
@@ -15389,6 +15470,8 @@ Parsedown = (() => {
             advancedChance = advancedChance > 100 ? 100 : (advancedChance <= 0 ? 0.01 : advancedChance);
         }
         giveaway.chance = esgst.gwc_a && !esgst.gwc_a_b ? advancedChance : basicChance;
+        giveaway.chancePerPoint = Math.round(giveaway.chance / giveaway.points * 100) / 100;
+        context.title = `Giveaway Winning Chance (${giveaway.chancePerPoint}% per point)`;
         context.setAttribute(`data-chance`, giveaway.chance);
         for (i = esgst.gwc_colors.length - 1; i > -1; --i) {
             colors = esgst.gwc_colors[i];
@@ -15594,43 +15677,90 @@ Parsedown = (() => {
                     }
                 }
                 description = DOM.parse(response.responseText).getElementsByClassName(`page__description`)[0];
-                if (description && !mainCallback) {
-                    if (esgst.elgb_c) {
-                        if (Date.now() - esgst.elgbCache.timestamp > 3600000) {
-                            esgst.elgbCache = {
-                                descriptions: {},
-                                timestamp: Date.now()
-                            };
-                            setValue(`esgst_elgbCache`, JSON.stringify(esgst.elgbCache));
-                        }
-                        if (!esgst.elgbCache.descriptions[giveaway.creator]) {
-                            esgst.elgbCache.descriptions[giveaway.creator] = [];
-                        }
-                        let html = description.innerHTML, i;
-                        for (i = esgst.elgbCache.descriptions[giveaway.creator].length - 1; i > -1 && esgst.elgbCache.descriptions[giveaway.creator][i] !== html; --i);
-                        if (i > -1) {
-                            description = null;
-                        } else {
-                            esgst.elgbCache.descriptions[giveaway.creator].push(html);
-                            setValue(`esgst_elgbCache`, JSON.stringify(esgst.elgbCache));
-                            if (esgst.elgb_f) {
-                                let text = description.textContent.replace(/[^a-zA-Z]/g, ``).toLowerCase();
-                                if (text.match(new RegExp(`^(${esgst.elgb_filters})$`))) {
-                                    description = null;
+                if (description && description.textContent.trim()) {
+                    if (!mainCallback) {
+                        if (esgst.elgb_c) {
+                            if (Date.now() - esgst.elgbCache.timestamp > 3600000) {
+                                esgst.elgbCache = {
+                                    descriptions: {},
+                                    timestamp: Date.now()
+                                };
+                                setValue(`esgst_elgbCache`, JSON.stringify(esgst.elgbCache));
+                            }
+                            if (!esgst.elgbCache.descriptions[giveaway.creator]) {
+                                esgst.elgbCache.descriptions[giveaway.creator] = [];
+                            }
+                            let html = description.innerHTML, i;
+                            for (i = esgst.elgbCache.descriptions[giveaway.creator].length - 1; i > -1 && esgst.elgbCache.descriptions[giveaway.creator][i] !== html; --i);
+                            if (i > -1) {
+                                description = null;
+                            } else {
+                                esgst.elgbCache.descriptions[giveaway.creator].push(html);
+                                setValue(`esgst_elgbCache`, JSON.stringify(esgst.elgbCache));
+                                if (esgst.elgb_f) {
+                                    let text = description.textContent.replace(/[^a-zA-Z]/g, ``).toLowerCase();
+                                    if (text.match(new RegExp(`^(${esgst.elgb_filters})$`))) {
+                                        description = null;
+                                    }
                                 }
                             }
-                        }
-                    } else if (esgst.elgb_f) {
-                        let text = description.textContent.replace(/[^a-zA-Z]/g, ``).toLowerCase();
-                        if (text.match(new RegExp(`^(${esgst.elgb_filters})$`))) {
-                            description = null;
+                        } else if (esgst.elgb_f) {
+                            let text = description.textContent.replace(/[^a-zA-Z]/g, ``).toLowerCase();
+                            if (text.match(new RegExp(`^(${esgst.elgb_filters})$`))) {
+                                description = null;
+                            }
                         }
                     }
-                }
-                if (description) {
-                    description.classList.add(`esgst-text-left`);
-                    popup.scrollable.insertAdjacentHTML(`beforeEnd`, description.outerHTML);
-                    if (esgst.elgb_r || mainCallback) {
+                    if (description) {
+                        description.classList.add(`esgst-text-left`);
+                        popup.scrollable.insertAdjacentHTML(`beforeEnd`, description.outerHTML);
+                        if (esgst.elgb_r || mainCallback) {
+                            box = insertHtml(popup.scrollable, `beforeEnd`, `<textarea></textarea>`);
+                            if (esgst.cfh) {
+                                addCfhPanel(box);
+                            }
+                            popup.description.appendChild(new ButtonSet(`green`, `grey`, `fa-arrow-circle-right`, `fa-circle-o-notch fa-spin`, `Add Comment`, `Saving...`, function (callback) {
+                                if (box.value) {
+                                    request(`xsrf_token=${esgst.xsrfToken}&do=comment_new&description=${box.value}`, null, `POST`, false, giveaway.url, function() {
+                                        callback();
+                                        popup.close();
+                                    });
+                                } else {
+                                    callback();
+                                    popup.close();
+                                }
+                            }).set);
+                            if (mainCallback) {
+                                popup.onClose = mainCallback;
+                            }
+                            if (esgst.elgb_f) {
+                                set = new ButtonSet(`grey`, `grey`, `fa-eye`, `fa-circle-o-notch fa-spin`, `Add Description To Filters`, `Filtering...`, function (callback) {
+                                    esgst.elgb_filters = `${esgst.elgb_filters}|${description.textContent.replace(/[^a-zA-Z]/g, ``).toLowerCase()}`;
+                                    setSetting(`elgb_filters`, esgst.elgb_filters);
+                                    callback();
+                                    set.remove();
+                                }).set;
+                                popup.description.appendChild(set);
+                            }
+                            popup.open(function () {
+                                box.focus();
+                            });
+                        } else {
+                            if (mainCallback) {
+                                popup.onClose = mainCallback;
+                            }
+                            if (esgst.elgb_f) {
+                                set = new ButtonSet(`grey`, `grey`, `fa-eye`, `fa-circle-o-notch fa-spin`, `Add Description To Filters`, `Filtering...`, function (callback) {
+                                    esgst.elgb_filters = `${esgst.elgb_filters}|${description.textContent.replace(/[^a-zA-Z]/g, ``).toLowerCase()}`;
+                                    setSetting(`elgb_filters`, esgst.elgb_filters);
+                                    callback();
+                                    set.remove();
+                                }).set;
+                                popup.description.appendChild(set);
+                            }
+                            popup.open();
+                        }
+                    } else if ((esgst.elgb_r && !esgst.elgb_r_d) || mainCallback) {
                         box = insertHtml(popup.scrollable, `beforeEnd`, `<textarea></textarea>`);
                         if (esgst.cfh) {
                             addCfhPanel(box);
@@ -15649,32 +15779,9 @@ Parsedown = (() => {
                         if (mainCallback) {
                             popup.onClose = mainCallback;
                         }
-                        if (esgst.elgb_f) {
-                            set = new ButtonSet(`grey`, `grey`, `fa-eye`, `fa-circle-o-notch fa-spin`, `Add Description To Filters`, `Filtering...`, function (callback) {
-                                esgst.elgb_filters = `${esgst.elgb_filters}|${description.textContent.replace(/[^a-zA-Z]/g, ``).toLowerCase()}`;
-                                setSetting(`elgb_filters`, esgst.elgb_filters);
-                                callback();
-                                set.remove();
-                            }).set;
-                            popup.description.appendChild(set);
-                        }
                         popup.open(function () {
                             box.focus();
                         });
-                    } else {
-                        if (mainCallback) {
-                            popup.onClose = mainCallback;
-                        }
-                        if (esgst.elgb_f) {
-                            set = new ButtonSet(`grey`, `grey`, `fa-eye`, `fa-circle-o-notch fa-spin`, `Add Description To Filters`, `Filtering...`, function (callback) {
-                                esgst.elgb_filters = `${esgst.elgb_filters}|${description.textContent.replace(/[^a-zA-Z]/g, ``).toLowerCase()}`;
-                                setSetting(`elgb_filters`, esgst.elgb_filters);
-                                callback();
-                                set.remove();
-                            }).set;
-                            popup.description.appendChild(set);
-                        }
-                        popup.open();
                     }
                 } else if ((esgst.elgb_r && !esgst.elgb_r_d) || mainCallback) {
                     box = insertHtml(popup.scrollable, `beforeEnd`, `<textarea></textarea>`);
@@ -18172,11 +18279,23 @@ Parsedown = (() => {
                                 var giveaways = savedUser.giveaways.sent[type][id];
                                 for (i = 0, n = giveaways.length; i < n; ++i) {
                                     var giveaway = esgst.giveaways[giveaways[i]];
-                                    if (giveaway && (currentDate < giveaway.endTime || (((giveaways.entries < 5) && !giveaway.inviteOnly && !giveaway.group && !giveaway.whitelist) || (giveaway.entries >= 5)))) {
-                                        if (giveaway.entries >= giveaway.copies || currentDate < giveaway.endTime) {
+                                    if (giveaway) {
+                                        if (giveaway.entries >= 5 || (!giveaway.inviteOnly && !giveaway.group && !giveaway.whitelist)) {
+                                            if (Array.isArray(giveaway.winners)) {
+                                                if (giveaway.winners.length > 0) {
+                                                    giveaway.winners.forEach(winner => {
+                                                        if (winner.received) {
+                                                            sent += 1;
+                                                        }
+                                                    });
+                                                } else if (currentDate < giveaway.endTime) {
+                                                    sent += giveaway.copies;
+                                                }
+                                            } else if (giveaway.winners > 0) {
+                                                sent += Math.min(giveaway.entries, giveaway.winners);
+                                            }
+                                        } else if (currentDate < giveaway.endTime) {
                                             sent += giveaway.copies;
-                                        } else {
-                                            sent += giveaway.entries;
                                         }
                                     }
                                 }
@@ -19616,14 +19735,19 @@ Parsedown = (() => {
 
     /* [CEWGD] Created/Entered/Won Giveaway Details */
 
-    function addCewgdHeading(context) {
+    function addCewgdHeading(context, main) {
         var table;
-        table = context.getElementsByClassName(`table__heading`)[0];
-        if (table && !table.getElementsByClassName(`esgst-cewgd-heading`)[0]) {
-            ((esgst.gwc || esgst.gwr) && esgst.enteredPath ? table.firstElementChild.nextElementSibling : table.firstElementChild).insertAdjacentHTML(`afterEnd`, `
-                <div class="table__column--width-small text-center esgst-cewgd-heading">Type</div>
-                <div class="table__column--width-small text-center esgst-cewgd-heading">Level</div>
-            `);
+        if (main) {
+            table = context.getElementsByClassName(`table__heading`)[0];
+            if (table && !table.getElementsByClassName(`esgst-cewgd-heading`)[0]) {
+                ((esgst.gwc || esgst.gwr) && esgst.enteredPath ? table.firstElementChild.nextElementSibling : table.firstElementChild).insertAdjacentHTML(`afterEnd`, `
+                    <div class="table__column--width-small text-center esgst-cewgd-heading">Type</div>
+                    <div class="table__column--width-small text-center esgst-cewgd-heading">Level</div>
+                    ${esgst.createdPath ? `
+                        <div class="table__column--width-small text-center esgst-cewgd-heading">Winner(s)</div>
+                    ` : ``}
+                `);
+            }
         }
     }
 
@@ -19666,34 +19790,76 @@ Parsedown = (() => {
     }
 
     function getCewgdDetail(cewgd, giveaways, i) {
-        var code, currentCode, currentGiveaway, currentGiveaways, giveaway, key, responseHtml, savedGiveaways;
+        let code, giveaway;
         giveaway = giveaways[i];
         code = giveaway.code;
-        if (cewgd.savedGiveaways[code] && cewgd.savedGiveaways[code].gameSteamId && (!esgst.wonPath || cewgd.savedGiveaways[code].creator !== esgst.username)) {
+        if (cewgd.savedGiveaways[code] && cewgd.savedGiveaways[code].gameSteamId && (!esgst.createdPath || Array.isArray(cewgd.savedGiveaways[code].winners)) && (!esgst.wonPath || cewgd.savedGiveaways[code].creator !== esgst.username)) {
             addCewgdDetails(giveaway, cewgd.savedGiveaways[code]);
-            ++cewgd.count;
+            cewgd.count += 1;
+        } else if (esgst.createdPath) {
+            getCewgdWinners(cewgd, null, giveaway, 1, `${giveaway.url}/winners/search?page=`);
         } else {
             request(null, null, `GET`, false, giveaway.url, function (response) {
+                let currentGiveaway, currentGiveaways, responseHtml;
                 responseHtml = DOM.parse(response.responseText);
                 currentGiveaways = getGiveaways(responseHtml, false, response.finalUrl);
-                if (currentGiveaways.length) {
+                if (currentGiveaways.length > 0) {
                     currentGiveaway = currentGiveaways[0];
                     cewgd.giveaways.push(currentGiveaway);
                     addCewgdDetails(giveaway, currentGiveaway);
-                    ++cewgd.count;
+                    cewgd.count += 1;
                 } else {
                     (giveaway.panel || (esgst.gm_enable && esgst.createdPath ? giveaway.innerWrap.firstElementChild.nextElementSibling.nextElementSibling : giveaway.innerWrap.firstElementChild.nextElementSibling)).insertAdjacentHTML(`afterEnd`, `
                         <div class="table__column--width-small text-center">-</div>
                         <div class="table__column--width-small text-center">-</div>
                     `);
-                    ++cewgd.count;
+                    cewgd.count += 1;
                 }
             });
         }
     }
 
+    function getCewgdWinners(cewgd, currentGiveaway, giveaway, nextPage, url) {
+        request(null, null, `GET`, false, `${url}${nextPage}`, response => {
+            let responseHtml = DOM.parse(response.responseText);
+            if (!currentGiveaway) {
+                let currentGiveaways = getGiveaways(responseHtml, false, response.finalUrl);
+                if (currentGiveaways.length > 0) {
+                    currentGiveaway = currentGiveaways[0];
+                    currentGiveaway.winners = [];
+                }
+            }
+            if (currentGiveaway) {
+                let element, elements, i, n, pagination;
+                elements = responseHtml.getElementsByClassName(`table__row-inner-wrap`);
+                for (i = 0, n = elements.length; i < n; ++i) {
+                    element = elements[i];
+                    currentGiveaway.winners.push({
+                        received: element.lastElementChild.textContent.trim() === `Received` ? 1 : 0,
+                        username: element.firstElementChild.nextElementSibling.firstElementChild.textContent.trim()
+                    });
+                }
+                pagination = responseHtml.getElementsByClassName(`pagination__navigation`)[0];
+                if (pagination && !pagination.lastElementChild.classList.contains(`is-selected`)) {
+                    setTimeout(getCewgdWinners, 0, cewgd, currentGiveaway, giveaway, nextPage + 1, url);
+                } else {
+                    cewgd.giveaways.push(currentGiveaway);
+                    addCewgdDetails(giveaway, currentGiveaway);
+                    cewgd.count += 1;
+                }
+            } else {
+                (giveaway.panel || (esgst.gm_enable && esgst.createdPath ? giveaway.innerWrap.firstElementChild.nextElementSibling.nextElementSibling : giveaway.innerWrap.firstElementChild.nextElementSibling)).insertAdjacentHTML(`afterEnd`, `
+                    <div class="table__column--width-small text-center">-</div>
+                    <div class="table__column--width-small text-center">-</div>
+                    <div class="table__column--width-small text-center">-</div>
+                `);
+                cewgd.count += 1;
+            }
+        });
+    }
+
     function addCewgdDetails(giveaway, details) {
-        var type;
+        let type, typeColumn;
         giveaway.points = details.points;
         giveaway.level = details.level;
         giveaway.headingName.insertAdjacentHTML(`beforeEnd`, `
@@ -19731,11 +19897,71 @@ Parsedown = (() => {
         } else {
             type = `Public`;
         }
-        (giveaway.panel || giveaway.innerWrap.firstElementChild.nextElementSibling).insertAdjacentHTML(`afterEnd`, `
+        typeColumn = insertHtml(giveaway.panel || giveaway.innerWrap.firstElementChild.nextElementSibling, `afterEnd`, `
             <div class="table__column--width-small text-center">${type}</div>
             <div class="table__column--width-small text-center">${details.level}</div>
+            ${esgst.createdPath ? `
+                <div class="table__column--width-small text-center"></div>
+            ` : ``}
         `);
-        if (esgst.enteredPath || esgst.wonPath) {
+        if (esgst.createdPath) {
+            let n, winner, winnersColumn;
+            winnersColumn = typeColumn.nextElementSibling.nextElementSibling;
+            n = details.winners.length;
+            if (n > 0) {
+                if (n > 1) {
+                    winner = details.winners[0].username;
+                    winnersColumn.innerHTML = `<a class="table__column__secondary-link" href="/user/${winner}">${winner}</a> <span class="esgst-clickable table__column__secondary-link">(+${n - 1} more)</span>`;
+                    winnersColumn.lastElementChild.addEventListener(`click`, () => {
+                        let html, popup;
+                        popup = new Popup(`fa-users`, `Winners`);
+                        html = `
+                            <div class="table__heading">
+                                <div class="table__column--width-small">Winner</div>
+                                <div class="table__column--width-small">Received</div>
+                            </div>
+                            <div class="table__rows">
+                        `;
+                        details.winners.forEach(winner => {
+                            html += `
+                                <div class="table__row-outer-wrap">
+                                    <div class="table__row-inner-wrap">
+                                        <div class="table__column--width-small">
+                                            <a class="table__column__secondary-link" href="/user/${winner.username}">${winner.username}</a>
+                                        </div>
+                                        <div class="table__column--width-small">
+                                        ${winner.received ? `
+                                            <i class="fa fa-check-circle esgst-green"></i>
+                                        ` : `
+                                            <i class="fa fa-times-circle esgst-red"></i>
+                                        `}
+                                        </div>
+                                    </div>
+                                </div>
+                            `;
+                        });
+                        html += `
+                            </div>
+                        `;
+                        popup.scrollable.innerHTML = html;
+                        popup.open();
+                        loadEndlessFeatures(popup.scrollable);
+                    });
+                    let received = 0;
+                    details.winners.forEach(winner => {
+                        if (winner.received) {
+                            received += 1;
+                        }
+                    });
+                    giveaway.innerWrap.lastElementChild.insertAdjacentText(`beforeEnd`, ` (${received}/${n})`);
+                } else {
+                    winner = details.winners[0].username;
+                    winnersColumn.innerHTML = `<a class="table__column__secondary-link" href="/user/${winner}">${winner}</a>`;
+                }
+            } else {
+                winnersColumn.textContent = `-`;
+            }
+        } else if (esgst.enteredPath || esgst.wonPath) {
             giveaway.endTimeColumn.insertAdjacentHTML(`beforeEnd`, `
                 by <a class="table__column__secondary-link" href="/user/${details.creator}">${details.creator}</a>
             `);
@@ -21258,6 +21484,7 @@ Parsedown = (() => {
             <i class="fa fa-sliders" title="Manage presets"></i>
         `;
         esgst.df = df = {
+            counters: {},
             type: esgst.createdDiscussionsPath ? `Created` : ``
         };
         toggleSwitch = new ToggleSwitch(headingButton.firstElementChild, `df_enable${esgst.df.type}`, true, ``, false, false, null, esgst[`df_enable${esgst.df.type}`]);
@@ -21392,14 +21619,15 @@ Parsedown = (() => {
                     df[minKey] = minSavedValue;
                     basicFilter = insertHtml(basicFilters, `beforeEnd`, `
                         <div class="esgst-gf-basic-filter">
-                            <div>${name} <span class="esgst-float-right"><input type="text" value="${minSavedValue}"> - <input type="text" value="${maxSavedValue}"></span></div>
+                            <div>${name} <span class="esgst-gf-filter-count" title="Number of discussions this filter is filtering">0</span> <span class="esgst-float-right"><input type="text" value="${minSavedValue}"> - <input type="text" value="${maxSavedValue}"></span></div>
                             <div></div>
                         </div>
                     `);
                     display = basicFilter.firstElementChild;
                     setDfOverride(df, display, key);
                     slider = display.nextElementSibling;
-                    df[`${minKey}Input`] = display.firstElementChild.nextElementSibling.firstElementChild;
+                    df.counters[key] = display.firstElementChild.nextElementSibling;
+                    df[`${minKey}Input`] = df.counters[key].nextElementSibling.firstElementChild;
                     df[`${maxKey}Input`] = df[`${minKey}Input`].nextElementSibling;
                     df[`${maxKey}Input`].addEventListener(`change`, changeGfMaxValue.bind(null, infinite, slider, step));
                     df[`${minKey}Input`].addEventListener(`change`, changeGfMinValue.bind(null, slider, step));
@@ -21446,11 +21674,13 @@ Parsedown = (() => {
                     typeFilter = insertHtml(typeFilters, `beforeEnd`, `
                         <div class="esgst-gf-type-filter">
                             <span>${name}</span>
+                            <span class="esgst-gf-filter-count" title="Number of discussions this filter is filtering">0</span>
                         </div>
                     `);
                     value = preset[key] || `enabled`;
                     df[key] = value;
                     df[`${key}Checkbox`] = new Checkbox(typeFilter, value, true);
+                    df.counters[key] = typeFilter.lastElementChild;
                     setDfOverride(df, typeFilter, key);
                     df[`${key}Checkbox`].checkbox.addEventListener(`click`, changeDfValue.bind(null, df[`${key}Checkbox`], df, key));
                 } else {
@@ -21905,6 +22135,10 @@ Parsedown = (() => {
     }
 
     function filterDfDiscussions(df, unfilter, endless) {
+        let key;
+        for (key in df.counters) {            
+            df.counters[key].textContent = `0`;
+        }
         esgst.currentDiscussions.forEach(discussion => {
             if (unfilter) {
                 if (discussion.outerWrap.classList.contains(`esgst-hidden`)) {
@@ -21948,7 +22182,7 @@ Parsedown = (() => {
     }
 
     function filterDfDiscussion(df, discussion) {
-        var basicFilters, filtered, i, j, key, maxKey, minKey, n, name, override, typeFilters;
+        var basicFilters, counterKey, filtered, i, j, key, maxKey, minKey, n, name, override, typeFilters;
         basicFilters = [`Comments`];
         typeFilters = [`announcements`, `bugs_suggestions`, `deals`, `general`, `groupRecruitment`, `letsPlayTogether`, `offTopic`, `puzzles`, `uncategorized`, `created`, `poll`, `highlighted`, `visited`, `unread`];
         filtered = false;
@@ -21961,6 +22195,7 @@ Parsedown = (() => {
             if (discussion[key] < df[minKey] || discussion[key] > df[maxKey]) {
                 filtered = true;
                 override = df.overrides[key];
+                counterKey = key;
             }
         }
         for (i = 0, n = typeFilters.length; i < n && (!filtered || !override); ++i) {
@@ -21968,12 +22203,18 @@ Parsedown = (() => {
             if ((df[key] === `disabled` && discussion[key]) || (df[key] === `none` && !discussion[key])) {
                 filtered = true;
                 override = df.overrides[key];
+                if (!counterKey) {
+                    counterKey = key;
+                }
             }
         }
         if (df.exceptions && !override) {
             for (i = df.exceptions.length - 1; i >= 0 && filtered; --i) {
                 filtered = filterDfException(df.exceptions[i], discussion);
             }
+        }
+        if (filtered) {            
+            df.counters[counterKey].textContent = parseInt(df.counters[counterKey].textContent) + 1;
         }
         return filtered;
     }
@@ -22145,7 +22386,7 @@ Parsedown = (() => {
                                             </p>
                                         </div>
                                         <div class="table__column--width-small text-center">
-                                            <a class="table__column__secondary-link" href="/discussion/${key}/">${breadcrumbs[1].textContent.match(/(.+) Comments/)[1]}</a>
+                                            <a class="table__column__secondary-link" href="/discussion/${key}/">${breadcrumbs[1].textContent.match(/(.+) Comments?/)[1]}</a>
                                         </div>
                                     </div>
                                 </div>
@@ -24415,6 +24656,11 @@ Parsedown = (() => {
             <textarea></textarea>
         `);
         set = new ButtonSet(`green`, `grey`, `fa-check`, `fa-circle-o-notch fa-spin`, `Save`, `Saving...`, saveUnNotes.bind(null, profile));
+        profile.unTextArea.addEventListener(`keydown`, event => {
+            if (event.ctrlKey && event.key === `Enter`) {
+                set.trigger();
+            }
+        });
         profile.unPopup.description.appendChild(set.set);
         profile.unPopup.open(getUnNotes.bind(null, profile));
     }
@@ -24829,6 +25075,14 @@ Parsedown = (() => {
                 };
                 giveaways.wonTimestamp = 0;
             }
+            if (UGD.Key === `sent` && user.username === esgst.username && !giveaways.version) {
+                giveaways.sent = {
+                    apps: {},
+                    subs: {}
+                };
+                giveaways.sentTimestamp = 0;
+                giveaways.version = `7.11.1`;
+            }
             var Match = location.pathname.match(new RegExp(`^\/user\/${user.username}${UGD.Key === `won` ? `/giveaways/won` : ``}`));
             var CurrentPage = location.href.match(/page=(\d+)/);
             CurrentPage = Match ? (CurrentPage ? parseInt(CurrentPage[1]) : 1) : 0;
@@ -25211,9 +25465,10 @@ Parsedown = (() => {
                     `;
                 }
                 Giveaways = Context.getElementsByClassName(`giveaway__row-outer-wrap`);
+                let toGiveaways = [];
                 for (I = 0, NumGiveaways = Giveaways.length; I < NumGiveaways; ++I) {
                     Giveaway = getGiveawayInfo(Giveaways[I], document, null, null, username, UGD.Key).data;
-                    if (Giveaway.endTime < (new Date().getTime())) {
+                    if (Giveaway.endTime < new Date().getTime()) {
                         if (!UGD.Timestamp) {
                             UGD.Timestamp = Giveaway.endTime;
                         }
@@ -25228,6 +25483,7 @@ Parsedown = (() => {
                                 } else {
                                     giveaways[UGD.Key][Giveaway.gameType][Giveaway.gameSteamId].push(Giveaway);
                                 }
+                                toGiveaways.push(Giveaway);
                             }
                         } else {
                             Found = true;
@@ -25235,12 +25491,24 @@ Parsedown = (() => {
                         }
                     }
                 }
-                Pagination = Context.getElementsByClassName(`pagination__navigation`)[0];
-                if (!Found && Pagination && !Pagination.lastElementChild.classList.contains(`is-selected`)) {
-                    setTimeout(getUGDGiveaways, 0, UGD, giveaways, NextPage, URL, username, Callback);
+                if (UGD.Key === `sent` && username === esgst.username) {
+                    getUgdGiveaway(toGiveaways, 0, toGiveaways.length, () => {
+                        Pagination = Context.getElementsByClassName(`pagination__navigation`)[0];
+                        if (!Found && Pagination && !Pagination.lastElementChild.classList.contains(`is-selected`)) {
+                            setTimeout(getUGDGiveaways, 0, UGD, giveaways, NextPage, URL, username, Callback);
+                        } else {
+                            giveaways[`${UGD.Key}Timestamp`] = UGD.Timestamp;
+                            lockAndSaveGiveaways(UGD.giveaways, Callback.bind(null, giveaways));
+                        }
+                    });
                 } else {
-                    giveaways[`${UGD.Key}Timestamp`] = UGD.Timestamp;
-                    lockAndSaveGiveaways(UGD.giveaways, Callback.bind(null, giveaways));
+                    Pagination = Context.getElementsByClassName(`pagination__navigation`)[0];
+                    if (!Found && Pagination && !Pagination.lastElementChild.classList.contains(`is-selected`)) {
+                        setTimeout(getUGDGiveaways, 0, UGD, giveaways, NextPage, URL, username, Callback);
+                    } else {
+                        giveaways[`${UGD.Key}Timestamp`] = UGD.Timestamp;
+                        lockAndSaveGiveaways(UGD.giveaways, Callback.bind(null, giveaways));
+                    }
                 }
             } else if (!UGD.Canceled) {
                 request(null, null, `GET`, true, URL + NextPage, function (Response) {
@@ -25248,6 +25516,44 @@ Parsedown = (() => {
                 });
             }
         }
+    }
+
+    function getUgdGiveaway(giveaways, i, n, callback) {
+        if (i < n) {
+            let giveaway = giveaways[i];
+            if (giveaway.code) {
+                giveaway.winners = [];
+                getUgdWinners(giveaway, 1, `/giveaway/${giveaway.code}/_/winners/search?page=`, setTimeout.bind(null, getUgdGiveaway, 0, giveaways, i + 1, n, callback));
+            } else {
+                setTimeout(getUgdGiveaway, 0, giveaways, i + 1, n, callback);
+            }
+        } else {
+            callback();
+        }
+    }
+
+    function getUgdWinners(giveaway, nextPage, url, callback) {
+        request(null, null, `GET`, false, `${url}${nextPage}`, response => {
+            let element, elements, i, n, pagination, responseHtml;
+            responseHtml = DOM.parse(response.responseText);
+            elements = responseHtml.getElementsByClassName(`table__row-inner-wrap`);
+            for (i = 0, n = elements.length; i < n; ++i) {
+                element = elements[i];
+                giveaway.winners.push({
+                    received: element.lastElementChild.textContent.trim() === `Received` ? 1 : 0,
+                    username: element.firstElementChild.nextElementSibling.firstElementChild.textContent.trim()
+                });
+            }
+            pagination = responseHtml.getElementsByClassName(`pagination__navigation`)[0];
+            if (pagination && !pagination.lastElementChild.classList.contains(`is-selected`)) {
+                if (nextPage === 1) {
+                    url = `${response.finalUrl}/search?page=`;
+                }
+                setTimeout(getUgdWinners, 0, giveaway, nextPage + 1, url, callback);
+            } else {
+                callback();
+            }
+        });
     }
 
     /* [NAMWC] Not Activated/Multiple Wins Checker */
@@ -27862,6 +28168,15 @@ Parsedown = (() => {
 
     /* [GC] Game Categories */
 
+    function checkGcNewGiveaway(context) {
+        if (context.style.opacity === `1`) {
+            loadGameFeatures(document, true);
+            esgst.isCheckingGc = false;
+        } else {
+            setTimeout(checkGcNewGiveaway, 100, context);
+        }
+    }
+
     function getGcGames(games, endless) {
         var gc, element, elements, i, id, missingApps, missingSubs, n, numApps, numSubs, savedGames;
         gc = {
@@ -28208,7 +28523,7 @@ Parsedown = (() => {
     }
 
     function addGcCategory(cache, games, id, savedGame, type) {
-        var category, colored, count, cv, elements, encodedName, genre, genreList, genres, giveaway, giveaways, html, i, icons, j, k, n, panel, name, ratingType, sent, singularType, user, value;
+        var active, category, colored, count, cv, elements, encodedName, genre, genreList, genres, giveaway, giveaways, html, i, icons, j, k, n, panel, name, ratingType, sent, singularType, user, value;
         singularType = type.slice(0, -1);
         name = cache ? cache.name : games[0].name;
         encodedName = encodeURIComponent(name.replace(/\.\.\.$/, ``));
@@ -28283,19 +28598,33 @@ Parsedown = (() => {
                                 giveaways = user.giveaways;
                                 if (giveaways) {
                                     giveaways = giveaways.sent[type][id];
+                                    active = 0;
                                     count = 0;
+                                    sent = 0;
                                     if (giveaways) {
-                                        sent = 0;
                                         var currentDate = Date.now();
                                         for (j = 0, numGiveaways = giveaways.length; j < numGiveaways; ++j) {
                                             giveaway = esgst.giveaways[giveaways[j]];
-                                            if (giveaway && (currentDate < giveaway.endTime || (((giveaways.entries < 5) && !giveaway.inviteOnly && !giveaway.group && !giveaway.whitelist) || (giveaway.entries >= 5)))) {
-                                                sent += giveaway.entries >= giveaway.copies || currentDate < giveaway.endTime ? giveaway.copies : giveaway.entries;
-                                            }
-                                            if (giveaway.winners > 0) {
-                                                count += giveaway.winners;
-                                            } else if (currentDate < giveaway.endTime) {
-                                                count += giveaway.copies;
+                                            if (giveaway) {
+                                                if (Array.isArray(giveaway.winners)) {
+                                                    if (giveaway.winners.length > 0) {
+                                                        giveaway.winners.forEach(winner => {
+                                                            count += 1;
+                                                            if ((giveaway.entries >= 5 || (!giveaway.inviteOnly && !giveaway.group && !giveaway.whitelist)) && winner.received) {
+                                                                sent += 1;
+                                                            }
+                                                        });
+                                                    } else if (currentDate < giveaway.endTime) {
+                                                        active += giveaway.copies;
+                                                    }
+                                                } else if (giveaway.winners > 0) {
+                                                    count += Math.min(giveaway.entries, giveaway.winners);
+                                                    if (giveaway.entries >= 5 || (!giveaway.inviteOnly && !giveaway.group && !giveaway.whitelist)) {
+                                                        sent += Math.min(giveaway.entries, giveaway.winners);
+                                                    }
+                                                } else if (currentDate < giveaway.endTime) {
+                                                    active += giveaway.copies;
+                                                }
                                             }
                                         }
                                         value = cache.price;
@@ -28325,7 +28654,7 @@ Parsedown = (() => {
                                         cv = Math.round(value * 100) / 100;
                                     }
                                     elements.push(`
-                                        <a class="esgst-gc esgst-gc-giveawayInfo" href="https://www.steamgifts.com/user/${esgst.username}" title="You have made ${count} giveaways for this game. You should get \$${cv} real CV if you make a new giveaway for this game."><i class="fa fa-info"></i> ${count} <i class="fa fa-dollar"></i> ${cv}</a>
+                                        <a class="esgst-gc esgst-gc-giveawayInfo" href="https://www.steamgifts.com/user/${esgst.username}" title="You have sent ${count} copies of this game (${sent} of which added to your CV)${active ? `\nYou currently have ${active} open giveaways for this game` : ``}\nYou should get \$${cv} real CV for sending a new copy of this game\nA giveaway for this game is worth ${Math.min(Math.ceil(cache.price), 50)}P"><i class="fa fa-info"></i> ${count} <i class="fa fa-dollar"></i> ${cv}</a>
                                     `);
                                 }
                             }
@@ -29271,6 +29600,17 @@ Parsedown = (() => {
                 val1 = false;
             }
             siwtchSg = new ToggleSwitch(Menu, ID, true, esgst.settings.esgst_st ? `[SG]` : ``, true, false, null, val1);
+            if (Feature.conflicts) {
+                siwtchSg.onEnabled = () => {
+                    for (let ci = 0, cn = Feature.conflicts.length; ci < cn; ++ci) {
+                        if (esgst.settings[`${Feature.conflicts[ci].id}_sg`]) {
+                            siwtchSg.disable();
+                            new Popup(`fa-exclamation`, `This feature conflicts with ${Feature.conflicts[ci].name}. While that feature is enabled, this feature cannot be enabled.`, true).open();
+                            ci = cn;
+                        }
+                    }
+                }
+            }
         }
         if (Feature.st && (esgst.settings.esgst_st || ID === `esgst`)) {
             localID = `${ID}_st`;
@@ -29279,6 +29619,17 @@ Parsedown = (() => {
                 val2 = false;
             }
             siwtchSt = new ToggleSwitch(Menu, ID, true, `[ST]`, false, true, null, val2);
+            if (Feature.conflicts) {
+                siwtchSt.onEnabled = () => {
+                    for (let ci = 0, cn = Feature.conflicts.length; ci < cn; ++ci) {
+                        if (esgst.settings[`${Feature.conflicts[ci].id}_st`]) {
+                            siwtchSt.disable();
+                            new Popup(`fa-exclamation`, `This feature conflicts with ${Feature.conflicts[ci].name}. While that feature is enabled, this feature cannot be enabled.`, true).open();
+                            ci = cn;
+                        }
+                    }
+                }
+            }
         }
         if (siwtchSg || siwtchSt) {
         val = val1 || val2;
@@ -30073,7 +30424,7 @@ Parsedown = (() => {
                                         </p>
                                     </div>
                                     <div class="table__column--width-small text-center">
-                                        <a class="table__column__secondary-link" href="/discussion/${hidden[i].code}/">${breadcrumbs[1].textContent.match(/(.+) Comments/)[1]}</a>
+                                        <a class="table__column__secondary-link" href="/discussion/${hidden[i].code}/">${breadcrumbs[1].textContent.match(/(.+) Comments?/)[1]}</a>
                                     </div>
                                 </div>
                             </div>
@@ -30581,7 +30932,7 @@ Parsedown = (() => {
         games = JSON.parse(getValue(`games`));
         savedUsers = JSON.parse(getValue(`users`));
         giveaways = [];
-        if (!hr && (esgst.createdPath || esgst.enteredPath || esgst.wonPath)) {
+        if (!hr && main && (esgst.createdPath || esgst.enteredPath || esgst.wonPath)) {
             query = `.giveaway__row-outer-wrap, .featured__outer-wrap--giveaway, .table:not(.table--summary) .table__row-outer-wrap`;
         } else {
             query = `.giveaway__row-outer-wrap, .featured__outer-wrap--giveaway`;
@@ -30825,6 +31176,7 @@ Parsedown = (() => {
         }
         chance = context.getElementsByClassName(`esgst-gwc`)[0];
         giveaway.chance = chance ? parseFloat(chance.getAttribute(`data-chance`)) : 0;
+        giveaway.chancePerPoint = Math.round(giveaway.chance / giveaway.points * 100) / 100;
         var feedback = giveaway.outerWrap.getElementsByClassName(`table__gift-feedback-awaiting-reply`)[0];
         if (esgst.rrbp && feedback) {
             feedback.addEventListener(`click`, openRrbp.bind(null, giveaway));
@@ -31765,7 +32117,7 @@ Parsedown = (() => {
                 esgst.mtGameButton.parentElement.classList.remove(`esgst-hidden`);
             }
         }
-        if (esgst.gc && ((!esgst.menuPath || esgst.gbPath || esgst.gedPath || esgst.gePath) && !esgst.newGiveawayPath)) {
+        if (esgst.gc && (!esgst.menuPath || esgst.gbPath || esgst.gedPath || esgst.gePath)) {
             getGcGames(games, endless);
         }
     }
@@ -32418,11 +32770,16 @@ Parsedown = (() => {
             if (!step) {
                 nextButton.innerHTML = `<i class="fa fa-circle-o-notch fa-spin"></i>`;
                 step = true;
+                let wasPaused = paused;
                 resumeEndlessScrolling();
                 document.addEventListener(`scroll`, loadNextPage);
                 loadNextPage(() => {
                     step = false;
-                    pauseEndlessScrolling();
+                    if (wasPaused) {
+                        pauseEndlessScrolling();
+                    } else {
+                        resumeEndlessScrolling();
+                    }
                     nextButton.innerHTML = `<i class="fa fa-step-forward"></i>`;
                 });
             }
@@ -34334,7 +34691,7 @@ Parsedown = (() => {
         data = new Blob([JSON.stringify(data)]);
         url = URL.createObjectURL(data);
         file = document.createElement(`a`);
-        file.download = `${prompt(`Enter the name of the file:`, `esgst_data_${new Date().toISOString().replace(/:/g, `_`)}`)}.json`;
+        file.download = `${prompt(`Enter the name of the file:`, `esgst_settings_${new Date().toISOString().replace(/:/g, `_`)}`)}.json`;
         file.href = url;
         document.body.appendChild(file);
         file.click();
@@ -35911,7 +36268,7 @@ Parsedown = (() => {
 
             .esgst-gf-basic-filter {
                 margin: 10px;
-                width: 330px;
+                width: 375px;
             }
 
             .esgst-gf-basic-filter >* {
@@ -35922,6 +36279,13 @@ Parsedown = (() => {
                 margin: 5px;
             }
 
+            .esgst-gf-filter-count {
+                background-color: #ddd;
+                border-radius: 5px;
+                font-size: 10px;
+                padding: 2px;
+            }
+            
             .esgst-gf-button {
                 border-top: 1px;
             }
@@ -36169,15 +36533,29 @@ Parsedown = (() => {
                 width: 44px;
             }
 
+            .featured__outer-wrap .esgst-ib-user {
+                background-color: transparent;
+                border: 1px solid rgba(255, 255, 255, 0.1);
+            }
+
             .esgst-ib-game {
                 background-color: #fff;
                 background-position: 5px 5px;
-                background-size: 184px;
                 border: 1px solid #d2d6e0;
                 border-radius: 4px;
-                height: 81px;
                 padding: 5px;
+            }
+
+            .giveaway__row-outer-wrap .esgst-ib-game {
+                background-size: 184px 69px;
+                height: 81px;
                 width: 196px;
+            }
+
+            .table__row-outer-wrap .esgst-ib-game {
+                background-size: 85px 32px;
+                height: 44px;
+                width: 97px;
             }
 
             .esgst-oadd >* {
@@ -36851,6 +37229,29 @@ Parsedown = (() => {
         var changelog, current, html, i, index, n, popup;
         changelog = [
             {
+                date: `December 17, 2017`,
+                version: `7.11.1`,
+                changelog: `
+                    <ul>
+                        <li><a href="https://github.com/revilheart/ESGST/issues/308">#308</a> Show winners in the created page in Created/Entered/Won Giveaway Details</li>
+                        <li><a href="https://github.com/revilheart/ESGST/issues/309">#309</a> Prevent apparently empty descriptions with invisible characters from popping up in Enter/Leave Giveaway Button</li>
+                        <li><a href="https://github.com/revilheart/ESGST/issues/314">#314</a> Update some feature documentation</li>
+                        <li><a href="https://github.com/revilheart/ESGST/issues/315">#315</a> Prevent user from being able to enable a feature that conflicts with another</li>
+                        <li><a href="https://github.com/revilheart/ESGST/issues/313">#313</a> Fix a bug in Attached Images Carousel that opens the attached image in the main page</li>
+                        <li><a href="https://github.com/revilheart/ESGST/issues/310">#310</a> Show how many points a game costs when searching for games in the new giveaway page</li>
+                        <li><a href="https://github.com/revilheart/ESGST/issues/311">#311</a> Fix a bug that does not save the ratio settings in Giveaway Filters</li>
+                        <li><a href="https://github.com/revilheart/ESGST/issues/316">#316</a> Show how many giveaways/discussions each filter is filtering in Giveaway/Discussion Filters</li>
+                        <li><a href="https://github.com/revilheart/ESGST/issues/312">#312</a> Remove bullet points from results in checks</li>
+                        <li><a href="https://github.com/revilheart/ESGST/issues/317">#317</a> Add chance per point option to Giveaways Sorter</li>
+                        <li><a href="https://github.com/revilheart/ESGST/issues/318">#318</a> When loading the next page through the button in Endless Scrolling, return to the previous state instead of pausing</li>
+                        <li><a href="https://github.com/revilheart/ESGST/issues/319">#319</a> Add borders to some images that are missing it in Image Borders</li>
+                        <li><a href="https://github.com/revilheart/ESGST/issues/320">#320</a> Fix a bug that happens when loading hidden discussions</li>
+                        <li><a href="https://github.com/revilheart/ESGST/issues/321">#321</a> Add shortcut to save notes with Ctrl + Enter</li>
+                        <li><a href="https://github.com/revilheart/ESGST/issues/322">#322</a> Fix a bug that happens when unhiding a game that was faded with One-Click Hide Giveaway Button</li>
+                    </ul>
+                `
+            },
+            {
                 date: `December 10, 2017`,
                 version: `7.11.0`,
                 changelog: `
@@ -37407,24 +37808,7 @@ Parsedown = (() => {
             --index;
         }
         popup = new Popup(`fa-file-text-o`, `Changelog`, true);
-        if (version) {
-            popup.scrollable.insertAdjacentHTML(`afterBegin`, `
-                <div class="esgst-changelog esgst-text-left markdown">
-                    <h2>Highlights from v7.11.0:</h2>
-                    <h3>Clean old data</h3>
-                    <img src="https://i.imgur.com/vNPYR5r.gif">
-                    <h3>Load the next page in Endless Scrolling without continuing to load more pages</h3>
-                    <img src="https://i.imgur.com/d5fCgx2.gif">
-                    <h3>Mark puzzles as unsolved/in progress/solved (Discussions.10 Puzzle Maker)</h3>
-                    <img src="https://i.imgur.com/7zpCt3E.gif">
-                    <hr>
-                    <h3>Full changelog:</h3>
-                    ${html.join(``)}
-                </div>
-            `);
-        } else {
-            popup.scrollable.insertAdjacentHTML(`afterBegin`, `<div class="esgst-text-left markdown">${html.join(``)}</div>`);
-        }
+        popup.scrollable.insertAdjacentHTML(`afterBegin`, `<div class="esgst-text-left markdown">${html.join(``)}</div>`);
         popup.open();
     }
 
