@@ -8875,6 +8875,16 @@ Parsedown = (() => {
             }
             let rows = document.getElementsByClassName(`form__rows`)[0];
             if (rows) {
+                if (esgst.gc) {
+                    let ipt = document.getElementsByClassName(`js__autocomplete-name`)[0];
+                    let tb = ipt.nextElementSibling;
+                    ipt.addEventListener(`input`, () => {
+                        if (!esgst.isCheckingGc) {
+                            esgst.isCheckingGc = true;
+                            checkGcNewGiveaway(tb);
+                        }
+                    });
+                }
                 if (esgst.gts) {
                     let key, position;
                     if (esgst.leftButtonIds.indexOf(`gts`) > -1) {
@@ -28113,6 +28123,15 @@ Parsedown = (() => {
 
     /* [GC] Game Categories */
 
+    function checkGcNewGiveaway(context) {
+        if (context.style.opacity === `1`) {
+            loadGameFeatures(document, true);
+            esgst.isCheckingGc = false;
+        } else {
+            setTimeout(checkGcNewGiveaway, 100, context);
+        }
+    }
+
     function getGcGames(games, endless) {
         var gc, element, elements, i, id, missingApps, missingSubs, n, numApps, numSubs, savedGames;
         gc = {
@@ -28590,7 +28609,7 @@ Parsedown = (() => {
                                         cv = Math.round(value * 100) / 100;
                                     }
                                     elements.push(`
-                                        <a class="esgst-gc esgst-gc-giveawayInfo" href="https://www.steamgifts.com/user/${esgst.username}" title="You have sent ${count} copies of this game (${sent} of which added to your CV)${active ? `\nYou currently have ${active} open giveaways for this game` : ``}\nYou should get \$${cv} real CV for sending a new copy of this game"><i class="fa fa-info"></i> ${count} <i class="fa fa-dollar"></i> ${cv}</a>
+                                        <a class="esgst-gc esgst-gc-giveawayInfo" href="https://www.steamgifts.com/user/${esgst.username}" title="You have sent ${count} copies of this game (${sent} of which added to your CV)${active ? `\nYou currently have ${active} open giveaways for this game` : ``}\nYou should get \$${cv} real CV for sending a new copy of this game\nA giveaway for this game is worth ${Math.min(Math.ceil(cache.price), 50)}P"><i class="fa fa-info"></i> ${count} <i class="fa fa-dollar"></i> ${cv}</a>
                                     `);
                                 }
                             }
@@ -32052,7 +32071,7 @@ Parsedown = (() => {
                 esgst.mtGameButton.parentElement.classList.remove(`esgst-hidden`);
             }
         }
-        if (esgst.gc && ((!esgst.menuPath || esgst.gbPath || esgst.gedPath || esgst.gePath) && !esgst.newGiveawayPath)) {
+        if (esgst.gc && (!esgst.menuPath || esgst.gbPath || esgst.gedPath || esgst.gePath)) {
             getGcGames(games, endless);
         }
     }
