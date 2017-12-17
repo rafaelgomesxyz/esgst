@@ -13257,6 +13257,7 @@ Parsedown = (() => {
         var basicFilter, basicFilters, box, button, categoryFilter, categoryFilters, collapseButton, display, exceptionButton, exceptionCount, exceptionPanel, expandButton, filters, genres, gf, headingButton, i, id, infinite, key, maxKey, maxSavedValue, maxValue, minKey, minSavedValue, minValue, name, preset, presetButton, presetDisplay, presetInput, presetMessage, presetPanel, presets, presetWarning, slider, step, toggleSwitch, typeFilter, typeFilters, value;
         gf = {
             advancedSearch: location.search.match(/q=/),
+            counters: {},
             popup: popup,
             type: popup || (esgst.groupPath ? `Groups` : (location.search.match(/type/) ? { wishlist: `Wishlist`, recommended: `Recommended`, group: `Group`, new: `New` }[location.search.match(/type=(wishlist|recommended|group|new)/)[1]] : (esgst.createdPath ? `Created` : (esgst.enteredPath ? `Entered` : (esgst.wonPath ? `Won` : (esgst.userPath ? `User` : ``))))))
         };
@@ -13422,7 +13423,7 @@ Parsedown = (() => {
                             gf[minKey] = minSavedValue;
                             basicFilter = insertHtml(basicFilters, `beforeEnd`, `
                                 <div class="esgst-gf-basic-filter">
-                                    <div>${name === `MinutesToEnd` ? `Minutes To End` : name} <span class="esgst-float-right"><input type="text" value="${minSavedValue}"> - <input type="text" value="${maxSavedValue}"></span></div>
+                                    <div>${name === `MinutesToEnd` ? `Minutes To End` : name} <span class="esgst-gf-filter-count" title="Number of giveaways this filter is filtering">0</span> <span class="esgst-float-right"><input type="text" value="${minSavedValue}"> - <input type="text" value="${maxSavedValue}"></span></div>
                                     <div></div>
                                     <div></div>
                                 </div>
@@ -13435,7 +13436,8 @@ Parsedown = (() => {
                                 toggle.onEnabled = filterGfGiveaways.bind(null, gf);
                                 toggle.onDisabled = filterGfGiveaways.bind(null, gf);
                             }
-                            gf[`${minKey}Input`] = display.firstElementChild.nextElementSibling.firstElementChild;
+                            gf.counters[name.toLowerCase()] = display.firstElementChild.nextElementSibling;
+                            gf[`${minKey}Input`] = gf.counters[name.toLowerCase()].nextElementSibling.firstElementChild;
                             gf[`${maxKey}Input`] = gf[`${minKey}Input`].nextElementSibling;
                             gf[`${maxKey}Input`].addEventListener(`change`, changeGfMaxValue.bind(null, infinite, slider, step));
                             gf[`${minKey}Input`].addEventListener(`change`, changeGfMinValue.bind(null, slider, step));
@@ -13492,6 +13494,7 @@ Parsedown = (() => {
                         typeFilter = insertHtml(typeFilters, `beforeEnd`, `
                             <div class="esgst-gf-type-filter">
                                 <span>${name}</span>
+                                <span class="esgst-gf-filter-count" title="Number of giveaways this filter is filtering">0</span>
                             </div>
                         `);
                         value = preset[key] || `enabled`;
@@ -13499,6 +13502,7 @@ Parsedown = (() => {
                         gf[`${key}Checkbox`] = new Checkbox(typeFilter, value, true);
                         setGfOverride(gf, typeFilter, key);
                         gf[`${key}Checkbox`].checkbox.addEventListener(`click`, changeGfValue.bind(null, gf[`${key}Checkbox`], gf, key));
+                        gf.counters[key] = typeFilter.lastElementChild;
                     } else {
                         gf[key] = `enabled`;
                     }
@@ -13532,15 +13536,17 @@ Parsedown = (() => {
                         categoryFilter = insertHtml(categoryFilters, `beforeEnd`, `
                             <div class="esgst-gf-category-filter">
                                 <span>${name} ${genres ? `<input placeholder="Genre1, Genre2" type="text">` : ``}</span>
+                                <span class="esgst-gf-filter-count" title="Number of giveaways this filter is filtering">0</span>
                             </div>
                         `);
                         value = typeof preset[key] !== `undefined` ? preset[key] : `enabled`;
                         gf[key] = value;
                         gf[`${key}Checkbox`] = new Checkbox(categoryFilter, value, true);
                         setGfOverride(gf, categoryFilter, key);
-                        gf[`${key}Checkbox`].checkbox.addEventListener(`click`, changeGfValue.bind(null, gf[`${key}Checkbox`], gf, key));
+                        gf[`${key}Checkbox`].checkbox.addEventListener(`click`, changeGfValue.bind(null, gf[`${key}Checkbox`], gf, key));                        
+                        gf.counters[key] = categoryFilter.lastElementChild;
                         if (genres) {
-                            gf.genreListInput = categoryFilter.lastElementChild.lastElementChild;
+                            gf.genreListInput = categoryFilter.firstElementChild.lastElementChild;
                             value = (preset.genreList && preset.genreList.replace(/,(?!\s)/g, `, `)) || ``;
                             gf.genreList = gf.genreListInput.value = value;
                             gf.genreListInput.addEventListener(`change`, changeGfValue.bind(null, gf.genreListInput, gf, `genreList`));
@@ -14160,7 +14166,10 @@ Parsedown = (() => {
     }
 
     function filterGfGiveaways(gf, unfilter, endless) {
-        var giveaways;
+        let giveaways, key;
+        for (key in gf.counters) {
+            gf.counters[key].textContent = `0`;
+        }
         giveaways = gf.popup ? esgst.popupGiveaways : esgst.currentGiveaways;
         giveaways.forEach(giveaway => {
             if (unfilter) {
@@ -14245,7 +14254,7 @@ Parsedown = (() => {
     }
 
     function filterGfGiveaway(gf, giveaway) {
-        var basicFilters, categoryFilters, filtered, i, j, key, maxKey, minKey, minutes, n, name, override, typeFilters, value;
+        var basicFilters, categoryFilters, counterKey, filtered, i, j, key, maxKey, minKey, minutes, n, name, override, typeFilters, value;
         basicFilters = [`Level`, `Entries`, `Copies`, `Points`, `MinutesToEnd`, `Chance`, `Ratio`, `Rating`];
         typeFilters = [`pinned`, `group`, `whitelist`, `regionRestricted`, `created`, `received`, `notReceived`, `awaitingFeedback`, `entered`, `started`, `ended`, `deleted`, `owned`, `wishlisted`, `hidden`, `ignored`, `previouslyEntered`, `previouslyWon`, `fullCV`, `reducedCV`, `noCV`];
         categoryFilters = [`removed`, `tradingCards`, `achievements`, `multiplayer`, `steamCloud`, `linux`, `mac`, `dlc`, `dlcFree`, `dlcNonFree`, `package`, `genres`];
@@ -14264,12 +14273,14 @@ Parsedown = (() => {
                             if (minutes < gf[minKey] || minutes > gf[maxKey]) {
                                 filtered = true;
                                 override = gf.overrides.minutesToEnd;
+                                counterKey = key;
                             }
                         }
                     } else if (giveaway[key] < gf[minKey] || giveaway[key] > gf[maxKey]) {
                         if (name !== `Rating` || giveaway.rating !== 0 || esgst.gf_noRating) {
                             filtered = true;
                             override = gf.overrides[key];
+                            counterKey = key;
                         }
                     }
                 }
@@ -14281,6 +14292,9 @@ Parsedown = (() => {
                 if ((key === `fullCV` && ((gf.fullCV === `disabled` && !giveaway.reducedCV && !giveaway.noCV) || (gf.fullCV === `none` && (giveaway.reducedCV || giveaway.noCV)))) || (key !== `fullCV` && ((gf[key] === `disabled` && giveaway[key]) || (gf[key] === `none` && !giveaway[key])))) {
                     filtered = true;
                     override = gf.overrides[key];
+                    if (!counterKey) {
+                        counterKey = key;
+                    }
                     if (key === `ended` && gf.ended === `disabled` && (esgst.createdPath || esgst.enteredPath || esgst.wonPath || esgst.userPath)) {
                         esgst.stopEs = true;
                     }
@@ -14305,6 +14319,9 @@ Parsedown = (() => {
                     if ((gf[key] === `disabled` && value) || (gf[key] === `none` && !value)) {
                         filtered = true;
                         override = gf.overrides[key];
+                        if (!counterKey) {
+                            counterKey = key;
+                        }
                     }
                 }
             }
@@ -14313,6 +14330,9 @@ Parsedown = (() => {
             for (i = gf.exceptions.length - 1; i >= 0 && filtered; --i) {
                 filtered = filterGfException(gf.exceptions[i], giveaway);
             }
+        }
+        if (filtered) {            
+            gf.counters[counterKey].textContent = parseInt(gf.counters[counterKey].textContent) + 1;
         }
         return filtered;
     }
@@ -21459,6 +21479,7 @@ Parsedown = (() => {
             <i class="fa fa-sliders" title="Manage presets"></i>
         `;
         esgst.df = df = {
+            counters: {},
             type: esgst.createdDiscussionsPath ? `Created` : ``
         };
         toggleSwitch = new ToggleSwitch(headingButton.firstElementChild, `df_enable${esgst.df.type}`, true, ``, false, false, null, esgst[`df_enable${esgst.df.type}`]);
@@ -21593,14 +21614,15 @@ Parsedown = (() => {
                     df[minKey] = minSavedValue;
                     basicFilter = insertHtml(basicFilters, `beforeEnd`, `
                         <div class="esgst-gf-basic-filter">
-                            <div>${name} <span class="esgst-float-right"><input type="text" value="${minSavedValue}"> - <input type="text" value="${maxSavedValue}"></span></div>
+                            <div>${name} <span class="esgst-gf-filter-count" title="Number of discussions this filter is filtering">0</span> <span class="esgst-float-right"><input type="text" value="${minSavedValue}"> - <input type="text" value="${maxSavedValue}"></span></div>
                             <div></div>
                         </div>
                     `);
                     display = basicFilter.firstElementChild;
                     setDfOverride(df, display, key);
                     slider = display.nextElementSibling;
-                    df[`${minKey}Input`] = display.firstElementChild.nextElementSibling.firstElementChild;
+                    df.counters[key] = display.firstElementChild.nextElementSibling;
+                    df[`${minKey}Input`] = df.counters[key].nextElementSibling.firstElementChild;
                     df[`${maxKey}Input`] = df[`${minKey}Input`].nextElementSibling;
                     df[`${maxKey}Input`].addEventListener(`change`, changeGfMaxValue.bind(null, infinite, slider, step));
                     df[`${minKey}Input`].addEventListener(`change`, changeGfMinValue.bind(null, slider, step));
@@ -21647,11 +21669,13 @@ Parsedown = (() => {
                     typeFilter = insertHtml(typeFilters, `beforeEnd`, `
                         <div class="esgst-gf-type-filter">
                             <span>${name}</span>
+                            <span class="esgst-gf-filter-count" title="Number of discussions this filter is filtering">0</span>
                         </div>
                     `);
                     value = preset[key] || `enabled`;
                     df[key] = value;
                     df[`${key}Checkbox`] = new Checkbox(typeFilter, value, true);
+                    df.counters[key] = typeFilter.lastElementChild;
                     setDfOverride(df, typeFilter, key);
                     df[`${key}Checkbox`].checkbox.addEventListener(`click`, changeDfValue.bind(null, df[`${key}Checkbox`], df, key));
                 } else {
@@ -22106,6 +22130,10 @@ Parsedown = (() => {
     }
 
     function filterDfDiscussions(df, unfilter, endless) {
+        let key;
+        for (key in df.counters) {            
+            df.counters[key].textContent = `0`;
+        }
         esgst.currentDiscussions.forEach(discussion => {
             if (unfilter) {
                 if (discussion.outerWrap.classList.contains(`esgst-hidden`)) {
@@ -22149,7 +22177,7 @@ Parsedown = (() => {
     }
 
     function filterDfDiscussion(df, discussion) {
-        var basicFilters, filtered, i, j, key, maxKey, minKey, n, name, override, typeFilters;
+        var basicFilters, counterKey, filtered, i, j, key, maxKey, minKey, n, name, override, typeFilters;
         basicFilters = [`Comments`];
         typeFilters = [`announcements`, `bugs_suggestions`, `deals`, `general`, `groupRecruitment`, `letsPlayTogether`, `offTopic`, `puzzles`, `uncategorized`, `created`, `poll`, `highlighted`, `visited`, `unread`];
         filtered = false;
@@ -22162,6 +22190,7 @@ Parsedown = (() => {
             if (discussion[key] < df[minKey] || discussion[key] > df[maxKey]) {
                 filtered = true;
                 override = df.overrides[key];
+                counterKey = key;
             }
         }
         for (i = 0, n = typeFilters.length; i < n && (!filtered || !override); ++i) {
@@ -22169,12 +22198,18 @@ Parsedown = (() => {
             if ((df[key] === `disabled` && discussion[key]) || (df[key] === `none` && !discussion[key])) {
                 filtered = true;
                 override = df.overrides[key];
+                if (!counterKey) {
+                    counterKey = key;
+                }
             }
         }
         if (df.exceptions && !override) {
             for (i = df.exceptions.length - 1; i >= 0 && filtered; --i) {
                 filtered = filterDfException(df.exceptions[i], discussion);
             }
+        }
+        if (filtered) {            
+            df.counters[counterKey].textContent = parseInt(df.counters[counterKey].textContent) + 1;
         }
         return filtered;
     }
@@ -36217,7 +36252,7 @@ Parsedown = (() => {
 
             .esgst-gf-basic-filter {
                 margin: 10px;
-                width: 330px;
+                width: 375px;
             }
 
             .esgst-gf-basic-filter >* {
@@ -36228,6 +36263,13 @@ Parsedown = (() => {
                 margin: 5px;
             }
 
+            .esgst-gf-filter-count {
+                background-color: #ddd;
+                border-radius: 5px;
+                font-size: 10px;
+                padding: 2px;
+            }
+            
             .esgst-gf-button {
                 border-top: 1px;
             }
