@@ -11024,22 +11024,22 @@ Parsedown = (() => {
         });
     }
 
-    function setSiblingsOpacity(Element, Opacity) {
+    function setSiblingsOpacity(element, Opacity) {
         var Siblings, I, N;
-        Siblings = Element.parentElement.children;
+        Siblings = element.parentElement.children;
         for (I = 0, N = Siblings.length; I < N; ++I) {
-            if (Siblings[I] != Element) {
+            if (Siblings[I] != element) {
                 Siblings[I].style.opacity = Opacity;
             }
         }
     }
 
-    function setHoverOpacity(Element, EnterOpacity, LeaveOpacity) {
-        Element.addEventListener(`mouseenter`, function () {
-            Element.style.opacity = EnterOpacity;
+    function setHoverOpacity(element, EnterOpacity, LeaveOpacity) {
+        element.addEventListener(`mouseenter`, function () {
+            element.style.opacity = EnterOpacity;
         });
-        Element.addEventListener(`mouseleave`, function () {
-            Element.style.opacity = LeaveOpacity;
+        element.addEventListener(`mouseleave`, function () {
+            element.style.opacity = LeaveOpacity;
         });
     }
 
@@ -11151,42 +11151,42 @@ Parsedown = (() => {
         return context;
     }
 
-    function createResults(Context, Element, Results) {
+    function createResults(Context, element, Results) {
         var I, N, Key;
         for (I = 0, N = Results.length; I < N; ++I) {
             Context.insertAdjacentHTML(`beforeEnd`, `
-                <li class="esgst-hidden">
+                <div class="esgst-hidden">
                     ${Results[I].Icon}
                     <span class="esgst-bold">${Results[I].Description} (<span>0</span>):</span>
                     <span class="esgst-popup-actions"></span>
-                </li>
+                </div>
             `);
             Key = Results[I].Key;
-            Element[Key] = Context.lastElementChild;
-            Element[`${Key}Count`] = Element[Key].firstElementChild.nextElementSibling.firstElementChild;
-            Element[`${Key}Users`] = Element[Key].lastElementChild;
+            element[Key] = Context.lastElementChild;
+            element[`${Key}Count`] = element[Key].firstElementChild.nextElementSibling.firstElementChild;
+            element[`${Key}Users`] = element[Key].lastElementChild;
         }
     }
 
-    function goToComment(hash, Element) {
+    function goToComment(hash, element) {
         var element, ID, Top, Permalink;
         if (!hash) {
             hash = location.hash;
         }
         ID = hash.replace(/#/, ``);
-        if ((ID || Element) && !location.pathname.match(/^\/account/)) {
-            if (!Element && ID) {
-                Element = document.getElementById(ID);
+        if ((ID || element) && !location.pathname.match(/^\/account/)) {
+            if (!element && ID) {
+                element = document.getElementById(ID);
             }
-            if (Element) {
-                Top = Element.offsetTop;
+            if (element) {
+                Top = element.offsetTop;
                 scrollTo(0, Top);
                 scrollBy(0, -esgst.commentsTop);
                 Permalink = document.getElementsByClassName(esgst.sg ? `is_permalink` : `author_permalink`)[0];
                 if (Permalink) {
                     Permalink.remove();
                 }
-                element = Element.getElementsByClassName(esgst.sg ? `comment__username` : `author_avatar`)[0];
+                element = element.getElementsByClassName(esgst.sg ? `comment__username` : `author_avatar`)[0];
                 if (element) {
                     element.insertAdjacentHTML(esgst.sg ? `beforeBegin` : `afterEnd`, `
                         <i class="fa fa-share is_permalink author_permalink"></i>
