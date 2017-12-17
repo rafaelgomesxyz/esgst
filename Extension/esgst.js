@@ -2032,9 +2032,11 @@ Parsedown = (() => {
                             aic: {
                                 description: `
                                     <ul>
-                                        <li>Opens the attached images in a carousel.</li>
+                                        <li>Allows you to navigate through all attached images of a page.</li>
+                                        <li>Open the carousel by clicking either an attached image or the button in the main page heading, depending on your preferred settings.</li>
                                     </ul>
-                                    <img src="http://imgur.com/iJjAs3W.png"/>
+                                    <img src="https://i.imgur.com/gnXYNE6.png">
+                                    <img src="https://i.imgur.com/Csegj00.png">
                                 `,
                                 features: {
                                     aic_b: {
@@ -2050,9 +2052,8 @@ Parsedown = (() => {
                             ail: {
                                 description: `
                                     <ul>
-                                        <li>Prevents all attached images in a page from loading on page load and only loads them after clicking on "View attached image".</li>
-                                        <li>This speeds up page loads for users with poor Internet connection.</li>
-                                        <li>This feature obviously does not run if Visible Attached Images is enabled.</li>
+                                        <li>Allows you to load attached images on demand, when you click on "View attached image".</li>
+                                        <li>Speeds up page loads if you have a slow Internet connection.</li>
                                     </ul>
                                 `,
                                 name: `Attached Images Loader`,
@@ -2062,8 +2063,10 @@ Parsedown = (() => {
                             ap: {
                                 description: `
                                     <ul>
-                                        <li>Pops out user/group info when hovering their avatars.</li>
+                                        <li>Allows you to view information about a user/group by hovering over/clicking their avatar/link, depending on your preferred settings.</li>
                                     </ul>
+                                    <img src="https://i.imgur.com/SsG4VuQ.png">
+                                    <img src="https://i.imgur.com/0JPC9qD.png">
                                 `,
                                 name: `Avatar Popout`,
                                 options: {
@@ -2075,7 +2078,8 @@ Parsedown = (() => {
                             at: {
                                 description: `
                                     <ul>
-                                        <li>Shows accurate timestamps. For example, "1/1/2017, 0:00:00 AM" instead of "2 hours ago".</li>
+                                        <li>Shows accurate timestamps, for example, "Jan 1, 2017, 0:00:00 - 2 hours ago" instead of just "2 hours ago".</li>
+                                        <li>You can choose whether to enable it for giveaways in the main page or not, whether to show seconds or not and whether to use a 12-hour clock or a 24-hour one.</li>
                                     </ul>
                                 `,
                                 features: {
@@ -2101,8 +2105,13 @@ Parsedown = (() => {
                             es: {
                                 description: `
                                     <ul>
-                                        <li>Allows you to endlessly scroll through pages.</li>
+                                        <li>Loads the next page when you scroll down to the end of the page, allowing you to endlessly scroll through pages.</li>
+                                        <li>You can choose for which types of pages to enable it (comments, discussions/tickets, giveaways, lists and trades) and whether to show page divisors in each of them or not.</li>
+                                        <li>Has a reverse scrolling option for discussions that loads pages in descending order and loads the last page instead of the first one when visiting discussions from the main pages.</li>
+                                        <li>Use the buttons in the main page heading to pause/resume it, load the next page, continuously load pages, refresh the current page and refresh all pages.</li>
+                                        <li>If you use the pagination navigation to try to go to a page that is currently loaded, it will scroll to where the page begins instead of opening it.</li>
                                     </ul>
+                                    <img src="https://i.imgur.com/xLD7YZN.png">
                                 `,
                                 features: {
                                     es_rd: {
@@ -2210,12 +2219,9 @@ Parsedown = (() => {
                                 description: `
                                     <ul>
                                         <li>Embeds YouTube and Vimeo videos into the page.</li>
+                                        <li>Videos are only embedded if their links are in the [URL](URL) format and are the only content in a line, for example, "[https://youtu.be/ihd9dKek2gc](https://youtu.be/ihd9dKek2gc)" gets embedded, while "[Watch this!](https://youtu.be/ihd9dKek2gc)" and "Watch this: [https://youtu.be/ihd9dKek2gc](https://youtu.be/ihd9dKek2gc)" do not.</li>
                                     </ul>
-                                    <p>Videos are only embedded if they are the only content in a line. For example:</p´>
-                                    <ul>
-                                        <li>[Orange Sphincter To The Rescue](https://www.youtube.com/watch?v=cD1e0BNNifk) -> Gets embedded.</li>
-                                        <li>I watched [https://www.youtube.com/watch?v=cD1e0BNNifk](https://www.youtube.com/watch?v=cD1e0BNNifk) and it was hilarious. -> Does not get embedded.</li>
-                                    </ul>
+                                    <img src="https://i.imgur.com/jE2Xmna.png">
                                 `,
                                 name: `Embedded Videos`,
                                 sg: true,
@@ -2224,8 +2230,9 @@ Parsedown = (() => {
                             ff: {
                                 description: `
                                     <ul>
-                                        <li>Allows the footer to stay fixed at the bottom while you scroll down the page.</li>
+                                        <li>Fixes the footer so that it stays at the bottom of the window while you scroll down the page.</li>
                                     </ul>
+                                    <img src="https://i.imgur.com/XLE0Wpm.png">
                                 `,
                                 name: `Fixed Footer`,
                                 sg: true,
@@ -2234,8 +2241,9 @@ Parsedown = (() => {
                             fh: {
                                 description: `
                                     <ul>
-                                        <li>Allows the header to stay fixed at the top while you scroll down the page.</li>
+                                        <li>Fixes the header so that it stays at the top of the window while you scroll down the page.</li>
                                     </ul>
+                                    <img src="https://i.imgur.com/RvvzGj1.png">
                                 `,
                                 name: `Fixed Header`,
                                 sg: true,
@@ -2244,8 +2252,9 @@ Parsedown = (() => {
                             fmph: {
                                 description: `
                                     <ul>
-                                        <li>Allows the main page heading to stay fixed at the top while you scroll down the page.</li>
+                                        <li>Fixes the main page heading so that it stays at the top of the window while you scroll down the page.</li>
                                     </ul>
+                                    <img src="https://i.imgur.com/Bl7YWNk.png">
                                 `,
                                 name: `Fixed Main Page Heading`,
                                 sg: true,
@@ -2254,8 +2263,9 @@ Parsedown = (() => {
                             fs: {
                                 description: `
                                     <ul>
-                                        <li>Allows the sidebar to stay fixed at the side while you scroll down the page.</li>
+                                        <li>Fixes the sidebar so that it stays at the left side of the window while you scroll down the page.</li>
                                     </ul>
+                                    <img src="https://i.imgur.com/lD6noac.png">
                                 `,
                                 name: `Fixed Sidebar`,
                                 sg: true,
