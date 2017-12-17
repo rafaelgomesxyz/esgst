@@ -13373,7 +13373,7 @@ Parsedown = (() => {
         if (!preset) {
             name = `Default${gf.type}`;
             preset = { name };
-            [`maxLevel`, `minLevel`, `maxEntries`, `minEntries`, `maxCopies`, `minCopies`, `maxPoints`, `minPoints`, `maxMinutesToEnd`, `minMinutesToEnd`, `maxChance`, `minChance`, `maxRating`, `minRating`, `pinned`, `group`, `whitelist`, `regionRestricted`, `created`, `received`, `notReceived`, `awaitingFeedabck`, `entered`, `started`, `ended`, `deleted`, `hidden`, `fullCV`, `reducedCV`, `noCV`, `owned`, `wishlisted`, `ignored`, `previouslyEntered`, `previouslyWon`, `removed`, `tradingCards`, `achievements`, `multiplayer`, `steamCloud`, `linux`, `mac`, `dlc`, `dlcFree`, `dlcNonFree`, `package`, `genres`, `genreList`].forEach(key => {
+            [`maxLevel`, `minLevel`, `maxEntries`, `minEntries`, `maxCopies`, `minCopies`, `maxPoints`, `minPoints`, `maxMinutesToEnd`, `minMinutesToEnd`, `maxChance`, `minChance`, `maxRatio`, `minRatio`, `maxRating`, `minRating`, `pinned`, `group`, `whitelist`, `regionRestricted`, `created`, `received`, `notReceived`, `awaitingFeedabck`, `entered`, `started`, `ended`, `deleted`, `hidden`, `fullCV`, `reducedCV`, `noCV`, `owned`, `wishlisted`, `ignored`, `previouslyEntered`, `previouslyWon`, `removed`, `tradingCards`, `achievements`, `multiplayer`, `steamCloud`, `linux`, `mac`, `dlc`, `dlcFree`, `dlcNonFree`, `package`, `genres`, `genreList`].forEach(key => {
                 preset[key] = esgst.settings[`gf_${key}${gf.type}`];
             });
             presets = JSON.parse(getValue(`filterPresets`, `[]`));
@@ -13611,7 +13611,7 @@ Parsedown = (() => {
         if (name) {
             presetWarning.classList.add(`esgst-hidden`);
             preset = { name };
-            [`maxLevel`, `minLevel`, `maxEntries`, `minEntries`, `maxCopies`, `minCopies`, `maxPoints`, `minPoints`, `maxMinutesToEnd`, `minMinutesToEnd`, `maxChance`, `minChance`, `maxRating`, `minRating`, `pinned`, `group`, `whitelist`, `regionRestricted`, `created`, `received`, `notReceived`, `awaitingFeedback`, `entered`, `started`, `ended`, `deleted`, `hidden`, `fullCV`, `reducedCV`, `noCV`, `owned`, `wishlisted`, `ignored`, `previouslyEntered`, `previouslyWon`, `removed`, `tradingCards`, `achievements`, `multiplayer`, `steamCloud`, `linux`, `mac`, `dlc`, `dlcFree`, `dlcNonFree`, `package`, `genres`, `genreList`].forEach(key => {
+            [`maxLevel`, `minLevel`, `maxEntries`, `minEntries`, `maxCopies`, `minCopies`, `maxPoints`, `minPoints`, `maxMinutesToEnd`, `minMinutesToEnd`, `maxChance`, `minChance`, `maxRatio`, `minRatio`, `maxRating`, `minRating`, `pinned`, `group`, `whitelist`, `regionRestricted`, `created`, `received`, `notReceived`, `awaitingFeedback`, `entered`, `started`, `ended`, `deleted`, `hidden`, `fullCV`, `reducedCV`, `noCV`, `owned`, `wishlisted`, `ignored`, `previouslyEntered`, `previouslyWon`, `removed`, `tradingCards`, `achievements`, `multiplayer`, `steamCloud`, `linux`, `mac`, `dlc`, `dlcFree`, `dlcNonFree`, `package`, `genres`, `genreList`].forEach(key => {
                 if (typeof gf[key] !== `undefined`) {
                     preset[key] = gf[key];
                 }
@@ -13785,7 +13785,7 @@ Parsedown = (() => {
 
     function applyGfPreset(gf, exceptionCount, popup, preset, presetDisplay, presetInput) {
         var checkbox, input, key;
-        [`maxLevel`, `minLevel`, `maxEntries`, `minEntries`, `maxCopies`, `minCopies`, `maxPoints`, `minPoints`, `maxMinutesToEnd`, `minMinutesToEnd`, `maxChance`, `minChance`, `maxRating`, `minRating`, `pinned`, `group`, `whitelist`, `regionRestricted`, `created`, `received`, `notReceived`, `awaitingFeedabck`, `entered`, `started`, `ended`, `deleted`, `hidden`, `fullCV`, `reducedCV`, `noCV`, `owned`, `wishlisted`, `ignored`, `previouslyEntered`, `previouslyWon`, `removed`, `tradingCards`, `achievements`, `multiplayer`, `steamCloud`, `linux`, `mac`, `dlc`, `dlcFree`, `dlcNonFree`, `package`, `genres`, `genreList`].forEach(key => {
+        [`maxLevel`, `minLevel`, `maxEntries`, `minEntries`, `maxCopies`, `minCopies`, `maxPoints`, `minPoints`, `maxMinutesToEnd`, `minMinutesToEnd`, `maxChance`, `minChance`, `maxRatio`, `minRatio`, `maxRating`, `minRating`, `pinned`, `group`, `whitelist`, `regionRestricted`, `created`, `received`, `notReceived`, `awaitingFeedabck`, `entered`, `started`, `ended`, `deleted`, `hidden`, `fullCV`, `reducedCV`, `noCV`, `owned`, `wishlisted`, `ignored`, `previouslyEntered`, `previouslyWon`, `removed`, `tradingCards`, `achievements`, `multiplayer`, `steamCloud`, `linux`, `mac`, `dlc`, `dlcFree`, `dlcNonFree`, `package`, `genres`, `genreList`].forEach(key => {
             checkbox = gf[`${key}Checkbox`];
             if (checkbox) {
                 if (checkbox.isThreeState) {
