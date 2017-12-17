@@ -12906,6 +12906,8 @@ Parsedown = (() => {
                 optionsHtml += `
                     <option value="chance_asc">Chance - Ascending</option>
                     <option value="chance_desc">Chance - Descending</option>
+                    <option value="chancePerPoint_asc">Chance Per Point - Ascending</option>
+                    <option value="chancePerPoint_desc">Chance Per Point - Descending</option>
                 `;
             }
             if (esgst.gwr) {
@@ -15451,6 +15453,7 @@ Parsedown = (() => {
                         addGwcChance(insertHtml(giveaway.panel, (esgst.gv && ((main && esgst.giveawaysPath) || (source === `gb` && esgst.gv_gb) || (source === `ged` && esgst.gv_ged) || (source === `ge` && esgst.gv_ge))) ? `afterBegin` : `beforeEnd`, `<div class="${esgst.giveawayPath ? `featured__column` : ``} esgst-gwc" title="Giveaway Winning Chance">`), giveaway);
                     } else {
                         giveaway.chance = 100;
+                        giveaway.chancePerPoint = Math.round(100 / giveaway.points * 100) / 100;
                     }
                 }
             }
@@ -15467,6 +15470,8 @@ Parsedown = (() => {
             advancedChance = advancedChance > 100 ? 100 : (advancedChance <= 0 ? 0.01 : advancedChance);
         }
         giveaway.chance = esgst.gwc_a && !esgst.gwc_a_b ? advancedChance : basicChance;
+        giveaway.chancePerPoint = Math.round(giveaway.chance / giveaway.points * 100) / 100;
+        context.title = `Giveaway Winning Chance (${giveaway.chancePerPoint}% per point)`;
         context.setAttribute(`data-chance`, giveaway.chance);
         for (i = esgst.gwc_colors.length - 1; i > -1; --i) {
             colors = esgst.gwc_colors[i];
@@ -31166,6 +31171,7 @@ Parsedown = (() => {
         }
         chance = context.getElementsByClassName(`esgst-gwc`)[0];
         giveaway.chance = chance ? parseFloat(chance.getAttribute(`data-chance`)) : 0;
+        giveaway.chancePerPoint = Math.round(giveaway.chance / giveaway.points * 100) / 100;
         var feedback = giveaway.outerWrap.getElementsByClassName(`table__gift-feedback-awaiting-reply`)[0];
         if (esgst.rrbp && feedback) {
             feedback.addEventListener(`click`, openRrbp.bind(null, giveaway));
