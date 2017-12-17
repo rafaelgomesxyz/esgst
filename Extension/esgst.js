@@ -1474,17 +1474,17 @@ Parsedown = (() => {
                 esgst[this.id] = this.value;
             }
             if (this.value) {
+                this.dependencies.forEach(dependency => dependency.classList.remove(`esgst-hidden`));
+                this.exclusions.forEach(exclusion => exclusion.classList.add(`esgst-hidden`));
                 if (this.onEnabled) {
                     this.onEnabled();
                 }
-                this.dependencies.forEach(dependency => dependency.classList.remove(`esgst-hidden`));
-                this.exclusions.forEach(exclusion => exclusion.classList.add(`esgst-hidden`));
             } else {
+                this.dependencies.forEach(dependency => dependency.classList.add(`esgst-hidden`));
+                this.exclusions.forEach(exclusion => exclusion.classList.remove(`esgst-hidden`));
                 if (this.onDisabled) {
                     this.onDisabled();
                 }
-                this.dependencies.forEach(dependency => dependency.classList.add(`esgst-hidden`));
-                this.exclusions.forEach(exclusion => exclusion.classList.remove(`esgst-hidden`));
             }
         }
         enable() {
@@ -2050,6 +2050,9 @@ Parsedown = (() => {
                                 st: true
                             },
                             ail: {
+                                conflicts: [
+                                    {id: `vai`, name: `Visible Attached Images`}
+                                ],
                                 description: `
                                     <ul>
                                         <li>Allows you to load attached images on demand, when you click on "View attached image".</li>
@@ -2599,6 +2602,9 @@ Parsedown = (() => {
                                 st: true
                             },
                             vai: {
+                                conflicts: [
+                                    {id: `ail`, name: `Attached Images Loader`}
+                                ],
                                 description: `
                                     <ul>
                                         <li>Shows all attached images by default.</li>
@@ -29531,6 +29537,17 @@ Parsedown = (() => {
                 val1 = false;
             }
             siwtchSg = new ToggleSwitch(Menu, ID, true, esgst.settings.esgst_st ? `[SG]` : ``, true, false, null, val1);
+            if (Feature.conflicts) {
+                siwtchSg.onEnabled = () => {
+                    for (let ci = 0, cn = Feature.conflicts.length; ci < cn; ++ci) {
+                        if (esgst.settings[`${Feature.conflicts[ci].id}_sg`]) {
+                            siwtchSg.disable();
+                            new Popup(`fa-exclamation`, `This feature conflicts with ${Feature.conflicts[ci].name}. While that feature is enabled, this feature cannot be enabled.`, true).open();
+                            ci = cn;
+                        }
+                    }
+                }
+            }
         }
         if (Feature.st && (esgst.settings.esgst_st || ID === `esgst`)) {
             localID = `${ID}_st`;
@@ -29539,6 +29556,17 @@ Parsedown = (() => {
                 val2 = false;
             }
             siwtchSt = new ToggleSwitch(Menu, ID, true, `[ST]`, false, true, null, val2);
+            if (Feature.conflicts) {
+                siwtchSt.onEnabled = () => {
+                    for (let ci = 0, cn = Feature.conflicts.length; ci < cn; ++ci) {
+                        if (esgst.settings[`${Feature.conflicts[ci].id}_st`]) {
+                            siwtchSt.disable();
+                            new Popup(`fa-exclamation`, `This feature conflicts with ${Feature.conflicts[ci].name}. While that feature is enabled, this feature cannot be enabled.`, true).open();
+                            ci = cn;
+                        }
+                    }
+                }
+            }
         }
         if (siwtchSg || siwtchSt) {
         val = val1 || val2;
