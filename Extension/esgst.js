@@ -11453,11 +11453,11 @@ Parsedown = (() => {
 
     function addIbBorders(context) {
         var elements, i, n;
-        elements = context.querySelectorAll(`.giveaway_image_avatar, :not(.esgst-ggl-panel) .table_image_avatar`);
+        elements = context.querySelectorAll(`.giveaway_image_avatar, .featured_giveaway_image_avatar, :not(.esgst-ggl-panel) .table_image_avatar`);
         for (i = 0, n = elements.length; i < n; ++i) {
             elements[i].classList.add(`esgst-ib-user`);
         }
-        elements = context.querySelectorAll(`.giveaway_image_thumbnail, .giveaway_image_thumbnail_missing`);
+        elements = context.querySelectorAll(`.giveaway_image_thumbnail, .giveaway_image_thumbnail_missing, .table_image_thumbnail, .table_image_thumbnail_missing`);
         for (i = 0, n = elements.length; i < n; ++i) {
             elements[i].classList.add(`esgst-ib-game`);
         }
@@ -36528,15 +36528,29 @@ Parsedown = (() => {
                 width: 44px;
             }
 
+            .featured__outer-wrap .esgst-ib-user {
+                background-color: transparent;
+                border: 1px solid rgba(255, 255, 255, 0.1);
+            }
+
             .esgst-ib-game {
                 background-color: #fff;
                 background-position: 5px 5px;
-                background-size: 184px;
                 border: 1px solid #d2d6e0;
                 border-radius: 4px;
-                height: 81px;
                 padding: 5px;
+            }
+
+            .giveaway__row-outer-wrap .esgst-ib-game {
+                background-size: 184px 69px;
+                height: 81px;
                 width: 196px;
+            }
+
+            .table__row-outer-wrap .esgst-ib-game {
+                background-size: 85px 32px;
+                height: 44px;
+                width: 97px;
             }
 
             .esgst-oadd >* {
