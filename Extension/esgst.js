@@ -12086,7 +12086,6 @@ Parsedown = (() => {
         if (esgst.ail) {
             attachedImage.image.setAttribute(`src`, attachedImage.url);
         }
-        attachedImage.image.classList.remove(`is_hidden`, `is-hidden`);
         carousel.innerHTML = `
             <div class="esgst-aic-panel">
                 <div class="esgst-aic-left-button">
@@ -12105,7 +12104,7 @@ Parsedown = (() => {
                 ` : ``}
             </div>
             <a href="${attachedImage.url}" rel="nofollow noreferrer" target="_blank">
-                ${attachedImage.image.outerHTML}
+                ${attachedImage.image.outerHTML.replace(/is_hidden|is-hidden/, ``)}
             </a>
         `;
         panel = carousel.firstElementChild;
