@@ -15354,14 +15354,14 @@ Parsedown = (() => {
         if ((esgst.giveawayPath && !main) || !esgst.giveawayPath) {
             giveaway.innerWrap.classList.add(`esgst-faded`);
         }
-        addOchgbUnhideButton(giveaway);
+        addOchgbUnhideButton(giveaway, main);
     }
 
     function unfadeOchgbGiveaway(giveaway, main) {
         if ((esgst.giveawayPath && !main) || !esgst.giveawayPath) {
             giveaway.innerWrap.classList.remove(`esgst-faded`);
         }
-        addOchgbHideButton(giveaway);
+        addOchgbHideButton(giveaway, main);
     }
 
     function hideOchgbGiveaway(giveaway, main, event) {
