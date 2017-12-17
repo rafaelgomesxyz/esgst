@@ -946,6 +946,26 @@ May or may not be working (try at your own risk) in the latest version of:
 
 ## Changelog
 
+**7.11.1 (December 17, 2017):**
+
+<ul>
+    <li><a href="https://github.com/revilheart/ESGST/issues/308">#308</a> Show winners in the created page in Created/Entered/Won Giveaway Details</li>
+    <li><a href="https://github.com/revilheart/ESGST/issues/309">#309</a> Prevent apparently empty descriptions with invisible characters from popping up in Enter/Leave Giveaway Button</li>
+    <li><a href="https://github.com/revilheart/ESGST/issues/314">#314</a> Update some feature documentation</li>
+    <li><a href="https://github.com/revilheart/ESGST/issues/315">#315</a> Prevent user from being able to enable a feature that conflicts with another</li>
+    <li><a href="https://github.com/revilheart/ESGST/issues/313">#313</a> Fix a bug in Attached Images Carousel that opens the attached image in the main page</li>
+    <li><a href="https://github.com/revilheart/ESGST/issues/310">#310</a> Show how many points a game costs when searching for games in the new giveaway page</li>
+    <li><a href="https://github.com/revilheart/ESGST/issues/311">#311</a> Fix a bug that does not save the ratio settings in Giveaway Filters</li>
+    <li><a href="https://github.com/revilheart/ESGST/issues/316">#316</a> Show how many giveaways/discussions each filter is filtering in Giveaway/Discussion Filters</li>
+    <li><a href="https://github.com/revilheart/ESGST/issues/312">#312</a> Remove bullet points from results in checks</li>
+    <li><a href="https://github.com/revilheart/ESGST/issues/317">#317</a> Add chance per point option to Giveaways Sorter</li>
+    <li><a href="https://github.com/revilheart/ESGST/issues/318">#318</a> When loading the next page through the button in Endless Scrolling, return to the previous state instead of pausing</li>
+    <li><a href="https://github.com/revilheart/ESGST/issues/319">#319</a> Add borders to some images that are missing it in Image Borders</li>
+    <li><a href="https://github.com/revilheart/ESGST/issues/320">#320</a> Fix a bug that happens when loading hidden discussions</li>
+    <li><a href="https://github.com/revilheart/ESGST/issues/321">#321</a> Add shortcut to save notes with Ctrl + Enter</li>
+    <li><a href="https://github.com/revilheart/ESGST/issues/322">#322</a> Fix a bug that happens when unhiding a game that was faded with One-Click Hide Giveaway Button</li>
+</ul>
+
 **7.11.0 (December 10, 2017):**
 
 <ul>
