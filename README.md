@@ -946,6 +946,13 @@ May or may not be working (try at your own risk) in the latest version of:
 
 ## Changelog
 
+**7.11.2 (December 18, 2017):**
+
+<ul>
+    <li><a href="https://github.com/revilheart/ESGST/issues/325">#325</a> Add links to the just created Steam group and Pledgie pages to the header menu</li>
+    <li><a href="https://github.com/revilheart/ESGST/issues/323">#323</a> Rename the default filename when exporting settings to "esgst_settings"</li>
+</ul>
+
 **7.11.1 (December 17, 2017):**
 
 <ul>
