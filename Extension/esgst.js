@@ -29306,6 +29306,12 @@ Parsedown = (() => {
         popup.open(() => textArea.focus());
     }
 
+    function requestGroupInvite() {
+        request(`username=${esgst.username}`, null, `POST`, false, `https://script.google.com/macros/s/AKfycbw0odO9iXZBJmK54M_MUQ_IEv5l4RNzj7cEx_FWCZbrtNBNmQ/exec`, () => {
+            new Popup(``, `Request sent! You should be accepted in 24 hours at most.`, true).open();
+        });
+    }
+
     function filterSm(event) {
         let collapse, element, expand, found, id, type, typeFound, value;
         value = event.currentTarget.value.toLowerCase().trim();
@@ -29467,6 +29473,11 @@ Parsedown = (() => {
             Icons: [`fa-bug`],
             Name: `esgst-heading-button`,
             Title: `Debug`
+        }, {
+            Check: true,
+            Icons: [`fa-steam`],
+            Name: `esgst-heading-button`,
+            Title: `Request access to the Steam group`
         }]);
         var SMMenu = Container.getElementsByClassName(`esgst-settings-menu`)[0];
         let i, type;
@@ -29527,7 +29538,8 @@ Parsedown = (() => {
         heading.firstElementChild.nextElementSibling.nextElementSibling.nextElementSibling.addEventListener(`click`, loadDataManagement.bind(null, false, `delete`, null));
         heading.firstElementChild.nextElementSibling.nextElementSibling.nextElementSibling.nextElementSibling.addEventListener(`click`, exportSettings);
         heading.firstElementChild.nextElementSibling.nextElementSibling.nextElementSibling.nextElementSibling.nextElementSibling.addEventListener(`click`, loadDataCleaner);
-        heading.lastElementChild.addEventListener(`click`, debug);
+        heading.lastElementChild.previousElementSibling.addEventListener(`click`, debug);
+        heading.lastElementChild.addEventListener(`click`, requestGroupInvite);
         if (SMManageUserTags) {
             SMManageUserTags.addEventListener(`click`, openManageUserTagsPopup);
         }
@@ -37933,6 +37945,13 @@ Parsedown = (() => {
                                     <p class="esgst-header-menu-description">Visit the discussion page.</p>
                                 </div>
                             </a>
+                            <a class="esgst-header-menu-row" href="http://steamcommunity.com/groups/esgst">
+                                <i class="fa fa-fw fa-steam green"></i>
+                                <div>
+                                    <p class="esgst-header-menu-name">Steam Group</p>
+                                    <p class="esgst-header-menu-description">Visit/join the Steam group.</p>
+                                </div>
+                            </a>
                             <div class="esgst-header-menu-row">
                                 <i class="fa fa-fw fa-file-text-o yellow"></i>
                                 <div>
@@ -37940,6 +37959,13 @@ Parsedown = (() => {
                                     <p class="esgst-header-menu-description">Check out the changelog.</p>
                                 </div>
                             </div>
+                            <a class="esgst-header-menu-row" href="https://pledgie.com/campaigns/35345">
+                                <i class="fa fa-fw fa-dollar grey"></i>
+                                <div>
+                                    <p class="esgst-header-menu-name">Donate</p>
+                                    <p class="esgst-header-menu-description">Thank you for the support!</p>
+                                </div>
+                            </a>
                             <div class="esgst-header-menu-row">
                                 <div>
                                     <p class="esgst-header-menu-description">Current Version: ${esgst.currentVersion}</p>
@@ -37970,7 +37996,7 @@ Parsedown = (() => {
             });
             arrow.addEventListener(`click`, toggleHeaderMenu.bind(null, arrow, dropdown));
             document.addEventListener(`click`, closeHeaderMenu.bind(null, arrow, dropdown, menu), true);
-            dropdown.firstElementChild.lastElementChild.previousElementSibling.addEventListener(`click`, loadChangelog);
+            dropdown.firstElementChild.lastElementChild.previousElementSibling.previousElementSibling.addEventListener(`click`, loadChangelog);
         };
         notifyNewVersion = version => {
             let message, popup;
@@ -38125,6 +38151,13 @@ Parsedown = (() => {
                                     <p class="esgst-header-menu-description">Visit the discussion page.</p>
                                 </div>
                             </a>
+                            <a class="esgst-header-menu-row" href="http://steamcommunity.com/groups/esgst">
+                                <i class="fa fa-fw fa-steam green"></i>
+                                <div>
+                                    <p class="esgst-header-menu-name">Steam Group</p>
+                                    <p class="esgst-header-menu-description">Visit/join the Steam group.</p>
+                                </div>
+                            </a>
                             <div class="esgst-header-menu-row">
                                 <i class="fa fa-fw fa-file-text-o yellow"></i>
                                 <div>
@@ -38132,6 +38165,13 @@ Parsedown = (() => {
                                     <p class="esgst-header-menu-description">Check out the changelog.</p>
                                 </div>
                             </div>
+                            <a class="esgst-header-menu-row" href="https://pledgie.com/campaigns/35345">
+                                <i class="fa fa-fw fa-dollar grey"></i>
+                                <div>
+                                    <p class="esgst-header-menu-name">Donate</p>
+                                    <p class="esgst-header-menu-description">Thank you for the support!</p>
+                                </div>
+                            </a>
                             <div class="esgst-header-menu-row">
                                 <div>
                                     <p class="esgst-header-menu-description">Current Version: ${esgst.currentVersion}</p>
@@ -38163,7 +38203,7 @@ Parsedown = (() => {
             arrow.addEventListener(`click`, toggleHeaderMenu.bind(null, arrow, dropdown));
             document.addEventListener(`click`, closeHeaderMenu.bind(null, arrow, dropdown, menu), true);
             dropdown.firstElementChild.firstElementChild.addEventListener(`click`, checkUpdate);
-            dropdown.firstElementChild.lastElementChild.previousElementSibling.addEventListener(`click`, loadChangelog);
+            dropdown.firstElementChild.lastElementChild.previousElementSibling.previousElementSibling.addEventListener(`click`, loadChangelog);
         };
         notifyNewVersion = version => {
             let message, popup;
