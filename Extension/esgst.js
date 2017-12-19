@@ -1234,29 +1234,6 @@ Parsedown = (() => {
         }
     }
 
-    class CompletionCheck {
-        constructor(total, callback, onCheck) {
-            this.callback = callback;
-            this.onCheck = onCheck;
-            this.counter = {
-                count: 0,
-                total: total
-            };
-            setTimeout(() => this.check(), 500);
-            return this.counter;
-        }
-        check() {
-            if (this.onCheck) {
-                this.onCheck();
-            }
-            if (this.counter.count < this.counter.total) {
-                setTimeout(() => this.check(), 500);
-            } else {
-                this.callback();
-            }
-        }
-    }
-
     class Popout {
         constructor(className = ``, context = null, hoverSpeed = 1000, onClick = false, popout = null, onOpen = null) {
             this.onOpen = onOpen;
@@ -9957,14 +9934,24 @@ Parsedown = (() => {
     }
 
     function saveUsers(users, callback) {
-        let i, list, n, savedUsers;
+        var i, list, n, savedUsers;
+        list = {
+            count: 0,
+            existing: [],
+            new: []
+        };
         savedUsers = JSON.parse(getValue(`users`));
-        n = users.length;
-        list = new CompletionCheck(n, createLock.bind(null, `userLock`, 300, completeUserSaving.bind(null, list, callback)));
-        list.existing = [];
-        list.new = [];
-        for (i = 0; i < n; ++i) {
+        for (i = 0, n = users.length; i < n; ++i) {
             saveUser(list, savedUsers, users[i]);
+        }
+        setTimeout(checkUserSavingComplete, 1000, list, n, callback);
+    }
+
+    function checkUserSavingComplete(list, total, callback) {
+        if (list.count === total) {
+            createLock(`userLock`, 300, completeUserSaving.bind(null, list, callback));
+        } else {
+            setTimeout(checkUserSavingComplete, 1000, list, total, callback);
         }
     }
 
@@ -15237,21 +15224,14 @@ Parsedown = (() => {
     }
 
     function saveGedGiveaways(codes, source, callback) {
-        let code, ged, giveaway, giveaways;
+        var ged, giveaway, giveaways;
         if (codes.length > 0) {
-            ged = new CompletionCheck(codes.length, () => {
-                giveaways = getValue(`decryptedGiveaways`, getValue(`exclusiveGiveaways`, {}));
-                if (typeof giveaways === `string`) {
-                    giveaways = JSON.parse(giveaways);
-                }
-                for (code in ged.decryptedGiveaways) {
-                    giveaways[code] = ged.decryptedGiveaways[code];
-                }
-                setValue(`decryptedGiveaways`, JSON.stringify(giveaways));
-                lockAndSaveGiveaways(ged.giveaways, callback);
-            });
-            ged.decryptedGiveaways = {};
-            ged.giveaways = {};
+            ged = {
+                count: 0,
+                decryptedGiveaways: {},
+                giveaways: {},
+                total: codes.length
+            };
             giveaways = getValue(`decryptedGiveaways`, getValue(`exclusiveGiveaways`, {}));
             if (typeof giveaways === `string`) {
                 giveaways = JSON.parse(giveaways);
@@ -15280,8 +15260,26 @@ Parsedown = (() => {
                     }
                 }
             });
+            checkGedComplete(ged, callback);
         } else if (callback) {
             callback();
+        }
+    }
+
+    function checkGedComplete(ged, callback) {
+        var code, giveaways;
+        if (ged.count >= ged.total) {
+            giveaways = getValue(`decryptedGiveaways`, getValue(`exclusiveGiveaways`, {}));
+            if (typeof giveaways === `string`) {
+                giveaways = JSON.parse(giveaways);
+            }
+            for (code in ged.decryptedGiveaways) {
+                giveaways[code] = ged.decryptedGiveaways[code];
+            }
+            setValue(`decryptedGiveaways`, JSON.stringify(giveaways));
+            lockAndSaveGiveaways(ged.giveaways, callback);
+        } else {
+            setTimeout(checkGedComplete, 100, ged, callback);
         }
     }
 
@@ -19754,32 +19752,40 @@ Parsedown = (() => {
     }
 
     function getCewgdDetails(giveaways, main) {
+        var i, n;
         if (main) {
-            let cewgd, i, n;
-            n = giveaways.length;
-            cewgd = new CompletionCheck(n, () => {
-                createLock(`giveawayLock`, 300, deleteLock => {
-                    let currentGiveaway, i, key, n, savedGiveaways;
-                    savedGiveaways = JSON.parse(getValue(`giveaways`, `{}`));
-                    for (i = 0, n = cewgd.giveaways.length; i < n; ++i) {
-                        currentGiveaway = cewgd.giveaways[i];
-                        if (savedGiveaways[currentGiveaway.code]) {
-                            for (key in currentGiveaway) {
-                                savedGiveaways[currentGiveaway.code][key] = currentGiveaway[key];
-                            }
-                        } else {
-                            savedGiveaways[currentGiveaway.code] = currentGiveaway;
-                        }
-                    }
-                    setValue(`giveaways`, JSON.stringify(savedGiveaways));
-                    deleteLock();
-                });
-            });
-            cewgd.giveaways = [];
-            cewgd.savedGiveaways = JSON.parse(getValue(`giveaways`, `{}`));
-            for (i = 0; i < n; ++i) {
+            var cewgd = {
+                count: 0,
+                giveaways: [],
+                savedGiveaways: JSON.parse(getValue(`giveaways`, `{}`))
+            };
+            for (i = 0, n = giveaways.length; i < n; ++i) {
                 getCewgdDetail(cewgd, giveaways, i);
             }
+            setTimeout(checkCewgdComplete.bind(null, cewgd, n));
+        }
+    }
+
+    function checkCewgdComplete(cewgd, total) {
+        var currentGiveaway, i, key, n, savedGiveaways;
+        if (cewgd.count === total) {
+            createLock(`giveawayLock`, 300, function (deleteLock) {
+                savedGiveaways = JSON.parse(getValue(`giveaways`, `{}`));
+                for (i = 0, n = cewgd.giveaways.length; i < n; ++i) {
+                    currentGiveaway = cewgd.giveaways[i];
+                    if (savedGiveaways[currentGiveaway.code]) {
+                        for (key in currentGiveaway) {
+                            savedGiveaways[currentGiveaway.code][key] = currentGiveaway[key];
+                        }
+                    } else {
+                        savedGiveaways[currentGiveaway.code] = currentGiveaway;
+                    }
+                }
+                setValue(`giveaways`, JSON.stringify(savedGiveaways));
+                deleteLock();
+            });
+        } else {
+            setTimeout(checkCewgdComplete.bind(null, cewgd, total));
         }
     }
 
@@ -25205,14 +25211,12 @@ Parsedown = (() => {
                                         <div class="table__rows">
                                 `;
                                 request(null, null, `GET`, false, `https://api.steampowered.com/IPlayerService/GetOwnedGames/v0001/?key=${esgst.steamApiKey}&steamid=${user.steamId}&format=json`, response => {
-                                    let check, games = JSON.parse(response.responseText).response.games, id;
-                                    check = new CompletionCheck(Object.keys(Giveaways.apps).length + Object.keys(Giveaways.subs).length, completeUgd.bind(null, popup, UGD, Callback), () => {
-                                        UGD.Progress.textContent = `Retrieving game stats (${check.count} of ${check.total})...`;
-                                    });
-                                    UGD.total = check.total;
+                                    let games = JSON.parse(response.responseText).response.games, id;
+                                    UGD.count = 0;
                                     UGD.playedCount = 0;
                                     UGD.achievementsCount = 0;
                                     UGD.achievementsTotal = 0;
+                                    UGD.total = Object.keys(Giveaways.apps).length + Object.keys(Giveaways.subs).length;
                                     for (id in Giveaways.apps) {
                                         for (i = games.length - 1; i >= 0 && games[i].appid !== parseInt(id); --i);
                                         let giveaway = typeof Giveaways.apps[id][0] === `string` ? esgst.giveaways[Giveaways.apps[id][0]] : Giveaways.apps[id][0];
@@ -25254,7 +25258,7 @@ Parsedown = (() => {
                                                             </div>
                                                         </div>
                                                     `;
-                                                    check.count += 1;
+                                                    UGD.count += 1;
                                                 });
                                             } else {
                                                 UGD.HTML += `
@@ -25267,7 +25271,7 @@ Parsedown = (() => {
                                                         </div>
                                                     </div>
                                                 `;
-                                                check.count += 1;
+                                                UGD.count += 1;
                                             }
                                         } else {
                                             UGD.HTML += `
@@ -25281,7 +25285,7 @@ Parsedown = (() => {
                                                     </div>
                                                 </div>
                                             `;
-                                            check.count += 1;
+                                            UGD.count += 1;
                                         }
                                     }
                                     for (id in Giveaways.subs) {
@@ -25297,11 +25301,13 @@ Parsedown = (() => {
                                                 </div>
                                             </div>
                                         `;
-                                        check.count += 1;
+                                        UGD.count += 1;
                                     }
+                                    checkUgdComplete(popup, UGD, Callback);
                                 });
                             } else {
-                                completeUgd(popup, UGD, Callback);
+                                UGD.total = UGD.count = 0;
+                                checkUgdComplete(popup, UGD, Callback);
                             }
                         });
                     });
@@ -25325,35 +25331,40 @@ Parsedown = (() => {
         });
     }
 
-    function completeUgd(popup, UGD, callback) {
-        let key;
-        if (UGD.Key === `won` && esgst.ugd_getPlaytime && esgst.steamApiKey) {
-            UGD.HTML += `
+    function checkUgdComplete(popup, UGD, callback) {
+        UGD.Progress.textContent = `Retrieving game stats (${UGD.count} of ${UGD.total})...`;
+        if (UGD.count >= UGD.total) {
+            let key;
+            if (UGD.Key === `won` && esgst.ugd_getPlaytime && esgst.steamApiKey) {
+                UGD.HTML += `
+                        </div>
                     </div>
-                </div>
-                <div class="esgst-bold">${UGD.playedCount} out of ${UGD.total} games with more than 0 hours playtime (${Math.round(UGD.playedCount / UGD.total * 10000) / 100}%)</div>
-                ${esgst.ugd_getAchievements ? `<div class="esgst-bold">${UGD.achievementsCount} out of ${UGD.achievementsTotal} games with more than 0 achievements (${Math.round(UGD.achievementsCount / UGD.achievementsTotal * 10000) / 100}%)</div>` : ``}
-                <br/>
-            `;
-        }
-        UGD.HTML += `
-            <div class="esgst-text-center markdown">
-                <div class="esgst-bold">${UGD.Key === `sent` ? `Most given away:` : `Most won from:`}</div>
-                <ol>
-        `;
-        for (key in UGD.ordered) {
+                    <div class="esgst-bold">${UGD.playedCount} out of ${UGD.total} games with more than 0 hours playtime (${Math.round(UGD.playedCount / UGD.total * 10000) / 100}%)</div>
+                    ${esgst.ugd_getAchievements ? `<div class="esgst-bold">${UGD.achievementsCount} out of ${UGD.achievementsTotal} games with more than 0 achievements (${Math.round(UGD.achievementsCount / UGD.achievementsTotal * 10000) / 100}%)</div>` : ``}
+                    <br/>
+                `;
+            }
             UGD.HTML += `
-                    <li>${UGD.ordered[key].name} - <span class="esgst-bold">${UGD.ordered[key].frequency}</span></li>
+                <div class="esgst-text-center markdown">
+                    <div class="esgst-bold">${UGD.Key === `sent` ? `Most given away:` : `Most won from:`}</div>
+                    <ol>
             `;
+            for (key in UGD.ordered) {
+                UGD.HTML += `
+                        <li>${UGD.ordered[key].name} - <span class="esgst-bold">${UGD.ordered[key].frequency}</span></li>
+                `;
+            }
+            UGD.HTML += `
+                    </ol>
+                </div>
+            `;
+            popup.Results.innerHTML = UGD.HTML;
+            UGD.Progress.innerHTML = ``;
+            loadEndlessFeatures(popup.Results);
+            callback();
+        } else {
+            setTimeout(checkUgdComplete, 250, popup, UGD, callback);
         }
-        UGD.HTML += `
-                </ol>
-            </div>
-        `;
-        popup.Results.innerHTML = UGD.HTML;
-        UGD.Progress.innerHTML = ``;
-        loadEndlessFeatures(popup.Results);
-        callback();
     }
 
     function countUgdGiveaways(Frequencies, Giveaways, LevelsTotal, Total, type, Types, TypesTotal, UGD, Callback) {
@@ -27636,10 +27647,22 @@ Parsedown = (() => {
                 element = elements[i];
                 users[element.getElementsByClassName(`table__column__heading`)[0].textContent] = (main && element.firstElementChild.nextElementSibling) || element.firstElementChild;
             }
-            us = new CompletionCheck(Object.keys(users).length, sortTsTables);
+            us = {
+                count: 0,
+                total: Object.keys(users).length
+            };
             for (username in users) {
                 request(null, null, `GET`, false, `/user/${username}`, loadUsStats.bind(null, users[username], us, username));
             }
+            checkUsComplete(us);
+        }
+    }
+
+    function checkUsComplete(us) {
+        if (us.count >= us.total) {
+            sortTsTables();
+        } else {
+            setTimeout(checkUsComplete, 100, us);
         }
     }
 
@@ -28229,16 +28252,15 @@ Parsedown = (() => {
             numApps = missingApps.length;
             numSubs = missingSubs.length;
             if (numApps || numSubs) {
-                let check = new CompletionCheck(numApps + numSubs, () => {                    
-                    setValue(`esgst_gcCache`, JSON.stringify(gc.cache));
-                    addGcCategories(games, gc, endless);
-                });
+                gc.count = 0;
+                gc.total = numApps + numSubs;
                 for (i = 0, n = missingApps.length; i < n; ++i) {
-                    getGcCategories(check, gc, missingApps[i], `apps`);
+                    getGcCategories(gc, missingApps[i], `apps`);
                 }
                 for (i = 0, n = missingSubs.length; i < n; ++i) {
-                    getGcCategories(check, gc, missingSubs[i], `subs`);
+                    getGcCategories(gc, missingSubs[i], `subs`);
                 }
+                setTimeout(checkGcComplete, 1000, games, gc, endless);
             } else {
                 addGcCategories(games, gc, endless);
             }
@@ -28247,7 +28269,7 @@ Parsedown = (() => {
         }
     }
 
-    function getGcCategories(check, gc, id, type) {
+    function getGcCategories(gc, id, type) {
         var categories, data, elements, genres, i, match, n, platforms, price, response, responseHtml, responseJson, tags;
         request(null, null, `GET`, false, `http://store.steampowered.com/api/${type === `apps` ? `appdetails?appids=` : `packagedetails?packageids=`}${id}&filters=basic,categories,genres,name,platforms,price,price_overview&cc=us&l=en`, function (response) {
             try {
@@ -28362,17 +28384,26 @@ Parsedown = (() => {
                     if (esgst.gc_dlc_b && categories.dlc && data.fullgame && data.fullgame.appid) {
                         request(null, null, `GET`, false, `http://store.steampowered.com/api/appdetails?appids=${data.fullgame.appid}&filters=basic&cc=us&l=en`, response => {
                             categories.freeBase = JSON.parse(response.responseText)[data.fullgame.appid].data.is_free;
-                            check.count += 1;
+                            gc.count += 1;
                         });
                     } else {
-                        check.count += 1;
+                        gc.count += 1;
                     }
                 });
             } catch (error) {
-                check.count += 1;
+                gc.count += 1;
                 console.log(error);
             }
         });
+    }
+
+    function checkGcComplete(games, gc, endless) {
+        if (gc.count >= gc.total) {
+            setValue(`esgst_gcCache`, JSON.stringify(gc.cache));
+            addGcCategories(games, gc, endless);
+        } else {
+            setTimeout(checkGcComplete, 1000, games, gc, endless);
+        }
     }
 
     function addGcCategories(games, gc, endless) {
@@ -32414,7 +32445,7 @@ Parsedown = (() => {
     /* [ES] Endless Scrolling */
 
     function loadEs() {
-        let busy, continuous, continuousButton, currentPage, divisors, ended, i, lastLink, mainContext, n, nextButton, nextPage, pageIndex, paginations, pageBase, pauseButton, paused, progress, refreshAllButton, refreshButton, resumeButton, reversePages, reverseScrolling, row, step;
+        let busy, continuous, continuousButton, count, currentPage, divisors, ended, i, lastLink, mainContext, n, nextButton, nextPage, pageIndex, paginations, pageBase, pauseButton, paused, progress, refreshAllButton, refreshButton, resumeButton, reversePages, reverseScrolling, row, step, total;
         if (esgst.es && esgst.mainPageHeading && esgst.pagination && ((esgst.es_g && esgst.giveawaysPath) || (esgst.es_d && esgst.discussionsTicketsPath) || (esgst.es_t && esgst.tradesPath) || (esgst.es_c && esgst.commentsPath) || (esgst.es_l && !esgst.giveawaysPath && !esgst.discussionsTicketsPath && !esgst.tradesPath && !esgst.commentsPath))) {
             divisors = ((esgst.es_g_d && esgst.giveawaysPath) || (esgst.es_d_d && esgst.discussionsTicketsPath) || (esgst.es_t_d && esgst.tradesPath) || (esgst.es_c_d && esgst.commentsPath) || (esgst.es_l_d && !esgst.giveawaysPath && !esgst.discussionsTicketsPath && !esgst.tradesPath && !esgst.commentsPath));
             mainContext = esgst.pagination.previousElementSibling;
@@ -32653,7 +32684,7 @@ Parsedown = (() => {
                 }
                 esgst.pagination.firstElementChild.firstElementChild.nextElementSibling.textContent = (parseInt(esgst.pagination.firstElementChild.firstElementChild.nextElementSibling.textContent.replace(/,/g, ``)) - oldN + n).toString().replace(/\B(?=(\d{3})+(?!\d))/g, `,`);
                 if (refreshAll) {
-                    check.count += 1;
+                    count += 1;
                 } else {
                     refreshButton.addEventListener(`click`, refreshPage);
                     refreshButton.innerHTML = `
@@ -32831,12 +32862,32 @@ Parsedown = (() => {
         }
 
         function refreshAllPages() {
-            var i, page, response;
+            var i, page;
             refreshAllButton.removeEventListener(`click`, refreshAllPages);
             refreshAllButton.innerHTML = `
                 <i class="fa fa-circle-o-notch fa-spin"></i>
             `;
-            check = new CompletionCheck(paginations.length, () => {
+            count = 0;
+            total = paginations.length;
+            page = reverseScrolling ? pageBase - 1 : pageBase + 1;
+            request(null, null, `GET`, false, `${esgst.searchUrl}${page}`, response => {
+                getNextPage(true, page, null, response);
+                for (i = 1; i < total; ++i) {
+                    page = reverseScrolling ? pageBase - (i + 1) : pageBase + (i + 1);
+                    request(null, null, `GET`, false, `${esgst.searchUrl}${page}`, getNextPage.bind(null, true, page, null));
+                }
+                setTimeout(checkRefreshComplete, 250, response);
+            });
+            if (!esgst.hr) {
+                request(null, null, `GET`, false, esgst.sg ? `/giveaways/search?type=wishlist` : `/`, response => {
+                    refreshHeaderElements(DOM.parse(response.responseText));
+                    refreshHeader(getHrCache());
+                });
+            }
+        }
+
+        function checkRefreshComplete(response) {
+            if (count >= total) {
                 loadEndlessFeatures(mainContext, true);
                 setESRemoveEntry(mainContext);
                 refreshAllButton.addEventListener(`click`, refreshAllPages);
@@ -32864,21 +32915,8 @@ Parsedown = (() => {
                     loadEndlessFeatures(esgst.pinnedGiveaways, true);
                     loadPgb();
                 }
-            });
-            page = reverseScrolling ? pageBase - 1 : pageBase + 1;
-            request(null, null, `GET`, false, `${esgst.searchUrl}${page}`, rsp => {
-                response = rsp;
-                getNextPage(true, page, null, rsp);
-                for (i = 1; i < check.total; ++i) {
-                    page = reverseScrolling ? pageBase - (i + 1) : pageBase + (i + 1);
-                    request(null, null, `GET`, false, `${esgst.searchUrl}${page}`, getNextPage.bind(null, true, page, null));
-                }
-            });
-            if (!esgst.hr) {
-                request(null, null, `GET`, false, esgst.sg ? `/giveaways/search?type=wishlist` : `/`, rsp => {
-                    refreshHeaderElements(DOM.parse(rsp.responseText));
-                    refreshHeader(getHrCache());
-                });
+            } else {
+                setTimeout(checkRefreshComplete, 250, response);
             }
         }
     }
