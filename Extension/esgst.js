@@ -14365,13 +14365,15 @@ Parsedown = (() => {
         for (i = esgst[key].length - 1; i > -1; --i) {
             giveaway = esgst[key][i];
             if (document.body.contains(giveaway.outerWrap) || endless) {
-                if (giveaway.outerWrap.classList.contains(`esgst-hidden`)) {
-                    if (!giveaway.pinned) {
-                        paginationFiltered += 1;
+                if (!giveaway.pinned || !esgst.hpg) {
+                    if (giveaway.outerWrap.classList.contains(`esgst-hidden`)) {
+                        if (!giveaway.pinned) {
+                            paginationFiltered += 1;
+                        }
+                        filtered += 1;
+                    } else if (!giveaway.entered) {
+                        points += giveaway.points;
                     }
-                    filtered += 1;
-                } else if (!giveaway.entered) {
-                    points += giveaway.points;
                 }
             } else {
                 esgst[key].splice(i, 1);
