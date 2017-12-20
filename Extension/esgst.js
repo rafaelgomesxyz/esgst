@@ -1941,7 +1941,9 @@ Parsedown = (() => {
                     wbc_checkSelected: false,
                     wbc_pages: 0,
                     wbc_skipUsers: false,
+                    wbm_clearTags: false,
                     wbm_useCache: false,
+                    wbm_tags: [],
                     wbc_checkNew: false,
                     wbc_clearCache: false,
                     wbh_w_color: `#ffffff`,
@@ -26986,12 +26988,18 @@ Parsedown = (() => {
         if (!wbm.popup) {
             wbm.popup = new Popup(`fa-gear`, `Manage ${wbm.name}:`);
             new ToggleSwitch(wbm.popup.description, `wbm_useCache`, false, `Use cache.`, false, false, `Uses the cache created the last time you synced your whitelist/blacklist. This speeds up the process, but could lead to incomplete results if your cache isn't up-to-date.`, esgst.wbm_useCache);
+            new ToggleSwitch(wbm.popup.description, `wbm_clearTags`, false, `Only clear users who are tagged with these specific tags (separate with comma): <input class="esgst-switch-input esgst-switch-input-large" type="text" value="${esgst.wbm_tags.join(`, `)}">`, false, false, `Uses the User Tags database to remove only users with the specified tags.`, esgst.wbm_clearTags).name.firstElementChild.addEventListener(`change`, event => {
+                let tags = event.currentTarget.value.replace(/(,\s*)+/g, formatTags).split(`, `);
+                setSetting(`wbm_tags`, tags);
+                esgst.wbm_tags = tags;
+            });
             wbm.input = insertHtml(wbm.popup.description, `beforeEnd`, `<input type="file"/>`);
             wbm.message = insertHtml(wbm.popup.description, `beforeEnd`, `<div class="esgst-description"></div>`);
             wbm.warning = insertHtml(wbm.popup.description, `beforeEnd`, `<div class="esgst-description esgst-warning"></div>`);
             wbm.popup.description.appendChild(new ButtonSet(`green`, `grey`, `fa-arrow-up`, `fa-times`, `Import`, `Cancel`, startWbmProcess.bind(null, wbm, importWbmList.bind(null, wbm)), cancelWbmProcess.bind(null, wbm)).set);
             wbm.popup.description.appendChild(new ButtonSet(`green`, `grey`, `fa-arrow-down`, `fa-times`, `Export`, `Cancel`, startWbmProcess.bind(null, wbm, exportWbmList.bind(null, wbm, [], 1)), cancelWbmProcess.bind(null, wbm)).set);
             wbm.popup.description.appendChild(new ButtonSet(`green`, `grey`, `fa-trash`, `fa-times`, `Clear`, `Cancel`, startWbmProcess.bind(null, wbm, clearWbmList.bind(null, wbm, [], 1)), cancelWbmProcess.bind(null, wbm)).set);
+            wbm.results = insertHtml(wbm.popup.scrollable,  `beforeEnd`, `<div></div>`);
         }
         wbm.popup.open();
     }
@@ -27000,6 +27008,8 @@ Parsedown = (() => {
         createConfirmation(`Are you sure you want to do this?`, () => {
             wbm.isCanceled = false;
             wbm.button.classList.add(`esgst-busy`);
+            wbm.usernames = [];
+            wbm.results.innerHTML = ``;
             callback(completeWbmProcess.bind(null, wbm, mainCallback));
         }, mainCallback);
     }
@@ -27106,8 +27116,20 @@ Parsedown = (() => {
             if (esgst.wbm_useCache) {
                 let steamId;
                 for (steamId in esgst.users.users) {
-                    if (esgst.users.users[steamId][`${wbm.key}ed`]) {
-                        list.push(esgst.users.users[steamId].id);
+                    let user = esgst.users.users[steamId];
+                    if (user[`${wbm.key}ed`]) {
+                        if (esgst.wbm_clearTags) {
+                            if (user.tags) {
+                                let i;
+                                for (i = user.tags.length - 1; i > -1 && esgst.wbm_tags.indexOf(user.tags[i]) < 0; --i);
+                                if (i > -1) {
+                                    list.push(user.id);
+                                    wbm.usernames.push(user.username);
+                                }
+                            }
+                        } else {
+                            list.push(user.id);
+                        }
                     }
                 }
                 deleteWbmUsers(wbm, list, 0, list.length, callback);
@@ -27117,11 +27139,29 @@ Parsedown = (() => {
                     <span>Retrieving list (page ${nextPage})...</span>
                 `;
                 request(null, null, `GET`, false, `https://www.steamgifts.com/account/manage/${wbm.key}/search?page=${nextPage}`, response => {
-                    let elements, i, n, pagination, responseHtml;
+                    let element, elements, i, n, pagination, responseHtml;
                     responseHtml = DOM.parse(response.responseText);
                     elements = responseHtml.querySelectorAll(`[name="child_user_id"]`);
                     for (i = 0, n = elements.length; i < n; ++i) {
-                        list.push(elements[i].value);
+                        element = elements[i];
+                        if (esgst.wbm_clearTags) {
+                            let steamId, username;
+                            username = element.closest(`.table__row-inner-wrap`).getElementsByClassName(`table__column__heading`)[0].textContent;
+                            steamId = esgst.users.steamIds[username];
+                            if (steamId) {
+                                let user = esgst.users.users[steamId];
+                                if (user.tags) {
+                                    let j;
+                                    for (j = user.tags.length - 1; j > -1 && esgst.wbm_tags.indexOf(user.tags[j]) < 0; --j);
+                                    if (j > -1) {
+                                        list.push(element.value);
+                                        wbm.usernames.push(username);
+                                    }
+                                }
+                            }
+                        } else {
+                            list.push(element.value);
+                        }
                     }
                     pagination = responseHtml.getElementsByClassName(`pagination__navigation`)[0];
                     if (pagination && !pagination.lastElementChild.classList.contains(`is-selected`)) {
@@ -27144,6 +27184,13 @@ Parsedown = (() => {
                 request(`xsrf_token=${esgst.xsrfToken}&do=${wbm.key}&action=delete&child_user_id=${list[i]}`, null, `POST`, false, `/ajax.php`, setTimeout.bind(null, deleteWbmUsers, 0, wbm, list, ++i, n, callback));
             } else {
                 createFadeMessage(wbm.message, `List cleared with success!`);
+                wbm.results.innerHTML = `
+                    <span class="esgst-bold">Users cleared (${wbm.usernames.length}):</span>
+                    <span class="esgst-popup-actions"></span>
+                `;
+                wbm.usernames.forEach(username => {
+                    wbm.results.lastElementChild.insertAdjacentHTML(`beforeEnd`, `<a href="/user/${username}">${username}</a>`);
+                });
                 callback();
             }
         }
@@ -36718,6 +36765,10 @@ Parsedown = (() => {
                 display: inline-block;
                 padding: 0 !important;
                 width: 50px;
+            }
+
+            .esgst-switch-input-large {
+                width: 150px;
             }
 
             .esgst-gas-popout {
