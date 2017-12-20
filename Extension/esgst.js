@@ -9962,7 +9962,9 @@ Parsedown = (() => {
         let i, list, n, savedUsers;
         savedUsers = JSON.parse(getValue(`users`));
         n = users.length;
-        list = new CompletionCheck(n, createLock.bind(null, `userLock`, 300, completeUserSaving.bind(null, list, callback)));
+        list = new CompletionCheck(n, createLock.bind(null, `userLock`, 300, deleteLock => {
+            completeUserSaving(list, callback, deleteLock);
+        }));
         list.existing = [];
         list.new = [];
         for (i = 0; i < n; ++i) {
