@@ -1591,6 +1591,7 @@ Parsedown = (() => {
             profilePath: location.pathname.match(/^\/account\/settings\/profile/),
             giveawayPath: location.pathname.match(/^\/giveaway\//),
             discussionPath: location.pathname.match(/^\/discussion\//),
+            ticketPath: location.pathname.match(/^\/support\/ticket\//),
             tradePath: location.pathname.match(/^\/trade\//),
             discussionsPath: location.pathname.match(/^\/discussions(?!\/new)/),
             newDiscussionPath: location.pathname.match(/^\/discussions\/new/),
@@ -4241,6 +4242,19 @@ Parsedown = (() => {
                                 sg: true,
                                 st: true
                             },
+                            ust: {
+                                description: `
+                                    <ul>
+                                        <li>Allows you to find out if a user has already served suspension for not activated/multiple wins so you do not need to open a ticket about it (this information is only available when you use Not Activated/Multiple Wins Checker to check the user).</li>
+                                        <li>The database for the feature is contributed by the users of ESGST and therefore is not complete.</li>
+                                        <li>To contribute yourself, go to a solved ticket of yours that was about not activated/multiple wins and send the ticket to the database through the button with the airplane icon in the top right corner, next to the button you use to edit/close the ticket.</li>
+                                    </ul>
+                                `,
+                                name: `User Suspension Tracker`,
+                                new: true,
+                                sg: true,
+                                st: true
+                            },
                             ut: {
                                 description: ``,
                                 name: `User Tags`,
@@ -4330,7 +4344,8 @@ Parsedown = (() => {
                                 sg: true,
                                 sync: `Whitelist and Blacklist`
                             }
-                        }
+                        },
+                        newBelow: true
                     },
                     groups: {
                         features: {
@@ -9261,6 +9276,14 @@ Parsedown = (() => {
             loadCommentFeatures(document, true);
         }
 
+        if (esgst.ticketPath) {
+            insertHtml(document.getElementsByClassName(`page__heading`)[0].lastElementChild, `beforeBegin`, `
+                <div class="esgst-heading-button" title="Send ticket to the User Suspension Tracker database">
+                    <i class="fa fa-paper-plane"></i>
+                </div>
+            `).addEventListener(`click`, sendUstTicket);
+        }
+
         if (esgst.userPath || esgst.ap) {
             if (esgst.uh) {
                 esgst.profileFeatures.push(addUhContainer);
@@ -9412,7 +9435,6 @@ Parsedown = (() => {
             setStoLinks(document);
         }
 
-
         if (esgst.hideButtons && esgst.mainPageHeading) {
             if (!esgst.leftButtons.querySelector(`.esgst-heading-button:not(.esgst-hidden)`)) {
                 hiddenButtonsBefore.classList.add(`esgst-hidden`);
@@ -9441,6 +9463,19 @@ Parsedown = (() => {
             }
         }
         setTimeout(repositionPopups, 2000);
+    }
+
+    function sendUstTicket(event) {
+        let button = event.currentTarget;
+        button.removeEventListener(`click`, sendUstTicket);
+        button.innerHTML =  `<i class="fa fa-circle-o-notch fa-spin"></i>`;
+        request(null, null, `GET`, false, location.href, response => {
+            request(`ticket=${encodeURIComponent(DOM.parse(response.responseText).getElementsByClassName(`sidebar`)[0].nextElementSibling.innerHTML.replace(/\n|\r|\r\n|\s{2,}/g, ``).trim())}`, null, `POST`, false, `https://script.google.com/macros/s/AKfycbwdKNormCJs-hEKV0GVwawgWj1a26oVtPylgmxOOvNk1Gf17A/exec`, () => {
+                button.innerHTML = `<i class="fa fa-paper-plane"></i>`;
+                button.addEventListener(`click`, sendUstTicket);
+                new Popup(``, `Ticket sent! It will be analyzed and, if accepted, added to the database in 48 hours at most.`, true).open();
+            });
+        });
     }
 
     function reorderButtons(leftButton, leftButtons, rightButton, rightButtons) {
@@ -18744,7 +18779,7 @@ Parsedown = (() => {
                     checkNAMWCNotActivated(ugs, namwc, winner.username, function (namwc) {
                         checkNAMWCMultiple(ugs, namwc, winner.username, function (namwc) {
                             winner.values.namwc = namwc;
-                            if (namwc.results.notActivated || namwc.results.multiple) {
+                            if ((Array.isArray(namwc.results.notActivated) && namwc.results.notActivated.length) || (!Array.isArray(namwc.results.notActivated) && namwc.results.notActivated) || (Array.isArray(namwc.results.multiple) && namwc.results.multiple.length) || (!Array.isArray(namwc.results.multiple) && namwc.results.multiple)) {
                                 if (esgst.ugs_checkWhitelist) {
                                     savedUser = getUser(esgst.users, winner);
                                     if (savedUser && !savedUser.whitelisted) {
@@ -18756,12 +18791,12 @@ Parsedown = (() => {
                                         winner.error = `${winner.username} is blacklisted.`;
                                     }
                                 } else {
-                                    if (namwc.results.notActivated && namwc.results.multiple) {
-                                        winner.error = `${winner.username} has ${namwc.results.notActivated} not activated wins and ${namwc.results.multiple} multiple wins.`;
-                                    } else if (namwc.results.notActivated) {
-                                        winner.error = `${winner.username} has ${namwc.results.notActivated} not activated wins.`;
+                                    if ((Array.isArray(namwc.results.notActivated) && namwc.results.notActivated.length) || (!Array.isArray(namwc.results.notActivated) && namwc.results.notActivated) && (Array.isArray(namwc.results.multiple) && namwc.results.multiple.length) || (!Array.isArray(namwc.results.multiple) && namwc.results.multiple)) {
+                                        winner.error = `${winner.username} has ${Array.isArray(namwc.results.notActivated) ? namwc.results.notActivated.length : namwc.results.notActivated} not activated wins and ${Array.isArray(namwc.results.multiple) ? namwc.results.multiple.length : namwc.results.multiple} multiple wins.`;
+                                    } else if ((Array.isArray(namwc.results.notActivated) && namwc.results.notActivated.length) || (!Array.isArray(namwc.results.notActivated) && namwc.results.notActivated)) {
+                                        winner.error = `${winner.username} has ${Array.isArray(namwc.results.notActivated) ? namwc.results.notActivated.length : namwc.results.notActivated} not activated wins.`;
                                     } else {
-                                        winner.error = `${winner.username} has ${namwc.results.multiple} multiple wins.`;
+                                        winner.error = `${winner.username} has ${Array.isArray(namwc.results.multiple) ? namwc.results.multiple.length : namwc.results.multiple} multiple wins.`;
                                     }
                                 }
                             }
@@ -25592,6 +25627,7 @@ Parsedown = (() => {
                 NAMWCButton.classList.add(`esgst-busy`);
                 setNAMWCCheck(NAMWC, function () {
                     NAMWCButton.classList.remove(`esgst-busy`);
+                    NAMWC.Progress.innerHTML = ``;
                     Callback();
                 });
             }, function () {
@@ -25650,6 +25686,14 @@ Parsedown = (() => {
         NAMWC.activatedCount.textContent = NAMWC.notMultipleCount.textContent = NAMWC.notActivatedCount.textContent = NAMWC.multipleCount.textContent = NAMWC.unknownCount.textContent = `0`;
         NAMWC.activatedUsers.innerHTML = NAMWC.notMultipleUsers.textContent = NAMWC.notActivatedUsers.innerHTML = NAMWC.multipleUsers.innerHTML = NAMWC.unknownUsers.innerHTML = ``;
         NAMWC.Users = [];
+        NAMWC.users = {
+            activated: {},
+            notMultiple: {},
+            notActivated: {},
+            multiple: {},
+            unknown: {}
+        };
+        NAMWC.steamIds = [];
         NAMWC.Canceled = false;
         if (NAMWC.ShowResults) {
             SavedUsers = JSON.parse(getValue(`users`));
@@ -25685,54 +25729,96 @@ Parsedown = (() => {
     }
 
     function checkNAMWCUsers(NAMWC, I, N, Callback) {
-        var User, Results, Key, newR;
         if (!NAMWC.Canceled) {
             NAMWC.Progress.innerHTML = ``;
             NAMWC.OverallProgress.textContent = `${I} of ${N} users checked...`;
             if (I < N) {
+                let Key, newR, Results, savedUser, User, user;
                 User = NAMWC.User ? NAMWC.User : {
                     Username: NAMWC.Users[I]
                 };
-                var user = {
+                user = {
                     steamId: User.SteamID64,
                     id: User.ID,
                     username: User.Username
                 };
-                var savedUser = getUser(null, user), namwc = null;
+                savedUser = getUser(null, user), namwc = null;
                 if (savedUser) {
                     namwc = savedUser.namwc;
                 }
-                    if (namwc && namwc.results) {
-                        Results = namwc.results;
-                    }
-                    checkNAMWCUser(NAMWC, namwc, user.username, function(namwc) {
-                        if (Results) {
-                            for (Key in Results) {
-                                if (Results[Key] !== namwc.results[Key]) {
-                                    newR = true;
-                                    break;
-                                }
+                if (namwc && namwc.results) {
+                    Results = namwc.results;
+                }
+                checkNAMWCUser(NAMWC, namwc, user.username, function(namwc) {
+                    if (Results) {
+                        for (Key in Results) {
+                            let value = (Array.isArray(Results[Key]) && Results[Key].length) || (!Array.isArray(Results[Key]) && Results[Key]);
+                            if (value !== ((Array.isArray(namwc.results[Key]) && namwc.results[Key].length) || (!Array.isArray(namwc.results[Key]) && namwc.results[Key]))) {
+                                newR = true;
+                                break;
                             }
-                        } else {
-                            newR = true;
                         }
-                        setTimeout(setNAMWCResult, 0, NAMWC, user, namwc, newR, I, N, Callback);
+                    } else {
+                        newR = true;
+                    }
+                    setTimeout(setNAMWCResult, 0, NAMWC, user, namwc, newR, I, N, Callback);
+                });
+            } else {
+                NAMWC.Progress.textContent = `Checking suspensions...`;             
+                request(null, null, `GET`, false, `https://script.google.com/macros/s/AKfycbwdKNormCJs-hEKV0GVwawgWj1a26oVtPylgmxOOvNk1Gf17A/exec?steamIds=${NAMWC.steamIds.join(`,`)}`, response => {
+                    let i, n, namwc, savedUser, savedUsers, steamId, suspensions, user, users;
+                    users = [];
+                    savedUsers = JSON.parse(getValue(`users`));
+                    suspensions = JSON.parse(response.responseText).suspensions;
+                    for (steamId in suspensions) {
+                        suspension = suspensions[steamId];
+                        user = {
+                            steamId: steamId
+                        };
+                        savedUser = getUser(savedUsers, user);
+                        user.id = savedUser.id;
+                        user.username = savedUser.username;
+                        namwc = savedUser.namwc;
+                        namwc.suspension = suspension;
+                        user.values = {
+                            namwc: namwc
+                        };
+                        users.push(user);
+                        if (Array.isArray(namwc.results.notActivated)) {
+                            for (i = 0, n = namwc.results.notActivated.length; i < n && namwc.results.notActivated[i] <= suspension; ++i);
+                            i -= 1;
+                            if (i > 0) {
+                                NAMWC.users[steamId].notActivated.insertAdjacentHTML(`beforeEnd`, ` <span title="This user already served suspension for ${i} of their not activated wins (until ${getTimestamp(suspension / 1e3, true, true)})">[-${i}]</span>`);
+                            }
+                        }
+                        if (Array.isArray(namwc.results.multiple)) {
+                            for (i = 0, n = namwc.results.multiple.length; i < n && namwc.results.multiple[i] <= suspension; ++i);
+                            i -= 1;
+                            if (i > 0) {
+                                NAMWC.users[steamId].multiple.insertAdjacentHTML(`beforeEnd`, ` <span title="This user already served suspension for ${i} of their multiple wins (until ${getTimestamp(suspension / 1e3, true, true)})">[-${i}]</span>`);
+                            }
+                        }
+                    }
+                    saveUsers(users, () => {
+                        if (Callback) {
+                            Callback();
+                        }
                     });
-            } else if (Callback) {
-                Callback();
+                });
             }
         }
     }
 
     function setNAMWCResult(NAMWC, user, namwc, New, I, N, Callback) {
-        var Key;
+        var elements, Key;
         if (!NAMWC.Canceled) {
+            elements = {};
             for (Key in namwc.results) {
-                if (namwc.results[Key]) {
+                if ((Array.isArray(namwc.results[Key]) && namwc.results[Key].length) || (!Array.isArray(namwc.results[Key]) && namwc.results[Key])) {
                     NAMWC[Key].classList.remove(`esgst-hidden`);
                     NAMWC[`${Key}Count`].textContent = parseInt(NAMWC[`${Key}Count`].textContent) + 1;
-                    NAMWC[`${Key}Users`].insertAdjacentHTML(`beforeEnd`, `
-                        <a ${New ? `class="esgst-bold esgst-italic" ` : ``}href="http://www.sgtools.info/${Key.match(/multiple|notMultiple/) ? `multiple` : `nonactivated`}/${user.username}" target="_blank">${user.username}${Key.match(/^(notActivated|multiple)$/) ? ` (${namwc.results[Key]})` : ``}</a>
+                    elements[Key] = insertHtml(NAMWC[`${Key}Users`], `beforeEnd`, `
+                        <a ${New ? `class="esgst-bold esgst-italic" ` : ``}href="http://www.sgtools.info/${Key.match(/multiple|notMultiple/) ? `multiple` : `nonactivated`}/${user.username}" target="_blank">${user.username}${Key.match(/^(notActivated|multiple)$/) ? ` (${(Array.isArray(namwc.results[Key]) && namwc.results[Key].length) || (!Array.isArray(namwc.results[Key]) && namwc.results[Key])})` : ``}</a>
                     `);
                 }
             }
@@ -25741,6 +25827,8 @@ Parsedown = (() => {
                     namwc: namwc
                 };
                 saveUser(null, null, user, function () {
+                    NAMWC.users[user.steamId] = elements;
+                    NAMWC.steamIds.push(user.steamId);
                     NAMWC.Progress.innerHTML = ``;
                     setTimeout(checkNAMWCUsers, 0, NAMWC, ++I, N, Callback);
                 });
@@ -25773,7 +25861,6 @@ Parsedown = (() => {
     }
 
     function checkNAMWCNotActivated(NAMWC, namwc, username, Callback) {
-        var N, ResponseText;
         if (!NAMWC.Canceled) {
             if (NAMWC.Progress) {
                 NAMWC.Progress.innerHTML = `
@@ -25781,16 +25868,20 @@ Parsedown = (() => {
                     <span>Retrieving ${username}'s not activated wins...</span>
                 `;
             }
-            request(null, null, `GET`, true, `http://www.sgtools.info/nonactivated/${username}`, function (Response) {
-                ResponseText = Response.responseText;
-                if (ResponseText.match(/has a private profile/)) {
+            request(null, null, `GET`, true, `http://www.sgtools.info/nonactivated/${username}`, response => {
+                let responseText = response.responseText;
+                if (responseText.match(/has a private profile/)) {
                     namwc.results.activated = false;
-                    namwc.results.notActivated = 0;
+                    namwc.results.notActivated = [];
                     namwc.results.unknown = true;
                 } else {
-                    N = DOM.parse(ResponseText).getElementsByClassName(`notActivatedGame`).length;
-                    namwc.results.activated = N === 0 ? true : false;
-                    namwc.results.notActivated = N;
+                    let elements, i, n;
+                    namwc.results.notActivated = [];
+                    elements = DOM.parse(responseText).getElementsByClassName(`notActivatedGame`);
+                    for (i = 0, n = elements.length; i < n; ++i) {
+                        namwc.results.notActivated.push(new Date(elements[i].textContent.match(/\((\d{4}-\d{2}-\d{2}\s\d{2}:\d{2}:\d{2})\)/)[1]).getTime());
+                    }
+                    namwc.results.activated = n === 0 ? true : false;
                     namwc.results.unknown = false;
                 }
                 namwc.lastCheck = Date.now();
@@ -25800,7 +25891,6 @@ Parsedown = (() => {
     }
 
     function checkNAMWCMultiple(NAMWC, namwc, username, Callback) {
-        var N;
         if (!NAMWC.Canceled) {
             if (NAMWC.Progress) {
                 NAMWC.Progress.innerHTML = `
@@ -25808,10 +25898,14 @@ Parsedown = (() => {
                     <span>Retrieving ${username}'s multiple wins...</span>
                 `;
             }
-            request(null, null, `GET`, true, `http://www.sgtools.info/multiple/${username}`, function (Response) {
-                N = DOM.parse(Response.responseText).getElementsByClassName(`multiplewins`).length;
-                namwc.results.notMultiple = N === 0 ? true : false;
-                namwc.results.multiple = N;
+            request(null, null, `GET`, true, `http://www.sgtools.info/multiple/${username}`, response => {
+                let elements, i, n;
+                namwc.results.multiple = [];
+                elements = DOM.parse(response.responseText).getElementsByClassName(`multiplewins`);
+                for (i = 0, n = elements.length; i < n; ++i) {
+                    namwc.results.multiple.push(new Date(elements[i].textContent.match(/and\s(\d{4}-\d{2}-\d{2}\s\d{2}:\d{2}:\d{2})\)/)[1]).getTime());
+                }
+                namwc.results.notMultiple = n === 0 ? true : false;
                 namwc.lastCheck = Date.now();
                 Callback(namwc);
             });
@@ -32033,7 +32127,7 @@ Parsedown = (() => {
                         html = ``;
                         if (esgst.namwc && esgst.namwc_h && savedUser.namwc && savedUser.namwc.results) {
                             results = savedUser.namwc.results;
-                            if (results.activated && (results.notMultiple || (results.multiple && esgst.namwc_h_m))) {
+                            if (results.activated && (results.notMultiple || esgst.namwc_h_m)) {
                                 highlight = `positive`;
                                 icon = `fa-thumbs-up`;
                             } else if (results.unknown) {
@@ -32044,7 +32138,7 @@ Parsedown = (() => {
                                 icon = `fa-thumbs-down`;
                             }
                             if (((highlight === `positive` || highlight === `unknown`) && !esgst.namwc_h_f) || highlight === `negative`) {
-                                title = `${savedUser.username} has ${results.unknown ? `?` : results.notActivated} not activated wins and ${results.multiple} multiple wins (last checked ${getTimestamp(savedUser.namwc.lastCheck / 1e3)})`;
+                                title = `${savedUser.username} has ${results.unknown ? `?` : Array.isArray(results.notActivated) ? results.notActivated.length : results.notActivated} not activated wins and ${Array.isArray(results.multiple) ? results.multiple.length : results.multiple} multiple wins (last checked ${getTimestamp(savedUser.namwc.lastCheck / 1e3)})`;
                                 if (esgst.namwc_h_i || (esgst.wbh && (esgst.wbh_w || esgst.wbh_b))) {
                                     html += `
                                         <span class="esgst-user-icon" title="${title}">
