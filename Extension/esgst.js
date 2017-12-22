@@ -37949,6 +37949,10 @@ Parsedown = (() => {
         if (!headers) {
             headers = {};
         }
+        if (!headers[`Content-Type`]) {
+            headers[`Content-Type`] = `application/x-www-form-urlencoded`;
+        }
+        headers[`From`] = `ESGST (https://github.com/revilheart/ESGST)`;
         if (queue) {
             createLock(`requestLock`, 1000, function (closeLock) {
                 continueRequest(data, headers, method, url, callback, anon, closeLock);
@@ -37998,9 +38002,6 @@ Parsedown = (() => {
             delete esgst.storage[key];
         };
         continueRequest = (data, headers, method, url, callback, anon, closeLock) => {
-            if (!headers[`Content-Type`]) {
-                headers[`Content-Type`] = `application/x-www-form-urlencoded`;
-            }
             chrome.runtime.sendMessage({
                 action: `fetch`,
                 parameters: JSON.stringify({
@@ -38174,9 +38175,6 @@ Parsedown = (() => {
             }
         };
         continueRequest = (data, headers, method, url, callback, anon, closeLock) => {
-            if (!headers[`Content-Type`]) {
-                headers[`Content-Type`] = `application/x-www-form-urlencoded`;
-            }
             if (url.match(/^\//) || url.match(new RegExp(location.hostname))) {
                 url = url.replace(/^https?:/, location.href.match(/^http:/) ? `http:` : `https:`);
                 fetch(url, {
