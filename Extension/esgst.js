@@ -15532,21 +15532,11 @@ Parsedown = (() => {
         }
         if (esgst.enteredPath) {
             context.style.display = `inline-block`;
-            if (esgst.gwr) {
-                context.innerHTML = `
-                    <span>${esgst.gwc_a && advancedChance ? (esgst.gwc_a_b ? `<span style="color: ${basicColor}; font-weight: bold;">${basicChance}%</span> (<span style="color: ${advancedColor}; font-weight: bold;">${advancedChance}%</span>)` : `<span style="color: ${advancedColor}; font-weight: bold;">${advancedChance}%</span>`) : `<span style="color: ${basicColor}; font-weight: bold;">${basicChance}%</span>`} / </span>
-                `;
-            } else {
-                context.innerHTML = `
-                    <span>${esgst.gwc_a && advancedChance ? (esgst.gwc_a_b ? `<span style="color: ${basicColor}; font-weight: bold;">${basicChance}%</span> (<span style="color: ${advancedChance}; font-weight: bold;">${advancedChance}%</span>)` : `<span style="color: ${advancedColor}; font-weight: bold;">${advancedChance}%</span>`) : `<span style="color: ${basicColor}; font-weight: bold;">${basicChance}%</span>`}</span>
-                `;
-            }
-        } else {
-            context.innerHTML = `
-                <i class="fa fa-area-chart"></i>
-                <span>${esgst.gwc_a && advancedChance ? (esgst.gwc_a_b ? `<span style="color: ${basicColor}; font-weight: bold;">${basicChance}%</span> (<span style="color: ${advancedColor}; font-weight: bold;">${advancedChance}%</span>)` : `<span style="color: ${advancedColor}; font-weight: bold;">${advancedChance}%</span>`) : `<span style="color: ${basicColor}; font-weight: bold;">${basicChance}%</span>`}</span>
-            `;
         }
+        context.innerHTML = `
+            ${esgst.enteredPath ? `` : `<i class="fa fa-area-chart"></i>`}
+            <span>${esgst.gwc_a && advancedChance ? (esgst.gwc_a_b ? `<span${basicColor ? ` style="color: ${basicColor}; font-weight: bold;"` : ``}>${basicChance}%</span> (<span${advancedColor ? ` style="color: ${advancedColor}; font-weight: bold;"` : ``}>${advancedChance}%</span>)` : `<span${advancedColor ? ` style="color: ${advancedColor}; font-weight: bold;"` : ``}>${advancedChance}%</span>`) : `<span${basicColor ? ` style="color: ${basicColor}; font-weight: bold;"` : ``}>${basicChance}%</span>`}${esgst.enteredPath && esgst.gwr ? ` / ` : ``}</span>
+        `;
     }
 
     /* [GWR] Giveaway Winning Ratio */
@@ -15588,15 +15578,11 @@ Parsedown = (() => {
         }
         if (esgst.enteredPath) {
             context.style.display = `inline-block`;
-            context.innerHTML = `
-                <span>${esgst.gwr_a && advancedRatio? (esgst.gwr_a_b ? `<span style="color: ${basicColor}; font-weight: bold;">${basicRatio}:1</span> (<span style="color: ${advancedColor}; font-weight: bold;">${advancedRatio}:1</span>)` : `<span style="color: ${advancedColor}; font-weight: bold;">${advancedRatio}:1</span>`) : `<span style="color: ${basicColor}; font-weight: bold;">${basicRatio}:1</span>`}</span>
-            `;
-        } else {
-            context.innerHTML = `
-                <i class="fa fa-pie-chart"></i>
-                <span>${esgst.gwr_a && advancedRatio? (esgst.gwr_a_b ? `<span style="color: ${basicColor}; font-weight: bold;">${basicRatio}:1</span> (<span style="color: ${advancedColor}; font-weight: bold;">${advancedRatio}:1</span>)` : `<span style="color: ${advancedColor}; font-weight: bold;">${advancedRatio}:1</span>`) : `<span style="color: ${basicColor}; font-weight: bold;">${basicRatio}:1</span>`}</span>
-            `;
         }
+        context.innerHTML = `
+            ${esgst.enteredPath ? `` : `<i class="fa fa-pie-chart"></i>`}
+            <span>${esgst.gwr_a && advancedRatio ? (esgst.gwr_a_b ? `<span${basicColor ? ` style="color: ${basicColor}; font-weight: bold;"` : ``}>${basicRatio}:1</span> (<span${advancedColor ? ` style="color: ${advancedColor}; font-weight: bold;"` : ``}>${advancedRatio}:1</span>)` : `<span${advancedColor ? ` style="color: ${advancedColor}; font-weight: bold;"` : ``}>${advancedRatio}:1</span>`) : `<span${basicColor ? ` style="color: ${basicColor}; font-weight: bold;"` : ``}>${basicRatio}:1</span>`}</span>
+        `;
     }
 
     function addGwcrHeading(context, main) {
