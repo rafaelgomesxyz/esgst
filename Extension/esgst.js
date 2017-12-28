@@ -35768,12 +35768,9 @@ Parsedown = (() => {
                 font-weight: bold;
             }
 
-            .esgst-ap-popout .esgst-uh-box {
-                background-color: rgba(10, 18, 41, 0.8);
-            }
-
             .esgst-uh-box {
-                background-color: rgba(10, 18, 41, 0.5);
+                background: linear-gradient(to bottom, #555, #222);
+                border: 1px solid #888;
                 margin: 5px 0 0;
                 padding: 15px;
                 position: absolute;
