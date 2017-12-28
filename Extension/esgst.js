@@ -826,11 +826,16 @@ Parsedown = (() => {
             };
             extent = 0;
             remainder = excerpt.text;
-            matches = remainder.match(/\[(?:(.*\[)*)(.*?)\]/); // original regex: /\[((?:[^][]++|(?R))*+)\]/
+            matches = remainder.match(/\[(.*?)\]/);
             if (matches) {
-                element.text = matches[2];
-                extent += strlen(matches[2]) + 2;
-                remainder = remainder.slice(extent);
+                matches = matches[0].match(/\[(?:(.*\[)*)(.*?)\]/); // original regex: /\[((?:[^][]++|(?R))*+)\]/
+                if (matches) {
+                    element.text = matches[2];
+                    extent += strlen(matches[2]) + 2;
+                    remainder = remainder.slice(extent);
+                } else {
+                    return;
+                }
             } else {
                 return;
             }
@@ -965,7 +970,7 @@ Parsedown = (() => {
             if (variables.urlsLinked !== true || ! methods.isSet(excerpt.text[2]) || excerpt.text[2] !== `/`) {
                 return;
             }
-            let match = /\bhttps?:[\/]{2}[^\s<]+\b\/*/uig.exec(excerpt.context);
+            let match = /\bhttps?:[\/]{2}[^\s<]+\b\/*/ui.exec(excerpt.context);
             if (match) {
                 return {
                     element: {
