@@ -3605,6 +3605,16 @@ Parsedown = (() => {
                             new: true,
                             sg: true,
                         },
+                        qdb: {
+                            description: `
+                                <ul>
+                                    <li>Allows you to quickly go to each discussion category from any page.</li>
+                                </ul>
+                            `,
+                            name: `Quick Discussion Browsing`,
+                            new: true,
+                            sg: true
+                        },
                         radb: {
                             description: `
                                 <ul>
@@ -6144,28 +6154,17 @@ Parsedown = (() => {
         /* [QGB] Quick Giveaway Browsing */
 
         if (esgst.qgb) {
-            document.getElementsByClassName(`nav__absolute-dropdown`)[0].insertAdjacentHTML(`beforeEnd`, `
-                <a class="nav__row" href="/giveaways/search?type=wishlist">
-                    <div class="nav__row__summary">
-                        <p class="nav__row__summary__name">Browse Wishlist Giveaways</p>
-                    </div>
-                </a>
-                <a class="nav__row" href="/giveaways/search?type=recommended">
-                    <div class="nav__row__summary">
-                        <p class="nav__row__summary__name">Browse Recommended Giveaways</p>
-                    </div>
-                </a>
-                <a class="nav__row" href="/giveaways/search?type=group">
-                    <div class="nav__row__summary">
-                        <p class="nav__row__summary__name">Browse Group Giveaways</p>
-                    </div>
-                </a>
-                <a class="nav__row" href="/giveaways/search?type=new">
-                    <div class="nav__row__summary">
-                        <p class="nav__row__summary__name">Browse New Giveaways</p>
-                    </div>
-                </a>
-            `);
+            let html = ``;
+            [
+                {name: `Browse Wishlist Giveaways`, url: `/giveaways/search?type=wishlist`},
+                {name: `Browse Recommended Giveaways`, url: `/giveaways/search?type=recommended`},
+                {name: `Browse Group Giveaways`, url: `/giveaways/search?type=group`},
+                {name: `Browse New Giveaways`, url: `/giveaways/search?type=new`}
+
+            ].forEach(details => {
+                html += generateHeaderMenuItem(details);
+            });
+            document.getElementsByClassName(`nav__absolute-dropdown`)[0].insertAdjacentHTML(`beforeEnd`, html);
         }
 
         /* [HR] Header Refresher */
@@ -9615,6 +9614,28 @@ Parsedown = (() => {
 
         if (esgst.dh) {
             loadDh();
+        }       
+        
+        /* [QGB] Quick Discussion Browsing */
+
+        if (esgst.qgb) {
+            let html = ``;
+            [
+                {description: `Help the community by categorizing uncategorized discussions.`, icon: `fa-question-circle grey`, name: `Help Categorize`, url: `/tools/categorize-discussions`},
+                {name: `Browse Announcements`, url: `/discussions/announcements`},
+                {name: `Browse Bugs / Suggestions`, url: `/discussions/bugs-suggestions`},
+                {name: `Browse Deals`, url: `/discussions/deals`},
+                {name: `Browse General`, url: `/discussions/general`},
+                {name: `Browse Group Recruitment`, url: `/discussions/group-recruitment`},
+                {name: `Browse Let's Play Together`, url: `/discussions/lets-play-together`},
+                {name: `Browse Off-Topic`, url: `/discussions/off-topic`},
+                {name: `Browse Puzzles`, url: `/discussions/puzzles`},
+                {name: `Browse Uncategorized`, url: `/discussions/uncategorized`}
+
+            ].forEach(details => {
+                html += generateHeaderMenuItem(details);
+            });
+            document.getElementsByClassName(`nav__absolute-dropdown`)[1].insertAdjacentHTML(`beforeEnd`, html);
         }
 
         if (esgst.discussionPath) {
@@ -9957,6 +9978,39 @@ Parsedown = (() => {
             });
         }
         setTimeout(repositionPopups, 2000);
+    }
+
+    function generateHeaderMenuItem(details) {
+        if (details.icon) {
+            if (details.url) {
+                return `
+                    <a class="esgst-header-menu-row" href="${details.url}">
+                        <i class="fa fa-fw ${details.icon}"></i>
+                        <div>
+                            <p class="esgst-header-menu-name">${details.name}</p>
+                            <p class="esgst-header-menu-description">${details.description}</p>
+                        </div>
+                    </a>      
+                `;
+            }
+            return `
+                <div class="esgst-header-menu-row">
+                    <i class="fa fa-fw ${details.icon}"></i>
+                    <div>
+                        <p class="esgst-header-menu-name">${details.name}</p>
+                        <p class="esgst-header-menu-description">${details.description}</p>
+                    </div>
+                </div>
+
+            `;
+        }
+        return `
+            <a class="nav__row" href="${details.url}">
+                <div class="nav__row__summary">
+                    <p class="nav__row__summary__name">${details.name}</p>
+                </div>
+            </a>
+        `;
     }
 
     function sendUstTicket(event) {
@@ -23083,15 +23137,7 @@ Parsedown = (() => {
 
     function loadDh() {
         var button, code, comments, container, heading, source;
-        button = insertHtml(document.getElementsByClassName(`nav__absolute-dropdown`)[1], `beforeEnd`, `
-            <div class="nav__row esgst-dh-view-button">
-                <i class="icon-yellow fa fa-fw fa-star"></i>
-                <div class="nav__row__summary">
-                    <p class="nav__row__summary__name">Highlighted Discussions</p>
-                    <p class="nav__row__summary__description">View your highlighted discussions.</p>
-                </div>
-            </div>
-        `);
+        button = insertHtml(document.getElementsByClassName(`nav__absolute-dropdown`)[1], `beforeEnd`, generateHeaderMenuItem({description: `View your highlighted discussions.`, icon: `fa-star yellow`, name: `View Highlighted`}));
         button.addEventListener(`click`, function() {
             var discussions, i, keys, popup, set;
             popup = new Popup(`fa-star`, `Highlighted Discussions`);
@@ -38306,7 +38352,7 @@ Parsedown = (() => {
                 }
 
                 .esgst-header-menu-row:hover i {
-                    color: #fff
+                    color: #fff !important;
                 }
 
                 .esgst-header-menu-row:not(:last-child):hover{
