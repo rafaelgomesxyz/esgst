@@ -1175,13 +1175,13 @@ Parsedown = (() => {
                     this.none.classList.add(`esgst-hidden`);
                     this.disabled.classList.add(`esgst-hidden`);
                 }
-                this.checkbox.addEventListener(`click`, () => this.change(true));
+                this.checkbox.addEventListener(`click`, event => this.change(true, null, null, event));
                 this.checkbox.addEventListener(`mouseenter`, () => this.showNone());
                 this.checkbox.addEventListener(`mouseleave`, () => this.hideNone());
                 this.change();
             }
         }
-        change(toggle, value, callback) {
+        change(toggle, value, callback, event) {
             if (this.isThreeState) {
                 if ((this.value === `disabled` && !value) || (value === `none`)) {
                     this.enabled.classList.add(`esgst-hidden`);
@@ -1208,14 +1208,14 @@ Parsedown = (() => {
                     this.none.classList.add(`esgst-hidden`);
                     this.enabled.classList.remove(`esgst-hidden`);
                     if (this.onEnabled) {
-                        this.onEnabled();
+                        this.onEnabled(event);
                     }
                 } else {
                     this.enabled.classList.add(`esgst-hidden`);
                     this.none.classList.add(`esgst-hidden`);
                     this.disabled.classList.remove(`esgst-hidden`);
                     if (this.onDisabled) {
-                        this.onDisabled();
+                        this.onDisabled(event);
                     }
                 }
             }
@@ -1869,6 +1869,7 @@ Parsedown = (() => {
             profileFeatures: [],
             popups: [],
             openPopups: 0,
+            ustCheckboxes: {},
             ustTickets: {},
             numUstTickets: 0,
             elgbCache: JSON.parse(getLocalValue(`elgbCache`, `{"descriptions": {}, "timestamp": ${Date.now()}}`)),
@@ -4143,7 +4144,8 @@ Parsedown = (() => {
                                 <ul>
                                     <li>Allows you to find out if a user has already served suspension for not activated/multiple wins so you do not need to open a ticket about it (this information is only available when you use Not Activated/Multiple Wins Checker to check the user).</li>
                                     <li>The database for the feature is contributed by the users of ESGST and therefore is not complete.</li>
-                                    <li>To contribute yourself, go to a solved ticket of yours that was about not activated/multiple wins and send the ticket to the database through the button with the airplane icon in the top right corner, next to the button you use to edit/close the ticket.</li>
+                                    <li>To contribute yourself, you can either: go to the main tickets page, select the tickets you want to send and then click on the button with the airplane icon in the heading (there are shortcuts to help you select tickets: clicking an unchecked ticket with the Ctrl key pressed will check all tickets in the page, clicking a checked ticket with the Ctrl key pressed will uncheck all tickets in the page, and clicking on any ticket with the Alt key pressed will toggle the state of all tickets in the page - if a ticket is checked it will be changed to unchecked, and vice-versa); or go to an individual ticket and send it through the button with the airplane icon in the top right corner, next to the button you use to edit/close it.</li>
+                                    <li>The button to send tickets only appears for tickets that are in the following categories: Request New Winner -> Did Not Activate Previous Wins This Month, Other; User Report -> Multiple Wins for the Same Game, Not Activating Won Gift</li>
                                 </ul>
                             `,
                             name: `User Suspension Tracker`,
@@ -9821,12 +9823,17 @@ Parsedown = (() => {
                     `);
                     esgst.ustButton.addEventListener(`click`, sendUstTickets);
                 } else if (esgst.ticketPath && document.getElementsByClassName(`table__column--width-fill`)[1].textContent.trim().match(/Did\sNot\sActivate\sPrevious\sWins\sThis\sMonth|Other|Multiple\sWins\sfor\sthe\sSame\sGame|Not\sActivating\sWon\sGift/)) {
-                    esgst.ustButton = insertHtml(document.getElementsByClassName(`page__heading`)[0].lastElementChild, `beforeBegin`, `
-                        <div class="esgst-heading-button" title="Send ticket to the User Suspension Tracker database">
-                            <i class="fa fa-paper-plane"></i>
-                        </div>
-                    `);
-                    esgst.ustButton.addEventListener(`click`, sendUstTicket);
+                    let code, tickets;
+                    code = location.pathname.match(/\/ticket\/(.+?)\//)[1];
+                    tickets = JSON.parse(esgst.storage.tickets);
+                    if (!tickets[code] || !tickets[code].sent) {
+                        esgst.ustButton = insertHtml(document.getElementsByClassName(`page__heading`)[0].lastElementChild, `beforeBegin`, `
+                            <div class="esgst-heading-button" title="Send ticket to the User Suspension Tracker database">
+                                <i class="fa fa-paper-plane"></i>
+                            </div>
+                        `);
+                        esgst.ustButton.addEventListener(`click`, sendUstTicket);
+                    }
                 }
             }
 
@@ -10054,14 +10061,14 @@ Parsedown = (() => {
         esgst.ustButton.removeEventListener(`click`, sendUstTickets);
         esgst.ustButton.innerHTML =  `<i class="fa fa-circle-o-notch fa-spin"></i>`;
         data = ``
-        n = Object.keys(esgst.ustTickets).length;
+        n = Object.keys(esgst.ustCheckboxes).length;
         numError = 0;
         check = new CompletionCheck(n, () => {
             request(data.slice(0, -1), null, `POST`, false, `https://script.google.com/macros/s/AKfycbwdKNormCJs-hEKV0GVwawgWj1a26oVtPylgmxOOvNk1Gf17A/exec`, response => {
                 let error = JSON.parse(response.responseText).error;
                 getValue(`tickets`).then(value => {
                     let tickets = JSON.parse(value);
-                    for (code in esgst.ustTickets) {
+                    for (code in esgst.ustCheckboxes) {
                         if (error.indexOf(code) < 0) {
                             if (!tickets[code]) {
                                 tickets[code] = {
@@ -10070,8 +10077,8 @@ Parsedown = (() => {
                             }
                             tickets[code].sent = 1;
                             esgst.numUstTickets -= 1;
-                            esgst.ustTickets[code].remove();
-                            delete esgst.ustTickets[code];
+                            esgst.ustCheckboxes[code].remove();
+                            delete esgst.ustCheckboxes[code];
                         } else {
                             numError += 1;
                         }
@@ -10084,13 +10091,13 @@ Parsedown = (() => {
                         esgst.ustButton.innerHTML = `<i class="fa fa-paper-plane"></i>`;
                         esgst.ustButton.addEventListener(`click`, sendUstTickets);
                     }
-                    esgst.ustTickets = [];
+                    esgst.ustCheckboxes = [];
                     new Popup(``, `${n - numError} out of ${n} tickets sent! They will be analyzed and, if accepted, added to the database in 48 hours at most.${numError > 0 ? ` Try sending the tickets that failed again later.` : ``}`, true).open();
                 });
             });
         });
-        for (let code in esgst.ustTickets) {
-            let ticket = esgst.ustTickets[code];            
+        for (let code in esgst.ustCheckboxes) {
+            let ticket = esgst.ustCheckboxes[code];            
             request(null, null, `GET`, false, `/support/ticket/${code}/`, response => {
                 let responseHtml = parseHtml(response.responseText);
                 if (responseHtml.getElementsByClassName(`table__column--width-fill`)[1].textContent.trim().match(/Did\sNot\sActivate\sPrevious\sWins\sThis\sMonth|Other|Multiple\sWins\sfor\sthe\sSame\sGame|Not\sActivating\sWon\sGift/)) {
@@ -25390,6 +25397,13 @@ Parsedown = (() => {
             if (esgst.df && esgst.df.filteredCount && esgst[`df_enable${esgst.df.type}`]) {
                 filterDfDiscussions(esgst.df, false, endless);
             }
+            if (esgst.ustButton) {
+                if (esgst.numUstTickets > 0) {
+                    esgst.ustButton.classList.remove(`esgst-hidden`);
+                } else {
+                    esgst.ustButton.classList.add(`esgst-hidden`);
+                }
+            }
         });
     }
 
@@ -32773,8 +32787,36 @@ Parsedown = (() => {
         if (!context.getElementsByClassName(`esgst-ust-checkbox`)[0]) {
             let checkbox = new Checkbox(context);
             checkbox.checkbox.classList.add(`esgst-ust-checkbox`);
-            checkbox.onEnabled = () => {
-                esgst.ustTickets[code] = checkbox.checkbox;
+            esgst.ustTickets[code] = checkbox;
+            checkbox.onEnabled = event => {
+                if (event) {
+                    if (event.ctrlKey) {
+                        for (let code in esgst.ustTickets) {
+                            esgst.ustTickets[code].check();
+                        }
+                    } else if (event.altKey) {
+                        checkbox.toggle();
+                        for (let code in esgst.ustTickets) {
+                            esgst.ustTickets[code].toggle();
+                        }
+                    }
+                }
+                esgst.ustCheckboxes[code] = checkbox.checkbox;
+            };
+            checkbox.onDisabled = event => {
+                if (event) {
+                    if (event.ctrlKey) {
+                        for (let code in esgst.ustTickets) {
+                            esgst.ustTickets[code].uncheck();
+                        }
+                    } else if (event.altKey) {
+                        checkbox.toggle();
+                        for (let code in esgst.ustTickets) {
+                            esgst.ustTickets[code].toggle();
+                        }
+                    }
+                }
+                delete esgst.ustCheckboxes[code];
             };
             esgst.numUstTickets += 1;
         }
@@ -34660,6 +34702,10 @@ Parsedown = (() => {
                     {
                         key: `tickets_gdttt`,
                         name: `Giveaways/Discussions/Tickets/Trades Tracker`
+                    },
+                    {
+                        key: `tickets_ust`,
+                        name: `User Suspension Tracker`
                     }
                 ]
             },
@@ -35172,7 +35218,8 @@ Parsedown = (() => {
                                 values = {
                                     main: [`lastUsed`],
                                     ct: [`count`, `readComments`],
-                                    gdttt: [`visited`]
+                                    gdttt: [`visited`],
+                                    ust: [`sent`]
                                 };
                             }
                         case `trades`:
@@ -35197,7 +35244,8 @@ Parsedown = (() => {
                                         ggl: 0,
                                         main: 0,
                                         pm: 0,
-                                        total: 0
+                                        total: 0,
+                                        ust: 0
                                     };
                                     mainFound = false;
                                     for (mergedDataKey in mergedData) {
