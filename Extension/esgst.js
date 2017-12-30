@@ -38634,6 +38634,10 @@ Parsedown = (() => {
                     transition: background-color 0.15s;
                     cursor: pointer;
                 }
+                
+                .esgst-header-menu-row:last-child {
+                    cursor: default;
+                }
 
                 .esgst-header-menu-row:not(:last-child) {
                     border-bottom: 1px solid #e1ebf2;
@@ -38685,7 +38689,7 @@ Parsedown = (() => {
                     color: #FECC66;
                 }
 
-                .esgst-header-menu-description {
+                .esgst-header-menu-row:not(:last-child) .esgst-header-menu-description {
                     display: none;
                 }
 
