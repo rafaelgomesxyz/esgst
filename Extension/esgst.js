@@ -28145,7 +28145,7 @@ Parsedown = (() => {
                 `);
                 setWbsRemove(dateKey, key, row, saveKey, steamId, user);
             }
-            loadEndlessFeatures(table).then(popup.open);
+            loadEndlessFeatures(table).then(() => popup.open());
         });
     }
 
@@ -34723,7 +34723,7 @@ Parsedown = (() => {
             popup.open();
             manageData(dm, dropbox, googleDrive, oneDrive, false, () => {
                 delLocalValue(`isBackingUp`);
-                setSetting(`lastBackup`, Date.now()).then(popup.close);
+                setSetting(`lastBackup`, Date.now()).then(() => popup.close());
             });
         } else {
             for (i = 0, n = dm.options.length; i < n; ++i) {
