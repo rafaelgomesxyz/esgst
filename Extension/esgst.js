@@ -9892,14 +9892,14 @@ Parsedown = (() => {
                 if (esgst.mainPageHeading) {
                     let html, title;
                     if (esgst.wbc_b) {
-                        title = `Check for whitelists/blacklists.`;
+                        title = `Check for whitelists/blacklists`;
                         html = `
                             <i class="fa fa-heart"></i>
                             <i class="fa fa-ban"></i>
                             <i class="fa fa-question-circle"></i>
                         `;
                     } else {
-                        title = `Check for whitelists.`;
+                        title = `Check for whitelists`;
                         html = `
                             <i class="fa fa-heart"></i>
                             <i class="fa fa-question-circle"></i>
@@ -13372,7 +13372,7 @@ Parsedown = (() => {
         `);
         icon = input.nextElementSibling;
         icon.classList.add(`esgst-clickable`);
-        icon.title = `Use advanced search.`;
+        icon.title = `Use advanced search`;
         if (!qgs) {
             match = location.search.match(/q=(.*?)(&.*?)?$/);
             if (match) {
