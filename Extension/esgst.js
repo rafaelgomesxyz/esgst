@@ -31287,12 +31287,12 @@ Parsedown = (() => {
         setSetting(`gc_categories`, categories);
     }
 
-    function addGwcrMenuPanel(context, id, key, name) {
+    function addGwcrMenuPanel(context, id, key) {
         var button, colors, i, n, panel;
         panel = insertHtml(context, `beforeEnd`, `
             <div class="esgst-sm-colors">
                 <div class="form__saving-button esgst-sm-colors-default">
-                    <span>Add ${name} Color Setting</span>
+                    <span>Add Color Setting</span>
                 </div>
                 <i class="fa fa-question-circle" title="Allows you to set different colors for different ${key} ranges."></i>
             </div>
