@@ -3612,6 +3612,7 @@ Parsedown = (() => {
                                 <ul>
                                     <li>Allows you to quickly go to each discussion category from any page.</li>
                                 </ul>
+                                <img src="https://i.imgur.com/OuIgfok.png">
                             `,
                             name: `Quick Discussion Browsing`,
                             new: true,
