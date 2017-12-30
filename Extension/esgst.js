@@ -13995,7 +13995,7 @@ Parsedown = (() => {
     function addGfHideButton(giveaway, main) {
         var button;
         button = insertHtml(giveaway.headingName, `beforeBegin`, `
-            <div class="esgst-gf-hide-button" title="Hide giveaway.">
+            <div class="esgst-gf-hide-button" title="Hide giveaway">
                 <i class="fa fa-eye-slash"></i>
             </div>
         `);
@@ -14034,7 +14034,7 @@ Parsedown = (() => {
     function addGfUnhideButton(giveaway, main) {
         var button;
         button = insertHtml(giveaway.headingName, `beforeBegin`, `
-            <div class="esgst-gf-unhide-button" title="Unhide giveaway.">
+            <div class="esgst-gf-unhide-button" title="Unhide giveaway">
                 <i class="fa fa-eye"></i>
             </div>
         `);
@@ -15654,7 +15654,7 @@ Parsedown = (() => {
         newGiveaways = {};
         if (!esgst.gedPath) {
             button = insertHtml(esgst.headerNavigationLeft, `beforeEnd`, `
-                <div class="nav__button-container esgst-hidden" title="View your decrypted giveaways.">
+                <div class="nav__button-container esgst-hidden" title="View your decrypted giveaways">
                     <div class="nav__button">
                         <i class="fa fa-star"></i>
                     </div>
@@ -18123,7 +18123,7 @@ Parsedown = (() => {
             mgc.giveaways = insertHtml(section, `beforeEnd`, `
                 <div class="pinned-giveaways__outer-wrap">
                     <div class="pinned-giveaways__inner-wrap"></div>
-                    <i class="fa fa-trash" title="Drag a giveaway here to remove it."></i>
+                    <i class="fa fa-trash" title="Drag a giveaway here to remove it"></i>
                     <div class="esgst-description">To edit a giveaway, click on it and a "Edit" button will appear. Then make your alterations and click "Edit".</div>
                     <div class="esgst-description">Giveaways successfully created will turn green, giveaways successfully connected will be strikethrough (for train creations) and giveaways that were not successfully created will turn red.</div>
                 </div>
@@ -19126,7 +19126,7 @@ Parsedown = (() => {
         }
         button = insertHtml(context, `afterBegin`, `
             <div class="esgst-sgg-sticky-button">
-                <a title="Sticky group.">
+                <a title="Sticky group">
                     <i class="fa fa-thumb-tack"></i>
                 </a>
             </div>
@@ -19140,7 +19140,7 @@ Parsedown = (() => {
         }
         button = insertHtml(context, `afterBegin`, `
             <div class="esgst-sgg-unsticky-button">
-                <a title="Unsticky group.">
+                <a title="Unsticky group">
                     <i class="fa fa-thumb-tack"></i>
                 </a>
             </div>
@@ -19860,7 +19860,7 @@ Parsedown = (() => {
                     ugs.unsentGifts.insertAdjacentHTML(`beforeEnd`, `
                         <span>
                             <a href="/user/${winner.username}">${winner.username}</a> (<a href="${giveaway.url}/winners">${giveaway.name}</a>)
-                            <i class="fa fa-question-circle" title="${winner.username} already won ${giveaway.name} from another giveaway of yours."></i>
+                            <i class="fa fa-question-circle" title="${winner.username} already won ${giveaway.name} from another giveaway of yours"></i>
                         </span>
                     `);
                     setTimeout(sendUgsGifts, 0, code, ugs, ++i, n, callback);
@@ -21875,7 +21875,7 @@ Parsedown = (() => {
                 esgst.activeDiscussions.innerHTML = `
                     <div>
                         <div class="page__heading">
-                            <div class="esgst-heading-button" title="Switch to Deals.">
+                            <div class="esgst-heading-button" title="Switch to Deals">
                                 <i class="fa fa-retweet"></i>
                             </div>
                             <div class="page__heading__breadcrumbs">
@@ -21896,7 +21896,7 @@ Parsedown = (() => {
                     </div>
                     <div class="esgst-hidden">
                         <div class="page__heading">
-                            <div class="esgst-heading-button" title="Switch to Discussions.">
+                            <div class="esgst-heading-button" title="Switch to Discussions">
                                 <i class="fa fa-retweet"></i>
                             </div>
                             <div class="page__heading__breadcrumbs">
@@ -23892,9 +23892,9 @@ Parsedown = (() => {
                     <div class="esgst-cfh-sr-description">${savedReply.description}</div>
                 </div>
                 <div class="esgst-cfh-sr-controls">
-                    <i class="esgst-clickable fa fa-edit" title="Edit reply."></i>
-                    <i class="esgst-clickable fa fa-trash" title="Delete reply."></i>
-                    <i class="fa fa-question-circle" title="Drag the reply to move it."></i>
+                    <i class="esgst-clickable fa fa-edit" title="Edit reply"></i>
+                    <i class="esgst-clickable fa fa-trash" title="Delete reply"></i>
+                    <i class="fa fa-question-circle" title="Drag the reply to move it"></i>
                 </div>
             </div>
         `);
@@ -25675,13 +25675,13 @@ Parsedown = (() => {
         var button, box, container, list;
         container = insertHtml(profile.heading, `beforeEnd`, `
             <div class="esgst-uh-container">
-                <a class="esgst-uh-button" title="View username history.">
+                <a class="esgst-uh-button" title="View username history">
                     <i class="fa fa-caret-down"></i>
                 </a>
                 <div class="esgst-uh-box esgst-hidden">
                     <div class="esgst-uh-title">
                         <span>Username History</span>
-                        <a href="https://goo.gl/C2wjUh" target="_blank" title="Expand the database.">
+                        <a href="https://goo.gl/C2wjUh" target="_blank" title="Expand the database">
                             <i class="fa fa-expand"></i>
                         </a>
                     </div>
@@ -25745,7 +25745,7 @@ Parsedown = (() => {
             position = `afterBegin`;
         }
         profile.unButton = insertHtml(profile.heading, position, `
-            <a class="esgst-un-button" title="Edit user notes.">
+            <a class="esgst-un-button" title="Edit user notes">
                 <i class="fa"></i>
             </a>
         `);
@@ -25821,7 +25821,7 @@ Parsedown = (() => {
         var uf;
         if (profile.username !== esgst.username) {
             profile.ufButton = insertHtml(profile.heading, `beforeEnd`, `
-                <a class="esgst-uf-button" title="Edit user filters.">
+                <a class="esgst-uf-button" title="Edit user filters">
                     <i class="fa"></i>
                 </a>
             `);
@@ -25933,7 +25933,7 @@ Parsedown = (() => {
     function addSgcButton(profile) {
         if (profile.username !== esgst.username) {
             profile.sgcButton = insertHtml(profile.heading, `beforeEnd`, `
-                <a class="esgst-sgc-button" title="Check shared groups.">
+                <a class="esgst-sgc-button" title="Check shared groups">
                     <i class="fa fa-users"></i>
                 </a>
             `);
@@ -26672,7 +26672,7 @@ Parsedown = (() => {
     function addNamwcProfileButton(profile) {
         setNAMWCPopup(insertHtml(profile.wonRowLeft, `beforeEnd`, `
             <span class="esgst-namwc-button">
-                <i class="fa fa-question-circle" title="Check for not activated/multiple wins."></i>
+                <i class="fa fa-question-circle" title="Check for not activated/multiple wins"></i>
             </span>
         `), {
             SteamID64: profile.steamId,
@@ -30688,12 +30688,12 @@ Parsedown = (() => {
             Check: esgst.uf,
             Icons: [`fa-user`, `fa-eye-slash`],
             Name: `SMManageFilteredUsers esgst-heading-button`,
-            Title: `See list of filtered users.`
+            Title: `See list of filtered users`
         }, {
             Check: esgst.sg && esgst.gf && esgst.gf_s,
             Icons: [`fa-gift`, `fa-eye-slash`],
             Name: `SMManageFilteredGiveaways esgst-heading-button`,
-            Title: `Manage hidden giveaways.`
+            Title: `Manage hidden giveaways`
         }, {
             Check: esgst.sg && esgst.df && esgst.df_s,
             Icons: [`fa-comments`, `fa-eye-slash`],
@@ -30713,12 +30713,12 @@ Parsedown = (() => {
             Check: esgst.wbc,
             Icons: [`fa-heart`, `fa-ban`, `fa-cog`],
             Name: `esgst-wbc-button esgst-heading-button`,
-            Title: `Manage Whitelist / Blacklist Checker caches.`
+            Title: `Manage Whitelist / Blacklist Checker caches`
         }, {
             Check: esgst.namwc,
             Icons: [`fa-trophy`, `fa-cog`],
             Name: `esgst-namwc-button esgst-heading-button`,
-            Title: `Manage Not Activated / Multiple Wins Checker caches.`
+            Title: `Manage Not Activated / Multiple Wins Checker caches`
         }, {
             Check: true,
             Icons: [`fa-bug`],
@@ -31324,7 +31324,7 @@ Parsedown = (() => {
         var color, i, lower, n, remove, setting, upper;
         setting = insertHtml(panel, `beforeEnd`, `
             <div>
-                From <input step="0.01" type="number" value="${colors.lower}"/> to <input step="0.01" type="number" value="${colors.upper}"/> ${key}, color it as <input type="color" value="${colors.color}"/>. <i class="esgst-clickable fa fa-times" title="Delete this setting."></i>
+                From <input step="0.01" type="number" value="${colors.lower}"/> to <input step="0.01" type="number" value="${colors.upper}"/> ${key}, color it as <input type="color" value="${colors.color}"/>. <i class="esgst-clickable fa fa-times" title="Delete this setting"></i>
             </div>
         `);
         lower = setting.firstElementChild;
@@ -31383,7 +31383,7 @@ Parsedown = (() => {
         var color, genre, i, n, remove, setting;
         setting = insertHtml(panel, `beforeEnd`, `
             <div>
-                For genre <input type="text" value="${colorSetting.genre}"/>, color it as <input type="color" value="${colorSetting.color}"/>. <i class="esgst-clickable fa fa-times" title="Delete this setting."></i>
+                For genre <input type="text" value="${colorSetting.genre}"/>, color it as <input type="color" value="${colorSetting.color}"/>. <i class="esgst-clickable fa fa-times" title="Delete this setting"></i>
             </div>
         `);
         genre = setting.firstElementChild;
@@ -31451,7 +31451,7 @@ Parsedown = (() => {
         var color, bgColor, i, icon, label, n, name, remove, setting, steamId;
         setting = insertHtml(panel, `beforeEnd`, `
             <div>
-                For account with Steam ID <input placeholder="0000000000000000" type="text" value="${altSetting.steamId}"/>, using the nickname <input placeholder="alt1" type="text" value="${altSetting.name}"/>, <br/>color it as <input type="color" value="${altSetting.color}"/> with background <input type="color" value="${altSetting.bgColor}"/>, icon <input placeholder="folder" type="text" value="${altSetting.icon}"/> and label <input placeholder="Owned by alt1" type="text" value="${altSetting.label}"/>. <i class="esgst-clickable fa fa-times" title="Delete this setting."></i>
+                For account with Steam ID <input placeholder="0000000000000000" type="text" value="${altSetting.steamId}"/>, using the nickname <input placeholder="alt1" type="text" value="${altSetting.name}"/>, <br/>color it as <input type="color" value="${altSetting.color}"/> with background <input type="color" value="${altSetting.bgColor}"/>, icon <input placeholder="folder" type="text" value="${altSetting.icon}"/> and label <input placeholder="Owned by alt1" type="text" value="${altSetting.label}"/>. <i class="esgst-clickable fa fa-times" title="Delete this setting"></i>
             </div>
         `);
         steamId = setting.firstElementChild;
