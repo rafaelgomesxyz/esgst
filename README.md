@@ -946,6 +946,29 @@ May or may not be working (try at your own risk) in the latest version of:
 
 ## Changelog
 
+**7.12.0 (December 30, 2017):**
+
+<ul>
+    <li><a href="https://github.com/revilheart/ESGST/issues/326">#326</a> Implement a completion check class for AJAX calls</li>
+    <li><a href="https://github.com/revilheart/ESGST/issues/327">#327</a> Add option to only clear users with specific tags in Whitelist/Blacklist Manager</li>
+    <li><a href="https://github.com/revilheart/ESGST/issues/324">#324</a> Fix a bug that counts pinned giveaways in Giveaway Filters when Hidden Pinned Giveaways is enabled</li>
+    <li><a href="https://github.com/revilheart/ESGST/issues/328">#328</a> Add a feature: User Suspension Tracker</li>
+    <li><a href="https://github.com/revilheart/ESGST/issues/329">#329</a> Add a "From: ESGST" header to requests made by ESGST</li>
+    <li><a href="https://github.com/revilheart/ESGST/issues/334">#334</a> Remove transparency of the box in Username History</li>
+    <li><a href="https://github.com/revilheart/ESGST/issues/335">#335</a> Remove bold font from giveaway winning chances/ratios</li>
+    <li><a href="https://github.com/revilheart/ESGST/issues/333">#333</a> Fix a bug in the post preview</li>
+    <li><a href="https://github.com/revilheart/ESGST/issues/341">#341</a> Add compatibility with Greasemonkey v4</li>
+    <li><a href="https://github.com/revilheart/ESGST/issues/342">#342</a> Add a feature: Quick Discussion Browsing</li>
+    <li><a href="https://github.com/revilheart/ESGST/issues/344">#344</a> Fix a style issue that does not show the "Current Version" row in the header menu on SteamTrades</li>
+    <li><a href="https://github.com/revilheart/ESGST/issues/345">#345</a> Fix a bug that happens when trying to bump trades</li>
+    <li><a href="https://github.com/revilheart/ESGST/issues/346">#346</a> Fix a style issue with headings on SteamTrades</li>
+    <li><a href="https://github.com/revilheart/ESGST/issues/347">#347</a> Fix a typo in the settings menu in "Add undefined Color Setting"</li>
+    <li><a href="https://github.com/revilheart/ESGST/issues/337">#337</a> Add a feature: Community Wishlist Search Links</li>
+    <li><a href="https://github.com/revilheart/ESGST/issues/339">#339</a> Fix inconsistency in tooltips regarding periods</li>
+    <li><a href="https://github.com/revilheart/ESGST/issues/336">#336</a> Fix a bug that does not save exceptions when saving a preset with a different name</li>
+    <li><a href="https://github.com/revilheart/ESGST/issues/284">#284</a> Add more customization options for the genres category</li>
+</ul>
+
 **7.11.2 (December 18, 2017):**
 
 <ul>
