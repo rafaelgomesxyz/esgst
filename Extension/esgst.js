@@ -37585,7 +37585,7 @@ Parsedown = (() => {
                 display: inline-block;
             }
 
-            .page__heading .esgst-toggle-switch-container.inline, .esgst-page-heading .esgst-toggle-switch-container.inline {
+            .page__heading .esgst-toggle-switch-container.inline, .page_heading .esgst-toggle-switch-container.inline, .esgst-page-heading .esgst-toggle-switch-container.inline {
                 height: 16px;
                 margin: 0 2px;
                 line-height: normal;
