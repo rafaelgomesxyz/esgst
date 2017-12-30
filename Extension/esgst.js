@@ -9820,7 +9820,7 @@ Parsedown = (() => {
                         </div>
                     `);
                     esgst.ustButton.addEventListener(`click`, sendUstTickets);
-                } else if (esgst.ticketPath) {
+                } else if (esgst.ticketPath && document.getElementsByClassName(`table__column--width-fill`)[1].textContent.trim().match(/Did\sNot\sActivate\sPrevious\sWins\sThis\sMonth|Other|Multiple\sWins\sfor\sthe\sSame\sGame|Not\sActivating\sWon\sGift/)) {
                     esgst.ustButton = insertHtml(document.getElementsByClassName(`page__heading`)[0].lastElementChild, `beforeBegin`, `
                         <div class="esgst-heading-button" title="Send ticket to the User Suspension Tracker database">
                             <i class="fa fa-paper-plane"></i>
@@ -10050,12 +10050,13 @@ Parsedown = (() => {
     }
 
     function sendUstTickets(event) {
-        let check, data, n;
+        let check, data, numError, n;
         esgst.ustButton.removeEventListener(`click`, sendUstTickets);
         esgst.ustButton.innerHTML =  `<i class="fa fa-circle-o-notch fa-spin"></i>`;
         data = ``
         n = Object.keys(esgst.ustTickets).length;
-        check = new CompletionCheck(n, () => {            
+        numError = 0;
+        check = new CompletionCheck(n, () => {
             request(data.slice(0, -1), null, `POST`, false, `https://script.google.com/macros/s/AKfycbwdKNormCJs-hEKV0GVwawgWj1a26oVtPylgmxOOvNk1Gf17A/exec`, response => {
                 let error = JSON.parse(response.responseText).error;
                 getValue(`tickets`).then(value => {
@@ -10071,6 +10072,8 @@ Parsedown = (() => {
                             esgst.numUstTickets -= 1;
                             esgst.ustTickets[code].remove();
                             delete esgst.ustTickets[code];
+                        } else {
+                            numError += 1;
                         }
                     }
                     return setValue(`tickets`, JSON.stringify(tickets));
@@ -10082,14 +10085,17 @@ Parsedown = (() => {
                         esgst.ustButton.addEventListener(`click`, sendUstTickets);
                     }
                     esgst.ustTickets = [];
-                    new Popup(``, `Tickets sent! They will be analyzed and, if accepted, added to the database in 48 hours at most.`, true).open();
+                    new Popup(``, `${n - numError} out of ${n} tickets sent! They will be analyzed and, if accepted, added to the database in 48 hours at most.${numError > 0 ? ` Try sending the tickets that failed again later.` : ``}`, true).open();
                 });
             });
         });
         for (let code in esgst.ustTickets) {
             let ticket = esgst.ustTickets[code];            
             request(null, null, `GET`, false, `/support/ticket/${code}/`, response => {
-                data += `${code}=${encodeURIComponent(parseHtml(response.responseText).getElementsByClassName(`sidebar`)[0].nextElementSibling.innerHTML.replace(/\n|\r|\r\n|\s{2,}/g, ``).trim())}&`;
+                let responseHtml = parseHtml(response.responseText);
+                if (responseHtml.getElementsByClassName(`table__column--width-fill`)[1].textContent.trim().match(/Did\sNot\sActivate\sPrevious\sWins\sThis\sMonth|Other|Multiple\sWins\sfor\sthe\sSame\sGame|Not\sActivating\sWon\sGift/)) {
+                    data += `${code}=${encodeURIComponent(responseHtml.getElementsByClassName(`sidebar`)[0].nextElementSibling.innerHTML.replace(/\n|\r|\r\n|\s{2,}/g, ``).trim())}&`;
+                }
                 check.count += 1;
             });
         }
@@ -25348,7 +25354,7 @@ Parsedown = (() => {
                         code = url.match(new RegExp(`/${key.slice(0, -1)}/(.+?)(/.*)?$`));
                         if (code) {
                             code = code[1];
-                            if (esgst.ust && key === `tickets` && (!comments[code] || !comments[code].sent)) {
+                            if (esgst.ust && key === `tickets` && (!comments[code] || !comments[code].sent) && match.getElementsByClassName(`table__column__secondary-link`)[0].textContent.trim().match(/Request\sNew\sWinner|User\sReport/)) {
                                 addUstCheckbox(code, heading.parentElement);
                             }
                             if (esgst.gdttt || esgst.ct) {
