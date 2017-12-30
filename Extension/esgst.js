@@ -4146,7 +4146,9 @@ Parsedown = (() => {
                                     <li>The database for the feature is contributed by the users of ESGST and therefore is not complete.</li>
                                     <li>To contribute yourself, you can either: go to the main tickets page, select the tickets you want to send and then click on the button with the airplane icon in the heading (there are shortcuts to help you select tickets: clicking an unchecked ticket with the Ctrl key pressed will check all tickets in the page, clicking a checked ticket with the Ctrl key pressed will uncheck all tickets in the page, and clicking on any ticket with the Alt key pressed will toggle the state of all tickets in the page - if a ticket is checked it will be changed to unchecked, and vice-versa); or go to an individual ticket and send it through the button with the airplane icon in the top right corner, next to the button you use to edit/close it.</li>
                                     <li>The button to send tickets only appears for tickets that are in the following categories: Request New Winner -> Did Not Activate Previous Wins This Month, Other; User Report -> Multiple Wins for the Same Game, Not Activating Won Gift</li>
+                                    <li>When you send a ticket, the HTML of the entire section shown in the screenshot is sent so it can be fully analyzed (this also means any comments made by staff), and there is no way to tamper with the HTML, as the script requests the ticket to confirm that it exists before sending it.</li>
                                 </ul>
+                                <img src="https://i.imgur.com/6O9pd2W.png">
                             `,
                             name: `User Suspension Tracker`,
                             new: true,
