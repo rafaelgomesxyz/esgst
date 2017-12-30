@@ -2591,6 +2591,16 @@ Parsedown = (() => {
                             name: `Created/Entered/Won Giveaway Details`,
                             sg: true
                         },
+                        cwsl: {
+                            description: `
+                                <ul>
+                                    <li>Adds links to the community wishlist that allows you to search for all active giveaways of a game that are visible to you.</li>
+                                </ul>
+                            `,
+                            name:  `Community Wishlist Search Links`,
+                            new: true,
+                            sg: true
+                        },
                         dkc: {
                             description: `
                                 <ul>
@@ -3381,7 +3391,8 @@ Parsedown = (() => {
                             name: `Unsent Gifts Sender`,
                             sg: true
                         }
-                    }
+                    },
+                    newBelow: true
 
                 },
                 discussions: {
@@ -3604,7 +3615,6 @@ Parsedown = (() => {
                                 }
                             },
                             name: `Puzzle Marker`,
-                            new: true,
                             sg: true,
                         },
                         qdb: {
@@ -4942,7 +4952,6 @@ Parsedown = (() => {
                                 },
                                 hideButtons_esNext: {
                                     name: `Endless Scrolling Button - Load Next Page`,
-                                    new: true,
                                     sg: true,
                                     st: true
                                 },
@@ -5058,8 +5067,7 @@ Parsedown = (() => {
                             sg: true,
                             st: true
                         }
-                    },
-                    newBelow: true
+                    }
                 }
             }
         };
@@ -33477,6 +33485,12 @@ Parsedown = (() => {
                 type = info.type;
                 if (!games[type][id]) {
                     games[type][id] = [];
+                }
+                if (esgst.wishlistPath && main && esgst.cwsl) {
+                    let giveawayCount = game.heading.parentElement.nextElementSibling.nextElementSibling;
+                    giveawayCount.innerHTML = `
+                        <a class="table__column__secondary-link" href="/giveaways/search?${type.slice(0, -1)}=${id}">${giveawayCount.innerHTML}</a>
+                    `;
                 }
                 if (esgst.egh) {
                     if (esgst.giveawayPath) {
