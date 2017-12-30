@@ -1558,7 +1558,8 @@ Parsedown = (() => {
                 df_m_sg: true,
                 elgb_d_sg: true,
                 gb_ue_sg: true,
-                ge_o_sg: false,
+                gc_g_s_sg: false,
+                ge_o_sg: false,                
                 gf_m_sg: true,
                 gwc_a_b_sg: false,
                 gwr_a_b_sg: false,
@@ -1651,6 +1652,7 @@ Parsedown = (() => {
                 gc_categories: [`gc_gi`, `gc_r`, `gc_fcv`, `gc_rcv`, `gc_ncv`, `gc_h`, `gc_i`, `gc_o`, `gc_w`, `gc_a`, `gc_mp`, `gc_sc`, `gc_tc`, `gc_l`, `gc_m`, `gc_ea`, `gc_rm`, `gc_dlc`, `gc_p`, `gc_g`],
                 gc_o_altAccounts: [],
                 gc_g_colors: [],
+                gc_g_filters: ``,
                 gc_fcvIcon: `calendar`,
                 gc_rcvIcon: `calendar-minus-o`,
                 gc_ncvIcon: `calendar-times-o`,
@@ -4812,13 +4814,32 @@ Parsedown = (() => {
                                         gc_g_udt: {
                                             name: `User-Defined Tags`,
                                             sg: true
+                                        },
+                                        gc_g_s: {
+                                            description: `
+                                                <ul>
+                                                    <li>If disabled, the genres/tags will be listed together, separated by commas.</li>
+                                                    <li>Custom background colors for genres/tags only work if this option is enabled.</li>
+                                                </ul>
+                                                <p>With this option enabled:</p>
+                                                <img src="https://i.imgur.com/VQ4O6B3.png">
+                                                <p>With this option enabled and custom colors:</p>
+                                                <img src="https://i.imgur.com/RSWjJhx.png">
+                                                <p>With this option disabled:</p>
+                                                <img src="https://i.imgur.com/MIKUYCj.png">
+                                            `,
+                                            name: `Show each genre/tag as a separate category.`,
+                                            new: true,
+                                            sg: true
                                         }
                                     },
                                     name: `Genres`,
+                                    newBelow: true,
                                     sg: true
                                 }
                             },
                             name: `Game Categories`,
+                            newBelow: true,
                             sg: true,
                             sync: `Hidden Games, Owned/Wishlisted/Ignored Games, Reduced CV Games, No CV Games and Giveaways`
                         },
@@ -4832,7 +4853,8 @@ Parsedown = (() => {
                             name: `Game Tags`,
                             sg: true
                         }
-                    }
+                    },
+                    newBelow: true
                 },
                 others: {
                     features: {
@@ -14399,7 +14421,7 @@ Parsedown = (() => {
                         gf[`${key}Checkbox`].checkbox.addEventListener(`click`, changeGfValue.bind(null, gf[`${key}Checkbox`], gf, key));                        
                         gf.counters[key] = categoryFilter.lastElementChild;
                         if (genres) {
-                            gf.genreListInput = categoryFilter.firstElementChild.lastElementChild;
+                            gf.genreListInput = categoryFilter.firstElementChild.nextElementSibling.nextElementSibling.firstElementChild;
                             value = (preset.genreList && preset.genreList.replace(/,(?!\s)/g, `, `)) || ``;
                             gf.genreList = gf.genreListInput.value = value;
                             gf.genreListInput.addEventListener(`change`, changeGfValue.bind(null, gf.genreListInput, gf, `genreList`));
@@ -29695,7 +29717,7 @@ Parsedown = (() => {
                         category = giveaway.outerWrap.getElementsByClassName(`esgst-gc-${id}`)[0];
                         if (category) {
                             if (id === `genres`) {
-                                giveaway.genres = category.textContent.toLowerCase().split(/,\s/);
+                                giveaway.genres = category.textContent.toLowerCase().trim().replace(/\s{2,}/g, `, `).split(/,\s/);
                             } else if (id === `rating`) {
                                 giveaway.rating = parseInt(category.title.match(/(\d+)%/)[1]);
                             } else {
@@ -29743,7 +29765,7 @@ Parsedown = (() => {
                         category = giveaway.outerWrap.getElementsByClassName(`esgst-gc-${id}`)[0];
                         if (category) {
                             if (id === `genres`) {
-                                giveaway.genres = category.textContent.toLowerCase().split(/,\s/);
+                                giveaway.genres = category.textContent.toLowerCase().trim().replace(/\s{2,}/g, `, `).split(/,\s/);
                             } else if (id === `rating`) {
                                 giveaway.rating = parseInt(category.title.match(/(\d+)%/)[1]);
                             } else {
@@ -30015,15 +30037,35 @@ Parsedown = (() => {
                         break;
                     case `gc_g`:
                         if (cache && cache.genres) {
+                            let filters;
                             genres = esgst.gc_g_udt && cache.tags ? `${cache.genres}, ${cache.tags}` : cache.genres;
                             genreList = sortArray(Array.from(new Set(genres.split(/,\s/))));
                             genres = genreList.join(`, `);
                             colored = [];
+                            if (esgst.gc_g_filters.trim()) {
+                                filters = esgst.gc_g_filters.trim().toLowerCase().split(/\s*,\s*/);
+                            }
                             for (j = genreList.length - 1; j >= 0; --j) {
                                 genre = genreList[j].toLowerCase();
-                                for (k = esgst.gc_g_colors.length - 1; k >= 0 && esgst.gc_g_colors[k].genre.toLowerCase() !== genre; --k);
-                                if (k >= 0) {
-                                    colored.push(`<span style="color: ${esgst.gc_g_colors[k].color}">${genreList.splice(j, 1)}</span>`);
+                                if (!filters || filters.indexOf(genre) > -1) {
+                                    for (k = esgst.gc_g_colors.length - 1; k >= 0 && esgst.gc_g_colors[k].genre.toLowerCase() !== genre; --k);
+                                    if (k >= 0) {
+                                        if (esgst.gc_g_s) {
+                                            colored.push(`
+                                                <a class="esgst-gc esgst-gc-genres" href="http://store.steampowered.com/${singularType}/${id}" style="background-color: ${esgst.gc_g_colors[k].bgColor} !important; color: ${esgst.gc_g_colors[k].color} !important;" title="${genreList[j]}">${genreList.splice(j, 1)}</a>
+                                            `);
+                                        } else {
+                                            colored.push(`
+                                                <span style="color: ${esgst.gc_g_colors[k].color}">${genreList.splice(j, 1)}</span>
+                                            `);
+                                        }
+                                    } else if (esgst.gc_g_s) {
+                                        genreList[j] = `
+                                            <a class="esgst-gc esgst-gc-genres" href="http://store.steampowered.com/${singularType}/${id}" title="${genreList[j]}">${genreList[j]}</a>
+                                        `;
+                                    }
+                                } else {
+                                    genreList.splice(j, 1);
                                 }
                             }
                             if (colored.length) {
@@ -30032,9 +30074,15 @@ Parsedown = (() => {
                                     genreList.unshift(colored[j]);
                                 }
                             }
-                            elements.push(`
-                                <a class="esgst-gc esgst-gc-genres" href="http://store.steampowered.com/${singularType}/${id}" title="${genres}">${genreList.join(`, `)}</a>
-                            `);
+                            if (esgst.gc_g_s) {
+                                elements.push(`
+                                    <span class="esgst-gc-genres">${genreList.join(``)}</span>
+                                `);
+                            } else if (genreList.length > 0) {
+                                elements.push(`
+                                    <a class="esgst-gc esgst-gc-genres" href="http://store.steampowered.com/${singularType}/${id}" title="${genres}">${genreList.join(`, `)}</a>
+                                `);
+                            }
                         }
                         break;
                 }
@@ -31107,6 +31155,17 @@ Parsedown = (() => {
                 setSetting(`${ID}_bgColor`, bgColorContext.value);
             });
             if (ID === `gc_g`) {
+                input = insertHtml(SMFeatures, `beforeEnd`, `
+                    <div class="esgst-sm-colors">
+                        <span class="esgst-bold esgst-red" title="This is a new feature/option">[NEW]</span>
+                        Only show the following genres: <input type="text" value="${esgst.gc_g_filters}">
+                        <i class="fa fa-question-circle" title="If you enter genres here, a genre category will only appear if the game has the listed genre. Separate genres with a comma, for example: Genre1, Genre2"></i>
+                    </div>
+                `);
+                input.firstElementChild.nextElementSibling.addEventListener(`change`, function() {
+                    setSetting(`gc_g_filters`, input.firstElementChild.nextElementSibling.value);
+                    esgst.gc_g_filters = input.firstElementChild.nextElementSibling.value;
+                });
                 addGcMenuPanel(SMFeatures);
             } else if (ID === `gc_o`) {
                 addGcAltMenuPanel(SMFeatures);
@@ -31395,6 +31454,7 @@ Parsedown = (() => {
         }
         button.addEventListener(`click`, function () {
             colorSetting = {
+                bgColor: `#7f8c8d`,
                 color: `#ffffff`,
                 genre: ``
             };
@@ -31407,18 +31467,23 @@ Parsedown = (() => {
         var color, genre, i, n, remove, setting;
         setting = insertHtml(panel, `beforeEnd`, `
             <div>
-                For genre <input type="text" value="${colorSetting.genre}"/>, color it as <input type="color" value="${colorSetting.color}"/>. <i class="esgst-clickable fa fa-times" title="Delete this setting"></i>
+                For genre <input type="text" value="${colorSetting.genre}"/>, color it as <input type="color" value="${colorSetting.color}"> with background <input type="color" value="${colorSetting.bgColor}">. <i class="esgst-clickable fa fa-times" title="Delete this setting"></i>
             </div>
         `);
         genre = setting.firstElementChild;
         color = genre.nextElementSibling;
-        remove = color.nextElementSibling;
+        bgColor = color.nextElementSibling;
+        remove = bgColor.nextElementSibling;
         genre.addEventListener(`change`, function () {
             colorSetting.genre = genre.value;
             setSetting(`gc_g_colors`, esgst.gc_g_colors);
         });
         color.addEventListener(`change`, function () {
             colorSetting.color = color.value;
+            setSetting(`gc_g_colors`, esgst.gc_g_colors);
+        });
+        bgColor.addEventListener(`change`, function () {
+            colorSetting.bgColor = bgColor.value;
             setSetting(`gc_g_colors`, esgst.gc_g_colors);
         });
         remove.addEventListener(`click`, function () {
@@ -37798,12 +37863,16 @@ Parsedown = (() => {
                 background-color: #b9a074;
             }
 
-            .esgst-gc-genres {
+            a.esgst-gc-genres {
                 max-width: 150px;
                 overflow: hidden;
                 text-overflow: ellipsis;
                 vertical-align: middle;
                 white-space: nowrap;
+            }
+
+            span.esgst-gc-genres {
+                background: none !important;
             }
 
             .esgst-gf-right-panel {
@@ -38253,10 +38322,6 @@ Parsedown = (() => {
 
             .esgst-gv-popout .esgst-gc-panel i, .esgst-gv-popout .giveaway__links i, .esgst-gv-popout .esgst-gwc i, .esgst-gv-popout .esgst-gwr i, .esgst-gv-popout .esgst-ggl-panel, .esgst-gv-popout .esgst-ggl-panel i {
                 font-size: 11px;
-            }
-
-            .esgst-gv-popout .esgst-gc-genres {
-                margin: 0;
             }
 
             .esgst-gv-popout .giveaway__columns:not(.esgst-giveaway-panel):not(.esgst-gv-icons) {
