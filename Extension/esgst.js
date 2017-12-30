@@ -14460,6 +14460,7 @@ Parsedown = (() => {
                     preset[key] = gf[key];
                 }
             });
+            preset.exceptions = gf.exceptions;
             preset.overrides = gf.overrides;
             getValue(`filterPresets`, `[]`).then(value => {
                 presets = JSON.parse(value);
@@ -22719,6 +22720,7 @@ Parsedown = (() => {
                     preset[key] = df[key];
                 }
             });
+            preset.exceptions = df.exceptions;
             preset.overrides = df.overrides;
             getValue(`dfPresets`, `[]`).then(value => {
                 presets = JSON.parse(value);
