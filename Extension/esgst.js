@@ -1869,6 +1869,8 @@ Parsedown = (() => {
             profileFeatures: [],
             popups: [],
             openPopups: 0,
+            ustTickets: {},
+            numUstTickets: 0,
             elgbCache: JSON.parse(getLocalValue(`elgbCache`, `{"descriptions": {}, "timestamp": ${Date.now()}}`)),
             menuPath: location.pathname.match(/^\/esgst\//),
             settingsPath: location.pathname.match(/^\/esgst\/settings/),
@@ -5630,6 +5632,7 @@ Parsedown = (() => {
                 {id: `glwc`, side: `left`},
                 {id: `stbb`, side: `right`},
                 {id: `sttb`, side: `right`},
+                {id: `ust`, side: `left`},
                 {id: `wbm`, side: `left`}
             ].forEach(item => {
                 if (esgst.leftButtonIds.indexOf(item.id) < 0 && esgst.rightButtonIds.indexOf(item.id) < 0) {
@@ -9789,12 +9792,30 @@ Parsedown = (() => {
             loadCommentFeatures(document, true);
         }
 
-        if (esgst.ticketPath) {
-            insertHtml(document.getElementsByClassName(`page__heading`)[0].lastElementChild, `beforeBegin`, `
-                <div class="esgst-heading-button" title="Send ticket to the User Suspension Tracker database">
-                    <i class="fa fa-paper-plane"></i>
-                </div>
-            `).addEventListener(`click`, sendUstTicket);
+        if (esgst.ust) {
+            if (esgst.ticketsPath) {
+                let key, position;
+                if (esgst.leftButtonIds.indexOf(`ust`) > -1) {
+                    key = `leftButtons`;
+                    position = `afterBegin`;
+                } else {
+                    key = `rightButtons`;
+                    position = `beforeEnd`;
+                }
+                esgst.ustButton = insertHtml(esgst.hideButtons && esgst.hideButtons_ust ? esgst[key] : esgst.mainPageHeading, position, `
+                   <div class="esgst-heading-button" title="Send selected tickets to the User Suspension Tracker database">
+                        <i class="fa fa-paper-plane"></i>
+                    </div>
+                `);
+                esgst.ustButton.addEventListener(`click`, sendUstTickets);
+            } else if (esgst.ticketPath) {
+                esgst.ustButton = insertHtml(document.getElementsByClassName(`page__heading`)[0].lastElementChild, `beforeBegin`, `
+                    <div class="esgst-heading-button" title="Send ticket to the User Suspension Tracker database">
+                        <i class="fa fa-paper-plane"></i>
+                    </div>
+                `);
+                esgst.ustButton.addEventListener(`click`, sendUstTicket);
+            }
         }
 
         if (esgst.userPath || esgst.ap) {
@@ -10013,15 +10034,79 @@ Parsedown = (() => {
         `;
     }
 
+    function sendUstTickets(event) {
+        let check, data, n;
+        esgst.ustButton.removeEventListener(`click`, sendUstTickets);
+        esgst.ustButton.innerHTML =  `<i class="fa fa-circle-o-notch fa-spin"></i>`;
+        data = ``
+        n = Object.keys(esgst.ustTickets).length;
+        check = new CompletionCheck(n, () => {            
+            request(data.slice(0, -1), null, `POST`, false, `https://script.google.com/macros/s/AKfycbwdKNormCJs-hEKV0GVwawgWj1a26oVtPylgmxOOvNk1Gf17A/exec`, response => {
+                let error = JSON.parse(response.responseText).error;
+                console.log(error);
+                getValue(`tickets`).then(value => {
+                    let tickets = JSON.parse(value);
+                    for (code in esgst.ustTickets) {
+                        if (error.indexOf(code) < 0) {
+                            if (!tickets[code]) {
+                                tickets[code] = {
+                                    readComments: {}
+                                };
+                            }
+                            tickets[code].sent = 1;
+                            esgst.numUstTickets -= 1;
+                            esgst.ustTickets[code].remove();
+                            delete esgst.ustTickets[code];
+                        }
+                    }
+                    return setValue(`tickets`, JSON.stringify(tickets));
+                }).then(() => {
+                    if (n === esgst.numUstTickets) {
+                        esgst.ustButton.remove();
+                    } else {
+                        esgst.ustButton.innerHTML = `<i class="fa fa-paper-plane"></i>`;
+                        esgst.ustButton.addEventListener(`click`, sendUstTickets);
+                    }
+                    esgst.ustTickets = [];
+                    new Popup(``, `Tickets sent! They will be analyzed and, if accepted, added to the database in 48 hours at most.`, true).open();
+                });
+            });
+        });
+        for (let code in esgst.ustTickets) {
+            let ticket = esgst.ustTickets[code];            
+            request(null, null, `GET`, false, `/support/ticket/${code}/`, response => {
+                data += `${code}=${encodeURIComponent(parseHtml(response.responseText).getElementsByClassName(`sidebar`)[0].nextElementSibling.innerHTML.replace(/\n|\r|\r\n|\s{2,}/g, ``).trim())}&`;
+                check.count += 1;
+            });
+        }
+    }
+
     function sendUstTicket(event) {
-        let button = event.currentTarget;
-        button.removeEventListener(`click`, sendUstTicket);
-        button.innerHTML =  `<i class="fa fa-circle-o-notch fa-spin"></i>`;
+        let code = location.href.match(/\/ticket\/(.+?)\//)[1];
+        esgst.ustButton.removeEventListener(`click`, sendUstTicket);
+        esgst.ustButton.innerHTML =  `<i class="fa fa-circle-o-notch fa-spin"></i>`;
         request(null, null, `GET`, false, location.href, response => {
-            request(`ticket=${encodeURIComponent(parseHtml(response.responseText).getElementsByClassName(`sidebar`)[0].nextElementSibling.innerHTML.replace(/\n|\r|\r\n|\s{2,}/g, ``).trim())}`, null, `POST`, false, `https://script.google.com/macros/s/AKfycbwdKNormCJs-hEKV0GVwawgWj1a26oVtPylgmxOOvNk1Gf17A/exec`, () => {
-                button.innerHTML = `<i class="fa fa-paper-plane"></i>`;
-                button.addEventListener(`click`, sendUstTicket);
-                new Popup(``, `Ticket sent! It will be analyzed and, if accepted, added to the database in 48 hours at most.`, true).open();
+            request(`${code}=${encodeURIComponent(parseHtml(response.responseText).getElementsByClassName(`sidebar`)[0].nextElementSibling.innerHTML.replace(/\n|\r|\r\n|\s{2,}/g, ``).trim())}`, null, `POST`, false, `https://script.google.com/macros/s/AKfycbwdKNormCJs-hEKV0GVwawgWj1a26oVtPylgmxOOvNk1Gf17A/exec`, response => {
+                let error = JSON.parse(response.responseText).error;
+                if (error.length === 0) {
+                    getValue(`tickets`).then(value => {
+                        let tickets = JSON.parse(value);
+                        if (!tickets[code]) {
+                            tickets[code] = {
+                                readComments: {}
+                            };
+                        }
+                        tickets[code].sent = 1;
+                        return setValue(`tickets`, JSON.stringify(tickets));
+                    }).then(() => {
+                        esgst.ustButton.remove();
+                        new Popup(``, `Ticket sent! It will be analyzed and, if accepted, added to the database in 48 hours at most.`, true).open();
+                    });
+                } else {
+                    esgst.ustButton.innerHTML = `<i class="fa fa-paper-plane"></i>`;
+                    esgst.ustButton.addEventListener(`click`, sendUstTicket);
+                    new Popup(``, `An error ocurred. Please try again later.`, true).open();
+                }
             });
         });
     }
@@ -25188,7 +25273,7 @@ Parsedown = (() => {
     }
 
     function addCtDiscussionPanels(context, main, source, endless, dh) {
-        var code, comments, count, countLink, diff, i, id, j, match, matches, n, read, url, key;
+        var code, comments, count, countLink, diff, heading, i, id, j, match, matches, n, read, url, key;
         if (esgst.discussionsPath || dh) {
             key = `discussions`;
         } else if (esgst.ticketsPath) {
@@ -25206,35 +25291,41 @@ Parsedown = (() => {
                 countLink = match.querySelector(`.table__column__secondary-link[href*="/discussion/"], .table__column--width-small.text-center, .column_small.text_center`);
                 if (countLink) {
                     count = parseInt(countLink.textContent.replace(/,/g, ``));
-                    url = match.querySelector(`.homepage_table_column_heading, .table__column__heading, .column_flex h3 a`).getAttribute(`href`);
+                    heading = match.querySelector(`.homepage_table_column_heading, .table__column__heading, .column_flex h3 a`);
+                    url = heading.getAttribute(`href`);
                     if (url) {
                         code = url.match(new RegExp(`/${key.slice(0, -1)}/(.+?)(/.*)?$`));
                         if (code) {
                             code = code[1];
-                            if (comments[code]) {
-                                if (esgst.ct_s) {
-                                    read = comments[code].count || (esgst.ct_s_h ? count : 0);
-                                } else {
-                                    read = 0;
-                                    for (id in comments[code].readComments) {
-                                        if (!id.match(/^(Count|undefined|)$/) && comments[code].readComments[id]) {
-                                            ++read;
+                            if (esgst.ust && key === `tickets` && (!comments[code] || !comments[code].sent)) {
+                                addUstCheckbox(code, heading.parentElement);
+                            }
+                            if (esgst.gdttt || esgst.ct) {
+                                if (comments[code]) {
+                                    if (esgst.ct_s) {
+                                        read = comments[code].count || (esgst.ct_s_h ? count : 0);
+                                    } else {
+                                        read = 0;
+                                        for (id in comments[code].readComments) {
+                                            if (!id.match(/^(Count|undefined|)$/) && comments[code].readComments[id]) {
+                                                ++read;
+                                            }
                                         }
                                     }
+                                    diff = count === read ? 0 : count - read;
+                                } else if (esgst.ct_s && esgst.ct_s_h) {
+                                    diff = 0;
+                                } else {
+                                    diff = count;
                                 }
-                                diff = count === read ? 0 : count - read;
-                            } else if (esgst.ct_s && esgst.ct_s_h) {
-                                diff = 0;
-                            } else {
-                                diff = count;
-                            }
-                            if (key === `discussions` && diff > 0) {
-                                for (j = esgst.currentDiscussions.length - 1; j > -1 && esgst.currentDiscussions[j].code !== code; --j);
-                                if (j > -1) {
-                                    esgst.currentDiscussions[j].unread = true;
+                                if (key === `discussions` && diff > 0) {
+                                    for (j = esgst.currentDiscussions.length - 1; j > -1 && esgst.currentDiscussions[j].code !== code; --j);
+                                    if (j > -1) {
+                                        esgst.currentDiscussions[j].unread = true;
+                                    }
                                 }
+                                addCtDiscussionPanel(code, comments, match, countLink, count, diff, url, key, dh);
                             }
-                            addCtDiscussionPanel(code, comments, match, countLink, count, diff, url, key, dh);
                         }
                     }
                 }
@@ -32611,6 +32702,17 @@ Parsedown = (() => {
         }
     }
 
+    function addUstCheckbox(code, context) {
+        if (!context.getElementsByClassName(`esgst-ust-checkbox`)[0]) {
+            let checkbox = new Checkbox(context);
+            checkbox.checkbox.classList.add(`esgst-ust-checkbox`);
+            checkbox.onEnabled = () => {
+                esgst.ustTickets[code] = checkbox.checkbox;
+            };
+            esgst.numUstTickets += 1;
+        }
+    }
+
     function loadCommentFeatures(context, main) {
         var count, comments, i, n, pagination;
         getComments(context, document, main).then(comments => {
@@ -36830,7 +36932,7 @@ Parsedown = (() => {
                 margin: 0 5px 0 0;
             }
 
-            .esgst-pm-button {
+            .esgst-pm-button, .esgst-ust-checkbox {
                 cursor: pointer;
                 margin-left: -65px;
                 margin-top: 8.5px;
