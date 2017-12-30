@@ -9714,7 +9714,7 @@ Parsedown = (() => {
                             <i class="fa fa-chevron-circle-up"></i>
                         </div>
                     `);
-                    button.addEventListener(`click`, getTbTrades.bind(null, button));
+                    button.addEventListener(`click`, getTbTrades.bind(null, button, document));
                     if (esgst.tb_a) {
                         setTbAutoBump(button);
                     }
