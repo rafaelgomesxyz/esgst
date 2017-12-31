@@ -1,7 +1,3 @@
-**ESGST will not be compatible with Greasemonkey v4. Since Greasemonkey v4's API works asynchronously, I would have to rewrite the entire structure of the script to make it compatible and that's just not going to happen. You can either use another userscript manager or switch to the extension, which is compatible with Firefox v57.**
-
----
-
 # ESGST - Enhanced SteamGifts & SteamTrades
 
 A script that adds some cool features to SteamGifts and SteamTrades.
