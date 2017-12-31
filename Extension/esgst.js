@@ -23362,7 +23362,7 @@ Parsedown = (() => {
                     }
                     comments[code].highlighted = true;
                     comments[code].lastUsed = Date.now();
-                    return etValue(`discussions`, JSON.stringify(comments));
+                    return setValue(`discussions`, JSON.stringify(comments));
                 }).then(() => {
                     context.classList.add(`esgst-dh-highlighted`);
                     deleteLock();
