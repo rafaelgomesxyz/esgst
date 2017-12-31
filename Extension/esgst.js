@@ -25073,6 +25073,9 @@ Parsedown = (() => {
                             goToComment(unread.id, unread.comment);
                         }
                     }
+                    if (callback) {
+                        callback(found);
+                    }
                 } else {
                     if (esgst.sg) {
                         setValues({
