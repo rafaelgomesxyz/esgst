@@ -9381,12 +9381,13 @@ Parsedown = (() => {
         if (esgst.hbs) {
             loadHbs();
         }
-
+    
+        if ((esgst.ct && (esgst.giveawaysPath || esgst.discussionsPath)) || (esgst.gdttt && (esgst.giveawaysPath || esgst.discussionsPath || esgst.discussionsTicketsTradesPath)) || (esgst.ust && esgst.ticketsPath)) {
+            esgst.endlessFeatures.push(addCtDiscussionPanels);
+            await addCtDiscussionPanels(document);
+        }
+    
         if (esgst.gdttt) {
-            if (((esgst.giveawaysPath || esgst.discussionsPath) && !esgst.ct) || (!esgst.giveawaysPath && !esgst.discussionsPath && esgst.discussionsTicketsTradesPath)) {
-                esgst.endlessFeatures.push(addCtDiscussionPanels);
-                await addCtDiscussionPanels(document);
-            }
             if (esgst.commentsPath) {
                 let match = location.pathname.match(/(giveaway|discussion|ticket|trade)\/(.+?)\//);
                 let type = `${match[1]}s`;
@@ -24653,13 +24654,6 @@ Parsedown = (() => {
     /* [CT] Comment Tracker */
 
     async function loadCt() {
-        if ((esgst.giveawaysPath || esgst.commentsPath || esgst.inboxPath || esgst.discussionsPath) && !document.getElementsByClassName(`table--summary`)[0]) {
-            if (esgst.commentsPath || esgst.inboxPath) {
-            } else {
-                esgst.endlessFeatures.push(addCtDiscussionPanels);
-                await addCtDiscussionPanels(document);
-            }
-        }
         if (((esgst.commentsPath && (!esgst.giveawayPath || !document.getElementsByClassName(`table--summary`)[0])) || esgst.inboxPath) && !esgst.ct_s) {
             if (!esgst.ct_s) {
                 let button1, button2, button3;
