@@ -19046,111 +19046,104 @@ Parsedown = (() => {
 
     /* [RCVC] Real CV Calculator */
 
-    function loadRcvc() {
+    async function loadRcvc() {
         if (esgst.newGiveawayPath) {
             var table = document.getElementsByClassName(`table--summary`)[0], button;
             if (table) {
-                getValue(`rcvcGame`).then(value => {
-                    var game = value;
-                    if (game) {
-                        var type = game.type;
-                        var id = game.id;
-                        var i, n;
-                        var headings = document.getElementsByClassName(`featured__heading__small`);
-                        var copies = headings.length > 1 ? parseInt(headings[0].textContent.match(/\d+/)[0]) : 1;
-                        request(null, null, `GET`, false, `http://store.steampowered.com/api/${type === `apps` ? `appdetails?appids` : `packagedetails?packageids`}=${id}&cc=us&filters=price,price_overview`, response => {
-                            try {
-                                var responseJson = JSON.parse(response.responseText)[id].data;
-                                var value = Math.ceil((responseJson.price_overview || responseJson.price).initial / 100);
-                                var games, user;
-                                getValue(`games`).then(value => {
-                                    games = JSON.parse(value);
-                                    if (games[type][id]) {
-                                        if (games[type][id].noCV) {
-                                            value = 0;
-                                        } else if (games[type][id].reducedCV) {
-                                            value *= 0.15;
-                                        }
-                                    }
-                                    user = {
-                                        Username: esgst.username,
-                                        SteamID64: esgst.steamId
-                                    };
-                                    return getValue(`users`);
-                                }).then(value => {
-                                    var users = JSON.parse(value);
-                                    var savedUser = users.users[user.SteamID64];
-                                    var sent = 0;
-                                    var currentDate = Date.now();
-                                    if (savedUser && savedUser.giveaways && savedUser.giveaways.sent && savedUser.giveaways.sent[type][id]) {
-                                        var giveaways = savedUser.giveaways.sent[type][id];
-                                        for (i = 0, n = giveaways.length; i < n; ++i) {
-                                            var giveaway = esgst.giveaways[giveaways[i]];
-                                            if (giveaway) {
-                                                if (giveaway.entries >= 5 || (!giveaway.inviteOnly && !giveaway.group && !giveaway.whitelist)) {
-                                                    if (Array.isArray(giveaway.winners)) {
-                                                        if (giveaway.winners.length > 0) {
-                                                            giveaway.winners.forEach(winner => {
-                                                                if (winner.received) {
-                                                                    sent += 1;
-                                                                }
-                                                            });
-                                                        } else if (currentDate < giveaway.endTime) {
-                                                            sent += giveaway.copies;
+                var game = await getValue(`rcvcGame`);
+                if (game) {
+                    var type = game.type;
+                    var id = game.id;
+                    var i, n;
+                    var headings = document.getElementsByClassName(`featured__heading__small`);
+                    var copies = headings.length > 1 ? parseInt(headings[0].textContent.match(/\d+/)[0]) : 1;
+                    request(null, null, `GET`, false, `http://store.steampowered.com/api/${type === `apps` ? `appdetails?appids` : `packagedetails?packageids`}=${id}&cc=us&filters=price,price_overview`, async response => {
+                        try {                           var responseJson = JSON.parse(response.responseText)[id].data;
+                            var value = Math.ceil((responseJson.price_overview || responseJson.price).initial / 100);
+                            var games, user;
+                            games = JSON.parse(await getValue(`games`));
+                            if (games[type][id]) {
+                                if (games[type][id].noCV) {
+                                    value = 0;
+                                } else if (games[type][id].reducedCV) {
+                                    value *= 0.15;
+                                }
+                            }
+                            user = {
+                                Username: esgst.username,
+                                SteamID64: esgst.steamId
+                            };
+                            var users = JSON.parse(await getValue(`users`));
+                            var savedUser = users.users[user.SteamID64];
+                            var sent = 0;
+                            var currentDate = Date.now();
+                            if (savedUser && savedUser.giveaways && savedUser.giveaways.sent && savedUser.giveaways.sent[type][id]) {
+                                var giveaways = savedUser.giveaways.sent[type][id];
+                                for (i = 0, n = giveaways.length; i < n; ++i) {
+                                    var giveaway = esgst.giveaways[giveaways[i]];
+                                    if (giveaway) {
+                                        if (giveaway.entries >= 5 || (!giveaway.inviteOnly && !giveaway.group && !giveaway.whitelist)) {
+                                            if (Array.isArray(giveaway.winners)) {
+                                                if (giveaway.winners.length > 0) {
+                                                    giveaway.winners.forEach(winner => {
+                                                        if (winner.received) {
+                                                            sent += 1;
                                                         }
-                                                    } else if (giveaway.winners > 0) {
-                                                        sent += Math.min(giveaway.entries, giveaway.winners);
-                                                    }
+                                                    });
                                                 } else if (currentDate < giveaway.endTime) {
                                                     sent += giveaway.copies;
                                                 }
+                                            } else if (giveaway.winners > 0) {
+                                                sent += Math.min(giveaway.entries, giveaway.winners);
                                             }
-                                        }
-                                        if (sent > 5) {
-                                            for (i = 0, n = sent - 5; i < n; ++i) {
-                                                value *= 0.90;
-                                            }
+                                        } else if (currentDate < giveaway.endTime) {
+                                            sent += giveaway.copies;
                                         }
                                     }
-                                    var cv;
-                                    if (copies > 1) {
-                                        var total = copies + sent;
-                                        if (total > 5) {
-                                            n = total - 5;
-                                            cv = (copies - n) * value;
-                                            for (i = 0; i < n; ++i) {
-                                                value *= 0.90;
-                                                cv += value;
-                                            }
-                                        } else {
-                                            cv = value * copies;
-                                        }
-                                    } else if ((sent + 1) > 5) {
-                                        cv = value * 0.90;
-                                    } else {
-                                        cv = value;
+                                }
+                                if (sent > 5) {
+                                    for (i = 0, n = sent - 5; i < n; ++i) {
+                                        value *= 0.90;
                                     }
-                                    cv = Math.round(cv * 100) / 100;
-                                    var html = `
-                                        <div class="table__row-outer-wrap">
-                                            <div class="table__row-inner-wrap">
-                                                <div class="table__column--width-medium table__column--align-top">
-                                                    <span class="esgst-bold">Real CV</span>
-                                                </div>
-                                                <div class="table__column--width-fill">You should get ~$${cv} real CV for this giveaway.</div>
-                                            </div>
+                                }
+                            }
+                            var cv;
+                            if (copies > 1) {
+                                var total = copies + sent;
+                                if (total > 5) {
+                                    n = total - 5;
+                                    cv = (copies - n) * value;
+                                    for (i = 0; i < n; ++i) {
+                                        value *= 0.90;
+                                        cv += value;
+                                    }
+                                } else {
+                                    cv = value * copies;
+                                }
+                            } else if ((sent + 1) > 5) {
+                                cv = value * 0.90;
+                            } else {
+                                cv = value;
+                            }
+                            cv = Math.round(cv * 100) / 100;
+                            var html = `
+                                <div class="table__row-outer-wrap">
+                                    <div class="table__row-inner-wrap">
+                                        <div class="table__column--width-medium table__column--align-top">
+                                            <span class="esgst-bold">Real CV</span>
                                         </div>
-                                    `;
-                                    table.insertAdjacentHTML(`beforeEnd`, html);
-                                });
-                            } catch (e) {}
-                            button = document.getElementsByClassName(`js__submit-form`)[0];
-                            button.addEventListener(`click`, function () {
-                                delValue(`rcvcGame`);
-                            });
-                        });
-                    }
-                });
+                                        <div class="table__column--width-fill">You should get ~$${cv} real CV for this giveaway.</div>
+                                    </div>
+                                </div>
+                            `;
+                            table.insertAdjacentHTML(`beforeEnd`, html);
+                        } catch (e) {}
+                    });
+                    button = document.getElementsByClassName(`js__submit-form`)[0];
+                    button.addEventListener(`click`, function () {
+                        delValue(`rcvcGame`);
+                    });
+                }
             } else {
                 button = document.getElementsByClassName(`js__submit-form`)[0];
                 var input = document.querySelector(`[name="game_id"]`);
