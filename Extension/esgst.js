@@ -9732,7 +9732,7 @@ Parsedown = (() => {
         
         /* [QGB] Quick Discussion Browsing */
 
-        if (esgst.qgb) {
+        if (esgst.qdb) {
             let html = ``;
             [
                 {description: `Help the community by categorizing uncategorized discussions.`, icon: `fa-question-circle grey`, name: `Help Categorize`, url: `/tools/categorize-discussions`},
