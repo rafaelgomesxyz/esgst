@@ -24344,17 +24344,16 @@ Parsedown = (() => {
                             codes.push(decryptGedCode(encryptedCode));
                         }
                     }
-                    saveGedGiveaways(codes, id, function () {
+                    saveGedGiveaways(codes, id, async function () {
                         if (esgst.rfi && esgst.rfi_s) {
-                            saveRfiReply(id, Reply.outerHTML, MR.url);
+                            await saveRfiReply(id, Reply.outerHTML, MR.url);
                         }
                         addRMLLink(MR.Container, [Reply]);
-                        loadEndlessFeatures(Reply).then(() => {
-                            MR.Box.remove();
-                            MR.Box = null;
-                            MR.Children.appendChild(Reply);
-                            location.hash = id;
-                        });
+                        await loadEndlessFeatures(Reply);
+                        MR.Box.remove();
+                        MR.Box = null;
+                        MR.Children.appendChild(Reply);
+                        location.hash = id;
                     });
                 } else {
                     DEDStatus.innerHTML = `
@@ -24374,17 +24373,16 @@ Parsedown = (() => {
                             codes.push(decryptGedCode(encryptedCode));
                         }
                     }
-                    saveGedGiveaways(codes, id, function () {
+                    saveGedGiveaways(codes, id, async function () {
                         if (esgst.rfi && esgst.rfi_s) {
-                            saveRfiReply(id, Reply.outerHTML, MR.url);
+                            await saveRfiReply(id, Reply.outerHTML, MR.url);
                         }
                         addRMLLink(MR.Container, [Reply]);
-                        loadEndlessFeatures(Reply).then(() => {
-                            MR.Box.remove();
-                            MR.Box = null;
-                            MR.Children.appendChild(Reply);
-                            location.hash = id;
-                        });
+                        await loadEndlessFeatures(Reply);
+                        MR.Box.remove();
+                        MR.Box = null;
+                        MR.Children.appendChild(Reply);
+                        location.hash = id;
                     });
                 } else {
                     DEDStatus.innerHTML = `
@@ -24401,12 +24399,12 @@ Parsedown = (() => {
     }
 
     function saveRfiReply(id, reply, url, edit) {
-        var i, n, source, saved;
-        if (url) {
-            source = url.match(/\/comment\/(.+)/)[1];
-        }
-        getValue(`${esgst.name}RfiCache`, `{}`).then(value => {
-            saved = JSON.parse(value);
+        return new Promise(async (resolve, reject) => {
+            var i, n, source, saved;
+            if (url) {
+                source = url.match(/\/comment\/(.+)/)[1];
+            }
+            saved = JSON.parse(await getValue(`${esgst.name}RfiCache`, `{}`));
             if (edit) {
                 for (key in saved) {
                     for (i = 0, n = saved[key].length; i < n && saved[key][i].id !== id; ++i);
@@ -24425,15 +24423,16 @@ Parsedown = (() => {
                     timestamp: Date.now()
                 });
             }
-            setValue(`${esgst.name}RfiCache`, JSON.stringify(saved));
+            await setValue(`${esgst.name}RfiCache`, JSON.stringify(saved));
+            resolve();
         });
     }
 
     function getRfiReplies(comments, main) {
-        var children, comment, i, id, ids, j, key, n, numReplies, saved;
-        ids = [];
-        getValue(`${esgst.name}RfiCache`, `{}`).then(value => {
-            saved = JSON.parse(value);
+        return new Promise(async (resolve, reject) => {
+            var children, comment, i, id, ids, j, key, n, numReplies, saved;
+            ids = [];
+            saved = JSON.parse(await getValue(`${esgst.name}RfiCache`, `{}`));
             for (i = 0, n = comments.length; i < n; ++i) {
                 comment = comments[i];
                 id = comment.id;
@@ -24443,7 +24442,7 @@ Parsedown = (() => {
                         insertHtml(children, `beforeEnd`, saved[id][j].reply).querySelector(`[data-timestamp]`).textContent = getTimeSince(saved[id][j].timestamp);
                     }
                     if (main) {
-                        loadEndlessFeatures(children);
+                        await loadEndlessFeatures(children);
                     }
                 }
             }
@@ -24459,7 +24458,8 @@ Parsedown = (() => {
                     delete saved[key];
                 }
             }
-            setValue(`${esgst.name}RfiCache`, JSON.stringify(saved));
+            await setValue(`${esgst.name}RfiCache`, JSON.stringify(saved));
+            resolve();
         });
     }
 
@@ -24541,7 +24541,7 @@ Parsedown = (() => {
                                     codes.push(decryptGedCode(encryptedCode));
                                 }
                             }
-                            saveGedGiveaways(codes, MR.url.match(/\/comment\/(.+)/)[1], function () {
+                            saveGedGiveaways(codes, MR.url.match(/\/comment\/(.+)/)[1], async function () {
                                 if (esgst.rfi && esgst.rfi_s) {
                                     var reply = MR.Comment.cloneNode(true);
                                     if (esgst.sg) {
@@ -24555,7 +24555,7 @@ Parsedown = (() => {
                                             <div class="comment_children"></div>
                                         `;
                                     }
-                                    saveRfiReply(MR.url.match(/\/comment\/(.+)/)[1], reply.outerHTML, null, true);
+                                    await saveRfiReply(MR.url.match(/\/comment\/(.+)/)[1], reply.outerHTML, null, true);
                                 }
                                 DisplayState.innerHTML = ResponseHTML.getElementsByClassName(esgst.sg ? `comment__display-state` : `comment_body_default`)[0].innerHTML;
                                 EditState.classList.add(esgst.sg ? `is-hidden` : `is_hidden`);
@@ -24615,7 +24615,7 @@ Parsedown = (() => {
         }
     }
 
-    function editMrReply(mr, response) {
+    async function editMrReply(mr, response) {
         var responseHtml, responseJson;
         responseJson = JSON.parse(response.responseText);
         if (responseJson.type === `success` || responseJson.success) {
@@ -24638,9 +24638,9 @@ Parsedown = (() => {
                         <div class="comment_children"></div>
                     `;
                 }
-                saveRfiReply(mr.url.match(/\/comment\/(.+)/)[1], reply.outerHTML, null, true);
+                await saveRfiReply(mr.url.match(/\/comment\/(.+)/)[1], reply.outerHTML, null, true);
             }
-            loadEndlessFeatures(mr.Container);
+            await loadEndlessFeatures(mr.Container);
         }
     }
 
@@ -32664,7 +32664,7 @@ Parsedown = (() => {
                 getCtComments(count, comments);
             }
             if (esgst.rfi && esgst.rfi_s && esgst.inboxPath) {
-                getRfiReplies(comments, main);
+                await getRfiReplies(comments, main);
             }
             resolve();
         });
@@ -34191,7 +34191,7 @@ Parsedown = (() => {
 
     function loadEndlessFeatures(context, main, source, endless) {
         return new Promise(async (resolve, reject) => {
-            for (let i = 0, n = esgst.endlessFeatures; i < n; i++) {
+            for (let i = 0, n = esgst.endlessFeatures.length; i < n; i++) {
                 await esgst.endlessFeatures[i](context, main, source, endless);
             }
             resolve();
