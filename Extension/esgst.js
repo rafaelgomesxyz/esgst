@@ -19210,7 +19210,7 @@ Parsedown = (() => {
             ugs.unsent = ugs.sent.nextElementSibling;
             ugs.unsentCount = ugs.unsent.firstElementChild.firstElementChild;
             ugs.unsentGifts = ugs.unsent.lastElementChild;
-            ugs.popup.description.appendChild(new ButtonSet(`green`, `red`, `fa-send`, `fa-times-circle`, `Send`, `Cancel`, startUgsSender.bind(null, ugs), cancelUgsSender.bind(null, ugs)).set);
+            ugs.popup.description.appendChild(new ButtonSet_v2({color1: `green`, color2: `red`, icon1: `fa-send`, icon2: `fa-times-circle`, title1: `Send`, title2: `Cancel`, callback1: startUgsSender.bind(null, ugs), callback2: cancelUgsSender.bind(null, ugs)}).set);
             ugs.progress = insertHtml(ugs.popup.description, `beforeEnd`, `<div></div>`);
             ugs.overallProgress = insertHtml(ugs.popup.description, `beforeEnd`, `<div></div>`);
             ugs.popup.description.appendChild(ugs.popup.scrollable);
@@ -19222,50 +19222,56 @@ Parsedown = (() => {
         setSetting(`ugs_difference`, event.currentTarget.value);
     }
 
-    function startUgsSender(ugs, callback) {
-        var unsent;
-        ugs.button.classList.add(`esgst-busy`);
-        ugs.results.classList.add(`esgst-hidden`);
-        ugs.sent.classList.add(`esgst-hidden`);
-        ugs.unsent.classList.add(`esgst-hidden`);
-        ugs.sentCount.textContent = ugs.unsentCount.textContent = `0`;
-        ugs.sentGifts.innerHTML = ugs.unsentGifts.innerHTML = ``;
-        ugs.progress.innerHTML = ``;
-        ugs.overallProgress.textContent = ``;
-        ugs.giveaways = [];
-        ugs.canceled = false;
-        unsent = esgst.createdButton.getElementsByClassName(`nav__notification`)[0];
-        if (unsent) {
-            ugs.count = parseInt(unsent.textContent);
-            getUgsGiveaways(document, ugs, esgst.currentPage, continueUgsSender.bind(null, ugs, callback));
-        } else {
-            ugs.button.classList.remove(`esgst-busy`);
-            ugs.progress.innerHTML = `You do not have any unsent gifts.`;
-            callback();
-        }
-    }
+    function startUgsSender(ugs) {
+        return new Promise(async (resolve, reject) => {    
+            // initialize/reset stuff
+            ugs.canceled = false;
+            ugs.giveaways = [];
+            ugs.button.classList.add(`esgst-busy`);
+            ugs.results.classList.add(`esgst-hidden`);
+            ugs.sent.classList.add(`esgst-hidden`);
+            ugs.unsent.classList.add(`esgst-hidden`);
+            ugs.sentGifts.innerHTML = ugs.unsentGifts.innerHTML = ``;
+            ugs.sentCount.textContent = ugs.unsentCount.textContent = `0`;
+            ugs.progress.innerHTML = ugs.overallProgress.textContent = ``;
 
-    function getUgsGiveaways(context, ugs, nextPage, callback) {
-        var element, elements, giveaways, heading, i, n, unsent, url;
-        if (!ugs.canceled) {
-            if (context) {
+            let unsent = esgst.createdButton.getElementsByClassName(`nav__notification`)[0];
+            if (!unsent) {     
+                // there are no unsent giveaways           
+                ugs.button.classList.remove(`esgst-busy`);
+                ugs.progress.innerHTML = `You do not have any unsent gifts.`;
+                resolve();
+                return;
+            }
+
+            // retrieve unsent giveaways
+            ugs.count = parseInt(unsent.textContent);
+            let giveaways = [];
+            let nextPage = 1;
+            let pagination = null;
+            do {
+                let context = null;
                 if (nextPage === esgst.currentPage) {
+                    context = document;
                     ugs.lastPage = getLastPage(context);
                     ugs.lastPage = ugs.lastPage === 999999999 ? `` : ` of ${ugs.lastPage}`;
+                } else if (document.getElementsByClassName(`esgst-es-page-${nextPage}}`)[0]) {
+                    // page has been loaded with endless scrolling, so its giveaways were already retrieved when the context was the document
+                    continue;
                 }
+                context = parseHtml((await request_v2({method: `GET`, url: `/giveaways/created/search?page=${nextPage}`})).responseText);
                 ugs.progress.innerHTML = `
                     <i class="fa fa-circle-o-notch fa-spin"></i>
-                    <span>Searching for unsent gifts (page ${nextPage - 1}${ugs.lastPage})...</span>
+                    <span>Searching for unsent gifts (page ${nextPage}${ugs.lastPage})...</span>
                 `;
-                giveaways = [];
-                elements = context.getElementsByClassName(`table__row-outer-wrap`);
                 ugs.continue = false;
-                for (i = 0, n = elements.length; i < n; ++i) {
-                    element = elements[i];
-                    unsent = element.getElementsByClassName(`fa icon-red fa-warning`)[0];
+                let elements = context.getElementsByClassName(`table__row-outer-wrap`);
+                for (let i = 0, n = elements.length; i < n; i++) {
+                    let element = elements[i];
+                    let unsent = element.getElementsByClassName(`fa icon-red fa-warning`)[0];
                     if (unsent) {
-                        heading = element.getElementsByClassName(`table__column__heading`)[0];
-                        url = heading.getAttribute(`href`);
+                        let heading = element.getElementsByClassName(`table__column__heading`)[0];
+                        let url = heading.getAttribute(`href`);
                         giveaways.push({
                             code: url.match(/\/giveaway\/(.+?)\//)[1],
                             context: unsent,
@@ -19273,28 +19279,17 @@ Parsedown = (() => {
                             url: url
                         });
                         ugs.continue = true;
+                        ugs.count -= 1;
                     }
                 }
-                n = giveaways.length;
-                if (n > 0) {
-                    setUgsGiveaways(giveaways, ugs, 0, n, checkNextUgsPage.bind(null, context, ugs, nextPage, callback));
-                } else {
-                    checkNextUgsPage(context, ugs, nextPage, callback);
-                }
-            } else if (document.getElementsByClassName(`esgst-es-page-${nextPage}}`)[0]) {
-                setTimeout(getUgsGiveaways, 0, null, ugs, ++nextPage, callback);
-            } else if (!ugs.canceled) {
-                request(null, null, `GET`, false, `/giveaways/created/search?page=${nextPage}`, loadNextUgsPage.bind(null, ugs, nextPage, callback));
-            }
-        }
-    }
+                pagination = context.getElementsByClassName(`pagination__navigation`)[0];
+                nextPage += 1;
+            } while (!ugs.canceled && (ugs.count > 0 || ugs.continue) && pagination && !pagination.lastElementChild.classList.contains(`is-selected`));
 
-    function setUgsGiveaways(giveaways, ugs, i, n, callback) {
-        var giveaway;
-        if (!ugs.canceled) {
-            ugs.overallProgress.textContent = `${i} of ${n} giveaways checked...`;
-            if (i < n) {
-                giveaway = giveaways[i];
+            // retrieve the winners/groups of each giveaway
+            for (let i = 0, n = giveaways.length; !ugs.canceled && i < n; i++) {
+                ugs.overallProgress.textContent = `${i} of ${n} giveaways checked...`;
+                let giveaway = giveaways[i];
                 ugs.giveaways[giveaway.code] = {
                     code: giveaway.code,
                     context: giveaway.context,
@@ -19302,465 +19297,253 @@ Parsedown = (() => {
                     url: giveaway.url,
                     winners: []
                 };
-                getUgsWinners(giveaway.code, ugs, 1, `${giveaway.url}/winners/search?page=`, checkUgsGiveawayGroups.bind(null, giveaway, giveaways, ugs, i, n, callback));
-            } else {
-                callback();
-            }
-        }
-    }
 
-    function getUgsWinners(code, ugs, nextPage, url, callback) {
-        if (!ugs.canceled) {
-            request(null, null, `GET`, false, `${url}${nextPage}`, loadNextUgsWinnersPage.bind(null, code, ugs, nextPage, url, callback));
-        }
-    }
-
-    function loadNextUgsWinnersPage(code, ugs, nextPage, url, callback, response) {
-        var elements, i, n, pagination, responseHtml, unsent;
-        if (!ugs.canceled) {
-            responseHtml = parseHtml(response.responseText);
-            if (nextPage === 1) {
-                ugs.lastWinnersPage = getLastPage(responseHtml);
-                ugs.lastWinnersPage = ugs.lastWinnersPage === 999999999 ? `` : ` of ${ugs.lastWinnersPage}`;
-            }
-            ugs.progress.innerHTML = `
-                <i class="fa fa-circle-o-notch fa-spin"></i>
-                <span>Retrieving winners (page ${nextPage - 1}${ugs.lastWinnersPage})...</span>
-            `;
-            elements = responseHtml.getElementsByClassName(`table__row-outer-wrap`);
-            for (i = 0, n = elements.length; i < n; ++i) {
-                element = elements[i];
-                unsent = element.querySelector(`.table__gift-not-sent:not(.is-hidden)`);
-                if (unsent) {
-                    ugs.giveaways[code].winners.push({
-                        username: element.getElementsByClassName(`table__column__heading`)[0].textContent,
-                        values: {},
-                        winnerId: element.querySelector(`[name="winner_id"]`).value
-                    });
-                    ugs.count -= 1;
-                }
-            }
-            pagination = responseHtml.getElementsByClassName(`pagination__navigation`)[0];
-            if (pagination && !pagination.lastElementChild.classList.contains(`is-selected`)) {
-                setTimeout(getUgsWinners, 0, code, ugs, ++nextPage, url, callback);
-            } else {
-                if (responseHtml.getElementsByClassName(`featured__column--group`)[0]) {
-                    ugs.giveaways[code].group = true;
-                }
-                if (responseHtml.getElementsByClassName(`featured__column--whitelist`)[0]) {
-                    ugs.giveaways[code].whitelist = true;
-                }
-                callback();
-            }
-        }
-    }
-
-    function checkUgsGiveawayGroups(giveaway, giveaways, ugs, i, n, callback) {
-        if (!ugs.canceled) {
-            if (esgst.ugs_checkMember && ugs.giveaways[giveaway.code].group) {
-                ugs.giveaways[giveaway.code].groups = [];
-                getUgsGroups(giveaway.code, ugs, 1, `${giveaway.url}/groups/search?page=`, setTimeout.bind(null, setUgsGiveaways, 0, giveaways, ugs, ++i, n, callback));
-            } else {
-                setTimeout(setUgsGiveaways, 0, giveaways, ugs, ++i, n, callback);
-            }
-        }
-    }
-
-    function getUgsGroups(code, ugs, nextPage, url, callback) {
-        if (!ugs.canceled) {
-            request(null, null, `GET`, false, `${url}${nextPage}`, loadNextUgsGroupsPage.bind(null, code, ugs, nextPage, url, callback));
-        }
-    }
-
-    function loadNextUgsGroupsPage(code, ugs, nextPage, url, callback, response) {
-        var elements, i, match, n, pagination, responseHtml;
-        if (!ugs.canceled) {
-            responseHtml = parseHtml(response.responseText);
-            if (nextPage === 1) {
-                ugs.lastGroupsPage = getLastPage(responseHtml);
-                ugs.lastGroupsPage = ugs.lastGroupsPage === 999999999 ? `` : ` of ${ugs.lastGroupsPage}`;
-            }
-            ugs.progress.innerHTML = `
-                <i class="fa fa-circle-o-notch fa-spin"></i>
-                <span>Retrieving groups (page ${nextPage - 1}${ugs.lastGroupsPage})...</span>
-            `;
-            elements = responseHtml.getElementsByClassName(`table__column__heading`);
-            for (i = 0, n = elements.length; i < n; ++i) {
-                match = elements[i].getAttribute(`href`).match(/\/group\/(.+?)\/(.+)/);
-                ugs.giveaways[code].groups.push({
-                    code: match[1],
-                    name: match[2]
-                });
-            }
-            pagination = responseHtml.getElementsByClassName(`pagination__navigation`)[0];
-            if (pagination && !pagination.lastElementChild.classList.contains(`is-selected`)) {
-                setTimeout(getUgsGroups, 0, code, ugs, ++nextPage, url, callback);
-            } else {
-                callback();
-            }
-        }
-    }
-
-    function checkNextUgsPage(context, ugs, nextPage, callback) {
-        var pagination;
-        if (!ugs.canceled) {
-            if (ugs.count > 0 || ugs.continue) {
-                pagination = context.getElementsByClassName(`pagination__navigation`)[0];
-                if (pagination && !pagination.lastElementChild.classList.contains(`is-selected`)) {
-                    setTimeout(getUgsGiveaways, 0, null, ugs, nextPage, callback);
-                } else {
-                    callback();
-                }
-            } else {
-                callback();
-            }
-        }
-    }
-
-    function loadNextUgsPage(ugs, nextPage, callback, response) {
-        if (!ugs.canceled) {
-            setTimeout(getUgsGiveaways, 0, parseHtml(response.responseText), ugs, ++nextPage, callback);
-        }
-    }
-
-    function continueUgsSender(ugs, callback) {
-        var n;
-        if (!ugs.canceled) {
-            codes = Object.keys(ugs.giveaways);
-            n = codes.length;
-            if (n > 0) {
-                getValue(`rerolls`).then(value => {
-                    ugs.rerolls = JSON.parse(value);
-                    ugs.sentWinners = {};
-                    ugs.winners = {};
-                    ugs.results.classList.remove(`esgst-hidden`);
-                    checkUgsGifts(codes, ugs, 0, n, completeUgsSender.bind(null, ugs, callback));
-                });
-            } else {
-                ugs.button.classList.remove(`esgst-busy`);
-                ugs.progress.innerHTML = `You do not have any unsent gifts.`;
-                callback();
-            }
-        }
-    }
-
-    function checkUgsGifts(codes, ugs, i, n, callback) {
-        var code, giveaway, j, numWinners, savedUser, winner, winners;
-        if (!ugs.canceled) {
-            if (i < n) {
-                ugs.progress.innerHTML = `
-                    <i class="fa fa-circle-o-notch fa-spin"></i>
-                    <span>Checking winners...</span>
-                `;
-                ugs.overallProgress.textContent = `${i} of ${n} giveaways checked...`;
-                code = codes[i];
-                giveaway = ugs.giveaways[code];
-                winners = giveaway.winners;
-                numWinners = winners.length;
-                if (esgst.ugs_checkRules) {
-                    if (esgst.ugs_checkMember && giveaway.group) {
-                        checkUgsRules(code, ugs, 0, numWinners, checkUgsGroups.bind(null, code, ugs, 0, numWinners, sendUgsGifts.bind(null, code, ugs, 0, numWinners, setTimeout.bind(null, checkUgsGifts, 0, codes, ugs, ++i, n, callback))));
-                    } else {
-                        checkUgsRules(code, ugs, 0, numWinners, sendUgsGifts.bind(null, code, ugs, 0, numWinners, setTimeout.bind(null, checkUgsGifts, 0, codes, ugs, ++i, n, callback)));
+                // retrieve the winners of the giveaway
+                let nextPage = 1;
+                let pagination = null;
+                do {
+                    let context = parseHtml((await request_v2({method: `GET`, url: `${giveaway.url}/winners/search?page=${nextPage}`})).responseText);
+                    if (nextPage === 1) {
+                        ugs.lastWinnersPage = getLastPage(context);
+                        ugs.lastWinnersPage = ugs.lastWinnersPage === 999999999 ? `` : ` of ${ugs.lastWinnersPage}`;
                     }
-                } else if (esgst.ugs_checkMember && giveaway.group) {
-                    checkUgsGroups(code, ugs, 0, numWinners, sendUgsGifts.bind(null, code, ugs, 0, numWinners, setTimeout.bind(null, checkUgsGifts, 0, codes, ugs, ++i, n, callback)));
-                } else if (esgst.ugs_checkWhitelist) {
-                    checkUgsWhitelist(code, ugs, 0, numWinners, sendUgsGifts.bind(null, code, ugs, 0, numWinners, setTimeout.bind(null, checkUgsGifts, 0, codes, ugs, ++i, n, callback)));
-                } else if (esgst.ugs_checkBlacklist) {
-                    checkUgsBlacklist(code, ugs, 0, numWinners, sendUgsGifts.bind(null, code, ugs, 0, numWinners, setTimeout.bind(null, checkUgsGifts, 0, codes, ugs, ++i, n, callback)));
-                } else {
-                    for (j = 0; j < numWinners; ++j) {
-                        winner = winners[j];
-                        if (ugs.rerolls.indexOf(winner.winnerId) >= 0) {
-                            winner.error = `${winner.username} is currently being rerolled.`;
-                        }
-                    }
-                    sendUgsGifts(code, ugs, 0, numWinners, setTimeout.bind(null, checkUgsGifts, 0, codes, ugs, ++i, n, callback));
-                }
-            } else {
-                callback();
-            }
-        }
-    }
-
-    async function checkUgsWhitelist(code, ugs, i, n, callback) {
-        if (!ugs.canceled) {
-            if (i < n) {
-                giveaway = ugs.giveaways[code];
-                winner = giveaway.winners[i];
-                if (ugs.rerolls.indexOf(winner.winnerId) < 0) {
-                    savedUser = await getUser(esgst.users, winner);
-                    if (savedUser && !savedUser.whitelisted) {
-                        winner.error = `${winner.username} is not whitelisted.`;
-                    }
-                } else {
-                    winner.error = `${winner.username} is currently being rerolled.`;
-                }
-                setTimeout(checkUgsWhitelist, 0, code, ugs, ++i, n, callback);
-            } else {
-                callback();
-            }
-        }
-    }
-
-    async function checkUgsBlacklist(code, ugs, i, n, callback) {
-        if (!ugs.canceled) {
-            if (i < n) {
-                giveaway = ugs.giveaways[code];
-                winner = giveaway.winners[i];
-                if (ugs.rerolls.indexOf(winner.winnerId) < 0) {
-                    savedUser = await getUser(esgst.users, winner);
-                    if (savedUser && savedUser.blacklisted) {
-                        winner.error = `${winner.username} is blacklisted.`;
-                    }
-                } else {
-                    winner.error = `${winner.username} is currently being rerolled.`;
-                }
-                setTimeout(checkUgsBlacklist, 0, code, ugs, ++i, n, callback);
-            } else {
-                callback();
-            }
-        }
-    }
-
-    function checkUgsRules(code, ugs, i, n, callback) {
-        var giveaway, namwc, winner;
-        if (!ugs.canceled) {
-            if (i < n) {
-                giveaway = ugs.giveaways[code];
-                winner = giveaway.winners[i];
-                ugs.progress.innerHTML = `
-                    <i class="fa fa-circle-o-notch fa-spin"></i>
-                    <span>Checking if ${winner.username} has not activated/multiple wins...</span>
-                `;
-                if (ugs.rerolls.indexOf(winner.winnerId) < 0) {
-                    namwc = {
-                        lastCheck: Date.now(),
-                        results: {}
-                    };
-                    checkNAMWCNotActivated(ugs, namwc, winner.username, function (namwc) {
-                        checkNAMWCMultiple(ugs, namwc, winner.username, async function (namwc) {
-                            winner.values.namwc = namwc;
-                            if ((Array.isArray(namwc.results.notActivated) && namwc.results.notActivated.length) || (!Array.isArray(namwc.results.notActivated) && namwc.results.notActivated) || (Array.isArray(namwc.results.multiple) && namwc.results.multiple.length) || (!Array.isArray(namwc.results.multiple) && namwc.results.multiple)) {
-                                if (esgst.ugs_checkWhitelist) {
-                                    savedUser = await getUser(esgst.users, winner);
-                                    if (savedUser && !savedUser.whitelisted) {
-                                        winner.error = `${winner.username} is not whitelisted.`;
-                                    }
-                                } else if (esgst.ugs_checkBlacklist) {
-                                    savedUser = await getUser(esgst.users, winner);
-                                    if (savedUser && savedUser.blacklisted) {
-                                        winner.error = `${winner.username} is blacklisted.`;
-                                    }
-                                } else {
-                                    if ((Array.isArray(namwc.results.notActivated) && namwc.results.notActivated.length) || (!Array.isArray(namwc.results.notActivated) && namwc.results.notActivated) && (Array.isArray(namwc.results.multiple) && namwc.results.multiple.length) || (!Array.isArray(namwc.results.multiple) && namwc.results.multiple)) {
-                                        winner.error = `${winner.username} has ${Array.isArray(namwc.results.notActivated) ? namwc.results.notActivated.length : namwc.results.notActivated} not activated wins and ${Array.isArray(namwc.results.multiple) ? namwc.results.multiple.length : namwc.results.multiple} multiple wins.`;
-                                    } else if ((Array.isArray(namwc.results.notActivated) && namwc.results.notActivated.length) || (!Array.isArray(namwc.results.notActivated) && namwc.results.notActivated)) {
-                                        winner.error = `${winner.username} has ${Array.isArray(namwc.results.notActivated) ? namwc.results.notActivated.length : namwc.results.notActivated} not activated wins.`;
-                                    } else {
-                                        winner.error = `${winner.username} has ${Array.isArray(namwc.results.multiple) ? namwc.results.multiple.length : namwc.results.multiple} multiple wins.`;
-                                    }
-                                }
-                            }
-                            setTimeout(checkUgsRules, 0, code, ugs, ++i, n, callback);
-                        });
-                    });
-                } else {
-                    winner.error = `${winner.username} is currently being rerolled.`;
-                    setTimeout(checkUgsRules, 0, code, ugs, ++i, n, callback);
-                }
-            } else {
-                callback();
-            }
-        }
-    }
-
-    function checkUgsGroups(code, ugs, i, n, callback) {
-        var giveaway, numGroups, winner;
-        if (!ugs.canceled) {
-            if (i < n) {
-                giveaway = ugs.giveaways[code];
-                numGroups = giveaway.groups.length;
-                winner = giveaway.winners[i];
-                ugs.progress.innerHTML = `
-                    <i class="fa fa-circle-o-notch fa-spin"></i>
-                    <span>Checking if ${winner.username} is a member of one of the groups...</span>
-                `;
-                if (ugs.rerolls.indexOf(winner.winnerId) < 0) {
-                    getSteamId(null, false, esgst.users, winner, getUgsGroupMembers.bind(null, giveaway, ugs, 0, numGroups, winner, checkUgsUserGroups.bind(null, giveaway, ugs, winner, setTimeout.bind(null, checkUgsGroups, 0, code, ugs, ++i, n, callback))));
-                } else {
-                    winner.error = `${winner.username} is currently being rerolled.`;
-                    setTimeout(checkUgsGroups, 0, code, ugs, ++i, n, callback);
-                }
-            } else {
-                callback();
-            }
-        }
-    }
-
-    function getUgsGroupMembers(giveaway, ugs, i, n, winner, callback) {
-        var code, j;
-        if (!ugs.canceled) {
-            if (i < n) {
-                code = giveaway.groups[i].code;
-                for (j = esgst.groups.length - 1; j >= 0 && esgst.groups[j].code !== code; --j);
-                request(null, null, `GET`, false, `http://steamcommunity.com/gid/${esgst.groups[j].steamId}/memberslistxml?xml=1`, checkUgsGroupMembers.bind(null, giveaway, ugs, i, n, winner, callback));
-            } else {
-                callback();
-            }
-        }
-    }
-
-    function checkUgsGroupMembers(giveaway, ugs, i, n, winner, callback, response) {
-        var group;
-        if (!ugs.canceled) {
-            if (response.responseText.match(new RegExp(`<steamID64>${winner.steamId}</steamID64>`))) {
-                if (esgst.ugs_checkDifference) {
                     ugs.progress.innerHTML = `
                         <i class="fa fa-circle-o-notch fa-spin"></i>
-                        <span>Checking if ${winner.username} has a gift difference higher than the one set...</span>
+                        <span>Retrieving winners (page ${nextPage}${ugs.lastWinnersPage})...</span>
                     `;
-                    group = giveaway.groups[i];
-                    request(null, null, `GET`, false, `/group/${group.code}/${group.name}/users/search?q=${winner.username}`, checkUgsDifference.bind(null, ugs, winner, callback));
-                } else {
-                    callback(true);
-                }
-            } else {
-                setTimeout(getUgsGroupMembers, 0, giveaway, ugs, ++i, n, winner, callback);
-            }
-        }
-    }
-
-    function checkUgsDifference(ugs, winner, callback, response) {
-        var difference, element, username;
-        if (!ugs.canceled) {
-            element = parseHtml(response.responseText).getElementsByClassName(`table__row-outer-wrap`)[0];
-            if (element) {
-                username = element.getElementsByClassName(`table__column__heading`)[0].textContent;
-                if (username === winner.username) {
-                    difference = parseFloat(element.getElementsByClassName(`table__column--width-small`)[2].textContent);
-                    if (difference >= esgst.ugs_difference) {
-                        callback(true);
-                    } else {
-                        winner.error = `${winner.username} has a ${difference} gift difference.`;
-                        callback(true);
+                    let elements = context.getElementsByClassName(`table__row-outer-wrap`);
+                    for (let i = 0, n = elements.length; i < n; i++) {
+                        let element = elements[i];
+                        if (element.querySelector(`.table__gift-not-sent:not(.is-hidden)`)) {
+                            ugs.giveaways[giveaway.code].winners.push({
+                                username: element.getElementsByClassName(`table__column__heading`)[0].textContent,
+                                values: {},
+                                winnerId: element.querySelector(`[name="winner_id"]`).value
+                            });
+                            ugs.count -= 1;
+                        }
                     }
-                } else {
-                    callback();
-                }
-            } else {
-                callback();
-            }
-        }
-    }
-
-    async function checkUgsUserGroups(giveaway, ugs, winner, callback, member) {
-        var savedUser;
-        if (!ugs.canceled) {
-            if (member) {
-                callback();
-            } else if (giveaway.whitelist) {
-                savedUser = await getUser(esgst.users, winner);
-                if (savedUser && !savedUser.whitelisted) {
-                    winner.error = `${winner.username} is not whitelisted.`;
-                }
-                callback();
-            } else {
-                winner.error = `${winner.username} is not a member of one of the groups.`;
-                callback();
-            }
-        }
-    }
-
-    function sendUgsGifts(code, ugs, i, n, callback) {
-        var giveaway, winner;
-        if (!ugs.canceled) {
-            if (i < n) {
-                ugs.progress.innerHTML = `
-                    <i class="fa fa-circle-o-notch fa-spin"></i>
-                    <span>Sending gifts...</span>
-                `;
-                ugs.overallProgress.textContent = `${i} of ${n} gifts sent...`;
-                giveaway = ugs.giveaways[code];
-                winner = giveaway.winners[i];
-                if (!ugs.winners[winner.username]) {
-                    ugs.winners[winner.username] = [];
-                }
-                if (ugs.winners[winner.username].indexOf(giveaway.name) < 0) {
-                    if (winner.error) {
-                        ugs.unsent.classList.remove(`esgst-hidden`);
-                        ugs.unsentCount.textContent = parseInt(ugs.unsentCount.textContent) + 1;
-                        ugs.unsentGifts.insertAdjacentHTML(`beforeEnd`, `
-                            <span>
-                                <a href="/user/${winner.username}">${winner.username}</a> (<a href="${giveaway.url}/winners">${giveaway.name}</a>)
-                                <i class="fa fa-question-circle" title="${winner.error}"></i>
-                            </span>
-                        `);
-                        setTimeout(sendUgsGifts, 0, code, ugs, ++i, n, callback);
-                    } else if (!ugs.canceled) {
-                        request(`xsrf_token=${esgst.xsrfToken}&do=sent_feedback&action=1&winner_id=${winner.winnerId}`, null, `POST`, false, `/ajax.php`, sendUgsGift.bind(null, code, giveaway, ugs, i, n, winner, callback));
+                    if (!ugs.giveaways[giveaway.code].group) {
+                        ugs.giveaways[giveaway.code].group = context.getElementsByClassName(`featured__column--group`)[0];
                     }
-                } else {
-                    ugs.unsent.classList.remove(`esgst-hidden`);
-                    ugs.unsentCount.textContent = parseInt(ugs.unsentCount.textContent) + 1;
-                    ugs.unsentGifts.insertAdjacentHTML(`beforeEnd`, `
-                        <span>
-                            <a href="/user/${winner.username}">${winner.username}</a> (<a href="${giveaway.url}/winners">${giveaway.name}</a>)
-                            <i class="fa fa-question-circle" title="${winner.username} already won ${giveaway.name} from another giveaway of yours"></i>
-                        </span>
-                    `);
-                    setTimeout(sendUgsGifts, 0, code, ugs, ++i, n, callback);
+                    if (!ugs.giveaways[giveaway.code].whitelist) {
+                        ugs.giveaways[giveaway.code].whitelist = context.getElementsByClassName(`featured__column--whitelist`)[0];
+                    }
+                    pagination = context.getElementsByClassName(`pagination__navigation`)[0];
+                } while (!ugs.canceled && pagination && !pagination.lastElementChild.classList.contains(`is-selected`));
+
+                // retrieve the groups of the giveaway                
+                if (esgst.ugs_checkMember && ugs.giveaways[giveaway.code].group) {
+                    ugs.giveaways[giveaway.code].groups = [];
+                    let nextPage = 1;
+                    let pagination = null;
+                    do {
+                        let context = parseHtml((await request_v2({method: `GET`, url: `${giveaway.url}/groups/search?page=${nextPage}`})).responseText);
+                        if (nextPage === 1) {
+                            ugs.lastGroupsPage = getLastPage(context);
+                            ugs.lastGroupsPage = ugs.lastGroupsPage === 999999999 ? `` : ` of ${ugs.lastGroupsPage}`;
+                        }
+                        ugs.progress.innerHTML = `
+                            <i class="fa fa-circle-o-notch fa-spin"></i>
+                            <span>Retrieving groups (page ${nextPage}${ugs.lastGroupsPage})...</span>
+                        `;
+                        let elements = context.getElementsByClassName(`table__column__heading`);
+                        for (let i = 0, n = elements.length; i < n; ++i) {
+                            let match = elements[i].getAttribute(`href`).match(/\/group\/(.+?)\/(.+)/);
+                            ugs.giveaways[code].groups.push({
+                                code: match[1],
+                                name: match[2]
+                            });
+                        }
+                        pagination = context.getElementsByClassName(`pagination__navigation`)[0];
+                    } while (!ugs.canceled && pagination && !pagination.lastElementChild.classList.contains(`is-selected`));
                 }
-            } else {
-                callback();
             }
-        }
-    }
 
-    function sendUgsGift(code, giveaway, ugs, i, n, winner, callback) {
-        if (!ugs.canceled) {
-            if (!ugs.sentWinners[giveaway.code]) {
-                ugs.sentWinners[giveaway.code] = [];
+            if (ugs.canceled) {
+                // process canceled
+                resolve();
+                return;
             }
-            ugs.sent.classList.remove(`esgst-hidden`);
-            ugs.sentWinners[giveaway.code].push(winner.username);
-            ugs.sentCount.textContent = parseInt(ugs.sentCount.textContent) + 1;
-            ugs.sentGifts.insertAdjacentHTML(`beforeEnd`, `
-                <span>
-                    <a href="/user/${winner.username}">${winner.username}</a> (<a href="${giveaway.url}/winners">${giveaway.name}</a>)
-                </span>
-            `);
-            if (!ugs.winners[winner.username]) {
-                ugs.winners[winner.username] = [];
-            }
-            ugs.winners[winner.username].push(giveaway.name);
-            if (document.body.contains(giveaway.context)) {
-                giveaway.context.className = `fa fa-check-circle icon-green`;
-                giveaway.context.nextElementSibling.textContent = `Sent`;
-            }
-            setTimeout(sendUgsGifts, 0, code, ugs, ++i, n, callback);
-        }
-    }
+            
+            let codes = Object.keys(ugs.giveaways);
+            let n = codes.length;
+            if (n > 0) {
+                // send gifts
+                ugs.rerolls = JSON.parse(esgst.storage.rerolls);
+                ugs.sentWinners = {};
+                ugs.winners = {};
+                ugs.results.classList.remove(`esgst-hidden`);
+                for (let i = 0; !ugs.canceled && i < n; i++) {
+                    let giveaway = ugs.giveaways[codes[i]];
+                    for (let j = 0, numWinners = giveaway.winners.length; j < numWinners; j++) {
+                        let winner = giveaway.winners[j];
+                        let savedUser = await getUser(esgst.users, winner);
 
-    function completeUgsSender(ugs, callback) {
-        var i, key, n, savedUsers, winners;
-        if (!ugs.canceled) {
-            getValue(`winners`, `{}`).then(value => {
-                winners = JSON.parse(value);
-                for (key in ugs.sentWinners) {
+                        if (ugs.rerolls.indexOf(winner.winnerId) > -1) {
+                            // winner is being rerolled, cannot send gift
+                            winner.error = `${winner.username} is currently being rerolled.`;
+                            continue;
+                        }
+
+                        // check order:
+                        // 1. check if the user has not activated/multiple wins
+                        // 2. if passed and it's a group giveaway, check if the user is still a group member, otherwise go to 3
+                        // 3. check if the user is whitelisted, which would give them a pass for not activated/multiple wins
+                        // 4. finally check if the user is blacklisted
+
+                        if (esgst.ugs_checkRules) {
+                            // check if user has not activated/multiple wins
+                            ugs.progress.innerHTML = `
+                                <i class="fa fa-circle-o-notch fa-spin"></i>
+                                <span>Checking if ${winner.username} has not activated/multiple wins...</span>
+                            `;
+                            winner.values.namwc = {
+                                lastCheck: Date.now(),
+                                results: {}
+                            };
+                            await checkNamwcNotActivated(ugs, winner);
+                            await checkNamwcMultiple(ugs, winner);
+                            let notActivated = Array.isArray(winner.values.namwc.results.notActivated) ? winner.values.namwc.results.notActivated.length : winner.values.namwc.results.notActivated;
+                            let multiple = Array.isArray(winner.values.namwc.results.multiple) ? winner.values.namwc.results.multiple.length : winner.values.namwc.results.multiple;
+                            if (notActivated && multiple) {
+                                winner.error = `${winner.username} has ${notActivated} not activated wins and ${multiple} multiple wins.`;
+                            } else if (notActivated) {
+                                winner.error = `${winner.username} has ${notActivated} not activated wins.`;
+                            } else if (multiple) {
+                                winner.error = `${winner.username} has ${multiple} multiple wins.`;
+                            }
+                        }
+
+                        if (esgst.ugs_checkMember && giveaway.group) {
+                            if (winner.error) {
+                                // winner has not activated/multiple wins, so cannot send gift
+                                continue;
+                            }
+
+                            // check if winner is still a group member
+                            ugs.progress.innerHTML = `
+                                <i class="fa fa-circle-o-notch fa-spin"></i>
+                                <span>Checking if ${winner.username} is a member of one of the groups...</span>
+                            `;
+                            await getSteamId(null, false, esgst.users, winner);
+                            let member = false;
+                            for (let k = 0, numGroups = giveaway.groups.length; k < numGroups; k++) {
+                                let code = giveaway.groups[i].code;
+                                if (!ugs.groups[code]) {
+                                    // retrieve group members and store them in case another giveaway has the same group
+                                    let l;
+                                    for (l = esgst.groups.length - 1; l > -1 && esgst.groups[l].code !== code; l--);
+                                    ugs.groups[code] = (await request_v2({method: `GET`, url: `http://steamcommunity.com/gid/${esgst.groups[l].steamId}/memberslistxml?xml=1`})).responseText.match(/<steamID64>.+?<\/steamID64>/g);
+                                    for (l = ugs.groups[code].length - 1; l > -1; l--) {
+                                        ugs.groups[code][l] = ugs.groups[code][l].match(/<steamID64>(.+?)<\steamID64>/)[1];
+                                    }
+                                }
+
+                                if (ugs.groups[code].indexOf(winner.steamId) < 0) {
+                                    // winner is not a member of this group, continue to check the next group
+                                    continue;
+                                }
+
+                                if (!esgst.ugs_checkDifference) {
+                                    // no need to check gift difference, gift can be sent
+                                    member = true;
+                                    break;
+                                }
+
+                                // check winner's gift difference
+                                ugs.progress.innerHTML = `
+                                    <i class="fa fa-circle-o-notch fa-spin"></i>
+                                    <span>Checking if ${winner.username} has a gift difference higher than the one set...</span>
+                                `;
+                                let group = giveaway.groups[k];
+                                let element = parseHtml((await request_v2({method: `GET`, url: `/group/${group.code}/${group.name}/users/search?q=${winner.username}`})).responseText).getElementsByClassName(`table__row-outer-wrap`)[0];
+                                if (element && element.getElementsByClassName(`table__column__heading`)[0].textContent === winner.username) {
+                                    let difference = parseFloat(element.getElementsByClassName(`table__column--width-small`)[2].textContent);
+                                    if (difference >= esgst.ugs_difference) {
+                                        member = true;
+                                        break;
+                                    }
+                                    winner.error = `${winner.username} has a ${difference} gift difference.`;
+                                    break;
+                                }
+                            }                            
+                            if (!winner.error && !member) {
+                                winner.error = `${winner.username} is not a member of one of the groups.`;
+                            }
+                        }
+
+                        if (esgst.ugs_checkWhitelist) {
+                            // check if winner is whitelisted
+                            winner.error = savedUser.whitelisted ? null : `${winner.username} is not whitelisted.`;
+                        }
+
+                        if (esgst.ugs_checkBlacklist && savedUser.blacklisted && !winner.error) {
+                            // check if winner is blacklisted
+                            winner.error = `${winner.username} is blacklisted.`;
+                        }
+
+                        // send gift to the winner or not, based on the previous checks
+                        if (!ugs.winners[winner.username]) {
+                            ugs.winners[winner.username] = [];
+                        }
+                        if (ugs.winners[winner.username].indexOf(giveaway.name) < 0) {
+                            if (winner.error) {
+                                ugs.unsent.classList.remove(`esgst-hidden`);
+                                ugs.unsentCount.textContent = parseInt(ugs.unsentCount.textContent) + 1;
+                                ugs.unsentGifts.insertAdjacentHTML(`beforeEnd`, `
+                                    <span>
+                                        <a href="/user/${winner.username}">${winner.username}</a> (<a href="${giveaway.url}/winners">${giveaway.name}</a>)
+                                        <i class="fa fa-question-circle" title="${winner.error}"></i>
+                                    </span>
+                                `);
+                            } else if (!ugs.canceled) {
+                                await request_v2({data: `xsrf_token=${esgst.xsrfToken}&do=sent_feedback&action=1&winner_id=${winner.winnerId}`, method: `POST`, url: `/ajax.php`});
+                                if (!ugs.sentWinners[giveaway.code]) {
+                                    ugs.sentWinners[giveaway.code] = [];
+                                }
+                                ugs.sent.classList.remove(`esgst-hidden`);
+                                ugs.sentWinners[giveaway.code].push(winner.username);
+                                ugs.sentCount.textContent = parseInt(ugs.sentCount.textContent) + 1;
+                                ugs.sentGifts.insertAdjacentHTML(`beforeEnd`, `
+                                    <span>
+                                        <a href="/user/${winner.username}">${winner.username}</a> (<a href="${giveaway.url}/winners">${giveaway.name}</a>)
+                                    </span>
+                                `);
+                                ugs.winners[winner.username].push(giveaway.name);
+                                if (document.body.contains(giveaway.context)) {
+                                    giveaway.context.className = `fa fa-check-circle icon-green`;
+                                    giveaway.context.nextElementSibling.textContent = `Sent`;
+                                }
+                            }
+                        } else {
+                            // exact same game has already been sent to this winner, meaning they won multiple copies of the same game, so extra gifts cannot be sent
+                            ugs.unsent.classList.remove(`esgst-hidden`);
+                            ugs.unsentCount.textContent = parseInt(ugs.unsentCount.textContent) + 1;
+                            ugs.unsentGifts.insertAdjacentHTML(`beforeEnd`, `
+                                <span>
+                                    <a href="/user/${winner.username}">${winner.username}</a> (<a href="${giveaway.url}/winners">${giveaway.name}</a>)
+                                    <i class="fa fa-question-circle" title="${winner.username} already won ${giveaway.name} from another giveaway of yours"></i>
+                                </span>
+                            `);
+                        }
+                    }
+                }
+
+                // finalize process
+                let winners = JSON.parse(await getValue(`winners`, `{}`));
+                for (let key in ugs.sentWinners) {
                     if (!winners[key]) {
                         winners[key] = [];
                     }
-                    for (i = 0, n = ugs.sentWinners[key].length; i < n; ++i) {
+                    for (let i = 0, n = ugs.sentWinners[key].length; i < n; i++) {
                         winners[key].push(ugs.sentWinners[key][i]);
                     }
                 }
-                return setValue(`winners`, JSON.stringify(winners));
-            }).then(() => {
-                savedUsers = [];
-                for (key in ugs.giveaways) {
-                    for (i = 0, n = ugs.giveaways[key].winners.length; i < n; ++i) {
+                await setValue(`winners`, JSON.stringify(winners));
+                let savedUsers = [];
+                for (let key in ugs.giveaways) {
+                    for (let i = 0, n = ugs.giveaways[key].winners.length; i < n; i++) {
                         savedUsers.push(ugs.giveaways[key].winners[i]);
                     }
                 }
@@ -19769,13 +19552,16 @@ Parsedown = (() => {
                     <span>Saving data...</span>
                 `;
                 ugs.overallProgress.textContent = ``;
-                saveUsers(savedUsers, function() {
-                    ugs.button.classList.remove(`esgst-busy`);
-                    ugs.progress.innerHTML = ``;
-                    callback();
-                });
-            });
-        }
+                await saveUsers(savedUsers);
+                ugs.button.classList.remove(`esgst-busy`);
+                ugs.progress.innerHTML = ``;
+            } else {
+                // there are no unsent gifts
+                ugs.button.classList.remove(`esgst-busy`);
+                ugs.progress.innerHTML = `You do not have any unsent gifts.`;
+            }
+            resolve();
+        });
     }
 
     function cancelUgsSender(ugs) {
@@ -25530,27 +25316,17 @@ Parsedown = (() => {
         document.addEventListener(`click`, closeUhBox.bind(null, box, container));
     }
 
-    function toggleUhBox(box, profile, list) {
-        var progress, url;
+    async function toggleUhBox(box, profile, list) {
         box.classList.toggle(`esgst-hidden`);
         if (!list.innerHTML) {
-            progress = insertHtml(list, `beforeEnd`, `
+            list.innerHTML = `
                 <div>
                     <i class="fa fa-circle-o-notch fa-spin"></i>
                     <span>Loading username history...</span>
                 </div>
-            `);
-            url = `https://script.google.com/macros/s/AKfycbzvOuHG913mRIXOsqHIeAuQUkLYyxTHOZim5n8iP-k80iza6g0/exec?Action=1&SteamID64=${profile.steamId}&Username=${profile.username}`;
-            request(null, null, `GET`, false, url, loadUhList.bind(null, list, progress));
+            `;
+            list.innerHTML = `<li>${JSON.parse((await request_v2({method: `GET`, url: `https://script.google.com/macros/s/AKfycbzvOuHG913mRIXOsqHIeAuQUkLYyxTHOZim5n8iP-k80iza6g0/exec?Action=1&SteamID64=${profile.steamId}&Username=${profile.username}`})).responseText).Usernames.join(`</li><li>`)}</li>`;
         }
-    }
-
-    function loadUhList(list, progress, response) {
-        var responseJson, usernames;
-        responseJson = JSON.parse(response.responseText);
-        usernames = responseJson.Usernames.join(`</li><li>`);
-        progress.remove();
-        list.innerHTML = `<li>${usernames}</li>`;
     }
 
     function closeUhBox(box, container, event) {
@@ -26623,30 +26399,42 @@ Parsedown = (() => {
                 user = {
                     steamId: User.SteamID64,
                     id: User.ID,
-                    username: User.Username
+                    username: User.Username,
+                    values: {}
                 };
-                var namwc = null;
                 savedUser = await getUser(null, user);
                 if (savedUser) {
-                    namwc = savedUser.namwc;
+                    user.values.namwc = savedUser.namwc;
                 }
-                if (namwc && namwc.results) {
-                    Results = namwc.results;
+                if (user.values.namwc && user.values.namwc.results) {
+                    Results = user.values.namwc.results;
                 }
-                checkNAMWCUser(NAMWC, namwc, user.username, function(namwc) {
-                    if (Results) {
-                        for (Key in Results) {
-                            let value = (Array.isArray(Results[Key]) && Results[Key].length) || (!Array.isArray(Results[Key]) && Results[Key]);
-                            if (value !== ((Array.isArray(namwc.results[Key]) && namwc.results[Key].length) || (!Array.isArray(namwc.results[Key]) && namwc.results[Key]))) {
-                                newR = true;
-                                break;
-                            }
-                        }
-                    } else {
-                        newR = true;
+                if (!user.values.namwc) {
+                    user.values.namwc = {
+                        lastCheck: 0,
+                        results: {}
+                    };
+                }
+                if ((Date.now() - user.values.namwc.lastCheck) > 604800000) {
+                    if (esgst.namwc_checkNotActivated) {
+                        await checkNamwcNotActivated(NAMWC, user);
                     }
-                    setTimeout(setNAMWCResult, 0, NAMWC, user, namwc, newR, I, N, Callback);
-                });
+                    if (esgst.namwc_checkMultiple) {
+                        await checkNamwcMultiple(NAMWC, user);
+                    }
+                }
+                if (Results) {
+                    for (Key in Results) {
+                        let value = (Array.isArray(Results[Key]) && Results[Key].length) || (!Array.isArray(Results[Key]) && Results[Key]);
+                        if (value !== ((Array.isArray(user.values.namwc.results[Key]) && user.values.namwc.results[Key].length) || (!Array.isArray(user.values.namwc.results[Key]) && user.values.namwc.results[Key]))) {
+                            newR = true;
+                            break;
+                        }
+                    }
+                } else {
+                    newR = true;
+                }
+                setTimeout(setNAMWCResult, 0, NAMWC, user, user.values.namwc, newR, I, N, Callback);
             } else {
                 NAMWC.Progress.textContent = `Checking suspensions...`;             
                 request(null, null, `GET`, false, `https://script.google.com/macros/s/AKfycbwdKNormCJs-hEKV0GVwawgWj1a26oVtPylgmxOOvNk1Gf17A/exec?steamIds=${NAMWC.steamIds.join(`,`)}`, response => {
@@ -26721,80 +26509,58 @@ Parsedown = (() => {
         }
     }
 
-    function checkNAMWCUser(NAMWC, namwc, username, Callback) {
-        if (!NAMWC.Canceled) {
-            if (!namwc) {
-                namwc = {
-                    lastCheck: 0,
-                    results: {}
-                };
+    function checkNamwcNotActivated(namwc, user) {
+        return new Promise(async (resolve, reject) => {
+            if (namwc.Canceled) {
+                resolve();
+                return;
             }
-            if ((Date.now() - namwc.lastCheck) > 604800000) {
-                if (esgst.namwc_checkNotActivated) {
-                    checkNAMWCNotActivated(NAMWC, namwc, username, Callback);
-                } else if (esgst.namwc_checkMultiple) {
-                    checkNAMWCMultiple(NAMWC, namwc, username, Callback);
-                } else {
-                    checkNAMWCNotActivated(NAMWC, namwc, username, function (namwc) {
-                        checkNAMWCMultiple(NAMWC, namwc, username, Callback);
-                    });
-                }
+            if (namwc.Progress) {
+                namwc.Progress.innerHTML = `
+                    <i class="fa fa-circle-o-notch fa-spin"></i>
+                    <span>Retrieving ${user.username}'s not activated wins...</span>
+                `;
+            }
+            let responseText = (await request_v2({method: `GET`, queue: true, url: `http://www.sgtools.info/nonactivated/${user.username}`})).responseText;
+            if (responseText.match(/has a private profile/)) {
+                user.values.namwc.results.activated = false;
+                user.values.namwc.results.notActivated = [];
+                user.values.namwc.results.unknown = true;
             } else {
-                Callback(namwc);
+                user.values.namwc.results.notActivated = [];
+                let elements = parseHtml(responseText).getElementsByClassName(`notActivatedGame`);
+                for (let i = 0, n = elements.length; i < n; ++i) {
+                    user.values.namwc.results.notActivated.push(new Date(elements[i].textContent.match(/\((\d{4}-\d{2}-\d{2}\s\d{2}:\d{2}:\d{2})\)/)[1]).getTime());
+                }
+                user.values.namwc.results.activated = n === 0 ? true : false;
+                user.values.namwc.results.unknown = false;
             }
-        }
+            user.values.namwc.lastCheck = Date.now();
+            resolve();
+        });
     }
 
-    function checkNAMWCNotActivated(NAMWC, namwc, username, Callback) {
-        if (!NAMWC.Canceled) {
-            if (NAMWC.Progress) {
-                NAMWC.Progress.innerHTML = `
+    function checkNamwcMultiple(namwc, user) {
+        return new Promise(async (resolve, reject) => {
+            if (namwc.Canceled) {
+                resolve();
+                return;
+            }
+            if (namwc.Progress) {
+                namwc.Progress.innerHTML = `
                     <i class="fa fa-circle-o-notch fa-spin"></i>
-                    <span>Retrieving ${username}'s not activated wins...</span>
+                    <span>Retrieving ${user.username}'s multiple wins...</span>
                 `;
             }
-            request(null, null, `GET`, true, `http://www.sgtools.info/nonactivated/${username}`, response => {
-                let responseText = response.responseText;
-                if (responseText.match(/has a private profile/)) {
-                    namwc.results.activated = false;
-                    namwc.results.notActivated = [];
-                    namwc.results.unknown = true;
-                } else {
-                    let elements, i, n;
-                    namwc.results.notActivated = [];
-                    elements = parseHtml(responseText).getElementsByClassName(`notActivatedGame`);
-                    for (i = 0, n = elements.length; i < n; ++i) {
-                        namwc.results.notActivated.push(new Date(elements[i].textContent.match(/\((\d{4}-\d{2}-\d{2}\s\d{2}:\d{2}:\d{2})\)/)[1]).getTime());
-                    }
-                    namwc.results.activated = n === 0 ? true : false;
-                    namwc.results.unknown = false;
-                }
-                namwc.lastCheck = Date.now();
-                Callback(namwc);
-            });
-        }
-    }
-
-    function checkNAMWCMultiple(NAMWC, namwc, username, Callback) {
-        if (!NAMWC.Canceled) {
-            if (NAMWC.Progress) {
-                NAMWC.Progress.innerHTML = `
-                    <i class="fa fa-circle-o-notch fa-spin"></i>
-                    <span>Retrieving ${username}'s multiple wins...</span>
-                `;
+            user.values.namwc.results.multiple = [];
+            let elements = parseHtml((await  request_v2({method: `GET`, queue: true, url: `http://www.sgtools.info/multiple/${user.username}`})).responseText).getElementsByClassName(`multiplewins`);
+            for (let i = 0, n = elements.length; i < n; ++i) {
+                user.values.namwc.results.multiple.push(new Date(elements[i].textContent.match(/and\s(\d{4}-\d{2}-\d{2}\s\d{2}:\d{2}:\d{2})\)/)[1]).getTime());
             }
-            request(null, null, `GET`, true, `http://www.sgtools.info/multiple/${username}`, response => {
-                let elements, i, n;
-                namwc.results.multiple = [];
-                elements = parseHtml(response.responseText).getElementsByClassName(`multiplewins`);
-                for (i = 0, n = elements.length; i < n; ++i) {
-                    namwc.results.multiple.push(new Date(elements[i].textContent.match(/and\s(\d{4}-\d{2}-\d{2}\s\d{2}:\d{2}:\d{2})\)/)[1]).getTime());
-                }
-                namwc.results.notMultiple = n === 0 ? true : false;
-                namwc.lastCheck = Date.now();
-                Callback(namwc);
-            });
-        }
+            user.values.namwc.results.notMultiple = n === 0 ? true : false;
+            user.values.namwc.lastCheck = Date.now();
+            resolve();
+        });
     }
 
     /* [NRF] Not Received Finder */
