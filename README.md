@@ -942,6 +942,17 @@ May or may not be working (try at your own risk) in the latest version of:
 
 ## Changelog
 
+**7.12.1 (January 6, 2018):**
+
+<ul>
+    <li><a href="https://github.com/revilheart/ESGST/issues/350">#350</a> Fix a bug that does not highlight discussions</li>
+    <li><a href="https://github.com/revilheart/ESGST/issues/351">#351</a> Fix a bug that does not go to the first unread comment correctly</li>
+    <li><a href="https://github.com/revilheart/ESGST/issues/352">#352</a> Fix a bug that does not load Quick Discussion Browsing unless Quick Giveaway Browsing is enabled</li>
+    <li><a href="https://github.com/revilheart/ESGST/issues/354">#354</a> Fix a bug that does not load User Suspension Tracker in the main tickets page unless Giveaways/Discussions/Tickets/Trades Tracker is enabled</li>
+    <li><a href="https://github.com/revilheart/ESGST/issues/355">#355</a> Fix a bug that does not calculate real CV</li>
+    <li><a href="https://github.com/revilheart/ESGST/issues/353">#353</a> Convert all callback functions into promises and use async/await to deal with them (Fixes a lot of bugs) (Ongoing)</li>
+</ul>
+
 **7.12.0 (December 30, 2017):**
 
 <ul>
