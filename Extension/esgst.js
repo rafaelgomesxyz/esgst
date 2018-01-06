@@ -34037,7 +34037,7 @@ Parsedown = (() => {
     /* Data Management */
 
     function checkBackup() {
-        if (!getLocalValue(`isBackingUp`) && Date.now() - esgst.lastBackup > esgst.autoBackup_days * 86400000) {
+        if (!getLocalValue(`isBackingUp`) && true) {//Date.now() - esgst.lastBackup > esgst.autoBackup_days * 86400000) {
             setLocalValue(`isBackingUp`, 1);
             loadDataManagement(false, `export`, true);
         }
@@ -34642,1158 +34642,1018 @@ Parsedown = (() => {
         }
     }
 
-    function manageData(dm, dropbox, googleDrive, oneDrive, space, callback) {
-        let check, data, numOptions, totalSize;
-        data = {};
-        totalSize = 0;
-        numOptions = dm.options.length;
-        check = new CompletionCheck(numOptions, () => {
-            if (!dm.autoBackup) {
-                dm.computerSpace.lastElementChild.textContent = convertBytes(totalSize);
+    async function manageData(dm, dropbox, googleDrive, oneDrive, space, callback) {
+        let data = {};
+        let totalSize = 0;
+        for (let i = 0, n = dm.options.length; i < n; i++) {
+            let option = dm.options[i];
+            let optionKey = option.key;
+            if (!option.check || (!dm.autoBackup && !space && !esgst.settings[`${dm.type}_${optionKey}`])) {
+                continue;
             }
-            if (!space) {
-                if (dm.type === `export` || esgst.settings.exportBackup) {
-                    if (dropbox || (dm.type !== `export` && esgst.settings.exportBackupIndex === 1)) {
-                        delValue(`dropboxToken`).then(() => {
-                            openSmallWindow(`https://www.dropbox.com/oauth2/authorize?redirect_uri=https://${location.hostname}/esgst/dropbox&response_type=token&client_id=nix7kvchwa8wdvj`);
-                            checkDropboxComplete(data, dm, callback);
-                        });
-                    } else if (googleDrive || (dm.type !== `export` && esgst.settings.exportBackupIndex === 2)) {
-                        delValue(`googleDriveToken`).then(() => {
-                            openSmallWindow(`https://accounts.google.com/o/oauth2/v2/auth?redirect_uri=https://${location.hostname}/esgst/google-drive&response_type=token&client_id=102804278399-95kit5e09mdskdta7eq97ra7tuj20qps.apps.googleusercontent.com&scope=https://www.googleapis.com/auth/drive.appdata`);
-                            checkGoogleDriveComplete(data, dm, callback);
-                        });
-                    } else if (oneDrive || (dm.type !== `export` && esgst.settings.exportBackupIndex === 3)) {
-                        delValue(`oneDriveToken`).then(() => {
-                            openSmallWindow(`https://login.microsoftonline.com/common/oauth2/v2.0/authorize?redirect_uri=https://www.steamgifts.com/esgst/onedrive&response_type=token&client_id=1781429b-289b-4e6e-877a-e50015c0af21&scope=files.readwrite`);
-                            checkOneDriveComplete(data, dm, callback);
-                        });
-                    } else {
-                        data = new Blob([JSON.stringify(data)]);
-                        url = URL.createObjectURL(data);
-                        file = document.createElement(`a`);
-                        file.download = `${prompt(`Enter the name of the file:`, `esgst_data_${new Date().toISOString().replace(/:/g, `_`)}`)}.json`;
-                        file.href = url;
-                        document.body.appendChild(file);
-                        file.click();
-                        file.remove();
-                        URL.revokeObjectURL(url);
-                        if (!dm.autoBackup) {
-                            createFadeMessage(dm.message, `Data ${dm.type}ed with success!`);
+            let values = null;
+            let mainFound, mergedData, sizes;
+            switch (optionKey) {
+                case `decryptedGiveaways`:
+                case `settings`:
+                    data[optionKey] = JSON.parse(await getValue(optionKey, `{}`));
+                    if (!space) {
+                        if (dm.import) {
+                            let newData = dm.data[optionKey];
+                            if (newData) {
+                                if (esgst.settings.importAndMerge) {
+                                    mergedData = data[optionKey];
+                                    for (let newDataKey in newData) {
+                                        mergedData[newDataKey] = newData[newDataKey];
+                                    }
+                                    await setValue(optionKey, JSON.stringify(mergedData));
+                                } else {
+                                    await setValue(optionKey, JSON.stringify(newData));
+                                }
+                            }
+                        } else if (dm.delete) {
+                            await delValue(optionKey);
                         }
-                        callback();
                     }
+                    if (!dm.autoBackup) {
+                        let size = (new TextEncoder(`utf-8`).encode(`{"${optionKey}":${await getValue(optionKey, `{}`)}}`)).length;
+                        totalSize += size;
+                        dm.switches[optionKey].size.textContent = convertBytes(size);
+                    }
+                    break;
+                case `discussions`:
+                    if (!values) {
+                        values = {
+                            main: [`lastUsed`],
+                            ct: [`count`, `readComments`],
+                            df: [`hidden`],
+                            dh: [`highlighted`],
+                            gdttt: [`visited`],
+                            pm: [`status`]
+                        };
+                    }
+                case `giveaways`:
+                    if (!values) {
+                        values = {
+                            main: [`code`, `comments`, `copies`, `creator`, `endTime`, `entries`, `gameId`, `gameName`, `gameSteamId`, `gameType`, `group`, `inviteOnly`, `lastUsed`, `level`, `points`, `regionRestricted`, `started`, `startTime`, `whitelist`, `winners`],
+                            ct: [`count`, `readComments`],
+                            gb: [`bookmarked`],
+                            gdttt: [`visited`],
+                            gf: [`hidden`],
+                            ggl: [`groups`]
+                        };
+                    }
+                case `tickets`:
+                    if (!values) {
+                        values = {
+                            main: [`lastUsed`],
+                            ct: [`count`, `readComments`],
+                            gdttt: [`visited`],
+                            ust: [`sent`]
+                        };
+                    }
+                case `trades`:
+                    if (!values) {
+                        values = {
+                            main: [`lastUsed`],
+                            ct: [`count`, `readComments`],
+                            gdttt: [`visited`]
+                        };
+                    }
+                    data[optionKey] = {};
+                    mergedData = JSON.parse(await getValue(optionKey, `{}`));
+                    sizes = {
+                        ct: 0,
+                        df: 0,
+                        dh: 0,
+                        gb: 0,
+                        gdttt: 0,
+                        gf: 0,
+                        ggl: 0,
+                        main: 0,
+                        pm: 0,
+                        total: 0,
+                        ust: 0
+                    };
+                    mainFound = false;
+                    for (let mergedDataKey in mergedData) {
+                        let newData = {};
+                        let toDelete = 0;
+                        let foundSub = 0;
+                        let deletedSub = 0;
+                        let found = null;
+                        let toExport = false;
+                        for (let value in values) {
+                            if (esgst.settings[`${dm.type}_${optionKey}_${value}`]) {
+                                toDelete += 1;
+                            }
+                            for (let j = 0, numValues = values[value].length; j < numValues; ++j) {
+                                let valueKey = values[value][j];
+                                let mergedDataValue = mergedData[mergedDataKey][valueKey];
+                                if (typeof mergedDataValue !== `undefined`) {
+                                    if (value !== `main`) {
+                                        foundSub += 1;
+                                    }
+                                    if (dm.autoBackup || esgst.settings[`${dm.type}_${optionKey}_${value}`] || value === `main`) {
+                                        newData[valueKey] = mergedDataValue;
+                                        if (value !== `main`) {
+                                            toExport = true;
+                                        }
+                                    }
+                                    let size = (new TextEncoder(`utf-8`).encode(`"${valueKey}":${JSON.stringify(mergedDataValue)},`)).length;
+                                    sizes[value] += size;
+                                    sizes.total += size;
+                                    found = value;
+                                    if (!space && dm.delete && esgst.settings[`${dm.type}_${optionKey}_${value}`] && value !== `main`) {
+                                        deletedSub += 1;
+                                        delete mergedData[mergedDataKey][valueKey];
+                                    }
+                                }
+                            }
+                        }
+                        if (found) {
+                            sizes[found] -= 1;
+                            sizes.total -= 1;
+                        }
+                        if (dm.autoBackup || toExport || esgst.settings[`${dm.type}_${optionKey}_main`]) {
+                            data[optionKey][mergedDataKey] = newData;
+                            mainFound = true;
+                        }
+                        let size = (new TextEncoder(`utf-8`).encode(`"${mergedDataKey}":{},`)).length;
+                        sizes.main += size;
+                        sizes.total += size;
+                        if (!space && dm.delete && ((esgst.settings[`${dm.type}_${optionKey}_main`] && foundSub === deletedSub) || toDelete === Object.keys(values).length)) {
+                            delete mergedData[mergedDataKey];
+                        }
+                    }
+                    if (!space) {
+                        if (dm.import) {
+                            let newData = dm.data[optionKey];
+                            if (newData) {
+                                for (let newDataKey in newData) {
+                                    if (!mergedData[newDataKey]) {
+                                        mergedData[newDataKey] = {};
+                                    }
+                                    for (let value in values) {
+                                        if (esgst.settings[`${dm.type}_${optionKey}_${value}`]) {
+                                            if (esgst.settings.importAndMerge) {
+                                                for (let j = 0, numValues = values[value].length; j < numValues; ++j) {
+                                                    let valueKey = values[value][j];
+                                                    if (valueKey === `readComments`) {
+                                                        if (mergedData[newDataKey].readComments) {
+                                                            for (let id in mergedData[newDataKey].readComments) {
+                                                                if (newData[newDataKey].readComments[id] > mergedData[newDataKey].readComments[id]) {
+                                                                    mergedData[newDataKey].readComments[id] = newData[newDataKey].readComments[id];
+                                                                }
+                                                            }
+                                                        } else {
+                                                            mergedData[newDataKey].readComments = newData[newDataKey].readComments;
+                                                        }
+                                                    } else {
+                                                        mergedData[newDataKey][valueKey] = newData[newDataKey][valueKey];
+                                                    }
+                                                }
+                                            } else {
+                                                for (let j = 0, numValues = values[value].length; j < numValues; ++j) {
+                                                    let valueKey = values[value][j];
+                                                    mergedData[newDataKey][valueKey] = newData[newDataKey][valueKey];
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                                await setValue(optionKey, JSON.stringify(mergedData));
+                            }
+                        } else if (dm.delete) {
+                            await setValue(optionKey, JSON.stringify(mergedData));
+                        }
+                    }
+                    if (mainFound) {
+                        sizes.main -= 1;
+                        sizes.total -= 1;
+                    }
+                    if (!dm.autoBackup) {
+                        let size = (new TextEncoder(`utf-8`).encode(`{"${optionKey}":{}}`)).length;
+                        sizes.main += size;
+                        sizes.total += size;
+                        for (let value in values) {
+                            if (dm.switches[`${optionKey}_${value}`]) {
+                                dm.switches[`${optionKey}_${value}`].size.textContent = convertBytes(sizes[value]);
+                            }
+                        }
+                        dm.switches[optionKey].size.textContent = convertBytes(sizes.total);
+                        totalSize += sizes.total;
+                    }
+                    break;
+                case `emojis`:
+                    data.emojis = await getValue(`emojis`, ``);
+                    if (!space) {
+                        if (dm.import) {
+                            let newData = dm.data.emojis;
+                            if (newData) {
+                                if (esgst.settings.importAndMerge) {
+                                    mergedData = data.emojis;
+                                    newData = parseHtml(newData).getElementsByTagName(`span`);
+                                    for (let j = 0, numNew = newData.length; j < numNew; ++j) {
+                                        let newDataValue = newData[j].outerHTML;
+                                        if (!mergedData.match(newDataValue)) {
+                                            mergedData = `${mergedData}${newDataValue}`;
+                                        }
+                                    }
+                                    await setValue(`emojis`, mergedData);
+                                } else {
+                                    await setValue(`emojis`, newData);
+                                }
+                            }
+                        } else if (dm.delete) {
+                            await delValue(`emojis`);
+                        }
+                    }
+                    if (!dm.autoBackup) {
+                        let size = (new TextEncoder(`utf-8`).encode(`{"${optionKey}":${await getValue(optionKey, `""`)}}`)).length;
+                        totalSize += size;
+                        dm.switches[optionKey].size.textContent = convertBytes(size);
+                    }
+                    break;
+                case `dfPresets`:
+                case `entries`:
+                case `filterPresets`:
+                case `templates`:
+                case `savedReplies`:
+                    data[optionKey] = JSON.parse(await getValue(optionKey, `[]`));
+                    if (!space) {
+                        if (dm.import) {
+                            let newData = dm.data[optionKey];
+                            if (newData) {
+                                if (esgst.settings.importAndMerge) {
+                                    let dataKey = optionKey === `entries` ? `timestamp` : `name`;
+                                    mergedData = data[optionKey];
+                                    for (let j = 0, numNew = newData.length; j < numNew; ++j) {
+                                        let newDataValue = newData[j];
+                                        let k, numMerged;
+                                        for (k = 0, numMerged = mergedData.length; k < numMerged && mergedData[k][dataKey] !== newDataValue[dataKey]; ++k);
+                                        if (k < numMerged) {
+                                            mergedData[k] = newDataValue;
+                                        } else {
+                                            mergedData.push(newDataValue);
+                                        }
+                                    }
+                                    if (optionKey === `entries`) {
+                                        mergedData = sortArrayByNumberKey(mergedData, `timestamp`);
+                                    }
+                                    await setValue(optionKey, JSON.stringify(mergedData));
+                                } else {
+                                    await setValue(optionKey, JSON.stringify(newData));
+                                }
+                            }
+                        } else if (dm.delete) {
+                            await delValue(optionKey);
+                        }
+                    }
+                    if (!dm.autoBackup) {
+                        let size = (new TextEncoder(`utf-8`).encode(`{"${optionKey}":${await getValue(optionKey, `[]`)}}`)).length;
+                        totalSize += size;
+                        dm.switches[optionKey].size.textContent = convertBytes(size);
+                    }
+                    break;
+                case `games`:
+                    values = {
+                        main: [`reducedCV`, `noCV`, `hidden`, `ignored`, `owned`, `wishlisted`],
+                        gt: [`tags`],
+                        egh: [`entered`],
+                        itadi: [`itadi`]
+                    };
+                    data.games = {
+                        apps: {},
+                        subs: {}
+                    };
+                    mergedData = JSON.parse(await getValue(`games`, `{"apps":{},"subs":{}}`));
+                    sizes = {
+                        egh: 0,
+                        gt: 0,
+                        itadi: 0,
+                        main: 0,
+                        total: 0
+                    };
+                    mainFound = false;
+                    for (let mergedDataKey in mergedData.apps) {
+                        let mergedDataValue = mergedData.apps[mergedDataKey];
+                        let newData = {};
+                        let toDelete = 0;
+                        let foundSub = 0;
+                        let deletedSub = 0;
+                        let found = null;
+                        let toExport = false;
+                        for (let value in values) {
+                            if (esgst.settings[`${dm.type}_games_${value}`]) {
+                                toDelete += 1;
+                            }
+                            for (let j = 0, numValues = values[value].length; j < numValues; ++j) {
+                                let valueKey = values[value][j];
+                                let newDataValue = mergedDataValue[valueKey];
+                                if (typeof newDataValue !== `undefined`) {
+                                    if (value !== `main`) {
+                                        foundSub += 1;
+                                    }
+                                    if (dm.autoBackup || esgst.settings[`${dm.type}_games_${value}`] || value === `main`) {
+                                        newData[valueKey] = newDataValue;
+                                        if (value !== `main`) {
+                                            toExport = true;
+                                        }
+                                    }
+                                    let size = (new TextEncoder(`utf-8`).encode(`"${valueKey}":${JSON.stringify(newDataValue)},`)).length;
+                                    sizes[value] += size;
+                                    sizes.total += size;
+                                    found = value;
+                                    if (!space && dm.delete && esgst.settings[`${dm.type}_games_${value}`] && value !== `main`) {
+                                        deletedSub += 1;
+                                        delete mergedDataValue[valueKey];
+                                    }
+                                }
+                            }
+                        }
+                        if (found) {
+                            sizes[found] -= 1;
+                            sizes.total -= 1;
+                        }
+                        if (dm.autoBackup || toExport || esgst.settings[`${dm.type}_${optionKey}_main`]) {
+                            data.games.apps[mergedDataKey] = newData;
+                            mainFound = true;
+                        }
+                        let size = (new TextEncoder(`utf-8`).encode(`"${mergedDataKey}":{},`)).length;
+                        sizes.main += size;
+                        sizes.total += size;
+                        if (!space && dm.delete && ((esgst.settings[`${dm.type}_${optionKey}_main`] && foundSub === deletedSub) || toDelete === Object.keys(values).length)) {
+                            delete mergedData.apps[mergedDataKey];
+                        }
+                    }
+                    if (mainFound) {
+                        sizes.main -= 1;
+                        sizes.total -= 1;
+                    }
+                    mainFound = false;
+                    for (let mergedDataKey in mergedData.subs) {
+                        let mergedDataValue = mergedData.subs[mergedDataKey];
+                        let newData = {};
+                        let toDelete = 0;
+                        let foundSub = 0;
+                        let deletedSub = 0;
+                        let found = null;
+                        let toExport = false;
+                        for (let value in values) {
+                            if (esgst.settings[`${dm.type}_games_${value}`]) {
+                                toDelete += 1;
+                            }
+                            for (let j = 0, numValues = values[value].length; j < numValues; ++j) {
+                                let valueKey = values[value][j];
+                                let newDataValue = mergedDataValue[valueKey];
+                                if (typeof newDataValue !== `undefined`) {
+                                    if (value !== `main`) {
+                                        foundSub += 1;
+                                    }
+                                    if (dm.autoBackup || esgst.settings[`${dm.type}_games_${value}`] || value === `main`) {
+                                        newData[valueKey] = newDataValue;
+                                        if (value !== `main`) {
+                                            toExport = true;
+                                        }
+                                    }
+                                    let size = (new TextEncoder(`utf-8`).encode(`"${valueKey}":${JSON.stringify(newDataValue)},`)).length;
+                                    sizes[value] += size;
+                                    sizes.total += size;
+                                    found = value;
+                                    if (!space && dm.delete && esgst.settings[`${dm.type}_games_${value}`] && value !== `main`) {
+                                        deletedSub += 1;
+                                        delete mergedDataValue[valueKey];
+                                    }
+                                }
+                            }
+                        }
+                        if (found) {
+                            sizes[found] -= 1;
+                            sizes.total -= 1;
+                        }
+                        if (dm.autoBackup || toExport || esgst.settings[`${dm.type}_${optionKey}_main`]) {
+                            data.games.subs[mergedDataKey] = newData;
+                            mainFound = true;
+                        }
+                        let size = (new TextEncoder(`utf-8`).encode(`"${mergedDataKey}":{},`)).length;
+                        sizes.main += size;
+                        sizes.total += size;
+                        if (!space && dm.delete && ((esgst.settings[`${dm.type}_${optionKey}_main`] && foundSub === deletedSub) || toDelete === Object.keys(values).length)) {
+                            delete mergedData.subs[mergedDataKey];
+                        }
+                    }
+                    if (mainFound) {
+                        sizes.main -= 1;
+                        sizes.total -= 1;
+                    }
+                    if (!space) {
+                        if (dm.import) {
+                            let newData = dm.data.games;
+                            if (newData) {
+                                for (let newDataKey in newData.apps) {
+                                    let newDataValue = newData.apps[newDataKey];
+                                    if (!mergedData.apps[newDataKey]) {
+                                        mergedData.apps[newDataKey] = {};
+                                    }
+                                    let mergedDataValue = mergedData.apps[newDataKey];
+                                    for (let value in values) {
+                                        if (esgst.settings[`${dm.type}_games_${value}`]) {
+                                            for (let j = 0, numValues = values[value].length; j < numValues; ++j) {
+                                                let valueKey = values[value][j];
+                                                if (typeof newDataValue[valueKey] !== `undefined`) {
+                                                    if (esgst.settings.importAndMerge) {
+                                                        switch (valueKey) {
+                                                            case `entered`:
+                                                                mergedDataValue.entered = true;
+                                                                break;
+                                                            case `itadi`:
+                                                                if (mergedDataValue.itadi) {
+                                                                    if (newDataValue.itadi.lastCheck > mergedDataValue.itadi.lastCheck) {
+                                                                        mergedDataValue.itadi = newDataValue.itadi;
+                                                                    }
+                                                                } else {
+                                                                    mergedDataValue.itadi = newDataValue.itadi;
+                                                                }
+                                                                break;
+                                                            case `tags`:
+                                                                if (mergedDataValue.tags) {
+                                                                    let tags = newDataValue.tags;
+                                                                    for (let k = 0, numTags = tags.length; k < numTags; ++k) {
+                                                                        let tag = tags[k];
+                                                                        if (mergedDataValue.tags.indexOf(tag) < 0) {
+                                                                            mergedDataValue.tags.push(tag);
+                                                                        }
+                                                                    }
+                                                                } else {
+                                                                    mergedDataValue.tags = newDataValue.tags;
+                                                                }
+                                                                break;
+                                                            default:
+                                                                mergedDataValue[valueKey] = newDataValue[valueKey];
+                                                                break;
+                                                        }
+                                                    } else {
+                                                        mergedDataValue[valueKey] = newDataValue[valueKey];
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                                for (let newDataKey in newData.subs) {
+                                    let newDataValue = newData.subs[newDataKey];
+                                    if (!mergedData.subs[newDataKey]) {
+                                        mergedData.subs[newDataKey] = {};
+                                    }
+                                    let mergedDataValue = mergedData.subs[newDataKey];
+                                    for (let value in values) {
+                                        if (esgst.settings[`${dm.type}_games_${value}`]) {
+                                            for (let j = 0, numValues = values[value].length; j < numValues; ++j) {
+                                                let valueKey = values[value][j];
+                                                if (typeof newDataValue[valueKey] !== `undefined`) {
+                                                    if (esgst.settings.importAndMerge) {
+                                                        switch (valueKey) {
+                                                            case `entered`:
+                                                                mergedDataValue.entered = true;
+                                                                break;
+                                                            case `itadi`:
+                                                                if (mergedDataValue.itadi) {
+                                                                    if (newDataValue.itadi.lastCheck > mergedDataValue.itadi.lastCheck) {
+                                                                        mergedDataValue.itadi = newDataValue.itadi;
+                                                                    }
+                                                                } else {
+                                                                    mergedDataValue.itadi = newDataValue.itadi;
+                                                                }
+                                                                break;
+                                                            case `tags`:
+                                                                if (mergedDataValue.tags) {
+                                                                    let tags = newDataValue.tags;
+                                                                    for (let k = 0, numTags = tags.length; k < numTags; ++k) {
+                                                                        let tag = tags[k];
+                                                                        if (mergedDataValue.tags.indexOf(tag) < 0) {
+                                                                            mergedDataValue.tags.push(tag);
+                                                                        }
+                                                                    }
+                                                                } else {
+                                                                    mergedDataValue.tags = newDataValue.tags;
+                                                                }
+                                                                break;
+                                                            default:
+                                                                mergedDataValue[valueKey] = newDataValue[valueKey];
+                                                                break;
+                                                        }
+                                                    } else {
+                                                        mergedDataValue[valueKey] = newDataValue[valueKey];
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                                await setValue(`games`, JSON.stringify(mergedData));
+                            }
+                        } else if (dm.delete) {
+                            await setValue(`games`, JSON.stringify(mergedData));
+                        }
+                    }
+                    if (!dm.autoBackup) {
+                        let size = (new TextEncoder(`utf-8`).encode(`{"${optionKey}":{"apps":{},"subs":{}}}`)).length;
+                        sizes.main += size;
+                        sizes.total += size;
+                        for (let value in values) {
+                            if (dm.switches[`${optionKey}_${value}`]) {
+                                dm.switches[`${optionKey}_${value}`].size.textContent = convertBytes(sizes[value]);
+                            }
+                        }
+                        dm.switches[optionKey].size.textContent = convertBytes(sizes.total);
+                        totalSize += sizes.total;
+                    }
+                    break;
+                case `groups`:
+                    values = {
+                        main: [`avatar`, `code`, `member`, `name`],
+                        sgg: [`stickied`]
+                    };
+                    mergedData = JSON.parse(await getValue(optionKey, `[]`));
+                    if (!Array.isArray(mergedData)) {
+                        let temp = [];
+                        for (let key in mergedData) {
+                            temp.push(mergedData[key]);
+                        }
+                        mergedData = temp;
+                    }
+                    data[optionKey] = [];
+                    sizes = {
+                        main: 0,
+                        sgg: 0,
+                        total: 0
+                    };
+                    mainFound = false;
+                    for (let j = mergedData.length - 1; j > -1; --j) {
+                        let newData = {};
+                        let toDelete = 0;
+                        let foundSub = 0;
+                        let deletedSub = 0;
+                        let found = null;
+                        let toExport = false;
+                        for (let value in values) {
+                            if (esgst.settings[`${dm.type}_${optionKey}_${value}`]) {
+                                toDelete += 1;
+                            }
+                            for (let k = 0, numValues = values[value].length; k < numValues; ++k) {
+                                let valueKey = values[value][k];
+                                if (mergedData[j]) {
+                                    let mergedDataValue = mergedData[j][valueKey];
+                                    if (typeof mergedDataValue !== `undefined`) {
+                                        if (value !== `main`) {
+                                            foundSub += 1;
+                                        }
+                                        if (dm.autoBackup || esgst.settings[`${dm.type}_${optionKey}_${value}`] || value === `main`) {
+                                            newData[valueKey] = mergedDataValue;
+                                            if (value !== `main`) {
+                                                toExport = true;
+                                            }
+                                        }
+                                        let size = (new TextEncoder(`utf-8`).encode(`"${valueKey}":${JSON.stringify(mergedDataValue)},`)).length;
+                                        sizes[value] += size;
+                                        sizes.total += size;
+                                        found = value;
+                                        if (!space && dm.delete && esgst.settings[`${dm.type}_${optionKey}_${value}`] && value !== `main`) {
+                                            deletedSub += 1;
+                                            delete mergedData[j][valueKey];
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                        if (found) {
+                            sizes[found] -= 1;
+                            sizes.total -= 1;
+                        }
+                        if (dm.autoBackup || toExport || esgst.settings[`${dm.type}_${optionKey}_main`]) {
+                            data[optionKey].push(newData);
+                            mainFound = true;
+                        }
+                        let size = (new TextEncoder(`utf-8`).encode(`{},`)).length;
+                        sizes.main += size;
+                        sizes.total += size;
+                        if (!space && dm.delete && ((esgst.settings[`${dm.type}_${optionKey}_main`] && foundSub === deletedSub) || toDelete === Object.keys(values).length)) {
+                            mergedData.pop();
+                        }
+                    }
+                    if (mainFound) {
+                        sizes.main -= 1;
+                        sizes.total -= 1;
+                    }
+                    if (!space) {
+                        if (dm.import) {
+                            let newData = dm.data[optionKey];
+                            if (!Array.isArray(newData)) {
+                                let temp = [];
+                                for (let key in newData) {
+                                    temp.push(newData[key]);
+                                }
+                                newData = temp;
+                            }
+                            if (newData) {
+                                for (let j = newData.length - 1; j > -1; --j) {
+                                    let code = newData[j].code;
+                                    let k, mergedDataValue;
+                                    for (k = mergedData.length - 1; k > -1 && mergedData[k].code !== code; --k);
+                                    if (k > -1) {
+                                        mergedDataValue = mergedData[k];
+                                    } else {
+                                        mergedDataValue = {};
+                                        mergedData.push(mergedDataValue);
+                                    }
+                                    for (let value in values) {
+                                        if (esgst.settings[`${dm.type}_${optionKey}_${value}`]) {
+                                            for (let k = 0, numValues = values[value].length; k < numValues; ++k) {
+                                                let valueKey = values[value][k];
+                                                mergedDataValue[valueKey] = newData[j][valueKey];
+                                            }
+                                        }
+                                    }
+                                }
+                                await setValue(optionKey, JSON.stringify(mergedData));
+                            }
+                        } else if (dm.delete) {
+                            await setValue(optionKey, JSON.stringify(mergedData));
+                        }
+                    }
+                    if (!dm.autoBackup) {
+                        let size = (new TextEncoder(`utf-8`).encode(`{"${optionKey}":[]}`)).length;
+                        sizes.main += size;
+                        sizes.total += size;
+                        for (let value in values) {
+                            if (dm.switches[`${optionKey}_${value}`]) {
+                                dm.switches[`${optionKey}_${value}`].size.textContent = convertBytes(sizes[value]);
+                            }
+                        }
+                        dm.switches[optionKey].size.textContent = convertBytes(sizes.total);
+                        totalSize += sizes.total;
+                    }
+                    break;
+                case `rerolls`:
+                case `stickiedCountries`:
+                    data[optionKey] = JSON.parse(await getValue(optionKey, `[]`));
+                    if (!space) {
+                        if (dm.import) {
+                            let newData = dm.data[optionKey];
+                            if (newData) {
+                                if (esgst.settings.importAndMerge) {
+                                    mergedData = data[optionKey];
+                                    for (let j = 0, numNew = newData.length; j < numNew; ++j) {
+                                        let newDataValue = newData[j];
+                                        if (mergedData.indexOf(newDataValue) < 0) {
+                                            mergedData.push(newDataValue);
+                                        }
+                                    }
+                                    await setValue(optionKey, JSON.stringify(mergedData));
+                                } else {
+                                    await setValue(optionKey, JSON.stringify(newData));
+                                }
+                            }
+                        } else if (dm.delete) {
+                            await delValue(optionKey);
+                        }
+                    }
+                    if (!dm.autoBackup) {
+                        let size = (new TextEncoder(`utf-8`).encode(`{"${optionKey}":${await getValue(optionKey, `[]`)}}`)).length;
+                        totalSize += size;
+                        dm.switches[optionKey].size.textContent = convertBytes(size);
+                    }
+                    break;
+                case `sgCommentHistory`:
+                case `stCommentHistory`:
+                    data[optionKey] = JSON.parse(await getValue(optionKey, `[]`));
+                    if (!space) {
+                        if (dm.import) {
+                            let newData = dm.data[optionKey];
+                            if (newData) {
+                                if (esgst.settings.importAndMerge) {
+                                    mergedData = [];
+                                    let oldData = data[optionKey];
+                                    let j = 0;
+                                    let k = 0;
+                                    let numNew = newData.length;
+                                    let numOld = oldData.length;
+                                    while (j < numOld && k < numNew) {
+                                        let oldDataValue = oldData[j];
+                                        let newDataValue = newData[k];
+                                        if (oldDataValue.timestamp > newDataValue.timestamp) {
+                                            mergedData.push(oldDataValue);
+                                            j += 1;
+                                        } else {
+                                            let l, numOld;
+                                            for (l = 0; l < numOld && oldData[l].id !== newDataValue.id; ++l);
+                                            if (l >= numOld) {
+                                                mergedData.push(newDataValue);
+                                            }
+                                            k += 1;
+                                        }
+                                    }
+                                    while (j < numOld) {
+                                        mergedData.push(oldData[j]);
+                                        j += 1;
+                                    }
+                                    while (k < numNew) {
+                                        let newDataValue = newData[k];
+                                        let l, numOld;
+                                        for (l = 0; l < numOld && oldData[l].id !== newDataValue.id; ++l);
+                                        if (l >= numOld) {
+                                            mergedData.push(newDataValue);
+                                        }
+                                        k += 1;
+                                    }
+                                    await setValue(optionKey, JSON.stringify(mergedData));
+                                } else {
+                                    await setValue(optionKey, JSON.stringify(newData));
+                                }
+                            }
+                        } else if (dm.delete) {
+                            await delValue(optionKey);
+                        }
+                    }
+                    if (!dm.autoBackup) {
+                        let size = (new TextEncoder(`utf-8`).encode(`{"${optionKey}":${await getValue(optionKey, `[]`)}}`)).length;
+                        totalSize += size;
+                        dm.switches[optionKey].size.textContent = convertBytes(size);
+                    }
+                    break;
+                case `users`:
+                    values = {
+                        main: [`whitelisted`, `whitelistedDate`, `blacklisted`, `blacklistedDate`],
+                        giveaways: [`giveaways`],
+                        namwc: [`namwc`],
+                        notes: [`notes`],
+                        nrf: [`nrf`],
+                        tags: [`tags`],
+                        uf: [`uf`],
+                        wbc: [`wbc`]
+                    };
+                    data.users = {
+                        steamIds: {},
+                        users: {}
+                    };
+                    mergedData = JSON.parse(await getValue(`users`, `{"steamIds":{},"users":{}}`));
+                    sizes = {
+                        giveaways: 0,
+                        namwc: 0,
+                        notes: 0,
+                        nrf: 0,
+                        main: 0,
+                        tags: 0,
+                        total: 0,
+                        uf: 0,
+                        wbc: 0
+                    };
+                    mainFound = false;
+                    mainUsernameFound = false;
+                    for (let mergedDataKey in mergedData.users) {
+                        let mergedDataValue = mergedData.users[mergedDataKey];
+                        let newData = {};
+                        let toDelete = 0;
+                        let foundSub = 0;
+                        let deletedSub = 0;
+                        let found = null;
+                        let toExport = false;
+                        for (let value in values) {
+                            if (esgst.settings[`${dm.type}_users_${value}`]) {
+                                toDelete += 1;
+                            }
+                            for (let j = 0, numValues = values[value].length; j < numValues; ++j) {
+                                let valueKey = values[value][j];
+                                if (typeof mergedDataValue[valueKey] !== `undefined`) {
+                                    if (value !== `main`) {
+                                        foundSub += 1;
+                                    }
+                                    if (dm.autoBackup || esgst.settings[`${dm.type}_users_${value}`] || value === `main`) {
+                                        newData[valueKey] = mergedDataValue[valueKey];
+                                        if (value !== `main`) {
+                                            toExport = true;
+                                        }
+                                    }
+                                    let size = (new TextEncoder(`utf-8`).encode(`"${valueKey}":${JSON.stringify(mergedDataValue[valueKey])},`)).length;
+                                    sizes[value] += size;
+                                    sizes.total += size;
+                                    found = value;
+                                    if (!space && dm.delete && esgst.settings[`${dm.type}_users_${value}`] && value !== `main`) {
+                                        deletedSub += 1;
+                                        delete mergedDataValue[valueKey];
+                                    }
+                                }
+                            }
+                        }
+                        if (found) {
+                            sizes[found] -= 1;
+                            sizes.total -= 1;
+                        }
+                        let id = mergedDataValue.id;
+                        let username = mergedDataValue.username;
+                        let size = 0;
+                        if (id) {
+                            size += (new TextEncoder(`utf-8`).encode(`"id":"${id}",`)).length;
+                        }
+                        if (username) {
+                            size += (new TextEncoder(`utf-8`).encode(`"username":"${username}","${username}":"${mergedDataKey}",`)).length;
+                        }
+                        if (dm.autoBackup || toExport || esgst.settings[`${dm.type}_${optionKey}_main`]) {
+                            if (id) {
+                                newData.id = id;
+                            }
+                            if (username) {
+                                newData.username = username;
+                                data.users.steamIds[username] = mergedDataKey;
+                                mainUsernameFound = true;
+                            }
+                            data.users.users[mergedDataKey] = newData;
+                            mainFound = true;
+                        }
+                        size += (new TextEncoder(`utf-8`).encode(`"${mergedDataKey}":{},`)).length;
+                        sizes.main += size;
+                        sizes.total += size;
+                        if (!space && dm.delete && ((esgst.settings[`${dm.type}_${optionKey}_main`] && foundSub === deletedSub) || toDelete === Object.keys(values).length)) {
+                            delete mergedData.steamIds[mergedDataValue.username];
+                            delete mergedData.users[mergedDataKey];
+                        }
+                    }
+                    if (mainFound) {
+                        sizes.main -= 1;
+                        sizes.total -= 1;
+                    }
+                    if (mainUsernameFound) {
+                        sizes.main -= 1;
+                        sizes.total -= 1;
+                    }
+                    if (!space) {
+                        if (dm.import) {
+                            let newData = dm.data.users;
+                            if (newData) {
+                                for (let newDataKey in newData.users) {
+                                    let newDataValue = newData.users[newDataKey];
+                                    if (!mergedData.users[newDataKey]) {
+                                        mergedData.users[newDataKey] = {
+                                            id: newDataValue.id,
+                                            username: newDataValue.username
+                                        };
+                                        mergedData.steamIds[newDataValue.username] = newDataKey;
+                                    }
+                                    let mergedDataValue = mergedData.users[newDataKey];
+                                    for (let value in values) {
+                                        if (esgst.settings[`${dm.type}_users_${value}`]) {
+                                            for (let j = 0, numValues = values[value].length; j < numValues; ++j) {
+                                                let valueKey = values[value][j];
+                                                if (newDataValue[valueKey]) {
+                                                    if (esgst.settings.importAndMerge) {
+                                                        switch (valueKey) {
+                                                            case `whitelisted`:
+                                                            case `whitelistedDate`:
+                                                            case `blacklisted`:
+                                                            case `blacklistedDate`:
+                                                                mergedDataValue[valueKey] = newDataValue[valueKey];
+                                                                break;
+                                                            case `notes`:
+                                                                mergedDataValue.notes = mergedDataValue.notes ? `${mergedDataValue.notes}\n\n${newDataValue.notes}` : newDataValue.notes;
+                                                                break;
+                                                            case `tags`:
+                                                                if (mergedDataValue.tags) {
+                                                                    let tags = newDataValue.tags;
+                                                                    for (let k = 0, numTags = tags.length; k < numTags; ++k) {
+                                                                        let tag = tags[k];
+                                                                        if (mergedDataValue.tags.indexOf(tag) < 0) {
+                                                                            mergedDataValue.tags.push(tag);
+                                                                        }
+                                                                    }
+                                                                } else {
+                                                                    mergedDataValue.tags = newDataValue.tags;
+                                                                }
+                                                                break;
+                                                            case `giveaways`:
+                                                                if (mergedDataValue.giveaways) {
+                                                                    if (newDataValue.giveaways.wonTimestamp > mergedDataValue.giveaways.wonTimestamp) {
+                                                                        mergedDataValue.giveaways.won = newDataValue.giveaways.won;
+                                                                        mergedDataValue.giveaways.wonTimestamp = newDataValue.giveaways.wonTimestamp;
+                                                                    }
+                                                                    if (newDataValue.giveaways.sentTimestamp > mergedDataValue.giveaways.sentTimestamp) {
+                                                                        mergedDataValue.giveaways.sent = newDataValue.giveaways.sent;
+                                                                        mergedDataValue.giveaways.sentTimestamp = newDataValue.giveaways.sentTimestamp;
+                                                                    }
+                                                                } else {
+                                                                    mergedDataValue.giveaways = newDataValue.giveaways;
+                                                                }
+                                                                break;
+                                                            default:
+                                                                if (mergedDataValue[valueKey]) {
+                                                                    if (newDataValue[valueKey].lastCheck > mergedDataValue[valueKey].lastCheck) {
+                                                                        mergedDataValue[valueKey] = newDataValue[valueKey];
+                                                                    }
+                                                                } else {
+                                                                    mergedDataValue[valueKey] = newDataValue[valueKey];
+                                                                }
+                                                                break;
+                                                        }
+                                                    } else {
+                                                        mergedDataValue[valueKey] = newDataValue[valueKey];
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                                await setValue(`users`, JSON.stringify(mergedData));
+                            }
+                        } else if (dm.delete) {
+                            await setValue(`users`, JSON.stringify(mergedData));
+                        }
+                    }
+                    if (!dm.autoBackup) {
+                        let size = (new TextEncoder(`utf-8`).encode(`{"${optionKey}":{"steamIds":{},"users":{}}}`)).length;
+                        sizes.main += size;
+                        sizes.total += size;
+                        for (value in values) {
+                            if (dm.switches[`${optionKey}_${value}`]) {
+                                dm.switches[`${optionKey}_${value}`].size.textContent = convertBytes(sizes[value]);
+                            }
+                        }
+                        dm.switches[optionKey].size.textContent = convertBytes(sizes.total);
+                        totalSize += sizes.total;
+                    }
+                    break;
+                case `winners`:
+                    data.winners = JSON.parse(await getValue(`winners`, `{}`));
+                    if (!space) {
+                        if (dm.import) {
+                            let newData = dm.data.winners;
+                            if (newData) {
+                                if (esgst.settings.importAndMerge) {
+                                    mergedData = data.winners;
+                                    for (let newDataKey in newData) {
+                                        if (!mergedData[newDataKey]) {
+                                            mergedData[newDataKey] = [];
+                                        }
+                                        for (let j = 0, numNew = newData[newDataKey].length; j < numNew; ++j) {
+                                            let newDataValue = newData[newDataKey][j];
+                                            if (mergedData[newDataKey].indexOf(newDataValue) < 0) {
+                                                mergedData[newDataKey].push(newDataValue);
+                                            }
+                                        }
+                                    }
+                                    await setValue(`winners`, JSON.stringify(mergedData));
+                                } else {
+                                    await setValue(`winners`, JSON.stringify(newData));
+                                }
+                            }
+                        } else if (dm.delete) {
+                            await delValue(`winners`);
+                        }
+                    }
+                    if (!dm.autoBackup) {
+                        let size = (new TextEncoder(`utf-8`).encode(`{"${optionKey}":${await getValue(optionKey, `{}`)}}`)).length;
+                        totalSize += size;
+                        dm.switches[optionKey].size.textContent = convertBytes(size);
+                    }
+                    break;
+                default:
+                    break;
+            }
+        }
+        if (!dm.autoBackup) {
+            dm.computerSpace.lastElementChild.textContent = convertBytes(totalSize);
+        }
+        if (!space) {
+            if (dm.type === `export` || esgst.settings.exportBackup) {
+                if (dropbox || (dm.type !== `export` && esgst.settings.exportBackupIndex === 1)) {
+                    await delValue(`dropboxToken`);
+                    openSmallWindow(`https://www.dropbox.com/oauth2/authorize?redirect_uri=https://${location.hostname}/esgst/dropbox&response_type=token&client_id=nix7kvchwa8wdvj`);
+                    checkDropboxComplete(data, dm, callback);
+                } else if (googleDrive || (dm.type !== `export` && esgst.settings.exportBackupIndex === 2)) {
+                    await delValue(`googleDriveToken`);
+                    openSmallWindow(`https://accounts.google.com/o/oauth2/v2/auth?redirect_uri=https://${location.hostname}/esgst/google-drive&response_type=token&client_id=102804278399-95kit5e09mdskdta7eq97ra7tuj20qps.apps.googleusercontent.com&scope=https://www.googleapis.com/auth/drive.appdata`);
+                    checkGoogleDriveComplete(data, dm, callback);
+                } else if (oneDrive || (dm.type !== `export` && esgst.settings.exportBackupIndex === 3)) {
+                    await delValue(`oneDriveToken`);
+                    openSmallWindow(`https://login.microsoftonline.com/common/oauth2/v2.0/authorize?redirect_uri=https://www.steamgifts.com/esgst/onedrive&response_type=token&client_id=1781429b-289b-4e6e-877a-e50015c0af21&scope=files.readwrite`);
+                    checkOneDriveComplete(data, dm, callback);
                 } else {
-                    createFadeMessage(dm.message, `Data ${dm.type}ed with success!`);
+                    data = new Blob([JSON.stringify(data)]);
+                    let url = URL.createObjectURL(data);
+                    let file = document.createElement(`a`);
+                    file.download = `${prompt(`Enter the name of the file:`, `esgst_data_${new Date().toISOString().replace(/:/g, `_`)}`)}.json`;
+                    file.href = url;
+                    document.body.appendChild(file);
+                    file.click();
+                    file.remove();
+                    URL.revokeObjectURL(url);
+                    if (!dm.autoBackup) {
+                        createFadeMessage(dm.message, `Data ${dm.type}ed with success!`);
+                    }
                     callback();
                 }
-            }
-        });
-        for (let i = 0; i < numOptions; ++i) {
-            let dataKey, deletedSub, found, foundSub, id, j, k, key, l, mainFound, mainUsernameFound, mergedData, mergedDataKey, mergedDataValue, newData, newDataKey, newDataValue, numMerged, numNew, numOld, numTags, oldData, oldDataKey, oldDataValue, option, optionKey, size, sizes, tag, tags, temp, toDelete, toExport, username, value, valueKey, values;
-            option = dm.options[i];
-            if (option.check) {
-                optionKey = option.key;
-                if (dm.autoBackup || space || esgst.settings[`${dm.type}_${optionKey}`]) {
-                    values = null;
-                    switch (optionKey) {
-                        case `decryptedGiveaways`:
-                        case `settings`:
-                            getValue(optionKey, `{}`).then(val => {
-                                data[optionKey] = JSON.parse(val);
-                                new Promise((resolve, reject) => {
-                                    if (space) {
-                                        resolve();
-                                    } else {
-                                        if (dm.import) {
-                                            newData = dm.data[optionKey];
-                                            if (newData) {
-                                                if (esgst.settings.importAndMerge) {
-                                                    mergedData = data[optionKey];
-                                                    for (newDataKey in newData) {
-                                                        mergedData[newDataKey] = newData[newDataKey];
-                                                    }
-                                                    setValue(optionKey, JSON.stringify(mergedData)).then(resolve);
-                                                } else {
-                                                    setValue(optionKey, JSON.stringify(newData)).then(resolve);
-                                                }
-                                            } else {
-                                                resolve();
-                                            }
-                                        } else if (dm.delete) {
-                                            delValue(optionKey).then(resolve);
-                                        } else {
-                                            resolve();
-                                        }
-                                    }
-                                }).then(() => {
-                                    if (!dm.autoBackup) {
-                                        getValue(optionKey, `{}`).then(val => {
-                                            size = (new TextEncoder(`utf-8`).encode(`{"${optionKey}":${val}}`)).length;
-                                            totalSize += size;
-                                            dm.switches[optionKey].size.textContent = convertBytes(size);
-                                        });
-                                    }
-                                    check.count += 1;
-                                });
-                            });
-                            break;
-                        case `discussions`:
-                            if (!values) {
-                                values = {
-                                    main: [`lastUsed`],
-                                    ct: [`count`, `readComments`],
-                                    df: [`hidden`],
-                                    dh: [`highlighted`],
-                                    gdttt: [`visited`],
-                                    pm: [`status`]
-                                };
-                            }
-                        case `giveaways`:
-                            if (!values) {
-                                values = {
-                                    main: [`code`, `comments`, `copies`, `creator`, `endTime`, `entries`, `gameId`, `gameName`, `gameSteamId`, `gameType`, `group`, `inviteOnly`, `lastUsed`, `level`, `points`, `regionRestricted`, `started`, `startTime`, `whitelist`, `winners`],
-                                    ct: [`count`, `readComments`],
-                                    gb: [`bookmarked`],
-                                    gdttt: [`visited`],
-                                    gf: [`hidden`],
-                                    ggl: [`groups`]
-                                };
-                            }
-                        case `tickets`:
-                            if (!values) {
-                                values = {
-                                    main: [`lastUsed`],
-                                    ct: [`count`, `readComments`],
-                                    gdttt: [`visited`],
-                                    ust: [`sent`]
-                                };
-                            }
-                        case `trades`:
-                            if (!values) {
-                                values = {
-                                    main: [`lastUsed`],
-                                    ct: [`count`, `readComments`],
-                                    gdttt: [`visited`]
-                                };
-                            }
-                            new Promise((resolve, reject) => {
-                                getValue(optionKey, `{}`).then(val => {
-                                    mergedData = JSON.parse(val);
-                                    data[optionKey] = {};
-                                    sizes = {
-                                        ct: 0,
-                                        df: 0,
-                                        dh: 0,
-                                        gb: 0,
-                                        gdttt: 0,
-                                        gf: 0,
-                                        ggl: 0,
-                                        main: 0,
-                                        pm: 0,
-                                        total: 0,
-                                        ust: 0
-                                    };
-                                    mainFound = false;
-                                    for (mergedDataKey in mergedData) {
-                                        newData = {};
-                                        toDelete = 0;
-                                        foundSub = 0;
-                                        deletedSub = 0;
-                                        found = null;
-                                        toExport = false;
-                                        for (value in values) {
-                                            if (esgst.settings[`${dm.type}_${optionKey}_${value}`]) {
-                                                toDelete += 1;
-                                            }
-                                            for (j = 0, numValues = values[value].length; j < numValues; ++j) {
-                                                valueKey = values[value][j];
-                                                mergedDataValue = mergedData[mergedDataKey][valueKey];
-                                                if (typeof mergedDataValue !== `undefined`) {
-                                                    if (value !== `main`) {
-                                                        foundSub += 1;
-                                                    }
-                                                    if (esgst.settings[`${dm.type}_${optionKey}_${value}`] || value === `main`) {
-                                                        newData[valueKey] = mergedDataValue;
-                                                        if (value !== `main`) {
-                                                            toExport = true;
-                                                        }
-                                                    }
-                                                    size = (new TextEncoder(`utf-8`).encode(`"${valueKey}":${JSON.stringify(mergedDataValue)},`)).length;
-                                                    sizes[value] += size;
-                                                    sizes.total += size;
-                                                    found = value;
-                                                    if (!space && dm.delete && esgst.settings[`${dm.type}_${optionKey}_${value}`] && value !== `main`) {
-                                                        deletedSub += 1;
-                                                        delete mergedData[mergedDataKey][valueKey];
-                                                    }
-                                                }
-                                            }
-                                        }
-                                        if (found) {
-                                            sizes[found] -= 1;
-                                            sizes.total -= 1;
-                                        }
-                                        if (toExport || esgst.settings[`${dm.type}_${optionKey}_main`]) {
-                                            data[optionKey][mergedDataKey] = newData;
-                                            mainFound = true;
-                                        }
-                                        size = (new TextEncoder(`utf-8`).encode(`"${mergedDataKey}":{},`)).length;
-                                        sizes.main += size;
-                                        sizes.total += size;
-                                        if (!space && dm.delete && ((esgst.settings[`${dm.type}_${optionKey}_main`] && foundSub === deletedSub) || toDelete === Object.keys(values).length)) {
-                                            delete mergedData[mergedDataKey];
-                                        }
-                                    }
-                                    if (space) {
-                                        resolve();
-                                    } else {
-                                        if (dm.import) {
-                                            newData = dm.data[optionKey];
-                                            if (newData) {
-                                                for (newDataKey in newData) {
-                                                    if (!mergedData[newDataKey]) {
-                                                        mergedData[newDataKey] = {};
-                                                    }
-                                                    for (value in values) {
-                                                        if (esgst.settings[`${dm.type}_${optionKey}_${value}`]) {
-                                                            if (esgst.settings.importAndMerge) {
-                                                                for (j = 0, numValues = values[value].length; j < numValues; ++j) {
-                                                                    valueKey = values[value][j];
-                                                                    if (valueKey === `readComments`) {
-                                                                        if (mergedData[newDataKey].readComments) {
-                                                                            for (id in mergedData[newDataKey].readComments) {
-                                                                                if (newData[newDataKey].readComments[id] > mergedData[newDataKey].readComments[id]) {
-                                                                                    mergedData[newDataKey].readComments[id] = newData[newDataKey].readComments[id];
-                                                                                }
-                                                                            }
-                                                                        } else {
-                                                                            mergedData[newDataKey].readComments = newData[newDataKey].readComments;
-                                                                        }
-                                                                    } else {
-                                                                        mergedData[newDataKey][valueKey] = newData[newDataKey][valueKey];
-                                                                    }
-                                                                }
-                                                            } else {
-                                                                for (j = 0, numValues = values[value].length; j < numValues; ++j) {
-                                                                    valueKey = values[value][j];
-                                                                    mergedData[newDataKey][valueKey] = newData[newDataKey][valueKey];
-                                                                }
-                                                            }
-                                                        }
-                                                    }
-                                                }
-                                                setValue(optionKey, JSON.stringify(mergedData)).then(resolve);
-                                            } else {
-                                                resolve();
-                                            }
-                                        } else if (dm.delete) {
-                                            setValue(optionKey, JSON.stringify(mergedData)).then(resolve);
-                                        } else {
-                                            resolve();
-                                        }
-                                    }
-                                });
-                            }).then(() => {
-                                if (mainFound) {
-                                    sizes.main -= 1;
-                                    sizes.total -= 1;
-                                }
-                                if (!dm.autoBackup) {
-                                    size = (new TextEncoder(`utf-8`).encode(`{"${optionKey}":{}}`)).length;
-                                    sizes.main += size;
-                                    sizes.total += size;
-                                    for (value in values) {
-                                        if (dm.switches[`${optionKey}_${value}`]) {
-                                            dm.switches[`${optionKey}_${value}`].size.textContent = convertBytes(sizes[value]);
-                                        }
-                                    }
-                                    dm.switches[optionKey].size.textContent = convertBytes(sizes.total);
-                                    totalSize += sizes.total;
-                                }
-                                check.count += 1;
-                            });
-                            break;
-                        case `emojis`:
-                            new Promise((resolve, reject) => {
-                                getValue(`emojis`, ``).then(val => {
-                                    data.emojis = val;
-                                    if (space) {
-                                        resolve();
-                                    } else {
-                                        if (dm.import) {
-                                            newData = dm.data.emojis;
-                                            if (newData) {
-                                                if (esgst.settings.importAndMerge) {
-                                                    mergedData = data.emojis;
-                                                    newData = parseHtml(newData).getElementsByTagName(`span`);
-                                                    for (j = 0, numNew = newData.length; j < numNew; ++j) {
-                                                        newDataValue = newData[j].outerHTML;
-                                                        if (!mergedData.match(newDataValue)) {
-                                                            mergedData = `${mergedData}${newDataValue}`;
-                                                        }
-                                                    }
-                                                    setValue(`emojis`, mergedData).then(resolve);
-                                                } else {
-                                                    setValue(`emojis`, newData).then(resolve);
-                                                }
-                                            } else {
-                                                resolve();
-                                            }
-                                        } else if (dm.delete) {
-                                            delValue(`emojis`).then(resolve);
-                                        } else {
-                                            resolve();
-                                        }
-                                    }
-                                });
-                            }).then(() => {
-                                if (!dm.autoBackup) {
-                                    getValue(optionKey, `""`).then(val => {
-                                        size = (new TextEncoder(`utf-8`).encode(`{"${optionKey}":${val}}`)).length;
-                                        totalSize += size;
-                                        dm.switches[optionKey].size.textContent = convertBytes(size);
-                                    });
-                                }
-                                check.count += 1;
-                            });
-                            break;
-                        case `dfPresets`:
-                        case `entries`:
-                        case `filterPresets`:
-                        case `templates`:
-                        case `savedReplies`:
-                            new Promise((resolve, reject) => {
-                                getValue(optionKey, `[]`).then(val => {
-                                    data[optionKey] = JSON.parse(val);
-                                    if (space) {
-                                        resolve();
-                                    } else {
-                                        if (dm.import) {
-                                            newData = dm.data[optionKey];
-                                            if (newData) {
-                                                if (esgst.settings.importAndMerge) {
-                                                    dataKey = optionKey === `entries` ? `timestamp` : `name`;
-                                                    mergedData = data[optionKey];
-                                                    for (j = 0, numNew = newData.length; j < numNew; ++j) {
-                                                        newDataValue = newData[j];
-                                                        for (k = 0, numMerged = mergedData.length; k < numMerged && mergedData[k][dataKey] !== newDataValue[dataKey]; ++k);
-                                                        if (k < numMerged) {
-                                                            mergedData[k] = newDataValue;
-                                                        } else {
-                                                            mergedData.push(newDataValue);
-                                                        }
-                                                    }
-                                                    if (optionKey === `entries`) {
-                                                        mergedData = sortArrayByNumberKey(mergedData, `timestamp`);
-                                                    }
-                                                    setValue(optionKey, JSON.stringify(mergedData)).then(resolve);
-                                                } else {
-                                                    setValue(optionKey, JSON.stringify(newData)).then(resolve);
-                                                }
-                                            } else {
-                                                resolve();
-                                            }
-                                        } else if (dm.delete) {
-                                            delValue(optionKey).then(resolve);
-                                        } else {
-                                            resolve();
-                                        }
-                                    }
-                                });
-                            }).then(() => {
-                                if (!dm.autoBackup) {
-                                    getValue(optionKey, `[]`).then(val => {
-                                        size = (new TextEncoder(`utf-8`).encode(`{"${optionKey}":${val}}`)).length;
-                                        totalSize += size;
-                                        dm.switches[optionKey].size.textContent = convertBytes(size);
-                                    });
-                                }
-                                check.count += 1;
-                            });
-                            break;
-                        case `games`:
-                            values = {
-                                main: [`reducedCV`, `noCV`, `hidden`, `ignored`, `owned`, `wishlisted`],
-                                gt: [`tags`],
-                                egh: [`entered`],
-                                itadi: [`itadi`]
-                            };
-                            data.games = {
-                                apps: {},
-                                subs: {}
-                            };
-                            new Promise((resolve, reject) => {
-                                getValue(`games`, `{"apps":{},"subs":{}}`).then(val => {
-                                    mergedData = JSON.parse(val);
-                                    sizes = {
-                                        egh: 0,
-                                        gt: 0,
-                                        itadi: 0,
-                                        main: 0,
-                                        total: 0
-                                    };
-                                    mainFound = false;
-                                    for (mergedDataKey in mergedData.apps) {
-                                        mergedDataValue = mergedData.apps[mergedDataKey];
-                                        newData = {};
-                                        toDelete = 0;
-                                        foundSub = 0;
-                                        deletedSub = 0;
-                                        found = null;
-                                        toExport = false;
-                                        for (value in values) {
-                                            if (esgst.settings[`${dm.type}_games_${value}`]) {
-                                                toDelete += 1;
-                                            }
-                                            for (j = 0, numValues = values[value].length; j < numValues; ++j) {
-                                                valueKey = values[value][j];
-                                                newDataValue = mergedDataValue[valueKey];
-                                                if (typeof newDataValue !== `undefined`) {
-                                                    if (value !== `main`) {
-                                                        foundSub += 1;
-                                                    }
-                                                    if (esgst.settings[`${dm.type}_games_${value}`] || value === `main`) {
-                                                        newData[valueKey] = newDataValue;
-                                                        if (value !== `main`) {
-                                                            toExport = true;
-                                                        }
-                                                    }
-                                                    size = (new TextEncoder(`utf-8`).encode(`"${valueKey}":${JSON.stringify(newDataValue)},`)).length;
-                                                    sizes[value] += size;
-                                                    sizes.total += size;
-                                                    found = value;
-                                                    if (!space && dm.delete && esgst.settings[`${dm.type}_games_${value}`] && value !== `main`) {
-                                                        deletedSub += 1;
-                                                        delete mergedDataValue[valueKey];
-                                                    }
-                                                }
-                                            }
-                                        }
-                                        if (found) {
-                                            sizes[found] -= 1;
-                                            sizes.total -= 1;
-                                        }
-                                        if (toExport || esgst.settings[`${dm.type}_${optionKey}_main`]) {
-                                            data.games.apps[mergedDataKey] = newData;
-                                            mainFound = true;
-                                        }
-                                        size = (new TextEncoder(`utf-8`).encode(`"${mergedDataKey}":{},`)).length;
-                                        sizes.main += size;
-                                        sizes.total += size;
-                                        if (!space && dm.delete && ((esgst.settings[`${dm.type}_${optionKey}_main`] && foundSub === deletedSub) || toDelete === Object.keys(values).length)) {
-                                            delete mergedData.apps[mergedDataKey];
-                                        }
-                                    }
-                                    if (mainFound) {
-                                        sizes.main -= 1;
-                                        sizes.total -= 1;
-                                    }
-                                    mainFound = false;
-                                    for (mergedDataKey in mergedData.subs) {
-                                        mergedDataValue = mergedData.subs[mergedDataKey];
-                                        newData = {};
-                                        toDelete = 0;
-                                        foundSub = 0;
-                                        deletedSub = 0;
-                                        found = null;
-                                        toExport = false;
-                                        for (value in values) {
-                                            if (esgst.settings[`${dm.type}_games_${value}`]) {
-                                                toDelete += 1;
-                                            }
-                                            for (j = 0, numValues = values[value].length; j < numValues; ++j) {
-                                                valueKey = values[value][j];
-                                                newDataValue = mergedDataValue[valueKey];
-                                                if (typeof newDataValue !== `undefined`) {
-                                                    if (value !== `main`) {
-                                                        foundSub += 1;
-                                                    }
-                                                    if (esgst.settings[`${dm.type}_games_${value}`] || value === `main`) {
-                                                        newData[valueKey] = newDataValue;
-                                                        if (value !== `main`) {
-                                                            toExport = true;
-                                                        }
-                                                    }
-                                                    size = (new TextEncoder(`utf-8`).encode(`"${valueKey}":${JSON.stringify(newDataValue)},`)).length;
-                                                    sizes[value] += size;
-                                                    sizes.total += size;
-                                                    found = value;
-                                                    if (!space && dm.delete && esgst.settings[`${dm.type}_games_${value}`] && value !== `main`) {
-                                                        deletedSub += 1;
-                                                        delete mergedDataValue[valueKey];
-                                                    }
-                                                }
-                                            }
-                                        }
-                                        if (found) {
-                                            sizes[found] -= 1;
-                                            sizes.total -= 1;
-                                        }
-                                        if (toExport || esgst.settings[`${dm.type}_${optionKey}_main`]) {
-                                            data.games.subs[mergedDataKey] = newData;
-                                            mainFound = true;
-                                        }
-                                        size = (new TextEncoder(`utf-8`).encode(`"${mergedDataKey}":{},`)).length;
-                                        sizes.main += size;
-                                        sizes.total += size;
-                                        if (!space && dm.delete && ((esgst.settings[`${dm.type}_${optionKey}_main`] && foundSub === deletedSub) || toDelete === Object.keys(values).length)) {
-                                            delete mergedData.subs[mergedDataKey];
-                                        }
-                                    }
-                                    if (mainFound) {
-                                        sizes.main -= 1;
-                                        sizes.total -= 1;
-                                    }
-                                    if (space) {
-                                        resolve();
-                                    } else {
-                                        if (dm.import) {
-                                            newData = dm.data.games;
-                                            if (newData) {
-                                                for (newDataKey in newData.apps) {
-                                                    newDataValue = newData.apps[newDataKey];
-                                                    if (!mergedData.apps[newDataKey]) {
-                                                        mergedData.apps[newDataKey] = {};
-                                                    }
-                                                    mergedDataValue = mergedData.apps[newDataKey];
-                                                    for (value in values) {
-                                                        if (esgst.settings[`${dm.type}_games_${value}`]) {
-                                                            for (j = 0, numValues = values[value].length; j < numValues; ++j) {
-                                                                valueKey = values[value][j];
-                                                                if (typeof newDataValue[valueKey] !== `undefined`) {
-                                                                    if (esgst.settings.importAndMerge) {
-                                                                        switch (valueKey) {
-                                                                            case `entered`:
-                                                                                mergedDataValue.entered = true;
-                                                                                break;
-                                                                            case `itadi`:
-                                                                                if (mergedDataValue.itadi) {
-                                                                                    if (newDataValue.itadi.lastCheck > mergedDataValue.itadi.lastCheck) {
-                                                                                        mergedDataValue.itadi = newDataValue.itadi;
-                                                                                    }
-                                                                                } else {
-                                                                                    mergedDataValue.itadi = newDataValue.itadi;
-                                                                                }
-                                                                                break;
-                                                                            case `tags`:
-                                                                                if (mergedDataValue.tags) {
-                                                                                    tags = newDataValue.tags;
-                                                                                    for (k = 0, numTags = tags.length; k < numTags; ++k) {
-                                                                                        tag = tags[k];
-                                                                                        if (mergedDataValue.tags.indexOf(tag) < 0) {
-                                                                                            mergedDataValue.tags.push(tag);
-                                                                                        }
-                                                                                    }
-                                                                                } else {
-                                                                                    mergedDataValue.tags = newDataValue.tags;
-                                                                                }
-                                                                                break;
-                                                                            default:
-                                                                                mergedDataValue[valueKey] = newDataValue[valueKey];
-                                                                                break;
-                                                                        }
-                                                                    } else {
-                                                                        mergedDataValue[valueKey] = newDataValue[valueKey];
-                                                                    }
-                                                                }
-                                                            }
-                                                        }
-                                                    }
-                                                }
-                                                for (newDataKey in newData.subs) {
-                                                    newDataValue = newData.subs[newDataKey];
-                                                    if (!mergedData.subs[newDataKey]) {
-                                                        mergedData.subs[newDataKey] = {};
-                                                    }
-                                                    mergedDataValue = mergedData.subs[newDataKey];
-                                                    for (value in values) {
-                                                        if (esgst.settings[`${dm.type}_games_${value}`]) {
-                                                            for (j = 0, numValues = values[value].length; j < numValues; ++j) {
-                                                                valueKey = values[value][j];
-                                                                if (typeof newDataValue[valueKey] !== `undefined`) {
-                                                                    if (esgst.settings.importAndMerge) {
-                                                                        switch (valueKey) {
-                                                                            case `entered`:
-                                                                                mergedDataValue.entered = true;
-                                                                                break;
-                                                                            case `itadi`:
-                                                                                if (mergedDataValue.itadi) {
-                                                                                    if (newDataValue.itadi.lastCheck > mergedDataValue.itadi.lastCheck) {
-                                                                                        mergedDataValue.itadi = newDataValue.itadi;
-                                                                                    }
-                                                                                } else {
-                                                                                    mergedDataValue.itadi = newDataValue.itadi;
-                                                                                }
-                                                                                break;
-                                                                            case `tags`:
-                                                                                if (mergedDataValue.tags) {
-                                                                                    tags = newDataValue.tags;
-                                                                                    for (k = 0, numTags = tags.length; k < numTags; ++k) {
-                                                                                        tag = tags[k];
-                                                                                        if (mergedDataValue.tags.indexOf(tag) < 0) {
-                                                                                            mergedDataValue.tags.push(tag);
-                                                                                        }
-                                                                                    }
-                                                                                } else {
-                                                                                    mergedDataValue.tags = newDataValue.tags;
-                                                                                }
-                                                                                break;
-                                                                            default:
-                                                                                mergedDataValue[valueKey] = newDataValue[valueKey];
-                                                                                break;
-                                                                        }
-                                                                    } else {
-                                                                        mergedDataValue[valueKey] = newDataValue[valueKey];
-                                                                    }
-                                                                }
-                                                            }
-                                                        }
-                                                    }
-                                                }
-                                                setValue(`games`, JSON.stringify(mergedData)).then(resolve);
-                                            } else {
-                                                resolve();
-                                            }
-                                        } else if (dm.delete) {
-                                            setValue(`games`, JSON.stringify(mergedData)).then(resolve);
-                                        } else {
-                                            resolve();
-                                        }
-                                    }
-                                });
-                            }).then(() => {
-                                if (!dm.autoBackup) {
-                                    size = (new TextEncoder(`utf-8`).encode(`{"${optionKey}":{"apps":{},"subs":{}}}`)).length;
-                                    sizes.main += size;
-                                    sizes.total += size;
-                                    for (value in values) {
-                                        if (dm.switches[`${optionKey}_${value}`]) {
-                                            dm.switches[`${optionKey}_${value}`].size.textContent = convertBytes(sizes[value]);
-                                        }
-                                    }
-                                    dm.switches[optionKey].size.textContent = convertBytes(sizes.total);
-                                    totalSize += sizes.total;
-                                }
-                                check.count += 1;
-                            });
-                            break;
-                        case `groups`:
-                            values = {
-                                main: [`avatar`, `code`, `member`, `name`],
-                                sgg: [`stickied`]
-                            };
-                            new Promise((resolve, reject) => {
-                                getValue(optionKey, `[]`).then(val => {
-                                    mergedData = JSON.parse(val);
-                                    if (!Array.isArray(mergedData)) {
-                                        temp = [];
-                                        for (key in mergedData) {
-                                            temp.push(mergedData[key]);
-                                        }
-                                        mergedData = temp;
-                                    }
-                                    data[optionKey] = [];
-                                    sizes = {
-                                        main: 0,
-                                        sgg: 0,
-                                        total: 0
-                                    };
-                                    mainFound = false;
-                                    for (j = mergedData.length - 1; j > -1; --j) {
-                                        newData = {};
-                                        toDelete = 0;
-                                        foundSub = 0;
-                                        deletedSub = 0;
-                                        found = null;
-                                        toExport = false;
-                                        for (value in values) {
-                                            if (esgst.settings[`${dm.type}_${optionKey}_${value}`]) {
-                                                toDelete += 1;
-                                            }
-                                            for (k = 0, numValues = values[value].length; k < numValues; ++k) {
-                                                valueKey = values[value][k];
-                                                if (mergedData[j]) {
-                                                    mergedDataValue = mergedData[j][valueKey];
-                                                    if (typeof mergedDataValue !== `undefined`) {
-                                                        if (value !== `main`) {
-                                                            foundSub += 1;
-                                                        }
-                                                        if (esgst.settings[`${dm.type}_${optionKey}_${value}`] || value === `main`) {
-                                                            newData[valueKey] = mergedDataValue;
-                                                            if (value !== `main`) {
-                                                                toExport = true;
-                                                            }
-                                                        }
-                                                        size = (new TextEncoder(`utf-8`).encode(`"${valueKey}":${JSON.stringify(mergedDataValue)},`)).length;
-                                                        sizes[value] += size;
-                                                        sizes.total += size;
-                                                        found = value;
-                                                        if (!space && dm.delete && esgst.settings[`${dm.type}_${optionKey}_${value}`] && value !== `main`) {
-                                                            deletedSub += 1;
-                                                            delete mergedData[j][valueKey];
-                                                        }
-                                                    }
-                                                }
-                                            }
-                                        }
-                                        if (found) {
-                                            sizes[found] -= 1;
-                                            sizes.total -= 1;
-                                        }
-                                        if (toExport || esgst.settings[`${dm.type}_${optionKey}_main`]) {
-                                            data[optionKey].push(newData);
-                                            mainFound = true;
-                                        }
-                                        size = (new TextEncoder(`utf-8`).encode(`{},`)).length;
-                                        sizes.main += size;
-                                        sizes.total += size;
-                                        if (!space && dm.delete && ((esgst.settings[`${dm.type}_${optionKey}_main`] && foundSub === deletedSub) || toDelete === Object.keys(values).length)) {
-                                            mergedData.pop();
-                                        }
-                                    }
-                                    if (mainFound) {
-                                        sizes.main -= 1;
-                                        sizes.total -= 1;
-                                    }
-                                    if (space) {
-                                        resolve();
-                                    } else {
-                                        if (dm.import) {
-                                            newData = dm.data[optionKey];
-                                            if (!Array.isArray(newData)) {
-                                                let key, temp = [];
-                                                for (key in newData) {
-                                                    temp.push(newData[key]);
-                                                }
-                                                newData = temp;
-                                            }
-                                            if (newData) {
-                                                for (j = newData.length - 1; j > -1; --j) {
-                                                    let code = newData[j].code;
-                                                    for (k = mergedData.length - 1; k > -1 && mergedData[k].code !== code; --k);
-                                                    if (k > -1) {
-                                                        mergedDataValue = mergedData[k];
-                                                    } else {
-                                                        mergedDataValue = {};
-                                                        mergedData.push(mergedDataValue);
-                                                    }
-                                                    for (value in values) {
-                                                        if (esgst.settings[`${dm.type}_${optionKey}_${value}`]) {
-                                                            for (k = 0, numValues = values[value].length; k < numValues; ++k) {
-                                                                valueKey = values[value][k];
-                                                                mergedDataValue[valueKey] = newData[j][valueKey];
-                                                            }
-                                                        }
-                                                    }
-                                                }
-                                                setValue(optionKey, JSON.stringify(mergedData)).then(resolve);
-                                            } else {
-                                                resolve();
-                                            }
-                                        } else if (dm.delete) {
-                                            setValue(optionKey, JSON.stringify(mergedData)).then(resolve);
-                                        } else {
-                                            resolve();
-                                        }
-                                    }
-                                });
-                            }).then(() => {
-                                if (!dm.autoBackup) {
-                                    size = (new TextEncoder(`utf-8`).encode(`{"${optionKey}":[]}`)).length;
-                                    sizes.main += size;
-                                    sizes.total += size;
-                                    for (value in values) {
-                                        if (dm.switches[`${optionKey}_${value}`]) {
-                                            dm.switches[`${optionKey}_${value}`].size.textContent = convertBytes(sizes[value]);
-                                        }
-                                    }
-                                    dm.switches[optionKey].size.textContent = convertBytes(sizes.total);
-                                    totalSize += sizes.total;
-                                }
-                                check.count += 1;
-                            });
-                            break;
-                        case `rerolls`:
-                        case `stickiedCountries`:
-                            new Promise((resolve, reject) => {
-                                getValue(optionKey, `[]`).then(val => {
-                                    data[optionKey] = JSON.parse(val);
-                                    if (space) {
-                                        resolve();
-                                    } else {
-                                        if (dm.import) {
-                                            newData = dm.data[optionKey];
-                                            if (newData) {
-                                                if (esgst.settings.importAndMerge) {
-                                                    mergedData = data[optionKey];
-                                                    for (j = 0, numNew = newData.length; j < numNew; ++j) {
-                                                        newDataValue = newData[j];
-                                                        if (mergedData.indexOf(newDataValue) < 0) {
-                                                            mergedData.push(newDataValue);
-                                                        }
-                                                    }
-                                                    setValue(optionKey, JSON.stringify(mergedData)).then(resolve);
-                                                } else {
-                                                    setValue(optionKey, JSON.stringify(newData)).then(resolve);
-                                                }
-                                            } else {
-                                                resolve();
-                                            }
-                                        } else if (dm.delete) {
-                                            delValue(optionKey).then(resolve);
-                                        } else {
-                                            resolve();
-                                        }
-                                    }
-                                });
-                            }).then(() => {
-                                if (!dm.autoBackup) {
-                                    getValue(optionKey, `[]`).then(val => {
-                                        size = (new TextEncoder(`utf-8`).encode(`{"${optionKey}":${val}}`)).length;
-                                        totalSize += size;
-                                        dm.switches[optionKey].size.textContent = convertBytes(size);
-                                    });
-                                }
-                                check.count += 1;
-                            });
-                            break;
-                        case `sgCommentHistory`:
-                        case `stCommentHistory`:
-                            new Promise((resolve, reject) => {
-                                getValue(optionKey, `[]`).then(val => {
-                                    data[optionKey] = JSON.parse(val);
-                                    if (space) {
-                                        resolve();
-                                    } else {
-                                        if (dm.import) {
-                                            newData = dm.data[optionKey];
-                                            if (newData) {
-                                                if (esgst.settings.importAndMerge) {
-                                                    mergedData = [];
-                                                    oldData = data[optionKey];
-                                                    j = 0;
-                                                    k = 0;
-                                                    numNew = newData.length;
-                                                    numOld = oldData.length;
-                                                    while (j < numOld && k < numNew) {
-                                                        oldDataValue = oldData[j];
-                                                        newDataValue = newData[k];
-                                                        if (oldDataValue.timestamp > newDataValue.timestamp) {
-                                                            mergedData.push(oldDataValue);
-                                                            ++j;
-                                                        } else {
-                                                            for (l = 0; l < numOld && oldData[l].id !== newDataValue.id; ++l);
-                                                            if (l >= numOld) {
-                                                                mergedData.push(newDataValue);
-                                                            }
-                                                            ++k;
-                                                        }
-                                                    }
-                                                    while (j < numOld) {
-                                                        mergedData.push(oldData[j]);
-                                                        ++j;
-                                                    }
-                                                    while (k < numNew) {
-                                                        newDataValue = newData[k];
-                                                        for (l = 0; l < numOld && oldData[l].id !== newDataValue.id; ++l);
-                                                        if (l >= numOld) {
-                                                            mergedData.push(newDataValue);
-                                                        }
-                                                        ++k;
-                                                    }
-                                                    setValue(optionKey, JSON.stringify(mergedData)).then(resolve);
-                                                } else {
-                                                    setValue(optionKey, JSON.stringify(newData)).then(resolve);
-                                                }
-                                            } else {
-                                                resolve();
-                                            }
-                                        } else if (dm.delete) {
-                                            delValue(optionKey).then(resolve);
-                                        } else {
-                                            resolve();
-                                        }
-                                    }
-                                });
-                            }).then(() => {
-                                if (!dm.autoBackup) {
-                                    getValue(optionKey, `[]`).then(val => {
-                                        size = (new TextEncoder(`utf-8`).encode(`{"${optionKey}":${val}}`)).length;
-                                        totalSize += size;
-                                        dm.switches[optionKey].size.textContent = convertBytes(size);
-                                    });
-                                }
-                                check.count += 1;
-                            });
-                            break;
-                        case `users`:
-                            values = {
-                                main: [`whitelisted`, `whitelistedDate`, `blacklisted`, `blacklistedDate`],
-                                giveaways: [`giveaways`],
-                                namwc: [`namwc`],
-                                notes: [`notes`],
-                                nrf: [`nrf`],
-                                tags: [`tags`],
-                                uf: [`uf`],
-                                wbc: [`wbc`]
-                            };
-                            data.users = {
-                                steamIds: {},
-                                users: {}
-                            };
-                            new Promise((resolve, reject) => {
-                                getValue(`users`, `{"steamIds":{},"users":{}}`).then(val => {
-                                    mergedData = JSON.parse(val);
-                                    sizes = {
-                                        giveaways: 0,
-                                        namwc: 0,
-                                        notes: 0,
-                                        nrf: 0,
-                                        main: 0,
-                                        tags: 0,
-                                        total: 0,
-                                        uf: 0,
-                                        wbc: 0
-                                    };
-                                    mainFound = false;
-                                    mainUsernameFound = false;
-                                    for (mergedDataKey in mergedData.users) {
-                                        mergedDataValue = mergedData.users[mergedDataKey];
-                                        newData = {};
-                                        toDelete = 0;
-                                        foundSub = 0;
-                                        deletedSub = 0;
-                                        found = null;
-                                        toExport = false;
-                                        for (value in values) {
-                                            if (esgst.settings[`${dm.type}_users_${value}`]) {
-                                                toDelete += 1;
-                                            }
-                                            for (j = 0, numValues = values[value].length; j < numValues; ++j) {
-                                                valueKey = values[value][j];
-                                                if (typeof mergedDataValue[valueKey] !== `undefined`) {
-                                                    if (value !== `main`) {
-                                                        foundSub += 1;
-                                                    }
-                                                    if (esgst.settings[`${dm.type}_users_${value}`] || value === `main`) {
-                                                        newData[valueKey] = mergedDataValue[valueKey];
-                                                        if (value !== `main`) {
-                                                            toExport = true;
-                                                        }
-                                                    }
-                                                    size = (new TextEncoder(`utf-8`).encode(`"${valueKey}":${JSON.stringify(mergedDataValue[valueKey])},`)).length;
-                                                    sizes[value] += size;
-                                                    sizes.total += size;
-                                                    found = value;
-                                                    if (!space && dm.delete && esgst.settings[`${dm.type}_users_${value}`] && value !== `main`) {
-                                                        deletedSub += 1;
-                                                        delete mergedDataValue[valueKey];
-                                                    }
-                                                }
-                                            }
-                                        }
-                                        if (found) {
-                                            sizes[found] -= 1;
-                                            sizes.total -= 1;
-                                        }
-                                        id = mergedDataValue.id;
-                                        username = mergedDataValue.username;
-                                        size = 0;
-                                        if (id) {
-                                            size += (new TextEncoder(`utf-8`).encode(`"id":"${id}",`)).length;
-                                        }
-                                        if (username) {
-                                            size += (new TextEncoder(`utf-8`).encode(`"username":"${username}","${username}":"${mergedDataKey}",`)).length;
-                                        }
-                                        if (toExport || esgst.settings[`${dm.type}_${optionKey}_main`]) {
-                                            if (id) {
-                                                newData.id = id;
-                                            }
-                                            if (username) {
-                                                newData.username = username;
-                                                data.users.steamIds[username] = mergedDataKey;
-                                                mainUsernameFound = true;
-                                            }
-                                            data.users.users[mergedDataKey] = newData;
-                                            mainFound = true;
-                                        }
-                                        size += (new TextEncoder(`utf-8`).encode(`"${mergedDataKey}":{},`)).length;
-                                        sizes.main += size;
-                                        sizes.total += size;
-                                        if (!space && dm.delete && ((esgst.settings[`${dm.type}_${optionKey}_main`] && foundSub === deletedSub) || toDelete === Object.keys(values).length)) {
-                                            delete mergedData.steamIds[mergedDataValue.username];
-                                            delete mergedData.users[mergedDataKey];
-                                        }
-                                    }
-                                    if (mainFound) {
-                                        sizes.main -= 1;
-                                        sizes.total -= 1;
-                                    }
-                                    if (mainUsernameFound) {
-                                        sizes.main -= 1;
-                                        sizes.total -= 1;
-                                    }
-                                    if (space) {
-                                        resolve();
-                                    } else {
-                                        if (dm.import) {
-                                            newData = dm.data.users;
-                                            if (newData) {
-                                                for (newDataKey in newData.users) {
-                                                    newDataValue = newData.users[newDataKey];
-                                                    if (!mergedData.users[newDataKey]) {
-                                                        mergedData.users[newDataKey] = {
-                                                            id: newDataValue.id,
-                                                            username: newDataValue.username
-                                                        };
-                                                        mergedData.steamIds[newDataValue.username] = newDataKey;
-                                                    }
-                                                    mergedDataValue = mergedData.users[newDataKey];
-                                                    for (value in values) {
-                                                        if (esgst.settings[`${dm.type}_users_${value}`]) {
-                                                            for (j = 0, numValues = values[value].length; j < numValues; ++j) {
-                                                                valueKey = values[value][j];
-                                                                if (newDataValue[valueKey]) {
-                                                                    if (esgst.settings.importAndMerge) {
-                                                                        switch (valueKey) {
-                                                                            case `whitelisted`:
-                                                                            case `whitelistedDate`:
-                                                                            case `blacklisted`:
-                                                                            case `blacklistedDate`:
-                                                                                mergedDataValue[valueKey] = newDataValue[valueKey];
-                                                                                break;
-                                                                            case `notes`:
-                                                                                mergedDataValue.notes = mergedDataValue.notes ? `${mergedDataValue.notes}\n\n${newDataValue.notes}` : newDataValue.notes;
-                                                                                break;
-                                                                            case `tags`:
-                                                                                if (mergedDataValue.tags) {
-                                                                                    tags = newDataValue.tags;
-                                                                                    for (k = 0, numTags = tags.length; k < numTags; ++k) {
-                                                                                        tag = tags[k];
-                                                                                        if (mergedDataValue.tags.indexOf(tag) < 0) {
-                                                                                            mergedDataValue.tags.push(tag);
-                                                                                        }
-                                                                                    }
-                                                                                } else {
-                                                                                    mergedDataValue.tags = newDataValue.tags;
-                                                                                }
-                                                                                break;
-                                                                            case `giveaways`:
-                                                                                if (mergedDataValue.giveaways) {
-                                                                                    if (newDataValue.giveaways.wonTimestamp > mergedDataValue.giveaways.wonTimestamp) {
-                                                                                        mergedDataValue.giveaways.won = newDataValue.giveaways.won;
-                                                                                        mergedDataValue.giveaways.wonTimestamp = newDataValue.giveaways.wonTimestamp;
-                                                                                    }
-                                                                                    if (newDataValue.giveaways.sentTimestamp > mergedDataValue.giveaways.sentTimestamp) {
-                                                                                        mergedDataValue.giveaways.sent = newDataValue.giveaways.sent;
-                                                                                        mergedDataValue.giveaways.sentTimestamp = newDataValue.giveaways.sentTimestamp;
-                                                                                    }
-                                                                                } else {
-                                                                                    mergedDataValue.giveaways = newDataValue.giveaways;
-                                                                                }
-                                                                                break;
-                                                                            default:
-                                                                                if (mergedDataValue[valueKey]) {
-                                                                                    if (newDataValue[valueKey].lastCheck > mergedDataValue[valueKey].lastCheck) {
-                                                                                        mergedDataValue[valueKey] = newDataValue[valueKey];
-                                                                                    }
-                                                                                } else {
-                                                                                    mergedDataValue[valueKey] = newDataValue[valueKey];
-                                                                                }
-                                                                                break;
-                                                                        }
-                                                                    } else {
-                                                                        mergedDataValue[valueKey] = newDataValue[valueKey];
-                                                                    }
-                                                                }
-                                                            }
-                                                        }
-                                                    }
-                                                }
-                                                setValue(`users`, JSON.stringify(mergedData)).then(resolve);
-                                            } else {
-                                                resolve();
-                                            }
-                                        } else if (dm.delete) {
-                                            setValue(`users`, JSON.stringify(mergedData)).then(resolve);
-                                        } else {
-                                            resolve();
-                                        }
-                                    }
-                                });
-                            }).then(() => {
-                                if (!dm.autoBackup) {
-                                    size = (new TextEncoder(`utf-8`).encode(`{"${optionKey}":{"steamIds":{},"users":{}}}`)).length;
-                                    sizes.main += size;
-                                    sizes.total += size;
-                                    for (value in values) {
-                                        if (dm.switches[`${optionKey}_${value}`]) {
-                                            dm.switches[`${optionKey}_${value}`].size.textContent = convertBytes(sizes[value]);
-                                        }
-                                    }
-                                    dm.switches[optionKey].size.textContent = convertBytes(sizes.total);
-                                    totalSize += sizes.total;
-                                }
-                                check.count += 1;
-                            });
-                            break;
-                        case `winners`:
-                            new Promise((resolve, reject) => {
-                                getValue(`winners`, `{}`).then(val => {
-                                    data.winners = JSON.parse(val);
-                                    if (space) {
-                                        resolve();
-                                    } else {
-                                        if (dm.import) {
-                                            newData = dm.data.winners;
-                                            if (newData) {
-                                                if (esgst.settings.importAndMerge) {
-                                                    mergedData = data.winners;
-                                                    for (newDataKey in newData) {
-                                                        if (!mergedData[newDataKey]) {
-                                                            mergedData[newDataKey] = [];
-                                                        }
-                                                        for (j = 0, numNew = newData[newDataKey].length; j < numNew; ++j) {
-                                                            newDataValue = newData[newDataKey][j];
-                                                            if (mergedData[newDataKey].indexOf(newDataValue) < 0) {
-                                                                mergedData[newDataKey].push(newDataValue);
-                                                            }
-                                                        }
-                                                    }
-                                                    setValue(`winners`, JSON.stringify(mergedData)).then(resolve);
-                                                } else {
-                                                    setValue(`winners`, JSON.stringify(newData)).then(resolve);
-                                                }
-                                            } else {
-                                                resolve();
-                                            }
-                                        } else if (dm.delete) {
-                                            delValue(`winners`).then(resolve);
-                                        } else {
-                                            resolve();
-                                        }
-                                    }
-                                });
-                            }).then(() => {
-                                if (!dm.autoBackup) {
-                                    getValue(optionKey, `{}`).then(val => {
-                                        size = (new TextEncoder(`utf-8`).encode(`{"${optionKey}":${val}}`)).length;
-                                        totalSize += size;
-                                        dm.switches[optionKey].size.textContent = convertBytes(size);
-                                    });
-                                }
-                                check.count += 1;
-                            });
-                            break;
-                        default:
-                            break;
-                    }
-                } else {
-                    check.count += 1;
-                }
             } else {
-                check.count += 1;
+                createFadeMessage(dm.message, `Data ${dm.type}ed with success!`);
+                callback();
             }
         }
     }
