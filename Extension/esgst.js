@@ -26406,7 +26406,7 @@ Parsedown = (() => {
                         results: {}
                     };
                 }
-                if (Date.now() - user.values.namwc.lastCheck) > 604800000) {
+                if ((Date.now() - user.values.namwc.lastCheck) > 604800000) {
                     if (esgst.namwc_checkNotActivated) {
                         await checkNamwcNotActivated(NAMWC, user);
                     } else if (esgst.namwc_checkMultiple) {
