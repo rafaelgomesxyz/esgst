@@ -26451,7 +26451,6 @@ Parsedown = (() => {
                         users.push(user);
                         if (Array.isArray(namwc.results.notActivated)) {
                             for (i = 0, n = namwc.results.notActivated.length; i < n && namwc.results.notActivated[i] <= suspension; ++i);
-                            i -= 1;
                             if (i > 0) {
                                 NAMWC.users[steamId].notActivated.insertAdjacentHTML(`beforeEnd`, ` <span title="This user already served suspension for ${i} of their not activated wins (until ${getTimestamp(suspension / 1e3, true, true)})">[-${i}]</span>`);
                             } else if (NAMWC.users[steamId].activated) {
@@ -26460,7 +26459,6 @@ Parsedown = (() => {
                         }
                         if (Array.isArray(namwc.results.multiple)) {
                             for (i = 0, n = namwc.results.multiple.length; i < n && namwc.results.multiple[i] <= suspension; ++i);
-                            i -= 1;
                             if (i > 0) {
                                 NAMWC.users[steamId].multiple.insertAdjacentHTML(`beforeEnd`, ` <span title="This user already served suspension for ${i} of their multiple wins (until ${getTimestamp(suspension / 1e3, true, true)})">[-${i}]</span>`);
                             } else if (NAMWC.users[steamId].notMultiple) {
