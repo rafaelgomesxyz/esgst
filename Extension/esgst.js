@@ -1682,6 +1682,7 @@ Parsedown = (() => {
                 elgb_filters: `.|(bestof|(g(ood)?)?)(l(uck)?)?(h(ave)?)?(f(un)?)?|enjoy|(h(umble)?)?(b(undle)?)?(g(ift)?)?(l(ink)?)?`,
                 exportBackup: true,
                 exportBackupIndex: 0,
+                filterPresets: [],
                 gas_auto: false,
                 gas_option: `sortIndex_asc`,
                 gas_autoWishlist: false,
@@ -5366,53 +5367,40 @@ Parsedown = (() => {
             }
             setValue = GM.setValue;
             setValues = values => {
-                return new Promise((resolve, reject) => {
-                    let check = new CompletionCheck(Object.keys(values).length, resolve);
+                return new Promise(async (resolve, reject) => {
                     for (let key in values) {
-                        GM.setValue(key, values[key]).then(() => {
-                            check.count += 1;
-                        });
+                        await GM.setValue(key, values[key]);
                     }
+                    resolve();
                 });
             };
             getValue = GM.getValue;
             getValues = values => {
-                return new Promise((resolve, reject) => {
-                    let check, output;
-                    output = {};
-                    check = new CompletionCheck(Object.keys(values).length, resolve.bind(null, output));
+                return new Promise(async (resolve, reject) => {
+                    let output = {};
                     for (let key in values) {
-                        GM.getValue(key, values[key]).then(value => {
-                            output[key] = value;
-                            check.count += 1;
-                        });
+                        output[key] = await GM.getValue(key, values[key]);
                     }
+                    resolve(output);
                 });
             };
             delValue = GM.deleteValue;
             delValues = keys => {
-                return new Promise((resolve, reject) => {
-                    let check = new CompletionCheck(keys.length, resolve);
-                    keys.forEach(key => {
-                        GM.deleteValue(key).then(() => {
-                            check.count += 1;
-                        });
-                    });
+                return new Promise(async (resolve, reject) => {
+                    for (let i = keys.length - 1; i > -1; i--) {
+                        await GM.deleteValue(keys[i]);
+                    }
+                    resolve();
                 });
             };
             getStorage = () => {
-                return new Promise((resolve, reject) => {
-                    GM.listValues().then(keys => {
-                        let check, storage;
-                        storage = {};
-                        check = new CompletionCheck(keys.length, resolve.bind(null, storage));
-                        keys.forEach(key => {
-                            GM.getValue(key).then(value => {
-                                storage[key] = value;
-                                check.count += 1;
-                            });
-                        });
-                    });
+                return new Promise(async (resolve, reject) => {
+                    let keys = await GM.listValues();
+                    let storage = {};
+                    for (let i = keys.length - 1; i > -1; i--) {
+                        storage[keys[i]] = await GM.getValue(keys[i]);
+                    }
+                    resolve(storage);
                 });
             };
             notifyNewVersion = version => {
@@ -5429,33 +5417,31 @@ Parsedown = (() => {
                 };
                 popup.open();
             };
-            continueRequest = (data, headers, method, url, callback, anon, closeLock) => {
+            continueRequest = async (data, headers, method, url, callback, anon, closeLock) => {
                 if (url.match(/^\//) || url.match(new RegExp(location.hostname))) {
                     url = url.replace(/^https?:/, location.href.match(/^http:/) ? `http:` : `https:`);
-                    fetch(url, {
+                    let response = await fetch(url, {
                         body: data,
                         credentials: anon ? `omit` : `include`,
                         headers: headers,
                         method: method,
                         redirect: `follow`
-                    }).then(response => {
-                        response.text().then(responseText => {
-                            if (closeLock) {
-                                closeLock();
-                            }
-                            response = {
-                                finalUrl: response.url,
-                                redirected: response.redirected,
-                                responseText: responseText
-                            };
-                            if (callback) {
-                                callback(response);
-                            }
-                            if (response.finalUrl.match(/www.steamgifts.com/)) {
-                                lookForPopups(response);
-                            }
-                        });
                     });
+                    let responseText = await response.text();
+                    if (closeLock) {
+                        closeLock();
+                    }
+                    response = {
+                        finalUrl: response.url,
+                        redirected: response.redirected,
+                        responseText: responseText
+                    };
+                    if (callback) {
+                        callback(response);
+                    }
+                    if (response.finalUrl.match(/www.steamgifts.com/)) {
+                        lookForPopups(response);
+                    }
                 } else {
                     GM.xmlHttpRequest({
                         data: data,
@@ -5897,7 +5883,7 @@ Parsedown = (() => {
     }
 
     function delLocalValue(key) {
-        localStorage.removeItem(key);
+        localStorage.removeItem(`esgst_${key}`);
     }
 
     function isSet(variable) {
@@ -9420,7 +9406,7 @@ Parsedown = (() => {
                 }
             }
             esgst.endlessFeatures.push(checkGdtttVisited);
-            checkGdtttVisited(document);
+            await checkGdtttVisited(document);
         }
 
         if (esgst.gas) {
@@ -12983,27 +12969,27 @@ Parsedown = (() => {
     /* [GDTTT] Giveaways/Discussions/Tickets/Trades Tracker */
 
     function checkGdtttVisited(context) {
-        var code, comment, container, heading, i, match, matches, n, source, type, url;
-        matches = context.querySelectorAll(`.homepage_table_column_heading, .table__column__heading, .giveaway__heading__name, .column_flex h3 a`);
-        getValues({
-            giveaways: `{}`,
-            discussions: `{}`,
-            tickets: `{}`,
-            trades: `{}`
-        }).then(values => {
+        return new Promise(async (resolve, reject) => {
+            let matches = context.querySelectorAll(`.homepage_table_column_heading, .table__column__heading, .giveaway__heading__name, .column_flex h3 a`);
+            let values = await getValues({
+                giveaways: `{}`,
+                discussions: `{}`,
+                tickets: `{}`,
+                trades: `{}`
+            });
             for (let key in values) {
                 values[key] = JSON.parse(values[key]);
             }
-            for (i = 0, n = matches.length; i < n; ++i) {
-                match = matches[i];
-                url = match.getAttribute(`href`);
+            for (let i = 0, n = matches.length; i < n; ++i) {
+                let match = matches[i];
+                let url = match.getAttribute(`href`);
                 if (url) {
-                    source = url.match(/(giveaway|discussion|ticket|trade)\/(.+?)(\/.*)?$/);
+                    let source = url.match(/(giveaway|discussion|ticket|trade)\/(.+?)(\/.*)?$/);
                     if (source) {
-                        type = `${source[1]}s`;
-                        code = source[2];
-                        container = match.closest(`.table__row-outer-wrap, .giveaway__row-outer-wrap, .row_outer_wrap`);
-                        comment = values[type][code];
+                        let type = `${source[1]}s`;
+                        let code = source[2];
+                        let container = match.closest(`.table__row-outer-wrap, .giveaway__row-outer-wrap, .row_outer_wrap`);
+                        let comment = values[type][code];
                         if (comment && comment.visited && container) {
                             if ((type === `giveaways` && esgst.gdttt_g) || type !== `giveaways`) {
                                 container.classList.add(`esgst-ct-visited`);
@@ -13014,6 +13000,7 @@ Parsedown = (() => {
                     }
                 }
             }
+            resolve();
         });
     }
 
@@ -19227,6 +19214,7 @@ Parsedown = (() => {
             // initialize/reset stuff
             ugs.canceled = false;
             ugs.giveaways = [];
+            ugs.groups = {};
             ugs.button.classList.add(`esgst-busy`);
             ugs.results.classList.add(`esgst-hidden`);
             ugs.sent.classList.add(`esgst-hidden`);
@@ -19253,13 +19241,15 @@ Parsedown = (() => {
                 let context = null;
                 if (nextPage === esgst.currentPage) {
                     context = document;
-                    ugs.lastPage = getLastPage(context);
-                    ugs.lastPage = ugs.lastPage === 999999999 ? `` : ` of ${ugs.lastPage}`;
                 } else if (document.getElementsByClassName(`esgst-es-page-${nextPage}}`)[0]) {
                     // page has been loaded with endless scrolling, so its giveaways were already retrieved when the context was the document
                     continue;
                 }
                 context = parseHtml((await request_v2({method: `GET`, url: `/giveaways/created/search?page=${nextPage}`})).responseText);
+                if (nextPage === 1) {                    
+                    ugs.lastPage = getLastPage(context);
+                    ugs.lastPage = ugs.lastPage === 999999999 ? `` : ` of ${ugs.lastPage}`;
+                }
                 ugs.progress.innerHTML = `
                     <i class="fa fa-circle-o-notch fa-spin"></i>
                     <span>Searching for unsent gifts (page ${nextPage}${ugs.lastPage})...</span>
@@ -19375,6 +19365,7 @@ Parsedown = (() => {
                 ugs.winners = {};
                 ugs.results.classList.remove(`esgst-hidden`);
                 for (let i = 0; !ugs.canceled && i < n; i++) {
+                    ugs.overallProgress.textContent = `${i} of ${n} giveaways checked...`;
                     let giveaway = ugs.giveaways[codes[i]];
                     for (let j = 0, numWinners = giveaway.winners.length; j < numWinners; j++) {
                         let winner = giveaway.winners[j];
@@ -21020,7 +21011,7 @@ Parsedown = (() => {
                         responseHtml = parseHtml(response.responseText);
                         giveaway = buildGiveaway(responseHtml, response.finalUrl);
                         if (giveaway) {
-                            giveaway = await getGiveawayInfo(insertHtml(ge.results.lastElementChild, `beforeEnd`, giveaway.html).firstElementChild, document, esgst.games).giveaway;
+                            giveaway = (await getGiveawayInfo(insertHtml(ge.results.lastElementChild, `beforeEnd`, giveaway.html).firstElementChild, document, esgst.games)).giveaway;
                             if (giveaway.public && esgst.ge_p) {
                                 giveaway.outerWrap.classList.add(`esgst-ge-public`);
                                 giveaway.summary.classList.add(`esgst-ge-public`);
@@ -21060,7 +21051,7 @@ Parsedown = (() => {
                                 responseHtml = parseHtml(response.responseText);
                                 giveaway = buildGiveaway(responseHtml, response.finalUrl);
                                 if (giveaway) {
-                                    giveaway = await getGiveawayInfo(insertHtml(ge.results.lastElementChild, `beforeEnd`, giveaway.html).firstElementChild, document, esgst.games).giveaway;
+                                    giveaway = (await getGiveawayInfo(insertHtml(ge.results.lastElementChild, `beforeEnd`, giveaway.html).firstElementChild, document, esgst.games)).giveaway;
                                     giveaway.outerWrap.setAttribute(`data-blacklist`, true);
                                     if (esgst.ge_b) {
                                         giveaway.outerWrap.classList.add(`esgst-ge-blacklist`);
@@ -23042,7 +23033,7 @@ Parsedown = (() => {
                         if (!esgst.giveawaysPath && !esgst.discussionsPath) {
                             if (esgst.gdttt) {
                                 await addCtDiscussionPanels(popup.highlightedDiscussions.lastElementChild, false, null, false, true);
-                                checkGdtttVisited(popup.highlightedDiscussions.lastElementChild);
+                                await checkGdtttVisited(popup.highlightedDiscussions.lastElementChild);
                             } else if (esgst.ct) {
                                 await addCtDiscussionPanels(popup.highlightedDiscussions.lastElementChild, false, null, false, true);
                             }
@@ -26182,7 +26173,7 @@ Parsedown = (() => {
                 let Giveaways = Context.getElementsByClassName(`giveaway__row-outer-wrap`);
                 let toGiveaways = [];
                 for (let I = 0, NumGiveaways = Giveaways.length; I < NumGiveaways; ++I) {
-                    let Giveaway = await getGiveawayInfo(Giveaways[I], document, null, null, username, UGD.Key).data;
+                    let Giveaway = (await getGiveawayInfo(Giveaways[I], document, null, null, username, UGD.Key)).data;
                     if (Giveaway.endTime < new Date().getTime()) {
                         if (!UGD.Timestamp) {
                             UGD.Timestamp = Giveaway.endTime;
@@ -31310,7 +31301,7 @@ Parsedown = (() => {
                     if (!esgst.giveawaysPath && !esgst.discussionsPath) {
                         if (esgst.gdttt) {
                             await addCtDiscussionPanels(popup.discussions.lastElementChild, true);
-                            checkGdtttVisited(popup.discussions.lastElementChild);
+                            await checkGdtttVisited(popup.discussions.lastElementChild);
                         } else if (esgst.ct) {
                             await addCtDiscussionPanels(popup.discussions.lastElementChild, true);
                         }
@@ -34467,112 +34458,90 @@ Parsedown = (() => {
             setSetting(`cleanTrades_days`, value);
             esgst.cleanTrades_days = parseInt(value);
         });
-        popup.description.appendChild(new ButtonSet(`green`, `grey`, `fa-check`, `fa-circle-o-notch fa-spin`, `Clean`, `Cleaning...`, callback => {
-            let code, currentTime, days, item, items, newItems;
-            currentTime = Date.now();
-            getValue(`discussions`).then(value => {
+        popup.description.appendChild(new ButtonSet_v2({color1: `green`, color2: `grey`, icon1: `fa-check`, icon2: `fa-circle-o-notch fa-spin`, title1: `Clean`, title2: `Cleaning...`, callback: () => {
+            return new Promise(async (resolve, reject) => {
+                let currentTime = Date.now();
                 if (esgst.cleanDiscussions) {
-                    days = esgst.cleanDiscussions_days * 86400000;
-                    items = JSON.parse(value);
-                    for (code in items) {
-                        item = items[code];
+                    let days = esgst.cleanDiscussions_days * 86400000;
+                    let items = JSON.parse(await getValue(`discussions`));
+                    for (let code in items) {
+                        let item = items[code];
                         if (item.author !== esgst.username && item.lastUsed && currentTime - item.lastUsed > days) {
                             delete items[code];
                         }
                     }
-                    return setValue(`discussions`, JSON.stringify(items));
-                } else {
-                    return new Promise((resolve, reject) => resolve());
+                    await setValue(`discussions`, JSON.stringify(items));
                 }
-            }).then(getValue.bind(null, `entries`)).then(value => {
                 if (esgst.cleanEntries) {
-                    days = esgst.cleanEntries_days * 86400000;
-                    items = JSON.parse(value);
-                    newItems = [];
+                    let days = esgst.cleanEntries_days * 86400000;
+                    let items = JSON.parse(await getValue(`entries`));
+                    let newItems = [];
                     items.forEach(item => {
                         if (currentTime - item.timestamp <= days) {
                             newItems.push(item);
                         }
                     });
-                    return setValue(`entries`, JSON.stringify(newItems));
-                } else {
-                    return new Promise((resolve, reject) => resolve());
+                    await setValue(`entries`, JSON.stringify(newItems));
                 }
-            }).then(getValue.bind(null, `giveaways`)).then(value => {
                 if (esgst.cleanGiveaways) {
-                    days = esgst.cleanGiveaways_days * 86400000;
-                    items = JSON.parse(value);
-                    for (code in items) {
-                        item = items[code];
+                    let days = esgst.cleanGiveaways_days * 86400000;
+                    let items = JSON.parse(await getValue(`giveaways`));
+                    for (let code in items) {
+                        let item = items[code];
                         if (item.creator !== esgst.username && ((item.endTime && currentTime - item.endTime > days) || (item.lastUsed && currentTime - item.lastUsed > days))) {
                             delete items[code];
                         }
                     }
-                    return setValue(`giveaways`, JSON.stringify(items));
-                } else {
-                    return new Promise((resolve, reject) => resolve());
+                    await setValue(`giveaways`, JSON.stringify(items));
                 }
-            }).then(getValue.bind(null, `sgCommentHistory`)).then(value => {
                 if (esgst.cleanSgCommentHistory) {
-                    days = esgst.cleanSgCommentHistory_days * 86400000;
-                    items = JSON.parse(value);
-                    newItems = [];
+                    let days = esgst.cleanSgCommentHistory_days * 86400000;
+                    let items = JSON.parse(await getValue(`sgCommentHistory`));
+                    let newItems = [];
                     items.forEach(item => {
                         if (currentTime - item.timestamp <= days) {
                             newItems.push(item);
                         }
                     });
-                    return setValue(`sgCommentHistory`, JSON.stringify(newItems));
-                } else {
-                    return new Promise((resolve, reject) => resolve());
+                    await setValue(`sgCommentHistory`, JSON.stringify(newItems));
                 }
-            }).then(getValue.bind(null, `stCommentHistory`)).then(value => {
                 if (esgst.cleanStCommentHistory) {
-                    days = esgst.cleanStCommentHistory_days * 86400000;
-                    items = JSON.parse(value);
-                    newItems = [];
+                    let days = esgst.cleanStCommentHistory_days * 86400000;
+                    let items = JSON.parse(await getValue(`stCommentHistory`));
+                    let newItems = [];
                     items.forEach(item => {
                         if (currentTime - item.timestamp <= days) {
                             newItems.push(item);
                         }
                     });
-                    return setValue(`stCommentHistory`, JSON.stringify(newItems));
-                } else {
-                    return new Promise((resolve, reject) => resolve());
+                    await setValue(`stCommentHistory`, JSON.stringify(newItems));
                 }
-            }).then(getValue.bind(null, `tickets`)).then(value => {
                 if (esgst.cleanTickets) {
-                    days = esgst.cleanTickets_days * 86400000;
-                    items = JSON.parse(value);
-                    for (code in items) {
-                        item = items[code];
+                    let days = esgst.cleanTickets_days * 86400000;
+                    let items = JSON.parse(await getValue(`tickets`));
+                    for (let code in items) {
+                        let item = items[code];
                         if (item.author !== esgst.username && item.lastUsed && currentTime - item.lastUsed > days) {
                             delete items[code];
                         }
                     }
-                    return setValue(`tickets`, JSON.stringify(items));
-                } else {
-                    return new Promise((resolve, reject) => resolve());
+                    await setValue(`tickets`, JSON.stringify(items));
                 }
-            }).then(getValue.bind(null, `trades`)).then(value => {
                 if (esgst.cleanTrades) {
-                    days = esgst.cleanTrades_days * 86400000;
-                    items = JSON.parse(value);
-                    for (code in items) {
-                        item = items[code];
+                    let days = esgst.cleanTrades_days * 86400000;
+                    let items = JSON.parse(await getValue(`trades`));
+                    for (let code in items) {
+                        let item = items[code];
                         if (item.author !== esgst.username && item.lastUsed && currentTime - item.lastUsed > days) {
                             delete items[code];
                         }
                     }
-                    return setValue(`trades`, JSON.stringify(items));
-                } else {
-                    return new Promise((resolve, reject) => resolve());
+                    await setValue(`trades`, JSON.stringify(items));
                 }
-            }).then(() => {
-                callback();
+                resolve();
                 popup.close();
             });
-        }).set);
+        }}).set);
         popup.open();
     }
 
