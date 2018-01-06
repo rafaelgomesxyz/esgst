@@ -34037,7 +34037,7 @@ Parsedown = (() => {
     /* Data Management */
 
     function checkBackup() {
-        if (!getLocalValue(`isBackingUp`) && Date.now() - esgst.lastBackup > esgst.autoBackup_days * 86400000) {
+        if (!getLocalValue(`isBackingUp`) && true) {//Date.now() - esgst.lastBackup > esgst.autoBackup_days * 86400000) {
             setLocalValue(`isBackingUp`, 1);
             loadDataManagement(false, `export`, true);
         }
