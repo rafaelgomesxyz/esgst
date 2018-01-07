@@ -942,6 +942,14 @@ May or may not be working (try at your own risk) in the latest version of:
 
 ## Changelog
 
+**7.12.2 (January 7, 2018):**
+
+<ul>
+    <li><a href="https://github.com/revilheart/ESGST/issues/363">#363</a> Fix a bug that does not auto backup all data</li>
+    <li><a href="https://github.com/revilheart/ESGST/issues/364">#364</a> Fix a bug that happens when checking for a user's not activated/multiple wins</li>
+    <li><a href="https://github.com/revilheart/ESGST/issues/353">#353</a> Convert all callback functions into promises and use async/await to deal with them (Fixes a lot of bugs) (Ongoing)</li>
+</ul>
+
 **7.12.1 (January 6, 2018):**
 
 <ul>
