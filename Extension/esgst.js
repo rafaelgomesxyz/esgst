@@ -5162,10 +5162,8 @@ Parsedown = (() => {
                     chrome.storage.local.set(values, resolve);
                 });
             };
-            getValue = (key, value) => {
-                return new Promise((resolve, reject) => {
-                    resolve(isSet(esgst.storage[key]) ? esgst.storage[key] : value);
-                });
+            getValue = async (key, value) => {
+                return isSet(esgst.storage[key]) ? esgst.storage[key] : value;
             };
             getValues = values => {
                 return new Promise((resolve, reject) => {
@@ -5237,6 +5235,27 @@ Parsedown = (() => {
                     if (callback) {
                         callback(response);
                     }
+                });
+            };
+            continueRequest_v2 = details => {
+                return new Promise((resolve, reject) => {
+                    chrome.runtime.sendMessage({
+                        action: `fetch`,
+                        parameters: JSON.stringify({
+                            body: details.data,
+                            credentials: details.anon ? `omit` : `include`,
+                            headers: details.headers,
+                            method: details.method,
+                            redirect: `follow`
+                        }),
+                        url: details.url.replace(/^\//, `https://${location.hostname}/`).replace(/^https?:/, location.href.match(/^http:/) ? `http:` : `https:`)
+                    }, response => {
+                        response = JSON.parse(response);
+                        resolve(response);
+                        if (response.finalUrl.match(/www.steamgifts.com/)) {
+                            lookForPopups(response);
+                        }
+                    });
                 });
             };
             addHeaderMenu = () => {
@@ -5366,42 +5385,32 @@ Parsedown = (() => {
                 }
             }
             setValue = GM.setValue;
-            setValues = values => {
-                return new Promise(async (resolve, reject) => {
-                    for (let key in values) {
-                        await GM.setValue(key, values[key]);
-                    }
-                    resolve();
-                });
+            setValues = async values => {
+                for (let key in values) {
+                    await GM.setValue(key, values[key]);
+                }
             };
             getValue = GM.getValue;
-            getValues = values => {
-                return new Promise(async (resolve, reject) => {
-                    let output = {};
-                    for (let key in values) {
-                        output[key] = await GM.getValue(key, values[key]);
-                    }
-                    resolve(output);
-                });
+            getValues = async values => {
+                let output = {};
+                for (let key in values) {
+                    output[key] = await GM.getValue(key, values[key]);
+                }
+                return output;
             };
             delValue = GM.deleteValue;
-            delValues = keys => {
-                return new Promise(async (resolve, reject) => {
-                    for (let i = keys.length - 1; i > -1; i--) {
-                        await GM.deleteValue(keys[i]);
-                    }
-                    resolve();
-                });
+            delValues = async keys => {
+                for (let i = keys.length - 1; i > -1; i--) {
+                    await GM.deleteValue(keys[i]);
+                }
             };
-            getStorage = () => {
-                return new Promise(async (resolve, reject) => {
-                    let keys = await GM.listValues();
-                    let storage = {};
-                    for (let i = keys.length - 1; i > -1; i--) {
-                        storage[keys[i]] = await GM.getValue(keys[i]);
-                    }
-                    resolve(storage);
-                });
+            getStorage = async () => {
+                let keys = await GM.listValues();
+                let storage = {};
+                for (let i = keys.length - 1; i > -1; i--) {
+                    storage[keys[i]] = await GM.getValue(keys[i]);
+                }
+                return storage;
             };
             notifyNewVersion = version => {
                 let message, popup;
@@ -5461,6 +5470,43 @@ Parsedown = (() => {
                         }
                     });
                 }
+            };
+            continueRequest_v2 = details => {
+                return new Promise(async (resolve, reject) => {
+                    if (details.url.match(/^\//) || details.url.match(new RegExp(location.hostname))) {
+                        details.url = details.url.replace(/^https?:/, location.href.match(/^http:/) ? `http:` : `https:`);
+                        let response = await fetch(details.url, {
+                            body: details.data,
+                            credentials: details.anon ? `omit` : `include`,
+                            headers: details.headers,
+                            method: details.method,
+                            redirect: `follow`
+                        });
+                        let responseText = await response.text();
+                        response = {
+                            finalUrl: response.url,
+                            redirected: response.redirected,
+                            responseText: responseText
+                        };
+                        resolve(response);
+                        if (response.finalUrl.match(/www.steamgifts.com/)) {
+                            lookForPopups(response);
+                        }
+                    } else {
+                        GM.xmlHttpRequest({
+                            data: details.data,
+                            headers: details.headers,
+                            method: details.method,
+                            url: details.url,
+                            onload: response => {
+                                resolve(response);
+                                if (response.finalUrl.match(/www.steamgifts.com/)) {
+                                    lookForPopups(response);
+                                }
+                            }
+                        });
+                    }
+                });
             };
             addHeaderMenu = () => {
                 var arrow, button, changelogRow, className, context, dropdown, html, menu, position;
@@ -10177,14 +10223,11 @@ Parsedown = (() => {
         new Popup(``, `${n - numError} out of ${n} tickets sent! They will be analyzed and, if accepted, added to the database in 48 hours at most.${numError > 0 ? ` Try sending the tickets that failed again later.` : ``}`, true).open();
     }
 
-    function checkUstTicket(code) {
-        return new Promise(async (resolve, reject) => {  
-            let responseHtml = parseHtml((await request_v2({method: `GET`, url: `/support/ticket/${code}/`})).responseText);
-            if (responseHtml.getElementsByClassName(`table__column--width-fill`)[1].textContent.trim().match(/Did\sNot\sActivate\sPrevious\sWins\sThis\sMonth|Other|Multiple\sWins\sfor\sthe\sSame\sGame|Not\sActivating\sWon\sGift/)) {
-                data += `${code}=${encodeURIComponent(responseHtml.getElementsByClassName(`sidebar`)[0].nextElementSibling.innerHTML.replace(/\n|\r|\r\n|\s{2,}/g, ``).trim())}&`;
-            }
-            resolve();
-        });
+    async function checkUstTicket(code) {
+        let responseHtml = parseHtml((await request_v2({method: `GET`, url: `/support/ticket/${code}/`})).responseText);
+        if (responseHtml.getElementsByClassName(`table__column--width-fill`)[1].textContent.trim().match(/Did\sNot\sActivate\sPrevious\sWins\sThis\sMonth|Other|Multiple\sWins\sfor\sthe\sSame\sGame|Not\sActivating\sWon\sGift/)) {
+            data += `${code}=${encodeURIComponent(responseHtml.getElementsByClassName(`sidebar`)[0].nextElementSibling.innerHTML.replace(/\n|\r|\r\n|\s{2,}/g, ``).trim())}&`;
+        }
     }
 
     async function sendUstTicket(event) {
@@ -10415,20 +10458,17 @@ Parsedown = (() => {
         }
     }
 
-    function setSetting(id, value, sg, st) {
-        return new Promise(async (resolve, reject) => {
-            let localId, settings;
-            settings = JSON.parse(await getValue(`settings`, `{}`));
-            if (sg) {
-                id = `${id}_sg`;
-            } else if (st) {
-                id = `${id}_st`;
-            }
-            settings[id] = value;
-            await setValue(`settings`, JSON.stringify(settings));
-            esgst.settings[id] = value;
-            resolve();
-        });
+    async function setSetting(id, value, sg, st) {
+        let localId, settings;
+        settings = JSON.parse(await getValue(`settings`, `{}`));
+        if (sg) {
+            id = `${id}_sg`;
+        } else if (st) {
+            id = `${id}_st`;
+        }
+        settings[id] = value;
+        await setValue(`settings`, JSON.stringify(settings));
+        esgst.settings[id] = value;
     }
 
     function getSetting(key) {
@@ -10526,75 +10566,69 @@ Parsedown = (() => {
 
     /* User Saving System */
 
-    function getUser(savedUsers, user) {
-        return new Promise(async (resolve, reject) => {
-            let savedUser = null;
-            if (!savedUsers) {
-                savedUsers = JSON.parse(await getValue(`users`));
-            }
-            if (user.steamId) {
-                savedUser = savedUsers.users[user.steamId];
-                if (savedUser) {
-                    if (!user.id) {
-                        user.id = savedUser.id;
-                    }
-                    if (!user.username) {
-                        user.username = savedUser.username;
-                    }
+    async function getUser(savedUsers, user) {
+        let savedUser = null;
+        if (!savedUsers) {
+            savedUsers = JSON.parse(await getValue(`users`));
+        }
+        if (user.steamId) {
+            savedUser = savedUsers.users[user.steamId];
+            if (savedUser) {
+                if (!user.id) {
+                    user.id = savedUser.id;
                 }
-            } else if (user.username) {
-                let steamId = savedUsers.steamIds[user.username];
-                if (steamId) {
-                    user.steamId = steamId;
-                    savedUser = savedUsers.users[steamId];
+                if (!user.username) {
+                    user.username = savedUser.username;
                 }
             }
-            resolve(savedUser);
-        });
+        } else if (user.username) {
+            let steamId = savedUsers.steamIds[user.username];
+            if (steamId) {
+                user.steamId = steamId;
+                savedUser = savedUsers.users[steamId];
+            }
+        }
     }
 
-    function saveUser(list, savedUsers, user) {
-        return new Promise(async (resolve, reject) => {
-            if (!savedUsers) {
-                savedUsers = JSON.parse(await getValue(`users`));
-            }
-            let savedUser = await getUser(savedUsers, user);
-            if (savedUser) {
-                if (list) {
-                    if (!user.steamId) {
-                        user.steamId = savedUsers.steamIds[user.username];
-                    }
-                    list.existing.push(user);
-                } else {
-                    let deleteLock = await createLock_v2(`userLock`, 300);
-                    checkUsernameChange(savedUsers, user);
-                    for (let key in user.values) {
-                        if (key !== `tags`) {
-                            if (user.values[key] === null) {
-                                delete savedUsers.users[user.steamId][key];
-                            } else {
-                                savedUsers.users[user.steamId][key] = user.values[key];
-                            }
+    async function saveUser(list, savedUsers, user) {
+        if (!savedUsers) {
+            savedUsers = JSON.parse(await getValue(`users`));
+        }
+        let savedUser = await getUser(savedUsers, user);
+        if (savedUser) {
+            if (list) {
+                if (!user.steamId) {
+                    user.steamId = savedUsers.steamIds[user.username];
+                }
+                list.existing.push(user);
+            } else {
+                let deleteLock = await createLock_v2(`userLock`, 300);
+                checkUsernameChange(savedUsers, user);
+                for (let key in user.values) {
+                    if (key !== `tags`) {
+                        if (user.values[key] === null) {
+                            delete savedUsers.users[user.steamId][key];
+                        } else {
+                            savedUsers.users[user.steamId][key] = user.values[key];
                         }
                     }
-                    await setValue(`users`, JSON.stringify(savedUsers));
-                    deleteLock();
                 }
-            } else {
-                if (user.steamId && user.username) {
-                    if (list) {
-                        list.new.push(user);
-                    } else {
-                        await addUser(user);
-                    }
-                } else if (user.steamId) {
-                    await getUsername(list, true, user);
-                } else {
-                    await getSteamId(list, true, null, user);
-                }
+                await setValue(`users`, JSON.stringify(savedUsers));
+                deleteLock();
             }
-            resolve();
-        });
+        } else {
+            if (user.steamId && user.username) {
+                if (list) {
+                    list.new.push(user);
+                } else {
+                    await addUser(user);
+                }
+            } else if (user.steamId) {
+                await getUsername(list, true, user);
+            } else {
+                await getSteamId(list, true, null, user);
+            }
+        }
     }
 
     function checkUsernameChange(savedUsers, user) {
@@ -10855,120 +10889,113 @@ Parsedown = (() => {
         });
     }
 
-    function checkSync(menu, callback) {
-        return new Promise(async (resolve, reject) => {
-            if (menu) {
-                if (!esgst.menuPath) {
+    async function checkSync(menu, callback) {
+        if (menu) {
+            if (!esgst.menuPath) {
+                if (esgst.sg) {
+                    await setSetting(`username`, document.getElementsByClassName(`nav__avatar-outer-wrap`)[0].href.match(/\/user\/(.+)/)[1]);
+                    await setSetting(`avatar`, document.getElementsByClassName(`nav__avatar-inner-wrap`)[0].style.backgroundImage.match(/\("(.+)"\)/)[1]);
+                } else {
+                    await setSetting(`avatar`, document.getElementsByClassName(`nav_avatar`)[0].style.backgroundImage.match(/\("(.+)"\)/)[1]);
+                }
+            }
+            await setSync(false, callback);
+        } else if (!getLocalValue(`isSyncing`)) {
+            if (esgst.openSyncInTab) {
+                let parameters = ``;
+                setLocalValue(`isSyncing`, 1);
+                [`Groups`, `Whitelist`, `Blacklist`, `HiddenGames`, `Games`, `WonGames`, `ReducedCvGames`, `NoCvGames`, `Giveaways`].forEach(key => {
+                    if (esgst[`autoSync${key}`] && Date.now() - esgst[`lastSync${key}`] > esgst[`autoSync${key}`] * 86400000) {
+                        parameters += `${key}=1&`;
+                    }
+                });
+                if (parameters) {
                     if (esgst.sg) {
                         await setSetting(`username`, document.getElementsByClassName(`nav__avatar-outer-wrap`)[0].href.match(/\/user\/(.+)/)[1]);
                         await setSetting(`avatar`, document.getElementsByClassName(`nav__avatar-inner-wrap`)[0].style.backgroundImage.match(/\("(.+)"\)/)[1]);
+                        open(`/esgst/sync?${parameters.replace(/&$/, ``)}`);
                     } else {
                         await setSetting(`avatar`, document.getElementsByClassName(`nav_avatar`)[0].style.backgroundImage.match(/\("(.+)"\)/)[1]);
-                    }
-                }
-                await setSync(false, callback);
-            } else if (!getLocalValue(`isSyncing`)) {
-                if (esgst.openSyncInTab) {
-                    let parameters = ``;
-                    setLocalValue(`isSyncing`, 1);
-                    [`Groups`, `Whitelist`, `Blacklist`, `HiddenGames`, `Games`, `WonGames`, `ReducedCvGames`, `NoCvGames`, `Giveaways`].forEach(key => {
-                        if (esgst[`autoSync${key}`] && Date.now() - esgst[`lastSync${key}`] > esgst[`autoSync${key}`] * 86400000) {
-                            parameters += `${key}=1&`;
-                        }
-                    });
-                    if (parameters) {
-                        if (esgst.sg) {
-                            await setSetting(`username`, document.getElementsByClassName(`nav__avatar-outer-wrap`)[0].href.match(/\/user\/(.+)/)[1]);
-                            await setSetting(`avatar`, document.getElementsByClassName(`nav__avatar-inner-wrap`)[0].style.backgroundImage.match(/\("(.+)"\)/)[1]);
-                            open(`/esgst/sync?${parameters.replace(/&$/, ``)}`);
-                        } else {
-                            await setSetting(`avatar`, document.getElementsByClassName(`nav_avatar`)[0].style.backgroundImage.match(/\("(.+)"\)/)[1]);
-                            open(`/esgst/sync?${parameters.replace(/&$/, ``)}`);
-                        }
-                    } else {
-                        delLocalValue(`isSyncing`);
+                        open(`/esgst/sync?${parameters.replace(/&$/, ``)}`);
                     }
                 } else {
-                    let parameters = {};
-                    setLocalValue(`isSyncing`, 1);
-                    [`Groups`, `Whitelist`, `Blacklist`, `HiddenGames`, `Games`, `WonGames`, `ReducedCvGames`, `NoCvGames`, `Giveaways`].forEach(key => {
-                        if (esgst[`autoSync${key}`] && Date.now() - esgst[`lastSync${key}`] > esgst[`autoSync${key}`] * 86400000) {
-                            parameters[key] = 1;
-                        }
-                    });
-                    if (Object.keys(parameters).length > 0) {
-                        await setSync(false, null, parameters);
-                    } else {
-                        delLocalValue(`isSyncing`);
-                    }
-                }
-            }
-            resolve();
-        });
-    }
-
-    function setSync(autoSync, mainCallback, parameters) {
-        return new Promise(async (resolve, reject) => {
-            let syncer = {
-                autoSync: autoSync,
-                canceled: false
-            };
-            if (esgst.firstInstall) {
-                await sync(syncer);
-            } else if (syncer.autoSync || mainCallback || parameters) {
-                syncer.popup = new Popup(parameters ? `fa-circle-o-notch fa-spin` : `fa-refresh`, parameters ? `ESGST is syncing... Please wait until the sync is complete to close this popup.` : `Sync`);
-                if (!syncer.autoSync && !parameters) {
-                    syncer.popup.description.insertAdjacentHTML(`afterBegin`, `<div class="esgst-description">By selecting a number X in the dropdown menu next to each data other than 0, you are enabling automatic sync for that data (which means the data will be synced every X days).</div>`);
-                    syncer.switches = {
-                        syncGroups: new ToggleSwitch(syncer.popup.scrollable, `syncGroups`, false, `Steam Groups`, false, false, null, esgst.syncGroups),
-                        syncWhitelist: new ToggleSwitch(syncer.popup.scrollable, `syncWhitelist`, false, `Whitelist`, false, false, null, esgst.syncWhitelist),
-                        syncBlacklist: new ToggleSwitch(syncer.popup.scrollable, `syncBlacklist`, false, `Blacklist`, false, false, null, esgst.syncBlacklist),
-                        syncHiddenGames: new ToggleSwitch(syncer.popup.scrollable, `syncHiddenGames`, false, `Hidden Games`, false, false, null, esgst.syncHiddenGames),
-                        syncGames: new ToggleSwitch(syncer.popup.scrollable, `syncGames`, false, `Owned/Wishlisted/Ignored Games`, false, false, null, esgst.syncGames),
-                        syncWonGames: new ToggleSwitch(syncer.popup.scrollable, `syncWonGames`, false, `Won Games`, false, false, null, esgst.syncWonGames),
-                        syncReducedCvGames: new ToggleSwitch(syncer.popup.scrollable, `syncReducedCvGames`, false, `Reduced CV Games`, false, false, null, esgst.syncReducedCvGames),
-                        syncNoCvGames: new ToggleSwitch(syncer.popup.scrollable, `syncNoCvGames`, false, `No CV Games`, false, false, null, esgst.syncNoCvGames),
-                        syncGiveaways: new ToggleSwitch(syncer.popup.scrollable, `syncGiveaways`, false, `Giveaways`, false, false, null, esgst.syncGiveaways)
-                    };
-                    for (let id in syncer.switches) {
-                        setAutoSync(id, syncer.switches);
-                    }
-                    let group = insertHtml(syncer.popup.description, `beforeEnd`, `<div class="esgst-button-group"><span>Select:</span></div>`);
-                    group.appendChild(new ButtonSet(`grey`, `grey`, `fa-circle`, `fa-circle-o-notch fa-spin`, `All`, ``, selectSwitches.bind(null, syncer.switches, `enable`)).set);
-                    group.appendChild(new ButtonSet(`grey`, `grey`, `fa-circle-o`, `fa-circle-o-notch fa-spin`, `None`, ``, selectSwitches.bind(null, syncer.switches, `disable`)).set);
-                    group.appendChild(new ButtonSet(`grey`, `grey`, `fa-dot-circle-o`, `fa-circle-o-notch fa-spin`, `Inverse`, ``, selectSwitches.bind(null, syncer.switches, `toggle`)).set);
-                }
-                syncer.progress = insertHtml(syncer.popup.description, `beforeEnd`, `
-                    <div class="esgst-hidden esgst-popup-progress"></div>
-                `);
-                syncer.results = insertHtml(syncer.popup.scrollable, `afterBegin`, `<div></div>`);
-                if (!parameters) {
-                    syncer.set = new ButtonSet_v2({color1: `green`, color2: `grey`, icon1: `fa-refresh`, icon2: `fa-times`, title1: `Sync`, title2: `Cancel`, callback1: sync.bind(null, syncer), callback2: cancelSync.bind(null, syncer)});
-                    syncer.popup.description.appendChild(syncer.set.set);
-                }
-                syncer.popup.onClose = resolve;
-                syncer.popup.open();
-                if (syncer.autoSync) {
-                    syncer.set.trigger();
-                } else if (parameters) {
-                    syncer.parameters = parameters;
-                    await sync(syncer);
+                    delLocalValue(`isSyncing`);
                 }
             } else {
-                document.body.innerHTML = ``;
-                let description = insertHtml(document.body, `beforeEnd`, `
-                    <div class="description esgst-hidden esgst-popup-progress">
-                        <div></div>
-                        <div></div>
-                    </div>
-                `);
-                syncer.results = description.firstElementChild;
-                syncer.progress = description.lastElementChild;
-                syncer.parameters = getParameters();
+                let parameters = {};
+                setLocalValue(`isSyncing`, 1);
+                [`Groups`, `Whitelist`, `Blacklist`, `HiddenGames`, `Games`, `WonGames`, `ReducedCvGames`, `NoCvGames`, `Giveaways`].forEach(key => {
+                    if (esgst[`autoSync${key}`] && Date.now() - esgst[`lastSync${key}`] > esgst[`autoSync${key}`] * 86400000) {
+                        parameters[key] = 1;
+                    }
+                });
+                if (Object.keys(parameters).length > 0) {
+                    await setSync(false, null, parameters);
+                } else {
+                    delLocalValue(`isSyncing`);
+                }
+            }
+        }
+    }
+
+    async function setSync(autoSync, mainCallback, parameters) {
+        let syncer = {
+            autoSync: autoSync,
+            canceled: false
+        };
+        if (esgst.firstInstall) {
+            await sync(syncer);
+        } else if (syncer.autoSync || mainCallback || parameters) {
+            syncer.popup = new Popup(parameters ? `fa-circle-o-notch fa-spin` : `fa-refresh`, parameters ? `ESGST is syncing... Please wait until the sync is complete to close this popup.` : `Sync`);
+            if (!syncer.autoSync && !parameters) {
+                syncer.popup.description.insertAdjacentHTML(`afterBegin`, `<div class="esgst-description">By selecting a number X in the dropdown menu next to each data other than 0, you are enabling automatic sync for that data (which means the data will be synced every X days).</div>`);
+                syncer.switches = {
+                    syncGroups: new ToggleSwitch(syncer.popup.scrollable, `syncGroups`, false, `Steam Groups`, false, false, null, esgst.syncGroups),
+                    syncWhitelist: new ToggleSwitch(syncer.popup.scrollable, `syncWhitelist`, false, `Whitelist`, false, false, null, esgst.syncWhitelist),
+                    syncBlacklist: new ToggleSwitch(syncer.popup.scrollable, `syncBlacklist`, false, `Blacklist`, false, false, null, esgst.syncBlacklist),
+                    syncHiddenGames: new ToggleSwitch(syncer.popup.scrollable, `syncHiddenGames`, false, `Hidden Games`, false, false, null, esgst.syncHiddenGames),
+                    syncGames: new ToggleSwitch(syncer.popup.scrollable, `syncGames`, false, `Owned/Wishlisted/Ignored Games`, false, false, null, esgst.syncGames),
+                    syncWonGames: new ToggleSwitch(syncer.popup.scrollable, `syncWonGames`, false, `Won Games`, false, false, null, esgst.syncWonGames),
+                    syncReducedCvGames: new ToggleSwitch(syncer.popup.scrollable, `syncReducedCvGames`, false, `Reduced CV Games`, false, false, null, esgst.syncReducedCvGames),
+                    syncNoCvGames: new ToggleSwitch(syncer.popup.scrollable, `syncNoCvGames`, false, `No CV Games`, false, false, null, esgst.syncNoCvGames),
+                    syncGiveaways: new ToggleSwitch(syncer.popup.scrollable, `syncGiveaways`, false, `Giveaways`, false, false, null, esgst.syncGiveaways)
+                };
+                for (let id in syncer.switches) {
+                    setAutoSync(id, syncer.switches);
+                }
+                let group = insertHtml(syncer.popup.description, `beforeEnd`, `<div class="esgst-button-group"><span>Select:</span></div>`);
+                group.appendChild(new ButtonSet(`grey`, `grey`, `fa-circle`, `fa-circle-o-notch fa-spin`, `All`, ``, selectSwitches.bind(null, syncer.switches, `enable`)).set);
+                group.appendChild(new ButtonSet(`grey`, `grey`, `fa-circle-o`, `fa-circle-o-notch fa-spin`, `None`, ``, selectSwitches.bind(null, syncer.switches, `disable`)).set);
+                group.appendChild(new ButtonSet(`grey`, `grey`, `fa-dot-circle-o`, `fa-circle-o-notch fa-spin`, `Inverse`, ``, selectSwitches.bind(null, syncer.switches, `toggle`)).set);
+            }
+            syncer.progress = insertHtml(syncer.popup.description, `beforeEnd`, `
+                <div class="esgst-hidden esgst-popup-progress"></div>
+            `);
+            syncer.results = insertHtml(syncer.popup.scrollable, `afterBegin`, `<div></div>`);
+            if (!parameters) {
+                syncer.set = new ButtonSet_v2({color1: `green`, color2: `grey`, icon1: `fa-refresh`, icon2: `fa-times`, title1: `Sync`, title2: `Cancel`, callback1: sync.bind(null, syncer), callback2: cancelSync.bind(null, syncer)});
+                syncer.popup.description.appendChild(syncer.set.set);
+            }
+            syncer.popup.open();
+            if (syncer.autoSync) {
+                syncer.set.trigger();
+            } else if (parameters) {
+                syncer.parameters = parameters;
                 await sync(syncer);
             }
-            resolve();
-        });
+        } else {
+            document.body.innerHTML = ``;
+            let description = insertHtml(document.body, `beforeEnd`, `
+                <div class="description esgst-hidden esgst-popup-progress">
+                    <div></div>
+                    <div></div>
+                </div>
+            `);
+            syncer.results = description.firstElementChild;
+            syncer.progress = description.lastElementChild;
+            syncer.parameters = getParameters();
+            await sync(syncer);
+        }
     }
 
     function setAutoSync(id, switches) {
@@ -10997,608 +11024,589 @@ Parsedown = (() => {
         syncer.canceled = true;
     }
 
-    function sync(syncer, mainCallback, callback) {
-        return new Promise(async (resolve, reject) => {
+    async function sync(syncer, mainCallback, callback) {
+        if (!esgst.firstInstall) {
+            await setSetting(`lastSync`, Date.now());
+            syncer.results.innerHTML = ``;
+            syncer.progress.classList.remove(`esgst-hidden`);
+            syncer.progress.innerHTML = `
+                <i class="fa fa-circle-o-notch fa-spin"></i>
+                <span></span>
+            `;
+        }
+
+        // sync steam id
+        if (!syncer.autoSync && !esgst.steamId && esgst.username) {
             if (!esgst.firstInstall) {
-                await setSetting(`lastSync`, Date.now());
-                syncer.results.innerHTML = ``;
-                syncer.progress.classList.remove(`esgst-hidden`);
-                syncer.progress.innerHTML = `
-                    <i class="fa fa-circle-o-notch fa-spin"></i>
-                    <span></span>
-                `;
+                syncer.progress.lastElementChild.textContent = `Syncing your Steam id...`;
             }
+            await setSetting(`steamId`, parseHtml((await request_v2({method: `GET`, url: `https://www.steamgifts.com/user/${esgst.username}`})).responseText).querySelector(`a[href*="/profiles/"]`).getAttribute(`href`).match(/\d+/)[0]);
+        }
 
-            // sync steam id
-            if (!syncer.autoSync && !esgst.steamId && esgst.username) {
-                if (!esgst.firstInstall) {
-                    syncer.progress.lastElementChild.textContent = `Syncing your Steam id...`;
+        // if this is the user's fist time using the script, only sync steam id and stop
+        if (esgst.firstInstall) {
+            return;
+        }
+
+        // if sync has been canceled stop
+        if (syncer.canceled) {
+            return;
+        }
+
+        // sync groups
+        if (esgst.sg && ((syncer.parameters && syncer.parameters.Groups) || (!syncer.parameters && (esgst.settings.syncGroups || syncer.autoSync)))) {
+            syncer.progress.lastElementChild.textContent = `Syncing your Steam groups...`;
+            syncer.groups = {};
+            let savedGroups = JSON.parse(await getValue(`groups`));
+            if (!Array.isArray(savedGroups)) {
+                let newGroups, savedGiveaways;
+                newGroups = [];
+                for (let key in savedGroups) {
+                    newGroups.push(savedGroups[key]);
                 }
-                await setSetting(`steamId`, parseHtml((await request_v2({method: `GET`, url: `https://www.steamgifts.com/user/${esgst.username}`})).responseText).querySelector(`a[href*="/profiles/"]`).getAttribute(`href`).match(/\d+/)[0]);
+                savedGroups = newGroups;
+                await setValue(`groups`, JSON.stringify(savedGroups));
+                savedGiveaways = JSON.parse(await getValue(`giveaways`));
+                for (let key in savedGiveaways) {
+                    delete savedGiveaways[key].groups;
+                }
+                await setValue(`giveaways`, JSON.stringify(savedGiveaways));
             }
-
-            // if this is the user's fist time using the script, only sync steam id and stop
-            if (esgst.firstInstall) {
-                resolve();
-                return;
-            }
-
-            // if sync has been canceled stop
-            if (syncer.canceled) {
-                resolve();
-                return;
-            }
-
-            // sync groups
-            if (esgst.sg && ((syncer.parameters && syncer.parameters.Groups) || (!syncer.parameters && (esgst.settings.syncGroups || syncer.autoSync)))) {
-                syncer.progress.lastElementChild.textContent = `Syncing your Steam groups...`;
-                syncer.groups = {};
-                let savedGroups = JSON.parse(await getValue(`groups`));
-                if (!Array.isArray(savedGroups)) {
-                    let newGroups, savedGiveaways;
-                    newGroups = [];
-                    for (let key in savedGroups) {
-                        newGroups.push(savedGroups[key]);
-                    }
-                    savedGroups = newGroups;
-                    await setValue(`groups`, JSON.stringify(savedGroups));
-                    savedGiveaways = JSON.parse(await getValue(`giveaways`));
-                    for (let key in savedGiveaways) {
-                        delete savedGiveaways[key].groups;
-                    }
-                    await setValue(`giveaways`, JSON.stringify(savedGiveaways));
-                }
-                syncer.currentGroups = {};
-                for (let i = 0, n = savedGroups.length; i < n; ++i) {
-                    if (savedGroups[i] && savedGroups[i].member && savedGroups[i].steamId) {
-                        syncer.currentGroups[savedGroups[i].steamId] = savedGroups[i].name;
-                    }
-                }
-                syncer.newGroups = {};
-                syncer.savedGroups = savedGroups;
-                let nextPage = 1;
-                let pagination = null;
-                do {
-                    let elements, responseHtml;
-                    responseHtml = parseHtml((await request_v2({method: `GET`, url: `https://www.steamgifts.com/account/steam/groups/search?page=${nextPage}`})).responseText);
-                    elements = responseHtml.getElementsByClassName(`table__row-outer-wrap`);
-                    for (let i = 0, n = elements.length; !syncer.canceled && i < n; i++) {
-                        let code, element, heading, name;
-                        element = elements[i];
-                        heading = element.getElementsByClassName(`table__column__heading`)[0];
-                        code = heading.getAttribute(`href`).match(/\/group\/(.+?)\/(.+)/)[1];
-                        name = heading.textContent;
-                        let j;
-                        for (j = syncer.savedGroups.length - 1; j >= 0 && syncer.savedGroups[j].code !== code; --j);
-                        if (j >= 0 && syncer.savedGroups[j].steamId) {
-                            syncer.groups[code] = {
-                                member: true
-                            };
-                            syncer.newGroups[syncer.savedGroups[j].steamId] = name;
-                        } else {
-                            let avatar, steamId;
-                            avatar = element.getElementsByClassName(`table_image_avatar`)[0].style.backgroundImage.match(/\/avatars\/(.+)_medium/)[1];
-                            ;
-                            steamId = parseHtml((await request_v2({method: `GET`, url: `/group/${code}/`})).responseText).getElementsByClassName(`sidebar__shortcut-inner-wrap`)[0].firstElementChild.getAttribute(`href`).match(/\d+/)[0];
-                            syncer.groups[code] = {
-                                avatar: avatar,
-                                code: code,
-                                member: true,
-                                name: name,
-                                steamId: steamId
-                            };
-                            syncer.newGroups[steamId] = name;
-                        }
-                    }
-                    pagination = responseHtml.getElementsByClassName(`pagination__navigation`)[0];
-                    nextPage += 1;
-                } while (!syncer.canceled && pagination && !pagination.lastElementChild.classList.contains(`is-selected`));
-                await lockAndSaveGroups(syncer.groups, true);
-                let missing, neww;
-                missing = [];
-                neww = [];
-                for (let id in syncer.currentGroups) {
-                    if (!syncer.newGroups[id]) {
-                        missing.push(`<a href="http://steamcommunity.com/gid/${id}">${syncer.currentGroups[id]}</a>`);
-                    }
-                }
-                for (let id in syncer.newGroups) {
-                    if (!syncer.currentGroups[id]) {
-                        neww.push(`<a href="http://steamcommunity.com/gid/${id}">${syncer.newGroups[id]}</a>`);
-                    }
-                }
-                syncer.html = ``;
-                if (missing.length) {
-                    syncer.html += `
-                        <div>
-                            <span class="esgst-bold">Missing groups:</span> ${missing.join(`, `)}
-                        </div>
-                    `;
-                }
-                if (neww.length) {
-                    syncer.html += `
-                        <div>
-                            <span class="esgst-bold">New groups:</span> ${neww.join(`, `)}
-                        </div>
-                    `;
-                }
-                syncer.results.insertAdjacentHTML(`afterBegin`, syncer.html);
-            }
-
-            // if sync has been canceled stop
-            if (syncer.canceled) {
-                resolve();
-                return;
-            }
-
-            // sync whitelist and blacklist
-            if (!syncer.autoSync && ((syncer.parameters && (syncer.parameters.Whitelist || syncer.parameters.Blacklist)) || (!syncer.parameters && (esgst.settings.syncWhitelist || esgst.settings.syncBlacklist)))) {            
-                if ((syncer.parameters && syncer.parameters.Whitelist && syncer.parameters.Blacklist) || (!syncer.parameters && esgst.settings.syncWhitelist && esgst.settings.syncBlacklist)) {
-                    await deleteUserValues([`whitelisted`, `whitelistedDate`, `blacklisted`, `blacklistedDate`]);
-                    syncer.users = [];
-                    syncer.progress.lastElementChild.textContent = `Syncing your whitelist...`;
-                    await syncWhitelistBlacklist(`whitelisted`, syncer, `https://www.steamgifts.com/account/manage/whitelist/search?page=`);
-                    syncer.progress.lastElementChild.textContent = `Syncing your blacklist...`;
-                    await syncWhitelistBlacklist(`blacklisted`, syncer, `https://www.steamgifts.com/account/manage/blacklist/search?page=`);
-                } else if ((syncer.parameters && syncer.parameters.Whitelist) || (!syncer.parameters && esgst.settings.syncWhitelist)) {
-                    await deleteUserValues([`whitelisted`, `whitelistedDate`]);
-                    syncer.users = [];
-                    syncer.progress.lastElementChild.textContent = `Syncing your whitelist...`;
-                    await syncWhitelistBlacklist(`whitelisted`, syncer, `https://www.steamgifts.com/account/manage/whitelist/search?page=`);
-                } else {
-                    await deleteUserValues([`blacklisted`, `blacklistedDate`]);
-                    syncer.users = [];
-                    syncer.progress.lastElementChild.textContent = `Syncing your blacklist...`;
-                    await syncWhitelistBlacklist(`blacklisted`, syncer, `https://www.steamgifts.com/account/manage/blacklist/search?page=`);
-                }
-                syncer.progress.lastElementChild.textContent = `Saving your whitelist/blacklist (this may take a while)...`;
-                await saveUsers(syncer.users);
-            }
-
-            // if sync has been canceled stop
-            if (syncer.canceled) {
-                resolve();
-                return;
-            }
-
-            // sync hidden games
-            if (!syncer.autoSync && ((syncer.parameters && syncer.parameters.HiddenGames) || (!syncer.parameters && esgst.settings.syncHiddenGames))) {
-                syncer.progress.lastElementChild.textContent = `Syncing your hidden games...`;
-                syncer.hiddenGames = {
-                    apps: [],
-                    subs: []
-                };
-                let nextPage = 1;
-                let pagination = null;
-                do {
-                    let elements, responseHtml;
-                    responseHtml = parseHtml((await request_v2({method: `GET`, url: `https://www.steamgifts.com/account/settings/giveaways/filters/search?page=${nextPage}`})).responseText);
-                    elements = responseHtml.querySelectorAll(`.table__column__secondary-link[href*="store.steampowered.com"]`);
-                    for (let i = 0, n = elements.length; i < n; ++i) {
-                        let match = elements[i].getAttribute(`href`).match(/(app|sub)\/(\d+)/);
-                        if (match) {
-                            syncer.hiddenGames[`${match[1]}s`].push(match[2]);
-                        }
-                    }
-                    pagination = responseHtml.getElementsByClassName(`pagination__navigation`)[0];
-                    nextPage += 1;
-                } while (!syncer.canceled && pagination && !pagination.lastElementChild.classList.contains(`is-selected`));
-                let deleteLock = await createLock_v2(`gameLock`, 300);
-                let savedGames = JSON.parse(await getValue(`games`));
-                for (let key in savedGames.apps) {
-                    delete savedGames.apps[key].hidden;
-                }
-                for (let key in savedGames.subs) {
-                    delete savedGames.subs[key].hidden;
-                }
-                for (let i = 0, n = syncer.hiddenGames.apps.length; i < n; ++i) {
-                    if (!savedGames.apps[syncer.hiddenGames.apps[i]]) {
-                        savedGames.apps[syncer.hiddenGames.apps[i]] = {};
-                    }
-                    savedGames.apps[syncer.hiddenGames.apps[i]].hidden = true;
-                }
-                for (let i = 0, n = syncer.hiddenGames.subs.length; i < n; ++i) {
-                    if (!savedGames.subs[syncer.hiddenGames.subs[i]]) {
-                        savedGames.subs[syncer.hiddenGames.subs[i]] = {};
-                    }
-                    savedGames.subs[syncer.hiddenGames.subs[i]].hidden = true;
-                }
-                await setValue(`games`, JSON.stringify(savedGames));
-                deleteLock();
-            }
-
-            // if sync has been canceled stop
-            if (syncer.canceled) {
-                resolve();
-                return;
-            }
-
-            // sync wishlisted/owned/ignored games
-            if ((syncer.parameters && syncer.parameters.Games) || (!syncer.parameters && (syncer.autoSync || esgst.settings.syncGames))) {
-                syncer.progress.lastElementChild.textContent = `Syncing your wishlisted/owned/ignored games...`;
-                syncer.html = ``;
-                let apiResponse = null;
-                if (esgst.steamApiKey) {
-                    apiResponse = await request_v2({method: `GET`, url: `http://api.steampowered.com/IPlayerService/GetOwnedGames/v0001/?key=${esgst.steamApiKey}&steamid=${esgst.steamId}&format=json`});
-                }
-                let storeResponse = await request_v2({method: `GET`, url: `http://store.steampowered.com/dynamicstore/userdata?${Math.random().toString().split(`.`)[1]}`});
-                let deleteLock = await createLock_v2(`gameLock`, 300);
-                await syncGames(null, syncer, apiResponse, storeResponse);
-                deleteLock();
-                for (let i = 0, n = esgst.settings.gc_o_altAccounts.length; !syncer.canceled && i < n; i++) {
-                    let altAccount = esgst.settings.gc_o_altAccounts[i];
-                    apiResponse = await request_v2({method: `GET`, url: `http://store.steampowered.com/dynamicstore/userdata?${Math.random().toString().split(`.`)[1]}`});
-                    await syncGames(altAccount, syncer, apiResponse);
-                }
-                await setSetting(`gc_o_altAccounts`, esgst.settings.gc_o_altAccounts);
-                if (syncer.html) {
-                    syncer.results.insertAdjacentHTML(`afterBegin`, syncer.html);
-                    let links = syncer.results.getElementsByTagName(`a`);
-                    for (let i = links.length - 1; i > -1; --i) {
-                        let link = links[i];
-                        let match = link.getAttribute(`href`).match(/\/(app|sub)\/(.+)/);
-                        if (match) {
-                            let type = match[1];
-                            let id = match[2];
-                            request_v2({method: `GET`, url: `http://store.steampowered.com/api/${type === `app` ? `appdetails?appids` : `packagedetails?packageids`}=${id}&filters=basic`}).then(setSyncGameName.bind(null, link));
-                        }
-                    }
+            syncer.currentGroups = {};
+            for (let i = 0, n = savedGroups.length; i < n; ++i) {
+                if (savedGroups[i] && savedGroups[i].member && savedGroups[i].steamId) {
+                    syncer.currentGroups[savedGroups[i].steamId] = savedGroups[i].name;
                 }
             }
-
-            // if sync has been canceled stop
-            if (syncer.canceled) {
-                resolve();
-                return;
-            }
-
-            // sync won games
-            if (!syncer.autoSync && ((syncer.parameters && syncer.parameters.WonGames) || (!syncer.parameters && esgst.settings.syncWonGames))) {
-                syncer.progress.lastElementChild.textContent = `Syncing your won games...`;
-                await getWonGames(`0`);
-            }
-
-            // if sync has been canceled stop
-            if (syncer.canceled) {
-                resolve();
-                return;
-            }
-
-            // sync reduced cv games
-            if (!syncer.autoSync && ((syncer.parameters && syncer.parameters.ReducedCvGames) || (!syncer.parameters && esgst.settings.syncReducedCvGames))) {
-                syncer.progress.lastElementChild.textContent = `Syncing reduced CV games...`;
-                await lockAndSaveGames(JSON.parse((await request_v2({method: `GET`, url: `https://script.google.com/macros/s/AKfycbwJK-7RBh5ghaKprEsmx4DQ6CyXc_3_9eYiOCu3yhI6W4B3W4YN/exec`})).responseText).success);
-            }
-
-            // if sync has been canceled stop
-            if (syncer.canceled) {
-                resolve();
-                return;
-            }
-
-            // sync no cv games
-            if (!syncer.autoSync && ((syncer.parameters && syncer.parameters.NoCvGames) || (!syncer.parameters && esgst.settings.syncNoCvGames))) {
-                syncer.progress.lastElementChild.textContent = `Syncing no CV games...`;
-                await lockAndSaveGames(JSON.parse((await request_v2({method: `GET`, url: `https://script.google.com/macros/s/AKfycbym0nzeyr3_b93ViuiZRivkBMl9PBI2dTHQxNC0rtgeQSlCTI-P/exec`})).responseText).success);
-            }
-
-            // if sync has been canceled stop
-            if (syncer.canceled) {
-                resolve();
-                return;
-            }
-
-            // sync giveaways
-            if (!syncer.autoSync && ((syncer.parameters && syncer.parameters.Giveaways) || (!syncer.parameters && esgst.settings.syncGiveaways)) && esgst.sg) {
-                syncer.progress.lastElementChild.textContent = `Syncing your giveaways...`;
-                let user = {
-                    steamId: esgst.steamId,
-                    username: esgst.username
-                };
-                let savedUser = await getUser(null, user);
-                let giveaways = null;
-                if (savedUser) {
-                    giveaways = savedUser.giveaways;
-                }
-                if (!giveaways) {
-                    giveaways = {
-                        sent: {
-                            apps: {},
-                            subs: {}
-                        },
-                        won: {
-                            apps: {},
-                            subs: {}
-                        },
-                        sentTimestamp: 0,
-                        wonTimestamp: 0
-                    };
-                    if (savedUser) {
-                        let ugd = savedUser.ugd;
-                        if (ugd) {
-                            let ggiveaways = {};
-                            if (ugd.sent) {
-                                for (let key in ugd.sent.apps) {
-                                    giveaways.sent.apps[key] = [];
-                                    for (let i = 0, n = ugd.sent.apps[key].length; i < n; ++i) {
-                                        ggiveaways[ugd.sent.apps[key][i].code] = ugd.sent.apps[key][i];
-                                        giveaways.sent.apps[key].push(ugd.sent.apps[key][i].code);
-                                    }
-                                }
-                                for (let key in ugd.sent.subs) {
-                                    giveaways.sent.subs[key] = [];
-                                    for (let i = 0, n = ugd.sent.subs[key].length; i < n; ++i) {
-                                        ggiveaways[ugd.sent.subs[key][i].code] = ugd.sent.subs[key][i];
-                                        giveaways.sent.subs[key].push(ugd.sent.subs[key][i].code);
-                                    }
-                                }
-                                giveaways.sentTimestamp = ugd.sentTimestamp;
-                            }
-                            if (ugd.won) {
-                                for (let key in ugd.won.apps) {
-                                    giveaways.won.apps[key] = [];
-                                    for (let i = 0, n = ugd.won.apps[key].length; i < n; ++i) {
-                                        ggiveaways[ugd.won.apps[key][i].code] = ugd.won.apps[key][i];
-                                        giveaways.won.apps[key].push(ugd.won.apps[key][i].code);
-                                    }
-                                }
-                                for (let key in ugd.won.subs) {
-                                    giveaways.won.subs[key] = [];
-                                    for (let i = 0, n = ugd.won.subs[key].length; i < n; ++i) {
-                                        ggiveaways[ugd.won.subs[key][i].code] = ugd.won.subs[key][i];
-                                        giveaways.won.subs[key].push(ugd.won.subs[key][i].code);
-                                    }
-                                }
-                                giveaways.wonTimestamp = ugd.wonTimestamp;
-                            }
-                            if (Object.keys(ggiveaways).length > 0) {
-                                await lockAndSaveGiveaways(ggiveaways);
-                            }
-                        }
-                    }
-                }
-                let UGD = {
-                    Key: `sent`
-                };
-                UGD.giveaways = {};
-                if (!giveaways.version) {
-                    giveaways.sent = {
-                        apps: {},
-                        subs: {}
-                    };
-                    giveaways.sentTimestamp = 0;
-                    giveaways.version = `7.11.1`;
-                }
-                user.values = {
-                    giveaways: await getUGDGiveaways(UGD, giveaways, 1, esgst.username),
-                    ugd: null
-                };
-                await saveUser(null, null, user);
-            }
-
-            // finish sync        
-            if (!esgst.firstInstall) {
-                syncer.progress.innerHTML = `Synced!`;
-                let currentDate = new Date();
-                currentTime = currentDate.getTime();
-                let string = currentDate.toLocaleString();
-                [`Groups`, `Whitelist`, `Blacklist`, `HiddenGames`, `Games`, `WonGames`, `ReducedCvGames`, `NoCvGames`, `Giveaways`].forEach(async key => {
-                    let id = `sync${key}`;
-                    if ((syncer.parameters && syncer.parameters[key]) || (!syncer.parameters && esgst.settings[id])) {
-                        await setSetting(`lastSync${key}`, currentTime);
-                        esgst[`lastSync${key}`] = currentTime;
-                        if (syncer.switches && syncer.switches[id]) {
-                            syncer.switches[id].date.innerHTML = `<i class="fa fa-check-circle"></i> Last synced ${string}`;
-                        }
-                    }
-                });
-                delLocalValue(`isSyncing`);
-            }
-            if (syncer.set && syncer.autoSync) {
-                syncer.set.set.remove();
-            }
-            if (syncer.parameters && syncer.popup) {
-                syncer.popup.icon.classList.remove(`fa-circle-o-notch`, `fa-spin`);
-                syncer.popup.icon.classList.add(`fa-check`);
-                syncer.popup.title.textContent = `Done! You can close this now.`;
-            }
-
-            resolve();
-        });
-    }
-
-    function syncWhitelistBlacklist(key, syncer, url) {
-        return new Promise(async (resolve, reject) => {
+            syncer.newGroups = {};
+            syncer.savedGroups = savedGroups;
             let nextPage = 1;
             let pagination = null;
             do {
                 let elements, responseHtml;
-                responseHtml = parseHtml((await request_v2({method: `GET`, url: `${url}${nextPage}`})).responseText);
+                responseHtml = parseHtml((await request_v2({method: `GET`, url: `https://www.steamgifts.com/account/steam/groups/search?page=${nextPage}`})).responseText);
                 elements = responseHtml.getElementsByClassName(`table__row-outer-wrap`);
-                for (let i = 0, n = elements.length; i < n; ++i) {
-                    let element, user;
+                for (let i = 0, n = elements.length; !syncer.canceled && i < n; i++) {
+                    let code, element, heading, name;
                     element = elements[i];
-                    user = {
-                        id: element.querySelector(`[name="child_user_id"]`).value,
-                        username: element.getElementsByClassName(`table__column__heading`)[0].textContent,
-                        values: {}
-                    };
-                    user.values[key] = true;
-                    user.values[`${key}Date`] = parseInt(element.querySelector(`[data-timestamp]`).getAttribute(`data-timestamp`)) * 1e3;
-                    syncer.users.push(user);
+                    heading = element.getElementsByClassName(`table__column__heading`)[0];
+                    code = heading.getAttribute(`href`).match(/\/group\/(.+?)\/(.+)/)[1];
+                    name = heading.textContent;
+                    let j;
+                    for (j = syncer.savedGroups.length - 1; j >= 0 && syncer.savedGroups[j].code !== code; --j);
+                    if (j >= 0 && syncer.savedGroups[j].steamId) {
+                        syncer.groups[code] = {
+                            member: true
+                        };
+                        syncer.newGroups[syncer.savedGroups[j].steamId] = name;
+                    } else {
+                        let avatar, steamId;
+                        avatar = element.getElementsByClassName(`table_image_avatar`)[0].style.backgroundImage.match(/\/avatars\/(.+)_medium/)[1];
+                        ;
+                        steamId = parseHtml((await request_v2({method: `GET`, url: `/group/${code}/`})).responseText).getElementsByClassName(`sidebar__shortcut-inner-wrap`)[0].firstElementChild.getAttribute(`href`).match(/\d+/)[0];
+                        syncer.groups[code] = {
+                            avatar: avatar,
+                            code: code,
+                            member: true,
+                            name: name,
+                            steamId: steamId
+                        };
+                        syncer.newGroups[steamId] = name;
+                    }
                 }
                 pagination = responseHtml.getElementsByClassName(`pagination__navigation`)[0];
                 nextPage += 1;
             } while (!syncer.canceled && pagination && !pagination.lastElementChild.classList.contains(`is-selected`));
-            resolve();
-        });
-    }
-        
-    function syncGames(altAccount, syncer, apiResponse, storeResponse) {
-        return new Promise(async (resolve, reject) => {
-            let storeJson = null;
-            try {
-                storeJson = JSON.parse(storeResponse.responseText);
-            } catch (e) {}
-            if (altAccount || (storeJson && storeJson.rgOwnedApps.length > 0)) {
-                let savedGames = (altAccount && altAccount.games) || JSON.parse(await getValue(`games`));
-                let oldOwned = {
-                    apps: [],
-                    subs: []
-                };
-                let newOwned = {
-                    apps: [],
-                    subs: []
-                };
-                for (let id in savedGames.apps) {
-                    if (savedGames.apps[id].owned) {
-                        oldOwned.apps.push(id);
-                        delete savedGames.apps[id].owned;
-                    }
-                    delete savedGames.apps[id].wishlisted;
-                    delete savedGames.apps[id].ignored;
-                    if (Object.keys(savedGames.apps[id]).length === 0) {
-                        delete savedGames.apps[id];
-                    }
+            await lockAndSaveGroups(syncer.groups, true);
+            let missing, neww;
+            missing = [];
+            neww = [];
+            for (let id in syncer.currentGroups) {
+                if (!syncer.newGroups[id]) {
+                    missing.push(`<a href="http://steamcommunity.com/gid/${id}">${syncer.currentGroups[id]}</a>`);
                 }
-                for (let id in savedGames.subs) {
-                    if (savedGames.subs[id].owned) {
-                        oldOwned.subs.push(id);
-                        delete savedGames.subs[id].owned;
-                    }
-                    delete savedGames.subs[id].wishlisted;
-                    delete savedGames.subs[id].ignored;
-                    if (Object.keys(savedGames.subs[id]).length === 0) {
-                        delete savedGames.subs[id];
-                    }
+            }
+            for (let id in syncer.newGroups) {
+                if (!syncer.currentGroups[id]) {
+                    neww.push(`<a href="http://steamcommunity.com/gid/${id}">${syncer.newGroups[id]}</a>`);
                 }
-                let numOwned = 0;
-                try {
-                    JSON.parse(apiResponse.responseText).response.games.forEach(game => {
-                        let id = game.appid;
-                        if (!savedGames.apps[id]) {
-                            savedGames.apps[id] = {};
-                        }
-                        savedGames.apps[id].owned = true;
-                        newOwned.apps.push(id.toString());
-                        numOwned += 1;
-                    });
-                } catch (e) {}
-                if (!altAccount) {
-                    [
-                        {
-                            jsonKey: `rgWishlist`,
-                            key: `wishlisted`,
-                            type: `apps`
-                        },
-                        {
-                            jsonKey: `rgOwnedApps`,
-                            key: `owned`,
-                            type: `apps`
-                        },
-                        {
-                            jsonKey: `rgOwnedPackages`,
-                            key: `owned`,
-                            type: `subs`
-                        },
-                        {
-                            jsonKey: `rgIgnoredApps`,
-                            key: `ignored`,
-                            type: `apps`
-                        },
-                        {
-                            jsonKey: `rgIgnoredPackages`,
-                            key: `ignored`,
-                            type: `subs`
-                        }
-                    ].forEach(item => {
-                        let key = item.key;
-                        let type = item.type;
-                        storeJson[item.jsonKey].forEach(id => {
-                            if (!savedGames[type][id]) {
-                                savedGames[type][id] = {};
-                            }
-                            let value = savedGames[type][id][key];
-                            savedGames[type][id][key] = true;
-                            if (key === `owned` && !value) {
-                                newOwned[type].push(id.toString());
-                                numOwned += 1;
-                            }
-                        });
-                    });
-                    if (numOwned !== (await getValue(`ownedGames`, 0))) {
-                        await setValue(`ownedGames`, numOwned);
-                    }
-                    await setValue(`games`, JSON.stringify(savedGames));
-                }
-                let removedOwned = {
-                    apps: [],
-                    subs: []
-                };
-                let addedOwned = {
-                    apps: [],
-                    subs: []
-                };
-                oldOwned.apps.forEach(id => {
-                    if (newOwned.apps.indexOf(id) < 0) {
-                        removedOwned.apps.push(`<a href="http://store.steampowered.com/app/${id}">${id}</a>`);
-                    }
-                });
-                oldOwned.subs.forEach(id => {
-                    if (newOwned.subs.indexOf(id) < 0) {
-                        removedOwned.subs.push(`<a href="http://store.steampowered.com/sub/${id}">${id}</a>`);
-                    }
-                });
-                newOwned.apps.forEach(id => {
-                    if (oldOwned.apps.indexOf(id) < 0) {
-                        addedOwned.apps.push(`<a href="http://store.steampowered.com/app/${id}">${id}</a>`);
-                    }
-                });
-                newOwned.subs.forEach(id => {
-                    if (oldOwned.subs.indexOf(id) < 0) {
-                        addedOwned.subs.push(`<a href="http://store.steampowered.com/sub/${id}">${id}</a>`);
-                    }
-                });
-                if (altAccount && (removedOwned.apps.length > 0 || removedOwned.subs.length > 0 || addedOwned.apps.length > 0 && addedOwned.subs.length > 0)) {
-                    syncer.html += `
-                        <div>Alt Account - ${altAccount.name}</div>
-                    `;
-                }
-                if (removedOwned.apps.length > 0) {
-                    syncer.html += `
-                        <div>
-                            <span class="esgst-bold">Removed apps:</span> ${removedOwned.apps.join(`, `)}
-                        </div>
-                    `;
-                }
-                if (removedOwned.subs.length > 0) {
-                    syncer.html += `
-                        <div>
-                            <span class="esgst-bold">Removed packages:</span> ${removedOwned.subs.join(`, `)}
-                        </div>
-                    `;
-                }
-                if (addedOwned.apps.length > 0) {
-                    syncer.html += `
-                        <div>
-                            <span class="esgst-bold">Added apps:</span> ${addedOwned.apps.join(`, `)}
-                        </div>
-                    `;
-                }
-                if (addedOwned.subs.length > 0) {
-                    syncer.html += `
-                        <div>
-                            <span class="esgst-bold">Added packages:</span> ${addedOwned.subs.join(`, `)}
-                        </div>
-                    `;
-                }
-            } else {
+            }
+            syncer.html = ``;
+            if (missing.length) {
                 syncer.html += `
-                    <div>An error ocurred when trying to sync your owned/wishlisted/ignored games, either because you are not logged in on Steam through the browser or the Steam API is currently unavailable (try again later).</div>
+                    <div>
+                        <span class="esgst-bold">Missing groups:</span> ${missing.join(`, `)}
+                    </div>
                 `;
             }
-            resolve();
-        });
+            if (neww.length) {
+                syncer.html += `
+                    <div>
+                        <span class="esgst-bold">New groups:</span> ${neww.join(`, `)}
+                    </div>
+                `;
+            }
+            syncer.results.insertAdjacentHTML(`afterBegin`, syncer.html);
+        }
+
+        // if sync has been canceled stop
+        if (syncer.canceled) {
+            return;
+        }
+
+        // sync whitelist and blacklist
+        if (!syncer.autoSync && ((syncer.parameters && (syncer.parameters.Whitelist || syncer.parameters.Blacklist)) || (!syncer.parameters && (esgst.settings.syncWhitelist || esgst.settings.syncBlacklist)))) {            
+            if ((syncer.parameters && syncer.parameters.Whitelist && syncer.parameters.Blacklist) || (!syncer.parameters && esgst.settings.syncWhitelist && esgst.settings.syncBlacklist)) {
+                await deleteUserValues([`whitelisted`, `whitelistedDate`, `blacklisted`, `blacklistedDate`]);
+                syncer.users = [];
+                syncer.progress.lastElementChild.textContent = `Syncing your whitelist...`;
+                await syncWhitelistBlacklist(`whitelisted`, syncer, `https://www.steamgifts.com/account/manage/whitelist/search?page=`);
+                syncer.progress.lastElementChild.textContent = `Syncing your blacklist...`;
+                await syncWhitelistBlacklist(`blacklisted`, syncer, `https://www.steamgifts.com/account/manage/blacklist/search?page=`);
+            } else if ((syncer.parameters && syncer.parameters.Whitelist) || (!syncer.parameters && esgst.settings.syncWhitelist)) {
+                await deleteUserValues([`whitelisted`, `whitelistedDate`]);
+                syncer.users = [];
+                syncer.progress.lastElementChild.textContent = `Syncing your whitelist...`;
+                await syncWhitelistBlacklist(`whitelisted`, syncer, `https://www.steamgifts.com/account/manage/whitelist/search?page=`);
+            } else {
+                await deleteUserValues([`blacklisted`, `blacklistedDate`]);
+                syncer.users = [];
+                syncer.progress.lastElementChild.textContent = `Syncing your blacklist...`;
+                await syncWhitelistBlacklist(`blacklisted`, syncer, `https://www.steamgifts.com/account/manage/blacklist/search?page=`);
+            }
+            syncer.progress.lastElementChild.textContent = `Saving your whitelist/blacklist (this may take a while)...`;
+            await saveUsers(syncer.users);
+        }
+
+        // if sync has been canceled stop
+        if (syncer.canceled) {
+            return;
+        }
+
+        // sync hidden games
+        if (!syncer.autoSync && ((syncer.parameters && syncer.parameters.HiddenGames) || (!syncer.parameters && esgst.settings.syncHiddenGames))) {
+            syncer.progress.lastElementChild.textContent = `Syncing your hidden games...`;
+            syncer.hiddenGames = {
+                apps: [],
+                subs: []
+            };
+            let nextPage = 1;
+            let pagination = null;
+            do {
+                let elements, responseHtml;
+                responseHtml = parseHtml((await request_v2({method: `GET`, url: `https://www.steamgifts.com/account/settings/giveaways/filters/search?page=${nextPage}`})).responseText);
+                elements = responseHtml.querySelectorAll(`.table__column__secondary-link[href*="store.steampowered.com"]`);
+                for (let i = 0, n = elements.length; i < n; ++i) {
+                    let match = elements[i].getAttribute(`href`).match(/(app|sub)\/(\d+)/);
+                    if (match) {
+                        syncer.hiddenGames[`${match[1]}s`].push(match[2]);
+                    }
+                }
+                pagination = responseHtml.getElementsByClassName(`pagination__navigation`)[0];
+                nextPage += 1;
+            } while (!syncer.canceled && pagination && !pagination.lastElementChild.classList.contains(`is-selected`));
+            let deleteLock = await createLock_v2(`gameLock`, 300);
+            let savedGames = JSON.parse(await getValue(`games`));
+            for (let key in savedGames.apps) {
+                delete savedGames.apps[key].hidden;
+            }
+            for (let key in savedGames.subs) {
+                delete savedGames.subs[key].hidden;
+            }
+            for (let i = 0, n = syncer.hiddenGames.apps.length; i < n; ++i) {
+                if (!savedGames.apps[syncer.hiddenGames.apps[i]]) {
+                    savedGames.apps[syncer.hiddenGames.apps[i]] = {};
+                }
+                savedGames.apps[syncer.hiddenGames.apps[i]].hidden = true;
+            }
+            for (let i = 0, n = syncer.hiddenGames.subs.length; i < n; ++i) {
+                if (!savedGames.subs[syncer.hiddenGames.subs[i]]) {
+                    savedGames.subs[syncer.hiddenGames.subs[i]] = {};
+                }
+                savedGames.subs[syncer.hiddenGames.subs[i]].hidden = true;
+            }
+            await setValue(`games`, JSON.stringify(savedGames));
+            deleteLock();
+        }
+
+        // if sync has been canceled stop
+        if (syncer.canceled) {
+            return;
+        }
+
+        // sync wishlisted/owned/ignored games
+        if ((syncer.parameters && syncer.parameters.Games) || (!syncer.parameters && (syncer.autoSync || esgst.settings.syncGames))) {
+            syncer.progress.lastElementChild.textContent = `Syncing your wishlisted/owned/ignored games...`;
+            syncer.html = ``;
+            let apiResponse = null;
+            if (esgst.steamApiKey) {
+                apiResponse = await request_v2({method: `GET`, url: `http://api.steampowered.com/IPlayerService/GetOwnedGames/v0001/?key=${esgst.steamApiKey}&steamid=${esgst.steamId}&format=json`});
+            }
+            let storeResponse = await request_v2({method: `GET`, url: `http://store.steampowered.com/dynamicstore/userdata?${Math.random().toString().split(`.`)[1]}`});
+            let deleteLock = await createLock_v2(`gameLock`, 300);
+            await syncGames(null, syncer, apiResponse, storeResponse);
+            deleteLock();
+            for (let i = 0, n = esgst.settings.gc_o_altAccounts.length; !syncer.canceled && i < n; i++) {
+                let altAccount = esgst.settings.gc_o_altAccounts[i];
+                apiResponse = await request_v2({method: `GET`, url: `http://store.steampowered.com/dynamicstore/userdata?${Math.random().toString().split(`.`)[1]}`});
+                await syncGames(altAccount, syncer, apiResponse);
+            }
+            await setSetting(`gc_o_altAccounts`, esgst.settings.gc_o_altAccounts);
+            if (syncer.html) {
+                syncer.results.insertAdjacentHTML(`afterBegin`, syncer.html);
+                let links = syncer.results.getElementsByTagName(`a`);
+                for (let i = links.length - 1; i > -1; --i) {
+                    let link = links[i];
+                    let match = link.getAttribute(`href`).match(/\/(app|sub)\/(.+)/);
+                    if (match) {
+                        let type = match[1];
+                        let id = match[2];
+                        request_v2({method: `GET`, url: `http://store.steampowered.com/api/${type === `app` ? `appdetails?appids` : `packagedetails?packageids`}=${id}&filters=basic`}).then(setSyncGameName.bind(null, link));
+                    }
+                }
+            }
+        }
+
+        // if sync has been canceled stop
+        if (syncer.canceled) {
+            return;
+        }
+
+        // sync won games
+        if (!syncer.autoSync && ((syncer.parameters && syncer.parameters.WonGames) || (!syncer.parameters && esgst.settings.syncWonGames))) {
+            syncer.progress.lastElementChild.textContent = `Syncing your won games...`;
+            await getWonGames(`0`);
+        }
+
+        // if sync has been canceled stop
+        if (syncer.canceled) {
+            return;
+        }
+
+        // sync reduced cv games
+        if (!syncer.autoSync && ((syncer.parameters && syncer.parameters.ReducedCvGames) || (!syncer.parameters && esgst.settings.syncReducedCvGames))) {
+            syncer.progress.lastElementChild.textContent = `Syncing reduced CV games...`;
+            await lockAndSaveGames(JSON.parse((await request_v2({method: `GET`, url: `https://script.google.com/macros/s/AKfycbwJK-7RBh5ghaKprEsmx4DQ6CyXc_3_9eYiOCu3yhI6W4B3W4YN/exec`})).responseText).success);
+        }
+
+        // if sync has been canceled stop
+        if (syncer.canceled) {
+            return;
+        }
+
+        // sync no cv games
+        if (!syncer.autoSync && ((syncer.parameters && syncer.parameters.NoCvGames) || (!syncer.parameters && esgst.settings.syncNoCvGames))) {
+            syncer.progress.lastElementChild.textContent = `Syncing no CV games...`;
+            await lockAndSaveGames(JSON.parse((await request_v2({method: `GET`, url: `https://script.google.com/macros/s/AKfycbym0nzeyr3_b93ViuiZRivkBMl9PBI2dTHQxNC0rtgeQSlCTI-P/exec`})).responseText).success);
+        }
+
+        // if sync has been canceled stop
+        if (syncer.canceled) {
+            return;
+        }
+
+        // sync giveaways
+        if (!syncer.autoSync && ((syncer.parameters && syncer.parameters.Giveaways) || (!syncer.parameters && esgst.settings.syncGiveaways)) && esgst.sg) {
+            syncer.progress.lastElementChild.textContent = `Syncing your giveaways...`;
+            let user = {
+                steamId: esgst.steamId,
+                username: esgst.username
+            };
+            let savedUser = await getUser(null, user);
+            let giveaways = null;
+            if (savedUser) {
+                giveaways = savedUser.giveaways;
+            }
+            if (!giveaways) {
+                giveaways = {
+                    sent: {
+                        apps: {},
+                        subs: {}
+                    },
+                    won: {
+                        apps: {},
+                        subs: {}
+                    },
+                    sentTimestamp: 0,
+                    wonTimestamp: 0
+                };
+                if (savedUser) {
+                    let ugd = savedUser.ugd;
+                    if (ugd) {
+                        let ggiveaways = {};
+                        if (ugd.sent) {
+                            for (let key in ugd.sent.apps) {
+                                giveaways.sent.apps[key] = [];
+                                for (let i = 0, n = ugd.sent.apps[key].length; i < n; ++i) {
+                                    ggiveaways[ugd.sent.apps[key][i].code] = ugd.sent.apps[key][i];
+                                    giveaways.sent.apps[key].push(ugd.sent.apps[key][i].code);
+                                }
+                            }
+                            for (let key in ugd.sent.subs) {
+                                giveaways.sent.subs[key] = [];
+                                for (let i = 0, n = ugd.sent.subs[key].length; i < n; ++i) {
+                                    ggiveaways[ugd.sent.subs[key][i].code] = ugd.sent.subs[key][i];
+                                    giveaways.sent.subs[key].push(ugd.sent.subs[key][i].code);
+                                }
+                            }
+                            giveaways.sentTimestamp = ugd.sentTimestamp;
+                        }
+                        if (ugd.won) {
+                            for (let key in ugd.won.apps) {
+                                giveaways.won.apps[key] = [];
+                                for (let i = 0, n = ugd.won.apps[key].length; i < n; ++i) {
+                                    ggiveaways[ugd.won.apps[key][i].code] = ugd.won.apps[key][i];
+                                    giveaways.won.apps[key].push(ugd.won.apps[key][i].code);
+                                }
+                            }
+                            for (let key in ugd.won.subs) {
+                                giveaways.won.subs[key] = [];
+                                for (let i = 0, n = ugd.won.subs[key].length; i < n; ++i) {
+                                    ggiveaways[ugd.won.subs[key][i].code] = ugd.won.subs[key][i];
+                                    giveaways.won.subs[key].push(ugd.won.subs[key][i].code);
+                                }
+                            }
+                            giveaways.wonTimestamp = ugd.wonTimestamp;
+                        }
+                        if (Object.keys(ggiveaways).length > 0) {
+                            await lockAndSaveGiveaways(ggiveaways);
+                        }
+                    }
+                }
+            }
+            let UGD = {
+                Key: `sent`
+            };
+            UGD.giveaways = {};
+            if (!giveaways.version) {
+                giveaways.sent = {
+                    apps: {},
+                    subs: {}
+                };
+                giveaways.sentTimestamp = 0;
+                giveaways.version = `7.11.1`;
+            }
+            user.values = {
+                giveaways: await getUGDGiveaways(UGD, giveaways, 1, esgst.username),
+                ugd: null
+            };
+            await saveUser(null, null, user);
+        }
+
+        // finish sync        
+        if (!esgst.firstInstall) {
+            syncer.progress.innerHTML = `Synced!`;
+            let currentDate = new Date();
+            currentTime = currentDate.getTime();
+            let string = currentDate.toLocaleString();
+            [`Groups`, `Whitelist`, `Blacklist`, `HiddenGames`, `Games`, `WonGames`, `ReducedCvGames`, `NoCvGames`, `Giveaways`].forEach(async key => {
+                let id = `sync${key}`;
+                if ((syncer.parameters && syncer.parameters[key]) || (!syncer.parameters && esgst.settings[id])) {
+                    await setSetting(`lastSync${key}`, currentTime);
+                    esgst[`lastSync${key}`] = currentTime;
+                    if (syncer.switches && syncer.switches[id]) {
+                        syncer.switches[id].date.innerHTML = `<i class="fa fa-check-circle"></i> Last synced ${string}`;
+                    }
+                }
+            });
+            delLocalValue(`isSyncing`);
+        }
+        if (syncer.set && syncer.autoSync) {
+            syncer.set.set.remove();
+        }
+        if (syncer.parameters && syncer.popup) {
+            syncer.popup.icon.classList.remove(`fa-circle-o-notch`, `fa-spin`);
+            syncer.popup.icon.classList.add(`fa-check`);
+            syncer.popup.title.textContent = `Done! You can close this now.`;
+        }
+    }
+
+    async function syncWhitelistBlacklist(key, syncer, url) {
+        let nextPage = 1;
+        let pagination = null;
+        do {
+            let elements, responseHtml;
+            responseHtml = parseHtml((await request_v2({method: `GET`, url: `${url}${nextPage}`})).responseText);
+            elements = responseHtml.getElementsByClassName(`table__row-outer-wrap`);
+            for (let i = 0, n = elements.length; i < n; ++i) {
+                let element, user;
+                element = elements[i];
+                user = {
+                    id: element.querySelector(`[name="child_user_id"]`).value,
+                    username: element.getElementsByClassName(`table__column__heading`)[0].textContent,
+                    values: {}
+                };
+                user.values[key] = true;
+                user.values[`${key}Date`] = parseInt(element.querySelector(`[data-timestamp]`).getAttribute(`data-timestamp`)) * 1e3;
+                syncer.users.push(user);
+            }
+            pagination = responseHtml.getElementsByClassName(`pagination__navigation`)[0];
+            nextPage += 1;
+        } while (!syncer.canceled && pagination && !pagination.lastElementChild.classList.contains(`is-selected`));
+    }
+        
+    async function syncGames(altAccount, syncer, apiResponse, storeResponse) {
+        let storeJson = null;
+        try {
+            storeJson = JSON.parse(storeResponse.responseText);
+        } catch (e) {}
+        if (altAccount || (storeJson && storeJson.rgOwnedApps.length > 0)) {
+            let savedGames = (altAccount && altAccount.games) || JSON.parse(await getValue(`games`));
+            let oldOwned = {
+                apps: [],
+                subs: []
+            };
+            let newOwned = {
+                apps: [],
+                subs: []
+            };
+            for (let id in savedGames.apps) {
+                if (savedGames.apps[id].owned) {
+                    oldOwned.apps.push(id);
+                    delete savedGames.apps[id].owned;
+                }
+                delete savedGames.apps[id].wishlisted;
+                delete savedGames.apps[id].ignored;
+                if (Object.keys(savedGames.apps[id]).length === 0) {
+                    delete savedGames.apps[id];
+                }
+            }
+            for (let id in savedGames.subs) {
+                if (savedGames.subs[id].owned) {
+                    oldOwned.subs.push(id);
+                    delete savedGames.subs[id].owned;
+                }
+                delete savedGames.subs[id].wishlisted;
+                delete savedGames.subs[id].ignored;
+                if (Object.keys(savedGames.subs[id]).length === 0) {
+                    delete savedGames.subs[id];
+                }
+            }
+            let numOwned = 0;
+            try {
+                JSON.parse(apiResponse.responseText).response.games.forEach(game => {
+                    let id = game.appid;
+                    if (!savedGames.apps[id]) {
+                        savedGames.apps[id] = {};
+                    }
+                    savedGames.apps[id].owned = true;
+                    newOwned.apps.push(id.toString());
+                    numOwned += 1;
+                });
+            } catch (e) {}
+            if (!altAccount) {
+                [
+                    {
+                        jsonKey: `rgWishlist`,
+                        key: `wishlisted`,
+                        type: `apps`
+                    },
+                    {
+                        jsonKey: `rgOwnedApps`,
+                        key: `owned`,
+                        type: `apps`
+                    },
+                    {
+                        jsonKey: `rgOwnedPackages`,
+                        key: `owned`,
+                        type: `subs`
+                    },
+                    {
+                        jsonKey: `rgIgnoredApps`,
+                        key: `ignored`,
+                        type: `apps`
+                    },
+                    {
+                        jsonKey: `rgIgnoredPackages`,
+                        key: `ignored`,
+                        type: `subs`
+                    }
+                ].forEach(item => {
+                    let key = item.key;
+                    let type = item.type;
+                    storeJson[item.jsonKey].forEach(id => {
+                        if (!savedGames[type][id]) {
+                            savedGames[type][id] = {};
+                        }
+                        let value = savedGames[type][id][key];
+                        savedGames[type][id][key] = true;
+                        if (key === `owned` && !value) {
+                            newOwned[type].push(id.toString());
+                            numOwned += 1;
+                        }
+                    });
+                });
+                if (numOwned !== (await getValue(`ownedGames`, 0))) {
+                    await setValue(`ownedGames`, numOwned);
+                }
+                await setValue(`games`, JSON.stringify(savedGames));
+            }
+            let removedOwned = {
+                apps: [],
+                subs: []
+            };
+            let addedOwned = {
+                apps: [],
+                subs: []
+            };
+            oldOwned.apps.forEach(id => {
+                if (newOwned.apps.indexOf(id) < 0) {
+                    removedOwned.apps.push(`<a href="http://store.steampowered.com/app/${id}">${id}</a>`);
+                }
+            });
+            oldOwned.subs.forEach(id => {
+                if (newOwned.subs.indexOf(id) < 0) {
+                    removedOwned.subs.push(`<a href="http://store.steampowered.com/sub/${id}">${id}</a>`);
+                }
+            });
+            newOwned.apps.forEach(id => {
+                if (oldOwned.apps.indexOf(id) < 0) {
+                    addedOwned.apps.push(`<a href="http://store.steampowered.com/app/${id}">${id}</a>`);
+                }
+            });
+            newOwned.subs.forEach(id => {
+                if (oldOwned.subs.indexOf(id) < 0) {
+                    addedOwned.subs.push(`<a href="http://store.steampowered.com/sub/${id}">${id}</a>`);
+                }
+            });
+            if (altAccount && (removedOwned.apps.length > 0 || removedOwned.subs.length > 0 || addedOwned.apps.length > 0 && addedOwned.subs.length > 0)) {
+                syncer.html += `
+                    <div>Alt Account - ${altAccount.name}</div>
+                `;
+            }
+            if (removedOwned.apps.length > 0) {
+                syncer.html += `
+                    <div>
+                        <span class="esgst-bold">Removed apps:</span> ${removedOwned.apps.join(`, `)}
+                    </div>
+                `;
+            }
+            if (removedOwned.subs.length > 0) {
+                syncer.html += `
+                    <div>
+                        <span class="esgst-bold">Removed packages:</span> ${removedOwned.subs.join(`, `)}
+                    </div>
+                `;
+            }
+            if (addedOwned.apps.length > 0) {
+                syncer.html += `
+                    <div>
+                        <span class="esgst-bold">Added apps:</span> ${addedOwned.apps.join(`, `)}
+                    </div>
+                `;
+            }
+            if (addedOwned.subs.length > 0) {
+                syncer.html += `
+                    <div>
+                        <span class="esgst-bold">Added packages:</span> ${addedOwned.subs.join(`, `)}
+                    </div>
+                `;
+            }
+        } else {
+            syncer.html += `
+                <div>An error ocurred when trying to sync your owned/wishlisted/ignored games, either because you are not logged in on Steam through the browser or the Steam API is currently unavailable (try again later).</div>
+            `;
+        }
     }
 
     function setSyncGameName(link, response) {
@@ -11610,62 +11618,56 @@ Parsedown = (() => {
         }
     }
 
-    function lockAndSaveGiveaways(giveaways) {
-        return new Promise(async (resolve, reject) => {
-            let deleteLock, savedGiveaways;
-            deleteLock = await createLock_v2(`giveawayLock`, 300);
-            savedGiveaways = JSON.parse(await getValue(`giveaways`, `{}`));
-            for (let key in giveaways) {
-                if (savedGiveaways[key]) {
-                    for (let subKey in giveaways[key]) {
-                        savedGiveaways[key][subKey] = giveaways[key][subKey];
-                    }
-                } else {
-                    savedGiveaways[key] = giveaways[key];
+    async function lockAndSaveGiveaways(giveaways) {
+        let deleteLock, savedGiveaways;
+        deleteLock = await createLock_v2(`giveawayLock`, 300);
+        savedGiveaways = JSON.parse(await getValue(`giveaways`, `{}`));
+        for (let key in giveaways) {
+            if (savedGiveaways[key]) {
+                for (let subKey in giveaways[key]) {
+                    savedGiveaways[key][subKey] = giveaways[key][subKey];
                 }
+            } else {
+                savedGiveaways[key] = giveaways[key];
             }
-            await setValue(`giveaways`, JSON.stringify(savedGiveaways));
-            deleteLock();
-            resolve();
-        });
+        }
+        await setValue(`giveaways`, JSON.stringify(savedGiveaways));
+        deleteLock();
     }
 
-    function lockAndSaveGroups(groups, sync) {
-        return new Promise(async (resolve, reject) => {
-            let deleteLock, savedGroups;
-            deleteLock = await createLock_v2(`groupLock`, 300);
-            savedGroups = JSON.parse(await getValue(`groups`, `[]`));
-            if (!Array.isArray(savedGroups)) {
-                let newGroups = [];
-                for (key in savedGroups) {
-                    newGroups.push(savedGroups[key]);
-                }
-                savedGroups = newGroups;
+    async function lockAndSaveGroups(groups, sync) {
+        let deleteLock, savedGroups;
+        deleteLock = await createLock_v2(`groupLock`, 300);
+        savedGroups = JSON.parse(await getValue(`groups`, `[]`));
+        if (!Array.isArray(savedGroups)) {
+            let newGroups = [];
+            for (key in savedGroups) {
+                newGroups.push(savedGroups[key]);
             }
-            if (sync) {
-                for (let i = 0, n = savedGroups.length; i < n; ++i) {
+            savedGroups = newGroups;
+        }
+        if (sync) {
+            for (let i = 0, n = savedGroups.length; i < n; ++i) {
+                if (savedGroups[i]) {
+                    delete savedGroups[i].member;
+                }
+            }
+        }
+        for (let code in groups) {
+            let i, n;
+            for (i = 0, n = savedGroups.length; i < n && savedGroups[i].code !== code; ++i);
+            if (i < n) {
+                for (let key in groups[code]) {
                     if (savedGroups[i]) {
-                        delete savedGroups[i].member;
+                        savedGroups[i][key] = groups[code][key];
                     }
                 }
+            } else {
+                savedGroups.push(groups[code]);
             }
-            for (let code in groups) {
-                let i, n;
-                for (i = 0, n = savedGroups.length; i < n && savedGroups[i].code !== code; ++i);
-                if (i < n) {
-                    for (let key in groups[code]) {
-                        if (savedGroups[i]) {
-                            savedGroups[i][key] = groups[code][key];
-                        }
-                    }
-                } else {
-                    savedGroups.push(groups[code]);
-                }
-            }
-            await setValue(`groups`, JSON.stringify(savedGroups));
-            deleteLock();
-            resolve();
-        });
+        }
+        await setValue(`groups`, JSON.stringify(savedGroups));
+        deleteLock();
     }
 
     function sortArray(Array) {
@@ -11761,43 +11763,40 @@ Parsedown = (() => {
         }
     }
 
-    function createLock_v2(key, threshold) {
-        return new Promise(async (resolve, reject) => {
-            let lock = {
-                callback: resolve,
-                continue: false,
-                key: key,
-                threshold: threshold,
-                uuid: `xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx`.replace(/[xy]/g, createUuid)
-            };
-            checkLock_v2(lock);
-        });
-    }
-
-    function checkLock_v2(lock) {
-        return new Promise(async (resolve, reject) => {
-            let locked = JSON.parse(await getValue(lock.key, `{}`));
-            if (!locked || !locked.uuid || locked.timestamp < Date.now() - (lock.threshold + 1000)) {
-                await setValue(lock.key, JSON.stringify({
-                    timestamp: Date.now(),
-                    uuid: lock.uuid
-                }));
-                setTimeout(async function () {
-                    locked = JSON.parse(await getValue(lock.key, `{}`));
-                    if (locked && locked.uuid === lock.uuid) {
-                        lock.callback(deleteLock.bind(null, lock.key));
-                    } else {
-                        setTimeout(checkLock, 0, lock);
-                    }
-                }, lock.threshold / 2);
-            } else {
-                setTimeout(checkLock, lock.threshold / 3, lock);
-            }
-        });
-    }
-
     function deleteLock(key) {
-        setValue(key, `{}`);        
+        setValue(key, `{}`);
+    }
+
+    function timeout(ms) {
+        return new Promise(resolve => setTimeout(resolve, ms));
+    }
+
+    async function createLock_v2(key, threshold) {
+        let lock = {
+            key: key,
+            threshold: threshold,
+            uuid: `xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx`.replace(/[xy]/g, createUuid)
+        };
+        await checkLock_v2(lock);
+        return setValue.bind(null, key, `{}`);
+    }
+
+    async function checkLock_v2(lock) {
+        let locked = JSON.parse(await getValue(lock.key, `{}`));
+        if (!locked || !locked.uuid || locked.timestamp < Date.now() - (lock.threshold + 1000)) {
+            await setValue(lock.key, JSON.stringify({
+                timestamp: Date.now(),
+                uuid: lock.uuid
+            }));
+            await timeout(lock.threshold / 2);
+            locked = JSON.parse(await getValue(lock.key, `{}`));
+            if (!locked || locked.uuid !== lock.uuid) {
+                return checkLock_v2(lock);
+            }
+        } else {
+            await timeout(lock.threshold / 3);
+            return checkLock_v2(lock);
+        }
     }
 
     function lookForPopups(response) {
@@ -11905,46 +11904,43 @@ Parsedown = (() => {
         }
     }
 
-    function lockAndSaveGames(games) {
-        return new Promise(async (resolve, reject) => {
-            let deleteLock = await createLock_v2(`gameLock`, 300);
-            let saved = JSON.parse(await getValue(`games`));
-            for (let key in games.apps) {
-                if (saved.apps[key]) {
-                    for (let subKey in games.apps[key]) {
-                        if (games.apps[key][subKey] === null) {
-                            delete saved.apps[key][subKey];
-                        } else {
-                            saved.apps[key][subKey] = games.apps[key][subKey];
-                        }
+    async function lockAndSaveGames(games) {
+        let deleteLock = await createLock_v2(`gameLock`, 300);
+        let saved = JSON.parse(await getValue(`games`));
+        for (let key in games.apps) {
+            if (saved.apps[key]) {
+                for (let subKey in games.apps[key]) {
+                    if (games.apps[key][subKey] === null) {
+                        delete saved.apps[key][subKey];
+                    } else {
+                        saved.apps[key][subKey] = games.apps[key][subKey];
                     }
-                } else {
-                    saved.apps[key] = games.apps[key];
                 }
-                if (!saved.apps[key].tags) {
-                    delete saved.apps[key].tags;
-                }
+            } else {
+                saved.apps[key] = games.apps[key];
             }
-            for (let key in games.subs) {
-                if (saved.subs[key]) {
-                    for (let subKey in games.subs[key]) {
-                        if (games.subs[key][subKey] === null) {
-                            delete saved.subs[key][subKey];
-                        } else {
-                            saved.subs[key][subKey] = games.subs[key][subKey];
-                        }
+            if (!saved.apps[key].tags) {
+                delete saved.apps[key].tags;
+            }
+        }
+        for (let key in games.subs) {
+            if (saved.subs[key]) {
+                for (let subKey in games.subs[key]) {
+                    if (games.subs[key][subKey] === null) {
+                        delete saved.subs[key][subKey];
+                    } else {
+                        saved.subs[key][subKey] = games.subs[key][subKey];
                     }
-                } else {
-                    saved.subs[key] = games.subs[key];
                 }
-                if (!saved.subs[key].tags) {
-                    delete saved.subs[key].tags;
-                }
+            } else {
+                saved.subs[key] = games.subs[key];
             }
-            await setValue(`games`, JSON.stringify(saved));
-            deleteLock();
-            resolve();
-        });
+            if (!saved.subs[key].tags) {
+                delete saved.subs[key].tags;
+            }
+        }
+        await setValue(`games`, JSON.stringify(saved));
+        deleteLock();
     }
 
     function formatDate(EntryDate) {
@@ -12164,61 +12160,52 @@ Parsedown = (() => {
         }
     }
 
-    function refreshHeaderElements(context) {
-        return new Promise(async (resolve, reject) => {
-            let currentTime, i, navigation;
-            navigation = context.querySelector(`.nav__right-container, .header_inner_wrap nav`);
-            esgst.mainButton = navigation.querySelector(`.nav__button--is-dropdown, .nav_btn[href^="/user/"]`);
-            if (esgst.sg) {
-                esgst.pointsContainer = esgst.mainButton.firstElementChild;
-                esgst.points = parseInt(esgst.pointsContainer.textContent.match(/\d+/)[0]);
-                if (esgst.ttpcc && esgst.points < 400) {
-                    let nextRefresh = 60 - new Date().getMinutes();
-                    while (nextRefresh > 15) {
-                        nextRefresh -= 15;
-                    }
-                    esgst.pointsContainer.title = `${getTtecTime(Math.round((nextRefresh + (15 * Math.floor((400 - esgst.points) / 6))) * 100) / 100)} to 400P`;
+    async function refreshHeaderElements(context) {
+        let currentTime, i, navigation;
+        navigation = context.querySelector(`.nav__right-container, .header_inner_wrap nav`);
+        esgst.mainButton = navigation.querySelector(`.nav__button--is-dropdown, .nav_btn[href^="/user/"]`);
+        if (esgst.sg) {
+            esgst.pointsContainer = esgst.mainButton.firstElementChild;
+            esgst.points = parseInt(esgst.pointsContainer.textContent.match(/\d+/)[0]);
+            if (esgst.ttpcc && esgst.points < 400) {
+                let nextRefresh = 60 - new Date().getMinutes();
+                while (nextRefresh > 15) {
+                    nextRefresh -= 15;
                 }
-                esgst.levelContainer = esgst.mainButton.lastElementChild;
-                esgst.level = parseInt(esgst.levelContainer.textContent.match(/\d+/)[0]);
-                esgst.createdButton = navigation.getElementsByClassName(`fa-gift`)[0];
-                if (esgst.createdButton) {
-                    esgst.createdButton = esgst.createdButton.closest(`.nav__button-container`);
+                esgst.pointsContainer.title = `${getTtecTime(Math.round((nextRefresh + (15 * Math.floor((400 - esgst.points) / 6))) * 100) / 100)} to 400P`;
+            }
+            esgst.levelContainer = esgst.mainButton.lastElementChild;
+            esgst.level = parseInt(esgst.levelContainer.textContent.match(/\d+/)[0]);
+            esgst.createdButton = navigation.getElementsByClassName(`fa-gift`)[0];
+            if (esgst.createdButton) {
+                esgst.createdButton = esgst.createdButton.closest(`.nav__button-container`);
+            }
+            esgst.wonButton = navigation.getElementsByClassName(`fa-trophy`)[0];
+            if (esgst.wonButton) {
+                esgst.wonButton = esgst.wonButton.closest(`.nav__button-container`);
+                let won = esgst.wonButton.getElementsByClassName(`nav__notification`)[0];
+                if (won && won.textContent !== getLocalValue(`wonCount`)) {
+                    getWonGames(won.textContent);
                 }
-                esgst.wonButton = navigation.getElementsByClassName(`fa-trophy`)[0];
-                if (esgst.wonButton) {
-                    esgst.wonButton = esgst.wonButton.closest(`.nav__button-container`);
-                    let won = esgst.wonButton.getElementsByClassName(`nav__notification`)[0];
-                    if (won && won.textContent !== getLocalValue(`wonCount`)) {
-                        getWonGames(won.textContent);
+            }
+            if (esgst.hr_g && context !== document) {
+                esgst.wishlist = 0;
+                currentTime = Date.now();
+                let giveaways = await getGiveaways(context, false, null, true);
+                for (i = giveaways.length - 1; i >= -1; --i) {
+                    giveaway = giveaways[i];
+                    if (giveaway && giveaway.level <= esgst.level && !giveaway.pinned && !giveaway.entered && (!esgst.giveaways[giveaway.code] || (!esgst.giveaways[giveaway.code].visited && !esgst.giveaways[giveaway.code].hidden)) && (!esgst.hr_w_h || giveaway.endTime - currentTime < esgst.hr_w_hours * 3600000)) {
+                        esgst.wishlist += 1;
                     }
                 }
-                if (esgst.hr_g && context !== document) {
-                    esgst.wishlist = 0;
-                    currentTime = Date.now();
-                    let giveaways = await getGiveaways(context, false, null, true);
-                    for (i = giveaways.length - 1; i >= -1; --i) {
-                        giveaway = giveaways[i];
-                        if (giveaway && giveaway.level <= esgst.level && !giveaway.pinned && !giveaway.entered && (!esgst.giveaways[giveaway.code] || (!esgst.giveaways[giveaway.code].visited && !esgst.giveaways[giveaway.code].hidden)) && (!esgst.hr_w_h || giveaway.endTime - currentTime < esgst.hr_w_hours * 3600000)) {
-                            esgst.wishlist += 1;
-                        }
-                    }
-                    esgst.inboxButton = navigation.getElementsByClassName(`fa-envelope`)[0];
-                    if (esgst.inboxButton) {
-                        esgst.inboxButton = esgst.inboxButton.closest(`.nav__button-container, .nav_btn_container`);
-                        esgst.messageCountContainer = esgst.inboxButton.querySelector(`.nav__notification, .message_count`);
-                    }
-                    esgst.messageCount = esgst.messageCountContainer ? esgst.messageCountContainer.textContent : ``;
-                } else {
-                    esgst.wishlist = 0;
-                    esgst.inboxButton = navigation.getElementsByClassName(`fa-envelope`)[0];
-                    if (esgst.inboxButton) {
-                        esgst.inboxButton = esgst.inboxButton.closest(`.nav__button-container, .nav_btn_container`);
-                        esgst.messageCountContainer = esgst.inboxButton.querySelector(`.nav__notification, .message_count`);
-                    }
-                    esgst.messageCount = esgst.messageCountContainer ? esgst.messageCountContainer.textContent : ``;
+                esgst.inboxButton = navigation.getElementsByClassName(`fa-envelope`)[0];
+                if (esgst.inboxButton) {
+                    esgst.inboxButton = esgst.inboxButton.closest(`.nav__button-container, .nav_btn_container`);
+                    esgst.messageCountContainer = esgst.inboxButton.querySelector(`.nav__notification, .message_count`);
                 }
+                esgst.messageCount = esgst.messageCountContainer ? esgst.messageCountContainer.textContent : ``;
             } else {
+                esgst.wishlist = 0;
                 esgst.inboxButton = navigation.getElementsByClassName(`fa-envelope`)[0];
                 if (esgst.inboxButton) {
                     esgst.inboxButton = esgst.inboxButton.closest(`.nav__button-container, .nav_btn_container`);
@@ -12226,39 +12213,42 @@ Parsedown = (() => {
                 }
                 esgst.messageCount = esgst.messageCountContainer ? esgst.messageCountContainer.textContent : ``;
             }
-            resolve();
-        });
+        } else {
+            esgst.inboxButton = navigation.getElementsByClassName(`fa-envelope`)[0];
+            if (esgst.inboxButton) {
+                esgst.inboxButton = esgst.inboxButton.closest(`.nav__button-container, .nav_btn_container`);
+                esgst.messageCountContainer = esgst.inboxButton.querySelector(`.nav__notification, .message_count`);
+            }
+            esgst.messageCount = esgst.messageCountContainer ? esgst.messageCountContainer.textContent : ``;
+        }
     }
 
-    function getWonGames(count) {
-        return new Promise(async (resolve, reject) => {
-            let responseHtml = parseHtml((await request_v2({method: `GET`, url: `/giveaways/won`})).responseText);
-            let savedGames = JSON.parse(await getValue(`games`));
-            for (let id in savedGames.apps) {
-                if (savedGames.apps[id].won) {
-                    savedGames.apps[id].won = null;
-                }
+    async function getWonGames(count) {
+        let responseHtml = parseHtml((await request_v2({method: `GET`, url: `/giveaways/won`})).responseText);
+        let savedGames = JSON.parse(await getValue(`games`));
+        for (let id in savedGames.apps) {
+            if (savedGames.apps[id].won) {
+                savedGames.apps[id].won = null;
             }
-            for (let id in savedGames.subs) {
-                if (savedGames.subs[id].won) {
-                    savedGames.subs[id].won = null;
-                }
+        }
+        for (let id in savedGames.subs) {
+            if (savedGames.subs[id].won) {
+                savedGames.subs[id].won = null;
             }
-            let elements = responseHtml.querySelectorAll(`.table__gift-feedback-awaiting-reply[data-feedback="1"]:not(.is-hidden)`);
-            for (let i = elements.length - 1; i > -1; --i) {
-                let element = elements[i].closest(`.table__row-inner-wrap`);
-                if (element.querySelector(`.table__gift-feedback-awaiting-reply[data-feedback="0"]:not(.is-hidden), [data-popup="popup--not-received"]`)) {
-                    let info = getGameInfo(element);
-                    if (!savedGames[info.type][info.id]) {
-                        savedGames[info.type][info.id] = {};
-                    }
-                    savedGames[info.type][info.id].won = 1;
+        }
+        let elements = responseHtml.querySelectorAll(`.table__gift-feedback-awaiting-reply[data-feedback="1"]:not(.is-hidden)`);
+        for (let i = elements.length - 1; i > -1; --i) {
+            let element = elements[i].closest(`.table__row-inner-wrap`);
+            if (element.querySelector(`.table__gift-feedback-awaiting-reply[data-feedback="0"]:not(.is-hidden), [data-popup="popup--not-received"]`)) {
+                let info = getGameInfo(element);
+                if (!savedGames[info.type][info.id]) {
+                    savedGames[info.type][info.id] = {};
                 }
+                savedGames[info.type][info.id].won = 1;
             }
-            await lockAndSaveGames(savedGames);
-            setLocalValue(`wonCount`, count);
-            resolve();
-        });
+        }
+        await lockAndSaveGames(savedGames);
+        setLocalValue(`wonCount`, count);
     }
 
     function getHrCache() {
@@ -12300,23 +12290,21 @@ Parsedown = (() => {
         }
     }
 
-    function refreshHeader(cache, hr, notify) {
-        return new Promise(async (resolve, reject) => {
-            await refreshHeaderElements(document);
-            esgst.mainButton.outerHTML = cache.mainButton;
-            if (esgst.sg) {
-                esgst.createdButton.outerHTML = cache.createdButton;
-                esgst.wonButton.outerHTML = cache.wonButton;
-            }
-            esgst.inboxButton.outerHTML = cache.inboxButton;
-            await refreshHeaderElements(document);
-            if (esgst.hr) {
-                notifyHrChange(hr, esgst.wishlist || cache.wishlist, notify);
-            }
-            if (esgst.lpv) {
-                setLpvStyle();
-            }
-        });
+    async function refreshHeader(cache, hr, notify) {
+        await refreshHeaderElements(document);
+        esgst.mainButton.outerHTML = cache.mainButton;
+        if (esgst.sg) {
+            esgst.createdButton.outerHTML = cache.createdButton;
+            esgst.wonButton.outerHTML = cache.wonButton;
+        }
+        esgst.inboxButton.outerHTML = cache.inboxButton;
+        await refreshHeaderElements(document);
+        if (esgst.hr) {
+            notifyHrChange(hr, esgst.wishlist || cache.wishlist, notify);
+        }
+        if (esgst.lpv) {
+            setLpvStyle();
+        }
     }
 
     function notifyHrChange(hr, wishlist, notify) {
@@ -12981,40 +12969,37 @@ Parsedown = (() => {
 
     /* [GDTTT] Giveaways/Discussions/Tickets/Trades Tracker */
 
-    function checkGdtttVisited(context) {
-        return new Promise(async (resolve, reject) => {
-            let matches = context.querySelectorAll(`.homepage_table_column_heading, .table__column__heading, .giveaway__heading__name, .column_flex h3 a`);
-            let values = await getValues({
-                giveaways: `{}`,
-                discussions: `{}`,
-                tickets: `{}`,
-                trades: `{}`
-            });
-            for (let key in values) {
-                values[key] = JSON.parse(values[key]);
-            }
-            for (let i = 0, n = matches.length; i < n; ++i) {
-                let match = matches[i];
-                let url = match.getAttribute(`href`);
-                if (url) {
-                    let source = url.match(/(giveaway|discussion|ticket|trade)\/(.+?)(\/.*)?$/);
-                    if (source) {
-                        let type = `${source[1]}s`;
-                        let code = source[2];
-                        let container = match.closest(`.table__row-outer-wrap, .giveaway__row-outer-wrap, .row_outer_wrap`);
-                        let comment = values[type][code];
-                        if (comment && comment.visited && container) {
-                            if ((type === `giveaways` && esgst.gdttt_g) || type !== `giveaways`) {
-                                container.classList.add(`esgst-ct-visited`);
-                                container.style.opacity = `0.5`;
-                                setHoverOpacity(container, `1`, `0.5`);
-                            }
+    async function checkGdtttVisited(context) {
+        let matches = context.querySelectorAll(`.homepage_table_column_heading, .table__column__heading, .giveaway__heading__name, .column_flex h3 a`);
+        let values = await getValues({
+            giveaways: `{}`,
+            discussions: `{}`,
+            tickets: `{}`,
+            trades: `{}`
+        });
+        for (let key in values) {
+            values[key] = JSON.parse(values[key]);
+        }
+        for (let i = 0, n = matches.length; i < n; ++i) {
+            let match = matches[i];
+            let url = match.getAttribute(`href`);
+            if (url) {
+                let source = url.match(/(giveaway|discussion|ticket|trade)\/(.+?)(\/.*)?$/);
+                if (source) {
+                    let type = `${source[1]}s`;
+                    let code = source[2];
+                    let container = match.closest(`.table__row-outer-wrap, .giveaway__row-outer-wrap, .row_outer_wrap`);
+                    let comment = values[type][code];
+                    if (comment && comment.visited && container) {
+                        if ((type === `giveaways` && esgst.gdttt_g) || type !== `giveaways`) {
+                            container.classList.add(`esgst-ct-visited`);
+                            container.style.opacity = `0.5`;
+                            setHoverOpacity(container, `1`, `0.5`);
                         }
                     }
                 }
             }
-            resolve();
-        });
+        }
     }
 
     function addGdtttMarkVisitedButton(button, code, context, type) {
@@ -15129,114 +15114,111 @@ Parsedown = (() => {
 
     /* [GB] Giveaway Bookmarks */
 
-    function addGbButton() {
-        return new Promise(async (resolve, reject) => {
-            var button, context, i, n, html;
-            if (!esgst.gbPath) {
-                context = document.getElementsByClassName(`nav__left-container`)[0];
-                html = `
-                    <div class="nav__button-container esgst-hidden" title="View your bookmarked giveaways">
-                        <div class="nav__button">
-                            <i class="fa fa-bookmark"></i>
-                        </div>
+    async function addGbButton() {
+        var button, context, i, n, html;
+        if (!esgst.gbPath) {
+            context = document.getElementsByClassName(`nav__left-container`)[0];
+            html = `
+                <div class="nav__button-container esgst-hidden" title="View your bookmarked giveaways">
+                    <div class="nav__button">
+                        <i class="fa fa-bookmark"></i>
                     </div>
-                `;
-                button = insertHtml(context, `beforeEnd`, html);
-            }
-            var bookmarked = [], endingSoon = 1, started = 0, ending = 0;
-            let deleteLock = await createLock_v2(`giveawayLock`, 300);
-            var giveaways = JSON.parse(await getValue(`giveaways`, `{}`));
-            if (esgst.gb_h && button) {
-                button.classList.add(`esgst-gb-highlighted`);
-            }
-            for (var key in giveaways) {
-                if (giveaways[key].bookmarked) {
-                    if (typeof giveaways[key].started === `undefined`) {
-                        giveaways[key].started = true;
-                    }
-                    if (Date.now() >= giveaways[key].endTime || !giveaways[key].endTime) {
-                        if (giveaways[key].started) {
-                            if (esgst.gb_u) {
-                                delete giveaways[key].bookmarked;
-                            } else {
-                                bookmarked.push(giveaways[key]);
-                            }
+                </div>
+            `;
+            button = insertHtml(context, `beforeEnd`, html);
+        }
+        var bookmarked = [], endingSoon = 1, started = 0, ending = 0;
+        let deleteLock = await createLock_v2(`giveawayLock`, 300);
+        var giveaways = JSON.parse(await getValue(`giveaways`, `{}`));
+        if (esgst.gb_h && button) {
+            button.classList.add(`esgst-gb-highlighted`);
+        }
+        for (var key in giveaways) {
+            if (giveaways[key].bookmarked) {
+                if (typeof giveaways[key].started === `undefined`) {
+                    giveaways[key].started = true;
+                }
+                if (Date.now() >= giveaways[key].endTime || !giveaways[key].endTime) {
+                    if (giveaways[key].started) {
+                        if (esgst.gb_u) {
+                            delete giveaways[key].bookmarked;
                         } else {
                             bookmarked.push(giveaways[key]);
-                            ++started;
-                            if (esgst.gb_h && button) {
-                                button.classList.add(`started`);
-                            }
                         }
                     } else {
-                        if (giveaways[key].started) {
-                            bookmarked.push(giveaways[key]);
-                            endingSoon = giveaways[key].endTime - Date.now() - (esgst.gb_hours * 3600000);
-                            if (endingSoon <= 0) {
-                                ++ending;
-                            }
+                        bookmarked.push(giveaways[key]);
+                        ++started;
+                        if (esgst.gb_h && button) {
+                            button.classList.add(`started`);
                         }
-                    }
-                }
-            }
-            var title;
-            if (started || ending) {
-                if (started) {
-                    if (ending) {
-                        title = `(${started} started - click to update them, ${ending} ending)`;
-                    } else {
-                        title = `(${started} started - click to update them)`;
                     }
                 } else {
-                    title = `(${ending} ending)`;
+                    if (giveaways[key].started) {
+                        bookmarked.push(giveaways[key]);
+                        endingSoon = giveaways[key].endTime - Date.now() - (esgst.gb_hours * 3600000);
+                        if (endingSoon <= 0) {
+                            ++ending;
+                        }
+                    }
+                }
+            }
+        }
+        var title;
+        if (started || ending) {
+            if (started) {
+                if (ending) {
+                    title = `(${started} started - click to update them, ${ending} ending)`;
+                } else {
+                    title = `(${started} started - click to update them)`;
                 }
             } else {
-                title = ``;
+                title = `(${ending} ending)`;
+            }
+        } else {
+            title = ``;
+        }
+        if (button) {
+            button.title = `${button.title} ${title}`;
+        }
+        if (bookmarked.length) {
+            bookmarked.sort(function(a, b) {
+                if (a.endTime > b.endTime) {
+                    return 1;
+                } else if (a.endTime < b.endTime) {
+                    return -1;
+                } else {
+                    return 0;
+                }
+            });
+            for (i = 0, n = bookmarked.length; i < n; ++i) {
+                if (Date.now() > bookmarked[i].endTime) {
+                    bookmarked.push(bookmarked.splice(i, 1)[0]);
+                    i -= 1;
+                    n -= 1;
+                }
             }
             if (button) {
-                button.title = `${button.title} ${title}`;
-            }
-            if (bookmarked.length) {
-                bookmarked.sort(function(a, b) {
-                    if (a.endTime > b.endTime) {
-                        return 1;
-                    } else if (a.endTime < b.endTime) {
-                        return -1;
-                    } else {
-                        return 0;
-                    }
-                });
-                for (i = 0, n = bookmarked.length; i < n; ++i) {
-                    if (Date.now() > bookmarked[i].endTime) {
-                        bookmarked.push(bookmarked.splice(i, 1)[0]);
-                        i -= 1;
-                        n -= 1;
-                    }
-                }
-                if (button) {
-                    button.classList.remove(`esgst-hidden`);
-                    if (esgst.gb_h && ending > 0) {
-                        button.classList.add(`ending`);
-                    }
+                button.classList.remove(`esgst-hidden`);
+                if (esgst.gb_h && ending > 0) {
+                    button.classList.add(`ending`);
                 }
             }
-            await setValue(`giveaways`, JSON.stringify(giveaways));
-            deleteLock();
-            if (esgst.gbPath) {
-                loadGbGibs(bookmarked, esgst.mainContext, esgst.mainContext);
-            }
-            if (!esgst.gbPath) {
-                button.addEventListener(`click`, function() {
-                    if (esgst.gb_t) {
-                        open(`/esgst/bookmarked-giveaways`);
-                    } else {
-                        let popup = new Popup(`fa-bookmark`, `Bookmarked Giveaways`, true);
-                        loadGbGibs(bookmarked, popup.description, popup.scrollable, popup);
-                    }
-                });
-            }
-            resolve();
-        });
+        }
+        await setValue(`giveaways`, JSON.stringify(giveaways));
+        deleteLock();
+        if (esgst.gbPath) {
+            loadGbGibs(bookmarked, esgst.mainContext, esgst.mainContext);
+        }
+        if (!esgst.gbPath) {
+            button.addEventListener(`click`, function() {
+                if (esgst.gb_t) {
+                    open(`/esgst/bookmarked-giveaways`);
+                } else {
+                    let popup = new Popup(`fa-bookmark`, `Bookmarked Giveaways`, true);
+                    loadGbGibs(bookmarked, popup.description, popup.scrollable, popup);
+                }
+            });
+        }
     }
 
     function loadGbGibs(bookmarked, container, context, popup) {
@@ -15389,23 +15371,21 @@ Parsedown = (() => {
         }
     }
 
-    function getGbGiveaways(giveaways, main) {
-        return new Promise(async (resolve, reject) => {
-            if ((esgst.wonPath && !main) || (!esgst.wonPath)) {
-                var savedGiveaways = JSON.parse(await getValue(`giveaways`, `{}`));
-                for (var i = 0, n = giveaways.length; i < n; ++i) {
-                    var giveaway = giveaways[i];
-                    if (((esgst.archivePath && !main) || !esgst.archivePath) && giveaway.creator !== esgst.username && (!giveaway.entered || (esgst.enteredPath && main) || esgst.gb_se) && giveaway.url && !giveaway.innerWrap.getElementsByClassName(`esgst-gb-button`)[0]) {
-                        if (savedGiveaways[giveaway.code] && savedGiveaways[giveaway.code].bookmarked) {
-                            addGbUnbookmarkButton(giveaway, main);
-                        } else if (!giveaway.ended) {
-                            addGbBookmarkButton(giveaway, main);
-                        }
-                    }
+    async function getGbGiveaways(giveaways, main) {
+        if (esgst.wonPath && main) {
+            return;
+        }
+        let savedGiveaways = JSON.parse(await getValue(`giveaways`, `{}`));
+        for (let i = 0, n = giveaways.length; i < n; ++i) {
+            let giveaway = giveaways[i];
+            if (((esgst.archivePath && !main) || !esgst.archivePath) && giveaway.creator !== esgst.username && (!giveaway.entered || (esgst.enteredPath && main) || esgst.gb_se) && giveaway.url && !giveaway.innerWrap.getElementsByClassName(`esgst-gb-button`)[0]) {
+                if (savedGiveaways[giveaway.code] && savedGiveaways[giveaway.code].bookmarked) {
+                    addGbUnbookmarkButton(giveaway, main);
+                } else if (!giveaway.ended) {
+                    addGbBookmarkButton(giveaway, main);
                 }
             }
-            resolve();
-        });
+        }
     }
 
     function addGbBookmarkButton(giveaway, main) {
@@ -15496,284 +15476,269 @@ Parsedown = (() => {
 
     /* [GED] Giveaway Encrypter/Decrypter */
 
-    function loadGed() {
-        var builtGiveaways, giveaway, button, code, currentDate, filtered, game, giveaways, i, keys, n, newGiveaways, numNew, popup, progress, results, savedGiveaways, set, timestamp;        
-
-        function loadGedGiveaways(container, context, popup) {
-            results = insertHtml(context, `beforeEnd`, `<div class="esgst-text-left"></div>`);
-            if ((esgst.gf && esgst.gf_m) || esgst.gm) {
-                let heading = insertHtml(context, `afterBegin`, `
-                    <div class="page__heading"></div>
-                `);
-                if (esgst.gf && esgst.gf_m) {
-                    heading.appendChild(addGfContainer(heading, `Ged`));
-                }
-                if (esgst.gm) {
-                    loadGm(heading);
+    async function loadGed() {
+        if (esgst.discussionPath && document.getElementsByClassName(`comment__username`)[0].textContent === esgst.username) {
+            let codes = [];
+            let elements = document.getElementsByClassName(`comment__description`)[0].querySelectorAll(`[href^="ESGST-"]`);
+            for (let i = 0, n = elements.length; i < n; ++i) {
+                let encryptedCode = elements[i].getAttribute(`href`).match(/ESGST-(.+)/)[1];
+                if (!encryptedCode.match(/currentVersion/)) {
+                    codes.push(decryptGedCode(encryptedCode));
                 }
             }
-            i = 0;
-            set = new ButtonSet(`green`, `grey`, `fa-plus`, `fa-circle-o-notch fa-spin`, `Load More`, `Loading more...`, function (callback) {
-                getGedGiveaways({}, giveaways, i, null, i + 5, function (value) {
-                    i = value;
-                    if (i > n) {
-                        set.set.remove();
-                    } else if ((esgst.es_ged && context.scrollHeight <= context.offsetHeight) || ((results.children.length - ((esgst.gfPopup && parseInt(esgst.gfPopup.filteredCount.textContent)) || 0)) % 5 !== 0)) {
-                        set.trigger();
-                    }
-                    callback();
-                });
-            });
-            keys = Object.keys(newGiveaways);
-            numNew = keys.length;
-            if (numNew > 0) {
-                progress = insertHtml(container, `beforeEnd`, `
-                    <div>
-                        <i class="fa fa-circle-o-notch fa-spin"></i>
-                        <span>Decrypting new giveaways...</span>
-                    </div>
-                `);
-                getGedGiveaways({}, newGiveaways, 0, keys, numNew, function () {
-                    progress.remove();
-                    container.appendChild(set.set);
-                    set.trigger();
-                });
-            } else {
-                container.appendChild(set.set);
-                set.trigger();
+            saveGedGiveaways(codes, location.href);
+        }
+        let deleteLock = await createLock_v2(`gedLock`, 300);
+        let decryptedGiveaways = await getValue(`decryptedGiveaways`, await getValue(`exclusiveGiveaways`, {}));
+        if (typeof decryptedGiveaways === `string`) {
+            decryptedGiveaways = JSON.parse(decryptedGiveaways);
+        }
+        let currentDate = Date.now();
+        let giveaways = [];
+        for (let code in decryptedGiveaways) {
+            if (decryptedGiveaways[code].html) {
+                delete decryptedGiveaways[code].html;
             }
-            if (popup) {
-                popup.open();
+            let timestamp = decryptedGiveaways[code].timestamp;
+            if (timestamp <= currentDate) {
+                continue;
             }
-            if (esgst.es_ged) {
-                context.addEventListener(`scroll`, function () {
-                    if ((context.scrollTop + context.offsetHeight) >= context.scrollHeight && !set.busy) {
-                        set.trigger();
-                    }
+            let giveaway = esgst.giveaways[code];
+            let filtered = false;
+            if (giveaway) {
+                let game = null;
+                if (giveaway.gameType && giveaway.gameSteamId) {
+                    game = esgst.games[giveaway.gameType][giveaway.gameSteamId];
+                }
+                if (((giveaway.level < esgst.gf_minLevelPopup) || (giveaway.level > esgst.gf_maxLevelPopup)) || ((giveaway.copies < esgst.gf_minCopiesPopup) || (giveaway.copies > esgst.gf_maxCopiesPopup)) || ((giveaway.points < esgst.gf_minPointsPopup) || (giveaway.points > esgst.gf_maxPointsPopup)) || ((esgst.gf_createdPopup === `disabled` && giveaway.creator === esgst.username) || (esgst.gf_createdPopup === `none` && giveaway.creator !== esgst.username)) || (game && (((esgst.gf_hiddenPopup === `disabled` && game.hidden) || (esgst.gf_hiddenPopup === `none` && !game.hidden)) || ((esgst.gf_ownedPopup === `disabled` && game.owned) || (esgst.gf_ownedPopup === `none` && !game.owned)) || ((esgst.gf_ignoredPopup === `disabled` && game.ignored) || (esgst.gf_ignoredPopup === `none` && !game.ignored))))) {
+                    filtered = true;
+                }
+            }
+            if (!filtered) {
+                giveaways.push({
+                    code: code,
+                    source: decryptedGiveaways[code].source,
+                    timestamp: timestamp
                 });
             }
         }
-
-        async function getGedGiveaways(currentGiveaways, giveaways, i, keys, n, callback) {
-            var builtGiveaway, data, giveaway, key, responseHtml;
-            if (i < n) {
-                if (keys) {
-                    key = keys[i];
-                    if (key) {
-                        giveaway = giveaways[key];
-                    }
-                } else {
-                    giveaway = giveaways[i];
+        await setValue(`decryptedGiveaways`, JSON.stringify(decryptedGiveaways));
+        deleteLock();
+        let button = null;
+        if (!esgst.gedPath) {
+            button = insertHtml(esgst.headerNavigationLeft, `beforeEnd`, `
+                <div class="nav__button-container esgst-hidden" title="View your decrypted giveaways">
+                    <div class="nav__button">
+                        <i class="fa fa-star"></i>
+                    </div>
+                </div>
+            `);
+        }
+        let n = giveaways.length;
+        if (n > 0) {
+            if (button) {
+                button.classList.remove(`esgst-hidden`);
+            }
+            giveaways.sort((a, b) => {
+                if (a.timestamp < b.timestamp) {
+                    return -1;
                 }
-                if (giveaway) {
-                    request(null, null, `GET`, false, `/giveaway/${giveaway.code}/`, async function (response) {
-                        responseHtml = parseHtml(response.responseText);
-                        builtGiveaway = buildGiveaway(responseHtml, response.finalUrl);
-                        if (builtGiveaway) {
-                            results.insertAdjacentHTML(`beforeEnd`, builtGiveaway.html);
-                            var giveawayy = await getGiveawayInfo(results.lastElementChild.lastElementChild, document, esgst.games, null, null, null, false, null, true);
-                            currentGiveaways[giveawayy.data.code] = giveawayy.data;
-                            await loadEndlessFeatures(results.lastElementChild, false, `ged`);
-                            if (giveaway.source) {
-                                results.lastElementChild.getElementsByClassName(`giveaway__columns`)[0].insertAdjacentHTML(`afterBegin`, `
-                                    <a class="esgst-ged-source" href="${giveaway.source.match(/\/discussion\//) ? giveaway.source : `/go/comment/${giveaway.source}`}">Source</a>
-                                `);
-                            }
-                            if (keys) {
-                                results.lastElementChild.getElementsByClassName(`giveaway__heading__name`)[0].insertAdjacentText(`afterBegin`, `[NEW] `);
-                                createLock(`gedLock`, 300, async function (deleteLock) {
-                                    savedGiveaways = await getValue(`decryptedGiveaways`, await getValue(`exclusiveGiveaways`, {}));
-                                    if (typeof savedGiveaways === `string`) {
-                                        savedGiveaways = JSON.parse(savedGiveaways);
-                                    }
-                                    savedGiveaways[builtGiveaway.code] = {
-                                        source: giveaway.source,
-                                        timestamp: builtGiveaway.timestamp
-                                    };
-                                    await setValue(`decryptedGiveaways`, JSON.stringify(savedGiveaways));
-                                    deleteLock();
-                                    setTimeout(getGedGiveaways, 0, currentGiveaways, giveaways, ++i, keys, n, callback);
-                                });
-                            } else {
-                                setTimeout(getGedGiveaways, 0, currentGiveaways, giveaways, ++i, keys, n, callback);
-                            }
-                        } else {
-                            createLock(`gedLock`, 300, async function (deleteLock) {
-                                savedGiveaways = await getValue(`decryptedGiveaways`, await getValue(`exclusiveGiveaways`, {}));
-                                if (typeof savedGiveaways === `string`) {
-                                    savedGiveaways = JSON.parse(savedGiveaways);
-                                }
-                                savedGiveaways[giveaway.code] = {
-                                    timestamp: 0
-                                };
-                                await setValue(`decryptedGiveaways`, JSON.stringify(savedGiveaways));
-                                deleteLock();
-                                setTimeout(getGedGiveaways, 0, currentGiveaways, giveaways, ++i, keys, n, callback);
-                            });
-                        }
-                    });
+                if (a.timestamp > b.timestamp) {
+                    return 1;
+                }
+                return 0;
+            });
+        }
+        let newGiveaways = {};
+        if (esgst.gedPath) {
+            newGiveaways = JSON.parse(getLocalValue(`gedCache`, `{}`));
+            delLocalValue(`gedCache`);
+            loadGedGiveaways(esgst.mainContext, esgst.mainContext, giveaways, n, newGiveaways);
+        } else {
+            button.addEventListener(`click`, function () {
+                if (esgst.ged_t) {
+                    setLocalValue(`gedCache`, JSON.stringify(newGiveaways));
+                    open(`/esgst/decrypted-giveaways`);
                 } else {
-                    await lockAndSaveGiveaways(currentGiveaways);
-                    callback(i + 1);
+                    let popup = new Popup(`fa-star`, `Decrypted Giveaways`, true);
+                    loadGedGiveaways(popup.description, popup.scrollable, giveaways, n, newGiveaways, popup);
+                }
+            });
+        }
+        esgst.checkGedGiveaways = checkGedGiveaways.bind(null, button, newGiveaways);
+        esgst.endlessFeatures.push(esgst.checkGedGiveaways);
+        checkGedGiveaways(button, newGiveaways, document);
+    }
+
+    function loadGedGiveaways(container, context, giveaways, n, newGiveaways, popup) {
+        let results = insertHtml(context, `beforeEnd`, `<div class="esgst-text-left"></div>`);
+        if ((esgst.gf && esgst.gf_m) || esgst.gm) {
+            let heading = insertHtml(context, `afterBegin`, `
+                <div class="page__heading"></div>
+            `);
+            if (esgst.gf && esgst.gf_m) {
+                heading.appendChild(addGfContainer(heading, `Ged`));
+            }
+            if (esgst.gm) {
+                loadGm(heading);
+            }
+        }
+        let i = 0;
+        let set = new ButtonSet(`green`, `grey`, `fa-plus`, `fa-circle-o-notch fa-spin`, `Load More`, `Loading more...`, callback => {
+            getGedGiveaways({}, giveaways, i, null, i + 5, results, value => {
+                i = value;
+                if (i > n) {
+                    set.set.remove();
+                } else if ((esgst.es_ged && context.scrollHeight <= context.offsetHeight) || ((results.children.length - ((esgst.gfPopup && parseInt(esgst.gfPopup.filteredCount.textContent)) || 0)) % 5 !== 0)) {
+                    set.trigger();
+                }
+                callback();
+            });
+        });
+        let keys = Object.keys(newGiveaways);
+        let numNew = keys.length;
+        if (numNew > 0) {
+            let progress = insertHtml(container, `beforeEnd`, `
+                <div>
+                    <i class="fa fa-circle-o-notch fa-spin"></i>
+                    <span>Decrypting new giveaways...</span>
+                </div>
+            `);
+            getGedGiveaways({}, newGiveaways, 0, keys, numNew, results, () => {
+                progress.remove();
+                container.appendChild(set.set);
+                set.trigger();
+            });
+        } else {
+            container.appendChild(set.set);
+            set.trigger();
+        }
+        if (popup) {
+            popup.open();
+        }
+        if (esgst.es_ged) {
+            context.addEventListener(`scroll`, () => {
+                if ((context.scrollTop + context.offsetHeight) >= context.scrollHeight && !set.busy) {
+                    set.trigger();
+                }
+            });
+        }
+    }
+
+    async function getGedGiveaways(currentGiveaways, giveaways, i, keys, n, results, callback) {
+        if (i < n) {
+            let giveaway;
+            if (keys) {
+                let key = keys[i];
+                if (key) {
+                    giveaway = giveaways[key];
+                }
+            } else {
+                giveaway = giveaways[i];
+            }
+            if (giveaway) {
+                let response = await request_v2({method: `GET`, url: `/giveaway/${giveaway.code}/`});
+                let responseHtml = parseHtml(response.responseText);
+                let builtGiveaway = buildGiveaway(responseHtml, response.finalUrl);
+                if (builtGiveaway) {
+                    results.insertAdjacentHTML(`beforeEnd`, builtGiveaway.html);
+                    let info = await getGiveawayInfo(results.lastElementChild.lastElementChild, document, esgst.games, null, null, null, false, null, true);
+                    currentGiveaways[info.data.code] = info.data;
+                    await loadEndlessFeatures(results.lastElementChild, false, `ged`);
+                    if (giveaway.source) {
+                        results.lastElementChild.getElementsByClassName(`giveaway__columns`)[0].insertAdjacentHTML(`afterBegin`, `
+                            <a class="esgst-ged-source" href="${giveaway.source.match(/\/discussion\//) ? giveaway.source : `/go/comment/${giveaway.source}`}">Source</a>
+                        `);
+                    }
+                    if (keys) {
+                        results.lastElementChild.getElementsByClassName(`giveaway__heading__name`)[0].insertAdjacentText(`afterBegin`, `[NEW] `);
+                        let deleteLock = await createLock_v2(`gedLock`, 300);
+                        let decryptedGiveaways = await getValue(`decryptedGiveaways`, await getValue(`exclusiveGiveaways`, {}));
+                        if (typeof decryptedGiveaways === `string`) {
+                            decryptedGiveaways = JSON.parse(decryptedGiveaways);
+                        }
+                        decryptedGiveaways[builtGiveaway.code] = {
+                            source: giveaway.source,
+                            timestamp: builtGiveaway.timestamp
+                        };
+                        await setValue(`decryptedGiveaways`, JSON.stringify(decryptedGiveaways));
+                        deleteLock();
+                    }
+                    setTimeout(getGedGiveaways, 0, currentGiveaways, giveaways, i + 1, keys, n, results, callback);
+                } else {
+                    let deleteLock = await createLock_v2(`gedLock`, 300);
+                    let decryptedGiveaways = await getValue(`decryptedGiveaways`, await getValue(`exclusiveGiveaways`, {}));
+                    if (typeof decryptedGiveaways === `string`) {
+                        decryptedGiveaways = JSON.parse(decryptedGiveaways);
+                    }
+                    decryptedGiveaways[giveaway.code] = {
+                        timestamp: 0
+                    };
+                    await setValue(`decryptedGiveaways`, JSON.stringify(decryptedGiveaways));
+                    deleteLock();
+                    setTimeout(getGedGiveaways, 0, currentGiveaways, giveaways, i + 1, keys, n, results, callback);
                 }
             } else {
                 await lockAndSaveGiveaways(currentGiveaways);
-                callback(i);
+                callback(i + 1);
             }
+        } else {
+            await lockAndSaveGiveaways(currentGiveaways);
+            callback(i);
         }
-
-        return new Promise(async (resolve, reject) => {
-            if (esgst.discussionPath && document.getElementsByClassName(`comment__username`)[0].textContent === esgst.username) {
-                var codes = [];
-                var elements = document.getElementsByClassName(`comment__description`)[0].querySelectorAll(`[href^="ESGST-"]`);
-                for (let i = 0, n = elements.length; i < n; ++i) {
-                    var element = elements[i];
-                    var encryptedCode = element.getAttribute(`href`).match(/ESGST-(.+)/)[1];
-                    if (!encryptedCode.match(/currentVersion/)) {
-                        codes.push(decryptGedCode(encryptedCode));
-                    }
-                }
-                saveGedGiveaways(codes, location.href);
-            }
-            newGiveaways = {};
-            if (!esgst.gedPath) {
-                button = insertHtml(esgst.headerNavigationLeft, `beforeEnd`, `
-                    <div class="nav__button-container esgst-hidden" title="View your decrypted giveaways">
-                        <div class="nav__button">
-                            <i class="fa fa-star"></i>
-                        </div>
-                    </div>
-                `);
-            }
-            let deleteLock = await createLock_v2(`gedLock`, 300);
-            savedGiveaways = await getValue(`decryptedGiveaways`, getValue(`exclusiveGiveaways`, {}));
-            if (typeof savedGiveaways === `string`) {
-                savedGiveaways = JSON.parse(savedGiveaways);
-            }
-            currentDate = Date.now();
-            giveaways = [];
-            for (code in savedGiveaways) {
-                if (savedGiveaways[code].html) {
-                    delete savedGiveaways[code].html;
-                }
-                timestamp = savedGiveaways[code].timestamp;
-                giveaway = esgst.giveaways[code];
-                if (timestamp > currentDate) {
-                    filtered = false;
-                    if (giveaway) {
-                        game = null;
-                        if (giveaway.gameType && giveaway.gameSteamId) {
-                            game = esgst.games[giveaway.gameType][giveaway.gameSteamId];
-                        }
-                        if (((giveaway.level < esgst.gf_minLevelPopup) || (giveaway.level > esgst.gf_maxLevelPopup)) || ((giveaway.copies < esgst.gf_minCopiesPopup) || (giveaway.copies > esgst.gf_maxCopiesPopup)) || ((giveaway.points < esgst.gf_minPointsPopup) || (giveaway.points > esgst.gf_maxPointsPopup)) || ((esgst.gf_createdPopup === `disabled` && giveaway.creator === esgst.username) || (esgst.gf_createdPopup === `none` && giveaway.creator !== esgst.username)) || (game && (((esgst.gf_hiddenPopup === `disabled` && game.hidden) || (esgst.gf_hiddenPopup === `none` && !game.hidden)) || ((esgst.gf_ownedPopup === `disabled` && game.owned) || (esgst.gf_ownedPopup === `none` && !game.owned)) || ((esgst.gf_ignoredPopup === `disabled` && game.ignored) || (esgst.gf_ignoredPopup === `none` && !game.ignored))))) {
-                            filtered = true;
-                        }
-                    }
-                    if (!filtered) {
-                        giveaways.push({
-                            code: code,
-                            source: savedGiveaways[code].source,
-                            timestamp: timestamp
-                        });
-                    }
-                }
-            }
-            await setValue(`decryptedGiveaways`, JSON.stringify(savedGiveaways));
-            deleteLock();
-            n = giveaways.length;
-            if (n > 0) {
-                if (button) {
-                    button.classList.remove(`esgst-hidden`);
-                }
-                giveaways.sort(function (a, b) {
-                    if (a.timestamp < b.timestamp) {
-                        return -1;
-                    } else if (a.timestamp > b.timestamp) {
-                        return 1;
-                    } else {
-                        return 0;
-                    }
-                });
-            }
-            if (esgst.gedPath) {
-                newGiveaways = JSON.parse(getLocalValue(`gedCache`, `{}`));
-                delLocalValue(`gedCache`);
-                loadGedGiveaways(esgst.mainContext, esgst.mainContext);
-            } else {
-                button.addEventListener(`click`, function () {
-                    if (esgst.ged_t) {
-                        setLocalValue(`gedCache`, JSON.stringify(newGiveaways));
-                        open(`/esgst/decrypted-giveaways`);
-                    } else {
-                        let popup = new Popup(`fa-star`, `Decrypted Giveaways`, true);
-                        loadGedGiveaways(popup.description, popup.scrollable, popup);
-                    }
-                });
-            }
-            esgst.checkGedGiveaways = checkGedGiveaways.bind(null, button, newGiveaways);
-            esgst.endlessFeatures.push(esgst.checkGedGiveaways);
-            checkGedGiveaways(button, newGiveaways, document);
-            resolve();
-        });
     }
 
-    function checkGedGiveaways(button, newGiveaways, context) {
-        var code, comment, element, elements, elementss, encryptedCode, i, n, n2, newGiveaway, savedGiveaways, source;
+    async function checkGedGiveaways(button, newGiveaways, context) {
+        let elements = context.getElementsByClassName(`esgst-ged-icon`);
+        for (let i = elements.length - 1; i > -1; i--) {
+            elements[0].remove();
+        }
         elements = context.querySelectorAll(`[href^="ESGST-"]`);
-        n = elements.length;
-        getValue(`exclusiveGiveaways`, {}).then(value => {
-            return getValue(`decryptedGiveaways`, value);
-        }).then(value => {
-            savedGiveaways = value;
-            if (typeof savedGiveaways === `string`) {
-                savedGiveaways = JSON.parse(savedGiveaways);
+        let n = elements.length;
+        if (n <= 0) {
+            return;
+        }
+        let decryptedGiveaways = await getValue(`decryptedGiveaways`, await getValue(`exclusiveGiveaways`, {}));
+        if (typeof decryptedGiveaways === `string`) {
+            decryptedGiveaways = JSON.parse(decryptedGiveaways);
+        }
+        let newGiveaway = false;
+        for (let i = 0; i < n; i++) {
+            let element = elements[i];
+            let encryptedCode = element.getAttribute(`href`).match(/ESGST-(.+)/)[1];
+            if (encryptedCode.match(/currentVersion/)) {
+                continue;
             }
-            if (n > 0) {
-                newGiveaway = false;
-                elementss = context.getElementsByClassName(`esgst-ged-icon`);
-                for (i = 0, n2 = elementss.length; i < n2; ++i) {
-                    elementss[0].remove();
-                }
-                for (i = 0; i < n; ++i) {
-                    element = elements[i];
-                    encryptedCode = element.getAttribute(`href`).match(/ESGST-(.+)/)[1];
-                    if (!encryptedCode.match(/currentVersion/)) {
-                        code = decryptGedCode(encryptedCode);
-                        comment = element.closest(`.comment__summary`);
-                        if (comment) {
-                            comment.getElementsByClassName(`comment__actions`)[0].insertAdjacentHTML(`beforeEnd`, `
-                                <a class="esgst-ged-icon" href="/giveaway/${code}/" title="ESGST Decrypted Giveaway">
-                                    <i class="fa fa-star"></i>
-                                </a>
-                            `);
-                            if (comment.querySelector(`.comment__username, .author_name`).textContent !== esgst.username) {
-                                source = comment.id || location.href;
-                                if (savedGiveaways[code]) {
-                                    if (!savedGiveaways[code].source) {
-                                        savedGiveaways[code].source = source;
-                                    }
-                                } else if (!newGiveaways[code]) {
-                                    newGiveaway = true;
-                                    newGiveaways[code] = {
-                                        code: code,
-                                        source: source
-                                    };
-                                }
-                            }
-                        }
-                    }
-                }
-                if (newGiveaway && button) {
-                    button.classList.remove(`esgst-hidden`);
-                    button.firstElementChild.firstElementChild.classList.add(`esgst-positive`);
-                }
-            } else {
-                elements = context.getElementsByClassName(`esgst-ged-icon`);
-                for (i = 0, n = elements.length; i < n; ++i) {
-                    elements[0].remove();
-                }
+            let code = decryptGedCode(encryptedCode);
+            let comment = element.closest(`.comment__summary`);
+            if (!comment) {
+                continue;
             }
-        });
+            comment.getElementsByClassName(`comment__actions`)[0].insertAdjacentHTML(`beforeEnd`, `
+                <a class="esgst-ged-icon" href="/giveaway/${code}/" title="ESGST Decrypted Giveaway">
+                    <i class="fa fa-star"></i>
+                </a>
+            `);
+            if (comment.querySelector(`.comment__username, .author_name`).textContent === esgst.username) {
+                continue;;
+            }
+            let source = comment.id || location.href;
+            if (decryptedGiveaways[code]) {
+                if (!decryptedGiveaways[code].source) {
+                    decryptedGiveaways[code].source = source;
+                }
+            } else if (!newGiveaways[code]) {
+                newGiveaway = true;
+                newGiveaways[code] = {
+                    code: code,
+                    source: source
+                };
+            }
+        }
+        if (newGiveaway && button) {
+            button.classList.remove(`esgst-hidden`);
+            button.firstElementChild.firstElementChild.classList.add(`esgst-positive`);
+        }
     }
 
     function hideGame(button, id, name) {
@@ -15966,60 +15931,46 @@ Parsedown = (() => {
         });
     }
 
-    function saveGedGiveaways(codes, source, callback) {
-        let code, ged, giveaway, giveaways;
-        if (codes.length > 0) {
-            ged = new CompletionCheck(codes.length, async () => {
-                giveaways = getValue(`decryptedGiveaways`, await getValue(`exclusiveGiveaways`, {}));
-                if (typeof giveaways === `string`) {
-                    giveaways = JSON.parse(giveaways);
-                }
-                for (code in ged.decryptedGiveaways) {
-                    giveaways[code] = ged.decryptedGiveaways[code];
-                }
-                await setValue(`decryptedGiveaways`, JSON.stringify(giveaways));
-                await lockAndSaveGiveaways(ged.giveaways);
-                callback();
-            });
-            ged.decryptedGiveaways = {};
-            ged.giveaways = {};
-            getValue(`exclusiveGiveaways`, {}).then(value => {
-                return getValue(`decryptedGiveaways`, value);
-            }).then(value => {
-                giveaways = value;
-                if (typeof giveaways === `string`) {
-                    giveaways = JSON.parse(giveaways);
-                }
-                codes.forEach(code => {
-                    if (giveaways[code]) {
-                        ged.count += 1;
-                    } else {
-                        giveaway = esgst.giveaways[code];
-                        if (giveaway && giveaway.endTime) {
-                            ged.decryptedGiveaways[code] = {
-                                source: source,
-                                timestamp: giveaway.endTime
-                            };
-                            ged.count += 1;
-                        } else {
-                            request(null, null, `GET`, false, `/giveaway/${code}/`, function (response) {
-                                getGiveaways(parseHtml(response.responseText), false, response.finalUrl, false, null, true).then(giveaways => {
-                                    giveaway = giveaways[0];
-                                    ged.giveaways[code] = giveaway;
-                                    ged.decryptedGiveaways[code] = {
-                                        source: source,
-                                        timestamp: giveaway.endTime
-                                    };
-                                    ged.count += 1;
-                                });
-                            });
-                        }
-                    }
-                });
-            });
-        } else if (callback) {
-            callback();
+    async function saveGedGiveaways(codes, source) {
+        if (!codes.length) {
+            return;
         }
+        let ged = {
+            decryptedGiveaways: await getValue(`decryptedGiveaways`, await getValue(`exclusiveGiveaways`, {})),
+            giveaways: {}
+        };
+        if (typeof ged.decryptedGiveaways === `string`) {
+            ged.decryptedGiveaways = JSON.parse(ged.decryptedGiveaways);
+        }
+        let promises = [];
+        codes.forEach(code => {
+            if (ged.decryptedGiveaways[code]) {
+                return;
+            }
+            let giveaway = esgst.giveaways[code];
+            if (giveaway && giveaway.endTime) {
+                ged.decryptedGiveaways[code] = {
+                    source: source,
+                    timestamp: giveaway.endTime
+                };
+                return;
+            }
+            let promise = request_v2({method: `GET`, url: `/giveaway/${code}/`});
+            promise.then(getGedGiveaway.bind(null, code, ged, source));
+            promises.push(promise);
+        });
+        await Promise.all(promises);
+        await setValue(`decryptedGiveaways`, JSON.stringify(ged.decryptedGiveaways));
+        await lockAndSaveGiveaways(ged.giveaways);
+    }
+
+    async function getGedGiveaway(code, ged, source, response) {
+        let giveaway = (await getGiveaways(parseHtml(response.responseText), false, response.finalUrl, false, null, true))[0];
+        ged.giveaways[code] = giveaway;
+        ged.decryptedGiveaways[code] = {
+            source: source,
+            timestamp: giveaway.endTime
+        };
     }
 
     /* [UGB] Unhide Giveaway Button */
@@ -16316,30 +16267,31 @@ Parsedown = (() => {
 
     /* [ELGB] Enter/Leave Giveaway Button */
 
-    function addElgbButtons(giveaways, main, source) {
-        return new Promise(async (resolve, reject) => {
-            let games = JSON.parse(await getValue(`games`));
-            if (((main && !esgst.elgb_p) || !main) && (((esgst.createdPath || esgst.enteredPath || esgst.wonPath) && !main) || (!esgst.createdPath && !esgst.enteredPath && !esgst.wonPath))) {
-                for (let i = 0, n = giveaways.length; i < n; ++i) {
-                    let giveaway = giveaways[i];
-                    if (!giveaway.innerWrap.getElementsByClassName(`esgst-elgb-button`)[0]) {
-                        if (!giveaway.blacklist && ((giveaway.inviteOnly && giveaway.url) || !giveaway.inviteOnly) && giveaway.started && !giveaway.ended && !giveaway.created && giveaway.level <= esgst.level && ((giveaway.id && ((games[giveaway.type][giveaway.id] && !games[giveaway.type][giveaway.id].owned && !games[giveaway.type][giveaway.id].won && (!games[giveaway.type][giveaway.id].hidden || !esgst.hgebd)) || !games[giveaway.type][giveaway.id])) || !giveaway.id)) {
-                            if (esgst.giveawayPath && main) {
-                                let sidebarButton = document.getElementsByClassName(`sidebar__error is-disabled`)[0];
-                                if (sidebarButton && sidebarButton.textContent.trim() === `Not Enough Points`) {
-                                    giveaway.elgbPanel = insertHtml(sidebarButton.parentElement, `afterBegin`, `<div></div>`);
-                                    sidebarButton.remove();
-                                    addElgbButton(giveaway, main, source);
-                                }
-                            } else {
-                                addElgbButton(giveaway, main, source);
-                            }
-                        }
-                    }
-                }
+    async function addElgbButtons(giveaways, main, source) {
+        if (main && (esgst.elgb_p || esgst.createdPath || esgst.enteredPath || esgst.wonPath)) {
+            return;
+        }
+        let games = JSON.parse(await getValue(`games`));
+        for (let i = 0, n = giveaways.length; i < n; ++i) {
+            let giveaway = giveaways[i];
+            if (giveaway.innerWrap.getElementsByClassName(`esgst-elgb-button`)[0]) {
+                continue;
             }
-            resolve();
-        });
+            if (giveaway.blacklist || (giveaway.inviteOnly && !giveaway.url) || !giveaway.started || giveaway.ended || giveaway.created || giveaway.level > esgst.level || (giveaway.id && (games[giveaway.type][giveaway.id] && (games[giveaway.type][giveaway.id].owned || games[giveaway.type][giveaway.id].won || (games[giveaway.type][giveaway.id].hidden && esgst.hgebd))))) {
+                continue;
+            }
+            if (esgst.giveawayPath && main) {
+                let sidebarButton = document.getElementsByClassName(`sidebar__error is-disabled`)[0];
+                if (!sidebarButton || sidebarButton.textContent.trim() !== `Not Enough Points`) {
+                    continue;
+                }
+                giveaway.elgbPanel = insertHtml(sidebarButton.parentElement, `afterBegin`, `<div></div>`);
+                sidebarButton.remove();
+                addElgbButton(giveaway, main, source);
+            } else {
+                addElgbButton(giveaway, main, source);
+            }
+        }
     }
 
     function addElgbButton(giveaway, main, source) {
@@ -16378,220 +16330,106 @@ Parsedown = (() => {
         }
     }
 
-    function openElgbPopup(giveaway, main, source, mainCallback) {
-        var box, description, popup, set;
-        if (esgst.elgb_d || (esgst.elgb_r && esgst.elgb_r_d) || mainCallback) {
-            request(null, null, `GET`, false, giveaway.url, function(response) {
-                popup = new Popup(`fa-file-text-o`, `<a href="${giveaway.url}"><span>${giveaway.name}</span></a> by <a href="/user/${giveaway.creator}">${giveaway.creator}</a>`, true);
-                new Promise((resolve, reject) => {
-                    if (giveaway.entered) {
-                        set = new ButtonSet(`yellow`, `grey`, `fa-minus-circle`, `fa-circle-o-notch fa-spin`, `Leave Giveaway`, `Leaving...`, function (callback) {
-                            leaveElgbGiveaway(giveaway, main, source, function () {
-                                callback();
-                                popup.close();
-                            });
-                        });
-                        popup.description.appendChild(set.set);
-                        resolve();
-                    } else {
-                        getValue(`games`).then(value => {
-                            let games = JSON.parse(value);
-                            if (giveaway.started && !giveaway.ended && !giveaway.created && giveaway.level <= esgst.level && ((giveaway.id && ((games[giveaway.type][giveaway.id] && !games[giveaway.type][giveaway.id].owned && (!games[giveaway.type][giveaway.id].hidden || !esgst.hgebd)) || !games[giveaway.type][giveaway.id])) || !giveaway.id)) {
-                                set = new ButtonSet(`green`, `grey`, `fa-plus-circle`, `fa-circle-o-notch fa-spin`, `Enter Giveaway`, `Entering...`, function (callback) {
-                                    enterElgbGiveaway(giveaway, main, true, source, function () {
-                                        callback();
-                                        popup.close();
-                                    });
-                                });
-                                popup.description.appendChild(set.set);
-                            }
-                            resolve();
-                        });
-                    }
-                }).then(() => {
-                    description = parseHtml(response.responseText).getElementsByClassName(`page__description`)[0];
-                    if (description && description.textContent.trim()) {
-                        if (!mainCallback) {
-                            if (esgst.elgb_c) {
-                                if (Date.now() - esgst.elgbCache.timestamp > 3600000) {
-                                    esgst.elgbCache = {
-                                        descriptions: {},
-                                        timestamp: Date.now()
-                                    };
-                                    setLocalValue(`elgbCache`, JSON.stringify(esgst.elgbCache));
-                                }
-                                if (!esgst.elgbCache.descriptions[giveaway.creator]) {
-                                    esgst.elgbCache.descriptions[giveaway.creator] = [];
-                                }
-                                let html = description.innerHTML, i;
-                                for (i = esgst.elgbCache.descriptions[giveaway.creator].length - 1; i > -1 && esgst.elgbCache.descriptions[giveaway.creator][i] !== html; --i);
-                                if (i > -1) {
-                                    description = null;
-                                } else {
-                                    esgst.elgbCache.descriptions[giveaway.creator].push(html);
-                                    setLocalValue(`elgbCache`, JSON.stringify(esgst.elgbCache));
-                                    if (esgst.elgb_f) {
-                                        let text = description.textContent.replace(/[^a-zA-Z]/g, ``).toLowerCase();
-                                        if (text.match(new RegExp(`^(${esgst.elgb_filters})$`))) {
-                                            description = null;
-                                        }
-                                    }
-                                }
-                            } else if (esgst.elgb_f) {
-                                let text = description.textContent.replace(/[^a-zA-Z]/g, ``).toLowerCase();
-                                if (text.match(new RegExp(`^(${esgst.elgb_filters})$`))) {
-                                    description = null;
-                                }
-                            }
-                        }
-                        if (description) {
-                            description.classList.add(`esgst-text-left`);
-                            popup.scrollable.insertAdjacentHTML(`beforeEnd`, description.outerHTML);
-                            if (esgst.elgb_r || mainCallback) {
-                                box = insertHtml(popup.scrollable, `beforeEnd`, `<textarea></textarea>`);
-                                if (esgst.cfh) {
-                                    addCfhPanel(box);
-                                }
-                                popup.description.appendChild(new ButtonSet(`green`, `grey`, `fa-arrow-circle-right`, `fa-circle-o-notch fa-spin`, `Add Comment`, `Saving...`, function (callback) {
-                                    if (box.value) {
-                                        request(`xsrf_token=${esgst.xsrfToken}&do=comment_new&description=${box.value}`, null, `POST`, false, giveaway.url, function() {
-                                            callback();
-                                            popup.close();
-                                        });
-                                    } else {
-                                        callback();
-                                        popup.close();
-                                    }
-                                }).set);
-                                if (mainCallback) {
-                                    popup.onClose = mainCallback;
-                                }
-                                if (esgst.elgb_f) {
-                                    set = new ButtonSet(`grey`, `grey`, `fa-eye`, `fa-circle-o-notch fa-spin`, `Add Description To Filters`, `Filtering...`, function (callback) {
-                                        esgst.elgb_filters = `${esgst.elgb_filters}|${description.textContent.replace(/[^a-zA-Z]/g, ``).toLowerCase()}`;
-                                        setSetting(`elgb_filters`, esgst.elgb_filters).then(() => {
-                                            callback();
-                                            set.remove();
-                                        });
-                                    }).set;
-                                    popup.description.appendChild(set);
-                                }
-                                popup.open(function () {
-                                    box.focus();
-                                });
-                            } else {
-                                if (mainCallback) {
-                                    popup.onClose = mainCallback;
-                                }
-                                if (esgst.elgb_f) {
-                                    set = new ButtonSet(`grey`, `grey`, `fa-eye`, `fa-circle-o-notch fa-spin`, `Add Description To Filters`, `Filtering...`, function (callback) {
-                                        esgst.elgb_filters = `${esgst.elgb_filters}|${description.textContent.replace(/[^a-zA-Z]/g, ``).toLowerCase()}`;
-                                        setSetting(`elgb_filters`, esgst.elgb_filters).then(() => {
-                                            callback();
-                                            set.remove();
-                                        });
-                                    }).set;
-                                    popup.description.appendChild(set);
-                                }
-                                popup.open();
-                            }
-                        } else if ((esgst.elgb_r && !esgst.elgb_r_d) || mainCallback) {
-                            box = insertHtml(popup.scrollable, `beforeEnd`, `<textarea></textarea>`);
-                            if (esgst.cfh) {
-                                addCfhPanel(box);
-                            }
-                            popup.description.appendChild(new ButtonSet(`green`, `grey`, `fa-arrow-circle-right`, `fa-circle-o-notch fa-spin`, `Add Comment`, `Saving...`, function (callback) {
-                                if (box.value) {
-                                    request(`xsrf_token=${esgst.xsrfToken}&do=comment_new&description=${box.value}`, null, `POST`, false, giveaway.url, function() {
-                                        callback();
-                                        popup.close();
-                                    });
-                                } else {
-                                    callback();
-                                    popup.close();
-                                }
-                            }).set);
-                            if (mainCallback) {
-                                popup.onClose = mainCallback;
-                            }
-                            popup.open(function () {
-                                box.focus();
-                            });
-                        }
-                    } else if ((esgst.elgb_r && !esgst.elgb_r_d) || mainCallback) {
-                        box = insertHtml(popup.scrollable, `beforeEnd`, `<textarea></textarea>`);
-                        if (esgst.cfh) {
-                            addCfhPanel(box);
-                        }
-                        popup.description.appendChild(new ButtonSet(`green`, `grey`, `fa-arrow-circle-right`, `fa-circle-o-notch fa-spin`, `Add Comment`, `Saving...`, function (callback) {
-                            if (box.value) {
-                                request(`xsrf_token=${esgst.xsrfToken}&do=comment_new&description=${box.value}`, null, `POST`, false, giveaway.url, function() {
-                                    callback();
-                                    popup.close();
-                                });
-                            } else {
-                                callback();
-                                popup.close();
-                            }
-                        }).set);
-                        if (mainCallback) {
-                            popup.onClose = mainCallback;
-                        }
-                        popup.open(function () {
-                            box.focus();
-                        });
-                    }
+    async function openElgbPopup(giveaway, main, source, mainCallback) {
+        let popup = new Popup(`fa-file-text-o`, `<a href="${giveaway.url}"><span>${giveaway.name}</span></a> by <a href="/user/${giveaway.creator}">${giveaway.creator}</a>`, true);
+        if (giveaway.entered) {
+            let set = new ButtonSet(`yellow`, `grey`, `fa-minus-circle`, `fa-circle-o-notch fa-spin`, `Leave Giveaway`, `Leaving...`, callback => {
+                leaveElgbGiveaway(giveaway, main, source, () => {
+                    callback();
+                    popup.close();
                 });
             });
-        } else if (esgst.elgb_r && !esgst.elgb_r_d) {
-            popup = new Popup(`fa-file-text-o`, `<a href="${giveaway.url}"><span>${giveaway.name}</span></a> by <a href="/user/${giveaway.creator}">${giveaway.creator}</a>`, true);
-            new Promise((resolve, reject) => {
-                if (giveaway.entered) {
-                    set = new ButtonSet(`yellow`, `grey`, `fa-minus-circle`, `fa-circle-o-notch fa-spin`, `Leave Giveaway`, `Leaving...`, function (callback) {
-                        leaveElgbGiveaway(giveaway, main, source, function () {
-                            callback();
-                            popup.close();
-                        });
-                    });
-                    popup.description.appendChild(set.set);
-                    resolve();
-                } else {
-                    getValue(`games`).then(value => {
-                        let games = JSON.parse(value);
-                        if (giveaway.started && !giveaway.ended && !giveaway.created && giveaway.level <= esgst.level && ((giveaway.id && ((games[giveaway.type][giveaway.id] && !games[giveaway.type][giveaway.id].owned && (!games[giveaway.type][giveaway.id].hidden || !esgst.hgebd)) || !games[giveaway.type][giveaway.id])) || !giveaway.id)) {
-                            set = new ButtonSet(`green`, `grey`, `fa-plus-circle`, `fa-circle-o-notch fa-spin`, `Enter Giveaway`, `Entering...`, function (callback) {
-                                enterElgbGiveaway(giveaway, main, true, source, function () {
-                                    callback();
-                                    popup.close();
-                                });
-                            });
-                            popup.description.appendChild(set.set);
-                        }
-                        resolve();
-                    });
-                }
-            }).then(() => {
-                box = insertHtml(popup.scrollable, `beforeEnd`, `<textarea></textarea>`);
-                if (esgst.cfh) {
-                    addCfhPanel(box);
-                }
-                popup.description.appendChild(new ButtonSet(`green`, `grey`, `fa-arrow-circle-right`, `fa-circle-o-notch fa-spin`, `Add Comment`, `Saving...`, function (callback) {
-                    if (box.value) {
-                        request(`xsrf_token=${esgst.xsrfToken}&do=comment_new&description=${box.value}`, null, `POST`, false, giveaway.url, function() {
-                            callback();
-                            popup.close();
-                        });
-                    } else {
+            popup.description.appendChild(set.set);
+        } else {
+            let games = JSON.parse(await getValue(`games`));
+            if (giveaway.started && !giveaway.ended && !giveaway.created && giveaway.level <= esgst.level && ((giveaway.id && ((games[giveaway.type][giveaway.id] && !games[giveaway.type][giveaway.id].owned && (!games[giveaway.type][giveaway.id].hidden || !esgst.hgebd)) || !games[giveaway.type][giveaway.id])) || !giveaway.id)) {
+                let set = new ButtonSet(`green`, `grey`, `fa-plus-circle`, `fa-circle-o-notch fa-spin`, `Enter Giveaway`, `Entering...`, callback => {
+                    enterElgbGiveaway(giveaway, main, true, source, () => {
                         callback();
                         popup.close();
-                    }
-                }).set);
-                if (mainCallback) {
-                    popup.onClose = mainCallback;
-                }
-                popup.open(function () {
-                    box.focus();
+                    });
                 });
+                popup.description.appendChild(set.set);
+            }
+        }
+        let description = null;
+        if (esgst.elgb_d || (esgst.elgb_r && esgst.elgb_r_d) || mainCallback) {
+            description = parseHtml((await request_v2({method: `GET`, url: giveaway.url})).responseText).getElementsByClassName(`page__description`)[0];
+        }
+        if (description && description.textContent.trim() && !mainCallback) {
+            if (esgst.elgb_c) {
+                if (Date.now() - esgst.elgbCache.timestamp > 3600000) {
+                    esgst.elgbCache = {
+                        descriptions: {},
+                        timestamp: Date.now()
+                    };
+                    setLocalValue(`elgbCache`, JSON.stringify(esgst.elgbCache));
+                }
+                if (!esgst.elgbCache.descriptions[giveaway.creator]) {
+                    esgst.elgbCache.descriptions[giveaway.creator] = [];
+                }
+                let html = description.innerHTML;
+                let i;
+                for (i = esgst.elgbCache.descriptions[giveaway.creator].length - 1; i > -1 && esgst.elgbCache.descriptions[giveaway.creator][i] !== html; --i);
+                if (i > -1) {
+                    description = null;
+                } else {
+                    esgst.elgbCache.descriptions[giveaway.creator].push(html);
+                    setLocalValue(`elgbCache`, JSON.stringify(esgst.elgbCache));
+                    if (esgst.elgb_f) {
+                        let text = description.textContent.replace(/[^a-zA-Z]/g, ``).toLowerCase();
+                        if (text.match(new RegExp(`^(${esgst.elgb_filters})$`))) {
+                            description = null;
+                        }
+                    }
+                }
+            } else if (esgst.elgb_f) {
+                let text = description.textContent.replace(/[^a-zA-Z]/g, ``).toLowerCase();
+                if (text.match(new RegExp(`^(${esgst.elgb_filters})$`))) {
+                    description = null;
+                }
+            }
+        }
+        if (description) {            
+            description.classList.add(`esgst-text-left`);
+            popup.scrollable.insertAdjacentHTML(`beforeEnd`, description.outerHTML);
+        }
+        let box = null;
+        if ((esgst.elgb_r && (!esgst.elgb_r_d || description)) || mainCallback) {
+            box = insertHtml(popup.scrollable, `beforeEnd`, `<textarea></textarea>`);
+            if (esgst.cfh) {
+                addCfhPanel(box);
+            }
+            popup.description.appendChild(new ButtonSet(`green`, `grey`, `fa-arrow-circle-right`, `fa-circle-o-notch fa-spin`, `Add Comment`, `Saving...`, callback => {
+                if (box.value) {
+                    request(`xsrf_token=${esgst.xsrfToken}&do=comment_new&description=${box.value}`, null, `POST`, false, giveaway.url, () => {
+                        callback();
+                        popup.close();
+                    });
+                } else {
+                    callback();
+                    popup.close();
+                }
+            }).set);
+        }
+        if (description && esgst.elgb_f) {
+            let set = new ButtonSet(`grey`, `grey`, `fa-eye`, `fa-circle-o-notch fa-spin`, `Add Description To Filters`, `Filtering...`, callback => {
+                esgst.elgb_filters = `${esgst.elgb_filters}|${description.textContent.replace(/[^a-zA-Z]/g, ``).toLowerCase()}`;
+                setSetting(`elgb_filters`, esgst.elgb_filters).then(() => {
+                    callback();
+                    set.remove();
+                });
+            }).set;
+            popup.description.appendChild(set);
+        }
+        if ((!esgst.elgb_d || description) || (esgst.elgb_r && (!esgst.elgb_r_d || description)) || mainCallback) {
+            if (mainCallback) {
+                popup.onClose = mainCallback;
+            }
+            popup.open(() => {
+                if (box) {
+                    box.focus();
+                }
             });
         }
     }
@@ -17260,16 +17098,13 @@ Parsedown = (() => {
         });
     }
 
-    function loadGrGiveaway() {
-        return new Promise(async (resolve, reject) => {
-            let template = await getValue(`grTemplate`);
-            if (template) {
-                await delValue(`grTemplate`);
-                template = JSON.parse(template);
-                applyGtsTemplate(template);
-            }
-            resolve();
-        });
+    async function loadGrGiveaway() {
+        let template = await getValue(`grTemplate`);
+        if (template) {
+            await delValue(`grTemplate`);
+            template = JSON.parse(template);
+            applyGtsTemplate(template);
+        }
     }
 
     /* [GTS] Giveaway Templates */
@@ -18931,34 +18766,33 @@ Parsedown = (() => {
         }
     }
 
-    function setSggGroups(context) {
-        return new Promise(async (resolve, reject) => {
-            var avatar, code, element, elements, i, j, key, n, savedGroups, stickied;
-            savedGroups = JSON.parse(await getValue(`groups`, `[]`));
-            elements = context.getElementsByClassName(`table__row-inner-wrap`);
-            for (i = 0, n = elements.length; i < n; ++i) {
-                element = elements[i];
-                avatar = element.getElementsByClassName(`table_image_avatar`)[0].style.backgroundImage;
-                stickied = false;
-                for (j = savedGroups.length - 1; j >= 0; --j) {
-                    if (avatar.match(savedGroups[j].avatar)) {
-                        code = savedGroups[j].code;
-                        if (savedGroups[j].stickied) {
-                            stickied = true;
-                        }
-                        break;
-                    }
+    async function setSggGroups(context) {
+        let savedGroups = JSON.parse(await getValue(`groups`, `[]`));
+        let elements = context.getElementsByClassName(`table__row-inner-wrap`);
+        for (let i = 0, n = elements.length; i < n; i++) {
+            let element = elements[i];
+            let avatar = element.getElementsByClassName(`table_image_avatar`)[0].style.backgroundImage;
+            let stickied = false;
+            let code = null;
+            for (let j = savedGroups.length - 1; j >= 0; j--) {
+                if (!avatar.match(savedGroups[j].avatar)) {
+                    continue;
                 }
-                if (code) {
-                    if (stickied) {
-                        addSggUnstickyButton(code, null, element);
-                    } else {
-                        addSggStickyButton(code, null, element);
-                    }
+                code = savedGroups[j].code;
+                if (savedGroups[j].stickied) {
+                    stickied = true;
                 }
+                break;
             }
-            resolve();
-        });
+            if (!code) {
+                continue;
+            }
+            if (stickied) {
+                addSggUnstickyButton(code, null, element);
+            } else {
+                addSggStickyButton(code, null, element);
+            }
+        }
     }
 
     function addSggStickyButton(code, container, context, id, separator, button) {
@@ -19211,347 +19045,342 @@ Parsedown = (() => {
         setSetting(`ugs_difference`, event.currentTarget.value);
     }
 
-    function startUgsSender(ugs) {
-        return new Promise(async (resolve, reject) => {    
-            // initialize/reset stuff
-            ugs.canceled = false;
-            ugs.giveaways = [];
-            ugs.groups = {};
-            ugs.button.classList.add(`esgst-busy`);
-            ugs.results.classList.add(`esgst-hidden`);
-            ugs.sent.classList.add(`esgst-hidden`);
-            ugs.unsent.classList.add(`esgst-hidden`);
-            ugs.sentGifts.innerHTML = ugs.unsentGifts.innerHTML = ``;
-            ugs.sentCount.textContent = ugs.unsentCount.textContent = `0`;
-            ugs.progress.innerHTML = ugs.overallProgress.textContent = ``;
+    async function startUgsSender(ugs) { 
+        // initialize/reset stuff
+        ugs.canceled = false;
+        ugs.giveaways = [];
+        ugs.groups = {};
+        ugs.button.classList.add(`esgst-busy`);
+        ugs.results.classList.add(`esgst-hidden`);
+        ugs.sent.classList.add(`esgst-hidden`);
+        ugs.unsent.classList.add(`esgst-hidden`);
+        ugs.sentGifts.innerHTML = ugs.unsentGifts.innerHTML = ``;
+        ugs.sentCount.textContent = ugs.unsentCount.textContent = `0`;
+        ugs.progress.innerHTML = ugs.overallProgress.textContent = ``;
 
-            let unsent = esgst.createdButton.getElementsByClassName(`nav__notification`)[0];
-            if (!unsent) {     
-                // there are no unsent giveaways           
-                ugs.button.classList.remove(`esgst-busy`);
-                ugs.progress.innerHTML = `You do not have any unsent gifts.`;
-                resolve();
-                return;
+        let unsent = esgst.createdButton.getElementsByClassName(`nav__notification`)[0];
+        if (!unsent) {     
+            // there are no unsent giveaways           
+            ugs.button.classList.remove(`esgst-busy`);
+            ugs.progress.innerHTML = `You do not have any unsent gifts.`;
+            return;
+        }
+
+        // retrieve unsent giveaways
+        ugs.count = parseInt(unsent.textContent);
+        let giveaways = [];
+        let nextPage = 1;
+        let pagination = null;
+        do {
+            let context = null;
+            if (nextPage === esgst.currentPage) {
+                context = document;
+            } else if (document.getElementsByClassName(`esgst-es-page-${nextPage}}`)[0]) {
+                // page has been loaded with endless scrolling, so its giveaways were already retrieved when the context was the document
+                continue;
             }
+            if (!context) {
+                context = parseHtml((await request_v2({method: `GET`, url: `/giveaways/created/search?page=${nextPage}`})).responseText);
+            }
+            if (nextPage === 1) {                    
+                ugs.lastPage = getLastPage(context);
+                ugs.lastPage = ugs.lastPage === 999999999 ? `` : ` of ${ugs.lastPage}`;
+            }
+            ugs.progress.innerHTML = `
+                <i class="fa fa-circle-o-notch fa-spin"></i>
+                <span>Searching for unsent gifts (page ${nextPage}${ugs.lastPage})...</span>
+            `;
+            ugs.continue = false;
+            let elements = context.getElementsByClassName(`table__row-outer-wrap`);
+            for (let i = 0, n = elements.length; i < n; i++) {
+                let element = elements[i];
+                let unsent = element.getElementsByClassName(`fa icon-red fa-warning`)[0];
+                if (unsent) {
+                    let heading = element.getElementsByClassName(`table__column__heading`)[0];
+                    let url = heading.getAttribute(`href`);
+                    giveaways.push({
+                        code: url.match(/\/giveaway\/(.+?)\//)[1],
+                        context: unsent,
+                        name: heading.firstChild.textContent.trim().match(/(.+?)(\s\(.+\sCopies\))?$/)[1],
+                        url: url
+                    });
+                    ugs.continue = true;
+                    ugs.count -= 1;
+                }
+            }
+            pagination = context.getElementsByClassName(`pagination__navigation`)[0];
+            nextPage += 1;
+        } while (!ugs.canceled && (ugs.count > 0 || ugs.continue) && pagination && !pagination.lastElementChild.classList.contains(`is-selected`));
 
-            // retrieve unsent giveaways
-            ugs.count = parseInt(unsent.textContent);
-            let giveaways = [];
+        // retrieve the winners/groups of each giveaway
+        for (let i = 0, n = giveaways.length; !ugs.canceled && i < n; i++) {
+            ugs.overallProgress.textContent = `${i} of ${n} giveaways checked...`;
+            let giveaway = giveaways[i];
+            ugs.giveaways[giveaway.code] = {
+                code: giveaway.code,
+                context: giveaway.context,
+                name: giveaway.name,
+                url: giveaway.url,
+                winners: []
+            };
+
+            // retrieve the winners of the giveaway
             let nextPage = 1;
             let pagination = null;
             do {
-                let context = null;
-                if (nextPage === esgst.currentPage) {
-                    context = document;
-                } else if (document.getElementsByClassName(`esgst-es-page-${nextPage}}`)[0]) {
-                    // page has been loaded with endless scrolling, so its giveaways were already retrieved when the context was the document
-                    continue;
-                }
-                if (!context) {
-                    context = parseHtml((await request_v2({method: `GET`, url: `/giveaways/created/search?page=${nextPage}`})).responseText);
-                }
-                if (nextPage === 1) {                    
-                    ugs.lastPage = getLastPage(context);
-                    ugs.lastPage = ugs.lastPage === 999999999 ? `` : ` of ${ugs.lastPage}`;
+                let context = parseHtml((await request_v2({method: `GET`, url: `${giveaway.url}/winners/search?page=${nextPage}`})).responseText);
+                if (nextPage === 1) {
+                    ugs.lastWinnersPage = getLastPage(context);
+                    ugs.lastWinnersPage = ugs.lastWinnersPage === 999999999 ? `` : ` of ${ugs.lastWinnersPage}`;
                 }
                 ugs.progress.innerHTML = `
                     <i class="fa fa-circle-o-notch fa-spin"></i>
-                    <span>Searching for unsent gifts (page ${nextPage}${ugs.lastPage})...</span>
+                    <span>Retrieving winners (page ${nextPage}${ugs.lastWinnersPage})...</span>
                 `;
-                ugs.continue = false;
                 let elements = context.getElementsByClassName(`table__row-outer-wrap`);
                 for (let i = 0, n = elements.length; i < n; i++) {
                     let element = elements[i];
-                    let unsent = element.getElementsByClassName(`fa icon-red fa-warning`)[0];
-                    if (unsent) {
-                        let heading = element.getElementsByClassName(`table__column__heading`)[0];
-                        let url = heading.getAttribute(`href`);
-                        giveaways.push({
-                            code: url.match(/\/giveaway\/(.+?)\//)[1],
-                            context: unsent,
-                            name: heading.firstChild.textContent.trim().match(/(.+?)(\s\(.+\sCopies\))?$/)[1],
-                            url: url
+                    if (element.querySelector(`.table__gift-not-sent:not(.is-hidden)`)) {
+                        ugs.giveaways[giveaway.code].winners.push({
+                            username: element.getElementsByClassName(`table__column__heading`)[0].textContent,
+                            values: {},
+                            winnerId: element.querySelector(`[name="winner_id"]`).value
                         });
-                        ugs.continue = true;
                         ugs.count -= 1;
                     }
                 }
+                if (!ugs.giveaways[giveaway.code].group) {
+                    ugs.giveaways[giveaway.code].group = context.getElementsByClassName(`featured__column--group`)[0];
+                }
+                if (!ugs.giveaways[giveaway.code].whitelist) {
+                    ugs.giveaways[giveaway.code].whitelist = context.getElementsByClassName(`featured__column--whitelist`)[0];
+                }
                 pagination = context.getElementsByClassName(`pagination__navigation`)[0];
-                nextPage += 1;
-            } while (!ugs.canceled && (ugs.count > 0 || ugs.continue) && pagination && !pagination.lastElementChild.classList.contains(`is-selected`));
+            } while (!ugs.canceled && pagination && !pagination.lastElementChild.classList.contains(`is-selected`));
 
-            // retrieve the winners/groups of each giveaway
-            for (let i = 0, n = giveaways.length; !ugs.canceled && i < n; i++) {
-                ugs.overallProgress.textContent = `${i} of ${n} giveaways checked...`;
-                let giveaway = giveaways[i];
-                ugs.giveaways[giveaway.code] = {
-                    code: giveaway.code,
-                    context: giveaway.context,
-                    name: giveaway.name,
-                    url: giveaway.url,
-                    winners: []
-                };
-
-                // retrieve the winners of the giveaway
+            // retrieve the groups of the giveaway                
+            if (esgst.ugs_checkMember && ugs.giveaways[giveaway.code].group) {
+                ugs.giveaways[giveaway.code].groups = [];
                 let nextPage = 1;
                 let pagination = null;
                 do {
-                    let context = parseHtml((await request_v2({method: `GET`, url: `${giveaway.url}/winners/search?page=${nextPage}`})).responseText);
+                    let context = parseHtml((await request_v2({method: `GET`, url: `${giveaway.url}/groups/search?page=${nextPage}`})).responseText);
                     if (nextPage === 1) {
-                        ugs.lastWinnersPage = getLastPage(context);
-                        ugs.lastWinnersPage = ugs.lastWinnersPage === 999999999 ? `` : ` of ${ugs.lastWinnersPage}`;
+                        ugs.lastGroupsPage = getLastPage(context);
+                        ugs.lastGroupsPage = ugs.lastGroupsPage === 999999999 ? `` : ` of ${ugs.lastGroupsPage}`;
                     }
                     ugs.progress.innerHTML = `
                         <i class="fa fa-circle-o-notch fa-spin"></i>
-                        <span>Retrieving winners (page ${nextPage}${ugs.lastWinnersPage})...</span>
+                        <span>Retrieving groups (page ${nextPage}${ugs.lastGroupsPage})...</span>
                     `;
-                    let elements = context.getElementsByClassName(`table__row-outer-wrap`);
-                    for (let i = 0, n = elements.length; i < n; i++) {
-                        let element = elements[i];
-                        if (element.querySelector(`.table__gift-not-sent:not(.is-hidden)`)) {
-                            ugs.giveaways[giveaway.code].winners.push({
-                                username: element.getElementsByClassName(`table__column__heading`)[0].textContent,
-                                values: {},
-                                winnerId: element.querySelector(`[name="winner_id"]`).value
-                            });
-                            ugs.count -= 1;
-                        }
-                    }
-                    if (!ugs.giveaways[giveaway.code].group) {
-                        ugs.giveaways[giveaway.code].group = context.getElementsByClassName(`featured__column--group`)[0];
-                    }
-                    if (!ugs.giveaways[giveaway.code].whitelist) {
-                        ugs.giveaways[giveaway.code].whitelist = context.getElementsByClassName(`featured__column--whitelist`)[0];
+                    let elements = context.getElementsByClassName(`table__column__heading`);
+                    for (let i = 0, n = elements.length; i < n; ++i) {
+                        let match = elements[i].getAttribute(`href`).match(/\/group\/(.+?)\/(.+)/);
+                        ugs.giveaways[code].groups.push({
+                            code: match[1],
+                            name: match[2]
+                        });
                     }
                     pagination = context.getElementsByClassName(`pagination__navigation`)[0];
                 } while (!ugs.canceled && pagination && !pagination.lastElementChild.classList.contains(`is-selected`));
-
-                // retrieve the groups of the giveaway                
-                if (esgst.ugs_checkMember && ugs.giveaways[giveaway.code].group) {
-                    ugs.giveaways[giveaway.code].groups = [];
-                    let nextPage = 1;
-                    let pagination = null;
-                    do {
-                        let context = parseHtml((await request_v2({method: `GET`, url: `${giveaway.url}/groups/search?page=${nextPage}`})).responseText);
-                        if (nextPage === 1) {
-                            ugs.lastGroupsPage = getLastPage(context);
-                            ugs.lastGroupsPage = ugs.lastGroupsPage === 999999999 ? `` : ` of ${ugs.lastGroupsPage}`;
-                        }
-                        ugs.progress.innerHTML = `
-                            <i class="fa fa-circle-o-notch fa-spin"></i>
-                            <span>Retrieving groups (page ${nextPage}${ugs.lastGroupsPage})...</span>
-                        `;
-                        let elements = context.getElementsByClassName(`table__column__heading`);
-                        for (let i = 0, n = elements.length; i < n; ++i) {
-                            let match = elements[i].getAttribute(`href`).match(/\/group\/(.+?)\/(.+)/);
-                            ugs.giveaways[code].groups.push({
-                                code: match[1],
-                                name: match[2]
-                            });
-                        }
-                        pagination = context.getElementsByClassName(`pagination__navigation`)[0];
-                    } while (!ugs.canceled && pagination && !pagination.lastElementChild.classList.contains(`is-selected`));
-                }
             }
+        }
 
-            if (ugs.canceled) {
-                // process canceled
-                resolve();
-                return;
-            }
-            
-            let codes = Object.keys(ugs.giveaways);
-            let n = codes.length;
-            if (n > 0) {
-                // send gifts
-                ugs.rerolls = JSON.parse(esgst.storage.rerolls);
-                ugs.sentWinners = {};
-                ugs.winners = {};
-                ugs.results.classList.remove(`esgst-hidden`);
-                for (let i = 0; !ugs.canceled && i < n; i++) {
-                    ugs.overallProgress.textContent = `${i} of ${n} giveaways checked...`;
-                    let giveaway = ugs.giveaways[codes[i]];
-                    for (let j = 0, numWinners = giveaway.winners.length; j < numWinners; j++) {
-                        let winner = giveaway.winners[j];
-                        let savedUser = await getUser(esgst.users, winner);
+        if (ugs.canceled) {
+            // process canceled
+            return;
+        }
+        
+        let codes = Object.keys(ugs.giveaways);
+        let n = codes.length;
+        if (n > 0) {
+            // send gifts
+            ugs.rerolls = JSON.parse(esgst.storage.rerolls);
+            ugs.sentWinners = {};
+            ugs.winners = {};
+            ugs.results.classList.remove(`esgst-hidden`);
+            for (let i = 0; !ugs.canceled && i < n; i++) {
+                ugs.overallProgress.textContent = `${i} of ${n} giveaways checked...`;
+                let giveaway = ugs.giveaways[codes[i]];
+                for (let j = 0, numWinners = giveaway.winners.length; j < numWinners; j++) {
+                    let winner = giveaway.winners[j];
+                    let savedUser = await getUser(esgst.users, winner);
 
-                        // check order:
-                        // 1. check if the winner is being rerolled
-                        // 2. check if the winner has not activated/multiple wins
-                        // 3. if passed and it's a group giveaway, check if the winner is still a group member, otherwise go to 3
-                        // 4. check if the winner is whitelisted, which would give them a pass for not activated/multiple wins
-                        // 5. finally check if the winner is blacklisted
+                    // check order:
+                    // 1. check if the winner is being rerolled
+                    // 2. check if the winner has not activated/multiple wins
+                    // 3. if passed and it's a group giveaway, check if the winner is still a group member, otherwise go to 3
+                    // 4. check if the winner is whitelisted, which would give them a pass for not activated/multiple wins
+                    // 5. finally check if the winner is blacklisted
 
-                        if (ugs.rerolls.indexOf(winner.winnerId) > -1) {
-                            // winner is being rerolled, cannot send gift
-                            winner.error = `${winner.username} is currently being rerolled.`;
-                        } else {
-                            if (esgst.ugs_checkRules) {
-                                // check if winner has not activated/multiple wins
-                                ugs.progress.innerHTML = `
-                                    <i class="fa fa-circle-o-notch fa-spin"></i>
-                                    <span>Checking if ${winner.username} has not activated/multiple wins...</span>
-                                `;
-                                winner.values.namwc = {
-                                    lastCheck: Date.now(),
-                                    results: {}
-                                };
-                                await checkNamwcNotActivated(ugs, winner);
-                                await checkNamwcMultiple(ugs, winner);
-                                let notActivated = Array.isArray(winner.values.namwc.results.notActivated) ? winner.values.namwc.results.notActivated.length : winner.values.namwc.results.notActivated;
-                                let multiple = Array.isArray(winner.values.namwc.results.multiple) ? winner.values.namwc.results.multiple.length : winner.values.namwc.results.multiple;
-                                if (notActivated && multiple) {
-                                    winner.error = `${winner.username} has ${notActivated} not activated wins and ${multiple} multiple wins.`;
-                                } else if (notActivated) {
-                                    winner.error = `${winner.username} has ${notActivated} not activated wins.`;
-                                } else if (multiple) {
-                                    winner.error = `${winner.username} has ${multiple} multiple wins.`;
-                                }
+                    if (ugs.rerolls.indexOf(winner.winnerId) > -1) {
+                        // winner is being rerolled, cannot send gift
+                        winner.error = `${winner.username} is currently being rerolled.`;
+                    } else {
+                        if (esgst.ugs_checkRules) {
+                            // check if winner has not activated/multiple wins
+                            ugs.progress.innerHTML = `
+                                <i class="fa fa-circle-o-notch fa-spin"></i>
+                                <span>Checking if ${winner.username} has not activated/multiple wins...</span>
+                            `;
+                            winner.values.namwc = {
+                                lastCheck: Date.now(),
+                                results: {}
+                            };
+                            await checkNamwcNotActivated(ugs, winner);
+                            await checkNamwcMultiple(ugs, winner);
+                            let notActivated = Array.isArray(winner.values.namwc.results.notActivated) ? winner.values.namwc.results.notActivated.length : winner.values.namwc.results.notActivated;
+                            let multiple = Array.isArray(winner.values.namwc.results.multiple) ? winner.values.namwc.results.multiple.length : winner.values.namwc.results.multiple;
+                            if (notActivated && multiple) {
+                                winner.error = `${winner.username} has ${notActivated} not activated wins and ${multiple} multiple wins.`;
+                            } else if (notActivated) {
+                                winner.error = `${winner.username} has ${notActivated} not activated wins.`;
+                            } else if (multiple) {
+                                winner.error = `${winner.username} has ${multiple} multiple wins.`;
                             }
+                        }
 
-                            if (esgst.ugs_checkMember && giveaway.group && !winner.error) {
-                                // check if winner is still a group member
+                        if (esgst.ugs_checkMember && giveaway.group && !winner.error) {
+                            // check if winner is still a group member
+                            ugs.progress.innerHTML = `
+                                <i class="fa fa-circle-o-notch fa-spin"></i>
+                                <span>Checking if ${winner.username} is a member of one of the groups...</span>
+                            `;
+                            await getSteamId(null, false, esgst.users, winner);
+                            let member = false;
+                            for (let k = 0, numGroups = giveaway.groups.length; k < numGroups; k++) {
+                                let code = giveaway.groups[i].code;
+                                if (!ugs.groups[code]) {
+                                    // retrieve group members and store them in case another giveaway has the same group
+                                    let l;
+                                    for (l = esgst.groups.length - 1; l > -1 && esgst.groups[l].code !== code; l--);
+                                    ugs.groups[code] = (await request_v2({method: `GET`, url: `http://steamcommunity.com/gid/${esgst.groups[l].steamId}/memberslistxml?xml=1`})).responseText.match(/<steamID64>.+?<\/steamID64>/g);
+                                    for (l = ugs.groups[code].length - 1; l > -1; l--) {
+                                        ugs.groups[code][l] = ugs.groups[code][l].match(/<steamID64>(.+?)<\steamID64>/)[1];
+                                    }
+                                }
+
+                                if (ugs.groups[code].indexOf(winner.steamId) < 0) {
+                                    // winner is not a member of this group, continue to check the next group
+                                    continue;
+                                }
+
+                                if (!esgst.ugs_checkDifference) {
+                                    // no need to check gift difference, gift can be sent
+                                    member = true;
+                                    break;
+                                }
+
+                                // check winner's gift difference
                                 ugs.progress.innerHTML = `
                                     <i class="fa fa-circle-o-notch fa-spin"></i>
-                                    <span>Checking if ${winner.username} is a member of one of the groups...</span>
+                                    <span>Checking if ${winner.username} has a gift difference higher than the one set...</span>
                                 `;
-                                await getSteamId(null, false, esgst.users, winner);
-                                let member = false;
-                                for (let k = 0, numGroups = giveaway.groups.length; k < numGroups; k++) {
-                                    let code = giveaway.groups[i].code;
-                                    if (!ugs.groups[code]) {
-                                        // retrieve group members and store them in case another giveaway has the same group
-                                        let l;
-                                        for (l = esgst.groups.length - 1; l > -1 && esgst.groups[l].code !== code; l--);
-                                        ugs.groups[code] = (await request_v2({method: `GET`, url: `http://steamcommunity.com/gid/${esgst.groups[l].steamId}/memberslistxml?xml=1`})).responseText.match(/<steamID64>.+?<\/steamID64>/g);
-                                        for (l = ugs.groups[code].length - 1; l > -1; l--) {
-                                            ugs.groups[code][l] = ugs.groups[code][l].match(/<steamID64>(.+?)<\steamID64>/)[1];
-                                        }
-                                    }
-
-                                    if (ugs.groups[code].indexOf(winner.steamId) < 0) {
-                                        // winner is not a member of this group, continue to check the next group
-                                        continue;
-                                    }
-
-                                    if (!esgst.ugs_checkDifference) {
-                                        // no need to check gift difference, gift can be sent
+                                let group = giveaway.groups[k];
+                                let element = parseHtml((await request_v2({method: `GET`, url: `/group/${group.code}/${group.name}/users/search?q=${winner.username}`})).responseText).getElementsByClassName(`table__row-outer-wrap`)[0];
+                                if (element && element.getElementsByClassName(`table__column__heading`)[0].textContent === winner.username) {
+                                    let difference = parseFloat(element.getElementsByClassName(`table__column--width-small`)[2].textContent);
+                                    if (difference >= esgst.ugs_difference) {
                                         member = true;
                                         break;
                                     }
-
-                                    // check winner's gift difference
-                                    ugs.progress.innerHTML = `
-                                        <i class="fa fa-circle-o-notch fa-spin"></i>
-                                        <span>Checking if ${winner.username} has a gift difference higher than the one set...</span>
-                                    `;
-                                    let group = giveaway.groups[k];
-                                    let element = parseHtml((await request_v2({method: `GET`, url: `/group/${group.code}/${group.name}/users/search?q=${winner.username}`})).responseText).getElementsByClassName(`table__row-outer-wrap`)[0];
-                                    if (element && element.getElementsByClassName(`table__column__heading`)[0].textContent === winner.username) {
-                                        let difference = parseFloat(element.getElementsByClassName(`table__column--width-small`)[2].textContent);
-                                        if (difference >= esgst.ugs_difference) {
-                                            member = true;
-                                            break;
-                                        }
-                                        winner.error = `${winner.username} has a ${difference} gift difference.`;
-                                        break;
-                                    }
-                                }                            
-                                if (!winner.error && !member) {
-                                    winner.error = `${winner.username} is not a member of one of the groups.`;
+                                    winner.error = `${winner.username} has a ${difference} gift difference.`;
+                                    break;
                                 }
-                            }
-
-                            if (esgst.ugs_checkWhitelist) {
-                                // check if winner is whitelisted
-                                winner.error = savedUser.whitelisted ? null : `${winner.username} is not whitelisted.`;
-                            }
-
-                            if (esgst.ugs_checkBlacklist && savedUser.blacklisted && !winner.error) {
-                                // check if winner is blacklisted
-                                winner.error = `${winner.username} is blacklisted.`;
+                            }                            
+                            if (!winner.error && !member) {
+                                winner.error = `${winner.username} is not a member of one of the groups.`;
                             }
                         }
 
-                        // send gift to the winner or not, based on the previous checks
-                        if (!ugs.winners[winner.username]) {
-                            ugs.winners[winner.username] = [];
+                        if (esgst.ugs_checkWhitelist) {
+                            // check if winner is whitelisted
+                            winner.error = savedUser.whitelisted ? null : `${winner.username} is not whitelisted.`;
                         }
-                        if (ugs.winners[winner.username].indexOf(giveaway.name) < 0) {
-                            if (winner.error) {
-                                ugs.unsent.classList.remove(`esgst-hidden`);
-                                ugs.unsentCount.textContent = parseInt(ugs.unsentCount.textContent) + 1;
-                                ugs.unsentGifts.insertAdjacentHTML(`beforeEnd`, `
-                                    <span>
-                                        <a href="/user/${winner.username}">${winner.username}</a> (<a href="${giveaway.url}/winners">${giveaway.name}</a>)
-                                        <i class="fa fa-question-circle" title="${winner.error}"></i>
-                                    </span>
-                                `);
-                            } else if (!ugs.canceled) {
-                                await request_v2({data: `xsrf_token=${esgst.xsrfToken}&do=sent_feedback&action=1&winner_id=${winner.winnerId}`, method: `POST`, url: `/ajax.php`});
-                                if (!ugs.sentWinners[giveaway.code]) {
-                                    ugs.sentWinners[giveaway.code] = [];
-                                }
-                                ugs.sent.classList.remove(`esgst-hidden`);
-                                ugs.sentWinners[giveaway.code].push(winner.username);
-                                ugs.sentCount.textContent = parseInt(ugs.sentCount.textContent) + 1;
-                                ugs.sentGifts.insertAdjacentHTML(`beforeEnd`, `
-                                    <span>
-                                        <a href="/user/${winner.username}">${winner.username}</a> (<a href="${giveaway.url}/winners">${giveaway.name}</a>)
-                                    </span>
-                                `);
-                                ugs.winners[winner.username].push(giveaway.name);
-                                if (document.body.contains(giveaway.context)) {
-                                    giveaway.context.className = `fa fa-check-circle icon-green`;
-                                    giveaway.context.nextElementSibling.textContent = `Sent`;
-                                }
-                            }
-                        } else {
-                            // exact same game has already been sent to this winner, meaning they won multiple copies of the same game, so extra gifts cannot be sent
+
+                        if (esgst.ugs_checkBlacklist && savedUser.blacklisted && !winner.error) {
+                            // check if winner is blacklisted
+                            winner.error = `${winner.username} is blacklisted.`;
+                        }
+                    }
+
+                    // send gift to the winner or not, based on the previous checks
+                    if (!ugs.winners[winner.username]) {
+                        ugs.winners[winner.username] = [];
+                    }
+                    if (ugs.winners[winner.username].indexOf(giveaway.name) < 0) {
+                        if (winner.error) {
                             ugs.unsent.classList.remove(`esgst-hidden`);
                             ugs.unsentCount.textContent = parseInt(ugs.unsentCount.textContent) + 1;
                             ugs.unsentGifts.insertAdjacentHTML(`beforeEnd`, `
                                 <span>
                                     <a href="/user/${winner.username}">${winner.username}</a> (<a href="${giveaway.url}/winners">${giveaway.name}</a>)
-                                    <i class="fa fa-question-circle" title="${winner.username} already won ${giveaway.name} from another giveaway of yours"></i>
+                                    <i class="fa fa-question-circle" title="${winner.error}"></i>
                                 </span>
                             `);
+                        } else if (!ugs.canceled) {
+                            await request_v2({data: `xsrf_token=${esgst.xsrfToken}&do=sent_feedback&action=1&winner_id=${winner.winnerId}`, method: `POST`, url: `/ajax.php`});
+                            if (!ugs.sentWinners[giveaway.code]) {
+                                ugs.sentWinners[giveaway.code] = [];
+                            }
+                            ugs.sent.classList.remove(`esgst-hidden`);
+                            ugs.sentWinners[giveaway.code].push(winner.username);
+                            ugs.sentCount.textContent = parseInt(ugs.sentCount.textContent) + 1;
+                            ugs.sentGifts.insertAdjacentHTML(`beforeEnd`, `
+                                <span>
+                                    <a href="/user/${winner.username}">${winner.username}</a> (<a href="${giveaway.url}/winners">${giveaway.name}</a>)
+                                </span>
+                            `);
+                            ugs.winners[winner.username].push(giveaway.name);
+                            if (document.body.contains(giveaway.context)) {
+                                giveaway.context.className = `fa fa-check-circle icon-green`;
+                                giveaway.context.nextElementSibling.textContent = `Sent`;
+                            }
                         }
+                    } else {
+                        // exact same game has already been sent to this winner, meaning they won multiple copies of the same game, so extra gifts cannot be sent
+                        ugs.unsent.classList.remove(`esgst-hidden`);
+                        ugs.unsentCount.textContent = parseInt(ugs.unsentCount.textContent) + 1;
+                        ugs.unsentGifts.insertAdjacentHTML(`beforeEnd`, `
+                            <span>
+                                <a href="/user/${winner.username}">${winner.username}</a> (<a href="${giveaway.url}/winners">${giveaway.name}</a>)
+                                <i class="fa fa-question-circle" title="${winner.username} already won ${giveaway.name} from another giveaway of yours"></i>
+                            </span>
+                        `);
                     }
                 }
-
-                // finalize process
-                let winners = JSON.parse(await getValue(`winners`, `{}`));
-                for (let key in ugs.sentWinners) {
-                    if (!winners[key]) {
-                        winners[key] = [];
-                    }
-                    for (let i = 0, n = ugs.sentWinners[key].length; i < n; i++) {
-                        winners[key].push(ugs.sentWinners[key][i]);
-                    }
-                }
-                await setValue(`winners`, JSON.stringify(winners));
-                let savedUsers = [];
-                for (let key in ugs.giveaways) {
-                    for (let i = 0, n = ugs.giveaways[key].winners.length; i < n; i++) {
-                        savedUsers.push(ugs.giveaways[key].winners[i]);
-                    }
-                }
-                ugs.progress.innerHTML = `
-                    <i class="fa fa-circle-o-notch fa-spin"></i>
-                    <span>Saving data...</span>
-                `;
-                ugs.overallProgress.textContent = ``;
-                await saveUsers(savedUsers);
-                ugs.button.classList.remove(`esgst-busy`);
-                ugs.progress.innerHTML = ``;
-            } else {
-                // there are no unsent gifts
-                ugs.button.classList.remove(`esgst-busy`);
-                ugs.progress.innerHTML = `You do not have any unsent gifts.`;
             }
-            resolve();
-        });
+
+            // finalize process
+            let winners = JSON.parse(await getValue(`winners`, `{}`));
+            for (let key in ugs.sentWinners) {
+                if (!winners[key]) {
+                    winners[key] = [];
+                }
+                for (let i = 0, n = ugs.sentWinners[key].length; i < n; i++) {
+                    winners[key].push(ugs.sentWinners[key][i]);
+                }
+            }
+            await setValue(`winners`, JSON.stringify(winners));
+            let savedUsers = [];
+            for (let key in ugs.giveaways) {
+                for (let i = 0, n = ugs.giveaways[key].winners.length; i < n; i++) {
+                    savedUsers.push(ugs.giveaways[key].winners[i]);
+                }
+            }
+            ugs.progress.innerHTML = `
+                <i class="fa fa-circle-o-notch fa-spin"></i>
+                <span>Saving data...</span>
+            `;
+            ugs.overallProgress.textContent = ``;
+            await saveUsers(savedUsers);
+            ugs.button.classList.remove(`esgst-busy`);
+            ugs.progress.innerHTML = ``;
+        } else {
+            // there are no unsent gifts
+            ugs.button.classList.remove(`esgst-busy`);
+            ugs.progress.innerHTML = `You do not have any unsent gifts.`;
+        }
     }
 
     function cancelUgsSender(ugs) {
@@ -20342,98 +20171,95 @@ Parsedown = (() => {
     }
 
     function getCewgdDetails(giveaways, main) {
-        new Promise(async (resolve, reject) => {
-            if (!main) {
-                resolve();
-                return;
-            }
-            let cewgd = {
-                giveaways: [],
-                savedGiveaways: JSON.parse(await getValue(`giveaways`, `{}`))
-            };
-            let promises = [];
-            for (let i = 0, n = giveaways.length; i < n; ++i) {
-                promises.push(getCewgdDetail(cewgd, giveaways, i));
-            }
-            await Promise.all(promises);
-            let deleteLock = await createLock_v2(`giveawayLock`, 300);
-            for (let i = 0, n = cewgd.giveaways.length; i < n; ++i) {
-                let currentGiveaway = cewgd.giveaways[i];
-                if (cewgd.savedGiveaways[currentGiveaway.code]) {
-                    for (let key in currentGiveaway) {
-                        cewgd.savedGiveaways[currentGiveaway.code][key] = currentGiveaway[key];
-                    }
-                } else {
-                    cewgd.savedGiveaways[currentGiveaway.code] = currentGiveaway;
-                }
-            }
-            await setValue(`giveaways`, JSON.stringify(cewgd.savedGiveaways));
-            deleteLock();
-            resolve();
-        });
+        getCewgdDetails_v2(giveaways, main);
     }
 
-    function getCewgdDetail(cewgd, giveaways, i) {
-        return new Promise(async (resolve, reject) => {
-            let giveaway = giveaways[i];
-            let code = giveaway.code;
-            if (cewgd.savedGiveaways[code] && cewgd.savedGiveaways[code].gameSteamId && (!esgst.createdPath || Array.isArray(cewgd.savedGiveaways[code].winners)) && (!esgst.wonPath || cewgd.savedGiveaways[code].creator !== esgst.username)) {
-                addCewgdDetails(giveaway, cewgd.savedGiveaways[code]);
-            } else if (esgst.createdPath) {
-                let currentGiveaway = null;
-                let nextPage = 1;
-                let pagination = null;
-                do {
-                    let response = await request_v2({method: `GET`, url: `${giveaway.url}/winners/search?page=${nextPage}`});
-                    let responseHtml = parseHtml(response.responseText);
-                    if (!currentGiveaway) {
-                        let currentGiveaways = await getGiveaways(responseHtml, false, response.finalUrl);
-                        if (currentGiveaways.length > 0) {
-                            currentGiveaway = currentGiveaways[0];
-                            currentGiveaway.winners = [];
-                        }
-                    }
-                    if (currentGiveaway) {
-                        let elements = responseHtml.getElementsByClassName(`table__row-inner-wrap`);
-                        for (let i = 0, n = elements.length; i < n; ++i) {
-                            let element = elements[i];
-                            currentGiveaway.winners.push({
-                                received: element.lastElementChild.textContent.trim() === `Received` ? 1 : 0,
-                                username: element.firstElementChild.nextElementSibling.firstElementChild.textContent.trim()
-                            });
-                        }
-                        pagination = responseHtml.getElementsByClassName(`pagination__navigation`)[0];
-                    } else {
-                        (giveaway.panel || (esgst.gm_enable && esgst.createdPath ? giveaway.innerWrap.firstElementChild.nextElementSibling.nextElementSibling : giveaway.innerWrap.firstElementChild.nextElementSibling)).insertAdjacentHTML(`afterEnd`, `
-                            <div class="table__column--width-small text-center">-</div>
-                            <div class="table__column--width-small text-center">-</div>
-                            <div class="table__column--width-small text-center">-</div>
-                        `);
-                        pagination = null;
-                    }
-                } while (pagination && !pagination.lastElementChild.classList.contains(`is-selected`));
-                if (currentGiveaway) {                    
-                    cewgd.giveaways.push(currentGiveaway);
-                    addCewgdDetails(giveaway, currentGiveaway);
+    async function getCewgdDetails_v2(giveaways, main) {
+        if (!main) {
+            return;
+        }
+        let cewgd = {
+            giveaways: [],
+            savedGiveaways: JSON.parse(await getValue(`giveaways`, `{}`))
+        };
+        let promises = [];
+        for (let i = 0, n = giveaways.length; i < n; ++i) {
+            promises.push(getCewgdDetail(cewgd, giveaways, i));
+        }
+        await Promise.all(promises);
+        let deleteLock = await createLock_v2(`giveawayLock`, 300);
+        for (let i = 0, n = cewgd.giveaways.length; i < n; ++i) {
+            let currentGiveaway = cewgd.giveaways[i];
+            if (cewgd.savedGiveaways[currentGiveaway.code]) {
+                for (let key in currentGiveaway) {
+                    cewgd.savedGiveaways[currentGiveaway.code][key] = currentGiveaway[key];
                 }
             } else {
-                let response = await request_v2({method: `GET`, url: giveaway.url});
+                cewgd.savedGiveaways[currentGiveaway.code] = currentGiveaway;
+            }
+        }
+        await setValue(`giveaways`, JSON.stringify(cewgd.savedGiveaways));
+        deleteLock();
+    }
+
+    async function getCewgdDetail(cewgd, giveaways, i) {
+        let giveaway = giveaways[i];
+        let code = giveaway.code;
+        if (cewgd.savedGiveaways[code] && cewgd.savedGiveaways[code].gameSteamId && (!esgst.createdPath || Array.isArray(cewgd.savedGiveaways[code].winners)) && (!esgst.wonPath || cewgd.savedGiveaways[code].creator !== esgst.username)) {
+            addCewgdDetails(giveaway, cewgd.savedGiveaways[code]);
+        } else if (esgst.createdPath) {
+            let currentGiveaway = null;
+            let nextPage = 1;
+            let pagination = null;
+            do {
+                let response = await request_v2({method: `GET`, url: `${giveaway.url}/winners/search?page=${nextPage}`});
                 let responseHtml = parseHtml(response.responseText);
-                let currentGiveaways = await getGiveaways(responseHtml, false, response.finalUrl);
-                if (currentGiveaways.length > 0) {
-                    currentGiveaway = currentGiveaways[0];
-                    cewgd.giveaways.push(currentGiveaway);
-                    addCewgdDetails(giveaway, currentGiveaway);
-                    cewgd.count += 1;
+                if (!currentGiveaway) {
+                    let currentGiveaways = await getGiveaways(responseHtml, false, response.finalUrl);
+                    if (currentGiveaways.length > 0) {
+                        currentGiveaway = currentGiveaways[0];
+                        currentGiveaway.winners = [];
+                    }
+                }
+                if (currentGiveaway) {
+                    let elements = responseHtml.getElementsByClassName(`table__row-inner-wrap`);
+                    for (let i = 0, n = elements.length; i < n; ++i) {
+                        let element = elements[i];
+                        currentGiveaway.winners.push({
+                            received: element.lastElementChild.textContent.trim() === `Received` ? 1 : 0,
+                            username: element.firstElementChild.nextElementSibling.firstElementChild.textContent.trim()
+                        });
+                    }
+                    pagination = responseHtml.getElementsByClassName(`pagination__navigation`)[0];
                 } else {
                     (giveaway.panel || (esgst.gm_enable && esgst.createdPath ? giveaway.innerWrap.firstElementChild.nextElementSibling.nextElementSibling : giveaway.innerWrap.firstElementChild.nextElementSibling)).insertAdjacentHTML(`afterEnd`, `
                         <div class="table__column--width-small text-center">-</div>
                         <div class="table__column--width-small text-center">-</div>
+                        <div class="table__column--width-small text-center">-</div>
                     `);
+                    pagination = null;
                 }
+            } while (pagination && !pagination.lastElementChild.classList.contains(`is-selected`));
+            if (currentGiveaway) {                    
+                cewgd.giveaways.push(currentGiveaway);
+                addCewgdDetails(giveaway, currentGiveaway);
             }
-            resolve();
-        });
+        } else {
+            let response = await request_v2({method: `GET`, url: giveaway.url});
+            let responseHtml = parseHtml(response.responseText);
+            let currentGiveaways = await getGiveaways(responseHtml, false, response.finalUrl);
+            if (currentGiveaways.length > 0) {
+                currentGiveaway = currentGiveaways[0];
+                cewgd.giveaways.push(currentGiveaway);
+                addCewgdDetails(giveaway, currentGiveaway);
+                cewgd.count += 1;
+            } else {
+                (giveaway.panel || (esgst.gm_enable && esgst.createdPath ? giveaway.innerWrap.firstElementChild.nextElementSibling.nextElementSibling : giveaway.innerWrap.firstElementChild.nextElementSibling)).insertAdjacentHTML(`afterEnd`, `
+                    <div class="table__column--width-small text-center">-</div>
+                    <div class="table__column--width-small text-center">-</div>
+                `);
+            }
+        }
     }
 
     function addCewgdDetails(giveaway, details) {
@@ -21751,90 +21577,67 @@ Parsedown = (() => {
         }
     }
 
-    function checkMissingDiscussions(refresh, callback) {
-        let deals, discussions, numDeals, numDiscussions, rows, savedDiscussions;
-        getValue(`discussions`, `{}`).then(value => {
-            savedDiscussions = JSON.parse(value);
-            rows = document.getElementsByClassName(`table__rows`);
-            new Promise((resolve, reject) => {
-                if (refresh) {
-                    rows[0].innerHTML = ``;
-                    rows[1].innerHTML = ``;
-                    numDiscussions = 0;
-                    numDeals = 0;
-                    resolve();
-                } else {
-                    getDiscussions(rows[0], true, savedDiscussions).then(discussions => {
-                        numDiscussions = discussions.length;
-                        return getDiscussions(rows[1], true, savedDiscussions);
-                    }).then(deals => {
-                        numDeals = deals.length;
-                        resolve();
-                    });
-                }
-            }).then(() => {
-                if (numDiscussions < 5 || numDeals < 5) {
-                    request(null, null, `GET`, false, `/discussions`, response1 => {
-                        request(null, null, `GET`, false, `/discussions/deals`, response2 => {
-                            let elements, i, j, response1Html, response2Html, revisedElements;
-                            response1Html = parseHtml(response1.responseText);
-                            response2Html = parseHtml(response2.responseText);
-                            getDiscussions(response1Html, true, savedDiscussions).then(elements => {
-                                revisedElements = [];
-                                elements.forEach(element => {
-                                    if (element.category !== `Deals`) {
-                                        revisedElements.push(element);
-                                    }
-                                });
-                                i = revisedElements.length - (numDiscussions + 1);
-                                while (numDiscussions < 5 && i > -1) {
-                                    setMissingDiscussion(revisedElements[i]);
-                                    rows[0].appendChild(revisedElements[i].outerWrap);
-                                    i -= 1;
-                                    numDiscussions += 1;
-                                }
-                                return getDiscussions(response2Html, true, savedDiscussions);
-                            }).then(elements => {
-                                i = elements.length - (numDeals + 1);
-                                while (numDeals < 5 && i > -1) {
-                                    setMissingDiscussion(elements[i]);
-                                    rows[1].appendChild(elements[i].outerWrap);
-                                    i -= 1;
-                                    numDeals += 1;
-                                }
-                                if (esgst.adots) {
-                                    loadAdots(refresh);
-                                } else if (esgst.radb && !refresh) {
-                                    addRadbButtons();
-                                }
-                                if (refresh) {
-                                    loadEndlessFeatures(esgst.activeDiscussions).then(() => {
-                                        if (callback) {
-                                            callback();
-                                        }
-                                    });
-                                } else {
-                                    loadFeatures();
-                                    if (callback) {
-                                        callback();
-                                    }
-                                }
-                            });
-                        });
-                    });
-                } else {
-                    if (esgst.adots) {
-                        loadAdots();
-                    } else if (esgst.radb && !refresh) {
-                        addRadbButtons();
-                    }
-                    loadFeatures();
-                    if (callback) {
-                        callback();
-                    }
+    async function checkMissingDiscussions(refresh, callback) {
+        let savedDiscussions = JSON.parse(await getValue(`discussions`, `{}`));
+        let rows = document.getElementsByClassName(`table__rows`);
+        let numDiscussions = 0;
+        let numDeals = 0;
+        if (refresh) {
+            rows[0].innerHTML = ``;
+            rows[1].innerHTML = ``;
+        } else {
+            numDiscussions = (await getDiscussions(rows[0], true, savedDiscussions)).length;
+            numDeals = (await getDiscussions(rows[1], true, savedDiscussions)).length;
+        }
+        if (numDiscussions < 5 || numDeals < 5) {
+            let [response1, response2] = await Promise.all([request_v2({method: `GET`, url: `/discussions`}), request_v2({method: `GET`, url: `/discussions/deals`})]);
+            let response1Html = parseHtml(response1.responseText);
+            let response2Html = parseHtml(response2.responseText);
+            let revisedElements = [];
+            (await getDiscussions(response1Html, true, savedDiscussions)).forEach(element => {
+                if (element.category !== `Deals`) {
+                    revisedElements.push(element);
                 }
             });
-        });
+            let i = revisedElements.length - (numDiscussions + 1);
+            while (numDiscussions < 5 && i > -1) {
+                setMissingDiscussion(revisedElements[i]);
+                rows[0].appendChild(revisedElements[i].outerWrap);
+                i -= 1;
+                numDiscussions += 1;
+            }
+            let elements = await getDiscussions(response2Html, true, savedDiscussions);
+            i = elements.length - (numDeals + 1);
+            while (numDeals < 5 && i > -1) {
+                setMissingDiscussion(elements[i]);
+                rows[1].appendChild(elements[i].outerWrap);
+                i -= 1;
+                numDeals += 1;
+            }
+            if (esgst.adots) {
+                loadAdots(refresh);
+            } else if (esgst.radb && !refresh) {
+                addRadbButtons();
+            }
+            if (refresh) {
+                await loadEndlessFeatures(esgst.activeDiscussions);
+            } else {
+                loadFeatures();
+            }
+            if (callback) {
+                callback();
+            }
+        } else {
+            if (esgst.adots) {
+                loadAdots();
+            } else if (esgst.radb && !refresh) {
+                addRadbButtons();
+            }
+            loadFeatures();
+            if (callback) {
+                callback();
+            }
+        }
     }
 
     function addRadbButtons() {
@@ -23058,76 +22861,64 @@ Parsedown = (() => {
 
     /* [MPP] Main Post Popup */
 
-    function loadMpp() {
-        if (esgst.discussionPath) {
-            let button, discussion, MPPPost, Sibling, Visited, Timestamp, Hidden;
-            let key, position;
-            if (esgst.leftButtonIds.indexOf(`mpp`) > -1) {
-                key = `leftButtons`;
-                position = `afterBegin`;
-            } else {
-                key = `rightButtons`;
-                position = `beforeEnd`;
+    async function loadMpp() {
+        if (!esgst.discussionPath) {
+            return;
+        }
+        let [key, position] = esgst.leftButtonIds.indexOf(`mpp`) > -1 ? [`leftButtons`, `afterBegin`] : [`rightButtons`, `beforeEnd`];
+        let button = insertHtml(esgst.hideButtons && esgst.hideButtons_mpp ? esgst[key] : esgst.mainPageHeading, position, `
+            <div class="esgst-heading-button" id="esgst-mpp" title="Open the main post">
+                <i class="fa fa-home"></i>
+            </div>
+        `);
+        let MPPPost = document.createElement(`div`);
+        MPPPost.className = `page__outer-wrap`;
+        let Sibling;
+        do {
+            Sibling = esgst.mainPageHeading.previousElementSibling;
+            if (Sibling) {
+                MPPPost.insertBefore(Sibling, MPPPost.firstElementChild);
             }
-            button = insertHtml(esgst.hideButtons && esgst.hideButtons_mpp ? esgst[key] : esgst.mainPageHeading, position, `
-                <div class="esgst-heading-button" id="esgst-mpp" title="Open the main post">
-                    <i class="fa fa-home"></i>
-                </div>
-            `);
-            MPPPost = document.createElement(`div`);
-            MPPPost.className = `page__outer-wrap`;
-            do {
-                Sibling = esgst.mainPageHeading.previousElementSibling;
-                if (Sibling) {
-                    MPPPost.insertBefore(Sibling, MPPPost.firstElementChild);
-                }
-            } while (Sibling);
-            esgst.mainPageHeading.parentElement.insertBefore(MPPPost, esgst.mainPageHeading);
-            new Promise((resolve, reject) => {
-                if (esgst.mpp_r) {
-                    getValue(`discussions`).then(value => {
-                        discussion = JSON.parse(value)[location.pathname.match(/^\/discussion\/(.+?)\//)[1]];
-                        if (discussion) {
-                            if (discussion.readComments && discussion.readComments[``]) {
-                                Hidden = true;
-                                scrollTo(0, 0);
-                                goToComment(esgst.originalHash);
-                            } else {
-                                Hidden = false;
-                            }
-                        } else {
-                            Hidden = false;
-                        }
-                        resolve();
-                    });
-                } else {
+        } while (Sibling);
+        esgst.mainPageHeading.parentElement.insertBefore(MPPPost, esgst.mainPageHeading);
+        let Hidden;
+        if (esgst.mpp_r) {
+            let discussion = JSON.parse(esgst.storage.discussions)[location.pathname.match(/^\/discussion\/(.+?)\//)[1]];
+            if (discussion) {
+                if (discussion.readComments && discussion.readComments[``]) {
                     Hidden = true;
                     scrollTo(0, 0);
                     goToComment(esgst.originalHash);
-                    resolve();
+                } else {
+                    Hidden = false;
                 }
-            }).then(() => {
-                MPPPost.classList.add(Hidden ? `esgst-mpp-hidden` : `esgst-mpp-visible`);
-                button.addEventListener(`click`, function () {
-                    if (!Hidden) {
-                        MPPPost.classList.remove(`esgst-mpp-visible`);
-                        MPPPost.classList.add(`esgst-mpp-hidden`);
-                    }
-                    popup = new Popup(null, null, false, false, MPPPost);
-                    MPPPost.classList.add(`esgst-mpp-popup`);
-                    popup.open();
-                    popup.onClose = function () {
-                        MPPPost.classList.remove(`esgst-mpp-popup`);
-                        if (!Hidden) {
-                            MPPPost.classList.remove(`esgst-mpp-hidden`);
-                            MPPPost.classList.add(`esgst-mpp-visible`);
-                            MPPPost.removeAttribute(`style`);
-                            esgst.mainPageHeading.parentElement.insertBefore(MPPPost, esgst.mainPageHeading);
-                        }
-                    };
-                });
-            });
+            } else {
+                Hidden = false;
+            }
+        } else {
+            Hidden = true;
+            scrollTo(0, 0);
+            goToComment(esgst.originalHash);
         }
+        MPPPost.classList.add(Hidden ? `esgst-mpp-hidden` : `esgst-mpp-visible`);
+        button.addEventListener(`click`, function () {
+            if (!Hidden) {
+                MPPPost.classList.remove(`esgst-mpp-visible`);
+                MPPPost.classList.add(`esgst-mpp-hidden`);
+            }
+            let popup = new Popup(null, null, false, false, MPPPost);
+            MPPPost.classList.add(`esgst-mpp-popup`);
+            popup.open();
+            popup.onClose = function () {
+                MPPPost.classList.remove(`esgst-mpp-popup`);
+                if (!Hidden) {
+                    MPPPost.classList.remove(`esgst-mpp-hidden`);
+                    MPPPost.classList.add(`esgst-mpp-visible`);
+                    MPPPost.removeAttribute(`style`);
+                    esgst.mainPageHeading.parentElement.insertBefore(MPPPost, esgst.mainPageHeading);
+                }
+            };
+        });
     }
 
     /* [DED] Discussion Edits Detector */
@@ -24111,7 +23902,7 @@ Parsedown = (() => {
             addCfhPanel(MR.Description);
         }
         MR.Description.focus();
-        addDEDButton(MR.Box, MR.URL, function (id, Response, DEDStatus) {
+        addDEDButton(MR.Box, MR.URL, async function (id, Response, DEDStatus) {
             var encryptedCode, codes, ReplyID, Reply, ResponseJSON;
             if (esgst.sg) {
                 if (id) {
@@ -24125,17 +23916,16 @@ Parsedown = (() => {
                             codes.push(decryptGedCode(encryptedCode));
                         }
                     }
-                    saveGedGiveaways(codes, id, async function () {
-                        if (esgst.rfi && esgst.rfi_s) {
-                            await saveRfiReply(id, Reply.outerHTML, MR.url);
-                        }
-                        addRMLLink(MR.Container, [Reply]);
-                        await loadEndlessFeatures(Reply);
-                        MR.Box.remove();
-                        MR.Box = null;
-                        MR.Children.appendChild(Reply);
-                        location.hash = id;
-                    });
+                    await saveGedGiveaways(codes, id);
+                    if (esgst.rfi && esgst.rfi_s) {
+                        await saveRfiReply(id, Reply.outerHTML, MR.url);
+                    }
+                    addRMLLink(MR.Container, [Reply]);
+                    await loadEndlessFeatures(Reply);
+                    MR.Box.remove();
+                    MR.Box = null;
+                    MR.Children.appendChild(Reply);
+                    location.hash = id;
                 } else {
                     DEDStatus.innerHTML = `
                         <i class="fa fa-times"></i>
@@ -24154,17 +23944,16 @@ Parsedown = (() => {
                             codes.push(decryptGedCode(encryptedCode));
                         }
                     }
-                    saveGedGiveaways(codes, id, async function () {
-                        if (esgst.rfi && esgst.rfi_s) {
-                            await saveRfiReply(id, Reply.outerHTML, MR.url);
-                        }
-                        addRMLLink(MR.Container, [Reply]);
-                        await loadEndlessFeatures(Reply);
-                        MR.Box.remove();
-                        MR.Box = null;
-                        MR.Children.appendChild(Reply);
-                        location.hash = id;
-                    });
+                    await saveGedGiveaways(codes, id);
+                    if (esgst.rfi && esgst.rfi_s) {
+                        await saveRfiReply(id, Reply.outerHTML, MR.url);
+                    }
+                    addRMLLink(MR.Container, [Reply]);
+                    await loadEndlessFeatures(Reply);
+                    MR.Box.remove();
+                    MR.Box = null;
+                    MR.Children.appendChild(Reply);
+                    location.hash = id;
                 } else {
                     DEDStatus.innerHTML = `
                         <i class="fa fa-times"></i>
@@ -24179,69 +23968,63 @@ Parsedown = (() => {
         });
     }
 
-    function saveRfiReply(id, reply, url, edit) {
-        return new Promise(async (resolve, reject) => {
-            var i, n, source, saved;
-            if (url) {
-                source = url.match(/\/comment\/(.+)/)[1];
-            }
-            saved = JSON.parse(await getValue(`${esgst.name}RfiCache`, `{}`));
-            if (edit) {
-                for (key in saved) {
-                    for (i = 0, n = saved[key].length; i < n && saved[key][i].id !== id; ++i);
-                    if (i < n) {
-                        saved[key][i].reply = reply;
-                        saved[key][i].timestamp = Date.now();
-                    }
+    async function saveRfiReply(id, reply, url, edit) {
+        var i, n, source, saved;
+        if (url) {
+            source = url.match(/\/comment\/(.+)/)[1];
+        }
+        saved = JSON.parse(await getValue(`${esgst.name}RfiCache`, `{}`));
+        if (edit) {
+            for (key in saved) {
+                for (i = 0, n = saved[key].length; i < n && saved[key][i].id !== id; ++i);
+                if (i < n) {
+                    saved[key][i].reply = reply;
+                    saved[key][i].timestamp = Date.now();
                 }
-            } else {
-                if (!saved[source]) {
-                    saved[source] = [];
-                }
-                saved[source].push({
-                    id: id,
-                    reply: reply,
-                    timestamp: Date.now()
-                });
             }
-            await setValue(`${esgst.name}RfiCache`, JSON.stringify(saved));
-            resolve();
-        });
+        } else {
+            if (!saved[source]) {
+                saved[source] = [];
+            }
+            saved[source].push({
+                id: id,
+                reply: reply,
+                timestamp: Date.now()
+            });
+        }
+        await setValue(`${esgst.name}RfiCache`, JSON.stringify(saved));
     }
 
-    function getRfiReplies(comments, main) {
-        return new Promise(async (resolve, reject) => {
-            var children, comment, i, id, ids, j, key, n, numReplies, saved;
-            ids = [];
-            saved = JSON.parse(await getValue(`${esgst.name}RfiCache`, `{}`));
-            for (i = 0, n = comments.length; i < n; ++i) {
-                comment = comments[i];
-                id = comment.id;
-                if (id && saved[id]) {
-                    children = comment.comment.closest(`.comment, .comment_outer`).querySelector(`.comment__children, .comment_children`);
-                    for (j = 0, numReplies = saved[id].length; j < numReplies; ++j) {
-                        insertHtml(children, `beforeEnd`, saved[id][j].reply).querySelector(`[data-timestamp]`).textContent = getTimeSince(saved[id][j].timestamp);
-                    }
-                    if (main) {
-                        await loadEndlessFeatures(children);
-                    }
+    async function getRfiReplies(comments, main) {
+        var children, comment, i, id, ids, j, key, n, numReplies, saved;
+        ids = [];
+        saved = JSON.parse(await getValue(`${esgst.name}RfiCache`, `{}`));
+        for (i = 0, n = comments.length; i < n; ++i) {
+            comment = comments[i];
+            id = comment.id;
+            if (id && saved[id]) {
+                children = comment.comment.closest(`.comment, .comment_outer`).querySelector(`.comment__children, .comment_children`);
+                for (j = 0, numReplies = saved[id].length; j < numReplies; ++j) {
+                    insertHtml(children, `beforeEnd`, saved[id][j].reply).querySelector(`[data-timestamp]`).textContent = getTimeSince(saved[id][j].timestamp);
+                }
+                if (main) {
+                    await loadEndlessFeatures(children);
                 }
             }
-            for (key in saved) {
-                for (i = 0, n = saved[key].length; i < n; ++i) {
-                    if (Date.now() - saved[key][i].timestamp > 604800000) {
-                        saved[key].splice(i, 1);
-                        i -= 1;
-                        n -= 1;
-                    }
-                }
-                if (!saved[key].length) {
-                    delete saved[key];
+        }
+        for (key in saved) {
+            for (i = 0, n = saved[key].length; i < n; ++i) {
+                if (Date.now() - saved[key][i].timestamp > 604800000) {
+                    saved[key].splice(i, 1);
+                    i -= 1;
+                    n -= 1;
                 }
             }
-            await setValue(`${esgst.name}RfiCache`, JSON.stringify(saved));
-            resolve();
-        });
+            if (!saved[key].length) {
+                delete saved[key];
+            }
+        }
+        await setValue(`${esgst.name}RfiCache`, JSON.stringify(saved));
     }
 
     function getTimeSince(timestamp) {
@@ -24308,7 +24091,7 @@ Parsedown = (() => {
             });
             EditSave.addEventListener(`click`, function () {
                 request(`xsrf_token=${esgst.xsrfToken}&do=comment_edit&comment_id=${ID}&allow_replies=${AllowReplies}&description=${encodeURIComponent(Description.value)}`, null, `POST`, false,
-                    `/ajax.php`, function (Response) {
+                    `/ajax.php`, async function (Response) {
                         var codes, encryptedCode, ResponseJSON, ResponseHTML;
                         ResponseJSON = JSON.parse(Response.responseText);
                         if (ResponseJSON.type === `success` || ResponseJSON.success) {
@@ -24322,38 +24105,37 @@ Parsedown = (() => {
                                     codes.push(decryptGedCode(encryptedCode));
                                 }
                             }
-                            saveGedGiveaways(codes, MR.url.match(/\/comment\/(.+)/)[1], async function () {
-                                if (esgst.rfi && esgst.rfi_s) {
-                                    var reply = MR.Comment.cloneNode(true);
-                                    if (esgst.sg) {
-                                        reply.innerHTML = `
-                                            <div class="ajax comment__child">${ResponseHTML.body.innerHTML}</div>
-                                            <div class="comment__children"></div>
-                                        `;
-                                    } else {
-                                        reply.innerHTML = `
-                                            ${ResponseHTML.body.innerHTML}
-                                            <div class="comment_children"></div>
-                                        `;
-                                    }
-                                    await saveRfiReply(MR.url.match(/\/comment\/(.+)/)[1], reply.outerHTML, null, true);
-                                }
-                                DisplayState.innerHTML = ResponseHTML.getElementsByClassName(esgst.sg ? `comment__display-state` : `comment_body_default`)[0].innerHTML;
-                                EditState.classList.add(esgst.sg ? `is-hidden` : `is_hidden`);
-                                MR.Timestamp.innerHTML = ResponseHTML.getElementsByClassName(esgst.sg ? `comment__actions` : `action_list`)[0].firstElementChild.innerHTML;
-                                if (esgst.at) {
-                                    getTimestamps(MR.Timestamp);
-                                }
-                                if (esgst.ged) {
-                                    esgst.checkGedGiveaways(MR.Container);
-                                }
+                            await saveGedGiveaways(codes, MR.url.match(/\/comment\/(.+)/)[1]);
+                            if (esgst.rfi && esgst.rfi_s) {
+                                var reply = MR.Comment.cloneNode(true);
                                 if (esgst.sg) {
-                                    DisplayState.classList.remove(`is-hidden`);
-                                    MR.Context.classList.remove(`is-hidden`);
+                                    reply.innerHTML = `
+                                        <div class="ajax comment__child">${ResponseHTML.body.innerHTML}</div>
+                                        <div class="comment__children"></div>
+                                    `;
                                 } else {
-                                    MR.Container.classList.remove(`is_hidden`);
+                                    reply.innerHTML = `
+                                        ${ResponseHTML.body.innerHTML}
+                                        <div class="comment_children"></div>
+                                    `;
                                 }
-                            });
+                                await saveRfiReply(MR.url.match(/\/comment\/(.+)/)[1], reply.outerHTML, null, true);
+                            }
+                            DisplayState.innerHTML = ResponseHTML.getElementsByClassName(esgst.sg ? `comment__display-state` : `comment_body_default`)[0].innerHTML;
+                            EditState.classList.add(esgst.sg ? `is-hidden` : `is_hidden`);
+                            MR.Timestamp.innerHTML = ResponseHTML.getElementsByClassName(esgst.sg ? `comment__actions` : `action_list`)[0].firstElementChild.innerHTML;
+                            if (esgst.at) {
+                                getTimestamps(MR.Timestamp);
+                            }
+                            if (esgst.ged) {
+                                esgst.checkGedGiveaways(MR.Container);
+                            }
+                            if (esgst.sg) {
+                                DisplayState.classList.remove(`is-hidden`);
+                                MR.Context.classList.remove(`is-hidden`);
+                            } else {
+                                MR.Container.classList.remove(`is_hidden`);
+                            }
                         }
                     });
             });
@@ -24928,76 +24710,73 @@ Parsedown = (() => {
         });
     }
 
-    function addCtDiscussionPanels(context, main, source, endless, dh) {
-        return new Promise(async (resolve, reject) => {
-            var code, comments, count, countLink, diff, heading, i, id, j, match, matches, n, read, url, key;
-            if (esgst.discussionsPath || dh) {
-                key = `discussions`;
-            } else if (esgst.ticketsPath) {
-                key = `tickets`;
-            } else if (esgst.tradesPath) {
-                key = `trades`;
-            } else {
-                key = `discussions`;
-            }
-            comments = JSON.parse(await getValue(key, `{}`));
-            matches = context.querySelectorAll(`.table__row-outer-wrap, .row_outer_wrap`);
-            for (i = 0, n = matches.length; i < n; ++i) {
-                match = matches[i];
-                countLink = match.querySelector(`.table__column__secondary-link[href*="/discussion/"], .table__column--width-small.text-center, .column_small.text_center`);
-                if (countLink) {
-                    count = parseInt(countLink.textContent.replace(/,/g, ``));
-                    heading = match.querySelector(`.homepage_table_column_heading, .table__column__heading, .column_flex h3 a`);
-                    url = heading.getAttribute(`href`);
-                    if (url) {
-                        code = url.match(new RegExp(`/${key.slice(0, -1)}/(.+?)(/.*)?$`));
-                        if (code) {
-                            code = code[1];
-                            if (esgst.ust && key === `tickets` && (!comments[code] || !comments[code].sent) && match.getElementsByClassName(`table__column__secondary-link`)[0].textContent.trim().match(/Request\sNew\sWinner|User\sReport/)) {
-                                addUstCheckbox(code, heading.parentElement);
-                            }
-                            if (esgst.gdttt || esgst.ct) {
-                                if (comments[code]) {
-                                    if (esgst.ct_s) {
-                                        read = comments[code].count || (esgst.ct_s_h ? count : 0);
-                                    } else {
-                                        read = 0;
-                                        for (id in comments[code].readComments) {
-                                            if (!id.match(/^(Count|undefined|)$/) && comments[code].readComments[id]) {
-                                                ++read;
-                                            }
+    async function addCtDiscussionPanels(context, main, source, endless, dh) {
+        var code, comments, count, countLink, diff, heading, i, id, j, match, matches, n, read, url, key;
+        if (esgst.discussionsPath || dh) {
+            key = `discussions`;
+        } else if (esgst.ticketsPath) {
+            key = `tickets`;
+        } else if (esgst.tradesPath) {
+            key = `trades`;
+        } else {
+            key = `discussions`;
+        }
+        comments = JSON.parse(await getValue(key, `{}`));
+        matches = context.querySelectorAll(`.table__row-outer-wrap, .row_outer_wrap`);
+        for (i = 0, n = matches.length; i < n; ++i) {
+            match = matches[i];
+            countLink = match.querySelector(`.table__column__secondary-link[href*="/discussion/"], .table__column--width-small.text-center, .column_small.text_center`);
+            if (countLink) {
+                count = parseInt(countLink.textContent.replace(/,/g, ``));
+                heading = match.querySelector(`.homepage_table_column_heading, .table__column__heading, .column_flex h3 a`);
+                url = heading.getAttribute(`href`);
+                if (url) {
+                    code = url.match(new RegExp(`/${key.slice(0, -1)}/(.+?)(/.*)?$`));
+                    if (code) {
+                        code = code[1];
+                        if (esgst.ust && key === `tickets` && (!comments[code] || !comments[code].sent) && match.getElementsByClassName(`table__column__secondary-link`)[0].textContent.trim().match(/Request\sNew\sWinner|User\sReport/)) {
+                            addUstCheckbox(code, heading.parentElement);
+                        }
+                        if (esgst.gdttt || esgst.ct) {
+                            if (comments[code]) {
+                                if (esgst.ct_s) {
+                                    read = comments[code].count || (esgst.ct_s_h ? count : 0);
+                                } else {
+                                    read = 0;
+                                    for (id in comments[code].readComments) {
+                                        if (!id.match(/^(Count|undefined|)$/) && comments[code].readComments[id]) {
+                                            ++read;
                                         }
                                     }
-                                    diff = count === read ? 0 : count - read;
-                                } else if (esgst.ct_s && esgst.ct_s_h) {
-                                    diff = 0;
-                                } else {
-                                    diff = count;
                                 }
-                                if (key === `discussions` && diff > 0) {
-                                    for (j = esgst.currentDiscussions.length - 1; j > -1 && esgst.currentDiscussions[j].code !== code; --j);
-                                    if (j > -1) {
-                                        esgst.currentDiscussions[j].unread = true;
-                                    }
-                                }
-                                addCtDiscussionPanel(code, comments, match, countLink, count, diff, url, key, dh);
+                                diff = count === read ? 0 : count - read;
+                            } else if (esgst.ct_s && esgst.ct_s_h) {
+                                diff = 0;
+                            } else {
+                                diff = count;
                             }
+                            if (key === `discussions` && diff > 0) {
+                                for (j = esgst.currentDiscussions.length - 1; j > -1 && esgst.currentDiscussions[j].code !== code; --j);
+                                if (j > -1) {
+                                    esgst.currentDiscussions[j].unread = true;
+                                }
+                            }
+                            addCtDiscussionPanel(code, comments, match, countLink, count, diff, url, key, dh);
                         }
                     }
                 }
             }
-            if (esgst.df && esgst.df.filteredCount && esgst[`df_enable${esgst.df.type}`]) {
-                filterDfDiscussions(esgst.df, false, endless);
+        }
+        if (esgst.df && esgst.df.filteredCount && esgst[`df_enable${esgst.df.type}`]) {
+            filterDfDiscussions(esgst.df, false, endless);
+        }
+        if (esgst.ustButton) {
+            if (esgst.numUstTickets > 0) {
+                esgst.ustButton.classList.remove(`esgst-hidden`);
+            } else {
+                esgst.ustButton.classList.add(`esgst-hidden`);
             }
-            if (esgst.ustButton) {
-                if (esgst.numUstTickets > 0) {
-                    esgst.ustButton.classList.remove(`esgst-hidden`);
-                } else {
-                    esgst.ustButton.classList.add(`esgst-hidden`);
-                }
-            }
-            resolve();
-        });
+        }
     }
 
     function addCtDiscussionPanel(code, comments, container, context, count, diff, url, type, dh) {
@@ -25379,28 +25158,25 @@ Parsedown = (() => {
         profile.unPopup.open(getUnNotes.bind(null, profile));
     }
 
-    function saveUnNotes(profile) {
-        return new Promise(async (resolve, reject) => {
-            let notes = profile.unTextArea.value.trim();
-            let user = {
-                steamId: profile.steamId,
-                id: profile.id,
-                username: profile.username,
-                values: {
-                    notes: notes
-                }
-            };
-            if (notes) {
-                profile.unIcon.classList.remove(`fa-sticky-note-o`);
-                profile.unIcon.classList.add(`fa-sticky-note`);
-            } else {
-                profile.unIcon.classList.remove(`fa-sticky-note`);
-                profile.unIcon.classList.add(`fa-sticky-note-o`);
+    async function saveUnNotes(profile) {
+        let notes = profile.unTextArea.value.trim();
+        let user = {
+            steamId: profile.steamId,
+            id: profile.id,
+            username: profile.username,
+            values: {
+                notes: notes
             }
-            await saveUser(null, null, user);
-            profile.unPopup.close();
-            resolve();
-        });
+        };
+        if (notes) {
+            profile.unIcon.classList.remove(`fa-sticky-note-o`);
+            profile.unIcon.classList.add(`fa-sticky-note`);
+        } else {
+            profile.unIcon.classList.remove(`fa-sticky-note`);
+            profile.unIcon.classList.add(`fa-sticky-note-o`);
+        }
+        await saveUser(null, null, user);
+        profile.unPopup.close();
     }
 
     async function getUnNotes(profile) {
@@ -25466,45 +25242,42 @@ Parsedown = (() => {
         profile.ufPopup.open();
     }
 
-    function saveUfSettings(profile, reset) {
-        return new Promise(async (resolve, reject) => {
-            var uf, user;
-            if (reset) {
-                uf = null;
-                profile.ufGiveawaysOption.input.checked = false;
-                profile.ufDiscussionsOption.input.checked = false;
-                profile.ufPostsOption.input.checked = false;
-                profile.ufValues = {
-                    giveaways: false,
-                    discussions: false,
-                    posts: false
-                };
-            } else {
-                profile.ufValues = {
-                    giveaways: profile.ufGiveawaysOption.input.checked,
-                    discussions: profile.ufDiscussionsOption.input.checked,
-                    posts: profile.ufPostsOption.input.checked
-                };
-            }
-            user = {
-                steamId: profile.steamId,
-                id: profile.id,
-                username: profile.username,
-                values: {
-                    uf: profile.ufValues
-                }
+    async function saveUfSettings(profile, reset) {
+        var uf, user;
+        if (reset) {
+            uf = null;
+            profile.ufGiveawaysOption.input.checked = false;
+            profile.ufDiscussionsOption.input.checked = false;
+            profile.ufPostsOption.input.checked = false;
+            profile.ufValues = {
+                giveaways: false,
+                discussions: false,
+                posts: false
             };
-            if (profile.ufValues && (profile.ufValues.giveaways || profile.ufValues.discussions || profile.ufValues.posts)) {
-                profile.ufIcon.classList.remove(`fa-eye`);
-                profile.ufIcon.classList.add(`fa-eye-slash`);
-            } else {
-                profile.ufIcon.classList.remove(`fa-eye-slash`);
-                profile.ufIcon.classList.add(`fa-eye`);
+        } else {
+            profile.ufValues = {
+                giveaways: profile.ufGiveawaysOption.input.checked,
+                discussions: profile.ufDiscussionsOption.input.checked,
+                posts: profile.ufPostsOption.input.checked
+            };
+        }
+        user = {
+            steamId: profile.steamId,
+            id: profile.id,
+            username: profile.username,
+            values: {
+                uf: profile.ufValues
             }
-            await saveUser(null, null, user);
-            profile.ufPopup.close();
-            resolve();
-        });
+        };
+        if (profile.ufValues && (profile.ufValues.giveaways || profile.ufValues.discussions || profile.ufValues.posts)) {
+            profile.ufIcon.classList.remove(`fa-eye`);
+            profile.ufIcon.classList.add(`fa-eye-slash`);
+        } else {
+            profile.ufIcon.classList.remove(`fa-eye-slash`);
+            profile.ufIcon.classList.add(`fa-eye`);
+        }
+        await saveUser(null, null, user);
+        profile.ufPopup.close();
     }
 
     function updateUfCount(context, extraCount) {
@@ -26155,83 +25928,81 @@ Parsedown = (() => {
         Callback(LevelsTotal, Total);
     }
 
-    function getUGDGiveaways(UGD, giveaways, NextPage, username) {
-        return new Promise(async (resolve, reject) => {
-            let Found, Pagination;
-            do {
-                let Context = parseHtml((await request_v2({method: `GET`, url: `/user/${username}${UGD.Key === `won` ? `/giveaways/won` : ``}/search?page=${NextPage}`}).responseText));
-                if (UGD.Progress) {
-                    if (NextPage === 2) {
-                        UGD.lastPage = getLastPage(Context, false, false, true, UGD.Key === `won`);
-                        UGD.lastPage = UGD.lastPage === 999999999 ? `` : ` of ${UGD.lastPage}`;
-                    }
-                    UGD.Progress.innerHTML = `
-                        <i class="fa fa-circle-o-notch fa-spin"></i>
-                        <span>Retrieving giveaways (page ${NextPage - 1}${UGD.lastPage})...</span>
-                    `;
+    async function getUGDGiveaways(UGD, giveaways, NextPage, username) {
+        let Found, Pagination;
+        do {
+            let Context = parseHtml((await request_v2({method: `GET`, url: `/user/${username}${UGD.Key === `won` ? `/giveaways/won` : ``}/search?page=${NextPage}`}).responseText));
+            if (UGD.Progress) {
+                if (NextPage === 2) {
+                    UGD.lastPage = getLastPage(Context, false, false, true, UGD.Key === `won`);
+                    UGD.lastPage = UGD.lastPage === 999999999 ? `` : ` of ${UGD.lastPage}`;
                 }
-                let Giveaways = Context.getElementsByClassName(`giveaway__row-outer-wrap`);
-                let toGiveaways = [];
-                for (let I = 0, NumGiveaways = Giveaways.length; I < NumGiveaways; ++I) {
-                    let Giveaway = (await getGiveawayInfo(Giveaways[I], document, null, null, username, UGD.Key)).data;
-                    if (Giveaway.endTime < new Date().getTime()) {
-                        if (!UGD.Timestamp) {
-                            UGD.Timestamp = Giveaway.endTime;
-                        }
-                        if (Giveaway.endTime > giveaways[`${UGD.Key}Timestamp`]) {
-                            if (Giveaway.gameSteamId) {
-                                if (!giveaways[UGD.Key][Giveaway.gameType][Giveaway.gameSteamId]) {
-                                    giveaways[UGD.Key][Giveaway.gameType][Giveaway.gameSteamId] = [];
-                                }
-                                if (Giveaway.code) {
-                                    giveaways[UGD.Key][Giveaway.gameType][Giveaway.gameSteamId].push(Giveaway.code);
-                                    UGD.giveaways[Giveaway.code] = Giveaway;
-                                } else {
-                                    giveaways[UGD.Key][Giveaway.gameType][Giveaway.gameSteamId].push(Giveaway);
-                                }
-                                toGiveaways.push(Giveaway);
+                UGD.Progress.innerHTML = `
+                    <i class="fa fa-circle-o-notch fa-spin"></i>
+                    <span>Retrieving giveaways (page ${NextPage - 1}${UGD.lastPage})...</span>
+                `;
+            }
+            let Giveaways = Context.getElementsByClassName(`giveaway__row-outer-wrap`);
+            let toGiveaways = [];
+            for (let I = 0, NumGiveaways = Giveaways.length; I < NumGiveaways; ++I) {
+                let Giveaway = (await getGiveawayInfo(Giveaways[I], document, null, null, username, UGD.Key)).data;
+                if (Giveaway.endTime < new Date().getTime()) {
+                    if (!UGD.Timestamp) {
+                        UGD.Timestamp = Giveaway.endTime;
+                    }
+                    if (Giveaway.endTime > giveaways[`${UGD.Key}Timestamp`]) {
+                        if (Giveaway.gameSteamId) {
+                            if (!giveaways[UGD.Key][Giveaway.gameType][Giveaway.gameSteamId]) {
+                                giveaways[UGD.Key][Giveaway.gameType][Giveaway.gameSteamId] = [];
                             }
-                        } else {
-                            Found = true;
-                            break;
+                            if (Giveaway.code) {
+                                giveaways[UGD.Key][Giveaway.gameType][Giveaway.gameSteamId].push(Giveaway.code);
+                                UGD.giveaways[Giveaway.code] = Giveaway;
+                            } else {
+                                giveaways[UGD.Key][Giveaway.gameType][Giveaway.gameSteamId].push(Giveaway);
+                            }
+                            toGiveaways.push(Giveaway);
                         }
+                    } else {
+                        Found = true;
+                        break;
                     }
                 }
-                if (UGD.Key === `sent` && username === esgst.username) {
-                    for (let i = 0, n = toGiveaways.length; i < n; i++) {
-                        let giveaway = giveaways[i];
-                        if (giveaway.code) {
-                            giveaway.winners = [];
-                            let nextPage = 1;
-                            let url = `/giveaway/${giveaway.code}/_/winners/search?page=`;
-                            let pagination;
-                            do {
-                                let response = await request_v2({method: `GET`, url: `${url}${nextPage}`});
-                                let responseHtml = parseHtml(response.responseText);
-                                let elements = responseHtml.getElementsByClassName(`table__row-inner-wrap`);
-                                for (let i = 0, n = elements.length; i < n; ++i) {
-                                    let element = elements[i];
-                                    giveaway.winners.push({
-                                        received: element.lastElementChild.textContent.trim() === `Received` ? 1 : 0,
-                                        username: element.firstElementChild.nextElementSibling.firstElementChild.textContent.trim()
-                                    });
-                                }
-                                if (nextPage === 1) {
-                                    url = `${response.finalUrl}/search?page=`;
-                                }
-                                nextPage += 1;
-                                pagination = responseHtml.getElementsByClassName(`pagination__navigation`)[0];
-                            } while (!UGD.Canceled && pagination && !pagination.lastElementChild.classList.contains(`is-selected`));
-                        }
+            }
+            if (UGD.Key === `sent` && username === esgst.username) {
+                for (let i = 0, n = toGiveaways.length; i < n; i++) {
+                    let giveaway = giveaways[i];
+                    if (giveaway.code) {
+                        giveaway.winners = [];
+                        let nextPage = 1;
+                        let url = `/giveaway/${giveaway.code}/_/winners/search?page=`;
+                        let pagination;
+                        do {
+                            let response = await request_v2({method: `GET`, url: `${url}${nextPage}`});
+                            let responseHtml = parseHtml(response.responseText);
+                            let elements = responseHtml.getElementsByClassName(`table__row-inner-wrap`);
+                            for (let i = 0, n = elements.length; i < n; ++i) {
+                                let element = elements[i];
+                                giveaway.winners.push({
+                                    received: element.lastElementChild.textContent.trim() === `Received` ? 1 : 0,
+                                    username: element.firstElementChild.nextElementSibling.firstElementChild.textContent.trim()
+                                });
+                            }
+                            if (nextPage === 1) {
+                                url = `${response.finalUrl}/search?page=`;
+                            }
+                            nextPage += 1;
+                            pagination = responseHtml.getElementsByClassName(`pagination__navigation`)[0];
+                        } while (!UGD.Canceled && pagination && !pagination.lastElementChild.classList.contains(`is-selected`));
                     }
                 }
-                Pagination = Context.getElementsByClassName(`pagination__navigation`)[0];
-                NextPage += 1;
-            } while (!UGD.Canceled && !Found && Pagination && !Pagination.lastElementChild.classList.contains(`is-selected`));
-            giveaways[`${UGD.Key}Timestamp`] = UGD.Timestamp;
-            await lockAndSaveGiveaways(UGD.giveaways);
-            resolve(giveaways);
-        });
+            }
+            Pagination = Context.getElementsByClassName(`pagination__navigation`)[0];
+            NextPage += 1;
+        } while (!UGD.Canceled && !Found && Pagination && !Pagination.lastElementChild.classList.contains(`is-selected`));
+        giveaways[`${UGD.Key}Timestamp`] = UGD.Timestamp;
+        await lockAndSaveGiveaways(UGD.giveaways);
+        return giveaways;
     }
 
     /* [NAMWC] Not Activated/Multiple Wins Checker */
@@ -26499,60 +26270,52 @@ Parsedown = (() => {
         }
     }
 
-    function checkNamwcNotActivated(namwc, user) {
-        return new Promise(async (resolve, reject) => {
-            if (namwc.Canceled) {
-                resolve();
-                return;
-            }
-            if (namwc.Progress) {
-                namwc.Progress.innerHTML = `
-                    <i class="fa fa-circle-o-notch fa-spin"></i>
-                    <span>Retrieving ${user.username}'s not activated wins...</span>
-                `;
-            }
-            let responseText = (await request_v2({method: `GET`, queue: true, url: `http://www.sgtools.info/nonactivated/${user.username}`})).responseText;
-            if (responseText.match(/has a private profile/)) {
-                user.values.namwc.results.activated = false;
-                user.values.namwc.results.notActivated = [];
-                user.values.namwc.results.unknown = true;
-            } else {
-                user.values.namwc.results.notActivated = [];
-                let elements = parseHtml(responseText).getElementsByClassName(`notActivatedGame`);
-                let n = elements.length;
-                for (let i = 0; i < n; ++i) {
-                    user.values.namwc.results.notActivated.push(new Date(elements[i].textContent.match(/\((\d{4}-\d{2}-\d{2}\s\d{2}:\d{2}:\d{2})\)/)[1]).getTime());
-                }
-                user.values.namwc.results.activated = n === 0 ? true : false;
-                user.values.namwc.results.unknown = false;
-            }
-            user.values.namwc.lastCheck = Date.now();
-            resolve();
-        });
-    }
-
-    function checkNamwcMultiple(namwc, user) {
-        return new Promise(async (resolve, reject) => {
-            if (namwc.Canceled) {
-                resolve();
-                return;
-            }
-            if (namwc.Progress) {
-                namwc.Progress.innerHTML = `
-                    <i class="fa fa-circle-o-notch fa-spin"></i>
-                    <span>Retrieving ${user.username}'s multiple wins...</span>
-                `;
-            }
-            user.values.namwc.results.multiple = [];
-            let elements = parseHtml((await  request_v2({method: `GET`, queue: true, url: `http://www.sgtools.info/multiple/${user.username}`})).responseText).getElementsByClassName(`multiplewins`);
+    async function checkNamwcNotActivated(namwc, user) {
+        if (namwc.Canceled) {
+            return;
+        }
+        if (namwc.Progress) {
+            namwc.Progress.innerHTML = `
+                <i class="fa fa-circle-o-notch fa-spin"></i>
+                <span>Retrieving ${user.username}'s not activated wins...</span>
+            `;
+        }
+        let responseText = (await request_v2({method: `GET`, queue: true, url: `http://www.sgtools.info/nonactivated/${user.username}`})).responseText;
+        if (responseText.match(/has a private profile/)) {
+            user.values.namwc.results.activated = false;
+            user.values.namwc.results.notActivated = [];
+            user.values.namwc.results.unknown = true;
+        } else {
+            user.values.namwc.results.notActivated = [];
+            let elements = parseHtml(responseText).getElementsByClassName(`notActivatedGame`);
             let n = elements.length;
             for (let i = 0; i < n; ++i) {
-                user.values.namwc.results.multiple.push(new Date(elements[i].textContent.match(/and\s(\d{4}-\d{2}-\d{2}\s\d{2}:\d{2}:\d{2})\)/)[1]).getTime());
+                user.values.namwc.results.notActivated.push(new Date(elements[i].textContent.match(/\((\d{4}-\d{2}-\d{2}\s\d{2}:\d{2}:\d{2})\)/)[1]).getTime());
             }
-            user.values.namwc.results.notMultiple = n === 0 ? true : false;
-            user.values.namwc.lastCheck = Date.now();
-            resolve();
-        });
+            user.values.namwc.results.activated = n === 0 ? true : false;
+            user.values.namwc.results.unknown = false;
+        }
+        user.values.namwc.lastCheck = Date.now();
+    }
+
+    async function checkNamwcMultiple(namwc, user) {
+        if (namwc.Canceled) {
+            return;
+        }
+        if (namwc.Progress) {
+            namwc.Progress.innerHTML = `
+                <i class="fa fa-circle-o-notch fa-spin"></i>
+                <span>Retrieving ${user.username}'s multiple wins...</span>
+            `;
+        }
+        user.values.namwc.results.multiple = [];
+        let elements = parseHtml((await  request_v2({method: `GET`, queue: true, url: `http://www.sgtools.info/multiple/${user.username}`})).responseText).getElementsByClassName(`multiplewins`);
+        let n = elements.length;
+        for (let i = 0; i < n; ++i) {
+            user.values.namwc.results.multiple.push(new Date(elements[i].textContent.match(/and\s(\d{4}-\d{2}-\d{2}\s\d{2}:\d{2}:\d{2})\)/)[1]).getTime());
+        }
+        user.values.namwc.results.notMultiple = n === 0 ? true : false;
+        user.values.namwc.lastCheck = Date.now();
     }
 
     /* [NRF] Not Received Finder */
@@ -28403,36 +28166,33 @@ Parsedown = (() => {
 
     /* [US] Users Stats */
 
-    function getUsUsers(context, main) {
-        return new Promise(async (resolve, reject) => {
-            var i, us, username;
-            if (main || context.closest(`.esgst-wbs-popup`)) {
-                if (context === document || !main) {
-                    context.getElementsByClassName(`table__heading`)[0].firstElementChild.insertAdjacentHTML(`afterEnd`, `
-                        <div class="table__column--width-small text-center">Last Online</div>
-                        <div class="table__column--width-small text-center">Gifts Won</div>
-                        <div class="table__column--width-small text-center">Gifts Sent</div>
-                        <div class="table__column--width-small text-center">Ratio</div>
-                        <div class="table__column--width-small text-center">Contributor Level</div>
-                    `);
-                }
-                let users = {};
-                let elements = context.getElementsByClassName(`table__row-inner-wrap`);
-                for (let i = 0, n = elements.length; i < n; ++i) {
-                    let element = elements[i];
-                    users[element.getElementsByClassName(`table__column__heading`)[0].textContent] = (main && element.firstElementChild.nextElementSibling) || element.firstElementChild;
-                }                
-                resolve();
-                let promises = [];
-                for (let username in users) {
-                    let promise = request_v2({method: `GET`, url: `/user/${username}`});
-                    promise.then(loadUsStats.bind(null, users[username], us, username));
-                    promises.push(promise);
-                }
-                await Promise.all(promises);
-                sortTsTables();
-            }
-        });
+    async function getUsUsers(context, main) {
+        var i, us, username;
+        if (!main && !context.closest(`.esgst-wbs-popup`)) {
+            return;
+        }
+        if (context === document || !main) {
+            context.getElementsByClassName(`table__heading`)[0].firstElementChild.insertAdjacentHTML(`afterEnd`, `
+                <div class="table__column--width-small text-center">Last Online</div>
+                <div class="table__column--width-small text-center">Gifts Won</div>
+                <div class="table__column--width-small text-center">Gifts Sent</div>
+                <div class="table__column--width-small text-center">Ratio</div>
+                <div class="table__column--width-small text-center">Contributor Level</div>
+            `);
+        }
+        let users = {};
+        let elements = context.getElementsByClassName(`table__row-inner-wrap`);
+        for (let i = 0, n = elements.length; i < n; ++i) {
+            let element = elements[i];
+            users[element.getElementsByClassName(`table__column__heading`)[0].textContent] = (main && element.firstElementChild.nextElementSibling) || element.firstElementChild;
+        }
+        let promises = [];
+        for (let username in users) {
+            let promise = request_v2({method: `GET`, url: `/user/${username}`});
+            promise.then(loadUsStats.bind(null, users[username], us, username));
+            promises.push(promise);
+        }
+        Promise.all(promises).then(sortTsTables);
     }
 
     function loadUsStats(context, us, username, response) {
@@ -28502,23 +28262,13 @@ Parsedown = (() => {
 
     /* [IBH] Inbox Winners Highlighter */
 
-    function getIwhUsers(context) {
-        return new Promise(async (resolve, reject) => {
-            let callback, className;
-            if (esgst.winnersPath) {
-                className = `table__gift-not-sent`;
-                callback = setIWHObserver;
-            } else {
-                className = `comments__entity`;
-                callback = highlightIWHWinner;
-            }
-            let winners = JSON.parse(await getValue(`winners`, `{}`));
-            let matches = context.getElementsByClassName(className);
-            for (let i = 0, n = matches.length; i < n; ++i) {
-                callback(matches[i], winners);
-            }
-            resolve();
-        });
+    async function getIwhUsers(context) {
+        let [callback, className] = esgst.winnersPath ? [setIWHObserver, `table__gift-not-sent`] : [highlightIWHWinner, `comments__entity`];
+        let winners = JSON.parse(await getValue(`winners`, `{}`));
+        let matches = context.getElementsByClassName(className);
+        for (let i = 0, n = matches.length; i < n; ++i) {
+            callback(matches[i], winners);
+        }
     }
 
     function setIWHObserver(Context) {
@@ -29143,125 +28893,122 @@ Parsedown = (() => {
         }
     }
 
-    function getGcCategories(gc, id, type) {
-        return new Promise(async (resolve, reject) => {
-            try {
-                let categories = {
-                    achievements: 0,
-                    dlc: 0,
-                    earlyAccess: 0,
-                    genres: ``,
-                    linux: 0,
-                    mac: 0,
-                    multiplayer: 0,
-                    name: ``,
-                    price: -1,
-                    rating: ``,
-                    ratingType: ``,
-                    removed: 1,
-                    steamCloud: 0,
-                    tags: ``,
-                    tradingCards: 0
-                };
-                let responseJson = JSON.parse((await await request_v2({method: `GET`, url: `http://store.steampowered.com/api/${type === `apps` ? `appdetails?appids=` : `packagedetails?packageids=`}${id}&filters=basic,categories,genres,name,platforms,price,price_overview&cc=us&l=en`})).responseText);
-                if (responseJson && responseJson[id]) {
-                    let data = responseJson[id].data;
-                    if (data) {
-                        if (data.categories) {
-                            for (let i = 0, n = data.categories.length; i < n; ++i) {
-                                switch (data.categories[i].description) {
-                                    case `Steam Achievements`:
-                                        categories.achievements = 1;
-                                        break;
-                                    case `Multi-player`:
-                                        categories.multiplayer = 1;
-                                        break;
-                                    case `Steam Cloud`:
-                                        categories.steamCloud = 1;
-                                        break;
-                                    case `Steam Trading Cards`:
-                                        categories.tradingCards = 1;
-                                        break;
-                                    default:
-                                        break;
-                                }
-                            }
-                        }
-                        categories.dlc = data.type === `dlc` ? 1 : 0;
-                        let genres = [];
-                        if (data.genres) {
-                            for (let i = 0, n = data.genres.length; i < n; ++i) {
-                                genres.push(data.genres[i].description.trim());
-                            }
-                        }
-                        genres.sort(function (a, b) {
-                            return a.localeCompare(b, {
-                                sensitivity: `base`
-                            });
-                        });
-                        categories.earlyAccess = genres.indexOf(`Early Access`) >= 0 ? 1 : 0;
-                        categories.genres = genres.join(`, `);
-                        let platforms = data.platforms;
-                        categories.linux = platforms.linux ? 1 : 0;
-                        categories.mac = platforms.mac ? 1 : 0;
-                        categories.name = data.name;
-                        let price = data.price || data.price_overview;
-                        categories.price = price ? (price.currency === `USD` ? Math.ceil(price.initial / 100) : -1) : 0;
-                    }
-                }
-                let response = await request_v2({method: `GET`, url: `http://store.steampowered.com/${type.slice(0, -1)}/${id}`});
-                let responseHtml = parseHtml(response.responseText);
-                if (response.finalUrl.match(id)) {
-                    let elements = responseHtml.getElementsByClassName(`user_reviews_summary_row`);
-                    let n = elements.length;
-                    if (n > 0) {
-                        let rating = elements[n - 1].getAttribute(`data-store-tooltip`).replace(/,|\./g, ``);
-                        let match = rating.match(/(\d+)%.+?(\d+)/);
-                        let percentageIndex = 1;
-                        let countIndex = 2;
-                        if (!match) {
-                            match = rating.match(/(\d+).+?(\d+)%/);
-                            percentageIndex = 2;
-                            countIndex = 1;
-                        }
-                        if (match) {
-                            categories.rating = `${match[percentageIndex]}% (${match[countIndex]})`;
-                            rating = parseInt(match[percentageIndex]);
-                            if (rating >= 0) {
-                                if (rating < 40) {
-                                    categories.ratingType = `Negative`;
-                                } else if (rating < 70) {
-                                    categories.ratingType = `Mixed`;
-                                } else {
-                                    categories.ratingType = `Positive`;
-                                }
-                            } else {
-                                categories.ratingType = `?`;
+    async function getGcCategories(gc, id, type) {
+        try {
+            let categories = {
+                achievements: 0,
+                dlc: 0,
+                earlyAccess: 0,
+                genres: ``,
+                linux: 0,
+                mac: 0,
+                multiplayer: 0,
+                name: ``,
+                price: -1,
+                rating: ``,
+                ratingType: ``,
+                removed: 1,
+                steamCloud: 0,
+                tags: ``,
+                tradingCards: 0
+            };
+            let responseJson = JSON.parse((await await request_v2({method: `GET`, url: `http://store.steampowered.com/api/${type === `apps` ? `appdetails?appids=` : `packagedetails?packageids=`}${id}&filters=basic,categories,genres,name,platforms,price,price_overview&cc=us&l=en`})).responseText);
+            if (responseJson && responseJson[id]) {
+                let data = responseJson[id].data;
+                if (data) {
+                    if (data.categories) {
+                        for (let i = 0, n = data.categories.length; i < n; ++i) {
+                            switch (data.categories[i].description) {
+                                case `Steam Achievements`:
+                                    categories.achievements = 1;
+                                    break;
+                                case `Multi-player`:
+                                    categories.multiplayer = 1;
+                                    break;
+                                case `Steam Cloud`:
+                                    categories.steamCloud = 1;
+                                    break;
+                                case `Steam Trading Cards`:
+                                    categories.tradingCards = 1;
+                                    break;
+                                default:
+                                    break;
                             }
                         }
                     }
-                    categories.removed = 0;
-                    let tags = [];
-                    elements = responseHtml.querySelectorAll(`a.app_tag`);
-                    for (let i = 0, n = elements.length; i < n; ++i) {
-                        tags.push(elements[i].textContent.trim());
+                    categories.dlc = data.type === `dlc` ? 1 : 0;
+                    let genres = [];
+                    if (data.genres) {
+                        for (let i = 0, n = data.genres.length; i < n; ++i) {
+                            genres.push(data.genres[i].description.trim());
+                        }
                     }
-                    tags.sort(function (a, b) {
+                    genres.sort(function (a, b) {
                         return a.localeCompare(b, {
                             sensitivity: `base`
                         });
                     });
-                    categories.tags = tags.join(`, `);
+                    categories.earlyAccess = genres.indexOf(`Early Access`) >= 0 ? 1 : 0;
+                    categories.genres = genres.join(`, `);
+                    let platforms = data.platforms;
+                    categories.linux = platforms.linux ? 1 : 0;
+                    categories.mac = platforms.mac ? 1 : 0;
+                    categories.name = data.name;
+                    let price = data.price || data.price_overview;
+                    categories.price = price ? (price.currency === `USD` ? Math.ceil(price.initial / 100) : -1) : 0;
                 }
-                gc.cache[type][id] = categories;
-                if (esgst.gc_dlc_b && categories.dlc && data.fullgame && data.fullgame.appid) {
-                    categories.freeBase = JSON.parse((await request_v2({method: `GET`, url: `http://store.steampowered.com/api/appdetails?appids=${data.fullgame.appid}&filters=basic&cc=us&l=en`})).responseText)[data.fullgame.appid].data.is_free;
-                }
-            } catch (error) {
-                console.log(error);
             }
-            resolve();
-        });
+            let response = await request_v2({method: `GET`, url: `http://store.steampowered.com/${type.slice(0, -1)}/${id}`});
+            let responseHtml = parseHtml(response.responseText);
+            if (response.finalUrl.match(id)) {
+                let elements = responseHtml.getElementsByClassName(`user_reviews_summary_row`);
+                let n = elements.length;
+                if (n > 0) {
+                    let rating = elements[n - 1].getAttribute(`data-store-tooltip`).replace(/,|\./g, ``);
+                    let match = rating.match(/(\d+)%.+?(\d+)/);
+                    let percentageIndex = 1;
+                    let countIndex = 2;
+                    if (!match) {
+                        match = rating.match(/(\d+).+?(\d+)%/);
+                        percentageIndex = 2;
+                        countIndex = 1;
+                    }
+                    if (match) {
+                        categories.rating = `${match[percentageIndex]}% (${match[countIndex]})`;
+                        rating = parseInt(match[percentageIndex]);
+                        if (rating >= 0) {
+                            if (rating < 40) {
+                                categories.ratingType = `Negative`;
+                            } else if (rating < 70) {
+                                categories.ratingType = `Mixed`;
+                            } else {
+                                categories.ratingType = `Positive`;
+                            }
+                        } else {
+                            categories.ratingType = `?`;
+                        }
+                    }
+                }
+                categories.removed = 0;
+                let tags = [];
+                elements = responseHtml.querySelectorAll(`a.app_tag`);
+                for (let i = 0, n = elements.length; i < n; ++i) {
+                    tags.push(elements[i].textContent.trim());
+                }
+                tags.sort(function (a, b) {
+                    return a.localeCompare(b, {
+                        sensitivity: `base`
+                    });
+                });
+                categories.tags = tags.join(`, `);
+            }
+            gc.cache[type][id] = categories;
+            if (esgst.gc_dlc_b && categories.dlc && data.fullgame && data.fullgame.appid) {
+                categories.freeBase = JSON.parse((await request_v2({method: `GET`, url: `http://store.steampowered.com/api/appdetails?appids=${data.fullgame.appid}&filters=basic&cc=us&l=en`})).responseText)[data.fullgame.appid].data.is_free;
+            }
+        } catch (error) {
+            console.log(error);
+        }
     }
 
     function addGcCategory(cache, games, id, savedGame, type) {
@@ -31708,540 +31455,514 @@ Parsedown = (() => {
         }
     }
 
-    function loadGiveawayFeatures(context, main, source, endless) {
-        return new Promise(async (resolve, reject) => {
-            let giveaways = await getGiveaways(context, main, null, false, null, false, endless, source);
-            if (main) {
-                for (let i = giveaways.length - 1; i > -1; --i) {
-                    giveaways[i].sortIndex = esgst.currentGiveaways.length;
-                    esgst.currentGiveaways.push(giveaways[i]);
-                }
-            } else {
-                for (let i = giveaways.length - 1; i > -1; --i) {
-                    giveaways[i].sortIndex = esgst.popupGiveaways.length;
-                    esgst.popupGiveaways.push(giveaways[i]);
-                }
+    async function loadGiveawayFeatures(context, main, source, endless) {
+        let giveaways = await getGiveaways(context, main, null, false, null, false, endless, source);
+        if (main) {
+            for (let i = giveaways.length - 1; i > -1; --i) {
+                giveaways[i].sortIndex = esgst.currentGiveaways.length;
+                esgst.currentGiveaways.push(giveaways[i]);
             }
-            if (esgst.gwl && (((esgst.createdPath || esgst.enteredPath || esgst.wonPath || esgst.giveawayPath) && !main) || (!esgst.giveawayPath && !esgst.createdPath && !esgst.enteredPath && !esgst.wonPath))) {
-                addGwlLinks(giveaways);
+        } else {
+            for (let i = giveaways.length - 1; i > -1; --i) {
+                giveaways[i].sortIndex = esgst.popupGiveaways.length;
+                esgst.popupGiveaways.push(giveaways[i]);
             }
-            for (let i = 0, n = esgst.giveawayFeatures.length; i < n; ++i) {
-                await esgst.giveawayFeatures[i](giveaways, main, source);
-            }
-            if (esgst.gas && esgst[esgst.gas.autoKey]) {
-                sortContent(giveaways, esgst[esgst.gas.optionKey]);
-            }
-            if (esgst.gf && esgst.gf.filteredCount && esgst[`gf_enable${esgst.gf.type}`]) {
-                filterGfGiveaways(esgst.gf, false, endless);
-            }
-            if (esgst.gfPopup && esgst.gfPopup.filteredCount && esgst[`gf_enable${esgst.gfPopup.type}`]) {
-                filterGfGiveaways(esgst.gfPopup);
-            }
-            if (esgst.gm_enable && esgst.gmCheckboxes) {
-                enableGm();
-                enableGm(true);
-            }
-            resolve();
-        });
+        }
+        if (esgst.gwl && (((esgst.createdPath || esgst.enteredPath || esgst.wonPath || esgst.giveawayPath) && !main) || (!esgst.giveawayPath && !esgst.createdPath && !esgst.enteredPath && !esgst.wonPath))) {
+            addGwlLinks(giveaways);
+        }
+        for (let i = 0, n = esgst.giveawayFeatures.length; i < n; ++i) {
+            await esgst.giveawayFeatures[i](giveaways, main, source);
+        }
+        if (esgst.gas && esgst[esgst.gas.autoKey]) {
+            sortContent(giveaways, esgst[esgst.gas.optionKey]);
+        }
+        if (esgst.gf && esgst.gf.filteredCount && esgst[`gf_enable${esgst.gf.type}`]) {
+            filterGfGiveaways(esgst.gf, false, endless);
+        }
+        if (esgst.gfPopup && esgst.gfPopup.filteredCount && esgst[`gf_enable${esgst.gfPopup.type}`]) {
+            filterGfGiveaways(esgst.gfPopup);
+        }
+        if (esgst.gm_enable && esgst.gmCheckboxes) {
+            enableGm();
+            enableGm(true);
+        }
     }
 
-    function getGiveaways(context, main, mainUrl, hr, key, ged, endless, source) {
-        return new Promise(async (resolve, reject) => {
-            var games, giveaway, giveaways, i, mainContext, matches, n, query, savedUsers;
-            let values = await getValues({
-                games: `{"apps":{},"subs":{}}`,
-                users: `{"steamIds":{},"users":{}}`
-            });
-            games = JSON.parse(values.games);
-            savedUsers = JSON.parse(values.users);
-            giveaways = [];
-            if (!hr && main && (esgst.createdPath || esgst.enteredPath || esgst.wonPath)) {
-                query = `.giveaway__row-outer-wrap, .featured__outer-wrap--giveaway, .table:not(.table--summary) .table__row-outer-wrap`;
-            } else {
-                query = `.giveaway__row-outer-wrap, .featured__outer-wrap--giveaway`;
-            }
-            if (key) {
+    async function getGiveaways(context, main, mainUrl, hr, key, ged, endless, source) {
+        var games, giveaway, giveaways, i, mainContext, matches, n, query, savedUsers;
+        let values = await getValues({
+            games: `{"apps":{},"subs":{}}`,
+            users: `{"steamIds":{},"users":{}}`
+        });
+        games = JSON.parse(values.games);
+        savedUsers = JSON.parse(values.users);
+        giveaways = [];
+        if (!hr && main && (esgst.createdPath || esgst.enteredPath || esgst.wonPath)) {
+            query = `.giveaway__row-outer-wrap, .featured__outer-wrap--giveaway, .table:not(.table--summary) .table__row-outer-wrap`;
+        } else {
+            query = `.giveaway__row-outer-wrap, .featured__outer-wrap--giveaway`;
+        }
+        if (key) {
+            mainContext = context;
+        } else {
+            if (mainUrl) {
                 mainContext = context;
+                key = `data`;
             } else {
-                if (mainUrl) {
-                    mainContext = context;
-                    key = `data`;
-                } else {
-                    mainContext = document;
-                    key = `giveaway`;
-                }
+                mainContext = document;
+                key = `giveaway`;
             }
-            matches = context.querySelectorAll(query);
-            for (i = matches.length - 1; i > -1; --i) {
-                giveaway = await getGiveawayInfo(matches[i], mainContext, games, savedUsers, null, null, main, mainUrl, ged, endless, source);
-                if (giveaway) {
-                    giveaways.push(giveaway[key]);
-                }
+        }
+        matches = context.querySelectorAll(query);
+        for (i = matches.length - 1; i > -1; --i) {
+            giveaway = await getGiveawayInfo(matches[i], mainContext, games, savedUsers, null, null, main, mainUrl, ged, endless, source);
+            if (giveaway) {
+                giveaways.push(giveaway[key]);
             }
-            resolve(giveaways);
-        });
+        }
+        return giveaways;
     }
 
-    function getGiveawayInfo(context, mainContext, games, savedUsers, ugd, ugdType, main, mainUrl, ged, endless, source) {
-        return new Promise(async (resolve, reject) => {
-            var category, categories, chance, element, giveaway, i, id, info, key, keys, match, n, savedUser, uf, thinHeadings;
-            giveaway = {};
-            giveaway.outerWrap = context;
-            giveaway.gameId = giveaway.outerWrap.getAttribute(`data-game-id`);
-            info = getGameInfo(giveaway.outerWrap);
-            if (info) {
-                giveaway.id = info.id;
-                giveaway.type = info.type;
-                if (games && games[giveaway.type][giveaway.id]) {
-                    keys = [`owned`, `wishlisted`, `hidden`, `ignored`, `previouslyEntered`, `previouslyWon`, `reducedCV`, `noCV`];
-                    for (i = 0, n = keys.length; i < n; ++i) {
-                        key = keys[i];
-                        if (games[giveaway.type][giveaway.id][key === `previouslyEntered` ? `entered` : (key === `previouslyWon` ? `won` : key)]) {
-                            giveaway[key] = true;
-                        }
+    async function getGiveawayInfo(context, mainContext, games, savedUsers, ugd, ugdType, main, mainUrl, ged, endless, source) {
+        var category, categories, chance, element, giveaway, i, id, info, key, keys, match, n, savedUser, uf, thinHeadings;
+        giveaway = {};
+        giveaway.outerWrap = context;
+        giveaway.gameId = giveaway.outerWrap.getAttribute(`data-game-id`);
+        info = getGameInfo(giveaway.outerWrap);
+        if (info) {
+            giveaway.id = info.id;
+            giveaway.type = info.type;
+            if (games && games[giveaway.type][giveaway.id]) {
+                keys = [`owned`, `wishlisted`, `hidden`, `ignored`, `previouslyEntered`, `previouslyWon`, `reducedCV`, `noCV`];
+                for (i = 0, n = keys.length; i < n; ++i) {
+                    key = keys[i];
+                    if (games[giveaway.type][giveaway.id][key === `previouslyEntered` ? `entered` : (key === `previouslyWon` ? `won` : key)]) {
+                        giveaway[key] = true;
                     }
                 }
             }
-            if (giveaway.outerWrap.classList.contains(`table__row-outer-wrap`) && esgst.giveawayPath) {
-                resolve();
+        }
+        if (giveaway.outerWrap.classList.contains(`table__row-outer-wrap`) && esgst.giveawayPath) {
+            return;
+        }
+        giveaway.innerWrap = giveaway.outerWrap.querySelector(`.giveaway__row-inner-wrap, .featured__inner-wrap, .table__row-inner-wrap`);
+        giveaway.avatar = giveaway.outerWrap.querySelector(`.giveaway_image_avatar, .featured_giveaway_image_avatar`);
+        giveaway.image = giveaway.outerWrap.querySelector(`.giveaway_image_thumbnail, .giveaway_image_thumbnail_missing, .global__image-outer-wrap--game-medium`);
+        giveaway.summary = giveaway.innerWrap.querySelector(`.giveaway__summary, .featured__summary, .table__column--width-fill`);
+        if (source === `gb`) {
+            giveaway.entered = giveaway.outerWrap.getAttribute(`data-entered`);
+        } else if (esgst.giveawayPath && main) {
+            var button = mainContext.getElementsByClassName(`sidebar__entry-delete`)[0];
+            if (button) {
+                giveaway.entered = !button.classList.contains(`is-hidden`);
+            }
+        } else if (esgst.enteredPath && main) {
+            giveaway.entered = true;
+        } else {
+            giveaway.entered = giveaway.innerWrap.classList.contains(`is-faded`);
+        }
+        giveaway.headingName = giveaway.innerWrap.querySelector(`.giveaway__heading__name, .featured__heading__medium, .table__column__heading`);
+        giveaway.name = giveaway.headingName.textContent;
+        match = giveaway.name.match(/\s\((.+) Copies\)/);
+        if (match) {
+            giveaway.name = giveaway.name.replace(match[0], ``);
+            giveaway.copies = parseInt(match[1].replace(/,/g, ``).match(/\d+/)[0]);
+        } else {
+            giveaway.copies = 1;
+        }
+        giveaway.url = esgst.giveawayPath && main && !ugd ? location.pathname : (mainUrl || giveaway.headingName.getAttribute(`href`));
+        if (giveaway.url) {
+            match = giveaway.url.match(/\/giveaway\/(.+?)(\/.+?)$/);
+            if (match) {
+                giveaway.code = match[1];
+            } else {
                 return;
             }
-            giveaway.innerWrap = giveaway.outerWrap.querySelector(`.giveaway__row-inner-wrap, .featured__inner-wrap, .table__row-inner-wrap`);
-            giveaway.avatar = giveaway.outerWrap.querySelector(`.giveaway_image_avatar, .featured_giveaway_image_avatar`);
-            giveaway.image = giveaway.outerWrap.querySelector(`.giveaway_image_thumbnail, .giveaway_image_thumbnail_missing, .global__image-outer-wrap--game-medium`);
-            giveaway.summary = giveaway.innerWrap.querySelector(`.giveaway__summary, .featured__summary, .table__column--width-fill`);
-            if (source === `gb`) {
-                giveaway.entered = giveaway.outerWrap.getAttribute(`data-entered`);
-            } else if (esgst.giveawayPath && main) {
-                var button = mainContext.getElementsByClassName(`sidebar__entry-delete`)[0];
-                if (button) {
-                    giveaway.entered = !button.classList.contains(`is-hidden`);
+        }
+        giveaway.pinned = giveaway.outerWrap.closest(`.pinned-giveaways__outer-wrap`);
+        thinHeadings = giveaway.innerWrap.querySelectorAll(`.giveaway__heading__thin, .featured__heading__small`);
+        n = thinHeadings.length;
+        giveaway.points = 0;
+        if (n > 0) {
+            if (n > 1) {
+                if (esgst.gch && !giveaway.pinned) {
+                    thinHeadings[0].classList.add(`esgst-bold`, `esgst-red`);
                 }
-            } else if (esgst.enteredPath && main) {
-                giveaway.entered = true;
-            } else {
-                giveaway.entered = giveaway.innerWrap.classList.contains(`is-faded`);
-            }
-            giveaway.headingName = giveaway.innerWrap.querySelector(`.giveaway__heading__name, .featured__heading__medium, .table__column__heading`);
-            giveaway.name = giveaway.headingName.textContent;
-            match = giveaway.name.match(/\s\((.+) Copies\)/);
-            if (match) {
-                giveaway.name = giveaway.name.replace(match[0], ``);
-                giveaway.copies = parseInt(match[1].replace(/,/g, ``).match(/\d+/)[0]);
+                giveaway.copies = parseInt(thinHeadings[0].textContent.replace(/,/g, ``).match(/\d+/)[0]);
+                giveaway.pointsContainer = thinHeadings[1];
+                giveaway.points = parseInt(thinHeadings[1].textContent.match(/\d+/)[0]);
             } else {
                 giveaway.copies = 1;
+                giveaway.pointsContainer = thinHeadings[0];
+                giveaway.points = parseInt(thinHeadings[0].textContent.match(/\d+/)[0]);
             }
-            giveaway.url = esgst.giveawayPath && main && !ugd ? location.pathname : (mainUrl || giveaway.headingName.getAttribute(`href`));
-            if (giveaway.url) {
-                match = giveaway.url.match(/\/giveaway\/(.+?)(\/.+?)$/);
-                if (match) {
-                    giveaway.code = match[1];
-                } else {
-                    resolve();
-                    return;
+        }
+        giveaway.columns = giveaway.innerWrap.querySelector(`.giveaway__columns, .featured__columns`);
+        if (giveaway.columns && (!esgst.archivePath || !main)) {
+            giveaway.endTimeColumn = giveaway.columns.firstElementChild;
+            giveaway.started = !giveaway.endTimeColumn.textContent.match(/Begins/);
+            giveaway.endTime = parseInt(giveaway.endTimeColumn.lastElementChild.getAttribute(`data-timestamp`)) * 1e3;
+            giveaway.ended = !giveaway.deleted && giveaway.endTime < Date.now();
+            if (giveaway.ended && ((main && (esgst.userPath || esgst.groupPath)) || ugd)) {
+                giveaway.startTimeColumn = giveaway.endTimeColumn.nextElementSibling.nextElementSibling;
+                if (giveaway.startTimeColumn.classList.contains(`giveaway__column--negative`)) {
+                    giveaway.startTimeColumn = giveaway.startTimeColumn.nextElementSibling;
                 }
+            } else {
+                giveaway.startTimeColumn = giveaway.endTimeColumn.nextElementSibling;
             }
-            giveaway.pinned = giveaway.outerWrap.closest(`.pinned-giveaways__outer-wrap`);
-            thinHeadings = giveaway.innerWrap.querySelectorAll(`.giveaway__heading__thin, .featured__heading__small`);
-            n = thinHeadings.length;
-            giveaway.points = 0;
-            if (n > 0) {
-                if (n > 1) {
-                    if (esgst.gch && !giveaway.pinned) {
-                        thinHeadings[0].classList.add(`esgst-bold`, `esgst-red`);
-                    }
-                    giveaway.copies = parseInt(thinHeadings[0].textContent.replace(/,/g, ``).match(/\d+/)[0]);
-                    giveaway.pointsContainer = thinHeadings[1];
-                    giveaway.points = parseInt(thinHeadings[1].textContent.match(/\d+/)[0]);
-                } else {
-                    giveaway.copies = 1;
-                    giveaway.pointsContainer = thinHeadings[0];
-                    giveaway.points = parseInt(thinHeadings[0].textContent.match(/\d+/)[0]);
-                }
+            giveaway.startTime = parseInt(giveaway.startTimeColumn.firstElementChild.getAttribute(`data-timestamp`)) * 1e3;
+            if (!esgst.userPath || (ugd && ugdType === `won`) || ged) {
+                giveaway.creatorContainer = giveaway.startTimeColumn.lastElementChild;
+                giveaway.creator = giveaway.creatorContainer.textContent;
             }
-            giveaway.columns = giveaway.innerWrap.querySelector(`.giveaway__columns, .featured__columns`);
-            if (giveaway.columns && (!esgst.archivePath || !main)) {
-                giveaway.endTimeColumn = giveaway.columns.firstElementChild;
+            giveaway.winners = giveaway.columns.textContent.match(/No winners/) ? 0 : giveaway.copies;
+        } else {
+            giveaway.started = true;
+        }
+        if (!giveaway.endTime && main && (esgst.createdPath || esgst.enteredPath || esgst.wonPath)) {
+            giveaway.endTime = giveaway.innerWrap.querySelector(`[data-timestamp]`);
+            if (giveaway.endTime) {
+                giveaway.endTimeColumn = giveaway.endTime.parentElement;
                 giveaway.started = !giveaway.endTimeColumn.textContent.match(/Begins/);
-                giveaway.endTime = parseInt(giveaway.endTimeColumn.lastElementChild.getAttribute(`data-timestamp`)) * 1e3;
-                giveaway.ended = !giveaway.deleted && giveaway.endTime < Date.now();
-                if (giveaway.ended && ((main && (esgst.userPath || esgst.groupPath)) || ugd)) {
-                    giveaway.startTimeColumn = giveaway.endTimeColumn.nextElementSibling.nextElementSibling;
-                    if (giveaway.startTimeColumn.classList.contains(`giveaway__column--negative`)) {
-                        giveaway.startTimeColumn = giveaway.startTimeColumn.nextElementSibling;
-                    }
-                } else {
-                    giveaway.startTimeColumn = giveaway.endTimeColumn.nextElementSibling;
-                }
-                giveaway.startTime = parseInt(giveaway.startTimeColumn.firstElementChild.getAttribute(`data-timestamp`)) * 1e3;
-                if (!esgst.userPath || (ugd && ugdType === `won`) || ged) {
-                    giveaway.creatorContainer = giveaway.startTimeColumn.lastElementChild;
-                    giveaway.creator = giveaway.creatorContainer.textContent;
-                }
-                giveaway.winners = giveaway.columns.textContent.match(/No winners/) ? 0 : giveaway.copies;
+                giveaway.deleted = giveaway.endTimeColumn.parentElement.textContent.match(/Deleted/);
+                giveaway.endTime = parseInt(giveaway.endTime.getAttribute(`data-timestamp`)) * 1e3;
             } else {
-                giveaway.started = true;
+                giveaway.endTime = 0;
             }
-            if (!giveaway.endTime && main && (esgst.createdPath || esgst.enteredPath || esgst.wonPath)) {
-                giveaway.endTime = giveaway.innerWrap.querySelector(`[data-timestamp]`);
-                if (giveaway.endTime) {
-                    giveaway.endTimeColumn = giveaway.endTime.parentElement;
-                    giveaway.started = !giveaway.endTimeColumn.textContent.match(/Begins/);
-                    giveaway.deleted = giveaway.endTimeColumn.parentElement.textContent.match(/Deleted/);
-                    giveaway.endTime = parseInt(giveaway.endTime.getAttribute(`data-timestamp`)) * 1e3;
-                } else {
-                    giveaway.endTime = 0;
-                }
-                giveaway.ended = !giveaway.deleted && giveaway.endTime < Date.now();
+            giveaway.ended = !giveaway.deleted && giveaway.endTime < Date.now();
+        }
+        if (!giveaway.ended) {
+            giveaway.winners = 0;
+        }
+        if (ugd) {
+            if (ugdType === `sent`) {
+                giveaway.creator = ugd;
             }
-            if (!giveaway.ended) {
-                giveaway.winners = 0;
-            }
-            if (ugd) {
-                if (ugdType === `sent`) {
-                    giveaway.creator = ugd;
-                }
-            } else if (esgst.userPath && main && !ged) {
-                giveaway.creator = location.pathname.match(/^\/user\/(.+?)(\/.*)?$/)[1];
-            } else if (esgst.createdPath && main) {
-                giveaway.creator = esgst.username;
-            }
-            if (esgst.createdPath && main) {
-                var status = giveaway.outerWrap.querySelector(`.table__column--width-small.text-center:last-of-type`);
-                if (status) {
-                    if (status.textContent.match(/Not\sReceived/)) {
-                        giveaway.notReceived = true;
-                    } else if (status.textContent.match(/Received/)) {
-                        giveaway.received = true;
-                    } else if (status.textContent.match(/Awaiting\sFeedback/)) {
-                        giveaway.awaitingFeedback = true;
-                    }
+        } else if (esgst.userPath && main && !ged) {
+            giveaway.creator = location.pathname.match(/^\/user\/(.+?)(\/.*)?$/)[1];
+        } else if (esgst.createdPath && main) {
+            giveaway.creator = esgst.username;
+        }
+        if (esgst.createdPath && main) {
+            var status = giveaway.outerWrap.querySelector(`.table__column--width-small.text-center:last-of-type`);
+            if (status) {
+                if (status.textContent.match(/Not\sReceived/)) {
+                    giveaway.notReceived = true;
+                } else if (status.textContent.match(/Received/)) {
+                    giveaway.received = true;
+                } else if (status.textContent.match(/Awaiting\sFeedback/)) {
+                    giveaway.awaitingFeedback = true;
                 }
             }
-            giveaway.created = giveaway.creator === esgst.username;
-            if (esgst.uf && esgst.giveawaysPath && main && savedUsers) {
-                savedUser = await getUser(savedUsers, {
-                    username: giveaway.creator
-                });
-                if (savedUser) {
-                    uf = savedUser.uf;
-                    if (esgst.uf_g && savedUser.blacklisted && !uf) {
-                        updateUfCount(giveaway.outerWrap.parentElement.nextElementSibling);
-                        giveaway.outerWrap.remove();
-                        resolve();
-                        return;
-                    } else if (uf && uf.giveaways) {
-                        updateUfCount(giveaway.outerWrap.parentElement.nextElementSibling);
-                        giveaway.outerWrap.remove();
-                        resolve();
-                        return;
-                    }
-                }
-            }
-            if (esgst.gf && esgst.gf_s && main) {
-                var savedGiveaway = esgst.giveaways[giveaway.code];
-                if ((esgst.giveawaysPath || esgst.groupPath) && savedGiveaway && savedGiveaway.hidden && savedGiveaway.code) {
+        }
+        giveaway.created = giveaway.creator === esgst.username;
+        if (esgst.uf && esgst.giveawaysPath && main && savedUsers) {
+            savedUser = await getUser(savedUsers, {
+                username: giveaway.creator
+            });
+            if (savedUser) {
+                uf = savedUser.uf;
+                if (esgst.uf_g && savedUser.blacklisted && !uf) {
+                    updateUfCount(giveaway.outerWrap.parentElement.nextElementSibling);
                     giveaway.outerWrap.remove();
-                    resolve();
+                    return;
+                } else if (uf && uf.giveaways) {
+                    updateUfCount(giveaway.outerWrap.parentElement.nextElementSibling);
+                    giveaway.outerWrap.remove();
                     return;
                 }
             }
-            giveaway.links = giveaway.innerWrap.getElementsByClassName(`giveaway__links`)[0];
-            if (giveaway.links) {
-                giveaway.links.classList.add(`esgst-giveaway-links`);
-                giveaway.entriesLink = giveaway.links.firstElementChild;
-                giveaway.commentsLink = giveaway.entriesLink.nextElementSibling;
-            } else {
-                giveaway.entriesLink = mainContext.getElementsByClassName(`sidebar__navigation__item__count`)[1];
-                giveaway.commentsLink = mainContext.getElementsByClassName(`sidebar__navigation__item__count`)[0];
-            }
-            if (giveaway.entriesLink && giveaway.commentsLink) {
-                giveaway.entries = parseInt(giveaway.entriesLink.textContent.replace(/,/g, ``).match(/\d+/)[0]);
-                giveaway.comments = parseInt(giveaway.commentsLink.textContent.replace(/,/g, ``).match(/\d+/)[0]);
-            }
-            giveaway.panel = giveaway.innerWrap.getElementsByClassName(`esgst-giveaway-panel`)[0];
-            if (!giveaway.panel && (esgst.gwc || esgst.gwr || esgst.gp || esgst.elgb || esgst.cewgd)) {
-                if (giveaway.links) {
-                    giveaway.panel = insertHtml(giveaway.links, `afterEnd`, `
-                        <div class="giveaway__columns esgst-giveaway-panel"></div>
-                        <div style="clear: both;"></div>
-                    `);
-                    if (giveaway.startTimeColumn) {
-                        element = giveaway.startTimeColumn.nextElementSibling;
-                        while (element) {
-                            giveaway.panel.appendChild(element);
-                            element = giveaway.startTimeColumn.nextElementSibling;
-                        }
-                    }
-                } else if (giveaway.columns) {
-                    giveaway.panel = insertHtml(giveaway.columns, `afterEnd`, `<div class="featured__columns esgst-giveaway-panel"></div>`);
-                } else if (esgst.enteredPath && (esgst.gwc || esgst.gwr)) {
-                    giveaway.panel = insertHtml(giveaway.innerWrap.firstElementChild.nextElementSibling, `afterEnd`, `<div class="table__column--width-small text-center esgst-giveaway-panel"></div>`);
-                }
-            }
-            giveaway.elgbPanel = giveaway.panel;
-            if (!giveaway.entriesLink) {
-                var ct = giveaway.panel || (esgst.gm_enable && esgst.createdPath ? giveaway.innerWrap.firstElementChild.nextElementSibling.nextElementSibling : giveaway.innerWrap.firstElementChild.nextElementSibling);
-                if (ct.nextElementSibling) {
-                    giveaway.entries = parseInt(ct.nextElementSibling.textContent.replace(/,/g, ``));
-                }
-            }
-            giveaway.levelColumn = giveaway.outerWrap.querySelector(`.giveaway__column--contributor-level, .featured__column--contributor-level`);
-            giveaway.level = giveaway.levelColumn ? parseInt(giveaway.levelColumn.textContent.match(/\d+/)[0]) : 0;
-            giveaway.inviteOnly = giveaway.outerWrap.querySelector(`.giveaway__column--invite-only, .featured__column--invite-only`);
-            giveaway.regionRestricted = giveaway.outerWrap.querySelector(`.giveaway__column--region-restricted, .featured__column--region-restricted`);
-            giveaway.group = giveaway.outerWrap.querySelector(`.giveaway__column--group, .featured__column--group`);
-            giveaway.whitelist = giveaway.outerWrap.querySelector(`.giveaway__column--whitelist, .featured__column--whitelist`);
-            giveaway.public = !giveaway.inviteOnly && !giveaway.regionRestricted && !giveaway.group && !giveaway.whitelist;
-            if (!main || !esgst.giveawayPath) {
-                if (giveaway.inviteOnly) {
-                    giveaway.inviteOnly.innerHTML = `<i class="fa fa-lock"></i>`;
-                }
-                if (giveaway.group) {
-                    giveaway.group.innerHTML = `<i class="fa fa-user"></i>`;
-                }
-                if (giveaway.whitelist) {
-                    giveaway.whitelist.innerHTML = `<i class="fa fa-heart"></i>`;
-                }
-            }
-            chance = context.getElementsByClassName(`esgst-gwc`)[0];
-            giveaway.chance = chance ? parseFloat(chance.getAttribute(`data-chance`)) : 0;
-            giveaway.chancePerPoint = Math.round(giveaway.chance / giveaway.points * 100) / 100;
-            var feedback = giveaway.outerWrap.getElementsByClassName(`table__gift-feedback-awaiting-reply`)[0];
-            if (esgst.rrbp && feedback) {
-                feedback.addEventListener(`click`, openRrbp.bind(null, giveaway));
-            }
-            giveaway.blacklist = giveaway.outerWrap.getAttribute(`data-blacklist`);
-            giveaway.error = giveaway.outerWrap.getAttribute(`data-error`);
-            if (main) {
-                if (esgst.gr && giveaway.ended && giveaway.creator === esgst.username && (giveaway.entries === 0 || giveaway.entries < giveaway.copies) && (!esgst.gr_r || !esgst.giveaways[giveaway.code] || !esgst.giveaways[giveaway.code].recreated) && !giveaway.headingName.parentElement.getElementsByClassName(`esgst-gr-button`)[0]) {
-                    var button = insertHtml(giveaway.headingName, `beforeBegin`, `
-                        <div class="esgst-gr-button" title="Recreate giveaway">
-                            <i class="fa fa-rotate-left"></i>
-                        </div>
-                    `);
-                    button.firstElementChild.addEventListener(`click`, recreateGrGiveaway.bind(null, button, giveaway));
-                }
-            }
-            let hideButton = giveaway.innerWrap.querySelector(`.giveaway__hide, .featured__giveaway__hide`);
-            if ((!main || endless) && hideButton && !hideButton.classList.contains(`fa-eye`)) {
-                if (hideButton.classList.contains(`featured__giveaway__hide`)) {
-                    hideButton = hideButton.parentElement;
-                }
-                const temp = hideButton.previousElementSibling;
-                hideButton.outerHTML = `
-                    <i class="fa fa-eye-slash giveaway__hide giveaway__icon"></i>
-                `;
-                hideButton = temp.nextElementSibling;
-                hideButton.addEventListener(`click`, hideGame.bind(null, hideButton, giveaway.gameId, giveaway.name));
-            }
-            resolve({
-                giveaway: giveaway,
-                data: {
-                    gameId: giveaway.gameId,
-                    gameSteamId: giveaway.id,
-                    gameType: giveaway.type,
-                    gameName: giveaway.name,
-                    code: giveaway.code,
-                    copies: giveaway.copies,
-                    points: giveaway.points,
-                    endTime: giveaway.endTime,
-                    startTime: giveaway.startTime,
-                    started: giveaway.started,
-                    creator: giveaway.creator,
-                    winners: giveaway.winners,
-                    entries: giveaway.entries,
-                    comments: giveaway.comments,
-                    level: giveaway.level,
-                    inviteOnly: giveaway.inviteOnly ? true : false,
-                    regionRestricted: giveaway.regionRestricted ? true : false,
-                    group: giveaway.group ? true : false,
-                    whitelist: giveaway.whitelist ? true : false
-                }
-            });
-        });
-    }
-
-    function loadDiscussionFeatures(context, main, source, endless) {
-        return new Promise(async (resolve, reject) => {
-            let savedDiscussions = JSON.parse(await getValue(`discussions`, `{}`));
-            let discussions = await getDiscussions(context, main, savedDiscussions);
-            for (let i = discussions.length - 1; i > -1; --i) {
-                discussions[i].sortIndex = esgst.currentDiscussions.length;
-                esgst.currentDiscussions.push(discussions[i]);
-            }
-            if (esgst.codb) {
-                addCodbButtons(discussions);
-            }
-            if ((esgst.df && esgst.df_s) || esgst.dh || esgst.pm) {
-                for (let i = 0, n = discussions.length; i < n; ++i) {
-                    let discussion = discussions[i];
-                    let savedDiscussion = savedDiscussions[discussion.code];
-                    if (savedDiscussion) {
-                        if (esgst.df && esgst.df_s) {
-                            if (savedDiscussion.hidden) {
-                                addDfUnhideButton(discussion, main);
-                            } else {
-                                addDfHideButton(discussion, main);
-                            }
-                        }
-                        if (esgst.dh) {
-                            if (savedDiscussion.highlighted) {
-                                highlightDhDiscussion(discussion.code, discussion.outerWrap);
-                                addDhUnhighlightButton(discussion.code, discussion.outerWrap, discussion.heading.parentElement);
-                                if (esgst.dh_t) {
-                                    discussion.outerWrap.parentElement.insertBefore(discussion.outerWrap, discussion.outerWrap.parentElement.firstElementChild);
-                                }
-                            } else {
-                                addDhHighlightButton(discussion.code, discussion.outerWrap, discussion.heading.parentElement);
-                            }
-                        }
-                        if (esgst.pm && (esgst.pm_a || discussion.category === `Puzzles`)) {
-                            addPmButton(discussion.code, discussion.heading.parentElement, savedDiscussion.status || `off`);
-                        }
-                    } else {
-                        if (esgst.df && esgst.df_s) {
-                            addDfHideButton(discussion, main);
-                        }
-                        if (esgst.dh) {
-                            addDhHighlightButton(discussion.code, discussion.outerWrap, discussion.heading.parentElement);
-                        }
-                        if (esgst.pm && (esgst.pm_a || discussion.category === `Puzzles`)) {
-                            addPmButton(discussion.code, discussion.heading.parentElement, `off`);
-                        }
-                    }
-                }
-            }
-            if (esgst.df && esgst.df.filteredCount && esgst[`df_enable${esgst.df.type}`]) {
-                filterDfDiscussions(esgst.df, false, endless);
-            }
-            if (esgst.ds && esgst.ds_auto) {
-                sortContent(discussions, esgst.ds_option);
-            }
-            resolve();
-        });
-    }
-
-    function getDiscussions(context, main, savedDiscussions) {
-        return new Promise(async (resolve, reject) => {
-            var discussion, discussions, elements, i, n, savedUsers;
-            discussions = [];
-            savedUsers = JSON.parse(await getValue(`users`));
-            elements = context.getElementsByClassName(`table__row-outer-wrap`);
-            for (i = elements.length - 1; i > -1; --i) {
-                discussion = await getDiscussionInfo(elements[i], main, savedDiscussions, savedUsers);
-                if (discussion) {
-                    discussions.push(discussion);
-                }
-            }
-            resolve(discussions);
-        });
-    }
-
-    function getDiscussionInfo(context, main, savedDiscussions, savedUsers) {
-        return new Promise(async (resolve, reject) => {
-            var match, discussion, savedUser, uf;
-            discussion = {};
-            discussion.outerWrap = context;
-            discussion.innerWrap = discussion.outerWrap.firstElementChild;
-            discussion.avatarColumn = discussion.innerWrap.firstElementChild;
-            if (!discussion.avatarColumn) {
-                resolve();
+        }
+        if (esgst.gf && esgst.gf_s && main) {
+            var savedGiveaway = esgst.giveaways[giveaway.code];
+            if ((esgst.giveawaysPath || esgst.groupPath) && savedGiveaway && savedGiveaway.hidden && savedGiveaway.code) {
+                giveaway.outerWrap.remove();
                 return;
             }
-            discussion.avatar = discussion.avatarColumn.firstElementChild;
-            discussion.headingColumn = discussion.avatarColumn.nextElementSibling;
-            discussion.headingContainer = discussion.headingColumn.firstElementChild;
-            discussion.closed = discussion.headingContainer.getElementsByClassName(`fa-lock`)[0];
-            discussion.heading = discussion.headingContainer.lastElementChild;
-            discussion.info = discussion.headingContainer.nextElementSibling;
-            if (discussion.heading) {
-                discussion.title = discussion.heading.textContent;
-                discussion.url = discussion.heading.getAttribute(`href`);
-                if (discussion.url) {
-                    match = discussion.url.match(/discussion\/(.+?)\//);
-                    if (match) {
-                        discussion.code = match[1];
-                        if (discussion.code === `TDyzv` && esgst.checkVersionMain) {
-                            let version = discussion.title.match(/v(.+?)\s/)[1];
-                            if (version !== esgst.version && version !== await getValue(`dismissedVersion`)) {
-                                notifyNewVersion(version);
+        }
+        giveaway.links = giveaway.innerWrap.getElementsByClassName(`giveaway__links`)[0];
+        if (giveaway.links) {
+            giveaway.links.classList.add(`esgst-giveaway-links`);
+            giveaway.entriesLink = giveaway.links.firstElementChild;
+            giveaway.commentsLink = giveaway.entriesLink.nextElementSibling;
+        } else {
+            giveaway.entriesLink = mainContext.getElementsByClassName(`sidebar__navigation__item__count`)[1];
+            giveaway.commentsLink = mainContext.getElementsByClassName(`sidebar__navigation__item__count`)[0];
+        }
+        if (giveaway.entriesLink && giveaway.commentsLink) {
+            giveaway.entries = parseInt(giveaway.entriesLink.textContent.replace(/,/g, ``).match(/\d+/)[0]);
+            giveaway.comments = parseInt(giveaway.commentsLink.textContent.replace(/,/g, ``).match(/\d+/)[0]);
+        }
+        giveaway.panel = giveaway.innerWrap.getElementsByClassName(`esgst-giveaway-panel`)[0];
+        if (!giveaway.panel && (esgst.gwc || esgst.gwr || esgst.gp || esgst.elgb || esgst.cewgd)) {
+            if (giveaway.links) {
+                giveaway.panel = insertHtml(giveaway.links, `afterEnd`, `
+                    <div class="giveaway__columns esgst-giveaway-panel"></div>
+                    <div style="clear: both;"></div>
+                `);
+                if (giveaway.startTimeColumn) {
+                    element = giveaway.startTimeColumn.nextElementSibling;
+                    while (element) {
+                        giveaway.panel.appendChild(element);
+                        element = giveaway.startTimeColumn.nextElementSibling;
+                    }
+                }
+            } else if (giveaway.columns) {
+                giveaway.panel = insertHtml(giveaway.columns, `afterEnd`, `<div class="featured__columns esgst-giveaway-panel"></div>`);
+            } else if (esgst.enteredPath && (esgst.gwc || esgst.gwr)) {
+                giveaway.panel = insertHtml(giveaway.innerWrap.firstElementChild.nextElementSibling, `afterEnd`, `<div class="table__column--width-small text-center esgst-giveaway-panel"></div>`);
+            }
+        }
+        giveaway.elgbPanel = giveaway.panel;
+        if (!giveaway.entriesLink) {
+            var ct = giveaway.panel || (esgst.gm_enable && esgst.createdPath ? giveaway.innerWrap.firstElementChild.nextElementSibling.nextElementSibling : giveaway.innerWrap.firstElementChild.nextElementSibling);
+            if (ct.nextElementSibling) {
+                giveaway.entries = parseInt(ct.nextElementSibling.textContent.replace(/,/g, ``));
+            }
+        }
+        giveaway.levelColumn = giveaway.outerWrap.querySelector(`.giveaway__column--contributor-level, .featured__column--contributor-level`);
+        giveaway.level = giveaway.levelColumn ? parseInt(giveaway.levelColumn.textContent.match(/\d+/)[0]) : 0;
+        giveaway.inviteOnly = giveaway.outerWrap.querySelector(`.giveaway__column--invite-only, .featured__column--invite-only`);
+        giveaway.regionRestricted = giveaway.outerWrap.querySelector(`.giveaway__column--region-restricted, .featured__column--region-restricted`);
+        giveaway.group = giveaway.outerWrap.querySelector(`.giveaway__column--group, .featured__column--group`);
+        giveaway.whitelist = giveaway.outerWrap.querySelector(`.giveaway__column--whitelist, .featured__column--whitelist`);
+        giveaway.public = !giveaway.inviteOnly && !giveaway.regionRestricted && !giveaway.group && !giveaway.whitelist;
+        if (!main || !esgst.giveawayPath) {
+            if (giveaway.inviteOnly) {
+                giveaway.inviteOnly.innerHTML = `<i class="fa fa-lock"></i>`;
+            }
+            if (giveaway.group) {
+                giveaway.group.innerHTML = `<i class="fa fa-user"></i>`;
+            }
+            if (giveaway.whitelist) {
+                giveaway.whitelist.innerHTML = `<i class="fa fa-heart"></i>`;
+            }
+        }
+        chance = context.getElementsByClassName(`esgst-gwc`)[0];
+        giveaway.chance = chance ? parseFloat(chance.getAttribute(`data-chance`)) : 0;
+        giveaway.chancePerPoint = Math.round(giveaway.chance / giveaway.points * 100) / 100;
+        var feedback = giveaway.outerWrap.getElementsByClassName(`table__gift-feedback-awaiting-reply`)[0];
+        if (esgst.rrbp && feedback) {
+            feedback.addEventListener(`click`, openRrbp.bind(null, giveaway));
+        }
+        giveaway.blacklist = giveaway.outerWrap.getAttribute(`data-blacklist`);
+        giveaway.error = giveaway.outerWrap.getAttribute(`data-error`);
+        if (main) {
+            if (esgst.gr && giveaway.ended && giveaway.creator === esgst.username && (giveaway.entries === 0 || giveaway.entries < giveaway.copies) && (!esgst.gr_r || !esgst.giveaways[giveaway.code] || !esgst.giveaways[giveaway.code].recreated) && !giveaway.headingName.parentElement.getElementsByClassName(`esgst-gr-button`)[0]) {
+                var button = insertHtml(giveaway.headingName, `beforeBegin`, `
+                    <div class="esgst-gr-button" title="Recreate giveaway">
+                        <i class="fa fa-rotate-left"></i>
+                    </div>
+                `);
+                button.firstElementChild.addEventListener(`click`, recreateGrGiveaway.bind(null, button, giveaway));
+            }
+        }
+        let hideButton = giveaway.innerWrap.querySelector(`.giveaway__hide, .featured__giveaway__hide`);
+        if ((!main || endless) && hideButton && !hideButton.classList.contains(`fa-eye`)) {
+            if (hideButton.classList.contains(`featured__giveaway__hide`)) {
+                hideButton = hideButton.parentElement;
+            }
+            const temp = hideButton.previousElementSibling;
+            hideButton.outerHTML = `
+                <i class="fa fa-eye-slash giveaway__hide giveaway__icon"></i>
+            `;
+            hideButton = temp.nextElementSibling;
+            hideButton.addEventListener(`click`, hideGame.bind(null, hideButton, giveaway.gameId, giveaway.name));
+        }
+        return {
+            giveaway: giveaway,
+            data: {
+                gameId: giveaway.gameId,
+                gameSteamId: giveaway.id,
+                gameType: giveaway.type,
+                gameName: giveaway.name,
+                code: giveaway.code,
+                copies: giveaway.copies,
+                points: giveaway.points,
+                endTime: giveaway.endTime,
+                startTime: giveaway.startTime,
+                started: giveaway.started,
+                creator: giveaway.creator,
+                winners: giveaway.winners,
+                entries: giveaway.entries,
+                comments: giveaway.comments,
+                level: giveaway.level,
+                inviteOnly: giveaway.inviteOnly ? true : false,
+                regionRestricted: giveaway.regionRestricted ? true : false,
+                group: giveaway.group ? true : false,
+                whitelist: giveaway.whitelist ? true : false
+            }
+        };
+    }
+
+    async function loadDiscussionFeatures(context, main, source, endless) {
+        let savedDiscussions = JSON.parse(await getValue(`discussions`, `{}`));
+        let discussions = await getDiscussions(context, main, savedDiscussions);
+        for (let i = discussions.length - 1; i > -1; --i) {
+            discussions[i].sortIndex = esgst.currentDiscussions.length;
+            esgst.currentDiscussions.push(discussions[i]);
+        }
+        if (esgst.codb) {
+            addCodbButtons(discussions);
+        }
+        if ((esgst.df && esgst.df_s) || esgst.dh || esgst.pm) {
+            for (let i = 0, n = discussions.length; i < n; ++i) {
+                let discussion = discussions[i];
+                let savedDiscussion = savedDiscussions[discussion.code];
+                if (savedDiscussion) {
+                    if (esgst.df && esgst.df_s) {
+                        if (savedDiscussion.hidden) {
+                            addDfUnhideButton(discussion, main);
+                        } else {
+                            addDfHideButton(discussion, main);
+                        }
+                    }
+                    if (esgst.dh) {
+                        if (savedDiscussion.highlighted) {
+                            highlightDhDiscussion(discussion.code, discussion.outerWrap);
+                            addDhUnhighlightButton(discussion.code, discussion.outerWrap, discussion.heading.parentElement);
+                            if (esgst.dh_t) {
+                                discussion.outerWrap.parentElement.insertBefore(discussion.outerWrap, discussion.outerWrap.parentElement.firstElementChild);
                             }
+                        } else {
+                            addDhHighlightButton(discussion.code, discussion.outerWrap, discussion.heading.parentElement);
                         }
-                        if (main && esgst.df && esgst.df_s && savedDiscussions[discussion.code] && savedDiscussions[discussion.code].hidden) {
-                            discussion.outerWrap.remove();
-                            resolve();
-                            return;
-                        }
-                        if (savedDiscussions[discussion.code]) {
-                            discussion.highlighted = savedDiscussions[discussion.code].highlighted;
-                            discussion.visited = savedDiscussions[discussion.code].visited;
-                        }
-                        discussion.categoryContainer = discussion.info.firstElementChild;
-                        discussion.category = discussion.categoryContainer.textContent;
-                        discussion[discussion.category.replace(/\W/g, ``).replace(/^(.)/, (m, p1) => { return p1.toLowerCase(); })] = true;
-                        discussion.createdContainer = discussion.categoryContainer.nextElementSibling;
-                        if (discussion.createdContainer) {
-                            discussion.createdTime = discussion.createdContainer.textContent;
-                            discussion.createdTimestamp = parseInt(discussion.createdContainer.getAttribute(`data-timestamp`)) * 1e3;
-                            if (esgst.giveawaysPath) {
-                                discussion.author = discussion.avatar.getAttribute(`href`).match(/\/user\/(.+)/)[1];
-                            } else {
-                                discussion.author = discussion.createdContainer.nextElementSibling.textContent;
-                            }
-                        }
-                        discussion.created = discussion.author === esgst.username;
-                        discussion.poll = discussion.outerWrap.getElementsByClassName(`fa-align-left`)[0];
-                        if (discussion.headingColumn) {
-                            discussion.commentsColumn = discussion.headingColumn.nextElementSibling;
-                            if (discussion.commentsColumn) {
-                                discussion.comments = parseInt(discussion.commentsColumn.firstElementChild.textContent.replace(/,/g, ``));
-                            }
-                        }
-                        discussion.lastPost = discussion.outerWrap.getElementsByClassName(`table__column--last-comment`)[0];
-                        if (discussion.lastPost && discussion.lastPost.firstElementChild) {
-                            discussion.lastPostTime = discussion.lastPost.firstElementChild.firstElementChild;
-                            discussion.lastPostAuthor = discussion.lastPostTime.nextElementSibling;
-                            discussion.lastPostCode = discussion.lastPostAuthor.lastElementChild.getAttribute(`href`).match(/\/comment\/(.+)/)[1];
-                            discussion.lastPostAuthor = discussion.lastPostAuthor.firstElementChild.textContent;
-                            discussion.lastPostTime = discussion.lastPostTime.firstElementChild;
-                            discussion.lastPostTimestamp = discussion.lastPostTime.getAttribute(`data-timestamp`);
-                            discussion.lastPostTime = discussion.lastPostTime.textContent;
-                        }
-                        if (esgst.uf && savedUsers) {
-                            savedUser = await getUser(savedUsers, {
-                                username: discussion.author
-                            });
-                            if (savedUser) {
-                                uf = savedUser.uf;
-                                if (esgst.uf_d && savedUser.blacklisted && !uf) {
-                                    if (!esgst.giveawaysPath) {
-                                        updateUfCount(discussion.outerWrap.parentElement.parentElement.nextElementSibling);
-                                    }
-                                    discussion.outerWrap.remove();
-                                    resolve();
-                                    return;
-                                } else if (uf && uf.discussions) {
-                                    if (!esgst.giveawaysPath) {
-                                        updateUfCount(discussion.outerWrap.parentElement.parentElement.nextElementSibling);
-                                    }
-                                    discussion.outerWrap.remove();
-                                    resolve();
-                                    return;
-                                }
-                            }
-                        }
-                        resolve(discussion);
-                    } else {
-                        resolve();
+                    }
+                    if (esgst.pm && (esgst.pm_a || discussion.category === `Puzzles`)) {
+                        addPmButton(discussion.code, discussion.heading.parentElement, savedDiscussion.status || `off`);
                     }
                 } else {
-                    resolve();
+                    if (esgst.df && esgst.df_s) {
+                        addDfHideButton(discussion, main);
+                    }
+                    if (esgst.dh) {
+                        addDhHighlightButton(discussion.code, discussion.outerWrap, discussion.heading.parentElement);
+                    }
+                    if (esgst.pm && (esgst.pm_a || discussion.category === `Puzzles`)) {
+                        addPmButton(discussion.code, discussion.heading.parentElement, `off`);
+                    }
                 }
-            } else {
-                resolve();
             }
-        });
+        }
+        if (esgst.df && esgst.df.filteredCount && esgst[`df_enable${esgst.df.type}`]) {
+            filterDfDiscussions(esgst.df, false, endless);
+        }
+        if (esgst.ds && esgst.ds_auto) {
+            sortContent(discussions, esgst.ds_option);
+        }
+    }
+
+    async function getDiscussions(context, main, savedDiscussions) {
+        var discussion, discussions, elements, i, n, savedUsers;
+        discussions = [];
+        savedUsers = JSON.parse(await getValue(`users`));
+        elements = context.getElementsByClassName(`table__row-outer-wrap`);
+        for (i = elements.length - 1; i > -1; --i) {
+            discussion = await getDiscussionInfo(elements[i], main, savedDiscussions, savedUsers);
+            if (discussion) {
+                discussions.push(discussion);
+            }
+        }
+        return discussions;
+    }
+
+    async function getDiscussionInfo(context, main, savedDiscussions, savedUsers) {
+        var match, discussion, savedUser, uf;
+        discussion = {};
+        discussion.outerWrap = context;
+        discussion.innerWrap = discussion.outerWrap.firstElementChild;
+        discussion.avatarColumn = discussion.innerWrap.firstElementChild;
+        if (!discussion.avatarColumn) {
+            return;
+        }
+        discussion.avatar = discussion.avatarColumn.firstElementChild;
+        discussion.headingColumn = discussion.avatarColumn.nextElementSibling;
+        discussion.headingContainer = discussion.headingColumn.firstElementChild;
+        discussion.closed = discussion.headingContainer.getElementsByClassName(`fa-lock`)[0];
+        discussion.heading = discussion.headingContainer.lastElementChild;
+        discussion.info = discussion.headingContainer.nextElementSibling;
+        if (!discussion.heading) {
+            return;
+        }
+        discussion.title = discussion.heading.textContent;
+        discussion.url = discussion.heading.getAttribute(`href`);
+        if (!discussion.url) {
+            return;
+        }
+        match = discussion.url.match(/discussion\/(.+?)\//);
+        if (!match) {
+            return;
+        }
+        discussion.code = match[1];
+        if (discussion.code === `TDyzv` && esgst.checkVersionMain) {
+            let version = discussion.title.match(/v(.+?)\s/)[1];
+            if (version !== esgst.version && version !== await getValue(`dismissedVersion`)) {
+                notifyNewVersion(version);
+            }
+        }
+        if (main && esgst.df && esgst.df_s && savedDiscussions[discussion.code] && savedDiscussions[discussion.code].hidden) {
+            discussion.outerWrap.remove();
+            return;
+        }
+        if (savedDiscussions[discussion.code]) {
+            discussion.highlighted = savedDiscussions[discussion.code].highlighted;
+            discussion.visited = savedDiscussions[discussion.code].visited;
+        }
+        discussion.categoryContainer = discussion.info.firstElementChild;
+        discussion.category = discussion.categoryContainer.textContent;
+        discussion[discussion.category.replace(/\W/g, ``).replace(/^(.)/, (m, p1) => { return p1.toLowerCase(); })] = true;
+        discussion.createdContainer = discussion.categoryContainer.nextElementSibling;
+        if (discussion.createdContainer) {
+            discussion.createdTime = discussion.createdContainer.textContent;
+            discussion.createdTimestamp = parseInt(discussion.createdContainer.getAttribute(`data-timestamp`)) * 1e3;
+            if (esgst.giveawaysPath) {
+                discussion.author = discussion.avatar.getAttribute(`href`).match(/\/user\/(.+)/)[1];
+            } else {
+                discussion.author = discussion.createdContainer.nextElementSibling.textContent;
+            }
+        }
+        discussion.created = discussion.author === esgst.username;
+        discussion.poll = discussion.outerWrap.getElementsByClassName(`fa-align-left`)[0];
+        if (discussion.headingColumn) {
+            discussion.commentsColumn = discussion.headingColumn.nextElementSibling;
+            if (discussion.commentsColumn) {
+                discussion.comments = parseInt(discussion.commentsColumn.firstElementChild.textContent.replace(/,/g, ``));
+            }
+        }
+        discussion.lastPost = discussion.outerWrap.getElementsByClassName(`table__column--last-comment`)[0];
+        if (discussion.lastPost && discussion.lastPost.firstElementChild) {
+            discussion.lastPostTime = discussion.lastPost.firstElementChild.firstElementChild;
+            discussion.lastPostAuthor = discussion.lastPostTime.nextElementSibling;
+            discussion.lastPostCode = discussion.lastPostAuthor.lastElementChild.getAttribute(`href`).match(/\/comment\/(.+)/)[1];
+            discussion.lastPostAuthor = discussion.lastPostAuthor.firstElementChild.textContent;
+            discussion.lastPostTime = discussion.lastPostTime.firstElementChild;
+            discussion.lastPostTimestamp = discussion.lastPostTime.getAttribute(`data-timestamp`);
+            discussion.lastPostTime = discussion.lastPostTime.textContent;
+        }
+        if (esgst.uf && savedUsers) {
+            savedUser = await getUser(savedUsers, {
+                username: discussion.author
+            });
+            if (savedUser) {
+                uf = savedUser.uf;
+                if (esgst.uf_d && savedUser.blacklisted && !uf) {
+                    if (!esgst.giveawaysPath) {
+                        updateUfCount(discussion.outerWrap.parentElement.parentElement.nextElementSibling);
+                    }
+                    discussion.outerWrap.remove();
+                    return;
+                } else if (uf && uf.discussions) {
+                    if (!esgst.giveawaysPath) {
+                        updateUfCount(discussion.outerWrap.parentElement.parentElement.nextElementSibling);
+                    }
+                    discussion.outerWrap.remove();
+                    return;
+                }
+            }
+        }
+        return discussion;
     }
 
     function addPmButton(code, context, status) {
@@ -32337,135 +32058,124 @@ Parsedown = (() => {
         }
     }
 
-    function loadCommentFeatures(context, main) {
-        return new Promise(async (resolve, reject) => {
-            var count, comments, i, n, pagination;
-            comments = await getComments(context, document, main);
-            if (main) {
-                for (i = 0, n = comments.length; i < n; ++i) {
-                    comments[i].index = i;
-                    esgst.currentComments.push(comments[i]);
-                }
+    async function loadCommentFeatures(context, main) {
+        var count, comments, i, n, pagination;
+        comments = await getComments(context, document, main);
+        if (main) {
+            for (i = 0, n = comments.length; i < n; ++i) {
+                comments[i].index = i;
+                esgst.currentComments.push(comments[i]);
             }
-            if (esgst.ct) {
-                if (esgst.inboxPath) {
-                    count = 0;
-                } else {
-                    count = context.getElementsByClassName(`page__heading__breadcrumbs`)[1];
-                    if (count) {
-                        count = parseInt(count.firstElementChild.textContent.replace(/,/g, ``).match(/\d+/));
-                    } else {
-                        count = 0;
-                    }
-                }
-                getCtComments(count, comments);
-            }
-            if (esgst.rfi && esgst.rfi_s && esgst.inboxPath) {
-                await getRfiReplies(comments, main);
-            }
-            resolve();
-        });
-    }
-
-    function getComments(context, mainContext, main) {
-        return new Promise(async (resolve, reject) => {
-            var comment, comments, i, matches, sourceLink, savedUsers;
-            comments = [];
-            savedUsers = JSON.parse(await getValue(`users`));
-            matches = context.querySelectorAll(`:not(.comment--submit) > .comment__parent, .comment__child, .comment_inner`);
-            sourceLink = mainContext.querySelector(`.page__heading__breadcrumbs a[href*="/giveaway/"], .page__heading__breadcrumbs a[href*="/discussion/"], .page__heading__breadcrumbs a[href*="/ticket/"], .page_heading_breadcrumbs a[href*="/trade/"]`);
-            for (i = matches.length - 1; i >= 0; --i) {
-                comment = await getCommentInfo(matches[i], sourceLink, savedUsers, main);
-                if (comment) {
-                    comments.push(comment);
-                }
-            }
-            resolve(comments);
-        });
-    }
-
-    function getCommentInfo(context, sourceLink, savedUsers, main) {
-        return new Promise(async (resolve, reject) => {
-            var comment, matches, n, source;
-            comment = {};
-            comment.comment = context;
-            comment.author = comment.comment.querySelector(`.comment__author, .author_name`).textContent.trim();
-            if (esgst.uf && savedUsers) {
-                var savedUser = await getUser(savedUsers, {
-                    username: comment.author
-                });
-                if (savedUser) {
-                    var uf = savedUser.uf, comments, extraCount;
-                    if (esgst.uf_p && savedUser.blacklisted && !uf) {
-                        comments = comment.comment.closest(`.comments`);
-                        if (esgst.inboxPath) {
-                            updateUfCount(comments.parentElement.nextElementSibling);
-                            comment.comment.parentElement.remove();
-                            if (!comments.children.length) {
-                                comments.previousElementSibling.remove();
-                                comments.remove();
-                            }
-                        } else {
-                            if (comment.comment.nextElementSibling) {
-                                extraCount = comment.comment.nextElementSibling.children.length;
-                            } else {
-                                extraCount = 0;
-                            }
-                            updateUfCount(comments.nextElementSibling, extraCount);
-                            comment.comment.parentElement.remove();
-                        }
-                        resolve();
-                        return;
-                    } else if (uf && uf.posts) {
-                        comments = comment.comment.closest(`.comments`);
-                        updateUfCount(comment.comment.closest(`.comments`).nextElementSibling);
-                        if (esgst.inboxPath) {
-                            updateUfCount(comments.parentElement.nextElementSibling);
-                            comment.comment.parentElement.remove();
-                            if (!comments.children.length) {
-                                comments.previousElementSibling.remove();
-                                comments.remove();
-                            }
-                        } else {
-                            if (comment.comment.nextElementSibling) {
-                                extraCount = comment.comment.nextElementSibling.children.length;
-                            } else {
-                                extraCount = 0;
-                            }
-                            updateUfCount(comments.nextElementSibling, extraCount);
-                            comment.comment.parentElement.remove();
-                        }
-                        resolve();
-                        return;
-                    }
-                }
-            }
-            comment.actions = comment.comment.querySelector(`.comment__actions, .action_list`);
-            matches = comment.actions.querySelectorAll(`[href*="/comment/"]`);
-            n = matches.length;
-            if (n > 0) {
-                comment.permalink = matches[n - 1];
-            }
-            comment.id = comment.permalink ? comment.permalink.getAttribute(`href`).match(/\/comment\/(.+)/)[1] : ``;
-            comment.timestamp = parseInt(comment.actions.firstElementChild.lastElementChild.getAttribute(`data-timestamp`));
-            if (main && esgst.inboxPath) {
-                if (esgst.sg) {
-                    source = comment.comment.closest(`.comments`).previousElementSibling.firstElementChild.firstElementChild.getAttribute(`href`);
-                } else {
-                    source = comment.actions.querySelector(`[href*="/trade/"]`).getAttribute(`href`);
-                }
-            } else if (sourceLink) {
-                source = sourceLink.getAttribute(`href`);
-            }
-            if (source) {
-                source = source.match(/(giveaway|discussion|ticket|trade)\/(.+?)(\/.*)?$/);
-                comment.type = `${source[1]}s`;
-                comment.code = source[2];
-                resolve(comment);
+        }
+        if (esgst.ct) {
+            if (esgst.inboxPath) {
+                count = 0;
             } else {
-                resolve();
+                count = context.getElementsByClassName(`page__heading__breadcrumbs`)[1];
+                if (count) {
+                    count = parseInt(count.firstElementChild.textContent.replace(/,/g, ``).match(/\d+/));
+                } else {
+                    count = 0;
+                }
             }
-        });
+            getCtComments(count, comments);
+        }
+        if (esgst.rfi && esgst.rfi_s && esgst.inboxPath) {
+            await getRfiReplies(comments, main);
+        }
+    }
+
+    async function getComments(context, mainContext, main) {
+        var comment, comments, i, matches, sourceLink, savedUsers;
+        comments = [];
+        savedUsers = JSON.parse(await getValue(`users`));
+        matches = context.querySelectorAll(`:not(.comment--submit) > .comment__parent, .comment__child, .comment_inner`);
+        sourceLink = mainContext.querySelector(`.page__heading__breadcrumbs a[href*="/giveaway/"], .page__heading__breadcrumbs a[href*="/discussion/"], .page__heading__breadcrumbs a[href*="/ticket/"], .page_heading_breadcrumbs a[href*="/trade/"]`);
+        for (i = matches.length - 1; i >= 0; --i) {
+            comment = await getCommentInfo(matches[i], sourceLink, savedUsers, main);
+            if (comment) {
+                comments.push(comment);
+            }
+        }
+        return comments;
+    }
+
+    async function getCommentInfo(context, sourceLink, savedUsers, main) {
+        var comment, matches, n, source;
+        comment = {};
+        comment.comment = context;
+        comment.author = comment.comment.querySelector(`.comment__author, .author_name`).textContent.trim();
+        if (esgst.uf && savedUsers) {
+            var savedUser = await getUser(savedUsers, {
+                username: comment.author
+            });
+            if (savedUser) {
+                var uf = savedUser.uf, comments, extraCount;
+                if (esgst.uf_p && savedUser.blacklisted && !uf) {
+                    comments = comment.comment.closest(`.comments`);
+                    if (esgst.inboxPath) {
+                        updateUfCount(comments.parentElement.nextElementSibling);
+                        comment.comment.parentElement.remove();
+                        if (!comments.children.length) {
+                            comments.previousElementSibling.remove();
+                            comments.remove();
+                        }
+                    } else {
+                        if (comment.comment.nextElementSibling) {
+                            extraCount = comment.comment.nextElementSibling.children.length;
+                        } else {
+                            extraCount = 0;
+                        }
+                        updateUfCount(comments.nextElementSibling, extraCount);
+                        comment.comment.parentElement.remove();
+                    }
+                    return;
+                } else if (uf && uf.posts) {
+                    comments = comment.comment.closest(`.comments`);
+                    updateUfCount(comment.comment.closest(`.comments`).nextElementSibling);
+                    if (esgst.inboxPath) {
+                        updateUfCount(comments.parentElement.nextElementSibling);
+                        comment.comment.parentElement.remove();
+                        if (!comments.children.length) {
+                            comments.previousElementSibling.remove();
+                            comments.remove();
+                        }
+                    } else {
+                        if (comment.comment.nextElementSibling) {
+                            extraCount = comment.comment.nextElementSibling.children.length;
+                        } else {
+                            extraCount = 0;
+                        }
+                        updateUfCount(comments.nextElementSibling, extraCount);
+                        comment.comment.parentElement.remove();
+                    }
+                    return;
+                }
+            }
+        }
+        comment.actions = comment.comment.querySelector(`.comment__actions, .action_list`);
+        matches = comment.actions.querySelectorAll(`[href*="/comment/"]`);
+        n = matches.length;
+        if (n > 0) {
+            comment.permalink = matches[n - 1];
+        }
+        comment.id = comment.permalink ? comment.permalink.getAttribute(`href`).match(/\/comment\/(.+)/)[1] : ``;
+        comment.timestamp = parseInt(comment.actions.firstElementChild.lastElementChild.getAttribute(`data-timestamp`));
+        if (main && esgst.inboxPath) {
+            if (esgst.sg) {
+                source = comment.comment.closest(`.comments`).previousElementSibling.firstElementChild.firstElementChild.getAttribute(`href`);
+            } else {
+                source = comment.actions.querySelector(`[href*="/trade/"]`).getAttribute(`href`);
+            }
+        } else if (sourceLink) {
+            source = sourceLink.getAttribute(`href`);
+        }
+        if (source) {
+            source = source.match(/(giveaway|discussion|ticket|trade)\/(.+?)(\/.*)?$/);
+            comment.type = `${source[1]}s`;
+            comment.code = source[2];
+            return comment;
+        }
     }
 
     function loadProfileFeatures(context) {
@@ -32986,40 +32696,37 @@ Parsedown = (() => {
         }
     }
 
-    function loadGameFeatures(context, main, source, endless) {
-        return new Promise(async (resolve, reject) => {
-            let savedGames = JSON.parse(await getValue(`games`));
-            let games = getGames(context, main, savedGames);
-            if (main) {
-                let found = false;
-                for (let id in games.apps) {
-                    if (!esgst.currentGames.apps[id]) {
-                        esgst.currentGames.apps[id] = [];
-                    }
-                    games.apps[id].forEach(game => {
-                        found = true;
-                        esgst.currentGames.apps[id].push(game);
-                    });
+    async function loadGameFeatures(context, main, source, endless) {
+        let savedGames = JSON.parse(await getValue(`games`));
+        let games = getGames(context, main, savedGames);
+        if (main) {
+            let found = false;
+            for (let id in games.apps) {
+                if (!esgst.currentGames.apps[id]) {
+                    esgst.currentGames.apps[id] = [];
                 }
-                for (let id in games.subs) {
-                    if (!esgst.currentGames.subs[id]) {
-                        esgst.currentGames.subs[id] = [];
-                    }
-                    games.subs[id].forEach(game => {
-                        found = true;
-                        esgst.currentGames.subs[id].push(game);
-                    });
-                }
-                if (found && esgst.mtGameButton) {
-                    esgst.mtGameButton.classList.remove(`esgst-hidden`);
-                    esgst.mtGameButton.parentElement.classList.remove(`esgst-hidden`);
-                }
+                games.apps[id].forEach(game => {
+                    found = true;
+                    esgst.currentGames.apps[id].push(game);
+                });
             }
-            if (esgst.gc && (!esgst.menuPath || esgst.gbPath || esgst.gedPath || esgst.gePath)) {
-                getGcGames(games, endless);
+            for (let id in games.subs) {
+                if (!esgst.currentGames.subs[id]) {
+                    esgst.currentGames.subs[id] = [];
+                }
+                games.subs[id].forEach(game => {
+                    found = true;
+                    esgst.currentGames.subs[id].push(game);
+                });
             }
-            resolve();
-        });
+            if (found && esgst.mtGameButton) {
+                esgst.mtGameButton.classList.remove(`esgst-hidden`);
+                esgst.mtGameButton.parentElement.classList.remove(`esgst-hidden`);
+            }
+        }
+        if (esgst.gc && (!esgst.menuPath || esgst.gbPath || esgst.gedPath || esgst.gePath)) {
+            getGcGames(games, endless);
+        }
     }
 
     function getGames(context, main, savedGames) {
@@ -33509,7 +33216,7 @@ Parsedown = (() => {
             }
         }
 
-        function getNextPage(refresh, refreshAll, callback, response) {
+        async function getNextPage(refresh, refreshAll, callback, response) {
             var child, context, element, elements, fragment, i, n, oldN, rows, pagination, paginationNavigation;
             pagination = parseHtml(response.responseText).getElementsByClassName(`pagination`)[0];
             context = pagination.previousElementSibling;
@@ -33548,103 +33255,96 @@ Parsedown = (() => {
             if (esgst.cr && esgst.discussionPath) {
                 reverseComments(context);
             }
-            new Promise((resolve, reject) => {
-                if (refreshAll) {
-                    resolve();
-                } else {
-                    loadEndlessFeatures(context, true, null, true).then(() => {
-                        setESRemoveEntry(context);
-                        resolve();
-                    });
+            if (!refreshAll) {
+                await loadEndlessFeatures(context, true, null, true);
+                setESRemoveEntry(context);
+            }
+            n = context.children.length;
+            for (i = 0; i < n; ++i) {
+                child = context.children[0];
+                child.classList.add(`esgst-es-page-${refresh ? refreshAll || pageIndex : nextPage}`);
+                fragment.appendChild(child);
+            }
+            if (refresh) {
+                elements = document.getElementsByClassName(`esgst-es-page-${refreshAll || pageIndex}`);
+                oldN = elements.length;
+                for (i = 1; i < oldN; ++i) {
+                    elements[0].remove();
                 }
-            }).then(() => {
-                n = context.children.length;
-                for (i = 0; i < n; ++i) {
-                    child = context.children[0];
-                    child.classList.add(`esgst-es-page-${refresh ? refreshAll || pageIndex : nextPage}`);
-                    fragment.appendChild(child);
-                }
-                if (refresh) {
-                    elements = document.getElementsByClassName(`esgst-es-page-${refreshAll || pageIndex}`);
-                    oldN = elements.length;
-                    for (i = 1; i < oldN; ++i) {
-                        elements[0].remove();
+                element = elements[0];
+                mainContext.insertBefore(fragment, element);
+                element.remove();
+                if (!refreshAll) {
+                    if (esgst.gf && esgst.gf.filteredCount) {
+                        updateGfCount(esgst.gf);
                     }
-                    element = elements[0];
-                    mainContext.insertBefore(fragment, element);
-                    element.remove();
-                    if (!refreshAll) {
-                        if (esgst.gf && esgst.gf.filteredCount) {
-                            updateGfCount(esgst.gf);
-                        }
-                        if (esgst.df && esgst.df.filteredCount) {
-                            updateDfCount(esgst.df);
-                        }
-                        if (esgst.ts && !esgst.us) {
-                            sortTsTables();
-                        }
+                    if (esgst.df && esgst.df.filteredCount) {
+                        updateDfCount(esgst.df);
                     }
-                    esgst.pagination.firstElementChild.firstElementChild.nextElementSibling.textContent = (parseInt(esgst.pagination.firstElementChild.firstElementChild.nextElementSibling.textContent.replace(/,/g, ``)) - oldN + n).toString().replace(/\B(?=(\d{3})+(?!\d))/g, `,`);
-                    if (refreshAll) {
-                        check.count += 1;
-                    } else {
-                        refreshButton.addEventListener(`click`, refreshPage);
-                        refreshButton.innerHTML = `
-                            <i class="fa fa-refresh"></i>
-                            <i class="fa fa-map-marker"></i>
-                        `;
-                    }
-                } else {
-                    if (divisors) {
-                        mainContext.insertAdjacentHTML(`beforeEnd`, `
-                            <div class="esgst-page-heading esgst-es-page-divisor">
-                                <div class="page__heading__breadcrumbs page_heading_breadcrumbs">
-                                    <a href="${esgst.searchUrl}${nextPage}">Page ${nextPage}</a>
-                                </div>
-                            </div>
-                        `);
-                    }
-                    mainContext.appendChild(fragment);
                     if (esgst.ts && !esgst.us) {
                         sortTsTables();
                     }
-                    esgst.pagination.firstElementChild.firstElementChild.nextElementSibling.textContent = (parseInt(esgst.pagination.firstElementChild.firstElementChild.nextElementSibling.textContent.replace(/,/g, ``)) + n).toString().replace(/\B(?=(\d{3})+(?!\d))/g, `,`);
-                    progress.remove();
-                    if (reverseScrolling) {
-                        --nextPage;
-                        busy = false;
-                        if (nextPage <= 0) {
-                            ended = true;
-                            if (callback && typeof callback === `function`) {
-                                callback();
-                            }
-                        } else if (!paused && !step) {
-                            if (!continuous) {
-                                document.addEventListener(`scroll`, loadNextPage);
-                            }
-                            loadNextPage(callback);
-                        } else if (callback && typeof callback === `function`) {
+                }
+                esgst.pagination.firstElementChild.firstElementChild.nextElementSibling.textContent = (parseInt(esgst.pagination.firstElementChild.firstElementChild.nextElementSibling.textContent.replace(/,/g, ``)) - oldN + n).toString().replace(/\B(?=(\d{3})+(?!\d))/g, `,`);
+                if (refreshAll) {
+                    check.count += 1;
+                } else {
+                    refreshButton.addEventListener(`click`, refreshPage);
+                    refreshButton.innerHTML = `
+                        <i class="fa fa-refresh"></i>
+                        <i class="fa fa-map-marker"></i>
+                    `;
+                }
+            } else {
+                if (divisors) {
+                    mainContext.insertAdjacentHTML(`beforeEnd`, `
+                        <div class="esgst-page-heading esgst-es-page-divisor">
+                            <div class="page__heading__breadcrumbs page_heading_breadcrumbs">
+                                <a href="${esgst.searchUrl}${nextPage}">Page ${nextPage}</a>
+                            </div>
+                        </div>
+                    `);
+                }
+                mainContext.appendChild(fragment);
+                if (esgst.ts && !esgst.us) {
+                    sortTsTables();
+                }
+                esgst.pagination.firstElementChild.firstElementChild.nextElementSibling.textContent = (parseInt(esgst.pagination.firstElementChild.firstElementChild.nextElementSibling.textContent.replace(/,/g, ``)) + n).toString().replace(/\B(?=(\d{3})+(?!\d))/g, `,`);
+                progress.remove();
+                if (reverseScrolling) {
+                    --nextPage;
+                    busy = false;
+                    if (nextPage <= 0) {
+                        ended = true;
+                        if (callback && typeof callback === `function`) {
                             callback();
                         }
-                    } else {
-                        ++nextPage;
-                        busy = false;
-                        if (paginationNavigation.lastElementChild.classList.contains(esgst.selectedClass)) {
-                            ended = true;
-                            if (callback && typeof callback === `function`) {
-                                callback();
-                            }
-                        } else if (!paused && !step) {
-                            if (!continuous) {
-                                document.addEventListener(`scroll`, loadNextPage);
-                            }
-                            loadNextPage(callback);
-                        } else if (callback && typeof callback === `function`) {
+                    } else if (!paused && !step) {
+                        if (!continuous) {
+                            document.addEventListener(`scroll`, loadNextPage);
+                        }
+                        loadNextPage(callback);
+                    } else if (callback && typeof callback === `function`) {
+                        callback();
+                    }
+                } else {
+                    ++nextPage;
+                    busy = false;
+                    if (paginationNavigation.lastElementChild.classList.contains(esgst.selectedClass)) {
+                        ended = true;
+                        if (callback && typeof callback === `function`) {
                             callback();
                         }
+                    } else if (!paused && !step) {
+                        if (!continuous) {
+                            document.addEventListener(`scroll`, loadNextPage);
+                        }
+                        loadNextPage(callback);
+                    } else if (callback && typeof callback === `function`) {
+                        callback();
                     }
                 }
-            });
+            }
         }
 
         function changePaginationNavigation() {
@@ -33886,13 +33586,10 @@ Parsedown = (() => {
         }
     }
 
-    function loadEndlessFeatures(context, main, source, endless) {
-        return new Promise(async (resolve, reject) => {
-            for (let i = 0, n = esgst.endlessFeatures.length; i < n; i++) {
-                await esgst.endlessFeatures[i](context, main, source, endless);
-            }
-            resolve();
-        });
+    async function loadEndlessFeatures(context, main, source, endless) {
+        for (let i = 0, n = esgst.endlessFeatures.length; i < n; i++) {
+            await esgst.endlessFeatures[i](context, main, source, endless);
+        }
     }
 
     /* [STO] Same Tab Opener */
@@ -33904,10 +33601,6 @@ Parsedown = (() => {
             elements[i].removeAttribute(`target`);
         }
     }
-
-    /*
-        * Helper Functions
-        */
 
     function createAlert(message) {
         var popup;
@@ -34398,89 +34091,86 @@ Parsedown = (() => {
             setSetting(`cleanTrades_days`, value);
             esgst.cleanTrades_days = parseInt(value);
         });
-        popup.description.appendChild(new ButtonSet_v2({color1: `green`, color2: `grey`, icon1: `fa-check`, icon2: `fa-circle-o-notch fa-spin`, title1: `Clean`, title2: `Cleaning...`, callback1: () => {
-            return new Promise(async (resolve, reject) => {
-                let currentTime = Date.now();
-                if (esgst.cleanDiscussions) {
-                    let days = esgst.cleanDiscussions_days * 86400000;
-                    let items = JSON.parse(await getValue(`discussions`));
-                    for (let code in items) {
-                        let item = items[code];
-                        if (item.author !== esgst.username && item.lastUsed && currentTime - item.lastUsed > days) {
-                            delete items[code];
-                        }
+        popup.description.appendChild(new ButtonSet_v2({color1: `green`, color2: `grey`, icon1: `fa-check`, icon2: `fa-circle-o-notch fa-spin`, title1: `Clean`, title2: `Cleaning...`, callback1: async () => {
+            let currentTime = Date.now();
+            if (esgst.cleanDiscussions) {
+                let days = esgst.cleanDiscussions_days * 86400000;
+                let items = JSON.parse(await getValue(`discussions`));
+                for (let code in items) {
+                    let item = items[code];
+                    if (item.author !== esgst.username && item.lastUsed && currentTime - item.lastUsed > days) {
+                        delete items[code];
                     }
-                    await setValue(`discussions`, JSON.stringify(items));
                 }
-                if (esgst.cleanEntries) {
-                    let days = esgst.cleanEntries_days * 86400000;
-                    let items = JSON.parse(await getValue(`entries`));
-                    let newItems = [];
-                    items.forEach(item => {
-                        if (currentTime - item.timestamp <= days) {
-                            newItems.push(item);
-                        }
-                    });
-                    await setValue(`entries`, JSON.stringify(newItems));
-                }
-                if (esgst.cleanGiveaways) {
-                    let days = esgst.cleanGiveaways_days * 86400000;
-                    let items = JSON.parse(await getValue(`giveaways`));
-                    for (let code in items) {
-                        let item = items[code];
-                        if (item.creator !== esgst.username && ((item.endTime && currentTime - item.endTime > days) || (item.lastUsed && currentTime - item.lastUsed > days))) {
-                            delete items[code];
-                        }
+                await setValue(`discussions`, JSON.stringify(items));
+            }
+            if (esgst.cleanEntries) {
+                let days = esgst.cleanEntries_days * 86400000;
+                let items = JSON.parse(await getValue(`entries`));
+                let newItems = [];
+                items.forEach(item => {
+                    if (currentTime - item.timestamp <= days) {
+                        newItems.push(item);
                     }
-                    await setValue(`giveaways`, JSON.stringify(items));
-                }
-                if (esgst.cleanSgCommentHistory) {
-                    let days = esgst.cleanSgCommentHistory_days * 86400000;
-                    let items = JSON.parse(await getValue(`sgCommentHistory`));
-                    let newItems = [];
-                    items.forEach(item => {
-                        if (currentTime - item.timestamp <= days) {
-                            newItems.push(item);
-                        }
-                    });
-                    await setValue(`sgCommentHistory`, JSON.stringify(newItems));
-                }
-                if (esgst.cleanStCommentHistory) {
-                    let days = esgst.cleanStCommentHistory_days * 86400000;
-                    let items = JSON.parse(await getValue(`stCommentHistory`));
-                    let newItems = [];
-                    items.forEach(item => {
-                        if (currentTime - item.timestamp <= days) {
-                            newItems.push(item);
-                        }
-                    });
-                    await setValue(`stCommentHistory`, JSON.stringify(newItems));
-                }
-                if (esgst.cleanTickets) {
-                    let days = esgst.cleanTickets_days * 86400000;
-                    let items = JSON.parse(await getValue(`tickets`));
-                    for (let code in items) {
-                        let item = items[code];
-                        if (item.author !== esgst.username && item.lastUsed && currentTime - item.lastUsed > days) {
-                            delete items[code];
-                        }
+                });
+                await setValue(`entries`, JSON.stringify(newItems));
+            }
+            if (esgst.cleanGiveaways) {
+                let days = esgst.cleanGiveaways_days * 86400000;
+                let items = JSON.parse(await getValue(`giveaways`));
+                for (let code in items) {
+                    let item = items[code];
+                    if (item.creator !== esgst.username && ((item.endTime && currentTime - item.endTime > days) || (item.lastUsed && currentTime - item.lastUsed > days))) {
+                        delete items[code];
                     }
-                    await setValue(`tickets`, JSON.stringify(items));
                 }
-                if (esgst.cleanTrades) {
-                    let days = esgst.cleanTrades_days * 86400000;
-                    let items = JSON.parse(await getValue(`trades`));
-                    for (let code in items) {
-                        let item = items[code];
-                        if (item.author !== esgst.username && item.lastUsed && currentTime - item.lastUsed > days) {
-                            delete items[code];
-                        }
+                await setValue(`giveaways`, JSON.stringify(items));
+            }
+            if (esgst.cleanSgCommentHistory) {
+                let days = esgst.cleanSgCommentHistory_days * 86400000;
+                let items = JSON.parse(await getValue(`sgCommentHistory`));
+                let newItems = [];
+                items.forEach(item => {
+                    if (currentTime - item.timestamp <= days) {
+                        newItems.push(item);
                     }
-                    await setValue(`trades`, JSON.stringify(items));
+                });
+                await setValue(`sgCommentHistory`, JSON.stringify(newItems));
+            }
+            if (esgst.cleanStCommentHistory) {
+                let days = esgst.cleanStCommentHistory_days * 86400000;
+                let items = JSON.parse(await getValue(`stCommentHistory`));
+                let newItems = [];
+                items.forEach(item => {
+                    if (currentTime - item.timestamp <= days) {
+                        newItems.push(item);
+                    }
+                });
+                await setValue(`stCommentHistory`, JSON.stringify(newItems));
+            }
+            if (esgst.cleanTickets) {
+                let days = esgst.cleanTickets_days * 86400000;
+                let items = JSON.parse(await getValue(`tickets`));
+                for (let code in items) {
+                    let item = items[code];
+                    if (item.author !== esgst.username && item.lastUsed && currentTime - item.lastUsed > days) {
+                        delete items[code];
+                    }
                 }
-                resolve();
-                popup.close();
-            });
+                await setValue(`tickets`, JSON.stringify(items));
+            }
+            if (esgst.cleanTrades) {
+                let days = esgst.cleanTrades_days * 86400000;
+                let items = JSON.parse(await getValue(`trades`));
+                for (let code in items) {
+                    let item = items[code];
+                    if (item.author !== esgst.username && item.lastUsed && currentTime - item.lastUsed > days) {
+                        delete items[code];
+                    }
+                }
+                await setValue(`trades`, JSON.stringify(items));
+            }
+            popup.close();
         }}).set);
         popup.open();
     }
@@ -38828,23 +38518,21 @@ Parsedown = (() => {
         }
     }
 
-    function request_v2(details) {
+    async function request_v2(details) {
         if (!details.headers) {
             details.headers = {};
         }
         if (!details.headers[`Content-Type`]) {
             details.headers[`Content-Type`] = `application/x-www-form-urlencoded`;
         }
-        details.headers[`From`] = `ESGST (https://github.com/revilheart/ESGST)`;
-        return new Promise((resolve, reject) => {            
-            if (details.queue) {
-                createLock(`requestLock`, 1000, function (closeLock) {
-                    continueRequest(details.data, details.headers, details.method, details.url, resolve, details.anon, closeLock);
-                });
-            } else {
-                continueRequest(details.data, details.headers, details.method, details.url, resolve, details.anon);
-            }
-        });
+        if (details.queue) {
+            let deleteLock = await createLock_v2(`requestLock`, 1000);
+            let response = await continueRequest_v2(details);
+            deleteLock();
+            return response;
+        } else {
+            return await continueRequest_v2(details);
+        }
     }
 
     async function checkUpdate() {
