@@ -5,6 +5,7 @@
 // @icon https://dl.dropboxusercontent.com/s/lr3t3bxrxfxylqe/esgstIcon.ico?raw=1
 // @version 7.12.2
 // @author revilheart
+// @contributor Royalgamer06
 // @downloadURL https://github.com/revilheart/ESGST/raw/master/ESGST.user.js
 // @updateURL https://github.com/revilheart/ESGST/raw/master/ESGST.meta.js
 // @match https://www.steamgifts.com/*
@@ -2397,6 +2398,21 @@ Parsedown = (() => {
                             sg: true,
                             st: true
                         },
+                        nm: {
+                            // by Royalgamer06
+                            description: `
+                                <ul>
+                                    <li>Merges notifications from SteamGifts and SteamTrades.</li>
+                                    <li>Compatible with Header Refresher (will refresh every X minutes if enabled).</li>
+                                </ul>
+                                <img src="https://i.imgur.com/wlJyXW5.png">
+                                <img src="https://i.imgur.com/48Guleo.png">
+                            `,
+                            name: `Notification Merger`,
+                            new: true,
+                            sg: true,
+                            st: true
+                        },
                         pnot: {
                             description: `
                                 <ul>
@@ -2582,7 +2598,8 @@ Parsedown = (() => {
                             sg: true,
                             st: true
                         }
-                    }
+                    },
+                    newBelow: true
                 },
                 giveaways: {
                     features: {
@@ -6284,6 +6301,12 @@ Parsedown = (() => {
                 html += generateHeaderMenuItem(details);
             });
             document.getElementsByClassName(`nav__absolute-dropdown`)[0].insertAdjacentHTML(`beforeEnd`, html);
+        }
+
+        /* [NM] Notification Merger (by Royalgamer06) */
+
+        if (esgst.nm) {
+            loadNm();
         }
 
         /* [HR] Header Refresher */
@@ -10183,6 +10206,60 @@ Parsedown = (() => {
         `;
     }
 
+    async function loadNm() {
+        if (esgst.sg) {
+            let notification = parseHtml((await request_v2({method: `GET`, url: `https://www.steamtrades.com`})).responseText).getElementsByClassName(`message_count`)[0];
+            if (!notification) {
+                if (esgst.altInboxButton) {
+                    // hide the button, since there are no notifications
+                    esgst.altInboxButton.classList.add(`esgst-hidden`);
+                }
+                return;
+            }
+            if (esgst.altInboxButton) {
+                // the button already exists, so simply unhide it and change the message count
+                esgst.altInboxButton.classList.remove(`esgst-hidden`);
+                esgst.altMessageCount = notification.textContent;
+            } else {
+                // the button does not exist yet, so add it and save it in a global variable
+                esgst.altInboxButton = insertHtml(esgst.inboxButton, `afterEnd`, `
+                    <div class="nav__button-container nav__button-container--notification nav__button-container--active">
+                        <a class="nav__button" href="https://www.steamtrades.com/messages" title="SteamTrades Messages">
+                            <i class="fa fa-envelope esgst-nm-icon"></i>
+                            <div class="nav__notification">${notification.textContent}</div>
+                        </a>
+                    </div>
+                `);
+                esgst.altMessageCount = esgst.altInboxButton.firstElementChild.lastElementChild;
+            }
+        } else {
+            let notification = parseHtml((await request_v2({method: `GET`, url: `https://www.steamgifts.com`})).responseText).getElementsByClassName(`nav__notification`)[0];
+            if (!notification) {
+                if (esgst.altInboxButton) {
+                    // hide the button, since there are no notifications
+                    esgst.altInboxButton.classList.add(`esgst-hidden`);
+                }
+                return;
+            }
+            if (esgst.altInboxButton) {
+                // the button already exists, so simply unhide it and change the message count
+                esgst.altInboxButton.classList.remove(`esgst-hidden`);
+                esgst.altMessageCount = notification.textContent;
+            } else {
+                // the button does not exist yet, so add it and save it in a global variable
+                esgst.altInboxButton = insertHtml(esgst.inboxButton, `afterEnd`, `
+                    <div class="nav_btn_container">
+                        <a class="nav_btn" href="https://www.steamgifts.com/messages">
+                            <i class="fa fa-envelope esgst-nm-icon"></i>
+                            <span>Messages <span class="message_count">${notification.textContent}</span></span>
+                        </a>
+                    </div>
+                `);
+                esgst.altMessageCount = esgst.altInboxButton.firstElementChild.lastElementChild.lastElementChild;
+            }
+        }
+    }
+
     async function sendUstTickets(event) {
         let check, code, data, error, numError, n, promises, tickets;
         esgst.ustButton.removeEventListener(`click`, sendUstTickets);
@@ -12298,6 +12375,10 @@ Parsedown = (() => {
             esgst.wonButton.outerHTML = cache.wonButton;
         }
         esgst.inboxButton.outerHTML = cache.inboxButton;
+        if (esgst.nm) {
+            // refresh notification merger
+            loadNm();
+        }
         await refreshHeaderElements(document);
         if (esgst.hr) {
             notifyHrChange(hr, esgst.wishlist || cache.wishlist, notify);
@@ -35597,6 +35678,10 @@ Parsedown = (() => {
             `;
         }
         style += `
+            .esgst-nm-icon {
+                color: #ff0000 !important;
+            }
+
             .esgst-disabled {
                 cursor: default !important;
                 opacity: 0.5;
