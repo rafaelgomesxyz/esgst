@@ -11488,22 +11488,30 @@ Parsedown = (() => {
 
         // finish sync        
         if (!esgst.firstInstall) {
-            syncer.progress.innerHTML = `Synced!`;
+            syncer.progress.lastElementChild.textContent = `Updating last sync date...`;
             let currentDate = new Date();
             currentTime = currentDate.getTime();
-            let string = currentDate.toLocaleString();
-            let keys = [`Groups`, `Whitelist`, `Blacklist`, `HiddenGames`, `Games`, `WonGames`, `ReducedCvGames`, `NoCvGames`, `Giveaways`];
-            for (let i = keys.length - 1; i > -1; i--) {
-                let key = keys[i];
-                let id = `sync${key}`;
-                if ((syncer.parameters && syncer.parameters[key]) || (!syncer.parameters && esgst.settings[id])) {
-                    await setSetting(`lastSync${key}`, currentTime);
-                    esgst[`lastSync${key}`] = currentTime;
-                    if (syncer.switches && syncer.switches[id]) {
-                        syncer.switches[id].date.innerHTML = `<i class="fa fa-check-circle"></i> Last synced ${string}`;
+            if (syncer.autoSync) {
+                await setSetting(`lastSyncGroups`, currentTime);
+                await setSetting(`lastSyncGames`, currentTime);
+                esgst.lastSyncGroups = currentTime;
+                esgst.lastSyncGames = currentTime;
+            } else {
+                let string = currentDate.toLocaleString();
+                let keys = [`Groups`, `Whitelist`, `Blacklist`, `HiddenGames`, `Games`, `WonGames`, `ReducedCvGames`, `NoCvGames`, `Giveaways`];
+                for (let i = keys.length - 1; i > -1; i--) {
+                    let key = keys[i];
+                    let id = `sync${key}`;
+                    if ((syncer.parameters && syncer.parameters[key]) || (!syncer.parameters && esgst.settings[id])) {
+                        await setSetting(`lastSync${key}`, currentTime);
+                        esgst[`lastSync${key}`] = currentTime;
+                        if (syncer.switches && syncer.switches[id]) {
+                            syncer.switches[id].date.innerHTML = `<i class="fa fa-check-circle"></i> Last synced ${string}`;
+                        }
                     }
                 }
             }
+            syncer.progress.innerHTML = `Synced!`;
             delLocalValue(`isSyncing`);
         }
         if (syncer.set && syncer.autoSync) {
