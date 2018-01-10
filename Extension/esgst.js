@@ -21452,6 +21452,18 @@ Parsedown = (() => {
                 discussionsRows = discussions.lastElementChild.lastElementChild;
                 dealsSwitch = deals.firstElementChild.firstElementChild;
                 dealsRows = deals.lastElementChild.lastElementChild;
+                let preset = null;                
+                if (esgst.df) {
+                    let name = esgst.df_preset;
+                    if (name) {
+                        let presets = JSON.parse(esgst.storage.dfPresets);
+                        let i;
+                        for (i = presets.length - 1; i > -1 && presets[i].name !== name; i--);
+                        if (i > -1) {
+                            preset = presets[i];
+                        }
+                    }
+                }
                 getValue(`discussions`, `{}`).then(value => {
                     savedDiscussions = JSON.parse(value);
                     return getDiscussions(response1Html, true, savedDiscussions);
@@ -21465,13 +21477,19 @@ Parsedown = (() => {
                         });
                         elements = revisedElements;
                     }
-                    for (i = 0, j = elements.length - 1; i < 5 && j > -1; ++i, --j) {
-                        discussionsRows.appendChild(elements[j].outerWrap);
+                    for (i = 0, j = elements.length - 1; i < 5 && j > -1; j--) {
+                        if (!preset || !filterDfDiscussion(preset, elements[j])) {
+                            discussionsRows.appendChild(elements[j].outerWrap);
+                            i += 1;
+                        }
                     }
                     return getDiscussions(response2Html, true, savedDiscussions);
                 }).then(elements => {
-                    for (i = 0, j = elements.length - 1; i < 5 && j > -1; ++i, --j) {
-                        dealsRows.appendChild(elements[j].outerWrap);
+                    for (i = 0, j = elements.length - 1; i < 5 && j > -1; j--) {
+                        if (!preset || !filterDfDiscussion(preset, elements[j])) {
+                            dealsRows.appendChild(elements[j].outerWrap);
+                            i += 1;
+                        }
                     }
                     discussionsSwitch.addEventListener(`click`, function () {
                         discussions.classList.add(`esgst-hidden`);
@@ -21675,37 +21693,86 @@ Parsedown = (() => {
         let rows = document.getElementsByClassName(`table__rows`);
         let numDiscussions = 0;
         let numDeals = 0;
+        let filteredDiscussions = 0;
+        let filteredDeals = 0;
         if (refresh) {
             rows[0].innerHTML = ``;
             rows[1].innerHTML = ``;
         } else {
-            numDiscussions = (await getDiscussions(rows[0], true, savedDiscussions)).length;
-            numDeals = (await getDiscussions(rows[1], true, savedDiscussions)).length;
+            let preset = null;
+            if (esgst.df) {                
+                let name = esgst.df_preset;
+                if (name) {
+                    let presets = JSON.parse(esgst.storage.dfPresets);
+                    let i;
+                    for (i = presets.length - 1; i > -1 && presets[i].name !== name; i--);
+                    if (i > -1) {
+                        preset = presets[i];
+                    }
+                }
+            }
+            if (preset) {
+                (await getDiscussions(rows[0], true, savedDiscussions)).forEach(discussion => {
+                    if (filterDfDiscussion(preset, discussion)) {
+                        discussion.outerWrap.remove();
+                        filteredDiscussions += 1;
+                    } else {
+                        numDiscussions += 1;
+                    }
+                });
+                (await getDiscussions(rows[1], true, savedDiscussions)).forEach(deal => {
+                    if (filterDfDiscussion(preset, deal)) {
+                        deal.outerWrap.remove();
+                        filteredDeals += 1;
+                    } else {
+                        numDeals += 1;
+                    }
+                });
+            } else {
+                numDiscussions = (await getDiscussions(rows[0], true, savedDiscussions)).length;
+                numDeals = (await getDiscussions(rows[1], true, savedDiscussions)).length;
+            }
         }
         if (numDiscussions < 5 || numDeals < 5) {
             let [response1, response2] = await Promise.all([request_v2({method: `GET`, url: `/discussions`}), request_v2({method: `GET`, url: `/discussions/deals`})]);
             let response1Html = parseHtml(response1.responseText);
             let response2Html = parseHtml(response2.responseText);
             let revisedElements = [];
+            let preset = null;
+            if (esgst.df) {
+                let name = esgst.df_preset;
+                if (name) {
+                    let presets = JSON.parse(esgst.storage.dfPresets);
+                    let i;
+                    for (i = presets.length - 1; i > -1 && presets[i].name !== name; i--);
+                    if (i > -1) {
+                        preset = presets[i];
+                    }
+                }
+            }
             (await getDiscussions(response1Html, true, savedDiscussions)).forEach(element => {
                 if (element.category !== `Deals`) {
                     revisedElements.push(element);
                 }
             });
-            let i = revisedElements.length - (numDiscussions + 1);
+            let i = revisedElements.length - (numDiscussions + filteredDiscussions + 1);
             while (numDiscussions < 5 && i > -1) {
-                setMissingDiscussion(revisedElements[i]);
-                rows[0].appendChild(revisedElements[i].outerWrap);
+                if (!preset || !filterDfDiscussion(preset, revisedElements[i])) {
+                    setMissingDiscussion(revisedElements[i]);
+                    rows[0].appendChild(revisedElements[i].outerWrap);
+                    numDiscussions += 1;
+                }
                 i -= 1;
-                numDiscussions += 1;
             }
             let elements = await getDiscussions(response2Html, true, savedDiscussions);
-            i = elements.length - (numDeals + 1);
+            i = elements.length - (numDeals + filteredDeals + 1);
             while (numDeals < 5 && i > -1) {
-                setMissingDiscussion(elements[i]);
-                rows[1].appendChild(elements[i].outerWrap);
+                if (!preset || !filterDfDiscussion(preset, elements[i])) {
+                    setMissingDiscussion(elements[i]);
+                    rows[1].appendChild(elements[i].outerWrap);
+                    numDeals += 1;
+                }
                 i -= 1;
-                numDeals += 1;
             }
             if (esgst.adots) {
                 loadAdots(refresh);
@@ -22750,7 +22817,7 @@ Parsedown = (() => {
                 filtered = filterDfException(df.exceptions[i], discussion);
             }
         }
-        if (filtered) {            
+        if (filtered && df.counters) {            
             df.counters[counterKey].textContent = parseInt(df.counters[counterKey].textContent) + 1;
         }
         return filtered;
