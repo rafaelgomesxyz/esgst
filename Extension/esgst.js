@@ -5224,6 +5224,10 @@ Parsedown = (() => {
                         callback();
                         open(`https://github.com/revilheart/ESGST/releases/download/${version}/extension.zip`);
                     }).set);
+                    popup.description.appendChild(new ButtonSet(`green`, ``, `fa-refresh`, ``, `Reload Extension`, ``, callback => {
+                        callback();
+                        chrome.runtime.sendMessage({action: `reload`}, () => location.reload());
+                    }).set);
                 }
                 popup.onClose = () => {
                     setValue(`dismissedVersion`, version);
