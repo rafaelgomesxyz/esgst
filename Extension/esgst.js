@@ -11492,7 +11492,9 @@ Parsedown = (() => {
             let currentDate = new Date();
             currentTime = currentDate.getTime();
             let string = currentDate.toLocaleString();
-            [`Groups`, `Whitelist`, `Blacklist`, `HiddenGames`, `Games`, `WonGames`, `ReducedCvGames`, `NoCvGames`, `Giveaways`].forEach(async key => {
+            let keys = [`Groups`, `Whitelist`, `Blacklist`, `HiddenGames`, `Games`, `WonGames`, `ReducedCvGames`, `NoCvGames`, `Giveaways`];
+            for (let i = keys.length - 1; i > -1; i--) {
+                let key = keys[i];
                 let id = `sync${key}`;
                 if ((syncer.parameters && syncer.parameters[key]) || (!syncer.parameters && esgst.settings[id])) {
                     await setSetting(`lastSync${key}`, currentTime);
@@ -11501,7 +11503,7 @@ Parsedown = (() => {
                         syncer.switches[id].date.innerHTML = `<i class="fa fa-check-circle"></i> Last synced ${string}`;
                     }
                 }
-            });
+            }
             delLocalValue(`isSyncing`);
         }
         if (syncer.set && syncer.autoSync) {
