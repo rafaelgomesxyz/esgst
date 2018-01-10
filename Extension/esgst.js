@@ -2572,6 +2572,17 @@ Parsedown = (() => {
                             sg: true,
                             st: true
                         },
+                        urlr: {
+                            description: `
+                                <ul>
+                                    <li>Redirects broken URLs to the correct URLs (for example, /giveaway/XXXXX to /giveaway/XXXXX/).</li>
+                                </ul>
+                            `,
+                            name: `URL Redirector`,
+                            new: true,
+                            sg: true,
+                            st: true
+                        },
                         vai: {
                             conflicts: [
                                 {id: `ail`, name: `Attached Images Loader`}
@@ -5796,6 +5807,12 @@ Parsedown = (() => {
         await delValues(toDelete);
 
         // now that all values are set esgst can begin to load
+    
+        /* [URLR] URL Redirector */
+        if (esgst.urlr && location.pathname.match(/^\/(giveaway|discussion|support\/ticket|trade)\/.{5}$/)) {
+            location.href = `${location.href}/`;
+        }
+
         if (location.pathname.match(/esgst-settings/)) {
             location.href = `/esgst/settings`;
         } else if (location.pathname.match(/esgst-sync/)) {
