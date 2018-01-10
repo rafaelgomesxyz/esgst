@@ -20004,7 +20004,7 @@ Parsedown = (() => {
             }
         });
         await lockAndSaveGiveaways(newGiveaways);
-        callback
+        callback();
     }
 
     async function hideGmGiveaways(giveaways, gm, callback) {
