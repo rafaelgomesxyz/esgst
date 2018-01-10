@@ -6,7 +6,7 @@
     }
   },
   "background": {
-    "scripts": ["fetch.js"]
+    "scripts": ["eventPage.js"]
   },
   "browser_action": {
     "default_icon": {
