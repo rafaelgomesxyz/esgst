@@ -5669,6 +5669,10 @@ Parsedown = (() => {
                 toSet.dfPresets = getLocalValue(`dfPresets`, `[]`);
                 delLocalValue(`dfPresets`);
             }
+            if (!isSet(esgst.storage.filterPresets)) {
+                toSet.filterPresets = getLocalValue(`filterPresets`, `[]`);
+                delLocalValue(`filterPresets`);
+            }
             if (!isSet(esgst.storage.templates)) {
                 toSet.templates = getLocalValue(`templates`, `[]`);
                 delLocalValue(`templates`);
