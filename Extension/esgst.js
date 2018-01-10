@@ -10244,7 +10244,7 @@ Parsedown = (() => {
             if (esgst.altInboxButton) {
                 // the button already exists, so simply unhide it and change the message count
                 esgst.altInboxButton.classList.remove(`esgst-hidden`);
-                esgst.altMessageCount = notification.textContent;
+                esgst.altMessageCount.textContent = notification.textContent;
             } else {
                 // the button does not exist yet, so add it and save it in a global variable
                 esgst.altInboxButton = insertHtml(esgst.inboxButton, `afterEnd`, `
@@ -10269,7 +10269,7 @@ Parsedown = (() => {
             if (esgst.altInboxButton) {
                 // the button already exists, so simply unhide it and change the message count
                 esgst.altInboxButton.classList.remove(`esgst-hidden`);
-                esgst.altMessageCount = notification.textContent;
+                esgst.altMessageCount.textContent = notification.textContent;
             } else {
                 // the button does not exist yet, so add it and save it in a global variable
                 esgst.altInboxButton = insertHtml(esgst.inboxButton, `afterEnd`, `
