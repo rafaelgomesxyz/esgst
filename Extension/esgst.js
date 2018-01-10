@@ -10888,82 +10888,90 @@ Parsedown = (() => {
 
     /* */
 
-    function saveComment(tradeCode, parentId, description, url, status, callback, mainCallback) {
-        let data, elements, id;
-        data = `xsrf_token=${esgst.xsrfToken}&do=${esgst.sg ? `comment_new` : `comment_insert`}&trade_code=${tradeCode}&parent_id=${parentId}&description=${encodeURIComponent(description)}`;
-        request(data, null, `POST`, false, url, response => {
-            if (esgst.sg) {
-                if (response.redirected && url === response.finalUrl) {
-                    callback();
-                    if (parentId) {
-                        id = parseHtml(response.responseText).querySelector(`[data-comment-id="${parentId}"]`).getElementsByClassName(`comment__children`)[0].lastElementChild.getElementsByClassName(`comment__summary`)[0].id;
-                    } else {
-                        elements = parseHtml(response.responseText).getElementsByClassName(`comments`);
-                        id = elements[elements.length - 1].lastElementChild.getElementsByClassName(`comment__summary`)[0].id;
-                    }
-                    if (esgst.ch) {
-                        saveChComment(id, Date.now());
-                    }
-                    if (mainCallback) {
-                        mainCallback(id, response, status);
-                    } else {
-                        location.href = `/go/comment/${id}`;
-                    }
-                } else if (url !== response.finalUrl) {
-                    request(data, null, `POST`, false, response.finalUrl, response => {
-                        callback();
-                        if (parentId) {
-                            id = parseHtml(response.responseText).querySelector(`[data-comment-id="${parentId}"]`).getElementsByClassName(`comment__children`)[0].lastElementChild.getElementsByClassName(`comment__summary`)[0].id;
-                        } else {
-                            elements = parseHtml(response.responseText).getElementsByClassName(`comments`);
-                            id = elements[elements.length - 1].lastElementChild.getElementsByClassName(`comment__summary`)[0].id;
-                        }
-                        if (esgst.ch) {
-                            saveChComment(id, Date.now());
-                        }
-                        if (mainCallback) {
-                            mainCallback(id, response, status);
-                        } else {
-                            location.href = `/go/comment/${id}`;
-                        }
-                    });
+    async function saveComment(tradeCode, parentId, description, url, status, callback, mainCallback) {
+        let data = `xsrf_token=${esgst.xsrfToken}&do=${esgst.sg ? `comment_new` : `comment_insert`}&trade_code=${tradeCode}&parent_id=${parentId}&description=${encodeURIComponent(description)}`;
+        let response = await request_v2({data: data, method: `POST`, url: url});
+        if (esgst.sg) {
+            if (response.redirected && url === response.finalUrl) {
+                let id;
+                let responseHtml = parseHtml(response.responseText);
+                if (parentId) {
+                    id = responseHtml.querySelector(`[data-comment-id="${parentId}"]`).getElementsByClassName(`comment__children`)[0].lastElementChild.getElementsByClassName(`comment__summary`)[0].id;
                 } else {
+                    let elements = responseHtml.getElementsByClassName(`comments`);
+                    id = elements[elements.length - 1].lastElementChild.getElementsByClassName(`comment__summary`)[0].id;
+                }
+                if (esgst.ch) {
+                    saveChComment(id, Date.now());
+                }
+                if (mainCallback) {
                     callback();
-                    if (mainCallback) {
-                        mainCallback(null, null, status);
-                    } else {
-                        status.innerHTML = `
-                            <i class="fa fa-times-circle"></i>
-                            <span>Failed!</span>
-                        `;
-                    }
+                    mainCallback(id, response, status);
+                } else {
+                    await saveGedGiveaways(responseHtml.getElementById(id).closest(`.comment`), id);
+                    callback();
+                    location.href = `/go/comment/${id}`;
+                }
+            } else if (url !== response.finalUrl) {
+                response = await request_v2({data: data, method: `POST`, url: response.finalUrl});
+                let id;
+                let responseHtml = parseHtml(response.responseText);
+                if (parentId) {
+                    id = responseHtml.querySelector(`[data-comment-id="${parentId}"]`).getElementsByClassName(`comment__children`)[0].lastElementChild.getElementsByClassName(`comment__summary`)[0].id;
+                } else {
+                    let elements = responseHtml.getElementsByClassName(`comments`);
+                    id = elements[elements.length - 1].lastElementChild.getElementsByClassName(`comment__summary`)[0].id;
+                }
+                if (esgst.ch) {
+                    saveChComment(id, Date.now());
+                }
+                if (mainCallback) {
+                    callback();
+                    mainCallback(id, response, status);
+                } else {
+                    await saveGedGiveaways(responseHtml.getElementById(id).closest(`.comment`), id);
+                    callback();
+                    location.href = `/go/comment/${id}`;
                 }
             } else {
-                responseJson = JSON.parse(response.responseText);
-                if (responseJson.success) {
-                    callback();
-                    id = parseHtml(responseJson.html).getElementsByClassName(`comment_outer`)[0].id;
-                    if (esgst.ch) {
-                        saveChComment(id, Date.now());
-                    }
-                    if (mainCallback) {
-                        mainCallback(id, response, status);
-                    } else {
-                        location.href = `/go/comment/${id}`;
-                    }
+                callback();
+                if (mainCallback) {
+                    mainCallback(null, null, status);
                 } else {
-                    callback();
-                    if (mainCallback) {
-                        mainCallback(null, null, status);
-                    } else {
-                        status.innerHTML = `
-                            <i class="fa fa-times-circle"></i>
-                            <span>Failed!</span>
-                        `;
-                    }
+                    status.innerHTML = `
+                        <i class="fa fa-times-circle"></i>
+                        <span>Failed!</span>
+                    `;
                 }
             }
-        });
+        } else {
+            let responseJson = JSON.parse(response.responseText);
+            if (responseJson.success) {
+                let responseHtml = parseHtml(responseJson.html);
+                let id = responseHtml.getElementsByClassName(`comment_outer`)[0].id;
+                if (esgst.ch) {
+                    saveChComment(id, Date.now());
+                }
+                if (mainCallback) {
+                    callback();
+                    mainCallback(id, response, status);
+                } else {
+                    await saveGedGiveaways(responseHtml.getElementById(id), id);
+                    callback();
+                    location.href = `/go/comment/${id}`;
+                }
+            } else {
+                callback();
+                if (mainCallback) {
+                    mainCallback(null, null, status);
+                } else {
+                    status.innerHTML = `
+                        <i class="fa fa-times-circle"></i>
+                        <span>Failed!</span>
+                    `;
+                }
+            }
+        }
     }
 
     async function checkSync(menu, callback) {
@@ -15559,15 +15567,7 @@ Parsedown = (() => {
 
     async function loadGed() {
         if (esgst.discussionPath && document.getElementsByClassName(`comment__username`)[0].textContent === esgst.username) {
-            let codes = [];
-            let elements = document.getElementsByClassName(`comment__description`)[0].querySelectorAll(`[href^="ESGST-"]`);
-            for (let i = 0, n = elements.length; i < n; ++i) {
-                let encryptedCode = elements[i].getAttribute(`href`).match(/ESGST-(.+)/)[1];
-                if (!encryptedCode.match(/currentVersion/)) {
-                    codes.push(decryptGedCode(encryptedCode));
-                }
-            }
-            saveGedGiveaways(codes, location.href);
+            saveGedGiveaways(document.getElementsByClassName(`comment__description`)[0], location.href);
         }
         let deleteLock = await createLock_v2(`gedLock`, 300);
         let decryptedGiveaways = await getValue(`decryptedGiveaways`, await getValue(`exclusiveGiveaways`, {}));
@@ -15800,9 +15800,6 @@ Parsedown = (() => {
                     <i class="fa fa-star"></i>
                 </a>
             `);
-            if (comment.querySelector(`.comment__username, .author_name`).textContent === esgst.username) {
-                continue;;
-            }
             let source = comment.id || location.href;
             if (decryptedGiveaways[code]) {
                 if (!decryptedGiveaways[code].source) {
@@ -16012,7 +16009,15 @@ Parsedown = (() => {
         });
     }
 
-    async function saveGedGiveaways(codes, source) {
+    async function saveGedGiveaways(context, source) {
+        let codes = [];
+        let elements = context.querySelectorAll(`[href^="ESGST-"]`);
+        for (let i = 0, n = elements.length; i < n; i++) {
+            let encryptedCode = elements[i].getAttribute(`href`).match(/ESGST-(.+)/)[1];
+            if (!encryptedCode.match(/currentVersion/)) {
+                codes.push(decryptGedCode(encryptedCode));
+            }
+        }
         if (!codes.length) {
             return;
         }
@@ -16036,16 +16041,15 @@ Parsedown = (() => {
                 };
                 return;
             }
-            let promise = request_v2({method: `GET`, url: `/giveaway/${code}/`});
-            promise.then(getGedGiveaway.bind(null, code, ged, source));
-            promises.push(promise);
+            promises.push(getGedGiveaway(code, ged, source));
         });
         await Promise.all(promises);
         await setValue(`decryptedGiveaways`, JSON.stringify(ged.decryptedGiveaways));
         await lockAndSaveGiveaways(ged.giveaways);
     }
 
-    async function getGedGiveaway(code, ged, source, response) {
+    async function getGedGiveaway(code, ged, source) {
+        let response = await request_v2({method: `GET`, url: `/giveaway/${code}/`});
         let giveaway = (await getGiveaways(parseHtml(response.responseText), false, response.finalUrl, false, null, true))[0];
         ged.giveaways[code] = giveaway;
         ged.decryptedGiveaways[code] = {
@@ -23984,20 +23988,11 @@ Parsedown = (() => {
         }
         MR.Description.focus();
         addDEDButton(MR.Box, MR.URL, async function (id, Response, DEDStatus) {
-            var encryptedCode, codes, ReplyID, Reply, ResponseJSON;
+            var ReplyID, Reply, ResponseJSON;
             if (esgst.sg) {
                 if (id) {
                     Reply = parseHtml(Response.responseText).getElementById(id).closest(`.comment`);
-                    codes = [];
-                    var elements = Reply.querySelectorAll(`[href^="ESGST-"]`);
-                    for (var i = 0, n = elements.length; i < n; ++i) {
-                        var element = elements[i];
-                        encryptedCode = element.getAttribute(`href`).match(/ESGST-(.+)/)[1];
-                        if (!encryptedCode.match(/currentVersion/)) {
-                            codes.push(decryptGedCode(encryptedCode));
-                        }
-                    }
-                    await saveGedGiveaways(codes, id);
+                    await saveGedGiveaways(Reply, id);
                     if (esgst.rfi && esgst.rfi_s) {
                         await saveRfiReply(id, Reply.outerHTML, MR.url);
                     }
@@ -24016,16 +24011,7 @@ Parsedown = (() => {
             } else {
                 if (id) {
                     Reply = parseHtml(JSON.parse(Response.responseText).html).getElementById(id);
-                    codes = [];
-                    var elements = Reply.querySelectorAll(`[href^="ESGST-"]`);
-                    for (var i = 0, n = elements.length; i < n; ++i) {
-                        var element = elements[i];
-                        encryptedCode = element.getAttribute(`href`).match(/ESGST-(.+)/)[1];
-                        if (!encryptedCode.match(/currentVersion/)) {
-                            codes.push(decryptGedCode(encryptedCode));
-                        }
-                    }
-                    await saveGedGiveaways(codes, id);
+                    await saveGedGiveaways(Reply, id);
                     if (esgst.rfi && esgst.rfi_s) {
                         await saveRfiReply(id, Reply.outerHTML, MR.url);
                     }
@@ -24173,20 +24159,11 @@ Parsedown = (() => {
             EditSave.addEventListener(`click`, function () {
                 request(`xsrf_token=${esgst.xsrfToken}&do=comment_edit&comment_id=${ID}&allow_replies=${AllowReplies}&description=${encodeURIComponent(Description.value)}`, null, `POST`, false,
                     `/ajax.php`, async function (Response) {
-                        var codes, encryptedCode, ResponseJSON, ResponseHTML;
+                        var ResponseJSON, ResponseHTML;
                         ResponseJSON = JSON.parse(Response.responseText);
                         if (ResponseJSON.type === `success` || ResponseJSON.success) {
                             ResponseHTML = parseHtml(ResponseJSON[esgst.sg ? `comment` : `html`]);
-                            codes = [];
-                            var elements = ResponseHTML.querySelectorAll(`[href^="ESGST-"]`);
-                            for (var i = 0, n = elements.length; i < n; ++i) {
-                                var element = elements[i];
-                                encryptedCode = element.getAttribute(`href`).match(/ESGST-(.+)/)[1];
-                                if (!encryptedCode.match(/currentVersion/)) {
-                                    codes.push(decryptGedCode(encryptedCode));
-                                }
-                            }
-                            await saveGedGiveaways(codes, MR.url.match(/\/comment\/(.+)/)[1]);
+                            await saveGedGiveaways(ResponseHTML, MR.url.match(/\/comment\/(.+)/)[1]);
                             if (esgst.rfi && esgst.rfi_s) {
                                 var reply = MR.Comment.cloneNode(true);
                                 if (esgst.sg) {
