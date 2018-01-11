@@ -16579,7 +16579,7 @@ Parsedown = (() => {
             }).set;
             popup.description.appendChild(set);
         }
-        if ((!esgst.elgb_d || description) || (esgst.elgb_r && (!esgst.elgb_r_d || description)) || mainCallback) {
+        if ((esgst.elgb_d && description) || (esgst.elgb_r && (!esgst.elgb_r_d || description)) || mainCallback) {
             if (mainCallback) {
                 popup.onClose = mainCallback;
             }
