@@ -9862,7 +9862,7 @@ Parsedown = (() => {
                         }
                     }
                     if (esgst.pm && (esgst.pm_a || discussion.heading.firstElementChild.nextElementSibling.nextElementSibling.textContent === `Puzzles`)) {
-                        addPmButton(discussion.code, discussion.headingContainer, savedDiscussions[discussion.code].status || `off`);
+                        addPmButton(discussion.code, discussion.outerWrap, savedDiscussions[discussion.code].status || `off`);
                     }
                 } else {
                     if (esgst.df && esgst.df_s) {
@@ -9872,7 +9872,7 @@ Parsedown = (() => {
                         addDhHighlightButton(discussion.code, discussion.heading, discussion.headingContainer);
                     }
                     if (esgst.pm && (esgst.pm_a || discussion.heading.firstElementChild.nextElementSibling.nextElementSibling.textContent === `Puzzles`)) {
-                        addPmButton(discussion.code, discussion.headingContainer, `off`);
+                        addPmButton(discussion.code, discussion.outerWrap, `off`);
                     }
                 }
             });
@@ -24899,7 +24899,7 @@ Parsedown = (() => {
                     if (code) {
                         code = code[1];
                         if (esgst.ust && key === `tickets` && (!comments[code] || !comments[code].sent) && match.getElementsByClassName(`table__column__secondary-link`)[0].textContent.trim().match(/Request\sNew\sWinner|User\sReport/)) {
-                            addUstCheckbox(code, heading.parentElement);
+                            addUstCheckbox(code, match);
                         }
                         if (esgst.gdttt || esgst.ct) {
                             if (comments[code]) {
@@ -31995,7 +31995,7 @@ Parsedown = (() => {
                         }
                     }
                     if (esgst.pm && (esgst.pm_a || discussion.category === `Puzzles`)) {
-                        addPmButton(discussion.code, discussion.heading.parentElement, savedDiscussion.status || `off`);
+                        addPmButton(discussion.code, discussion.outerWrap, savedDiscussion.status || `off`);
                     }
                 } else {
                     if (esgst.df && esgst.df_s) {
@@ -32005,7 +32005,7 @@ Parsedown = (() => {
                         addDhHighlightButton(discussion.code, discussion.outerWrap, discussion.heading.parentElement);
                     }
                     if (esgst.pm && (esgst.pm_a || discussion.category === `Puzzles`)) {
-                        addPmButton(discussion.code, discussion.heading.parentElement, `off`);
+                        addPmButton(discussion.code, discussion.outerWrap, `off`);
                     }
                 }
             }
@@ -32036,7 +32036,7 @@ Parsedown = (() => {
         var match, discussion, savedUser, uf;
         discussion = {};
         discussion.outerWrap = context;
-        discussion.innerWrap = discussion.outerWrap.firstElementChild;
+        discussion.innerWrap = discussion.outerWrap.getElementsByClassName(`table__row-inner-wrap`)[0];
         discussion.avatarColumn = discussion.innerWrap.firstElementChild;
         if (!discussion.avatarColumn) {
             return;
@@ -32131,6 +32131,7 @@ Parsedown = (() => {
 
     function addPmButton(code, context, status) {
         if (!context.getElementsByClassName(`esgst-pm-button`)[0]) {
+            context.classList.add(`esgst-relative`);
             let button, colors, icons, nextStatuses;
             colors = {
                 'off': `grey`,
@@ -32185,6 +32186,7 @@ Parsedown = (() => {
 
     function addUstCheckbox(code, context) {
         if (!context.getElementsByClassName(`esgst-ust-checkbox`)[0]) {
+            context.classList.add(`esgst-relative`);
             let checkbox = new Checkbox(context);
             checkbox.checkbox.classList.add(`esgst-ust-checkbox`);
             esgst.ustTickets[code] = checkbox;
@@ -35761,6 +35763,10 @@ Parsedown = (() => {
             `;
         }
         style += `
+            .esgst-relative {
+                position: relative;
+            }
+
             .esgst-nm-icon {
                 color: #ff0000 !important;
             }
@@ -36279,9 +36285,13 @@ Parsedown = (() => {
 
             .esgst-pm-button, .esgst-ust-checkbox {
                 cursor: pointer;
-                margin-left: -65px;
-                margin-top: 8.5px;
+                margin-left: -17px;
                 position: absolute;
+                top: calc(50% - 7px);
+            }
+
+            .esgst-dh-highlighted .esgst-pm-button {
+                margin-left: -22px;
             }
 
             .page__heading .esgst-pm-button {
