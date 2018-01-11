@@ -23515,7 +23515,7 @@ Parsedown = (() => {
         editButton.nextElementSibling.addEventListener(`click`, async () => {
             let savedReplies = JSON.parse(await getValue(`savedReplies`, `[]`));
             let i;
-            for (i = savedReplies.length - 1; i > -1 && savedReplies[i].name !== name.textContent && savedReplies[i].description !== description.textContent; i--);
+            for (i = savedReplies.length - 1; i > -1 && (savedReplies[i].name !== name.textContent || savedReplies[i].description !== description.textContent); i--);
             if (i > -1) {
                 savedReplies.splice(i, 1);
                 setValue(`savedReplies`, JSON.stringify(savedReplies));
@@ -23535,7 +23535,7 @@ Parsedown = (() => {
         esgst.cfh.source = reply;
         getValue(`savedReplies`, `[]`).then(value => {
             savedReplies = JSON.parse(value);
-            for (i = savedReplies.length - 1; i > -1 && savedReplies[i].name !== name.textContent && savedReplies[i].description !== description.textContent; --i);
+            for (i = savedReplies.length - 1; i > -1 && (savedReplies[i].name !== name.textContent || savedReplies[i].description !== description.textContent); --i);
             if (i > -1) {
                 esgst.cfh.sourceIndex = i;
             }
@@ -23617,7 +23617,7 @@ Parsedown = (() => {
             };
             if (summary) {
                 let i;
-                for (i = savedReplies.length - 1; i > -1 && savedReplies[i].name !== name && savedReplies[i].description !== description; i--);
+                for (i = savedReplies.length - 1; i > -1 && (savedReplies[i].name !== name || savedReplies[i].description !== description); i--);
                 if (i > -1) {
                     savedReplies[i] = savedReply;
                     summary.firstElementChild.textContent = nameVal;
