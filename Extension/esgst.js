@@ -4042,6 +4042,15 @@ Parsedown = (() => {
                                 </ul>
                             `,
                             features: {
+                                rfi_c: {
+                                    description: `
+                                        <img src="https://i.imgur.com/rKMCV8U.png">
+                                    `,
+                                    name: `Check if there are other replies to a comment before submitting a reply.`,
+                                    new: true,
+                                    sg: true,
+                                    st: true
+                                },
                                 rfi_s: {
                                     description: `
                                         <ul>
@@ -4056,6 +4065,7 @@ Parsedown = (() => {
                                 }
                             },
                             name: `Reply From Inbox`,
+                            newBelow: true,
                             sg: true,
                             st: true
                         },
@@ -4070,7 +4080,8 @@ Parsedown = (() => {
                             sg: true,
                             st: true
                         }
-                    }
+                    },
+                    newBelow: true
                 },
                 users: {
                     features: {
@@ -10933,11 +10944,15 @@ Parsedown = (() => {
                     saveChComment(id, Date.now());
                 }
                 if (mainCallback) {
-                    callback();
+                    if (callback) {
+                        callback();
+                    }
                     mainCallback(id, response, status);
                 } else {
                     await saveGedGiveaways(responseHtml.getElementById(id).closest(`.comment`), id);
-                    callback();
+                    if (callback) {
+                        callback();
+                    }
                     location.href = `/go/comment/${id}`;
                 }
             } else if (url !== response.finalUrl) {
@@ -10954,15 +10969,21 @@ Parsedown = (() => {
                     saveChComment(id, Date.now());
                 }
                 if (mainCallback) {
-                    callback();
+                    if (callback) {
+                        callback();
+                    }
                     mainCallback(id, response, status);
                 } else {
                     await saveGedGiveaways(responseHtml.getElementById(id).closest(`.comment`), id);
-                    callback();
+                    if (callback) {
+                        callback();
+                    }
                     location.href = `/go/comment/${id}`;
                 }
             } else {
-                callback();
+                if (callback) {
+                    callback();
+                }
                 if (mainCallback) {
                     mainCallback(null, null, status);
                 } else {
@@ -10981,15 +11002,21 @@ Parsedown = (() => {
                     saveChComment(id, Date.now());
                 }
                 if (mainCallback) {
-                    callback();
+                    if (callback) {
+                        callback();
+                    }
                     mainCallback(id, response, status);
                 } else {
                     await saveGedGiveaways(responseHtml.getElementById(id), id);
-                    callback();
+                    if (callback) {
+                        callback();
+                    }
                     location.href = `/go/comment/${id}`;
                 }
             } else {
-                callback();
+                if (callback) {
+                    callback();
+                }
                 if (mainCallback) {
                     mainCallback(null, null, status);
                 } else {
@@ -23129,13 +23156,34 @@ Parsedown = (() => {
         DEDButton.appendChild(new ButtonSet(`grey`, `grey`, `fa-send`, `fa-circle-o-notch fa-spin`, `Submit`, `Saving...`, function (Callback) {
             DEDStatus.innerHTML = ``;
             if (CommentURL) {
-                request(null, null, `GET`, false, CommentURL, function (Response) {
+                request(null, null, `GET`, false, CommentURL, async function (Response) {
                     ResponseHTML = parseHtml(Response.responseText);
                     TradeCode = esgst.sg ? `` : Response.finalUrl.match(/\/trade\/(.+?)\//)[1];
-                    ParentID = ResponseHTML.getElementById(CommentURL.match(/\/comment\/(.+)/)[1]);
-                    ParentID = esgst.sg ? ParentID.closest(`.comment`).getAttribute(`data-comment-id`) : ParentID.getAttribute(`data-id`);
+                    let comment = ResponseHTML.getElementById(CommentURL.match(/\/comment\/(.+)/)[1]);
+                    ParentID = esgst.sg ? comment.closest(`.comment`).getAttribute(`data-comment-id`) : comment.getAttribute(`data-id`);
+                    let children = esgst.sg ? comment.closest(`.comment`).getElementsByClassName(`comment__children`)[0] : comment.getElementsByClassName(`comment_children`)[0];
                     URL = esgst.sg ? Response.finalUrl.match(/(.+?)(#.+?)?$/)[1] : `/ajax.php`;
-                    saveComment(TradeCode, ParentID, Description.value, URL, DEDStatus, Callback, DEDCallback);
+                    if (esgst.rfi_c && children.children.length > 0) {
+                        let popup = new Popup(`fa-clock-o`, `Somebody beat you to it! There are other replies to this comment, you can review them before submitting your reply.`);
+                        children.classList.add(`esgst-text-left`);
+                        popup.scrollable.appendChild(children);
+                        await loadEndlessFeatures(children);
+                        let textArea = insertHtml(popup.description, `beforeEnd`, `<textarea></textarea>`);
+                        if (esgst.cfh) {
+                            addCfhPanel(textArea);
+                        }
+                        textArea.value = Description.value;
+                        popup.description.appendChild(new ButtonSet(`green`, `grey`, `fa-send`, `fa-circle-o-notch fa-spin`, `Submit`, `Submitting...`, () => {
+                            saveComment(TradeCode, ParentID, textArea.value, URL, DEDStatus, null, (id, response, status) => {
+                                popup.close();
+                                DEDCallback(id, response, status);
+                            });
+                        }).set);
+                        popup.open();
+                        popup.onClose = Callback;
+                    } else {
+                        saveComment(TradeCode, ParentID, Description.value, URL, DEDStatus, Callback, DEDCallback);
+                    }
                 });
             } else {
                 saveComment(TradeCode, ParentID.value, Description.value, URL, DEDStatus, Callback, DEDCallback);
