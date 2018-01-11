@@ -9302,6 +9302,20 @@ Parsedown = (() => {
                     }
                 }
             }
+            document.addEventListener(`keydown`, event => {
+                if (!event.ctrlKey) {
+                    return;
+                }
+                if (event.key === `y` && (esgst.cfh.backup.length || esgst.cfh.history.length)) {
+                    event.preventDefault();
+                    esgst.cfh.redo.click();
+                    return;
+                }
+                if (event.key === `z` && esgst.cfh.history.length) {
+                    event.preventDefault();
+                    esgst.cfh.undo.click();
+                }
+            });
             if (esgst.cfh_cf) {
                 esgst.cfh.panel.insertAdjacentHTML(`beforeEnd`, `
                     <a href="/about/comment-formatting" title="Comment Formatting">
@@ -23568,6 +23582,7 @@ Parsedown = (() => {
         reply.addEventListener(`dragenter`, getCfhSource.bind(null, reply, replies));
         reply.addEventListener(`dragend`, saveCfhSource);
         summary.addEventListener(`click`, () => {
+            undoCfhFormatting(esgst.cfh.textArea, esgst.cfh.textArea.value);
             let end, i, matches, n, value;
             end = esgst.cfh.textArea.selectionEnd;
             value = savedReply.description;
