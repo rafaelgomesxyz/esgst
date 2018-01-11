@@ -9302,20 +9302,6 @@ Parsedown = (() => {
                     }
                 }
             }
-            document.addEventListener(`keydown`, event => {
-                if (!event.ctrlKey) {
-                    return;
-                }
-                if (event.key === `y` && (esgst.cfh.backup.length || esgst.cfh.history.length)) {
-                    event.preventDefault();
-                    esgst.cfh.redo.click();
-                    return;
-                }
-                if (event.key === `z` && esgst.cfh.history.length) {
-                    event.preventDefault();
-                    esgst.cfh.undo.click();
-                }
-            });
             if (esgst.cfh_cf) {
                 esgst.cfh.panel.insertAdjacentHTML(`beforeEnd`, `
                     <a href="/about/comment-formatting" title="Comment Formatting">
@@ -23341,6 +23327,23 @@ Parsedown = (() => {
                     }
                 }
             };
+            textArea.onkeydown = event => {
+                if (event.key === `Backspace` && esgst.cfh.recent) {
+                    event.preventDefault();
+                    esgst.cfh.undo.click();
+                }
+                esgst.cfh.recent = false;
+                if (!event.ctrlKey) {
+                    return;
+                }
+                if (event.key === `y` && (esgst.cfh.backup.length || esgst.cfh.history.length)) {
+                    event.preventDefault();
+                    esgst.cfh.redo.click();
+                } else if (event.key === `z` && esgst.cfh.history.length) {
+                    event.preventDefault();
+                    esgst.cfh.undo.click();
+                }
+            };
             if (esgst.cfh_p) {
                 esgst.cfh.preview.innerHTML = ``;
                 textArea.parentElement.insertBefore(esgst.cfh.preview, textArea.nextElementSibling);
@@ -23358,27 +23361,11 @@ Parsedown = (() => {
     function undoCfhFormatting(textArea, value) {
         esgst.cfh.history.push(value);
         esgst.cfh.undo.classList.remove(`esgst-faded`);
-        textArea.onkeydown = event => {
-            textArea.onkeydown = null;
-            if (event.key === `Backspace`) {
-                event.preventDefault();
-                esgst.cfh.undo.click();
-            }
-        };
     }
 
     function redoCfhFormatting(textArea, value) {
         esgst.cfh.backup.push(value);
         esgst.cfh.redo.classList.remove(`esgst-faded`);
-        textArea.onkeydown = event => {
-            if (event.key !== `Shift`) {
-                textArea.onkeydown = null;
-                if (event.shiftKey && event.key === `Backspace`) {
-                    event.preventDefault();
-                    esgst.cfh.redo.click();
-                }
-            }
-        };
     }
 
     function formatCfhItem(prefix = ``, suffix = ``, multiline) {
@@ -23405,7 +23392,9 @@ Parsedown = (() => {
 
     function formatCfhLink(title, url, isImage, isPaste) {
         let end, start, value;
-        if (!isPaste) {
+        if (isPaste) {
+            esgst.cfh.recent = true;
+        } else {
             undoCfhFormatting(esgst.cfh.textArea, esgst.cfh.textArea.value);
         }
         start = esgst.cfh.textArea.selectionStart;
