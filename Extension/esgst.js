@@ -29125,8 +29125,9 @@ Parsedown = (() => {
                 tradingCards: 0
             };
             let responseJson = JSON.parse((await await request_v2({method: `GET`, url: `http://store.steampowered.com/api/${type === `apps` ? `appdetails?appids=` : `packagedetails?packageids=`}${id}&filters=basic,categories,genres,name,platforms,price,price_overview&cc=us&l=en`})).responseText);
+            let data;
             if (responseJson && responseJson[id]) {
-                let data = responseJson[id].data;
+                data = responseJson[id].data;
                 if (data) {
                     if (data.categories) {
                         for (let i = 0, n = data.categories.length; i < n; ++i) {
@@ -29215,7 +29216,7 @@ Parsedown = (() => {
                 categories.tags = tags.join(`, `);
             }
             gc.cache[type][id] = categories;
-            if (esgst.gc_dlc_b && categories.dlc && data.fullgame && data.fullgame.appid) {
+            if (esgst.gc_dlc_b && categories.dlc && data && data.fullgame && data.fullgame.appid) {
                 categories.freeBase = JSON.parse((await request_v2({method: `GET`, url: `http://store.steampowered.com/api/appdetails?appids=${data.fullgame.appid}&filters=basic&cc=us&l=en`})).responseText)[data.fullgame.appid].data.is_free;
             }
         } catch (error) {
