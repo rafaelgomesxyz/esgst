@@ -9164,7 +9164,7 @@ Parsedown = (() => {
                     icons: [`fa-floppy-o`],
                     name: `Saved Replies`,
                     setPopout: async function (popout) {
-                        let addBUtton, filter, i, n, replies, savedReplies;
+                        let addBUtton, filter, i, n, replies, saveButton, savedReplies;
                         esgst.cfh.deletedReplies = [];
                         savedReplies = JSON.parse(await getValue(`savedReplies`, `[]`));
                         popout.popout.innerHTML = `
@@ -9173,6 +9173,7 @@ Parsedown = (() => {
                             </div>
                             <div class="esgst-cfh-sr-container"></div>
                             <div class="form__saving-button btn_action white">Add New Reply</div>
+                            <div class="form__saving-button btn_action white">Save Reply</div>
                             <div class="esgst-clickable esgst-hidden">
                                 <i class="fa fa-rotate-left"></i>
                                 <span>Undo Delete</span>
@@ -9180,7 +9181,8 @@ Parsedown = (() => {
                         `;
                         filter = popout.popout.firstElementChild.firstElementChild;
                         esgst.cfh.undoDelete = popout.popout.lastElementChild;
-                        addButton = esgst.cfh.undoDelete.previousElementSibling;
+                        saveButton = esgst.cfh.undoDelete.previousElementSibling;
+                        addButton = saveButton.previousElementSibling;
                         replies = addButton.previousElementSibling;
                         for (i = 0, n = savedReplies.length; i < n; ++i) {
                             setCfhReply(replies, savedReplies[i]);
@@ -9188,6 +9190,7 @@ Parsedown = (() => {
                         filter.addEventListener(`input`, filterCfhReplies.bind(null, replies));
                         esgst.cfh.undoDelete.addEventListener(`click`, undoCfhDelete);
                         addButton.addEventListener(`click`, openCfhReplyPopup.bind(null, null, null, replies, null));
+                        saveButton.addEventListener(`click`, () => saveCfhReply(esgst.cfh.textArea.value, null, `Untitled`, null, null, replies, null, null));
                     },
                     callback: popout => {
                         popout.firstElementChild.firstElementChild.focus();
@@ -23509,22 +23512,20 @@ Parsedown = (() => {
             esgst.cfh.textArea.focus();
         });
         editButton.addEventListener(`click`, openCfhReplyPopup.bind(null, savedReply.description, savedReply.name, replies, summary));
-        editButton.nextElementSibling.addEventListener(`click`, () => {
-            let savedReplies;
-            getValue(`savedReplies`, `[]`).then(value => {
-                savedReplies = JSON.parse(value);
-                for (i = savedReplies.length - 1; i > -1 && savedReplies[i].name !== name.textContent && savedReplies[i].description !== description.textContent; --i);
-                if (i > -1) {
-                    savedReplies.splice(i, 1);
-                    setValue(`savedReplies`, JSON.stringify(savedReplies));
-                    reply.classList.add(`esgst-hidden`);
-                    esgst.cfh.deletedReplies.push({
-                        reply: reply,
-                        savedReply: savedReply
-                    });
-                    esgst.cfh.undoDelete.classList.remove(`esgst-hidden`);
-                }
-            });
+        editButton.nextElementSibling.addEventListener(`click`, async () => {
+            let savedReplies = JSON.parse(await getValue(`savedReplies`, `[]`));
+            let i;
+            for (i = savedReplies.length - 1; i > -1 && savedReplies[i].name !== name.textContent && savedReplies[i].description !== description.textContent; i--);
+            if (i > -1) {
+                savedReplies.splice(i, 1);
+                setValue(`savedReplies`, JSON.stringify(savedReplies));
+                reply.classList.add(`esgst-hidden`);
+                esgst.cfh.deletedReplies.push({
+                    reply: reply,
+                    savedReply: savedReply
+                });
+                esgst.cfh.undoDelete.classList.remove(`esgst-hidden`);
+            }
         });
     }
 
@@ -23601,34 +23602,37 @@ Parsedown = (() => {
         popup.open();
     }
 
-    function saveCfhReply(description, descriptionArea, name, nameArea, popup, replies, summary, callback) {
-        let descVal, i, nameVal, reply, savedReplies, savedReply;
-        descVal = descriptionArea.value.trim();
-        nameVal = nameArea.value.trim();
-        if (descVal && nameVal) {
-            getValue(`savedReplies`, `[]`).then(value => {
-                savedReplies = JSON.parse(value);
-                savedReply = {
-                    description: descVal,
-                    name: nameVal
-                };
-                if (summary) {
-                    for (i = savedReplies.length - 1; i > -1 && savedReplies[i].name !== name && savedReplies[i].description !== description; --i);
-                    if (i > -1) {
-                        savedReplies[i] = savedReply;
-                        summary.firstElementChild.textContent = nameVal;
-                        summary.lastElementChild.textContent = descVal;
-                    }
-                } else {
-                    savedReplies.push(savedReply);
-                    setCfhReply(replies, savedReply);
+    async function saveCfhReply(description, descriptionArea, name, nameArea, popup, replies, summary, callback) {
+        let descVal = null;
+        let nameVal = null;
+        if (descriptionArea && nameArea) {
+            descVal = descriptionArea.value.trim();
+            nameVal = nameArea.value.trim();
+        }
+        if ((!descriptionArea && !nameArea) || (descVal && nameVal)) {
+            let savedReplies = JSON.parse(await getValue(`savedReplies`, `[]`));
+            let savedReply = {
+                description: descVal || description,
+                name: nameVal || name
+            };
+            if (summary) {
+                let i;
+                for (i = savedReplies.length - 1; i > -1 && savedReplies[i].name !== name && savedReplies[i].description !== description; i--);
+                if (i > -1) {
+                    savedReplies[i] = savedReply;
+                    summary.firstElementChild.textContent = nameVal;
+                    summary.lastElementChild.textContent = descVal;
                 }
-                return setValue(`savedReplies`, JSON.stringify(savedReplies));
-            }).then(() => {
+            } else {
+                savedReplies.push(savedReply);
+                setCfhReply(replies, savedReply);
+            }
+            await setValue(`savedReplies`, JSON.stringify(savedReplies));
+            if (callback) {
                 callback();
                 popup.close();
-            });
-        } else {
+            }
+        } else if (callback) {
             callback();
             createAlert(`Both fields are required.`);
         }
