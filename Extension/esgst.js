@@ -23549,7 +23549,7 @@ Parsedown = (() => {
     }
 
     function setCfhReply(replies, savedReply) {
-        let editButton, description, name, reply, summary;
+        let editButton, description, name, replaceButton, reply, summary;
         reply = insertHtml(replies, `beforeEnd`, `
             <div class="esgst-cfh-sr-box" draggable="true">
                 <div class="esgst-cfh-sr-summary">
@@ -23557,6 +23557,7 @@ Parsedown = (() => {
                     <div class="esgst-cfh-sr-description">${savedReply.description}</div>
                 </div>
                 <div class="esgst-cfh-sr-controls">
+                    <i class="esgst-clickable fa fa-retweet" title="Replace description with current reply"></i>
                     <i class="esgst-clickable fa fa-edit" title="Edit reply"></i>
                     <i class="esgst-clickable fa fa-trash" title="Delete reply"></i>
                     <i class="fa fa-question-circle" title="Drag the reply to move it"></i>
@@ -23566,7 +23567,8 @@ Parsedown = (() => {
         summary = reply.firstElementChild;
         name = summary.firstElementChild;
         description = name.nextElementSibling;
-        editButton = summary.nextElementSibling.firstElementChild;
+        replaceButton = summary.nextElementSibling.firstElementChild;
+        editButton = replaceButton.nextElementSibling;
         reply.addEventListener(`dragstart`, setCfhSource.bind(null, description, name, reply));
         reply.addEventListener(`dragenter`, getCfhSource.bind(null, reply, replies));
         reply.addEventListener(`dragend`, saveCfhSource);
@@ -23586,6 +23588,7 @@ Parsedown = (() => {
             esgst.cfh.textArea.focus();
         });
         editButton.addEventListener(`click`, openCfhReplyPopup.bind(null, savedReply.description, savedReply.name, replies, summary));
+        replaceButton.addEventListener(`click`, () => saveCfhReply(savedReply.description, esgst.cfh.textArea, savedReply.name, null, null, replies, summary, null));
         editButton.nextElementSibling.addEventListener(`click`, async () => {
             let savedReplies = JSON.parse(await getValue(`savedReplies`, `[]`));
             let i;
@@ -23677,17 +23680,12 @@ Parsedown = (() => {
     }
 
     async function saveCfhReply(description, descriptionArea, name, nameArea, popup, replies, summary, callback) {
-        let descVal = null;
-        let nameVal = null;
-        if (descriptionArea && nameArea) {
-            descVal = descriptionArea.value.trim();
-            nameVal = nameArea.value.trim();
-        }
-        if ((!descriptionArea && !nameArea) || (descVal && nameVal)) {
+        let [descVal, nameVal] = [descriptionArea ? descriptionArea.value.trim() : description, nameArea ? nameArea.value.trim() : name];
+        if (descVal && nameVal) {
             let savedReplies = JSON.parse(await getValue(`savedReplies`, `[]`));
             let savedReply = {
-                description: descVal || description,
-                name: nameVal || name
+                description: descVal,
+                name: nameVal
             };
             if (summary) {
                 let i;
