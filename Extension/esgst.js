@@ -29149,7 +29149,7 @@ Parsedown = (() => {
                 tags: ``,
                 tradingCards: 0
             };
-            let responseJson = JSON.parse((await await request_v2({method: `GET`, url: `http://store.steampowered.com/api/${type === `apps` ? `appdetails?appids=` : `packagedetails?packageids=`}${id}&filters=basic,categories,genres,name,platforms,price,price_overview&cc=us&l=en`})).responseText);
+            let responseJson = JSON.parse((await request_v2({method: `GET`, url: `http://store.steampowered.com/api/${type === `apps` ? `appdetails?appids=` : `packagedetails?packageids=`}${id}&filters=basic,categories,genres,name,platforms,price,price_overview&cc=us&l=en`})).responseText);
             let data;
             if (responseJson && responseJson[id]) {
                 data = responseJson[id].data;
