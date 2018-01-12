@@ -12641,39 +12641,59 @@ Parsedown = (() => {
             }
         }
         if (notify) {
-            notification = ``;
+            notification = {
+                msg: ``,
+                inbox: false,
+                wishlist: false,
+                won: false
+            };
             if (pointsNotification && esgst.hr_fp) {
-                notification += `You have ${esgst.points}P.\n\n`;
+                notification.msg += `You have ${esgst.points}P.\n\n`;
             }
             if (messageNotification && esgst.hr_m && esgst.hr_m_n) {
-                notification += `You have ${messageNotification} new messages.\n\n`;
+                notification.msg += `You have ${messageNotification} new messages.\n\n`;
+                notification.inbox = true;
             }
             if (deliveredNotification && esgst.hr_g && esgst.hr_g_n) {
-                notification += `You have new gifts delivered.\n\n`;
+                notification.msg += `You have new gifts delivered.\n\n`;
+                notification.won = true;
             }
             if (wishlistNotification && esgst.hr_w && esgst.hr_w_n) {
                 if (esgst.hr_w_h) {
-                    notification += `You have ${wishlistNotification} new wishlist giveaways ending in ${esgst.hr_w_hours} hours.`;
+                    notification.msg += `You have ${wishlistNotification} new wishlist giveaways ending in ${esgst.hr_w_hours} hours.`;
                 } else {
-                    notification += `You have ${wishlistNotification} new wishlist giveaways.`;
+                    notification.msg += `You have ${wishlistNotification} new wishlist giveaways.`;
                 }
+                notification.wishlist = true;
             }
-            if (notification) {
+            if (notification.msg) {
                 showNotification(notification);
             }
         }
     }
 
-    function showNotification(notification) {
-        Notification.requestPermission().then(result => {
-            if (result === `granted`) {
-                new Notification(`ESGST Notification`, {
-                    body: notification,
-                    icon: `https://dl.dropboxusercontent.com/s/lr3t3bxrxfxylqe/esgstIcon.ico?raw=1`,
-                    tag: notification
-                });
-            }
+    async function showNotification(details) {
+        let result = await Notification.requestPermission();
+        if (result !== `granted`) {
+            return;
+        }
+        let notification = new Notification(`ESGST Notification`, {
+            body: details.msg,
+            icon: `https://dl.dropboxusercontent.com/s/lr3t3bxrxfxylqe/esgstIcon.ico?raw=1`,
+            tag: details.msg
         });
+        notification.onclick = () => {
+            if (details.inbox) {
+                open(`/messages`);
+            }
+            if (details.wishlist) {
+                open(`/giveaways/search?type=wishlist`);
+            }
+            if (details.won) {
+                open(`/giveaways/won`);
+            }
+            notification.close();
+        };
     }
 
     function setLpvStyle() {
