@@ -13188,56 +13188,64 @@ Parsedown = (() => {
 
     function addGdtttMarkVisitedButton(button, code, context, type) {
         var comments;
+        let busy = false;
         if (!button) {
             button = insertHtml(context, `afterBegin`, `<div class="esgst-gdttt-button page_heading_btn"><div>`);
         }
         button.innerHTML = `<i class="fa fa-check" title="Mark as visited"></i>`;
-        button.firstElementChild.addEventListener(`click`, function() {
-            button.innerHTML = `<i class="fa fa-circle-o-notch fa-spin"></i>`;
-            createLock(`commentLock`, 300, function(deleteLock) {
-                getValue(type).then(value => {
-                    comments = JSON.parse(value);
-                    if (!comments[code]) {
-                        comments[code] = {
-                            readComments: {}
-                        };
-                    }
-                    if (esgst.ct_s) {
-                        comments[code].count = count;
-                    }
-                    comments[code].visited = true;
-                    comments[code].lastUsed = Date.now();
-                    return setValue(type, JSON.stringify(comments));
-                }).then(() => {
-                    deleteLock();
-                    addGdtttMarkUnvisitedButton(button, code, context, type);
+        button.addEventListener(`click`, function() {
+            if (!busy) {
+                busy = true;
+                button.innerHTML = `<i class="fa fa-circle-o-notch fa-spin"></i>`;
+                createLock(`commentLock`, 300, function(deleteLock) {
+                    getValue(type).then(value => {
+                        comments = JSON.parse(value);
+                        if (!comments[code]) {
+                            comments[code] = {
+                                readComments: {}
+                            };
+                        }
+                        if (esgst.ct_s) {
+                            comments[code].count = count;
+                        }
+                        comments[code].visited = true;
+                        comments[code].lastUsed = Date.now();
+                        return setValue(type, JSON.stringify(comments));
+                    }).then(() => {
+                        deleteLock();
+                        addGdtttMarkUnvisitedButton(button, code, context, type);
+                    });
                 });
-            });
+            }
         });
     }
 
     function addGdtttMarkUnvisitedButton(button, code, context, type) {
         var comments;
+        let busy = false;
         if (!button) {
             button = insertHtml(context, `afterBegin`, `<div class="esgst-gdttt-button page_heading_btn"><div>`);
         }
         button.innerHTML = `<i class="fa fa-times" title="Mark as unvisited"></i>`;
-        button.firstElementChild.addEventListener(`click`, function() {
-            button.innerHTML = `<i class="fa fa-circle-o-notch fa-spin"></i>`;
-            createLock(`commentLock`, 300, function(deleteLock) {
-                getValue(type).then(value => {
-                    comments = JSON.parse(value);
-                    if (esgst.ct_s) {
-                        delete comments[code].count;
-                    }
-                    delete comments[code].visited;
-                    comments[code].lastUsed = Date.now();
-                    return setValue(type, JSON.stringify(comments));
-                }).then(() => {
-                    deleteLock();
-                    addGdtttMarkVisitedButton(button, code, context, type);
+        button.addEventListener(`click`, function() {
+            if (!busy) {
+                busy = true;
+                button.innerHTML = `<i class="fa fa-circle-o-notch fa-spin"></i>`;
+                createLock(`commentLock`, 300, function(deleteLock) {
+                    getValue(type).then(value => {
+                        comments = JSON.parse(value);
+                        if (esgst.ct_s) {
+                            delete comments[code].count;
+                        }
+                        delete comments[code].visited;
+                        comments[code].lastUsed = Date.now();
+                        return setValue(type, JSON.stringify(comments));
+                    }).then(() => {
+                        deleteLock();
+                        addGdtttMarkVisitedButton(button, code, context, type);
+                    });
                 });
-            });
+            }
         });
     }
 
@@ -22059,14 +22067,18 @@ Parsedown = (() => {
                     <i class="fa fa-eye-slash"></i>
                 </div>
             `);
-            button.firstElementChild.addEventListener(`click`, function() {
-                button.innerHTML = `<i class="fa fa-circle-o-notch fa-spin"></i>`;
-                hideDfDiscussion(discussion, function() {
-                    button.remove();
-                    if ((esgst.discussionPath && !main) || !esgst.discussionPath) {
-                        discussion.outerWrap.remove();
-                    }
-                });
+            let busy = false;
+            button.addEventListener(`click`, function() {
+                if (!busy) {
+                    busy = true;
+                    button.innerHTML = `<i class="fa fa-circle-o-notch fa-spin"></i>`;
+                    hideDfDiscussion(discussion, function() {
+                        button.remove();
+                        if ((esgst.discussionPath && !main) || !esgst.discussionPath) {
+                            discussion.outerWrap.remove();
+                        }
+                    });
+                }
             });
         }
     }
@@ -22098,14 +22110,18 @@ Parsedown = (() => {
                     <i class="fa fa-eye"></i>
                 </div>
             `);
-            button.firstElementChild.addEventListener(`click`, function() {
-                button.innerHTML = `<i class="fa fa-circle-o-notch fa-spin"></i>`;
-                unhideDfDiscussion(discussion, function() {
-                    button.remove();
-                    if ((esgst.discussionPath && !main) || !esgst.discussionPath) {
-                        discussion.outerWrap.remove();
-                    }
-                });
+            let busy = false;
+            button.addEventListener(`click`, function() {
+                if (!busy) {
+                    busy = true;
+                    button.innerHTML = `<i class="fa fa-circle-o-notch fa-spin"></i>`;
+                    unhideDfDiscussion(discussion, function() {
+                        button.remove();
+                        if ((esgst.discussionPath && !main) || !esgst.discussionPath) {
+                            discussion.outerWrap.remove();
+                        }
+                    });
+                }
             });
         }
     }
