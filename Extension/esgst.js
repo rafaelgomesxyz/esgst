@@ -10837,6 +10837,7 @@ Parsedown = (() => {
             let steamId = savedUsers.steamIds[user.username];
             if (steamId) {
                 user.steamId = steamId;
+                user.id = savedUsers.users[steamId].id;
                 return;
             }
         }
@@ -26936,9 +26937,9 @@ Parsedown = (() => {
         if (!WBC.Update && !location.pathname.match(/^\/(discussions|users|archive)/)) {
             checkAllSwitch = new ToggleSwitch(popup.Options, `wbc_checkAll`, false, `Check all pages.`, false, false, `If disabled, only the current page will be checked.`, esgst.wbc_checkAll);
         }
-        new ToggleSwitch(popup.Options, `wbc_returnWhitelist`, false, `Return whitelists.`, false, false, `If enabled, everyone who has whitelisted you will be whitelisted back.`, esgst.wbc_returnWhitelist);
+        new ToggleSwitch(popup.Options, `wbc_returnWhitelists`, false, `Return whitelists.`, false, false, `If enabled, everyone who has whitelisted you will be whitelisted back.`, esgst.wbc_returnWhitelists);
         if (WBC.B) {
-            new ToggleSwitch(popup.Options, `wbc_returnBlacklist`, false, `Return blacklists.`, false, false, `If enabled, everyone who has blacklisted you will be blacklisted back.`, esgst.wbc_returnBlacklist);
+            new ToggleSwitch(popup.Options, `wbc_returnBlacklists`, false, `Return blacklists.`, false, false, `If enabled, everyone who has blacklisted you will be blacklisted back.`, esgst.wbc_returnBlacklists);
         }
         new ToggleSwitch(popup.Options, `wbc_checkNew`, false, `Only check users who have not whitelisted ${WBC.B ? `/blacklisted` : ``} you.`, false, false, `If enabled, everyone who has whitelisted ${WBC.B ? `/blacklisted` : ``} you will be ignored (might lead to outdated data if someone who had whitelisted ${WBC.B ? `/blacklisted` : ``} you in the past removed you from those lists).`, esgst.wbc_checkNew);
         new ToggleSwitch(popup.Options, `wbc_skipUsers`, false, `Skip users after <input class="esgst-ugs-difference" type="number" value="${esgst.wbc_pages}"/> pages.`, false, false, `If enabled, when a user check passes the number of pages specified, the user will be skipped.`, esgst.wbc_skipUsers).name.firstElementChild.addEventListener(`change`, event => {
@@ -27169,7 +27170,7 @@ Parsedown = (() => {
             WBC[`${Key}Count`].textContent = parseInt(WBC[`${Key}Count`].textContent) + 1;
             WBC[`${Key}Users`].insertAdjacentHTML(`beforeEnd`, `<a ${New ? `class="esgst-bold esgst-italic" ` : ``}href="/user/${user.username}">${user.username}</a>`);
             if (!WBC.ShowResults) {
-                if ((esgst.wbc_returnWhitelist && (wbc.result === `whitelisted`) && !whitelisted) || (WBC.B && esgst.wbc_returnBlacklist && (wbc.result === `blacklisted`) && !blacklisted)) {
+                if ((esgst.wbc_returnWhitelists && (wbc.result === `whitelisted`) && !whitelisted) || (WBC.B && esgst.wbc_returnBlacklists && (wbc.result === `blacklisted`) && !blacklisted)) {
                     if (user.id) {
                         returnWBCWhitelistBlacklist(WBC, wbc, user.username, user.id, notes, async function (success, notes) {
                             if (success) {
@@ -27188,7 +27189,7 @@ Parsedown = (() => {
                             setTimeout(checkWBCUsers, 0, WBC, ++I, N, Callback);
                         });
                     } else {
-                        getUserId(user, function() {
+                        getUserId(user).then(() => {
                             returnWBCWhitelistBlacklist(WBC, wbc, user.username, user.id, notes, async function (success, notes) {
                                 if (success) {
                                     user.values = {
