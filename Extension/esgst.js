@@ -17895,17 +17895,7 @@ Parsedown = (() => {
                     <div class="esgst-form-heading">
                         <div class="esgst-form-heading-number">0.</div>
                         <div class="esgst-form-heading-text">
-                            Create Multiple Giveaways <i class="fa fa-question-circle" title="How To Use\n
-                            1. Fill the details of the giveaway (you can use templates for it).
-                            2. Click 'Add Giveaway' or import giveaways.
-                            3. Repeat steps 1-2 until all giveaways have been added.
-                            4. Click 'Create Giveaways' and wait.\n
-                            For train creations:
-                            1. Enable 'Create train.'.
-                            2. Fill the details of the giveaway and add the connection/counter style to the description (you can use templates for it).
-                            3. Click 'Add Giveaway' or import giveaways.
-                            4. Repeat steps 2-3 until all giveaways have been added.
-                            5. Click 'Create Giveaways' and wait."></i>
+                            Create Multiple Giveaways <i class="fa fa-question-circle" title="How To Use\n\n1. If you want to create a train, enable 'Create train', otherwise go to step 3.\n2. If you want to attach a discussion to the train, click 'Attach' and follow the steps.\n3. Fill the details of the giveaway (you can use Giveaway Templates for this).\n4. If you are creating a train, you must generate next/previous links by clicking 'Generate' and following the steps, otherwise go to the next step.\n5. If you want to add a counter to the giveaways, click 'Generate' and follow the steps.\n6. You can either add each giveaway at a time, by typing the game name, filling the copies/keys fields and clicking 'Add', or all giveaways at the same time, by clicking 'Import' and following the steps.\n7. If you want to play with the order of the giveaways you can use 'Shuffle' to change their order.\n8. When you have added all the giveaways and are ready to create them, click 'Create' and wait until the process is done."></i>
                         </div>
                     </div>
                     <div class="esgst-gm-section esgst-form-row-indent">
@@ -17923,34 +17913,10 @@ Parsedown = (() => {
             if (esgst.mgc_createTrain) {
                 createTrainDescription.classList.remove(`esgst-hidden`);
             }
-            createTrainSwitch = new ToggleSwitch(createTrainOption.firstElementChild, `mgc_createTrain`, false, `Create train. <i class="fa fa-question-circle"></i>`, false, false, null, esgst.mgc_createTrain);
+            createTrainSwitch = new ToggleSwitch(createTrainOption.firstElementChild, `mgc_createTrain`, false, `Create train.`, false, false, null, esgst.mgc_createTrain);
             createTrainSwitch.dependencies.push(createTrainDescription);
-            createTooltip(createTrainSwitch.name.lastElementChild, `
-                <div class="esgst-description markdown">
-                    <div>Add the connection style to the description of the giveaway, wherever you want it to appear, using the format [ESGST-P]...[P]...[/P]...[/ESGST-P]...[ESGST-N]...[N]...[/N]...[/ESGST-N] or the simplified format [ESGST-P]...[/ESGST-P]...[ESGST-N]...[/ESGST-N], where [P]...[/P] and [N]...[/N] delimit the clickable link, [ESGST-P]...[/ESGST-P] and [ESGST-N]...[/ESGST-N] delimit the entire text area that includes the clickable link, and the "..." between [/ESGST-P] and [ESGST-N] delimit the separator between the links. If using the simplified format, [P]...[/P] and [N]...[/N] are not required and the entire text inside [ESGST-P]...[/ESGST-P] and [ESGST-N]...[/ESGST-N] will be turned into a link.</div>
-                    <br/>
-                    <div>Some examples:</div>
-                    <br/>
-                    <div>[ESGST-P]Previous[/ESGST-P] [ESGST-N]Next[/ESGST-N] -> Result will look like "<a href="">Previous</a> <a href="">Next</a>".</div>
-                    <br/>
-                    <div>### [ESGST-P]← [P]Previous[/P][/ESGST-P] | [ESGST-N][N]Next[/N] →[/ESGST-N] -> Result will look like "← <a href="">Previous</a> | <a href="">Next</a> →" in medium font size.</div>
-                    <br/>
-                    <div>[ESGST-P]Go [P]back[/P].[/ESGST-P] [ESGST-N]Go [N]forward[/N].[/ESGST-N] -> Result will look like "Go <a href="">back</a>. Go <a href="">forward</a>.".</div>
-                    <br/>
-                    <div>You can also add a counter style to the description, using the format [ESGST-C]...[/ESGST-C], where "..." delimits the separator between the numbers.</div>
-                    <br/>
-                    <div>Some examples:</div>
-                    <br/>
-                    <div>[ESGST-C] of [/ESGST-C] -> Result will look like "2 of 10".</div>
-                    <br/>
-                    <div>[ESGST-C]/[/ESGST-C] -> Result will look like "2/10".</div>
-                    <br/>
-                    <div>An example merging the connection with the counter:</div>
-                    <br/>
-                    <div>[ESGST-P]Previous[/ESGST-P] [ESGST-N]Next[/ESGST-N] ([ESGST-C] of [/ESGST-C]) -> Result will look like "<a href="">Previous</a> <a href="">Next</a> (2 of 10)".</div>
-                </div>
-            `);
             new ToggleSwitch(createTrainDescription.firstElementChild, `mgc_removeLinks`, false, `Remove previous/next links from the first/last wagons.`, false, false, `Disabling this keeps the links as plain text.`, esgst.mgc_removeLinks);
+            let generateButton = new ButtonSet(`green`, `grey`, `fa-gear`, `fa-circle-o-notch fa-spin`, `Generate`, `Generating...`, generateMgcFormat);
             mgc.editButton = new ButtonSet(`green`, `grey`, `fa-edit`, `fa-circle-o-notch fa-spin`, `Edit`, `Editing...`, getMgcValues.bind(null, true, mgc));
             mgc.editButton.set.classList.add(`esgst-hidden`);
             addButton = new ButtonSet(`green`, `grey`, `fa-plus-circle`, `fa-circle-o-notch fa-spin`, `Add`, `Adding...`, getMgcValues.bind(null, false, mgc));
@@ -17958,7 +17924,7 @@ Parsedown = (() => {
             exportButton = new ButtonSet(`green`, `grey`, `fa-arrow-circle-down`, `fa-circle-o-notch fa-spin`, `Export`, `Exporting...`, exportMgcGiveaways.bind(null, mgc));
             shuffleButton = new ButtonSet(`green`, `grey`, `fa-random`, `fa-circle-o-notch fa-spin`, `Shuffle`, `Shuffling...`, shuffleMgcGiveaways.bind(null, mgc));
             emptyButton = new ButtonSet(`green`, `grey`, `fa-trash`, `fa-circle-o-notch fa-spin`, `Empty`, `Emptying...`, emptyMgcGiveaways.bind(null, mgc));
-            attachButton = new ButtonSet(`green`, `grey`, `fa-paperclip`, `fa-circle-o-notch fa-spin`, `Attach Discussion`, `Attaching...`, attachMgcDiscussion.bind(null, mgc));
+            attachButton = new ButtonSet(`green`, `grey`, `fa-paperclip`, `fa-circle-o-notch fa-spin`, `Attach`, `Attaching...`, attachMgcDiscussion.bind(null, mgc));
             createTrainSwitch.dependencies.push(attachButton.set);
             if (!esgst.mgc_createTrain) {
                 attachButton.set.classList.add(`esgst-hidden`);
@@ -17966,6 +17932,7 @@ Parsedown = (() => {
             viewButton = new ButtonSet(`green`, `grey`, `fa-eye`, `fa-circle-o-notch fa-spin`, `View Results`, `Opening...`, viewMgcResults.bind(null, mgc));
             createButton = new ButtonSet(`green`, `grey`, `fa-arrow-circle-right`, `fa-circle-o-notch fa-spin`, `Create`, `Creating...`, createMgcGiveaways.bind(null, mgc, viewButton));
             viewButton.set.classList.add(`esgst-hidden`);
+            section.appendChild(generateButton.set);
             section.appendChild(mgc.editButton.set);
             section.appendChild(addButton.set);
             section.appendChild(importButton.set);
@@ -17997,6 +17964,142 @@ Parsedown = (() => {
             JSON.parse(getLocalValue(`mgcCache`, `[]`)).forEach(values => {
                 addMgcGiveaway(false, mgc, values);
             });
+        }
+    }
+
+    function generateMgcFormat(callback) {
+        callback();
+        let popup = new Popup(`fa-gear`, `Generate formats:`);
+        popup.description.insertAdjacentHTML(`afterBegin`, `<div class="esgst-description">1. Generate the format you want by editing the input fields (the text outside of the blue box is what the result will look like).<br>2. Copy the text inside of the blue box (you can use the copy icon for that).<br>3. Paste it in the giveaway description (section 8 in this page), wherever you want it to appear.</div>`);
+        let inputs = {};
+        popup.scrollable.insertAdjacentHTML(`beforeEnd`, `<div class="esgst-bold">Next/previous links</div>`);
+        inputs.previousPrefix = insertHtml(popup.scrollable, `beforeEnd`, `<input class="esgst-mgc-input" placeholder="← " type="text">`);
+        inputs.previous = insertHtml(popup.scrollable, `beforeEnd`, `<input class="esgst-mgc-input" placeholder="Previous" type="text">`);
+        inputs.previousSuffix = insertHtml(popup.scrollable, `beforeEnd`, `<input class="esgst-mgc-input" placeholder=" ←" type="text">`);
+        inputs.separator = insertHtml(popup.scrollable, `beforeEnd`, `<input class="esgst-mgc-input" placeholder=" | " type="text">`);
+        inputs.nextPrefix = insertHtml(popup.scrollable, `beforeEnd`, `<input class="esgst-mgc-input" placeholder="→ " type="text">`);
+        inputs.next = insertHtml(popup.scrollable, `beforeEnd`, `<input class="esgst-mgc-input" placeholder="Next" type="text">`);
+        inputs.nextSuffix = insertHtml(popup.scrollable, `beforeEnd`, `<input class="esgst-mgc-input" placeholder=" →" type="text">`);
+        let output = insertHtml(popup.scrollable, `beforeEnd`, `
+            <div class="esgst-mgc-preview esgst-text-left markdown">
+                <div>
+                    <p>← <a href="#">Previous</a> ← | → <a href="#">Next</a> → </p>
+                </div>
+                <br>
+                <pre><code>[ESGST-P]← [P]Previous[/P] ←[/ESGST-P] | [ESGST-N]→ [N]Next[/N] →[/ESGST-N]</code></pre>
+                <i class="esgst-clickable fa fa-copy"></i>
+            </div>
+        `);
+        let outputPreview = output.firstElementChild;
+        let outputCopy = output.lastElementChild;
+        let outputCode = outputCopy.previousElementSibling.firstElementChild;
+        outputCopy.addEventListener(`click`, () => {
+            copyValue(outputCopy, outputCode.textContent);
+        });
+        popup.scrollable.insertAdjacentHTML(`beforeEnd`, `<div class="esgst-bold">Counter</div>`);
+        inputs.counter = insertHtml(popup.scrollable, `beforeEnd`, `<input class="esgst-mgc-input" placeholder=" of " type="text">`);
+        let counterOutput = insertHtml(popup.scrollable, `beforeEnd`, `
+            <div class="esgst-mgc-preview esgst-text-left markdown">
+                <div>
+                    <p>1 of 10</p>
+                </div>
+                <br>
+                <pre><code>[ESGST-C] of [/ESGST-C]</code></pre>
+                <i class="esgst-clickable fa fa-copy"></i>
+            </div>
+        `);
+        let counterOutputPreview = counterOutput.firstElementChild;
+        let counterOutputCopy = counterOutput.lastElementChild;
+        let counterOutputCode = counterOutputCopy.previousElementSibling.firstElementChild;
+        counterOutputCopy.addEventListener(`click`, () => {
+            copyValue(counterOutputCopy, counterOutputCode.textContent);
+        });
+        popup.scrollable.insertAdjacentHTML(`beforeEnd`, `<div class="esgst-bold">Bump link (for attached discussions)</div>`);
+        inputs.bump = insertHtml(popup.scrollable, `beforeEnd`, `<input class="esgst-mgc-input" placeholder="Bump" type="text">`);
+        let bumpOutput = insertHtml(popup.scrollable, `beforeEnd`, `
+            <div class="esgst-mgc-preview esgst-text-left markdown">
+                <div>
+                    <p><a href="#">Bump</a></p>
+                </div>
+                <br>
+                <pre><code>[ESGST-B]Bump[/ESGST-B]</code></pre>
+                <i class="esgst-clickable fa fa-copy"></i>
+            </div>
+        `);
+        let bumpOutputPreview = bumpOutput.firstElementChild;
+        let bumpOutputCopy = bumpOutput.lastElementChild;
+        let bumpOutputCode = bumpOutputCopy.previousElementSibling.firstElementChild;
+        popup.scrollable.insertAdjacentHTML(`beforeEnd`, `<div class="esgst-bold">First train wagon link (for attached discussions)</div>`);
+        inputs.train = insertHtml(popup.scrollable, `beforeEnd`, `<input class="esgst-mgc-input" placeholder="Choo choo!" type="text">`);
+        let trainOutput = insertHtml(popup.scrollable, `beforeEnd`, `
+            <div class="esgst-mgc-preview esgst-text-left markdown">
+                <div>
+                    <p><a href="#">Choo choo!</a></p>
+                </div>
+                <br>
+                <pre><code>[ESGST-T]Choo choo![/ESGST-T]</code></pre>
+                <i class="esgst-clickable fa fa-copy"></i>
+            </div>
+        `);
+        let trainOutputPreview = trainOutput.firstElementChild;
+        let trainOutputCopy = trainOutput.lastElementChild;
+        let trainOutputCode = trainOutputCopy.previousElementSibling.firstElementChild;
+        trainOutputCopy.addEventListener(`click`, () => {
+            copyValue(trainOutputCopy, trainOutputCode.textContent);
+        });
+        for (let key in inputs) {
+            let input = inputs[key];
+            input.addEventListener(`input`, () => {
+                if (key === `counter`) {
+                    counterOutputCode.textContent = `[ESGST-C]${input.value}[/ESGST-C]`;
+                    counterOutputPreview.innerHTML = parseMarkdown(`1${input.value}10`);
+                } else if (key === `bump`) {
+                    bumpOutputCode.textContent = `[ESGST-B]${input.value}[/ESGST-B]`;
+                    bumpOutputPreview.innerHTML = parseMarkdown(`[${input.value}](#)`);
+                } else if (key === `train`) {
+                    trainOutputCode.textContent = `[ESGST-B]${input.value}[/ESGST-B]`;
+                    trainOutputPreview.innerHTML = parseMarkdown(`[${input.value}](#)`);
+                } else {
+                    let markdown = ``;
+                    let text = ``;
+                    if (inputs.previousPrefix.value || inputs.previousSuffix.value) {
+                        text += `[ESGST-P]${inputs.previousPrefix.value}[P]${inputs.previous.value}[/P]${inputs.previousSuffix.value}[/ESGST-P]`;
+                        markdown += `${inputs.previousPrefix.value}[${inputs.previous.value}](#)${inputs.previousSuffix.value}`;
+                    } else {
+                        text += `[ESGST-P]${inputs.previous.value}[/ESGST-P]`;
+                        markdown += `[${inputs.previous.value}](#)`;
+                    }
+                    if (inputs.separator.value) {
+                        text += inputs.separator.value;
+                        markdown += inputs.separator.value;
+                    }
+                    if (inputs.nextPrefix.value || inputs.nextSuffix.value) {
+                        text += `[ESGST-N]${inputs.nextPrefix.value}[N]${inputs.next.value}[/N]${inputs.nextSuffix.value}[/ESGST-N]`;
+                        markdown += `${inputs.nextPrefix.value}[${inputs.next.value}](#)${inputs.nextSuffix.value}`;
+                    } else {
+                        text += `[ESGST-N]${inputs.next.value}[/ESGST-N]`;
+                        markdown += `[${inputs.next.value}](#)`;
+                    }
+                    outputCode.textContent = text;
+                    outputPreview.innerHTML = parseMarkdown(markdown);
+                }
+                input.style.width = `${input.value.length + 75}px`;
+            });
+        }
+        popup.open();
+    }
+
+    function copyValue(icon, value) {        
+        let textArea = insertHtml(document.body, `beforeEnd`, `
+            <textarea></textarea>
+        `);
+        textArea.value = value;
+        textArea.select();
+        document.execCommand(`copy`);
+        textArea.remove();
+        if (icon) {
+            icon.classList.add(`esgst-green`);
+            setTimeout(() => icon.classList.remove(`esgst-green`), 2000);
         }
     }
 
@@ -18129,6 +18232,7 @@ Parsedown = (() => {
     }
 
     function importMgcGiveaways(mgc, callback) {
+        callback();
         var counter, popup, progress, progressPanel, textArea;
         popup = new Popup(`fa-arrow-up`, `Import Giveaways`, true);
         popup.popup.classList.add(`esgst-popup-large`);
@@ -18176,7 +18280,6 @@ Parsedown = (() => {
         progress.current = counter.firstElementChild;
         progress.total = progress.current.nextElementSibling;
         popup.description.appendChild(new ButtonSet(`green`, `grey`, `fa-arrow-circle-up`, `fa-circle-o-notch fa-spin`, `Import`, `Importing...`, getMgcGiveaways.bind(null, mgc, popup, progress, textArea)).set);
-        popup.onClose = callback;
         popup.open(focusMgcTextArea.bind(null, textArea));
         textArea.style.height = `${innerHeight * 0.9 - (popup.popup.offsetHeight - popup.scrollable.offsetHeight) - 25}px`;
         textArea.style.overflow = `auto`;
@@ -18354,6 +18457,7 @@ Parsedown = (() => {
     }
 
     function exportMgcGiveaways(mgc, mainCallback) {
+        mainCallback();
         var anchor, file, i, j, n, name, popup, url, values;
         popup = new Popup(`fa-arrow-down`, `Export`);
         new ToggleSwitch(popup.description, `mgc_reversePosition`, false, `Export keys in reverse position (before the name of the game).`, false, false, ``, esgst.mgc_reversePosition);
@@ -18386,9 +18490,7 @@ Parsedown = (() => {
             anchor.remove();
             URL.revokeObjectURL(url);
             callback();
-            mainCallback();
         }).set);
-        popup.onClose = mainCallback;
         popup.open();
     }
 
@@ -35891,6 +35993,19 @@ Parsedown = (() => {
             `;
         }
         style += `
+
+            .esgst-mgc-preview {
+                border: 1px solid #ccc;
+                padding: 25px;
+                width: 600px;
+            }
+
+            .esgst-mgc-input {
+                display: inline-block;
+                text-align: center;
+                width: 75px;
+            }
+            
             .esgst-relative {
                 position: relative;
             }
@@ -38783,7 +38898,7 @@ Parsedown = (() => {
                         <li>When inside a giveaway that you have no points to enter, the "Not Enough Points" button will now be replaced by Enter/Leave Giveaway Button and update accordingly when you get more points without the need to refresh the page.</li>
                     </ul>
                     <p>
-                        <b>ESGST has been ported to an extension (currently only tested with Firefox and Chrome). Head over to the ESGST discussion or GitHub page to learn how to upgrade. The script version of ESGST will continue to be updated normally for now, whenever the extension is updated (I will decide whether or not to discontinue it based on the extension reception). The "Beta" drop in the version name does not mean the script has become stable.</b>
+                        <div class="esgst-bold">ESGST has been ported to an extension (currently only tested with Firefox and Chrome). Head over to the ESGST discussion or GitHub page to learn how to upgrade. The script version of ESGST will continue to be updated normally for now, whenever the extension is updated (I will decide whether or not to discontinue it based on the extension reception). The "Beta" drop in the version name does not mean the script has become stable.</div>
                     </p>
                 `
             }
