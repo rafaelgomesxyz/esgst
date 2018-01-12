@@ -1657,6 +1657,9 @@ Parsedown = (() => {
                 autoSyncReducedCvGames: 0,
                 autoSyncNoCvGames: 0,
                 autoSyncGiveaways: 0,
+                calculateDelete: true,
+                calculateExport: true,
+                calculateImport: true,
                 cfh_pasteFormatting: true,
                 cfh_img_choice: 1,
                 cfh_img_remember: false,
@@ -4973,6 +4976,24 @@ Parsedown = (() => {
                             name: `Automatically sync games/groups when syncing through SG.`,
                             sg: true
                         },
+                        calculateDelete: {
+                            name: `Calculate and show data sizes when opening the delete menu.`,
+                            new: true,
+                            sg: true,
+                            st: true
+                        },
+                        calculateExport: {
+                            name: `Calculate and show data sizes when opening the export menu.`,
+                            new: true,
+                            sg: true,
+                            st: true
+                        },
+                        calculateImport: {
+                            name: `Calculate and show data sizes when opening the import menu.`,
+                            new: true,
+                            sg: true,
+                            st: true
+                        },
                         updateWhitelistBlacklist: {
                             description: `
                                 <ul>
@@ -5190,7 +5211,8 @@ Parsedown = (() => {
                             sg: true,
                             st: true
                         }
-                    }
+                    },
+                    newBelow: true
                 }
             }
         };
@@ -33962,8 +33984,10 @@ Parsedown = (() => {
         }
         if (!dm.autoBackup) {
             dm.computerSpace = insertHtml(container, `afterBegin`, `
-                <div>Total: <span class="esgst-bold"></span></div>
+                <div>Total: <span class="esgst-bold"></span> <i class="esgst-clickable fa fa-refresh" title="Calculate/refresh data sizes"></i></div>
             `);
+            dm.computerSpaceCount = dm.computerSpace.firstElementChild;
+            dm.computerSpaceCount.nextElementSibling.addEventListener(`click`, getDataSizes);
             section = createMenuSection(context, null, 1, title1);
         }
         dm.switches = {};
@@ -34289,10 +34313,16 @@ Parsedown = (() => {
             if (!openInTab) {
                 popup.open();
             }
-            let spacePopup = new Popup(`fa-circle-o-notch fa-spin`, `Calculating data sizes...`);
-            spacePopup.open();
-            setTimeout(manageData, 0, dm, false, false, false, spacePopup);
+            if (esgst[`calculate${title1}`]) {
+                getDataSizes();
+            }
         }
+    }
+
+    function getDataSizes() {
+        let spacePopup = new Popup(`fa-circle-o-notch fa-spin`, `Calculating data sizes...`);
+        spacePopup.open();
+        setTimeout(manageData, 0, dm, false, false, false, spacePopup);
     }
 
     function loadDataCleaner() {
@@ -35493,7 +35523,7 @@ Parsedown = (() => {
             }
         }
         if (!dm.autoBackup) {
-            dm.computerSpace.lastElementChild.textContent = convertBytes(totalSize);
+            dm.computerSpaceCount.textContent = convertBytes(totalSize);
         }
         if (space) {
             space.close();
