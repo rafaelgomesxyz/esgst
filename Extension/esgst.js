@@ -26168,15 +26168,15 @@ Parsedown = (() => {
     async function getUGDGiveaways(UGD, giveaways, NextPage, username) {
         let Found, Pagination;
         do {
-            let Context = parseHtml((await request_v2({method: `GET`, url: `/user/${username}${UGD.Key === `won` ? `/giveaways/won` : ``}/search?page=${NextPage}`}).responseText));
+            let Context = parseHtml((await request_v2({method: `GET`, url: `/user/${username}${UGD.Key === `won` ? `/giveaways/won` : ``}/search?page=${NextPage}`})).responseText);
             if (UGD.Progress) {
-                if (NextPage === 2) {
+                if (NextPage === 1) {
                     UGD.lastPage = getLastPage(Context, false, false, true, UGD.Key === `won`);
                     UGD.lastPage = UGD.lastPage === 999999999 ? `` : ` of ${UGD.lastPage}`;
                 }
                 UGD.Progress.innerHTML = `
                     <i class="fa fa-circle-o-notch fa-spin"></i>
-                    <span>Retrieving giveaways (page ${NextPage - 1}${UGD.lastPage})...</span>
+                    <span>Retrieving giveaways (page ${NextPage}${UGD.lastPage})...</span>
                 `;
             }
             let Giveaways = Context.getElementsByClassName(`giveaway__row-outer-wrap`);
