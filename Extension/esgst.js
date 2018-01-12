@@ -33085,7 +33085,7 @@ Parsedown = (() => {
 
     function getApAvatars(context) {
         var i, matches, n;
-        matches = context.querySelectorAll(`.global__image-outer-wrap--avatar-small, .giveaway_image_avatar, .table_image_avatar, .featured_giveaway_image_avatar`);
+        matches = context.querySelectorAll(`.global__image-outer-wrap--avatar-small, .giveaway_image_avatar, .table_image_avatar, .featured_giveaway_image_avatar, .nav__avatar-outer-wrap`);
         for (i = 0, n = matches.length; i < n; ++i) {
             setApAvatar(matches[i]);
         }
