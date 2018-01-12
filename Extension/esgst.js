@@ -1092,7 +1092,7 @@ Parsedown = (() => {
 
 // ESGST
 
-(() => {
+(async () => {
     class ButtonSet {
         constructor(color1, color2, icon1, icon2, title1, title2, callback1, callback2) {
             this.busy = false;
@@ -1586,10 +1586,15 @@ Parsedown = (() => {
         }
     }
 
-    let esgst;
+    let errorStack, esgst;
+    errorStack = [];
 
     // initialize esgst
-    init();
+    try {
+        await init();
+    } catch (error) {
+        logError(error);
+    }
 
     async function init() {
         if (document.getElementById(`esgst`)) {
@@ -5210,6 +5215,25 @@ Parsedown = (() => {
                             name: `Hide buttons at the left/right sides of the main page heading to reduce used space.`,
                             sg: true,
                             st: true
+                        },
+                        notifyErrors: {
+                            features: {
+                                notifyErrors_b: {
+                                    description: `
+                                        <ul>
+                                            <li>If this option is enabled, when there are errors in the page a red button will appear in the header.</li>
+                                            <li>If this option is disabled, a dialog will pop up in the page, which is more intrusive and freezes the page until you close it.</li>
+                                        </ul>
+                                    `,
+                                    name: `Notify errors through a button in the header.`,
+                                    sg: true,
+                                    st: true
+                                }
+                            },
+                            name: `Notify errors.`,
+                            new: true,
+                            sg: true,
+                            st: true
                         }
                     },
                     newBelow: true
@@ -5411,6 +5435,16 @@ Parsedown = (() => {
                         </div>
                     </div>
                 `);
+                if (esgst.notifyErrors && esgst.notifyErrors_b) {
+                    esgst.errorButton = insertHtml(context, position, `
+                        <div class="nav__button-container esgst-hidden esgst-error-button" title="There are ESGST errors in the console, use Ctrl + Shift + J to view them or click this button to download them as a .txt file">
+                            <div class="nav__button">
+                                <i class="fa fa-terminal"></i>
+                            </div>
+                        </div>
+                    `);
+                    esgst.errorButton.addEventListener(`click`, exportErrors);
+                }
                 dropdown = menu.firstElementChild;
                 button = dropdown.nextElementSibling;
                 arrow = button.nextElementSibling;
@@ -5668,6 +5702,16 @@ Parsedown = (() => {
                         </div>
                     </div>
                 `);
+                if (esgst.notifyErrors && esgst.notifyErrors_b) {
+                    esgst.errorButton = insertHtml(context, position, `
+                        <div class="nav__button-container esgst-hidden esgst-error-button" title="There are ESGST errors in the console, use Ctrl + Shift + J to view them or click this button to download them as a .txt file">
+                            <div class="nav__button">
+                                <i class="fa fa-terminal"></i>
+                            </div>
+                        </div>
+                    `);
+                    esgst.errorButton.addEventListener(`click`, exportErrors);
+                }
                 dropdown = menu.firstElementChild;
                 button = dropdown.nextElementSibling;
                 arrow = button.nextElementSibling;
@@ -6001,7 +6045,29 @@ Parsedown = (() => {
             }
         }
     }
-    
+
+    function logError(error) {
+        error = `[ESGST v${(esgst && esgst.currentVersion) || `Unknown`} Error @ ${new Date().toUTCString()}]\r\n${error.message.replace(/\n/g, `\r\n`)}\r\n${error.stack.replace(/\n/g, `\r\n`)}`;
+        console.log(error);
+        errorStack.push(error);
+        if (esgst && esgst.notifyErrors && esgst.notifyErrors_b && esgst.errorButton) {
+            esgst.errorButton.classList.remove(`esgst-hidden`);
+        } else if (confirm(`There are ESGST errors in the console, click 'Cancel' and use Ctrl + Shift + J to view them or click 'Ok' to download them as a .txt file`)) {
+            exportErrors();
+        }
+    }
+
+    function exportErrors() {
+        let anchor = document.createElement(`a`);
+        anchor.download = `esgst-errors.txt`;
+        let url = URL.createObjectURL(new Blob([errorStack.join(`\r\n\r\n`)]));
+        anchor.href = url;
+        document.body.appendChild(anchor);
+        anchor.click();
+        anchor.remove();
+        URL.revokeObjectURL(url);
+    }
+
     function setLocalValue(key, value) {
         localStorage.setItem(`esgst_${key}`, value);
     }
@@ -29388,7 +29454,7 @@ Parsedown = (() => {
                 categories.freeBase = JSON.parse((await request_v2({method: `GET`, url: `http://store.steampowered.com/api/appdetails?appids=${data.fullgame.appid}&filters=basic&cc=us&l=en`})).responseText)[data.fullgame.appid].data.is_free;
             }
         } catch (error) {
-            console.log(error);
+            logError(error);
         }
     }
 
@@ -30201,7 +30267,7 @@ Parsedown = (() => {
             try {
                 eval(textArea.value);
             } catch (e) {
-                console.log(e);
+                logError(e);
             }
         }).set);
         popup.open(() => textArea.focus());
@@ -36502,7 +36568,7 @@ Parsedown = (() => {
                 padding: 5px !important;
             }
 
-            .esgst-gb-highlighted.ending {
+            .esgst-gb-highlighted.ending, .esgst-error-button, .esgst-error-button >*:hover {
                 background-color: rgba(236, 133, 131, 0.8) !important;
                 background-image: none !important;
             }
