@@ -34289,7 +34289,9 @@ Parsedown = (() => {
             if (!openInTab) {
                 popup.open();
             }
-            manageData(dm, false, false, false, true);
+            let spacePopup = new Popup(`fa-circle-o-notch fa-spin`, `Calculating data sizes...`);
+            spacePopup.open();
+            setTimeout(manageData, 0, dm, false, false, false, spacePopup);
         }
     }
 
@@ -34515,6 +34517,7 @@ Parsedown = (() => {
     async function manageData(dm, dropbox, googleDrive, oneDrive, space, callback) {
         let data = {};
         let totalSize = 0;
+        let popup = {};
         for (let i = 0, n = dm.options.length; i < n; i++) {
             let option = dm.options[i];
             let optionKey = option.key;
@@ -35492,7 +35495,9 @@ Parsedown = (() => {
         if (!dm.autoBackup) {
             dm.computerSpace.lastElementChild.textContent = convertBytes(totalSize);
         }
-        if (!space) {
+        if (space) {
+            space.close();
+        } else {
             if (dm.type === `export` || esgst.settings.exportBackup) {
                 if (dropbox || (dm.type !== `export` && esgst.settings.exportBackupIndex === 1)) {
                     await delValue(`dropboxToken`);
