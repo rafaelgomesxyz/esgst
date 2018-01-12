@@ -18434,9 +18434,11 @@ Parsedown = (() => {
                     popup.open();
                     setTimeout(() => {
                         popup.close();
+                        console.log(mgc.datas[j]);
                         request(mgc.datas[j].replace(/start_time=(.+?)&/, correctMgcTime), null, `POST`, false, `/giveaways/new`, checkMgcCreation.bind(null, i, mgc, n, callback));
                     }, 120000);
                 } else {
+                    console.log(mgc.datas[j]);
                     request(mgc.datas[j].replace(/start_time=(.+?)&/, correctMgcTime), null, `POST`, false, `/giveaways/new`, checkMgcCreation.bind(null, i, mgc, n, callback));
                 }
             } else {
@@ -18460,6 +18462,7 @@ Parsedown = (() => {
     function checkMgcCreation(i, mgc, n, callback, response) {
         var errors, errorsTitle, giveaway, j, numErrors, responseHtml;
         giveaway = mgc.giveaways.children[i];
+        console.log(response.finalUrl);
         if (response.finalUrl.match(/\/giveaways\/new/)) {
             giveaway.classList.add(`error`);
             errors = parseHtml(response.responseText).getElementsByClassName(`form__row__error`);
