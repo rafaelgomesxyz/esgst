@@ -10829,6 +10829,7 @@ Parsedown = (() => {
                 savedUser = savedUsers.users[steamId];
             }
         }
+        return savedUser;
     }
 
     async function saveUser(list, savedUsers, user) {
@@ -11641,19 +11642,19 @@ Parsedown = (() => {
                 }
             }
             let UGD = {
-                Key: `sent`
+                key: `sent`
             };
             UGD.giveaways = {};
-            if (!giveaways.version) {
+            if (giveaways.version !== `7.13.0`) {
                 giveaways.sent = {
                     apps: {},
                     subs: {}
                 };
                 giveaways.sentTimestamp = 0;
-                giveaways.version = `7.11.1`;
+                giveaways.version = `7.13.0`;
             }
             user.values = {
-                giveaways: await getUGDGiveaways(UGD, giveaways, 1, esgst.username),
+                giveaways: await getUgdGiveaways(UGD, giveaways, 1, esgst.username),
                 ugd: null
             };
             await saveUser(null, null, user);
@@ -12753,7 +12754,7 @@ Parsedown = (() => {
                                 if (Array.isArray(giveaway.winners)) {
                                     if (giveaway.winners.length > 0) {
                                         giveaway.winners.forEach(winner => {
-                                            if (winner.received) {
+                                            if (winner.status === `Received`) {
                                                 sent += 1;
                                             }
                                         });
@@ -12802,7 +12803,7 @@ Parsedown = (() => {
                                 if (Array.isArray(giveaway.winners)) {
                                     if (giveaway.winners.length > 0) {
                                         giveaway.winners.forEach(winner => {
-                                            if (winner.received) {
+                                            if (winner.status === `Received`) {
                                                 sent += 1;
                                             }
                                         });
@@ -19318,7 +19319,7 @@ Parsedown = (() => {
                                             if (Array.isArray(giveaway.winners)) {
                                                 if (giveaway.winners.length > 0) {
                                                     giveaway.winners.forEach(winner => {
-                                                        if (winner.received) {
+                                                        if (winner.status === `Received`) {
                                                             sent += 1;
                                                         }
                                                     });
@@ -20629,7 +20630,16 @@ Parsedown = (() => {
     async function getCewgdDetail(cewgd, giveaways, i) {
         let giveaway = giveaways[i];
         let code = giveaway.code;
-        if (cewgd.savedGiveaways[code] && cewgd.savedGiveaways[code].gameSteamId && (!esgst.createdPath || Array.isArray(cewgd.savedGiveaways[code].winners)) && (!esgst.wonPath || cewgd.savedGiveaways[code].creator !== esgst.username)) {
+        let j;
+        if (esgst.createdPath && cewgd.savedGiveaways[code] && cewgd.savedGiveaways[code].gameSteamId && Array.isArray(cewgd.savedGiveaways[code].winners)) {
+            for (j = cewgd.savedGiveaways[code].winners.length - 1; j > -1; j--) {
+                let winner = cewgd.savedGiveaways[code].winners[j];
+                if (winner.status !== `Received` && winner.status !== `Not Received`) {
+                    break;
+                }
+            }
+        }
+        if (cewgd.savedGiveaways[code] && cewgd.savedGiveaways[code].gameSteamId && (!esgst.createdPath || j < 0) && (!esgst.wonPath || cewgd.savedGiveaways[code].creator !== esgst.username)) {
             addCewgdDetails(giveaway, cewgd.savedGiveaways[code]);
         } else if (esgst.createdPath) {
             let currentGiveaway = null;
@@ -20650,7 +20660,7 @@ Parsedown = (() => {
                     for (let i = 0, n = elements.length; i < n; ++i) {
                         let element = elements[i];
                         currentGiveaway.winners.push({
-                            received: element.lastElementChild.textContent.trim() === `Received` ? 1 : 0,
+                            status: element.lastElementChild.textContent.trim(),
                             username: element.firstElementChild.nextElementSibling.firstElementChild.textContent.trim()
                         });
                     }
@@ -20758,11 +20768,11 @@ Parsedown = (() => {
                                             <a class="table__column__secondary-link" href="/user/${winner.username}">${winner.username}</a>
                                         </div>
                                         <div class="table__column--width-small">
-                                        ${winner.received ? `
-                                            <i class="fa fa-check-circle esgst-green"></i>
-                                        ` : `
-                                            <i class="fa fa-times-circle esgst-red"></i>
-                                        `}
+                                        ${{
+                                            [`Received`]: `<i class="fa fa-check-circle esgst-green"></i>`,
+                                            [`Not Received`]: `<i class="fa fa-times-circle esgst-red"></i>`,
+                                            [`Awaiting Feedback`]: `<i class="fa fa-question-circle esgst-grey"></i>`
+                                        }[winner.status]}
                                         </div>
                                     </div>
                                 </div>
@@ -20777,7 +20787,7 @@ Parsedown = (() => {
                     });
                     let received = 0;
                     details.winners.forEach(winner => {
-                        if (winner.received) {
+                        if (winner.status === `Received`) {
                             received += 1;
                         }
                     });
@@ -25957,26 +25967,26 @@ Parsedown = (() => {
         addUgdButton(profile.sentRowLeft, `sent`, user);
     }
 
-    function addUgdButton(Context, Key, user) {
+    function addUgdButton(Context, key, user) {
         var UGD, UGDButton, popup;
         UGD = {
-            Key: Key
+            key: key
         };
         Context.insertAdjacentHTML(`beforeEnd`, `
-            <span class="esgst-ugd-button" title="Get ${UGD.Key} giveaways data">
+            <span class="esgst-ugd-button" title="Get ${UGD.key} giveaways data">
                 <i class="fa fa-bar-chart"></i>
             </span>
         `);
         UGDButton = Context.lastElementChild;
-        popup = new Popup(`fa-bar-chart`, `Get ${user.username}'s ${UGD.Key} giveaways data:`);
+        popup = new Popup(`fa-bar-chart`, `Get ${user.username}'s ${UGD.key} giveaways data:`);
         insertHtml(popup.description, `beforeEnd`, `<div></div>`).appendChild(createOptions([{
-            check: UGD.Key === `won`,
+            check: UGD.key === `won`,
             dependencies: [`ugd_getAchievements`],
             description: `Get playtime stats.`,
             id: `ugd_getPlaytime`,
             tooltip: `Get playtime stats for each won game by this user (requires a Steam API Key inserted into the settings menu - does not check DLCs/packages).`
         }, {
-            check: UGD.Key === `won`,
+            check: UGD.key === `won`,
             description: `Get achievements stats.`,
             id: `ugd_getAchievements`,
             tooltip: `Get achievements stats for each won game by this user (slower - does not check DLCs/packages).`
@@ -25987,7 +25997,7 @@ Parsedown = (() => {
             tooltip: `If enabled, the cache will be cleared and all giveaways will be retrieved again (slower).`
         }]));
         popup.description.appendChild(new ButtonSet(`green`, `grey`, `fa-bar-chart`, `fa-times-circle`, `Get Data`, `Cancel`, async function (Callback) {
-            UGD.Canceled = false;
+            UGD.canceled = false;
             UGDButton.classList.add(`esgst-busy`);
             var ugd, giveaways;
             savedUser = await getUser(null, user);
@@ -26052,7 +26062,7 @@ Parsedown = (() => {
                 }
             }
             if (esgst.ugd_clearCache) {
-                giveaways[UGD.Key] = null;
+                giveaways[UGD.key] = null;
             }
             if (!giveaways.sent) {
                 giveaways.sent = {
@@ -26068,26 +26078,26 @@ Parsedown = (() => {
                 };
                 giveaways.wonTimestamp = 0;
             }
-            if (UGD.Key === `sent` && user.username === esgst.username && !giveaways.version) {
+            if (UGD.key === `sent` && user.username === esgst.username && giveaways.version !== `7.13.0`) {
                 giveaways.sent = {
                     apps: {},
                     subs: {}
                 };
                 giveaways.sentTimestamp = 0;
-                giveaways.version = `7.11.1`;
+                giveaways.version = `7.13.0`;
             }
-            var Match = location.pathname.match(new RegExp(`^\/user\/${user.username}${UGD.Key === `won` ? `/giveaways/won` : ``}`));
+            var Match = location.pathname.match(new RegExp(`^\/user\/${user.username}${UGD.key === `won` ? `/giveaways/won` : ``}`));
             var CurrentPage = location.href.match(/page=(\d+)/);
             CurrentPage = Match ? (CurrentPage ? parseInt(CurrentPage[1]) : 1) : 0;
             UGD.giveaways = {};
             user.values = {
-                giveaways: await getUGDGiveaways(UGD, giveaways, 1, user.username),
+                giveaways: await getUgdGiveaways(UGD, giveaways, 1, user.username),
                 ugd: null
             };
             await saveUser(null, null, user);
             var Giveaways, Types, TypesTotal, Frequencies, Total, LevelsTotal;
             UGDButton.classList.remove(`esgst-busy`);
-            Giveaways = giveaways[UGD.Key];
+            Giveaways = giveaways[UGD.key];
                 Types = {
                     Everyone: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
                     Invite: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
@@ -26115,9 +26125,9 @@ Parsedown = (() => {
                 LevelsTotal = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
                 Total = 0;
                 Frequencies = {};
-            UGD.Progress.textContent = `Calculating stats...`;
-            countUgdGiveaways(Frequencies, Giveaways.apps, LevelsTotal, Total, UGD.Key === `won` ? `creators` : `apps`, Types, TypesTotal, UGD, function(LevelsTotal, Total) {
-                countUgdGiveaways(Frequencies, Giveaways.subs, LevelsTotal, Total, UGD.Key === `won` ? `creators` : `subs`, Types, TypesTotal, UGD, function(LevelsTotal, Total) {
+            UGD.progress.textContent = `Calculating stats...`;
+            countUgdGiveaways(Frequencies, Giveaways.apps, LevelsTotal, Total, UGD.key === `won` ? `creators` : `apps`, Types, TypesTotal, UGD, function(LevelsTotal, Total) {
+                countUgdGiveaways(Frequencies, Giveaways.subs, LevelsTotal, Total, UGD.key === `won` ? `creators` : `subs`, Types, TypesTotal, UGD, function(LevelsTotal, Total) {
                     var Type, I, N, Value, Ordered;
                     UGD.HTML = `
                         <div class="esgst-ugd-table table">
@@ -26189,8 +26199,8 @@ Parsedown = (() => {
                         Ordered.splice(I, 0, Frequencies.creators[Key]);
                     }
                     UGD.ordered = Ordered;
-                    if (UGD.Key === `won` && esgst.ugd_getPlaytime && esgst.steamApiKey) {
-                        UGD.Progress.textContent = `Retrieving game stats...`;
+                    if (UGD.key === `won` && esgst.ugd_getPlaytime && esgst.steamApiKey) {
+                        UGD.progress.textContent = `Retrieving game stats...`;
                         UGD.HTML += `
                             <div class="esgst-ugd-table table">
                                 <div class="table__heading">
@@ -26205,7 +26215,7 @@ Parsedown = (() => {
                         request(null, null, `GET`, false, `https://api.steampowered.com/IPlayerService/GetOwnedGames/v0001/?key=${esgst.steamApiKey}&steamid=${user.steamId}&format=json`, response => {
                             let check, games = JSON.parse(response.responseText).response.games, id;
                             check = new CompletionCheck(Object.keys(Giveaways.apps).length + Object.keys(Giveaways.subs).length, completeUgd.bind(null, popup, UGD, Callback), () => {
-                                UGD.Progress.textContent = `Retrieving game stats (${check.count} of ${check.total})...`;
+                                UGD.progress.textContent = `Retrieving game stats (${check.count} of ${check.total})...`;
                             });
                             UGD.total = check.total;
                             UGD.playedCount = 0;
@@ -26306,13 +26316,13 @@ Parsedown = (() => {
         }, function () {
             clearInterval(UGD.Request);
             clearInterval(UGD.Save);
-            UGD.Canceled = true;
+            UGD.canceled = true;
             setTimeout(function () {
-                UGD.Progress.innerHTML = UGD.OverallProgress = ``;
+                UGD.progress.innerHTML = UGD.OverallProgress = ``;
             }, 500);
             UGDButton.classList.remove(`esgst-busy`);
         }).set);
-        UGD.Progress = insertHtml(popup.description, `beforeEnd`, `<div></div>`);
+        UGD.progress = insertHtml(popup.description, `beforeEnd`, `<div></div>`);
         UGD.OverallProgress = insertHtml(popup.description, `beforeEnd`, `<div></div>`);
         popup.Results = insertHtml(popup.scrollable, `beforeEnd`, `<div class="esgst-text-left"></div>`);
         UGD.popup = popup;
@@ -26323,7 +26333,7 @@ Parsedown = (() => {
 
     async function completeUgd(popup, UGD, callback) {
         let key;
-        if (UGD.Key === `won` && esgst.ugd_getPlaytime && esgst.steamApiKey) {
+        if (UGD.key === `won` && esgst.ugd_getPlaytime && esgst.steamApiKey) {
             UGD.HTML += `
                     </div>
                 </div>
@@ -26334,7 +26344,7 @@ Parsedown = (() => {
         }
         UGD.HTML += `
             <div class="esgst-text-center markdown">
-                <div class="esgst-bold">${UGD.Key === `sent` ? `Most given away:` : `Most won from:`}</div>
+                <div class="esgst-bold">${UGD.key === `sent` ? `Most given away:` : `Most won from:`}</div>
                 <ol>
         `;
         for (key in UGD.ordered) {
@@ -26347,7 +26357,7 @@ Parsedown = (() => {
             </div>
         `;
         popup.Results.innerHTML = UGD.HTML;
-        UGD.Progress.innerHTML = ``;
+        UGD.progress.innerHTML = ``;
         await loadEndlessFeatures(popup.Results);
         callback();
     }
@@ -26364,7 +26374,7 @@ Parsedown = (() => {
                     Whitelist = Giveaway.whitelist;
                     Region = Giveaway.regionRestricted;
                     Level = Giveaway.level;
-                    Copies = (UGD.Key === `sent`) ? Giveaway.copies : 1;
+                    Copies = (UGD.key === `sent`) ? Giveaway.copies : 1;
                     if (Private) {
                         if (Region) {
                             Types.Region_Invite[Level] += Copies;
@@ -26406,7 +26416,7 @@ Parsedown = (() => {
                     }
                     LevelsTotal[Level] += Copies;
                     Total += Copies;
-                    if (UGD.Key === `sent`) {
+                    if (UGD.key === `sent`) {
                         if (!Frequencies[type]) {
                             Frequencies[type] = {};
                         }
@@ -26435,80 +26445,135 @@ Parsedown = (() => {
         Callback(LevelsTotal, Total);
     }
 
-    async function getUGDGiveaways(UGD, giveaways, NextPage, username) {
-        let Found, Pagination;
+    async function getUgdGiveaways(ugd, giveaways, nextPage, username) {
+        // retrieve giveaways
+        let found = false;
+        let pagination = null;
+        let toGet = [];
         do {
-            let Context = parseHtml((await request_v2({method: `GET`, url: `/user/${username}${UGD.Key === `won` ? `/giveaways/won` : ``}/search?page=${NextPage}`})).responseText);
-            if (UGD.Progress) {
-                if (NextPage === 1) {
-                    UGD.lastPage = getLastPage(Context, false, false, true, UGD.Key === `won`);
-                    UGD.lastPage = UGD.lastPage === 999999999 ? `` : ` of ${UGD.lastPage}`;
+            let context = parseHtml((await request_v2({method: `GET`, url: `/user/${username}${ugd.key === `won` ? `/giveaways/won` : ``}/search?page=${nextPage}`})).responseText);
+            if (ugd.progress) {
+                if (nextPage === 1) {
+                    ugd.lastPage = getLastPage(context, false, false, true, ugd.key === `won`);
+                    ugd.lastPage = ugd.lastPage === 999999999 ? `` : ` of ${ugd.lastPage}`;
                 }
-                UGD.Progress.innerHTML = `
+                ugd.progress.innerHTML = `
                     <i class="fa fa-circle-o-notch fa-spin"></i>
-                    <span>Retrieving giveaways (page ${NextPage}${UGD.lastPage})...</span>
+                    <span>Retrieving giveaways (page ${nextPage}${ugd.lastPage})...</span>
                 `;
             }
-            let Giveaways = Context.getElementsByClassName(`giveaway__row-outer-wrap`);
-            let toGiveaways = [];
-            for (let I = 0, NumGiveaways = Giveaways.length; I < NumGiveaways; ++I) {
-                let Giveaway = (await getGiveawayInfo(Giveaways[I], document, null, null, username, UGD.Key)).data;
-                if (Giveaway.endTime < new Date().getTime()) {
-                    if (!UGD.Timestamp) {
-                        UGD.Timestamp = Giveaway.endTime;
+            let currentTime = Date.now();
+            let elements = context.getElementsByClassName(`giveaway__row-outer-wrap`);
+            for (let i = 0, n = elements.length; i < n; i++) {
+                let giveaway = (await getGiveawayInfo(elements[i], document, null, null, username, ugd.key)).data;
+                if (giveaway.endTime >= currentTime) {
+                    // giveaway has not ended yet, so cannot store it
+                    continue;
+                }
+                if (!ugd.timestamp) {
+                    ugd.timestamp = giveaway.endTime;
+                }
+                if (giveaway.endTime <= giveaways[`${ugd.key}Timestamp`]) {
+                    // giveaway has already been stored previously
+                    found = true;
+                    break;
+                }
+                if (!giveaway.gameSteamId) {
+                    continue;
+                }
+                if (!giveaways[ugd.key][giveaway.gameType][giveaway.gameSteamId]) {
+                    giveaways[ugd.key][giveaway.gameType][giveaway.gameSteamId] = [];
+                }
+                if (giveaway.code) {
+                    giveaways[ugd.key][giveaway.gameType][giveaway.gameSteamId].push(giveaway.code);
+                    ugd.giveaways[giveaway.code] = giveaway;
+                } else {
+                    giveaways[ugd.key][giveaway.gameType][giveaway.gameSteamId].push(giveaway);
+                }
+                toGet.push(giveaway);
+            }
+            nextPage += 1;
+            pagination = context.getElementsByClassName(`pagination__navigation`)[0];
+        } while (!ugd.canceled && !found && pagination && !pagination.lastElementChild.classList.contains(`is-selected`));
+
+        if (ugd.key === `sent` && username === esgst.username) {
+            // check if there are winners of a giveaway in the 'awaiting feedback' status so they can be updated
+            for (let key in giveaways.sent.apps) {
+                giveaways.sent.apps[key].forEach(item => {
+                    let giveaway = typeof item === `string` ? esgst.giveaways[item] : item;
+                    if (!giveaway || !Array.isArray(giveaway.winners)) {
+                        return;
                     }
-                    if (Giveaway.endTime > giveaways[`${UGD.Key}Timestamp`]) {
-                        if (Giveaway.gameSteamId) {
-                            if (!giveaways[UGD.Key][Giveaway.gameType][Giveaway.gameSteamId]) {
-                                giveaways[UGD.Key][Giveaway.gameType][Giveaway.gameSteamId] = [];
-                            }
-                            if (Giveaway.code) {
-                                giveaways[UGD.Key][Giveaway.gameType][Giveaway.gameSteamId].push(Giveaway.code);
-                                UGD.giveaways[Giveaway.code] = Giveaway;
-                            } else {
-                                giveaways[UGD.Key][Giveaway.gameType][Giveaway.gameSteamId].push(Giveaway);
-                            }
-                            toGiveaways.push(Giveaway);
+                    let i;
+                    for (i = giveaway.winners.length - 1; i > -1; i--) {
+                        let winner = giveaway.winners[i];
+                        if (winner.status !== `Received` && winner.status !== `Not Received`) {
+                            break;
                         }
-                    } else {
-                        Found = true;
-                        break;
                     }
-                }
-            }
-            if (UGD.Key === `sent` && username === esgst.username) {
-                for (let i = 0, n = toGiveaways.length; i < n; i++) {
-                    let giveaway = giveaways[i];
-                    if (giveaway.code) {
-                        giveaway.winners = [];
-                        let nextPage = 1;
-                        let url = `/giveaway/${giveaway.code}/_/winners/search?page=`;
-                        let pagination;
-                        do {
-                            let response = await request_v2({method: `GET`, url: `${url}${nextPage}`});
-                            let responseHtml = parseHtml(response.responseText);
-                            let elements = responseHtml.getElementsByClassName(`table__row-inner-wrap`);
-                            for (let i = 0, n = elements.length; i < n; ++i) {
-                                let element = elements[i];
-                                giveaway.winners.push({
-                                    received: element.lastElementChild.textContent.trim() === `Received` ? 1 : 0,
-                                    username: element.firstElementChild.nextElementSibling.firstElementChild.textContent.trim()
-                                });
-                            }
-                            if (nextPage === 1) {
-                                url = `${response.finalUrl}/search?page=`;
-                            }
-                            nextPage += 1;
-                            pagination = responseHtml.getElementsByClassName(`pagination__navigation`)[0];
-                        } while (!UGD.Canceled && pagination && !pagination.lastElementChild.classList.contains(`is-selected`));
+                    if (i > -1) {                        
+                        if (giveaway.code) {
+                            ugd.giveaways[giveaway.code] = giveaway;
+                        }
+                        toGet.push(giveaway);
                     }
-                }
+                });
             }
-            Pagination = Context.getElementsByClassName(`pagination__navigation`)[0];
-            NextPage += 1;
-        } while (!UGD.Canceled && !Found && Pagination && !Pagination.lastElementChild.classList.contains(`is-selected`));
-        giveaways[`${UGD.Key}Timestamp`] = UGD.Timestamp;
-        await lockAndSaveGiveaways(UGD.giveaways);
+            for (let key in giveaways.sent.subs) {
+                giveaways.sent.subs[key].forEach(item => {
+                    let giveaway = typeof item === `string` ? esgst.giveaways[item] : item;
+                    if (!giveaway || !Array.isArray(giveaway.winners)) {
+                        return;
+                    }
+                    let i;
+                    for (i = giveaway.winners.length - 1; i > -1; i--) {
+                        let winner = giveaway.winners[i];
+                        if (winner.status !== `Received` && winner.status !== `Not Received`) {
+                            break;
+                        }
+                    }
+                    if (i > -1) {                        
+                        if (giveaway.code) {
+                            ugd.giveaways[giveaway.code] = giveaway;
+                        }
+                        toGet.push(giveaway);
+                    }
+                });
+            }
+
+            // retrieve giveaway winners
+            for (let i = 0, n = toGet.length; i < n; i++) {
+                let giveaway = toGet[i];
+                if (!giveaway.code) {
+                    continue;
+                }
+                giveaway.winners = [];
+                let nextPage = 1;
+                let url = `/giveaway/${giveaway.code}/_/winners/search?page=`;
+                let pagination;
+                do {
+                    let response = await request_v2({method: `GET`, url: `${url}${nextPage}`});
+                    let responseHtml = parseHtml(response.responseText);
+                    let elements = responseHtml.getElementsByClassName(`table__row-inner-wrap`);
+                    for (let i = 0, n = elements.length; i < n; i++) {
+                        let element = elements[i];
+                        giveaway.winners.push({
+                            status: element.lastElementChild.textContent.trim(),
+                            username: element.firstElementChild.nextElementSibling.firstElementChild.textContent.trim()
+                        });
+                    }
+                    if (nextPage === 1) {
+                        url = `${response.finalUrl}/search?page=`;
+                    }
+                    nextPage += 1;
+                    pagination = responseHtml.getElementsByClassName(`pagination__navigation`)[0];
+                } while (!ugd.canceled && pagination && !pagination.lastElementChild.classList.contains(`is-selected`));
+            }
+        }
+
+        // save
+        giveaways[`${ugd.key}Timestamp`] = ugd.timestamp;
+        await lockAndSaveGiveaways(ugd.giveaways);
         return giveaways;
     }
 
@@ -29607,7 +29672,7 @@ Parsedown = (() => {
                                                     if (giveaway.winners.length > 0) {
                                                         giveaway.winners.forEach(winner => {
                                                             count += 1;
-                                                            if ((giveaway.entries >= 5 || (!giveaway.inviteOnly && !giveaway.group && !giveaway.whitelist)) && winner.received) {
+                                                            if ((giveaway.entries >= 5 || (!giveaway.inviteOnly && !giveaway.group && !giveaway.whitelist)) && winner.status === `Received`) {
                                                                 sent += 1;
                                                             }
                                                         });
