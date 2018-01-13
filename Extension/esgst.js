@@ -35832,7 +35832,9 @@ Parsedown = (() => {
             dm.computerSpaceCount.textContent = convertBytes(totalSize);
         }
         if (space) {
-            space.close();
+            if (space.close) {
+                space.close();
+            }
         } else {
             if (dm.type === `export` || esgst.settings.exportBackup) {
                 if (dropbox || (dm.type !== `export` && esgst.settings.exportBackupIndex === 1)) {
@@ -39114,7 +39116,6 @@ Parsedown = (() => {
         if (!headers[`Content-Type`]) {
             headers[`Content-Type`] = `application/x-www-form-urlencoded`;
         }
-        headers[`From`] = `ESGST (https://github.com/revilheart/ESGST)`;
         if (queue) {
             createLock(`requestLock`, 1000, function (closeLock) {
                 continueRequest(data, headers, method, url, callback, anon, closeLock);
