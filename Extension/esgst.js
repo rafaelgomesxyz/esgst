@@ -20706,6 +20706,10 @@ Parsedown = (() => {
                 <i class="fa fa-steam"></i>
             </a>
         `);
+        giveaway.inviteOnly = details.inviteOnly;
+        giveaway.regionRestricted = details.regionRestricted;
+        giveaway.group = details.group;
+        giveaway.whitelist = details.whitelist;
         if (details.inviteOnly) {
             if (details.regionRestricted) {
                 type = `Invite + Region`;
@@ -20804,8 +20808,7 @@ Parsedown = (() => {
                 by <a class="table__column__secondary-link" href="/user/${details.creator}">${details.creator}</a>
             `);
         }
-        if (type.match(/Group/) && esgst.ggl) {
-            giveaway.group = true;
+        if (giveaway.group && esgst.ggl) {
             getGglGiveaways([giveaway]);
         }
     }
