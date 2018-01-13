@@ -5222,7 +5222,7 @@ Parsedown = (() => {
                                     description: `
                                         <ul>
                                             <li>If this option is enabled, when there are errors in the page a red button will appear in the header.</li>
-                                            <li>If this option is disabled, a dialog will pop up in the page, which is more intrusive and freezes the page until you close it.</li>
+                                            <li>If this option is disabled, a popup will appear whenever there is an error.</li>
                                         </ul>
                                     `,
                                     name: `Notify errors through a button in the header.`,
@@ -5437,13 +5437,13 @@ Parsedown = (() => {
                 `);
                 if (esgst.notifyErrors && esgst.notifyErrors_b) {
                     esgst.errorButton = insertHtml(context, position, `
-                        <div class="nav__button-container esgst-hidden esgst-error-button" title="There are ESGST errors in the console, use Ctrl + Shift + J to view them or click this button to download them as a .txt file">
+                        <div class="nav__button-container esgst-hidden esgst-error-button" title="There are ESGST errors in the console, click here or use Ctrl + Shift + J to view them">
                             <div class="nav__button">
                                 <i class="fa fa-terminal"></i>
                             </div>
                         </div>
                     `);
-                    esgst.errorButton.addEventListener(`click`, exportErrors);
+                    esgst.errorButton.addEventListener(`click`, openConsole);
                 }
                 dropdown = menu.firstElementChild;
                 button = dropdown.nextElementSibling;
@@ -5704,13 +5704,13 @@ Parsedown = (() => {
                 `);
                 if (esgst.notifyErrors && esgst.notifyErrors_b) {
                     esgst.errorButton = insertHtml(context, position, `
-                        <div class="nav__button-container esgst-hidden esgst-error-button" title="There are ESGST errors in the console, use Ctrl + Shift + J to view them or click this button to download them as a .txt file">
+                        <div class="nav__button-container esgst-hidden esgst-error-button" title="There are ESGST errors in the console, click here or use Ctrl + Shift + J to view them">
                             <div class="nav__button">
                                 <i class="fa fa-terminal"></i>
                             </div>
                         </div>
                     `);
-                    esgst.errorButton.addEventListener(`click`, exportErrors);
+                    esgst.errorButton.addEventListener(`click`, openConsole);
                 }
                 dropdown = menu.firstElementChild;
                 button = dropdown.nextElementSibling;
@@ -6046,14 +6046,44 @@ Parsedown = (() => {
         }
     }
 
+    function escapeHtml(text) {
+        let div = document.createElement(`div`);
+        div.innerText = text;
+        return div.innerHTML;
+    }
+
     function logError(error) {
         error = `[ESGST v${(esgst && esgst.currentVersion) || `Unknown`} Error @ ${new Date().toUTCString()}]\r\n${error.message.replace(/\n/g, `\r\n`)}\r\n${error.stack.replace(/\n/g, `\r\n`)}`;
         console.log(error);
         errorStack.push(error);
-        if (esgst && esgst.notifyErrors && esgst.notifyErrors_b && esgst.errorButton) {
-            esgst.errorButton.classList.remove(`esgst-hidden`);
-        } else if (confirm(`There are ESGST errors in the console, click 'Cancel' and use Ctrl + Shift + J to view them or click 'Ok' to download them as a .txt file`)) {
-            exportErrors();
+        if (esgst && esgst.notifyErrors) {
+            if (esgst.notifyErrors_b && esgst.errorButton) {
+                esgst.errorButton.classList.remove(`esgst-hidden`);
+            } else {
+                openConsole();
+            }
+        } else {
+            alert(`There are ESGST errors in the console, use Ctrl + Shift + J to view them`);
+        }
+    }
+
+    function openConsole() {
+        let popup = new Popup(`fa-console`, `ESGST Console`);
+        popup.description.insertAdjacentHTML(`afterBegin`, `<div class="esgst-description">The ESGST console does not currently catch all ESGST errors, so make sure to check the browser console in case there are more errors.</div>`);
+        let errors = insertHtml(popup.scrollable, `beforeEnd`, `
+            <div class="esgst-text-left markdown"><pre><code>${escapeHtml(errorStack.join(`\r\n\r\n`))}</code></pre></div>
+        `).firstElementChild.firstElementChild;
+        let icon = insertHtml(popup.description, `beforeEnd`, `
+            <div class="esgst-text-left">
+                <i class="fa fa-copy esgst-clickable"></i>
+            </div>
+        `)
+        icon.addEventListener(`click`, () => copyValue(icon, errors.innerHTML));
+        popup.description.appendChild(new ButtonSet_v2({color1: `green`, color2: `grey`, icon1: `fa-download`, icon2: `fa-circle-o-notch fa-spin`, title1: `Download`, title2: `Downloading`, callback1: exportErrors}).set);
+        popup.open();
+        errorStack = [];
+        if (esgst.errorButton) {
+            esgst.errorButton.classList.add(`esgst-hidden`);
         }
     }
 
@@ -29474,7 +29504,7 @@ Parsedown = (() => {
                 categories.freeBase = JSON.parse((await request_v2({method: `GET`, url: `http://store.steampowered.com/api/appdetails?appids=${data.fullgame.appid}&filters=basic&cc=us&l=en`})).responseText)[data.fullgame.appid].data.is_free;
             }
         } catch (error) {
-            logError(error);
+            console.log(error);
         }
     }
 
