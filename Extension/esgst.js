@@ -32109,7 +32109,7 @@ Parsedown = (() => {
         giveaway.columns = giveaway.innerWrap.querySelector(`.giveaway__columns, .featured__columns`);
         if (giveaway.columns && (!esgst.archivePath || !main)) {
             giveaway.endTimeColumn = giveaway.columns.firstElementChild;
-            giveaway.startTimeColumn = giveaway.columns.getElementsByClassName(`giveaway__column--width-fill text-right`)[0];
+            giveaway.startTimeColumn = giveaway.columns.querySelector(`.giveaway__column--width-fill.text-right, .featured__column--width-fill.text-right`);
             giveaway.started = !giveaway.endTimeColumn.textContent.match(/Begins/);
             giveaway.endTime = parseInt(giveaway.endTimeColumn.lastElementChild.getAttribute(`data-timestamp`)) * 1e3;
             giveaway.ended = !giveaway.deleted && giveaway.endTime < Date.now();
