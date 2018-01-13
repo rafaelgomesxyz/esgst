@@ -6,39 +6,46 @@ If you find any bugs or have any feature requests, please file an issue [here](h
 
 ---
 
+## Compatibility
+
+Tested and confirmed as working:
+
+* Chrome (since v55)
+* Firefox (since v52)
+
+Not tested but should be working:
+
+* Opera (since v42)
+
+Not tested and may not be working (if it works please let me know so I can move it above):
+
+* Edge
+* Safari (since v10.1)
+
+---
+
 ## Installation
 
-To install the extension:
+There are two different ways to use ESGST: extension or userscript. You can choose which one you want to use, but the extension is reported to be a lot faster and have a better peformance than the userscript, although there is no major difference between them.
+
+### Option 1 - Extension
 
 * Firefox -> Download [this file](https://github.com/revilheart/ESGST/raw/master/Extension/esgst.xpi) and drag it into "about:addons".
 * Chrome -> Download [this zip](https://github.com/revilheart/ESGST/archive/master.zip), extract it to a folder on your computer, go to "chrome://extensions/", tick "Developer mode" in the top right corner, click "Load unpacked extension" and select the "Extensions" folder where you extracted the zip to. Using the extension on Chrome might be a nuisance, since every time you open the browser you will get a message saying that using extensions in developer mode can be unsafe, and every time a new version is released you will have to download the zip again, extract it to the same folder, replacing the previous files, go to the extensions page and click "Reload" under ESGST.
 
-Other browsers might work with the extension, but only Firefox and Chrome have been tested and confirmed as working.
+Other browsers might work with the extension, especially Opera, since I believe it uses the same extension system as Chrome, but only Firefox and Chrome have been tested and confirmed as working.
 
-To install the script, you must install [Greasemonkey](http://www.greasespot.net/) (the script is not compatible with Greasemonkey v4), [Tampermonkey](https://tampermonkey.net/), or some other userscript manager first. Then [click here](https://github.com/revilheart/ESGST/raw/master/ESGST.user.js) and you should be prompted to install it.
+### Option 2 - Userscript
+
+To install the script, you must install [Greasemonkey](http://www.greasespot.net/), [Tampermonkey](https://tampermonkey.net/), or some other userscript manager first. Then [click here](https://github.com/revilheart/ESGST/raw/master/ESGST.user.js) and you should be prompted to install it.
 
 You can also install the script in your Android through Firefox with Violentmonkey or USI. Though some features might not work.
 
-To upgrade from the script to the extension, all you have to do is export all your data from the script, install the extension and import all the data you had exported into the extension.
+### Upgrade/Downgrade
+
+To upgrade from the script to the extension or downgrade from the extension to the script, all you have to do is export all your data from the one you're uninstalling, install the other one and import all the data you had exported.
 
 * [Changelog](#changelog)
-
----
-
-## Compatibility
-
-Fully tested and working in the latest version of:
-
-* Google Chrome
-* Firefox
-
-Should be working in the latest version of:
-
-* Opera
-
-May or may not be working (try at your own risk) in the latest version of:
-
-* Edge
 
 ---
 
