@@ -31337,7 +31337,7 @@ Parsedown = (() => {
                 upper: ``
             };
             esgst.gc_r_colors.push(colors);
-            addGwcColorSetting(colors, panel);
+            addGcRatingColorSetting(colors, panel);
         });
     }
 
