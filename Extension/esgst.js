@@ -26963,7 +26963,7 @@ Parsedown = (() => {
         if (!NRF.Canceled) {
             NRF.Progress.innerHTML = `
                 <i class="fa fa-circle-o-notch fa-spin"></i>
-                <span>Searching inside giveaways with multiple copies (${I - 1} of ${N})...</span>
+                <span>Searching inside giveaways with multiple copies (${I + 1} of ${N})...</span>
             `;
             if (I < N) {
                 searchNRFGiveaway(NRF, `${NRF.Multiple[I].getElementsByClassName(`giveaway__heading__name`)[0].getAttribute(`href`)}/winners/search?page=`, 1, function (Found) {
@@ -27770,7 +27770,7 @@ Parsedown = (() => {
                 } else {
                     WBC.Progress.innerHTML = `
                         <i class="fa fa-circle-o-notch"></i>
-                        <span>Retrieving ${username}'s group giveaways (${I - 1} of ${N})...</span>
+                        <span>Retrieving ${username}'s group giveaways (${I + 1} of ${N})...</span>
                     `;
                     if (wbc.groupGiveaways && wbc.groupGiveaways[WBC.GroupGiveaways[I]]) {
                         setTimeout(getWBCGroupGiveaways, 0, WBC, ++I, N, wbc, username, callback);
