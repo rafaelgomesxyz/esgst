@@ -6068,7 +6068,7 @@ Parsedown = (() => {
     }
 
     function openConsole() {
-        let popup = new Popup(`fa-console`, `ESGST Console`);
+        let popup = new Popup(`fa-terminal`, `ESGST Console`);
         popup.description.insertAdjacentHTML(`afterBegin`, `<div class="esgst-description">The ESGST console does not currently catch all ESGST errors, so make sure to check the browser console in case there are more errors.</div>`);
         let errors = insertHtml(popup.scrollable, `beforeEnd`, `
             <div class="esgst-text-left markdown"><pre><code>${escapeHtml(errorStack.join(`\r\n\r\n`))}</code></pre></div>
