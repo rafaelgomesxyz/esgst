@@ -29882,12 +29882,12 @@ Parsedown = (() => {
                 if (games[i].columns) {
                     for (j = games[i].columns.children.length - 1; j > -1; j--) {
                         let item = games[i].columns.children[j];
-                        item.addEventListener(`dragenter`, getGcSource.bind(null, gc, item));
+                        item.addEventListener(`dragenter`, getGcSource.bind(null, gc, item, j));
                     }
                     for (j = panel.children.length - 1; j > -1; j--) {
                         let item = panel.children[j];
                         item.addEventListener(`dragstart`, setGcSource.bind(null, gc, item));
-                        item.addEventListener(`dragenter`, getGcSource.bind(null, gc, item));
+                        item.addEventListener(`dragenter`, getGcSource.bind(null, gc, item, -1));
                         item.addEventListener(`dragend`, saveGcSource.bind(null, gc));
                         let index = esgst.gc_indexes[item.getAttribute(`data-id`)];
                         if (isSet(index) && index !== -1) {
@@ -29906,37 +29906,43 @@ Parsedown = (() => {
         gc.source = item;
     }
 
-    function getGcSource(gc, item) {
+    function getGcSource(gc, item, index) {
         let current = gc.source;
-        let i = 0;
         do {
             current = current.previousElementSibling;
             if (current && current === item) {
-                esgst.gc_indexes[gc.source.getAttribute(`data-id`)] = item.classList.contains(`giveaway__column`) || item.classList.contains(`featured__column`) ? i : -1;
+                if (item.classList.contains(`giveaway__column`) || item.classList.contains(`featured__column`)) {
+                    gc.source.classList.add(esgst.giveawayPath ? `featured__column` : `giveaway__column`);
+                } else {
+                    gc.source.classList.remove(esgst.giveawayPath ? `featured__column` : `giveaway__column`);
+                }
                 if (item.getAttribute(`data-id`)) {
                     esgst.gc_categories.splice(esgst.gc_categories.indexOf(item.getAttribute(`data-id`)), 0, esgst.gc_categories.splice(esgst.gc_categories.indexOf(gc.source.getAttribute(`data-id`)), 1)[0]);
-                    gc.source.classList.remove(esgst.giveawayPath ? `featured__column` : `giveaway__column`);
+                    esgst.gc_indexes[gc.source.getAttribute(`data-id`)] = isSet(esgst.gc_indexes[item.getAttribute(`data-id`)]) ? esgst.gc_indexes[item.getAttribute(`data-id`)] : -1;
                 } else {
-                    gc.source.classList.add(esgst.giveawayPath ? `featured__column` : `giveaway__column`);
+                    esgst.gc_indexes[gc.source.getAttribute(`data-id`)] = index;
                 }
                 item.parentElement.insertBefore(gc.source, item);
                 return;
             }
-            i += 1;
         } while (current);
-        esgst.gc_indexes[gc.source.getAttribute(`data-id`)] = item.classList.contains(`giveaway__column`) || item.classList.contains(`featured__column`) ? i - 1 : -1;
-        if (item.getAttribute(`data-id`)) {
-            esgst.gc_categories.splice(esgst.gc_categories.indexOf(item.getAttribute(`data-id`)) - 1, 0, esgst.gc_categories.splice(esgst.gc_categories.indexOf(gc.source.getAttribute(`data-id`)), 1)[0]);
-            gc.source.classList.remove(esgst.giveawayPath ? `featured__column` : `giveaway__column`);
-        } else {
+        if (item.classList.contains(`giveaway__column`) || item.classList.contains(`featured__column`)) {
             gc.source.classList.add(esgst.giveawayPath ? `featured__column` : `giveaway__column`);
+        } else {
+            gc.source.classList.remove(esgst.giveawayPath ? `featured__column` : `giveaway__column`);
+        }
+        if (item.getAttribute(`data-id`)) {
+            esgst.gc_categories.splice(esgst.gc_categories.indexOf(item.getAttribute(`data-id`)), 0, esgst.gc_categories.splice(esgst.gc_categories.indexOf(gc.source.getAttribute(`data-id`)), 1)[0]);
+            esgst.gc_indexes[gc.source.getAttribute(`data-id`)] = isSet(esgst.gc_indexes[item.getAttribute(`data-id`)]) ? esgst.gc_indexes[item.getAttribute(`data-id`)] : -1;
+        } else {
+            esgst.gc_indexes[gc.source.getAttribute(`data-id`)] = index + 1;
         }
         item.parentElement.insertBefore(gc.source, item.nextElementSibling);
     }
 
-    function saveGcSource(gc) {
-        setSetting(`gc_categories`, esgst.gc_categories);
-        setSetting(`gc_indexes`, esgst.gc_indexes);
+    async function saveGcSource(gc) {
+        await setSetting(`gc_categories`, esgst.gc_categories);
+        await setSetting(`gc_indexes`, esgst.gc_indexes);
     }
 
     /* [MT] Multi-Tag */
