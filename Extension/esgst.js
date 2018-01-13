@@ -32109,17 +32109,10 @@ Parsedown = (() => {
         giveaway.columns = giveaway.innerWrap.querySelector(`.giveaway__columns, .featured__columns`);
         if (giveaway.columns && (!esgst.archivePath || !main)) {
             giveaway.endTimeColumn = giveaway.columns.firstElementChild;
+            giveaway.startTimeColumn = giveaway.columns.getElementsByClassName(`giveaway__column--width-fill text-right`)[0];
             giveaway.started = !giveaway.endTimeColumn.textContent.match(/Begins/);
             giveaway.endTime = parseInt(giveaway.endTimeColumn.lastElementChild.getAttribute(`data-timestamp`)) * 1e3;
             giveaway.ended = !giveaway.deleted && giveaway.endTime < Date.now();
-            if (giveaway.ended && ((main && (esgst.userPath || esgst.groupPath)) || ugd)) {
-                giveaway.startTimeColumn = giveaway.endTimeColumn.nextElementSibling.nextElementSibling;
-                if (giveaway.startTimeColumn.classList.contains(`giveaway__column--negative`)) {
-                    giveaway.startTimeColumn = giveaway.startTimeColumn.nextElementSibling;
-                }
-            } else {
-                giveaway.startTimeColumn = giveaway.endTimeColumn.nextElementSibling;
-            }
             giveaway.startTime = parseInt(giveaway.startTimeColumn.firstElementChild.getAttribute(`data-timestamp`)) * 1e3;
             if (!esgst.userPath || (ugd && ugdType === `won`) || ged) {
                 giveaway.creatorContainer = giveaway.startTimeColumn.lastElementChild;
