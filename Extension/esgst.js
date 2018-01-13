@@ -1714,6 +1714,11 @@ Parsedown = (() => {
                 gc_o_altAccounts: [],
                 gc_g_colors: [],
                 gc_g_filters: ``,
+                gc_r_colors: [
+                    {bgColor: `#a34c25`, color: `#ffffff`, icon: `thumbs-down`, lower: 0, upper: 39},
+                    {bgColor: `#b9a074`, color: `#ffffff`, icon: `minus-circle`, lower: 40, upper: 69},
+                    {bgColor: `#66c0f4`, color: `#ffffff`, icon: `thumbs-up`, lower: 70, upper: 100}
+                ],
                 gc_fcvIcon: `calendar`,
                 gc_rcvIcon: `calendar-minus-o`,
                 gc_ncvIcon: `calendar-times-o`,
@@ -29728,14 +29733,20 @@ Parsedown = (() => {
                         break;
                     case `gc_r`:
                         if (cache && cache.rating) {
-                            icons = {
-                                positive: `thumbs-up`,
-                                negative: `thumbs-down`,
-                                mixed: `minus-circle`
-                            };
-                            ratingType = cache.ratingType.toLowerCase();
+                            let colors = {};
+                            let percentage = parseInt(cache.rating.match(/(\d+)%/)[1]);
+                            for (let i = 0, n = esgst.gc_r_colors.length; i < n; i++) {
+                                colors = esgst.gc_r_colors[i];
+                                if (percentage >= colors.lower && percentage <= colors.upper) {
+                                    break;
+                                }
+                            }
+                            let match = cache.rating.match(/\((\d+)\)/);
+                            if (match) {
+                                cache.rating = cache.rating.replace(/\(\d+\)/, `(${parseInt(match[1]).toLocaleString()})`);
+                            }
                             elements.push(`
-                                <a class="esgst-gc esgst-gc-rating esgst-gc-rating-${ratingType}" data-id="gc_r" href="http://store.steampowered.com/${singularType}/${id}" title="${cache.rating}"><i class="fa fa-${icons[ratingType]}"></i>${esgst.gc_r_s ? ` ${cache.rating}` : ``}</a>
+                                <a class="esgst-gc esgst-gc-rating esgst-gc-rating" data-bgColor="${colors.bgColor}" data-color="${colors.color}" data-id="gc_r" href="http://store.steampowered.com/${singularType}/${id}" style="background-color: ${colors.bgColor} !important; color: ${colors.color} !important;" title="${cache.rating}">${colors.icon.match(/\w/) ? `<i class="fa fa-${colors.icon}"></i>` : `<span style="font-size: 14px;">${colors.icon}</span>`}${esgst.gc_r_s ? ` ${cache.rating}` : ``}</a>
                             `);
                         }
                         break;
@@ -29882,16 +29893,22 @@ Parsedown = (() => {
                 if (games[i].columns) {
                     for (j = games[i].columns.children.length - 1; j > -1; j--) {
                         let item = games[i].columns.children[j];
-                        item.addEventListener(`dragenter`, getGcSource.bind(null, gc, item, j));
+                        item.addEventListener(`dragenter`, getGcSource.bind(null, gc, games[i].columns, item, j));
                     }
                     for (j = panel.children.length - 1; j > -1; j--) {
                         let item = panel.children[j];
                         item.addEventListener(`dragstart`, setGcSource.bind(null, gc, item));
-                        item.addEventListener(`dragenter`, getGcSource.bind(null, gc, item, -1));
+                        item.addEventListener(`dragenter`, getGcSource.bind(null, gc, games[i].columns, item, -1));
                         item.addEventListener(`dragend`, saveGcSource.bind(null, gc));
-                        let index = esgst.gc_indexes[item.getAttribute(`data-id`)];
+                        let id = item.getAttribute(`data-id`);
+                        let index = esgst.gc_indexes[id];
                         if (isSet(index) && index !== -1) {
                             item.classList.add(esgst.giveawayPath ? `featured__column` : `giveaway__column`);
+                            if (id === `gc_r`) {
+                                item.firstElementChild.style.color = item.style.backgroundColor;
+                                item.style.color = ``;
+                                item.style.background = ``;
+                            }
                             games[i].columns.insertBefore(item, games[i].columns.children[index]);
                         }
                     }
@@ -29906,15 +29923,25 @@ Parsedown = (() => {
         gc.source = item;
     }
 
-    function getGcSource(gc, item, index) {
+    function getGcSource(gc, context, item, index) {
         let current = gc.source;
         do {
             current = current.previousElementSibling;
             if (current && current === item) {
-                if (item.classList.contains(`giveaway__column`) || item.classList.contains(`featured__column`)) {
+                if (context.contains(item)) {
                     gc.source.classList.add(esgst.giveawayPath ? `featured__column` : `giveaway__column`);
+                    if (gc.source.getAttribute(`data-id`) === `gc_r`) {
+                        gc.source.firstElementChild.style.color = gc.source.getAttribute(`data-bgColor`);
+                        gc.source.style.color = ``;
+                        gc.source.style.background = ``;
+                    }
                 } else {
                     gc.source.classList.remove(esgst.giveawayPath ? `featured__column` : `giveaway__column`);
+                    if (gc.source.getAttribute(`data-id`) === `gc_r`) {
+                        gc.source.firstElementChild.style.color = ``;
+                        gc.source.style.color = gc.source.getAttribute(`data-color`);
+                        gc.source.style.backgroundColor = gc.source.getAttribute(`data-bgColor`);
+                    }
                 }
                 if (item.getAttribute(`data-id`)) {
                     esgst.gc_categories.splice(esgst.gc_categories.indexOf(item.getAttribute(`data-id`)), 0, esgst.gc_categories.splice(esgst.gc_categories.indexOf(gc.source.getAttribute(`data-id`)), 1)[0]);
@@ -29926,10 +29953,20 @@ Parsedown = (() => {
                 return;
             }
         } while (current);
-        if (item.classList.contains(`giveaway__column`) || item.classList.contains(`featured__column`)) {
+        if (context.contains(item)) {
             gc.source.classList.add(esgst.giveawayPath ? `featured__column` : `giveaway__column`);
+            if (gc.source.getAttribute(`data-id`) === `gc_r`) {
+                gc.source.firstElementChild.style.color = gc.source.getAttribute(`data-bgColor`);
+                gc.source.style.color = ``;
+                gc.source.style.background = ``;
+            }
         } else {
             gc.source.classList.remove(esgst.giveawayPath ? `featured__column` : `giveaway__column`);
+            if (gc.source.getAttribute(`data-id`) === `gc_r`) {
+                gc.source.firstElementChild.style.color = ``;
+                gc.source.style.color = gc.source.getAttribute(`data-color`);
+                gc.source.style.backgroundColor = gc.source.getAttribute(`data-bgColor`);
+            }
         }
         if (item.getAttribute(`data-id`)) {
             esgst.gc_categories.splice(esgst.gc_categories.indexOf(item.getAttribute(`data-id`)), 0, esgst.gc_categories.splice(esgst.gc_categories.indexOf(gc.source.getAttribute(`data-id`)), 1)[0]);
@@ -30966,6 +31003,8 @@ Parsedown = (() => {
             addGwcrMenuPanel(SMFeatures, `gwc_colors`, `chance`);
         } else if (ID === `gwr`) {
             addGwcrMenuPanel(SMFeatures, `gwr_colors`, `ratio`);
+        } else if (ID === `gc_r`) {
+            addGcRatingPanel(SMFeatures);
         } else if (Feature.colors || Feature.background) {
             var color = esgst[`${ID}_color`];
             var bgColor = esgst[`${ID}_bgColor`];
@@ -31269,6 +31308,76 @@ Parsedown = (() => {
                 if (i < n) {
                     esgst[id].splice(i, 1);
                     setSetting(id, esgst[id]);
+                    setting.remove();
+                }
+            }
+        });
+    }
+
+    function addGcRatingPanel(context) {
+        let panel = insertHtml(context, `beforeEnd`, `
+            <div class="esgst-sm-colors">
+                <div class="form__saving-button esgst-sm-colors-default">
+                    <span>Add Rating Setting</span>
+                </div>
+                <i class="fa fa-question-circle" title="Allows you to set different colors/icons for different rating ranges."></i>
+            </div>
+        `);
+        let button = panel.firstElementChild;
+        for (let i = 0, n = esgst.gc_r_colors.length; i < n; ++i) {
+            addGcRatingColorSetting(esgst.gc_r_colors[i], panel);
+        }
+        button.addEventListener(`click`, function () {
+            let colors = {
+                color: ``,
+                bgColor: ``,
+                icon: ``,
+                lower: ``,
+                upper: ``
+            };
+            esgst.gc_r_colors.push(colors);
+            addGwcColorSetting(colors, panel);
+        });
+    }
+
+    function addGcRatingColorSetting(colors, panel) {
+        let setting = insertHtml(panel, `beforeEnd`, `
+            <div>
+                From <input type="number" value="${colors.lower}"/>% to <input type="number" value="${colors.upper}"/>% rating, color it as <input type="color" value="${colors.color}"/> with the background <input type="color" value="${colors.bgColor}"/> and the icon <input type="text" value="${colors.icon}"/>. <i class="esgst-clickable fa fa-times" title="Delete this setting"></i>
+            </div>
+        `);
+        let lower = setting.firstElementChild;
+        let upper = lower.nextElementSibling;
+        let color = upper.nextElementSibling;
+        let bgColor = color.nextElementSibling
+        let icon = bgColor.nextElementSibling;
+        let remove = icon.nextElementSibling;
+        lower.addEventListener(`change`, function () {
+            colors.lower = lower.value;
+            setSetting(`gc_r_colors`, esgst.gc_r_colors);
+        });
+        upper.addEventListener(`change`, function () {
+            colors.upper = upper.value;
+            setSetting(`gc_r_colors`, esgst.gc_r_colors);
+        });
+        color.addEventListener(`change`, function () {
+            colors.color = color.value;
+            setSetting(`gc_r_colors`, esgst.gc_r_colors);
+        });
+        bgColor.addEventListener(`change`, function () {
+            colors.bgColor = bgColor.value;
+            setSetting(`gc_r_colors`, esgst.gc_r_colors);
+        });
+        icon.addEventListener(`change`, function () {
+            colors.icon = icon.value;
+            setSetting(`gc_r_colors`, esgst.gc_r_colors);
+        });
+        remove.addEventListener(`click`, function () {
+            if (confirm(`Are you sure you want to delete this setting?`)) {
+                for (i = 0, n = esgst.gc_r_colors.length; i < n && esgst.gc_r_colors[i] !== colors; ++i);
+                if (i < n) {
+                    esgst.gc_r_colors.splice(i, 1);
+                    setSetting(`gc_r_colors`, esgst.gc_r_colors);
                     setting.remove();
                 }
             }
@@ -37493,25 +37602,6 @@ Parsedown = (() => {
                 margin: 5px 0;
                 padding: 2px 3px;
                 text-shadow: none;
-            }
-
-            .esgst-gc-rating i {
-                color: #fff !important;
-            }
-
-            .esgst-gc-rating-positive {
-                color: #fff !important;
-                background-color: #66c0f4;
-            }
-
-            .esgst-gc-rating-negative {
-                color: #fff !important;
-                background-color: #a34c25;
-            }
-
-            .esgst-gc-rating-mixed {
-                color: #fff !important;
-                background-color: #b9a074;
             }
 
             a.esgst-gc-genres {
