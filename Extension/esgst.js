@@ -21346,9 +21346,13 @@ Parsedown = (() => {
     function getGeGiveaways(ge, context) {
         let code, count, element, elements, giveaways, i, match, n, next, url;
         elements = context.querySelectorAll(`[href*="sgtools.info/giveaways/"]`);
-        for (i = 0, n = elements.length; i < n; ++i) {
+        for (i = 0, n = elements.length; i < n; i++) {
             url = elements[i].getAttribute(`href`);
-            code = url.match(/\/giveaways\/(.+)/)[1];
+            match = url.match(/\/giveaways\/(.+)/);
+            if (!match) {
+                continue;
+            }
+            code = match[1];
             if (ge.extracted.indexOf(code) < 0) {
                 ge.sgtools.push({
                     code: code,
@@ -21368,7 +21372,10 @@ Parsedown = (() => {
                 giveaways.push(match[1]);
             }
         } else if (context === document && esgst.giveawayPath) {
-            giveaways.push(location.href.match(/\/giveaway\/(.+?)\//)[1]);
+            match = location.href.match(/\/giveaway\/(.+?)\//);
+            if (match) {
+                giveaways.push(match[1]);
+            }
         }
         elements = context.querySelectorAll(`.markdown [href*="/giveaway/"]`);
         next = {
@@ -21377,7 +21384,11 @@ Parsedown = (() => {
         };
         for (i = 0, n = elements.length; i < n; ++i) {
             element = elements[i];
-            code = element.getAttribute(`href`).match(/\/giveaway\/(.+?)(\/.*)?$/)[1];
+            match = element.getAttribute(`href`).match(/\/giveaway\/(.+?)(\/.*)?$/);
+            if (!match) {
+                continue;
+            }
+            code = match[1];
             if (!esgst.ge_o || esgst.discussionPath || element.textContent.toLowerCase().match(/forw|more|next|>|→/)) {
                 if (ge.extracted.indexOf(code) < 0 && giveaways.indexOf(code) < 0) {
                     giveaways.push(code);
