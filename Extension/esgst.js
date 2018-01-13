@@ -31317,13 +31317,14 @@ Parsedown = (() => {
     function addGcRatingPanel(context) {
         let panel = insertHtml(context, `beforeEnd`, `
             <div class="esgst-sm-colors">
+                <span class="esgst-bold esgst-red" title="This is a new feature/option">[NEW]</span>
                 <div class="form__saving-button esgst-sm-colors-default">
                     <span>Add Rating Setting</span>
                 </div>
                 <i class="fa fa-question-circle" title="Allows you to set different colors/icons for different rating ranges."></i>
             </div>
         `);
-        let button = panel.firstElementChild;
+        let button = panel.firstElementChild.nextElementSibling;
         for (let i = 0, n = esgst.gc_r_colors.length; i < n; ++i) {
             addGcRatingColorSetting(esgst.gc_r_colors[i], panel);
         }
@@ -31343,7 +31344,7 @@ Parsedown = (() => {
     function addGcRatingColorSetting(colors, panel) {
         let setting = insertHtml(panel, `beforeEnd`, `
             <div>
-                From <input type="number" value="${colors.lower}"/>% to <input type="number" value="${colors.upper}"/>% rating, color it as <input type="color" value="${colors.color}"/> with the background <input type="color" value="${colors.bgColor}"/> and the icon <input type="text" value="${colors.icon}"/>. <i class="esgst-clickable fa fa-times" title="Delete this setting"></i>
+                From <input type="number" value="${colors.lower}"/>% to <input type="number" value="${colors.upper}"/>% rating, color it as <input type="color" value="${colors.color}"/> with the background <input type="color" value="${colors.bgColor}"/> and the icon <input type="text" value="${colors.icon}"/> <i class="fa fa-question-circle"></i>. <i class="esgst-clickable fa fa-times" title="Delete this setting"></i>
             </div>
         `);
         let lower = setting.firstElementChild;
@@ -31351,7 +31352,9 @@ Parsedown = (() => {
         let color = upper.nextElementSibling;
         let bgColor = color.nextElementSibling
         let icon = bgColor.nextElementSibling;
-        let remove = icon.nextElementSibling;
+        let tooltip = icon.nextElementSibling;        
+        createTooltip(tooltip, `The name of the icon can be any name from <a href="http://fontawesome.io/icons/">FontAwesome</a> (except for the 41 new icons from 4.7, because SG doesn't support them) or any text. For example, if you want to use alt symbols like ▲ (Alt + 3 + 0) and ▼ (Alt + 3 + 1), you can.`);
+        let remove = tooltip.nextElementSibling;
         lower.addEventListener(`change`, function () {
             colors.lower = lower.value;
             setSetting(`gc_r_colors`, esgst.gc_r_colors);
