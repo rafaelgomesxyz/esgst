@@ -5874,23 +5874,27 @@ Parsedown = (() => {
         }    
         esgst.version = esgst.storage.version;
         if (esgst.sg) {
-            let username = document.getElementsByClassName(`nav__avatar-outer-wrap`)[0].href.match(/\/user\/(.+)/)[1];
-            if (esgst.settings.username_sg !== username) {
-                esgst.settings.username_sg = username;
-            }
-            let avatar = document.getElementsByClassName(`nav__avatar-inner-wrap`)[0].style.backgroundImage.match(/\("(.+)"\)/)[1];
-            if (esgst.settings.avatar !== avatar) {
-                esgst.settings.avatar = avatar;
-            }
+            try {
+                let avatar = document.getElementsByClassName(`nav__avatar-inner-wrap`)[0].style.backgroundImage.match(/\("(.+)"\)/)[1];
+                if (esgst.settings.avatar !== avatar) {
+                    esgst.settings.avatar = avatar;
+                }
+                let username = document.getElementsByClassName(`nav__avatar-outer-wrap`)[0].href.match(/\/user\/(.+)/)[1];
+                if (esgst.settings.username_sg !== username) {
+                    esgst.settings.username_sg = username;
+                }
+            } catch (e) {}
         } else {
-            let username = document.querySelector(`.author_name[href*="/user/${esgst.settings.steamId}"], .underline[href*="/user/${esgst.settings.steamId}"]`);
-            if (username && esgst.settings.username_st !== username.textContent) {
-                esgst.settings.username_st = username.textContent;
-            }
-            let avatar = document.getElementsByClassName(`nav_avatar`)[0].style.backgroundImage.match(/\("(.+)"\)/)[1];
-            if (esgst.settings.avatar !== avatar) {
-                esgst.settings.avatar = avatar;
-            }
+            try {
+                let avatar = document.getElementsByClassName(`nav_avatar`)[0].style.backgroundImage.match(/\("(.+)"\)/)[1];
+                if (esgst.settings.avatar !== avatar) {
+                    esgst.settings.avatar = avatar;
+                }
+                let username = document.querySelector(`.author_name[href*="/user/${esgst.settings.steamId}"], .underline[href*="/user/${esgst.settings.steamId}"]`).textContent;
+                if (esgst.settings.username_st !== username) {
+                    esgst.settings.username_st = username;
+                }
+            } catch (e) {}
         }
         for (let key in esgst.oldValues) {
             esgst[key] = getSetting(key);
