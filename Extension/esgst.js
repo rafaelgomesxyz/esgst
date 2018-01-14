@@ -29967,13 +29967,15 @@ Parsedown = (() => {
                 if (games[i].columns) {
                     for (j = games[i].columns.children.length - 1; j > -1; j--) {
                         let item = games[i].columns.children[j];
-                        item.addEventListener(`dragenter`, getGcSource.bind(null, gc, games[i].columns, item, j));
+                        item.addEventListener(`dragenter`, getGcSource.bind(null, gc, games[i].columns, j, item, null));
                     }
+                    panel.addEventListener(`dragenter`, getGcSource.bind(null, gc, games[i].columns, -1, null, panel));
                     for (j = panel.children.length - 1; j > -1; j--) {
                         let item = panel.children[j];
-                        item.addEventListener(`dragstart`, setGcSource.bind(null, gc, item));
-                        item.addEventListener(`dragenter`, getGcSource.bind(null, gc, games[i].columns, item, -1));
-                        item.addEventListener(`dragend`, saveGcSource.bind(null, gc));
+                        item.setAttribute(`draggable`, true);
+                        item.addEventListener(`dragstart`, setGcSource.bind(null, gc, item, panel));
+                        item.addEventListener(`dragenter`, getGcSource.bind(null, gc, games[i].columns, -1, item, null));
+                        item.addEventListener(`dragend`, saveGcSource.bind(null, gc, panel));
                         let id = item.getAttribute(`data-id`);
                         let index = esgst.gc_indexes[id];
                         if (isSet(index) && index !== -1) {
@@ -29992,13 +29994,30 @@ Parsedown = (() => {
         }
     }
 
-    function setGcSource(gc, item, event) {
+    function setGcSource(gc, item, panel, event) {
         event.dataTransfer.setData(`text/plain`, ``);
         gc.source = item;
+        setTimeout(() => {            
+            if (!panel.children.length) {
+                panel.style.height = `28px`;
+                panel.style.width = `100%`;
+            }
+        }, 0);
     }
 
-    function getGcSource(gc, context, item, index) {
+    function getGcSource(gc, context, index, item, panel) {
         let current = gc.source;
+        if (panel) {
+            if (!panel.children.length) {
+                panel.appendChild(gc.source);
+                esgst.gc_indexes[gc.source.getAttribute(`data-id`)] = -1;
+                gc.source.classList.remove(esgst.giveawayPath ? `featured__column` : `giveaway__column`);
+                gc.source.firstElementChild.style.color = ``;
+                gc.source.style.color = gc.source.getAttribute(`data-color`);
+                gc.source.style.backgroundColor = gc.source.getAttribute(`data-bgColor`);
+            }
+            return;
+        }
         do {
             current = current.previousElementSibling;
             if (current && current === item) {
@@ -30051,7 +30070,9 @@ Parsedown = (() => {
         item.parentElement.insertBefore(gc.source, item.nextElementSibling);
     }
 
-    async function saveGcSource(gc) {
+    async function saveGcSource(gc, panel, event) {
+        panel.style.height = ``;
+        panel.style.width = ``;
         await setSetting(`gc_categories`, esgst.gc_categories);
         await setSetting(`gc_indexes`, esgst.gc_indexes);
     }
