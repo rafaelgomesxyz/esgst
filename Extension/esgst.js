@@ -5871,8 +5871,27 @@ Parsedown = (() => {
             esgst.settings = JSON.parse(esgst.storage.settings);
         } else {
             esgst.settings = {};
-        }
+        }    
         esgst.version = esgst.storage.version;
+        if (esgst.sg) {
+            let username = document.getElementsByClassName(`nav__avatar-outer-wrap`)[0].href.match(/\/user\/(.+)/)[1];
+            if (esgst.settings.username_sg !== username) {
+                esgst.settings.username_sg = username;
+            }
+            let avatar = document.getElementsByClassName(`nav__avatar-inner-wrap`)[0].style.backgroundImage.match(/\("(.+)"\)/)[1];
+            if (esgst.settings.avatar !== avatar) {
+                esgst.settings.avatar = avatar;
+            }
+        } else {
+            let username = document.querySelector(`.author_name[href*="/user/${esgst.settings.steamId}"], .underline[href*="/user/${esgst.settings.steamId}"]`);
+            if (username && esgst.settings.username_st !== username.textContent) {
+                esgst.settings.username_st = username.textContent;
+            }
+            let avatar = document.getElementsByClassName(`nav_avatar`)[0].style.backgroundImage.match(/\("(.+)"\)/)[1];
+            if (esgst.settings.avatar !== avatar) {
+                esgst.settings.avatar = avatar;
+            }
+        }
         for (let key in esgst.oldValues) {
             esgst[key] = getSetting(key);
         }
@@ -11186,14 +11205,6 @@ Parsedown = (() => {
 
     async function checkSync(menu, callback) {
         if (menu) {
-            if (!esgst.menuPath) {
-                if (esgst.sg) {
-                    await setSetting(`username`, document.getElementsByClassName(`nav__avatar-outer-wrap`)[0].href.match(/\/user\/(.+)/)[1]);
-                    await setSetting(`avatar`, document.getElementsByClassName(`nav__avatar-inner-wrap`)[0].style.backgroundImage.match(/\("(.+)"\)/)[1]);
-                } else {
-                    await setSetting(`avatar`, document.getElementsByClassName(`nav_avatar`)[0].style.backgroundImage.match(/\("(.+)"\)/)[1]);
-                }
-            }
             await setSync(false, callback);
         } else if (!getLocalValue(`isSyncing`)) {
             if (esgst.openSyncInTab) {
@@ -11206,11 +11217,8 @@ Parsedown = (() => {
                 });
                 if (parameters) {
                     if (esgst.sg) {
-                        await setSetting(`username`, document.getElementsByClassName(`nav__avatar-outer-wrap`)[0].href.match(/\/user\/(.+)/)[1]);
-                        await setSetting(`avatar`, document.getElementsByClassName(`nav__avatar-inner-wrap`)[0].style.backgroundImage.match(/\("(.+)"\)/)[1]);
                         open(`/esgst/sync?${parameters.replace(/&$/, ``)}`);
                     } else {
-                        await setSetting(`avatar`, document.getElementsByClassName(`nav_avatar`)[0].style.backgroundImage.match(/\("(.+)"\)/)[1]);
                         open(`/esgst/sync?${parameters.replace(/&$/, ``)}`);
                     }
                 } else {
