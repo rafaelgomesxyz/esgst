@@ -30535,10 +30535,21 @@ Parsedown = (() => {
         popup.open(() => textArea.focus());
     }
 
-    function requestGroupInvite() {
-        request(`username=${esgst.username}`, null, `POST`, false, `https://script.google.com/macros/s/AKfycbw0odO9iXZBJmK54M_MUQ_IEv5l4RNzj7cEx_FWCZbrtNBNmQ/exec`, () => {
-            new Popup(``, `Request sent! You should be accepted in 24 hours at most.`, true).open();
-        });
+    async function requestGroupInvite() {
+        let popup = new Popup(`fa-circle-o-notch fa-spin`, `Sending request...`, true);
+        popup.open();
+        try {
+            if (!esgst.username) {
+                throw new Error(`esgst.username is empty`);
+            }
+            await request_v2({data: `username=${esgst.username}`, method: `POST`, url: `https://script.google.com/macros/s/AKfycbw0odO9iXZBJmK54M_MUQ_IEv5l4RNzj7cEx_FWCZbrtNBNmQ/exec`});
+            popup.icon.className = `fa fa-check`;
+            popup.title.innerHTML = `Request sent! If you have not done so already, you also need to send a request from the <a class="esgst-bold" href="http://steamcommunity.com/groups/esgst">Steam group</a> page. After that you should be accepted in 24 hours at most.`;
+        } catch (error) {
+            popup.icon.className = `fa-times-circle`;
+            popup.title.textContent = `Something went wrong, please try again later. If it continues to happen, please report the issue.`;
+            logError(error);
+        }
     }
 
     function filterSm(event) {
@@ -32224,7 +32235,7 @@ Parsedown = (() => {
         if (esgst.version !== esgst.currentVersion) {
             if (typeof esgst.version === `undefined`) {
                 esgst.firstInstall = true;
-                popup = new Popup(`fa-smile-o`, `<i class="fa fa-circle-o-notch fa-spin"></i> Hi! ESGST is getting things ready for you. This will not take long...`, true);
+                let popup = new Popup(`fa-smile-o`, `<i class="fa fa-circle-o-notch fa-spin"></i> Hi! ESGST is getting things ready for you. This will not take long...`, true);
                 popup.open();
                 await checkSync(true, true);
                 popup.title.innerHTML = `
@@ -32235,6 +32246,12 @@ Parsedown = (() => {
             }
             esgst.version = esgst.currentVersion;
             setValue(`version`, esgst.version);
+        }
+        if (!esgst.settings.groupPopupDismissed) {
+            let popup = new Popup(`fa-steam`, `Hello! In case you were not aware ESGST now has a Steam group. If you want to join it, you must first send a request from the <a class="esgst-bold" href="http://steamcommunity.com/groups/esgst">Steam group</a> page, then another request from the settings menu (last button in the heading). Have a good day. :)`);
+            popup.description.insertAdjacentHTML(`beforeEnd`, `<div class="esgst-description">This popup will never show up again after you close it.</div>`);
+            popup.open();
+            popup.onClose = setSetting.bind(null, `groupPopupDismissed`, true);
         }
     }
 
