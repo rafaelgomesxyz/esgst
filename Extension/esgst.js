@@ -30767,10 +30767,12 @@ Parsedown = (() => {
                 for (id in esgst.features[type].features) {
                     let feature, ft;
                     feature = esgst.features[type].features[id];
-                    ft = getSMFeature(feature, id, j);
-                    if (ft) {
-                        section.lastElementChild.appendChild(ft);
-                        j += 1;
+                    if (!feature.extensionOnly || esgst.type === `extension`) {
+                        ft = getSMFeature(feature, id, j);
+                        if (ft) {
+                            section.lastElementChild.appendChild(ft);
+                            j += 1;
+                        }
                     }
                 }
                 i += 1;
@@ -30937,10 +30939,12 @@ Parsedown = (() => {
             let ft, i, id;
             i = 1;
             for (id in Feature.features) {
-                ft = getSMFeature(Feature.features[id], id, i);
-                if (ft) {
-                    SMFeatures.appendChild(ft);
-                    i += 1;
+                if (!Feature.features[id].extensionOnly || esgst.type === `extension`) {
+                    ft = getSMFeature(Feature.features[id], id, i);
+                    if (ft) {
+                        SMFeatures.appendChild(ft);
+                        i += 1;
+                    }
                 }
             }
             if (siwtchSg) {
