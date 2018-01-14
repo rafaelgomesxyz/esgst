@@ -29777,7 +29777,7 @@ Parsedown = (() => {
                                 cache.rating = cache.rating.replace(/\(\d+\)/, `(${parseInt(match[1]).toLocaleString()})`);
                             }
                             elements.push(`
-                                <a class="esgst-gc esgst-gc-rating esgst-gc-rating" data-bgColor="${colors.bgColor}" data-color="${colors.color}" data-id="gc_r" href="http://store.steampowered.com/${singularType}/${id}" style="background-color: ${colors.bgColor} !important; color: ${colors.color} !important;" title="${cache.rating}">${colors.icon.match(/\w/) ? `<i class="fa fa-${colors.icon}"></i>` : `<span style="font-size: 14px;">${colors.icon}</span>`}${esgst.gc_r_s ? ` ${cache.rating}` : ``}</a>
+                                <a class="esgst-gc esgst-gc-rating" data-bgColor="${colors.bgColor}" data-color="${colors.color}" data-id="gc_r" href="http://store.steampowered.com/${singularType}/${id}" style="background-color: ${colors.bgColor}; color: ${colors.color};" title="${cache.rating}">${colors.icon.match(/\w/) ? `<i class="fa fa-${colors.icon}"></i>` : `<span style="font-size: 14px;">${colors.icon}</span>`}${esgst.gc_r_s ? ` ${cache.rating}` : ``}</a>
                             `);
                         }
                         break;
