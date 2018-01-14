@@ -29735,7 +29735,7 @@ Parsedown = (() => {
                                 var game = account.games[type][id];
                                 if (game && game.owned) {
                                     elements.push(`
-                                        <a class="esgst-gc esgst-gc-owned" data-id="gc_o" href="http://steamcommunity.com/profiles/${account.steamId}/games" style="background-color: ${account.bgColor} !important; color: ${account.color} !important;" title="Owned by ${account.name}">${esgst.gc_o_s ? (esgst.gc_o_s_i ? `<i class="fa fa-${account.icon}"></i>` : `O`) : account.label}</a>
+                                        <a class="esgst-gc esgst-gc-owned" data-id="gc_o" href="http://steamcommunity.com/profiles/${account.steamId}/games" style="background-color: ${account.bgColor}; color: ${account.color};" title="Owned by ${account.name}">${esgst.gc_o_s ? (esgst.gc_o_s_i ? `<i class="fa fa-${account.icon}"></i>` : `O`) : account.label}</a>
                                     `);
                                 }
                             });
@@ -29923,7 +29923,7 @@ Parsedown = (() => {
                                     if (k >= 0) {
                                         if (esgst.gc_g_s) {
                                             colored.push(`
-                                                <a class="esgst-gc esgst-gc-genres" href="http://store.steampowered.com/${singularType}/${id}" style="background-color: ${esgst.gc_g_colors[k].bgColor} !important; color: ${esgst.gc_g_colors[k].color} !important;" title="${genreList[j]}">${genreList.splice(j, 1)}</a>
+                                                <a class="esgst-gc esgst-gc-genres" href="http://store.steampowered.com/${singularType}/${id}" style="background-color: ${esgst.gc_g_colors[k].bgColor}; color: ${esgst.gc_g_colors[k].color};" title="${genreList[j]}">${genreList.splice(j, 1)}</a>
                                             `);
                                         } else {
                                             colored.push(`
@@ -31037,7 +31037,7 @@ Parsedown = (() => {
                         `);
                         esgst.gc_o_altAccounts.forEach(account => {
                             elements.push(`
-                                <div class="esgst-clickable esgst-gc esgst-gc-owned ${esgst.gc_o ? `` : `esgst-hidden`}" draggable="true" id="gc_o" style="background-color: ${account.bgColor} !important; color: ${account.color} !important;" title="Owned by ${account.name}">${esgst.gc_o_s ? (esgst.gc_o_s_i ? `<i class="fa fa-${account.icon}"></i>` : `O`) : account.label}</div>
+                                <div class="esgst-clickable esgst-gc esgst-gc-owned ${esgst.gc_o ? `` : `esgst-hidden`}" draggable="true" id="gc_o" style="background-color: ${account.bgColor}; color: ${account.color};" title="Owned by ${account.name}">${esgst.gc_o_s ? (esgst.gc_o_s_i ? `<i class="fa fa-${account.icon}"></i>` : `O`) : account.label}</div>
                             `);
                         });
                         break;
@@ -36458,7 +36458,22 @@ Parsedown = (() => {
                 id: `gc_g`,
                 key: `genres`,
                 mainKey: `esgst-gc`
-            },
+            }
+        ];
+        for (i = 0, n = colors.length; i < n; ++i) {
+            color = esgst[`${colors[i].id}_color`];
+            backgroundColor = esgst[`${colors[i].id}_bgColor`];
+            style += `
+                ${colors[i].key === `genres` ? `a` : ``}.${colors[i].mainKey}-${colors[i].key}:not(.giveaway__column):not(.featured__column) {
+                    background-color: ${backgroundColor};
+                    ${color ? `color: ${color};` : ``}
+                }
+                .${colors[i].mainKey}-${colors[i].key}.giveaway__column, .${colors[i].mainKey}-${colors[i].key}.featured__column {
+                    color: ${backgroundColor};
+                }
+            `;
+        }
+        colors = [
             {
                 id: `wbh_w`,
                 key: `whitelisted`,
@@ -36492,10 +36507,6 @@ Parsedown = (() => {
                 .${colors[i].mainKey}-${colors[i].key} {
                     background-color: ${backgroundColor} !important;
                     ${color ? `color: ${color} !important;` : ``}
-                }
-                .${colors[i].mainKey}-${colors[i].key}.giveaway__column, .${colors[i].mainKey}-${colors[i].key}.featured__column {
-                    background: none !important;
-                    color: ${backgroundColor} !important;
                 }
             `;
         }
@@ -37748,10 +37759,6 @@ Parsedown = (() => {
                 text-overflow: ellipsis;
                 vertical-align: middle;
                 white-space: nowrap;
-            }
-
-            span.esgst-gc-genres {
-                background: none !important;
             }
 
             .esgst-gf-right-panel {
