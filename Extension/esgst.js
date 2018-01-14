@@ -10049,7 +10049,7 @@ Parsedown = (() => {
                         }
                     }
                     if (esgst.pm && (esgst.pm_a || discussion.heading.firstElementChild.nextElementSibling.nextElementSibling.textContent === `Puzzles`)) {
-                        addPmButton(discussion.code, discussion.outerWrap, savedDiscussions[discussion.code].status || `off`);
+                        addPmButton(discussion.code, discussion.headingContainer, savedDiscussions[discussion.code].status || `off`);
                     }
                 } else {
                     if (esgst.df && esgst.df_s) {
@@ -10059,7 +10059,7 @@ Parsedown = (() => {
                         addDhHighlightButton(discussion.code, discussion.heading, discussion.headingContainer);
                     }
                     if (esgst.pm && (esgst.pm_a || discussion.heading.firstElementChild.nextElementSibling.nextElementSibling.textContent === `Puzzles`)) {
-                        addPmButton(discussion.code, discussion.outerWrap, `off`);
+                        addPmButton(discussion.code, discussion.headingContainer, `off`);
                     }
                 }
             });
