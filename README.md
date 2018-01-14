@@ -949,6 +949,21 @@ To upgrade from the script to the extension or downgrade from the extension to t
 
 ## Changelog
 
+**7.13.1 (January 14, 2018):**
+
+<ul>
+    <li><a href="https://github.com/revilheart/ESGST/issues/399">#399</a> Remove !important rule from colors in Game Categories</li>
+    <li><a href="https://github.com/revilheart/ESGST/issues/398">#398</a> Add more information about requesting to join the Steam group</li>
+    <li><a href="https://github.com/revilheart/ESGST/issues/401">#401</a> Hide button to request access to the ESGST Steam group if the user is already a member</li>
+    <li><a href="https://github.com/revilheart/ESGST/issues/400">#400</a> Add options to customize what happens when clicking on notifications</li>
+    <li><a href="https://github.com/revilheart/ESGST/issues/402">#402</a> Fix a bug that happens when syncing with Avatar Popout (Click) enabled</li>
+    <li><a href="https://github.com/revilheart/ESGST/issues/403">#403</a> Fix a bug that does not load Puzzle Marker in discussion pages</li>
+    <li><a href="https://github.com/revilheart/ESGST/issues/404">#404</a> Fix a bug that does not allow moving categories to the default place if no other categories are present</li>
+    <li><a href="https://github.com/revilheart/ESGST/issues/405">#405</a> Add option to only close notifications manually</li>
+    <li><a href="https://github.com/revilheart/ESGST/issues/396">#396</a> Fix a style issue with the last item of menu dropdowns</li>
+    <li><a href="https://github.com/revilheart/ESGST/issues/353">#353</a> Convert all callback functions into promises and use async/await to deal with them (Fixes a lot of bugs) (Ongoing)</li>
+</ul>
+
 **7.13.0 (January 13, 2018):**
 
 <ul>
