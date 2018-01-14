@@ -48,6 +48,7 @@
     "*://*.googleapis.com/*",
     "*://*.graph.microsoft.com/*",
     "storage",
+    "tabs",
     "unlimitedStorage"
   ],
   "version": "7.13.0"

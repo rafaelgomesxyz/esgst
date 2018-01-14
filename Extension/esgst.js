@@ -2311,9 +2311,74 @@ Parsedown = (() => {
                             description: `
                                 <ul>
                                     <li>Refreshes the header icons (created/won/messages for SG and messages for ST) and the points on SG every specified number of minutes.</li>
+                                    <li>If you enable the options to show browser notifications you will be asked to give permission for the script by your browser.</li>
                                 </ul>
                             `,
                             features: {
+                                hr_a: {
+                                    description: `
+                                        <ul>
+                                            <li>If disabled, clicking on a notification will always open a new tab.</li>
+                                        </ul>
+                                    `,
+                                    extensionOnly: true,
+                                    features: {
+                                        hr_a_r: {
+                                            name: `Refresh the page after setting it as active.`,
+                                            sg: true,
+                                            st: true
+                                        },
+                                        hr_a_a: {
+                                            name: `If the page is not open, set any SG/ST tab as active.`,
+                                            sg: true,
+                                            st: true
+                                        }
+                                    },
+                                    name: `When clicking on a browser notification, check if the related page is open and set it as active.`,
+                                    new: true,
+                                    sg: true,
+                                    st: true
+                                },
+                                hr_b: {
+                                    name: `Keep refreshing in the background when you go to another tab or minimize the browser.`,
+                                    sg: true,
+                                    st: true
+                                },
+                                hr_fp: {
+                                    name: `Show browser notification if there are 400P or more.`,
+                                    sg: true
+                                },
+                                hr_g: {
+                                    description: `
+                                        <ul>
+                                            <li>A trophy icon will appear in the title.</li>
+                                        </ul>
+                                    `,
+                                    features: {
+                                        hr_g_n: {
+                                            name: `Also show as a browser notification.`,
+                                            sg: true
+                                        }
+                                    },
+                                    name: `Indicate if there are unviewed keys for won gifts in the tab title.`,
+                                    sg: true
+                                },
+                                hr_m: {
+                                    features: {
+                                        hr_m_n: {
+                                            name: `Also show as a browser notification.`,
+                                            sg: true,
+                                            st: true
+                                        }
+                                    },
+                                    name: `Show the number of unread messages in the tab icon.`,
+                                    sg: true,
+                                    st: true
+                                },
+                                hr_p: {
+                                    name: `Show the number of points in the tab title.`,
+                                    sg: true
+                                },
                                 hr_w: {
                                     description: `
                                         <ul>
@@ -2333,46 +2398,6 @@ Parsedown = (() => {
                                     },
                                     name: `Indicate if there are unentered wishlist giveaways open.`,
                                     sg: true
-                                },
-                                hr_g: {
-                                    description: `
-                                        <ul>
-                                            <li>A trophy icon will appear in the title.</li>
-                                        </ul>
-                                    `,
-                                    features: {
-                                        hr_g_n: {
-                                            name: `Also show as a browser notification.`,
-                                            sg: true
-                                        }
-                                    },
-                                    name: `Indicate if there are unviewed keys for won gifts in the tab title.`,
-                                    sg: true
-                                },
-                                hr_b: {
-                                    name: `Keep refreshing in the background when you go to another tab or minimize the browser.`,
-                                    sg: true,
-                                    st: true
-                                },
-                                hr_fp: {
-                                    name: `Show browser notification if there are 400P or more.`,
-                                    sg: true
-                                },
-                                hr_p: {
-                                    name: `Show the number of points in the tab title.`,
-                                    sg: true
-                                },
-                                hr_m: {
-                                    features: {
-                                        hr_m_n: {
-                                            name: `Also show as a browser notification.`,
-                                            sg: true,
-                                            st: true
-                                        }
-                                    },
-                                    name: `Show the number of unread messages in the tab icon.`,
-                                    sg: true,
-                                    st: true
                                 }
                             },
                             input: true,
@@ -5247,6 +5272,7 @@ Parsedown = (() => {
 
         if (typeof GM === `undefined` && typeof GM_setValue === `undefined`) {
             // esgst is running as an extension
+            esgst.type = `extension`;
             setValue = (key, value) => {
                 return setValues({[key]: value});
             };
@@ -5469,6 +5495,7 @@ Parsedown = (() => {
             });
         } else {
             // esgst is running as a script
+            esgst.type = `script`;
             if (typeof GM === `undefined`) {
                 // polyfill for userscript managers that do not support the gm-dot api
                 GM = {
@@ -12751,14 +12778,18 @@ Parsedown = (() => {
             tag: details.msg
         });
         notification.onclick = () => {
-            if (details.inbox) {
-                open(`/messages`);
-            }
-            if (details.wishlist) {
-                open(`/giveaways/search?type=wishlist`);
-            }
-            if (details.won) {
-                open(`/giveaways/won`);
+            if (esgst.type === `extension` && esgst.hr_a) {
+                chrome.runtime.sendMessage({action: `tabs`, any: esgst.hr_a_a, inbox_sg: esgst.sg && details.inbox, inbox_st: esgst.st && details.inbox, refresh: esgst.hr_a_r, wishlist: details.wishlist, won: details.won});
+            } else {
+                if (details.inbox) {
+                    open(`/messages`);
+                }
+                if (details.wishlist) {
+                    open(`/giveaways/search?type=wishlist`);
+                }
+                if (details.won) {
+                    open(`/giveaways/won`);
+                }
             }
             notification.close();
         };
