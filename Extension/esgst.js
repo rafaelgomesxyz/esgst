@@ -5455,7 +5455,7 @@ Parsedown = (() => {
                                         <p class="esgst-header-menu-description">Thank you for the support!</p>
                                     </div>
                                 </a>
-                                <div class="esgst-header-menu-row">
+                                <div class="esgst-header-menu-row esgst-version-row">
                                     <div>
                                         <p class="esgst-header-menu-description">Current Version: ${esgst.currentVersion}</p>
                                     </div>
@@ -5723,7 +5723,7 @@ Parsedown = (() => {
                                         <p class="esgst-header-menu-description">Thank you for the support!</p>
                                     </div>
                                 </a>
-                                <div class="esgst-header-menu-row">
+                                <div class="esgst-header-menu-row esgst-version-row">
                                     <div>
                                         <p class="esgst-header-menu-description">Current Version: ${esgst.currentVersion}</p>
                                     </div>
@@ -38529,7 +38529,7 @@ Parsedown = (() => {
                     align-items: center;
                 }
 
-                .esgst-header-menu-row:last-child {
+                .esgst-version-row {
                     cursor: default;
                 }
 
@@ -38537,7 +38537,7 @@ Parsedown = (() => {
                     border-top: 1px dotted #d2d6e0;
                 }
 
-                .esgst-header-menu-row:not(:last-child):hover, .esgst.header-menu-button:hover + .esgst-header-menu-button {
+                .esgst-header-menu-row:not(.esgst-version-row):hover, .esgst.header-menu-button:hover + .esgst-header-menu-button {
                     border-top-color: transparent;
                 }
 
@@ -38550,7 +38550,7 @@ Parsedown = (() => {
                     color: #fff !important;
                 }
 
-                .esgst-header-menu-row:not(:last-child):hover{
+                .esgst-header-menu-row:not(.esgst-version-row):hover {
                     background-image: linear-gradient(#63a0f4 0%, #63a0f4 100%);
                     text-shadow: none;
                 }
@@ -38585,11 +38585,11 @@ Parsedown = (() => {
                     font: 11px/13px Arial, sans-serif
                 }
 
-                .esgst-header-menu-row:not(:last-child):hover .esgst-header-menu-name {
+                .esgst-header-menu-row:not(.esgst-version-row):hover .esgst-header-menu-name {
                     color: #fff;
                 }
 
-                .esgst-header-menu-row:not(:last-child):hover .esgst-header-menu-description {
+                .esgst-header-menu-row:not(.esgst-version-row):hover .esgst-header-menu-description {
                     color: rgba(255, 255, 255, 0.7);
                 }
 
@@ -38658,7 +38658,7 @@ Parsedown = (() => {
                     cursor: pointer;
                 }
 
-                .esgst-header-menu-row:last-child {
+                .esgst-version-row {
                     cursor: default;
                 }
 
@@ -38712,7 +38712,7 @@ Parsedown = (() => {
                     color: #FECC66;
                 }
 
-                .esgst-header-menu-row:not(:last-child) .esgst-header-menu-description {
+                .esgst-header-menu-row:not(.esgst-version-row) .esgst-header-menu-description {
                     display: none;
                 }
 
