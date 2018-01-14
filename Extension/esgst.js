@@ -2339,6 +2339,17 @@ Parsedown = (() => {
                                     sg: true,
                                     st: true
                                 },
+                                hr_c: {
+                                    description: `
+                                        <ul>
+                                            <li>If disabled, notifications will automatically close after a few seconds.</li>
+                                        </ul>
+                                    `,
+                                    name: `Only close notifications manually.`,
+                                    new: true,
+                                    sg: true,
+                                    st: true
+                                },
                                 hr_b: {
                                     name: `Keep refreshing in the background when you go to another tab or minimize the browser.`,
                                     sg: true,
@@ -12787,6 +12798,7 @@ Parsedown = (() => {
         let notification = new Notification(`ESGST Notification`, {
             body: details.msg,
             icon: `https://dl.dropboxusercontent.com/s/lr3t3bxrxfxylqe/esgstIcon.ico?raw=1`,
+            requireInteraction: esgst.hr_c,
             tag: details.msg
         });
         notification.onclick = () => {
