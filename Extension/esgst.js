@@ -13261,7 +13261,7 @@ Parsedown = (() => {
             if (savedDiscussion && savedDiscussion.highlighted) {
                 highlightDhDiscussion(discussion.code, context);
                 addDhUnhighlightButton(discussion.code, context, discussion.heading.parentElement);
-                if (esgst.dh_t && main && !esgst.discussionsPath) {
+                if (esgst.dh_t && main && esgst.discussionsPath) {
                     discussion.outerWrap.parentElement.insertBefore(discussion.outerWrap, discussion.outerWrap.parentElement.firstElementChild);
                 }
             } else {
