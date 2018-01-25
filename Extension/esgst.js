@@ -16981,8 +16981,8 @@ Parsedown = (() => {
     function addGfContainer(heading, popup) {
         var basicFilter, basicFilters, box, button, categoryFilter, categoryFilters, collapseButton, display, exceptionButton, exceptionCount, exceptionPanel, expandButton, filters, genres, gf, headingButton, i, id, infinite, key, maxKey, maxSavedValue, maxValue, minKey, minSavedValue, minValue, name, preset, presetButton, presetDisplay, presetInput, presetMessage, presetPanel, presets, presetWarning, slider, step, toggleSwitch, typeFilter, typeFilters, value;
         gf = {
-            advancedSearch: location.search.match(/q=/),
             counters: {},
+            parameters: getParameters(),
             popup: popup,
             type: popup || (esgst.groupPath ? `Groups` : (location.search.match(/type/) ? { wishlist: `Wishlist`, recommended: `Recommended`, group: `Group`, new: `New` }[location.search.match(/type=(wishlist|recommended|group|new)/)[1]] : (esgst.createdPath ? `Created` : (esgst.enteredPath ? `Entered` : (esgst.wonPath ? `Won` : (esgst.userPath ? `User` : ``))))))
         };
@@ -17006,7 +17006,7 @@ Parsedown = (() => {
             <div class="esgst-gf-container">
                 <div class="esgst-gf-box">
                     <div class="esgst-gf-filters esgst-hidden">
-                        <div class="esgst-gf-basic-filters esgst-hidden">
+                        <div class="esgst-gf-basic-filters">
                             <div>
                                 <span class="esgst-bold">Basic Filters:</span>
                                 <i class="fa fa-question-circle" title="The entries/copies filters are infinite. To increase/decrease their max value, simply enter the new max value into the input field and it will be changed."></i>
@@ -17117,75 +17117,72 @@ Parsedown = (() => {
         gf.overrides = preset.overrides || {};
         gf.overrideButtons = {};
         exceptionButton.addEventListener(`click`, openGfExceptionPopup.bind(null, exceptionCount, gf, presetInput));
-        if (!gf.advancedSearch) {
-            basicFilters.classList.remove(`esgst-hidden`);
-            [ { check: ((!esgst.createdPath || esgst.cewgd) && (!esgst.enteredPath || esgst.cewgd) && (!esgst.wonPath || esgst.cewgd)) || popup, maxValue: 10, minValue: 0, name: `Level` },
-                { check: !esgst.wonPath || popup, infinite: true, maxValue: 99999, minValue: 0, name: `Entries` },
-                { check: !esgst.wonPath || popup, infinite: true, maxValue: 99999, minValue: 1, name: `Copies` },
-                { check: ((!esgst.createdPath || esgst.cewgd) && (!esgst.enteredPath || esgst.cewgd) && (!esgst.wonPath || esgst.cewgd)) || popup, maxValue: 100, minValue: 0, name: `Points` },
-                { check: !esgst.wonPath || popup, maxValue: 43800, minValue: 0, name: `MinutesToEnd` },
-                { check: ((!esgst.enteredPath || esgst.cewgd) && !esgst.createdPath && !esgst.wonPath) || popup, maxValue: 100, minValue: 0, name: `Chance`, step: 0.01 },
-                { check: ((!esgst.enteredPath || esgst.cewgd) && !esgst.createdPath && !esgst.wonPath) || popup, maxValue: 99999, minValue: 0, name: `Ratio` },
-                { check: true, maxValue: 100, minValue: 0, name: `Rating` }
-            ].forEach(filter => {
-                if (filter.check) {
-                    name = filter.name;
-                    if (name !== `Rating` || esgst.gc) {
-                        maxKey = `max${name}`;
-                        maxValue = filter.maxValue;
-                        minKey = `min${name}`;
-                        minValue = filter.minValue;
-                        key = name === `MinutesToEnd` ? `minutesToEnd` : name.toLowerCase();
-                        if (esgst[`gf_${key}`]) {
-                            infinite = filter.infinite;
-                            maxSavedValue = preset[maxKey] || maxValue;
-                            minSavedValue = preset[minKey] || minValue;
-                            step = filter.step || 1;
-                            if (!infinite && maxSavedValue > maxValue) {
-                                maxSavedValue = maxValue;
-                            }
-                            gf[maxKey] = maxSavedValue;
-                            gf[minKey] = minSavedValue;
-                            basicFilter = insertHtml(basicFilters, `beforeEnd`, `
-                                <div class="esgst-gf-basic-filter">
-                                    <div>${name === `MinutesToEnd` ? `Minutes To End` : name} <span class="esgst-gf-filter-count" title="Number of giveaways this filter is filtering">0</span> <span class="esgst-float-right"><input type="text" value="${minSavedValue}"> - <input type="text" value="${maxSavedValue}"></span></div>
-                                    <div></div>
-                                    <div></div>
-                                </div>
-                            `);
-                            display = basicFilter.firstElementChild;
-                            setGfOverride(gf, display, key);
-                            slider = display.nextElementSibling;
-                            if (name === `Rating`) {
-                                let toggle = new ToggleSwitch(slider.nextElementSibling, `gf_noRating`, false, `Filter games with no rating.`, false, false, null, esgst.gf_noRating);
-                                toggle.onEnabled = filterGfGiveaways.bind(null, gf);
-                                toggle.onDisabled = filterGfGiveaways.bind(null, gf);
-                            }
-                            gf.counters[name.toLowerCase()] = display.firstElementChild.nextElementSibling;
-                            gf[`${minKey}Input`] = gf.counters[name.toLowerCase()].nextElementSibling.firstElementChild;
-                            gf[`${maxKey}Input`] = gf[`${minKey}Input`].nextElementSibling;
-                            gf[`${maxKey}Input`].addEventListener(`change`, changeGfMaxValue.bind(null, infinite, slider, step));
-                            gf[`${minKey}Input`].addEventListener(`change`, changeGfMinValue.bind(null, slider, step));
-                            if (infinite) {
-                                maxValue = maxSavedValue;
-                            }
-                            $(slider).slider({
-                                change: changeGfSlider.bind(null, gf, maxKey, minKey),
-                                min: minValue,
-                                max: maxValue,
-                                range: true,
-                                slide: slideGfSlider.bind(null, gf, maxKey, minKey),
-                                step: step,
-                                values: [minSavedValue, maxSavedValue]
-                            });
-                        } else {
-                            gf[maxKey] = maxValue;
-                            gf[minKey] = minValue;
+        [ { check: (!gf.parameters.level_min && !gf.parameters.level_max) && (((!esgst.createdPath || esgst.cewgd) && (!esgst.enteredPath || esgst.cewgd) && (!esgst.wonPath || esgst.cewgd)) || popup), maxValue: 10, minValue: 0, name: `Level` },
+            { check: (!gf.parameters.entry_min && !gf.parameters.entry_max) && (!esgst.wonPath || popup), infinite: true, maxValue: 99999, minValue: 0, name: `Entries` },
+            { check: (!gf.parameters.copy_min && !gf.parameters.copy_max) && (!esgst.wonPath || popup), infinite: true, maxValue: 99999, minValue: 1, name: `Copies` },
+            { check: (!gf.parameters.point_min && !gf.parameters.point_max) && (((!esgst.createdPath || esgst.cewgd) && (!esgst.enteredPath || esgst.cewgd) && (!esgst.wonPath || esgst.cewgd)) || popup), maxValue: 100, minValue: 0, name: `Points` },
+            { check: !esgst.wonPath || popup, maxValue: 43800, minValue: 0, name: `MinutesToEnd` },
+            { check: ((!esgst.enteredPath || esgst.cewgd) && !esgst.createdPath && !esgst.wonPath) || popup, maxValue: 100, minValue: 0, name: `Chance`, step: 0.01 },
+            { check: ((!esgst.enteredPath || esgst.cewgd) && !esgst.createdPath && !esgst.wonPath) || popup, maxValue: 99999, minValue: 0, name: `Ratio` },
+            { check: true, maxValue: 100, minValue: 0, name: `Rating` }
+        ].forEach(filter => {
+            if (filter.check) {
+                name = filter.name;
+                if (name !== `Rating` || esgst.gc) {
+                    maxKey = `max${name}`;
+                    maxValue = filter.maxValue;
+                    minKey = `min${name}`;
+                    minValue = filter.minValue;
+                    key = name === `MinutesToEnd` ? `minutesToEnd` : name.toLowerCase();
+                    if (esgst[`gf_${key}`]) {
+                        infinite = filter.infinite;
+                        maxSavedValue = preset[maxKey] || maxValue;
+                        minSavedValue = preset[minKey] || minValue;
+                        step = filter.step || 1;
+                        if (!infinite && maxSavedValue > maxValue) {
+                            maxSavedValue = maxValue;
                         }
+                        gf[maxKey] = maxSavedValue;
+                        gf[minKey] = minSavedValue;
+                        basicFilter = insertHtml(basicFilters, `beforeEnd`, `
+                            <div class="esgst-gf-basic-filter">
+                                <div>${name === `MinutesToEnd` ? `Minutes To End` : name} <span class="esgst-gf-filter-count" title="Number of giveaways this filter is filtering">0</span> <span class="esgst-float-right"><input type="text" value="${minSavedValue}"> - <input type="text" value="${maxSavedValue}"></span></div>
+                                <div></div>
+                                <div></div>
+                            </div>
+                        `);
+                        display = basicFilter.firstElementChild;
+                        setGfOverride(gf, display, key);
+                        slider = display.nextElementSibling;
+                        if (name === `Rating`) {
+                            let toggle = new ToggleSwitch(slider.nextElementSibling, `gf_noRating`, false, `Filter games with no rating.`, false, false, null, esgst.gf_noRating);
+                            toggle.onEnabled = filterGfGiveaways.bind(null, gf);
+                            toggle.onDisabled = filterGfGiveaways.bind(null, gf);
+                        }
+                        gf.counters[name.toLowerCase()] = display.firstElementChild.nextElementSibling;
+                        gf[`${minKey}Input`] = gf.counters[name.toLowerCase()].nextElementSibling.firstElementChild;
+                        gf[`${maxKey}Input`] = gf[`${minKey}Input`].nextElementSibling;
+                        gf[`${maxKey}Input`].addEventListener(`change`, changeGfMaxValue.bind(null, infinite, slider, step));
+                        gf[`${minKey}Input`].addEventListener(`change`, changeGfMinValue.bind(null, slider, step));
+                        if (infinite) {
+                            maxValue = maxSavedValue;
+                        }
+                        $(slider).slider({
+                            change: changeGfSlider.bind(null, gf, maxKey, minKey),
+                            min: minValue,
+                            max: maxValue,
+                            range: true,
+                            slide: slideGfSlider.bind(null, gf, maxKey, minKey),
+                            step: step,
+                            values: [minSavedValue, maxSavedValue]
+                        });
+                    } else {
+                        gf[maxKey] = maxValue;
+                        gf[minKey] = minValue;
                     }
                 }
-            });
-        }
+            }
+        });
         if (basicFilters.children.length === 1) {
             basicFilters.classList.add(`esgst-hidden`);
         }
@@ -17213,7 +17210,7 @@ Parsedown = (() => {
         ].forEach(filter => {
             if (filter.check) {
                 key = filter.key;
-                if (key !== `regionRestricted` || !gf.advancedSearch) {
+                if (key !== `regionRestricted` || !gf.parameters.region_restricted) {
                     if (esgst[`gf_${key}`]) {
                         name = filter.name;
                         typeFilter = insertHtml(typeFilters, `beforeEnd`, `
@@ -17253,7 +17250,7 @@ Parsedown = (() => {
                 { id: `gc_g`, key: `genres`, name: `Genres` }
             ].forEach(filter => {
                 id = filter.id;
-                if ((id !== `gc_dlc` || !gf.advancedSearch) && esgst[id]) {
+                if ((id !== `gc_dlc` || !gf.parameters.dlc) && esgst[id]) {
                     key = filter.key;
                     genres = key === `genres`;
                     if (esgst[`gf_${key}`]) {
@@ -17977,7 +17974,7 @@ Parsedown = (() => {
         }
         for (i = 0, n = typeFilters.length; !filtered && i < n; ++i) {
             key = typeFilters[i];
-            if ((key === `regionRestricted` && !gf.advancedSearch) || key !== `regionRestricted`) {
+            if ((key === `regionRestricted` && !gf.parameters.region_restricted) || key !== `regionRestricted`) {
                 if (gf[key]) {
                     filtered = (key === `fullCV` ? !giveaway.reducedCV && !giveaway.noCV : giveaway[key]) ? false : true;
                 }
@@ -18012,35 +18009,33 @@ Parsedown = (() => {
         categoryFilters = [`removed`, `tradingCards`, `achievements`, `multiplayer`, `steamCloud`, `linux`, `mac`, `dlc`, `dlcFree`, `dlcNonFree`, `package`, `genres`];
         filtered = false;
         override = 0;
-        if (!gf.advancedSearch) {
-            for (i = 0, n = basicFilters.length; i < n && (!filtered || !override); ++i) {
-                name = basicFilters[i];
-                if ((name === `Rating` && esgst.gc && giveaway.gcReady) || name !== `Rating`) {
-                    key = name.toLowerCase();
-                    maxKey = `max${name}`;
-                    minKey = `min${name}`;
-                    if (name === `MinutesToEnd`) {
-                        if (!giveaway.ended && !giveaway.deleted) {
-                            minutes = (giveaway.endTime - Date.now()) / 60000;
-                            if (minutes < gf[minKey] || minutes > gf[maxKey]) {
-                                filtered = true;
-                                override = gf.overrides.minutesToEnd;
-                                counterKey = key;
-                            }
-                        }
-                    } else if (giveaway[key] < gf[minKey] || giveaway[key] > gf[maxKey]) {
-                        if (name !== `Rating` || giveaway.rating !== 0 || esgst.gf_noRating) {
+        for (i = 0, n = basicFilters.length; i < n && (!filtered || !override); ++i) {
+            name = basicFilters[i];
+            if ((name !== `Rating` || (esgst.gc && giveaway.gcReady)) && gf[`max${name}Input`]) {
+                key = name.toLowerCase();
+                maxKey = `max${name}`;
+                minKey = `min${name}`;
+                if (name === `MinutesToEnd`) {
+                    if (!giveaway.ended && !giveaway.deleted) {
+                        minutes = (giveaway.endTime - Date.now()) / 60000;
+                        if (minutes < gf[minKey] || minutes > gf[maxKey]) {
                             filtered = true;
-                            override = gf.overrides[key];
+                            override = gf.overrides.minutesToEnd;
                             counterKey = key;
                         }
+                    }
+                } else if (giveaway[key] < gf[minKey] || giveaway[key] > gf[maxKey]) {
+                    if (name !== `Rating` || giveaway.rating !== 0 || esgst.gf_noRating) {
+                        filtered = true;
+                        override = gf.overrides[key];
+                        counterKey = key;
                     }
                 }
             }
         }
         for (i = 0, n = typeFilters.length; i < n && (!filtered || !override); ++i) {
             key = typeFilters[i];
-            if ((key === `regionRestricted` && !gf.advancedSearch) || key !== `regionRestricted`) {
+            if ((key === `regionRestricted` && !gf.parameters.region_restricted) || key !== `regionRestricted`) {
                 if ((key === `fullCV` && ((gf.fullCV === `disabled` && !giveaway.reducedCV && !giveaway.noCV) || (gf.fullCV === `none` && (giveaway.reducedCV || giveaway.noCV)))) || (key !== `fullCV` && ((gf[key] === `disabled` && giveaway[key]) || (gf[key] === `none` && !giveaway[key])))) {
                     filtered = true;
                     override = gf.overrides[key];
@@ -18056,7 +18051,7 @@ Parsedown = (() => {
         if (esgst.gc && giveaway.gcReady) {
             for (i = 0, n = categoryFilters.length; i < n && (!filtered || !override); ++i) {
                 key = categoryFilters[i];
-                if (key !== `dlc` || !gf.advancedSearch) {
+                if (key !== `dlc` || !gf.parameters.dlc) {
                     if (key === `genres`) {
                         if (giveaway.genres && gf.genreList) {
                             genres = gf.genreList.toLowerCase().split(/,\s/);
