@@ -2618,11 +2618,11 @@ Parsedown = (() => {
                         ts: {
                             description: `
                                 <ul>
-                                    <li>Allows you to sort tables.</li>
+                                    <li>Allows you to sort a table by its columns.</li>
                                 </ul>
                                 <img src="http://i.imgur.com/hmWWriM.png"/>
                             `,
-                            name: `Tables Sorter`,
+                            name: `Table Sorter`,
                             sg: true,
                             st: true
                         },
@@ -26251,7 +26251,7 @@ Parsedown = (() => {
         getTbTrades(null, parseHtml(response.responseText), setTimeout.bind(null, setTbAutoBump, 3900000, button));
     }
 
-    /* [TS] Tables Sorter */
+    /* [TS] Table Sorter */
 
     function loadTs() {
         esgst.endlessFeatures.push(getTsTables);
@@ -26260,7 +26260,7 @@ Parsedown = (() => {
 
     function getTsTables(context, main, source, endless) {
         var i, n, tables;
-        tables = context.getElementsByClassName(`table`);
+        tables = context.querySelectorAll(`.table, table`);
         for (i = 0, n = tables.length; i < n; ++i) {
             setTsTable(tables[i]);
         }
@@ -26281,7 +26281,7 @@ Parsedown = (() => {
 
     function setTsTable(table) {
         var button, columns, columnName, columns, heading, i, tsTable;
-        heading = table.querySelector(`.table__heading, .header`);
+        heading = table.querySelector(`.table__heading, .header, thead`);
         if (heading) {
             tsTable = {
                 columnName: ``,
@@ -26290,7 +26290,7 @@ Parsedown = (() => {
                 table: table
             };
             esgst.tsTables.push(tsTable);
-            columns = heading.querySelectorAll(`.table__column--width-fill, .table__column--width-medium, .table__column--width-small, .column_flex, .column_medium, .column_small`);
+            columns = heading.querySelectorAll(`.table__column--width-fill, .table__column--width-medium, .table__column--width-small, .column_flex, .column_medium, .column_small, th`);
             for (i = 0, n = columns.length; i < n; ++i) {
                 column = columns[i];
                 columnName = column.textContent.trim();
@@ -26345,10 +26345,11 @@ Parsedown = (() => {
     function getTsArray(columnName, i, table) {
         var array, column, element, j, match, n, row, rows, value;
         array = [];
-        rows = table.querySelectorAll(`.table__row-outer-wrap, .row_outer_wrap`);
+        rows = table.querySelectorAll(`.table__row-outer-wrap, .row_outer_wrap, tbody tr`);
+        let isNumeric = false;
         for (j = 0, n = rows.length; j < n; ++j) {
             row = rows[j];
-            column = row.querySelectorAll(`.table__column--width-fill, .table__column--width-medium, .table__column--width-small, .column_flex, .column_medium, .column_small`)[i];
+            column = row.querySelectorAll(`.table__column--width-fill, .table__column--width-medium, .table__column--width-small, .column_flex, .column_medium, .column_small, td`)[i];
             value = column && column.textContent.trim();
             element = {
                 outerWrap: row
@@ -26391,9 +26392,17 @@ Parsedown = (() => {
                                 element.value = parseFloat(value.replace(/\$/g, ``));
                                 if (isNaN(element.value)) {
                                     element.value = value;
+                                } else {
+                                    isNumeric = true;
                                 }
                             } else {
-                                element.value = parseFloat(value.replace(/,/g, ``).match(/\d+/)[0]);
+                                match = value.replace(/,/g, ``).match(/\d+/);
+                                if (match) {
+                                    element.value = parseFloat(match[0]);
+                                    isNumeric = true;
+                                } else {
+                                    element.value = value;
+                                }
                             }
                             break;
                     }
@@ -26402,6 +26411,14 @@ Parsedown = (() => {
                 element.value = 0;
             }
             array.push(element);
+        }
+        if (isNumeric) {
+            for (let i = array.length - 1; i > -1; i--) {
+                let element = array[i];
+                if (typeof element.value === `string`) {
+                    element.value = 0;
+                }
+            }
         }
         return array;
     }
