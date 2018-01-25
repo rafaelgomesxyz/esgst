@@ -30465,8 +30465,9 @@ Parsedown = (() => {
             esgst.version = esgst.currentVersion;
             setValue(`version`, esgst.version);
         }
-        if (!esgst.settings.groupPopupDismissed) {            
-            for (let i = esgst.groups.length - 1; i > -1 && esgst.groups[i].steamId !== `103582791461018688`; i--);
+        if (!esgst.settings.groupPopupDismissed) {  
+            let i;          
+            for (i = esgst.groups.length - 1; i > -1 && esgst.groups[i].steamId !== `103582791461018688`; i--);
             if (i < 0 || !esgst.groups[i].member) {
                 let popup = new Popup(`fa-steam`, `Hello! In case you were not aware ESGST now has a Steam group. If you want to join it, you must first send a request from the <a class="esgst-bold" href="http://steamcommunity.com/groups/esgst">Steam group</a> page, then another request from the settings menu (last button in the heading). Have a good day. :)`);
                 popup.description.insertAdjacentHTML(`beforeEnd`, `<div class="esgst-description">This popup will never show up again after you close it.</div>`);
