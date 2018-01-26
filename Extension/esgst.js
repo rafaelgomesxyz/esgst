@@ -20799,7 +20799,7 @@ Parsedown = (() => {
         };
         esgst.hr = hr;
         [`hr_fp_s`, `hr_g_n_s`, `hr_m_n_s`, `hr_w_n_s`].forEach(id => {
-            if (esgst[`${id}_url`]) {
+            if (esgst[id] && esgst[`${id}_url`]) {
                 hr[id] = new Audio(esgst[`${id}_url`]);
             }
         });
