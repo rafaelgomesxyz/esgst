@@ -1600,6 +1600,10 @@ Parsedown = (() => {
         // initialize the global variable
         esgst = {
             defaultValues: {
+                hr_fp_s_url: `https://notificationsounds.com/notification-sounds/confident-543/download/mp3`,
+                hr_g_n_s_url: `https://notificationsounds.com/notification-sounds/confident-543/download/mp3`,
+                hr_m_n_s_url: `https://notificationsounds.com/notification-sounds/confident-543/download/mp3`,
+                hr_w_n_s_url: `https://notificationsounds.com/notification-sounds/confident-543/download/mp3`,
                 enableByDefault_sg: false,
                 enableByDefault_st: false,
                 checkVersion_sg: true,
@@ -2353,7 +2357,16 @@ Parsedown = (() => {
                                     st: true
                                 },
                                 hr_fp: {
+                                    features: {
+                                        hr_fp_s: {
+                                            name: `Play a sound with this notification.`,
+                                            new: true,
+                                            input: `hr_fp_s_url`,
+                                            sg: true
+                                        }
+                                    },
                                     name: `Show browser notification if there are 400P or more.`,
+                                    newBelow: true,
                                     sg: true
                                 },
                                 hr_g: {
@@ -2364,22 +2377,43 @@ Parsedown = (() => {
                                     `,
                                     features: {
                                         hr_g_n: {
+                                            features: {
+                                                hr_g_n_s: {
+                                                    name: `Play a sound with this notification.`,
+                                                    new: true,
+                                                    input: `hr_g_n_s_url`,
+                                                    sg: true
+                                                }
+                                            },
                                             name: `Also show as a browser notification.`,
+                                            newBelow: true,
                                             sg: true
                                         }
                                     },
                                     name: `Indicate if there are unviewed keys for won gifts in the tab title.`,
+                                    newBelow: true,
                                     sg: true
                                 },
                                 hr_m: {
                                     features: {
                                         hr_m_n: {
+                                            features: {
+                                                hr_m_n_s: {
+                                                    name: `Play a sound with this notification.`,
+                                                    new: true,
+                                                    input: `hr_m_n_s_url`,
+                                                    sg: true,
+                                                    st: true
+                                                }
+                                            },
                                             name: `Also show as a browser notification.`,
+                                            newBelow: true,
                                             sg: true,
                                             st: true
                                         }
                                     },
                                     name: `Show the number of unread messages in the tab icon.`,
+                                    newBelow: true,
                                     sg: true,
                                     st: true
                                 },
@@ -2395,7 +2429,16 @@ Parsedown = (() => {
                                     `,
                                     features: {
                                         hr_w_n: {
+                                            features: {
+                                                hr_w_n_s: {
+                                                    name: `Play a sound with this notification.`,
+                                                    new: true,
+                                                    input: `hr_w_n_s_url`,
+                                                    sg: true
+                                                }
+                                            },
                                             name: `Also show as a browser notification.`,
+                                            newBelow: true,
                                             sg: true
                                         },
                                         hr_w_h: {
@@ -2405,11 +2448,13 @@ Parsedown = (() => {
                                         }
                                     },
                                     name: `Indicate if there are unentered wishlist giveaways open.`,
+                                    newBelow: true,
                                     sg: true
                                 }
                             },
                             input: true,
                             name: `Header Refresher`,
+                            newBelow: true,
                             sg: true,
                             st: true
                         },
@@ -20752,6 +20797,12 @@ Parsedown = (() => {
             points: esgst.points,
             wins: 0
         };
+        esgst.hr = hr;
+        [`hr_fp_s`, `hr_g_n_s`, `hr_m_n_s`, `hr_w_n_s`].forEach(id => {
+            if (esgst[`${id}_url`]) {
+                hr[id] = new Audio(esgst[`${id}_url`]);
+            }
+        });
         notifyHrChange(hr, 0);
         setLocalValue(`hrCache`, JSON.stringify(getHrCache()));
         startHeaderRefresher(hr);
@@ -20976,6 +21027,7 @@ Parsedown = (() => {
             };
             if (pointsNotification && esgst.hr_fp) {
                 notification.msg += `You have ${esgst.points}P.\n\n`;
+                notification.points = true;
             }
             if (messageNotification && esgst.hr_m && esgst.hr_m_n) {
                 notification.msg += `You have ${messageNotification} new messages.\n\n`;
@@ -21026,6 +21078,18 @@ Parsedown = (() => {
             }
             notification.close();
         };
+        if (details.points && esgst.hr.hr_fp_s) {
+            esgst.hr.hr_fp_s.play();
+        }
+        if (details.inbox && esgst.hr.hr_m_n_s) {
+            esgst.hr.hr_m_n_s.play();
+        }
+        if (details.wishlist && esgst.hr.hr_w_n_s) {
+            esgst.hr.hr_w_n_s.play();
+        }
+        if (details.won && esgst.hr.hr_g_n_s) {
+            esgst.hr.hr_g_n_s.play();
+        }
     }
 
     /* [IB] Image Borders */
@@ -33494,6 +33558,20 @@ Parsedown = (() => {
                 input.firstElementChild.addEventListener(`change`, function() {
                     setSetting(`elgb_filters`, input.firstElementChild.value);
                     esgst.elgb_filters = input.firstElementChild.value;
+                });
+            } else if (ID.match(/^hr_.+_s$/)) {
+                let id = Feature.input;
+                let tooltip = insertHtml(insertHtml(SMFeatures, `beforeEnd`, `
+                    <div class="esgst-sm-colors"></div>`
+                ), `beforeEnd`, `
+                    Enter the URL for the audio file you want played for this notification: <input type="text" value="${esgst[id]}"> <i class="fa fa-question-circle esgst-clickable"></i>
+                `);
+                createTooltip(tooltip, `You can enter any direct URL for an audio file here. To make sure that you entered the URL correctly, hit "Enter" after typing it and you should hear the sound after a few seconds. You can find some sounds here: <a href="https://notificationsounds.com/">https://notificationsounds.com/</a> To use a sound from that site, just choose the one you want, go to its link (which in the default case is <a href="https://notificationsounds.com/notification-sounds/confident-543">https://notificationsounds.com/notification-sounds/confident-543</a>), click "Download", right click "mp3", copy the link and paste it here.`);
+                tooltip.previousElementSibling.addEventListener(`change`, event => {
+                    setSetting(id, event.currentTarget.value);
+                    esgst[id] = event.currentTarget.value;
+                    esgst.hr[ID] = new Audio(event.currentTarget.value);
+                    esgst.hr[ID].play();
                 });
             }
             if (siwtchSg) {
