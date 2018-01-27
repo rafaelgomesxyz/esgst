@@ -30574,8 +30574,6 @@ Parsedown = (() => {
             } else {
                 alert(`There are ESGST errors in the console, use Ctrl + Shift + J to view them`);
             }
-        } else {
-            alert(`There are ESGST errors in the console, use Ctrl + Shift + J to view them`);
         }
     }
 
