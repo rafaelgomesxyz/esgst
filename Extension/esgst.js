@@ -20789,7 +20789,6 @@ Parsedown = (() => {
 
     async function loadHr() {
         let hr = {
-            wishlist: 0,
             messages: 0,
             points: esgst.points,
             wins: 0
@@ -20802,7 +20801,7 @@ Parsedown = (() => {
                 hr[id] = await createHrPlayer(esgst.settings[`${id}_sound`] || getHrDefaultSound());
             }
         }
-        notifyHrChange(hr, 0);
+        notifyHrChange(hr);
         setLocalValue(`hrCache`, JSON.stringify(getHrCache()));
         startHeaderRefresher(hr);
         if (!esgst.hr_b) {
@@ -20869,6 +20868,7 @@ Parsedown = (() => {
             await refreshHeader(cache, hr, true);
             hr.refresher = setTimeout(continueHeaderRefresher, esgst.hr_minutes * 60000, hr);
         } else {
+            esgst.wishlist = cache.wishlist;
             await refreshHeader(cache, hr);
             setTimeout(continueHeaderRefresher, esgst.hr_minutes * 60000, hr);
         }
@@ -20888,7 +20888,7 @@ Parsedown = (() => {
         }
         await refreshHeaderElements(document);
         if (esgst.hr) {
-            notifyHrChange(hr, esgst.wishlist || cache.wishlist, notify);
+            notifyHrChange(hr, notify);
         }
         if (esgst.lpv) {
             setLpvStyle();
@@ -20896,8 +20896,7 @@ Parsedown = (() => {
     }
 
     async function refreshHeaderElements(context) {
-        let currentTime, i, navigation;
-        navigation = context.querySelector(`.nav__right-container, .header_inner_wrap nav`);
+        let navigation = context.querySelector(`.nav__right-container, .header_inner_wrap nav`);
         esgst.mainButton = navigation.querySelector(`.nav__button--is-dropdown, .nav_btn[href^="/user/"]`);
         if (esgst.sg) {
             esgst.pointsContainer = esgst.mainButton.firstElementChild;
@@ -20925,14 +20924,28 @@ Parsedown = (() => {
             }
             if (esgst.hr_g && context !== document) {
                 esgst.wishlist = 0;
-                currentTime = Date.now();
+                esgst.wishlistNew = 0;
+                let cache = JSON.parse(getLocalValue(`hrWishlistCache`, `[]`));
+                let codes = [];
+                let currentTime = Date.now();
                 let giveaways = await getGiveaways(context, false, null, true);
-                for (i = giveaways.length - 1; i >= -1; --i) {
-                    giveaway = giveaways[i];
+                for (let i = giveaways.length - 1; i > -1; i--) {
+                    let giveaway = giveaways[i];
+                    codes.push(giveaway.code);
                     if (giveaway && giveaway.level <= esgst.level && !giveaway.pinned && !giveaway.entered && (!esgst.giveaways[giveaway.code] || (!esgst.giveaways[giveaway.code].visited && !esgst.giveaways[giveaway.code].hidden)) && (!esgst.hr_w_h || giveaway.endTime - currentTime < esgst.hr_w_hours * 3600000)) {
                         esgst.wishlist += 1;
+                        if (cache.indexOf(giveaway.code) < 0) {
+                            cache.push(giveaway.code);
+                            esgst.wishlistNew += 1;
+                        }
                     }
                 }
+                for (let i = cache.length - 1; i > -1; i--) {
+                    if (codes.indexOf(cache[i]) < 0) {
+                        cache.splice(i, 1);
+                    }
+                }
+                setLocalValue(`hrWishlistCache`, JSON.stringify(cache));
                 esgst.inboxButton = navigation.getElementsByClassName(`fa-envelope`)[0];
                 if (esgst.inboxButton) {
                     esgst.inboxButton = esgst.inboxButton.closest(`.nav__button-container, .nav_btn_container`);
@@ -20940,7 +20953,6 @@ Parsedown = (() => {
                 }
                 esgst.messageCount = esgst.messageCountContainer ? esgst.messageCountContainer.textContent : ``;
             } else {
-                esgst.wishlist = 0;
                 esgst.inboxButton = navigation.getElementsByClassName(`fa-envelope`)[0];
                 if (esgst.inboxButton) {
                     esgst.inboxButton = esgst.inboxButton.closest(`.nav__button-container, .nav_btn_container`);
@@ -20958,8 +20970,8 @@ Parsedown = (() => {
         }
     }
 
-    function notifyHrChange(hr, wishlist, notify) {
-        let canvas, context, deliveredNotification, image, messageNotification, messageCount, notification, pointsNotification, title, wishlistNotification;
+    function notifyHrChange(hr, notify) {
+        let canvas, context, deliveredNotification, image, messageNotification, messageCount, notification, pointsNotification, title;
         messageCount = esgst.messageCount;
         if (messageCount !== hr.messageCount) {
             messageNotification = messageCount - hr.messageCount;
@@ -21017,20 +21029,7 @@ Parsedown = (() => {
             if (esgst.hr_g && delivered) {
                 title += `🏆 `;
             }
-            if (wishlist) {
-                if (hr.wishlist !== wishlist) {
-                    wishlistNotification = wishlist - hr.wishlist;
-                    if (wishlistNotification < 0) {
-                        wishlistNotification = 0;
-                    }
-                    hr.wishlist = wishlist;
-                } else {
-                    wishlistNotification = 0;
-                }
-            } else {
-                hr.wishlist = wishlistNotification = 0;
-            }
-            if (esgst.hr_w && wishlist) {
+            if (esgst.hr_w && esgst.wishlist) {
                 title += `❤ `;
             }
             if (esgst.hr_p) {
@@ -21060,11 +21059,11 @@ Parsedown = (() => {
                 notification.msg += `You have new gifts delivered.\n\n`;
                 notification.won = true;
             }
-            if (wishlistNotification && esgst.hr_w && esgst.hr_w_n) {
+            if (esgst.wishlistNew && esgst.hr_w && esgst.hr_w_n) {
                 if (esgst.hr_w_h) {
-                    notification.msg += `You have ${wishlistNotification} new wishlist giveaways ending in ${esgst.hr_w_hours} hours.`;
+                    notification.msg += `You have ${esgst.wishlistNew} new wishlist giveaways ending in ${esgst.hr_w_hours} hours.`;
                 } else {
-                    notification.msg += `You have ${wishlistNotification} new wishlist giveaways.`;
+                    notification.msg += `You have ${esgst.wishlistNew} new wishlist giveaways.`;
                 }
                 notification.wishlist = true;
             }
