@@ -21459,7 +21459,7 @@ Parsedown = (() => {
                 second = first.nextElementSibling;
                 if (second) {
                     third = second.nextElementSibling;
-                    if (third) {
+                    if (third && !third.textContent.match(/Giveaway\sFilters/)) {
                         lastPage = Math.ceil(parseInt(third.textContent.replace(/,/g, ``)) / parseInt(second.textContent.replace(/,/g, ``)));
                     }
                 }
@@ -27626,7 +27626,7 @@ Parsedown = (() => {
                             await getSteamId(null, false, esgst.users, winner);
                             let member = false;
                             for (let k = 0, numGroups = giveaway.groups.length; k < numGroups; k++) {
-                                let code = giveaway.groups[i].code;
+                                let code = giveaway.groups[k].code;
                                 if (!ugs.groups[code]) {
                                     // retrieve group members and store them in case another giveaway has the same group
                                     let l;
