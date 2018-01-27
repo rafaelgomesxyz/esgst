@@ -7588,6 +7588,7 @@ Parsedown = (() => {
                     `);
                     pagination = null;
                 }
+                nextPage += 1;
             } while (pagination && !pagination.lastElementChild.classList.contains(`is-selected`));
             if (currentGiveaway) {
                 cewgd.giveaways.push(currentGiveaway);
@@ -27533,6 +27534,7 @@ Parsedown = (() => {
                     ugs.giveaways[giveaway.code].whitelist = context.getElementsByClassName(`featured__column--whitelist`)[0];
                 }
                 pagination = context.getElementsByClassName(`pagination__navigation`)[0];
+                nextPage += 1;
             } while (!ugs.canceled && pagination && !pagination.lastElementChild.classList.contains(`is-selected`));
 
             // retrieve the groups of the giveaway
@@ -27559,6 +27561,7 @@ Parsedown = (() => {
                         });
                     }
                     pagination = context.getElementsByClassName(`pagination__navigation`)[0];
+                    nextPage += 1;
                 } while (!ugs.canceled && pagination && !pagination.lastElementChild.classList.contains(`is-selected`));
             }
         }
