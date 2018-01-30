@@ -1555,7 +1555,13 @@ Parsedown = (() => {
         change() {
             this.value = this.input.checked;
             if (this.id) {
-                setSetting(this.id, this.value, this.sg, this.st);
+                let setting = esgst.settings[`${this.id}_${this.sg ? `sg` : `st`}`];
+                if (typeof setting === `undefined` || !setting.include) {
+                    setting = this.value;
+                } else {
+                    setting.enabled = this.value ? 1 : 0;
+                }
+                setSetting(this.id, setting);
                 esgst[this.id] = this.value;
             }
             if (this.value) {
@@ -2061,10 +2067,6 @@ Parsedown = (() => {
                                 </ul>
                             `,
                             features: {
-                                at_g: {
-                                    name: `Enable for giveaways in the main page.`,
-                                    sg: true
-                                },
                                 at_s: {
                                     name: `Show seconds.`,
                                     sg: true,
@@ -2096,58 +2098,9 @@ Parsedown = (() => {
                                     name: `Refresh active discussions/deals when refreshing the main page.`,
                                     sg: true
                                 },
-                                es_c: {
-                                    features: {
-                                        es_c_d: {
-                                            name: `Enable page divisors.`,
-                                            sg: true,
-                                            st: true
-                                        }
-                                    },
-                                    name: `Enable for comments.`,
+                                es_pd: {
+                                    name: `Show page divisors.`,
                                     sg: true,
-                                    st: true
-                                },
-                                es_d: {
-                                    features: {
-                                        es_d_d: {
-                                            name: `Enable page divisors.`,
-                                            sg: true
-                                        }
-                                    },
-                                    name: `Enable for discussions/tickets.`,
-                                    sg: true
-                                },
-                                es_g: {
-                                    features: {
-                                        es_g_d: {
-                                            name: `Enable page divisors.`,
-                                            sg: true
-                                        }
-                                    },
-                                    name: `Enable for giveaways in the main page.`,
-                                    sg: true
-                                },
-                                es_l: {
-                                    features: {
-                                        es_l_d: {
-                                            name: `Enable page divisors.`,
-                                            sg: true,
-                                            st: true
-                                        }
-                                    },
-                                    name: `Enable for lists.`,
-                                    sg: true,
-                                    st: true
-                                },
-                                es_t: {
-                                    features: {
-                                        es_t_d: {
-                                            name: `Enable page divisors.`,
-                                            st: true
-                                        }
-                                    },
-                                    name: `Enable for trades`,
                                     st: true
                                 },
                                 es_r: {
@@ -2692,11 +2645,6 @@ Parsedown = (() => {
                             features: {
                                 vai_gifv: {
                                     name: `Rename .gifv images to .gif, so they are properly attached.`,
-                                    sg: true,
-                                    st: true
-                                },
-                                vai_i: {
-                                    name: `Disable for the inbox page.`,
                                     sg: true,
                                     st: true
                                 }
@@ -4402,7 +4350,7 @@ Parsedown = (() => {
                                 }
                             },
                             name: `Whitelist/Blacklist Highlighter`,
-                            sg: true,
+                            sg: {include: [{enabled: 1, pattern: `.*`}], exclude: [{enabled: 1, pattern: `^/account/manage/(whitelist|blacklist)`}]},
                             st: true,
                             sync: `Whitelist and Blacklist`
                         },
@@ -4612,7 +4560,7 @@ Parsedown = (() => {
                                     },
                                     input: true,
                                     name: `Reduced CV`,
-                                    sg: true
+                                    sg: {include: [{enabled: 1, pattern: `.*`}], exclude: [{enabled: 1, pattern: `^/bundle-games`}]}
                                 },
                                 gc_ncv: {
                                     colors: true,
@@ -5945,20 +5893,20 @@ Parsedown = (() => {
             } catch (e) {}
         }
         for (let key in esgst.oldValues) {
-            esgst[key] = getSetting(key);
+            esgst[key] = getSetting(key, true);
         }
         for (let key in esgst.defaultValues) {
-            esgst[key] = getSetting(key);
-        }
-        for (let type in esgst.features) {
-            for (let id in esgst.features[type].features) {
-                getFeatureSetting(esgst.features[type].features[id], id);
-            }
+            esgst[key] = getSetting(key, true);
         }
         for (let key in esgst.settings) {
             let match;
             if (match = key.match(new RegExp(`(.+?)_${esgst.name}$`))) {
                 esgst[match[1]] = esgst.settings[key];
+            }
+        }
+        for (let type in esgst.features) {
+            for (let id in esgst.features[type].features) {
+                getFeatureSetting(esgst.features[type].features[id], id);
             }
         }
         [
@@ -7193,7 +7141,6 @@ Parsedown = (() => {
     /* [AT] Accurate Timestamps */
 
     function loadAt() {
-        if (esgst.giveawaysPath && !esgst.at_g) return;
         esgst.endlessFeatures.push(getTimestamps);
         getTimestamps(document);
     }
@@ -13779,8 +13726,8 @@ Parsedown = (() => {
 
     function loadEs() {
         let busy, continuous, continuousButton, currentPage, divisors, ended, i, lastLink, mainContext, n, nextButton, nextPage, pageIndex, paginations, pageBase, pauseButton, paused, progress, refreshAllButton, refreshButton, resumeButton, reversePages, reverseScrolling, row, step;
-        if (esgst.es && esgst.mainPageHeading && esgst.pagination && ((esgst.es_g && esgst.giveawaysPath) || (esgst.es_d && esgst.discussionsTicketsPath) || (esgst.es_t && esgst.tradesPath) || (esgst.es_c && esgst.commentsPath) || (esgst.es_l && !esgst.giveawaysPath && !esgst.discussionsTicketsPath && !esgst.tradesPath && !esgst.commentsPath))) {
-            divisors = ((esgst.es_g_d && esgst.giveawaysPath) || (esgst.es_d_d && esgst.discussionsTicketsPath) || (esgst.es_t_d && esgst.tradesPath) || (esgst.es_c_d && esgst.commentsPath) || (esgst.es_l_d && !esgst.giveawaysPath && !esgst.discussionsTicketsPath && !esgst.tradesPath && !esgst.commentsPath));
+        if (esgst.mainPageHeading && esgst.pagination) {
+            divisors = esgst.es_pd;
             mainContext = esgst.pagination.previousElementSibling;
             rows = mainContext.getElementsByClassName(`table__rows`)[0];
             if (rows) {
@@ -15525,7 +15472,7 @@ Parsedown = (() => {
                         }
                         break;
                     case `gc_rcv`:
-                        if (savedGame && savedGame.reducedCV && !location.pathname.match(/^\/bundle-games/) && (!esgst.gc_ncv_o || !savedGame.noCV)) {
+                        if (savedGame && savedGame.reducedCV && (!esgst.gc_ncv_o || !savedGame.noCV)) {
                             elements.push(`
                                 <a class="esgst-gc esgst-gc-reducedCV" data-id="gc_rcv" href="https://www.steamgifts.com/bundle-games/search?q=${encodedName}" title="Reduced CV since ${savedGame.reducedCV}">${esgst.gc_rcv_s ? (esgst.gc_rcv_s_i ? `<i class="fa fa-${esgst.gc_rcvIcon}"></i>` : `RCV`) : esgst.gc_rcvLabel}</a>
                             `);
@@ -28454,7 +28401,6 @@ Parsedown = (() => {
     /* [VAI] Visible Attached Images */
 
     function loadVai() {
-        if (esgst.inboxPath && esgst.vai_i) return;
         esgst.endlessFeatures.push(getVaiImages);
         getVaiImages(document);
     }
@@ -30341,7 +30287,7 @@ Parsedown = (() => {
                                 `;
                             }
                         }
-                        if (esgst.wbh && !esgst.accountPath && (savedUser.whitelisted || savedUser.blacklisted)) {
+                        if (esgst.wbh && (savedUser.whitelisted || savedUser.blacklisted)) {
                             if (savedUser.whitelisted) {
                                 status = `whitelisted`;
                                 icon = `fa-heart sidebar__shortcut__whitelist`;
@@ -30972,30 +30918,119 @@ Parsedown = (() => {
         esgst.settings[id] = value;
     }
 
-    function getSetting(key) {
-        var defaultValue, oldKey;
-        if (typeof esgst.settings[key] === `undefined`) {
-            defaultValue = esgst.defaultValues[key];
+    function getSetting(key, save) {
+        let value = esgst.settings[key];
+        if (typeof value === `undefined`) {
+            let defaultValue = esgst.defaultValues[key];
             if (typeof defaultValue === `undefined`) {
                 defaultValue = esgst[`enableByDefault_${esgst.name}`] || false;
             }
-            oldKey = esgst.oldValues[key];
+            let oldKey = esgst.oldValues[key];
             if (typeof oldKey !== `undefined`) {
-                esgst.settings[key] = esgst.settings[oldKey];
+                value = esgst.settings[oldKey];
             }
-            if (typeof esgst.settings[key] === `undefined`) {
-                esgst.settings[key] = defaultValue;
+            if (typeof value === `undefined`) {
+                value = defaultValue;
             }
         }
-        return esgst.settings[key];
+        if (save) {
+            esgst.settings[key] = value;
+        }
+        return value;
+    }
+
+    function getOldValues(id, name, setting) {
+        switch (id) {
+            case `at`:
+                if (name !== `sg`) return;
+                setting.exclude = [
+                    {enabled: esgst.settings.at_g_sg ? 0 : 1, pattern: `^/($|giveaways(?!/(new|wishlist|created|entered|won)))`}
+                ];
+                return;
+            case `es_pd`:
+                setting.enabled = name === `sg` ? esgst.settings.es_l_d_sg || esgst.settings.es_c_d_sg || esgst.settings.es_d_d_sg || esgst.settings.es_g_d_sg : esgst.settings.es_l_d_st || esgst.settings.es_c_d_st || esgst.settings.es_t_d_st;
+                setting.enabled = setting.enabled ? 1 : 0;
+            case `es`:
+                if (name === `sg`) {
+                    if (esgst.settings[id === `es` ? `es_l_sg` : `es_l_d_sg`]) {
+                        setting.exclude = [
+                            {enabled: esgst.settings[id === `es` ? `es_c_sg` : `es_c_d_sg`] ? 0 : 1, pattern: `^/(giveaway/(?!.*/(entries|winners|groups|region-restrictions))|discussion/|support/ticket/)`},
+                            {enabled: esgst.settings[id === `es` ? `es_d_sg` : `es_d_d_sg`] ? 0 : 1, pattern: `^/(discussions|support/tickets)`},
+                            {enabled: esgst.settings[id === `es` ? `es_g_sg` : `es_g_d_sg`] ? 0 : 1, pattern: `^/($|giveaways(?!/(new|wishlist|created|entered|won)))`}
+                        ];
+                    } else {
+                        setting.include = [
+                            {enabled: esgst.settings[id === `es` ? `es_c_sg` : `es_c_d_sg`] ? 1 : 0, pattern: `^/(giveaway/(?!.*/(entries|winners|groups|region-restrictions))|discussion/|support/ticket/)`},
+                            {enabled: esgst.settings[id === `es` ? `es_d_sg` : `es_d_d_sg`] ? 1 : 0, pattern: `^/(discussions|support/tickets)`},
+                            {enabled: esgst.settings[id === `es` ? `es_g_sg` : `es_g_d_sg`] ? 1 : 0, pattern: `^/($|giveaways(?!/(new|wishlist|created|entered|won)))`}
+                        ];
+                    }
+                } else {
+                    if (esgst.settings[id === `es` ? `es_l_st` : `es_l_d_st`]) {
+                        setting.exclude = [
+                            {enabled: esgst.settings[id === `es` ? `es_c_st` : `es_c_d_st`] ? 0 : 1, pattern: `^/trade/`},
+                            {enabled: esgst.settings[id === `es` ? `es_t_st` : `es_t_d_st`] ? 0 : 1, pattern: `^/($|trades)`}
+                        ];
+                    } else {
+                        setting.include = [
+                            {enabled: esgst.settings[id === `es` ? `es_c_st` : `es_c_d_st`] ? 1 : 0, pattern: `^/trade/`},
+                            {enabled: esgst.settings[id === `es` ? `es_t_st` : `es_t_d_st`] ? 1 : 0, pattern: `^/($|trades)`}
+                        ];
+                    }
+                }
+                return;
+            case `vai`:
+                setting.exclude = [
+                    {enabled: esgst.settings[`vai_i_${name}`] ? 1 : 0, pattern: `^/messages`}
+                ];
+                return;
+            default:
+                return;
+        }
+    }
+
+    function getFeaturePath(feature, id, name) {
+        let key = `${id}_${name}`;
+        let setting = esgst.settings[key];
+        if (typeof setting === `undefined` || !setting.include) {
+            setting = {
+                enabled: getSetting(key) ? 1 : 0,
+                include: [],
+                exclude: []
+            };
+            if (feature[name].include) {
+                setting.include = feature[name].include;
+                if (feature[name].exclude) {
+                    setting.exclude = feature[name].exclude;
+                }
+            } else {
+                setting.include = [{enabled: setting.enabled, pattern: `.*`}];
+            }
+        }
+        getOldValues(id, name, setting);
+        return setting;
     }
 
     function getFeatureSetting(feature, id) {
-        if (feature.sg && esgst.sg) {
-            esgst[id] = getSetting(`${id}_sg`);
-        } else if (feature.st && esgst.st) {
-            esgst[id] = getSetting(`${id}_st`);
+        esgst[id] = false;
+        if (feature[esgst.name]) {
+            let setting = getFeaturePath(feature, id, esgst.name);
+            if (!setting.enabled) return;
+            let check = false;
+            let path = `${location.pathname}${location.search}`;
+            let i = setting.include.length - 1;
+            while (i > -1 && (!setting.include[i].enabled || !path.match(new RegExp(setting.include[i].pattern)))) i--;
+            if (i > -1) {
+                check = true;
+            }
+            i = setting.exclude.length - 1;
+            while (i > -1 && (!setting.exclude[i].enabled || !path.match(new RegExp(setting.exclude[i].pattern)))) i--;
+            if (i > -1) {
+                check = false;
+            }
+            esgst[id] = check;
         }
+        if (!esgst[id]) return;
         if (feature.features) {
             for (id in feature.features) {
                 getFeatureSetting(feature.features[id], id);
@@ -33209,6 +33244,97 @@ Parsedown = (() => {
         }
     }
 
+    function escapeRegExp(string){
+        return string.replace(/[.*+?^${}()|[\]\\]/g, `\\$&`);
+    }
+
+    function openPathsPopup(feature, id, name) {
+        let obj = {
+            excludeItems: [],
+            includeItems: [],
+            name: name,
+            popup: new Popup(`fa-gear`, `[${name.toUpperCase()}] ${feature.name}`)
+        };
+        obj.popup.description.classList.add(`esgst-text-left`);
+        obj.include = insertHtml(obj.popup.scrollable, `beforeEnd`, `
+            <div class="esgst-bold">Include: <i class="fa fa-question-circle" title="Enter the paths where you want the feature to run here. You need to use regular expressions, so if you are not familiar with them, just to go to the page where you want the feature to run and click 'Add Current'. '.*' means that the feature runs everywhere possible."></i></div>
+            <div></div>
+        `);
+        let group = insertHtml(obj.popup.scrollable, `beforeEnd`, `<div class="esgst-button-group"></div>`);
+        group.appendChild(new ButtonSet_v2({color1: `grey`, color2: ``, icon1: `fa-plus-circle`, icon2: ``, title1: `Add New`, title2: ``, callback1: addPath.bind(null, `include`, obj, {enabled: 1, pattern: ``})}).set);
+        group.appendChild(new ButtonSet_v2({color1: `grey`, color2: ``, icon1: `fa-plus-circle`, icon2: ``, title1: `Add Current`, title2: ``, callback1: addPath.bind(null, `include`, obj, {enabled: 1, pattern: `^${escapeRegExp(location.pathname)}${escapeRegExp(location.search)}`})}).set);
+        obj.exclude = insertHtml(obj.popup.scrollable, `beforeEnd`, `
+            <div class="esgst-bold">Exclude: <i class="fa fa-question-circle" title="Enter the paths where you do not want the feature to run here. This acts as an exception to the included paths, as in, the feature will run in every included path, except for the excluded paths. You need to use regular expressions, so if you are not familiar with them, just to go to the page where you do not want the feature to run and click 'Add Current'."></i></div>
+            <div></div>
+        `);
+        group = insertHtml(obj.popup.scrollable, `beforeEnd`, `<div class="esgst-button-group"></div>`);
+        group.appendChild(new ButtonSet_v2({color1: `grey`, color2: ``, icon1: `fa-plus-circle`, icon2: ``, title1: `Add New`, title2: ``, callback1: addPath.bind(null, `exclude`, obj, {enabled: 1, pattern: ``})}).set);
+        group.appendChild(new ButtonSet_v2({color1: `grey`, color2: ``, icon1: `fa-plus-circle`, icon2: ``, title1: `Add Current`, title2: ``, callback1: addPath.bind(null, `exclude`, obj, {enabled: 1, pattern: `^${escapeRegExp(location.pathname)}${escapeRegExp(location.search)}`})}).set);
+        obj.popup.description.appendChild(new ButtonSet_v2({color1: `green`, color2: `grey`, icon1: `fa-check-circle`, icon2: `fa-circle-o-notch fa-spin`, title1: `Save`, title2: `Saving...`, callback1: savePaths.bind(null, id, obj)}).set);
+        obj.setting = getFeaturePath(feature, id, obj.name);
+        obj.setting.include.forEach(path => addPath(`include`, obj, path));
+        obj.setting.exclude.forEach(path => addPath(`exclude`, obj, path));
+        obj.popup.open();
+    }
+
+    function addPath(key, obj, path) {
+        let item = {};
+        item.container = insertHtml(obj[key], `beforeEnd`, `<div></div>`);
+        item.switch = new ToggleSwitch(item.container, null, true, ``, false, false, null, path.enabled);
+        item.input = insertHtml(item.container, `beforeEnd`, `
+            <input class="esgst-switch-input esgst-switch-input-large" type="text">
+        `);
+        item.input.value = path.pattern;
+        item.input.addEventListener(`input`, validatePathRegex.bind(null, item));
+        insertHtml(item.container, `beforeEnd`, `
+            <i class="fa fa-times-circle esgst-clickable" title="Remove"></i>
+        `).addEventListener(`click`, removePath.bind(null, item, key, obj));
+        item.invalid = insertHtml(item.container, `beforeEnd`, `
+            <i class="fa fa-exclamation esgst-hidden esgst-red" title="Invalid Regular Expression"></i>
+        `);
+        obj[`${key}Items`].push(item);
+        item.input.focus();
+    }
+
+    function removePath(item, key, obj) {
+        let i = obj[`${key}Items`].length - 1;
+        if (i === 0 && key === `include`) {
+            alert(`At least 1 include path is required!`);
+            return;
+        }
+        while (i > -1 && obj[`${key}Items`][i].input.value !== item.input.value) i--;
+        if (i > -1) {
+            obj[`${key}Items`].splice(i, 1);
+        }
+        item.container.remove();
+    }
+
+    function validatePathRegex(item) {
+        item.invalid.classList.add(`esgst-hidden`);
+        try {
+            new RegExp(item.input.value);
+        } catch (error) {
+            console.log(error);
+            item.invalid.classList.remove(`esgst-hidden`);
+        }
+    }
+
+    function savePaths(id, obj) {
+        obj.setting.include = [];
+        obj.setting.exclude = [];
+        for (let i = 0, n = obj.includeItems.length; i < n; i++) {
+            obj.setting.include.push({enabled: obj.includeItems[i].switch.value ? 1 : 0, pattern: obj.includeItems[i].input.value});
+        }
+        for (let i = 0, n = obj.excludeItems.length; i < n; i++) {
+            obj.setting.exclude.push({enabled: obj.excludeItems[i].switch.value ? 1 : 0, pattern: obj.excludeItems[i].input.value});
+        }
+        if (obj.setting.include.length === 1 && obj.setting.include[0].pattern === `.*` && !obj.setting.exclude.length) {
+            obj.setting = obj.setting.enabled;
+        }
+        obj.popup.close();
+        setSetting(`${id}_${obj.name}`, obj.setting);
+    }
+
     function getSMFeature(Feature, ID, aaa) {
         var Menu, Checkbox, CheckboxInput, SMFeatures;
         Menu = document.createElement(`div`);
@@ -33231,11 +33357,9 @@ Parsedown = (() => {
         var siwtchSg, siwtchSt;
         if (Feature.sg) {
             localID = `${ID}_sg`;
-            val1 = esgst.settings[localID];
-            if (typeof val1 === `undefined`) {
-                val1 = false;
-            }
+            val1 = getFeaturePath(Feature, ID, `sg`).enabled;
             siwtchSg = new ToggleSwitch(Menu, ID, true, esgst.settings.esgst_st ? `[SG]` : ``, true, false, null, val1);
+            insertHtml(Menu, `beforeEnd`, `<i class="fa fa-gear esgst-clickable" title="Customize where the feature runs"></i>`).addEventListener(`click`, openPathsPopup.bind(null, Feature, ID, `sg`));
             if (Feature.conflicts) {
                 siwtchSg.onEnabled = () => {
                     for (let ci = 0, cn = Feature.conflicts.length; ci < cn; ++ci) {
@@ -33250,11 +33374,9 @@ Parsedown = (() => {
         }
         if (Feature.st && (esgst.settings.esgst_st || ID === `esgst`)) {
             localID = `${ID}_st`;
-            val2 = esgst.settings[localID];
-            if (typeof val2 === `undefined`) {
-                val2 = false;
-            }
+            val2 = getFeaturePath(Feature, ID, `st`).enabled;
             siwtchSt = new ToggleSwitch(Menu, ID, true, `[ST]`, false, true, null, val2);
+            insertHtml(Menu, `beforeEnd`, `<i class="fa fa-gear esgst-clickable" title="Customize where the feature runs"></i>`).addEventListener(`click`, openPathsPopup.bind(null, Feature, ID, `st`));
             if (Feature.conflicts) {
                 siwtchSt.onEnabled = () => {
                     for (let ci = 0, cn = Feature.conflicts.length; ci < cn; ++ci) {
