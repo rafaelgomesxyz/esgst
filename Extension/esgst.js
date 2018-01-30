@@ -13130,7 +13130,7 @@ Parsedown = (() => {
                 filtered = filterDfException(df.exceptions[i], discussion);
             }
         }
-        if (filtered && df.counters[counterKey]) {
+        if (filtered && df.counters && df.counters[counterKey]) {
             df.counters[counterKey].textContent = parseInt(df.counters[counterKey].textContent) + 1;
         }
         return filtered;
@@ -18068,7 +18068,7 @@ Parsedown = (() => {
                 filtered = filterGfException(gf.exceptions[i], giveaway);
             }
         }
-        if (filtered && gf.counters[counterKey]) {
+        if (filtered && gf.counters && gf.counters[counterKey]) {
             gf.counters[counterKey].textContent = parseInt(gf.counters[counterKey].textContent) + 1;
         }
         return filtered;
