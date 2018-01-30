@@ -1555,13 +1555,14 @@ Parsedown = (() => {
         change() {
             this.value = this.input.checked;
             if (this.id) {
-                let setting = esgst.settings[`${this.id}_${this.sg ? `sg` : `st`}`];
+                let key = `${this.id}_${this.sg ? `sg` : `st`}`;
+                let setting = esgst.settings[key];
                 if (typeof setting === `undefined` || !setting.include) {
                     setting = this.value;
                 } else {
                     setting.enabled = this.value ? 1 : 0;
                 }
-                setSetting(this.id, setting);
+                setSetting(key, setting);
                 esgst[this.id] = this.value;
             }
             if (this.value) {
