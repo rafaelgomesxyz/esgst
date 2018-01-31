@@ -20336,7 +20336,7 @@ Parsedown = (() => {
     }
 
     function setGvContainer(giveaway, spacing) {
-        var creator, icons;
+        var creator;
         giveaway.grid = true;
         popup = giveaway.outerWrap.closest(`.esgst-popup-scrollable`) || esgst.menuPath;
         if (popup) {
@@ -20350,7 +20350,7 @@ Parsedown = (() => {
             giveaway.outerWrap.style.margin = `${spacing}px`;
         }
         giveaway.innerWrap.classList.add(`esgst-gv-box`);
-        icons = insertHtml(giveaway.innerWrap, `afterBegin`, `
+        giveaway.gvIcons = insertHtml(giveaway.innerWrap, `afterBegin`, `
             <div class="esgst-gv-icons giveaway__columns">
                 <div class="esgst-gv-time">
                         <span title="${giveaway.started ? `Ends` : `Starts`} ${giveaway.endTimeColumn.lastElementChild.textContent}">${getRemainingTime(giveaway.endTime)}</span>
@@ -20360,22 +20360,22 @@ Parsedown = (() => {
             </div>
         `);
         if (giveaway.inviteOnly) {
-            icons.appendChild(giveaway.inviteOnly);
+            giveaway.gvIcons.appendChild(giveaway.inviteOnly);
         }
         if (giveaway.regionRestricted) {
-            icons.appendChild(giveaway.regionRestricted);
+            giveaway.gvIcons.appendChild(giveaway.regionRestricted);
         }
         if (giveaway.group) {
-            icons.appendChild(giveaway.group);
+            giveaway.gvIcons.appendChild(giveaway.group);
         }
         if (giveaway.whitelist) {
-            icons.appendChild(giveaway.whitelist);
+            giveaway.gvIcons.appendChild(giveaway.whitelist);
         }
         if (giveaway.levelColumn) {
             giveaway.levelColumn.textContent = giveaway.levelColumn.textContent.replace(/Level\s/, ``);
-            icons.appendChild(giveaway.levelColumn);
+            giveaway.gvIcons.appendChild(giveaway.levelColumn);
         }
-        giveaway.innerWrap.insertBefore(giveaway.image, icons);
+        giveaway.innerWrap.insertBefore(giveaway.image, giveaway.gvIcons);
         giveaway.summary.classList.add(`esgst-gv-popout`, `global__image-outer-wrap`);
         giveaway.summary.insertBefore(giveaway.avatar, giveaway.links);
         giveaway.avatar.insertAdjacentHTML(`afterEnd`, `
@@ -29960,7 +29960,7 @@ Parsedown = (() => {
             esgst.giveawayColumns.forEach(id => {
                 let element = giveaway.outerWrap.querySelector(`[data-columnId="${id}"]`);
                 if (element) {
-                    giveaway.columns.appendChild(element);
+                    (giveaway.gvIcons || giveaway.columns).appendChild(element);
                     if (id.match(/^elgb|gp|ttec$/)) {
                         element.classList.add(`esgst-giveaway-column-button`);
                     }
@@ -30007,7 +30007,7 @@ Parsedown = (() => {
             if (current && current === item) {
                 item.parentElement.insertBefore(giveaway.sourceItem, item);
                 if (item.getAttribute(`data-columnId`).match(/^elgb|gp|ttec$/)) {
-                    if (item.parentElement === giveaway.columns) {
+                    if (item.parentElement === giveaway.columns || item.parentElement === giveaway.gvIcons) {
                         item.classList.add(`esgst-giveaway-column-button`);
                     } else {
                         item.classList.remove(`esgst-giveaway-column-button`);
@@ -30020,7 +30020,7 @@ Parsedown = (() => {
         } while (current);
         item.parentElement.insertBefore(giveaway.sourceItem, item.nextElementSibling);
         if (item.getAttribute(`data-columnId`).match(/^elgb|gp|ttec$/)) {
-            if (item.parentElement === giveaway.columns) {
+            if (item.parentElement === giveaway.columns || item.parentElement === giveaway.gvIcons) {
                 item.classList.add(`esgst-giveaway-column-button`);
             } else {
                 item.classList.remove(`esgst-giveaway-column-button`);
@@ -30037,10 +30037,10 @@ Parsedown = (() => {
                 esgst.giveawayColumns.splice(index, 1);
             }
             esgst.giveawayPanel.push(giveaway.sourceItem.getAttribute(`data-columnId`));
-        } else {
+        } else if (giveaway.newSourceItem) {
             let columnsIndex = esgst.giveawayColumns.indexOf(giveaway.sourceItem.getAttribute(`data-columnId`));
             let panelIndex = esgst.giveawayPanel.indexOf(giveaway.sourceItem.getAttribute(`data-columnId`));
-            if (giveaway.newSourceItem.parentElement === giveaway.columns) {
+            if (giveaway.newSourceItem.parentElement === giveaway.columns || giveaway.newSourceItem.parentElement === giveaway.gvIcons) {
                 if (columnsIndex > -1) {
                     let id = esgst.giveawayColumns.splice(columnsIndex, 1)[0];
                     esgst.giveawayColumns.splice(esgst.giveawayColumns.indexOf(giveaway.newSourceItem.getAttribute(`data-columnId`)) + giveaway.newSourcePos, 0, id);
@@ -38313,6 +38313,11 @@ Parsedown = (() => {
             .esgst-giveaway-links {
                 float: left;
                 margin: 2px;
+            }
+
+            .esgst-giveaway-panel:empty {
+                height: 25px;
+                width: 250px;
             }
 
             .esgst-giveaway-panel.giveaway__columns {
