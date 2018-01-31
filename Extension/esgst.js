@@ -1608,6 +1608,8 @@ Parsedown = (() => {
         esgst = {
             audioContext: new AudioContext(),
             defaultValues: {
+                giveawayColumns: [`endTime`, `winners`, `startTime`, `inviteOnly`, `whitelist`, `group`, `regionRestricted`, `level`],
+                giveawayPanel: [`ttec`, `gwc`, `gwr`, `gp`, `elgb`],
                 enableByDefault_sg: false,
                 enableByDefault_st: false,
                 checkVersion_sg: true,
@@ -13518,6 +13520,12 @@ Parsedown = (() => {
         } else {
             giveaway.elgbPanel.appendChild(giveaway.elgbButton);
         }
+        giveaway.elgbButton.setAttribute(`draggable`, true);
+        giveaway.elgbButton.setAttribute(`data-columnId`, `elgb`);
+        giveaway.elgbButton.addEventListener(`dragstart`, setGiveawaySource.bind(null, giveaway));
+        giveaway.elgbButton.addEventListener(`dragenter`, getGiveawaySource.bind(null, giveaway, false));
+        giveaway.elgbButton.addEventListener(`dragend`, saveGiveawaySource.bind(null, giveaway));
+        reorderGiveaway(giveaway);
     }
 
     async function openElgbPopup(giveaway, main, source, mainCallback) {
@@ -15795,6 +15803,7 @@ Parsedown = (() => {
 
     function getGcSource(gc, context, index, item, panel) {
         let current = gc.source;
+        if (!gc.source || (item && item.getAttribute(`data-columnId`))) return;
         if (panel) {
             if (!panel.children.length) {
                 panel.appendChild(gc.source);
@@ -19271,8 +19280,14 @@ Parsedown = (() => {
                 if (!giveaway.innerWrap.getElementsByClassName(`esgst-gp-button`)[0] && (!giveaway.inviteOnly || giveaway.url)) {
                     buttonSet = new ButtonSet(`grey`, `grey`, `fa-external-link`, `fa-circle-o-notch fa-spin`, ``, ``, openElgbPopup.bind(null, giveaway, main, source)).set;
                     buttonSet.classList.add(`esgst-gp-button`);
+                    buttonSet.setAttribute(`data-columnId`, `gp`);
                     buttonSet.title = `View giveaway description/add a comment`;
                     giveaway.panel.appendChild(buttonSet);
+                    buttonSet.setAttribute(`draggable`, true);
+                    buttonSet.addEventListener(`dragstart`, setGiveawaySource.bind(null, giveaway));
+                    buttonSet.addEventListener(`dragenter`, getGiveawaySource.bind(null, giveaway, false));
+                    buttonSet.addEventListener(`dragend`, saveGiveawaySource.bind(null, giveaway));
+                    reorderGiveaway(giveaway);
                 }
             });
         }
@@ -20393,7 +20408,13 @@ Parsedown = (() => {
                 giveaway = giveaways[i];
                 if (((giveaway.inviteOnly && ((main && esgst.giveawayPath) || !main || giveaway.ended)) || !giveaway.inviteOnly) && !giveaway.innerWrap.getElementsByClassName(`esgst-gwc`)[0]) {
                     if (giveaway.started) {
-                        addGwcChance(insertHtml(giveaway.panel, (esgst.gv && ((main && esgst.giveawaysPath) || (source === `gb` && esgst.gv_gb) || (source === `ged` && esgst.gv_ged) || (source === `ge` && esgst.gv_ge))) ? `afterBegin` : `beforeEnd`, `<div class="${esgst.giveawayPath ? `featured__column` : ``} esgst-gwc" title="Giveaway Winning Chance">`), giveaway);
+                        let context = insertHtml(giveaway.panel, (esgst.gv && ((main && esgst.giveawaysPath) || (source === `gb` && esgst.gv_gb) || (source === `ged` && esgst.gv_ged) || (source === `ge` && esgst.gv_ge))) ? `afterBegin` : `beforeEnd`, `<div class="${esgst.giveawayPath ? `featured__column` : ``} esgst-gwc" data-columnId="gwc" title="Giveaway Winning Chance">`);
+                        addGwcChance(context, giveaway);
+                        context.setAttribute(`draggable`, true);
+                        context.addEventListener(`dragstart`, setGiveawaySource.bind(null, giveaway));
+                        context.addEventListener(`dragenter`, getGiveawaySource.bind(null, giveaway, false));
+                        context.addEventListener(`dragend`, saveGiveawaySource.bind(null, giveaway));
+                        reorderGiveaway(giveaway);
                     } else {
                         giveaway.chance = 100;
                         giveaway.chancePerPoint = Math.round(100 / giveaway.points * 100) / 100;
@@ -20491,7 +20512,13 @@ Parsedown = (() => {
             for (i = 0, n = giveaways.length; i < n; ++i) {
                 giveaway = giveaways[i];
                 if (giveaway.started && ((giveaway.inviteOnly && ((main && esgst.giveawayPath) || !main || giveaway.ended)) || !giveaway.inviteOnly) && !giveaway.innerWrap.getElementsByClassName(`esgst-gwr`)[0]) {
-                    addGwcRatio(insertHtml(giveaway.panel, (esgst.gv && ((main && esgst.giveawaysPath) || (source === `gb` && esgst.gv_gb) || (source === `ged` && esgst.gv_ged) || (source === `ge` && esgst.gv_ge))) ? `afterBegin` : `beforeEnd`, `<div class="${esgst.giveawayPath ? `featured__column` : ``} esgst-gwr" title="Giveaway Winning Ratio">`), giveaway);
+                    let context = insertHtml(giveaway.panel, (esgst.gv && ((main && esgst.giveawaysPath) || (source === `gb` && esgst.gv_gb) || (source === `ged` && esgst.gv_ged) || (source === `ge` && esgst.gv_ge))) ? `afterBegin` : `beforeEnd`, `<div class="${esgst.giveawayPath ? `featured__column` : ``} esgst-gwr" data-columnId="gwr" title="Giveaway Winning Ratio">`);
+                    addGwcRatio(context, giveaway);
+                    context.setAttribute(`draggable`, true);
+                    context.addEventListener(`dragstart`, setGiveawaySource.bind(null, giveaway));
+                    context.addEventListener(`dragenter`, getGiveawaySource.bind(null, giveaway, false));
+                    context.addEventListener(`dragend`, saveGiveawaySource.bind(null, giveaway));
+                    reorderGiveaway(giveaway);
                 }
             }
         }
@@ -26469,7 +26496,12 @@ Parsedown = (() => {
             giveaways.forEach(giveaway => {
                 if (!giveaway.ended && !giveaway.entered && giveaway.points > esgst.points) {
                     if (!giveaway.ttec) {
-                        giveaway.ttec = insertHtml(giveaway.panel, (esgst.gv && ((main && esgst.giveawaysPath) || (source === `gb` && esgst.gv_gb) || (source === `ged` && esgst.gv_ged) || (source === `ge` && esgst.gv_ge))) ? `beforeEnd` : `afterBegin`, `<div class="${esgst.giveawayPath ? `featured__column` : ``} esgst-ttec" title="Time to wait until you have enough points to enter this giveaway"></div>`);
+                        giveaway.ttec = insertHtml(giveaway.panel, (esgst.gv && ((main && esgst.giveawaysPath) || (source === `gb` && esgst.gv_gb) || (source === `ged` && esgst.gv_ged) || (source === `ge` && esgst.gv_ge))) ? `beforeEnd` : `afterBegin`, `<div class="${esgst.giveawayPath ? `featured__column` : ``} esgst-ttec" data-columnId="ttec" title="Time to wait until you have enough points to enter this giveaway"></div>`);
+                        giveaway.ttec.setAttribute(`draggable`, true);
+                        giveaway.ttec.addEventListener(`dragstart`, setGiveawaySource.bind(null, giveaway));
+                        giveaway.ttec.addEventListener(`dragenter`, getGiveawaySource.bind(null, giveaway, false));
+                        giveaway.ttec.addEventListener(`dragend`, saveGiveawaySource.bind(null, giveaway));
+                        reorderGiveaway(giveaway);
                     }
                     giveaway.ttec.classList.remove(`esgst-hidden`);
                     giveaway.ttec.innerHTML = `
@@ -29693,6 +29725,9 @@ Parsedown = (() => {
         if (giveaway.columns && (!esgst.archivePath || !main)) {
             giveaway.endTimeColumn = giveaway.columns.firstElementChild;
             giveaway.startTimeColumn = giveaway.columns.querySelector(`.giveaway__column--width-fill.text-right, .featured__column--width-fill.text-right`);
+            if (esgst.userPath) {
+                giveaway.startTimeColumn.setAttribute(`data-columnId`, `winners`);
+            }
             giveaway.started = !giveaway.endTimeColumn.textContent.match(/Begins/);
             giveaway.endTime = parseInt(giveaway.endTimeColumn.lastElementChild.getAttribute(`data-timestamp`)) * 1e3;
             giveaway.ended = !giveaway.deleted && giveaway.endTime < Date.now();
@@ -29780,19 +29815,28 @@ Parsedown = (() => {
             giveaway.comments = parseInt(giveaway.commentsLink.textContent.replace(/,/g, ``).match(/\d+/)[0]);
         }
         giveaway.panel = giveaway.innerWrap.getElementsByClassName(`esgst-giveaway-panel`)[0];
+        if (giveaway.columns) {
+            for (let i = giveaway.columns.children.length - 1; i > -1; i--) {
+                let item = giveaway.columns.children[i];
+                item.setAttribute(`draggable`, true);
+                item.addEventListener(`dragstart`, setGiveawaySource.bind(null, giveaway));
+                item.addEventListener(`dragenter`, getGiveawaySource.bind(null, giveaway, false));
+                item.addEventListener(`dragend`, saveGiveawaySource.bind(null, giveaway));
+            }
+        }
+        if (giveaway.endTimeColumn) {
+            giveaway.endTimeColumn.setAttribute(`data-columnId`, `endTime`);
+        }
+        if (giveaway.startTimeColumn) {
+            giveaway.startTimeColumn.setAttribute(`data-columnId`, `startTime`);
+        }
         if (!giveaway.panel && (esgst.gwc || esgst.gwr || esgst.gp || esgst.elgb || esgst.cewgd)) {
             if (giveaway.links) {
                 giveaway.panel = insertHtml(giveaway.links, `afterEnd`, `
                     <div class="giveaway__columns esgst-giveaway-panel"></div>
                     <div style="clear: both;"></div>
                 `);
-                if (giveaway.startTimeColumn) {
-                    element = giveaway.startTimeColumn.nextElementSibling;
-                    while (element) {
-                        giveaway.panel.appendChild(element);
-                        element = giveaway.startTimeColumn.nextElementSibling;
-                    }
-                }
+                giveaway.panel.addEventListener(`dragenter`, getGiveawaySource.bind(null, giveaway, true));
             } else if (giveaway.columns) {
                 giveaway.panel = insertHtml(giveaway.columns, `afterEnd`, `<div class="featured__columns esgst-giveaway-panel"></div>`);
             } else if (esgst.enteredPath && (esgst.gwc || esgst.gwr)) {
@@ -29807,11 +29851,26 @@ Parsedown = (() => {
             }
         }
         giveaway.levelColumn = giveaway.outerWrap.querySelector(`.giveaway__column--contributor-level, .featured__column--contributor-level`);
+        if (giveaway.levelColumn) {
+            giveaway.levelColumn.setAttribute(`data-columnId`, `level`);
+        }
         giveaway.level = giveaway.levelColumn ? parseInt(giveaway.levelColumn.textContent.match(/\d+/)[0]) : 0;
         giveaway.inviteOnly = giveaway.outerWrap.querySelector(`.giveaway__column--invite-only, .featured__column--invite-only`);
+        if (giveaway.inviteOnly) {
+            giveaway.inviteOnly.setAttribute(`data-columnId`, `inviteOnly`);
+        }
         giveaway.regionRestricted = giveaway.outerWrap.querySelector(`.giveaway__column--region-restricted, .featured__column--region-restricted`);
+        if (giveaway.regionRestricted) {
+            giveaway.regionRestricted.setAttribute(`data-columnId`, `regionRestricted`);
+        }
         giveaway.group = giveaway.outerWrap.querySelector(`.giveaway__column--group, .featured__column--group`);
+        if (giveaway.group) {
+            giveaway.group.setAttribute(`data-columnId`, `group`);
+        }
         giveaway.whitelist = giveaway.outerWrap.querySelector(`.giveaway__column--whitelist, .featured__column--whitelist`);
+        if (giveaway.whitelist) {
+            giveaway.whitelist.setAttribute(`data-columnId`, `whitelist`);
+        }
         giveaway.public = !giveaway.inviteOnly && !giveaway.regionRestricted && !giveaway.group && !giveaway.whitelist;
         if (!main || !esgst.giveawayPath) {
             if (giveaway.inviteOnly) {
@@ -29855,6 +29914,7 @@ Parsedown = (() => {
             hideButton = temp.nextElementSibling;
             hideButton.addEventListener(`click`, hideGame.bind(null, hideButton, giveaway.gameId, giveaway.name));
         }
+        reorderGiveaway(giveaway);
         return {
             giveaway: giveaway,
             data: {
@@ -29879,6 +29939,113 @@ Parsedown = (() => {
                 whitelist: giveaway.whitelist ? true : false
             }
         };
+    }
+
+    function reorderGiveaway(giveaway) {
+        if (giveaway.columns) {
+            esgst.giveawayColumns.forEach(id => {
+                let element = giveaway.outerWrap.querySelector(`[data-columnId="${id}"]`);
+                if (element) {
+                    giveaway.columns.appendChild(element);
+                    if (id.match(/^elgb|gp|ttec$/)) {
+                        element.classList.add(`esgst-giveaway-column-button`);
+                    }
+                }
+            });
+        }
+        if (giveaway.panel) {
+            esgst.giveawayPanel.forEach(id => {
+                let element = giveaway.outerWrap.querySelector(`[data-columnId="${id}"]`);
+                if (element) {
+                    giveaway.panel.appendChild(element);
+                    if (id.match(/^elgb|gp|ttec$/)) {
+                        element.classList.remove(`esgst-giveaway-column-button`);
+                    }
+                }
+            });
+        }
+    }
+
+    function setGiveawaySource(giveaway, event) {
+        event.dataTransfer.setData(`text/plain`, ``);
+        giveaway.sourceItem = event.currentTarget;
+        giveaway.newSourceItem = null;
+        giveaway.newSourcePos = 0;
+        giveaway.panelSource = false;
+    }
+
+    function getGiveawaySource(giveaway, panel, event) {
+        let current = giveaway.sourceItem;
+        if (panel) {
+            if (giveaway.panel.children.length < 1) {
+                giveaway.panel.appendChild(giveaway.sourceItem);
+                if (giveaway.sourceItem.getAttribute(`data-columnId`).match(/^elgb|gp|ttec$/)) {
+                    giveaway.sourceItem.classList.remove(`esgst-giveaway-column-button`);
+                }
+                giveaway.panelSource = true;
+            }
+            return;
+        }
+        let item = event.currentTarget;
+        if (item === giveaway.sourceItem) return;
+        do {
+            current = current.previousElementSibling;
+            if (current && current === item) {
+                item.parentElement.insertBefore(giveaway.sourceItem, item);
+                if (item.getAttribute(`data-columnId`).match(/^elgb|gp|ttec$/)) {
+                    if (item.parentElement === giveaway.columns) {
+                        item.classList.add(`esgst-giveaway-column-button`);
+                    } else {
+                        item.classList.remove(`esgst-giveaway-column-button`);
+                    }
+                }
+                giveaway.newSourceItem = item;
+                giveaway.newSourcePos = 0;
+                return;
+            }
+        } while (current);
+        item.parentElement.insertBefore(giveaway.sourceItem, item.nextElementSibling);
+        if (item.getAttribute(`data-columnId`).match(/^elgb|gp|ttec$/)) {
+            if (item.parentElement === giveaway.columns) {
+                item.classList.add(`esgst-giveaway-column-button`);
+            } else {
+                item.classList.remove(`esgst-giveaway-column-button`);
+            }
+        }
+        giveaway.newSourceItem = item;
+        giveaway.newSourcePos = 1;
+    }
+
+    async function saveGiveawaySource(giveaway) {
+        if (giveaway.panelSource) {
+            let index = esgst.giveawayColumns.indexOf(giveaway.sourceItem.getAttribute(`data-columnId`));
+            if (index > -1) {
+                esgst.giveawayColumns.splice(index, 1);
+            }
+            esgst.giveawayPanel.push(giveaway.sourceItem.getAttribute(`data-columnId`));
+        } else {
+            let columnsIndex = esgst.giveawayColumns.indexOf(giveaway.sourceItem.getAttribute(`data-columnId`));
+            let panelIndex = esgst.giveawayPanel.indexOf(giveaway.sourceItem.getAttribute(`data-columnId`));
+            if (giveaway.newSourceItem.parentElement === giveaway.columns) {
+                if (columnsIndex > -1) {
+                    let id = esgst.giveawayColumns.splice(columnsIndex, 1)[0];
+                    esgst.giveawayColumns.splice(esgst.giveawayColumns.indexOf(giveaway.newSourceItem.getAttribute(`data-columnId`)) + giveaway.newSourcePos, 0, id);
+                } else {
+                    let id = esgst.giveawayPanel.splice(panelIndex, 1)[0];
+                    esgst.giveawayColumns.splice(esgst.giveawayColumns.indexOf(giveaway.newSourceItem.getAttribute(`data-columnId`)) + giveaway.newSourcePos, 0, id);
+                }
+            } else {
+                if (columnsIndex > -1) {
+                    let id = esgst.giveawayColumns.splice(columnsIndex, 1)[0];
+                    esgst.giveawayPanel.splice(esgst.giveawayPanel.indexOf(giveaway.newSourceItem.getAttribute(`data-columnId`)) + giveaway.newSourcePos, 0, id);
+                } else {
+                    let id = esgst.giveawayPanel.splice(panelIndex, 1)[0];
+                    esgst.giveawayPanel.splice(esgst.giveawayPanel.indexOf(giveaway.newSourceItem.getAttribute(`data-columnId`)) + giveaway.newSourcePos, 0, id);
+                }
+            }
+        }
+        await setSetting(`giveawayColumns`, esgst.giveawayColumns);
+        await setSetting(`giveawayPanel`, esgst.giveawayPanel);
     }
 
     async function loadDiscussionFeatures(context, main, source, endless) {
@@ -36735,6 +36902,18 @@ Parsedown = (() => {
             `;
         }
         style += `
+            .esgst-giveaway-column-button {
+                border: 0;
+                padding: 0;
+            }
+
+            .esgst-giveaway-column-button >* {
+                line-height: inherit;
+            }
+
+            .esgst-elgb-button .sidebar__error {
+                margin-bottom: 0;
+            }
 
             .esgst-mgc-preview {
                 border: 1px solid #ccc;
