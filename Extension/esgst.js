@@ -29726,7 +29726,7 @@ Parsedown = (() => {
             giveaway.endTimeColumn = giveaway.columns.firstElementChild;
             giveaway.startTimeColumn = giveaway.columns.querySelector(`.giveaway__column--width-fill.text-right, .featured__column--width-fill.text-right`);
             if (esgst.userPath) {
-                giveaway.startTimeColumn.setAttribute(`data-columnId`, `winners`);
+                giveaway.startTimeColumn.previousElementSibling.setAttribute(`data-columnId`, `winners`);
             }
             giveaway.started = !giveaway.endTimeColumn.textContent.match(/Begins/);
             giveaway.endTime = parseInt(giveaway.endTimeColumn.lastElementChild.getAttribute(`data-timestamp`)) * 1e3;
