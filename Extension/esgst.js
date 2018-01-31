@@ -34602,7 +34602,7 @@ Parsedown = (() => {
         }
     }
 
-    function openManageUserTagsPopup() {
+    async function openManageUserTagsPopup() {
         var button, context, current, input, mt, popup, savedUser, savedUsers, toggleSwitch, users;
         popup = new Popup(`fa-tags`, `Manage user tags:`, true);
         input = insertHtml(popup.description, `afterBegin`, `<input type="text"/>`);
@@ -34619,38 +34619,35 @@ Parsedown = (() => {
             </div>
         `).firstElementChild;
         toggleSwitch = new ToggleSwitch(button.firstElementChild, null, true, ``);
-        getValue(`users`).then(value => {
-            savedUsers = JSON.parse(value);
-            current = {};
-            users = {};
-            for (steamId in savedUsers.users) {
-                savedUser = savedUsers.users[steamId];
-                if (savedUser.tags && (savedUser.tags.length > 1 || savedUser.tags[0].trim())) {
-                    context = insertHtml(popup.scrollable, `beforeEnd`, `
-                        <div>
-                            <a href="/user/${savedUser.username}">${savedUser.username}</a>
-                        </div>
-                    `);
-                    current[savedUser.username] = {
-                        elements: [context.firstElementChild]
-                    };
-                    users[savedUser.username] = {
-                        context: context
-                    };
-                }
+        savedUsers = JSON.parse(await getValue(`users`));
+        current = {};
+        users = {};
+        for (steamId in savedUsers.users) {
+            savedUser = savedUsers.users[steamId];
+            if (savedUser.tags && (savedUser.tags.length > 1 || (savedUser.tags[0] && savedUser.tags[0].trim()))) {
+                context = insertHtml(popup.scrollable, `beforeEnd`, `
+                    <div>
+                        <a href="/user/${savedUser.username}">${savedUser.username}</a>
+                    </div>
+                `);
+                current[savedUser.username] = {
+                    elements: [context.firstElementChild]
+                };
+                users[savedUser.username] = {
+                    context: context
+                };
             }
-            return loadEndlessFeatures(popup.scrollable);
-        }).then(() => {
-            mt = {
-                button: button,
-                type: `user`
-            };
-            toggleSwitch.onEnabled = enableMt.bind(null, mt, current);
-            toggleSwitch.onDisabled = disableMt.bind(null, mt);
-            button.lastElementChild.addEventListener(`click`, openMtPopout.bind(null, mt));
-            input.addEventListener(`input`, filterUserTags.bind(null, current, mt, popup, users));
-            popup.open();
-        });
+        }
+        await loadEndlessFeatures(popup.scrollable);
+        mt = {
+            button: button,
+            type: `user`
+        };
+        toggleSwitch.onEnabled = enableMt.bind(null, mt, current);
+        toggleSwitch.onDisabled = disableMt.bind(null, mt);
+        button.lastElementChild.addEventListener(`click`, openMtPopout.bind(null, mt));
+        input.addEventListener(`input`, filterUserTags.bind(null, current, mt, popup, users));
+        popup.open();
     }
 
     function filterUserTags(current, mt, popup, users, event) {
