@@ -13520,12 +13520,14 @@ Parsedown = (() => {
         } else {
             giveaway.elgbPanel.appendChild(giveaway.elgbButton);
         }
-        giveaway.elgbButton.setAttribute(`draggable`, true);
-        giveaway.elgbButton.setAttribute(`data-columnId`, `elgb`);
-        giveaway.elgbButton.addEventListener(`dragstart`, setGiveawaySource.bind(null, giveaway));
-        giveaway.elgbButton.addEventListener(`dragenter`, getGiveawaySource.bind(null, giveaway, false));
-        giveaway.elgbButton.addEventListener(`dragend`, saveGiveawaySource.bind(null, giveaway));
-        reorderGiveaway(giveaway);
+        if (!main || esgst.giveawaysPath || esgst.userPath || esgst.groupPath) {
+            giveaway.elgbButton.setAttribute(`draggable`, true);
+            giveaway.elgbButton.setAttribute(`data-columnId`, `elgb`);
+            giveaway.elgbButton.addEventListener(`dragstart`, setGiveawaySource.bind(null, giveaway));
+            giveaway.elgbButton.addEventListener(`dragenter`, getGiveawaySource.bind(null, giveaway, false));
+            giveaway.elgbButton.addEventListener(`dragend`, saveGiveawaySource.bind(null, giveaway));
+            reorderGiveaway(giveaway);
+        }
     }
 
     async function openElgbPopup(giveaway, main, source, mainCallback) {
@@ -19282,12 +19284,14 @@ Parsedown = (() => {
                     buttonSet.classList.add(`esgst-gp-button`);
                     buttonSet.setAttribute(`data-columnId`, `gp`);
                     buttonSet.title = `View giveaway description/add a comment`;
-                    giveaway.panel.appendChild(buttonSet);
-                    buttonSet.setAttribute(`draggable`, true);
-                    buttonSet.addEventListener(`dragstart`, setGiveawaySource.bind(null, giveaway));
-                    buttonSet.addEventListener(`dragenter`, getGiveawaySource.bind(null, giveaway, false));
-                    buttonSet.addEventListener(`dragend`, saveGiveawaySource.bind(null, giveaway));
-                    reorderGiveaway(giveaway);
+                    giveaway.panel.appendChild(buttonSet);                    
+                    if (!main || esgst.giveawaysPath || esgst.userPath || esgst.groupPath) {
+                        buttonSet.setAttribute(`draggable`, true);
+                        buttonSet.addEventListener(`dragstart`, setGiveawaySource.bind(null, giveaway));
+                        buttonSet.addEventListener(`dragenter`, getGiveawaySource.bind(null, giveaway, false));
+                        buttonSet.addEventListener(`dragend`, saveGiveawaySource.bind(null, giveaway));
+                        reorderGiveaway(giveaway);
+                    }
                 }
             });
         }
@@ -20410,11 +20414,13 @@ Parsedown = (() => {
                     if (giveaway.started) {
                         let context = insertHtml(giveaway.panel, (esgst.gv && ((main && esgst.giveawaysPath) || (source === `gb` && esgst.gv_gb) || (source === `ged` && esgst.gv_ged) || (source === `ge` && esgst.gv_ge))) ? `afterBegin` : `beforeEnd`, `<div class="${esgst.giveawayPath ? `featured__column` : ``} esgst-gwc" data-columnId="gwc" title="Giveaway Winning Chance">`);
                         addGwcChance(context, giveaway);
-                        context.setAttribute(`draggable`, true);
-                        context.addEventListener(`dragstart`, setGiveawaySource.bind(null, giveaway));
-                        context.addEventListener(`dragenter`, getGiveawaySource.bind(null, giveaway, false));
-                        context.addEventListener(`dragend`, saveGiveawaySource.bind(null, giveaway));
-                        reorderGiveaway(giveaway);
+                        if (!main || esgst.giveawaysPath || esgst.userPath || esgst.groupPath) {
+                            context.setAttribute(`draggable`, true);
+                            context.addEventListener(`dragstart`, setGiveawaySource.bind(null, giveaway));
+                            context.addEventListener(`dragenter`, getGiveawaySource.bind(null, giveaway, false));
+                            context.addEventListener(`dragend`, saveGiveawaySource.bind(null, giveaway));
+                            reorderGiveaway(giveaway);
+                        }
                     } else {
                         giveaway.chance = 100;
                         giveaway.chancePerPoint = Math.round(100 / giveaway.points * 100) / 100;
@@ -20514,11 +20520,13 @@ Parsedown = (() => {
                 if (giveaway.started && ((giveaway.inviteOnly && ((main && esgst.giveawayPath) || !main || giveaway.ended)) || !giveaway.inviteOnly) && !giveaway.innerWrap.getElementsByClassName(`esgst-gwr`)[0]) {
                     let context = insertHtml(giveaway.panel, (esgst.gv && ((main && esgst.giveawaysPath) || (source === `gb` && esgst.gv_gb) || (source === `ged` && esgst.gv_ged) || (source === `ge` && esgst.gv_ge))) ? `afterBegin` : `beforeEnd`, `<div class="${esgst.giveawayPath ? `featured__column` : ``} esgst-gwr" data-columnId="gwr" title="Giveaway Winning Ratio">`);
                     addGwcRatio(context, giveaway);
-                    context.setAttribute(`draggable`, true);
-                    context.addEventListener(`dragstart`, setGiveawaySource.bind(null, giveaway));
-                    context.addEventListener(`dragenter`, getGiveawaySource.bind(null, giveaway, false));
-                    context.addEventListener(`dragend`, saveGiveawaySource.bind(null, giveaway));
-                    reorderGiveaway(giveaway);
+                    if (!main || esgst.giveawaysPath || esgst.userPath || esgst.groupPath) {
+                        context.setAttribute(`draggable`, true);
+                        context.addEventListener(`dragstart`, setGiveawaySource.bind(null, giveaway));
+                        context.addEventListener(`dragenter`, getGiveawaySource.bind(null, giveaway, false));
+                        context.addEventListener(`dragend`, saveGiveawaySource.bind(null, giveaway));
+                        reorderGiveaway(giveaway);
+                    }
                 }
             }
         }
@@ -26497,11 +26505,13 @@ Parsedown = (() => {
                 if (!giveaway.ended && !giveaway.entered && giveaway.points > esgst.points) {
                     if (!giveaway.ttec) {
                         giveaway.ttec = insertHtml(giveaway.panel, (esgst.gv && ((main && esgst.giveawaysPath) || (source === `gb` && esgst.gv_gb) || (source === `ged` && esgst.gv_ged) || (source === `ge` && esgst.gv_ge))) ? `beforeEnd` : `afterBegin`, `<div class="${esgst.giveawayPath ? `featured__column` : ``} esgst-ttec" data-columnId="ttec" title="Time to wait until you have enough points to enter this giveaway"></div>`);
-                        giveaway.ttec.setAttribute(`draggable`, true);
-                        giveaway.ttec.addEventListener(`dragstart`, setGiveawaySource.bind(null, giveaway));
-                        giveaway.ttec.addEventListener(`dragenter`, getGiveawaySource.bind(null, giveaway, false));
-                        giveaway.ttec.addEventListener(`dragend`, saveGiveawaySource.bind(null, giveaway));
-                        reorderGiveaway(giveaway);
+                        if (!main || esgst.giveawaysPath || esgst.userPath || esgst.groupPath) {
+                            giveaway.ttec.setAttribute(`draggable`, true);
+                            giveaway.ttec.addEventListener(`dragstart`, setGiveawaySource.bind(null, giveaway));
+                            giveaway.ttec.addEventListener(`dragenter`, getGiveawaySource.bind(null, giveaway, false));
+                            giveaway.ttec.addEventListener(`dragend`, saveGiveawaySource.bind(null, giveaway));
+                            reorderGiveaway(giveaway);
+                        }
                     }
                     giveaway.ttec.classList.remove(`esgst-hidden`);
                     giveaway.ttec.innerHTML = `
@@ -29725,9 +29735,6 @@ Parsedown = (() => {
         if (giveaway.columns && (!esgst.archivePath || !main)) {
             giveaway.endTimeColumn = giveaway.columns.firstElementChild;
             giveaway.startTimeColumn = giveaway.columns.querySelector(`.giveaway__column--width-fill.text-right, .featured__column--width-fill.text-right`);
-            if (esgst.userPath) {
-                giveaway.startTimeColumn.previousElementSibling.setAttribute(`data-columnId`, `winners`);
-            }
             giveaway.started = !giveaway.endTimeColumn.textContent.match(/Begins/);
             giveaway.endTime = parseInt(giveaway.endTimeColumn.lastElementChild.getAttribute(`data-timestamp`)) * 1e3;
             giveaway.ended = !giveaway.deleted && giveaway.endTime < Date.now();
@@ -29815,28 +29822,12 @@ Parsedown = (() => {
             giveaway.comments = parseInt(giveaway.commentsLink.textContent.replace(/,/g, ``).match(/\d+/)[0]);
         }
         giveaway.panel = giveaway.innerWrap.getElementsByClassName(`esgst-giveaway-panel`)[0];
-        if (giveaway.columns) {
-            for (let i = giveaway.columns.children.length - 1; i > -1; i--) {
-                let item = giveaway.columns.children[i];
-                item.setAttribute(`draggable`, true);
-                item.addEventListener(`dragstart`, setGiveawaySource.bind(null, giveaway));
-                item.addEventListener(`dragenter`, getGiveawaySource.bind(null, giveaway, false));
-                item.addEventListener(`dragend`, saveGiveawaySource.bind(null, giveaway));
-            }
-        }
-        if (giveaway.endTimeColumn) {
-            giveaway.endTimeColumn.setAttribute(`data-columnId`, `endTime`);
-        }
-        if (giveaway.startTimeColumn) {
-            giveaway.startTimeColumn.setAttribute(`data-columnId`, `startTime`);
-        }
         if (!giveaway.panel && (esgst.gwc || esgst.gwr || esgst.gp || esgst.elgb || esgst.cewgd)) {
             if (giveaway.links) {
                 giveaway.panel = insertHtml(giveaway.links, `afterEnd`, `
                     <div class="giveaway__columns esgst-giveaway-panel"></div>
                     <div style="clear: both;"></div>
                 `);
-                giveaway.panel.addEventListener(`dragenter`, getGiveawaySource.bind(null, giveaway, true));
             } else if (giveaway.columns) {
                 giveaway.panel = insertHtml(giveaway.columns, `afterEnd`, `<div class="featured__columns esgst-giveaway-panel"></div>`);
             } else if (esgst.enteredPath && (esgst.gwc || esgst.gwr)) {
@@ -29851,26 +29842,11 @@ Parsedown = (() => {
             }
         }
         giveaway.levelColumn = giveaway.outerWrap.querySelector(`.giveaway__column--contributor-level, .featured__column--contributor-level`);
-        if (giveaway.levelColumn) {
-            giveaway.levelColumn.setAttribute(`data-columnId`, `level`);
-        }
         giveaway.level = giveaway.levelColumn ? parseInt(giveaway.levelColumn.textContent.match(/\d+/)[0]) : 0;
         giveaway.inviteOnly = giveaway.outerWrap.querySelector(`.giveaway__column--invite-only, .featured__column--invite-only`);
-        if (giveaway.inviteOnly) {
-            giveaway.inviteOnly.setAttribute(`data-columnId`, `inviteOnly`);
-        }
         giveaway.regionRestricted = giveaway.outerWrap.querySelector(`.giveaway__column--region-restricted, .featured__column--region-restricted`);
-        if (giveaway.regionRestricted) {
-            giveaway.regionRestricted.setAttribute(`data-columnId`, `regionRestricted`);
-        }
         giveaway.group = giveaway.outerWrap.querySelector(`.giveaway__column--group, .featured__column--group`);
-        if (giveaway.group) {
-            giveaway.group.setAttribute(`data-columnId`, `group`);
-        }
         giveaway.whitelist = giveaway.outerWrap.querySelector(`.giveaway__column--whitelist, .featured__column--whitelist`);
-        if (giveaway.whitelist) {
-            giveaway.whitelist.setAttribute(`data-columnId`, `whitelist`);
-        }
         giveaway.public = !giveaway.inviteOnly && !giveaway.regionRestricted && !giveaway.group && !giveaway.whitelist;
         if (!main || !esgst.giveawayPath) {
             if (giveaway.inviteOnly) {
@@ -29914,7 +29890,45 @@ Parsedown = (() => {
             hideButton = temp.nextElementSibling;
             hideButton.addEventListener(`click`, hideGame.bind(null, hideButton, giveaway.gameId, giveaway.name));
         }
-        reorderGiveaway(giveaway);
+        if (!main || esgst.giveawaysPath || esgst.userPath || esgst.groupPath) {
+            if (giveaway.endTimeColumn) {
+                giveaway.endTimeColumn.setAttribute(`data-columnId`, `endTime`);
+            }
+            if (giveaway.startTimeColumn) {
+                giveaway.startTimeColumn.setAttribute(`data-columnId`, `startTime`);
+                if (esgst.userPath && main) {
+                    giveaway.startTimeColumn.previousElementSibling.setAttribute(`data-columnId`, `winners`);
+                }
+            }
+            if (giveaway.inviteOnly) {
+                giveaway.inviteOnly.setAttribute(`data-columnId`, `inviteOnly`);
+            }
+            if (giveaway.whitelist) {
+                giveaway.whitelist.setAttribute(`data-columnId`, `whitelist`);
+            }
+            if (giveaway.group) {
+                giveaway.group.setAttribute(`data-columnId`, `group`);
+            }
+            if (giveaway.regionRestricted) {
+                giveaway.regionRestricted.setAttribute(`data-columnId`, `regionRestricted`);
+            }
+            if (giveaway.levelColumn) {
+                giveaway.levelColumn.setAttribute(`data-columnId`, `level`);
+            }
+            if (giveaway.columns) {
+                for (let i = giveaway.columns.children.length - 1; i > -1; i--) {
+                    let item = giveaway.columns.children[i];
+                    item.setAttribute(`draggable`, true);
+                    item.addEventListener(`dragstart`, setGiveawaySource.bind(null, giveaway));
+                    item.addEventListener(`dragenter`, getGiveawaySource.bind(null, giveaway, false));
+                    item.addEventListener(`dragend`, saveGiveawaySource.bind(null, giveaway));
+                }
+            }
+            if (giveaway.panel) {
+                giveaway.panel.addEventListener(`dragenter`, getGiveawaySource.bind(null, giveaway, true));
+            }
+            reorderGiveaway(giveaway);
+        }
         return {
             giveaway: giveaway,
             data: {
