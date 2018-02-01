@@ -1605,7 +1605,8 @@ Parsedown = (() => {
         }
 
         // initialize the global variable
-        esgst = {
+        esgst = {            
+            parameters: getParameters(),
             audioContext: new AudioContext(),
             defaultValues: {
                 giveawayColumns: [`endTime`, `winners`, `startTime`, `inviteOnly`, `whitelist`, `group`, `regionRestricted`, `level`],
@@ -1832,6 +1833,7 @@ Parsedown = (() => {
                 gf_presetGe: null,
                 gf_presetGed: null,
                 gf_noRating: true,
+                gf_noReleaseDate: false,
                 ggl_index: 0,
                 gm_enable: false,
                 gm_useRegExp: false,
@@ -2946,6 +2948,10 @@ Parsedown = (() => {
                                             name: `Rating`,
                                             sg: true
                                         },
+                                        gf_releaseDate: {
+                                            name: `Release Date`,
+                                            sg: true
+                                        },
                                         gf_pinned: {
                                             name: `Pinned`,
                                             sg: true
@@ -3072,6 +3078,10 @@ Parsedown = (() => {
                                         },
                                         gf_package: {
                                             name: `Package`,
+                                            sg: true
+                                        },
+                                        gf_earlyAccess: {
+                                            name: `Early Access`,
                                             sg: true
                                         },
                                         gf_genres: {
@@ -15250,7 +15260,7 @@ Parsedown = (() => {
             let id = gc.subs[i];
             addGcCategory(gc.cache.subs[id], games.subs[id], id, savedGames.subs[id], `subs`);
         }
-        let categories = [`achievements`, `dlc`, `dlcFree`, `dlcNonFree`, `genres`, `linux`, `mac`, `multiplayer`, `package`, `rating`, `removed`, `steamCloud`, `tradingCards`];
+        let categories = [`achievements`, `dlc`, `dlcFree`, `dlcNonFree`, `genres`, `linux`, `mac`, `multiplayer`, `package`, `rating`, `removed`, `steamCloud`, `tradingCards`, `earlyAccess`, `releaseDate`];
         for (let i = 0, n = esgst.currentGiveaways.length; i < n; ++i) {
             let giveaway = esgst.currentGiveaways[i];
             if (giveaway.gcReady || !giveaway.outerWrap.querySelector(`[data-gcReady]`)) {
@@ -15260,7 +15270,14 @@ Parsedown = (() => {
                 let id = categories[j];
                 let category = giveaway.outerWrap.getElementsByClassName(`esgst-gc-${id}`)[0];
                 if (category) {
-                    if (id === `genres`) {
+                    if (id === `releaseDate`) {
+                        giveaway.releaseDate = category.getAttribute(`data-timestamp`);
+                        if (giveaway.releaseDate === `?`) {
+                            giveaway.releaseDate = -1;
+                        } else {
+                            giveaway.releaseDate = parseInt(giveaway.releaseDate);
+                        }
+                    } else if (id === `genres`) {
                         giveaway.genres = category.textContent.toLowerCase().trim().replace(/\s{2,}/g, `, `).split(/,\s/);
                     } else if (id === `rating`) {
                         giveaway.rating = parseInt(category.title.match(/(\d+)%/)[1]);
@@ -15269,6 +15286,8 @@ Parsedown = (() => {
                     }
                 } else if (id === `rating`) {
                     giveaway.rating = 0;
+                } else if (id === `releaseDate`) {
+                    giveaway.releaseDate = -1;
                 }
             }
             if (giveaway.grid && esgst.gc_b) {
@@ -15710,7 +15729,7 @@ Parsedown = (() => {
                     case `gc_rd`:
                         if (cache && cache.releaseDate) {
                             elements.push(`
-                                <a class="esgst-gc esgst-gc-releaseDate" data-id="gc_rd" href="http://store.steampowered.com/${singularType}/${id}" title="Release Date">
+                                <a class="esgst-gc esgst-gc-releaseDate" data-id="gc_rd" data-timestamp="${cache.releaseDate / 1e3}" href="http://store.steampowered.com/${singularType}/${id}" title="Release Date">
                                     <i class="fa fa-${esgst.gc_rdIcon}"></i> ${formatGcDate(cache.releaseDate)}
                                 </a>
                             `);
@@ -17014,7 +17033,6 @@ Parsedown = (() => {
         var basicFilter, basicFilters, box, button, categoryFilter, categoryFilters, collapseButton, display, exceptionButton, exceptionCount, exceptionPanel, expandButton, filters, genres, gf, headingButton, i, id, infinite, key, maxKey, maxSavedValue, maxValue, minKey, minSavedValue, minValue, name, preset, presetButton, presetDisplay, presetInput, presetMessage, presetPanel, presets, presetWarning, slider, step, toggleSwitch, typeFilter, typeFilters, value;
         gf = {
             counters: {},
-            parameters: getParameters(),
             popup: popup,
             type: popup || (esgst.groupPath ? `Groups` : (location.search.match(/type/) ? { wishlist: `Wishlist`, recommended: `Recommended`, group: `Group`, new: `New` }[location.search.match(/type=(wishlist|recommended|group|new)/)[1]] : (esgst.createdPath ? `Created` : (esgst.enteredPath ? `Entered` : (esgst.wonPath ? `Won` : (esgst.userPath ? `User` : ``))))))
         };
@@ -17131,7 +17149,7 @@ Parsedown = (() => {
         if (!preset) {
             name = `Default${gf.type}`;
             preset = { name };
-            [`maxLevel`, `minLevel`, `maxEntries`, `minEntries`, `maxCopies`, `minCopies`, `maxPoints`, `minPoints`, `maxMinutesToEnd`, `minMinutesToEnd`, `maxChance`, `minChance`, `maxRatio`, `minRatio`, `maxRating`, `minRating`, `pinned`, `group`, `whitelist`, `regionRestricted`, `created`, `received`, `notReceived`, `awaitingFeedabck`, `entered`, `started`, `ended`, `deleted`, `hidden`, `fullCV`, `reducedCV`, `noCV`, `owned`, `wishlisted`, `ignored`, `previouslyEntered`, `previouslyWon`, `removed`, `tradingCards`, `achievements`, `multiplayer`, `steamCloud`, `linux`, `mac`, `dlc`, `dlcFree`, `dlcNonFree`, `package`, `genres`, `genreList`].forEach(key => {
+            [`maxLevel`, `minLevel`, `maxEntries`, `minEntries`, `maxCopies`, `minCopies`, `maxPoints`, `minPoints`, `maxMinutesToEnd`, `minMinutesToEnd`, `maxChance`, `minChance`, `maxRatio`, `minRatio`, `maxRating`, `minRating`, `maxReleaseDate`, `minReleaseDate`, `pinned`, `group`, `whitelist`, `regionRestricted`, `created`, `received`, `notReceived`, `awaitingFeedback`, `entered`, `started`, `ended`, `deleted`, `hidden`, `fullCV`, `reducedCV`, `noCV`, `owned`, `wishlisted`, `ignored`, `previouslyEntered`, `previouslyWon`, `removed`, `tradingCards`, `achievements`, `multiplayer`, `steamCloud`, `linux`, `mac`, `dlc`, `dlcFree`, `dlcNonFree`, `package`, `earlyAccess`, `genres`, `genreList`].forEach(key => {
                 preset[key] = esgst.settings[`gf_${key}${gf.type}`];
             });
             presets = JSON.parse(esgst.storage.filterPresets);
@@ -17149,23 +17167,24 @@ Parsedown = (() => {
         gf.overrides = preset.overrides || {};
         gf.overrideButtons = {};
         exceptionButton.addEventListener(`click`, openGfExceptionPopup.bind(null, exceptionCount, gf, presetInput));
-        [ { check: (!gf.parameters.level_min && !gf.parameters.level_max) && (((!esgst.createdPath || esgst.cewgd) && (!esgst.enteredPath || esgst.cewgd) && (!esgst.wonPath || esgst.cewgd)) || popup), maxValue: 10, minValue: 0, name: `Level` },
-            { check: (!gf.parameters.entry_min && !gf.parameters.entry_max) && (!esgst.wonPath || popup), infinite: true, maxValue: 99999, minValue: 0, name: `Entries` },
-            { check: (!gf.parameters.copy_min && !gf.parameters.copy_max) && (!esgst.wonPath || popup), infinite: true, maxValue: 99999, minValue: 1, name: `Copies` },
-            { check: (!gf.parameters.point_min && !gf.parameters.point_max) && (((!esgst.createdPath || esgst.cewgd) && (!esgst.enteredPath || esgst.cewgd) && (!esgst.wonPath || esgst.cewgd)) || popup), maxValue: 100, minValue: 0, name: `Points` },
+        [ { check: (!esgst.parameters.level_min && !esgst.parameters.level_max) && (((!esgst.createdPath || esgst.cewgd) && (!esgst.enteredPath || esgst.cewgd) && (!esgst.wonPath || esgst.cewgd)) || popup), maxValue: 10, minValue: 0, name: `Level` },
+            { check: (!esgst.parameters.entry_min && !esgst.parameters.entry_max) && (!esgst.wonPath || popup), infinite: true, maxValue: 99999, minValue: 0, name: `Entries` },
+            { check: (!esgst.parameters.copy_min && !esgst.parameters.copy_max) && (!esgst.wonPath || popup), infinite: true, maxValue: 99999, minValue: 1, name: `Copies` },
+            { check: (!esgst.parameters.point_min && !esgst.parameters.point_max) && (((!esgst.createdPath || esgst.cewgd) && (!esgst.enteredPath || esgst.cewgd) && (!esgst.wonPath || esgst.cewgd)) || popup), maxValue: 100, minValue: 0, name: `Points` },
             { check: !esgst.wonPath || popup, maxValue: 43800, minValue: 0, name: `MinutesToEnd` },
             { check: ((!esgst.enteredPath || esgst.cewgd) && !esgst.createdPath && !esgst.wonPath) || popup, maxValue: 100, minValue: 0, name: `Chance`, step: 0.01 },
             { check: ((!esgst.enteredPath || esgst.cewgd) && !esgst.createdPath && !esgst.wonPath) || popup, maxValue: 99999, minValue: 0, name: `Ratio` },
-            { check: true, maxValue: 100, minValue: 0, name: `Rating` }
+            { check: true, maxValue: 100, minValue: 0, name: `Rating` },
+            { check: !esgst.parameters.release_date_min && !esgst.parameters.release_date_max, infinite: true, maxValue: new Date(`2070-12-31`).getTime() / 1e3, minValue: new Date(`1970-01-01`).getTime() / 1e3, name: `ReleaseDate` }
         ].forEach(filter => {
             if (filter.check) {
                 name = filter.name;
-                if (name !== `Rating` || esgst.gc) {
+                if ((name !== `Rating` || (esgst.gc && esgst.gc_r)) && (name !== `ReleaseDate` || (esgst.gc && esgst.gc_rd))) {
                     maxKey = `max${name}`;
                     maxValue = filter.maxValue;
                     minKey = `min${name}`;
                     minValue = filter.minValue;
-                    key = name === `MinutesToEnd` ? `minutesToEnd` : name.toLowerCase();
+                    key = name === `MinutesToEnd` ? `minutesToEnd` : (name === `ReleaseDate` ? `releaseDate` : name.toLowerCase());
                     if (esgst[`gf_${key}`]) {
                         infinite = filter.infinite;
                         maxSavedValue = preset[maxKey] || maxValue;
@@ -17178,7 +17197,7 @@ Parsedown = (() => {
                         gf[minKey] = minSavedValue;
                         basicFilter = insertHtml(basicFilters, `beforeEnd`, `
                             <div class="esgst-gf-basic-filter">
-                                <div>${name === `MinutesToEnd` ? `Minutes To End` : name} <span class="esgst-gf-filter-count" title="Number of giveaways this filter is filtering">0</span> <span class="esgst-float-right"><input type="text" value="${minSavedValue}"> - <input type="text" value="${maxSavedValue}"></span></div>
+                                <div>${name === `MinutesToEnd` ? `Minutes To End` : (name === `ReleaseDate` ? `Release Date` : name)} <span class="esgst-gf-filter-count" title="Number of giveaways this filter is filtering">0</span> <span class="esgst-float-right"><input type="${name === `ReleaseDate` ? `date` : `text`}" value="${name === `ReleaseDate` ? formatGfDate(minSavedValue) : minSavedValue}"> - <input type="${name === `ReleaseDate` ? `date` : `text`}" value="${name === `ReleaseDate` ? formatGfDate(maxSavedValue) : maxSavedValue}"></span></div>
                                 <div></div>
                                 <div></div>
                             </div>
@@ -17190,9 +17209,13 @@ Parsedown = (() => {
                             let toggle = new ToggleSwitch(slider.nextElementSibling, `gf_noRating`, false, `Filter games with no rating.`, false, false, null, esgst.gf_noRating);
                             toggle.onEnabled = filterGfGiveaways.bind(null, gf);
                             toggle.onDisabled = filterGfGiveaways.bind(null, gf);
+                        } else if (name === `ReleaseDate`) {
+                            let toggle = new ToggleSwitch(slider.nextElementSibling, `gf_noReleaseDate`, false, `Filter games with no release date.`, false, false, null, esgst.gf_noReleaseDate);
+                            toggle.onEnabled = filterGfGiveaways.bind(null, gf);
+                            toggle.onDisabled = filterGfGiveaways.bind(null, gf);
                         }
-                        gf.counters[name.toLowerCase()] = display.firstElementChild.nextElementSibling;
-                        gf[`${minKey}Input`] = gf.counters[name.toLowerCase()].nextElementSibling.firstElementChild;
+                        gf.counters[key] = display.firstElementChild.nextElementSibling;
+                        gf[`${minKey}Input`] = gf.counters[key].nextElementSibling.firstElementChild;
                         gf[`${maxKey}Input`] = gf[`${minKey}Input`].nextElementSibling;
                         gf[`${maxKey}Input`].addEventListener(`change`, changeGfMaxValue.bind(null, infinite, slider, step));
                         gf[`${minKey}Input`].addEventListener(`change`, changeGfMinValue.bind(null, slider, step));
@@ -17242,7 +17265,7 @@ Parsedown = (() => {
         ].forEach(filter => {
             if (filter.check) {
                 key = filter.key;
-                if (key !== `regionRestricted` || !gf.parameters.region_restricted) {
+                if (key !== `regionRestricted` || !esgst.parameters.region_restricted) {
                     if (esgst[`gf_${key}`]) {
                         name = filter.name;
                         typeFilter = insertHtml(typeFilters, `beforeEnd`, `
@@ -17279,10 +17302,11 @@ Parsedown = (() => {
                 { id: `gc_dlc_b`, key: `dlcFree`, name: `DLC (Free Base)` },
                 { id: `gc_dlc_b`, key: `dlcNonFree`, name: `DLC (Non-Free Base)` },
                 { id: `gc_p`, key: `package`, name: `Package` },
+                { id: `gc_ea`, key: `earlyAccess`, name: `Early Access` },
                 { id: `gc_g`, key: `genres`, name: `Genres` }
             ].forEach(filter => {
                 id = filter.id;
-                if ((id !== `gc_dlc` || !gf.parameters.dlc) && esgst[id]) {
+                if ((id !== `gc_dlc` || !esgst.parameters.dlc) && esgst[id]) {
                     key = filter.key;
                     genres = key === `genres`;
                     if (esgst[`gf_${key}`]) {
@@ -17327,7 +17351,7 @@ Parsedown = (() => {
         var max, min, value;
         max = $(slider).slider(`values`, 1);
         min = $(slider).slider(`values`, 0);
-        value = step ? parseFloat(event.currentTarget.value) : parseInt(event.currentTarget.value);
+        value = event.currentTarget.type === `date` ? new Date(event.currentTarget.value).getTime() / 1e3 : (step ? parseFloat(event.currentTarget.value) : parseInt(event.currentTarget.value));
         if (value !== max && value >= min) {
             if (infinite) {
                 $(slider).slider(`option`, `max`, value);
@@ -17340,7 +17364,7 @@ Parsedown = (() => {
         var max, min, value;
         max = $(slider).slider(`values`, 1);
         min = $(slider).slider(`values`, 0);
-        value = step ? parseFloat(event.currentTarget.value) : parseInt(event.currentTarget.value);
+        value = event.currentTarget.type === `date` ? new Date(event.currentTarget.value).getTime() / 1e3 : (step ? parseFloat(event.currentTarget.value) : parseInt(event.currentTarget.value));
         if (value !== min && value <= max) {
             $(slider).slider(`values`, [value, max]);
         }
@@ -17353,8 +17377,13 @@ Parsedown = (() => {
     }
 
     function slideGfSlider(gf, maxKey, minKey, event, ui) {
-        gf[`${maxKey}Input`].value = ui.values[1];
-        gf[`${minKey}Input`].value = ui.values[0];
+        gf[`${maxKey}Input`].value = maxKey === `maxReleaseDate` ? formatGfDate(ui.values[1]) : ui.values[1];
+        gf[`${minKey}Input`].value = minKey === `minReleaseDate` ? formatGfDate(ui.values[0]) : ui.values[0];
+    }
+
+    function formatGfDate(timestamp) {
+        let date = new Date(timestamp * 1e3);
+        return `${date.getFullYear()}-${`0${date.getMonth() + 1}`.slice(-2)}-${`0${date.getDate()}`.slice(-2)}`;
     }
 
     function changeGfValue(context, gf, key) {
@@ -17371,7 +17400,7 @@ Parsedown = (() => {
         if (name) {
             presetWarning.classList.add(`esgst-hidden`);
             preset = { name };
-            [`maxLevel`, `minLevel`, `maxEntries`, `minEntries`, `maxCopies`, `minCopies`, `maxPoints`, `minPoints`, `maxMinutesToEnd`, `minMinutesToEnd`, `maxChance`, `minChance`, `maxRatio`, `minRatio`, `maxRating`, `minRating`, `pinned`, `group`, `whitelist`, `regionRestricted`, `created`, `received`, `notReceived`, `awaitingFeedback`, `entered`, `started`, `ended`, `deleted`, `hidden`, `fullCV`, `reducedCV`, `noCV`, `owned`, `wishlisted`, `ignored`, `previouslyEntered`, `previouslyWon`, `removed`, `tradingCards`, `achievements`, `multiplayer`, `steamCloud`, `linux`, `mac`, `dlc`, `dlcFree`, `dlcNonFree`, `package`, `genres`, `genreList`].forEach(key => {
+            [`maxLevel`, `minLevel`, `maxEntries`, `minEntries`, `maxCopies`, `minCopies`, `maxPoints`, `minPoints`, `maxMinutesToEnd`, `minMinutesToEnd`, `maxChance`, `minChance`, `maxRatio`, `minRatio`, `maxRating`, `minRating`, `maxReleaseDate`, `minReleaseDate`, `pinned`, `group`, `whitelist`, `regionRestricted`, `created`, `received`, `notReceived`, `awaitingFeedback`, `entered`, `started`, `ended`, `deleted`, `hidden`, `fullCV`, `reducedCV`, `noCV`, `owned`, `wishlisted`, `ignored`, `previouslyEntered`, `previouslyWon`, `removed`, `tradingCards`, `achievements`, `multiplayer`, `steamCloud`, `linux`, `mac`, `dlc`, `dlcFree`, `dlcNonFree`, `package`, `earlyAccess`, `genres`, `genreList`].forEach(key => {
                 if (typeof gf[key] !== `undefined`) {
                     preset[key] = gf[key];
                 }
@@ -17426,7 +17455,8 @@ Parsedown = (() => {
                     { key: `MinutesToEnd`, name: `minutes to end` },
                     { key: `Chance`, name: `chance` },
                     { key: `Ratio`, name: `ratio` },
-                    { key: `Rating`, name: `rating` }
+                    { key: `Rating`, name: `rating` },
+                    { key: `ReleaseDate`, name: `release date` }
                 ].forEach(filter => {
                     if (typeof preset[`max${filter.key}`] !== `undefined`) {
                         details += `${preset[`min${filter.key}`]}-${preset[`max${filter.key}`]} ${filter.name}, `;
@@ -17464,6 +17494,7 @@ Parsedown = (() => {
                     { key: `dlcFree`, name: `dlc (free base)` },
                     { key: `dlcNonFree`, name: `dlc (non-free base)` },
                     { key: `package`, name: `package` },
+                    { key: `earlyAccess`, name: `early access` },
                     { key: `genres`, name: `genres` }
                 ].forEach(key => {
                     if (preset[key.key] === `disabled`) {
@@ -17556,7 +17587,7 @@ Parsedown = (() => {
 
     function applyGfPreset(gf, exceptionCount, popup, preset, presetDisplay, presetInput) {
         var checkbox, input, key;
-        [`maxLevel`, `minLevel`, `maxEntries`, `minEntries`, `maxCopies`, `minCopies`, `maxPoints`, `minPoints`, `maxMinutesToEnd`, `minMinutesToEnd`, `maxChance`, `minChance`, `maxRatio`, `minRatio`, `maxRating`, `minRating`, `pinned`, `group`, `whitelist`, `regionRestricted`, `created`, `received`, `notReceived`, `awaitingFeedabck`, `entered`, `started`, `ended`, `deleted`, `hidden`, `fullCV`, `reducedCV`, `noCV`, `owned`, `wishlisted`, `ignored`, `previouslyEntered`, `previouslyWon`, `removed`, `tradingCards`, `achievements`, `multiplayer`, `steamCloud`, `linux`, `mac`, `dlc`, `dlcFree`, `dlcNonFree`, `package`, `genres`, `genreList`].forEach(key => {
+        [`maxLevel`, `minLevel`, `maxEntries`, `minEntries`, `maxCopies`, `minCopies`, `maxPoints`, `minPoints`, `maxMinutesToEnd`, `minMinutesToEnd`, `maxChance`, `minChance`, `maxRatio`, `minRatio`, `maxRating`, `minRating`, `maxReleaseDate`, `minReleaseDate`, `pinned`, `group`, `whitelist`, `regionRestricted`, `created`, `received`, `notReceived`, `awaitingFeedback`, `entered`, `started`, `ended`, `deleted`, `hidden`, `fullCV`, `reducedCV`, `noCV`, `owned`, `wishlisted`, `ignored`, `previouslyEntered`, `previouslyWon`, `removed`, `tradingCards`, `achievements`, `multiplayer`, `steamCloud`, `linux`, `mac`, `dlc`, `dlcFree`, `dlcNonFree`, `package`, `earlyAccess`, `genres`, `genreList`].forEach(key => {
             checkbox = gf[`${key}Checkbox`];
             if (checkbox) {
                 if (checkbox.isThreeState) {
@@ -17692,7 +17723,8 @@ Parsedown = (() => {
                         { key: `MinutesToEnd`, name: `minutes to end` },
                         { key: `Chance`, name: `chance` },
                         { key: `Ratio`, name: `ratio` },
-                        { key: `Rating`, name: `rating` }
+                        { key: `Rating`, name: `rating` },
+                        { key: `ReleaseDate`, name: `release date` }
                     ].forEach(filter => {
                         max = exception[`max${filter.key}`];
                         min = exception[`min${filter.key}`];
@@ -17734,6 +17766,7 @@ Parsedown = (() => {
                         { key: `dlcFree`, name: `dlc (free base)` },
                         { key: `dlcNonFree`, name: `dlc (non-free base)` },
                         { key: `package`, name: `package` },
+                        { key: `earlyAccess`, name: `early access` },
                         { key: `genres`, name: `genres` }
                     ].forEach(key => {
                         if (exception[key.key]) {
@@ -17786,7 +17819,8 @@ Parsedown = (() => {
             { key: `MinutesToEnd`, name: `Minutes To End` },
             { key: `Chance`, name: `Chance` },
             { key: `Ratio`, name: `Ratio` },
-            { key: `Rating`, name: `Rating` }
+            { key: `Rating`, name: `Rating` },
+            { key: `ReleaseDate`, name: `Release Date` }
         ].forEach(filter => {
             context = insertHtml(basicFilters, `beforeEnd`, `
                 <div class="esgst-gf-basic-filter esgst-text-left">
@@ -17845,6 +17879,7 @@ Parsedown = (() => {
             { key: `dlcFree`, name: `DLC (Free Base)` },
             { key: `dlcNonFree`, name: `DLC (Non-Free Base)` },
             { key: `package`, name: `Package` },
+            { key: `earlyAccess`, name: `Early Access` },
             { key: `genres`, name: `Genres` }
         ].forEach(filter => {
             context = insertHtml(categoryFilters, `beforeEnd`, `<div class="esgst-gf-category-filter"><span></span> ${filter.name}${filter.key === `genres` ? ` <input type="text" value="${exception.genreList || ``}"/>` : ``}</div>`);
@@ -17860,15 +17895,15 @@ Parsedown = (() => {
     function saveGfException(exceptionCount, gf, preset, popup, callback) {
         var exception, i, presets;
         exception = { name: popup.name.value };
-        [`Level`, `Entries`, `Copies`, `Points`, `MinutesToEnd`, `Chance`, `Ratio`, `Rating`].forEach(name => {
+        [`Level`, `Entries`, `Copies`, `Points`, `MinutesToEnd`, `Chance`, `Ratio`, `Rating`, `ReleaseDate`].forEach(name => {
             if (popup[`max${name}`].value.length) {
-                exception[`max${name}`] = parseFloat(popup[`max${name}`].value);
+                exception[`max${name}`] = name === `ReleaseDate` ? new Date(popup[`max${name}`].value).getTime() : parseFloat(popup[`max${name}`].value);
             }
             if (popup[`min${name}`].value.length) {
-                exception[`min${name}`] = parseFloat(popup[`min${name}`].value);
+                exception[`min${name}`] = name === `ReleaseDate` ? new Date(popup[`min${name}`].value).getTime() :  parseFloat(popup[`min${name}`].value);
             }
         });
-        [`pinned`, `group`, `whitelist`, `regionRestricted`, `created`, `received`, `notReceived`, `awaitingFeedback`, `entered`, `started`, `ended`, `deleted`, `owned`, `wishlisted`, `hidden`, `ignored`, `previouslyEntered`, `previouslyWon`, `fullCV`, `reducedCV`, `noCV`, `removed`, `tradingCards`, `achievements`, `multiplayer`, `steamCloud`, `linux`, `mac`, `dlc`, `dlcFree`, `dlcNonFree`, `package`, `genres`].forEach(name => {
+        [`pinned`, `group`, `whitelist`, `regionRestricted`, `created`, `received`, `notReceived`, `awaitingFeedback`, `entered`, `started`, `ended`, `deleted`, `owned`, `wishlisted`, `hidden`, `ignored`, `previouslyEntered`, `previouslyWon`, `fullCV`, `reducedCV`, `noCV`, `removed`, `tradingCards`, `achievements`, `multiplayer`, `steamCloud`, `linux`, `mac`, `dlc`, `dlcFree`, `dlcNonFree`, `package`, `earlyAccess`, `genres`].forEach(name => {
             if (popup[name].input.checked) {
                 if (name === `genres`) {
                     if (popup.genreList.value.length) {
@@ -17973,14 +18008,14 @@ Parsedown = (() => {
 
     function filterGfException(gf, giveaway) {
         var basicFilters, categoryFilters, filtered, i, j, key, maxKey, minKey, minutes, n, name, typeFilters, value;
-        basicFilters = [`Level`, `Entries`, `Copies`, `Points`, `MinutesToEnd`, `Chance`, `Ratio`, `Rating`];
+        basicFilters = [`Level`, `Entries`, `Copies`, `Points`, `MinutesToEnd`, `Chance`, `Ratio`, `Rating`, `ReleaseDate`];
         typeFilters = [`pinned`, `group`, `whitelist`, `regionRestricted`, `created`, `received`, `notReceived`, `awaitingFeedback`, `entered`, `started`, `ended`, `deleted`, `owned`, `wishlisted`, `hidden`, `ignored`, `previouslyEntered`, `previouslyWon`, `fullCV`, `reducedCV`, `noCV`];
-        categoryFilters = [`removed`, `tradingCards`, `achievements`, `multiplayer`, `steamCloud`, `linux`, `mac`, `dlc`, `dlcFree`, `dlcNonFree`, `package`, `genres`];
+        categoryFilters = [`removed`, `tradingCards`, `achievements`, `multiplayer`, `steamCloud`, `linux`, `mac`, `dlc`, `dlcFree`, `dlcNonFree`, `package`, `earlyAccess`, `genres`];
         filtered = false;
         for (i = 0, n = basicFilters.length; !filtered && i < n; ++i) {
             name = basicFilters[i];
-            if ((name === `Rating` && esgst.gc && giveaway.gcReady) || name !== `Rating`) {
-                key = name.toLowerCase();
+            if ((name !== `Rating` && name !== `ReleaseDate`) || (esgst.gc && giveaway.gcReady)) {
+                key = name === `MinutesToEnd` ? `minutesToEnd` : (name === `ReleaseDate` ? `releaseDate` : name.toLowerCase());
                 maxKey = `max${name}`;
                 minKey = `min${name}`;
                 if (name === `MinutesToEnd`) {
@@ -18006,7 +18041,7 @@ Parsedown = (() => {
         }
         for (i = 0, n = typeFilters.length; !filtered && i < n; ++i) {
             key = typeFilters[i];
-            if ((key === `regionRestricted` && !gf.parameters.region_restricted) || key !== `regionRestricted`) {
+            if ((key === `regionRestricted` && !esgst.parameters.region_restricted) || key !== `regionRestricted`) {
                 if (gf[key]) {
                     filtered = (key === `fullCV` ? !giveaway.reducedCV && !giveaway.noCV : giveaway[key]) ? false : true;
                 }
@@ -18036,15 +18071,15 @@ Parsedown = (() => {
 
     function filterGfGiveaway(gf, giveaway) {
         var basicFilters, categoryFilters, counterKey, filtered, i, j, key, maxKey, minKey, minutes, n, name, override, typeFilters, value;
-        basicFilters = [`Level`, `Entries`, `Copies`, `Points`, `MinutesToEnd`, `Chance`, `Ratio`, `Rating`];
+        basicFilters = [`Level`, `Entries`, `Copies`, `Points`, `MinutesToEnd`, `Chance`, `Ratio`, `Rating`, `ReleaseDate`];
         typeFilters = [`pinned`, `group`, `whitelist`, `regionRestricted`, `created`, `received`, `notReceived`, `awaitingFeedback`, `entered`, `started`, `ended`, `deleted`, `owned`, `wishlisted`, `hidden`, `ignored`, `previouslyEntered`, `previouslyWon`, `fullCV`, `reducedCV`, `noCV`];
-        categoryFilters = [`removed`, `tradingCards`, `achievements`, `multiplayer`, `steamCloud`, `linux`, `mac`, `dlc`, `dlcFree`, `dlcNonFree`, `package`, `genres`];
+        categoryFilters = [`removed`, `tradingCards`, `achievements`, `multiplayer`, `steamCloud`, `linux`, `mac`, `dlc`, `dlcFree`, `dlcNonFree`, `package`, `earlyAccess`, `genres`];
         filtered = false;
         override = 0;
         for (i = 0, n = basicFilters.length; i < n && (!filtered || !override); ++i) {
             name = basicFilters[i];
-            if ((name !== `Rating` || (esgst.gc && giveaway.gcReady)) && gf[`max${name}Input`]) {
-                key = name.toLowerCase();
+            if (((name !== `Rating` && name !== `ReleaseDate`) || (esgst.gc && giveaway.gcReady)) && gf[`max${name}Input`]) {
+                key = name === `MinutesToEnd` ? `minutesToEnd` : (name === `ReleaseDate` ? `releaseDate` : name.toLowerCase());
                 maxKey = `max${name}`;
                 minKey = `min${name}`;
                 if (name === `MinutesToEnd`) {
@@ -18052,12 +18087,12 @@ Parsedown = (() => {
                         minutes = (giveaway.endTime - Date.now()) / 60000;
                         if (minutes < gf[minKey] || minutes > gf[maxKey]) {
                             filtered = true;
-                            override = gf.overrides.minutesToEnd;
+                            override = gf.overrides[key];
                             counterKey = key;
                         }
                     }
                 } else if (giveaway[key] < gf[minKey] || giveaway[key] > gf[maxKey]) {
-                    if (name !== `Rating` || giveaway.rating !== 0 || esgst.gf_noRating) {
+                    if ((name === `Rating` && (giveaway.rating !== 0 || esgst.gf_noRating)) || (name === `Release Date` && (giveaway.releaseDate !== -1 || esgst.gf_noReleaseDate)) || (name !== `Rating` && name !== `Release Date`)) {
                         filtered = true;
                         override = gf.overrides[key];
                         counterKey = key;
@@ -18067,7 +18102,7 @@ Parsedown = (() => {
         }
         for (i = 0, n = typeFilters.length; i < n && (!filtered || !override); ++i) {
             key = typeFilters[i];
-            if ((key === `regionRestricted` && !gf.parameters.region_restricted) || key !== `regionRestricted`) {
+            if ((key === `regionRestricted` && !esgst.parameters.region_restricted) || key !== `regionRestricted`) {
                 if ((key === `fullCV` && ((gf.fullCV === `disabled` && !giveaway.reducedCV && !giveaway.noCV) || (gf.fullCV === `none` && (giveaway.reducedCV || giveaway.noCV)))) || (key !== `fullCV` && ((gf[key] === `disabled` && giveaway[key]) || (gf[key] === `none` && !giveaway[key])))) {
                     filtered = true;
                     override = gf.overrides[key];
@@ -18083,7 +18118,7 @@ Parsedown = (() => {
         if (esgst.gc && giveaway.gcReady) {
             for (i = 0, n = categoryFilters.length; i < n && (!filtered || !override); ++i) {
                 key = categoryFilters[i];
-                if (key !== `dlc` || !gf.parameters.dlc) {
+                if (key !== `dlc` || !esgst.parameters.dlc) {
                     if (key === `genres`) {
                         if (giveaway.genres && gf.genreList) {
                             genres = gf.genreList.toLowerCase().split(/,\s/);
@@ -38254,6 +38289,10 @@ Parsedown = (() => {
                 height: 20px;
                 padding: 0 5px;
                 width: 100px !important;
+            }
+
+            .esgst-gf-container input[type=date] {
+                width: 120px !important;
             }
 
             .esgst-gf-filters {
