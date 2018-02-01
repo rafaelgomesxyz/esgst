@@ -1714,7 +1714,7 @@ Parsedown = (() => {
                 gas_autoGroups: false,
                 gas_optionGroups: `sortIndex_asc`,
                 gb_hours: 1,
-                gc_categories: [`gc_gi`, `gc_r`, `gc_fcv`, `gc_rcv`, `gc_ncv`, `gc_h`, `gc_i`, `gc_o`, `gc_w`, `gc_a`, `gc_mp`, `gc_sc`, `gc_tc`, `gc_l`, `gc_m`, `gc_ea`, `gc_rm`, `gc_dlc`, `gc_p`, `gc_g`],
+                gc_categories: [`gc_gi`, `gc_r`, `gc_fcv`, `gc_rcv`, `gc_ncv`, `gc_h`, `gc_i`, `gc_o`, `gc_w`, `gc_a`, `gc_mp`, `gc_sc`, `gc_tc`, `gc_l`, `gc_m`, `gc_ea`, `gc_rm`, `gc_dlc`, `gc_p`, `gc_rd`, `gc_g`],
                 gc_indexes: {},
                 gc_o_altAccounts: [],
                 gc_g_colors: [],
@@ -1741,6 +1741,7 @@ Parsedown = (() => {
                 gc_rmIcon: `trash`,
                 gc_dlcIcon: `download`,
                 gc_pIcon: `suitcase`,
+                gc_rdIcon: `clock-o`,
                 gc_fcvLabel: `Full CV`,
                 gc_rcvLabel: `Reduced CV`,
                 gc_ncvLabel: `No CV`,
@@ -1758,6 +1759,7 @@ Parsedown = (() => {
                 gc_rmLabel: `Removed`,
                 gc_dlcLabel: `DLC`,
                 gc_pLabel: `Package`,
+                gc_rdLabel: `Mon DD, YYYY`,
                 gc_h_color: `#ffffff`,
                 gc_gi_color: `#ffffff`,
                 gc_fcv_color: `#ffffff`,
@@ -1776,6 +1778,7 @@ Parsedown = (() => {
                 gc_m_color: `#ffffff`,
                 gc_dlc_color: `#ffffff`,
                 gc_p_color: `#ffffff`,
+                gc_rd_color: `#ffffff`,
                 gc_g_color: `#ffffff`,
                 gc_h_bgColor: `#e74c3c`,
                 gc_gi_bgColor: `#555555`,
@@ -1795,6 +1798,7 @@ Parsedown = (() => {
                 gc_m_bgColor: `#d35400`,
                 gc_dlc_bgColor: `#8e44ad`,
                 gc_p_bgColor: `#8e44ad`,
+                gc_rd_bgColor: `#7f8c8d`,
                 gc_g_bgColor: `#7f8c8d`,
                 gcl_index: 0,
                 ge_b_bgColor: `#ddcccc`,
@@ -4942,6 +4946,13 @@ Parsedown = (() => {
                                     name: `Package`,
                                     sg: true
                                 },
+                                gc_rd: {
+                                    colors: true,
+                                    input: true,
+                                    name: `Release Date`,
+                                    new: true,
+                                    sg: true
+                                },
                                 gc_g: {
                                     colors: true,
                                     features: {
@@ -5932,10 +5943,10 @@ Parsedown = (() => {
         delete esgst.settings.comments;
         delete esgst.settings.giveaways;
         delete esgst.settings.groups;
-        if (esgst.settings.gc_categories.length !== 20) {
-            esgst.settings.gc_categories = esgst.defaultValues.gc_categories;
-            esgst.gc_categories = esgst.settings.gc_categories;
+        if (esgst.settings.gc_categories.indexOf(`gc_rd`) < 0) {
+            esgst.settings.gc_categories.push(`gc_rd`);
         }
+        esgst.gc_categories = esgst.settings.gc_categories;
         toSet.settings = JSON.stringify(esgst.settings);
         await setValues(toSet);
         await delValues(toDelete);
@@ -15176,7 +15187,7 @@ Parsedown = (() => {
                 }
             }
         }
-        if (esgst.gc_gi || esgst.gc_r || esgst.gc_a || esgst.gc_mp || esgst.gc_sc || esgst.gc_tc || esgst.gc_l || esgst.gc_m || esgst.gc_dlc || esgst.gc_ea || esgst.gc_rm || esgst.gc_g) {
+        if (esgst.gc_gi || esgst.gc_r || esgst.gc_a || esgst.gc_mp || esgst.gc_sc || esgst.gc_tc || esgst.gc_l || esgst.gc_m || esgst.gc_dlc || esgst.gc_ea || esgst.gc_rm || esgst.gc_rd || esgst.gc_g) {
             gc.cache = JSON.parse(getLocalValue(`gcCache`, `{ "apps": {}, "subs": {}, "timestamp": 0 }`));
             let currentTime = Date.now();
             for (let id in gc.cache.apps) {
@@ -15360,12 +15371,13 @@ Parsedown = (() => {
                 price: -1,
                 rating: ``,
                 ratingType: ``,
+                releaseDate: `?`,
                 removed: 1,
                 steamCloud: 0,
                 tags: ``,
                 tradingCards: 0
             };
-            let responseJson = JSON.parse((await request_v2({method: `GET`, url: `http://store.steampowered.com/api/${type === `apps` ? `appdetails?appids=` : `packagedetails?packageids=`}${id}&filters=basic,categories,genres,name,platforms,price,price_overview&cc=us&l=en`})).responseText);
+            let responseJson = JSON.parse((await request_v2({method: `GET`, url: `http://store.steampowered.com/api/${type === `apps` ? `appdetails?appids=` : `packagedetails?packageids=`}${id}&filters=basic,categories,genres,name,platforms,price,price_overview,release_date&cc=us&l=en`})).responseText);
             let data;
             if (responseJson && responseJson[id]) {
                 data = responseJson[id].data;
@@ -15410,6 +15422,9 @@ Parsedown = (() => {
                     categories.name = data.name;
                     let price = data.price || data.price_overview;
                     categories.price = price ? (price.currency === `USD` ? Math.ceil(price.initial / 100) : -1) : 0;
+                    if (data.release_date && data.release_date.date) {
+                        categories.releaseDate = new Date(data.release_date.date).getTime();
+                    }
                 }
             }
             let response = await request_v2({method: `GET`, url: `http://store.steampowered.com/${type.slice(0, -1)}/${id}`});
@@ -15692,6 +15707,15 @@ Parsedown = (() => {
                             `);
                         }
                         break;
+                    case `gc_rd`:
+                        if (cache && cache.releaseDate) {
+                            elements.push(`
+                                <a class="esgst-gc esgst-gc-releaseDate" data-id="gc_rd" href="http://store.steampowered.com/${singularType}/${id}" title="Release Date">
+                                    <i class="fa fa-${esgst.gc_rdIcon}"></i> ${formatGcDate(cache.releaseDate)}
+                                </a>
+                            `);
+                        }
+                        break;
                     case `gc_g`:
                         if (cache && cache.genres) {
                             let filters;
@@ -15790,6 +15814,12 @@ Parsedown = (() => {
                 panel.setAttribute(`data-gcReady`, 1);
             }
         }
+    }
+
+    function formatGcDate(timestamp) {
+        if (timestamp === `?`) return timestamp;
+        let date = new Date(timestamp);
+        return esgst.gc_rdLabel.replace(/DD/, date.getDate()).replace(/MM/, date.getMonth() + 1).replace(/Month/, [`January`, `February`, `March`, `April`, `May`, `June`, `July`, `August`, `September`, `October`, `November`, `December`][date.getMonth()]).replace(/Mon/, [`Jan`, `Feb`, `Mar`, `Apr`, `May`, `Jun`, `Jul`, `Aug`, `Sep`, `Oct`, `Nov`, `Dec`][date.getMonth()]).replace(/YYYY/, date.getFullYear());
     }
 
     function setGcSource(gc, item, panel, event) {
@@ -16225,7 +16255,7 @@ Parsedown = (() => {
             ge.extracted = [];
             ge.bumpLink = ``;
             ge.points = 0;
-            ge.isDivided = esgst.gc_gi || esgst.gc_r || esgst.gc_rm || esgst.gc_ea || esgst.gc_tc || esgst.gc_a || esgst.gc_mp || esgst.gc_sc || esgst.gc_l || esgst.gc_m || esgst.gc_dlc || esgst.gc_g;
+            ge.isDivided = esgst.gc_gi || esgst.gc_r || esgst.gc_rm || esgst.gc_ea || esgst.gc_tc || esgst.gc_a || esgst.gc_mp || esgst.gc_sc || esgst.gc_l || esgst.gc_m || esgst.gc_dlc || esgst.gc_rd || esgst.gc_g;
             if (esgst.gePath) {
                 ge.popup = {
                     description: esgst.mainContext,
@@ -33712,6 +33742,13 @@ Parsedown = (() => {
                             <div class="esgst-clickable esgst-gc esgst-gc-removed ${esgst.gc_rm ? `` : `esgst-hidden`}" draggable="true" id="gc_rm" title="Removed">${esgst.gc_rm_s ? (esgst.gc_rm_s_i ? `<i class="fa fa-${esgst.gc_rmIcon}"></i>` : `RM`) : esgst.gc_rmLabel}</div>
                         `);
                         break;
+                    case `gc_rd`:
+                        elements.push(`
+                            <div class="esgst-clickable esgst-gc esgst-gc-releaseDate ${esgst.gc_rd ? `` : `esgst-hidden`}" draggable="true" id="gc_rd" title="Release Date">
+                                <i class="fa fa-${esgst.gc_rdIcon}"></i> ${formatGcDate(Date.now())}
+                            </div>
+                        `);
+                        break;
                     case `gc_g`:
                         elements.push(`
                             <div class="esgst-clickable esgst-gc esgst-gc-genres ${esgst.gc_g ? `` : `esgst-hidden`}" draggable="true" id="gc_g" title="Genres">Genres</div>
@@ -33787,14 +33824,19 @@ Parsedown = (() => {
                     </div>
                 `);
                 createTooltip(input.firstElementChild.nextElementSibling, `The name of the icon must be any name in this page: <a href="http://fontawesome.io/icons/">http://fontawesome.io/icons/</a> (except for the 41 new icons from 4.7, SG doesn't support that)`);
-                input.firstElementChild.addEventListener(`change`, function() {
-                    setSetting(`${ID}Icon`, input.firstElementChild.value);
-                    esgst[`${ID}Icon`] = input.firstElementChild.value;
+                let icon = input.firstElementChild;
+                let label = input.lastElementChild;
+                icon.addEventListener(`change`, function() {
+                    setSetting(`${ID}Icon`, icon.value);
+                    esgst[`${ID}Icon`] = icon.value;
                 });
-                input.lastElementChild.addEventListener(`change`, function() {
-                    setSetting(`${ID}Label`, input.lastElementChild.value);
-                    esgst[`${ID}Label`] = input.lastElementChild.value;
+                label.addEventListener(`change`, function() {
+                    setSetting(`${ID}Label`, label.value);
+                    esgst[`${ID}Label`] = label.value;
                 });
+                if (ID === `gc_rd`) {
+                    input.insertAdjacentHTML(`beforeEnd`, `<i class="fa fa-question-circle" title="Enter the date format here, using the following keywords:\n\nDD - Day\nMM - Month in numbers (i.e. 1)\nMon - Month in short name (i.e. Jan)\nMonth - Month in full name (i.e. January)\nYYYY - Year"></i>`)
+                }
             }
             if (siwtchSg) {
                 siwtchSg.dependencies.push(SMFeatures);
@@ -36854,6 +36896,11 @@ Parsedown = (() => {
             {
                 id: `gc_p`,
                 key: `package`,
+                mainKey: `esgst-gc`
+            },
+            {
+                id: `gc_rd`,
+                key: `releaseDate`,
                 mainKey: `esgst-gc`
             },
             {
