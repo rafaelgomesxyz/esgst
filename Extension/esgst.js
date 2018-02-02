@@ -5462,13 +5462,13 @@ Parsedown = (() => {
                                         <p class="esgst-header-menu-description">Check out the changelog.</p>
                                     </div>
                                 </div>
-                                <a class="esgst-header-menu-row" href="https://pledgie.com/campaigns/35345">
-                                    <i class="fa fa-fw fa-dollar grey"></i>
+                                <div class="esgst-header-menu-row esgst-version-row">
+                                    <i class="fa fa-fw fa-paypal grey"></i>
                                     <div>
-                                        <p class="esgst-header-menu-name">Donate</p>
-                                        <p class="esgst-header-menu-description">Thank you for the support!</p>
+                                        <p class="esgst-header-menu-name">Donate - Thank you!</p>
+                                        <p class="esgst-header-menu-description">Paypal - rafaelxgs@gmail.com</p>
                                     </div>
-                                </a>
+                                </div>
                                 <div class="esgst-header-menu-row esgst-version-row">
                                     <div>
                                         <p class="esgst-header-menu-description">Current Version: ${esgst.currentVersion}</p>
@@ -5729,13 +5729,13 @@ Parsedown = (() => {
                                         <p class="esgst-header-menu-description">Check out the changelog.</p>
                                     </div>
                                 </div>
-                                <a class="esgst-header-menu-row" href="https://pledgie.com/campaigns/35345">
-                                    <i class="fa fa-fw fa-dollar grey"></i>
+                                <div class="esgst-header-menu-row esgst-version-row">
+                                    <i class="fa fa-fw fa-paypal grey"></i>
                                     <div>
-                                        <p class="esgst-header-menu-name">Donate</p>
-                                        <p class="esgst-header-menu-description">Thank you for the support!</p>
+                                        <p class="esgst-header-menu-name">Donate - Thank you!</p>
+                                        <p class="esgst-header-menu-description">Paypal - rafaelxgs@gmail.com</p>
                                     </div>
-                                </a>
+                                </div>
                                 <div class="esgst-header-menu-row esgst-version-row">
                                     <div>
                                         <p class="esgst-header-menu-description">Current Version: ${esgst.currentVersion}</p>
@@ -39037,12 +39037,12 @@ Parsedown = (() => {
                     border-top-color: transparent;
                 }
 
-                .esgst-header-menu-row i{
+                .esgst-header-menu-row i {
                     font-size: 28px;
                     margin-right: 15px;
                 }
 
-                .esgst-header-menu-row:hover i {
+                .esgst-header-menu-row:not(.esgst-version-row):hover i {
                     color: #fff !important;
                 }
 
