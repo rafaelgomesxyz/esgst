@@ -6195,6 +6195,7 @@ Parsedown = (() => {
         if (esgst.itadi) loadItadi();
         if (esgst.mgc) loadMgc();
         if (esgst.npth) loadNpth();
+        if (esgst.ugb) loadUgb(); // must run before ochgb
         if (esgst.ochgb) loadOchgb();
         if (esgst.pgb) loadPgb();
         if (esgst.qgb) loadQgb();
@@ -6206,7 +6207,6 @@ Parsedown = (() => {
         if (esgst.sgg) await loadSgg();
         if (esgst.ttec) loadTtec();
         if (esgst.ueg) loadUeg();
-        if (esgst.ugb) loadUgb();
         if (esgst.ugs) loadUgs();
         
         if (esgst.codb) loadCodb();
@@ -24552,7 +24552,7 @@ Parsedown = (() => {
     function addOchgbHideButton(giveaway, main) {
         var button, i, matches, n, newButton;
         giveaway.ochgbButton.innerHTML = `
-            <i class="esgst-ochgb ${esgst.giveawayPath && main ? `` : `giveaway__icon`} fa fa-eye-slash" title="Hide game"></i>
+            <i class="esgst-ochgb ${esgst.giveawayPath && main ? `` : `giveaway__icon`} fa fa-eye-slash" title="Hide all giveaways for this game"></i>
         `;
         giveaway.ochgbButton.firstElementChild.addEventListener(`click`, hideOchgbGiveaway.bind(null, giveaway, main));
     }
@@ -24560,7 +24560,7 @@ Parsedown = (() => {
     function addOchgbUnhideButton(giveaway, main) {
         var button, i, matches, n, newButton;
         giveaway.ochgbButton.innerHTML = `
-            <i class="esgst-ochgb ${esgst.giveawayPath && main ? `` : `giveaway__icon`} fa fa-eye" title="Unhide game"></i>
+            <i class="esgst-ochgb ${esgst.giveawayPath && main ? `` : `giveaway__icon`} fa fa-eye" title="Unhide all giveaways for this game"></i>
         `;
         giveaway.ochgbButton.firstElementChild.addEventListener(`click`, unhideOchgbGiveaway.bind(null, giveaway, main));
     }
@@ -26604,12 +26604,12 @@ Parsedown = (() => {
                 if (esgst.giveawayPath && main) {
                     hideButton = insertHtml(giveaway.headingName.parentElement, `beforeEnd`, `
                         <a>
-                            <i class="fa fa-eye giveaway__hide"></i>
+                            <i class="fa fa-eye giveaway__hide" title="Unhide all giveaways for this game"></i>
                         </a>
                     `);
                 } else {
                     hideButton = insertHtml(giveaway.headingName.parentElement, `beforeEnd`, `
-                        <i class="fa fa-eye giveaway__hide giveaway__icon"></i>
+                        <i class="fa fa-eye giveaway__hide giveaway__icon" title="Unhide all giveaways for this game"></i>
                     `);
                 }
                 hideButton.addEventListener(`click`, unhideGame.bind(null, hideButton, giveaway.gameId, giveaway.name));
@@ -29930,9 +29930,9 @@ Parsedown = (() => {
             if (hideButton.classList.contains(`featured__giveaway__hide`)) {
                 hideButton = hideButton.parentElement;
             }
-            const temp = hideButton.previousElementSibling;
+            let temp = hideButton.previousElementSibling;
             hideButton.outerHTML = `
-                <i class="fa fa-eye-slash giveaway__hide giveaway__icon"></i>
+                <i class="fa fa-eye-slash giveaway__hide giveaway__icon" title="Hide all giveaways for this game"></i>
             `;
             hideButton = temp.nextElementSibling;
             hideButton.addEventListener(`click`, hideGame.bind(null, hideButton, giveaway.gameId, giveaway.name));
