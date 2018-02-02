@@ -1609,6 +1609,7 @@ Parsedown = (() => {
             parameters: getParameters(),
             audioContext: new AudioContext(),
             defaultValues: {
+                hgr_removeOwned: true,
                 giveawayColumns: [`endTime`, `winners`, `startTime`, `inviteOnly`, `whitelist`, `group`, `regionRestricted`, `level`],
                 giveawayPanel: [`ttec`, `gwc`, `gwr`, `gp`, `elgb`],
                 giveawayColumns_gv: [`time`, `inviteOnly`, `whitelist`, `group`, `regionRestricted`, `level`],
@@ -20722,14 +20723,7 @@ Parsedown = (() => {
 
     function loadHgr() {
         if (!location.pathname.match(/^\/account\/settings\/giveaways\/filters/)) return;
-        let key, position;
-        if (esgst.leftButtonIds.indexOf(`hgr`) > -1) {
-            key = `leftButtons`;
-            position = `afterBegin`;
-        } else {
-            key = `rightButtons`;
-            position = `beforeEnd`;
-        }
+        let [key, position] = esgst.leftButtonIds.indexOf(`hgr`) > -1 ? [`leftButtons`, `afterBegin`] : [`rightButtons`, `beforeEnd`];
         let button = insertHtml(esgst.hideButtons && esgst.hideButtons_hgr ? esgst[key] : esgst.mainPageHeading, position, `
             <div class="esgst-heading-button" id="esgst-hgr" title="Remove owned games from the list">
                 <i class="fa fa-eye-slash"></i>
@@ -20740,91 +20734,73 @@ Parsedown = (() => {
     }
 
     function openHgrPopup(hgr) {
-        if (!hgr.popup) {
-            hgr.popup = new Popup(`fa-times`, `Remove owned games:`);
-            hgr.set = new ButtonSet(`green`, `grey`, `fa-arrow-circle-right`, `fa-times`, `Remove`, `Cancel`, startHgrRemover.bind(null, hgr), stopHgrRemover.bind(null, hgr));
-            hgr.popup.description.appendChild(hgr.set.set);
-            hgr.progress = insertHtml(hgr.popup.description, `beforeEnd`, `<div></div>`);
-            hgr.removed = insertHtml(hgr.popup.scrollable, `beforeEnd`, `<div class="markdown"></div>`);
+        if (hgr.popup) {
+            hgr.popup.open();
+            return;
         }
+        hgr.popup = new Popup(`fa-times`, `Remove hidden games:`);
+        hgr.removed = insertHtml(hgr.popup.scrollable, `beforeEnd`, `<div class="markdown"></div>`);
+        new ToggleSwitch(hgr.popup.description, `hgr_removeOwned`, false, `Only remove owned games.`, false, false, `If disabled, all games will be removed.`, esgst.hgr_removeOwned);
+        hgr.popup.description.appendChild(new ButtonSet_v2({color1: `green`, color2: `grey`, icon1: `fa-arrow-circle-right`, icon2: `fa-times`, title1: `Remove`, title2: `Cancel`, callback1: startHgrRemover.bind(null, hgr), callback2: stopHgrRemover.bind(null, hgr)}).set);
+        hgr.progress = insertHtml(hgr.popup.description, `beforeEnd`, `<div></div>`);
         hgr.popup.open();
     }
 
-    function startHgrRemover(hgr, callback) {
+    async function startHgrRemover(hgr) {
         hgr.canceled = false;
+        hgr.lastPage = ``;
         hgr.button.classList.add(`esgst-busy`);
         hgr.progress.innerHTML = `
             <i class="fa fa-circle-o-notch fa-spin"></i>
             <span>Removing games...</span>
         `;
         hgr.removed.innerHTML = `<span class="esgst-bold">Removed Games:</span>`;
-        removeHgrGames(null, esgst.currentPage, hgr, 1, `/account/settings/giveaways/filters/search?page=`, completeHgrProcess.bind(null, hgr, callback));
-    }
-
-    function removeHgrGames(context, currentPage, hgr, nextPage, url, callback) {
-        var button, element, elements, game, heading, i, info, n, pagination;
-        if (!hgr.canceled) {
-            if (currentPage === nextPage) {
+        let url = `/account/settings/giveaways/filters/search?page=`;
+        let nextPage = 1;
+        let pagination = null;
+        do {
+            let context = null;
+            if (nextPage === esgst.currentPage) {
                 context = document;
-                ++nextPage;
+            } else if (document.getElementsByClassName(`esgst-es-page-${nextPage}`)[0]) {
+                nextPage += 1;
+                continue;
+            } else {
+                context = parseHtml((await request_v2({method: `GET`, url: `${url}${nextPage}`})).responseText);
             }
-            while (document.getElementsByClassName(`esgst-es-page-${nextPage}}`)[0]) {
-                ++nextPage;
+            if (!hgr.lastPage) {
+                hgr.lastPage = getLastPage(context);
+                hgr.lastPage = hgr.lastPage === 999999999 ? `` : ` of ${hgr.lastPage}`;
             }
-            if (context) {
-                if (nextPage === 1) {
-                    hgr.lastPage = getLastPage(context);
-                    hgr.lastPage = hgr.lastPage === 999999999 ? `` : ` of ${hgr.lastPage}`;
-                } else if (!hgr.lastPage) {
-                    hgr.lastPage = ``;
-                }
-                hgr.progress.innerHTML = `
-                    <i class="fa fa-circle-o-notch fa-spin"></i>
-                    <span>Removing games (page ${nextPage - 1}${hgr.lastPage})...</span>
-                `;
-                elements = context.getElementsByClassName(`table__row-outer-wrap`)
-                for (i = 0, n = elements.length; i < n; ++i) {
-                    element = elements[i];
-                    info = getGameInfo(element);
-                    if (info) {
-                        game = esgst.games[info.type][info.id];
-                        if (game && game.owned) {
-                            button = element.getElementsByClassName(`table__remove-default`)[0];
-                            if (context === document) {
-                                button.click();
-                            } else {
-                                request(`xsrf_token=${esgst.xsrfToken}&do=remove_filter&game_id=${button.parentElement.querySelector(`[name="game_id"]`).value}`, null, `POST`, false, `/ajax.php`);
-                            }
-                            heading = element.getElementsByClassName(`table__column__heading`)[0];
-                            hgr.removed.insertAdjacentHTML(`beforeEnd`, `
-                                <a href="http://store.steampowered.com/${info.type.slice(0, -1)}/${info.id}">${heading.textContent}</a>
-                            `);
-                        }
-                    }
-                }
-                pagination = context.getElementsByClassName(`pagination__navigation`)[0];
-                if (pagination && !pagination.lastElementChild.classList.contains(`is-selected`)) {
-                    setTimeout(removeHgrGames, 0, null, currentPage, hgr, nextPage, url, callback);
+            hgr.progress.innerHTML = `
+                <i class="fa fa-circle-o-notch fa-spin"></i>
+                <span>Removing games (page ${nextPage}${hgr.lastPage})...</span>
+            `;
+            let elements = context.getElementsByClassName(`table__row-outer-wrap`)
+            for (let i = 0, n = elements.length; i < n; i++) {
+                let element = elements[i];
+                let info = getGameInfo(element);
+                if (!info) continue;
+                let game = esgst.games[info.type][info.id];
+                if (esgst.hgr_removeOwned && (!game || !game.owned)) continue;
+                let button = element.getElementsByClassName(`table__remove-default`)[0];
+                if (context === document) {
+                    button.dispatchEvent(new Event(`click`));
                 } else {
-                    callback();
+                    request_v2({data: `xsrf_token=${esgst.xsrfToken}&do=remove_filter&game_id=${button.parentElement.querySelector(`[name="game_id"]`).value}`, method: `POST`, url: `/ajax.php`});
                 }
-            } else if (!hgr.canceled) {
-                request(null, null, `GET`, false, `${url}${nextPage}`, getNextHgrPage.bind(null, currentPage, hgr, nextPage, url, callback));
+                hgr.removed.insertAdjacentHTML(`beforeEnd`, `
+                    <a href="http://store.steampowered.com/${info.type.slice(0, -1)}/${info.id}">${element.getElementsByClassName(`table__column__heading`)[0].textContent}</a>
+                `);
             }
-        }
-    }
-
-    function getNextHgrPage(currentPage, hgr, nextPage, url, callback, response) {
-        setTimeout(removeHgrGames, 0, parseHtml(response.responseText), currentPage, hgr, ++nextPage, url, callback);
-    }
-
-    function completeHgrProcess(hgr, callback) {
+            nextPage += 1;
+            pagination = context.getElementsByClassName(`pagination__navigation`)[0];
+        } while (!hgr.canceled && pagination && !pagination.lastElementChild.classList.contains(`is-selected`));
         hgr.button.classList.remove(`esgst-busy`);
         hgr.progress.innerHTML = ``;
         if (hgr.removed.children.length === 1) {
             hgr.removed.innerHTML = `<span class="esgst-bold">0 games removed.</span>`;
         }
-        callback();
     }
 
     function stopHgrRemover(hgr) {
