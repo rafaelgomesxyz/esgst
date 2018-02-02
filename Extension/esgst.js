@@ -16748,11 +16748,8 @@ Parsedown = (() => {
     async function addGedIcons(ged, comments) {
         let currentGiveaways = {};
         let currentTime = Date.now();
-        let deleteLock = await createLock_v2(`gedLock`, 300);
-        let decryptedGiveaways = await getValue(`decryptedGiveaways`, await getValue(`exclusiveGiveaways`, {}));
-        if (typeof decryptedGiveaways === `string`) {
-            decryptedGiveaways = JSON.parse(decryptedGiveaways);
-        }
+        let decryptedGiveaways = null;
+        let deleteLock = null;
         let hasNew = false;
         for (let i = comments.length - 1; i > -1; i--) {
             let comment = comments[i];
@@ -16761,6 +16758,13 @@ Parsedown = (() => {
                 let code = links[j].getAttribute(`href`).match(/ESGST-(.+)/)[1];
                 if (code.match(/currentVersion/)) {
                     continue;
+                }
+                if (!deleteLock) {
+                    deleteLock = await createLock_v2(`gedLock`, 300);
+                    decryptedGiveaways = await getValue(`decryptedGiveaways`, await getValue(`exclusiveGiveaways`, {}));
+                    if (typeof decryptedGiveaways === `string`) {
+                        decryptedGiveaways = JSON.parse(decryptedGiveaways);
+                    }
                 }
                 code = decryptGedCode(code);
                 let isEnded = decryptedGiveaways[code] && currentTime > decryptedGiveaways[code].timestamp;
@@ -16782,9 +16786,11 @@ Parsedown = (() => {
                 `);
             }
         }
-        await lockAndSaveGiveaways(currentGiveaways);
-        await setValue(`decryptedGiveaways`, JSON.stringify(decryptedGiveaways));
-        deleteLock();
+        if (deleteLock) {
+            await lockAndSaveGiveaways(currentGiveaways);
+            await setValue(`decryptedGiveaways`, JSON.stringify(decryptedGiveaways));
+            deleteLock();
+        }
         if (ged.button && hasNew) {
             ged.button.classList.remove(`esgst-hidden`);
             ged.button.firstElementChild.firstElementChild.classList.add(`esgst-positive`);
@@ -25078,7 +25084,9 @@ Parsedown = (() => {
                     insertHtml(children, `beforeEnd`, saved[id][j].reply).querySelector(`[data-timestamp]`).textContent = getTimeSince(saved[id][j].timestamp);
                 }
                 if (main) {
+                    children.setAttribute(`data-rfi`, true);
                     await loadEndlessFeatures(children);
+                    children.removeAttribute(`data-rfi`);
                 }
             }
         }
@@ -29668,6 +29676,7 @@ Parsedown = (() => {
     /* Endless Features */
 
     async function loadGiveawayFeatures(context, main, source, endless) {
+        if (context.getAttribute && context.getAttribute(`data-rfi`)) return;
         let giveaways = await getGiveaways(context, main, null, false, null, false, endless, source);
         if (main) {
             for (let i = giveaways.length - 1; i > -1; --i) {
@@ -30351,7 +30360,7 @@ Parsedown = (() => {
             }
             getCtComments(count, comments);
         }
-        if (esgst.rfi && esgst.rfi_s && esgst.inboxPath) {
+        if (esgst.rfi && esgst.rfi_s && esgst.inboxPath && (!context.getAttribute || !context.getAttribute(`data-rfi`))) {
             await getRfiReplies(comments, main);
         }
         for (let i = 0, n = esgst.commentFeatures.length; i < n; i++) {
