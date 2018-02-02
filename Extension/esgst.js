@@ -27592,7 +27592,7 @@ Parsedown = (() => {
                     let elements = context.getElementsByClassName(`table__column__heading`);
                     for (let i = 0, n = elements.length; i < n; ++i) {
                         let match = elements[i].getAttribute(`href`).match(/\/group\/(.+?)\/(.+)/);
-                        ugs.giveaways[code].groups.push({
+                        ugs.giveaways[giveaway.code].groups.push({
                             code: match[1],
                             name: match[2]
                         });
