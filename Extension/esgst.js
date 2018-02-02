@@ -15452,7 +15452,7 @@ Parsedown = (() => {
                     }
                 }
             }
-            let response = await request_v2({method: `GET`, url: `http://store.steampowered.com/${type.slice(0, -1)}/${id}`});
+            let response = await request_v2({headers: {[`Cookie`]: `birthtime=0; mature_content=1`}, method: `GET`, url: `http://store.steampowered.com/${type.slice(0, -1)}/${id}`});
             let responseHtml = parseHtml(response.responseText);
             if (response.finalUrl.match(id)) {
                 let elements = responseHtml.getElementsByClassName(`user_reviews_summary_row`);
