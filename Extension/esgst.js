@@ -15646,7 +15646,7 @@ Parsedown = (() => {
                         break;
                     case `gc_r`:
                         if (cache && cache.rating) {
-                            let colors = {};
+                            let colors = null;
                             let percentage = parseInt(cache.rating.match(/(\d+)%/)[1]);
                             for (let i = 0, n = esgst.gc_r_colors.length; i < n; i++) {
                                 colors = esgst.gc_r_colors[i];
@@ -15654,6 +15654,13 @@ Parsedown = (() => {
                                     break;
                                 }
                             }
+                            if (!colors) {
+                                colors = {
+                                    bgColor: `#7f8c8d`,
+                                    color: `#ffffff`,
+                                    icon: `fa-question-circle`
+                                };
+                            };
                             let match = cache.rating.match(/\((\d+)\)/);
                             if (match) {
                                 cache.rating = cache.rating.replace(/\(\d+\)/, `(${parseInt(match[1]).toLocaleString()})`);
