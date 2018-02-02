@@ -1611,6 +1611,8 @@ Parsedown = (() => {
             defaultValues: {
                 giveawayColumns: [`endTime`, `winners`, `startTime`, `inviteOnly`, `whitelist`, `group`, `regionRestricted`, `level`],
                 giveawayPanel: [`ttec`, `gwc`, `gwr`, `gp`, `elgb`],
+                giveawayColumns_gv: [`time`, `inviteOnly`, `whitelist`, `group`, `regionRestricted`, `level`],
+                giveawayPanel_gv: [`ttec`, `gwc`, `gwr`, `gp`, `elgb`],
                 enableByDefault_sg: false,
                 enableByDefault_st: false,
                 checkVersion_sg: true,
@@ -20417,13 +20419,17 @@ Parsedown = (() => {
         giveaway.innerWrap.classList.add(`esgst-gv-box`);
         giveaway.gvIcons = insertHtml(giveaway.innerWrap, `afterBegin`, `
             <div class="esgst-gv-icons giveaway__columns">
-                <div class="esgst-gv-time">
+                <div class="esgst-gv-time" data-columnId="time" draggable="true">
                         <span title="${giveaway.started ? `Ends` : `Starts`} ${giveaway.endTimeColumn.lastElementChild.textContent}">${getRemainingTime(giveaway.endTime)}</span>
                     <i class="fa fa-clock-o"></i>
                     <span title="Created ${giveaway.startTimeColumn.lastElementChild.previousElementSibling.textContent}">${getRemainingTime(giveaway.startTime)}</span>
                 </div>
             </div>
         `);
+        let item = giveaway.gvIcons.firstElementChild;
+        item.addEventListener(`dragstart`, setGiveawaySource.bind(null, giveaway));
+        item.addEventListener(`dragenter`, getGiveawaySource.bind(null, giveaway, false));
+        item.addEventListener(`dragend`, saveGiveawaySource.bind(null, giveaway));
         if (giveaway.inviteOnly) {
             giveaway.gvIcons.appendChild(giveaway.inviteOnly);
         }
@@ -30022,7 +30028,7 @@ Parsedown = (() => {
 
     function reorderGiveaway(giveaway) {
         if (giveaway.columns) {
-            esgst.giveawayColumns.forEach(id => {
+            (giveaway.gvIcons ? esgst.giveawayColumns_gv : esgst.giveawayColumns).forEach(id => {
                 let element = giveaway.outerWrap.querySelector(`[data-columnId="${id}"]`);
                 if (element) {
                     (giveaway.gvIcons || giveaway.columns).appendChild(element);
@@ -30033,7 +30039,7 @@ Parsedown = (() => {
             });
         }
         if (giveaway.panel) {
-            esgst.giveawayPanel.forEach(id => {
+            (giveaway.gvIcons ? esgst.giveawayPanel_gv : esgst.giveawayPanel).forEach(id => {
                 let element = giveaway.outerWrap.querySelector(`[data-columnId="${id}"]`);
                 if (element) {
                     giveaway.panel.appendChild(element);
@@ -30055,6 +30061,7 @@ Parsedown = (() => {
 
     function getGiveawaySource(giveaway, panel, event) {
         let current = giveaway.sourceItem;
+        if (!current) return;        
         if (panel) {
             if (giveaway.panel.children.length < 1) {
                 giveaway.panel.appendChild(giveaway.sourceItem);
@@ -30096,35 +30103,40 @@ Parsedown = (() => {
     }
 
     async function saveGiveawaySource(giveaway) {
+        let [columnKey, panelKey] = giveaway.gvIcons ? [`giveawayColumns_gv`, `giveawayPanel_gv`] : [`giveawayColumns`, `giveawayPanel`];
         if (giveaway.panelSource) {
-            let index = esgst.giveawayColumns.indexOf(giveaway.sourceItem.getAttribute(`data-columnId`));
+            let index = esgst[columnKey].indexOf(giveaway.sourceItem.getAttribute(`data-columnId`));
             if (index > -1) {
-                esgst.giveawayColumns.splice(index, 1);
+                esgst[columnKey].splice(index, 1);
             }
-            esgst.giveawayPanel.push(giveaway.sourceItem.getAttribute(`data-columnId`));
+            esgst[panelKey].push(giveaway.sourceItem.getAttribute(`data-columnId`));
         } else if (giveaway.newSourceItem) {
-            let columnsIndex = esgst.giveawayColumns.indexOf(giveaway.sourceItem.getAttribute(`data-columnId`));
-            let panelIndex = esgst.giveawayPanel.indexOf(giveaway.sourceItem.getAttribute(`data-columnId`));
+            let columnsIndex = esgst[columnKey].indexOf(giveaway.sourceItem.getAttribute(`data-columnId`));
+            let panelIndex = esgst[panelKey].indexOf(giveaway.sourceItem.getAttribute(`data-columnId`));
             if (giveaway.newSourceItem.parentElement === giveaway.columns || giveaway.newSourceItem.parentElement === giveaway.gvIcons) {
                 if (columnsIndex > -1) {
-                    let id = esgst.giveawayColumns.splice(columnsIndex, 1)[0];
-                    esgst.giveawayColumns.splice(esgst.giveawayColumns.indexOf(giveaway.newSourceItem.getAttribute(`data-columnId`)) + giveaway.newSourcePos, 0, id);
+                    let id = esgst[columnKey].splice(columnsIndex, 1)[0];
+                    esgst[columnKey].splice(esgst[columnKey].indexOf(giveaway.newSourceItem.getAttribute(`data-columnId`)) + giveaway.newSourcePos, 0, id);
                 } else {
-                    let id = esgst.giveawayPanel.splice(panelIndex, 1)[0];
-                    esgst.giveawayColumns.splice(esgst.giveawayColumns.indexOf(giveaway.newSourceItem.getAttribute(`data-columnId`)) + giveaway.newSourcePos, 0, id);
+                    let id = esgst[panelKey].splice(panelIndex, 1)[0];
+                    esgst[columnKey].splice(esgst[columnKey].indexOf(giveaway.newSourceItem.getAttribute(`data-columnId`)) + giveaway.newSourcePos, 0, id);
                 }
             } else {
                 if (columnsIndex > -1) {
-                    let id = esgst.giveawayColumns.splice(columnsIndex, 1)[0];
-                    esgst.giveawayPanel.splice(esgst.giveawayPanel.indexOf(giveaway.newSourceItem.getAttribute(`data-columnId`)) + giveaway.newSourcePos, 0, id);
+                    let id = esgst[columnKey].splice(columnsIndex, 1)[0];
+                    esgst[panelKey].splice(esgst[panelKey].indexOf(giveaway.newSourceItem.getAttribute(`data-columnId`)) + giveaway.newSourcePos, 0, id);
                 } else {
-                    let id = esgst.giveawayPanel.splice(panelIndex, 1)[0];
-                    esgst.giveawayPanel.splice(esgst.giveawayPanel.indexOf(giveaway.newSourceItem.getAttribute(`data-columnId`)) + giveaway.newSourcePos, 0, id);
+                    let id = esgst[panelKey].splice(panelIndex, 1)[0];
+                    esgst[panelKey].splice(esgst[panelKey].indexOf(giveaway.newSourceItem.getAttribute(`data-columnId`)) + giveaway.newSourcePos, 0, id);
                 }
             }
         }
-        await setSetting(`giveawayColumns`, esgst.giveawayColumns);
-        await setSetting(`giveawayPanel`, esgst.giveawayPanel);
+        giveaway.sourceItem = null;
+        giveaway.newSourceItem = null;
+        giveaway.newSourcePos = 0;
+        giveaway.panelSource = false;
+        await setSetting(columnKey, esgst[columnKey]);
+        await setSetting(panelKey, esgst[panelKey]);
     }
 
     async function loadDiscussionFeatures(context, main, source, endless) {
@@ -38673,6 +38685,9 @@ Parsedown = (() => {
             .esgst-gv-icons >* {
                 line-height: normal;
                 margin: 0 !important;
+            }
+
+            .esgst-gv-icons >*:not(.esgst-giveaway-column-button) {
                 padding: 1px 3px;
             }
 
