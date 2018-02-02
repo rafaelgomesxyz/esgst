@@ -1720,6 +1720,8 @@ Parsedown = (() => {
                 gb_hours: 1,
                 gc_categories: [`gc_gi`, `gc_r`, `gc_fcv`, `gc_rcv`, `gc_ncv`, `gc_h`, `gc_i`, `gc_o`, `gc_w`, `gc_a`, `gc_mp`, `gc_sc`, `gc_tc`, `gc_l`, `gc_m`, `gc_ea`, `gc_rm`, `gc_dlc`, `gc_p`, `gc_rd`, `gc_g`],
                 gc_indexes: {},
+                gc_categories_gv: [`gc_gi`, `gc_r`, `gc_fcv`, `gc_rcv`, `gc_ncv`, `gc_h`, `gc_i`, `gc_o`, `gc_w`, `gc_a`, `gc_mp`, `gc_sc`, `gc_tc`, `gc_l`, `gc_m`, `gc_ea`, `gc_rm`, `gc_dlc`, `gc_p`, `gc_rd`, `gc_g`],
+                gc_indexes_gv: {},
                 gc_o_altAccounts: [],
                 gc_g_colors: [],
                 gc_g_filters: ``,
@@ -5960,6 +5962,7 @@ Parsedown = (() => {
             esgst.settings.gc_categories.push(`gc_rd`);
         }
         esgst.gc_categories = esgst.settings.gc_categories;
+        esgst.gc_categories_gv = esgst.settings.gc_categories_gv;
         toSet.settings = JSON.stringify(esgst.settings);
         await setValues(toSet);
         await delValues(toDelete);
@@ -15314,7 +15317,7 @@ Parsedown = (() => {
                     gc_dlc: `dlc`,
                     gc_p: `package`
                 };
-                esgst.gc_categories.forEach(category => {
+                esgst.gc_categories_gv.forEach(category => {
                     if (categoryNames[category] && giveaway.innerWrap.getElementsByClassName(`esgst-gc-${categoryNames[category]}`)[0]) {
                         borders.insertAdjacentHTML(`beforeEnd`, `<div class="esgst-gc-${categoryNames[category]}"></div>`);
                     }
@@ -15363,7 +15366,7 @@ Parsedown = (() => {
                     gc_dlc: `dlc`,
                     gc_p: `package`
                 };
-                esgst.gc_categories.forEach(category => {
+                esgst.gc_categories_gv.forEach(category => {
                     if (categoryNames[category] && giveaway.innerWrap.getElementsByClassName(`esgst-gc-${categoryNames[category]}`)[0]) {
                         borders.insertAdjacentHTML(`beforeEnd`, `<div class="esgst-gc-${categoryNames[category]}"></div>`);
                     }
@@ -15508,8 +15511,9 @@ Parsedown = (() => {
         name = cache ? cache.name : games[0].name;
         encodedName = encodeURIComponent(name.replace(/\.\.\.$/, ``));
         elements = [];
-        for (i = 0, n = esgst.gc_categories.length; i < n; ++i) {
-            category = esgst.gc_categories[i];
+        let categories = games[0].grid ? esgst.gc_categories_gv : esgst.gc_categories;
+        for (i = 0, n = categories.length; i < n; ++i) {
+            category = categories[i];
             if (esgst[category]) {
                 switch (category) {
                     case `gc_fcv`:
@@ -15793,6 +15797,8 @@ Parsedown = (() => {
         }
         html = elements.join(``);
         let gc = {
+            categoryKey: games[0].grid ? `gc_categories_gv` : `gc_categories`,            
+            indexKey: games[0].grid ? `gc_indexes_gv` : `gc_indexes`,
             source: null
         };
         for (i = 0, n = games.length; i < n; ++i) {
@@ -15811,17 +15817,21 @@ Parsedown = (() => {
                 if (games[i].columns) {
                     for (j = games[i].columns.children.length - 1; j > -1; j--) {
                         let item = games[i].columns.children[j];
-                        item.addEventListener(`dragenter`, getGcSource.bind(null, gc, games[i].columns, j, item, null));
+                        item.addEventListener(`dragenter`, getGcSource.bind(null, gc, games[i].columns, j, item, null, false));
                     }
-                    panel.addEventListener(`dragenter`, getGcSource.bind(null, gc, games[i].columns, -1, null, panel));
+                    games[i].columns.addEventListener(`dragenter`, getGcSource.bind(null, gc, games[i].columns, 0, null, games[i].columns, true));
+                    if (games[i].gvIcons) {
+                        games[i].gvIcons.addEventListener(`dragenter`, getGcSource.bind(null, gc, games[i].columns, 0, null, games[i].gvIcons, true));
+                    }
+                    panel.addEventListener(`dragenter`, getGcSource.bind(null, gc, games[i].columns, -1, null, panel, false));
                     for (j = panel.children.length - 1; j > -1; j--) {
                         let item = panel.children[j];
                         item.setAttribute(`draggable`, true);
-                        item.addEventListener(`dragstart`, setGcSource.bind(null, gc, item, panel));
-                        item.addEventListener(`dragenter`, getGcSource.bind(null, gc, games[i].columns, -1, item, null));
-                        item.addEventListener(`dragend`, saveGcSource.bind(null, gc, panel));
+                        item.addEventListener(`dragstart`, setGcSource.bind(null, gc, item, panel, games[i].columns, games[i].gvIcons));
+                        item.addEventListener(`dragenter`, getGcSource.bind(null, gc, games[i].columns, -1, item, null, false));
+                        item.addEventListener(`dragend`, saveGcSource.bind(null, gc, panel, games[i].columns, games[i].gvIcons));
                         let id = item.getAttribute(`data-id`);
-                        let index = esgst.gc_indexes[id];
+                        let index = esgst[gc.indexKey][id];
                         if (isSet(index) && index !== -1) {
                             item.classList.add(esgst.giveawayPath ? `featured__column` : `giveaway__column`);
                             if (id === `gc_r`) {
@@ -15844,28 +15854,40 @@ Parsedown = (() => {
         return esgst.gc_rdLabel.replace(/DD/, date.getDate()).replace(/MM/, date.getMonth() + 1).replace(/Month/, [`January`, `February`, `March`, `April`, `May`, `June`, `July`, `August`, `September`, `October`, `November`, `December`][date.getMonth()]).replace(/Mon/, [`Jan`, `Feb`, `Mar`, `Apr`, `May`, `Jun`, `Jul`, `Aug`, `Sep`, `Oct`, `Nov`, `Dec`][date.getMonth()]).replace(/YYYY/, date.getFullYear());
     }
 
-    function setGcSource(gc, item, panel, event) {
+    function setGcSource(gc, item, panel, columns, gvIcons, event) {
         event.dataTransfer.setData(`text/plain`, ``);
         gc.source = item;
-        setTimeout(() => {            
+        setTimeout(() => {
             if (!panel.children.length) {
                 panel.style.height = `28px`;
                 panel.style.width = `100%`;
             }
+            if (columns && !columns.children.length) {
+                columns.style.height = `25px`;
+                columns.style.width = `100%`;
+            }
+            if (gvIcons && !gvIcons.children.length) {
+                gvIcons.style.height = `28px`;
+                gvIcons.style.width = `100%`;
+            }
         }, 0);
     }
 
-    function getGcSource(gc, context, index, item, panel) {
+    function getGcSource(gc, context, index, item, panel, column) {
         let current = gc.source;
-        if (!gc.source || (item && item.getAttribute(`data-columnId`))) return;
+        if (!gc.source || gc.source === item) return;
         if (panel) {
             if (!panel.children.length) {
                 panel.appendChild(gc.source);
-                esgst.gc_indexes[gc.source.getAttribute(`data-id`)] = -1;
-                gc.source.classList.remove(esgst.giveawayPath ? `featured__column` : `giveaway__column`);
-                gc.source.firstElementChild.style.color = ``;
-                gc.source.style.color = gc.source.getAttribute(`data-color`);
-                gc.source.style.backgroundColor = gc.source.getAttribute(`data-bgColor`);
+                esgst[gc.indexKey][gc.source.getAttribute(`data-id`)] = index;
+                if (column) {
+                    gc.source.classList.add(esgst.giveawayPath ? `featured__column` : `giveaway__column`);
+                } else {
+                    gc.source.classList.remove(esgst.giveawayPath ? `featured__column` : `giveaway__column`);
+                    gc.source.firstElementChild.style.color = ``;
+                    gc.source.style.color = gc.source.getAttribute(`data-color`);
+                    gc.source.style.backgroundColor = gc.source.getAttribute(`data-bgColor`);
+                }
             }
             return;
         }
@@ -15888,10 +15910,10 @@ Parsedown = (() => {
                     }
                 }
                 if (item.getAttribute(`data-id`)) {
-                    esgst.gc_categories.splice(esgst.gc_categories.indexOf(item.getAttribute(`data-id`)), 0, esgst.gc_categories.splice(esgst.gc_categories.indexOf(gc.source.getAttribute(`data-id`)), 1)[0]);
-                    esgst.gc_indexes[gc.source.getAttribute(`data-id`)] = isSet(esgst.gc_indexes[item.getAttribute(`data-id`)]) ? esgst.gc_indexes[item.getAttribute(`data-id`)] : -1;
+                    esgst[gc.categoryKey].splice(esgst[gc.categoryKey].indexOf(item.getAttribute(`data-id`)), 0, esgst[gc.categoryKey].splice(esgst[gc.categoryKey].indexOf(gc.source.getAttribute(`data-id`)), 1)[0]);
+                    esgst[gc.indexKey][gc.source.getAttribute(`data-id`)] = isSet(esgst[gc.indexKey][item.getAttribute(`data-id`)]) ? esgst[gc.indexKey][item.getAttribute(`data-id`)] : -1;
                 } else {
-                    esgst.gc_indexes[gc.source.getAttribute(`data-id`)] = index;
+                    esgst[gc.indexKey][gc.source.getAttribute(`data-id`)] = index;
                 }
                 item.parentElement.insertBefore(gc.source, item);
                 return;
@@ -15913,19 +15935,28 @@ Parsedown = (() => {
             }
         }
         if (item.getAttribute(`data-id`)) {
-            esgst.gc_categories.splice(esgst.gc_categories.indexOf(item.getAttribute(`data-id`)), 0, esgst.gc_categories.splice(esgst.gc_categories.indexOf(gc.source.getAttribute(`data-id`)), 1)[0]);
-            esgst.gc_indexes[gc.source.getAttribute(`data-id`)] = isSet(esgst.gc_indexes[item.getAttribute(`data-id`)]) ? esgst.gc_indexes[item.getAttribute(`data-id`)] : -1;
+            esgst[gc.categoryKey].splice(esgst[gc.categoryKey].indexOf(item.getAttribute(`data-id`)), 0, esgst[gc.categoryKey].splice(esgst[gc.categoryKey].indexOf(gc.source.getAttribute(`data-id`)), 1)[0]);
+            esgst[gc.indexKey][gc.source.getAttribute(`data-id`)] = isSet(esgst[gc.indexKey][item.getAttribute(`data-id`)]) ? esgst[gc.indexKey][item.getAttribute(`data-id`)] : -1;
         } else {
-            esgst.gc_indexes[gc.source.getAttribute(`data-id`)] = index + 1;
+            esgst[gc.indexKey][gc.source.getAttribute(`data-id`)] = index + 1;
         }
         item.parentElement.insertBefore(gc.source, item.nextElementSibling);
     }
 
-    async function saveGcSource(gc, panel, event) {
+    async function saveGcSource(gc, panel, columns, gvIcons, event) {
+        gc.source = null;
         panel.style.height = ``;
         panel.style.width = ``;
-        await setSetting(`gc_categories`, esgst.gc_categories);
-        await setSetting(`gc_indexes`, esgst.gc_indexes);
+        if (columns) {
+            columns.style.height = ``;
+            columns.style.width = ``;
+        }
+        if (gvIcons) {
+            gvIcons.style.height = ``;
+            gvIcons.style.width = ``;
+        }
+        await setSetting(gc.categoryKey, esgst[gc.categoryKey]);
+        await setSetting(gc.indexKey, esgst[gc.indexKey]);
     }
 
     /* [GCL] Giveaway Countries Loader */
@@ -20427,6 +20458,7 @@ Parsedown = (() => {
                 </div>
             </div>
         `);
+        giveaway.gvIcons.addEventListener(`dragenter`, getGiveawaySource.bind(null, giveaway, false));
         let item = giveaway.gvIcons.firstElementChild;
         item.addEventListener(`dragstart`, setGiveawaySource.bind(null, giveaway));
         item.addEventListener(`dragenter`, getGiveawaySource.bind(null, giveaway, false));
@@ -29971,6 +30003,9 @@ Parsedown = (() => {
                     item.addEventListener(`dragend`, saveGiveawaySource.bind(null, giveaway));
                 }
             }
+            if (giveaway.columns) {
+                giveaway.columns.addEventListener(`dragenter`, getGiveawaySource.bind(null, giveaway, false));
+            }
             if (giveaway.panel) {
                 giveaway.panel.addEventListener(`dragenter`, getGiveawaySource.bind(null, giveaway, true));
             }
@@ -30032,12 +30067,21 @@ Parsedown = (() => {
         giveaway.sourceItem = event.currentTarget;
         giveaway.newSourceItem = null;
         giveaway.newSourcePos = 0;
+        giveaway.columnSource = false;
         giveaway.panelSource = false;
+        setTimeout(() => {
+            if (giveaway.gvIcons && giveaway.gvIcons.children.length < 1) {
+                giveaway.gvIcons.style.height = `25px`;
+                giveaway.gvIcons.style.width = `100%`;
+            } else if (giveaway.columns && giveaway.columns.children.length < 1) {
+                giveaway.columns.style.height = `25px`;
+                giveaway.columns.style.width = `100%`;
+            }
+        }, 0);
     }
 
     function getGiveawaySource(giveaway, panel, event) {
-        let current = giveaway.sourceItem;
-        if (!current) return;        
+        if (!giveaway.sourceItem) return;
         if (panel) {
             if (giveaway.panel.children.length < 1) {
                 giveaway.panel.appendChild(giveaway.sourceItem);
@@ -30050,6 +30094,27 @@ Parsedown = (() => {
         }
         let item = event.currentTarget;
         if (item === giveaway.sourceItem) return;
+        if (item === giveaway.gvIcons) {
+            if (giveaway.gvIcons.children.length < 1) {
+                giveaway.gvIcons.appendChild(giveaway.sourceItem);
+                if (giveaway.sourceItem.getAttribute(`data-columnId`).match(/^elgb|gp|ttec$/)) {
+                    giveaway.sourceItem.classList.add(`esgst-giveaway-column-button`);
+                }
+                giveaway.columnSource = true;
+            }
+            return;
+        }
+        if (item === giveaway.columns) {
+            if (giveaway.columns.children.length < 1) {
+                giveaway.columns.appendChild(giveaway.columns);
+                if (giveaway.sourceItem.getAttribute(`data-columnId`).match(/^elgb|gp|ttec$/)) {
+                    giveaway.sourceItem.classList.add(`esgst-giveaway-column-button`);
+                }
+                giveaway.columnSource = true;
+            }
+            return;
+        }
+        let current = giveaway.sourceItem;
         do {
             current = current.previousElementSibling;
             if (current && current === item) {
@@ -30086,6 +30151,12 @@ Parsedown = (() => {
                 esgst[columnKey].splice(index, 1);
             }
             esgst[panelKey].push(giveaway.sourceItem.getAttribute(`data-columnId`));
+        } else if (giveaway.columnSource) {
+            let index = esgst[panelKey].indexOf(giveaway.sourceItem.getAttribute(`data-columnId`));
+            if (index > -1) {
+                esgst[panelKey].splice(index, 1);
+            }
+            esgst[columnKey].push(giveaway.sourceItem.getAttribute(`data-columnId`));
         } else if (giveaway.newSourceItem) {
             let columnsIndex = esgst[columnKey].indexOf(giveaway.sourceItem.getAttribute(`data-columnId`));
             let panelIndex = esgst[panelKey].indexOf(giveaway.sourceItem.getAttribute(`data-columnId`));
@@ -30110,7 +30181,16 @@ Parsedown = (() => {
         giveaway.sourceItem = null;
         giveaway.newSourceItem = null;
         giveaway.newSourcePos = 0;
+        giveaway.columnSource = false;
         giveaway.panelSource = false;
+        if (giveaway.gvIcons) {
+            giveaway.gvIcons.style.height = ``;
+            giveaway.gvIcons.style.width = ``;
+        }
+        if (giveaway.columns) {
+            giveaway.columns.style.height = ``;
+            giveaway.columns.style.width = ``;
+        }
         await setSetting(columnKey, esgst[columnKey]);
         await setSetting(panelKey, esgst[panelKey]);
     }
@@ -30629,6 +30709,9 @@ Parsedown = (() => {
             game.columns = game.container.querySelector(`.giveaway__columns, .featured__columns`);
             game.table = game.container.closest(`table`) ? true : false;
             game.grid = game.container.closest(`.esgst-gv-view`);
+            if (game.grid) {
+                game.gvIcons = game.container.getElementsByClassName(`esgst-gv-icons`)[0];
+            }
             info = getGameInfo(game.container);
             game.heading = game.container.querySelector(headingQuery);
             if (info && game.heading) {
@@ -33662,135 +33745,9 @@ Parsedown = (() => {
             }
         }
         if (ID === `gc`) {
-            var elements = [];
-            for (i = 0, n = esgst.gc_categories.length; i < n; ++i) {
-                switch (esgst.gc_categories[i]) {
-                    case `gc_fcv`:
-                        elements.push(`
-                            <div class="esgst-clickable esgst-gc esgst-gc-fullCV ${esgst.gc_fcv ? `` : `esgst-hidden`}" draggable="true" id="gc_fcv" title="Full CV">${esgst.gc_fcv_s ? (esgst.gc_fcv_s_i ? `<i class="fa fa-${esgst.gc_fcvIcon}"></i>` : `FCV`) : esgst.gc_fcvLabel}</div>
-                        `);
-                        break;
-                    case `gc_rcv`:
-                        elements.push(`
-                            <div class="esgst-clickable esgst-gc esgst-gc-reducedCV ${esgst.gc_rcv ? `` : `esgst-hidden`}" draggable="true" id="gc_rcv" title="Reduced CV">${esgst.gc_rcv_s ? (esgst.gc_rcv_s_i ? `<i class="fa fa-${esgst.gc_rcvIcon}"></i>` : `RCV`) : esgst.gc_rcvLabel}</div>
-                        `);
-                        break;
-                    case `gc_ncv`:
-                        elements.push(`
-                            <div class="esgst-clickable esgst-gc esgst-gc-noCV ${esgst.gc_ncv ? `` : `esgst-hidden`}" draggable="true" id="gc_ncv" title="No CV">${esgst.gc_ncv_s ? (esgst.gc_ncv_s_i ? `<i class="fa fa-${esgst.gc_ncvIcon}"></i>` : `NCV`) : esgst.gc_ncvLabel}</div>
-                        `);
-                        break;
-                    case `gc_h`:
-                        elements.push(`
-                            <div class="esgst-clickable esgst-gc esgst-gc-hidden ${esgst.gc_h ? `` : `esgst-hidden`}" draggable="true" id="gc_h" title="Hidden">${esgst.gc_h_s ? (esgst.gc_h_s_i ? `<i class="fa fa-${esgst.gc_hIcon}"></i>` : `H`) : esgst.gc_hLabel}</div>
-                        `);
-                        break;
-                    case `gc_i`:
-                        elements.push(`
-                            <div class="esgst-clickable esgst-gc esgst-gc-ignored ${esgst.gc_i ? `` : `esgst-hidden`}" draggable="true" id="gc_i" title="Ignored">${esgst.gc_i_s ? (esgst.gc_i_s_i ? `<i class="fa fa-${esgst.gc_iIcon}"></i>` : `I`) : esgst.gc_iLabel}</div>
-                        `);
-                        break;
-                    case `gc_o`:
-                        elements.push(`
-                            <div class="esgst-clickable esgst-gc esgst-gc-owned ${esgst.gc_o ? `` : `esgst-hidden`}" draggable="true" id="gc_o" title="Owned">${esgst.gc_o_s ? (esgst.gc_o_s_i ? `<i class="fa fa-${esgst.gc_oIcon}"></i>` : `O`) : esgst.gc_oLabel}</div>
-                        `);
-                        esgst.gc_o_altAccounts.forEach(account => {
-                            elements.push(`
-                                <div class="esgst-clickable esgst-gc esgst-gc-owned ${esgst.gc_o ? `` : `esgst-hidden`}" draggable="true" id="gc_o" style="background-color: ${account.bgColor}; color: ${account.color};" title="Owned by ${account.name}">${esgst.gc_o_s ? (esgst.gc_o_s_i ? `<i class="fa fa-${account.icon}"></i>` : `O`) : account.label}</div>
-                            `);
-                        });
-                        break;
-                    case `gc_w`:
-                        elements.push(`
-                            <div class="esgst-clickable esgst-gc esgst-gc-wishlisted ${esgst.gc_w ? `` : `esgst-hidden`}" draggable="true" id="gc_w" title="Wishlisted">${esgst.gc_w_s ? (esgst.gc_w_s_i ? `<i class="fa fa-${esgst.gc_wIcon}"></i>` : `W`) : esgst.gc_wLabel}</div>
-                        `);
-                        break;
-                    case `gc_gi`:
-                        elements.push(`
-                            <div class="esgst-clickable esgst-gc esgst-gc-giveawayInfo ${esgst.gc_gi ? `` : `esgst-hidden`}" draggable="true" id="gc_gi" title="Giveaway Info"><i class="fa fa-info"></i> 0 <i class="fa fa-dollar"></i> 0</div>
-                        `);
-                        break;
-                    case `gc_r`:
-                        elements.push(`
-                            <div class="esgst-clickable esgst-gc esgst-gc-rating esgst-gc-rating-positive ${esgst.gc_r ? `` : `esgst-hidden`}" draggable="true" id="gc_r" title="Rating"><i class="fa fa-thumbs-up"></i>${esgst.gc_r_s ? ` 0% (0)` : ``}</div>
-                        `);
-                        break;
-                    case `gc_a`:
-                        elements.push(`
-                            <div class="esgst-clickable esgst-gc esgst-gc-achievements ${esgst.gc_a ? `` : `esgst-hidden`}" draggable="true" id="gc_a" title="Achievements">${esgst.gc_a_s ? (esgst.gc_a_s_i ? `<i class="fa fa-${esgst.gc_aIcon}"></i>` : `A`) : esgst.gc_aLabel}</div>
-                        `);
-                        break;
-                    case `gc_mp`:
-                        elements.push(`
-                            <div class="esgst-clickable esgst-gc esgst-gc-multiplayer ${esgst.gc_mp ? `` : `esgst-hidden`}" draggable="true" id="gc_mp" title="Multiplayer">${esgst.gc_mp_s ? (esgst.gc_mp_s_i ? `<i class="fa fa-${esgst.gc_mpIcon}"></i>` : `MP`) : esgst.gc_mpLabel}</div>
-                        `);
-                        break;
-                    case `gc_sc`:
-                        elements.push(`
-                            <div class="esgst-clickable esgst-gc esgst-gc-steamCloud ${esgst.gc_sc ? `` : `esgst-hidden`}" draggable="true" id="gc_sc" title="Steam Cloud">${esgst.gc_sc_s ? (esgst.gc_sc_s_i ? `<i class="fa fa-${esgst.gc_scIcon}"></i>` : `SC`) : esgst.gc_scLabel}</div>
-                        `);
-                        break;
-                    case `gc_tc`:
-                        elements.push(`
-                            <div class="esgst-clickable esgst-gc esgst-gc-tradingCards ${esgst.gc_tc ? `` : `esgst-hidden`}" draggable="true" id="gc_tc" title="Trading Cards">${esgst.gc_tc_s ? (esgst.gc_tc_s_i ? `<i class="fa fa-${esgst.gc_tcIcon}"></i>` : `TC`) : esgst.gc_tcLabel}</div>
-                        `);
-                        break;
-                    case `gc_l`:
-                        elements.push(`
-                            <div class="esgst-clickable esgst-gc esgst-gc-linux ${esgst.gc_l ? `` : `esgst-hidden`}" draggable="true" id="gc_l" title="Linux">${esgst.gc_l_s ? (esgst.gc_l_s_i ? `<i class="fa fa-${esgst.gc_lIcon}"></i>` : `L`) : esgst.gc_lLabel}</div>
-                        `);
-                        break;
-                    case `gc_m`:
-                        elements.push(`
-                            <div class="esgst-clickable esgst-gc esgst-gc-mac ${esgst.gc_m ? `` : `esgst-hidden`}" draggable="true" id="gc_m" title="Mac">${esgst.gc_m_s ? (esgst.gc_m_s_i ? `<i class="fa fa-${esgst.gc_mIcon}"></i>` : `M`) : esgst.gc_mLabel}</div>
-                        `);
-                        break;
-                    case `gc_dlc`:
-                        elements.push(`
-                            <div class="esgst-clickable esgst-gc esgst-gc-dlc ${esgst.gc_dlc ? `` : `esgst-hidden`}" draggable="true" id="gc_dlc" title="DLC">${esgst.gc_dlc_s ? (esgst.gc_dlc_s_i ? `<i class="fa fa-${esgst.gc_dlcIcon}"></i>` : `DLC`) : esgst.gc_dlcLabel}</div>
-                        `);
-                        break;
-                    case `gc_p`:
-                        elements.push(`
-                            <div class="esgst-clickable esgst-gc esgst-gc-package ${esgst.gc_p ? `` : `esgst-hidden`}" draggable="true" id="gc_p" title="Package">${esgst.gc_p_s ? (esgst.gc_p_s_i ? `<i class="fa fa-${esgst.gc_pIcon}"></i>` : `P`) : esgst.gc_pLabel}</div>
-                        `);
-                        break;
-                    case `gc_ea`:
-                        elements.push(`
-                            <div class="esgst-clickable esgst-gc esgst-gc-earlyAccess ${esgst.gc_ea ? `` : `esgst-hidden`}" draggable="true" id="gc_ea" title="Early Access">${esgst.gc_ea_s ? (esgst.gc_ea_s_i ? `<i class="fa fa-${esgst.gc_eaIcon}"></i>` : `EA`) : esgst.gc_eaLabel}</div>
-                        `);
-                        break;
-                    case `gc_rm`:
-                        elements.push(`
-                            <div class="esgst-clickable esgst-gc esgst-gc-removed ${esgst.gc_rm ? `` : `esgst-hidden`}" draggable="true" id="gc_rm" title="Removed">${esgst.gc_rm_s ? (esgst.gc_rm_s_i ? `<i class="fa fa-${esgst.gc_rmIcon}"></i>` : `RM`) : esgst.gc_rmLabel}</div>
-                        `);
-                        break;
-                    case `gc_rd`:
-                        elements.push(`
-                            <div class="esgst-clickable esgst-gc esgst-gc-releaseDate ${esgst.gc_rd ? `` : `esgst-hidden`}" draggable="true" id="gc_rd" title="Release Date">
-                                <i class="fa fa-${esgst.gc_rdIcon}"></i> ${formatGcDate(Date.now())}
-                            </div>
-                        `);
-                        break;
-                    case `gc_g`:
-                        elements.push(`
-                            <div class="esgst-clickable esgst-gc esgst-gc-genres ${esgst.gc_g ? `` : `esgst-hidden`}" draggable="true" id="gc_g" title="Genres">Genres</div>
-                        `);
-                        break;
-                }
-            }
-            var panel = insertHtml(SMFeatures, `beforeEnd`, `
-                <div class="esgst-description">Drag the categories to sort them.</div>
-                <div class="esgst-gc-panel">${elements.join(``)}</div>
-            `);
-            var sm = {
-                panel: panel
-            };
-            for (i = 0, n = panel.children.length; i < n; ++i) {
-                var child = panel.children[i];
-                child.addEventListener(`dragstart`, setSmSource.bind(null, child, sm));
-                child.addEventListener(`dragenter`, getSmSource.bind(null, child, sm));
-                child.addEventListener(`dragend`, saveSmSource.bind(null, sm));
+            addGcCategoryPanel(SMFeatures, `gc_categories`);
+            if (esgst.gv) {
+                addGcCategoryPanel(SMFeatures, `gc_categories_gv`);
             }
         } else if (ID === `gwc`) {
             addGwcrMenuPanel(SMFeatures, `gwc_colors`, `chance`);
@@ -34007,6 +33964,140 @@ Parsedown = (() => {
         }
     }
 
+    function addGcCategoryPanel(context, categoryKey) {        
+        let elements = [];
+        for (let i = 0, n = esgst[categoryKey].length; i < n; i++) {
+            switch (esgst[categoryKey][i]) {
+                case `gc_fcv`:
+                    elements.push(`
+                        <div class="esgst-clickable esgst-gc esgst-gc-fullCV ${esgst.gc_fcv ? `` : `esgst-hidden`}" draggable="true" id="gc_fcv" title="Full CV">${esgst.gc_fcv_s ? (esgst.gc_fcv_s_i ? `<i class="fa fa-${esgst.gc_fcvIcon}"></i>` : `FCV`) : esgst.gc_fcvLabel}</div>
+                    `);
+                    break;
+                case `gc_rcv`:
+                    elements.push(`
+                        <div class="esgst-clickable esgst-gc esgst-gc-reducedCV ${esgst.gc_rcv ? `` : `esgst-hidden`}" draggable="true" id="gc_rcv" title="Reduced CV">${esgst.gc_rcv_s ? (esgst.gc_rcv_s_i ? `<i class="fa fa-${esgst.gc_rcvIcon}"></i>` : `RCV`) : esgst.gc_rcvLabel}</div>
+                    `);
+                    break;
+                case `gc_ncv`:
+                    elements.push(`
+                        <div class="esgst-clickable esgst-gc esgst-gc-noCV ${esgst.gc_ncv ? `` : `esgst-hidden`}" draggable="true" id="gc_ncv" title="No CV">${esgst.gc_ncv_s ? (esgst.gc_ncv_s_i ? `<i class="fa fa-${esgst.gc_ncvIcon}"></i>` : `NCV`) : esgst.gc_ncvLabel}</div>
+                    `);
+                    break;
+                case `gc_h`:
+                    elements.push(`
+                        <div class="esgst-clickable esgst-gc esgst-gc-hidden ${esgst.gc_h ? `` : `esgst-hidden`}" draggable="true" id="gc_h" title="Hidden">${esgst.gc_h_s ? (esgst.gc_h_s_i ? `<i class="fa fa-${esgst.gc_hIcon}"></i>` : `H`) : esgst.gc_hLabel}</div>
+                    `);
+                    break;
+                case `gc_i`:
+                    elements.push(`
+                        <div class="esgst-clickable esgst-gc esgst-gc-ignored ${esgst.gc_i ? `` : `esgst-hidden`}" draggable="true" id="gc_i" title="Ignored">${esgst.gc_i_s ? (esgst.gc_i_s_i ? `<i class="fa fa-${esgst.gc_iIcon}"></i>` : `I`) : esgst.gc_iLabel}</div>
+                    `);
+                    break;
+                case `gc_o`:
+                    elements.push(`
+                        <div class="esgst-clickable esgst-gc esgst-gc-owned ${esgst.gc_o ? `` : `esgst-hidden`}" draggable="true" id="gc_o" title="Owned">${esgst.gc_o_s ? (esgst.gc_o_s_i ? `<i class="fa fa-${esgst.gc_oIcon}"></i>` : `O`) : esgst.gc_oLabel}</div>
+                    `);
+                    esgst.gc_o_altAccounts.forEach(account => {
+                        elements.push(`
+                            <div class="esgst-clickable esgst-gc esgst-gc-owned ${esgst.gc_o ? `` : `esgst-hidden`}" draggable="true" id="gc_o" style="background-color: ${account.bgColor}; color: ${account.color};" title="Owned by ${account.name}">${esgst.gc_o_s ? (esgst.gc_o_s_i ? `<i class="fa fa-${account.icon}"></i>` : `O`) : account.label}</div>
+                        `);
+                    });
+                    break;
+                case `gc_w`:
+                    elements.push(`
+                        <div class="esgst-clickable esgst-gc esgst-gc-wishlisted ${esgst.gc_w ? `` : `esgst-hidden`}" draggable="true" id="gc_w" title="Wishlisted">${esgst.gc_w_s ? (esgst.gc_w_s_i ? `<i class="fa fa-${esgst.gc_wIcon}"></i>` : `W`) : esgst.gc_wLabel}</div>
+                    `);
+                    break;
+                case `gc_gi`:
+                    elements.push(`
+                        <div class="esgst-clickable esgst-gc esgst-gc-giveawayInfo ${esgst.gc_gi ? `` : `esgst-hidden`}" draggable="true" id="gc_gi" title="Giveaway Info"><i class="fa fa-info"></i> 0 <i class="fa fa-dollar"></i> 0</div>
+                    `);
+                    break;
+                case `gc_r`:
+                    elements.push(`
+                        <div class="esgst-clickable esgst-gc esgst-gc-rating esgst-gc-rating-positive ${esgst.gc_r ? `` : `esgst-hidden`}" draggable="true" id="gc_r" title="Rating"><i class="fa fa-thumbs-up"></i>${esgst.gc_r_s ? ` 0% (0)` : ``}</div>
+                    `);
+                    break;
+                case `gc_a`:
+                    elements.push(`
+                        <div class="esgst-clickable esgst-gc esgst-gc-achievements ${esgst.gc_a ? `` : `esgst-hidden`}" draggable="true" id="gc_a" title="Achievements">${esgst.gc_a_s ? (esgst.gc_a_s_i ? `<i class="fa fa-${esgst.gc_aIcon}"></i>` : `A`) : esgst.gc_aLabel}</div>
+                    `);
+                    break;
+                case `gc_mp`:
+                    elements.push(`
+                        <div class="esgst-clickable esgst-gc esgst-gc-multiplayer ${esgst.gc_mp ? `` : `esgst-hidden`}" draggable="true" id="gc_mp" title="Multiplayer">${esgst.gc_mp_s ? (esgst.gc_mp_s_i ? `<i class="fa fa-${esgst.gc_mpIcon}"></i>` : `MP`) : esgst.gc_mpLabel}</div>
+                    `);
+                    break;
+                case `gc_sc`:
+                    elements.push(`
+                        <div class="esgst-clickable esgst-gc esgst-gc-steamCloud ${esgst.gc_sc ? `` : `esgst-hidden`}" draggable="true" id="gc_sc" title="Steam Cloud">${esgst.gc_sc_s ? (esgst.gc_sc_s_i ? `<i class="fa fa-${esgst.gc_scIcon}"></i>` : `SC`) : esgst.gc_scLabel}</div>
+                    `);
+                    break;
+                case `gc_tc`:
+                    elements.push(`
+                        <div class="esgst-clickable esgst-gc esgst-gc-tradingCards ${esgst.gc_tc ? `` : `esgst-hidden`}" draggable="true" id="gc_tc" title="Trading Cards">${esgst.gc_tc_s ? (esgst.gc_tc_s_i ? `<i class="fa fa-${esgst.gc_tcIcon}"></i>` : `TC`) : esgst.gc_tcLabel}</div>
+                    `);
+                    break;
+                case `gc_l`:
+                    elements.push(`
+                        <div class="esgst-clickable esgst-gc esgst-gc-linux ${esgst.gc_l ? `` : `esgst-hidden`}" draggable="true" id="gc_l" title="Linux">${esgst.gc_l_s ? (esgst.gc_l_s_i ? `<i class="fa fa-${esgst.gc_lIcon}"></i>` : `L`) : esgst.gc_lLabel}</div>
+                    `);
+                    break;
+                case `gc_m`:
+                    elements.push(`
+                        <div class="esgst-clickable esgst-gc esgst-gc-mac ${esgst.gc_m ? `` : `esgst-hidden`}" draggable="true" id="gc_m" title="Mac">${esgst.gc_m_s ? (esgst.gc_m_s_i ? `<i class="fa fa-${esgst.gc_mIcon}"></i>` : `M`) : esgst.gc_mLabel}</div>
+                    `);
+                    break;
+                case `gc_dlc`:
+                    elements.push(`
+                        <div class="esgst-clickable esgst-gc esgst-gc-dlc ${esgst.gc_dlc ? `` : `esgst-hidden`}" draggable="true" id="gc_dlc" title="DLC">${esgst.gc_dlc_s ? (esgst.gc_dlc_s_i ? `<i class="fa fa-${esgst.gc_dlcIcon}"></i>` : `DLC`) : esgst.gc_dlcLabel}</div>
+                    `);
+                    break;
+                case `gc_p`:
+                    elements.push(`
+                        <div class="esgst-clickable esgst-gc esgst-gc-package ${esgst.gc_p ? `` : `esgst-hidden`}" draggable="true" id="gc_p" title="Package">${esgst.gc_p_s ? (esgst.gc_p_s_i ? `<i class="fa fa-${esgst.gc_pIcon}"></i>` : `P`) : esgst.gc_pLabel}</div>
+                    `);
+                    break;
+                case `gc_ea`:
+                    elements.push(`
+                        <div class="esgst-clickable esgst-gc esgst-gc-earlyAccess ${esgst.gc_ea ? `` : `esgst-hidden`}" draggable="true" id="gc_ea" title="Early Access">${esgst.gc_ea_s ? (esgst.gc_ea_s_i ? `<i class="fa fa-${esgst.gc_eaIcon}"></i>` : `EA`) : esgst.gc_eaLabel}</div>
+                    `);
+                    break;
+                case `gc_rm`:
+                    elements.push(`
+                        <div class="esgst-clickable esgst-gc esgst-gc-removed ${esgst.gc_rm ? `` : `esgst-hidden`}" draggable="true" id="gc_rm" title="Removed">${esgst.gc_rm_s ? (esgst.gc_rm_s_i ? `<i class="fa fa-${esgst.gc_rmIcon}"></i>` : `RM`) : esgst.gc_rmLabel}</div>
+                    `);
+                    break;
+                case `gc_rd`:
+                    elements.push(`
+                        <div class="esgst-clickable esgst-gc esgst-gc-releaseDate ${esgst.gc_rd ? `` : `esgst-hidden`}" draggable="true" id="gc_rd" title="Release Date">
+                            <i class="fa fa-${esgst.gc_rdIcon}"></i> ${formatGcDate(Date.now())}
+                        </div>
+                    `);
+                    break;
+                case `gc_g`:
+                    elements.push(`
+                        <div class="esgst-clickable esgst-gc esgst-gc-genres ${esgst.gc_g ? `` : `esgst-hidden`}" draggable="true" id="gc_g" title="Genres">Genres</div>
+                    `);
+                    break;
+            }
+        }
+        let sm = {
+            categoryKey,
+            panel: insertHtml(context, `beforeEnd`, `
+                ${categoryKey === `gc_categories_gv` ? `<div class="esgst-description esgst-bold">Grid View</div>` : ``}
+                <div class="esgst-description">Drag the categories to sort them.</div>
+                <div class="esgst-gc-panel">${elements.join(``)}</div>
+            `)
+        };
+        for (let i = 0, n = sm.panel.children.length; i < n; i++) {
+            let child = sm.panel.children[i];
+            child.addEventListener(`dragstart`, setSmSource.bind(null, child, sm));
+            child.addEventListener(`dragenter`, getSmSource.bind(null, child, sm));
+            child.addEventListener(`dragend`, saveSmSource.bind(null, sm));
+        }
+    }
+
     function readHrAudioFile(id, event) {
         let popup = new Popup(`fa-circle-o-notch fa-spin`, `Uploading...`);
         popup.open();
@@ -34075,8 +34166,8 @@ Parsedown = (() => {
     }
 
     function getSmSource(child, sm) {
-        var categories, current, i, n;
-        current = sm.source;
+        let current = sm.source;
+        if (!current) return;
         do {
             current = current.previousElementSibling;
             if (current && current === child) {
@@ -34088,12 +34179,12 @@ Parsedown = (() => {
     }
 
     function saveSmSource(sm) {
-        var categories, i, n;
-        categories = [];
-        for (i = 0, n = sm.panel.children.length; i < n; ++i) {
-            categories.push(sm.panel.children[i].id);
+        sm.source = null;
+        esgst[sm.categoryKey] = [];
+        for (let i = 0, n = sm.panel.children.length; i < n; i++) {
+            esgst[sm.categoryKey].push(sm.panel.children[i].id);
         }
-        setSetting(`gc_categories`, categories);
+        setSetting(sm.categoryKey, esgst[sm.categoryKey]);
     }
 
     function addGwcrMenuPanel(context, id, key) {
@@ -38644,9 +38735,13 @@ Parsedown = (() => {
                 margin: -18px 0 0 !important;
             }
 
-            .esgst-gv-time, .esgst-gv-icons .esgst-ged-source {
+            .esgst-gv-icons .esgst-gc, .esgst-gv-icons .esgst-gwc, .esgst-gv-icons .esgst-gwr, .esgst-gv-icons .esgst-ttec, .esgst-gv-time, .esgst-gv-icons .esgst-ged-source {
                 background-color: #fff;
                 padding: 2px !important;
+            }
+
+            .esgst-gv-icons .esgst-gp-button {
+                background-color: #fff;
             }
 
             .esgst-ged-source {
