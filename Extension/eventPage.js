@@ -38,7 +38,7 @@ async function getTabs(request) {
             continue;
         }
         let tab = (await queryTabs({url: item.pattern}))[0];
-        if (tab) {
+        if (tab && tab.id) {
             chrome.tabs.update(tab.id, {active: true});
             if (request.refresh) {
                 chrome.tabs.reload(tab.id);
@@ -51,7 +51,7 @@ async function getTabs(request) {
     }
     if (any) {
         let tab = (await queryTabs({url: `*://*.steamgifts.com/*`}))[0];
-        if (tab) {
+        if (tab && tab.id) {
             chrome.tabs.update(tab.id, {active: true});
         }
     }
