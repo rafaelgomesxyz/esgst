@@ -21165,6 +21165,7 @@ Parsedown = (() => {
     }
 
     async function showNotification(details) {
+        console.log(details);
         let result = await Notification.requestPermission();
         if (result !== `granted`) {
             return;
