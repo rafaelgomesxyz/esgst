@@ -30566,7 +30566,9 @@ Parsedown = (() => {
         comment.timestamp = parseInt(comment.actions.firstElementChild.lastElementChild.getAttribute(`data-timestamp`));
         if (!main || esgst.inboxPath) {
             if (esgst.sg) {
-                source = comment.comment.closest(`.comments`).previousElementSibling.firstElementChild.firstElementChild.getAttribute(`href`);
+                try {
+                    source = comment.comment.closest(`.comments`).previousElementSibling.firstElementChild.firstElementChild.getAttribute(`href`);
+                } catch (e) {}
             } else {
                 source = comment.actions.querySelector(`[href*="/trade/"]`).getAttribute(`href`);
             }
