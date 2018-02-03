@@ -1937,6 +1937,9 @@ Parsedown = (() => {
                 wbc_checkSingle: false,
                 wbc_checkWhitelist: true,
                 wbc_checkAll: false,
+                wbc_checkPages: false,
+                wbc_minPage: ``,
+                wbc_maxPage: ``,
                 wbc_returnWhitelists: false,
                 wbc_returnBlacklists: false,
                 wbc_checkSelected: false,
@@ -1963,7 +1966,7 @@ Parsedown = (() => {
             sg: location.hostname.match(/www.steamgifts.com/),
             st: location.hostname.match(/www.steamtrades.com/),
             currentVersion: `7.14.1`,
-            devVersion: `7.14.2 (Dev.4)`,
+            devVersion: `7.14.2 (Dev.5)`,
             icon: `data:image/x-icon;base64,AAABAAEAEBAAAAEAIABoBAAAFgAAACgAAAAQAAAAIAAAAAEAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAqv8DCbP/Hgeq+CQIrf8iCK3/Igit/yIIrf8iB6//Iwit9x8Aqv8DAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAKr0GAa2/c0DvfzfA7f83QO3/N0Dt/zdA7f83QO+/d4Gs/3OAKP1GQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACm/xQFs/n2Bcf//wW///8FwP//BcD//wW///8Fx///BbP69gC2/xUAAAAAAAAAAAAAAAAA/1UDFptOFxSZMxkLpJktAq720QW1+ugEsfvjA7b92wO2/dsEsfvjBbX66Aau/dEoiO4tUlLWGU5k3hdVVf8DEJxKHxWqT8cVrU7uE6VN0guqny0Apv8XAJfQGwBAVywAQFcsAJfQGwCx/xcogugtS2Lk0lBl6u5Qae7ISmPeHxagSSMVr07jF7lV/xOiSu0brgATAAAAAAAAAA8AAAC/AAAAwAAAABAAAAAAYznjEkth4OxWb/3/T2jv40lf4iMXnksiEq1O3RayUv8UpEnkEo0+HQAAABkAAABBAAAA8QAAAPEAAABBAAAAGUBSvxxOYeDjU2v0/05m7d1LYuEiF55LIhKtTt0Ws1L/FahN2gU1FTAAAADAAAAA7AAAAP0AAAD9AAAA7AAAAMAVG0owUGPm2lNr9P9OZu3dS2LhIheeSyISrU7dFrNS/xWoTdoFNRswAAAAvwAAAOsAAAD9AAAA/QAAAOsAAADAFRtKMFBj6NpTa/T/Tmbt3Uti4SIXnksiEq1O3RayUv8UpEnkEo0+HQAAABgAAABAAAAA8QAAAPEAAABBAAAAGT5PuR1OYeDjU2v0/05m7d1LYuEiFqBJIxWuT+QXuVX/E6JL7QC8XhMAAAAAAAAADwAAAL8AAAC/AAAAEAAAAAAOR/8SSWLh7FZv/f9PaO/jSV/iIxCUSh8Vrk7HFqxN7ROlS9JskzMt1XULGK12EhxGLgYsRy8GK612EhzVgAsYgmxxLU1i39JNZ+vtT2fwx0pj1h8AqlUDF65GFgqZUhlsiC0txH0T0s5/EujJgBPkz4QR28+EEdvJgBPkzn8Q6Md+E9KLdHosM1LWGUZo6BZVVf8DAAAAAAAAAAAAAAAA/2YAFMl9EvbgjRb/14gV/9eIFf/XiBX/14gV/9+NFv/KgBD254YAFQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAL91FRjKgRHN1IgU3s+EEt3PhBLdz4QS3c+EEt3UiBTezYMRzcJ6FBkAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACqqgADxIARHr18FiO8eA8ivHgPIrx4DyK8eA8ivXwPI8SAER7/VQADAAAAAAAAAAAAAAAA78cAAPA3AAD4FwAABCAAADGOAAAE+AAAkBEAAJ55AACYOQAAlgEAAER4AAAXaAAATnoAAPgXAAD0JwAA69cAAA==`,
             sgIcon: `data:image/x-icon;base64,AAABAAEAEBAAAAEAIABoBAAAFgAAACgAAAAQAAAAIAAAAAEAIAAAAAAAQAQAABMLAAATCwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIUAAAD5AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAPoAAACFAAAAAAAAAAAAAAD8AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA+QAAAAAAAAAAAAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAAAAAAAAAAAAP8AAAD/AAAA/wAAABwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAcAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAcAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAHAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAAAAAAAAAAAAPwAAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD5AAAAAAAAAAAAAACFAAAA+QAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD5AAAAhQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA//8AAP//AADAAwAAwAMAAMfjAADP8wAAz/MAAM/zAADP8wAAz/MAAM/zAADH4wAAwAMAAMADAAD//wAA//8AAA==`,
             stIcon: `data:image/x-icon;base64,AAABAAEAEBAAAAEAIABoBAAAFgAAACgAAAAQAAAAIAAAAAEAIAAAAAAAQAQAABMLAAATCwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABbD6SgWw+ucFsPrkBbD6SgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAWw+uYFsPr/BbD6/wWw+ucAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAFsPrmBbD6/wWw+v8FsPrmAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABbD6SQWw+uYFsPrmBbD6SQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAFKRLShSkS+cUpEvkFKRLSgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAExi4EpMYuDnTGLg5Exi4EoAAAAAAAAAABSkS+YUpEv/FKRL/xSkS+cAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABMYuDmTGLg/0xi4P9MYuDnAAAAAAAAAAAUpEvmFKRL/xSkS/8UpEvmAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAATGLg5kxi4P9MYuD/TGLg5gAAAAAAAAAAFKRLSRSkS+YUpEvmFKRLSQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAExi4ElMYuDmTGLg5kxi4EkAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAMZ9E0rGfRPnxn0T5MZ9E0oAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADGfRPmxn0T/8Z9E//GfRPnAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAxn0T5sZ9E//GfRP/xn0T5gAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAMZ9E0nGfRPmxn0T5sZ9E0kAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA//8AAPw/AAD8PwAA/D8AAPw/AAD//wAAh+EAAIfhAACH4QAAh+EAAP//AAD8PwAA/D8AAPw/AAD8PwAA//8AAA==`,
@@ -28742,7 +28745,7 @@ Parsedown = (() => {
     }
 
     function addWBCButton(Context, WBCButton) {
-        var checkAllSwitch, checkSingleSwitch, popup, skip, WBC;
+        var checkAllSwitch, checkPagesSwitch, checkSingleSwitch, popup, skip, WBC;
         WBC = {
             Update: (Context ? false : true),
             B: esgst.wbc_b,
@@ -28766,6 +28769,11 @@ Parsedown = (() => {
         }
         if (!WBC.Update && !location.pathname.match(/^\/(discussions|users|archive)/)) {
             checkAllSwitch = new ToggleSwitch(popup.Options, `wbc_checkAll`, false, `Check all pages.`, false, false, `If disabled, only the current page will be checked.`, esgst.wbc_checkAll);
+            checkPagesSwitch = new ToggleSwitch(popup.Options, `wbc_checkPages`, false, `Check only pages from <input class="esgst-switch-input esgst-switch-input-large" type="number" value="${esgst.wbc_minPage}"> to <input class="esgst-switch-input esgst-switch-input-large" type="number" value="${esgst.wbc_maxPage}">.`, false, false, null, esgst.wbc_checkPages);
+            let minPage = checkPagesSwitch.name.firstElementChild;
+            let maxPage = minPage.nextElementSibling;
+            observeNumChange(minPage, `wbc_minPage`);
+            observeNumChange(maxPage, `wbc_maxPage`);
         }
         new ToggleSwitch(popup.Options, `wbc_returnWhitelists`, false, `Return whitelists.`, false, false, `If enabled, everyone who has whitelisted you will be whitelisted back.`, esgst.wbc_returnWhitelists);
         if (WBC.B) {
@@ -28777,16 +28785,22 @@ Parsedown = (() => {
             esgst.wbc_pages = event.currentTarget.value;
         });
         new ToggleSwitch(popup.Options, `wbc_clearCache`, false, `Clear caches.`, false, false, `If enabled, the caches of all checked users will be cleared (slower).`, esgst.wbc_clearCache);
-        if (checkSingleSwitch || checkAllSwitch) {
+        if (checkSingleSwitch || checkAllSwitch || checkPagesSwitch) {
             if (checkSingleSwitch) {
                 if (checkAllSwitch) {
                     checkSingleSwitch.exclusions.push(checkAllSwitch.container);
+                }
+                if (checkPagesSwitch) {
+                    checkSingleSwitch.exclusions.push(checkPagesSwitch.container);
                 }
                 checkSingleSwitch.exclusions.push(checkSelectedSwitch.container);
                 checkSelectedSwitch.exclusions.push(checkSingleSwitch.container);
                 if (esgst.wbc_checkSingle) {
                     if (checkAllSwitch) {
                         checkAllSwitch.container.classList.add(`esgst-hidden`);
+                    }
+                    if (checkPagesSwitch) {
+                        checkPagesSwitch.container.classList.add(`esgst-hidden`);
                     }
                     checkSelectedSwitch.container.classList.add(`esgst-hidden`);
                 } else if (esgst.wbc_checkSelected) {
@@ -28797,15 +28811,42 @@ Parsedown = (() => {
                 if (checkSingleSwitch) {
                     checkAllSwitch.exclusions.push(checkSingleSwitch.container);
                 }
+                if (checkPagesSwitch) {
+                    checkAllSwitch.exclusions.push(checkPagesSwitch.container);
+                }
                 checkSelectedSwitch.exclusions.push(checkAllSwitch.container);
                 checkAllSwitch.exclusions.push(checkSelectedSwitch.container);
                 if (esgst.wbc_checkAll) {
                     if (checkSingleSwitch) {
                         checkSingleSwitch.container.classList.add(`esgst-hidden`);
                     }
+                    if (checkPagesSwitch) {
+                        checkPagesSwitch.container.classList.add(`esgst-hidden`);
+                    }
                     checkSelectedSwitch.container.classList.add(`esgst-hidden`);
                 } else if (esgst.wbc_checkSelected) {
                     checkAllSwitch.container.classList.add(`esgst-hidden`);
+                }
+            }
+            if (checkPagesSwitch) {
+                if (checkSingleSwitch) {
+                    checkPagesSwitch.exclusions.push(checkSingleSwitch.container);
+                }
+                if (checkAllSwitch) {
+                    checkPagesSwitch.exclusions.push(checkAllSwitch.container);
+                }
+                checkSelectedSwitch.exclusions.push(checkPagesSwitch.container);
+                checkPagesSwitch.exclusions.push(checkSelectedSwitch.container);
+                if (esgst.wbc_checkPages) {
+                    if (checkSingleSwitch) {
+                        checkSingleSwitch.container.classList.add(`esgst-hidden`);
+                    }
+                    if (checkAllSwitch) {
+                        checkAllSwitch.container.classList.add(`esgst-hidden`);
+                    }
+                    checkSelectedSwitch.container.classList.add(`esgst-hidden`);
+                } else if (esgst.wbc_checkSelected) {
+                    checkPagesSwitch.container.classList.add(`esgst-hidden`);
                 }
             }
         }
@@ -28910,15 +28951,16 @@ Parsedown = (() => {
         } else {
             if (esgst.wbc_checkSelected) {
                 WBC.Users = Array.from(esgst.mtUsers);
-            } else {
+            } else if (!esgst.wbc_checkPages) {
                 for (Username in esgst.currentUsers) {
                     if (Username != WBC.Username) {
                         WBC.Users.push(Username);
                     }
                 }
             }
-            if (esgst.wbc_checkAll && ((((WBC.User && !esgst.wbc_checkSingle) || !WBC.User) && !WBC.Update && !location.pathname.match(/^\/(discussions|users|archive)/)))) {
-                getWBCUsers(WBC, 1, esgst.currentPage, esgst.searchUrl, function () {
+            if ((esgst.wbc_checkAll || esgst.wbc_checkPages) && ((((WBC.User && !esgst.wbc_checkSingle) || !WBC.User) && !WBC.Update && !location.pathname.match(/^\/(discussions|users|archive)/)))) {
+                WBC.lastPage = esgst.wbc_checkPages ? `of ${esgst.wbc_maxPage}` : ``;
+                getWBCUsers(WBC, esgst.wbc_checkPages ? esgst.wbc_minPage : 1, esgst.currentPage, esgst.searchUrl, function () {
                     skip.appendChild(new ButtonSet(`green`, ``, `fa-forward`, ``, `Skip User`, ``, callback => {
                         callback();
                         WBC.manualSkip = true;
@@ -29409,7 +29451,7 @@ Parsedown = (() => {
         var Matches, I, N, Match, Username, Pagination;
         if (!WBC.Canceled) {
             if (Context) {
-                if (NextPage === 2) {
+                if (!WBC.lastPage) {
                     WBC.lastPage = getLastPage(Context, true);
                     WBC.lastPage = WBC.lastPage === 999999999 ? `` : ` of ${WBC.lastPage}`;
                 }
@@ -29434,12 +29476,16 @@ Parsedown = (() => {
                     Callback();
                 }
             } else if (!WBC.Canceled) {
-                if (CurrentPage != NextPage) {
-                    request(null, null, `GET`, true, URL + NextPage, function (Response) {
-                        setTimeout(getWBCUsers, 0, WBC, ++NextPage, CurrentPage, URL, Callback, parseHtml(Response.responseText));
-                    });
+                if (!esgst.wbc_checkPages || NextPage <= esgst.wbc_maxPage) {
+                    if (CurrentPage != NextPage) {
+                        request(null, null, `GET`, true, URL + NextPage, function (Response) {
+                            setTimeout(getWBCUsers, 0, WBC, ++NextPage, CurrentPage, URL, Callback, parseHtml(Response.responseText));
+                        });
+                    } else {
+                        setTimeout(getWBCUsers, 0, WBC, ++NextPage, CurrentPage, URL, Callback, document);
+                    }
                 } else {
-                    setTimeout(getWBCUsers, 0, WBC, ++NextPage, CurrentPage, URL, Callback, document);
+                    Callback();
                 }
             }
         }
