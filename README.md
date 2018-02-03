@@ -949,37 +949,43 @@ To upgrade from the script to the extension or downgrade from the extension to t
 
 ## Changelog
 
+**7.14.1 (February 3, 2018):**
+
+<ul>
+    <li>Hotfix for v7.14.0</li>
+</ul>
+
 **7.14.0 (February 3, 2018):**
 
 <ul>
-    <li><a href="https://github.com/revilheart/ESGST/issues/406">#406</a>Add option to play sound with notifications</li>
-    <li><a href="https://github.com/revilheart/ESGST/issues/407">#407</a>Allow users to specify where they want features to run</li>
-    <li><a href="https://github.com/revilheart/ESGST/issues/410">#410</a>Fix a bug that shows a notification for new wishlist giveaways when there are not any</li>
-    <li><a href="https://github.com/revilheart/ESGST/issues/411">#411</a>Fix a bug that duplicates encrypted giveaways when editing a comment</li>
-    <li><a href="https://github.com/revilheart/ESGST/issues/413">#413</a>Fix a bug that happens when checking if the user is already a member of the Steam group</li>
-    <li><a href="https://github.com/revilheart/ESGST/issues/414">#414</a>Detect all errors</li>
-    <li><a href="https://github.com/revilheart/ESGST/issues/415">#415</a>Extend Table Sorter to tables posted in comments</li>
-    <li><a href="https://github.com/revilheart/ESGST/issues/418">#418</a>Decrypt encrypted giveaways on page load</li>
-    <li><a href="https://github.com/revilheart/ESGST/issues/420">#420</a>Fix a bug in Discussions Highlighter that prevents the page from loading correctly</li>
-    <li><a href="https://github.com/revilheart/ESGST/issues/421">#421</a>Fix a bug that happens when filtering giveaways/discussions</li>
-    <li><a href="https://github.com/revilheart/ESGST/issues/422">#422</a>Only hide basic filters if the user made an advanced search in Giveaway Filters</li>
-    <li><a href="https://github.com/revilheart/ESGST/issues/423">#423</a>Fix a bug that happens when sending unsent gifts</li>
-    <li><a href="https://github.com/revilheart/ESGST/issues/424">#424</a>Fix some typos in Unsent Gifts Sender</li>
-    <li><a href="https://github.com/revilheart/ESGST/issues/425">#425</a>Fix a bug that notifies about errors even if the option is disabled</li>
-    <li><a href="https://github.com/revilheart/ESGST/issues/427">#427</a>Allow users to move the enter button and chance/ratio around like Game Categories does</li>
-    <li><a href="https://github.com/revilheart/ESGST/issues/428">#428</a>Fix a bug that happens when clicking the Manage User Tags button in the settings menu</li>
-    <li><a href="https://github.com/revilheart/ESGST/issues/430">#430</a>Add Release Date game category</li>
-    <li><a href="https://github.com/revilheart/ESGST/issues/431">#431</a>Add missing game categories to Giveaway Filters</li>
-    <li><a href="https://github.com/revilheart/ESGST/issues/432">#432</a>Add option to remove all games to Hidden Games Remover</li>
-    <li><a href="https://github.com/revilheart/ESGST/issues/433">#433</a>Fix a bug that shows 2 hide giveaway buttons if One-Click Hide Giveaway Button is enabled</li>
-    <li><a href="https://github.com/revilheart/ESGST/issues/434">#434</a>Fix a bug that happens when showing notifications in Header Refresher</li>
-    <li><a href="https://github.com/revilheart/ESGST/issues/435">#435</a>Change the donation site, since Pledgie is closing down</li>
-    <li><a href="https://github.com/revilheart/ESGST/issues/436">#436</a>Separate grid view from normal view when dragging categories</li>
-    <li><a href="https://github.com/revilheart/ESGST/issues/437">#437</a>Speed up page load with Reply From Inbox > "Save replies" enabled</li>
-    <li><a href="https://github.com/revilheart/ESGST/issues/438">#438</a>Fix a bug that happens when deleting all color settings for the rating category</li>
-    <li><a href="https://github.com/revilheart/ESGST/issues/440">#440</a>Bypass Steam's age and mature check when retrieving game categories</li>
-    <li><a href="https://github.com/revilheart/ESGST/issues/441">#441</a>Fix a bug that happens when saving settings</li>
-    <li><a href="https://github.com/revilheart/ESGST/issues/444">#444</a>Add a feature: Quick Inbox View</li>
+    <li><a href="https://github.com/revilheart/ESGST/issues/406">#406</a> Add option to play sound with notifications</li>
+    <li><a href="https://github.com/revilheart/ESGST/issues/407">#407</a> Allow users to specify where they want features to run</li>
+    <li><a href="https://github.com/revilheart/ESGST/issues/410">#410</a> Fix a bug that shows a notification for new wishlist giveaways when there are not any</li>
+    <li><a href="https://github.com/revilheart/ESGST/issues/411">#411</a> Fix a bug that duplicates encrypted giveaways when editing a comment</li>
+    <li><a href="https://github.com/revilheart/ESGST/issues/413">#413</a> Fix a bug that happens when checking if the user is already a member of the Steam group</li>
+    <li><a href="https://github.com/revilheart/ESGST/issues/414">#414</a> Detect all errors</li>
+    <li><a href="https://github.com/revilheart/ESGST/issues/415">#415</a> Extend Table Sorter to tables posted in comments</li>
+    <li><a href="https://github.com/revilheart/ESGST/issues/418">#418</a> Decrypt encrypted giveaways on page load</li>
+    <li><a href="https://github.com/revilheart/ESGST/issues/420">#420</a> Fix a bug in Discussions Highlighter that prevents the page from loading correctly</li>
+    <li><a href="https://github.com/revilheart/ESGST/issues/421">#421</a> Fix a bug that happens when filtering giveaways/discussions</li>
+    <li><a href="https://github.com/revilheart/ESGST/issues/422">#422</a> Only hide basic filters if the user made an advanced search in Giveaway Filters</li>
+    <li><a href="https://github.com/revilheart/ESGST/issues/423">#423</a> Fix a bug that happens when sending unsent gifts</li>
+    <li><a href="https://github.com/revilheart/ESGST/issues/424">#424</a> Fix some typos in Unsent Gifts Sender</li>
+    <li><a href="https://github.com/revilheart/ESGST/issues/425">#425</a> Fix a bug that notifies about errors even if the option is disabled</li>
+    <li><a href="https://github.com/revilheart/ESGST/issues/427">#427</a> Allow users to move the enter button and chance/ratio around like Game Categories does</li>
+    <li><a href="https://github.com/revilheart/ESGST/issues/428">#428</a> Fix a bug that happens when clicking the Manage User Tags button in the settings menu</li>
+    <li><a href="https://github.com/revilheart/ESGST/issues/430">#430</a> Add Release Date game category</li>
+    <li><a href="https://github.com/revilheart/ESGST/issues/431">#431</a> Add missing game categories to Giveaway Filters</li>
+    <li><a href="https://github.com/revilheart/ESGST/issues/432">#432</a> Add option to remove all games to Hidden Games Remover</li>
+    <li><a href="https://github.com/revilheart/ESGST/issues/433">#433</a> Fix a bug that shows 2 hide giveaway buttons if One-Click Hide Giveaway Button is enabled</li>
+    <li><a href="https://github.com/revilheart/ESGST/issues/434">#434</a> Fix a bug that happens when showing notifications in Header Refresher</li>
+    <li><a href="https://github.com/revilheart/ESGST/issues/435">#435</a> Change the donation site, since Pledgie is closing down</li>
+    <li><a href="https://github.com/revilheart/ESGST/issues/436">#436</a> Separate grid view from normal view when dragging categories</li>
+    <li><a href="https://github.com/revilheart/ESGST/issues/437">#437</a> Speed up page load with Reply From Inbox > "Save replies" enabled</li>
+    <li><a href="https://github.com/revilheart/ESGST/issues/438">#438</a> Fix a bug that happens when deleting all color settings for the rating category</li>
+    <li><a href="https://github.com/revilheart/ESGST/issues/440">#440</a> Bypass Steam's age and mature check when retrieving game categories</li>
+    <li><a href="https://github.com/revilheart/ESGST/issues/441">#441</a> Fix a bug that happens when saving settings</li>
+    <li><a href="https://github.com/revilheart/ESGST/issues/444">#444</a> Add a feature: Quick Inbox View</li>
 </ul>
 
 **7.13.1 (January 14, 2018):**
