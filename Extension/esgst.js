@@ -24888,6 +24888,11 @@ Parsedown = (() => {
         esgst.qiv.timeout = setTimeout(() => {
             if (esgst.qiv.popout) {
                 esgst.qiv.popout.open(esgst.inboxButton);
+                if (esgst.messageCount > 0) {
+                    esgst.qiv.popout.popout.innerHTML = ``;
+                    esgst.qiv.nextPage = 1;
+                    scrollQivPopout(true);
+                }
             } else {
                 esgst.qiv.popout = new Popout(`esgst-qiv-popout`, null, 1000);
                 esgst.qiv.popout.open(esgst.inboxButton);
