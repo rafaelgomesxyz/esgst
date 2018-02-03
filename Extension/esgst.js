@@ -1552,18 +1552,29 @@ Parsedown = (() => {
             this.input.checked = this.value;
             this.input.addEventListener(`change`, () => this.change());
         }
-        change() {
+        async change(settings) {
             this.value = this.input.checked;
             if (this.id) {
-                let key = `${this.id}_${this.sg ? `sg` : `st`}`;
+                let key = this.id;
+                if (this.sg) {
+                    key += `_sg`;
+                } else if (this.st) {
+                    key += `_st`;
+                }
                 let setting = esgst.settings[key];
                 if (typeof setting === `undefined` || !setting.include) {
                     setting = this.value;
                 } else {
                     setting.enabled = this.value ? 1 : 0;
                 }
-                setSetting(key, setting);
+                esgst.settings[key] = setting;
                 esgst[this.id] = this.value;
+                if (!settings) {
+                    let popup = new Popup(`fa-circle-o-notch fa-spin`, `Saving...`);
+                    popup.open();
+                    await setSetting(key, setting);
+                    popup.close();
+                }
             }
             if (this.value) {
                 this.dependencies.forEach(dependency => dependency.classList.remove(`esgst-hidden`));
@@ -1579,17 +1590,17 @@ Parsedown = (() => {
                 }
             }
         }
-        enable() {
+        enable(settings) {
             this.input.checked = true;
-            this.change();
+            this.change(settings);
         }
-        disable() {
+        disable(settings) {
             this.input.checked = false;
-            this.change();
+            this.change(settings);
         }
-        toggle() {
+        toggle(settings) {
             this.input.checked = !this.input.checked;
-            this.change();
+            this.change(settings);
         }
     }
 
@@ -19101,9 +19112,9 @@ Parsedown = (() => {
         if (!gm.popout) {
             gm.popout = new Popout(`esgst-gm-popout`, gm.button, 0, true);
             group = insertHtml(gm.popout.popout, `beforeEnd`, `<div class="esgst-button-group"><span>Select:</span></div>`);
-            group.appendChild(new ButtonSet(`grey`, `grey`, `fa-circle`, `fa-circle-o-notch fa-spin`, `All`, ``, selectSwitches.bind(null, esgst.gmCheckboxes, `check`)).set);
-            group.appendChild(new ButtonSet(`grey`, `grey`, `fa-circle-o`, `fa-circle-o-notch fa-spin`, `None`, ``, selectSwitches.bind(null, esgst.gmCheckboxes, `uncheck`)).set);
-            group.appendChild(new ButtonSet(`grey`, `grey`, `fa-dot-circle-o`, `fa-circle-o-notch fa-spin`, `Inverse`, ``, selectSwitches.bind(null, esgst.gmCheckboxes, `toggle`)).set);
+            group.appendChild(new ButtonSet(`grey`, `grey`, `fa-circle`, `fa-circle-o-notch fa-spin`, `All`, ``, selectSwitches.bind(null, esgst.gmCheckboxes, `check`, false)).set);
+            group.appendChild(new ButtonSet(`grey`, `grey`, `fa-circle-o`, `fa-circle-o-notch fa-spin`, `None`, ``, selectSwitches.bind(null, esgst.gmCheckboxes, `uncheck`, false)).set);
+            group.appendChild(new ButtonSet(`grey`, `grey`, `fa-dot-circle-o`, `fa-circle-o-notch fa-spin`, `Inverse`, ``, selectSwitches.bind(null, esgst.gmCheckboxes, `toggle`, false)).set);
             group = insertHtml(gm.popout.popout, `beforeEnd`, `<div class="esgst-button-group"></div>`);
             group.appendChild(new ButtonSet(`green`, ``, `fa-search`, ``, `Search & Replace`, ``, openGmPopup.bind(null, giveaways, gm)).set);
             if (esgst.gb) {
@@ -23510,7 +23521,7 @@ Parsedown = (() => {
 
     function selectMtCheckboxes(mt, key, callback) {
         callback();
-        selectSwitches(mt[`${mt.type}Checkboxes`], key);
+        selectSwitches(mt[`${mt.type}Checkboxes`], key, false);
     }
 
     async function openMtPopup(mt, callback) {
@@ -31851,9 +31862,9 @@ Parsedown = (() => {
                     setAutoSync(id, syncer.switches);
                 }
                 let group = insertHtml(syncer.popup.description, `beforeEnd`, `<div class="esgst-button-group"><span>Select:</span></div>`);
-                group.appendChild(new ButtonSet(`grey`, `grey`, `fa-circle`, `fa-circle-o-notch fa-spin`, `All`, ``, selectSwitches.bind(null, syncer.switches, `enable`)).set);
-                group.appendChild(new ButtonSet(`grey`, `grey`, `fa-circle-o`, `fa-circle-o-notch fa-spin`, `None`, ``, selectSwitches.bind(null, syncer.switches, `disable`)).set);
-                group.appendChild(new ButtonSet(`grey`, `grey`, `fa-dot-circle-o`, `fa-circle-o-notch fa-spin`, `Inverse`, ``, selectSwitches.bind(null, syncer.switches, `toggle`)).set);
+                group.appendChild(new ButtonSet(`grey`, `grey`, `fa-circle`, `fa-circle-o-notch fa-spin`, `All`, ``, selectSwitches.bind(null, syncer.switches, `enable`, true)).set);
+                group.appendChild(new ButtonSet(`grey`, `grey`, `fa-circle-o`, `fa-circle-o-notch fa-spin`, `None`, ``, selectSwitches.bind(null, syncer.switches, `disable`, true)).set);
+                group.appendChild(new ButtonSet(`grey`, `grey`, `fa-dot-circle-o`, `fa-circle-o-notch fa-spin`, `Inverse`, ``, selectSwitches.bind(null, syncer.switches, `toggle`, true)).set);
             }
             syncer.progress = insertHtml(syncer.popup.description, `beforeEnd`, `
                 <div class="esgst-hidden esgst-popup-progress"></div>
@@ -35476,9 +35487,9 @@ Parsedown = (() => {
             dm.message = insertHtml(container, `beforeEnd`, `<div class="esgst-description"></div>`);
             dm.warning = insertHtml(container, `beforeEnd`, `<div class="esgst-description esgst-warning"></div>`);
             group1 = insertHtml(container, `beforeEnd`, `<div class="esgst-button-group"><span>Select:</span></div>`);
-            group1.appendChild(new ButtonSet(`grey`, `grey`, `fa-circle`, `fa-circle-o-notch fa-spin`, `All`, ``, selectSwitches.bind(null, dm.switches, `enable`)).set);
-            group1.appendChild(new ButtonSet(`grey`, `grey`, `fa-circle-o`, `fa-circle-o-notch fa-spin`, `None`, ``, selectSwitches.bind(null, dm.switches, `disable`)).set);
-            group1.appendChild(new ButtonSet(`grey`, `grey`, `fa-dot-circle-o`, `fa-circle-o-notch fa-spin`, `Inverse`, ``, selectSwitches.bind(null, dm.switches, `toggle`)).set);
+            group1.appendChild(new ButtonSet(`grey`, `grey`, `fa-circle`, `fa-circle-o-notch fa-spin`, `All`, ``, selectSwitches.bind(null, dm.switches, `enable`, true)).set);
+            group1.appendChild(new ButtonSet(`grey`, `grey`, `fa-circle-o`, `fa-circle-o-notch fa-spin`, `None`, ``, selectSwitches.bind(null, dm.switches, `disable`, true)).set);
+            group1.appendChild(new ButtonSet(`grey`, `grey`, `fa-dot-circle-o`, `fa-circle-o-notch fa-spin`, `Inverse`, ``, selectSwitches.bind(null, dm.switches, `toggle`, true)).set);
             group2 = insertHtml(container, `beforeEnd`, `<div class="esgst-button-group"><span>${title1} ${prep}:</span></div>`);
             group2.appendChild(new ButtonSet(`green`, `grey`, icon, `fa-circle-o-notch fa-spin`, `Computer`, title2, callback => {
                 onClick(dm, false, false, false, false, () => {
@@ -36922,10 +36933,15 @@ Parsedown = (() => {
 
     /* */
 
-    function selectSwitches(switches, type, callback) {
-        var key;
-        for (key in switches) {
-            switches[key][type]();
+    async function selectSwitches(switches, type, settings, callback) {
+        for (let key in switches) {
+            switches[key][type](settings);
+        }
+        if (settings) {
+            let popup = new Popup(`fa-circle-o-notch fa-spin`, `Saving...`);
+            popup.open();
+            await setValue(`settings`, JSON.stringify(esgst.settings));
+            popup.close();
         }
         if (callback) {
             callback();
