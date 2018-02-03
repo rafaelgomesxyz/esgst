@@ -16771,6 +16771,10 @@ Parsedown = (() => {
         let hasNew = false;
         for (let i = comments.length - 1; i > -1; i--) {
             let comment = comments[i];
+            let icons = comment.comment.getElementsByClassName(`esgst-ged-icon`);
+            for (let j = icons.length - 1; j > -1; j--) {
+                icons[0].remove();
+            }
             let links = comment.comment.querySelectorAll(`[href^="ESGST-"]`);
             for (let j = links.length - 1; j > -1; j--) {
                 let code = links[j].getAttribute(`href`).match(/ESGST-(.+)/)[1];
