@@ -2497,6 +2497,17 @@ Parsedown = (() => {
                             sg: true,
                             st: true
                         },
+                        qiv: {
+                            description: `
+                                <ul>
+                                    <li>Allows you to view your messages from any page without visiting the inbox.</li>
+                                </ul>
+                            `,
+                            name: `Quick Inbox View`,
+                            new: true,
+                            sg: true,
+                            st: true
+                        },
                         sto: {
                             description: `
                                 <ul>
@@ -6170,6 +6181,7 @@ Parsedown = (() => {
         if (esgst.hcp) loadHcp();
         if (esgst.hfc) loadHfc();
         if (esgst.hr) loadHr();
+        if (esgst.qiv) loadQiv();
         if (esgst.ib) loadIb();
         if (esgst.lpl) loadLpl();
         if (esgst.lpv) loadLpv();
@@ -6289,10 +6301,8 @@ Parsedown = (() => {
         await loadGiveawayFeatures(document, true);
         esgst.endlessFeatures.push(loadDiscussionFeatures);
         await loadDiscussionFeatures(document, true);
-        if (esgst.commentsPath || esgst.inboxPath) {
-            esgst.endlessFeatures.push(loadCommentFeatures);
-            await loadCommentFeatures(document, true);
-        }
+        esgst.endlessFeatures.push(loadCommentFeatures);
+        await loadCommentFeatures(document, true);
         esgst.endlessFeatures.push(loadUserFeatures);
         loadUserFeatures(document);
         esgst.endlessFeatures.push(loadGameFeatures);
@@ -20978,6 +20988,9 @@ Parsedown = (() => {
             loadNm();
         }
         await refreshHeaderElements(document);
+        if (esgst.qiv) {
+            loadQiv();
+        }
         if (esgst.hr) {
             notifyHrChange(hr, notify);
         }
@@ -22995,14 +23008,14 @@ Parsedown = (() => {
         getMrRfiButtons(document);
     }
 
-    function getMrRfiButtons(context) {
+    function getMrRfiButtons(context, main) {
         var matches = context.getElementsByClassName(esgst.sg ? `comment__actions` : `action_list`);
         for (var i = 0, n = matches.length; i < n; ++i) {
-            addMRButton(matches[i]);
+            addMRButton(matches[i], main);
         }
     }
 
-    function addMRButton(Context) {
+    function addMRButton(Context, main) {
         var MR, Parent, ReplyButton, Permalink;
         MR = {
             Context: Context,
@@ -23015,11 +23028,11 @@ Parsedown = (() => {
             ReplyButton = MR.Context.getElementsByClassName(esgst.sg ? `js__comment-reply` : `js_comment_reply`)[0];
             Permalink = MR.Context.querySelectorAll(`[href*="/go/comment/"]`);
             Permalink = Permalink[Permalink.length - 1];
-            if (ReplyButton || location.pathname.match(/^\/messages/)) {
+            if (ReplyButton || !main || esgst.inboxPath) {
                 if (ReplyButton) {
                     ReplyButton.remove();
                     MR.ParentID = Parent.getAttribute(esgst.sg ? `data-comment-id` : `data-id`);
-                    if (location.pathname.match(/^\/messages/)) {
+                    if (!main || esgst.inboxPath) {
                         MR.URL = Permalink.getAttribute(`href`);
                     }
                     MR.url = Permalink.getAttribute(`href`);
@@ -23030,7 +23043,7 @@ Parsedown = (() => {
                 if (esgst.sg) {
                     MR.TradeCode = ``;
                 } else {
-                    if (!location.pathname.match(/^\/messages/)) {
+                    if (main && !esgst.inboxPath) {
                         MR.TradeCode = location.pathname.match(/^\/trade\/(.+?)\//)[1];
                     }
                     MR.Username = MR.Comment.getElementsByClassName(`author_name`)[0].textContent;
@@ -24848,6 +24861,87 @@ Parsedown = (() => {
         location.href = `/giveaways/search?q=${encodeURIComponent(event.currentTarget.value)}`;
     }
 
+    /* [QIV] Quick Inbox View */
+
+    function loadQiv() {
+        if (!esgst.inboxButton) return;
+        if (!esgst.qiv.nextPage) {
+            esgst.qiv = {
+                nextPage: 1
+            };
+        }
+        esgst.inboxButton.addEventListener(`mouseenter`, openQivPopout);
+        esgst.inboxButton.addEventListener(`mouseleave`, event => {
+            if (esgst.qiv.timeout) {
+                clearTimeout(esgst.qiv.timeout);
+                esgst.qiv.timeout = null;
+            }
+            esgst.qiv.exitTimeout = setTimeout(() => {
+                if (esgst.qiv.popout && !esgst.qiv.popout.popout.contains(event.relatedTarget)) {
+                    esgst.qiv.popout.close();
+                }
+            }, 1000);
+        });
+    }
+
+    function openQivPopout() {
+        esgst.qiv.timeout = setTimeout(() => {
+            if (esgst.qiv.popout) {
+                esgst.qiv.popout.open(esgst.inboxButton);
+            } else {
+                esgst.qiv.popout = new Popout(`esgst-qiv-popout`, null, 1000);
+                esgst.qiv.popout.open(esgst.inboxButton);
+                if (esgst.messageCount > 0) {
+                    let button, key, url;
+                    if (esgst.sg) {
+                        button = insertHtml(esgst.qiv.popout.popout, `beforeEnd`, `
+                            <div class="sidebar__action-button">
+                                <i class="fa fa-check-circle"></i> Mark as Read
+                            </div>
+                        `);
+                        key = `read_messages`;
+                        url = `/messages`;
+                    } else {
+                        button = insertHtml(esgst.qiv.popout.popout, `afterEnd`, `
+                            <a class="page_heading_btn green">
+                                <i class="fa fa-check-square-o"></i>
+                                <span>Mark as Read</span>
+                            </a>
+                        `);
+                        key = `mark_as_read`;
+                        url = `/ajax.php`;
+                    }
+                    button.addEventListener(`click`, async () => {
+                        await request_v2({data: `xsrf_token=${esgst.xsrfToken}&do=${key}`, method: `POST`, url});
+                        button.remove();
+                    });
+                }
+                esgst.qiv.popout.popout.addEventListener(`scroll`, scrollQivPopout.bind(null, false));
+                scrollQivPopout(true);
+            }
+            esgst.qiv.popout.popout.onmouseenter = () => {
+                if (esgst.qiv.exitTimeout) {
+                    clearTimeout(esgst.qiv.exitTimeout);
+                    esgst.qiv.exitTimeout = null;
+                }
+            };
+        }, 1000);
+    }
+
+    async function scrollQivPopout(first) {
+        if ((first || esgst.qiv.popout.popout.scrollTop + esgst.qiv.popout.popout.offsetHeight >= esgst.qiv.popout.popout.scrollHeight) && !esgst.qiv.busy) {
+            esgst.qiv.busy = true;
+            let loading = insertHtml(esgst.qiv.popout.popout, `beforeEnd`, `<span><i class="fa fa-circle-o-notch fa-spin"></i> Loading...</span>`);
+            let element = parseHtml((await request_v2({method: `GET`, url: `/messages/search?page=${esgst.qiv.nextPage}`})).responseText).querySelector(`.page__heading, .page_heading`).nextElementSibling;
+            loading.remove();
+            esgst.qiv.popout.popout.appendChild(element);
+            await loadEndlessFeatures(element);
+            esgst.qiv.popout.reposition();
+            esgst.qiv.busy = false;
+            esgst.qiv.nextPage += 1;
+        }
+    }
+
     /* [RADB] Refresh Active Discussions Button */
 
     function addRadbButtons() {
@@ -25106,11 +25200,9 @@ Parsedown = (() => {
                 for (j = 0, numReplies = saved[id].length; j < numReplies; ++j) {
                     insertHtml(children, `beforeEnd`, saved[id][j].reply).querySelector(`[data-timestamp]`).textContent = getTimeSince(saved[id][j].timestamp);
                 }
-                if (main) {
-                    children.setAttribute(`data-rfi`, true);
-                    await loadEndlessFeatures(children);
-                    children.removeAttribute(`data-rfi`);
-                }
+                children.setAttribute(`data-rfi`, true);
+                await loadEndlessFeatures(children);
+                children.removeAttribute(`data-rfi`);
             }
         }
         for (key in saved) {
@@ -30371,7 +30463,7 @@ Parsedown = (() => {
             }
         }
         if (esgst.ct) {
-            if (esgst.inboxPath) {
+            if (!main || esgst.inboxPath) {
                 count = 0;
             } else {
                 count = context.getElementsByClassName(`page__heading__breadcrumbs`)[1];
@@ -30383,8 +30475,13 @@ Parsedown = (() => {
             }
             getCtComments(count, comments);
         }
-        if (esgst.rfi && esgst.rfi_s && esgst.inboxPath && (!context.getAttribute || !context.getAttribute(`data-rfi`))) {
-            await getRfiReplies(comments, main);
+        if (esgst.rfi) {
+            if (!esgst.inboxPath && !main && !esgst.mr) {
+                getMrRfiButtons(context, main);
+            }
+            if (esgst.rfi_s && (!main || esgst.inboxPath) && (!context.getAttribute || !context.getAttribute(`data-rfi`))) {
+                await getRfiReplies(comments, main);
+            }
         }
         for (let i = 0, n = esgst.commentFeatures.length; i < n; i++) {
             await esgst.commentFeatures[i](comments, main);
@@ -30419,7 +30516,7 @@ Parsedown = (() => {
                 var uf = savedUser.uf, comments, extraCount;
                 if (esgst.uf_p && savedUser.blacklisted && !uf) {
                     comments = comment.comment.closest(`.comments`);
-                    if (esgst.inboxPath) {
+                    if (!main || esgst.inboxPath) {
                         updateUfCount(comments.parentElement.nextElementSibling);
                         comment.comment.parentElement.remove();
                         if (!comments.children.length) {
@@ -30439,7 +30536,7 @@ Parsedown = (() => {
                 } else if (uf && uf.posts) {
                     comments = comment.comment.closest(`.comments`);
                     updateUfCount(comment.comment.closest(`.comments`).nextElementSibling);
-                    if (esgst.inboxPath) {
+                    if (!main || esgst.inboxPath) {
                         updateUfCount(comments.parentElement.nextElementSibling);
                         comment.comment.parentElement.remove();
                         if (!comments.children.length) {
@@ -30467,7 +30564,7 @@ Parsedown = (() => {
         }
         comment.id = comment.permalink ? comment.permalink.getAttribute(`href`).match(/\/comment\/(.+)/)[1] : ``;
         comment.timestamp = parseInt(comment.actions.firstElementChild.lastElementChild.getAttribute(`data-timestamp`));
-        if (main && esgst.inboxPath) {
+        if (!main || esgst.inboxPath) {
             if (esgst.sg) {
                 source = comment.comment.closest(`.comments`).previousElementSibling.firstElementChild.firstElementChild.getAttribute(`href`);
             } else {
@@ -37111,6 +37208,12 @@ Parsedown = (() => {
             `;
         }
         style += `
+            .esgst-qiv-popout {
+                height: 600px !important;
+                width: 600px;
+                overflow-y: auto;
+            }
+
             .esgst-giveaway-column-button {
                 border: 0;
                 padding: 0;
