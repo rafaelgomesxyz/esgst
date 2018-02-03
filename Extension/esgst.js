@@ -1360,6 +1360,11 @@ Parsedown = (() => {
                         }
                     }, this.hoverSpeed);
                 });
+                document.addEventListener(`click`, event => {
+                    if (this.context && !this.context.contains(event.target) && !this.popout.contains(event.target)) {
+                        this.close();
+                    }
+                });
             } else {
                 if (this.context) {
                     this.context.addEventListener(`click`, () => {
@@ -1958,7 +1963,7 @@ Parsedown = (() => {
             sg: location.hostname.match(/www.steamgifts.com/),
             st: location.hostname.match(/www.steamtrades.com/),
             currentVersion: `7.14.1`,
-            devVersion: `7.14.2 (Dev.1)`,
+            devVersion: `7.14.2 (Dev.2)`,
             icon: `data:image/x-icon;base64,AAABAAEAEBAAAAEAIABoBAAAFgAAACgAAAAQAAAAIAAAAAEAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAqv8DCbP/Hgeq+CQIrf8iCK3/Igit/yIIrf8iB6//Iwit9x8Aqv8DAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAKr0GAa2/c0DvfzfA7f83QO3/N0Dt/zdA7f83QO+/d4Gs/3OAKP1GQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACm/xQFs/n2Bcf//wW///8FwP//BcD//wW///8Fx///BbP69gC2/xUAAAAAAAAAAAAAAAAA/1UDFptOFxSZMxkLpJktAq720QW1+ugEsfvjA7b92wO2/dsEsfvjBbX66Aau/dEoiO4tUlLWGU5k3hdVVf8DEJxKHxWqT8cVrU7uE6VN0guqny0Apv8XAJfQGwBAVywAQFcsAJfQGwCx/xcogugtS2Lk0lBl6u5Qae7ISmPeHxagSSMVr07jF7lV/xOiSu0brgATAAAAAAAAAA8AAAC/AAAAwAAAABAAAAAAYznjEkth4OxWb/3/T2jv40lf4iMXnksiEq1O3RayUv8UpEnkEo0+HQAAABkAAABBAAAA8QAAAPEAAABBAAAAGUBSvxxOYeDjU2v0/05m7d1LYuEiF55LIhKtTt0Ws1L/FahN2gU1FTAAAADAAAAA7AAAAP0AAAD9AAAA7AAAAMAVG0owUGPm2lNr9P9OZu3dS2LhIheeSyISrU7dFrNS/xWoTdoFNRswAAAAvwAAAOsAAAD9AAAA/QAAAOsAAADAFRtKMFBj6NpTa/T/Tmbt3Uti4SIXnksiEq1O3RayUv8UpEnkEo0+HQAAABgAAABAAAAA8QAAAPEAAABBAAAAGT5PuR1OYeDjU2v0/05m7d1LYuEiFqBJIxWuT+QXuVX/E6JL7QC8XhMAAAAAAAAADwAAAL8AAAC/AAAAEAAAAAAOR/8SSWLh7FZv/f9PaO/jSV/iIxCUSh8Vrk7HFqxN7ROlS9JskzMt1XULGK12EhxGLgYsRy8GK612EhzVgAsYgmxxLU1i39JNZ+vtT2fwx0pj1h8AqlUDF65GFgqZUhlsiC0txH0T0s5/EujJgBPkz4QR28+EEdvJgBPkzn8Q6Md+E9KLdHosM1LWGUZo6BZVVf8DAAAAAAAAAAAAAAAA/2YAFMl9EvbgjRb/14gV/9eIFf/XiBX/14gV/9+NFv/KgBD254YAFQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAL91FRjKgRHN1IgU3s+EEt3PhBLdz4QS3c+EEt3UiBTezYMRzcJ6FBkAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACqqgADxIARHr18FiO8eA8ivHgPIrx4DyK8eA8ivXwPI8SAER7/VQADAAAAAAAAAAAAAAAA78cAAPA3AAD4FwAABCAAADGOAAAE+AAAkBEAAJ55AACYOQAAlgEAAER4AAAXaAAATnoAAPgXAAD0JwAA69cAAA==`,
             sgIcon: `data:image/x-icon;base64,AAABAAEAEBAAAAEAIABoBAAAFgAAACgAAAAQAAAAIAAAAAEAIAAAAAAAQAQAABMLAAATCwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIUAAAD5AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAPoAAACFAAAAAAAAAAAAAAD8AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA+QAAAAAAAAAAAAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAAAAAAAAAAAAP8AAAD/AAAA/wAAABwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAcAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAcAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAHAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAAAAAAAAAAAAPwAAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD5AAAAAAAAAAAAAACFAAAA+QAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD5AAAAhQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA//8AAP//AADAAwAAwAMAAMfjAADP8wAAz/MAAM/zAADP8wAAz/MAAM/zAADH4wAAwAMAAMADAAD//wAA//8AAA==`,
             stIcon: `data:image/x-icon;base64,AAABAAEAEBAAAAEAIABoBAAAFgAAACgAAAAQAAAAIAAAAAEAIAAAAAAAQAQAABMLAAATCwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABbD6SgWw+ucFsPrkBbD6SgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAWw+uYFsPr/BbD6/wWw+ucAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAFsPrmBbD6/wWw+v8FsPrmAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABbD6SQWw+uYFsPrmBbD6SQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAFKRLShSkS+cUpEvkFKRLSgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAExi4EpMYuDnTGLg5Exi4EoAAAAAAAAAABSkS+YUpEv/FKRL/xSkS+cAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABMYuDmTGLg/0xi4P9MYuDnAAAAAAAAAAAUpEvmFKRL/xSkS/8UpEvmAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAATGLg5kxi4P9MYuD/TGLg5gAAAAAAAAAAFKRLSRSkS+YUpEvmFKRLSQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAExi4ElMYuDmTGLg5kxi4EkAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAMZ9E0rGfRPnxn0T5MZ9E0oAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADGfRPmxn0T/8Z9E//GfRPnAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAxn0T5sZ9E//GfRP/xn0T5gAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAMZ9E0nGfRPmxn0T5sZ9E0kAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA//8AAPw/AAD8PwAA/D8AAPw/AAD//wAAh+EAAIfhAACH4QAAh+EAAP//AAD8PwAA/D8AAPw/AAD8PwAA//8AAA==`,
@@ -2501,8 +2506,21 @@ Parsedown = (() => {
                                     <li>Allows you to view your messages from any page without visiting the inbox.</li>
                                 </ul>
                             `,
+                            features: {
+                                qiv_p: {
+                                    description: `
+                                        <ul>
+                                            <li>Preloads the first page so that you don't have to wait for it to load after hovering over the inbox button (this can slow down page loads though).</li>
+                                        </ul>
+                                    `,
+                                    name: `Preload first page.`,
+                                    new: true,
+                                    sg: true,
+                                    st: true
+                                }
+                            },
                             name: `Quick Inbox View`,
-                            new: true,
+                            newBelow: true,
                             sg: true,
                             st: true
                         },
@@ -6167,7 +6185,7 @@ Parsedown = (() => {
         if (esgst.hcp) loadHcp();
         if (esgst.hfc) loadHfc();
         if (esgst.hr) loadHr();
-        if (esgst.qiv) loadQiv();
+        if (esgst.qiv) loadQiv(true);
         if (esgst.ib) loadIb();
         if (esgst.lpl) loadLpl();
         if (esgst.lpv) loadLpv();
@@ -20976,6 +20994,13 @@ Parsedown = (() => {
         await refreshHeaderElements(document);
         if (esgst.qiv) {
             loadQiv();
+            if (esgst.messageCount > 0) {
+                esgst.qiv.nextPage = 1;
+                esgst.qiv.popout.popout.innerHTML = ``;
+                esgst.qiv.markReadButton = null;
+                addQivMarkReadButton();
+                scrollQivPopout(true);
+            }
         }
         if (esgst.hr) {
             notifyHrChange(hr, notify);
@@ -24849,12 +24874,20 @@ Parsedown = (() => {
 
     /* [QIV] Quick Inbox View */
 
-    function loadQiv() {
+    function loadQiv(first) {
         if (!esgst.inboxButton) return;
-        if (!esgst.qiv.nextPage) {
+        if (first) {
             esgst.qiv = {
                 nextPage: 1
             };
+            if (esgst.qiv_p) {            
+                esgst.qiv.popout = new Popout(`esgst-qiv-popout`, null, 1000);
+                if (esgst.messageCount > 0) {
+                    addQivMarkReadButton();
+                }
+                esgst.qiv.popout.popout.addEventListener(`scroll`, scrollQivPopout.bind(null, false));
+                scrollQivPopout(true);
+            }
         }
         esgst.inboxButton.addEventListener(`mouseenter`, openQivPopout);
         esgst.inboxButton.addEventListener(`mouseleave`, event => {
@@ -24874,38 +24907,18 @@ Parsedown = (() => {
         esgst.qiv.timeout = setTimeout(() => {
             if (esgst.qiv.popout) {
                 esgst.qiv.popout.open(esgst.inboxButton);
-                if (esgst.messageCount > 0) {
-                    esgst.qiv.popout.popout.innerHTML = ``;
+                if (esgst.messageCount > 0 && !esgst.qiv_p) {
                     esgst.qiv.nextPage = 1;
+                    esgst.qiv.popout.popout.innerHTML = ``;
+                    esgst.qiv.markReadButton = null;
+                    addQivMarkReadButton();
                     scrollQivPopout(true);
                 }
             } else {
                 esgst.qiv.popout = new Popout(`esgst-qiv-popout`, null, 1000);
                 esgst.qiv.popout.open(esgst.inboxButton);
                 if (esgst.messageCount > 0) {
-                    let button, key, url;
-                    if (esgst.sg) {
-                        button = insertHtml(esgst.qiv.popout.popout, `beforeEnd`, `
-                            <div class="sidebar__action-button">
-                                <i class="fa fa-check-circle"></i> Mark as Read
-                            </div>
-                        `);
-                        key = `read_messages`;
-                        url = `/messages`;
-                    } else {
-                        button = insertHtml(esgst.qiv.popout.popout, `afterEnd`, `
-                            <a class="page_heading_btn green">
-                                <i class="fa fa-check-square-o"></i>
-                                <span>Mark as Read</span>
-                            </a>
-                        `);
-                        key = `mark_as_read`;
-                        url = `/ajax.php`;
-                    }
-                    button.addEventListener(`click`, async () => {
-                        await request_v2({data: `xsrf_token=${esgst.xsrfToken}&do=${key}`, method: `POST`, url});
-                        button.remove();
-                    });
+                    addQivMarkReadButton();
                 }
                 esgst.qiv.popout.popout.addEventListener(`scroll`, scrollQivPopout.bind(null, false));
                 scrollQivPopout(true);
@@ -24927,10 +24940,50 @@ Parsedown = (() => {
             loading.remove();
             esgst.qiv.popout.popout.appendChild(element);
             await loadEndlessFeatures(element);
-            esgst.qiv.popout.reposition();
+            if (esgst.qiv.popout.isOpen) {
+                esgst.qiv.popout.reposition();
+            }
             esgst.qiv.busy = false;
             esgst.qiv.nextPage += 1;
         }
+    }
+
+    function addQivMarkReadButton() {        
+        let button, key, url;
+        if (esgst.qiv.markReadButton) return;
+        if (esgst.sg) {
+            esgst.qiv.markReadButton = insertHtml(esgst.qiv.popout.popout, `afterBegin`, `
+                <div class="sidebar__action-button">
+                    <i class="fa fa-check-circle"></i> Mark as Read
+                </div>
+            `);
+            key = `read_messages`;
+            url = `/messages`;
+        } else {
+            esgst.qiv.markReadButton = insertHtml(esgst.qiv.popout.popout, `afterBegin`, `
+                <a class="page_heading_btn green">
+                    <i class="fa fa-check-square-o"></i>
+                    <span>Mark as Read</span>
+                </a>
+            `);
+            key = `mark_as_read`;
+            url = `/ajax.php`;
+        }
+        esgst.qiv.markReadButton.addEventListener(`click`, async () => {
+            await request_v2({data: `xsrf_token=${esgst.xsrfToken}&do=${key}`, method: `POST`, url});
+            esgst.qiv.markReadButton.remove();
+            esgst.qiv.markReadButton = null;
+            let elements = esgst.qiv.popout.popout.querySelectorAll(`.comment__envelope`);
+            for (let i = elements.length - 1; i > -1; i--) {
+                elements[i].remove();
+            }
+            esgst.inboxButton.classList.remove(`nav__button-container--active`);
+            esgst.messageCountContainer.remove();
+            esgst.messageCount = 0;
+            if (esgst.hr) {
+                notifyHrChange(esgst.hr);
+            }
+        });
     }
 
     /* [RADB] Refresh Active Discussions Button */
