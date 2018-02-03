@@ -25,6 +25,7 @@ chrome.runtime.onMessage.addListener((request, sender, callback) => {
 });
 
 async function getTabs(request) {
+    console.log(request);
     let items = [
         {id: `inbox_sg`, pattern: `*://*.steamgifts.com/messages*`, url: `https://www.steamgifts.com/messages`},
         {id: `inbox_st`, pattern: `*://*.steamtrades.com/messages*`, url: `https://www.steamtrades.com/messages`},
@@ -38,6 +39,7 @@ async function getTabs(request) {
             continue;
         }
         let tab = (await queryTabs({url: item.pattern}))[0];
+        console.log(tab);
         if (tab && tab.id) {
             chrome.tabs.update(tab.id, {active: true});
             if (request.refresh) {
@@ -51,6 +53,7 @@ async function getTabs(request) {
     }
     if (any) {
         let tab = (await queryTabs({url: `*://*.steamgifts.com/*`}))[0];
+        console.log(tab);
         if (tab && tab.id) {
             chrome.tabs.update(tab.id, {active: true});
         }
