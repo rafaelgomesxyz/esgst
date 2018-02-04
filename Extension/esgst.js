@@ -13431,7 +13431,6 @@ Parsedown = (() => {
             giveaway.elgbButton.addEventListener(`dragstart`, setGiveawaySource.bind(null, giveaway));
             giveaway.elgbButton.addEventListener(`dragenter`, getGiveawaySource.bind(null, giveaway, false));
             giveaway.elgbButton.addEventListener(`dragend`, saveGiveawaySource.bind(null, giveaway));
-            reorderGiveaway(giveaway);
         }
     }
 
@@ -19103,7 +19102,6 @@ Parsedown = (() => {
                 buttonSet.addEventListener(`dragstart`, setGiveawaySource.bind(null, giveaway));
                 buttonSet.addEventListener(`dragenter`, getGiveawaySource.bind(null, giveaway, false));
                 buttonSet.addEventListener(`dragend`, saveGiveawaySource.bind(null, giveaway));
-                reorderGiveaway(giveaway);
             }
         }
     }
@@ -20164,10 +20162,7 @@ Parsedown = (() => {
             </div>
         `);
         creator.appendChild(giveaway.creatorContainer);
-        new Popout(``, giveaway.outerWrap, 100, false, giveaway.summary);        
-        if (!main || esgst.giveawaysPath || esgst.userPath || esgst.groupPath) {
-            reorderGiveaway(giveaway);
-        }
+        new Popout(``, giveaway.outerWrap, 100, false, giveaway.summary);
     }
 
     /* [GWC] Giveaway Winning Chance */
@@ -20189,7 +20184,6 @@ Parsedown = (() => {
                     context.addEventListener(`dragstart`, setGiveawaySource.bind(null, giveaway));
                     context.addEventListener(`dragenter`, getGiveawaySource.bind(null, giveaway, false));
                     context.addEventListener(`dragend`, saveGiveawaySource.bind(null, giveaway));
-                    reorderGiveaway(giveaway);
                 }
             } else {
                 giveaway.chance = 100;
@@ -20289,7 +20283,6 @@ Parsedown = (() => {
                 context.addEventListener(`dragstart`, setGiveawaySource.bind(null, giveaway));
                 context.addEventListener(`dragenter`, getGiveawaySource.bind(null, giveaway, false));
                 context.addEventListener(`dragend`, saveGiveawaySource.bind(null, giveaway));
-                reorderGiveaway(giveaway);
             }
         }
     }
@@ -26256,7 +26249,6 @@ Parsedown = (() => {
                             giveaway.ttec.addEventListener(`dragstart`, setGiveawaySource.bind(null, giveaway));
                             giveaway.ttec.addEventListener(`dragenter`, getGiveawaySource.bind(null, giveaway, false));
                             giveaway.ttec.addEventListener(`dragend`, saveGiveawaySource.bind(null, giveaway));
-                            reorderGiveaway(giveaway);
                         }
                     }
                     giveaway.ttec.classList.remove(`esgst-hidden`);
@@ -29352,6 +29344,9 @@ Parsedown = (() => {
         if (esgst.ttec) {
             calculateTtecTime(giveaways);
         }
+        if (!main || esgst.giveawaysPath || esgst.userPath || esgst.groupPath) {
+            giveaways.forEach(giveaway => reorderGiveaway(giveaway));
+        }
         if (esgst.ggl) {
             if (esgst.ggl_index === 0) {
                 getGglGiveaways(giveaways);
@@ -29676,7 +29671,6 @@ Parsedown = (() => {
             if (giveaway.panel) {
                 giveaway.panel.addEventListener(`dragenter`, getGiveawaySource.bind(null, giveaway, true));
             }
-            reorderGiveaway(giveaway);
         }
         if (esgst.gf && esgst.gf_s) {
             getGfGiveaways(giveaway, main, source);
