@@ -19192,6 +19192,7 @@ Parsedown = (() => {
             <div class="table__column--width-small text-center">Received</div>
             <div class="table__column--width-small text-center">Gift Difference</div>
             <div class="table__column--width-small text-center">Value Difference</div>
+            <div class="table__column--width-small text-center">Users</div>
         `);
         esgst.endlessFeatures.push(getGsGroups);
         getGsGroups(document);
@@ -19205,12 +19206,16 @@ Parsedown = (() => {
     }
 
     async function addGsStatus(context) {
-        let element = parseHtml((await request({method: `GET`, url: `${context.getElementsByClassName(`table__column__heading`)[0].getAttribute(`href`)}/users/search?q=${esgst.username}`})).responseText).getElementsByClassName(`table__row-inner-wrap`)[0];
+        let responseHtml = parseHtml((await request({method: `GET`, url: `${context.getElementsByClassName(`table__column__heading`)[0].getAttribute(`href`)}/users/search?q=${esgst.username}`})).responseText);
+        let element = responseHtml.getElementsByClassName(`table__row-inner-wrap`)[0];
         if (!element || element.getElementsByClassName(`table__column__heading`)[0].textContent !== esgst.username) return;
         let elements = element.getElementsByClassName(`table__column--width-small`);
         for (let i = 0, n = elements.length; i < n; i++) {
             context.appendChild(elements[0]);
         }
+        context.insertAdjacentHTML(`beforeEnd`, `
+            <div class="table__column--width-small text-center">${responseHtml.getElementsByClassName(`sidebar__navigation__item__count`)[1].textContent}</div>
+        `);
     }
 
     /* [GT] Game Tags */
