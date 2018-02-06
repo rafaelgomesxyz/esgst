@@ -1149,8 +1149,12 @@ Parsedown = (() => {
                 red: `sidebar__error`,
                 yellow: `sidebar__entry-delete`
             };
-            this.set = document.createElement(`div`);
-            this.set.className = `esgst-button-set`;
+            if (details.set) {
+                this.set = details.set;
+            } else {
+                this.set = document.createElement(`div`);
+                this.set.className = `esgst-button-set`;
+            }
             this.set.innerHTML = `
                 <div class="${classes[details.color1]} btn_action ${details.color1}">
                     <i class="fa ${details.icon1}"></i>
@@ -1970,7 +1974,7 @@ Parsedown = (() => {
             sg: location.hostname.match(/www.steamgifts.com/),
             st: location.hostname.match(/www.steamtrades.com/),
             currentVersion: `7.14.1`,
-            devVersion: `7.14.2 (Dev.24)`,
+            devVersion: `7.14.2 (Dev.25)`,
             icon: `data:image/x-icon;base64,AAABAAEAEBAAAAEAIABoBAAAFgAAACgAAAAQAAAAIAAAAAEAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAqv8DCbP/Hgeq+CQIrf8iCK3/Igit/yIIrf8iB6//Iwit9x8Aqv8DAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAKr0GAa2/c0DvfzfA7f83QO3/N0Dt/zdA7f83QO+/d4Gs/3OAKP1GQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACm/xQFs/n2Bcf//wW///8FwP//BcD//wW///8Fx///BbP69gC2/xUAAAAAAAAAAAAAAAAA/1UDFptOFxSZMxkLpJktAq720QW1+ugEsfvjA7b92wO2/dsEsfvjBbX66Aau/dEoiO4tUlLWGU5k3hdVVf8DEJxKHxWqT8cVrU7uE6VN0guqny0Apv8XAJfQGwBAVywAQFcsAJfQGwCx/xcogugtS2Lk0lBl6u5Qae7ISmPeHxagSSMVr07jF7lV/xOiSu0brgATAAAAAAAAAA8AAAC/AAAAwAAAABAAAAAAYznjEkth4OxWb/3/T2jv40lf4iMXnksiEq1O3RayUv8UpEnkEo0+HQAAABkAAABBAAAA8QAAAPEAAABBAAAAGUBSvxxOYeDjU2v0/05m7d1LYuEiF55LIhKtTt0Ws1L/FahN2gU1FTAAAADAAAAA7AAAAP0AAAD9AAAA7AAAAMAVG0owUGPm2lNr9P9OZu3dS2LhIheeSyISrU7dFrNS/xWoTdoFNRswAAAAvwAAAOsAAAD9AAAA/QAAAOsAAADAFRtKMFBj6NpTa/T/Tmbt3Uti4SIXnksiEq1O3RayUv8UpEnkEo0+HQAAABgAAABAAAAA8QAAAPEAAABBAAAAGT5PuR1OYeDjU2v0/05m7d1LYuEiFqBJIxWuT+QXuVX/E6JL7QC8XhMAAAAAAAAADwAAAL8AAAC/AAAAEAAAAAAOR/8SSWLh7FZv/f9PaO/jSV/iIxCUSh8Vrk7HFqxN7ROlS9JskzMt1XULGK12EhxGLgYsRy8GK612EhzVgAsYgmxxLU1i39JNZ+vtT2fwx0pj1h8AqlUDF65GFgqZUhlsiC0txH0T0s5/EujJgBPkz4QR28+EEdvJgBPkzn8Q6Md+E9KLdHosM1LWGUZo6BZVVf8DAAAAAAAAAAAAAAAA/2YAFMl9EvbgjRb/14gV/9eIFf/XiBX/14gV/9+NFv/KgBD254YAFQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAL91FRjKgRHN1IgU3s+EEt3PhBLdz4QS3c+EEt3UiBTezYMRzcJ6FBkAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACqqgADxIARHr18FiO8eA8ivHgPIrx4DyK8eA8ivXwPI8SAER7/VQADAAAAAAAAAAAAAAAA78cAAPA3AAD4FwAABCAAADGOAAAE+AAAkBEAAJ55AACYOQAAlgEAAER4AAAXaAAATnoAAPgXAAD0JwAA69cAAA==`,
             sgIcon: `data:image/x-icon;base64,AAABAAEAEBAAAAEAIABoBAAAFgAAACgAAAAQAAAAIAAAAAEAIAAAAAAAQAQAABMLAAATCwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIUAAAD5AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAPoAAACFAAAAAAAAAAAAAAD8AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA+QAAAAAAAAAAAAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAAAAAAAAAAAAP8AAAD/AAAA/wAAABwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAcAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAcAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAHAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAAAAAAAAAAAAPwAAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD5AAAAAAAAAAAAAACFAAAA+QAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD5AAAAhQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA//8AAP//AADAAwAAwAMAAMfjAADP8wAAz/MAAM/zAADP8wAAz/MAAM/zAADH4wAAwAMAAMADAAD//wAA//8AAA==`,
             stIcon: `data:image/x-icon;base64,AAABAAEAEBAAAAEAIABoBAAAFgAAACgAAAAQAAAAIAAAAAEAIAAAAAAAQAQAABMLAAATCwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABbD6SgWw+ucFsPrkBbD6SgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAWw+uYFsPr/BbD6/wWw+ucAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAFsPrmBbD6/wWw+v8FsPrmAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABbD6SQWw+uYFsPrmBbD6SQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAFKRLShSkS+cUpEvkFKRLSgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAExi4EpMYuDnTGLg5Exi4EoAAAAAAAAAABSkS+YUpEv/FKRL/xSkS+cAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABMYuDmTGLg/0xi4P9MYuDnAAAAAAAAAAAUpEvmFKRL/xSkS/8UpEvmAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAATGLg5kxi4P9MYuD/TGLg5gAAAAAAAAAAFKRLSRSkS+YUpEvmFKRLSQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAExi4ElMYuDmTGLg5kxi4EkAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAMZ9E0rGfRPnxn0T5MZ9E0oAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADGfRPmxn0T/8Z9E//GfRPnAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAxn0T5sZ9E//GfRP/xn0T5gAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAMZ9E0nGfRPmxn0T5sZ9E0kAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA//8AAPw/AAD8PwAA/D8AAPw/AAD//wAAh+EAAIfhAACH4QAAh+EAAP//AAD8PwAA/D8AAPw/AAD8PwAA//8AAA==`,
@@ -13392,15 +13396,15 @@ Parsedown = (() => {
     }
 
     function addElgbButton(giveaway, main, source) {
-        if (giveaway.elgbButton) {
-            giveaway.elgbButton.remove();
-        }
+        let doAppend = !giveaway.elgbButton;
         if (giveaway.entered) {
-            giveaway.elgbButton = new ButtonSet(`yellow`, `grey`, `fa-minus-circle`, `fa-circle-o-notch fa-spin`, `Leave`, `Leaving...`, leaveElgbGiveaway.bind(null, giveaway, main, source)).set;
+            giveaway.elgbButton = new ButtonSet_v2({color1: `yellow`, color2: `grey`, icon1: `fa-minus-circle`, icon2: `fa-circle-o-notch fa-spin`, title1: `Leave`, title2: `Leaving...`, callback1: leaveElgbGiveaway.bind(null, giveaway, main, source), set: giveaway.elgbButton}).set;
             giveaway.elgbButton.removeAttribute(`title`);
         } else if (giveaway.error) {
-            giveaway.elgbButton = document.createElement(`div`);
-            giveaway.elgbButton.className = `esgst-button-set`;
+            if (!giveaway.elgbButton) {
+                giveaway.elgbButton = document.createElement(`div`);
+                giveaway.elgbButton.className = `esgst-button-set`;
+            }
             giveaway.elgbButton.innerHTML = `
                 <div class="sidebar__error is-disabled">
                     <i class="fa fa-exclamation-circle"></i>
@@ -13408,29 +13412,31 @@ Parsedown = (() => {
                 </div>
             `;
         } else if (giveaway.noPoints) {
-            giveaway.elgbButton = new ButtonSet(`red`, `grey`, `fa-plus-circle`, `fa-circle-o-notch fa-spin`, `Enter`, `Entering...`, enterElgbGiveaway.bind(null, giveaway, main, null, source)).set;
+            giveaway.elgbButton = new ButtonSet_v2({color1: `red`, color2: `grey`, icon1: `fa-plus-circle`, icon2: `fa-circle-o-notch fa-spin`, title1: `Enter`, title2: `Entering...`, callback1: enterElgbGiveaway.bind(null, giveaway, main, null, source), set: giveaway.elgbButton}).set;
             giveaway.elgbButton.setAttribute(`title`, `Not Enough Points`);
         } else {
             if (giveaway.points <= esgst.points) {
-                giveaway.elgbButton = new ButtonSet(`green`, `grey`, `fa-plus-circle`, `fa-circle-o-notch fa-spin`, `Enter`, `Entering...`, enterElgbGiveaway.bind(null, giveaway, main, null, source)).set;
+                giveaway.elgbButton = new ButtonSet_v2({color1: `green`, color2: `grey`, icon1: `fa-plus-circle`, icon2: `fa-circle-o-notch fa-spin`, title1: `Enter`, title2: `Entering...`, callback1: enterElgbGiveaway.bind(null, giveaway, main, null, source), set: giveaway.elgbButton}).set;
                 giveaway.elgbButton.removeAttribute(`title`);
             } else {
-                giveaway.elgbButton = new ButtonSet(`red`, `grey`, `fa-plus-circle`, `fa-circle-o-notch fa-spin`, `Enter`, `Entering...`, enterElgbGiveaway.bind(null, giveaway, main, null, source)).set;
+                giveaway.elgbButton = new ButtonSet_v2({color1: `red`, color2: `grey`, icon1: `fa-plus-circle`, icon2: `fa-circle-o-notch fa-spin`, title1: `Enter`, title2: `Entering...`, callback1: enterElgbGiveaway.bind(null, giveaway, main, null, source), set: giveaway.elgbButton}).set;
                 giveaway.elgbButton.setAttribute(`title`, `Not Enough Points`);
             }
         }
-        giveaway.elgbButton.classList.add(`esgst-elgb-button`);
-        if (esgst.gv && ((main && esgst.giveawaysPath) || (source === `gb` && esgst.gv_gb) || (source === `ged` && esgst.gv_ged) || (source === `ge` && esgst.gv_ge))) {
-            giveaway.elgbPanel.insertBefore(giveaway.elgbButton, giveaway.elgbPanel.firstElementChild);
-        } else {
-            giveaway.elgbPanel.appendChild(giveaway.elgbButton);
-        }
-        if (!main || esgst.giveawaysPath || esgst.userPath || esgst.groupPath) {
-            giveaway.elgbButton.setAttribute(`draggable`, true);
-            giveaway.elgbButton.setAttribute(`data-columnId`, `elgb`);
-            giveaway.elgbButton.addEventListener(`dragstart`, setGiveawaySource.bind(null, giveaway));
-            giveaway.elgbButton.addEventListener(`dragenter`, getGiveawaySource.bind(null, giveaway, false));
-            giveaway.elgbButton.addEventListener(`dragend`, saveGiveawaySource.bind(null, giveaway));
+        if (doAppend) {
+            giveaway.elgbButton.classList.add(`esgst-elgb-button`);
+            if (esgst.gv && ((main && esgst.giveawaysPath) || (source === `gb` && esgst.gv_gb) || (source === `ged` && esgst.gv_ged) || (source === `ge` && esgst.gv_ge))) {
+                giveaway.elgbPanel.insertBefore(giveaway.elgbButton, giveaway.elgbPanel.firstElementChild);
+            } else {
+                giveaway.elgbPanel.appendChild(giveaway.elgbButton);
+            }
+            if (!main || esgst.giveawaysPath || esgst.userPath || esgst.groupPath) {
+                giveaway.elgbButton.setAttribute(`draggable`, true);
+                giveaway.elgbButton.setAttribute(`data-columnId`, `elgb`);
+                giveaway.elgbButton.addEventListener(`dragstart`, setGiveawaySource.bind(null, giveaway));
+                giveaway.elgbButton.addEventListener(`dragenter`, getGiveawaySource.bind(null, giveaway, false));
+                giveaway.elgbButton.addEventListener(`dragend`, saveGiveawaySource.bind(null, giveaway));
+            }
         }
     }
 
@@ -13568,7 +13574,9 @@ Parsedown = (() => {
             if (esgst.gfPopup && esgst.gfPopup.filteredCount && esgst[`gf_enable${esgst.gfPopup.type}`]) {
                 filterGfGiveaways(esgst.gfPopup);
             }
-            callback();
+            if (callback) {
+                callback();
+            }
             if (!popup && (!esgst.giveawayPath || !main)) {
                 openElgbPopup(giveaway, main, source);
             }
@@ -13580,7 +13588,9 @@ Parsedown = (() => {
                 giveaway.error = responseJson.msg;
             }
             addElgbButton(giveaway, main, source);
-            callback();
+            if (callback) {
+                callback();
+            }
         }
     }
 
@@ -13606,8 +13616,10 @@ Parsedown = (() => {
             if (esgst.gfPopup && esgst.gfPopup.filteredCount && esgst[`gf_enable${esgst.gfPopup.type}`]) {
                 filterGfGiveaways(esgst.gfPopup);
             }
-            callback();
-        } else {
+            if (callback) {
+                callback();
+            }
+        } else if (callback) {
             callback();
         }
     }
