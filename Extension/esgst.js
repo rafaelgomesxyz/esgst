@@ -1974,7 +1974,7 @@ Parsedown = (() => {
             sg: location.hostname.match(/www.steamgifts.com/),
             st: location.hostname.match(/www.steamtrades.com/),
             currentVersion: `7.14.1`,
-            devVersion: `7.14.2 (Dev.27)`,
+            devVersion: `7.14.2 (Dev.28)`,
             icon: `data:image/x-icon;base64,AAABAAEAEBAAAAEAIABoBAAAFgAAACgAAAAQAAAAIAAAAAEAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAqv8DCbP/Hgeq+CQIrf8iCK3/Igit/yIIrf8iB6//Iwit9x8Aqv8DAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAKr0GAa2/c0DvfzfA7f83QO3/N0Dt/zdA7f83QO+/d4Gs/3OAKP1GQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACm/xQFs/n2Bcf//wW///8FwP//BcD//wW///8Fx///BbP69gC2/xUAAAAAAAAAAAAAAAAA/1UDFptOFxSZMxkLpJktAq720QW1+ugEsfvjA7b92wO2/dsEsfvjBbX66Aau/dEoiO4tUlLWGU5k3hdVVf8DEJxKHxWqT8cVrU7uE6VN0guqny0Apv8XAJfQGwBAVywAQFcsAJfQGwCx/xcogugtS2Lk0lBl6u5Qae7ISmPeHxagSSMVr07jF7lV/xOiSu0brgATAAAAAAAAAA8AAAC/AAAAwAAAABAAAAAAYznjEkth4OxWb/3/T2jv40lf4iMXnksiEq1O3RayUv8UpEnkEo0+HQAAABkAAABBAAAA8QAAAPEAAABBAAAAGUBSvxxOYeDjU2v0/05m7d1LYuEiF55LIhKtTt0Ws1L/FahN2gU1FTAAAADAAAAA7AAAAP0AAAD9AAAA7AAAAMAVG0owUGPm2lNr9P9OZu3dS2LhIheeSyISrU7dFrNS/xWoTdoFNRswAAAAvwAAAOsAAAD9AAAA/QAAAOsAAADAFRtKMFBj6NpTa/T/Tmbt3Uti4SIXnksiEq1O3RayUv8UpEnkEo0+HQAAABgAAABAAAAA8QAAAPEAAABBAAAAGT5PuR1OYeDjU2v0/05m7d1LYuEiFqBJIxWuT+QXuVX/E6JL7QC8XhMAAAAAAAAADwAAAL8AAAC/AAAAEAAAAAAOR/8SSWLh7FZv/f9PaO/jSV/iIxCUSh8Vrk7HFqxN7ROlS9JskzMt1XULGK12EhxGLgYsRy8GK612EhzVgAsYgmxxLU1i39JNZ+vtT2fwx0pj1h8AqlUDF65GFgqZUhlsiC0txH0T0s5/EujJgBPkz4QR28+EEdvJgBPkzn8Q6Md+E9KLdHosM1LWGUZo6BZVVf8DAAAAAAAAAAAAAAAA/2YAFMl9EvbgjRb/14gV/9eIFf/XiBX/14gV/9+NFv/KgBD254YAFQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAL91FRjKgRHN1IgU3s+EEt3PhBLdz4QS3c+EEt3UiBTezYMRzcJ6FBkAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACqqgADxIARHr18FiO8eA8ivHgPIrx4DyK8eA8ivXwPI8SAER7/VQADAAAAAAAAAAAAAAAA78cAAPA3AAD4FwAABCAAADGOAAAE+AAAkBEAAJ55AACYOQAAlgEAAER4AAAXaAAATnoAAPgXAAD0JwAA69cAAA==`,
             sgIcon: `data:image/x-icon;base64,AAABAAEAEBAAAAEAIABoBAAAFgAAACgAAAAQAAAAIAAAAAEAIAAAAAAAQAQAABMLAAATCwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIUAAAD5AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAPoAAACFAAAAAAAAAAAAAAD8AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA+QAAAAAAAAAAAAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAAAAAAAAAAAAP8AAAD/AAAA/wAAABwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAcAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAcAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAHAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAAAAAAAAAAAAPwAAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD5AAAAAAAAAAAAAACFAAAA+QAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD5AAAAhQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA//8AAP//AADAAwAAwAMAAMfjAADP8wAAz/MAAM/zAADP8wAAz/MAAM/zAADH4wAAwAMAAMADAAD//wAA//8AAA==`,
             stIcon: `data:image/x-icon;base64,AAABAAEAEBAAAAEAIABoBAAAFgAAACgAAAAQAAAAIAAAAAEAIAAAAAAAQAQAABMLAAATCwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABbD6SgWw+ucFsPrkBbD6SgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAWw+uYFsPr/BbD6/wWw+ucAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAFsPrmBbD6/wWw+v8FsPrmAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABbD6SQWw+uYFsPrmBbD6SQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAFKRLShSkS+cUpEvkFKRLSgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAExi4EpMYuDnTGLg5Exi4EoAAAAAAAAAABSkS+YUpEv/FKRL/xSkS+cAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABMYuDmTGLg/0xi4P9MYuDnAAAAAAAAAAAUpEvmFKRL/xSkS/8UpEvmAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAATGLg5kxi4P9MYuD/TGLg5gAAAAAAAAAAFKRLSRSkS+YUpEvmFKRLSQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAExi4ElMYuDmTGLg5kxi4EkAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAMZ9E0rGfRPnxn0T5MZ9E0oAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADGfRPmxn0T/8Z9E//GfRPnAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAxn0T5sZ9E//GfRP/xn0T5gAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAMZ9E0nGfRPmxn0T5sZ9E0kAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA//8AAPw/AAD8PwAA/D8AAPw/AAD//wAAh+EAAIfhAACH4QAAh+EAAP//AAD8PwAA/D8AAPw/AAD8PwAA//8AAA==`,
@@ -5337,9 +5337,6 @@ Parsedown = (() => {
                 }
             }
         };
-        try {
-            esgst.audioContext = new AudioContext();
-        } catch (e) {}
         esgst.markdownParser.setBreaksEnabled(true);
         esgst.markdownParser.setMarkupEscaped(true);
         esgst.name = esgst.sg ? `sg` : `st`;
@@ -16576,11 +16573,11 @@ Parsedown = (() => {
         let hasNew = false;
         for (let i = comments.length - 1; i > -1; i--) {
             let comment = comments[i];
-            let icons = comment.comment.getElementsByClassName(`esgst-ged-icon`);
+            let icons = comment.actions.getElementsByClassName(`esgst-ged-icon`);
             for (let j = icons.length - 1; j > -1; j--) {
                 icons[0].remove();
             }
-            let links = comment.comment.querySelectorAll(`[href^="ESGST-"]`);
+            let links = comment.summary.querySelectorAll(`[href^="ESGST-"]`);
             for (let j = links.length - 1; j > -1; j--) {
                 let code = links[j].getAttribute(`href`).match(/ESGST-(.+)/)[1];
                 if (code.match(/currentVersion/)) {
@@ -20527,15 +20524,6 @@ Parsedown = (() => {
             wins: 0
         };
         esgst.hr = hr;
-        if (esgst.audioContext) {
-            let ids = [`hr_fp_s`, `hr_g_n_s`, `hr_m_n_s`, `hr_w_n_s`];
-            for (let i = 0, n = ids.length; i < n; i++) {
-                let id = ids[i];
-                if (esgst[id]) {
-                    hr[id] = await createHrPlayer(esgst.settings[`${id}_sound`] || getHrDefaultSound());
-                }
-            }
-        }
         notifyHrChange(hr);
         setLocalValue(`hrCache`, JSON.stringify(getHrCache()));
         startHeaderRefresher(hr);
@@ -20555,6 +20543,13 @@ Parsedown = (() => {
         let bytes = new Uint8Array(buffer);
         for (let i = buffer.byteLength - 1; i > -1; i--) {
             bytes[i] = binary.charCodeAt(i) & 0xFF;
+        }
+        if (!esgst.audioContext) {
+            try {
+                esgst.audioContext = new AudioContext();
+            } catch (e) {
+                return null;
+            }
         }
         return {
             play: playHrSound.bind(null, await esgst.audioContext.decodeAudioData(buffer))
@@ -20825,6 +20820,37 @@ Parsedown = (() => {
         if (result !== `granted`) {
             return;
         }
+        if ((details.points && esgst.hr_fp_s) || (details.inbox && esgst.hr_m_n_s) || (details.wishlist && esgst.hr_w_n_s) || (details.won && esgst.hr_g_n_s)) {
+            try {
+                if (!esgst.audioContext) {
+                    esgst.audioContext = new AudioContext();
+                    let promises = [];
+                    [`hr_fp_s`, `hr_g_n_s`, `hr_m_n_s`, `hr_w_n_s`].forEach(id => {
+                        if (!esgst[id]) {
+                            promises.push(null);
+                            return;
+                        }
+                        promises.push(createHrPlayer(esgst.settings[`${id}_sound`] || getHrDefaultSound()));
+                    });
+                    [esgst.hr.pointsPlayer, esgst.hr.wonPlayer, esgst.hr.inboxPlayer, esgst.hr.wishlistPlayer] = await Promise.all(promises);
+                }
+                if (details.points && esgst.hr.pointsPlayer) {
+                    esgst.hr.pointsPlayer.play();
+                }
+                if (details.inbox && esgst.hr.inboxPlayer) {
+                    esgst.hr.inboxPlayer.play();
+                }
+                if (details.wishlist && esgst.hr.wishlistPlayer) {
+                    esgst.hr.wishlistPlayer.play();
+                }
+                if (details.won && esgst.hr.wonPlayer) {
+                    esgst.hr.wonPlayer.play();
+                }
+            } catch (e) {
+                console.log(e);
+                details.msg += `\n\nAn error happened when trying to play the sound.`;
+            }
+        }
         let notification = new Notification(`ESGST Notification`, {
             body: details.msg,
             icon: `https://dl.dropboxusercontent.com/s/lr3t3bxrxfxylqe/esgstIcon.ico?raw=1`,
@@ -20847,18 +20873,6 @@ Parsedown = (() => {
             }
             notification.close();
         };
-        if (details.points && esgst.hr.hr_fp_s) {
-            esgst.hr.hr_fp_s.play();
-        }
-        if (details.inbox && esgst.hr.hr_m_n_s) {
-            esgst.hr.hr_m_n_s.play();
-        }
-        if (details.wishlist && esgst.hr.hr_w_n_s) {
-            esgst.hr.hr_w_n_s.play();
-        }
-        if (details.won && esgst.hr.hr_g_n_s) {
-            esgst.hr.hr_g_n_s.play();
-        }
     }
 
     /* [IB] Image Borders */
@@ -30079,9 +30093,7 @@ Parsedown = (() => {
             }
             getCtComments(count, comments);
         }
-        console.log(esgst.rfi);
         if (esgst.rfi) {
-            console.log(esgst.inboxPath, main, esgst.mr);
             if (!esgst.inboxPath && !main && !esgst.mr) {
                 getMrRfiButtons(context, main);
             }
@@ -30162,6 +30174,7 @@ Parsedown = (() => {
                 }
             }
         }
+        comment.summary = comment.comment.querySelector(`.comment__summary`, `.comment_inner`);
         comment.actions = comment.comment.querySelector(`.comment__actions, .action_list`);
         matches = comment.actions.querySelectorAll(`[href*="/comment/"]`);
         n = matches.length;
@@ -30551,10 +30564,16 @@ Parsedown = (() => {
     }
 
     async function loadEndlessFeatures(context, main, source, endless) {
-        esgst.discussions = JSON.parse(await getValue(`discussions`, `{}`));
-        esgst.games = JSON.parse(await getValue(`games`, `{"apps":{},"subs":{}}`));
-        esgst.giveaways = JSON.parse(await getValue(`giveaways`, `{}`));
-        esgst.users = JSON.parse(await getValue(`users`, `{"steamIds":{},"users":{}}`));
+        let values = await getValues({
+            discussions: `{}`,
+            games: `{"apps":{},"subs":{}}`,
+            giveaways: `{}`,
+            users: `{"steamIds":{},"users":{}}`
+        });
+        esgst.discussions = JSON.parse(values.discussions);
+        esgst.games = JSON.parse(values.games);
+        esgst.giveaways = JSON.parse(values.giveaways);
+        esgst.users = JSON.parse(values.users);
         for (let i = 0, n = esgst.endlessFeatures.length; i < n; i++) {
             await esgst.endlessFeatures[i](context, main, source, endless);
         }
@@ -33658,16 +33677,14 @@ Parsedown = (() => {
                     esgst.elgb_filters = input.firstElementChild.value;
                 });
             } else if (ID.match(/^hr_.+_s$/)) {
-                if (esgst.audioContext) {
-                    let play = insertHtml(insertHtml(SMFeatures, `beforeEnd`, `
-                        <div class="esgst-sm-colors"></div>`
-                    ), `beforeEnd`, `
-                        <input type="file" style="width: 200px;">
-                        <i class="fa fa-play-circle esgst-clickable"></i>
-                    `);
-                    play.previousElementSibling.addEventListener(`change`, readHrAudioFile.bind(null, ID));
-                    play.addEventListener(`click`, async () => (await createHrPlayer(esgst.settings[`${ID}_sound`] || getHrDefaultSound())).play());
-                }
+                let play = insertHtml(insertHtml(SMFeatures, `beforeEnd`, `
+                    <div class="esgst-sm-colors"></div>`
+                ), `beforeEnd`, `
+                    <input type="file" style="width: 200px;">
+                    <i class="fa fa-play-circle esgst-clickable"></i>
+                `);
+                play.previousElementSibling.addEventListener(`change`, readHrAudioFile.bind(null, ID));
+                play.addEventListener(`click`, async () => (await createHrPlayer(esgst.settings[`${ID}_sound`] || getHrDefaultSound())).play());
             } else if (ID === `staticPopups_f`) {
                 input = insertHtml(SMFeatures, `beforeEnd`, `
                     <div class="esgst-sm-colors">
