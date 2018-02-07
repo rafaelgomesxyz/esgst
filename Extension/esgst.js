@@ -1974,7 +1974,7 @@ Parsedown = (() => {
             sg: location.hostname.match(/www.steamgifts.com/),
             st: location.hostname.match(/www.steamtrades.com/),
             currentVersion: `7.14.1`,
-            devVersion: `7.14.2 (Dev.30)`,
+            devVersion: `7.14.2 (Dev.31)`,
             icon: `data:image/x-icon;base64,AAABAAEAEBAAAAEAIABoBAAAFgAAACgAAAAQAAAAIAAAAAEAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAqv8DCbP/Hgeq+CQIrf8iCK3/Igit/yIIrf8iB6//Iwit9x8Aqv8DAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAKr0GAa2/c0DvfzfA7f83QO3/N0Dt/zdA7f83QO+/d4Gs/3OAKP1GQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACm/xQFs/n2Bcf//wW///8FwP//BcD//wW///8Fx///BbP69gC2/xUAAAAAAAAAAAAAAAAA/1UDFptOFxSZMxkLpJktAq720QW1+ugEsfvjA7b92wO2/dsEsfvjBbX66Aau/dEoiO4tUlLWGU5k3hdVVf8DEJxKHxWqT8cVrU7uE6VN0guqny0Apv8XAJfQGwBAVywAQFcsAJfQGwCx/xcogugtS2Lk0lBl6u5Qae7ISmPeHxagSSMVr07jF7lV/xOiSu0brgATAAAAAAAAAA8AAAC/AAAAwAAAABAAAAAAYznjEkth4OxWb/3/T2jv40lf4iMXnksiEq1O3RayUv8UpEnkEo0+HQAAABkAAABBAAAA8QAAAPEAAABBAAAAGUBSvxxOYeDjU2v0/05m7d1LYuEiF55LIhKtTt0Ws1L/FahN2gU1FTAAAADAAAAA7AAAAP0AAAD9AAAA7AAAAMAVG0owUGPm2lNr9P9OZu3dS2LhIheeSyISrU7dFrNS/xWoTdoFNRswAAAAvwAAAOsAAAD9AAAA/QAAAOsAAADAFRtKMFBj6NpTa/T/Tmbt3Uti4SIXnksiEq1O3RayUv8UpEnkEo0+HQAAABgAAABAAAAA8QAAAPEAAABBAAAAGT5PuR1OYeDjU2v0/05m7d1LYuEiFqBJIxWuT+QXuVX/E6JL7QC8XhMAAAAAAAAADwAAAL8AAAC/AAAAEAAAAAAOR/8SSWLh7FZv/f9PaO/jSV/iIxCUSh8Vrk7HFqxN7ROlS9JskzMt1XULGK12EhxGLgYsRy8GK612EhzVgAsYgmxxLU1i39JNZ+vtT2fwx0pj1h8AqlUDF65GFgqZUhlsiC0txH0T0s5/EujJgBPkz4QR28+EEdvJgBPkzn8Q6Md+E9KLdHosM1LWGUZo6BZVVf8DAAAAAAAAAAAAAAAA/2YAFMl9EvbgjRb/14gV/9eIFf/XiBX/14gV/9+NFv/KgBD254YAFQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAL91FRjKgRHN1IgU3s+EEt3PhBLdz4QS3c+EEt3UiBTezYMRzcJ6FBkAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACqqgADxIARHr18FiO8eA8ivHgPIrx4DyK8eA8ivXwPI8SAER7/VQADAAAAAAAAAAAAAAAA78cAAPA3AAD4FwAABCAAADGOAAAE+AAAkBEAAJ55AACYOQAAlgEAAER4AAAXaAAATnoAAPgXAAD0JwAA69cAAA==`,
             sgIcon: `data:image/x-icon;base64,AAABAAEAEBAAAAEAIABoBAAAFgAAACgAAAAQAAAAIAAAAAEAIAAAAAAAQAQAABMLAAATCwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIUAAAD5AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAPoAAACFAAAAAAAAAAAAAAD8AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA+QAAAAAAAAAAAAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAAAAAAAAAAAAP8AAAD/AAAA/wAAABwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAcAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAcAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAHAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAAAAAAAAAAAAPwAAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD5AAAAAAAAAAAAAACFAAAA+QAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD5AAAAhQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA//8AAP//AADAAwAAwAMAAMfjAADP8wAAz/MAAM/zAADP8wAAz/MAAM/zAADH4wAAwAMAAMADAAD//wAA//8AAA==`,
             stIcon: `data:image/x-icon;base64,AAABAAEAEBAAAAEAIABoBAAAFgAAACgAAAAQAAAAIAAAAAEAIAAAAAAAQAQAABMLAAATCwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABbD6SgWw+ucFsPrkBbD6SgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAWw+uYFsPr/BbD6/wWw+ucAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAFsPrmBbD6/wWw+v8FsPrmAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABbD6SQWw+uYFsPrmBbD6SQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAFKRLShSkS+cUpEvkFKRLSgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAExi4EpMYuDnTGLg5Exi4EoAAAAAAAAAABSkS+YUpEv/FKRL/xSkS+cAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABMYuDmTGLg/0xi4P9MYuDnAAAAAAAAAAAUpEvmFKRL/xSkS/8UpEvmAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAATGLg5kxi4P9MYuD/TGLg5gAAAAAAAAAAFKRLSRSkS+YUpEvmFKRLSQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAExi4ElMYuDmTGLg5kxi4EkAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAMZ9E0rGfRPnxn0T5MZ9E0oAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADGfRPmxn0T/8Z9E//GfRPnAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAxn0T5sZ9E//GfRP/xn0T5gAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAMZ9E0nGfRPmxn0T5sZ9E0kAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA//8AAPw/AAD8PwAA/D8AAPw/AAD//wAAh+EAAIfhAACH4QAAh+EAAP//AAD8PwAA/D8AAPw/AAD8PwAA//8AAA==`,
@@ -2346,13 +2346,11 @@ Parsedown = (() => {
                                     features: {
                                         hr_fp_s: {
                                             name: `Play a sound with this notification.`,
-                                            new: true,
                                             input: `hr_fp_s_url`,
                                             sg: true
                                         }
                                     },
                                     name: `Show browser notification if there are 400P or more.`,
-                                    newBelow: true,
                                     sg: true
                                 },
                                 hr_g: {
@@ -2366,18 +2364,15 @@ Parsedown = (() => {
                                             features: {
                                                 hr_g_n_s: {
                                                     name: `Play a sound with this notification.`,
-                                                    new: true,
                                                     input: `hr_g_n_s_url`,
                                                     sg: true
                                                 }
                                             },
                                             name: `Also show as a browser notification.`,
-                                            newBelow: true,
                                             sg: true
                                         }
                                     },
                                     name: `Indicate if there are unviewed keys for won gifts in the tab title.`,
-                                    newBelow: true,
                                     sg: true
                                 },
                                 hr_m: {
@@ -2386,20 +2381,17 @@ Parsedown = (() => {
                                             features: {
                                                 hr_m_n_s: {
                                                     name: `Play a sound with this notification.`,
-                                                    new: true,
                                                     input: `hr_m_n_s_url`,
                                                     sg: true,
                                                     st: true
                                                 }
                                             },
                                             name: `Also show as a browser notification.`,
-                                            newBelow: true,
                                             sg: true,
                                             st: true
                                         }
                                     },
                                     name: `Show the number of unread messages in the tab icon.`,
-                                    newBelow: true,
                                     sg: true,
                                     st: true
                                 },
@@ -2418,13 +2410,11 @@ Parsedown = (() => {
                                             features: {
                                                 hr_w_n_s: {
                                                     name: `Play a sound with this notification.`,
-                                                    new: true,
                                                     input: `hr_w_n_s_url`,
                                                     sg: true
                                                 }
                                             },
                                             name: `Also show as a browser notification.`,
-                                            newBelow: true,
                                             sg: true
                                         },
                                         hr_w_h: {
@@ -2434,13 +2424,11 @@ Parsedown = (() => {
                                         }
                                     },
                                     name: `Indicate if there are unentered wishlist giveaways open.`,
-                                    newBelow: true,
                                     sg: true
                                 }
                             },
                             input: true,
                             name: `Header Refresher`,
-                            newBelow: true,
                             sg: true,
                             st: true
                         },
@@ -2981,6 +2969,11 @@ Parsedown = (() => {
                                             name: `Points`,
                                             sg: true
                                         },
+                                        gf_comments: {
+                                            name: `Comments`,
+                                            new: true,
+                                            sg: true
+                                        },
                                         gf_minutesToEnd: {
                                             name: `Minutes To End`,
                                             sg: true
@@ -3003,6 +2996,11 @@ Parsedown = (() => {
                                         },
                                         gf_pinned: {
                                             name: `Pinned`,
+                                            sg: true
+                                        },
+                                        gf_inviteOnly: {
+                                            name: `Invite Only`,
+                                            new: true,
                                             sg: true
                                         },
                                         gf_group: {
@@ -3139,10 +3137,12 @@ Parsedown = (() => {
                                         }
                                     },
                                     name: `Multiple Filters`,
+                                    newBelow: true,
                                     sg: true
                                 }
                             },
                             name: `Giveaway Filters`,
+                            newBelow: true,
                             sg: true,
                             sync: `Hidden Games, Owned/Wishlisted/Ignored Games, Won Games, Reduced CV Games, No CV Games and Giveaways`
                         },
@@ -3582,8 +3582,8 @@ Parsedown = (() => {
                             name: `Unsent Gifts Sender`,
                             sg: true
                         }
-                    }
-
+                    },
+                    newBelow: true
                 },
                 discussions: {
                     features: {
@@ -5003,7 +5003,6 @@ Parsedown = (() => {
                                     colors: true,
                                     input: true,
                                     name: `Release Date`,
-                                    new: true,
                                     sg: true
                                 },
                                 gc_g: {
@@ -5035,7 +5034,6 @@ Parsedown = (() => {
                                 }
                             },
                             name: `Game Categories`,
-                            newBelow: true,
                             sg: true,
                             sync: `Hidden Games, Owned/Wishlisted/Ignored Games, Reduced CV Games, No CV Games and Giveaways`
                         },
@@ -5049,8 +5047,7 @@ Parsedown = (() => {
                             name: `Game Tags`,
                             sg: true
                         }
-                    },
-                    newBelow: true
+                    }
                 },
                 others: {
                     features: {
@@ -16993,7 +16990,7 @@ Parsedown = (() => {
         if (!preset) {
             name = `Default${gf.type}`;
             preset = { name };
-            [`maxLevel`, `minLevel`, `maxEntries`, `minEntries`, `maxCopies`, `minCopies`, `maxPoints`, `minPoints`, `maxMinutesToEnd`, `minMinutesToEnd`, `maxChance`, `minChance`, `maxRatio`, `minRatio`, `maxRating`, `minRating`, `maxReleaseDate`, `minReleaseDate`, `pinned`, `group`, `whitelist`, `regionRestricted`, `created`, `received`, `notReceived`, `awaitingFeedback`, `entered`, `started`, `ended`, `deleted`, `hidden`, `fullCV`, `reducedCV`, `noCV`, `owned`, `wishlisted`, `ignored`, `previouslyEntered`, `previouslyWon`, `removed`, `tradingCards`, `achievements`, `multiplayer`, `steamCloud`, `linux`, `mac`, `dlc`, `dlcFree`, `dlcNonFree`, `package`, `earlyAccess`, `genres`, `genreList`].forEach(key => {
+            [`maxLevel`, `minLevel`, `maxEntries`, `minEntries`, `maxCopies`, `minCopies`, `maxPoints`, `minPoints`, `maxComments`, `minComments`, `maxMinutesToEnd`, `minMinutesToEnd`, `maxChance`, `minChance`, `maxRatio`, `minRatio`, `maxRating`, `minRating`, `maxReleaseDate`, `minReleaseDate`, `pinned`, `inviteOnly`, `group`, `whitelist`, `regionRestricted`, `created`, `received`, `notReceived`, `awaitingFeedback`, `entered`, `started`, `ended`, `deleted`, `hidden`, `fullCV`, `reducedCV`, `noCV`, `owned`, `wishlisted`, `ignored`, `previouslyEntered`, `previouslyWon`, `removed`, `tradingCards`, `achievements`, `multiplayer`, `steamCloud`, `linux`, `mac`, `dlc`, `dlcFree`, `dlcNonFree`, `package`, `earlyAccess`, `genres`, `genreList`].forEach(key => {
                 preset[key] = esgst.settings[`gf_${key}${gf.type}`];
             });
             presets = JSON.parse(esgst.storage.filterPresets);
@@ -17015,6 +17012,7 @@ Parsedown = (() => {
             { check: (!esgst.parameters.entry_min && !esgst.parameters.entry_max) && (!esgst.wonPath || popup), infinite: true, maxValue: 99999, minValue: 0, name: `Entries` },
             { check: (!esgst.parameters.copy_min && !esgst.parameters.copy_max) && (!esgst.wonPath || popup), infinite: true, maxValue: 99999, minValue: 1, name: `Copies` },
             { check: (!esgst.parameters.point_min && !esgst.parameters.point_max) && (((!esgst.createdPath || esgst.cewgd) && (!esgst.enteredPath || esgst.cewgd) && (!esgst.wonPath || esgst.cewgd)) || popup), maxValue: 100, minValue: 0, name: `Points` },
+            { check: popup || (!esgst.createdPath && !esgst.enteredPath && !esgst.wonPath), maxValue: 99999, minValue: 0, name: `Comments` },
             { check: !esgst.wonPath || popup, maxValue: 43800, minValue: 0, name: `MinutesToEnd` },
             { check: ((!esgst.enteredPath || esgst.cewgd) && !esgst.createdPath && !esgst.wonPath) || popup, maxValue: 100, minValue: 0, name: `Chance`, step: 0.01 },
             { check: ((!esgst.enteredPath || esgst.cewgd) && !esgst.createdPath && !esgst.wonPath) || popup, maxValue: 99999, minValue: 0, name: `Ratio` },
@@ -17086,6 +17084,7 @@ Parsedown = (() => {
             basicFilters.classList.add(`esgst-hidden`);
         }
         [ { check: esgst.giveawaysPath, key: `pinned`, name: `Pinned` },
+            { check: ((!esgst.createdPath || esgst.cewgd) && (!esgst.enteredPath || esgst.cewgd) && (!esgst.wonPath || esgst.cewgd)) || popup, key: `inviteOnly`, name: `Invite Only` },
             { check: ((!esgst.createdPath || esgst.cewgd) && (!esgst.enteredPath || esgst.cewgd) && (!esgst.wonPath || esgst.cewgd)) || popup, key: `group`, name: `Group` },
             { check: ((!esgst.createdPath || esgst.cewgd) && (!esgst.enteredPath || esgst.cewgd) && (!esgst.wonPath || esgst.cewgd)) || popup, key: `whitelist`, name: `Whitelist`},
             { check: ((!esgst.createdPath || esgst.cewgd) && (!esgst.enteredPath || esgst.cewgd) && (!esgst.wonPath || esgst.cewgd)) || popup, key: `regionRestricted`, name: `Region Restricted` },
@@ -17244,7 +17243,7 @@ Parsedown = (() => {
         if (name) {
             presetWarning.classList.add(`esgst-hidden`);
             preset = { name };
-            [`maxLevel`, `minLevel`, `maxEntries`, `minEntries`, `maxCopies`, `minCopies`, `maxPoints`, `minPoints`, `maxMinutesToEnd`, `minMinutesToEnd`, `maxChance`, `minChance`, `maxRatio`, `minRatio`, `maxRating`, `minRating`, `maxReleaseDate`, `minReleaseDate`, `pinned`, `group`, `whitelist`, `regionRestricted`, `created`, `received`, `notReceived`, `awaitingFeedback`, `entered`, `started`, `ended`, `deleted`, `hidden`, `fullCV`, `reducedCV`, `noCV`, `owned`, `wishlisted`, `ignored`, `previouslyEntered`, `previouslyWon`, `removed`, `tradingCards`, `achievements`, `multiplayer`, `steamCloud`, `linux`, `mac`, `dlc`, `dlcFree`, `dlcNonFree`, `package`, `earlyAccess`, `genres`, `genreList`].forEach(key => {
+            [`maxLevel`, `minLevel`, `maxEntries`, `minEntries`, `maxCopies`, `minCopies`, `maxPoints`, `minPoints`, `maxComments`, `minComments`, `maxMinutesToEnd`, `minMinutesToEnd`, `maxChance`, `minChance`, `maxRatio`, `minRatio`, `maxRating`, `minRating`, `maxReleaseDate`, `minReleaseDate`, `pinned`, `inviteOnly`, `group`, `whitelist`, `regionRestricted`, `created`, `received`, `notReceived`, `awaitingFeedback`, `entered`, `started`, `ended`, `deleted`, `hidden`, `fullCV`, `reducedCV`, `noCV`, `owned`, `wishlisted`, `ignored`, `previouslyEntered`, `previouslyWon`, `removed`, `tradingCards`, `achievements`, `multiplayer`, `steamCloud`, `linux`, `mac`, `dlc`, `dlcFree`, `dlcNonFree`, `package`, `earlyAccess`, `genres`, `genreList`].forEach(key => {
                 if (typeof gf[key] !== `undefined`) {
                     preset[key] = gf[key];
                 }
@@ -17291,6 +17290,7 @@ Parsedown = (() => {
                 { key: `Entries`, name: `entries` },
                 { key: `Copies`, name: `copies` },
                 { key: `Points`, name: `points` },
+                { key: `Comments`, name: `comments` },
                 { key: `MinutesToEnd`, name: `minutes to end` },
                 { key: `Chance`, name: `chance` },
                 { key: `Ratio`, name: `ratio` },
@@ -17304,6 +17304,7 @@ Parsedown = (() => {
             hideAll = [];
             showOnly = [];
             [ { key: `pinned`, name: `pinned` },
+                { key: `inviteOnly`, name: `invite only` },
                 { key: `group`, name: `group` },
                 { key: `whitelist`, name: `whitelist` },
                 { key: `regionRestricted`, name: `region restricted` },
@@ -17420,7 +17421,7 @@ Parsedown = (() => {
 
     async function applyGfPreset(gf, exceptionCount, popup, preset, presetDisplay, presetInput) {
         var checkbox, input, key;
-        [`maxLevel`, `minLevel`, `maxEntries`, `minEntries`, `maxCopies`, `minCopies`, `maxPoints`, `minPoints`, `maxMinutesToEnd`, `minMinutesToEnd`, `maxChance`, `minChance`, `maxRatio`, `minRatio`, `maxRating`, `minRating`, `maxReleaseDate`, `minReleaseDate`, `pinned`, `group`, `whitelist`, `regionRestricted`, `created`, `received`, `notReceived`, `awaitingFeedback`, `entered`, `started`, `ended`, `deleted`, `hidden`, `fullCV`, `reducedCV`, `noCV`, `owned`, `wishlisted`, `ignored`, `previouslyEntered`, `previouslyWon`, `removed`, `tradingCards`, `achievements`, `multiplayer`, `steamCloud`, `linux`, `mac`, `dlc`, `dlcFree`, `dlcNonFree`, `package`, `earlyAccess`, `genres`, `genreList`].forEach(key => {
+        [`maxLevel`, `minLevel`, `maxEntries`, `minEntries`, `maxCopies`, `minCopies`, `maxPoints`, `minPoints`, `maxComments`, `minComments`, `maxMinutesToEnd`, `minMinutesToEnd`, `maxChance`, `minChance`, `maxRatio`, `minRatio`, `maxRating`, `minRating`, `maxReleaseDate`, `minReleaseDate`, `pinned`, `inviteOnly`, `group`, `whitelist`, `regionRestricted`, `created`, `received`, `notReceived`, `awaitingFeedback`, `entered`, `started`, `ended`, `deleted`, `hidden`, `fullCV`, `reducedCV`, `noCV`, `owned`, `wishlisted`, `ignored`, `previouslyEntered`, `previouslyWon`, `removed`, `tradingCards`, `achievements`, `multiplayer`, `steamCloud`, `linux`, `mac`, `dlc`, `dlcFree`, `dlcNonFree`, `package`, `earlyAccess`, `genres`, `genreList`].forEach(key => {
             checkbox = gf[`${key}Checkbox`];
             if (checkbox) {
                 if (checkbox.isThreeState) {
@@ -17544,6 +17545,7 @@ Parsedown = (() => {
                     { key: `Entries`, name: `entries` },
                     { key: `Copies`, name: `copies` },
                     { key: `Points`, name: `points` },
+                    { key: `Comments`, name: `comments` },
                     { key: `MinutesToEnd`, name: `minutes to end` },
                     { key: `Chance`, name: `chance` },
                     { key: `Ratio`, name: `ratio` },
@@ -17561,6 +17563,7 @@ Parsedown = (() => {
                     }
                 });
                 [ { key: `pinned`, name: `pinned` },
+                    { key: `inviteOnly`, name: `invite only` },
                     { key: `group`, name: `group` },
                     { key: `whitelist`, name: `whitelist` },
                     { key: `regionRestricted`, name: `region restricted` },
@@ -17639,6 +17642,7 @@ Parsedown = (() => {
             { key: `Entries`, name: `Entries` },
             { key: `Copies`, name: `Copies` },
             { key: `Points`, name: `Points` },
+            { key: `Comments`, name: `Comments` },
             { key: `MinutesToEnd`, name: `Minutes To End` },
             { key: `Chance`, name: `Chance` },
             { key: `Ratio`, name: `Ratio` },
@@ -17661,6 +17665,7 @@ Parsedown = (() => {
             </div>
         `);
         [{ key: `pinned`, name: `Pinned` },
+            { key: `inviteOnly`, name: `Invite Only` },
             { key: `group`, name: `Group` },
             { key: `whitelist`, name: `Whitelist` },
             { key: `regionRestricted`, name: `Region Restricted` },
@@ -17718,7 +17723,7 @@ Parsedown = (() => {
     async function saveGfException(exceptionCount, gf, preset, popup, callback) {
         var exception, i, presets;
         exception = { name: popup.name.value };
-        [`Level`, `Entries`, `Copies`, `Points`, `MinutesToEnd`, `Chance`, `Ratio`, `Rating`, `ReleaseDate`].forEach(name => {
+        [`Level`, `Entries`, `Copies`, `Points`, `Comments`, `MinutesToEnd`, `Chance`, `Ratio`, `Rating`, `ReleaseDate`].forEach(name => {
             if (popup[`max${name}`].value.length) {
                 exception[`max${name}`] = name === `ReleaseDate` ? new Date(popup[`max${name}`].value).getTime() : parseFloat(popup[`max${name}`].value);
             }
@@ -17726,7 +17731,7 @@ Parsedown = (() => {
                 exception[`min${name}`] = name === `ReleaseDate` ? new Date(popup[`min${name}`].value).getTime() :  parseFloat(popup[`min${name}`].value);
             }
         });
-        [`pinned`, `group`, `whitelist`, `regionRestricted`, `created`, `received`, `notReceived`, `awaitingFeedback`, `entered`, `started`, `ended`, `deleted`, `owned`, `wishlisted`, `hidden`, `ignored`, `previouslyEntered`, `previouslyWon`, `fullCV`, `reducedCV`, `noCV`, `removed`, `tradingCards`, `achievements`, `multiplayer`, `steamCloud`, `linux`, `mac`, `dlc`, `dlcFree`, `dlcNonFree`, `package`, `earlyAccess`, `genres`].forEach(name => {
+        [`pinned`, `inviteOnly`, `group`, `whitelist`, `regionRestricted`, `created`, `received`, `notReceived`, `awaitingFeedback`, `entered`, `started`, `ended`, `deleted`, `owned`, `wishlisted`, `hidden`, `ignored`, `previouslyEntered`, `previouslyWon`, `fullCV`, `reducedCV`, `noCV`, `removed`, `tradingCards`, `achievements`, `multiplayer`, `steamCloud`, `linux`, `mac`, `dlc`, `dlcFree`, `dlcNonFree`, `package`, `earlyAccess`, `genres`].forEach(name => {
             if (popup[name].input.checked) {
                 if (name === `genres`) {
                     if (popup.genreList.value.length) {
@@ -17824,8 +17829,8 @@ Parsedown = (() => {
 
     function filterGfException(gf, giveaway) {
         var basicFilters, categoryFilters, filtered, i, j, key, maxKey, minKey, minutes, n, name, typeFilters, value;
-        basicFilters = [`Level`, `Entries`, `Copies`, `Points`, `MinutesToEnd`, `Chance`, `Ratio`, `Rating`, `ReleaseDate`];
-        typeFilters = [`pinned`, `group`, `whitelist`, `regionRestricted`, `created`, `received`, `notReceived`, `awaitingFeedback`, `entered`, `started`, `ended`, `deleted`, `owned`, `wishlisted`, `hidden`, `ignored`, `previouslyEntered`, `previouslyWon`, `fullCV`, `reducedCV`, `noCV`];
+        basicFilters = [`Level`, `Entries`, `Copies`, `Points`, `Comments`, `MinutesToEnd`, `Chance`, `Ratio`, `Rating`, `ReleaseDate`];
+        typeFilters = [`pinned`, `inviteOnly`, `group`, `whitelist`, `regionRestricted`, `created`, `received`, `notReceived`, `awaitingFeedback`, `entered`, `started`, `ended`, `deleted`, `owned`, `wishlisted`, `hidden`, `ignored`, `previouslyEntered`, `previouslyWon`, `fullCV`, `reducedCV`, `noCV`];
         categoryFilters = [`removed`, `tradingCards`, `achievements`, `multiplayer`, `steamCloud`, `linux`, `mac`, `dlc`, `dlcFree`, `dlcNonFree`, `package`, `earlyAccess`, `genres`];
         filtered = false;
         for (i = 0, n = basicFilters.length; !filtered && i < n; ++i) {
@@ -17887,8 +17892,8 @@ Parsedown = (() => {
 
     function filterGfGiveaway(gf, giveaway) {
         var basicFilters, categoryFilters, counterKey, filtered, i, j, key, maxKey, minKey, minutes, n, name, override, typeFilters, value;
-        basicFilters = [`Level`, `Entries`, `Copies`, `Points`, `MinutesToEnd`, `Chance`, `Ratio`, `Rating`, `ReleaseDate`];
-        typeFilters = [`pinned`, `group`, `whitelist`, `regionRestricted`, `created`, `received`, `notReceived`, `awaitingFeedback`, `entered`, `started`, `ended`, `deleted`, `owned`, `wishlisted`, `hidden`, `ignored`, `previouslyEntered`, `previouslyWon`, `fullCV`, `reducedCV`, `noCV`];
+        basicFilters = [`Level`, `Entries`, `Copies`, `Points`, `Comments`, `MinutesToEnd`, `Chance`, `Ratio`, `Rating`, `ReleaseDate`];
+        typeFilters = [`pinned`, `inviteOnly`, `group`, `whitelist`, `regionRestricted`, `created`, `received`, `notReceived`, `awaitingFeedback`, `entered`, `started`, `ended`, `deleted`, `owned`, `wishlisted`, `hidden`, `ignored`, `previouslyEntered`, `previouslyWon`, `fullCV`, `reducedCV`, `noCV`];
         categoryFilters = [`removed`, `tradingCards`, `achievements`, `multiplayer`, `steamCloud`, `linux`, `mac`, `dlc`, `dlcFree`, `dlcNonFree`, `package`, `earlyAccess`, `genres`];
         filtered = false;
         override = 0;
@@ -34043,14 +34048,13 @@ Parsedown = (() => {
     function addGcRatingPanel(context) {
         let panel = insertHtml(context, `beforeEnd`, `
             <div class="esgst-sm-colors">
-                <span class="esgst-bold esgst-red" title="This is a new feature/option">[NEW]</span>
                 <div class="form__saving-button esgst-sm-colors-default">
                     <span>Add Rating Setting</span>
                 </div>
                 <i class="fa fa-question-circle" title="Allows you to set different colors/icons for different rating ranges."></i>
             </div>
         `);
-        let button = panel.firstElementChild.nextElementSibling;
+        let button = panel.firstElementChild;
         for (let i = 0, n = esgst.gc_r_colors.length; i < n; ++i) {
             addGcRatingColorSetting(esgst.gc_r_colors[i], panel);
         }
