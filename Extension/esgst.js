@@ -3,7 +3,7 @@
 // @namespace ESGST
 // @description Enhances SteamGifts and SteamTrades by adding some cool features to them.
 // @icon https://dl.dropboxusercontent.com/s/lr3t3bxrxfxylqe/esgstIcon.ico?raw=1
-// @version 7.14.1
+// @version 7.14.2
 // @author revilheart
 // @contributor Royalgamer06
 // @downloadURL https://github.com/revilheart/ESGST/raw/master/ESGST.user.js
@@ -1974,8 +1974,8 @@ Parsedown = (() => {
             markdownParser: new Parsedown(),
             sg: location.hostname.match(/www.steamgifts.com/),
             st: location.hostname.match(/www.steamtrades.com/),
-            currentVersion: `7.14.1`,
-            devVersion: `7.14.2 (Dev.33)`,
+            currentVersion: `7.14.2`,
+            devVersion: `7.14.2`,
             icon: `data:image/x-icon;base64,AAABAAEAEBAAAAEAIABoBAAAFgAAACgAAAAQAAAAIAAAAAEAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAqv8DCbP/Hgeq+CQIrf8iCK3/Igit/yIIrf8iB6//Iwit9x8Aqv8DAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAKr0GAa2/c0DvfzfA7f83QO3/N0Dt/zdA7f83QO+/d4Gs/3OAKP1GQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACm/xQFs/n2Bcf//wW///8FwP//BcD//wW///8Fx///BbP69gC2/xUAAAAAAAAAAAAAAAAA/1UDFptOFxSZMxkLpJktAq720QW1+ugEsfvjA7b92wO2/dsEsfvjBbX66Aau/dEoiO4tUlLWGU5k3hdVVf8DEJxKHxWqT8cVrU7uE6VN0guqny0Apv8XAJfQGwBAVywAQFcsAJfQGwCx/xcogugtS2Lk0lBl6u5Qae7ISmPeHxagSSMVr07jF7lV/xOiSu0brgATAAAAAAAAAA8AAAC/AAAAwAAAABAAAAAAYznjEkth4OxWb/3/T2jv40lf4iMXnksiEq1O3RayUv8UpEnkEo0+HQAAABkAAABBAAAA8QAAAPEAAABBAAAAGUBSvxxOYeDjU2v0/05m7d1LYuEiF55LIhKtTt0Ws1L/FahN2gU1FTAAAADAAAAA7AAAAP0AAAD9AAAA7AAAAMAVG0owUGPm2lNr9P9OZu3dS2LhIheeSyISrU7dFrNS/xWoTdoFNRswAAAAvwAAAOsAAAD9AAAA/QAAAOsAAADAFRtKMFBj6NpTa/T/Tmbt3Uti4SIXnksiEq1O3RayUv8UpEnkEo0+HQAAABgAAABAAAAA8QAAAPEAAABBAAAAGT5PuR1OYeDjU2v0/05m7d1LYuEiFqBJIxWuT+QXuVX/E6JL7QC8XhMAAAAAAAAADwAAAL8AAAC/AAAAEAAAAAAOR/8SSWLh7FZv/f9PaO/jSV/iIxCUSh8Vrk7HFqxN7ROlS9JskzMt1XULGK12EhxGLgYsRy8GK612EhzVgAsYgmxxLU1i39JNZ+vtT2fwx0pj1h8AqlUDF65GFgqZUhlsiC0txH0T0s5/EujJgBPkz4QR28+EEdvJgBPkzn8Q6Md+E9KLdHosM1LWGUZo6BZVVf8DAAAAAAAAAAAAAAAA/2YAFMl9EvbgjRb/14gV/9eIFf/XiBX/14gV/9+NFv/KgBD254YAFQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAL91FRjKgRHN1IgU3s+EEt3PhBLdz4QS3c+EEt3UiBTezYMRzcJ6FBkAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACqqgADxIARHr18FiO8eA8ivHgPIrx4DyK8eA8ivXwPI8SAER7/VQADAAAAAAAAAAAAAAAA78cAAPA3AAD4FwAABCAAADGOAAAE+AAAkBEAAJ55AACYOQAAlgEAAER4AAAXaAAATnoAAPgXAAD0JwAA69cAAA==`,
             sgIcon: `data:image/x-icon;base64,AAABAAEAEBAAAAEAIABoBAAAFgAAACgAAAAQAAAAIAAAAAEAIAAAAAAAQAQAABMLAAATCwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIUAAAD5AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAPoAAACFAAAAAAAAAAAAAAD8AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA+QAAAAAAAAAAAAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAAAAAAAAAAAAP8AAAD/AAAA/wAAABwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAcAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAcAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAHAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAAAAAAAAAAAAPwAAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD5AAAAAAAAAAAAAACFAAAA+QAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD5AAAAhQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA//8AAP//AADAAwAAwAMAAMfjAADP8wAAz/MAAM/zAADP8wAAz/MAAM/zAADH4wAAwAMAAMADAAD//wAA//8AAA==`,
             stIcon: `data:image/x-icon;base64,AAABAAEAEBAAAAEAIABoBAAAFgAAACgAAAAQAAAAIAAAAAEAIAAAAAAAQAQAABMLAAATCwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABbD6SgWw+ucFsPrkBbD6SgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAWw+uYFsPr/BbD6/wWw+ucAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAFsPrmBbD6/wWw+v8FsPrmAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABbD6SQWw+uYFsPrmBbD6SQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAFKRLShSkS+cUpEvkFKRLSgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAExi4EpMYuDnTGLg5Exi4EoAAAAAAAAAABSkS+YUpEv/FKRL/xSkS+cAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABMYuDmTGLg/0xi4P9MYuDnAAAAAAAAAAAUpEvmFKRL/xSkS/8UpEvmAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAATGLg5kxi4P9MYuD/TGLg5gAAAAAAAAAAFKRLSRSkS+YUpEvmFKRLSQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAExi4ElMYuDmTGLg5kxi4EkAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAMZ9E0rGfRPnxn0T5MZ9E0oAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADGfRPmxn0T/8Z9E//GfRPnAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAxn0T5sZ9E//GfRP/xn0T5gAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAMZ9E0nGfRPmxn0T5sZ9E0kAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA//8AAPw/AAD8PwAA/D8AAPw/AAD//wAAh+EAAIfhAACH4QAAh+EAAP//AAD8PwAA/D8AAPw/AAD8PwAA//8AAA==`,
@@ -39160,6 +39160,35 @@ Parsedown = (() => {
         var changelog, current, html, i, index, n, popup;
         changelog = [
             {
+                date: `February 7, 2018`,
+                version: `7.14.2`,
+                changelog: `
+                    <ul>
+                        <li><a href="https://github.com/revilheart/ESGST/issues/443">#443</a>Add option to check for whitelists/blacklists between page range</li>
+                        <li><a href="https://github.com/revilheart/ESGST/issues/445">#445</a>Fix a bug that filters games without a release date even if the option is disabled</li>
+                        <li><a href="https://github.com/revilheart/ESGST/issues/447">#447</a>Identify dev versions in the header menu</li>
+                        <li><a href="https://github.com/revilheart/ESGST/issues/448">#448</a>Enhancements to Quick Inbox View</li>
+                        <li><a href="https://github.com/revilheart/ESGST/issues/451">#451</a>Add option to set fixed width for static popups</li>
+                        <li><a href="https://github.com/revilheart/ESGST/issues/452">#452</a>Fix a bug that does not save inclusions/exclusions for some features correctly</li>
+                        <li><a href="https://github.com/revilheart/ESGST/issues/453">#453</a>Fix a bug that happens when using User Giveaways Data</li>
+                        <li><a href="https://github.com/revilheart/ESGST/issues/454">#454</a>Check if AudioContext can be constructed</li>
+                        <li><a href="https://github.com/revilheart/ESGST/issues/455">#455</a>Fix a bug that reorders categories when Header Refresher refreshes</li>
+                        <li><a href="https://github.com/revilheart/ESGST/issues/456">#456</a>Fix a bug that happens when loading Group Stats with Endless Scrolling</li>
+                        <li><a href="https://github.com/revilheart/ESGST/issues/457">#457</a>Add user count to Group Stats</li>
+                        <li><a href="https://github.com/revilheart/ESGST/issues/461">#461</a>Fade options that don't contain the query when filtering features in the settings menu</li>
+                        <li><a href="https://github.com/revilheart/ESGST/issues/462">#462</a>Fix the table headers order in Created/Entered/Won Giveaway Details</li>
+                        <li><a href="https://github.com/revilheart/ESGST/issues/463">#463</a>Display additional information when hovering over some game categories</li>
+                        <li><a href="https://github.com/revilheart/ESGST/issues/464">#464</a>Add option to prevent giveaway columns from being movable</li>
+                        <li><a href="https://github.com/revilheart/ESGST/issues/465">#465</a>Show wishlist category for packages if any of the apps in the package is wishlisted</li>
+                        <li><a href="https://github.com/revilheart/ESGST/issues/466">#466</a>Fix a bug that moves the enter button when entering a giveaway or upon a header refresh</li>
+                        <li><a href="https://github.com/revilheart/ESGST/issues/467">#467</a>Fix a bug that detects the status incorrectly in Blacklist Giveaway Loader</li>
+                        <li><a href="https://github.com/revilheart/ESGST/issues/468">#468</a>Fix a bug that shows negative price for Giveaway Info in Game Categories</li>
+                        <li><a href="https://github.com/revilheart/ESGST/issues/469">#469</a>Only construct AudioContext when necessary</li>
+                        <li><a href="https://github.com/revilheart/ESGST/issues/470">#470</a>Add Comments and Invite Only filters to Giveaway Filters</li>
+                    </ul>
+                `
+            },
+            {
                 date: `February 3, 2018`,
                 version: `7.14.1`,
                 changelog: `
@@ -39907,25 +39936,6 @@ Parsedown = (() => {
         popup = new Popup(`fa-file-text-o`, `Changelog`, true);
         popup.scrollable.insertAdjacentHTML(`afterBegin`, `
             <div class="esgst-text-left markdown">
-                <h3>Highlights from v7.13.0</h3>
-                <hr></hr>
-                <p class="esgst-bold">Don't repeat something another user already said in a reply, check for other replies before adding yours in Reply From Inbox</p>
-                <img src="https://i.imgur.com/HyLnz4u.gif">
-                <p class="esgst-bold">Save/replace current reply in Comment Formatting Helper</p>
-                <img src="https://i.imgur.com/inidI45.gif">
-                <p class="esgst-bold">Be notified about new messages from SteamTrades on SteamGifts and vice-versa in Notification Merger</p>
-                <img src="https://i.imgur.com/wlJyXW5.png">
-                <p class="esgst-bold">Generate/preview next/previous/counter formats in Multiple Giveaways Creator</p>
-                <img src="https://i.imgur.com/g440b8t.gif">
-                <p class="esgst-bold">Click notifications to go to the related page</p>
-                <img src="https://i.imgur.com/xd6fmK7.gif">
-                <p class="esgst-bold">Be notified about ESGST bugs as they happen</p>
-                <img src="https://i.imgur.com/gs6CNWJ.gif">
-                <p class="esgst-bold">Move categories around and customize their color/icons in Game Categories</p>
-                <img src="https://i.imgur.com/ts0u9oL.gif">
-                <hr></hr>
-                <h3>Full changelog</h3>
-                <hr></hr>
                 ${html.join(``)}
             </div>
         `);

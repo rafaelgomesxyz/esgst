@@ -949,6 +949,32 @@ To upgrade from the script to the extension or downgrade from the extension to t
 
 ## Changelog
 
+**7.14.2 (February 7, 2018):**
+
+<ul>
+    <li><a href="https://github.com/revilheart/ESGST/issues/443">#443</a>Add option to check for whitelists/blacklists between page range</li>
+    <li><a href="https://github.com/revilheart/ESGST/issues/445">#445</a>Fix a bug that filters games without a release date even if the option is disabled</li>
+    <li><a href="https://github.com/revilheart/ESGST/issues/447">#447</a>Identify dev versions in the header menu</li>
+    <li><a href="https://github.com/revilheart/ESGST/issues/448">#448</a>Enhancements to Quick Inbox View</li>
+    <li><a href="https://github.com/revilheart/ESGST/issues/451">#451</a>Add option to set fixed width for static popups</li>
+    <li><a href="https://github.com/revilheart/ESGST/issues/452">#452</a>Fix a bug that does not save inclusions/exclusions for some features correctly</li>
+    <li><a href="https://github.com/revilheart/ESGST/issues/453">#453</a>Fix a bug that happens when using User Giveaways Data</li>
+    <li><a href="https://github.com/revilheart/ESGST/issues/454">#454</a>Check if AudioContext can be constructed</li>
+    <li><a href="https://github.com/revilheart/ESGST/issues/455">#455</a>Fix a bug that reorders categories when Header Refresher refreshes</li>
+    <li><a href="https://github.com/revilheart/ESGST/issues/456">#456</a>Fix a bug that happens when loading Group Stats with Endless Scrolling</li>
+    <li><a href="https://github.com/revilheart/ESGST/issues/457">#457</a>Add user count to Group Stats</li>
+    <li><a href="https://github.com/revilheart/ESGST/issues/461">#461</a>Fade options that don't contain the query when filtering features in the settings menu</li>
+    <li><a href="https://github.com/revilheart/ESGST/issues/462">#462</a>Fix the table headers order in Created/Entered/Won Giveaway Details</li>
+    <li><a href="https://github.com/revilheart/ESGST/issues/463">#463</a>Display additional information when hovering over some game categories</li>
+    <li><a href="https://github.com/revilheart/ESGST/issues/464">#464</a>Add option to prevent giveaway columns from being movable</li>
+    <li><a href="https://github.com/revilheart/ESGST/issues/465">#465</a>Show wishlist category for packages if any of the apps in the package is wishlisted</li>
+    <li><a href="https://github.com/revilheart/ESGST/issues/466">#466</a>Fix a bug that moves the enter button when entering a giveaway or upon a header refresh</li>
+    <li><a href="https://github.com/revilheart/ESGST/issues/467">#467</a>Fix a bug that detects the status incorrectly in Blacklist Giveaway Loader</li>
+    <li><a href="https://github.com/revilheart/ESGST/issues/468">#468</a>Fix a bug that shows negative price for Giveaway Info in Game Categories</li>
+    <li><a href="https://github.com/revilheart/ESGST/issues/469">#469</a>Only construct AudioContext when necessary</li>
+    <li><a href="https://github.com/revilheart/ESGST/issues/470">#470</a>Add Comments and Invite Only filters to Giveaway Filters</li>
+</ul>
+
 **7.14.1 (February 3, 2018):**
 
 <ul>
