@@ -1632,6 +1632,7 @@ Parsedown = (() => {
         esgst = {
             parameters: getParameters(),
             defaultValues: {
+                lockGiveawayColumns_sg: false,
                 staticPopups_width: `900px`,
                 hgr_removeOwned: true,
                 giveawayColumns: [`endTime`, `winners`, `startTime`, `inviteOnly`, `whitelist`, `group`, `regionRestricted`, `level`],
@@ -1974,7 +1975,7 @@ Parsedown = (() => {
             sg: location.hostname.match(/www.steamgifts.com/),
             st: location.hostname.match(/www.steamtrades.com/),
             currentVersion: `7.14.1`,
-            devVersion: `7.14.2 (Dev.32)`,
+            devVersion: `7.14.2 (Dev.33)`,
             icon: `data:image/x-icon;base64,AAABAAEAEBAAAAEAIABoBAAAFgAAACgAAAAQAAAAIAAAAAEAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAqv8DCbP/Hgeq+CQIrf8iCK3/Igit/yIIrf8iB6//Iwit9x8Aqv8DAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAKr0GAa2/c0DvfzfA7f83QO3/N0Dt/zdA7f83QO+/d4Gs/3OAKP1GQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACm/xQFs/n2Bcf//wW///8FwP//BcD//wW///8Fx///BbP69gC2/xUAAAAAAAAAAAAAAAAA/1UDFptOFxSZMxkLpJktAq720QW1+ugEsfvjA7b92wO2/dsEsfvjBbX66Aau/dEoiO4tUlLWGU5k3hdVVf8DEJxKHxWqT8cVrU7uE6VN0guqny0Apv8XAJfQGwBAVywAQFcsAJfQGwCx/xcogugtS2Lk0lBl6u5Qae7ISmPeHxagSSMVr07jF7lV/xOiSu0brgATAAAAAAAAAA8AAAC/AAAAwAAAABAAAAAAYznjEkth4OxWb/3/T2jv40lf4iMXnksiEq1O3RayUv8UpEnkEo0+HQAAABkAAABBAAAA8QAAAPEAAABBAAAAGUBSvxxOYeDjU2v0/05m7d1LYuEiF55LIhKtTt0Ws1L/FahN2gU1FTAAAADAAAAA7AAAAP0AAAD9AAAA7AAAAMAVG0owUGPm2lNr9P9OZu3dS2LhIheeSyISrU7dFrNS/xWoTdoFNRswAAAAvwAAAOsAAAD9AAAA/QAAAOsAAADAFRtKMFBj6NpTa/T/Tmbt3Uti4SIXnksiEq1O3RayUv8UpEnkEo0+HQAAABgAAABAAAAA8QAAAPEAAABBAAAAGT5PuR1OYeDjU2v0/05m7d1LYuEiFqBJIxWuT+QXuVX/E6JL7QC8XhMAAAAAAAAADwAAAL8AAAC/AAAAEAAAAAAOR/8SSWLh7FZv/f9PaO/jSV/iIxCUSh8Vrk7HFqxN7ROlS9JskzMt1XULGK12EhxGLgYsRy8GK612EhzVgAsYgmxxLU1i39JNZ+vtT2fwx0pj1h8AqlUDF65GFgqZUhlsiC0txH0T0s5/EujJgBPkz4QR28+EEdvJgBPkzn8Q6Md+E9KLdHosM1LWGUZo6BZVVf8DAAAAAAAAAAAAAAAA/2YAFMl9EvbgjRb/14gV/9eIFf/XiBX/14gV/9+NFv/KgBD254YAFQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAL91FRjKgRHN1IgU3s+EEt3PhBLdz4QS3c+EEt3UiBTezYMRzcJ6FBkAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACqqgADxIARHr18FiO8eA8ivHgPIrx4DyK8eA8ivXwPI8SAER7/VQADAAAAAAAAAAAAAAAA78cAAPA3AAD4FwAABCAAADGOAAAE+AAAkBEAAJ55AACYOQAAlgEAAER4AAAXaAAATnoAAPgXAAD0JwAA69cAAA==`,
             sgIcon: `data:image/x-icon;base64,AAABAAEAEBAAAAEAIABoBAAAFgAAACgAAAAQAAAAIAAAAAEAIAAAAAAAQAQAABMLAAATCwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIUAAAD5AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAPoAAACFAAAAAAAAAAAAAAD8AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA+QAAAAAAAAAAAAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAAAAAAAAAAAAP8AAAD/AAAA/wAAABwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAcAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAcAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAHAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAAAAAAAAAAAAPwAAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD5AAAAAAAAAAAAAACFAAAA+QAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD5AAAAhQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA//8AAP//AADAAwAAwAMAAMfjAADP8wAAz/MAAM/zAADP8wAAz/MAAM/zAADH4wAAwAMAAMADAAD//wAA//8AAA==`,
             stIcon: `data:image/x-icon;base64,AAABAAEAEBAAAAEAIABoBAAAFgAAACgAAAAQAAAAIAAAAAEAIAAAAAAAQAQAABMLAAATCwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABbD6SgWw+ucFsPrkBbD6SgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAWw+uYFsPr/BbD6/wWw+ucAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAFsPrmBbD6/wWw+v8FsPrmAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABbD6SQWw+uYFsPrmBbD6SQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAFKRLShSkS+cUpEvkFKRLSgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAExi4EpMYuDnTGLg5Exi4EoAAAAAAAAAABSkS+YUpEv/FKRL/xSkS+cAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABMYuDmTGLg/0xi4P9MYuDnAAAAAAAAAAAUpEvmFKRL/xSkS/8UpEvmAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAATGLg5kxi4P9MYuD/TGLg5gAAAAAAAAAAFKRLSRSkS+YUpEvmFKRLSQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAExi4ElMYuDmTGLg5kxi4EkAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAMZ9E0rGfRPnxn0T5MZ9E0oAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADGfRPmxn0T/8Z9E//GfRPnAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAxn0T5sZ9E//GfRP/xn0T5gAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAMZ9E0nGfRPmxn0T5sZ9E0kAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA//8AAPw/AAD8PwAA/D8AAPw/AAD//wAAh+EAAIfhAACH4QAAh+EAAP//AAD8PwAA/D8AAPw/AAD8PwAA//8AAA==`,
@@ -5097,6 +5098,11 @@ Parsedown = (() => {
                             name: `Collapse sections in the settings menu by default.`,
                             sg: true,
                             st: true
+                        },
+                        lockGiveawayColumns: {
+                            name: `Lock giveaway columns so that they are not draggable (they will remain in the set order).`,
+                            new: true,
+                            sg: true
                         },
                         staticPopups: {
                             features: {
@@ -13424,9 +13430,9 @@ Parsedown = (() => {
             } else {
                 giveaway.elgbPanel.appendChild(giveaway.elgbButton);
             }
-            if (!main || esgst.giveawaysPath || esgst.userPath || esgst.groupPath) {
+            giveaway.elgbButton.setAttribute(`data-columnId`, `elgb`);
+            if (!esgst.lockGiveawayColumns && (!main || esgst.giveawaysPath || esgst.userPath || esgst.groupPath)) {
                 giveaway.elgbButton.setAttribute(`draggable`, true);
-                giveaway.elgbButton.setAttribute(`data-columnId`, `elgb`);
                 giveaway.elgbButton.addEventListener(`dragstart`, setGiveawaySource.bind(null, giveaway));
                 giveaway.elgbButton.addEventListener(`dragenter`, getGiveawaySource.bind(null, giveaway, false));
                 giveaway.elgbButton.addEventListener(`dragend`, saveGiveawaySource.bind(null, giveaway));
@@ -19130,7 +19136,7 @@ Parsedown = (() => {
             buttonSet.setAttribute(`data-columnId`, `gp`);
             buttonSet.title = `View giveaway description/add a comment`;
             giveaway.panel.appendChild(buttonSet);                    
-            if (!main || esgst.giveawaysPath || esgst.userPath || esgst.groupPath) {
+            if (!esgst.lockGiveawayColumns && (!main || esgst.giveawaysPath || esgst.userPath || esgst.groupPath)) {
                 buttonSet.setAttribute(`draggable`, true);
                 buttonSet.addEventListener(`dragstart`, setGiveawaySource.bind(null, giveaway));
                 buttonSet.addEventListener(`dragenter`, getGiveawaySource.bind(null, giveaway, false));
@@ -20142,11 +20148,13 @@ Parsedown = (() => {
                 </div>
             </div>
         `);
-        giveaway.gvIcons.addEventListener(`dragenter`, getGiveawaySource.bind(null, giveaway, false));
-        let item = giveaway.gvIcons.firstElementChild;
-        item.addEventListener(`dragstart`, setGiveawaySource.bind(null, giveaway));
-        item.addEventListener(`dragenter`, getGiveawaySource.bind(null, giveaway, false));
-        item.addEventListener(`dragend`, saveGiveawaySource.bind(null, giveaway));
+        if (!esgst.lockGiveawayColumns) {
+            giveaway.gvIcons.addEventListener(`dragenter`, getGiveawaySource.bind(null, giveaway, false));
+            let item = giveaway.gvIcons.firstElementChild;
+            item.addEventListener(`dragstart`, setGiveawaySource.bind(null, giveaway));
+            item.addEventListener(`dragenter`, getGiveawaySource.bind(null, giveaway, false));
+            item.addEventListener(`dragend`, saveGiveawaySource.bind(null, giveaway));
+        }
         if (giveaway.inviteOnly) {
             giveaway.gvIcons.appendChild(giveaway.inviteOnly);
         }
@@ -20198,7 +20206,7 @@ Parsedown = (() => {
             if (giveaway.started) {
                 let context = insertHtml(giveaway.panel, (esgst.gv && ((main && esgst.giveawaysPath) || (source === `gb` && esgst.gv_gb) || (source === `ged` && esgst.gv_ged) || (source === `ge` && esgst.gv_ge))) ? `afterBegin` : `beforeEnd`, `<div class="${esgst.giveawayPath ? `featured__column` : ``} esgst-gwc" data-columnId="gwc" title="Giveaway Winning Chance">`);
                 addGwcChance(context, giveaway);
-                if (!main || esgst.giveawaysPath || esgst.userPath || esgst.groupPath) {
+                if (!esgst.lockGiveawayColumns && (!main || esgst.giveawaysPath || esgst.userPath || esgst.groupPath)) {
                     context.setAttribute(`draggable`, true);
                     context.addEventListener(`dragstart`, setGiveawaySource.bind(null, giveaway));
                     context.addEventListener(`dragenter`, getGiveawaySource.bind(null, giveaway, false));
@@ -20297,7 +20305,7 @@ Parsedown = (() => {
         if (giveaway.started && ((giveaway.inviteOnly && ((main && esgst.giveawayPath) || !main || giveaway.ended)) || !giveaway.inviteOnly) && !giveaway.innerWrap.getElementsByClassName(`esgst-gwr`)[0]) {
             let context = insertHtml(giveaway.panel, (esgst.gv && ((main && esgst.giveawaysPath) || (source === `gb` && esgst.gv_gb) || (source === `ged` && esgst.gv_ged) || (source === `ge` && esgst.gv_ge))) ? `afterBegin` : `beforeEnd`, `<div class="${esgst.giveawayPath ? `featured__column` : ``} esgst-gwr" data-columnId="gwr" title="Giveaway Winning Ratio">`);
             addGwcRatio(context, giveaway);
-            if (!main || esgst.giveawaysPath || esgst.userPath || esgst.groupPath) {
+            if (!esgst.lockGiveawayColumns && (!main || esgst.giveawaysPath || esgst.userPath || esgst.groupPath)) {
                 context.setAttribute(`draggable`, true);
                 context.addEventListener(`dragstart`, setGiveawaySource.bind(null, giveaway));
                 context.addEventListener(`dragenter`, getGiveawaySource.bind(null, giveaway, false));
@@ -26285,7 +26293,7 @@ Parsedown = (() => {
                 if (!giveaway.ended && !giveaway.entered && giveaway.points > esgst.points) {
                     if (!giveaway.ttec) {
                         giveaway.ttec = insertHtml(giveaway.panel, (esgst.gv && ((main && esgst.giveawaysPath) || (source === `gb` && esgst.gv_gb) || (source === `ged` && esgst.gv_ged) || (source === `ge` && esgst.gv_ge))) ? `beforeEnd` : `afterBegin`, `<div class="${esgst.giveawayPath ? `featured__column` : ``} esgst-ttec" data-columnId="ttec" title="Time to wait until you have enough points to enter this giveaway"></div>`);
-                        if (!main || esgst.giveawaysPath || esgst.userPath || esgst.groupPath) {
+                        if (!esgst.lockGiveawayColumns && (!main || esgst.giveawaysPath || esgst.userPath || esgst.groupPath)) {
                             giveaway.ttec.setAttribute(`draggable`, true);
                             giveaway.ttec.addEventListener(`dragstart`, setGiveawaySource.bind(null, giveaway));
                             giveaway.ttec.addEventListener(`dragenter`, getGiveawaySource.bind(null, giveaway, false));
@@ -29697,20 +29705,22 @@ Parsedown = (() => {
             if (giveaway.levelColumn) {
                 giveaway.levelColumn.setAttribute(`data-columnId`, `level`);
             }
-            if (giveaway.columns) {
-                for (let i = giveaway.columns.children.length - 1; i > -1; i--) {
-                    let item = giveaway.columns.children[i];
-                    item.setAttribute(`draggable`, true);
-                    item.addEventListener(`dragstart`, setGiveawaySource.bind(null, giveaway));
-                    item.addEventListener(`dragenter`, getGiveawaySource.bind(null, giveaway, false));
-                    item.addEventListener(`dragend`, saveGiveawaySource.bind(null, giveaway));
+            if (!esgst.lockGiveawayColumns) {
+                if (giveaway.columns) {
+                    for (let i = giveaway.columns.children.length - 1; i > -1; i--) {
+                        let item = giveaway.columns.children[i];
+                        item.setAttribute(`draggable`, true);
+                        item.addEventListener(`dragstart`, setGiveawaySource.bind(null, giveaway));
+                        item.addEventListener(`dragenter`, getGiveawaySource.bind(null, giveaway, false));
+                        item.addEventListener(`dragend`, saveGiveawaySource.bind(null, giveaway));
+                    }
                 }
-            }
-            if (giveaway.columns) {
-                giveaway.columns.addEventListener(`dragenter`, getGiveawaySource.bind(null, giveaway, false));
-            }
-            if (giveaway.panel) {
-                giveaway.panel.addEventListener(`dragenter`, getGiveawaySource.bind(null, giveaway, true));
+                if (giveaway.columns) {
+                    giveaway.columns.addEventListener(`dragenter`, getGiveawaySource.bind(null, giveaway, false));
+                }
+                if (giveaway.panel) {
+                    giveaway.panel.addEventListener(`dragenter`, getGiveawaySource.bind(null, giveaway, true));
+                }
             }
         }
         if (esgst.gf && esgst.gf_s) {
