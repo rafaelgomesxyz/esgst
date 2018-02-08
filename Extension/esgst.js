@@ -1975,11 +1975,10 @@ Parsedown = (() => {
             sg: location.hostname.match(/www.steamgifts.com/),
             st: location.hostname.match(/www.steamtrades.com/),
             currentVersion: `7.14.2`,
-            devVersion: `7.14.3 (Dev.3)`,
+            devVersion: `7.14.3 (Dev.4)`,
             icon: `data:image/x-icon;base64,AAABAAEAEBAAAAEAIABoBAAAFgAAACgAAAAQAAAAIAAAAAEAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAqv8DCbP/Hgeq+CQIrf8iCK3/Igit/yIIrf8iB6//Iwit9x8Aqv8DAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAKr0GAa2/c0DvfzfA7f83QO3/N0Dt/zdA7f83QO+/d4Gs/3OAKP1GQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACm/xQFs/n2Bcf//wW///8FwP//BcD//wW///8Fx///BbP69gC2/xUAAAAAAAAAAAAAAAAA/1UDFptOFxSZMxkLpJktAq720QW1+ugEsfvjA7b92wO2/dsEsfvjBbX66Aau/dEoiO4tUlLWGU5k3hdVVf8DEJxKHxWqT8cVrU7uE6VN0guqny0Apv8XAJfQGwBAVywAQFcsAJfQGwCx/xcogugtS2Lk0lBl6u5Qae7ISmPeHxagSSMVr07jF7lV/xOiSu0brgATAAAAAAAAAA8AAAC/AAAAwAAAABAAAAAAYznjEkth4OxWb/3/T2jv40lf4iMXnksiEq1O3RayUv8UpEnkEo0+HQAAABkAAABBAAAA8QAAAPEAAABBAAAAGUBSvxxOYeDjU2v0/05m7d1LYuEiF55LIhKtTt0Ws1L/FahN2gU1FTAAAADAAAAA7AAAAP0AAAD9AAAA7AAAAMAVG0owUGPm2lNr9P9OZu3dS2LhIheeSyISrU7dFrNS/xWoTdoFNRswAAAAvwAAAOsAAAD9AAAA/QAAAOsAAADAFRtKMFBj6NpTa/T/Tmbt3Uti4SIXnksiEq1O3RayUv8UpEnkEo0+HQAAABgAAABAAAAA8QAAAPEAAABBAAAAGT5PuR1OYeDjU2v0/05m7d1LYuEiFqBJIxWuT+QXuVX/E6JL7QC8XhMAAAAAAAAADwAAAL8AAAC/AAAAEAAAAAAOR/8SSWLh7FZv/f9PaO/jSV/iIxCUSh8Vrk7HFqxN7ROlS9JskzMt1XULGK12EhxGLgYsRy8GK612EhzVgAsYgmxxLU1i39JNZ+vtT2fwx0pj1h8AqlUDF65GFgqZUhlsiC0txH0T0s5/EujJgBPkz4QR28+EEdvJgBPkzn8Q6Md+E9KLdHosM1LWGUZo6BZVVf8DAAAAAAAAAAAAAAAA/2YAFMl9EvbgjRb/14gV/9eIFf/XiBX/14gV/9+NFv/KgBD254YAFQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAL91FRjKgRHN1IgU3s+EEt3PhBLdz4QS3c+EEt3UiBTezYMRzcJ6FBkAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACqqgADxIARHr18FiO8eA8ivHgPIrx4DyK8eA8ivXwPI8SAER7/VQADAAAAAAAAAAAAAAAA78cAAPA3AAD4FwAABCAAADGOAAAE+AAAkBEAAJ55AACYOQAAlgEAAER4AAAXaAAATnoAAPgXAAD0JwAA69cAAA==`,
             sgIcon: `data:image/x-icon;base64,AAABAAEAEBAAAAEAIABoBAAAFgAAACgAAAAQAAAAIAAAAAEAIAAAAAAAQAQAABMLAAATCwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIUAAAD5AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAPoAAACFAAAAAAAAAAAAAAD8AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA+QAAAAAAAAAAAAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAAAAAAAAAAAAP8AAAD/AAAA/wAAABwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAcAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAcAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAHAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAAAAAAAAAAAAPwAAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD5AAAAAAAAAAAAAACFAAAA+QAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD5AAAAhQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA//8AAP//AADAAwAAwAMAAMfjAADP8wAAz/MAAM/zAADP8wAAz/MAAM/zAADH4wAAwAMAAMADAAD//wAA//8AAA==`,
             stIcon: `data:image/x-icon;base64,AAABAAEAEBAAAAEAIABoBAAAFgAAACgAAAAQAAAAIAAAAAEAIAAAAAAAQAQAABMLAAATCwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABbD6SgWw+ucFsPrkBbD6SgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAWw+uYFsPr/BbD6/wWw+ucAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAFsPrmBbD6/wWw+v8FsPrmAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABbD6SQWw+uYFsPrmBbD6SQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAFKRLShSkS+cUpEvkFKRLSgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAExi4EpMYuDnTGLg5Exi4EoAAAAAAAAAABSkS+YUpEv/FKRL/xSkS+cAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABMYuDmTGLg/0xi4P9MYuDnAAAAAAAAAAAUpEvmFKRL/xSkS/8UpEvmAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAATGLg5kxi4P9MYuD/TGLg5gAAAAAAAAAAFKRLSRSkS+YUpEvmFKRLSQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAExi4ElMYuDmTGLg5kxi4EkAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAMZ9E0rGfRPnxn0T5MZ9E0oAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADGfRPmxn0T/8Z9E//GfRPnAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAxn0T5sZ9E//GfRP/xn0T5gAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAMZ9E0nGfRPmxn0T5sZ9E0kAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA//8AAPw/AAD8PwAA/D8AAPw/AAD//wAAh+EAAIfhAACH4QAAh+EAAP//AAD8PwAA/D8AAPw/AAD8PwAA//8AAA==`,
-            endlessFeatures: [],
             currentGiveaways: [],
             attachedImages: [],
             currentComments: [],
@@ -6198,8 +6197,6 @@ Parsedown = (() => {
             addGiveawayToStorage();
         }
 
-        if (esgst.at) loadAt();
-        if (esgst.ev) loadEv();
         if (esgst.ff) loadFf();
         if (esgst.fh) loadFh();
         if (esgst.fmph) loadFmph();
@@ -6209,22 +6206,17 @@ Parsedown = (() => {
         if (esgst.hcp) loadHcp();
         if (esgst.hfc) loadHfc();
         if (esgst.hr) loadHr();
-        if (esgst.ib) loadIb();
         if (esgst.lpl) loadLpl();
         if (esgst.lpv) loadLpv();
         if (esgst.nm) loadNm();
         if (esgst.pnot) loadPnot();
         if (esgst.sk) loadSk();
         if (esgst.smgb) loadSmgb();
-        if (esgst.vai) loadVai();
         if (esgst.aic) loadAic();
-        if (esgst.ail) loadAil();
 
         if (esgst.ags) loadAgs();
         if (esgst.as) loadAs();
         if (esgst.cec) loadCec();
-        if (esgst.cewgd) loadCewgd();
-        if (esgst.dkc) loadDkc();
         if (esgst.et) loadEt();
         if (esgst.gas) loadGas();
         if (esgst.gb) await loadGb();
@@ -6236,8 +6228,6 @@ Parsedown = (() => {
         if (esgst.gr) await loadGr();
         if (esgst.gts) loadGts();
         if (esgst.gv) loadGv();
-        if (esgst.gwc) loadGwc();
-        if (esgst.gwr) loadGwr();
         if (esgst.hgebd) loadHgebd();
         if (esgst.hgr) loadHgr();
         if (esgst.hpg) loadHpg();
@@ -6247,11 +6237,9 @@ Parsedown = (() => {
         if (esgst.qgb) loadQgb();
         if (esgst.qgs) loadQgs();
         if (esgst.rcvc) loadRcvc();
-        if (esgst.sal) loadSal();
         if (esgst.sks) loadSks();
         if (esgst.sgac) loadSgac();
         if (esgst.sgg) await loadSgg();
-        if (esgst.ueg) loadUeg();
         if (esgst.ugs) loadUgs();
         
         if (esgst.ded) loadDed();
@@ -6270,54 +6258,33 @@ Parsedown = (() => {
         if (esgst.cr) loadCr();
         if (esgst.cs) loadCs();
         if (esgst.ct) loadCt();
-        if (esgst.mr) loadMr();
         if (esgst.rbot) loadRbot();
         if (esgst.rbp) loadRbp();
-        if (esgst.rfi) loadRfi();
-        if (esgst.rml) loadRml();
         
         if (esgst.namwc) loadNamwc();
-        if (esgst.iwh) await loadIwh();
-        if (esgst.us) await loadUs();
         if (esgst.ust) loadUst();
         if (esgst.wbc) loadWbc();
         if (esgst.wbm) loadWbm();
         if (esgst.wbs) loadWbs();
 
-        if (esgst.gh) loadGh();
         if (esgst.glwc) await loadGlwc();
         if (esgst.gs) loadGs();
 
         if (esgst.gc) loadGc();
 
-        if (esgst.ap) loadAp();
         if (esgst.mt) loadMt();
         if (esgst.stbb) loadStbb();
         if (esgst.sttb) loadSttb();
 
-        if ((esgst.ct && (esgst.giveawaysPath || esgst.discussionsPath)) || (esgst.gdttt && (esgst.giveawaysPath || esgst.discussionsPath || esgst.discussionsTicketsTradesPath)) || (esgst.ust && esgst.ticketsPath)) {
-            esgst.endlessFeatures.push(addCtDiscussionPanels);
-            await addCtDiscussionPanels(document);
-        }
-
         if (esgst.userPath) {
             loadProfileFeatures(document);
         }
-        esgst.endlessFeatures.push(loadGiveawayFeatures);
-        await loadGiveawayFeatures(document, true);
-        esgst.endlessFeatures.push(loadDiscussionFeatures);
-        await loadDiscussionFeatures(document, true);
-        esgst.endlessFeatures.push(loadCommentFeatures);
-        await loadCommentFeatures(document, true);
-        esgst.endlessFeatures.push(loadUserFeatures);
-        loadUserFeatures(document);
-        esgst.endlessFeatures.push(loadGameFeatures);
-        await loadGameFeatures(document, true);
 
         if (esgst.qiv) loadQiv(true);
-        if (esgst.ts) loadTs();
+
+        loadEndlessFeatures(document, true);
+
         if (esgst.es) loadEs();
-        if (esgst.sto) loadSto();
 
         if (esgst.hideButtons && esgst.mainPageHeading) {
             if (!esgst.leftButtons.querySelector(`.esgst-heading-button:not(.esgst-hidden)`)) {
@@ -6813,8 +6780,6 @@ Parsedown = (() => {
     /* [AIC] Attached Images Carousel */
 
     function loadAic() {
-        esgst.endlessFeatures.push(getAicImages);
-        getAicImages(document);
         document.addEventListener(`keydown`, event => {
             if (event.key === `ArrowLeft` && esgst.aicPrevious) {
                 esgst.aicPrevious.click();
@@ -6933,12 +6898,6 @@ Parsedown = (() => {
 
     /* [AIL] Attached Images Loader */
 
-    function loadAil() {
-        if (esgst.vai) return;
-        esgst.endlessFeatures.push(getAilImages);
-        getAilImages(document);
-    }
-
     function getAilImages(context) {
         let buttons = context.querySelectorAll(`.comment__toggle-attached, .view_attached`);
         for (let i = 0, n = buttons.length; i < n; i++) {
@@ -6955,11 +6914,6 @@ Parsedown = (() => {
     }
 
     /* [AP] Avatar Popout */
-
-    function loadAp() {
-        esgst.endlessFeatures.push(getApAvatars);
-        getApAvatars(document);
-    }
 
     function getApAvatars(context) {
         var i, matches, n;
@@ -7191,11 +7145,6 @@ Parsedown = (() => {
 
     /* [AT] Accurate Timestamps */
 
-    function loadAt() {
-        esgst.endlessFeatures.push(getTimestamps);
-        getTimestamps(document);
-    }
-
     function getTimestamps(context) {
         var timestamps, i, n, timestamp, text, edited, seconds, accurateTimestamp;
         timestamps = context.querySelectorAll(`[data-timestamp]`);
@@ -7389,11 +7338,10 @@ Parsedown = (() => {
                     </span>
                 </div>
             `);
-            collapse = button.firstElementChild;
-            expand = collapse.nextElementSibling;
+            esgst.cerbCollapse = collapse = button.firstElementChild;
+            esgst.cerpExpand = expand = collapse.nextElementSibling;
             collapse.addEventListener(`click`, collapseAllCerbReplies.bind(null, collapse, expand));
             expand.addEventListener(`click`, expandAllCerbReplies.bind(null, collapse, expand));
-            esgst.endlessFeatures.push(getCerbReplies.bind(null, collapse, expand, null));
             id = location.hash.replace(/#/, ``);
             getCerbReplies(collapse, expand, id ? document.getElementById(id) : null, document);
         }
@@ -7479,12 +7427,6 @@ Parsedown = (() => {
     }
 
     /* [CEWGD] Created/Entered/Won Giveaway Details */
-
-    function loadCewgd() {
-        if (!esgst.createdPath && !esgst.enteredPath && !esgst.wonPath) return;
-        esgst.endlessFeatures.push(addCewgdHeading);
-        addCewgdHeading(document, true);
-    }
 
     function addCewgdHeading(context, main) {
         var table;
@@ -10612,8 +10554,6 @@ Parsedown = (() => {
             });
         }
         esgst.cfh.preview.className = `esgst-cfh-preview markdown`;
-        esgst.endlessFeatures.push(setCfhTextAreas);
-        setCfhTextAreas(document);
     }
 
     function setCfhTextAreas(context) {
@@ -13271,12 +13211,6 @@ Parsedown = (() => {
 
     /* [DKC] Delete Keys Confirmation */
 
-    function loadDkc() {
-        if (!esgst.giveawayPath) return;
-        esgst.endlessFeatures.push(getDkcLinks);
-        getDkcLinks(document);
-    }
-
     function getDkcLinks(context) {
         var i, link, links, newLink;
         links = context.getElementsByClassName(`form__key-btn-delete`);
@@ -14179,10 +14113,7 @@ Parsedown = (() => {
                 </div>
             </div>
         `));
-        if (esgst.enteredPath) {
-            esgst.endlessFeatures.push(getEtEntries);
-            getEtEntries(document);
-        } else if (esgst.giveawayPath && !document.getElementsByClassName(`table--summary`)[0] && esgst.enterGiveawayButton) {
+        if (esgst.giveawayPath && !document.getElementsByClassName(`table--summary`)[0] && esgst.enterGiveawayButton) {
             let code, name;
             code = location.pathname.match(/^\/giveaway\/(.+?)\//)[1];
             name = document.getElementsByClassName(`featured__heading__medium`)[0].textContent;
@@ -14317,11 +14248,6 @@ Parsedown = (() => {
     }
 
     /* [EV] Embedded Videos */
-
-    function loadEv() {
-        esgst.endlessFeatures.push(getEvVideos);
-        getEvVideos(document);
-    }
 
     function getEvVideos(context) {
         var types, i, numTypes, type, videos, j, numVideos, video, previous, next, embedUrl, url, text, title;
@@ -16008,8 +15934,6 @@ Parsedown = (() => {
                 }
             }
         }
-        esgst.endlessFeatures.push(checkGdtttVisited);
-        await checkGdtttVisited(document);
     }
 
     async function checkGdtttVisited(context) {
@@ -18318,12 +18242,6 @@ Parsedown = (() => {
 
     /* [GH] Groups Highlighter */
 
-    function loadGh() {
-        if (esgst.groupsPath) return;
-        esgst.endlessFeatures.push(highlightGhGroups);
-        highlightGhGroups(document);
-    }
-
     async function highlightGhGroups(context) {
         var code, element, elements, i, j, key, n, savedGroups;
         savedGroups = JSON.parse(await getValue(`groups`, `[]`));
@@ -19240,8 +19158,6 @@ Parsedown = (() => {
             <div class="table__column--width-small text-center">Value Difference</div>
             <div class="table__column--width-small text-center">Users</div>
         `);
-        esgst.endlessFeatures.push(getGsGroups);
-        getGsGroups(document);
     }
 
     function getGsGroups(context) {
@@ -20201,12 +20117,6 @@ Parsedown = (() => {
 
     /* [GWC] Giveaway Winning Chance */
 
-    function loadGwc() {
-        if (!esgst.enteredPath) return;
-        esgst.endlessFeatures.push(addGwcrHeading);
-        addGwcrHeading(document, true);
-    }
-
     function addGwcChances(giveaway, main, source) {
         var i, n;
         if (((giveaway.inviteOnly && ((main && esgst.giveawayPath) || !main || giveaway.ended)) || !giveaway.inviteOnly) && !giveaway.innerWrap.getElementsByClassName(`esgst-gwc`)[0]) {
@@ -20300,12 +20210,6 @@ Parsedown = (() => {
     }
 
     /* [GWR] Giveaway Winning Ratio */
-
-    function loadGwr() {
-        if (esgst.gwc || !esgst.enteredPath) return;
-        esgst.endlessFeatures.push(addGwcrHeading);
-        addGwcrHeading(document, true);
-    }
 
     function addGwrRatios(giveaway, main, source) {
         var i, n;
@@ -20895,11 +20799,6 @@ Parsedown = (() => {
 
     /* [IB] Image Borders */
 
-    function loadIb() {
-        esgst.endlessFeatures.push(addIbBorders);
-        addIbBorders(document);
-    }
-
     function addIbBorders(context) {
         var elements, i, n;
         elements = context.querySelectorAll(`.giveaway_image_avatar, .featured_giveaway_image_avatar, :not(.esgst-ggl-panel) .table_image_avatar`);
@@ -21108,12 +21007,6 @@ Parsedown = (() => {
     }
 
     /* [IBH] Inbox Winners Highlighter */
-
-    async function loadIwh() {
-        if (!esgst.winnersPath && !esgst.inboxPath) return;
-        esgst.endlessFeatures.push(getIwhUsers);
-        await getIwhUsers(document);
-    }
 
     async function getIwhUsers(context) {
         let [callback, className] = esgst.winnersPath ? [setIWHObserver, `table__gift-not-sent`] : [highlightIWHWinner, `comments__entity`];
@@ -22640,12 +22533,6 @@ Parsedown = (() => {
     }
 
     /* [MR] Multi-Reply */
-
-    function loadMr() {
-        if (esgst.inboxPath) return;
-        esgst.endlessFeatures.push(getMrRfiButtons);
-        getMrRfiButtons(document, true);
-    }
 
     function getMrRfiButtons(context, main) {
         var matches = context.getElementsByClassName(esgst.sg ? `comment__actions` : `action_list`);
@@ -24787,12 +24674,6 @@ Parsedown = (() => {
 
     /* [RFI] Reply From Inbox */
 
-    function loadRfi() {
-        if (!esgst.inboxPath) return;
-        esgst.endlessFeatures.push(getMrRfiButtons);
-        getMrRfiButtons(document, true);
-    }
-
     async function saveRfiReply(id, reply, url, edit) {
         var i, n, source, saved;
         if (url) {
@@ -24853,11 +24734,6 @@ Parsedown = (() => {
     }
 
     /* [RML] Reply Mention Link */
-
-    function loadRml() {
-        esgst.endlessFeatures.push(addRmlLinks);
-        addRmlLinks(document);
-    }
 
     function addRmlLinks(context) {
         var matches = context.getElementsByClassName(esgst.sg ? `comment__children` : `comment_children`);
@@ -24924,14 +24800,6 @@ Parsedown = (() => {
     }
 
     /* [SAL] Steam Activation Links */
-
-    function loadSal() {
-        if (!esgst.wonPath) return;
-        esgst.endlessFeatures.push(addSalLinks);
-        addSalLinks(document);
-        esgst.endlessFeatures.push(addSalObservers);
-        addSalObservers(document);
-    }
 
     function addSalObservers(context) {
         var elements, i, n;
@@ -25235,9 +25103,6 @@ Parsedown = (() => {
     async function loadSgg() {
         if (esgst.newGiveawayPath && !document.getElementsByClassName(`table--summary`)[0]) {
             setSggGiveawayGroups();
-        } else if (esgst.groupsPath) {
-            esgst.endlessFeatures.push(setSggGroups);
-            await setSggGroups(document);
         }
     }
 
@@ -25847,11 +25712,6 @@ Parsedown = (() => {
 
     /* [STO] Same Tab Opener */
 
-    function loadSto() {
-        esgst.endlessFeatures.push(setStoLinks);
-        setStoLinks(document);
-    }
-
     function setStoLinks(context) {
         var elements, i, n;
         elements = context.querySelectorAll(`[target="_blank"]`);
@@ -26117,11 +25977,6 @@ Parsedown = (() => {
 
     /* [TS] Table Sorter */
 
-    function loadTs() {
-        esgst.endlessFeatures.push(getTsTables);
-        getTsTables(document);
-    }
-
     function getTsTables(context, main, source, endless) {
         var i, n, tables;
         tables = context.querySelectorAll(`.table, table`);
@@ -26359,11 +26214,6 @@ Parsedown = (() => {
     }
 
     /* [UEG] Unfaded Entered Giveaways */
-
-    function loadUeg() {
-        esgst.endlessFeatures.push(removeUegFade);
-        removeUegFade(document);
-    }
 
     function removeUegFade(context) {
         var elements, i, n;
@@ -27662,12 +27512,6 @@ Parsedown = (() => {
 
     /* [US] User Stats */
 
-    async function loadUs() {
-        if (!esgst.whitelistPath && !esgst.blacklistPath) return;
-        esgst.endlessFeatures.push(getUsUsers);
-        await getUsUsers(document, true);
-    }
-
     async function getUsUsers(context, main) {
         var i, us, username;
         if (!main && !context.closest(`.esgst-wbs-popup`)) {
@@ -28201,11 +28045,6 @@ Parsedown = (() => {
     }
 
     /* [VAI] Visible Attached Images */
-
-    function loadVai() {
-        esgst.endlessFeatures.push(getVaiImages);
-        getVaiImages(document);
-    }
 
     function getVaiImages(context) {
         let buttons = context.querySelectorAll(`.comment__toggle-attached, .view_attached`);
@@ -30596,8 +30435,89 @@ Parsedown = (() => {
         esgst.games = JSON.parse(values.games);
         esgst.giveaways = JSON.parse(values.giveaways);
         esgst.users = JSON.parse(values.users);
-        for (let i = 0, n = esgst.endlessFeatures.length; i < n; i++) {
-            await esgst.endlessFeatures[i](context, main, source, endless);
+        if (esgst.at) {
+            getTimestamps(context);
+        }
+        if (esgst.ev) {
+            getEvVideos(context);
+        }
+        if (esgst.ib) {
+            addIbBorders(context);
+        }
+        if (esgst.gdttt) {
+            await checkGdtttVisited(context);
+        }
+        if (esgst.vai) {
+            getVaiImages(context);
+        }
+        if (esgst.aic) {
+            getAicImages(context);
+        }
+        if (esgst.ail && !esgst.vai) {
+            getAilImages(context);
+        }
+        if (esgst.cewgd && (esgst.createdPath || esgst.enteredPath || esgst.wonPath)) {
+            addCewgdHeading(context, main);
+        }
+        if (esgst.dkc && esgst.giveawayPath) {
+            getDkcLinks(context);
+        }
+        if (esgst.et && esgst.enteredPath) {
+            getEtEntries(context);
+        }
+        if ((esgst.gwc || esgst.gwr) && esgst.enteredPath) {
+            addGwcrHeading(context, main);
+        }
+        if (esgst.sal && esgst.wonPath) {
+            addSalLinks(context);
+            addSalObservers(context);
+        }
+        if (esgst.ueg) {
+            removeUegFade(context);
+        }
+        if (esgst.sgg && esgst.groupsPath) {
+            await setSggGroups(context);
+        }
+        if (esgst.cerb && esgst.commentsPath) {
+            getCerbReplies(esgst.cerbCollapse, esgst.cerbExpand, null, context);
+        }
+        if (esgst.cfh) {
+            setCfhTextAreas(context);
+        }
+        if ((esgst.mr && !esgst.inboxPath) || (esgst.rfi && esgst.inboxPath)) {
+            getMrRfiButtons(context, main);
+        }
+        if (esgst.rml) {
+            addRmlLinks(context);
+        }
+        if (esgst.iwh && (esgst.winnersPath || esgst.inboxPath)) {
+            await getIwhUsers(context);
+        }
+        if (esgst.us && (esgst.whitelistPath || esgst.blacklistPath)) {
+            await getUsUsers(context, main);
+        }
+        if (esgst.gh && !esgst.groupsPath) {
+            highlightGhGroups(context);
+        }
+        if (esgst.gs && esgst.groupsPath) {
+            getGsGroups(context);
+        }
+        if (esgst.ap) {
+            getApAvatars(context);
+        }
+        if ((esgst.ct && (esgst.giveawaysPath || esgst.discussionsPath)) || (esgst.gdttt && (esgst.giveawaysPath || esgst.discussionsPath || esgst.discussionsTicketsTradesPath)) || (esgst.ust && esgst.ticketsPath)) {
+            await addCtDiscussionPanels(context, main, source, endless);
+        }
+        await loadGiveawayFeatures(context, main, source, endless);
+        await loadDiscussionFeatures(context, main, source, endless);
+        await loadCommentFeatures(context, main);
+        loadUserFeatures(context);
+        await loadGameFeatures(context, main, source, endless);
+        if (esgst.ts) {
+            getTsTables(context, main, source, endless);
+        }
+        if (esgst.sto) {
+            setStoLinks(context);
         }
     }
 
