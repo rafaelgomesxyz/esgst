@@ -1981,7 +1981,7 @@ Parsedown = (() => {
             sg: location.hostname.match(/www.steamgifts.com/),
             st: location.hostname.match(/www.steamtrades.com/),
             currentVersion: `7.14.2`,
-            devVersion: `7.14.3 (Dev.12)`,
+            devVersion: `7.14.3 (Dev.13)`,
             icon: `data:image/x-icon;base64,AAABAAEAEBAAAAEAIABoBAAAFgAAACgAAAAQAAAAIAAAAAEAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAqv8DCbP/Hgeq+CQIrf8iCK3/Igit/yIIrf8iB6//Iwit9x8Aqv8DAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAKr0GAa2/c0DvfzfA7f83QO3/N0Dt/zdA7f83QO+/d4Gs/3OAKP1GQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACm/xQFs/n2Bcf//wW///8FwP//BcD//wW///8Fx///BbP69gC2/xUAAAAAAAAAAAAAAAAA/1UDFptOFxSZMxkLpJktAq720QW1+ugEsfvjA7b92wO2/dsEsfvjBbX66Aau/dEoiO4tUlLWGU5k3hdVVf8DEJxKHxWqT8cVrU7uE6VN0guqny0Apv8XAJfQGwBAVywAQFcsAJfQGwCx/xcogugtS2Lk0lBl6u5Qae7ISmPeHxagSSMVr07jF7lV/xOiSu0brgATAAAAAAAAAA8AAAC/AAAAwAAAABAAAAAAYznjEkth4OxWb/3/T2jv40lf4iMXnksiEq1O3RayUv8UpEnkEo0+HQAAABkAAABBAAAA8QAAAPEAAABBAAAAGUBSvxxOYeDjU2v0/05m7d1LYuEiF55LIhKtTt0Ws1L/FahN2gU1FTAAAADAAAAA7AAAAP0AAAD9AAAA7AAAAMAVG0owUGPm2lNr9P9OZu3dS2LhIheeSyISrU7dFrNS/xWoTdoFNRswAAAAvwAAAOsAAAD9AAAA/QAAAOsAAADAFRtKMFBj6NpTa/T/Tmbt3Uti4SIXnksiEq1O3RayUv8UpEnkEo0+HQAAABgAAABAAAAA8QAAAPEAAABBAAAAGT5PuR1OYeDjU2v0/05m7d1LYuEiFqBJIxWuT+QXuVX/E6JL7QC8XhMAAAAAAAAADwAAAL8AAAC/AAAAEAAAAAAOR/8SSWLh7FZv/f9PaO/jSV/iIxCUSh8Vrk7HFqxN7ROlS9JskzMt1XULGK12EhxGLgYsRy8GK612EhzVgAsYgmxxLU1i39JNZ+vtT2fwx0pj1h8AqlUDF65GFgqZUhlsiC0txH0T0s5/EujJgBPkz4QR28+EEdvJgBPkzn8Q6Md+E9KLdHosM1LWGUZo6BZVVf8DAAAAAAAAAAAAAAAA/2YAFMl9EvbgjRb/14gV/9eIFf/XiBX/14gV/9+NFv/KgBD254YAFQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAL91FRjKgRHN1IgU3s+EEt3PhBLdz4QS3c+EEt3UiBTezYMRzcJ6FBkAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACqqgADxIARHr18FiO8eA8ivHgPIrx4DyK8eA8ivXwPI8SAER7/VQADAAAAAAAAAAAAAAAA78cAAPA3AAD4FwAABCAAADGOAAAE+AAAkBEAAJ55AACYOQAAlgEAAER4AAAXaAAATnoAAPgXAAD0JwAA69cAAA==`,
             sgIcon: `data:image/x-icon;base64,AAABAAEAEBAAAAEAIABoBAAAFgAAACgAAAAQAAAAIAAAAAEAIAAAAAAAQAQAABMLAAATCwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIUAAAD5AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAPoAAACFAAAAAAAAAAAAAAD8AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA+QAAAAAAAAAAAAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAAAAAAAAAAAAP8AAAD/AAAA/wAAABwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAcAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAcAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAHAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAAAAAAAAAAAAPwAAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD5AAAAAAAAAAAAAACFAAAA+QAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD5AAAAhQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA//8AAP//AADAAwAAwAMAAMfjAADP8wAAz/MAAM/zAADP8wAAz/MAAM/zAADH4wAAwAMAAMADAAD//wAA//8AAA==`,
             stIcon: `data:image/x-icon;base64,AAABAAEAEBAAAAEAIABoBAAAFgAAACgAAAAQAAAAIAAAAAEAIAAAAAAAQAQAABMLAAATCwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABbD6SgWw+ucFsPrkBbD6SgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAWw+uYFsPr/BbD6/wWw+ucAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAFsPrmBbD6/wWw+v8FsPrmAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABbD6SQWw+uYFsPrmBbD6SQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAFKRLShSkS+cUpEvkFKRLSgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAExi4EpMYuDnTGLg5Exi4EoAAAAAAAAAABSkS+YUpEv/FKRL/xSkS+cAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABMYuDmTGLg/0xi4P9MYuDnAAAAAAAAAAAUpEvmFKRL/xSkS/8UpEvmAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAATGLg5kxi4P9MYuD/TGLg5gAAAAAAAAAAFKRLSRSkS+YUpEvmFKRLSQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAExi4ElMYuDmTGLg5kxi4EkAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAMZ9E0rGfRPnxn0T5MZ9E0oAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADGfRPmxn0T/8Z9E//GfRPnAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAxn0T5sZ9E//GfRP/xn0T5gAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAMZ9E0nGfRPmxn0T5sZ9E0kAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA//8AAPw/AAD8PwAA/D8AAPw/AAD//wAAh+EAAIfhAACH4QAAh+EAAP//AAD8PwAA/D8AAPw/AAD8PwAA//8AAA==`,
@@ -5397,49 +5397,46 @@ Parsedown = (() => {
                 };
                 popup.open();
             };
-            continueRequest = (data, headers, method, url, callback, anon, closeLock) => {
-                chrome.runtime.sendMessage({
-                    action: `fetch`,
-                    parameters: JSON.stringify({
-                        body: data,
-                        credentials: anon ? `omit` : `include`,
-                        headers: headers,
-                        method: method,
-                        redirect: `follow`
-                    }),
-                    url: url.replace(/^\//, `https://${location.hostname}/`).replace(/^https?:/, location.href.match(/^http:/) ? `http:` : `https:`)
-                }, response => {
-                    if (closeLock) {
-                        closeLock();
-                    }
-                    response = JSON.parse(response);
-                    if (response.finalUrl.match(/www.steamgifts.com/)) {
-                        lookForPopups(response);
-                    }
-                    if (callback) {
-                        callback(response);
-                    }
-                });
-            };
-            continueRequest_v2 = details => {
-                return new Promise((resolve, reject) => {
-                    chrome.runtime.sendMessage({
-                        action: `fetch`,
-                        parameters: JSON.stringify({
+            continueRequest = details => {
+                return new Promise(async (resolve, reject) => {
+                    if (details.url.match(/^\//) || details.url.match(new RegExp(location.hostname))) {
+                        details.url = details.url.replace(/^\//, `https://${location.hostname}/`).replace(/^https?:/, location.href.match(/^http:/) ? `http:` : `https:`);
+                        let response = await fetch(details.url, {
                             body: details.data,
                             credentials: details.anon ? `omit` : `include`,
-                            headers: details.headers,
+                            headers: new Headers(details.headers),
                             method: details.method,
                             redirect: `follow`
-                        }),
-                        url: details.url.replace(/^\//, `https://${location.hostname}/`).replace(/^https?:/, location.href.match(/^http:/) ? `http:` : `https:`)
-                    }, response => {
-                        response = JSON.parse(response);
+                        });
+                        let responseText = await response.text();
+                        response = {
+                            finalUrl: response.url,
+                            redirected: response.redirected,
+                            responseText: responseText
+                        };
                         resolve(response);
                         if (response.finalUrl.match(/www.steamgifts.com/)) {
                             lookForPopups(response);
                         }
-                    });
+                    } else {
+                        chrome.runtime.sendMessage({
+                            action: `fetch`,
+                            parameters: JSON.stringify({
+                                body: details.data,
+                                credentials: details.anon ? `omit` : `include`,
+                                headers: details.headers,
+                                method: details.method,
+                                redirect: `follow`
+                            }),
+                            url: details.url.replace(/^\//, `https://${location.hostname}/`).replace(/^https?:/, location.href.match(/^http:/) ? `http:` : `https:`)
+                        }, response => {
+                            response = JSON.parse(response);
+                            resolve(response);
+                            if (response.finalUrl.match(/www.steamgifts.com/)) {
+                                lookForPopups(response);
+                            }
+                        });
+                    }
                 });
             };
             addHeaderMenu = () => {
@@ -5613,52 +5610,7 @@ Parsedown = (() => {
                 };
                 popup.open();
             };
-            continueRequest = async (data, headers, method, url, callback, anon, closeLock) => {
-                if (url.match(/^\//) || url.match(new RegExp(location.hostname))) {
-                    url = url.replace(/^https?:/, location.href.match(/^http:/) ? `http:` : `https:`);
-                    let response = await fetch(url, {
-                        body: data,
-                        credentials: anon ? `omit` : `include`,
-                        headers: headers,
-                        method: method,
-                        redirect: `follow`
-                    });
-                    let responseText = await response.text();
-                    if (closeLock) {
-                        closeLock();
-                    }
-                    response = {
-                        finalUrl: response.url,
-                        redirected: response.redirected,
-                        responseText: responseText
-                    };
-                    if (callback) {
-                        callback(response);
-                    }
-                    if (response.finalUrl.match(/www.steamgifts.com/)) {
-                        lookForPopups(response);
-                    }
-                } else {
-                    GM.xmlHttpRequest({
-                        data: data,
-                        headers: headers,
-                        method: method,
-                        url: url,
-                        onload: response => {
-                            if (closeLock) {
-                                closeLock();
-                            }
-                            if (callback) {
-                                callback(response);
-                            }
-                            if (response.finalUrl.match(/www.steamgifts.com/)) {
-                                lookForPopups(response);
-                            }
-                        }
-                    });
-                }
-            };
-            continueRequest_v2 = details => {
+            continueRequest = details => {
                 return new Promise(async (resolve, reject) => {
                     if (details.url.match(/^\//) || details.url.match(new RegExp(location.hostname))) {
                         details.url = details.url.replace(/^https?:/, location.href.match(/^http:/) ? `http:` : `https:`);
@@ -6030,7 +5982,7 @@ Parsedown = (() => {
                 document.head.insertAdjacentHTML(`beforeEnd`, `<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.min.css"><link rel="stylesheet" type="text/css" href="https://cdn.steamgifts.com/css/minified_v30.css">`);
             }
             addStyle();
-            getElements(logoutButton);
+            await getElements(logoutButton);
             if (esgst.sg && !esgst.menuPath) {
                 checkSync();
             }
@@ -6125,7 +6077,7 @@ Parsedown = (() => {
                                 esgst.featuredContainer = insertHtml(esgst.pageOuterWrap, `beforeBegin`, `<div class="featured__container"></div>`);
                                 esgst.featuredContainer.innerHTML = responseHtml.getElementsByClassName(`featured__container`)[0].innerHTML;
                                 esgst.pageOuterWrap.innerHTML = responseHtml.getElementsByClassName(`page__outer-wrap`)[0].innerHTML;
-                                getElements(logoutButton);
+                                await getElements(logoutButton);
                                 esgst.sidebar.insertAdjacentHTML(`afterBegin`, `
                                     <div class="sidebar__error is-disabled">
                                         <i class="fa fa-exclamation-circle"></i> ${match[1] ? (match[1] === `previously ` ? `Off Your Blacklist<br>(${summary.firstElementChild.outerHTML})` : (match[1] === `have been` ? `You Are Blacklisted` : `On Your Blacklist`)) : `On Your Blacklist`}
@@ -30574,7 +30526,7 @@ Parsedown = (() => {
         return esgst.markdownParser.text(string);
     }
 
-    function getElements(logoutButton) {
+    async function getElements(logoutButton) {
         if (esgst.sg) {
             esgst.pageOuterWrapClass = `page__outer-wrap`;
             esgst.pageHeadingClass = `page__heading`;
@@ -30625,7 +30577,7 @@ Parsedown = (() => {
         url += `page=`;
         esgst.searchUrl = url;
         if (!esgst.menuPath) {
-            refreshHeaderElements(document);
+            await refreshHeaderElements(document);
         }
         esgst.header = document.getElementsByTagName(`header`)[0];
         esgst.headerNavigationLeft = document.getElementsByClassName(`nav__left-container`)[0];
@@ -39868,11 +39820,11 @@ Parsedown = (() => {
         }
         if (details.queue) {
             let deleteLock = await createLock(`requestLock`, 1000);
-            let response = await continueRequest_v2(details);
+            let response = await continueRequest(details);
             deleteLock();
             return response;
         } else {
-            return await continueRequest_v2(details);
+            return await continueRequest(details);
         }
     }
 
