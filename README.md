@@ -949,6 +949,24 @@ To upgrade from the script to the extension or downgrade from the extension to t
 
 ## Changelog
 
+**7.14.3 (February 12, 2018):**
+
+<ul>
+    <li><a href="https://github.com/revilheart/ESGST/issues/471">#471 Fix a bug that happens when using the Comment Tracker buttons from the main discussions page</a></li>
+    <li><a href="https://github.com/revilheart/ESGST/issues/472">#472 Open discussion in a new tab when middle-clicking the button to go to its first unread comment</a></li>
+    <li><a href="https://github.com/revilheart/ESGST/issues/473">#473 Fix a bug that happens when hiding discussions</a></li>
+    <li><a href="https://github.com/revilheart/ESGST/issues/477">#477 Fix a bug that happens when using Group/Library Wishlist Checker</a></li>
+    <li><a href="https://github.com/revilheart/ESGST/issues/475">#475 Fix a bug in Quick Inbox View</a></li>
+    <li><a href="https://github.com/revilheart/ESGST/issues/474">#474 Fix a bug that happens when syncing wishlisted games</a></li>
+    <li><a href="https://github.com/revilheart/ESGST/issues/476">#476 Change saving popup to a message next to the switch</a></li>
+    <li><a href="https://github.com/revilheart/ESGST/issues/483">#483 Also open features in a new tab when middle-clicking them</a></li>
+    <li><a href="https://github.com/revilheart/ESGST/issues/480">#480 Remove the option to notify errors</a></li>
+    <li><a href="https://github.com/revilheart/ESGST/issues/484">#484 Fix a bug that does not load features correctly in ESGST-generated pages</a></li>
+    <li><a href="https://github.com/revilheart/ESGST/issues/479">#479 Fix a bug in Collapse/Expand Replies Button that happens if the option to automatically collapse is enabled</a></li>
+    <li><a href="https://github.com/revilheart/ESGST/issues/482">#482 Make the extension compatible with Firefox Containers</a></li>
+    <li><a href="https://github.com/revilheart/ESGST/issues/485">#485 Fix a bug that happens when visiting discussions if the auto option for Discussions Sorter is enabled</a></li>
+</ul>
+
 **7.14.2 (February 7, 2018):**
 
 <ul>
