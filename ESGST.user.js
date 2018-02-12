@@ -3,7 +3,7 @@
 // @namespace ESGST
 // @description Enhances SteamGifts and SteamTrades by adding some cool features to them.
 // @icon https://dl.dropboxusercontent.com/s/lr3t3bxrxfxylqe/esgstIcon.ico?raw=1
-// @version 7.14.2
+// @version 7.14.3
 // @author revilheart
 // @contributor Royalgamer06
 // @downloadURL https://github.com/revilheart/ESGST/raw/master/ESGST.user.js
@@ -1462,8 +1462,10 @@ Parsedown = (() => {
                 if (!settings) {
                     settings = this.actions.firstElementChild;
                     settings.classList.remove(`esgst-hidden`);
-                    settings.addEventListener(`click`, () => {
-                        if (esgst.openSettingsInTab) {
+                    settings.addEventListener(`mousedown`, event => {
+                        if (event.button === 2) return;
+                        event.preventDefault();
+                        if (esgst.openSettingsInTab || event.button === 1) {
                             open(`/esgst/settings`);
                         } else {
                             loadSMMenu();
@@ -1583,10 +1585,15 @@ Parsedown = (() => {
                 esgst.settings[key] = setting;
                 esgst[this.id] = this.value;
                 if (!settings) {
-                    let popup = new Popup(`fa-circle-o-notch fa-spin`, `Saving...`);
-                    popup.open();
+                    let message = insertHtml(this.container, `beforeEnd`, `
+                        <div class="esgst-description esgst-bold">
+                            <i class="fa fa-circle-o-notch fa-spin"></i> Saving...
+                        </div>
+                    `);
                     await setSetting(key, setting);
-                    popup.close();
+                    message.classList.add(`esgst-green`);
+                    message.innerHTML = `<i class="fa fa-check"></i> Saved!`;
+                    setTimeout(message.remove.bind(message), 2500);
                 }
             }
             if (this.value) {
@@ -1618,8 +1625,7 @@ Parsedown = (() => {
     }
 
     let esgst;
-    // initialize esgst    
-    window.onerror = alertError;
+    // initialize esgst
     init();
 
     async function init() {
@@ -1974,12 +1980,11 @@ Parsedown = (() => {
             markdownParser: new Parsedown(),
             sg: location.hostname.match(/www.steamgifts.com/),
             st: location.hostname.match(/www.steamtrades.com/),
-            currentVersion: `7.14.2`,
-            devVersion: `7.14.2`,
+            currentVersion: `7.14.3`,
+            devVersion: `7.14.3`,
             icon: `data:image/x-icon;base64,AAABAAEAEBAAAAEAIABoBAAAFgAAACgAAAAQAAAAIAAAAAEAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAqv8DCbP/Hgeq+CQIrf8iCK3/Igit/yIIrf8iB6//Iwit9x8Aqv8DAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAKr0GAa2/c0DvfzfA7f83QO3/N0Dt/zdA7f83QO+/d4Gs/3OAKP1GQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACm/xQFs/n2Bcf//wW///8FwP//BcD//wW///8Fx///BbP69gC2/xUAAAAAAAAAAAAAAAAA/1UDFptOFxSZMxkLpJktAq720QW1+ugEsfvjA7b92wO2/dsEsfvjBbX66Aau/dEoiO4tUlLWGU5k3hdVVf8DEJxKHxWqT8cVrU7uE6VN0guqny0Apv8XAJfQGwBAVywAQFcsAJfQGwCx/xcogugtS2Lk0lBl6u5Qae7ISmPeHxagSSMVr07jF7lV/xOiSu0brgATAAAAAAAAAA8AAAC/AAAAwAAAABAAAAAAYznjEkth4OxWb/3/T2jv40lf4iMXnksiEq1O3RayUv8UpEnkEo0+HQAAABkAAABBAAAA8QAAAPEAAABBAAAAGUBSvxxOYeDjU2v0/05m7d1LYuEiF55LIhKtTt0Ws1L/FahN2gU1FTAAAADAAAAA7AAAAP0AAAD9AAAA7AAAAMAVG0owUGPm2lNr9P9OZu3dS2LhIheeSyISrU7dFrNS/xWoTdoFNRswAAAAvwAAAOsAAAD9AAAA/QAAAOsAAADAFRtKMFBj6NpTa/T/Tmbt3Uti4SIXnksiEq1O3RayUv8UpEnkEo0+HQAAABgAAABAAAAA8QAAAPEAAABBAAAAGT5PuR1OYeDjU2v0/05m7d1LYuEiFqBJIxWuT+QXuVX/E6JL7QC8XhMAAAAAAAAADwAAAL8AAAC/AAAAEAAAAAAOR/8SSWLh7FZv/f9PaO/jSV/iIxCUSh8Vrk7HFqxN7ROlS9JskzMt1XULGK12EhxGLgYsRy8GK612EhzVgAsYgmxxLU1i39JNZ+vtT2fwx0pj1h8AqlUDF65GFgqZUhlsiC0txH0T0s5/EujJgBPkz4QR28+EEdvJgBPkzn8Q6Md+E9KLdHosM1LWGUZo6BZVVf8DAAAAAAAAAAAAAAAA/2YAFMl9EvbgjRb/14gV/9eIFf/XiBX/14gV/9+NFv/KgBD254YAFQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAL91FRjKgRHN1IgU3s+EEt3PhBLdz4QS3c+EEt3UiBTezYMRzcJ6FBkAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACqqgADxIARHr18FiO8eA8ivHgPIrx4DyK8eA8ivXwPI8SAER7/VQADAAAAAAAAAAAAAAAA78cAAPA3AAD4FwAABCAAADGOAAAE+AAAkBEAAJ55AACYOQAAlgEAAER4AAAXaAAATnoAAPgXAAD0JwAA69cAAA==`,
             sgIcon: `data:image/x-icon;base64,AAABAAEAEBAAAAEAIABoBAAAFgAAACgAAAAQAAAAIAAAAAEAIAAAAAAAQAQAABMLAAATCwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIUAAAD5AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAPoAAACFAAAAAAAAAAAAAAD8AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA+QAAAAAAAAAAAAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAAAAAAAAAAAAP8AAAD/AAAA/wAAABwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAcAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAcAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAHAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAAAAAAAAAAAAPwAAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD5AAAAAAAAAAAAAACFAAAA+QAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD5AAAAhQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA//8AAP//AADAAwAAwAMAAMfjAADP8wAAz/MAAM/zAADP8wAAz/MAAM/zAADH4wAAwAMAAMADAAD//wAA//8AAA==`,
             stIcon: `data:image/x-icon;base64,AAABAAEAEBAAAAEAIABoBAAAFgAAACgAAAAQAAAAIAAAAAEAIAAAAAAAQAQAABMLAAATCwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABbD6SgWw+ucFsPrkBbD6SgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAWw+uYFsPr/BbD6/wWw+ucAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAFsPrmBbD6/wWw+v8FsPrmAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABbD6SQWw+uYFsPrmBbD6SQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAFKRLShSkS+cUpEvkFKRLSgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAExi4EpMYuDnTGLg5Exi4EoAAAAAAAAAABSkS+YUpEv/FKRL/xSkS+cAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABMYuDmTGLg/0xi4P9MYuDnAAAAAAAAAAAUpEvmFKRL/xSkS/8UpEvmAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAATGLg5kxi4P9MYuD/TGLg5gAAAAAAAAAAFKRLSRSkS+YUpEvmFKRLSQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAExi4ElMYuDmTGLg5kxi4EkAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAMZ9E0rGfRPnxn0T5MZ9E0oAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADGfRPmxn0T/8Z9E//GfRPnAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAxn0T5sZ9E//GfRP/xn0T5gAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAMZ9E0nGfRPmxn0T5sZ9E0kAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA//8AAPw/AAD8PwAA/D8AAPw/AAD//wAAh+EAAIfhAACH4QAAh+EAAP//AAD8PwAA/D8AAPw/AAD8PwAA//8AAA==`,
-            endlessFeatures: [],
             currentGiveaways: [],
             attachedImages: [],
             currentComments: [],
@@ -5316,24 +5321,6 @@ Parsedown = (() => {
                             name: `Hide buttons at the left/right sides of the main page heading to reduce used space.`,
                             sg: true,
                             st: true
-                        },
-                        notifyErrors: {
-                            features: {
-                                notifyErrors_b: {
-                                    description: `
-                                        <ul>
-                                            <li>If this option is enabled, when there are errors in the page a red button will appear in the header.</li>
-                                            <li>If this option is disabled, a popup will appear whenever there is an error.</li>
-                                        </ul>
-                                    `,
-                                    name: `Notify errors through a button in the header.`,
-                                    sg: true,
-                                    st: true
-                                }
-                            },
-                            name: `Notify errors.`,
-                            sg: true,
-                            st: true
                         }
                     },
                     newBelow: true
@@ -5410,49 +5397,46 @@ Parsedown = (() => {
                 };
                 popup.open();
             };
-            continueRequest = (data, headers, method, url, callback, anon, closeLock) => {
-                chrome.runtime.sendMessage({
-                    action: `fetch`,
-                    parameters: JSON.stringify({
-                        body: data,
-                        credentials: anon ? `omit` : `include`,
-                        headers: headers,
-                        method: method,
-                        redirect: `follow`
-                    }),
-                    url: url.replace(/^\//, `https://${location.hostname}/`).replace(/^https?:/, location.href.match(/^http:/) ? `http:` : `https:`)
-                }, response => {
-                    if (closeLock) {
-                        closeLock();
-                    }
-                    response = JSON.parse(response);
-                    if (response.finalUrl.match(/www.steamgifts.com/)) {
-                        lookForPopups(response);
-                    }
-                    if (callback) {
-                        callback(response);
-                    }
-                });
-            };
-            continueRequest_v2 = details => {
-                return new Promise((resolve, reject) => {
-                    chrome.runtime.sendMessage({
-                        action: `fetch`,
-                        parameters: JSON.stringify({
+            continueRequest = details => {
+                return new Promise(async (resolve, reject) => {
+                    if (details.url.match(/^\//) || details.url.match(new RegExp(location.hostname))) {
+                        details.url = details.url.replace(/^\//, `https://${location.hostname}/`).replace(/^https?:/, location.href.match(/^http:/) ? `http:` : `https:`);
+                        let response = await fetch(details.url, {
                             body: details.data,
                             credentials: details.anon ? `omit` : `include`,
-                            headers: details.headers,
+                            headers: new Headers(details.headers),
                             method: details.method,
                             redirect: `follow`
-                        }),
-                        url: details.url.replace(/^\//, `https://${location.hostname}/`).replace(/^https?:/, location.href.match(/^http:/) ? `http:` : `https:`)
-                    }, response => {
-                        response = JSON.parse(response);
+                        });
+                        let responseText = await response.text();
+                        response = {
+                            finalUrl: response.url,
+                            redirected: response.redirected,
+                            responseText: responseText
+                        };
                         resolve(response);
                         if (response.finalUrl.match(/www.steamgifts.com/)) {
                             lookForPopups(response);
                         }
-                    });
+                    } else {
+                        chrome.runtime.sendMessage({
+                            action: `fetch`,
+                            parameters: JSON.stringify({
+                                body: details.data,
+                                credentials: details.anon ? `omit` : `include`,
+                                headers: details.headers,
+                                method: details.method,
+                                redirect: `follow`
+                            }),
+                            url: details.url.replace(/^\//, `https://${location.hostname}/`).replace(/^https?:/, location.href.match(/^http:/) ? `http:` : `https:`)
+                        }, response => {
+                            response = JSON.parse(response);
+                            resolve(response);
+                            if (response.finalUrl.match(/www.steamgifts.com/)) {
+                                lookForPopups(response);
+                            }
+                        });
+                    }
                 });
             };
             addHeaderMenu = () => {
@@ -5536,20 +5520,13 @@ Parsedown = (() => {
                         </div>
                     </div>
                 `);
-                if (esgst.notifyErrors && esgst.notifyErrors_b) {
-                    esgst.errorButton = insertHtml(context, position, `
-                        <div class="nav__button-container esgst-hidden esgst-error-button" title="There are ESGST errors in the console, use Ctrl + Shift + J to view them">
-                            <div class="nav__button">
-                                <i class="fa fa-terminal"></i>
-                            </div>
-                        </div>
-                    `);
-                }
                 dropdown = menu.firstElementChild;
                 button = dropdown.nextElementSibling;
                 arrow = button.nextElementSibling;
-                button.addEventListener(`click`, function () {
-                    if (esgst.openSettingsInTab) {
+                button.addEventListener(`mousedown`, function (event) {
+                    if (event.button === 2) return;
+                    event.preventDefault();
+                    if (esgst.openSettingsInTab || event.button === 1) {
                         open(`/esgst/settings`);
                     } else {
                         loadSMMenu();
@@ -5633,52 +5610,7 @@ Parsedown = (() => {
                 };
                 popup.open();
             };
-            continueRequest = async (data, headers, method, url, callback, anon, closeLock) => {
-                if (url.match(/^\//) || url.match(new RegExp(location.hostname))) {
-                    url = url.replace(/^https?:/, location.href.match(/^http:/) ? `http:` : `https:`);
-                    let response = await fetch(url, {
-                        body: data,
-                        credentials: anon ? `omit` : `include`,
-                        headers: headers,
-                        method: method,
-                        redirect: `follow`
-                    });
-                    let responseText = await response.text();
-                    if (closeLock) {
-                        closeLock();
-                    }
-                    response = {
-                        finalUrl: response.url,
-                        redirected: response.redirected,
-                        responseText: responseText
-                    };
-                    if (callback) {
-                        callback(response);
-                    }
-                    if (response.finalUrl.match(/www.steamgifts.com/)) {
-                        lookForPopups(response);
-                    }
-                } else {
-                    GM.xmlHttpRequest({
-                        data: data,
-                        headers: headers,
-                        method: method,
-                        url: url,
-                        onload: response => {
-                            if (closeLock) {
-                                closeLock();
-                            }
-                            if (callback) {
-                                callback(response);
-                            }
-                            if (response.finalUrl.match(/www.steamgifts.com/)) {
-                                lookForPopups(response);
-                            }
-                        }
-                    });
-                }
-            };
-            continueRequest_v2 = details => {
+            continueRequest = details => {
                 return new Promise(async (resolve, reject) => {
                     if (details.url.match(/^\//) || details.url.match(new RegExp(location.hostname))) {
                         details.url = details.url.replace(/^https?:/, location.href.match(/^http:/) ? `http:` : `https:`);
@@ -5803,20 +5735,13 @@ Parsedown = (() => {
                         </div>
                     </div>
                 `);
-                if (esgst.notifyErrors && esgst.notifyErrors_b) {
-                    esgst.errorButton = insertHtml(context, position, `
-                        <div class="nav__button-container esgst-hidden esgst-error-button" title="There are ESGST errors in the console, use Ctrl + Shift + J to view them">
-                            <div class="nav__button">
-                                <i class="fa fa-terminal"></i>
-                            </div>
-                        </div>
-                    `);
-                }
                 dropdown = menu.firstElementChild;
                 button = dropdown.nextElementSibling;
                 arrow = button.nextElementSibling;
-                button.addEventListener(`click`, function () {
-                    if (esgst.openSettingsInTab) {
+                button.addEventListener(`mousedown`, function (event) {
+                    if (event.button === 2) return;
+                    event.preventDefault();
+                    if (esgst.openSettingsInTab || event.button === 1) {
                         open(`/esgst/settings`);
                     } else {
                         loadSMMenu();
@@ -6057,7 +5982,7 @@ Parsedown = (() => {
                 document.head.insertAdjacentHTML(`beforeEnd`, `<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.min.css"><link rel="stylesheet" type="text/css" href="https://cdn.steamgifts.com/css/minified_v30.css">`);
             }
             addStyle();
-            getElements(logoutButton);
+            await getElements(logoutButton);
             if (esgst.sg && !esgst.menuPath) {
                 checkSync();
             }
@@ -6152,7 +6077,7 @@ Parsedown = (() => {
                                 esgst.featuredContainer = insertHtml(esgst.pageOuterWrap, `beforeBegin`, `<div class="featured__container"></div>`);
                                 esgst.featuredContainer.innerHTML = responseHtml.getElementsByClassName(`featured__container`)[0].innerHTML;
                                 esgst.pageOuterWrap.innerHTML = responseHtml.getElementsByClassName(`page__outer-wrap`)[0].innerHTML;
-                                getElements(logoutButton);
+                                await getElements(logoutButton);
                                 esgst.sidebar.insertAdjacentHTML(`afterBegin`, `
                                     <div class="sidebar__error is-disabled">
                                         <i class="fa fa-exclamation-circle"></i> ${match[1] ? (match[1] === `previously ` ? `Off Your Blacklist<br>(${summary.firstElementChild.outerHTML})` : (match[1] === `have been` ? `You Are Blacklisted` : `On Your Blacklist`)) : `On Your Blacklist`}
@@ -6198,8 +6123,6 @@ Parsedown = (() => {
             addGiveawayToStorage();
         }
 
-        if (esgst.at) loadAt();
-        if (esgst.ev) loadEv();
         if (esgst.ff) loadFf();
         if (esgst.fh) loadFh();
         if (esgst.fmph) loadFmph();
@@ -6209,22 +6132,17 @@ Parsedown = (() => {
         if (esgst.hcp) loadHcp();
         if (esgst.hfc) loadHfc();
         if (esgst.hr) loadHr();
-        if (esgst.ib) loadIb();
         if (esgst.lpl) loadLpl();
         if (esgst.lpv) loadLpv();
         if (esgst.nm) loadNm();
         if (esgst.pnot) loadPnot();
         if (esgst.sk) loadSk();
         if (esgst.smgb) loadSmgb();
-        if (esgst.vai) loadVai();
         if (esgst.aic) loadAic();
-        if (esgst.ail) loadAil();
 
         if (esgst.ags) loadAgs();
         if (esgst.as) loadAs();
         if (esgst.cec) loadCec();
-        if (esgst.cewgd) loadCewgd();
-        if (esgst.dkc) loadDkc();
         if (esgst.et) loadEt();
         if (esgst.gas) loadGas();
         if (esgst.gb) await loadGb();
@@ -6236,8 +6154,6 @@ Parsedown = (() => {
         if (esgst.gr) await loadGr();
         if (esgst.gts) loadGts();
         if (esgst.gv) loadGv();
-        if (esgst.gwc) loadGwc();
-        if (esgst.gwr) loadGwr();
         if (esgst.hgebd) loadHgebd();
         if (esgst.hgr) loadHgr();
         if (esgst.hpg) loadHpg();
@@ -6247,11 +6163,9 @@ Parsedown = (() => {
         if (esgst.qgb) loadQgb();
         if (esgst.qgs) loadQgs();
         if (esgst.rcvc) loadRcvc();
-        if (esgst.sal) loadSal();
         if (esgst.sks) loadSks();
         if (esgst.sgac) loadSgac();
         if (esgst.sgg) await loadSgg();
-        if (esgst.ueg) loadUeg();
         if (esgst.ugs) loadUgs();
         
         if (esgst.ded) loadDed();
@@ -6270,54 +6184,33 @@ Parsedown = (() => {
         if (esgst.cr) loadCr();
         if (esgst.cs) loadCs();
         if (esgst.ct) loadCt();
-        if (esgst.mr) loadMr();
         if (esgst.rbot) loadRbot();
         if (esgst.rbp) loadRbp();
-        if (esgst.rfi) loadRfi();
-        if (esgst.rml) loadRml();
         
         if (esgst.namwc) loadNamwc();
-        if (esgst.iwh) await loadIwh();
-        if (esgst.us) await loadUs();
         if (esgst.ust) loadUst();
         if (esgst.wbc) loadWbc();
         if (esgst.wbm) loadWbm();
         if (esgst.wbs) loadWbs();
 
-        if (esgst.gh) loadGh();
         if (esgst.glwc) await loadGlwc();
         if (esgst.gs) loadGs();
 
         if (esgst.gc) loadGc();
 
-        if (esgst.ap) loadAp();
         if (esgst.mt) loadMt();
         if (esgst.stbb) loadStbb();
         if (esgst.sttb) loadSttb();
 
-        if ((esgst.ct && (esgst.giveawaysPath || esgst.discussionsPath)) || (esgst.gdttt && (esgst.giveawaysPath || esgst.discussionsPath || esgst.discussionsTicketsTradesPath)) || (esgst.ust && esgst.ticketsPath)) {
-            esgst.endlessFeatures.push(addCtDiscussionPanels);
-            await addCtDiscussionPanels(document);
-        }
-
         if (esgst.userPath) {
             loadProfileFeatures(document);
         }
-        esgst.endlessFeatures.push(loadGiveawayFeatures);
-        await loadGiveawayFeatures(document, true);
-        esgst.endlessFeatures.push(loadDiscussionFeatures);
-        await loadDiscussionFeatures(document, true);
-        esgst.endlessFeatures.push(loadCommentFeatures);
-        await loadCommentFeatures(document, true);
-        esgst.endlessFeatures.push(loadUserFeatures);
-        loadUserFeatures(document);
-        esgst.endlessFeatures.push(loadGameFeatures);
-        await loadGameFeatures(document, true);
+        if (!esgst.menuPath) {
+            await loadEndlessFeatures(document, true);
+        }
 
         if (esgst.qiv) loadQiv(true);
-        if (esgst.ts) loadTs();
         if (esgst.es) loadEs();
-        if (esgst.sto) loadSto();
 
         if (esgst.hideButtons && esgst.mainPageHeading) {
             if (!esgst.leftButtons.querySelector(`.esgst-heading-button:not(.esgst-hidden)`)) {
@@ -6813,8 +6706,6 @@ Parsedown = (() => {
     /* [AIC] Attached Images Carousel */
 
     function loadAic() {
-        esgst.endlessFeatures.push(getAicImages);
-        getAicImages(document);
         document.addEventListener(`keydown`, event => {
             if (event.key === `ArrowLeft` && esgst.aicPrevious) {
                 esgst.aicPrevious.click();
@@ -6933,12 +6824,6 @@ Parsedown = (() => {
 
     /* [AIL] Attached Images Loader */
 
-    function loadAil() {
-        if (esgst.vai) return;
-        esgst.endlessFeatures.push(getAilImages);
-        getAilImages(document);
-    }
-
     function getAilImages(context) {
         let buttons = context.querySelectorAll(`.comment__toggle-attached, .view_attached`);
         for (let i = 0, n = buttons.length; i < n; i++) {
@@ -6955,11 +6840,6 @@ Parsedown = (() => {
     }
 
     /* [AP] Avatar Popout */
-
-    function loadAp() {
-        esgst.endlessFeatures.push(getApAvatars);
-        getApAvatars(document);
-    }
 
     function getApAvatars(context) {
         var i, matches, n;
@@ -7191,11 +7071,6 @@ Parsedown = (() => {
 
     /* [AT] Accurate Timestamps */
 
-    function loadAt() {
-        esgst.endlessFeatures.push(getTimestamps);
-        getTimestamps(document);
-    }
-
     function getTimestamps(context) {
         var timestamps, i, n, timestamp, text, edited, seconds, accurateTimestamp;
         timestamps = context.querySelectorAll(`[data-timestamp]`);
@@ -7389,11 +7264,10 @@ Parsedown = (() => {
                     </span>
                 </div>
             `);
-            collapse = button.firstElementChild;
-            expand = collapse.nextElementSibling;
+            esgst.cerbCollapse = collapse = button.firstElementChild;
+            esgst.cerbExpand = expand = collapse.nextElementSibling;
             collapse.addEventListener(`click`, collapseAllCerbReplies.bind(null, collapse, expand));
             expand.addEventListener(`click`, expandAllCerbReplies.bind(null, collapse, expand));
-            esgst.endlessFeatures.push(getCerbReplies.bind(null, collapse, expand, null));
             id = location.hash.replace(/#/, ``);
             getCerbReplies(collapse, expand, id ? document.getElementById(id) : null, document);
         }
@@ -7479,12 +7353,6 @@ Parsedown = (() => {
     }
 
     /* [CEWGD] Created/Entered/Won Giveaway Details */
-
-    function loadCewgd() {
-        if (!esgst.createdPath && !esgst.enteredPath && !esgst.wonPath) return;
-        esgst.endlessFeatures.push(addCewgdHeading);
-        addCewgdHeading(document, true);
-    }
 
     function addCewgdHeading(context, main) {
         var table;
@@ -10612,8 +10480,6 @@ Parsedown = (() => {
             });
         }
         esgst.cfh.preview.className = `esgst-cfh-preview markdown`;
-        esgst.endlessFeatures.push(setCfhTextAreas);
-        setCfhTextAreas(document);
     }
 
     function setCfhTextAreas(context) {
@@ -11482,6 +11348,7 @@ Parsedown = (() => {
 
     async function checkCtComments(count, comments, index, goToUnread, markRead, markUnread, callback) {
         var button, code, comment, found, i, n, saved, source, type, unread;
+        esgst.ctGoToUnread = false;
         let values = await getValues({
             giveaways: `{}`,
             discussions: `{}`,
@@ -11537,7 +11404,7 @@ Parsedown = (() => {
                                 } else {
                                     if (esgst.discussionsPath) {
                                         esgst.ctUnreadFound = true;
-                                        if (esgst.sto) {
+                                        if (!esgst.ctNewTab && esgst.sto) {
                                             if (comment.id) {
                                                 location.href = `/go/comment/${comment.id}`;
                                             } else {
@@ -11585,7 +11452,7 @@ Parsedown = (() => {
                 if (unread) {
                     if (esgst.discussionsPath) {
                         esgst.ctUnreadFound = true;
-                        if (esgst.sto) {
+                        if (!esgst.ctNewTab && esgst.sto) {
                             if (unread.id) {
                                 location.href = `/go/comment/${unread.id}`;
                             } else {
@@ -12004,7 +11871,14 @@ Parsedown = (() => {
                 markUnvisited.classList.remove(`esgst-hidden`);
             }
         }
-        goToUnread.addEventListener(`click`, function() {
+        goToUnread.addEventListener(`mousedown`, function(event) {
+            esgst.ctNewTab = false;
+            if (event.button === 1) {
+                event.preventDefault();
+                esgst.ctNewTab = true;
+            } else if (event.button === 2) {
+                return;
+            }
             goToUnread.classList.add(`esgst-hidden`);
             markRead.classList.add(`esgst-hidden`);
             markUnread.classList.add(`esgst-hidden`);
@@ -12012,7 +11886,6 @@ Parsedown = (() => {
             esgst.ctUnreadFound = false;
             markCtCommentsReadUnread(true, true, false, false, false, 1, `${url}/search?page=`, function() {
                 loadingIcon.classList.add(`esgst-hidden`);
-                diffContainer.classList.add(`esgst-hidden`);
                 goToUnread.classList.remove(`esgst-hidden`);
                 markRead.classList.remove(`esgst-hidden`);
                 markUnread.classList.remove(`esgst-hidden`);
@@ -12112,7 +11985,7 @@ Parsedown = (() => {
     async function markCtCommentsReadUnread(firstRun, goToUnread, lastPageMissing, markRead, markUnread, nextPage, url, callback) {
         var context, lastLink, pagination;
         context = parseHtml((await request({method: `GET`, queue: true, url: `${url}${nextPage}`})).responseText);
-        getCtComments(0, await getComments(context, context), null, goToUnread, markRead, markUnread);
+        getCtComments(0, await getComments(context, context, true), null, goToUnread, markRead, markUnread);
         if ((goToUnread && !esgst.ctUnreadFound) || !goToUnread) {
             pagination = context.getElementsByClassName(`pagination__navigation`)[0];
             ++nextPage;
@@ -12257,7 +12130,7 @@ Parsedown = (() => {
     }
 
     async function hideDfDiscussion(discussion, callback) {
-        let deleteLock = createLock(`discussionLock`, 300);
+        let deleteLock = await createLock(`discussionLock`, 300);
         let discussions = JSON.parse(await getValue(`discussions`, `{}`));
         if (!discussions[discussion.code]) {
             discussions[discussion.code] = {};
@@ -13264,12 +13137,6 @@ Parsedown = (() => {
 
     /* [DKC] Delete Keys Confirmation */
 
-    function loadDkc() {
-        if (!esgst.giveawayPath) return;
-        esgst.endlessFeatures.push(getDkcLinks);
-        getDkcLinks(document);
-    }
-
     function getDkcLinks(context) {
         var i, link, links, newLink;
         links = context.getElementsByClassName(`form__key-btn-delete`);
@@ -14172,10 +14039,7 @@ Parsedown = (() => {
                 </div>
             </div>
         `));
-        if (esgst.enteredPath) {
-            esgst.endlessFeatures.push(getEtEntries);
-            getEtEntries(document);
-        } else if (esgst.giveawayPath && !document.getElementsByClassName(`table--summary`)[0] && esgst.enterGiveawayButton) {
+        if (esgst.giveawayPath && !document.getElementsByClassName(`table--summary`)[0] && esgst.enterGiveawayButton) {
             let code, name;
             code = location.pathname.match(/^\/giveaway\/(.+?)\//)[1];
             name = document.getElementsByClassName(`featured__heading__medium`)[0].textContent;
@@ -14310,11 +14174,6 @@ Parsedown = (() => {
     }
 
     /* [EV] Embedded Videos */
-
-    function loadEv() {
-        esgst.endlessFeatures.push(getEvVideos);
-        getEvVideos(document);
-    }
 
     function getEvVideos(context) {
         var types, i, numTypes, type, videos, j, numVideos, video, previous, next, embedUrl, url, text, title;
@@ -14734,8 +14593,10 @@ Parsedown = (() => {
             loadGbGibs(bookmarked, esgst.mainContext, esgst.mainContext);
         }
         if (!esgst.gbPath) {
-            button.addEventListener(`click`, function() {
-                if (esgst.gb_t) {
+            button.addEventListener(`mousedown`, function(event) {
+                if (event.button === 2) return;
+                event.preventDefault();
+                if (esgst.gb_t || event.button === 1) {
                     open(`/esgst/bookmarked-giveaways`);
                 } else {
                     let popup = new Popup(`fa-bookmark`, `Bookmarked Giveaways`, true);
@@ -16001,8 +15862,6 @@ Parsedown = (() => {
                 }
             }
         }
-        esgst.endlessFeatures.push(checkGdtttVisited);
-        await checkGdtttVisited(document);
     }
 
     async function checkGdtttVisited(context) {
@@ -16113,8 +15972,10 @@ Parsedown = (() => {
                     </div>
                 `)
             };
-            ge.button.addEventListener(`click`, () => {
-                if (esgst.ge_t) {
+            ge.button.addEventListener(`mousedown`, event => {
+                if (event.button === 2) return;
+                event.preventDefault();
+                if (esgst.ge_t || event.button === 1) {
                     open(`/esgst/extracted-giveaways?url=${location.pathname.match(/^\/(giveaway|discussion)\/.+?\//)[0]}`);
                 } else {
                     openGePopup(ge);
@@ -16423,16 +16284,20 @@ Parsedown = (() => {
                     </div>
                 </div>
             `);
-            ged.button.addEventListener(`click`, openGedPopup.bind(null, ged));
+            ged.button.addEventListener(`mousedown`, openGedPopup.bind(null, ged));
             await getGedGiveaways(ged);
         }
         esgst.addGedIcons = addGedIcons.bind(null, ged);
     }
 
-    async function openGedPopup(ged) {
+    async function openGedPopup(ged, event) {
+        if (event) {
+            if (event.button === 2) return;
+            event.preventDefault();
+        }
         if (esgst.gedPath) {
             ged.container = ged.context = esgst.mainContext;
-        } else if (esgst.ged_t) {
+        } else if (esgst.ged_t || (event && event.button === 1)) {
             open(`/esgst/decrypted-giveaways`);
         } else {
             ged.popup = new Popup(`fa-star`, `Decrypted Giveaways`, true);
@@ -16578,6 +16443,7 @@ Parsedown = (() => {
             for (let j = icons.length - 1; j > -1; j--) {
                 icons[0].remove();
             }
+            if (!comment.display) continue;
             let links = comment.displayState.querySelectorAll(`[href^="ESGST-"]`);
             for (let j = links.length - 1; j > -1; j--) {
                 let code = links[j].getAttribute(`href`).match(/ESGST-(.+)/)[1];
@@ -18311,12 +18177,6 @@ Parsedown = (() => {
 
     /* [GH] Groups Highlighter */
 
-    function loadGh() {
-        if (esgst.groupsPath) return;
-        esgst.endlessFeatures.push(highlightGhGroups);
-        highlightGhGroups(document);
-    }
-
     async function highlightGhGroups(context) {
         var code, element, elements, i, j, key, n, savedGroups;
         savedGroups = JSON.parse(await getValue(`groups`, `[]`));
@@ -18459,6 +18319,7 @@ Parsedown = (() => {
                         });
                     }
                 } catch (e) {}
+                glwc.users[i].wishlist = [];
                 elements = parseHtml((await request({method: `GET`, url: `http://steamcommunity.com/profiles/${glwc.users[i].steamId}/wishlist/`})).responseText).querySelectorAll(`.gameListRow, .wishlistRow`);
                 for (j = elements.length - 1; j > -1; --j) {
                     element = elements[j];
@@ -18854,9 +18715,9 @@ Parsedown = (() => {
         if (!gm.popout) {
             gm.popout = new Popout(`esgst-gm-popout`, gm.button, 0, true);
             group = insertHtml(gm.popout.popout, `beforeEnd`, `<div class="esgst-button-group"><span>Select:</span></div>`);
-            group.appendChild(new ButtonSet(`grey`, `grey`, `fa-circle`, `fa-circle-o-notch fa-spin`, `All`, ``, selectSwitches.bind(null, esgst.gmCheckboxes, `check`, false)).set);
-            group.appendChild(new ButtonSet(`grey`, `grey`, `fa-circle-o`, `fa-circle-o-notch fa-spin`, `None`, ``, selectSwitches.bind(null, esgst.gmCheckboxes, `uncheck`, false)).set);
-            group.appendChild(new ButtonSet(`grey`, `grey`, `fa-dot-circle-o`, `fa-circle-o-notch fa-spin`, `Inverse`, ``, selectSwitches.bind(null, esgst.gmCheckboxes, `toggle`, false)).set);
+            group.appendChild(new ButtonSet(`grey`, `grey`, `fa-circle`, `fa-circle-o-notch fa-spin`, `All`, ``, selectSwitches.bind(null, esgst.gmCheckboxes, `check`, null)).set);
+            group.appendChild(new ButtonSet(`grey`, `grey`, `fa-circle-o`, `fa-circle-o-notch fa-spin`, `None`, ``, selectSwitches.bind(null, esgst.gmCheckboxes, `uncheck`, null)).set);
+            group.appendChild(new ButtonSet(`grey`, `grey`, `fa-dot-circle-o`, `fa-circle-o-notch fa-spin`, `Inverse`, ``, selectSwitches.bind(null, esgst.gmCheckboxes, `toggle`, null)).set);
             group = insertHtml(gm.popout.popout, `beforeEnd`, `<div class="esgst-button-group"></div>`);
             group.appendChild(new ButtonSet(`green`, ``, `fa-search`, ``, `Search & Replace`, ``, openGmPopup.bind(null, giveaways, gm)).set);
             if (esgst.gb) {
@@ -19233,8 +19094,6 @@ Parsedown = (() => {
             <div class="table__column--width-small text-center">Value Difference</div>
             <div class="table__column--width-small text-center">Users</div>
         `);
-        esgst.endlessFeatures.push(getGsGroups);
-        getGsGroups(document);
     }
 
     function getGsGroups(context) {
@@ -20194,12 +20053,6 @@ Parsedown = (() => {
 
     /* [GWC] Giveaway Winning Chance */
 
-    function loadGwc() {
-        if (!esgst.enteredPath) return;
-        esgst.endlessFeatures.push(addGwcrHeading);
-        addGwcrHeading(document, true);
-    }
-
     function addGwcChances(giveaway, main, source) {
         var i, n;
         if (((giveaway.inviteOnly && ((main && esgst.giveawayPath) || !main || giveaway.ended)) || !giveaway.inviteOnly) && !giveaway.innerWrap.getElementsByClassName(`esgst-gwc`)[0]) {
@@ -20293,12 +20146,6 @@ Parsedown = (() => {
     }
 
     /* [GWR] Giveaway Winning Ratio */
-
-    function loadGwr() {
-        if (esgst.gwc || !esgst.enteredPath) return;
-        esgst.endlessFeatures.push(addGwcrHeading);
-        addGwcrHeading(document, true);
-    }
 
     function addGwrRatios(giveaway, main, source) {
         var i, n;
@@ -20628,7 +20475,7 @@ Parsedown = (() => {
             loadNm();
         }
         await refreshHeaderElements(document);
-        if (esgst.qiv) {
+        if (esgst.qiv && esgst.qiv.popout) {
             loadQiv();
             if (esgst.messageCount > 0 && esgst.qiv_p) {
                 esgst.qiv.nextPage = 1;
@@ -20888,11 +20735,6 @@ Parsedown = (() => {
 
     /* [IB] Image Borders */
 
-    function loadIb() {
-        esgst.endlessFeatures.push(addIbBorders);
-        addIbBorders(document);
-    }
-
     function addIbBorders(context) {
         var elements, i, n;
         elements = context.querySelectorAll(`.giveaway_image_avatar, .featured_giveaway_image_avatar, :not(.esgst-ggl-panel) .table_image_avatar`);
@@ -21101,12 +20943,6 @@ Parsedown = (() => {
     }
 
     /* [IBH] Inbox Winners Highlighter */
-
-    async function loadIwh() {
-        if (!esgst.winnersPath && !esgst.inboxPath) return;
-        esgst.endlessFeatures.push(getIwhUsers);
-        await getIwhUsers(document);
-    }
 
     async function getIwhUsers(context) {
         let [callback, className] = esgst.winnersPath ? [setIWHObserver, `table__gift-not-sent`] : [highlightIWHWinner, `comments__entity`];
@@ -22634,12 +22470,6 @@ Parsedown = (() => {
 
     /* [MR] Multi-Reply */
 
-    function loadMr() {
-        if (esgst.inboxPath) return;
-        esgst.endlessFeatures.push(getMrRfiButtons);
-        getMrRfiButtons(document, true);
-    }
-
     function getMrRfiButtons(context, main) {
         var matches = context.getElementsByClassName(esgst.sg ? `comment__actions` : `action_list`);
         for (var i = 0, n = matches.length; i < n; ++i) {
@@ -23173,7 +23003,7 @@ Parsedown = (() => {
 
     function selectMtCheckboxes(mt, key, callback) {
         callback();
-        selectSwitches(mt[`${mt.type}Checkboxes`], key, false);
+        selectSwitches(mt[`${mt.type}Checkboxes`], key, null);
     }
 
     async function openMtPopup(mt, callback) {
@@ -24780,12 +24610,6 @@ Parsedown = (() => {
 
     /* [RFI] Reply From Inbox */
 
-    function loadRfi() {
-        if (!esgst.inboxPath) return;
-        esgst.endlessFeatures.push(getMrRfiButtons);
-        getMrRfiButtons(document, true);
-    }
-
     async function saveRfiReply(id, reply, url, edit) {
         var i, n, source, saved;
         if (url) {
@@ -24846,11 +24670,6 @@ Parsedown = (() => {
     }
 
     /* [RML] Reply Mention Link */
-
-    function loadRml() {
-        esgst.endlessFeatures.push(addRmlLinks);
-        addRmlLinks(document);
-    }
 
     function addRmlLinks(context) {
         var matches = context.getElementsByClassName(esgst.sg ? `comment__children` : `comment_children`);
@@ -24917,14 +24736,6 @@ Parsedown = (() => {
     }
 
     /* [SAL] Steam Activation Links */
-
-    function loadSal() {
-        if (!esgst.wonPath) return;
-        esgst.endlessFeatures.push(addSalLinks);
-        addSalLinks(document);
-        esgst.endlessFeatures.push(addSalObservers);
-        addSalObservers(document);
-    }
 
     function addSalObservers(context) {
         var elements, i, n;
@@ -25228,9 +25039,6 @@ Parsedown = (() => {
     async function loadSgg() {
         if (esgst.newGiveawayPath && !document.getElementsByClassName(`table--summary`)[0]) {
             setSggGiveawayGroups();
-        } else if (esgst.groupsPath) {
-            esgst.endlessFeatures.push(setSggGroups);
-            await setSggGroups(document);
         }
     }
 
@@ -25840,11 +25648,6 @@ Parsedown = (() => {
 
     /* [STO] Same Tab Opener */
 
-    function loadSto() {
-        esgst.endlessFeatures.push(setStoLinks);
-        setStoLinks(document);
-    }
-
     function setStoLinks(context) {
         var elements, i, n;
         elements = context.querySelectorAll(`[target="_blank"]`);
@@ -26110,11 +25913,6 @@ Parsedown = (() => {
 
     /* [TS] Table Sorter */
 
-    function loadTs() {
-        esgst.endlessFeatures.push(getTsTables);
-        getTsTables(document);
-    }
-
     function getTsTables(context, main, source, endless) {
         var i, n, tables;
         tables = context.querySelectorAll(`.table, table`);
@@ -26352,11 +26150,6 @@ Parsedown = (() => {
     }
 
     /* [UEG] Unfaded Entered Giveaways */
-
-    function loadUeg() {
-        esgst.endlessFeatures.push(removeUegFade);
-        removeUegFade(document);
-    }
 
     function removeUegFade(context) {
         var elements, i, n;
@@ -27655,12 +27448,6 @@ Parsedown = (() => {
 
     /* [US] User Stats */
 
-    async function loadUs() {
-        if (!esgst.whitelistPath && !esgst.blacklistPath) return;
-        esgst.endlessFeatures.push(getUsUsers);
-        await getUsUsers(document, true);
-    }
-
     async function getUsUsers(context, main) {
         var i, us, username;
         if (!main && !context.closest(`.esgst-wbs-popup`)) {
@@ -28194,11 +27981,6 @@ Parsedown = (() => {
     }
 
     /* [VAI] Visible Attached Images */
-
-    function loadVai() {
-        esgst.endlessFeatures.push(getVaiImages);
-        getVaiImages(document);
-    }
 
     function getVaiImages(context) {
         let buttons = context.querySelectorAll(`.comment__toggle-attached, .view_attached`);
@@ -29381,6 +29163,39 @@ Parsedown = (() => {
                 esgst.popupGiveaways.push(giveaways[i]);
             }
         }
+        giveaways.forEach(giveaway => {            
+            if (esgst.gf && esgst.gf_s) {
+                getGfGiveaways(giveaway, main, source);
+            }
+            if (esgst.gb && (!main || !esgst.wonPath)) {
+                getGbGiveaways(giveaway, main);
+            }
+            if (esgst.gcl && (!main || (!esgst.createdPath && !esgst.enteredPath && !esgst.wonPath))) {
+                setGclButton(giveaway);
+            }
+            if (esgst.gwc && (!main || (!esgst.createdPath && !esgst.wonPath && !esgst.newGiveawayPath))) {
+                addGwcChances(giveaway, main, source);
+            }
+            if (esgst.gwr && (!main || (!esgst.createdPath && !esgst.wonPath && !esgst.newGiveawayPath))) {
+                addGwrRatios(giveaway, main, source);
+            }
+            if (esgst.gp && (!main || (!esgst.createdPath && !esgst.enteredPath && !esgst.wonPath && !esgst.giveawayPath && !esgst.newGiveawayPath))) {
+                addGpButton(giveaway, main, source);
+            }
+            if (esgst.elgb && (!main || (!esgst.elgb_p && !esgst.createdPath && !esgst.enteredPath && !esgst.wonPath))) {
+                addElgbButtons(giveaway, main, source);
+            }
+            if (esgst.itadi && main && esgst.giveawayPath) {
+                getItadiInfo(giveaway);
+            }
+            if (esgst.ugb) {
+                // must run before ochgb
+                addUgbButton(giveaway, main);
+            }
+            if (esgst.ochgb) {
+                setOchgbButton(giveaway, main);
+            }
+        });
         if (esgst.gwl && (((esgst.createdPath || esgst.enteredPath || esgst.wonPath || esgst.giveawayPath) && !main) || (!esgst.giveawayPath && !esgst.createdPath && !esgst.enteredPath && !esgst.wonPath))) {
             addGwlLinks(giveaways);
         }
@@ -29723,37 +29538,6 @@ Parsedown = (() => {
                 }
             }
         }
-        if (esgst.gf && esgst.gf_s) {
-            getGfGiveaways(giveaway, main, source);
-        }
-        if (esgst.gb && (!main || !esgst.wonPath)) {
-            getGbGiveaways(giveaway, main);
-        }
-        if (esgst.gcl && (!main || (!esgst.createdPath && !esgst.enteredPath && !esgst.wonPath))) {
-            setGclButton(giveaway);
-        }
-        if (esgst.gwc && (!main || (!esgst.createdPath && !esgst.wonPath && !esgst.newGiveawayPath))) {
-            addGwcChances(giveaway, main, source);
-        }
-        if (esgst.gwr && (!main || (!esgst.createdPath && !esgst.wonPath && !esgst.newGiveawayPath))) {
-            addGwrRatios(giveaway, main, source);
-        }
-        if (esgst.gp && (!main || (!esgst.createdPath && !esgst.enteredPath && !esgst.wonPath && !esgst.giveawayPath && !esgst.newGiveawayPath))) {
-            addGpButton(giveaway, main, source);
-        }
-        if (esgst.elgb && (!main || (!esgst.elgb_p && !esgst.createdPath && !esgst.enteredPath && !esgst.wonPath))) {
-            addElgbButtons(giveaway, main, source);
-        }
-        if (esgst.itadi && main && esgst.giveawayPath) {
-            getItadiInfo(giveaway);
-        }
-        if (esgst.ugb) {
-            // must run before ochgb
-            addUgbButton(giveaway, main);
-        }
-        if (esgst.ochgb) {
-            setOchgbButton(giveaway, main);
-        }
         return {
             giveaway: giveaway,
             data: {
@@ -29944,11 +29728,13 @@ Parsedown = (() => {
             discussions[i].sortIndex = esgst.currentDiscussions.length;
             esgst.currentDiscussions.push(discussions[i]);
         }
-        if (esgst.df && esgst.df.filteredCount && esgst[`df_enable${esgst.df.type}`]) {
-            filterDfDiscussions(esgst.df, false, endless);
-        }
-        if (esgst.ds && esgst.ds_auto) {
-            sortContent(discussions, esgst.ds_option);
+        if (!main || esgst.giveawaysPath) {
+            if (esgst.df && esgst.df.filteredCount && esgst[`df_enable${esgst.df.type}`]) {
+                filterDfDiscussions(esgst.df, false, endless);
+            }
+            if (esgst.ds && esgst.ds_auto) {
+                sortContent(discussions, esgst.ds_option);
+            }
         }
     }
 
@@ -30589,8 +30375,89 @@ Parsedown = (() => {
         esgst.games = JSON.parse(values.games);
         esgst.giveaways = JSON.parse(values.giveaways);
         esgst.users = JSON.parse(values.users);
-        for (let i = 0, n = esgst.endlessFeatures.length; i < n; i++) {
-            await esgst.endlessFeatures[i](context, main, source, endless);
+        if (esgst.at) {
+            getTimestamps(context);
+        }
+        if (esgst.ev) {
+            getEvVideos(context);
+        }
+        if (esgst.ib) {
+            addIbBorders(context);
+        }
+        if (esgst.gdttt) {
+            await checkGdtttVisited(context);
+        }
+        if (esgst.vai) {
+            getVaiImages(context);
+        }
+        if (esgst.aic) {
+            getAicImages(context);
+        }
+        if (esgst.ail && !esgst.vai) {
+            getAilImages(context);
+        }
+        if (esgst.cewgd && (esgst.createdPath || esgst.enteredPath || esgst.wonPath)) {
+            addCewgdHeading(context, main);
+        }
+        if (esgst.dkc && esgst.giveawayPath) {
+            getDkcLinks(context);
+        }
+        if (esgst.et && esgst.enteredPath) {
+            getEtEntries(context);
+        }
+        if ((esgst.gwc || esgst.gwr) && esgst.enteredPath) {
+            addGwcrHeading(context, main);
+        }
+        if (esgst.sal && esgst.wonPath) {
+            addSalLinks(context);
+            addSalObservers(context);
+        }
+        if (esgst.ueg) {
+            removeUegFade(context);
+        }
+        if (esgst.sgg && esgst.groupsPath) {
+            await setSggGroups(context);
+        }
+        if (esgst.cerb && esgst.commentsPath && esgst.cerbCollapse && esgst.cerbExpand) {
+            getCerbReplies(esgst.cerbCollapse, esgst.cerbExpand, null, context);
+        }
+        if (esgst.cfh) {
+            setCfhTextAreas(context);
+        }
+        if ((esgst.mr && !esgst.inboxPath) || (esgst.rfi && esgst.inboxPath)) {
+            getMrRfiButtons(context, main);
+        }
+        if (esgst.rml) {
+            addRmlLinks(context);
+        }
+        if (esgst.iwh && (esgst.winnersPath || esgst.inboxPath)) {
+            await getIwhUsers(context);
+        }
+        if (esgst.us && (esgst.whitelistPath || esgst.blacklistPath)) {
+            await getUsUsers(context, main);
+        }
+        if (esgst.gh && !esgst.groupsPath) {
+            highlightGhGroups(context);
+        }
+        if (esgst.gs && esgst.groupsPath) {
+            getGsGroups(context);
+        }
+        if (esgst.ap) {
+            getApAvatars(context);
+        }
+        if ((esgst.ct && (esgst.giveawaysPath || esgst.discussionsPath)) || (esgst.gdttt && (esgst.giveawaysPath || esgst.discussionsPath || esgst.discussionsTicketsTradesPath)) || (esgst.ust && esgst.ticketsPath)) {
+            await addCtDiscussionPanels(context, main, source, endless);
+        }
+        await loadGiveawayFeatures(context, main, source, endless);
+        await loadDiscussionFeatures(context, main, source, endless);
+        await loadCommentFeatures(context, main);
+        loadUserFeatures(context);
+        await loadGameFeatures(context, main, source, endless);
+        if (esgst.ts) {
+            getTsTables(context, main, source, endless);
+        }
+        if (esgst.sto) {
+            setStoLinks(context);
         }
     }
 
@@ -30637,16 +30504,6 @@ Parsedown = (() => {
         return div.innerHTML;
     }
 
-    function alertError() {
-        if (esgst && esgst.notifyErrors) {
-            if (esgst.notifyErrors_b && esgst.errorButton) {
-                esgst.errorButton.classList.remove(`esgst-hidden`);
-            } else {
-                alert(`There are ESGST errors in the console, use Ctrl + Shift + J to view them`);
-            }
-        }
-    }
-
     function setLocalValue(key, value) {
         localStorage.setItem(`esgst_${key}`, value);
     }
@@ -30671,7 +30528,7 @@ Parsedown = (() => {
         return esgst.markdownParser.text(string);
     }
 
-    function getElements(logoutButton) {
+    async function getElements(logoutButton) {
         if (esgst.sg) {
             esgst.pageOuterWrapClass = `page__outer-wrap`;
             esgst.pageHeadingClass = `page__heading`;
@@ -30722,7 +30579,7 @@ Parsedown = (() => {
         url += `page=`;
         esgst.searchUrl = url;
         if (!esgst.menuPath) {
-            refreshHeaderElements(document);
+            await refreshHeaderElements(document);
         }
         esgst.header = document.getElementsByTagName(`header`)[0];
         esgst.headerNavigationLeft = document.getElementsByClassName(`nav__left-container`)[0];
@@ -31641,9 +31498,9 @@ Parsedown = (() => {
                     setAutoSync(id, syncer.switches);
                 }
                 let group = insertHtml(syncer.popup.description, `beforeEnd`, `<div class="esgst-button-group"><span>Select:</span></div>`);
-                group.appendChild(new ButtonSet(`grey`, `grey`, `fa-circle`, `fa-circle-o-notch fa-spin`, `All`, ``, selectSwitches.bind(null, syncer.switches, `enable`, true)).set);
-                group.appendChild(new ButtonSet(`grey`, `grey`, `fa-circle-o`, `fa-circle-o-notch fa-spin`, `None`, ``, selectSwitches.bind(null, syncer.switches, `disable`, true)).set);
-                group.appendChild(new ButtonSet(`grey`, `grey`, `fa-dot-circle-o`, `fa-circle-o-notch fa-spin`, `Inverse`, ``, selectSwitches.bind(null, syncer.switches, `toggle`, true)).set);
+                group.appendChild(new ButtonSet(`grey`, `grey`, `fa-circle`, `fa-circle-o-notch fa-spin`, `All`, ``, selectSwitches.bind(null, syncer.switches, `enable`, group)).set);
+                group.appendChild(new ButtonSet(`grey`, `grey`, `fa-circle-o`, `fa-circle-o-notch fa-spin`, `None`, ``, selectSwitches.bind(null, syncer.switches, `disable`, group)).set);
+                group.appendChild(new ButtonSet(`grey`, `grey`, `fa-dot-circle-o`, `fa-circle-o-notch fa-spin`, `Inverse`, ``, selectSwitches.bind(null, syncer.switches, `toggle`, group)).set);
             }
             syncer.progress = insertHtml(syncer.popup.description, `beforeEnd`, `
                 <div class="esgst-hidden esgst-popup-progress"></div>
@@ -32226,19 +32083,21 @@ Parsedown = (() => {
                 if (numOwned !== (await getValue(`ownedGames`, 0))) {
                     await setValue(`ownedGames`, numOwned);
                 }
-                let elements = parseHtml((await request({method: `GET`, url: `http://steamcommunity.com/profiles/${esgst.steamId}/wishlist`})).responseText).getElementsByClassName(`wishlistRow`);
-                for (let i = elements.length - 1; i > -1; i--) {
-                    let element = elements[i];
-                    let id = element.id.match(/\d+/)[0];
-                    if (!savedGames.apps[id]) {
-                        savedGames.apps[id] = {};
+                try {
+                    let elements = parseHtml((await request({method: `GET`, url: `http://steamcommunity.com/profiles/${esgst.steamId}/wishlist?l=en`})).responseText).getElementsByClassName(`wishlistRow`);
+                    for (let i = elements.length - 1; i > -1; i--) {
+                        let element = elements[i];
+                        let id = element.id.match(/\d+/)[0];
+                        if (!savedGames.apps[id]) {
+                            savedGames.apps[id] = {};
+                        }
+                        let date = element.getElementsByClassName(`wishlist_added_on`)[0].textContent.trim().match(/Added\son\s(.+)/)[1];
+                        if (!date.match(/\d{4}/)) {
+                            date += ` ${new Date().getFullYear()}`;
+                        }
+                        savedGames.apps[id].wishlisted = new Date(date).getTime() / 1e3;
                     }
-                    let date = element.getElementsByClassName(`wishlist_added_on`)[0].textContent.trim().match(/Added\son\s(.+)/)[1];
-                    if (!date.match(/\d{4}/)) {
-                        date += ` ${new Date().getFullYear()}`;
-                    }
-                    savedGames.apps[id].wishlisted = new Date(date).getTime() / 1e3;
-                }
+                } catch (e) {}
                 await setValue(`games`, JSON.stringify(savedGames));
             }
             let removedOwned = {
@@ -35253,9 +35112,9 @@ Parsedown = (() => {
             dm.message = insertHtml(container, `beforeEnd`, `<div class="esgst-description"></div>`);
             dm.warning = insertHtml(container, `beforeEnd`, `<div class="esgst-description esgst-warning"></div>`);
             group1 = insertHtml(container, `beforeEnd`, `<div class="esgst-button-group"><span>Select:</span></div>`);
-            group1.appendChild(new ButtonSet(`grey`, `grey`, `fa-circle`, `fa-circle-o-notch fa-spin`, `All`, ``, selectSwitches.bind(null, dm.switches, `enable`, true)).set);
-            group1.appendChild(new ButtonSet(`grey`, `grey`, `fa-circle-o`, `fa-circle-o-notch fa-spin`, `None`, ``, selectSwitches.bind(null, dm.switches, `disable`, true)).set);
-            group1.appendChild(new ButtonSet(`grey`, `grey`, `fa-dot-circle-o`, `fa-circle-o-notch fa-spin`, `Inverse`, ``, selectSwitches.bind(null, dm.switches, `toggle`, true)).set);
+            group1.appendChild(new ButtonSet(`grey`, `grey`, `fa-circle`, `fa-circle-o-notch fa-spin`, `All`, ``, selectSwitches.bind(null, dm.switches, `enable`, group1)).set);
+            group1.appendChild(new ButtonSet(`grey`, `grey`, `fa-circle-o`, `fa-circle-o-notch fa-spin`, `None`, ``, selectSwitches.bind(null, dm.switches, `disable`, group1)).set);
+            group1.appendChild(new ButtonSet(`grey`, `grey`, `fa-dot-circle-o`, `fa-circle-o-notch fa-spin`, `Inverse`, ``, selectSwitches.bind(null, dm.switches, `toggle`, group1)).set);
             group2 = insertHtml(container, `beforeEnd`, `<div class="esgst-button-group"><span>${title1} ${prep}:</span></div>`);
             group2.appendChild(new ButtonSet(`green`, `grey`, icon, `fa-circle-o-notch fa-spin`, `Computer`, title2, callback => {
                 onClick(dm, false, false, false, false, () => {
@@ -36680,10 +36539,15 @@ Parsedown = (() => {
             switches[key][type](settings);
         }
         if (settings) {
-            let popup = new Popup(`fa-circle-o-notch fa-spin`, `Saving...`);
-            popup.open();
+            let message = insertHtml(settings, `beforeEnd`, `
+                <div class="esgst-description esgst-bold">
+                    <i class="fa fa-circle-o-notch fa-spin"></i> Saving...
+                </div>
+            `);
             await setValue(`settings`, JSON.stringify(esgst.settings));
-            popup.close();
+            message.classList.add(`esgst-green`);
+            message.innerHTML = `<i class="fa fa-check"></i> Saved!`;
+            setTimeout(message.remove.bind(message), 2500);
         }
         if (callback) {
             callback();
@@ -38423,6 +38287,11 @@ Parsedown = (() => {
                 font-weight: bold;
             }
 
+            .esgst-toggle-switch-container .esgst-description, .esgst-button-group .esgst-description {
+                display: inline-block;
+                margin: 0;
+            }
+
             .esgst-description {
                 color: #6b7a8c;
                 font-size: 11px;
@@ -39159,6 +39028,27 @@ Parsedown = (() => {
     function loadChangelog(version) {
         var changelog, current, html, i, index, n, popup;
         changelog = [
+            {
+                date: `February 12, 2018`,
+                version: `7.14.3`,
+                changelog: `
+                    <ul>
+                        <li><a href="https://github.com/revilheart/ESGST/issues/471">#471 Fix a bug that happens when using the Comment Tracker buttons from the main discussions page</a></li>
+                        <li><a href="https://github.com/revilheart/ESGST/issues/472">#472 Open discussion in a new tab when middle-clicking the button to go to its first unread comment</a></li>
+                        <li><a href="https://github.com/revilheart/ESGST/issues/473">#473 Fix a bug that happens when hiding discussions</a></li>
+                        <li><a href="https://github.com/revilheart/ESGST/issues/477">#477 Fix a bug that happens when using Group/Library Wishlist Checker</a></li>
+                        <li><a href="https://github.com/revilheart/ESGST/issues/475">#475 Fix a bug in Quick Inbox View</a></li>
+                        <li><a href="https://github.com/revilheart/ESGST/issues/474">#474 Fix a bug that happens when syncing wishlisted games</a></li>
+                        <li><a href="https://github.com/revilheart/ESGST/issues/476">#476 Change saving popup to a message next to the switch</a></li>
+                        <li><a href="https://github.com/revilheart/ESGST/issues/483">#483 Also open features in a new tab when middle-clicking them</a></li>
+                        <li><a href="https://github.com/revilheart/ESGST/issues/480">#480 Remove the option to notify errors</a></li>
+                        <li><a href="https://github.com/revilheart/ESGST/issues/484">#484 Fix a bug that does not load features correctly in ESGST-generated pages</a></li>
+                        <li><a href="https://github.com/revilheart/ESGST/issues/479">#479 Fix a bug in Collapse/Expand Replies Button that happens if the option to automatically collapse is enabled</a></li>
+                        <li><a href="https://github.com/revilheart/ESGST/issues/482">#482 Make the extension compatible with Firefox Containers</a></li>
+                        <li><a href="https://github.com/revilheart/ESGST/issues/485">#485 Fix a bug that happens when visiting discussions if the auto option for Discussions Sorter is enabled</a></li>
+                    </ul>
+                `
+            },
             {
                 date: `February 7, 2018`,
                 version: `7.14.2`,
@@ -39953,11 +39843,11 @@ Parsedown = (() => {
         }
         if (details.queue) {
             let deleteLock = await createLock(`requestLock`, 1000);
-            let response = await continueRequest_v2(details);
+            let response = await continueRequest(details);
             deleteLock();
             return response;
         } else {
-            return await continueRequest_v2(details);
+            return await continueRequest(details);
         }
     }
 
