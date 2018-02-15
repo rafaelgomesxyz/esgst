@@ -1638,6 +1638,7 @@ Parsedown = (() => {
         esgst = {
             parameters: getParameters(),
             defaultValues: {
+                addNoCvGames_sg: false,
                 lockGiveawayColumns_sg: false,
                 staticPopups_width: `900px`,
                 hgr_removeOwned: true,
@@ -1981,7 +1982,7 @@ Parsedown = (() => {
             sg: location.hostname.match(/www.steamgifts.com/),
             st: location.hostname.match(/www.steamtrades.com/),
             currentVersion: `7.14.3`,
-            devVersion: `7.14.4 (Dev.5)`,
+            devVersion: `7.14.4 (Dev.6)`,
             icon: `data:image/x-icon;base64,AAABAAEAEBAAAAEAIABoBAAAFgAAACgAAAAQAAAAIAAAAAEAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAqv8DCbP/Hgeq+CQIrf8iCK3/Igit/yIIrf8iB6//Iwit9x8Aqv8DAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAKr0GAa2/c0DvfzfA7f83QO3/N0Dt/zdA7f83QO+/d4Gs/3OAKP1GQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACm/xQFs/n2Bcf//wW///8FwP//BcD//wW///8Fx///BbP69gC2/xUAAAAAAAAAAAAAAAAA/1UDFptOFxSZMxkLpJktAq720QW1+ugEsfvjA7b92wO2/dsEsfvjBbX66Aau/dEoiO4tUlLWGU5k3hdVVf8DEJxKHxWqT8cVrU7uE6VN0guqny0Apv8XAJfQGwBAVywAQFcsAJfQGwCx/xcogugtS2Lk0lBl6u5Qae7ISmPeHxagSSMVr07jF7lV/xOiSu0brgATAAAAAAAAAA8AAAC/AAAAwAAAABAAAAAAYznjEkth4OxWb/3/T2jv40lf4iMXnksiEq1O3RayUv8UpEnkEo0+HQAAABkAAABBAAAA8QAAAPEAAABBAAAAGUBSvxxOYeDjU2v0/05m7d1LYuEiF55LIhKtTt0Ws1L/FahN2gU1FTAAAADAAAAA7AAAAP0AAAD9AAAA7AAAAMAVG0owUGPm2lNr9P9OZu3dS2LhIheeSyISrU7dFrNS/xWoTdoFNRswAAAAvwAAAOsAAAD9AAAA/QAAAOsAAADAFRtKMFBj6NpTa/T/Tmbt3Uti4SIXnksiEq1O3RayUv8UpEnkEo0+HQAAABgAAABAAAAA8QAAAPEAAABBAAAAGT5PuR1OYeDjU2v0/05m7d1LYuEiFqBJIxWuT+QXuVX/E6JL7QC8XhMAAAAAAAAADwAAAL8AAAC/AAAAEAAAAAAOR/8SSWLh7FZv/f9PaO/jSV/iIxCUSh8Vrk7HFqxN7ROlS9JskzMt1XULGK12EhxGLgYsRy8GK612EhzVgAsYgmxxLU1i39JNZ+vtT2fwx0pj1h8AqlUDF65GFgqZUhlsiC0txH0T0s5/EujJgBPkz4QR28+EEdvJgBPkzn8Q6Md+E9KLdHosM1LWGUZo6BZVVf8DAAAAAAAAAAAAAAAA/2YAFMl9EvbgjRb/14gV/9eIFf/XiBX/14gV/9+NFv/KgBD254YAFQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAL91FRjKgRHN1IgU3s+EEt3PhBLdz4QS3c+EEt3UiBTezYMRzcJ6FBkAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACqqgADxIARHr18FiO8eA8ivHgPIrx4DyK8eA8ivXwPI8SAER7/VQADAAAAAAAAAAAAAAAA78cAAPA3AAD4FwAABCAAADGOAAAE+AAAkBEAAJ55AACYOQAAlgEAAER4AAAXaAAATnoAAPgXAAD0JwAA69cAAA==`,
             sgIcon: `data:image/x-icon;base64,AAABAAEAEBAAAAEAIABoBAAAFgAAACgAAAAQAAAAIAAAAAEAIAAAAAAAQAQAABMLAAATCwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIUAAAD5AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAPoAAACFAAAAAAAAAAAAAAD8AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA+QAAAAAAAAAAAAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAAAAAAAAAAAAP8AAAD/AAAA/wAAABwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAcAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAcAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAHAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAAAAAAAAAAAAPwAAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD5AAAAAAAAAAAAAACFAAAA+QAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD5AAAAhQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA//8AAP//AADAAwAAwAMAAMfjAADP8wAAz/MAAM/zAADP8wAAz/MAAM/zAADH4wAAwAMAAMADAAD//wAA//8AAA==`,
             stIcon: `data:image/x-icon;base64,AAABAAEAEBAAAAEAIABoBAAAFgAAACgAAAAQAAAAIAAAAAEAIAAAAAAAQAQAABMLAAATCwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABbD6SgWw+ucFsPrkBbD6SgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAWw+uYFsPr/BbD6/wWw+ucAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAFsPrmBbD6/wWw+v8FsPrmAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABbD6SQWw+uYFsPrmBbD6SQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAFKRLShSkS+cUpEvkFKRLSgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAExi4EpMYuDnTGLg5Exi4EoAAAAAAAAAABSkS+YUpEv/FKRL/xSkS+cAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABMYuDmTGLg/0xi4P9MYuDnAAAAAAAAAAAUpEvmFKRL/xSkS/8UpEvmAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAATGLg5kxi4P9MYuD/TGLg5gAAAAAAAAAAFKRLSRSkS+YUpEvmFKRLSQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAExi4ElMYuDmTGLg5kxi4EkAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAMZ9E0rGfRPnxn0T5MZ9E0oAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADGfRPmxn0T/8Z9E//GfRPnAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAxn0T5sZ9E//GfRP/xn0T5gAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAMZ9E0nGfRPmxn0T5sZ9E0kAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA//8AAPw/AAD8PwAA/D8AAPw/AAD//wAAh+EAAIfhAACH4QAAh+EAAP//AAD8PwAA/D8AAPw/AAD8PwAA//8AAA==`,
@@ -5099,6 +5100,11 @@ Parsedown = (() => {
                             name: `Automatically update whitelist/blacklist when adding/removing a user to/from those lists.`,
                             sg: true
                         },
+                        addNoCvGames: {
+                            name: `Automatically add no CV games to the database when searching for games in the new giveaway page.`,
+                            new: true,
+                            sg: true
+                        },
                         collapseSections: {
                             name: `Collapse sections in the settings menu by default.`,
                             sg: true,
@@ -6196,8 +6202,6 @@ Parsedown = (() => {
         if (esgst.glwc) await loadGlwc();
         if (esgst.gs) loadGs();
 
-        if (esgst.gc) loadGc();
-
         if (esgst.mt) loadMt();
         if (esgst.stbb) loadStbb();
         if (esgst.sttb) loadSttb();
@@ -6211,6 +6215,15 @@ Parsedown = (() => {
 
         if (esgst.qiv) loadQiv(true);
         if (esgst.es) loadEs();
+        
+        if (esgst.newGiveawayPath) {
+            // when the user searches for a game in the new giveaway page, wait until the results appear and load the game features for them
+            let rows = document.getElementsByClassName(`form__rows`)[0];
+            if (rows) {
+                let input = document.getElementsByClassName(`js__autocomplete-name`)[0];
+                input.addEventListener(`input`, checkNewGiveawayInput.bind(null, input.nextElementSibling));
+            }
+        }
 
         if (esgst.hideButtons && esgst.mainPageHeading) {
             if (!esgst.leftButtons.querySelector(`.esgst-heading-button:not(.esgst-hidden)`)) {
@@ -14826,29 +14839,6 @@ Parsedown = (() => {
     }
 
     /* [GC] Game Categories */
-
-    function loadGc() {
-        if (!esgst.newGiveawayPath) return;
-        let rows = document.getElementsByClassName(`form__rows`)[0];
-        if (!rows) return;
-        let ipt = document.getElementsByClassName(`js__autocomplete-name`)[0];
-        let tb = ipt.nextElementSibling;
-        ipt.addEventListener(`input`, () => {
-            if (!esgst.isCheckingGc) {
-                esgst.isCheckingGc = true;
-                checkGcNewGiveaway(tb);
-            }
-        });
-    }
-
-    async function checkGcNewGiveaway(context) {
-        if (context.style.opacity === `1`) {
-            await loadGameFeatures(document, true);
-            esgst.isCheckingGc = false;
-        } else {
-            setTimeout(checkGcNewGiveaway, 100, context);
-        }
-    }
 
     async function getGcGames(games, endless) {
         let gc = {
@@ -30374,6 +30364,74 @@ Parsedown = (() => {
             return null;
         }
     }
+    
+    function checkNewGiveawayInput(context) {
+        if (esgst.isCheckingNewGiveaway) return;
+        esgst.isCheckingNewGiveaway = true;
+        setTimeout(loadNewGiveawayFeatures, 100, context);
+    }
+
+    async function loadNewGiveawayFeatures(context) {
+        if (context.style.opacity === `1`) {
+            // check if there are no cv games in the results and if they are already in the database
+            let found = false;
+            let games = {
+                apps: {},
+                subs: {}
+            };
+            let elements = context.getElementsByClassName(`table__row-outer-wrap`);
+            for (let i = 0, n = elements.length; i < n; i++) {
+                let element = elements[i];
+                let date = element.querySelector(`[data-ui-tooltip*="Zero contributor value since..."]`);
+                if (!date) continue;
+                let info = getGameInfo(element);
+                if (!info || (esgst.games[info.type][info.id] && esgst.games[info.type][info.id].noCV)) continue;
+                date = JSON.parse(date.getAttribute(`data-ui-tooltip`)).rows;
+                games[info.type][info.id] = {
+                    name: element.getElementsByClassName(`table__column__heading`)[0].firstChild.textContent.trim(),
+                    noCV: date[date.length - 1].columns[1].name
+                };
+                found = true;
+            }
+            if (esgst.noCvButton) {
+                esgst.noCvButton.remove();
+            }
+            if (found) {
+                esgst.noCvButton = insertHtml(context.closest(`.form__row__indent`).previousElementSibling, `beforeEnd`, `
+                    <span class="esgst-no-cv-button">
+                        <i class="fa fa-calendar-minus-o esgst-blinking esgst-bold esgst-clickable esgst-red" title="Add no CV games to the database"></i>
+                    </span>
+                `);
+                if (esgst.addNoCvGames) {
+                    addNoCvGames(games);
+                } else {
+                    esgst.noCvButton.firstElementChild.addEventListener(`click`, addNoCvGames.bind(null, games));
+                }
+            }
+
+            await loadGameFeatures(document, true);
+            esgst.isCheckingNewGiveaway = false;
+        } else {
+            setTimeout(loadNewGiveawayFeatures, 100, context);
+        }
+    }
+
+    async function addNoCvGames(games) {
+        let button = esgst.noCvButton;
+        esgst.noCvButton = null;
+        button.innerHTML= `
+            <i class="fa fa-circle-o-notch fa-spin" title="Adding no CV games to the database..."></i>
+        `;
+        await request({data: JSON.stringify(games), method: `POST`, url: `https://script.google.com/macros/s/AKfycbym0nzeyr3_b93ViuiZRivkBMl9PBI2dTHQxNC0rtgeQSlCTI-P/exec`});
+        for (let id in games.apps) {
+            delete games.apps[id].name;
+        }
+        for (let id in games.subs) {
+            delete games.subs[id].name;
+        }
+        await lockAndSaveGames(games);
+        button.remove();
+    }
 
     async function loadEndlessFeatures(context, main, source, endless) {
         let values = await getValues({
@@ -36724,6 +36782,14 @@ Parsedown = (() => {
             `;
         }
         style += `
+            @keyframes esgst-blinker {  
+                50% { opacity: 0; }
+            }
+
+            .esgst-blinking {
+                animation: esgst-blinker 1s linear infinite;
+            }
+
             .esgst-qiv-popout {
                 width: 600px;
             }
