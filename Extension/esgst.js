@@ -1093,6 +1093,44 @@ Parsedown = (() => {
 // ESGST
 
 (async () => {
+
+    class Button {
+        constructor(context, position, details) {
+            this.callbacks = details.callbacks;
+            this.states = this.callbacks.length;
+            this.icons = details.icons;
+            this.index = details.index;
+            this.titles = details.titles;
+            this.button = insertHtml(context, position, `
+                <div class="${details.className}"></div>
+            `);
+            this.change();
+            return this;
+        }
+        async change(mainCallback, event) {
+            if (this.index >= this.states) {
+                this.index = 0;
+            }
+            let index = this.index;
+            this.index += 1;
+            this.button.title = this.titles[index];
+            this.button.innerHTML = `
+                <i class="fa ${this.icons[index]}"></i>
+            `;
+            if (mainCallback) {
+                if (await mainCallback(event)) {
+                    this.change();
+                } else {
+                    this.button.innerHTML = `
+                        <i class="fa fa-times esgst-red" title="Unable to perform action"></i>
+                    `;
+                }
+            } else if (this.callbacks[index]) {
+                this.button.firstElementChild.addEventListener(`click`, this.change.bind(this, this.callbacks[index]));
+            }
+        }
+    }
+
     class ButtonSet {
         constructor(color1, color2, icon1, icon2, title1, title2, callback1, callback2) {
             this.busy = false;
@@ -1982,7 +2020,7 @@ Parsedown = (() => {
             sg: location.hostname.match(/www.steamgifts.com/),
             st: location.hostname.match(/www.steamtrades.com/),
             currentVersion: `7.14.3`,
-            devVersion: `7.14.4 (Dev.10)`,
+            devVersion: `7.14.4 (Dev.11)`,
             icon: `data:image/x-icon;base64,AAABAAEAEBAAAAEAIABoBAAAFgAAACgAAAAQAAAAIAAAAAEAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAqv8DCbP/Hgeq+CQIrf8iCK3/Igit/yIIrf8iB6//Iwit9x8Aqv8DAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAKr0GAa2/c0DvfzfA7f83QO3/N0Dt/zdA7f83QO+/d4Gs/3OAKP1GQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACm/xQFs/n2Bcf//wW///8FwP//BcD//wW///8Fx///BbP69gC2/xUAAAAAAAAAAAAAAAAA/1UDFptOFxSZMxkLpJktAq720QW1+ugEsfvjA7b92wO2/dsEsfvjBbX66Aau/dEoiO4tUlLWGU5k3hdVVf8DEJxKHxWqT8cVrU7uE6VN0guqny0Apv8XAJfQGwBAVywAQFcsAJfQGwCx/xcogugtS2Lk0lBl6u5Qae7ISmPeHxagSSMVr07jF7lV/xOiSu0brgATAAAAAAAAAA8AAAC/AAAAwAAAABAAAAAAYznjEkth4OxWb/3/T2jv40lf4iMXnksiEq1O3RayUv8UpEnkEo0+HQAAABkAAABBAAAA8QAAAPEAAABBAAAAGUBSvxxOYeDjU2v0/05m7d1LYuEiF55LIhKtTt0Ws1L/FahN2gU1FTAAAADAAAAA7AAAAP0AAAD9AAAA7AAAAMAVG0owUGPm2lNr9P9OZu3dS2LhIheeSyISrU7dFrNS/xWoTdoFNRswAAAAvwAAAOsAAAD9AAAA/QAAAOsAAADAFRtKMFBj6NpTa/T/Tmbt3Uti4SIXnksiEq1O3RayUv8UpEnkEo0+HQAAABgAAABAAAAA8QAAAPEAAABBAAAAGT5PuR1OYeDjU2v0/05m7d1LYuEiFqBJIxWuT+QXuVX/E6JL7QC8XhMAAAAAAAAADwAAAL8AAAC/AAAAEAAAAAAOR/8SSWLh7FZv/f9PaO/jSV/iIxCUSh8Vrk7HFqxN7ROlS9JskzMt1XULGK12EhxGLgYsRy8GK612EhzVgAsYgmxxLU1i39JNZ+vtT2fwx0pj1h8AqlUDF65GFgqZUhlsiC0txH0T0s5/EujJgBPkz4QR28+EEdvJgBPkzn8Q6Md+E9KLdHosM1LWGUZo6BZVVf8DAAAAAAAAAAAAAAAA/2YAFMl9EvbgjRb/14gV/9eIFf/XiBX/14gV/9+NFv/KgBD254YAFQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAL91FRjKgRHN1IgU3s+EEt3PhBLdz4QS3c+EEt3UiBTezYMRzcJ6FBkAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACqqgADxIARHr18FiO8eA8ivHgPIrx4DyK8eA8ivXwPI8SAER7/VQADAAAAAAAAAAAAAAAA78cAAPA3AAD4FwAABCAAADGOAAAE+AAAkBEAAJ55AACYOQAAlgEAAER4AAAXaAAATnoAAPgXAAD0JwAA69cAAA==`,
             sgIcon: `data:image/x-icon;base64,AAABAAEAEBAAAAEAIABoBAAAFgAAACgAAAAQAAAAIAAAAAEAIAAAAAAAQAQAABMLAAATCwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIUAAAD5AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAPoAAACFAAAAAAAAAAAAAAD8AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA+QAAAAAAAAAAAAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAAAAAAAAAAAAP8AAAD/AAAA/wAAABwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAcAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAcAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAHAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAAAAAAAAAAAAPwAAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD5AAAAAAAAAAAAAACFAAAA+QAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD5AAAAhQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA//8AAP//AADAAwAAwAMAAMfjAADP8wAAz/MAAM/zAADP8wAAz/MAAM/zAADH4wAAwAMAAMADAAD//wAA//8AAA==`,
             stIcon: `data:image/x-icon;base64,AAABAAEAEBAAAAEAIABoBAAAFgAAACgAAAAQAAAAIAAAAAEAIAAAAAAAQAQAABMLAAATCwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABbD6SgWw+ucFsPrkBbD6SgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAWw+uYFsPr/BbD6/wWw+ucAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAFsPrmBbD6/wWw+v8FsPrmAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABbD6SQWw+uYFsPrmBbD6SQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAFKRLShSkS+cUpEvkFKRLSgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAExi4EpMYuDnTGLg5Exi4EoAAAAAAAAAABSkS+YUpEv/FKRL/xSkS+cAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABMYuDmTGLg/0xi4P9MYuDnAAAAAAAAAAAUpEvmFKRL/xSkS/8UpEvmAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAATGLg5kxi4P9MYuD/TGLg5gAAAAAAAAAAFKRLSRSkS+YUpEvmFKRLSQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAExi4ElMYuDmTGLg5kxi4EkAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAMZ9E0rGfRPnxn0T5MZ9E0oAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADGfRPmxn0T/8Z9E//GfRPnAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAxn0T5sZ9E//GfRP/xn0T5gAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAMZ9E0nGfRPmxn0T5sZ9E0kAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA//8AAPw/AAD8PwAA/D8AAPw/AAD//wAAh+EAAIfhAACH4QAAh+EAAP//AAD8PwAA/D8AAPw/AAD8PwAA//8AAA==`,
@@ -11059,64 +11097,24 @@ Parsedown = (() => {
 
     /* [CODB] Close/Open Discussion Button */
 
-    function addCodbButton(discussion) {
-        if (discussion.author === esgst.username) {
-            if (!discussion.heading.parentElement.getElementsByClassName(`esgst-codb-button`)[0]) {
-                if (discussion.closed) {
-                    discussion.closed.remove();
-                    discussion.closed = true;
-                }
-                if (discussion.closed) {
-                    addCodbOpenButton(null, discussion);
-                } else {
-                    addCodbCloseButton(null, discussion);
-                }
-            }
+    async function closeCodbDiscussion(discussion) {
+        let response = await request({data: `xsrf_token=${esgst.xsrfToken}&do=close_discussion`, method: `POST`, url: discussion.url});
+        if (parseHtml(response.responseText).getElementsByClassName(`page__heading__button--red`)[0]) {
+            discussion.closed = true;
+            discussion.innerWrap.classList.add(`is-faded`);
+            return true;
         }
+        return false;
     }
 
-    function addCodbCloseButton(button, discussion) {
-        if (!button) {
-            button = insertHtml(discussion.headingContainer.firstElementChild, `beforeBegin`, `
-                <div class="esgst-codb-button" title="Close discussion">
-                    <i class="fa fa-lock"></i>
-                </div>
-            `);
+    async function openCodbDiscussion(discussion) {
+        let response = await request({data: `xsrf_token=${esgst.xsrfToken}&do=reopen_discussion`, method: `POST`, url: discussion.url});
+        if (!parseHtml(response.responseText).getElementsByClassName(`page__heading__button--red`)[0]) {
+            discussion.closed = false;
+            discussion.innerWrap.classList.remove(`is-faded`);
+            return true;
         }
-        button.firstElementChild.addEventListener(`click`, async function() {
-            button.innerHTML = `<i class="fa fa-circle-o-notch fa-spin"></i>`;
-            let response = await request({data: `xsrf_token=${esgst.xsrfToken}&do=close_discussion`, method: `POST`, url: discussion.url});
-            button.innerHTML = `<i class="fa fa-lock"></i>`;
-            if (parseHtml(response.responseText).getElementsByClassName(`page__heading__button--red`)[0]) {
-                button.classList.add(`icon-red`);
-                button.title = `Open discussion`;
-                addCodbOpenButton(button, discussion);
-                discussion.closed = true;
-                discussion.innerWrap.classList.add(`is-faded`);
-            }
-        });
-    }
-
-    function addCodbOpenButton(button, discussion) {
-        if (!button) {
-            button = insertHtml(discussion.headingContainer.firstElementChild, `beforeBegin`, `
-                <div class="esgst-codb-button icon-red" title="Open discussion">
-                    <i class="fa fa-lock"></i>
-                </div>
-            `);
-        }
-        button.firstElementChild.addEventListener(`click`, async function() {
-            button.innerHTML = `<i class="fa fa-circle-o-notch fa-spin"></i>`;
-            let response = await request({data: `xsrf_token=${esgst.xsrfToken}&do=reopen_discussion`, method: `POST`, url: discussion.url});
-            button.innerHTML = `<i class="fa fa-lock"></i>`;
-            if (!parseHtml(response.responseText).getElementsByClassName(`page__heading__button--red`)[0]) {
-                button.classList.remove(`icon-red`);
-                button.title = `Close discussion`;
-                addCodbCloseButton(button, discussion);
-                discussion.closed = false;
-                discussion.innerWrap.classList.remove(`is-faded`);
-            }
-        });
+        return false;
     }
 
     /* [CR] Comments Reverser */
@@ -12106,40 +12104,7 @@ Parsedown = (() => {
         }
     }
 
-    function getDfDiscussion(discussion, main) {
-        let savedDiscussion = esgst.discussions[discussion.code];
-        if (savedDiscussion && savedDiscussion.hidden) {
-            addDfUnhideButton(discussion, main);
-        } else {
-            addDfHideButton(discussion, main);
-        }
-    }
-    
-    function addDfHideButton(discussion, main) {
-        var button;
-        if (!discussion.heading.parentElement.getElementsByClassName(`esgst-df-button`)[0]) {
-            button = insertHtml(discussion.headingContainer.firstElementChild, `beforeBegin`, `
-                <div class="esgst-df-button" title="Hide discussion">
-                    <i class="fa fa-eye-slash"></i>
-                </div>
-            `);
-            let busy = false;
-            button.addEventListener(`click`, function() {
-                if (!busy) {
-                    busy = true;
-                    button.innerHTML = `<i class="fa fa-circle-o-notch fa-spin"></i>`;
-                    hideDfDiscussion(discussion, function() {
-                        button.remove();
-                        if ((esgst.discussionPath && !main) || !esgst.discussionPath) {
-                            discussion.outerWrap.remove();
-                        }
-                    });
-                }
-            });
-        }
-    }
-
-    async function hideDfDiscussion(discussion, callback) {
+    async function hideDfDiscussion(discussion, main) {
         let deleteLock = await createLock(`discussionLock`, 300);
         let discussions = JSON.parse(await getValue(`discussions`, `{}`));
         if (!discussions[discussion.code]) {
@@ -12148,36 +12113,13 @@ Parsedown = (() => {
         discussions[discussion.code].hidden = discussions[discussion.code].lastUsed = Date.now();
         await setValue(`discussions`, JSON.stringify(discussions));
         deleteLock();
-        if (callback) {
-            callback();
+        if (!main || !esgst.discussionPath) {
+            discussion.outerWrap.remove();
         }
+        return true;
     }
 
-    function addDfUnhideButton(discussion, main) {
-        var button;
-        if (!discussion.heading.parentElement.getElementsByClassName(`esgst-df-button`)[0]) {
-            button = insertHtml(discussion.headingContainer.firstElementChild, `beforeBegin`, `
-                <div class="esgst-df-button" title="Unhide discussion">
-                    <i class="fa fa-eye"></i>
-                </div>
-            `);
-            let busy = false;
-            button.addEventListener(`click`, function() {
-                if (!busy) {
-                    busy = true;
-                    button.innerHTML = `<i class="fa fa-circle-o-notch fa-spin"></i>`;
-                    unhideDfDiscussion(discussion, function() {
-                        button.remove();
-                        if ((esgst.discussionPath && !main) || !esgst.discussionPath) {
-                            discussion.outerWrap.remove();
-                        }
-                    });
-                }
-            });
-        }
-    }
-
-    async function unhideDfDiscussion(discussion, callback) {
+    async function unhideDfDiscussion(discussion, main) {
         let deleteLock = await createLock(`discussionLock`, 300);
         let discussions = JSON.parse(await getValue(`discussions`, `{}`));
         if (discussions[discussion.code]) {
@@ -12186,9 +12128,10 @@ Parsedown = (() => {
         }
         await setValue(`discussions`, JSON.stringify(discussions));
         deleteLock();
-        if (callback) {
-            callback();
+        if (!main || !esgst.discussionPath) {
+            discussion.outerWrap.remove();
         }
+        return true;
     }
 
     function setDfOverride(df, context, key) {
@@ -13066,21 +13009,6 @@ Parsedown = (() => {
         }
     }
 
-    function getDhDiscussion(discussion, main) {
-        if (discussion.heading.parentElement.getElementsByClassName(`esgst-dh-button`)[0]) return;
-        let savedDiscussion = esgst.discussions[discussion.code];
-        let context = main && esgst.discussionPath ? discussion.heading : discussion.outerWrap;
-        if (savedDiscussion && savedDiscussion.highlighted) {
-            highlightDhDiscussion(discussion.code, context);
-            addDhUnhighlightButton(null, discussion.code, context, discussion.heading.parentElement);
-            if (esgst.dh_t && main && esgst.discussionsPath) {
-                discussion.outerWrap.parentElement.insertBefore(discussion.outerWrap, discussion.outerWrap.parentElement.firstElementChild);
-            }
-        } else {
-            addDhHighlightButton(null, discussion.code, context, discussion.heading.parentElement);
-        }
-    }
-
     async function highlightDhDiscussion(code, context, save) {
         if (save) {
             let deleteLock = await createLock(`commentLock`, 300);
@@ -13098,6 +13026,7 @@ Parsedown = (() => {
         } else {
             context.classList.add(`esgst-dh-highlighted`);
         }
+        return true;
     }
 
     async function unhighlightDhDiscussion(code, context, save) {
@@ -13112,46 +13041,7 @@ Parsedown = (() => {
         } else {
             context.classList.remove(`esgst-dh-highlighted`);
         }
-    }
-
-    function addDhHighlightButton(button, code, container, context) {
-        if (!button) {
-            button = insertHtml(context, `afterBegin`, `
-                <div class="esgst-dh-button"></div>
-            `);
-        }
-        button.innerHTML = `
-            <i class="fa fa-star-o esgst-clickable"></i>
-        `;
-        button.title = `Click to highlight this discussion`;
-        button.firstElementChild.addEventListener(`click`, async () => {
-            button.innerHTML = `
-                <i class="fa fa-circle-o-notch fa-spin"></i>            
-            `;
-            button.title = `Highlighting discussion...`;
-            await highlightDhDiscussion(code, container, true);
-            addDhUnhighlightButton(button, code, container, context);
-        });
-    }
-
-    function addDhUnhighlightButton(button, code, container, context) {
-        if (!button) {
-            button = insertHtml(context, `afterBegin`, `
-                <div class="esgst-dh-button"></div>
-            `);
-        }
-        button.innerHTML = `
-            <i class="fa fa-star esgst-clickable"></i>
-        `;
-        button.title = `Click to unhighlight this discussion`;
-        button.firstElementChild.addEventListener(`click`, async () => {
-            button.innerHTML = `
-                <i class="fa fa-circle-o-notch fa-spin"></i>            
-            `;
-            button.title = `Unhighlighting discussion...`;
-            await unhighlightDhDiscussion(code, container, true);
-            addDhHighlightButton(button, code, container, context);
-        });
+        return true;
     }
 
     /* [DKC] Delete Keys Confirmation */
@@ -13446,12 +13336,12 @@ Parsedown = (() => {
             if (esgst.egh) {
                 saveEghGame(giveaway.id, giveaway.type);
             }
-            if (esgst.gb && esgst.gb_ue) {
-                var button = giveaway.outerWrap.getElementsByClassName(`esgst-gb-button`)[0];
-                if (button) {
-                    unbookmarkGbGiveaway(giveaway, function() {
-                        addGbBookmarkButton(button, giveaway, main);
-                    });
+            if (esgst.gb && esgst.gb_ue && giveaway.gbButton) {
+                if (giveaway.gbButton.index === 3) {
+                    giveaway.gbButton.change(giveaway.gbButton.callbacks[2]);
+                }
+                if (!esgst.gb_se) {
+                    giveaway.gbButton.button.classList.add(`esgst-hidden`);
                 }
             }
             if (esgst.gf && esgst.gf.filteredCount && esgst[`gf_enable${esgst.gf.type}`]) {
@@ -13496,6 +13386,9 @@ Parsedown = (() => {
                 setLocalValue(`hrCache`, JSON.stringify(getHrCache()));
             }
             updateElgbButtons();
+            if (esgst.gb && giveaway.gbButton) {
+                giveaway.gbButton.button.classList.remove(`esgst-hidden`);
+            }
             if (esgst.gf && esgst.gf.filteredCount && esgst[`gf_enable${esgst.gf.type}`]) {
                 filterGfGiveaways(esgst.gf);
             }
@@ -14514,6 +14407,27 @@ Parsedown = (() => {
 
     async function loadGb() {
         await addGbButton();
+        if (esgst.gb_ue && esgst.enterGiveawayButton) {
+            esgst.enterGiveawayButton.onclick = () => {
+                let giveaway = esgst.currentGiveaways[0];
+                if (giveaway && giveaway.gbButton) {
+                    if (giveaway.gbButton.index === 3) {
+                        giveaway.gbButton.change(giveaway.gbButton.callbacks[2]);
+                    }
+                    if (!esgst.gb_se) {
+                        giveaway.gbButton.button.classList.add(`esgst-hidden`);
+                    }
+                }
+            };
+        }
+        if (esgst.leaveGiveawayButton) {
+            esgst.leaveGiveawayButton.onclick = () => {
+                let giveaway = esgst.currentGiveaways[0];
+                if (giveaway && giveaway.gbButton) {
+                    giveaway.gbButton.button.classList.remove(`esgst-hidden`);
+                }
+            };
+        }
     }
 
     async function addGbButton() {
@@ -14770,29 +14684,21 @@ Parsedown = (() => {
     }
 
     function getGbGiveaways(giveaway, main) {
-        if (((esgst.archivePath && !main) || !esgst.archivePath) && giveaway.creator !== esgst.username && (!giveaway.entered || (esgst.enteredPath && main) || esgst.gb_se) && giveaway.url && !giveaway.innerWrap.getElementsByClassName(`esgst-gb-button`)[0]) {
-            if (esgst.giveaways[giveaway.code] && esgst.giveaways[giveaway.code].bookmarked) {
-                let button = insertHtml(giveaway.headingName, `beforeBegin`, `<div class="esgst-gb-button"></div>`);
-                addGbUnbookmarkButton(button, giveaway, main);
-            } else if (!giveaway.ended) {
-                let button = insertHtml(giveaway.headingName, `beforeBegin`, `<div class="esgst-gb-button"></div>`);
-                addGbBookmarkButton(button, giveaway, main);
+        if ((!main || !esgst.archivePath) && giveaway.creator !== esgst.username && giveaway.url && !giveaway.gbButton) {
+            giveaway.gbButton = new Button(giveaway.headingName, `beforeBegin`, {
+                callbacks: [bookmarkGbGiveaway.bind(null, giveaway, main), null, unbookmarkGbGiveaway.bind(null, giveaway, main), null],
+                className: `esgst-gb-button`,
+                icons: [`fa-bookmark-o esgst-clickable`, `fa-circle-o-notch fa-spin`, `fa-bookmark`, `fa-circle-o-notch fa-spin`],
+                index: esgst.giveaways[giveaway.code] && esgst.giveaways[giveaway.code].bookmarked ? 2 : 0,
+                titles: [`Bookmark giveaway`, `Bookmarking giveaway...`, `Unbookmark giveaway`, `Unbookmarking giveaway...`]
+            });
+            if ((giveaway.entered || (esgst.enteredPath && main)) && !esgst.gb_se) {
+                giveaway.gbButton.button.classList.add(`esgst-hidden`);
             }
         }
     }
 
-    function addGbBookmarkButton(button, giveaway, main) {
-        button.title = `Bookmark giveaway`;
-        button.innerHTML = `<i class="fa fa-bookmark-o"></i>`;
-        button.firstElementChild.addEventListener(`click`, function() {
-            button.innerHTML = `<i class="fa fa-circle-o-notch fa-spin"></i>`;
-            bookmarkGbGiveaway(giveaway, function() {
-                addGbUnbookmarkButton(button, giveaway, main);
-            });
-        });
-    }
-
-    async function bookmarkGbGiveaway(giveaway, callback) {
+    async function bookmarkGbGiveaway(giveaway) {
         let deleteLock = await createLock(`giveawayLock`, 300);
         let giveaways = JSON.parse(await getValue(`giveaways`, `{}`));
         if (!giveaways[giveaway.code]) {
@@ -14804,37 +14710,10 @@ Parsedown = (() => {
         giveaways[giveaway.code].bookmarked = true;
         await setValue(`giveaways`, JSON.stringify(giveaways));
         deleteLock();
-        if (callback) {
-            callback();
-        }
+        return true;
     }
 
-    function addGbUnbookmarkButton(button, giveaway, main) {
-        var button;
-        button.title = `Unbookmark giveaway`;
-        button.innerHTML = `<i class="fa fa-bookmark"></i>`;
-        button.firstElementChild.addEventListener(`click`, function() {
-            button.innerHTML = `<i class="fa fa-circle-o-notch fa-spin"></i>`;
-            unbookmarkGbGiveaway(giveaway, function() {
-                addGbBookmarkButton(button, giveaway, main);
-            });
-        });
-        if (esgst.gb_ue && main && esgst.enterGiveawayButton) {
-            esgst.enterGiveawayButton.onclick = function() {
-                let button = giveaway.outerWrap.getElementsByClassName(`esgst-gb-button`)[0];
-                if (button && button.firstElementChild.classList.contains(`fa-bookmark`)) {
-                    button.innerHTML = `<i class="fa fa-circle-o-notch fa-spin"></i>`;
-                    unbookmarkGbGiveaway(giveaway, function() {
-                        if (esgst.gb_se) {
-                            addGbBookmarkButton(button, giveaway, main);
-                        }
-                    });
-                }
-            };
-        }
-    }
-
-    async function unbookmarkGbGiveaway(giveaway, callback) {
+    async function unbookmarkGbGiveaway(giveaway) {
         let deleteLock = await createLock(`giveawayLock`, 300);
         let giveaways = JSON.parse(await getValue(`giveaways`, `{}`));
         if (giveaways[giveaway.code]) {
@@ -14842,9 +14721,7 @@ Parsedown = (() => {
         }
         await setValue(`giveaways`, JSON.stringify(giveaways));
         deleteLock();
-        if (callback) {
-            callback();
-        }
+        return true;
     }
 
     /* [GC] Game Categories */
@@ -16636,36 +16513,30 @@ Parsedown = (() => {
         if (giveaway.creator !== esgst.username && !giveaway.ended && !giveaway.entered && giveaway.url) {
             if (source === `gf` || esgst.giveawayPath) {
                 if (!giveaway.innerWrap.getElementsByClassName(`esgst-gf-unhide-button`)[0] && esgst.giveaways[giveaway.code] && esgst.giveaways[giveaway.code].hidden) {
-                    addGfUnhideButton(giveaway, main);
+                    new Button(giveaway.headingName, `beforeBegin`, {
+                        callbacks: [hideGfGiveaway.bind(null, giveaway, main), null, unhideGfGiveaway.bind(null, giveaway, main), null],
+                        className: `esgst-gf-unhide-button`,
+                        icons: [`fa-eye-slash esgst-clickable`, `fa-circle-o-notch fa-spin`, `fa-eye esgst-clickable`, `fa-circle-o-notch fa-spin`],
+                        index: 2,
+                        titles: [`Hide giveaway`, `Hiding giveaway...`, `Unhide giveaway`, `Unhiding giveaway...`]
+                    });
                 }
             }
             if ((source !== `gc` && (esgst.giveawaysPath || esgst.groupPath)) || esgst.giveawayPath) {
-                if (!giveaway.innerWrap.getElementsByClassName(`esgst-gf-hide-button`)[0] && (!esgst.giveaways[giveaway.code] || !esgst.giveaways[giveaway.code].hidden || !esgst.giveaways[giveaway.code].code)) {
-                    addGfHideButton(giveaway, main);
+                if (!giveaway.innerWrap.getElementsByClassName(`esgst-gf-hide-button`)[0] && (!esgst.giveaways[giveaway.code] || !esgst.giveaways[giveaway.code].hidden || !esgst.giveaways[giveaway.code].code)) {                    
+                    new Button(giveaway.headingName, `beforeBegin`, {
+                        callbacks: [hideGfGiveaway.bind(null, giveaway, main), null, unhideGfGiveaway.bind(null, giveaway, main), null],
+                        className: `esgst-gf-hide-button`,
+                        icons: [`fa-eye-slash esgst-clickable`, `fa-circle-o-notch fa-spin`, `fa-eye esgst-clickable`, `fa-circle-o-notch fa-spin`],
+                        index: 0,
+                        titles: [`Hide giveaway`, `Hiding giveaway...`, `Unhide giveaway`, `Unhiding giveaway...`]
+                    });
                 }
             }
         }
     }
 
-    function addGfHideButton(giveaway, main) {
-        var button;
-        button = insertHtml(giveaway.headingName, `beforeBegin`, `
-            <div class="esgst-gf-hide-button" title="Hide giveaway">
-                <i class="fa fa-eye-slash"></i>
-            </div>
-        `);
-        button.firstElementChild.addEventListener(`click`, function() {
-            button.innerHTML = `<i class="fa fa-circle-o-notch fa-spin"></i>`;
-            hideGfGiveaway(giveaway, function() {
-                button.remove();
-                if ((esgst.giveawayPath && !main) || !esgst.giveawayPath) {
-                    giveaway.outerWrap.remove();
-                }
-            });
-        });
-    }
-
-    async function hideGfGiveaway(giveaway, callback) {
+    async function hideGfGiveaway(giveaway, main) {
         let deleteLock = await createLock(`giveawayLock`, 300);
         let giveaways = JSON.parse(await getValue(`giveaways`, `{}`));
         if (!giveaways[giveaway.code]) {
@@ -16676,30 +16547,13 @@ Parsedown = (() => {
         giveaways[giveaway.code].hidden = Date.now();
         await setValue(`giveaways`, JSON.stringify(giveaways));
         deleteLock();
-        if (callback) {
-            callback();
+        if (!main || !esgst.giveawayPath) {
+            giveaway.outerWrap.remove();
         }
+        return true;
     }
 
-    function addGfUnhideButton(giveaway, main) {
-        var button;
-        button = insertHtml(giveaway.headingName, `beforeBegin`, `
-            <div class="esgst-gf-unhide-button" title="Unhide giveaway">
-                <i class="fa fa-eye"></i>
-            </div>
-        `);
-        button.firstElementChild.addEventListener(`click`, function() {
-            button.innerHTML = `<i class="fa fa-circle-o-notch fa-spin"></i>`;
-            unhideGfGiveaway(giveaway, function() {
-                button.remove();
-                if ((esgst.giveawayPath && !main) || !esgst.giveawayPath) {
-                    giveaway.outerWrap.remove();
-                }
-            });
-        });
-    }
-
-    async function unhideGfGiveaway(giveaway, callback) {
+    async function unhideGfGiveaway(giveaway, main) {
         let deleteLock = await createLock(`giveawayLock`, 300);
         let giveaways = JSON.parse(await getValue(`giveaways`, `{}`));
         if (giveaways[giveaway.code]) {
@@ -16707,9 +16561,10 @@ Parsedown = (() => {
         }
         await setValue(`giveaways`, JSON.stringify(giveaways));
         deleteLock();
-        if (callback) {
-            callback();
+        if (!main || !esgst.giveawayPath) {
+            giveaway.outerWrap.remove();
         }
+        return true;
     }
 
     function setGfOverride(gf, context, key) {
@@ -18905,17 +18760,14 @@ Parsedown = (() => {
         }
         let newGiveaways = {};
         giveaways.forEach(giveaway => {
-            if (giveaway.gm && !giveaway.outerWrap.classList.contains(`esgst-hidden`)) {
-                button = giveaway.outerWrap.getElementsByClassName(`esgst-gb-button`)[0];
-                if (button) {
-                    newGiveaways[giveaway.code] = {
-                        bookmarked: true,
-                        code: giveaway.code,
-                        endTime: giveaway.endTime,
-                        started: giveaway.started
-                    };
-                    addGbUnbookmarkButton(button, giveaway);
-                }
+            if (giveaway.gm && !giveaway.outerWrap.classList.contains(`esgst-hidden`) && giveaway.gbButton && giveaway.gbButton.index === 1) {
+                newGiveaways[giveaway.code] = {
+                    bookmarked: true,
+                    code: giveaway.code,
+                    endTime: giveaway.endTime,
+                    started: giveaway.started
+                };
+                giveaway.gbButton.change(giveaway.gbButton.callbacks[0]);
             }
         });
         await lockAndSaveGiveaways(newGiveaways);
@@ -18928,14 +18780,11 @@ Parsedown = (() => {
         }
         let newGiveaways = {};
         giveaways.forEach(giveaway => {
-            if (giveaway.gm && !giveaway.outerWrap.classList.contains(`esgst-hidden`)) {
-                button = giveaway.outerWrap.getElementsByClassName(`esgst-gb-button`)[0];
-                if (button) {
-                    newGiveaways[giveaway.code] = {
-                        bookmarked: false
-                    };
-                    addGbBookmarkButton(button, giveaway);
-                }
+            if (giveaway.gm && !giveaway.outerWrap.classList.contains(`esgst-hidden`) && giveaway.gbButton && giveaway.gbButton.index === 3) {
+                newGiveaways[giveaway.code] = {
+                    bookmarked: false
+                };
+                giveaway.gbButton.change(giveaway.gbButton.callbacks[2]);
             }
         });
         await lockAndSaveGiveaways(newGiveaways);
@@ -24021,90 +23870,67 @@ Parsedown = (() => {
     /* [OCHGB] One-Click Hide Giveaway Button */
 
     function setOchgbButton(giveaway, main) {
-        var button, i, n, unhide;
-        button = giveaway.innerWrap.querySelector(`.giveaway__hide, .featured__giveaway__hide`);
-        if (button) {
-            if (button.classList.contains(`fa-eye`)) {
-                unhide = true;
-            } else {
-                unhide = false;
-            }
-            if (esgst.giveawayPath && main) {
-                button = button.parentElement;
-            }
-            giveaway.ochgbButton = insertHtml(button, `afterEnd`, `<a></a>`);
-            button.remove();
-            giveaway.fade = fadeOchgbGiveaway.bind(null, giveaway, main);
-            giveaway.unfade = unfadeOchgbGiveaway.bind(null, giveaway, main);
-            if (unhide) {
-                addOchgbUnhideButton(giveaway, main);
-            } else {
-                addOchgbHideButton(giveaway, main);
-            }
+        let button = giveaway.innerWrap.querySelector(`.giveaway__hide, .featured__giveaway__hide`);
+        if (!button) return;
+        let unhide = button.classList.contains(`fa-eye`);
+        if (esgst.giveawayPath && main) {
+            button = button.parentElement;
         }
-    }
-
-    function addOchgbHideButton(giveaway, main) {
-        var button, i, matches, n, newButton;
-        giveaway.ochgbButton.innerHTML = `
-            <i class="esgst-ochgb ${esgst.giveawayPath && main ? `` : `giveaway__icon`} fa fa-eye-slash" title="Hide all giveaways for this game"></i>
-        `;
-        giveaway.ochgbButton.firstElementChild.addEventListener(`click`, hideOchgbGiveaway.bind(null, giveaway, main));
-    }
-
-    function addOchgbUnhideButton(giveaway, main) {
-        var button, i, matches, n, newButton;
-        giveaway.ochgbButton.innerHTML = `
-            <i class="esgst-ochgb ${esgst.giveawayPath && main ? `` : `giveaway__icon`} fa fa-eye" title="Unhide all giveaways for this game"></i>
-        `;
-        giveaway.ochgbButton.firstElementChild.addEventListener(`click`, unhideOchgbGiveaway.bind(null, giveaway, main));
+        giveaway.fade = fadeOchgbGiveaway.bind(null, giveaway, main);
+        giveaway.unfade = unfadeOchgbGiveaway.bind(null, giveaway, main);
+        giveaway.ochgbButton = new Button(button, `afterEnd`, {
+            callbacks: [hideOchgbGiveaway.bind(null, giveaway, main), null, unhideOchgbGiveaway.bind(null, giveaway, main), null],
+            className: `esgst-ochgb ${esgst.giveawayPath && main ? `` : `giveaway__icon`}`,
+            icons: [`fa-eye-slash esgst-clickable`, `fa-circle-o-notch fa-spin`, `fa-eye esgst-clickable`, `fa-circle-o-notch fa-spin`],
+            index: unhide ? 2 : 0,
+            titles: [`Hide all giveaways for this game`, `Hiding giveaways...`, `Unhide all giveaways for this game`, `Unhiding giveaways...`]
+        });
+        button.remove();
     }
 
     function fadeOchgbGiveaway(giveaway, main) {
         if ((esgst.giveawayPath && !main) || !esgst.giveawayPath) {
             giveaway.innerWrap.classList.add(`esgst-faded`);
         }
-        addOchgbUnhideButton(giveaway, main);
     }
 
     function unfadeOchgbGiveaway(giveaway, main) {
         if ((esgst.giveawayPath && !main) || !esgst.giveawayPath) {
             giveaway.innerWrap.classList.remove(`esgst-faded`);
         }
-        addOchgbHideButton(giveaway, main);
     }
 
-    async function hideOchgbGiveaway(giveaway, main, event) {
-        event.currentTarget.className = `giveaway__icon fa fa-circle-o-notch fa-spin`;
+    async function hideOchgbGiveaway(giveaway, main) {
         await request({data: `xsrf_token=${esgst.xsrfToken}&do=hide_giveaways_by_game_id&game_id=${giveaway.gameId}`, method: `POST`, url: `/ajax.php`});
-        completeOchgbProcess(event.currentTarget, giveaway, `fade`, main);
+        completeOchgbProcess(giveaway, `fade`, main);
+        return true;
     }
 
-    async function unhideOchgbGiveaway(giveaway, main, event) {
-        event.currentTarget.className = `giveaway__icon fa fa-circle-o-notch fa-spin`;
+    async function unhideOchgbGiveaway(giveaway, main) {
         await request({data: `xsrf_token=${esgst.xsrfToken}&do=remove_filter&game_id=${giveaway.gameId}`, method: `POST`, url: `/ajax.php`});
-        completeOchgbProcess(event.currentTarget, giveaway, `unfade`, main);
+        completeOchgbProcess(giveaway, `unfade`, main);
+        return true;
     }
 
-    function completeOchgbProcess(button, giveaway, key, main) {
-        var i, n, source;
-        if ((esgst.giveawayPath && !main) || !esgst.giveawayPath) {
-            source = main ? `currentGiveaways` : `popupGiveaways`;
-            if (esgst.ochgb_f) {
-                for (i = 0, n = esgst[source].length; i < n; ++i) {
-                    if (esgst[source][i].gameId === giveaway.gameId) {
-                        esgst[source][i][key]();
-                    }
-                }
-            } else {
-                for (i = 0, n = esgst[source].length; i < n; ++i) {
-                    if (esgst[source][i].gameId === giveaway.gameId) {
-                        esgst[source][i].outerWrap.remove();
+    function completeOchgbProcess(giveaway, key, main) {
+        if (main && esgst.giveawayPath) return;
+        let source = main ? `currentGiveaways` : `popupGiveaways`;
+        if (esgst.ochgb_f) {
+            for (let i = 0, n = esgst[source].length; i < n; i++) {
+                if (esgst[source][i].gameId === giveaway.gameId) {
+                    esgst[source][i][key]();
+                    if (esgst[source][i] !== giveaway && esgst[source][i].ochgbButton) {
+                        esgst[source][i].ochgbButton.index = key === `fade` ? 2 : 0;
+                        esgst[source][i].ochgbButton.change();
                     }
                 }
             }
         } else {
-            button.remove();
+            for (let i = 0, n = esgst[source].length; i < n; i++) {
+                if (esgst[source][i].gameId === giveaway.gameId) {
+                    esgst[source][i].outerWrap.remove();
+                }
+            }
         }
     }
 
@@ -24137,59 +23963,23 @@ Parsedown = (() => {
 
     /* [PM] Puzzle Marker */
 
-    function addPmButton(discussion, main) {
-        let context = main && esgst.discussionPath ? discussion.headingContainer : discussion.outerWrap;
-        if (!context.getElementsByClassName(`esgst-pm-button`)[0]) {
-            let savedDiscussion = esgst.discussions[discussion.code];
-            let code = discussion.code;
-            let status = (savedDiscussion && savedDiscussion.status) || `off`;
-            context.classList.add(`esgst-relative`);
-            let button, colors, icons, nextStatuses;
-            colors = {
-                'off': `grey`,
-                'unsolved': `red`,
-                'in progress': `orange`,
-                'solved': `green`
+    async function changePmStatus(code, status) {
+        let deleteLock = await createLock(`commentLock`, 300);
+        let discussions = JSON.parse(await getValue(`discussions`));
+        if (!discussions[code]) {
+            discussions[code] = {
+                readComments: {}
             };
-            icons = {
-                'off': `circle-o`,
-                'unsolved': `times-circle`,
-                'in progress': `exclamation-circle`,
-                'solved': `check-circle`
-            };
-            nextStatuses = {
-                'off': `unsolved`,
-                'unsolved': `in progress`,
-                'in progress': `solved`,
-                'solved': `off`
-            };
-            button = insertHtml(context, `afterBegin`, `
-                <div class="esgst-pm-button esgst-${colors[status]}" title="Current status is '${status}'. Click to change to '${nextStatuses[status]}'.">
-                    <i class="fa fa-${icons[status]}"></i>
-                </div>
-            `);
-            button.addEventListener(`click`, async () => {
-                let deleteLock = await createLock(`commentLock`, 300);
-                let discussions = JSON.parse(await getValue(`discussions`));
-                if (!discussions[code]) {
-                    discussions[code] = {
-                        readComments: {}
-                    };
-                }
-                status = nextStatuses[status];
-                if (status === `off`) {
-                    delete discussions[code].status;
-                } else {
-                    discussions[code].status = status;
-                }
-                discussions[code].lastUsed = Date.now();
-                await setValue(`discussions`, JSON.stringify(discussions));
-                deleteLock();
-                button.className = `esgst-pm-button esgst-${colors[status]}`;
-                button.title = `Current status is '${status}'. Click to change to '${nextStatuses[status]}'.`;
-                button.firstElementChild.className = `fa fa-${icons[status]}`;
-            });
         }
+        if (status === `off`) {
+            delete discussions[code].status;
+        } else {
+            discussions[code].status = status;
+        }
+        discussions[code].lastUsed = Date.now();
+        await setValue(`discussions`, JSON.stringify(discussions));
+        deleteLock();
+        return true;
     }
 
     /* [PNOT] Pagination Navigation On Top */
@@ -24835,72 +24625,46 @@ Parsedown = (() => {
                     separator = separator.nextElementSibling;
                 }
                 container.insertBefore(context, separator);
-                addSgacUnstickyButton(container, context, id, separator);
-            } else {
-                addSgacStickyButton(container, context, id, separator);
             }
+            new Button(context, `afterBegin`, {
+                callbacks: [stickySgacCountry.bind(null, container, context, id, separator), null, unstickySgacCountry.bind(null, container, context, id, separator), null],
+                className: `esgst-sgac-button`,
+                icons: [`fa-thumb-tack esgst-clickable esgst-faded`, `fa-circle-o-notch fa-spin`, `fa-thumb-tack esgst-clickable`, `fa-circle-o-notch fa-spin`],
+                index: stickiedCountries.indexOf(id) >= 0 ? 2 : 0,
+                titles: [`Sticky country`, `Stickying...`, `Unsticky country`, `Unstickying...`]
+            });
         }
     }
 
-    function addSgacStickyButton(container, context, id, separator, button) {
-        if (button) {
-            button.remove();
+    async function stickySgacCountry(container, context, id, separator, event) {
+        event.stopPropagation();
+        if (container) {
+            if (context === separator) {
+                separator = separator.nextElementSibling;
+            }
+            container.insertBefore(context, separator);
         }
-        button = insertHtml(context, `afterBegin`, `
-            <div class="esgst-sgg-sticky-button">
-                <a title="Sticky country">
-                    <i class="fa fa-thumb-tack"></i>
-                </a>
-            </div>
-        `);
-        button.firstElementChild.addEventListener(`click`, async (event) => {
-            event.stopPropagation();
-            button.innerHTML = `
-                <i class="fa fa-circle-o-notch fa-spin"></i>
-            `;
-            if (container) {
-                if (context === separator) {
-                    separator = separator.nextElementSibling;
-                }
-                container.insertBefore(context, separator);
-            }
-            let stickiedCountries = JSON.parse(await getValue(`stickiedCountries`, `[]`));
-            if (stickiedCountries.indexOf(id) < 0) {
-                stickiedCountries.push(id);
-                setValue(`stickiedCountries`, JSON.stringify(stickiedCountries));
-            }
-            addSgacUnstickyButton(container, context, id, separator, button);
-        });
+        let stickiedCountries = JSON.parse(await getValue(`stickiedCountries`, `[]`));
+        if (stickiedCountries.indexOf(id) < 0) {
+            stickiedCountries.push(id);
+            await setValue(`stickiedCountries`, JSON.stringify(stickiedCountries));
+        }
+        return true;
     }
 
-    function addSgacUnstickyButton(container, context, id, separator, button) {
-        if (button) {
-            button.remove();
+    async function unstickySgacCountry(container, context, id, separator, event) {
+        event.stopPropagation();
+        if (container) {
+            container.insertBefore(context, separator);
+            separator = separator.previousElementSibling;
         }
-        button = insertHtml(context, `afterBegin`, `
-            <div class="esgst-sgg-unsticky-button">
-                <a title="Unsticky country">
-                    <i class="fa fa-thumb-tack"></i>
-                </a>
-            </div>
-        `);
-        button.firstElementChild.addEventListener(`click`, async (event) => {
-            event.stopPropagation();
-            button.innerHTML = `
-                <i class="fa fa-circle-o-notch fa-spin"></i>
-            `;
-            if (container) {
-                container.insertBefore(context, separator);
-                separator = separator.previousElementSibling;
-            }
-            let stickiedCountries = JSON.parse(await getValue(`stickiedCountries`, `[]`));
-            const index = stickiedCountries.indexOf(id);
-            if (index >= 0) {
-                stickiedCountries.splice(index, 1);
-                setValue(`stickiedCountries`, JSON.stringify(stickiedCountries));
-            }
-            addSgacStickyButton(container, context, id, separator, button);
-        });
+        let stickiedCountries = JSON.parse(await getValue(`stickiedCountries`, `[]`));
+        let index = stickiedCountries.indexOf(id);
+        if (index >= 0) {
+            stickiedCountries.splice(index, 1);
+            await setValue(`stickiedCountries`, JSON.stringify(stickiedCountries));
+        }
+        return true;
     }
 
     /* [SGC] Shared Groups Checker */
@@ -25058,10 +24822,14 @@ Parsedown = (() => {
                         separator = separator.nextElementSibling;
                     }
                     container.insertBefore(context, separator);
-                    addSggUnstickyButton(code, container, context, id, separator);
-                } else {
-                    addSggStickyButton(code, container, context, id, separator);
                 }
+                new Button(context, `afterBegin`, {
+                    callbacks: [stickySggGroup.bind(null, code, container, context, id, separator), null, unstickySggGroup.bind(null, code, container, context, id, separator), null],
+                    className: `esgst-sgg-button`,
+                    icons: [`fa-thumb-tack esgst-clickable esgst-faded`, `fa-circle-o-notch fa-spin`, `fa-thumb-tack esgst-clickable`, `fa-circle-o-notch fa-spin`],
+                    index: stickied ? 2 : 0,
+                    titles: [`Sticky group`, `Stickying...`, `Unsticky group`, `Unstickying...`]
+                });
             }
         }
     }
@@ -25087,55 +24855,25 @@ Parsedown = (() => {
             if (!code) {
                 continue;
             }
-            if (stickied) {
-                addSggUnstickyButton(code, null, element);
-            } else {
-                addSggStickyButton(code, null, element);
-            }
+            new Button(element, `afterBegin`, {
+                callbacks: [stickySggGroup.bind(null, code, null, element, null, null), null, unstickySggGroup.bind(null, code, null, element, null, null), null],
+                className: `esgst-sgg-button`,
+                icons: [`fa-thumb-tack esgst-clickable esgst-faded`, `fa-circle-o-notch fa-spin`, `fa-thumb-tack esgst-clickable`, `fa-circle-o-notch fa-spin`],
+                index: stickied ? 2 : 0,
+                titles: [`Sticky group`, `Stickying...`, `Unsticky group`, `Unstickying...`]
+            });
         }
     }
 
-    function addSggStickyButton(code, container, context, id, separator, button) {
-        if (button) {
-            button.remove();
-        }
-        button = insertHtml(context, `afterBegin`, `
-            <div class="esgst-sgg-sticky-button">
-                <a title="Sticky group">
-                    <i class="fa fa-thumb-tack"></i>
-                </a>
-            </div>
-        `);
-        button.firstElementChild.addEventListener(`click`, stickySggGroup.bind(null, code, container, context, id, separator, button));
-    }
-
-    function addSggUnstickyButton(code, container, context, id, separator, button) {
-        if (button) {
-            button.remove();
-        }
-        button = insertHtml(context, `afterBegin`, `
-            <div class="esgst-sgg-unsticky-button">
-                <a title="Unsticky group">
-                    <i class="fa fa-thumb-tack"></i>
-                </a>
-            </div>
-        `);
-        button.firstElementChild.addEventListener(`click`, unstickySggGroup.bind(null, code, container, context, id, separator, button));
-    }
-
-    async function stickySggGroup(code, container, context, id, separator, button, event) {
-        var groups;
+    async function stickySggGroup(code, container, context, id, separator, event) {
         event.stopPropagation();
-        button.innerHTML = `
-            <i class="fa fa-circle-o-notch fa-spin"></i>
-        `;
         if (container) {
             if (context === separator) {
                 separator = separator.nextElementSibling;
             }
             container.insertBefore(context, separator);
         }
-        groups = {};
+        let groups = {};
         groups[code] = {
             stickied: true
         };
@@ -25143,20 +24881,16 @@ Parsedown = (() => {
             groups[code].id = id;
         }
         await lockAndSaveGroups(groups);
-        addSggUnstickyButton(code, container, context, id, separator, button);
+        return true;
     }
 
-    async function unstickySggGroup(code, container, context, id, separator, button, event) {
-        var groups;
+    async function unstickySggGroup(code, container, context, id, separator, event) {
         event.stopPropagation();
-        button.innerHTML = `
-            <i class="fa fa-circle-o-notch fa-spin"></i>
-        `;
         if (container) {
             container.insertBefore(context, separator);
             separator = separator.previousElementSibling;
         }
-        groups = {};
+        let groups = {};
         groups[code] = {
             stickied: false
         };
@@ -25164,7 +24898,7 @@ Parsedown = (() => {
             groups[code].id = id;
         }
         await lockAndSaveGroups(groups);
-        addSggStickyButton(code, container, context, id, separator, button);
+        return true;
     }
 
     /* [SGPB] SteamGifts Profile Button */
@@ -25258,7 +24992,7 @@ Parsedown = (() => {
                 if (!event.target.tagName.match(/^(INPUT|TEXTAREA)$/) && esgst.giveawayPath) {
                     let button = (document.getElementsByClassName(`popup--hide-games`)[0].style.display && document.getElementsByClassName(`popup--hide-games`)[0].style.display !== `none` && document.getElementsByClassName(`js__submit-hide-games`)[0]) || document.querySelector(`.esgst-ochgb, .giveaway__hide, .featured__giveaway__hide`);
                     if (button) {
-                        button.click();
+                        (button.classList.contains(`esgst-ochgb`) ? button.firstElementChild : button).click();
                         event.preventDefault();
                     }
                 }
@@ -29759,17 +29493,59 @@ Parsedown = (() => {
             discussions.push(discussion);
         }
         discussions.forEach(discussion => {
-            if (esgst.codb) {
-                addCodbButton(discussion);
+            let savedDiscussion = esgst.discussions[discussion.code];
+            if (esgst.codb && discussion.author === esgst.username && !discussion.heading.parentElement.getElementsByClassName(`esgst-codb-button`)[0]) {
+                if (discussion.closed) {
+                    discussion.closed.remove();
+                    discussion.closed = true;
+                }
+                new Button(discussion.headingContainer.firstElementChild, `beforeBegin`, {
+                    callbacks: [closeCodbDiscussion.bind(null, discussion), null, openCodbDiscussion.bind(null, discussion), null],
+                    className: `esgst-codb-button`,
+                    icons: [`fa-lock esgst-clickable`, `fa-circle-o-notch fa-spin`, `fa-lock esgst-clickable esgst-red`, `fa-circle-o-notch fa-spin`],
+                    index: discussion.closed ? 2 : 0,
+                    titles: [`Close discussion`, `Closing discussion...`, `Open discussion`, `Opening discussion...`]
+                });
             }
-            if (esgst.df && esgst.df_s) {
-                getDfDiscussion(discussion, main);
+            if (esgst.df && esgst.df_s && !discussion.heading.parentElement.getElementsByClassName(`esgst-df-button`)[0]) {
+                new Button(discussion.headingContainer.firstElementChild, `beforeBegin`, {
+                    callbacks: [hideDfDiscussion.bind(null, discussion, main), null, unhideDfDiscussion.bind(null, discussion, main), null],
+                    className: `esgst-df-button`,
+                    icons: [`fa-eye-slash esgst-clickable`, `fa-circle-o-notch fa-spin`, `fa-eye esgst-clickable`, `fa-circle-o-notch fa-spin`],
+                    index: savedDiscussion && savedDiscussion.hidden ? 2 : 0,
+                    titles: [`Hide discussion`, `Hiding discussion...`, `Unhide discussion`, `Unhiding discussion...`]
+                });
             }
-            if (esgst.dh) {
-                getDhDiscussion(discussion, main);
+            if (esgst.dh && !discussion.heading.parentElement.getElementsByClassName(`esgst-dh-button`)[0]) {
+                let context = main && esgst.discussionPath ? discussion.heading : discussion.outerWrap;
+                let index = 0;
+                if (savedDiscussion && savedDiscussion.highlighted) {
+                    highlightDhDiscussion(discussion.code, context);
+                    if (esgst.dh_t && main && esgst.discussionsPath) {
+                        discussion.outerWrap.parentElement.insertBefore(discussion.outerWrap, discussion.outerWrap.parentElement.firstElementChild);
+                    }
+                    index = 2;
+                }
+                new Button(discussion.heading.parentElement, `afterBegin`, {
+                    callbacks: [highlightDhDiscussion.bind(null, discussion.code, context, true), null, unhighlightDhDiscussion.bind(null, discussion.code, context, true), null],
+                    className: `esgst-dh-button`,
+                    icons: [`fa-star-o esgst-clickable`, `fa-circle-o-notch fa-spin`, `fa-star esgst-clickable`, `fa-circle-o-notch fa-spin`],
+                    index: index,
+                    titles: [`Click to highlight this discussion`, `Highlighting discussion...`, `Click to unhighlight this discussion`, `Unhighlighting discussion...`]
+                });
             }
-            if (esgst.pm && (esgst.pm_a || discussion.category === `Puzzles`)) {
-                addPmButton(discussion, main);
+            if (esgst.pm && (esgst.pm_a || discussion.category === `Puzzles`)) {                
+                let context = main && esgst.discussionPath ? discussion.headingContainer : discussion.outerWrap;
+                if (!context.getElementsByClassName(`esgst-pm-button`)[0]) {
+                    context.classList.add(`esgst-relative`);
+                    new Button(context, `afterBegin`, {
+                        callbacks: [changePmStatus.bind(null, discussion.code, `unsolved`), null, changePmStatus.bind(null, discussion.code, `in progress`), null, changePmStatus.bind(null, discussion.code, `solved`), null, changePmStatus.bind(null, discussion.code, `off`), null],
+                        className: `esgst-pm-button`,
+                        icons: [`fa-circle-o esgst-clickable esgst-grey`, `fa-circle-o-notch fa-spin`, `fa-times-circle esgst-clickable esgst-red`, `fa-circle-o-notch fa-spin`, `fa-exclamation-circle esgst-clickable esgst-orange`, `fa-circle-o-notch fa-spin`, `fa-check-circle esgst-clickable esgst-green`, `fa-circle-o-notch fa-spin`],
+                        index: [`off`, ``, `unsolved`, ``, `in progress`, ``, `solved`].indexOf((savedDiscussion && savedDiscussion.status) || `off`),
+                        titles: [`Current status is 'off', click to change to 'unsolved'`, `Changing status...`, `Current status is 'unsolved', click to change to 'in progress'`, `Changing status...`, `Current status is 'in progress', click to change to 'solved'`, `Changing status...`, `Current status is 'solved', click to change to 'off'`, `Changing status...`]
+                    });
+                }
             }
         });
         return discussions;
@@ -36784,6 +36560,19 @@ Parsedown = (() => {
             `;
         }
         style += `
+            .esgst-ochgb {
+                display: inline-block;
+            }
+
+            .featured__heading .esgst-ochgb i, .featured__heading .esgst-gf-hide-button i, .featured__heading .esgst-gf-unhide-button i, .featured__heading .esgst-gb-button i {
+                opacity: .6;
+                transition: opacity .2s;
+            }
+
+            .featured__heading .esgst-ochgb i:hover, .featured__heading .esgst-gf-hide-button i:hover, .featured__heading .esgst-gf-unhide-button i:hover, .featured__heading .esgst-gb-button i:hover {
+                opacity: 1;
+            }
+
             @keyframes esgst-blinker {  
                 50% { opacity: 0; }
             }
@@ -36957,12 +36746,6 @@ Parsedown = (() => {
             .esgst-mt-checkbox {
                 display: inline-block;
                 margin-right: 5px;
-            }
-
-            .esgst-codb-button {
-                cursor: pointer;
-                display: inline-block;
-                margin: 0 5px 0 0;
             }
 
             .esgst-gm-popout {
@@ -37341,23 +37124,29 @@ Parsedown = (() => {
                 background-color: rgba(119, 137, 154, 0.1) !important;
             }
 
-            .esgst-gf-hide-button, .esgst-gf-unhide-button, .esgst-gb-button, .esgst-gdttt-button, .esgst-df-button {
+            .esgst-gf-hide-button, .esgst-gf-unhide-button, .esgst-gb-button, .esgst-gdttt-button {
                 cursor: pointer; display: inline-block;
                 margin: 0 5px 0 0;
             }
 
-            .esgst-dh-button {
+            .esgst-codb-button, .esgst-dh-button, .esgst-df-button {
                 display: inline-block;
                 margin: 0 5px 0 0;
                 padding: 0;
             }
 
-            .page__heading .esgst-dh-button >* {
+            .page__heading .esgst-codb-button >*, .page__heading .esgst-dh-button >*, .page__heading .esgst-df-button >* {
                 padding: 5px 10px;
             }
 
-            .esgst-pm-button, .esgst-ust-checkbox {
+            .esgst-ust-checkbox {
                 cursor: pointer;
+                margin-left: -17px;
+                position: absolute;
+                top: calc(50% - 7px);
+            }
+
+            .esgst-pm-button {
                 margin-left: -17px;
                 position: absolute;
                 top: calc(50% - 7px);
@@ -37370,7 +37159,12 @@ Parsedown = (() => {
             .page__heading .esgst-pm-button {
                 display: inline-block;
                 margin: 0 5px 0 0;
+                padding: 0;
                 position: static;
+            }
+
+            .page__heading .esgst-pm-button >* {
+                padding: 5px 10px;
             }
 
             .esgst-adots .esgst-pm-button {
@@ -37512,14 +37306,7 @@ Parsedown = (() => {
                 margin-bottom: 39px;
             }
 
-            .esgst-sgg-sticky-button {
-                cursor: pointer;
-                margin: 0 5px 0 0;
-                opacity: 0.5;
-            }
-
-            .esgst-sgg-unsticky-button {
-                cursor: pointer;
+            .esgst-sgac-button, .esgst-sgg-button {
                 margin: 0 5px 0 0;
             }
 
