@@ -2020,7 +2020,7 @@ Parsedown = (() => {
             sg: location.hostname.match(/www.steamgifts.com/),
             st: location.hostname.match(/www.steamtrades.com/),
             currentVersion: `7.14.3`,
-            devVersion: `7.14.4 (Dev.11)`,
+            devVersion: `7.14.4 (Dev.12)`,
             icon: `data:image/x-icon;base64,AAABAAEAEBAAAAEAIABoBAAAFgAAACgAAAAQAAAAIAAAAAEAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAqv8DCbP/Hgeq+CQIrf8iCK3/Igit/yIIrf8iB6//Iwit9x8Aqv8DAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAKr0GAa2/c0DvfzfA7f83QO3/N0Dt/zdA7f83QO+/d4Gs/3OAKP1GQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACm/xQFs/n2Bcf//wW///8FwP//BcD//wW///8Fx///BbP69gC2/xUAAAAAAAAAAAAAAAAA/1UDFptOFxSZMxkLpJktAq720QW1+ugEsfvjA7b92wO2/dsEsfvjBbX66Aau/dEoiO4tUlLWGU5k3hdVVf8DEJxKHxWqT8cVrU7uE6VN0guqny0Apv8XAJfQGwBAVywAQFcsAJfQGwCx/xcogugtS2Lk0lBl6u5Qae7ISmPeHxagSSMVr07jF7lV/xOiSu0brgATAAAAAAAAAA8AAAC/AAAAwAAAABAAAAAAYznjEkth4OxWb/3/T2jv40lf4iMXnksiEq1O3RayUv8UpEnkEo0+HQAAABkAAABBAAAA8QAAAPEAAABBAAAAGUBSvxxOYeDjU2v0/05m7d1LYuEiF55LIhKtTt0Ws1L/FahN2gU1FTAAAADAAAAA7AAAAP0AAAD9AAAA7AAAAMAVG0owUGPm2lNr9P9OZu3dS2LhIheeSyISrU7dFrNS/xWoTdoFNRswAAAAvwAAAOsAAAD9AAAA/QAAAOsAAADAFRtKMFBj6NpTa/T/Tmbt3Uti4SIXnksiEq1O3RayUv8UpEnkEo0+HQAAABgAAABAAAAA8QAAAPEAAABBAAAAGT5PuR1OYeDjU2v0/05m7d1LYuEiFqBJIxWuT+QXuVX/E6JL7QC8XhMAAAAAAAAADwAAAL8AAAC/AAAAEAAAAAAOR/8SSWLh7FZv/f9PaO/jSV/iIxCUSh8Vrk7HFqxN7ROlS9JskzMt1XULGK12EhxGLgYsRy8GK612EhzVgAsYgmxxLU1i39JNZ+vtT2fwx0pj1h8AqlUDF65GFgqZUhlsiC0txH0T0s5/EujJgBPkz4QR28+EEdvJgBPkzn8Q6Md+E9KLdHosM1LWGUZo6BZVVf8DAAAAAAAAAAAAAAAA/2YAFMl9EvbgjRb/14gV/9eIFf/XiBX/14gV/9+NFv/KgBD254YAFQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAL91FRjKgRHN1IgU3s+EEt3PhBLdz4QS3c+EEt3UiBTezYMRzcJ6FBkAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACqqgADxIARHr18FiO8eA8ivHgPIrx4DyK8eA8ivXwPI8SAER7/VQADAAAAAAAAAAAAAAAA78cAAPA3AAD4FwAABCAAADGOAAAE+AAAkBEAAJ55AACYOQAAlgEAAER4AAAXaAAATnoAAPgXAAD0JwAA69cAAA==`,
             sgIcon: `data:image/x-icon;base64,AAABAAEAEBAAAAEAIABoBAAAFgAAACgAAAAQAAAAIAAAAAEAIAAAAAAAQAQAABMLAAATCwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIUAAAD5AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAPoAAACFAAAAAAAAAAAAAAD8AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA+QAAAAAAAAAAAAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAAAAAAAAAAAAP8AAAD/AAAA/wAAABwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAcAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAcAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAHAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAAAAAAAAAAAAPwAAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD5AAAAAAAAAAAAAACFAAAA+QAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD5AAAAhQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA//8AAP//AADAAwAAwAMAAMfjAADP8wAAz/MAAM/zAADP8wAAz/MAAM/zAADH4wAAwAMAAMADAAD//wAA//8AAA==`,
             stIcon: `data:image/x-icon;base64,AAABAAEAEBAAAAEAIABoBAAAFgAAACgAAAAQAAAAIAAAAAEAIAAAAAAAQAQAABMLAAATCwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABbD6SgWw+ucFsPrkBbD6SgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAWw+uYFsPr/BbD6/wWw+ucAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAFsPrmBbD6/wWw+v8FsPrmAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABbD6SQWw+uYFsPrmBbD6SQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAFKRLShSkS+cUpEvkFKRLSgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAExi4EpMYuDnTGLg5Exi4EoAAAAAAAAAABSkS+YUpEv/FKRL/xSkS+cAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABMYuDmTGLg/0xi4P9MYuDnAAAAAAAAAAAUpEvmFKRL/xSkS/8UpEvmAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAATGLg5kxi4P9MYuD/TGLg5gAAAAAAAAAAFKRLSRSkS+YUpEvmFKRLSQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAExi4ElMYuDmTGLg5kxi4EkAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAMZ9E0rGfRPnxn0T5MZ9E0oAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADGfRPmxn0T/8Z9E//GfRPnAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAxn0T5sZ9E//GfRP/xn0T5gAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAMZ9E0nGfRPmxn0T5sZ9E0kAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA//8AAPw/AAD8PwAA/D8AAPw/AAD//wAAh+EAAIfhAACH4QAAh+EAAP//AAD8PwAA/D8AAPw/AAD8PwAA//8AAA==`,
@@ -18149,13 +18149,12 @@ Parsedown = (() => {
                 <span>Retrieving libraries/wishlists (${i + 1} of ${n})...</span>
             `;
             if (!glwc.id || glwc.members.indexOf(glwc.users[i].steamId) >= 0) {
-                let game, element, elements, j;
                 try {
                     glwc.users[i].library = [];
-                    elements = JSON.parse((await request({method: `GET`, url: `http://api.steampowered.com/IPlayerService/GetOwnedGames/v0001/?key=${esgst.steamApiKey}&steamid=${glwc.users[i].steamId}&format=json`})).responseText).response.games;
+                    let elements = JSON.parse((await request({method: `GET`, url: `http://api.steampowered.com/IPlayerService/GetOwnedGames/v0001/?key=${esgst.steamApiKey}&steamid=${glwc.users[i].steamId}&format=json`})).responseText).response.games;
                     if (elements) {
                         elements.forEach(element => {
-                            game = {
+                            let game = {
                                 id: element.appid,
                                 logo: `https://steamcdn-a.akamaihd.net/steam/apps/${element.appid}/header.jpg`,
                                 name: `${element.appid}`
@@ -18171,24 +18170,27 @@ Parsedown = (() => {
                     }
                 } catch (e) {}
                 glwc.users[i].wishlist = [];
-                elements = parseHtml((await request({method: `GET`, url: `http://steamcommunity.com/profiles/${glwc.users[i].steamId}/wishlist/`})).responseText).querySelectorAll(`.gameListRow, .wishlistRow`);
-                for (j = elements.length - 1; j > -1; --j) {
-                    element = elements[j];
-                    game = {
-                        id: element.id.match(/^game_(.+)/)[1],
-                        logo: element.getElementsByClassName(`gameListRowLogo`)[0].firstElementChild.firstElementChild.getAttribute(`src`),
-                        name: element.getElementsByClassName(`ellipsis`)[0].textContent,
-                    };
-                    if (glwc.games[game.id]) {
-                        glwc.games[game.id].logo = game.logo;
-                        glwc.games[game.id].name = game.name;
-                    } else {
-                        game.libraries = [];
-                        game.wishlists = [];
-                        glwc.games[game.id] = game;
+                let responseText = (await request({method: `GET`, url: `http://store.steampowered.com/wishlist/profiles/${glwc.users[i].steamId}`})).responseText;
+                let match = responseText.match(/g_rgAppInfo\s=\s({(.+?)});/);
+                if (match) {
+                    let games = JSON.parse(match[1]);
+                    for (let id in games) {
+                        let game = {
+                            id: id,
+                            logo: games[id].capsule,
+                            name: games[id].name,
+                        };
+                        if (glwc.games[game.id]) {
+                            glwc.games[game.id].logo = game.logo;
+                            glwc.games[game.id].name = game.name;
+                        } else {
+                            game.libraries = [];
+                            game.wishlists = [];
+                            glwc.games[game.id] = game;
+                        }
+                        glwc.games[game.id].wishlists.push(i);
+                        glwc.users[i].wishlist.push(parseInt(game.id));
                     }
-                    glwc.games[game.id].wishlists.push(i);
-                    glwc.users[i].wishlist.push(parseInt(game.id));
                 }
                 glwc.memberCount += 1;
                 setTimeout(getGlwcGames, 0, glwc, ++i, n);
@@ -18309,7 +18311,7 @@ Parsedown = (() => {
             users = [];
             game.wishlists.forEach(k => {
                 user = glwc.users[k];
-                users.push(`<a href="http://steamcommunity.com/profiles/${user.steamId}/wishlist">${user.username}</a>`);
+                users.push(`<a href="http://store.steampowered.com/wishlist/profiles/${user.steamId}">${user.username}</a>`);
             });
             createTooltip(insertHtml(wishlistResults, `beforeEnd`, `
                 <div class="table__row-outer-wrap">
@@ -18422,7 +18424,7 @@ Parsedown = (() => {
                     if (game.wishlists.length) {
                         game.wishlists.forEach(k => {
                             user = glwc.users[k];
-                            users.push(`<a href="http://steamcommunity.com/profiles/${user.steamId}/wishlist">${user.username}</a>`);
+                            users.push(`<a href="http://store.steampowered.com/wishlist/profiles/${user.steamId}">${user.username}</a>`);
                         });
                         wishlistSearch.innerHTML = `
                             <div class="table__row-outer-wrap">
@@ -31932,18 +31934,16 @@ Parsedown = (() => {
                     await setValue(`ownedGames`, numOwned);
                 }
                 try {
-                    let elements = parseHtml((await request({method: `GET`, url: `http://steamcommunity.com/profiles/${esgst.steamId}/wishlist?l=en`})).responseText).getElementsByClassName(`wishlistRow`);
-                    for (let i = elements.length - 1; i > -1; i--) {
-                        let element = elements[i];
-                        let id = element.id.match(/\d+/)[0];
-                        if (!savedGames.apps[id]) {
-                            savedGames.apps[id] = {};
-                        }
-                        let date = element.getElementsByClassName(`wishlist_added_on`)[0].textContent.trim().match(/Added\son\s(.+)/)[1];
-                        if (!date.match(/\d{4}/)) {
-                            date += ` ${new Date().getFullYear()}`;
-                        }
-                        savedGames.apps[id].wishlisted = new Date(date).getTime() / 1e3;
+                    let responseText = (await request({method: `GET`, url: `http://store.steampowered.com/wishlist/profiles/${esgst.steamId}?l=en`})).responseText;
+                    let match = responseText.match(/g_rgWishlistData\s=\s(\[(.+?)\]);/);
+                    if (match) {
+                        JSON.parse(match[1]).forEach(item => {
+                            let id = item.appid;
+                            if (!savedGames.apps[id]) {
+                                savedGames.apps[id] = {};
+                            }
+                            savedGames.apps[id].wishlisted = item.added;
+                        });
                     }
                 } catch (e) {}
                 await setValue(`games`, JSON.stringify(savedGames));
