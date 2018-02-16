@@ -2020,7 +2020,7 @@ Parsedown = (() => {
             sg: location.hostname.match(/www.steamgifts.com/),
             st: location.hostname.match(/www.steamtrades.com/),
             currentVersion: `7.14.3`,
-            devVersion: `7.14.4 (Dev.14)`,
+            devVersion: `7.14.4 (Dev.15)`,
             icon: `data:image/x-icon;base64,AAABAAEAEBAAAAEAIABoBAAAFgAAACgAAAAQAAAAIAAAAAEAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAqv8DCbP/Hgeq+CQIrf8iCK3/Igit/yIIrf8iB6//Iwit9x8Aqv8DAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAKr0GAa2/c0DvfzfA7f83QO3/N0Dt/zdA7f83QO+/d4Gs/3OAKP1GQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACm/xQFs/n2Bcf//wW///8FwP//BcD//wW///8Fx///BbP69gC2/xUAAAAAAAAAAAAAAAAA/1UDFptOFxSZMxkLpJktAq720QW1+ugEsfvjA7b92wO2/dsEsfvjBbX66Aau/dEoiO4tUlLWGU5k3hdVVf8DEJxKHxWqT8cVrU7uE6VN0guqny0Apv8XAJfQGwBAVywAQFcsAJfQGwCx/xcogugtS2Lk0lBl6u5Qae7ISmPeHxagSSMVr07jF7lV/xOiSu0brgATAAAAAAAAAA8AAAC/AAAAwAAAABAAAAAAYznjEkth4OxWb/3/T2jv40lf4iMXnksiEq1O3RayUv8UpEnkEo0+HQAAABkAAABBAAAA8QAAAPEAAABBAAAAGUBSvxxOYeDjU2v0/05m7d1LYuEiF55LIhKtTt0Ws1L/FahN2gU1FTAAAADAAAAA7AAAAP0AAAD9AAAA7AAAAMAVG0owUGPm2lNr9P9OZu3dS2LhIheeSyISrU7dFrNS/xWoTdoFNRswAAAAvwAAAOsAAAD9AAAA/QAAAOsAAADAFRtKMFBj6NpTa/T/Tmbt3Uti4SIXnksiEq1O3RayUv8UpEnkEo0+HQAAABgAAABAAAAA8QAAAPEAAABBAAAAGT5PuR1OYeDjU2v0/05m7d1LYuEiFqBJIxWuT+QXuVX/E6JL7QC8XhMAAAAAAAAADwAAAL8AAAC/AAAAEAAAAAAOR/8SSWLh7FZv/f9PaO/jSV/iIxCUSh8Vrk7HFqxN7ROlS9JskzMt1XULGK12EhxGLgYsRy8GK612EhzVgAsYgmxxLU1i39JNZ+vtT2fwx0pj1h8AqlUDF65GFgqZUhlsiC0txH0T0s5/EujJgBPkz4QR28+EEdvJgBPkzn8Q6Md+E9KLdHosM1LWGUZo6BZVVf8DAAAAAAAAAAAAAAAA/2YAFMl9EvbgjRb/14gV/9eIFf/XiBX/14gV/9+NFv/KgBD254YAFQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAL91FRjKgRHN1IgU3s+EEt3PhBLdz4QS3c+EEt3UiBTezYMRzcJ6FBkAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACqqgADxIARHr18FiO8eA8ivHgPIrx4DyK8eA8ivXwPI8SAER7/VQADAAAAAAAAAAAAAAAA78cAAPA3AAD4FwAABCAAADGOAAAE+AAAkBEAAJ55AACYOQAAlgEAAER4AAAXaAAATnoAAPgXAAD0JwAA69cAAA==`,
             sgIcon: `data:image/x-icon;base64,AAABAAEAEBAAAAEAIABoBAAAFgAAACgAAAAQAAAAIAAAAAEAIAAAAAAAQAQAABMLAAATCwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIUAAAD5AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAPoAAACFAAAAAAAAAAAAAAD8AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA+QAAAAAAAAAAAAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAAAAAAAAAAAAP8AAAD/AAAA/wAAABwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAcAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAcAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAHAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAAAAAAAAAAAAPwAAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD5AAAAAAAAAAAAAACFAAAA+QAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD5AAAAhQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA//8AAP//AADAAwAAwAMAAMfjAADP8wAAz/MAAM/zAADP8wAAz/MAAM/zAADH4wAAwAMAAMADAAD//wAA//8AAA==`,
             stIcon: `data:image/x-icon;base64,AAABAAEAEBAAAAEAIABoBAAAFgAAACgAAAAQAAAAIAAAAAEAIAAAAAAAQAQAABMLAAATCwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABbD6SgWw+ucFsPrkBbD6SgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAWw+uYFsPr/BbD6/wWw+ucAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAFsPrmBbD6/wWw+v8FsPrmAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABbD6SQWw+uYFsPrmBbD6SQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAFKRLShSkS+cUpEvkFKRLSgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAExi4EpMYuDnTGLg5Exi4EoAAAAAAAAAABSkS+YUpEv/FKRL/xSkS+cAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABMYuDmTGLg/0xi4P9MYuDnAAAAAAAAAAAUpEvmFKRL/xSkS/8UpEvmAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAATGLg5kxi4P9MYuD/TGLg5gAAAAAAAAAAFKRLSRSkS+YUpEvmFKRLSQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAExi4ElMYuDmTGLg5kxi4EkAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAMZ9E0rGfRPnxn0T5MZ9E0oAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADGfRPmxn0T/8Z9E//GfRPnAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAxn0T5sZ9E//GfRP/xn0T5gAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAMZ9E0nGfRPmxn0T5sZ9E0kAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA//8AAPw/AAD8PwAA/D8AAPw/AAD//wAAh+EAAIfhAACH4QAAh+EAAP//AAD8PwAA/D8AAPw/AAD8PwAA//8AAA==`,
@@ -20962,137 +20962,122 @@ Parsedown = (() => {
         setLpvStyle();        
     }
 
-    function setLpvStyle() {
-        var active, apps, base, cv, currentTime, dif, firstBar, game, giveaway, giveaways, i, id, level, n, percentage, progress, projectedFirstBar, projectedSecondBar, secondBar, savedUser, sent, style, subs, value, values;
-        level = esgst.levelContainer.getAttribute(`title`).match(/(\d+)\.(\d+)/);
-        base = parseInt(level[1]);
-        percentage = parseInt(level[2]);
-        dif = 100 - percentage;
-        progress = parseInt(percentage * 1.85);
-        firstBar = `${progress}px`;
-        secondBar = progress >= 156 ? `${progress - 156 - 0.59}px` : `0`;
-        savedUser = esgst.users.users[esgst.steamId];
-        cv = 0;
-        currentTime = Date.now();
-        if (savedUser) {
-            giveaways = savedUser.giveaways;
-            if (giveaways) {
-                apps = giveaways.sent.apps;
-                for (id in apps) {
-                    active = 0;
-                    sent = 0;
-                    for (i = 0, n = apps[id].length; i < n; ++i) {
-                        giveaway = esgst.giveaways[apps[id][i]];
-                        if (giveaway) {
-                            value = giveaway.points;
-                            if (giveaway.entries >= 5 || (!giveaway.inviteOnly && !giveaway.group && !giveaway.whitelist)) {
-                                if (Array.isArray(giveaway.winners)) {
-                                    if (giveaway.winners.length > 0) {
-                                        giveaway.winners.forEach(winner => {
-                                            if (winner.status === `Received`) {
-                                                sent += 1;
-                                            }
-                                        });
-                                    } else if (currentTime < giveaway.endTime) {
-                                        active += giveaway.copies;
-                                    }
-                                } else if (giveaway.winners > 0) {
-                                    sent += Math.min(giveaway.entries, giveaway.winners);
-                                }
-                            } else if (currentTime < giveaway.endTime) {
-                                active += giveaway.copies;
+    async function getLpvCv() {
+        let user = esgst.users.users[esgst.steamId];
+        if (!user) return 0;
+        let giveaways = user.giveaways;
+        if (!giveaways) return 0;
+        let lpv = {
+            cache: JSON.parse(getLocalValue(`lpvCache`, `{"games": {"apps":{},"subs":{}},"giveaways": [],"timestamp": ${Date.now()}}`)),
+            cv: 0
+        };
+        let currentTime = Date.now();
+        if (currentTime - lpv.cache.timestamp > 604800000) {
+            // last wipe was more than 7 days ago, wipe again
+            lpv.cache = {
+                games: {apps: {}, subs: {}},
+                giveaways: [],
+                timestamp: Date.now()
+            };
+        }
+        let promises = [];
+        [`apps`, `subs`].forEach(type => {
+            let items = giveaways.sent[type];
+            for (let id in items) {
+                let open = 0;
+                let sent = 0;
+                let value = 0;
+                items[id].forEach(code => {
+                    let giveaway = esgst.giveaways[code];
+                    if (!giveaway) return;
+                    value = giveaway.points;
+                    if (currentTime < giveaway.endTime || lpv.cache.giveaways.indexOf(code) > -1) {
+                        // giveaway is open or was open recently
+                        open += giveaway.copies;
+                        if (lpv.cache.giveaways.indexOf(code) < 0) {
+                            lpv.giveaways.push(code);
+                        }
+                    } else {
+                        // giveaway is closed
+                        if (giveaway.entries >= 5 || (!giveaway.inviteOnly && !giveaway.group && !giveaway.whitelist)) {
+                            // giveaway counts for cv
+                            if (Array.isArray(giveaway.winners)) {
+                                // user is using the new database, which is more accurate
+                                giveaway.winners.forEach(winner => {
+                                    if (winner.status !== `Received`) return;
+                                    sent += 1;
+                                });
+                            } else if (giveaway.winners > 0) {
+                                // user is using the old database, not very accurate
+                                sent += Math.min(giveaway.entries, giveaway.winners);
                             }
                         }
                     }
-                    if (active > 0) {
-                        game = esgst.games.apps[id];
-                        if (game) {
-                            if (game.noCV) {
-                                value = 0;
-                            } else if (game.reducedCV) {
-                                value *= 0.15;
-                            }
-                        }
-                        if (sent > 5 || sent + active > 5) {
-                            for (i = 0, n = sent - 5; i < n; ++i) {
-                                value *= 0.90;
-                            }
-                            for (i = 0; i < active; ++i) {
-                                value *= 0.90;
-                                cv += value;
-                            }
-                        } else {
-                            cv += (value * active);
-                        }
-                    }
-                }
-                subs = giveaways.sent.subs;
-                for (id in subs) {
-                    active = 0;
-                    sent = 0;
-                    for (i = 0, n = subs[id].length; i < n; ++i) {
-                        giveaway = esgst.giveaways[subs[id][i]];
-                        if (giveaway) {
-                            value = giveaway.points;
-                            if (giveaway.entries >= 5 || (!giveaway.inviteOnly && !giveaway.group && !giveaway.whitelist)) {
-                                if (Array.isArray(giveaway.winners)) {
-                                    if (giveaway.winners.length > 0) {
-                                        giveaway.winners.forEach(winner => {
-                                            if (winner.status === `Received`) {
-                                                sent += 1;
-                                            }
-                                        });
-                                    } else if (currentTime < giveaway.endTime) {
-                                        active += giveaway.copies;
-                                    }
-                                } else if (giveaway.winners > 0) {
-                                    sent += Math.min(giveaway.entries, giveaway.winners);
-                                }
-                            } else if (currentTime < giveaway.endTime) {
-                                active += giveaway.copies;
-                            }
-                        }
-                    }
-                    if (active > 0) {
-                        game = esgst.games.subs[id];
-                        if (game) {
-                            if (game.noCV) {
-                                value = 0;
-                            } else if (game.reducedCV) {
-                                value *= 0.15;
-                            }
-                        }
-                        if (sent > 5 || sent + active > 5) {
-                            for (i = 0, n = sent - 5; i < n; ++i) {
-                                value *= 0.90;
-                            }
-                            for (i = 0; i < active; ++i) {
-                                value *= 0.90;
-                                cv += value;
-                            }
-                        } else {
-                            cv += (value * active);
-                        }
-                    }
-                }
+                });
+                promises.push(getLpvValue(lpv, id, open, sent, type, value));
+            }
+        });
+        await Promise.all(promises);
+        setLocalValue(`lpvCache`, JSON.stringify(lpv.cache));
+        return lpv.cv;
+    }
+
+    async function getLpvValue(lpv, id, open, sent, type, value) {
+        if (open <= 0) return;
+        if (!lpv.cache.games[type][id]) {
+            try {
+                let responseJson = JSON.parse((await request({method: `GET`, url: `http://store.steampowered.com/api/${type === `apps` ? `appdetails?appids` : `packagedetails?packageids`}=${id}&cc=us&filters=price,price_overview`})).responseText)[id].data;
+                value = Math.ceil((responseJson.price_overview || responseJson.price).initial / 100);
+            } catch (e) {}
+            lpv.cache.games[type][id] = value;
+        }
+        value = lpv.cache.games[type][id] || value;
+        let game = esgst.games.apps[id];
+        if (game) {
+            if (game.noCV) {
+                // game gives no cv
+                value = 0;
+            } else if (game.reducedCV) {
+                // game gives reduced cv (15% of the value)
+                value *= 0.15;
             }
         }
+        if (sent > 5 || sent + open > 5) {
+            // after 5 copies each next copy is worth only 90% of the previous value
+            for (let i = sent - 5; i > 0; i--) {
+                value *= 0.90;
+            }
+            for (let i = open; i > 0; i--) {
+                value *= 0.90;
+                lpv.cv += value;
+            }
+        } else {
+            lpv.cv += (value * open);
+        }
+    }
+
+    async function setLpvStyle() {
+        let parts = esgst.levelContainer.getAttribute(`title`).match(/(\d+)\.(\d+)/);
+        let base = parseInt(parts[1]);
+        let percentage = parseInt(parts[2]);
+        let dif = 100 - percentage;
+        let progress = parseInt(percentage * 1.85);
+        let firstBar = `${progress}px`;
+        let secondBar = progress >= 156 ? `${progress - 156 - 0.59}px` : `0`;
+        let cv = await getLpvCv();
+        let projectedFirstBar = `0`;
+        let projectedSecondBar = `0`;
         if (cv > 0) {
-            cv = Math.round(cv * 100) / 100;
-            values = [0, 0.01, 25.01, 50.01, 100.01, 250.01, 500.01, 1000.01, 2000.01, 3000.01, 5000.01];
-            percentage = parseInt(Math.round((percentage + (cv / values[parseInt(base)] * 100)) * 100) / 100);
+            percentage = parseInt(Math.round((percentage + ((Math.round(cv * 100) / 100) / [0, 0.01, 25.01, 50.01, 100.01, 250.01, 500.01, 1000.01, 2000.01, 3000.01, 5000.01][parseInt(base)] * 100)) * 100) / 100);
             progress = percentage > dif ? 100 : parseInt(percentage * 1.85);
             projectedFirstBar = `${progress}px`;
             projectedSecondBar = progress >= 156 ? `${progress - 156 - 0.59}px` : `0`;
             esgst.levelContainer.title = `${esgst.levelContainer.getAttribute(`title`)} (${base + parseInt(percentage / 100)}.${`0${percentage}`.slice(-2)})`;
-        } else {
-            projectedFirstBar = `0`;
-            projectedSecondBar = `0`;
         }
-        if (!style) {
-            document.head.insertAdjacentHTML(`beforeEnd`, `<style id="esgst-lpv-style"></style>`);
+        if (!esgst.lpvStyle) {
+            esgst.lpvStyle = insertHtml(document.head, `beforeEnd`, `<style id="esgst-lpv-style"></style>`);
         }
-        document.getElementById(`esgst-lpv-style`).innerHTML = `
+        esgst.lpvStyle.innerHTML = `
             .esgst-lpv-container {
                 background-image: linear-gradient(to right, var(--esgst-lpv-bar, #609f60) ${firstBar}, var(--esgst-lpv-bar-projected, rgba(96, 159, 96, 0.5)) ${firstBar}, var(--esgst-lpv-bar-projected, rgba(96, 159, 96, 0.5)) ${projectedFirstBar}, transparent ${firstBar}), var(--esgst-lpv-button, linear-gradient(#8a92a1 0px, #757e8f 8px, #4e5666 100%)) !important;
             }
