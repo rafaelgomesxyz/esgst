@@ -949,6 +949,25 @@ To upgrade from the script to the extension or downgrade from the extension to t
 
 ## Changelog
 
+**7.14.4 (February 16, 2018):**
+
+<ul>
+    <li><a href="https://github.com/revilheart/ESGST/issues/338">#338</a> Cache Level Progress Visualizer prediction after giveaways end</li>
+    <li><a href="https://github.com/revilheart/ESGST/issues/486">#486</a> Fix a bug that does not go to a permalink when using Collapse/Expand Replies Button with the automatic collapse enabled</li>
+    <li><a href="https://github.com/revilheart/ESGST/issues/487">#487</a> Fix a bug that does not decrypt giveaways</li>
+    <li><a href="https://github.com/revilheart/ESGST/issues/488">#488</a> Fix a bug that does not open the Quick Inbox View popout after a header refresh</li>
+    <li><a href="https://github.com/revilheart/ESGST/issues/489">#489</a> Fix a bug that does not run Discussion Filters and Discussions Sorter on page load</li>
+    <li><a href="https://github.com/revilheart/ESGST/issues/490">#490</a> Prevent Discussions Highlighter and Puzzle Marker buttons from switching places</li>
+    <li><a href="https://github.com/revilheart/ESGST/issues/491">#491</a> Fix a bug that happens when checking suspensions in Not Activated/Multiple Wins Checker</li>
+    <li><a href="https://github.com/revilheart/ESGST/issues/492">#492</a> Fix a bug that happens when checking groups in Unsent Gifts Sender</li>
+    <li><a href="https://github.com/revilheart/ESGST/issues/493">#493</a> Allow users to update the "No CV Games" database</li>
+    <li><a href="https://github.com/revilheart/ESGST/issues/494">#494</a> Fix a bug that auto focus text areas with Comment Formatting Helper enabled</li>
+    <li><a href="https://github.com/revilheart/ESGST/issues/496">#496</a> Fix a bug that does not connect wagons when creating trains</li>
+    <li><a href="https://github.com/revilheart/ESGST/issues/498">#498</a> Implement a Button class</li>
+    <li><a href="https://github.com/revilheart/ESGST/issues/499">#499</a> Fix features that retrieve a user's wishlist from Steam</li>
+    <li><a href="https://github.com/revilheart/ESGST/issues/500">#500</a> Fix a bug that happens when sending a ticket with User Suspension Tracker</li>
+</ul>
+
 **7.14.3 (February 12, 2018):**
 
 <ul>

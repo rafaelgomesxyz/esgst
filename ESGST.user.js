@@ -3,7 +3,7 @@
 // @namespace ESGST
 // @description Enhances SteamGifts and SteamTrades by adding some cool features to them.
 // @icon https://dl.dropboxusercontent.com/s/lr3t3bxrxfxylqe/esgstIcon.ico?raw=1
-// @version 7.14.3
+// @version 7.14.4
 // @author revilheart
 // @contributor Royalgamer06
 // @downloadURL https://github.com/revilheart/ESGST/raw/master/ESGST.user.js
@@ -1093,6 +1093,44 @@ Parsedown = (() => {
 // ESGST
 
 (async () => {
+
+    class Button {
+        constructor(context, position, details) {
+            this.callbacks = details.callbacks;
+            this.states = this.callbacks.length;
+            this.icons = details.icons;
+            this.index = details.index;
+            this.titles = details.titles;
+            this.button = insertHtml(context, position, `
+                <div class="${details.className}"></div>
+            `);
+            this.change();
+            return this;
+        }
+        async change(mainCallback, event) {
+            if (this.index >= this.states) {
+                this.index = 0;
+            }
+            let index = this.index;
+            this.index += 1;
+            this.button.title = this.titles[index];
+            this.button.innerHTML = `
+                <i class="fa ${this.icons[index]}"></i>
+            `;
+            if (mainCallback) {
+                if (await mainCallback(event)) {
+                    this.change();
+                } else {
+                    this.button.innerHTML = `
+                        <i class="fa fa-times esgst-red" title="Unable to perform action"></i>
+                    `;
+                }
+            } else if (this.callbacks[index]) {
+                this.button.firstElementChild.addEventListener(`click`, this.change.bind(this, this.callbacks[index]));
+            }
+        }
+    }
+
     class ButtonSet {
         constructor(color1, color2, icon1, icon2, title1, title2, callback1, callback2) {
             this.busy = false;
@@ -1638,6 +1676,7 @@ Parsedown = (() => {
         esgst = {
             parameters: getParameters(),
             defaultValues: {
+                addNoCvGames_sg: false,
                 lockGiveawayColumns_sg: false,
                 staticPopups_width: `900px`,
                 hgr_removeOwned: true,
@@ -1980,8 +2019,8 @@ Parsedown = (() => {
             markdownParser: new Parsedown(),
             sg: location.hostname.match(/www.steamgifts.com/),
             st: location.hostname.match(/www.steamtrades.com/),
-            currentVersion: `7.14.3`,
-            devVersion: `7.14.3`,
+            currentVersion: `7.14.4`,
+            devVersion: `7.14.4`,
             icon: `data:image/x-icon;base64,AAABAAEAEBAAAAEAIABoBAAAFgAAACgAAAAQAAAAIAAAAAEAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAqv8DCbP/Hgeq+CQIrf8iCK3/Igit/yIIrf8iB6//Iwit9x8Aqv8DAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAKr0GAa2/c0DvfzfA7f83QO3/N0Dt/zdA7f83QO+/d4Gs/3OAKP1GQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACm/xQFs/n2Bcf//wW///8FwP//BcD//wW///8Fx///BbP69gC2/xUAAAAAAAAAAAAAAAAA/1UDFptOFxSZMxkLpJktAq720QW1+ugEsfvjA7b92wO2/dsEsfvjBbX66Aau/dEoiO4tUlLWGU5k3hdVVf8DEJxKHxWqT8cVrU7uE6VN0guqny0Apv8XAJfQGwBAVywAQFcsAJfQGwCx/xcogugtS2Lk0lBl6u5Qae7ISmPeHxagSSMVr07jF7lV/xOiSu0brgATAAAAAAAAAA8AAAC/AAAAwAAAABAAAAAAYznjEkth4OxWb/3/T2jv40lf4iMXnksiEq1O3RayUv8UpEnkEo0+HQAAABkAAABBAAAA8QAAAPEAAABBAAAAGUBSvxxOYeDjU2v0/05m7d1LYuEiF55LIhKtTt0Ws1L/FahN2gU1FTAAAADAAAAA7AAAAP0AAAD9AAAA7AAAAMAVG0owUGPm2lNr9P9OZu3dS2LhIheeSyISrU7dFrNS/xWoTdoFNRswAAAAvwAAAOsAAAD9AAAA/QAAAOsAAADAFRtKMFBj6NpTa/T/Tmbt3Uti4SIXnksiEq1O3RayUv8UpEnkEo0+HQAAABgAAABAAAAA8QAAAPEAAABBAAAAGT5PuR1OYeDjU2v0/05m7d1LYuEiFqBJIxWuT+QXuVX/E6JL7QC8XhMAAAAAAAAADwAAAL8AAAC/AAAAEAAAAAAOR/8SSWLh7FZv/f9PaO/jSV/iIxCUSh8Vrk7HFqxN7ROlS9JskzMt1XULGK12EhxGLgYsRy8GK612EhzVgAsYgmxxLU1i39JNZ+vtT2fwx0pj1h8AqlUDF65GFgqZUhlsiC0txH0T0s5/EujJgBPkz4QR28+EEdvJgBPkzn8Q6Md+E9KLdHosM1LWGUZo6BZVVf8DAAAAAAAAAAAAAAAA/2YAFMl9EvbgjRb/14gV/9eIFf/XiBX/14gV/9+NFv/KgBD254YAFQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAL91FRjKgRHN1IgU3s+EEt3PhBLdz4QS3c+EEt3UiBTezYMRzcJ6FBkAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACqqgADxIARHr18FiO8eA8ivHgPIrx4DyK8eA8ivXwPI8SAER7/VQADAAAAAAAAAAAAAAAA78cAAPA3AAD4FwAABCAAADGOAAAE+AAAkBEAAJ55AACYOQAAlgEAAER4AAAXaAAATnoAAPgXAAD0JwAA69cAAA==`,
             sgIcon: `data:image/x-icon;base64,AAABAAEAEBAAAAEAIABoBAAAFgAAACgAAAAQAAAAIAAAAAEAIAAAAAAAQAQAABMLAAATCwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIUAAAD5AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAPoAAACFAAAAAAAAAAAAAAD8AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA+QAAAAAAAAAAAAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAAAAAAAAAAAAP8AAAD/AAAA/wAAABwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAcAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAcAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAHAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAAAAAAAAAAAAPwAAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD5AAAAAAAAAAAAAACFAAAA+QAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD5AAAAhQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA//8AAP//AADAAwAAwAMAAMfjAADP8wAAz/MAAM/zAADP8wAAz/MAAM/zAADH4wAAwAMAAMADAAD//wAA//8AAA==`,
             stIcon: `data:image/x-icon;base64,AAABAAEAEBAAAAEAIABoBAAAFgAAACgAAAAQAAAAIAAAAAEAIAAAAAAAQAQAABMLAAATCwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABbD6SgWw+ucFsPrkBbD6SgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAWw+uYFsPr/BbD6/wWw+ucAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAFsPrmBbD6/wWw+v8FsPrmAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABbD6SQWw+uYFsPrmBbD6SQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAFKRLShSkS+cUpEvkFKRLSgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAExi4EpMYuDnTGLg5Exi4EoAAAAAAAAAABSkS+YUpEv/FKRL/xSkS+cAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABMYuDmTGLg/0xi4P9MYuDnAAAAAAAAAAAUpEvmFKRL/xSkS/8UpEvmAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAATGLg5kxi4P9MYuD/TGLg5gAAAAAAAAAAFKRLSRSkS+YUpEvmFKRLSQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAExi4ElMYuDmTGLg5kxi4EkAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAMZ9E0rGfRPnxn0T5MZ9E0oAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADGfRPmxn0T/8Z9E//GfRPnAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAxn0T5sZ9E//GfRP/xn0T5gAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAMZ9E0nGfRPmxn0T5sZ9E0kAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA//8AAPw/AAD8PwAA/D8AAPw/AAD//wAAh+EAAIfhAACH4QAAh+EAAP//AAD8PwAA/D8AAPw/AAD8PwAA//8AAA==`,
@@ -5099,6 +5138,11 @@ Parsedown = (() => {
                             name: `Automatically update whitelist/blacklist when adding/removing a user to/from those lists.`,
                             sg: true
                         },
+                        addNoCvGames: {
+                            name: `Automatically add no CV games to the database when searching for games in the new giveaway page.`,
+                            new: true,
+                            sg: true
+                        },
                         collapseSections: {
                             name: `Collapse sections in the settings menu by default.`,
                             sg: true,
@@ -6196,8 +6240,6 @@ Parsedown = (() => {
         if (esgst.glwc) await loadGlwc();
         if (esgst.gs) loadGs();
 
-        if (esgst.gc) loadGc();
-
         if (esgst.mt) loadMt();
         if (esgst.stbb) loadStbb();
         if (esgst.sttb) loadSttb();
@@ -6211,6 +6253,15 @@ Parsedown = (() => {
 
         if (esgst.qiv) loadQiv(true);
         if (esgst.es) loadEs();
+        
+        if (esgst.newGiveawayPath) {
+            // when the user searches for a game in the new giveaway page, wait until the results appear and load the game features for them
+            let rows = document.getElementsByClassName(`form__rows`)[0];
+            if (rows) {
+                let input = document.getElementsByClassName(`js__autocomplete-name`)[0];
+                input.addEventListener(`input`, checkNewGiveawayInput.bind(null, input.nextElementSibling));
+            }
+        }
 
         if (esgst.hideButtons && esgst.mainPageHeading) {
             if (!esgst.leftButtons.querySelector(`.esgst-heading-button:not(.esgst-hidden)`)) {
@@ -7268,8 +7319,6 @@ Parsedown = (() => {
             esgst.cerbExpand = expand = collapse.nextElementSibling;
             collapse.addEventListener(`click`, collapseAllCerbReplies.bind(null, collapse, expand));
             expand.addEventListener(`click`, expandAllCerbReplies.bind(null, collapse, expand));
-            id = location.hash.replace(/#/, ``);
-            getCerbReplies(collapse, expand, id ? document.getElementById(id) : null, document);
         }
     }
 
@@ -10486,55 +10535,54 @@ Parsedown = (() => {
         let i, textAreas;
         textAreas = context.querySelectorAll(`textarea[name*="description"]`);
         for (i = textAreas.length - 1; i > -1; --i) {
-            addCfhPanel(textAreas[i]);
+            textAreas[i].onfocus = addCfhPanel.bind(null, textAreas[i]);
         }
     }
 
     function addCfhPanel(textArea) {
-        if (textArea !== esgst.cfh.textArea) {
-            textArea.parentElement.insertBefore(esgst.cfh.panel, textArea);
-            textArea.onfocus = addCfhPanel.bind(null, textArea);
-            textArea.onpaste = event => {
-                if (esgst.cfh_pasteFormatting) {
-                    let clipboard, value;
-                    clipboard = event.clipboardData.getData(`text/plain`);
-                    if (clipboard.match(/^https?:/)) {
-                        event.preventDefault();
-                        value = textArea.value;
-                        undoCfhFormatting(textArea, `${value.slice(0, textArea.selectionStart)}${clipboard}${value.slice(textArea.selectionEnd)}`);
-                        formatCfhLink(``, clipboard, clipboard.match(/\.(jpg|jpeg|gif|bmp|png)/), true);
-                    }
-                }
-            };
-            textArea.onkeydown = event => {
-                if (event.key === `Backspace` && esgst.cfh.recent) {
+        if (textArea === esgst.cfh.textArea) return;
+        textArea.parentElement.insertBefore(esgst.cfh.panel, textArea);
+        textArea.onfocus = addCfhPanel.bind(null, textArea);
+        textArea.onpaste = event => {
+            if (esgst.cfh_pasteFormatting) {
+                let clipboard, value;
+                clipboard = event.clipboardData.getData(`text/plain`);
+                if (clipboard.match(/^https?:/)) {
                     event.preventDefault();
-                    esgst.cfh.undo.click();
-                }
-                esgst.cfh.recent = false;
-                if (!event.ctrlKey) {
-                    return;
-                }
-                if (event.key === `y` && (esgst.cfh.backup.length || esgst.cfh.history.length)) {
-                    event.preventDefault();
-                    esgst.cfh.redo.click();
-                } else if (event.key === `z` && esgst.cfh.history.length) {
-                    event.preventDefault();
-                    esgst.cfh.undo.click();
-                }
-            };
-            if (esgst.cfh_p) {
-                esgst.cfh.preview.innerHTML = ``;
-                textArea.parentElement.insertBefore(esgst.cfh.preview, textArea.nextElementSibling);
-                if (esgst.cfh_p_a) {
-                    textArea.oninput = () => {
-                        esgst.cfh.preview.innerHTML = parseMarkdown(textArea.value);
-                        formatCfhImages(esgst.cfh.preview);
-                    };
+                    value = textArea.value;
+                    undoCfhFormatting(textArea, `${value.slice(0, textArea.selectionStart)}${clipboard}${value.slice(textArea.selectionEnd)}`);
+                    formatCfhLink(``, clipboard, clipboard.match(/\.(jpg|jpeg|gif|bmp|png)/), true);
                 }
             }
-            esgst.cfh.textArea = textArea;
+        };
+        textArea.onkeydown = event => {
+            if (event.key === `Backspace` && esgst.cfh.recent) {
+                event.preventDefault();
+                esgst.cfh.undo.click();
+            }
+            esgst.cfh.recent = false;
+            if (!event.ctrlKey) {
+                return;
+            }
+            if (event.key === `y` && (esgst.cfh.backup.length || esgst.cfh.history.length)) {
+                event.preventDefault();
+                esgst.cfh.redo.click();
+            } else if (event.key === `z` && esgst.cfh.history.length) {
+                event.preventDefault();
+                esgst.cfh.undo.click();
+            }
+        };
+        if (esgst.cfh_p) {
+            esgst.cfh.preview.innerHTML = ``;
+            textArea.parentElement.insertBefore(esgst.cfh.preview, textArea.nextElementSibling);
+            if (esgst.cfh_p_a) {
+                textArea.oninput = () => {
+                    esgst.cfh.preview.innerHTML = parseMarkdown(textArea.value);
+                    formatCfhImages(esgst.cfh.preview);
+                };
+            }
         }
+        esgst.cfh.textArea = textArea;
     }
 
     function undoCfhFormatting(textArea, value) {
@@ -11049,64 +11097,24 @@ Parsedown = (() => {
 
     /* [CODB] Close/Open Discussion Button */
 
-    function addCodbButton(discussion) {
-        if (discussion.author === esgst.username) {
-            if (!discussion.heading.parentElement.getElementsByClassName(`esgst-codb-button`)[0]) {
-                if (discussion.closed) {
-                    discussion.closed.remove();
-                    discussion.closed = true;
-                }
-                if (discussion.closed) {
-                    addCodbOpenButton(null, discussion);
-                } else {
-                    addCodbCloseButton(null, discussion);
-                }
-            }
+    async function closeCodbDiscussion(discussion) {
+        let response = await request({data: `xsrf_token=${esgst.xsrfToken}&do=close_discussion`, method: `POST`, url: discussion.url});
+        if (parseHtml(response.responseText).getElementsByClassName(`page__heading__button--red`)[0]) {
+            discussion.closed = true;
+            discussion.innerWrap.classList.add(`is-faded`);
+            return true;
         }
+        return false;
     }
 
-    function addCodbCloseButton(button, discussion) {
-        if (!button) {
-            button = insertHtml(discussion.headingContainer.firstElementChild, `beforeBegin`, `
-                <div class="esgst-codb-button" title="Close discussion">
-                    <i class="fa fa-lock"></i>
-                </div>
-            `);
+    async function openCodbDiscussion(discussion) {
+        let response = await request({data: `xsrf_token=${esgst.xsrfToken}&do=reopen_discussion`, method: `POST`, url: discussion.url});
+        if (!parseHtml(response.responseText).getElementsByClassName(`page__heading__button--red`)[0]) {
+            discussion.closed = false;
+            discussion.innerWrap.classList.remove(`is-faded`);
+            return true;
         }
-        button.firstElementChild.addEventListener(`click`, async function() {
-            button.innerHTML = `<i class="fa fa-circle-o-notch fa-spin"></i>`;
-            let response = await request({data: `xsrf_token=${esgst.xsrfToken}&do=close_discussion`, method: `POST`, url: discussion.url});
-            button.innerHTML = `<i class="fa fa-lock"></i>`;
-            if (parseHtml(response.responseText).getElementsByClassName(`page__heading__button--red`)[0]) {
-                button.classList.add(`icon-red`);
-                button.title = `Open discussion`;
-                addCodbOpenButton(button, discussion);
-                discussion.closed = true;
-                discussion.innerWrap.classList.add(`is-faded`);
-            }
-        });
-    }
-
-    function addCodbOpenButton(button, discussion) {
-        if (!button) {
-            button = insertHtml(discussion.headingContainer.firstElementChild, `beforeBegin`, `
-                <div class="esgst-codb-button icon-red" title="Open discussion">
-                    <i class="fa fa-lock"></i>
-                </div>
-            `);
-        }
-        button.firstElementChild.addEventListener(`click`, async function() {
-            button.innerHTML = `<i class="fa fa-circle-o-notch fa-spin"></i>`;
-            let response = await request({data: `xsrf_token=${esgst.xsrfToken}&do=reopen_discussion`, method: `POST`, url: discussion.url});
-            button.innerHTML = `<i class="fa fa-lock"></i>`;
-            if (!parseHtml(response.responseText).getElementsByClassName(`page__heading__button--red`)[0]) {
-                button.classList.remove(`icon-red`);
-                button.title = `Close discussion`;
-                addCodbCloseButton(button, discussion);
-                discussion.closed = false;
-                discussion.innerWrap.classList.remove(`is-faded`);
-            }
-        });
+        return false;
     }
 
     /* [CR] Comments Reverser */
@@ -12096,40 +12104,7 @@ Parsedown = (() => {
         }
     }
 
-    function getDfDiscussion(discussion, main) {
-        let savedDiscussion = esgst.discussions[discussion.code];
-        if (savedDiscussion && savedDiscussion.hidden) {
-            addDfUnhideButton(discussion, main);
-        } else {
-            addDfHideButton(discussion, main);
-        }
-    }
-    
-    function addDfHideButton(discussion, main) {
-        var button;
-        if (!discussion.heading.parentElement.getElementsByClassName(`esgst-df-button`)[0]) {
-            button = insertHtml(discussion.headingContainer.firstElementChild, `beforeBegin`, `
-                <div class="esgst-df-button" title="Hide discussion">
-                    <i class="fa fa-eye-slash"></i>
-                </div>
-            `);
-            let busy = false;
-            button.addEventListener(`click`, function() {
-                if (!busy) {
-                    busy = true;
-                    button.innerHTML = `<i class="fa fa-circle-o-notch fa-spin"></i>`;
-                    hideDfDiscussion(discussion, function() {
-                        button.remove();
-                        if ((esgst.discussionPath && !main) || !esgst.discussionPath) {
-                            discussion.outerWrap.remove();
-                        }
-                    });
-                }
-            });
-        }
-    }
-
-    async function hideDfDiscussion(discussion, callback) {
+    async function hideDfDiscussion(discussion, main) {
         let deleteLock = await createLock(`discussionLock`, 300);
         let discussions = JSON.parse(await getValue(`discussions`, `{}`));
         if (!discussions[discussion.code]) {
@@ -12138,36 +12113,13 @@ Parsedown = (() => {
         discussions[discussion.code].hidden = discussions[discussion.code].lastUsed = Date.now();
         await setValue(`discussions`, JSON.stringify(discussions));
         deleteLock();
-        if (callback) {
-            callback();
+        if (!main || !esgst.discussionPath) {
+            discussion.outerWrap.remove();
         }
+        return true;
     }
 
-    function addDfUnhideButton(discussion, main) {
-        var button;
-        if (!discussion.heading.parentElement.getElementsByClassName(`esgst-df-button`)[0]) {
-            button = insertHtml(discussion.headingContainer.firstElementChild, `beforeBegin`, `
-                <div class="esgst-df-button" title="Unhide discussion">
-                    <i class="fa fa-eye"></i>
-                </div>
-            `);
-            let busy = false;
-            button.addEventListener(`click`, function() {
-                if (!busy) {
-                    busy = true;
-                    button.innerHTML = `<i class="fa fa-circle-o-notch fa-spin"></i>`;
-                    unhideDfDiscussion(discussion, function() {
-                        button.remove();
-                        if ((esgst.discussionPath && !main) || !esgst.discussionPath) {
-                            discussion.outerWrap.remove();
-                        }
-                    });
-                }
-            });
-        }
-    }
-
-    async function unhideDfDiscussion(discussion, callback) {
+    async function unhideDfDiscussion(discussion, main) {
         let deleteLock = await createLock(`discussionLock`, 300);
         let discussions = JSON.parse(await getValue(`discussions`, `{}`));
         if (discussions[discussion.code]) {
@@ -12176,9 +12128,10 @@ Parsedown = (() => {
         }
         await setValue(`discussions`, JSON.stringify(discussions));
         deleteLock();
-        if (callback) {
-            callback();
+        if (!main || !esgst.discussionPath) {
+            discussion.outerWrap.remove();
         }
+        return true;
     }
 
     function setDfOverride(df, context, key) {
@@ -13056,20 +13009,6 @@ Parsedown = (() => {
         }
     }
 
-    function getDhDiscussion(discussion, main) {
-        let savedDiscussion = esgst.discussions[discussion.code];
-        let context = main && esgst.discussionPath ? discussion.heading : discussion.outerWrap;
-        if (savedDiscussion && savedDiscussion.highlighted) {
-            highlightDhDiscussion(discussion.code, context);
-            addDhUnhighlightButton(discussion.code, context, discussion.heading.parentElement);
-            if (esgst.dh_t && main && esgst.discussionsPath) {
-                discussion.outerWrap.parentElement.insertBefore(discussion.outerWrap, discussion.outerWrap.parentElement.firstElementChild);
-            }
-        } else {
-            addDhHighlightButton(discussion.code, context, discussion.heading.parentElement);
-        }
-    }
-
     async function highlightDhDiscussion(code, context, save) {
         if (save) {
             let deleteLock = await createLock(`commentLock`, 300);
@@ -13087,6 +13026,7 @@ Parsedown = (() => {
         } else {
             context.classList.add(`esgst-dh-highlighted`);
         }
+        return true;
     }
 
     async function unhighlightDhDiscussion(code, context, save) {
@@ -13101,38 +13041,7 @@ Parsedown = (() => {
         } else {
             context.classList.remove(`esgst-dh-highlighted`);
         }
-    }
-
-    function addDhHighlightButton(code, container, context) {
-        var button;
-        if (!context.getElementsByClassName(`esgst-dh-button`)[0]) {
-            button = insertHtml(context, `afterBegin`, `
-                <div class="esgst-dh-button" title="Click to highlight this discussion">
-                    <i class="fa fa-star-o"></i>
-                </div>
-            `);
-            button.addEventListener(`click`, function() {
-                highlightDhDiscussion(code, container, true);
-                button.remove();
-                addDhUnhighlightButton(code, container, context);
-            });
-        }
-    }
-
-    function addDhUnhighlightButton(code, container, context) {
-        var button;
-        if (!context.getElementsByClassName(`esgst-dh-button`)[0]) {
-            button = insertHtml(context, `afterBegin`, `
-                <div class="esgst-dh-button" title="Click to unhighlight this discussion">
-                    <i class="fa fa-star"></i>
-                </div>
-            `);
-            button.addEventListener(`click`, function() {
-                unhighlightDhDiscussion(code, container, true);
-                button.remove();
-                addDhHighlightButton(code, container, context);
-            });
-        }
+        return true;
     }
 
     /* [DKC] Delete Keys Confirmation */
@@ -13427,12 +13336,12 @@ Parsedown = (() => {
             if (esgst.egh) {
                 saveEghGame(giveaway.id, giveaway.type);
             }
-            if (esgst.gb && esgst.gb_ue) {
-                var button = giveaway.outerWrap.getElementsByClassName(`esgst-gb-button`)[0];
-                if (button) {
-                    unbookmarkGbGiveaway(giveaway, function() {
-                        addGbBookmarkButton(button, giveaway, main);
-                    });
+            if (esgst.gb && esgst.gb_ue && giveaway.gbButton) {
+                if (giveaway.gbButton.index === 3) {
+                    giveaway.gbButton.change(giveaway.gbButton.callbacks[2]);
+                }
+                if (!esgst.gb_se) {
+                    giveaway.gbButton.button.classList.add(`esgst-hidden`);
                 }
             }
             if (esgst.gf && esgst.gf.filteredCount && esgst[`gf_enable${esgst.gf.type}`]) {
@@ -13477,6 +13386,9 @@ Parsedown = (() => {
                 setLocalValue(`hrCache`, JSON.stringify(getHrCache()));
             }
             updateElgbButtons();
+            if (esgst.gb && giveaway.gbButton) {
+                giveaway.gbButton.button.classList.remove(`esgst-hidden`);
+            }
             if (esgst.gf && esgst.gf.filteredCount && esgst[`gf_enable${esgst.gf.type}`]) {
                 filterGfGiveaways(esgst.gf);
             }
@@ -14495,6 +14407,27 @@ Parsedown = (() => {
 
     async function loadGb() {
         await addGbButton();
+        if (esgst.gb_ue && esgst.enterGiveawayButton) {
+            esgst.enterGiveawayButton.onclick = () => {
+                let giveaway = esgst.currentGiveaways[0];
+                if (giveaway && giveaway.gbButton) {
+                    if (giveaway.gbButton.index === 3) {
+                        giveaway.gbButton.change(giveaway.gbButton.callbacks[2]);
+                    }
+                    if (!esgst.gb_se) {
+                        giveaway.gbButton.button.classList.add(`esgst-hidden`);
+                    }
+                }
+            };
+        }
+        if (esgst.leaveGiveawayButton) {
+            esgst.leaveGiveawayButton.onclick = () => {
+                let giveaway = esgst.currentGiveaways[0];
+                if (giveaway && giveaway.gbButton) {
+                    giveaway.gbButton.button.classList.remove(`esgst-hidden`);
+                }
+            };
+        }
     }
 
     async function addGbButton() {
@@ -14751,29 +14684,21 @@ Parsedown = (() => {
     }
 
     function getGbGiveaways(giveaway, main) {
-        if (((esgst.archivePath && !main) || !esgst.archivePath) && giveaway.creator !== esgst.username && (!giveaway.entered || (esgst.enteredPath && main) || esgst.gb_se) && giveaway.url && !giveaway.innerWrap.getElementsByClassName(`esgst-gb-button`)[0]) {
-            if (esgst.giveaways[giveaway.code] && esgst.giveaways[giveaway.code].bookmarked) {
-                let button = insertHtml(giveaway.headingName, `beforeBegin`, `<div class="esgst-gb-button"></div>`);
-                addGbUnbookmarkButton(button, giveaway, main);
-            } else if (!giveaway.ended) {
-                let button = insertHtml(giveaway.headingName, `beforeBegin`, `<div class="esgst-gb-button"></div>`);
-                addGbBookmarkButton(button, giveaway, main);
+        if ((!main || !esgst.archivePath) && giveaway.creator !== esgst.username && giveaway.url && !giveaway.gbButton) {
+            giveaway.gbButton = new Button(giveaway.headingName, `beforeBegin`, {
+                callbacks: [bookmarkGbGiveaway.bind(null, giveaway, main), null, unbookmarkGbGiveaway.bind(null, giveaway, main), null],
+                className: `esgst-gb-button`,
+                icons: [`fa-bookmark-o esgst-clickable`, `fa-circle-o-notch fa-spin`, `fa-bookmark`, `fa-circle-o-notch fa-spin`],
+                index: esgst.giveaways[giveaway.code] && esgst.giveaways[giveaway.code].bookmarked ? 2 : 0,
+                titles: [`Bookmark giveaway`, `Bookmarking giveaway...`, `Unbookmark giveaway`, `Unbookmarking giveaway...`]
+            });
+            if ((giveaway.entered || (esgst.enteredPath && main)) && !esgst.gb_se) {
+                giveaway.gbButton.button.classList.add(`esgst-hidden`);
             }
         }
     }
 
-    function addGbBookmarkButton(button, giveaway, main) {
-        button.title = `Bookmark giveaway`;
-        button.innerHTML = `<i class="fa fa-bookmark-o"></i>`;
-        button.firstElementChild.addEventListener(`click`, function() {
-            button.innerHTML = `<i class="fa fa-circle-o-notch fa-spin"></i>`;
-            bookmarkGbGiveaway(giveaway, function() {
-                addGbUnbookmarkButton(button, giveaway, main);
-            });
-        });
-    }
-
-    async function bookmarkGbGiveaway(giveaway, callback) {
+    async function bookmarkGbGiveaway(giveaway) {
         let deleteLock = await createLock(`giveawayLock`, 300);
         let giveaways = JSON.parse(await getValue(`giveaways`, `{}`));
         if (!giveaways[giveaway.code]) {
@@ -14785,37 +14710,10 @@ Parsedown = (() => {
         giveaways[giveaway.code].bookmarked = true;
         await setValue(`giveaways`, JSON.stringify(giveaways));
         deleteLock();
-        if (callback) {
-            callback();
-        }
+        return true;
     }
 
-    function addGbUnbookmarkButton(button, giveaway, main) {
-        var button;
-        button.title = `Unbookmark giveaway`;
-        button.innerHTML = `<i class="fa fa-bookmark"></i>`;
-        button.firstElementChild.addEventListener(`click`, function() {
-            button.innerHTML = `<i class="fa fa-circle-o-notch fa-spin"></i>`;
-            unbookmarkGbGiveaway(giveaway, function() {
-                addGbBookmarkButton(button, giveaway, main);
-            });
-        });
-        if (esgst.gb_ue && main && esgst.enterGiveawayButton) {
-            esgst.enterGiveawayButton.onclick = function() {
-                let button = giveaway.outerWrap.getElementsByClassName(`esgst-gb-button`)[0];
-                if (button && button.firstElementChild.classList.contains(`fa-bookmark`)) {
-                    button.innerHTML = `<i class="fa fa-circle-o-notch fa-spin"></i>`;
-                    unbookmarkGbGiveaway(giveaway, function() {
-                        if (esgst.gb_se) {
-                            addGbBookmarkButton(button, giveaway, main);
-                        }
-                    });
-                }
-            };
-        }
-    }
-
-    async function unbookmarkGbGiveaway(giveaway, callback) {
+    async function unbookmarkGbGiveaway(giveaway) {
         let deleteLock = await createLock(`giveawayLock`, 300);
         let giveaways = JSON.parse(await getValue(`giveaways`, `{}`));
         if (giveaways[giveaway.code]) {
@@ -14823,35 +14721,10 @@ Parsedown = (() => {
         }
         await setValue(`giveaways`, JSON.stringify(giveaways));
         deleteLock();
-        if (callback) {
-            callback();
-        }
+        return true;
     }
 
     /* [GC] Game Categories */
-
-    function loadGc() {
-        if (!esgst.newGiveawayPath) return;
-        let rows = document.getElementsByClassName(`form__rows`)[0];
-        if (!rows) return;
-        let ipt = document.getElementsByClassName(`js__autocomplete-name`)[0];
-        let tb = ipt.nextElementSibling;
-        ipt.addEventListener(`input`, () => {
-            if (!esgst.isCheckingGc) {
-                esgst.isCheckingGc = true;
-                checkGcNewGiveaway(tb);
-            }
-        });
-    }
-
-    async function checkGcNewGiveaway(context) {
-        if (context.style.opacity === `1`) {
-            await loadGameFeatures(document, true);
-            esgst.isCheckingGc = false;
-        } else {
-            setTimeout(checkGcNewGiveaway, 100, context);
-        }
-    }
 
     async function getGcGames(games, endless) {
         let gc = {
@@ -16443,7 +16316,7 @@ Parsedown = (() => {
             for (let j = icons.length - 1; j > -1; j--) {
                 icons[0].remove();
             }
-            if (!comment.display) continue;
+            if (!comment.displayState) continue;
             let links = comment.displayState.querySelectorAll(`[href^="ESGST-"]`);
             for (let j = links.length - 1; j > -1; j--) {
                 let code = links[j].getAttribute(`href`).match(/ESGST-(.+)/)[1];
@@ -16640,36 +16513,30 @@ Parsedown = (() => {
         if (giveaway.creator !== esgst.username && !giveaway.ended && !giveaway.entered && giveaway.url) {
             if (source === `gf` || esgst.giveawayPath) {
                 if (!giveaway.innerWrap.getElementsByClassName(`esgst-gf-unhide-button`)[0] && esgst.giveaways[giveaway.code] && esgst.giveaways[giveaway.code].hidden) {
-                    addGfUnhideButton(giveaway, main);
+                    new Button(giveaway.headingName, `beforeBegin`, {
+                        callbacks: [hideGfGiveaway.bind(null, giveaway, main), null, unhideGfGiveaway.bind(null, giveaway, main), null],
+                        className: `esgst-gf-unhide-button`,
+                        icons: [`fa-eye-slash esgst-clickable`, `fa-circle-o-notch fa-spin`, `fa-eye esgst-clickable`, `fa-circle-o-notch fa-spin`],
+                        index: 2,
+                        titles: [`Hide giveaway`, `Hiding giveaway...`, `Unhide giveaway`, `Unhiding giveaway...`]
+                    });
                 }
             }
             if ((source !== `gc` && (esgst.giveawaysPath || esgst.groupPath)) || esgst.giveawayPath) {
-                if (!giveaway.innerWrap.getElementsByClassName(`esgst-gf-hide-button`)[0] && (!esgst.giveaways[giveaway.code] || !esgst.giveaways[giveaway.code].hidden || !esgst.giveaways[giveaway.code].code)) {
-                    addGfHideButton(giveaway, main);
+                if (!giveaway.innerWrap.getElementsByClassName(`esgst-gf-hide-button`)[0] && (!esgst.giveaways[giveaway.code] || !esgst.giveaways[giveaway.code].hidden || !esgst.giveaways[giveaway.code].code)) {                    
+                    new Button(giveaway.headingName, `beforeBegin`, {
+                        callbacks: [hideGfGiveaway.bind(null, giveaway, main), null, unhideGfGiveaway.bind(null, giveaway, main), null],
+                        className: `esgst-gf-hide-button`,
+                        icons: [`fa-eye-slash esgst-clickable`, `fa-circle-o-notch fa-spin`, `fa-eye esgst-clickable`, `fa-circle-o-notch fa-spin`],
+                        index: 0,
+                        titles: [`Hide giveaway`, `Hiding giveaway...`, `Unhide giveaway`, `Unhiding giveaway...`]
+                    });
                 }
             }
         }
     }
 
-    function addGfHideButton(giveaway, main) {
-        var button;
-        button = insertHtml(giveaway.headingName, `beforeBegin`, `
-            <div class="esgst-gf-hide-button" title="Hide giveaway">
-                <i class="fa fa-eye-slash"></i>
-            </div>
-        `);
-        button.firstElementChild.addEventListener(`click`, function() {
-            button.innerHTML = `<i class="fa fa-circle-o-notch fa-spin"></i>`;
-            hideGfGiveaway(giveaway, function() {
-                button.remove();
-                if ((esgst.giveawayPath && !main) || !esgst.giveawayPath) {
-                    giveaway.outerWrap.remove();
-                }
-            });
-        });
-    }
-
-    async function hideGfGiveaway(giveaway, callback) {
+    async function hideGfGiveaway(giveaway, main) {
         let deleteLock = await createLock(`giveawayLock`, 300);
         let giveaways = JSON.parse(await getValue(`giveaways`, `{}`));
         if (!giveaways[giveaway.code]) {
@@ -16680,30 +16547,13 @@ Parsedown = (() => {
         giveaways[giveaway.code].hidden = Date.now();
         await setValue(`giveaways`, JSON.stringify(giveaways));
         deleteLock();
-        if (callback) {
-            callback();
+        if (!main || !esgst.giveawayPath) {
+            giveaway.outerWrap.remove();
         }
+        return true;
     }
 
-    function addGfUnhideButton(giveaway, main) {
-        var button;
-        button = insertHtml(giveaway.headingName, `beforeBegin`, `
-            <div class="esgst-gf-unhide-button" title="Unhide giveaway">
-                <i class="fa fa-eye"></i>
-            </div>
-        `);
-        button.firstElementChild.addEventListener(`click`, function() {
-            button.innerHTML = `<i class="fa fa-circle-o-notch fa-spin"></i>`;
-            unhideGfGiveaway(giveaway, function() {
-                button.remove();
-                if ((esgst.giveawayPath && !main) || !esgst.giveawayPath) {
-                    giveaway.outerWrap.remove();
-                }
-            });
-        });
-    }
-
-    async function unhideGfGiveaway(giveaway, callback) {
+    async function unhideGfGiveaway(giveaway, main) {
         let deleteLock = await createLock(`giveawayLock`, 300);
         let giveaways = JSON.parse(await getValue(`giveaways`, `{}`));
         if (giveaways[giveaway.code]) {
@@ -16711,9 +16561,10 @@ Parsedown = (() => {
         }
         await setValue(`giveaways`, JSON.stringify(giveaways));
         deleteLock();
-        if (callback) {
-            callback();
+        if (!main || !esgst.giveawayPath) {
+            giveaway.outerWrap.remove();
         }
+        return true;
     }
 
     function setGfOverride(gf, context, key) {
@@ -18298,13 +18149,12 @@ Parsedown = (() => {
                 <span>Retrieving libraries/wishlists (${i + 1} of ${n})...</span>
             `;
             if (!glwc.id || glwc.members.indexOf(glwc.users[i].steamId) >= 0) {
-                let game, element, elements, j;
                 try {
                     glwc.users[i].library = [];
-                    elements = JSON.parse((await request({method: `GET`, url: `http://api.steampowered.com/IPlayerService/GetOwnedGames/v0001/?key=${esgst.steamApiKey}&steamid=${glwc.users[i].steamId}&format=json`})).responseText).response.games;
+                    let elements = JSON.parse((await request({method: `GET`, url: `http://api.steampowered.com/IPlayerService/GetOwnedGames/v0001/?key=${esgst.steamApiKey}&steamid=${glwc.users[i].steamId}&format=json`})).responseText).response.games;
                     if (elements) {
                         elements.forEach(element => {
-                            game = {
+                            let game = {
                                 id: element.appid,
                                 logo: `https://steamcdn-a.akamaihd.net/steam/apps/${element.appid}/header.jpg`,
                                 name: `${element.appid}`
@@ -18320,24 +18170,27 @@ Parsedown = (() => {
                     }
                 } catch (e) {}
                 glwc.users[i].wishlist = [];
-                elements = parseHtml((await request({method: `GET`, url: `http://steamcommunity.com/profiles/${glwc.users[i].steamId}/wishlist/`})).responseText).querySelectorAll(`.gameListRow, .wishlistRow`);
-                for (j = elements.length - 1; j > -1; --j) {
-                    element = elements[j];
-                    game = {
-                        id: element.id.match(/^game_(.+)/)[1],
-                        logo: element.getElementsByClassName(`gameListRowLogo`)[0].firstElementChild.firstElementChild.getAttribute(`src`),
-                        name: element.getElementsByClassName(`ellipsis`)[0].textContent,
-                    };
-                    if (glwc.games[game.id]) {
-                        glwc.games[game.id].logo = game.logo;
-                        glwc.games[game.id].name = game.name;
-                    } else {
-                        game.libraries = [];
-                        game.wishlists = [];
-                        glwc.games[game.id] = game;
+                let responseText = (await request({method: `GET`, url: `http://store.steampowered.com/wishlist/profiles/${glwc.users[i].steamId}`})).responseText;
+                let match = responseText.match(/g_rgAppInfo\s=\s({(.+?)});/);
+                if (match) {
+                    let games = JSON.parse(match[1]);
+                    for (let id in games) {
+                        let game = {
+                            id: id,
+                            logo: games[id].capsule,
+                            name: games[id].name,
+                        };
+                        if (glwc.games[game.id]) {
+                            glwc.games[game.id].logo = game.logo;
+                            glwc.games[game.id].name = game.name;
+                        } else {
+                            game.libraries = [];
+                            game.wishlists = [];
+                            glwc.games[game.id] = game;
+                        }
+                        glwc.games[game.id].wishlists.push(i);
+                        glwc.users[i].wishlist.push(parseInt(game.id));
                     }
-                    glwc.games[game.id].wishlists.push(i);
-                    glwc.users[i].wishlist.push(parseInt(game.id));
                 }
                 glwc.memberCount += 1;
                 setTimeout(getGlwcGames, 0, glwc, ++i, n);
@@ -18458,7 +18311,7 @@ Parsedown = (() => {
             users = [];
             game.wishlists.forEach(k => {
                 user = glwc.users[k];
-                users.push(`<a href="http://steamcommunity.com/profiles/${user.steamId}/wishlist">${user.username}</a>`);
+                users.push(`<a href="http://store.steampowered.com/wishlist/profiles/${user.steamId}">${user.username}</a>`);
             });
             createTooltip(insertHtml(wishlistResults, `beforeEnd`, `
                 <div class="table__row-outer-wrap">
@@ -18571,7 +18424,7 @@ Parsedown = (() => {
                     if (game.wishlists.length) {
                         game.wishlists.forEach(k => {
                             user = glwc.users[k];
-                            users.push(`<a href="http://steamcommunity.com/profiles/${user.steamId}/wishlist">${user.username}</a>`);
+                            users.push(`<a href="http://store.steampowered.com/wishlist/profiles/${user.steamId}">${user.username}</a>`);
                         });
                         wishlistSearch.innerHTML = `
                             <div class="table__row-outer-wrap">
@@ -18909,17 +18762,14 @@ Parsedown = (() => {
         }
         let newGiveaways = {};
         giveaways.forEach(giveaway => {
-            if (giveaway.gm && !giveaway.outerWrap.classList.contains(`esgst-hidden`)) {
-                button = giveaway.outerWrap.getElementsByClassName(`esgst-gb-button`)[0];
-                if (button) {
-                    newGiveaways[giveaway.code] = {
-                        bookmarked: true,
-                        code: giveaway.code,
-                        endTime: giveaway.endTime,
-                        started: giveaway.started
-                    };
-                    addGbUnbookmarkButton(button, giveaway);
-                }
+            if (giveaway.gm && !giveaway.outerWrap.classList.contains(`esgst-hidden`) && giveaway.gbButton && giveaway.gbButton.index === 1) {
+                newGiveaways[giveaway.code] = {
+                    bookmarked: true,
+                    code: giveaway.code,
+                    endTime: giveaway.endTime,
+                    started: giveaway.started
+                };
+                giveaway.gbButton.change(giveaway.gbButton.callbacks[0]);
             }
         });
         await lockAndSaveGiveaways(newGiveaways);
@@ -18932,14 +18782,11 @@ Parsedown = (() => {
         }
         let newGiveaways = {};
         giveaways.forEach(giveaway => {
-            if (giveaway.gm && !giveaway.outerWrap.classList.contains(`esgst-hidden`)) {
-                button = giveaway.outerWrap.getElementsByClassName(`esgst-gb-button`)[0];
-                if (button) {
-                    newGiveaways[giveaway.code] = {
-                        bookmarked: false
-                    };
-                    addGbBookmarkButton(button, giveaway);
-                }
+            if (giveaway.gm && !giveaway.outerWrap.classList.contains(`esgst-hidden`) && giveaway.gbButton && giveaway.gbButton.index === 3) {
+                newGiveaways[giveaway.code] = {
+                    bookmarked: false
+                };
+                giveaway.gbButton.change(giveaway.gbButton.callbacks[2]);
             }
         });
         await lockAndSaveGiveaways(newGiveaways);
@@ -20475,9 +20322,9 @@ Parsedown = (() => {
             loadNm();
         }
         await refreshHeaderElements(document);
-        if (esgst.qiv && esgst.qiv.popout) {
+        if (esgst.qiv) {
             loadQiv();
-            if (esgst.messageCount > 0 && esgst.qiv_p) {
+            if (esgst.qiv.popout && esgst.messageCount > 0 && esgst.qiv_p) {
                 esgst.qiv.nextPage = 1;
                 esgst.qiv.popout.popout.innerHTML = ``;
                 esgst.qiv.markReadButton = null;
@@ -21115,137 +20962,122 @@ Parsedown = (() => {
         setLpvStyle();        
     }
 
-    function setLpvStyle() {
-        var active, apps, base, cv, currentTime, dif, firstBar, game, giveaway, giveaways, i, id, level, n, percentage, progress, projectedFirstBar, projectedSecondBar, secondBar, savedUser, sent, style, subs, value, values;
-        level = esgst.levelContainer.getAttribute(`title`).match(/(\d+)\.(\d+)/);
-        base = parseInt(level[1]);
-        percentage = parseInt(level[2]);
-        dif = 100 - percentage;
-        progress = parseInt(percentage * 1.85);
-        firstBar = `${progress}px`;
-        secondBar = progress >= 156 ? `${progress - 156 - 0.59}px` : `0`;
-        savedUser = esgst.users.users[esgst.steamId];
-        cv = 0;
-        currentTime = Date.now();
-        if (savedUser) {
-            giveaways = savedUser.giveaways;
-            if (giveaways) {
-                apps = giveaways.sent.apps;
-                for (id in apps) {
-                    active = 0;
-                    sent = 0;
-                    for (i = 0, n = apps[id].length; i < n; ++i) {
-                        giveaway = esgst.giveaways[apps[id][i]];
-                        if (giveaway) {
-                            value = giveaway.points;
-                            if (giveaway.entries >= 5 || (!giveaway.inviteOnly && !giveaway.group && !giveaway.whitelist)) {
-                                if (Array.isArray(giveaway.winners)) {
-                                    if (giveaway.winners.length > 0) {
-                                        giveaway.winners.forEach(winner => {
-                                            if (winner.status === `Received`) {
-                                                sent += 1;
-                                            }
-                                        });
-                                    } else if (currentTime < giveaway.endTime) {
-                                        active += giveaway.copies;
-                                    }
-                                } else if (giveaway.winners > 0) {
-                                    sent += Math.min(giveaway.entries, giveaway.winners);
-                                }
-                            } else if (currentTime < giveaway.endTime) {
-                                active += giveaway.copies;
+    async function getLpvCv() {
+        let user = esgst.users.users[esgst.steamId];
+        if (!user) return 0;
+        let giveaways = user.giveaways;
+        if (!giveaways) return 0;
+        let lpv = {
+            cache: JSON.parse(getLocalValue(`lpvCache`, `{"games": {"apps":{},"subs":{}},"giveaways": [],"timestamp": ${Date.now()}}`)),
+            cv: 0
+        };
+        let currentTime = Date.now();
+        if (currentTime - lpv.cache.timestamp > 604800000) {
+            // last wipe was more than 7 days ago, wipe again
+            lpv.cache = {
+                games: {apps: {}, subs: {}},
+                giveaways: [],
+                timestamp: Date.now()
+            };
+        }
+        let promises = [];
+        [`apps`, `subs`].forEach(type => {
+            let items = giveaways.sent[type];
+            for (let id in items) {
+                let open = 0;
+                let sent = 0;
+                let value = 0;
+                items[id].forEach(code => {
+                    let giveaway = esgst.giveaways[code];
+                    if (!giveaway) return;
+                    value = giveaway.points;
+                    if (currentTime < giveaway.endTime || lpv.cache.giveaways.indexOf(code) > -1) {
+                        // giveaway is open or was open recently
+                        open += giveaway.copies;
+                        if (lpv.cache.giveaways.indexOf(code) < 0) {
+                            lpv.giveaways.push(code);
+                        }
+                    } else {
+                        // giveaway is closed
+                        if (giveaway.entries >= 5 || (!giveaway.inviteOnly && !giveaway.group && !giveaway.whitelist)) {
+                            // giveaway counts for cv
+                            if (Array.isArray(giveaway.winners)) {
+                                // user is using the new database, which is more accurate
+                                giveaway.winners.forEach(winner => {
+                                    if (winner.status !== `Received`) return;
+                                    sent += 1;
+                                });
+                            } else if (giveaway.winners > 0) {
+                                // user is using the old database, not very accurate
+                                sent += Math.min(giveaway.entries, giveaway.winners);
                             }
                         }
                     }
-                    if (active > 0) {
-                        game = esgst.games.apps[id];
-                        if (game) {
-                            if (game.noCV) {
-                                value = 0;
-                            } else if (game.reducedCV) {
-                                value *= 0.15;
-                            }
-                        }
-                        if (sent > 5 || sent + active > 5) {
-                            for (i = 0, n = sent - 5; i < n; ++i) {
-                                value *= 0.90;
-                            }
-                            for (i = 0; i < active; ++i) {
-                                value *= 0.90;
-                                cv += value;
-                            }
-                        } else {
-                            cv += (value * active);
-                        }
-                    }
-                }
-                subs = giveaways.sent.subs;
-                for (id in subs) {
-                    active = 0;
-                    sent = 0;
-                    for (i = 0, n = subs[id].length; i < n; ++i) {
-                        giveaway = esgst.giveaways[subs[id][i]];
-                        if (giveaway) {
-                            value = giveaway.points;
-                            if (giveaway.entries >= 5 || (!giveaway.inviteOnly && !giveaway.group && !giveaway.whitelist)) {
-                                if (Array.isArray(giveaway.winners)) {
-                                    if (giveaway.winners.length > 0) {
-                                        giveaway.winners.forEach(winner => {
-                                            if (winner.status === `Received`) {
-                                                sent += 1;
-                                            }
-                                        });
-                                    } else if (currentTime < giveaway.endTime) {
-                                        active += giveaway.copies;
-                                    }
-                                } else if (giveaway.winners > 0) {
-                                    sent += Math.min(giveaway.entries, giveaway.winners);
-                                }
-                            } else if (currentTime < giveaway.endTime) {
-                                active += giveaway.copies;
-                            }
-                        }
-                    }
-                    if (active > 0) {
-                        game = esgst.games.subs[id];
-                        if (game) {
-                            if (game.noCV) {
-                                value = 0;
-                            } else if (game.reducedCV) {
-                                value *= 0.15;
-                            }
-                        }
-                        if (sent > 5 || sent + active > 5) {
-                            for (i = 0, n = sent - 5; i < n; ++i) {
-                                value *= 0.90;
-                            }
-                            for (i = 0; i < active; ++i) {
-                                value *= 0.90;
-                                cv += value;
-                            }
-                        } else {
-                            cv += (value * active);
-                        }
-                    }
-                }
+                });
+                promises.push(getLpvValue(lpv, id, open, sent, type, value));
+            }
+        });
+        await Promise.all(promises);
+        setLocalValue(`lpvCache`, JSON.stringify(lpv.cache));
+        return lpv.cv;
+    }
+
+    async function getLpvValue(lpv, id, open, sent, type, value) {
+        if (open <= 0) return;
+        if (!lpv.cache.games[type][id]) {
+            try {
+                let responseJson = JSON.parse((await request({method: `GET`, url: `http://store.steampowered.com/api/${type === `apps` ? `appdetails?appids` : `packagedetails?packageids`}=${id}&cc=us&filters=price,price_overview`})).responseText)[id].data;
+                value = Math.ceil((responseJson.price_overview || responseJson.price).initial / 100);
+            } catch (e) {}
+            lpv.cache.games[type][id] = value;
+        }
+        value = lpv.cache.games[type][id] || value;
+        let game = esgst.games.apps[id];
+        if (game) {
+            if (game.noCV) {
+                // game gives no cv
+                value = 0;
+            } else if (game.reducedCV) {
+                // game gives reduced cv (15% of the value)
+                value *= 0.15;
             }
         }
+        if (sent > 5 || sent + open > 5) {
+            // after 5 copies each next copy is worth only 90% of the previous value
+            for (let i = sent - 5; i > 0; i--) {
+                value *= 0.90;
+            }
+            for (let i = open; i > 0; i--) {
+                value *= 0.90;
+                lpv.cv += value;
+            }
+        } else {
+            lpv.cv += (value * open);
+        }
+    }
+
+    async function setLpvStyle() {
+        let parts = esgst.levelContainer.getAttribute(`title`).match(/(\d+)\.(\d+)/);
+        let base = parseInt(parts[1]);
+        let percentage = parseInt(parts[2]);
+        let dif = 100 - percentage;
+        let progress = parseInt(percentage * 1.85);
+        let firstBar = `${progress}px`;
+        let secondBar = progress >= 156 ? `${progress - 156 - 0.59}px` : `0`;
+        let cv = await getLpvCv();
+        let projectedFirstBar = `0`;
+        let projectedSecondBar = `0`;
         if (cv > 0) {
-            cv = Math.round(cv * 100) / 100;
-            values = [0, 0.01, 25.01, 50.01, 100.01, 250.01, 500.01, 1000.01, 2000.01, 3000.01, 5000.01];
-            percentage = parseInt(Math.round((percentage + (cv / values[parseInt(base)] * 100)) * 100) / 100);
+            percentage = parseInt(Math.round((percentage + ((Math.round(cv * 100) / 100) / [0, 0.01, 25.01, 50.01, 100.01, 250.01, 500.01, 1000.01, 2000.01, 3000.01, 5000.01][parseInt(base)] * 100)) * 100) / 100);
             progress = percentage > dif ? 100 : parseInt(percentage * 1.85);
             projectedFirstBar = `${progress}px`;
             projectedSecondBar = progress >= 156 ? `${progress - 156 - 0.59}px` : `0`;
             esgst.levelContainer.title = `${esgst.levelContainer.getAttribute(`title`)} (${base + parseInt(percentage / 100)}.${`0${percentage}`.slice(-2)})`;
-        } else {
-            projectedFirstBar = `0`;
-            projectedSecondBar = `0`;
         }
-        if (!style) {
-            document.head.insertAdjacentHTML(`beforeEnd`, `<style id="esgst-lpv-style"></style>`);
+        if (!esgst.lpvStyle) {
+            esgst.lpvStyle = insertHtml(document.head, `beforeEnd`, `<style id="esgst-lpv-style"></style>`);
         }
-        document.getElementById(`esgst-lpv-style`).innerHTML = `
+        esgst.lpvStyle.innerHTML = `
             .esgst-lpv-container {
                 background-image: linear-gradient(to right, var(--esgst-lpv-bar, #609f60) ${firstBar}, var(--esgst-lpv-bar-projected, rgba(96, 159, 96, 0.5)) ${firstBar}, var(--esgst-lpv-bar-projected, rgba(96, 159, 96, 0.5)) ${projectedFirstBar}, transparent ${firstBar}), var(--esgst-lpv-button, linear-gradient(#8a92a1 0px, #757e8f 8px, #4e5666 100%)) !important;
             }
@@ -22126,32 +21958,30 @@ Parsedown = (() => {
         if (i >= n || n - 1 === 0) {
             callback();
         } else {
-            createMgcWagon(i, mgc, n, callback, request({method: `GET`, url: mgc.created[i].url}));
+            let responseHtml = parseHtml((await request({method: `GET`, url: mgc.created[i].url})).responseText);
+            let id = responseHtml.querySelector(`[name="giveaway_id"]`).value;
+            let description = responseHtml.querySelector(`[name="description"]`).value;
+            let replaceCallback = null;
+            if (i === 0) {
+                mgc.firstWagon = mgc.created[i].url;
+                replaceCallback = getMgcNext;
+            } else if (i === n - 1) {
+                replaceCallback = getMgcPrevious;
+            } else {
+                replaceCallback = getMgcBoth;
+            }
+            description = description.replace(/\[ESGST-P\](.+?)\[\/ESGST-P\](.+?)\[ESGST-N\](.+?)\[\/ESGST-N\]/g, replaceCallback.bind(null, i, mgc, false));
+            description = description.replace(/\[ESGST-P\](.+?)\[\/ESGST-P\]|\[ESGST-N\](.+?)\[\/ESGST-N\]/g, replaceCallback.bind(null, i, mgc, true));
+            description = description.replace(/\[ESGST-C\](.+?)\[\/ESGST-C\]/g, getMgcCounter.bind(null, i, n));
+            if (mgc.discussion && (!esgst.mgc_bumpLast || i === n - 1)) {
+                description = description.replace(/\[ESGST-B\](.+?)\[\/ESGST-B\]/g, `[$1](/discussion/${mgc.discussion}/)`);
+            } else {
+                description = description.replace(/\[ESGST-B\](.+?)\[\/ESGST-B\]/g, ``);
+            }
+            await request({data: `xsrf_token=${esgst.xsrfToken}&do=edit_giveaway_description&giveaway_id=${id}&description=${encodeURIComponent(description.trim())}`, method: `POST`, url: `/ajax.php`});
+            mgc.created[i].giveaway.classList.add(`connected`);
+            setTimeout(createMgcTrain, 0, i + 1, mgc, n, callback);
         }
-    }
-
-    async function createMgcWagon(i, mgc, n, callback, response) {
-        var description, id, replaceCallback, responseHtml;
-        responseHtml = parseHtml(response.responseText);
-        id = responseHtml.querySelector(`[name="giveaway_id"]`).value;
-        description = responseHtml.querySelector(`[name="description"]`).value;
-        if (i === 0) {
-            mgc.firstWagon = mgc.created[i].url;
-            replaceCallback = getMgcNext;
-        } else if (i === n - 1) {
-            replaceCallback = getMgcPrevious;
-        } else {
-            replaceCallback = getMgcBoth;
-        }
-        description = description.replace(/\[ESGST-P\](.+?)\[\/ESGST-P\](.+?)\[ESGST-N\](.+?)\[\/ESGST-N\]/g, replaceCallback.bind(null, i, mgc, false));
-        description = description.replace(/\[ESGST-P\](.+?)\[\/ESGST-P\]|\[ESGST-N\](.+?)\[\/ESGST-N\]/g, replaceCallback.bind(null, i, mgc, true));
-        description = description.replace(/\[ESGST-C\](.+?)\[\/ESGST-C\]/g, getMgcCounter.bind(null, i, n));
-        if (mgc.discussion && (!esgst.mgc_bumpLast || i === n - 1)) {
-            description = description.replace(/\[ESGST-B\](.+?)\[\/ESGST-B\]/g, `[$1](/discussion/${mgc.discussion}/)`);
-        } else {
-            description = description.replace(/\[ESGST-B\](.+?)\[\/ESGST-B\]/g, ``);
-        }
-        connectMgcWagon(i, mgc, n, callback, request({data: `xsrf_token=${esgst.xsrfToken}&do=edit_giveaway_description&giveaway_id=${id}&description=${encodeURIComponent(description.trim())}`, method: `POST`, url: `/ajax.php`}));
     }
 
     function getMgcNext(i, mgc, single, fullMatch, match1, match2, match3) {
@@ -22235,11 +22065,6 @@ Parsedown = (() => {
 
     function getMgcCounter(i, n, fullMatch, match1) {
         return `${i + 1}${match1}${n}`;
-    }
-
-    function connectMgcWagon(i, mgc, n, callback) {
-        mgc.created[i].giveaway.classList.add(`connected`);
-        setTimeout(createMgcTrain, 0, ++i, mgc, n, callback);
     }
 
     function completeMgcCreation(mgc, viewButton, callback) {
@@ -23479,43 +23304,45 @@ Parsedown = (() => {
                 }
                 setTimeout(setNAMWCResult, 0, NAMWC, user, user.values.namwc, newR, I, N, Callback);
             } else {
-                NAMWC.Progress.textContent = `Checking suspensions...`;
-                let i, n, namwc, savedUser, savedUsers, steamId, suspensions, user, users;
-                users = [];
-                savedUsers = JSON.parse(await getValue(`users`));
-                suspensions = JSON.parse((await request({method: `GET`, url: `https://script.google.com/macros/s/AKfycbwdKNormCJs-hEKV0GVwawgWj1a26oVtPylgmxOOvNk1Gf17A/exec?steamIds=${NAMWC.steamIds.join(`,`)}`})).responseText).suspensions;
-                for (steamId in suspensions) {
-                    suspension = suspensions[steamId];
-                    user = {
-                        steamId: steamId
-                    };
-                    savedUser = await getUser(savedUsers, user);
-                    user.id = savedUser.id;
-                    user.username = savedUser.username;
-                    namwc = savedUser.namwc;
-                    namwc.suspension = suspension;
-                    user.values = {
-                        namwc: namwc
-                    };
-                    users.push(user);
-                    if (Array.isArray(namwc.results.notActivated)) {
-                        for (i = 0, n = namwc.results.notActivated.length; i < n && namwc.results.notActivated[i] <= suspension; ++i);
-                        if (i > 0) {
-                            NAMWC.users[steamId].notActivated.insertAdjacentHTML(`beforeEnd`, ` <span title="This user already served suspension for ${i} of their not activated wins (until ${getTimestamp(suspension / 1e3, true, true)})">[-${i}]</span>`);
-                        } else if (NAMWC.users[steamId].activated) {
-                            NAMWC.users[steamId].activated.insertAdjacentHTML(`beforeEnd`, ` <span title="This user already served suspension for not activated wins until ${getTimestamp(suspension / 1e3, true, true)}">[x]</span>`);
+                if (esgst.ust) {
+                    NAMWC.Progress.textContent = `Checking suspensions...`;
+                    let i, n, namwc, savedUser, savedUsers, steamId, suspensions, user, users;
+                    users = [];
+                    savedUsers = JSON.parse(await getValue(`users`));
+                    suspensions = JSON.parse((await request({method: `GET`, url: `https://script.google.com/macros/s/AKfycbwdKNormCJs-hEKV0GVwawgWj1a26oVtPylgmxOOvNk1Gf17A/exec?steamIds=${NAMWC.steamIds.join(`,`)}`})).responseText).suspensions;
+                    for (steamId in suspensions) {
+                        suspension = suspensions[steamId];
+                        user = {
+                            steamId: steamId
+                        };
+                        savedUser = await getUser(savedUsers, user);
+                        user.id = savedUser.id;
+                        user.username = savedUser.username;
+                        namwc = savedUser.namwc;
+                        namwc.suspension = suspension;
+                        user.values = {
+                            namwc: namwc
+                        };
+                        users.push(user);
+                        if (Array.isArray(namwc.results.notActivated)) {
+                            for (i = 0, n = namwc.results.notActivated.length; i < n && namwc.results.notActivated[i] <= suspension; ++i);
+                            if (i > 0) {
+                                NAMWC.users[steamId].notActivated.insertAdjacentHTML(`beforeEnd`, ` <span title="This user already served suspension for ${i} of their not activated wins (until ${getTimestamp(suspension / 1e3, true, true)})">[-${i}]</span>`);
+                            } else if (NAMWC.users[steamId].activated) {
+                                NAMWC.users[steamId].activated.insertAdjacentHTML(`beforeEnd`, ` <span title="This user already served suspension for not activated wins until ${getTimestamp(suspension / 1e3, true, true)}">[x]</span>`);
+                            }
+                        }
+                        if (Array.isArray(namwc.results.multiple)) {
+                            for (i = 0, n = namwc.results.multiple.length; i < n && namwc.results.multiple[i] <= suspension; ++i);
+                            if (i > 0) {
+                                NAMWC.users[steamId].multiple.insertAdjacentHTML(`beforeEnd`, ` <span title="This user already served suspension for ${i} of their multiple wins (until ${getTimestamp(suspension / 1e3, true, true)})">[-${i}]</span>`);
+                            } else if (NAMWC.users[steamId].notMultiple) {
+                                NAMWC.users[steamId].notMultiple.insertAdjacentHTML(`beforeEnd`, ` <span title="This user already served suspension for multiple wins until ${getTimestamp(suspension / 1e3, true, true)}">[x]</span>`);
+                            }
                         }
                     }
-                    if (Array.isArray(namwc.results.multiple)) {
-                        for (i = 0, n = namwc.results.multiple.length; i < n && namwc.results.multiple[i] <= suspension; ++i);
-                        if (i > 0) {
-                            NAMWC.users[steamId].multiple.insertAdjacentHTML(`beforeEnd`, ` <span title="This user already served suspension for ${i} of their multiple wins (until ${getTimestamp(suspension / 1e3, true, true)})">[-${i}]</span>`);
-                        } else if (NAMWC.users[steamId].notMultiple) {
-                            NAMWC.users[steamId].notMultiple.insertAdjacentHTML(`beforeEnd`, ` <span title="This user already served suspension for multiple wins until ${getTimestamp(suspension / 1e3, true, true)}">[x]</span>`);
-                        }
-                    }
+                    await saveUsers(users);
                 }
-                await saveUsers(users);
                 if (Callback) {
                     Callback();
                 }
@@ -23588,7 +23415,7 @@ Parsedown = (() => {
             `;
         }
         user.values.namwc.results.multiple = [];
-        let elements = parseHtml((await  request({method: `GET`, queue: true, url: `http://www.sgtools.info/multiple/${user.username}`})).responseText).getElementsByClassName(`multiplewins`);
+        let elements = parseHtml((await request({method: `GET`, queue: true, url: `http://www.sgtools.info/multiple/${user.username}`})).responseText).getElementsByClassName(`multiplewins`);
         let n = elements.length;
         for (let i = 0; i < n; ++i) {
             user.values.namwc.results.multiple.push(new Date(elements[i].textContent.match(/and\s(\d{4}-\d{2}-\d{2}\s\d{2}:\d{2}:\d{2})\)/)[1]).getTime());
@@ -24032,90 +23859,67 @@ Parsedown = (() => {
     /* [OCHGB] One-Click Hide Giveaway Button */
 
     function setOchgbButton(giveaway, main) {
-        var button, i, n, unhide;
-        button = giveaway.innerWrap.querySelector(`.giveaway__hide, .featured__giveaway__hide`);
-        if (button) {
-            if (button.classList.contains(`fa-eye`)) {
-                unhide = true;
-            } else {
-                unhide = false;
-            }
-            if (esgst.giveawayPath && main) {
-                button = button.parentElement;
-            }
-            giveaway.ochgbButton = insertHtml(button, `afterEnd`, `<a></a>`);
-            button.remove();
-            giveaway.fade = fadeOchgbGiveaway.bind(null, giveaway, main);
-            giveaway.unfade = unfadeOchgbGiveaway.bind(null, giveaway, main);
-            if (unhide) {
-                addOchgbUnhideButton(giveaway, main);
-            } else {
-                addOchgbHideButton(giveaway, main);
-            }
+        let button = giveaway.innerWrap.querySelector(`.giveaway__hide, .featured__giveaway__hide`);
+        if (!button) return;
+        let unhide = button.classList.contains(`fa-eye`);
+        if (esgst.giveawayPath && main) {
+            button = button.parentElement;
         }
-    }
-
-    function addOchgbHideButton(giveaway, main) {
-        var button, i, matches, n, newButton;
-        giveaway.ochgbButton.innerHTML = `
-            <i class="esgst-ochgb ${esgst.giveawayPath && main ? `` : `giveaway__icon`} fa fa-eye-slash" title="Hide all giveaways for this game"></i>
-        `;
-        giveaway.ochgbButton.firstElementChild.addEventListener(`click`, hideOchgbGiveaway.bind(null, giveaway, main));
-    }
-
-    function addOchgbUnhideButton(giveaway, main) {
-        var button, i, matches, n, newButton;
-        giveaway.ochgbButton.innerHTML = `
-            <i class="esgst-ochgb ${esgst.giveawayPath && main ? `` : `giveaway__icon`} fa fa-eye" title="Unhide all giveaways for this game"></i>
-        `;
-        giveaway.ochgbButton.firstElementChild.addEventListener(`click`, unhideOchgbGiveaway.bind(null, giveaway, main));
+        giveaway.fade = fadeOchgbGiveaway.bind(null, giveaway, main);
+        giveaway.unfade = unfadeOchgbGiveaway.bind(null, giveaway, main);
+        giveaway.ochgbButton = new Button(button, `afterEnd`, {
+            callbacks: [hideOchgbGiveaway.bind(null, giveaway, main), null, unhideOchgbGiveaway.bind(null, giveaway, main), null],
+            className: `esgst-ochgb ${esgst.giveawayPath && main ? `` : `giveaway__icon`}`,
+            icons: [`fa-eye-slash esgst-clickable`, `fa-circle-o-notch fa-spin`, `fa-eye esgst-clickable`, `fa-circle-o-notch fa-spin`],
+            index: unhide ? 2 : 0,
+            titles: [`Hide all giveaways for this game`, `Hiding giveaways...`, `Unhide all giveaways for this game`, `Unhiding giveaways...`]
+        });
+        button.remove();
     }
 
     function fadeOchgbGiveaway(giveaway, main) {
         if ((esgst.giveawayPath && !main) || !esgst.giveawayPath) {
             giveaway.innerWrap.classList.add(`esgst-faded`);
         }
-        addOchgbUnhideButton(giveaway, main);
     }
 
     function unfadeOchgbGiveaway(giveaway, main) {
         if ((esgst.giveawayPath && !main) || !esgst.giveawayPath) {
             giveaway.innerWrap.classList.remove(`esgst-faded`);
         }
-        addOchgbHideButton(giveaway, main);
     }
 
-    async function hideOchgbGiveaway(giveaway, main, event) {
-        event.currentTarget.className = `giveaway__icon fa fa-circle-o-notch fa-spin`;
+    async function hideOchgbGiveaway(giveaway, main) {
         await request({data: `xsrf_token=${esgst.xsrfToken}&do=hide_giveaways_by_game_id&game_id=${giveaway.gameId}`, method: `POST`, url: `/ajax.php`});
-        completeOchgbProcess(event.currentTarget, giveaway, `fade`, main);
+        completeOchgbProcess(giveaway, `fade`, main);
+        return true;
     }
 
-    async function unhideOchgbGiveaway(giveaway, main, event) {
-        event.currentTarget.className = `giveaway__icon fa fa-circle-o-notch fa-spin`;
+    async function unhideOchgbGiveaway(giveaway, main) {
         await request({data: `xsrf_token=${esgst.xsrfToken}&do=remove_filter&game_id=${giveaway.gameId}`, method: `POST`, url: `/ajax.php`});
-        completeOchgbProcess(event.currentTarget, giveaway, `unfade`, main);
+        completeOchgbProcess(giveaway, `unfade`, main);
+        return true;
     }
 
-    function completeOchgbProcess(button, giveaway, key, main) {
-        var i, n, source;
-        if ((esgst.giveawayPath && !main) || !esgst.giveawayPath) {
-            source = main ? `currentGiveaways` : `popupGiveaways`;
-            if (esgst.ochgb_f) {
-                for (i = 0, n = esgst[source].length; i < n; ++i) {
-                    if (esgst[source][i].gameId === giveaway.gameId) {
-                        esgst[source][i][key]();
-                    }
-                }
-            } else {
-                for (i = 0, n = esgst[source].length; i < n; ++i) {
-                    if (esgst[source][i].gameId === giveaway.gameId) {
-                        esgst[source][i].outerWrap.remove();
+    function completeOchgbProcess(giveaway, key, main) {
+        if (main && esgst.giveawayPath) return;
+        let source = main ? `currentGiveaways` : `popupGiveaways`;
+        if (esgst.ochgb_f) {
+            for (let i = 0, n = esgst[source].length; i < n; i++) {
+                if (esgst[source][i].gameId === giveaway.gameId) {
+                    esgst[source][i][key]();
+                    if (esgst[source][i] !== giveaway && esgst[source][i].ochgbButton) {
+                        esgst[source][i].ochgbButton.index = key === `fade` ? 2 : 0;
+                        esgst[source][i].ochgbButton.change();
                     }
                 }
             }
         } else {
-            button.remove();
+            for (let i = 0, n = esgst[source].length; i < n; i++) {
+                if (esgst[source][i].gameId === giveaway.gameId) {
+                    esgst[source][i].outerWrap.remove();
+                }
+            }
         }
     }
 
@@ -24148,59 +23952,23 @@ Parsedown = (() => {
 
     /* [PM] Puzzle Marker */
 
-    function addPmButton(discussion, main) {
-        let context = main && esgst.discussionPath ? discussion.headingContainer : discussion.outerWrap;
-        if (!context.getElementsByClassName(`esgst-pm-button`)[0]) {
-            let savedDiscussion = esgst.discussions[discussion.code];
-            let code = discussion.code;
-            let status = (savedDiscussion && savedDiscussion.status) || `off`;
-            context.classList.add(`esgst-relative`);
-            let button, colors, icons, nextStatuses;
-            colors = {
-                'off': `grey`,
-                'unsolved': `red`,
-                'in progress': `orange`,
-                'solved': `green`
+    async function changePmStatus(code, status) {
+        let deleteLock = await createLock(`commentLock`, 300);
+        let discussions = JSON.parse(await getValue(`discussions`));
+        if (!discussions[code]) {
+            discussions[code] = {
+                readComments: {}
             };
-            icons = {
-                'off': `circle-o`,
-                'unsolved': `times-circle`,
-                'in progress': `exclamation-circle`,
-                'solved': `check-circle`
-            };
-            nextStatuses = {
-                'off': `unsolved`,
-                'unsolved': `in progress`,
-                'in progress': `solved`,
-                'solved': `off`
-            };
-            button = insertHtml(context, `afterBegin`, `
-                <div class="esgst-pm-button esgst-${colors[status]}" title="Current status is '${status}'. Click to change to '${nextStatuses[status]}'.">
-                    <i class="fa fa-${icons[status]}"></i>
-                </div>
-            `);
-            button.addEventListener(`click`, async () => {
-                let deleteLock = await createLock(`commentLock`, 300);
-                let discussions = JSON.parse(await getValue(`discussions`));
-                if (!discussions[code]) {
-                    discussions[code] = {
-                        readComments: {}
-                    };
-                }
-                status = nextStatuses[status];
-                if (status === `off`) {
-                    delete discussions[code].status;
-                } else {
-                    discussions[code].status = status;
-                }
-                discussions[code].lastUsed = Date.now();
-                await setValue(`discussions`, JSON.stringify(discussions));
-                deleteLock();
-                button.className = `esgst-pm-button esgst-${colors[status]}`;
-                button.title = `Current status is '${status}'. Click to change to '${nextStatuses[status]}'.`;
-                button.firstElementChild.className = `fa fa-${icons[status]}`;
-            });
         }
+        if (status === `off`) {
+            delete discussions[code].status;
+        } else {
+            discussions[code].status = status;
+        }
+        discussions[code].lastUsed = Date.now();
+        await setValue(`discussions`, JSON.stringify(discussions));
+        deleteLock();
+        return true;
     }
 
     /* [PNOT] Pagination Navigation On Top */
@@ -24846,72 +24614,46 @@ Parsedown = (() => {
                     separator = separator.nextElementSibling;
                 }
                 container.insertBefore(context, separator);
-                addSgacUnstickyButton(container, context, id, separator);
-            } else {
-                addSgacStickyButton(container, context, id, separator);
             }
+            new Button(context, `afterBegin`, {
+                callbacks: [stickySgacCountry.bind(null, container, context, id, separator), null, unstickySgacCountry.bind(null, container, context, id, separator), null],
+                className: `esgst-sgac-button`,
+                icons: [`fa-thumb-tack esgst-clickable esgst-faded`, `fa-circle-o-notch fa-spin`, `fa-thumb-tack esgst-clickable`, `fa-circle-o-notch fa-spin`],
+                index: stickiedCountries.indexOf(id) >= 0 ? 2 : 0,
+                titles: [`Sticky country`, `Stickying...`, `Unsticky country`, `Unstickying...`]
+            });
         }
     }
 
-    function addSgacStickyButton(container, context, id, separator, button) {
-        if (button) {
-            button.remove();
+    async function stickySgacCountry(container, context, id, separator, event) {
+        event.stopPropagation();
+        if (container) {
+            if (context === separator) {
+                separator = separator.nextElementSibling;
+            }
+            container.insertBefore(context, separator);
         }
-        button = insertHtml(context, `afterBegin`, `
-            <div class="esgst-sgg-sticky-button">
-                <a title="Sticky country">
-                    <i class="fa fa-thumb-tack"></i>
-                </a>
-            </div>
-        `);
-        button.firstElementChild.addEventListener(`click`, async (event) => {
-            event.stopPropagation();
-            button.innerHTML = `
-                <i class="fa fa-circle-o-notch fa-spin"></i>
-            `;
-            if (container) {
-                if (context === separator) {
-                    separator = separator.nextElementSibling;
-                }
-                container.insertBefore(context, separator);
-            }
-            let stickiedCountries = JSON.parse(await getValue(`stickiedCountries`, `[]`));
-            if (stickiedCountries.indexOf(id) < 0) {
-                stickiedCountries.push(id);
-                setValue(`stickiedCountries`, JSON.stringify(stickiedCountries));
-            }
-            addSgacUnstickyButton(container, context, id, separator, button);
-        });
+        let stickiedCountries = JSON.parse(await getValue(`stickiedCountries`, `[]`));
+        if (stickiedCountries.indexOf(id) < 0) {
+            stickiedCountries.push(id);
+            await setValue(`stickiedCountries`, JSON.stringify(stickiedCountries));
+        }
+        return true;
     }
 
-    function addSgacUnstickyButton(container, context, id, separator, button) {
-        if (button) {
-            button.remove();
+    async function unstickySgacCountry(container, context, id, separator, event) {
+        event.stopPropagation();
+        if (container) {
+            container.insertBefore(context, separator);
+            separator = separator.previousElementSibling;
         }
-        button = insertHtml(context, `afterBegin`, `
-            <div class="esgst-sgg-unsticky-button">
-                <a title="Unsticky country">
-                    <i class="fa fa-thumb-tack"></i>
-                </a>
-            </div>
-        `);
-        button.firstElementChild.addEventListener(`click`, async (event) => {
-            event.stopPropagation();
-            button.innerHTML = `
-                <i class="fa fa-circle-o-notch fa-spin"></i>
-            `;
-            if (container) {
-                container.insertBefore(context, separator);
-                separator = separator.previousElementSibling;
-            }
-            let stickiedCountries = JSON.parse(await getValue(`stickiedCountries`, `[]`));
-            const index = stickiedCountries.indexOf(id);
-            if (index >= 0) {
-                stickiedCountries.splice(index, 1);
-                setValue(`stickiedCountries`, JSON.stringify(stickiedCountries));
-            }
-            addSgacStickyButton(container, context, id, separator, button);
-        });
+        let stickiedCountries = JSON.parse(await getValue(`stickiedCountries`, `[]`));
+        let index = stickiedCountries.indexOf(id);
+        if (index >= 0) {
+            stickiedCountries.splice(index, 1);
+            await setValue(`stickiedCountries`, JSON.stringify(stickiedCountries));
+        }
+        return true;
     }
 
     /* [SGC] Shared Groups Checker */
@@ -25069,10 +24811,14 @@ Parsedown = (() => {
                         separator = separator.nextElementSibling;
                     }
                     container.insertBefore(context, separator);
-                    addSggUnstickyButton(code, container, context, id, separator);
-                } else {
-                    addSggStickyButton(code, container, context, id, separator);
                 }
+                new Button(context, `afterBegin`, {
+                    callbacks: [stickySggGroup.bind(null, code, container, context, id, separator), null, unstickySggGroup.bind(null, code, container, context, id, separator), null],
+                    className: `esgst-sgg-button`,
+                    icons: [`fa-thumb-tack esgst-clickable esgst-faded`, `fa-circle-o-notch fa-spin`, `fa-thumb-tack esgst-clickable`, `fa-circle-o-notch fa-spin`],
+                    index: stickied ? 2 : 0,
+                    titles: [`Sticky group`, `Stickying...`, `Unsticky group`, `Unstickying...`]
+                });
             }
         }
     }
@@ -25098,55 +24844,25 @@ Parsedown = (() => {
             if (!code) {
                 continue;
             }
-            if (stickied) {
-                addSggUnstickyButton(code, null, element);
-            } else {
-                addSggStickyButton(code, null, element);
-            }
+            new Button(element, `afterBegin`, {
+                callbacks: [stickySggGroup.bind(null, code, null, element, null, null), null, unstickySggGroup.bind(null, code, null, element, null, null), null],
+                className: `esgst-sgg-button`,
+                icons: [`fa-thumb-tack esgst-clickable esgst-faded`, `fa-circle-o-notch fa-spin`, `fa-thumb-tack esgst-clickable`, `fa-circle-o-notch fa-spin`],
+                index: stickied ? 2 : 0,
+                titles: [`Sticky group`, `Stickying...`, `Unsticky group`, `Unstickying...`]
+            });
         }
     }
 
-    function addSggStickyButton(code, container, context, id, separator, button) {
-        if (button) {
-            button.remove();
-        }
-        button = insertHtml(context, `afterBegin`, `
-            <div class="esgst-sgg-sticky-button">
-                <a title="Sticky group">
-                    <i class="fa fa-thumb-tack"></i>
-                </a>
-            </div>
-        `);
-        button.firstElementChild.addEventListener(`click`, stickySggGroup.bind(null, code, container, context, id, separator, button));
-    }
-
-    function addSggUnstickyButton(code, container, context, id, separator, button) {
-        if (button) {
-            button.remove();
-        }
-        button = insertHtml(context, `afterBegin`, `
-            <div class="esgst-sgg-unsticky-button">
-                <a title="Unsticky group">
-                    <i class="fa fa-thumb-tack"></i>
-                </a>
-            </div>
-        `);
-        button.firstElementChild.addEventListener(`click`, unstickySggGroup.bind(null, code, container, context, id, separator, button));
-    }
-
-    async function stickySggGroup(code, container, context, id, separator, button, event) {
-        var groups;
+    async function stickySggGroup(code, container, context, id, separator, event) {
         event.stopPropagation();
-        button.innerHTML = `
-            <i class="fa fa-circle-o-notch fa-spin"></i>
-        `;
         if (container) {
             if (context === separator) {
                 separator = separator.nextElementSibling;
             }
             container.insertBefore(context, separator);
         }
-        groups = {};
+        let groups = {};
         groups[code] = {
             stickied: true
         };
@@ -25154,20 +24870,16 @@ Parsedown = (() => {
             groups[code].id = id;
         }
         await lockAndSaveGroups(groups);
-        addSggUnstickyButton(code, container, context, id, separator, button);
+        return true;
     }
 
-    async function unstickySggGroup(code, container, context, id, separator, button, event) {
-        var groups;
+    async function unstickySggGroup(code, container, context, id, separator, event) {
         event.stopPropagation();
-        button.innerHTML = `
-            <i class="fa fa-circle-o-notch fa-spin"></i>
-        `;
         if (container) {
             container.insertBefore(context, separator);
             separator = separator.previousElementSibling;
         }
-        groups = {};
+        let groups = {};
         groups[code] = {
             stickied: false
         };
@@ -25175,7 +24887,7 @@ Parsedown = (() => {
             groups[code].id = id;
         }
         await lockAndSaveGroups(groups);
-        addSggStickyButton(code, container, context, id, separator, button);
+        return true;
     }
 
     /* [SGPB] SteamGifts Profile Button */
@@ -25269,7 +24981,7 @@ Parsedown = (() => {
                 if (!event.target.tagName.match(/^(INPUT|TEXTAREA)$/) && esgst.giveawayPath) {
                     let button = (document.getElementsByClassName(`popup--hide-games`)[0].style.display && document.getElementsByClassName(`popup--hide-games`)[0].style.display !== `none` && document.getElementsByClassName(`js__submit-hide-games`)[0]) || document.querySelector(`.esgst-ochgb, .giveaway__hide, .featured__giveaway__hide`);
                     if (button) {
-                        button.click();
+                        (button.classList.contains(`esgst-ochgb`) ? button.firstElementChild : button).click();
                         event.preventDefault();
                     }
                 }
@@ -27100,12 +26812,16 @@ Parsedown = (() => {
                         <i class="fa fa-circle-o-notch fa-spin"></i>
                         <span>Retrieving groups (page ${nextPage}${ugs.lastGroupsPage})...</span>
                     `;
-                    let elements = context.getElementsByClassName(`table__column__heading`);
-                    for (let i = 0, n = elements.length; i < n; ++i) {
-                        let match = elements[i].getAttribute(`href`).match(/\/group\/(.+?)\/(.+)/);
+                    let elements = context.getElementsByClassName(`table__row-outer-wrap`);
+                    for (let i = 0, n = elements.length; i < n; i++) {
+                        let element = elements[i];
+                        let heading = element.getElementsByClassName(`table__column__heading`)[0];
+                        let match = heading.getAttribute(`href`).match(/\/group\/(.+?)\/(.+)/);
                         ugs.giveaways[giveaway.code].groups.push({
+                            avatar: element.getElementsByClassName(`table_image_avatar`)[0].style.backgroundImage.match(/\/avatars\/(.+)_medium/)[1],
                             code: match[1],
-                            name: match[2]
+                            name: heading.textContent,
+                            urlName: match[2]
                         });
                     }
                     pagination = context.getElementsByClassName(`pagination__navigation`)[0];
@@ -27177,14 +26893,26 @@ Parsedown = (() => {
                             await getSteamId(null, false, esgst.users, winner);
                             let member = false;
                             for (let k = 0, numGroups = giveaway.groups.length; k < numGroups; k++) {
-                                let code = giveaway.groups[k].code;
+                                let group = giveaway.groups[k];
+                                let code = group.code;
                                 if (!ugs.groups[code]) {
                                     // retrieve group members and store them in case another giveaway has the same group
                                     let l;
                                     for (l = esgst.groups.length - 1; l > -1 && esgst.groups[l].code !== code; l--);
+                                    if (l < 0) {
+                                        esgst.groups.push({
+                                            avatar: group.avatar,
+                                            code: code,
+                                            name: group.name
+                                        });
+                                        l = esgst.groups.length - 1;
+                                    }
+                                    if (!esgst.groups[l].steamId) {
+                                        esgst.groups[l].steamId = parseHtml((await request({method: `GET`, url: `/group/${code}/`})).responseText).getElementsByClassName(`sidebar__shortcut-inner-wrap`)[0].firstElementChild.getAttribute(`href`).match(/\d+/)[0];
+                                    }
                                     ugs.groups[code] = (await request({method: `GET`, url: `http://steamcommunity.com/gid/${esgst.groups[l].steamId}/memberslistxml?xml=1`})).responseText.match(/<steamID64>.+?<\/steamID64>/g);
                                     for (l = ugs.groups[code].length - 1; l > -1; l--) {
-                                        ugs.groups[code][l] = ugs.groups[code][l].match(/<steamID64>(.+?)<\steamID64>/)[1];
+                                        ugs.groups[code][l] = ugs.groups[code][l].match(/<steamID64>(.+?)<\/steamID64>/)[1];
                                     }
                                 }
 
@@ -27204,8 +26932,7 @@ Parsedown = (() => {
                                     <i class="fa fa-circle-o-notch fa-spin"></i>
                                     <span>Checking if ${winner.username} has a gift difference higher than the one set...</span>
                                 `;
-                                let group = giveaway.groups[k];
-                                let element = parseHtml((await request({method: `GET`, url: `/group/${group.code}/${group.name}/users/search?q=${winner.username}`})).responseText).getElementsByClassName(`table__row-outer-wrap`)[0];
+                                let element = parseHtml((await request({method: `GET`, url: `/group/${code}/${group.urlName}/users/search?q=${winner.username}`})).responseText).getElementsByClassName(`table__row-outer-wrap`)[0];
                                 if (element && element.getElementsByClassName(`table__column__heading`)[0].textContent === winner.username) {
                                     let difference = parseFloat(element.getElementsByClassName(`table__column--width-small`)[2].textContent);
                                     if (difference >= esgst.ugs_difference) {
@@ -27289,7 +27016,6 @@ Parsedown = (() => {
                     winners[key].push(ugs.sentWinners[key][i]);
                 }
             }
-            await setValue(`winners`, JSON.stringify(winners));
             let savedUsers = [];
             for (let key in ugs.giveaways) {
                 for (let i = 0, n = ugs.giveaways[key].winners.length; i < n; i++) {
@@ -27301,7 +27027,7 @@ Parsedown = (() => {
                 <span>Saving data...</span>
             `;
             ugs.overallProgress.textContent = ``;
-            await saveUsers(savedUsers);
+            await Promise.all([setValue(`winners`, JSON.stringify(winners)), saveUsers(savedUsers), setValue(`groups`, JSON.stringify(esgst.groups))]);
             ugs.button.classList.remove(`esgst-busy`);
             ugs.progress.innerHTML = ``;
         } else {
@@ -27576,20 +27302,21 @@ Parsedown = (() => {
     }
 
     async function sendUstTickets(event) {
-        let check, code, data, error, numError, n, promises, tickets;
         esgst.ustButton.removeEventListener(`click`, sendUstTickets);
         esgst.ustButton.innerHTML =  `<i class="fa fa-circle-o-notch fa-spin"></i>`;
-        data = ``
-        n = Object.keys(esgst.ustCheckboxes).length;
-        numError = 0;
-        promises = [];
-        for (code in esgst.ustCheckboxes) {
-            promises.push(checkUstTicket(code));
+        let n = Object.keys(esgst.ustCheckboxes).length;
+        let numError = 0;
+        let promises = [];
+        let obj = {
+            data: ``
+        };
+        for (let code in esgst.ustCheckboxes) {
+            promises.push(checkUstTicket(code, obj));
         }
         await Promise.all(promises);
-        error = JSON.parse((await request({data: data.slice(0, -1), method: `POST`, url: `https://script.google.com/macros/s/AKfycbwdKNormCJs-hEKV0GVwawgWj1a26oVtPylgmxOOvNk1Gf17A/exec`})).responseText).error;
-        tickets = JSON.parse(await getValue(`tickets`));
-        for (code in esgst.ustCheckboxes) {
+        let error = JSON.parse((await request({data: obj.data.slice(0, -1), method: `POST`, url: `https://script.google.com/macros/s/AKfycbwdKNormCJs-hEKV0GVwawgWj1a26oVtPylgmxOOvNk1Gf17A/exec`})).responseText).error;
+        let tickets = JSON.parse(await getValue(`tickets`));
+        for (let code in esgst.ustCheckboxes) {
             if (error.indexOf(code) < 0) {
                 if (!tickets[code]) {
                     tickets[code] = {
@@ -27615,10 +27342,10 @@ Parsedown = (() => {
         new Popup(``, `${n - numError} out of ${n} tickets sent! They will be analyzed and, if accepted, added to the database in 48 hours at most.${numError > 0 ? ` Try sending the tickets that failed again later.` : ``}`, true).open();
     }
 
-    async function checkUstTicket(code) {
+    async function checkUstTicket(code, obj) {
         let responseHtml = parseHtml((await request({method: `GET`, url: `/support/ticket/${code}/`})).responseText);
         if (responseHtml.getElementsByClassName(`table__column--width-fill`)[1].textContent.trim().match(/Did\sNot\sActivate\sPrevious\sWins\sThis\sMonth|Other|Multiple\sWins\sfor\sthe\sSame\sGame|Not\sActivating\sWon\sGift/)) {
-            data += `${code}=${encodeURIComponent(responseHtml.getElementsByClassName(`sidebar`)[0].nextElementSibling.innerHTML.replace(/\n|\r|\r\n|\s{2,}/g, ``).trim())}&`;
+            obj.data += `${code}=${encodeURIComponent(responseHtml.getElementsByClassName(`sidebar`)[0].nextElementSibling.innerHTML.replace(/\n|\r|\r\n|\s{2,}/g, ``).trim())}&`;
         }
     }
 
@@ -29728,7 +29455,7 @@ Parsedown = (() => {
             discussions[i].sortIndex = esgst.currentDiscussions.length;
             esgst.currentDiscussions.push(discussions[i]);
         }
-        if (!main || esgst.giveawaysPath) {
+        if (!main || esgst.discussionsPath) {
             if (esgst.df && esgst.df.filteredCount && esgst[`df_enable${esgst.df.type}`]) {
                 filterDfDiscussions(esgst.df, false, endless);
             }
@@ -29756,17 +29483,59 @@ Parsedown = (() => {
             discussions.push(discussion);
         }
         discussions.forEach(discussion => {
-            if (esgst.codb) {
-                addCodbButton(discussion);
+            let savedDiscussion = esgst.discussions[discussion.code];
+            if (esgst.codb && discussion.author === esgst.username && !discussion.heading.parentElement.getElementsByClassName(`esgst-codb-button`)[0]) {
+                if (discussion.closed) {
+                    discussion.closed.remove();
+                    discussion.closed = true;
+                }
+                new Button(discussion.headingContainer.firstElementChild, `beforeBegin`, {
+                    callbacks: [closeCodbDiscussion.bind(null, discussion), null, openCodbDiscussion.bind(null, discussion), null],
+                    className: `esgst-codb-button`,
+                    icons: [`fa-lock esgst-clickable`, `fa-circle-o-notch fa-spin`, `fa-lock esgst-clickable esgst-red`, `fa-circle-o-notch fa-spin`],
+                    index: discussion.closed ? 2 : 0,
+                    titles: [`Close discussion`, `Closing discussion...`, `Open discussion`, `Opening discussion...`]
+                });
             }
-            if (esgst.df && esgst.df_s) {
-                getDfDiscussion(discussion, main);
+            if (esgst.df && esgst.df_s && !discussion.heading.parentElement.getElementsByClassName(`esgst-df-button`)[0]) {
+                new Button(discussion.headingContainer.firstElementChild, `beforeBegin`, {
+                    callbacks: [hideDfDiscussion.bind(null, discussion, main), null, unhideDfDiscussion.bind(null, discussion, main), null],
+                    className: `esgst-df-button`,
+                    icons: [`fa-eye-slash esgst-clickable`, `fa-circle-o-notch fa-spin`, `fa-eye esgst-clickable`, `fa-circle-o-notch fa-spin`],
+                    index: savedDiscussion && savedDiscussion.hidden ? 2 : 0,
+                    titles: [`Hide discussion`, `Hiding discussion...`, `Unhide discussion`, `Unhiding discussion...`]
+                });
             }
-            if (esgst.dh) {
-                getDhDiscussion(discussion, main);
+            if (esgst.dh && !discussion.heading.parentElement.getElementsByClassName(`esgst-dh-button`)[0]) {
+                let context = main && esgst.discussionPath ? discussion.heading : discussion.outerWrap;
+                let index = 0;
+                if (savedDiscussion && savedDiscussion.highlighted) {
+                    highlightDhDiscussion(discussion.code, context);
+                    if (esgst.dh_t && main && esgst.discussionsPath) {
+                        discussion.outerWrap.parentElement.insertBefore(discussion.outerWrap, discussion.outerWrap.parentElement.firstElementChild);
+                    }
+                    index = 2;
+                }
+                new Button(discussion.heading.parentElement, `afterBegin`, {
+                    callbacks: [highlightDhDiscussion.bind(null, discussion.code, context, true), null, unhighlightDhDiscussion.bind(null, discussion.code, context, true), null],
+                    className: `esgst-dh-button`,
+                    icons: [`fa-star-o esgst-clickable`, `fa-circle-o-notch fa-spin`, `fa-star esgst-clickable`, `fa-circle-o-notch fa-spin`],
+                    index: index,
+                    titles: [`Click to highlight this discussion`, `Highlighting discussion...`, `Click to unhighlight this discussion`, `Unhighlighting discussion...`]
+                });
             }
-            if (esgst.pm && (esgst.pm_a || discussion.category === `Puzzles`)) {
-                addPmButton(discussion, main);
+            if (esgst.pm && (esgst.pm_a || discussion.category === `Puzzles`)) {                
+                let context = main && esgst.discussionPath ? discussion.headingContainer : discussion.outerWrap;
+                if (!context.getElementsByClassName(`esgst-pm-button`)[0]) {
+                    context.classList.add(`esgst-relative`);
+                    new Button(context, `afterBegin`, {
+                        callbacks: [changePmStatus.bind(null, discussion.code, `unsolved`), null, changePmStatus.bind(null, discussion.code, `in progress`), null, changePmStatus.bind(null, discussion.code, `solved`), null, changePmStatus.bind(null, discussion.code, `off`), null],
+                        className: `esgst-pm-button`,
+                        icons: [`fa-circle-o esgst-clickable esgst-grey`, `fa-circle-o-notch fa-spin`, `fa-times-circle esgst-clickable esgst-red`, `fa-circle-o-notch fa-spin`, `fa-exclamation-circle esgst-clickable esgst-orange`, `fa-circle-o-notch fa-spin`, `fa-check-circle esgst-clickable esgst-green`, `fa-circle-o-notch fa-spin`],
+                        index: [`off`, ``, `unsolved`, ``, `in progress`, ``, `solved`].indexOf((savedDiscussion && savedDiscussion.status) || `off`),
+                        titles: [`Current status is 'off', click to change to 'unsolved'`, `Changing status...`, `Current status is 'unsolved', click to change to 'in progress'`, `Changing status...`, `Current status is 'in progress', click to change to 'solved'`, `Changing status...`, `Current status is 'solved', click to change to 'off'`, `Changing status...`]
+                    });
+                }
             }
         });
         return discussions;
@@ -30363,6 +30132,74 @@ Parsedown = (() => {
             return null;
         }
     }
+    
+    function checkNewGiveawayInput(context) {
+        if (esgst.isCheckingNewGiveaway) return;
+        esgst.isCheckingNewGiveaway = true;
+        setTimeout(loadNewGiveawayFeatures, 100, context);
+    }
+
+    async function loadNewGiveawayFeatures(context) {
+        if (context.style.opacity === `1`) {
+            // check if there are no cv games in the results and if they are already in the database
+            let found = false;
+            let games = {
+                apps: {},
+                subs: {}
+            };
+            let elements = context.getElementsByClassName(`table__row-outer-wrap`);
+            for (let i = 0, n = elements.length; i < n; i++) {
+                let element = elements[i];
+                let date = element.querySelector(`[data-ui-tooltip*="Zero contributor value since..."]`);
+                if (!date) continue;
+                let info = getGameInfo(element);
+                if (!info || (esgst.games[info.type][info.id] && esgst.games[info.type][info.id].noCV)) continue;
+                date = JSON.parse(date.getAttribute(`data-ui-tooltip`)).rows;
+                games[info.type][info.id] = {
+                    name: element.getElementsByClassName(`table__column__heading`)[0].firstChild.textContent.trim(),
+                    noCV: date[date.length - 1].columns[1].name
+                };
+                found = true;
+            }
+            if (esgst.noCvButton) {
+                esgst.noCvButton.remove();
+            }
+            if (found) {
+                esgst.noCvButton = insertHtml(context.closest(`.form__row__indent`).previousElementSibling, `beforeEnd`, `
+                    <span class="esgst-no-cv-button">
+                        <i class="fa fa-calendar-times-o esgst-blinking esgst-bold esgst-clickable esgst-red" title="Add no CV games to the database"></i>
+                    </span>
+                `);
+                if (esgst.addNoCvGames) {
+                    addNoCvGames(games);
+                } else {
+                    esgst.noCvButton.firstElementChild.addEventListener(`click`, addNoCvGames.bind(null, games));
+                }
+            }
+
+            await loadGameFeatures(document, true);
+            esgst.isCheckingNewGiveaway = false;
+        } else {
+            setTimeout(loadNewGiveawayFeatures, 100, context);
+        }
+    }
+
+    async function addNoCvGames(games) {
+        let button = esgst.noCvButton;
+        esgst.noCvButton = null;
+        button.innerHTML= `
+            <i class="fa fa-circle-o-notch fa-spin" title="Adding no CV games to the database..."></i>
+        `;
+        await request({data: JSON.stringify(games), method: `POST`, url: `https://script.google.com/macros/s/AKfycbym0nzeyr3_b93ViuiZRivkBMl9PBI2dTHQxNC0rtgeQSlCTI-P/exec`});
+        for (let id in games.apps) {
+            delete games.apps[id].name;
+        }
+        for (let id in games.subs) {
+            delete games.subs[id].name;
+        }
+        await lockAndSaveGames(games);
+        button.remove();
+    }
 
     async function loadEndlessFeatures(context, main, source, endless) {
         let values = await getValues({
@@ -30419,7 +30256,8 @@ Parsedown = (() => {
             await setSggGroups(context);
         }
         if (esgst.cerb && esgst.commentsPath && esgst.cerbCollapse && esgst.cerbExpand) {
-            getCerbReplies(esgst.cerbCollapse, esgst.cerbExpand, null, context);
+            let id = context === document && main ? location.hash.replace(/#/, ``) : null;
+            getCerbReplies(esgst.cerbCollapse, esgst.cerbExpand, id ? document.getElementById(id) : null, context);
         }
         if (esgst.cfh) {
             setCfhTextAreas(context);
@@ -32084,18 +31922,16 @@ Parsedown = (() => {
                     await setValue(`ownedGames`, numOwned);
                 }
                 try {
-                    let elements = parseHtml((await request({method: `GET`, url: `http://steamcommunity.com/profiles/${esgst.steamId}/wishlist?l=en`})).responseText).getElementsByClassName(`wishlistRow`);
-                    for (let i = elements.length - 1; i > -1; i--) {
-                        let element = elements[i];
-                        let id = element.id.match(/\d+/)[0];
-                        if (!savedGames.apps[id]) {
-                            savedGames.apps[id] = {};
-                        }
-                        let date = element.getElementsByClassName(`wishlist_added_on`)[0].textContent.trim().match(/Added\son\s(.+)/)[1];
-                        if (!date.match(/\d{4}/)) {
-                            date += ` ${new Date().getFullYear()}`;
-                        }
-                        savedGames.apps[id].wishlisted = new Date(date).getTime() / 1e3;
+                    let responseText = (await request({method: `GET`, url: `http://store.steampowered.com/wishlist/profiles/${esgst.steamId}?l=en`})).responseText;
+                    let match = responseText.match(/g_rgWishlistData\s=\s(\[(.+?)\]);/);
+                    if (match) {
+                        JSON.parse(match[1]).forEach(item => {
+                            let id = item.appid;
+                            if (!savedGames.apps[id]) {
+                                savedGames.apps[id] = {};
+                            }
+                            savedGames.apps[id].wishlisted = item.added;
+                        });
                     }
                 } catch (e) {}
                 await setValue(`games`, JSON.stringify(savedGames));
@@ -36712,6 +36548,27 @@ Parsedown = (() => {
             `;
         }
         style += `
+            .esgst-ochgb {
+                display: inline-block;
+            }
+
+            .featured__heading .esgst-ochgb i, .featured__heading .esgst-gf-hide-button i, .featured__heading .esgst-gf-unhide-button i, .featured__heading .esgst-gb-button i {
+                opacity: .6;
+                transition: opacity .2s;
+            }
+
+            .featured__heading .esgst-ochgb i:hover, .featured__heading .esgst-gf-hide-button i:hover, .featured__heading .esgst-gf-unhide-button i:hover, .featured__heading .esgst-gb-button i:hover {
+                opacity: 1;
+            }
+
+            @keyframes esgst-blinker {  
+                50% { opacity: 0; }
+            }
+
+            .esgst-blinking {
+                animation: esgst-blinker 1s linear infinite;
+            }
+
             .esgst-qiv-popout {
                 width: 600px;
             }
@@ -36877,12 +36734,6 @@ Parsedown = (() => {
             .esgst-mt-checkbox {
                 display: inline-block;
                 margin-right: 5px;
-            }
-
-            .esgst-codb-button {
-                cursor: pointer;
-                display: inline-block;
-                margin: 0 5px 0 0;
             }
 
             .esgst-gm-popout {
@@ -37261,13 +37112,29 @@ Parsedown = (() => {
                 background-color: rgba(119, 137, 154, 0.1) !important;
             }
 
-            .esgst-gf-hide-button, .esgst-gf-unhide-button, .esgst-gb-button, .esgst-gdttt-button, .esgst-df-button, .esgst-dh-button {
+            .esgst-gf-hide-button, .esgst-gf-unhide-button, .esgst-gb-button, .esgst-gdttt-button {
                 cursor: pointer; display: inline-block;
                 margin: 0 5px 0 0;
             }
 
-            .esgst-pm-button, .esgst-ust-checkbox {
+            .esgst-codb-button, .esgst-dh-button, .esgst-df-button {
+                display: inline-block;
+                margin: 0 5px 0 0;
+                padding: 0;
+            }
+
+            .page__heading .esgst-codb-button >*, .page__heading .esgst-dh-button >*, .page__heading .esgst-df-button >* {
+                padding: 5px 10px;
+            }
+
+            .esgst-ust-checkbox {
                 cursor: pointer;
+                margin-left: -17px;
+                position: absolute;
+                top: calc(50% - 7px);
+            }
+
+            .esgst-pm-button {
                 margin-left: -17px;
                 position: absolute;
                 top: calc(50% - 7px);
@@ -37280,7 +37147,12 @@ Parsedown = (() => {
             .page__heading .esgst-pm-button {
                 display: inline-block;
                 margin: 0 5px 0 0;
+                padding: 0;
                 position: static;
+            }
+
+            .page__heading .esgst-pm-button >* {
+                padding: 5px 10px;
             }
 
             .esgst-adots .esgst-pm-button {
@@ -37422,14 +37294,7 @@ Parsedown = (() => {
                 margin-bottom: 39px;
             }
 
-            .esgst-sgg-sticky-button {
-                cursor: pointer;
-                margin: 0 5px 0 0;
-                opacity: 0.5;
-            }
-
-            .esgst-sgg-unsticky-button {
-                cursor: pointer;
+            .esgst-sgac-button, .esgst-sgg-button {
                 margin: 0 5px 0 0;
             }
 
@@ -39028,6 +38893,28 @@ Parsedown = (() => {
     function loadChangelog(version) {
         var changelog, current, html, i, index, n, popup;
         changelog = [
+            {
+                date: `February 16, 2018`,
+                version: `7.14.4`,
+                changelog: `
+                    <ul>
+                        <li><a href="https://github.com/revilheart/ESGST/issues/338">#338</a> Cache Level Progress Visualizer prediction after giveaways end</li>
+                        <li><a href="https://github.com/revilheart/ESGST/issues/486">#486</a> Fix a bug that does not go to a permalink when using Collapse/Expand Replies Button with the automatic collapse enabled</li>
+                        <li><a href="https://github.com/revilheart/ESGST/issues/487">#487</a> Fix a bug that does not decrypt giveaways</li>
+                        <li><a href="https://github.com/revilheart/ESGST/issues/488">#488</a> Fix a bug that does not open the Quick Inbox View popout after a header refresh</li>
+                        <li><a href="https://github.com/revilheart/ESGST/issues/489">#489</a> Fix a bug that does not run Discussion Filters and Discussions Sorter on page load</li>
+                        <li><a href="https://github.com/revilheart/ESGST/issues/490">#490</a> Prevent Discussions Highlighter and Puzzle Marker buttons from switching places</li>
+                        <li><a href="https://github.com/revilheart/ESGST/issues/491">#491</a> Fix a bug that happens when checking suspensions in Not Activated/Multiple Wins Checker</li>
+                        <li><a href="https://github.com/revilheart/ESGST/issues/492">#492</a> Fix a bug that happens when checking groups in Unsent Gifts Sender</li>
+                        <li><a href="https://github.com/revilheart/ESGST/issues/493">#493</a> Allow users to update the "No CV Games" database</li>
+                        <li><a href="https://github.com/revilheart/ESGST/issues/494">#494</a> Fix a bug that auto focus text areas with Comment Formatting Helper enabled</li>
+                        <li><a href="https://github.com/revilheart/ESGST/issues/496">#496</a> Fix a bug that does not connect wagons when creating trains</li>
+                        <li><a href="https://github.com/revilheart/ESGST/issues/498">#498</a> Implement a Button class</li>
+                        <li><a href="https://github.com/revilheart/ESGST/issues/499">#499</a> Fix features that retrieve a user's wishlist from Steam</li>
+                        <li><a href="https://github.com/revilheart/ESGST/issues/500">#500</a> Fix a bug that happens when sending a ticket with User Suspension Tracker</li>
+                    </ul>
+                `
+            },
             {
                 date: `February 12, 2018`,
                 version: `7.14.3`,
