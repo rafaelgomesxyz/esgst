@@ -2020,7 +2020,7 @@ Parsedown = (() => {
             sg: location.hostname.match(/www.steamgifts.com/),
             st: location.hostname.match(/www.steamtrades.com/),
             currentVersion: `7.14.4`,
-            devVersion: `7.14.5 (Dev.1)`,
+            devVersion: `7.14.5 (Dev.2)`,
             icon: `data:image/x-icon;base64,AAABAAEAEBAAAAEAIABoBAAAFgAAACgAAAAQAAAAIAAAAAEAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAqv8DCbP/Hgeq+CQIrf8iCK3/Igit/yIIrf8iB6//Iwit9x8Aqv8DAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAKr0GAa2/c0DvfzfA7f83QO3/N0Dt/zdA7f83QO+/d4Gs/3OAKP1GQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACm/xQFs/n2Bcf//wW///8FwP//BcD//wW///8Fx///BbP69gC2/xUAAAAAAAAAAAAAAAAA/1UDFptOFxSZMxkLpJktAq720QW1+ugEsfvjA7b92wO2/dsEsfvjBbX66Aau/dEoiO4tUlLWGU5k3hdVVf8DEJxKHxWqT8cVrU7uE6VN0guqny0Apv8XAJfQGwBAVywAQFcsAJfQGwCx/xcogugtS2Lk0lBl6u5Qae7ISmPeHxagSSMVr07jF7lV/xOiSu0brgATAAAAAAAAAA8AAAC/AAAAwAAAABAAAAAAYznjEkth4OxWb/3/T2jv40lf4iMXnksiEq1O3RayUv8UpEnkEo0+HQAAABkAAABBAAAA8QAAAPEAAABBAAAAGUBSvxxOYeDjU2v0/05m7d1LYuEiF55LIhKtTt0Ws1L/FahN2gU1FTAAAADAAAAA7AAAAP0AAAD9AAAA7AAAAMAVG0owUGPm2lNr9P9OZu3dS2LhIheeSyISrU7dFrNS/xWoTdoFNRswAAAAvwAAAOsAAAD9AAAA/QAAAOsAAADAFRtKMFBj6NpTa/T/Tmbt3Uti4SIXnksiEq1O3RayUv8UpEnkEo0+HQAAABgAAABAAAAA8QAAAPEAAABBAAAAGT5PuR1OYeDjU2v0/05m7d1LYuEiFqBJIxWuT+QXuVX/E6JL7QC8XhMAAAAAAAAADwAAAL8AAAC/AAAAEAAAAAAOR/8SSWLh7FZv/f9PaO/jSV/iIxCUSh8Vrk7HFqxN7ROlS9JskzMt1XULGK12EhxGLgYsRy8GK612EhzVgAsYgmxxLU1i39JNZ+vtT2fwx0pj1h8AqlUDF65GFgqZUhlsiC0txH0T0s5/EujJgBPkz4QR28+EEdvJgBPkzn8Q6Md+E9KLdHosM1LWGUZo6BZVVf8DAAAAAAAAAAAAAAAA/2YAFMl9EvbgjRb/14gV/9eIFf/XiBX/14gV/9+NFv/KgBD254YAFQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAL91FRjKgRHN1IgU3s+EEt3PhBLdz4QS3c+EEt3UiBTezYMRzcJ6FBkAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACqqgADxIARHr18FiO8eA8ivHgPIrx4DyK8eA8ivXwPI8SAER7/VQADAAAAAAAAAAAAAAAA78cAAPA3AAD4FwAABCAAADGOAAAE+AAAkBEAAJ55AACYOQAAlgEAAER4AAAXaAAATnoAAPgXAAD0JwAA69cAAA==`,
             sgIcon: `data:image/x-icon;base64,AAABAAEAEBAAAAEAIABoBAAAFgAAACgAAAAQAAAAIAAAAAEAIAAAAAAAQAQAABMLAAATCwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIUAAAD5AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAPoAAACFAAAAAAAAAAAAAAD8AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA+QAAAAAAAAAAAAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAAAAAAAAAAAAP8AAAD/AAAA/wAAABwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAcAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAcAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAHAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAAAAAAAAAAAAPwAAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD5AAAAAAAAAAAAAACFAAAA+QAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD5AAAAhQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA//8AAP//AADAAwAAwAMAAMfjAADP8wAAz/MAAM/zAADP8wAAz/MAAM/zAADH4wAAwAMAAMADAAD//wAA//8AAA==`,
             stIcon: `data:image/x-icon;base64,AAABAAEAEBAAAAEAIABoBAAAFgAAACgAAAAQAAAAIAAAAAEAIAAAAAAAQAQAABMLAAATCwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABbD6SgWw+ucFsPrkBbD6SgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAWw+uYFsPr/BbD6/wWw+ucAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAFsPrmBbD6/wWw+v8FsPrmAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABbD6SQWw+uYFsPrmBbD6SQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAFKRLShSkS+cUpEvkFKRLSgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAExi4EpMYuDnTGLg5Exi4EoAAAAAAAAAABSkS+YUpEv/FKRL/xSkS+cAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABMYuDmTGLg/0xi4P9MYuDnAAAAAAAAAAAUpEvmFKRL/xSkS/8UpEvmAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAATGLg5kxi4P9MYuD/TGLg5gAAAAAAAAAAFKRLSRSkS+YUpEvmFKRLSQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAExi4ElMYuDmTGLg5kxi4EkAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAMZ9E0rGfRPnxn0T5MZ9E0oAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADGfRPmxn0T/8Z9E//GfRPnAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAxn0T5sZ9E//GfRP/xn0T5gAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAMZ9E0nGfRPmxn0T5sZ9E0kAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA//8AAPw/AAD8PwAA/D8AAPw/AAD//wAAh+EAAIfhAACH4QAAh+EAAP//AAD8PwAA/D8AAPw/AAD8PwAA//8AAA==`,
@@ -5096,9 +5096,10 @@ Parsedown = (() => {
                 },
                 others: {
                     features: {
-                        esgst: {
-                            name: `Enable ESGST for SteamTrades.`,
-                            st: true
+                        addNoCvGames: {
+                            name: `Automatically add no CV games to the database when searching for games in the new giveaway page.`,
+                            new: true,
+                            sg: true
                         },
                         autoBackup: {
                             input: true,
@@ -5129,52 +5130,16 @@ Parsedown = (() => {
                             sg: true,
                             st: true
                         },
-                        updateWhitelistBlacklist: {
-                            description: `
-                                <ul>
-                                    <li>With this enabled, you no longer have to sync your whitelist/blacklist every time you add/remove a user to/from those lists.</li>
-                                </ul>
-                            `,
-                            name: `Automatically update whitelist/blacklist when adding/removing a user to/from those lists.`,
+                        checkVersion: {
+                            name: `Check whether or not you are on the current version when visiting the ESGST discussion.`,
                             sg: true
                         },
-                        addNoCvGames: {
-                            name: `Automatically add no CV games to the database when searching for games in the new giveaway page.`,
-                            new: true,
+                        checkVersionMain: {
+                            name: `Check whether or not you are on the current version when visiting the main discussions page if the ESGST discussion is in the current page.`,
                             sg: true
                         },
                         collapseSections: {
                             name: `Collapse sections in the settings menu by default.`,
-                            sg: true,
-                            st: true
-                        },
-                        lockGiveawayColumns: {
-                            name: `Lock giveaway columns so that they are not draggable (they will remain in the set order).`,
-                            new: true,
-                            sg: true
-                        },
-                        staticPopups: {
-                            features: {
-                                staticPopups_f: {
-                                    input: true,
-                                    name: `Define a fixed width for popups, so that they are centered horizontally.`,
-                                    new: true,
-                                    sg: true,
-                                    st: true
-                                }
-                            },
-                            name: `Make popups static (they are fixed at the top left corner of the page instead of being automatically centered).`,
-                            newBelow: true,
-                            sg: true,
-                            st: true
-                        },
-                        openSettingsInTab: {
-                            name: `Open settings menu in a separate tab.`,
-                            sg: true,
-                            st: true
-                        },
-                        openSyncInTab: {
-                            name: `Open the automatic sync in a new tab.`,
                             sg: true,
                             st: true
                         },
@@ -5183,18 +5148,9 @@ Parsedown = (() => {
                             sg: true,
                             st: true
                         },
-                        showChangelog: {
-                            name: `Show changelog from the new version when updating.`,
-                            sg: true,
+                        esgst: {
+                            name: `Enable ESGST for SteamTrades.`,
                             st: true
-                        },
-                        checkVersionMain: {
-                            name: `Check whether or not you are on the current version when visiting the main discussions page if the ESGST discussion is in the current page.`,
-                            sg: true
-                        },
-                        checkVersion: {
-                            name: `Check whether or not you are on the current version when visiting the ESGST discussion.`,
-                            sg: true
                         },
                         hideButtons: {
                             description: `
@@ -5365,6 +5321,56 @@ Parsedown = (() => {
                             name: `Hide buttons at the left/right sides of the main page heading to reduce used space.`,
                             sg: true,
                             st: true
+                        },
+                        lockGiveawayColumns: {
+                            name: `Lock giveaway columns so that they are not draggable (they will remain in the set order).`,
+                            new: true,
+                            sg: true
+                        },
+                        openSettingsInTab: {
+                            name: `Open settings menu in a separate tab.`,
+                            sg: true,
+                            st: true
+                        },
+                        openSyncInTab: {
+                            name: `Open the automatic sync in a new tab.`,
+                            sg: true,
+                            st: true
+                        },
+                        showChangelog: {
+                            name: `Show changelog from the new version when updating.`,
+                            sg: true,
+                            st: true
+                        },
+                        showFeatureNumber: {
+                            name: `Show the feature number in the tooltips of elements added by ESGST.`,
+                            new: true,
+                            sg: true,
+                            st: true
+                        },
+                        staticPopups: {
+                            features: {
+                                staticPopups_f: {
+                                    input: true,
+                                    name: `Define a fixed width for popups, so that they are centered horizontally.`,
+                                    new: true,
+                                    sg: true,
+                                    st: true
+                                }
+                            },
+                            name: `Make popups static (they are fixed at the top left corner of the page instead of being automatically centered).`,
+                            newBelow: true,
+                            sg: true,
+                            st: true
+                        },
+                        updateWhitelistBlacklist: {
+                            description: `
+                                <ul>
+                                    <li>With this enabled, you no longer have to sync your whitelist/blacklist every time you add/remove a user to/from those lists.</li>
+                                </ul>
+                            `,
+                            name: `Automatically update whitelist/blacklist when adding/removing a user to/from those lists.`,
+                            sg: true
                         }
                     },
                     newBelow: true
@@ -5494,7 +5500,7 @@ Parsedown = (() => {
                 }
                 context = document.getElementsByClassName(className)[0];
                 menu = insertHtml(context, position, `
-                    <div class="esgst-header-menu" id="esgst">
+                    <div class="esgst-header-menu" id="esgst" title="${getFeatureTooltip()}">
                         <div class="esgst-header-menu-relative-dropdown esgst-hidden">
                             <div class="esgst-header-menu-absolute-dropdown">
                                 <a class="esgst-header-menu-row" href="https://github.com/revilheart/ESGST">
@@ -5702,7 +5708,7 @@ Parsedown = (() => {
                 }
                 context = document.getElementsByClassName(className)[0];
                 menu = insertHtml(context, position, `
-                    <div class="esgst-header-menu" id="esgst">
+                    <div class="esgst-header-menu" id="esgst" title="${getFeatureTooltip()}">
                         <div class="esgst-header-menu-relative-dropdown esgst-hidden">
                             <div class="esgst-header-menu-absolute-dropdown">
                                 <div class="esgst-header-menu-row">
@@ -6147,6 +6153,7 @@ Parsedown = (() => {
         if (esgst.hideButtons) {
             hiddenButtonsBefore = document.createElement(`div`);
             hiddenButtonsBefore.className = `esgst-heading-button`;
+            hiddenButtonsBefore.title = getFeatureTooltip(`hideButtons`);
             hiddenButtonsBefore.innerHTML = `
                 <i class="fa fa-ellipsis-v"></i>
             `;
@@ -6155,6 +6162,7 @@ Parsedown = (() => {
             `);
             hiddenButtonsAfter = document.createElement(`div`);
             hiddenButtonsAfter.className = `esgst-heading-button`;
+            hiddenButtonsAfter.title = getFeatureTooltip(`hideButtons`);
             hiddenButtonsAfter.innerHTML = `
                 <i class="fa fa-ellipsis-v"></i>
             `;
@@ -6357,8 +6365,8 @@ Parsedown = (() => {
                     tabHeading2 = tabHeading1.nextElementSibling;
                     if (esgst.radb) {
                         insertHtml(tabHeading2.nextElementSibling, `beforeBegin`, `
-                            <div class="esgst-radb-button">
-                                <i class="fa fa-refresh" title="Refresh active discussions/deals"></i>
+                            <div class="esgst-radb-button" title="${getFeatureTooltip(`radb`, `Refresh active discussions/deals`)}">
+                                <i class="fa fa-refresh"></i>
                             </div>
                         `).addEventListener(`click`, event => {
                             let icon = event.currentTarget.firstElementChild;
@@ -6481,7 +6489,7 @@ Parsedown = (() => {
         `);
         icon = input.nextElementSibling;
         icon.classList.add(`esgst-clickable`);
-        icon.title = `Use advanced search`;
+        icon.title = getFeatureTooltip(`ags`, `Use advanced search`);
         if (!qgs) {
             match = location.search.match(/q=(.*?)(&.*?)?$/);
             if (match) {
@@ -6797,7 +6805,7 @@ Parsedown = (() => {
             position = `beforeEnd`;
         }
         esgst.aicButton = insertHtml(esgst.hideButtons && esgst.hideButtons_aic ? esgst[key] : esgst.mainPageHeading, position, `
-            <div class="esgst-heading-button" id="esgst-aic" title="View attached images">
+            <div class="esgst-heading-button" id="esgst-aic" title="${getFeatureTooltip(`aic`, `View attached images`)}">
                 <i class="fa fa-image"></i>
             </div>
         `);
@@ -7016,7 +7024,7 @@ Parsedown = (() => {
                 position = `beforeEnd`;
             }
             ASButton = insertHtml(esgst.hideButtons && esgst.hideButtons_as ? esgst[key] : esgst.mainPageHeading, position, `
-                <div class="esgst-heading-button" id="esgst-as" title="Search archive">
+                <div class="esgst-heading-button" id="esgst-as" title="${getFeatureTooltip(`as`, `Search archive`)}">
                     <i class="fa fa-folder"></i>
                     <i class="fa fa-search"></i>
                 </div>
@@ -7156,7 +7164,7 @@ Parsedown = (() => {
             position = `beforeEnd`;
         }
         button = insertHtml(esgst.hideButtons && esgst.hideButtons_cec ? esgst[key] : esgst.mainPageHeading, position, `
-            <div class="esgst-heading-button" id="esgst-cec" title="Check comments/entries">
+            <div class="esgst-heading-button" id="esgst-cec" title="${getFeatureTooltip(`cec`, `Check comments/entries`)}">
                 <i class="fa fa-comments"></i>
                 <i class="fa fa-ticket"></i>
                 <i class="fa fa-question-circle"></i>
@@ -7331,10 +7339,10 @@ Parsedown = (() => {
             if (replies && replies.children.length) {
                 setCerbButton(insertHtml(reply.firstElementChild, `afterBegin`, `
                     <div class="esgst-cerb-reply-button esgst-clickable">
-                        <span title="Collapse all replies">
+                        <span title="${getFeatureTooltip(`cerb`, `Collapse all replies`)}">
                             <i class="fa fa-minus-square"></i>
                         </span>
-                        <span class="esgst-hidden" title="Expand all replies">
+                        <span class="esgst-hidden" title="${getFeatureTooltip(`cerb`, `Expand all replies`)}">
                             <i class="fa fa-plus-square"></i>
                         </span>
                     </div>
@@ -10477,7 +10485,7 @@ Parsedown = (() => {
         for (let i = 0, n = items.length; i < n; i++) {
             let item = items[i];
             if (!item.id || esgst[item.id]) {
-                let button = insertHtml(esgst.cfh.panel, `beforeEnd`, `<div title="${item.name}"></div>`);
+                let button = insertHtml(esgst.cfh.panel, `beforeEnd`, `<div title="${getFeatureTooltip(item.id || `cfh`, item.name)}"></div>`);
                 item.icons.forEach(icon => {
                     button.insertAdjacentHTML(`beforeEnd`, `<i class="fa ${icon}"></i>`);
                 });
@@ -10513,14 +10521,14 @@ Parsedown = (() => {
         }
         if (esgst.cfh_cf) {
             esgst.cfh.panel.insertAdjacentHTML(`beforeEnd`, `
-                <a href="/about/comment-formatting" title="Comment Formatting">
+                <a href="/about/comment-formatting" title="${getFeatureTooltip(`cfh_cf`, `Comment Formatting`)}">
                     <i class="fa fa-question-circle"></i>
                 </a>
             `);
         }
         if (esgst.cfh_p && !esgst.cfh_p_a) {
             insertHtml(esgst.cfh.panel, `beforeEnd`, `
-                <div title="Preview">
+                <div title="${getFeatureTooltip(`cfh_p`, `Preview`)}">
                     <i class="fa fa-eye"></i>
                 </div>
             `).addEventListener(`click`, () => {
@@ -10961,10 +10969,10 @@ Parsedown = (() => {
         setSetting(`cfh_pasteFormatting`, value);
         esgst.cfh_pasteFormatting = value;
         if (value) {
-            esgst.cfh.alipf.title = `Automatic Links / Images Paste Formatting: ON`;
+            esgst.cfh.alipf.title = getFeatureTooltip(`cfh`, `Automatic Links / Images Paste Formatting: ON`);
             esgst.cfh.alipf.classList.remove(`esgst-faded`);
         } else {
-            esgst.cfh.alipf.title = `Automatic Links / Images Paste Formatting: OFF`;
+            esgst.cfh.alipf.title = getFeatureTooltip(`cfh`, `Automatic Links / Images Paste Formatting: OFF`);
             esgst.cfh.alipf.classList.add(`esgst-faded`);
         }
         if (esgst.cfh.textArea) {
@@ -10994,7 +11002,7 @@ Parsedown = (() => {
     
     function loadCh() {
         setSMCommentHistory(insertHtml(esgst.sg ? esgst.mainButton.parentElement.getElementsByClassName(`nav__absolute-dropdown`)[0].lastElementChild : esgst.mainButton.parentElement.getElementsByClassName(`dropdown`)[0].firstElementChild.lastElementChild, `beforeBegin`, `
-            <div class="esgst-header-menu-row">
+            <div class="esgst-header-menu-row" title="${getFeatureTooltip(`ch`)}">
                 <i class="fa fa-fw fa-comments yellow"></i>
                 <div>
                     <p class="esgst-header-menu-name">My Comment History</p>
@@ -11137,7 +11145,7 @@ Parsedown = (() => {
             position = `beforeEnd`;
         }
         let button = insertHtml(esgst.hideButtons && esgst.hideButtons_cs ? esgst[key] : esgst.mainPageHeading, position, `
-            <div class="esgst-heading-button" id="esgst-cs" title="Search comments from specific users">
+            <div class="esgst-heading-button" id="esgst-cs" title="${getFeatureTooltip(`cs`, `Search comments from specific users`)}">
                 <i class="fa fa-comments"></i>
                 <i class="fa fa-search"></i>
             </div>
@@ -11277,7 +11285,7 @@ Parsedown = (() => {
                     position = `beforeEnd`;
                 }
                 button3 = insertHtml(esgst.hideButtons && esgst.hideButtons_ctUnread ? esgst[key] : esgst.mainPageHeading, position, `
-                    <div class="esgst-heading-button" id="esgst-ctUnread" title="Mark all comments in this page as unread">
+                    <div class="esgst-heading-button" id="esgst-ctUnread" title="${getFeatureTooltip(`ct`, `Mark all comments in this page as unread`)}">
                         <i class="fa fa-eye-slash"></i>
                     </div>
                 `);
@@ -11289,7 +11297,7 @@ Parsedown = (() => {
                     position = `beforeEnd`;
                 }
                 button2 = insertHtml(esgst.hideButtons && esgst.hideButtons_ctRead ? esgst[key] : esgst.mainPageHeading, position, `
-                    <div class="esgst-heading-button" id="esgst-ctRead" title="Mark all comments in this page as read">
+                    <div class="esgst-heading-button" id="esgst-ctRead" title="${getFeatureTooltip(`ct`, `Mark all comments in this page as read`)}">
                         <i class="fa fa-eye"></i>
                     </div>
                 `);
@@ -11301,7 +11309,7 @@ Parsedown = (() => {
                     position = `beforeEnd`;
                 }
                 button1 = insertHtml(esgst.hideButtons && esgst.hideButtons_ctGo ? esgst[key] : esgst.mainPageHeading, position, `
-                    <div class="esgst-heading-button" id="esgst-ctGo" title="Go to the first unread comment of this page">
+                    <div class="esgst-heading-button" id="esgst-ctGo" title="${getFeatureTooltip(`ct`, `Go to the first unread comment of this page`)}">
                         <i class="fa fa-comments-o"></i>
                     </div>
                 `);
@@ -11334,7 +11342,7 @@ Parsedown = (() => {
                     diff = count;
                 }
                 if (diff > 0) {
-                    element.insertAdjacentHTML(`beforeEnd`, ` <span class="esgst-ct-count" title="Unread comments">(+${diff})</span>`);
+                    element.insertAdjacentHTML(`beforeEnd`, ` <span class="esgst-ct-count" title="${getFeatureTooltip(`ct`, `Unread comments`)}">(+${diff})</span>`);
                 }
             }
         }
@@ -11597,7 +11605,7 @@ Parsedown = (() => {
 
     function addCtReadUntilHereButton(button, comment) {
         if (!button) {
-            button = insertHtml(comment.actions, `beforeEnd`, `<div class="esgst-ct-comment-button" title="Mark all comments from this comment upwards as read"></div>`);
+            button = insertHtml(comment.actions, `beforeEnd`, `<div class="esgst-ct-comment-button" title="${getFeatureTooltip(`ct`, `Mark all comments from this comment upwards as read`)}"></div>`);
         }
         button.innerHTML = `
             <span>
@@ -11615,7 +11623,7 @@ Parsedown = (() => {
 
     function addCtUnreadUntilHereButton(button, comment) {
         if (!button) {
-            button = insertHtml(comment.actions, `beforeEnd`, `<div class="esgst-ct-comment-button" title="Mark all comments from this comment upwards as unread"></div>`);
+            button = insertHtml(comment.actions, `beforeEnd`, `<div class="esgst-ct-comment-button" title="${getFeatureTooltip(`ct`, `Mark all comments from this comment upwards as unread`)}"></div>`);
         }
         button.innerHTML = `
             <span>
@@ -11636,8 +11644,8 @@ Parsedown = (() => {
             button = insertHtml(comment.actions, `beforeEnd`, `<div class="esgst-ct-comment-button"></div>`);
         }
         button.innerHTML = `
-            <i class="fa fa-eye" title="Mark this comment as read"></i>
-            <span title="Mark this comment as read and go to the next unread comment">
+            <i class="fa fa-eye" title="${getFeatureTooltip(`ct`, `Mark this comment as read`)}"></i>
+            <span title="${getFeatureTooltip(`ct`, `Mark this comment as read and go to the next unread comment`)}">
                 <i class="fa fa-eye"></i>
                 <i class="fa fa-angle-double-right"></i>
             </span>
@@ -11663,7 +11671,7 @@ Parsedown = (() => {
         if (!button) {
             button = insertHtml(comment.actions, `beforeEnd`, `<div class="esgst-ct-comment-button"></div>`);
         }
-        button.innerHTML = `<i class="fa fa-eye-slash" title="Mark comment as unread">`;
+        button.innerHTML = `<i class="fa fa-eye-slash" title="${getFeatureTooltip(`ct`, `Mark comment as unread`)}">`;
         button.firstElementChild.addEventListener(`click`, function() {
             button.innerHTML = `<i class="fa fa-circle-o-notch fa-spin"></i>`;
             markCtCommentUnread(comment, null, true, function() {
@@ -11828,20 +11836,20 @@ Parsedown = (() => {
         var diffContainer, goToUnread, loadingIcon, markRead, markUnread, markVisited, markUnvisited, panel;
         panel = insertHtml(context, esgst.giveawaysPath && !esgst.oadd ? `afterEnd` : `beforeEnd`, `
             <span>
-                <span class="esgst-ct-count esgst-hidden">(+${diff})</span>
-                <div class="esgst-heading-button esgst-hidden" title="Go to first unread comment of this discussion">
+                <span class="esgst-ct-count esgst-hidden" title="${getFeatureTooltip(`ct`)}">(+${diff})</span>
+                <div class="esgst-heading-button esgst-hidden" title="${getFeatureTooltip(`ct`, `Go to first unread comment of this discussion`)}">
                     <i class="fa fa-comments-o"></i>
                 </div>
-                <div class="esgst-heading-button esgst-hidden" title="Mark all comments in this discussion as read">
+                <div class="esgst-heading-button esgst-hidden" title="${getFeatureTooltip(`ct`, `Mark all comments in this discussion as read`)}">
                     <i class="fa fa-eye"></i>
                 </div>
-                <div class="esgst-heading-button esgst-hidden" title="Mark all comments in this discussion as unread">
+                <div class="esgst-heading-button esgst-hidden" title="${getFeatureTooltip(`ct`, `Mark all comments in this discussion as unread`)}">
                     <i class="fa fa-eye-slash"></i>
                 </div>
-                <div class="esgst-heading-button esgst-hidden" title="Mark this discussion as visited">
+                <div class="esgst-heading-button esgst-hidden" title="${getFeatureTooltip(`gdttt`, `Mark this discussion as visited`)}">
                     <i class="fa fa-check"></i>
                 </div>
-                <div class="esgst-heading-button esgst-hidden" title="Mark this discussion as unvisited">
+                <div class="esgst-heading-button esgst-hidden" title="${getFeatureTooltip(`gdttt`, `Mark this discussion as unvisited`)}">
                     <i class="fa fa-times"></i>
                 </div>
                 <i class="fa fa-circle-o-notch fa-spin esgst-hidden"></i>
@@ -12165,7 +12173,7 @@ Parsedown = (() => {
         headingButton.id = `esgst-df`;
         headingButton.innerHTML = `
             <span class="esgst-gf-toggle-switch"></span>
-            <i class="fa fa-sliders" title="Manage presets"></i>
+            <i class="fa fa-sliders" title="${getFeatureTooltip(`df`, `Manage presets`)}"></i>
         `;
         esgst.df = df = {
             counters: {},
@@ -12220,7 +12228,7 @@ Parsedown = (() => {
                         </div>
                     </div>
                 </div>
-                <div class="esgst-gf-button">
+                <div class="esgst-gf-button" title="${getFeatureTooltip(`df`)}">
                     <span>Expand</span><span class="esgst-hidden">Collapse</span> filters (<span>0</span> filtered - <span></span>)
                 </div>
             </div>
@@ -12922,7 +12930,7 @@ Parsedown = (() => {
     /* [DH] Discussion Highlighter */
 
     function loadDh() {
-        insertHtml(document.getElementsByClassName(`nav__absolute-dropdown`)[1], `beforeEnd`, generateHeaderMenuItem({description: `View your highlighted discussions.`, icon: `fa-star yellow`, name: `View Highlighted`})).addEventListener(`click`, openDhPopup);
+        insertHtml(document.getElementsByClassName(`nav__absolute-dropdown`)[1], `beforeEnd`, generateHeaderMenuItem({description: `View your highlighted discussions.`, icon: `fa-star yellow`, name: `View Highlighted`, title: getFeatureTooltip(`dh`)})).addEventListener(`click`, openDhPopup);
     }
     
     async function openDhPopup() {
@@ -13086,7 +13094,7 @@ Parsedown = (() => {
             position = `beforeEnd`;
         }
         ds.button = insertHtml(esgst.hideButtons && esgst.hideButtons_ds ? esgst[key] : esgst.mainPageHeading, position, `
-            <div class="esgst-heading-button" id="esgst-ds" title="Sort discussions">
+            <div class="esgst-heading-button" id="esgst-ds" title="${getFeatureTooltip(`ds`, `Sort discussions`)}">
                 <i class="fa fa-sort"></i>
             </div>
         `);
@@ -13480,7 +13488,7 @@ Parsedown = (() => {
                 position = `beforeEnd`;
             }
             nextButton = insertHtml(esgst.hideButtons && esgst.hideButtons_esNext ? esgst[key] : esgst.mainPageHeading, position, `
-                <div class="esgst-heading-button esgst-es-next-button" id="esgst-esNext" title="Load next page">
+                <div class="esgst-heading-button esgst-es-next-button" id="esgst-esNext" title="${getFeatureTooltip(`es`, `Load next page`)}">
                     <i class="fa fa-step-forward"></i>
                 </div>
             `);
@@ -13492,7 +13500,7 @@ Parsedown = (() => {
                 position = `beforeEnd`;
             }
             continuousButton = insertHtml(esgst.hideButtons && esgst.hideButtons_esContinuous ? esgst[key] : esgst.mainPageHeading, position, `
-                <div class="esgst-heading-button esgst-es-continuous-button" id="esgst-esContinuous" title="Continuously load pages">
+                <div class="esgst-heading-button esgst-es-continuous-button" id="esgst-esContinuous" title="${getFeatureTooltip(`es`, `Continuously load pages`)}">
                     <i class="fa fa-fast-forward"></i>
                 </div>
             `);
@@ -13507,7 +13515,7 @@ Parsedown = (() => {
                 continuousButton.classList.add(`esgst-hidden`);
             }
             pauseButton = insertHtml(esgst.hideButtons && esgst.hideButtons_esPause ? esgst[key] : esgst.mainPageHeading, position, `
-                <div class="esgst-heading-button esgst-es-pause-button" id="esgst-esPause" title="Pause the endless scrolling">
+                <div class="esgst-heading-button esgst-es-pause-button" id="esgst-esPause" title="${getFeatureTooltip(`es`, `Pause the endless scrolling`)}">
                     <i class="fa fa-pause"></i>
                 </div>
             `);
@@ -13519,7 +13527,7 @@ Parsedown = (() => {
                 position = `beforeEnd`;
             }
             resumeButton = insertHtml(esgst.hideButtons && esgst.hideButtons_esPause ? esgst[key] : esgst.mainPageHeading, position, `
-                <div class="esgst-heading-button esgst-es-resume-button esgst-hidden" id="esgst-esResume" title="Resume the endless scrolling">
+                <div class="esgst-heading-button esgst-es-resume-button esgst-hidden" id="esgst-esResume" title="${getFeatureTooltip(`es`, `Resume the endless scrolling`)}">
                     <i class="fa fa-play"></i>
                 </div>
             `);
@@ -13531,7 +13539,7 @@ Parsedown = (() => {
                 position = `beforeEnd`;
             }
             refreshButton = insertHtml(esgst.hideButtons && esgst.hideButtons_esRefresh ? esgst[key] : esgst.mainPageHeading, position, `
-                <div class="esgst-heading-button esgst-es-refresh-button" id="esgst-esRefresh" title="Refresh current page">
+                <div class="esgst-heading-button esgst-es-refresh-button" id="esgst-esRefresh" title="${getFeatureTooltip(`es`, `Refresh current page`)}">
                     <i class="fa fa-refresh"></i>
                     <i class="fa fa-map-marker"></i>
                 </div>
@@ -13544,7 +13552,7 @@ Parsedown = (() => {
                 position = `beforeEnd`;
             }
             refreshAllButton = insertHtml(esgst.hideButtons && esgst.hideButtons_esRefreshAll ? esgst[key] : esgst.mainPageHeading, position, `
-                <div class="esgst-heading-button esgst-es-refresh-all-button" id="esgst-esRefreshAll" title="Refresh all pages">
+                <div class="esgst-heading-button esgst-es-refresh-all-button" id="esgst-esRefreshAll" title="${getFeatureTooltip(`es`, `Refresh all pages`)}">
                     <i class="fa fa-refresh"></i>
                 </div>
             `);
@@ -13943,7 +13951,7 @@ Parsedown = (() => {
     function loadEt() {
         if (!esgst.sg) return;
         setSMManageEntriesTracker(insertHtml(esgst.sg ? esgst.mainButton.parentElement.getElementsByClassName(`nav__absolute-dropdown`)[0].lastElementChild : esgst.mainButton.parentElement.getElementsByClassName(`dropdown`)[0].firstElementChild.lastElementChild, `beforeBegin`, `
-            <div class="esgst-header-menu-row">
+            <div class="esgst-header-menu-row" title="${getFeatureTooltip(`et`)}">
                 <i class="fa fa-fw fa-ticket red"></i>
                 <div>
                     <p class="esgst-header-menu-name">My Entry History</p>
@@ -14320,7 +14328,7 @@ Parsedown = (() => {
             gas.button = document.createElement(`div`);
             gas.button.className = `esgst-heading-button`;
             gas.button.id = `esgst-gas`;
-            gas.button.title = `Sort giveaways`;
+            gas.button.title = getFeatureTooltip(`gas`, `Sort giveaways`);
             gas.button.innerHTML = `
                 <i class="fa fa-sort"></i>
             `;
@@ -14435,7 +14443,7 @@ Parsedown = (() => {
         if (!esgst.gbPath) {
             context = document.getElementsByClassName(`nav__left-container`)[0];
             html = `
-                <div class="nav__button-container esgst-hidden" title="View your bookmarked giveaways">
+                <div class="nav__button-container esgst-hidden" title="${getFeatureTooltip(`gb`, `View your bookmarked giveaways`)}">
                     <div class="nav__button">
                         <i class="fa fa-bookmark"></i>
                     </div>
@@ -15100,42 +15108,42 @@ Parsedown = (() => {
                     case `gc_fcv`:
                         if ((savedGame && !savedGame.reducedCV && !savedGame.noCV) || !savedGame) {
                             elements.push(`
-                                <a class="esgst-gc esgst-gc-fullCV" data-id="gc_fcv" href="https://www.steamgifts.com/bundle-games/search?q=${encodedName}" title="Full CV">${esgst.gc_fcv_s ? (esgst.gc_fcv_s_i ? `<i class="fa fa-${esgst.gc_fcvIcon}"></i>` : `FCV`) : esgst.gc_fcvLabel}</a>
+                                <a class="esgst-gc esgst-gc-fullCV" data-id="gc_fcv" href="https://www.steamgifts.com/bundle-games/search?q=${encodedName}" title="${getFeatureTooltip(`gc_fcv`, `Full CV`)}">${esgst.gc_fcv_s ? (esgst.gc_fcv_s_i ? `<i class="fa fa-${esgst.gc_fcvIcon}"></i>` : `FCV`) : esgst.gc_fcvLabel}</a>
                             `);
                         }
                         break;
                     case `gc_rcv`:
                         if (savedGame && savedGame.reducedCV && (!esgst.gc_ncv_o || !savedGame.noCV)) {
                             elements.push(`
-                                <a class="esgst-gc esgst-gc-reducedCV" data-id="gc_rcv" href="https://www.steamgifts.com/bundle-games/search?q=${encodedName}" title="Reduced CV since ${savedGame.reducedCV}">${esgst.gc_rcv_s ? (esgst.gc_rcv_s_i ? `<i class="fa fa-${esgst.gc_rcvIcon}"></i>` : `RCV`) : esgst.gc_rcvLabel}</a>
+                                <a class="esgst-gc esgst-gc-reducedCV" data-id="gc_rcv" href="https://www.steamgifts.com/bundle-games/search?q=${encodedName}" title="${getFeatureTooltip(`gc_rcv`, `Reduced CV since ${savedGame.reducedCV}`)}">${esgst.gc_rcv_s ? (esgst.gc_rcv_s_i ? `<i class="fa fa-${esgst.gc_rcvIcon}"></i>` : `RCV`) : esgst.gc_rcvLabel}</a>
                             `);
                         }
                         break;
                     case `gc_ncv`:
                         if (savedGame && savedGame.noCV) {
                             elements.push(`
-                                <a class="esgst-gc esgst-gc-noCV" data-id="gc_ncv" href="https://www.steamgifts.com/bundle-games/search?q=${encodedName}" title="No CV since ${savedGame.noCV}">${esgst.gc_ncv_s ? (esgst.gc_ncv_s_i ? `<i class="fa fa-${esgst.gc_ncvIcon}"></i>` : `NCV`) : esgst.gc_ncvLabel}</a>
+                                <a class="esgst-gc esgst-gc-noCV" data-id="gc_ncv" href="https://www.steamgifts.com/bundle-games/search?q=${encodedName}" title="${getFeatureTooltip(`gc_ncv`, `No CV since ${savedGame.noCV}`)}">${esgst.gc_ncv_s ? (esgst.gc_ncv_s_i ? `<i class="fa fa-${esgst.gc_ncvIcon}"></i>` : `NCV`) : esgst.gc_ncvLabel}</a>
                             `);
                         }
                         break;
                     case `gc_h`:
                         if (savedGame && savedGame.hidden) {
                             elements.push(`
-                                <a class="esgst-gc esgst-gc-hidden" data-id="gc_h" href="https://www.steamgifts.com/account/settings/giveaways/filters/search?q=${encodedName}" title="Hidden">${esgst.gc_h_s ? (esgst.gc_h_s_i ? `<i class="fa fa-${esgst.gc_hIcon}"></i>` : `H`) : esgst.gc_hLabel}</a>
+                                <a class="esgst-gc esgst-gc-hidden" data-id="gc_h" href="https://www.steamgifts.com/account/settings/giveaways/filters/search?q=${encodedName}" title="${getFeatureTooltip(`gc_h`, `Hidden`)}">${esgst.gc_h_s ? (esgst.gc_h_s_i ? `<i class="fa fa-${esgst.gc_hIcon}"></i>` : `H`) : esgst.gc_hLabel}</a>
                             `);
                         }
                         break;
                     case `gc_i`:
                         if (savedGame && savedGame.ignored) {
                             elements.push(`
-                                <a class="esgst-gc esgst-gc-ignored" data-id="gc_i" href="http://store.steampowered.com/${singularType}/${id}" title="Ignored">${esgst.gc_i_s ? (esgst.gc_i_s_i ? `<i class="fa fa-${esgst.gc_iIcon}"></i>` : `I`) : esgst.gc_iLabel}</a>
+                                <a class="esgst-gc esgst-gc-ignored" data-id="gc_i" href="http://store.steampowered.com/${singularType}/${id}" title="${getFeatureTooltip(`gc_i`, `Ignored`)}">${esgst.gc_i_s ? (esgst.gc_i_s_i ? `<i class="fa fa-${esgst.gc_iIcon}"></i>` : `I`) : esgst.gc_iLabel}</a>
                             `);
                         }
                         break;
                     case `gc_o`:
                         if (savedGame && savedGame.owned) {
                             elements.push(`
-                                <a class="esgst-gc esgst-gc-owned" data-id="gc_o" href="https://www.steamgifts.com/account/steam/games/search?q=${encodedName}" title="Owned">${esgst.gc_o_s ? (esgst.gc_o_s_i ? `<i class="fa fa-${esgst.gc_oIcon}"></i>` : `O`) : esgst.gc_oLabel}</a>
+                                <a class="esgst-gc esgst-gc-owned" data-id="gc_o" href="https://www.steamgifts.com/account/steam/games/search?q=${encodedName}" title="${getFeatureTooltip(`gc_o`, `Owned`)}">${esgst.gc_o_s ? (esgst.gc_o_s_i ? `<i class="fa fa-${esgst.gc_oIcon}"></i>` : `O`) : esgst.gc_oLabel}</a>
                             `);
                         }
                         if (!esgst.gc_o_t || games[0].table) {
@@ -15143,7 +15151,7 @@ Parsedown = (() => {
                                 var game = account.games[type][id];
                                 if (game && game.owned) {
                                     elements.push(`
-                                        <a class="esgst-gc esgst-gc-owned" data-id="gc_o" href="http://steamcommunity.com/profiles/${account.steamId}/games" style="background-color: ${account.bgColor}; color: ${account.color};" title="Owned by ${account.name}">${esgst.gc_o_s ? (esgst.gc_o_s_i ? `<i class="fa fa-${account.icon}"></i>` : `O`) : account.label}</a>
+                                        <a class="esgst-gc esgst-gc-owned" data-id="gc_o" href="http://steamcommunity.com/profiles/${account.steamId}/games" style="background-color: ${account.bgColor}; color: ${account.color};" title="${getFeatureTooltip(`gc_o_t`, `Owned by ${account.name}`)}">${esgst.gc_o_s ? (esgst.gc_o_s_i ? `<i class="fa fa-${account.icon}"></i>` : `O`) : account.label}</a>
                                     `);
                                 }
                             });
@@ -15152,7 +15160,7 @@ Parsedown = (() => {
                     case `gc_w`:
                         if (savedGame && savedGame.wishlisted) {
                             elements.push(`
-                                <a class="esgst-gc esgst-gc-wishlisted" data-id="gc_w" href="https://www.steamgifts.com/account/steam/wishlist/search?q=${encodedName}" title="Wishlisted${typeof savedGame.wishlisted === `number` ? ` since ${formatGcDate(savedGame.wishlisted * 1e3)}` : ``}">${esgst.gc_w_s ? (esgst.gc_w_s_i ? `<i class="fa fa-${esgst.gc_wIcon}"></i>` : `W`) : esgst.gc_wLabel}</a>
+                                <a class="esgst-gc esgst-gc-wishlisted" data-id="gc_w" href="https://www.steamgifts.com/account/steam/wishlist/search?q=${encodedName}" title="${getFeatureTooltip(`gc_w`, `Wishlisted${typeof savedGame.wishlisted === `number` ? ` since ${formatGcDate(savedGame.wishlisted * 1e3)}` : ``}`)}">${esgst.gc_w_s ? (esgst.gc_w_s_i ? `<i class="fa fa-${esgst.gc_wIcon}"></i>` : `W`) : esgst.gc_wLabel}</a>
                             `);
                         }
                         break;
@@ -15219,7 +15227,7 @@ Parsedown = (() => {
                                         cv = Math.round(value * 100) / 100;
                                     }
                                     elements.push(`
-                                        <a class="esgst-gc esgst-gc-giveawayInfo" data-id="gc_gi" href="https://www.steamgifts.com/user/${esgst.username}" title="You have sent ${count} copies of this game (${sent} of which added to your CV)${active ? `\nYou currently have ${active} open giveaways for this game` : ``}\nYou should get \$${cv} real CV for sending a new copy of this game\nA giveaway for this game is worth ${Math.min(Math.ceil(cache.price), 50)}P"><i class="fa fa-info"></i> ${count} <i class="fa fa-dollar"></i> ${cv}</a>
+                                        <a class="esgst-gc esgst-gc-giveawayInfo" data-id="gc_gi" href="https://www.steamgifts.com/user/${esgst.username}" title="${getFeatureTooltip(`gc_gi`, `You have sent ${count} copies of this game (${sent} of which added to your CV)${active ? `\nYou currently have ${active} open giveaways for this game` : ``}\nYou should get \$${cv} real CV for sending a new copy of this game\nA giveaway for this game is worth ${Math.min(Math.ceil(cache.price), 50)}P`)}"><i class="fa fa-info"></i> ${count} <i class="fa fa-dollar"></i> ${cv}</a>
                                     `);
                                 }
                             }
@@ -15247,84 +15255,84 @@ Parsedown = (() => {
                                 cache.rating = cache.rating.replace(/\(\d+\)/, `(${parseInt(match[1]).toLocaleString()})`);
                             }
                             elements.push(`
-                                <a class="esgst-gc esgst-gc-rating" data-bgColor="${colors.bgColor}" data-color="${colors.color}" data-id="gc_r" href="http://store.steampowered.com/${singularType}/${id}" style="background-color: ${colors.bgColor}; color: ${colors.color};" title="${cache.rating}">${colors.icon.match(/\w/) ? `<i class="fa fa-${colors.icon}"></i>` : `<span style="font-size: 14px;">${colors.icon}</span>`}${esgst.gc_r_s ? ` ${cache.rating}` : ``}</a>
+                                <a class="esgst-gc esgst-gc-rating" data-bgColor="${colors.bgColor}" data-color="${colors.color}" data-id="gc_r" href="http://store.steampowered.com/${singularType}/${id}" style="background-color: ${colors.bgColor}; color: ${colors.color};" title="${getFeatureTooltip(`gc_r`, cache.rating)}">${colors.icon.match(/\w/) ? `<i class="fa fa-${colors.icon}"></i>` : `<span style="font-size: 14px;">${colors.icon}</span>`}${esgst.gc_r_s ? ` ${cache.rating}` : ``}</a>
                             `);
                         }
                         break;
                     case `gc_a`:
                         if (cache && cache.achievements) {
                             elements.push(`
-                                <a class="esgst-gc esgst-gc-achievements" data-id="gc_a" href="http://steamcommunity.com/stats/${id}/achievements" title="Achievements (${cache.achievements})">${esgst.gc_a_s ? (esgst.gc_a_s_i ? `<i class="fa fa-${esgst.gc_aIcon}"></i>` : `A`) : esgst.gc_aLabel}</a>
+                                <a class="esgst-gc esgst-gc-achievements" data-id="gc_a" href="http://steamcommunity.com/stats/${id}/achievements" title="${getFeatureTooltip(`gc_a`, `Achievements (${cache.achievements})`)}">${esgst.gc_a_s ? (esgst.gc_a_s_i ? `<i class="fa fa-${esgst.gc_aIcon}"></i>` : `A`) : esgst.gc_aLabel}</a>
                             `);
                         }
                         break;
                     case `gc_mp`:
                         if (cache && cache.multiplayer) {
                             elements.push(`
-                                <a class="esgst-gc esgst-gc-multiplayer" data-id="gc_mp" href="http://store.steampowered.com/${singularType}/${id}" title="Multiplayer">${esgst.gc_mp_s ? (esgst.gc_mp_s_i ? `<i class="fa fa-${esgst.gc_mpIcon}"></i>` : `MP`) : esgst.gc_mpLabel}</a>
+                                <a class="esgst-gc esgst-gc-multiplayer" data-id="gc_mp" href="http://store.steampowered.com/${singularType}/${id}" title="${getFeatureTooltip(`gc_mp`, `Multiplayer`)}">${esgst.gc_mp_s ? (esgst.gc_mp_s_i ? `<i class="fa fa-${esgst.gc_mpIcon}"></i>` : `MP`) : esgst.gc_mpLabel}</a>
                             `);
                         }
                         break;
                     case `gc_sc`:
                         if (cache && cache.steamCloud) {
                             elements.push(`
-                                <a class="esgst-gc esgst-gc-steamCloud" data-id="gc_sc" href="http://store.steampowered.com/${singularType}/${id}" title="Steam Cloud">${esgst.gc_sc_s ? (esgst.gc_sc_s_i ? `<i class="fa fa-${esgst.gc_scIcon}"></i>` : `SC`) : esgst.gc_scLabel}</a>
+                                <a class="esgst-gc esgst-gc-steamCloud" data-id="gc_sc" href="http://store.steampowered.com/${singularType}/${id}" title="${getFeatureTooltip(`gc_sc`, `Steam Cloud`)}">${esgst.gc_sc_s ? (esgst.gc_sc_s_i ? `<i class="fa fa-${esgst.gc_scIcon}"></i>` : `SC`) : esgst.gc_scLabel}</a>
                             `);
                         }
                         break;
                     case `gc_tc`:
                         if (cache && cache.tradingCards) {
                             elements.push(`
-                                <a class="esgst-gc esgst-gc-tradingCards" data-id="gc_tc" href="http://www.steamcardexchange.net/index.php?gamepage-${singularType}id-${id}" title="Trading Cards">${esgst.gc_tc_s ? (esgst.gc_tc_s_i ? `<i class="fa fa-${esgst.gc_tcIcon}"></i>` : `TC`) : esgst.gc_tcLabel}</a>
+                                <a class="esgst-gc esgst-gc-tradingCards" data-id="gc_tc" href="http://www.steamcardexchange.net/index.php?gamepage-${singularType}id-${id}" title="${getFeatureTooltip(`gc_tc`, `Trading Cards`)}">${esgst.gc_tc_s ? (esgst.gc_tc_s_i ? `<i class="fa fa-${esgst.gc_tcIcon}"></i>` : `TC`) : esgst.gc_tcLabel}</a>
                             `);
                         }
                         break;
                     case `gc_l`:
                         if (cache && cache.linux) {
                             elements.push(`
-                                <a class="esgst-gc esgst-gc-linux" data-id="gc_l" href="http://store.steampowered.com/${singularType}/${id}" title="Linux">${esgst.gc_l_s ? (esgst.gc_l_s_i ? `<i class="fa fa-${esgst.gc_lIcon}"></i>` : `L`) : esgst.gc_lLabel}</a>
+                                <a class="esgst-gc esgst-gc-linux" data-id="gc_l" href="http://store.steampowered.com/${singularType}/${id}" title="${getFeatureTooltip(`gc_l`, `Linux`)}">${esgst.gc_l_s ? (esgst.gc_l_s_i ? `<i class="fa fa-${esgst.gc_lIcon}"></i>` : `L`) : esgst.gc_lLabel}</a>
                             `);
                         }
                         break;
                     case `gc_m`:
                         if (cache && cache.mac) {
                             elements.push(`
-                                <a class="esgst-gc esgst-gc-mac" data-id="gc_m" href="http://store.steampowered.com/${singularType}/${id}" title="Mac">${esgst.gc_m_s ? (esgst.gc_m_s_i ? `<i class="fa fa-${esgst.gc_mIcon}"></i>` : `M`) : esgst.gc_mLabel}</a>
+                                <a class="esgst-gc esgst-gc-mac" data-id="gc_m" href="http://store.steampowered.com/${singularType}/${id}" title="${getFeatureTooltip(`gc_m`, `Mac`)}">${esgst.gc_m_s ? (esgst.gc_m_s_i ? `<i class="fa fa-${esgst.gc_mIcon}"></i>` : `M`) : esgst.gc_mLabel}</a>
                             `);
                         }
                         break;
                     case `gc_dlc`:
                         if (cache && cache.dlc) {
                             elements.push(`
-                                <a class="esgst-gc esgst-gc-dlc" data-id="gc_dlc" href="http://store.steampowered.com/${singularType}/${id}" title="DLC${typeof cache.freeBase !== `undefined` ? (cache.freeBase ? ` (the base game of this DLC is free)` : ` (the base game of this DLC is not free)`) : ``}">${esgst.gc_dlc_s ? (esgst.gc_dlc_s_i ? `<i class="fa fa-${esgst.gc_dlcIcon}"></i>${typeof cache.freeBase !== `undefined` ? (cache.freeBase ? ` <i class="fa fa-certificate esgst-gc-dlcFree"></i>` : ` <i class="fa fa-money esgst-gc-dlcNonFree"></i>`) : ``}` : `DLC${typeof cache.freeBase !== `undefined` ? (cache.freeBase ? ` <span class="esgst-gc-dlcFree">(F)</span>` : ` <span class="esgst-gc-dlcNonFree">(NF)</span>`) : ``}`) : `${esgst.gc_dlcLabel}${typeof cache.freeBase !== `undefined` ? (cache.freeBase ? ` <span class="esgst-gc-dlcFree">(Free)</span>` : ` <span class="esgst-gc-dlcNonFree">(Not Free)</span>`) : ``}`}</a>
+                                <a class="esgst-gc esgst-gc-dlc" data-id="gc_dlc" href="http://store.steampowered.com/${singularType}/${id}" title="${getFeatureTooltip(`gc_dlc`, `DLC${typeof cache.freeBase !== `undefined` ? (cache.freeBase ? ` (the base game of this DLC is free)` : ` (the base game of this DLC is not free)`) : ``}`)}">${esgst.gc_dlc_s ? (esgst.gc_dlc_s_i ? `<i class="fa fa-${esgst.gc_dlcIcon}"></i>${typeof cache.freeBase !== `undefined` ? (cache.freeBase ? ` <i class="fa fa-certificate esgst-gc-dlcFree"></i>` : ` <i class="fa fa-money esgst-gc-dlcNonFree"></i>`) : ``}` : `DLC${typeof cache.freeBase !== `undefined` ? (cache.freeBase ? ` <span class="esgst-gc-dlcFree">(F)</span>` : ` <span class="esgst-gc-dlcNonFree">(NF)</span>`) : ``}`) : `${esgst.gc_dlcLabel}${typeof cache.freeBase !== `undefined` ? (cache.freeBase ? ` <span class="esgst-gc-dlcFree">(Free)</span>` : ` <span class="esgst-gc-dlcNonFree">(Not Free)</span>`) : ``}`}</a>
                             `);
                         }
                         break;
                     case `gc_p`:
                         if (type === `subs`) {
                             elements.push(`
-                                <a class="esgst-gc esgst-gc-package" data-id="gc_p" href="http://store.steampowered.com/${singularType}/${id}" title="Package${cache.apps ? ` (${cache.apps.length})` : ``}">${esgst.gc_p_s ? (esgst.gc_p_s_i ? `<i class="fa fa-${esgst.gc_pIcon}"></i>` : `P`) : esgst.gc_pLabel}</a>
+                                <a class="esgst-gc esgst-gc-package" data-id="gc_p" href="http://store.steampowered.com/${singularType}/${id}" title="${getFeatureTooltip(`gc_p`, `Package${cache.apps ? ` (${cache.apps.length})` : ``}`)}">${esgst.gc_p_s ? (esgst.gc_p_s_i ? `<i class="fa fa-${esgst.gc_pIcon}"></i>` : `P`) : esgst.gc_pLabel}</a>
                             `);
                         }
                         break;
                     case `gc_ea`:
                         if (cache && cache.earlyAccess) {
                             elements.push(`
-                                <a class="esgst-gc esgst-gc-earlyAccess" data-id="gc_ea" href="http://store.steampowered.com/${singularType}/${id}" title="Early Access">${esgst.gc_ea_s ? (esgst.gc_ea_s_i ? `<i class="fa fa-${esgst.gc_eaIcon}"></i>` : `EA`) : esgst.gc_eaLabel}</a>
+                                <a class="esgst-gc esgst-gc-earlyAccess" data-id="gc_ea" href="http://store.steampowered.com/${singularType}/${id}" title="${getFeatureTooltip(`gc_ea`, `Early Access`)}">${esgst.gc_ea_s ? (esgst.gc_ea_s_i ? `<i class="fa fa-${esgst.gc_eaIcon}"></i>` : `EA`) : esgst.gc_eaLabel}</a>
                             `);
                         }
                         break;
                     case `gc_rm`:
                         if (cache && cache.removed) {
                             elements.push(`
-                                <a class="esgst-gc esgst-gc-removed" data-id="gc_rm" href="http://steamdb.info/${singularType}/${id}" title="Removed">${esgst.gc_rm_s ? (esgst.gc_rm_s_i ? `<i class="fa fa-${esgst.gc_rmIcon}"></i>` : `RM`) : esgst.gc_rmLabel}</a>
+                                <a class="esgst-gc esgst-gc-removed" data-id="gc_rm" href="http://steamdb.info/${singularType}/${id}" title="${getFeatureTooltip(`gc_rm`, `Removed`)}">${esgst.gc_rm_s ? (esgst.gc_rm_s_i ? `<i class="fa fa-${esgst.gc_rmIcon}"></i>` : `RM`) : esgst.gc_rmLabel}</a>
                             `);
                         }
                         break;
                     case `gc_rd`:
                         if (cache && cache.releaseDate) {
                             elements.push(`
-                                <a class="esgst-gc esgst-gc-releaseDate" data-id="gc_rd" data-timestamp="${cache.releaseDate / 1e3}" href="http://store.steampowered.com/${singularType}/${id}" title="Release Date">
+                                <a class="esgst-gc esgst-gc-releaseDate" data-id="gc_rd" data-timestamp="${cache.releaseDate / 1e3}" href="http://store.steampowered.com/${singularType}/${id}" title="${getFeatureTooltip(`gc_rd`, `Release Date`)}">
                                     <i class="fa fa-${esgst.gc_rdIcon}"></i> ${formatGcDate(cache.releaseDate)}
                                 </a>
                             `);
@@ -15347,7 +15355,7 @@ Parsedown = (() => {
                                     if (k >= 0) {
                                         if (esgst.gc_g_s) {
                                             colored.push(`
-                                                <a class="esgst-gc esgst-gc-genres" href="http://store.steampowered.com/${singularType}/${id}" style="background-color: ${esgst.gc_g_colors[k].bgColor}; color: ${esgst.gc_g_colors[k].color};" title="${genreList[j]}">${genreList.splice(j, 1)}</a>
+                                                <a class="esgst-gc esgst-gc-genres" href="http://store.steampowered.com/${singularType}/${id}" style="background-color: ${esgst.gc_g_colors[k].bgColor}; color: ${esgst.gc_g_colors[k].color};" title="${getFeatureTooltip(`gc_g_s`, genreList[j])}">${genreList.splice(j, 1)}</a>
                                             `);
                                         } else {
                                             colored.push(`
@@ -15356,7 +15364,7 @@ Parsedown = (() => {
                                         }
                                     } else if (esgst.gc_g_s) {
                                         genreList[j] = `
-                                            <a class="esgst-gc esgst-gc-genres" href="http://store.steampowered.com/${singularType}/${id}" title="${genreList[j]}">${genreList[j]}</a>
+                                            <a class="esgst-gc esgst-gc-genres" href="http://store.steampowered.com/${singularType}/${id}" title="${getFeatureTooltip(`gc_g_s`, genreList[j])}">${genreList[j]}</a>
                                         `;
                                     }
                                 } else {
@@ -15375,7 +15383,7 @@ Parsedown = (() => {
                                 `);
                             } else if (genreList.length > 0) {
                                 elements.push(`
-                                    <a class="esgst-gc esgst-gc-genres" data-id="gc_g" href="http://store.steampowered.com/${singularType}/${id}" title="${genres}">${genreList.join(`, `)}</a>
+                                    <a class="esgst-gc esgst-gc-genres" data-id="gc_g" href="http://store.steampowered.com/${singularType}/${id}" title="${getFeatureTooltip(`gc_g`, genres)}">${genreList.join(`, `)}</a>
                                 `);
                             }
                         }
@@ -15776,7 +15784,7 @@ Parsedown = (() => {
         if (!button) {
             button = insertHtml(context, `afterBegin`, `<div class="esgst-gdttt-button page_heading_btn"><div>`);
         }
-        button.innerHTML = `<i class="fa fa-check" title="Mark as visited"></i>`;
+        button.innerHTML = `<i class="fa fa-check" title="${getFeatureTooltip(`gdttt`, `Mark as visited`)}"></i>`;
         button.addEventListener(`click`, async function() {
             if (!busy) {
                 busy = true;
@@ -15806,7 +15814,7 @@ Parsedown = (() => {
         if (!button) {
             button = insertHtml(context, `afterBegin`, `<div class="esgst-gdttt-button page_heading_btn"><div>`);
         }
-        button.innerHTML = `<i class="fa fa-times" title="Mark as unvisited"></i>`;
+        button.innerHTML = `<i class="fa fa-times" title="${getFeatureTooltip(`gdttt`, `Mark as unvisited`)}"></i>`;
         button.addEventListener(`click`, async function() {
             if (!busy) {
                 busy = true;
@@ -15839,7 +15847,7 @@ Parsedown = (() => {
             }
             let ge = {
                 button: insertHtml(esgst.hideButtons && esgst.hideButtons_ge ? esgst[key] : esgst.mainPageHeading, position, `
-                    <div class="esgst-heading-button" id="esgst-ge" title="Extract giveaways">
+                    <div class="esgst-heading-button" id="esgst-ge" title="${getFeatureTooltip(`ge`, `Extract giveaways`)}">
                         <i class="fa fa-gift"></i>
                         <i class="fa fa-search"></i>
                     </div>
@@ -16151,7 +16159,7 @@ Parsedown = (() => {
             openGedPopup(ged);
         } else {
             ged.button = insertHtml(esgst.headerNavigationLeft, `beforeEnd`, `
-                <div class="nav__button-container esgst-hidden" title="View your decrypted giveaways">
+                <div class="nav__button-container esgst-hidden" title="${getFeatureTooltip(`ged`, `View your decrypted giveaways`)}">
                     <div class="nav__button">
                         <i class="fa fa-star"></i>
                     </div>
@@ -16344,7 +16352,7 @@ Parsedown = (() => {
                     }
                 }
                 comment.actions.insertAdjacentHTML(`beforeEnd`, `
-                    <a class="esgst-ged-icon${isEnded ? ` esgst-red` : (isStarted ? (isNew ? ` esgst-green` : ``) : ` esgst-yellow`)}" href="/giveaway/${code}/" title="ESGST Decrypted Giveaway">
+                    <a class="esgst-ged-icon${isEnded ? ` esgst-red` : (isStarted ? (isNew ? ` esgst-green` : ``) : ` esgst-yellow`)}" href="/giveaway/${code}/" title="${getFeatureTooltip(`ged`, `ESGST Decrypted Giveaway`)}">
                         <i class="fa fa-star"></i>
                     </a>
                 `);
@@ -16471,7 +16479,7 @@ Parsedown = (() => {
         if (esgst.giveawayPath && document.getElementsByClassName(`table--summary`)[0]) {
             name = encodeURIComponent(document.getElementsByClassName(`table__column__secondary-link`)[0].textContent);
             document.getElementsByClassName(`table__row-outer-wrap`)[0].insertAdjacentHTML(`afterEnd`, `
-                <div class="table__row-outer-wrap">
+                <div class="table__row-outer-wrap" title="${getFeatureTooltip(`gesl`)}">
                     <div class="table__row-inner-wrap">
                         <div class="table__column--width-small">
                             <span class="esgst-bold">Search Links</span>
@@ -16608,7 +16616,7 @@ Parsedown = (() => {
         headingButton.id = `esgst-gf`;
         headingButton.innerHTML = `
             <span class="esgst-gf-toggle-switch"></span>
-            <i class="fa fa-sliders" title="Manage presets"></i>
+            <i class="fa fa-sliders" title="${getFeatureTooltip(`gf`, `Manage presets`)}"></i>
         `;
         toggleSwitch = new ToggleSwitch(headingButton.firstElementChild, `gf_enable${gf.type}`, true, ``, false, false, null, esgst[`gf_enable${gf.type}`]);
         toggleSwitch.onEnabled = filterGfGiveaways.bind(null, gf);
@@ -18063,7 +18071,7 @@ Parsedown = (() => {
                 position = `beforeEnd`;
             }
             insertHtml(esgst.hideButtons && esgst.hideButtons_glwc ? esgst[key] : esgst.mainPageHeading, position, `
-                <div class="esgst-heading-button" id="esgst-glwc" title="Check libraries/wishlists">
+                <div class="esgst-heading-button" id="esgst-glwc" title="${getFeatureTooltip(`glwc`, `Check libraries/wishlists`)}">
                     <i class="fa fa-folder"></i>
                     <i class="fa fa-star"></i>
                 </div>
@@ -18513,7 +18521,7 @@ Parsedown = (() => {
                 position = `beforeEnd`;
             }
             button = insertHtml(context || (esgst.hideButtons && esgst.hideButtons_gm ? esgst[key] : esgst.mainPageHeading), position, `
-                <div class="esgst-heading-button" id="esgst-gm" title="Manage giveaways">
+                <div class="esgst-heading-button" id="esgst-gm" title="${getFeatureTooltip(`gm`, `Manage giveaways`)}">
                     <span></span>
                     <i class="fa fa-gear"></i>
                 </div>
@@ -18842,7 +18850,7 @@ Parsedown = (() => {
             buttonSet = new ButtonSet(`grey`, `grey`, `fa-external-link`, `fa-circle-o-notch fa-spin`, ``, ``, openElgbPopup.bind(null, giveaway, main, source)).set;
             buttonSet.classList.add(`esgst-gp-button`);
             buttonSet.setAttribute(`data-columnId`, `gp`);
-            buttonSet.title = `View giveaway description/add a comment`;
+            buttonSet.title = getFeatureTooltip(`gp`, `View giveaway description/add a comment`);
             giveaway.panel.appendChild(buttonSet);                    
             if (!esgst.lockGiveawayColumns && (!main || esgst.giveawaysPath || esgst.userPath || esgst.groupPath)) {
                 buttonSet.setAttribute(`draggable`, true);
@@ -19251,7 +19259,7 @@ Parsedown = (() => {
             position = `beforeEnd`;
         }
         addGtsButtonSection(insertHtml(esgst.hideButtons && esgst.hideButtons_gts ? esgst[key] : esgst.mainPageHeading, position, `
-            <div class="esgst-gts-button esgst-heading-button" id="esgst-gts" title="View/apply templates">
+            <div class="esgst-gts-button esgst-heading-button" id="esgst-gts" title="${getFeatureTooltip(`gts`, `View/apply templates`)}">
                 <i class="fa fa-file"></i>
             </div>
         `), rows);
@@ -19797,7 +19805,7 @@ Parsedown = (() => {
                     position = `beforeEnd`;
                 }
                 button = insertHtml(esgst.hideButtons && esgst.hideButtons_gv ? esgst[key] : esgst.mainPageHeading, position, `
-                    <div class="esgst-heading-button" id="esgst-gv" title="Set Grid View spacing">
+                    <div class="esgst-heading-button" id="esgst-gv" title="${getFeatureTooltip(`gv`, `Set Grid View spacing`)}">
                         <i class="fa fa-th-large"></i>
                     </div>
                 `);
@@ -19904,7 +19912,7 @@ Parsedown = (() => {
         var i, n;
         if (((giveaway.inviteOnly && ((main && esgst.giveawayPath) || !main || giveaway.ended)) || !giveaway.inviteOnly) && !giveaway.innerWrap.getElementsByClassName(`esgst-gwc`)[0]) {
             if (giveaway.started) {
-                let context = insertHtml(giveaway.panel, (esgst.gv && ((main && esgst.giveawaysPath) || (source === `gb` && esgst.gv_gb) || (source === `ged` && esgst.gv_ged) || (source === `ge` && esgst.gv_ge))) ? `afterBegin` : `beforeEnd`, `<div class="${esgst.giveawayPath ? `featured__column` : ``} esgst-gwc" data-columnId="gwc" title="Giveaway Winning Chance">`);
+                let context = insertHtml(giveaway.panel, (esgst.gv && ((main && esgst.giveawaysPath) || (source === `gb` && esgst.gv_gb) || (source === `ged` && esgst.gv_ged) || (source === `ge` && esgst.gv_ge))) ? `afterBegin` : `beforeEnd`, `<div class="${esgst.giveawayPath ? `featured__column` : ``} esgst-gwc" data-columnId="gwc" title="${getFeatureTooltip(`gwc`, `Giveaway Winning Chance`)}">`);
                 addGwcChance(context, giveaway);
                 if (!esgst.lockGiveawayColumns && (!main || esgst.giveawaysPath || esgst.userPath || esgst.groupPath)) {
                     context.setAttribute(`draggable`, true);
@@ -19930,7 +19938,7 @@ Parsedown = (() => {
         }
         giveaway.chance = esgst.gwc_a && !esgst.gwc_a_b ? advancedChance : basicChance;
         giveaway.chancePerPoint = Math.round(giveaway.chance / giveaway.points * 100) / 100;
-        context.title = `Giveaway Winning Chance (${giveaway.chancePerPoint}% per point)`;
+        context.title = getFeatureTooltip(`gwc`, `Giveaway Winning Chance (${giveaway.chancePerPoint}% per point)`);
         context.setAttribute(`data-chance`, giveaway.chance);
         for (i = esgst.gwc_colors.length - 1; i > -1; --i) {
             colors = esgst.gwc_colors[i];
@@ -19997,7 +20005,7 @@ Parsedown = (() => {
     function addGwrRatios(giveaway, main, source) {
         var i, n;
         if (giveaway.started && ((giveaway.inviteOnly && ((main && esgst.giveawayPath) || !main || giveaway.ended)) || !giveaway.inviteOnly) && !giveaway.innerWrap.getElementsByClassName(`esgst-gwr`)[0]) {
-            let context = insertHtml(giveaway.panel, (esgst.gv && ((main && esgst.giveawaysPath) || (source === `gb` && esgst.gv_gb) || (source === `ged` && esgst.gv_ged) || (source === `ge` && esgst.gv_ge))) ? `afterBegin` : `beforeEnd`, `<div class="${esgst.giveawayPath ? `featured__column` : ``} esgst-gwr" data-columnId="gwr" title="Giveaway Winning Ratio">`);
+            let context = insertHtml(giveaway.panel, (esgst.gv && ((main && esgst.giveawaysPath) || (source === `gb` && esgst.gv_gb) || (source === `ged` && esgst.gv_ged) || (source === `ge` && esgst.gv_ge))) ? `afterBegin` : `beforeEnd`, `<div class="${esgst.giveawayPath ? `featured__column` : ``} esgst-gwr" data-columnId="gwr" title="${getFeatureTooltip(`gwr`, `Giveaway Winning Ratio`)}">`);
             addGwcRatio(context, giveaway);
             if (!esgst.lockGiveawayColumns && (!main || esgst.giveawaysPath || esgst.userPath || esgst.groupPath)) {
                 context.setAttribute(`draggable`, true);
@@ -20129,7 +20137,7 @@ Parsedown = (() => {
         if (!location.pathname.match(/^\/account\/settings\/giveaways\/filters/)) return;
         let [key, position] = esgst.leftButtonIds.indexOf(`hgr`) > -1 ? [`leftButtons`, `afterBegin`] : [`rightButtons`, `beforeEnd`];
         let button = insertHtml(esgst.hideButtons && esgst.hideButtons_hgr ? esgst[key] : esgst.mainPageHeading, position, `
-            <div class="esgst-heading-button" id="esgst-hgr" title="Remove owned games from the list">
+            <div class="esgst-heading-button" id="esgst-hgr" title="${getFeatureTooltip(`hgr`, `Remove games from the list`)}">
                 <i class="fa fa-eye-slash"></i>
                 <i class="fa fa-times-circle"></i>
             </div>
@@ -20352,7 +20360,7 @@ Parsedown = (() => {
                 while (nextRefresh > 15) {
                     nextRefresh -= 15;
                 }
-                esgst.pointsContainer.title = `${getTtecTime(Math.round((nextRefresh + (15 * Math.floor((400 - esgst.points) / 6))) * 100) / 100)} to 400P`;
+                esgst.pointsContainer.title = getFeatureTooltip(`ttpcc`, `${getTtecTime(Math.round((nextRefresh + (15 * Math.floor((400 - esgst.points) / 6))) * 100) / 100)} to 400P`);
             }
             esgst.levelContainer = esgst.mainButton.lastElementChild;
             esgst.level = parseInt(esgst.levelContainer.textContent.match(/\d+/)[0]);
@@ -20828,7 +20836,7 @@ Parsedown = (() => {
                     Context = Matches[I].getElementsByClassName(`comment__username`)[0];
                     Username = Context.textContent;
                     if (Winners[Key].indexOf(Username) >= 0) {
-                        Context.insertAdjacentHTML(`afterEnd`, `<i class="fa fa-trophy esgst-iwh-icon" title="This is the winner or one of the winners of this giveaway"></i>`);
+                        Context.insertAdjacentHTML(`afterEnd`, `<i class="fa fa-trophy esgst-iwh-icon" title="${getFeatureTooltip(`iwh`, `This is the winner or one of the winners of this giveaway`)}"></i>`);
                     }
                 }
             }
@@ -21072,7 +21080,7 @@ Parsedown = (() => {
             progress = percentage > dif ? 100 : parseInt(percentage * 1.85);
             projectedFirstBar = `${progress}px`;
             projectedSecondBar = progress >= 156 ? `${progress - 156 - 0.59}px` : `0`;
-            esgst.levelContainer.title = `${esgst.levelContainer.getAttribute(`title`)} (${base + parseInt(percentage / 100)}.${`0${percentage}`.slice(-2)})`;
+            esgst.levelContainer.title = getFeatureTooltip(`lpv`, `${esgst.levelContainer.getAttribute(`title`)} (${base + parseInt(percentage / 100)}.${`0${percentage}`.slice(-2)})`);
         }
         if (!esgst.lpvStyle) {
             esgst.lpvStyle = insertHtml(document.head, `beforeEnd`, `<style id="esgst-lpv-style"></style>`);
@@ -21119,7 +21127,7 @@ Parsedown = (() => {
             lower = values[base];
             upper = values[base + 1];
             value = Math.round((upper - (lower + ((upper - lower) * (profile.level - base)))) * 100) / 100;
-            profile.levelRowRight.insertAdjacentHTML(`beforeEnd`, `<span class="esgst-luc-value">(~\$${value} real CV to level ${base + 1})</span>`);
+            profile.levelRowRight.insertAdjacentHTML(`beforeEnd`, `<span class="esgst-luc-value" title="${getFeatureTooltip(`luc`)}">(~\$${value} real CV to level ${base + 1})</span>`);
         }
     }
 
@@ -21183,7 +21191,7 @@ Parsedown = (() => {
             };
             mgc.gameName = mgc.gameId.nextElementSibling;
             section = insertHtml(rows, `afterBegin`, `
-                <div class="esgst-form-row">
+                <div class="esgst-form-row" title="${getFeatureTooltip(`mgc`)}">
                     <div class="esgst-form-heading">
                         <div class="esgst-form-heading-number">0.</div>
                         <div class="esgst-form-heading-text">
@@ -22195,7 +22203,7 @@ Parsedown = (() => {
             esgst.gmCheckboxes = {};
             button = insertHtml(popup.scrollable, `afterBegin`, `
                 <div class="esgst-page-heading">
-                    <div class="esgst-heading-button" title="Manage giveaways">
+                    <div class="esgst-heading-button" title="${getFeatureTooltip(`gm`, `Manage giveaways`)}">
                         <span></span>
                         <i class="fa fa-gear"></i>
                     </div>
@@ -22231,7 +22239,7 @@ Parsedown = (() => {
         }
         let [key, position] = esgst.leftButtonIds.indexOf(`mpp`) > -1 ? [`leftButtons`, `afterBegin`] : [`rightButtons`, `beforeEnd`];
         let button = insertHtml(esgst.hideButtons && esgst.hideButtons_mpp ? esgst[key] : esgst.mainPageHeading, position, `
-            <div class="esgst-heading-button" id="esgst-mpp" title="Open the main post">
+            <div class="esgst-heading-button" id="esgst-mpp" title="${getFeatureTooltip(`mpp`, `Open the main post`)}">
                 <i class="fa fa-home"></i>
             </div>
         `);
@@ -22604,7 +22612,7 @@ Parsedown = (() => {
                     position = `beforeEnd`;
                 }
                 esgst.mtUserButton = insertHtml(esgst.hideButtons && esgst.hideButtons_mtUsers ? esgst[key] : esgst.mainPageHeading, position, `
-                    <div class="esgst-heading-button esgst-hidden" id="esgst-mtUsers" title="Manage users">
+                    <div class="esgst-heading-button esgst-hidden" id="esgst-mtUsers" title="${getFeatureTooltip(`mt`, `Manage users`)}">
                         <span></span>
                         <span>
                             <i class="fa fa-user"></i>
@@ -22630,7 +22638,7 @@ Parsedown = (() => {
                     position = `beforeEnd`;
                 }
                 esgst.mtGameButton = insertHtml(esgst.hideButtons && esgst.hideButtons_mtGames ? esgst[key] : esgst.mainPageHeading, position, `
-                    <div class="esgst-heading-button esgst-hidden" id="esgst-mtGames" title="Multi-tag games">
+                    <div class="esgst-heading-button esgst-hidden" id="esgst-mtGames" title="${getFeatureTooltip(`mt`, `Multi-tag games`)}">
                         <span></span>
                         <span>
                             <i class="fa fa-gamepad"></i>
@@ -23106,7 +23114,7 @@ Parsedown = (() => {
             position = `beforeEnd`;
         }
         setNAMWCPopup(insertHtml(esgst.hideButtons && esgst.hideButtons_namwc ? esgst[key] : esgst.mainPageHeading, position, `
-            <div class="esgst-heading-button" id="esgst-namwc" title="Check for not activated/multiple wins">
+            <div class="esgst-heading-button" id="esgst-namwc" title="${getFeatureTooltip(`namwc`, `Check for not activated/multiple wins`)}">
                 <i class="fa fa-trophy"></i>
                 <i class="fa fa-question-circle"></i>
             </div>
@@ -23116,7 +23124,7 @@ Parsedown = (() => {
     function addNamwcProfileButton(profile) {
         setNAMWCPopup(insertHtml(profile.wonRowLeft, `beforeEnd`, `
             <span class="esgst-namwc-button">
-                <i class="fa fa-question-circle" title="Check for not activated/multiple wins"></i>
+                <i class="fa fa-question-circle" title="${getFeatureTooltip(`namwc`, `Check for not activated/multiple wins`)}"></i>
             </span>
         `), {
             SteamID64: profile.steamId,
@@ -23327,17 +23335,17 @@ Parsedown = (() => {
                         if (Array.isArray(namwc.results.notActivated)) {
                             for (i = 0, n = namwc.results.notActivated.length; i < n && namwc.results.notActivated[i] <= suspension; ++i);
                             if (i > 0) {
-                                NAMWC.users[steamId].notActivated.insertAdjacentHTML(`beforeEnd`, ` <span title="This user already served suspension for ${i} of their not activated wins (until ${getTimestamp(suspension / 1e3, true, true)})">[-${i}]</span>`);
+                                NAMWC.users[steamId].notActivated.insertAdjacentHTML(`beforeEnd`, ` <span title="${getFeatureTooltip(`ust`, `This user already served suspension for ${i} of their not activated wins (until ${getTimestamp(suspension / 1e3, true, true)})`)}">[-${i}]</span>`);
                             } else if (NAMWC.users[steamId].activated) {
-                                NAMWC.users[steamId].activated.insertAdjacentHTML(`beforeEnd`, ` <span title="This user already served suspension for not activated wins until ${getTimestamp(suspension / 1e3, true, true)}">[x]</span>`);
+                                NAMWC.users[steamId].activated.insertAdjacentHTML(`beforeEnd`, ` <span title="${getFeatureTooltip(`ust`, `This user already served suspension for not activated wins until ${getTimestamp(suspension / 1e3, true, true)}`)}">[x]</span>`);
                             }
                         }
                         if (Array.isArray(namwc.results.multiple)) {
                             for (i = 0, n = namwc.results.multiple.length; i < n && namwc.results.multiple[i] <= suspension; ++i);
                             if (i > 0) {
-                                NAMWC.users[steamId].multiple.insertAdjacentHTML(`beforeEnd`, ` <span title="This user already served suspension for ${i} of their multiple wins (until ${getTimestamp(suspension / 1e3, true, true)})">[-${i}]</span>`);
+                                NAMWC.users[steamId].multiple.insertAdjacentHTML(`beforeEnd`, ` <span title="${getFeatureTooltip(`ust`, `This user already served suspension for ${i} of their multiple wins (until ${getTimestamp(suspension / 1e3, true, true)})`)}">[-${i}]</span>`);
                             } else if (NAMWC.users[steamId].notMultiple) {
-                                NAMWC.users[steamId].notMultiple.insertAdjacentHTML(`beforeEnd`, ` <span title="This user already served suspension for multiple wins until ${getTimestamp(suspension / 1e3, true, true)}">[x]</span>`);
+                                NAMWC.users[steamId].notMultiple.insertAdjacentHTML(`beforeEnd`, ` <span title="${getFeatureTooltip(`ust`, `This user already served suspension for multiple wins until ${getTimestamp(suspension / 1e3, true, true)}`)}">[x]</span>`);
                             }
                         }
                     }
@@ -23444,7 +23452,7 @@ Parsedown = (() => {
                 // the button does not exist yet, so add it and save it in a global variable
                 esgst.altInboxButton = insertHtml(esgst.inboxButton, `afterEnd`, `
                     <div class="nav__button-container nav__button-container--notification nav__button-container--active">
-                        <a class="nav__button" href="https://www.steamtrades.com/messages" title="SteamTrades Messages">
+                        <a class="nav__button" href="https://www.steamtrades.com/messages" title="${getFeatureTooltip(`nm`, `SteamTrades Messages`)}">
                             <i class="fa fa-envelope esgst-nm-icon"></i>
                             <div class="nav__notification">${notification.textContent}</div>
                         </a>
@@ -23468,7 +23476,7 @@ Parsedown = (() => {
             } else {
                 // the button does not exist yet, so add it and save it in a global variable
                 esgst.altInboxButton = insertHtml(esgst.inboxButton, `afterEnd`, `
-                    <div class="nav_btn_container">
+                    <div class="nav_btn_container" title="${getFeatureTooltip(`nm`)}">
                         <a class="nav_btn" href="https://www.steamgifts.com/messages">
                             <i class="fa fa-envelope esgst-nm-icon"></i>
                             <span>Messages <span class="message_count">${notification.textContent}</span></span>
@@ -23561,7 +23569,7 @@ Parsedown = (() => {
             NRF.Multiple = [];
             profile.sentRowLeft.insertAdjacentHTML(`beforeEnd`, `
                 <span class="esgst-nrf-button">
-                    <i class="fa fa-times-circle" title="Find not received giveaways"></i>
+                    <i class="fa fa-times-circle" title="${getFeatureTooltip(`nrf`, `Find not received giveaways`)}"></i>
                 </span>
             `);
             setNRFPopup(NRF, profile.sentRowLeft.lastElementChild, profile);
@@ -23976,6 +23984,7 @@ Parsedown = (() => {
     function loadPnot() {
         if (!esgst.paginationNavigation || !esgst.mainPageHeading) return;
         esgst.paginationNavigation.classList.add(`page_heading_btn`);
+        esgst.paginationNavigation.tile = getFeatureTooltip(`pnot`);
         esgst.mainPageHeading.appendChild(esgst.paginationNavigation);
     }
 
@@ -23996,6 +24005,7 @@ Parsedown = (() => {
             {name: `Browse Uncategorized`, url: `/discussions/uncategorized`}
 
         ].forEach(details => {
+            details.title = getFeatureTooltip(`qdb`);
             html += generateHeaderMenuItem(details);
         });
         document.getElementsByClassName(`nav__absolute-dropdown`)[1].insertAdjacentHTML(`beforeEnd`, html);
@@ -24012,6 +24022,7 @@ Parsedown = (() => {
             {name: `Browse New Giveaways`, url: `/giveaways/search?type=new`}
 
         ].forEach(details => {
+            details.title = getFeatureTooltip(`qgb`);
             html += generateHeaderMenuItem(details);
         });
         document.getElementsByClassName(`nav__absolute-dropdown`)[0].insertAdjacentHTML(`beforeEnd`, html);
@@ -24021,7 +24032,7 @@ Parsedown = (() => {
 
     function loadQgs() {
         let container = insertHtml(document.getElementsByClassName(`nav__left-container`)[0], `afterBegin`, `
-            <div class="esgst-qgs-container">
+            <div class="esgst-qgs-container" title="${getFeatureTooltip(`qgs`)}">
                 <input class="esgst-qgs-input" placeholder="Search..." type="text">
                 <i class="fa fa-search"></i>
             </div>
@@ -24174,8 +24185,8 @@ Parsedown = (() => {
         elements = esgst.activeDiscussions.querySelectorAll(`.homepage_heading, .esgst-heading-button`);
         for (i = elements.length - 1; i > -1; --i) {
             insertHtml(elements[i], `beforeBegin`, `
-                <div class="esgst-radb-button${esgst.oadd ? `` : ` homepage_heading`}">
-                    <i class="fa fa-refresh" title="Refresh active discussions/deals"></i>
+                <div class="esgst-radb-button${esgst.oadd ? `` : ` homepage_heading`}" title="${getFeatureTooltip(`radb`, `Refresh active discussions/deals`)}">
+                    <i class="fa fa-refresh"></i>
                 </div>
             `).addEventListener(`click`, event => {
                 let icon = event.currentTarget.firstElementChild;
@@ -24238,7 +24249,7 @@ Parsedown = (() => {
                 position = `beforeEnd`;
             }
             button = insertHtml(esgst.hideButtons && esgst.hideButtons_rbp ? esgst[key] : esgst.mainPageHeading, position, `
-                <div class="esgst-heading-button" id="esgst-rbp" title="Add a comment">
+                <div class="esgst-heading-button" id="esgst-rbp" title="${getFeatureTooltip(`rbp`, `Add a comment`)}">
                     <i class="fa fa-comment"></i>
                 </div>
             `);
@@ -24496,10 +24507,10 @@ Parsedown = (() => {
             sentUrl += `/newestfirst`;
         }
         profile.wonRowLeft.innerHTML = `
-            <a class="esgst-rwscvl-link" href="${wonUrl}" target="_blank">Gifts Won</a>
+            <a class="esgst-rwscvl-link" href="${wonUrl}" target="_blank" title="${getFeatureTooltip(`rwscvl`)}">Gifts Won</a>
         `;
         profile.sentRowLeft.innerHTML = `
-            <a class="esgst-rwscvl-link" href="${sentUrl}" target="_blank">Gifts Sent</a>
+            <a class="esgst-rwscvl-link" href="${sentUrl}" target="_blank" title="${getFeatureTooltip(`rwscvl`)}">Gifts Sent</a>
         `;
     }
 
@@ -24551,7 +24562,7 @@ Parsedown = (() => {
             switch (esgst.sal_index) {
                 case 0:
                     insertHtml(link, `beforeEnd`, `
-                        <span class="esgst-sal esgst-clickable" title="Activate on Steam (client)">
+                        <span class="esgst-sal esgst-clickable" title="${getFeatureTooltip(`sal`, `Activate on Steam (client)`)}">
                             <i class="fa fa-steam"></i>
                         </span>
                     `).addEventListener(`click`, function () {
@@ -24567,17 +24578,17 @@ Parsedown = (() => {
                     break;
                 case 1:
                     link.insertAdjacentHTML(`beforeEnd`, `
-                        <a class="esgst-sal esgst-clickable" href="https://store.steampowered.com/account/registerkey?key=${match}" target="_blank" title="Activate on Steam (browser)">
+                        <a class="esgst-sal esgst-clickable" href="https://store.steampowered.com/account/registerkey?key=${match}" target="_blank" title="${getFeatureTooltip(`sal`, `Activate on Steam (browser)`)}">
                             <i class="fa fa-globe"></i>
                         </a>
                     `);
                     break;
                 case 2:
                     insertHtml(link, `beforeEnd`, `
-                        <span class="esgst-sal esgst-clickable" title="Activate on Steam (client)">
+                        <span class="esgst-sal esgst-clickable" title="${getFeatureTooltip(`sal`, `Activate on Steam (client)`)}">
                             <i class="fa fa-steam"></i>
                         </span>
-                        <a class="esgst-sal esgst-clickable" href="https://store.steampowered.com/account/registerkey?key=${match}" target="_blank" title="Activate on Steam (browser)">
+                        <a class="esgst-sal esgst-clickable" href="https://store.steampowered.com/account/registerkey?key=${match}" target="_blank" title="${getFeatureTooltip(`sal`, `Activate on Steam (browser)`)}">
                             <i class="fa fa-globe"></i>
                         </a>
                     `).previousElementSibling.addEventListener(`click`, function () {
@@ -24664,7 +24675,7 @@ Parsedown = (() => {
             return;
         }
         profile.sgcButton = insertHtml(profile.heading, `beforeEnd`, `
-            <a class="esgst-sgc-button" title="Check shared groups">
+            <a class="esgst-sgc-button" title="${getFeatureTooltip(`sgc`, `Check shared groups`)}">
                 <i class="fa fa-users"></i>
             </a>
         `);
@@ -24895,7 +24906,7 @@ Parsedown = (() => {
     function addSgpbButton(profile) {
         var button;
         button = insertHtml(profile.steamButtonContainer, `beforeEnd`, `
-            <div class="esgst-sgpb-container">
+            <div class="esgst-sgpb-container" title="${getFeatureTooltip(`sgpb`)}">
                 <a class="esgst-sgpb-button" href="https://www.steamgifts.com/go/user/${profile.steamId}" rel="nofollow" target="_blank">
                     <i class="fa">
                         <img src="${esgst.sgIcon}">
@@ -25099,7 +25110,7 @@ Parsedown = (() => {
             position = `beforeEnd`;
         }
         let button = insertHtml(esgst.hideButtons && esgst.hideButtons_sks ? esgst[key] : esgst.mainPageHeading, position, `
-            <div class="esgst-heading-button" id="esgst-sks" title="Search keys">
+            <div class="esgst-heading-button" id="esgst-sks" title="${getFeatureTooltip(`sks`, `Search keys`)}">
                 <i class="fa fa-key"></i>
                 <i class="fa fa-search"></i>
             </div>
@@ -25321,7 +25332,7 @@ Parsedown = (() => {
         switch (esgst.stbb_index) {
             case 0:
                 button = insertHtml(document.body, `beforeEnd`, `
-                    <div class="esgst-stbb-button esgst-stbb-button-fixed" title="Scroll to bottom">
+                    <div class="esgst-stbb-button esgst-stbb-button-fixed" title="${getFeatureTooltip(`stbb`, `Scroll to bottom`)}">
                         <i class="fa fa-chevron-down"></i>
                     </div>
                 `);
@@ -25342,14 +25353,14 @@ Parsedown = (() => {
                     position = `beforeEnd`;
                 }
                 button = insertHtml(esgst.hideButtons && esgst.hideButtons_stbb ? esgst[key] : esgst.mainPageHeading, position, `
-                    <div class="esgst-stbb-button esgst-heading-button" id="esgst-stbb" title="Scroll to bottom">
+                    <div class="esgst-stbb-button esgst-heading-button" id="esgst-stbb" title="${getFeatureTooltip(`stbb`, `Scroll to bottom`)}">
                         <i class="fa fa-chevron-down"></i>
                     </div>
                 `);
                 break;
             case 2:
                 button = insertHtml(esgst.footer.firstElementChild.lastElementChild, `beforeEnd`, `
-                    <div class="esgst-stbb-button" title="Scroll to bottom">
+                    <div class="esgst-stbb-button" title="${getFeatureTooltip(`stbb`, `Scroll to bottom`)}">
                         <i class="fa fa-chevron-down"></i>
                     </div>
                 `);
@@ -25373,7 +25384,7 @@ Parsedown = (() => {
     function addStpbButton(profile) {
         var button, tooltip;
         button = insertHtml(profile.steamButtonContainer.firstElementChild, `beforeEnd`, `
-            <a class="esgst-stpb-button" href="https://www.steamtrades.com/user/${profile.steamId}" rel="nofollow" target="_blank">
+            <a class="esgst-stpb-button" href="https://www.steamtrades.com/user/${profile.steamId}" rel="nofollow" target="_blank" title="${getFeatureTooltip(`stpb`)}">
                 <i class="fa fa-fw">
                     <img src="${esgst.stIcon}">
                 </i>
@@ -25402,7 +25413,7 @@ Parsedown = (() => {
         switch (esgst.sttb_index) {
             case 0:
                 button = insertHtml(document.body, `beforeEnd`, `
-                    <div class="esgst-sttb-button esgst-sttb-button-fixed" title="Scroll to top">
+                    <div class="esgst-sttb-button esgst-sttb-button-fixed" title="${getFeatureTooltip(`sttb`, `Scroll to top`)}">
                         <i class="fa fa-chevron-up"></i>
                     </div>
                 `);
@@ -25424,14 +25435,14 @@ Parsedown = (() => {
                     position = `beforeEnd`;
                 }
                 button = insertHtml(esgst.hideButtons && esgst.hideButtons_sttb ? esgst[key] : esgst.mainPageHeading, position, `
-                    <div class="esgst-sttb-button esgst-heading-button" id="esgst-sttb" title="Scroll to top">
+                    <div class="esgst-sttb-button esgst-heading-button" id="esgst-sttb" title="${getFeatureTooltip(`sttb`, `Scroll to top`)}">
                         <i class="fa fa-chevron-up"></i>
                     </div>
                 `);
                 break;
             case 2:
                 button = insertHtml(esgst.footer.firstElementChild.lastElementChild, `beforeEnd`, `
-                    <div class="esgst-sttb-button" title="Scroll to top">
+                    <div class="esgst-sttb-button" title="${getFeatureTooltip(`sttb`, `Scroll to top`)}">
                         <i class="fa fa-chevron-up"></i>
                     </div>
                 `);
@@ -25532,7 +25543,7 @@ Parsedown = (() => {
             ]
         };
         profile.sentRow.insertAdjacentHTML(`afterEnd`, `
-            <div class="esgst-swr-ratio featured__table__row">
+            <div class="esgst-swr-ratio featured__table__row" title="${getFeatureTooltip(`swr`)}">
                 <div class="featured__table__row__left">Ratio</div>
                 <div class="featured__table__row__right">
                     <span data-ui-tooltip='${JSON.stringify(ratioTooltip)}'>${ratio}</span>
@@ -25555,7 +25566,7 @@ Parsedown = (() => {
                 position = `beforeEnd`;
             }
             let button = insertHtml(esgst.hideButtons && esgst.hideButtons_tb ? esgst[key] : esgst.mainPageHeading, position, `
-                <div class="esgst-heading-button" id="esgst-tb" title="Bump trades">
+                <div class="esgst-heading-button" id="esgst-tb" title="${getFeatureTooltip(`tb`, `Bump trades`)}">
                     <i class="fa fa-chevron-circle-up"></i>
                 </div>
             `);
@@ -25673,21 +25684,21 @@ Parsedown = (() => {
 
     function addTsAscButton(button, columnName, i, table, tsTable) {
         button.innerHTML = `
-            <i class="fa fa-sort-desc" title="Currently sorted descending. Click to sort ascending."></i>
+            <i class="fa fa-sort-desc" title="${getFeatureTooltip(`ts`, `Currently sorted descending. Click to sort ascending.`)}"></i>
         `;
         button.firstElementChild.addEventListener(`click`, sortTsTable.bind(null, button, columnName, i, `asc`, table, tsTable));
     }
 
     function addTsDescButton(button, columnName, i, table, tsTable) {
         button.innerHTML = `
-            <i class="fa fa-sort" title="Currently sorted by default. Click to sort descending."></i>
+            <i class="fa fa-sort" title="${getFeatureTooltip(`ts`, `Currently sorted by default. Click to sort descending.`)}"></i>
         `;
         button.firstElementChild.addEventListener(`click`, sortTsTable.bind(null, button, columnName, i, `desc`, table, tsTable));
     }
 
     function addTsDefButton(button, columnName, i, table, tsTable) {
         button.innerHTML = `
-            <i class="fa fa-sort-asc" title="Currently sorted ascending. Click to sort by default."></i>
+            <i class="fa fa-sort-asc" title="${getFeatureTooltip(`ts`, `Currently sorted ascending. Click to sort by default.`)}"></i>
         `;
         button.firstElementChild.addEventListener(`click`, sortTsTable.bind(null, button, columnName, i, `def`, table, tsTable));
     }
@@ -25802,7 +25813,7 @@ Parsedown = (() => {
             giveaways.forEach(giveaway => {
                 if (!giveaway.ended && !giveaway.entered && giveaway.points > esgst.points) {
                     if (!giveaway.ttec) {
-                        giveaway.ttec = insertHtml(giveaway.panel, (esgst.gv && ((main && esgst.giveawaysPath) || (source === `gb` && esgst.gv_gb) || (source === `ged` && esgst.gv_ged) || (source === `ge` && esgst.gv_ge))) ? `beforeEnd` : `afterBegin`, `<div class="${esgst.giveawayPath ? `featured__column` : ``} esgst-ttec" data-columnId="ttec" title="Time to wait until you have enough points to enter this giveaway"></div>`);
+                        giveaway.ttec = insertHtml(giveaway.panel, (esgst.gv && ((main && esgst.giveawaysPath) || (source === `gb` && esgst.gv_gb) || (source === `ged` && esgst.gv_ged) || (source === `ge` && esgst.gv_ge))) ? `beforeEnd` : `afterBegin`, `<div class="${esgst.giveawayPath ? `featured__column` : ``} esgst-ttec" data-columnId="ttec" title="${getFeatureTooltip(`ttec`, `Time to wait until you have enough points to enter this giveaway`)}"></div>`);
                         if (!esgst.lockGiveawayColumns && (!main || esgst.giveawaysPath || esgst.userPath || esgst.groupPath)) {
                             giveaway.ttec.setAttribute(`draggable`, true);
                             giveaway.ttec.addEventListener(`dragstart`, setGiveawaySource.bind(null, giveaway));
@@ -25849,12 +25860,12 @@ Parsedown = (() => {
             if (esgst.giveawayPath && main) {
                 hideButton = insertHtml(giveaway.headingName.parentElement, `beforeEnd`, `
                     <a>
-                        <i class="fa fa-eye giveaway__hide" title="Unhide all giveaways for this game"></i>
+                        <i class="fa fa-eye giveaway__hide" title="${getFeatureTooltip(`ugb`, `Unhide all giveaways for this game`)}"></i>
                     </a>
                 `);
             } else {
                 hideButton = insertHtml(giveaway.headingName.parentElement, `beforeEnd`, `
-                    <i class="fa fa-eye giveaway__hide giveaway__icon" title="Unhide all giveaways for this game"></i>
+                    <i class="fa fa-eye giveaway__hide giveaway__icon" title="${getFeatureTooltip(`ugb`, `Unhide all giveaways for this game`)}"></i>
                 `);
             }
             hideButton.addEventListener(`click`, unhideGame.bind(null, hideButton, giveaway.gameId, giveaway.name));
@@ -25877,7 +25888,7 @@ Parsedown = (() => {
         var uf;
         if (profile.username !== esgst.username) {
             profile.ufButton = insertHtml(profile.heading, `beforeEnd`, `
-                <a class="esgst-uf-button" title="Edit user filters">
+                <a class="esgst-uf-button" title="${getFeatureTooltip(`uf`, `Edit user filters`)}">
                     <i class="fa"></i>
                 </a>
             `);
@@ -25998,7 +26009,7 @@ Parsedown = (() => {
             key: key
         };
         Context.insertAdjacentHTML(`beforeEnd`, `
-            <span class="esgst-ugd-button" title="Get ${UGD.key} giveaways data">
+            <span class="esgst-ugd-button" title="${getFeatureTooltip(`ugd`, `Get ${UGD.key} giveaways data`)}">
                 <i class="fa fa-bar-chart"></i>
             </span>
         `);
@@ -26612,7 +26623,7 @@ Parsedown = (() => {
                 position = `beforeEnd`;
             }
             button = insertHtml(esgst.hideButtons && esgst.hideButtons_ugs ? esgst[key] : esgst.mainPageHeading, position, `
-                <div class="esgst-heading-button" id="esgst-ugs" title="Send unsent gifts">
+                <div class="esgst-heading-button" id="esgst-ugs" title="${getFeatureTooltip(`ugs`, `Send unsent gifts`)}">
                     <i class="fa fa-gift"></i>
                     <i class="fa fa-send"></i>
                 </div>
@@ -27050,7 +27061,7 @@ Parsedown = (() => {
         var button, box, container, list;
         container = insertHtml(profile.heading, `beforeEnd`, `
             <div class="esgst-uh-container">
-                <a class="esgst-uh-button" title="View username history">
+                <a class="esgst-uh-button" title="${getFeatureTooltip(`uh`, `View username history`)}">
                     <i class="fa fa-caret-down"></i>
                 </a>
                 <div class="esgst-uh-box esgst-hidden">
@@ -27110,7 +27121,7 @@ Parsedown = (() => {
             position = `afterBegin`;
         }
         profile.unButton = insertHtml(profile.heading, position, `
-            <a class="esgst-un-button" title="Edit user notes">
+            <a class="esgst-un-button" title="${getFeatureTooltip(`un`, `Edit user notes`)}">
                 <i class="fa"></i>
             </a>
         `);
@@ -27281,7 +27292,7 @@ Parsedown = (() => {
                 position = `beforeEnd`;
             }
             esgst.ustButton = insertHtml(esgst.hideButtons && esgst.hideButtons_ust ? esgst[key] : esgst.mainPageHeading, position, `
-            <div class="esgst-heading-button" title="Send selected tickets to the User Suspension Tracker database">
+            <div class="esgst-heading-button" title="${getFeatureTooltip(`ust`, `Send selected tickets to the User Suspension Tracker database`)}">
                     <i class="fa fa-paper-plane"></i>
                 </div>
             `);
@@ -27292,7 +27303,7 @@ Parsedown = (() => {
             tickets = JSON.parse(esgst.storage.tickets);
             if (!tickets[code] || !tickets[code].sent) {
                 esgst.ustButton = insertHtml(document.getElementsByClassName(`page__heading`)[0].lastElementChild, `beforeBegin`, `
-                    <div class="esgst-heading-button" title="Send ticket to the User Suspension Tracker database">
+                    <div class="esgst-heading-button" title="${getFeatureTooltip(`ust`, `Send ticket to the User Suspension Tracker database`)}">
                         <i class="fa fa-paper-plane"></i>
                     </div>
                 `);
@@ -27429,7 +27440,7 @@ Parsedown = (() => {
             context = container;
         }
         insertHtml(context, `afterEnd`, `
-            <a class="esgst-ut-button esgst-faded" title="Edit user tags">
+            <a class="esgst-ut-button esgst-faded" title="${getFeatureTooltip(`ut`, `Edit user tags`)}">
                 <i class="fa fa-tag"></i>
                 <span class="esgst-ut-tags"></span>
             </a>
@@ -27751,7 +27762,7 @@ Parsedown = (() => {
             position = `beforeEnd`;
         }
         esgst.wbcButton = insertHtml(esgst.hideButtons && esgst.hideButtons_wbc ? esgst[key] : esgst.mainPageHeading, position, `
-            <div class="esgst-heading-button esgst-hidden" id="esgst-wbc" title="${title}">${html}</div>
+            <div class="esgst-heading-button esgst-hidden" id="esgst-wbc" title="${getFeatureTooltip(`wbc`, title)}">${html}</div>
         `);
         addWBCButton(true, esgst.wbcButton);
     }
@@ -28515,7 +28526,7 @@ Parsedown = (() => {
             position = `beforeEnd`;
         }
         wbm.button = insertHtml(esgst.hideButtons && esgst.hideButtons_wbm ? esgst[key] : esgst.mainPageHeading, position, `
-            <div class="esgst-heading-button" id="esgst-wbm" title="Manage ${wbm.key}">
+            <div class="esgst-heading-button" id="esgst-wbm" title="${getFeatureTooltip(`wbm`, `Manage ${wbm.key}`)}">
                 <i class="fa fa-arrow-up"></i>
                 <i class="fa fa-arrow-down"></i>
                 <i class="fa fa-trash"></i>
@@ -28744,7 +28755,7 @@ Parsedown = (() => {
             position = `beforeEnd`;
         }
         button2 = insertHtml(esgst.hideButtons && esgst.hideButtons_wbsDesc ? esgst[key] : esgst.mainPageHeading, position, `
-            <div class="esgst-heading-button" id="esgst-wbsDesc" title="Sort by added date from newest to oldest">
+            <div class="esgst-heading-button" id="esgst-wbsDesc" title="${getFeatureTooltip(`wbs`, `Sort by added date from newest to oldest`)}">
                 <i class="fa fa-sort-amount-desc"></i>
             </div>
         `);
@@ -28756,7 +28767,7 @@ Parsedown = (() => {
             position = `beforeEnd`;
         }
         button1 = insertHtml(esgst.hideButtons && esgst.hideButtons_wbsAsc ? esgst[key] : esgst.mainPageHeading, position, `
-            <div class="esgst-heading-button" id="esgst-wbsAsc" title="Sort by added date from oldest to newest">
+            <div class="esgst-heading-button" id="esgst-wbsAsc" title="${getFeatureTooltip(`wbs`, `Sort by added date from oldest to newest`)}">
                 <i class="fa fa-sort-amount-asc"></i>
             </div>
         `);
@@ -29203,7 +29214,7 @@ Parsedown = (() => {
         if (main) {
             if (esgst.gr && giveaway.ended && giveaway.creator === esgst.username && (giveaway.entries === 0 || giveaway.entries < giveaway.copies) && (!esgst.gr_r || !esgst.giveaways[giveaway.code] || !esgst.giveaways[giveaway.code].recreated) && !giveaway.headingName.parentElement.getElementsByClassName(`esgst-gr-button`)[0]) {
                 var button = insertHtml(giveaway.headingName, `beforeBegin`, `
-                    <div class="esgst-gr-button" title="Recreate giveaway">
+                    <div class="esgst-gr-button" title="${getFeatureTooltip(`gr`, `Recreate giveaway`)}">
                         <i class="fa fa-rotate-left"></i>
                     </div>
                 `);
@@ -29217,7 +29228,7 @@ Parsedown = (() => {
             }
             let temp = hideButton.previousElementSibling;
             hideButton.outerHTML = `
-                <i class="fa fa-eye-slash giveaway__hide giveaway__icon" title="Hide all giveaways for this game"></i>
+                <i class="fa fa-eye-slash giveaway__hide giveaway__icon" title="${getFeatureTooltip(null, `Hide all giveaways for this game`)}"></i>
             `;
             hideButton = temp.nextElementSibling;
             hideButton.addEventListener(`click`, hideGame.bind(null, hideButton, giveaway.gameId, giveaway.name));
@@ -29933,13 +29944,13 @@ Parsedown = (() => {
                                 title = `${savedUser.username} has ${results.unknown ? `?` : Array.isArray(results.notActivated) ? results.notActivated.length : results.notActivated} not activated wins and ${Array.isArray(results.multiple) ? results.multiple.length : results.multiple} multiple wins (last checked ${getTimestamp(savedUser.namwc.lastCheck / 1e3)})`;
                                 if (esgst.namwc_h_i || (esgst.wbh && (esgst.wbh_w || esgst.wbh_b))) {
                                     html += `
-                                        <span class="esgst-user-icon" title="${title}">
+                                        <span class="esgst-user-icon" title="${getFeatureTooltip(`namwc`, title)}">
                                             <i class="fa ${icon} esgst-${highlight}"></i>
                                         </span>
                                     `;
                                 } else {
                                     element.classList.add(`esgst-namwc-highlight`, `esgst-${highlight}`);
-                                    element.title = title;
+                                    element.title = getFeatureTooltip(`namwc`, title);
                                 }
                             }
                         }
@@ -29947,7 +29958,7 @@ Parsedown = (() => {
                             result = savedUser.wbc.result;
                             if ((result === `whitelisted`) || ((result === `blacklisted`) && esgst.wbc_b)) {
                                 html += `
-                                    <span class="esgst-user-icon" title="${savedUser.username} has ${result} you (last checked ${getTimestamp(savedUser.wbc.lastCheck / 1e3)})">
+                                    <span class="esgst-user-icon" title="${getFeatureTooltip(`wbc`, `${savedUser.username} has ${result} you (last checked ${getTimestamp(savedUser.wbc.lastCheck / 1e3)})`)}">
                                         <i class="fa ${(result === `whitelisted`) ? `fa-check esgst-whitelist` : `fa-times esgst-blacklist`}"></i>
                                     </span>
                                 `;
@@ -29964,10 +29975,10 @@ Parsedown = (() => {
                             title = `You ${status} ${savedUser.username} on ${getTimestamp(savedUser[`${status}Date`] / 1e3)}`;
                             if ((esgst.wbh_w && savedUser.whitelisted) || (esgst.wbh_b && savedUser.blacklisted)) {
                                 element.classList.add(`esgst-wbh-highlight`, `esgst-wbh-highlight-${status}`);
-                                element.title = title;
+                                element.title = getFeatureTooltip(`wbh`, title);
                             } else {
                                 html += `
-                                    <span class="esgst-user-icon" title="${title}">
+                                    <span class="esgst-user-icon" title="${getFeatureTooltip(`wbh`, title)}">
                                         <i class="fa ${icon} esgst-${status.slice(0, -2)}"></i>
                                     </span>
                                 `;
@@ -30088,8 +30099,8 @@ Parsedown = (() => {
                     }
                     if (!esgst.menuPath && savedGames[type][id] && savedGames[type][id].entered && !game.container.getElementsByClassName(`esgst-egh-button`)[0] && (!game.table || esgst.egh_t)) {
                         insertHtml((game.container.closest(`.poll`) && game.container.getElementsByClassName(`table__column__heading`)[0]) || game.headingName, `beforeBegin`, `
-                            <a class="esgst-egh-button">
-                                <i class="fa fa-star esgst-egh-icon" title="You have entered giveaways for this game before. Click to unhighlight it"></i>
+                            <a class="esgst-egh-button" title="${getFeatureTooltip(`egh`, `You have entered giveaways for this game before. Click to unhighlight it`)}">
+                                <i class="fa fa-star esgst-egh-icon"></i>
                             </a>
                         `).addEventListener(`click`, unhighlightEghGame.bind(null, id, type));
                     }
@@ -30097,7 +30108,7 @@ Parsedown = (() => {
                 if (esgst.gt) {
                     if (!game.container.getElementsByClassName(`esgst-gt-button`)[0] && (!game.table || esgst.gt_t)) {
                         insertHtml((game.container.closest(`.poll`) && game.container.getElementsByClassName(`table__column__heading`)[0]) || game.heading.lastElementChild || game.heading, `afterEnd`, `
-                            <a class="esgst-faded esgst-gt-button" title="Edit game tags">
+                            <a class="esgst-faded esgst-gt-button" title="${getFeatureTooltip(`gt`, `Edit game tags`)}">
                                 <i class="fa fa-tag"></i>
                                 <span class="esgst-gt-tags"></span>
                             </a>
@@ -30167,7 +30178,7 @@ Parsedown = (() => {
             if (found) {
                 esgst.noCvButton = insertHtml(context.closest(`.form__row__indent`).previousElementSibling, `beforeEnd`, `
                     <span class="esgst-no-cv-button">
-                        <i class="fa fa-calendar-times-o esgst-blinking esgst-bold esgst-clickable esgst-red" title="Add no CV games to the database"></i>
+                        <i class="fa fa-calendar-times-o esgst-blinking esgst-bold esgst-clickable esgst-red" title="${getFeatureTooltip(null, `Add no CV games to the database`)}"></i>
                     </span>
                 `);
                 if (esgst.addNoCvGames) {
@@ -30537,7 +30548,7 @@ Parsedown = (() => {
         if (details.icon) {
             if (details.url) {
                 return `
-                    <a class="esgst-header-menu-row" href="${details.url}">
+                    <a class="esgst-header-menu-row" href="${details.url}" title="${details.title}">
                         <i class="fa fa-fw ${details.icon}"></i>
                         <div>
                             <p class="esgst-header-menu-name">${details.name}</p>
@@ -30547,7 +30558,7 @@ Parsedown = (() => {
                 `;
             }
             return `
-                <div class="esgst-header-menu-row">
+                <div class="esgst-header-menu-row" title="${details.title}">
                     <i class="fa fa-fw ${details.icon}"></i>
                     <div>
                         <p class="esgst-header-menu-name">${details.name}</p>
@@ -30558,7 +30569,7 @@ Parsedown = (() => {
             `;
         }
         return `
-            <a class="nav__row" href="${details.url}">
+            <a class="nav__row" href="${details.url}" title="${details.title}">
                 <div class="nav__row__summary">
                     <p class="nav__row__summary__name">${details.name}</p>
                 </div>
@@ -30917,6 +30928,57 @@ Parsedown = (() => {
             afterEnd: `nextElementSibling`
         };
         return context[positions[position]];
+    }
+
+    function getFeatureTooltip(id, title = ``) {
+        if (esgst.showFeatureNumber) {
+            if (title) {
+                return `${title}\n\nThis element was added by ESGST${id ? `(${getFeatureNumber(id)})` : ``}`;
+            }
+            return `This element was added by ESGST${id ? `(${getFeatureNumber(id)})` : ``}`;
+        }
+        return title;
+    }
+
+    function getFeatureNumber(queryId) {
+        let n = 1;
+        for (let type in esgst.features) {
+            let i = 1;
+            for (let id in esgst.features[type].features) {
+                let feature = esgst.features[type].features[id];
+                let result = getFeatureNumber_2(feature, id, i, n, queryId);
+                if (result) {
+                    return result;
+                }
+                if (feature.sg || esgst.settings.esgst_st) {
+                    i += 1;
+                }
+            }
+            if (type !== `trades` || esgst.settings.esgst_st) {
+                n += 1;
+            }
+        }
+        return ``;
+    }
+
+    function getFeatureNumber_2(feature, id, i, n, queryId) {
+        if (id === queryId) {
+            return `${n}.${i}`;
+        }
+        if (feature.features) {
+            let j = 1;
+            for (let id in feature.features) {
+                let subFeature = feature.features[id];
+                let result = getFeatureNumber_2(subFeature, id, j, `${n}.${i}`, queryId);
+                if (result) {
+                    return result;
+                }
+                if (subFeature.sg || esgst.settings.esgst_st) {
+                    j += 1;
+                }
+            }
+        }
+        return null;
     }
 
     /* User Saving System */
