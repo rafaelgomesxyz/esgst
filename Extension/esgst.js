@@ -2785,6 +2785,7 @@ Parsedown = (() => {
                             }
                         },
                         name: `Cake Day Reminder`,
+                        new: true,
                         sg: true
                     },
                     es: {
