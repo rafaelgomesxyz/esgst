@@ -1676,6 +1676,10 @@ Parsedown = (() => {
         esgst = {
             parameters: getParameters(),
             defaultValues: {
+                cdr_sg: true,
+                cdr_b_sg: true,
+                cdr_d_sg: true,
+                cdr_days: 7,
                 showFeatureNumber_sg: true,
                 showFeatureNumber_st: true,
                 addNoCvGames_sg: false,
@@ -2022,7 +2026,7 @@ Parsedown = (() => {
             sg: location.hostname.match(/www.steamgifts.com/),
             st: location.hostname.match(/www.steamtrades.com/),
             currentVersion: `7.14.4`,
-            devVersion: `7.14.5 (Dev.8)`,
+            devVersion: `7.14.5 (Dev.9)`,
             icon: `data:image/x-icon;base64,AAABAAEAEBAAAAEAIABoBAAAFgAAACgAAAAQAAAAIAAAAAEAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAqv8DCbP/Hgeq+CQIrf8iCK3/Igit/yIIrf8iB6//Iwit9x8Aqv8DAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAKr0GAa2/c0DvfzfA7f83QO3/N0Dt/zdA7f83QO+/d4Gs/3OAKP1GQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACm/xQFs/n2Bcf//wW///8FwP//BcD//wW///8Fx///BbP69gC2/xUAAAAAAAAAAAAAAAAA/1UDFptOFxSZMxkLpJktAq720QW1+ugEsfvjA7b92wO2/dsEsfvjBbX66Aau/dEoiO4tUlLWGU5k3hdVVf8DEJxKHxWqT8cVrU7uE6VN0guqny0Apv8XAJfQGwBAVywAQFcsAJfQGwCx/xcogugtS2Lk0lBl6u5Qae7ISmPeHxagSSMVr07jF7lV/xOiSu0brgATAAAAAAAAAA8AAAC/AAAAwAAAABAAAAAAYznjEkth4OxWb/3/T2jv40lf4iMXnksiEq1O3RayUv8UpEnkEo0+HQAAABkAAABBAAAA8QAAAPEAAABBAAAAGUBSvxxOYeDjU2v0/05m7d1LYuEiF55LIhKtTt0Ws1L/FahN2gU1FTAAAADAAAAA7AAAAP0AAAD9AAAA7AAAAMAVG0owUGPm2lNr9P9OZu3dS2LhIheeSyISrU7dFrNS/xWoTdoFNRswAAAAvwAAAOsAAAD9AAAA/QAAAOsAAADAFRtKMFBj6NpTa/T/Tmbt3Uti4SIXnksiEq1O3RayUv8UpEnkEo0+HQAAABgAAABAAAAA8QAAAPEAAABBAAAAGT5PuR1OYeDjU2v0/05m7d1LYuEiFqBJIxWuT+QXuVX/E6JL7QC8XhMAAAAAAAAADwAAAL8AAAC/AAAAEAAAAAAOR/8SSWLh7FZv/f9PaO/jSV/iIxCUSh8Vrk7HFqxN7ROlS9JskzMt1XULGK12EhxGLgYsRy8GK612EhzVgAsYgmxxLU1i39JNZ+vtT2fwx0pj1h8AqlUDF65GFgqZUhlsiC0txH0T0s5/EujJgBPkz4QR28+EEdvJgBPkzn8Q6Md+E9KLdHosM1LWGUZo6BZVVf8DAAAAAAAAAAAAAAAA/2YAFMl9EvbgjRb/14gV/9eIFf/XiBX/14gV/9+NFv/KgBD254YAFQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAL91FRjKgRHN1IgU3s+EEt3PhBLdz4QS3c+EEt3UiBTezYMRzcJ6FBkAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACqqgADxIARHr18FiO8eA8ivHgPIrx4DyK8eA8ivXwPI8SAER7/VQADAAAAAAAAAAAAAAAA78cAAPA3AAD4FwAABCAAADGOAAAE+AAAkBEAAJ55AACYOQAAlgEAAER4AAAXaAAATnoAAPgXAAD0JwAA69cAAA==`,
             sgIcon: `data:image/x-icon;base64,AAABAAEAEBAAAAEAIABoBAAAFgAAACgAAAAQAAAAIAAAAAEAIAAAAAAAQAQAABMLAAATCwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIUAAAD5AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAPoAAACFAAAAAAAAAAAAAAD8AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA+QAAAAAAAAAAAAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAAAAAAAAAAAAP8AAAD/AAAA/wAAABwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAcAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAcAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAHAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAAAAAAAAAAAAPwAAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD5AAAAAAAAAAAAAACFAAAA+QAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD5AAAAhQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA//8AAP//AADAAwAAwAMAAMfjAADP8wAAz/MAAM/zAADP8wAAz/MAAM/zAADH4wAAwAMAAMADAAD//wAA//8AAA==`,
             stIcon: `data:image/x-icon;base64,AAABAAEAEBAAAAEAIABoBAAAFgAAACgAAAAQAAAAIAAAAAEAIAAAAAAAQAQAABMLAAATCwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABbD6SgWw+ucFsPrkBbD6SgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAWw+uYFsPr/BbD6/wWw+ucAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAFsPrmBbD6/wWw+v8FsPrmAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABbD6SQWw+uYFsPrmBbD6SQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAFKRLShSkS+cUpEvkFKRLSgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAExi4EpMYuDnTGLg5Exi4EoAAAAAAAAAABSkS+YUpEv/FKRL/xSkS+cAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABMYuDmTGLg/0xi4P9MYuDnAAAAAAAAAAAUpEvmFKRL/xSkS/8UpEvmAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAATGLg5kxi4P9MYuD/TGLg5gAAAAAAAAAAFKRLSRSkS+YUpEvmFKRLSQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAExi4ElMYuDmTGLg5kxi4EkAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAMZ9E0rGfRPnxn0T5MZ9E0oAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADGfRPmxn0T/8Z9E//GfRPnAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAxn0T5sZ9E//GfRP/xn0T5gAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAMZ9E0nGfRPmxn0T5sZ9E0kAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA//8AAPw/AAD8PwAA/D8AAPw/AAD//wAAh+EAAIfhAACH4QAAh+EAAP//AAD8PwAA/D8AAPw/AAD8PwAA//8AAA==`,
@@ -2649,6 +2653,18 @@ Parsedown = (() => {
                 if (esgst.settings.username_sg !== username) {
                     esgst.settings.username_sg = username;
                 }
+                if (!esgst.settings.registrationDate_sg || !esgst.settings.steamId) {
+                    let responseHtml = parseHtml((await request({method: `GET`, url: `https://www.steamgifts.com/user/${esgst.settings.username_sg}`})).responseText);
+                    let elements = responseHtml.getElementsByClassName(`featured__table__row__left`);
+                    for (let i = 0, n = elements.length; i < n; i++) {
+                        let element = elements[i];
+                        if (element.textContent === `Registered`) {
+                            esgst.settings.registrationDate_sg = parseInt(element.nextElementSibling.firstElementChild.getAttribute(`data-timestamp`));
+                            break;
+                        }
+                    }
+                    esgst.settings.steamId = responseHtml.querySelector(`a[href*="/profiles/"]`).getAttribute(`href`).match(/\d+/)[0];
+                }
             } catch (e) {}
         } else {
             try {
@@ -2744,6 +2760,32 @@ Parsedown = (() => {
                         name: `Accurate Timestamp`,
                         sg: true,
                         st: true
+                    },
+                    cdr: {
+                        description: `
+                            <ul>
+                                <li>Shows a popup reminding you of your cake day on SteamGifts.</li>
+                                <li>You can set it to remind you a specified number of days before your cake day.</li>
+                            </ul>
+                        `,
+                        features: {
+                            cdr_b: {
+                                input: true,
+                                name: `Remind you a specified number of days before your cake day.`,
+                                sg: true
+                            },
+                            cdr_d: {
+                                description: `
+                                    <ul>
+                                        <li>With this option enabled, the feature also reminds you if some days have already passed since your cake day and you had not logged in during that time.</li>
+                                    </ul>
+                                `,
+                                name: `Remind you on your cake day.`,
+                                sg: true
+                            }
+                        },
+                        name: `Cake Day Reminder`,
+                        sg: true
                     },
                     es: {
                         description: `
@@ -6919,6 +6961,24 @@ Parsedown = (() => {
 
         if ((esgst.lpv || esgst.cewgd || (esgst.gc && esgst.gc_gi)) && esgst.giveawayPath && document.referrer === `https://www.steamgifts.com/giveaways/new`) {
             addGiveawayToStorage();
+        }
+
+        if (esgst.cdr) {
+            let currentDate = new Date();
+            let registrationDate = new Date(esgst.registrationDate * 1e3);
+            registrationDate.setFullYear(currentDate.getFullYear());
+            registrationDate = registrationDate.getTime();
+            if (esgst.cdr_b && parseInt(getLocalValue(`cdr_bYear`, 0)) !== currentDate.getFullYear() && currentDate.getTime() < registrationDate && currentDate.getTime() + (esgst.crd_days * 86400000) >= registrationDate) {
+                setLocalValue(`cdr_bYear`, currentDate.getFullYear());
+                new Popup(`fa-birthday-cake`, `ESGST reminder: your cake day is in ${esgst.cdr_days} days.`, true).open();
+            } else if (esgst.cdr_d && parseInt(getLocalValue(`cdr_dYear`, 0)) !== currentDate.getFullYear() && currentDate.getTime() >= registrationDate) {
+                setLocalValue(`cdr_dYear`, currentDate.getFullYear());
+                if (currentDate.getTime() >= registrationDate + 86400000) {
+                    new Popup(`fa-birthday-cake`, `ESGST reminder: your cake day was ${Math.floor((currentDate.getTime() - registrationDate) / 86400000)} days ago.`, true).open();
+                } else {
+                    new Popup(`fa-birthday-cake`, `ESGST reminder: your cake day is today. Happy cake day!`, true).open();
+                }
+            }
         }
 
         if (esgst.ff) loadFf();
@@ -32342,14 +32402,6 @@ Parsedown = (() => {
             `;
         }
 
-        // sync steam id
-        if (!syncer.autoSync && !esgst.steamId && esgst.username) {
-            if (!esgst.firstInstall) {
-                syncer.progress.lastElementChild.textContent = `Syncing your Steam id...`;
-            }
-            await setSetting(`steamId`, parseHtml((await request({method: `GET`, url: `https://www.steamgifts.com/user/${esgst.username}`})).responseText).querySelector(`a[href*="/profiles/"]`).getAttribute(`href`).match(/\d+/)[0]);
-        }
-
         // if this is the user's fist time using the script, only sync steam id and stop
         if (esgst.firstInstall) {
             return;
@@ -34293,6 +34345,16 @@ Parsedown = (() => {
                 setSkMenu(Feature.input, insertHtml(SMFeatures, `beforeEnd`, `
                     <div class="esgst-sm-colors"></div>`
                 ));
+            } else if (ID === `cdr_b`) {
+                input = insertHtml(SMFeatures, `beforeEnd`, `
+                    <div class="esgst-sm-colors">
+                        Days: <input type="text" value=${esgst.cdr_days}>
+                    </div>
+                `);
+                input.firstElementChild.addEventListener(`change`, function() {
+                    setSetting(`cdr_days`, input.firstElementChild.value);
+                    esgst.cdr_days = input.firstElementChild.value;
+                });
             } else if (ID === `gb_h`) {
                 var hours = esgst.gb_hours;
                 input = insertHtml(SMFeatures, `beforeEnd`, `
