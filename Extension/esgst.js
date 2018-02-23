@@ -2026,7 +2026,7 @@ Parsedown = (() => {
             sg: location.hostname.match(/www.steamgifts.com/),
             st: location.hostname.match(/www.steamtrades.com/),
             currentVersion: `7.14.4`,
-            devVersion: `7.14.5 (Dev.14)`,
+            devVersion: `7.14.5 (Dev.15)`,
             icon: `data:image/x-icon;base64,AAABAAEAEBAAAAEAIABoBAAAFgAAACgAAAAQAAAAIAAAAAEAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAqv8DCbP/Hgeq+CQIrf8iCK3/Igit/yIIrf8iB6//Iwit9x8Aqv8DAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAKr0GAa2/c0DvfzfA7f83QO3/N0Dt/zdA7f83QO+/d4Gs/3OAKP1GQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACm/xQFs/n2Bcf//wW///8FwP//BcD//wW///8Fx///BbP69gC2/xUAAAAAAAAAAAAAAAAA/1UDFptOFxSZMxkLpJktAq720QW1+ugEsfvjA7b92wO2/dsEsfvjBbX66Aau/dEoiO4tUlLWGU5k3hdVVf8DEJxKHxWqT8cVrU7uE6VN0guqny0Apv8XAJfQGwBAVywAQFcsAJfQGwCx/xcogugtS2Lk0lBl6u5Qae7ISmPeHxagSSMVr07jF7lV/xOiSu0brgATAAAAAAAAAA8AAAC/AAAAwAAAABAAAAAAYznjEkth4OxWb/3/T2jv40lf4iMXnksiEq1O3RayUv8UpEnkEo0+HQAAABkAAABBAAAA8QAAAPEAAABBAAAAGUBSvxxOYeDjU2v0/05m7d1LYuEiF55LIhKtTt0Ws1L/FahN2gU1FTAAAADAAAAA7AAAAP0AAAD9AAAA7AAAAMAVG0owUGPm2lNr9P9OZu3dS2LhIheeSyISrU7dFrNS/xWoTdoFNRswAAAAvwAAAOsAAAD9AAAA/QAAAOsAAADAFRtKMFBj6NpTa/T/Tmbt3Uti4SIXnksiEq1O3RayUv8UpEnkEo0+HQAAABgAAABAAAAA8QAAAPEAAABBAAAAGT5PuR1OYeDjU2v0/05m7d1LYuEiFqBJIxWuT+QXuVX/E6JL7QC8XhMAAAAAAAAADwAAAL8AAAC/AAAAEAAAAAAOR/8SSWLh7FZv/f9PaO/jSV/iIxCUSh8Vrk7HFqxN7ROlS9JskzMt1XULGK12EhxGLgYsRy8GK612EhzVgAsYgmxxLU1i39JNZ+vtT2fwx0pj1h8AqlUDF65GFgqZUhlsiC0txH0T0s5/EujJgBPkz4QR28+EEdvJgBPkzn8Q6Md+E9KLdHosM1LWGUZo6BZVVf8DAAAAAAAAAAAAAAAA/2YAFMl9EvbgjRb/14gV/9eIFf/XiBX/14gV/9+NFv/KgBD254YAFQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAL91FRjKgRHN1IgU3s+EEt3PhBLdz4QS3c+EEt3UiBTezYMRzcJ6FBkAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACqqgADxIARHr18FiO8eA8ivHgPIrx4DyK8eA8ivXwPI8SAER7/VQADAAAAAAAAAAAAAAAA78cAAPA3AAD4FwAABCAAADGOAAAE+AAAkBEAAJ55AACYOQAAlgEAAER4AAAXaAAATnoAAPgXAAD0JwAA69cAAA==`,
             sgIcon: `data:image/x-icon;base64,AAABAAEAEBAAAAEAIABoBAAAFgAAACgAAAAQAAAAIAAAAAEAIAAAAAAAQAQAABMLAAATCwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIUAAAD5AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAPoAAACFAAAAAAAAAAAAAAD8AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA+QAAAAAAAAAAAAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAAAAAAAAAAAAP8AAAD/AAAA/wAAABwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAcAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAcAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAHAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAAAAAAAAAAAAPwAAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD5AAAAAAAAAAAAAACFAAAA+QAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD5AAAAhQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA//8AAP//AADAAwAAwAMAAMfjAADP8wAAz/MAAM/zAADP8wAAz/MAAM/zAADH4wAAwAMAAMADAAD//wAA//8AAA==`,
             stIcon: `data:image/x-icon;base64,AAABAAEAEBAAAAEAIABoBAAAFgAAACgAAAAQAAAAIAAAAAEAIAAAAAAAQAQAABMLAAATCwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABbD6SgWw+ucFsPrkBbD6SgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAWw+uYFsPr/BbD6/wWw+ucAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAFsPrmBbD6/wWw+v8FsPrmAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABbD6SQWw+uYFsPrmBbD6SQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAFKRLShSkS+cUpEvkFKRLSgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAExi4EpMYuDnTGLg5Exi4EoAAAAAAAAAABSkS+YUpEv/FKRL/xSkS+cAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABMYuDmTGLg/0xi4P9MYuDnAAAAAAAAAAAUpEvmFKRL/xSkS/8UpEvmAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAATGLg5kxi4P9MYuD/TGLg5gAAAAAAAAAAFKRLSRSkS+YUpEvmFKRLSQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAExi4ElMYuDmTGLg5kxi4EkAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAMZ9E0rGfRPnxn0T5MZ9E0oAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADGfRPmxn0T/8Z9E//GfRPnAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAxn0T5sZ9E//GfRP/xn0T5gAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAMZ9E0nGfRPmxn0T5sZ9E0kAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA//8AAPw/AAD8PwAA/D8AAPw/AAD//wAAh+EAAIfhAACH4QAAh+EAAP//AAD8PwAA/D8AAPw/AAD8PwAA//8AAA==`,
@@ -22060,8 +22060,20 @@ Parsedown = (() => {
                 description: document.querySelector(`[name="description"]`),
                 datas: [],
                 values: [],
-                created: []
+                created: [],
+                countryNames: {},
+                groupNames: {}
             };
+            let elements = document.querySelector(`[data-input="country_item_string"]`).querySelectorAll(`[data-item-id]`);
+            for (let i = 0, n = elements.length; i < n; i++) {
+                let element = elements[i];
+                mgc.countryNames[element.getAttribute(`data-item-id`)] = element.getAttribute(`data-name`);
+            }
+            elements = document.querySelector(`[data-input="group_item_string"]`).querySelectorAll(`[data-item-id]`);
+            for (let i = 0, n = elements.length; i < n; i++) {
+                let element = elements[i];
+                mgc.groupNames[element.getAttribute(`data-item-id`)] = element.getAttribute(`data-name`);
+            }
             mgc.gameName = mgc.gameId.nextElementSibling;
             section = insertHtml(rows, `afterBegin`, `
                 <div class="esgst-form-row" title="${getFeatureTooltip(`mgc`)}">
@@ -22282,6 +22294,7 @@ Parsedown = (() => {
             values.groups = mgc.groups.value.trim();
             values.level = mgc.level.value;
             values.description = mgc.description.value;
+            values.steam = getGameInfo(document.querySelector(`[data-autocomplete-id="${values.gameId}"]`));
             if ((esgst.mgc_createTrain && mgc.description.value.match(/\[ESGST-P\]|\[ESGST-N\]/)) || !esgst.mgc_createTrain) {
                 if ((mgc.discussion && mgc.description.value.match(/\[ESGST-B\]/)) || !mgc.discussion) {
                     addMgcGiveaway(edit, mgc, values);
@@ -22673,6 +22686,77 @@ Parsedown = (() => {
             callback();
             return;
         }
+        let popup = new Popup(`fa-arrow-circle-right`, `ESGST will create the giveaways below. Are you sure you want to continue?`);        
+        let rows = insertHtml(popup.scrollable, `beforeEnd`, `
+            <div class="table esgst-mgc-table">
+                <div class="table__heading">
+                    <div class="table__column--width-small">No.</div>
+                    <div class="table__column--width-fill">Game</div>
+                    <div class="table__column--width-small">Copies/Keys</div>
+                    <div class="table__column--width-small">Start Time</div>
+                    <div class="table__column--width-small">End Time</div>
+                    <div class="table__column--width-small">Region Restricted</div>
+                    <div class="table__column--width-small">Who Can Enter</div>
+                    <div class="table__column--width-small">Level</div>
+                    <div class="table__column--width-small">Description</div>
+                </div>
+                <div class="table__rows"></div>
+            </div>
+        `).lastElementChild;
+        for (let i = 0, n = mgc.giveaways.children.length; i < n; i++) {
+            let values = mgc.values[parseInt(mgc.giveaways.children[i].textContent) - 1];
+            let regionRestricted = `No`;
+            if (values.region === `1`) {
+                regionRestricted = `Yes (`;
+                values.countries.split(/\s/).forEach(id => {
+                    regionRestricted += `${mgc.countryNames[id].match(/.+\s(.+)$/)[1]}, `;
+                });
+                regionRestricted = `${regionRestricted.slice(0, -2)})`;
+            }
+            let whoCanEnter = `Everyone`;
+            if (values.type === `invite_only`) {
+                whoCanEnter = `Invite Only`;
+            } else if (values.type === `groups`) {
+                whoCanEnter = `Groups (`;
+                if (values.whitelist === `1`) {
+                    whoCanEnter += `Whitelist, `;
+                }
+                if (values.groups) {
+                    values.groups.split(/\s/).forEach(id => {
+                        whoCanEnter += `${mgc.groupNames[id]}, `;
+                    });
+                }
+                whoCanEnter = `${whoCanEnter.slice(0, -2)})`;
+            }
+            rows.insertAdjacentHTML(`beforeEnd`, `
+                <div class="table__row-outer-wrap">
+                    <div class="table__row-inner-wrap">
+                        <div class="table__column--width-small">${i + 1}</div>
+                        <div class="table__column--width-fill"><a class="table__column__secondary-link" href="https://store.steampowered.com/${values.steam.type.slice(0, -1)}/${values.steam.id}">${values.gameName}</a></div>
+                        <div class="table__column--width-small">${values.keys ? values.keys.replace(/\n/g, `<br>`) : `${values.copies} Copies`}</div>
+                        <div class="table__column--width-small">${values.startTime}</div>
+                        <div class="table__column--width-small">${values.endTime}</div>
+                        <div class="table__column--width-small">${regionRestricted}</div>
+                        <div class="table__column--width-small">${whoCanEnter}</div>
+                        <div class="table__column--width-small">${values.level}</div>
+                        <div class="table__column--width-small" title="${values.description.replace(/"/g, `&quot;`)}">${values.description.length > 100 ? `${values.description.slice(0, 100)}...` : values.description}</div>
+                    </div>
+                </div>
+            `);
+        }
+        popup.description.appendChild(new ButtonSet_v2({color1: `green`, color2: ``, icon1: `fa-check`, icon2: ``, title1: `Yes`, title2: ``, callback1: createMgcGiveaways_2.bind(null, mgc, viewButton, popup, callback)}).set);
+        popup.description.appendChild(new ButtonSet_v2({color1: `red`, color2: ``, icon1: `fa-times`, icon2: ``, title1: `No`, title2: ``, callback1: popup.close.bind(popup)}).set);
+        popup.onClose = () => {
+            if (popup.isOpen) {
+                callback();
+            }
+        };
+        popup.open();
+    }
+
+    function createMgcGiveaways_2(mgc, viewButton, popup, callback) {
+        popup.onClose = null;
+        popup.close();
         if ((esgst.mgc_createTrain && mgc.description.value.match(/\[ESGST-P\]|\[ESGST-N\]/)) || !esgst.mgc_createTrain) {
             if ((mgc.discussion && mgc.description.value.match(/\[ESGST-B\]/)) || !mgc.discussion) {
                 mgc.copies.value = `1`;
@@ -37558,6 +37642,10 @@ Parsedown = (() => {
             `;
         }
         style += `
+            .esgst-mgc-table * {
+                text-align: left;
+            }
+
             .esgst-ochgb {
                 display: inline-block;
             }
