@@ -1676,6 +1676,81 @@ Parsedown = (() => {
         esgst = {
             parameters: getParameters(),
             defaultValues: {
+                chfl_giveaways_sg: [
+                    `new`,
+                    `wishlist`,
+                    `created`,
+                    `entered`,
+                    `won`,
+                    {color: `grey`, description: `View your hidden games.`, icon: `fa-eye`, id: `filters`, name: `Hidden Games`, url: `/account/settings/giveaways/filters`},
+                    {color: `grey`, description: `Check if a game receives reduced CV.`, icon: `fa-calendar-minus-o`, id: `bundle-games`, name: `Reduced CV Games`, url: `/bundle-games`},
+                    {id: `type=wishlist`, name: `Browse Wishlist Giveaways`, url: `/giveaways/search?type=wishlist`},
+                    {id: `type=recommended`, name: `Browse Recommended Giveaways`, url: `/giveaways/search?type=recommended`},
+                    {id: `type=group`, name: `Browse Group Giveaways`, url: `/giveaways/search?type=group`},
+                    {id: `type=new`, name: `Browse New Giveaways`, url: `/giveaways/search?type=new`}
+                ],
+                chfl_discussions_sg: [
+                    `new`,
+                    `created`,
+                    `dh`,
+                    {color: `grey`, description: `Help the community.`, icon: `fa-question-circle `, id: `categorize-discussions`, name: `Categorize Discussions`, url: `/tools/categorize-discussions`},
+                    {id: `announcements`, name: `Browse Announcements`, url: `/discussions/announcements`},
+                    {id: `bugs-suggestions`, name: `Browse Bugs / Suggestions`, url: `/discussions/bugs-suggestions`},
+                    {id: `deals`, name: `Browse Deals`, url: `/discussions/deals`},
+                    {id: `general`, name: `Browse General`, url: `/discussions/general`},
+                    {id: `group-recruitment`, name: `Browse Group Recruitment`, url: `/discussions/group-recruitment`},
+                    {id: `lets-play-together`, name: `Browse Let's Play Together`, url: `/discussions/lets-play-together`},
+                    {id: `off-topic`, name: `Browse Off-Topic`, url: `/discussions/off-topic`},
+                    {id: `puzzles`, name: `Browse Puzzles`, url: `/discussions/puzzles`},
+                    {id: `uncategorized`, name: `Browse Uncategorized`, url: `/discussions/uncategorized`}
+                ],
+                chfl_support_sg: [
+                    `new`,
+                    {color: `grey`, description: `Check a user's real CV.`, icon: `fa-dollar`, id: `real-cv`, name: `Real CV`, url: `https://www.sgtools.info/real-cv`},
+                    {color: `red`, description: `Check if a user has not activated wins.`, icon: `fa-exchange`, id: `activation`, name: `Not Activated Wins`, url: `https://www.sgtools.info/activation`},
+                    {color: `red`, description: `Check if a user has multiple wins.`, icon: `fa-clone`, id: `multiple-wins`, name: `Multiple Wins`, url: `https://www.sgtools.info/multiple-wins`}
+                ],
+                chfl_help_sg: [
+                    `comment-formatting`,
+                    `faq`,
+                    `guidelines`,
+                    {color: `grey`, description: `View SteamGifts' change log.`, icon: `fa-file-text-o`, id: `e9zDo`, name: `Change Log`, url: `/discussion/e9zDo/`}
+                ],
+                chfl_account_sg: [
+                    `profile`,
+                    `stats`,
+                    `et`,
+                    `ch`,
+                    {color: `blue`, icon: `fa-heart`, id: `whitelist`, name: `Whitelist`, url: `/account/manage/whitelist`},
+                    {color: `red`, icon: `fa-ban`, id: `blacklist`, name: `Blacklist`, url: `/account/manage/blacklist`},
+                    {color: `grey`, icon: `fa-folder`, id: `games`, name: `Games`, url: `/account/steam/games`},
+                    {color: `grey`, icon: `fa-user`, id: `groups`, name: `Groups`, url: `/account/steam/groups`},
+                    {color: `grey`, icon: `fa-star`, id: `wishlist`, name: `Wishlist`, url: `/account/steam/wishlist`},
+                ],
+                chfl_footer_sg: [
+                    `archive`,
+                    `stats`,
+                    `roles`,
+                    `users`,
+                    `steamgifts`,
+                    `103582791432125620`,
+                    `privacy-policy`,
+                    `terms-of-service`
+                ],
+                chfl_trades_st: [
+                    `new`,
+                    `user=[steamId]`
+                ],
+                chfl_account_st: [
+                    `user=[steamId]`,
+                    `ch`
+                ],
+                chfl_footer_st: [
+                    `guidelines`,
+                    `comment-formatting`,
+                    `privacy-policy`,
+                    `terms-of-service`
+                ],
                 gwc_h_sg: true,
                 gwr_h_sg: false,
                 cdr_sg: true,
@@ -2028,7 +2103,7 @@ Parsedown = (() => {
             sg: location.hostname.match(/www.steamgifts.com/),
             st: location.hostname.match(/www.steamtrades.com/),
             currentVersion: `7.14.4`,
-            devVersion: `7.14.5 (Dev.27)`,
+            devVersion: `7.14.5 (Dev.28)`,
             icon: `data:image/x-icon;base64,AAABAAEAEBAAAAEAIABoBAAAFgAAACgAAAAQAAAAIAAAAAEAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAqv8DCbP/Hgeq+CQIrf8iCK3/Igit/yIIrf8iB6//Iwit9x8Aqv8DAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAKr0GAa2/c0DvfzfA7f83QO3/N0Dt/zdA7f83QO+/d4Gs/3OAKP1GQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACm/xQFs/n2Bcf//wW///8FwP//BcD//wW///8Fx///BbP69gC2/xUAAAAAAAAAAAAAAAAA/1UDFptOFxSZMxkLpJktAq720QW1+ugEsfvjA7b92wO2/dsEsfvjBbX66Aau/dEoiO4tUlLWGU5k3hdVVf8DEJxKHxWqT8cVrU7uE6VN0guqny0Apv8XAJfQGwBAVywAQFcsAJfQGwCx/xcogugtS2Lk0lBl6u5Qae7ISmPeHxagSSMVr07jF7lV/xOiSu0brgATAAAAAAAAAA8AAAC/AAAAwAAAABAAAAAAYznjEkth4OxWb/3/T2jv40lf4iMXnksiEq1O3RayUv8UpEnkEo0+HQAAABkAAABBAAAA8QAAAPEAAABBAAAAGUBSvxxOYeDjU2v0/05m7d1LYuEiF55LIhKtTt0Ws1L/FahN2gU1FTAAAADAAAAA7AAAAP0AAAD9AAAA7AAAAMAVG0owUGPm2lNr9P9OZu3dS2LhIheeSyISrU7dFrNS/xWoTdoFNRswAAAAvwAAAOsAAAD9AAAA/QAAAOsAAADAFRtKMFBj6NpTa/T/Tmbt3Uti4SIXnksiEq1O3RayUv8UpEnkEo0+HQAAABgAAABAAAAA8QAAAPEAAABBAAAAGT5PuR1OYeDjU2v0/05m7d1LYuEiFqBJIxWuT+QXuVX/E6JL7QC8XhMAAAAAAAAADwAAAL8AAAC/AAAAEAAAAAAOR/8SSWLh7FZv/f9PaO/jSV/iIxCUSh8Vrk7HFqxN7ROlS9JskzMt1XULGK12EhxGLgYsRy8GK612EhzVgAsYgmxxLU1i39JNZ+vtT2fwx0pj1h8AqlUDF65GFgqZUhlsiC0txH0T0s5/EujJgBPkz4QR28+EEdvJgBPkzn8Q6Md+E9KLdHosM1LWGUZo6BZVVf8DAAAAAAAAAAAAAAAA/2YAFMl9EvbgjRb/14gV/9eIFf/XiBX/14gV/9+NFv/KgBD254YAFQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAL91FRjKgRHN1IgU3s+EEt3PhBLdz4QS3c+EEt3UiBTezYMRzcJ6FBkAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACqqgADxIARHr18FiO8eA8ivHgPIrx4DyK8eA8ivXwPI8SAER7/VQADAAAAAAAAAAAAAAAA78cAAPA3AAD4FwAABCAAADGOAAAE+AAAkBEAAJ55AACYOQAAlgEAAER4AAAXaAAATnoAAPgXAAD0JwAA69cAAA==`,
             sgIcon: `data:image/x-icon;base64,AAABAAEAEBAAAAEAIABoBAAAFgAAACgAAAAQAAAAIAAAAAEAIAAAAAAAQAQAABMLAAATCwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIUAAAD5AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAPoAAACFAAAAAAAAAAAAAAD8AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA+QAAAAAAAAAAAAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAAAAAAAAAAAAP8AAAD/AAAA/wAAABwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAcAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAcAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAHAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAAAAAAAAAAAAPwAAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD5AAAAAAAAAAAAAACFAAAA+QAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD5AAAAhQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA//8AAP//AADAAwAAwAMAAMfjAADP8wAAz/MAAM/zAADP8wAAz/MAAM/zAADH4wAAwAMAAMADAAD//wAA//8AAA==`,
             stIcon: `data:image/x-icon;base64,AAABAAEAEBAAAAEAIABoBAAAFgAAACgAAAAQAAAAIAAAAAEAIAAAAAAAQAQAABMLAAATCwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABbD6SgWw+ucFsPrkBbD6SgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAWw+uYFsPr/BbD6/wWw+ucAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAFsPrmBbD6/wWw+v8FsPrmAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABbD6SQWw+uYFsPrmBbD6SQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAFKRLShSkS+cUpEvkFKRLSgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAExi4EpMYuDnTGLg5Exi4EoAAAAAAAAAABSkS+YUpEv/FKRL/xSkS+cAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABMYuDmTGLg/0xi4P9MYuDnAAAAAAAAAAAUpEvmFKRL/xSkS/8UpEvmAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAATGLg5kxi4P9MYuD/TGLg5gAAAAAAAAAAFKRLSRSkS+YUpEvmFKRLSQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAExi4ElMYuDmTGLg5kxi4EkAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAMZ9E0rGfRPnxn0T5MZ9E0oAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADGfRPmxn0T/8Z9E//GfRPnAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAxn0T5sZ9E//GfRP/xn0T5gAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAMZ9E0nGfRPmxn0T5sZ9E0kAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA//8AAPw/AAD8PwAA/D8AAPw/AAD//wAAh+EAAIfhAACH4QAAh+EAAP//AAD8PwAA/D8AAPw/AAD8PwAA//8AAA==`,
@@ -2789,6 +2864,27 @@ Parsedown = (() => {
                         name: `Cake Day Reminder`,
                         new: true,
                         sg: true
+                    },
+                    chfl: {
+                        description: `
+                            <ul>
+                                <li>Allows you to add custom links to the header dropdowns/footer of any page.</li>
+                                <li>Already comes with some predefined links:</li>
+                                <ul>
+                                    <li>Giveaways: Hidden Games, Reduced CV Games, Browse Wishlist, Browse Recommended, Browse Group, Browse New</li>
+                                    <li>Discussions: Categorize Discussions, Browse Announcements, Browse Bugs / Suggestions, Browse Deals, Browse General, Browse Group Recruitment, Browse Let's Play Together, Browse Off-Topic, Browse Puzzles, Browse Uncategorized</li>
+                                    <li>Support: Real CV, Not Activated Wins, Multiple Wins</li>
+                                    <li>Help: Change Log</li>
+                                    <li>Account: Whitelist, Blacklist, Games, Groups, Wishlist</li>
+                                </ul>
+                                <li>If you press the Ctrl key with a dropdown open, the feature adds two buttons ("<i class="fa fa-plus-circle"></i> Add Custom Link" and "<i class="fa fa-undo"></i> Reset Links") to the end of the dropdown that allow you to add/reset the custom links. It also adds two other buttons (<i class="fa fa-edit"></i> to edit and <i class="fa fa-trash"></i> to remove) to each custom link in the dropdown that allow you to edit/remove the custom link.</li>
+                                <li>If you press the Ctrl key with no dropdown open, those same buttons will be added to the footer of the page.</li>
+                            </ul>
+                        `,
+                        name: `Custom Header/Footer Links`,
+                        new: true,
+                        sg: true,
+                        st: true
                     },
                     es: {
                         description: `
@@ -4466,15 +4562,6 @@ Parsedown = (() => {
                         name: `Pinned Giveaways Button`,
                         sg: true
                     },
-                    qgb: {
-                        description: `
-                            <ul>
-                                <li>Adds a link for each giveaway category (Wishlist, Recommended, Group and New) to the dropdown menu accessible by clicking on the arrow in the "Giveaways" box at the header of any page so that you can quickly go to each category from any page.</li>
-                            </ul>
-                        `,
-                        name: `Quick Giveaway Browsing`,
-                        sg: true
-                    },
                     qgs: {
                         description: `
                             <ul>
@@ -4907,19 +4994,6 @@ Parsedown = (() => {
                         },
                         name: `Puzzle Marker`,
                         sg: true,
-                    },
-                    qdb: {
-                        description: `
-                            <ul>
-                                <li>Adds many links to the dropdown menu accessible by clicking on the arrow in the "Discussions" box at the header of any page:
-                                <ul>
-                                    <li>A link for SteamGifts's <a href="https://www.steamgifts.com/tools/categorize-discussions">categorize discussions</a> tool so that you can help categorize uncategorized discussions.</li>
-                                    <li>A link for each discussion category (Announcements, Bugs / Suggestions, Deals, General, Group Recruitment, Let's Play Together, Off-Topic, Puzzles and Uncategorized) so that you can quickly go to each category from any page.</li>
-                                <li>
-                            </ul>
-                        `,
-                        name: `Quick Discussion Browsing`,
-                        sg: true
                     },
                     radb: {
                         description: `
@@ -7057,7 +7131,6 @@ Parsedown = (() => {
         if (esgst.mgc) await loadMgc();
         if (esgst.npth) loadNpth();
         if (esgst.pgb) loadPgb();
-        if (esgst.qgb) loadQgb();
         if (esgst.qgs) loadQgs();
         if (esgst.rcvc) loadRcvc();
         if (esgst.sks) loadSks();
@@ -7071,7 +7144,6 @@ Parsedown = (() => {
         if (esgst.ds) loadDs();
         if (esgst.mpp) loadMpp();
         if (esgst.mps) loadMps();
-        if (esgst.qdb) loadQdb();
 
         if (esgst.tb) loadTb();
 
@@ -7093,6 +7165,7 @@ Parsedown = (() => {
         if (esgst.glwc) await loadGlwc();
         if (esgst.gs) loadGs();
 
+        if (esgst.chfl) loadChfl();
         if (esgst.mt) loadMt();
         if (esgst.stbb) loadStbb();
         if (esgst.sttb) loadSttb();
@@ -11841,7 +11914,7 @@ Parsedown = (() => {
 
     function loadCh() {
         setSMCommentHistory(insertHtml(esgst.sg ? esgst.mainButton.parentElement.getElementsByClassName(`nav__absolute-dropdown`)[0].lastElementChild : esgst.mainButton.parentElement.getElementsByClassName(`dropdown`)[0].firstElementChild.lastElementChild, `beforeBegin`, `
-            <div class="esgst-header-menu-row" title="${getFeatureTooltip(`ch`)}">
+            <div class="esgst-header-menu-row" data-link-id="ch" data-link-key="account" title="${getFeatureTooltip(`ch`)}">
                 <i class="fa fa-fw fa-comments yellow"></i>
                 <div>
                     <p class="esgst-header-menu-name">My Comment History</p>
@@ -11939,6 +12012,351 @@ Parsedown = (() => {
             }
         } else {
             callback(i);
+        }
+    }
+
+    /* [CHFL] Custom Header/Footer Links */
+
+    function loadChfl() {
+        let chfl = null;
+        if (esgst.sg) {
+            let elements = document.getElementsByClassName(`nav__relative-dropdown`);
+            chfl = {
+                sources: {
+                    giveaways: {
+                        container: elements[0],
+                        context: elements[0].firstElementChild,
+                        elements: {}
+                    },
+                    discussions: {
+                        container: elements[1],
+                        context: elements[1].firstElementChild,
+                        elements: {}
+                    },
+                    support: {
+                        container: elements[2],
+                        context: elements[2].firstElementChild,
+                        elements: {}
+                    },
+                    help: {
+                        container: elements[3],
+                        context: elements[3].firstElementChild,
+                        elements: {}
+                    },
+                    account: {
+                        container: elements[4],
+                        context: elements[4].firstElementChild,
+                        elements: {}
+                    },
+                    footer: {
+                        container: esgst.footer,
+                        context: esgst.footer.firstElementChild.lastElementChild,
+                        elements: {}
+                    }
+                }
+            };
+        } else {
+            let elements = document.getElementsByClassName(`dropdown`);
+            chfl = {
+                sources: {
+                    trades: {
+                        container: elements[0],
+                        context: elements[0].firstElementChild,
+                        elements: {}
+                    },
+                    account: {
+                        container: elements[1],
+                        context: elements[1].firstElementChild,
+                        elements: {}
+                    },
+                    footer: {
+                        container: esgst.footer,
+                        context: esgst.footer.firstElementChild.lastElementChild,
+                        elements: {}
+                    }
+                }
+            };
+        }
+        for (let key in chfl.sources) {
+            let source = chfl.sources[key];
+            for (let i = source.context.children.length - 1; i > -1; i--) {
+                let element = source.context.children[i];
+                let id = element.getAttribute(`data-link-id`);
+                if (id) {
+                    if (!source.elements[id]) {
+                        source.elements[id] = element;
+                    }
+                    continue;
+                }
+                if (!element.getAttribute(`href`) && (key !== `footer` || !element.lastElementChild.getAttribute(`href`))) continue;
+                id = (key === `footer` ? element.lastElementChild : element).getAttribute(`href`).match(/.*(\/|\?)(.+)$/)[2];
+                id = id.replace(/\[steamId\]/, esgst.steamId);
+                element.setAttribute(`data-link-id`, id);
+                element.setAttribute(`data-link-key`, key);
+                source.elements[id] = element;
+            }
+            reorderChflElements(chfl, key);
+        }
+        document.addEventListener(`keydown`, addChflButton.bind(null, chfl));
+        document.addEventListener(`keyup`, removeChflButton.bind(null, chfl));
+    }
+
+    function reorderChflElements(chfl, key) {
+        let source = chfl.sources[key];
+        for (let i = esgst[`chfl_${key}`].length - 1; i > -1; i--) {
+            let item = esgst[`chfl_${key}`][i];
+            if (item.id) {
+                let element = source.elements[item.id];
+                if (element) {
+                    source.context.insertBefore(element, source.context.firstElementChild);
+                } else {
+                    if (key === `footer`) {
+                        source.elements[item.id] = insertHtml(source.context, `afterBegin`, `
+                            <${esgst.sg ? `div` : `li`} data-link-id="${item.id}" data-link-key="footer" title="${getFeatureTooltip(`chfl`)}">
+                                <i class="fa ${item.icon}"></i>
+                                <a href="${item.url}">${item.name}</a>
+                            </${esgst.sg ? `div` : `li`}>
+                        `);
+                    } else {
+                        source.elements[item.id] = insertHtml(source.context, `afterBegin`, generateHeaderMenuItem(item, key));
+                        source.elements[item.id].title = getFeatureTooltip(`chfl`);
+                        if (!item.description) {
+                            source.elements[item.id].classList.add(`esgst-chfl-small`)
+                        }
+                    }
+                }
+                makeChflDraggable(chfl, source.elements[item.id]);
+            } else {
+                let element = source.elements[item];
+                if (element) {
+                    source.context.insertBefore(element, source.context.firstElementChild);
+                    makeChflDraggable(chfl, element);
+                }
+            }
+        }
+    }
+
+    function makeChflDraggable(chfl, element) {
+        element.setAttribute(`draggable`, true);
+        element.addEventListener(`dragstart`, startChflDrag.bind(null, chfl));
+        element.addEventListener(`dragenter`, enterChflDrag.bind(null, chfl));
+        element.addEventListener(`dragend`, saveChflOrder.bind(null, chfl));
+    }
+
+    function startChflDrag(chfl, event) {
+        event.dataTransfer.setData(`text/plain`, ``);
+        chfl.source = event.currentTarget;
+    }
+
+    function enterChflDrag(chfl, event) {
+        let current = chfl.source;
+        let element = event.currentTarget;
+        if (current.getAttribute(`data-link-key`) !== element.getAttribute(`data-link-key`)) return;
+        do {
+            current = current.previousElementSibling;
+            if (current && current === element) {
+                element.parentElement.insertBefore(chfl.source, element);
+                return;
+            }
+        } while (current);
+        element.parentElement.insertBefore(chfl.source, element.nextElementSibling);
+    }
+
+    function saveChflOrder(chfl) {
+        for (let key in chfl.sources) {
+            let elements = {};
+            esgst.settings[`chfl_${key}_${esgst.name}`].forEach(item => {
+                if (item.id) {
+                    elements[item.id] = item;
+                }
+            });
+            esgst.settings[`chfl_${key}_${esgst.name}`] = [];
+            let source = chfl.sources[key];
+            for (let i = 0, n = source.context.children.length; i < n; i++) {
+                let element = source.context.children[i];
+                let id = element.getAttribute(`data-link-id`);
+                if (!id) continue;                
+                esgst.settings[`chfl_${key}_${esgst.name}`].push(elements[id] || id);
+            }
+            esgst[`chfl_${key}`] = esgst.settings[`chfl_${key}_${esgst.name}`];
+        }
+        setValue(`settings`, JSON.stringify(esgst.settings));
+    }
+
+    function addChflButton(chfl, event) {
+        if (chfl.button || !event.ctrlKey) return;
+        for (let key in chfl.sources) {
+            let source = chfl.sources[key];
+            if (source.container.classList.contains(`is-hidden`) || source.container.classList.contains(`is_hidden`)) continue;
+            chfl.button = insertHtml(source.context, `beforeEnd`, key === `footer` ? `
+                <${esgst.sg ? `div` : `li`}>
+                    <i class="fa fa-plus"></i>
+                    <a href="#">Add Custom Link</a>
+                </${esgst.sg ? `div` : `li`}>
+            ` : generateHeaderMenuItem({color: `grey`, icon: `fa-plus-circle`, name: `Add Custom Link`, description: `Click here to add a custom link.`}));
+            chfl.button.addEventListener(`click`, openChflPopup.bind(null, chfl, null, key));
+            chfl.resetButton = insertHtml(source.context, `beforeEnd`, key === `footer` ? `
+                <${esgst.sg ? `div` : `li`}>
+                    <i class="fa fa-undo"></i>
+                    <a href="#">Reset Links</a>
+                </${esgst.sg ? `div` : `li`}>
+            ` : generateHeaderMenuItem({color: `grey`, icon: `fa-undo`, name: `Reset Links`, description: `Click here to reset the custom links.`}));
+            chfl.resetButton.addEventListener(`click`, resetChflLinks.bind(null, chfl, key));
+            let elements = {};
+            esgst[`chfl_${key}`].forEach(item => {
+                if (item.id) {
+                    elements[item.id] = item;
+                }
+            });
+            for (let subKey in source.elements) {
+                if (!elements[subKey]) continue;
+                let element = source.elements[subKey];
+                let panel = insertHtml(element, `beforeEnd`, `
+                    <div class="esgst-chfl-panel">
+                        <i class="esgst-chfl-edit-button fa fa-edit icon-grey"></i>
+                        <i class="esgst-chfl-remove-button fa fa-trash icon-grey"></i>
+                    </div>
+                `);
+                panel.firstElementChild.addEventListener(`click`, openChflPopup.bind(null, chfl, subKey, key));
+                panel.lastElementChild.addEventListener(`click`, removeChflLink.bind(null, chfl, subKey, key));
+            }
+            return;
+        }
+    }
+
+    function openChflPopup(chfl, editId, key, event) {
+        event.preventDefault();
+        let popup = new Popup(editId ? `fa-edit` : `fa-plus`, `${editId ? `Edit` : `Add`} Custom Link`, true);
+        let description = insertHtml(popup.description, `beforeEnd`, `
+            <div>
+                <span>URL:</span>
+                <i class="fa fa-question-circle" title="Instead of entering 'https://www.steamgifts.com/url', you can simply enter '/url'."></i>
+                <input class="esgst-switch-input esgst-switch-input-large" type="text">
+            </div>
+            <div>
+                <span>Color:</span>
+                <select class="esgst-switch-input esgst-switch-input-large">
+                    <option value="grey">Grey (Default)</option>
+                    <option value="blue">Blue</option>
+                    <option value="green">Green</option>
+                    <option value="red">Red</option>
+                    <option value="yellow">Yellow</option>
+                </select>
+            </div>
+            <div>
+                <span>Icon:</span>
+                <a href="https://fontawesome.com/v4.7.0/icons/">
+                    <i class="fa fa-question-circle" title="You must use an icon from FontAwesome (click on this icon to go to the FontAwesome page). Any icon except for the 41 new icons from v4.7 will work. The icon must be in the format 'fa-icon', without the quotes."></i>
+                </a>
+                <input class="esgst-switch-input esgst-switch-input-large" type="text">
+            </div>
+            <div>
+                <span>Name:</span>
+                <input class="esgst-switch-input esgst-switch-input-large" type="text">
+            </div>
+            <div>
+                <span>Description:</span>
+                <input class="esgst-switch-input esgst-switch-input-large" type="text">
+            </div>
+        `);
+        let name = description.previousElementSibling;
+        let icon = name.previousElementSibling;
+        let color = icon.previousElementSibling;
+        let url = color.previousElementSibling.lastElementChild;
+        description = description.lastElementChild;
+        name = name.lastElementChild;
+        icon = icon.lastElementChild;
+        color = color.lastElementChild;
+        if (key === `footer`) {
+            color.parentElement.classList.add(`esgst-hidden`);
+            description.parentElement.classList.add(`esgst-hidden`);
+        }
+        if (esgst.st) {
+            description.parentElement.classList.add(`esgst-hidden`);
+        }
+        if (editId) {
+            for (let i = esgst[`chfl_${key}`].length - 1; i > -1; i--) {
+                let item = esgst[`chfl_${key}`][i];
+                if (!item.id || item.id !== editId) continue;
+                description.value = item.description || ``;
+                name.value = item.name || ``;
+                icon.value = item.icon || ``;
+                color.value = item.color || ``;
+                url.value = item.url || ``;
+                break;
+            }
+        }
+        popup.description.appendChild(new ButtonSet_v2({color1: `green`, color2: `grey`, icon1: editId ? `fa-edit` : `fa-plus-circle`, icon2: `fa-circle-o-notch fa-spin`, title1: editId ? `Edit` : `Add`, title2: editId ? `Editing...` : `Adding...`, callback1: addChflLink.bind(null, chfl, color, description, editId, icon, key, name, popup, url)}).set);
+        popup.open();
+    }
+
+    async function addChflLink(chfl, color, description, editId, icon, key, name, popup, url) {
+        let match = url.value.match(/\/(giveaway|discussion|support\/ticket|trade)\/(.+?)\//) || url.value.match(/.*(\/|\?)(.+)$/);
+        let item = {
+            color: color.value,
+            description: description.value,
+            icon: icon.value,
+            id: match[2],
+            name: name.value,
+            url: url.value
+        };
+        if (editId) {
+            chfl.sources[key].elements[editId].remove();
+            delete chfl.sources[key].elements[editId];
+            for (let i = esgst.settings[`chfl_${key}_${esgst.name}`].length - 1; i > -1; i--) {
+                let subItem = esgst.settings[`chfl_${key}_${esgst.name}`][i];
+                if (subItem.id && subItem.id === editId) {
+                    esgst.settings[`chfl_${key}_${esgst.name}`][i] = item; 
+                    break;
+                }
+            }
+        } else {
+            esgst.settings[`chfl_${key}_${esgst.name}`].push(item);
+        }
+        esgst[`chfl_${key}`] = esgst.settings[`chfl_${key}_${esgst.name}`];
+        await setValue(`settings`, JSON.stringify(esgst.settings));
+        chfl.sources[key].elements[item.id] = insertHtml(chfl.sources[key].context, `beforeEnd`, key === `footer` ? `
+            <${esgst.sg ? `div` : `li`} data-link-id="${item.id}" data-link-key="footer">
+                <i class="fa ${item.icon}"></i>
+                <a href="${item.url}">${item.name}</a>
+            </${esgst.sg ? `div` : `li`}>
+        ` : generateHeaderMenuItem(item, key));
+        makeChflDraggable(chfl, chfl.sources[key].elements[item.id]);
+        reorderChflElements(chfl, key);
+        popup.close();
+    }
+
+    function resetChflLinks(chfl, key, event) {
+        esgst.settings[`chfl_${key}_${esgst.name}`].forEach(item => {
+            if (!item.id) return;
+            let element = chfl.sources[key].elements[item.id];
+            if (!element) return;
+            element.remove();
+            delete chfl.sources[key].elements[item.id];
+        });
+        event.preventDefault();
+        esgst.settings[`chfl_${key}_${esgst.name}`] = esgst.defaultValues[`chfl_${key}_${esgst.name}`];
+        esgst[`chfl_${key}`] = esgst.settings[`chfl_${key}_${esgst.name}`];
+        reorderChflElements(chfl, key);
+        saveChflOrder(chfl);
+    }
+
+    function removeChflLink(chfl, id, key, event) {
+        event.preventDefault();
+        chfl.sources[key].elements[id].remove();
+        delete chfl.sources[key].elements[id];
+        saveChflOrder(chfl);
+    }
+
+    function removeChflButton(chfl) {
+        if (!chfl.button) return;
+        chfl.button.remove();
+        chfl.button = null;
+        chfl.resetButton.remove();
+        chfl.resetButton = null;
+        let elements = document.getElementsByClassName(`esgst-chfl-panel`);
+        for (let i = elements.length - 1; i > -1; i--) {
+            elements[i].remove();
         }
     }
 
@@ -13769,7 +14187,7 @@ Parsedown = (() => {
     /* [DH] Discussion Highlighter */
 
     function loadDh() {
-        insertHtml(document.getElementsByClassName(`nav__absolute-dropdown`)[1], `beforeEnd`, generateHeaderMenuItem({description: `View your highlighted discussions.`, icon: `fa-star yellow`, name: `View Highlighted`, title: getFeatureTooltip(`dh`)})).addEventListener(`click`, openDhPopup);
+        insertHtml(document.getElementsByClassName(`nav__absolute-dropdown`)[1], `beforeEnd`, generateHeaderMenuItem({description: `View your highlighted discussions.`, icon: `fa-star yellow`, id: `dh`, name: `View Highlighted`, title: getFeatureTooltip(`dh`)}, `discussions`)).addEventListener(`click`, openDhPopup);
     }
 
     async function openDhPopup() {
@@ -14859,7 +15277,7 @@ Parsedown = (() => {
     function loadEt() {
         if (!esgst.sg) return;
         setSMManageEntriesTracker(insertHtml(esgst.sg ? esgst.mainButton.parentElement.getElementsByClassName(`nav__absolute-dropdown`)[0].lastElementChild : esgst.mainButton.parentElement.getElementsByClassName(`dropdown`)[0].firstElementChild.lastElementChild, `beforeBegin`, `
-            <div class="esgst-header-menu-row" title="${getFeatureTooltip(`et`)}">
+            <div class="esgst-header-menu-row" data-link-id="et" data-link-key="account" title="${getFeatureTooltip(`et`)}">
                 <i class="fa fa-fw fa-ticket red"></i>
                 <div>
                     <p class="esgst-header-menu-name">My Entry History</p>
@@ -25050,46 +25468,6 @@ Parsedown = (() => {
         esgst.mainPageHeading.appendChild(esgst.paginationNavigation);
     }
 
-    /* [QDB] Quick Discussion Browsing */
-
-    function loadQdb() {
-        let html = ``;
-        [
-            {description: `Help the community by categorizing uncategorized discussions.`, icon: `fa-question-circle grey`, name: `Help Categorize`, url: `/tools/categorize-discussions`},
-            {name: `Browse Announcements`, url: `/discussions/announcements`},
-            {name: `Browse Bugs / Suggestions`, url: `/discussions/bugs-suggestions`},
-            {name: `Browse Deals`, url: `/discussions/deals`},
-            {name: `Browse General`, url: `/discussions/general`},
-            {name: `Browse Group Recruitment`, url: `/discussions/group-recruitment`},
-            {name: `Browse Let's Play Together`, url: `/discussions/lets-play-together`},
-            {name: `Browse Off-Topic`, url: `/discussions/off-topic`},
-            {name: `Browse Puzzles`, url: `/discussions/puzzles`},
-            {name: `Browse Uncategorized`, url: `/discussions/uncategorized`}
-
-        ].forEach(details => {
-            details.title = getFeatureTooltip(`qdb`);
-            html += generateHeaderMenuItem(details);
-        });
-        document.getElementsByClassName(`nav__absolute-dropdown`)[1].insertAdjacentHTML(`beforeEnd`, html);
-    }
-
-    /* [QGB] Quick Discussion Browsing */
-
-    function loadQgb() {
-        let html = ``;
-        [
-            {name: `Browse Wishlist Giveaways`, url: `/giveaways/search?type=wishlist`},
-            {name: `Browse Recommended Giveaways`, url: `/giveaways/search?type=recommended`},
-            {name: `Browse Group Giveaways`, url: `/giveaways/search?type=group`},
-            {name: `Browse New Giveaways`, url: `/giveaways/search?type=new`}
-
-        ].forEach(details => {
-            details.title = getFeatureTooltip(`qgb`);
-            html += generateHeaderMenuItem(details);
-        });
-        document.getElementsByClassName(`nav__absolute-dropdown`)[0].insertAdjacentHTML(`beforeEnd`, html);
-    }
-
     /* [QGS] Quick Giveaway Search */
 
     function loadQgs() {
@@ -26422,9 +26800,9 @@ Parsedown = (() => {
                 break;
             case 2:
                 button = insertHtml(esgst.footer.firstElementChild.lastElementChild, `beforeEnd`, `
-                    <div class="esgst-stbb-button" title="${getFeatureTooltip(`stbb`, `Scroll to bottom`)}">
+                    <${esgst.sg ? `div` : `li`} class="esgst-stbb-button" title="${getFeatureTooltip(`stbb`, `Scroll to bottom`)}">
                         <i class="fa fa-chevron-down"></i>
-                    </div>
+                    </${esgst.sg ? `div` : `li`}>
                 `);
                 break;
         }
@@ -26504,9 +26882,9 @@ Parsedown = (() => {
                 break;
             case 2:
                 button = insertHtml(esgst.footer.firstElementChild.lastElementChild, `beforeEnd`, `
-                    <div class="esgst-sttb-button" title="${getFeatureTooltip(`sttb`, `Scroll to top`)}">
+                    <${esgst.sg ? `div` : `li`} class="esgst-sttb-button" title="${getFeatureTooltip(`sttb`, `Scroll to top`)}">
                         <i class="fa fa-chevron-up"></i>
-                    </div>
+                    </${esgst.sg ? `div` : `li`}>
                 `);
                 break;
         }
@@ -31618,37 +31996,50 @@ Parsedown = (() => {
         }
     }
 
-    function generateHeaderMenuItem(details) {
+    function generateHeaderMenuItem(details, key) {
         if (details.icon) {
+            let icon = details.icon;
+            if (details.color) {
+                icon += ` icon-${details.color}`;
+            }
             if (details.url) {
                 return `
-                    <a class="esgst-header-menu-row" href="${details.url}" title="${details.title}">
-                        <i class="fa fa-fw ${details.icon}"></i>
+                    <a class="esgst-header-menu-row" data-link-id="${details.id}" data-link-key="${key}" href="${details.url}"${details.title ? ` title="${details.title}"` : ``}>
+                        <i class="fa fa-fw ${icon}"></i>
                         <div>
                             <p class="esgst-header-menu-name">${details.name}</p>
-                            <p class="esgst-header-menu-description">${details.description}</p>
+                            ${details.description ? `<p class="esgst-header-menu-description">${details.description}</p>` : ``}
                         </div>
                     </a>
                 `;
             }
             return `
-                <div class="esgst-header-menu-row" title="${details.title}">
-                    <i class="fa fa-fw ${details.icon}"></i>
+                <div class="esgst-header-menu-row" data-link-id="${details.id}" data-link-key="${key}"${details.title ? ` title="${details.title}"` : ``}>
+                    <i class="fa fa-fw ${icon}"></i>
                     <div>
                         <p class="esgst-header-menu-name">${details.name}</p>
-                        <p class="esgst-header-menu-description">${details.description}</p>
+                        ${details.description ? `<p class="esgst-header-menu-description">${details.description}</p>` : ``}
                     </div>
                 </div>
 
             `;
         }
-        return `
-            <a class="nav__row" href="${details.url}" title="${details.title}">
-                <div class="nav__row__summary">
-                    <p class="nav__row__summary__name">${details.name}</p>
-                </div>
-            </a>
-        `;
+        if (esgst.sg) {
+            return `
+                <a class="nav__row" data-link-id="${details.id}" data-link-key="${key}" href="${details.url}"${details.title ? ` title="${details.title}"` : ``}>
+                    <div class="nav__row__summary">
+                        <p class="nav__row__summary__name">${details.name}</p>
+                        ${details.description ? `<p class="esgst-header-menu-description">${details.description}</p>` : ``}
+                    </div>
+                </a>
+            `;
+        } else {
+            return `
+                <a class="dropdown_btn" data-link-id="${details.id}" data-link-key="${key}" href="${details.url}"${details.title ? ` title="${details.title}"` : ``}>
+                    <span>${details.name}</p>
+                </a>
+            `;
+        }
     }
 
     function getRemainingTime(time) {
@@ -37784,6 +38175,32 @@ Parsedown = (() => {
             `;
         }
         style += `
+            .footer__outer-wrap .esgst-chfl-panel, footer .esgst-chfl-panel {
+                position: static !important;
+            }
+
+            .esgst-chfl-panel {
+                position: absolute;
+                right: 10px;
+            }
+
+            .esgst-chfl-panel i {
+                background-color: #fff;
+                border: 1px solid #ccc;
+                border-radius: 5px;
+                color: #555 !important;
+                cursor: pointer;
+                font-size: 18px !important;
+                margin: 0 !important;
+                padding: 5px;
+                width: auto !important;
+            }
+
+            .esgst-chfl-small i {
+                font-size: 18px !important;
+                width: 36px;
+            }
+
             .esgst-mgc-table * {
                 text-align: left;
             }
@@ -39903,7 +40320,7 @@ Parsedown = (() => {
                     margin-right: 15px;
                 }
 
-                .esgst-header-menu-row:not(.esgst-version-row):hover i {
+                .esgst-header-menu-row:not(.esgst-version-row):hover i:not(.esgst-chfl-edit-button):not(.esgst-chfl-remove-button) {
                     color: #fff !important;
                 }
 
