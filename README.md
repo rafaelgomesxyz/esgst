@@ -59,6 +59,8 @@ To learn more about each feature you have to install ESGST.
 * Attached Image Loader
 * Avatar Popout
 * Accurate Timestamp
+* Cake Day Reminder
+* Custom Header/Footer Links
 * Endless Scrolling
 * Embedded Videos
 * Fixed Footer
@@ -123,7 +125,6 @@ To learn more about each feature you have to install ESGST.
 * Next/Previous Train Hotkeys
 * One-Click Hide Giveaway Button
 * Pinned Giveaways Button
-* Quick Giveaway Browsing
 * Quick Giveaway Search
 * Real CV Calculator
 * Sent Key Searcher
@@ -147,7 +148,6 @@ To learn more about each feature you have to install ESGST.
 * Main Post Skipper
 * Old Active Discussions Design
 * Puzzle Marker
-* Quick Discussion Browsing
 * Refresh Active Discussions Button
 
 ### Trades
@@ -236,6 +236,33 @@ To learn more about each feature you have to install ESGST.
 ---
 
 ## Changelog
+
+**7.15.0 (February 24, 2018):**
+
+<ul>
+    <li><a href="https://github.com/revilheart/ESGST/issues/501">#501</a> Fix a bug that prevents Level Progress Visualizer from loading correctly</li>
+    <li><a href="https://github.com/revilheart/ESGST/issues/502">#502</a> Update the descriptions of all features</li>
+    <li><a href="https://github.com/revilheart/ESGST/issues/504">#504</a> Add option to identify elements added by ESGST in the page through their tooltip</li>
+    <li><a href="https://github.com/revilheart/ESGST/issues/505">#505</a> Fix a bug that does not load the Attached Images Carousel button</li>
+    <li><a href="https://github.com/revilheart/ESGST/issues/506">#506</a> Fix a bug that happens when syncing giveaways if a giveaway was deleted</li>
+    <li><a href="https://github.com/revilheart/ESGST/issues/507">#507</a> Show a popup if a user clicks on "Create" in Multiple Giveaway Creator and there are no giveaways in the queue</li>
+    <li><a href="https://github.com/revilheart/ESGST/issues/508">#508</a> Extend Enter/Leave Giveaway Button to the entered page</li>
+    <li><a href="https://github.com/revilheart/ESGST/issues/509">#509</a> Add a feature: Cake Day Reminder</li>
+    <li><a href="https://github.com/revilheart/ESGST/issues/510">#510</a> Fix some issues that happen if a user has more than 999P</li>
+    <li><a href="https://github.com/revilheart/ESGST/issues/511">#511</a> Add a review popup to Multiple Giveaway Creator</li>
+    <li><a href="https://github.com/revilheart/ESGST/issues/512">#512</a> Load game features when using the pagination in the new giveaway page</li>
+    <li><a href="https://github.com/revilheart/ESGST/issues/513">#513</a> Add an option to highlight the giveaway with the chance/ratio color</li>
+    <li><a href="https://github.com/revilheart/ESGST/issues/514">#514</a> Fix a bug that happens when trying to enable a feature that conflicts with another</li>
+    <li><a href="https://github.com/revilheart/ESGST/issues/515">#515</a> Fix a bug that was still showing the wrong status in Blacklist Giveaway Loader</li>
+    <li><a href="https://github.com/revilheart/ESGST/issues/516">#516</a> Fix a bug that does not reset the text color of game categories to the default color</li>
+    <li><a href="https://github.com/revilheart/ESGST/issues/517">#517</a> Allow the source element in Giveaway Encrypter/Decrypter to be moved</li>
+    <li><a href="https://github.com/revilheart/ESGST/issues/518">#518</a> Add a button to reset the giveaway columns to their original order</li>
+    <li><a href="https://github.com/revilheart/ESGST/issues/519">#519</a> Add an option to view the raw list of bookmarked giveaways</li>
+    <li><a href="https://github.com/revilheart/ESGST/issues/520">#520</a> Check for a new version in the ESGST discussion using only the title</li>
+    <li><a href="https://github.com/revilheart/ESGST/issues/521">#521</a> Add a feature: Custom Header/Footer Links (remove Quick Giveaway Browsing and Quick Discussion Browsing)</li>
+    <li><a href="https://github.com/revilheart/ESGST/issues/522">#522</a> Fix a bug that does not detect all wishlists in Group Library/Wishlist Checker</li>
+    <li><a href="https://github.com/revilheart/ESGST/issues/523">#523</a> Prevent some user features from being duplicated in Reply From Inbox</li>
+</ul>
 
 **7.14.4 (February 16, 2018):**
 
