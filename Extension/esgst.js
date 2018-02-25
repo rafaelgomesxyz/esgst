@@ -1208,13 +1208,17 @@ Parsedown = (() => {
             this.callback1 = details.callback1;
             this.callback2 = details.callback2;
             this.button1.addEventListener(`click`, async () => {
+                this.isCanceled = false;
                 this.toggle();
-                await this.callback1();
-                this.toggle();
+                let result = await this.callback1();
+                if (!this.isCanceled) {
+                    this.toggle();
+                }
             });
             if (this.callback2) {
                 this.button2.classList.remove(`is-disabled`, `is_disabled`);
                 this.button2.addEventListener(`click`, async () => {
+                    this.isCanceled = true;
                     this.toggle();
                     await this.callback2();
                 });
@@ -2103,7 +2107,7 @@ Parsedown = (() => {
             sg: location.hostname.match(/www.steamgifts.com/),
             st: location.hostname.match(/www.steamtrades.com/),
             currentVersion: `7.15.1`,
-            devVersion: `7.15.1`,
+            devVersion: `7.15.2 (Dev.1)`,
             icon: `data:image/x-icon;base64,AAABAAEAEBAAAAEAIABoBAAAFgAAACgAAAAQAAAAIAAAAAEAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAqv8DCbP/Hgeq+CQIrf8iCK3/Igit/yIIrf8iB6//Iwit9x8Aqv8DAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAKr0GAa2/c0DvfzfA7f83QO3/N0Dt/zdA7f83QO+/d4Gs/3OAKP1GQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACm/xQFs/n2Bcf//wW///8FwP//BcD//wW///8Fx///BbP69gC2/xUAAAAAAAAAAAAAAAAA/1UDFptOFxSZMxkLpJktAq720QW1+ugEsfvjA7b92wO2/dsEsfvjBbX66Aau/dEoiO4tUlLWGU5k3hdVVf8DEJxKHxWqT8cVrU7uE6VN0guqny0Apv8XAJfQGwBAVywAQFcsAJfQGwCx/xcogugtS2Lk0lBl6u5Qae7ISmPeHxagSSMVr07jF7lV/xOiSu0brgATAAAAAAAAAA8AAAC/AAAAwAAAABAAAAAAYznjEkth4OxWb/3/T2jv40lf4iMXnksiEq1O3RayUv8UpEnkEo0+HQAAABkAAABBAAAA8QAAAPEAAABBAAAAGUBSvxxOYeDjU2v0/05m7d1LYuEiF55LIhKtTt0Ws1L/FahN2gU1FTAAAADAAAAA7AAAAP0AAAD9AAAA7AAAAMAVG0owUGPm2lNr9P9OZu3dS2LhIheeSyISrU7dFrNS/xWoTdoFNRswAAAAvwAAAOsAAAD9AAAA/QAAAOsAAADAFRtKMFBj6NpTa/T/Tmbt3Uti4SIXnksiEq1O3RayUv8UpEnkEo0+HQAAABgAAABAAAAA8QAAAPEAAABBAAAAGT5PuR1OYeDjU2v0/05m7d1LYuEiFqBJIxWuT+QXuVX/E6JL7QC8XhMAAAAAAAAADwAAAL8AAAC/AAAAEAAAAAAOR/8SSWLh7FZv/f9PaO/jSV/iIxCUSh8Vrk7HFqxN7ROlS9JskzMt1XULGK12EhxGLgYsRy8GK612EhzVgAsYgmxxLU1i39JNZ+vtT2fwx0pj1h8AqlUDF65GFgqZUhlsiC0txH0T0s5/EujJgBPkz4QR28+EEdvJgBPkzn8Q6Md+E9KLdHosM1LWGUZo6BZVVf8DAAAAAAAAAAAAAAAA/2YAFMl9EvbgjRb/14gV/9eIFf/XiBX/14gV/9+NFv/KgBD254YAFQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAL91FRjKgRHN1IgU3s+EEt3PhBLdz4QS3c+EEt3UiBTezYMRzcJ6FBkAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACqqgADxIARHr18FiO8eA8ivHgPIrx4DyK8eA8ivXwPI8SAER7/VQADAAAAAAAAAAAAAAAA78cAAPA3AAD4FwAABCAAADGOAAAE+AAAkBEAAJ55AACYOQAAlgEAAER4AAAXaAAATnoAAPgXAAD0JwAA69cAAA==`,
             sgIcon: `data:image/x-icon;base64,AAABAAEAEBAAAAEAIABoBAAAFgAAACgAAAAQAAAAIAAAAAEAIAAAAAAAQAQAABMLAAATCwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIUAAAD5AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAPoAAACFAAAAAAAAAAAAAAD8AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA+QAAAAAAAAAAAAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAAAAAAAAAAAAP8AAAD/AAAA/wAAABwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAcAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAcAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAHAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAAAAAAAAAAAAPwAAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD5AAAAAAAAAAAAAACFAAAA+QAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD5AAAAhQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA//8AAP//AADAAwAAwAMAAMfjAADP8wAAz/MAAM/zAADP8wAAz/MAAM/zAADH4wAAwAMAAMADAAD//wAA//8AAA==`,
             stIcon: `data:image/x-icon;base64,AAABAAEAEBAAAAEAIABoBAAAFgAAACgAAAAQAAAAIAAAAAEAIAAAAAAAQAQAABMLAAATCwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABbD6SgWw+ucFsPrkBbD6SgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAWw+uYFsPr/BbD6/wWw+ucAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAFsPrmBbD6/wWw+v8FsPrmAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABbD6SQWw+uYFsPrmBbD6SQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAFKRLShSkS+cUpEvkFKRLSgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAExi4EpMYuDnTGLg5Exi4EoAAAAAAAAAABSkS+YUpEv/FKRL/xSkS+cAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABMYuDmTGLg/0xi4P9MYuDnAAAAAAAAAAAUpEvmFKRL/xSkS/8UpEvmAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAATGLg5kxi4P9MYuD/TGLg5gAAAAAAAAAAFKRLSRSkS+YUpEvmFKRLSQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAExi4ElMYuDmTGLg5kxi4EkAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAMZ9E0rGfRPnxn0T5MZ9E0oAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADGfRPmxn0T/8Z9E//GfRPnAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAxn0T5sZ9E//GfRP/xn0T5gAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAMZ9E0nGfRPmxn0T5sZ9E0kAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA//8AAPw/AAD8PwAA/D8AAPw/AAD//wAAh+EAAIfhAACH4QAAh+EAAP//AAD8PwAA/D8AAPw/AAD8PwAA//8AAA==`,
@@ -6920,8 +6924,8 @@ Parsedown = (() => {
             await setValue(`imgurToken`, location.hash.match(/access_token=(.+?)\&/)[1]);
             close();
         } else {
-            let logoutButton = document.querySelector(`.js__logout, .js_logout`);
-            if (!logoutButton && !esgst.menuPath) {
+            esgst.logoutButton = document.querySelector(`.js__logout, .js_logout`);
+            if (!esgst.logoutButton && !esgst.menuPath) {
                 // user is not logged in
                 return;
             }
@@ -6934,7 +6938,7 @@ Parsedown = (() => {
                 document.head.insertAdjacentHTML(`beforeEnd`, `<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.min.css"><link rel="stylesheet" type="text/css" href="https://cdn.steamgifts.com/css/minified_v30.css">`);
             }
             addStyle();
-            await getElements(logoutButton);
+            await getElements();
             if (esgst.sg && !esgst.menuPath) {
                 checkSync();
             }
@@ -6974,13 +6978,11 @@ Parsedown = (() => {
                     esgst.headerNavigationLeft = document.getElementsByClassName(`nav__left-container`)[0];
                     esgst.pageOuterWrap = esgst.header.nextElementSibling;
                     esgst.mainContext = esgst.pageOuterWrap.lastElementChild;
-                    let logoutButton = responseHtml.getElementsByClassName(esgst.sg ? `js__logout` : `js_logout`)[0];
-                    if (logoutButton) {
-                        esgst.xsrfToken = logoutButton.getAttribute(`data-form`).match(/xsrf_token=(.+)/)[1];
+                    esgst.logoutButton = responseHtml.getElementsByClassName(esgst.sg ? `js__logout` : `js_logout`)[0];
+                    if (esgst.logoutButton) {
+                        esgst.xsrfToken = esgst.logoutButton.getAttribute(`data-form`).match(/xsrf_token=(.+)/)[1];
                     }
                     await refreshHeaderElements(document);
-                    addHeaderMenu();
-                    loadFeatures();
                     if (esgst.gbPath) {
                         document.title = `ESGST - Giveaway Bookmarks`;
                         esgst.originalTitle = `ESGST - Giveaway Bookmarks`;
@@ -6999,58 +7001,24 @@ Parsedown = (() => {
                     $("nav .nav__button--is-dropdown-arrow").click(function(e){var t=$(this).hasClass("is-selected");$("nav .nav__button").removeClass("is-selected"),$("nav .nav__relative-dropdown").addClass("is-hidden"),t||$(this).addClass("is-selected").siblings(".nav__relative-dropdown").removeClass("is-hidden"),e.stopPropagation()});
                     $("html").click(function(){$("nav .nav__button, .page__heading__button--is-dropdown").removeClass("is-selected"),$("nav .nav__relative-dropdown").addClass("is-hidden")});
                 }
-            } else {
-                addHeaderMenu();
-                checkNewVersion();
-                if (esgst.giveawaysPath && esgst.activeDiscussions) {
-                    if (esgst.oadd) {
-                        loadOadd();
-                    } else {
-                        checkMissingDiscussions();
-                    }
-                } else if (esgst.bgl && esgst.giveawayPath) {
-                    let backup, summary;
-                    backup = esgst.pageOuterWrap.innerHTML;
-                    summary = document.getElementsByClassName(`table--summary`)[0];
-                    summary = summary && summary.lastElementChild.firstElementChild.lastElementChild;
-                    if (summary) {
-                        let match = summary.textContent.match(/you\s(have\s(been\s)?|previously\s)blacklisted/);
-                        if (match) {
-                            esgst.pageOuterWrap.innerHTML = `
-                                <i class="fa fa-circle-o-notch fa-spin"></i>
-                                <span>Loading giveaway...</span>
-                            `;
-                            let responseHtml = parseHtml((await request({anon: true, method: `GET`, url: location.pathname})).responseText);
-                            if (responseHtml.getElementsByClassName(`table--summary`)[0]) {
-                                esgst.pageOuterWrap.innerHTML = backup;
-                                esgst.pageOuterWrap.getElementsByClassName(`table--summary`)[0].lastElementChild.firstElementChild.lastElementChild.insertAdjacentHTML(`beforeEnd`, `<br><br><span class="esgst-red">This is a group/whitelist giveaway and therefore cannot be loaded by Blacklist Giveaway Loader.</span>`);
-                                loadFeatures();
-                            } else {
-                                esgst.featuredContainer = insertHtml(esgst.pageOuterWrap, `beforeBegin`, `<div class="featured__container"></div>`);
-                                esgst.featuredContainer.innerHTML = responseHtml.getElementsByClassName(`featured__container`)[0].innerHTML;
-                                esgst.pageOuterWrap.innerHTML = responseHtml.getElementsByClassName(`page__outer-wrap`)[0].innerHTML;
-                                await getElements(logoutButton);
-                                esgst.sidebar.insertAdjacentHTML(`afterBegin`, `
-                                    <div class="sidebar__error is-disabled">
-                                        <i class="fa fa-exclamation-circle"></i> ${match[1] ? (match[1] === `previously ` ? `Off Your Blacklist<br>(${summary.firstElementChild.outerHTML})` : (match[1] === `have been ` ? `You Are Blacklisted` : `On Your Blacklist`)) : `On Your Blacklist`}
-                                    </div>
-                                `);
-                                loadFeatures();
-                            }
-                        } else {
-                            loadFeatures();
-                        }
-                    } else {
-                        loadFeatures();
-                    }
-                } else {
-                    loadFeatures();
-                }
             }
+
+            addHeaderMenu();
+            checkNewVersion();
+            loadFeatures();
         }
     }
 
     async function loadFeatures() {
+        if (esgst.bgl) await loadBgl(); // needs to be waited
+        if (esgst.giveawaysPath && esgst.activeDiscussions) {
+            if (esgst.oadd) {
+                await loadOadd();
+            } else {
+                await checkMissingDiscussions();
+            }
+        }
+
         let hiddenButtonsBefore, hiddenButtonsAfter;
         if (esgst.hideButtons) {
             hiddenButtonsBefore = document.createElement(`div`);
@@ -7077,46 +7045,38 @@ Parsedown = (() => {
             addGiveawayToStorage();
         }
 
-        if (esgst.cdr) {
-            let currentDate = new Date();
-            let registrationDate = new Date(esgst.registrationDate * 1e3);
-            registrationDate.setFullYear(currentDate.getFullYear());
-            registrationDate = registrationDate.getTime();
-            if (esgst.cdr_b && parseInt(getLocalValue(`cdr_bYear`, 0)) !== currentDate.getFullYear() && currentDate.getTime() < registrationDate && currentDate.getTime() + (esgst.cdr_days * 86400000) >= registrationDate) {
-                setLocalValue(`cdr_bYear`, currentDate.getFullYear());
-                new Popup(`fa-birthday-cake`, `ESGST reminder: your cake day is in ${Math.floor((registrationDate - currentDate.getTime()) / 86400000)} days.`, true).open();
-            } else if (esgst.cdr_d && parseInt(getLocalValue(`cdr_dYear`, 0)) !== currentDate.getFullYear() && currentDate.getTime() >= registrationDate) {
-                setLocalValue(`cdr_dYear`, currentDate.getFullYear());
-                if (currentDate.getTime() >= registrationDate + 86400000) {
-                    new Popup(`fa-birthday-cake`, `ESGST reminder: your cake day was ${Math.floor((currentDate.getTime() - registrationDate) / 86400000)} days ago.`, true).open();
-                } else {
-                    new Popup(`fa-birthday-cake`, `ESGST reminder: your cake day is today. Happy cake day!`, true).open();
-                }
-            }
-        }
-
+        // these features do not need to wait for any other feature
+        if (esgst.as) loadAs();
+        if (esgst.cec) loadCec();
+        if (esgst.cdr) loadCdr();
+        if (esgst.ds) loadDs();
         if (esgst.ff) loadFf();
-        if (esgst.fh) loadFh();
-        if (esgst.fmph) loadFmph();
-        if (esgst.fs) loadFs();
-        if (esgst.gdttt) await loadGdttt();
+        if (esgst.fh) loadFh(); // esgst.pageTop and esgst.commentsTop usage needs to wait for this feature
+        if (esgst.gas) loadGas();
         if (esgst.hbs) loadHbs();
-        if (esgst.hcp) loadHcp();
         if (esgst.hfc) loadHfc();
+        if (esgst.namwc) loadNamwc();
+        if (esgst.pnot) loadPnot();
+        if (esgst.rbp) loadRbp();
+        if (esgst.wbs) loadWbs();
+
+        if (esgst.fmph) loadFmph(); // needs to wait for FH
+        if (esgst.fs) loadFs(); // needs to wait for FH
+
+        if (esgst.rbot) loadRbot(); // needs to wait for FMPH
+
+        if (esgst.gdttt) await loadGdttt();
+        if (esgst.hcp) loadHcp();
         if (esgst.hr) loadHr();
         if (esgst.lpl) loadLpl();
         if (esgst.lpv) loadLpv();
         if (esgst.nm) loadNm();
-        if (esgst.pnot) loadPnot();
         if (esgst.sk) loadSk();
         if (esgst.smgb) loadSmgb();
         if (esgst.aic) loadAic();
 
         if (esgst.ags) loadAgs();
-        if (esgst.as) loadAs();
-        if (esgst.cec) loadCec();
         if (esgst.et) loadEt();
-        if (esgst.gas) loadGas();
         if (esgst.gb) await loadGb();
         if (esgst.ge) await loadGe();
         if (esgst.ged) await loadGed();
@@ -7142,7 +7102,6 @@ Parsedown = (() => {
         if (esgst.ded) loadDed();
         if (esgst.df) loadDf();
         if (esgst.dh) loadDh();
-        if (esgst.ds) loadDs();
         if (esgst.mpp) loadMpp();
         if (esgst.mps) loadMps();
 
@@ -7154,14 +7113,10 @@ Parsedown = (() => {
         if (esgst.cr) loadCr();
         if (esgst.cs) loadCs();
         if (esgst.ct) loadCt();
-        if (esgst.rbot) loadRbot();
-        if (esgst.rbp) loadRbp();
 
-        if (esgst.namwc) loadNamwc();
         if (esgst.ust) loadUst();
         if (esgst.wbc) loadWbc();
         if (esgst.wbm) loadWbm();
-        if (esgst.wbs) loadWbs();
 
         if (esgst.glwc) await loadGlwc();
         if (esgst.gs) loadGs();
@@ -7201,17 +7156,17 @@ Parsedown = (() => {
         }
         reorderButtons(hiddenButtonsBefore, esgst.leftButtons, hiddenButtonsAfter, esgst.rightButtons);
         goToComment(esgst.originalHash);
-        addEventListener(`beforeunload`, function (event) {
-            if (document.getElementsByClassName(`esgst-busy`)[0] || esgst.busy) {
-                event.returnValue = true;
-                return true;
-            }
-        });
-        addEventListener(`hashchange`, function () {
-            goToComment();
-        });
+        addEventListener(`beforeunload`, checkBusy);
+        addEventListener(`hashchange`, goToComment.bind(null, null, null));
         if (!esgst.staticPopups) {
             setTimeout(repositionPopups, 2000);
+        }
+    }
+
+    function checkBusy(event) {
+        if (document.getElementsByClassName(`esgst-busy`)[0] || esgst.busy) {
+            event.returnValue = true;
+            return true;
         }
     }
 
@@ -7926,119 +7881,104 @@ Parsedown = (() => {
     /* [AS] Archive Searcher */
 
     function loadAs() {
-        if (esgst.archivePath) {
-            let ASButton, Category, popup;
-            let key, position;
-            if (esgst.leftButtonIds.indexOf(`as`) > -1) {
-                key = `leftButtons`;
-                position = `afterBegin`;
-            } else {
-                key = `rightButtons`;
-                position = `beforeEnd`;
-            }
-            ASButton = insertHtml(esgst.hideButtons && esgst.hideButtons_as ? esgst[key] : esgst.mainPageHeading, position, `
+        if (!esgst.archivePath) return;
+
+        let [key, position] = esgst.leftButtonIds.indexOf(`as`) > -1 ? [`leftButtons`, `afterBegin`] : [`rightButtons`, `beforeEnd`];
+        let category = location.pathname.match(/^\/archive\/(coming-soon|open|closed|deleted)/);
+        let object = {
+            button: insertHtml(esgst.hideButtons && esgst.hideButtons_as ? esgst[key] : esgst.mainPageHeading, position, `
                 <div class="esgst-heading-button" id="esgst-as" title="${getFeatureTooltip(`as`, `Search archive`)}">
                     <i class="fa fa-folder"></i>
                     <i class="fa fa-search"></i>
                 </div>
-            `);
-            Category = location.pathname.match(/^\/archive\/(coming-soon|open|closed|deleted)/);
-            popup = new Popup(`fa-folder`, `Search archive${Category ? ` for ${Category[1]} giveaways` : ``}:`);
-            popup.TextInput = insertHtml(popup.description, `beforeEnd`, `<input type="text">`);
-            AS = {};
-            insertHtml(popup.description, `beforeEnd`, `<div></div>`).appendChild(createOptions([{
-                check: true,
-                description: `Search by AppID.`,
-                id: `as_searchAppId`,
-                tooltip: `If unchecked, a search by exact title will be performed.`
-            }]));
-            popup.description.appendChild(new ButtonSet(`green`, `grey`, `fa-search`, `fa-times-circle`, `Search`, `Cancel`, async function (Callback) {
-                ASButton.classList.add(`esgst-busy`);
-                AS.Progress.innerHTML = AS.OverallProgress.innerHTML = AS.Results.innerHTML = ``;
-                AS.Canceled = false;
-                AS.Query = popup.TextInput.value;
-                if (AS.Query) {
-                    if (esgst.as_searchAppId) {
-                        AS.Progress.innerHTML = `
-                            <i class="fa fa-circle-o-notch fa-spin"></i>
-                            <span>Retrieving game title...</span>
-                        `;
-                        var Title;
-                        Title = parseHtml((await request({method: `GET`, url: `https://steamcommunity.com/app/${AS.Query}`})).responseText).getElementsByClassName(`apphub_AppName`)[0];
-                        if (Title) {
-                            AS.Query = Title.textContent;
-                            setASSearch(AS, ASButton, Callback);
-                        } else {
-                            ASButton.classList.remove(`esgst-busy`);
-                            AS.Progress.innerHTML = `
-                                <i class="fa fa-times-circle"></i>
-                                <span>Game title not found. Make sure you are entering a valid AppID. For example, 229580 is the AppID for Dream (http://steamcommunity.com/app/229580).</span>
-                            `;
-                            Callback();
-                        }
-                    } else {
-                        setASSearch(AS, ASButton, Callback);
-                    }
-                } else {
-                    ASButton.classList.remove(`esgst-busy`);
-                    AS.Progress.innerHTML = `
-                        <i class="fa fa-times-circle"></i>
-                        <span>Please enter a title / AppID.</span>
-                    `;
-                    Callback();
-                }
-            }, function () {
-                clearInterval(AS.Request);
-                AS.Canceled = true;
-                setTimeout(function () {
-                    AS.Progress.innerHTML = ``;
-                }, 500);
-                ASButton.classList.remove(`esgst-busy`);
-            }).set);
-            AS.Progress = insertHtml(popup.description, `beforeEnd`, `<div></div>`);
-            AS.OverallProgress = insertHtml(popup.description, `beforeEnd`, `<div></div>`);
-            AS.Results = insertHtml(popup.scrollable, `beforeEnd`, `<div></div>`);
-            AS.popup = popup;
-            ASButton.addEventListener(`click`, function () {
-                popup.open(function () {
-                    popup.TextInput.focus();
-                });
-            });
+            `),
+            popup: new Popup(`fa-folder`, `Search archive${category ? ` for ${category[1]} giveaways` : ``}:`)
+        };
+        object.popup.queryInput = insertHtml(object.popup.scrollable, `beforeBegin`, `<input placeholder="Title/app id" type="text">`);
+        insertHtml(object.popup.scrollable, `beforeBegin`, `<div></div>`).appendChild(createOptions([{
+            check: true,
+            description: `Search by AppID.`,
+            id: `as_searchAppId`,
+            tooltip: `If unchecked, a search by exact title will be performed.`
+        }]));
+        object.popup.description.insertBefore(new ButtonSet_v2({color1: `green`, color2: `grey`, icon1: `fa-search`, icon2: `fa-times-circle`, title1: `Search`, title2: `Cancel`, callback1: startAsProcess.bind(object), callback2: stopAsProcess.bind(object)}).set, object.popup.scrollable);
+        object.popup.progress = insertHtml(object.popup.scrollable, `beforeBegin`, `<div></div>`);
+        object.popup.overallProgress = insertHtml(object.popup.scrollable, `beforeBegin`, `<div></div>`);
+        object.popup.results = insertHtml(object.popup.scrollable, `beforeEnd`, `<div></div>`);
+        object.button.addEventListener(`click`, object.popup.open.bind(object.popup, object.popup.queryInput.focus.bind(object.popup.queryInput)));
+    }
+
+    async function startAsProcess() {
+        let query = this.popup.queryInput.value;
+        if (!query) {            
+            this.popup.progress.innerHTML = `
+                <i class="fa fa-times-circle"></i>
+                <span>Please enter a title / AppID.</span>
+            `;
+            return;
         }
-    }
 
-    function setASSearch(AS, ASButton, Callback) {
-        AS.Query = ((AS.Query.length >= 50) ? AS.Query.slice(0, 50) : AS.Query).toLowerCase();
-        searchASGame(AS, `${location.href.match(/(.+?)(\/search.+?)?$/)[1]}/search?q=${encodeURIComponent(AS.Query)}&page=`, 1, function () {
-            ASButton.classList.remove(`esgst-busy`);
-            AS.Progress.innerHTML = ``;
-            Callback();
-        });
-    }
+        this.isCanceled = false;
+        this.button.classList.add(`esgst-busy`);
+        this.popup.progress.innerHTML = this.popup.overallProgress.innerHTML = this.popup.results.innerHTML = ``;
 
-    async function searchASGame(AS, URL, NextPage, Callback) {
-        if (AS.Canceled) return;
-        AS.Progress.innerHTML = `
-            <i class="fa fa-circle-o-notch fa-spin"></i>
-            <span>Loading page ${NextPage}...</span>
-        `;
-        var ResponseHTML, Matches, I, N, Title, Pagination;
-        ResponseHTML = parseHtml((await request({method: `GET`, queue: true, url: URL + NextPage})).responseText);
-        Matches = ResponseHTML.getElementsByClassName(`table__row-outer-wrap`);
-        for (I = 0, N = Matches.length; I < N; ++I) {
-            Title = Matches[I].getElementsByClassName(`table__column__heading`)[0].textContent.match(/(.+?)( \(.+ Copies\))?$/)[1];
-            if (Title.toLowerCase() === AS.Query) {
-                AS.Results.appendChild(Matches[I].cloneNode(true));
-                loadEndlessFeatures(AS.Results.lastElementChild);
+        // retrieve the game title from Steam
+        if (esgst.as_searchAppId) {
+            this.popup.progress.innerHTML = `
+                <i class="fa fa-circle-o-notch fa-spin"></i>
+                <span>Retrieving game title...</span>
+            `;
+            let title = parseHtml((await request({method: `GET`, url: `https://steamcommunity.com/app/${query}`})).responseText).getElementsByClassName(`apphub_AppName`)[0];
+            if (title) {
+                query = title.textContent;
+            } else {
+                this.button.classList.remove(`esgst-busy`);
+                this.popup.progress.innerHTML = `
+                    <i class="fa fa-times-circle"></i>
+                    <span>Game title not found. Make sure you are entering a valid AppID. For example, 229580 is the AppID for Dream (http://steamcommunity.com/app/229580).</span>
+                `;
+                return;
             }
         }
-        AS.OverallProgress.textContent = `${AS.Results.children.length} giveaways found...`;
-        Pagination = ResponseHTML.getElementsByClassName(`pagination__navigation`)[0];
-        if (Pagination && !Pagination.lastElementChild.classList.contains(`is-selected`)) {
-            searchASGame(AS, URL, ++NextPage, Callback);
-        } else {
-            Callback();
-        }
+
+        if (this.isCanceled) return;
+
+        // search for the game
+        query = ((query.length >= 50) ? query.slice(0, 50) : query).toLowerCase();           
+        let nextPage = 1;
+        let pagination = null;
+        let total = 0;
+        let url = `${location.href.match(/(.+?)(\/search.+?)?$/)[1]}/search?q=${encodeURIComponent(query)}&page=`;
+        do {
+            this.popup.progress.innerHTML = `
+                <i class="fa fa-circle-o-notch fa-spin"></i>
+                <span>Loading page ${nextPage}...</span>
+            `;
+            this.popup.overallProgress.textContent = `${total} giveaways found...`;
+            let responseHtml = parseHtml((await request({method: `GET`, queue: true, url: `${url}${nextPage}`})).responseText);
+            let context = insertHtml(this.popup.results, `beforeEnd`, `
+                <div></div>
+            `);
+            let elements = responseHtml.getElementsByClassName(`table__row-outer-wrap`);
+            for (let i = 0, n = elements.length; i < n; i++) {
+                let element = elements[i];
+                if (element.getElementsByClassName(`table__column__heading`)[0].textContent.match(/(.+?)( \(.+ Copies\))?$/)[1].toLowerCase() === query) {
+                    context.appendChild(element.cloneNode(true));
+                    total += 1;
+                }
+            }
+            await loadEndlessFeatures(context);
+            nextPage += 1;
+            pagination = responseHtml.getElementsByClassName(`pagination__navigation`)[0];
+        } while (!this.isCanceled && pagination && !pagination.lastElementChild.classList.contains(`is-selected`));
+
+        this.button.classList.remove(`esgst-busy`);
+        this.popup.progress.innerHTML = ``;
+    }
+
+    function stopAsProcess() {
+        this.button.classList.remove(`esgst-busy`);
+        this.isCanceled = true;
     }
 
     /* [AT] Accurate Timestamp */
@@ -8064,158 +8004,202 @@ Parsedown = (() => {
         }
     }
 
-    /* [CEC] Comment/Entry Checker */
+    /* [BGL] Blacklist Giveaway Loader */
 
-    function loadCec() {
-        if (!esgst.giveawayPath || !esgst.mainPageHeading) return;
-        let key, position;
-        if (esgst.leftButtonIds.indexOf(`cec`) > -1) {
-            key = `leftButtons`;
-            position = `afterBegin`;
-        } else {
-            key = `rightButtons`;
-            position = `beforeEnd`;
-        }
-        button = insertHtml(esgst.hideButtons && esgst.hideButtons_cec ? esgst[key] : esgst.mainPageHeading, position, `
-            <div class="esgst-heading-button" id="esgst-cec" title="${getFeatureTooltip(`cec`, `Check comments/entries`)}">
-                <i class="fa fa-comments"></i>
-                <i class="fa fa-ticket"></i>
-                <i class="fa fa-question-circle"></i>
-            </div>
-        `);
-        button.addEventListener(`click`, openCecPopup.bind(null, {button}));
-    }
+    async function loadBgl() {
+        if (!esgst.giveawayPath) return;
 
-    function openCecPopup(cec) {
-        if (!cec.popup) {
-            cec.popup = new Popup(`fa-question`, `Check Comments/Entries`);
-            cec.set = new ButtonSet(`green`, `grey`, `fa-arrow-right`, `fa-times`, `Check`, `Cancel`, callback => {
-                cec.button.classList.add(`esgst-busy`);
-                cec.canceled = false;
-                cec.comments = [];
-                cec.entries = [];
-                getCecComments(cec, null, 0, 0, 1, `/giveaway/${location.pathname.match(/\/giveaway\/(.+?)\//)[1]}/`, url => {
-                    getCecEntries(cec, 1, `${url.replace(/\/search\?page=/, ``)}/entries/search?page=`, () => {
-                        let both, commented, entered, total;
-                        cec.set.set.remove();
-                        cec.button.classList.remove(`esgst-busy`);
-                        cec.progress.innerHTML = ``;
-                        cec.comments = Array.from(new Set(cec.comments)).sort((a, b) => {
-                            return a.localeCompare(b, {
-                                sensitivity: `base`
-                            });
-                        });
-                        cec.entries = Array.from(new Set(cec.entries)).sort((a, b) => {
-                            return a.localeCompare(b, {
-                                sensitivity: `base`
-                            });
-                        });
-                        both = [];
-                        commented = [];
-                        entered = [];
-                        cec.comments.forEach(user => {
-                            if (cec.entries.indexOf(user) > -1) {
-                                both.push(`<a href="/user/${user}">${user}</a>`);
-                            } else {
-                                commented.push(`<a href="/user/${user}">${user}</a>`);
-                            }
-                        });
-                        total = cec.comments.length;
-                        cec.entries.forEach(user => {
-                            if (cec.comments.indexOf(user) < 0) {
-                                entered.push(`<a href="/user/${user}">${user}</a>`);
-                                total += 1;
-                            }
-                        });
-                        cec.popup.scrollable.insertAdjacentHTML(`beforeEnd`, `
-                            ${both.length > 0 ? `
-                                <div>
-                                    <span class="esgst-bold">${both.length} user${both.length > 1 ? `s` : ``} commented and entered (${Math.round(both.length / total * 10000) / 100}%):</span> ${both.join(`, `)}
-                                </div>
-                            ` : ``}
-                            ${commented.length > 0 ? `
-                                <div>
-                                    <span class="esgst-bold">${commented.length} user${commented.length > 1 ? `s` : ``} commented but did not enter (${Math.round(commented.length / total * 10000) / 100}%):</span> ${commented.join(`, `)}
-                                </div>
-                            ` : ``}
-                            ${entered.length > 0 ? `
-                                <div>
-                                    <span class="esgst-bold">${entered.length} user${entered.length > 1 ? `s` : ``} entered but did not comment (${Math.round(entered.length / total * 10000) / 100}%):</span> ${entered.join(`, `)}
-                                </div>
-                            ` : ``}
-                        `);
-                    });
-                });
-            }, () => {
-                cec.canceled = true;
-                cec.button.classList.remove(`esgst-busy`);
-                cec.progress.innerHTML = ``;
-            });
-            cec.popup.description.appendChild(cec.set.set);
-            cec.progress = insertHtml(cec.popup.description, `beforeEnd`, `<div></div>`);
-            cec.set.trigger();
-        }
-        cec.popup.open();
-    }
-
-    async function getCecComments(cec, discussions, i, n, nextPage, url, callback) {
-        if (cec.canceled) return;
-        cec.progress.innerHTML = `
+        let backup = esgst.pageOuterWrap.innerHTML;
+        let summary = document.getElementsByClassName(`table--summary`)[0];
+        summary = summary && summary.lastElementChild.firstElementChild.lastElementChild;
+        if (!summary) return;
+        let match = summary.textContent.match(/you\s(have\s(been\s)?|previously\s)blacklisted/);
+        if (!match) return;
+        esgst.pageOuterWrap.innerHTML = `
             <i class="fa fa-circle-o-notch fa-spin"></i>
-            <span>Retrieving ${discussions ? `bumps ` : `comments `} (page ${nextPage})...</span>
+            <span>Loading giveaway...</span>
         `;
-        let response = await request({method: `GET`, queue: true, url: `${url}${nextPage}`});
-        let elements, j, pagination, responseHtml;
-        responseHtml = parseHtml(response.responseText);
-        elements = responseHtml.querySelectorAll(`.comment:not(.comment--submit) .comment__username:not(.comment__username--op):not(.comment__username--deleted)`);
-        for (j = elements.length - 1; j > -1; --j) {
-            cec.comments.push(elements[j].textContent.trim());
-        }
-        pagination = responseHtml.getElementsByClassName(`pagination__navigation`)[0];
-        if (pagination && !pagination.lastElementChild.classList.contains(`is-selected`)) {
-            setTimeout(getCecComments, 0, cec, discussions, i, n, nextPage + 1, nextPage === 1 ? `${response.finalUrl}/search?page=` : url, callback);
+        let responseHtml = parseHtml((await request({anon: true, method: `GET`, url: location.pathname})).responseText);
+        if (responseHtml.getElementsByClassName(`table--summary`)[0]) {
+            esgst.pageOuterWrap.innerHTML = backup;
+            esgst.pageOuterWrap.getElementsByClassName(`table--summary`)[0].lastElementChild.firstElementChild.lastElementChild.insertAdjacentHTML(`beforeEnd`, `<br><br><span class="esgst-red">This is a group/whitelist giveaway and therefore cannot be loaded by Blacklist Giveaway Loader.</span>`);
         } else {
-            if (discussions) {
-                if (i < n) {
-                    setTimeout(getCecComments, 0, cec, discussions, i + 1, n, 1, `/discussion/${discussions[i]}/`, callback.bind(null, nextPage === 1 ? `${response.finalUrl}/search?page=` : url));
-                } else {
-                    callback();
-                }
+            esgst.featuredContainer = insertHtml(esgst.pageOuterWrap, `beforeBegin`, `<div class="featured__container"></div>`);
+            esgst.featuredContainer.innerHTML = responseHtml.getElementsByClassName(`featured__container`)[0].innerHTML;
+            esgst.pageOuterWrap.innerHTML = responseHtml.getElementsByClassName(`page__outer-wrap`)[0].innerHTML;
+            await getElements();
+            esgst.sidebar.insertAdjacentHTML(`afterBegin`, `
+                <div class="sidebar__error is-disabled">
+                    <i class="fa fa-exclamation-circle"></i> ${match[1] ? (match[1] === `previously ` ? `Off Your Blacklist<br>(${summary.firstElementChild.outerHTML})` : (match[1] === `have been ` ? `You Are Blacklisted` : `On Your Blacklist`)) : `On Your Blacklist`}
+                </div>
+            `);
+        }
+    }
+
+    /* [CDR] Cake Day Reminder */
+
+    function loadCdr() {
+        let currentDate = new Date();
+        let year = currentDate.getFullYear();
+        let time = currentDate.getTime();
+        let registrationDate = new Date(esgst.registrationDate * 1e3);
+        registrationDate.setFullYear(year);
+        registrationDate = registrationDate.getTime();
+        if (esgst.cdr_b && parseInt(getLocalValue(`cdr_bYear`, 0)) !== year && time < registrationDate && time + (esgst.cdr_days * 86400000) >= registrationDate) {
+            setLocalValue(`cdr_bYear`, year);
+            new Popup(`fa-birthday-cake`, `ESGST reminder: your cake day is in ${Math.floor((registrationDate - time) / 86400000)} days.`, true).open();
+        } else if (esgst.cdr_d && parseInt(getLocalValue(`cdr_dYear`, 0)) !== year && time >= registrationDate) {
+            setLocalValue(`cdr_dYear`, year);
+            if (time >= registrationDate + 86400000) {
+                new Popup(`fa-birthday-cake`, `ESGST reminder: your cake day was ${Math.floor((time - registrationDate) / 86400000)} days ago.`, true).open();
             } else {
-                let links, n;
-                links = responseHtml.querySelectorAll(`.page__description [href*="/discussion/"]`);
-                n = links.length;
-                if (n > 0) {
-                    let discussions = [];
-                    for (j = 0; j < n; ++j) {
-                        discussions.push(links[j].getAttribute(`href`).match(/\/discussion\/(.+?)\//)[1]);
-                    }
-                    setTimeout(getCecComments, 0, cec, discussions, i + 1, n, 1, `/discussion/${discussions[i]}/`, callback.bind(null, nextPage === 1 ? `${response.finalUrl}/search?page=` : url));
-                } else {
-                    callback(nextPage === 1 ? `${response.finalUrl}/search?page=` : url);
-                }
+                new Popup(`fa-birthday-cake`, `ESGST reminder: your cake day is today. Happy cake day!`, true).open();
             }
         }
     }
 
-    async function getCecEntries(cec, nextPage, url, callback) {
-        if (cec.canceled) return;
-        cec.progress.innerHTML = `
-            <i class="fa fa-circle-o-notch fa-spin"></i>
-            <span>Retrieving entries (page ${nextPage})...</span>
-        `;
-        let elements, i, pagination, responseHtml;
-        responseHtml = parseHtml((await request({method: `GET`, queue: true, url: `${url}${nextPage}`})).responseText);
-        elements = responseHtml.getElementsByClassName(`table__column__heading`);
-        for (i = elements.length - 1; i > -1; --i) {
-            cec.entries.push(elements[i].textContent.trim());
+    /* [CEC] Comment/Entry Checker */
+
+    function loadCec() {
+        if (!esgst.giveawayPath || !esgst.mainPageHeading) return;
+        
+        let [key, position] = esgst.leftButtonIds.indexOf(`cec`) > -1 ? [`leftButtons`, `afterBegin`] : [`rightButtons`, `beforeEnd`];
+        let object = {
+            button: insertHtml(esgst.hideButtons && esgst.hideButtons_cec ? esgst[key] : esgst.mainPageHeading, position, `
+                <div class="esgst-heading-button" id="esgst-cec" title="${getFeatureTooltip(`cec`, `Check comments/entries`)}">
+                    <i class="fa fa-comments"></i>
+                    <i class="fa fa-ticket"></i>
+                    <i class="fa fa-question-circle"></i>
+                </div>
+            `)
+        };
+        object.button.addEventListener(`click`, openCecPopup.bind(object));
+    }
+
+    function openCecPopup() {
+        if (this.popup) {
+            this.popup.open();
+            return;
         }
-        pagination = responseHtml.getElementsByClassName(`pagination__navigation`)[0];
-        if (pagination && !pagination.lastElementChild.classList.contains(`is-selected`)) {
-            setTimeout(getCecEntries, 0, cec, nextPage + 1, url, callback);
-        } else {
-            callback();
+        this.popup = new Popup(`fa-question`, `Check Comments/Entries`);
+        this.set = new ButtonSet_v2({color1: `green`, color2: `grey`, icon1: `fa-arrow-right`, icon2: `fa-times`, title1: `Check`, title2: `Cancel`, callback1: startCecProcess.bind(this), callback2: stopCecProcess.bind(this)});
+        this.popup.description.insertBefore(this.set.set, this.popup.scrollable);
+        this.popup.progress = insertHtml(this.popup.scrollable, `beforeBegin`, `<div></div>`);
+        this.popup.open();
+        this.set.trigger();
+    }
+
+    async function startCecProcess() {
+        this.isCanceled = false;
+        this.button.classList.add(`esgst-busy`);
+
+        // get comments
+        let comments = [];
+        let urls = [location.pathname.match(/\/giveaway\/.+?\//)[0]];
+        for (let i = 0; !this.isCanceled && i < urls.length; i++) {
+            let nextPage = 1;
+            let pagination = null;
+            let url = urls[i];
+            do {
+                this.popup.progress.innerHTML = `
+                    <i class="fa fa-circle-o-notch fa-spin"></i>
+                    <span>Retrieving ${i > 0 ? `bumps ` : `comments `} (page ${nextPage})...</span>
+                `;
+                let response = await request({method: `GET`, queue: true, url: `${url}${nextPage}`});
+                let responseHtml = parseHtml(response.responseText);
+                let elements = responseHtml.querySelectorAll(`.comment:not(.comment--submit) .comment__username:not(.comment__username--op):not(.comment__username--deleted)`);
+                for (let j = elements.length - 1; j > -1; j--) {
+                    comments.push(elements[j].textContent.trim());
+                }
+                if (nextPage === 1) {
+                    url = urls[i] = `${response.finalUrl}/search?page=`;
+                }
+                nextPage += 1;
+                pagination = responseHtml.getElementsByClassName(`pagination__navigation`)[0];
+
+                if (i === 0) {
+                    // get discussion links to check for bump comments
+                    let elements = responseHtml.querySelectorAll(`.page__description [href*="/discussion/"]`);
+                    for (let j = elements.length - 1; j > -1; j--) {
+                        urls.push(elements[j].getAttribute(`href`).match(/\/discussion\/.+?\//)[0]);
+                    }
+                }
+            } while (!this.isCanceled && pagination && !pagination.lastElementChild.classList.contains(`is-selected`));
         }
+
+        if (this.isCanceled) return;
+
+        // get entries
+        let entries = [];
+        let nextPage = 1;
+        let pagination = null;
+        let url = urls[0].replace(/search\?page=/, `entries/search?page=`);
+        do {
+            this.popup.progress.innerHTML = `
+                <i class="fa fa-circle-o-notch fa-spin"></i>
+                <span>Retrieving entries (page ${nextPage})...</span>
+            `;
+            let responseHtml = parseHtml((await request({method: `GET`, queue: true, url: `${url}${nextPage}`})).responseText);
+            let elements = responseHtml.getElementsByClassName(`table__column__heading`);
+            for (let i = elements.length - 1; i > -1; i--) {
+                entries.push(elements[i].textContent.trim());
+            }
+            nextPage += 1;
+            pagination = responseHtml.getElementsByClassName(`pagination__navigation`)[0];
+        } while (!this.isCanceled && pagination && !pagination.lastElementChild.classList.contains(`is-selected`));
+
+        if (this.isCanceled) return;
+
+        this.set.set.remove();
+        this.button.classList.remove(`esgst-busy`);
+        this.popup.progress.innerHTML = ``;
+
+        // calculate data
+        comments = sortArray(Array.from(new Set(comments)));
+        entries = sortArray(Array.from(new Set(entries)));
+        let both = [];
+        let commented = [];
+        comments.forEach(user => {
+            if (entries.indexOf(user) > -1) {
+                // user commented and entered
+                both.push(`<a href="/user/${user}">${user}</a>`);
+            } else {
+                // user commented but did not enter
+                commented.push(`<a href="/user/${user}">${user}</a>`);
+            }
+        });
+        let entered = [];
+        let total = comments.length;
+        entries.forEach(user => {
+            if (comments.indexOf(user) < 0) {
+                // user entered but did not comment
+                entered.push(`<a href="/user/${user}">${user}</a>`);
+                total += 1;
+            }
+        });
+        this.popup.scrollable.insertAdjacentHTML(`beforeEnd`, `
+            ${both.length > 0 ? `
+                <div>
+                    <span class="esgst-bold">${both.length} user${both.length > 1 ? `s` : ``} commented and entered (${Math.round(both.length / total * 10000) / 100}%):</span> ${both.join(`, `)}
+                </div>
+            ` : ``}
+            ${commented.length > 0 ? `
+                <div>
+                    <span class="esgst-bold">${commented.length} user${commented.length > 1 ? `s` : ``} commented but did not enter (${Math.round(commented.length / total * 10000) / 100}%):</span> ${commented.join(`, `)}
+                </div>
+            ` : ``}
+            ${entered.length > 0 ? `
+                <div>
+                    <span class="esgst-bold">${entered.length} user${entered.length > 1 ? `s` : ``} entered but did not comment (${Math.round(entered.length / total * 10000) / 100}%):</span> ${entered.join(`, `)}
+                </div>
+            ` : ``}
+        `);
+    }
+
+    function stopCecProcess() {
+        this.button.classList.remove(`esgst-busy`);
+        this.popup.progress.innerHTML = ``;
+        this.isCanceled = true;
     }
 
     /* [CERB] Collapse/Expand Reply Button */
@@ -14342,46 +14326,42 @@ Parsedown = (() => {
 
     function loadDs() {
         if (!esgst.discussionsPath) return;
-        let ds = {};
-        let key, position;
-        if (esgst.leftButtonIds.indexOf(`ds`) > -1) {
-            key = `leftButtons`;
-            position = `afterBegin`;
-        } else {
-            key = `rightButtons`;
-            position = `beforeEnd`;
-        }
-        ds.button = insertHtml(esgst.hideButtons && esgst.hideButtons_ds ? esgst[key] : esgst.mainPageHeading, position, `
-            <div class="esgst-heading-button" id="esgst-ds" title="${getFeatureTooltip(`ds`, `Sort discussions`)}">
-                <i class="fa fa-sort"></i>
-            </div>
-        `);
-        ds.button.addEventListener(`click`, openDsPopout.bind(null, ds));
+
+        let [key, position] = esgst.leftButtonIds.indexOf(`ds`) > -1 ? [`leftButtons`, `afterBegin`] : [`rightButtons`, `beforeEnd`];
+        let object = {
+            button: insertHtml(esgst.hideButtons && esgst.hideButtons_ds ? esgst[key] : esgst.mainPageHeading, position, `
+                <div class="esgst-heading-button" id="esgst-ds" title="${getFeatureTooltip(`ds`, `Sort discussions`)}">
+                    <i class="fa fa-sort"></i>
+                </div>
+            `)
+        };
+        object.button.addEventListener(`click`, openDsPopout.bind(object));
     }
 
-    function openDsPopout(ds) {
-        if (!ds.popout) {
-            ds.popout = new Popout(`esgst-ds-popout`, ds.button, 0, true);
-            ds.toggle = new ToggleSwitch(ds.popout.popout, `ds_auto`, false, `Auto Sort`, false, false, `Automatically sorts the discussions by the selected option when loading the page.`, esgst.ds_auto);
-            ds.options = insertHtml(ds.popout.popout, `beforeEnd`, `
-                <select>
-                    <option value="sortIndex_asc">Default</option>
-                    <option value="title_asc">Title - Ascending</option>
-                    <option value="title_desc">Title - Descending</option>
-                    <option value="category_asc">Category - Ascending</option>
-                    <option value="category_desc">Category - Descending</option>
-                    <option value="createdTimestamp_asc">Created Time - Ascending</option>
-                    <option value="createdTimestamp_desc">Created Time - Descending</option>
-                    <option value="author_asc">Author - Ascending</option>
-                    <option value="author_desc">Author - Descending</option>
-                    <option value="comments_asc">Comments - Ascending</option>
-                    <option value="comments_desc">Comments - Descending</option>
-                </select>
-            `);
-            ds.options.value = esgst.ds_option;
-            ds.options.addEventListener(`change`, saveAndSortContent.bind(null, `ds_option`, `currentDiscussions`, ds.options, null));
-            ds.popout.popout.appendChild(new ButtonSet(`green`, ``, `fa-arrow-circle-right`, ``, `Sort`, ``, saveAndSortContent.bind(null, `ds_option`, `currentDiscussions`, ds.options)).set);
-        }
+    function openDsPopout() {
+        if (this.popout) return;
+        this.popout = new Popout(`esgst-ds-popout`, this.button, 0, true);
+        new ToggleSwitch(this.popout.popout, `ds_auto`, false, `Auto Sort`, false, false, `Automatically sorts the discussions by the selected option when loading the page.`, esgst.ds_auto);
+        let options = insertHtml(this.popout.popout, `beforeEnd`, `
+            <select>
+                <option value="sortIndex_asc">Default</option>
+                <option value="title_asc">Title - Ascending</option>
+                <option value="title_desc">Title - Descending</option>
+                <option value="category_asc">Category - Ascending</option>
+                <option value="category_desc">Category - Descending</option>
+                <option value="createdTimestamp_asc">Created Time - Ascending</option>
+                <option value="createdTimestamp_desc">Created Time - Descending</option>
+                <option value="author_asc">Author - Ascending</option>
+                <option value="author_desc">Author - Descending</option>
+                <option value="comments_asc">Comments - Ascending</option>
+                <option value="comments_desc">Comments - Descending</option>
+            </select>
+        `);
+        options.value = esgst.ds_option;
+        let callback = saveAndSortContent.bind(null, `ds_option`, `currentDiscussions`, options, null);
+        options.addEventListener(`change`, callback);
+        this.popout.popout.appendChild(new ButtonSet_v2({color1: `green`, color2: ``, icon1: `fa-arrow-circle-right`, icon2: ``, title1: `Sort`, title2: ``, callback1: callback}).set);
+        this.popout.open();
     }
 
     /* [EGH] Entered Game Highlighter */
@@ -15482,6 +15462,7 @@ Parsedown = (() => {
 
     function loadFf() {
         if (!esgst.footer) return;
+
         esgst.footer.classList.add(`esgst-ff`);
         esgst.pageOuterWrap.classList.add(`esgst-ff-sibling`);
     }
@@ -15490,10 +15471,10 @@ Parsedown = (() => {
 
     function loadFh() {
         if (!esgst.header) return;
+
         esgst.header.classList.add(`esgst-fh`);
-        let sibling = ((!esgst.giveawaysPath || !esgst.hfc) && esgst.featuredContainer) || esgst.pageOuterWrap;
-        if (!sibling) return;
-        sibling.classList.add(`esgst-fh-sibling`);
+        (((!esgst.giveawaysPath || !esgst.hfc) && esgst.featuredContainer) || esgst.pageOuterWrap).classList.add(`esgst-fh-sibling`);
+
         let height = esgst.header.offsetHeight;
         esgst.pageTop += height;
         esgst.commentsTop += height;
@@ -15632,110 +15613,83 @@ Parsedown = (() => {
     /* [GAS] Giveaway Sorter */
 
     function loadGas() {
-        if (esgst.giveawaysPath || esgst.enteredPath || esgst.groupPath || esgst.userPath) {
-            let gas, type;
-            gas = {};
-            esgst.gas = {};
-            type = location.search.match(/type=(wishlist|recommended|group|new)/);
-            if (type) {
-                type = type[1].replace(/^(.)/, function (m, p1) {
-                    return p1.toUpperCase();
-                });
-            } else if (esgst.enteredPath) {
-                type = `Entered`;
-            } else if (esgst.userPath) {
-                type = `User`;
-            } else if (esgst.groupPath) {
-                type = `Groups`;
-            } else {
-                type = ``;
-            }
-            esgst.gas.autoKey = `gas_auto${type}`;
-            esgst.gas.optionKey = `gas_option${type}`;
-            gas.button = document.createElement(`div`);
-            gas.button.className = `esgst-heading-button`;
-            gas.button.id = `esgst-gas`;
-            gas.button.title = getFeatureTooltip(`gas`, `Sort giveaways`);
-            gas.button.innerHTML = `
-                <i class="fa fa-sort"></i>
-            `;
-            gas.button.addEventListener(`click`, openGasPopout.bind(null, gas));
-            if (esgst.hideButtons && esgst.hideButtons_gas) {
-                if (esgst.leftButtonIds.indexOf(`gas`) > -1) {
-                    esgst.leftButtons.insertBefore(gas.button, esgst.leftButtons.firstElementChild);
-                } else {
-                    esgst.rightButtons.appendChild(gas.button);
-                }
-            } else {
-                esgst.mainPageHeading.insertBefore(gas.button, esgst.mainPageHeading.firstElementChild);
-            }
+        if (!esgst.giveawaysPath && !esgst.enteredPath && !esgst.groupPath && !esgst.userPath) return;
+
+        let type = location.search.match(/type=(wishlist|recommended|group|new)/);
+        if (type) {
+            type = capitalizeFirstLetter(type[1]);
+        } else if (esgst.enteredPath) {
+            type = `Entered`;
+        } else if (esgst.userPath) {
+            type = `User`;
+        } else if (esgst.groupPath) {
+            type = `Groups`;
+        } else {
+            type = ``;
         }
+        esgst.gas = {
+            autoKey: `gas_auto${type}`,
+            optionKey: `gas_option${type}`
+        };
+        
+        let [key, position] = esgst.leftButtonIds.indexOf(`gas`) > -1 ? [`leftButtons`, `afterBegin`] : [`rightButtons`, `beforeEnd`];
+        let object = {
+            button: insertHtml(esgst.hideButtons && esgst.hideButtons_gas ? esgst[key] : esgst.mainPageHeading, position, `
+                <div class="esgst-heading-button" id="esgst-gas" title="${getFeatureTooltip(`gas`, `Sort giveaways`)}">
+                    <i class="fa fa-sort"></i>
+                </div>
+            `)
+        };
+        object.button.addEventListener(`click`, openGasPopout.bind(object));
     }
 
-    function openGasPopout(gas) {
-        var optionsHtml, type;
-        if (!gas.popout) {
-            gas.popout = new Popout(`esgst-gas-popout`, gas.button, 0, true);
-            gas.toggle = new ToggleSwitch(gas.popout.popout, esgst.gas.autoKey, false, `Auto Sort`, false, false, `Automatically sorts the giveaways by the selected option when loading the page.`, esgst[esgst.gas.autoKey]);
-            optionsHtml = `
-                <select>
-                    <option value="sortIndex_asc">Default</option>
-                    <option value="name_asc">Game Name - Ascending</option>
-                    <option value="name_desc">Game Name - Descending</option>
-            `;
-            if (!esgst.enteredPath) {
-                optionsHtml += `
-                    <option value="points_asc">Points - Ascending</option>
-                    <option value="points_desc">Points - Descending</option>
-                `;
-            }
-            if (esgst.gc && esgst.gc_r && !esgst.enteredPath) {
-                optionsHtml += `
-                    <option value="rating_asc">Rating - Ascending</option>
-                    <option value="rating_desc">Rating - Descending</option>
-                `;
-            }
-            optionsHtml += `
-                    <option value="endTime_asc">End Time - Ascending</option>
-                    <option value="endTime_desc">End Time - Descending</option>
-            `;
-            if (!esgst.enteredPath) {
-                optionsHtml += `
-                    <option value="startTime_asc">Start Time - Ascending</option>
-                    <option value="startTime_desc">Start Time - Descending</option>
-                    <option value="creator_asc">Creator - Ascending</option>
-                    <option value="creator_desc">Creator - Descending</option>
-                    <option value="comments_asc">Comments - Ascending</option>
-                    <option value="comments_desc">Comments - Descending</option>
-                `;
-            }
-            optionsHtml += `
-                    <option value="entries_asc">Entries - Ascending</option>
-                    <option value="entries_desc">Entries - Descending</option>
-            `;
+    function openGasPopout() {
+        if (this.popout) return;
 
-            if (esgst.gwc) {
-                optionsHtml += `
-                    <option value="chance_asc">Chance - Ascending</option>
-                    <option value="chance_desc">Chance - Descending</option>
-                    <option value="chancePerPoint_asc">Chance Per Point - Ascending</option>
-                    <option value="chancePerPoint_desc">Chance Per Point - Descending</option>
-                `;
-            }
-            if (esgst.gwr) {
-                optionsHtml += `
-                    <option value="ratio_asc">Ratio - Ascending</option>
-                    <option value="ratio_desc">Ratio - Descending</option>
-                `;
-            }
-            optionsHtml += `
-                </select>
-            `;
-            gas.options = insertHtml(gas.popout.popout, `beforeEnd`, optionsHtml);
-            gas.options.value = esgst[esgst.gas.optionKey];
-            gas.options.addEventListener(`change`, saveAndSortContent.bind(null, esgst.gas.optionKey, `currentGiveaways`, gas.options, null));
-            gas.popout.popout.appendChild(new ButtonSet(`green`, ``, `fa-arrow-circle-right`, ``, `Sort`, ``, saveAndSortContent.bind(null, esgst.gas.optionKey, `currentGiveaways`, gas.options)).set);
-        }
+        this.popout = new Popout(`esgst-gas-popout`, this.button, 0, true);
+        new ToggleSwitch(this.popout.popout, esgst.gas.autoKey, false, `Auto Sort`, false, false, `Automatically sorts the giveaways by the selected option when loading the page.`, esgst[esgst.gas.autoKey]);
+        let options = insertHtml(this.popout.popout, `beforeEnd`, `
+            <select>
+                <option value="sortIndex_asc">Default</option>
+                <option value="name_asc">Game Name - Ascending</option>
+                <option value="name_desc">Game Name - Descending</option>
+            ${!esgst.enteredPath ? `
+                <option value="points_asc">Points - Ascending</option>
+                <option value="points_desc">Points - Descending</option>
+            ` : ``}
+            ${esgst.gc && esgst.gc_r && !esgst.enteredPath ? `
+                <option value="rating_asc">Rating - Ascending</option>
+                <option value="rating_desc">Rating - Descending</option>
+            ` : ``}
+                <option value="endTime_asc">End Time - Ascending</option>
+                <option value="endTime_desc">End Time - Descending</option>
+            ${!esgst.enteredPath ? `
+                <option value="startTime_asc">Start Time - Ascending</option>
+                <option value="startTime_desc">Start Time - Descending</option>
+                <option value="creator_asc">Creator - Ascending</option>
+                <option value="creator_desc">Creator - Descending</option>
+                <option value="comments_asc">Comments - Ascending</option>
+                <option value="comments_desc">Comments - Descending</option>
+            ` : ``}
+                <option value="entries_asc">Entries - Ascending</option>
+                <option value="entries_desc">Entries - Descending</option>
+            ${esgst.gwc ? `
+                <option value="chance_asc">Chance - Ascending</option>
+                <option value="chance_desc">Chance - Descending</option>
+                <option value="chancePerPoint_asc">Chance Per Point - Ascending</option>
+                <option value="chancePerPoint_desc">Chance Per Point - Descending</option>
+            ` : ``}
+            ${esgst.gwr ? `
+                <option value="ratio_asc">Ratio - Ascending</option>
+                <option value="ratio_desc">Ratio - Descending</option>
+            ` : ``}
+            </select>
+        `);
+        options.value = esgst[esgst.gas.optionKey];
+        let callback = saveAndSortContent.bind(null, esgst.gas.optionKey, `currentGiveaways`, options, null);
+        options.addEventListener(`change`, callback);
+        this.popout.popout.appendChild(new ButtonSet_v2({color1: `green`, color2: ``, icon1: `fa-arrow-circle-right`, icon2: ``, title1: `Sort`, title2: ``, callback1: callback}).set);
+        this.popout.open();
     }
 
     /* [GB] Giveaway Bookmarks */
@@ -21438,46 +21392,22 @@ Parsedown = (() => {
     /* [HBS] Hidden Blacklist Stats */
 
     function loadHbs() {
-        var Chart, Match, Points, N, Data, I, CountDate, Year, Month, Day, Count, Context, script;
-        if (location.pathname.match(/^\/stats\/personal\/community/)) {
-            Chart = document.getElementsByClassName(`chart`)[4];
-            Match = Chart.previousElementSibling.textContent.match(/"Whitelists", data: \[(.+)\]},/)[1];
-            Points = Match.split(/\],\[/);
-            N = Points.length - 1;
-            Points[0] = Points[0].replace(/^\[/, ``);
-            Points[N] = Points[N].replace(/\/]$/, ``);
-            Data = [];
-            for (I = 0; I <= N; ++I) {
-                Match = Points[I].match(/(.+), (.+)/);
-                CountDate = Match[1].match(/\((.+?),(.+?),(.+?)\)/);
-                Year = parseInt(CountDate[1]);
-                Month = parseInt(CountDate[2]);
-                Day = parseInt(CountDate[3]);
-                Count = parseInt(Match[2]);
-                Data.push([Date.UTC(Year, Month, Day), Count]);
-            }
-            Context = Chart.firstElementChild;
-            Context.lastElementChild.remove();
-            Context.lastElementChild.remove();
-            Context = Context.nextElementSibling;
-            Context.textContent = Context.textContent.replace(/and blacklists\s/, ``);
-            Context = Context.nextElementSibling;
-            script = document.createElement(`script`);
-            script.innerHTML = `
-                $(function () {
-                    chart_options.graph = {
-                        colors: ['#6187d4', '#ec656c'],
-                        tooltip: {
-                            headerFormat: '<p class="chart__tooltip-header">{point.key}</p>',
-                            pointFormat: '<p class="chart__tooltip-point" style="color: {point.color};">{point.y:,.0f} {series.name}</p>'
-                        },
-                        series: [ { name: "Whitelists", data: ${JSON.stringify(Data)} } ]
-                    };
-                    $(".chart__personal-community-whitelists-and-blacklists").highcharts(Highcharts.merge(chart_options.default, chart_options.areaspline, chart_options.datetime, chart_options.graph));
-                });
-            `;
-            document.body.appendChild(script);
-        }
+        if (!location.pathname.match(/^\/stats\/personal\/community/)) return;
+
+        let chart = document.getElementsByClassName(`chart`)[4];
+
+        // remove any "blacklist" text from the chart
+        let heading = chart.firstElementChild;
+        heading.lastElementChild.remove();
+        heading.lastElementChild.remove();
+        let subHeading = heading.nextElementSibling;
+        subHeading.textContent = subHeading.textContent.replace(/and\sblacklists\s/, ``);
+
+        // create a new graph without the blacklist points
+        let script = document.createElement(`script`);
+        script.innerHTML = chart.previousElementSibling.textContent.replace(/,{name:\s"Blacklists".+?}/, ``);
+        document.body.appendChild(script);
+        script.remove();
     }
 
     /* [HCP] Hidden Community Poll */
@@ -21496,6 +21426,7 @@ Parsedown = (() => {
 
     function loadHfc() {
         if (!esgst.giveawaysPath || !esgst.featuredContainer) return;
+
         esgst.featuredContainer.classList.add(`esgst-hidden`);
     }
 
@@ -22455,7 +22386,7 @@ Parsedown = (() => {
         let parts = esgst.levelContainer.getAttribute(`title`).match(/(\d+)\.(\d+)/);
         let base = parseInt(parts[1]);
         let percentage = parseInt(parts[2]);
-        let dif = 100 - percentage;
+        let dif = 100 - percentage;52
         let progress = parseInt(percentage * 1.85);
         let firstBar = `${progress}px`;
         let secondBar = progress >= 156 ? `${progress - 156 - 0.59}px` : `0`;
@@ -24586,43 +24517,22 @@ Parsedown = (() => {
 
     function loadNamwc() {
         if (!esgst.winnersPath) return;
-        let key, position;
-        if (esgst.leftButtonIds.indexOf(`namwc`) > -1) {
-            key = `leftButtons`;
-            position = `afterBegin`;
-        } else {
-            key = `rightButtons`;
-            position = `beforeEnd`;
-        }
-        setNAMWCPopup(insertHtml(esgst.hideButtons && esgst.hideButtons_namwc ? esgst[key] : esgst.mainPageHeading, position, `
-            <div class="esgst-heading-button" id="esgst-namwc" title="${getFeatureTooltip(`namwc`, `Check for not activated/multiple wins`)}">
-                <i class="fa fa-trophy"></i>
-                <i class="fa fa-question-circle"></i>
-            </div>
-        `));
-    }
 
-    function addNamwcProfileButton(profile) {
-        setNAMWCPopup(insertHtml(profile.wonRowLeft, `beforeEnd`, `
-            <span class="esgst-namwc-button">
-                <i class="fa fa-question-circle" title="${getFeatureTooltip(`namwc`, `Check for not activated/multiple wins`)}"></i>
-            </span>
-        `), {
-            SteamID64: profile.steamId,
-            ID: profile.id,
-            Username: profile.username
+        let [key, position] = esgst.leftButtonIds.indexOf(`namwc`) > -1 ? [`leftButtons`, `afterBegin`] : [`rightButtons`, `beforeEnd`];
+        setNamwcPopup.call({
+            button: insertHtml(esgst.hideButtons && esgst.hideButtons_namwc ? esgst[key] : esgst.mainPageHeading, position, `
+                <div class="esgst-heading-button" id="esgst-namwc" title="${getFeatureTooltip(`namwc`, `Check for not activated/multiple wins`)}">
+                    <i class="fa fa-trophy"></i>
+                    <i class="fa fa-question-circle"></i>
+                </div>
+            `)
         });
     }
 
-    function setNAMWCPopup(NAMWCButton, User, Mnu) {
-        var popup, NAMWC;
-        NAMWC = {
-            User: (User ? User : null)
-        };
-        popup = new Popup(!Mnu ? `fa-question` : `fa-cog`, !Mnu ? `Check for ${NAMWC.User ? `${NAMWC.User.Username}'s ` : ``} not activated / multiple wins:` : `Manage Not Activated / Multiple Wins Checker caches:`);
-        if (!Mnu) {
-            popup.Options = insertHtml(popup.description, `beforeEnd`, `<div></div>`);
-            popup.Options.appendChild(createOptions([{
+    function setNamwcPopup() {
+        this.popup = new Popup(this.isMenu ? `fa-cog` : `fa-question`, this.isMenu ? `Manage Not Activated / Multiple Wins Checker caches:` : `Check for ${this.user ? `${this.user.username}'s ` : ``} not activated / multiple wins:`);
+        if (!this.isMenu) {
+            insertHtml(this.popup.scrollable, `beforeBegin`, `<div></div>`).appendChild(createOptions([{
                 check: true,
                 description: `Only check for not activated wins.`,
                 exclusions: [`namwc_checkMultiple`],
@@ -24635,29 +24545,13 @@ Parsedown = (() => {
                 id: `namwc_checkMultiple`,
                 tooltip: `If enabled, not activated wins will not be checked (faster).`
             }]));
-            popup.Options.insertAdjacentHTML(`afterEnd`, `<div class="esgst-description">If an user is highlighted, that means they have been either checked for the first time or updated.</div>`);
-            popup.description.appendChild(new ButtonSet(`green`, `grey`, `fa-question-circle`, `fa-times-circle`, `Check`, `Cancel`, function (Callback) {
-                NAMWC.ShowResults = false;
-                NAMWCButton.classList.add(`esgst-busy`);
-                setNAMWCCheck(NAMWC, function () {
-                    NAMWCButton.classList.remove(`esgst-busy`);
-                    NAMWC.Progress.innerHTML = ``;
-                    Callback();
-                });
-            }, function () {
-                clearInterval(NAMWC.Request);
-                clearInterval(NAMWC.Save);
-                NAMWC.Canceled = true;
-                setTimeout(function () {
-                    NAMWC.Progress.innerHTML = ``;
-                }, 500);
-                NAMWCButton.classList.remove(`esgst-busy`);
-            }).set);
+            this.popup.scrollable.insertAdjacentHTML(`beforeBegin`, `<div class="esgst-description">If a user is highlighted, that means that they have been either checked for the first time or updated.</div>`);
+            this.popup.description.insertBefore(new ButtonSet_v2({color1: `green`, color2: `grey`, icon1: `fa-question-circle`, icon2: `fa-times-circle`, title1: `Check`, title2: `Cancel`, callback1: startNamwcProcess.bind(this), callback2: stopNamwcProcess.bind(this)}).set, this.popup.scrollable);
         }
-        NAMWC.Progress = insertHtml(popup.description, `beforeEnd`, `<div></div>`);
-        NAMWC.OverallProgress = insertHtml(popup.description, `beforeEnd`, `<div></div>`);
-        popup.Results = insertHtml(popup.scrollable, `beforeEnd`, `<div></div>`);
-        createResults(popup.Results, NAMWC, [{
+        this.popup.progress = insertHtml(this.popup.scrollable, `beforeBegin`, `<div></div>`);
+        this.popup.overallProgress = insertHtml(this.popup.scrollable, `beforeBegin`, `<div></div>`);
+        this.popup.results = insertHtml(this.popup.scrollable, `beforeEnd`, `<div></div>`);
+        createResults(this.popup.results, this.popup, [{
             Icon: `<i class="fa fa-check-circle esgst-positive"></i> `,
             Description: `Users with 0 not activated wins`,
             Key: `activated`
@@ -24678,208 +24572,173 @@ Parsedown = (() => {
             Description: `Users who cannot be checked for not activated wins either because they have a private profile or SteamCommunity is down`,
             Key: `unknown`
         }]);
-        NAMWC.popup = popup;
-        NAMWCButton.addEventListener(`click`, function () {
-            popup.open(function () {
-                if (Mnu) {
-                    NAMWC.ShowResults = true;
-                    setNAMWCCheck(NAMWC);
-                }
-            });
-        });
+        this.button.addEventListener(`click`, this.popup.open.bind(this.popup, this.isMenu ? startNamwcProcess.bind(this) : null));
     }
 
-    async function setNAMWCCheck(NAMWC, Callback) {
-        var SavedUsers, I, N, Username;
-        NAMWC.Progress.innerHTML = NAMWC.OverallProgress.innerHTML = ``;
-        NAMWC.activated.classList.add(`esgst-hidden`);
-        NAMWC.notMultiple.classList.add(`esgst-hidden`);
-        NAMWC.notActivated.classList.add(`esgst-hidden`);
-        NAMWC.multiple.classList.add(`esgst-hidden`);
-        NAMWC.unknown.classList.add(`esgst-hidden`);
-        NAMWC.activatedCount.textContent = NAMWC.notMultipleCount.textContent = NAMWC.notActivatedCount.textContent = NAMWC.multipleCount.textContent = NAMWC.unknownCount.textContent = `0`;
-        NAMWC.activatedUsers.innerHTML = NAMWC.notMultipleUsers.textContent = NAMWC.notActivatedUsers.innerHTML = NAMWC.multipleUsers.innerHTML = NAMWC.unknownUsers.innerHTML = ``;
-        NAMWC.Users = [];
-        NAMWC.users = {
+    async function startNamwcProcess() {
+        this.isCanceled = false;
+        this.button.classList.add(`esgst-busy`);
+        this.popup.progress.innerHTML = this.popup.overallProgress.innerHTML = ``;
+        this.popup.activated.classList.add(`esgst-hidden`);
+        this.popup.notMultiple.classList.add(`esgst-hidden`);
+        this.popup.notActivated.classList.add(`esgst-hidden`);
+        this.popup.multiple.classList.add(`esgst-hidden`);
+        this.popup.unknown.classList.add(`esgst-hidden`);
+        this.popup.activatedCount.textContent = this.popup.notMultipleCount.textContent = this.popup.notActivatedCount.textContent = this.popup.multipleCount.textContent = this.popup.unknownCount.textContent = `0`;
+        this.popup.activatedUsers.innerHTML = this.popup.notMultipleUsers.textContent = this.popup.notActivatedUsers.innerHTML = this.popup.multipleUsers.innerHTML = this.popup.unknownUsers.innerHTML = ``;
+
+        // get users
+        let users = [];
+        if (this.isMenu) {
+            let savedUsers = JSON.parse(await getValue(`users`));
+            for (let id in savedUsers.users) {
+                let savedUser = savedUsers.users[id];
+                if (!savedUser.namwc || !savedUser.namwc.results) continue;
+                users.push(savedUser.username);
+            }
+        } else if (this.user) {
+            users.push(this.user.username);
+        } else {
+            for (let username in esgst.currentUsers) {
+                if (username === esgst.username) continue;
+                if (users.length > 25) break;
+                users.push(username);
+            }
+        }
+        
+        if (users.length === 0) return;
+
+        // check users
+        users = sortArray(users);
+        let steamIds = [];
+        let userElements = {
             activated: {},
             notMultiple: {},
             notActivated: {},
             multiple: {},
             unknown: {}
         };
-        NAMWC.steamIds = [];
-        NAMWC.Canceled = false;
-        if (NAMWC.ShowResults) {
-            SavedUsers = JSON.parse(await getValue(`users`));
-            for (I in SavedUsers.users) {
-                if (SavedUsers.users[I].namwc && SavedUsers.users[I].namwc.results) {
-                    NAMWC.Users.push(SavedUsers.users[I].username);
-                }
-            }
-            NAMWC.Users = sortArray(NAMWC.Users);
-            for (I = 0, N = NAMWC.Users.length; I < N; ++I) {
-                var user = {
-                    steamId: SavedUsers.steamIds[NAMWC.Users[I]],
-                    username: NAMWC.Users[I]
-                };
-                setNAMWCResult(NAMWC, user, SavedUsers.users[SavedUsers.steamIds[NAMWC.Users[I]]].namwc, false);
-            }
-        } else if (NAMWC.User) {
-            NAMWC.Users.push(NAMWC.User.Username);
-            checkNAMWCUsers(NAMWC, 0, 1, Callback);
-        } else {
-            for (Username in esgst.currentUsers) {
-                if (Username != esgst.username) {
-                    if (NAMWC.Users.length < 26) {
-                        NAMWC.Users.push(Username);
-                    } else {
-                        break;
-                    }
-                }
-            }
-            NAMWC.Users = sortArray(NAMWC.Users);
-            checkNAMWCUsers(NAMWC, 0, NAMWC.Users.length, Callback);
-        }
-    }
-
-    async function checkNAMWCUsers(NAMWC, I, N, Callback) {
-        if (!NAMWC.Canceled) {
-            NAMWC.Progress.innerHTML = ``;
-            NAMWC.OverallProgress.textContent = `${I} of ${N} users checked...`;
-            if (I < N) {
-                let Key, newR, Results, savedUser, User, user;
-                User = NAMWC.User ? NAMWC.User : {
-                    Username: NAMWC.Users[I]
-                };
-                user = {
-                    steamId: User.SteamID64,
-                    id: User.ID,
-                    username: User.Username,
-                    values: {}
-                };
-                savedUser = await getUser(null, user);
-                if (savedUser) {
-                    user.values.namwc = savedUser.namwc;
-                }
-                if (user.values.namwc && user.values.namwc.results) {
-                    Results = user.values.namwc.results;
-                }
+        for (let i = 0, n = users.length; !this.isCanceled && i < n; i++) {
+            this.popup.progress.innerHTML = ``;
+            this.popup.overallProgress.textContent = `${i} of ${n} users checked...`;
+            let user = this.user || {username: users[i]};
+            let savedUser = await getUser(null, user);
+            user.values = {
+                namwc: savedUser && savedUser.namwc
+            };
+            let isNew = false;
+            if (!this.isMenu) {
+                let resultsBackup = user.values.namwc && user.values.namwc.results;
                 if (!user.values.namwc) {
                     user.values.namwc = {
                         lastCheck: 0,
                         results: {}
                     };
                 }
-                if ((Date.now() - user.values.namwc.lastCheck) > 604800000) {
+                if (Date.now() - user.values.namwc.lastCheck > 6.048 * 1e8) {
                     if (esgst.namwc_checkNotActivated) {
-                        await checkNamwcNotActivated(NAMWC, user);
+                        await checkNamwcNotActivated.call(this, user);
                     } else if (esgst.namwc_checkMultiple) {
-                        await checkNamwcMultiple(NAMWC, user);
+                        await checkNamwcMultiple.call(this, user);
                     } else {
-                        await checkNamwcNotActivated(NAMWC, user);
-                        await checkNamwcMultiple(NAMWC, user);
+                        await checkNamwcNotActivated.call(this, user);
+                        await checkNamwcMultiple.call(this, user);
                     }
                 }
-                if (Results) {
-                    for (Key in Results) {
-                        let value = (Array.isArray(Results[Key]) && Results[Key].length) || (!Array.isArray(Results[Key]) && Results[Key]);
-                        if (value !== ((Array.isArray(user.values.namwc.results[Key]) && user.values.namwc.results[Key].length) || (!Array.isArray(user.values.namwc.results[Key]) && user.values.namwc.results[Key]))) {
-                            newR = true;
-                            break;
-                        }
+                if (resultsBackup) {
+                    for (let key in resultsBackup) {
+                        if (((Array.isArray(resultsBackup[key]) && resultsBackup[key].length) || (!Array.isArray(resultsBackup[key]) && resultsBackup[key])) === ((Array.isArray(user.values.namwc.results[key]) && user.values.namwc.results[key].length) || (!Array.isArray(user.values.namwc.results[key]) && user.values.namwc.results[key]))) continue;
+                        isNew = true;
+                        break;
                     }
                 } else {
-                    newR = true;
-                }
-                setTimeout(setNAMWCResult, 0, NAMWC, user, user.values.namwc, newR, I, N, Callback);
-            } else {
-                if (esgst.ust) {
-                    NAMWC.Progress.textContent = `Checking suspensions...`;
-                    let i, n, namwc, savedUser, savedUsers, steamId, suspensions, user, users;
-                    users = [];
-                    savedUsers = JSON.parse(await getValue(`users`));
-                    suspensions = JSON.parse((await request({method: `GET`, url: `https://script.google.com/macros/s/AKfycbwdKNormCJs-hEKV0GVwawgWj1a26oVtPylgmxOOvNk1Gf17A/exec?steamIds=${NAMWC.steamIds.join(`,`)}`})).responseText).suspensions;
-                    for (steamId in suspensions) {
-                        suspension = suspensions[steamId];
-                        user = {
-                            steamId: steamId
-                        };
-                        savedUser = await getUser(savedUsers, user);
-                        user.id = savedUser.id;
-                        user.username = savedUser.username;
-                        namwc = savedUser.namwc;
-                        namwc.suspension = suspension;
-                        user.values = {
-                            namwc: namwc
-                        };
-                        users.push(user);
-                        if (Array.isArray(namwc.results.notActivated)) {
-                            for (i = 0, n = namwc.results.notActivated.length; i < n && namwc.results.notActivated[i] <= suspension; ++i);
-                            if (i > 0) {
-                                NAMWC.users[steamId].notActivated.insertAdjacentHTML(`beforeEnd`, ` <span title="${getFeatureTooltip(`ust`, `This user already served suspension for ${i} of their not activated wins (until ${getTimestamp(suspension / 1e3, true, true)})`)}">[-${i}]</span>`);
-                            } else if (NAMWC.users[steamId].activated) {
-                                NAMWC.users[steamId].activated.insertAdjacentHTML(`beforeEnd`, ` <span title="${getFeatureTooltip(`ust`, `This user already served suspension for not activated wins until ${getTimestamp(suspension / 1e3, true, true)}`)}">[x]</span>`);
-                            }
-                        }
-                        if (Array.isArray(namwc.results.multiple)) {
-                            for (i = 0, n = namwc.results.multiple.length; i < n && namwc.results.multiple[i] <= suspension; ++i);
-                            if (i > 0) {
-                                NAMWC.users[steamId].multiple.insertAdjacentHTML(`beforeEnd`, ` <span title="${getFeatureTooltip(`ust`, `This user already served suspension for ${i} of their multiple wins (until ${getTimestamp(suspension / 1e3, true, true)})`)}">[-${i}]</span>`);
-                            } else if (NAMWC.users[steamId].notMultiple) {
-                                NAMWC.users[steamId].notMultiple.insertAdjacentHTML(`beforeEnd`, ` <span title="${getFeatureTooltip(`ust`, `This user already served suspension for multiple wins until ${getTimestamp(suspension / 1e3, true, true)}`)}">[x]</span>`);
-                            }
-                        }
-                    }
-                    await saveUsers(users);
-                }
-                if (Callback) {
-                    Callback();
+                    isNew = true;
                 }
             }
-        }
-    }
-
-    async function setNAMWCResult(NAMWC, user, namwc, New, I, N, Callback) {
-        var elements, Key;
-        if (!NAMWC.Canceled) {
-            elements = {};
-            for (Key in namwc.results) {
-                if ((Array.isArray(namwc.results[Key]) && namwc.results[Key].length) || (!Array.isArray(namwc.results[Key]) && namwc.results[Key])) {
-                    NAMWC[Key].classList.remove(`esgst-hidden`);
-                    NAMWC[`${Key}Count`].textContent = parseInt(NAMWC[`${Key}Count`].textContent) + 1;
-                    elements[Key] = insertHtml(NAMWC[`${Key}Users`], `beforeEnd`, `
-                        <a ${New ? `class="esgst-bold esgst-italic" ` : ``}href="http://www.sgtools.info/${Key.match(/multiple|notMultiple/) ? `multiple` : `nonactivated`}/${user.username}" target="_blank">${user.username}${Key.match(/^(notActivated|multiple)$/) ? ` (${(Array.isArray(namwc.results[Key]) && namwc.results[Key].length) || (!Array.isArray(namwc.results[Key]) && namwc.results[Key])})` : ``}</a>
-                    `);
-                }
+            let elements = [];
+            for (let key in user.values.namwc.results) {
+                let value = (Array.isArray(user.values.namwc.results[key]) && user.values.namwc.results[key].length) || (!Array.isArray(user.values.namwc.results[key]) && user.values.namwc.results[key]);
+                if (!value) continue;
+                this.popup[key].classList.remove(`esgst-hidden`);
+                let count = this.popup[`${key}Count`];
+                count.textContent = parseInt(count.textContent) + 1;
+                elements[key] = insertHtml(this.popup[`${key}Users`], `beforeEnd`, `
+                    <a ${isNew ? `class="esgst-bold esgst-italic" ` : ``}href="http://www.sgtools.info/${key.match(/multiple/i) ? `multiple` : `nonactivated`}/${user.username}" target="_blank">${user.username}${key.match(/^(notActivated|multiple)$/) ? ` (${value})` : ``}</a>
+                `);
             }
-            if (!NAMWC.ShowResults) {
-                user.values = {
-                    namwc: namwc
-                };
+            if (!this.isMenu) {                
                 await saveUser(null, null, user);
-                NAMWC.users[user.steamId] = elements;
-                NAMWC.steamIds.push(user.steamId);
-                NAMWC.Progress.innerHTML = ``;
-                setTimeout(checkNAMWCUsers, 0, NAMWC, ++I, N, Callback);
+                steamIds.push(user.steamId);
+                userElements[user.steamId] = elements;
             }
+            this.popup.overallProgress.textContent = `${i + 1} of ${n} users checked...`;
         }
-    }
 
-    async function checkNamwcNotActivated(namwc, user) {
-        if (namwc.Canceled) {
+        if (this.isCanceled) return;
+
+        if (!esgst.ust || this.isMenu) {
+            this.button.classList.remove(`esgst-busy`);
+            this.popup.progress.innerHTML = ``;
             return;
         }
-        if (namwc.Progress) {
-            namwc.Progress.innerHTML = `
+
+        // check for suspensions
+        this.popup.progress.textContent = `Checking suspensions...`;
+        users = [];
+        let savedUsers = JSON.parse(await getValue(`users`));
+        let suspensions = JSON.parse((await request({method: `GET`, url: `https://script.google.com/macros/s/AKfycbwdKNormCJs-hEKV0GVwawgWj1a26oVtPylgmxOOvNk1Gf17A/exec?steamIds=${steamIds.join(`,`)}`})).responseText).suspensions;
+        for (let steamId in suspensions) {
+            let suspension = suspensions[steamId];
+            let user = {steamId};
+            user.values = {
+                namwc: (await getUser(savedUsers, user)).namwc
+            };
+            user.values.namwc.suspension = suspension;
+            users.push(user);
+            if (Array.isArray(user.values.namwc.results.notActivated)) {
+                let i, n;
+                for (i = 0, n = user.values.namwc.results.notActivated.length; i < n && user.values.namwc.results.notActivated[i] <= suspension; i++);
+                if (i > 0) {
+                    userElements[steamId].notActivated.insertAdjacentHTML(`beforeEnd`, ` <span title="${getFeatureTooltip(`ust`, `This user already served suspension for ${i} of their not activated wins (until ${getTimestamp(suspension / 1e3, true, true)})`)}">[-${i}]</span>`);
+                } else if (userElements[steamId].activated) {
+                    userElements[steamId].activated.insertAdjacentHTML(`beforeEnd`, ` <span title="${getFeatureTooltip(`ust`, `This user already served suspension for not activated wins until ${getTimestamp(suspension / 1e3, true, true)}`)}">[x]</span>`);
+                }
+            }
+            if (Array.isArray(user.values.namwc.results.multiple)) {
+                let i, n;
+                for (i = 0, n = user.values.namwc.results.multiple.length; i < n && user.values.namwc.results.multiple[i] <= suspension; i++);
+                if (i > 0) {
+                    userElements[steamId].multiple.insertAdjacentHTML(`beforeEnd`, ` <span title="${getFeatureTooltip(`ust`, `This user already served suspension for ${i} of their multiple wins (until ${getTimestamp(suspension / 1e3, true, true)})`)}">[-${i}]</span>`);
+                } else if (userElements[steamId].notMultiple) {
+                    userElements[steamId].notMultiple.insertAdjacentHTML(`beforeEnd`, ` <span title="${getFeatureTooltip(`ust`, `This user already served suspension for multiple wins until ${getTimestamp(suspension / 1e3, true, true)}`)}">[x]</span>`);
+                }
+            }
+        }
+        await saveUsers(users);
+        this.button.classList.remove(`esgst-busy`);
+        this.popup.progress.innerHTML = ``;
+    }
+
+    function stopNamwcProcess() {
+        this.button.classList.remove(`esgst-busy`);
+        this.popup.progress.innerHTML = ``;      
+        this.isCanceled = true;
+    }
+
+    async function checkNamwcNotActivated(user) {
+        if (this.isCanceled) return;
+
+        if (this.popup.progress) {
+            this.popup.progress.innerHTML = `
                 <i class="fa fa-circle-o-notch fa-spin"></i>
                 <span>Retrieving ${user.username}'s not activated wins...</span>
             `;
         }
         let responseText = (await request({method: `GET`, queue: true, url: `http://www.sgtools.info/nonactivated/${user.username}`})).responseText;
         if (responseText.match(/has a private profile/)) {
-            user.values.namwc.results.activated = false;
+            user.values.namwc.results.activated = 0;
             user.values.namwc.results.notActivated = [];
-            user.values.namwc.results.unknown = true;
+            user.values.namwc.results.unknown = 1;
         } else {
             user.values.namwc.results.notActivated = [];
             let elements = parseHtml(responseText).getElementsByClassName(`notActivatedGame`);
@@ -24887,18 +24746,17 @@ Parsedown = (() => {
             for (let i = 0; i < n; ++i) {
                 user.values.namwc.results.notActivated.push(new Date(elements[i].textContent.match(/\((\d{4}-\d{2}-\d{2}\s\d{2}:\d{2}:\d{2})\)/)[1]).getTime());
             }
-            user.values.namwc.results.activated = n === 0 ? true : false;
-            user.values.namwc.results.unknown = false;
+            user.values.namwc.results.activated = n === 0 ? 1 : 0;
+            user.values.namwc.results.unknown = 0;
         }
         user.values.namwc.lastCheck = Date.now();
     }
 
-    async function checkNamwcMultiple(namwc, user) {
-        if (namwc.Canceled) {
-            return;
-        }
-        if (namwc.Progress) {
-            namwc.Progress.innerHTML = `
+    async function checkNamwcMultiple(user) {
+        if (this.isCanceled) return;
+
+        if (this.popup.progress) {
+            this.popup.progress.innerHTML = `
                 <i class="fa fa-circle-o-notch fa-spin"></i>
                 <span>Retrieving ${user.username}'s multiple wins...</span>
             `;
@@ -24909,7 +24767,7 @@ Parsedown = (() => {
         for (let i = 0; i < n; ++i) {
             user.values.namwc.results.multiple.push(new Date(elements[i].textContent.match(/and\s(\d{4}-\d{2}-\d{2}\s\d{2}:\d{2}:\d{2})\)/)[1]).getTime());
         }
-        user.values.namwc.results.notMultiple = n === 0 ? true : false;
+        user.values.namwc.results.notMultiple = n === 0 ? 1 : 0;
         user.values.namwc.lastCheck = Date.now();
     }
 
@@ -25337,11 +25195,8 @@ Parsedown = (() => {
             if (callback) {
                 callback();
             }
-        } else {
-            loadFeatures();
-            if (callback) {
-                callback();
-            }
+        } else if (callback) {
+            callback();
         }
     }
 
@@ -25464,8 +25319,11 @@ Parsedown = (() => {
 
     function loadPnot() {
         if (!esgst.paginationNavigation || !esgst.mainPageHeading) return;
-        esgst.paginationNavigation.classList.add(`page_heading_btn`);
-        esgst.paginationNavigation.tile = getFeatureTooltip(`pnot`);
+
+        if (esgst.st) {
+            esgst.paginationNavigation.classList.add(`page_heading_btn`);
+        }
+        esgst.paginationNavigation.title = getFeatureTooltip(`pnot`);
         esgst.mainPageHeading.appendChild(esgst.paginationNavigation);
     }
 
@@ -25646,71 +25504,40 @@ Parsedown = (() => {
     }
 
     /* [RBOT] Reply Box On Top */
-
+    
     function loadRbot() {
-        if (esgst.replyBox) {
-            var html = `
-                <div class="esgst-rbot"></div>
-            `;
-            var sibling;
-            if (esgst.mainPageHeadingBackground) {
-                sibling = esgst.mainPageHeadingBackground;
-            } else {
-                sibling = esgst.mainPageHeading;
-            }
-            sibling.insertAdjacentHTML(`afterEnd`, html);
-            var box = sibling.nextElementSibling;
-            box.appendChild(esgst.replyBox);
-            var button = box.getElementsByClassName(esgst.cancelButtonClass)[0];
-            if (button) {
-                button.addEventListener(`click`, waitToRestoreReplyBox);
-            }
-        }
-
-        function waitToRestoreReplyBox() {
-            setTimeout(restoreReplyBox, 0);
-        }
-
-        function restoreReplyBox() {
-            box.appendChild(esgst.replyBox);
-        }
+        if (!esgst.replyBox) return;
+        let box = insertHtml(esgst.mainPageHeadingBackground || esgst.mainPageHeading, `afterEnd`, `
+            <div class="esgst-rbot"></div>
+        `);
+        box.appendChild(esgst.replyBox);
+        let button = box.getElementsByClassName(esgst.cancelButtonClass)[0];
+        if (!button) return;
+        button.addEventListener(`click`, setTimeout.bind(null, box.appendChild.bind(box, esgst.replyBox), 0));
     }
 
     /* [RBP] Reply Box Popup */
 
     function loadRbp() {
-        if (esgst.replyBox) {
-            let button, popup;
-            let key, position;
-            if (esgst.leftButtonIds.indexOf(`rbp`) > -1) {
-                key = `leftButtons`;
-                position = `afterBegin`;
-            } else {
-                key = `rightButtons`;
-                position = `beforeEnd`;
-            }
-            button = insertHtml(esgst.hideButtons && esgst.hideButtons_rbp ? esgst[key] : esgst.mainPageHeading, position, `
-                <div class="esgst-heading-button" id="esgst-rbp" title="${getFeatureTooltip(`rbp`, `Add a comment`)}">
-                    <i class="fa fa-comment"></i>
-                </div>
-            `);
-            popup = new Popup(`fa-comment`, `Add a comment:`);
-            popup.TextArea = insertHtml(popup.scrollable, `beforeEnd`, `<textarea></textarea>`);
-            if (esgst.cfh) {
-                addCfhPanel(popup.TextArea);
-            }
-            popup.description.appendChild(new ButtonSet(`green`, `grey`, `fa-check`, `fa-circle-o-notch fa-spin`, `Save`, `Saving...`, function (Callback) {
-                popup.Progress.innerHTML = ``;
-                saveComment(esgst.sg ? `` : document.querySelector(`[name="trade_code"]`).value, ``, popup.TextArea.value, esgst.sg ? location.href.match(/(.+?)(#.+?)?$/)[1] : `/ajax.php`, popup.Progress,
-                    Callback);
-            }).set);
-            popup.Progress = insertHtml(popup.description, `beforeEnd`, `<div></div>`);
-            button.addEventListener(`click`, function () {
-                popup.open(function () {
-                    popup.TextArea.focus();
-                });
-            });
-        }
+        if (!esgst.replyBox) return;
+
+        let [key, position] = esgst.leftButtonIds.indexOf(`rbp`) > -1 ? [`leftButtons`, `afterBegin`] : [`rightButtons`, `beforeEnd`];
+        let button = insertHtml(esgst.hideButtons && esgst.hideButtons_rbp ? esgst[key] : esgst.mainPageHeading, position, `
+            <div class="esgst-heading-button" id="esgst-rbp" title="${getFeatureTooltip(`rbp`, `Add a comment`)}">
+                <i class="fa fa-comment"></i>
+            </div>
+        `);
+        let popup = new Popup(`fa-comment`, `Add a comment:`);
+        popup.textArea = insertHtml(popup.scrollable, `beforeEnd`, `
+            <textarea name="description"></textarea>
+        `);
+        popup.description.appendChild(new ButtonSet(`green`, `grey`, `fa-check`, `fa-circle-o-notch fa-spin`, `Save`, `Saving...`, function (Callback) {
+            popup.progress.innerHTML = ``;
+            saveComment(esgst.sg ? `` : document.querySelector(`[name="trade_code"]`).value, ``, popup.textArea.value, esgst.sg ? location.href.match(/(.+?)(#.+?)?$/)[1] : `/ajax.php`, popup.progress,
+                Callback);
+        }).set);
+        popup.progress = insertHtml(popup.description, `beforeEnd`, `<div></div>`);
+        button.addEventListener(`click`, popup.open.bind(popup, popup.textArea.focus.bind(popup.textArea)));
     }
 
     /* [RCVC] Real CV Calculator */
@@ -28136,7 +27963,7 @@ Parsedown = (() => {
 
     async function startUgsSender(ugs) {
         // initialize/reset stuff
-        ugs.canceled = false;
+        ugs.isCanceled = false;
         ugs.giveaways = [];
         ugs.groups = {};
         ugs.button.classList.add(`esgst-busy`);
@@ -28201,10 +28028,10 @@ Parsedown = (() => {
             }
             pagination = context.getElementsByClassName(`pagination__navigation`)[0];
             nextPage += 1;
-        } while (!ugs.canceled && (ugs.count > 0 || ugs.continue) && (skipped || (pagination && !pagination.lastElementChild.classList.contains(`is-selected`))));
+        } while (!ugs.isCanceled && (ugs.count > 0 || ugs.continue) && (skipped || (pagination && !pagination.lastElementChild.classList.contains(`is-selected`))));
 
         // retrieve the winners/groups of each giveaway
-        for (let i = 0, n = giveaways.length; !ugs.canceled && i < n; i++) {
+        for (let i = 0, n = giveaways.length; !ugs.isCanceled && i < n; i++) {
             ugs.overallProgress.textContent = `${i} of ${n} giveaways checked...`;
             let giveaway = giveaways[i];
             ugs.giveaways[giveaway.code] = {
@@ -28248,7 +28075,7 @@ Parsedown = (() => {
                 }
                 pagination = context.getElementsByClassName(`pagination__navigation`)[0];
                 nextPage += 1;
-            } while (!ugs.canceled && pagination && !pagination.lastElementChild.classList.contains(`is-selected`));
+            } while (!ugs.isCanceled && pagination && !pagination.lastElementChild.classList.contains(`is-selected`));
 
             // retrieve the groups of the giveaway
             if (esgst.ugs_checkMember && ugs.giveaways[giveaway.code].group) {
@@ -28279,11 +28106,11 @@ Parsedown = (() => {
                     }
                     pagination = context.getElementsByClassName(`pagination__navigation`)[0];
                     nextPage += 1;
-                } while (!ugs.canceled && pagination && !pagination.lastElementChild.classList.contains(`is-selected`));
+                } while (!ugs.isCanceled && pagination && !pagination.lastElementChild.classList.contains(`is-selected`));
             }
         }
 
-        if (ugs.canceled) {
+        if (ugs.isCanceled) {
             // process canceled
             return;
         }
@@ -28296,7 +28123,7 @@ Parsedown = (() => {
             ugs.sentWinners = {};
             ugs.winners = {};
             ugs.results.classList.remove(`esgst-hidden`);
-            for (let i = 0; !ugs.canceled && i < n; i++) {
+            for (let i = 0; !ugs.isCanceled && i < n; i++) {
                 ugs.overallProgress.textContent = `${i} of ${n} giveaways checked...`;
                 let giveaway = ugs.giveaways[codes[i]];
                 for (let j = 0, numWinners = giveaway.winners.length; j < numWinners; j++) {
@@ -28324,8 +28151,8 @@ Parsedown = (() => {
                                 lastCheck: Date.now(),
                                 results: {}
                             };
-                            await checkNamwcNotActivated(ugs, winner);
-                            await checkNamwcMultiple(ugs, winner);
+                            await checkNamwcNotActivated.call(ugs, winner);
+                            await checkNamwcMultiple.call(ugs, winner);
                             let notActivated = Array.isArray(winner.values.namwc.results.notActivated) ? winner.values.namwc.results.notActivated.length : winner.values.namwc.results.notActivated;
                             let multiple = Array.isArray(winner.values.namwc.results.multiple) ? winner.values.namwc.results.multiple.length : winner.values.namwc.results.multiple;
                             if (notActivated && multiple) {
@@ -28426,7 +28253,7 @@ Parsedown = (() => {
                                     <i class="fa fa-question-circle" title="${winner.error}"></i>
                                 </span>
                             `);
-                        } else if (!ugs.canceled) {
+                        } else if (!ugs.isCanceled) {
                             await request({data: `xsrf_token=${esgst.xsrfToken}&do=sent_feedback&action=1&winner_id=${winner.winnerId}`, method: `POST`, url: `/ajax.php`});
                             if (!ugs.sentWinners[giveaway.code]) {
                                 ugs.sentWinners[giveaway.code] = [];
@@ -28491,7 +28318,7 @@ Parsedown = (() => {
     }
 
     function cancelUgsSender(ugs) {
-        ugs.canceled = true;
+        ugs.isCanceled = true;
         ugs.button.classList.remove(`esgst-busy`);
         ugs.progress.innerHTML = ``;
         ugs.overallProgress.textContent = ``;
@@ -28628,7 +28455,6 @@ Parsedown = (() => {
     /* [US] User Stats */
 
     async function getUsUsers(context, main) {
-        var i, us, username;
         if (!main && !context.closest(`.esgst-wbs-popup`)) {
             return;
         }
@@ -28650,13 +28476,13 @@ Parsedown = (() => {
         let promises = [];
         for (let username in users) {
             let promise = request({method: `GET`, url: `/user/${username}`});
-            promise.then(loadUsStats.bind(null, users[username], us, username));
+            promise.then(loadUsStats.bind(null, users[username], username));
             promises.push(promise);
         }
         Promise.all(promises).then(sortTsTables);
     }
 
-    function loadUsStats(context, us, username, response) {
+    function loadUsStats(context, username, response) {
         var element, elements, html, i, n, profile;
         html = [];
         profile = {};
@@ -28718,7 +28544,6 @@ Parsedown = (() => {
             }
         }
         context.insertAdjacentHTML(`afterEnd`, html.join(``));
-        us.count += 1;
     }
 
     /* [UST] User Suspension Tracker */
@@ -30187,85 +30012,55 @@ Parsedown = (() => {
 
     function loadWbs() {
         if (!esgst.whitelistPath && !esgst.blacklistPath) return;
-        let button2, button1, dateKey, saveKey;
-        let key, position;
-        if (esgst.leftButtonIds.indexOf(`wbsDesc`) > -1) {
-            key = `leftButtons`;
-            position = `afterBegin`;
-        } else {
-            key = `rightButtons`;
-            position = `beforeEnd`;
-        }
-        button2 = insertHtml(esgst.hideButtons && esgst.hideButtons_wbsDesc ? esgst[key] : esgst.mainPageHeading, position, `
-            <div class="esgst-heading-button" id="esgst-wbsDesc" title="${getFeatureTooltip(`wbs`, `Sort by added date from newest to oldest`)}">
-                <i class="fa fa-sort-amount-desc"></i>
-            </div>
-        `);
-        if (esgst.leftButtonIds.indexOf(`wbsAsc`) > -1) {
-            key = `leftButtons`;
-            position = `afterBegin`;
-        } else {
-            key = `rightButtons`;
-            position = `beforeEnd`;
-        }
-        button1 = insertHtml(esgst.hideButtons && esgst.hideButtons_wbsAsc ? esgst[key] : esgst.mainPageHeading, position, `
+
+        let [dateKey, mainKey, saveKey] = esgst.whitelistPath ? [`whitelistedDate`, `whitelist`, `whitelisted`] : [`blacklistedDate`, `blacklist`, `blacklisted`];
+
+        // add ascending button
+        let [key, position] = esgst.leftButtonIds.indexOf(`wbsAsc`) > -1 ? [`leftButtons`, `afterBegin`] : [`rightButtons`, `beforeEnd`];
+        let object = {
+            dateKey,
+            icon: `fa-sort-amount-asc`,
+            key: mainKey,
+            saveKey,
+            title: `Oldest to newest ${saveKey} users:`
+        };
+        insertHtml(esgst.hideButtons && esgst.hideButtons_wbsAsc ? esgst[key] : esgst.mainPageHeading, position, `
             <div class="esgst-heading-button" id="esgst-wbsAsc" title="${getFeatureTooltip(`wbs`, `Sort by added date from oldest to newest`)}">
                 <i class="fa fa-sort-amount-asc"></i>
             </div>
-        `);
-        if (esgst.whitelistPath) {
-            dateKey = `whitelistedDate`;
-            key = `whitelist`;
-            saveKey = `whitelisted`;
-        } else {
-            dateKey = `blacklistedDate`;
-            key = `blacklist`;
-            saveKey = `blacklisted`;
-        }
-        addWbsButton(dateKey, key, saveKey, button1, button2);
+        `).addEventListener(`click`, sortWbsList.bind(object));
+
+        // add descending button
+        [key, position] = esgst.leftButtonIds.indexOf(`wbsDesc`) > -1 ? [`leftButtons`, `afterBegin`] : [`rightButtons`, `beforeEnd`];
+        object = {
+            dateKey,
+            icon: `fa-sort-amount-desc`,
+            isDescending: true,
+            key: mainKey,
+            saveKey,
+            title: `Newest to oldest ${saveKey} users:`
+        };
+        insertHtml(esgst.hideButtons && esgst.hideButtons_wbsDesc ? esgst[key] : esgst.mainPageHeading, position, `
+            <div class="esgst-heading-button" id="esgst-wbsDesc" title="${getFeatureTooltip(`wbs`, `Sort by added date from newest to oldest`)}">
+                <i class="fa fa-sort-amount-desc"></i>
+            </div>
+        `).addEventListener(`click`, sortWbsList.bind(object));
     }
 
-    function addWbsButton(dateKey, key, saveKey, sortAscButton, sortDescButton) {
-        sortAscButton.addEventListener(`click`, function () {
-            sortWbsList(true, dateKey, `fa-sort-amount-asc`, key, saveKey, `Oldest to newest ${saveKey} users:`);
-        });
-        sortDescButton.addEventListener(`click`, function () {
-            sortWbsList(false, dateKey, `fa-sort-amount-desc`, key, saveKey, `Newest to oldest ${saveKey} users:`);
-        });
-    }
-
-    async function sortWbsList(asc, dateKey, icon, key, saveKey, title) {
-        var i, n, popup, row, rows, savedUsers, steamId, table, user, users;
-        users = [];
-        savedUsers = JSON.parse(await getValue(`users`)).users;
-        for (steamId in savedUsers) {
-            if (savedUsers[steamId][saveKey]) {
-                users.push({
-                    steamId: steamId,
-                    user: savedUsers[steamId]
-                });
-            }
+    async function sortWbsList() {
+        let savedUsers = JSON.parse(await getValue(`users`)).users;
+        let users = [];
+        for (let steamId in savedUsers) {
+            let savedUser = savedUsers[steamId];
+            if (!savedUser[this.saveKey]) continue;
+            savedUser.steamId = steamId;
+            users.push(savedUser);
         }
-        users.sort(function (a, b) {
-            if (a.user[dateKey] < b.user[dateKey]) {
-                if (asc) {
-                    return -1;
-                } else {
-                    return 1;
-                }
-            } else if (a.user[dateKey] > b.user[dateKey]) {
-                if (asc) {
-                    return 1;
-                } else {
-                    return -1;
-                }
-            } else {
-                return 0;
-            }
-        });
-        popup = new Popup(icon, title, true);
+        users = sortArrayByNumberKey(users, this.dateKey, this.isDescending);
+
+        let popup = new Popup(this.icon, this.title, true);
         popup.popup.classList.add(`esgst-wbs-popup`);
-        table = insertHtml(popup.scrollable, `beforeEnd`, `
+        let table = insertHtml(popup.scrollable, `beforeEnd`, `
             <div class="esgst-text-left table">
                 <div class="table__heading">
                 <div class="table__column--width-fill">User</div>
@@ -30275,17 +30070,15 @@ Parsedown = (() => {
                 <div class="table__rows"></div>
             </div>
         `);
-        rows = table.lastElementChild;
-        for (i = 0, n = users.length; i < n; ++i) {
-            user = users[i].user;
-            steamId = users[i].steamId;
-            row = insertHtml(rows, `beforeEnd`, `
+        let rows = table.lastElementChild;
+        users.forEach(user => {
+            let row = insertHtml(rows, `beforeEnd`, `
                 <div class="table__row-outer-wrap">
                     <div class="table__row-inner-wrap">
                         <div class="table__column--width-fill">
                             <a class="table__column__heading" href="/user/${user.username}">${user.username}</a>
                         </div>
-                        <div class="table__column--width-small text-center">${getTimestamp(user[dateKey] / 1e3)}</div>
+                        <div class="table__column--width-small text-center">${getTimestamp(user[this.dateKey] / 1e3)}</div>
                         <div class="table__column--width-small text-center">
                             <div class="table__remove-default esgst-clickable">
                                 <i class="icon-red fa fa-times-circle"></i>
@@ -30300,31 +30093,34 @@ Parsedown = (() => {
                         </div>
                     </div>
                 </div>
-            `);
-            setWbsRemove(dateKey, key, row, saveKey, steamId, user);
-        }
-        await loadEndlessFeatures(table);
+            `);            
+            let object = {
+                dateKey: this.dateKey,
+                key: this.key,
+                saveKey: this.saveKey,
+                user
+            };
+            object.removeButton = row.firstElementChild.lastElementChild.firstElementChild;
+            object.removingButton = object.removeButton.nextElementSibling;
+            object.removedButton = object.removingButton.nextElementSibling;
+            object.removeButton.addEventListener(`click`, removeWbsMember.bind(object));
+        });
         popup.open();
+        loadEndlessFeatures(table);
     }
 
-    function setWbsRemove(dateKey, key, row, saveKey, steamId, user) {
-        var removeButton, removedButton, removingButton, savedUsers;
-        removeButton = row.firstElementChild.lastElementChild.firstElementChild;
-        removingButton = removeButton.nextElementSibling;
-        removedButton = removingButton.nextElementSibling;
-        removeButton.addEventListener(`click`, async function () {
-            removeButton.classList.add(`esgst-hidden`);
-            removingButton.classList.remove(`esgst-hidden`);
-            await request({data: `xsrf_token=${esgst.xsrfToken}&do=${key}&action=delete&child_user_id=${user.id}`, method: `POST`, url: `/ajax.php`});
-            let deleteLock = await createLock(`userLock`, 300);
-            savedUsers = JSON.parse(await getValue(`users`));
-            delete savedUsers.users[steamId][saveKey];
-            delete savedUsers.users[steamId][dateKey];
-            await setValue(`users`, JSON.stringify(savedUsers));
-            deleteLock();
-            removingButton.classList.add(`esgst-hidden`);
-            removedButton.classList.remove(`esgst-hidden`);
-        });
+    async function removeWbsMember() {
+        this.removeButton.classList.add(`esgst-hidden`);
+        this.removingButton.classList.remove(`esgst-hidden`);
+        await request({data: `xsrf_token=${esgst.xsrfToken}&do=${this.key}&action=delete&child_user_id=${this.user.id}`, method: `POST`, url: `/ajax.php`});
+        let deleteLock = await createLock(`userLock`, 300);
+        let savedUsers = JSON.parse(await getValue(`users`));
+        delete savedUsers.users[this.user.steamId][this.dateKey];
+        delete savedUsers.users[this.user.steamId][this.saveKey];
+        await setValue(`users`, JSON.stringify(savedUsers));
+        deleteLock();
+        this.removingButton.classList.add(`esgst-hidden`);
+        this.removedButton.classList.remove(`esgst-hidden`);
     }
 
     /* Endless Features */
@@ -31339,7 +31135,18 @@ Parsedown = (() => {
             addUgdButtons(profile);
         }
         if (esgst.namwc) {
-            addNamwcProfileButton(profile);
+            setNamwcPopup.call({
+                button: insertHtml(profile.wonRowLeft, `beforeEnd`, `
+                    <span class="esgst-namwc-button">
+                        <i class="fa fa-question-circle" title="${getFeatureTooltip(`namwc`, `Check for not activated/multiple wins`)}"></i>
+                    </span>
+                `),
+                user: {
+                    id: profile.id,
+                    steamId: profile.steamId,
+                    username: profile.username
+                }
+            });
         }
         if (esgst.nrf) {
             addNrfButton(profile, savedUser);
@@ -31750,11 +31557,13 @@ Parsedown = (() => {
         if ((esgst.ct && (esgst.giveawaysPath || esgst.discussionsPath)) || (esgst.gdttt && (esgst.giveawaysPath || esgst.discussionsPath || esgst.discussionsTicketsTradesPath)) || (esgst.ust && esgst.ticketsPath)) {
             await addCtDiscussionPanels(context, main, source, endless);
         }
-        await loadGiveawayFeatures(context, main, source, endless);
-        await loadDiscussionFeatures(context, main, source, endless);
-        await loadCommentFeatures(context, main);
         loadUserFeatures(context);
-        await loadGameFeatures(context, main, source, endless);
+        let promises = [];
+        promises.push(loadGiveawayFeatures(context, main, source, endless));
+        promises.push(loadDiscussionFeatures(context, main, source, endless));
+        promises.push(loadCommentFeatures(context, main));
+        promises.push(loadGameFeatures(context, main, source, endless));
+        await Promise.all(promises);
         if (esgst.ts) {
             getTsTables(context, main, source, endless);
         }
@@ -31766,6 +31575,10 @@ Parsedown = (() => {
     /*
      * Helper Functions
      */
+
+    function capitalizeFirstLetter(string) {
+        return `${string[0].toUpperCase()}${string.slice(1)}`;
+    }
 
     function getDate(timestamp) {
         let date = new Date(timestamp);
@@ -31830,7 +31643,7 @@ Parsedown = (() => {
         return esgst.markdownParser.text(string);
     }
 
-    async function getElements(logoutButton) {
+    async function getElements() {
         if (esgst.sg) {
             esgst.pageOuterWrapClass = `page__outer-wrap`;
             esgst.pageHeadingClass = `page__heading`;
@@ -31906,8 +31719,8 @@ Parsedown = (() => {
         if (!esgst.mainPageHeading && mainPageHeadingIndex === 1) {
             esgst.mainPageHeading = document.getElementsByClassName(esgst.pageHeadingClass)[0];
         }
-        if (logoutButton) {
-            esgst.xsrfToken = logoutButton.getAttribute(`data-form`).match(/xsrf_token=(.+)/)[1];
+        if (esgst.logoutButton) {
+            esgst.xsrfToken = esgst.logoutButton.getAttribute(`data-form`).match(/xsrf_token=(.+)/)[1];
         }
     }
 
@@ -34226,8 +34039,6 @@ Parsedown = (() => {
             }
             if (refresh) {
                 await loadEndlessFeatures(esgst.activeDiscussions);
-            } else {
-                loadFeatures();
             }
             if (callback) {
                 callback();
@@ -34238,7 +34049,6 @@ Parsedown = (() => {
             } else if (esgst.radb && !refresh) {
                 addRadbButtons();
             }
-            loadFeatures();
             if (callback) {
                 callback();
             }
@@ -34555,9 +34365,11 @@ Parsedown = (() => {
         if (esgst.wbc) {
             addWBCButton(null, Container.getElementsByClassName(`esgst-wbc-button`)[0]);
         }
-        var SMNAMWCButton = Container.getElementsByClassName(`esgst-namwc-button`)[0];
         if (esgst.namwc) {
-            setNAMWCPopup(SMNAMWCButton, null, true);
+            setNamwcPopup.call({
+                button: Container.getElementsByClassName(`esgst-namwc-button`)[0],
+                isMenu: true
+            });
         }
         SMAPIKey = Container.getElementsByClassName(`esgst-steam-api-key`)[0];
         key = esgst.steamApiKey;
