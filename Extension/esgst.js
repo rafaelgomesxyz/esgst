@@ -2107,7 +2107,7 @@ Parsedown = (() => {
             sg: location.hostname.match(/www.steamgifts.com/),
             st: location.hostname.match(/www.steamtrades.com/),
             currentVersion: `7.15.1`,
-            devVersion: `7.15.2 (Dev.2)`,
+            devVersion: `7.15.2 (Dev.3)`,
             icon: `data:image/x-icon;base64,AAABAAEAEBAAAAEAIABoBAAAFgAAACgAAAAQAAAAIAAAAAEAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAqv8DCbP/Hgeq+CQIrf8iCK3/Igit/yIIrf8iB6//Iwit9x8Aqv8DAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAKr0GAa2/c0DvfzfA7f83QO3/N0Dt/zdA7f83QO+/d4Gs/3OAKP1GQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACm/xQFs/n2Bcf//wW///8FwP//BcD//wW///8Fx///BbP69gC2/xUAAAAAAAAAAAAAAAAA/1UDFptOFxSZMxkLpJktAq720QW1+ugEsfvjA7b92wO2/dsEsfvjBbX66Aau/dEoiO4tUlLWGU5k3hdVVf8DEJxKHxWqT8cVrU7uE6VN0guqny0Apv8XAJfQGwBAVywAQFcsAJfQGwCx/xcogugtS2Lk0lBl6u5Qae7ISmPeHxagSSMVr07jF7lV/xOiSu0brgATAAAAAAAAAA8AAAC/AAAAwAAAABAAAAAAYznjEkth4OxWb/3/T2jv40lf4iMXnksiEq1O3RayUv8UpEnkEo0+HQAAABkAAABBAAAA8QAAAPEAAABBAAAAGUBSvxxOYeDjU2v0/05m7d1LYuEiF55LIhKtTt0Ws1L/FahN2gU1FTAAAADAAAAA7AAAAP0AAAD9AAAA7AAAAMAVG0owUGPm2lNr9P9OZu3dS2LhIheeSyISrU7dFrNS/xWoTdoFNRswAAAAvwAAAOsAAAD9AAAA/QAAAOsAAADAFRtKMFBj6NpTa/T/Tmbt3Uti4SIXnksiEq1O3RayUv8UpEnkEo0+HQAAABgAAABAAAAA8QAAAPEAAABBAAAAGT5PuR1OYeDjU2v0/05m7d1LYuEiFqBJIxWuT+QXuVX/E6JL7QC8XhMAAAAAAAAADwAAAL8AAAC/AAAAEAAAAAAOR/8SSWLh7FZv/f9PaO/jSV/iIxCUSh8Vrk7HFqxN7ROlS9JskzMt1XULGK12EhxGLgYsRy8GK612EhzVgAsYgmxxLU1i39JNZ+vtT2fwx0pj1h8AqlUDF65GFgqZUhlsiC0txH0T0s5/EujJgBPkz4QR28+EEdvJgBPkzn8Q6Md+E9KLdHosM1LWGUZo6BZVVf8DAAAAAAAAAAAAAAAA/2YAFMl9EvbgjRb/14gV/9eIFf/XiBX/14gV/9+NFv/KgBD254YAFQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAL91FRjKgRHN1IgU3s+EEt3PhBLdz4QS3c+EEt3UiBTezYMRzcJ6FBkAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACqqgADxIARHr18FiO8eA8ivHgPIrx4DyK8eA8ivXwPI8SAER7/VQADAAAAAAAAAAAAAAAA78cAAPA3AAD4FwAABCAAADGOAAAE+AAAkBEAAJ55AACYOQAAlgEAAER4AAAXaAAATnoAAPgXAAD0JwAA69cAAA==`,
             sgIcon: `data:image/x-icon;base64,AAABAAEAEBAAAAEAIABoBAAAFgAAACgAAAAQAAAAIAAAAAEAIAAAAAAAQAQAABMLAAATCwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIUAAAD5AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAPoAAACFAAAAAAAAAAAAAAD8AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA+QAAAAAAAAAAAAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAAAAAAAAAAAAP8AAAD/AAAA/wAAABwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAcAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAcAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAHAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAAAAAAAAAAAAPwAAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD5AAAAAAAAAAAAAACFAAAA+QAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD5AAAAhQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA//8AAP//AADAAwAAwAMAAMfjAADP8wAAz/MAAM/zAADP8wAAz/MAAM/zAADH4wAAwAMAAMADAAD//wAA//8AAA==`,
             stIcon: `data:image/x-icon;base64,AAABAAEAEBAAAAEAIABoBAAAFgAAACgAAAAQAAAAIAAAAAEAIAAAAAAAQAQAABMLAAATCwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABbD6SgWw+ucFsPrkBbD6SgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAWw+uYFsPr/BbD6/wWw+ucAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAFsPrmBbD6/wWw+v8FsPrmAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABbD6SQWw+uYFsPrmBbD6SQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAFKRLShSkS+cUpEvkFKRLSgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAExi4EpMYuDnTGLg5Exi4EoAAAAAAAAAABSkS+YUpEv/FKRL/xSkS+cAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABMYuDmTGLg/0xi4P9MYuDnAAAAAAAAAAAUpEvmFKRL/xSkS/8UpEvmAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAATGLg5kxi4P9MYuD/TGLg5gAAAAAAAAAAFKRLSRSkS+YUpEvmFKRLSQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAExi4ElMYuDmTGLg5kxi4EkAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAMZ9E0rGfRPnxn0T5MZ9E0oAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADGfRPmxn0T/8Z9E//GfRPnAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAxn0T5sZ9E//GfRP/xn0T5gAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAMZ9E0nGfRPmxn0T5sZ9E0kAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA//8AAPw/AAD8PwAA/D8AAPw/AAD//wAAh+EAAIfhAACH4QAAh+EAAP//AAD8PwAA/D8AAPw/AAD8PwAA//8AAA==`,
@@ -12080,21 +12080,25 @@ Parsedown = (() => {
                 element.setAttribute(`data-link-key`, key);
                 source.elements[id] = element;
             }
-            reorderChflElements(chfl, key);
+            reorderChflElements(chfl, key, true);
         }
         document.addEventListener(`keydown`, addChflButton.bind(null, chfl));
         document.addEventListener(`keyup`, removeChflButton.bind(null, chfl));
     }
 
-    function reorderChflElements(chfl, key) {
+    function reorderChflElements(chfl, key, firstRun) {
         let source = chfl.sources[key];
+        let ids = [];
         for (let i = esgst[`chfl_${key}`].length - 1; i > -1; i--) {
             let item = esgst[`chfl_${key}`][i];
             if (item.id) {
                 let element = source.elements[item.id];
-                if (element) {
+                if (element && !firstRun) {
                     source.context.insertBefore(element, source.context.firstElementChild);
                 } else {
+                    if (element) {
+                        element.remove();
+                    }
                     if (key === `footer`) {
                         source.elements[item.id] = insertHtml(source.context, `afterBegin`, `
                             <${esgst.sg ? `div` : `li`} data-link-id="${item.id}" data-link-key="footer" title="${getFeatureTooltip(`chfl`)}">
@@ -12106,18 +12110,28 @@ Parsedown = (() => {
                         source.elements[item.id] = insertHtml(source.context, `afterBegin`, generateHeaderMenuItem(item, key));
                         source.elements[item.id].title = getFeatureTooltip(`chfl`);
                         if (!item.description) {
-                            source.elements[item.id].classList.add(`esgst-chfl-small`)
+                            source.elements[item.id].classList.add(`esgst-chfl-small`);
+                        }
+                        if (item.compact) {
+                            source.elements[item.id].classList.add(`esgst-chfl-compact`);
                         }
                     }
                 }
                 makeChflDraggable(chfl, source.elements[item.id]);
+                ids.push(item.id);
             } else {
                 let element = source.elements[item];
                 if (element) {
                     source.context.insertBefore(element, source.context.firstElementChild);
                     makeChflDraggable(chfl, element);
                 }
+                ids.push(item);
             }
+        }
+        for (let key in source.elements) {
+            if (ids.indexOf(key) > -1) continue;
+            source.elements[key].remove();
+            delete source.elements[key];
         }
     }
 
@@ -12186,7 +12200,7 @@ Parsedown = (() => {
                     <a href="#">Reset Links</a>
                 </${esgst.sg ? `div` : `li`}>
             ` : generateHeaderMenuItem({color: `grey`, icon: `fa-undo`, name: `Reset Links`, description: `Click here to reset the custom links.`}));
-            chfl.resetButton.addEventListener(`click`, resetChflLinks.bind(null, chfl, key));
+            chfl.resetButton.addEventListener(`click`, createConfirmation.bind(null, `Are you sure you want to reset the links? Any custom links you added will be deleted.`, resetChflLinks.bind(null, chfl, key), null));
             let elements = {};
             esgst[`chfl_${key}`].forEach(item => {
                 if (item.id) {
@@ -12194,7 +12208,6 @@ Parsedown = (() => {
                 }
             });
             for (let subKey in source.elements) {
-                if (!elements[subKey]) continue;
                 let element = source.elements[subKey];
                 let panel = insertHtml(element, `beforeEnd`, `
                     <div class="esgst-chfl-panel">
@@ -12248,6 +12261,7 @@ Parsedown = (() => {
         let icon = name.previousElementSibling;
         let color = icon.previousElementSibling;
         let url = color.previousElementSibling.lastElementChild;
+        let compactSwitch = new ToggleSwitch(popup.description, null, null, `Use compact size.`, false, false, `The bottom/top padding of the link will be reduced to 8px.`);
         description = description.lastElementChild;
         name = name.lastElementChild;
         icon = icon.lastElementChild;
@@ -12255,6 +12269,7 @@ Parsedown = (() => {
         if (key === `footer`) {
             color.parentElement.classList.add(`esgst-hidden`);
             description.parentElement.classList.add(`esgst-hidden`);
+            compactSwitch.switch.classList.add(`esgst-hidden`);
         }
         if (esgst.st) {
             description.parentElement.classList.add(`esgst-hidden`);
@@ -12262,23 +12277,56 @@ Parsedown = (() => {
         if (editId) {
             for (let i = esgst[`chfl_${key}`].length - 1; i > -1; i--) {
                 let item = esgst[`chfl_${key}`][i];
-                if (!item.id || item.id !== editId) continue;
-                description.value = item.description || ``;
-                name.value = item.name || ``;
-                icon.value = item.icon || ``;
-                color.value = item.color || ``;
-                url.value = item.url || ``;
+                if (item !== editId && (!item.id || item.id !== editId)) continue;
+                if (item.id) {
+                    description.value = item.description || ``;
+                    name.value = item.name || ``;
+                    icon.value = item.icon || ``;
+                    color.value = item.color || ``;
+                    url.value = item.url || ``;
+                    if (item.compact) {
+                        compactSwitch.enable();
+                    }
+                } else {
+                    let element = chfl.sources[key].elements[item];
+                    let context = element.firstElementChild;
+                    if (esgst.sg) {
+                        if (key === `footer`) {
+                            name.value = context.nextElementSibling.textContent.trim();
+                            icon.value = context.className.match(/.+(fa-.+)$/)[1];
+                            url.value = context.nextElementSibling.getAttribute(`href`);
+                        } else {
+                            description.value = context.nextElementSibling.lastElementChild.textContent.trim();
+                            name.value = context.nextElementSibling.firstElementChild.textContent.trim();
+                            icon.value = context.className.match(/.+(fa-.+)$/)[1];
+                            color.value = context.className.match(/icon-(.+?)\s/)[1];
+                            url.value = element.getAttribute(`href`);
+                        }
+                    } else {
+                        if (key === `footer`) {
+                            name.value = context.nextElementSibling.textContent.trim();
+                            icon.value = context.className.match(/.+(fa-.+)$/)[1];
+                            url.value = context.nextElementSibling.getAttribute(`href`);
+                        } else {
+                            name.value = context.nextElementSibling.textContent.trim();
+                            icon.value = context.className.match(/.+(fa-.+)$/)[1];
+                            color.value = context.className.match(/^(.+?)\s/)[1];
+                            url.value = element.getAttribute(`href`);
+                        }
+                    }
+                }
                 break;
             }
         }
-        popup.description.appendChild(new ButtonSet_v2({color1: `green`, color2: `grey`, icon1: editId ? `fa-edit` : `fa-plus-circle`, icon2: `fa-circle-o-notch fa-spin`, title1: editId ? `Edit` : `Add`, title2: editId ? `Editing...` : `Adding...`, callback1: addChflLink.bind(null, chfl, color, description, editId, icon, key, name, popup, url)}).set);
+        popup.description.appendChild(new ButtonSet_v2({color1: `green`, color2: `grey`, icon1: editId ? `fa-edit` : `fa-plus-circle`, icon2: `fa-circle-o-notch fa-spin`, title1: editId ? `Edit` : `Add`, title2: editId ? `Editing...` : `Adding...`, callback1: addChflLink.bind(null, chfl, color, compactSwitch, description, editId, icon, key, name, popup, url)}).set);
         popup.open();
     }
 
-    async function addChflLink(chfl, color, description, editId, icon, key, name, popup, url) {
+    async function addChflLink(chfl, color, compactSwitch, description, editId, icon, key, name, popup, url) {
         let match = url.value.match(/\/(giveaway|discussion|support\/ticket|trade)\/(.+?)\//) || url.value.match(/.*(\/|\?)(.+)$/);
         let item = {
             color: color.value,
+            compact: compactSwitch.value ? 1 : 0,
             description: description.value,
             icon: icon.value,
             id: match[2],
@@ -12290,7 +12338,12 @@ Parsedown = (() => {
             delete chfl.sources[key].elements[editId];
             for (let i = esgst.settings[`chfl_${key}_${esgst.name}`].length - 1; i > -1; i--) {
                 let subItem = esgst.settings[`chfl_${key}_${esgst.name}`][i];
-                if (subItem.id && subItem.id === editId) {
+                if (subItem.id) {
+                    if (subItem.id !== editId) continue;
+                    esgst.settings[`chfl_${key}_${esgst.name}`][i] = item; 
+                    break;
+                } else {
+                    if (subItem !== editId) continue;
                     esgst.settings[`chfl_${key}_${esgst.name}`][i] = item; 
                     break;
                 }
@@ -12306,12 +12359,20 @@ Parsedown = (() => {
                 <a href="${item.url}">${item.name}</a>
             </${esgst.sg ? `div` : `li`}>
         ` : generateHeaderMenuItem(item, key));
+        if (!item.description) {
+            chfl.sources[key].elements[item.id].classList.add(`esgst-chfl-small`);
+        }
+        if (item.compact) {
+            chfl.sources[key].elements[item.id].classList.add(`esgst-chfl-compact`);
+        }
         makeChflDraggable(chfl, chfl.sources[key].elements[item.id]);
         reorderChflElements(chfl, key);
         popup.close();
     }
 
     function resetChflLinks(chfl, key, event) {
+        event.preventDefault();
+        event.stopPropagation();
         esgst.settings[`chfl_${key}_${esgst.name}`].forEach(item => {
             if (!item.id) return;
             let element = chfl.sources[key].elements[item.id];
@@ -12319,15 +12380,15 @@ Parsedown = (() => {
             element.remove();
             delete chfl.sources[key].elements[item.id];
         });
-        event.preventDefault();
         esgst.settings[`chfl_${key}_${esgst.name}`] = esgst.defaultValues[`chfl_${key}_${esgst.name}`];
         esgst[`chfl_${key}`] = esgst.settings[`chfl_${key}_${esgst.name}`];
         reorderChflElements(chfl, key);
-        saveChflOrder(chfl);
+        setValue(`settings`, JSON.stringify(esgst.settings));
     }
 
     function removeChflLink(chfl, id, key, event) {
         event.preventDefault();
+        event.stopPropagation();
         chfl.sources[key].elements[id].remove();
         delete chfl.sources[key].elements[id];
         saveChflOrder(chfl);
@@ -35984,7 +36045,7 @@ Parsedown = (() => {
         popup.open();
     }
 
-    function createConfirmation(message, onYes, onNo) {
+    function createConfirmation(message, onYes, onNo, event) {
         var callback, popup;
         callback = onNo;
         popup = new Popup(`fa-question`, message, true);
@@ -35998,7 +36059,7 @@ Parsedown = (() => {
         }).set);
         popup.onClose = function () {
             if (callback) {
-                callback();
+                callback(event);
             }
         };
         popup.open();
@@ -37995,6 +38056,10 @@ Parsedown = (() => {
             `;
         }
         style += `
+            .esgst-chfl-compact {
+                padding: 8px 15px !important;
+            }
+
             .footer__outer-wrap .esgst-chfl-panel, footer .esgst-chfl-panel {
                 position: static !important;
             }
