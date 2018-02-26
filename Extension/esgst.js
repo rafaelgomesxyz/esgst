@@ -3,7 +3,7 @@
 // @namespace ESGST
 // @description Enhances SteamGifts and SteamTrades by adding some cool features to them.
 // @icon https://dl.dropboxusercontent.com/s/lr3t3bxrxfxylqe/esgstIcon.ico?raw=1
-// @version 7.15.1
+// @version 7.16.0
 // @author revilheart
 // @contributor Royalgamer06
 // @downloadURL https://github.com/revilheart/ESGST/raw/master/ESGST.user.js
@@ -1755,14 +1755,7 @@ Parsedown = (() => {
                     `privacy-policy`,
                     `terms-of-service`
                 ],
-                gwc_h_sg: true,
-                gwr_h_sg: false,
-                cdr_sg: true,
-                cdr_b_sg: true,
-                cdr_d_sg: true,
                 cdr_days: 7,
-                showFeatureNumber_sg: true,
-                showFeatureNumber_st: true,
                 addNoCvGames_sg: false,
                 lockGiveawayColumns_sg: false,
                 staticPopups_width: `900px`,
@@ -2106,8 +2099,8 @@ Parsedown = (() => {
             markdownParser: new Parsedown(),
             sg: location.hostname.match(/www.steamgifts.com/),
             st: location.hostname.match(/www.steamtrades.com/),
-            currentVersion: `7.15.1`,
-            devVersion: `7.15.2 (Dev.10)`,
+            currentVersion: `7.16.0`,
+            devVersion: `7.16.0`,
             icon: `data:image/x-icon;base64,AAABAAEAEBAAAAEAIABoBAAAFgAAACgAAAAQAAAAIAAAAAEAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAqv8DCbP/Hgeq+CQIrf8iCK3/Igit/yIIrf8iB6//Iwit9x8Aqv8DAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAKr0GAa2/c0DvfzfA7f83QO3/N0Dt/zdA7f83QO+/d4Gs/3OAKP1GQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACm/xQFs/n2Bcf//wW///8FwP//BcD//wW///8Fx///BbP69gC2/xUAAAAAAAAAAAAAAAAA/1UDFptOFxSZMxkLpJktAq720QW1+ugEsfvjA7b92wO2/dsEsfvjBbX66Aau/dEoiO4tUlLWGU5k3hdVVf8DEJxKHxWqT8cVrU7uE6VN0guqny0Apv8XAJfQGwBAVywAQFcsAJfQGwCx/xcogugtS2Lk0lBl6u5Qae7ISmPeHxagSSMVr07jF7lV/xOiSu0brgATAAAAAAAAAA8AAAC/AAAAwAAAABAAAAAAYznjEkth4OxWb/3/T2jv40lf4iMXnksiEq1O3RayUv8UpEnkEo0+HQAAABkAAABBAAAA8QAAAPEAAABBAAAAGUBSvxxOYeDjU2v0/05m7d1LYuEiF55LIhKtTt0Ws1L/FahN2gU1FTAAAADAAAAA7AAAAP0AAAD9AAAA7AAAAMAVG0owUGPm2lNr9P9OZu3dS2LhIheeSyISrU7dFrNS/xWoTdoFNRswAAAAvwAAAOsAAAD9AAAA/QAAAOsAAADAFRtKMFBj6NpTa/T/Tmbt3Uti4SIXnksiEq1O3RayUv8UpEnkEo0+HQAAABgAAABAAAAA8QAAAPEAAABBAAAAGT5PuR1OYeDjU2v0/05m7d1LYuEiFqBJIxWuT+QXuVX/E6JL7QC8XhMAAAAAAAAADwAAAL8AAAC/AAAAEAAAAAAOR/8SSWLh7FZv/f9PaO/jSV/iIxCUSh8Vrk7HFqxN7ROlS9JskzMt1XULGK12EhxGLgYsRy8GK612EhzVgAsYgmxxLU1i39JNZ+vtT2fwx0pj1h8AqlUDF65GFgqZUhlsiC0txH0T0s5/EujJgBPkz4QR28+EEdvJgBPkzn8Q6Md+E9KLdHosM1LWGUZo6BZVVf8DAAAAAAAAAAAAAAAA/2YAFMl9EvbgjRb/14gV/9eIFf/XiBX/14gV/9+NFv/KgBD254YAFQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAL91FRjKgRHN1IgU3s+EEt3PhBLdz4QS3c+EEt3UiBTezYMRzcJ6FBkAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACqqgADxIARHr18FiO8eA8ivHgPIrx4DyK8eA8ivXwPI8SAER7/VQADAAAAAAAAAAAAAAAA78cAAPA3AAD4FwAABCAAADGOAAAE+AAAkBEAAJ55AACYOQAAlgEAAER4AAAXaAAATnoAAPgXAAD0JwAA69cAAA==`,
             sgIcon: `data:image/x-icon;base64,AAABAAEAEBAAAAEAIABoBAAAFgAAACgAAAAQAAAAIAAAAAEAIAAAAAAAQAQAABMLAAATCwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIUAAAD5AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAPoAAACFAAAAAAAAAAAAAAD8AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA+QAAAAAAAAAAAAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAAAAAAAAAAAAP8AAAD/AAAA/wAAABwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAcAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAcAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAHAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAAAAAAAAAAAAPwAAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD5AAAAAAAAAAAAAACFAAAA+QAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD5AAAAhQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA//8AAP//AADAAwAAwAMAAMfjAADP8wAAz/MAAM/zAADP8wAAz/MAAM/zAADH4wAAwAMAAMADAAD//wAA//8AAA==`,
             stIcon: `data:image/x-icon;base64,AAABAAEAEBAAAAEAIABoBAAAFgAAACgAAAAQAAAAIAAAAAEAIAAAAAAAQAQAABMLAAATCwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABbD6SgWw+ucFsPrkBbD6SgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAWw+uYFsPr/BbD6/wWw+ucAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAFsPrmBbD6/wWw+v8FsPrmAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABbD6SQWw+uYFsPrmBbD6SQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAFKRLShSkS+cUpEvkFKRLSgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAExi4EpMYuDnTGLg5Exi4EoAAAAAAAAAABSkS+YUpEv/FKRL/xSkS+cAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABMYuDmTGLg/0xi4P9MYuDnAAAAAAAAAAAUpEvmFKRL/xSkS/8UpEvmAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAATGLg5kxi4P9MYuD/TGLg5gAAAAAAAAAAFKRLSRSkS+YUpEvmFKRLSQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAExi4ElMYuDmTGLg5kxi4EkAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAMZ9E0rGfRPnxn0T5MZ9E0oAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADGfRPmxn0T/8Z9E//GfRPnAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAxn0T5sZ9E//GfRP/xn0T5gAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAMZ9E0nGfRPmxn0T5sZ9E0kAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA//8AAPw/AAD8PwAA/D8AAPw/AAD//wAAh+EAAIfhAACH4QAAh+EAAP//AAD8PwAA/D8AAPw/AAD8PwAA//8AAA==`,
@@ -7921,7 +7914,7 @@ Parsedown = (() => {
 
     async function startAsProcess() {
         let query = this.popup.queryInput.value;
-        if (!query) {            
+        if (!query) {
             this.popup.progress.innerHTML = `
                 <i class="fa fa-times-circle"></i>
                 <span>Please enter a title / AppID.</span>
@@ -7955,7 +7948,7 @@ Parsedown = (() => {
         if (this.isCanceled) return;
 
         // search for the game
-        query = ((query.length >= 50) ? query.slice(0, 50) : query).toLowerCase();           
+        query = ((query.length >= 50) ? query.slice(0, 50) : query).toLowerCase();
         let nextPage = 1;
         let pagination = null;
         let total = 0;
@@ -8073,7 +8066,7 @@ Parsedown = (() => {
 
     function loadCec() {
         if (!esgst.giveawayPath || !esgst.mainPageHeading) return;
-        
+
         let [key, position] = esgst.leftButtonIds.indexOf(`cec`) > -1 ? [`leftButtons`, `afterBegin`] : [`rightButtons`, `beforeEnd`];
         let object = {
             button: insertHtml(esgst.hideButtons && esgst.hideButtons_cec ? esgst[key] : esgst.mainPageHeading, position, `
@@ -12185,7 +12178,7 @@ Parsedown = (() => {
             for (let i = 0, n = source.context.children.length; i < n; i++) {
                 let element = source.context.children[i];
                 let id = element.getAttribute(`data-link-id`);
-                if (!id) continue;                
+                if (!id) continue;
                 esgst.settings[`chfl_${key}_${esgst.name}`].push(elements[id] || id);
             }
             esgst[`chfl_${key}`] = esgst.settings[`chfl_${key}_${esgst.name}`];
@@ -12351,11 +12344,11 @@ Parsedown = (() => {
                 let subItem = esgst.settings[`chfl_${key}_${esgst.name}`][i];
                 if (subItem.id) {
                     if (subItem.id !== editId) continue;
-                    esgst.settings[`chfl_${key}_${esgst.name}`][i] = item; 
+                    esgst.settings[`chfl_${key}_${esgst.name}`][i] = item;
                     break;
                 } else {
                     if (subItem !== editId) continue;
-                    esgst.settings[`chfl_${key}_${esgst.name}`][i] = item; 
+                    esgst.settings[`chfl_${key}_${esgst.name}`][i] = item;
                     break;
                 }
             }
@@ -14535,7 +14528,7 @@ Parsedown = (() => {
             let responseJson = JSON.parse((await request({data: `xsrf_token=${esgst.xsrfToken}&do=entry_insert&code=${giveaway.code}`, method: `POST`, url: `/ajax.php`})).responseText);
             if (responseJson.type === `success`) {
                 removeButton.classList.remove(`esgst-hidden`);
-            } else {                
+            } else {
                 errorButton.classList.remove(`esgst-hidden`);
             }
             esgst.pointsContainer.textContent = responseJson.points;
@@ -14556,7 +14549,7 @@ Parsedown = (() => {
             let responseJson = JSON.parse((await request({data: `xsrf_token=${esgst.xsrfToken}&do=entry_delete&code=${giveaway.code}`, method: `POST`, url: `/ajax.php`})).responseText);
             if (responseJson.type === `success`) {
                 addButton.classList.remove(`esgst-hidden`);
-            } else {                
+            } else {
                 errorButton.classList.remove(`esgst-hidden`);
             }
             esgst.pointsContainer.textContent = responseJson.points;
@@ -15715,7 +15708,7 @@ Parsedown = (() => {
             autoKey: `gas_auto${type}`,
             optionKey: `gas_option${type}`
         };
-        
+
         let [key, position] = esgst.leftButtonIds.indexOf(`gas`) > -1 ? [`leftButtons`, `afterBegin`] : [`rightButtons`, `beforeEnd`];
         let object = {
             button: insertHtml(esgst.hideButtons && esgst.hideButtons_gas ? esgst[key] : esgst.mainPageHeading, position, `
@@ -21452,7 +21445,7 @@ Parsedown = (() => {
         if (esgst.gwr_h) {
             giveaway.headingName.classList.add(`esgst-gwr-highlight`);
             giveaway.headingName.style.color = esgst.gwr_a && !esgst.gwr_a_b ? advancedColor : basicColor;
-            if (giveaway.image) {                
+            if (giveaway.image) {
                 giveaway.image.classList.add(`esgst-gwr-highlight`);
                 giveaway.image.style.color = `${esgst.gwr_a && !esgst.gwr_a_b ? advancedColor : basicColor}`;
                 giveaway.image.style.boxShadow = `${esgst.gwr_a && !esgst.gwr_a_b ? advancedColor : basicColor} 0px 0px 0px 3px inset`;
@@ -23212,7 +23205,7 @@ Parsedown = (() => {
             callback();
             return;
         }
-        let popup = new Popup(`fa-arrow-circle-right`, `ESGST will create the giveaways below. Are you sure you want to continue?`);        
+        let popup = new Popup(`fa-arrow-circle-right`, `ESGST will create the giveaways below. Are you sure you want to continue?`);
         let rows = insertHtml(popup.scrollable, `beforeEnd`, `
             <div class="table esgst-mgc-table">
                 <div class="table__heading">
@@ -24692,7 +24685,7 @@ Parsedown = (() => {
                 users.push(username);
             }
         }
-        
+
         if (users.length === 0) return;
 
         // check users
@@ -24753,7 +24746,7 @@ Parsedown = (() => {
                     <a ${isNew ? `class="esgst-bold esgst-italic" ` : ``}href="http://www.sgtools.info/${key.match(/multiple/i) ? `multiple` : `nonactivated`}/${user.username}" target="_blank">${user.username}${key.match(/^(notActivated|multiple)$/) ? ` (${value})` : ``}</a>
                 `);
             }
-            if (!this.isMenu) {                
+            if (!this.isMenu) {
                 await saveUser(null, null, user);
                 steamIds.push(user.steamId);
                 userElements[user.steamId] = elements;
@@ -24808,7 +24801,7 @@ Parsedown = (() => {
 
     function stopNamwcProcess() {
         this.button.classList.remove(`esgst-busy`);
-        this.popup.progress.innerHTML = ``;      
+        this.popup.progress.innerHTML = ``;
         this.isCanceled = true;
     }
 
@@ -25591,7 +25584,7 @@ Parsedown = (() => {
     }
 
     /* [RBOT] Reply Box On Top */
-    
+
     function loadRbot() {
         if (!esgst.replyBox) return;
         let box = insertHtml(esgst.mainPageHeadingBackground || esgst.mainPageHeading, `afterEnd`, `
@@ -30229,7 +30222,7 @@ Parsedown = (() => {
                         </div>
                     </div>
                 </div>
-            `);            
+            `);
             let object = {
                 dateKey: this.dateKey,
                 key: this.key,
@@ -30935,7 +30928,7 @@ Parsedown = (() => {
         return discussions;
     }
 
-    async function checkVersion(discussion) {        
+    async function checkVersion(discussion) {
         if (discussion.code === `TDyzv` && ((esgst.checkVersion && esgst.discussionPath) || (esgst.checkVersionMain && !esgst.discussionPath))) {
             let version = discussion.title.match(/v(.+?)\s/)[1];
             if (version !== esgst.version && version !== await getValue(`dismissedVersion`)) {
@@ -35037,7 +35030,7 @@ Parsedown = (() => {
             </div>
         `);
         let key = select.value;
-        esgst.settings[key] = esgst.defaultValues[key];     
+        esgst.settings[key] = esgst.defaultValues[key];
         await setValue(`settings`, JSON.stringify(esgst.settings));
         message.classList.add(`esgst-green`);
         message.innerHTML = `<i class="fa fa-check"></i> Saved!`;
@@ -40503,9 +40496,26 @@ Parsedown = (() => {
         var changelog, current, html, i, index, n, popup;
         changelog = [
             {
+                date: `February 25, 2018`,
+                version: `7.16.0`,
+                changelog: `
+                    <ul>
+                        <li><a href="https://github.com/revilheart/ESGST/issues/481">#481</a> Fix several inaccuracies in Level Progress Visualizer</li>
+                        <li><a href="https://github.com/revilheart/ESGST/issues/525">#525</a> Add a feature: Whitelist/Blacklist Links</li>
+                        <li><a href="https://github.com/revilheart/ESGST/issues/528">#528</a> Enhancements to Custom Header/Footer Links</li>
+                        <li><a href="https://github.com/revilheart/ESGST/issues/531">#531</a> Fix a bug that happens when trying to create multiple giveaways using the import option</li>
+                        <li><a href="https://github.com/revilheart/ESGST/issues/532">#532</a> Fix a bug in Entry Tracker that does not track entries in the entered page</li>
+                        <li><a href="https://github.com/revilheart/ESGST/issues/533">#533</a> Fix a conflict with RaChart Enhancer</li>
+                        <li><a href="https://github.com/revilheart/ESGST/issues/534">#534</a> Change the highlight style of Giveaway Winning Chance/Ratio</li>
+                        <li><a href="https://github.com/revilheart/ESGST/issues/535">#535</a> Fix a bug that prevents ESGST from loading correctly</li>
+                        <li><a href="https://github.com/revilheart/ESGST/issues/536">#536</a> Fix a bug that does not update the points when entering/leaving a giveaway in the entered page</li>
+                    </ul>
+                `
+            },
+            {
                 date: `February 24, 2018`,
                 version: `7.15.1`,
-                changelog: ` 
+                changelog: `
                     <ul>
                         <li>Hotfix for v7.15.0 (Forgot to change the version for the userscript version)</li>
                     </ul>

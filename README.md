@@ -237,6 +237,20 @@ To learn more about each feature you have to install ESGST.
 
 ## Changelog
 
+**7.16.0 (February 25, 2018):**
+
+<ul>
+    <li><a href="https://github.com/revilheart/ESGST/issues/481">#481</a> Fix several inaccuracies in Level Progress Visualizer</li>
+    <li><a href="https://github.com/revilheart/ESGST/issues/525">#525</a> Add a feature: Whitelist/Blacklist Links</li>
+    <li><a href="https://github.com/revilheart/ESGST/issues/528">#528</a> Enhancements to Custom Header/Footer Links</li>
+    <li><a href="https://github.com/revilheart/ESGST/issues/531">#531</a> Fix a bug that happens when trying to create multiple giveaways using the import option</li>
+    <li><a href="https://github.com/revilheart/ESGST/issues/532">#532</a> Fix a bug in Entry Tracker that does not track entries in the entered page</li>
+    <li><a href="https://github.com/revilheart/ESGST/issues/533">#533</a> Fix a conflict with RaChart Enhancer</li>
+    <li><a href="https://github.com/revilheart/ESGST/issues/534">#534</a> Change the highlight style of Giveaway Winning Chance/Ratio</li>
+    <li><a href="https://github.com/revilheart/ESGST/issues/535">#535</a> Fix a bug that prevents ESGST from loading correctly</li>
+    <li><a href="https://github.com/revilheart/ESGST/issues/536">#536</a> Fix a bug that does not update the points when entering/leaving a giveaway in the entered page</li>
+</ul>
+
 **7.15.1 (February 24, 2018):**
 
 <ul>
