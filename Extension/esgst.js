@@ -35,6 +35,7 @@
 // @grant GM.deleteValue
 // @grant GM.listValues
 // @grant GM.xmlHttpRequest
+// @run-at document_start
 // @noframes
 // ==/UserScript==
 
@@ -1668,7 +1669,7 @@ Parsedown = (() => {
 
     let esgst;
     // initialize esgst
-    init();
+    document.addEventListener(`DOMContentLoaded`, init);
 
     async function init() {
         if (document.getElementById(`esgst`)) {
@@ -2100,7 +2101,7 @@ Parsedown = (() => {
             sg: location.hostname.match(/www.steamgifts.com/),
             st: location.hostname.match(/www.steamtrades.com/),
             currentVersion: `7.16.0`,
-            devVersion: `7.16.0`,
+            devVersion: `7.16.1 (Dev.1)`,
             icon: `data:image/x-icon;base64,AAABAAEAEBAAAAEAIABoBAAAFgAAACgAAAAQAAAAIAAAAAEAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAqv8DCbP/Hgeq+CQIrf8iCK3/Igit/yIIrf8iB6//Iwit9x8Aqv8DAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAKr0GAa2/c0DvfzfA7f83QO3/N0Dt/zdA7f83QO+/d4Gs/3OAKP1GQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACm/xQFs/n2Bcf//wW///8FwP//BcD//wW///8Fx///BbP69gC2/xUAAAAAAAAAAAAAAAAA/1UDFptOFxSZMxkLpJktAq720QW1+ugEsfvjA7b92wO2/dsEsfvjBbX66Aau/dEoiO4tUlLWGU5k3hdVVf8DEJxKHxWqT8cVrU7uE6VN0guqny0Apv8XAJfQGwBAVywAQFcsAJfQGwCx/xcogugtS2Lk0lBl6u5Qae7ISmPeHxagSSMVr07jF7lV/xOiSu0brgATAAAAAAAAAA8AAAC/AAAAwAAAABAAAAAAYznjEkth4OxWb/3/T2jv40lf4iMXnksiEq1O3RayUv8UpEnkEo0+HQAAABkAAABBAAAA8QAAAPEAAABBAAAAGUBSvxxOYeDjU2v0/05m7d1LYuEiF55LIhKtTt0Ws1L/FahN2gU1FTAAAADAAAAA7AAAAP0AAAD9AAAA7AAAAMAVG0owUGPm2lNr9P9OZu3dS2LhIheeSyISrU7dFrNS/xWoTdoFNRswAAAAvwAAAOsAAAD9AAAA/QAAAOsAAADAFRtKMFBj6NpTa/T/Tmbt3Uti4SIXnksiEq1O3RayUv8UpEnkEo0+HQAAABgAAABAAAAA8QAAAPEAAABBAAAAGT5PuR1OYeDjU2v0/05m7d1LYuEiFqBJIxWuT+QXuVX/E6JL7QC8XhMAAAAAAAAADwAAAL8AAAC/AAAAEAAAAAAOR/8SSWLh7FZv/f9PaO/jSV/iIxCUSh8Vrk7HFqxN7ROlS9JskzMt1XULGK12EhxGLgYsRy8GK612EhzVgAsYgmxxLU1i39JNZ+vtT2fwx0pj1h8AqlUDF65GFgqZUhlsiC0txH0T0s5/EujJgBPkz4QR28+EEdvJgBPkzn8Q6Md+E9KLdHosM1LWGUZo6BZVVf8DAAAAAAAAAAAAAAAA/2YAFMl9EvbgjRb/14gV/9eIFf/XiBX/14gV/9+NFv/KgBD254YAFQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAL91FRjKgRHN1IgU3s+EEt3PhBLdz4QS3c+EEt3UiBTezYMRzcJ6FBkAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACqqgADxIARHr18FiO8eA8ivHgPIrx4DyK8eA8ivXwPI8SAER7/VQADAAAAAAAAAAAAAAAA78cAAPA3AAD4FwAABCAAADGOAAAE+AAAkBEAAJ55AACYOQAAlgEAAER4AAAXaAAATnoAAPgXAAD0JwAA69cAAA==`,
             sgIcon: `data:image/x-icon;base64,AAABAAEAEBAAAAEAIABoBAAAFgAAACgAAAAQAAAAIAAAAAEAIAAAAAAAQAQAABMLAAATCwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIUAAAD5AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAPoAAACFAAAAAAAAAAAAAAD8AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA+QAAAAAAAAAAAAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAAAAAAAAAAAAP8AAAD/AAAA/wAAABwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAcAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAcAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAHAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAAAAAAAAAAAAPwAAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD5AAAAAAAAAAAAAACFAAAA+QAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD5AAAAhQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA//8AAP//AADAAwAAwAMAAMfjAADP8wAAz/MAAM/zAADP8wAAz/MAAM/zAADH4wAAwAMAAMADAAD//wAA//8AAA==`,
             stIcon: `data:image/x-icon;base64,AAABAAEAEBAAAAEAIABoBAAAFgAAACgAAAAQAAAAIAAAAAEAIAAAAAAAQAQAABMLAAATCwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABbD6SgWw+ucFsPrkBbD6SgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAWw+uYFsPr/BbD6/wWw+ucAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAFsPrmBbD6/wWw+v8FsPrmAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABbD6SQWw+uYFsPrmBbD6SQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAFKRLShSkS+cUpEvkFKRLSgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAExi4EpMYuDnTGLg5Exi4EoAAAAAAAAAABSkS+YUpEv/FKRL/xSkS+cAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABMYuDmTGLg/0xi4P9MYuDnAAAAAAAAAAAUpEvmFKRL/xSkS/8UpEvmAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAATGLg5kxi4P9MYuD/TGLg5gAAAAAAAAAAFKRLSRSkS+YUpEvmFKRLSQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAExi4ElMYuDmTGLg5kxi4EkAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAMZ9E0rGfRPnxn0T5MZ9E0oAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADGfRPmxn0T/8Z9E//GfRPnAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAxn0T5sZ9E//GfRP/xn0T5gAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAMZ9E0nGfRPmxn0T5sZ9E0kAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA//8AAPw/AAD8PwAA/D8AAPw/AAD//wAAh+EAAIfhAACH4QAAh+EAAP//AAD8PwAA/D8AAPw/AAD8PwAA//8AAA==`,
@@ -7015,6 +7016,7 @@ Parsedown = (() => {
 
     async function loadFeatures() {
         if (esgst.bgl) await loadBgl(); // needs to be waited
+        if (esgst.hcp) loadHcp();
         if (esgst.giveawaysPath && esgst.activeDiscussions) {
             if (esgst.oadd) {
                 await loadOadd();
@@ -7050,85 +7052,77 @@ Parsedown = (() => {
         }
 
         // these features do not need to wait for any other feature
-        if (esgst.as) loadAs();
-        if (esgst.cec) loadCec();
-        if (esgst.cdr) loadCdr();
-        if (esgst.ds) loadDs();
-        if (esgst.ff) loadFf();
-        if (esgst.fh) loadFh(); // esgst.pageTop and esgst.commentsTop usage needs to wait for this feature
-        if (esgst.gas) loadGas();
-        if (esgst.hbs) loadHbs();
-        if (esgst.hfc) loadHfc();
-        if (esgst.namwc) loadNamwc();
-        if (esgst.pnot) loadPnot();
-        if (esgst.rbp) loadRbp();
-        if (esgst.wbs) loadWbs();
-
-        if (esgst.fmph) loadFmph(); // needs to wait for FH
-        if (esgst.fs) loadFs(); // needs to wait for FH
-
-        if (esgst.rbot) loadRbot(); // needs to wait for FMPH
-
-        if (esgst.gdttt) await loadGdttt();
-        if (esgst.hcp) loadHcp();
-        if (esgst.hr) loadHr();
-        if (esgst.lpl) loadLpl();
-        if (esgst.lpv) loadLpv();
-        if (esgst.nm) loadNm();
-        if (esgst.sk) loadSk();
-        if (esgst.smgb) loadSmgb();
-        if (esgst.aic) loadAic();
-
         if (esgst.ags) loadAgs();
-        if (esgst.et) loadEt();
-        if (esgst.gb) await loadGb();
-        if (esgst.ge) await loadGe();
-        if (esgst.ged) await loadGed();
-        if (esgst.gesl) loadGesl();
-        if (esgst.gf) loadGf();
-        if (esgst.gm) loadGm();
-        if (esgst.gr) await loadGr();
-        if (esgst.gts) loadGts();
-        if (esgst.gv) loadGv();
-        if (esgst.hgebd) loadHgebd();
-        if (esgst.hgr) loadHgr();
-        if (esgst.hpg) loadHpg();
-        if (esgst.mgc) await loadMgc();
-        if (esgst.npth) loadNpth();
-        if (esgst.pgb) loadPgb();
-        if (esgst.qgs) loadQgs();
-        if (esgst.rcvc) loadRcvc();
-        if (esgst.sks) loadSks();
-        if (esgst.sgac) loadSgac();
-        if (esgst.sgg) await loadSgg();
-        if (esgst.ugs) loadUgs();
-
-        if (esgst.ded) loadDed();
-        if (esgst.df) loadDf();
-        if (esgst.dh) loadDh();
-        if (esgst.mpp) loadMpp();
-        if (esgst.mps) loadMps();
-
-        if (esgst.tb) loadTb();
-
-        if (esgst.cerb) loadCerb();
-        if (esgst.cfh) loadCfh();
-        if (esgst.ch) loadCh();
+        if (esgst.aic) loadAic();
+        if (esgst.as) loadAs();
+        if (esgst.cdr) loadCdr();
+        if (esgst.cec) loadCec();
         if (esgst.cr) loadCr();
         if (esgst.cs) loadCs();
         if (esgst.ct) loadCt();
-
-        if (esgst.ust) loadUst();
-        if (esgst.wbc) loadWbc();
-        if (esgst.wbm) loadWbm();
-
-        if (esgst.glwc) await loadGlwc();
+        if (esgst.ded) loadDed();
+        if (esgst.df) loadDf();
+        if (esgst.dh) loadDh();
+        if (esgst.ds) loadDs();
+        if (esgst.et) loadEt();
+        if (esgst.ff) loadFf();
+        if (esgst.fh) loadFh();
+        if (esgst.gas) loadGas();
+        if (esgst.gb) loadGb();
+        if (esgst.gesl) loadGesl();
+        if (esgst.gf) loadGf();
+        if (esgst.gm) loadGm();
+        if (esgst.gr) loadGr();
         if (esgst.gs) loadGs();
-
-        if (esgst.chfl) loadChfl();
+        if (esgst.gts) loadGts();
+        if (esgst.gv) loadGv();
+        if (esgst.hbs) loadHbs();
+        if (esgst.hfc) loadHfc();
+        if (esgst.hgebd) loadHgebd();
+        if (esgst.hgr) loadHgr();
+        if (esgst.hpg) loadHpg();
+        if (esgst.hr) loadHr();
+        if (esgst.lpl) loadLpl();
+        if (esgst.lpv) loadLpv();
+        if (esgst.mgc) loadMgc();
+        if (esgst.mpp) loadMpp();
+        if (esgst.mps) loadMps();
         if (esgst.mt) loadMt();
+        if (esgst.namwc) loadNamwc();
+        if (esgst.nm) loadNm();
+        if (esgst.npth) loadNpth();
+        if (esgst.pnot) loadPnot();
+        if (esgst.pgb) loadPgb();
+        if (esgst.qgs) loadQgs();
+        if (esgst.rbp) loadRbp();
+        if (esgst.rcvc) loadRcvc();
+        if (esgst.sgac) loadSgac();
+        if (esgst.sgg) loadSgg();
+        if (esgst.sk) loadSk();
+        if (esgst.sks) loadSks();
         if (esgst.stbb) loadStbb();
         if (esgst.sttb) loadSttb();
+        if (esgst.tb) loadTb();
+        if (esgst.ugs) loadUgs();
+        if (esgst.ust) loadUst();
+        if (esgst.wbc) loadWbc();
+        if (esgst.wbs) loadWbs();
+        if (esgst.wbm) loadWbm();
+
+        if (esgst.cfh) loadCfh(); // needs to wait for RBP
+        if (esgst.ch) loadCh(); // needs to wait for ET merely for buttons order (no real dependency)
+        if (esgst.fmph) loadFmph(); // needs to wait for FH
+        if (esgst.fs) loadFs(); // needs to wait for FH
+        if (esgst.ged) loadGed(); // needs to wait for GB merely for buttons order (no real dependency)
+        if (esgst.smgb) loadSmgb(); // needs to wait for QGS
+
+        if (esgst.cerb) loadCerb(); // needs to wait for FMPH
+        if (esgst.chfl) loadChfl(); // needs to wait for CH and ET
+        if (esgst.rbot) loadRbot(); // needs to wait for FMPH
+        
+        if (esgst.gdttt) await loadGdttt();
+        if (esgst.ge) await loadGe();
+        if (esgst.glwc) await loadGlwc();
 
         if (esgst.userPath) {
             loadProfileFeatures(document);
@@ -7137,8 +7131,8 @@ Parsedown = (() => {
             await loadEndlessFeatures(document, true);
         }
 
-        if (esgst.qiv) loadQiv(true);
-        if (esgst.es) loadEs();
+        if (esgst.qiv) loadQiv(true); // needs to wait for endless features
+        if (esgst.es) loadEs(); // needs to wait for everything else
 
         if (esgst.newGiveawayPath) {
             // when the user searches for a game in the new giveaway page, wait until the results appear and load the game features for them
@@ -15771,8 +15765,18 @@ Parsedown = (() => {
 
     /* [GB] Giveaway Bookmarks */
 
-    async function loadGb() {
-        await addGbButton();
+    function loadGb() {
+        let button = null; 
+        if (!esgst.gbPath) {
+            let button = insertHtml(document.getElementsByClassName(`nav__left-container`)[0], `beforeEnd`, `
+                <div class="nav__button-container esgst-hidden" title="${getFeatureTooltip(`gb`, `View your bookmarked giveaways`)}">
+                    <div class="nav__button">
+                        <i class="fa fa-bookmark"></i>
+                    </div>
+                </div>
+            `);
+        }
+        addGbButton(button);
         if (esgst.gb_ue && esgst.enterGiveawayButton) {
             esgst.enterGiveawayButton.onclick = () => {
                 let giveaway = esgst.currentGiveaways[0];
@@ -15796,19 +15800,8 @@ Parsedown = (() => {
         }
     }
 
-    async function addGbButton() {
-        var button, context, i, n, html;
-        if (!esgst.gbPath) {
-            context = document.getElementsByClassName(`nav__left-container`)[0];
-            html = `
-                <div class="nav__button-container esgst-hidden" title="${getFeatureTooltip(`gb`, `View your bookmarked giveaways`)}">
-                    <div class="nav__button">
-                        <i class="fa fa-bookmark"></i>
-                    </div>
-                </div>
-            `;
-            button = insertHtml(context, `beforeEnd`, html);
-        }
+    async function addGbButton(button) {
+        var i, n;
         var bookmarked = [], endingSoon = 1, started = 0, ending = 0;
         let deleteLock = await createLock(`giveawayLock`, 300);
         var giveaways = JSON.parse(await getValue(`giveaways`, `{}`));
@@ -15891,7 +15884,7 @@ Parsedown = (() => {
         if (esgst.gbPath) {
             loadGbGibs(bookmarked, esgst.mainContext, esgst.mainContext);
         }
-        if (!esgst.gbPath) {
+        if (!esgst.gbPath && button) {
             button.addEventListener(`mousedown`, function(event) {
                 if (event.button === 2) return;
                 event.preventDefault();
@@ -17104,35 +17097,34 @@ Parsedown = (() => {
     /* [GDTTT] Giveaway/Discussion/Ticket/Trade Tracker */
 
     async function loadGdttt() {
-        if (esgst.commentsPath) {
-            let match = location.pathname.match(/(giveaway|discussion|ticket|trade)\/(.+?)\//);
-            let type = `${match[1]}s`;
-            let code = match[2];
-            let savedComments = JSON.parse(esgst.storage[type]);
-            if (esgst[`gdttt_v${{
-                giveaways: `g`,
-                discussions: `d`,
-                tickets: `t`,
-                trades: `ts`
-            }[type]}`]) {
-                if (!esgst.ct) {
-                    let deleteLock = await createLock(`commentLock`, 300);
-                    if (!savedComments[code]) {
-                        savedComments[code] = {
-                            readComments: {}
-                        };
-                    }
-                    savedComments[code].visited = true;
-                    savedComments[code].lastUsed = Date.now();
-                    await setValue(type, JSON.stringify(savedComments));
-                    deleteLock();
+        if (!esgst.commentsPath) return;
+        let match = location.pathname.match(/(giveaway|discussion|ticket|trade)\/(.+?)\//);
+        let type = `${match[1]}s`;
+        let code = match[2];
+        let savedComments = JSON.parse(esgst.storage[type]);
+        if (esgst[`gdttt_v${{
+            giveaways: `g`,
+            discussions: `d`,
+            tickets: `t`,
+            trades: `ts`
+        }[type]}`]) {
+            if (!esgst.ct) {
+                let deleteLock = await createLock(`commentLock`, 300);
+                if (!savedComments[code]) {
+                    savedComments[code] = {
+                        readComments: {}
+                    };
                 }
-            } else if (esgst.discussionPath || esgst.tradePath) {
-                if (savedComments[code] && savedComments[code].visited) {
-                    addGdtttMarkUnvisitedButton(null, code, document.querySelector(`.page__heading, .page_heading`), type);
-                } else {
-                    addGdtttMarkVisitedButton(null, code, document.querySelector(`.page__heading, .page_heading`), type);
-                }
+                savedComments[code].visited = true;
+                savedComments[code].lastUsed = Date.now();
+                await setValue(type, JSON.stringify(savedComments));
+                deleteLock();
+            }
+        } else if (esgst.discussionPath || esgst.tradePath) {
+            if (savedComments[code] && savedComments[code].visited) {
+                addGdtttMarkUnvisitedButton(null, code, document.querySelector(`.page__heading, .page_heading`), type);
+            } else {
+                addGdtttMarkVisitedButton(null, code, document.querySelector(`.page__heading, .page_heading`), type);
             }
         }
     }
@@ -17542,7 +17534,7 @@ Parsedown = (() => {
 
     /* [GED] Giveaway Encrypter/Decrypter */
 
-    async function loadGed() {
+    function loadGed() {
         if (!esgst.sg) return;
         let ged = {
             newGiveaways: []
@@ -17558,7 +17550,7 @@ Parsedown = (() => {
                 </div>
             `);
             ged.button.addEventListener(`mousedown`, openGedPopup.bind(null, ged));
-            await getGedGiveaways(ged);
+            getGedGiveaways(ged);
         }
         esgst.addGedIcons = addGedIcons.bind(null, ged);
     }
@@ -20260,9 +20252,9 @@ Parsedown = (() => {
 
     /* [GR] Giveaway Recreator */
 
-    async function loadGr() {
+    function loadGr() {
         if (!esgst.newGiveawayPath) return;
-        await loadGrGiveaway();
+        loadGrGiveaway();
     }
 
     async function recreateGrGiveaway(button, giveaway) {
@@ -21716,7 +21708,7 @@ Parsedown = (() => {
         esgst.inboxButton.outerHTML = cache.inboxButton;
         if (esgst.nm) {
             // refresh notification merger
-            loadNm();
+            getNmNotifications();
         }
         await refreshHeaderElements(document);
         if (esgst.qiv) {
@@ -24853,7 +24845,12 @@ Parsedown = (() => {
 
     /* [NM] Notification Merger (by Royalgamer06) */
 
-    async function loadNm() {
+    function loadNm() {
+        if (esgst.hr) return;
+        getNmNotifications();
+    }
+
+    async function getNmNotifications() {
         if (esgst.sg) {
             let notification = parseHtml((await request({method: `GET`, url: `https://www.steamtrades.com`})).responseText).getElementsByClassName(`message_count`)[0];
             if (!notification) {
@@ -26137,7 +26134,7 @@ Parsedown = (() => {
 
     /* [SGG] Stickied Giveaway Groups */
 
-    async function loadSgg() {
+    function loadSgg() {
         if (esgst.newGiveawayPath && !document.getElementsByClassName(`table--summary`)[0]) {
             setSggGiveawayGroups();
         }
