@@ -22,7 +22,7 @@
       "js": [
         "esgst.js"
       ],
-      "run_at": "document_end"
+      "run_at": "document_start"
     }
   ],
   "description": "Enhances the SteamGifts/SteamTrades experience.",
