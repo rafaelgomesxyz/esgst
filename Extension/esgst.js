@@ -1669,7 +1669,7 @@ Parsedown = (() => {
 
     let esgst;
     // initialize esgst
-    document.addEventListener(`DOMContentLoaded`, init);
+    init();
 
     async function init() {
         if (document.getElementById(`esgst`)) {
@@ -2101,7 +2101,7 @@ Parsedown = (() => {
             sg: location.hostname.match(/www.steamgifts.com/),
             st: location.hostname.match(/www.steamtrades.com/),
             currentVersion: `7.16.0`,
-            devVersion: `7.16.1 (Dev.3)`,
+            devVersion: `7.16.1 (Dev.4)`,
             icon: `data:image/x-icon;base64,AAABAAEAEBAAAAEAIABoBAAAFgAAACgAAAAQAAAAIAAAAAEAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAqv8DCbP/Hgeq+CQIrf8iCK3/Igit/yIIrf8iB6//Iwit9x8Aqv8DAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAKr0GAa2/c0DvfzfA7f83QO3/N0Dt/zdA7f83QO+/d4Gs/3OAKP1GQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACm/xQFs/n2Bcf//wW///8FwP//BcD//wW///8Fx///BbP69gC2/xUAAAAAAAAAAAAAAAAA/1UDFptOFxSZMxkLpJktAq720QW1+ugEsfvjA7b92wO2/dsEsfvjBbX66Aau/dEoiO4tUlLWGU5k3hdVVf8DEJxKHxWqT8cVrU7uE6VN0guqny0Apv8XAJfQGwBAVywAQFcsAJfQGwCx/xcogugtS2Lk0lBl6u5Qae7ISmPeHxagSSMVr07jF7lV/xOiSu0brgATAAAAAAAAAA8AAAC/AAAAwAAAABAAAAAAYznjEkth4OxWb/3/T2jv40lf4iMXnksiEq1O3RayUv8UpEnkEo0+HQAAABkAAABBAAAA8QAAAPEAAABBAAAAGUBSvxxOYeDjU2v0/05m7d1LYuEiF55LIhKtTt0Ws1L/FahN2gU1FTAAAADAAAAA7AAAAP0AAAD9AAAA7AAAAMAVG0owUGPm2lNr9P9OZu3dS2LhIheeSyISrU7dFrNS/xWoTdoFNRswAAAAvwAAAOsAAAD9AAAA/QAAAOsAAADAFRtKMFBj6NpTa/T/Tmbt3Uti4SIXnksiEq1O3RayUv8UpEnkEo0+HQAAABgAAABAAAAA8QAAAPEAAABBAAAAGT5PuR1OYeDjU2v0/05m7d1LYuEiFqBJIxWuT+QXuVX/E6JL7QC8XhMAAAAAAAAADwAAAL8AAAC/AAAAEAAAAAAOR/8SSWLh7FZv/f9PaO/jSV/iIxCUSh8Vrk7HFqxN7ROlS9JskzMt1XULGK12EhxGLgYsRy8GK612EhzVgAsYgmxxLU1i39JNZ+vtT2fwx0pj1h8AqlUDF65GFgqZUhlsiC0txH0T0s5/EujJgBPkz4QR28+EEdvJgBPkzn8Q6Md+E9KLdHosM1LWGUZo6BZVVf8DAAAAAAAAAAAAAAAA/2YAFMl9EvbgjRb/14gV/9eIFf/XiBX/14gV/9+NFv/KgBD254YAFQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAL91FRjKgRHN1IgU3s+EEt3PhBLdz4QS3c+EEt3UiBTezYMRzcJ6FBkAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACqqgADxIARHr18FiO8eA8ivHgPIrx4DyK8eA8ivXwPI8SAER7/VQADAAAAAAAAAAAAAAAA78cAAPA3AAD4FwAABCAAADGOAAAE+AAAkBEAAJ55AACYOQAAlgEAAER4AAAXaAAATnoAAPgXAAD0JwAA69cAAA==`,
             sgIcon: `data:image/x-icon;base64,AAABAAEAEBAAAAEAIABoBAAAFgAAACgAAAAQAAAAIAAAAAEAIAAAAAAAQAQAABMLAAATCwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIUAAAD5AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAPoAAACFAAAAAAAAAAAAAAD8AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA+QAAAAAAAAAAAAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAAAAAAAAAAAAP8AAAD/AAAA/wAAABwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAcAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAcAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAHAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAAAAAAAAAAAAPwAAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD5AAAAAAAAAAAAAACFAAAA+QAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD5AAAAhQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA//8AAP//AADAAwAAwAMAAMfjAADP8wAAz/MAAM/zAADP8wAAz/MAAM/zAADH4wAAwAMAAMADAAD//wAA//8AAA==`,
             stIcon: `data:image/x-icon;base64,AAABAAEAEBAAAAEAIABoBAAAFgAAACgAAAAQAAAAIAAAAAEAIAAAAAAAQAQAABMLAAATCwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABbD6SgWw+ucFsPrkBbD6SgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAWw+uYFsPr/BbD6/wWw+ucAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAFsPrmBbD6/wWw+v8FsPrmAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABbD6SQWw+uYFsPrmBbD6SQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAFKRLShSkS+cUpEvkFKRLSgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAExi4EpMYuDnTGLg5Exi4EoAAAAAAAAAABSkS+YUpEv/FKRL/xSkS+cAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABMYuDmTGLg/0xi4P9MYuDnAAAAAAAAAAAUpEvmFKRL/xSkS/8UpEvmAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAATGLg5kxi4P9MYuD/TGLg5gAAAAAAAAAAFKRLSRSkS+YUpEvmFKRLSQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAExi4ElMYuDmTGLg5kxi4EkAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAMZ9E0rGfRPnxn0T5MZ9E0oAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADGfRPmxn0T/8Z9E//GfRPnAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAxn0T5sZ9E//GfRP/xn0T5gAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAMZ9E0nGfRPmxn0T5sZ9E0kAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA//8AAPw/AAD8PwAA/D8AAPw/AAD//wAAh+EAAIfhAACH4QAAh+EAAP//AAD8PwAA/D8AAPw/AAD8PwAA//8AAA==`,
@@ -2718,41 +2718,6 @@ Parsedown = (() => {
             esgst.settings = {};
         }
         esgst.version = esgst.storage.version;
-        if (esgst.sg) {
-            try {
-                let avatar = document.getElementsByClassName(`nav__avatar-inner-wrap`)[0].style.backgroundImage.match(/\("(.+)"\)/)[1];
-                if (esgst.settings.avatar !== avatar) {
-                    esgst.settings.avatar = avatar;
-                }
-                let username = document.getElementsByClassName(`nav__avatar-outer-wrap`)[0].href.match(/\/user\/(.+)/)[1];
-                if (esgst.settings.username_sg !== username) {
-                    esgst.settings.username_sg = username;
-                }
-                if (!esgst.settings.registrationDate_sg || !esgst.settings.steamId) {
-                    let responseHtml = parseHtml((await request({method: `GET`, url: `https://www.steamgifts.com/user/${esgst.settings.username_sg}`})).responseText);
-                    let elements = responseHtml.getElementsByClassName(`featured__table__row__left`);
-                    for (let i = 0, n = elements.length; i < n; i++) {
-                        let element = elements[i];
-                        if (element.textContent === `Registered`) {
-                            esgst.settings.registrationDate_sg = parseInt(element.nextElementSibling.firstElementChild.getAttribute(`data-timestamp`));
-                            break;
-                        }
-                    }
-                    esgst.settings.steamId = responseHtml.querySelector(`a[href*="/profiles/"]`).getAttribute(`href`).match(/\d+/)[0];
-                }
-            } catch (e) {}
-        } else {
-            try {
-                let avatar = document.getElementsByClassName(`nav_avatar`)[0].style.backgroundImage.match(/\("(.+)"\)/)[1];
-                if (esgst.settings.avatar !== avatar) {
-                    esgst.settings.avatar = avatar;
-                }
-                let username = document.querySelector(`.author_name[href*="/user/${esgst.settings.steamId}"], .underline[href*="/user/${esgst.settings.steamId}"]`).textContent;
-                if (esgst.settings.username_st !== username) {
-                    esgst.settings.username_st = username;
-                }
-            } catch (e) {}
-        }
         for (let key in esgst.oldValues) {
             esgst[key] = getSetting(key, true);
         }
@@ -6880,28 +6845,98 @@ Parsedown = (() => {
                 esgst[`${item.side}ButtonIds`].push(item.id);
                 esgst.settings.leftButtonIds = esgst.leftButtonIds;
                 esgst.settings.rightButtonIds = esgst.rightButtonIds;
+                esgst.settingsChanged = true;
             }
         });
-        delete esgst.settings.users;
-        delete esgst.settings.comments;
-        delete esgst.settings.giveaways;
-        delete esgst.settings.groups;
+        if (esgst.settings.users) {
+            delete esgst.settings.users;
+            esgst.settingsChanged = true;
+        }
+        if (esgst.settings.comments) {
+            delete esgst.settings.comments;
+            esgst.settingsChanged = true;
+        }
+        if (esgst.settings.giveaways) {
+            delete esgst.settings.giveaways;
+            esgst.settingsChanged = true;
+        }
+        if (esgst.settings.groups) {
+            delete esgst.settings.groups;
+            esgst.settingsChanged = true;
+        }
         if (esgst.settings.gc_categories.indexOf(`gc_rd`) < 0) {
             esgst.settings.gc_categories.push(`gc_rd`);
+            esgst.settingsChanged = true;
         }
         esgst.gc_categories = esgst.settings.gc_categories;
         esgst.gc_categories_gv = esgst.settings.gc_categories_gv;
         if (esgst.settings.giveawayColumns.indexOf(`ged`) < 0 && esgst.settings.giveawayPanel.indexOf(`ged`) < 0) {
             esgst.settings.giveawayColumns.unshift(`ged`);
             esgst.giveawayColumns = esgst.settings.giveawayColumns;
+            esgst.settingsChanged = true;
         }
         if (esgst.settings.giveawayColumns_gv.indexOf(`ged`) < 0 && esgst.settings.giveawayPanel_gv.indexOf(`ged`) < 0) {
             esgst.settings.giveawayColumns_gv.unshift(`ged`);
             esgst.giveawayColumns_gv = esgst.settings.giveawayColumns_gv;
+            esgst.settingsChanged = true;
         }
-        toSet.settings = JSON.stringify(esgst.settings);
-        await setValues(toSet);
-        await delValues(toDelete);
+        if (document.readyState === `interactive`) {
+            loadEsgst(toDelete, toSet);
+        } else {
+            document.addEventListener(`DOMContentLoaded`, loadEsgst.bind(null, toDelete, toSet));
+        }
+    }
+
+    async function loadEsgst(toDelete, toSet) {
+        if (esgst.sg) {
+            try {
+                let avatar = document.getElementsByClassName(`nav__avatar-inner-wrap`)[0].style.backgroundImage.match(/\("(.+)"\)/)[1];
+                if (esgst.settings.avatar !== avatar) {
+                    esgst.avatar = esgst.settings.avatar = avatar;
+                    esgst.settingsChanged = true;
+                }
+                let username = document.getElementsByClassName(`nav__avatar-outer-wrap`)[0].href.match(/\/user\/(.+)/)[1];
+                if (esgst.settings.username_sg !== username) {
+                    esgst.username = esgst.settings.username_sg = username;
+                    esgst.settingsChanged = true;
+                }
+                if (!esgst.settings.registrationDate_sg || !esgst.settings.steamId) {
+                    let responseHtml = parseHtml((await request({method: `GET`, url: `https://www.steamgifts.com/user/${esgst.settings.username_sg}`})).responseText);
+                    let elements = responseHtml.getElementsByClassName(`featured__table__row__left`);
+                    for (let i = 0, n = elements.length; i < n; i++) {
+                        let element = elements[i];
+                        if (element.textContent === `Registered`) {
+                            esgst.registrationDate = esgst.settings.registrationDate_sg = parseInt(element.nextElementSibling.firstElementChild.getAttribute(`data-timestamp`));
+                            break;
+                        }
+                    }
+                    esgst.steamId = esgst.settings.steamId = responseHtml.querySelector(`a[href*="/profiles/"]`).getAttribute(`href`).match(/\d+/)[0];
+                    esgst.settingsChanged = true;
+                }
+            } catch (e) {}
+        } else {
+            try {
+                let avatar = document.getElementsByClassName(`nav_avatar`)[0].style.backgroundImage.match(/\("(.+)"\)/)[1];
+                if (esgst.settings.avatar !== avatar) {
+                    esgst.avatar = esgst.settings.avatar = avatar;
+                    esgst.settingsChanged = true;
+                }
+                let username = document.querySelector(`.author_name[href*="/user/${esgst.settings.steamId}"], .underline[href*="/user/${esgst.settings.steamId}"]`).textContent;
+                if (esgst.settings.username_st !== username) {
+                    esgst.username = esgst.settings.username_st = username;
+                    esgst.settingsChanged = true;
+                }
+            } catch (e) {}
+        }
+        if (esgst.settingsChanged) {
+            toSet.settings = JSON.stringify(esgst.settings);
+        }
+        if (Object.keys(toSet).length) {
+            await setValues(toSet);
+        }
+        if (Object.keys(toDelete).length) {
+            await delValues(toDelete);
+        }
 
         // now that all values are set esgst can begin to load
 
@@ -31687,12 +31722,10 @@ Parsedown = (() => {
             await addCtDiscussionPanels(context, main, source, endless);
         }
         loadUserFeatures(context);
-        let promises = [];
-        promises.push(loadGiveawayFeatures(context, main, source, endless));
-        promises.push(loadDiscussionFeatures(context, main, source, endless));
-        promises.push(loadCommentFeatures(context, main));
-        promises.push(loadGameFeatures(context, main, source, endless));
-        await Promise.all(promises);
+        await loadGiveawayFeatures(context, main, source, endless);
+        await loadDiscussionFeatures(context, main, source, endless);
+        await loadCommentFeatures(context, main);
+        await loadGameFeatures(context, main, source, endless);
         if (esgst.ts) {
             getTsTables(context, main, source, endless);
         }
@@ -32170,9 +32203,10 @@ Parsedown = (() => {
             if (typeof value === `undefined`) {
                 value = defaultValue;
             }
-        }
-        if (save) {
-            esgst.settings[key] = value;
+            if (save) {
+                esgst.settings[key] = value;
+                esgst.settingsChanged = true;
+            }
         }
         return value;
     }
