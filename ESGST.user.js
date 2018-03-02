@@ -2454,7 +2454,7 @@ Parsedown = (() => {
                     promise.then(value => {
                         storage[keys[i]] = value;
                     });
-                    promises.push(value);
+                    promises.push(promise);
                 }
                 await Promise.all(promises);
                 return storage;
