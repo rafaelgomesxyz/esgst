@@ -237,6 +237,22 @@ To learn more about each feature you have to install ESGST.
 
 ## Changelog
 
+**7.16.1 (March 2, 2018):**
+
+<ul>
+    <li><a href="https://github.com/revilheart/ESGST/issues/527">#527</a> Fix a bug that happens when loading highlighted discussions</li>
+    <li><a href="https://github.com/revilheart/ESGST/issues/537">#537</a> Add option to delete days from Entry Tracker history</li>
+    <li><a href="https://github.com/revilheart/ESGST/issues/539">#539</a> Fix a bug that happens when sending unsent gifts with the options to check if the winner is whitelisted/blacklisted</li>
+    <li><a href="https://github.com/revilheart/ESGST/issues/540">#540</a> Fix some bugs with the reordering of heading buttons</li>
+    <li><a href="https://github.com/revilheart/ESGST/issues/541">#541</a> Extend Inbox Winner Highlighter to Quick Inbox View</li>
+    <li><a href="https://github.com/revilheart/ESGST/issues/542">#542</a> Add options to specify image border width when highlighting a giveaway with Giveaway Winning Chance/Ratio</li>
+    <li><a href="https://github.com/revilheart/ESGST/issues/543">#543</a> Fix a bug that does not load some features correctly</li>
+    <li><a href="https://github.com/revilheart/ESGST/issues/544">#544</a> Change the order of the elements in the Giveaway Bookmarks popup</li>
+    <li><a href="https://github.com/revilheart/ESGST/issues/548">#548</a> Fix a bug that decrypts giveaway links from the Quick Inbox View popout</li>
+    <li><a href="https://github.com/revilheart/ESGST/issues/549">#549</a> Add domain instructions to adding a Steam API key</li>
+    <li><a href="https://github.com/revilheart/ESGST/issues/550">#550</a> Optimize storage usage in the script version</li>
+</ul>
+
 **7.16.0 (February 25, 2018):**
 
 <ul>
