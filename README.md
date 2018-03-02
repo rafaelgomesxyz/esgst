@@ -237,10 +237,16 @@ To learn more about each feature you have to install ESGST.
 
 ## Changelog
 
+**7.16.3 (March 2, 2018):**
+
+<ul>
+    <li>Hotfix for v7.16.2 (Userscript version was not working)</li>
+</ul>
+
 **7.16.2 (March 2, 2018):**
 
 <ul>
-    <li>Hotfix for v7.16.2 (Forgot to change the version)</li>
+    <li>Hotfix for v7.16.1 (Forgot to change the version)</li>
 </ul>
 
 **7.16.1 (March 2, 2018):**
