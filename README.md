@@ -237,6 +237,17 @@ To learn more about each feature you have to install ESGST.
 
 ## Changelog
 
+**7.16.5 (March 4, 2018):**
+
+<ul>
+    <li><a href="https://github.com/revilheart/ESGST/issues/353">#353</a> Convert all callback functions into promises and use async/await to deal with them (ongoing)</li>
+    <li><a href="https://github.com/revilheart/ESGST/issues/552">#552</a> Fix a bug that does not allow the Giveaway Extractor button to be moved</li>
+    <li><a href="https://github.com/revilheart/ESGST/issues/556">#556</a> Only load Attached Images Carouself for images that are actually in the page</li>
+    <li><a href="https://github.com/revilheart/ESGST/issues/558">#558</a> Fix a bug that does not extract giveaways in a new tab</li>
+    <li><a href="https://github.com/revilheart/ESGST/issues/560">#560</a> Fix a bug that does not load ESGST sometimes</li>
+    <li><a href="https://github.com/revilheart/ESGST/issues/561">#561</a> Fix a bug that happens when performing requests in the userscript version</li>
+</ul>
+
 **7.16.4 (March 2, 2018):**
 
 <ul>
