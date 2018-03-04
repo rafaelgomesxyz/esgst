@@ -3,7 +3,7 @@
 // @namespace ESGST
 // @description Enhances SteamGifts and SteamTrades by adding some cool features to them.
 // @icon https://dl.dropboxusercontent.com/s/lr3t3bxrxfxylqe/esgstIcon.ico?raw=1
-// @version 7.16.4
+// @version 7.16.5
 // @author revilheart
 // @contributor Royalgamer06
 // @downloadURL https://github.com/revilheart/ESGST/raw/master/ESGST.user.js
@@ -1586,6 +1586,317 @@ Parsedown = (() => {
         }
     }
 
+    class Popup_v2 {
+        constructor(details) {
+            this.isCreated = details.popup ? false : true;
+            this.temp = details.isTemp;
+            this.popup = details.popup || insertHtml(document.body, `beforeEnd`, `
+                <div class="esgst-hidden esgst-popup">
+                    <div class="esgst-popup-heading">
+                        <i class="fa ${details.icon} esgst-popup-icon${details.icon ? `` : ` esgst-hidden`}"></i>
+                        <div class="esgst-popup-title${details.title ? `` : ` esgst-hidden`}">${details.title}</div>
+                    </div>
+                    <div class="esgst-popup-description"></div>
+                    <div class="esgst-popup-actions">
+                        <span class="esgst-hidden">Settings</span>
+                        <span class="esgst-popup-close">Close</span>
+                    </div>
+                </div>
+            `);
+            if (this.isCreated) {
+                this.icon = this.popup.firstElementChild.firstElementChild;
+                this.title = this.icon.nextElementSibling;
+                this.description = this.popup.firstElementChild.nextElementSibling;
+                this.actions = this.description.nextElementSibling;
+                if (!details.settings) {
+                    let settings = this.actions.firstElementChild;
+                    settings.classList.remove(`esgst-hidden`);
+                    settings.addEventListener(`mousedown`, event => {
+                        if (event.button === 2) return;
+                        event.preventDefault();
+                        if (esgst.openSettingsInTab || event.button === 1) {
+                            open(`/esgst/settings`);
+                        } else {
+                            loadSMMenu();
+                        }
+                    });
+                }
+                this.description.nextElementSibling.lastElementChild.addEventListener(`click`, () => this.close());
+            } else {
+                let closeButton = this.popup.getElementsByClassName(`b-close`)[0];
+                if (closeButton) {
+                    closeButton.addEventListener(`click`, () => this.close());
+                }
+            }
+            if (details.textInputs) {
+                this.textInputs = [];
+                details.textInputs.forEach(textInput => {
+                    let input = insertHtml(this.description, `beforeEnd`, `
+                        <input placeholder="${textInput.placeholder}" type="text">
+                    `);
+                    input.addEventListener(`keydown`, this.triggerButton.bind(this, 0));
+                    this.textInputs.push(input);
+                });
+            }
+            if (details.options) {
+                this.description.appendChild(createOptions(details.options));
+            }
+            if (details.buttons) {
+                this.buttons = [];
+                details.buttons.forEach(button => {
+                    let set = new ButtonSet_v2(button);
+                    this.buttons.push(set);
+                    this.description.appendChild(set.set);
+                });
+            }
+            if (details.addProgress) {
+                this.progress = insertHtml(this.description, `beforeEnd`, `<div></div>`);
+                this.overallProgress = insertHtml(this.description, `beforeEnd`, `<div></div>`);
+            }
+            if (details.addScrollable) {
+                this.scrollable = insertHtml(this.description, `beforeEnd`, `<div class="esgst-popup-scrollable"></div>`);
+                if (details.addScrollable === `left`) {
+                    this.scrollable.classList.add(`esgst-text-left`);
+                }
+            }
+        }
+        open(callback) {
+            this.isOpen = true;
+            esgst.openPopups += 1;
+            esgst.popups.push(this);
+            this.modal = insertHtml(document.body, `beforeEnd`, `
+                <div class="esgst-popup-modal"></div>
+            `);
+            if (this.isCreated) {
+                this.popup.classList.remove(`esgst-hidden`);
+            } else {
+                this.popup.style.display = `block`;
+                this.popup.style.position = `absolute`;
+            }
+            let n = 9999 + document.querySelectorAll(`.esgst-popup:not(.esgst-hidden), .esgst-popout:not(.esgst-hidden)`).length;
+            this.modal.style.zIndex = n;
+            this.popup.style.zIndex = n + 1;
+            this.modal.addEventListener(`click`, () => this.close());
+            this.reposition();
+            if (!esgst.isRepositioning && !esgst.staticPopups) {
+                setTimeout(repositionPopups, 2000);
+            }
+            if (this.textInputs) {
+                this.textInputs[0].focus();
+            }
+            if (callback) {
+                callback();
+            }
+        }
+        close() {
+            this.modal.remove();
+            if (this.isCreated) {
+                if (this.temp) {
+                    this.popup.remove();
+                } else {
+                    this.popup.classList.add(`esgst-hidden`);
+                }
+            } else {
+                this.popup.style = ``;
+            }
+            if (this.onClose) {
+                this.onClose();
+            }
+            esgst.openPopups -= 1;
+            esgst.popups.pop();
+            this.isOpen = false;
+        }
+        reposition() {
+            if (this.isCreated && this.scrollable) {
+                if (esgst.staticPopups) {
+                    this.scrollable.style.maxHeight = `${innerHeight - (this.popup.offsetHeight - this.scrollable.offsetHeight) - 100}px`;
+                } else {
+                    this.scrollable.style.maxHeight = `${innerHeight * 0.9 - (this.popup.offsetHeight - this.scrollable.offsetHeight)}px`;
+                }
+            }
+            if (!esgst.staticPopups) {
+                let newLeft, newTop;
+                newLeft = (innerWidth - this.popup.offsetWidth) / 2;
+                newTop = (innerHeight - this.popup.offsetHeight) / 2;
+                if (Math.abs(newLeft - this.popup.offsetLeft) > 5 || Math.abs(newTop - this.popup.offsetTop) > 5) {
+                    this.popup.style.left = `${newLeft}px`;
+                    this.popup.style.top = `${newTop}px`;
+                }
+            }
+        }
+        getTextInputValue(index) {
+            return this.textInputs[index].value;
+        }
+        triggerButton(index, event) {
+            if (event && (event.key !== `Enter` || this.buttons[index].busy)) return;
+            this.buttons[index].trigger();
+        }
+        isButtonBusy(index) {
+            return (!this.buttons[index] || this.buttons[index].busy);
+        }
+        removeButton(index) {
+            let button = this.buttons.splice(index, 1)[0];
+            button.set.remove();
+        }
+        setScrollable(html) {
+            insertHtml(this.scrollable, `beforeEnd`, `<div>${html}</div>`);
+        }
+        getScrollable(html = ``) {
+            return insertHtml(this.scrollable, `beforeEnd`, `<div>${html}</div>`);
+        }
+        setError(message) {
+            this.progress.innerHTML = `
+                <i class="fa fa-times-circle"></i>
+                <span>${message}</span>
+            `;
+        }
+        setProgress(message) {
+            if (this.progressMessage) {
+                this.progressMessage.textContent = message;
+            } else {
+                this.progress.innerHTML = `
+                    <i class="fa fa-circle-o-notch fa-spin"></i>
+                    <span>${message}</span>
+                `;
+                this.progressMessage = this.progress.lastElementChild;
+            }
+        }
+        clearProgress() {
+            this.progress.innerHTML = ``;
+            this.progressMessage = null;
+        }
+        setOverallProgress(message) {
+            this.overallProgress.textContent = message;
+        }
+        clear() {
+            this.progress.innerHTML = ``;
+            this.progressMessage = null;
+            this.overallProgress.textContent = ``;
+            this.scrollable.innerHTML = ``;
+        }
+    }
+
+    class Process {
+        constructor(details) {
+            this.popupDetails = details.popup;
+            this.init = details.init;
+            this.requests = details.requests;
+            this.urls = details.urls;
+            if (details.button) {
+                this.button = details.button;
+            } else {
+                this.button = createHeadingButton(details.headingButton);
+            }
+            this.button.addEventListener(`click`, this.openPopup.bind(this));
+        }
+        async openPopup() {
+            if (this.popup) {
+                this.open();
+                return;
+            }
+            this.popupDetails.buttons = [
+                {
+                    color1: `green`,
+                    color2: `red`,
+                    icon1: `fa-arrow-circle-right`,
+                    icon2: `fa-times-circle`,
+                    title1: `Start`,
+                    title2: `Stop`,
+                    callback1: this.start.bind(this),
+                    callback2: this.stop.bind(this)
+                }
+            ];
+            this.popup = new Popup_v2(this.popupDetails);
+            this.popup.open();
+            if (this.urls) {
+                this.index = 0;
+                this.perLoad = this.urls.perLoad;
+                this.items = [];
+                await this.urls.init.call(this);
+                this.total = this.items.length;
+                this.popup.triggerButton(0);
+            }
+            if (esgst[`es_${this.urls.id}`]) {
+                this.popup.scrollable.addEventListener(`scroll`, () => {
+                    if (this.popup.scrollable.scrollTop + this.popup.scrollable.offsetHeight >= this.popup.scrollable.scrollHeight && !this.popup.isButtonBusy(0)) {
+                        this.popup.triggerButton(0);
+                    }
+                });
+            }
+        }
+        async start() {
+            this.button.classList.add(`esgst-busy`);
+            this.isCanceled = false;
+
+            if (!this.urls) {
+                this.popup.clear();
+            }
+
+            if (this.init && (await this.init.call(this))) {
+                this.button.classList.remove(`esgst-busy`);
+                return;
+            }
+
+            if (this.urls) {
+                await this.requestNextUrl(this.urls.request);
+            } else {
+                for (let i = 0, n = this.requests.length; !this.isCanceled && i < n; i++) {
+                    await this.request(this.requests[i]);
+                }
+            }
+
+            this.button.classList.remove(`esgst-busy`);
+            this.popup.clearProgress();
+        }
+        stop() {
+            this.isCanceled = true;
+        }
+        async requestNextUrl(details) {
+            if (this.index >= this.total) {
+                this.popup.removeButton(0);
+                return;
+            }
+            this.popup.setProgress(`Loading more...`);
+            this.popup.setOverallProgress(`${this.index} of ${this.total} loaded.`);
+            this.context = this.mainContext ? insertHtml(this.mainContext, `beforeEnd`, this.contextHtml) : this.popup.getScrollable();
+            let i = 0;
+            while (!this.isCanceled && (i < this.perLoad || (esgst[`es_${this.urls.id}`] && this.popup.scrollable.scrollHeight <= this.popup.scrollable.offsetHeight))) {
+                let url = this.items[this.index];
+                if (!url) break;
+                let response = await request({method: `GET`, queue: details.queue, url: this.items[this.index]});
+                let responseHtml = parseHtml(response.responseText);
+                await details.request.call(this, details, response, responseHtml);
+                i += 1;
+                this.index += 1;
+                this.popup.setOverallProgress(`${this.index} of ${this.total} loaded.`);
+            }
+            if (this.index >= this.total) {
+                this.popup.removeButton(0);
+            }
+            await loadEndlessFeatures(this.context);
+        }
+        async request(details) {
+            if (!details.nextPage) {
+                details.nextPage = 1;
+            }
+            let backup = details.nextPage;
+            details.lastPage = ``;
+            let pagination = null;
+            do {
+                let response = await request({method: `GET`, queue: details.queue, url: `${details.url}${details.nextPage}`});
+                let responseHtml = parseHtml(response.responseText);
+                if (details.source && details.nextPage === 1) {
+                    details.lastPage = getLastPage(responseHtml, false, details.source);
+                    details.lastPage = details.lastPage === 999999999 ? `` : ` of ${details.lastPage}`;
+                }
+                await details.request.call(this, details, response, responseHtml);
+                details.nextPage += 1;
+                pagination = responseHtml.getElementsByClassName(`pagination__navigation`)[0];
+            } while (!this.isCanceled && pagination && !pagination.lastElementChild.classList.contains(esgst.selectedClass));
+            details.nextPage = backup;
+        }
+    }
+
     class ToggleSwitch {
         constructor(context, id, inline, name, sg, st, tooltip, value) {
             this.dependencies = [];
@@ -2102,8 +2413,8 @@ Parsedown = (() => {
             markdownParser: new Parsedown(),
             sg: location.hostname.match(/www.steamgifts.com/),
             st: location.hostname.match(/www.steamtrades.com/),
-            currentVersion: `7.16.4`,
-            devVersion: `7.16.4`,
+            currentVersion: `7.16.5`,
+            devVersion: `7.16.5`,
             icon: `data:image/x-icon;base64,AAABAAEAEBAAAAEAIABoBAAAFgAAACgAAAAQAAAAIAAAAAEAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAqv8DCbP/Hgeq+CQIrf8iCK3/Igit/yIIrf8iB6//Iwit9x8Aqv8DAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAKr0GAa2/c0DvfzfA7f83QO3/N0Dt/zdA7f83QO+/d4Gs/3OAKP1GQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACm/xQFs/n2Bcf//wW///8FwP//BcD//wW///8Fx///BbP69gC2/xUAAAAAAAAAAAAAAAAA/1UDFptOFxSZMxkLpJktAq720QW1+ugEsfvjA7b92wO2/dsEsfvjBbX66Aau/dEoiO4tUlLWGU5k3hdVVf8DEJxKHxWqT8cVrU7uE6VN0guqny0Apv8XAJfQGwBAVywAQFcsAJfQGwCx/xcogugtS2Lk0lBl6u5Qae7ISmPeHxagSSMVr07jF7lV/xOiSu0brgATAAAAAAAAAA8AAAC/AAAAwAAAABAAAAAAYznjEkth4OxWb/3/T2jv40lf4iMXnksiEq1O3RayUv8UpEnkEo0+HQAAABkAAABBAAAA8QAAAPEAAABBAAAAGUBSvxxOYeDjU2v0/05m7d1LYuEiF55LIhKtTt0Ws1L/FahN2gU1FTAAAADAAAAA7AAAAP0AAAD9AAAA7AAAAMAVG0owUGPm2lNr9P9OZu3dS2LhIheeSyISrU7dFrNS/xWoTdoFNRswAAAAvwAAAOsAAAD9AAAA/QAAAOsAAADAFRtKMFBj6NpTa/T/Tmbt3Uti4SIXnksiEq1O3RayUv8UpEnkEo0+HQAAABgAAABAAAAA8QAAAPEAAABBAAAAGT5PuR1OYeDjU2v0/05m7d1LYuEiFqBJIxWuT+QXuVX/E6JL7QC8XhMAAAAAAAAADwAAAL8AAAC/AAAAEAAAAAAOR/8SSWLh7FZv/f9PaO/jSV/iIxCUSh8Vrk7HFqxN7ROlS9JskzMt1XULGK12EhxGLgYsRy8GK612EhzVgAsYgmxxLU1i39JNZ+vtT2fwx0pj1h8AqlUDF65GFgqZUhlsiC0txH0T0s5/EujJgBPkz4QR28+EEdvJgBPkzn8Q6Md+E9KLdHosM1LWGUZo6BZVVf8DAAAAAAAAAAAAAAAA/2YAFMl9EvbgjRb/14gV/9eIFf/XiBX/14gV/9+NFv/KgBD254YAFQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAL91FRjKgRHN1IgU3s+EEt3PhBLdz4QS3c+EEt3UiBTezYMRzcJ6FBkAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACqqgADxIARHr18FiO8eA8ivHgPIrx4DyK8eA8ivXwPI8SAER7/VQADAAAAAAAAAAAAAAAA78cAAPA3AAD4FwAABCAAADGOAAAE+AAAkBEAAJ55AACYOQAAlgEAAER4AAAXaAAATnoAAPgXAAD0JwAA69cAAA==`,
             sgIcon: `data:image/x-icon;base64,AAABAAEAEBAAAAEAIABoBAAAFgAAACgAAAAQAAAAIAAAAAEAIAAAAAAAQAQAABMLAAATCwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIUAAAD5AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAPoAAACFAAAAAAAAAAAAAAD8AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA+QAAAAAAAAAAAAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAAAAAAAAAAAAP8AAAD/AAAA/wAAABwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAcAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAcAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAHAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAAAAAAAAAAAAPwAAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD5AAAAAAAAAAAAAACFAAAA+QAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD5AAAAhQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA//8AAP//AADAAwAAwAMAAMfjAADP8wAAz/MAAM/zAADP8wAAz/MAAM/zAADH4wAAwAMAAMADAAD//wAA//8AAA==`,
             stIcon: `data:image/x-icon;base64,AAABAAEAEBAAAAEAIABoBAAAFgAAACgAAAAQAAAAIAAAAAEAIAAAAAAAQAQAABMLAAATCwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABbD6SgWw+ucFsPrkBbD6SgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAWw+uYFsPr/BbD6/wWw+ucAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAFsPrmBbD6/wWw+v8FsPrmAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABbD6SQWw+uYFsPrmBbD6SQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAFKRLShSkS+cUpEvkFKRLSgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAExi4EpMYuDnTGLg5Exi4EoAAAAAAAAAABSkS+YUpEv/FKRL/xSkS+cAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABMYuDmTGLg/0xi4P9MYuDnAAAAAAAAAAAUpEvmFKRL/xSkS/8UpEvmAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAATGLg5kxi4P9MYuD/TGLg5gAAAAAAAAAAFKRLSRSkS+YUpEvmFKRLSQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAExi4ElMYuDmTGLg5kxi4EkAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAMZ9E0rGfRPnxn0T5MZ9E0oAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADGfRPmxn0T/8Z9E//GfRPnAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAxn0T5sZ9E//GfRP/xn0T5gAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAMZ9E0nGfRPmxn0T5sZ9E0kAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA//8AAPw/AAD8PwAA/D8AAPw/AAD//wAAh+EAAIfhAACH4QAAh+EAAP//AAD8PwAA/D8AAPw/AAD8PwAA//8AAA==`,
@@ -2228,26 +2539,25 @@ Parsedown = (() => {
                 } else {
                     message = `A new ESGST version is available.`;
                 }
-                popup = new Popup(`fa-exclamation`, message, true);
-                if (typeof browser === `undefined`) {
-                    popup.description.appendChild(new ButtonSet(`green`, ``, `fa-download`, ``, `Download .zip`, ``, callback => {
-                        callback();
-                        open(`https://github.com/revilheart/ESGST/releases/download/${version}/extension.zip`);
-                    }).set);
-                    popup.description.appendChild(new ButtonSet(`green`, ``, `fa-refresh`, ``, `Reload Extension`, ``, callback => {
-                        callback();
-                        chrome.runtime.sendMessage({action: `reload`}, () => location.reload());
-                    }).set);
-                }
-                popup.onClose = () => {
-                    setValue(`dismissedVersion`, version);
+                let details = {
+                    icon: `fa-exclamation`,
+                    title: message,
+                    isTemp: true,
+                    onClose: setValue.bind(null, `dismissedVersion`, version)
                 };
-                popup.open();
+                if (typeof browser === `undefined`) {
+                    details.buttons = [
+                        {color1: `green`, color2: `` , icon1: `fa-download`, icon2: ``, title1: `Download .zip`, title2: ``, callback1: open.bind(null, `https://github.com/revilheart/ESGST/releases/download/${version}/extension.zip`)},
+                        {color1: `green`, color2: `` , icon1: `fa-refresh`, icon2: ``, title1: `Reload Extension`, title2: ``, callback1: chrome.runtime.sendMessage.bind(null, {action: `reload`}, location.reload.bind(null))}
+                    ];
+                }
+                new Popup_v2(details).open();
             };
             continueRequest = details => {
                 return new Promise(async (resolve, reject) => {
-                    if (details.url.match(/^\//) || details.url.match(new RegExp(location.hostname))) {
-                        details.url = details.url.replace(/^\//, `https://${location.hostname}/`).replace(/^https?:/, location.href.match(/^http:/) ? `http:` : `https:`);
+                  	let isLocal = details.url.match(/^\//) || details.url.match(new RegExp(location.hostname));
+                    details.url = details.url.replace(/^\//, `https://${location.hostname}/`).replace(/^https?:/, location.href.match(/^http:/) ? `http:` : `https:`);
+                    if (isLocal) {
                         let response = await fetch(details.url, {
                             body: details.data,
                             credentials: details.anon ? `omit` : `include`,
@@ -2275,7 +2585,7 @@ Parsedown = (() => {
                                 method: details.method,
                                 redirect: `follow`
                             }),
-                            url: details.url.replace(/^\//, `https://${location.hostname}/`).replace(/^https?:/, location.href.match(/^http:/) ? `http:` : `https:`)
+                            url: details.url
                         }, response => {
                             response = JSON.parse(response);
                             resolve(response);
@@ -2475,8 +2785,9 @@ Parsedown = (() => {
             };
             continueRequest = details => {
                 return new Promise(async (resolve, reject) => {
-                    if (details.url.match(/^\//) || details.url.match(new RegExp(location.hostname))) {
-                        details.url = details.url.replace(/^https?:/, location.href.match(/^http:/) ? `http:` : `https:`);
+                  	let isLocal = details.url.match(/^\//) || details.url.match(new RegExp(location.hostname));
+                    details.url = details.url.replace(/^\//, `https://${location.hostname}/`).replace(/^https?:/, location.href.match(/^http:/) ? `http:` : `https:`);
+                    if (isLocal) {
                         let response = await fetch(details.url, {
                             body: details.data,
                             credentials: details.anon ? `omit` : `include`,
@@ -6900,10 +7211,10 @@ Parsedown = (() => {
             esgst.giveawayColumns_gv = esgst.settings.giveawayColumns_gv;
             esgst.settingsChanged = true;
         }
-        if (document.readyState === `interactive`) {
-            loadEsgst(toDelete, toSet);
-        } else {
+        if (document.readyState === `loading`) {
             document.addEventListener(`DOMContentLoaded`, loadEsgst.bind(null, toDelete, toSet));
+        } else {
+            loadEsgst(toDelete, toSet);
         }
     }
 
@@ -7685,20 +7996,6 @@ Parsedown = (() => {
     /* [AIC] Attached Image Carousel */
 
     function loadAic() {
-        let key, position;
-        if (esgst.leftButtonIds.indexOf(`aic`) > -1) {
-            key = `leftButtons`;
-            position = `afterBegin`;
-        } else {
-            key = `rightButtons`;
-            position = `beforeEnd`;
-        }
-        esgst.aicButton = insertHtml(esgst.hideButtons && esgst.hideButtons_aic ? esgst[key] : esgst.mainPageHeading, position, `
-            <div class="esgst-heading-button esgst-hidden" id="esgst-aic" title="${getFeatureTooltip(`aic`, `View attached images`)}">
-                <i class="fa fa-image"></i>
-            </div>
-        `);
-        esgst.aicButton.addEventListener(`click`, openAicCarousel.bind(null, 0, null));
         document.addEventListener(`keydown`, event => {
             if (event.key === `ArrowLeft` && esgst.aicPrevious) {
                 esgst.aicPrevious.click();
@@ -7707,6 +8004,10 @@ Parsedown = (() => {
                 esgst.aicNext.click();
             }
         });
+        if (!esgst.mainPageHeading) return;
+        esgst.aicButton = createHeadingButton({id: `aic`, icons: [`fa-image`], title: `View attached images`});
+        esgst.aicButton.classList.add(`esgst-hidden`);
+        esgst.aicButton.addEventListener(`click`, openAicCarousel.bind(null, 0, null));
     }
 
     function getAicImages(context) {
@@ -7729,7 +8030,7 @@ Parsedown = (() => {
             });
             found = true;
         }
-        if (!found) return;
+        if (!found || !esgst.aicButton || (context.getAttribute && context.getAttribute(`data-esgst-qiv`))) return;
         esgst.aicButton.classList.remove(`esgst-hidden`);
     }
 
@@ -7937,102 +8238,79 @@ Parsedown = (() => {
     function loadAs() {
         if (!esgst.archivePath) return;
 
-        let [key, position] = esgst.leftButtonIds.indexOf(`as`) > -1 ? [`leftButtons`, `afterBegin`] : [`rightButtons`, `beforeEnd`];
         let category = location.pathname.match(/^\/archive\/(coming-soon|open|closed|deleted)/);
-        let object = {
-            button: insertHtml(esgst.hideButtons && esgst.hideButtons_as ? esgst[key] : esgst.mainPageHeading, position, `
-                <div class="esgst-heading-button" id="esgst-as" title="${getFeatureTooltip(`as`, `Search archive`)}">
-                    <i class="fa fa-folder"></i>
-                    <i class="fa fa-search"></i>
-                </div>
-            `),
-            popup: new Popup(`fa-folder`, `Search archive${category ? ` for ${category[1]} giveaways` : ``}:`)
-        };
-        object.popup.queryInput = insertHtml(object.popup.scrollable, `beforeBegin`, `<input placeholder="Title/app id" type="text">`);
-        insertHtml(object.popup.scrollable, `beforeBegin`, `<div></div>`).appendChild(createOptions([{
-            check: true,
-            description: `Search by AppID.`,
-            id: `as_searchAppId`,
-            tooltip: `If unchecked, a search by exact title will be performed.`
-        }]));
-        object.popup.description.insertBefore(new ButtonSet_v2({color1: `green`, color2: `grey`, icon1: `fa-search`, icon2: `fa-times-circle`, title1: `Search`, title2: `Cancel`, callback1: startAsProcess.bind(object), callback2: stopAsProcess.bind(object)}).set, object.popup.scrollable);
-        object.popup.progress = insertHtml(object.popup.scrollable, `beforeBegin`, `<div></div>`);
-        object.popup.overallProgress = insertHtml(object.popup.scrollable, `beforeBegin`, `<div></div>`);
-        object.popup.results = insertHtml(object.popup.scrollable, `beforeEnd`, `<div></div>`);
-        object.button.addEventListener(`click`, object.popup.open.bind(object.popup, object.popup.queryInput.focus.bind(object.popup.queryInput)));
+        new Process({
+            headingButton: {
+                id: `as`,
+                icons: [`fa-folder`, `fa-search`],
+                title: `Search archive`
+            },
+            popup: {
+                icon: `fa-folder`,
+                title: `Search archive${category ? ` for ${category[1]} giveaways` : ``}:`,
+                options: [
+                    {
+                        check: true,
+                        description: `Search by AppID.`,
+                        id: `as_searchAppId`,
+                        tooltip: `If unchecked, a search by exact title will be performed.`
+                    }
+                ],
+                textInputs: [
+                    {
+                        placeholder: `Title/app id`
+                    }
+                ],
+                addProgress: true,
+                addScrollable: `left`
+            },
+            init: initAs,
+            requests: [
+                {
+                    request: getAsRequest
+                }
+            ]
+        });
     }
 
-    async function startAsProcess() {
-        let query = this.popup.queryInput.value;
-        if (!query) {
-            this.popup.progress.innerHTML = `
-                <i class="fa fa-times-circle"></i>
-                <span>Please enter a title / AppID.</span>
-            `;
-            return;
+    async function initAs() {
+        this.query = this.popup.getTextInputValue(0);
+        if (!this.query) {
+            this.popup.setError(`Please enter a title/app id.`);
+            return true;
         }
-
-        this.isCanceled = false;
-        this.button.classList.add(`esgst-busy`);
-        this.popup.progress.innerHTML = this.popup.overallProgress.innerHTML = this.popup.results.innerHTML = ``;
 
         // retrieve the game title from Steam
         if (esgst.as_searchAppId) {
-            this.popup.progress.innerHTML = `
-                <i class="fa fa-circle-o-notch fa-spin"></i>
-                <span>Retrieving game title...</span>
-            `;
-            let title = parseHtml((await request({method: `GET`, url: `https://steamcommunity.com/app/${query}`})).responseText).getElementsByClassName(`apphub_AppName`)[0];
+            this.popup.setProgress(`Retrieving game title...`);
+            let title = parseHtml((await request({method: `GET`, url: `https://steamcommunity.com/app/${this.query}`})).responseText).getElementsByClassName(`apphub_AppName`)[0];
             if (title) {
-                query = title.textContent;
+                this.query = title.textContent;
             } else {
                 this.button.classList.remove(`esgst-busy`);
-                this.popup.progress.innerHTML = `
-                    <i class="fa fa-times-circle"></i>
-                    <span>Game title not found. Make sure you are entering a valid AppID. For example, 229580 is the AppID for Dream (http://steamcommunity.com/app/229580).</span>
-                `;
-                return;
+                this.popup.setError(`Game title not found. Make sure you are entering a valid AppID. For example, 229580 is the AppID for Dream (http://steamcommunity.com/app/229580).`);
+                return true;
             }
         }
-
-        if (this.isCanceled) return;
-
-        // search for the game
-        query = ((query.length >= 50) ? query.slice(0, 50) : query).toLowerCase();
-        let nextPage = 1;
-        let pagination = null;
-        let total = 0;
-        let url = `${location.href.match(/(.+?)(\/search.+?)?$/)[1]}/search?q=${encodeURIComponent(query)}&page=`;
-        do {
-            this.popup.progress.innerHTML = `
-                <i class="fa fa-circle-o-notch fa-spin"></i>
-                <span>Loading page ${nextPage}...</span>
-            `;
-            this.popup.overallProgress.textContent = `${total} giveaways found...`;
-            let responseHtml = parseHtml((await request({method: `GET`, queue: true, url: `${url}${nextPage}`})).responseText);
-            let context = insertHtml(this.popup.results, `beforeEnd`, `
-                <div></div>
-            `);
-            let elements = responseHtml.getElementsByClassName(`table__row-outer-wrap`);
-            for (let i = 0, n = elements.length; i < n; i++) {
-                let element = elements[i];
-                if (element.getElementsByClassName(`table__column__heading`)[0].textContent.match(/(.+?)( \(.+ Copies\))?$/)[1].toLowerCase() === query) {
-                    context.appendChild(element.cloneNode(true));
-                    total += 1;
-                }
-            }
-            await loadEndlessFeatures(context);
-            nextPage += 1;
-            pagination = responseHtml.getElementsByClassName(`pagination__navigation`)[0];
-        } while (!this.isCanceled && pagination && !pagination.lastElementChild.classList.contains(`is-selected`));
-
-        this.button.classList.remove(`esgst-busy`);
-        this.popup.progress.innerHTML = ``;
+        this.query = ((this.query.length >= 50) ? this.query.slice(0, 50) : this.query).toLowerCase();
+        this.total = 0;
+        this.requests[0].url = `${location.href.match(/(.+?)(\/search.+?)?$/)[1]}/search?q=${encodeURIComponent(this.query)}&page=`;
     }
 
-    function stopAsProcess() {
-        this.button.classList.remove(`esgst-busy`);
-        this.isCanceled = true;
+    async function getAsRequest(details, response, responseHtml) {
+        this.popup.setProgress(`Loading page ${details.nextPage}...`);
+        this.popup.setOverallProgress(`${this.total} giveaways found...`);
+        let context = this.popup.getScrollable();
+        let elements = responseHtml.getElementsByClassName(`table__row-outer-wrap`);
+        for (let i = 0, n = elements.length; i < n; i++) {
+            let element = elements[i];
+            if (element.getElementsByClassName(`table__column__heading`)[0].textContent.match(/(.+?)( \(.+ Copies\))?$/)[1].toLowerCase() === this.query) {
+                context.appendChild(element.cloneNode(true));
+                this.total += 1;
+            }
+        }
+        this.popup.setOverallProgress(`${this.total} giveaways found...`);
+        await loadEndlessFeatures(context);
     }
 
     /* [AT] Accurate Timestamp */
@@ -8117,15 +8395,8 @@ Parsedown = (() => {
     function loadCec() {
         if (!esgst.giveawayPath || !esgst.mainPageHeading) return;
 
-        let [key, position] = esgst.leftButtonIds.indexOf(`cec`) > -1 ? [`leftButtons`, `afterBegin`] : [`rightButtons`, `beforeEnd`];
         let object = {
-            button: insertHtml(esgst.hideButtons && esgst.hideButtons_cec ? esgst[key] : esgst.mainPageHeading, position, `
-                <div class="esgst-heading-button" id="esgst-cec" title="${getFeatureTooltip(`cec`, `Check comments/entries`)}">
-                    <i class="fa fa-comments"></i>
-                    <i class="fa fa-ticket"></i>
-                    <i class="fa fa-question-circle"></i>
-                </div>
-            `)
+            button: createHeadingButton({id: `cec`, icons: [`fa-comments`, `fa-ticket`, `fa-question-circle`], title: `Check comments/entries`})
         };
         object.button.addEventListener(`click`, openCecPopup.bind(object));
     }
@@ -8135,12 +8406,26 @@ Parsedown = (() => {
             this.popup.open();
             return;
         }
-        this.popup = new Popup(`fa-question`, `Check Comments/Entries`);
-        this.set = new ButtonSet_v2({color1: `green`, color2: `grey`, icon1: `fa-arrow-right`, icon2: `fa-times`, title1: `Check`, title2: `Cancel`, callback1: startCecProcess.bind(this), callback2: stopCecProcess.bind(this)});
-        this.popup.description.insertBefore(this.set.set, this.popup.scrollable);
-        this.popup.progress = insertHtml(this.popup.scrollable, `beforeBegin`, `<div></div>`);
+        this.popup = new Popup_v2({
+            icon: `fa-question`,
+            title: `Check Comments/Entries`,
+            buttons: [
+                {
+                    color1: `green`,
+                    color2: `grey`,
+                    icon1: `fa-arrow-right`,
+                    icon2: `fa-times`,
+                    title1: `Check`,
+                    title2: `Cancel`,
+                    callback1: startCecProcess.bind(this),
+                    callback2: stopCecProcess.bind(this)
+                }
+            ],
+            addProgress: true,
+            addScrollable: true
+        });
         this.popup.open();
-        this.set.trigger();
+        this.popup.triggerButton(0);
     }
 
     async function startCecProcess() {
@@ -8155,10 +8440,7 @@ Parsedown = (() => {
             let pagination = null;
             let url = urls[i];
             do {
-                this.popup.progress.innerHTML = `
-                    <i class="fa fa-circle-o-notch fa-spin"></i>
-                    <span>Retrieving ${i > 0 ? `bumps ` : `comments `} (page ${nextPage})...</span>
-                `;
+                this.popup.setProgress(`Retrieving ${i > 0 ? `bumps ` : `comments `} (page ${nextPage})...</span>`);
                 let response = await request({method: `GET`, queue: true, url: `${url}${nextPage}`});
                 let responseHtml = parseHtml(response.responseText);
                 let elements = responseHtml.querySelectorAll(`.comment:not(.comment--submit) .comment__username:not(.comment__username--op):not(.comment__username--deleted)`);
@@ -8189,10 +8471,7 @@ Parsedown = (() => {
         let pagination = null;
         let url = urls[0].replace(/search\?page=/, `entries/search?page=`);
         do {
-            this.popup.progress.innerHTML = `
-                <i class="fa fa-circle-o-notch fa-spin"></i>
-                <span>Retrieving entries (page ${nextPage})...</span>
-            `;
+            this.popup.setProgress(`Retrieving entries (page ${nextPage})...`);
             let responseHtml = parseHtml((await request({method: `GET`, queue: true, url: `${url}${nextPage}`})).responseText);
             let elements = responseHtml.getElementsByClassName(`table__column__heading`);
             for (let i = elements.length - 1; i > -1; i--) {
@@ -8204,9 +8483,9 @@ Parsedown = (() => {
 
         if (this.isCanceled) return;
 
-        this.set.set.remove();
+        this.popup.removeButton(0);
         this.button.classList.remove(`esgst-busy`);
-        this.popup.progress.innerHTML = ``;
+        this.popup.clearProgress();
 
         // calculate data
         comments = sortArray(Array.from(new Set(comments)));
@@ -8231,7 +8510,7 @@ Parsedown = (() => {
                 total += 1;
             }
         });
-        this.popup.scrollable.insertAdjacentHTML(`beforeEnd`, `
+        this.popup.setScrollable(`
             ${both.length > 0 ? `
                 <div>
                     <span class="esgst-bold">${both.length} user${both.length > 1 ? `s` : ``} commented and entered (${Math.round(both.length / total * 10000) / 100}%):</span> ${both.join(`, `)}
@@ -8252,7 +8531,7 @@ Parsedown = (() => {
 
     function stopCecProcess() {
         this.button.classList.remove(`esgst-busy`);
-        this.popup.progress.innerHTML = ``;
+        this.popup.clearProgress();
         this.isCanceled = true;
     }
 
@@ -8532,9 +8811,8 @@ Parsedown = (() => {
                     winner = details.winners[0].username;
                     winnersColumn.innerHTML = `<a class="table__column__secondary-link" href="/user/${winner}">${winner}</a> <span class="esgst-clickable table__column__secondary-link">(+${n - 1} more)</span>`;
                     winnersColumn.lastElementChild.addEventListener(`click`, () => {
-                        let html, popup;
-                        popup = new Popup(`fa-users`, `Winners`);
-                        html = `
+                        let popup = new Popup_v2({icon: `fa-users`, title: `Winners`, addScrollable: `left`});
+                        let html = `
                             <div class="table__heading">
                                 <div class="table__column--width-small">Winner</div>
                                 <div class="table__column--width-small">Received</div>
@@ -8562,9 +8840,8 @@ Parsedown = (() => {
                         html += `
                             </div>
                         `;
-                        popup.scrollable.innerHTML = html;
                         popup.open();
-                        loadEndlessFeatures(popup.scrollable);
+                        loadEndlessFeatures(popup.getScrollable(html));
                     });
                     let received = 0;
                     details.winners.forEach(winner => {
@@ -8833,18 +9110,17 @@ Parsedown = (() => {
                     emojis.nextElementSibling.addEventListener(`click`, async () => {
                         if (popup) {
                             popup.open(() => {
-                                popout.popout.classList.add(`esgst-hidden`);
+                                popout.popout.classList.add(`esgst-hidden`)
                             });
                         } else {
                             let emoji, emojis, filter, i;
-                            popup = new Popup(`fa-smile-o`, `Select emojis:`);
-                            popup.scrollable.insertAdjacentHTML(`afterBegin`, `
+                            popup = new Popup_v2({icon: `fa-smile-o`, title: `Select emojis:`, addScrollable: true});
+                            filter = popup.getScrollable(`
                                 <input placeholder="Filter emojis..." type="text"/>
                                 <div class="esgst-cfh-emojis"></div>
                                 <div class="esgst-description">Drag the emojis you want to use and drop them in the box below. Click on an emoji to remove it.</div>
                                 <div class="global__image-outer-wrap page_heading_btn esgst-cfh-emojis">${await getValue(`emojis`, ``)}</div>
-                            `);
-                            filter = popup.scrollable.firstElementChild;
+                            `).firstElementChild;
                             emojis = filter.nextElementSibling;
                             [
                                 {emoji: `&#xAF;&#92;&#92;&#92;&#95;&#40;&#x30C4;&#41;&#95;&#47;&#xAF;`, name: ``},
@@ -11307,7 +11583,7 @@ Parsedown = (() => {
                                 }
                             });
                             popup.open(() => {
-                                popout.popout.classList.add(`esgst-hidden`);
+                                popout.popout.classList.add(`esgst-hidden`)
                             });
                         }
                     });
@@ -11952,46 +12228,77 @@ Parsedown = (() => {
     /* [CH] Comment History */
 
     function loadCh() {
-        setSMCommentHistory(insertHtml(esgst.sg ? esgst.mainButton.parentElement.getElementsByClassName(`nav__absolute-dropdown`)[0].lastElementChild : esgst.mainButton.parentElement.getElementsByClassName(`dropdown`)[0].firstElementChild.lastElementChild, `beforeBegin`, `
-            <div class="esgst-header-menu-row" data-link-id="ch" data-link-key="account" title="${getFeatureTooltip(`ch`)}">
-                <i class="fa fa-fw fa-comments yellow"></i>
-                <div>
-                    <p class="esgst-header-menu-name">My Comment History</p>
-                    <p class="esgst-header-menu-description">View your comment history.</p>
+        new Process({
+            button: insertHtml(esgst.sg ? esgst.mainButton.parentElement.getElementsByClassName(`nav__absolute-dropdown`)[0].lastElementChild : esgst.mainButton.parentElement.getElementsByClassName(`dropdown`)[0].firstElementChild.lastElementChild, `beforeBegin`, `
+                <div class="esgst-header-menu-row" data-link-id="ch" data-link-key="account" title="${getFeatureTooltip(`ch`)}">
+                    <i class="fa fa-fw fa-comments yellow"></i>
+                    <div>
+                        <p class="esgst-header-menu-name">My Comment History</p>
+                        <p class="esgst-header-menu-description">View your comment history.</p>
+                    </div>
                 </div>
-            </div>
-        `));
-    }
-
-    function setSMCommentHistory(SMCommentHistory) {
-        SMCommentHistory.addEventListener(`click`, async function () {
-            var comments, i, popup, set;
-            popup = new Popup(`fa-comments`, `Comment History`);
-            popup.commentHistory = insertHtml(popup.scrollable, `afterBegin`, `<div class="comments esgst-text-left"></div>`);
-            comments = JSON.parse(await getValue(`${esgst.name}CommentHistory`, `[]`));
-            i = 0;
-            set = new ButtonSet(`green`, `grey`, `fa-plus`, `fa-circle-o-notch fa-spin`, `Load more...`, `Loading more...`, function (callback) {
-                getChComments(comments, i, i + 5, popup, function (value) {
-                    i = value;
-                    if (i > comments.length) {
-                        set.set.remove();
-                    } else if (esgst.es_ch && popup.scrollable.scrollHeight <= popup.scrollable.offsetHeight) {
-                        set.trigger();
-                    }
-                    callback();
-                });
-            });
-            popup.description.appendChild(set.set);
-            popup.open();
-            set.trigger();
-            if (esgst.es_ch) {
-                popup.scrollable.addEventListener(`scroll`, function () {
-                    if ((popup.scrollable.scrollTop + popup.scrollable.offsetHeight) >= popup.scrollable.scrollHeight && !set.busy) {
-                        set.trigger();
-                    }
-                });
+            `),
+            popup: {
+                icon: `fa-comments`,
+                title: `Comment History`,
+                addProgress: true,
+                addScrollable: `left`
+            },
+            urls: {
+                id: `ch`,
+                init: initChUrls,
+                perLoad: 5,
+                request: {
+                    request: getChUrlRequest
+                }
             }
         });
+    }
+
+    async function initChUrls() {
+        this.ids = [];
+        let comments = JSON.parse(await getValue(`${esgst.name}CommentHistory`, `[]`));
+        for (let i = 0, n = comments.length; i < n; i++) {
+            this.ids.push(comments[i].id);
+            this.items.push(`https://${location.hostname}/go/comment/${comments[i].id}`);
+        }
+    }
+
+    function getChUrlRequest(details, response, responseHtml) {
+        let comment = responseHtml.getElementById(this.ids[this.index]);
+        if (esgst.sg) {
+            comment = comment.closest(`.comment`);
+            comment.firstElementChild.classList.remove(`comment__parent`);
+            comment.firstElementChild.classList.add(`comment__child`);
+        }
+        comment.lastElementChild.remove();
+        let parent = comment.parentElement.closest(`.comment, .comment_outer`);
+        let html = ``;
+        if (parent) {
+            parent.lastElementChild.remove();
+            parent.insertAdjacentHTML(`beforeEnd`, `
+                <div class="comment__children comment_children">${comment.outerHTML}</div>
+            `);
+            html += parent.outerHTML;
+        } else {
+            if (esgst.st) {
+                comment.getElementsByClassName(`action_list`)[0].firstElementChild.insertAdjacentHTML(`afterEnd`, `
+                    <a href="${response.finalUrl}">${responseHtml.title}</a>
+                `);
+            }
+            html += esgst.sg ? `
+                <div class="comments__entity">
+                    <p class="comments__entity__name">
+                        <a href="${response.finalUrl}">${responseHtml.title}</a>
+                    </p>
+                </div>` : ``;
+            html += `
+                <div class="comment__children comment_children">${comment.outerHTML}</div>
+            `;
+        }
+        this.context.insertAdjacentHTML(`beforeEnd`, `
+            <div class="comment comments comment_outer">${html}</div>
+        `);
     }
 
     async function saveChComment(id, timestamp) {
@@ -12004,54 +12311,6 @@ Parsedown = (() => {
         });
         await setValue(key, JSON.stringify(comments));
         deleteLock();
-    }
-
-    async function getChComments(comments, i, n, popup, callback) {
-        var comment, id;
-        if (i < n) {
-            comment = comments[i];
-            if (comment) {
-                id = comment.id;
-                let response = await request({method: `GET`, url: `https://${location.hostname}/go/comment/${id}`});
-                var html, parent, responseHtml;
-                responseHtml = parseHtml(response.responseText);
-                comment = responseHtml.getElementById(id);
-                if (esgst.sg) {
-                    comment = comment.closest(`.comment`);
-                    comment.firstElementChild.classList.remove(`comment__parent`);
-                    comment.firstElementChild.classList.add(`comment__child`);
-                }
-                comment.lastElementChild.remove();
-                parent = comment.parentElement.closest(`.comment, .comment_outer`);
-                if (parent) {
-                    parent.lastElementChild.remove();
-                    parent.insertAdjacentHTML(`beforeEnd`, `
-                        <div class="comment__children comment_children">${comment.outerHTML}</div>
-                    `);
-                    html = parent.outerHTML;
-                } else {
-                    if (esgst.st) {
-                        comment.getElementsByClassName(`action_list`)[0].firstElementChild.insertAdjacentHTML(`afterEnd`, `
-                            <a href="${response.finalUrl}">${responseHtml.title}</a>
-                        `);
-                    }
-                    html = esgst.sg ? `
-                        <div class="comments__entity">
-                            <p class="comments__entity__name">
-                                <a href="${response.finalUrl}">${responseHtml.title}</a>
-                            </p>
-                        </div>` : ``;
-                    html += `<div class="comment__children comment_children">${comment.outerHTML}</div>`;
-                }
-                popup.commentHistory.insertAdjacentHTML(`beforeEnd`, `<div class="comment comments comment_outer">${html}</div>`);
-                await loadEndlessFeatures(popup.commentHistory.lastElementChild);
-                setTimeout(getChComments, 0, comments, ++i, n, popup, callback);
-            } else {
-                callback(i + 1);
-            }
-        } else {
-            callback(i);
-        }
     }
 
     /* [CHFL] Custom Header/Footer Links */
@@ -12493,138 +12752,96 @@ Parsedown = (() => {
 
     function loadCs() {
         if (!esgst.commentsPath || (esgst.giveawayPath && document.getElementsByClassName(`table--summary`)[0])) return;
-        let key, position;
-        if (esgst.leftButtonIds.indexOf(`cs`) > -1) {
-            key = `leftButtons`;
-            position = `afterBegin`;
-        } else {
-            key = `rightButtons`;
-            position = `beforeEnd`;
-        }
-        let button = insertHtml(esgst.hideButtons && esgst.hideButtons_cs ? esgst[key] : esgst.mainPageHeading, position, `
-            <div class="esgst-heading-button" id="esgst-cs" title="${getFeatureTooltip(`cs`, `Search comments from specific users`)}">
-                <i class="fa fa-comments"></i>
-                <i class="fa fa-search"></i>
-            </div>
-        `);
-        button.addEventListener(`click`, openCsPopup.bind(null, {button}));
+        new Process({
+            headingButton: {
+                id: `cs`,
+                icons: [`fa-comments`, `fa-search`],
+                title: `Search comments from specific users`
+            },
+            popup: {
+                icon: `fa-comments`,
+                title: `Search comments from specific users:`,
+                textInputs: [
+                    {
+                        placeholder: `username1, username2, ...`
+                    }
+                ],
+                addProgress: true,
+                addScrollable: `left`
+            },
+            init: initCs,
+            requests: [
+                {
+                    source: esgst.discussionPath,
+                    url: esgst.searchUrl,
+                    request: getCsRequest
+                }
+            ]
+        });
     }
 
-    function openCsPopup(cs) {
-        if (!cs.popup) {
-            cs.popup = new Popup(`fa-comments` , `Search comments from specific users:`);
-            cs.input = insertHtml(cs.popup.description, `afterBegin`, `<input type="text" placeholder="username1, username2, ..."/>`);
-            cs.input.addEventListener(`keydown`, triggerCsInput.bind(null, cs));
-            cs.results = insertHtml(cs.popup.scrollable, `beforeEnd`, `<div class="esgst-text-left"></div>`);
-            cs.set = new ButtonSet(`green`, `grey`, `fa-search`, `fa-times`, `Search`, `Cancel`, startCsSearch.bind(null, cs), cancelCsSearch.bind(null, cs));
-            cs.popup.description.appendChild(cs.set.set);
-            cs.progress = insertHtml(cs.popup.description, `beforeEnd`, `<div></div>`);
-        }
-        cs.popup.open(focusCsInput.bind(null, cs));
-    }
-
-    function focusCsInput(cs) {
-        cs.input.focus();
-    }
-
-    function triggerCsInput(cs, event) {
-        if (event.key === `Enter`) {
-            cs.set.trigger();
-        }
-    }
-
-    function startCsSearch(cs, callback) {
-        var cache, csCache;
-        cs.canceled = false;
-        cs.button.classList.add(`esgst-busy`);
-        cs.results.innerHTML = ``;
-        cs.usernames = cs.input.value.toLowerCase().replace(/(,\s*)+/g, function (match, p1, offset, string) {
+    function initCs() {
+        this.usernames = this.popup.getTextInputValue(0).toLowerCase().replace(/(,\s*)+/g, function (match, p1, offset, string) {
             return (((offset === 0) || (offset === (string.length - match.length))) ? `` : `, `);
         }).split(`, `);
-        match = location.pathname.match(/^\/(giveaway|discussion|support\/ticket|trade)\/(.+?)\//);
-        cs.code = match[2];
-        cs.type = match[1];
-        cs.title = esgst.originalTitle.replace(/\s-\sPage\s\d+/, ``);
-        searchCsComments(cs, 1, esgst.searchUrl, completeCsSearch.bind(null, cs, callback));
+        let match = location.pathname.match(/^\/(giveaway|discussion|support\/ticket|trade)\/(.+?)\//);
+        this.code = match[2];
+        this.type = match[1];
+        this.title = esgst.originalTitle.replace(/\s-\sPage\s\d+/, ``);
+        this.results = 0;
     }
 
-    async function searchCsComments(cs, nextPage, url, callback) {
-        if (cs.canceled) return;
-        getNextCsPage(cs, nextPage, url, callback, await request({method: `GET`, url: `${url}${nextPage}`}));
-    }
-
-    function getNextCsPage(cs, nextPage, url, callback, response) {
-        var comments, element, elements, html, i, n, pagination, parent;
-        if (!cs.canceled) {
-            responseHtml = parseHtml(response.responseText);
-            if (nextPage === 1) {
-                cs.lastPage = getLastPage(responseHtml, false, esgst.discussionPath);
-                cs.lastPage = cs.lastPage === 999999999 ? `` : ` of ${cs.lastPage}`;
+    async function getCsRequest(details, response, responseHtml) {
+        this.popup.setProgress(`Searching comments (page ${details.nextPage}${details.lastPage})..`);
+        this.popup.setOverallProgress(`${this.results} results found.`);
+        let comments = responseHtml.getElementsByClassName(`comments`);
+        let elements = (comments[1] || comments[0]).querySelectorAll(`.comment:not(.comment--submit), .comment_outer`);
+        let context = this.popup.getScrollable();
+        for (let i = 0, n = elements.length; i < n; i++) {
+            let element = elements[i];
+            if (esgst.sg) {
+                element.firstElementChild.classList.remove(`comment__parent`);
+                element.firstElementChild.classList.add(`comment__child`);
             }
-            cs.progress.innerHTML = `
-                <i class="fa fa-circle-o-notch fa-spin"></i>
-                <span>Searching comments (page ${nextPage - 1}${cs.lastPage})...</span>
+            let parent = element.parentElement.closest(`.comment, .comment_outer`);
+            element = element.cloneNode(true);
+            element.lastElementChild.innerHTML = ``;
+            let html = `
+                <div class="comment comments comment_outer">
             `;
-            comments = responseHtml.getElementsByClassName(`comments`);
-            comments = comments[1] || comments[0];
-            elements = comments.querySelectorAll(`.comment:not(.comment--submit), .comment_outer`);
-            for (i = 0, n = elements.length; i < n; ++i) {
-                element = elements[i];
-                if (esgst.sg) {
-                    element.firstElementChild.classList.remove(`comment__parent`);
-                    element.firstElementChild.classList.add(`comment__child`);
-                }
-                parent = element.parentElement.closest(`.comment, .comment_outer`);
-                element = element.cloneNode(true);
-                element.lastElementChild.innerHTML = ``;
-                html = `<div class="comment comments comment_outer">`;
-                if (parent) {
-                    parent = parent.cloneNode(true);
-                    parent.lastElementChild.remove();
-                    parent.insertAdjacentHTML(`beforeEnd`, `
-                        <div class="comment__children comment_children">${element.outerHTML}</div>
-                    `);
-                    html += parent.outerHTML;
-                } else {
-                    if (esgst.st) {
-                        element.getElementsByClassName(`action_list`)[0].firstElementChild.insertAdjacentHTML(`afterEnd`, `
-                            <a href="/${cs.type}/${cs.code}/">${cs.title} - Page ${nextPage}</a>
-                        `);
-                    }
-                    html += esgst.sg ? `
-                        <div class="comments__entity">
-                            <p class="comments__entity__name">
-                                <a href="/${cs.type}/${cs.code}/">${cs.title} - Page ${nextPage}</a>
-                            </p>
-                        </div>` : ``;
-                    html += `<div class="comment__children comment_children">${element.outerHTML}</div>`;
-                }
-                html += `</div>`;
-                if (cs.usernames.indexOf(element.querySelector(`.comment__username, .author_name`).textContent.trim().toLowerCase()) >= 0) {
-                    cs.results.insertAdjacentHTML(`beforeEnd`, html);
-                }
-            }
-            pagination = responseHtml.getElementsByClassName(`pagination__navigation`)[0];
-            if (pagination && !pagination.lastElementChild.classList.contains(esgst.selectedClass)) {
-                setTimeout(searchCsComments, 0, cs, ++nextPage, url, callback);
+            if (parent) {
+                parent = parent.cloneNode(true);
+                parent.lastElementChild.remove();
+                parent.insertAdjacentHTML(`beforeEnd`, `
+                    <div class="comment__children comment_children">${element.outerHTML}</div>
+                `);
+                html += parent.outerHTML;
             } else {
-                callback();
+                if (esgst.st) {
+                    element.getElementsByClassName(`action_list`)[0].firstElementChild.insertAdjacentHTML(`afterEnd`, `
+                        <a href="/${this.type}/${this.code}/">${this.title} - Page ${details.nextPage}</a>
+                    `);
+                }
+                html += esgst.sg ? `
+                    <div class="comments__entity">
+                        <p class="comments__entity__name">
+                            <a href="/${this.type}/${this.code}/">${this.title} - Page ${details.nextPage}</a>
+                        </p>
+                    </div>` : ``;
+                html += `
+                    <div class="comment__children comment_children">${element.outerHTML}</div>
+                `;
+            }
+            html += `
+                </div>
+            `;
+            if (this.usernames.indexOf(element.querySelector(`.comment__username, .author_name`).textContent.trim().toLowerCase()) > -1) {
+                context.insertAdjacentHTML(`beforeEnd`, html);
+                this.results += 1;
             }
         }
-    }
-
-    async function completeCsSearch(cs, callback) {
-        cs.button.classList.remove(`esgst-busy`);
-        cs.progress.innerHTML = `${cs.results.children.length} results found.`;
-        await loadEndlessFeatures(cs.results);
-        callback();
-    }
-
-    function cancelCsSearch(cs) {
-        cs.button.classList.remove(`esgst-busy`);
-        cs.canceled = true;
-        cs.progress.innerHTML = `${cs.results.children.length} results found.`;
-        loadEndlessFeatures(cs.results);
+        this.popup.setOverallProgress(`${this.results} results found.`);
+        await loadEndlessFeatures(context);
     }
 
     /* [CT] Comment Tracker */
@@ -12632,44 +12849,9 @@ Parsedown = (() => {
     async function loadCt() {
         if (((esgst.commentsPath && (!esgst.giveawayPath || !document.getElementsByClassName(`table--summary`)[0])) || esgst.inboxPath) && !esgst.ct_s) {
             if (!esgst.ct_s) {
-                let button1, button2, button3;
-                let key, position;
-                if (esgst.leftButtonIds.indexOf(`ctUnread`) > -1) {
-                    key = `leftButtons`;
-                    position = `afterBegin`;
-                } else {
-                    key = `rightButtons`;
-                    position = `beforeEnd`;
-                }
-                button3 = insertHtml(esgst.hideButtons && esgst.hideButtons_ctUnread ? esgst[key] : esgst.mainPageHeading, position, `
-                    <div class="esgst-heading-button" id="esgst-ctUnread" title="${getFeatureTooltip(`ct`, `Mark all comments in this page as unread`)}">
-                        <i class="fa fa-eye-slash"></i>
-                    </div>
-                `);
-                if (esgst.leftButtonIds.indexOf(`ctRead`) > -1) {
-                    key = `leftButtons`;
-                    position = `afterBegin`;
-                } else {
-                    key = `rightButtons`;
-                    position = `beforeEnd`;
-                }
-                button2 = insertHtml(esgst.hideButtons && esgst.hideButtons_ctRead ? esgst[key] : esgst.mainPageHeading, position, `
-                    <div class="esgst-heading-button" id="esgst-ctRead" title="${getFeatureTooltip(`ct`, `Mark all comments in this page as read`)}">
-                        <i class="fa fa-eye"></i>
-                    </div>
-                `);
-                if (esgst.leftButtonIds.indexOf(`ctGo`) > -1) {
-                    key = `leftButtons`;
-                    position = `afterBegin`;
-                } else {
-                    key = `rightButtons`;
-                    position = `beforeEnd`;
-                }
-                button1 = insertHtml(esgst.hideButtons && esgst.hideButtons_ctGo ? esgst[key] : esgst.mainPageHeading, position, `
-                    <div class="esgst-heading-button" id="esgst-ctGo" title="${getFeatureTooltip(`ct`, `Go to the first unread comment of this page`)}">
-                        <i class="fa fa-comments-o"></i>
-                    </div>
-                `);
+                let button3 = createHeadingButton({featureId: `ct`, id: `ctUnread`, icons: [`fa-eye-slash`], title: `Mark all comments in this page as unread`});
+                let button2 = createHeadingButton({featureId: `ct`, id: `ctRead`, icons: [`fa-eye`], title: `Mark all comments in this page as read`});
+                let button1 = createHeadingButton({featureId: `ct`, id: `ctGo`, icons: [`fa-comments-o`], title: `Go to the first unread comment of this page`});
                 addCtCommentPanel(button1, button2, button3);
             }
             let match = location.pathname.match(/\/(giveaway|discussion|ticket|trade)\/(.+?)\//);
@@ -14287,94 +14469,76 @@ Parsedown = (() => {
     /* [DH] Discussion Highlighter */
 
     function loadDh() {
-        insertHtml(document.getElementsByClassName(`nav__absolute-dropdown`)[1], `beforeEnd`, generateHeaderMenuItem({description: `View your highlighted discussions.`, icon: `fa-star yellow`, id: `dh`, name: `View Highlighted`, title: getFeatureTooltip(`dh`)}, `discussions`)).addEventListener(`click`, openDhPopup);
+        new Process({
+            button: insertHtml(document.getElementsByClassName(`nav__absolute-dropdown`)[1], `beforeEnd`, generateHeaderMenuItem({description: `View your highlighted discussions.`, icon: `fa-star yellow`, id: `dh`, name: `View Highlighted`, title: getFeatureTooltip(`dh`)})),
+            popup: {
+                icon: `fa-star`,
+                title: `Highlited Discussions`,
+                addProgress: true,
+                addScrollable: `left`
+            },
+            urls: {
+                id: `dh`,
+                init: initDhUrls,
+                perLoad: 5,
+                request: {
+                    request: getDhUrlRequest
+                }
+            }
+        });
     }
 
-    async function openDhPopup() {
-        let dh = {
-            discussions: JSON.parse(await getValue(`discussions`)),
-            i: 0,
-            popup: new Popup(`fa-star`, `Highlighted Discussions`),
-        };
-        dh.keys = Object.keys(dh.discussions);
-        dh.n = dh.keys.length;
-        dh.popup.highlightedDiscussions = insertHtml(dh.popup.scrollable, `afterBegin`, `
+    async function initDhUrls() {
+        let discussions = JSON.parse(await getValue(`discussions`));
+        this.keys = [];
+        for (let key in discussions) {
+            let discussion = discussions[key];
+            if (!discussion.highlighted) continue;
+            this.keys.push(key);
+            this.items.push(`/discussion/${key}/`);
+        }
+        this.mainContext = this.popup.getScrollable(`
             <div class="table esgst-text-left">
                 <div class="table__heading">
                     <div class="table__column--width-fill">Summary</div>
                     <div class="table__column--width-small text-center">Comments</div>
                 </div>
             </div>
-        `);
-        dh.set = new ButtonSet_v2({color1: `green`, color2: `grey`, icon1: `fa-plus`, icon2: `fa-circle-o-notch fa-spin`, title1: `Load more...`, title2: `Loading more...`, callback1: loadDhDiscussions.bind(null, dh)});
-        dh.popup.description.appendChild(dh.set.set);
-        dh.popup.open();
-        dh.set.trigger();
-        if (esgst.es_dh) {
-            dh.popup.scrollable.addEventListener(`scroll`, triggerDhSet.bind(null, dh));
-        }
+        `).lastElementChild;
+        this.contextHtml = `
+            <div class="table__rows"></div>
+        `;
     }
 
-    async function loadDhDiscussions(dh) {
-        if (dh.i > dh.n) {
-            dh.set.set.remove();
-            return;
-        }
-        let i = 0;
-        while (i < 5) {
-            let key = dh.keys[dh.i];
-            dh.i += 1;
-            if (!key) break;
-            if (!dh.discussions[key].highlighted) continue;
-            let context = parseHtml((await request({method: `GET`, url: `/discussion/${key}/`})).responseText);
-            let breadcrumbs = context.getElementsByClassName(`page__heading__breadcrumbs`);
-            let categoryLink = breadcrumbs[0].firstElementChild.nextElementSibling.nextElementSibling;
-            let usernameLink = context.getElementsByClassName(`comment__username`)[0].firstElementChild;
-            dh.popup.highlightedDiscussions.insertAdjacentHTML(`beforeEnd`, `
-                <div>
-                    <div class="table__row-outer-wrap">
-                        <div class="table__row-inner-wrap">
-                            <div>
-                                ${context.getElementsByClassName(`global__image-outer-wrap`)[0].outerHTML}
-                            </div>
-                            <div class="table__column--width-fill">
-                                <h3>
-                                    <a class="table__column__heading" href="/discussion/${key}/">${categoryLink.nextElementSibling.nextElementSibling.firstElementChild.textContent}</a>
-                                </h3>
-                                <p>
-                                    <a class="table__column__secondary-link" href="${categoryLink.getAttribute(`href`)}">${categoryLink.textContent}</a> -
-                                    ${context.querySelector(`.comment [data-timestamp]`).outerHTML} ago by
-                                    <a class="table__column__secondary-link" href="${usernameLink.getAttribute(`href`)}">${usernameLink.textContent}</a>
-                                </p>
-                            </div>
-                            <div class="table__column--width-small text-center">
-                                <a class="table__column__secondary-link" href="/discussion/${key}/">${breadcrumbs[1].textContent.match(/(.+) Comments?/)[1]}</a>
-                            </div>
+    function getDhUrlRequest(details, response, responseHtml) {
+        let key = this.keys[this.index];
+        let breadcrumbs = responseHtml.getElementsByClassName(`page__heading__breadcrumbs`);
+        let categoryLink = breadcrumbs[0].firstElementChild.nextElementSibling.nextElementSibling;
+        let usernameLink = responseHtml.getElementsByClassName(`comment__username`)[0].firstElementChild;
+        this.context.insertAdjacentHTML(`beforeEnd`, `
+            <div>
+                <div class="table__row-outer-wrap">
+                    <div class="table__row-inner-wrap">
+                        <div>
+                            ${responseHtml.getElementsByClassName(`global__image-outer-wrap`)[0].outerHTML}
+                        </div>
+                        <div class="table__column--width-fill">
+                            <h3>
+                                <a class="table__column__heading" href="/discussion/${key}/">${categoryLink.nextElementSibling.nextElementSibling.firstElementChild.textContent}</a>
+                            </h3>
+                            <p>
+                                <a class="table__column__secondary-link" href="${categoryLink.getAttribute(`href`)}">${categoryLink.textContent}</a> -
+                                ${responseHtml.querySelector(`.comment [data-timestamp]`).outerHTML} ago by
+                                <a class="table__column__secondary-link" href="${usernameLink.getAttribute(`href`)}">${usernameLink.textContent}</a>
+                            </p>
+                        </div>
+                        <div class="table__column--width-small text-center">
+                            <a class="table__column__secondary-link" href="/discussion/${key}/">${breadcrumbs[1].textContent.match(/(.+) Comments?/)[1]}</a>
                         </div>
                     </div>
                 </div>
-            `);
-            await loadEndlessFeatures(dh.popup.highlightedDiscussions.lastElementChild);
-            if (!esgst.giveawaysPath && !esgst.discussionsPath) {
-                if (esgst.gdttt) {
-                    await addCtDiscussionPanels(dh.popup.highlightedDiscussions.lastElementChild, false, null, false, true);
-                    await checkGdtttVisited(dh.popup.highlightedDiscussions.lastElementChild);
-                } else if (esgst.ct) {
-                    await addCtDiscussionPanels(dh.popup.highlightedDiscussions.lastElementChild, false, null, false, true);
-                }
-                await loadDiscussionFeatures(dh.popup.highlightedDiscussions.lastElementChild);
-            }
-            i += 1;
-        }
-        if (dh.i > dh.n) {
-            dh.set.set.remove();
-        }
-    }
-
-    function triggerDhSet(dh) {
-        if ((dh.popup.scrollable.scrollTop + dh.popup.scrollable.offsetHeight) >= dh.popup.scrollable.scrollHeight && !dh.set.busy) {
-            dh.set.trigger();
-        }
+            </div>
+        `);
     }
 
     async function highlightDhDiscussion(code, context, save) {
@@ -14445,13 +14609,8 @@ Parsedown = (() => {
     function loadDs() {
         if (!esgst.discussionsPath) return;
 
-        let [key, position] = esgst.leftButtonIds.indexOf(`ds`) > -1 ? [`leftButtons`, `afterBegin`] : [`rightButtons`, `beforeEnd`];
         let object = {
-            button: insertHtml(esgst.hideButtons && esgst.hideButtons_ds ? esgst[key] : esgst.mainPageHeading, position, `
-                <div class="esgst-heading-button" id="esgst-ds" title="${getFeatureTooltip(`ds`, `Sort discussions`)}">
-                    <i class="fa fa-sort"></i>
-                </div>
-            `)
+            button: createHeadingButton({id: `ds`, icons: [`fa-sort`], title: `Sort discussions`})
         };
         object.button.addEventListener(`click`, openDsPopout.bind(object));
     }
@@ -14916,83 +15075,15 @@ Parsedown = (() => {
             for (i = 0, n = mainContext.children.length; i < n; ++i) {
                 mainContext.children[i].classList.add(`esgst-es-page-${currentPage}`);
             }
-            let key, position;
-            if (esgst.leftButtonIds.indexOf(`esNext`) > -1) {
-                key = `leftButtons`;
-                position = `afterBegin`;
-            } else {
-                key = `rightButtons`;
-                position = `beforeEnd`;
-            }
-            nextButton = insertHtml(esgst.hideButtons && esgst.hideButtons_esNext ? esgst[key] : esgst.mainPageHeading, position, `
-                <div class="esgst-heading-button esgst-es-next-button" id="esgst-esNext" title="${getFeatureTooltip(`es`, `Load next page`)}">
-                    <i class="fa fa-step-forward"></i>
-                </div>
-            `);
-            if (esgst.leftButtonIds.indexOf(`esContinuous`) > -1) {
-                key = `leftButtons`;
-                position = `afterBegin`;
-            } else {
-                key = `rightButtons`;
-                position = `beforeEnd`;
-            }
-            continuousButton = insertHtml(esgst.hideButtons && esgst.hideButtons_esContinuous ? esgst[key] : esgst.mainPageHeading, position, `
-                <div class="esgst-heading-button esgst-es-continuous-button" id="esgst-esContinuous" title="${getFeatureTooltip(`es`, `Continuously load pages`)}">
-                    <i class="fa fa-fast-forward"></i>
-                </div>
-            `);
-            if (esgst.leftButtonIds.indexOf(`esPause`) > -1) {
-                key = `leftButtons`;
-                position = `afterBegin`;
-            } else {
-                key = `rightButtons`;
-                position = `beforeEnd`;
-            }
+            nextButton = createHeadingButton({featureId: `es`, id: `esNext`, icons: [`fa-step-forward`], title: `Load next page`});
+            continuousButton = createHeadingButton({featureId: `es`, id: `esContinuous`, icons: [`fa-fast-forward`], title: `Continuously load pages`});
             if (ended) {
                 continuousButton.classList.add(`esgst-hidden`);
             }
-            pauseButton = insertHtml(esgst.hideButtons && esgst.hideButtons_esPause ? esgst[key] : esgst.mainPageHeading, position, `
-                <div class="esgst-heading-button esgst-es-pause-button" id="esgst-esPause" title="${getFeatureTooltip(`es`, `Pause the endless scrolling`)}">
-                    <i class="fa fa-pause"></i>
-                </div>
-            `);
-            if (esgst.leftButtonIds.indexOf(`esResume`) > -1) {
-                key = `leftButtons`;
-                position = `afterBegin`;
-            } else {
-                key = `rightButtons`;
-                position = `beforeEnd`;
-            }
-            resumeButton = insertHtml(esgst.hideButtons && esgst.hideButtons_esPause ? esgst[key] : esgst.mainPageHeading, position, `
-                <div class="esgst-heading-button esgst-es-resume-button esgst-hidden" id="esgst-esResume" title="${getFeatureTooltip(`es`, `Resume the endless scrolling`)}">
-                    <i class="fa fa-play"></i>
-                </div>
-            `);
-            if (esgst.leftButtonIds.indexOf(`esRefresh`) > -1) {
-                key = `leftButtons`;
-                position = `afterBegin`;
-            } else {
-                key = `rightButtons`;
-                position = `beforeEnd`;
-            }
-            refreshButton = insertHtml(esgst.hideButtons && esgst.hideButtons_esRefresh ? esgst[key] : esgst.mainPageHeading, position, `
-                <div class="esgst-heading-button esgst-es-refresh-button" id="esgst-esRefresh" title="${getFeatureTooltip(`es`, `Refresh current page`)}">
-                    <i class="fa fa-refresh"></i>
-                    <i class="fa fa-map-marker"></i>
-                </div>
-            `);
-            if (esgst.leftButtonIds.indexOf(`esRefreshAll`) > -1) {
-                key = `leftButtons`;
-                position = `afterBegin`;
-            } else {
-                key = `rightButtons`;
-                position = `beforeEnd`;
-            }
-            refreshAllButton = insertHtml(esgst.hideButtons && esgst.hideButtons_esRefreshAll ? esgst[key] : esgst.mainPageHeading, position, `
-                <div class="esgst-heading-button esgst-es-refresh-all-button" id="esgst-esRefreshAll" title="${getFeatureTooltip(`es`, `Refresh all pages`)}">
-                    <i class="fa fa-refresh"></i>
-                </div>
-            `);
+            pauseButton = createHeadingButton({featureId: `es`, id: `esPause`, icons: [`fa-pause`], title: `Pause the endless scrolling`});
+            resumeButton = createHeadingButton({featureId: `es`, id: `esResume`, orderId: `esPause`, icons: [`fa-play`], title: `Resume the endless scrolling`});
+            refreshButton = createHeadingButton({featureId: `es`, id: `esRefresh`, icons: [`fa-refresh`, `fa-map-marker`], title: `Refresh current page`});
+            refreshAllButton = createHeadingButton({featureId: `es`, id: `esRefreshAll`, icons: [`fa-refresh`], title: `Refresh all pages`});
             refreshButton.addEventListener(`click`, refreshPage);
             refreshAllButton.addEventListener(`click`, refreshAllPages);
             continuousButton.addEventListener(`click`, continuouslyLoad);
@@ -15010,9 +15101,7 @@ Parsedown = (() => {
             if (await getValue(`esPause`, false)) {
                 pauseEndlessScrolling();
             } else {
-                paused = false;
-                document.addEventListener(`scroll`, loadNextPage);
-                loadNextPage();
+                resumeEndlessScrolling();
             }
             pageIndex = currentPage;
             document.addEventListener(`scroll`, changePaginationNavigation);
@@ -15776,13 +15865,8 @@ Parsedown = (() => {
             optionKey: `gas_option${type}`
         };
 
-        let [key, position] = esgst.leftButtonIds.indexOf(`gas`) > -1 ? [`leftButtons`, `afterBegin`] : [`rightButtons`, `beforeEnd`];
         let object = {
-            button: insertHtml(esgst.hideButtons && esgst.hideButtons_gas ? esgst[key] : esgst.mainPageHeading, position, `
-                <div class="esgst-heading-button" id="esgst-gas" title="${getFeatureTooltip(`gas`, `Sort giveaways`)}">
-                    <i class="fa fa-sort"></i>
-                </div>
-            `)
+            button: createHeadingButton({id: `gas`, icons: [`fa-sort`], title: `Sort giveaways`})
         };
         object.button.addEventListener(`click`, openGasPopout.bind(object));
     }
@@ -17294,26 +17378,23 @@ Parsedown = (() => {
 
     async function loadGe() {
         if (((esgst.giveawayCommentsPath && !document.getElementsByClassName(`table--summary`)[0]) || esgst.discussionPath) && (document.querySelector(`[href*="/giveaway/"]`) || document.querySelector(`[href*="sgtools.info/giveaways/"]`))) {
-            let key, position;
-            if (esgst.leftButtonIds.indexOf(`ge`) > -1) {
-                key = `leftButtons`;
-                position = `afterBegin`;
-            } else {
-                key = `rightButtons`;
-                position = `beforeEnd`;
-            }
             let ge = {
-                button: insertHtml(esgst.hideButtons && esgst.hideButtons_ge ? esgst[key] : esgst.mainPageHeading, position, `
-                    <div class="esgst-heading-button" id="esgst-ge" title="${getFeatureTooltip(`ge`, `Extract giveaways`)}">
-                        <i class="fa fa-gift"></i>
-                        <i class="fa fa-search"></i>
-                    </div>
-                `)
+                button: createHeadingButton({id: `ge`, icons: [`fa-gift`, `fa-search`], title: `Extract giveaways`})
             };
+            let isDragging = -1;
             ge.button.addEventListener(`mousedown`, event => {
                 if (event.button === 2) return;
-                event.preventDefault();
-                if (esgst.ge_t || event.button === 1) {
+                if (event.button === 1) {
+                    event.preventDefault();
+                }
+                isDragging = event.button;
+            });
+            ge.button.addEventListener(`mousemove`, () => {
+                isDragging = -1;
+            });
+            ge.button.addEventListener(`mouseup`, () => {
+                if (isDragging === -1) return;
+                if (esgst.ge_t || isDragging === 1) {
                     open(`/esgst/extracted-giveaways?url=${location.pathname.match(/^\/(giveaway|discussion)\/.+?\//)[0]}`);
                 } else {
                     openGePopup(ge);
@@ -19519,20 +19600,7 @@ Parsedown = (() => {
             } else {
                 parameters = `?url=${location.pathname.match(/\/(group\/(.+?)\/(.+?))(\/.*)?$/)[1]}/users&id=${document.querySelector(`[href*="/gid/"]`).getAttribute(`href`).match(/\d+/)[0]}`;
             }
-            let key, position;
-            if (esgst.leftButtonIds.indexOf(`glwc`) > -1) {
-                key = `leftButtons`;
-                position = `afterBegin`;
-            } else {
-                key = `rightButtons`;
-                position = `beforeEnd`;
-            }
-            insertHtml(esgst.hideButtons && esgst.hideButtons_glwc ? esgst[key] : esgst.mainPageHeading, position, `
-                <div class="esgst-heading-button" id="esgst-glwc" title="${getFeatureTooltip(`glwc`, `Check libraries/wishlists`)}">
-                    <i class="fa fa-folder"></i>
-                    <i class="fa fa-star"></i>
-                </div>
-            `).addEventListener(`click`, () => {
+            createHeadingButton({id: `glwc`, icons: [`fa-folder`, `fa-star`], title: `Check libraries/wishlists`}).addEventListener(`click`, () => {
                 open(`/esgst/glwc${parameters}`);
             });
         } else if (esgst.glwcPath) {
@@ -19973,20 +20041,7 @@ Parsedown = (() => {
         let button, toggleSwitch;
         if (context || esgst.giveawaysPath || esgst.createdPath || esgst.enteredPath || esgst.wonPath || esgst.userPath) {
             esgst.gmCheckboxes = {};
-            let key, position;
-            if (esgst.leftButtonIds.indexOf(`gm`) > -1) {
-                key = `leftButtons`;
-                position = `afterBegin`;
-            } else {
-                key = `rightButtons`;
-                position = `beforeEnd`;
-            }
-            button = insertHtml(context || (esgst.hideButtons && esgst.hideButtons_gm ? esgst[key] : esgst.mainPageHeading), position, `
-                <div class="esgst-heading-button" id="esgst-gm" title="${getFeatureTooltip(`gm`, `Manage giveaways`)}">
-                    <span></span>
-                    <i class="fa fa-gear"></i>
-                </div>
-            `)
+            button = createHeadingButton({context, id: `gm`, icons: [`fa-gear`], isSwitch: true, title: `Manage giveaways`});
             toggleSwitch = new ToggleSwitch(button.firstElementChild, `gm_enable`, true, ``, false, false, null, esgst.gm_enable);
             toggleSwitch.onEnabled = enableGm.bind(null, context);
             toggleSwitch.onDisabled = disableGm.bind(null, context);
@@ -20709,19 +20764,7 @@ Parsedown = (() => {
         if (!esgst.newGiveawayPath) return;
         let rows = document.getElementsByClassName(`form__rows`)[0];
         if (!rows) return;
-        let key, position;
-        if (esgst.leftButtonIds.indexOf(`gts`) > -1) {
-            key = `leftButtons`;
-            position = `afterBegin`;
-        } else {
-            key = `rightButtons`;
-            position = `beforeEnd`;
-        }
-        addGtsButtonSection(insertHtml(esgst.hideButtons && esgst.hideButtons_gts ? esgst[key] : esgst.mainPageHeading, position, `
-            <div class="esgst-gts-button esgst-heading-button" id="esgst-gts" title="${getFeatureTooltip(`gts`, `View/apply templates`)}">
-                <i class="fa fa-file"></i>
-            </div>
-        `), rows);
+        addGtsButtonSection(createHeadingButton({id: `gts`, icons: [`fa-file`], title: `View/apply templates`}), rows);
     }
 
     function addGtsButtonSection(button, rows) {
@@ -21255,19 +21298,7 @@ Parsedown = (() => {
             `);
             if (esgst.giveawaysPath) {
                 let button, display, element, elements, i, n, popout, spacing, slider;
-                let key, position;
-                if (esgst.leftButtonIds.indexOf(`gv`) > -1) {
-                    key = `leftButtons`;
-                    position = `afterBegin`;
-                } else {
-                    key = `rightButtons`;
-                    position = `beforeEnd`;
-                }
-                button = insertHtml(esgst.hideButtons && esgst.hideButtons_gv ? esgst[key] : esgst.mainPageHeading, position, `
-                    <div class="esgst-heading-button" id="esgst-gv" title="${getFeatureTooltip(`gv`, `Set Grid View spacing`)}">
-                        <i class="fa fa-th-large"></i>
-                    </div>
-                `);
+                button = createHeadingButton({id: `gv`, icons: [`fa-th-large`], title: `Set Grid View spacing`});
                 popout = new Popout(`esgst-gv-spacing`, button, 0, true);
                 spacing = esgst.gv_spacing;
                 element = insertHtml(popout.popout, `beforeEnd`, `
@@ -21589,13 +21620,7 @@ Parsedown = (() => {
 
     function loadHgr() {
         if (!location.pathname.match(/^\/account\/settings\/giveaways\/filters/)) return;
-        let [key, position] = esgst.leftButtonIds.indexOf(`hgr`) > -1 ? [`leftButtons`, `afterBegin`] : [`rightButtons`, `beforeEnd`];
-        let button = insertHtml(esgst.hideButtons && esgst.hideButtons_hgr ? esgst[key] : esgst.mainPageHeading, position, `
-            <div class="esgst-heading-button" id="esgst-hgr" title="${getFeatureTooltip(`hgr`, `Remove games from the list`)}">
-                <i class="fa fa-eye-slash"></i>
-                <i class="fa fa-times-circle"></i>
-            </div>
-        `);
+        let button = createHeadingButton({id: `hgr`, icons: [`fa-eye-slash`, `fa-times-circle`], title: `Remove games from the list`});
         button.addEventListener(`click`, openHgrPopup.bind(null, {button}));
     }
 
@@ -23794,12 +23819,7 @@ Parsedown = (() => {
         if (!esgst.discussionPath) {
             return;
         }
-        let [key, position] = esgst.leftButtonIds.indexOf(`mpp`) > -1 ? [`leftButtons`, `afterBegin`] : [`rightButtons`, `beforeEnd`];
-        let button = insertHtml(esgst.hideButtons && esgst.hideButtons_mpp ? esgst[key] : esgst.mainPageHeading, position, `
-            <div class="esgst-heading-button" id="esgst-mpp" title="${getFeatureTooltip(`mpp`, `Open the main post`)}">
-                <i class="fa fa-home"></i>
-            </div>
-        `);
+        let button = createHeadingButton({id: `mpp`, icons: [`fa-home`], title: `Open the main post`});
         let MPPPost = document.createElement(`div`);
         MPPPost.className = `page__outer-wrap`;
         let Sibling;
@@ -24160,22 +24180,7 @@ Parsedown = (() => {
         if (esgst.mainPageHeading) {
             let mt, toggleSwitch;
             if (esgst.ut || esgst.wbc) {
-                let key, position;
-                if (esgst.leftButtonIds.indexOf(`mtUsers`) > -1) {
-                    key = `leftButtons`;
-                    position = `afterBegin`;
-                } else {
-                    key = `rightButtons`;
-                    position = `beforeEnd`;
-                }
-                esgst.mtUserButton = insertHtml(esgst.hideButtons && esgst.hideButtons_mtUsers ? esgst[key] : esgst.mainPageHeading, position, `
-                    <div class="esgst-heading-button esgst-hidden" id="esgst-mtUsers" title="${getFeatureTooltip(`mt`, `Manage users`)}">
-                        <span></span>
-                        <span>
-                            <i class="fa fa-user"></i>
-                        </span>
-                    </div>
-                `);
+                esgst.mtUserButton = createHeadingButton({featureId: `mt`, id: `mtUsers`, icons: [`fa-user`], isSwitch: true, title: `Manage users`});
                 mt = {
                     button: esgst.mtUserButton,
                     type: `user`
@@ -24186,23 +24191,7 @@ Parsedown = (() => {
                 esgst.mtUserButton.addEventListener(`click`, openMtPopout.bind(null, mt));
             }
             if (esgst.gt) {
-                let key, position;
-                if (esgst.leftButtonIds.indexOf(`mtGames`) > -1) {
-                    key = `leftButtons`;
-                    position = `afterBegin`;
-                } else {
-                    key = `rightButtons`;
-                    position = `beforeEnd`;
-                }
-                esgst.mtGameButton = insertHtml(esgst.hideButtons && esgst.hideButtons_mtGames ? esgst[key] : esgst.mainPageHeading, position, `
-                    <div class="esgst-heading-button esgst-hidden" id="esgst-mtGames" title="${getFeatureTooltip(`mt`, `Multi-tag games`)}">
-                        <span></span>
-                        <span>
-                            <i class="fa fa-gamepad"></i>
-                            <i class="fa fa-tags"></i>
-                        </span>
-                    </div>
-                `);
+                esgst.mtGameButton = createHeadingButton({featureId: `mt`, id: `mtGames`, icons: [`fa-gamepad`, `fa-tags`], isSwitch: true, title: `Multi-tag games`});
                 mt = {
                     button: esgst.mtGameButton,
                     type: `game`
@@ -24663,14 +24652,8 @@ Parsedown = (() => {
     function loadNamwc() {
         if (!esgst.winnersPath) return;
 
-        let [key, position] = esgst.leftButtonIds.indexOf(`namwc`) > -1 ? [`leftButtons`, `afterBegin`] : [`rightButtons`, `beforeEnd`];
         setNamwcPopup.call({
-            button: insertHtml(esgst.hideButtons && esgst.hideButtons_namwc ? esgst[key] : esgst.mainPageHeading, position, `
-                <div class="esgst-heading-button" id="esgst-namwc" title="${getFeatureTooltip(`namwc`, `Check for not activated/multiple wins`)}">
-                    <i class="fa fa-trophy"></i>
-                    <i class="fa fa-question-circle"></i>
-                </div>
-            `)
+            button: createHeadingButton({id: `namwc`, icons: [`fa-trophy`, `fa-question-circle`], title: `Check for not activated/multiple wins`})
         });
     }
 
@@ -25672,12 +25655,7 @@ Parsedown = (() => {
     function loadRbp() {
         if (!esgst.replyBox) return;
 
-        let [key, position] = esgst.leftButtonIds.indexOf(`rbp`) > -1 ? [`leftButtons`, `afterBegin`] : [`rightButtons`, `beforeEnd`];
-        let button = insertHtml(esgst.hideButtons && esgst.hideButtons_rbp ? esgst[key] : esgst.mainPageHeading, position, `
-            <div class="esgst-heading-button" id="esgst-rbp" title="${getFeatureTooltip(`rbp`, `Add a comment`)}">
-                <i class="fa fa-comment"></i>
-            </div>
-        `);
+        let button = createHeadingButton({id: `rbp`, icons: [`fa-comment`], title: `Add a comment`});
         let popup = new Popup(`fa-comment`, `Add a comment:`);
         popup.textArea = insertHtml(popup.scrollable, `beforeEnd`, `
             <textarea name="description"></textarea>
@@ -26520,20 +26498,7 @@ Parsedown = (() => {
 
     function loadSks() {
         if (!esgst.createdPath) return;
-        let key, position;
-        if (esgst.leftButtonIds.indexOf(`sks`) > -1) {
-            key = `leftButtons`;
-            position = `afterBegin`;
-        } else {
-            key = `rightButtons`;
-            position = `beforeEnd`;
-        }
-        let button = insertHtml(esgst.hideButtons && esgst.hideButtons_sks ? esgst[key] : esgst.mainPageHeading, position, `
-            <div class="esgst-heading-button" id="esgst-sks" title="${getFeatureTooltip(`sks`, `Search keys`)}">
-                <i class="fa fa-key"></i>
-                <i class="fa fa-search"></i>
-            </div>
-        `);
+        let button = createHeadingButton({id: `sks`, icons: [`fa-key`, `fa-search`], title: `Search keys`});
         button.addEventListener(`click`, openSksPopup.bind(null, {button}));
     }
 
@@ -26764,18 +26729,8 @@ Parsedown = (() => {
                 });
                 break;
             case 1:
-                if (esgst.leftButtonIds.indexOf(`stbb`) > -1) {
-                    key = `leftButtons`;
-                    position = `afterBegin`;
-                } else {
-                    key = `rightButtons`;
-                    position = `beforeEnd`;
-                }
-                button = insertHtml(esgst.hideButtons && esgst.hideButtons_stbb ? esgst[key] : esgst.mainPageHeading, position, `
-                    <div class="esgst-stbb-button esgst-heading-button" id="esgst-stbb" title="${getFeatureTooltip(`stbb`, `Scroll to bottom`)}">
-                        <i class="fa fa-chevron-down"></i>
-                    </div>
-                `);
+                button = createHeadingButton({id: `stbb`, icons: [`fa-chevron-down`], title: `Scroll to bottom`});
+                button.classList.add(`esgst-stbb-button`);
                 break;
             case 2:
                 button = insertHtml(esgst.footer.firstElementChild.lastElementChild, `beforeEnd`, `
@@ -26846,18 +26801,8 @@ Parsedown = (() => {
                 });
                 break;
             case 1:
-                if (esgst.leftButtonIds.indexOf(`sttb`) > -1) {
-                    key = `leftButtons`;
-                    position = `afterBegin`;
-                } else {
-                    key = `rightButtons`;
-                    position = `beforeEnd`;
-                }
-                button = insertHtml(esgst.hideButtons && esgst.hideButtons_sttb ? esgst[key] : esgst.mainPageHeading, position, `
-                    <div class="esgst-sttb-button esgst-heading-button" id="esgst-sttb" title="${getFeatureTooltip(`sttb`, `Scroll to top`)}">
-                        <i class="fa fa-chevron-up"></i>
-                    </div>
-                `);
+                button = createHeadingButton({id: `sttb`, icons: [`fa-chevron-up`], title: `Scroll to top`});
+                button.classList.add(`esgst-sttb-button`);
                 break;
             case 2:
                 button = insertHtml(esgst.footer.firstElementChild.lastElementChild, `beforeEnd`, `
@@ -26976,19 +26921,7 @@ Parsedown = (() => {
 
     function loadTb() {
         if (location.href.match(new RegExp(`\\/trades\\/search\\?user=${esgst.steamId}`))) {
-            let key, position;
-            if (esgst.leftButtonIds.indexOf(`tb`) > -1) {
-                key = `leftButtons`;
-                position = `afterBegin`;
-            } else {
-                key = `rightButtons`;
-                position = `beforeEnd`;
-            }
-            let button = insertHtml(esgst.hideButtons && esgst.hideButtons_tb ? esgst[key] : esgst.mainPageHeading, position, `
-                <div class="esgst-heading-button" id="esgst-tb" title="${getFeatureTooltip(`tb`, `Bump trades`)}">
-                    <i class="fa fa-chevron-circle-up"></i>
-                </div>
-            `);
+            let button = createHeadingButton({id: `tb`, icons: [`fa-chevron-circle-up`], title: `Bump trades`});
             button.addEventListener(`click`, getTbTrades.bind(null, button, document));
             if (esgst.tb_a) {
                 setTbAutoBump(button);
@@ -28047,21 +27980,7 @@ Parsedown = (() => {
 
     function loadUgs() {
         if (esgst.createdPath) {
-            let button;
-            let key, position;
-            if (esgst.leftButtonIds.indexOf(`ugs`) > -1) {
-                key = `leftButtons`;
-                position = `afterBegin`;
-            } else {
-                key = `rightButtons`;
-                position = `beforeEnd`;
-            }
-            button = insertHtml(esgst.hideButtons && esgst.hideButtons_ugs ? esgst[key] : esgst.mainPageHeading, position, `
-                <div class="esgst-heading-button" id="esgst-ugs" title="${getFeatureTooltip(`ugs`, `Send unsent gifts`)}">
-                    <i class="fa fa-gift"></i>
-                    <i class="fa fa-send"></i>
-                </div>
-            `);
+            let button = createHeadingButton({id: `ugs`, icons: [`fa-gift`, `fa-send`], title: `Send unsent gifts`});
             button.addEventListener(`click`, openUgsPopup.bind(null, {button}));
         } else if (esgst.newTicketPath) {
             document.getElementsByClassName(`form__submit-button`)[0].addEventListener(`click`, saveUgsReroll.bind(null, document.querySelector(`[name="category_id"]`), document.querySelector(`[name="reroll_winner_id"]`)));
@@ -28715,19 +28634,7 @@ Parsedown = (() => {
 
     function loadUst() {
         if (esgst.ticketsPath) {
-            let key, position;
-            if (esgst.leftButtonIds.indexOf(`ust`) > -1) {
-                key = `leftButtons`;
-                position = `afterBegin`;
-            } else {
-                key = `rightButtons`;
-                position = `beforeEnd`;
-            }
-            esgst.ustButton = insertHtml(esgst.hideButtons && esgst.hideButtons_ust ? esgst[key] : esgst.mainPageHeading, position, `
-            <div class="esgst-heading-button" title="${getFeatureTooltip(`ust`, `Send selected tickets to the User Suspension Tracker database`)}">
-                    <i class="fa fa-paper-plane"></i>
-                </div>
-            `);
+            esgst.ustButton = createHeadingButton({id: `ust`, icons: [`fa-paper-plane`], title: `Send selected tickets to the User Suspension Tracker database`});
             esgst.ustButton.addEventListener(`click`, sendUstTickets);
         } else if (esgst.ticketPath && document.getElementsByClassName(`table__column--width-fill`)[1].textContent.trim().match(/Did\sNot\sActivate\sPrevious\sWins\sThis\sMonth|Other|Multiple\sWins\sfor\sthe\sSame\sGame|Not\sActivating\sWon\sGift/)) {
             let code, tickets;
@@ -29170,32 +29077,8 @@ Parsedown = (() => {
 
     function loadWbc() {
         if (!esgst.mainPageHeading) return;
-        let html, title;
-        if (esgst.wbc_b) {
-            title = `Check for whitelists/blacklists`;
-            html = `
-                <i class="fa fa-heart"></i>
-                <i class="fa fa-ban"></i>
-                <i class="fa fa-question-circle"></i>
-            `;
-        } else {
-            title = `Check for whitelists`;
-            html = `
-                <i class="fa fa-heart"></i>
-                <i class="fa fa-question-circle"></i>
-            `;
-        }
-        let key, position;
-        if (esgst.leftButtonIds.indexOf(`wbc`) > -1) {
-            key = `leftButtons`;
-            position = `afterBegin`;
-        } else {
-            key = `rightButtons`;
-            position = `beforeEnd`;
-        }
-        esgst.wbcButton = insertHtml(esgst.hideButtons && esgst.hideButtons_wbc ? esgst[key] : esgst.mainPageHeading, position, `
-            <div class="esgst-heading-button esgst-hidden" id="esgst-wbc" title="${getFeatureTooltip(`wbc`, title)}">${html}</div>
-        `);
+        let [icons, title] = esgst.wbc_b ? [[`fa-heart`, `fa-ban`, `fa-question-circle`], `Check for whitelists/blacklists`] : [[`fa-heart`, `fa-question-circle`], `Check for whitelists`];
+        esgst.wbcButton = createHeadingButton({id: `wbc`, icons, title});
         addWBCButton(true, esgst.wbcButton);
     }
 
@@ -29984,21 +29867,7 @@ Parsedown = (() => {
             wbm.key = `blacklist`;
             wbm.name = `Blacklist`;
         }
-        let key, position;
-        if (esgst.leftButtonIds.indexOf(`wbm`) > -1) {
-            key = `leftButtons`;
-            position = `afterBegin`;
-        } else {
-            key = `rightButtons`;
-            position = `beforeEnd`;
-        }
-        wbm.button = insertHtml(esgst.hideButtons && esgst.hideButtons_wbm ? esgst[key] : esgst.mainPageHeading, position, `
-            <div class="esgst-heading-button" id="esgst-wbm" title="${getFeatureTooltip(`wbm`, `Manage ${wbm.key}`)}">
-                <i class="fa fa-arrow-up"></i>
-                <i class="fa fa-arrow-down"></i>
-                <i class="fa fa-trash"></i>
-            </div>
-        `);
+        wbm.button = createHeadingButton({id: `wbm`, icons: [`fa-arrow-up`, `fa-arrow-down`, `fa-trash`], title: `Manage ${wbm.key}`});
         wbm.button.addEventListener(`click`, openWbmPopup.bind(null, wbm));
     }
 
@@ -30216,7 +30085,6 @@ Parsedown = (() => {
         let [dateKey, mainKey, saveKey] = esgst.whitelistPath ? [`whitelistedDate`, `whitelist`, `whitelisted`] : [`blacklistedDate`, `blacklist`, `blacklisted`];
 
         // add ascending button
-        let [key, position] = esgst.leftButtonIds.indexOf(`wbsAsc`) > -1 ? [`leftButtons`, `afterBegin`] : [`rightButtons`, `beforeEnd`];
         let object = {
             dateKey,
             icon: `fa-sort-amount-asc`,
@@ -30224,14 +30092,9 @@ Parsedown = (() => {
             saveKey,
             title: `Oldest to newest ${saveKey} users:`
         };
-        insertHtml(esgst.hideButtons && esgst.hideButtons_wbsAsc ? esgst[key] : esgst.mainPageHeading, position, `
-            <div class="esgst-heading-button" id="esgst-wbsAsc" title="${getFeatureTooltip(`wbs`, `Sort by added date from oldest to newest`)}">
-                <i class="fa fa-sort-amount-asc"></i>
-            </div>
-        `).addEventListener(`click`, sortWbsList.bind(object));
+        createHeadingButton({featureId: `wbs`, id: `wbsAsc`, icons: [`fa-sort-amount-asc`], title: `Sort by added date from oldest to newest`}).addEventListener(`click`, sortWbsList.bind(object));
 
         // add descending button
-        [key, position] = esgst.leftButtonIds.indexOf(`wbsDesc`) > -1 ? [`leftButtons`, `afterBegin`] : [`rightButtons`, `beforeEnd`];
         object = {
             dateKey,
             icon: `fa-sort-amount-desc`,
@@ -30240,11 +30103,7 @@ Parsedown = (() => {
             saveKey,
             title: `Newest to oldest ${saveKey} users:`
         };
-        insertHtml(esgst.hideButtons && esgst.hideButtons_wbsDesc ? esgst[key] : esgst.mainPageHeading, position, `
-            <div class="esgst-heading-button" id="esgst-wbsDesc" title="${getFeatureTooltip(`wbs`, `Sort by added date from newest to oldest`)}">
-                <i class="fa fa-sort-amount-desc"></i>
-            </div>
-        `).addEventListener(`click`, sortWbsList.bind(object));
+        createHeadingButton({featureId: `wbs`, id: `wbsDesc`, icons: [`fa-sort-amount-desc`], title: `Sort by added date from newest to oldest`}).addEventListener(`click`, sortWbsList.bind(object));
     }
 
     async function sortWbsList() {
@@ -31701,7 +31560,7 @@ Parsedown = (() => {
         if (esgst.vai) {
             getVaiImages(context);
         }
-        if (esgst.aic) {
+        if (esgst.aic && main) {
             getAicImages(context);
         }
         if (esgst.ail && !esgst.vai) {
@@ -31776,6 +31635,34 @@ Parsedown = (() => {
     /*
      * Helper Functions
      */
+
+     // creates a heading button and returns it
+     //
+     // parameters (* means the parameter is required):
+     //     * object [details]:
+     //         * array of string [icons]: the icons (in the format "fa-icon") to show in the button
+     //         boolean [isSwitch]: whether or not to add a space in the button for a switch
+     //         html element [context]: a special context to add the button to (if not present, the button is added to the main page heading)
+     //         string [featureId]: the id of the feature that adds the button (if not present, [id] is used instead)
+     //         * string [id]: the id to be added to the button
+     //         string [orderId]: the id used to position the button left/right in the main page heading (if not present, [id] is used instead)
+     //         string [title]: the title to be shown when hovering over the button
+     //
+     // output:
+     //     [html element]: the button created
+     function createHeadingButton(details) {
+         let [key, position] = esgst.leftButtonIds.indexOf(details.orderId || details.id) > -1 ? [`leftButtons`, `afterBegin`] : [`rightButtons`, `beforeEnd`];
+         let icons = ``;
+         details.icons.forEach(icon => {
+             icons += `<i class="fa ${icon}"></i> `;
+         });
+         return insertHtml(details.context || (esgst.hideButtons && esgst[`hideButtons_${details.orderId || details.id}`] ? esgst[key] : esgst.mainPageHeading), position, `
+            <div class="esgst-heading-button" id="esgst-${details.id}" title="${getFeatureTooltip(details.featureId || details.id, details.title)}">
+                ${details.isSwitch ? `<span></span>` : ``}
+                ${icons}
+            </div>
+         `);
+     }
 
     function capitalizeFirstLetter(string) {
         return `${string[0].toUpperCase()}${string.slice(1)}`;
@@ -38450,16 +38337,6 @@ Parsedown = (() => {
                 margin: 5px 0;
             }
 
-            .esgst-es-top-button {
-                bottom: 59px;
-                position: fixed;
-            }
-
-            .esgst-es-top-button >* {
-                line-height: normal;
-                padding: 2px 25px;
-            }
-
             .esgst-gm-popout .esgst-button-set >* {
                 line-height: 25px;
                 width: calc(100% - 30px);
@@ -39503,7 +39380,7 @@ Parsedown = (() => {
                 display: none;
             }
 
-            .esgst-aas-button, .esgst-es-pause-button, .esgst-es-refresh-button {
+            .esgst-aas-button {
                 cursor: pointer;
                 display: inline-block;
             }
@@ -40590,6 +40467,20 @@ Parsedown = (() => {
     function loadChangelog(version) {
         var changelog, current, html, i, index, n, popup;
         changelog = [
+            {
+                date: `March 4, 2018`,
+                version: `7.16.5`,
+                changelog: `
+                    <ul>
+                        <li><a href="https://github.com/revilheart/ESGST/issues/353">#353</a> Convert all callback functions into promises and use async/await to deal with them (ongoing)</li>
+                        <li><a href="https://github.com/revilheart/ESGST/issues/552">#552</a> Fix a bug that does not allow the Giveaway Extractor button to be moved</li>
+                        <li><a href="https://github.com/revilheart/ESGST/issues/556">#556</a> Only load Attached Images Carouself for images that are actually in the page</li>
+                        <li><a href="https://github.com/revilheart/ESGST/issues/558">#558</a> Fix a bug that does not extract giveaways in a new tab</li>
+                        <li><a href="https://github.com/revilheart/ESGST/issues/560">#560</a> Fix a bug that does not load ESGST sometimes</li>
+                        <li><a href="https://github.com/revilheart/ESGST/issues/561">#561</a> Fix a bug that happens when performing requests in the userscript version</li>
+                    </ul>
+                `
+            },
             {
                 date: `March 2, 2018`,
                 version: `7.16.4`,
