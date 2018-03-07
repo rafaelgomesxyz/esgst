@@ -2414,7 +2414,7 @@ Parsedown = (() => {
             sg: location.hostname.match(/www.steamgifts.com/),
             st: location.hostname.match(/www.steamtrades.com/),
             currentVersion: `7.16.5`,
-            devVersion: `7.16.6 (Dev.5)`,
+            devVersion: `7.16.6 (Dev.6)`,
             icon: `data:image/x-icon;base64,AAABAAEAEBAAAAEAIABoBAAAFgAAACgAAAAQAAAAIAAAAAEAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAqv8DCbP/Hgeq+CQIrf8iCK3/Igit/yIIrf8iB6//Iwit9x8Aqv8DAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAKr0GAa2/c0DvfzfA7f83QO3/N0Dt/zdA7f83QO+/d4Gs/3OAKP1GQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACm/xQFs/n2Bcf//wW///8FwP//BcD//wW///8Fx///BbP69gC2/xUAAAAAAAAAAAAAAAAA/1UDFptOFxSZMxkLpJktAq720QW1+ugEsfvjA7b92wO2/dsEsfvjBbX66Aau/dEoiO4tUlLWGU5k3hdVVf8DEJxKHxWqT8cVrU7uE6VN0guqny0Apv8XAJfQGwBAVywAQFcsAJfQGwCx/xcogugtS2Lk0lBl6u5Qae7ISmPeHxagSSMVr07jF7lV/xOiSu0brgATAAAAAAAAAA8AAAC/AAAAwAAAABAAAAAAYznjEkth4OxWb/3/T2jv40lf4iMXnksiEq1O3RayUv8UpEnkEo0+HQAAABkAAABBAAAA8QAAAPEAAABBAAAAGUBSvxxOYeDjU2v0/05m7d1LYuEiF55LIhKtTt0Ws1L/FahN2gU1FTAAAADAAAAA7AAAAP0AAAD9AAAA7AAAAMAVG0owUGPm2lNr9P9OZu3dS2LhIheeSyISrU7dFrNS/xWoTdoFNRswAAAAvwAAAOsAAAD9AAAA/QAAAOsAAADAFRtKMFBj6NpTa/T/Tmbt3Uti4SIXnksiEq1O3RayUv8UpEnkEo0+HQAAABgAAABAAAAA8QAAAPEAAABBAAAAGT5PuR1OYeDjU2v0/05m7d1LYuEiFqBJIxWuT+QXuVX/E6JL7QC8XhMAAAAAAAAADwAAAL8AAAC/AAAAEAAAAAAOR/8SSWLh7FZv/f9PaO/jSV/iIxCUSh8Vrk7HFqxN7ROlS9JskzMt1XULGK12EhxGLgYsRy8GK612EhzVgAsYgmxxLU1i39JNZ+vtT2fwx0pj1h8AqlUDF65GFgqZUhlsiC0txH0T0s5/EujJgBPkz4QR28+EEdvJgBPkzn8Q6Md+E9KLdHosM1LWGUZo6BZVVf8DAAAAAAAAAAAAAAAA/2YAFMl9EvbgjRb/14gV/9eIFf/XiBX/14gV/9+NFv/KgBD254YAFQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAL91FRjKgRHN1IgU3s+EEt3PhBLdz4QS3c+EEt3UiBTezYMRzcJ6FBkAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACqqgADxIARHr18FiO8eA8ivHgPIrx4DyK8eA8ivXwPI8SAER7/VQADAAAAAAAAAAAAAAAA78cAAPA3AAD4FwAABCAAADGOAAAE+AAAkBEAAJ55AACYOQAAlgEAAER4AAAXaAAATnoAAPgXAAD0JwAA69cAAA==`,
             sgIcon: `data:image/x-icon;base64,AAABAAEAEBAAAAEAIABoBAAAFgAAACgAAAAQAAAAIAAAAAEAIAAAAAAAQAQAABMLAAATCwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIUAAAD5AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAPoAAACFAAAAAAAAAAAAAAD8AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA+QAAAAAAAAAAAAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAAAAAAAAAAAAP8AAAD/AAAA/wAAABwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAcAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAcAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAHAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAAAAAAAAAAAAPwAAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD5AAAAAAAAAAAAAACFAAAA+QAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD5AAAAhQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA//8AAP//AADAAwAAwAMAAMfjAADP8wAAz/MAAM/zAADP8wAAz/MAAM/zAADH4wAAwAMAAMADAAD//wAA//8AAA==`,
             stIcon: `data:image/x-icon;base64,AAABAAEAEBAAAAEAIABoBAAAFgAAACgAAAAQAAAAIAAAAAEAIAAAAAAAQAQAABMLAAATCwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABbD6SgWw+ucFsPrkBbD6SgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAWw+uYFsPr/BbD6/wWw+ucAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAFsPrmBbD6/wWw+v8FsPrmAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABbD6SQWw+uYFsPrmBbD6SQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAFKRLShSkS+cUpEvkFKRLSgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAExi4EpMYuDnTGLg5Exi4EoAAAAAAAAAABSkS+YUpEv/FKRL/xSkS+cAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABMYuDmTGLg/0xi4P9MYuDnAAAAAAAAAAAUpEvmFKRL/xSkS/8UpEvmAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAATGLg5kxi4P9MYuD/TGLg5gAAAAAAAAAAFKRLSRSkS+YUpEvmFKRLSQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAExi4ElMYuDmTGLg5kxi4EkAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAMZ9E0rGfRPnxn0T5MZ9E0oAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADGfRPmxn0T/8Z9E//GfRPnAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAxn0T5sZ9E//GfRP/xn0T5gAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAMZ9E0nGfRPmxn0T5sZ9E0kAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA//8AAPw/AAD8PwAA/D8AAPw/AAD//wAAh+EAAIfhAACH4QAAh+EAAP//AAD8PwAA/D8AAPw/AAD8PwAA//8AAA==`,
@@ -23023,28 +23023,48 @@ Parsedown = (() => {
         `);
         createTooltip(popup.description.firstElementChild.lastElementChild, `
             <div>Before importing, make sure you have filled the details of the giveaway (start/end times, regions, who can enter, whitelist, groups, level and description) or applied a template (with ${getFeatureNumber(`gts`).number} Giveaway Templates). You can also specify separate details for each giveaway using the parameters below:</div>
-            <br>
-            <div><span class="esgst-bold">[countries="..."]</span> (Replace "..." with the ids of the countries that the giveaway must be restricted to, separated by a comma followed by a space. The ids must be exactly how they appear in the country selection list. For example, "BR, US".)</div>
-            <div><span class="esgst-bold">[startTime="..."]</span> (Replace "..." with the date that the giveaway must start, in the format "Mon D, YYYY H:MM xm". For example, "Jan 15, 2018 12:00 am". For the names of the months, use "Jan", "Feb", "Mar", "Apr", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov" and "Dec". For single-digit days/hours, do not put a 0 at the beginning. For example, use "Jan 1" instead of "Jan 01" and "9:00 am" instead of "09:00 am".)</div>
-            <div><span class="esgst-bold">[endTime="..."]</span> (Replace "..." with the date that the giveaway must end, in the same format as the start time.)</div>
-            <div><span class="esgst-bold">[whoCanEnter="..."]</span> (Replace "..." with either: "everyone", if the giveaway must be public; "invite_only", if the giveaway must be private; or "groups", if the giveaway must be restricted to groups/whitelist.)</div>
-            <div><span class="esgst-bold">[groups="..."]</span> (Replace "..." with the names of the groups that the giveaway must be restricted to, separated by a comma followed by a space. The names must be exactly how they appear on the group selection list. Use "My Whitelist" to include your whitelist in the groups. For example, "My Whitelist, Playing Appreciated, S.Gifts" or "My Whitelist".)</div>
-            <div><span class="esgst-bold">[level="..."]</span> (Replace "..." with the level that the giveaway must be restricted to. For example, "5".)</div>
-            <div><span class="esgst-bold">[description="..."]</span> (Replace "..." with the description that the giveaway must have. Use "\\n" to represent a new line. For example, "The winner will be added on Steam for the delivery.\\n\\nPlease be patient.".)</div>
-            <br>
+            <ul>
+                <li><span class="esgst-bold">[countries="..."]</span> (Replace "..." with the ids of the countries that the giveaway must be restricted to, separated by a comma followed by a space. The ids must be exactly how they appear in the country selection list. For example, "BR, US".)</li>
+                <li><span class="esgst-bold">[startTime="..."]</span> (Replace "..." with the date that the giveaway must start, in the format "Mon D, YYYY H:MM xm". For example, "Jan 15, 2018 12:00 am". For the names of the months, use "Jan", "Feb", "Mar", "Apr", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov" and "Dec". For single-digit days/hours, do not put a 0 at the beginning. For example, use "Jan 1" instead of "Jan 01" and "9:00 am" instead of "09:00 am".)</li>
+                <li><span class="esgst-bold">[endTime="..."]</span> (Replace "..." with the date that the giveaway must end, in the same format as the start time.)</li>
+                <li><span class="esgst-bold">[whoCanEnter="..."]</span> (Replace "..." with either: "everyone", if the giveaway must be public; "invite_only", if the giveaway must be private; or "groups", if the giveaway must be restricted to groups/whitelist.)</li>
+                <li><span class="esgst-bold">[groups="..."]</span> (Replace "..." with the names of the groups that the giveaway must be restricted to, separated by a comma followed by a space. The names must be exactly how they appear on the group selection list. Use "My Whitelist" to include your whitelist in the groups. For example, "My Whitelist, Playing Appreciated, S.Gifts" or "My Whitelist".)</li>
+                <li><span class="esgst-bold">[level="..."]</span> (Replace "..." with the level that the giveaway must be restricted to. For example, "5".)</li>
+                <li><span class="esgst-bold">[description="..."]</span> (Replace "..." with the description that the giveaway must have. Use "\\n" to represent a new line. For example, "The winner will be added on Steam for the delivery.\\n\\nPlease be patient.".)</li>
+            </ul>
             <div>Put each giveaway in a separate line, using one of the formats below:</div>
-            <br>
-            <div><span class="esgst-bold">Game Name</span> for gift giveaways for 1 copy.</div>
-            <div><span class="esgst-bold">Game Name (X Copies)</span> for gift giveaways for more than 1 copy (replace the X with the number of copies).</div>
-            <div><span class="esgst-bold">Game Name XXXXX-XXXXX-XXXXX</span> or <span class="esgst-bold">XXXXX-XXXXX-XXXXX Game Name</span> for key giveaways. Gift links are also acceptable, so instead of "XXXXX-XXXXX-XXXXX" you can have "https://www.humblebundle.com/?gift=XxXXxxXXxXxxxXxx". For a link to be recognized it must start with either "http" or "https".</div>
+            <ul>
+                <li>Gift giveaways for 1 copy.</li>
+                <ul>
+                    <li><span class="esgst-bold">Game Name</span></li>
+                    <li><span class="esgst-bold">Game Name https://store.steampowered.com/xxx/XXXXX</span></li>
+                    <li><span class="esgst-bold">https://store.steampowered.com/xxx/XXXXX</span></li>
+                </ul>
+                <li>Gift giveaways for more than 1 copy. Replace the X with the number of copies.</li>
+                <ul>
+                    <li><span class="esgst-bold">Game Name (X Copies)</span></li>
+                    <li><span class="esgst-bold">Game Name https://store.steampowered.com/xxx/XXXXX (X Copies)</span></li>
+                    <li><span class="esgst-bold">https://store.steampowered.com/xxx/XXXXX (X Copies)</span></li>
+                </ul>
+                <li>Key giveaways. Gift links are also acceptable, so instead of "XXXXX-XXXXX-XXXXX" you can have "https://www.humblebundle.com/?gift=XxXXxxXXxXxxxXxx". For a link to be recognized it must start with either "http" or "https".</li>
+                <ul>
+                    <li><span class="esgst-bold">Game Name XXXXX-XXXXX-XXXXX</span></li>
+                    <li><span class="esgst-bold">Game Name https://store.steampowered.com/xxx/XXXXX XXXXX-XXXXX-XXXXX</span></li>
+                    <li><span class="esgst-bold">https://store.steampowered.com/xxx/XXXXX XXXXX-XXXXX-XXXXX</span></li>
+                    <li><span class="esgst-bold">XXXXX-XXXXX-XXXXX Game Name</span></li>
+                    <li><span class="esgst-bold">XXXXX-XXXXX-XXXXX Game Name https://store.steampowered.com/xxx/XXXXX</span></li>
+                    <li><span class="esgst-bold">XXXXX-XXXXX-XXXXX https://store.steampowered.com/xxx/XXXXX</span></li>
+                </ul>
+            </ul>
+            <div>By using the format that includes the link to the Steam store page of the game (https://store.steampowered.com/xxx/XXXXX), you make sure that if there are multiple games with the same name there will be a 100% match. If you do not use that format and there are multiple games with the same name, a popup will appear for you to decide which game should be used.</div>
             <br>
             <div>Here's an example:</div>
             <br>
             <div class="esgst-bold">Portal</div>
             <div class="esgst-bold">Portal XXXXX-XXXXX-XXXXX</div>
             <div class="esgst-bold">YYYYY-YYYYY-YYYYY Portal</div>
-            <div class="esgst-bold">Portal (2 Copies)</div>
-            <div class="esgst-bold">Portal ZZZZZ-ZZZZZ-ZZZZZ</div>
+            <div class="esgst-bold">Portal https://store.steampowered.com/400 (2 Copies)</div>
+            <div class="esgst-bold">https://store.steampowered.com/400 ZZZZZ-ZZZZZ-ZZZZZ</div>
             <br>
             <div>This example will create the 5 following giveaways if the option "Group adjacent keys for the same game." is disabled:</div>
             <br>
@@ -23189,7 +23209,15 @@ Parsedown = (() => {
                     }
                 });
             }
-            giveaways[i] = giveaways[i].replace(/\[(.+?)="(.+?)"\]/g, ``).trim();
+            let steamLink = giveaways[i].match(/https?:\/\/.*?store\.steampowered\.com\/(app|sub)\/(\d+)/);
+            let steamInfo = null;
+            if (steamLink) {
+                steamInfo = {
+                    id: steamLink[2],
+                    type: `${steamLink[1]}s`
+                };
+            }
+            giveaways[i] = giveaways[i].replace(/\[(.+?)="(.+?)"\]/g, ``).replace(/https?:\/\/.*?store\.steampowered\.com(.*?\s|.*)/, `[ESGST] `).trim();
             match = giveaways[i].match(/^(([\d\w]{5}(-[\d\w]{5}){2,}\s?|https?:\/\/.+?\s?)+)\s(.+)$/);
             if (match) {
                 key = true;
@@ -23210,10 +23238,9 @@ Parsedown = (() => {
                 }
             }
             if (match) {
-                name = match[namePos];
+                name = match[namePos].replace(/\[ESGST\]/, ``).trim().toLowerCase();
                 values = {
                     countries: (countries || mgc.countries.value).trim(),
-                    gameName: name,
                     startTime: (startTime && startTime[1]) || mgc.startTime.value,
                     endTime: (endTime && endTime[1]) || mgc.endTime.value,
                     region: countries ? `1` : mgc.region.value,
@@ -23241,6 +23268,15 @@ Parsedown = (() => {
                         found = false;
                         giveaway = giveaways[i + 1];
                         if (giveaway) {
+                            let nextSteamLink = giveaway.match(/https?:\/\/.*?store\.steampowered\.com\/(app|sub)\/(\d+)/);
+                            let nextSteamInfo = null;
+                            if (nextSteamLink) {
+                                nextSteamInfo = {
+                                    id: nextSteamLink[2],
+                                    type: `${nextSteamLink[1]}s`
+                                };
+                            }
+                            giveaway = giveaway.replace(/\[(.+?)="(.+?)"\]/g, ``).replace(/https?:\/\/.*?store\.steampowered\.com(.*?\s|.*)/, `[ESGST] `).trim();
                             match = giveaway.match(/^(([\d\w]{5}(-[\d\w]{5}){2,}\s?|https?:\/\/.+?\s?)+)\s(.+)$/);
                             if (match) {
                                 key = true;
@@ -23256,7 +23292,7 @@ Parsedown = (() => {
                                     key = false;
                                 }
                             }
-                            if (match && key && match[namePos] === name) {
+                            if (match && key && (match[namePos].replace(/\[ESGST\]/, ``).trim().toLowerCase() === name || (nextSteamInfo && steamInfo && nextSteamInfo.type === steamInfo.type && nextSteamInfo.id === steamInfo.id))) {
                                 found = true;
                                 values.keys += `\n${match[keyPos].replace(/\s/g, `\n`)}`;
                                 ++i;
@@ -23265,7 +23301,7 @@ Parsedown = (() => {
                         }
                     } while (found);
                 }
-                getMgcGiveaway(giveaways, i, j, mgc, n, name, popup, progress, textArea, values, mainCallback, callback, await request({data: `do=autocomplete_giveaway_game&page_number=1&search_query=${encodeURIComponent(name)}`, method: `POST`, url: `/ajax.php`}));
+                getMgcGiveaway(giveaways, i, j, mgc, n, name, popup, progress, steamInfo, textArea, values, mainCallback, callback, await request({data: `do=autocomplete_giveaway_game&page_number=1&search_query=${encodeURIComponent((steamInfo && steamInfo.id) || name)}`, method: `POST`, url: `/ajax.php`}));
             } else {
                 createAlert(`The next giveaway is not in the right format. Please correct it and click on "Import" again to continue importing.`);
                 callback();
@@ -23275,22 +23311,79 @@ Parsedown = (() => {
         }
     }
 
-    function getMgcGiveaway(giveaways, i, j, mgc, n, name, popup, progress, textArea, values, mainCallback, callback, response) {
-        var cache, elements, k, numElements, value;
+    function getMgcGiveaway(giveaways, i, j, mgc, n, name, popup, progress, steamInfo, textArea, values, mainCallback, callback, response) {
+        let button, conflictPopup, context, element, elements, exactMatch, info, k, matches, numElements, value;
         elements = parseHtml(JSON.parse(response.responseText).html).getElementsByClassName(`table__row-outer-wrap`);
-        for (k = 0, numElements = elements.length; k < numElements && elements[k].getAttribute(`data-autocomplete-name`) !== name; ++k);
-        if (k < numElements) {
-            values.gameId = elements[k].getAttribute(`data-autocomplete-id`);
-            values.steam = getGameInfo(elements[k]);
+        exactMatch = null;
+        matches = [];
+        for (k = 0, numElements = elements.length; k < numElements; k++) {
+            element = elements[k];
+            if (element.getAttribute(`data-autocomplete-name`).toLowerCase() === name) {
+                if (steamInfo) {
+                    info = getGameInfo(element);
+                    if (steamInfo.type === info.type && steamInfo.id === info.id) {
+                        exactMatch = element;
+                        break;
+                    }
+                } else {
+                    matches.push(element);
+                }
+            } else if (steamInfo) {
+                info = getGameInfo(element);
+                if (steamInfo.type === info.type && steamInfo.id === info.id) {
+                    exactMatch = element;
+                    break;
+                }
+            }
+        }
+        if (!exactMatch && matches.length === 1) {
+            exactMatch = matches[0];
+        }
+        if (exactMatch) {
+            values.gameName = exactMatch.getAttribute(`data-autocomplete-name`);
+            values.gameId = exactMatch.getAttribute(`data-autocomplete-id`);
+            values.steam = getGameInfo(exactMatch);
             addMgcGiveaway(false, mgc, values);
             value = $(progress.bar).progressbar(`option`, `value`) + j;
             $(progress.bar).progressbar(`option`, `value`, value);
             progress.current.textContent = value;
             do {
                 textArea.value = textArea.value.replace(/^(.+?)\n/, ``);
-                --j;
+                j -= 1;
             } while (j > 0);
             setTimeout(importMgcGiveaway, 0, giveaways, ++i, mgc, n, popup, progress, textArea, mainCallback, callback);
+        } else if (matches.length > 0) {
+            conflictPopup = new Popup_v2({
+                icon: `fa-exclamation`,
+                isTemp: true,
+                title: `There are ${matches.length} matches for ${name}. Please select the correct match.`,
+                addScrollable: `left`
+            });
+            context = conflictPopup.getScrollable();
+            matches.forEach(match => {
+                let element = insertHtml(context, `beforeEnd`, match.outerHTML);
+                element.classList.remove(`is-clickable`);
+                button = new ButtonSet_v2({color1: `green`, color2: ``, icon1: `fa-arrow-circle-right`, icon2: ``, title1: `Select`, title2: ``, callback1: () => {
+                    conflictPopup.close();
+                    values.gameName = element.getAttribute(`data-autocomplete-name`);
+                    values.gameId = element.getAttribute(`data-autocomplete-id`);
+                    values.steam = getGameInfo(element);
+                    addMgcGiveaway(false, mgc, values);
+                    value = $(progress.bar).progressbar(`option`, `value`) + j;
+                    $(progress.bar).progressbar(`option`, `value`, value);
+                    progress.current.textContent = value;
+                    do {
+                        textArea.value = textArea.value.replace(/^(.+?)\n/, ``);
+                        j -= 1;
+                    } while (j > 0);
+                    setTimeout(importMgcGiveaway, 0, giveaways, ++i, mgc, n, popup, progress, textArea, mainCallback, callback);
+                }});
+                button.set.style.position = `absolute`;
+                button.set.style.right = `50px`;
+                element.insertBefore(button.set, element.firstElementChild);
+            });
+            conflictPopup.onClose = callback;
+            conflictPopup.open();
         } else {
             createAlert(`${name} was not found! Please correct the title of the game and click on "Import" again to continue importing (it must be exactly like on Steam).`);
             callback();
