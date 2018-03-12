@@ -1992,6 +1992,7 @@ Parsedown = (() => {
         esgst = {
             parameters: getParameters(),
             defaultValues: {
+                ef_filters: ``,
                 gwc_h_width: `3px`,
                 gwr_h_width: `3px`,
                 chfl_giveaways_sg: [
@@ -2414,7 +2415,7 @@ Parsedown = (() => {
             sg: location.hostname.match(/www.steamgifts.com/),
             st: location.hostname.match(/www.steamtrades.com/),
             currentVersion: `7.16.5`,
-            devVersion: `7.16.6 (Dev.9)`,
+            devVersion: `7.16.6 (Dev.10)`,
             icon: `data:image/x-icon;base64,AAABAAEAEBAAAAEAIABoBAAAFgAAACgAAAAQAAAAIAAAAAEAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAqv8DCbP/Hgeq+CQIrf8iCK3/Igit/yIIrf8iB6//Iwit9x8Aqv8DAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAKr0GAa2/c0DvfzfA7f83QO3/N0Dt/zdA7f83QO+/d4Gs/3OAKP1GQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACm/xQFs/n2Bcf//wW///8FwP//BcD//wW///8Fx///BbP69gC2/xUAAAAAAAAAAAAAAAAA/1UDFptOFxSZMxkLpJktAq720QW1+ugEsfvjA7b92wO2/dsEsfvjBbX66Aau/dEoiO4tUlLWGU5k3hdVVf8DEJxKHxWqT8cVrU7uE6VN0guqny0Apv8XAJfQGwBAVywAQFcsAJfQGwCx/xcogugtS2Lk0lBl6u5Qae7ISmPeHxagSSMVr07jF7lV/xOiSu0brgATAAAAAAAAAA8AAAC/AAAAwAAAABAAAAAAYznjEkth4OxWb/3/T2jv40lf4iMXnksiEq1O3RayUv8UpEnkEo0+HQAAABkAAABBAAAA8QAAAPEAAABBAAAAGUBSvxxOYeDjU2v0/05m7d1LYuEiF55LIhKtTt0Ws1L/FahN2gU1FTAAAADAAAAA7AAAAP0AAAD9AAAA7AAAAMAVG0owUGPm2lNr9P9OZu3dS2LhIheeSyISrU7dFrNS/xWoTdoFNRswAAAAvwAAAOsAAAD9AAAA/QAAAOsAAADAFRtKMFBj6NpTa/T/Tmbt3Uti4SIXnksiEq1O3RayUv8UpEnkEo0+HQAAABgAAABAAAAA8QAAAPEAAABBAAAAGT5PuR1OYeDjU2v0/05m7d1LYuEiFqBJIxWuT+QXuVX/E6JL7QC8XhMAAAAAAAAADwAAAL8AAAC/AAAAEAAAAAAOR/8SSWLh7FZv/f9PaO/jSV/iIxCUSh8Vrk7HFqxN7ROlS9JskzMt1XULGK12EhxGLgYsRy8GK612EhzVgAsYgmxxLU1i39JNZ+vtT2fwx0pj1h8AqlUDF65GFgqZUhlsiC0txH0T0s5/EujJgBPkz4QR28+EEdvJgBPkzn8Q6Md+E9KLdHosM1LWGUZo6BZVVf8DAAAAAAAAAAAAAAAA/2YAFMl9EvbgjRb/14gV/9eIFf/XiBX/14gV/9+NFv/KgBD254YAFQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAL91FRjKgRHN1IgU3s+EEt3PhBLdz4QS3c+EEt3UiBTezYMRzcJ6FBkAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACqqgADxIARHr18FiO8eA8ivHgPIrx4DyK8eA8ivXwPI8SAER7/VQADAAAAAAAAAAAAAAAA78cAAPA3AAD4FwAABCAAADGOAAAE+AAAkBEAAJ55AACYOQAAlgEAAER4AAAXaAAATnoAAPgXAAD0JwAA69cAAA==`,
             sgIcon: `data:image/x-icon;base64,AAABAAEAEBAAAAEAIABoBAAAFgAAACgAAAAQAAAAIAAAAAEAIAAAAAAAQAQAABMLAAATCwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIUAAAD5AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAPoAAACFAAAAAAAAAAAAAAD8AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA+QAAAAAAAAAAAAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAAAAAAAAAAAAP8AAAD/AAAA/wAAABwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAcAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAcAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAHAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAAAAAAAAAAAAPwAAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD5AAAAAAAAAAAAAACFAAAA+QAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD5AAAAhQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA//8AAP//AADAAwAAwAMAAMfjAADP8wAAz/MAAM/zAADP8wAAz/MAAM/zAADH4wAAwAMAAMADAAD//wAA//8AAA==`,
             stIcon: `data:image/x-icon;base64,AAABAAEAEBAAAAEAIABoBAAAFgAAACgAAAAQAAAAIAAAAAEAIAAAAAAAQAQAABMLAAATCwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABbD6SgWw+ucFsPrkBbD6SgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAWw+uYFsPr/BbD6/wWw+ucAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAFsPrmBbD6/wWw+v8FsPrmAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABbD6SQWw+uYFsPrmBbD6SQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAFKRLShSkS+cUpEvkFKRLSgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAExi4EpMYuDnTGLg5Exi4EoAAAAAAAAAABSkS+YUpEv/FKRL/xSkS+cAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABMYuDmTGLg/0xi4P9MYuDnAAAAAAAAAAAUpEvmFKRL/xSkS/8UpEvmAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAATGLg5kxi4P9MYuD/TGLg5gAAAAAAAAAAFKRLSRSkS+YUpEvmFKRLSQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAExi4ElMYuDmTGLg5kxi4EkAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAMZ9E0rGfRPnxn0T5MZ9E0oAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADGfRPmxn0T/8Z9E//GfRPnAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAxn0T5sZ9E//GfRP/xn0T5gAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAMZ9E0nGfRPmxn0T5sZ9E0kAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA//8AAPw/AAD8PwAA/D8AAPw/AAD//wAAh+EAAIfhAACH4QAAh+EAAP//AAD8PwAA/D8AAPw/AAD8PwAA//8AAA==`,
@@ -3175,6 +3176,25 @@ Parsedown = (() => {
                             </ul>
                         `,
                         name: `Custom Header/Footer Links`,
+                        new: true,
+                        sg: true,
+                        st: true
+                    },
+                    ef: {
+                        description: `
+                            <ul>
+                                <li>Allows you to hide elements in any page using CSS selectors.</li>
+                                <li>If you do not know how to use CSS selectors or you are having trouble hiding an element, leave a comment in the ESGST thread with a description/image of the element that you want to hide and I will give you the selector that you have to use.</li>
+                                <li>Here are some quick examples:</li>
+                                <ul>
+                                    <li>To hide the "Redeem" button in your <a href="https://www.steamgifts.com/giveaways/won">won</a> page, use: <code>.table__column__key__redeem</code></li>
+                                    <li>To hide the featured giveaway container (the big giveaway) in the main page, use: <code>[esgst.giveawaysPath].featured__container</code></li>
+                                    <li>To hide the pinned giveaways (the multiple copy giveaways) in the main page, use: <code>[esgst.giveawaysPath].pinned-giveaways__outer-wrap</code></li>
+                                </ul>
+                            </ul>
+                        `,
+                        input: true,
+                        name: `Element Filters`,
                         new: true,
                         sg: true,
                         st: true
@@ -4747,15 +4767,6 @@ Parsedown = (() => {
                         name: `Grid View`,
                         sg: true
                     },
-                    hfc: {
-                        description: `
-                            <ul>
-                                <li>Hides the featured container (the big giveaway at the top of the page) of the main page.</li>
-                            </ul>
-                        `,
-                        name: `Hidden Featured Container`,
-                        sg: true
-                    },
                     hgr: {
                         description: `
                             <ul>
@@ -4775,15 +4786,6 @@ Parsedown = (() => {
                         name: `Hidden Game's Enter Button Disabler`,
                         sg: true,
                         sync: `Hidden Games`
-                    },
-                    hpg: {
-                        description: `
-                            <ul>
-                                <li>Hides the pinned giveaways (the multiple copy giveaways at the top of the page) of the main page.</li>
-                            </ul>
-                        `,
-                        name: `Hidden Pinned Giveaways`,
-                        sg: true
                     },
                     itadi: {
                         description: `
@@ -7417,6 +7419,8 @@ Parsedown = (() => {
             addGiveawayToStorage();
         }
 
+        if (esgst.ef) hideEfElements(document);
+
         // these features do not need to wait for any other feature
         if (esgst.ags) loadAgs();
         if (esgst.aic) loadAic();
@@ -7443,10 +7447,8 @@ Parsedown = (() => {
         if (esgst.gts) loadGts();
         if (esgst.gv) loadGv();
         if (esgst.hbs) loadHbs();
-        if (esgst.hfc) loadHfc();
         if (esgst.hgebd) loadHgebd();
         if (esgst.hgr) loadHgr();
-        if (esgst.hpg) loadHpg();
         if (esgst.hr) loadHr();
         if (esgst.lpl) loadLpl();
         if (esgst.lpv) loadLpv();
@@ -14641,6 +14643,26 @@ Parsedown = (() => {
         this.popout.open();
     }
 
+    /* [EF] Element Filters */
+
+    function hideEfElements(context) {
+        let element, i, property;
+        esgst.ef_filters.split(`, `).forEach(filter => {
+            if (!filter) return;
+            try {
+                property = filter.match(/\[esgst\.(.+)\]/);
+                if (property) {
+                    if (!esgst[property[1]]) return;
+                    filter = filter.replace(/\[esgst\..+\]/, ``);
+                }
+                elements = context.querySelectorAll(filter);
+                for (i = elements.length - 1; i > -1; i--) {
+                    elements[i].classList.add(`esgst-hidden`);
+                }
+            } catch (e) {}
+        });
+    }
+
     /* [EGH] Entered Game Highlighter */
 
     async function saveEghGame(id, type) {
@@ -15706,7 +15728,8 @@ Parsedown = (() => {
         if (!esgst.header) return;
 
         esgst.header.classList.add(`esgst-fh`);
-        (((!esgst.giveawaysPath || !esgst.hfc) && esgst.featuredContainer) || esgst.pageOuterWrap).classList.add(`esgst-fh-sibling`);
+        let sibling;
+        (((!esgst.giveawaysPath || (esgst.featuredContainer && !esgst.featuredContainer.classList.contains(`esgst-hidden`))) && esgst.featuredContainer) || esgst.pageOuterWrap).classList.add(`esgst-fh-sibling`);
 
         let height = esgst.header.offsetHeight;
         esgst.pageTop += height;
@@ -19230,7 +19253,7 @@ Parsedown = (() => {
         for (i = esgst[key].length - 1; i > -1; --i) {
             giveaway = esgst[key][i];
             if (document.body.contains(giveaway.outerWrap) || endless) {
-                if (!giveaway.pinned || !esgst.hpg) {
+                if (!giveaway.pinned || !esgst.pinnedGiveaways.classList.contains(`esgst-hidden`)) {
                     if (giveaway.outerWrap.classList.contains(`esgst-hidden`)) {
                         if (!giveaway.pinned) {
                             paginationFiltered += 1;
@@ -21577,14 +21600,6 @@ Parsedown = (() => {
         }
     }
 
-    /* [HFC] Hidden Featured Container */
-
-    function loadHfc() {
-        if (!esgst.giveawaysPath || !esgst.featuredContainer) return;
-
-        esgst.featuredContainer.classList.add(`esgst-hidden`);
-    }
-
     /* [HGEBD] Hidden Giveaway Enter Button Disabler */
 
     function loadHgebd() {
@@ -21686,13 +21701,6 @@ Parsedown = (() => {
         hgr.canceled = true;
         hgr.button.classList.remove(`esgst-busy`);
         hgr.progress.innerHTML = ``;
-    }
-
-    /* [HPG] Hidden Pinned Giveaways */
-
-    function loadHpg() {
-        if (!esgst.giveawaysPath || !esgst.pinnedGiveaways) return;
-        esgst.pinnedGiveaways.classList.add(`esgst-hidden`);
     }
 
     /* [HR] Header Refresher */
@@ -31695,6 +31703,9 @@ Parsedown = (() => {
         if (esgst.at) {
             getTimestamps(context);
         }
+        if (esgst.ef && context !== document) {
+            hideEfElements(context);
+        }
         if (esgst.ev) {
             getEvVideos(context);
         }
@@ -34992,9 +35003,9 @@ Parsedown = (() => {
             if (ID === `npth`) {
                 input = insertHtml(SMFeatures, `beforeEnd`, `
                     <div class="esgst-sm-colors">
-                        Enter the key you want to use for previous links: <input type="text" value=${esgst.npth_previousKey}>
+                        Enter the key you want to use for previous links: <input type="text" value="${esgst.npth_previousKey}">
                         <br/>
-                        Enter the key you want to use for next links: <input type="text" value=${esgst.npth_nextKey}>
+                        Enter the key you want to use for next links: <input type="text" value="${esgst.npth_nextKey}">
                     </div>
                 `);
                 prev = input.firstElementChild;
@@ -35015,10 +35026,20 @@ Parsedown = (() => {
                 setSkMenu(Feature.input, insertHtml(SMFeatures, `beforeEnd`, `
                     <div class="esgst-sm-colors"></div>`
                 ));
+            } else if (ID === `ef`) {
+                input = insertHtml(SMFeatures, `beforeEnd`, `
+                    <div class="esgst-sm-colors">
+                        Filters: <input type="text" value="${esgst.ef_filters}"> <i class="fa fa-question-circle" title="Separate each selector by a comma followed by a space, for example: .class_1, .class_2, #id"></i>
+                    </div>
+                `);
+                input.firstElementChild.addEventListener(`change`, function() {
+                    setSetting(`ef_filters`, input.firstElementChild.value);
+                    esgst.ef_filters = input.firstElementChild.value;
+                });
             } else if (ID === `cdr_b`) {
                 input = insertHtml(SMFeatures, `beforeEnd`, `
                     <div class="esgst-sm-colors">
-                        Days: <input type="text" value=${esgst.cdr_days}>
+                        Days: <input type="text" value="${esgst.cdr_days}">
                     </div>
                 `);
                 input.firstElementChild.addEventListener(`change`, function() {
@@ -35029,7 +35050,7 @@ Parsedown = (() => {
                 var hours = esgst.gb_hours;
                 input = insertHtml(SMFeatures, `beforeEnd`, `
                     <div class="esgst-sm-colors">
-                        Time range to trigger highlight: <input type="text" value=${hours}> hours
+                        Time range to trigger highlight: <input type="text" value="${hours}"> hours
                     </div>
                 `);
                 input.firstElementChild.addEventListener(`change`, function() {
@@ -35040,7 +35061,7 @@ Parsedown = (() => {
                 var hours = esgst.hr_w_hours;
                 input = insertHtml(SMFeatures, `beforeEnd`, `
                     <div class="esgst-sm-colors">
-                        Hours: <input type="text" value=${hours}>
+                        Hours: <input type="text" value="${hours}">
                     </div>
                 `);
                 input.firstElementChild.addEventListener(`change`, function() {
@@ -35051,7 +35072,7 @@ Parsedown = (() => {
                 var days = esgst.autoBackup_days;
                 input = insertHtml(SMFeatures, `beforeEnd`, `
                     <div class="esgst-sm-colors">
-                        Days: <input type="text" value=${days}>
+                        Days: <input type="text" value="${days}">
                     </div>
                 `);
                 input.firstElementChild.addEventListener(`change`, function() {
@@ -35061,7 +35082,7 @@ Parsedown = (() => {
             } else if (ID === `hr`) {
                 input = insertHtml(SMFeatures, `beforeEnd`, `
                     <div class="esgst-sm-colors">
-                        Refresh every <input type="text" value=${esgst.hr_minutes}> minutes
+                        Refresh every <input type="text" value="${esgst.hr_minutes}"> minutes
                     </div>
                 `);
                 input.firstElementChild.addEventListener(`change`, function() {
@@ -35090,7 +35111,7 @@ Parsedown = (() => {
             } else if (ID === `staticPopups_f`) {
                 input = insertHtml(SMFeatures, `beforeEnd`, `
                     <div class="esgst-sm-colors">
-                        Width: <input type="text" value=${esgst.staticPopups_width}>
+                        Width: <input type="text" value="${esgst.staticPopups_width}">
                     </div>
                 `);
                 input.firstElementChild.addEventListener(`change`, function() {
@@ -35100,7 +35121,7 @@ Parsedown = (() => {
             } else if (ID === `gwc_h`) {
                 input = insertHtml(SMFeatures, `beforeEnd`, `
                     <div class="esgst-sm-colors">
-                        Image Border Width: <input type="text" value=${esgst.gwc_h_width}>
+                        Image Border Width: <input type="text" value="${esgst.gwc_h_width}">
                     </div>
                 `);
                 input.firstElementChild.addEventListener(`change`, function() {
@@ -35110,7 +35131,7 @@ Parsedown = (() => {
             } else if (ID === `gwr_h`) {
                 input = insertHtml(SMFeatures, `beforeEnd`, `
                     <div class="esgst-sm-colors">
-                        Image Border Width: <input type="text" value=${esgst.gwr_h_width}>
+                        Image Border Width: <input type="text" value="${esgst.gwr_h_width}">
                     </div>
                 `);
                 input.firstElementChild.addEventListener(`change`, function() {
