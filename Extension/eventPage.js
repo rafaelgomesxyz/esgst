@@ -1,7 +1,38 @@
+let storage = null,
+    promise = new Promise((resolve, reject) => {
+        chrome.storage.local.get(null, stg => {
+            storage = stg;
+            resolve();
+        });
+    });
+
+function sendMessage(action, sender, values) {
+    chrome.tabs.query({url: [`*://*.steamgifts.com/*`, `*://*.steamtrades.com/*`]}, tabs => {
+        tabs.forEach(tab => {
+            if (tab.id === sender.tab.id) return;
+            chrome.tabs.sendMessage(tab.id, JSON.stringify({
+                action: action,
+                values: values
+            }), function(response) {});
+        });
+    });
+}
+    
 chrome.runtime.onMessage.addListener((request, sender, callback) => {
+    let key, keys, parameters, values;
     switch (request.action) {
+        case `delValues`:
+            keys = JSON.parse(request.keys);
+            chrome.storage.local.remove(keys, () => {
+                keys.forEach(key => {
+                    delete storage[key];
+                });
+                sendMessage(`delValues`, sender, keys);
+                callback();
+            });
+            break;
         case `fetch`:
-            let parameters = JSON.parse(request.parameters);
+            parameters = JSON.parse(request.parameters);
             parameters.headers = new Headers(parameters.headers);
             fetch(request.url, parameters).then(response => {
                 response.text().then(responseText => {
@@ -13,9 +44,22 @@ chrome.runtime.onMessage.addListener((request, sender, callback) => {
                 });
             });
             break;
+        case `getStorage`:
+            promise.then(() => callback(JSON.stringify(storage)));
+            break;
         case `reload`:
             chrome.runtime.reload();
             callback();
+            break;
+        case `setValues`:
+            values = JSON.parse(request.values);
+            chrome.storage.local.set(values, () => {
+                for (key in values) {
+                    storage[key] = values[key];
+                }
+                sendMessage(`setValues`, sender, values);
+                callback();
+            });
             break;
         case `tabs`:
             getTabs(request);
