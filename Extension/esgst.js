@@ -2415,7 +2415,7 @@ Parsedown = (() => {
             sg: location.hostname.match(/www.steamgifts.com/),
             st: location.hostname.match(/www.steamtrades.com/),
             currentVersion: `7.16.5`,
-            devVersion: `7.16.6 (Dev.15)`,
+            devVersion: `7.16.6 (Dev.16)`,
             icon: `data:image/x-icon;base64,AAABAAEAEBAAAAEAIABoBAAAFgAAACgAAAAQAAAAIAAAAAEAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAqv8DCbP/Hgeq+CQIrf8iCK3/Igit/yIIrf8iB6//Iwit9x8Aqv8DAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAKr0GAa2/c0DvfzfA7f83QO3/N0Dt/zdA7f83QO+/d4Gs/3OAKP1GQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACm/xQFs/n2Bcf//wW///8FwP//BcD//wW///8Fx///BbP69gC2/xUAAAAAAAAAAAAAAAAA/1UDFptOFxSZMxkLpJktAq720QW1+ugEsfvjA7b92wO2/dsEsfvjBbX66Aau/dEoiO4tUlLWGU5k3hdVVf8DEJxKHxWqT8cVrU7uE6VN0guqny0Apv8XAJfQGwBAVywAQFcsAJfQGwCx/xcogugtS2Lk0lBl6u5Qae7ISmPeHxagSSMVr07jF7lV/xOiSu0brgATAAAAAAAAAA8AAAC/AAAAwAAAABAAAAAAYznjEkth4OxWb/3/T2jv40lf4iMXnksiEq1O3RayUv8UpEnkEo0+HQAAABkAAABBAAAA8QAAAPEAAABBAAAAGUBSvxxOYeDjU2v0/05m7d1LYuEiF55LIhKtTt0Ws1L/FahN2gU1FTAAAADAAAAA7AAAAP0AAAD9AAAA7AAAAMAVG0owUGPm2lNr9P9OZu3dS2LhIheeSyISrU7dFrNS/xWoTdoFNRswAAAAvwAAAOsAAAD9AAAA/QAAAOsAAADAFRtKMFBj6NpTa/T/Tmbt3Uti4SIXnksiEq1O3RayUv8UpEnkEo0+HQAAABgAAABAAAAA8QAAAPEAAABBAAAAGT5PuR1OYeDjU2v0/05m7d1LYuEiFqBJIxWuT+QXuVX/E6JL7QC8XhMAAAAAAAAADwAAAL8AAAC/AAAAEAAAAAAOR/8SSWLh7FZv/f9PaO/jSV/iIxCUSh8Vrk7HFqxN7ROlS9JskzMt1XULGK12EhxGLgYsRy8GK612EhzVgAsYgmxxLU1i39JNZ+vtT2fwx0pj1h8AqlUDF65GFgqZUhlsiC0txH0T0s5/EujJgBPkz4QR28+EEdvJgBPkzn8Q6Md+E9KLdHosM1LWGUZo6BZVVf8DAAAAAAAAAAAAAAAA/2YAFMl9EvbgjRb/14gV/9eIFf/XiBX/14gV/9+NFv/KgBD254YAFQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAL91FRjKgRHN1IgU3s+EEt3PhBLdz4QS3c+EEt3UiBTezYMRzcJ6FBkAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACqqgADxIARHr18FiO8eA8ivHgPIrx4DyK8eA8ivXwPI8SAER7/VQADAAAAAAAAAAAAAAAA78cAAPA3AAD4FwAABCAAADGOAAAE+AAAkBEAAJ55AACYOQAAlgEAAER4AAAXaAAATnoAAPgXAAD0JwAA69cAAA==`,
             sgIcon: `data:image/x-icon;base64,AAABAAEAEBAAAAEAIABoBAAAFgAAACgAAAAQAAAAIAAAAAEAIAAAAAAAQAQAABMLAAATCwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIUAAAD5AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAPoAAACFAAAAAAAAAAAAAAD8AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA+QAAAAAAAAAAAAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAAAAAAAAAAAAP8AAAD/AAAA/wAAABwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAcAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAcAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAHAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAAAAAAAAAAAAPwAAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD5AAAAAAAAAAAAAACFAAAA+QAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD5AAAAhQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA//8AAP//AADAAwAAwAMAAMfjAADP8wAAz/MAAM/zAADP8wAAz/MAAM/zAADH4wAAwAMAAMADAAD//wAA//8AAA==`,
             stIcon: `data:image/x-icon;base64,AAABAAEAEBAAAAEAIABoBAAAFgAAACgAAAAQAAAAIAAAAAEAIAAAAAAAQAQAABMLAAATCwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABbD6SgWw+ucFsPrkBbD6SgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAWw+uYFsPr/BbD6/wWw+ucAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAFsPrmBbD6/wWw+v8FsPrmAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABbD6SQWw+uYFsPrmBbD6SQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAFKRLShSkS+cUpEvkFKRLSgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAExi4EpMYuDnTGLg5Exi4EoAAAAAAAAAABSkS+YUpEv/FKRL/xSkS+cAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABMYuDmTGLg/0xi4P9MYuDnAAAAAAAAAAAUpEvmFKRL/xSkS/8UpEvmAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAATGLg5kxi4P9MYuD/TGLg5gAAAAAAAAAAFKRLSRSkS+YUpEvmFKRLSQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAExi4ElMYuDmTGLg5kxi4EkAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAMZ9E0rGfRPnxn0T5MZ9E0oAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADGfRPmxn0T/8Z9E//GfRPnAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAxn0T5sZ9E//GfRP/xn0T5gAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAMZ9E0nGfRPmxn0T5sZ9E0kAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA//8AAPw/AAD8PwAA/D8AAPw/AAD//wAAh+EAAIfhAACH4QAAh+EAAP//AAD8PwAA/D8AAPw/AAD8PwAA//8AAA==`,
@@ -20435,14 +20435,14 @@ Parsedown = (() => {
             region: `0`
         };
         if (giveaway.group || giveaway.whitelist) {
-            template.type = `groups`;
+            template.whoCanEnter = `groups`;
             if (giveaway.whitelist) {
                 template.whitelist = `1`;
             }
         } else if (giveaway.inviteOnly) {
-            template.type = `invite_only`;
+            template.whoCanEnter = `invite_only`;
         } else {
-            template.type = `everyone`;
+            template.whoCanEnter = `everyone`;
         }
         elements = parseHtml(JSON.parse((await request({data: `do=autocomplete_giveaway_game&page_number=1&search_query=${encodeURIComponent(giveaway.name)}`, method: `POST`, url: `/ajax.php`})).responseText).html).getElementsByClassName(`table__row-outer-wrap`);
         for (i = 0, n = elements.length; i < n && elements[i].getAttribute(`data-autocomplete-name`) !== giveaway.name; ++i);
@@ -20451,6 +20451,7 @@ Parsedown = (() => {
         }
         keys = [];
         context = parseHtml(JSON.parse((await request({data: `xsrf_token=${esgst.xsrfToken}&do=popup_keys&code=${giveaway.code}`, method: `POST`, url: `/ajax.php`})).responseText).html).getElementsByClassName(`popup__keys__heading`);
+        console.log(context);
         if (context) {
             context = context[context.length - 1];
             elements = context.nextElementSibling.nextElementSibling.children;
@@ -20459,8 +20460,10 @@ Parsedown = (() => {
             }
         }
         if (keys.length > 0) {
+            template.gameType = `key`;
             template.keys = keys.join(`\n`);
         } else {
+            template.gameType = `gift`;
             template.copies = giveaway.copies;
         }
         await setValue(`grTemplate`, JSON.stringify(template));
@@ -20839,11 +20842,13 @@ Parsedown = (() => {
                 savedTemplates = JSON.parse(await getValue(`templates`, `[]`));
                 for (i = 0, n = savedTemplates.length; i < n; ++i) {
                     savedTemplate = savedTemplates[i];
+                    if (!savedTemplate.gameType) {
+                        savedTemplate.gameType = `gift`;
+                    }
                     if (!savedTemplate.whoCanEnter) {
                         savedTemplate.whoCanEnter = savedTemplate.type;
-                        savedTemplate.type = `gift`;
                     } 
-                    details = `${savedTemplate.type}, `;
+                    details = `${savedTemplate.gameType}, `;
                     if (savedTemplate.startTime || savedTemplate.endTime) {
                         if (savedTemplate.startTime) {
                             time = new Date(savedTemplate.startTime);
@@ -21009,11 +21014,11 @@ Parsedown = (() => {
                         delay: delay,
                         description: document.querySelector(`[name="description"]`).value,
                         duration: endTime - startTime,
+                        gameType: document.querySelector(`[name="type"]`).value,
                         groups: document.querySelector(`[name="group_item_string"]`).value.trim(),
                         level: document.querySelector(`[name="contributor_level"]`).value,
                         name: input.value,
                         region: document.querySelector(`[name="region_restricted"]`).value,
-                        type: document.querySelector(`[name="type"]`).value,
                         whoCanEnter: document.querySelector(`[name="who_can_enter"]`).value,
                         whitelist: document.querySelector(`.form__row--who-can-enter [name="whitelist"]`).value
                     };
@@ -21148,8 +21153,14 @@ Parsedown = (() => {
 
     function applyGtsTemplate(savedTemplate) {
         var context, countries, currentDate, days, endTime, groups, i, id, j, matches, n, newEndTime, newEndTimeBackup, newStartTime, startTime, selected;
+        if (!savedTemplate.gameType) {
+            savedTemplate.gameType = `gift`;
+        }
+        if (!savedTemplate.whoCanEnter) {
+            savedTemplate.whoCanEnter = savedTemplate.type;
+        } 
         currentDate = new Date();
-        document.querySelector(`[data-checkbox-value="${savedTemplate.type}"]`).click();
+        document.querySelector(`[data-checkbox-value="${savedTemplate.gameType}"]`).click();
         if (savedTemplate.edit) {
             document.querySelector(`[name="start_time"]`).value = savedTemplate.startTime;
             document.querySelector(`[name="end_time"]`).value = savedTemplate.endTime;
@@ -21236,10 +21247,8 @@ Parsedown = (() => {
             document.querySelector(`[name="game_id"]`).value = savedTemplate.gameId;
         }
         if (savedTemplate.keys) {
-            document.querySelector(`[data-checkbox-value="key"]`).click();
             document.querySelector(`[name="key_string"]`).value = savedTemplate.keys;
         } else if (savedTemplate.copies) {
-            document.querySelector(`[data-checkbox-value="gift"]`).click();
             document.querySelector(`[name="copies"]`).value = savedTemplate.copies;
         }
         if (savedTemplate.whoCanEnter === `groups`) {
@@ -22685,7 +22694,7 @@ Parsedown = (() => {
                 startTime: document.querySelector(`[name="start_time"]`),
                 endTime: document.querySelector(`[name="end_time"]`),
                 region: document.querySelector(`[name="region_restricted"]`),
-                type: document.querySelector(`[name="who_can_enter"]`),
+                whoCanEnter: document.querySelector(`[name="who_can_enter"]`),
                 whitelist: document.querySelector(`.form__row--who-can-enter [name="whitelist"]`),
                 groups: document.querySelector(`[name="group_item_string"]`),
                 level: document.querySelector(`[name="contributor_level"]`),
@@ -22921,7 +22930,7 @@ Parsedown = (() => {
             values.startTime = mgc.startTime.value;
             values.endTime = mgc.endTime.value;
             values.region = mgc.region.value;
-            values.type = mgc.type.value;
+            values.whoCanEnter = mgc.whoCanEnter.value;
             values.whitelist = mgc.whitelist.value;
             values.groups = mgc.groups.value.trim();
             values.level = mgc.level.value;
@@ -22957,9 +22966,9 @@ Parsedown = (() => {
         if (values.region === `1`) {
             details += `Region Restricted\n`;
         }
-        if (values.type === `everyone`) {
+        if (values.whoCanEnter === `everyone`) {
             details += `Public\n`;
-        } else if (values.type === `invite_only`) {
+        } else if (values.whoCanEnter === `invite_only`) {
             details += `Invite Only\n`;
         } else {
             if (values.whitelist === `1`) {
@@ -22970,7 +22979,7 @@ Parsedown = (() => {
             }
         }
         details += `Level ${values.level}\n\n${values.description}`;
-        data = `xsrf_token=${esgst.xsrfToken}&next_step=3&game_id=${values.gameId}&type=${values.gameType}&copies=${values.copies}&key_string=${values.keys}&start_time=${values.startTime}&end_time=${values.endTime}&region_restricted=${values.region}&country_item_string=${values.countries}&who_can_enter=${values.type}&whitelist=${values.whitelist}&group_item_string=${values.groups}&contributor_level=${values.level}&description=${encodeURIComponent(values.description)}`;
+        data = `xsrf_token=${esgst.xsrfToken}&next_step=3&game_id=${values.gameId}&type=${values.gameType}&copies=${values.copies}&key_string=${values.keys}&start_time=${values.startTime}&end_time=${values.endTime}&region_restricted=${values.region}&country_item_string=${values.countries}&who_can_enter=${values.whoCanEnter}&whitelist=${values.whitelist}&group_item_string=${values.groups}&contributor_level=${values.level}&description=${encodeURIComponent(values.description)}`;
         if (edit) {
             mgc.datas[mgc.editPos] = data;
             mgc.values[mgc.editPos] = values;
@@ -23004,7 +23013,7 @@ Parsedown = (() => {
         mgc.startTime.value = values.startTime;
         mgc.endTime.value = values.endTime;
         mgc.region.value = values.region;
-        mgc.type.value = values.type;
+        mgc.whoCanEnter.value = values.whoCanEnter;
         mgc.whitelist.value = values.whitelist;
         mgc.groups.value = values.groups;
         mgc.level.value = values.level;
@@ -23270,7 +23279,7 @@ Parsedown = (() => {
                     startTime: (startTime && startTime[1]) || mgc.startTime.value,
                     endTime: (endTime && endTime[1]) || mgc.endTime.value,
                     region: countries ? `1` : mgc.region.value,
-                    type: (whoCanEnter && whoCanEnter[1]) || mgc.type.value,
+                    whoCanEnter: (whoCanEnter && whoCanEnter[1]) || mgc.whoCanEnter.value,
                     whitelist: whitelist || mgc.whitelist.value,
                     groups: (groups || mgc.groups.value).trim(),
                     level: (level && level[1]) || mgc.level.value,
@@ -23506,9 +23515,9 @@ Parsedown = (() => {
                 regionRestricted = `${regionRestricted.slice(0, -2)})`;
             }
             let whoCanEnter = `Everyone`;
-            if (values.type === `invite_only`) {
+            if (values.whoCanEnter === `invite_only`) {
                 whoCanEnter = `Invite Only`;
-            } else if (values.type === `groups`) {
+            } else if (values.whoCanEnter === `groups`) {
                 whoCanEnter = `Groups (`;
                 if (values.whitelist === `1`) {
                     whoCanEnter += `Whitelist, `;
