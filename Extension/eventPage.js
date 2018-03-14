@@ -1,5 +1,4 @@
-let storage = null,
-    timeout = null;
+let storage = null;
 
 function sendMessage(action, sender, values) {
     chrome.tabs.query({url: [`*://*.steamgifts.com/*`, `*://*.steamtrades.com/*`]}, tabs => {
