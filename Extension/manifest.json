@@ -1,8 +1,7 @@
 {
   "applications": {
     "gecko": {
-      "id": "{71de700c-ca62-4e31-9de6-93e3c30633d6}",
-      "update_url": "https://github.com/revilheart/ESGST/raw/master/Extension/updates.json"
+      "id": "{71de700c-ca62-4e31-9de6-93e3c30633d6}"
     }
   },
   "background": {
@@ -51,5 +50,5 @@
     "tabs",
     "unlimitedStorage"
   ],
-  "version": "7.17.0"
+  "version": "7.17.1"
 }
