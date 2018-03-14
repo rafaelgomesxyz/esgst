@@ -237,6 +237,24 @@ To learn more about each feature you have to install ESGST.
 
 ## Changelog
 
+**7.17.0 (March 14, 2018):**
+
+<ul>
+    <li><a href="https://github.com/revilheart/ESGST/issues/562">#562</a> Add descriptions to the precise options in Giveaway Templates</li>
+    <li><a href="https://github.com/revilheart/ESGST/issues/563">#563</a> Add an option to specify the game when importing with Multiple Giveaway Creator</li>
+    <li><a href="https://github.com/revilheart/ESGST/issues/564">#564</a> Fix a bug that does not extract the giveaway from the current page</li>
+    <li><a href="https://github.com/revilheart/ESGST/issues/565">#565</a> Add minified version and set it as default</li>
+    <li><a href="https://github.com/revilheart/ESGST/issues/566">#566</a> Add option to specify separate details for each imported giveaway in Multiple Giveaway Creator</li>
+    <li><a href="https://github.com/revilheart/ESGST/issues/568">#568</a> Add an option to enable Giveaway Recreator for all created giveaways</li>
+    <li><a href="https://github.com/revilheart/ESGST/issues/570">#570</a> Fix a bug in Chrome that does not open the giveaway extractor on first click</li>
+    <li><a href="https://github.com/revilheart/ESGST/issues/571">#571</a> Include whether the giveaway is for a gift or a key in the template when using Giveaway Templates</li>
+    <li><a href="https://github.com/revilheart/ESGST/issues/574">#574</a> Add a feature: Element Filters (remove Hidden Feature Container and Hidden Pinned Giveaways)</li>
+    <li><a href="https://github.com/revilheart/ESGST/issues/575">#575</a> Move "Click here to see your review for this user" to the top of the page in Reply Box On Top on SteamTrades</li>
+    <li><a href="https://github.com/revilheart/ESGST/issues/576">#576</a> Fix a bug that does not load features correctly in discussions that contain polls</li>
+    <li><a href="https://github.com/revilheart/ESGST/issues/578">#578</a> Optimize the extension performance (Ongoing)</li>
+    <li><a href="https://github.com/revilheart/ESGST/issues/353">#353</a> Convert all callback functions into promises and use async/await to deal with them (Ongoing)</li>
+</ul>
+
 **7.16.5 (March 4, 2018):**
 
 <ul>
