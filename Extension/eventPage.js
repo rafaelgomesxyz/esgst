@@ -1,10 +1,5 @@
 let storage = null,
-    promise = new Promise((resolve, reject) => {
-        chrome.storage.local.get(null, stg => {
-            storage = stg;
-            resolve();
-        });
-    });
+    timeout = null;
 
 function sendMessage(action, sender, values) {
     chrome.tabs.query({url: [`*://*.steamgifts.com/*`, `*://*.steamtrades.com/*`]}, tabs => {
@@ -45,7 +40,14 @@ chrome.runtime.onMessage.addListener((request, sender, callback) => {
             });
             break;
         case `getStorage`:
-            promise.then(() => callback(JSON.stringify(storage)));
+            if (storage) {
+                callback(JSON.stringify(storage));
+            } else {
+                chrome.storage.local.get(null, stg => {
+                    storage = stg;
+                    callback(JSON.stringify(storage));
+                });
+            }
             break;
         case `reload`:
             chrome.runtime.reload();
