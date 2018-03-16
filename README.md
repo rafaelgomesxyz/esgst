@@ -237,6 +237,12 @@ To learn more about each feature you have to install ESGST.
 
 ## Changelog
 
+**7.17.2 (March 15, 2018):**
+
+<ul>
+    <li>Split jQuery, jQuery UI and Parsedown into separate files</li>
+</ul>
+
 **7.17.1 (March 14, 2018):**
 
 <ul>

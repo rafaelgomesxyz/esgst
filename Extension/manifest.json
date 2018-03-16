@@ -1,9 +1,4 @@
 {
-  "applications": {
-    "gecko": {
-      "id": "{71de700c-ca62-4e31-9de6-93e3c30633d6}"
-    }
-  },
   "background": {
     "scripts": ["eventPage.js"]
   },
@@ -19,6 +14,9 @@
         "*://*.steamtrades.com/*"
       ],
       "js": [
+        "jquery-3.3.1.min.js",
+        "jquery-ui.min.js",
+        "Parsedown.js",
         "esgst.min.js"
       ],
       "run_at": "document_start"
@@ -50,5 +48,5 @@
     "tabs",
     "unlimitedStorage"
   ],
-  "version": "7.17.1"
+  "version": "7.17.2"
 }

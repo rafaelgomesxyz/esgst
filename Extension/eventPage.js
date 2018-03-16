@@ -1,23 +1,29 @@
 let storage = null;
 
+if (typeof chrome !== `undefined`) {
+    if (chrome.runtime) {
+        browser = chrome;
+    }
+}
+
 function sendMessage(action, sender, values) {
-    chrome.tabs.query({url: [`*://*.steamgifts.com/*`, `*://*.steamtrades.com/*`]}, tabs => {
+    browser.tabs.query({url: [`*://*.steamgifts.com/*`, `*://*.steamtrades.com/*`]}, tabs => {
         tabs.forEach(tab => {
             if (tab.id === sender.tab.id) return;
-            chrome.tabs.sendMessage(tab.id, JSON.stringify({
+            browser.tabs.sendMessage(tab.id, JSON.stringify({
                 action: action,
                 values: values
             }), function(response) {});
         });
     });
 }
-    
-chrome.runtime.onMessage.addListener((request, sender, callback) => {
+
+browser.runtime.onMessage.addListener((request, sender, callback) => {
     let key, keys, parameters, values;
     switch (request.action) {
         case `delValues`:
             keys = JSON.parse(request.keys);
-            chrome.storage.local.remove(keys, () => {
+            browser.storage.local.remove(keys, () => {
                 keys.forEach(key => {
                     delete storage[key];
                 });
@@ -42,19 +48,19 @@ chrome.runtime.onMessage.addListener((request, sender, callback) => {
             if (storage) {
                 callback(JSON.stringify(storage));
             } else {
-                chrome.storage.local.get(null, stg => {
+                browser.storage.local.get(null, stg => {
                     storage = stg;
                     callback(JSON.stringify(storage));
                 });
             }
             break;
         case `reload`:
-            chrome.runtime.reload();
+            browser.runtime.reload();
             callback();
             break;
         case `setValues`:
             values = JSON.parse(request.values);
-            chrome.storage.local.set(values, () => {
+            browser.storage.local.set(values, () => {
                 for (key in values) {
                     storage[key] = values[key];
                 }
@@ -86,9 +92,9 @@ async function getTabs(request) {
         let tab = (await queryTabs({url: item.pattern}))[0];
         console.log(tab);
         if (tab && tab.id) {
-            chrome.tabs.update(tab.id, {active: true});
+            browser.tabs.update(tab.id, {active: true});
             if (request.refresh) {
-                chrome.tabs.reload(tab.id);
+                browser.tabs.reload(tab.id);
             }
         } else if (request.any) {
             any = true;                    
@@ -100,13 +106,13 @@ async function getTabs(request) {
         let tab = (await queryTabs({url: `*://*.steamgifts.com/*`}))[0];
         console.log(tab);
         if (tab && tab.id) {
-            chrome.tabs.update(tab.id, {active: true});
+            browser.tabs.update(tab.id, {active: true});
         }
     }
 }
 
 function queryTabs(query) {
     return new Promise((resolve, reject) => {
-        chrome.tabs.query(query, resolve);
+        browser.tabs.query(query, resolve);
     });
 }
