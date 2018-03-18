@@ -35,8 +35,8 @@
 // @grant GM.deleteValue
 // @grant GM.listValues
 // @grant GM.xmlHttpRequest
-// @require https://github.com/revilheart/ESGST/raw/master/Extension/jquery-3.3.1.min.js
-// @require https://github.com/revilheart/ESGST/raw/master/Extension/jquery-ui.min.js
+// @require https://github.com/revilheart/ESGST/raw/master/Extension/jQuery.min.js
+// @require https://github.com/revilheart/ESGST/raw/master/Extension/jQueryUI.min.js
 // @require https://github.com/revilheart/ESGST/raw/master/Extension/Parsedown.js
 // @run-at document-start
 // @noframes
