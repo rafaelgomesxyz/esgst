@@ -19,7 +19,7 @@
                 "jQuery.min.js",
                 "jQueryUI.min.js",
                 "Parsedown.js",
-                "esgst.min.js"
+                "esgst.js"
             ],
             "run_at": "document_start"
         }
