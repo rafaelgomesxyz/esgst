@@ -1352,6 +1352,9 @@ async function init() {
             wbh_b_bgColor: `#ff4500`
         },
         oldValues: {
+            pl_sg: `wbl_sg`,
+            pl_w_sg: `wbl_sg`,
+            pl_b_sg: `wbl_sg`,
             gdttt_vg_sg: `gdttt_v_sg`,
             gdttt_vd_sg: `gdttt_v_sg`,
             gdttt_vt_sg: `gdttt_v_sg`,
@@ -1362,7 +1365,7 @@ async function init() {
         sg: location.hostname.match(/www.steamgifts.com/),
         st: location.hostname.match(/www.steamtrades.com/),
         currentVersion: `7.17.2`,
-        devVersion: `7.17.3 (Dev.4)`,
+        devVersion: `7.17.3 (Dev.5)`,
         icon: `data:image/x-icon;base64,AAABAAEAEBAAAAEAIABoBAAAFgAAACgAAAAQAAAAIAAAAAEAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAqv8DCbP/Hgeq+CQIrf8iCK3/Igit/yIIrf8iB6//Iwit9x8Aqv8DAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAKr0GAa2/c0DvfzfA7f83QO3/N0Dt/zdA7f83QO+/d4Gs/3OAKP1GQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACm/xQFs/n2Bcf//wW///8FwP//BcD//wW///8Fx///BbP69gC2/xUAAAAAAAAAAAAAAAAA/1UDFptOFxSZMxkLpJktAq720QW1+ugEsfvjA7b92wO2/dsEsfvjBbX66Aau/dEoiO4tUlLWGU5k3hdVVf8DEJxKHxWqT8cVrU7uE6VN0guqny0Apv8XAJfQGwBAVywAQFcsAJfQGwCx/xcogugtS2Lk0lBl6u5Qae7ISmPeHxagSSMVr07jF7lV/xOiSu0brgATAAAAAAAAAA8AAAC/AAAAwAAAABAAAAAAYznjEkth4OxWb/3/T2jv40lf4iMXnksiEq1O3RayUv8UpEnkEo0+HQAAABkAAABBAAAA8QAAAPEAAABBAAAAGUBSvxxOYeDjU2v0/05m7d1LYuEiF55LIhKtTt0Ws1L/FahN2gU1FTAAAADAAAAA7AAAAP0AAAD9AAAA7AAAAMAVG0owUGPm2lNr9P9OZu3dS2LhIheeSyISrU7dFrNS/xWoTdoFNRswAAAAvwAAAOsAAAD9AAAA/QAAAOsAAADAFRtKMFBj6NpTa/T/Tmbt3Uti4SIXnksiEq1O3RayUv8UpEnkEo0+HQAAABgAAABAAAAA8QAAAPEAAABBAAAAGT5PuR1OYeDjU2v0/05m7d1LYuEiFqBJIxWuT+QXuVX/E6JL7QC8XhMAAAAAAAAADwAAAL8AAAC/AAAAEAAAAAAOR/8SSWLh7FZv/f9PaO/jSV/iIxCUSh8Vrk7HFqxN7ROlS9JskzMt1XULGK12EhxGLgYsRy8GK612EhzVgAsYgmxxLU1i39JNZ+vtT2fwx0pj1h8AqlUDF65GFgqZUhlsiC0txH0T0s5/EujJgBPkz4QR28+EEdvJgBPkzn8Q6Md+E9KLdHosM1LWGUZo6BZVVf8DAAAAAAAAAAAAAAAA/2YAFMl9EvbgjRb/14gV/9eIFf/XiBX/14gV/9+NFv/KgBD254YAFQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAL91FRjKgRHN1IgU3s+EEt3PhBLdz4QS3c+EEt3UiBTezYMRzcJ6FBkAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACqqgADxIARHr18FiO8eA8ivHgPIrx4DyK8eA8ivXwPI8SAER7/VQADAAAAAAAAAAAAAAAA78cAAPA3AAD4FwAABCAAADGOAAAE+AAAkBEAAJ55AACYOQAAlgEAAER4AAAXaAAATnoAAPgXAAD0JwAA69cAAA==`,
         sgIcon: `data:image/x-icon;base64,AAABAAEAEBAAAAEAIABoBAAAFgAAACgAAAAQAAAAIAAAAAEAIAAAAAAAQAQAABMLAAATCwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIUAAAD5AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAPoAAACFAAAAAAAAAAAAAAD8AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA+QAAAAAAAAAAAAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAAAAAAAAAAAAP8AAAD/AAAA/wAAABwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAcAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAcAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAHAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAAAAAAAAAAAAPwAAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD5AAAAAAAAAAAAAACFAAAA+QAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD5AAAAhQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA//8AAP//AADAAwAAwAMAAMfjAADP8wAAz/MAAM/zAADP8wAAz/MAAM/zAADH4wAAwAMAAMADAAD//wAA//8AAA==`,
         stIcon: `data:image/x-icon;base64,AAABAAEAEBAAAAEAIABoBAAAFgAAACgAAAAQAAAAIAAAAAEAIAAAAAAAQAQAABMLAAATCwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABbD6SgWw+ucFsPrkBbD6SgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAWw+uYFsPr/BbD6/wWw+ucAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAFsPrmBbD6/wWw+v8FsPrmAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABbD6SQWw+uYFsPrmBbD6SQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAFKRLShSkS+cUpEvkFKRLSgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAExi4EpMYuDnTGLg5Exi4EoAAAAAAAAAABSkS+YUpEv/FKRL/xSkS+cAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABMYuDmTGLg/0xi4P9MYuDnAAAAAAAAAAAUpEvmFKRL/xSkS/8UpEvmAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAATGLg5kxi4P9MYuD/TGLg5gAAAAAAAAAAFKRLSRSkS+YUpEvmFKRLSQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAExi4ElMYuDmTGLg5kxi4EkAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAMZ9E0rGfRPnxn0T5MZ9E0oAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADGfRPmxn0T/8Z9E//GfRPnAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAxn0T5sZ9E//GfRP/xn0T5gAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAMZ9E0nGfRPmxn0T5sZ9E0kAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA//8AAPw/AAD8PwAA/D8AAPw/AAD//wAAh+EAAIfhAACH4QAAh+EAAP//AAD8PwAA/D8AAPw/AAD8PwAA//8AAA==`,
@@ -4869,6 +4872,39 @@ async function init() {
                     name: `Not Received Finder`,
                     sg: true
                 },
+                pl: {
+                    description: `
+                        <ul>
+                            <li>Allows you to add links to your <a href="https://www.steamgifts.com/account/manage/whitelist">whitelist</a>/<a href="https://www.steamgifts.com/account/manage/blacklist">blacklist</a>/<a href="https://www.steamgifts.com/account/steam/games">games</a>/<a href="https://www.steamgifts.com/account/steam/games">groups</a>/<a href="https://www.steamgifts.com/account/steam/wishlist">wishlist</a> pages to the sidebar of your <a href="https://www.steamgifts.com/user/${esgst.username}">profile</a> page.</li>
+                            <li>The count for each link might be off if you do not have your whitelist/blacklist/owned games/groups/wishlisted games synced through ESGST (first button in the page heading of this menu). The count for games might be always off, since the method ESGST uses to sync your owned games includes DLCs.</li>
+                        </ul>
+                    `,
+                    features: {
+                        pl_w: {
+                            name: `Show whitelist link.`,
+                            sg: true
+                        },
+                        pl_b: {
+                            name: `Show blacklist link.`,
+                            sg: true
+                        },
+                        pl_g: {
+                            name: `Show games link.`,
+                            sg: true
+                        },
+                        pl_gs: {
+                            name: `Show groups link.`,
+                            sg: true
+                        },
+                        pl_wl: {
+                            name: `Show wishlist link.`,
+                            sg: true
+                        }
+                    },
+                    name: `Profile Links`,
+                    new: true,
+                    sg: true
+                },
                 rwscvl: {
                     description: `
                         <ul>
@@ -5131,16 +5167,6 @@ async function init() {
                     sg: {include: [{enabled: 1, pattern: `.*`}], exclude: [{enabled: 1, pattern: `^/account/manage/(whitelist|blacklist)`}]},
                     st: true,
                     sync: `Whitelist and Blacklist`
-                },
-                wbl: {
-                    description: `
-                        <ul>
-                            <li>Adds links to your <a href="https://www.steamgifts.com/account/manage/whitelist">whitelist</a>/<a href="https://www.steamgifts.com/account/manage/blacklist">blacklist</a> pages to the sidebar of your <a href="https://www.steamgifts.com/user/${esgst.username}">profile</a> page.</li>
-                        </ul>
-                    `,
-                    name: `Whitelist/Blacklist Links`,
-                    new: true,
-                    sg: true
                 },
                 wbm: {
                     description: `
@@ -29013,39 +29039,98 @@ async function getWBCUsers(WBC, NextPage, CurrentPage, URL, Callback, Context) {
     }
 }
 
-/* [WBL] Whitelist/Blacklist Links */
+/* [PL] Profile Links */
 
-function addWblLinks(profile) {
+function addPlLinks(profile) {
     if (profile.username !== esgst.username) return;
-    let whitelist = 0;
-    let blacklist = 0;
-    for (let id in esgst.users.users) {
-        let user = esgst.users.users[id];
+    let enabled, id, itemsHtml, game, user,
+        html = ``,
+        sections = [
+            {
+                items: [
+                    {
+                        count: 0,
+                        id: `pl_w`,
+                        name: `Whitelist`,
+                        url: `/account/manage/whitelist`
+                    },
+                    {
+                        count: 0,
+                        id: `pl_b`,
+                        name: `Blacklist`,
+                        url: `/account/manage/blacklist`
+                    }
+                ],
+                name: `Manage`
+            },
+            {
+                items: [
+                    {
+                        count: 0,
+                        id: `pl_g`,
+                        name: `Games`,
+                        url: `/account/steam/games`
+                    },
+                    {
+                        count: 0,
+                        id: `pl_gs`,
+                        name: `Groups`,
+                        url: `/account/steam/groups`
+                    },
+                    {
+                        count: 0,
+                        id: `pl_wl`,
+                        name: `Wishlist`,
+                        url: `/account/steam/wishlist`
+                    }
+                ],
+                name: `Steam`
+            }
+        ];
+    for (id in esgst.users.users) {
+        user = esgst.users.users[id];
         if (user.whitelisted) {
-            whitelist += 1;
+            sections[0].items[0].count += 1;
         } else if (user.blacklisted) {
-            blacklist += 1;
+            sections[0].items[1].count += 1;
         }
     }
-    esgst.sidebar.getElementsByClassName(`sidebar__navigation`)[0].insertAdjacentHTML(`afterEnd`, `
-        <h3 class="sidebar__heading">Manage Whitelist/Blacklist</h3>
-        <ul class="sidebar__navigation" title="${getFeatureTooltip(`wbl`)}">
-            <li class="sidebar__navigation__item">
-                <a class="sidebar__navigation__item__link" href="/account/manage/whitelist">
-                    <div class="sidebar__navigation__item__name">Whitelist</div>
-                    <div class="sidebar__navigation__item__underline"></div>
-                    <div class="sidebar__navigation__item__count">${whitelist}</div>
-                </a>
-            </li>
-            <li class="sidebar__navigation__item">
-                <a class="sidebar__navigation__item__link" href="/account/manage/blacklist">
-                    <div class="sidebar__navigation__item__name">Blacklist</div>
-                    <div class="sidebar__navigation__item__underline"></div>
-                    <div class="sidebar__navigation__item__count">${blacklist}</div>
-                </a>
-            </li>
-        </ul>
-    `);
+    for (id in esgst.games.apps) {
+        game = esgst.games.apps[id];
+        if (game.owned) {
+            sections[1].items[0].count += 1;
+        } else if (game.wishlisted) {
+            sections[1].items[2].count += 1;
+        }
+    }
+    esgst.groups.forEach(group => {
+        if (group.member) {
+            sections[1].items[1].count += 1
+        }
+    });
+    sections.forEach(section => {
+        enabled = false;
+        itemsHtml = ``;
+        section.items.forEach(item => {
+            if (!esgst[item.id]) return;
+            itemsHtml += `
+                <li class="sidebar__navigation__item">
+                    <a class="sidebar__navigation__item__link" href="${item.url}">
+                        <div class="sidebar__navigation__item__name">${item.name}</div>
+                        <div class="sidebar__navigation__item__underline"></div>
+                        <div class="sidebar__navigation__item__count">${item.count}</div>
+                    </a>
+                </li>            
+            `;
+            enabled = true;
+        });
+        if (!enabled) return;
+        html += `
+            <h3 class="sidebar__heading">${section.name}</h3>
+            <ul class="sidebar__navigation" title="${getFeatureTooltip(`pl`)}">${itemsHtml}</ul>        
+        `;
+    });
+    esgst.sidebar.getElementsByClassName(`sidebar__navigation`)[0].insertAdjacentHTML(`afterEnd`, html);
 }
 
 /* [WBM] Whitelist/Blacklist Manager */
@@ -30416,8 +30501,8 @@ function loadProfileFeatures(context) {
     if (esgst.stpb) {
         addStpbButton(profile);
     }
-    if (esgst.wbl && esgst.userPath) {
-        addWblLinks(profile);
+    if (esgst.pl && esgst.userPath) {
+        addPlLinks(profile);
     }
 }
 
