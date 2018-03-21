@@ -27723,7 +27723,7 @@ function openUnPopup(profile) {
 }
 
 async function saveUnNotes(profile) {
-    let notes = profile.unTextArea.value.trim();
+    let notes = removeDuplicateNotes(profile.unTextArea.value.trim());
     let user = {
         steamId: profile.steamId,
         id: profile.id,
@@ -30917,8 +30917,19 @@ async function loadEndlessFeatures(context, main, source, endless) {
 }
 
 /*
-    * Helper Functions
-    */
+* Helper Functions
+*/
+
+function removeDuplicateNotes(notes) {
+    let output = [];
+    notes.split(/\n/).forEach(part => {
+        if (output.indexOf(part) < 0) {
+            output.push(part);
+        }
+        output.push(`\n`);
+    });
+    return output.join(``).trim().replace(/\n\n+/g, `\n\n`);
+}
 
 function setMouseEvent(element, id, url, callback) {
     let isDragging = -1;
@@ -36964,7 +36975,7 @@ async function manageData(dm, dropbox, googleDrive, oneDrive, space, callback) {
                                                             mergedDataValue[valueKey] = newDataValue[valueKey];
                                                             break;
                                                         case `notes`:
-                                                            mergedDataValue.notes = mergedDataValue.notes ? `${mergedDataValue.notes}\n\n${newDataValue.notes}` : newDataValue.notes;
+                                                            mergedDataValue.notes = removeDuplicateNotes(mergedDataValue.notes ? `${mergedDataValue.notes}\n\n${newDataValue.notes}` : newDataValue.notes);
                                                             break;
                                                         case `tags`:
                                                             if (mergedDataValue.tags) {
