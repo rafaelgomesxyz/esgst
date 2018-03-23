@@ -1365,7 +1365,7 @@ async function init() {
         sg: location.hostname.match(/www.steamgifts.com/),
         st: location.hostname.match(/www.steamtrades.com/),
         currentVersion: `7.17.3`,
-        devVersion: `7.17.4 (Dev.6)`,
+        devVersion: `7.17.4 (Dev.7)`,
         icon: `data:image/x-icon;base64,AAABAAEAEBAAAAEAIABoBAAAFgAAACgAAAAQAAAAIAAAAAEAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAqv8DCbP/Hgeq+CQIrf8iCK3/Igit/yIIrf8iB6//Iwit9x8Aqv8DAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAKr0GAa2/c0DvfzfA7f83QO3/N0Dt/zdA7f83QO+/d4Gs/3OAKP1GQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACm/xQFs/n2Bcf//wW///8FwP//BcD//wW///8Fx///BbP69gC2/xUAAAAAAAAAAAAAAAAA/1UDFptOFxSZMxkLpJktAq720QW1+ugEsfvjA7b92wO2/dsEsfvjBbX66Aau/dEoiO4tUlLWGU5k3hdVVf8DEJxKHxWqT8cVrU7uE6VN0guqny0Apv8XAJfQGwBAVywAQFcsAJfQGwCx/xcogugtS2Lk0lBl6u5Qae7ISmPeHxagSSMVr07jF7lV/xOiSu0brgATAAAAAAAAAA8AAAC/AAAAwAAAABAAAAAAYznjEkth4OxWb/3/T2jv40lf4iMXnksiEq1O3RayUv8UpEnkEo0+HQAAABkAAABBAAAA8QAAAPEAAABBAAAAGUBSvxxOYeDjU2v0/05m7d1LYuEiF55LIhKtTt0Ws1L/FahN2gU1FTAAAADAAAAA7AAAAP0AAAD9AAAA7AAAAMAVG0owUGPm2lNr9P9OZu3dS2LhIheeSyISrU7dFrNS/xWoTdoFNRswAAAAvwAAAOsAAAD9AAAA/QAAAOsAAADAFRtKMFBj6NpTa/T/Tmbt3Uti4SIXnksiEq1O3RayUv8UpEnkEo0+HQAAABgAAABAAAAA8QAAAPEAAABBAAAAGT5PuR1OYeDjU2v0/05m7d1LYuEiFqBJIxWuT+QXuVX/E6JL7QC8XhMAAAAAAAAADwAAAL8AAAC/AAAAEAAAAAAOR/8SSWLh7FZv/f9PaO/jSV/iIxCUSh8Vrk7HFqxN7ROlS9JskzMt1XULGK12EhxGLgYsRy8GK612EhzVgAsYgmxxLU1i39JNZ+vtT2fwx0pj1h8AqlUDF65GFgqZUhlsiC0txH0T0s5/EujJgBPkz4QR28+EEdvJgBPkzn8Q6Md+E9KLdHosM1LWGUZo6BZVVf8DAAAAAAAAAAAAAAAA/2YAFMl9EvbgjRb/14gV/9eIFf/XiBX/14gV/9+NFv/KgBD254YAFQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAL91FRjKgRHN1IgU3s+EEt3PhBLdz4QS3c+EEt3UiBTezYMRzcJ6FBkAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACqqgADxIARHr18FiO8eA8ivHgPIrx4DyK8eA8ivXwPI8SAER7/VQADAAAAAAAAAAAAAAAA78cAAPA3AAD4FwAABCAAADGOAAAE+AAAkBEAAJ55AACYOQAAlgEAAER4AAAXaAAATnoAAPgXAAD0JwAA69cAAA==`,
         sgIcon: `data:image/x-icon;base64,AAABAAEAEBAAAAEAIABoBAAAFgAAACgAAAAQAAAAIAAAAAEAIAAAAAAAQAQAABMLAAATCwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIUAAAD5AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAPoAAACFAAAAAAAAAAAAAAD8AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA+QAAAAAAAAAAAAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAAAAAAAAAAAAP8AAAD/AAAA/wAAABwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAcAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAcAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAHAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAAAAAAAAAAAAPwAAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD5AAAAAAAAAAAAAACFAAAA+QAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD5AAAAhQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA//8AAP//AADAAwAAwAMAAMfjAADP8wAAz/MAAM/zAADP8wAAz/MAAM/zAADH4wAAwAMAAMADAAD//wAA//8AAA==`,
         stIcon: `data:image/x-icon;base64,AAABAAEAEBAAAAEAIABoBAAAFgAAACgAAAAQAAAAIAAAAAEAIAAAAAAAQAQAABMLAAATCwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABbD6SgWw+ucFsPrkBbD6SgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAWw+uYFsPr/BbD6/wWw+ucAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAFsPrmBbD6/wWw+v8FsPrmAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABbD6SQWw+uYFsPrmBbD6SQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAFKRLShSkS+cUpEvkFKRLSgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAExi4EpMYuDnTGLg5Exi4EoAAAAAAAAAABSkS+YUpEv/FKRL/xSkS+cAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABMYuDmTGLg/0xi4P9MYuDnAAAAAAAAAAAUpEvmFKRL/xSkS/8UpEvmAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAATGLg5kxi4P9MYuD/TGLg5gAAAAAAAAAAFKRLSRSkS+YUpEvmFKRLSQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAExi4ElMYuDmTGLg5kxi4EkAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAMZ9E0rGfRPnxn0T5MZ9E0oAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADGfRPmxn0T/8Z9E//GfRPnAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAxn0T5sZ9E//GfRP/xn0T5gAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAMZ9E0nGfRPmxn0T5sZ9E0kAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA//8AAPw/AAD8PwAA/D8AAPw/AAD//wAAh+EAAIfhAACH4QAAh+EAAP//AAD8PwAA/D8AAPw/AAD8PwAA//8AAA==`,
@@ -15391,7 +15391,7 @@ async function getGcGames(games, endless) {
         let currentTime = Date.now();
         for (let id in gc.cache.apps) {
             if (gc.cache.apps[id].lastCheck) {
-                if (currentTime - gc.cache.apps[id].lastCheck > 604800000 || gc.cache.apps[id].price === -1 || (!gc.cache.apps[id].tags && !gc.cache.apps[id].rating)) {
+                if (currentTime - gc.cache.apps[id].lastCheck > 604800000 || gc.cache.apps[id].price === -1 || (esgst.gc_g_udt && !gc.cache.apps[id].tags) || (esgst.gc_r && !gc.cache.apps[id].rating) || (esgst.gc_rd && gc.cache.apps[id].removed === -1)) {
                     delete gc.cache.apps[id];
                 }
             } else {
@@ -15400,7 +15400,7 @@ async function getGcGames(games, endless) {
         }
         for (let id in gc.cache.subs) {
             if (gc.cache.subs[id].lastCheck) {
-                if (currentTime - gc.cache.subs[id].lastCheck > 604800000 || gc.cache.subs[id].price === -1) {
+                if (currentTime - gc.cache.subs[id].lastCheck > 604800000 || gc.cache.subs[id].price === -1 || (esgst.gc_g_udt && !gc.cache.subs[id].tags) || (esgst.gc_r && !gc.cache.subs[id].rating) || (esgst.gc_rd && gc.cache.subs[id].removed === -1)) {
                     delete gc.cache.subs[id];
                 }
             } else {
@@ -15580,7 +15580,7 @@ async function getGcCategories(gc, id, type) {
             rating: ``,
             ratingType: ``,
             releaseDate: `?`,
-            removed: 1,
+            removed: -1,
             steamCloud: 0,
             tags: ``,
             tradingCards: 0
@@ -15644,54 +15644,58 @@ async function getGcCategories(gc, id, type) {
                 }
             }
         }
-        let response = await request({headers: {[`Cookie`]: `birthtime=0; mature_content=1`}, method: `GET`, url: `http://store.steampowered.com/${type.slice(0, -1)}/${id}`});
-        let responseHtml = parseHtml(response.responseText);
-        if (response.finalUrl.match(id)) {
-            let elements = responseHtml.getElementsByClassName(`user_reviews_summary_row`);
-            let n = elements.length;
-            if (n > 0) {
-                let rating = elements[n - 1].getAttribute(`data-tooltip-text`).replace(/,|\./g, ``);
-                let match = rating.match(/(\d+)%.+?(\d+)/);
-                let percentageIndex = 1;
-                let countIndex = 2;
-                if (!match) {
-                    match = rating.match(/(\d+).+?(\d+)%/);
-                    percentageIndex = 2;
-                    countIndex = 1;
-                }
-                if (match) {
-                    categories.rating = `${match[percentageIndex]}% (${match[countIndex]})`;
-                    rating = parseInt(match[percentageIndex]);
-                    if (rating >= 0) {
-                        if (rating < 40) {
-                            categories.ratingType = `Negative`;
-                        } else if (rating < 70) {
-                            categories.ratingType = `Mixed`;
+        if (esgst.gc_r || esgst.gc_rd || esgst.gc_g_udt) {
+            let response = await request({headers: {[`Cookie`]: `birthtime=0; mature_content=1`}, method: `GET`, url: `http://store.steampowered.com/${type.slice(0, -1)}/${id}`});
+            let responseHtml = parseHtml(response.responseText);
+            if (response.finalUrl.match(id)) {
+                let elements = responseHtml.getElementsByClassName(`user_reviews_summary_row`);
+                let n = elements.length;
+                if (n > 0) {
+                    let rating = elements[n - 1].getAttribute(`data-tooltip-text`).replace(/,|\./g, ``);
+                    let match = rating.match(/(\d+)%.+?(\d+)/);
+                    let percentageIndex = 1;
+                    let countIndex = 2;
+                    if (!match) {
+                        match = rating.match(/(\d+).+?(\d+)%/);
+                        percentageIndex = 2;
+                        countIndex = 1;
+                    }
+                    if (match) {
+                        categories.rating = `${match[percentageIndex]}% (${match[countIndex]})`;
+                        rating = parseInt(match[percentageIndex]);
+                        if (rating >= 0) {
+                            if (rating < 40) {
+                                categories.ratingType = `Negative`;
+                            } else if (rating < 70) {
+                                categories.ratingType = `Mixed`;
+                            } else {
+                                categories.ratingType = `Positive`;
+                            }
                         } else {
-                            categories.ratingType = `Positive`;
+                            categories.ratingType = `?`;
                         }
-                    } else {
-                        categories.ratingType = `?`;
                     }
                 }
-            }
-            categories.removed = 0;
-            let tags = [];
-            elements = responseHtml.querySelectorAll(`a.app_tag`);
-            for (let i = 0, n = elements.length; i < n; ++i) {
-                tags.push(elements[i].textContent.trim());
-            }
-            tags.sort(function (a, b) {
-                return a.localeCompare(b, {
-                    sensitivity: `base`
+                categories.removed = 0;
+                let tags = [];
+                elements = responseHtml.querySelectorAll(`a.app_tag`);
+                for (let i = 0, n = elements.length; i < n; ++i) {
+                    tags.push(elements[i].textContent.trim());
+                }
+                tags.sort(function (a, b) {
+                    return a.localeCompare(b, {
+                        sensitivity: `base`
+                    });
                 });
-            });
-            categories.tags = tags.join(`, `);
+                categories.tags = tags.join(`, `);
+            } else {                
+                categories.removed = 1;
+            }
         }
-        gc.cache[type][id] = categories;
         if (esgst.gc_dlc_b && categories.dlc && data && data.fullgame && data.fullgame.appid) {
             categories.freeBase = JSON.parse((await request({method: `GET`, url: `http://store.steampowered.com/api/appdetails?appids=${data.fullgame.appid}&filters=basic&cc=us&l=en`})).responseText)[data.fullgame.appid].data.is_free;
         }
+        gc.cache[type][id] = categories;
     } catch (error) {
         console.log(error);
     }
@@ -15936,7 +15940,7 @@ function addGcCategory(cache, games, id, savedGame, type) {
                     }
                     break;
                 case `gc_rm`:
-                    if (cache && cache.removed) {
+                    if (cache && cache.removed === 1) {
                         elements.push(`
                             <a class="esgst-gc esgst-gc-removed" data-id="gc_rm" href="http://steamdb.info/${singularType}/${id}" title="${getFeatureTooltip(`gc_rm`, `Removed`)}">${esgst.gc_rm_s ? (esgst.gc_rm_s_i ? `<i class="fa fa-${esgst.gc_rmIcon}"></i>` : `RM`) : esgst.gc_rmLabel}</a>
                         `);
