@@ -1365,7 +1365,7 @@ async function init() {
         sg: location.hostname.match(/www.steamgifts.com/),
         st: location.hostname.match(/www.steamtrades.com/),
         currentVersion: `7.17.4`,
-        devVersion: `7.17.4`,
+        devVersion: `7.17.47.17.4`,
         icon: `data:image/x-icon;base64,AAABAAEAEBAAAAEAIABoBAAAFgAAACgAAAAQAAAAIAAAAAEAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAqv8DCbP/Hgeq+CQIrf8iCK3/Igit/yIIrf8iB6//Iwit9x8Aqv8DAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAKr0GAa2/c0DvfzfA7f83QO3/N0Dt/zdA7f83QO+/d4Gs/3OAKP1GQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACm/xQFs/n2Bcf//wW///8FwP//BcD//wW///8Fx///BbP69gC2/xUAAAAAAAAAAAAAAAAA/1UDFptOFxSZMxkLpJktAq720QW1+ugEsfvjA7b92wO2/dsEsfvjBbX66Aau/dEoiO4tUlLWGU5k3hdVVf8DEJxKHxWqT8cVrU7uE6VN0guqny0Apv8XAJfQGwBAVywAQFcsAJfQGwCx/xcogugtS2Lk0lBl6u5Qae7ISmPeHxagSSMVr07jF7lV/xOiSu0brgATAAAAAAAAAA8AAAC/AAAAwAAAABAAAAAAYznjEkth4OxWb/3/T2jv40lf4iMXnksiEq1O3RayUv8UpEnkEo0+HQAAABkAAABBAAAA8QAAAPEAAABBAAAAGUBSvxxOYeDjU2v0/05m7d1LYuEiF55LIhKtTt0Ws1L/FahN2gU1FTAAAADAAAAA7AAAAP0AAAD9AAAA7AAAAMAVG0owUGPm2lNr9P9OZu3dS2LhIheeSyISrU7dFrNS/xWoTdoFNRswAAAAvwAAAOsAAAD9AAAA/QAAAOsAAADAFRtKMFBj6NpTa/T/Tmbt3Uti4SIXnksiEq1O3RayUv8UpEnkEo0+HQAAABgAAABAAAAA8QAAAPEAAABBAAAAGT5PuR1OYeDjU2v0/05m7d1LYuEiFqBJIxWuT+QXuVX/E6JL7QC8XhMAAAAAAAAADwAAAL8AAAC/AAAAEAAAAAAOR/8SSWLh7FZv/f9PaO/jSV/iIxCUSh8Vrk7HFqxN7ROlS9JskzMt1XULGK12EhxGLgYsRy8GK612EhzVgAsYgmxxLU1i39JNZ+vtT2fwx0pj1h8AqlUDF65GFgqZUhlsiC0txH0T0s5/EujJgBPkz4QR28+EEdvJgBPkzn8Q6Md+E9KLdHosM1LWGUZo6BZVVf8DAAAAAAAAAAAAAAAA/2YAFMl9EvbgjRb/14gV/9eIFf/XiBX/14gV/9+NFv/KgBD254YAFQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAL91FRjKgRHN1IgU3s+EEt3PhBLdz4QS3c+EEt3UiBTezYMRzcJ6FBkAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACqqgADxIARHr18FiO8eA8ivHgPIrx4DyK8eA8ivXwPI8SAER7/VQADAAAAAAAAAAAAAAAA78cAAPA3AAD4FwAABCAAADGOAAAE+AAAkBEAAJ55AACYOQAAlgEAAER4AAAXaAAATnoAAPgXAAD0JwAA69cAAA==`,
         sgIcon: `data:image/x-icon;base64,AAABAAEAEBAAAAEAIABoBAAAFgAAACgAAAAQAAAAIAAAAAEAIAAAAAAAQAQAABMLAAATCwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIUAAAD5AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAPoAAACFAAAAAAAAAAAAAAD8AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA+QAAAAAAAAAAAAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAAAAAAAAAAAAP8AAAD/AAAA/wAAABwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAcAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAcAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAHAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAAAAAAAAAAAAPwAAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD5AAAAAAAAAAAAAACFAAAA+QAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD5AAAAhQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA//8AAP//AADAAwAAwAMAAMfjAADP8wAAz/MAAM/zAADP8wAAz/MAAM/zAADH4wAAwAMAAMADAAD//wAA//8AAA==`,
         stIcon: `data:image/x-icon;base64,AAABAAEAEBAAAAEAIABoBAAAFgAAACgAAAAQAAAAIAAAAAEAIAAAAAAAQAQAABMLAAATCwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABbD6SgWw+ucFsPrkBbD6SgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAWw+uYFsPr/BbD6/wWw+ucAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAFsPrmBbD6/wWw+v8FsPrmAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABbD6SQWw+uYFsPrmBbD6SQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAFKRLShSkS+cUpEvkFKRLSgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAExi4EpMYuDnTGLg5Exi4EoAAAAAAAAAABSkS+YUpEv/FKRL/xSkS+cAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABMYuDmTGLg/0xi4P9MYuDnAAAAAAAAAAAUpEvmFKRL/xSkS/8UpEvmAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAATGLg5kxi4P9MYuD/TGLg5gAAAAAAAAAAFKRLSRSkS+YUpEvmFKRLSQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAExi4ElMYuDmTGLg5kxi4EkAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAMZ9E0rGfRPnxn0T5MZ9E0oAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADGfRPmxn0T/8Z9E//GfRPnAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAxn0T5sZ9E//GfRP/xn0T5gAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAMZ9E0nGfRPmxn0T5sZ9E0kAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA//8AAPw/AAD8PwAA/D8AAPw/AAD//wAAh+EAAIfhAACH4QAAh+EAAP//AAD8PwAA/D8AAPw/AAD8PwAA//8AAA==`,
@@ -1382,8 +1382,8 @@ async function init() {
         elgbCache: JSON.parse(getLocalValue(`elgbCache`, `{"descriptions": {}, "timestamp": ${Date.now()}}`)),
         menuPath: location.pathname.match(/^\/esgst\//),
         settingsPath: location.pathname.match(/^\/esgst\/settings/),
-        importMenuPath: location.pathname.match(/^\/esgst\/import/),
-        exportMenuPath: location.pathname.match(/^\/esgst\/export/),
+        importMenuPath: location.pathname.match(/^\/esgst\/(import|restore)/),
+        exportMenuPath: location.pathname.match(/^\/esgst\/(backup|export)/),
         deleteMenuPath: location.pathname.match(/^\/esgst\/delete/),
         gbPath: location.pathname.match(/^\/esgst\/bookmarked-giveaways/),
         gedPath: location.pathname.match(/^\/esgst\/decrypted-giveaways/),
@@ -5931,12 +5931,12 @@ async function init() {
                     st: true
                 },
                 calculateExport: {
-                    name: `Calculate and show data sizes when opening the export menu.`,
+                    name: `Calculate and show data sizes when opening the backup menu.`,
                     sg: true,
                     st: true
                 },
                 calculateImport: {
-                    name: `Calculate and show data sizes when opening the import menu.`,
+                    name: `Calculate and show data sizes when opening the restore menu.`,
                     sg: true,
                     st: true
                 },
@@ -6348,10 +6348,10 @@ async function loadEsgst(toDelete, toSet) {
                 document.title = `ESGST - Settings`;
                 loadSMMenu(true);
             } else if (esgst.importMenuPath) {
-                document.title = `ESGST - Import`;
+                document.title = `ESGST - Restore`;
                 loadDataManagement(true, `import`);
             } else if (esgst.exportMenuPath) {
-                document.title = `ESGST - Export`;
+                document.title = `ESGST - Backup`;
                 loadDataManagement(true, `export`);
             } else if (esgst.deleteMenuPath) {
                 document.title = `ESGST - Delete`;
@@ -33706,14 +33706,14 @@ function loadSMMenu(tab) {
         Title: `Sync data`
     }, {
         Check: true,
-        Icons: [`fa-arrow-circle-up`],
+        Icons: [`fa-sign-in esgst-rotate-90`],
         Name: `esgst-heading-button`,
-        Title: `Import data`
+        Title: `Restore data`
     }, {
         Check: true,
-        Icons: [`fa-arrow-circle-down`],
+        Icons: [`fa-sign-out esgst-rotate-270`],
         Name: `esgst-heading-button`,
-        Title: `Export data`
+        Title: `Backup data`
     }, {
         Check: true,
         Icons: [`fa-trash`],
@@ -33723,7 +33723,7 @@ function loadSMMenu(tab) {
         Check: true,
         Icons: [`fa-gear`, `fa-arrow-circle-down`],
         Name: `esgst-heading-button`,
-        Title: `Export settings (exports settings without personal data so you can easily share them with other users)`
+        Title: `Download settings (downloads your settings to your computer without your personal data so you can easily share them with other users)`
     }, {
         Check: true,
         Icons: [`fa-paint-brush`],
@@ -33880,7 +33880,7 @@ function loadSMMenu(tab) {
                 <div class="markdown">
                     <ul>
                         <li>Bugs and suggestions should be reported on the <a href="https://github.com/revilheart/ESGST/issues">GitHub page</a>.</li>
-                        <li>Make sure you backup your data using the export button at the top of the menu every once in a while to prevent any data loss that might occur. It's also probably a good idea to disable automatic updates, since ESGST is in constant development.</li>
+                        <li>Make sure you backup your data using the backup button at the top of the menu every once in a while to prevent any data loss that might occur. It's also probably a good idea to disable automatic updates, since ESGST is in constant development.</li>
                         <li>Hover over the <i class="fa fa-question-circle"></i> icon next to each option that has it to learn more about it and how to use it. Some options are currently missing documentation, so feel free to ask about them in the official ESGST thread.</li>
                         <li>Some features rely on sync to work properly. These features have a <i class="fa fa-refresh esgst-negative"></i> icon next to their names, and when you hover over the icon you can see what type of data you have to sync. You should sync often to keep your data up-to-date. ESGST offers an option to automatically sync your data for you every amount of days so you don't have to do it manually. To enable the automatic sync, simply go to the sync section of the menu (section 1) and select the number of days in the dropdown.</li>
                         <li>ESGST uses 2 terms to define a window opened in the same page: <strong>popout</strong> is when the window opens up, down, left or right from the element you clicked/hovered over (like the one you get with the description of the features) and <strong>popup</strong> is when the window opens in the center of the screen with a modal background behind it (like this one).</li>
@@ -34910,7 +34910,7 @@ function createMenuSection(context, html, number, title, type) {
             <div class="esgst-form-row-indent">${html ? html : ``}</div>
         </div>
     `);
-    if (esgst.collapseSections && !title.match(/(Im|Ex)port|Delete/)) {
+    if (esgst.collapseSections && !title.match(/Backup|Restore|Delete/)) {
         let button, container, isExpanded;
         button = insertHtml(section.firstElementChild, `afterBegin`, `
             <span class="esgst-clickable" style="margin-right: 5px;">
@@ -35540,18 +35540,20 @@ function loadDataManagement(openInTab, type, autoBackup) {
     dm[type] = true;
     switch (type) {
         case `import`:
-            icon = `fa-arrow-circle-up`;
+            icon = `fa-sign-in esgst-rotate-90`;
             onClick = loadImportFile;
             prep = `from`;
-            title1 = `Import`;
-            title2 = `Importing`;
+            title1 = `Restore`;
+            title2 = `Restoring`;
+            dm.pastTense = `restored`;
             break;
         case `export`:
-            icon = `fa-arrow-circle-down`;
+            icon = `fa-sign-out esgst-rotate-270`;
             onClick = manageData;
             prep = `to`;
-            title1 = `Export`;
-            title2 = `Exporting`;
+            title1 = `Backup`;
+            title2 = `Backing up`;
+            dm.pastTense = `backed up`;
             break;
         case `delete`:
             icon = `fa-trash`;
@@ -35559,6 +35561,7 @@ function loadDataManagement(openInTab, type, autoBackup) {
             prep = `from`;
             title1 = `Delete`;
             title2 = `Deleting`;
+            dm.pastTense = `deleted`;
             break;
     }
     if (openInTab) {
@@ -35863,9 +35866,9 @@ function loadDataManagement(openInTab, type, autoBackup) {
         if (type === `import` || type === `delete`) {
             if (type === `import`) {
                 dm.input = insertHtml(container, `beforeEnd`, `<input type="file"/>`);
-                new ToggleSwitch(container, `importAndMerge`, false, `Merge`, false, false, `Merges the current data with the imported data instead of replacing`, esgst.settings.importAndMerge);
+                new ToggleSwitch(container, `importAndMerge`, false, `Merge`, false, false, `Merges the current data with the backup instead of replacing it.`, esgst.settings.importAndMerge);
             }
-            let select = new ToggleSwitch(container, `exportBackup`, false, `Export backup to <select><option>Computer</option><option>Dropbox</option><option>Google Drive</option><option>OneDrive</option></select>`, false, false, `Exports the current data as a backup`, esgst.settings.exportBackup).name.firstElementChild;
+            let select = new ToggleSwitch(container, `exportBackup`, false, `Backup to <select><option>Computer</option><option>Dropbox</option><option>Google Drive</option><option>OneDrive</option></select>`, false, false, `Backs up the current data to one of the selected places before restoring another backup.`, esgst.settings.exportBackup).name.firstElementChild;
             select.selectedIndex = esgst.settings.exportBackupIndex;
             select.addEventListener(`change`, () => {
                 setSetting(`exportBackupIndex`, select.selectedIndex);
@@ -35878,7 +35881,7 @@ function loadDataManagement(openInTab, type, autoBackup) {
         group1.appendChild(new ButtonSet(`grey`, `grey`, `fa-circle-o`, `fa-circle-o-notch fa-spin`, `None`, ``, selectSwitches.bind(null, dm.switches, `disable`, group1)).set);
         group1.appendChild(new ButtonSet(`grey`, `grey`, `fa-dot-circle-o`, `fa-circle-o-notch fa-spin`, `Inverse`, ``, selectSwitches.bind(null, dm.switches, `toggle`, group1)).set);
         group2 = insertHtml(container, `beforeEnd`, `<div class="esgst-button-group"><span>${title1} ${prep}:</span></div>`);
-        group2.appendChild(new ButtonSet(`green`, `grey`, icon, `fa-circle-o-notch fa-spin`, `Computer`, title2, callback => {
+        group2.appendChild(new ButtonSet(`green`, `grey`, `fa-desktop`, `fa-circle-o-notch fa-spin`, `Computer`, title2, callback => {
             onClick(dm, false, false, false, false, () => {
                 manageData(dm, false, false, false, true);
                 callback();
@@ -35907,7 +35910,7 @@ function loadDataManagement(openInTab, type, autoBackup) {
         if (!openInTab) {
             popup.open();
         }
-        if (esgst[`calculate${title1}`]) {
+        if (esgst[`calculate${capitalizeFirstLetter(type)}`]) {
             getDataSizes();
         }
     }
@@ -36111,7 +36114,7 @@ function readImportFile(dm, dropbox, googleDrive, oneDrive, space, callback) {
         if (dm.reader) {
             dm.data = JSON.parse(dm.reader.result);
         }
-        createConfirmation(`Are you sure you want to import the selected data?`, manageData.bind(null, dm, dropbox, googleDrive, oneDrive, space, callback), callback);
+        createConfirmation(`Are you sure you want to restore the selected data?`, manageData.bind(null, dm, dropbox, googleDrive, oneDrive, space, callback), callback);
     } catch (error) {
         createFadeMessage(dm.warning, `Cannot parse file!`);
         callback();
@@ -37145,12 +37148,12 @@ async function manageData(dm, dropbox, googleDrive, oneDrive, space, callback) {
                 file.remove();
                 URL.revokeObjectURL(url);
                 if (!dm.autoBackup) {
-                    createFadeMessage(dm.message, `Data ${dm.type}ed with success!`);
+                    createFadeMessage(dm.message, `Data ${dm.pastTense} with success!`);
                 }
                 callback();
             }
         } else {
-            createFadeMessage(dm.message, `Data ${dm.type}ed with success!`);
+            createFadeMessage(dm.message, `Data ${dm.pastTense} with success!`);
             callback();
         }
     }
@@ -37184,12 +37187,12 @@ async function checkDropboxComplete(data, dm, callback) {
             let name = prompt(`Enter the name of the file:`, `esgst_data_${new Date().toISOString().replace(/:/g, `_`)}`);
             await request({data: JSON.stringify(data), headers: {authorization: `Bearer ${value}`, [`Dropbox-API-Arg`]: `{"path": "/${name}.json"}`, [`Content-Type`]: `application/octet-stream`}, method: `POST`, url: `https://content.dropboxapi.com/2/files/upload`});
             if (!dm.autoBackup) {
-                createFadeMessage(dm.message, `Data ${dm.type}ed with success!`);
+                createFadeMessage(dm.message, `Data ${dm.pastTense} with success!`);
             }
             callback();
         } else {
             let canceled = true;
-            let popup = new Popup(`fa-dropbox`, `Select a file to import:`, true);
+            let popup = new Popup(`fa-dropbox`, `Select a file to restore:`, true);
             popup.onClose = () => {
                 if (canceled) {
                     callback();
@@ -37202,7 +37205,7 @@ async function checkDropboxComplete(data, dm, callback) {
                     <div class="esgst-clickable">${entry.name} - ${convertBytes(entry.size)}</div>
                 `);
                 item.addEventListener(`click`, () => {
-                    createConfirmation(`Are you sure you want to import the selected data?`, async () => {
+                    createConfirmation(`Are you sure you want to restore the selected data?`, async () => {
                         canceled = false;
                         popup.close();
                         dm.data = JSON.parse((await request({headers: {authorization: `Bearer ${value}`, [`Dropbox-API-Arg`]: `{"path": "/${entry.name}"}`, [`Content-Type`]: `text/plain`}, method: `GET`, url: `https://content.dropboxapi.com/2/files/download`})).responseText);
@@ -37223,12 +37226,12 @@ async function checkGoogleDriveComplete(data, dm, callback) {
             let name = prompt(`Enter the name of the file:`, `esgst_data_${new Date().toISOString().replace(/:/g, `_`)}`);
             await request({data: `--esgst\nContent-Type: application/json; charset=UTF-8\n\n{"mimeType": "mime/type", "name": "${name}.json", "parents": ["appDataFolder"]}\n\n--esgst\nContent-Type: mime/type\n\n${JSON.stringify(data)}\n--esgst--`, headers: {authorization: `Bearer ${value}`, [`Content-Type`]: `multipart/related; boundary=esgst`}, method: `POST`, url: `https://www.googleapis.com/upload/drive/v3/files?uploadType=multipart`});
             if (!dm.autoBackup) {
-                createFadeMessage(dm.message, `Data ${dm.type}ed with success!`);
+                createFadeMessage(dm.message, `Data ${dm.pastTense} with success!`);
             }
             callback();
         } else {
             let canceled = true;
-            let popup = new Popup(`fa-google`, `Select a file to import:`, true);
+            let popup = new Popup(`fa-google`, `Select a file to restore:`, true);
             popup.onClose = () => {
                 if (canceled) {
                     callback();
@@ -37241,7 +37244,7 @@ async function checkGoogleDriveComplete(data, dm, callback) {
                     <div class="esgst-clickable">${file.name}</div>
                 `);
                 item.addEventListener(`click`, () => {
-                    createConfirmation(`Are you sure you want to import the selected data?`, async () => {
+                    createConfirmation(`Are you sure you want to restore the selected data?`, async () => {
                         canceled = false;
                         popup.close();
                         dm.data = JSON.parse((await request({headers: {authorization: `Bearer ${value}`}, method: `GET`, url: `https://www.googleapis.com/drive/v3/files/${file.id}?alt=media`})).responseText);
@@ -37262,19 +37265,19 @@ async function checkOneDriveComplete(data, dm, callback) {
             let name = prompt(`Enter the name of the file:`, `esgst_data_${new Date().toISOString().replace(/:/g, `_`)}`);
             await request({anon: true, data: JSON.stringify(data), headers: {Authorization: `bearer ${value}`, [`Content-Type`]: `application/json`}, method: `PUT`, url: `https://graph.microsoft.com/v1.0/me/drive/special/approot:/${name}.json:/content`});
             if (!dm.autoBackup) {
-                createFadeMessage(dm.message, `Data ${dm.type}ed with success!`);
+                createFadeMessage(dm.message, `Data ${dm.pastTense} with success!`);
             }
             callback();
         } else {
             let canceled = true;
-            let popup = new Popup(`fa-windows`, `Select a file to import:`, true);
+            let popup = new Popup(`fa-windows`, `Select a file to restore:`, true);
             let entries = insertHtml(popup.scrollable, `beforeEnd`, `<div class="popup__keys__list"></div>`);
             JSON.parse((await request({anon: true, headers: {Authorization: `bearer ${value}`}, method: `GET`, url: `https://graph.microsoft.com/v1.0/me/drive/special/approot/children`})).responseText).value.forEach(file => {
                 let item = insertHtml(entries, `beforeEnd`, `
                     <div class="esgst-clickable">${file.name} - ${convertBytes(file.size)}</div>
                 `);
                 item.addEventListener(`click`, () => {
-                    createConfirmation(`Are you sure you want to import the selected data?`, async () => {
+                    createConfirmation(`Are you sure you want to restore the selected data?`, async () => {
                         canceled = false;
                         popup.close();
                         dm.data = JSON.parse((await request({anon: true, headers: {authorization: `Bearer ${value}`}, method: `GET`, url: `https://graph.microsoft.com/v1.0/me/drive/items/${file.id}/content`})).responseText);
@@ -37479,6 +37482,14 @@ function addStyle() {
         `;
     }
     style += `
+        .esgst-rotate-90 {
+            transform: rotate(90deg);
+        }
+
+        .esgst-rotate-270 {
+            transform: rotate(270deg);
+        }
+
         .esgst-chfl-compact {
             padding: 8px 15px !important;
         }
