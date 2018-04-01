@@ -939,6 +939,9 @@ async function init() {
     esgst = {
         parameters: getParameters(),
         defaultValues: {
+            hr_g_format: `🏆`,
+            hr_w_format: `(#❤)`,
+            hr_p_format: `(#P)`,
             ef_filters: ``,
             gwc_h_width: `3px`,
             gwr_h_width: `3px`,
@@ -1365,7 +1368,7 @@ async function init() {
         sg: location.hostname.match(/www.steamgifts.com/),
         st: location.hostname.match(/www.steamtrades.com/),
         currentVersion: `7.17.4`,
-        devVersion: `7.17.5 (Dev.5)`,
+        devVersion: `7.17.5 (Dev.6)`,
         icon: `data:image/x-icon;base64,AAABAAEAEBAAAAEAIABoBAAAFgAAACgAAAAQAAAAIAAAAAEAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAqv8DCbP/Hgeq+CQIrf8iCK3/Igit/yIIrf8iB6//Iwit9x8Aqv8DAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAKr0GAa2/c0DvfzfA7f83QO3/N0Dt/zdA7f83QO+/d4Gs/3OAKP1GQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACm/xQFs/n2Bcf//wW///8FwP//BcD//wW///8Fx///BbP69gC2/xUAAAAAAAAAAAAAAAAA/1UDFptOFxSZMxkLpJktAq720QW1+ugEsfvjA7b92wO2/dsEsfvjBbX66Aau/dEoiO4tUlLWGU5k3hdVVf8DEJxKHxWqT8cVrU7uE6VN0guqny0Apv8XAJfQGwBAVywAQFcsAJfQGwCx/xcogugtS2Lk0lBl6u5Qae7ISmPeHxagSSMVr07jF7lV/xOiSu0brgATAAAAAAAAAA8AAAC/AAAAwAAAABAAAAAAYznjEkth4OxWb/3/T2jv40lf4iMXnksiEq1O3RayUv8UpEnkEo0+HQAAABkAAABBAAAA8QAAAPEAAABBAAAAGUBSvxxOYeDjU2v0/05m7d1LYuEiF55LIhKtTt0Ws1L/FahN2gU1FTAAAADAAAAA7AAAAP0AAAD9AAAA7AAAAMAVG0owUGPm2lNr9P9OZu3dS2LhIheeSyISrU7dFrNS/xWoTdoFNRswAAAAvwAAAOsAAAD9AAAA/QAAAOsAAADAFRtKMFBj6NpTa/T/Tmbt3Uti4SIXnksiEq1O3RayUv8UpEnkEo0+HQAAABgAAABAAAAA8QAAAPEAAABBAAAAGT5PuR1OYeDjU2v0/05m7d1LYuEiFqBJIxWuT+QXuVX/E6JL7QC8XhMAAAAAAAAADwAAAL8AAAC/AAAAEAAAAAAOR/8SSWLh7FZv/f9PaO/jSV/iIxCUSh8Vrk7HFqxN7ROlS9JskzMt1XULGK12EhxGLgYsRy8GK612EhzVgAsYgmxxLU1i39JNZ+vtT2fwx0pj1h8AqlUDF65GFgqZUhlsiC0txH0T0s5/EujJgBPkz4QR28+EEdvJgBPkzn8Q6Md+E9KLdHosM1LWGUZo6BZVVf8DAAAAAAAAAAAAAAAA/2YAFMl9EvbgjRb/14gV/9eIFf/XiBX/14gV/9+NFv/KgBD254YAFQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAL91FRjKgRHN1IgU3s+EEt3PhBLdz4QS3c+EEt3UiBTezYMRzcJ6FBkAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACqqgADxIARHr18FiO8eA8ivHgPIrx4DyK8eA8ivXwPI8SAER7/VQADAAAAAAAAAAAAAAAA78cAAPA3AAD4FwAABCAAADGOAAAE+AAAkBEAAJ55AACYOQAAlgEAAER4AAAXaAAATnoAAPgXAAD0JwAA69cAAA==`,
         sgIcon: `data:image/x-icon;base64,AAABAAEAEBAAAAEAIABoBAAAFgAAACgAAAAQAAAAIAAAAAEAIAAAAAAAQAQAABMLAAATCwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIUAAAD5AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAPoAAACFAAAAAAAAAAAAAAD8AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA+QAAAAAAAAAAAAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAAAAAAAAAAAAP8AAAD/AAAA/wAAABwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAcAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAcAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAHAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAAAAAAAAAAAAPwAAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD5AAAAAAAAAAAAAACFAAAA+QAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD5AAAAhQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA//8AAP//AADAAwAAwAMAAMfjAADP8wAAz/MAAM/zAADP8wAAz/MAAM/zAADH4wAAwAMAAMADAAD//wAA//8AAA==`,
         stIcon: `data:image/x-icon;base64,AAABAAEAEBAAAAEAIABoBAAAFgAAACgAAAAQAAAAIAAAAAEAIAAAAAAAQAQAABMLAAATCwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABbD6SgWw+ucFsPrkBbD6SgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAWw+uYFsPr/BbD6/wWw+ucAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAFsPrmBbD6/wWw+v8FsPrmAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABbD6SQWw+uYFsPrmBbD6SQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAFKRLShSkS+cUpEvkFKRLSgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAExi4EpMYuDnTGLg5Exi4EoAAAAAAAAAABSkS+YUpEv/FKRL/xSkS+cAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABMYuDmTGLg/0xi4P9MYuDnAAAAAAAAAAAUpEvmFKRL/xSkS/8UpEvmAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAATGLg5kxi4P9MYuD/TGLg5gAAAAAAAAAAFKRLSRSkS+YUpEvmFKRLSQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAExi4ElMYuDmTGLg5kxi4EkAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAMZ9E0rGfRPnxn0T5MZ9E0oAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADGfRPmxn0T/8Z9E//GfRPnAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAxn0T5sZ9E//GfRP/xn0T5gAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAMZ9E0nGfRPmxn0T5sZ9E0kAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA//8AAPw/AAD8PwAA/D8AAPw/AAD//wAAh+EAAIfhAACH4QAAh+EAAP//AAD8PwAA/D8AAPw/AAD8PwAA//8AAA==`,
@@ -2151,7 +2154,12 @@ async function init() {
                     `,
                     features: {
                         cdr_b: {
-                            input: true,
+                            inputItems: [
+                                {
+                                    id: `cdr_days`,
+                                    prefix: `Days: `
+                                }
+                            ],
                             name: `Remind you a specified number of days before your cake day.`,
                             sg: true
                         },
@@ -2202,7 +2210,13 @@ async function init() {
                             </ul>
                         </ul>
                     `,
-                    input: true,
+                    inputItems: [
+                        {
+                            id: `ef_filters`,
+                            prefix: `Filters: `,
+                            tooltip: `Separate each selector by a comma followed by a space, for example: .class_1, .class_2, #id`
+                        }
+                    ],
                     name: `Element Filters`,
                     sg: true,
                     st: true
@@ -2401,17 +2415,12 @@ async function init() {
                     `,
                     features: {
                         hr_w: {
-                            description: `
-                                <ul>
-                                    <li>A heart icon (<i class="fa fa-heart"></i>) will appear in the title.</li>
-                                </ul>
-                            `,
                             features: {
                                 hr_w_n: {
                                     features: {
                                         hr_w_n_s: {
                                             name: `Play a sound with this notification.`,
-                                            input: `hr_w_n_s_url`,
+                                            inputItems: true,
                                             sg: true
                                         }
                                     },
@@ -2420,25 +2429,32 @@ async function init() {
                                 },
                                 hr_w_h: {
                                     name: `Only indicate for giveaways ending in a specified number of hours.`,
-                                    input: true,
+                                    inputItems: [
+                                        {
+                                            id: `hr_w_hours`,
+                                            prefix: `Hours: `
+                                        }
+                                    ],
                                     sg: true
                                 }
                             },
+                            inputItems: [
+                                {
+                                    id: `hr_w_format`,
+                                    prefix: `Format: `,
+                                    tooltip: `Use # to represent a number. For example, '(#❤)' would show '(8❤)' if there are 8 unentered wishlist giveaways open.`
+                                }
+                            ],
                             name: `Indicate if there are unentered wishlist giveaways open in the tab's title.`,
                             sg: true
                         },
                         hr_g: {
-                            description: `
-                                <ul>
-                                    <li>A trophy icon (<i class="fa fa-trophy"></i>) will appear in the title.</li>
-                                </ul>
-                            `,
                             features: {
                                 hr_g_n: {
                                     features: {
                                         hr_g_n_s: {
                                             name: `Play a sound with this notification.`,
-                                            input: `hr_g_n_s_url`,
+                                            inputItems: true,
                                             sg: true
                                         }
                                     },
@@ -2446,6 +2462,12 @@ async function init() {
                                     sg: true
                                 }
                             },
+                            inputItems: [
+                                {
+                                    id: `hr_g_format`,
+                                    prefix: `Format: `
+                                }
+                            ],
                             name: `Indicate if there are unviewed keys for won gifts in the tab's title.`,
                             sg: true
                         },
@@ -2468,7 +2490,7 @@ async function init() {
                             features: {
                                 hr_fp_s: {
                                     name: `Play a sound with this notification.`,
-                                    input: `hr_fp_s_url`,
+                                    inputItems: true,
                                     sg: true
                                 }
                             },
@@ -2476,6 +2498,13 @@ async function init() {
                             sg: true
                         },
                         hr_p: {
+                            inputItems: [
+                                {
+                                    id: `hr_p_format`,
+                                    prefix: `Format: `,
+                                    tooltip: `Use # to represent a number. For example, '(#P)' would show '(100P)' if you have 100 points.`
+                                }
+                            ],
                             name: `Show the number of points in the tab's title.`,
                             sg: true
                         },
@@ -2485,7 +2514,7 @@ async function init() {
                                     features: {
                                         hr_m_n_s: {
                                             name: `Play a sound with this notification.`,
-                                            input: `hr_m_n_s_url`,
+                                            inputItems: true,
                                             sg: true,
                                             st: true
                                         }
@@ -2523,7 +2552,13 @@ async function init() {
                             st: true
                         }
                     },
-                    input: true,
+                    inputItems: [
+                        {
+                            id: `hr_minutes`,
+                            prefix: `Refresh every `,
+                            suffix: ` minutes`
+                        }
+                    ],
                     name: `Header Refresher`,
                     sg: true,
                     st: true
@@ -2672,81 +2707,81 @@ async function init() {
                     `,
                     features: {
                         sk_cp: {
-                            input: `sk_closePopups`,
+                            inputItems: `sk_closePopups`,
                             name: `Close all currently opened popups.`,
                             sg: true,
                             st: true
                         },
                         sk_sb: {
-                            input: `sk_searchBox`,
+                            inputItems: `sk_searchBox`,
                             name: `Focus on the search box.`,
                             sg: true,
                             st: true
                         },
                         sk_fp: {
-                            input: `sk_firstPage`,
+                            inputItems: `sk_firstPage`,
                             name: `Go to the first page.`,
                             sg: true,
                             st: true
                         },
                         sk_pp: {
-                            input: `sk_previousPage`,
+                            inputItems: `sk_previousPage`,
                             name: `Go to the previous page.`,
                             sg: true,
                             st: true
                         },
                         sk_np: {
-                            input: `sk_nextPage`,
+                            inputItems: `sk_nextPage`,
                             name: `Go to the next page.`,
                             sg: true,
                             st: true
                         },
                         sk_lp: {
-                            input: `sk_lastPage`,
+                            inputItems: `sk_lastPage`,
                             name: `Go to the last page.`,
                             sg: true,
                             st: true
                         },
                         sk_tf: {
-                            input: `sk_toggleFilters`,
+                            inputItems: `sk_toggleFilters`,
                             name: `Toggle the giveaway filters.`,
                             sg: true
                         },
                         sk_hg: {
-                            input: `sk_hideGame`,
+                            inputItems: `sk_hideGame`,
                             name: `Hide the game when inside of a giveaway.`,
                             sg: true
                         },
                         sk_hga: {
-                            input: `sk_hideGiveaway`,
+                            inputItems: `sk_hideGiveaway`,
                             name: `Hide the giveaway when inside of a giveaway.`,
                             sg: true
                         },
                         sk_ge: {
-                            input: `sk_giveawayEntry`,
+                            inputItems: `sk_giveawayEntry`,
                             name: `Enter/leave the giveaway when inside of a giveaway.`,
                             sg: true
                         },
                         sk_c: {
-                            input: `sk_creator`,
+                            inputItems: `sk_creator`,
                             name: `Insert the username of the creator of the giveaway/discussion/trade to the current reply box.`,
                             sg: true,
                             st: true
                         },
                         sk_rb: {
-                            input: `sk_replyBox`,
+                            inputItems: `sk_replyBox`,
                             name: `Focus on the reply box.`,
                             sg: true,
                             st: true
                         },
                         sk_ru: {
-                            input: `sk_replyUser`,
+                            inputItems: `sk_replyUser`,
                             name: `Insert the username of the user to whom you are replying to the current reply box.`,
                             sg: true,
                             st: true
                         },
                         sk_sr: {
-                            input: `sk_submitReply`,
+                            inputItems: `sk_submitReply`,
                             name: `Submit the current reply.`,
                             sg: true,
                             st: true
@@ -2894,7 +2929,13 @@ async function init() {
                             sg: true
                         },
                         elgb_f: {
-                            input: true,
+                            inputItems: [
+                                {
+                                    id: `elgb_filters`,
+                                    prefix: `Filters: `,
+                                    title: `Enter only lowercase letters with no spaces and separate filters with '|'.\n\nFor example, if you want to filter out 'Good luck! No need to thank, unless you're the winner.', use the filter 'goodlucknoneedtothankunlessyourethewinner'.\n\nIf you're familiar with regular expressions, you can also use them. For example, to include a variation of the description above that uses 'you are' instead of 'you're' you could use the filter 'goodlucknoneedtothankunlessyoua?rethewinner'. 'a?' will match or not an 'a' between 'you' and 're'.\n\nThe '.' filter, for example, filters out any descriptions that only have one letter.`
+                                }
+                            ],
                             name: `Filter out useless descriptions.`,
                             sg: true
                         },
@@ -2960,7 +3001,13 @@ async function init() {
                                     <li>If you hover over the button, it shows more details about how many giveaways have started and/or are ending.</li>
                                 </ul>
                             `,
-                            input: true,
+                            inputItems: [
+                                {
+                                    id: `gb_hours`,
+                                    prefix: `Time range to trigger highlight: `,
+                                    suffix: ` hours`
+                                }
+                            ],
                             name: `Highlight the header button when giveaways have started and/or are about to end.`,
                             sg: true
                         },
@@ -3685,7 +3732,12 @@ async function init() {
                                     <li>Changes the color of the giveaway's title to the same color as the chance and adds a border of same color to the giveaway's game image.</li>
                                 </ul>
                             `,
-                            input: true,
+                            inputItems: [
+                                {
+                                    id: `gwc_h_width`,
+                                    prefix: `Image Border Width: `
+                                }
+                            ],
                             name: `Highlight the giveaway.`,
                             sg: true
                         }
@@ -3736,7 +3788,12 @@ async function init() {
                                     <li>Changes the color of the giveaway's title to the same color as the ratio and adds a border of same color to the giveaway's game image.</li>
                                 </ul>
                             `,
-                            input: true,
+                            inputItems: [
+                                {
+                                    id: `gwr_h_width`,
+                                    prefix: `Image Border Width: `
+                                }
+                            ],
                             name: `Highlight the giveaway.`,
                             sg: true
                         }
@@ -3838,7 +3895,18 @@ async function init() {
                         </ul>
                     `,
                     name: `Next/Previous Train Hotkeys`,
-                    input: true,
+                    inputItems: [
+                        {
+                            event: `keydown`,
+                            id: `npth_previousKey`,
+                            prefix: `Enter the key you want to use for previous links: `
+                        },
+                        {
+                            event: `keydown`,
+                            id: `npth_nextKey`,
+                            prefix: `Enter the key you want to use for next links: `
+                        }
+                    ],
                     sg: true
                 },
                 ochgb: {
@@ -5912,7 +5980,12 @@ async function init() {
                     sg: true
                 },
                 autoBackup: {
-                    input: true,
+                    inputItems: [
+                        {
+                            id: `autoBackup_days`,
+                            prefix: `Days: `
+                        }
+                    ],
                     name: `Automatically backup your data every specified number of days.`,
                     options: {
                         title: `Backup to:`,
@@ -6147,7 +6220,12 @@ async function init() {
                 staticPopups: {
                     features: {
                         staticPopups_f: {
-                            input: true,
+                            inputItems: [
+                                {
+                                    id: `staticPopups_width`,
+                                    prefix: `Width: `
+                                }
+                            ],
                             name: `Define a fixed width for popups, so that they are centered horizontally.`,
                             sg: true,
                             st: true
@@ -21042,13 +21120,13 @@ function notifyHrChange(hr, notify) {
             hr.delivered = deliveredNotification = false;
         }
         if (esgst.hr_g && delivered) {
-            title += `🏆 `;
+            title += `${esgst.hr_g_format} `;
         }
         if (esgst.hr_w && esgst.wishlist) {
-            title += `❤ `;
+            title += `${esgst.hr_w_format.replace(/#/, esgst.wishlist)} `;
         }
         if (esgst.hr_p) {
-            title += `(${esgst.points}P) `;
+            title += `${esgst.hr_p_format.replace(/#/, esgst.points)} `;
         }
         title += esgst.originalTitle;
         if (document.title !== title) {
@@ -34207,147 +34285,83 @@ function getSMFeature(Feature, ID, aaa) {
         if (val) {
             SMFeatures.classList.remove(`esgst-hidden`);
         }
-    } else if (Feature.input) {
-        var input, prev, next;
-        if (ID === `npth`) {
-            input = insertHtml(SMFeatures, `beforeEnd`, `
-                <div class="esgst-sm-colors">
-                    Enter the key you want to use for previous links: <input type="text" value="${esgst.npth_previousKey}">
-                    <br/>
-                    Enter the key you want to use for next links: <input type="text" value="${esgst.npth_nextKey}">
-                </div>
-            `);
-            prev = input.firstElementChild;
-            next = input.lastElementChild;
-            prev.addEventListener(`keydown`, function (e) {
-                e.preventDefault();
-                setSetting(`npth_previousKey`, e.key);
-                esgst.npth_previousKey = e.key;
-                prev.value = e.key;
-            });
-            next.addEventListener(`keydown`, function (e) {
-                e.preventDefault();
-                setSetting(`npth_nextKey`, e.key);
-                esgst.npth_nextKey = e.key;
-                next.value = e.key;
-            });
-        } else if (ID.match(/^sk_/)) {
-            setSkMenu(Feature.input, insertHtml(SMFeatures, `beforeEnd`, `
-                <div class="esgst-sm-colors"></div>`
-            ));
-        } else if (ID === `ef`) {
-            input = insertHtml(SMFeatures, `beforeEnd`, `
-                <div class="esgst-sm-colors">
-                    Filters: <input type="text" value="${esgst.ef_filters}"> <i class="fa fa-question-circle" title="Separate each selector by a comma followed by a space, for example: .class_1, .class_2, #id"></i>
-                </div>
-            `);
-            input.firstElementChild.addEventListener(`change`, function() {
-                setSetting(`ef_filters`, input.firstElementChild.value);
-                esgst.ef_filters = input.firstElementChild.value;
-            });
-        } else if (ID === `cdr_b`) {
-            input = insertHtml(SMFeatures, `beforeEnd`, `
-                <div class="esgst-sm-colors">
-                    Days: <input type="text" value="${esgst.cdr_days}">
-                </div>
-            `);
-            input.firstElementChild.addEventListener(`change`, function() {
-                setSetting(`cdr_days`, input.firstElementChild.value);
-                esgst.cdr_days = input.firstElementChild.value;
-            });
-        } else if (ID === `gb_h`) {
-            var hours = esgst.gb_hours;
-            input = insertHtml(SMFeatures, `beforeEnd`, `
-                <div class="esgst-sm-colors">
-                    Time range to trigger highlight: <input type="text" value="${hours}"> hours
-                </div>
-            `);
-            input.firstElementChild.addEventListener(`change`, function() {
-                setSetting(`gb_hours`, input.firstElementChild.value);
-                esgst.gb_hours = input.firstElementChild.value;
-            });
-        } else if (ID === `hr_w_h`) {
-            var hours = esgst.hr_w_hours;
-            input = insertHtml(SMFeatures, `beforeEnd`, `
-                <div class="esgst-sm-colors">
-                    Hours: <input type="text" value="${hours}">
-                </div>
-            `);
-            input.firstElementChild.addEventListener(`change`, function() {
-                setSetting(`hr_w_hours`, input.firstElementChild.value);
-                esgst.hr_w_hours = input.firstElementChild.value;
-            });
-        } else if (ID === `autoBackup`) {
-            var days = esgst.autoBackup_days;
-            input = insertHtml(SMFeatures, `beforeEnd`, `
-                <div class="esgst-sm-colors">
-                    Days: <input type="text" value="${days}">
-                </div>
-            `);
-            input.firstElementChild.addEventListener(`change`, function() {
-                setSetting(`autoBackup_days`, input.firstElementChild.value);
-                esgst.autoBackup_days = input.firstElementChild.value;
-            });
-        } else if (ID === `hr`) {
-            input = insertHtml(SMFeatures, `beforeEnd`, `
-                <div class="esgst-sm-colors">
-                    Refresh every <input type="text" value="${esgst.hr_minutes}"> minutes
-                </div>
-            `);
-            input.firstElementChild.addEventListener(`change`, function() {
-                setSetting(`hr_minutes`, input.firstElementChild.value);
-                esgst.hr_minutes = input.firstElementChild.value;
-            });
-        } else if (ID === `elgb_f`) {
-            input = insertHtml(SMFeatures, `beforeEnd`, `
-                <div class="esgst-sm-colors">
-                    Filters: <input style="width: 300px;" type="text" value="${esgst.elgb_filters}"> <i class="fa fa-question-circle" title="Enter only lowercase letters with no spaces and separate filters with '|'.\n\nFor example, if you want to filter out 'Good luck! No need to thank, unless you're the winner.', use the filter 'goodlucknoneedtothankunlessyourethewinner'.\n\nIf you're familiar with regular expressions, you can also use them. For example, to include a variation of the description above that uses 'you are' instead of 'you're' you could use the filter 'goodlucknoneedtothankunlessyoua?rethewinner'. 'a?' will match or not an 'a' between 'you' and 're'.\n\nThe '.' filter, for example, filters out any descriptions that only have one letter."></i>
-                </div>
-            `);
-            input.firstElementChild.addEventListener(`change`, function() {
-                setSetting(`elgb_filters`, input.firstElementChild.value);
-                esgst.elgb_filters = input.firstElementChild.value;
-            });
+    } else if (Feature.inputItems) {
+        let container = insertHtml(SMFeatures, `beforeEnd`, `
+            <div class"esgst-sm-colors"></div>
+        `);
+        if (ID.match(/^sk_/)) {
+            Feature.inputItems = [
+                {
+                    event: `keydown`,
+                    id: Feature.inputItems,
+                    shortcutKey: true,
+                    prefix: `Enter the key you want to use for this task: `
+                }
+            ]
         } else if (ID.match(/^hr_.+_s$/)) {
-            let play = insertHtml(insertHtml(SMFeatures, `beforeEnd`, `
-                <div class="esgst-sm-colors"></div>`
-            ), `beforeEnd`, `
-                <input type="file" style="width: 200px;">
-                <i class="fa fa-play-circle esgst-clickable"></i>
-            `);
-            play.previousElementSibling.addEventListener(`change`, readHrAudioFile.bind(null, ID));
-            play.addEventListener(`click`, async () => (await createHrPlayer(esgst.settings[`${ID}_sound`] || getHrDefaultSound())).play());
-        } else if (ID === `staticPopups_f`) {
-            input = insertHtml(SMFeatures, `beforeEnd`, `
-                <div class="esgst-sm-colors">
-                    Width: <input type="text" value="${esgst.staticPopups_width}">
-                </div>
-            `);
-            input.firstElementChild.addEventListener(`change`, function() {
-                setSetting(`staticPopups_width`, input.firstElementChild.value);
-                esgst.staticPopups_width = input.firstElementChild.value;
-            });
-        } else if (ID === `gwc_h`) {
-            input = insertHtml(SMFeatures, `beforeEnd`, `
-                <div class="esgst-sm-colors">
-                    Image Border Width: <input type="text" value="${esgst.gwc_h_width}">
-                </div>
-            `);
-            input.firstElementChild.addEventListener(`change`, function() {
-                setSetting(`gwc_h_width`, input.firstElementChild.value);
-                esgst.gwc_h_width = input.firstElementChild.value;
-            });
-        } else if (ID === `gwr_h`) {
-            input = insertHtml(SMFeatures, `beforeEnd`, `
-                <div class="esgst-sm-colors">
-                    Image Border Width: <input type="text" value="${esgst.gwr_h_width}">
-                </div>
-            `);
-            input.firstElementChild.addEventListener(`change`, function() {
-                setSetting(`gwr_h_width`, input.firstElementChild.value);
-                esgst.gwr_h_width = input.firstElementChild.value;
-            });
+            Feature.inputItems = [
+                {
+                    id: `${ID}_sound`,
+                    play: true
+                }
+            ];
         }
+        Feature.inputItems.forEach(item => {
+            let input,
+                value = ``,
+                context = insertHtml(container, `beforeEnd`, `
+                    <div>${item.play ? `
+                        <input type="file" style="width: 200px;">
+                        <i class="fa fa-play-circle esgst-clickable"></i>
+                    ` : `
+                        ${item.prefix || ``}<input class="esgst-switch-input esgst-switch-input-large" type="text" value="${esgst[item.id]}">${item.suffix || ``}${item.tooltip ? ` <i class="fa fa-question-circle" title="${item.tooltip}"></i>` : ``}
+                    `}</div>
+                `);
+            input = context.firstElementChild;
+            if (item.play) {
+                input.nextElementSibling.addEventListener(`click`, async () => (await createHrPlayer(esgst.settings[item.id] || getHrDefaultSound())).play());
+            }
+            if (typeof esgst.settings[item.id] === `undefined`) {
+                isMainNew = true;
+                context.insertAdjacentHTML(`afterBegin`, `
+                    <span class="esgst-bold esgst-red" title="This is a new feature/option">[NEW]</span>
+                `);
+            }
+            input.addEventListener(item.event || `change`, event => {
+                if (item.shortcutKey) {
+                    event.preventDefault();
+                    event.stopPropagation();
+                    if (!event.repeat) {
+                        value = ``;
+                        if (event.ctrlKey) {
+                            value += `ctrlKey + `;
+                        } else if (event.shiftKey) {
+                            value += `shiftKey + `;
+                        } else if (event.altKey) {
+                            value += `altKey + `;
+                        }
+                        value += event.key.toLowerCase();
+                    }
+                } else if (item.play) {
+                    readHrAudioFile(ID, event);
+                } else if (item.event === `keydown`) {
+                    event.preventDefault();
+                    setSetting(item.id, event.key);
+                    esgst[item.id] = event.key;
+                    input.value = event.key;
+                } else {
+                    setSetting(item.id, input.value);
+                    esgst[item.id] = input.value;
+                }
+            }, item.shortcutKey || false);
+            if (item.shortcutKey) {
+                input.addEventListener(`keyup`, event => {
+                    setSetting(item.id, value);
+                    esgst[item.id] = value;
+                    input.value = value;
+                });
+            }
+        });
         if (siwtchSg) {
             siwtchSg.dependencies.push(SMFeatures);
         }
@@ -34585,32 +34599,6 @@ async function saveHrFile(id, popup, reader) {
         popup.icon.classList.add(`fa-times`);
         popup.title.textContent = `An error happened.`;
     }
-}
-
-function setSkMenu(id, input) {
-    let value, context = insertHtml(input, `beforeEnd`, `
-        Enter the key you want to use for this task: <input type="text" value="${esgst[id]}">
-    `);
-    context.addEventListener(`keydown`, event => {
-        event.preventDefault();
-        event.stopPropagation();
-        if (!event.repeat) {
-            value = ``;
-            if (event.ctrlKey) {
-                value += `ctrlKey + `;
-            } else if (event.shiftKey) {
-                value += `shiftKey + `;
-            } else if (event.altKey) {
-                value += `altKey + `;
-            }
-            value += event.key.toLowerCase();
-        }
-    }, true);
-    context.addEventListener(`keyup`, event => {
-        setSetting(id, value);
-        esgst[id] = value;
-        event.currentTarget.value = value;
-    });
 }
 
 function setSmSource(child, sm, event) {
