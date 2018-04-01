@@ -1365,7 +1365,7 @@ async function init() {
         sg: location.hostname.match(/www.steamgifts.com/),
         st: location.hostname.match(/www.steamtrades.com/),
         currentVersion: `7.17.4`,
-        devVersion: `7.17.5 (Dev.3)`,
+        devVersion: `7.17.5 (Dev.4)`,
         icon: `data:image/x-icon;base64,AAABAAEAEBAAAAEAIABoBAAAFgAAACgAAAAQAAAAIAAAAAEAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAqv8DCbP/Hgeq+CQIrf8iCK3/Igit/yIIrf8iB6//Iwit9x8Aqv8DAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAKr0GAa2/c0DvfzfA7f83QO3/N0Dt/zdA7f83QO+/d4Gs/3OAKP1GQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACm/xQFs/n2Bcf//wW///8FwP//BcD//wW///8Fx///BbP69gC2/xUAAAAAAAAAAAAAAAAA/1UDFptOFxSZMxkLpJktAq720QW1+ugEsfvjA7b92wO2/dsEsfvjBbX66Aau/dEoiO4tUlLWGU5k3hdVVf8DEJxKHxWqT8cVrU7uE6VN0guqny0Apv8XAJfQGwBAVywAQFcsAJfQGwCx/xcogugtS2Lk0lBl6u5Qae7ISmPeHxagSSMVr07jF7lV/xOiSu0brgATAAAAAAAAAA8AAAC/AAAAwAAAABAAAAAAYznjEkth4OxWb/3/T2jv40lf4iMXnksiEq1O3RayUv8UpEnkEo0+HQAAABkAAABBAAAA8QAAAPEAAABBAAAAGUBSvxxOYeDjU2v0/05m7d1LYuEiF55LIhKtTt0Ws1L/FahN2gU1FTAAAADAAAAA7AAAAP0AAAD9AAAA7AAAAMAVG0owUGPm2lNr9P9OZu3dS2LhIheeSyISrU7dFrNS/xWoTdoFNRswAAAAvwAAAOsAAAD9AAAA/QAAAOsAAADAFRtKMFBj6NpTa/T/Tmbt3Uti4SIXnksiEq1O3RayUv8UpEnkEo0+HQAAABgAAABAAAAA8QAAAPEAAABBAAAAGT5PuR1OYeDjU2v0/05m7d1LYuEiFqBJIxWuT+QXuVX/E6JL7QC8XhMAAAAAAAAADwAAAL8AAAC/AAAAEAAAAAAOR/8SSWLh7FZv/f9PaO/jSV/iIxCUSh8Vrk7HFqxN7ROlS9JskzMt1XULGK12EhxGLgYsRy8GK612EhzVgAsYgmxxLU1i39JNZ+vtT2fwx0pj1h8AqlUDF65GFgqZUhlsiC0txH0T0s5/EujJgBPkz4QR28+EEdvJgBPkzn8Q6Md+E9KLdHosM1LWGUZo6BZVVf8DAAAAAAAAAAAAAAAA/2YAFMl9EvbgjRb/14gV/9eIFf/XiBX/14gV/9+NFv/KgBD254YAFQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAL91FRjKgRHN1IgU3s+EEt3PhBLdz4QS3c+EEt3UiBTezYMRzcJ6FBkAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACqqgADxIARHr18FiO8eA8ivHgPIrx4DyK8eA8ivXwPI8SAER7/VQADAAAAAAAAAAAAAAAA78cAAPA3AAD4FwAABCAAADGOAAAE+AAAkBEAAJ55AACYOQAAlgEAAER4AAAXaAAATnoAAPgXAAD0JwAA69cAAA==`,
         sgIcon: `data:image/x-icon;base64,AAABAAEAEBAAAAEAIABoBAAAFgAAACgAAAAQAAAAIAAAAAEAIAAAAAAAQAQAABMLAAATCwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIUAAAD5AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAPoAAACFAAAAAAAAAAAAAAD8AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA+QAAAAAAAAAAAAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAAAAAAAAAAAAP8AAAD/AAAA/wAAABwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAcAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAcAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAHAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAAAAAAAAAAAAPwAAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD5AAAAAAAAAAAAAACFAAAA+QAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD5AAAAhQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA//8AAP//AADAAwAAwAMAAMfjAADP8wAAz/MAAM/zAADP8wAAz/MAAM/zAADH4wAAwAMAAMADAAD//wAA//8AAA==`,
         stIcon: `data:image/x-icon;base64,AAABAAEAEBAAAAEAIABoBAAAFgAAACgAAAAQAAAAIAAAAAEAIAAAAAAAQAQAABMLAAATCwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABbD6SgWw+ucFsPrkBbD6SgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAWw+uYFsPr/BbD6/wWw+ucAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAFsPrmBbD6/wWw+v8FsPrmAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABbD6SQWw+uYFsPrmBbD6SQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAFKRLShSkS+cUpEvkFKRLSgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAExi4EpMYuDnTGLg5Exi4EoAAAAAAAAAABSkS+YUpEv/FKRL/xSkS+cAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABMYuDmTGLg/0xi4P9MYuDnAAAAAAAAAAAUpEvmFKRL/xSkS/8UpEvmAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAATGLg5kxi4P9MYuD/TGLg5gAAAAAAAAAAFKRLSRSkS+YUpEvmFKRLSQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAExi4ElMYuDmTGLg5kxi4EkAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAMZ9E0rGfRPnxn0T5MZ9E0oAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADGfRPmxn0T/8Z9E//GfRPnAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAxn0T5sZ9E//GfRP/xn0T5gAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAMZ9E0nGfRPmxn0T5sZ9E0kAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA//8AAPw/AAD8PwAA/D8AAPw/AAD//wAAh+EAAIfhAACH4QAAh+EAAP//AAD8PwAA/D8AAPw/AAD8PwAA//8AAA==`,
@@ -2060,10 +2060,10 @@ async function init() {
     }
     esgst.version = esgst.storage.version;
     for (let key in esgst.oldValues) {
-        esgst[key] = getSetting(key, true);
+        esgst[key] = getSetting(key);
     }
     for (let key in esgst.defaultValues) {
-        esgst[key] = getSetting(key, true);
+        esgst[key] = getSetting(key);
     }
     for (let key in esgst.settings) {
         let match;
@@ -2166,7 +2166,6 @@ async function init() {
                         }
                     },
                     name: `Cake Day Reminder`,
-                    new: true,
                     sg: true
                 },
                 chfl: {
@@ -2187,7 +2186,6 @@ async function init() {
                         </ul>
                     `,
                     name: `Custom Header/Footer Links`,
-                    new: true,
                     sg: true,
                     st: true
                 },
@@ -2206,7 +2204,6 @@ async function init() {
                     `,
                     input: true,
                     name: `Element Filters`,
-                    new: true,
                     sg: true,
                     st: true
                 },
@@ -2612,13 +2609,11 @@ async function init() {
                                 </ul>
                             `,
                             name: `Preload the first page.`,
-                            new: true,
                             sg: true,
                             st: true
                         }
                     },
                     name: `Quick Inbox View`,
-                    newBelow: true,
                     sg: true,
                     st: true
                 },
@@ -2810,8 +2805,7 @@ async function init() {
                     sg: true,
                     st: true
                 }
-            },
-            newBelow: true
+            }
         },
         giveaways: {
             features: {
@@ -3167,7 +3161,6 @@ async function init() {
                                         </ul>
                                     `,
                                     name: `Comments`,
-                                    new: true,
                                     sg: true
                                 },
                                 gf_minutesToEnd: {
@@ -3197,7 +3190,6 @@ async function init() {
                                         </ul>
                                     `,
                                     name: `Chance Per Point`,
-                                    new: true,
                                     sg: true
                                 },
                                 gf_ratio: {
@@ -3246,7 +3238,6 @@ async function init() {
                                         </ul>
                                     `,
                                     name: `Invite Only`,
-                                    new: true,
                                     sg: true
                                 },
                                 gf_group: {
@@ -3562,12 +3553,10 @@ async function init() {
                                 }
                             },
                             name: `Multiple Filters`,
-                            newBelow: true,
                             sg: true
                         }
                     },
                     name: `Giveaway Filters`,
-                    newBelow: true,
                     sg: true,
                     sync: `Hidden Games, Owned/Wishlisted/Ignored Games, Won Games, Reduced CV Games, No CV Games and Giveaways`
                 },
@@ -3614,7 +3603,6 @@ async function init() {
                     features: {
                         gr_a: {
                             name: `Show the icon for all created giveaways.`,
-                            new: true,
                             sg: true
                         },
                         gr_r: {
@@ -3623,7 +3611,6 @@ async function init() {
                         }
                     },
                     name: `Giveaway Recreator`,
-                    newBelow: true,
                     sg: true
                 },
                 gp: {
@@ -3700,12 +3687,10 @@ async function init() {
                             `,
                             input: true,
                             name: `Highlight the giveaway.`,
-                            new: true,
                             sg: true
                         }
                     },
                     name: `Giveaway Winning Chance`,
-                    newBelow: true,
                     sg: true
                 },
                 gwr: {
@@ -3753,12 +3738,10 @@ async function init() {
                             `,
                             input: true,
                             name: `Highlight the giveaway.`,
-                            new: true,
                             sg: true
                         }
                     },
                     name: `Giveaway Winning Ratio`,
-                    newBelow: true,
                     sg: true
                 },
                 gas: {
@@ -3994,8 +3977,7 @@ async function init() {
                     name: `Unsent Gift Sender`,
                     sg: true
                 }
-            },
-            newBelow: true
+            }
         },
         discussions: {
             features: {
@@ -4946,7 +4928,6 @@ async function init() {
                         }
                     },
                     name: `Profile Links`,
-                    new: true,
                     sg: true
                 },
                 rwscvl: {
@@ -5231,8 +5212,7 @@ async function init() {
                     sg: true,
                     sync: `Whitelist and Blacklist`
                 }
-            },
-            newBelow: true
+            }
         },
         groups: {
             features: {
@@ -5694,7 +5674,6 @@ async function init() {
                                 },
                                 gc_o_a: {
                                     name: `Show if you own the game in any of your alt accounts.`,
-                                    new: true,
                                     sg: true
                                 }
                             },
@@ -5908,7 +5887,6 @@ async function init() {
                         }
                     },
                     name: `Game Categories`,
-                    newBelow: true,
                     sg: true,
                     sync: `Hidden Games, Owned/Wishlisted/Ignored Games, Reduced CV Games, No CV Games and Giveaways`
                 },
@@ -5925,14 +5903,12 @@ async function init() {
                     name: `Game Tags`,
                     sg: true
                 }
-            },
-            newBelow: true
+            }
         },
         others: {
             features: {
                 addNoCvGames: {
                     name: `Automatically add no CV games to the database when searching for games in the new giveaway page.`,
-                    new: true,
                     sg: true
                 },
                 autoBackup: {
@@ -6166,7 +6142,6 @@ async function init() {
                 },
                 lockGiveawayColumns: {
                     name: `Lock giveaway columns so that they are not draggable (they will remain in the set order).`,
-                    new: true,
                     sg: true
                 },
                 staticPopups: {
@@ -6174,13 +6149,11 @@ async function init() {
                         staticPopups_f: {
                             input: true,
                             name: `Define a fixed width for popups, so that they are centered horizontally.`,
-                            new: true,
                             sg: true,
                             st: true
                         }
                     },
                     name: `Make popups static (they are fixed at the top left corner of the page instead of being automatically centered).`,
-                    newBelow: true,
                     sg: true,
                     st: true
                 },
@@ -6201,12 +6174,10 @@ async function init() {
                 },
                 showFeatureNumber: {
                     name: `Show the feature number in the tooltips of elements added by ESGST.`,
-                    new: true,
                     sg: true,
                     st: true
                 }
-            },
-            newBelow: true
+            }
         }
     };
     for (let type in esgst.features) {
@@ -31514,7 +31485,7 @@ async function setSetting(id, value, sg, st) {
     esgst.settings[id] = value;
 }
 
-function getSetting(key, save) {
+function getSetting(key) {
     let value = esgst.settings[key];
     if (typeof value === `undefined`) {
         let defaultValue = esgst.defaultValues[key];
@@ -31527,10 +31498,6 @@ function getSetting(key, save) {
         }
         if (typeof value === `undefined`) {
             value = defaultValue;
-        }
-        if (save) {
-            esgst.settings[key] = value;
-            esgst.settingsChanged = true;
         }
     }
     return value;
@@ -31632,7 +31599,8 @@ function getFeaturePath(feature, id, name) {
         setting = {
             enabled: getSetting(key) ? 1 : 0,
             include: [],
-            exclude: []
+            exclude: [],
+            new: typeof setting === `undefined`
         };
         if (feature[name].include) {
             setting.include = feature[name].include;
@@ -33828,14 +33796,9 @@ function loadSMMenu(tab) {
     i = 1;
     for (type in esgst.features) {
         if (type !== `trades` || esgst.settings.esgst_st) {
-            let id, j, section, title;
+            let id, j, section, title, isNew = false;
             title = type.replace(/^./, m => { return m.toUpperCase() });
-            section = createMenuSection(SMMenu, null, i, esgst.features[type].newBelow ? `
-                <span class="esgst-bold esgst-red" title="There is a new feature/option in this section">
-                    <i class="fa fa-star"></i>
-                </span>
-                ${title}
-            ` : title, type);
+            section = createMenuSection(SMMenu, null, i, title, type);
             j = 1;
             for (id in esgst.features[type].features) {
                 let feature, ft;
@@ -33843,10 +33806,20 @@ function loadSMMenu(tab) {
                 if (!feature.extensionOnly || esgst.type === `extension`) {
                     ft = getSMFeature(feature, id, j);
                     if (ft) {
-                        section.lastElementChild.appendChild(ft);
+                        if (ft.isNew) {
+                            isNew = true;
+                        }
+                        section.lastElementChild.appendChild(ft.menu);
                         j += 1;
                     }
                 }
+            }
+            if (isNew) {
+                section.firstElementChild.lastElementChild.insertAdjacentHTML(`afterBegin`, `
+                    <span class="esgst-bold esgst-red" title="There is a new feature/option in this section">
+                        <i class="fa fa-star"></i>
+                    </span>
+                `);
             }
             i += 1;
         }
@@ -34026,28 +33999,18 @@ function savePaths(id, obj) {
 }
 
 function getSMFeature(Feature, ID, aaa) {
-    var Menu, Checkbox, CheckboxInput, SMFeatures;
+    var Menu, Checkbox, CheckboxInput, SMFeatures, isMainNew = false;
     Menu = document.createElement(`div`);
     Menu.id = `esgst_${ID}`;
     Menu.insertAdjacentHTML(`beforeEnd`, `
         <div class="esgst-sm-small-number esgst-form-heading-number">${aaa}.</div>
     `);
-    if (Feature.new) {
-        Menu.insertAdjacentHTML(`beforeEnd`, `
-            <span class="esgst-bold esgst-red" title="This is a new feature/option">[NEW]</span>
-        `);
-    } else if (Feature.newBelow) {
-        Menu.insertAdjacentHTML(`beforeEnd`, `
-            <span class="esgst-bold esgst-red" title="There is a new feature/option in this section">
-                <i class="fa fa-star"></i>
-            </span>
-        `);
-    }
     var localID, val, val1, val2;
-    var siwtchSg, siwtchSt;
+    var siwtchSg, siwtchSt, set1, set2;
     if (Feature.sg) {
         localID = `${ID}_sg`;
-        val1 = getFeaturePath(Feature, ID, `sg`).enabled;
+        set1 = getFeaturePath(Feature, ID, `sg`);
+        val1 = set1.enabled;
         siwtchSg = new ToggleSwitch(Menu, ID, true, esgst.settings.esgst_st ? `[SG]` : ``, true, false, null, val1);
         insertHtml(Menu, `beforeEnd`, `<i class="fa fa-gear esgst-clickable" title="Customize where the feature runs"></i>`).addEventListener(`click`, openPathsPopup.bind(null, Feature, ID, `sg`));
         if (Feature.conflicts) {
@@ -34065,7 +34028,8 @@ function getSMFeature(Feature, ID, aaa) {
     }
     if (Feature.st && (esgst.settings.esgst_st || ID === `esgst`)) {
         localID = `${ID}_st`;
-        val2 = getFeaturePath(Feature, ID, `st`).enabled;
+        set2 = getFeaturePath(Feature, ID, `st`);
+        val2 = set2.enabled;
         siwtchSt = new ToggleSwitch(Menu, ID, true, `[ST]`, false, true, null, val2);
         insertHtml(Menu, `beforeEnd`, `<i class="fa fa-gear esgst-clickable" title="Customize where the feature runs"></i>`).addEventListener(`click`, openPathsPopup.bind(null, Feature, ID, `st`));
         if (Feature.conflicts) {
@@ -34081,7 +34045,16 @@ function getSMFeature(Feature, ID, aaa) {
             }
         }
     }
-    if (siwtchSg || siwtchSt) {
+    if (!siwtchSg && !siwtchSt) {
+        Menu.lastElementChild.remove();
+        return null;
+    }
+    isMainNew = (!set1 || set1.new) && (!set2 || set2.new);
+    if (isMainNew) {
+        Menu.firstElementChild.insertAdjacentHTML(`afterEnd`, `
+            <span class="esgst-bold esgst-red" title="This is a new feature/option">[NEW]</span>
+        `);
+    }
     val = val1 || val2;
     Menu.insertAdjacentHTML(`beforeEnd`, `
         <span>${esgst.settings.esgst_st ? `- ` : ``}${Feature.name}</span> ${Feature.features ? `<i class="fa fa-ellipsis-h" title="This option has sub-options"></i>` : ``} ${Feature.sync ? `<i class="esgst-negative fa fa-refresh" title="This feature requires ${Feature.sync} data to be synced (section 1 of this menu)"></i>` : ``} ${Feature.description ? `<i class="fa fa-question-circle esgst-clickable"></i>` : ``}
@@ -34104,13 +34077,16 @@ function getSMFeature(Feature, ID, aaa) {
         });
     }
     if (Feature.features) {
-        let ft, i, id;
+        let ft, i, id, isNew = false;
         i = 1;
         for (id in Feature.features) {
             if (!Feature.features[id].extensionOnly || esgst.type === `extension`) {
                 ft = getSMFeature(Feature.features[id], id, i);
                 if (ft) {
-                    SMFeatures.appendChild(ft);
+                    if (ft.isNew) {
+                        isNew = true;
+                    }
+                    SMFeatures.appendChild(ft.menu);
                     i += 1;
                 }
             }
@@ -34123,6 +34099,14 @@ function getSMFeature(Feature, ID, aaa) {
         }
         if (val) {
             SMFeatures.classList.remove(`esgst-hidden`);
+        }
+        isMainNew = isMainNew || isNew;
+        if (isNew) {
+            Menu.firstElementChild.insertAdjacentHTML(`afterEnd`, `
+                <span class="esgst-bold esgst-red" title="There is a new feature/option in this section">
+                    <i class="fa fa-star"></i>
+                </span>
+            `);
         }
     }
     if (ID === `gc`) {
@@ -34403,11 +34387,10 @@ function getSMFeature(Feature, ID, aaa) {
             SMFeatures.classList.remove(`esgst-hidden`);
         }
     }
-    return Menu;
-    } else {
-        Menu.lastElementChild.remove();
-        return null;
-    }
+    return {
+        isNew: isMainNew,
+        menu: Menu
+    };
 }
 
 function resetColor(bgColorContext, colorContext, id) {
