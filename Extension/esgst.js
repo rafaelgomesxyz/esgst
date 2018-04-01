@@ -939,6 +939,11 @@ async function init() {
     esgst = {
         parameters: getParameters(),
         defaultValues: {
+            filter_os: 0,
+            filter_giveaways_exist_in_account: 0,
+            filter_giveaways_missing_base_game: 0,
+            filter_giveaways_level: 0,
+            filter_giveaways_additional_games: 0,
             dismissedOptions: [],
             hr_g_format: `🏆`,
             hr_w_format: `(#❤)`,
@@ -1369,7 +1374,7 @@ async function init() {
         sg: location.hostname.match(/www.steamgifts.com/),
         st: location.hostname.match(/www.steamtrades.com/),
         currentVersion: `7.17.4`,
-        devVersion: `7.17.5 (Dev.10)`,
+        devVersion: `7.17.5 (Dev.11)`,
         icon: `data:image/x-icon;base64,AAABAAEAEBAAAAEAIABoBAAAFgAAACgAAAAQAAAAIAAAAAEAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAqv8DCbP/Hgeq+CQIrf8iCK3/Igit/yIIrf8iB6//Iwit9x8Aqv8DAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAKr0GAa2/c0DvfzfA7f83QO3/N0Dt/zdA7f83QO+/d4Gs/3OAKP1GQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACm/xQFs/n2Bcf//wW///8FwP//BcD//wW///8Fx///BbP69gC2/xUAAAAAAAAAAAAAAAAA/1UDFptOFxSZMxkLpJktAq720QW1+ugEsfvjA7b92wO2/dsEsfvjBbX66Aau/dEoiO4tUlLWGU5k3hdVVf8DEJxKHxWqT8cVrU7uE6VN0guqny0Apv8XAJfQGwBAVywAQFcsAJfQGwCx/xcogugtS2Lk0lBl6u5Qae7ISmPeHxagSSMVr07jF7lV/xOiSu0brgATAAAAAAAAAA8AAAC/AAAAwAAAABAAAAAAYznjEkth4OxWb/3/T2jv40lf4iMXnksiEq1O3RayUv8UpEnkEo0+HQAAABkAAABBAAAA8QAAAPEAAABBAAAAGUBSvxxOYeDjU2v0/05m7d1LYuEiF55LIhKtTt0Ws1L/FahN2gU1FTAAAADAAAAA7AAAAP0AAAD9AAAA7AAAAMAVG0owUGPm2lNr9P9OZu3dS2LhIheeSyISrU7dFrNS/xWoTdoFNRswAAAAvwAAAOsAAAD9AAAA/QAAAOsAAADAFRtKMFBj6NpTa/T/Tmbt3Uti4SIXnksiEq1O3RayUv8UpEnkEo0+HQAAABgAAABAAAAA8QAAAPEAAABBAAAAGT5PuR1OYeDjU2v0/05m7d1LYuEiFqBJIxWuT+QXuVX/E6JL7QC8XhMAAAAAAAAADwAAAL8AAAC/AAAAEAAAAAAOR/8SSWLh7FZv/f9PaO/jSV/iIxCUSh8Vrk7HFqxN7ROlS9JskzMt1XULGK12EhxGLgYsRy8GK612EhzVgAsYgmxxLU1i39JNZ+vtT2fwx0pj1h8AqlUDF65GFgqZUhlsiC0txH0T0s5/EujJgBPkz4QR28+EEdvJgBPkzn8Q6Md+E9KLdHosM1LWGUZo6BZVVf8DAAAAAAAAAAAAAAAA/2YAFMl9EvbgjRb/14gV/9eIFf/XiBX/14gV/9+NFv/KgBD254YAFQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAL91FRjKgRHN1IgU3s+EEt3PhBLdz4QS3c+EEt3UiBTezYMRzcJ6FBkAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACqqgADxIARHr18FiO8eA8ivHgPIrx4DyK8eA8ivXwPI8SAER7/VQADAAAAAAAAAAAAAAAA78cAAPA3AAD4FwAABCAAADGOAAAE+AAAkBEAAJ55AACYOQAAlgEAAER4AAAXaAAATnoAAPgXAAD0JwAA69cAAA==`,
         sgIcon: `data:image/x-icon;base64,AAABAAEAEBAAAAEAIABoBAAAFgAAACgAAAAQAAAAIAAAAAEAIAAAAAAAQAQAABMLAAATCwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIUAAAD5AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAPoAAACFAAAAAAAAAAAAAAD8AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA+QAAAAAAAAAAAAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAAAAAAAAAAAAP8AAAD/AAAA/wAAABwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAcAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAcAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAHAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAAAAAAAAAAAAPwAAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD5AAAAAAAAAAAAAACFAAAA+QAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD5AAAAhQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA//8AAP//AADAAwAAwAMAAMfjAADP8wAAz/MAAM/zAADP8wAAz/MAAM/zAADH4wAAwAMAAMADAAD//wAA//8AAA==`,
         stIcon: `data:image/x-icon;base64,AAABAAEAEBAAAAEAIABoBAAAFgAAACgAAAAQAAAAIAAAAAEAIAAAAAAAQAQAABMLAAATCwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABbD6SgWw+ucFsPrkBbD6SgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAWw+uYFsPr/BbD6/wWw+ucAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAFsPrmBbD6/wWw+v8FsPrmAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABbD6SQWw+uYFsPrmBbD6SQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAFKRLShSkS+cUpEvkFKRLSgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAExi4EpMYuDnTGLg5Exi4EoAAAAAAAAAABSkS+YUpEv/FKRL/xSkS+cAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABMYuDmTGLg/0xi4P9MYuDnAAAAAAAAAAAUpEvmFKRL/xSkS/8UpEvmAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAATGLg5kxi4P9MYuD/TGLg5gAAAAAAAAAAFKRLSRSkS+YUpEvmFKRLSQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAExi4ElMYuDmTGLg5kxi4EkAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAMZ9E0rGfRPnxn0T5MZ9E0oAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADGfRPmxn0T/8Z9E//GfRPnAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAxn0T5sZ9E//GfRP/xn0T5gAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAMZ9E0nGfRPmxn0T5sZ9E0kAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA//8AAPw/AAD8PwAA/D8AAPw/AAD//wAAh+EAAIfhAACH4QAAh+EAAP//AAD8PwAA/D8AAPw/AAD8PwAA//8AAA==`,
@@ -3597,6 +3602,51 @@ async function init() {
                                         </ul>
                                     `,
                                     name: `Genres`,
+                                    sg: true
+                                },
+                                gf_os: {
+                                    description: `
+                                        <ul>
+                                            <li>Allows you to quickly enable/disable SteamGifts' "Filter by OS" filter.</li>
+                                        </ul>
+                                    `,
+                                    name: `OS (SteamGifts)`,
+                                    sg: true
+                                },
+                                gf_alreadyOwned: {
+                                    description: `
+                                        <ul>
+                                            <li>Allows you to quickly enable/disable SteamGifts' "Hide games you already own" filter.</li>
+                                        </ul>
+                                    `,
+                                    name: `Already Owned (SteamGifts)`,
+                                    sg: true
+                                },
+                                gf_dlcMissingBase: {
+                                    description: `
+                                        <ul>
+                                            <li>Allows you to quickly enable/disable SteamGifts' "Hide DLC if you're missing the base game" filter.</li>
+                                        </ul>
+                                    `,
+                                    name: `DLC Missing Base (SteamGifts)`,
+                                    sg: true
+                                },
+                                gf_aboveLevel: {
+                                    description: `
+                                        <ul>
+                                            <li>Allows you to quickly enable/disable SteamGifts' "Hide giveaways above your level" filter.</li>
+                                        </ul>
+                                    `,
+                                    name: `Above Level (SteamGifts)`,
+                                    sg: true
+                                },
+                                gf_manuallyFiltered: {
+                                    description: `
+                                        <ul>
+                                            <li>Allows you to quickly enable/disable SteamGifts' "Hide games you manually filtered" filter.</li>
+                                        </ul>
+                                    `,
+                                    name: `Manually Filtered (SteamGifts)`,
                                     sg: true
                                 }
                             },
@@ -17207,6 +17257,25 @@ function loadGf() {
             esgst.mainPageHeading.insertBefore(addGfContainer(esgst.mainPageHeading), esgst.mainPageHeading.firstElementChild);
         }
     }
+    if (location.pathname.match(/^\/account\/settings\/giveaways$/) && (esgst.gf_os || esgst.gf_alreadyOwned || esgst.gf_dlcMissingBase || esgst.gf_aboveLevel || esgst.gf_manuallyFiltered)) {
+        let key,
+            inputs = {
+                filter_os: null,
+                filter_giveaways_exist_in_account: null,
+                filter_giveaways_missing_base_game: null,
+                filter_giveaways_level: null,
+                filter_giveaways_additional_games: null
+            };
+        for (key in inputs) {
+            inputs[key] = document.querySelector(`[name="${key}"]`);
+        }
+        document.getElementsByClassName(`form__submit-button js__submit-form`)[0].addEventListener(`click`, () => {
+            for (key in inputs) {
+                esgst.settings[key] = parseInt(inputs[key].value);
+            }
+            setValue(`settings`, JSON.stringify(esgst.settings));
+        });
+    }
 }
 
 function getGfGiveaways(giveaway, main, source) {
@@ -17292,7 +17361,7 @@ function setGfOverride(gf, context, key) {
 }
 
 function addGfContainer(heading, popup) {
-    var basicFilter, basicFilters, box, button, categoryFilter, categoryFilters, collapseButton, display, exceptionButton, exceptionCount, exceptionPanel, expandButton, filters, genres, gf, headingButton, i, id, infinite, key, maxKey, maxSavedValue, maxValue, minKey, minSavedValue, minValue, name, preset, presetButton, presetDisplay, presetInput, presetMessage, presetPanel, presets, presetWarning, slider, step, toggleSwitch, typeFilter, typeFilters, value;
+    var basicFilter, basicFilters, box, button, categoryFilter, categoryFilters, collapseButton, display, exceptionButton, exceptionCount, exceptionPanel, expandButton, filters, genres, gf, headingButton, i, id, infinite, key, maxKey, maxSavedValue, maxValue, minKey, minSavedValue, minValue, name, preset, presetButton, presetDisplay, presetInput, presetMessage, presetPanel, presets, presetWarning, sgFilters, slider, step, toggleSwitch, typeFilter, typeFilters, value;
     gf = {
         counters: {},
         popup: popup,
@@ -17335,6 +17404,11 @@ function addGfContainer(heading, popup) {
                         </div>
                     </div>
                     <div class="esgst-gf-right-panel">
+                        <div class="esgst-gf-steamgifts-filters esgst-hidden">
+                            <div>
+                                <span class="esgst-bold">SteamGifts Filters:</span>
+                            </div>
+                        </div>
                         <div class="esgst-gf-legend-panel">
                             <div>
                                 <span class="esgst-bold">Legend:</span>
@@ -17374,6 +17448,7 @@ function addGfContainer(heading, popup) {
     basicFilters = filters.firstElementChild;
     typeFilters = basicFilters.nextElementSibling;
     categoryFilters = typeFilters.nextElementSibling;
+    sgFilters = categoryFilters.nextElementSibling.firstElementChild;
     presetPanel = categoryFilters.nextElementSibling.lastElementChild;
     exceptionPanel = presetPanel.firstElementChild.nextElementSibling;
     exceptionCount = exceptionPanel.firstElementChild;
@@ -17602,6 +17677,61 @@ function addGfContainer(heading, popup) {
         if (categoryFilters.children.length === 1) {
             categoryFilters.classList.add(`esgst-hidden`);
         }
+    }
+    sgFilters.classList.remove(`esgst-hidden`);
+    [
+        {id: `filter_os`, key: `os`, name: `OS`},
+        {id: `filter_giveaways_exist_in_account`, key: `alreadyOwned`, name: `Already Owned`},
+        {id: `filter_giveaways_missing_base_game`, key: `dlcMissingBase`, name: `DLC Missing Base`},
+        {id: `filter_giveaways_level`, key: `aboveLevel`, name: `Above Level`},
+        {id: `filter_giveaways_additional_games`, key: `manuallyFiltered`, name: `Manually Filtered`}
+    ].forEach(filter => {
+        if (!esgst[`gf_${filter.key}`]) return;
+        let sgFilter = insertHtml(sgFilters, `beforeEnd`, `
+            <div class="esgst-gf-category-filter">
+                <span>${filter.name}
+                ${filter.key === `os` ? `
+                    <select>
+                        <option value="0">All</option>
+                        <option value="1">Windows</option>
+                        <option value="2">Linux</option>
+                        <option value="3">Mac</option>
+                    </select>`
+                : ``}
+                </span>
+                <i class="fa fa-circle-o-notch fa-spin esgst-hidden"></i>
+                <i class="fa fa-check esgst-green esgst-hidden"></i>
+            </div>
+        `);
+        let check = sgFilter.lastElementChild;
+        let spinning = check.previousElementSibling;
+        if (filter.key === `os`) {
+            let select = sgFilter.firstElementChild.firstElementChild;
+            select.value = esgst[filter.id];
+            select.addEventListener(`change`, async () => {
+                check.classList.add(`esgst-hidden`);
+                spinning.classList.remove(`esgst-hidden`);
+                await setSetting(filter.id, select.value);
+                esgst[filter.id] = select.value;
+                await request({data: `filter_os=${esgst.filter_os}&filter_giveaways_exist_in_account=${esgst.filter_giveaways_exist_in_account}&filter_giveaways_missing_base_game=${esgst.filter_giveaways_missing_base_game}&filter_giveaways_level=${esgst.filter_giveaways_level}&filter_giveaways_additional_games=${esgst.filter_giveaways_additional_games}&xsrf_token=${esgst.xsrfToken}`, method: `POST`, url: `/account/settings/giveaways`});
+                spinning.classList.add(`esgst-hidden`);
+                check.classList.remove(`esgst-hidden`);
+            });
+        } else {
+            let checkbox = new Checkbox(sgFilter, esgst[filter.id]);
+            checkbox.checkbox.addEventListener(`click`, async () => {
+                check.classList.add(`esgst-hidden`);
+                spinning.classList.remove(`esgst-hidden`);
+                await setSetting(filter.id, checkbox.checked ? 1 : 0);
+                esgst[filter.id] = checkbox.checked ? 1 : 0;
+                await request({data: `filter_os=${esgst.filter_os}&filter_giveaways_exist_in_account=${esgst.filter_giveaways_exist_in_account}&filter_giveaways_missing_base_game=${esgst.filter_giveaways_missing_base_game}&filter_giveaways_level=${esgst.filter_giveaways_level}&filter_giveaways_additional_games=${esgst.filter_giveaways_additional_games}&xsrf_token=${esgst.xsrfToken}`, method: `POST`, url: `/account/settings/giveaways`});
+                spinning.classList.add(`esgst-hidden`);
+                check.classList.remove(`esgst-hidden`);
+            });
+        }
+    });
+    if (sgFilters.children.length === 1) {
+        sgFilters.classList.add(`esgst-hidden`);
     }
     return headingButton;
 }
