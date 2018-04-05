@@ -236,6 +236,30 @@ To learn more about each feature you have to install ESGST.
 
 ## Changelog
 
+**7.17.5 (April 05, 2018)**
+
+* [#605](https://github.com/revilheart/ESGST/issues/605) Fix a bug that does not set the correct default values for some settings
+* [#602](https://github.com/revilheart/ESGST/issues/602) Add option to clean duplicate data to the data cleaner menu
+* [#598](https://github.com/revilheart/ESGST/issues/598) Implement a method to automatically detect and highlight new features/options in the settings menu with the [NEW] tag
+* [#598](https://github.com/revilheart/ESGST/issues/598) Implement a method to automatically detect and highlight new features/options in the settings menu with the [NEW] tag
+* [#598](https://github.com/revilheart/ESGST/issues/598) Implement a method to automatically detect and highlight new features/options in the settings menu with the [NEW] tag
+* [#598](https://github.com/revilheart/ESGST/issues/598) Implement a method to automatically detect and highlight new features/options in the settings menu with the [NEW] tag
+* [#598](https://github.com/revilheart/ESGST/issues/598) Implement a method to automatically detect and highlight new features/options in the settings menu with the [NEW] tag
+* [#598](https://github.com/revilheart/ESGST/issues/598) Implement a method to automatically detect and highlight new features/options in the settings menu with the [NEW] tag
+* [#598](https://github.com/revilheart/ESGST/issues/598) Implement a method to automatically detect and highlight new features/options in the settings menu with the [NEW] tag
+* [#598](https://github.com/revilheart/ESGST/issues/598) Implement a method to automatically detect and highlight new features/options in the settings menu with the [NEW] tag
+* [#598](https://github.com/revilheart/ESGST/issues/598) Implement a method to automatically detect and highlight new features/options in the settings menu with the [NEW] tag
+* [#598](https://github.com/revilheart/ESGST/issues/598) Implement a method to automatically detect and highlight new features/options in the settings menu with the [NEW] tag
+* [#598](https://github.com/revilheart/ESGST/issues/598) Implement a method to automatically detect and highlight new features/options in the settings menu with the [NEW] tag
+* [#597](https://github.com/revilheart/ESGST/issues/597) Fix a bug that shows Inifity% chance per point on the entered page
+* [#596](https://github.com/revilheart/ESGST/issues/596) Replace the terms &quot;Import&quot; and &quot;Export&quot; with &quot;Restore&quot; and &quot;Backup&quot; and change the icons to avoid any confusion
+* [#584](https://github.com/revilheart/ESGST/issues/584) Fix a bug that does not reload the extension in Chrome when updating
+* [#555](https://github.com/revilheart/ESGST/issues/555) Add SteamGifts filters to Giveaway Filters
+* [#538](https://github.com/revilheart/ESGST/issues/538) Add options to allow users to specify the format of the tab indicators in Header Refresher
+* [#524](https://github.com/revilheart/ESGST/issues/524) Fix a but that shows the new version popup twice
+* [#299](https://github.com/revilheart/ESGST/issues/299) Implement a method to better handle marking discussions as visited across multiple tabs
+
+
 **7.17.4 (March 26, 2018)**
 
 * [#590](https://github.com/revilheart/ESGST/issues/590) Speed up retrieval of Game Categories for users that do not have ratings, removed and user-defined tags enabled

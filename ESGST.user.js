@@ -3,7 +3,7 @@
 // @namespace ESGST
 // @description Enhances SteamGifts and SteamTrades by adding some cool features to them.
 // @icon https://dl.dropboxusercontent.com/s/lr3t3bxrxfxylqe/esgstIcon.ico?raw=1
-// @version 7.17.4
+// @version 7.17.5
 // @author revilheart
 // @contributor Royalgamer06
 // @downloadURL https://github.com/revilheart/ESGST/raw/master/ESGST.user.js
@@ -939,6 +939,15 @@ async function init() {
     esgst = {
         parameters: getParameters(),
         defaultValues: {
+            filter_os: 0,
+            filter_giveaways_exist_in_account: 0,
+            filter_giveaways_missing_base_game: 0,
+            filter_giveaways_level: 0,
+            filter_giveaways_additional_games: 0,
+            dismissedOptions: [],
+            hr_g_format: `🏆`,
+            hr_w_format: `(#❤)`,
+            hr_p_format: `(#P)`,
             ef_filters: ``,
             gwc_h_width: `3px`,
             gwr_h_width: `3px`,
@@ -1096,6 +1105,7 @@ async function init() {
             cleanStCommentHistory: true,
             cleanTickets: true,
             cleanTrades: true,
+            cleanDuplicates: true,
             cleanDiscussions_days: 30,
             cleanEntries_days: 30,
             cleanGiveaways_days: 30,
@@ -1364,8 +1374,8 @@ async function init() {
         markdownParser: new Parsedown(),
         sg: location.hostname.match(/www.steamgifts.com/),
         st: location.hostname.match(/www.steamtrades.com/),
-        currentVersion: `7.17.4`,
-        devVersion: `7.17.4`,
+        currentVersion: `7.17.5`,
+        devVersion: `7.17.5`,
         icon: `data:image/x-icon;base64,AAABAAEAEBAAAAEAIABoBAAAFgAAACgAAAAQAAAAIAAAAAEAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAqv8DCbP/Hgeq+CQIrf8iCK3/Igit/yIIrf8iB6//Iwit9x8Aqv8DAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAKr0GAa2/c0DvfzfA7f83QO3/N0Dt/zdA7f83QO+/d4Gs/3OAKP1GQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACm/xQFs/n2Bcf//wW///8FwP//BcD//wW///8Fx///BbP69gC2/xUAAAAAAAAAAAAAAAAA/1UDFptOFxSZMxkLpJktAq720QW1+ugEsfvjA7b92wO2/dsEsfvjBbX66Aau/dEoiO4tUlLWGU5k3hdVVf8DEJxKHxWqT8cVrU7uE6VN0guqny0Apv8XAJfQGwBAVywAQFcsAJfQGwCx/xcogugtS2Lk0lBl6u5Qae7ISmPeHxagSSMVr07jF7lV/xOiSu0brgATAAAAAAAAAA8AAAC/AAAAwAAAABAAAAAAYznjEkth4OxWb/3/T2jv40lf4iMXnksiEq1O3RayUv8UpEnkEo0+HQAAABkAAABBAAAA8QAAAPEAAABBAAAAGUBSvxxOYeDjU2v0/05m7d1LYuEiF55LIhKtTt0Ws1L/FahN2gU1FTAAAADAAAAA7AAAAP0AAAD9AAAA7AAAAMAVG0owUGPm2lNr9P9OZu3dS2LhIheeSyISrU7dFrNS/xWoTdoFNRswAAAAvwAAAOsAAAD9AAAA/QAAAOsAAADAFRtKMFBj6NpTa/T/Tmbt3Uti4SIXnksiEq1O3RayUv8UpEnkEo0+HQAAABgAAABAAAAA8QAAAPEAAABBAAAAGT5PuR1OYeDjU2v0/05m7d1LYuEiFqBJIxWuT+QXuVX/E6JL7QC8XhMAAAAAAAAADwAAAL8AAAC/AAAAEAAAAAAOR/8SSWLh7FZv/f9PaO/jSV/iIxCUSh8Vrk7HFqxN7ROlS9JskzMt1XULGK12EhxGLgYsRy8GK612EhzVgAsYgmxxLU1i39JNZ+vtT2fwx0pj1h8AqlUDF65GFgqZUhlsiC0txH0T0s5/EujJgBPkz4QR28+EEdvJgBPkzn8Q6Md+E9KLdHosM1LWGUZo6BZVVf8DAAAAAAAAAAAAAAAA/2YAFMl9EvbgjRb/14gV/9eIFf/XiBX/14gV/9+NFv/KgBD254YAFQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAL91FRjKgRHN1IgU3s+EEt3PhBLdz4QS3c+EEt3UiBTezYMRzcJ6FBkAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACqqgADxIARHr18FiO8eA8ivHgPIrx4DyK8eA8ivXwPI8SAER7/VQADAAAAAAAAAAAAAAAA78cAAPA3AAD4FwAABCAAADGOAAAE+AAAkBEAAJ55AACYOQAAlgEAAER4AAAXaAAATnoAAPgXAAD0JwAA69cAAA==`,
         sgIcon: `data:image/x-icon;base64,AAABAAEAEBAAAAEAIABoBAAAFgAAACgAAAAQAAAAIAAAAAEAIAAAAAAAQAQAABMLAAATCwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIUAAAD5AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAPoAAACFAAAAAAAAAAAAAAD8AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA+QAAAAAAAAAAAAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAAAAAAAAAAAAP8AAAD/AAAA/wAAABwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAcAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAcAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAHAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAAAAAAAAAAAAPwAAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD5AAAAAAAAAAAAAACFAAAA+QAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD5AAAAhQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA//8AAP//AADAAwAAwAMAAMfjAADP8wAAz/MAAM/zAADP8wAAz/MAAM/zAADH4wAAwAMAAMADAAD//wAA//8AAA==`,
         stIcon: `data:image/x-icon;base64,AAABAAEAEBAAAAEAIABoBAAAFgAAACgAAAAQAAAAIAAAAAEAIAAAAAAAQAQAABMLAAATCwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABbD6SgWw+ucFsPrkBbD6SgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAWw+uYFsPr/BbD6/wWw+ucAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAFsPrmBbD6/wWw+v8FsPrmAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABbD6SQWw+uYFsPrmBbD6SQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAFKRLShSkS+cUpEvkFKRLSgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAExi4EpMYuDnTGLg5Exi4EoAAAAAAAAAABSkS+YUpEv/FKRL/xSkS+cAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABMYuDmTGLg/0xi4P9MYuDnAAAAAAAAAAAUpEvmFKRL/xSkS/8UpEvmAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAATGLg5kxi4P9MYuD/TGLg5gAAAAAAAAAAFKRLSRSkS+YUpEvmFKRLSQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAExi4ElMYuDmTGLg5kxi4EkAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAMZ9E0rGfRPnxn0T5MZ9E0oAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADGfRPmxn0T/8Z9E//GfRPnAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAxn0T5sZ9E//GfRP/xn0T5gAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAMZ9E0nGfRPmxn0T5sZ9E0kAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA//8AAPw/AAD8PwAA/D8AAPw/AAD//wAAh+EAAIfhAACH4QAAh+EAAP//AAD8PwAA/D8AAPw/AAD8PwAA//8AAA==`,
@@ -1382,8 +1392,8 @@ async function init() {
         elgbCache: JSON.parse(getLocalValue(`elgbCache`, `{"descriptions": {}, "timestamp": ${Date.now()}}`)),
         menuPath: location.pathname.match(/^\/esgst\//),
         settingsPath: location.pathname.match(/^\/esgst\/settings/),
-        importMenuPath: location.pathname.match(/^\/esgst\/import/),
-        exportMenuPath: location.pathname.match(/^\/esgst\/export/),
+        importMenuPath: location.pathname.match(/^\/esgst\/(import|restore)/),
+        exportMenuPath: location.pathname.match(/^\/esgst\/(backup|export)/),
         deleteMenuPath: location.pathname.match(/^\/esgst\/delete/),
         gbPath: location.pathname.match(/^\/esgst\/bookmarked-giveaways/),
         gedPath: location.pathname.match(/^\/esgst\/decrypted-giveaways/),
@@ -1504,6 +1514,8 @@ async function init() {
         };
         notifyNewVersion = version => {
             let message, popup;
+            if (esgst.isNotifying) return;
+            esgst.isNotifying = true;
             if (esgst.discussionPath) {
                 message = `You are not using the latest ESGST version. Please update before reporting bugs and make sure the bugs still exist in the latest version.`;
             } else {
@@ -1513,12 +1525,15 @@ async function init() {
                 icon: `fa-exclamation`,
                 title: message,
                 isTemp: true,
-                onClose: setValue.bind(null, `dismissedVersion`, version)
+                onClose: () => {
+                    esgst.isNotifying = false;
+                    setValue(`dismissedVersion`, version);
+                }
             };
             if (typeof browser === `undefined`) {
                 details.buttons = [
                     {color1: `green`, color2: `` , icon1: `fa-download`, icon2: ``, title1: `Download .zip`, title2: ``, callback1: open.bind(null, `https://github.com/revilheart/ESGST/releases/download/${version}/extension.zip`)},
-                    {color1: `green`, color2: `` , icon1: `fa-refresh`, icon2: ``, title1: `Reload Extension`, title2: ``, callback1: browser.runtime.sendMessage.bind(null, {action: `reload`}, location.reload.bind(null))}
+                    {color1: `green`, color2: `` , icon1: `fa-refresh`, icon2: ``, title1: `Reload Extension`, title2: ``, callback1: browser.runtime.sendMessage.bind(browser.runtime, {action: `reload`}, location.reload.bind(location))}
                 ];
             }
             new Popup_v2(details).open();
@@ -1750,6 +1765,8 @@ async function init() {
         };
         notifyNewVersion = version => {
             let message, popup;
+            if (esgst.isNotifying) return;
+            esgst.isNotifying = true;
             if (esgst.discussionPath) {
                 message = `You are not using the latest ESGST version. Please update before reporting bugs and make sure the bugs still exist in the latest version.`;
             } else {
@@ -1758,6 +1775,7 @@ async function init() {
             popup = new Popup(`fa-exclamation`, message, true);
             insertHtml(popup.actions, `afterBegin`, `<span>Update</span>`).addEventListener(`click`, checkUpdate);
             popup.onClose = () => {
+                esgst.isNotifying = false;
                 setValue(`dismissedVersion`, version);
             };
             popup.open();
@@ -1972,8 +1990,11 @@ async function init() {
             esgst.discussions = JSON.parse(toSet.discussions);
             delLocalValue(`discussions`);
         }
-        if (!isSet(esgst.storage.tickets)) {
+        if (isSet(esgst.storage.tickets)) {
+            esgst.tickets = JSON.parse(esgst.storage.tickets);
+        } else {
             toSet.tickets = getLocalValue(`tickets`, `{}`);
+            esgst.tickets = JSON.parse(toSet.tickets);
             delLocalValue(`tickets`);
         }
         delLocalValue(`gFix`);
@@ -2005,12 +2026,34 @@ async function init() {
             delLocalValue(`winners`);
         }
     } else {
-        if (!isSet(esgst.storage.trades)) {
+        if (isSet(esgst.storage.trades)) {
+            esgst.trades = JSON.parse(esgst.storage.trades);
+        } else {
             toSet.trades = getLocalValue(`trades`, `{}`);
+            esgst.trades = JSON.parse(toSet.trades);
             delLocalValue(`trades`);
         }
         delLocalValue(`tFix`);
     }
+    let cache = JSON.parse(getLocalValue(`gdtttCache`, `{"giveaways":[],"discussions":[],"tickets":[],"trades":[]}`));
+    for (let type in cache) {
+        let doSet = false;
+        cache[type].forEach(code => {
+            if (!esgst[type][code]) {
+                esgst[type][code] = {
+                    readComments: {}
+                };
+            }
+            if (!esgst[type][code].visited) {
+                doSet = true;
+                esgst[type][code].visited = true;
+            }
+        });
+        if (doSet) {
+            toSet[type] = JSON.stringify(esgst[type]);
+        }
+    }
+    setLocalValue(`gdtttCache`, `{"giveaways":[],"discussions":[],"tickets":[],"trades":[]}`);
     if (isSet(esgst.storage.games)) {
         esgst.games = JSON.parse(esgst.storage.games);
     } else {
@@ -2027,10 +2070,10 @@ async function init() {
     }
     esgst.version = esgst.storage.version;
     for (let key in esgst.oldValues) {
-        esgst[key] = getSetting(key, true);
+        esgst[key] = getSetting(key);
     }
     for (let key in esgst.defaultValues) {
-        esgst[key] = getSetting(key, true);
+        esgst[key] = getSetting(key);
     }
     for (let key in esgst.settings) {
         let match;
@@ -2118,7 +2161,12 @@ async function init() {
                     `,
                     features: {
                         cdr_b: {
-                            input: true,
+                            inputItems: [
+                                {
+                                    id: `cdr_days`,
+                                    prefix: `Days: `
+                                }
+                            ],
                             name: `Remind you a specified number of days before your cake day.`,
                             sg: true
                         },
@@ -2133,7 +2181,6 @@ async function init() {
                         }
                     },
                     name: `Cake Day Reminder`,
-                    new: true,
                     sg: true
                 },
                 chfl: {
@@ -2154,7 +2201,6 @@ async function init() {
                         </ul>
                     `,
                     name: `Custom Header/Footer Links`,
-                    new: true,
                     sg: true,
                     st: true
                 },
@@ -2171,9 +2217,14 @@ async function init() {
                             </ul>
                         </ul>
                     `,
-                    input: true,
+                    inputItems: [
+                        {
+                            id: `ef_filters`,
+                            prefix: `Filters: `,
+                            tooltip: `Separate each selector by a comma followed by a space, for example: .class_1, .class_2, #id`
+                        }
+                    ],
                     name: `Element Filters`,
-                    new: true,
                     sg: true,
                     st: true
                 },
@@ -2371,17 +2422,12 @@ async function init() {
                     `,
                     features: {
                         hr_w: {
-                            description: `
-                                <ul>
-                                    <li>A heart icon (<i class="fa fa-heart"></i>) will appear in the title.</li>
-                                </ul>
-                            `,
                             features: {
                                 hr_w_n: {
                                     features: {
                                         hr_w_n_s: {
                                             name: `Play a sound with this notification.`,
-                                            input: `hr_w_n_s_url`,
+                                            inputItems: true,
                                             sg: true
                                         }
                                     },
@@ -2390,25 +2436,32 @@ async function init() {
                                 },
                                 hr_w_h: {
                                     name: `Only indicate for giveaways ending in a specified number of hours.`,
-                                    input: true,
+                                    inputItems: [
+                                        {
+                                            id: `hr_w_hours`,
+                                            prefix: `Hours: `
+                                        }
+                                    ],
                                     sg: true
                                 }
                             },
+                            inputItems: [
+                                {
+                                    id: `hr_w_format`,
+                                    prefix: `Format: `,
+                                    tooltip: `Use # to represent a number. For example, '(#❤)' would show '(8❤)' if there are 8 unentered wishlist giveaways open.`
+                                }
+                            ],
                             name: `Indicate if there are unentered wishlist giveaways open in the tab's title.`,
                             sg: true
                         },
                         hr_g: {
-                            description: `
-                                <ul>
-                                    <li>A trophy icon (<i class="fa fa-trophy"></i>) will appear in the title.</li>
-                                </ul>
-                            `,
                             features: {
                                 hr_g_n: {
                                     features: {
                                         hr_g_n_s: {
                                             name: `Play a sound with this notification.`,
-                                            input: `hr_g_n_s_url`,
+                                            inputItems: true,
                                             sg: true
                                         }
                                     },
@@ -2416,6 +2469,12 @@ async function init() {
                                     sg: true
                                 }
                             },
+                            inputItems: [
+                                {
+                                    id: `hr_g_format`,
+                                    prefix: `Format: `
+                                }
+                            ],
                             name: `Indicate if there are unviewed keys for won gifts in the tab's title.`,
                             sg: true
                         },
@@ -2438,7 +2497,7 @@ async function init() {
                             features: {
                                 hr_fp_s: {
                                     name: `Play a sound with this notification.`,
-                                    input: `hr_fp_s_url`,
+                                    inputItems: true,
                                     sg: true
                                 }
                             },
@@ -2446,6 +2505,13 @@ async function init() {
                             sg: true
                         },
                         hr_p: {
+                            inputItems: [
+                                {
+                                    id: `hr_p_format`,
+                                    prefix: `Format: `,
+                                    tooltip: `Use # to represent a number. For example, '(#P)' would show '(100P)' if you have 100 points.`
+                                }
+                            ],
                             name: `Show the number of points in the tab's title.`,
                             sg: true
                         },
@@ -2455,7 +2521,7 @@ async function init() {
                                     features: {
                                         hr_m_n_s: {
                                             name: `Play a sound with this notification.`,
-                                            input: `hr_m_n_s_url`,
+                                            inputItems: true,
                                             sg: true,
                                             st: true
                                         }
@@ -2493,7 +2559,13 @@ async function init() {
                             st: true
                         }
                     },
-                    input: true,
+                    inputItems: [
+                        {
+                            id: `hr_minutes`,
+                            prefix: `Refresh every `,
+                            suffix: ` minutes`
+                        }
+                    ],
                     name: `Header Refresher`,
                     sg: true,
                     st: true
@@ -2579,13 +2651,11 @@ async function init() {
                                 </ul>
                             `,
                             name: `Preload the first page.`,
-                            new: true,
                             sg: true,
                             st: true
                         }
                     },
                     name: `Quick Inbox View`,
-                    newBelow: true,
                     sg: true,
                     st: true
                 },
@@ -2644,81 +2714,81 @@ async function init() {
                     `,
                     features: {
                         sk_cp: {
-                            input: `sk_closePopups`,
+                            inputItems: `sk_closePopups`,
                             name: `Close all currently opened popups.`,
                             sg: true,
                             st: true
                         },
                         sk_sb: {
-                            input: `sk_searchBox`,
+                            inputItems: `sk_searchBox`,
                             name: `Focus on the search box.`,
                             sg: true,
                             st: true
                         },
                         sk_fp: {
-                            input: `sk_firstPage`,
+                            inputItems: `sk_firstPage`,
                             name: `Go to the first page.`,
                             sg: true,
                             st: true
                         },
                         sk_pp: {
-                            input: `sk_previousPage`,
+                            inputItems: `sk_previousPage`,
                             name: `Go to the previous page.`,
                             sg: true,
                             st: true
                         },
                         sk_np: {
-                            input: `sk_nextPage`,
+                            inputItems: `sk_nextPage`,
                             name: `Go to the next page.`,
                             sg: true,
                             st: true
                         },
                         sk_lp: {
-                            input: `sk_lastPage`,
+                            inputItems: `sk_lastPage`,
                             name: `Go to the last page.`,
                             sg: true,
                             st: true
                         },
                         sk_tf: {
-                            input: `sk_toggleFilters`,
+                            inputItems: `sk_toggleFilters`,
                             name: `Toggle the giveaway filters.`,
                             sg: true
                         },
                         sk_hg: {
-                            input: `sk_hideGame`,
+                            inputItems: `sk_hideGame`,
                             name: `Hide the game when inside of a giveaway.`,
                             sg: true
                         },
                         sk_hga: {
-                            input: `sk_hideGiveaway`,
+                            inputItems: `sk_hideGiveaway`,
                             name: `Hide the giveaway when inside of a giveaway.`,
                             sg: true
                         },
                         sk_ge: {
-                            input: `sk_giveawayEntry`,
+                            inputItems: `sk_giveawayEntry`,
                             name: `Enter/leave the giveaway when inside of a giveaway.`,
                             sg: true
                         },
                         sk_c: {
-                            input: `sk_creator`,
+                            inputItems: `sk_creator`,
                             name: `Insert the username of the creator of the giveaway/discussion/trade to the current reply box.`,
                             sg: true,
                             st: true
                         },
                         sk_rb: {
-                            input: `sk_replyBox`,
+                            inputItems: `sk_replyBox`,
                             name: `Focus on the reply box.`,
                             sg: true,
                             st: true
                         },
                         sk_ru: {
-                            input: `sk_replyUser`,
+                            inputItems: `sk_replyUser`,
                             name: `Insert the username of the user to whom you are replying to the current reply box.`,
                             sg: true,
                             st: true
                         },
                         sk_sr: {
-                            input: `sk_submitReply`,
+                            inputItems: `sk_submitReply`,
                             name: `Submit the current reply.`,
                             sg: true,
                             st: true
@@ -2777,8 +2847,7 @@ async function init() {
                     sg: true,
                     st: true
                 }
-            },
-            newBelow: true
+            }
         },
         giveaways: {
             features: {
@@ -2867,7 +2936,13 @@ async function init() {
                             sg: true
                         },
                         elgb_f: {
-                            input: true,
+                            inputItems: [
+                                {
+                                    id: `elgb_filters`,
+                                    prefix: `Filters: `,
+                                    title: `Enter only lowercase letters with no spaces and separate filters with '|'.\n\nFor example, if you want to filter out 'Good luck! No need to thank, unless you're the winner.', use the filter 'goodlucknoneedtothankunlessyourethewinner'.\n\nIf you're familiar with regular expressions, you can also use them. For example, to include a variation of the description above that uses 'you are' instead of 'you're' you could use the filter 'goodlucknoneedtothankunlessyoua?rethewinner'. 'a?' will match or not an 'a' between 'you' and 're'.\n\nThe '.' filter, for example, filters out any descriptions that only have one letter.`
+                                }
+                            ],
                             name: `Filter out useless descriptions.`,
                             sg: true
                         },
@@ -2933,7 +3008,13 @@ async function init() {
                                     <li>If you hover over the button, it shows more details about how many giveaways have started and/or are ending.</li>
                                 </ul>
                             `,
-                            input: true,
+                            inputItems: [
+                                {
+                                    id: `gb_hours`,
+                                    prefix: `Time range to trigger highlight: `,
+                                    suffix: ` hours`
+                                }
+                            ],
                             name: `Highlight the header button when giveaways have started and/or are about to end.`,
                             sg: true
                         },
@@ -3134,7 +3215,6 @@ async function init() {
                                         </ul>
                                     `,
                                     name: `Comments`,
-                                    new: true,
                                     sg: true
                                 },
                                 gf_minutesToEnd: {
@@ -3164,7 +3244,6 @@ async function init() {
                                         </ul>
                                     `,
                                     name: `Chance Per Point`,
-                                    new: true,
                                     sg: true
                                 },
                                 gf_ratio: {
@@ -3213,7 +3292,6 @@ async function init() {
                                         </ul>
                                     `,
                                     name: `Invite Only`,
-                                    new: true,
                                     sg: true
                                 },
                                 gf_group: {
@@ -3526,15 +3604,58 @@ async function init() {
                                     `,
                                     name: `Genres`,
                                     sg: true
+                                },
+                                gf_os: {
+                                    description: `
+                                        <ul>
+                                            <li>Allows you to quickly enable/disable SteamGifts' "Filter by OS" filter.</li>
+                                        </ul>
+                                    `,
+                                    name: `OS (SteamGifts)`,
+                                    sg: true
+                                },
+                                gf_alreadyOwned: {
+                                    description: `
+                                        <ul>
+                                            <li>Allows you to quickly enable/disable SteamGifts' "Hide games you already own" filter.</li>
+                                        </ul>
+                                    `,
+                                    name: `Already Owned (SteamGifts)`,
+                                    sg: true
+                                },
+                                gf_dlcMissingBase: {
+                                    description: `
+                                        <ul>
+                                            <li>Allows you to quickly enable/disable SteamGifts' "Hide DLC if you're missing the base game" filter.</li>
+                                        </ul>
+                                    `,
+                                    name: `DLC Missing Base (SteamGifts)`,
+                                    sg: true
+                                },
+                                gf_aboveLevel: {
+                                    description: `
+                                        <ul>
+                                            <li>Allows you to quickly enable/disable SteamGifts' "Hide giveaways above your level" filter.</li>
+                                        </ul>
+                                    `,
+                                    name: `Above Level (SteamGifts)`,
+                                    sg: true
+                                },
+                                gf_manuallyFiltered: {
+                                    description: `
+                                        <ul>
+                                            <li>Allows you to quickly enable/disable SteamGifts' "Hide games you manually filtered" filter.</li>
+                                        </ul>
+                                    `,
+                                    name: `Manually Filtered (SteamGifts)`,
+                                    sg: true
                                 }
                             },
                             name: `Multiple Filters`,
-                            newBelow: true,
                             sg: true
                         }
                     },
                     name: `Giveaway Filters`,
-                    newBelow: true,
                     sg: true,
                     sync: `Hidden Games, Owned/Wishlisted/Ignored Games, Won Games, Reduced CV Games, No CV Games and Giveaways`
                 },
@@ -3581,7 +3702,6 @@ async function init() {
                     features: {
                         gr_a: {
                             name: `Show the icon for all created giveaways.`,
-                            new: true,
                             sg: true
                         },
                         gr_r: {
@@ -3590,7 +3710,6 @@ async function init() {
                         }
                     },
                     name: `Giveaway Recreator`,
-                    newBelow: true,
                     sg: true
                 },
                 gp: {
@@ -3665,14 +3784,17 @@ async function init() {
                                     <li>Changes the color of the giveaway's title to the same color as the chance and adds a border of same color to the giveaway's game image.</li>
                                 </ul>
                             `,
-                            input: true,
+                            inputItems: [
+                                {
+                                    id: `gwc_h_width`,
+                                    prefix: `Image Border Width: `
+                                }
+                            ],
                             name: `Highlight the giveaway.`,
-                            new: true,
                             sg: true
                         }
                     },
                     name: `Giveaway Winning Chance`,
-                    newBelow: true,
                     sg: true
                 },
                 gwr: {
@@ -3718,14 +3840,17 @@ async function init() {
                                     <li>Changes the color of the giveaway's title to the same color as the ratio and adds a border of same color to the giveaway's game image.</li>
                                 </ul>
                             `,
-                            input: true,
+                            inputItems: [
+                                {
+                                    id: `gwr_h_width`,
+                                    prefix: `Image Border Width: `
+                                }
+                            ],
                             name: `Highlight the giveaway.`,
-                            new: true,
                             sg: true
                         }
                     },
                     name: `Giveaway Winning Ratio`,
-                    newBelow: true,
                     sg: true
                 },
                 gas: {
@@ -3822,7 +3947,18 @@ async function init() {
                         </ul>
                     `,
                     name: `Next/Previous Train Hotkeys`,
-                    input: true,
+                    inputItems: [
+                        {
+                            event: `keydown`,
+                            id: `npth_previousKey`,
+                            prefix: `Enter the key you want to use for previous links: `
+                        },
+                        {
+                            event: `keydown`,
+                            id: `npth_nextKey`,
+                            prefix: `Enter the key you want to use for next links: `
+                        }
+                    ],
                     sg: true
                 },
                 ochgb: {
@@ -3961,8 +4097,7 @@ async function init() {
                     name: `Unsent Gift Sender`,
                     sg: true
                 }
-            },
-            newBelow: true
+            }
         },
         discussions: {
             features: {
@@ -4913,7 +5048,6 @@ async function init() {
                         }
                     },
                     name: `Profile Links`,
-                    new: true,
                     sg: true
                 },
                 rwscvl: {
@@ -5198,8 +5332,7 @@ async function init() {
                     sg: true,
                     sync: `Whitelist and Blacklist`
                 }
-            },
-            newBelow: true
+            }
         },
         groups: {
             features: {
@@ -5661,7 +5794,6 @@ async function init() {
                                 },
                                 gc_o_a: {
                                     name: `Show if you own the game in any of your alt accounts.`,
-                                    new: true,
                                     sg: true
                                 }
                             },
@@ -5875,7 +6007,6 @@ async function init() {
                         }
                     },
                     name: `Game Categories`,
-                    newBelow: true,
                     sg: true,
                     sync: `Hidden Games, Owned/Wishlisted/Ignored Games, Reduced CV Games, No CV Games and Giveaways`
                 },
@@ -5892,18 +6023,21 @@ async function init() {
                     name: `Game Tags`,
                     sg: true
                 }
-            },
-            newBelow: true
+            }
         },
         others: {
             features: {
                 addNoCvGames: {
                     name: `Automatically add no CV games to the database when searching for games in the new giveaway page.`,
-                    new: true,
                     sg: true
                 },
                 autoBackup: {
-                    input: true,
+                    inputItems: [
+                        {
+                            id: `autoBackup_days`,
+                            prefix: `Days: `
+                        }
+                    ],
                     name: `Automatically backup your data every specified number of days.`,
                     options: {
                         title: `Backup to:`,
@@ -5931,12 +6065,12 @@ async function init() {
                     st: true
                 },
                 calculateExport: {
-                    name: `Calculate and show data sizes when opening the export menu.`,
+                    name: `Calculate and show data sizes when opening the backup menu.`,
                     sg: true,
                     st: true
                 },
                 calculateImport: {
-                    name: `Calculate and show data sizes when opening the import menu.`,
+                    name: `Calculate and show data sizes when opening the restore menu.`,
                     sg: true,
                     st: true
                 },
@@ -6133,21 +6267,23 @@ async function init() {
                 },
                 lockGiveawayColumns: {
                     name: `Lock giveaway columns so that they are not draggable (they will remain in the set order).`,
-                    new: true,
                     sg: true
                 },
                 staticPopups: {
                     features: {
                         staticPopups_f: {
-                            input: true,
+                            inputItems: [
+                                {
+                                    id: `staticPopups_width`,
+                                    prefix: `Width: `
+                                }
+                            ],
                             name: `Define a fixed width for popups, so that they are centered horizontally.`,
-                            new: true,
                             sg: true,
                             st: true
                         }
                     },
                     name: `Make popups static (they are fixed at the top left corner of the page instead of being automatically centered).`,
-                    newBelow: true,
                     sg: true,
                     st: true
                 },
@@ -6168,12 +6304,10 @@ async function init() {
                 },
                 showFeatureNumber: {
                     name: `Show the feature number in the tooltips of elements added by ESGST.`,
-                    new: true,
                     sg: true,
                     st: true
                 }
-            },
-            newBelow: true
+            }
         }
     };
     for (let type in esgst.features) {
@@ -6219,18 +6353,21 @@ async function init() {
         esgst.settings.gc_categories.push(`gc_rd`);
         esgst.settingsChanged = true;
     }
-    esgst.gc_categories = esgst.settings.gc_categories;
-    esgst.gc_categories_gv = esgst.settings.gc_categories_gv;
-    if (esgst.settings.giveawayColumns.indexOf(`ged`) < 0 && esgst.settings.giveawayPanel.indexOf(`ged`) < 0) {
-        esgst.settings.giveawayColumns.unshift(`ged`);
-        esgst.giveawayColumns = esgst.settings.giveawayColumns;
-        esgst.settingsChanged = true;
-    }
-    if (esgst.settings.giveawayColumns_gv.indexOf(`ged`) < 0 && esgst.settings.giveawayPanel_gv.indexOf(`ged`) < 0) {
-        esgst.settings.giveawayColumns_gv.unshift(`ged`);
-        esgst.giveawayColumns_gv = esgst.settings.giveawayColumns_gv;
-        esgst.settingsChanged = true;
-    }
+    [`gc_categories`, `gc_categories_gv`].forEach(key => {
+        let bkpLength = esgst[key].length;
+        esgst[key] = Array.from(new Set(esgst[key]));
+        if (bkpLength !== esgst[key].length) {
+            esgst.settings[key] = esgst[key];
+            esgst.settingsChanged = true;
+        }
+    });
+    [``, `_gv`].forEach(key => {
+        if (esgst[`giveawayColumns${key}`].indexOf(`ged`) < 0 && esgst[`giveawayPanel${key}`].indexOf(`ged`) < 0) {
+            esgst[`giveawayColumns${key}`].unshift(`ged`);
+            esgst.settings[`giveawayColumns${key}`] = esgst[`giveawayColumns${key}`];
+            esgst.settingsChanged = true;
+        }
+    });
     if (document.readyState === `loading`) {
         document.addEventListener(`DOMContentLoaded`, loadEsgst.bind(null, toDelete, toSet));
     } else {
@@ -6348,10 +6485,10 @@ async function loadEsgst(toDelete, toSet) {
                 document.title = `ESGST - Settings`;
                 loadSMMenu(true);
             } else if (esgst.importMenuPath) {
-                document.title = `ESGST - Import`;
+                document.title = `ESGST - Restore`;
                 loadDataManagement(true, `import`);
             } else if (esgst.exportMenuPath) {
-                document.title = `ESGST - Export`;
+                document.title = `ESGST - Backup`;
                 loadDataManagement(true, `export`);
             } else if (esgst.deleteMenuPath) {
                 document.title = `ESGST - Delete`;
@@ -7805,6 +7942,10 @@ async function getCewgdDetail(cewgd, giveaways, i) {
 function addCewgdDetails(giveaway, details) {
     let type, typeColumn;
     giveaway.points = details.points;
+    if (giveaway.gwcContext) {
+        giveaway.chancePerPoint = Math.round(giveaway.chance / giveaway.points * 100) / 100;
+        giveaway.gwcContext.title = getFeatureTooltip(`gwc`, `Giveaway Winning Chance (${giveaway.chancePerPoint}% per point)`);
+    }
     giveaway.level = details.level;
     giveaway.headingName.insertAdjacentHTML(`beforeEnd`, `
         <span>(${details.points}P)</span>
@@ -11994,6 +12135,11 @@ async function checkCtComments(count, comments, index, goToUnread, markRead, mar
                     trades: `ts`
                 }[comment.type]}`]) {
                     saved[comment.type][comment.code].visited = true;
+                    let cache = JSON.parse(getLocalValue(`gdtttCache`, `{"giveaways":[],"discussions":[],"tickets":[],"trades":[]}`));
+                    if (cache[comment.type].indexOf(comment.code) < 0) {
+                        cache[comment.type].push(comment.code);
+                        setLocalValue(`gdtttCache`, JSON.stringify(cache));
+                    }
                 }
                 saved[comment.type][comment.code].lastUsed = Date.now();
                 if (!esgst.ct_s) {
@@ -15688,7 +15834,7 @@ async function getGcCategories(gc, id, type) {
                     });
                 });
                 categories.tags = tags.join(`, `);
-            } else {                
+            } else {
                 categories.removed = 1;
             }
         }
@@ -16341,6 +16487,11 @@ async function loadGdttt() {
         trades: `ts`
     }[type]}`]) {
         if (!esgst.ct) {
+            let cache = JSON.parse(getLocalValue(`gdtttCache`, `{"giveaways":[],"discussions":[],"tickets":[],"trades":[]}`));
+            if (cache[type].indexOf(code) < 0) {
+                cache[type].push(code);
+                setLocalValue(`gdtttCache`, JSON.stringify(cache));
+            }
             let deleteLock = await createLock(`commentLock`, 300);
             if (!savedComments[code]) {
                 savedComments[code] = {
@@ -17110,6 +17261,25 @@ function loadGf() {
             esgst.mainPageHeading.insertBefore(addGfContainer(esgst.mainPageHeading), esgst.mainPageHeading.firstElementChild);
         }
     }
+    if (location.pathname.match(/^\/account\/settings\/giveaways$/) && (esgst.gf_os || esgst.gf_alreadyOwned || esgst.gf_dlcMissingBase || esgst.gf_aboveLevel || esgst.gf_manuallyFiltered)) {
+        let key,
+            inputs = {
+                filter_os: null,
+                filter_giveaways_exist_in_account: null,
+                filter_giveaways_missing_base_game: null,
+                filter_giveaways_level: null,
+                filter_giveaways_additional_games: null
+            };
+        for (key in inputs) {
+            inputs[key] = document.querySelector(`[name="${key}"]`);
+        }
+        document.getElementsByClassName(`form__submit-button js__submit-form`)[0].addEventListener(`click`, () => {
+            for (key in inputs) {
+                esgst.settings[key] = parseInt(inputs[key].value);
+            }
+            setValue(`settings`, JSON.stringify(esgst.settings));
+        });
+    }
 }
 
 function getGfGiveaways(giveaway, main, source) {
@@ -17195,7 +17365,7 @@ function setGfOverride(gf, context, key) {
 }
 
 function addGfContainer(heading, popup) {
-    var basicFilter, basicFilters, box, button, categoryFilter, categoryFilters, collapseButton, display, exceptionButton, exceptionCount, exceptionPanel, expandButton, filters, genres, gf, headingButton, i, id, infinite, key, maxKey, maxSavedValue, maxValue, minKey, minSavedValue, minValue, name, preset, presetButton, presetDisplay, presetInput, presetMessage, presetPanel, presets, presetWarning, slider, step, toggleSwitch, typeFilter, typeFilters, value;
+    var basicFilter, basicFilters, box, button, categoryFilter, categoryFilters, collapseButton, display, exceptionButton, exceptionCount, exceptionPanel, expandButton, filters, genres, gf, headingButton, i, id, infinite, key, maxKey, maxSavedValue, maxValue, minKey, minSavedValue, minValue, name, preset, presetButton, presetDisplay, presetInput, presetMessage, presetPanel, presets, presetWarning, sgFilters, slider, step, toggleSwitch, typeFilter, typeFilters, value;
     gf = {
         counters: {},
         popup: popup,
@@ -17238,6 +17408,11 @@ function addGfContainer(heading, popup) {
                         </div>
                     </div>
                     <div class="esgst-gf-right-panel">
+                        <div class="esgst-gf-steamgifts-filters esgst-hidden">
+                            <div>
+                                <span class="esgst-bold">SteamGifts Filters:</span>
+                            </div>
+                        </div>
                         <div class="esgst-gf-legend-panel">
                             <div>
                                 <span class="esgst-bold">Legend:</span>
@@ -17277,6 +17452,7 @@ function addGfContainer(heading, popup) {
     basicFilters = filters.firstElementChild;
     typeFilters = basicFilters.nextElementSibling;
     categoryFilters = typeFilters.nextElementSibling;
+    sgFilters = categoryFilters.nextElementSibling.firstElementChild;
     presetPanel = categoryFilters.nextElementSibling.lastElementChild;
     exceptionPanel = presetPanel.firstElementChild.nextElementSibling;
     exceptionCount = exceptionPanel.firstElementChild;
@@ -17505,6 +17681,61 @@ function addGfContainer(heading, popup) {
         if (categoryFilters.children.length === 1) {
             categoryFilters.classList.add(`esgst-hidden`);
         }
+    }
+    sgFilters.classList.remove(`esgst-hidden`);
+    [
+        {id: `filter_os`, key: `os`, name: `OS`},
+        {id: `filter_giveaways_exist_in_account`, key: `alreadyOwned`, name: `Already Owned`},
+        {id: `filter_giveaways_missing_base_game`, key: `dlcMissingBase`, name: `DLC Missing Base`},
+        {id: `filter_giveaways_level`, key: `aboveLevel`, name: `Above Level`},
+        {id: `filter_giveaways_additional_games`, key: `manuallyFiltered`, name: `Manually Filtered`}
+    ].forEach(filter => {
+        if (!esgst[`gf_${filter.key}`]) return;
+        let sgFilter = insertHtml(sgFilters, `beforeEnd`, `
+            <div class="esgst-gf-category-filter">
+                <span>${filter.name}
+                ${filter.key === `os` ? `
+                    <select>
+                        <option value="0">All</option>
+                        <option value="1">Windows</option>
+                        <option value="2">Linux</option>
+                        <option value="3">Mac</option>
+                    </select>`
+                : ``}
+                </span>
+                <i class="fa fa-circle-o-notch fa-spin esgst-hidden"></i>
+                <i class="fa fa-check esgst-green esgst-hidden"></i>
+            </div>
+        `);
+        let check = sgFilter.lastElementChild;
+        let spinning = check.previousElementSibling;
+        if (filter.key === `os`) {
+            let select = sgFilter.firstElementChild.firstElementChild;
+            select.value = esgst[filter.id];
+            select.addEventListener(`change`, async () => {
+                check.classList.add(`esgst-hidden`);
+                spinning.classList.remove(`esgst-hidden`);
+                await setSetting(filter.id, select.value);
+                esgst[filter.id] = select.value;
+                await request({data: `filter_os=${esgst.filter_os}&filter_giveaways_exist_in_account=${esgst.filter_giveaways_exist_in_account}&filter_giveaways_missing_base_game=${esgst.filter_giveaways_missing_base_game}&filter_giveaways_level=${esgst.filter_giveaways_level}&filter_giveaways_additional_games=${esgst.filter_giveaways_additional_games}&xsrf_token=${esgst.xsrfToken}`, method: `POST`, url: `/account/settings/giveaways`});
+                spinning.classList.add(`esgst-hidden`);
+                check.classList.remove(`esgst-hidden`);
+            });
+        } else {
+            let checkbox = new Checkbox(sgFilter, esgst[filter.id]);
+            checkbox.checkbox.addEventListener(`click`, async () => {
+                check.classList.add(`esgst-hidden`);
+                spinning.classList.remove(`esgst-hidden`);
+                await setSetting(filter.id, checkbox.checked ? 1 : 0);
+                esgst[filter.id] = checkbox.checked ? 1 : 0;
+                await request({data: `filter_os=${esgst.filter_os}&filter_giveaways_exist_in_account=${esgst.filter_giveaways_exist_in_account}&filter_giveaways_missing_base_game=${esgst.filter_giveaways_missing_base_game}&filter_giveaways_level=${esgst.filter_giveaways_level}&filter_giveaways_additional_games=${esgst.filter_giveaways_additional_games}&xsrf_token=${esgst.xsrfToken}`, method: `POST`, url: `/account/settings/giveaways`});
+                spinning.classList.add(`esgst-hidden`);
+                check.classList.remove(`esgst-hidden`);
+            });
+        }
+    });
+    if (sgFilters.children.length === 1) {
+        sgFilters.classList.add(`esgst-hidden`);
     }
     return headingButton;
 }
@@ -19882,7 +20113,7 @@ function addGtsButtonSection(button, rows) {
                 }
                 if (!savedTemplate.whoCanEnter) {
                     savedTemplate.whoCanEnter = savedTemplate.type;
-                } 
+                }
                 details = `${savedTemplate.gameType}, `;
                 if (savedTemplate.startTime || savedTemplate.endTime) {
                     if (savedTemplate.startTime) {
@@ -20193,7 +20424,7 @@ function applyGtsTemplate(savedTemplate) {
     }
     if (!savedTemplate.whoCanEnter) {
         savedTemplate.whoCanEnter = savedTemplate.type;
-    } 
+    }
     currentDate = new Date();
     document.querySelector(`[data-checkbox-value="${savedTemplate.gameType}"]`).click();
     if (savedTemplate.edit) {
@@ -20485,13 +20716,13 @@ function addGwcChances(giveaway, main, source) {
     var i, n;
     if (((giveaway.inviteOnly && ((main && esgst.giveawayPath) || !main || giveaway.ended)) || !giveaway.inviteOnly) && !giveaway.innerWrap.getElementsByClassName(`esgst-gwc`)[0]) {
         if (giveaway.started) {
-            let context = insertHtml(giveaway.panel, (esgst.gv && ((main && esgst.giveawaysPath) || (source === `gb` && esgst.gv_gb) || (source === `ged` && esgst.gv_ged) || (source === `ge` && esgst.gv_ge))) ? `afterBegin` : `beforeEnd`, `<div class="${esgst.giveawayPath ? `featured__column` : ``} esgst-gwc" data-columnId="gwc" title="${getFeatureTooltip(`gwc`, `Giveaway Winning Chance`)}">`);
-            addGwcChance(context, giveaway);
+            giveaway.gwcContext = insertHtml(giveaway.panel, (esgst.gv && ((main && esgst.giveawaysPath) || (source === `gb` && esgst.gv_gb) || (source === `ged` && esgst.gv_ged) || (source === `ge` && esgst.gv_ge))) ? `afterBegin` : `beforeEnd`, `<div class="${esgst.giveawayPath ? `featured__column` : ``} esgst-gwc" data-columnId="gwc" title="${getFeatureTooltip(`gwc`, `Giveaway Winning Chance`)}">`);
+            addGwcChance(giveaway);
             if (!esgst.lockGiveawayColumns && (!main || esgst.giveawaysPath || esgst.userPath || esgst.groupPath)) {
-                context.setAttribute(`draggable`, true);
-                context.addEventListener(`dragstart`, setGiveawaySource.bind(null, giveaway));
-                context.addEventListener(`dragenter`, getGiveawaySource.bind(null, giveaway, false));
-                context.addEventListener(`dragend`, saveGiveawaySource.bind(null, giveaway));
+                giveaway.gwcContext.setAttribute(`draggable`, true);
+                giveaway.gwcContext.addEventListener(`dragstart`, setGiveawaySource.bind(null, giveaway));
+                giveaway.gwcContext.addEventListener(`dragenter`, getGiveawaySource.bind(null, giveaway, false));
+                giveaway.gwcContext.addEventListener(`dragend`, saveGiveawaySource.bind(null, giveaway));
             }
         } else {
             giveaway.chance = 100;
@@ -20500,7 +20731,7 @@ function addGwcChances(giveaway, main, source) {
     }
 }
 
-function addGwcChance(context, giveaway) {
+function addGwcChance(giveaway) {
     let advancedChance, advancedColor, basicChance, basicColor, colors, entries, i;
     entries = giveaway.entered || giveaway.ended || giveaway.created || !esgst.gwc_e ? giveaway.entries : giveaway.entries + 1;
     basicChance = entries > 0 ? Math.round(giveaway.copies / entries * 10000) / 100 : 100;
@@ -20511,8 +20742,10 @@ function addGwcChance(context, giveaway) {
     }
     giveaway.chance = esgst.gwc_a && !esgst.gwc_a_b ? advancedChance : basicChance;
     giveaway.chancePerPoint = Math.round(giveaway.chance / giveaway.points * 100) / 100;
-    context.title = getFeatureTooltip(`gwc`, `Giveaway Winning Chance (${giveaway.chancePerPoint}% per point)`);
-    context.setAttribute(`data-chance`, giveaway.chance);
+    if (giveaway.points) {
+        giveaway.gwcContext.title = getFeatureTooltip(`gwc`, `Giveaway Winning Chance (${giveaway.chancePerPoint}% per point)`);
+    }
+    giveaway.gwcContext.setAttribute(`data-chance`, giveaway.chance);
     for (i = esgst.gwc_colors.length - 1; i > -1; --i) {
         colors = esgst.gwc_colors[i];
         if (basicChance >= parseFloat(colors.lower) && basicChance <= parseFloat(colors.upper)) {
@@ -20537,9 +20770,9 @@ function addGwcChance(context, giveaway) {
         }
     }
     if (esgst.enteredPath) {
-        context.style.display = `inline-block`;
+        giveaway.gwcContext.style.display = `inline-block`;
     }
-    context.innerHTML = `
+    giveaway.gwcContext.innerHTML = `
         ${esgst.enteredPath ? `` : `<i class="fa fa-area-chart"></i>`}
         <span>${esgst.gwc_a && advancedChance ? (esgst.gwc_a_b ? `<span${basicColor ? ` style="color: ${basicColor}; font-weight: bold;"` : ``}>${basicChance}%</span> (<span${advancedColor ? ` style="color: ${advancedColor}; font-weight: bold;"` : ``}>${advancedChance}%</span>)` : `<span${advancedColor ? ` style="color: ${advancedColor}; font-weight: bold;"` : ``}>${advancedChance}%</span>`) : `<span${basicColor ? ` style="color: ${basicColor}; font-weight: bold;"` : ``}>${basicChance}%</span>`}${esgst.enteredPath && esgst.gwr ? ` / ` : ``}</span>
     `;
@@ -21028,13 +21261,13 @@ function notifyHrChange(hr, notify) {
             hr.delivered = deliveredNotification = false;
         }
         if (esgst.hr_g && delivered) {
-            title += `🏆 `;
+            title += `${esgst.hr_g_format} `;
         }
         if (esgst.hr_w && esgst.wishlist) {
-            title += `❤ `;
+            title += `${esgst.hr_w_format.replace(/#/, esgst.wishlist)} `;
         }
         if (esgst.hr_p) {
-            title += `(${esgst.points}P) `;
+            title += `${esgst.hr_p_format.replace(/#/, esgst.points)} `;
         }
         title += esgst.originalTitle;
         if (document.title !== title) {
@@ -29146,14 +29379,14 @@ function addPlLinks(profile) {
                         <div class="sidebar__navigation__item__underline"></div>
                         <div class="sidebar__navigation__item__count">${item.count}</div>
                     </a>
-                </li>            
+                </li>
             `;
             enabled = true;
         });
         if (!enabled) return;
         html += `
             <h3 class="sidebar__heading">${section.name}</h3>
-            <ul class="sidebar__navigation" title="${getFeatureTooltip(`pl`)}">${itemsHtml}</ul>        
+            <ul class="sidebar__navigation" title="${getFeatureTooltip(`pl`)}">${itemsHtml}</ul>
         `;
     });
     esgst.sidebar.getElementsByClassName(`sidebar__navigation`)[0].insertAdjacentHTML(`afterEnd`, html);
@@ -31471,7 +31704,7 @@ async function setSetting(id, value, sg, st) {
     esgst.settings[id] = value;
 }
 
-function getSetting(key, save) {
+function getSetting(key) {
     let value = esgst.settings[key];
     if (typeof value === `undefined`) {
         let defaultValue = esgst.defaultValues[key];
@@ -31485,12 +31718,12 @@ function getSetting(key, save) {
         if (typeof value === `undefined`) {
             value = defaultValue;
         }
-        if (save) {
-            esgst.settings[key] = value;
-            esgst.settingsChanged = true;
-        }
     }
     return value;
+}
+
+function validateValue(value) {
+    return typeof value === `undefined` || value;
 }
 
 function getOldValues(id, name, setting) {
@@ -31498,13 +31731,13 @@ function getOldValues(id, name, setting) {
         case `at`:
             if (name !== `sg`) return;
             setting.exclude = [
-                {enabled: esgst.settings.at_g_sg ? 0 : 1, pattern: `^/($|giveaways(?!/(new|wishlist|created|entered|won)))`}
+                {enabled: validateValue(esgst.settings.at_g_sg) ? 0 : 1, pattern: `^/($|giveaways(?!/(new|wishlist|created|entered|won)))`}
             ];
             return;
         case `egh`:
             if (name !== `sg`) return;
             setting.exclude = [
-                {enabled: esgst.settings.egh_t_sg ? 0 : 1, pattern: `^/discussion/`}
+                {enabled: validateValue(esgst.settings.egh_t_sg) ? 0 : 1, pattern: `^/discussion/`}
             ];
             return;
         case `es_pd`:
@@ -31512,29 +31745,29 @@ function getOldValues(id, name, setting) {
             setting.enabled = setting.enabled ? 1 : 0;
         case `es`:
             if (name === `sg`) {
-                if (esgst.settings[id === `es` ? `es_l_sg` : `es_l_d_sg`]) {
+                if (validateValue(esgst.settings[id === `es` ? `es_l_sg` : `es_l_d_sg`])) {
                     setting.exclude = [
-                        {enabled: esgst.settings[id === `es` ? `es_c_sg` : `es_c_d_sg`] ? 0 : 1, pattern: `^/(giveaway/(?!.*/(entries|winners|groups|region-restrictions))|discussion/|support/ticket/)`},
-                        {enabled: esgst.settings[id === `es` ? `es_d_sg` : `es_d_d_sg`] ? 0 : 1, pattern: `^/(discussions|support/tickets)`},
-                        {enabled: esgst.settings[id === `es` ? `es_g_sg` : `es_g_d_sg`] ? 0 : 1, pattern: `^/($|giveaways(?!/(new|wishlist|created|entered|won)))`}
+                        {enabled: validateValue(esgst.settings[id === `es` ? `es_c_sg` : `es_c_d_sg`]) ? 0 : 1, pattern: `^/(giveaway/(?!.*/(entries|winners|groups|region-restrictions))|discussion/|support/ticket/)`},
+                        {enabled: validateValue(esgst.settings[id === `es` ? `es_d_sg` : `es_d_d_sg`]) ? 0 : 1, pattern: `^/(discussions|support/tickets)`},
+                        {enabled: validateValue(esgst.settings[id === `es` ? `es_g_sg` : `es_g_d_sg`]) ? 0 : 1, pattern: `^/($|giveaways(?!/(new|wishlist|created|entered|won)))`}
                     ];
                 } else {
                     setting.include = [
-                        {enabled: esgst.settings[id === `es` ? `es_c_sg` : `es_c_d_sg`] ? 1 : 0, pattern: `^/(giveaway/(?!.*/(entries|winners|groups|region-restrictions))|discussion/|support/ticket/)`},
-                        {enabled: esgst.settings[id === `es` ? `es_d_sg` : `es_d_d_sg`] ? 1 : 0, pattern: `^/(discussions|support/tickets)`},
-                        {enabled: esgst.settings[id === `es` ? `es_g_sg` : `es_g_d_sg`] ? 1 : 0, pattern: `^/($|giveaways(?!/(new|wishlist|created|entered|won)))`}
+                        {enabled: validateValue(esgst.settings[id === `es` ? `es_c_sg` : `es_c_d_sg`]) ? 1 : 0, pattern: `^/(giveaway/(?!.*/(entries|winners|groups|region-restrictions))|discussion/|support/ticket/)`},
+                        {enabled: validateValue(esgst.settings[id === `es` ? `es_d_sg` : `es_d_d_sg`]) ? 1 : 0, pattern: `^/(discussions|support/tickets)`},
+                        {enabled: validateValue(esgst.settings[id === `es` ? `es_g_sg` : `es_g_d_sg`]) ? 1 : 0, pattern: `^/($|giveaways(?!/(new|wishlist|created|entered|won)))`}
                     ];
                 }
             } else {
-                if (esgst.settings[id === `es` ? `es_l_st` : `es_l_d_st`]) {
+                if (validateValue(esgst.settings[id === `es` ? `es_l_st` : `es_l_d_st`])) {
                     setting.exclude = [
-                        {enabled: esgst.settings[id === `es` ? `es_c_st` : `es_c_d_st`] ? 0 : 1, pattern: `^/trade/`},
-                        {enabled: esgst.settings[id === `es` ? `es_t_st` : `es_t_d_st`] ? 0 : 1, pattern: `^/($|trades)`}
+                        {enabled: validateValue(esgst.settings[id === `es` ? `es_c_st` : `es_c_d_st`]) ? 0 : 1, pattern: `^/trade/`},
+                        {enabled: validateValue(esgst.settings[id === `es` ? `es_t_st` : `es_t_d_st`]) ? 0 : 1, pattern: `^/($|trades)`}
                     ];
                 } else {
                     setting.include = [
-                        {enabled: esgst.settings[id === `es` ? `es_c_st` : `es_c_d_st`] ? 1 : 0, pattern: `^/trade/`},
-                        {enabled: esgst.settings[id === `es` ? `es_t_st` : `es_t_d_st`] ? 1 : 0, pattern: `^/($|trades)`}
+                        {enabled: validateValue(esgst.settings[id === `es` ? `es_c_st` : `es_c_d_st`]) ? 1 : 0, pattern: `^/trade/`},
+                        {enabled: validateValue(esgst.settings[id === `es` ? `es_t_st` : `es_t_d_st`]) ? 1 : 0, pattern: `^/($|trades)`}
                     ];
                 }
             }
@@ -31542,16 +31775,16 @@ function getOldValues(id, name, setting) {
         case `gc`:
             if (name !== `sg`) return;
             setting.exclude = [
-                {enabled: esgst.settings.gc_t_sg ? 0 : 1, pattern: `^/discussion/`}
+                {enabled: validateValue(esgst.settings.gc_t_sg) ? 0 : 1, pattern: `^/discussion/`}
             ];
             return;
         case `gc_gi`:
             if (name !== `sg`) return;
-            if (esgst.settings.gc_gi_t_sg) {
+            if (validateValue(esgst.settings.gc_gi_t_sg)) {
                 setting.include = [
                     {enabled: 1, pattern: `^/discussion`}
                 ];
-            } else if (esgst.settings.gc_gi_cew_sg) {
+            } else if (validateValue(esgst.settings.gc_gi_cew_sg)) {
                 setting.include = [
                     {enabled: 1, pattern: `^/giveaways/(created|entered|won)/`}
                 ];
@@ -31560,7 +31793,7 @@ function getOldValues(id, name, setting) {
         case `gc_o_a`:
             if (name !== `sg`) return;
             setting.enabled = esgst.settings.gc_o_altAccounts.length > 0 ? 1 : 0;
-            if (esgst.settings.gc_o_t_sg) {
+            if (validateValue(esgst.settings.gc_o_t_sg)) {
                 setting.include = [
                     {enabled: 1, pattern: `^/discussion`}
                 ];
@@ -31569,12 +31802,12 @@ function getOldValues(id, name, setting) {
         case `gt`:
             if (name !== `sg`) return;
             setting.exclude = [
-                {enabled: esgst.settings.gt_t_sg ? 0 : 1, pattern: `^/discussion/`}
+                {enabled: validateValue(esgst.settings.gt_t_sg) ? 0 : 1, pattern: `^/discussion/`}
             ];
             return;
         case `vai`:
             setting.exclude = [
-                {enabled: esgst.settings[`vai_i_${name}`] ? 1 : 0, pattern: `^/messages`}
+                {enabled: validateValue(esgst.settings[`vai_i_${name}`]) ? 1 : 0, pattern: `^/messages`}
             ];
             return;
         default:
@@ -31589,7 +31822,8 @@ function getFeaturePath(feature, id, name) {
         setting = {
             enabled: getSetting(key) ? 1 : 0,
             include: [],
-            exclude: []
+            exclude: [],
+            new: typeof setting === `undefined`
         };
         if (feature[name].include) {
             setting.include = feature[name].include;
@@ -33706,14 +33940,14 @@ function loadSMMenu(tab) {
         Title: `Sync data`
     }, {
         Check: true,
-        Icons: [`fa-arrow-circle-up`],
+        Icons: [`fa-sign-in esgst-rotate-90`],
         Name: `esgst-heading-button`,
-        Title: `Import data`
+        Title: `Restore data`
     }, {
         Check: true,
-        Icons: [`fa-arrow-circle-down`],
+        Icons: [`fa-sign-out esgst-rotate-270`],
         Name: `esgst-heading-button`,
-        Title: `Export data`
+        Title: `Backup data`
     }, {
         Check: true,
         Icons: [`fa-trash`],
@@ -33723,7 +33957,7 @@ function loadSMMenu(tab) {
         Check: true,
         Icons: [`fa-gear`, `fa-arrow-circle-down`],
         Name: `esgst-heading-button`,
-        Title: `Export settings (exports settings without personal data so you can easily share them with other users)`
+        Title: `Download settings (downloads your settings to your computer without your personal data so you can easily share them with other users)`
     }, {
         Check: true,
         Icons: [`fa-paint-brush`],
@@ -33785,14 +34019,9 @@ function loadSMMenu(tab) {
     i = 1;
     for (type in esgst.features) {
         if (type !== `trades` || esgst.settings.esgst_st) {
-            let id, j, section, title;
+            let id, j, section, title, isNew = false;
             title = type.replace(/^./, m => { return m.toUpperCase() });
-            section = createMenuSection(SMMenu, null, i, esgst.features[type].newBelow ? `
-                <span class="esgst-bold esgst-red" title="There is a new feature/option in this section">
-                    <i class="fa fa-star"></i>
-                </span>
-                ${title}
-            ` : title, type);
+            section = createMenuSection(SMMenu, null, i, title, type);
             j = 1;
             for (id in esgst.features[type].features) {
                 let feature, ft;
@@ -33800,10 +34029,20 @@ function loadSMMenu(tab) {
                 if (!feature.extensionOnly || esgst.type === `extension`) {
                     ft = getSMFeature(feature, id, j);
                     if (ft) {
-                        section.lastElementChild.appendChild(ft);
+                        if (ft.isNew) {
+                            isNew = true;
+                        }
+                        section.lastElementChild.appendChild(ft.menu);
                         j += 1;
                     }
                 }
+            }
+            if (isNew) {
+                section.firstElementChild.lastElementChild.insertAdjacentHTML(`afterBegin`, `
+                    <span class="esgst-bold esgst-red" title="There is a new feature/option in this section">
+                        <i class="fa fa-star"></i>
+                    </span>
+                `);
             }
             i += 1;
         }
@@ -33880,7 +34119,7 @@ function loadSMMenu(tab) {
                 <div class="markdown">
                     <ul>
                         <li>Bugs and suggestions should be reported on the <a href="https://github.com/revilheart/ESGST/issues">GitHub page</a>.</li>
-                        <li>Make sure you backup your data using the export button at the top of the menu every once in a while to prevent any data loss that might occur. It's also probably a good idea to disable automatic updates, since ESGST is in constant development.</li>
+                        <li>Make sure you backup your data using the backup button at the top of the menu every once in a while to prevent any data loss that might occur. It's also probably a good idea to disable automatic updates, since ESGST is in constant development.</li>
                         <li>Hover over the <i class="fa fa-question-circle"></i> icon next to each option that has it to learn more about it and how to use it. Some options are currently missing documentation, so feel free to ask about them in the official ESGST thread.</li>
                         <li>Some features rely on sync to work properly. These features have a <i class="fa fa-refresh esgst-negative"></i> icon next to their names, and when you hover over the icon you can see what type of data you have to sync. You should sync often to keep your data up-to-date. ESGST offers an option to automatically sync your data for you every amount of days so you don't have to do it manually. To enable the automatic sync, simply go to the sync section of the menu (section 1) and select the number of days in the dropdown.</li>
                         <li>ESGST uses 2 terms to define a window opened in the same page: <strong>popout</strong> is when the window opens up, down, left or right from the element you clicked/hovered over (like the one you get with the description of the features) and <strong>popup</strong> is when the window opens in the center of the screen with a modal background behind it (like this one).</li>
@@ -33982,29 +34221,27 @@ function savePaths(id, obj) {
     setSetting(`${id}_${obj.name}`, obj.setting);
 }
 
+function dismissNewOption(id, event) {
+    event.currentTarget.remove();
+    if (esgst.dismissedOptions.indexOf(id) < 0) {
+        esgst.dismissedOptions.push(id);
+        setSetting(`dismissedOptions`, esgst.dismissedOptions);
+    }
+}
+
 function getSMFeature(Feature, ID, aaa) {
-    var Menu, Checkbox, CheckboxInput, SMFeatures;
+    var Menu, Checkbox, CheckboxInput, SMFeatures, isMainNew = false;
     Menu = document.createElement(`div`);
     Menu.id = `esgst_${ID}`;
     Menu.insertAdjacentHTML(`beforeEnd`, `
         <div class="esgst-sm-small-number esgst-form-heading-number">${aaa}.</div>
     `);
-    if (Feature.new) {
-        Menu.insertAdjacentHTML(`beforeEnd`, `
-            <span class="esgst-bold esgst-red" title="This is a new feature/option">[NEW]</span>
-        `);
-    } else if (Feature.newBelow) {
-        Menu.insertAdjacentHTML(`beforeEnd`, `
-            <span class="esgst-bold esgst-red" title="There is a new feature/option in this section">
-                <i class="fa fa-star"></i>
-            </span>
-        `);
-    }
     var localID, val, val1, val2;
-    var siwtchSg, siwtchSt;
+    var siwtchSg, siwtchSt, set1, set2;
     if (Feature.sg) {
         localID = `${ID}_sg`;
-        val1 = getFeaturePath(Feature, ID, `sg`).enabled;
+        set1 = getFeaturePath(Feature, ID, `sg`);
+        val1 = set1.enabled;
         siwtchSg = new ToggleSwitch(Menu, ID, true, esgst.settings.esgst_st ? `[SG]` : ``, true, false, null, val1);
         insertHtml(Menu, `beforeEnd`, `<i class="fa fa-gear esgst-clickable" title="Customize where the feature runs"></i>`).addEventListener(`click`, openPathsPopup.bind(null, Feature, ID, `sg`));
         if (Feature.conflicts) {
@@ -34022,7 +34259,8 @@ function getSMFeature(Feature, ID, aaa) {
     }
     if (Feature.st && (esgst.settings.esgst_st || ID === `esgst`)) {
         localID = `${ID}_st`;
-        val2 = getFeaturePath(Feature, ID, `st`).enabled;
+        set2 = getFeaturePath(Feature, ID, `st`);
+        val2 = set2.enabled;
         siwtchSt = new ToggleSwitch(Menu, ID, true, `[ST]`, false, true, null, val2);
         insertHtml(Menu, `beforeEnd`, `<i class="fa fa-gear esgst-clickable" title="Customize where the feature runs"></i>`).addEventListener(`click`, openPathsPopup.bind(null, Feature, ID, `st`));
         if (Feature.conflicts) {
@@ -34038,7 +34276,16 @@ function getSMFeature(Feature, ID, aaa) {
             }
         }
     }
-    if (siwtchSg || siwtchSt) {
+    if (!siwtchSg && !siwtchSt) {
+        Menu.lastElementChild.remove();
+        return null;
+    }
+    isMainNew = esgst.dismissedOptions.indexOf(ID) < 0 && (!set1 || set1.new) && (!set2 || set2.new);
+    if (isMainNew) {
+        insertHtml(Menu.firstElementChild, `afterEnd`, `
+            <span class="esgst-bold esgst-red esgst-clickable" title="This is a new feature/option. Click to dismiss.">[NEW]</span>
+        `).addEventListener(`click`, dismissNewOption.bind(null, ID));
+    }
     val = val1 || val2;
     Menu.insertAdjacentHTML(`beforeEnd`, `
         <span>${esgst.settings.esgst_st ? `- ` : ``}${Feature.name}</span> ${Feature.features ? `<i class="fa fa-ellipsis-h" title="This option has sub-options"></i>` : ``} ${Feature.sync ? `<i class="esgst-negative fa fa-refresh" title="This feature requires ${Feature.sync} data to be synced (section 1 of this menu)"></i>` : ``} ${Feature.description ? `<i class="fa fa-question-circle esgst-clickable"></i>` : ``}
@@ -34061,13 +34308,16 @@ function getSMFeature(Feature, ID, aaa) {
         });
     }
     if (Feature.features) {
-        let ft, i, id;
+        let ft, i, id, isNew = false;
         i = 1;
         for (id in Feature.features) {
             if (!Feature.features[id].extensionOnly || esgst.type === `extension`) {
                 ft = getSMFeature(Feature.features[id], id, i);
                 if (ft) {
-                    SMFeatures.appendChild(ft);
+                    if (ft.isNew) {
+                        isNew = true;
+                    }
+                    SMFeatures.appendChild(ft.menu);
                     i += 1;
                 }
             }
@@ -34080,6 +34330,14 @@ function getSMFeature(Feature, ID, aaa) {
         }
         if (val) {
             SMFeatures.classList.remove(`esgst-hidden`);
+        }
+        isMainNew = isMainNew || isNew;
+        if (isNew) {
+            Menu.firstElementChild.insertAdjacentHTML(`afterEnd`, `
+                <span class="esgst-bold esgst-red" title="There is a new feature/option in this section">
+                    <i class="fa fa-star"></i>
+                </span>
+            `);
         }
     }
     if (ID === `gc`) {
@@ -34180,147 +34438,83 @@ function getSMFeature(Feature, ID, aaa) {
         if (val) {
             SMFeatures.classList.remove(`esgst-hidden`);
         }
-    } else if (Feature.input) {
-        var input, prev, next;
-        if (ID === `npth`) {
-            input = insertHtml(SMFeatures, `beforeEnd`, `
-                <div class="esgst-sm-colors">
-                    Enter the key you want to use for previous links: <input type="text" value="${esgst.npth_previousKey}">
-                    <br/>
-                    Enter the key you want to use for next links: <input type="text" value="${esgst.npth_nextKey}">
-                </div>
-            `);
-            prev = input.firstElementChild;
-            next = input.lastElementChild;
-            prev.addEventListener(`keydown`, function (e) {
-                e.preventDefault();
-                setSetting(`npth_previousKey`, e.key);
-                esgst.npth_previousKey = e.key;
-                prev.value = e.key;
-            });
-            next.addEventListener(`keydown`, function (e) {
-                e.preventDefault();
-                setSetting(`npth_nextKey`, e.key);
-                esgst.npth_nextKey = e.key;
-                next.value = e.key;
-            });
-        } else if (ID.match(/^sk_/)) {
-            setSkMenu(Feature.input, insertHtml(SMFeatures, `beforeEnd`, `
-                <div class="esgst-sm-colors"></div>`
-            ));
-        } else if (ID === `ef`) {
-            input = insertHtml(SMFeatures, `beforeEnd`, `
-                <div class="esgst-sm-colors">
-                    Filters: <input type="text" value="${esgst.ef_filters}"> <i class="fa fa-question-circle" title="Separate each selector by a comma followed by a space, for example: .class_1, .class_2, #id"></i>
-                </div>
-            `);
-            input.firstElementChild.addEventListener(`change`, function() {
-                setSetting(`ef_filters`, input.firstElementChild.value);
-                esgst.ef_filters = input.firstElementChild.value;
-            });
-        } else if (ID === `cdr_b`) {
-            input = insertHtml(SMFeatures, `beforeEnd`, `
-                <div class="esgst-sm-colors">
-                    Days: <input type="text" value="${esgst.cdr_days}">
-                </div>
-            `);
-            input.firstElementChild.addEventListener(`change`, function() {
-                setSetting(`cdr_days`, input.firstElementChild.value);
-                esgst.cdr_days = input.firstElementChild.value;
-            });
-        } else if (ID === `gb_h`) {
-            var hours = esgst.gb_hours;
-            input = insertHtml(SMFeatures, `beforeEnd`, `
-                <div class="esgst-sm-colors">
-                    Time range to trigger highlight: <input type="text" value="${hours}"> hours
-                </div>
-            `);
-            input.firstElementChild.addEventListener(`change`, function() {
-                setSetting(`gb_hours`, input.firstElementChild.value);
-                esgst.gb_hours = input.firstElementChild.value;
-            });
-        } else if (ID === `hr_w_h`) {
-            var hours = esgst.hr_w_hours;
-            input = insertHtml(SMFeatures, `beforeEnd`, `
-                <div class="esgst-sm-colors">
-                    Hours: <input type="text" value="${hours}">
-                </div>
-            `);
-            input.firstElementChild.addEventListener(`change`, function() {
-                setSetting(`hr_w_hours`, input.firstElementChild.value);
-                esgst.hr_w_hours = input.firstElementChild.value;
-            });
-        } else if (ID === `autoBackup`) {
-            var days = esgst.autoBackup_days;
-            input = insertHtml(SMFeatures, `beforeEnd`, `
-                <div class="esgst-sm-colors">
-                    Days: <input type="text" value="${days}">
-                </div>
-            `);
-            input.firstElementChild.addEventListener(`change`, function() {
-                setSetting(`autoBackup_days`, input.firstElementChild.value);
-                esgst.autoBackup_days = input.firstElementChild.value;
-            });
-        } else if (ID === `hr`) {
-            input = insertHtml(SMFeatures, `beforeEnd`, `
-                <div class="esgst-sm-colors">
-                    Refresh every <input type="text" value="${esgst.hr_minutes}"> minutes
-                </div>
-            `);
-            input.firstElementChild.addEventListener(`change`, function() {
-                setSetting(`hr_minutes`, input.firstElementChild.value);
-                esgst.hr_minutes = input.firstElementChild.value;
-            });
-        } else if (ID === `elgb_f`) {
-            input = insertHtml(SMFeatures, `beforeEnd`, `
-                <div class="esgst-sm-colors">
-                    Filters: <input style="width: 300px;" type="text" value="${esgst.elgb_filters}"> <i class="fa fa-question-circle" title="Enter only lowercase letters with no spaces and separate filters with '|'.\n\nFor example, if you want to filter out 'Good luck! No need to thank, unless you're the winner.', use the filter 'goodlucknoneedtothankunlessyourethewinner'.\n\nIf you're familiar with regular expressions, you can also use them. For example, to include a variation of the description above that uses 'you are' instead of 'you're' you could use the filter 'goodlucknoneedtothankunlessyoua?rethewinner'. 'a?' will match or not an 'a' between 'you' and 're'.\n\nThe '.' filter, for example, filters out any descriptions that only have one letter."></i>
-                </div>
-            `);
-            input.firstElementChild.addEventListener(`change`, function() {
-                setSetting(`elgb_filters`, input.firstElementChild.value);
-                esgst.elgb_filters = input.firstElementChild.value;
-            });
+    } else if (Feature.inputItems) {
+        let container = insertHtml(SMFeatures, `beforeEnd`, `
+            <div class"esgst-sm-colors"></div>
+        `);
+        if (ID.match(/^sk_/)) {
+            Feature.inputItems = [
+                {
+                    event: `keydown`,
+                    id: Feature.inputItems,
+                    shortcutKey: true,
+                    prefix: `Enter the key you want to use for this task: `
+                }
+            ]
         } else if (ID.match(/^hr_.+_s$/)) {
-            let play = insertHtml(insertHtml(SMFeatures, `beforeEnd`, `
-                <div class="esgst-sm-colors"></div>`
-            ), `beforeEnd`, `
-                <input type="file" style="width: 200px;">
-                <i class="fa fa-play-circle esgst-clickable"></i>
-            `);
-            play.previousElementSibling.addEventListener(`change`, readHrAudioFile.bind(null, ID));
-            play.addEventListener(`click`, async () => (await createHrPlayer(esgst.settings[`${ID}_sound`] || getHrDefaultSound())).play());
-        } else if (ID === `staticPopups_f`) {
-            input = insertHtml(SMFeatures, `beforeEnd`, `
-                <div class="esgst-sm-colors">
-                    Width: <input type="text" value="${esgst.staticPopups_width}">
-                </div>
-            `);
-            input.firstElementChild.addEventListener(`change`, function() {
-                setSetting(`staticPopups_width`, input.firstElementChild.value);
-                esgst.staticPopups_width = input.firstElementChild.value;
-            });
-        } else if (ID === `gwc_h`) {
-            input = insertHtml(SMFeatures, `beforeEnd`, `
-                <div class="esgst-sm-colors">
-                    Image Border Width: <input type="text" value="${esgst.gwc_h_width}">
-                </div>
-            `);
-            input.firstElementChild.addEventListener(`change`, function() {
-                setSetting(`gwc_h_width`, input.firstElementChild.value);
-                esgst.gwc_h_width = input.firstElementChild.value;
-            });
-        } else if (ID === `gwr_h`) {
-            input = insertHtml(SMFeatures, `beforeEnd`, `
-                <div class="esgst-sm-colors">
-                    Image Border Width: <input type="text" value="${esgst.gwr_h_width}">
-                </div>
-            `);
-            input.firstElementChild.addEventListener(`change`, function() {
-                setSetting(`gwr_h_width`, input.firstElementChild.value);
-                esgst.gwr_h_width = input.firstElementChild.value;
-            });
+            Feature.inputItems = [
+                {
+                    id: `${ID}_sound`,
+                    play: true
+                }
+            ];
         }
+        Feature.inputItems.forEach(item => {
+            let input,
+                value = ``,
+                context = insertHtml(container, `beforeEnd`, `
+                    <div>${item.play ? `
+                        <input type="file" style="width: 200px;">
+                        <i class="fa fa-play-circle esgst-clickable"></i>
+                    ` : `
+                        ${item.prefix || ``}<input class="esgst-switch-input esgst-switch-input-large" type="text" value="${esgst[item.id]}">${item.suffix || ``}${item.tooltip ? ` <i class="fa fa-question-circle" title="${item.tooltip}"></i>` : ``}
+                    `}</div>
+                `);
+            input = context.firstElementChild;
+            if (item.play) {
+                input.nextElementSibling.addEventListener(`click`, async () => (await createHrPlayer(esgst.settings[item.id] || getHrDefaultSound())).play());
+            }
+            if (typeof esgst.settings[item.id] === `undefined` && esgst.dismissedOptions.indexOf(item.id) < 0) {
+                isMainNew = true;
+                insertHtml(context, `afterBegin`, `
+                    <span class="esgst-bold esgst-red esgst-clickable" title="This is a new feature/option. Click to dismiss.">[NEW]</span>
+                `).addEventListener(`click`, dismissNewOption.bind(null, item.id));
+            }
+            input.addEventListener(item.event || `change`, event => {
+                if (item.shortcutKey) {
+                    event.preventDefault();
+                    event.stopPropagation();
+                    if (!event.repeat) {
+                        value = ``;
+                        if (event.ctrlKey) {
+                            value += `ctrlKey + `;
+                        } else if (event.shiftKey) {
+                            value += `shiftKey + `;
+                        } else if (event.altKey) {
+                            value += `altKey + `;
+                        }
+                        value += event.key.toLowerCase();
+                    }
+                } else if (item.play) {
+                    readHrAudioFile(ID, event);
+                } else if (item.event === `keydown`) {
+                    event.preventDefault();
+                    setSetting(item.id, event.key);
+                    esgst[item.id] = event.key;
+                    input.value = event.key;
+                } else {
+                    setSetting(item.id, input.value);
+                    esgst[item.id] = input.value;
+                }
+            }, item.shortcutKey || false);
+            if (item.shortcutKey) {
+                input.addEventListener(`keyup`, event => {
+                    setSetting(item.id, value);
+                    esgst[item.id] = value;
+                    input.value = value;
+                });
+            }
+        });
         if (siwtchSg) {
             siwtchSg.dependencies.push(SMFeatures);
         }
@@ -34360,11 +34554,10 @@ function getSMFeature(Feature, ID, aaa) {
             SMFeatures.classList.remove(`esgst-hidden`);
         }
     }
-    return Menu;
-    } else {
-        Menu.lastElementChild.remove();
-        return null;
-    }
+    return {
+        isNew: isMainNew,
+        menu: Menu
+    };
 }
 
 function resetColor(bgColorContext, colorContext, id) {
@@ -34559,32 +34752,6 @@ async function saveHrFile(id, popup, reader) {
         popup.icon.classList.add(`fa-times`);
         popup.title.textContent = `An error happened.`;
     }
-}
-
-function setSkMenu(id, input) {
-    let value, context = insertHtml(input, `beforeEnd`, `
-        Enter the key you want to use for this task: <input type="text" value="${esgst[id]}">
-    `);
-    context.addEventListener(`keydown`, event => {
-        event.preventDefault();
-        event.stopPropagation();
-        if (!event.repeat) {
-            value = ``;
-            if (event.ctrlKey) {
-                value += `ctrlKey + `;
-            } else if (event.shiftKey) {
-                value += `shiftKey + `;
-            } else if (event.altKey) {
-                value += `altKey + `;
-            }
-            value += event.key.toLowerCase();
-        }
-    }, true);
-    context.addEventListener(`keyup`, event => {
-        setSetting(id, value);
-        esgst[id] = value;
-        event.currentTarget.value = value;
-    });
 }
 
 function setSmSource(child, sm, event) {
@@ -34910,7 +35077,7 @@ function createMenuSection(context, html, number, title, type) {
             <div class="esgst-form-row-indent">${html ? html : ``}</div>
         </div>
     `);
-    if (esgst.collapseSections && !title.match(/(Im|Ex)port|Delete/)) {
+    if (esgst.collapseSections && !title.match(/Backup|Restore|Delete/)) {
         let button, container, isExpanded;
         button = insertHtml(section.firstElementChild, `afterBegin`, `
             <span class="esgst-clickable" style="margin-right: 5px;">
@@ -35540,18 +35707,20 @@ function loadDataManagement(openInTab, type, autoBackup) {
     dm[type] = true;
     switch (type) {
         case `import`:
-            icon = `fa-arrow-circle-up`;
+            icon = `fa-sign-in esgst-rotate-90`;
             onClick = loadImportFile;
             prep = `from`;
-            title1 = `Import`;
-            title2 = `Importing`;
+            title1 = `Restore`;
+            title2 = `Restoring`;
+            dm.pastTense = `restored`;
             break;
         case `export`:
-            icon = `fa-arrow-circle-down`;
+            icon = `fa-sign-out esgst-rotate-270`;
             onClick = manageData;
             prep = `to`;
-            title1 = `Export`;
-            title2 = `Exporting`;
+            title1 = `Backup`;
+            title2 = `Backing up`;
+            dm.pastTense = `backed up`;
             break;
         case `delete`:
             icon = `fa-trash`;
@@ -35559,6 +35728,7 @@ function loadDataManagement(openInTab, type, autoBackup) {
             prep = `from`;
             title1 = `Delete`;
             title2 = `Deleting`;
+            dm.pastTense = `deleted`;
             break;
     }
     if (openInTab) {
@@ -35863,9 +36033,9 @@ function loadDataManagement(openInTab, type, autoBackup) {
         if (type === `import` || type === `delete`) {
             if (type === `import`) {
                 dm.input = insertHtml(container, `beforeEnd`, `<input type="file"/>`);
-                new ToggleSwitch(container, `importAndMerge`, false, `Merge`, false, false, `Merges the current data with the imported data instead of replacing`, esgst.settings.importAndMerge);
+                new ToggleSwitch(container, `importAndMerge`, false, `Merge`, false, false, `Merges the current data with the backup instead of replacing it.`, esgst.settings.importAndMerge);
             }
-            let select = new ToggleSwitch(container, `exportBackup`, false, `Export backup to <select><option>Computer</option><option>Dropbox</option><option>Google Drive</option><option>OneDrive</option></select>`, false, false, `Exports the current data as a backup`, esgst.settings.exportBackup).name.firstElementChild;
+            let select = new ToggleSwitch(container, `exportBackup`, false, `Backup to <select><option>Computer</option><option>Dropbox</option><option>Google Drive</option><option>OneDrive</option></select>`, false, false, `Backs up the current data to one of the selected places before restoring another backup.`, esgst.settings.exportBackup).name.firstElementChild;
             select.selectedIndex = esgst.settings.exportBackupIndex;
             select.addEventListener(`change`, () => {
                 setSetting(`exportBackupIndex`, select.selectedIndex);
@@ -35878,7 +36048,7 @@ function loadDataManagement(openInTab, type, autoBackup) {
         group1.appendChild(new ButtonSet(`grey`, `grey`, `fa-circle-o`, `fa-circle-o-notch fa-spin`, `None`, ``, selectSwitches.bind(null, dm.switches, `disable`, group1)).set);
         group1.appendChild(new ButtonSet(`grey`, `grey`, `fa-dot-circle-o`, `fa-circle-o-notch fa-spin`, `Inverse`, ``, selectSwitches.bind(null, dm.switches, `toggle`, group1)).set);
         group2 = insertHtml(container, `beforeEnd`, `<div class="esgst-button-group"><span>${title1} ${prep}:</span></div>`);
-        group2.appendChild(new ButtonSet(`green`, `grey`, icon, `fa-circle-o-notch fa-spin`, `Computer`, title2, callback => {
+        group2.appendChild(new ButtonSet(`green`, `grey`, `fa-desktop`, `fa-circle-o-notch fa-spin`, `Computer`, title2, callback => {
             onClick(dm, false, false, false, false, () => {
                 manageData(dm, false, false, false, true);
                 callback();
@@ -35907,7 +36077,7 @@ function loadDataManagement(openInTab, type, autoBackup) {
         if (!openInTab) {
             popup.open();
         }
-        if (esgst[`calculate${title1}`]) {
+        if (esgst[`calculate${capitalizeFirstLetter(type)}`]) {
             getDataSizes();
         }
     }
@@ -35957,85 +36127,99 @@ function loadDataCleaner() {
         setSetting(`cleanTrades_days`, value);
         esgst.cleanTrades_days = parseInt(value);
     });
+    new ToggleSwitch(popup.description, `cleanDuplicates`, false, `Duplicate data.`, false, false, `Cleans up any duplicate data it finds.`, esgst.cleanDuplicates);
     popup.description.appendChild(new ButtonSet_v2({color1: `green`, color2: `grey`, icon1: `fa-check`, icon2: `fa-circle-o-notch fa-spin`, title1: `Clean`, title2: `Cleaning...`, callback1: async () => {
         let currentTime = Date.now();
+        let toSave = {};
         if (esgst.cleanDiscussions) {
             let days = esgst.cleanDiscussions_days * 86400000;
-            let items = JSON.parse(await getValue(`discussions`));
-            for (let code in items) {
-                let item = items[code];
+            toSave.discussions = JSON.parse(await getValue(`discussions`));
+            for (let code in toSave.discussions) {
+                let item = toSave.discussions[code];
                 if (item.author !== esgst.username && item.lastUsed && currentTime - item.lastUsed > days) {
-                    delete items[code];
+                    delete toSave.discussions[code];
                 }
             }
-            await setValue(`discussions`, JSON.stringify(items));
         }
         if (esgst.cleanEntries) {
             let days = esgst.cleanEntries_days * 86400000;
             let items = JSON.parse(await getValue(`entries`));
-            let newItems = [];
+            toSave.entries = [];
             items.forEach(item => {
                 if (currentTime - item.timestamp <= days) {
-                    newItems.push(item);
+                    toSave.entries.push(item);
                 }
             });
-            await setValue(`entries`, JSON.stringify(newItems));
         }
         if (esgst.cleanGiveaways) {
             let days = esgst.cleanGiveaways_days * 86400000;
-            let items = JSON.parse(await getValue(`giveaways`));
-            for (let code in items) {
-                let item = items[code];
+            toSave.giveaways = JSON.parse(await getValue(`giveaways`));
+            for (let code in toSave.giveaways) {
+                let item = toSave.giveaways[code];
                 if (item.creator !== esgst.username && ((item.endTime && currentTime - item.endTime > days) || (item.lastUsed && currentTime - item.lastUsed > days))) {
-                    delete items[code];
+                    delete toSave.giveaways[code];
                 }
             }
-            await setValue(`giveaways`, JSON.stringify(items));
         }
         if (esgst.cleanSgCommentHistory) {
             let days = esgst.cleanSgCommentHistory_days * 86400000;
             let items = JSON.parse(await getValue(`sgCommentHistory`));
-            let newItems = [];
+            toSave.sgCommentHistory = [];
             items.forEach(item => {
                 if (currentTime - item.timestamp <= days) {
-                    newItems.push(item);
+                    toSave.sgCommentHistory.push(item);
                 }
             });
-            await setValue(`sgCommentHistory`, JSON.stringify(newItems));
         }
         if (esgst.cleanStCommentHistory) {
             let days = esgst.cleanStCommentHistory_days * 86400000;
             let items = JSON.parse(await getValue(`stCommentHistory`));
-            let newItems = [];
+            toSave.stCommentHistory = [];
             items.forEach(item => {
                 if (currentTime - item.timestamp <= days) {
-                    newItems.push(item);
+                    toSave.stCommentHistory.push(item);
                 }
             });
-            await setValue(`stCommentHistory`, JSON.stringify(newItems));
         }
         if (esgst.cleanTickets) {
             let days = esgst.cleanTickets_days * 86400000;
-            let items = JSON.parse(await getValue(`tickets`));
-            for (let code in items) {
-                let item = items[code];
+            toSave.tickets = JSON.parse(await getValue(`tickets`));
+            for (let code in toSave.tickets) {
+                let item = toSave.tickets[code];
                 if (item.author !== esgst.username && item.lastUsed && currentTime - item.lastUsed > days) {
-                    delete items[code];
+                    delete toSave.tickets[code];
                 }
             }
-            await setValue(`tickets`, JSON.stringify(items));
         }
         if (esgst.cleanTrades) {
             let days = esgst.cleanTrades_days * 86400000;
-            let items = JSON.parse(await getValue(`trades`));
-            for (let code in items) {
-                let item = items[code];
+            toSave.trades = JSON.parse(await getValue(`trades`));
+            for (let code in toSave.trades) {
+                let item = toSave.trades[code];
                 if (item.author !== esgst.username && item.lastUsed && currentTime - item.lastUsed > days) {
-                    delete items[code];
+                    delete toSave.trades[code];
                 }
             }
-            await setValue(`trades`, JSON.stringify(items));
         }
+        if (esgst.cleanDuplicates) {
+            toSave.users = JSON.parse(await getValue(`users`));
+            for (let id in toSave.users.users) {
+                let giveaways = toSave.users.users[id].giveaways;
+                if (giveaways) {
+                    [`sent`, `won`].forEach(mainType => {
+                        [`apps`, `subs`].forEach(type => {
+                            for (let code in giveaways[mainType][type]) {
+                                giveaways[mainType][type][code] = Array.from(new Set(giveaways[mainType][type][code]));
+                            }
+                        });
+                    });
+                }
+            }
+        }
+        for (let key in toSave) {
+            toSave[key] = JSON.stringify(toSave[key]);
+        }
+        await setValues(toSave);
         popup.close();
     }}).set);
     popup.open();
@@ -36111,7 +36295,7 @@ function readImportFile(dm, dropbox, googleDrive, oneDrive, space, callback) {
         if (dm.reader) {
             dm.data = JSON.parse(dm.reader.result);
         }
-        createConfirmation(`Are you sure you want to import the selected data?`, manageData.bind(null, dm, dropbox, googleDrive, oneDrive, space, callback), callback);
+        createConfirmation(`Are you sure you want to restore the selected data?`, manageData.bind(null, dm, dropbox, googleDrive, oneDrive, space, callback), callback);
     } catch (error) {
         createFadeMessage(dm.warning, `Cannot parse file!`);
         callback();
@@ -37145,12 +37329,12 @@ async function manageData(dm, dropbox, googleDrive, oneDrive, space, callback) {
                 file.remove();
                 URL.revokeObjectURL(url);
                 if (!dm.autoBackup) {
-                    createFadeMessage(dm.message, `Data ${dm.type}ed with success!`);
+                    createFadeMessage(dm.message, `Data ${dm.pastTense} with success!`);
                 }
                 callback();
             }
         } else {
-            createFadeMessage(dm.message, `Data ${dm.type}ed with success!`);
+            createFadeMessage(dm.message, `Data ${dm.pastTense} with success!`);
             callback();
         }
     }
@@ -37184,12 +37368,12 @@ async function checkDropboxComplete(data, dm, callback) {
             let name = prompt(`Enter the name of the file:`, `esgst_data_${new Date().toISOString().replace(/:/g, `_`)}`);
             await request({data: JSON.stringify(data), headers: {authorization: `Bearer ${value}`, [`Dropbox-API-Arg`]: `{"path": "/${name}.json"}`, [`Content-Type`]: `application/octet-stream`}, method: `POST`, url: `https://content.dropboxapi.com/2/files/upload`});
             if (!dm.autoBackup) {
-                createFadeMessage(dm.message, `Data ${dm.type}ed with success!`);
+                createFadeMessage(dm.message, `Data ${dm.pastTense} with success!`);
             }
             callback();
         } else {
             let canceled = true;
-            let popup = new Popup(`fa-dropbox`, `Select a file to import:`, true);
+            let popup = new Popup(`fa-dropbox`, `Select a file to restore:`, true);
             popup.onClose = () => {
                 if (canceled) {
                     callback();
@@ -37202,7 +37386,7 @@ async function checkDropboxComplete(data, dm, callback) {
                     <div class="esgst-clickable">${entry.name} - ${convertBytes(entry.size)}</div>
                 `);
                 item.addEventListener(`click`, () => {
-                    createConfirmation(`Are you sure you want to import the selected data?`, async () => {
+                    createConfirmation(`Are you sure you want to restore the selected data?`, async () => {
                         canceled = false;
                         popup.close();
                         dm.data = JSON.parse((await request({headers: {authorization: `Bearer ${value}`, [`Dropbox-API-Arg`]: `{"path": "/${entry.name}"}`, [`Content-Type`]: `text/plain`}, method: `GET`, url: `https://content.dropboxapi.com/2/files/download`})).responseText);
@@ -37223,12 +37407,12 @@ async function checkGoogleDriveComplete(data, dm, callback) {
             let name = prompt(`Enter the name of the file:`, `esgst_data_${new Date().toISOString().replace(/:/g, `_`)}`);
             await request({data: `--esgst\nContent-Type: application/json; charset=UTF-8\n\n{"mimeType": "mime/type", "name": "${name}.json", "parents": ["appDataFolder"]}\n\n--esgst\nContent-Type: mime/type\n\n${JSON.stringify(data)}\n--esgst--`, headers: {authorization: `Bearer ${value}`, [`Content-Type`]: `multipart/related; boundary=esgst`}, method: `POST`, url: `https://www.googleapis.com/upload/drive/v3/files?uploadType=multipart`});
             if (!dm.autoBackup) {
-                createFadeMessage(dm.message, `Data ${dm.type}ed with success!`);
+                createFadeMessage(dm.message, `Data ${dm.pastTense} with success!`);
             }
             callback();
         } else {
             let canceled = true;
-            let popup = new Popup(`fa-google`, `Select a file to import:`, true);
+            let popup = new Popup(`fa-google`, `Select a file to restore:`, true);
             popup.onClose = () => {
                 if (canceled) {
                     callback();
@@ -37241,7 +37425,7 @@ async function checkGoogleDriveComplete(data, dm, callback) {
                     <div class="esgst-clickable">${file.name}</div>
                 `);
                 item.addEventListener(`click`, () => {
-                    createConfirmation(`Are you sure you want to import the selected data?`, async () => {
+                    createConfirmation(`Are you sure you want to restore the selected data?`, async () => {
                         canceled = false;
                         popup.close();
                         dm.data = JSON.parse((await request({headers: {authorization: `Bearer ${value}`}, method: `GET`, url: `https://www.googleapis.com/drive/v3/files/${file.id}?alt=media`})).responseText);
@@ -37262,19 +37446,19 @@ async function checkOneDriveComplete(data, dm, callback) {
             let name = prompt(`Enter the name of the file:`, `esgst_data_${new Date().toISOString().replace(/:/g, `_`)}`);
             await request({anon: true, data: JSON.stringify(data), headers: {Authorization: `bearer ${value}`, [`Content-Type`]: `application/json`}, method: `PUT`, url: `https://graph.microsoft.com/v1.0/me/drive/special/approot:/${name}.json:/content`});
             if (!dm.autoBackup) {
-                createFadeMessage(dm.message, `Data ${dm.type}ed with success!`);
+                createFadeMessage(dm.message, `Data ${dm.pastTense} with success!`);
             }
             callback();
         } else {
             let canceled = true;
-            let popup = new Popup(`fa-windows`, `Select a file to import:`, true);
+            let popup = new Popup(`fa-windows`, `Select a file to restore:`, true);
             let entries = insertHtml(popup.scrollable, `beforeEnd`, `<div class="popup__keys__list"></div>`);
             JSON.parse((await request({anon: true, headers: {Authorization: `bearer ${value}`}, method: `GET`, url: `https://graph.microsoft.com/v1.0/me/drive/special/approot/children`})).responseText).value.forEach(file => {
                 let item = insertHtml(entries, `beforeEnd`, `
                     <div class="esgst-clickable">${file.name} - ${convertBytes(file.size)}</div>
                 `);
                 item.addEventListener(`click`, () => {
-                    createConfirmation(`Are you sure you want to import the selected data?`, async () => {
+                    createConfirmation(`Are you sure you want to restore the selected data?`, async () => {
                         canceled = false;
                         popup.close();
                         dm.data = JSON.parse((await request({anon: true, headers: {authorization: `Bearer ${value}`}, method: `GET`, url: `https://graph.microsoft.com/v1.0/me/drive/items/${file.id}/content`})).responseText);
@@ -37479,6 +37663,14 @@ function addStyle() {
         `;
     }
     style += `
+        .esgst-rotate-90 {
+            transform: rotate(90deg);
+        }
+
+        .esgst-rotate-270 {
+            transform: rotate(270deg);
+        }
+
         .esgst-chfl-compact {
             padding: 8px 15px !important;
         }
@@ -39844,6 +40036,34 @@ function addStyle() {
 function loadChangelog(version) {
     var changelog, current, html, i, index, n, popup;
     changelog = [
+        {
+            date: `April 05, 2018`,
+            version: `7.17.5`,
+            changelog: `
+                <ul>
+                    <li><a href="https://github.com/revilheart/ESGST/issues/605">#605</a> Fix a bug that does not set the correct default values for some settings</li>
+                    <li><a href="https://github.com/revilheart/ESGST/issues/602">#602</a> Add option to clean duplicate data to the data cleaner menu</li>
+                    <li><a href="https://github.com/revilheart/ESGST/issues/598">#598</a> Implement a method to automatically detect and highlight new features/options in the settings menu with the [NEW] tag</li>
+                    <li><a href="https://github.com/revilheart/ESGST/issues/598">#598</a> Implement a method to automatically detect and highlight new features/options in the settings menu with the [NEW] tag</li>
+                    <li><a href="https://github.com/revilheart/ESGST/issues/598">#598</a> Implement a method to automatically detect and highlight new features/options in the settings menu with the [NEW] tag</li>
+                    <li><a href="https://github.com/revilheart/ESGST/issues/598">#598</a> Implement a method to automatically detect and highlight new features/options in the settings menu with the [NEW] tag</li>
+                    <li><a href="https://github.com/revilheart/ESGST/issues/598">#598</a> Implement a method to automatically detect and highlight new features/options in the settings menu with the [NEW] tag</li>
+                    <li><a href="https://github.com/revilheart/ESGST/issues/598">#598</a> Implement a method to automatically detect and highlight new features/options in the settings menu with the [NEW] tag</li>
+                    <li><a href="https://github.com/revilheart/ESGST/issues/598">#598</a> Implement a method to automatically detect and highlight new features/options in the settings menu with the [NEW] tag</li>
+                    <li><a href="https://github.com/revilheart/ESGST/issues/598">#598</a> Implement a method to automatically detect and highlight new features/options in the settings menu with the [NEW] tag</li>
+                    <li><a href="https://github.com/revilheart/ESGST/issues/598">#598</a> Implement a method to automatically detect and highlight new features/options in the settings menu with the [NEW] tag</li>
+                    <li><a href="https://github.com/revilheart/ESGST/issues/598">#598</a> Implement a method to automatically detect and highlight new features/options in the settings menu with the [NEW] tag</li>
+                    <li><a href="https://github.com/revilheart/ESGST/issues/598">#598</a> Implement a method to automatically detect and highlight new features/options in the settings menu with the [NEW] tag</li>
+                    <li><a href="https://github.com/revilheart/ESGST/issues/597">#597</a> Fix a bug that shows Inifity% chance per point on the entered page</li>
+                    <li><a href="https://github.com/revilheart/ESGST/issues/596">#596</a> Replace the terms &quot;Import&quot; and &quot;Export&quot; with &quot;Restore&quot; and &quot;Backup&quot; and change the icons to avoid any confusion</li>
+                    <li><a href="https://github.com/revilheart/ESGST/issues/584">#584</a> Fix a bug that does not reload the extension in Chrome when updating</li>
+                    <li><a href="https://github.com/revilheart/ESGST/issues/555">#555</a> Add SteamGifts filters to Giveaway Filters</li>
+                    <li><a href="https://github.com/revilheart/ESGST/issues/538">#538</a> Add options to allow users to specify the format of the tab indicators in Header Refresher</li>
+                    <li><a href="https://github.com/revilheart/ESGST/issues/524">#524</a> Fix a but that shows the new version popup twice</li>
+                    <li><a href="https://github.com/revilheart/ESGST/issues/299">#299</a> Implement a method to better handle marking discussions as visited across multiple tabs</li>
+                </ul>
+            `
+        },
         {
             date: `March 25, 2018`,
             version: `7.17.4`,
