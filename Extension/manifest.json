@@ -48,7 +48,8 @@
         "*://*.graph.microsoft.com/*",
         "storage",
         "tabs",
-        "unlimitedStorage"
+        "unlimitedStorage",
+        "contextualIdentities"
     ],
     "version": "7.17.5"
 }
