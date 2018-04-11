@@ -3,7 +3,7 @@
 // @namespace ESGST
 // @description Enhances SteamGifts and SteamTrades by adding some cool features to them.
 // @icon https://dl.dropboxusercontent.com/s/lr3t3bxrxfxylqe/esgstIcon.ico?raw=1
-// @version 7.17.5
+// @version 7.17.6
 // @author revilheart
 // @contributor Royalgamer06
 // @downloadURL https://github.com/revilheart/ESGST/raw/master/ESGST.user.js
@@ -464,7 +464,8 @@ class Popup {
             }
             this.description.nextElementSibling.lastElementChild.addEventListener(`click`, () => this.close());
         } else {
-            const closeButton = this.popup.getElementsByClassName(`b-close`)[0];
+            this.popup.classList.add(`esgst-popup`);
+            let closeButton = this.popup.getElementsByClassName(`b-close`)[0];
             if (closeButton) {
                 closeButton.addEventListener(`click`, () => this.close());
             }
@@ -477,13 +478,12 @@ class Popup {
         this.modal = insertHtml(document.body, `beforeEnd`, `
             <div class="esgst-popup-modal"></div>
         `);
+        let n = 9999 + document.querySelectorAll(`.esgst-popup:not(.esgst-hidden), .esgst-popout:not(.esgst-hidden)`).length;
         if (this.isCreated) {
             this.popup.classList.remove(`esgst-hidden`);
         } else {
             this.popup.style.display = `block`;
-            this.popup.style.position = `absolute`;
         }
-        let n = 9999 + document.querySelectorAll(`.esgst-popup:not(.esgst-hidden), .esgst-popout:not(.esgst-hidden)`).length;
         this.modal.style.zIndex = n;
         this.popup.style.zIndex = n + 1;
         this.modal.addEventListener(`click`, () => this.close());
@@ -570,6 +570,7 @@ class Popup_v2 {
             }
             this.description.nextElementSibling.lastElementChild.addEventListener(`click`, () => this.close());
         } else {
+            this.popup.classList.add(`esgst-popup`);
             let closeButton = this.popup.getElementsByClassName(`b-close`)[0];
             if (closeButton) {
                 closeButton.addEventListener(`click`, () => this.close());
@@ -614,13 +615,12 @@ class Popup_v2 {
         this.modal = insertHtml(document.body, `beforeEnd`, `
             <div class="esgst-popup-modal"></div>
         `);
+        let n = 9999 + document.querySelectorAll(`.esgst-popup:not(.esgst-hidden), .esgst-popout:not(.esgst-hidden)`).length;
         if (this.isCreated) {
             this.popup.classList.remove(`esgst-hidden`);
         } else {
             this.popup.style.display = `block`;
-            this.popup.style.position = `absolute`;
         }
-        let n = 9999 + document.querySelectorAll(`.esgst-popup:not(.esgst-hidden), .esgst-popout:not(.esgst-hidden)`).length;
         this.modal.style.zIndex = n;
         this.popup.style.zIndex = n + 1;
         this.modal.addEventListener(`click`, () => this.close());
@@ -1340,8 +1340,9 @@ async function init() {
             ugs_checkDifference: false,
             ugs_difference: 0,
             ut_colors: {},
+            wbc_hb_sg: false,
             wbc_checkSingle: false,
-            wbc_checkWhitelist: true,
+            wbc_checkBlacklist: false,
             wbc_checkAll: false,
             wbc_checkPages: false,
             wbc_minPage: ``,
@@ -1368,14 +1369,16 @@ async function init() {
             gdttt_vg_sg: `gdttt_v_sg`,
             gdttt_vd_sg: `gdttt_v_sg`,
             gdttt_vt_sg: `gdttt_v_sg`,
-            gdttt_vts_st: `gdttt_v_st`
+            gdttt_vts_st: `gdttt_v_st`,
+            wbc_hb_sg: `wbc_b_sg`,
+            wbc_checkBlacklist: `wbc_checkWhitelist`
         },
         domParser: new DOMParser(),
         markdownParser: new Parsedown(),
         sg: location.hostname.match(/www.steamgifts.com/),
         st: location.hostname.match(/www.steamtrades.com/),
-        currentVersion: `7.17.5`,
-        devVersion: `7.17.5`,
+        currentVersion: `7.17.6`,
+        devVersion: `7.17.6`,
         icon: `data:image/x-icon;base64,AAABAAEAEBAAAAEAIABoBAAAFgAAACgAAAAQAAAAIAAAAAEAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAqv8DCbP/Hgeq+CQIrf8iCK3/Igit/yIIrf8iB6//Iwit9x8Aqv8DAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAKr0GAa2/c0DvfzfA7f83QO3/N0Dt/zdA7f83QO+/d4Gs/3OAKP1GQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACm/xQFs/n2Bcf//wW///8FwP//BcD//wW///8Fx///BbP69gC2/xUAAAAAAAAAAAAAAAAA/1UDFptOFxSZMxkLpJktAq720QW1+ugEsfvjA7b92wO2/dsEsfvjBbX66Aau/dEoiO4tUlLWGU5k3hdVVf8DEJxKHxWqT8cVrU7uE6VN0guqny0Apv8XAJfQGwBAVywAQFcsAJfQGwCx/xcogugtS2Lk0lBl6u5Qae7ISmPeHxagSSMVr07jF7lV/xOiSu0brgATAAAAAAAAAA8AAAC/AAAAwAAAABAAAAAAYznjEkth4OxWb/3/T2jv40lf4iMXnksiEq1O3RayUv8UpEnkEo0+HQAAABkAAABBAAAA8QAAAPEAAABBAAAAGUBSvxxOYeDjU2v0/05m7d1LYuEiF55LIhKtTt0Ws1L/FahN2gU1FTAAAADAAAAA7AAAAP0AAAD9AAAA7AAAAMAVG0owUGPm2lNr9P9OZu3dS2LhIheeSyISrU7dFrNS/xWoTdoFNRswAAAAvwAAAOsAAAD9AAAA/QAAAOsAAADAFRtKMFBj6NpTa/T/Tmbt3Uti4SIXnksiEq1O3RayUv8UpEnkEo0+HQAAABgAAABAAAAA8QAAAPEAAABBAAAAGT5PuR1OYeDjU2v0/05m7d1LYuEiFqBJIxWuT+QXuVX/E6JL7QC8XhMAAAAAAAAADwAAAL8AAAC/AAAAEAAAAAAOR/8SSWLh7FZv/f9PaO/jSV/iIxCUSh8Vrk7HFqxN7ROlS9JskzMt1XULGK12EhxGLgYsRy8GK612EhzVgAsYgmxxLU1i39JNZ+vtT2fwx0pj1h8AqlUDF65GFgqZUhlsiC0txH0T0s5/EujJgBPkz4QR28+EEdvJgBPkzn8Q6Md+E9KLdHosM1LWGUZo6BZVVf8DAAAAAAAAAAAAAAAA/2YAFMl9EvbgjRb/14gV/9eIFf/XiBX/14gV/9+NFv/KgBD254YAFQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAL91FRjKgRHN1IgU3s+EEt3PhBLdz4QS3c+EEt3UiBTezYMRzcJ6FBkAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACqqgADxIARHr18FiO8eA8ivHgPIrx4DyK8eA8ivXwPI8SAER7/VQADAAAAAAAAAAAAAAAA78cAAPA3AAD4FwAABCAAADGOAAAE+AAAkBEAAJ55AACYOQAAlgEAAER4AAAXaAAATnoAAPgXAAD0JwAA69cAAA==`,
         sgIcon: `data:image/x-icon;base64,AAABAAEAEBAAAAEAIABoBAAAFgAAACgAAAAQAAAAIAAAAAEAIAAAAAAAQAQAABMLAAATCwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIUAAAD5AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAPoAAACFAAAAAAAAAAAAAAD8AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA+QAAAAAAAAAAAAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAAAAAAAAAAAAP8AAAD/AAAA/wAAABwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAcAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAcAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAHAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAAAAAAAAAAAAPwAAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD5AAAAAAAAAAAAAACFAAAA+QAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD5AAAAhQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA//8AAP//AADAAwAAwAMAAMfjAADP8wAAz/MAAM/zAADP8wAAz/MAAM/zAADH4wAAwAMAAMADAAD//wAA//8AAA==`,
         stIcon: `data:image/x-icon;base64,AAABAAEAEBAAAAEAIABoBAAAFgAAACgAAAAQAAAAIAAAAAEAIAAAAAAAQAQAABMLAAATCwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABbD6SgWw+ucFsPrkBbD6SgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAWw+uYFsPr/BbD6/wWw+ucAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAFsPrmBbD6/wWw+v8FsPrmAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABbD6SQWw+uYFsPrmBbD6SQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAFKRLShSkS+cUpEvkFKRLSgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAExi4EpMYuDnTGLg5Exi4EoAAAAAAAAAABSkS+YUpEv/FKRL/xSkS+cAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABMYuDmTGLg/0xi4P9MYuDnAAAAAAAAAAAUpEvmFKRL/xSkS/8UpEvmAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAATGLg5kxi4P9MYuD/TGLg5gAAAAAAAAAAFKRLSRSkS+YUpEvmFKRLSQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAExi4ElMYuDmTGLg5kxi4EkAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAMZ9E0rGfRPnxn0T5MZ9E0oAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADGfRPmxn0T/8Z9E//GfRPnAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAxn0T5sZ9E//GfRP/xn0T5gAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAMZ9E0nGfRPmxn0T5sZ9E0kAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA//8AAPw/AAD8PwAA/D8AAPw/AAD//wAAh+EAAIfhAACH4QAAh+EAAP//AAD8PwAA/D8AAPw/AAD8PwAA//8AAA==`,
@@ -1453,7 +1456,11 @@ async function init() {
     if (typeof GM === `undefined` && typeof GM_setValue === `undefined`) {
         // esgst is running as an extension
         esgst.type = `extension`;
+        esgst.browser = ``;
         if (typeof chrome !== `undefined`) {
+            if (typeof browser !== `undefined`) {
+                esgst.browser = `firefox`;
+            }
             if (chrome.runtime) {
                 browser = chrome;
             }
@@ -1530,7 +1537,7 @@ async function init() {
                     setValue(`dismissedVersion`, version);
                 }
             };
-            if (typeof browser === `undefined`) {
+            if (esgst.browser !== `firefox`) {
                 details.buttons = [
                     {color1: `green`, color2: `` , icon1: `fa-download`, icon2: ``, title1: `Download .zip`, title2: ``, callback1: open.bind(null, `https://github.com/revilheart/ESGST/releases/download/${version}/extension.zip`)},
                     {color1: `green`, color2: `` , icon1: `fa-refresh`, icon2: ``, title1: `Reload Extension`, title2: ``, callback1: browser.runtime.sendMessage.bind(browser.runtime, {action: `reload`}, location.reload.bind(location))}
@@ -2069,16 +2076,22 @@ async function init() {
         esgst.settings = {};
     }
     esgst.version = esgst.storage.version;
-    for (let key in esgst.oldValues) {
-        esgst[key] = getSetting(key);
-    }
-    for (let key in esgst.defaultValues) {
-        esgst[key] = getSetting(key);
-    }
     for (let key in esgst.settings) {
         let match;
         if (match = key.match(new RegExp(`(.+?)_${esgst.name}$`))) {
             esgst[match[1]] = esgst.settings[key];
+        }
+    }
+    for (let key in esgst.oldValues) {
+        let localKey = key.replace(new RegExp(`(.+?)_${esgst.name}$`), `$1`);
+        if (typeof esgst[localKey] === `undefined`) {
+            esgst[localKey] = getSetting(key, key.match(/^(wbc_checkBlacklist|wbc_hb_sg)$/));
+        }
+    }
+    for (let key in esgst.defaultValues) {
+        let localKey = key.replace(new RegExp(`(.+?)_${esgst.name}$`), `$1`);
+        if (typeof esgst[localKey] === `undefined`) {
+            esgst[localKey] = getSetting(key, key.match(/^(wbc_checkBlacklist|wbc_hb_sg)$/));
         }
     }
 
@@ -3119,6 +3132,10 @@ async function init() {
                                 </ul>
                             `,
                             name: `Only extract from the current giveaway onward.`,
+                            sg: true
+                        },
+                        ge_sgt: {
+                            name: `Automatically open any SGTools links found in new tabs.`,
                             sg: true
                         },
                         ge_t: {
@@ -5261,13 +5278,13 @@ async function init() {
                             name: `Save automatic notes when returning whitelists/blacklists.`,
                             sg: true
                         },
-                        wbc_b: {
+                        wbc_hb: {
                             description: `
                                 <ul>
-                                    <li>With this option disabled, the feature will not tell you if a user has blacklisted you (in fact, the name of the feature will change to Whitelist Checker for you). If the feature finds a user that has blacklisted you, it will tell you that it could not determine their status.</li>
+                                    <li>With this option enabled, the feature will not tell you if a user has blacklisted you (in fact, the name of the feature will change to Whitelist Checker for you). If the feature finds a user that has blacklisted you, it will tell you that it could not determine their status.</li>
                                 </ul>
                             `,
-                            name: `Show blacklist information.`,
+                            name: `Hide blacklist information.`,
                             sg: true
                         }
                     },
@@ -6349,8 +6366,9 @@ async function init() {
         delete esgst.settings.groups;
         esgst.settingsChanged = true;
     }
-    if (esgst.settings.gc_categories.indexOf(`gc_rd`) < 0) {
-        esgst.settings.gc_categories.push(`gc_rd`);
+    if (esgst.gc_categories.indexOf(`gc_rd`) < 0) {
+        esgst.gc_categories.push(`gc_rd`);
+        esgst.settings.gc_categories = esgst.gc_categories;
         esgst.settingsChanged = true;
     }
     [`gc_categories`, `gc_categories_gv`].forEach(key => {
@@ -6366,6 +6384,22 @@ async function init() {
             esgst[`giveawayColumns${key}`].unshift(`ged`);
             esgst.settings[`giveawayColumns${key}`] = esgst[`giveawayColumns${key}`];
             esgst.settingsChanged = true;
+        }
+        for (let i = esgst[`giveawayColumns${key}`].length - 1; i > -1; i--) {
+            let id = esgst[`giveawayColumns${key}`][i];
+            if (esgst[`giveawayPanel${key}`].indexOf(id) > -1) {
+                esgst[`giveawayColumns${key}`].splice(i, 1);
+                esgst.settings[`giveawayColumns${key}`] = esgst[`giveawayColumns${key}`];
+                esgst.settingsChanged = true;
+            }
+        }
+        for (let i = esgst[`giveawayPanel${key}`].length - 1; i > -1; i--) {
+            let id = esgst[`giveawayPanel${key}`][i];
+            if (esgst[`giveawayColumns${key}`].indexOf(id) > -1) {
+                esgst[`giveawayPanel${key}`].splice(i, 1);
+                esgst.settings[`giveawayPanel${key}`] = esgst[`giveawayPanel${key}`];
+                esgst.settingsChanged = true;
+            }
         }
     });
     if (document.readyState === `loading`) {
@@ -6706,9 +6740,13 @@ async function loadFeatures() {
         esgst.mainPageHeading.appendChild(hiddenButtonsAfter);
     }
     reorderButtons(hiddenButtonsBefore, esgst.leftButtons, hiddenButtonsAfter, esgst.rightButtons);
-    goToComment(esgst.originalHash);
+    if (document.readyState === `complete`) {
+        goToComment(esgst.originalHash);
+    } else {
+        document.addEventListener(`readystatechange`, goToComment.bind(null, esgst.originalHash, null, false));
+    }
     addEventListener(`beforeunload`, checkBusy);
-    addEventListener(`hashchange`, goToComment.bind(null, null, null));
+    addEventListener(`hashchange`, goToComment.bind(null, null, null, false));
     if (!esgst.staticPopups) {
         setTimeout(repositionPopups, 2000);
     }
@@ -13997,19 +14035,8 @@ function addElgbButton(giveaway, main, source) {
         giveaway.elgbButton = new ButtonSet_v2({color1: `yellow`, color2: `grey`, icon1: `fa-minus-circle`, icon2: `fa-circle-o-notch fa-spin`, title1: `Leave`, title2: `Leaving...`, callback1: leaveElgbGiveaway.bind(null, giveaway, main, source), set: giveaway.elgbButton}).set;
         giveaway.elgbButton.removeAttribute(`title`);
     } else if (giveaway.error) {
-        if (!giveaway.elgbButton) {
-            giveaway.elgbButton = document.createElement(`div`);
-            giveaway.elgbButton.className = `esgst-button-set`;
-        }
-        giveaway.elgbButton.innerHTML = `
-            <div class="sidebar__error is-disabled">
-                <i class="fa fa-exclamation-circle"></i>
-                <span>${giveaway.error}</span>
-            </div>
-        `;
-    } else if (giveaway.noPoints) {
         giveaway.elgbButton = new ButtonSet_v2({color1: `red`, color2: `grey`, icon1: `fa-plus-circle`, icon2: `fa-circle-o-notch fa-spin`, title1: `Enter`, title2: `Entering...`, callback1: enterElgbGiveaway.bind(null, giveaway, main, null, source), set: giveaway.elgbButton}).set;
-        giveaway.elgbButton.setAttribute(`title`, `Not Enough Points`);
+        giveaway.elgbButton.setAttribute(`title`, giveaway.error);
     } else {
         if (giveaway.points <= esgst.points) {
             giveaway.elgbButton = new ButtonSet_v2({color1: `green`, color2: `grey`, icon1: `fa-plus-circle`, icon2: `fa-circle-o-notch fa-spin`, title1: `Enter`, title2: `Entering...`, callback1: enterElgbGiveaway.bind(null, giveaway, main, null, source), set: giveaway.elgbButton}).set;
@@ -14142,7 +14169,7 @@ async function enterElgbGiveaway(giveaway, main, popup, source, callback) {
             giveaway.innerWrap.classList.add(`is-faded`);
         }
         giveaway.entered = true;
-        giveaway.noPoints = false;
+        giveaway.error = null;
         addElgbButton(giveaway, main, source);
         if (esgst.et) {
             setEtEntry(giveaway.code, true, giveaway.name);
@@ -14178,11 +14205,7 @@ async function enterElgbGiveaway(giveaway, main, popup, source, callback) {
         }
     } else {
         giveaway.entered = false;
-        if (responseJson.msg.match(/Not Enough Points/)) {
-            giveaway.noPoints = true;
-        } else {
-            giveaway.error = responseJson.msg;
-        }
+        giveaway.error = responseJson.msg;
         addElgbButton(giveaway, main, source);
         if (callback) {
             callback();
@@ -14195,7 +14218,7 @@ async function leaveElgbGiveaway(giveaway, main, source, callback) {
     if (responseJson.type === `success`) {
         giveaway.innerWrap.classList.remove(`is-faded`);
         giveaway.entered = false;
-        giveaway.noPoints = false;
+        giveaway.error = false;
         addElgbButton(giveaway, main, source);
         if (esgst.et) {
             setEtEntry(giveaway.code, false, giveaway.name);
@@ -14250,7 +14273,7 @@ function loadEs() {
         paginations = [esgst.paginationNavigation ? esgst.paginationNavigation.innerHTML : ``];
         reverseScrolling = esgst.es_r && esgst.discussionPath;
         if (reverseScrolling) {
-            if (esgst.currentPage === 1 && esgst.paginationNavigation && document.referrer.match(/www.steamgifts.com\/($|discussions|messages)/)) {
+            if (esgst.currentPage === 1 && esgst.paginationNavigation && (document.referrer.match(/www.steamgifts.com\/($|discussions|messages)/) || location.hash === `#esgst_reverse`)) {
                 for (i = 0, n = mainContext.children.length; i < n; ++i) {
                     mainContext.children[0].remove();
                 }
@@ -14314,7 +14337,8 @@ function loadEs() {
             setEsPaginationNavigation();
         }
         busy = false;
-        if (await getValue(`esPause`, false)) {
+        paused = await getValue(`esPause`, false);
+        if (paused) {
             pauseEndlessScrolling();
         } else {
             resumeEndlessScrolling();
@@ -14322,10 +14346,13 @@ function loadEs() {
         pageIndex = currentPage;
         document.addEventListener(`scroll`, changePaginationNavigation);
         esgst.checkEndlessScrolling = loadNextPage;
+        if (paused && reversePages) {
+            loadNextPage();
+        }
     }
 
     async function loadNextPage(callback) {
-        if (!esgst.stopEs && !busy && !paused && !ended && (continuous || step || scrollY >= document.body.offsetHeight - innerHeight * 2)) {
+        if (!esgst.stopEs && !busy && (!paused || reversePages) && !ended && (continuous || step || scrollY >= document.body.offsetHeight - innerHeight * 2)) {
             busy = true;
             document.removeEventListener(`scroll`, loadNextPage);
             progress = insertHtml(esgst.pagination.firstElementChild, `beforeEnd`, `
@@ -16801,6 +16828,9 @@ function getGeGiveaways(ge, context) {
     elements = context.querySelectorAll(`[href*="sgtools.info/giveaways/"]`);
     for (i = 0, n = elements.length; i < n; i++) {
         url = elements[i].getAttribute(`href`);
+        if (esgst.ge_sgt) {
+            open(url);
+        }
         match = url.match(/\/giveaways\/(.+)/);
         if (!match) {
             continue;
@@ -16872,7 +16902,7 @@ async function completeGeExtraction(ge, callback) {
         callback();
     }
     await loadEndlessFeatures(ge.results.lastElementChild, false, `ge`);
-    if (ge.sgtools.length > 0) {
+    if (!esgst.ge_sgt && ge.sgtools.length > 0) {
         ge.sgtools.forEach(async giveaway => {
             let context = parseHtml((await request({method: `GET`, url: `http://www.sgtools.info/giveaways/${giveaway.code}`})).responseText).getElementsByClassName(`featured__outer-wrap`)[0];
             giveaway.element.textContent = `${context.getElementsByClassName(`featured__heading`)[0].textContent.trim()} - Level ${context.getElementsByClassName(`featured__column--contributor-level`)[0].textContent.match(/\d+/)[0]} (SGTools)`;
@@ -22325,7 +22355,7 @@ function importMgcGiveaways(mgc, callback) {
     createTooltip(popup.description.firstElementChild.lastElementChild, `
         <div>Before importing, make sure you have filled the details of the giveaway (start/end times, regions, who can enter, whitelist, groups, level and description) or applied a template (with ${getFeatureNumber(`gts`).number} Giveaway Templates). You can also specify separate details for each giveaway using the parameters below:</div>
         <ul>
-            <li><span class="esgst-bold">[countries="..."]</span> (Replace "..." with the ids of the countries that the giveaway must be restricted to, separated by a comma followed by a space. The ids must be exactly how they appear in the country selection list. For example, "BR, US".)</li>
+            <li><span class="esgst-bold">[countries="..."]</span> (Replace "..." with the ids of the countries that the giveaway must be restricted to, separated by a comma followed by a space. The ids must be exactly how they appear in the country selection list. For example, "BR, US". If you do not want the giveaway to be region restricted, use the id "*", for example, [countries="*"].)</li>
             <li><span class="esgst-bold">[startTime="..."]</span> (Replace "..." with the date that the giveaway must start, in the format "Mon D, YYYY H:MM xm". For example, "Jan 15, 2018 12:00 am". For the names of the months, use "Jan", "Feb", "Mar", "Apr", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov" and "Dec". For single-digit days/hours, do not put a 0 at the beginning. For example, use "Jan 1" instead of "Jan 01" and "9:00 am" instead of "09:00 am".)</li>
             <li><span class="esgst-bold">[endTime="..."]</span> (Replace "..." with the date that the giveaway must end, in the same format as the start time.)</li>
             <li><span class="esgst-bold">[whoCanEnter="..."]</span> (Replace "..." with either: "everyone", if the giveaway must be public; "invite_only", if the giveaway must be private; or "groups", if the giveaway must be restricted to groups/whitelist.)</li>
@@ -22488,14 +22518,18 @@ async function importMgcGiveaway(giveaways, i, mgc, n, popup, progress, textArea
         let level = giveaways[i].match(/\[level="(.+?)"\]/);
         let description = giveaways[i].match(/\[description="(.+?)"\]/);
         if (countries) {
-            let ids = countries[1].split(/,\s/);
-            countries = ``;
-            ids.forEach(id => {
-                let element = document.querySelector(`[data-input="country_item_string"]`).querySelector(`[data-name$="${id}"]`);
-                if (element) {
-                    countries += `${element.getAttribute(`data-item-id`)} `;
-                }
-            });
+            if (countries[1] === `*`) {
+                countries = `*`;
+            } else {
+                let ids = countries[1].split(/,\s/);
+                countries = ``;
+                ids.forEach(id => {
+                    let element = document.querySelector(`[data-input="country_item_string"]`).querySelector(`[data-name$="${id}"]`);
+                    if (element) {
+                        countries += `${element.getAttribute(`data-item-id`)} `;
+                    }
+                });
+            }
         }
         let whitelist = ``;
         if (groups) {
@@ -22543,15 +22577,15 @@ async function importMgcGiveaway(giveaways, i, mgc, n, popup, progress, textArea
         if (match) {
             name = match[namePos].replace(/\[ESGST\]/, ``).trim().toLowerCase();
             values = {
-                countries: (countries || mgc.countries.value).trim(),
-                startTime: (startTime && startTime[1]) || mgc.startTime.value,
-                endTime: (endTime && endTime[1]) || mgc.endTime.value,
-                region: countries ? `1` : mgc.region.value,
-                whoCanEnter: (whoCanEnter && whoCanEnter[1]) || mgc.whoCanEnter.value,
-                whitelist: whitelist || mgc.whitelist.value,
-                groups: (groups || mgc.groups.value).trim(),
-                level: (level && level[1]) || mgc.level.value,
-                description: description ? description[1].replace(/\\n/g, `\n`) : mgc.description.value
+                countries: (countries === `*` ? `` : (countries || mgc.countries.value || ``)).trim(),
+                startTime: (startTime && startTime[1]) || mgc.startTime.value || ``,
+                endTime: (endTime && endTime[1]) || mgc.endTime.value || ``,
+                region: countries === `*` ? `0` : (countries ? `1` : (mgc.region.value || `0`)),
+                whoCanEnter: (whoCanEnter && whoCanEnter[1]) || mgc.whoCanEnter.value || `everyone`,
+                whitelist: whitelist || mgc.whitelist.value || `0`,
+                groups: (groups || mgc.groups.value || ``).trim(),
+                level: (level && level[1]) || mgc.level.value || `0`,
+                description: description ? description[1].replace(/\\n/g, `\n`) : (mgc.description.value || ``)
             };
             if (key) {
                 values.gameType = `key`;
@@ -23297,7 +23331,6 @@ function loadMpp() {
             if (discussion.readComments && discussion.readComments[``]) {
                 Hidden = true;
                 scrollTo(0, 0);
-                goToComment(esgst.originalHash);
             } else {
                 Hidden = false;
             }
@@ -23307,7 +23340,6 @@ function loadMpp() {
     } else {
         Hidden = true;
         scrollTo(0, 0);
-        goToComment(esgst.originalHash);
     }
     MPPPost.classList.add(Hidden ? `esgst-mpp-hidden` : `esgst-mpp-visible`);
     button.addEventListener(`click`, function () {
@@ -23333,8 +23365,8 @@ function loadMpp() {
 /* [MPS] Main Post Skipper */
 
 function loadMps() {
-    if (esgst.discussionPath && esgst.paginationNavigation && document.referrer.match(new RegExp(`/discussion/${[location.pathname.match(/^\/discussion\/(.+?)\//)[1]]}/`))) {
-        goToComment(``, esgst.pagination.previousElementSibling.firstElementChild.firstElementChild);
+    if (!location.hash && esgst.discussionPath && esgst.paginationNavigation && document.referrer.match(new RegExp(`/discussion/${[location.pathname.match(/^\/discussion\/(.+?)\//)[1]]}/`))) {
+        goToComment(``, esgst.pagination.previousElementSibling.firstElementChild.firstElementChild, true);
     }
 }
 
@@ -28552,7 +28584,7 @@ function getVaiImages(context) {
 
 function loadWbc() {
     if (!esgst.mainPageHeading) return;
-    let [icons, title] = esgst.wbc_b ? [[`fa-heart`, `fa-ban`, `fa-question-circle`], `Check for whitelists/blacklists`] : [[`fa-heart`, `fa-question-circle`], `Check for whitelists`];
+    let [icons, title] = !esgst.wbc_hb ? [[`fa-heart`, `fa-ban`, `fa-question-circle`], `Check for whitelists/blacklists`] : [[`fa-heart`, `fa-question-circle`], `Check for whitelists`];
     esgst.wbcButton = createHeadingButton({id: `wbc`, icons, title});
     addWBCButton(true, esgst.wbcButton);
 }
@@ -28561,7 +28593,7 @@ function addWBCButton(Context, WBCButton) {
     var checkAllSwitch, checkPagesSwitch, checkSingleSwitch, popup, skip, WBC;
     WBC = {
         Update: (Context ? false : true),
-        B: esgst.wbc_b,
+        B: !esgst.wbc_hb,
         Username: esgst.username
     };
     popup = new Popup(WBC.Update ? `fa-cog` : `fa-question`, WBC.Update ? `Manage Whitelist/Blacklist Checker caches:` : `Check for whitelists${WBC.B ? `/blacklists` : ``}:`);
@@ -28578,7 +28610,7 @@ function addWBCButton(Context, WBCButton) {
     }
     checkSelectedSwitch = new ToggleSwitch(popup.Options, `wbc_checkSelected`, false, `Only check selected.`, false, false, `To check only selected users in the page, enable the user selector at the left side of the Whitelist/Blacklist Checker button (same selector used for Multi-Tags) and select the users. Then come back here, enable this option if you haven't done so already and check.`, esgst.wbc_checkSelected);
     if (WBC.B) {
-        new ToggleSwitch(popup.Options, `wbc_checkWhitelist`, false, `Also check whitelist.`, false, false, `If disabled, a blacklist-only check will be performed (faster).`, esgst.wbc_checkWhitelist);
+        new ToggleSwitch(popup.Options, `wbc_checkBlacklist`, false, `Only check blacklist.`, false, false, `If enabled, a blacklist-only check will be performed (faster).`, esgst.wbc_checkBlacklist);
     }
     if (!WBC.Update && !location.pathname.match(/^\/(discussions|users|archive)/)) {
         checkAllSwitch = new ToggleSwitch(popup.Options, `wbc_checkAll`, false, `Check all pages.`, false, false, `If disabled, only the current page will be checked.`, esgst.wbc_checkAll);
@@ -29002,7 +29034,7 @@ function checkWBCUser(WBC, wbc, username, Callback) {
                 }
             }
             if (((Date.now() - wbc.lastCheck) > 86400000) || WBC.Update) {
-                if (((esgst.wbc_checkWhitelist || !WBC.B) && (wbc.wl_ga || wbc.g_wl_ga)) || (!esgst.wbc_checkWhitelist && WBC.B && wbc.ga)) {
+                if (((!esgst.wbc_checkBlacklist || !WBC.B) && (wbc.wl_ga || wbc.g_wl_ga)) || (esgst.wbc_checkBlacklist && WBC.B && wbc.ga)) {
                     WBC.Timestamp = wbc.timestamp;
                     checkWBCGiveaway(WBC, wbc, username, Callback);
                 } else {
@@ -29103,7 +29135,7 @@ async function getWBCGiveaways(WBC, wbc, username, NextPage, CurrentPage, URL, C
                 if (wbc.ga) {
                     checkWBCGiveaway(WBC, wbc, username, function (wbc, stop) {
                         var WhitelistGiveaways, I, N, GroupGiveaway;
-                        if ((wbc.result === `notBlacklisted`) && !stop && (esgst.wbc_checkWhitelist || !WBC.B)) {
+                        if ((wbc.result === `notBlacklisted`) && !stop && (!esgst.wbc_checkBlacklist || !WBC.B)) {
                             WhitelistGiveaways = Context.getElementsByClassName(`giveaway__column--whitelist`);
                             for (I = 0, N = WhitelistGiveaways.length; (I < N) && !wbc.wl_ga; ++I) {
                                 GroupGiveaway = WhitelistGiveaways[I].parentElement.getElementsByClassName(`giveaway__column--group`)[0];
@@ -30823,7 +30855,7 @@ function loadUserFeatures(mainContext) {
             }
             if (esgst.wbc && esgst.wbc_h && savedUser.wbc && !context.parentElement.getElementsByClassName(`esgst-wbc-icon`)[0]) {
                 let result = savedUser.wbc.result;
-                if ((result === `whitelisted`) || ((result === `blacklisted`) && esgst.wbc_b)) {
+                if ((result === `whitelisted`) || ((result === `blacklisted`) && !esgst.wbc_hb)) {
                     html += `
                         <span class="esgst-wbc-icon esgst-user-icon" title="${getFeatureTooltip(`wbc`, `${savedUser.username} has ${result} you (last checked ${getTimestamp(savedUser.wbc.lastCheck / 1e3)})`)}">
                             <i class="fa ${(result === `whitelisted`) ? `fa-check esgst-whitelist` : `fa-times esgst-blacklist`}"></i>
@@ -31704,7 +31736,7 @@ async function setSetting(id, value, sg, st) {
     esgst.settings[id] = value;
 }
 
-function getSetting(key) {
+function getSetting(key, inverse) {
     let value = esgst.settings[key];
     if (typeof value === `undefined`) {
         let defaultValue = esgst.defaultValues[key];
@@ -31713,7 +31745,7 @@ function getSetting(key) {
         }
         let oldKey = esgst.oldValues[key];
         if (typeof oldKey !== `undefined`) {
-            value = esgst.settings[oldKey];
+            value = inverse ? !esgst.settings[oldKey] : esgst.settings[oldKey];
         }
         if (typeof value === `undefined`) {
             value = defaultValue;
@@ -31792,7 +31824,7 @@ function getOldValues(id, name, setting) {
             return;
         case `gc_o_a`:
             if (name !== `sg`) return;
-            setting.enabled = esgst.settings.gc_o_altAccounts.length > 0 ? 1 : 0;
+            setting.enabled = esgst.settings.gc_o_altAccounts && esgst.settings.gc_o_altAccounts.length > 0 ? 1 : 0;
             if (validateValue(esgst.settings.gc_o_t_sg)) {
                 setting.include = [
                     {enabled: 1, pattern: `^/discussion`}
@@ -31820,7 +31852,7 @@ function getFeaturePath(feature, id, name) {
     let setting = esgst.settings[key];
     if (typeof setting === `undefined` || !setting.include) {
         setting = {
-            enabled: getSetting(key) ? 1 : 0,
+            enabled: getSetting(key, key.match(/^(wbc_checkBlacklist|wbc_hb_sg)$/)) ? 1 : 0,
             include: [],
             exclude: [],
             new: typeof setting === `undefined`
@@ -32354,14 +32386,16 @@ async function saveComment(tradeCode, parentId, description, url, status, callba
 /* Sync */
 
 async function checkSync(menu, callback) {
+    let currentDate = Date.now();
+    let isSyncing = getLocalValue(`isSyncing`);
     if (menu) {
         await setSync(false, callback);
-    } else if (!getLocalValue(`isSyncing`)) {
+    } else if (!isSyncing || currentDate - isSyncing > 1800000) {
         if (esgst.openSyncInTab) {
             let parameters = ``;
-            setLocalValue(`isSyncing`, 1);
+            setLocalValue(`isSyncing`, currentDate);
             [`Groups`, `Whitelist`, `Blacklist`, `HiddenGames`, `Games`, `WonGames`, `ReducedCvGames`, `NoCvGames`, `Giveaways`].forEach(key => {
-                if (esgst[`autoSync${key}`] && Date.now() - esgst[`lastSync${key}`] > esgst[`autoSync${key}`] * 86400000) {
+                if (esgst[`autoSync${key}`] && currentDate - esgst[`lastSync${key}`] > esgst[`autoSync${key}`] * 86400000) {
                     parameters += `${key}=1&`;
                 }
             });
@@ -32376,9 +32410,9 @@ async function checkSync(menu, callback) {
             }
         } else {
             let parameters = {};
-            setLocalValue(`isSyncing`, 1);
+            setLocalValue(`isSyncing`, currentDate);
             [`Groups`, `Whitelist`, `Blacklist`, `HiddenGames`, `Games`, `WonGames`, `ReducedCvGames`, `NoCvGames`, `Giveaways`].forEach(key => {
-                if (esgst[`autoSync${key}`] && Date.now() - esgst[`lastSync${key}`] > esgst[`autoSync${key}`] * 86400000) {
+                if (esgst[`autoSync${key}`] && currentDate - esgst[`lastSync${key}`] > esgst[`autoSync${key}`] * 86400000) {
                     parameters[key] = 1;
                 }
             });
@@ -32693,7 +32727,7 @@ async function sync(syncer, mainCallback, callback) {
         deleteLock();
         for (let i = 0, n = esgst.settings.gc_o_altAccounts.length; !syncer.canceled && i < n; i++) {
             let altAccount = esgst.settings.gc_o_altAccounts[i];
-            apiResponse = await request({method: `GET`, url: `http://store.steampowered.com/dynamicstore/userdata?${Math.random().toString().split(`.`)[1]}`});
+            apiResponse = await request({method: `GET`, url: `http://api.steampowered.com/IPlayerService/GetOwnedGames/v0001/?key=${esgst.steamApiKey}&steamid=${altAccount.steamId}&format=json`});
             await syncGames(altAccount, syncer, apiResponse);
         }
         await setSetting(`gc_o_altAccounts`, esgst.settings.gc_o_altAccounts);
@@ -32706,7 +32740,7 @@ async function sync(syncer, mainCallback, callback) {
                 if (match) {
                     let type = match[1];
                     let id = match[2];
-                    request({method: `GET`, url: `http://store.steampowered.com/api/${type === `app` ? `appdetails?appids` : `packagedetails?packageids`}=${id}&filters=basic`}).then(setSyncGameName.bind(null, link));
+                    request({method: `GET`, url: `http://store.steampowered.com/api/${type === `app` ? `appdetails?appids` : `packagedetails?packageids`}=${id}&filters=basic`}).then(setSyncGameName.bind(null, id, link));
                 }
             }
         }
@@ -32905,27 +32939,30 @@ async function syncGames(altAccount, syncer, apiResponse, storeResponse) {
     try {
         storeJson = JSON.parse(storeResponse.responseText);
     } catch (e) {}
-    if (altAccount || (storeJson && storeJson.rgOwnedApps.length > 0)) {
-        let savedGames = (altAccount && altAccount.games) || JSON.parse(await getValue(`games`));
-        let oldOwned = {
-            apps: [],
-            subs: []
-        };
-        let newOwned = {
-            apps: [],
-            subs: []
-        };
-        for (let id in savedGames.apps) {
-            if (savedGames.apps[id].owned) {
-                oldOwned.apps.push(id);
-                delete savedGames.apps[id].owned;
-            }
+    let hasStore = storeJson && storeJson.rgOwnedApps.length > 0;
+    let savedGames = (altAccount && altAccount.games) || JSON.parse(await getValue(`games`));
+    let oldOwned = {
+        apps: [],
+        subs: []
+    };
+    let newOwned = {
+        apps: [],
+        subs: []
+    };
+    for (let id in savedGames.apps) {
+        if (savedGames.apps[id].owned) {
+            oldOwned.apps.push(id);
+            delete savedGames.apps[id].owned;
+        }
+        if (hasStore) {
             delete savedGames.apps[id].wishlisted;
             delete savedGames.apps[id].ignored;
-            if (Object.keys(savedGames.apps[id]).length === 0) {
-                delete savedGames.apps[id];
-            }
         }
+        if (Object.keys(savedGames.apps[id]).length === 0) {
+            delete savedGames.apps[id];
+        }
+    }
+    if (hasStore) {
         for (let id in savedGames.subs) {
             if (savedGames.subs[id].owned) {
                 oldOwned.subs.push(id);
@@ -32937,19 +32974,25 @@ async function syncGames(altAccount, syncer, apiResponse, storeResponse) {
                 delete savedGames.subs[id];
             }
         }
-        let numOwned = 0;
-        try {
-            JSON.parse(apiResponse.responseText).response.games.forEach(game => {
-                let id = game.appid;
-                if (!savedGames.apps[id]) {
-                    savedGames.apps[id] = {};
-                }
-                savedGames.apps[id].owned = true;
-                newOwned.apps.push(id.toString());
-                numOwned += 1;
-            });
-        } catch (e) {}
-        if (!altAccount) {
+    }
+    let numOwned = 0;
+    try {
+        JSON.parse(apiResponse.responseText).response.games.forEach(game => {
+            let id = game.appid;
+            if (!savedGames.apps[id]) {
+                savedGames.apps[id] = {};
+            }
+            savedGames.apps[id].owned = true;
+            newOwned.apps.push(id.toString());
+            numOwned += 1;
+        });
+    } catch (e) {
+        syncer.html += `
+            <div>Unable to sync through the Steam API. Check if you have a Steam API key set in the settings menu.</div>
+        `;
+    }
+    if (!altAccount) {
+        if (hasStore) {
             [
                 {
                     jsonKey: `rgWishlist`,
@@ -32991,93 +33034,95 @@ async function syncGames(altAccount, syncer, apiResponse, storeResponse) {
                     }
                 });
             });
-            if (numOwned !== (await getValue(`ownedGames`, 0))) {
-                await setValue(`ownedGames`, numOwned);
-            }
-            try {
-                let responseText = (await request({method: `GET`, url: `http://store.steampowered.com/wishlist/profiles/${esgst.steamId}?l=en`})).responseText;
-                let match = responseText.match(/g_rgWishlistData\s=\s(\[(.+?)\]);/);
-                if (match) {
-                    JSON.parse(match[1]).forEach(item => {
-                        let id = item.appid;
-                        if (!savedGames.apps[id]) {
-                            savedGames.apps[id] = {};
-                        }
-                        savedGames.apps[id].wishlisted = item.added;
-                    });
-                }
-            } catch (e) {}
-            await setValue(`games`, JSON.stringify(savedGames));
-        }
-        let removedOwned = {
-            apps: [],
-            subs: []
-        };
-        let addedOwned = {
-            apps: [],
-            subs: []
-        };
-        oldOwned.apps.forEach(id => {
-            if (newOwned.apps.indexOf(id) < 0) {
-                removedOwned.apps.push(`<a href="http://store.steampowered.com/app/${id}">${id}</a>`);
-            }
-        });
-        oldOwned.subs.forEach(id => {
-            if (newOwned.subs.indexOf(id) < 0) {
-                removedOwned.subs.push(`<a href="http://store.steampowered.com/sub/${id}">${id}</a>`);
-            }
-        });
-        newOwned.apps.forEach(id => {
-            if (oldOwned.apps.indexOf(id) < 0) {
-                addedOwned.apps.push(`<a href="http://store.steampowered.com/app/${id}">${id}</a>`);
-            }
-        });
-        newOwned.subs.forEach(id => {
-            if (oldOwned.subs.indexOf(id) < 0) {
-                addedOwned.subs.push(`<a href="http://store.steampowered.com/sub/${id}">${id}</a>`);
-            }
-        });
-        if (altAccount && (removedOwned.apps.length > 0 || removedOwned.subs.length > 0 || addedOwned.apps.length > 0 && addedOwned.subs.length > 0)) {
+        } else {
             syncer.html += `
-                <div>Alt Account - ${altAccount.name}</div>
+                <div>You are not logged in on Steam. Some owned/wishlisted/ignored games may not be detected through the Steam API.</div>
             `;
         }
-        if (removedOwned.apps.length > 0) {
-            syncer.html += `
-                <div>
-                    <span class="esgst-bold">Removed apps:</span> ${removedOwned.apps.join(`, `)}
-                </div>
-            `;
+        if (numOwned !== (await getValue(`ownedGames`, 0))) {
+            await setValue(`ownedGames`, numOwned);
         }
-        if (removedOwned.subs.length > 0) {
-            syncer.html += `
-                <div>
-                    <span class="esgst-bold">Removed packages:</span> ${removedOwned.subs.join(`, `)}
-                </div>
-            `;
+        try {
+            let responseText = (await request({method: `GET`, url: `http://store.steampowered.com/wishlist/profiles/${esgst.steamId}?l=en`})).responseText;
+            let match = responseText.match(/g_rgWishlistData\s=\s(\[(.+?)\]);/);
+            if (match) {
+                JSON.parse(match[1]).forEach(item => {
+                    let id = item.appid;
+                    if (!savedGames.apps[id]) {
+                        savedGames.apps[id] = {};
+                    }
+                    savedGames.apps[id].wishlisted = item.added;
+                });
+            }
+        } catch (e) {}
+        await setValue(`games`, JSON.stringify(savedGames));
+    }
+    let removedOwned = {
+        apps: [],
+        subs: []
+    };
+    let addedOwned = {
+        apps: [],
+        subs: []
+    };
+    oldOwned.apps.forEach(id => {
+        if (newOwned.apps.indexOf(id) < 0) {
+            removedOwned.apps.push(`<a href="http://store.steampowered.com/app/${id}">${id}</a>`);
         }
-        if (addedOwned.apps.length > 0) {
-            syncer.html += `
-                <div>
-                    <span class="esgst-bold">Added apps:</span> ${addedOwned.apps.join(`, `)}
-                </div>
-            `;
+    });
+    oldOwned.subs.forEach(id => {
+        if (newOwned.subs.indexOf(id) < 0) {
+            removedOwned.subs.push(`<a href="http://store.steampowered.com/sub/${id}">${id}</a>`);
         }
-        if (addedOwned.subs.length > 0) {
-            syncer.html += `
-                <div>
-                    <span class="esgst-bold">Added packages:</span> ${addedOwned.subs.join(`, `)}
-                </div>
-            `;
+    });
+    newOwned.apps.forEach(id => {
+        if (oldOwned.apps.indexOf(id) < 0) {
+            addedOwned.apps.push(`<a href="http://store.steampowered.com/app/${id}">${id}</a>`);
         }
-    } else {
+    });
+    newOwned.subs.forEach(id => {
+        if (oldOwned.subs.indexOf(id) < 0) {
+            addedOwned.subs.push(`<a href="http://store.steampowered.com/sub/${id}">${id}</a>`);
+        }
+    });
+    if (altAccount && (removedOwned.apps.length > 0 || removedOwned.subs.length > 0 || addedOwned.apps.length > 0 || addedOwned.subs.length > 0)) {
         syncer.html += `
-            <div>An error ocurred when trying to sync your owned/wishlisted/ignored games, either because you are not logged in on Steam through the browser or the Steam API is currently unavailable (try again later).</div>
+            <br>
+            <div class="esgst-bold">Alt Account - ${altAccount.name}</div>
+            <br>
+        `;
+    }
+    if (removedOwned.apps.length > 0) {
+        syncer.html += `
+            <div>
+                <span class="esgst-bold">Removed apps:</span> ${removedOwned.apps.join(`, `)}
+            </div>
+        `;
+    }
+    if (removedOwned.subs.length > 0) {
+        syncer.html += `
+            <div>
+                <span class="esgst-bold">Removed packages:</span> ${removedOwned.subs.join(`, `)}
+            </div>
+        `;
+    }
+    if (addedOwned.apps.length > 0) {
+        syncer.html += `
+            <div>
+                <span class="esgst-bold">Added apps:</span> ${addedOwned.apps.join(`, `)}
+            </div>
+        `;
+    }
+    if (addedOwned.subs.length > 0) {
+        syncer.html += `
+            <div>
+                <span class="esgst-bold">Added packages:</span> ${addedOwned.subs.join(`, `)}
+            </div>
         `;
     }
 }
 
-function setSyncGameName(link, response) {
+function setSyncGameName(id, link, response) {
     try {
         link.textContent = JSON.parse(response.responseText)[id].data.name;
     } catch (e) {
@@ -33232,9 +33277,7 @@ async function checkLock(lock) {
 /* */
 
 function lookForPopups(response) {
-    var popup, responseHtml;
-    responseHtml = parseHtml(response.responseText);
-    popup = responseHtml.querySelector(`.popup--gift-sent, .popup--gift-received`);
+    let popup = parseHtml(response.responseText).querySelector(`.popup--gift-sent, .popup--gift-received`);
     if (popup) {
         document.body.appendChild(popup);
         new Popup(null, null, true, false, popup).open();
@@ -33308,32 +33351,28 @@ function createResults(Context, element, Results) {
     }
 }
 
-function goToComment(hash, element) {
-    var element, ID, Top, Permalink;
+function goToComment(hash, element, noPermalink) {
     if (!hash) {
         hash = location.hash;
     }
-    ID = hash.replace(/#/, ``);
-    if ((ID || element) && !location.pathname.match(/^\/account/)) {
-        if (!element && ID) {
-            element = document.getElementById(ID);
-        }
-        if (element) {
-            Top = element.offsetTop;
-            scrollTo(0, Top);
-            scrollBy(0, -esgst.commentsTop);
-            Permalink = document.getElementsByClassName(esgst.sg ? `is_permalink` : `author_permalink`)[0];
-            if (Permalink) {
-                Permalink.remove();
-            }
-            element = element.getElementsByClassName(esgst.sg ? `comment__username` : `author_avatar`)[0];
-            if (element) {
-                element.insertAdjacentHTML(esgst.sg ? `beforeBegin` : `afterEnd`, `
-                    <i class="fa fa-share is_permalink author_permalink"></i>
-                `);
-            }
-        }
+    let id = hash.replace(/#/, ``);
+    if ((!id && !element) || location.pathname.match(/^\/account/)) return;
+    if (id && !element) {
+        element = document.getElementById(id);
     }
+    if (!element) return;
+    scrollTo(0, element.offsetTop);
+    scrollBy(0, -esgst.commentsTop);
+    if (noPermalink) return;
+    let permalink = document.querySelector(`.is_permalink, .author_permalink`);
+    if (permalink) {
+        permalink.remove();
+    }
+    element = element.querySelector(`.comment__username, .author_avatar`);
+    if (!element) return;
+    element.insertAdjacentHTML(esgst.sg ? `beforeBegin` : `afterEnd`, `
+        <i class="fa fa-share is_permalink author_permalink"></i>
+    `);
 }
 
 async function lockAndSaveGames(games) {
@@ -35692,8 +35731,10 @@ function createFadeMessage(context, message) {
 /* Data Management */
 
 function checkBackup() {
-    if (!getLocalValue(`isBackingUp`) && Date.now() - esgst.lastBackup > esgst.autoBackup_days * 86400000) {
-        setLocalValue(`isBackingUp`, 1);
+    let currentDate = Date.now();
+    let isBackingUp = getLocalValue(`isBackingUp`);
+    if ((!isBackingUp || currentDate - isBackingUp > 1800000) && currentDate - esgst.lastBackup > esgst.autoBackup_days * 86400000) {
+        setLocalValue(`isBackingUp`, currentDate);
         loadDataManagement(false, `export`, true);
     }
 }
@@ -40037,22 +40078,35 @@ function loadChangelog(version) {
     var changelog, current, html, i, index, n, popup;
     changelog = [
         {
+            date: `April 11, 2018`,
+            version: `7.17.6`,
+            changelog: `
+                <ul>
+                    <li><a href="https://github.com/revilheart/ESGST/issues/620">#620</a> Add more reliable methods of syncing and backing up</li>
+                    <li><a href="https://github.com/revilheart/ESGST/issues/619">#619</a> Fix a bug that does not add an Enter button when extracting giveaways with few points</li>
+                    <li><a href="https://github.com/revilheart/ESGST/issues/618">#618</a> Add option to open SGTools links when extracting giveaways</li>
+                    <li><a href="https://github.com/revilheart/ESGST/issues/617">#617</a> Fix a bug that does not sync owned games in alt accounts</li>
+                    <li><a href="https://github.com/revilheart/ESGST/issues/616">#616</a> Allow users to sync their games through the Steam API alone if the store method is unavailable</li>
+                    <li><a href="https://github.com/revilheart/ESGST/issues/615">#615</a> Fix a bug that does not reverse a discussion if endless scrolling is paused</li>
+                    <li><a href="https://github.com/revilheart/ESGST/issues/614">#614</a> Add option to reverse comments in a discussion by indicating it through a hash in the URL</li>
+                    <li><a href="https://github.com/revilheart/ESGST/issues/613">#613</a> Make blacklist checks an opt-out instead of an opt-in by default in Whitelist/Blacklist Checker</li>
+                    <li><a href="https://github.com/revilheart/ESGST/issues/611">#611</a> Add option to specify non-region restricted giveaways when importing in Multiple Giveaway Creator</li>
+                    <li><a href="https://github.com/revilheart/ESGST/issues/610">#610</a> Fix a bug that duplicates the permalink icon</li>
+                    <li><a href="https://github.com/revilheart/ESGST/issues/609">#609</a> Fix a bug that does not retrieve game names when syncing</li>
+                    <li><a href="https://github.com/revilheart/ESGST/issues/607">#607</a> Fix a bug that does not include the .zip download when notifying a new version in non-Firefox browsers</li>
+                    <li><a href="https://github.com/revilheart/ESGST/issues/604">#604</a> Fix a bug that prevents the script from loading</li>
+                    <li><a href="https://github.com/revilheart/ESGST/issues/603">#603</a> Fix a bug that can prevent some elements in the giveaway columns/panel from being moved</li>
+                    <li><a href="https://github.com/revilheart/ESGST/issues/600">#600</a> Fix a bug that does not show SG popups found when requesting data if static popups are enabled</li>
+                </ul>
+            `
+        },
+        {
             date: `April 05, 2018`,
             version: `7.17.5`,
             changelog: `
                 <ul>
                     <li><a href="https://github.com/revilheart/ESGST/issues/605">#605</a> Fix a bug that does not set the correct default values for some settings</li>
                     <li><a href="https://github.com/revilheart/ESGST/issues/602">#602</a> Add option to clean duplicate data to the data cleaner menu</li>
-                    <li><a href="https://github.com/revilheart/ESGST/issues/598">#598</a> Implement a method to automatically detect and highlight new features/options in the settings menu with the [NEW] tag</li>
-                    <li><a href="https://github.com/revilheart/ESGST/issues/598">#598</a> Implement a method to automatically detect and highlight new features/options in the settings menu with the [NEW] tag</li>
-                    <li><a href="https://github.com/revilheart/ESGST/issues/598">#598</a> Implement a method to automatically detect and highlight new features/options in the settings menu with the [NEW] tag</li>
-                    <li><a href="https://github.com/revilheart/ESGST/issues/598">#598</a> Implement a method to automatically detect and highlight new features/options in the settings menu with the [NEW] tag</li>
-                    <li><a href="https://github.com/revilheart/ESGST/issues/598">#598</a> Implement a method to automatically detect and highlight new features/options in the settings menu with the [NEW] tag</li>
-                    <li><a href="https://github.com/revilheart/ESGST/issues/598">#598</a> Implement a method to automatically detect and highlight new features/options in the settings menu with the [NEW] tag</li>
-                    <li><a href="https://github.com/revilheart/ESGST/issues/598">#598</a> Implement a method to automatically detect and highlight new features/options in the settings menu with the [NEW] tag</li>
-                    <li><a href="https://github.com/revilheart/ESGST/issues/598">#598</a> Implement a method to automatically detect and highlight new features/options in the settings menu with the [NEW] tag</li>
-                    <li><a href="https://github.com/revilheart/ESGST/issues/598">#598</a> Implement a method to automatically detect and highlight new features/options in the settings menu with the [NEW] tag</li>
-                    <li><a href="https://github.com/revilheart/ESGST/issues/598">#598</a> Implement a method to automatically detect and highlight new features/options in the settings menu with the [NEW] tag</li>
                     <li><a href="https://github.com/revilheart/ESGST/issues/598">#598</a> Implement a method to automatically detect and highlight new features/options in the settings menu with the [NEW] tag</li>
                     <li><a href="https://github.com/revilheart/ESGST/issues/597">#597</a> Fix a bug that shows Inifity% chance per point on the entered page</li>
                     <li><a href="https://github.com/revilheart/ESGST/issues/596">#596</a> Replace the terms &quot;Import&quot; and &quot;Export&quot; with &quot;Restore&quot; and &quot;Backup&quot; and change the icons to avoid any confusion</li>

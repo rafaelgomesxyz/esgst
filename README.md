@@ -236,6 +236,25 @@ To learn more about each feature you have to install ESGST.
 
 ## Changelog
 
+**7.17.6 (April 11, 2018)**
+
+* [#620](https://github.com/revilheart/ESGST/issues/620) Add more reliable methods of syncing and backing up
+* [#619](https://github.com/revilheart/ESGST/issues/619) Fix a bug that does not add an Enter button when extracting giveaways with few points
+* [#618](https://github.com/revilheart/ESGST/issues/618) Add option to open SGTools links when extracting giveaways
+* [#617](https://github.com/revilheart/ESGST/issues/617) Fix a bug that does not sync owned games in alt accounts
+* [#616](https://github.com/revilheart/ESGST/issues/616) Allow users to sync their games through the Steam API alone if the store method is unavailable
+* [#615](https://github.com/revilheart/ESGST/issues/615) Fix a bug that does not reverse a discussion if endless scrolling is paused
+* [#614](https://github.com/revilheart/ESGST/issues/614) Add option to reverse comments in a discussion by indicating it through a hash in the URL
+* [#613](https://github.com/revilheart/ESGST/issues/613) Make blacklist checks an opt-out instead of an opt-in by default in Whitelist/Blacklist Checker
+* [#611](https://github.com/revilheart/ESGST/issues/611) Add option to specify non-region restricted giveaways when importing in Multiple Giveaway Creator
+* [#610](https://github.com/revilheart/ESGST/issues/610) Fix a bug that duplicates the permalink icon
+* [#609](https://github.com/revilheart/ESGST/issues/609) Fix a bug that does not retrieve game names when syncing
+* [#607](https://github.com/revilheart/ESGST/issues/607) Fix a bug that does not include the .zip download when notifying a new version in non-Firefox browsers
+* [#604](https://github.com/revilheart/ESGST/issues/604) Fix a bug that prevents the script from loading
+* [#603](https://github.com/revilheart/ESGST/issues/603) Fix a bug that can prevent some elements in the giveaway columns/panel from being moved
+* [#600](https://github.com/revilheart/ESGST/issues/600) Fix a bug that does not show SG popups found when requesting data if static popups are enabled
+
+
 **7.17.5 (April 05, 2018)**
 
 * [#605](https://github.com/revilheart/ESGST/issues/605) Fix a bug that does not set the correct default values for some settings
