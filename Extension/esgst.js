@@ -1375,7 +1375,7 @@ async function init() {
         sg: location.hostname.match(/www.steamgifts.com/),
         st: location.hostname.match(/www.steamtrades.com/),
         currentVersion: `7.17.5`,
-        devVersion: `7.17.6 (Dev.7)`,
+        devVersion: `7.17.6 (Dev.8)`,
         icon: `data:image/x-icon;base64,AAABAAEAEBAAAAEAIABoBAAAFgAAACgAAAAQAAAAIAAAAAEAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAqv8DCbP/Hgeq+CQIrf8iCK3/Igit/yIIrf8iB6//Iwit9x8Aqv8DAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAKr0GAa2/c0DvfzfA7f83QO3/N0Dt/zdA7f83QO+/d4Gs/3OAKP1GQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACm/xQFs/n2Bcf//wW///8FwP//BcD//wW///8Fx///BbP69gC2/xUAAAAAAAAAAAAAAAAA/1UDFptOFxSZMxkLpJktAq720QW1+ugEsfvjA7b92wO2/dsEsfvjBbX66Aau/dEoiO4tUlLWGU5k3hdVVf8DEJxKHxWqT8cVrU7uE6VN0guqny0Apv8XAJfQGwBAVywAQFcsAJfQGwCx/xcogugtS2Lk0lBl6u5Qae7ISmPeHxagSSMVr07jF7lV/xOiSu0brgATAAAAAAAAAA8AAAC/AAAAwAAAABAAAAAAYznjEkth4OxWb/3/T2jv40lf4iMXnksiEq1O3RayUv8UpEnkEo0+HQAAABkAAABBAAAA8QAAAPEAAABBAAAAGUBSvxxOYeDjU2v0/05m7d1LYuEiF55LIhKtTt0Ws1L/FahN2gU1FTAAAADAAAAA7AAAAP0AAAD9AAAA7AAAAMAVG0owUGPm2lNr9P9OZu3dS2LhIheeSyISrU7dFrNS/xWoTdoFNRswAAAAvwAAAOsAAAD9AAAA/QAAAOsAAADAFRtKMFBj6NpTa/T/Tmbt3Uti4SIXnksiEq1O3RayUv8UpEnkEo0+HQAAABgAAABAAAAA8QAAAPEAAABBAAAAGT5PuR1OYeDjU2v0/05m7d1LYuEiFqBJIxWuT+QXuVX/E6JL7QC8XhMAAAAAAAAADwAAAL8AAAC/AAAAEAAAAAAOR/8SSWLh7FZv/f9PaO/jSV/iIxCUSh8Vrk7HFqxN7ROlS9JskzMt1XULGK12EhxGLgYsRy8GK612EhzVgAsYgmxxLU1i39JNZ+vtT2fwx0pj1h8AqlUDF65GFgqZUhlsiC0txH0T0s5/EujJgBPkz4QR28+EEdvJgBPkzn8Q6Md+E9KLdHosM1LWGUZo6BZVVf8DAAAAAAAAAAAAAAAA/2YAFMl9EvbgjRb/14gV/9eIFf/XiBX/14gV/9+NFv/KgBD254YAFQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAL91FRjKgRHN1IgU3s+EEt3PhBLdz4QS3c+EEt3UiBTezYMRzcJ6FBkAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACqqgADxIARHr18FiO8eA8ivHgPIrx4DyK8eA8ivXwPI8SAER7/VQADAAAAAAAAAAAAAAAA78cAAPA3AAD4FwAABCAAADGOAAAE+AAAkBEAAJ55AACYOQAAlgEAAER4AAAXaAAATnoAAPgXAAD0JwAA69cAAA==`,
         sgIcon: `data:image/x-icon;base64,AAABAAEAEBAAAAEAIABoBAAAFgAAACgAAAAQAAAAIAAAAAEAIAAAAAAAQAQAABMLAAATCwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIUAAAD5AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAPoAAACFAAAAAAAAAAAAAAD8AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA+QAAAAAAAAAAAAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAAAAAAAAAAAAP8AAAD/AAAA/wAAABwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAcAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAcAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAHAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAAAAAAAAAAAAPwAAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD5AAAAAAAAAAAAAACFAAAA+QAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD5AAAAhQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA//8AAP//AADAAwAAwAMAAMfjAADP8wAAz/MAAM/zAADP8wAAz/MAAM/zAADH4wAAwAMAAMADAAD//wAA//8AAA==`,
         stIcon: `data:image/x-icon;base64,AAABAAEAEBAAAAEAIABoBAAAFgAAACgAAAAQAAAAIAAAAAEAIAAAAAAAQAQAABMLAAATCwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABbD6SgWw+ucFsPrkBbD6SgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAWw+uYFsPr/BbD6/wWw+ucAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAFsPrmBbD6/wWw+v8FsPrmAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABbD6SQWw+uYFsPrmBbD6SQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAFKRLShSkS+cUpEvkFKRLSgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAExi4EpMYuDnTGLg5Exi4EoAAAAAAAAAABSkS+YUpEv/FKRL/xSkS+cAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABMYuDmTGLg/0xi4P9MYuDnAAAAAAAAAAAUpEvmFKRL/xSkS/8UpEvmAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAATGLg5kxi4P9MYuD/TGLg5gAAAAAAAAAAFKRLSRSkS+YUpEvmFKRLSQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAExi4ElMYuDmTGLg5kxi4EkAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAMZ9E0rGfRPnxn0T5MZ9E0oAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADGfRPmxn0T/8Z9E//GfRPnAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAxn0T5sZ9E//GfRP/xn0T5gAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAMZ9E0nGfRPmxn0T5sZ9E0kAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA//8AAPw/AAD8PwAA/D8AAPw/AAD//wAAh+EAAIfhAACH4QAAh+EAAP//AAD8PwAA/D8AAPw/AAD8PwAA//8AAA==`,
@@ -6371,6 +6371,22 @@ async function init() {
             esgst[`giveawayColumns${key}`].unshift(`ged`);
             esgst.settings[`giveawayColumns${key}`] = esgst[`giveawayColumns${key}`];
             esgst.settingsChanged = true;
+        }
+        for (let i = esgst[`giveawayColumns${key}`].length - 1; i > -1; i--) {
+            let id = esgst[`giveawayColumns${key}`][i];
+            if (esgst[`giveawayPanel${key}`].indexOf(id) > -1) {
+                esgst[`giveawayColumns${key}`].splice(i, 1);
+                esgst.settings[`giveawayColumns${key}`] = esgst[`giveawayColumns${key}`];
+                esgst.settingsChanged = true;
+            }
+        }
+        for (let i = esgst[`giveawayPanel${key}`].length - 1; i > -1; i--) {
+            let id = esgst[`giveawayPanel${key}`][i];
+            if (esgst[`giveawayColumns${key}`].indexOf(id) > -1) {
+                esgst[`giveawayPanel${key}`].splice(i, 1);
+                esgst.settings[`giveawayPanel${key}`] = esgst[`giveawayPanel${key}`];
+                esgst.settingsChanged = true;
+            }
         }
     });
     if (document.readyState === `loading`) {
@@ -30206,7 +30222,6 @@ function getGiveawaySource(giveaway, panel, event) {
     let item = event.currentTarget;
     if (item === giveaway.sourceItem) return;
     if (item === giveaway.gvIcons) {
-        console.log(`GET: OP0`);
         if (giveaway.gvIcons.children.length < 1) {
             giveaway.gvIcons.appendChild(giveaway.sourceItem);
             if (giveaway.sourceItem.getAttribute(`data-columnId`).match(/^elgb|gp|ttec$/)) {
@@ -30217,7 +30232,6 @@ function getGiveawaySource(giveaway, panel, event) {
         return;
     }
     if (item === giveaway.columns) {
-        console.log(`GET: OP1`);
         if (giveaway.columns.children.length < 1) {
             giveaway.columns.appendChild(giveaway.columns);
             if (giveaway.sourceItem.getAttribute(`data-columnId`).match(/^elgb|gp|ttec$/)) {
@@ -30231,7 +30245,6 @@ function getGiveawaySource(giveaway, panel, event) {
     do {
         current = current.previousElementSibling;
         if (current && current === item) {
-            console.log(`GET: OP2`);
             item.parentElement.insertBefore(giveaway.sourceItem, item);
             if (item.getAttribute(`data-columnId`).match(/^elgb|gp|ttec$/)) {
                 if (item.parentElement === giveaway.columns || item.parentElement === giveaway.gvIcons) {
@@ -30245,7 +30258,6 @@ function getGiveawaySource(giveaway, panel, event) {
             return;
         }
     } while (current);
-    console.log(`GET: OP3`);
     item.parentElement.insertBefore(giveaway.sourceItem, item.nextElementSibling);
     if (item.getAttribute(`data-columnId`).match(/^elgb|gp|ttec$/)) {
         if (item.parentElement === giveaway.columns || item.parentElement === giveaway.gvIcons) {
@@ -30260,7 +30272,6 @@ function getGiveawaySource(giveaway, panel, event) {
 
 async function saveGiveawaySource(giveaway) {
     let [columnKey, panelKey] = giveaway.gvIcons ? [`giveawayColumns_gv`, `giveawayPanel_gv`] : [`giveawayColumns`, `giveawayPanel`];
-    console.log(columnKey, panelKey);
     if (giveaway.panelSource) {
         let index = esgst[columnKey].indexOf(giveaway.sourceItem.getAttribute(`data-columnId`));
         if (index > -1) {
@@ -30268,48 +30279,30 @@ async function saveGiveawaySource(giveaway) {
         }
         esgst[panelKey].push(giveaway.sourceItem.getAttribute(`data-columnId`));
     } else if (giveaway.columnSource) {
-        console.log(`SAVE: OP0`);
         let index = esgst[panelKey].indexOf(giveaway.sourceItem.getAttribute(`data-columnId`));
         if (index > -1) {
             esgst[panelKey].splice(index, 1);
         }
         esgst[columnKey].push(giveaway.sourceItem.getAttribute(`data-columnId`));
     } else if (giveaway.newSourceItem) {
-        console.log(`SAVE: OP1`, giveaway.sourceItem.getAttribute(`data-columnId`));
         let columnsIndex = esgst[columnKey].indexOf(giveaway.sourceItem.getAttribute(`data-columnId`));
         let panelIndex = esgst[panelKey].indexOf(giveaway.sourceItem.getAttribute(`data-columnId`));
         if (giveaway.newSourceItem.parentElement === giveaway.columns || giveaway.newSourceItem.parentElement === giveaway.gvIcons) {
-            console.log(`SAVE: OP2`);
-            console.log(columnsIndex, giveaway.newSourcePos, giveaway.newSourceItem.getAttribute(`data-columnId`));
-            console.log(JSON.stringify(esgst[columnKey]));
-            console.log(JSON.stringify(esgst[panelKey]));
             if (columnsIndex > -1) {
                 let id = esgst[columnKey].splice(columnsIndex, 1)[0];
-                console.log(id);
                 esgst[columnKey].splice(esgst[columnKey].indexOf(giveaway.newSourceItem.getAttribute(`data-columnId`)) + giveaway.newSourcePos, 0, id);
             } else {
                 let id = esgst[panelKey].splice(panelIndex, 1)[0];
-                console.log(id);
                 esgst[columnKey].splice(esgst[columnKey].indexOf(giveaway.newSourceItem.getAttribute(`data-columnId`)) + giveaway.newSourcePos, 0, id);
             }
-            console.log(JSON.stringify(esgst[columnKey]));
-            console.log(JSON.stringify(esgst[panelKey]));
         } else {
-            console.log(`SAVE: OP3`);
-            console.log(columnsIndex, giveaway.newSourcePos, giveaway.newSourceItem.getAttribute(`data-columnId`));
-            console.log(JSON.stringify(esgst[columnKey]));
-            console.log(JSON.stringify(esgst[panelKey]));
             if (columnsIndex > -1) {
                 let id = esgst[columnKey].splice(columnsIndex, 1)[0];
-                console.log(id);
                 esgst[panelKey].splice(esgst[panelKey].indexOf(giveaway.newSourceItem.getAttribute(`data-columnId`)) + giveaway.newSourcePos, 0, id);
             } else {
                 let id = esgst[panelKey].splice(panelIndex, 1)[0];
-                console.log(id);
                 esgst[panelKey].splice(esgst[panelKey].indexOf(giveaway.newSourceItem.getAttribute(`data-columnId`)) + giveaway.newSourcePos, 0, id);
             }
-            console.log(JSON.stringify(esgst[columnKey]));
-            console.log(JSON.stringify(esgst[panelKey]));
         }
     }
     giveaway.sourceItem = null;
