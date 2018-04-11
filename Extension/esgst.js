@@ -1340,8 +1340,9 @@ async function init() {
             ugs_checkDifference: false,
             ugs_difference: 0,
             ut_colors: {},
+            wbc_hb_sg: false,
             wbc_checkSingle: false,
-            wbc_checkWhitelist: true,
+            wbc_checkBlacklist: false,
             wbc_checkAll: false,
             wbc_checkPages: false,
             wbc_minPage: ``,
@@ -1368,14 +1369,16 @@ async function init() {
             gdttt_vg_sg: `gdttt_v_sg`,
             gdttt_vd_sg: `gdttt_v_sg`,
             gdttt_vt_sg: `gdttt_v_sg`,
-            gdttt_vts_st: `gdttt_v_st`
+            gdttt_vts_st: `gdttt_v_st`,
+            wbc_hb_sg: `wbc_b_sg`,
+            wbc_checkBlacklist: `wbc_checkWhitelist`
         },
         domParser: new DOMParser(),
         markdownParser: new Parsedown(),
         sg: location.hostname.match(/www.steamgifts.com/),
         st: location.hostname.match(/www.steamtrades.com/),
         currentVersion: `7.17.5`,
-        devVersion: `7.17.6 (Dev.10)`,
+        devVersion: `7.17.6 (Dev.11)`,
         icon: `data:image/x-icon;base64,AAABAAEAEBAAAAEAIABoBAAAFgAAACgAAAAQAAAAIAAAAAEAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAqv8DCbP/Hgeq+CQIrf8iCK3/Igit/yIIrf8iB6//Iwit9x8Aqv8DAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAKr0GAa2/c0DvfzfA7f83QO3/N0Dt/zdA7f83QO+/d4Gs/3OAKP1GQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACm/xQFs/n2Bcf//wW///8FwP//BcD//wW///8Fx///BbP69gC2/xUAAAAAAAAAAAAAAAAA/1UDFptOFxSZMxkLpJktAq720QW1+ugEsfvjA7b92wO2/dsEsfvjBbX66Aau/dEoiO4tUlLWGU5k3hdVVf8DEJxKHxWqT8cVrU7uE6VN0guqny0Apv8XAJfQGwBAVywAQFcsAJfQGwCx/xcogugtS2Lk0lBl6u5Qae7ISmPeHxagSSMVr07jF7lV/xOiSu0brgATAAAAAAAAAA8AAAC/AAAAwAAAABAAAAAAYznjEkth4OxWb/3/T2jv40lf4iMXnksiEq1O3RayUv8UpEnkEo0+HQAAABkAAABBAAAA8QAAAPEAAABBAAAAGUBSvxxOYeDjU2v0/05m7d1LYuEiF55LIhKtTt0Ws1L/FahN2gU1FTAAAADAAAAA7AAAAP0AAAD9AAAA7AAAAMAVG0owUGPm2lNr9P9OZu3dS2LhIheeSyISrU7dFrNS/xWoTdoFNRswAAAAvwAAAOsAAAD9AAAA/QAAAOsAAADAFRtKMFBj6NpTa/T/Tmbt3Uti4SIXnksiEq1O3RayUv8UpEnkEo0+HQAAABgAAABAAAAA8QAAAPEAAABBAAAAGT5PuR1OYeDjU2v0/05m7d1LYuEiFqBJIxWuT+QXuVX/E6JL7QC8XhMAAAAAAAAADwAAAL8AAAC/AAAAEAAAAAAOR/8SSWLh7FZv/f9PaO/jSV/iIxCUSh8Vrk7HFqxN7ROlS9JskzMt1XULGK12EhxGLgYsRy8GK612EhzVgAsYgmxxLU1i39JNZ+vtT2fwx0pj1h8AqlUDF65GFgqZUhlsiC0txH0T0s5/EujJgBPkz4QR28+EEdvJgBPkzn8Q6Md+E9KLdHosM1LWGUZo6BZVVf8DAAAAAAAAAAAAAAAA/2YAFMl9EvbgjRb/14gV/9eIFf/XiBX/14gV/9+NFv/KgBD254YAFQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAL91FRjKgRHN1IgU3s+EEt3PhBLdz4QS3c+EEt3UiBTezYMRzcJ6FBkAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACqqgADxIARHr18FiO8eA8ivHgPIrx4DyK8eA8ivXwPI8SAER7/VQADAAAAAAAAAAAAAAAA78cAAPA3AAD4FwAABCAAADGOAAAE+AAAkBEAAJ55AACYOQAAlgEAAER4AAAXaAAATnoAAPgXAAD0JwAA69cAAA==`,
         sgIcon: `data:image/x-icon;base64,AAABAAEAEBAAAAEAIABoBAAAFgAAACgAAAAQAAAAIAAAAAEAIAAAAAAAQAQAABMLAAATCwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIUAAAD5AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAPoAAACFAAAAAAAAAAAAAAD8AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA+QAAAAAAAAAAAAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAAAAAAAAAAAAP8AAAD/AAAA/wAAABwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAcAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAcAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAHAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAAAAAAAAAAAAPwAAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD5AAAAAAAAAAAAAACFAAAA+QAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD5AAAAhQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA//8AAP//AADAAwAAwAMAAMfjAADP8wAAz/MAAM/zAADP8wAAz/MAAM/zAADH4wAAwAMAAMADAAD//wAA//8AAA==`,
         stIcon: `data:image/x-icon;base64,AAABAAEAEBAAAAEAIABoBAAAFgAAACgAAAAQAAAAIAAAAAEAIAAAAAAAQAQAABMLAAATCwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABbD6SgWw+ucFsPrkBbD6SgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAWw+uYFsPr/BbD6/wWw+ucAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAFsPrmBbD6/wWw+v8FsPrmAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABbD6SQWw+uYFsPrmBbD6SQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAFKRLShSkS+cUpEvkFKRLSgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAExi4EpMYuDnTGLg5Exi4EoAAAAAAAAAABSkS+YUpEv/FKRL/xSkS+cAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABMYuDmTGLg/0xi4P9MYuDnAAAAAAAAAAAUpEvmFKRL/xSkS/8UpEvmAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAATGLg5kxi4P9MYuD/TGLg5gAAAAAAAAAAFKRLSRSkS+YUpEvmFKRLSQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAExi4ElMYuDmTGLg5kxi4EkAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAMZ9E0rGfRPnxn0T5MZ9E0oAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADGfRPmxn0T/8Z9E//GfRPnAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAxn0T5sZ9E//GfRP/xn0T5gAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAMZ9E0nGfRPmxn0T5sZ9E0kAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA//8AAPw/AAD8PwAA/D8AAPw/AAD//wAAh+EAAIfhAACH4QAAh+EAAP//AAD8PwAA/D8AAPw/AAD8PwAA//8AAA==`,
@@ -2073,17 +2076,17 @@ async function init() {
         esgst.settings = {};
     }
     esgst.version = esgst.storage.version;
-    for (let key in esgst.oldValues) {
-        esgst[key] = getSetting(key);
-    }
-    for (let key in esgst.defaultValues) {
-        esgst[key] = getSetting(key);
-    }
     for (let key in esgst.settings) {
         let match;
         if (match = key.match(new RegExp(`(.+?)_${esgst.name}$`))) {
             esgst[match[1]] = esgst.settings[key];
         }
+    }
+    for (let key in esgst.oldValues) {
+        esgst[key.replace(new RegExp(`(.+?)_${esgst.name}$`), `$1`)] = getSetting(key, key.match(/^(wbc_checkBlacklist|wbc_hb_sg)$/));
+    }
+    for (let key in esgst.defaultValues) {
+        esgst[key.replace(new RegExp(`(.+?)_${esgst.name}$`), `$1`)] = getSetting(key, key.match(/^(wbc_checkBlacklist|wbc_hb_sg)$/));
     }
 
     esgst.features = {
@@ -5265,13 +5268,13 @@ async function init() {
                             name: `Save automatic notes when returning whitelists/blacklists.`,
                             sg: true
                         },
-                        wbc_b: {
+                        wbc_hb: {
                             description: `
                                 <ul>
-                                    <li>With this option disabled, the feature will not tell you if a user has blacklisted you (in fact, the name of the feature will change to Whitelist Checker for you). If the feature finds a user that has blacklisted you, it will tell you that it could not determine their status.</li>
+                                    <li>With this option enabled, the feature will not tell you if a user has blacklisted you (in fact, the name of the feature will change to Whitelist Checker for you). If the feature finds a user that has blacklisted you, it will tell you that it could not determine their status.</li>
                                 </ul>
                             `,
-                            name: `Show blacklist information.`,
+                            name: `Hide blacklist information.`,
                             sg: true
                         }
                     },
@@ -28579,7 +28582,7 @@ function getVaiImages(context) {
 
 function loadWbc() {
     if (!esgst.mainPageHeading) return;
-    let [icons, title] = esgst.wbc_b ? [[`fa-heart`, `fa-ban`, `fa-question-circle`], `Check for whitelists/blacklists`] : [[`fa-heart`, `fa-question-circle`], `Check for whitelists`];
+    let [icons, title] = !esgst.wbc_hb ? [[`fa-heart`, `fa-ban`, `fa-question-circle`], `Check for whitelists/blacklists`] : [[`fa-heart`, `fa-question-circle`], `Check for whitelists`];
     esgst.wbcButton = createHeadingButton({id: `wbc`, icons, title});
     addWBCButton(true, esgst.wbcButton);
 }
@@ -28588,7 +28591,7 @@ function addWBCButton(Context, WBCButton) {
     var checkAllSwitch, checkPagesSwitch, checkSingleSwitch, popup, skip, WBC;
     WBC = {
         Update: (Context ? false : true),
-        B: esgst.wbc_b,
+        B: !esgst.wbc_hb,
         Username: esgst.username
     };
     popup = new Popup(WBC.Update ? `fa-cog` : `fa-question`, WBC.Update ? `Manage Whitelist/Blacklist Checker caches:` : `Check for whitelists${WBC.B ? `/blacklists` : ``}:`);
@@ -28605,7 +28608,7 @@ function addWBCButton(Context, WBCButton) {
     }
     checkSelectedSwitch = new ToggleSwitch(popup.Options, `wbc_checkSelected`, false, `Only check selected.`, false, false, `To check only selected users in the page, enable the user selector at the left side of the Whitelist/Blacklist Checker button (same selector used for Multi-Tags) and select the users. Then come back here, enable this option if you haven't done so already and check.`, esgst.wbc_checkSelected);
     if (WBC.B) {
-        new ToggleSwitch(popup.Options, `wbc_checkWhitelist`, false, `Also check whitelist.`, false, false, `If disabled, a blacklist-only check will be performed (faster).`, esgst.wbc_checkWhitelist);
+        new ToggleSwitch(popup.Options, `wbc_checkBlacklist`, false, `Only check blacklist.`, false, false, `If enabled, a blacklist-only check will be performed (faster).`, esgst.wbc_checkBlacklist);
     }
     if (!WBC.Update && !location.pathname.match(/^\/(discussions|users|archive)/)) {
         checkAllSwitch = new ToggleSwitch(popup.Options, `wbc_checkAll`, false, `Check all pages.`, false, false, `If disabled, only the current page will be checked.`, esgst.wbc_checkAll);
@@ -29029,7 +29032,7 @@ function checkWBCUser(WBC, wbc, username, Callback) {
                 }
             }
             if (((Date.now() - wbc.lastCheck) > 86400000) || WBC.Update) {
-                if (((esgst.wbc_checkWhitelist || !WBC.B) && (wbc.wl_ga || wbc.g_wl_ga)) || (!esgst.wbc_checkWhitelist && WBC.B && wbc.ga)) {
+                if (((!esgst.wbc_checkBlacklist || !WBC.B) && (wbc.wl_ga || wbc.g_wl_ga)) || (esgst.wbc_checkBlacklist && WBC.B && wbc.ga)) {
                     WBC.Timestamp = wbc.timestamp;
                     checkWBCGiveaway(WBC, wbc, username, Callback);
                 } else {
@@ -29130,7 +29133,7 @@ async function getWBCGiveaways(WBC, wbc, username, NextPage, CurrentPage, URL, C
                 if (wbc.ga) {
                     checkWBCGiveaway(WBC, wbc, username, function (wbc, stop) {
                         var WhitelistGiveaways, I, N, GroupGiveaway;
-                        if ((wbc.result === `notBlacklisted`) && !stop && (esgst.wbc_checkWhitelist || !WBC.B)) {
+                        if ((wbc.result === `notBlacklisted`) && !stop && (!esgst.wbc_checkBlacklist || !WBC.B)) {
                             WhitelistGiveaways = Context.getElementsByClassName(`giveaway__column--whitelist`);
                             for (I = 0, N = WhitelistGiveaways.length; (I < N) && !wbc.wl_ga; ++I) {
                                 GroupGiveaway = WhitelistGiveaways[I].parentElement.getElementsByClassName(`giveaway__column--group`)[0];
@@ -30850,7 +30853,7 @@ function loadUserFeatures(mainContext) {
             }
             if (esgst.wbc && esgst.wbc_h && savedUser.wbc && !context.parentElement.getElementsByClassName(`esgst-wbc-icon`)[0]) {
                 let result = savedUser.wbc.result;
-                if ((result === `whitelisted`) || ((result === `blacklisted`) && esgst.wbc_b)) {
+                if ((result === `whitelisted`) || ((result === `blacklisted`) && !esgst.wbc_hb)) {
                     html += `
                         <span class="esgst-wbc-icon esgst-user-icon" title="${getFeatureTooltip(`wbc`, `${savedUser.username} has ${result} you (last checked ${getTimestamp(savedUser.wbc.lastCheck / 1e3)})`)}">
                             <i class="fa ${(result === `whitelisted`) ? `fa-check esgst-whitelist` : `fa-times esgst-blacklist`}"></i>
@@ -31731,7 +31734,7 @@ async function setSetting(id, value, sg, st) {
     esgst.settings[id] = value;
 }
 
-function getSetting(key) {
+function getSetting(key, inverse) {
     let value = esgst.settings[key];
     if (typeof value === `undefined`) {
         let defaultValue = esgst.defaultValues[key];
@@ -31740,7 +31743,7 @@ function getSetting(key) {
         }
         let oldKey = esgst.oldValues[key];
         if (typeof oldKey !== `undefined`) {
-            value = esgst.settings[oldKey];
+            value = inverse ? !esgst.settings[oldKey] : esgst.settings[oldKey];
         }
         if (typeof value === `undefined`) {
             value = defaultValue;
@@ -31847,7 +31850,7 @@ function getFeaturePath(feature, id, name) {
     let setting = esgst.settings[key];
     if (typeof setting === `undefined` || !setting.include) {
         setting = {
-            enabled: getSetting(key) ? 1 : 0,
+            enabled: getSetting(key, key.match(/^(wbc_checkBlacklist|wbc_hb_sg)$/)) ? 1 : 0,
             include: [],
             exclude: [],
             new: typeof setting === `undefined`
