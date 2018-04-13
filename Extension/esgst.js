@@ -1378,7 +1378,7 @@ async function init() {
         sg: location.hostname.match(/www.steamgifts.com/),
         st: location.hostname.match(/www.steamtrades.com/),
         currentVersion: `7.17.6`,
-        devVersion: `7.17.7 (Dev.2)`,
+        devVersion: `7.17.7 (Dev.3)`,
         icon: `data:image/x-icon;base64,AAABAAEAEBAAAAEAIABoBAAAFgAAACgAAAAQAAAAIAAAAAEAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAqv8DCbP/Hgeq+CQIrf8iCK3/Igit/yIIrf8iB6//Iwit9x8Aqv8DAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAKr0GAa2/c0DvfzfA7f83QO3/N0Dt/zdA7f83QO+/d4Gs/3OAKP1GQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACm/xQFs/n2Bcf//wW///8FwP//BcD//wW///8Fx///BbP69gC2/xUAAAAAAAAAAAAAAAAA/1UDFptOFxSZMxkLpJktAq720QW1+ugEsfvjA7b92wO2/dsEsfvjBbX66Aau/dEoiO4tUlLWGU5k3hdVVf8DEJxKHxWqT8cVrU7uE6VN0guqny0Apv8XAJfQGwBAVywAQFcsAJfQGwCx/xcogugtS2Lk0lBl6u5Qae7ISmPeHxagSSMVr07jF7lV/xOiSu0brgATAAAAAAAAAA8AAAC/AAAAwAAAABAAAAAAYznjEkth4OxWb/3/T2jv40lf4iMXnksiEq1O3RayUv8UpEnkEo0+HQAAABkAAABBAAAA8QAAAPEAAABBAAAAGUBSvxxOYeDjU2v0/05m7d1LYuEiF55LIhKtTt0Ws1L/FahN2gU1FTAAAADAAAAA7AAAAP0AAAD9AAAA7AAAAMAVG0owUGPm2lNr9P9OZu3dS2LhIheeSyISrU7dFrNS/xWoTdoFNRswAAAAvwAAAOsAAAD9AAAA/QAAAOsAAADAFRtKMFBj6NpTa/T/Tmbt3Uti4SIXnksiEq1O3RayUv8UpEnkEo0+HQAAABgAAABAAAAA8QAAAPEAAABBAAAAGT5PuR1OYeDjU2v0/05m7d1LYuEiFqBJIxWuT+QXuVX/E6JL7QC8XhMAAAAAAAAADwAAAL8AAAC/AAAAEAAAAAAOR/8SSWLh7FZv/f9PaO/jSV/iIxCUSh8Vrk7HFqxN7ROlS9JskzMt1XULGK12EhxGLgYsRy8GK612EhzVgAsYgmxxLU1i39JNZ+vtT2fwx0pj1h8AqlUDF65GFgqZUhlsiC0txH0T0s5/EujJgBPkz4QR28+EEdvJgBPkzn8Q6Md+E9KLdHosM1LWGUZo6BZVVf8DAAAAAAAAAAAAAAAA/2YAFMl9EvbgjRb/14gV/9eIFf/XiBX/14gV/9+NFv/KgBD254YAFQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAL91FRjKgRHN1IgU3s+EEt3PhBLdz4QS3c+EEt3UiBTezYMRzcJ6FBkAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACqqgADxIARHr18FiO8eA8ivHgPIrx4DyK8eA8ivXwPI8SAER7/VQADAAAAAAAAAAAAAAAA78cAAPA3AAD4FwAABCAAADGOAAAE+AAAkBEAAJ55AACYOQAAlgEAAER4AAAXaAAATnoAAPgXAAD0JwAA69cAAA==`,
         sgIcon: `data:image/x-icon;base64,AAABAAEAEBAAAAEAIABoBAAAFgAAACgAAAAQAAAAIAAAAAEAIAAAAAAAQAQAABMLAAATCwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIUAAAD5AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAPoAAACFAAAAAAAAAAAAAAD8AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA+QAAAAAAAAAAAAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAAAAAAAAAAAAP8AAAD/AAAA/wAAABwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAcAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAcAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAHAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAAAAAAAAAAAAPwAAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD5AAAAAAAAAAAAAACFAAAA+QAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD5AAAAhQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA//8AAP//AADAAwAAwAMAAMfjAADP8wAAz/MAAM/zAADP8wAAz/MAAM/zAADH4wAAwAMAAMADAAD//wAA//8AAA==`,
         stIcon: `data:image/x-icon;base64,AAABAAEAEBAAAAEAIABoBAAAFgAAACgAAAAQAAAAIAAAAAEAIAAAAAAAQAQAABMLAAATCwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABbD6SgWw+ucFsPrkBbD6SgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAWw+uYFsPr/BbD6/wWw+ucAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAFsPrmBbD6/wWw+v8FsPrmAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABbD6SQWw+uYFsPrmBbD6SQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAFKRLShSkS+cUpEvkFKRLSgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAExi4EpMYuDnTGLg5Exi4EoAAAAAAAAAABSkS+YUpEv/FKRL/xSkS+cAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABMYuDmTGLg/0xi4P9MYuDnAAAAAAAAAAAUpEvmFKRL/xSkS/8UpEvmAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAATGLg5kxi4P9MYuD/TGLg5gAAAAAAAAAAFKRLSRSkS+YUpEvmFKRLSQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAExi4ElMYuDmTGLg5kxi4EkAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAMZ9E0rGfRPnxn0T5MZ9E0oAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADGfRPmxn0T/8Z9E//GfRPnAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAxn0T5sZ9E//GfRP/xn0T5gAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAMZ9E0nGfRPmxn0T5sZ9E0kAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA//8AAPw/AAD8PwAA/D8AAPw/AAD//wAAh+EAAIfhAACH4QAAh+EAAP//AAD8PwAA/D8AAPw/AAD8PwAA//8AAA==`,
@@ -3518,6 +3518,25 @@ async function init() {
                                     name: `No CV`,
                                     sg: true
                                 },
+                                gf_groups: {
+                                    description: `
+                                        <ul>
+                                            <li>Allows you to filter giveaways by group.</li>
+                                            <li>This option requires [id=ggl] enabled as "Panel (On Page Load)" to work.</li>
+                                        </ul>
+                                    `,
+                                    name: `Groups`,
+                                    sg: true
+                                },
+                                gf_creators: {
+                                    description: `
+                                        <ul>
+                                            <li>Allows you to filter giveaways by creator.</li>
+                                        </ul>
+                                    `,
+                                    name: `Creators`,
+                                    sg: true
+                                },
                                 gf_removed: {
                                     description: `
                                         <ul>
@@ -4362,6 +4381,15 @@ async function init() {
                                         </ul>
                                     `,
                                     name: `Unread`,
+                                    sg: true
+                                },
+                                df_authors: {
+                                    description: `
+                                        <ul>
+                                            <li>Allows you to filter discussions by author.</li>
+                                        </ul>
+                                    `,
+                                    name: `Authors`,
                                     sg: true
                                 }
                             },
@@ -12970,6 +12998,83 @@ function setDfOverride(df, context, key) {
     });
 }
 
+function getDfFilters() {
+    return {
+        basic: [
+            {
+                check: true,
+                infinite: true,
+                maxValue: 999999,
+                minValue: 0,
+                name: `Comments`
+            }
+        ],
+        type: [
+            {
+                check: true,
+                name: `Announcements`
+            },
+            {
+                check: true,
+                name: `Bugs / Suggestion`
+            },
+            {
+                check: true,
+                name: `Deals`
+            },
+            {
+                check: true,
+                name: `General`
+            },
+            {
+                check: true,
+                name: `Group Recruitment`
+            },
+            {
+                check: true,
+                name: `Let's Play Together`
+            },
+            {
+                check: true,
+                name: `Off-Topic`
+            },
+            {
+                check: true,
+                name: `Puzzles`
+            },
+            {
+                check: true,
+                name: `Uncategorized`
+            },
+            {
+                check: true,
+                name: `Created`
+            },
+            {
+                check: true,
+                name: `Poll`
+            },
+            {
+                check: esgst.dh,
+                name: `Highlighted`
+            },
+            {
+                check: esgst.gdttt,
+                name: `Visited`
+            },
+            {
+                check: esgst.ct,
+                name: `Unread`
+            },
+            {
+                check: true,
+                list: true,
+                name: `Authors`
+            }
+        ]
+    };
+}
+
 function addDfContainer(heading) {
     var basicFilter, basicFilters, box, button, categoryFilter, categoryFilters, collapseButton, display, exceptionButton, exceptionCount, exceptionPanel, expandButton, filters, genres, df, headingButton, i, id, infinite, key, maxKey, maxSavedValue, maxValue, minKey, minSavedValue, minValue, name, preset, presetButton, presetDisplay, presetInput, presetMessage, presetPanel, presets, presetWarning, slider, step, toggleSwitch, typeFilter, typeFilters, value;
     headingButton = document.createElement(`div`);
@@ -12981,75 +13086,7 @@ function addDfContainer(heading) {
     `;
     esgst.df = df = {
         counters: {},
-        filters: {
-            basic: [
-                {
-                    check: true,
-                    infinite: true,
-                    maxValue: 999999,
-                    minValue: 0,
-                    name: `Comments`
-                }
-            ],
-            type: [
-                {
-                    check: true,
-                    name: `Announcements`
-                },
-                {
-                    check: true,
-                    name: `Bugs / Suggestion`
-                },
-                {
-                    check: true,
-                    name: `Deals`
-                },
-                {
-                    check: true,
-                    name: `General`
-                },
-                {
-                    check: true,
-                    name: `Group Recruitment`
-                },
-                {
-                    check: true,
-                    name: `Let's Play Together`
-                },
-                {
-                    check: true,
-                    name: `Off-Topic`
-                },
-                {
-                    check: true,
-                    name: `Puzzles`
-                },
-                {
-                    check: true,
-                    name: `Uncategorized`
-                },
-                {
-                    check: true,
-                    name: `Created`
-                },
-                {
-                    check: true,
-                    name: `Poll`
-                },
-                {
-                    check: esgst.dh,
-                    name: `Highlighted`
-                },
-                {
-                    check: esgst.gdttt,
-                    name: `Visited`
-                },
-                {
-                    check: esgst.ct,
-                    name: `Unread`
-                }
-            ]
-        },
+        filters: getDfFilters(),
         type: esgst.createdDiscussionsPath ? `Created` : ``
     };
     toggleSwitch = new ToggleSwitch(headingButton.firstElementChild, `df_enable${esgst.df.type}`, true, ``, false, false, null, esgst[`df_enable${esgst.df.type}`]);
@@ -13719,11 +13756,11 @@ function filterDfDiscussions(df, unfilter, endless) {
     updateDfCount(df, endless);
 }
 
-function filterDfException(df, exception, discussion) {
+function filterDfException(filters, exception, discussion) {
     var filtered, i, j, key, maxKey, minKey, n, name;
     filtered = false;
-    for (i = 0, n = df.filters.basic.length; !filtered && i < n; ++i) {
-        [maxKey, minKey, key] = getGfKeys(df.filters.basic[i], true);
+    for (i = 0, n = filters.basic.length; !filtered && i < n; ++i) {
+        [maxKey, minKey, key] = getGfKeys(filters.basic[i], true);
         if (typeof exception[minKey] !== `undefined`) {
             filtered = discussion[key] >= exception[minKey] ? false : true;
         }
@@ -13731,9 +13768,9 @@ function filterDfException(df, exception, discussion) {
             filtered = discussion[key] <= exception[maxKey] ? false : true;
         }
     }
-    for (i = 0, n = df.filters.type.length; !filtered && i < n; ++i) {
-        key = getGfKeys(df.filters.type[i])[0];
-        if (df.filters.type[i].list) {
+    for (i = 0, n = filters.type.length; !filtered && i < n; ++i) {
+        key = getGfKeys(filters.type[i])[0];
+        if (filters.type[i].list) {
             if (discussion[key] && exception[`${key}List`]) {
                 let list = exception[`${key}List`].toLowerCase().split(/,\s/);
                 for (j = list.length - 1; j > -1 && discussion[key].indexOf(list[j]) < 0; --j);
@@ -13753,19 +13790,34 @@ function filterDfException(df, exception, discussion) {
 
 function filterDfDiscussion(df, discussion) {
     var counterKey, filtered, i, j, key, maxKey, minKey, n, name, override;
+    let filters = df.filters;
+    if (!filters) {
+        filters = getDfFilters();
+    }
     filtered = false;
     override = 0;
-    for (i = 0, n = df.filters.basic.length; i < n && (!filtered || !override); ++i) {
-        [maxKey, minKey, key] = getGfKeys(df.filters.basic[i], true);
+    for (i = 0, n = filters.basic.length; i < n && (!filtered || !override); ++i) {
+        [maxKey, minKey, key] = getGfKeys(filters.basic[i], true);
         if (discussion[key] < df[minKey] || discussion[key] > df[maxKey]) {
             filtered = true;
             override = df.overrides[key];
             counterKey = key;
         }
     }
-    for (i = 0, n = df.filters.type.length; i < n && (!filtered || !override); ++i) {
-        key = getGfKeys(df.filters.type[i])[0];
-        if ((df[key] === `disabled` && discussion[key]) || (df[key] === `none` && !discussion[key])) {
+    for (i = 0, n = filters.type.length; i < n && (!filtered || !override); ++i) {
+        key = getGfKeys(filters.type[i])[0];
+        if (filters.type[i].list) {
+            if (discussion[key] && df[`${key}List`]) {
+                let list = df[`${key}List`].toLowerCase().split(/,\s/);
+                for (j = list.length - 1; j > -1 && discussion[key].indexOf(list[j]) < 0; --j);
+                value = j >= 0;
+            } else {
+                value = false;
+            }
+        } else {
+            value = discussion[key];
+        }
+        if ((df[key] === `disabled` && value) || (df[key] === `none` && !value)) {
             filtered = true;
             override = df.overrides[key];
             if (!counterKey) {
@@ -13775,7 +13827,7 @@ function filterDfDiscussion(df, discussion) {
     }
     if (df.exceptions && !override) {
         for (i = df.exceptions.length - 1; i >= 0 && filtered; --i) {
-            filtered = filterDfException(df, df.exceptions[i], discussion);
+            filtered = filterDfException(filters, df.exceptions[i], discussion);
         }
     }
     if (filtered && df.counters && df.counters[counterKey]) {
@@ -17670,6 +17722,16 @@ function addGfContainer(heading, popup) {
                 {
                     check: true,
                     name: `No CV`
+                },
+                {
+                    check: esgst.ggl && esgst.ggl_index === 0,
+                    list: true,
+                    name: `Groups`
+                },
+                {
+                    check: true,
+                    list: true,
+                    name: `Creators`
                 }
             ],
             category: [        
@@ -19044,6 +19106,7 @@ function addGglPanel(giveaway, groups, newGroups, savedGroups) {
             <div class="esgst-ggl-panel"></div>
         `);
         groupCount = 0;
+        giveaway.groups = [];
         for (i = 0, n = groups.length; i < n; ++i) {
             code = groups[i];
             for (j = savedGroups.length - 1; j >= 0 && savedGroups[j].code !== code; --j);
@@ -19052,6 +19115,7 @@ function addGglPanel(giveaway, groups, newGroups, savedGroups) {
             } else {
                 group = newGroups[code];
             }
+            giveaway.groups.push(group.name.toLowerCase());
             if (group && group.member) {
                 className = `esgst-ggl-member`;
                 groupCount += 1;
@@ -30083,7 +30147,9 @@ async function getGiveaways(context, main, mainUrl, hr, key, ged, endless, sourc
 
 async function getGiveawayInfo(context, mainContext, ugd, ugdType, main, mainUrl, ged, endless, source) {
     var category, categories, chance, element, giveaway, i, id, info, key, keys, match, n, savedUser, uf, thinHeadings;
-    giveaway = {};
+    giveaway = {
+        groups: []
+    };
     giveaway.outerWrap = context;
     giveaway.gameId = giveaway.outerWrap.getAttribute(`data-game-id`);
     info = getGameInfo(giveaway.outerWrap);
@@ -30199,6 +30265,7 @@ async function getGiveawayInfo(context, mainContext, ugd, ugdType, main, mainUrl
     } else if (esgst.createdPath && main) {
         giveaway.creator = esgst.username;
     }
+    giveaway.creators = [giveaway.creator.toLowerCase()];
     if (esgst.createdPath && main) {
         var status = giveaway.outerWrap.querySelector(`.table__column--width-small.text-center:last-of-type`);
         if (status) {
@@ -30704,6 +30771,7 @@ async function getDiscussionInfo(context, main) {
             discussion.author = discussion.createdContainer.nextElementSibling.textContent;
         }
     }
+    discussion.authors = [discussion.author.toLowerCase()];
     discussion.created = discussion.author === esgst.username;
     discussion.poll = discussion.outerWrap.getElementsByClassName(`fa-align-left`)[0];
     if (discussion.headingColumn) {
@@ -39287,7 +39355,7 @@ function addStyle() {
             display: inline-block;
             height: 20px;
             padding: 0 5px;
-            width: 100px !important;
+            width: 75px !important;
         }
 
         .esgst-gf-container input[type=date] {
