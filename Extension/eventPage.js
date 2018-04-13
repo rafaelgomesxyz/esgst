@@ -18,6 +18,108 @@ function sendMessage(action, sender, values) {
     });
 }
 
+async function doFetch(parameters, request, sender, callback) {
+    if (!request.manipulateCookies) {
+        let response = await fetch(request.url, parameters);
+        let responseText = await response.text();
+        callback(JSON.stringify({
+            finalUrl: response.url,
+            redirected: response.redirected,
+            responseText: responseText
+        }));
+        return;
+    }
+    browser.tabs.get(sender.tab.id, async tab => {
+        if (tab.cookieStoreId === `firefox-default`) {
+            let response = await fetch(request.url, parameters);
+            let responseText = await response.text();
+            callback(JSON.stringify({
+                finalUrl: response.url,
+                redirected: response.redirected,
+                responseText: responseText
+            }));
+            return;
+        }
+
+        let domain = request.url.match(/https?:\/\/(.+?)(\/.*)?$/)[1];
+        let url = request.url.match(/(https?:\/\/.+?)(\/.*)?$/)[1];
+
+        // get no-container cookies
+        let cookies = await getCookies({
+            domain: domain
+        });
+        // get container cookies
+        let containerCookies = await getCookies({
+            domain: domain,
+            storeId: tab.cookieStoreId
+        });
+
+        // delete no-container cookies
+        for (let i = cookies.length - 1; i > -1; i--) {
+            let cookie = cookies[i];
+            await deleteCookie({
+                name: cookie.name,
+                url: url
+            });
+        }
+        // set container cookies to no-container scope
+        for (let i = containerCookies.length - 1; i > -1; i--) {
+            let cookie = containerCookies[i];
+            cookie.url = request.url;
+            delete cookie.hostOnly;
+            delete cookie.session;
+            delete cookie.storeId;
+            await setCookie(cookie);
+        }
+
+        // request
+        let response = await fetch(request.url, parameters);
+        let responseText = await response.text();
+
+        // delete container cookies from no-container scope
+        for (let i = containerCookies.length - 1; i > -1; i--) {
+            let cookie = containerCookies[i];
+            await deleteCookie({
+                name: cookie.name,
+                url: url
+            });
+        }
+        // restore no-container cookies
+        for (let i = cookies.length - 1; i > -1; i--) {
+            let cookie = cookies[i];
+            cookie.url = request.url;
+            delete cookie.hostOnly;
+            delete cookie.session;
+            delete cookie.storeId;
+            await setCookie(cookie);
+        }
+
+        callback(JSON.stringify({
+            finalUrl: response.url,
+            redirected: response.redirected,
+            responseText: responseText
+        }));
+    });
+}
+
+function getCookies(details) {
+    return new Promise((resolve, reject) => {
+        browser.cookies.getAll(details, resolve);
+    });
+}
+
+function setCookie(details) {
+    return new Promise((resolve, reject) => {
+        browser.cookies.set(details, resolve);
+    });
+}
+
+function deleteCookie(details) {
+    return new Promise((resolve, reject) => {
+        browser.cookies.remove(details, resolve);
+    });
+}
+
 browser.runtime.onMessage.addListener((request, sender, callback) => {
     let key, keys, parameters, values;
     switch (request.action) {
@@ -34,15 +136,7 @@ browser.runtime.onMessage.addListener((request, sender, callback) => {
         case `fetch`:
             parameters = JSON.parse(request.parameters);
             parameters.headers = new Headers(parameters.headers);
-            fetch(request.url, parameters).then(response => {
-                response.text().then(responseText => {
-                    callback(JSON.stringify({
-                        finalUrl: response.url,
-                        redirected: response.redirected,
-                        responseText: responseText
-                    }));
-                });
-            });
+            doFetch(parameters, request, sender, callback);
             break;
         case `getStorage`:
             if (storage) {
@@ -76,7 +170,6 @@ browser.runtime.onMessage.addListener((request, sender, callback) => {
 });
 
 async function getTabs(request) {
-    console.log(request);
     let items = [
         {id: `inbox_sg`, pattern: `*://*.steamgifts.com/messages*`, url: `https://www.steamgifts.com/messages`},
         {id: `inbox_st`, pattern: `*://*.steamtrades.com/messages*`, url: `https://www.steamtrades.com/messages`},
@@ -90,7 +183,6 @@ async function getTabs(request) {
             continue;
         }
         let tab = (await queryTabs({url: item.pattern}))[0];
-        console.log(tab);
         if (tab && tab.id) {
             browser.tabs.update(tab.id, {active: true});
             if (request.refresh) {
@@ -104,7 +196,6 @@ async function getTabs(request) {
     }
     if (any) {
         let tab = (await queryTabs({url: `*://*.steamgifts.com/*`}))[0];
-        console.log(tab);
         if (tab && tab.id) {
             browser.tabs.update(tab.id, {active: true});
         }

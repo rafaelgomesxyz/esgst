@@ -48,7 +48,8 @@
         "*://*.graph.microsoft.com/*",
         "storage",
         "tabs",
-        "unlimitedStorage"
+        "unlimitedStorage",
+        "cookies"
     ],
     "version": "7.17.6"
 }
