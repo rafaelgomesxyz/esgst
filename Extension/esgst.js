@@ -40464,6 +40464,25 @@ function loadChangelog(version) {
             `
         },
         {
+            date: `April 14, 2018`,
+            version: `7.17.7`,
+            changelog: `
+                <ul>
+                    <li><a href="https://github.com/revilheart/ESGST/issues/632">#632</a> Add option to limit how many SGTools giveaways are opened when extracting</li>
+                    <li><a href="https://github.com/revilheart/ESGST/issues/631">#631</a> Add option to allow manipulation of cookies for Firefox containers</li>
+                    <li><a href="https://github.com/revilheart/ESGST/issues/630">#630</a> Add more details to error messages during alt accounts sync</li>
+                    <li><a href="https://github.com/revilheart/ESGST/issues/629">#629</a> Cancel backup when canceling file name input</li>
+                    <li><a href="https://github.com/revilheart/ESGST/issues/627">#627</a> Implement a method to make the process of adding new filters easier</li>
+                    <li><a href="https://github.com/revilheart/ESGST/issues/626">#626</a> Fix a bug that does not sync games if the user does not have alt accounts set</li>
+                    <li><a href="https://github.com/revilheart/ESGST/issues/625">#625</a> Integrate SGTools giveaways into Giveaway Extractor</li>
+                    <li><a href="https://github.com/revilheart/ESGST/issues/624">#624</a> Fix a bug that opens duplicate SGTools links when extracting giveaways</li>
+                    <li><a href="https://github.com/revilheart/ESGST/issues/623">#623</a> Add option to save backups without asking for a file name</li>
+                    <li><a href="https://github.com/revilheart/ESGST/issues/593">#593</a> Add Groups and Creators giveaway filters and Authors discussion filter</li>
+                    <li><a href="https://github.com/revilheart/ESGST/issues/592">#592</a> Fix a bug that does not load more pages in Endless Scrolling if there are deleted giveaways in the current page with the ended filter set to hide all</li>
+                </ul>
+            `
+        },
+        {
             date: `April 11, 2018`,
             version: `7.17.6`,
             changelog: `
