@@ -236,6 +236,21 @@ To learn more about each feature you have to install ESGST.
 
 ## Changelog
 
+**7.17.7 (April 14, 2018)**
+
+* [#632](https://github.com/revilheart/ESGST/issues/632) Add option to limit how many SGTools giveaways are opened when extracting
+* [#631](https://github.com/revilheart/ESGST/issues/631) Add option to allow manipulation of cookies for Firefox containers
+* [#630](https://github.com/revilheart/ESGST/issues/630) Add more details to error messages during alt accounts sync
+* [#629](https://github.com/revilheart/ESGST/issues/629) Cancel backup when canceling file name input
+* [#627](https://github.com/revilheart/ESGST/issues/627) Implement a method to make the process of adding new filters easier
+* [#626](https://github.com/revilheart/ESGST/issues/626) Fix a bug that does not sync games if the user does not have alt accounts set
+* [#625](https://github.com/revilheart/ESGST/issues/625) Integrate SGTools giveaways into Giveaway Extractor
+* [#624](https://github.com/revilheart/ESGST/issues/624) Fix a bug that opens duplicate SGTools links when extracting giveaways
+* [#623](https://github.com/revilheart/ESGST/issues/623) Add option to save backups without asking for a file name
+* [#593](https://github.com/revilheart/ESGST/issues/593) Add Groups and Creators giveaway filters and Authors discussion filter
+* [#592](https://github.com/revilheart/ESGST/issues/592) Fix a bug that does not load more pages in Endless Scrolling if there are deleted giveaways in the current page with the ended filter set to hide all
+
+
 **7.17.6 (April 11, 2018)**
 
 * [#620](https://github.com/revilheart/ESGST/issues/620) Add more reliable methods of syncing and backing up

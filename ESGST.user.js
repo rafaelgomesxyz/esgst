@@ -3,7 +3,7 @@
 // @namespace ESGST
 // @description Enhances SteamGifts and SteamTrades by adding some cool features to them.
 // @icon https://dl.dropboxusercontent.com/s/lr3t3bxrxfxylqe/esgstIcon.ico?raw=1
-// @version 7.17.6
+// @version 7.17.7
 // @author revilheart
 // @contributor Royalgamer06
 // @downloadURL https://github.com/revilheart/ESGST/raw/master/ESGST.user.js
@@ -939,6 +939,7 @@ async function init() {
     esgst = {
         parameters: getParameters(),
         defaultValues: {
+            ge_sgt_limit: 1,
             filter_os: 0,
             filter_giveaways_exist_in_account: 0,
             filter_giveaways_missing_base_game: 0,
@@ -1377,8 +1378,8 @@ async function init() {
         markdownParser: new Parsedown(),
         sg: location.hostname.match(/www.steamgifts.com/),
         st: location.hostname.match(/www.steamtrades.com/),
-        currentVersion: `7.17.6`,
-        devVersion: `7.17.6`,
+        currentVersion: `7.17.7`,
+        devVersion: `7.17.7`,
         icon: `data:image/x-icon;base64,AAABAAEAEBAAAAEAIABoBAAAFgAAACgAAAAQAAAAIAAAAAEAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAqv8DCbP/Hgeq+CQIrf8iCK3/Igit/yIIrf8iB6//Iwit9x8Aqv8DAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAKr0GAa2/c0DvfzfA7f83QO3/N0Dt/zdA7f83QO+/d4Gs/3OAKP1GQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACm/xQFs/n2Bcf//wW///8FwP//BcD//wW///8Fx///BbP69gC2/xUAAAAAAAAAAAAAAAAA/1UDFptOFxSZMxkLpJktAq720QW1+ugEsfvjA7b92wO2/dsEsfvjBbX66Aau/dEoiO4tUlLWGU5k3hdVVf8DEJxKHxWqT8cVrU7uE6VN0guqny0Apv8XAJfQGwBAVywAQFcsAJfQGwCx/xcogugtS2Lk0lBl6u5Qae7ISmPeHxagSSMVr07jF7lV/xOiSu0brgATAAAAAAAAAA8AAAC/AAAAwAAAABAAAAAAYznjEkth4OxWb/3/T2jv40lf4iMXnksiEq1O3RayUv8UpEnkEo0+HQAAABkAAABBAAAA8QAAAPEAAABBAAAAGUBSvxxOYeDjU2v0/05m7d1LYuEiF55LIhKtTt0Ws1L/FahN2gU1FTAAAADAAAAA7AAAAP0AAAD9AAAA7AAAAMAVG0owUGPm2lNr9P9OZu3dS2LhIheeSyISrU7dFrNS/xWoTdoFNRswAAAAvwAAAOsAAAD9AAAA/QAAAOsAAADAFRtKMFBj6NpTa/T/Tmbt3Uti4SIXnksiEq1O3RayUv8UpEnkEo0+HQAAABgAAABAAAAA8QAAAPEAAABBAAAAGT5PuR1OYeDjU2v0/05m7d1LYuEiFqBJIxWuT+QXuVX/E6JL7QC8XhMAAAAAAAAADwAAAL8AAAC/AAAAEAAAAAAOR/8SSWLh7FZv/f9PaO/jSV/iIxCUSh8Vrk7HFqxN7ROlS9JskzMt1XULGK12EhxGLgYsRy8GK612EhzVgAsYgmxxLU1i39JNZ+vtT2fwx0pj1h8AqlUDF65GFgqZUhlsiC0txH0T0s5/EujJgBPkz4QR28+EEdvJgBPkzn8Q6Md+E9KLdHosM1LWGUZo6BZVVf8DAAAAAAAAAAAAAAAA/2YAFMl9EvbgjRb/14gV/9eIFf/XiBX/14gV/9+NFv/KgBD254YAFQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAL91FRjKgRHN1IgU3s+EEt3PhBLdz4QS3c+EEt3UiBTezYMRzcJ6FBkAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACqqgADxIARHr18FiO8eA8ivHgPIrx4DyK8eA8ivXwPI8SAER7/VQADAAAAAAAAAAAAAAAA78cAAPA3AAD4FwAABCAAADGOAAAE+AAAkBEAAJ55AACYOQAAlgEAAER4AAAXaAAATnoAAPgXAAD0JwAA69cAAA==`,
         sgIcon: `data:image/x-icon;base64,AAABAAEAEBAAAAEAIABoBAAAFgAAACgAAAAQAAAAIAAAAAEAIAAAAAAAQAQAABMLAAATCwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIUAAAD5AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAPoAAACFAAAAAAAAAAAAAAD8AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA+QAAAAAAAAAAAAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAAAAAAAAAAAAP8AAAD/AAAA/wAAABwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAcAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAcAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAHAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAAAAAAAAAAAAPwAAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD5AAAAAAAAAAAAAACFAAAA+QAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD5AAAAhQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA//8AAP//AADAAwAAwAMAAMfjAADP8wAAz/MAAM/zAADP8wAAz/MAAM/zAADH4wAAwAMAAMADAAD//wAA//8AAA==`,
         stIcon: `data:image/x-icon;base64,AAABAAEAEBAAAAEAIABoBAAAFgAAACgAAAAQAAAAIAAAAAEAIAAAAAAAQAQAABMLAAATCwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABbD6SgWw+ucFsPrkBbD6SgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAWw+uYFsPr/BbD6/wWw+ucAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAFsPrmBbD6/wWw+v8FsPrmAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABbD6SQWw+uYFsPrmBbD6SQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAFKRLShSkS+cUpEvkFKRLSgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAExi4EpMYuDnTGLg5Exi4EoAAAAAAAAAABSkS+YUpEv/FKRL/xSkS+cAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABMYuDmTGLg/0xi4P9MYuDnAAAAAAAAAAAUpEvmFKRL/xSkS/8UpEvmAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAATGLg5kxi4P9MYuD/TGLg5gAAAAAAAAAAFKRLSRSkS+YUpEvmFKRLSQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAExi4ElMYuDmTGLg5kxi4EkAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAMZ9E0rGfRPnxn0T5MZ9E0oAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADGfRPmxn0T/8Z9E//GfRPnAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAxn0T5sZ9E//GfRP/xn0T5gAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAMZ9E0nGfRPmxn0T5sZ9E0kAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA//8AAPw/AAD8PwAA/D8AAPw/AAD//wAAh+EAAIfhAACH4QAAh+EAAP//AAD8PwAA/D8AAPw/AAD8PwAA//8AAA==`,
@@ -1570,6 +1571,7 @@ async function init() {
                 } else {
                     browser.runtime.sendMessage({
                         action: `fetch`,
+                        manipulateCookies: esgst.browser === `firefox` && esgst.manipulateCookies,
                         parameters: JSON.stringify({
                             body: details.data,
                             credentials: details.anon ? `omit` : `include`,
@@ -1967,11 +1969,37 @@ async function init() {
         toDelete.push(`Emojis`);
     }
     if (esgst.sg) {
-        if (!isSet(esgst.storage.dfPresets)) {
+        if (isSet(esgst.storage.dfPresets)) {
+            let changed = false,
+                presets = JSON.parse(esgst.storage.dfPresets);
+            presets.forEach(preset => {
+                if (typeof preset.bugs_suggestions !== `undefined`) {
+                    preset.bugsSuggestions = preset.bugs_suggestions;
+                    delete preset.bugs_suggestions;
+                    changed = true;
+                }
+            });
+            if (changed) {
+                toSet.dfPresets = JSON.stringify(presets);
+            }
+        } else {
             toSet.dfPresets = getLocalValue(`dfPresets`, `[]`);
             delLocalValue(`dfPresets`);
         }
-        if (!isSet(esgst.storage.filterPresets)) {
+        if (isSet(esgst.storage.filterPresets)) {
+            let changed = false,
+                presets = JSON.parse(esgst.storage.filterPresets);
+            presets.forEach(preset => {
+                if (typeof preset.genreList !== `undefined`) {
+                    preset.genresList = preset.genreList;
+                    delete preset.genreList;
+                    changed = true;
+                }
+            });
+            if (changed) {
+                toSet.filterPresets = JSON.stringify(presets);
+            }
+        } else {
             toSet.filterPresets = getLocalValue(`filterPresets`, `[]`);
             delLocalValue(`filterPresets`);
         }
@@ -3135,6 +3163,18 @@ async function init() {
                             sg: true
                         },
                         ge_sgt: {
+                            features: {
+                                ge_sgt_l: {
+                                    inputItems: [
+                                        {
+                                            id: `ge_sgt_limit`,
+                                            prefix: `Limit: `
+                                        }
+                                    ],
+                                    name: `Limit how many links are opened.`,
+                                    sg: true
+                                }
+                            },
                             name: `Automatically open any SGTools links found in new tabs.`,
                             sg: true
                         },
@@ -3490,6 +3530,25 @@ async function init() {
                                         </ul>
                                     `,
                                     name: `No CV`,
+                                    sg: true
+                                },
+                                gf_groups: {
+                                    description: `
+                                        <ul>
+                                            <li>Allows you to filter giveaways by group.</li>
+                                            <li>This option requires [id=ggl] enabled as "Panel (On Page Load)" to work.</li>
+                                        </ul>
+                                    `,
+                                    name: `Groups`,
+                                    sg: true
+                                },
+                                gf_creators: {
+                                    description: `
+                                        <ul>
+                                            <li>Allows you to filter giveaways by creator.</li>
+                                        </ul>
+                                    `,
+                                    name: `Creators`,
                                     sg: true
                                 },
                                 gf_removed: {
@@ -4336,6 +4395,15 @@ async function init() {
                                         </ul>
                                     `,
                                     name: `Unread`,
+                                    sg: true
+                                },
+                                df_authors: {
+                                    description: `
+                                        <ul>
+                                            <li>Allows you to filter discussions by author.</li>
+                                        </ul>
+                                    `,
+                                    name: `Authors`,
                                     sg: true
                                 }
                             },
@@ -6044,9 +6112,27 @@ async function init() {
         },
         others: {
             features: {
+                manipulateCookies: {
+                    description: `
+                        <ul>
+                            <li>You should enable this option if you use a single Firefox container for the common sites requested by ESGST that require you to be logged in (SteamGifts, SteamTrades, Steam, SGTools, etc...). With it enabled, ESGST will manipulate your cookies to make sure that requests are sent using the cookies from the current container you are on.</li>
+                            <li>For example: you are only logged in on SteamGifts and Steam in the personal container. With this option disabled, when you try to sync your owned games on ESGST it will fail because it will use the default cookies (where you are not logged in). With this option enabled, the sync will succeed because the container cookies will be used instead (where you are logged in).</li>
+                            <li>If you are concerned about what exactly is done, you can check out the source code of the eventPage.js file, where the manipulation occurs. Basically what happens is: the default cookies are backed up and replaced by the container cookies while the request is being made, and after the request is done the default cookies are restored. This is not a pretty solution, but it does the job until a better and more permanent solution comes along.</li>
+                        </ul>
+                    `,
+                    extensionOnly: true,
+                    name: `Allow ESGST to manipulate your cookies when using Firefox containers.`,
+                    sg: true,
+                    st: true
+                },
                 addNoCvGames: {
                     name: `Automatically add no CV games to the database when searching for games in the new giveaway page.`,
                     sg: true
+                },
+                askFileName: {
+                    name: `Ask for file name when backing up data.`,
+                    sg: true,
+                    st: true
                 },
                 autoBackup: {
                     inputItems: [
@@ -8090,6 +8176,8 @@ function addCewgdDetails(giveaway, details) {
         giveaway.endTimeColumn.insertAdjacentHTML(`beforeEnd`, `
             by <a class="table__column__secondary-link" href="/user/${details.creator}">${details.creator}</a>
         `);
+        giveaway.creator = details.creator;
+        giveaway.creators.push(giveaway.creator.toLowerCase());
     }
     if (giveaway.group && esgst.ggl) {
         getGglGiveaways([giveaway]);
@@ -12939,6 +13027,83 @@ function setDfOverride(df, context, key) {
     });
 }
 
+function getDfFilters() {
+    return {
+        basic: [
+            {
+                check: true,
+                infinite: true,
+                maxValue: 999999,
+                minValue: 0,
+                name: `Comments`
+            }
+        ],
+        type: [
+            {
+                check: true,
+                name: `Announcements`
+            },
+            {
+                check: true,
+                name: `Bugs / Suggestion`
+            },
+            {
+                check: true,
+                name: `Deals`
+            },
+            {
+                check: true,
+                name: `General`
+            },
+            {
+                check: true,
+                name: `Group Recruitment`
+            },
+            {
+                check: true,
+                name: `Let's Play Together`
+            },
+            {
+                check: true,
+                name: `Off-Topic`
+            },
+            {
+                check: true,
+                name: `Puzzles`
+            },
+            {
+                check: true,
+                name: `Uncategorized`
+            },
+            {
+                check: true,
+                name: `Created`
+            },
+            {
+                check: true,
+                name: `Poll`
+            },
+            {
+                check: esgst.dh,
+                name: `Highlighted`
+            },
+            {
+                check: esgst.gdttt,
+                name: `Visited`
+            },
+            {
+                check: esgst.ct,
+                name: `Unread`
+            },
+            {
+                check: true,
+                list: true,
+                name: `Authors`
+            }
+        ]
+    };
+}
+
 function addDfContainer(heading) {
     var basicFilter, basicFilters, box, button, categoryFilter, categoryFilters, collapseButton, display, exceptionButton, exceptionCount, exceptionPanel, expandButton, filters, genres, df, headingButton, i, id, infinite, key, maxKey, maxSavedValue, maxValue, minKey, minSavedValue, minValue, name, preset, presetButton, presetDisplay, presetInput, presetMessage, presetPanel, presets, presetWarning, slider, step, toggleSwitch, typeFilter, typeFilters, value;
     headingButton = document.createElement(`div`);
@@ -12950,6 +13115,7 @@ function addDfContainer(heading) {
     `;
     esgst.df = df = {
         counters: {},
+        filters: getDfFilters(),
         type: esgst.createdDiscussionsPath ? `Created` : ``
     };
     toggleSwitch = new ToggleSwitch(headingButton.firstElementChild, `df_enable${esgst.df.type}`, true, ``, false, false, null, esgst[`df_enable${esgst.df.type}`]);
@@ -13044,9 +13210,16 @@ function addDfContainer(heading) {
     if (!preset) {
         name = `Default${esgst.df.type}`;
         preset = { name };
-        [`maxComments`, `minComments`, `announcements`, `bugs_suggestions`, `deals`, `general`, `groupRecruitment`, `letsPlayTogether`, `offTopic`, `puzzles`, `uncategorized`, `created`, `poll`, `highlighted`, `visited`, `unread`].forEach(key => {
-            preset[key] = esgst.settings[`df_${key}`];
-        });
+        for (let type in df.filters) {
+            df.filters[type].forEach(filter => {
+                getGfKeys(filter).forEach(key => {
+                    preset[key] = esgst.settings[`df_${key}`];
+                    if (filter.list) {
+                        preset[`${key}List`] = esgst.settings[`df_${key}List$`] || ``;
+                    }
+                });
+            });
+        }
         presets = JSON.parse(esgst.storage.dfPresets);
         presets.push(preset);
         setValue(`dfPresets`, JSON.stringify(presets));
@@ -13063,94 +13236,80 @@ function addDfContainer(heading) {
     df.overrideButtons = {};
     exceptionButton.addEventListener(`click`, openDfExceptionPopup.bind(null, exceptionCount, df, presetInput));
     basicFilters.classList.remove(`esgst-hidden`);
-    [ { check: true, infinite: true, maxValue: 999999, minValue: 0, name: `Comments` }
-    ].forEach(filter => {
-        if (filter.check) {
-            name = filter.name;
-            maxKey = `max${name}`;
-            maxValue = filter.maxValue;
-            minKey = `min${name}`;
-            minValue = filter.minValue;
-            key = name.toLowerCase();
-            if (esgst[`df_${key}`]) {
-                infinite = filter.infinite;
-                maxSavedValue = preset[maxKey] || maxValue;
-                minSavedValue = preset[minKey] || minValue;
-                step = filter.step || 1;
-                if (!infinite && maxSavedValue > maxValue) {
-                    maxSavedValue = maxValue;
-                }
-                df[maxKey] = maxSavedValue;
-                df[minKey] = minSavedValue;
-                basicFilter = insertHtml(basicFilters, `beforeEnd`, `
-                    <div class="esgst-gf-basic-filter">
-                        <div>${name} <span class="esgst-gf-filter-count" title="Number of discussions this filter is filtering">0</span> <span class="esgst-float-right"><input type="text" value="${minSavedValue}"> - <input type="text" value="${maxSavedValue}"></span></div>
-                        <div></div>
-                    </div>
-                `);
-                display = basicFilter.firstElementChild;
-                setDfOverride(df, display, key);
-                slider = display.nextElementSibling;
-                df.counters[key] = display.firstElementChild.nextElementSibling;
-                df[`${minKey}Input`] = df.counters[key].nextElementSibling.firstElementChild;
-                df[`${maxKey}Input`] = df[`${minKey}Input`].nextElementSibling;
-                df[`${maxKey}Input`].addEventListener(`change`, changeGfMaxValue.bind(null, infinite, slider, step));
-                df[`${minKey}Input`].addEventListener(`change`, changeGfMinValue.bind(null, slider, step));
-                if (infinite) {
-                    maxValue = maxSavedValue;
-                }
-                $(slider).slider({
-                    change: changeDfSlider.bind(null, df, maxKey, minKey),
-                    min: minValue,
-                    max: maxValue,
-                    range: true,
-                    slide: slideGfSlider.bind(null, df, maxKey, minKey),
-                    step: step,
-                    values: [minSavedValue, maxSavedValue]
-                });
-            } else {
-                df[maxKey] = maxValue;
-                df[minKey] = minValue;
+    df.filters.basic.forEach(filter => {
+        if (!filter.check) return;
+        [maxKey, minKey, key] = getGfKeys(filter, true);
+        maxValue = filter.maxValue;
+        minValue = filter.minValue;
+        if (esgst[`df_${key}`]) {
+            infinite = filter.infinite;
+            maxSavedValue = preset[maxKey] || maxValue;
+            minSavedValue = preset[minKey] || minValue;
+            step = filter.step || 1;
+            if (!infinite && maxSavedValue > maxValue) {
+                maxSavedValue = maxValue;
             }
+            df[maxKey] = maxSavedValue;
+            df[minKey] = minSavedValue;
+            basicFilter = insertHtml(basicFilters, `beforeEnd`, `
+                <div class="esgst-gf-basic-filter">
+                    <div>${filter.name} <span class="esgst-gf-filter-count" title="Number of discussions this filter is filtering">0</span> <span class="esgst-float-right"><input type="text" value="${minSavedValue}"> - <input type="text" value="${maxSavedValue}"></span></div>
+                    <div></div>
+                </div>
+            `);
+            display = basicFilter.firstElementChild;
+            setDfOverride(df, display, key);
+            slider = display.nextElementSibling;
+            df.counters[key] = display.firstElementChild.nextElementSibling;
+            df[`${minKey}Input`] = df.counters[key].nextElementSibling.firstElementChild;
+            df[`${maxKey}Input`] = df[`${minKey}Input`].nextElementSibling;
+            df[`${maxKey}Input`].addEventListener(`change`, changeGfMaxValue.bind(null, infinite, slider, step));
+            df[`${minKey}Input`].addEventListener(`change`, changeGfMinValue.bind(null, slider, step));
+            if (infinite) {
+                maxValue = maxSavedValue;
+            }
+            $(slider).slider({
+                change: changeDfSlider.bind(null, df, maxKey, minKey),
+                min: minValue,
+                max: maxValue,
+                range: true,
+                slide: slideGfSlider.bind(null, df, maxKey, minKey),
+                step: step,
+                values: [minSavedValue, maxSavedValue]
+            });
+        } else {
+            df[maxKey] = maxValue;
+            df[minKey] = minValue;
         }
     });
     if (basicFilters.children.length === 1) {
         basicFilters.classList.add(`esgst-hidden`);
     }
-    [ { check: true, key: `announcements`, name: `Announcements` },
-        { check: true, key: `bugs_suggestions`, name: `Bugs / Suggestion` },
-        { check: true, key: `deals`, name: `Deals` },
-        { check: true, key: `general`, name: `General` },
-        { check: true, key: `groupRecruitment`, name: `Group Recruitment` },
-        { check: true, key: `letsPlayTogether`, name: `Let's Play Together` },
-        { check: true, key: `offTopic`, name: `Off-Topic` },
-        { check: true, key: `puzzles`, name: `Puzzles` },
-        { check: true, key: `uncategorized`, name: `Uncategorized` },
-        { check: true, key: `created`, name: `Created` },
-        { check: true, key: `poll`, name: `Poll` },
-        { check: esgst.dh, key: `highlighted`, name: `Highlighted` },
-        { check: esgst.gdttt, key: `visited`, name: `Visited` },
-        { check: esgst.ct, key: `unread`, name: `Unread` }
-    ].forEach(filter => {
-        if (filter.check) {
-            key = filter.key;
-            if (esgst[`df_${key}`]) {
-                name = filter.name;
-                typeFilter = insertHtml(typeFilters, `beforeEnd`, `
-                    <div class="esgst-gf-type-filter">
-                        <span>${name}</span>
-                        <span class="esgst-gf-filter-count" title="Number of discussions this filter is filtering">0</span>
-                    </div>
-                `);
-                value = preset[key] || `enabled`;
-                df[key] = value;
-                df[`${key}Checkbox`] = new Checkbox(typeFilter, value, true);
-                df.counters[key] = typeFilter.lastElementChild;
-                setDfOverride(df, typeFilter, key);
-                df[`${key}Checkbox`].checkbox.addEventListener(`click`, changeDfValue.bind(null, df[`${key}Checkbox`], df, key));
-            } else {
-                df[key] = `enabled`;
+    df.filters.type.forEach(filter => {
+        if (!filter.check) return;
+        key = getGfKeys(filter)[0];
+        if (esgst[`df_${key}`]) {
+            typeFilter = insertHtml(typeFilters, `beforeEnd`, `
+                <div class="esgst-gf-type-filter">
+                    <span>${filter.name} ${filter.list ? `<input placeholder="item1, item2" type="text">` : ``}</span>
+                    <span class="esgst-gf-filter-count" title="Number of discussions this filter is filtering">0</span>
+                </div>
+            `);
+            value = preset[key] || `enabled`;
+            df[key] = value;
+            df[`${key}Checkbox`] = new Checkbox(typeFilter, value, true);
+            df.counters[key] = typeFilter.lastElementChild;
+            setDfOverride(df, typeFilter, key);
+            df[`${key}Checkbox`].checkbox.addEventListener(`click`, changeDfValue.bind(null, df[`${key}Checkbox`], df, key));
+            if (filter.list) {
+                let listKey = `${key}List`;
+                df[`${listKey}Input`] = typeFilter.firstElementChild.nextElementSibling.nextElementSibling.firstElementChild;
+                value = (preset[listKey] && preset[listKey].replace(/,(?!\s)/g, `, `)) || ``;
+                df[listKey] = df[`${listKey}Input`].value = value;
+                df[`${listKey}Input`].addEventListener(`change`, changeDfValue.bind(null, df[`${listKey}Input`], df, listKey));
             }
+        } else {
+            df[key] = `enabled`;
         }
     });
     if (typeFilters.children.length === 1) {
@@ -13176,11 +13335,18 @@ async function saveDfPreset(df, presetInput, presetMessage, presetWarning, callb
     if (name) {
         presetWarning.classList.add(`esgst-hidden`);
         preset = { name };
-        [`maxComments`, `minComments`, `announcements`, `bugs_suggestions`, `deals`, `general`, `groupRecruitment`, `letsPlayTogether`, `offTopic`, `puzzles`, `uncategorized`, `created`, `poll`, `highlighted`, `visited`, `unread`].forEach(key => {
-            if (typeof df[key] !== `undefined`) {
-                preset[key] = df[key];
-            }
-        });
+        for (let type in df.filters) {
+            df.filters[type].forEach(filter => {
+                getGfKeys(filter).forEach(key => {
+                    if (typeof df[key] !== `undefined`) {
+                        preset[key] = df[key];
+                        if (filter.list) {
+                            preset[`${key}List`] = df[`${key}List`];
+                        }
+                    }
+                });
+            });
+        }
         preset.exceptions = df.exceptions;
         preset.overrides = df.overrides;
         presets = JSON.parse(await getValue(`dfPresets`, `[]`));
@@ -13219,35 +13385,33 @@ async function openDfPresetPopup(df, exceptionCount, presetDisplay, presetInput)
     table = insertHtml(popup.scrollable, `beforeEnd`, `<div class="esgst-text-left popup__keys__list"></div>`);
     JSON.parse(await getValue(`dfPresets`, `[]`)).forEach(preset => {
         details = ``;
-        [ { key: `Comments`, name: `comments` }
-        ].forEach(filter => {
-            if (typeof preset[`max${filter.key}`] !== `undefined`) {
-                details += `${preset[`min${filter.key}`]}-${preset[`max${filter.key}`]} ${filter.name}, `;
-            }
-        });
         hideAll = [];
         showOnly = [];
-        [ { key: `announcements`, name: `announcements` },
-            { key: `bugs_suggestions`, name: `bugs / suggestions` },
-            { key: `deals`, name: `deals` },
-            { key: `general`, name: `general` },
-            { key: `groupRecruitment`, name: `group recruitment` },
-            { key: `letsPlayTogether`, name: `let's play together` },
-            { key: `offTopic`, name: `off-topic` },
-            { key: `puzzles`, name: `puzzles` },
-            { key: `uncategorized`, name: `uncategorized` },
-            { key: `created`, name: `created` },
-            { key: `poll`, name: `poll`},
-            { key: `highlighted`, name: `highlighted` },
-            { key: `visited`, name: `visited` },
-            { key: `unread`, name: `unread` }
-        ].forEach(key => {
-            if (preset[key.key] === `disabled`) {
-                hideAll.push(key.name);
-            } else if (preset[key.key] === `none`) {
-                showOnly.push(key.name);
-            }
-        });
+        for (let type in df.filters) {
+            df.filters[type].forEach(filter => {
+                if (type === `basic`) {
+                    let [maxKey, minKey] = getGfKeys(filter);
+                    if (typeof preset[maxKey] !== `undefined`) {
+                        details += `${preset[minKey]}-${preset[maxKey]} ${filter.name.toLowerCase()}, `;
+                    }
+                } else {
+                    let key = getGfKeys(filter)[0];
+                    if (preset[key] === `disabled`) {
+                        if (filter.list && preset[`${key}List`]) {
+                            hideAll.push(`${filter.name.toLowerCase()} (${preset[`${key}List`].toLowerCase()})`);
+                        } else {
+                            hideAll.push(filter.name.toLowerCase());
+                        }
+                    } else if (preset[key] === `none`) {
+                        if (filter.list && preset[`${key}List`]) {
+                            showOnly.push(`${filter.name.toLowerCase()} (${preset[`${key}List`].toLowerCase()})`);
+                        } else {
+                            showOnly.push(filter.name.toLowerCase());
+                        }
+                    }
+                }
+            });
+        }
         if (hideAll.length > 0) {
             details += `hide: ${hideAll.join(` & `)}, `;
         }
@@ -13301,29 +13465,40 @@ async function saveDfSource(df) {
 
 async function applyDfPreset(df, exceptionCount, popup, preset, presetDisplay, presetInput) {
     var checkbox, input, key;
-    [`maxComments`, `minComments`, `announcements`, `bugs_suggestions`, `deals`, `general`, `groupRecruitment`, `letsPlayTogether`, `offTopic`, `puzzles`, `uncategorized`, `created`, `poll`, `highlighted`, `visited`, `unread`].forEach(key => {
-        checkbox = df[`${key}Checkbox`];
-        if (checkbox) {
-            if (checkbox.isThreeState) {
-                df[key] = checkbox.value = preset[key];
-                checkbox.change(false, df[key]);
-            } else {
-                if (preset[key]) {
-                    df[key] = true;
-                    checkbox.check();
+    for (let type in df.filters) {
+        df.filters[type].forEach(filter => {
+            getGfKeys(filter).forEach(key => {
+                checkbox = df[`${key}Checkbox`];
+                if (checkbox) {
+                    if (checkbox.isThreeState) {
+                        df[key] = checkbox.value = preset[key];
+                        checkbox.change(false, df[key]);
+                    } else {
+                        if (preset[key]) {
+                            df[key] = true;
+                            checkbox.check();
+                        } else {
+                            df[key] = false;
+                            checkbox.uncheck();
+                        }
+                    }
                 } else {
-                    df[key] = false;
-                    checkbox.uncheck();
+                    input = df[`${key}Input`];
+                    if (input) {
+                        df[key] = input.value = preset[key];
+                        input.dispatchEvent(new Event(`change`));
+                    }
                 }
-            }
-        } else {
-            input = df[`${key}Input`];
-            if (input) {
-                df[key] = input.value = preset[key];
-                input.dispatchEvent(new Event(`change`));
-            }
-        }
-    });
+                if (filter.list) {
+                    input = df[`${key}ListInput`];
+                    if (input) {
+                        df[`${key}List`] = input.value = preset[`${key}List`];
+                        input.dispatchEvent(new Event(`change`));
+                    }
+                }
+            });
+        });
+    }
     presetDisplay.textContent = presetInput.value = preset.name;
     if (preset.exceptions) {
         df.exceptions = preset.exceptions;
@@ -13409,37 +13584,27 @@ async function openDfExceptionPopup(exceptionCount, df, presetInput) {
     if (preset.exceptions) {
         preset.exceptions.forEach(exception => {
             details = ``;
-            [ { key: `Comments`, name: `comments` }
-            ].forEach(filter => {
-                max = exception[`max${filter.key}`];
-                min = exception[`min${filter.key}`];
-                if (typeof max !== `undefined` && typeof min !== `undefined`) {
-                    details += `${min}-${max} ${filter.name}, `;
-                } else if (typeof max !== `undefined`) {
-                    details += `?-${max} ${filter.name}, `;
-                } else if (typeof min !== `undefined`) {
-                    details += `${min}-? ${filter.name}, `;
-                }
-            });
-            [ { key: `announcements`, name: `announcements` },
-                { key: `bugs_suggestions`, name: `bugs / suggestions` },
-                { key: `deals`, name: `deals` },
-                { key: `general`, name: `general` },
-                { key: `groupRecruitment`, name: `group recruitment` },
-                { key: `letsPlayTogether`, name: `let's play together` },
-                { key: `offTopic`, name: `off-topic` },
-                { key: `puzzles`, name: `puzzles` },
-                { key: `uncategorized`, name: `uncategorized` },
-                { key: `created`, name: `created` },
-                { key: `poll`, name: `poll`},
-                { key: `highlighted`, name: `highlighted` },
-                { key: `visited`, name: `visited` },
-                { key: `unread`, name: `unread` }
-            ].forEach(key => {
-                if (exception[key.key]) {
-                    details += `${key.name}, `;
-                }
-            });
+            for (let type in df.filters) {
+                df.filters[type].forEach(filter => {
+                    if (type === `basic`) {
+                        let [maxKey, minKey] = getGfKeys(filter);
+                        max = exception[maxKey];
+                        min = exception[minKey];
+                        if (typeof max !== `undefined` && typeof min !== `undefined`) {
+                            details += `${min}-${max} ${filter.name.toLowerCase()}, `;
+                        } else if (typeof max !== `undefined`) {
+                            details += `?-${max} ${filter.name.toLowerCase()}, `;
+                        } else if (typeof min !== `undefined`) {
+                            details += `${min}-? ${filter.name.toLowerCase()}, `;
+                        }
+                    } else {
+                        let key = getGfKeys(filter)[0];
+                        if (exception[key]) {
+                            details += (filter.list ? `${filter.name.toLowerCase()} (${exception[`${key}List`].toLowerCase()}), ` : `${filter.name.toLowerCase()}, `);
+                        }
+                    }
+                });
+            }
             row = insertHtml(table, `beforeEnd`, `
                 <div>
                     <div class="esgst-bold esgst-clickable esgst-float-left">${exception.name}</div>
@@ -13471,47 +13636,45 @@ function openDfManageExceptionPopup(exception, exceptionCount, df, preset, callb
     popup = new Popup(`fa-edit`, `Create/edit exception:`, true);
     popup.scrollable.classList.add(`esgst-gf-container`, `esgst-gf-filters`, `esgst-text-left`);
     popup.name = insertHtml(popup.description, `afterBegin`, `Name: <input type="text" value="${exception.name || ``}"/>`);
-    basicFilters = insertHtml(popup.scrollable, `beforeEnd`, `
-        <div class="esgst-gf-basic-filters">
-            <div>
-                <span class="esgst-bold">Basic Filters:</span>
-            </div>
-        </div>
-    `);
-    [{ key: `Comments`, name: `Comments` }
-    ].forEach(filter => {
-        context = insertHtml(basicFilters, `beforeEnd`, `
-            <div class="esgst-gf-basic-filter esgst-text-left">
-                <div>${filter.name} <span class="esgst-float-right"><input type="text" value="${exception[`min${filter.key}`] || ``}"/> - <input type="text" value="${exception[`max${filter.key}`] || ``}"/></span></div>
-            </div>
-        `).firstElementChild.lastElementChild;
-        popup[`min${filter.key}`] = context.firstElementChild;
-        popup[`max${filter.key}`] = context.lastElementChild;
-    });
-    typeFilters = insertHtml(popup.scrollable, `beforeEnd`, `
-        <div class="esgst-gf-type-filters">
-            <div>
-                <span class="esgst-bold">Type Filters:</span>
-            </div>
-        </div>
-    `);
-    [{ key: `announcements`, name: `Announcements` },
-        { key: `bugs_suggestions`, name: `Bugs / Suggestions` },
-        { key: `deals`, name: `Deals` },
-        { key: `general`, name: `General` },
-        { key: `groupRecruitment`, name: `Group Recruitment` },
-        { key: `letsPlayTogether`, name: `Let's Play Together` },
-        { key: `offTopic`, name: `Off-Topic` },
-        { key: `puzzles`, name: `Puzzles` },
-        { key: `uncategorized`, name: `Uncategorized` },
-        { key: `created`, name: `Created` },
-        { key: `poll`, name: `Poll`},
-        { key: `highlighted`, name: `Highlighted` },
-        { key: `visited`, name: `Visited` },
-        { key: `unread`, name: `Unread` }
-    ].forEach(filter => {
-        popup[filter.key] = new Checkbox(insertHtml(typeFilters, `beforeEnd`, `<div class="esgst-gf-type-filter"><span></span> ${filter.name}</div>`).firstElementChild, exception[filter.key]);
-    });
+    for (let type in df.filters) {
+        df.filters[type].forEach(filter => {
+            if (type === `basic`) {
+                if (!basicFilters) {
+                    basicFilters = insertHtml(popup.scrollable, `beforeEnd`, `
+                        <div class="esgst-gf-basic-filters">
+                            <div>
+                                <span class="esgst-bold">Basic Filters:</span>
+                            </div>
+                        </div>
+                    `);
+                }
+                let [maxKey, minKey] = getGfKeys(filter);
+                context = insertHtml(basicFilters, `beforeEnd`, `
+                    <div class="esgst-gf-basic-filter esgst-text-left">
+                        <div>${filter.name} <span class="esgst-float-right"><input type="text" value="${exception[minKey] || ``}"/> - <input type="text" value="${exception[maxKey] || ``}"/></span></div>
+                    </div>
+                `).firstElementChild.lastElementChild;
+                popup[minKey] = context.firstElementChild;
+                popup[maxKey] = context.lastElementChild;
+            } else {
+                if (!typeFilters) {
+                    typeFilters = insertHtml(popup.scrollable, `beforeEnd`, `
+                        <div class="esgst-gf-type-filters">
+                            <div>
+                                <span class="esgst-bold">Type Filters:</span>
+                            </div>
+                        </div>
+                    `);
+                }
+                let key = getGfKeys(filter)[0];
+                context = insertHtml(typeFilters, `beforeEnd`, `<div class="esgst-gf-type-filter"><span></span> ${filter.name}${filter.list ? ` <input type="text" value="${exception[`${key}List`] || ``}"/>` : ``}</div>`);
+                popup[key] = new Checkbox(context.firstElementChild, exception[key]);
+                if (filter.list) {
+                    popup[`${key}List`] = context.lastElementChild;
+                }
+            }
+        });
+    }
     popup.description.appendChild(new ButtonSet(`green`, `grey`, `fa-plus`, `fa-circle-o-notch fa-spin`, `Save`, `Saving...`, saveDfException.bind(null, exceptionCount, df, preset, popup)).set);
     popup.open();
 }
@@ -13519,26 +13682,29 @@ function openDfManageExceptionPopup(exception, exceptionCount, df, preset, callb
 async function saveDfException(exceptionCount, df, preset, popup, callback) {
     var exception, i, presets;
     exception = { name: popup.name.value };
-    [`Comments`].forEach(name => {
-        if (popup[`max${name}`].value.length) {
-            exception[`max${name}`] = parseFloat(popup[`max${name}`].value);
-        }
-        if (popup[`min${name}`].value.length) {
-            exception[`min${name}`] = parseFloat(popup[`min${name}`].value);
-        }
-    });
-    [`announcements`, `bugs_suggestions`, `deals`, `general`, `groupRecruitment`, `letsPlayTogether`, `offTopic`, `puzzles`, `uncategorized`, `created`, `poll`, `highlighted`, `visited`, `unread`].forEach(name => {
-        if (popup[name].input.checked) {
-            if (name === `genres`) {
-                if (popup.genreList.value.length) {
-                    exception.genres = 1;
-                    exception.genreList = popup.genreList.value;
-                }
+    for (let type in df.filters) {
+        df.filters[type].forEach(filter => {
+            if (type === `basic`) {
+                getGfKeys(filter).forEach(key => {
+                    if (popup[key].value.length) {
+                        exception[key] = filter.name === `Release Date` ? new Date(popup[key].value).getTime() : parseFloat(popup[key].value);
+                    }
+                });
             } else {
-                exception[name] = 1;
+                let key = getGfKeys(filter)[0];
+                if (popup[key].input.checked) {
+                    if (filter.list) {
+                        if (popup[`${key}List`].value.length) {
+                            exception[key] = 1;
+                            exception[`${key}List`] = popup[`${key}List`].value;
+                        }
+                    } else {
+                        exception[key] = 1;
+                    }
+                }
             }
-        }
-    });
+        });
+    }
     if (!preset.exceptions) {
         preset.exceptions = [];
     }
@@ -13619,52 +13785,68 @@ function filterDfDiscussions(df, unfilter, endless) {
     updateDfCount(df, endless);
 }
 
-function filterDfException(df, discussion) {
-    var basicFilters, filtered, i, j, key, maxKey, minKey, n, name, typeFilters;
-    basicFilters = [`Comments`];
-    typeFilters = [`announcements`, `bugs_suggestions`, `deals`, `general`, `groupRecruitment`, `letsPlayTogether`, `offTopic`, `puzzles`, `uncategorized`, `created`, `poll`, `highlighted`, `visited`, `unread`];
+function filterDfException(filters, exception, discussion) {
+    var filtered, i, j, key, maxKey, minKey, n, name;
     filtered = false;
-    for (i = 0, n = basicFilters.length; !filtered && i < n; ++i) {
-        name = basicFilters[i];
-        key = name.toLowerCase();
-        maxKey = `max${name}`;
-        minKey = `min${name}`;
-        if (typeof df[minKey] !== `undefined`) {
-            filtered = discussion[key] >= df[minKey] ? false : true;
+    for (i = 0, n = filters.basic.length; !filtered && i < n; ++i) {
+        [maxKey, minKey, key] = getGfKeys(filters.basic[i], true);
+        if (typeof exception[minKey] !== `undefined`) {
+            filtered = discussion[key] >= exception[minKey] ? false : true;
         }
-        if (!filtered && typeof df[maxKey] !== `undefined`) {
-            filtered = discussion[key] <= df[maxKey] ? false : true;
+        if (!filtered && typeof exception[maxKey] !== `undefined`) {
+            filtered = discussion[key] <= exception[maxKey] ? false : true;
         }
     }
-    for (i = 0, n = typeFilters.length; !filtered && i < n; ++i) {
-        key = typeFilters[i];
-        if (df[key]) {
-            filtered = discussion[key] ? false : true;
+    for (i = 0, n = filters.type.length; !filtered && i < n; ++i) {
+        key = getGfKeys(filters.type[i])[0];
+        if (filters.type[i].list) {
+            if (discussion[key] && exception[`${key}List`]) {
+                let list = exception[`${key}List`].toLowerCase().split(/,\s/);
+                for (j = list.length - 1; j > -1 && discussion[key].indexOf(list[j]) < 0; --j);
+                value = j >= 0;
+            } else {
+                value = false;
+            }
+        } else {
+            value = discussion[key];
+        }
+        if (exception[key]) {
+            filtered = value ? false : true;
         }
     }
     return filtered;
 }
 
 function filterDfDiscussion(df, discussion) {
-    var basicFilters, counterKey, filtered, i, j, key, maxKey, minKey, n, name, override, typeFilters;
-    basicFilters = [`Comments`];
-    typeFilters = [`announcements`, `bugs_suggestions`, `deals`, `general`, `groupRecruitment`, `letsPlayTogether`, `offTopic`, `puzzles`, `uncategorized`, `created`, `poll`, `highlighted`, `visited`, `unread`];
+    var counterKey, filtered, i, j, key, maxKey, minKey, n, name, override;
+    let filters = df.filters;
+    if (!filters) {
+        filters = getDfFilters();
+    }
     filtered = false;
     override = 0;
-    for (i = 0, n = basicFilters.length; i < n && (!filtered || !override); ++i) {
-        name = basicFilters[i];
-        key = name.toLowerCase();
-        maxKey = `max${name}`;
-        minKey = `min${name}`;
+    for (i = 0, n = filters.basic.length; i < n && (!filtered || !override); ++i) {
+        [maxKey, minKey, key] = getGfKeys(filters.basic[i], true);
         if (discussion[key] < df[minKey] || discussion[key] > df[maxKey]) {
             filtered = true;
             override = df.overrides[key];
             counterKey = key;
         }
     }
-    for (i = 0, n = typeFilters.length; i < n && (!filtered || !override); ++i) {
-        key = typeFilters[i];
-        if ((df[key] === `disabled` && discussion[key]) || (df[key] === `none` && !discussion[key])) {
+    for (i = 0, n = filters.type.length; i < n && (!filtered || !override); ++i) {
+        key = getGfKeys(filters.type[i])[0];
+        if (filters.type[i].list) {
+            if (discussion[key] && df[`${key}List`]) {
+                let list = df[`${key}List`].toLowerCase().split(/,\s/);
+                for (j = list.length - 1; j > -1 && discussion[key].indexOf(list[j]) < 0; --j);
+                value = j >= 0;
+            } else {
+                value = false;
+            }
+        } else {
+            value = discussion[key];
+        }
+        if ((df[key] === `disabled` && value) || (df[key] === `none` && !value)) {
             filtered = true;
             override = df.overrides[key];
             if (!counterKey) {
@@ -13674,7 +13856,7 @@ function filterDfDiscussion(df, discussion) {
     }
     if (df.exceptions && !override) {
         for (i = df.exceptions.length - 1; i >= 0 && filtered; --i) {
-            filtered = filterDfException(df.exceptions[i], discussion);
+            filtered = filterDfException(filters, df.exceptions[i], discussion);
         }
     }
     if (filtered && df.counters && df.counters[counterKey]) {
@@ -16647,10 +16829,10 @@ function openGePopup(ge) {
     if (!ge.popup) {
         ge.count = 0;
         ge.total = 0;
-        ge.sgtools = [];
         ge.extracted = [];
         ge.bumpLink = ``;
         ge.points = 0;
+        ge.sgToolsCount = 0;
         ge.isDivided = esgst.gc_gi || esgst.gc_r || esgst.gc_rm || esgst.gc_ea || esgst.gc_tc || esgst.gc_a || esgst.gc_mp || esgst.gc_sc || esgst.gc_l || esgst.gc_m || esgst.gc_dlc || esgst.gc_rd || esgst.gc_g;
         if (esgst.gePath) {
             ge.popup = {
@@ -16742,7 +16924,15 @@ async function extractGeGiveaway(ge, code, callback) {
             }
         } else {
             if (ge.extracted.indexOf(code) < 0) {
-                let response = await request({method: `GET`, url: `/giveaway/${code}/`});
+                let sgTools = code.length > 5;
+                if (sgTools && esgst.ge_sgt && (!esgst.ge_sgt_l || ge.sgToolsCount < esgst.ge_sgt_limit)) {
+                    open(`https://www.sgtools.info/giveaways/${code}`);
+                    ge.extracted.push(code);
+                    ge.sgToolsCount += 1;
+                    callback();
+                    return;
+                }
+                let response = await request({method: `GET`, url: sgTools ? `https://www.sgtools.info/giveaways/${code}` : `/giveaway/${code}/`});
                 let bumpLink, button, context, giveaway, giveaways, n, responseHtml;
                 responseHtml = parseHtml(response.responseText);
                 giveaway = buildGiveaway(responseHtml, response.finalUrl);
@@ -16768,20 +16958,24 @@ async function extractGeGiveaway(ge, code, callback) {
                         <span>${ge.total}</span> giveaways extracted.
                     `;
                     ge.extracted.push(code);
-                    if (!ge.bumpLink) {
-                        bumpLink = responseHtml.querySelector(`[href*="/discussion/"]`);
-                        if (bumpLink) {
-                            ge.bumpLink = bumpLink.getAttribute(`href`);
+                    if (sgTools) {
+                        callback();
+                    } else {
+                        if (!ge.bumpLink) {
+                            bumpLink = responseHtml.querySelector(`[href*="/discussion/"]`);
+                            if (bumpLink) {
+                                ge.bumpLink = bumpLink.getAttribute(`href`);
+                            }
+                        }
+                        giveaways = getGeGiveaways(ge, responseHtml);
+                        n = giveaways.length;
+                        if (n > 0) {
+                            setTimeout(extractGeGiveaways, 0, ge, giveaways, 0, n, callback);
+                        } else {
+                            callback();
                         }
                     }
-                    giveaways = getGeGiveaways(ge, responseHtml);
-                    n = giveaways.length;
-                    if (n > 0) {
-                        setTimeout(extractGeGiveaways, 0, ge, giveaways, 0, n, callback);
-                    } else {
-                        callback();
-                    }
-                } else {
+                } else if (!sgTools) {
                     let response = await request({anon: true, method: `GET`, url: `/giveaway/${code}/`});
                     let bumpLink, context, giveaway, giveaways, n, responseHtml;
                     responseHtml = parseHtml(response.responseText);
@@ -16815,6 +17009,8 @@ async function extractGeGiveaway(ge, code, callback) {
                     } else {
                         callback();
                     }
+                } else {
+                    callback();
                 }
             } else {
                 callback();
@@ -16824,54 +17020,31 @@ async function extractGeGiveaway(ge, code, callback) {
 }
 
 function getGeGiveaways(ge, context) {
-    let code, count, element, elements, giveaways, i, match, n, next, url;
-    elements = context.querySelectorAll(`[href*="sgtools.info/giveaways/"]`);
-    for (i = 0, n = elements.length; i < n; i++) {
-        url = elements[i].getAttribute(`href`);
-        if (esgst.ge_sgt) {
-            open(url);
-        }
-        match = url.match(/\/giveaways\/(.+)/);
-        if (!match) {
-            continue;
-        }
-        code = match[1];
-        if (ge.extracted.indexOf(code) < 0) {
-            ge.sgtools.push({
-                code: code,
-                element: insertHtml(ge.results, `afterBegin`, `
-                    <div class="markdown esgst-text-center">
-                        <a href="${url}">${url}</a>
-                    </div>
-                `).firstElementChild
-            });
-            ge.extracted.push(code);
-        }
-    }
-    giveaways = [];
+    let elements = context.querySelectorAll(`.markdown [href*="/giveaway/"], .markdown [href*="sgtools.info/giveaways/"]`);
+    let giveaways = [];
     if (context === ge.context) {
-        match = getParameters().url.match(/\/giveaway\/(.+?)\//);
+        let match = getParameters().url.match(/\/giveaway\/(.+?)\//);
         if (match) {
             giveaways.push(match[1]);
         }
     } else if (context === esgst.pageOuterWrap && esgst.giveawayPath) {
-        match = location.href.match(/\/giveaway\/(.+?)\//);
+        let match = location.href.match(/\/giveaway\/(.+?)\//);
         if (match) {
             giveaways.push(match[1]);
         }
     }
-    elements = context.querySelectorAll(`.markdown [href*="/giveaway/"]`);
-    next = {
+    let next = {
         code: null,
         count: 0
     };
-    for (i = 0, n = elements.length; i < n; ++i) {
-        element = elements[i];
-        match = element.getAttribute(`href`).match(/\/giveaway\/(.+?)(\/.*)?$/);
+    for (let element of elements) {
+        let url = element.getAttribute(`href`);
+        let match = url.match(/\/giveaway\/(.+?)(\/.*)?$/);
         if (!match) {
-            continue;
+            match = url.match(/\/giveaways\/(.+)/);
+            if (!match) continue;
         }
-        code = match[1];
+        let code = match[1];
         if (!esgst.ge_o || esgst.discussionPath || element.textContent.toLowerCase().match(/forw|more|next|>|→/)) {
             if (ge.extracted.indexOf(code) < 0 && giveaways.indexOf(code) < 0) {
                 giveaways.push(code);
@@ -16879,7 +17052,7 @@ function getGeGiveaways(ge, context) {
         } else {
             match = element.textContent.match(/\d+/);
             if (match) {
-                count = parseInt(match[0]);
+                let count = parseInt(match[0]);
                 if (count > next.count && ge.extracted.indexOf(code) < 0 && giveaways.indexOf(code) < 0) {
                     next.code = code;
                     next.count = count;
@@ -16902,12 +17075,6 @@ async function completeGeExtraction(ge, callback) {
         callback();
     }
     await loadEndlessFeatures(ge.results.lastElementChild, false, `ge`);
-    if (!esgst.ge_sgt && ge.sgtools.length > 0) {
-        ge.sgtools.forEach(async giveaway => {
-            let context = parseHtml((await request({method: `GET`, url: `http://www.sgtools.info/giveaways/${giveaway.code}`})).responseText).getElementsByClassName(`featured__outer-wrap`)[0];
-            giveaway.element.textContent = `${context.getElementsByClassName(`featured__heading`)[0].textContent.trim()} - Level ${context.getElementsByClassName(`featured__column--contributor-level`)[0].textContent.match(/\d+/)[0]} (SGTools)`;
-        });
-    }
     let html = `
         <div class="markdown esgst-text-center">
             ${ge.bumpLink && !esgst.discussionPath ? `
@@ -17279,6 +17446,15 @@ function loadGesl() {
 
 /* [GF] Giveaway Filters */
 
+function getGfKeys(filter, includeKey) {
+    if (filter.maxValue) {
+        let key = filter.name.replace(/[^A-Za-z]|\s/g, ``);
+        return includeKey ? [`max${key}`, `min${key}`, key.replace(/^(.)/, (m, p1) => { return p1.toLowerCase(); })] : [`max${key}`, `min${key}`];
+    } else {
+        return [filter.name.replace(/[^A-Za-z]|Base|\s/g, ``).replace(/DLC/, `dlc`).replace(/^(.)/, (m, p1) => { return p1.toLowerCase(); })];
+    }
+}
+
 function loadGf() {
     if (esgst.gf_m && (esgst.giveawaysPath || esgst.createdPath || esgst.enteredPath || esgst.wonPath || esgst.groupPath || esgst.userPath)) {
         if (esgst.hideButtons && esgst.hideButtons_gf) {
@@ -17398,6 +17574,236 @@ function addGfContainer(heading, popup) {
     var basicFilter, basicFilters, box, button, categoryFilter, categoryFilters, collapseButton, display, exceptionButton, exceptionCount, exceptionPanel, expandButton, filters, genres, gf, headingButton, i, id, infinite, key, maxKey, maxSavedValue, maxValue, minKey, minSavedValue, minValue, name, preset, presetButton, presetDisplay, presetInput, presetMessage, presetPanel, presets, presetWarning, sgFilters, slider, step, toggleSwitch, typeFilter, typeFilters, value;
     gf = {
         counters: {},
+        filters: {
+            basic: [
+                {
+                    check: (!esgst.parameters.level_min && !esgst.parameters.level_max) && (((!esgst.createdPath || esgst.cewgd) && (!esgst.enteredPath || esgst.cewgd) && (!esgst.wonPath || esgst.cewgd)) || popup),
+                    maxValue: 10,
+                    minValue: 0,
+                    name: `Level`
+                },
+                {
+                    check: (!esgst.parameters.entry_min && !esgst.parameters.entry_max) && (!esgst.wonPath || popup),
+                    infinite: true,
+                    maxValue: 99999,
+                    minValue: 0,
+                    name: `Entries`
+                },
+                {
+                    check: (!esgst.parameters.copy_min && !esgst.parameters.copy_max) && (!esgst.wonPath || popup),
+                    infinite: true,
+                    maxValue: 99999,
+                    minValue: 1,
+                    name: `Copies`
+                },
+                {
+                    check: (!esgst.parameters.point_min && !esgst.parameters.point_max) && (((!esgst.createdPath || esgst.cewgd) && (!esgst.enteredPath || esgst.cewgd) && (!esgst.wonPath || esgst.cewgd)) || popup),
+                    maxValue: 100,
+                    minValue: 0,
+                    name: `Points`
+                },
+                {
+                    check: popup || (!esgst.createdPath && !esgst.enteredPath && !esgst.wonPath),
+                    maxValue: 99999,
+                    minValue: 0,
+                    name: `Comments`
+                },
+                {
+                    check: !esgst.wonPath || popup,
+                    maxValue: 43800,
+                    minValue: 0,
+                    name: `Minutes To End`
+                },
+                {
+                    check: ((!esgst.enteredPath || esgst.cewgd) && !esgst.createdPath && !esgst.wonPath) || popup,
+                    maxValue: 100,
+                    minValue: 0,
+                    name: `Chance`,
+                    step: 0.01
+                },
+                {
+                    check: ((!esgst.enteredPath || esgst.cewgd) && !esgst.createdPath && !esgst.wonPath) || popup,
+                    maxValue: 100,
+                    minValue: 0,
+                    name: `Chance Per Point`,
+                    step: 0.01
+                },
+                {
+                    check: ((!esgst.enteredPath || esgst.cewgd) && !esgst.createdPath && !esgst.wonPath) || popup,
+                    maxValue: 99999,
+                    minValue: 0,
+                    name: `Ratio`
+                },
+                {
+                    check: true,
+                    maxValue: 100,
+                    minValue: 0,
+                    name: `Rating`
+                },
+                {
+                    check: !esgst.parameters.release_date_min && !esgst.parameters.release_date_max,
+                    infinite: true,
+                    maxValue: new Date(`2070-12-31`).getTime() / 1e3,
+                    minValue: new Date(`1970-01-01`).getTime() / 1e3,
+                    name: `Release Date`
+                }
+            ],
+            type: [
+                {
+                    check: esgst.giveawaysPath,
+                    name: `Pinned`
+                },
+                {
+                    check: ((!esgst.createdPath || esgst.cewgd) && (!esgst.enteredPath || esgst.cewgd) && (!esgst.wonPath || esgst.cewgd)) || popup,
+                    name: `Invite Only`
+                },
+                {
+                    check: ((!esgst.createdPath || esgst.cewgd) && (!esgst.enteredPath || esgst.cewgd) && (!esgst.wonPath || esgst.cewgd)) || popup,
+                    name: `Group`
+                },
+                {
+                    check: ((!esgst.createdPath || esgst.cewgd) && (!esgst.enteredPath || esgst.cewgd) && (!esgst.wonPath || esgst.cewgd)) || popup,
+                    name: `Whitelist`
+                },
+                {
+                    check: ((!esgst.createdPath || esgst.cewgd) && (!esgst.enteredPath || esgst.cewgd) && (!esgst.wonPath || esgst.cewgd)) || popup,
+                    name: `Region Restricted`
+                },
+                {
+                    check: (!esgst.createdPath && !esgst.enteredPath && !esgst.wonPath) || popup,
+                    name: `Created`
+                },
+                {
+                    check: esgst.createdPath,
+                    name: `Received`
+                },
+                {
+                    check: esgst.createdPath,
+                    name: `Not Received`
+                },
+                {
+                    check: esgst.createdPath,
+                    name: `Awaiting Feedback`
+                },
+                {
+                    check: (!esgst.createdPath && !esgst.enteredPah && !esgst.wonPath) || popup,
+                    name: `Entered`
+                },
+                {
+                    check: (!esgst.enteredPath && !esgst.wonPath) || popup,
+                    name: `Started`
+                },
+                {
+                    check: !esgst.wonPath || popup,
+                    name: `Ended`
+                },
+                {
+                    check: esgst.createdPath || esgst.enteredPath,
+                    name: `Deleted`
+                },
+                {
+                    check: true,
+                    name: `Owned`
+                },
+                {
+                    check: true,
+                    name: `Wishlisted`
+                },
+                {
+                    check: true,
+                    name: `Hidden`
+                },
+                {
+                    check: true,
+                    name: `Ignored`
+                },
+                {
+                    check: true,
+                    name: `Previously Entered`
+                },
+                {
+                    check: true,
+                    name: `Previously Won`
+                },
+                {
+                    check: true,
+                    name: `Full CV`
+                },
+                {
+                    check: true,
+                    name: `Reduced CV`
+                },
+                {
+                    check: true,
+                    name: `No CV`
+                },
+                {
+                    check: esgst.ggl && esgst.ggl_index === 0,
+                    list: true,
+                    name: `Groups`
+                },
+                {
+                    check: true,
+                    list: true,
+                    name: `Creators`
+                }
+            ],
+            category: [        
+                {
+                    id: `gc_rm`,
+                    name: `Removed`
+                },
+                {
+                    id: `gc_tc`,
+                    name: `Trading Cards`
+                },
+                {
+                    id: `gc_a`,
+                    name: `Achievements`
+                },
+                {
+                    id: `gc_mp`,
+                    name: `Multiplayer`
+                },
+                {
+                    id: `gc_sc`,
+                    name: `Steam Cloud`
+                },
+                {
+                    id: `gc_l`,
+                    name: `Linux`
+                },
+                {
+                    id: `gc_m`,
+                    name: `Mac`
+                },
+                {
+                    id: `gc_dlc`,
+                    name: `DLC`
+                },
+                {
+                    id: `gc_dlc_b`,
+                    name: `DLC (Free Base)`
+                },
+                {
+                    id: `gc_dlc_b`,
+                    name: `DLC (Non-Free Base)`
+                },
+                {
+                    id: `gc_p`,
+                    name: `Package`
+                },
+                {
+                    id: `gc_ea`,
+                    name: `Early Access`
+                },
+                {
+                    id: `gc_g`,
+                    list: true,
+                    name: `Genres`
+                }
+            ]
+        },
         popup: popup,
         type: popup || (esgst.groupPath ? `Groups` : (location.search.match(/type/) ? { wishlist: `Wishlist`, recommended: `Recommended`, group: `Group`, new: `New` }[location.search.match(/type=(wishlist|recommended|group|new)/)[1]] : (esgst.createdPath ? `Created` : (esgst.enteredPath ? `Entered` : (esgst.wonPath ? `Won` : (esgst.userPath ? `User` : ``))))))
     };
@@ -17520,9 +17926,16 @@ function addGfContainer(heading, popup) {
     if (!preset) {
         name = `Default${gf.type}`;
         preset = { name };
-        [`maxLevel`, `minLevel`, `maxEntries`, `minEntries`, `maxCopies`, `minCopies`, `maxPoints`, `minPoints`, `maxComments`, `minComments`, `maxMinutesToEnd`, `minMinutesToEnd`, `maxChance`, `minChance`, `maxChancePerPoint`, `minChancePerPoint`, `maxRatio`, `minRatio`, `maxRating`, `minRating`, `maxReleaseDate`, `minReleaseDate`, `pinned`, `inviteOnly`, `group`, `whitelist`, `regionRestricted`, `created`, `received`, `notReceived`, `awaitingFeedback`, `entered`, `started`, `ended`, `deleted`, `hidden`, `fullCV`, `reducedCV`, `noCV`, `owned`, `wishlisted`, `ignored`, `previouslyEntered`, `previouslyWon`, `removed`, `tradingCards`, `achievements`, `multiplayer`, `steamCloud`, `linux`, `mac`, `dlc`, `dlcFree`, `dlcNonFree`, `package`, `earlyAccess`, `genres`, `genreList`].forEach(key => {
-            preset[key] = esgst.settings[`gf_${key}${gf.type}`];
-        });
+        for (let type in gf.filters) {
+            gf.filters[type].forEach(filter => {
+                getGfKeys(filter).forEach(key => {
+                    preset[key] = esgst.settings[`gf_${key}${gf.type}`];
+                    if (filter.list) {
+                        preset[`${key}List`] = esgst.settings[`gf_${key}List${gf.type}`];
+                    }
+                });
+            });
+        }
         presets = JSON.parse(esgst.storage.filterPresets);
         presets.push(preset);
         setValue(`filterPresets`, JSON.stringify(presets));
@@ -17538,126 +17951,94 @@ function addGfContainer(heading, popup) {
     gf.overrides = preset.overrides || {};
     gf.overrideButtons = {};
     exceptionButton.addEventListener(`click`, openGfExceptionPopup.bind(null, exceptionCount, gf, presetInput));
-    [ { check: (!esgst.parameters.level_min && !esgst.parameters.level_max) && (((!esgst.createdPath || esgst.cewgd) && (!esgst.enteredPath || esgst.cewgd) && (!esgst.wonPath || esgst.cewgd)) || popup), maxValue: 10, minValue: 0, name: `Level` },
-        { check: (!esgst.parameters.entry_min && !esgst.parameters.entry_max) && (!esgst.wonPath || popup), infinite: true, maxValue: 99999, minValue: 0, name: `Entries` },
-        { check: (!esgst.parameters.copy_min && !esgst.parameters.copy_max) && (!esgst.wonPath || popup), infinite: true, maxValue: 99999, minValue: 1, name: `Copies` },
-        { check: (!esgst.parameters.point_min && !esgst.parameters.point_max) && (((!esgst.createdPath || esgst.cewgd) && (!esgst.enteredPath || esgst.cewgd) && (!esgst.wonPath || esgst.cewgd)) || popup), maxValue: 100, minValue: 0, name: `Points` },
-        { check: popup || (!esgst.createdPath && !esgst.enteredPath && !esgst.wonPath), maxValue: 99999, minValue: 0, name: `Comments` },
-        { check: !esgst.wonPath || popup, maxValue: 43800, minValue: 0, name: `MinutesToEnd` },
-        { check: ((!esgst.enteredPath || esgst.cewgd) && !esgst.createdPath && !esgst.wonPath) || popup, maxValue: 100, minValue: 0, name: `Chance`, step: 0.01 },
-        { check: ((!esgst.enteredPath || esgst.cewgd) && !esgst.createdPath && !esgst.wonPath) || popup, maxValue: 100, minValue: 0, name: `ChancePerPoint`, step: 0.01 },
-        { check: ((!esgst.enteredPath || esgst.cewgd) && !esgst.createdPath && !esgst.wonPath) || popup, maxValue: 99999, minValue: 0, name: `Ratio` },
-        { check: true, maxValue: 100, minValue: 0, name: `Rating` },
-        { check: !esgst.parameters.release_date_min && !esgst.parameters.release_date_max, infinite: true, maxValue: new Date(`2070-12-31`).getTime() / 1e3, minValue: new Date(`1970-01-01`).getTime() / 1e3, name: `ReleaseDate` }
-    ].forEach(filter => {
-        if (filter.check) {
-            name = filter.name;
-            if ((name !== `Rating` || (esgst.gc && esgst.gc_r)) && (name !== `ReleaseDate` || (esgst.gc && esgst.gc_rd))) {
-                maxKey = `max${name}`;
-                maxValue = filter.maxValue;
-                minKey = `min${name}`;
-                minValue = filter.minValue;
-                key = uncapitalizeFirstLetter(name);
-                if (esgst[`gf_${key}`]) {
-                    infinite = filter.infinite;
-                    maxSavedValue = preset[maxKey] || maxValue;
-                    minSavedValue = preset[minKey] || minValue;
-                    step = filter.step || 1;
-                    if (!infinite && maxSavedValue > maxValue) {
-                        maxSavedValue = maxValue;
-                    }
-                    gf[maxKey] = maxSavedValue;
-                    gf[minKey] = minSavedValue;
-                    basicFilter = insertHtml(basicFilters, `beforeEnd`, `
-                        <div class="esgst-gf-basic-filter">
-                            <div>${separateWords(name)} <span class="esgst-gf-filter-count" title="Number of giveaways this filter is filtering">0</span> <span class="esgst-float-right"><input type="${name === `ReleaseDate` ? `date` : `text`}" value="${name === `ReleaseDate` ? formatGfDate(minSavedValue) : minSavedValue}"> - <input type="${name === `ReleaseDate` ? `date` : `text`}" value="${name === `ReleaseDate` ? formatGfDate(maxSavedValue) : maxSavedValue}"></span></div>
-                            <div></div>
-                            <div></div>
-                        </div>
-                    `);
-                    display = basicFilter.firstElementChild;
-                    setGfOverride(gf, display, key);
-                    slider = display.nextElementSibling;
-                    if (name === `Rating`) {
-                        let toggle = new ToggleSwitch(slider.nextElementSibling, `gf_noRating`, false, `Filter games with no rating.`, false, false, null, esgst.gf_noRating);
-                        toggle.onEnabled = filterGfGiveaways.bind(null, gf);
-                        toggle.onDisabled = filterGfGiveaways.bind(null, gf);
-                    } else if (name === `ReleaseDate`) {
-                        let toggle = new ToggleSwitch(slider.nextElementSibling, `gf_noReleaseDate`, false, `Filter games with no release date.`, false, false, null, esgst.gf_noReleaseDate);
-                        toggle.onEnabled = filterGfGiveaways.bind(null, gf);
-                        toggle.onDisabled = filterGfGiveaways.bind(null, gf);
-                    }
-                    gf.counters[key] = display.firstElementChild.nextElementSibling;
-                    gf[`${minKey}Input`] = gf.counters[key].nextElementSibling.firstElementChild;
-                    gf[`${maxKey}Input`] = gf[`${minKey}Input`].nextElementSibling;
-                    gf[`${maxKey}Input`].addEventListener(`change`, changeGfMaxValue.bind(null, infinite, slider, step));
-                    gf[`${minKey}Input`].addEventListener(`change`, changeGfMinValue.bind(null, slider, step));
-                    if (infinite) {
-                        maxValue = maxSavedValue;
-                    }
-                    $(slider).slider({
-                        change: changeGfSlider.bind(null, gf, maxKey, minKey),
-                        min: minValue,
-                        max: maxValue,
-                        range: true,
-                        slide: slideGfSlider.bind(null, gf, maxKey, minKey),
-                        step: step,
-                        values: [minSavedValue, maxSavedValue]
-                    });
-                } else {
-                    gf[maxKey] = maxValue;
-                    gf[minKey] = minValue;
-                }
+    gf.filters.basic.forEach(filter => {
+        if (!filter.check) return;
+        name = filter.name;
+        if ((name === `Rating` && (!esgst.gc || !esgst.gc_r)) || (name === `Release Date` && (!esgst.gc || !esgst.gc_rd))) return;
+        [maxKey, minKey, key] = getGfKeys(filter, true);
+        maxValue = filter.maxValue;
+        minValue = filter.minValue;
+        if (esgst[`gf_${key}`]) {
+            infinite = filter.infinite;
+            maxSavedValue = preset[maxKey] || maxValue;
+            minSavedValue = preset[minKey] || minValue;
+            step = filter.step || 1;
+            if (!infinite && maxSavedValue > maxValue) {
+                maxSavedValue = maxValue;
             }
+            gf[maxKey] = maxSavedValue;
+            gf[minKey] = minSavedValue;
+            basicFilter = insertHtml(basicFilters, `beforeEnd`, `
+                <div class="esgst-gf-basic-filter">
+                    <div>${name} <span class="esgst-gf-filter-count" title="Number of giveaways this filter is filtering">0</span> <span class="esgst-float-right"><input type="${name === `ReleaseDate` ? `date` : `text`}" value="${name === `Release Date` ? formatGfDate(minSavedValue) : minSavedValue}"> - <input type="${name === `Release Date` ? `date` : `text`}" value="${name === `Release Date` ? formatGfDate(maxSavedValue) : maxSavedValue}"></span></div>
+                    <div></div>
+                    <div></div>
+                </div>
+            `);
+            display = basicFilter.firstElementChild;
+            setGfOverride(gf, display, key);
+            slider = display.nextElementSibling;
+            if (name === `Rating`) {
+                let toggle = new ToggleSwitch(slider.nextElementSibling, `gf_noRating`, false, `Filter games with no rating.`, false, false, null, esgst.gf_noRating);
+                toggle.onEnabled = filterGfGiveaways.bind(null, gf);
+                toggle.onDisabled = filterGfGiveaways.bind(null, gf);
+            } else if (name === `Release Date`) {
+                let toggle = new ToggleSwitch(slider.nextElementSibling, `gf_noReleaseDate`, false, `Filter games with no release date.`, false, false, null, esgst.gf_noReleaseDate);
+                toggle.onEnabled = filterGfGiveaways.bind(null, gf);
+                toggle.onDisabled = filterGfGiveaways.bind(null, gf);
+            }
+            gf.counters[key] = display.firstElementChild.nextElementSibling;
+            gf[`${minKey}Input`] = gf.counters[key].nextElementSibling.firstElementChild;
+            gf[`${maxKey}Input`] = gf[`${minKey}Input`].nextElementSibling;
+            gf[`${maxKey}Input`].addEventListener(`change`, changeGfMaxValue.bind(null, infinite, slider, step));
+            gf[`${minKey}Input`].addEventListener(`change`, changeGfMinValue.bind(null, slider, step));
+            if (infinite) {
+                maxValue = maxSavedValue;
+            }
+            $(slider).slider({
+                change: changeGfSlider.bind(null, gf, maxKey, minKey),
+                min: minValue,
+                max: maxValue,
+                range: true,
+                slide: slideGfSlider.bind(null, gf, maxKey, minKey),
+                step: step,
+                values: [minSavedValue, maxSavedValue]
+            });
+        } else {
+            gf[maxKey] = maxValue;
+            gf[minKey] = minValue;
         }
     });
     if (basicFilters.children.length === 1) {
         basicFilters.classList.add(`esgst-hidden`);
     }
-    [ { check: esgst.giveawaysPath, key: `pinned`, name: `Pinned` },
-        { check: ((!esgst.createdPath || esgst.cewgd) && (!esgst.enteredPath || esgst.cewgd) && (!esgst.wonPath || esgst.cewgd)) || popup, key: `inviteOnly`, name: `Invite Only` },
-        { check: ((!esgst.createdPath || esgst.cewgd) && (!esgst.enteredPath || esgst.cewgd) && (!esgst.wonPath || esgst.cewgd)) || popup, key: `group`, name: `Group` },
-        { check: ((!esgst.createdPath || esgst.cewgd) && (!esgst.enteredPath || esgst.cewgd) && (!esgst.wonPath || esgst.cewgd)) || popup, key: `whitelist`, name: `Whitelist`},
-        { check: ((!esgst.createdPath || esgst.cewgd) && (!esgst.enteredPath || esgst.cewgd) && (!esgst.wonPath || esgst.cewgd)) || popup, key: `regionRestricted`, name: `Region Restricted` },
-        { check: (!esgst.createdPath && !esgst.enteredPath && !esgst.wonPath) || popup, key: `created`, name: `Created` },
-        { check: esgst.createdPath, key: `received`, name: `Received` },
-        { check: esgst.createdPath, key: `notReceived`, name: `Not Received` },
-        { check: esgst.createdPath, key: `awaitingFeedback`, name: `Awaiting Feedback` },
-        { check: (!esgst.createdPath && !esgst.enteredPah && !esgst.wonPath) || popup, key: `entered`, name: `Entered` },
-        { check: (!esgst.enteredPath && !esgst.wonPath) || popup, key: `started`, name: `Started` },
-        { check: !esgst.wonPath || popup, key: `ended`, name: `Ended` },
-        { check: esgst.createdPath || esgst.enteredPath, key: `deleted`, name: `Deleted` },
-        { check: true, key: `owned`, name: `Owned` },
-        { check: true, key: `wishlisted`, name: `Wishlisted` },
-        { check: true, key: `hidden`, name: `Hidden` },
-        { check: true, key: `ignored`, name: `Ignored` },
-        { check: true, key: `previouslyEntered`, name: `Previously Entered` },
-        { check: true, key: `previouslyWon`, name: `Previously Won` },
-        { check: true, key: `fullCV`, name: `Full CV` },
-        { check: true, key: `reducedCV`, name: `Reduced CV` },
-        { check: true, key: `noCV`, name: `No CV` }
-    ].forEach(filter => {
-        if (filter.check) {
-            key = filter.key;
-            if (key !== `regionRestricted` || !esgst.parameters.region_restricted) {
-                if (esgst[`gf_${key}`]) {
-                    name = filter.name;
-                    typeFilter = insertHtml(typeFilters, `beforeEnd`, `
-                        <div class="esgst-gf-type-filter">
-                            <span>${name}</span>
-                            <span class="esgst-gf-filter-count" title="Number of giveaways this filter is filtering">0</span>
-                        </div>
-                    `);
-                    value = preset[key] || `enabled`;
-                    gf[key] = value;
-                    gf[`${key}Checkbox`] = new Checkbox(typeFilter, value, true);
-                    setGfOverride(gf, typeFilter, key);
-                    gf[`${key}Checkbox`].checkbox.addEventListener(`click`, changeGfValue.bind(null, gf[`${key}Checkbox`], gf, key));
-                    gf.counters[key] = typeFilter.lastElementChild;
-                } else {
-                    gf[key] = `enabled`;
-                }
+    gf.filters.type.forEach(filter => {
+        if (!filter.check) return;
+        key = getGfKeys(filter)[0];
+        if (key === `regionRestricted` && esgst.parameters.region_restricted) return;
+        if (esgst[`gf_${key}`]) {
+            name = filter.name;
+            typeFilter = insertHtml(typeFilters, `beforeEnd`, `
+                <div class="esgst-gf-type-filter">
+                    <span>${name} ${filter.list ? `<input placeholder="item1, item2" type="text">` : ``}</span>
+                    <span class="esgst-gf-filter-count" title="Number of giveaways this filter is filtering">0</span>
+                </div>
+            `);
+            value = preset[key] || `enabled`;
+            gf[key] = value;
+            gf[`${key}Checkbox`] = new Checkbox(typeFilter, value, true);
+            setGfOverride(gf, typeFilter, key);
+            gf[`${key}Checkbox`].checkbox.addEventListener(`click`, changeGfValue.bind(null, gf[`${key}Checkbox`], gf, key));
+            gf.counters[key] = typeFilter.lastElementChild;
+            if (filter.list) {
+                let listKey = `${key}List`;
+                gf[`${listKey}Input`] = typeFilter.firstElementChild.nextElementSibling.nextElementSibling.firstElementChild;
+                value = (preset[listKey] && preset[listKey].replace(/,(?!\s)/g, `, `)) || ``;
+                gf[listKey] = gf[`${listKey}Input`].value = value;
+                gf[`${listKey}Input`].addEventListener(`change`, changeGfValue.bind(null, gf[`${listKey}Input`], gf, listKey));
             }
+        } else {
+            gf[key] = `enabled`;
         }
     });
     if (typeFilters.children.length === 1) {
@@ -17665,47 +18046,33 @@ function addGfContainer(heading, popup) {
     }
     if (esgst.gc) {
         categoryFilters.classList.remove(`esgst-hidden`);
-        [ { id: `gc_rm`, key: `removed`, name: `Removed` },
-            { id: `gc_tc`, key: `tradingCards`, name: `Trading Cards` },
-            { id: `gc_a`, key: `achievements`, name: `Achievements` },
-            { id: `gc_mp`, key: `multiplayer`, name: `Multiplayer` },
-            { id: `gc_sc`, key: `steamCloud`, name: `Steam Cloud` },
-            { id: `gc_l`, key: `linux`, name: `Linux` },
-            { id: `gc_m`, key: `mac`, name: `Mac` },
-            { id: `gc_dlc`, key: `dlc`, name: `DLC` },
-            { id: `gc_dlc_b`, key: `dlcFree`, name: `DLC (Free Base)` },
-            { id: `gc_dlc_b`, key: `dlcNonFree`, name: `DLC (Non-Free Base)` },
-            { id: `gc_p`, key: `package`, name: `Package` },
-            { id: `gc_ea`, key: `earlyAccess`, name: `Early Access` },
-            { id: `gc_g`, key: `genres`, name: `Genres` }
-        ].forEach(filter => {
+        gf.filters.category.forEach(filter => {
             id = filter.id;
-            if ((id !== `gc_dlc` || !esgst.parameters.dlc) && esgst[id]) {
-                key = filter.key;
-                genres = key === `genres`;
-                if (esgst[`gf_${key}`]) {
-                    name = filter.name;
-                    categoryFilter = insertHtml(categoryFilters, `beforeEnd`, `
-                        <div class="esgst-gf-category-filter">
-                            <span>${name} ${genres ? `<input placeholder="Genre1, Genre2" type="text">` : ``}</span>
-                            <span class="esgst-gf-filter-count" title="Number of giveaways this filter is filtering">0</span>
-                        </div>
-                    `);
-                    value = typeof preset[key] !== `undefined` ? preset[key] : `enabled`;
-                    gf[key] = value;
-                    gf[`${key}Checkbox`] = new Checkbox(categoryFilter, value, true);
-                    setGfOverride(gf, categoryFilter, key);
-                    gf[`${key}Checkbox`].checkbox.addEventListener(`click`, changeGfValue.bind(null, gf[`${key}Checkbox`], gf, key));
-                    gf.counters[key] = categoryFilter.lastElementChild;
-                    if (genres) {
-                        gf.genreListInput = categoryFilter.firstElementChild.nextElementSibling.nextElementSibling.firstElementChild;
-                        value = (preset.genreList && preset.genreList.replace(/,(?!\s)/g, `, `)) || ``;
-                        gf.genreList = gf.genreListInput.value = value;
-                        gf.genreListInput.addEventListener(`change`, changeGfValue.bind(null, gf.genreListInput, gf, `genreList`));
-                    }
-                } else {
-                    gf[key] = `enabled`;
+            if (!id || (id === `gc_dlc` && esgst.parameters.dlc) || !esgst[id]) return;
+            key = getGfKeys(filter)[0];
+            if (esgst[`gf_${key}`]) {
+                name = filter.name;
+                categoryFilter = insertHtml(categoryFilters, `beforeEnd`, `
+                    <div class="esgst-gf-category-filter">
+                        <span>${name} ${filter.list ? `<input placeholder="${name}1, ${name}2" type="text">` : ``}</span>
+                        <span class="esgst-gf-filter-count" title="Number of giveaways this filter is filtering">0</span>
+                    </div>
+                `);
+                value = typeof preset[key] !== `undefined` ? preset[key] : `enabled`;
+                gf[key] = value;
+                gf[`${key}Checkbox`] = new Checkbox(categoryFilter, value, true);
+                setGfOverride(gf, categoryFilter, key);
+                gf[`${key}Checkbox`].checkbox.addEventListener(`click`, changeGfValue.bind(null, gf[`${key}Checkbox`], gf, key));
+                gf.counters[key] = categoryFilter.lastElementChild;
+                if (filter.list) {
+                    let listKey = `${key}List`;
+                    gf[`${listKey}Input`] = categoryFilter.firstElementChild.nextElementSibling.nextElementSibling.firstElementChild;
+                    value = (preset[listKey] && preset[listKey].replace(/,(?!\s)/g, `, `)) || ``;
+                    gf[listKey] = gf[`${listKey}Input`].value = value;
+                    gf[`${listKey}Input`].addEventListener(`change`, changeGfValue.bind(null, gf[`${listKey}Input`], gf, listKey));
                 }
+            } else {
+                gf[key] = `enabled`;
             }
         });
         if (categoryFilters.children.length === 1) {
@@ -17829,11 +18196,18 @@ async function saveGfPreset(gf, presetInput, presetMessage, presetWarning, callb
     if (name) {
         presetWarning.classList.add(`esgst-hidden`);
         preset = { name };
-        [`maxLevel`, `minLevel`, `maxEntries`, `minEntries`, `maxCopies`, `minCopies`, `maxPoints`, `minPoints`, `maxComments`, `minComments`, `maxMinutesToEnd`, `minMinutesToEnd`, `maxChance`, `minChance`, `maxChancePerPoint`, `minChancePerPoint`, `maxRatio`, `minRatio`, `maxRating`, `minRating`, `maxReleaseDate`, `minReleaseDate`, `pinned`, `inviteOnly`, `group`, `whitelist`, `regionRestricted`, `created`, `received`, `notReceived`, `awaitingFeedback`, `entered`, `started`, `ended`, `deleted`, `hidden`, `fullCV`, `reducedCV`, `noCV`, `owned`, `wishlisted`, `ignored`, `previouslyEntered`, `previouslyWon`, `removed`, `tradingCards`, `achievements`, `multiplayer`, `steamCloud`, `linux`, `mac`, `dlc`, `dlcFree`, `dlcNonFree`, `package`, `earlyAccess`, `genres`, `genreList`].forEach(key => {
-            if (typeof gf[key] !== `undefined`) {
-                preset[key] = gf[key];
-            }
-        });
+        for (let type in gf.filters) {
+            gf.filters[type].forEach(filter => {
+                getGfKeys(filter).forEach(key => {
+                    if (typeof gf[key] !== `undefined`) {
+                        preset[key] = gf[key];
+                        if (filter.list) {
+                            preset[`${key}List`] = gf[`${key}List`];
+                        }
+                    }
+                });
+            });
+        }
         preset.exceptions = gf.exceptions;
         preset.overrides = gf.overrides;
         presets = JSON.parse(await getValue(`filterPresets`, `[]`));
@@ -17872,72 +18246,33 @@ async function openGfPresetPopup(gf, exceptionCount, presetDisplay, presetInput)
     table = insertHtml(popup.scrollable, `beforeEnd`, `<div class="esgst-text-left popup__keys__list"></div>`);
     JSON.parse(await getValue(`filterPresets`, `[]`)).forEach(preset => {
         details = ``;
-        [ { key: `Level`, name: `level` },
-            { key: `Entries`, name: `entries` },
-            { key: `Copies`, name: `copies` },
-            { key: `Points`, name: `points` },
-            { key: `Comments`, name: `comments` },
-            { key: `MinutesToEnd`, name: `minutes to end` },
-            { key: `Chance`, name: `chance` },
-            { key: `ChancePerPoint`, name: `chance per point` },
-            { key: `Ratio`, name: `ratio` },
-            { key: `Rating`, name: `rating` },
-            { key: `ReleaseDate`, name: `release date` }
-        ].forEach(filter => {
-            if (typeof preset[`max${filter.key}`] !== `undefined`) {
-                details += `${preset[`min${filter.key}`]}-${preset[`max${filter.key}`]} ${filter.name}, `;
-            }
-        });
         hideAll = [];
         showOnly = [];
-        [ { key: `pinned`, name: `pinned` },
-            { key: `inviteOnly`, name: `invite only` },
-            { key: `group`, name: `group` },
-            { key: `whitelist`, name: `whitelist` },
-            { key: `regionRestricted`, name: `region restricted` },
-            { key: `created`, name: `created` },
-            { key: `received`, name: `received` },
-            { key: `notReceived`, name: `not received` },
-            { key: `awaitingFeedback`, name: `awaiting feedback` },
-            { key: `entered`, name: `entered` },
-            { key: `deleted`, name: `deleted` },
-            { key: `owned`, name: `owned`},
-            { key: `wishlisted`, name: `wishlisted` },
-            { key: `hidden`, name: `hidden` },
-            { key: `ignored`, name: `ignored` },
-            { key: `previouslyEntered`, name: `previously entered`, },
-            { key: `previouslyWon`, name: `previously won`, },
-            { key: `fullCV`, name: `full CV` },
-            { key: `reducedCV`, name: `reduced CV` },
-            { key: `noCV`, name: `no CV`, },
-            { key: `removed`, name: `removed` },
-            { key: `tradingCards`, name: `trading cards` },
-            { key: `achievements`, name: `achievements` },
-            { key: `multiplayer`, name: `multiplayer` },
-            { key: `steamCloud`, name: `steam cloud` },
-            { key: `linux`, name: `linux` },
-            { key: `mac`, name: `mac` },
-            { key: `dlc`, name: `dlc` },
-            { key: `dlcFree`, name: `dlc (free base)` },
-            { key: `dlcNonFree`, name: `dlc (non-free base)` },
-            { key: `package`, name: `package` },
-            { key: `earlyAccess`, name: `early access` },
-            { key: `genres`, name: `genres` }
-        ].forEach(key => {
-            if (preset[key.key] === `disabled`) {
-                if (key.key === `genres` && preset.genres && preset.genreList) {
-                    hideAll.push(`genres (${preset.genreList.toLowerCase()})`);
-                } else {
-                    hideAll.push(key.name);
+        for (let type in gf.filters) {
+            gf.filters[type].forEach(filter => {
+                if (type === `basic`) {
+                    let [maxKey, minKey] = getGfKeys(filter);
+                    if (typeof preset[maxKey] !== `undefined`) {
+                        details += `${preset[minKey]}-${preset[maxKey]} ${filter.name.toLowerCase()}, `;
+                    }
+                } else if (type !== `category` || filter.id) {
+                    let key = getGfKeys(filter)[0];
+                    if (preset[key] === `disabled`) {
+                        if (filter.list && preset[`${key}List`]) {
+                            hideAll.push(`${filter.name.toLowerCase()} (${preset[`${key}List`].toLowerCase()})`);
+                        } else {
+                            hideAll.push(filter.name.toLowerCase());
+                        }
+                    } else if (preset[key] === `none`) {
+                        if (filter.list && preset[`${key}List`]) {
+                            showOnly.push(`${filter.name.toLowerCase()} (${preset[`${key}List`].toLowerCase()})`);
+                        } else {
+                            showOnly.push(filter.name.toLowerCase());
+                        }
+                    }
                 }
-            } else if (preset[key.key] === `none`) {
-                if (key.key === `genres` && preset.genres && preset.genreList) {
-                    showOnly.push(`genres (${preset.genreList.toLowerCase()})`);
-                } else {
-                    showOnly.push(key.name);
-                }
-            }
-        });
+            });
+        }
         if (hideAll.length > 0) {
             details += `hide: ${hideAll.join(` & `)}, `;
         }
@@ -18008,29 +18343,40 @@ async function saveGfSource(gf) {
 
 async function applyGfPreset(gf, exceptionCount, popup, preset, presetDisplay, presetInput) {
     var checkbox, input, key;
-    [`maxLevel`, `minLevel`, `maxEntries`, `minEntries`, `maxCopies`, `minCopies`, `maxPoints`, `minPoints`, `maxComments`, `minComments`, `maxMinutesToEnd`, `minMinutesToEnd`, `maxChance`, `minChance`, `maxChancePerPoint`, `minChancePerPoint`, `maxRatio`, `minRatio`, `maxRating`, `minRating`, `maxReleaseDate`, `minReleaseDate`, `pinned`, `inviteOnly`, `group`, `whitelist`, `regionRestricted`, `created`, `received`, `notReceived`, `awaitingFeedback`, `entered`, `started`, `ended`, `deleted`, `hidden`, `fullCV`, `reducedCV`, `noCV`, `owned`, `wishlisted`, `ignored`, `previouslyEntered`, `previouslyWon`, `removed`, `tradingCards`, `achievements`, `multiplayer`, `steamCloud`, `linux`, `mac`, `dlc`, `dlcFree`, `dlcNonFree`, `package`, `earlyAccess`, `genres`, `genreList`].forEach(key => {
-        checkbox = gf[`${key}Checkbox`];
-        if (checkbox) {
-            if (checkbox.isThreeState) {
-                gf[key] = checkbox.value = preset[key];
-                checkbox.change(false, gf[key]);
-            } else {
-                if (preset[key]) {
-                    gf[key] = true;
-                    checkbox.check();
+    for (let type in gf.filters) {
+        gf.filters[type].forEach(filter => {
+            getGfKeys(filter).forEach(key => {
+                checkbox = gf[`${key}Checkbox`];
+                if (checkbox) {
+                    if (checkbox.isThreeState) {
+                        gf[key] = checkbox.value = preset[key];
+                        checkbox.change(false, gf[key]);
+                    } else {
+                        if (preset[key]) {
+                            gf[key] = true;
+                            checkbox.check();
+                        } else {
+                            gf[key] = false;
+                            checkbox.uncheck();
+                        }
+                    }
                 } else {
-                    gf[key] = false;
-                    checkbox.uncheck();
+                    input = gf[`${key}Input`];
+                    if (input) {
+                        gf[key] = input.value = preset[key];
+                        input.dispatchEvent(new Event(`change`));
+                    }
                 }
-            }
-        } else {
-            input = gf[`${key}Input`];
-            if (input) {
-                gf[key] = input.value = preset[key];
-                input.dispatchEvent(new Event(`change`));
-            }
-        }
-    });
+                if (filter.list) {
+                    input = gf[`${key}ListInput`];
+                    if (input) {
+                        gf[`${key}List`] = input.value = preset[`${key}List`];
+                        input.dispatchEvent(new Event(`change`));
+                    }
+                }
+            });
+        });
+    }
     presetDisplay.textContent = presetInput.value = preset.name;
     if (preset.exceptions) {
         gf.exceptions = preset.exceptions;
@@ -18128,66 +18474,27 @@ async function openGfExceptionPopup(exceptionCount, gf, presetInput) {
     if (preset.exceptions) {
         preset.exceptions.forEach(exception => {
             details = ``;
-            [ { key: `Level`, name: `level` },
-                { key: `Entries`, name: `entries` },
-                { key: `Copies`, name: `copies` },
-                { key: `Points`, name: `points` },
-                { key: `Comments`, name: `comments` },
-                { key: `MinutesToEnd`, name: `minutes to end` },
-                { key: `Chance`, name: `chance` },
-                { key: `ChancePerPoint`, name: `chance per point` },
-                { key: `Ratio`, name: `ratio` },
-                { key: `Rating`, name: `rating` },
-                { key: `ReleaseDate`, name: `release date` }
-            ].forEach(filter => {
-                max = exception[`max${filter.key}`];
-                min = exception[`min${filter.key}`];
-                if (typeof max !== `undefined` && typeof min !== `undefined`) {
-                    details += `${min}-${max} ${filter.name}, `;
-                } else if (typeof max !== `undefined`) {
-                    details += `?-${max} ${filter.name}, `;
-                } else if (typeof min !== `undefined`) {
-                    details += `${min}-? ${filter.name}, `;
-                }
-            });
-            [ { key: `pinned`, name: `pinned` },
-                { key: `inviteOnly`, name: `invite only` },
-                { key: `group`, name: `group` },
-                { key: `whitelist`, name: `whitelist` },
-                { key: `regionRestricted`, name: `region restricted` },
-                { key: `created`, name: `created` },
-                { key: `received`, name: `received` },
-                { key: `notReceived`, name: `not received` },
-                { key: `awaitingFeedback`, name: `awaiting feedback` },
-                { key: `entered`, name: `entered` },
-                { key: `deleted`, name: `deleted` },
-                { key: `owned`, name: `owned`},
-                { key: `wishlisted`, name: `wishlisted` },
-                { key: `hidden`, name: `hidden` },
-                { key: `ignored`, name: `ignored` },
-                { key: `previouslyEntered`, name: `previously entered` },
-                { key: `previouslyWon`, name: `previously won` },
-                { key: `fullCV`, name: `full CV` },
-                { key: `reducedCV`, name: `reduced CV` },
-                { key: `noCV`, name: `no CV`, },
-                { key: `removed`, name: `removed` },
-                { key: `tradingCards`, name: `trading cards` },
-                { key: `achievements`, name: `achievements` },
-                { key: `multiplayer`, name: `multiplayer` },
-                { key: `steamCloud`, name: `steam cloud` },
-                { key: `linux`, name: `linux` },
-                { key: `mac`, name: `mac` },
-                { key: `dlc`, name: `dlc` },
-                { key: `dlcFree`, name: `dlc (free base)` },
-                { key: `dlcNonFree`, name: `dlc (non-free base)` },
-                { key: `package`, name: `package` },
-                { key: `earlyAccess`, name: `early access` },
-                { key: `genres`, name: `genres` }
-            ].forEach(key => {
-                if (exception[key.key]) {
-                    details += (key.key === `genres` ? `genres (${exception.genreList.toLowerCase()}), ` : `${key.name}, `);
-                }
-            });
+            for (let type in gf.filters) {
+                gf.filters[type].forEach(filter => {
+                    if (type === `basic`) {
+                        let [maxKey, minKey] = getGfKeys(filter);
+                        max = exception[maxKey];
+                        min = exception[minKey];
+                        if (typeof max !== `undefined` && typeof min !== `undefined`) {
+                            details += `${min}-${max} ${filter.name.toLowerCase()}, `;
+                        } else if (typeof max !== `undefined`) {
+                            details += `?-${max} ${filter.name.toLowerCase()}, `;
+                        } else if (typeof min !== `undefined`) {
+                            details += `${min}-? ${filter.name.toLowerCase()}, `;
+                        }
+                    } else if (type !== `category` || filter.id) {
+                        let key = getGfKeys(filter)[0];
+                        if (exception[key]) {
+                            details += (filter.list ? `${filter.name.toLowerCase()} (${exception[`${key}List`].toLowerCase()}), ` : `${filter.name.toLowerCase()}, `);
+                        }
+                    }
+                });
+            }
             row = insertHtml(table, `beforeEnd`, `
                 <div>
                     <div class="esgst-bold esgst-clickable esgst-float-left">${exception.name}</div>
@@ -18219,92 +18526,61 @@ function openGfManageExceptionPopup(exception, exceptionCount, gf, preset, callb
     popup = new Popup(`fa-edit`, `Create/edit exception:`, true);
     popup.scrollable.classList.add(`esgst-gf-container`, `esgst-gf-filters`, `esgst-text-left`);
     popup.name = insertHtml(popup.description, `afterBegin`, `Name: <input type="text" value="${exception.name || ``}"/>`);
-    basicFilters = insertHtml(popup.scrollable, `beforeEnd`, `
-        <div class="esgst-gf-basic-filters">
-            <div>
-                <span class="esgst-bold">Basic Filters:</span>
-            </div>
-        </div>
-    `);
-    [{ key: `Level`, name: `Level` },
-        { key: `Entries`, name: `Entries` },
-        { key: `Copies`, name: `Copies` },
-        { key: `Points`, name: `Points` },
-        { key: `Comments`, name: `Comments` },
-        { key: `MinutesToEnd`, name: `Minutes To End` },
-        { key: `Chance`, name: `Chance` },
-        { key: `ChancePerPoint`, name: `Chance Per Point` },
-        { key: `Ratio`, name: `Ratio` },
-        { key: `Rating`, name: `Rating` },
-        { key: `ReleaseDate`, name: `Release Date` }
-    ].forEach(filter => {
-        context = insertHtml(basicFilters, `beforeEnd`, `
-            <div class="esgst-gf-basic-filter esgst-text-left">
-                <div>${filter.name} <span class="esgst-float-right"><input type="text" value="${exception[`min${filter.key}`] || ``}"/> - <input type="text" value="${exception[`max${filter.key}`] || ``}"/></span></div>
-            </div>
-        `).firstElementChild.lastElementChild;
-        popup[`min${filter.key}`] = context.firstElementChild;
-        popup[`max${filter.key}`] = context.lastElementChild;
-    });
-    typeFilters = insertHtml(popup.scrollable, `beforeEnd`, `
-        <div class="esgst-gf-type-filters">
-            <div>
-                <span class="esgst-bold">Type Filters:</span>
-            </div>
-        </div>
-    `);
-    [{ key: `pinned`, name: `Pinned` },
-        { key: `inviteOnly`, name: `Invite Only` },
-        { key: `group`, name: `Group` },
-        { key: `whitelist`, name: `Whitelist` },
-        { key: `regionRestricted`, name: `Region Restricted` },
-        { key: `created`, name: `Created` },
-        { key: `received`, name: `Received` },
-        { key: `notReceived`, name: `Not Received` },
-        { key: `awaitingFeedback`, name: `Awaiting Feedback` },
-        { key: `entered`, name: `Entered` },
-        { key: `started`, name: `Started` },
-        { key: `ended`, name: `Ended` },
-        { key: `deleted`, name: `Deleted` },
-        { key: `owned`, name: `Owned` },
-        { key: `wishlisted`, name: `Wishlisted` },
-        { key: `hidden`, name: `Hidden` },
-        { key: `ignored`, name: `Ignored` },
-        { key: `previouslyEntered`, name: `Previously Entered` },
-        { key: `previouslyWon`, name: `Previously Won` },
-        { key: `fullCV`, name: `Full CV` },
-        { key: `reducedCV`, name: `Reduced CV` },
-        { key: `noCV`, name: `No CV` }
-    ].forEach(filter => {
-        popup[filter.key] = new Checkbox(insertHtml(typeFilters, `beforeEnd`, `<div class="esgst-gf-type-filter"><span></span> ${filter.name}</div>`).firstElementChild, exception[filter.key]);
-    });
-    categoryFilters = insertHtml(popup.scrollable, `beforeEnd`, `
-        <div class="esgst-gf-category-filters">
-            <div>
-                <span class="esgst-bold">Category Filters:</span>
-            </div>
-        </div>
-    `);
-    [{ key: `removed`, name: `Removed` },
-        { key: `tradingCards`, name: `Trading Cards` },
-        { key: `achievements`, name: `Achievements` },
-        { key: `multiplayer`, name: `Multiplayer` },
-        { key: `steamCloud`, name: `Steam Cloud` },
-        { key: `linux`, name: `Linux` },
-        { key: `mac`, name: `Mac` },
-        { key: `dlc`, name: `DLC` },
-        { key: `dlcFree`, name: `DLC (Free Base)` },
-        { key: `dlcNonFree`, name: `DLC (Non-Free Base)` },
-        { key: `package`, name: `Package` },
-        { key: `earlyAccess`, name: `Early Access` },
-        { key: `genres`, name: `Genres` }
-    ].forEach(filter => {
-        context = insertHtml(categoryFilters, `beforeEnd`, `<div class="esgst-gf-category-filter"><span></span> ${filter.name}${filter.key === `genres` ? ` <input type="text" value="${exception.genreList || ``}"/>` : ``}</div>`);
-        popup[filter.key] = new Checkbox(context.firstElementChild, exception[filter.key]);
-        if (filter.key === `genres`) {
-            popup.genreList = context.lastElementChild;
-        }
-    });
+    for (let type in gf.filters) {
+        gf.filters[type].forEach(filter => {
+            if (type === `basic`) {
+                if (!basicFilters) {
+                    basicFilters = insertHtml(popup.scrollable, `beforeEnd`, `
+                        <div class="esgst-gf-basic-filters">
+                            <div>
+                                <span class="esgst-bold">Basic Filters:</span>
+                            </div>
+                        </div>
+                    `);
+                }
+                let [maxKey, minKey] = getGfKeys(filter);
+                context = insertHtml(basicFilters, `beforeEnd`, `
+                    <div class="esgst-gf-basic-filter esgst-text-left">
+                        <div>${filter.name} <span class="esgst-float-right"><input type="text" value="${exception[minKey] || ``}"/> - <input type="text" value="${exception[maxKey] || ``}"/></span></div>
+                    </div>
+                `).firstElementChild.lastElementChild;
+                popup[minKey] = context.firstElementChild;
+                popup[maxKey] = context.lastElementChild;
+            } else if (type === `type`) {
+                if (!typeFilters) {
+                    typeFilters = insertHtml(popup.scrollable, `beforeEnd`, `
+                        <div class="esgst-gf-type-filters">
+                            <div>
+                                <span class="esgst-bold">Type Filters:</span>
+                            </div>
+                        </div>
+                    `);
+                }
+                let key = getGfKeys(filter)[0];
+                context = insertHtml(typeFilters, `beforeEnd`, `<div class="esgst-gf-type-filter"><span></span> ${filter.name}${filter.list ? ` <input type="text" value="${exception[`${key}List`] || ``}"/>` : ``}</div>`);
+                popup[key] = new Checkbox(context.firstElementChild, exception[key]);
+                if (filter.list) {
+                    popup[`${key}List`] = context.lastElementChild;
+                }
+            } else if (type === `category` && filter.id) {
+                if (!categoryFilters) {
+                    categoryFilters = insertHtml(popup.scrollable, `beforeEnd`, `
+                        <div class="esgst-gf-category-filters">
+                            <div>
+                                <span class="esgst-bold">Category Filters:</span>
+                            </div>
+                        </div>
+                    `);
+                }
+                let key = getGfKeys(filter)[0];
+                context = insertHtml(categoryFilters, `beforeEnd`, `<div class="esgst-gf-category-filter"><span></span> ${filter.name}${filter.list ? ` <input type="text" value="${exception[`${key}List`] || ``}"/>` : ``}</div>`);
+                popup[key] = new Checkbox(context.firstElementChild, exception[key]);
+                if (filter.list) {
+                    popup[`${key}List`] = context.lastElementChild;
+                }
+            }
+        });
+    }
     popup.description.appendChild(new ButtonSet(`green`, `grey`, `fa-plus`, `fa-circle-o-notch fa-spin`, `Save`, `Saving...`, saveGfException.bind(null, exceptionCount, gf, preset, popup)).set);
     popup.open();
 }
@@ -18312,26 +18588,29 @@ function openGfManageExceptionPopup(exception, exceptionCount, gf, preset, callb
 async function saveGfException(exceptionCount, gf, preset, popup, callback) {
     var exception, i, presets;
     exception = { name: popup.name.value };
-    [`Level`, `Entries`, `Copies`, `Points`, `Comments`, `MinutesToEnd`, `Chance`, `ChancePerPoint`, `Ratio`, `Rating`, `ReleaseDate`].forEach(name => {
-        if (popup[`max${name}`].value.length) {
-            exception[`max${name}`] = name === `ReleaseDate` ? new Date(popup[`max${name}`].value).getTime() : parseFloat(popup[`max${name}`].value);
-        }
-        if (popup[`min${name}`].value.length) {
-            exception[`min${name}`] = name === `ReleaseDate` ? new Date(popup[`min${name}`].value).getTime() :  parseFloat(popup[`min${name}`].value);
-        }
-    });
-    [`pinned`, `inviteOnly`, `group`, `whitelist`, `regionRestricted`, `created`, `received`, `notReceived`, `awaitingFeedback`, `entered`, `started`, `ended`, `deleted`, `owned`, `wishlisted`, `hidden`, `ignored`, `previouslyEntered`, `previouslyWon`, `fullCV`, `reducedCV`, `noCV`, `removed`, `tradingCards`, `achievements`, `multiplayer`, `steamCloud`, `linux`, `mac`, `dlc`, `dlcFree`, `dlcNonFree`, `package`, `earlyAccess`, `genres`].forEach(name => {
-        if (popup[name].input.checked) {
-            if (name === `genres`) {
-                if (popup.genreList.value.length) {
-                    exception.genres = 1;
-                    exception.genreList = popup.genreList.value;
+    for (let type in gf.filters) {
+        gf.filters[type].forEach(filter => {
+            if (type === `basic`) {
+                getGfKeys(filter).forEach(key => {
+                    if (popup[key].value.length) {
+                        exception[key] = filter.name === `Release Date` ? new Date(popup[key].value).getTime() : parseFloat(popup[key].value);
+                    }
+                });
+            } else if (type !== `category` || filter.id) {
+                let key = getGfKeys(filter)[0];
+                if (popup[key].input.checked) {
+                    if (filter.list) {
+                        if (popup[`${key}List`].value.length) {
+                            exception[key] = 1;
+                            exception[`${key}List`] = popup[`${key}List`].value;
+                        }
+                    } else {
+                        exception[key] = 1;
+                    }
                 }
-            } else {
-                exception[name] = 1;
             }
-        }
-    });
+        });
+    }
     if (!preset.exceptions) {
         preset.exceptions = [];
     }
@@ -18416,54 +18695,40 @@ function filterGfGiveaways(gf, unfilter, endless) {
     }
 }
 
-function filterGfException(gf, giveaway) {
-    var basicFilters, categoryFilters, filtered, i, j, key, maxKey, minKey, minutes, n, name, typeFilters, value;
-    basicFilters = [`Level`, `Entries`, `Copies`, `Points`, `Comments`, `MinutesToEnd`, `Chance`, `ChancePerPoint`, `Ratio`, `Rating`, `ReleaseDate`];
-    typeFilters = [`pinned`, `inviteOnly`, `group`, `whitelist`, `regionRestricted`, `created`, `received`, `notReceived`, `awaitingFeedback`, `entered`, `started`, `ended`, `deleted`, `owned`, `wishlisted`, `hidden`, `ignored`, `previouslyEntered`, `previouslyWon`, `fullCV`, `reducedCV`, `noCV`];
-    categoryFilters = [`removed`, `tradingCards`, `achievements`, `multiplayer`, `steamCloud`, `linux`, `mac`, `dlc`, `dlcFree`, `dlcNonFree`, `package`, `earlyAccess`, `genres`];
+function filterGfException(gf, exception, giveaway) {
+    var filtered, i, j, key, maxKey, minKey, minutes, n, value;
     filtered = false;
-    for (i = 0, n = basicFilters.length; !filtered && i < n; ++i) {
-        name = basicFilters[i];
-        if ((name !== `Rating` && name !== `ReleaseDate`) || (esgst.gc && giveaway.gcReady)) {
-            key = uncapitalizeFirstLetter(name);
-            maxKey = `max${name}`;
-            minKey = `min${name}`;
-            if (name === `MinutesToEnd`) {
+    for (i = 0, n = gf.filters.basic.length; !filtered && i < n; ++i) {
+        [maxKey, minKey, key] = getGfKeys(gf.filters.basic[i], true);
+        if ((key !== `rating` && key !== `releaseDate`) || (esgst.gc && giveaway.gcReady)) {
+            if (key === `minutesToEnd`) {
                 minutes = (giveaway.endTime - Date.now()) / 60000;
             }
-            if (typeof gf[minKey] !== `undefined`) {
-                if (name === `MinutesToEnd`) {
-                    filtered = minutes >= gf[minKey] && !giveaway.ended ? false : true;
+            if (typeof exception[minKey] !== `undefined`) {
+                if (key === `minutesToEnd`) {
+                    filtered = minutes >= exception[minKey] && !giveaway.ended ? false : true;
                 } else {
-                    filtered = giveaway[key] >= gf[minKey] ? false : true;
+                    filtered = giveaway[key] >= exception[minKey] ? false : true;
                 }
             }
             if (!filtered) {
-                if (typeof gf[maxKey] !== `undefined`) {
-                    if (name === `MinutesToEnd`) {
-                        filtered = minutes <= gf[maxKey] && !giveaway.ended ? false : true;
+                if (typeof exception[maxKey] !== `undefined`) {
+                    if (key === `minutesToEnd`) {
+                        filtered = minutes <= exception[maxKey] && !giveaway.ended ? false : true;
                     } else {
-                        filtered = giveaway[key] <= gf[maxKey] ? false : true;
+                        filtered = giveaway[key] <= exception[maxKey] ? false : true;
                     }
                 }
             }
         }
     }
-    for (i = 0, n = typeFilters.length; !filtered && i < n; ++i) {
-        key = typeFilters[i];
+    for (i = 0, n = gf.filters.type.length; !filtered && i < n; ++i) {
+        key = getGfKeys(gf.filters.type[i])[0];
         if ((key === `regionRestricted` && !esgst.parameters.region_restricted) || key !== `regionRestricted`) {
-            if (gf[key]) {
-                filtered = (key === `fullCV` ? !giveaway.reducedCV && !giveaway.noCV : giveaway[key]) ? false : true;
-            }
-        }
-    }
-    if (esgst.gc && giveaway.gcReady) {
-        for (i = 0, n = categoryFilters.length; !filtered && i < n; ++i) {
-            key = categoryFilters[i];
-            if (key === `genres`) {
-                if (giveaway.genres && gf.genreList) {
-                    genres = gf.genreList.toLowerCase().split(/,\s/);
-                    for (j = genres.length - 1; j >= 0 && giveaway.genres.indexOf(genres[j]) < 0; --j);
+            if (gf.filters.type[i].list) {
+                if (giveaway[key] && exception[`${key}List`]) {
+                    let list = exception[`${key}List`].toLowerCase().split(/,\s/);
+                    for (j = list.length - 1; j > -1 && giveaway[key].indexOf(list[j]) < 0; --j);
                     value = j >= 0;
                 } else {
                     value = false;
@@ -18471,7 +18736,27 @@ function filterGfException(gf, giveaway) {
             } else {
                 value = giveaway[key];
             }
-            if (gf[key]) {
+            if (exception[key]) {
+                filtered = (key === `fullCV` ? !giveaway.reducedCV && !giveaway.noCV : value) ? false : true;
+            }
+        }
+    }
+    if (esgst.gc && giveaway.gcReady) {
+        for (i = 0, n = gf.filters.category.length; !filtered && i < n; ++i) {
+            if (!gf.filters.category[i].id) continue;
+            key = getGfKeys(gf.filters.category[i])[0];
+            if (gf.filters.category[i].list) {
+                if (giveaway[key] && exception[`${key}List`]) {
+                    let list = exception[`${key}List`].toLowerCase().split(/,\s/);
+                    for (j = list.length - 1; j > -1 && giveaway[key].indexOf(list[j]) < 0; --j);
+                    value = j >= 0;
+                } else {
+                    value = false;
+                }
+            } else {
+                value = giveaway[key];
+            }
+            if (exception[key]) {
                 filtered = value ? false : true;
             }
         }
@@ -18480,19 +18765,13 @@ function filterGfException(gf, giveaway) {
 }
 
 function filterGfGiveaway(gf, giveaway) {
-    var basicFilters, categoryFilters, counterKey, filtered, i, j, key, maxKey, minKey, minutes, n, name, override, typeFilters, value;
-    basicFilters = [`Level`, `Entries`, `Copies`, `Points`, `Comments`, `MinutesToEnd`, `Chance`, `ChancePerPoint`, `Ratio`, `Rating`, `ReleaseDate`];
-    typeFilters = [`pinned`, `inviteOnly`, `group`, `whitelist`, `regionRestricted`, `created`, `received`, `notReceived`, `awaitingFeedback`, `entered`, `started`, `ended`, `deleted`, `owned`, `wishlisted`, `hidden`, `ignored`, `previouslyEntered`, `previouslyWon`, `fullCV`, `reducedCV`, `noCV`];
-    categoryFilters = [`removed`, `tradingCards`, `achievements`, `multiplayer`, `steamCloud`, `linux`, `mac`, `dlc`, `dlcFree`, `dlcNonFree`, `package`, `earlyAccess`, `genres`];
+    var counterKey, filtered, i, j, key, maxKey, minKey, minutes, n, override, value;
     filtered = false;
     override = 0;
-    for (i = 0, n = basicFilters.length; i < n && (!filtered || !override); ++i) {
-        name = basicFilters[i];
-        if (((name !== `Rating` && name !== `ReleaseDate`) || (esgst.gc && giveaway.gcReady)) && gf[`max${name}Input`]) {
-            key = uncapitalizeFirstLetter(name);
-            maxKey = `max${name}`;
-            minKey = `min${name}`;
-            if (name === `MinutesToEnd`) {
+    for (i = 0, n = gf.filters.basic.length; i < n && (!filtered || !override); ++i) {
+        [maxKey, minKey, key] = getGfKeys(gf.filters.basic[i], true);
+        if (((key !== `rating` && key !== `releaseDate`) || (esgst.gc && giveaway.gcReady)) && gf[`${maxKey}Input`]) {
+            if (key === `minutesToEnd`) {
                 if (!giveaway.ended && !giveaway.deleted) {
                     minutes = (giveaway.endTime - Date.now()) / 60000;
                     if (minutes < gf[minKey] || minutes > gf[maxKey]) {
@@ -18502,7 +18781,7 @@ function filterGfGiveaway(gf, giveaway) {
                     }
                 }
             } else if (giveaway[key] < gf[minKey] || giveaway[key] > gf[maxKey]) {
-                if ((name === `Rating` && (giveaway.rating !== 0 || esgst.gf_noRating)) || (name === `ReleaseDate` && (giveaway.releaseDate !== -1 || esgst.gf_noReleaseDate)) || (name !== `Rating` && name !== `ReleaseDate`)) {
+                if ((key === `rating` && (giveaway.rating !== 0 || esgst.gf_noRating)) || (key === `releaseDate` && (giveaway.releaseDate !== -1 || esgst.gf_noReleaseDate)) || (key !== `rating` && key !== `releaseDate`)) {
                     filtered = true;
                     override = gf.overrides[key];
                     counterKey = key;
@@ -18510,29 +18789,41 @@ function filterGfGiveaway(gf, giveaway) {
             }
         }
     }
-    for (i = 0, n = typeFilters.length; i < n && (!filtered || !override); ++i) {
-        key = typeFilters[i];
+    for (i = 0, n = gf.filters.type.length; i < n && (!filtered || !override); ++i) {
+        key = getGfKeys(gf.filters.type[i])[0];
         if ((key === `regionRestricted` && !esgst.parameters.region_restricted) || key !== `regionRestricted`) {
-            if ((key === `fullCV` && ((gf.fullCV === `disabled` && !giveaway.reducedCV && !giveaway.noCV) || (gf.fullCV === `none` && (giveaway.reducedCV || giveaway.noCV)))) || (key !== `fullCV` && ((gf[key] === `disabled` && giveaway[key]) || (gf[key] === `none` && !giveaway[key])))) {
+            if (gf.filters.type[i].list) {
+                if (giveaway[key] && gf[`${key}List`]) {
+                    let list = gf[`${key}List`].toLowerCase().split(/,\s/);
+                    for (j = list.length - 1; j > -1 && giveaway[key].indexOf(list[j]) < 0; --j);
+                    value = j >= 0;
+                } else {
+                    value = false;
+                }
+            } else {
+                value = giveaway[key];
+            }
+            if ((key === `fullCV` && ((gf.fullCV === `disabled` && !giveaway.reducedCV && !giveaway.noCV) || (gf.fullCV === `none` && (giveaway.reducedCV || giveaway.noCV)))) || (key !== `fullCV` && ((gf[key] === `disabled` && value) || (gf[key] === `none` && !value)))) {
                 filtered = true;
                 override = gf.overrides[key];
                 if (!counterKey) {
                     counterKey = key;
                 }
-                if (key === `ended` && gf.ended === `disabled` && (esgst.createdPath || esgst.enteredPath || esgst.wonPath || esgst.userPath)) {
+                if (!giveaway.deleted && key === `ended` && gf.ended === `disabled` && (esgst.createdPath || esgst.enteredPath || esgst.wonPath || esgst.userPath)) {
                     esgst.stopEs = true;
                 }
             }
         }
     }
     if (esgst.gc && giveaway.gcReady) {
-        for (i = 0, n = categoryFilters.length; i < n && (!filtered || !override); ++i) {
-            key = categoryFilters[i];
+        for (i = 0, n = gf.filters.category.length; i < n && (!filtered || !override); ++i) {
+            if (!gf.filters.category[i].id) continue;
+            key = getGfKeys(gf.filters.category[i])[0];
             if (key !== `dlc` || !esgst.parameters.dlc) {
-                if (key === `genres`) {
-                    if (giveaway.genres && gf.genreList) {
-                        genres = gf.genreList.toLowerCase().split(/,\s/);
-                        for (j = genres.length - 1; j >= 0 && giveaway.genres.indexOf(genres[j]) < 0; --j);
+                if (gf.filters.category[i].list) {
+                    if (giveaway[key] && gf[`${key}List`]) {
+                        let list = gf[`${key}List`].toLowerCase().split(/,\s/);
+                        for (j = list.length - 1; j > -1 && giveaway[key].indexOf(list[j]) < 0; --j);
                         value = j >= 0;
                     } else {
                         value = false;
@@ -18552,7 +18843,7 @@ function filterGfGiveaway(gf, giveaway) {
     }
     if (gf.exceptions && !override) {
         for (i = gf.exceptions.length - 1; i >= 0 && filtered; --i) {
-            filtered = filterGfException(gf.exceptions[i], giveaway);
+            filtered = filterGfException(gf, gf.exceptions[i], giveaway);
         }
     }
     if (filtered && gf.counters && gf.counters[counterKey]) {
@@ -18829,6 +19120,7 @@ function addGglPanel(giveaway, groups, newGroups, savedGroups) {
             <div class="esgst-ggl-panel"></div>
         `);
         groupCount = 0;
+        giveaway.groups = [];
         for (i = 0, n = groups.length; i < n; ++i) {
             code = groups[i];
             for (j = savedGroups.length - 1; j >= 0 && savedGroups[j].code !== code; --j);
@@ -18837,6 +19129,7 @@ function addGglPanel(giveaway, groups, newGroups, savedGroups) {
             } else {
                 group = newGroups[code];
             }
+            giveaway.groups.push(group.name.toLowerCase());
             if (group && group.member) {
                 className = `esgst-ggl-member`;
                 groupCount += 1;
@@ -20718,6 +21011,11 @@ function setGvContainer(giveaway, main) {
     if (giveaway.levelColumn) {
         giveaway.levelColumn.textContent = giveaway.levelColumn.textContent.replace(/Level\s/, ``);
         giveaway.gvIcons.appendChild(giveaway.levelColumn);
+    }
+    if (giveaway.sgTools) {
+        giveaway.gvIcons.insertAdjacentHTML(`beforeEnd`, `
+            <div class="esgst-gv-time">SGTools</div>
+        `);
     }
     giveaway.innerWrap.insertBefore(giveaway.image, giveaway.gvIcons);
     giveaway.summary.classList.add(`esgst-gv-popout`, `global__image-outer-wrap`);
@@ -29777,16 +30075,16 @@ async function loadGiveawayFeatures(context, main, source, endless) {
         if (esgst.gcl && (!main || (!esgst.createdPath && !esgst.enteredPath && !esgst.wonPath))) {
             setGclButton(giveaway);
         }
-        if (esgst.gwc && (!main || (!esgst.createdPath && !esgst.wonPath && !esgst.newGiveawayPath))) {
+        if (esgst.gwc && !giveaway.sgTools && (!main || (!esgst.createdPath && !esgst.wonPath && !esgst.newGiveawayPath))) {
             addGwcChances(giveaway, main, source);
         }
-        if (esgst.gwr && (!main || (!esgst.createdPath && !esgst.wonPath && !esgst.newGiveawayPath))) {
+        if (esgst.gwr && !giveaway.sgTools && (!main || (!esgst.createdPath && !esgst.wonPath && !esgst.newGiveawayPath))) {
             addGwrRatios(giveaway, main, source);
         }
-        if (esgst.gp && (!main || (!esgst.createdPath && !esgst.enteredPath && !esgst.wonPath && !esgst.giveawayPath && !esgst.newGiveawayPath))) {
+        if (esgst.gp && !giveaway.sgTools && (!main || (!esgst.createdPath && !esgst.enteredPath && !esgst.wonPath && !esgst.giveawayPath && !esgst.newGiveawayPath))) {
             addGpButton(giveaway, main, source);
         }
-        if (esgst.elgb && (!main || (!esgst.elgb_p && !esgst.createdPath && !esgst.wonPath))) {
+        if (esgst.elgb && !giveaway.sgTools && (!main || (!esgst.elgb_p && !esgst.createdPath && !esgst.wonPath))) {
             addElgbButtons(giveaway, main, source);
         }
         if (esgst.itadi && main && esgst.giveawayPath) {
@@ -29868,7 +30166,10 @@ async function getGiveaways(context, main, mainUrl, hr, key, ged, endless, sourc
 
 async function getGiveawayInfo(context, mainContext, ugd, ugdType, main, mainUrl, ged, endless, source) {
     var category, categories, chance, element, giveaway, i, id, info, key, keys, match, n, savedUser, uf, thinHeadings;
-    giveaway = {};
+    giveaway = {
+        creators: [],
+        groups: []
+    };
     giveaway.outerWrap = context;
     giveaway.gameId = giveaway.outerWrap.getAttribute(`data-game-id`);
     info = getGameInfo(giveaway.outerWrap);
@@ -29919,7 +30220,13 @@ async function getGiveawayInfo(context, mainContext, ugd, ugdType, main, mainUrl
         if (match) {
             giveaway.code = match[1];
         } else {
-            return;
+            match = giveaway.url.match(/\/giveaways\/(.+)/);
+            if (match) {
+                giveaway.code = match[1];
+                giveaway.sgTools = true;
+            } else {
+                return;
+            }
         }
     }
     giveaway.pinned = giveaway.outerWrap.closest(`.pinned-giveaways__outer-wrap`);
@@ -29984,6 +30291,9 @@ async function getGiveawayInfo(context, mainContext, ugd, ugdType, main, mainUrl
     } else if (esgst.createdPath && main) {
         giveaway.creator = esgst.username;
     }
+    if (giveaway.creator) {
+        giveaway.creators.push(giveaway.creator.toLowerCase());
+    }
     if (esgst.createdPath && main) {
         var status = giveaway.outerWrap.querySelector(`.table__column--width-small.text-center:last-of-type`);
         if (status) {
@@ -30047,6 +30357,13 @@ async function getGiveawayInfo(context, mainContext, ugd, ugdType, main, mainUrl
             giveaway.panel = insertHtml(giveaway.innerWrap.firstElementChild.nextElementSibling, `afterEnd`, `<div class="table__column--width-small text-center esgst-giveaway-panel"></div>`);
         }
     }
+    if (giveaway.sgTools && !giveaway.summary.getElementsByClassName(`esgst-ge-sgt-button`)[0]) {
+        giveaway.summary.insertAdjacentHTML(`beforeEnd`, `
+            <a class="esgst-ge-sgt-button" href="https://www.sgtools.info/giveaways/${giveaway.code}">
+                <div class="form__submit-button">SGTools</div>
+            </a>
+        `);
+    }
     giveaway.elgbPanel = giveaway.panel;
     if (!giveaway.entriesLink) {
         var ct = giveaway.panel || (esgst.gm_enable && esgst.createdPath ? giveaway.innerWrap.firstElementChild.nextElementSibling.nextElementSibling : giveaway.innerWrap.firstElementChild.nextElementSibling);
@@ -30060,7 +30377,7 @@ async function getGiveawayInfo(context, mainContext, ugd, ugdType, main, mainUrl
     giveaway.regionRestricted = giveaway.outerWrap.querySelector(`.giveaway__column--region-restricted, .featured__column--region-restricted`);
     giveaway.group = giveaway.outerWrap.querySelector(`.giveaway__column--group, .featured__column--group`);
     giveaway.whitelist = giveaway.outerWrap.querySelector(`.giveaway__column--whitelist, .featured__column--whitelist`);
-    giveaway.public = !giveaway.inviteOnly && !giveaway.regionRestricted && !giveaway.group && !giveaway.whitelist;
+    giveaway.public = !giveaway.sgTools && !giveaway.inviteOnly && !giveaway.regionRestricted && !giveaway.group && !giveaway.whitelist;
     if (!main || !esgst.giveawayPath) {
         if (giveaway.inviteOnly) {
             giveaway.inviteOnly.innerHTML = `<i class="fa fa-lock"></i>`;
@@ -30167,7 +30484,7 @@ async function getGiveawayInfo(context, mainContext, ugd, ugdType, main, mainUrl
             entries: giveaway.entries,
             comments: giveaway.comments,
             level: giveaway.level,
-            inviteOnly: giveaway.inviteOnly ? true : false,
+            inviteOnly: giveaway.inviteOnly || giveaway.sgTools ? true : false,
             regionRestricted: giveaway.regionRestricted ? true : false,
             group: giveaway.group ? true : false,
             whitelist: giveaway.whitelist ? true : false
@@ -30489,6 +30806,7 @@ async function getDiscussionInfo(context, main) {
             discussion.author = discussion.createdContainer.nextElementSibling.textContent;
         }
     }
+    discussion.authors = [discussion.author.toLowerCase()];
     discussion.created = discussion.author === esgst.username;
     discussion.poll = discussion.outerWrap.getElementsByClassName(`fa-align-left`)[0];
     if (discussion.headingColumn) {
@@ -32725,12 +33043,14 @@ async function sync(syncer, mainCallback, callback) {
         let deleteLock = await createLock(`gameLock`, 300);
         await syncGames(null, syncer, apiResponse, storeResponse);
         deleteLock();
-        for (let i = 0, n = esgst.settings.gc_o_altAccounts.length; !syncer.canceled && i < n; i++) {
-            let altAccount = esgst.settings.gc_o_altAccounts[i];
-            apiResponse = await request({method: `GET`, url: `http://api.steampowered.com/IPlayerService/GetOwnedGames/v0001/?key=${esgst.steamApiKey}&steamid=${altAccount.steamId}&format=json`});
-            await syncGames(altAccount, syncer, apiResponse);
+        if (esgst.settings.gc_o_altAccounts) {
+            for (let i = 0, n = esgst.settings.gc_o_altAccounts.length; !syncer.canceled && i < n; i++) {
+                let altAccount = esgst.settings.gc_o_altAccounts[i];
+                apiResponse = await request({method: `GET`, url: `http://api.steampowered.com/IPlayerService/GetOwnedGames/v0001/?key=${esgst.steamApiKey}&steamid=${altAccount.steamId}&format=json`});
+                await syncGames(altAccount, syncer, apiResponse);
+            }
+            await setSetting(`gc_o_altAccounts`, esgst.settings.gc_o_altAccounts);
         }
-        await setSetting(`gc_o_altAccounts`, esgst.settings.gc_o_altAccounts);
         if (syncer.html) {
             syncer.results.insertAdjacentHTML(`afterBegin`, syncer.html);
             let links = syncer.results.getElementsByTagName(`a`);
@@ -32988,7 +33308,7 @@ async function syncGames(altAccount, syncer, apiResponse, storeResponse) {
         });
     } catch (e) {
         syncer.html += `
-            <div>Unable to sync through the Steam API. Check if you have a Steam API key set in the settings menu.</div>
+            <div>${altAccount ? `<span class="esgst-bold">${altAccount.name}:</span> ` : ``}Unable to sync through the Steam API. Check if you have a Steam API key set in the settings menu.${altAccount ? ` Also check the privacy settings of your alt account.` : ``}</div>
         `;
     }
     if (!altAccount) {
@@ -33558,7 +33878,17 @@ function buildGiveaway(context, url) {
     var avatar, code, column, columns, comments, counts, endTime, endTimeColumn, entered, entries, giveaway, heading, headingName, i, id, icons, image, n, removeEntryButton, started, startTimeColumn, thinHeadings;
     giveaway = context.getElementsByClassName(`featured__outer-wrap--giveaway`)[0];
     if (giveaway) {
-        code = url.match(/giveaway\/(.+?)\//)[1];
+        let match = url.match(/giveaway\/(.+?)\//),
+            sgTools = false;
+        if (match) {
+            code = match[1];
+        } else {
+            match = url.match(/giveaways\/(.+)/);
+            if (match) {
+                code = match[1];
+                sgTools = true;
+            }
+        }
         id = giveaway.getAttribute(`data-game-id`);
         heading = giveaway.getElementsByClassName(`featured__heading`)[0];
         icons = heading.getElementsByTagName(`a`);
@@ -33574,11 +33904,23 @@ function buildGiveaway(context, url) {
         columns = heading.nextElementSibling;
         endTimeColumn = columns.firstElementChild;
         endTimeColumn.classList.remove(`featured__column`);
+        if (sgTools) {
+            let date = new Date(`${endTimeColumn.lastElementChild.textContent}Z`).getTime();
+            let ended = Date.now() > date;
+            endTimeColumn.lastElementChild.outerHTML = `${ended ? `Ended ` : ``}<span data-timestamp="${date / 1e3}">${ended ? getTimeSince(date) : getTimeSince(date, true)}</span>${ended ? ` ago` : ` remaining `}`;
+        }
         endTime = parseInt(endTimeColumn.lastElementChild.getAttribute(`data-timestamp`)) * 1000;
         startTimeColumn = endTimeColumn.nextElementSibling;
         startTimeColumn.classList.remove(`featured__column`, `featured__column--width-fill`);
         startTimeColumn.classList.add(`giveaway__column--width-fill`);
+        if (sgTools) {
+            let date = new Date(`${startTimeColumn.firstElementChild.textContent}Z`).getTime();
+            startTimeColumn.firstElementChild.outerHTML = `<span data-timestamp="${date / 1e3}">${getTimeSince(date)}</span> ago `;
+        }
         avatar = columns.lastElementChild;
+        if (sgTools) {
+            avatar.className = `giveaway_image_avatar`;
+        }
         avatar.remove();
         startTimeColumn.querySelector(`[style]`).removeAttribute(`style`);
         column = startTimeColumn.nextElementSibling;
@@ -33598,10 +33940,13 @@ function buildGiveaway(context, url) {
             entries = counts[1].textContent;
             comments = counts[0].textContent;
             started = true;
-        } else {
+        } else if (counts.length > 0) {
             entries = 0;
             comments = counts[0].textContent;
             started = false;
+        } else {
+            entries = 0;
+            comments = 0;
         }
         image = giveaway.getElementsByClassName(`global__image-outer-wrap--game-large`)[0].firstElementChild.getAttribute(`src`);
         return {
@@ -33814,9 +34159,9 @@ function setMissingDiscussion(context) {
     }
 }
 
-function getTimeSince(timestamp) {
+function getTimeSince(timestamp, until) {
     let n, s;
-    s = Math.floor((Date.now() - timestamp) / 1000);
+    s = Math.floor((until ? (timestamp - Date.now()) : (Date.now() - timestamp)) / 1000);
     n = Math.floor(s / 31104000);
     if (n >= 1) {
         return `${n} year${n === 1 ? `` : `s`}`;
@@ -37363,7 +37708,11 @@ async function manageData(dm, dropbox, googleDrive, oneDrive, space, callback) {
                 data = new Blob([JSON.stringify(data)]);
                 let url = URL.createObjectURL(data);
                 let file = document.createElement(`a`);
-                file.download = `${prompt(`Enter the name of the file:`, `esgst_data_${new Date().toISOString().replace(/:/g, `_`)}`)}.json`;
+                file.download = `${esgst.askFileName ? prompt(`Enter the name of the file:`, `esgst_data_${new Date().toISOString().replace(/:/g, `_`)}`) : `esgst_data_${new Date().toISOString().replace(/:/g, `_`)}`}.json`;
+                if (file.download === `null.json`) {
+                    callback();
+                    return;
+                }
                 file.href = url;
                 document.body.appendChild(file);
                 file.click();
@@ -37394,7 +37743,8 @@ async function exportSettings() {
     data = new Blob([JSON.stringify(data)]);
     let url = URL.createObjectURL(data);
     file = document.createElement(`a`);
-    file.download = `${prompt(`Enter the name of the file:`, `esgst_settings_${new Date().toISOString().replace(/:/g, `_`)}`)}.json`;
+    file.download = `${esgst.askFileName ? prompt(`Enter the name of the file:`, `esgst_settings_${new Date().toISOString().replace(/:/g, `_`)}`) : `esgst_settings_${new Date().toISOString().replace(/:/g, `_`)}`}.json`;
+    if (file.download === `null.json`) return;
     file.href = url;
     document.body.appendChild(file);
     file.click();
@@ -37406,7 +37756,11 @@ async function checkDropboxComplete(data, dm, callback) {
     let value = await getValue(`dropboxToken`);
     if (value) {
         if (dm.type === `export` || (data && esgst.settings.exportBackup)) {
-            let name = prompt(`Enter the name of the file:`, `esgst_data_${new Date().toISOString().replace(/:/g, `_`)}`);
+            let name = esgst.askFileName ? prompt(`Enter the name of the file:`, `esgst_data_${new Date().toISOString().replace(/:/g, `_`)}`) : `esgst_data_${new Date().toISOString().replace(/:/g, `_`)}`;
+            if (name === null) {
+                callback();
+                return;
+            }
             await request({data: JSON.stringify(data), headers: {authorization: `Bearer ${value}`, [`Dropbox-API-Arg`]: `{"path": "/${name}.json"}`, [`Content-Type`]: `application/octet-stream`}, method: `POST`, url: `https://content.dropboxapi.com/2/files/upload`});
             if (!dm.autoBackup) {
                 createFadeMessage(dm.message, `Data ${dm.pastTense} with success!`);
@@ -37445,7 +37799,11 @@ async function checkGoogleDriveComplete(data, dm, callback) {
     let value = await getValue(`googleDriveToken`);
     if (value) {
         if (dm.type === `export` || (data && esgst.settings.exportBackup)) {
-            let name = prompt(`Enter the name of the file:`, `esgst_data_${new Date().toISOString().replace(/:/g, `_`)}`);
+            let name = esgst.askFileName ? prompt(`Enter the name of the file:`, `esgst_data_${new Date().toISOString().replace(/:/g, `_`)}`) : `esgst_data_${new Date().toISOString().replace(/:/g, `_`)}`;
+            if (name === null) {
+                callback();
+                return;
+            }
             await request({data: `--esgst\nContent-Type: application/json; charset=UTF-8\n\n{"mimeType": "mime/type", "name": "${name}.json", "parents": ["appDataFolder"]}\n\n--esgst\nContent-Type: mime/type\n\n${JSON.stringify(data)}\n--esgst--`, headers: {authorization: `Bearer ${value}`, [`Content-Type`]: `multipart/related; boundary=esgst`}, method: `POST`, url: `https://www.googleapis.com/upload/drive/v3/files?uploadType=multipart`});
             if (!dm.autoBackup) {
                 createFadeMessage(dm.message, `Data ${dm.pastTense} with success!`);
@@ -37484,7 +37842,11 @@ async function checkOneDriveComplete(data, dm, callback) {
     let value = await getValue(`oneDriveToken`);
     if (value) {
         if (dm.type === `export` || (data && esgst.settings.exportBackup)) {
-            let name = prompt(`Enter the name of the file:`, `esgst_data_${new Date().toISOString().replace(/:/g, `_`)}`);
+            let name = esgst.askFileName ? prompt(`Enter the name of the file:`, `esgst_data_${new Date().toISOString().replace(/:/g, `_`)}`) : `esgst_data_${new Date().toISOString().replace(/:/g, `_`)}`;
+            if (name === null) {
+                callback();
+                return;
+            }
             await request({anon: true, data: JSON.stringify(data), headers: {Authorization: `bearer ${value}`, [`Content-Type`]: `application/json`}, method: `PUT`, url: `https://graph.microsoft.com/v1.0/me/drive/special/approot:/${name}.json:/content`});
             if (!dm.autoBackup) {
                 createFadeMessage(dm.message, `Data ${dm.pastTense} with success!`);
@@ -39072,7 +39434,7 @@ function addStyle() {
             display: inline-block;
             height: 20px;
             padding: 0 5px;
-            width: 100px !important;
+            width: 75px !important;
         }
 
         .esgst-gf-container input[type=date] {
@@ -39183,6 +39545,11 @@ function addStyle() {
         .esgst-giveaway-links {
             float: left;
             margin: 2px;
+        }
+
+        .esgst-gv-box .esgst-giveaway-panel:empty {
+            height: 0;
+            width: 0;        
         }
 
         .esgst-giveaway-panel:empty {
@@ -40077,6 +40444,25 @@ function addStyle() {
 function loadChangelog(version) {
     var changelog, current, html, i, index, n, popup;
     changelog = [
+        {
+            date: `April 14, 2018`,
+            version: `7.17.7`,
+            changelog: `
+                <ul>
+                    <li><a href="https://github.com/revilheart/ESGST/issues/632">#632</a> Add option to limit how many SGTools giveaways are opened when extracting</li>
+                    <li><a href="https://github.com/revilheart/ESGST/issues/631">#631</a> Add option to allow manipulation of cookies for Firefox containers</li>
+                    <li><a href="https://github.com/revilheart/ESGST/issues/630">#630</a> Add more details to error messages during alt accounts sync</li>
+                    <li><a href="https://github.com/revilheart/ESGST/issues/629">#629</a> Cancel backup when canceling file name input</li>
+                    <li><a href="https://github.com/revilheart/ESGST/issues/627">#627</a> Implement a method to make the process of adding new filters easier</li>
+                    <li><a href="https://github.com/revilheart/ESGST/issues/626">#626</a> Fix a bug that does not sync games if the user does not have alt accounts set</li>
+                    <li><a href="https://github.com/revilheart/ESGST/issues/625">#625</a> Integrate SGTools giveaways into Giveaway Extractor</li>
+                    <li><a href="https://github.com/revilheart/ESGST/issues/624">#624</a> Fix a bug that opens duplicate SGTools links when extracting giveaways</li>
+                    <li><a href="https://github.com/revilheart/ESGST/issues/623">#623</a> Add option to save backups without asking for a file name</li>
+                    <li><a href="https://github.com/revilheart/ESGST/issues/593">#593</a> Add Groups and Creators giveaway filters and Authors discussion filter</li>
+                    <li><a href="https://github.com/revilheart/ESGST/issues/592">#592</a> Fix a bug that does not load more pages in Endless Scrolling if there are deleted giveaways in the current page with the ended filter set to hide all</li>
+                </ul>
+            `
+        },
         {
             date: `April 11, 2018`,
             version: `7.17.6`,
