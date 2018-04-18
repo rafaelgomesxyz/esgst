@@ -1156,6 +1156,8 @@ async function init() {
             gas_optionUser: `sortIndex_asc`,
             gas_autoGroups: false,
             gas_optionGroups: `sortIndex_asc`,
+            gas_autoPopup: false,
+            gas_optionPopup: `sortIndex_asc`,
             gb_hours: 1,
             gc_categories: [`gc_gi`, `gc_r`, `gc_fcv`, `gc_rcv`, `gc_ncv`, `gc_h`, `gc_i`, `gc_o`, `gc_w`, `gc_a`, `gc_mp`, `gc_sc`, `gc_tc`, `gc_l`, `gc_m`, `gc_ea`, `gc_rm`, `gc_dlc`, `gc_p`, `gc_rd`, `gc_g`],
             gc_indexes: {},
@@ -1395,7 +1397,7 @@ async function init() {
         sg: location.hostname.match(/www.steamgifts.com/),
         st: location.hostname.match(/www.steamtrades.com/),
         currentVersion: `7.17.7`,
-        devVersion: `7.17.8 (Dev.1)`,
+        devVersion: `7.17.8 (Dev.2)`,
         icon: `data:image/x-icon;base64,AAABAAEAEBAAAAEAIABoBAAAFgAAACgAAAAQAAAAIAAAAAEAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAqv8DCbP/Hgeq+CQIrf8iCK3/Igit/yIIrf8iB6//Iwit9x8Aqv8DAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAKr0GAa2/c0DvfzfA7f83QO3/N0Dt/zdA7f83QO+/d4Gs/3OAKP1GQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACm/xQFs/n2Bcf//wW///8FwP//BcD//wW///8Fx///BbP69gC2/xUAAAAAAAAAAAAAAAAA/1UDFptOFxSZMxkLpJktAq720QW1+ugEsfvjA7b92wO2/dsEsfvjBbX66Aau/dEoiO4tUlLWGU5k3hdVVf8DEJxKHxWqT8cVrU7uE6VN0guqny0Apv8XAJfQGwBAVywAQFcsAJfQGwCx/xcogugtS2Lk0lBl6u5Qae7ISmPeHxagSSMVr07jF7lV/xOiSu0brgATAAAAAAAAAA8AAAC/AAAAwAAAABAAAAAAYznjEkth4OxWb/3/T2jv40lf4iMXnksiEq1O3RayUv8UpEnkEo0+HQAAABkAAABBAAAA8QAAAPEAAABBAAAAGUBSvxxOYeDjU2v0/05m7d1LYuEiF55LIhKtTt0Ws1L/FahN2gU1FTAAAADAAAAA7AAAAP0AAAD9AAAA7AAAAMAVG0owUGPm2lNr9P9OZu3dS2LhIheeSyISrU7dFrNS/xWoTdoFNRswAAAAvwAAAOsAAAD9AAAA/QAAAOsAAADAFRtKMFBj6NpTa/T/Tmbt3Uti4SIXnksiEq1O3RayUv8UpEnkEo0+HQAAABgAAABAAAAA8QAAAPEAAABBAAAAGT5PuR1OYeDjU2v0/05m7d1LYuEiFqBJIxWuT+QXuVX/E6JL7QC8XhMAAAAAAAAADwAAAL8AAAC/AAAAEAAAAAAOR/8SSWLh7FZv/f9PaO/jSV/iIxCUSh8Vrk7HFqxN7ROlS9JskzMt1XULGK12EhxGLgYsRy8GK612EhzVgAsYgmxxLU1i39JNZ+vtT2fwx0pj1h8AqlUDF65GFgqZUhlsiC0txH0T0s5/EujJgBPkz4QR28+EEdvJgBPkzn8Q6Md+E9KLdHosM1LWGUZo6BZVVf8DAAAAAAAAAAAAAAAA/2YAFMl9EvbgjRb/14gV/9eIFf/XiBX/14gV/9+NFv/KgBD254YAFQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAL91FRjKgRHN1IgU3s+EEt3PhBLdz4QS3c+EEt3UiBTezYMRzcJ6FBkAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACqqgADxIARHr18FiO8eA8ivHgPIrx4DyK8eA8ivXwPI8SAER7/VQADAAAAAAAAAAAAAAAA78cAAPA3AAD4FwAABCAAADGOAAAE+AAAkBEAAJ55AACYOQAAlgEAAER4AAAXaAAATnoAAPgXAAD0JwAA69cAAA==`,
         sgIcon: `data:image/x-icon;base64,AAABAAEAEBAAAAEAIABoBAAAFgAAACgAAAAQAAAAIAAAAAEAIAAAAAAAQAQAABMLAAATCwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIUAAAD5AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAPoAAACFAAAAAAAAAAAAAAD8AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA+QAAAAAAAAAAAAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAAAAAAAAAAAAP8AAAD/AAAA/wAAABwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAcAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAcAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAHAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAAAAAAAAAAAAPwAAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD5AAAAAAAAAAAAAACFAAAA+QAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD5AAAAhQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA//8AAP//AADAAwAAwAMAAMfjAADP8wAAz/MAAM/zAADP8wAAz/MAAM/zAADH4wAAwAMAAMADAAD//wAA//8AAA==`,
         stIcon: `data:image/x-icon;base64,AAABAAEAEBAAAAEAIABoBAAAFgAAACgAAAAQAAAAIAAAAAEAIAAAAAAAQAQAABMLAAATCwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABbD6SgWw+ucFsPrkBbD6SgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAWw+uYFsPr/BbD6/wWw+ucAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAFsPrmBbD6/wWw+v8FsPrmAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABbD6SQWw+uYFsPrmBbD6SQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAFKRLShSkS+cUpEvkFKRLSgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAExi4EpMYuDnTGLg5Exi4EoAAAAAAAAAABSkS+YUpEv/FKRL/xSkS+cAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABMYuDmTGLg/0xi4P9MYuDnAAAAAAAAAAAUpEvmFKRL/xSkS/8UpEvmAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAATGLg5kxi4P9MYuD/TGLg5gAAAAAAAAAAFKRLSRSkS+YUpEvmFKRLSQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAExi4ElMYuDmTGLg5kxi4EkAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAMZ9E0rGfRPnxn0T5MZ9E0oAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADGfRPmxn0T/8Z9E//GfRPnAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAxn0T5sZ9E//GfRP/xn0T5gAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAMZ9E0nGfRPmxn0T5sZ9E0kAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA//8AAPw/AAD8PwAA/D8AAPw/AAD//wAAh+EAAIfhAACH4QAAh+EAAP//AAD8PwAA/D8AAPw/AAD8PwAA//8AAA==`,
@@ -15299,8 +15301,8 @@ function unfixFsSidebar() {
 
 /* [GAS] Giveaway Sorter */
 
-function loadGas() {
-    if (!esgst.giveawaysPath && !esgst.enteredPath && !esgst.groupPath && !esgst.userPath) return;
+function loadGas(popup) {
+    if (!popup && !esgst.giveawaysPath && !esgst.enteredPath && !esgst.groupPath && !esgst.userPath) return;
 
     let type = location.search.match(/type=(wishlist|recommended|group|new)/);
     if (type) {
@@ -15311,16 +15313,19 @@ function loadGas() {
         type = `User`;
     } else if (esgst.groupPath) {
         type = `Groups`;
+    } else if (popup) {
+        type = `Popup`
     } else {
         type = ``;
     }
     esgst.gas = {
         autoKey: `gas_auto${type}`,
+        mainKey: popup ? `popupGiveaways` : `currentGiveaways`,
         optionKey: `gas_option${type}`
     };
 
     let object = {
-        button: createHeadingButton({id: `gas`, icons: [`fa-sort`], title: `Sort giveaways`})
+        button: createHeadingButton({context: popup, id: `gas`, icons: [`fa-sort`], title: `Sort giveaways`})
     };
     object.button.addEventListener(`click`, openGasPopout.bind(object));
 }
@@ -15368,7 +15373,7 @@ function openGasPopout() {
         </select>
     `);
     options.value = esgst[esgst.gas.optionKey];
-    let callback = saveAndSortContent.bind(null, esgst.gas.optionKey, `currentGiveaways`, options, null);
+    let callback = saveAndSortContent.bind(null, esgst.gas.optionKey, esgst.gas.mainKey, options, null);
     options.addEventListener(`change`, callback);
     this.popout.popout.appendChild(new ButtonSet_v2({color1: `green`, color2: ``, icon1: `fa-arrow-circle-right`, icon2: ``, title1: `Sort`, title2: ``, callback1: callback}).set);
     this.popout.open();
@@ -15535,10 +15540,13 @@ function loadGbGibs(bookmarked, container, context, popup) {
             <span>0</span>P required to enter all <span>0</span> giveaways.
         </div>
     `);
-    if ((esgst.gf && esgst.gf_m) || esgst.gm) {
+    if (esgst.gas || (esgst.gf && esgst.gf_m) || esgst.gm) {
         let heading = insertHtml(context, `beforeBegin`, `
             <div class="page__heading"></div>
         `);
+        if (esgst.gas) {
+            loadGas(heading);
+        }
         if (esgst.gf && esgst.gf_m) {
             heading.appendChild(addGfContainer(heading, `Gb`));
         }
@@ -16873,10 +16881,13 @@ function openGePopup(ge) {
             ge.popup = new Popup(`fa-gift`, `Extracted giveaways:`);
         }
         ge.results = insertHtml(ge.popup.scrollable, `beforeEnd`, `<div class="esgst-text-left"></div>`);
-        if ((esgst.gf && esgst.gf_m) || esgst.gm) {
+        if (esgst.gas || (esgst.gf && esgst.gf_m) || esgst.gm) {
             let heading = insertHtml(ge.popup.scrollable, `afterBegin`, `
                 <div class="page__heading"></div>
             `);
+            if (esgst.gas) {
+                loadGas(heading);
+            }
             if (esgst.gf && esgst.gf_m) {
                 heading.appendChild(addGfContainer(heading, `Ge`));
             }
@@ -17162,10 +17173,13 @@ async function openGedPopup(ged, event) {
     `;
     await getGedGiveaways(ged);
     ged.context.innerHTML = ``;
-    if ((esgst.gf && esgst.gf_m) || esgst.gm) {
+    if (esgst.gas || (esgst.gf && esgst.gf_m) || esgst.gm) {
         let heading = insertHtml(ged.context, `afterBegin`, `
             <div class="page__heading"></div>
         `);
+        if (esgst.gas) {
+            loadGas(heading);
+        }
         if (esgst.gf && esgst.gf_m) {
             heading.appendChild(addGfContainer(heading, `Ged`));
         }
@@ -26839,7 +26853,7 @@ function sortTsTables() {
     for (i = esgst.tsTables.length - 1; i > -1; --i) {
         tsTable = esgst.tsTables[i];
         if (tsTable.columnName) {
-            sortContent(getTsArray(tsTable.columnName, tsTable.columnIndex, tsTable.table), `${tsTable.key}_${tsTable.name}`);
+            sortContent(getTsArray(tsTable.columnName, tsTable.columnIndex, tsTable.table), null, `${tsTable.key}_${tsTable.name}`);
         }
     }
 }
@@ -26896,13 +26910,13 @@ function sortTsTable(button, columnName, i, key, table, tsTable) {
     tsTable.key = key === `def` ? `sortIndex` : `value`;
     tsTable.name = key;
     if (key === `desc`) {
-        sortContent(getTsArray(columnName, i, table), `value_${key}`);
+        sortContent(getTsArray(columnName, i, table), null, `value_${key}`);
         addTsAscButton(button, columnName, i, table, tsTable);
     } else if (key === `asc`) {
-        sortContent(getTsArray(columnName, i, table), `value_${key}`);
+        sortContent(getTsArray(columnName, i, table), null, `value_${key}`);
         addTsDefButton(button, columnName, i, table, tsTable);
     } else {
-        sortContent(getTsArray(columnName, i, table), `sortIndex_asc`);
+        sortContent(getTsArray(columnName, i, table), null, `sortIndex_asc`);
         addTsDescButton(button, columnName, i, table, tsTable);
     }
 }
@@ -30149,7 +30163,7 @@ async function loadGiveawayFeatures(context, main, source, endless) {
         }
     }
     if (esgst.gas && esgst[esgst.gas.autoKey]) {
-        sortContent(giveaways, esgst[esgst.gas.optionKey]);
+        sortContent(esgst[esgst.gas.mainKey], esgst.gas.mainKey, esgst[esgst.gas.optionKey]);
     }
     if (esgst.gf && esgst.gf.filteredCount && esgst[`gf_enable${esgst.gf.type}`]) {
         filterGfGiveaways(esgst.gf, false, endless);
@@ -30689,7 +30703,7 @@ async function loadDiscussionFeatures(context, main, source, endless) {
             filterDfDiscussions(esgst.df, false, endless);
         }
         if (esgst.ds && esgst.ds_auto) {
-            sortContent(discussions, esgst.ds_option);
+            sortContent(esgst.currentDiscussions, null, esgst.ds_option);
         }
     }
 }
@@ -33816,11 +33830,11 @@ function saveAndSortContent(key, mainKey, options, callback) {
     if (callback) {
         callback();
     }
-    sortContent(esgst[mainKey], options.value);
+    sortContent(esgst[mainKey], mainKey, options.value);
     setSetting(key, options.value);
 }
 
-function sortContent(array, option) {
+function sortContent(array, mainKey, option) {
     var after, before, divisor, divisors, i, key, n, name;
     name = option.split(/_/);
     key = name[0];
@@ -33844,8 +33858,16 @@ function sortContent(array, option) {
             }
         }
     });
+    let context = null;
+    if (mainKey === `popupGiveaways`) {
+        context = array[0].outerWrap.closest(`.esgst-popup`).getElementsByClassName(`esgst-gv-view`)[0] || array[0].outerWrap.parentElement.parentElement;
+    }
     for (i = 0, n = array.length; i < n; ++i) {
-        array[i].outerWrap.parentElement.appendChild(array[i].outerWrap);
+        if (context) {
+            context.appendChild(array[i].outerWrap.parentElement);
+        } else {
+            array[i].outerWrap.parentElement.appendChild(array[i].outerWrap);
+        }
     }
     if (key === `sortIndex`) {
         divisors = document.getElementsByClassName(`esgst-es-page-divisor`);
