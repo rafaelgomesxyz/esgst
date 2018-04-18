@@ -588,6 +588,19 @@ class Popup_v2 {
         }
         if (details.options) {
             this.description.appendChild(createOptions(details.options));
+            let inputs = this.description.lastElementChild.getElementsByTagName(`input`);
+            for (let input of inputs) {
+                switch (input.getAttribute(`type`)) {
+                    case `number`:
+                        observeNumChange(input, input.getAttribute(`name`));
+                        break;
+                    case `text`:
+                        observeChange(input, input.getAttribute(`name`));
+                        break;
+                    default:
+                        break;
+                }
+            }
         }
         if (details.buttons) {
             this.buttons = [];
@@ -832,14 +845,14 @@ class Process {
         do {
             let response = await request({method: `GET`, queue: details.queue, url: `${details.url}${details.nextPage}`});
             let responseHtml = parseHtml(response.responseText);
-            if (details.source && details.nextPage === 1) {
+            if (details.source && details.nextPage === backup) {
                 details.lastPage = getLastPage(responseHtml, false, details.source);
                 details.lastPage = details.lastPage === 999999999 ? `` : ` of ${details.lastPage}`;
             }
             await details.request.call(this, details, response, responseHtml);
             details.nextPage += 1;
             pagination = responseHtml.getElementsByClassName(`pagination__navigation`)[0];
-        } while (!this.isCanceled && pagination && !pagination.lastElementChild.classList.contains(esgst.selectedClass));
+        } while (!this.isCanceled && (!details.maxPage || details.nextPage <= details.maxPage) && pagination && !pagination.lastElementChild.classList.contains(esgst.selectedClass));
         details.nextPage = backup;
     }
 }
@@ -939,6 +952,9 @@ async function init() {
     esgst = {
         parameters: getParameters(),
         defaultValues: {
+            cs_limitPages: false,
+            cs_minPage: ``,
+            cs_maxPage: ``,
             ge_sgt_limit: 1,
             filter_os: 0,
             filter_giveaways_exist_in_account: 0,
@@ -1379,7 +1395,7 @@ async function init() {
         sg: location.hostname.match(/www.steamgifts.com/),
         st: location.hostname.match(/www.steamtrades.com/),
         currentVersion: `7.17.7`,
-        devVersion: `7.17.7`,
+        devVersion: `7.17.8 (Dev.1)`,
         icon: `data:image/x-icon;base64,AAABAAEAEBAAAAEAIABoBAAAFgAAACgAAAAQAAAAIAAAAAEAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAqv8DCbP/Hgeq+CQIrf8iCK3/Igit/yIIrf8iB6//Iwit9x8Aqv8DAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAKr0GAa2/c0DvfzfA7f83QO3/N0Dt/zdA7f83QO+/d4Gs/3OAKP1GQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACm/xQFs/n2Bcf//wW///8FwP//BcD//wW///8Fx///BbP69gC2/xUAAAAAAAAAAAAAAAAA/1UDFptOFxSZMxkLpJktAq720QW1+ugEsfvjA7b92wO2/dsEsfvjBbX66Aau/dEoiO4tUlLWGU5k3hdVVf8DEJxKHxWqT8cVrU7uE6VN0guqny0Apv8XAJfQGwBAVywAQFcsAJfQGwCx/xcogugtS2Lk0lBl6u5Qae7ISmPeHxagSSMVr07jF7lV/xOiSu0brgATAAAAAAAAAA8AAAC/AAAAwAAAABAAAAAAYznjEkth4OxWb/3/T2jv40lf4iMXnksiEq1O3RayUv8UpEnkEo0+HQAAABkAAABBAAAA8QAAAPEAAABBAAAAGUBSvxxOYeDjU2v0/05m7d1LYuEiF55LIhKtTt0Ws1L/FahN2gU1FTAAAADAAAAA7AAAAP0AAAD9AAAA7AAAAMAVG0owUGPm2lNr9P9OZu3dS2LhIheeSyISrU7dFrNS/xWoTdoFNRswAAAAvwAAAOsAAAD9AAAA/QAAAOsAAADAFRtKMFBj6NpTa/T/Tmbt3Uti4SIXnksiEq1O3RayUv8UpEnkEo0+HQAAABgAAABAAAAA8QAAAPEAAABBAAAAGT5PuR1OYeDjU2v0/05m7d1LYuEiFqBJIxWuT+QXuVX/E6JL7QC8XhMAAAAAAAAADwAAAL8AAAC/AAAAEAAAAAAOR/8SSWLh7FZv/f9PaO/jSV/iIxCUSh8Vrk7HFqxN7ROlS9JskzMt1XULGK12EhxGLgYsRy8GK612EhzVgAsYgmxxLU1i39JNZ+vtT2fwx0pj1h8AqlUDF65GFgqZUhlsiC0txH0T0s5/EujJgBPkz4QR28+EEdvJgBPkzn8Q6Md+E9KLdHosM1LWGUZo6BZVVf8DAAAAAAAAAAAAAAAA/2YAFMl9EvbgjRb/14gV/9eIFf/XiBX/14gV/9+NFv/KgBD254YAFQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAL91FRjKgRHN1IgU3s+EEt3PhBLdz4QS3c+EEt3UiBTezYMRzcJ6FBkAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACqqgADxIARHr18FiO8eA8ivHgPIrx4DyK8eA8ivXwPI8SAER7/VQADAAAAAAAAAAAAAAAA78cAAPA3AAD4FwAABCAAADGOAAAE+AAAkBEAAJ55AACYOQAAlgEAAER4AAAXaAAATnoAAPgXAAD0JwAA69cAAA==`,
         sgIcon: `data:image/x-icon;base64,AAABAAEAEBAAAAEAIABoBAAAFgAAACgAAAAQAAAAIAAAAAEAIAAAAAAAQAQAABMLAAATCwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIUAAAD5AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAPoAAACFAAAAAAAAAAAAAAD8AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA+QAAAAAAAAAAAAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAAAAAAAAAAAAP8AAAD/AAAA/wAAABwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAcAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAcAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAHAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAAAAAAAAAAAAPwAAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD5AAAAAAAAAAAAAACFAAAA+QAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD5AAAAhQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA//8AAP//AADAAwAAwAMAAMfjAADP8wAAz/MAAM/zAADP8wAAz/MAAM/zAADH4wAAwAMAAMADAAD//wAA//8AAA==`,
         stIcon: `data:image/x-icon;base64,AAABAAEAEBAAAAEAIABoBAAAFgAAACgAAAAQAAAAIAAAAAEAIAAAAAAAQAQAABMLAAATCwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABbD6SgWw+ucFsPrkBbD6SgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAWw+uYFsPr/BbD6/wWw+ucAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAFsPrmBbD6/wWw+v8FsPrmAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABbD6SQWw+uYFsPrmBbD6SQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAFKRLShSkS+cUpEvkFKRLSgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAExi4EpMYuDnTGLg5Exi4EoAAAAAAAAAABSkS+YUpEv/FKRL/xSkS+cAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABMYuDmTGLg/0xi4P9MYuDnAAAAAAAAAAAUpEvmFKRL/xSkS/8UpEvmAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAATGLg5kxi4P9MYuD/TGLg5gAAAAAAAAAAFKRLSRSkS+YUpEvmFKRLSQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAExi4ElMYuDmTGLg5kxi4EkAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAMZ9E0rGfRPnxn0T5MZ9E0oAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADGfRPmxn0T/8Z9E//GfRPnAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAxn0T5sZ9E//GfRP/xn0T5gAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAMZ9E0nGfRPmxn0T5sZ9E0kAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA//8AAPw/AAD8PwAA/D8AAPw/AAD//wAAh+EAAIfhAACH4QAAh+EAAP//AAD8PwAA/D8AAPw/AAD8PwAA//8AAA==`,
@@ -12083,6 +12099,14 @@ function loadCs() {
                     placeholder: `username1, username2, ...`
                 }
             ],
+            options: [
+                {
+                    check: true,
+                    description: `Limit search by pages, from <input class="esgst-switch-input" type="number" min="1" name="cs_minPage" value="${esgst.cs_minPage}"> to <input class="esgst-switch-input" name="cs_maxPage" min="1" type="number" value="${esgst.cs_maxPage}">.`,
+                    id: `cs_limitPages`,
+                    tooltip: `If unchecked, all pages will be searched.`
+                }
+            ],
             addProgress: true,
             addScrollable: `left`
         },
@@ -12106,10 +12130,14 @@ function initCs() {
     this.type = match[1];
     this.title = esgst.originalTitle.replace(/\s-\sPage\s\d+/, ``);
     this.results = 0;
+    if (esgst.cs_limitPages) {
+        this.requests[0].nextPage = esgst.cs_minPage;
+        this.requests[0].maxPage = esgst.cs_maxPage;
+    }
 }
 
 async function getCsRequest(details, response, responseHtml) {
-    this.popup.setProgress(`Searching comments (page ${details.nextPage}${details.lastPage})..`);
+    this.popup.setProgress(`Searching comments (page ${details.nextPage}${details.maxPage ? ` of ${details.maxPage}` : details.lastPage})..`);
     this.popup.setOverallProgress(`${this.results} results found.`);
     let comments = responseHtml.getElementsByClassName(`comments`);
     let elements = (comments[1] || comments[0]).querySelectorAll(`.comment:not(.comment--submit), .comment_outer`);
@@ -26323,7 +26351,7 @@ function openSksPopup(sks) {
     let searchCurrent = new ToggleSwitch(sks.popup.description, `sks_searchCurrent`, false, `Only search the current page.`, false, false, null, esgst.sks_searchCurrent);
     let minDate = new ToggleSwitch(sks.popup.description, `sks_limitDate`, false, `Limit search by date, from <input class="esgst-switch-input esgst-switch-input-large" type="date" value="${esgst.sks_minDate}"> to <input class="esgst-switch-input esgst-switch-input-large" type="date" value="${esgst.sks_maxDate}">.`, false, false, null, esgst.sks_limitDate).name.firstElementChild;
     let maxDate = minDate.nextElementSibling;
-    let limitPages = new ToggleSwitch(sks.popup.description, `sks_limitPages`, false, `Limit search by pages, from <input class="esgst-switch-input esgst-switch-input-large" type="number" value="${esgst.sks_minPage}"> to <input class="esgst-switch-input esgst-switch-input-large" type="number" value="${esgst.sks_maxPage}">.`, false, false, null, esgst.sks_limitPages);
+    let limitPages = new ToggleSwitch(sks.popup.description, `sks_limitPages`, false, `Limit search by pages, from <input class="esgst-switch-input" min="1" type="number" value="${esgst.sks_minPage}"> to <input class="esgst-switch-input" min="1" type="number" value="${esgst.sks_maxPage}">.`, false, false, null, esgst.sks_limitPages);
     let minPage = limitPages.name.firstElementChild;
     let maxPage = minPage.nextElementSibling;
     searchCurrent.exclusions.push(limitPages.container);
@@ -28912,7 +28940,7 @@ function addWBCButton(Context, WBCButton) {
     }
     if (!WBC.Update && !location.pathname.match(/^\/(discussions|users|archive)/)) {
         checkAllSwitch = new ToggleSwitch(popup.Options, `wbc_checkAll`, false, `Check all pages.`, false, false, `If disabled, only the current page will be checked.`, esgst.wbc_checkAll);
-        checkPagesSwitch = new ToggleSwitch(popup.Options, `wbc_checkPages`, false, `Check only pages from <input class="esgst-switch-input" type="number" value="${esgst.wbc_minPage}"> to <input class="esgst-switch-input" type="number" value="${esgst.wbc_maxPage}">.`, false, false, null, esgst.wbc_checkPages);
+        checkPagesSwitch = new ToggleSwitch(popup.Options, `wbc_checkPages`, false, `Check only pages from <input class="esgst-switch-input" min="1" type="number" value="${esgst.wbc_minPage}"> to <input class="esgst-switch-input" min="1" type="number" value="${esgst.wbc_maxPage}">.`, false, false, null, esgst.wbc_checkPages);
         let minPage = checkPagesSwitch.name.firstElementChild;
         let maxPage = minPage.nextElementSibling;
         let lastPage = getLastPage(document, true);
@@ -34005,6 +34033,7 @@ function observeChange(context, id) {
 }
 
 function observeNumChange(context, id) {
+    esgst[id] = parseInt(esgst[id]);
     context.addEventListener(`change`, () => {
         setSetting(id, parseInt(context.value));
         esgst[id] = parseInt(context.value);
