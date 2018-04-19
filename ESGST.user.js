@@ -3,7 +3,7 @@
 // @namespace ESGST
 // @description Enhances SteamGifts and SteamTrades by adding some cool features to them.
 // @icon https://dl.dropboxusercontent.com/s/lr3t3bxrxfxylqe/esgstIcon.ico?raw=1
-// @version 7.17.7
+// @version 7.17.8
 // @author revilheart
 // @contributor Royalgamer06
 // @downloadURL https://github.com/revilheart/ESGST/raw/master/ESGST.user.js
@@ -588,6 +588,19 @@ class Popup_v2 {
         }
         if (details.options) {
             this.description.appendChild(createOptions(details.options));
+            let inputs = this.description.lastElementChild.getElementsByTagName(`input`);
+            for (let input of inputs) {
+                switch (input.getAttribute(`type`)) {
+                    case `number`:
+                        observeNumChange(input, input.getAttribute(`name`));
+                        break;
+                    case `text`:
+                        observeChange(input, input.getAttribute(`name`));
+                        break;
+                    default:
+                        break;
+                }
+            }
         }
         if (details.buttons) {
             this.buttons = [];
@@ -832,14 +845,14 @@ class Process {
         do {
             let response = await request({method: `GET`, queue: details.queue, url: `${details.url}${details.nextPage}`});
             let responseHtml = parseHtml(response.responseText);
-            if (details.source && details.nextPage === 1) {
+            if (details.source && details.nextPage === backup) {
                 details.lastPage = getLastPage(responseHtml, false, details.source);
                 details.lastPage = details.lastPage === 999999999 ? `` : ` of ${details.lastPage}`;
             }
             await details.request.call(this, details, response, responseHtml);
             details.nextPage += 1;
             pagination = responseHtml.getElementsByClassName(`pagination__navigation`)[0];
-        } while (!this.isCanceled && pagination && !pagination.lastElementChild.classList.contains(esgst.selectedClass));
+        } while (!this.isCanceled && (!details.maxPage || details.nextPage <= details.maxPage) && pagination && !pagination.lastElementChild.classList.contains(esgst.selectedClass));
         details.nextPage = backup;
     }
 }
@@ -939,6 +952,9 @@ async function init() {
     esgst = {
         parameters: getParameters(),
         defaultValues: {
+            cs_limitPages: false,
+            cs_minPage: ``,
+            cs_maxPage: ``,
             ge_sgt_limit: 1,
             filter_os: 0,
             filter_giveaways_exist_in_account: 0,
@@ -1140,6 +1156,8 @@ async function init() {
             gas_optionUser: `sortIndex_asc`,
             gas_autoGroups: false,
             gas_optionGroups: `sortIndex_asc`,
+            gas_autoPopup: false,
+            gas_optionPopup: `sortIndex_asc`,
             gb_hours: 1,
             gc_categories: [`gc_gi`, `gc_r`, `gc_fcv`, `gc_rcv`, `gc_ncv`, `gc_h`, `gc_i`, `gc_o`, `gc_w`, `gc_a`, `gc_mp`, `gc_sc`, `gc_tc`, `gc_l`, `gc_m`, `gc_ea`, `gc_rm`, `gc_dlc`, `gc_p`, `gc_rd`, `gc_g`],
             gc_indexes: {},
@@ -1378,8 +1396,8 @@ async function init() {
         markdownParser: new Parsedown(),
         sg: location.hostname.match(/www.steamgifts.com/),
         st: location.hostname.match(/www.steamtrades.com/),
-        currentVersion: `7.17.7`,
-        devVersion: `7.17.7`,
+        currentVersion: `7.17.8`,
+        devVersion: `7.17.8`,
         icon: `data:image/x-icon;base64,AAABAAEAEBAAAAEAIABoBAAAFgAAACgAAAAQAAAAIAAAAAEAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAqv8DCbP/Hgeq+CQIrf8iCK3/Igit/yIIrf8iB6//Iwit9x8Aqv8DAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAKr0GAa2/c0DvfzfA7f83QO3/N0Dt/zdA7f83QO+/d4Gs/3OAKP1GQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACm/xQFs/n2Bcf//wW///8FwP//BcD//wW///8Fx///BbP69gC2/xUAAAAAAAAAAAAAAAAA/1UDFptOFxSZMxkLpJktAq720QW1+ugEsfvjA7b92wO2/dsEsfvjBbX66Aau/dEoiO4tUlLWGU5k3hdVVf8DEJxKHxWqT8cVrU7uE6VN0guqny0Apv8XAJfQGwBAVywAQFcsAJfQGwCx/xcogugtS2Lk0lBl6u5Qae7ISmPeHxagSSMVr07jF7lV/xOiSu0brgATAAAAAAAAAA8AAAC/AAAAwAAAABAAAAAAYznjEkth4OxWb/3/T2jv40lf4iMXnksiEq1O3RayUv8UpEnkEo0+HQAAABkAAABBAAAA8QAAAPEAAABBAAAAGUBSvxxOYeDjU2v0/05m7d1LYuEiF55LIhKtTt0Ws1L/FahN2gU1FTAAAADAAAAA7AAAAP0AAAD9AAAA7AAAAMAVG0owUGPm2lNr9P9OZu3dS2LhIheeSyISrU7dFrNS/xWoTdoFNRswAAAAvwAAAOsAAAD9AAAA/QAAAOsAAADAFRtKMFBj6NpTa/T/Tmbt3Uti4SIXnksiEq1O3RayUv8UpEnkEo0+HQAAABgAAABAAAAA8QAAAPEAAABBAAAAGT5PuR1OYeDjU2v0/05m7d1LYuEiFqBJIxWuT+QXuVX/E6JL7QC8XhMAAAAAAAAADwAAAL8AAAC/AAAAEAAAAAAOR/8SSWLh7FZv/f9PaO/jSV/iIxCUSh8Vrk7HFqxN7ROlS9JskzMt1XULGK12EhxGLgYsRy8GK612EhzVgAsYgmxxLU1i39JNZ+vtT2fwx0pj1h8AqlUDF65GFgqZUhlsiC0txH0T0s5/EujJgBPkz4QR28+EEdvJgBPkzn8Q6Md+E9KLdHosM1LWGUZo6BZVVf8DAAAAAAAAAAAAAAAA/2YAFMl9EvbgjRb/14gV/9eIFf/XiBX/14gV/9+NFv/KgBD254YAFQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAL91FRjKgRHN1IgU3s+EEt3PhBLdz4QS3c+EEt3UiBTezYMRzcJ6FBkAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACqqgADxIARHr18FiO8eA8ivHgPIrx4DyK8eA8ivXwPI8SAER7/VQADAAAAAAAAAAAAAAAA78cAAPA3AAD4FwAABCAAADGOAAAE+AAAkBEAAJ55AACYOQAAlgEAAER4AAAXaAAATnoAAPgXAAD0JwAA69cAAA==`,
         sgIcon: `data:image/x-icon;base64,AAABAAEAEBAAAAEAIABoBAAAFgAAACgAAAAQAAAAIAAAAAEAIAAAAAAAQAQAABMLAAATCwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIUAAAD5AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAPoAAACFAAAAAAAAAAAAAAD8AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA+QAAAAAAAAAAAAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAAAAAAAAAAAAP8AAAD/AAAA/wAAABwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAcAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAcAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAHAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAAAAAAAAAAAAPwAAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD5AAAAAAAAAAAAAACFAAAA+QAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD5AAAAhQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA//8AAP//AADAAwAAwAMAAMfjAADP8wAAz/MAAM/zAADP8wAAz/MAAM/zAADH4wAAwAMAAMADAAD//wAA//8AAA==`,
         stIcon: `data:image/x-icon;base64,AAABAAEAEBAAAAEAIABoBAAAFgAAACgAAAAQAAAAIAAAAAEAIAAAAAAAQAQAABMLAAATCwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABbD6SgWw+ucFsPrkBbD6SgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAWw+uYFsPr/BbD6/wWw+ucAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAFsPrmBbD6/wWw+v8FsPrmAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABbD6SQWw+uYFsPrmBbD6SQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAFKRLShSkS+cUpEvkFKRLSgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAExi4EpMYuDnTGLg5Exi4EoAAAAAAAAAABSkS+YUpEv/FKRL/xSkS+cAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABMYuDmTGLg/0xi4P9MYuDnAAAAAAAAAAAUpEvmFKRL/xSkS/8UpEvmAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAATGLg5kxi4P9MYuD/TGLg5gAAAAAAAAAAFKRLSRSkS+YUpEvmFKRLSQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAExi4ElMYuDmTGLg5kxi4EkAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAMZ9E0rGfRPnxn0T5MZ9E0oAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADGfRPmxn0T/8Z9E//GfRPnAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAxn0T5sZ9E//GfRP/xn0T5gAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAMZ9E0nGfRPmxn0T5sZ9E0kAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA//8AAPw/AAD8PwAA/D8AAPw/AAD//wAAh+EAAIfhAACH4QAAh+EAAP//AAD8PwAA/D8AAPw/AAD8PwAA//8AAA==`,
@@ -6585,7 +6603,7 @@ async function loadEsgst(toDelete, toSet) {
         if (esgst.menuPath) {
             document.head.insertAdjacentHTML(`beforeEnd`, `
                 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.min.css">
-                <link rel="stylesheet" type="text/css" href="https://cdn.steamgifts.com/css/minified_v31.css">
+                <link rel="stylesheet" type="text/css" href="https://cdn.steamgifts.com/css/minified_v32.css">
             `);
         }
         addStyle();
@@ -8067,7 +8085,7 @@ function addCewgdDetails(giveaway, details) {
     let type, typeColumn;
     giveaway.points = details.points;
     if (giveaway.gwcContext) {
-        giveaway.chancePerPoint = Math.round(giveaway.chance / giveaway.points * 100) / 100;
+        giveaway.chancePerPoint = Math.round(giveaway.chance / Math.max(1, giveaway.points) * 100) / 100;
         giveaway.gwcContext.title = getFeatureTooltip(`gwc`, `Giveaway Winning Chance (${giveaway.chancePerPoint}% per point)`);
     }
     giveaway.level = details.level;
@@ -12083,6 +12101,14 @@ function loadCs() {
                     placeholder: `username1, username2, ...`
                 }
             ],
+            options: [
+                {
+                    check: true,
+                    description: `Limit search by pages, from <input class="esgst-switch-input" type="number" min="1" name="cs_minPage" value="${esgst.cs_minPage}"> to <input class="esgst-switch-input" name="cs_maxPage" min="1" type="number" value="${esgst.cs_maxPage}">.`,
+                    id: `cs_limitPages`,
+                    tooltip: `If unchecked, all pages will be searched.`
+                }
+            ],
             addProgress: true,
             addScrollable: `left`
         },
@@ -12106,10 +12132,14 @@ function initCs() {
     this.type = match[1];
     this.title = esgst.originalTitle.replace(/\s-\sPage\s\d+/, ``);
     this.results = 0;
+    if (esgst.cs_limitPages) {
+        this.requests[0].nextPage = esgst.cs_minPage;
+        this.requests[0].maxPage = esgst.cs_maxPage;
+    }
 }
 
 async function getCsRequest(details, response, responseHtml) {
-    this.popup.setProgress(`Searching comments (page ${details.nextPage}${details.lastPage})..`);
+    this.popup.setProgress(`Searching comments (page ${details.nextPage}${details.maxPage ? ` of ${details.maxPage}` : details.lastPage})..`);
     this.popup.setOverallProgress(`${this.results} results found.`);
     let comments = responseHtml.getElementsByClassName(`comments`);
     let elements = (comments[1] || comments[0]).querySelectorAll(`.comment:not(.comment--submit), .comment_outer`);
@@ -15271,8 +15301,8 @@ function unfixFsSidebar() {
 
 /* [GAS] Giveaway Sorter */
 
-function loadGas() {
-    if (!esgst.giveawaysPath && !esgst.enteredPath && !esgst.groupPath && !esgst.userPath) return;
+function loadGas(popup) {
+    if (!popup && !esgst.giveawaysPath && !esgst.enteredPath && !esgst.groupPath && !esgst.userPath) return;
 
     let type = location.search.match(/type=(wishlist|recommended|group|new)/);
     if (type) {
@@ -15283,16 +15313,19 @@ function loadGas() {
         type = `User`;
     } else if (esgst.groupPath) {
         type = `Groups`;
+    } else if (popup) {
+        type = `Popup`
     } else {
         type = ``;
     }
     esgst.gas = {
         autoKey: `gas_auto${type}`,
+        mainKey: popup ? `popupGiveaways` : `currentGiveaways`,
         optionKey: `gas_option${type}`
     };
 
     let object = {
-        button: createHeadingButton({id: `gas`, icons: [`fa-sort`], title: `Sort giveaways`})
+        button: createHeadingButton({context: popup, id: `gas`, icons: [`fa-sort`], title: `Sort giveaways`})
     };
     object.button.addEventListener(`click`, openGasPopout.bind(object));
 }
@@ -15340,7 +15373,7 @@ function openGasPopout() {
         </select>
     `);
     options.value = esgst[esgst.gas.optionKey];
-    let callback = saveAndSortContent.bind(null, esgst.gas.optionKey, `currentGiveaways`, options, null);
+    let callback = saveAndSortContent.bind(null, esgst.gas.optionKey, esgst.gas.mainKey, options, null);
     options.addEventListener(`change`, callback);
     this.popout.popout.appendChild(new ButtonSet_v2({color1: `green`, color2: ``, icon1: `fa-arrow-circle-right`, icon2: ``, title1: `Sort`, title2: ``, callback1: callback}).set);
     this.popout.open();
@@ -15507,10 +15540,13 @@ function loadGbGibs(bookmarked, container, context, popup) {
             <span>0</span>P required to enter all <span>0</span> giveaways.
         </div>
     `);
-    if ((esgst.gf && esgst.gf_m) || esgst.gm) {
+    if (esgst.gas || (esgst.gf && esgst.gf_m) || esgst.gm) {
         let heading = insertHtml(context, `beforeBegin`, `
             <div class="page__heading"></div>
         `);
+        if (esgst.gas) {
+            loadGas(heading);
+        }
         if (esgst.gf && esgst.gf_m) {
             heading.appendChild(addGfContainer(heading, `Gb`));
         }
@@ -16123,7 +16159,7 @@ function addGcCategory(cache, games, id, savedGame, type) {
                             var game = account.games[type][id];
                             if (game && game.owned) {
                                 elements.push(`
-                                    <a class="esgst-gc esgst-gc-owned" data-id="gc_o" href="http://steamcommunity.com/profiles/${account.steamId}/games" style="background-color: ${account.bgColor}; color: ${account.color};" title="${getFeatureTooltip(`gc_o_a`, `Owned by ${account.name}`)}">${esgst.gc_o_s ? (esgst.gc_o_s_i ? `<i class="fa fa-${account.icon}"></i>` : `O`) : account.label}</a>
+                                    <a class="esgst-gc esgst-gc-owned" data-bgColor="${account.bgColor}" data-color="${account.color}" data-id="gc_o" href="http://steamcommunity.com/profiles/${account.steamId}/games" style="background-color: ${account.bgColor}; color: ${account.color};" title="${getFeatureTooltip(`gc_o_a`, `Owned by ${account.name}`)}">${esgst.gc_o_s ? (esgst.gc_o_s_i ? `<i class="fa fa-${account.icon}"></i>` : `O`) : account.label}</a>
                                 `);
                             }
                         });
@@ -16402,8 +16438,8 @@ function addGcCategory(cache, games, id, savedGame, type) {
                     let index = esgst[gc.indexKey][id];
                     if (isSet(index) && index !== -1) {
                         item.classList.add(esgst.giveawayPath ? `featured__column` : `giveaway__column`);
-                        if (id === `gc_r`) {
-                            item.firstElementChild.style.color = item.style.backgroundColor;
+                        if (item.getAttribute(`data-color`)) {
+                            item.firstElementChild.style.color = item.getAttribute(`data-bgColor`);
                             item.style.color = ``;
                             item.style.background = ``;
                         }
@@ -16452,9 +16488,11 @@ function getGcSource(gc, context, index, item, panel, column) {
                 gc.source.classList.add(esgst.giveawayPath ? `featured__column` : `giveaway__column`);
             } else {
                 gc.source.classList.remove(esgst.giveawayPath ? `featured__column` : `giveaway__column`);
-                gc.source.firstElementChild.style.color = ``;
-                gc.source.style.color = gc.source.getAttribute(`data-color`);
-                gc.source.style.backgroundColor = gc.source.getAttribute(`data-bgColor`);
+                if (gc.source.getAttribute(`data-color`)) {
+                    gc.source.firstElementChild.style.color = ``;
+                    gc.source.style.color = gc.source.getAttribute(`data-color`);
+                    gc.source.style.backgroundColor = gc.source.getAttribute(`data-bgColor`);
+                }
             }
         }
         return;
@@ -16464,14 +16502,14 @@ function getGcSource(gc, context, index, item, panel, column) {
         if (current && current === item) {
             if (context.contains(item)) {
                 gc.source.classList.add(esgst.giveawayPath ? `featured__column` : `giveaway__column`);
-                if (gc.source.getAttribute(`data-id`) === `gc_r`) {
+                if (gc.source.getAttribute(`data-color`)) {
                     gc.source.firstElementChild.style.color = gc.source.getAttribute(`data-bgColor`);
                     gc.source.style.color = ``;
                     gc.source.style.background = ``;
                 }
             } else {
                 gc.source.classList.remove(esgst.giveawayPath ? `featured__column` : `giveaway__column`);
-                if (gc.source.getAttribute(`data-id`) === `gc_r`) {
+                if (gc.source.getAttribute(`data-color`)) {
                     gc.source.firstElementChild.style.color = ``;
                     gc.source.style.color = gc.source.getAttribute(`data-color`);
                     gc.source.style.backgroundColor = gc.source.getAttribute(`data-bgColor`);
@@ -16489,14 +16527,14 @@ function getGcSource(gc, context, index, item, panel, column) {
     } while (current);
     if (context.contains(item)) {
         gc.source.classList.add(esgst.giveawayPath ? `featured__column` : `giveaway__column`);
-        if (gc.source.getAttribute(`data-id`) === `gc_r`) {
+        if (gc.source.getAttribute(`data-color`)) {
             gc.source.firstElementChild.style.color = gc.source.getAttribute(`data-bgColor`);
             gc.source.style.color = ``;
             gc.source.style.background = ``;
         }
     } else {
         gc.source.classList.remove(esgst.giveawayPath ? `featured__column` : `giveaway__column`);
-        if (gc.source.getAttribute(`data-id`) === `gc_r`) {
+        if (gc.source.getAttribute(`data-color`)) {
             gc.source.firstElementChild.style.color = ``;
             gc.source.style.color = gc.source.getAttribute(`data-color`);
             gc.source.style.backgroundColor = gc.source.getAttribute(`data-bgColor`);
@@ -16845,10 +16883,13 @@ function openGePopup(ge) {
             ge.popup = new Popup(`fa-gift`, `Extracted giveaways:`);
         }
         ge.results = insertHtml(ge.popup.scrollable, `beforeEnd`, `<div class="esgst-text-left"></div>`);
-        if ((esgst.gf && esgst.gf_m) || esgst.gm) {
+        if (esgst.gas || (esgst.gf && esgst.gf_m) || esgst.gm) {
             let heading = insertHtml(ge.popup.scrollable, `afterBegin`, `
                 <div class="page__heading"></div>
             `);
+            if (esgst.gas) {
+                loadGas(heading);
+            }
             if (esgst.gf && esgst.gf_m) {
                 heading.appendChild(addGfContainer(heading, `Ge`));
             }
@@ -17039,7 +17080,7 @@ function getGeGiveaways(ge, context) {
     };
     for (let element of elements) {
         let url = element.getAttribute(`href`);
-        let match = url.match(/\/giveaway\/(.+?)(\/.*)?$/);
+        let match = url.match(/\/giveaway.*?\/(?!.*bot)(.{5})(\/.*)?$/i);
         if (!match) {
             match = url.match(/\/giveaways\/(.+)/);
             if (!match) continue;
@@ -17134,10 +17175,13 @@ async function openGedPopup(ged, event) {
     `;
     await getGedGiveaways(ged);
     ged.context.innerHTML = ``;
-    if ((esgst.gf && esgst.gf_m) || esgst.gm) {
+    if (esgst.gas || (esgst.gf && esgst.gf_m) || esgst.gm) {
         let heading = insertHtml(ged.context, `afterBegin`, `
             <div class="page__heading"></div>
         `);
+        if (esgst.gas) {
+            loadGas(heading);
+        }
         if (esgst.gf && esgst.gf_m) {
             heading.appendChild(addGfContainer(heading, `Ged`));
         }
@@ -17288,7 +17332,7 @@ async function addGedIcons(ged, comments) {
             if (!decryptedGiveaways[code] || (isEnded && !isStarted)) {
                 let giveaway = await getGedGiveaway(code, currentGiveaways, decryptedGiveaways, false, comment.id || location.href);
                 ged.newGiveaways.push(code);
-                isNew = true;
+                hasNew = isNew = true;
                 if (giveaway) {
                     isEnded = giveaway.ended;
                     isStarted = giveaway.started;
@@ -21054,7 +21098,7 @@ function addGwcChances(giveaway, main, source) {
             }
         } else {
             giveaway.chance = 100;
-            giveaway.chancePerPoint = Math.round(100 / giveaway.points * 100) / 100;
+            giveaway.chancePerPoint = Math.round(100 / Math.max(1, giveaway.points) * 100) / 100;
         }
     }
 }
@@ -21069,7 +21113,7 @@ function addGwcChance(giveaway) {
         advancedChance = advancedChance > 100 ? 100 : (advancedChance <= 0 ? 0.01 : advancedChance);
     }
     giveaway.chance = esgst.gwc_a && !esgst.gwc_a_b ? advancedChance : basicChance;
-    giveaway.chancePerPoint = Math.round(giveaway.chance / giveaway.points * 100) / 100;
+    giveaway.chancePerPoint = Math.round(giveaway.chance / Math.max(1, giveaway.points) * 100) / 100;
     if (giveaway.points) {
         giveaway.gwcContext.title = getFeatureTooltip(`gwc`, `Giveaway Winning Chance (${giveaway.chancePerPoint}% per point)`);
     }
@@ -22317,7 +22361,7 @@ function addMgcSection() {
                 <div class="esgst-form-heading">
                     <div class="esgst-form-heading-number">0.</div>
                     <div class="esgst-form-heading-text">
-                        Create Multiple Giveaways <i class="fa fa-question-circle" title="How To Use\n\n1. If you want to create a train, enable 'Create train', otherwise go to step 3.\n2. If you want to attach a discussion to the train, click 'Attach' and follow the steps.\n3. Fill the details of the giveaway (you can use Giveaway Templates for this).\n4. If you are creating a train, you must generate next/previous links by clicking 'Generate' and following the steps, otherwise go to the next step.\n5. If you want to add a counter to the giveaways, click 'Generate' and follow the steps.\n6. You can either add each giveaway at a time, by typing the game name, filling the copies/keys fields and clicking 'Add', or all giveaways at the same time, by clicking 'Import' and following the steps.\n7. If you want to play with the order of the giveaways you can use 'Shuffle' to change their order.\n8. When you have added all the giveaways and are ready to create them, click 'Create' and wait until the process is done."></i>
+                        Create Multiple Giveaways <i class="fa fa-question-circle" title="How To Use\n\n1. If you want to create a train, enable 'Create train', otherwise go to step 3.\n2. If you want to attach a discussion to the train, click 'Attach' and follow the steps.\n3. Fill the details of the giveaway (you can use Giveaway Templates for this).\n4. If you are creating a train, you must generate next/previous links by clicking 'Generate' and following the steps, otherwise go to the next step.\n5. If you want to add a counter to the giveaways, click 'Generate' and follow the steps.\n6. You can either add each giveaway at a time, by typing the game name, filling the copies/keys fields and clicking 'Add', or all giveaways at the same time, by clicking 'Import' and following the steps.\n7. If you want to play with the order of the giveaways you can use 'Shuffle' to change their order.\n8. When you have added all the giveaways and are ready to create them, click 'Create' and wait until the process is done.\n\nYou can add certain variables to the description of the giveaways (before clicking 'Add') that will be replaced with certain details for each giveaway:\n\n[ESGST-NAME] will be replaced by the name of the game.\n[ESGST-ID] will be replaced by the app/sub id of the game.\n[ESGST-TYPE] will be replaced by 'app' or 'sub'. [ESGST-STEAM] will be replaced by the store URL of the game ('https://store.steampowered.com/type/id').\n[ESGST-LEVEL] will be replaced by the level of the giveaway."></i>
                     </div>
                 </div>
                 <div class="esgst-gm-section esgst-form-row-indent">
@@ -22574,6 +22618,7 @@ function addMgcGiveaway(edit, mgc, values) {
             details += `Groups\n`;
         }
     }
+    values.description = values.description.replace(/\[ESGST-TYPE\]/g, values.steam.type.slice(0, -1)).replace(/\[ESGST-ID\]/g, values.steam.id).replace(/\[ESGST-STEAM\]/g, `http://store.steampowered.com/${values.steam.type.slice(0, -1)}/${values.steam.id}`).replace(/\[ESGST-NAME\]/g, values.gameName).replace(/\[ESGST-LEVEL\]/g, values.level);
     details += `Level ${values.level}\n\n${values.description}`;
     data = `xsrf_token=${esgst.xsrfToken}&next_step=3&game_id=${values.gameId}&type=${values.gameType}&copies=${values.copies}&key_string=${values.keys}&start_time=${values.startTime}&end_time=${values.endTime}&region_restricted=${values.region}&country_item_string=${values.countries}&who_can_enter=${values.whoCanEnter}&whitelist=${values.whitelist}&group_item_string=${values.groups}&contributor_level=${values.level}&description=${encodeURIComponent(values.description)}`;
     if (edit) {
@@ -22659,7 +22704,7 @@ function importMgcGiveaways(mgc, callback) {
             <li><span class="esgst-bold">[whoCanEnter="..."]</span> (Replace "..." with either: "everyone", if the giveaway must be public; "invite_only", if the giveaway must be private; or "groups", if the giveaway must be restricted to groups/whitelist.)</li>
             <li><span class="esgst-bold">[groups="..."]</span> (Replace "..." with the names of the groups that the giveaway must be restricted to, separated by a comma followed by a space. The names must be exactly how they appear on the group selection list. Use "My Whitelist" to include your whitelist in the groups. For example, "My Whitelist, Playing Appreciated, S.Gifts" or "My Whitelist".)</li>
             <li><span class="esgst-bold">[level="..."]</span> (Replace "..." with the level that the giveaway must be restricted to. For example, "5".)</li>
-            <li><span class="esgst-bold">[description="..."]</span> (Replace "..." with the description that the giveaway must have. Use "\\n" to represent a new line. For example, "The winner will be added on Steam for the delivery.\\n\\nPlease be patient.".)</li>
+            <li><span class="esgst-bold">[description="..."]</span> (Replace "..." with the description that the giveaway must have. Use "\\n" to represent a new line. You can use all of the variables explained in the "How To Use" tooltip from section 0 here. For example, "The winner will be added on Steam for the delivery.\\n\\nPlease be patient.".)</li>
         </ul>
         <div>Put each giveaway in a separate line, using one of the formats below:</div>
         <ul>
@@ -26323,7 +26368,7 @@ function openSksPopup(sks) {
     let searchCurrent = new ToggleSwitch(sks.popup.description, `sks_searchCurrent`, false, `Only search the current page.`, false, false, null, esgst.sks_searchCurrent);
     let minDate = new ToggleSwitch(sks.popup.description, `sks_limitDate`, false, `Limit search by date, from <input class="esgst-switch-input esgst-switch-input-large" type="date" value="${esgst.sks_minDate}"> to <input class="esgst-switch-input esgst-switch-input-large" type="date" value="${esgst.sks_maxDate}">.`, false, false, null, esgst.sks_limitDate).name.firstElementChild;
     let maxDate = minDate.nextElementSibling;
-    let limitPages = new ToggleSwitch(sks.popup.description, `sks_limitPages`, false, `Limit search by pages, from <input class="esgst-switch-input esgst-switch-input-large" type="number" value="${esgst.sks_minPage}"> to <input class="esgst-switch-input esgst-switch-input-large" type="number" value="${esgst.sks_maxPage}">.`, false, false, null, esgst.sks_limitPages);
+    let limitPages = new ToggleSwitch(sks.popup.description, `sks_limitPages`, false, `Limit search by pages, from <input class="esgst-switch-input" min="1" type="number" value="${esgst.sks_minPage}"> to <input class="esgst-switch-input" min="1" type="number" value="${esgst.sks_maxPage}">.`, false, false, null, esgst.sks_limitPages);
     let minPage = limitPages.name.firstElementChild;
     let maxPage = minPage.nextElementSibling;
     searchCurrent.exclusions.push(limitPages.container);
@@ -26811,7 +26856,7 @@ function sortTsTables() {
     for (i = esgst.tsTables.length - 1; i > -1; --i) {
         tsTable = esgst.tsTables[i];
         if (tsTable.columnName) {
-            sortContent(getTsArray(tsTable.columnName, tsTable.columnIndex, tsTable.table), `${tsTable.key}_${tsTable.name}`);
+            sortContent(getTsArray(tsTable.columnName, tsTable.columnIndex, tsTable.table), null, `${tsTable.key}_${tsTable.name}`);
         }
     }
 }
@@ -26868,13 +26913,13 @@ function sortTsTable(button, columnName, i, key, table, tsTable) {
     tsTable.key = key === `def` ? `sortIndex` : `value`;
     tsTable.name = key;
     if (key === `desc`) {
-        sortContent(getTsArray(columnName, i, table), `value_${key}`);
+        sortContent(getTsArray(columnName, i, table), null, `value_${key}`);
         addTsAscButton(button, columnName, i, table, tsTable);
     } else if (key === `asc`) {
-        sortContent(getTsArray(columnName, i, table), `value_${key}`);
+        sortContent(getTsArray(columnName, i, table), null, `value_${key}`);
         addTsDefButton(button, columnName, i, table, tsTable);
     } else {
-        sortContent(getTsArray(columnName, i, table), `sortIndex_asc`);
+        sortContent(getTsArray(columnName, i, table), null, `sortIndex_asc`);
         addTsDescButton(button, columnName, i, table, tsTable);
     }
 }
@@ -28912,7 +28957,7 @@ function addWBCButton(Context, WBCButton) {
     }
     if (!WBC.Update && !location.pathname.match(/^\/(discussions|users|archive)/)) {
         checkAllSwitch = new ToggleSwitch(popup.Options, `wbc_checkAll`, false, `Check all pages.`, false, false, `If disabled, only the current page will be checked.`, esgst.wbc_checkAll);
-        checkPagesSwitch = new ToggleSwitch(popup.Options, `wbc_checkPages`, false, `Check only pages from <input class="esgst-switch-input" type="number" value="${esgst.wbc_minPage}"> to <input class="esgst-switch-input" type="number" value="${esgst.wbc_maxPage}">.`, false, false, null, esgst.wbc_checkPages);
+        checkPagesSwitch = new ToggleSwitch(popup.Options, `wbc_checkPages`, false, `Check only pages from <input class="esgst-switch-input" min="1" type="number" value="${esgst.wbc_minPage}"> to <input class="esgst-switch-input" min="1" type="number" value="${esgst.wbc_maxPage}">.`, false, false, null, esgst.wbc_checkPages);
         let minPage = checkPagesSwitch.name.firstElementChild;
         let maxPage = minPage.nextElementSibling;
         let lastPage = getLastPage(document, true);
@@ -30121,7 +30166,7 @@ async function loadGiveawayFeatures(context, main, source, endless) {
         }
     }
     if (esgst.gas && esgst[esgst.gas.autoKey]) {
-        sortContent(giveaways, esgst[esgst.gas.optionKey]);
+        sortContent(esgst[esgst.gas.mainKey], esgst.gas.mainKey, esgst[esgst.gas.optionKey]);
     }
     if (esgst.gf && esgst.gf.filteredCount && esgst[`gf_enable${esgst.gf.type}`]) {
         filterGfGiveaways(esgst.gf, false, endless);
@@ -30391,7 +30436,7 @@ async function getGiveawayInfo(context, mainContext, ugd, ugdType, main, mainUrl
     }
     chance = context.getElementsByClassName(`esgst-gwc`)[0];
     giveaway.chance = chance ? parseFloat(chance.getAttribute(`data-chance`)) : 0;
-    giveaway.chancePerPoint = Math.round(giveaway.chance / giveaway.points * 100) / 100;
+    giveaway.chancePerPoint = Math.round(giveaway.chance / Math.max(1, giveaway.points) * 100) / 100;
     var feedback = giveaway.outerWrap.getElementsByClassName(`table__gift-feedback-awaiting-reply`)[0];
     if (esgst.rrbp && feedback) {
         feedback.addEventListener(`click`, openRrbp.bind(null, giveaway));
@@ -30661,7 +30706,7 @@ async function loadDiscussionFeatures(context, main, source, endless) {
             filterDfDiscussions(esgst.df, false, endless);
         }
         if (esgst.ds && esgst.ds_auto) {
-            sortContent(discussions, esgst.ds_option);
+            sortContent(esgst.currentDiscussions, null, esgst.ds_option);
         }
     }
 }
@@ -33788,11 +33833,11 @@ function saveAndSortContent(key, mainKey, options, callback) {
     if (callback) {
         callback();
     }
-    sortContent(esgst[mainKey], options.value);
+    sortContent(esgst[mainKey], mainKey, options.value);
     setSetting(key, options.value);
 }
 
-function sortContent(array, option) {
+function sortContent(array, mainKey, option) {
     var after, before, divisor, divisors, i, key, n, name;
     name = option.split(/_/);
     key = name[0];
@@ -33816,8 +33861,16 @@ function sortContent(array, option) {
             }
         }
     });
+    let context = null;
+    if (mainKey === `popupGiveaways`) {
+        context = array[0].outerWrap.closest(`.esgst-popup`).getElementsByClassName(`esgst-gv-view`)[0] || array[0].outerWrap.parentElement.parentElement;
+    }
     for (i = 0, n = array.length; i < n; ++i) {
-        array[i].outerWrap.parentElement.appendChild(array[i].outerWrap);
+        if (context) {
+            context.appendChild(array[i].outerWrap.parentElement);
+        } else {
+            array[i].outerWrap.parentElement.appendChild(array[i].outerWrap);
+        }
     }
     if (key === `sortIndex`) {
         divisors = document.getElementsByClassName(`esgst-es-page-divisor`);
@@ -34005,6 +34058,7 @@ function observeChange(context, id) {
 }
 
 function observeNumChange(context, id) {
+    esgst[id] = parseInt(esgst[id]);
     context.addEventListener(`change`, () => {
         setSetting(id, parseInt(context.value));
         esgst[id] = parseInt(context.value);
@@ -40444,6 +40498,22 @@ function addStyle() {
 function loadChangelog(version) {
     var changelog, current, html, i, index, n, popup;
     changelog = [
+        {
+            date: `April 19, 2018`,
+            version: `7.17.8`,
+            changelog: `
+                <ul>
+                    <li><a href="https://github.com/revilheart/ESGST/issues/637">#637</a> Fix a style issue in pages generated by ESGST open in a new tab</li>
+                    <li><a href="https://github.com/revilheart/ESGST/issues/636">#636</a> Fix a bug that calculates the wrong chance per point if a giveaway has 0 points</li>
+                    <li><a href="https://github.com/revilheart/ESGST/issues/635">#635</a> Bypass bot protections when extracting giveaways</li>
+                    <li><a href="https://github.com/revilheart/ESGST/issues/634">#634</a> Fix a bug that does not switch the colors of game category icons for alt accounts when moving them</li>
+                    <li><a href="https://github.com/revilheart/ESGST/issues/633">#633</a> Fix a bug that does not turn the decrypted giveaways icon to green when new giveaways are found</li>
+                    <li><a href="https://github.com/revilheart/ESGST/issues/628">#628</a> Add option to only search for comments in a specific page range to Comment Searcher</li>
+                    <li><a href="https://github.com/revilheart/ESGST/issues/599">#599</a> Extend Giveaways Sorter to popups</li>
+                    <li><a href="https://github.com/revilheart/ESGST/issues/567">#567</a> Add description variables to Multiple Giveaway Creator</li>
+                </ul>
+            `
+        },
         {
             date: `April 14, 2018`,
             version: `7.17.7`,
