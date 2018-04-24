@@ -197,9 +197,9 @@ class Checkbox {
         this.checkbox = insertHtml(context, `afterBegin`, `
             <span class="esgst-checkbox">
                 <input class="esgst-hidden" type="checkbox">
-                <i class="fa fa-circle-o"></i>
-                <i class="fa fa-circle"></i>
-                <i class="fa fa-check-circle"></i>
+                <i class="fa fa-square-o"></i>
+                <i class="fa fa-square"></i>
+                <i class="fa fa-check-square"></i>
             </span>
         `);
         this.input = this.checkbox.firstElementChild;
@@ -1420,7 +1420,7 @@ async function init() {
         sg: location.hostname.match(/www.steamgifts.com/),
         st: location.hostname.match(/www.steamtrades.com/),
         currentVersion: `7.17.8`,
-        devVersion: `7.18.0 (Dev.2)`,
+        devVersion: `7.18.0 (Dev.3)`,
         icon: `data:image/x-icon;base64,AAABAAEAEBAAAAEAIABoBAAAFgAAACgAAAAQAAAAIAAAAAEAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAqv8DCbP/Hgeq+CQIrf8iCK3/Igit/yIIrf8iB6//Iwit9x8Aqv8DAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAKr0GAa2/c0DvfzfA7f83QO3/N0Dt/zdA7f83QO+/d4Gs/3OAKP1GQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACm/xQFs/n2Bcf//wW///8FwP//BcD//wW///8Fx///BbP69gC2/xUAAAAAAAAAAAAAAAAA/1UDFptOFxSZMxkLpJktAq720QW1+ugEsfvjA7b92wO2/dsEsfvjBbX66Aau/dEoiO4tUlLWGU5k3hdVVf8DEJxKHxWqT8cVrU7uE6VN0guqny0Apv8XAJfQGwBAVywAQFcsAJfQGwCx/xcogugtS2Lk0lBl6u5Qae7ISmPeHxagSSMVr07jF7lV/xOiSu0brgATAAAAAAAAAA8AAAC/AAAAwAAAABAAAAAAYznjEkth4OxWb/3/T2jv40lf4iMXnksiEq1O3RayUv8UpEnkEo0+HQAAABkAAABBAAAA8QAAAPEAAABBAAAAGUBSvxxOYeDjU2v0/05m7d1LYuEiF55LIhKtTt0Ws1L/FahN2gU1FTAAAADAAAAA7AAAAP0AAAD9AAAA7AAAAMAVG0owUGPm2lNr9P9OZu3dS2LhIheeSyISrU7dFrNS/xWoTdoFNRswAAAAvwAAAOsAAAD9AAAA/QAAAOsAAADAFRtKMFBj6NpTa/T/Tmbt3Uti4SIXnksiEq1O3RayUv8UpEnkEo0+HQAAABgAAABAAAAA8QAAAPEAAABBAAAAGT5PuR1OYeDjU2v0/05m7d1LYuEiFqBJIxWuT+QXuVX/E6JL7QC8XhMAAAAAAAAADwAAAL8AAAC/AAAAEAAAAAAOR/8SSWLh7FZv/f9PaO/jSV/iIxCUSh8Vrk7HFqxN7ROlS9JskzMt1XULGK12EhxGLgYsRy8GK612EhzVgAsYgmxxLU1i39JNZ+vtT2fwx0pj1h8AqlUDF65GFgqZUhlsiC0txH0T0s5/EujJgBPkz4QR28+EEdvJgBPkzn8Q6Md+E9KLdHosM1LWGUZo6BZVVf8DAAAAAAAAAAAAAAAA/2YAFMl9EvbgjRb/14gV/9eIFf/XiBX/14gV/9+NFv/KgBD254YAFQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAL91FRjKgRHN1IgU3s+EEt3PhBLdz4QS3c+EEt3UiBTezYMRzcJ6FBkAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACqqgADxIARHr18FiO8eA8ivHgPIrx4DyK8eA8ivXwPI8SAER7/VQADAAAAAAAAAAAAAAAA78cAAPA3AAD4FwAABCAAADGOAAAE+AAAkBEAAJ55AACYOQAAlgEAAER4AAAXaAAATnoAAPgXAAD0JwAA69cAAA==`,
         sgIcon: `data:image/x-icon;base64,AAABAAEAEBAAAAEAIABoBAAAFgAAACgAAAAQAAAAIAAAAAEAIAAAAAAAQAQAABMLAAATCwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIUAAAD5AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAPoAAACFAAAAAAAAAAAAAAD8AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA+QAAAAAAAAAAAAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAAAAAAAAAAAAP8AAAD/AAAA/wAAABwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAcAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAcAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAHAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAAAAAAAAAAAAPwAAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD5AAAAAAAAAAAAAACFAAAA+QAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD5AAAAhQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA//8AAP//AADAAwAAwAMAAMfjAADP8wAAz/MAAM/zAADP8wAAz/MAAM/zAADH4wAAwAMAAMADAAD//wAA//8AAA==`,
         stIcon: `data:image/x-icon;base64,AAABAAEAEBAAAAEAIABoBAAAFgAAACgAAAAQAAAAIAAAAAEAIAAAAAAAQAQAABMLAAATCwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABbD6SgWw+ucFsPrkBbD6SgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAWw+uYFsPr/BbD6/wWw+ucAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAFsPrmBbD6/wWw+v8FsPrmAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABbD6SQWw+uYFsPrmBbD6SQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAFKRLShSkS+cUpEvkFKRLSgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAExi4EpMYuDnTGLg5Exi4EoAAAAAAAAAABSkS+YUpEv/FKRL/xSkS+cAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABMYuDmTGLg/0xi4P9MYuDnAAAAAAAAAAAUpEvmFKRL/xSkS/8UpEvmAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAATGLg5kxi4P9MYuD/TGLg5gAAAAAAAAAAFKRLSRSkS+YUpEvmFKRLSQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAExi4ElMYuDmTGLg5kxi4EkAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAMZ9E0rGfRPnxn0T5MZ9E0oAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADGfRPmxn0T/8Z9E//GfRPnAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAxn0T5sZ9E//GfRP/xn0T5gAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAMZ9E0nGfRPmxn0T5sZ9E0kAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA//8AAPw/AAD8PwAA/D8AAPw/AAD//wAAh+EAAIfhAACH4QAAh+EAAP//AAD8PwAA/D8AAPw/AAD8PwAA//8AAA==`,
@@ -3256,9 +3256,9 @@ async function init() {
                                         <li>Basic filters are related to a numeric value (such as the level of a giveaway) and have a slider that you can use to set the range of the filter (any giveaways that do not apply to the range will be hidden).</li>
                                         <li>Type filters are related to a boolean value (such as whether or not a giveaway was created by yourself) and have a checkbox that changes states when you click on it. The checkbox has 3 states:</li>
                                         <ul>
-                                            <li>"Show all" (<i class="fa fa-check-circle"></i>) does not hide any giveaways that apply to the filter (this is the default state).</li>
-                                            <li>"Show only" (<i class="fa fa-circle"></i>) hides any giveaways that do not apply to the filter.</li>
-                                            <li>"Hide all" (<i class="fa fa-circle-o"></i>) hides any giveaways that apply to the filter.</li>
+                                            <li>"Show all" (<i class="fa fa-check-square"></i>) does not hide any giveaways that apply to the filter (this is the default state).</li>
+                                            <li>"Show only" (<i class="fa fa-square"></i>) hides any giveaways that do not apply to the filter.</li>
+                                            <li>"Hide all" (<i class="fa fa-square-o"></i>) hides any giveaways that apply to the filter.</li>
                                         </ul>
                                         <li>Category filters are essentially the same thing as type filters, but for game categories ([id=gc]).</li>
                                     </ul>
@@ -4274,9 +4274,9 @@ async function init() {
                                         <li>Basic filters are related to a numeric value (such as the number of comments of a discussion) and have a slider that you can use to set the range of the filter (any discussions that do not apply to the range will be hidden).</li>
                                         <li>Type filters are related to a boolean value (such as whether or not a discussion was created by yourself) and have a checkbox that changes states when you click on it. The checkbox has 3 states:</li>
                                         <ul>
-                                            <li>"Show all" (<i class="fa fa-check-circle"></i>) does not hide any discussions that apply to the filter (this is the default state).</li>
-                                            <li>"Show only" (<i class="fa fa-circle"></i>) hides any discussions that do not apply to the filter.</li>
-                                            <li>"Hide all" (<i class="fa fa-circle-o"></i>) hides any discussions that apply to the filter.</li>
+                                            <li>"Show all" (<i class="fa fa-check-square"></i>) does not hide any discussions that apply to the filter (this is the default state).</li>
+                                            <li>"Show only" (<i class="fa fa-square"></i>) hides any discussions that do not apply to the filter.</li>
+                                            <li>"Hide all" (<i class="fa fa-square-o"></i>) hides any discussions that apply to the filter.</li>
                                         </ul>
                                     </ul>
                                     <li>A preset contains all of your rules and can be saved to be reused later. You can save as many presets as you want. Each preset contains 3 types of rules:</li>
@@ -13163,9 +13163,9 @@ function addDfContainer(heading) {
                                 <span class="esgst-bold">Legend:</span>
                                 <i class="fa fa-question-circle" title="This legend applies to the type filters, except where noted"></i>
                             </div>
-                            <div class="esgst-gf-legend"><i class="fa fa-circle-o"></i> - Hide all.</div>
-                            <div class="esgst-gf-legend"><i class="fa fa-circle"></i> - Show only.</div>
-                            <div class="esgst-gf-legend"><i class="fa fa-check-circle"></i> - Show all.</div>
+                            <div class="esgst-gf-legend"><i class="fa fa-square-o"></i> - Hide all.</div>
+                            <div class="esgst-gf-legend"><i class="fa fa-square"></i> - Show only.</div>
+                            <div class="esgst-gf-legend"><i class="fa fa-check-square"></i> - Show all.</div>
                             <div class="esgst-gf-legend"><i class="fa fa-exclamation esgst-faded"></i> - Overridable <i class="fa fa-question-circle" title="Overridable filters can be overridden by exceptions"></i></div>
                             <div class="esgst-gf-legend"><i class="fa fa-exclamation"></i> - Non-Overridable <i class="fa fa-question-circle" title="Non-Overridable filters cannot be overridden by exceptions"></i></div>
                         </div>
@@ -17891,9 +17891,9 @@ function addGfContainer(heading, popup) {
                                 <span class="esgst-bold">Legend:</span>
                                 <i class="fa fa-question-circle" title="This legend applies to the type/category filters, except where noted"></i>
                             </div>
-                            <div class="esgst-gf-legend"><i class="fa fa-circle-o"></i> - Hide all.</div>
-                            <div class="esgst-gf-legend"><i class="fa fa-circle"></i> - Show only.</div>
-                            <div class="esgst-gf-legend"><i class="fa fa-check-circle"></i> - Show all.</div>
+                            <div class="esgst-gf-legend"><i class="fa fa-square-o"></i> - Hide all.</div>
+                            <div class="esgst-gf-legend"><i class="fa fa-square"></i> - Show only.</div>
+                            <div class="esgst-gf-legend"><i class="fa fa-check-square"></i> - Show all.</div>
                             <div class="esgst-gf-legend"><i class="fa fa-exclamation esgst-faded"></i> - Overridable <i class="fa fa-question-circle" title="Overridable filters can be overridden by exceptions"></i></div>
                             <div class="esgst-gf-legend"><i class="fa fa-exclamation"></i> - Non-Overridable <i class="fa fa-question-circle" title="Non-Overridable filters cannot be overridden by exceptions"></i></div>
                         </div>
@@ -19848,21 +19848,21 @@ function setMmSection(context, items, key) {
                     {
                         check: true,
                         color1: `grey`, color2: `grey`,
-                        icon1: `fa-circle`, icon2: `fa-circle-o-notch fa-spin`,
+                        icon1: `fa-square`, icon2: `fa-circle-o-notch fa-spin`,
                         title1: `All`, title2: ``,
                         callback1: selectSwitches.bind(null, this.checkboxes[key], `check`, null)
                     },
                     {
                         check: true,
                         color1: `grey`, color2: `grey`,
-                        icon1: `fa-circle-o`, icon2: `fa-circle-o-notch fa-spin`,
+                        icon1: `fa-square-o`, icon2: `fa-circle-o-notch fa-spin`,
                         title1: `None`, title2: ``,
                         callback1: selectSwitches.bind(null, this.checkboxes[key], `uncheck`, null)
                     },
                     {
                         check: true,
                         color1: `grey`, color2: `grey`,
-                        icon1: `fa-dot-circle-o`, icon2: `fa-circle-o-notch fa-spin`,
+                        icon1: `fa-plus-square-o`, icon2: `fa-circle-o-notch fa-spin`,
                         title1: `Inverse`, title2: ``,
                         callback1: selectSwitches.bind(null, this.checkboxes[key], `toggle`, null)
                     }
@@ -33106,9 +33106,9 @@ async function setSync(autoSync, mainCallback, parameters) {
                 setAutoSync(id, syncer.switches);
             }
             let group = insertHtml(syncer.popup.description, `beforeEnd`, `<div class="esgst-button-group"><span>Select:</span></div>`);
-            group.appendChild(new ButtonSet(`grey`, `grey`, `fa-circle`, `fa-circle-o-notch fa-spin`, `All`, ``, selectSwitches.bind(null, syncer.switches, `enable`, group)).set);
-            group.appendChild(new ButtonSet(`grey`, `grey`, `fa-circle-o`, `fa-circle-o-notch fa-spin`, `None`, ``, selectSwitches.bind(null, syncer.switches, `disable`, group)).set);
-            group.appendChild(new ButtonSet(`grey`, `grey`, `fa-dot-circle-o`, `fa-circle-o-notch fa-spin`, `Inverse`, ``, selectSwitches.bind(null, syncer.switches, `toggle`, group)).set);
+            group.appendChild(new ButtonSet(`grey`, `grey`, `fa-square`, `fa-circle-o-notch fa-spin`, `All`, ``, selectSwitches.bind(null, syncer.switches, `enable`, group)).set);
+            group.appendChild(new ButtonSet(`grey`, `grey`, `fa-square-o`, `fa-circle-o-notch fa-spin`, `None`, ``, selectSwitches.bind(null, syncer.switches, `disable`, group)).set);
+            group.appendChild(new ButtonSet(`grey`, `grey`, `fa-plus-square-o`, `fa-circle-o-notch fa-spin`, `Inverse`, ``, selectSwitches.bind(null, syncer.switches, `toggle`, group)).set);
         }
         syncer.progress = insertHtml(syncer.popup.description, `beforeEnd`, `
             <div class="esgst-hidden esgst-popup-progress"></div>
@@ -36771,9 +36771,9 @@ function loadDataManagement(openInTab, type, autoBackup) {
         dm.message = insertHtml(container, `beforeEnd`, `<div class="esgst-description"></div>`);
         dm.warning = insertHtml(container, `beforeEnd`, `<div class="esgst-description esgst-warning"></div>`);
         group1 = insertHtml(container, `beforeEnd`, `<div class="esgst-button-group"><span>Select:</span></div>`);
-        group1.appendChild(new ButtonSet(`grey`, `grey`, `fa-circle`, `fa-circle-o-notch fa-spin`, `All`, ``, selectSwitches.bind(null, dm.switches, `enable`, group1)).set);
-        group1.appendChild(new ButtonSet(`grey`, `grey`, `fa-circle-o`, `fa-circle-o-notch fa-spin`, `None`, ``, selectSwitches.bind(null, dm.switches, `disable`, group1)).set);
-        group1.appendChild(new ButtonSet(`grey`, `grey`, `fa-dot-circle-o`, `fa-circle-o-notch fa-spin`, `Inverse`, ``, selectSwitches.bind(null, dm.switches, `toggle`, group1)).set);
+        group1.appendChild(new ButtonSet(`grey`, `grey`, `fa-square`, `fa-circle-o-notch fa-spin`, `All`, ``, selectSwitches.bind(null, dm.switches, `enable`, group1)).set);
+        group1.appendChild(new ButtonSet(`grey`, `grey`, `fa-square-o`, `fa-circle-o-notch fa-spin`, `None`, ``, selectSwitches.bind(null, dm.switches, `disable`, group1)).set);
+        group1.appendChild(new ButtonSet(`grey`, `grey`, `fa-plus-square-o`, `fa-circle-o-notch fa-spin`, `Inverse`, ``, selectSwitches.bind(null, dm.switches, `toggle`, group1)).set);
         group2 = insertHtml(container, `beforeEnd`, `<div class="esgst-button-group"><span>${title1} ${prep}:</span></div>`);
         group2.appendChild(new ButtonSet(`green`, `grey`, `fa-desktop`, `fa-circle-o-notch fa-spin`, `Computer`, title2, callback => {
             onClick(dm, false, false, false, false, () => {
