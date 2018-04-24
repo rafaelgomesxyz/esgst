@@ -155,14 +155,16 @@ class ButtonSet_v2 {
         this.button2 = this.set.lastElementChild;
         this.callback1 = details.callback1;
         this.callback2 = details.callback2;
-        this.button1.addEventListener(`click`, async () => {
-            this.isCanceled = false;
-            this.toggle();
-            let result = await this.callback1();
-            if (!this.isCanceled) {
+        if (this.callback1) {
+            this.button1.addEventListener(`click`, async () => {
+                this.isCanceled = false;
                 this.toggle();
-            }
-        });
+                let result = await this.callback1();
+                if (!this.isCanceled) {
+                    this.toggle();
+                }
+            });
+        }
         if (this.callback2) {
             this.button2.classList.remove(`is-disabled`, `is_disabled`);
             this.button2.addEventListener(`click`, async () => {
@@ -175,7 +177,7 @@ class ButtonSet_v2 {
             details.input.addEventListener(`keydown`, event => {
                 if (event.key === `Enter`) {
                     this.trigger();
-    }
+                }
             });
         }
     }
@@ -191,15 +193,15 @@ class ButtonSet_v2 {
 }
 
 class Checkbox {
-    constructor (context, defaultValue, threeState) {
+    constructor (context, defaultValue, threeState, messages = {}) {
         this.value = defaultValue;
         this.isThreeState = threeState;
         this.checkbox = insertHtml(context, `afterBegin`, `
             <span class="esgst-checkbox">
                 <input class="esgst-hidden" type="checkbox">
                 <i class="fa fa-square-o"></i>
-                <i class="fa fa-square"></i>
-                <i class="fa fa-check-square"></i>
+                <i class="fa fa-square" title="${messages.select || ``}"></i>
+                <i class="fa fa-check-square" title="${messages.unselect || ``}"></i>
             </span>
         `);
         this.input = this.checkbox.firstElementChild;
@@ -595,7 +597,7 @@ class Popup_v2 {
             this.textInputs = [];
             details.textInputs.forEach(textInput => {
                 let input = insertHtml(this.description, `beforeEnd`, `
-                    <input placeholder="${textInput.placeholder}" type="text">
+                    ${textInput.title || ``}<input placeholder="${textInput.placeholder || ``}" type="text">
                 `);
                 input.addEventListener(`keydown`, this.triggerButton.bind(this, 0));
                 this.textInputs.push(input);
@@ -754,6 +756,7 @@ class Popup_v2 {
 class Process {
     constructor(details) {
         this.popupDetails = details.popup;
+        this.contextHtml = details.contextHtml;
         this.init = details.init;
         this.requests = details.requests;
         this.urls = details.urls;
@@ -766,7 +769,7 @@ class Process {
     }
     async openPopup() {
         if (this.popup) {
-            this.open();
+            this.popup.open();
             return;
         }
         this.popupDetails.buttons = [
@@ -787,9 +790,11 @@ class Process {
             this.index = 0;
             this.perLoad = this.urls.perLoad;
             this.items = [];
-            await this.urls.init.call(this);
+            await this.urls.init.call(this, ...this.urls.arguments);
             this.total = this.items.length;
-            this.popup.triggerButton(0);
+            if (!this.urls.doNotTrigger) {
+                this.popup.triggerButton(0);
+            }
         }
         if (esgst[`es_${this.urls.id}`]) {
             this.popup.scrollable.addEventListener(`scroll`, () => {
@@ -803,7 +808,7 @@ class Process {
         this.button.classList.add(`esgst-busy`);
         this.isCanceled = false;
 
-        if (!this.urls) {
+        if (!this.urls || this.urls.doNotTrigger) {
             this.popup.clear();
         }
 
@@ -827,27 +832,29 @@ class Process {
         this.isCanceled = true;
     }
     async requestNextUrl(details) {
-        if (this.index >= this.total) {
+        if (!this.urls.doNotTrigger && this.index >= this.total) {
             this.popup.removeButton(0);
             return;
         }
         this.popup.setProgress(`Loading more...`);
         this.popup.setOverallProgress(`${this.index} of ${this.total} loaded.`);
-        this.context = this.mainContext ? insertHtml(this.mainContext, `beforeEnd`, this.contextHtml) : this.popup.getScrollable();
+        this.context = this.mainContext ? insertHtml(this.mainContext, `beforeEnd`, this.contextHtml) : this.popup.getScrollable(this.contextHtml);
         let i = 0;
         while (!this.isCanceled && (i < this.perLoad || (esgst[`es_${this.urls.id}`] && this.popup.scrollable.scrollHeight <= this.popup.scrollable.offsetHeight))) {
             let url = this.items[this.index];
             if (!url) break;
-            let response = await request({method: `GET`, queue: details.queue, url: this.items[this.index]});
+            url = url.url || url;
+            let response = await request({method: `GET`, queue: details.queue, url: url});
             let responseHtml = parseHtml(response.responseText);
             await details.request.call(this, details, response, responseHtml);
             i += 1;
             this.index += 1;
             this.popup.setOverallProgress(`${this.index} of ${this.total} loaded.`);
         }
-        if (this.index >= this.total) {
+        if (!this.urls.doNotTrigger && this.index >= this.total) {
             this.popup.removeButton(0);
         }
+        this.index = 0;
         await loadEndlessFeatures(this.context);
     }
     async request(details) {
@@ -1420,7 +1427,7 @@ async function init() {
         sg: location.hostname.match(/www.steamgifts.com/),
         st: location.hostname.match(/www.steamtrades.com/),
         currentVersion: `7.17.8`,
-        devVersion: `7.18.0 (Dev.3)`,
+        devVersion: `7.18.0 (Dev.4)`,
         icon: `data:image/x-icon;base64,AAABAAEAEBAAAAEAIABoBAAAFgAAACgAAAAQAAAAIAAAAAEAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAqv8DCbP/Hgeq+CQIrf8iCK3/Igit/yIIrf8iB6//Iwit9x8Aqv8DAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAKr0GAa2/c0DvfzfA7f83QO3/N0Dt/zdA7f83QO+/d4Gs/3OAKP1GQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACm/xQFs/n2Bcf//wW///8FwP//BcD//wW///8Fx///BbP69gC2/xUAAAAAAAAAAAAAAAAA/1UDFptOFxSZMxkLpJktAq720QW1+ugEsfvjA7b92wO2/dsEsfvjBbX66Aau/dEoiO4tUlLWGU5k3hdVVf8DEJxKHxWqT8cVrU7uE6VN0guqny0Apv8XAJfQGwBAVywAQFcsAJfQGwCx/xcogugtS2Lk0lBl6u5Qae7ISmPeHxagSSMVr07jF7lV/xOiSu0brgATAAAAAAAAAA8AAAC/AAAAwAAAABAAAAAAYznjEkth4OxWb/3/T2jv40lf4iMXnksiEq1O3RayUv8UpEnkEo0+HQAAABkAAABBAAAA8QAAAPEAAABBAAAAGUBSvxxOYeDjU2v0/05m7d1LYuEiF55LIhKtTt0Ws1L/FahN2gU1FTAAAADAAAAA7AAAAP0AAAD9AAAA7AAAAMAVG0owUGPm2lNr9P9OZu3dS2LhIheeSyISrU7dFrNS/xWoTdoFNRswAAAAvwAAAOsAAAD9AAAA/QAAAOsAAADAFRtKMFBj6NpTa/T/Tmbt3Uti4SIXnksiEq1O3RayUv8UpEnkEo0+HQAAABgAAABAAAAA8QAAAPEAAABBAAAAGT5PuR1OYeDjU2v0/05m7d1LYuEiFqBJIxWuT+QXuVX/E6JL7QC8XhMAAAAAAAAADwAAAL8AAAC/AAAAEAAAAAAOR/8SSWLh7FZv/f9PaO/jSV/iIxCUSh8Vrk7HFqxN7ROlS9JskzMt1XULGK12EhxGLgYsRy8GK612EhzVgAsYgmxxLU1i39JNZ+vtT2fwx0pj1h8AqlUDF65GFgqZUhlsiC0txH0T0s5/EujJgBPkz4QR28+EEdvJgBPkzn8Q6Md+E9KLdHosM1LWGUZo6BZVVf8DAAAAAAAAAAAAAAAA/2YAFMl9EvbgjRb/14gV/9eIFf/XiBX/14gV/9+NFv/KgBD254YAFQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAL91FRjKgRHN1IgU3s+EEt3PhBLdz4QS3c+EEt3UiBTezYMRzcJ6FBkAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACqqgADxIARHr18FiO8eA8ivHgPIrx4DyK8eA8ivXwPI8SAER7/VQADAAAAAAAAAAAAAAAA78cAAPA3AAD4FwAABCAAADGOAAAE+AAAkBEAAJ55AACYOQAAlgEAAER4AAAXaAAATnoAAPgXAAD0JwAA69cAAA==`,
         sgIcon: `data:image/x-icon;base64,AAABAAEAEBAAAAEAIABoBAAAFgAAACgAAAAQAAAAIAAAAAEAIAAAAAAAQAQAABMLAAATCwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIUAAAD5AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAPoAAACFAAAAAAAAAAAAAAD8AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA+QAAAAAAAAAAAAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAAAAAAAAAAAAP8AAAD/AAAA/wAAABwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAcAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAcAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAHAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAAAAAAAAAAAAPwAAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD5AAAAAAAAAAAAAACFAAAA+QAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD5AAAAhQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA//8AAP//AADAAwAAwAMAAMfjAADP8wAAz/MAAM/zAADP8wAAz/MAAM/zAADH4wAAwAMAAMADAAD//wAA//8AAA==`,
         stIcon: `data:image/x-icon;base64,AAABAAEAEBAAAAEAIABoBAAAFgAAACgAAAAQAAAAIAAAAAEAIAAAAAAAQAQAABMLAAATCwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABbD6SgWw+ucFsPrkBbD6SgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAWw+uYFsPr/BbD6/wWw+ucAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAFsPrmBbD6/wWw+v8FsPrmAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABbD6SQWw+uYFsPrmBbD6SQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAFKRLShSkS+cUpEvkFKRLSgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAExi4EpMYuDnTGLg5Exi4EoAAAAAAAAAABSkS+YUpEv/FKRL/xSkS+cAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABMYuDmTGLg/0xi4P9MYuDnAAAAAAAAAAAUpEvmFKRL/xSkS/8UpEvmAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAATGLg5kxi4P9MYuD/TGLg5gAAAAAAAAAAFKRLSRSkS+YUpEvmFKRLSQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAExi4ElMYuDmTGLg5kxi4EkAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAMZ9E0rGfRPnxn0T5MZ9E0oAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADGfRPmxn0T/8Z9E//GfRPnAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAxn0T5sZ9E//GfRP/xn0T5gAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAMZ9E0nGfRPmxn0T5sZ9E0kAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA//8AAPw/AAD8PwAA/D8AAPw/AAD//wAAh+EAAIfhAACH4QAAh+EAAP//AAD8PwAA/D8AAPw/AAD8PwAA//8AAA==`,
@@ -2690,8 +2697,24 @@ async function init() {
                 mm: {
                     description: `
                         <ul>
-                            <li>Adds a button (<i class="fa fa-gears"></i>) to the main page heading of any page that allows you to do stuff with multiple giveaways/discussions/users/games at once, such as hiding/bookmarking/unbookmarking multiple giveaways, hiding/highlighting/unhighlighting multiple discussions, tagging multiple users/games, and many more.</li>
-                            <li>If you have [id=wbc] enabled, you can also use the checkboxes to select which users you want to check for the "Only check selected." option.</li>
+                            <li>Adds a button (<i class="fa fa-gears"></i>) to the main page heading of any page that allows you to do stuff with multiple giveaways/discussions/users/games at once.</li>
+                            <li>When you click on the button, a popout appears where you can select what type of item you want to manage (giveaways, discussions, users or games) and enable the manager for that type. When you do this, checkboxes are added in front of each item in the page, allowing you to select which ones you want to manage.</li>
+                            <li>You can:</li>
+                            <ul>
+                                <li>Search and replace something in the description of the selected giveaways.</li>
+                                <li>Hide the selected giveaways, if [id=gf_s] is enabled.</li>
+                                <li>Bookmark/unbookmark the selected giveaways, if [id=gb] is enabled.</li>
+                                <li>Calculate how much time you have to wait until you have enough points to enter the selected giveaways, if [id=ttec] is enabled.</li>
+                                <li>Export the selected giveaways to encrypted giveaways, if [id=ged] is enabled.</li>
+                                <li>Hide the selected discussions, if [id=df_s] is enabled.</li>
+                                <li>Highlight/unhighlight the selected discussions, if [id=dh] is enabled.</li>
+                                <li>Mark the selected discussions as visited/unvisited, if [id=gdttt] is enabled.</li>
+                                <li>Tag the selected users with the same tags, if [id=ut], is enabled.</li>
+                                <li>Check the selected users for whitelists/blacklists, if [id=wbc] is enabled.</li>
+                                <li>Tag the selected games with the same tags, if [id=gt], is enabled.</li>
+                                <li>Export the selected giveaways/discussions/users/games to links or to a custom format that you can specify.</li>
+                            </ul>
+                            <li>On SteamTrades you can only manage users.</li>
                         </ul>
                     `,
                     name: `Multi-Manager`,
@@ -19695,7 +19718,6 @@ function loadMm(context, items, itemsKey) {
             context,
             id: `mm`,
             icons: [`fa-gears`],
-            isSwitch: true,
             title: `Multi-manage`
         }),
         checkboxes: {
@@ -19715,7 +19737,7 @@ function loadMm(context, items, itemsKey) {
     };
     esgst.enableMm = enableMm.bind(obj);
     esgst.disableMm = disableMm.bind(obj);
-    obj.button.lastElementChild.addEventListener(`click`, openMmPopout.bind(obj, items, itemsKey));
+    obj.button.addEventListener(`click`, openMmPopout.bind(obj, items, itemsKey));
 }
 
 function openMmPopout(items, itemsKey) {
@@ -19728,6 +19750,7 @@ function openMmPopout(items, itemsKey) {
     this.sections = this.headings.nextElementSibling;
     let activeIndex = 0;
     Object.keys(this.checkboxes).forEach((key, i) => {
+        if (!esgst.sg && key !== `Users`) return;
         let heading = insertHtml(this.headings, `beforeEnd`, `
             <div><span></span> ${key} (<span class="esgst-bold">${this.counters[key]}</span>)</div>
         `);
@@ -19738,12 +19761,15 @@ function openMmPopout(items, itemsKey) {
         setMmSection.call(this, insertHtml(this.sections, `beforeEnd`, `
             <div></div>
         `), itemsKey === key ? items : null, key);
-        heading.addEventListener(`click`, changeMmActiveSection.bind(this, i));
+        if (esgst.sg) {
+            heading.addEventListener(`click`, changeMmActiveSection.bind(this, i));
+        }
         if (esgst[`mm_enable${key}`]) {
             activeIndex = i;
         }
     });
-    changeMmActiveSection.call(this, activeIndex);
+    changeMmActiveSection.call(this, esgst.sg ? activeIndex : 0);
+    this.popout.open();
 }
 
 function changeMmActiveSection(i) {
@@ -19753,7 +19779,7 @@ function changeMmActiveSection(i) {
     this.headings.children[i].classList.add(`esgst-selected`);
     for (let j = this.sections.children.length - 1; j > -1; j--) {
         this.sections.children[j].classList.remove(`esgst-selected`);
-}
+    }
     this.sections.children[i].classList.add(`esgst-selected`);
 }
 
@@ -19766,7 +19792,10 @@ function enableMm(items, key) {
         if (checkbox) return;
         checkbox = new Checkbox(insertHtml(item.innerWrap, key.match(/Giveaways|Discussions/) ? `afterBegin` : `beforeBegin`, `
             <div class="esgst-mm-checkbox"></div>
-        `));
+        `), false, false, {
+            select: `Add item to Multi-Manager selection`,
+            unselect: `Remove item from Multi-Manager selection`
+        });
         checkbox.onPreEnabled = selectMmItem.bind(this, item, key, 1);
         checkbox.onPreDisabled = selectMmItem.bind(this, item, key, 0);
         let itemKey = item.type ? `${item.type}_${item.code}` : item.code;
@@ -19900,8 +19929,8 @@ function setMmSection(context, items, key) {
                     check: true,
                     color1: `green`, color2: ``,
                     icon1: `fa-search`, icon2: ``,
-                    title1: `Search & Replace`, title2: ``,
-                    callback1: openMmSearchReplacePopup.bind(this, items)
+                    key: `searchReplace`,
+                    title1: `Search & Replace`, title2: ``
                 },
                 {
                     check: esgst.gf && esgst.gf_s,
@@ -19934,6 +19963,7 @@ function setMmSection(context, items, key) {
             ],
             [
                 {
+                    check: esgst.ged,
                     color1: `green`, color2: `grey`,
                     icon1: `fa-puzzle-piece`, icon2: `fa-circle-o-notch fa-spin`,
                     title1: `Encrypted Giveaways`, title2: ``,
@@ -20022,9 +20052,54 @@ function setMmSection(context, items, key) {
                 <span>${section.name}</span>
             </div>
         `);
-        let buttons = section.buttons.concat(sections[key][i]);
+        let buttons = sections[key][i].concat(section.buttons);
         buttons.forEach(button => {
-            group.appendChild(new ButtonSet_v2(button).set);
+            if (!button.check) return;
+            let element = new ButtonSet_v2(button).set;
+            group.appendChild(element);
+            if (button.key === `searchReplace`) {
+                new Process({
+                    button: element,
+                    contextHtml: `
+                        <div class="markdown">
+                            <ul></ul>
+                        </div>
+                    `,
+                    popup: {
+                        icon: `fa-search`,
+                        title: `Search & Replace`,
+                        options: [
+                            {
+                                check: true,
+                                description: `Use <a class="esgst-bold" href="https://developer.mozilla.org/en/docs/Web/JavaScript/Guide/Regular_Expressions">regular expression</a>.`,
+                                id: `mm_useRegExp`,
+                                tooltip: null
+                            }
+                        ],
+                        textInputs: [
+                            {
+                                placeholder: `Example without regular expression: query | Example with regular expression: /query/flags`,
+                                title: `Search for: `
+                            },
+                            {
+                                placeholder: `Do not use regular expression here.`,
+                                title: `Replace with: `
+                            }
+                        ],
+                        addProgress: true,
+                        addScrollable: true
+                    },
+                    urls: {
+                        arguments: [items],
+                        doNotTrigger: true,
+                        id: `mm`,
+                        init: initMmUrls,
+                        request: {
+                            request: getMmSearchReplaceUrlRequest
+                        }
+                    }
+                });
+            }
         });
     });
     createTooltip(insertHtml(context, `beforeEnd`, `
@@ -20107,9 +20182,11 @@ function setMmSection(context, items, key) {
         <br/>
     `);
     this[`textArea${key}`] = insertHtml(context, `beforeEnd`, `
-        <textarea></textarea>
-        `);
-        if (esgst.cfh) {
+        <div class="page_outer_wrap">
+            <textarea></textarea>
+        </div>
+    `).firstElementChild;
+    if (esgst.cfh) {
         addCfhPanel(this[`textArea${key}`]);
     }
     this[`message${key}`] = insertHtml(context, `beforeEnd`, `
@@ -20258,134 +20335,59 @@ function formatMmDate(timestamp, match, p1) {
     );
 }
 
-function openMmSearchReplacePopup(items) {
-    /*if (this.gPopup) {
-        this.gPopup.open();
-        return;
-    }
-    this.gPopup = new Popup_v2({
-        icon: `fa-search`,
-        title: `Search & Replace`,
-        buttons: [
-            {
-                color1: `green`,
-                color2: `grey`,
-                icon1: `fa-arrow-right`,
-                icon2: `fa-times`,
-                title1: `Check`,
-                title2: `Cancel`,
-                callback1: startCecProcess.bind(this),
-                callback2: stopCecProcess.bind(this)
-        }
-        ],
-        options: [
-            {
-                check: true,
-                description: `Search by AppID.`,
-                id: `as_searchAppId`,
-                tooltip: `If unchecked, a search by exact title will be performed.`
-    }
-        ],
-        textInputs: [
-            {
-                placeholder: `Title/app id`
-    }
-        ],
-        addProgress: true,
-        addScrollable: true
+function initMmUrls(items) {
+    items.forEach(item => {
+        if (!item.mm || !item.outerWrap.offsetParent) return;
+        this.items.push({
+            name: item.name,
+            url: `https://www.steamgifts.com/giveaway/${item.code}/`
+        });
     });
-
-    new ToggleSwitch(insertHtml(this.gPopup.description, `afterBegin`, `
-        <div></div>
-    `), `mm_useRegExp`, false, `Use <a class="esgst-bold" href="https://developer.mozilla.org/en/docs/Web/JavaScript/Guide/Regular_Expressions">regular expression</a>.`, false, false, null, esgst.mm_useRegExp);
-    this.gPopupReplace = insertHtml(this.gPopup.description, `afterBegin`, `
-        Replace with: <input type="text">
-    `);
-    this.gPopupMessage = insertHtml(this.gPopup.description, `afterBegin`, `
-        <div class="esgst-description esgst-warning"></div>
-    `);
-    this.gPopupSearch = insertHtml(this.popup.description, `afterBegin`, `Search for: <input type="text">`);
-    this.results = insertHtml(this.popup.scrollable, `beforeEnd`, `<div class="markdown"><ul></ul></div>`).firstElementChild;
-    this.popup.description.appendChild(new ButtonSet(`green`, `red`, `fa-search`, `fa-times`, `Search & Replace`, `Cancel`, startGmSearch.bind(null, giveaways, this), cancelGmSearch.bind(null, this)).set);
-    this.progress = insertHtml(this.popup.description, `beforeEnd`, `<div></div>`);
-    this.popup.open();*/
+    this.perLoad = this.items.length;
 }
 
-/*function startGmSearch(giveaways, gm, callback) {
-    var giveaway, i, n;
-    gm.canceled = false;
-    gm.button.classList.add(`esgst-busy`);
-    gm.progress.innerHTML = ``;
-    gm.giveaways = [];
-    if (!giveaways) {
-        giveaways = esgst[gm.key];
-    }
-    for (i = 0, n = giveaways.length; i < n; ++i) {
-        giveaway = giveaways[i];
-        if (giveaway.gm && !giveaway.outerWrap.classList.contains(`esgst-hidden`)) {
-            gm.giveaways.push(giveaway);
-        }
-    }
-    if (esgst.gm_useRegExp) {
+async function getMmSearchReplaceUrlRequest(details, response, responseHtml) {
+    let replaceValue, searchValue;
+    if (esgst.mm_useRegExp) {
         try {
-            parts = gm.search.value.match(/^\/(.+)\/(.*)$/);
-            gm.searchValue = new RegExp(parts[1], parts[2]);
-            gm.replaceValue = gm.replace.value;
-            gm.message.textContent = ``;
-            searchGmGiveawaysAndReplace(gm, 0, gm.giveaways.length, cancelGmSearch.bind(null, gm, callback));
+            let parts = this.popup.getTextInputValue(0).match(/^\/(.+)\/(.*)$/);
+            searchValue = new RegExp(parts[1], parts[2]);
+            replaceValue = this.popup.getTextInputValue(1);
         } catch (error) {
-            cancelGmSearch(gm, callback);
-            gm.message.textContent = `Invalid regular expression!`;
+            this.popup.setError(`Invalid regular expression!`);
+            return;
         }
     } else {
-        gm.searchValue = gm.search.value;
-        gm.replaceValue = gm.replace.value;
-        searchGmGiveawaysAndReplace(gm, 0, gm.giveaways.length, cancelGmSearch.bind(null, gm, callback));
+        searchValue = this.popup.getTextInputValue(0);
+        replaceValue = this.popup.getTextInputValue(1);
     }
-}
-
-async function searchGmGiveawaysAndReplace(gm, i, n, callback) {
-    var description, giveaway, match, responseJson;
-    if (gm.canceled) return;
-    if (i < n) {
-        gm.progress.innerHTML = `
-            <i class="fa fa-circle-o-notch fa-spin"></i>
-            <span>Searching & replacing (${i + 1} of ${n})</span>
-        `;
-        giveaway = gm.giveaways[i];
-        description = parseHtml((await request({method: `GET`, url: giveaway.url})).responseText).querySelector(`.page__description textarea[name=description]`);
-        if (description) {
-            match = description.value.match(gm.searchValue);
-            if (match) {
-                responseJson = JSON.parse((await request({data: `xsrf_token=${esgst.xsrfToken}&do=edit_giveaway_description&giveaway_id=${description.previousElementSibling.value}&description=${encodeURIComponent(description.value.replace(gm.searchValue, gm.replaceValue))}`, method: `POST`, url: `/ajax.php`})).responseText);
-                if (responseJson.type === `success`) {
-                    gm.results.insertAdjacentHTML(`beforeEnd`, `<li>Found and replaced in <a href="${giveaway.url}">${giveaway.name}</a></li>`);
-                    setTimeout(searchGmGiveawaysAndReplace, 0, gm, ++i, n, callback);
-                } else {
-                    gm.results.insertAdjacentHTML(`beforeEnd`, `<li>Found, but failed to replace, in <a href="${giveaway.url}">${giveaway.name}</a></li>`);
-                    setTimeout(searchGmGiveawaysAndReplace, 0, gm, ++i, n, callback);
-                }
+    let description = responseHtml.querySelector(`.page__description textarea[name=description]`),
+        name = this.items[this.index].name,
+        url = this.items[this.index].url;
+    if (description) {
+        let match = esgst.mm_useRegExp ? description.value.match(searchValue) : description.value.includes(searchValue);
+        if (match) {
+            let responseJson = JSON.parse((await request({data: `xsrf_token=${esgst.xsrfToken}&do=edit_giveaway_description&giveaway_id=${description.previousElementSibling.value}&description=${encodeURIComponent(description.value.replace(searchValue, replaceValue))}`, method: `POST`, url: `/ajax.php`})).responseText);
+            if (responseJson.type === `success`) {
+                this.context.firstElementChild.firstElementChild.insertAdjacentHTML(`beforeEnd`, `
+                    <li>Found and replaced in <a href="${url}">${name}</a></li>
+                `);
             } else {
-                gm.results.insertAdjacentHTML(`beforeEnd`, `<li>Not found in <a href="${giveaway.url}">${giveaway.name}</a></li>`);
-                setTimeout(searchGmGiveawaysAndReplace, 0, gm, ++i, n, callback);
+                this.context.firstElementChild.firstElementChild.insertAdjacentHTML(`beforeEnd`, `
+                    <li>Found, but failed to replace, in <a href="${url}"
+                `);
             }
         } else {
-            gm.results.insertAdjacentHTML(`beforeEnd`, `<li>Not found in <a href="${giveaway.url}">${giveaway.name}</a></li>`);
-            setTimeout(searchGmGiveawaysAndReplace, 0, gm, ++i, n, callback);
+            this.context.firstElementChild.firstElementChild.insertAdjacentHTML(`beforeEnd`, `
+                <li>Not found in <a href="${url}">${name}</a></li>
+            `);
         }
     } else {
-        callback();
+        this.context.firstElementChild.firstElementChild.insertAdjacentHTML(`beforeEnd`, `
+            <li>Not found in <a href="${url}">${name}</a></li>
+        `);
     }
 }
-
-function cancelGmSearch(gm, callback) {
-    gm.canceled = true;
-    gm.progress.innerHTML = ``;
-    gm.button.classList.remove(`esgst-busy`);
-    if (callback) {
-        callback();
-    }
-}*/
 
 async function hideMmGiveaways(items) {
     let newItems = {};
@@ -20444,7 +20446,7 @@ function calculateMmGiveaways(items) {
     } else {
         this.textAreaGiveaways.value = `You have enough points to enter all giveaways right now.`;
     }
-        }
+}
 
 function exportMmEncryptedGiveaways(items) {
     let encrypted = [];
@@ -20453,7 +20455,7 @@ function exportMmEncryptedGiveaways(items) {
         encrypted.push(`[](ESGST-${encryptGedCode(item.code)})`);
     });
     this.textAreaGiveaways.value = encrypted.join(` `);
-    }
+}
 
 function copyMmOutput(key) {
     this[`textArea${key}`].select();
@@ -32505,7 +32507,7 @@ function getOldValues(id, name, setting) {
 function getFeaturePath(feature, id, name) {
     let key = `${id}_${name}`;
     let setting = esgst.settings[key];
-    if (typeof setting === `undefined` || !setting.include) {
+    if (typeof setting === `undefined` || !setting.include || !Array.isArray(setting.include)) {
         setting = {
             enabled: getSetting(key, key.match(/^(wbc_checkBlacklist|wbc_hb_sg)$/)) ? 1 : 0,
             include: [],
@@ -38432,6 +38434,8 @@ function addStyle() {
 
         .esgst-mm-popout .esgst-button-set >* {
             line-height: 25px;
+            padding-bottom: 0;
+            padding-top: 0;
             width: calc(100% - 30px);
         }
 
