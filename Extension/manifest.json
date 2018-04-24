@@ -46,6 +46,7 @@
         "*://*.api.imgur.com/*",
         "*://*.googleapis.com/*",
         "*://*.graph.microsoft.com/*",
+        "*://*.userstyles.org/*",
         "storage",
         "tabs",
         "unlimitedStorage",

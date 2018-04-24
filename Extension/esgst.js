@@ -974,6 +974,16 @@ async function init() {
     esgst = {
         parameters: getParameters(),
         defaultValues: {
+            sgDarkGrey_startTime: `00:00`,
+            sgDarkGrey_endTime: `23:59`,
+            sgv2Dark_startTime: `00:00`,
+            sgv2Dark_endTime: `23:59`,
+            steamGiftiesBlack_startTime: `00:00`,
+            steamGiftiesBlack_endTime: `23:59`,
+            steamGiftiesBlue_startTime: `00:00`,
+            steamGiftiesBlue_endTime: `23:59`,
+            steamTradiesBlackBlue_startTime: `00:00`,
+            steamTradiesBlackBlue_endTime: `23:59`,
             mm_useRegExp: false,
             mm_enableGiveaways: false,
             mm_enableDiscussions: false,
@@ -1427,7 +1437,7 @@ async function init() {
         sg: location.hostname.match(/www.steamgifts.com/),
         st: location.hostname.match(/www.steamtrades.com/),
         currentVersion: `7.17.8`,
-        devVersion: `7.18.0 (Dev.8)`,
+        devVersion: `7.18.0 (Dev.9)`,
         icon: `data:image/x-icon;base64,AAABAAEAEBAAAAEAIABoBAAAFgAAACgAAAAQAAAAIAAAAAEAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAqv8DCbP/Hgeq+CQIrf8iCK3/Igit/yIIrf8iB6//Iwit9x8Aqv8DAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAKr0GAa2/c0DvfzfA7f83QO3/N0Dt/zdA7f83QO+/d4Gs/3OAKP1GQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACm/xQFs/n2Bcf//wW///8FwP//BcD//wW///8Fx///BbP69gC2/xUAAAAAAAAAAAAAAAAA/1UDFptOFxSZMxkLpJktAq720QW1+ugEsfvjA7b92wO2/dsEsfvjBbX66Aau/dEoiO4tUlLWGU5k3hdVVf8DEJxKHxWqT8cVrU7uE6VN0guqny0Apv8XAJfQGwBAVywAQFcsAJfQGwCx/xcogugtS2Lk0lBl6u5Qae7ISmPeHxagSSMVr07jF7lV/xOiSu0brgATAAAAAAAAAA8AAAC/AAAAwAAAABAAAAAAYznjEkth4OxWb/3/T2jv40lf4iMXnksiEq1O3RayUv8UpEnkEo0+HQAAABkAAABBAAAA8QAAAPEAAABBAAAAGUBSvxxOYeDjU2v0/05m7d1LYuEiF55LIhKtTt0Ws1L/FahN2gU1FTAAAADAAAAA7AAAAP0AAAD9AAAA7AAAAMAVG0owUGPm2lNr9P9OZu3dS2LhIheeSyISrU7dFrNS/xWoTdoFNRswAAAAvwAAAOsAAAD9AAAA/QAAAOsAAADAFRtKMFBj6NpTa/T/Tmbt3Uti4SIXnksiEq1O3RayUv8UpEnkEo0+HQAAABgAAABAAAAA8QAAAPEAAABBAAAAGT5PuR1OYeDjU2v0/05m7d1LYuEiFqBJIxWuT+QXuVX/E6JL7QC8XhMAAAAAAAAADwAAAL8AAAC/AAAAEAAAAAAOR/8SSWLh7FZv/f9PaO/jSV/iIxCUSh8Vrk7HFqxN7ROlS9JskzMt1XULGK12EhxGLgYsRy8GK612EhzVgAsYgmxxLU1i39JNZ+vtT2fwx0pj1h8AqlUDF65GFgqZUhlsiC0txH0T0s5/EujJgBPkz4QR28+EEdvJgBPkzn8Q6Md+E9KLdHosM1LWGUZo6BZVVf8DAAAAAAAAAAAAAAAA/2YAFMl9EvbgjRb/14gV/9eIFf/XiBX/14gV/9+NFv/KgBD254YAFQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAL91FRjKgRHN1IgU3s+EEt3PhBLdz4QS3c+EEt3UiBTezYMRzcJ6FBkAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACqqgADxIARHr18FiO8eA8ivHgPIrx4DyK8eA8ivXwPI8SAER7/VQADAAAAAAAAAAAAAAAA78cAAPA3AAD4FwAABCAAADGOAAAE+AAAkBEAAJ55AACYOQAAlgEAAER4AAAXaAAATnoAAPgXAAD0JwAA69cAAA==`,
         sgIcon: `data:image/x-icon;base64,AAABAAEAEBAAAAEAIABoBAAAFgAAACgAAAAQAAAAIAAAAAEAIAAAAAAAQAQAABMLAAATCwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIUAAAD5AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAPoAAACFAAAAAAAAAAAAAAD8AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA+QAAAAAAAAAAAAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAAAAAAAAAAAAP8AAAD/AAAA/wAAABwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAcAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAcAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAHAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAAAAAAAAAAAAPwAAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD5AAAAAAAAAAAAAACFAAAA+QAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD5AAAAhQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA//8AAP//AADAAwAAwAMAAMfjAADP8wAAz/MAAM/zAADP8wAAz/MAAM/zAADH4wAAwAMAAMADAAD//wAA//8AAA==`,
         stIcon: `data:image/x-icon;base64,AAABAAEAEBAAAAEAIABoBAAAFgAAACgAAAAQAAAAIAAAAAEAIAAAAAAAQAQAABMLAAATCwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABbD6SgWw+ucFsPrkBbD6SgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAWw+uYFsPr/BbD6/wWw+ucAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAFsPrmBbD6/wWw+v8FsPrmAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABbD6SQWw+uYFsPrmBbD6SQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAFKRLShSkS+cUpEvkFKRLSgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAExi4EpMYuDnTGLg5Exi4EoAAAAAAAAAABSkS+YUpEv/FKRL/xSkS+cAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABMYuDmTGLg/0xi4P9MYuDnAAAAAAAAAAAUpEvmFKRL/xSkS/8UpEvmAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAATGLg5kxi4P9MYuD/TGLg5gAAAAAAAAAAFKRLSRSkS+YUpEvmFKRLSQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAExi4ElMYuDmTGLg5kxi4EkAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAMZ9E0rGfRPnxn0T5MZ9E0oAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADGfRPmxn0T/8Z9E//GfRPnAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAxn0T5sZ9E//GfRP/xn0T5gAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAMZ9E0nGfRPmxn0T5sZ9E0kAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA//8AAPw/AAD8PwAA/D8AAPw/AAD//wAAh+EAAIfhAACH4QAAh+EAAP//AAD8PwAA/D8AAPw/AAD8PwAA//8AAA==`,
@@ -6453,6 +6463,37 @@ async function init() {
                     sg: true,
                     st: true
                 }
+            }
+        },
+        themes: {
+            features: {
+                sgDarkGrey: {
+                    name: `<a class="esgst-bold" href="https://www.steamgifts.com/discussion/3rINT/">SG Dark Grey</a> by SquishedPotatoe (Very high compatibility with ESGST elements - recommended)`,
+                    sg: true,
+                    st: true,
+                    theme: `https://userstyles.org/styles/141670.css`
+                },
+                sgv2Dark: {
+                    name: `<a class="esgst-bold" href="https://www.steamgifts.com/discussion/iO230/">SGv2 Dark</a> by SquishedPotatoe (Very high compatibility with ESGST elements - recommended)`,
+                    sg: true,
+                    st: true,
+                    theme: `https://userstyles.org/styles/109810.css`
+                },
+                steamGiftiesBlack: {
+                    name: `<a class="esgst-bold" href="https://www.steamgifts.com/discussion/62TRf/">SteamGifties Black</a> by Mully (Medium compatibility with ESGST elements)`,
+                    sg: true,
+                    theme: `https://userstyles.org/styles/110675.css`
+                },
+                steamGiftiesBlue: {
+                    name: `<a class="esgst-bold" href="https://www.steamgifts.com/discussion/62TRf/">SteamGifties Blue</a> by Mully (Medium compatibility with ESGST elements)`,
+                    sg: true,
+                    theme: `https://userstyles.org/styles/110491.css`
+                },
+                steamTradiesBlackBlue: {
+                    name: `<a class="esgst-bold" href="https://www.steamgifts.com/discussion/FIdCm/">SteamTradies Black/Blue</a> by Mully (No compatibility with ESGST elements)`,
+                    st: true,
+                    theme: `https://userstyles.org/styles/134348.css`
+                }              
             }
         }
     };
@@ -35053,7 +35094,22 @@ function getSMFeature(Feature, ID, aaa) {
                         ci = cn;
                     }
                 }
+                if (Feature.theme && SMFeatures) {
+                    SMFeatures.firstElementChild.lastElementChild.previousElementSibling.click();
+                }
             }
+        } else if (Feature.theme) {
+            siwtchSg.onEnabled = () => {
+                if (SMFeatures) {
+                    SMFeatures.firstElementChild.lastElementChild.previousElementSibling.click();
+                }
+            }
+        }
+        if (Feature.theme) {
+            siwtchSg.onDisabled = () => {
+                delValue(ID);
+                setTheme();
+            };
         }
     }
     if (Feature.st && (esgst.settings.esgst_st || ID === `esgst`)) {
@@ -35072,7 +35128,22 @@ function getSMFeature(Feature, ID, aaa) {
                         ci = cn;
                     }
                 }
+                if (Feature.theme && SMFeatures) {
+                    SMFeatures.firstElementChild.lastElementChild.previousElementSibling.click();
+                }
             }
+        } else if (Feature.theme) {
+            siwtchSt.onEnabled = () => {
+                if (SMFeatures) {
+                    SMFeatures.firstElementChild.lastElementChild.previousElementSibling.click();
+                }
+            }
+        }
+        if (Feature.theme) {
+            siwtchSt.onDisabled = () => {
+                delValue(ID);
+                setTheme();
+            };
         }
     }
     if (!siwtchSg && !siwtchSt) {
@@ -35239,7 +35310,7 @@ function getSMFeature(Feature, ID, aaa) {
         }
     } else if (Feature.inputItems) {
         let container = insertHtml(SMFeatures, `beforeEnd`, `
-            <div class"esgst-sm-colors"></div>
+            <div class="esgst-sm-colors"></div>
         `);
         if (ID.match(/^sk_/)) {
             Feature.inputItems = [
@@ -35323,6 +35394,42 @@ function getSMFeature(Feature, ID, aaa) {
         if (val) {
             SMFeatures.classList.remove(`esgst-hidden`);
         }
+    } else if (Feature.theme) {
+        let container = insertHtml(SMFeatures, `beforeEnd`, `
+                <div class="esgst-sm-colors">
+                    Enabled from <input type="text" value="${esgst[`${ID}_startTime`]}"> to <input type="text" value="${esgst[`${ID}_endTime`]}"> <i class="fa fa-question-circle" title="You can specify here what time of the day you want the theme to be enabled. Use the HH:MM format."></i>
+                    <br/>
+                    <div class="form__saving-button esgst-sm-colors-default">Update</div>
+                    <span></span>
+                </div>
+            `),
+            startTime = container.firstElementChild,
+            endTime = startTime.nextElementSibling,
+            version = container.lastElementChild,
+            button = version.previousElementSibling;
+        observeChange(startTime, `${ID}_startTime`);
+        observeChange(endTime, `${ID}_endTime`);
+        setThemeVersion(ID, version);
+        button.addEventListener(`click`, async () => {
+            let url = await getThemeUrl(ID, Feature.theme);
+            button.innerHTML = `
+                <i class="fa fa-circle-o-notch fa-spin"></i> Updating...
+            `;
+            let theme = JSON.stringify((await request({method: `GET`, url})).responseText);
+            await setValue(ID, theme);
+            button.innerHTML = `Update`;
+            setThemeVersion(ID, version, theme);
+            setTheme();
+        });
+        if (siwtchSg) {
+            siwtchSg.dependencies.push(SMFeatures);
+        }
+        if (siwtchSt) {
+            siwtchSt.dependencies.push(SMFeatures);
+        }
+        if (val) {
+            SMFeatures.classList.remove(`esgst-hidden`);
+        }     
     }
     if (Feature.options) {
         var index = esgst[`${ID}_index`];
@@ -35357,6 +35464,248 @@ function getSMFeature(Feature, ID, aaa) {
         isNew: isMainNew,
         menu: Menu
     };
+}
+
+async function setThemeVersion(id, version, theme) {
+    if (!theme) {
+        theme = await getValue(id);
+    }
+    let match = theme.match(/(v|black\s|blue\s|steamtrades\s)([.\d]+?)\*/);
+    version.textContent = `v${(match && match[2]) || `Unknown`}`;
+}
+
+function getThemeUrl(id, url) {
+    return new Promise(openThemePopup.bind(null, id, url));
+}
+
+function openThemePopup(id, url, resolve) {
+    let obj = {
+        resolve,
+        url
+    };
+    obj.options = {
+        sgv2Dark: [
+            {
+                default: 0,
+                id: `ik-page width`,
+                name: `Page width`,
+                options: [
+                    {
+                        id: `ik-def page width`,
+                        name: `100%`
+                    },
+                    {
+                        id: `ik-fixed sg page width`,
+                        name: `Fixed (1440px)`
+                    }
+                ]
+            }
+        ],
+        steamGifties: [
+            {
+                default: 1,
+                id: `ik-spoilertags`,
+                name: `Remove spoiler tags`
+            },
+            {
+                default: 1,
+                id: `ik-hiddenlinks`,
+                name: `Reveal hidden links`
+            },
+            {
+                default: 0,
+                id: `ik-sgppsupport`,
+                name: `SG++ support`
+            },
+            {
+                default: 0,
+                id: `ik-whiteblacklist`,
+                name: `Blacklist/Whitelist Indicator support`
+            },
+            {
+                default: 0,
+                id: `ik-easysteamgifts`,
+                name: `Easy SteamGifts support`
+            },
+            {
+                default: 0,
+                id: `ik-visited-link`,
+                name: `Highlight visited links`,
+                options: [
+                    {
+                        id: `ik-1`,
+                        name: `Mark visited links`
+                    },
+                    {
+                        id: `ik-3`,
+                        name: `Mark visited links + threads in forum`
+                    },
+                    {
+                        id: `ik-2`,
+                        name: `No`
+                    }
+                ]
+            },
+            {
+                default: 0,
+                id: `ik-touhou-style`,
+                name: `TouHou Giveaways Helper support`
+            },
+            {
+                default: 0,
+                id: `ik-sg2os`,
+                name: `SG2O support`
+            },
+            {
+                default: 0,
+                id: `ik-avatarsize`,
+                name: `Avatar size`,
+                options: [
+                    {
+                        id: `ik-1`,
+                        name: `Big (52px)`
+                    },
+                    {
+                        id: `ik-2`,
+                        name: `Normal`
+                    }
+                ]
+            },
+            {
+                default: 0,
+                id: `ik-extendedsg`,
+                name: `Extended SteamGifts support`
+            },
+            {
+                default: 0,
+                id: `ik-navbarbutton`,
+                name: `Navigation bar button color`,
+                options: [
+                    {
+                        id: `ik-1`,
+                        name: `Default`
+                    },
+                    {
+                        id: `ik-2`,
+                        name: `White`
+                    }
+                ]
+            },
+            {
+                default: 0,
+                id: `ik-ESGST`,
+                name: `ESGST support`
+            },
+            {
+                default: 1,
+                id: `ik-featurega`,
+                name: `Featured giveaway`,
+                options: [
+                    {
+                        id: `ik-1`,
+                        name: `No`
+                    },
+                    {
+                        id: `ik-2`,
+                        name: `Smaller banner`
+                    },
+                    {
+                        id: `ik-2`,
+                        name: `Hide banner`
+                    }
+                ]
+            },
+            {
+                default: 0,
+                id: `ik-removepoll`,
+                name: `Homepage poll`,
+                options: [
+                    {
+                        id: `ik-1`,
+                        name: `Default`
+                    },
+                    {
+                        id: `ik-2`,
+                        name: `Remove poll`
+                    }
+                ]
+            }
+        ],
+        steamTradies: [
+            {
+                default: 0,
+                id: `ik-color-sc`,
+                name: `Color`,
+                options: [
+                    {
+                        id: `ik-1`,
+                        name: `Dark blue`
+                    },
+                    {
+                        id: `ik-2`,
+                        name: `Black`
+                    }
+                ]
+            }
+        ]
+    };
+    let binaryOptions = [
+        {
+            id: `ik-1`,
+            name: `Yes`
+        },
+        {
+            id: `ik-2`,
+            name: `No`
+        }
+    ];
+    let key =  id.replace(/Black|Blue/g, ``);
+    if (!obj.options[key]) {
+        resolve(url);
+        return;
+    }
+    obj.popup = new Popup_v2({
+        icon: `fa-gear`,
+        title: `Select the options that you want:`,
+        buttons: [
+            {
+                color1: `green`, color2: `grey`,
+                icon1: `fa-gear`, icon2: `fa-circle-o-notch fa-spin`,
+                title1: `Generate`, title2: `Generating...`,
+                callback1: generateThemeUrl.bind(obj, key)
+            }
+        ],
+        addScrollable: true
+    });
+    obj.popup.onClose = resolve.bind(null, url);
+    let context = obj.popup.getScrollable(`
+        <div class="esgst-sm-colors"></div>
+    `).firstElementChild;
+    obj.options[key].forEach(option => {
+        option.select = insertHtml(context, `beforeEnd`, `
+            <div>
+                ${option.name} <select></select>
+            </div>
+        `).lastElementChild;
+        (option.options || binaryOptions).forEach(subOption => {
+            option.select.insertAdjacentHTML(`beforeEnd`, `
+                <option value="${subOption.id}">${subOption.name}</option>
+            `);
+        });
+        option.select.selectedIndex = option.default;
+    });
+    obj.popup.open();
+}
+
+function generateThemeUrl(key) {
+    this.url += `?`;
+    this.options[key].forEach(option => {
+        this.url += `${option.id}=${option.select.value}&`;
+    });
+    this.url = this.url.slice(0, -1);
+    this.popup.onClose = null;
+    this.popup.close();
+    this.resolve(this.url);
 }
 
 function resetColor(bgColorContext, colorContext, id) {
@@ -40856,6 +41205,48 @@ function addStyle() {
         `;
     }
     esgst.style = insertHtml(document.head, `beforeEnd`, `<style id="esgst-style">${style}</style>`);
+    setTheme();
+}
+
+async function setTheme() {
+    if (esgst.theme) {
+        esgst.theme.remove();
+        esgst.theme = null;
+    }
+    let keys = Object.keys(esgst.features.themes.features);
+    for (let i = 0, n = keys.length; i < n; i++) {
+        let key = keys[i];
+        if (esgst[key] && checkThemeTime(key)) {
+            esgst.theme = insertHtml(document.head, `beforeEnd`, `<style id="esgst-theme">${JSON.parse(await getValue(key, ``))}</style>`);
+            break;
+        }
+    }
+}
+
+function checkThemeTime(id) {
+    let startParts = esgst[`${id}_startTime`].split(`:`),
+        endParts = esgst[`${id}_endTime`].split(`:`),
+        startDate = new Date(),
+        startHours = parseInt(startParts[0]),
+        startMinutes = parseInt(startParts[1]),
+        endDate = new Date(),
+        endHours = parseInt(endParts[0]),
+        endMinutes = parseInt(endParts[1]),
+        currentDate = new Date();
+    startDate.setHours(startHours);
+    startDate.setMinutes(startMinutes);
+    startDate.setSeconds(0);
+    endDate.setHours(endHours);
+    endDate.setMinutes(endMinutes);
+    endDate.setSeconds(0);
+    currentDate.setSeconds(0);
+    if (endDate < startDate) {
+        endDate.setDate(endDate.getDate() + 1);
+    }
+    if (currentDate >= startDate && currentDate <= endDate) {
+        setTimeout(setTheme, endDate - currentDate);
+        return true;
+    }
 }
 
 /* Changelog */
