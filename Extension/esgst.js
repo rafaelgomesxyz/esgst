@@ -1345,6 +1345,7 @@ async function init() {
             mgc_createTrain: true,
             mgc_bumpLast: true,
             mgc_groupKeys: false,
+            mgc_groupAllKeys: false,
             mgc_reversePosition: false,
             mgc_removeLinks: true,
             namwc_checkNotActivated: false,
@@ -1440,7 +1441,7 @@ async function init() {
         sg: location.hostname.match(/www.steamgifts.com/),
         st: location.hostname.match(/www.steamtrades.com/),
         currentVersion: `7.17.8`,
-        devVersion: `7.18.0 (Dev.14)`,
+        devVersion: `7.18.0 (Dev.15)`,
         icon: `data:image/x-icon;base64,AAABAAEAEBAAAAEAIABoBAAAFgAAACgAAAAQAAAAIAAAAAEAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAqv8DCbP/Hgeq+CQIrf8iCK3/Igit/yIIrf8iB6//Iwit9x8Aqv8DAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAKr0GAa2/c0DvfzfA7f83QO3/N0Dt/zdA7f83QO+/d4Gs/3OAKP1GQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACm/xQFs/n2Bcf//wW///8FwP//BcD//wW///8Fx///BbP69gC2/xUAAAAAAAAAAAAAAAAA/1UDFptOFxSZMxkLpJktAq720QW1+ugEsfvjA7b92wO2/dsEsfvjBbX66Aau/dEoiO4tUlLWGU5k3hdVVf8DEJxKHxWqT8cVrU7uE6VN0guqny0Apv8XAJfQGwBAVywAQFcsAJfQGwCx/xcogugtS2Lk0lBl6u5Qae7ISmPeHxagSSMVr07jF7lV/xOiSu0brgATAAAAAAAAAA8AAAC/AAAAwAAAABAAAAAAYznjEkth4OxWb/3/T2jv40lf4iMXnksiEq1O3RayUv8UpEnkEo0+HQAAABkAAABBAAAA8QAAAPEAAABBAAAAGUBSvxxOYeDjU2v0/05m7d1LYuEiF55LIhKtTt0Ws1L/FahN2gU1FTAAAADAAAAA7AAAAP0AAAD9AAAA7AAAAMAVG0owUGPm2lNr9P9OZu3dS2LhIheeSyISrU7dFrNS/xWoTdoFNRswAAAAvwAAAOsAAAD9AAAA/QAAAOsAAADAFRtKMFBj6NpTa/T/Tmbt3Uti4SIXnksiEq1O3RayUv8UpEnkEo0+HQAAABgAAABAAAAA8QAAAPEAAABBAAAAGT5PuR1OYeDjU2v0/05m7d1LYuEiFqBJIxWuT+QXuVX/E6JL7QC8XhMAAAAAAAAADwAAAL8AAAC/AAAAEAAAAAAOR/8SSWLh7FZv/f9PaO/jSV/iIxCUSh8Vrk7HFqxN7ROlS9JskzMt1XULGK12EhxGLgYsRy8GK612EhzVgAsYgmxxLU1i39JNZ+vtT2fwx0pj1h8AqlUDF65GFgqZUhlsiC0txH0T0s5/EujJgBPkz4QR28+EEdvJgBPkzn8Q6Md+E9KLdHosM1LWGUZo6BZVVf8DAAAAAAAAAAAAAAAA/2YAFMl9EvbgjRb/14gV/9eIFf/XiBX/14gV/9+NFv/KgBD254YAFQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAL91FRjKgRHN1IgU3s+EEt3PhBLdz4QS3c+EEt3UiBTezYMRzcJ6FBkAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACqqgADxIARHr18FiO8eA8ivHgPIrx4DyK8eA8ivXwPI8SAER7/VQADAAAAAAAAAAAAAAAA78cAAPA3AAD4FwAABCAAADGOAAAE+AAAkBEAAJ55AACYOQAAlgEAAER4AAAXaAAATnoAAPgXAAD0JwAA69cAAA==`,
         sgIcon: `data:image/x-icon;base64,AAABAAEAEBAAAAEAIABoBAAAFgAAACgAAAAQAAAAIAAAAAEAIAAAAAAAQAQAABMLAAATCwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIUAAAD5AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAPoAAACFAAAAAAAAAAAAAAD8AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA+QAAAAAAAAAAAAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAAAAAAAAAAAAP8AAAD/AAAA/wAAABwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAcAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAcAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAHAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAAAAAAAAAAAAPwAAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD5AAAAAAAAAAAAAACFAAAA+QAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD5AAAAhQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA//8AAP//AADAAwAAwAMAAMfjAADP8wAAz/MAAM/zAADP8wAAz/MAAM/zAADH4wAAwAMAAMADAAD//wAA//8AAA==`,
         stIcon: `data:image/x-icon;base64,AAABAAEAEBAAAAEAIABoBAAAFgAAACgAAAAQAAAAIAAAAAEAIAAAAAAAQAQAABMLAAATCwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABbD6SgWw+ucFsPrkBbD6SgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAWw+uYFsPr/BbD6/wWw+ucAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAFsPrmBbD6/wWw+v8FsPrmAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABbD6SQWw+uYFsPrmBbD6SQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAFKRLShSkS+cUpEvkFKRLSgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAExi4EpMYuDnTGLg5Exi4EoAAAAAAAAAABSkS+YUpEv/FKRL/xSkS+cAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABMYuDmTGLg/0xi4P9MYuDnAAAAAAAAAAAUpEvmFKRL/xSkS/8UpEvmAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAATGLg5kxi4P9MYuD/TGLg5gAAAAAAAAAAFKRLSRSkS+YUpEvmFKRLSQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAExi4ElMYuDmTGLg5kxi4EkAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAMZ9E0rGfRPnxn0T5MZ9E0oAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADGfRPmxn0T/8Z9E//GfRPnAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAxn0T5sZ9E//GfRP/xn0T5gAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAMZ9E0nGfRPmxn0T5sZ9E0kAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA//8AAPw/AAD8PwAA/D8AAPw/AAD//wAAh+EAAIfhAACH4QAAh+EAAP//AAD8PwAA/D8AAPw/AAD8PwAA//8AAA==`,
@@ -23566,7 +23567,7 @@ function importMgcGiveaways(mgc, callback) {
         <div class="esgst-bold">Portal https://store.steampowered.com/app/400 (2 Copies)</div>
         <div class="esgst-bold">https://store.steampowered.com/app/400 ZZZZZ-ZZZZZ-ZZZZZ</div>
         <br>
-        <div>This example will create the 5 following giveaways if the option "Group adjacent keys for the same game." is disabled:</div>
+        <div>This example will create the 5 following giveaways if the options "Group adjacent keys for the same game." and "Group all keys for the same game." are disabled:</div>
         <br>
         <div>1 Portal giveaway for 1 gift copy.</div>
         <div>1 Portal giveaway for 1 key (XXXXX-XXXXX-XXXXX).</div>
@@ -23574,12 +23575,18 @@ function importMgcGiveaways(mgc, callback) {
         <div>1 Portal giveaway for 2 gift copies.</div>
         <div>1 Portal giveaway for 1 key (ZZZZZ-ZZZZZ-ZZZZZ).</div>
         <br>
-        <div>If the option "Group adjacent keys for the same game." is enabled, however, only 4 giveaways will be created, because the keys in the 2nd and 3rd giveaways are for the same game (Portal) and are adjacent (next to each other), so they will be grouped together in the same giveaway. Note that the key in the 5th giveaway is not adjacent, because the 4th giveaway is separating it from the others. So with the option enabled the 4 following giveaways will be created:</div>
+        <div>If the option "Group adjacent keys for the same game." is enabled, however, only 4 giveaways will be created, because the keys in the 2nd and 3rd giveaways are for the same game (Portal) and are adjacent (next to each other), so they will be grouped together in the same giveaway. Note that the key in the 5th giveaway is not adjacent, because the 4th giveaway is separating it from the others. So with this option enabled the 4 following giveaways will be created:</div>
         <br>
         <div>1 Portal giveaway for 1 gift copy.</div>
         <div>1 Portal giveaway for 2 keys (XXXXX-XXXXX-XXXXX and YYYYY-YYYYY-YYYYY).</div>
         <div>1 Portal giveaway for 2 gift copies.</div>
         <div>1 Portal giveaway for 1 key (ZZZZZ-ZZZZZ-ZZZZZ).</div>
+        <br>
+        <div>But if the option "Group all keys for the same game." is enabled, then only 3 giveaways will be created, because every single key found for the same game will be grouped together in a single giveaway, regardless of whether or not they are next to each other. So with this option enabled the 3 following giveaways will be created:</div>
+        <br>
+        <div>1 Portal giveaway for 1 gift copy.</div>
+        <div>1 Portal giveaway for 3 keys (XXXXX-XXXXX-XXXXX, YYYYY-YYYYY-YYYYY and ZZZZZ-ZZZZZ-ZZZZZ).</div>
+        <div>1 Portal giveaway for 2 gift copies.</div>
         <br>
         <div>And here's an example using separate details for each giveaway:</div>
         <br>
@@ -23594,7 +23601,15 @@ function importMgcGiveaways(mgc, callback) {
         <div>Imported giveaways will not be automatically created, you still have to review them by clicking on the 'Create' button.</div>
         <br>
     `);
-    new ToggleSwitch(popup.description, `mgc_groupKeys`, false, `Group adjacent keys for the same game.`, false, false, ``, esgst.mgc_groupKeys);
+    let groupKeys = new ToggleSwitch(popup.description, `mgc_groupKeys`, false, `Group adjacent keys for the same game.`, false, false, ``, esgst.mgc_groupKeys);
+    let groupAllKeys = new ToggleSwitch(popup.description, `mgc_groupAllKeys`, false, `Group all keys for the same game.`, false, false, ``, esgst.mgc_groupAllKeys);
+    groupKeys.exclusions.push(groupAllKeys.container);
+    groupAllKeys.exclusions.push(groupKeys.container);
+    if (esgst.mgc_groupKeys) {
+        groupAllKeys.container.classList.add(`esgst-hidden`);
+    } else if (esgst.mgc_groupAllKeys) {
+        groupKeys.container.classList.add(`esgst-hidden`);
+    }
     textArea = insertHtml(popup.scrollable, `beforeEnd`, `
         <textarea></textarea>
     `);
@@ -23644,7 +23659,7 @@ function getMgcGiveaways(mgc, popup, progress, textArea, callback) {
                     giveaways.push(line);
                 }
             }
-            textArea.value = giveaways.join(`\n`);
+            textArea.value = `${giveaways.join(`\n`)}\n`;
             n = giveaways.length;
             if ($(progress.bar).progressbar(`instance`)) {
                 max = $(progress.bar).progressbar(`option`, `max`);
@@ -23677,7 +23692,7 @@ function getMgcGiveaways(mgc, popup, progress, textArea, callback) {
 }
 
 async function importMgcGiveaway(giveaways, i, mgc, n, popup, progress, textArea, mainCallback, callback) {
-    var copies, found, giveaway, j, key, keyPos, match, name, namePos, regExp, values;
+    var copies, found, giveaway, key, keyPos, match, name, namePos, regExp, values;
     if (i < n) {
         let countries = giveaways[i].match(/\[countries="(.+?)"\]/);
         let startTime = giveaways[i].match(/\[startTime="(.+?)"\]/);
@@ -23768,11 +23783,12 @@ async function importMgcGiveaway(giveaways, i, mgc, n, popup, progress, textArea
                     values.copies = `1`;
                 }
             }
-            j = 1;
-            if (esgst.mgc_groupKeys && key) {
+            let toRemove = [giveaways[i]];
+            if ((esgst.mgc_groupKeys || esgst.mgc_groupAllKeys) && key) {
+                let k = i;
                 do {
                     found = false;
-                    giveaway = giveaways[i + 1];
+                    giveaway = giveaways[k + 1];
                     if (giveaway) {
                         let nextSteamLink = giveaway.match(/https?:\/\/.*?store\.steampowered\.com\/(app|sub)\/(\d+)/);
                         let nextSteamInfo = null;
@@ -23801,13 +23817,15 @@ async function importMgcGiveaway(giveaways, i, mgc, n, popup, progress, textArea
                         if (match && key && (match[namePos].replace(/\[ESGST\]/, ``).trim().toLowerCase() === name || (nextSteamInfo && steamInfo && nextSteamInfo.type === steamInfo.type && nextSteamInfo.id === steamInfo.id))) {
                             found = true;
                             values.keys += `\n${match[keyPos].replace(/\s/g, `\n`)}`;
-                            ++i;
-                            ++j;
+                            toRemove.push(giveaways.splice(k + 1, 1)[0]);
+                            k--;
+                            n--;
                         }
                     }
-                } while (found);
+                    k++;
+                } while ((esgst.mgc_groupKeys && found) || (esgst.mgc_groupAllKeys && giveaways[k + 1]));
             }
-            getMgcGiveaway(giveaways, i, j, mgc, n, name, popup, progress, steamInfo, textArea, values, mainCallback, callback, await request({data: `do=autocomplete_giveaway_game&page_number=1&search_query=${encodeURIComponent((steamInfo && steamInfo.id) || name)}`, method: `POST`, url: `/ajax.php`}));
+            getMgcGiveaway(giveaways, i + 1, toRemove, mgc, n, name, popup, progress, steamInfo, textArea, values, mainCallback, callback, await request({data: `do=autocomplete_giveaway_game&page_number=1&search_query=${encodeURIComponent((steamInfo && steamInfo.id) || name)}`, method: `POST`, url: `/ajax.php`}));
         } else {
             createAlert(`The next giveaway is not in the right format. Please correct it and click on "Import" again to continue importing.`);
             callback();
@@ -23817,7 +23835,7 @@ async function importMgcGiveaway(giveaways, i, mgc, n, popup, progress, textArea
     }
 }
 
-function getMgcGiveaway(giveaways, i, j, mgc, n, name, popup, progress, steamInfo, textArea, values, mainCallback, callback, response) {
+function getMgcGiveaway(giveaways, i, toRemove, mgc, n, name, popup, progress, steamInfo, textArea, values, mainCallback, callback, response) {
     let button, conflictPopup, context, element, elements, exactMatch, info, k, matches, numElements, value;
     elements = parseHtml(JSON.parse(response.responseText).html).getElementsByClassName(`table__row-outer-wrap`);
     exactMatch = null;
@@ -23850,14 +23868,13 @@ function getMgcGiveaway(giveaways, i, j, mgc, n, name, popup, progress, steamInf
         values.gameId = exactMatch.getAttribute(`data-autocomplete-id`);
         values.steam = getGameInfo(exactMatch);
         addMgcGiveaway(false, mgc, values);
-        value = $(progress.bar).progressbar(`option`, `value`) + j;
+        value = $(progress.bar).progressbar(`option`, `value`) + toRemove.length;
         $(progress.bar).progressbar(`option`, `value`, value);
         progress.current.textContent = value;
-        do {
-            textArea.value = textArea.value.replace(/^(.+?)\n/, ``);
-            j -= 1;
-        } while (j > 0);
-        setTimeout(importMgcGiveaway, 0, giveaways, ++i, mgc, n, popup, progress, textArea, mainCallback, callback);
+        toRemove.forEach(line => {
+            textArea.value = textArea.value.replace(`${line}\n`, ``);
+        });
+        setTimeout(importMgcGiveaway, 0, giveaways, i, mgc, n, popup, progress, textArea, mainCallback, callback);
     } else if (matches.length > 0) {
         conflictPopup = new Popup_v2({
             icon: `fa-exclamation`,
@@ -23875,14 +23892,13 @@ function getMgcGiveaway(giveaways, i, j, mgc, n, name, popup, progress, steamInf
                 values.gameId = element.getAttribute(`data-autocomplete-id`);
                 values.steam = getGameInfo(element);
                 addMgcGiveaway(false, mgc, values);
-                value = $(progress.bar).progressbar(`option`, `value`) + j;
+                value = $(progress.bar).progressbar(`option`, `value`) + toRemove.length;
                 $(progress.bar).progressbar(`option`, `value`, value);
                 progress.current.textContent = value;
-                do {
-                    textArea.value = textArea.value.replace(/^(.+?)\n/, ``);
-                    j -= 1;
-                } while (j > 0);
-                setTimeout(importMgcGiveaway, 0, giveaways, ++i, mgc, n, popup, progress, textArea, mainCallback, callback);
+                toRemove.forEach(line => {
+                    textArea.value = textArea.value.replace(`${line}\n`, ``);
+                });
+                setTimeout(importMgcGiveaway, 0, giveaways, i, mgc, n, popup, progress, textArea, mainCallback, callback);
             }});
             button.set.style.position = `absolute`;
             button.set.style.right = `50px`;
