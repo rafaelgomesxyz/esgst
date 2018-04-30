@@ -616,7 +616,7 @@ class ESGST {
                     esgst.browser = `firefox`;
                 }
                 if (chrome.runtime) {
-                    browser = chrome;
+                    var browser = chrome;
                 }
             }
             this.setValue = (key, value) => {
