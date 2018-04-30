@@ -522,7 +522,7 @@ class ESGST {
             sg: location.hostname.match(/www.steamgifts.com/),
             st: location.hostname.match(/www.steamtrades.com/),
             currentVersion: `7.17.8`,
-            devVersion: `7.18.0 (Dev.21)`,
+            devVersion: `7.18.0 (Dev.22)`,
             icon: `data:image/x-icon;base64,AAABAAEAEBAAAAEAIABoBAAAFgAAACgAAAAQAAAAIAAAAAEAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAqv8DCbP/Hgeq+CQIrf8iCK3/Igit/yIIrf8iB6//Iwit9x8Aqv8DAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAKr0GAa2/c0DvfzfA7f83QO3/N0Dt/zdA7f83QO+/d4Gs/3OAKP1GQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACm/xQFs/n2Bcf//wW///8FwP//BcD//wW///8Fx///BbP69gC2/xUAAAAAAAAAAAAAAAAA/1UDFptOFxSZMxkLpJktAq720QW1+ugEsfvjA7b92wO2/dsEsfvjBbX66Aau/dEoiO4tUlLWGU5k3hdVVf8DEJxKHxWqT8cVrU7uE6VN0guqny0Apv8XAJfQGwBAVywAQFcsAJfQGwCx/xcogugtS2Lk0lBl6u5Qae7ISmPeHxagSSMVr07jF7lV/xOiSu0brgATAAAAAAAAAA8AAAC/AAAAwAAAABAAAAAAYznjEkth4OxWb/3/T2jv40lf4iMXnksiEq1O3RayUv8UpEnkEo0+HQAAABkAAABBAAAA8QAAAPEAAABBAAAAGUBSvxxOYeDjU2v0/05m7d1LYuEiF55LIhKtTt0Ws1L/FahN2gU1FTAAAADAAAAA7AAAAP0AAAD9AAAA7AAAAMAVG0owUGPm2lNr9P9OZu3dS2LhIheeSyISrU7dFrNS/xWoTdoFNRswAAAAvwAAAOsAAAD9AAAA/QAAAOsAAADAFRtKMFBj6NpTa/T/Tmbt3Uti4SIXnksiEq1O3RayUv8UpEnkEo0+HQAAABgAAABAAAAA8QAAAPEAAABBAAAAGT5PuR1OYeDjU2v0/05m7d1LYuEiFqBJIxWuT+QXuVX/E6JL7QC8XhMAAAAAAAAADwAAAL8AAAC/AAAAEAAAAAAOR/8SSWLh7FZv/f9PaO/jSV/iIxCUSh8Vrk7HFqxN7ROlS9JskzMt1XULGK12EhxGLgYsRy8GK612EhzVgAsYgmxxLU1i39JNZ+vtT2fwx0pj1h8AqlUDF65GFgqZUhlsiC0txH0T0s5/EujJgBPkz4QR28+EEdvJgBPkzn8Q6Md+E9KLdHosM1LWGUZo6BZVVf8DAAAAAAAAAAAAAAAA/2YAFMl9EvbgjRb/14gV/9eIFf/XiBX/14gV/9+NFv/KgBD254YAFQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAL91FRjKgRHN1IgU3s+EEt3PhBLdz4QS3c+EEt3UiBTezYMRzcJ6FBkAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACqqgADxIARHr18FiO8eA8ivHgPIrx4DyK8eA8ivXwPI8SAER7/VQADAAAAAAAAAAAAAAAA78cAAPA3AAD4FwAABCAAADGOAAAE+AAAkBEAAJ55AACYOQAAlgEAAER4AAAXaAAATnoAAPgXAAD0JwAA69cAAA==`,
             sgIcon: `data:image/x-icon;base64,AAABAAEAEBAAAAEAIABoBAAAFgAAACgAAAAQAAAAIAAAAAEAIAAAAAAAQAQAABMLAAATCwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIUAAAD5AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAPoAAACFAAAAAAAAAAAAAAD8AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA+QAAAAAAAAAAAAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAAAAAAAAAAAAP8AAAD/AAAA/wAAABwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAcAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAcAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAHAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAAAAAAAAAAAAPwAAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD5AAAAAAAAAAAAAACFAAAA+QAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD5AAAAhQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA//8AAP//AADAAwAAwAMAAMfjAADP8wAAz/MAAM/zAADP8wAAz/MAAM/zAADH4wAAwAMAAMADAAD//wAA//8AAA==`,
             stIcon: `data:image/x-icon;base64,AAABAAEAEBAAAAEAIABoBAAAFgAAACgAAAAQAAAAIAAAAAEAIAAAAAAAQAQAABMLAAATCwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABbD6SgWw+ucFsPrkBbD6SgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAWw+uYFsPr/BbD6/wWw+ucAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAFsPrmBbD6/wWw+v8FsPrmAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABbD6SQWw+uYFsPrmBbD6SQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAFKRLShSkS+cUpEvkFKRLSgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAExi4EpMYuDnTGLg5Exi4EoAAAAAAAAAABSkS+YUpEv/FKRL/xSkS+cAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABMYuDmTGLg/0xi4P9MYuDnAAAAAAAAAAAUpEvmFKRL/xSkS/8UpEvmAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAATGLg5kxi4P9MYuD/TGLg5gAAAAAAAAAAFKRLSRSkS+YUpEvmFKRLSQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAExi4ElMYuDmTGLg5kxi4EkAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAMZ9E0rGfRPnxn0T5MZ9E0oAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADGfRPmxn0T/8Z9E//GfRPnAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAxn0T5sZ9E//GfRP/xn0T5gAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAMZ9E0nGfRPmxn0T5sZ9E0kAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA//8AAPw/AAD8PwAA/D8AAPw/AAD//wAAh+EAAIfhAACH4QAAh+EAAP//AAD8PwAA/D8AAPw/AAD8PwAA//8AAA==`,
@@ -5888,10 +5888,6 @@ class ESGST {
             `);
         }
 
-        if ((esgst.lpv || esgst.cewgd || (esgst.gc && esgst.gc_gi)) && esgst.giveawayPath && document.referrer === `https://www.steamgifts.com/giveaways/new`) {
-            this.addGiveawayToStorage();
-        }
-
         let features = this.getFeatures();
         for (let feature of features) {
             if (!feature.endless && !esgst[feature.id]) continue;
@@ -6085,13 +6081,9 @@ class ESGST {
                             let icon = event.currentTarget.firstElementChild;
                             icon.classList.add(`fa-spin`);
                             if (esgst.oadd) {
-                                this.oadd_load(true, () => {
-                                    icon.classList.remove(`fa-spin`);
-                                });
+                                this.oadd_load(true, icon.classList.remove.bind(icon, `fa-spin`));
                             } else {
-                                this.checkMissingDiscussions(true, () => {
-                                    icon.classList.remove(`fa-spin`);
-                                });
+                                this.checkMissingDiscussions(true, icon.classList.remove.bind(icon, `fa-spin`));
                             }
                         });
                     }
@@ -6186,10 +6178,21 @@ class ESGST {
         }
     }
     ags() {
-        if (!esgst.giveawaysPath || (esgst.qgs && esgst.qgs_h)) return;
-        this.ags_addPanel(document.getElementsByClassName(`sidebar__search-container`)[0]);
+        let query = ``;
+        if (esgst.giveawaysPath) {
+            query += `.sidebar__search-container, `;
+        }
+        if (esgst.qgs) {
+            query += `.esgst-qgs-container, `;
+        }
+        if (!query) return;
+        const elements = document.querySelectorAll(query.slice(0, -2));
+        for (const element of elements) {
+            this.ags_addPanel(element);
+        }
     }
-    ags_addPanel(context, qgs) {
+    ags_addPanel(context) {
+        const qgs = context.classList.contains(`esgst-qgs-container`);
         let obj = {
             qgs
         };
@@ -6319,15 +6322,10 @@ class ESGST {
         for (let i = 0, n = filterDetails.length; i < n; ++i) {
             this.ags_createFilter(obj, filterDetails[i]);
         }
-        obj.input.addEventListener(`keydown`, event => {
-            if (event.key === `Enter`) {
-                event.preventDefault();
-                searchAgsQuery();
-            }
-        });
-        icon.addEventListener(`click`, () => {
-            searchAgsQuery();
-        });
+        obj.input.addEventListener(`keydown`,
+            triggerOnEnter.bind(null, this.ags_searchQuery.bind(this, obj))
+        );
+        icon.addEventListener(`click`, this.ags_searchQuery.bind(this, obj));
     }
     ags_createFilter(obj, details) {
         if (details.key === `ags_type` && !obj.qgs) {
@@ -6409,16 +6407,12 @@ class ESGST {
             minFilter.value = esgst[details.minKey];
             this.observeNumChange(minFilter, details.minKey);
             if (details.type === `input`) {
-                maxFilter.addEventListener(`keypress`, event => {
-                    if (event.key === `Enter`) {
-                        searchAgsQuery();
-                    }
-                });
-                minFilter.addEventListener(`keypress`, event => {
-                    if (event.key === `Enter`) {
-                        searchAgsQuery();
-                    }
-                });
+                maxFilter.addEventListener(`keypress`,
+                    triggerOnEnter.bind(null, this.ags_searchQuery.bind(this, obj))
+                );
+                minFilter.addEventListener(`keypress`,
+                    triggerOnEnter.bind(null, this.ags_searchQuery.bind(this, obj))
+                );
             }
             obj.filters.push({
                 filter: minFilter,
@@ -13147,7 +13141,7 @@ class ESGST {
                     if (!esgst[property[1]]) return;
                     filter = filter.replace(/\[esgst\..+\]/, ``);
                 }
-                elements = context.querySelectorAll(filter);
+                let elements = context.querySelectorAll(filter);
                 for (i = elements.length - 1; i > -1; i--) {
                     elements[i].classList.add(`esgst-hidden`);
                 }
@@ -13603,7 +13597,7 @@ class ESGST {
             es.progress = insertHtml(esgst.pagination.firstElementChild, `beforeEnd`, `
                 <span class="esgst-bold"><i class="fa fa-circle-o-notch fa-spin"></i> Loading next page...</span>
             `);
-            this.es_getNext(es, false, false, callback, await this.request({method: `GET`, url: `${esgst.searchUrl}${nextPage}`}));
+            this.es_getNext(es, false, false, callback, await this.request({method: `GET`, url: `${esgst.searchUrl}${es.nextPage}`}));
         } else if (callback && typeof callback === `function`) {
             callback();
         }
@@ -13772,7 +13766,7 @@ class ESGST {
         if (es.step) return;
         es.nextButton.innerHTML = `<i class="fa fa-circle-o-notch fa-spin"></i>`;
         es.step = true;
-        let wasPaused = paused;
+        let wasPaused = es.paused;
         await this.es_resume(es);
         document.addEventListener(`scroll`, esgst.es_loadNext);
         esgst.es_loadNext(async () => {
@@ -13987,7 +13981,7 @@ class ESGST {
         }
         let popup = new Popup(`fa-history`, `Entry Tracker`, true);
         let rows = insertHtml(popup.scrollable, `beforeEnd`, `
-            <div class="esgst-text-left esgst-float-right table" style="padding-left: 5px; width: auto;">
+            <div class="esgst-text-left esgst-float-right table" style="width: auto;">
                 <div class="table__heading">
                     <div class="table__column--width-small">Delete</div>
                     <div class="table__column--width-small">Date</div>
@@ -14046,7 +14040,7 @@ class ESGST {
             </div>
         `);
         popup.scrollable.insertAdjacentHTML(`beforeEnd`, `
-            <div class="esgst-text-left esgst-float-left markdown" style="border-right: 1px solid #ccc; padding-right: 5px;">
+            <div class="esgst-text-left esgst-float-left markdown" style="border-right: 1px solid #ccc;">
                 <ul>${historyHtml}</ul>
             </div>
         `);
@@ -18114,7 +18108,7 @@ class ESGST {
         }
     }
     ggl_addPanel(giveaway, groups, newGroups, savedGroups) {
-        let className, code, group, groupCount, i, link, n, panel;
+        let className, code, group, groupCount, i, j, link, n, panel;
         if (!giveaway.summary.getElementsByClassName(`esgst-ggl-panel`)[0]) {
             panel = insertHtml(giveaway.summary, `beforeEnd`, `
                 <div class="esgst-ggl-panel"></div>
@@ -24403,26 +24397,23 @@ class ESGST {
         esgst.mainPageHeading.appendChild(esgst.paginationNavigation);
     }
     pgb() {
-        let PGBContainer, HTML, PGBIcon;
-        esgst.pinnedGiveawaysButton = document.getElementsByClassName(`pinned-giveaways__button`)[0];
-        if (!esgst.pinnedGiveawaysButton) return;
-        PGBContainer = esgst.pinnedGiveawaysButton.previousElementSibling;
-        PGBContainer.classList.add(`esgst-pgb-container`);
-        esgst.pinnedGiveawaysButton.remove();
-        HTML = `
+        let button = document.getElementsByClassName(`pinned-giveaways__button`)[0];
+        if (!button) return;
+        const container = button.previousElementSibling;
+        container.classList.add(`esgst-pgb-container`);
+        button.remove();
+        button = insertHtml(container, `afterEnd`, `
             <div class="esgst-pgb-button">
                 <i class="esgst-pgb-icon fa fa-angle-down"></i>
-            </div>
-        `;
-        PGBContainer.insertAdjacentHTML(`afterEnd`, HTML);
-        esgst.pinnedGiveawaysButton = PGBContainer.nextElementSibling;
-        PGBIcon = esgst.pinnedGiveawaysButton.firstElementChild;
-        esgst.pinnedGiveawaysButton.addEventListener(`click`, this.pgb_toggle.bind(this));
+            </div>        
+        `);
+        const icon = button.firstElementChild;
+        button.addEventListener(`click`, this.pgb_toggle.bind(this, container, icon));
     }
-    pgb_toggle(PGBContainer, PGBIcon) {
-        PGBContainer.classList.toggle(`pinned-giveaways__inner-wrap--minimized`);
-        PGBIcon.classList.toggle(`fa-angle-down`);
-        PGBIcon.classList.toggle(`fa-angle-up`);
+    pgb_toggle(container, icon) {
+        container.classList.toggle(`pinned-giveaways__inner-wrap--minimized`);
+        icon.classList.toggle(`fa-angle-down`);
+        icon.classList.toggle(`fa-angle-up`);
     }
     async pm_change(code, status) {
         let deleteLock = await this.createLock(`commentLock`, 300);
@@ -24453,7 +24444,6 @@ class ESGST {
         container.addEventListener(`mouseenter`, this.qgs_expand.bind(this));
         container.addEventListener(`mouseleave`, this.qgs_collapse.bind(this));
         container.firstElementChild.addEventListener(`keypress`, this.qgs_trigger.bind(this));
-        this.ags_addPanel(container, true);
         if (esgst.qgs_h && esgst.giveawaysPath) {
             document.getElementsByClassName(`sidebar__search-container`)[0].remove();
         }
@@ -25927,7 +25917,7 @@ class ESGST {
         if (location.href.match(new RegExp(`\\/trades\\/search\\?user=${esgst.steamId}`))) {
             this.tb_getTrades(button, document);
         } else {
-            this.tb_getTrades(null, this.parseHtml((await this.request({method: `GET`, queue: true, url: `https://www.steamtrades.com/trades/search?user=${esgst.steamId}`})).responseText), setTimeout.bind(null, this.tb_setAutoBump, 3900000, button));
+            this.tb_getTrades(null, this.parseHtml((await this.request({method: `GET`, queue: true, url: `https://www.steamtrades.com/trades/search?user=${esgst.steamId}`})).responseText), setTimeout.bind(null, this.tb_setAutoBump.bind(this), 3900000, button));
         }
     }
     ts() {
@@ -29035,6 +29025,11 @@ class ESGST {
     giveaways() {
         esgst.endlessFeatures.push(this.giveaways_load.bind(this));
     }
+    giveaways_addToStorage() {
+        if ((esgst.lpv || esgst.cewgd || (esgst.gc && esgst.gc_gi)) && esgst.giveawayPath && document.referrer === `https://www.steamgifts.com/giveaways/new`) {
+            this.addGiveawayToStorage();
+        }
+    }
     async giveaways_load(context, main, source, endless) {
         if (context.getAttribute && context.getAttribute(`data-rfi`)) return;
         let giveaways = await this.giveaways_get(context, main, null, false, null, false, endless, source);
@@ -29735,6 +29730,7 @@ class ESGST {
                 discussion.author = discussion.createdContainer.nextElementSibling.textContent;
             }
         }
+        if (!discussion.author) return;
         discussion.authors = [discussion.author.toLowerCase()];
         discussion.created = discussion.author === esgst.username;
         discussion.poll = discussion.outerWrap.getElementsByClassName(`fa-align-left`)[0];
@@ -30443,7 +30439,8 @@ class ESGST {
                 id: `ef`
             },
             {
-                id: `ags`
+                endless: true,
+                id: `giveaways_addToStorage`
             },
             {
                 id: `aic`
@@ -30582,6 +30579,9 @@ class ESGST {
             },
             {
                 id: `qgs`
+            },
+            { // needs to wait for QGS
+                id: `ags`
             },
             { // needs to wait for QGS
                 id: `smgb`
@@ -39391,7 +39391,7 @@ class Process {
             this.index = 0;
             this.perLoad = this.urls.perLoad;
             this.items = [];
-            await this.urls.init(this, ...this.urls.arguments);
+            await this.urls.init(this, ...this.urls.arguments || []);
             this.total = this.items.length;
             if (!this.urls.doNotTrigger) {
                 this.popup.triggerButton(0);
@@ -39564,6 +39564,13 @@ class ToggleSwitch {
 let esgst, _ESGST = new ESGST();
 // initialize esgst
 _ESGST.init();
+
+function triggerOnEnter(callback, event) {
+    if (event.key === `Enter`) {
+        event.preventDefault();
+        callback();
+    }
+}
 
 function getChildByClassName(element, className) {
     let i;
