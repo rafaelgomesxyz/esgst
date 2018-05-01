@@ -522,7 +522,7 @@ class ESGST {
             sg: location.hostname.match(/www.steamgifts.com/),
             st: location.hostname.match(/www.steamtrades.com/),
             currentVersion: `7.17.8`,
-            devVersion: `7.18.0 (Dev.22)`,
+            devVersion: `7.18.0 (Dev.23)`,
             icon: `data:image/x-icon;base64,AAABAAEAEBAAAAEAIABoBAAAFgAAACgAAAAQAAAAIAAAAAEAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAqv8DCbP/Hgeq+CQIrf8iCK3/Igit/yIIrf8iB6//Iwit9x8Aqv8DAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAKr0GAa2/c0DvfzfA7f83QO3/N0Dt/zdA7f83QO+/d4Gs/3OAKP1GQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACm/xQFs/n2Bcf//wW///8FwP//BcD//wW///8Fx///BbP69gC2/xUAAAAAAAAAAAAAAAAA/1UDFptOFxSZMxkLpJktAq720QW1+ugEsfvjA7b92wO2/dsEsfvjBbX66Aau/dEoiO4tUlLWGU5k3hdVVf8DEJxKHxWqT8cVrU7uE6VN0guqny0Apv8XAJfQGwBAVywAQFcsAJfQGwCx/xcogugtS2Lk0lBl6u5Qae7ISmPeHxagSSMVr07jF7lV/xOiSu0brgATAAAAAAAAAA8AAAC/AAAAwAAAABAAAAAAYznjEkth4OxWb/3/T2jv40lf4iMXnksiEq1O3RayUv8UpEnkEo0+HQAAABkAAABBAAAA8QAAAPEAAABBAAAAGUBSvxxOYeDjU2v0/05m7d1LYuEiF55LIhKtTt0Ws1L/FahN2gU1FTAAAADAAAAA7AAAAP0AAAD9AAAA7AAAAMAVG0owUGPm2lNr9P9OZu3dS2LhIheeSyISrU7dFrNS/xWoTdoFNRswAAAAvwAAAOsAAAD9AAAA/QAAAOsAAADAFRtKMFBj6NpTa/T/Tmbt3Uti4SIXnksiEq1O3RayUv8UpEnkEo0+HQAAABgAAABAAAAA8QAAAPEAAABBAAAAGT5PuR1OYeDjU2v0/05m7d1LYuEiFqBJIxWuT+QXuVX/E6JL7QC8XhMAAAAAAAAADwAAAL8AAAC/AAAAEAAAAAAOR/8SSWLh7FZv/f9PaO/jSV/iIxCUSh8Vrk7HFqxN7ROlS9JskzMt1XULGK12EhxGLgYsRy8GK612EhzVgAsYgmxxLU1i39JNZ+vtT2fwx0pj1h8AqlUDF65GFgqZUhlsiC0txH0T0s5/EujJgBPkz4QR28+EEdvJgBPkzn8Q6Md+E9KLdHosM1LWGUZo6BZVVf8DAAAAAAAAAAAAAAAA/2YAFMl9EvbgjRb/14gV/9eIFf/XiBX/14gV/9+NFv/KgBD254YAFQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAL91FRjKgRHN1IgU3s+EEt3PhBLdz4QS3c+EEt3UiBTezYMRzcJ6FBkAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACqqgADxIARHr18FiO8eA8ivHgPIrx4DyK8eA8ivXwPI8SAER7/VQADAAAAAAAAAAAAAAAA78cAAPA3AAD4FwAABCAAADGOAAAE+AAAkBEAAJ55AACYOQAAlgEAAER4AAAXaAAATnoAAPgXAAD0JwAA69cAAA==`,
             sgIcon: `data:image/x-icon;base64,AAABAAEAEBAAAAEAIABoBAAAFgAAACgAAAAQAAAAIAAAAAEAIAAAAAAAQAQAABMLAAATCwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIUAAAD5AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAPoAAACFAAAAAAAAAAAAAAD8AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA+QAAAAAAAAAAAAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAAAAAAAAAAAAP8AAAD/AAAA/wAAABwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAcAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAcAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAHAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAAAAAAAAAAAAPwAAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD5AAAAAAAAAAAAAACFAAAA+QAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD5AAAAhQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA//8AAP//AADAAwAAwAMAAMfjAADP8wAAz/MAAM/zAADP8wAAz/MAAM/zAADH4wAAwAMAAMADAAD//wAA//8AAA==`,
             stIcon: `data:image/x-icon;base64,AAABAAEAEBAAAAEAIABoBAAAFgAAACgAAAAQAAAAIAAAAAEAIAAAAAAAQAQAABMLAAATCwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABbD6SgWw+ucFsPrkBbD6SgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAWw+uYFsPr/BbD6/wWw+ucAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAFsPrmBbD6/wWw+v8FsPrmAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABbD6SQWw+uYFsPrmBbD6SQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAFKRLShSkS+cUpEvkFKRLSgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAExi4EpMYuDnTGLg5Exi4EoAAAAAAAAAABSkS+YUpEv/FKRL/xSkS+cAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABMYuDmTGLg/0xi4P9MYuDnAAAAAAAAAAAUpEvmFKRL/xSkS/8UpEvmAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAATGLg5kxi4P9MYuD/TGLg5gAAAAAAAAAAFKRLSRSkS+YUpEvmFKRLSQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAExi4ElMYuDmTGLg5kxi4EkAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAMZ9E0rGfRPnxn0T5MZ9E0oAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADGfRPmxn0T/8Z9E//GfRPnAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAxn0T5sZ9E//GfRP/xn0T5gAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAMZ9E0nGfRPmxn0T5sZ9E0kAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA//8AAPw/AAD8PwAA/D8AAPw/AAD//wAAh+EAAIfhAACH4QAAh+EAAP//AAD8PwAA/D8AAPw/AAD8PwAA//8AAA==`,
@@ -611,12 +611,12 @@ class ESGST {
             // esgst is running as an extension
             esgst.type = `extension`;
             esgst.browser = ``;
-            if (typeof chrome !== `undefined`) {
-                if (typeof browser !== `undefined`) {
+            if (typeof window.chrome !== `undefined`) {
+                if (typeof window.browser !== `undefined`) {
                     esgst.browser = `firefox`;
                 }
-                if (chrome.runtime) {
-                    browser = chrome;
+                if (window.chrome.runtime) {
+                    window.browser = window.chrome;
                 }
             }
             this.setValue = (key, value) => {
@@ -625,7 +625,7 @@ class ESGST {
             this.setValues = values => {
                 let key;
                 return new Promise((resolve, reject) => {
-                    browser.runtime.sendMessage({
+                    window.browser.runtime.sendMessage({
                         action: `setValues`,
                         values: JSON.stringify(values)
                     }, () => {
@@ -653,7 +653,7 @@ class ESGST {
             };
             this.delValues = keys => {
                 return new Promise((resolve, reject) => {
-                    browser.runtime.sendMessage({
+                    window.browser.runtime.sendMessage({
                         action: `delValues`,
                         keys: JSON.stringify(keys)
                     }, () => {
@@ -666,7 +666,7 @@ class ESGST {
             };
             this.getStorage = () => {
                 return new Promise((resolve, reject) => {
-                    browser.runtime.sendMessage({
+                    window.browser.runtime.sendMessage({
                         action: `getStorage`
                     }, storage => {
                         resolve(JSON.parse(storage));
@@ -694,7 +694,7 @@ class ESGST {
                 if (esgst.browser !== `firefox`) {
                     details.buttons = [
                         {color1: `green`, color2: `` , icon1: `fa-download`, icon2: ``, title1: `Download .zip`, title2: ``, callback1: open.bind(null, `https://github.com/revilheart/ESGST/releases/download/${version}/extension.zip`)},
-                        {color1: `green`, color2: `` , icon1: `fa-refresh`, icon2: ``, title1: `Reload Extension`, title2: ``, callback1: browser.runtime.sendMessage.bind(browser.runtime, {action: `reload`}, location.reload.bind(location))}
+                        {color1: `green`, color2: `` , icon1: `fa-refresh`, icon2: ``, title1: `Reload Extension`, title2: ``, callback1: window.browser.runtime.sendMessage.bind(window.browser.runtime, {action: `reload`}, location.reload.bind(location))}
                     ];
                 }
                 new Popup_v2(details).open();
@@ -722,7 +722,7 @@ class ESGST {
                             this.lookForPopups(response);
                         }
                     } else {
-                        browser.runtime.sendMessage({
+                        window.browser.runtime.sendMessage({
                             action: `fetch`,
                             manipulateCookies: esgst.browser === `firefox` && esgst.manipulateCookies,
                             parameters: JSON.stringify({
@@ -840,7 +840,7 @@ class ESGST {
                 document.addEventListener(`click`, closeHeaderMenu.bind(null, arrow, dropdown, menu), true);
                 dropdown.firstElementChild.lastElementChild.previousElementSibling.previousElementSibling.addEventListener(`click`, loadChangelog);
             };
-            browser.runtime.onMessage.addListener(message => {
+            window.browser.runtime.onMessage.addListener(message => {
                 let key, values;
                 message = JSON.parse(message);
                 switch (message.action) {
@@ -6341,10 +6341,7 @@ class ESGST {
                     element,
                     esgst[details.key]
                 ).input;
-            element.addEventListener(`click`, () => {
-                this.setSetting(details.key, filter.checked);
-                esgst[details.key] = filter.checked;
-            });
+            this.observeChange(filter, details.key, `checked`, `click`);
             obj.filters.push({
                 filter: filter,
                 key: `checked`,
@@ -6540,10 +6537,7 @@ class ESGST {
         height = panel.offsetHeight + 25;
         image.style.maxHeight = `calc(90% - ${height}px)`;
         image.style.marginTop = `${height}px`;
-        image.firstElementChild.onload = () => {
-            image.firstElementChild.style.maxHeight = `${image.offsetHeight - 10}px`;
-            image.firstElementChild.style.maxWidth = `${image.offsetWidth - 10}px`;
-        };
+        image.firstElementChild.onload = this.aic_resizeImage.bind(this, image);
         esgst.aicPrevious = panel.firstElementChild;
         esgst.aicNext = esgst.aicPrevious.nextElementSibling;
         if (i > 0) {
@@ -6557,8 +6551,12 @@ class ESGST {
             esgst.aicNext.classList.add(`esgst-disabled`);
         }
         if (attachedImage.source) {
-            panel.lastElementChild.addEventListener(`click`, () => carousel.remove());
+            panel.lastElementChild.addEventListener(`click`, carousel.remove.bind(carousel));
         }
+    }
+    aic_resizeImage(image) {
+        image.firstElementChild.style.maxHeight = `${image.offsetHeight - 10}px`;
+        image.firstElementChild.style.maxWidth = `${image.offsetWidth - 10}px`;
     }
     ail() {
         if (esgst.vai) return;
@@ -6650,9 +6648,8 @@ class ESGST {
                             table.parentElement.insertBefore(responseHtml.getElementsByClassName(`sidebar__shortcut-outer-wrap`)[0], table);
                             reportButton = popout.popout.getElementsByClassName(`js__submit-form-inner`)[0];
                             if (reportButton) {
-                                reportButton.addEventListener(`click`, () => {
-                                    return reportButton.getElementsByTagName(`form`)[0].submit();
-                                });
+                                const form = reportButton.getElementsByTagName(`form`)[0];
+                                reportButton.addEventListener(`click`, form.submit.bind(form));
                             }
                             columns = table.children;
                             for (i = 0, n = columns[1].children.length; i < n; ++i) {
@@ -13531,7 +13528,7 @@ class ESGST {
                 } else {
                     es.currentPage = 999999999;
                 }
-                es.nextPage = currentPage;
+                es.nextPage = es.currentPage;
                 es.reversePages = true;
                 es.ended = false;
             } else {
@@ -20287,7 +20284,7 @@ class ESGST {
         });
         notification.onclick = () => {
             if (esgst.type === `extension` && esgst.hr_a) {
-                browser.runtime.sendMessage({action: `tabs`, any: esgst.hr_a_a, inbox_sg: esgst.sg && details.inbox, inbox_st: esgst.st && details.inbox, refresh: esgst.hr_a_r, wishlist: details.wishlist, won: details.won});
+                window.browser.runtime.sendMessage({action: `tabs`, any: esgst.hr_a_a, inbox_sg: esgst.sg && details.inbox, inbox_st: esgst.st && details.inbox, refresh: esgst.hr_a_r, wishlist: details.wishlist, won: details.won});
             } else {
                 if (details.inbox) {
                     open(`/messages`);
@@ -31555,7 +31552,7 @@ class ESGST {
             promises.push(this.saveUser(list, savedUsers, users[i]));
         }
         await Promise.all(promises);
-        deleteLock = await this.createLock(`userLock`, 300);
+        let deleteLock = await this.createLock(`userLock`, 300);
         savedUsers = JSON.parse(await this.getValue(`users`));
         for (let i = 0, n = list.new.length; i < n; ++i) {
             let savedUser, user;
@@ -32462,8 +32459,8 @@ class ESGST {
         sortContent(esgst[mainKey], mainKey, options.value);
         this.setSetting(key, options.value);
     }
-    observeChange(context, id, key = `value`) {
-        context.addEventListener(`change`, () => {
+    observeChange(context, id, key = `value`, event = `change`) {
+        context.addEventListener(event, () => {
             let value = context[key];
             this.setSetting(id, value);
             esgst[id] = value;
@@ -34050,7 +34047,7 @@ class ESGST {
     }    
     loadDataManagement(openInTab, type, autoBackup) {
         let container, context, group1, group2, i, icon, input, n, onClick, option, options, prep, popup, section, title1, title2;
-        dm = {
+        let dm = {
             autoBackup: autoBackup,
             type: type
         };
@@ -35308,7 +35305,7 @@ class ESGST {
                         wbc: 0
                     };
                     mainFound = false;
-                    mainUsernameFound = false;
+                    let mainUsernameFound = false;
                     for (let mergedDataKey in mergedData.users) {
                         let mergedDataValue = mergedData.users[mergedDataKey];
                         let newData = {};
@@ -35470,7 +35467,7 @@ class ESGST {
                         let size = (new TextEncoder(`utf-8`).encode(`{"${optionKey}":{"steamIds":{},"users":{}}}`)).length;
                         sizes.main += size;
                         sizes.total += size;
-                        for (value in values) {
+                        for (const value in values) {
                             if (dm.switches[`${optionKey}_${value}`]) {
                                 dm.switches[`${optionKey}_${value}`].size.textContent = convertBytes(sizes[value]);
                             }
@@ -39107,7 +39104,7 @@ class Popup {
         this.modal.addEventListener(`click`, () => this.close());
         this.reposition();
         if (!esgst.isRepositioning && !esgst.staticPopups) {
-            setTimeout(_ESGST.repositionPopups, 2000);
+            setTimeout(_ESGST.repositionPopups.bind(_ESGST), 2000);
         }
         if (callback) {
             callback();
@@ -39257,7 +39254,7 @@ class Popup_v2 {
         this.modal.addEventListener(`click`, () => this.close());
         this.reposition();
         if (!esgst.isRepositioning && !esgst.staticPopups) {
-            setTimeout(_ESGST.repositionPopups, 2000);
+            setTimeout(_ESGST.repositionPopups.bind(_ESGST), 2000);
         }
         if (this.textInputs) {
             this.textInputs[0].focus();
