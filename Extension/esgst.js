@@ -522,7 +522,7 @@ class ESGST {
             sg: location.hostname.match(/www.steamgifts.com/),
             st: location.hostname.match(/www.steamtrades.com/),
             currentVersion: `7.17.8`,
-            devVersion: `7.18.0 (Dev.23)`,
+            devVersion: `7.18.0 (Dev.24)`,
             icon: `data:image/x-icon;base64,AAABAAEAEBAAAAEAIABoBAAAFgAAACgAAAAQAAAAIAAAAAEAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAqv8DCbP/Hgeq+CQIrf8iCK3/Igit/yIIrf8iB6//Iwit9x8Aqv8DAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAKr0GAa2/c0DvfzfA7f83QO3/N0Dt/zdA7f83QO+/d4Gs/3OAKP1GQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACm/xQFs/n2Bcf//wW///8FwP//BcD//wW///8Fx///BbP69gC2/xUAAAAAAAAAAAAAAAAA/1UDFptOFxSZMxkLpJktAq720QW1+ugEsfvjA7b92wO2/dsEsfvjBbX66Aau/dEoiO4tUlLWGU5k3hdVVf8DEJxKHxWqT8cVrU7uE6VN0guqny0Apv8XAJfQGwBAVywAQFcsAJfQGwCx/xcogugtS2Lk0lBl6u5Qae7ISmPeHxagSSMVr07jF7lV/xOiSu0brgATAAAAAAAAAA8AAAC/AAAAwAAAABAAAAAAYznjEkth4OxWb/3/T2jv40lf4iMXnksiEq1O3RayUv8UpEnkEo0+HQAAABkAAABBAAAA8QAAAPEAAABBAAAAGUBSvxxOYeDjU2v0/05m7d1LYuEiF55LIhKtTt0Ws1L/FahN2gU1FTAAAADAAAAA7AAAAP0AAAD9AAAA7AAAAMAVG0owUGPm2lNr9P9OZu3dS2LhIheeSyISrU7dFrNS/xWoTdoFNRswAAAAvwAAAOsAAAD9AAAA/QAAAOsAAADAFRtKMFBj6NpTa/T/Tmbt3Uti4SIXnksiEq1O3RayUv8UpEnkEo0+HQAAABgAAABAAAAA8QAAAPEAAABBAAAAGT5PuR1OYeDjU2v0/05m7d1LYuEiFqBJIxWuT+QXuVX/E6JL7QC8XhMAAAAAAAAADwAAAL8AAAC/AAAAEAAAAAAOR/8SSWLh7FZv/f9PaO/jSV/iIxCUSh8Vrk7HFqxN7ROlS9JskzMt1XULGK12EhxGLgYsRy8GK612EhzVgAsYgmxxLU1i39JNZ+vtT2fwx0pj1h8AqlUDF65GFgqZUhlsiC0txH0T0s5/EujJgBPkz4QR28+EEdvJgBPkzn8Q6Md+E9KLdHosM1LWGUZo6BZVVf8DAAAAAAAAAAAAAAAA/2YAFMl9EvbgjRb/14gV/9eIFf/XiBX/14gV/9+NFv/KgBD254YAFQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAL91FRjKgRHN1IgU3s+EEt3PhBLdz4QS3c+EEt3UiBTezYMRzcJ6FBkAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACqqgADxIARHr18FiO8eA8ivHgPIrx4DyK8eA8ivXwPI8SAER7/VQADAAAAAAAAAAAAAAAA78cAAPA3AAD4FwAABCAAADGOAAAE+AAAkBEAAJ55AACYOQAAlgEAAER4AAAXaAAATnoAAPgXAAD0JwAA69cAAA==`,
             sgIcon: `data:image/x-icon;base64,AAABAAEAEBAAAAEAIABoBAAAFgAAACgAAAAQAAAAIAAAAAEAIAAAAAAAQAQAABMLAAATCwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIUAAAD5AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAPoAAACFAAAAAAAAAAAAAAD8AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA+QAAAAAAAAAAAAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAAAAAAAAAAAAP8AAAD/AAAA/wAAABwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAcAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAcAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAHAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAAAAAAAAAAAAPwAAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD5AAAAAAAAAAAAAACFAAAA+QAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD5AAAAhQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA//8AAP//AADAAwAAwAMAAMfjAADP8wAAz/MAAM/zAADP8wAAz/MAAM/zAADH4wAAwAMAAMADAAD//wAA//8AAA==`,
             stIcon: `data:image/x-icon;base64,AAABAAEAEBAAAAEAIABoBAAAFgAAACgAAAAQAAAAIAAAAAEAIAAAAAAAQAQAABMLAAATCwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABbD6SgWw+ucFsPrkBbD6SgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAWw+uYFsPr/BbD6/wWw+ucAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAFsPrmBbD6/wWw+v8FsPrmAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABbD6SQWw+uYFsPrmBbD6SQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAFKRLShSkS+cUpEvkFKRLSgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAExi4EpMYuDnTGLg5Exi4EoAAAAAAAAAABSkS+YUpEv/FKRL/xSkS+cAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABMYuDmTGLg/0xi4P9MYuDnAAAAAAAAAAAUpEvmFKRL/xSkS/8UpEvmAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAATGLg5kxi4P9MYuD/TGLg5gAAAAAAAAAAFKRLSRSkS+YUpEvmFKRLSQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAExi4ElMYuDmTGLg5kxi4EkAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAMZ9E0rGfRPnxn0T5MZ9E0oAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADGfRPmxn0T/8Z9E//GfRPnAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAxn0T5sZ9E//GfRP/xn0T5gAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAMZ9E0nGfRPmxn0T5sZ9E0kAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA//8AAPw/AAD8PwAA/D8AAPw/AAD//wAAh+EAAIfhAACH4QAAh+EAAP//AAD8PwAA/D8AAPw/AAD8PwAA//8AAA==`,
@@ -6655,7 +6655,7 @@ class ESGST {
                             for (i = 0, n = columns[1].children.length; i < n; ++i) {
                                 columns[0].appendChild(columns[1].firstElementChild);
                             }
-                            suspension = responseHtml.getElementsByClassName(`sidebar__suspension`)[0];
+                            const suspension = responseHtml.getElementsByClassName(`sidebar__suspension`)[0];
                             if (suspension) {
                                 columns[0].insertAdjacentHTML(`beforeEnd`, `
                                     <div class="esgst-ap-suspended featured__table__row">
@@ -13961,7 +13961,7 @@ class ESGST {
                     ${entry.entry ? `Entered` : `Left`} <a href="/giveaway/${entry.code}/">${entry.name}</a> on ${getTimestamp(entry.timestamp, esgst.at_24, esgst.at_s)}
                 </li>
             `;
-            let date = getDate(`MMM D, YYYY`, entry.timestamp);
+            let date = getDate(`[MMM] [D], [YYYY]`, entry.timestamp);
             let key = new Date(date).getTime();
             if (!dates[key]) {
                 dates[key] = {
@@ -14052,7 +14052,7 @@ class ESGST {
         let entries = JSON.parse(await this.getValue(`entries`, `[]`));
         for (let i = entries.length - 1; i > -1; i--) {
             let entry = entries[i];
-            if (date !== getDate(`MMM D, YYYY`, entry.timestamp)) continue;
+            if (date !== getDate(`[MMM] [D], [YYYY]`, entry.timestamp)) continue;
             entries.splice(i, 1);
         }
         await this.setValue(`entries`, JSON.stringify(entries));
@@ -14173,8 +14173,10 @@ class ESGST {
         `);
         esgst.mainPageHeadingPlaceholder = esgst.mainPageHeading.nextElementSibling;
         esgst.mainPageHeadingBackground = esgst.mainPageHeadingPlaceholder.nextElementSibling;
-        document.addEventListener(`scroll`, this.fmph_fix.bind(this));
-        this.fmph_fix();
+        esgst.fmph_fix = this.fmph_fix.bind(this);
+        esgst.fmph_unfix = this.fmph_unfix.bind(this);
+        document.addEventListener(`scroll`, esgst.fmph_fix);
+        esgst.fmph_fix();
         height = esgst.mainPageHeading.offsetHeight;
         let newHeight = (esgst.gf && esgst.gf_m && (esgst.giveawaysPath || esgst.groupsPath || esgst.createdPath || esgst.enteredPath || esgst.wonPath)) || (esgst.df && esgst.df_m && esgst.discussionsPath) ? height + 23 : height;
         esgst.style.insertAdjacentText(`beforeEnd`, `
@@ -14203,7 +14205,7 @@ class ESGST {
     }
     fmph_fix() {
         if (scrollY > (esgst.mainPageHeading.offsetTop - esgst.pageTop) && document.documentElement.offsetHeight > innerHeight * 2) {
-            document.removeEventListener(`scroll`, this.fmph_fix.bind(this));
+            document.removeEventListener(`scroll`, esgst.fmph_fix);
             esgst.mainPageHeading.classList.add(`esgst-fmph`);
             esgst.mainPageHeadingPlaceholder.classList.remove(`esgst-hidden`);
             esgst.mainPageHeadingBackground.classList.remove(`esgst-hidden`);
@@ -14218,12 +14220,12 @@ class ESGST {
                 esgst.df.container.classList.add(`esgst-gf-container-fixed`);
                 esgst.df.container.style.width = width;
             }
-            document.addEventListener(`scroll`, this.fmph_unfix.bind(this));
+            document.addEventListener(`scroll`, esgst.fmph_unfix);
         }
     }
     fmph_unfix() {
         if (scrollY <= (esgst.mainPageHeadingPlaceholder.offsetTop - esgst.pageTop)) {
-            document.removeEventListener(`scroll`, this.fmph_unfix.bind(this));
+            document.removeEventListener(`scroll`, esgst.fmph_unfix);
             esgst.mainPageHeading.classList.remove(`esgst-fmph`);
             esgst.mainPageHeadingPlaceholder.classList.add(`esgst-hidden`);
             esgst.mainPageHeadingBackground.classList.add(`esgst-hidden`);
@@ -14236,15 +14238,17 @@ class ESGST {
             if (esgst.df && esgst.df.container) {
                 esgst.df.container.classList.remove(`esgst-gf-container-fixed`);
             }
-            document.addEventListener(`scroll`, this.fmph_fix.bind(this));
+            document.addEventListener(`scroll`, esgst.fmph_fix);
         }
     }
     fs() {
         if (!esgst.sidebar) return;
         esgst.sidebarAd = esgst.sidebar.getElementsByClassName(`sidebar__mpu`)[0];
         esgst.sidebarSibling = esgst.sidebar.nextElementSibling;
-        document.addEventListener(`scroll`, this.fs_fix.bind(this));
-        this.fs_fix();
+        esgst.fs_fix = this.fs_fix.bind(this);
+        esgst.fs_unfix = this.fs_unfix.bind(this);
+        document.addEventListener(`scroll`, esgst.fs_fix);
+        esgst.fs_fix();
         esgst.style.insertAdjacentText(`beforeEnd`, `
             .esgst-fs {
                 position: fixed;
@@ -14259,24 +14263,24 @@ class ESGST {
             esgst.sidebarTop = esgst.sidebar.offsetTop;
         }
         if (scrollY > esgst.sidebarTop && document.documentElement.offsetHeight > innerHeight * 2) {
-            document.removeEventListener(`scroll`, this.fs_fix.bind(this));
+            document.removeEventListener(`scroll`, esgst.fs_fix);
             esgst.sidebar.classList.add(`esgst-fs`);
             if (esgst.sidebarAd) {
                 esgst.sidebarAd.classList.add(`esgst-hidden`);
             }
             esgst.sidebarSibling.style.marginLeft = `${esgst.sidebar.offsetWidth + 25}px`;
-            document.addEventListener(`scroll`, this.fs_unfix.bind(this));
+            document.addEventListener(`scroll`, esgst.fs_unfix);
         }
     }
     fs_unfix() {
         if (scrollY <= esgst.sidebarTop) {
-            document.removeEventListener(`scroll`, this.fs_unfix.bind(this));
+            document.removeEventListener(`scroll`, esgst.fs_fix);
             esgst.sidebar.classList.remove(`esgst-fs`);
             if (esgst.sidebarAd) {
                 esgst.sidebarAd.classList.remove(`esgst-hidden`);
             }
             esgst.sidebarSibling.style.marginLeft = `25px`;
-            document.addEventListener(`scroll`, this.fs_fix.bind(this));
+            document.addEventListener(`scroll`, esgst.fs_unfix);
         }
     }
     // [G]
@@ -16991,7 +16995,7 @@ class ESGST {
                 gf[minKey] = minSavedValue;
                 basicFilter = insertHtml(basicFilters, `beforeEnd`, `
                     <div class="esgst-gf-basic-filter">
-                        <div>${name} <span class="esgst-gf-filter-count" title="Number of giveaways this filter is filtering">0</span> <span class="esgst-float-right"><input type="${name === `ReleaseDate` ? `date` : `text`}" value="${name === `Release Date` ? getDate(`YYYY-MM-DD`, minSavedValue * 1e3) : minSavedValue}"> - <input type="${name === `Release Date` ? `date` : `text`}" value="${name === `Release Date` ? getDate(`YYYY-MM-DD`, maxSavedValue * 1e3) : maxSavedValue}"></span></div>
+                        <div>${name} <span class="esgst-gf-filter-count" title="Number of giveaways this filter is filtering">0</span> <span class="esgst-float-right"><input type="${name === `ReleaseDate` ? `date` : `text`}" value="${name === `Release Date` ? getDate(`[YYYY]-[MM]-[DD]`, minSavedValue * 1e3) : minSavedValue}"> - <input type="${name === `Release Date` ? `date` : `text`}" value="${name === `Release Date` ? getDate(`[YYYY]-[MM]-[DD]`, maxSavedValue * 1e3) : maxSavedValue}"></span></div>
                         <div></div>
                         <div></div>
                     </div>
@@ -17189,8 +17193,8 @@ class ESGST {
         this.gf_filterGiveaways(gf);
     }
     gf_slide(gf, maxKey, minKey, event, ui) {
-        gf[`${maxKey}Input`].value = maxKey === `maxReleaseDate` ? getDate(`YYYY-MM-DD`, ui.values[1]) : ui.values[1];
-        gf[`${minKey}Input`].value = minKey === `minReleaseDate` ? getDate(`YYYY-MM-DD`, ui.values[0]) : ui.values[0];
+        gf[`${maxKey}Input`].value = maxKey === `maxReleaseDate` ? getDate(`[YYYY]-[MM]-[DD]`, ui.values[1]) : ui.values[1];
+        gf[`${minKey}Input`].value = minKey === `minReleaseDate` ? getDate(`[YYYY]-[MM]-[DD]`, ui.values[0]) : ui.values[0];
     }
     gf_changeValue(context, gf, key) {
         if (key === `ended`) {
@@ -17220,6 +17224,7 @@ class ESGST {
             preset.exceptions = gf.exceptions;
             preset.overrides = gf.overrides;
             presets = JSON.parse(await this.getValue(`filterPresets`, `[]`));
+            let i;
             for (i = presets.length - 1; i >= 0 && presets[i].name !== name; --i);
             if (i >= 0) {
                 exceptions = presets[i].exceptions;
@@ -19394,9 +19399,9 @@ class ESGST {
                 newEndTime.setDate(newStartTime.getDate() + days);
                 newEndTime.setHours(endTime.getHours(), endTime.getMinutes(), endTime.getSeconds(), endTime.getMilliseconds());
                 document.querySelector(`[name="start_time"]`).value =
-                    getDate(`MMM D, YYYY H12:HMM XX`, newStartTime);
+                    getDate(`[MMM] [D], [YYYY] [H12]:[HMM] [XX]`, newStartTime);
                 document.querySelector(`[name="end_time"]`).value =
-                    getDate(`MMM D, YYYY H12:HMM XX`, newEndTime);
+                    getDate(`[MMM] [D], [YYYY] [H12]:[HMM] [XX]`, newEndTime);
             } else if (savedTemplate.startTime) {
                 startTime = new Date(savedTemplate.startTime);
                 newStartTime = new Date(currentDate.getTime());
@@ -19406,9 +19411,9 @@ class ESGST {
                 }
                 newEndTime = new Date(newStartTime.getTime() + savedTemplate.duration);
                 document.querySelector(`[name="start_time"]`).value =
-                    getDate(`MMM D, YYYY H12:HMM XX`, newStartTime);
+                    getDate(`[MMM] [D], [YYYY] [H12]:[HMM] [XX]`, newStartTime);
                 document.querySelector(`[name="end_time"]`).value =
-                    getDate(`MMM D, YYYY H12:HMM XX`, newEndTime);
+                    getDate(`[MMM] [D], [YYYY] [H12]:[HMM] [XX]`, newEndTime);
             } else if (savedTemplate.endTime) {
                 endTime = new Date(savedTemplate.endTime);
                 newStartTime = new Date(currentDate.getTime() + savedTemplate.delay);
@@ -19418,30 +19423,30 @@ class ESGST {
                     newEndTime.setDate(newEndTime.getDate() + 1);
                 }
                 document.querySelector(`[name="start_time"]`).value =
-                    getDate(`MMM D, YYYY H12:HMM XX`, newStartTime);
+                    getDate(`[MMM] [D], [YYYY] [H12]:[HMM] [XX]`, newStartTime);
                 document.querySelector(`[name="end_time"]`).value =
-                    getDate(`MMM D, YYYY H12:HMM XX`, newEndTime);
+                    getDate(`[MMM] [D], [YYYY] [H12]:[HMM] [XX]`, newEndTime);
             } else {
                 newStartTime = new Date(currentDate.getTime() + savedTemplate.delay);
                 newEndTime = new Date(currentDate.getTime() + savedTemplate.delay + savedTemplate.duration)
                 document.querySelector(`[name="start_time"]`).value =
-                    getDate(`MMM D, YYYY H12:HMM XX`, newStartTime);
+                    getDate(`[MMM] [D], [YYYY] [H12]:[HMM] [XX]`, newStartTime);
                 document.querySelector(`[name="end_time"]`).value =
-                    getDate(`MMM D, YYYY H12:HMM XX`, newEndTime);
+                    getDate(`[MMM] [D], [YYYY] [H12]:[HMM] [XX]`, newEndTime);
             }
             if (savedTemplate.startDate) {
                 newStartTime.setFullYear(savedTemplate.startDate.year);
                 newStartTime.setMonth(savedTemplate.startDate.month);
                 newStartTime.setDate(savedTemplate.startDate.day);
                 document.querySelector(`[name="start_time"]`).value =
-                    getDate(`MMM D, YYYY H12:HMM XX`, newStartTime);
+                    getDate(`[MMM] [D], [YYYY] [H12]:[HMM] [XX]`, newStartTime);
             }
             if (savedTemplate.endDate) {
                 newEndTime.setFullYear(savedTemplate.endDate.year);
                 newEndTime.setMonth(savedTemplate.endDate.month);
                 newEndTime.setDate(savedTemplate.endDate.day);
                 document.querySelector(`[name="end_time"]`).value =
-                    getDate(`MMM D, YYYY H12:HMM XX`, newEndTime);
+                    getDate(`[MMM] [D], [YYYY] [H12]:[HMM] [XX]`, newEndTime);
             }
         }
         if (!savedTemplate.region.match(/^(1|0)$/)) {
@@ -19760,7 +19765,7 @@ class ESGST {
     gwl_addLinks(giveaways, main) {
         if (((!esgst.createdPath && !esgst.enteredPath && !esgst.wonPath && !esgst.giveawayPath) || main) && (esgst.giveawayPath || esgst.createdPath || esgst.enteredPath || esgst.wonPath)) return;
         giveaways.forEach(giveaway => {
-            if (giveaway.innerWrap.getElementsByClassName(`esgst-gwl`)[0] || giveaway.ended) return;
+            if (giveaway.innerWrap.getElementsByClassName(`esgst-gwl`)[0] || !giveaway.ended) return;
             giveaway.entriesLink.insertAdjacentHTML(`afterEnd`, `
                 <a class="esgst-gwl" ${giveaway.url ? `href="${giveaway.url}/winners"` : ``}>
                     <i class="fa fa-trophy"></i>
@@ -21826,7 +21831,7 @@ class ESGST {
     }
     mgc_correctTime(fullMatch, match1) {
         if ((new Date(match1).getTime()) < Date.now()) {
-            return `start_time=${getDate(`MMM D, YYYY H12:HMM XX`, new Date())}&`;
+            return `start_time=${getDate(`[MMM] [D], [YYYY] [H12]:[HMM] [XX]`, new Date())}&`;
         } else {
             return fullMatch;
         }
@@ -22586,13 +22591,13 @@ class ESGST {
                 <li>[comments] - The current number of comments that the giveaway has.</li>
                 <li>[copies] - The number of copies being given away.</li>
                 <li>[creator] - The creator of the giveaway.</li>
-                <li>[end-time=$] - When the giveaway ended/will end. Replace $ with the date templates specified at the end of this tooltip.</li>
+                <li>[end-time="$"] - When the giveaway ended/will end. Replace $ with the date templates specified at the end of this tooltip.</li>
                 <li>[entries] - The current number of entries that the giveaway has.</li>
                 <li>[level] - The level of the giveaway.</li>
                 <li>[name] - The name of the game being given away.</li>
                 <li>[points] - The number of points that the giveaway is worth.</li>
                 <li>[short-url] - The short URL of the giveaway (https://www.steamgifts.com/giveaway/XXXXX/).</li>
-                <li>[start-time=$] - When the giveaway started. Replace $ with the date templates specified at the end of this tooltip.</li>
+                <li>[start-time="$"] - When the giveaway started. Replace $ with the date templates specified at the end of this tooltip.</li>
                 <li>[steam-id] - The Steam app/sub id of the game being given away.</li>
                 <li>[steam-type] - The Steam type of the game being given away ("app" or "sub").</li>
                 <li>[steam-url] - The Steam store URL of the game being given away.</li>
@@ -22605,7 +22610,7 @@ class ESGST {
                 <li>[category] - The category of the discussion.</li>
                 <li>[code] - The 5-character code of the discussion.</li>
                 <li>[comments] - The current number of comments that the discussion has.</li>
-                <li>[created-time=$] - When the discussion was created. Replace $ with the date templates specified at the end of this tooltip.</li>
+                <li>[created-time="$"] - When the discussion was created. Replace $ with the date templates specified at the end of this tooltip.</li>
                 <li>[poll] - "Yes" if the discussion has a poll and "No" otherwise.</li>
                 <li>[short-url] - The short URL of the discussion (https://www.steamgifts.com/discussion/XXXXX/).</li>
                 <li>[title] - The title of the discussion.</li>
@@ -22625,30 +22630,30 @@ class ESGST {
             </ul>
             <div class="esgst-bold">Date Templates:</div>
             <ul>
-                <li>d - The number of the day with no leading zeroes if it is lower than 10.</li>
-                <li>dd - The number of the day with leading zeroes if it is lower than 10.</li>
-                <li>m - The number of the month with no leading zeroes if it is lower than 10.</li>
-                <li>mm - The number of the month with leading zeroes if it is lower than 10.</li>
-                <li>mmm - The name of the month abbreviated to 3 letters ("Jan", "Feb", etc...).</li>
-                <li>mmmm - The full name of the month.</li>
-                <li>yyyy - The year.</li>
-                <li>h - The number of hours with no leading zeroes if it is lower than 10, using the 24-hour clock.</li>
-                <li>hh - The number of hours with leading zeroes if it is lower than 10, using the 24-hour clock.</li>
-                <li>h12 - The number of hours with no leading zeroes if it is lower than 10, using the 12-hour clock.</li>
-                <li>hh12 - The number of hours with leading zeroes if it is lower than 10, using the 12-hour clock.</li>
-                <li>hm - The number of minutes with no leading zeroes if it is lower than 10.</li>
-                <li>hmm - The number of minutes with leading zeroes if it is lower than 10.</li>
-                <li>s - The number of seconds with no leading zeroes if it is lower than 10.</li>
-                <li>ss - The number of seconds with leading zeroes if it is lower than 10.</li>
-                <li>xx - "am" or "pm". Remember to use h12 or hh12 if you use this template.</li>
+                <li>[d] - The number of the day with no leading zeroes if it is lower than 10.</li>
+                <li>[dd] - The number of the day with leading zeroes if it is lower than 10.</li>
+                <li>[m] - The number of the month with no leading zeroes if it is lower than 10.</li>
+                <li>[mm] - The number of the month with leading zeroes if it is lower than 10.</li>
+                <li>[mmm] - The name of the month abbreviated to 3 letters ("Jan", "Feb", etc...).</li>
+                <li>[mmmm] - The full name of the month.</li>
+                <li>[yyyy] - The year.</li>
+                <li>[h] - The number of hours with no leading zeroes if it is lower than 10, using the 24-hour clock.</li>
+                <li>[hh] - The number of hours with leading zeroes if it is lower than 10, using the 24-hour clock.</li>
+                <li>[h12] - The number of hours with no leading zeroes if it is lower than 10, using the 12-hour clock.</li>
+                <li>[hh12] - The number of hours with leading zeroes if it is lower than 10, using the 12-hour clock.</li>
+                <li>[hm] - The number of minutes with no leading zeroes if it is lower than 10.</li>
+                <li>[hmm] - The number of minutes with leading zeroes if it is lower than 10.</li>
+                <li>[s] - The number of seconds with no leading zeroes if it is lower than 10.</li>
+                <li>[ss] - The number of seconds with leading zeroes if it is lower than 10.</li>
+                <li>[xx] - "am" or "pm". Remember to use h12 or hh12 if you use this template.</li>
             </ul>
-            <div>You can use any symbol except for "]" to separate things in your date templates. For example: "mmm d, yyyy h:hmm", "yyyy-mm-dd hh:hmm", etc...</div>
+            <div>You can use any symbol except for "\"" to separate things in your date templates. For example: "[mmm] [d], [yyyy] [h]:[hmm]", "[yyyy]-[mm]-[dd] [hh]:[hmm]", etc...</div>
             <br/>
             <div>Here is an example that generates a table with links to giveaways sorted in ascending order:</div>
             <br/>
             <div>Game | Giveaway | Level | Points | Ends</div>
             <div>:-: | :-: | :-: | :-: | :-:</div>
-            <div>[LINE-ASC][[NAME]]([STEAM-URL]) | [Enter]([SHORT-URL]) | [LEVEL] | [POINTS] | [END-TIME=MMM D, YYYY][/LINE]
+            <div>[line-asc][[name]]([steam-url]) | [Enter]([short-url]) | [level] | [points] | [end-time="[mmm] [d], [yyyy]"][/line]
             <br/>
             <br/>
         `);
@@ -22717,13 +22722,13 @@ class ESGST {
                         .replace(/\[COMMENTS\]/ig, item.comments)
                         .replace(/\[COPIES\]/ig, item.copies)
                         .replace(/\[CREATOR\]/ig, item.creator)
-                        .replace(/\[END-TIME=(.+?)\]/ig, this.mm_formatDate.bind(this, item.endTime))
+                        .replace(/\[END-TIME="(.+?)"\]/ig, this.mm_formatDate.bind(this, item.endTime))
                         .replace(/\[ENTRIES\]/ig, item.entries)
                         .replace(/\[LEVEL\]/ig, item.level)
                         .replace(/\[NAME\]/ig, escapeMarkdown(item.name))
                         .replace(/\[POINTS\]/ig, item.points)
                         .replace(/\[SHORT-URL\]/ig, `https://www.steamgifts.com/giveaway/${item.code}/`)
-                        .replace(/\[START-TIME=(.+?)\]/ig, this.mm_formatDate.bind(this, item.startTime))
+                        .replace(/\[START-TIME="(.+?)"\]/ig, this.mm_formatDate.bind(this, item.startTime))
                         .replace(/\[STEAM-ID\]/ig, item.id)
                         .replace(/\[STEAM-TYPE\]/ig, item.type.slice(0, -1))
                         .replace(/\[STEAM-URL\]/ig, `http://store.steampowered.com/${item.type.slice(0, -1)}/${item.id}`)
@@ -22740,7 +22745,7 @@ class ESGST {
                         .replace(/\[CATEGORY\]/ig, escapeMarkdown(item.category))
                         .replace(/\[CODE\]/ig, item.code)
                         .replace(/\[COMMENTS\]/ig, item.comments)
-                        .replace(/\[CREATED-TIME=(.+?)\]/ig, this.mm_formatDate.bind(this, item.createdTimestamp))
+                        .replace(/\[CREATED-TIME="(.+?)"\]/ig, this.mm_formatDate.bind(this, item.createdTimestamp))
                         .replace(/\[POLL\]/ig, item.poll ? `Yes` : `No`)
                         .replace(/\[SHORT-URL\]/ig, `https://www.steamgifts.com/discussion/${item.code}/`)
                         .replace(/\[TITLE\]/ig, escapeMarkdown(item.title))
@@ -24750,7 +24755,7 @@ class ESGST {
         }
         saved = JSON.parse(await this.getValue(`${esgst.name}RfiCache`, `{}`));
         if (edit) {
-            for (key in saved) {
+            for (const key in saved) {
                 for (i = 0, n = saved[key].length; i < n && saved[key][i].id !== id; ++i);
                 if (i < n) {
                     saved[key][i].reply = reply;
@@ -32100,7 +32105,7 @@ class ESGST {
         if (!esgst.firstInstall) {
             syncer.progress.lastElementChild.textContent = `Updating last sync date...`;
             let currentDate = new Date();
-            currentTime = currentDate.getTime();
+            const currentTime = currentDate.getTime();
             if (syncer.autoSync) {
                 await this.setSetting(`lastSyncGroups`, currentTime);
                 await this.setSetting(`lastSyncGames`, currentTime);
@@ -38532,7 +38537,9 @@ class ESGST {
             let key = keys[i];
             if (key === `customTheme`) continue;
             if (esgst[key] && this.checkThemeTime(key)) {
-                esgst.theme = insertHtml(document.head, `beforeEnd`, `<style id="esgst-theme">${getThemeCss(JSON.parse(await this.getValue(key, ``)))}</style>`);
+                const theme = await this.getValue(key, ``);
+                if (!theme) continue;
+                esgst.theme = insertHtml(document.head, `beforeEnd`, `<style id="esgst-theme">${getThemeCss(JSON.parse(theme))}</style>`);
                 break;
             }
         }
@@ -39598,14 +39605,14 @@ function capitalizeFirstLetter(string) {
 function getTimestamp(seconds, is24Clock, isShowSeconds) {
     if (is24Clock) {
         if (isShowSeconds) {
-            return getDate(`MMM D, YYYY, H:HMM:SS`, seconds);
+            return getDate(`[MMM] [D], [YYYY], [H]:[HMM]:[SS]`, seconds);
         }
-        return getDate(`MMM D, YYYY, H:HMM`, seconds);
+        return getDate(`[MMM] [D], [YYYY], [H]:[HMM]`, seconds);
     }
     if (isShowSeconds) {
-        return getDate(`MMM D, YYYY, H12:HMMXX`, seconds);
+        return getDate(`[MMM] [D], [YYYY], [H12]:[HMM]:[SS][XX]`, seconds);
     }
-    return getDate(`MMM D, YYYY, H12:HMM:SSXX`, seconds);
+    return getDate(`[MMM] [D], [YYYY], [H12]:[HMM][XX]`, seconds);
 }
 
 function getDate(format, param) {
@@ -39615,22 +39622,22 @@ function getDate(format, param) {
             `July`, `August`, `September`, `October`, `November`, `December`
         ];
     return format
-        .replace(/DD/i, `0${date.getDate()}`.slice(-2))
-        .replace(/D/i, date.getDate())
-        .replace(/HMM/i, `0${date.getMinutes()}`.slice(-2))
-        .replace(/HM/i, date.getMinutes())
-        .replace(/MMMM/i, months[date.getMonth()])
-        .replace(/MMM/i, months[date.getMonth()].slice(0, 3))
-        .replace(/MM/i, `0${date.getMonth() + 1}`.slice(-2))
-        .replace(/M/i, date.getMonth() + 1)
-        .replace(/YYYY/i, date.getFullYear())
-        .replace(/HH12/i, `0${date.getHours() % 12}`.slice(-2).replace(/^0$/, `12`))
-        .replace(/H12/i, `${date.getHours() % 12}`.replace(/^0$/, `12`))
-        .replace(/HH/i, `0${date.getHours()}`.slice(-2))
-        .replace(/H/i, date.getHours())
-        .replace(/SS/i, `0${date.getSeconds()}`.slice(-2))
-        .replace(/S/i, date.getSeconds())
-        .replace(/XX/i, date.getHours() < 12 ? `am` : `pm`);
+        .replace(/\[D\]/i, date.getDate())
+        .replace(/\[DD\]/i, `0${date.getDate()}`.slice(-2))
+        .replace(/\[M\]/i, date.getMonth() + 1)
+        .replace(/\[MM\]/i, `0${date.getMonth() + 1}`.slice(-2))
+        .replace(/\[MMM\]/i, months[date.getMonth()].slice(0, 3))
+        .replace(/\[MMMM\]/i, months[date.getMonth()])
+        .replace(/\[YYYY\]/i, date.getFullYear())
+        .replace(/\[H\]/i, date.getHours())
+        .replace(/\[HH\]/i, `0${date.getHours()}`.slice(-2))
+        .replace(/\[H12\]/i, `${date.getHours() % 12}`.replace(/^0$/, `12`))
+        .replace(/\[HH12\]/i, `0${date.getHours() % 12}`.slice(-2).replace(/^0$/, `12`))
+        .replace(/\[HM\]/i, date.getMinutes())
+        .replace(/\[HMM\]/i, `0${date.getMinutes()}`.slice(-2))
+        .replace(/\[S\]/i, date.getSeconds())
+        .replace(/\[SS\]/i, `0${date.getSeconds()}`.slice(-2))
+        .replace(/\[XX\]/i, date.getHours() < 12 ? `am` : `pm`);
 }
 
 function getRemainingTime(time) {
