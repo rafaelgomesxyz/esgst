@@ -1,19 +1,14 @@
+const browser = (this.chrome && this.chrome.runtime) ? this.chrome : this.browser;
 let storage = null;
 
-if (typeof window.chrome !== `undefined`) {
-    if (window.chrome.runtime) {
-        window.browser = window.chrome;
-    }
-}
-
 function sendMessage(action, sender, values) {
-    window.browser.tabs.query({url: [`*://*.steamgifts.com/*`, `*://*.steamtrades.com/*`]}, tabs => {
+    browser.tabs.query({url: [`*://*.steamgifts.com/*`, `*://*.steamtrades.com/*`]}, tabs => {
         tabs.forEach(tab => {
             if (tab.id === sender.tab.id) return;
-            window.browser.tabs.sendMessage(tab.id, JSON.stringify({
+            browser.tabs.sendMessage(tab.id, JSON.stringify({
                 action: action,
                 values: values
-            }), function(response) {});
+            }), () => {});
         });
     });
 }
@@ -29,7 +24,7 @@ async function doFetch(parameters, request, sender, callback) {
         }));
         return;
     }
-    window.browser.tabs.get(sender.tab.id, async tab => {
+    browser.tabs.get(sender.tab.id, async tab => {
         if (tab.cookieStoreId === `firefox-default`) {
             let response = await fetch(request.url, parameters);
             let responseText = await response.text();
@@ -103,29 +98,29 @@ async function doFetch(parameters, request, sender, callback) {
 }
 
 function getCookies(details) {
-    return new Promise((resolve, reject) => {
-        window.browser.cookies.getAll(details, resolve);
+    return new Promise(resolve => {
+        browser.cookies.getAll(details, resolve);
     });
 }
 
 function setCookie(details) {
-    return new Promise((resolve, reject) => {
-        window.browser.cookies.set(details, resolve);
+    return new Promise(resolve => {
+        browser.cookies.set(details, resolve);
     });
 }
 
 function deleteCookie(details) {
-    return new Promise((resolve, reject) => {
-        window.browser.cookies.remove(details, resolve);
+    return new Promise(resolve => {
+        browser.cookies.remove(details, resolve);
     });
 }
 
-window.browser.runtime.onMessage.addListener((request, sender, callback) => {
+browser.runtime.onMessage.addListener((request, sender, callback) => {
     let key, keys, parameters, values;
     switch (request.action) {
         case `delValues`:
             keys = JSON.parse(request.keys);
-            window.browser.storage.local.remove(keys, () => {
+            browser.storage.local.remove(keys, () => {
                 keys.forEach(key => {
                     delete storage[key];
                 });
@@ -142,19 +137,19 @@ window.browser.runtime.onMessage.addListener((request, sender, callback) => {
             if (storage) {
                 callback(JSON.stringify(storage));
             } else {
-                window.browser.storage.local.get(null, stg => {
+                browser.storage.local.get(null, stg => {
                     storage = stg;
                     callback(JSON.stringify(storage));
                 });
             }
             break;
         case `reload`:
-            window.browser.runtime.reload();
+            browser.runtime.reload();
             callback();
             break;
         case `setValues`:
             values = JSON.parse(request.values);
-            window.browser.storage.local.set(values, () => {
+            browser.storage.local.set(values, () => {
                 for (key in values) {
                     storage[key] = values[key];
                 }
@@ -184,9 +179,9 @@ async function getTabs(request) {
         }
         let tab = (await queryTabs({url: item.pattern}))[0];
         if (tab && tab.id) {
-            window.browser.tabs.update(tab.id, {active: true});
+            browser.tabs.update(tab.id, {active: true});
             if (request.refresh) {
-                window.browser.tabs.reload(tab.id);
+                browser.tabs.reload(tab.id);
             }
         } else if (request.any) {
             any = true;                    
@@ -197,13 +192,13 @@ async function getTabs(request) {
     if (any) {
         let tab = (await queryTabs({url: `*://*.steamgifts.com/*`}))[0];
         if (tab && tab.id) {
-            window.browser.tabs.update(tab.id, {active: true});
+            browser.tabs.update(tab.id, {active: true});
         }
     }
 }
 
 function queryTabs(query) {
-    return new Promise((resolve, reject) => {
-        window.browser.tabs.query(query, resolve);
+    return new Promise(resolve => {
+        browser.tabs.query(query, resolve);
     });
 }
