@@ -3,7 +3,7 @@
 // @namespace ESGST
 // @description Enhances SteamGifts and SteamTrades by adding some cool features to them.
 // @icon https://dl.dropboxusercontent.com/s/lr3t3bxrxfxylqe/esgstIcon.ico?raw=1
-// @version 7.17.8
+// @version 7.18.0
 // @author revilheart
 // @contributor Royalgamer06
 // @downloadURL https://github.com/revilheart/ESGST/raw/master/ESGST.user.js
@@ -42,6 +42,35 @@
 // @run-at document-start
 // @noframes
 // ==/UserScript==
+
+let _USER_INFO = {},
+    browser = null,
+    GM = null;
+if (!this.GM && !this.GM_setValue) {
+    [_USER_INFO.extension, browser] = this.chrome && this.chrome.runtime ?
+        [this.browser ? `firefox` : `chrome`, this.chrome] : [`edge`, this.browser];
+} else if (!this.GM) {
+    // polyfill for userscript managers that do not support the gm-dot api
+    GM = {
+        deleteValue: this.GM_deleteValue,
+        getValue: this.GM_getValue,
+        listValues: this.GM_listValues,
+        setValue: this.GM_setValue,
+        xmlHttpRequest: this.GM_xmlhttpRequest
+    };
+    for (const key in GM) {
+        const old = GM[key];
+        GM[key] = (...args) => {
+            return new Promise((resolve, reject) => {
+                try {
+                    resolve(old.apply(this, args));
+                } catch (e) {
+                    reject(e);
+                }
+            });
+        };
+    }
+}
 
 class ESGST {
     constructor() {
@@ -521,8 +550,8 @@ class ESGST {
             markdownParser: new Parsedown(),
             sg: location.hostname.match(/www.steamgifts.com/),
             st: location.hostname.match(/www.steamtrades.com/),
-            currentVersion: `7.17.8`,
-            devVersion: `7.18.0 (Dev.25)`,
+            currentVersion: `7.18.0`,
+            devVersion: `7.18.0 (Dev.1)`,
             icon: `data:image/x-icon;base64,AAABAAEAEBAAAAEAIABoBAAAFgAAACgAAAAQAAAAIAAAAAEAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAqv8DCbP/Hgeq+CQIrf8iCK3/Igit/yIIrf8iB6//Iwit9x8Aqv8DAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAKr0GAa2/c0DvfzfA7f83QO3/N0Dt/zdA7f83QO+/d4Gs/3OAKP1GQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACm/xQFs/n2Bcf//wW///8FwP//BcD//wW///8Fx///BbP69gC2/xUAAAAAAAAAAAAAAAAA/1UDFptOFxSZMxkLpJktAq720QW1+ugEsfvjA7b92wO2/dsEsfvjBbX66Aau/dEoiO4tUlLWGU5k3hdVVf8DEJxKHxWqT8cVrU7uE6VN0guqny0Apv8XAJfQGwBAVywAQFcsAJfQGwCx/xcogugtS2Lk0lBl6u5Qae7ISmPeHxagSSMVr07jF7lV/xOiSu0brgATAAAAAAAAAA8AAAC/AAAAwAAAABAAAAAAYznjEkth4OxWb/3/T2jv40lf4iMXnksiEq1O3RayUv8UpEnkEo0+HQAAABkAAABBAAAA8QAAAPEAAABBAAAAGUBSvxxOYeDjU2v0/05m7d1LYuEiF55LIhKtTt0Ws1L/FahN2gU1FTAAAADAAAAA7AAAAP0AAAD9AAAA7AAAAMAVG0owUGPm2lNr9P9OZu3dS2LhIheeSyISrU7dFrNS/xWoTdoFNRswAAAAvwAAAOsAAAD9AAAA/QAAAOsAAADAFRtKMFBj6NpTa/T/Tmbt3Uti4SIXnksiEq1O3RayUv8UpEnkEo0+HQAAABgAAABAAAAA8QAAAPEAAABBAAAAGT5PuR1OYeDjU2v0/05m7d1LYuEiFqBJIxWuT+QXuVX/E6JL7QC8XhMAAAAAAAAADwAAAL8AAAC/AAAAEAAAAAAOR/8SSWLh7FZv/f9PaO/jSV/iIxCUSh8Vrk7HFqxN7ROlS9JskzMt1XULGK12EhxGLgYsRy8GK612EhzVgAsYgmxxLU1i39JNZ+vtT2fwx0pj1h8AqlUDF65GFgqZUhlsiC0txH0T0s5/EujJgBPkz4QR28+EEdvJgBPkzn8Q6Md+E9KLdHosM1LWGUZo6BZVVf8DAAAAAAAAAAAAAAAA/2YAFMl9EvbgjRb/14gV/9eIFf/XiBX/14gV/9+NFv/KgBD254YAFQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAL91FRjKgRHN1IgU3s+EEt3PhBLdz4QS3c+EEt3UiBTezYMRzcJ6FBkAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACqqgADxIARHr18FiO8eA8ivHgPIrx4DyK8eA8ivXwPI8SAER7/VQADAAAAAAAAAAAAAAAA78cAAPA3AAD4FwAABCAAADGOAAAE+AAAkBEAAJ55AACYOQAAlgEAAER4AAAXaAAATnoAAPgXAAD0JwAA69cAAA==`,
             sgIcon: `data:image/x-icon;base64,AAABAAEAEBAAAAEAIABoBAAAFgAAACgAAAAQAAAAIAAAAAEAIAAAAAAAQAQAABMLAAATCwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIUAAAD5AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAPoAAACFAAAAAAAAAAAAAAD8AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA+QAAAAAAAAAAAAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAAAAAAAAAAAAP8AAAD/AAAA/wAAABwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAcAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAcAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAHAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAAAAAAAAAAAAPwAAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD5AAAAAAAAAAAAAACFAAAA+QAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD5AAAAhQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA//8AAP//AADAAwAAwAMAAMfjAADP8wAAz/MAAM/zAADP8wAAz/MAAM/zAADH4wAAwAMAAMADAAD//wAA//8AAA==`,
             stIcon: `data:image/x-icon;base64,AAABAAEAEBAAAAEAIABoBAAAFgAAACgAAAAQAAAAIAAAAAEAIAAAAAAAQAQAABMLAAATCwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABbD6SgWw+ucFsPrkBbD6SgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAWw+uYFsPr/BbD6/wWw+ucAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAFsPrmBbD6/wWw+v8FsPrmAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABbD6SQWw+uYFsPrmBbD6SQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAFKRLShSkS+cUpEvkFKRLSgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAExi4EpMYuDnTGLg5Exi4EoAAAAAAAAAABSkS+YUpEv/FKRL/xSkS+cAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABMYuDmTGLg/0xi4P9MYuDnAAAAAAAAAAAUpEvmFKRL/xSkS/8UpEvmAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAATGLg5kxi4P9MYuD/TGLg5gAAAAAAAAAAFKRLSRSkS+YUpEvmFKRLSQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAExi4ElMYuDmTGLg5kxi4EkAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAMZ9E0rGfRPnxn0T5MZ9E0oAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADGfRPmxn0T/8Z9E//GfRPnAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAxn0T5sZ9E//GfRP/xn0T5gAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAMZ9E0nGfRPmxn0T5sZ9E0kAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA//8AAPw/AAD8PwAA/D8AAPw/AAD//wAAh+EAAIfhAACH4QAAh+EAAP//AAD8PwAA/D8AAPw/AAD8PwAA//8AAA==`,
@@ -607,25 +636,15 @@ class ESGST {
         esgst.markdownParser.setMarkupEscaped(true);
         esgst.name = esgst.sg ? `sg` : `st`;
     
-        if (typeof GM === `undefined` && typeof GM_setValue === `undefined`) {
+        if (_USER_INFO.extension) {
             // esgst is running as an extension
-            esgst.type = `extension`;
-            esgst.browser = ``;
-            if (typeof window.chrome !== `undefined`) {
-                if (typeof window.browser !== `undefined`) {
-                    esgst.browser = `firefox`;
-                }
-                if (window.chrome.runtime) {
-                    window.browser = window.chrome;
-                }
-            }
             this.setValue = (key, value) => {
                 return this.setValues({[key]: value});
             };
             this.setValues = values => {
                 let key;
-                return new Promise((resolve, reject) => {
-                    window.browser.runtime.sendMessage({
+                return new Promise(resolve => {
+                    browser.runtime.sendMessage({
                         action: `setValues`,
                         values: JSON.stringify(values)
                     }, () => {
@@ -640,7 +659,7 @@ class ESGST {
                 return isSet(esgst.storage[key]) ? esgst.storage[key] : value;
             };
             this.getValues = values => {
-                return new Promise((resolve, reject) => {
+                return new Promise(resolve => {
                     let output = {};
                     for (let key in values) {
                         output[key] = isSet(esgst.storage[key]) ? esgst.storage[key] : values[key];
@@ -652,8 +671,8 @@ class ESGST {
                 return this.delValues([key]);
             };
             this.delValues = keys => {
-                return new Promise((resolve, reject) => {
-                    window.browser.runtime.sendMessage({
+                return new Promise(resolve => {
+                    browser.runtime.sendMessage({
                         action: `delValues`,
                         keys: JSON.stringify(keys)
                     }, () => {
@@ -665,8 +684,8 @@ class ESGST {
                 });
             };
             this.getStorage = () => {
-                return new Promise((resolve, reject) => {
-                    window.browser.runtime.sendMessage({
+                return new Promise(resolve => {
+                    browser.runtime.sendMessage({
                         action: `getStorage`
                     }, storage => {
                         resolve(JSON.parse(storage));
@@ -674,7 +693,7 @@ class ESGST {
                 });
             };
             this.notifyNewVersion = version => {
-                let message, popup;
+                let message;
                 if (esgst.isNotifying) return;
                 esgst.isNotifying = true;
                 if (esgst.discussionPath) {
@@ -691,16 +710,16 @@ class ESGST {
                         this.setValue(`dismissedVersion`, version);
                     }
                 };
-                if (esgst.browser !== `firefox`) {
+                if (_USER_INFO.extension !== `firefox`) {
                     details.buttons = [
                         {color1: `green`, color2: `` , icon1: `fa-download`, icon2: ``, title1: `Download .zip`, title2: ``, callback1: open.bind(null, `https://github.com/revilheart/ESGST/releases/download/${version}/extension.zip`)},
-                        {color1: `green`, color2: `` , icon1: `fa-refresh`, icon2: ``, title1: `Reload Extension`, title2: ``, callback1: window.browser.runtime.sendMessage.bind(window.browser.runtime, {action: `reload`}, location.reload.bind(location))}
+                        {color1: `green`, color2: `` , icon1: `fa-refresh`, icon2: ``, title1: `Reload Extension`, title2: ``, callback1: browser.runtime.sendMessage.bind(browser.runtime, {action: `reload`}, location.reload.bind(location))}
                     ];
                 }
                 new Popup_v2(details).open();
             };
             this.continueRequest = details => {
-                return new Promise(async (resolve, reject) => {
+                return new Promise(async resolve => {
                     let isLocal = details.url.match(/^\//) || details.url.match(new RegExp(location.hostname));
                     details.url = details.url.replace(/^\//, `https://${location.hostname}/`).replace(/^https?:/, location.href.match(/^http:/) ? `http:` : `https:`);
                     if (isLocal) {
@@ -722,9 +741,9 @@ class ESGST {
                             this.lookForPopups(response);
                         }
                     } else {
-                        window.browser.runtime.sendMessage({
+                        browser.runtime.sendMessage({
                             action: `fetch`,
-                            manipulateCookies: esgst.browser === `firefox` && esgst.manipulateCookies,
+                            manipulateCookies: _USER_INFO.extension === `firefox` && esgst.manipulateCookies,
                             parameters: JSON.stringify({
                                 body: details.data,
                                 credentials: details.anon ? `omit` : `include`,
@@ -840,8 +859,8 @@ class ESGST {
                 document.addEventListener(`click`, closeHeaderMenu.bind(null, arrow, dropdown, menu), true);
                 dropdown.firstElementChild.lastElementChild.previousElementSibling.previousElementSibling.addEventListener(`click`, loadChangelog);
             };
-            window.browser.runtime.onMessage.addListener(message => {
-                let key, values;
+            browser.runtime.onMessage.addListener(message => {
+                let key;
                 message = JSON.parse(message);
                 switch (message.action) {
                     case `delValues`:
@@ -858,29 +877,6 @@ class ESGST {
             });
         } else {
             // esgst is running as a script
-            esgst.type = `script`;
-            if (typeof GM === `undefined`) {
-                // polyfill for userscript managers that do not support the gm-dot api
-                GM = {
-                    setValue: GM_setValue,
-                    getValue: GM_getValue,
-                    deleteValue: GM_deleteValue,
-                    listValues: GM_listValues,
-                    xmlHttpRequest: GM_xmlhttpRequest
-                };
-                for (let key in GM) {
-                    let old = GM[key];
-                    GM[key] = (...args) => {
-                        return new Promise((resolve, reject) => {
-                            try {
-                                resolve(old.apply(this, args));
-                            } catch (e) {
-                                reject(e);
-                            }
-                        });
-                    };
-                }
-            }
             this.setValue = GM.setValue;
             this.setValues = async values => {
                 let promises = [];
@@ -943,7 +939,7 @@ class ESGST {
                 popup.open();
             };
             this.continueRequest = details => {
-                return new Promise(async (resolve, reject) => {
+                return new Promise(async resolve => {
                     let isLocal = details.url.match(/^\//) || details.url.match(new RegExp(location.hostname));
                     details.url = details.url.replace(/^\//, `https://${location.hostname}/`).replace(/^https?:/, location.href.match(/^http:/) ? `http:` : `https:`);
                     if (isLocal) {
@@ -981,7 +977,7 @@ class ESGST {
                 });
             };
             this.addHeaderMenu = () => {
-                let arrow, button, changelogRow, className, context, dropdown, html, menu, position;
+                let arrow, button, className, context, dropdown, menu, position;
                 if (esgst.sg) {
                     className = `nav__left-container`;
                     position = `beforeEnd`;
@@ -1258,8 +1254,8 @@ class ESGST {
         }
         esgst.version = esgst.storage.version;
         for (let key in esgst.settings) {
-            let match;
-            if (match = key.match(new RegExp(`(.+?)_${esgst.name}$`))) {
+            let match = key.match(new RegExp(`(.+?)_${esgst.name}$`));
+            if (match) {
                 esgst[match[1]] = esgst.settings[key];
             }
         }
@@ -5701,7 +5697,7 @@ class ESGST {
                     esgst.steamId = esgst.settings.steamId = responseHtml.querySelector(`a[href*="/profiles/"]`).getAttribute(`href`).match(/\d+/)[0];
                     esgst.settingsChanged = true;
                 }
-            } catch (e) {}
+            } catch (e) { /**/ }
         } else {
             try {
                 let avatar = document.getElementsByClassName(`nav_avatar`)[0].style.backgroundImage.match(/\("(.+)"\)/)[1];
@@ -5714,7 +5710,7 @@ class ESGST {
                     esgst.username = esgst.settings.username_st = username;
                     esgst.settingsChanged = true;
                 }
-            } catch (e) {}
+            } catch (e) { /**/ }
         }
         if (esgst.settingsChanged) {
             toSet.settings = JSON.stringify(esgst.settings);
@@ -5740,16 +5736,16 @@ class ESGST {
         } else if (location.pathname.match(/esgst\/sync/)) {
             await this.setSync();
         } else if (location.pathname.match(/^\/esgst\/dropbox/)) {
-            await this.setValue(`dropboxToken`, location.hash.match(/access_token=(.+?)\&/)[1]);
+            await this.setValue(`dropboxToken`, location.hash.match(/access_token=(.+?)&/)[1]);
             close();
         } else if (location.pathname.match(/^\/esgst\/google-drive/)) {
-            await this.setValue(`googleDriveToken`, location.hash.match(/access_token=(.+?)\&/)[1]);
+            await this.setValue(`googleDriveToken`, location.hash.match(/access_token=(.+?)&/)[1]);
             close();
         } else if (location.pathname.match(/^\/esgst\/onedrive/)) {
-            await this.setValue(`oneDriveToken`, location.hash.match(/access_token=(.+?)\&/)[1]);
+            await this.setValue(`oneDriveToken`, location.hash.match(/access_token=(.+?)&/)[1]);
             close();
         } else if (location.pathname.match(/^\/esgst\/imgur/)) {
-            await this.setValue(`imgurToken`, location.hash.match(/access_token=(.+?)\&/)[1]);
+            await this.setValue(`imgurToken`, location.hash.match(/access_token=(.+?)&/)[1]);
             close();
         } else {
             esgst.logoutButton = document.querySelector(`.js__logout, .js_logout`);
@@ -5794,7 +5790,7 @@ class ESGST {
                     this.loadDataManagement(true, `delete`);
                 } else {
                     let response = await this.request({method: `GET`, url: `/`});
-                    responseHtml = this.parseHtml(response.responseText);
+                    let responseHtml = this.parseHtml(response.responseText);
                     document.body.className = `esgst-tab-menu esgst-tab-menu-header`;
                     document.body.innerHTML = `
                         ${responseHtml.getElementsByTagName(`header`)[0].outerHTML}
@@ -5847,7 +5843,7 @@ class ESGST {
                             event.stopPropagation();
                         });
                     }
-                    document.addEventListener(`click`, event => {
+                    document.addEventListener(`click`, () => {
                         let buttons = document.querySelectorAll(`nav .nav__button, .page__heading__button--is-dropdown`);
                         for (let button of buttons) {
                             button.classList.remove(`is-selected`);
@@ -6972,7 +6968,7 @@ class ESGST {
     }
     cerb() {
         if (!esgst.commentsPath) return;
-        let button, collapse, comments, expand, id;
+        let button, collapse, comments, expand;
         comments = document.getElementsByClassName(`comments`)[0];
         if (comments && comments.children.length) {
             esgst.cerbButtons = [];
@@ -7165,7 +7161,7 @@ class ESGST {
             let responseHtml = this.parseHtml(response.responseText);
             let currentGiveaways = await this.giveaways_get(responseHtml, false, response.finalUrl);
             if (currentGiveaways.length > 0) {
-                currentGiveaway = currentGiveaways[0];
+                let currentGiveaway = currentGiveaways[0];
                 cewgd.giveaways.push(currentGiveaway);
                 this.cewgd_addDetails(giveaway, currentGiveaway);
                 cewgd.count += 1;
@@ -7505,7 +7501,7 @@ class ESGST {
                                 }
                             }
                         }
-                        if (i <= numRows || (i > numRows && confirm(`Some cells are empty. This might lead to unexpected results. Are you sure you want to continue?`))) {
+                        if (i <= numRows || (i > numRows &&  confirm(`Some cells are empty. This might lead to unexpected results. Are you sure you want to continue?`))) {
                             value = ``;
                             for (i = 1; i < numRows; ++i) {
                                 value += `\n`;
@@ -9989,7 +9985,7 @@ class ESGST {
                                     }
                                 }
                             });
-                            savedEmojis = emojis.nextElementSibling.nextElementSibling;
+                            let savedEmojis = emojis.nextElementSibling.nextElementSibling;
                             for (i = savedEmojis.children.length - 1; i > -1; --i) {
                                 savedEmojis.children[i].addEventListener(`click`, event => {
                                     event.currentTarget.remove();
@@ -10040,7 +10036,7 @@ class ESGST {
                             code.value = ``;
                             popout.close();
                         } else {
-                            alert(`Wrong format. The right format is XXXXX.`);
+                             alert(`Wrong format. The right format is XXXXX.`);
                         }
                     });
                 },
@@ -10368,7 +10364,7 @@ class ESGST {
                         deleteRow.remove();
                         row.remove();
                     } else {
-                        alert(`A table must have a least one row and two columns.`);
+                         alert(`A table must have a least one row and two columns.`);
                     }
                 });
             }
@@ -10409,7 +10405,7 @@ class ESGST {
                         rows[i].deleteCell(n);
                     }
                 } else {
-                    alert(`A table must have at least one row and two columns.`);
+                     alert(`A table must have at least one row and two columns.`);
                 }
             });
             --columns;
@@ -10619,7 +10615,7 @@ class ESGST {
         let i, images, n;
         images = context.getElementsByTagName(`img`);
         for (i = 0, n = images.length; i < n; ++i) {
-            image = images[0];
+            const image = images[0];
             context.appendChild(image);
             image.classList.add(`is-hidden`, `is_hidden`);
             image.outerHTML = `
@@ -11353,7 +11349,7 @@ class ESGST {
         }
     }
     async ct_checkComments(count, comments, index, goToUnread, markRead, markUnread, callback) {
-        let button, code, comment, found, i, n, saved, source, type, unread;
+        let code, comment, found, i, n, saved, source, type, unread;
         esgst.ctGoToUnread = false;
         let values = await this.getValues({
             giveaways: `{}`,
@@ -11407,7 +11403,7 @@ class ESGST {
                         if (comment.author === esgst.username) {
                             this.ct_markCommentRead(comment, saved);
                         } else if (!saved[comment.type][comment.code].readComments[comment.id] || comment.timestamp !== saved[comment.type][comment.code].readComments[comment.id]) {
-                            if (goToUnread && (!esgst.ctGoToUnread || ((((esgst.ct_r && !esgst.cr) || (!esgst.ct_r && esgst.cr)) && comment.comment.offsetTop < scrollY + esgst.commentsTop) || (((!esgst.ct_r && !esgst.cr) || (esgst.ct_r && esgst.cr)) && comment.comment.offsetTop > scrollY + esgst.commentsTop)))) {
+                            if (goToUnread && (!esgst.ctGoToUnread || ((((esgst.ct_r && !esgst.cr) || (!esgst.ct_r && esgst.cr)) && comment.comment.offsetTop <  scrollY + esgst.commentsTop) || (((!esgst.ct_r && !esgst.cr) || (esgst.ct_r && esgst.cr)) && comment.comment.offsetTop >  scrollY + esgst.commentsTop)))) {
                                 esgst.ctGoToUnread = true;
                                 if ((esgst.discussionPath && ((!esgst.ct_r && !esgst.cr) || (esgst.ct_r && esgst.cr))) || (!esgst.discussionPath && !esgst.ct_r)) {
                                     unread = comment;
@@ -11747,7 +11743,7 @@ class ESGST {
         });
     }
     ct_addDiscussionPanel(code, comments, container, context, count, diff, url, type, dh, discussion) {
-        let diffContainer, goToUnread, loadingIcon, markRead, markUnread, markVisited, markUnvisited, panel;
+        let diffContainer, goToUnread, loadingIcon, markRead, markUnread, panel;
         panel = insertHtml(context, esgst.giveawaysPath && !esgst.oadd ? `afterEnd` : `beforeEnd`, `
             <span>
                 <span class="esgst-ct-count esgst-hidden" title="${this.getFeatureTooltip(`ct`)}">(+${diff})</span>
@@ -11977,7 +11973,7 @@ class ESGST {
             `);
             discussions = JSON.parse(await this.getValue(`discussions`));
             hidden = [];
-            for (key in discussions) {
+            for (const key in discussions) {
                 if (discussions[key].hidden) {
                     discussion = {
                         code: key,
@@ -12020,7 +12016,6 @@ class ESGST {
         });
     }
     async df_loadDiscussions(hidden, i, j, n, popup, callback) {
-        let key;
         if (i < n) {
             if (hidden[i]) {
                 let breadcrumbs, categoryLink, context, usernameLink;
@@ -12099,7 +12094,7 @@ class ESGST {
         return true;
     }
     df_setOveride(df, context, key) {
-        let button, override;
+        let button;
         button = insertHtml(context, `afterBegin`, `<span class="esgst-gf-override"></span>`);
         df.overrideButtons[key] = {
             change: () => {
@@ -12198,7 +12193,7 @@ class ESGST {
         };
     }
     df_addContainer(heading) {
-        let basicFilter, basicFilters, box, button, categoryFilter, categoryFilters, collapseButton, display, exceptionButton, exceptionCount, exceptionPanel, expandButton, filters, genres, df, headingButton, i, id, infinite, key, maxKey, maxSavedValue, maxValue, minKey, minSavedValue, minValue, name, preset, presetButton, presetDisplay, presetInput, presetMessage, presetPanel, presets, presetWarning, slider, step, toggleSwitch, typeFilter, typeFilters, value;
+        let basicFilter, basicFilters, box, button, collapseButton, display, exceptionButton, exceptionCount, exceptionPanel, expandButton, filters, df, headingButton, i, infinite, key, maxKey, maxSavedValue, maxValue, minKey, minSavedValue, minValue, name, preset, presetButton, presetDisplay, presetInput, presetMessage, presetPanel, presets, presetWarning, slider, step, toggleSwitch, typeFilter, typeFilters, value;
         headingButton = document.createElement(`div`);
         headingButton.className = `esgst-heading-button esgst-gf-heading-button`;
         headingButton.id = `esgst-df`;
@@ -12440,6 +12435,7 @@ class ESGST {
             preset.exceptions = df.exceptions;
             preset.overrides = df.overrides;
             presets = JSON.parse(await this.getValue(`dfPresets`, `[]`));
+            let i;
             for (i = presets.length - 1; i >= 0 && presets[i].name !== name; --i);
             if (i >= 0) {
                 exceptions = presets[i].exceptions;
@@ -12460,7 +12456,7 @@ class ESGST {
         }
     }
     async df_openPresetPopup(df, exceptionCount, presetDisplay, presetInput) {
-        let deleted, details, heading, hideAll, popup, preset, renameButton, renameInput, row, showOnly, table, undoButton;
+        let deleted, details, heading, hideAll, popup, renameButton, renameInput, row, showOnly, table, undoButton;
         popup = new Popup(`fa-sliders`, `Manage presets:`, true);
         popup.description.insertAdjacentHTML(`afterBegin`, `<div class="esgst-description">To edit a preset, apply it and save it with the same name. To rename a preset, click the edit icon, enter the new name and hit "Enter". Drag and drop presets to move them.</div>`);
         deleted = [];
@@ -12700,8 +12696,8 @@ class ESGST {
                         <div class="esgst-description">${details.slice(0, -2)}</div>
                     </div>
                 `);
-                heading = row.firstElementChild;
-                editButton = heading.nextElementSibling.firstElementChild;
+                const heading = row.firstElementChild;
+                const editButton = heading.nextElementSibling.firstElementChild;
                 editButton.addEventListener(`click`, this.df_openManageExceptionPopup.bind(this, exception, exceptionCount, df, preset, () => popup.close()));
                 editButton.nextElementSibling.addEventListener(`click`, this.df_deleteException.bind(this, deleted, exception, exceptionCount, df, heading, preset, row, undoButton));
             });
@@ -12710,11 +12706,11 @@ class ESGST {
         popup.open();
     }
     df_openManageExceptionPopup(exception, exceptionCount, df, preset, callback) {
-        let basicFilters, categoryFilters, context, typeFilters;
+        let basicFilters, context, typeFilters;
         if (callback) {
             callback();
         }
-        popup = new Popup(`fa-edit`, `Create/edit exception:`, true);
+        const popup = new Popup(`fa-edit`, `Create/edit exception:`, true);
         popup.scrollable.classList.add(`esgst-gf-container`, `esgst-gf-filters`, `esgst-text-left`);
         popup.name = insertHtml(popup.description, `afterBegin`, `Name: <input type="text" value="${exception.name || ``}"/>`);
         for (let type in df.filters) {
@@ -12862,7 +12858,7 @@ class ESGST {
         this.df_updateCount(df, endless);
     }
     df_filterException(filters, exception, discussion) {
-        let filtered, i, j, key, maxKey, minKey, n, name;
+        let filtered, i, j, key, maxKey, minKey, n;
         filtered = false;
         for (i = 0, n = filters.basic.length; !filtered && i < n; ++i) {
             [maxKey, minKey, key] = this.gf_getKeys(filters.basic[i], true);
@@ -12875,6 +12871,7 @@ class ESGST {
         }
         for (i = 0, n = filters.type.length; !filtered && i < n; ++i) {
             key = this.gf_getKeys(filters.type[i])[0];
+            let value;
             if (filters.type[i].list) {
                 if (discussion[key] && exception[`${key}List`]) {
                     let list = exception[`${key}List`].toLowerCase().split(/,\s/);
@@ -12893,7 +12890,7 @@ class ESGST {
         return filtered;
     }
     df_filterDiscussion(df, discussion) {
-        let counterKey, filtered, i, j, key, maxKey, minKey, n, name, override;
+        let counterKey, filtered, i, j, key, maxKey, minKey, n, override;
         let filters = df.filters;
         if (!filters) {
             filters = this.df_getFilters();
@@ -13029,7 +13026,7 @@ class ESGST {
     async dh_highlightDiscussion(code, context, save) {
         if (save) {
             let deleteLock = await this.createLock(`commentLock`, 300);
-            comments = JSON.parse(await this.getValue(`discussions`));
+            const comments = JSON.parse(await this.getValue(`discussions`));
             if (!comments[code]) {
                 comments[code] = {
                     readComments: {}
@@ -13048,7 +13045,7 @@ class ESGST {
     async dh_unhighlightDiscussion(code, context, save) {
         if (save) {
             let deleteLock = await this.createLock(`commentLock`, 300);
-            comments = JSON.parse(await this.getValue(`discussions`));
+            const comments = JSON.parse(await this.getValue(`discussions`));
             delete comments[code].highlighted;
             comments[code].lastUsed = Date.now();
             await this.setValue(`discussions`, JSON.stringify(comments));
@@ -13128,7 +13125,7 @@ class ESGST {
         esgst.endlessFeatures.push(this.sal_addObservers.bind(this));
     }
     ef_hideElements(context, main) {
-        let element, i, property;
+        let i, property;
         if (context === document && main) return;
         esgst.ef_filters.split(`, `).forEach(filter => {
             if (!filter) return;
@@ -13142,7 +13139,7 @@ class ESGST {
                 for (i = elements.length - 1; i > -1; i--) {
                     elements[i].classList.add(`esgst-hidden`);
                 }
-            } catch (e) {}
+            } catch (e) { /**/ }
         });
     }
     async egh_saveGame(id, type) {
@@ -13588,7 +13585,7 @@ class ESGST {
         }
     }
     async es_loadNext(es, callback) {
-        if (!esgst.stopEs && !es.busy && (!es.paused || es.reversePages) && !es.ended && (es.continuous || es.step || scrollY >= document.body.offsetHeight - innerHeight * 2)) {
+        if (!esgst.stopEs && !es.busy && (!es.paused || es.reversePages) && !es.ended && (es.continuous || es.step ||  scrollY >= document.body.offsetHeight -  innerHeight * 2)) {
             es.busy = true;
             document.removeEventListener(`scroll`, esgst.es_loadNext);
             es.progress = insertHtml(esgst.pagination.firstElementChild, `beforeEnd`, `
@@ -13730,7 +13727,7 @@ class ESGST {
     }
     es_changePagination(es) {
         if (!esgst.paginationNavigation || es.paginations.length < 1) return;
-        if (scrollY + innerHeight === document.documentElement.offsetHeight) {
+        if (scrollY +  innerHeight === document.documentElement.offsetHeight) {
             es.pageIndex = es.reverseScrolling ? es.pageBase - es.paginations.length : es.pageBase + es.paginations.length;
         } else {
             let currentElement = document.querySelector(`.esgst-es-page-${es.pageIndex}:not(.esgst-hidden)`),
@@ -13740,10 +13737,10 @@ class ESGST {
                     if (es.pageIndex !== es.currentPage) {
                         es.pageIndex = es.reverseScrolling ? es.pageIndex + 1 : es.pageIndex - 1;
                     }
-                } else if (nextElement && scrollY + esgst.commentsTop >= nextElement.offsetTop) {
+                } else if (nextElement &&  scrollY + esgst.commentsTop >= nextElement.offsetTop) {
                     es.pageIndex = es.reverseScrolling ? es.pageIndex - 1 : es.pageIndex + 1;
                 }
-            } else if (nextElement && scrollY + esgst.commentsTop >= nextElement.offsetTop) {
+            } else if (nextElement &&  scrollY + esgst.commentsTop >= nextElement.offsetTop) {
                 es.pageIndex = es.reverseScrolling ? es.pageIndex - 1 : es.pageIndex + 1;
             } else if (es.pageIndex !== es.currentPage) {
                 es.pageIndex = es.reverseScrolling ? es.pageIndex + 1 : es.pageIndex - 1;
@@ -14045,7 +14042,7 @@ class ESGST {
         popup.open();
     }
     async et_deleteEntry(button, date, popup) {
-        if (!confirm(`Are you sure you want to delete entries for ${date}? Your entire history for that day will be deleted.`)) return;
+        if (! confirm(`Are you sure you want to delete entries for ${date}? Your entire history for that day will be deleted.`)) return;
         button.innerHTML = `
             <i class="fa fa-circle-o-notch fa-spin"></i>
         `;
@@ -14152,7 +14149,6 @@ class ESGST {
         if (!esgst.header) return;
 
         esgst.header.classList.add(`esgst-fh`);
-        let sibling;
         (((!esgst.giveawaysPath || (esgst.featuredContainer && !esgst.featuredContainer.classList.contains(`esgst-hidden`))) && esgst.featuredContainer) || esgst.pageOuterWrap).classList.add(`esgst-fh-sibling`);
 
         let height = esgst.header.offsetHeight;
@@ -14204,7 +14200,7 @@ class ESGST {
         esgst.commentsTop += height + 30;
     }
     fmph_fix() {
-        if (scrollY > (esgst.mainPageHeading.offsetTop - esgst.pageTop) && document.documentElement.offsetHeight > innerHeight * 2) {
+        if (scrollY > (esgst.mainPageHeading.offsetTop - esgst.pageTop) && document.documentElement.offsetHeight >  innerHeight * 2) {
             document.removeEventListener(`scroll`, esgst.fmph_fix);
             esgst.mainPageHeading.classList.add(`esgst-fmph`);
             esgst.mainPageHeadingPlaceholder.classList.remove(`esgst-hidden`);
@@ -14262,7 +14258,7 @@ class ESGST {
         } else {
             esgst.sidebarTop = esgst.sidebar.offsetTop;
         }
-        if (scrollY > esgst.sidebarTop && document.documentElement.offsetHeight > innerHeight * 2) {
+        if (scrollY > esgst.sidebarTop && document.documentElement.offsetHeight >  innerHeight * 2) {
             document.removeEventListener(`scroll`, esgst.fs_fix);
             esgst.sidebar.classList.add(`esgst-fs`);
             if (esgst.sidebarAd) {
@@ -15064,7 +15060,7 @@ class ESGST {
         }
     }
     gc_addCategory(cache, games, id, savedGame, type) {
-        let active, category, colored, count, cv, elements, encodedName, genre, genreList, genres, giveaway, giveaways, html, i, icons, j, k, n, panel, name, ratingType, sent, singularType, user, value;
+        let active, category, colored, count, cv, elements, encodedName, genre, genreList, genres, giveaway, giveaways, html, i, j, k, n, panel, name, sent, singularType, user, value;
         if (type === `subs` && cache.apps) {
             for (let i = cache.apps.length - 1; i > -1; i--) {
                 let id = cache.apps[i].id;
@@ -15207,7 +15203,7 @@ class ESGST {
                                         cv = Math.round(value * 100) / 100;
                                     }
                                     elements.push(`
-                                        <a class="esgst-gc esgst-gc-giveawayInfo" data-id="gc_gi" href="https://www.steamgifts.com/user/${esgst.username}" title="${this.getFeatureTooltip(`gc_gi`, `You have sent ${count} copies of this game (${sent} of which added to your CV)${active ? `\nYou currently have ${active} open giveaways for this game` : ``}\nYou should get \$${cv} real CV for sending a new copy of this game\nA giveaway for this game is worth ${Math.min(Math.ceil(cache.price), 50)}P`)}"><i class="fa fa-info"></i> ${count} <i class="fa fa-dollar"></i> ${cv}</a>
+                                        <a class="esgst-gc esgst-gc-giveawayInfo" data-id="gc_gi" href="https://www.steamgifts.com/user/${esgst.username}" title="${this.getFeatureTooltip(`gc_gi`, `You have sent ${count} copies of this game (${sent} of which added to your CV)${active ? `\nYou currently have ${active} open giveaways for this game` : ``}\nYou should get $${cv} real CV for sending a new copy of this game\nA giveaway for this game is worth ${Math.min(Math.ceil(cache.price), 50)}P`)}"><i class="fa fa-info"></i> ${count} <i class="fa fa-dollar"></i> ${cv}</a>
                                     `);
                                 }
                             }
@@ -15229,7 +15225,7 @@ class ESGST {
                                     color: `#ffffff`,
                                     icon: `fa-question-circle`
                                 };
-                            };
+                            }
                             let match = cache.rating.match(/\((\d+)\)/);
                             if (match) {
                                 cache.rating = cache.rating.replace(/\(\d+\)/, `(${parseInt(match[1]).toLocaleString()})`);
@@ -15517,7 +15513,7 @@ class ESGST {
         }
         item.parentElement.insertBefore(gc.source, item.nextElementSibling);
     }
-    async gc_saveSource(gc, panel, columns, gvIcons, event) {
+    async gc_saveSource(gc, panel, columns, gvIcons) {
         gc.source = null;
         panel.style.height = ``;
         panel.style.width = ``;
@@ -15623,7 +15619,7 @@ class ESGST {
                                         elements = container.lastElementChild.firstElementChild.children;
                                         if (value) {
                                             for (i = elements.length - 1; i > -1; --i) {
-                                                element = elements[i];
+                                                const element = elements[i];
                                                 if (element.getElementsByClassName(`table__column__heading`)[0].textContent.toLowerCase().match(value)) {
                                                     element.classList.remove(`esgst-hidden`);
                                                 } else {
@@ -15720,9 +15716,9 @@ class ESGST {
             }
         } else if (esgst.discussionPath || esgst.tradePath) {
             if (savedComments[code] && savedComments[code].visited) {
-                this.gdttt_addMarkUnvisitedButton(null, code, document.querySelector(`.page__heading, .page_heading`), type);
+                this.gdttt_addMarkUnvisitedButton(null, code, document.querySelector(`.page__heading, .page_heading`), /*HERE*/null, type);
             } else {
-                this.gdttt_addMarkVisitedButton(null, code, document.querySelector(`.page__heading, .page_heading`), type);
+                this.gdttt_addMarkVisitedButton(null, code, document.querySelector(`.page__heading, .page_heading`), /*HERE*/null, type);
             }
         }
     }
@@ -15799,7 +15795,7 @@ class ESGST {
             }
         }
     }
-    gdttt_addMarkVisitedButton(button, code, context, type) {
+    gdttt_addMarkVisitedButton(button, code, context, count, type) {
         let comments;
         let busy = false;
         if (!button) {
@@ -15824,11 +15820,11 @@ class ESGST {
                 comments[code].lastUsed = Date.now();
                 await this.setValue(type, JSON.stringify(comments));
                 deleteLock();
-                this.gdttt_addMarkUnvisitedButton(button, code, context, type);
+                this.gdttt_addMarkUnvisitedButton(button, code, context, count, type);
             }
         });
     }
-    gdttt_addMarkUnvisitedButton(button, code, context, type) {
+    gdttt_addMarkUnvisitedButton(button, code, context, count, type) {
         let comments;
         let busy = false;
         if (!button) {
@@ -15848,7 +15844,7 @@ class ESGST {
                 comments[code].lastUsed = Date.now();
                 await this.setValue(type, JSON.stringify(comments));
                 deleteLock();
-                this.gdttt_addMarkVisitedButton(button, code, context, type);
+                this.gdttt_addMarkVisitedButton(button, code, context, count, type);
             }
         });
     }
@@ -15976,7 +15972,7 @@ class ESGST {
                         return;
                     }
                     let response = await this.request({method: `GET`, url: sgTools ? `https://www.sgtools.info/giveaways/${code}` : `/giveaway/${code}/`});
-                    let bumpLink, button, context, giveaway, giveaways, n, responseHtml;
+                    let bumpLink, button, giveaway, giveaways, n, responseHtml;
                     responseHtml = this.parseHtml(response.responseText);
                     giveaway = buildGiveaway(responseHtml, response.finalUrl);
                     if (giveaway) {
@@ -16020,7 +16016,7 @@ class ESGST {
                         }
                     } else if (!sgTools) {
                         let response = await this.request({anon: true, method: `GET`, url: `/giveaway/${code}/`});
-                        let bumpLink, context, giveaway, giveaways, n, responseHtml;
+                        let bumpLink, giveaway, giveaways, n, responseHtml;
                         responseHtml = this.parseHtml(response.responseText);
                         giveaway = buildGiveaway(responseHtml, response.finalUrl);
                         if (giveaway) {
@@ -16573,7 +16569,7 @@ class ESGST {
         return true;
     }
     gf_setOverride(gf, context, key) {
-        let button, override;
+        let button;
         button = insertHtml(context, `afterBegin`, `<span class="esgst-gf-override"></span>`);
         gf.overrideButtons[key] = {
             change: () => {
@@ -16596,7 +16592,7 @@ class ESGST {
         });
     }
     gf_addContainer(heading, popup) {
-        let basicFilter, basicFilters, box, button, categoryFilter, categoryFilters, collapseButton, display, exceptionButton, exceptionCount, exceptionPanel, expandButton, filters, genres, gf, headingButton, i, id, infinite, key, maxKey, maxSavedValue, maxValue, minKey, minSavedValue, minValue, name, preset, presetButton, presetDisplay, presetInput, presetMessage, presetPanel, presets, presetWarning, sgFilters, slider, step, toggleSwitch, typeFilter, typeFilters, value;
+        let basicFilter, basicFilters, box, button, categoryFilter, categoryFilters, collapseButton, display, exceptionButton, exceptionCount, exceptionPanel, expandButton, filters, gf, headingButton, i, id, infinite, key, maxKey, maxSavedValue, maxValue, minKey, minSavedValue, minValue, name, preset, presetButton, presetDisplay, presetInput, presetMessage, presetPanel, presets, presetWarning, sgFilters, slider, step, toggleSwitch, typeFilter, typeFilters, value;
         gf = {
             counters: {},
             filters: {
@@ -17245,7 +17241,7 @@ class ESGST {
         }
     }
     async gf_openPresetPopup(gf, exceptionCount, presetDisplay, presetInput) {
-        let deleted, details, heading, hideAll, popup, preset, renameButton, renameInput, row, showOnly, table, undoButton;
+        let deleted, details, heading, hideAll, popup, renameButton, renameInput, row, showOnly, table, undoButton;
         popup = new Popup(`fa-sliders`, `Manage presets:`, true);
         popup.description.insertAdjacentHTML(`afterBegin`, `<div class="esgst-description">To edit a preset, apply it and save it with the same name. To rename a preset, click the edit icon, enter the new name and hit "Enter". Drag and drop presets to move them.</div>`);
         deleted = [];
@@ -17512,8 +17508,8 @@ class ESGST {
                         <div class="esgst-description">${details.slice(0, -2)}</div>
                     </div>
                 `);
-                heading = row.firstElementChild;
-                editButton = heading.nextElementSibling.firstElementChild;
+                const heading = row.firstElementChild;
+                const editButton = heading.nextElementSibling.firstElementChild;
                 editButton.addEventListener(`click`, this.gf_openManageExceptionPopup.bind(this, exception, exceptionCount, gf, preset, () => popup.close()));
                 editButton.nextElementSibling.addEventListener(`click`, this.gf_deleteException.bind(this, deleted, exception, exceptionCount, gf, heading, preset, row, undoButton));
             });
@@ -17526,7 +17522,7 @@ class ESGST {
         if (callback) {
             callback();
         }
-        popup = new Popup(`fa-edit`, `Create/edit exception:`, true);
+        const popup = new Popup(`fa-edit`, `Create/edit exception:`, true);
         popup.scrollable.classList.add(`esgst-gf-container`, `esgst-gf-filters`, `esgst-text-left`);
         popup.name = insertHtml(popup.description, `afterBegin`, `Name: <input type="text" value="${exception.name || ``}"/>`);
         for (let type in gf.filters) {
@@ -17945,6 +17941,7 @@ class ESGST {
                                 } else {
                                     context.open(giveaway.group);
                                 }
+                                break;
                             case 3:
                                 context.open();
                                 break;
@@ -18186,7 +18183,7 @@ class ESGST {
         esgst.endlessFeatures.push(this.gh_highlightGroups.bind(this));
     }
     async gh_highlightGroups(context) {
-        let code, element, elements, i, j, key, n, savedGroups;
+        let code, element, elements, i, j, n, savedGroups;
         savedGroups = JSON.parse(await this.getValue(`groups`, `[]`));
         elements = context.querySelectorAll(`.table__column__heading[href*="/group/"]`);
         for (i = 0, n = elements.length; i < n; ++i) {
@@ -18224,7 +18221,7 @@ class ESGST {
             if (glwc.id) {
                 glwc.overallProgress.textContent = `Preparing...`;
                 glwc.members = [];
-                members = (await this.request({method: `GET`, url: `http://steamcommunity.com/gid/${glwc.id}/memberslistxml?xml=1`})).responseText.match(/<steamID64>.+?<\/steamID64>/g);
+                const members = (await this.request({method: `GET`, url: `http://steamcommunity.com/gid/${glwc.id}/memberslistxml?xml=1`})).responseText.match(/<steamID64>.+?<\/steamID64>/g);
                 members.forEach(member => {
                     glwc.members.push(member.match(/<steamID64>(.+?)<\/steamID64>/)[1]);
                 });
@@ -18306,7 +18303,7 @@ class ESGST {
                             glwc.users[i].library.push(game.id);
                         });
                     }
-                } catch (e) {}
+                } catch (e) { /**/ }
                 glwc.users[i].wishlist = [];
                 let responseText = (await this.request({method: `GET`, url: `http://store.steampowered.com/wishlist/profiles/${glwc.users[i].steamId}`})).responseText;
                 let wishlistData = responseText.match(/g_rgWishlistData\s=\s(\[(.+?)\]);/);
@@ -18477,7 +18474,7 @@ class ESGST {
             `).firstElementChild.lastElementChild.firstElementChild, users.join(`, `));
         }
         libraryInput.addEventListener(`input`, () => {
-            value = libraryInput.value.toLowerCase();
+            const value = libraryInput.value.toLowerCase();
             if (value) {
                 game = glwc.games[value];
                 if (game) {
@@ -18558,7 +18555,7 @@ class ESGST {
             }
         });
         wishlistInput.addEventListener(`input`, () => {
-            value = wishlistInput.value;
+            const value = wishlistInput.value;
             if (value) {
                 game = glwc.games[value];
                 if (game) {
@@ -18669,7 +18666,6 @@ class ESGST {
         }
     }
     async gr_recreateGiveaway(button, giveaway) {
-        let context, elements, i, keys, n, responseJson, template;
         button.innerHTML = `<i class="fa fa-circle-o-notch fa-spin"></i>`;
         if (esgst.createdPath) {
             let response = await this.request({method: `GET`, url: giveaway.url});
@@ -18768,7 +18764,7 @@ class ESGST {
         popup.tags = insertHtml(popup.description, `beforeEnd`, `<div class="esgst-gt-tags"></div>`);
         popup.input = insertHtml(popup.description, `beforeEnd`, `<input type="text"/>`);
         insertHtml(popup.description, `beforeEnd`, `<i class="esgst-ut-existing-button esgst-clickable fa fa-list" title="Select from existing tags"></i>`).addEventListener(`click`, this.gt_showExistingTags.bind(this, popup));
-        popup.input.addEventListener(`keydown`, this.triggerSetOnEnter.bind(this, set));
+        popup.input.addEventListener(`keydown`, triggerSetOnEnter.bind(null, set));
         popup.input.addEventListener(`input`, this.gt_createTags.bind(this, popup));
         popup.description.insertAdjacentHTML(`beforeEnd`, `<div class="esgst-description">Use commas to separate tags, for example: Tag1, Tag2, ...</div>`);
         popup.description.appendChild(set.set);
@@ -18884,7 +18880,7 @@ class ESGST {
         bgColorInput = colorInput.nextElementSibling;
         editButton = bgColorInput.nextElementSibling;
         deleteButton = editButton.nextElementSibling;
-        resetButton = deleteButton.nextElementSibling;
+        const resetButton = deleteButton.nextElementSibling;
         colors = esgst.gt_colors[tag];
         if (colors) {
             colorInput.value = tagBox.style.color = colors.color;
@@ -18926,11 +18922,10 @@ class ESGST {
         popup.input.value = tags.join(`, `);
     }
     gt_editTag(bgColorInput, colorInput, input, popup, tagBox, tagContainer, event) {
-        let colors, name, oldName, tag;
+        let colors, tag;
         if (event.key === `Enter`) {
             tagContainer.classList.remove(`esgst-hidden`);
             input.classList.add(`esgst-hidden`);
-            oldName = tagBox.textContent;
             tag = input.value;
             tagBox.textContent = tag;
             colors = esgst.gt_colors[tag];
@@ -19027,7 +19022,7 @@ class ESGST {
         let gts = {};
         gts.deletedTemplates = [];
         reviewButton = rows.lastElementChild;
-        createGiveawayButton = new ButtonSet(`green`, `grey`, `fa-plus-circle`, `fa-circle-o-notch fa-spin`, `Create Giveaway`, `Creating...`, async callback => {
+        createGiveawayButton = new ButtonSet(`green`, `grey`, `fa-plus-circle`, `fa-circle-o-notch fa-spin`, `Create Giveaway`, `Creating...`, async () => {
             let data;
             data = `xsrf_token=${esgst.xsrfToken}&next_step=3&`;
             data += `game_id=${document.querySelector(`[name="game_id"]`).value}&`;
@@ -19340,8 +19335,9 @@ class ESGST {
                 <i class="fa fa-circle-o-notch fa-spin"></i>
             `;
             let deleteLock = await this.createLock(`templateLock`, 300),
-                savedTemplates = JSON.parse(await this.getValue(`templates`, `[]`));
-            for (let i = 0, n = savedTemplates.length; i < n && savedTemplates[i].name !== savedTemplate.name; ++i);
+                savedTemplates = JSON.parse(await this.getValue(`templates`, `[]`)),
+                i = 0;
+            for (const n = savedTemplates.length; i < n && savedTemplates[i].name !== savedTemplate.name; ++i);
             savedTemplates.splice(i, 1);
             await this.setValue(`templates`, JSON.stringify(savedTemplates));
             deleteLock();
@@ -19369,7 +19365,7 @@ class ESGST {
         }
     }
     gts_applyTemplate(savedTemplate) {
-        let context, countries, currentDate, days, endTime, groups, i, id, j, matches, n, newEndTime, newEndTimeBackup, newStartTime, startTime, selected;
+        let context, countries, currentDate, days, endTime, groups, i, id, j, matches, newEndTime, newStartTime, startTime, selected;
         if (!savedTemplate.gameType) {
             savedTemplate.gameType = `gift`;
         }
@@ -19677,7 +19673,6 @@ class ESGST {
         esgst.endlessFeatures.push(this.gwc_addHeading.bind(this));
     }
     gwc_addChances(giveaways, main, source) {
-        let i, n;
         giveaways.forEach(giveaway => {
             if (giveaway.sgTools || (main && (esgst.createdPath || esgst.wonPath || esgst.newGiveawayPath))) return;
             if (((giveaway.inviteOnly && ((main && esgst.giveawayPath) || !main || giveaway.ended)) || !giveaway.inviteOnly) && !giveaway.innerWrap.getElementsByClassName(`esgst-gwc`)[0]) {
@@ -19780,7 +19775,6 @@ class ESGST {
         esgst.endlessFeatures.push(this.gwc_addHeading.bind(this));
     }
     gwr_addRatios(giveaways, main, source) {
-        let i, n;
         giveaways.forEach(giveaway => {
             if (giveaway.sgTools || (main && (esgst.createdPath || esgst.wonPath || esgst.newGiveawayPath))) return;
             if (giveaway.started && ((giveaway.inviteOnly && ((main && esgst.giveawayPath) || !main || giveaway.ended)) || !giveaway.inviteOnly) && !giveaway.innerWrap.getElementsByClassName(`esgst-gwr`)[0]) {
@@ -20288,8 +20282,8 @@ class ESGST {
             tag: details.msg
         });
         notification.onclick = () => {
-            if (esgst.type === `extension` && esgst.hr_a) {
-                window.browser.runtime.sendMessage({action: `tabs`, any: esgst.hr_a_a, inbox_sg: esgst.sg && details.inbox, inbox_st: esgst.st && details.inbox, refresh: esgst.hr_a_r, wishlist: details.wishlist, won: details.won});
+            if (_USER_INFO.extension && esgst.hr_a) {
+                browser.runtime.sendMessage({action: `tabs`, any: esgst.hr_a_a, inbox_sg: esgst.sg && details.inbox, inbox_st: esgst.st && details.inbox, refresh: esgst.hr_a_r, wishlist: details.wishlist, won: details.won});
             } else {
                 if (details.inbox) {
                     open(`/messages`);
@@ -20324,7 +20318,7 @@ class ESGST {
         esgst.giveawayFeatures.push(this.itadi_getInfo.bind(this));
     }
     itadi_getInfo(giveaways, main) {
-        let game, games, giveaway, loading, plain;
+        let game, loading, plain;
         if (!main) return;
         giveaways.forEach(async giveaway => {
             game = esgst.games[giveaway.type][giveaway.id];
@@ -20356,8 +20350,8 @@ class ESGST {
                 });
             }
             deals.sort((a, b) => {
-                a = parseFloat(a.price.replace(/(\$|\£|\€)/, ``));
-                b = parseFloat(b.price.replace(/(\$|\£|\€)/, ``));
+                a = parseFloat(a.price.replace(/(\$|£|€)/, ``));
+                b = parseFloat(b.price.replace(/(\$|£|€)/, ``));
                 if (a < b) {
                     return -1;
                 } else if (a > b) {
@@ -20513,7 +20507,7 @@ class ESGST {
             .replace(/\sthe|the\s/g, ``)
             .replace(/\s/g, ``)
             .replace(/\d/g, m => { return [`0`, `i`, `ii`, `iii`, `iv`, `v`, `vi`, `vii`, `viii`, `ix`][m]; })
-            .replace(/\&/g, `and`)
+            .replace(/&/g, `and`)
             .replace(/\+/g, `plus`)
             .replace(/[^\d\w]/g, ``);
     }
@@ -20637,7 +20631,7 @@ class ESGST {
         }
     }
     lpl_addUserLink() {
-        let lastLink, lastPage, url, username;
+        let lastLink, url, username;
         username = location.pathname.match(/^\/user\/(.+?)(\/.*?)?$/)[1];
         if (location.pathname.match(/\/giveaways\/won/)) {
             url = `/user/${username}/giveaways/won/search?page=${esgst.lastPage}`;
@@ -20656,7 +20650,7 @@ class ESGST {
         }
     }
     lpl_addGroupLink() {
-        let group, lastLink, lastPage, url;
+        let group, lastLink, url;
         group = location.pathname.match(/^\/group\/(.+?\/.+?)(\/.*?)?$/)[1];
         if (location.pathname.match(/\/users/)) {
             url = `/group/${group}/users/search?page=${esgst.lastPage}`;
@@ -20745,7 +20739,7 @@ class ESGST {
             try {
                 let responseJson = JSON.parse((await this.request({method: `GET`, url: `http://store.steampowered.com/api/${type === `apps` ? `appdetails?appids` : `packagedetails?packageids`}=${id}&cc=us&filters=price,price_overview`})).responseText)[id].data;
                 value = Math.ceil((responseJson.price_overview || responseJson.price).initial / 100);
-            } catch (e) {}
+            } catch (e) { /**/ }
             lpv.cache.games[type][id] = value;
         }
         value = lpv.cache.games[type][id] || value;
@@ -20837,7 +20831,7 @@ class ESGST {
             lower = values[base];
             upper = values[base + 1];
             value = Math.round((upper - (lower + ((upper - lower) * (profile.level - base)))) * 100) / 100;
-            profile.levelRowRight.insertAdjacentHTML(`beforeEnd`, `<span class="esgst-luc-value" title="${this.getFeatureTooltip(`luc`)}">(~\$${value} real CV to level ${base + 1})</span>`);
+            profile.levelRowRight.insertAdjacentHTML(`beforeEnd`, `<span class="esgst-luc-value" title="${this.getFeatureTooltip(`luc`)}">(~$${value} real CV to level ${base + 1})</span>`);
         }
     }
     // [M]
@@ -21129,7 +21123,7 @@ class ESGST {
         popup.open();
     }
     mgc_getValues(edit, mgc, callback) {
-        let cache, values;
+        let values;
         values = {
             gameId: mgc.gameId.value,
             gameType: mgc.gameType.value,
@@ -21374,7 +21368,7 @@ class ESGST {
         progress.total = progress.current.nextElementSibling;
         popup.description.appendChild(new ButtonSet(`green`, `grey`, `fa-arrow-circle-up`, `fa-circle-o-notch fa-spin`, `Import`, `Importing...`, this.mgc_getGiveaways.bind(this, mgc, popup, progress, textArea)).set);
         popup.open(this.mgc_focusTextArea.bind(this, textArea));
-        textArea.style.height = `${innerHeight * 0.9 - (popup.popup.offsetHeight - popup.scrollable.offsetHeight) - 25}px`;
+        textArea.style.height = `${ innerHeight * 0.9 - (popup.popup.offsetHeight - popup.scrollable.offsetHeight) - 25}px`;
         textArea.style.overflow = `auto`;
         textArea.addEventListener(`paste`, this.mgc_resizeTextArea.bind(this, popup, textArea));
     }
@@ -21384,7 +21378,7 @@ class ESGST {
         interval = setInterval(() => {
             if (value !== textArea.value) {
                 clearInterval(interval);
-                textArea.style.height = `${innerHeight * 0.9 - (popup.popup.offsetHeight - popup.scrollable.offsetHeight) - 25}px`;
+                textArea.style.height = `${ innerHeight * 0.9 - (popup.popup.offsetHeight - popup.scrollable.offsetHeight) - 25}px`;
                 textArea.style.overflow = `auto`;
             }
         }, 250);
@@ -21396,8 +21390,8 @@ class ESGST {
                 esgst.busy = true;
                 giveaways = [];
                 lines = textArea.value.trim().split(/\n/);
-                for (i = 0, n = lines.length; i < n; ++i) {
-                    line = lines[i].trim();
+                for (let i = 0, n = lines.length; i < n; ++i) {
+                    const line = lines[i].trim();
                     if (line) {
                         giveaways.push(line);
                     }
@@ -21434,7 +21428,7 @@ class ESGST {
         }
     }
     async mgc_importGiveaway(giveaways, i, mgc, n, popup, progress, textArea, mainCallback, callback) {
-        let copies, found, giveaway, key, keyPos, match, name, namePos, regExp, values;
+        let copies, found, giveaway, key, keyPos, match, name, namePos, values;
         if (i < n) {
             let countries = giveaways[i].match(/\[countries="(.+?)"\]/);
             let startTime = giveaways[i].match(/\[startTime="(.+?)"\]/);
@@ -21657,7 +21651,7 @@ class ESGST {
     }
     mgc_exportGiveaways(mgc, mainCallback) {
         mainCallback();
-        let anchor, file, i, j, n, name, popup, url, values;
+        let anchor, file, i, j, n, popup, url, values;
         popup = new Popup(`fa-arrow-down`, `Export`);
         new ToggleSwitch(popup.description, `mgc_reversePosition`, false, `Export keys in reverse position (before the name of the game).`, false, false, ``, esgst.mgc_reversePosition);
         popup.description.appendChild(new ButtonSet(`green`, ``, `fa-arrow-down`, ``, `Export`, ``, callback => {
@@ -21875,7 +21869,7 @@ class ESGST {
             username: esgst.username
         };
         let ugd;
-        savedUser = await this.getUser(null, user);
+        const savedUser = await this.getUser(null, user);
         let giveaways = null;
         if (savedUser) {
             giveaways = savedUser.giveaways;
@@ -21933,7 +21927,7 @@ class ESGST {
                 }
             }
         }
-        for (key in mgc.saveGiveaways) {
+        for (const key in mgc.saveGiveaways) {
             let giveaway = mgc.saveGiveaways[key];
             if (!giveaways.sent[giveaway.gameType][giveaway.gameSteamId]) {
                 giveaways.sent[giveaway.gameType][giveaway.gameSteamId] = [];
@@ -22152,7 +22146,7 @@ class ESGST {
         rows.parentElement.submit();
     }
     mgc_editDiscussion() {
-        description = document.querySelector(`[name=description]`);
+        const description = document.querySelector(`[name=description]`);
         description.value = description.value.replace(/\[ESGST-T\](.+?)\[\/ESGST-T\]/g, `[$1](${getLocalValue(`mgcAttach_step4`)})`);
         delLocalValue(`mgcAttach_step4`);
         setLocalValue(`mgcAttach_step5`, true);
@@ -22163,7 +22157,7 @@ class ESGST {
         mgc.discussionPanel.classList.add(`esgst-hidden`);
     }
     async mgc_viewResults(mgc, callback) {
-        let button, html, i, n, popup, toggleSwitch, url;
+        let html, i, n, popup;
         popup = new Popup(`fa-eye`, `Results`);
         html = ``;
         for (i = 0, n = mgc.created.length; i < n; ++i) {
@@ -22176,7 +22170,7 @@ class ESGST {
         `);
         let giveaways = await this.giveaways_get(popup.scrollable);
         if (esgst.mm) {
-            heading = insertHtml(popup.scrollable, `afterBegin`, `
+            const heading = insertHtml(popup.scrollable, `afterBegin`, `
                 <div class="esgst-page-heading"></div>
             `);
             this.mm(heading, giveaways, `Giveaways`);
@@ -22647,7 +22641,7 @@ class ESGST {
                 <li>[ss] - The number of seconds with leading zeroes if it is lower than 10.</li>
                 <li>[xx] - "am" or "pm". Remember to use h12 or hh12 if you use this template.</li>
             </ul>
-            <div>You can use any symbol except for "\"" to separate things in your date templates. For example: "[mmm] [d], [yyyy] [h]:[hmm]", "[yyyy]-[mm]-[dd] [hh]:[hmm]", etc...</div>
+            <div>You can use any symbol except for """ to separate things in your date templates. For example: "[mmm] [d], [yyyy] [h]:[hmm]", "[yyyy]-[mm]-[dd] [hh]:[hmm]", etc...</div>
             <br/>
             <div>Here is an example that generates a table with links to giveaways sorted in ascending order:</div>
             <br/>
@@ -23162,7 +23156,7 @@ class ESGST {
                     let type = item.type;
                     let gameKey = `${type}_${id}`;
                     obj.tTags.forEach(tag => {
-                        index = obj.tIndividualTags[gameKey].indexOf(tag);
+                        const index = obj.tIndividualTags[gameKey].indexOf(tag);
                         if (index > -1) {
                             obj.tIndividualTags[gameKey].splice(index, 1);
                         }
@@ -23351,7 +23345,7 @@ class ESGST {
         }
         MR.Description.focus();
         this.ded_addButton(MR.Box, MR.URL, async (id, Response, DEDStatus) => {
-            let ReplyID, Reply, ResponseJSON;
+            let Reply;
             if (esgst.sg) {
                 if (id) {
                     Reply = this.parseHtml(Response.responseText).getElementById(id).closest(`.comment`);
@@ -23930,7 +23924,7 @@ class ESGST {
     nrf() {
         esgst.profileFeatures.push(this.nrf_add.bind(this));
     }
-    nrf_add(profile, savedUser) {
+    nrf_add(profile) {
         let NRF;
         NRF = {
             N: profile.notSent
@@ -23990,7 +23984,7 @@ class ESGST {
             username: profile.username
         };
         let nrf;
-        savedUser = await this.getUser(null, user);
+        const savedUser = await this.getUser(null, user);
         if (savedUser) {
             nrf = savedUser.nrf;
         }
@@ -24116,7 +24110,7 @@ class ESGST {
         await this.oadd_load();
     }
     async oadd_load(refresh, callback) {
-        let deals, dealsRows, dealsSwitch, discussions, discussionsRows, discussionsSwitch, element, i, j, n, response1Html, response2Html, revisedElements, rows, savedDiscussions;
+        let deals, dealsRows, dealsSwitch, discussions, discussionsRows, discussionsSwitch, i, j, response1Html, response2Html, revisedElements, savedDiscussions;
         response1Html = this.parseHtml((await this.request({method: `GET`, url: `/discussions`})).responseText);
         response2Html = this.parseHtml((await this.request({method: `GET`, url: `/discussions/deals`})).responseText);
         esgst.activeDiscussions.classList.add(`esgst-oadd`);
@@ -24538,7 +24532,7 @@ class ESGST {
         }
     }
     qiv_addMarkReadButton() {
-        let button, key, url;
+        let key, url;
         if (esgst.qiv.markReadButton) return;
         if (esgst.sg) {
             esgst.qiv.markReadButton = insertHtml(esgst.qiv.popout.popout, `afterBegin`, `
@@ -24723,7 +24717,7 @@ class ESGST {
                             </div>
                         `;
                         table.insertAdjacentHTML(`beforeEnd`, html);
-                    } catch (e) {}
+                    } catch (e) { /**/ }
                     button = document.getElementsByClassName(`js__submit-form`)[0];
                     button.addEventListener(`click`, () => {
                         this.delValue(`rcvcGame`);
@@ -24774,9 +24768,8 @@ class ESGST {
         }
         await this.setValue(`${esgst.name}RfiCache`, JSON.stringify(saved));
     }
-    async rfi_getReplies(comments, main) {
-        let children, comment, i, id, ids, j, key, n, numReplies, saved;
-        ids = [];
+    async rfi_getReplies(comments) {
+        let children, comment, i, id, j, key, n, numReplies, saved;
         saved = JSON.parse(await this.getValue(`${esgst.name}RfiCache`, `{}`));
         for (i = 0, n = comments.length; i < n; ++i) {
             comment = comments[i];
@@ -24835,7 +24828,7 @@ class ESGST {
         if (!esgst.wonPath) return;
         esgst.giveawayFeatures.push(this.rrbp_addEvent.bind(this));
     }
-    rrbp_addEvent() {
+    rrbp_addEvent(giveaways) {
         giveaways.forEach(giveaway => {
             let feedback = giveaway.outerWrap.getElementsByClassName(`table__gift-feedback-awaiting-reply`)[0];
             if (feedback) {
@@ -24864,7 +24857,7 @@ class ESGST {
     rwscvl() {
         esgst.profileFeatures.push(this.rwscvl_add.bind(this));
     }
-    rwscvl_add(profile, savedUser) {
+    rwscvl_add(profile) {
         let sentUrl, wonUrl;
         wonUrl = `http://www.sgtools.info/won/${profile.username}`;
         sentUrl = `http://www.sgtools.info/sent/${profile.username}`;
@@ -25201,7 +25194,7 @@ class ESGST {
         }
     }
     async sgc_load(profile, response) {
-        let avatar, element, elements, i, n, n1, n2, name, privateGroups, publicGroups, responseHtml, savedGroup, savedGroups;
+        let avatar, element, elements, i, n, n1, n2, name, privateGroups, publicGroups, responseHtml, savedGroups;
         publicGroups = [];
         privateGroups = [];
         savedGroups = JSON.parse(await this.getValue(`groups`, `[]`));
@@ -25211,6 +25204,7 @@ class ESGST {
             element = elements[i];
             name = element.getElementsByClassName(`linkTitle`)[0].textContent;
             avatar = element.getElementsByClassName(`playerAvatar`)[0].firstElementChild.firstElementChild.getAttribute(`src`);
+            let j;
             for (j = savedGroups.length - 1; j >= 0 && savedGroups[j].name !== name; --j);
             if (j >= 0 && savedGroups[j].member) {
                 (element.getElementsByClassName(`pubGroup`)[0] ? publicGroups : privateGroups).push({
@@ -25654,7 +25648,7 @@ class ESGST {
             button = buttons[i];
             input = button.previousElementSibling;
             button.classList.add(`esgst-clickable`);
-            button.addEventListener(`click`, event => {
+            button.addEventListener(`click`, () => {
                 let value = input.value.trim();
                 if (value) {
                     location.href = `${esgst.searchUrl.replace(/page=/, ``)}q=${value}`;
@@ -25663,7 +25657,7 @@ class ESGST {
         }
     }
     stbb() {
-        let button, key, position;
+        let button;
         switch (esgst.stbb_index) {
             case 0:
                 button = insertHtml(document.body, `beforeEnd`, `
@@ -25672,7 +25666,7 @@ class ESGST {
                     </div>
                 `);
                 addEventListener(`scroll`, () => {
-                    if (document.documentElement.offsetHeight - innerHeight >= scrollY + 100) {
+                    if (document.documentElement.offsetHeight -  innerHeight >=  scrollY + 100) {
                         button.classList.remove(`esgst-hidden`);
                     } else {
                         button.classList.add(`esgst-hidden`);
@@ -25726,7 +25720,7 @@ class ESGST {
         setSiblingsOpacity(button, `0.2`);
     }
     sttb() {
-        let button, key, position;
+        let button;
         switch (esgst.sttb_index) {
             case 0:
                 button = insertHtml(document.body, `beforeEnd`, `
@@ -25837,7 +25831,7 @@ class ESGST {
                         },
                         {
                             color: `#8f96a6`,
-                            name: `\$${realCVRatio}`
+                            name: `$${realCVRatio}`
                         }
                     ],
                     icon : [
@@ -25854,7 +25848,7 @@ class ESGST {
                 <div class="featured__table__row__left">Ratio</div>
                 <div class="featured__table__row__right">
                     <span data-ui-tooltip='${JSON.stringify(ratioTooltip)}'>${ratio}</span>
-                    (<span data-ui-tooltip='${JSON.stringify(cvTooltip)}'>\$${cvRatio}</span>)
+                    (<span data-ui-tooltip='${JSON.stringify(cvTooltip)}'>$${cvRatio}</span>)
                 </div>
             </div>
         `);
@@ -25872,7 +25866,7 @@ class ESGST {
         }
     }
     tb_getTrades(button, context, callback) {
-        let elements, i, n;
+        let elements, n;
         if (button) {
             button.innerHTML = `
                 <i class="fa fa-circle-o-notch fa-spin"></i>
@@ -26083,7 +26077,7 @@ class ESGST {
         esgst.giveawayFeatures.push(this.ttec_calculateTime.bind(this));
     }
     ttec_calculateTime(giveaways, main, source) {
-        let nextRefresh, time;
+        let nextRefresh;
         if (!main || (!esgst.createdPath && !esgst.enteredPath && !esgst.wonPath && !esgst.newGiveawayPath)) {
             nextRefresh = 60 - new Date().getMinutes();
             while (nextRefresh > 15) {
@@ -26144,7 +26138,6 @@ class ESGST {
         esgst.profileFeatures.push(this.uf_add.bind(this));
     }
     uf_add(profile, savedUser) {
-        let uf;
         if (profile.username !== esgst.username) {
             profile.ufButton = insertHtml(profile.heading, `beforeEnd`, `
                 <a class="esgst-uf-button" title="${this.getFeatureTooltip(`uf`, `Edit user filters`)}">
@@ -26191,9 +26184,8 @@ class ESGST {
         profile.ufPopup.open();
     }
     async uf_save(profile, reset) {
-        let uf, user;
+        let user;
         if (reset) {
-            uf = null;
             profile.ufGiveawaysOption.input.checked = false;
             profile.ufDiscussionsOption.input.checked = false;
             profile.ufPostsOption.input.checked = false;
@@ -26313,7 +26305,7 @@ class ESGST {
             UGD.canceled = false;
             UGDButton.classList.add(`esgst-busy`);
             let ugd, giveaways;
-            savedUser = await this.getUser(null, user);
+            const savedUser = await this.getUser(null, user);
             if (savedUser) {
                 giveaways = savedUser.giveaways;
             }
@@ -26399,9 +26391,6 @@ class ESGST {
                 giveaways.sentTimestamp = 0;
                 giveaways.version = `7.13.0`;
             }
-            let Match = location.pathname.match(new RegExp(`^\/user\/${user.username}${UGD.key === `won` ? `/giveaways/won` : ``}`));
-            let CurrentPage = location.href.match(/page=(\d+)/);
-            CurrentPage = Match ? (CurrentPage ? parseInt(CurrentPage[1]) : 1) : 0;
             UGD.giveaways = {};
             user.values = {
                 giveaways: await this.ugd_get(UGD, giveaways, 1, user.username),
@@ -26499,15 +26488,15 @@ class ESGST {
                         </div>
                     `;
                     Ordered = [];
-                    for (Key in Frequencies.apps) {
+                    for (const Key in Frequencies.apps) {
                         for (I = 0, N = Ordered.length; (I < N) && (Frequencies.apps[Key].frequency <= Ordered[I].frequency); ++I);
                         Ordered.splice(I, 0, Frequencies.apps[Key]);
                     }
-                    for (Key in Frequencies.subs) {
+                    for (const Key in Frequencies.subs) {
                             for (I = 0, N = Ordered.length; (I < N) && (Frequencies.subs[Key].frequency <= Ordered[I].frequency); ++I);
                         Ordered.splice(I, 0, Frequencies.subs[Key]);
                     }
-                    for (Key in Frequencies.creators) {
+                    for (const Key in Frequencies.creators) {
                         for (I = 0, N = Ordered.length; (I < N) && (Frequencies.creators[Key].frequency <= Ordered[I].frequency); ++I);
                         Ordered.splice(I, 0, Frequencies.creators[Key]);
                     }
@@ -26534,6 +26523,7 @@ class ESGST {
                         UGD.achievementsCount = 0;
                         UGD.achievementsTotal = 0;
                         for (id in Giveaways.apps) {
+                            let i;
                             for (i = games.length - 1; i >= 0 && games[i].appid !== parseInt(id); --i);
                             let giveaway = typeof Giveaways.apps[id][0] === `string` ? esgst.giveaways[Giveaways.apps[id][0]] : Giveaways.apps[id][0];
                             if (i >= 0) {
@@ -26908,7 +26898,7 @@ class ESGST {
     async ugs_saveReroll(category, winner) {
         let rerolls;
         if (category.value === `1`) {
-            id = winner.value;
+            const id = winner.value;
             if (id) {
                 rerolls = JSON.parse(await this.getValue(`rerolls`));
                 if (rerolls.indexOf(id) < 0) {
@@ -27473,7 +27463,7 @@ class ESGST {
         Promise.all(promises).then(this.ts_sortTables.bind(this));
     }
     us_load(context, username, response) {
-        let element, elements, html, i, n, profile;
+        let element, elements, html, i, n, profile, cvrow, rows;
         html = [];
         profile = {};
         elements = this.parseHtml(response.responseText).getElementsByClassName(`featured__table__row__left`);
@@ -27553,7 +27543,7 @@ class ESGST {
             }
         }
     }
-    async ust_sendAll(event) {
+    async ust_sendAll() {
         esgst.ustButton.removeEventListener(`click`, this.ust_sendAll.bind(this));
         esgst.ustButton.innerHTML =  `<i class="fa fa-circle-o-notch fa-spin"></i>`;
         let n = Object.keys(esgst.ustCheckboxes).length;
@@ -27599,7 +27589,7 @@ class ESGST {
             obj.data += `${code}=${encodeURIComponent(responseHtml.getElementsByClassName(`sidebar`)[0].nextElementSibling.innerHTML.replace(/\n|\r|\r\n|\s{2,}/g, ``).trim())}&`;
         }
     }
-    async ust_send(event) {
+    async ust_send() {
         let code = location.href.match(/\/ticket\/(.+?)\//)[1];
         esgst.ustButton.removeEventListener(`click`, this.ust_send.bind(this));
         esgst.ustButton.innerHTML =  `<i class="fa fa-circle-o-notch fa-spin"></i>`;
@@ -27683,7 +27673,7 @@ class ESGST {
     }
     ut_openPopup(key, steamId, username) {
         let popup, set;
-        user = {
+        const user = {
             steamId: steamId,
             username: username
         };
@@ -27693,7 +27683,7 @@ class ESGST {
         popup.tags = insertHtml(popup.description, `beforeEnd`, `<div class="esgst-ut-tags"></div>`);
         popup.input = insertHtml(popup.description, `beforeEnd`, `<input type="text"/>`);
         insertHtml(popup.description, `beforeEnd`, `<i class="esgst-ut-existing-button esgst-clickable fa fa-list" title="Select from existing tags"></i>`).addEventListener(`click`, this.ut_showExistingTags.bind(this, popup));
-        popup.input.addEventListener(`keydown`, this.triggerSetOnEnter.bind(this, set));
+        popup.input.addEventListener(`keydown`, triggerSetOnEnter.bind(null, set));
         popup.input.addEventListener(`input`, this.ut_createTags.bind(this, popup));
         popup.description.insertAdjacentHTML(`beforeEnd`, `<div class="esgst-description">Use commas to separate tags, for example: Tag1, Tag2, ...</div>`);
         popup.description.appendChild(set.set);
@@ -27827,11 +27817,10 @@ class ESGST {
         popup.input.value = tags.join(`, `);
     }
     ut_editTag(bgColorInput, colorInput, input, popup, tagBox, tagContainer, event) {
-        let colors, name, oldName, tag;
+        let colors, tag;
         if (event.key === `Enter`) {
             tagContainer.classList.remove(`esgst-hidden`);
             input.classList.add(`esgst-hidden`);
-            oldName = tagBox.textContent;
             tag = input.value;
             tagBox.textContent = tag;
             colors = esgst.ut_colors[tag];
@@ -27968,7 +27957,7 @@ class ESGST {
             Username: esgst.username
         };
         popup = new Popup(WBC.Update ? `fa-cog` : `fa-question`, WBC.Update ? `Manage Whitelist/Blacklist Checker caches:` : `Check for whitelists${WBC.B ? `/blacklists` : ``}:`);
-        if (location.pathname.match(new RegExp(`^\/user\/(?!${WBC.Username})`))) {
+        if (location.pathname.match(new RegExp(`^/user/(?!${WBC.Username})`))) {
             WBC.User = {
                 Username: document.getElementsByClassName(`featured__heading__medium`)[0].textContent,
                 ID: document.querySelector(`[name="child_user_id"]`).value,
@@ -28151,7 +28140,7 @@ class ESGST {
         });
     }
     async wbc_setCheck(WBC, skip, Callback) {
-        let SavedUsers, I, N, Username;
+        let SavedUsers, I, N;
         WBC.Progress.innerHTML = WBC.OverallProgress.innerHTML = ``;
         WBC.whitelisted.classList.add(`esgst-hidden`);
         WBC.blacklisted.classList.add(`esgst-hidden`);
@@ -28248,7 +28237,7 @@ class ESGST {
                         username: User.Username
                     };
                     let notes, whitelisted, blacklisted, wbc;
-                    savedUser = await this.getUser(null, user);
+                    const savedUser = await this.getUser(null, user);
                     if (savedUser) {
                         notes = savedUser.notes;
                         whitelisted = savedUser.whitelisted;
@@ -28348,7 +28337,7 @@ class ESGST {
                 <i class="fa fa-circle-o-notch fa-spin"></i>
                 <span>Returning ${Type} for ${username}...</span>
             `;
-            if (location.pathname.match(new RegExp(`^\/user\/${username}`))) {
+            if (location.pathname.match(new RegExp(`^/user/${username}`))) {
                 document.getElementsByClassName(`sidebar__shortcut__${Type}`)[0].click();
                 if (esgst.wbc_n) {
                     let msg = `Returned ${Type}.`;
@@ -28428,7 +28417,7 @@ class ESGST {
                     } else {
                         WBC.Timestamp = 0;
                         WBC.GroupGiveaways = [];
-                        match = location.href.match(new RegExp(`\/user\/${username}(\/search\?page=(\d+))?`));
+                        match = location.href.match(new RegExp(`/user/${username}(/search?page=(\\d+))?`));
                         this.wbc_getGiveaways(WBC, wbc, username, 1, match ? (match[2] ? parseInt(match[2]) : 1) : 0, `/user/${username}/search?page=`, Callback);
                     }
                 } else {
@@ -28475,7 +28464,7 @@ class ESGST {
             if (found) {
                 WBC.Timestamp = 0;
                 WBC.GroupGiveaways = [];
-                let match = location.href.match(new RegExp(`\/user\/${username}(\/search\?page=(\d+))?`));
+                let match = location.href.match(new RegExp(`/user/${username}(/search?page=(\\d+))?`));
                 this.wbc_getGiveaways(WBC, wbc, username, 1, match ? (match[2] ? parseInt(match[2]) : 1) : 0, `/user/${username}/search?page=`, Callback);
             } else {
                 wbc.result = `whitelisted`;
@@ -28537,7 +28526,7 @@ class ESGST {
                                     setTimeout(this.wbc_getGiveaways.bind(this), 0, WBC, wbc, username, NextPage, CurrentPage, URL, Callback);
                                 } else if ((wbc.g_wl_gas && Object.keys(wbc.g_wl_gas).length) || WBC.GroupGiveaways.length) {
                                     this.wbc_getGroupGiveaways(WBC, 0, WBC.GroupGiveaways.length, wbc, username, async (wbc, Result) => {
-                                        let Groups, GroupGiveaways, Found, J, NumGroups;
+                                        let Groups, GroupGiveaways, Found;
                                         if (wbc) {
                                             if (Result) {
                                                 Callback(wbc);
@@ -29066,7 +29055,7 @@ class ESGST {
         }
     }
     async giveaways_get(context, main, mainUrl, hr, key, ged, endless, source) {
-        let giveaway, giveaways, i, mainContext, matches, n, query;
+        let giveaway, giveaways, i, mainContext, matches, query;
         giveaways = [];
         if (!hr && main && (esgst.createdPath || esgst.enteredPath || esgst.wonPath)) {
             query = `.giveaway__row-outer-wrap, .featured__outer-wrap--giveaway, .table:not(.table--summary) .table__row-outer-wrap`;
@@ -29094,7 +29083,7 @@ class ESGST {
         return giveaways;
     }
     async giveaways_getInfo(context, mainContext, ugd, ugdType, main, mainUrl, ged, endless, source) {
-        let category, categories, chance, element, giveaway, i, id, info, key, keys, match, n, savedUser, uf, thinHeadings;
+        let chance, giveaway, i, info, key, keys, match, n, savedUser, uf, thinHeadings;
         giveaway = {
             creators: [],
             groups: []
@@ -29784,7 +29773,7 @@ class ESGST {
         esgst.endlessFeatures.push(this.comments_load.bind(this));
     }
     async comments_load(context, main) {
-        let count, comments, i, n, pagination;
+        let count, comments, i, n;
         comments = await this.comments_get(context, document, main);
         if (main) {
             for (i = 0, n = comments.length; i < n; ++i) {
@@ -29895,7 +29884,7 @@ class ESGST {
             if (esgst.sg) {
                 try {
                     source = comment.comment.closest(`.comments`).previousElementSibling.firstElementChild.firstElementChild.getAttribute(`href`);
-                } catch (e) {}
+                } catch (e) { /**/ }
             } else {
                 source = comment.actions.querySelector(`[href*="/trade/"]`).getAttribute(`href`);
             }
@@ -29936,7 +29925,7 @@ class ESGST {
         }
     }
     games_get(context, main, savedGames) {
-        let game, games, name, i, id, info, matches, n, headingQuery, matchesQuery, type;
+        let game, games, i, id, info, matches, n, headingQuery, matchesQuery, type;
         games = {
             apps: {},
             subs: {}
@@ -30008,7 +29997,7 @@ class ESGST {
         }
         return games;
     }
-    games_getInfo(context, steamLink) {
+    games_getInfo(context) {
         let image, info, link, url;
         link = context.querySelector(`[href*="/app/"], [href*="/sub/"]`);
         image = context.querySelector(`[style*="/apps/"], [style*="/subs/"]`);
@@ -30149,7 +30138,7 @@ class ESGST {
         this.profile_load(document);
     }
     profile_load(context) {
-        let action, cvrow, element, elements, i, input, key, match, n, profile, rows;
+        let cvrow, element, elements, i, input, key, match, profile, rows;
         profile = {};
         if (esgst.sg) {
             profile.heading = context.getElementsByClassName(`featured__heading`)[0];
@@ -30885,7 +30874,7 @@ class ESGST {
         let giveaway, ggiveaways, i, key, n, popup, ugd, user;
         popup = new Popup(`fa-circle-o-notch fa-spin`, `Please wait... ESGST is adding this giveaway to the storage...`, true);
         popup.open();
-        giveaways = await this.giveaways_get(document, true, location.href);
+        let giveaways = await this.giveaways_get(document, true, location.href);
         if (giveaways.length) {
             giveaway = giveaways[0];
             ggiveaways = {};
@@ -30894,7 +30883,7 @@ class ESGST {
                 steamId: esgst.steamId,
                 username: esgst.username
             };
-            savedUser = await this.getUser(null, user);
+            const savedUser = await this.getUser(null, user);
             giveaways = null;
             if (savedUser) {
                 giveaways = savedUser.giveaways;
@@ -31026,16 +31015,14 @@ class ESGST {
                     source = button;
                 });
                 button.addEventListener(`dragenter`, () => {
-                    let current, i;
+                    let current;
                     current = source;
-                    i = 0;
                     do {
                         current = current.previousElementSibling;
                         if (current && current === button) {
                             current.parentElement.insertBefore(source, current);
                             return;
                         }
-                        ++i;
                     } while (current);
                     button.parentElement.insertBefore(source, button.nextElementSibling);
                 });
@@ -31084,16 +31071,14 @@ class ESGST {
                     source = button;
                 });
                 button.addEventListener(`dragenter`, () => {
-                    let current, i;
+                    let current;
                     current = source;
-                    i = 0;
                     do {
                         current = current.previousElementSibling;
                         if (current && current === button) {
                             current.parentElement.insertBefore(source, current);
                             return;
                         }
-                        ++i;
                     } while (current);
                     button.parentElement.insertBefore(source, button.nextElementSibling);
                 });
@@ -31138,8 +31123,7 @@ class ESGST {
         }
     }    
     async setSetting(id, value, sg, st) {
-        let localId, settings;
-        settings = JSON.parse(await this.getValue(`settings`, `{}`));
+        let settings = JSON.parse(await this.getValue(`settings`, `{}`));
         if (sg) {
             id = `${id}_sg`;
         } else if (st) {
@@ -31738,7 +31722,7 @@ class ESGST {
     cancelSync(syncer) {
         syncer.canceled = true;
     }    
-    async sync(syncer, mainCallback, callback) {
+    async sync(syncer) {
         if (!esgst.firstInstall) {
             await this.setSetting(`lastSync`, Date.now());
             syncer.results.innerHTML = ``;
@@ -31808,7 +31792,6 @@ class ESGST {
                     } else {
                         let avatar, steamId;
                         avatar = element.getElementsByClassName(`table_image_avatar`)[0].style.backgroundImage.match(/\/avatars\/(.+)_medium/)[1];
-                        ;
                         steamId = this.parseHtml((await this.request({method: `GET`, url: `/group/${code}/`})).responseText).getElementsByClassName(`sidebar__shortcut-inner-wrap`)[0].firstElementChild.getAttribute(`href`).match(/\d+/)[0];
                         syncer.groups[code] = {
                             avatar: avatar,
@@ -32165,7 +32148,7 @@ class ESGST {
         let storeJson = null;
         try {
             storeJson = JSON.parse(storeResponse.responseText);
-        } catch (e) {}
+        } catch (e) { /**/ }
         let hasStore = storeJson && storeJson.rgOwnedApps.length > 0;
         let savedGames = (altAccount && altAccount.games) || JSON.parse(await this.getValue(`games`));
         let oldOwned = {
@@ -32281,7 +32264,7 @@ class ESGST {
                         savedGames.apps[id].wishlisted = item.added;
                     });
                 }
-            } catch (e) {}
+            } catch (e) { /**/ }
             await this.setValue(`games`, JSON.stringify(savedGames));
         }
         let removedOwned = {
@@ -32395,7 +32378,7 @@ class ESGST {
         savedGroups = JSON.parse(await this.getValue(`groups`, `[]`));
         if (!Array.isArray(savedGroups)) {
             let newGroups = [];
-            for (key in savedGroups) {
+            for (const key in savedGroups) {
                 newGroups.push(savedGroups[key]);
             }
             savedGroups = newGroups;
@@ -32588,7 +32571,7 @@ class ESGST {
         }
     }
     menu(tab) {
-        let I, Container, SMManageFilteredUsers, SMAPIKey, popup;
+        let Container, SMManageFilteredUsers, SMAPIKey, popup;
         if (tab) {
             document.body.className = `esgst-tab-menu`;
             Container = document.body;
@@ -32697,7 +32680,7 @@ class ESGST {
                 for (id in esgst.features[type].features) {
                     let feature, ft;
                     feature = esgst.features[type].features[id];
-                    if (!feature.extensionOnly || esgst.type === `extension`) {
+                    if (!feature.extensionOnly || _USER_INFO.extension) {
                         ft = this.getSMFeature(feature, id, j);
                         if (ft) {
                             if (ft.isNew) {
@@ -32856,7 +32839,7 @@ class ESGST {
     removePath(item, key, obj) {
         let i = obj[`${key}Items`].length - 1;
         if (i === 0 && key === `include`) {
-            alert(`At least 1 include path is required!`);
+             alert(`At least 1 include path is required!`);
             return;
         }
         while (i > -1 && obj[`${key}Items`][i].input.value !== item.input.value) i--;
@@ -32894,16 +32877,15 @@ class ESGST {
         }
     }    
     getSMFeature(Feature, ID, aaa) {
-        let Menu, Checkbox, CheckboxInput, SMFeatures, isMainNew = false;
+        let Menu, SMFeatures, isMainNew = false;
         Menu = document.createElement(`div`);
         Menu.id = `esgst_${ID}`;
         Menu.insertAdjacentHTML(`beforeEnd`, `
             <div class="esgst-sm-small-number esgst-form-heading-number">${aaa}.</div>
         `);
-        let localID, val, val1, val2;
+        let val, val1, val2;
         let siwtchSg, siwtchSt, set1, set2;
         if (Feature.sg) {
-            localID = `${ID}_sg`;
             set1 = this.getFeaturePath(Feature, ID, `sg`);
             val1 = set1.enabled;
             siwtchSg = new ToggleSwitch(Menu, ID, true, esgst.settings.esgst_st ? `[SG]` : ``, true, false, null, val1);
@@ -32947,7 +32929,6 @@ class ESGST {
             }
         }
         if (Feature.st && (esgst.settings.esgst_st || ID === `esgst`)) {
-            localID = `${ID}_st`;
             set2 = this.getFeaturePath(Feature, ID, `st`);
             val2 = set2.enabled;
             siwtchSt = new ToggleSwitch(Menu, ID, true, `[ST]`, false, true, null, val2);
@@ -33025,7 +33006,7 @@ class ESGST {
             let ft, i, id, isNew = false;
             i = 1;
             for (id in Feature.features) {
-                if (!Feature.features[id].extensionOnly || esgst.type === `extension`) {
+                if (!Feature.features[id].extensionOnly || _USER_INFO.extension) {
                     ft = this.getSMFeature(Feature.features[id], id, i);
                     if (ft) {
                         if (ft.isNew) {
@@ -33213,7 +33194,7 @@ class ESGST {
                     }
                 }, item.shortcutKey || false);
                 if (item.shortcutKey) {
-                    input.addEventListener(`keyup`, event => {
+                    input.addEventListener(`keyup`, () => {
                         this.setSetting(item.id, value);
                         esgst[item.id] = value;
                         input.value = value;
@@ -33623,6 +33604,7 @@ class ESGST {
         });
         remove.addEventListener(`click`, () => {
             if (confirm(`Are you sure you want to delete this setting?`)) {
+                let i, n;
                 for (i = 0, n = esgst.gc_r_colors.length; i < n && esgst.gc_r_colors[i] !== colors; ++i);
                 if (i < n) {
                     esgst.gc_r_colors.splice(i, 1);
@@ -33860,7 +33842,7 @@ class ESGST {
         }
     }    
     async openManageUserTagsPopup() {
-        let button, context, current, input, popup, savedUser, savedUsers, toggleSwitch, users;
+        let context, current, input, popup, savedUser, savedUsers, users;
         popup = new Popup(`fa-tags`, `Manage user tags:`, true);
         input = insertHtml(popup.description, `afterBegin`, `<input type="text"/>`);
         popup.description.insertAdjacentHTML(`afterBegin`, `<div class="esgst-description">Type tags below to filter the users by.</div>`);
@@ -33873,7 +33855,7 @@ class ESGST {
         savedUsers = JSON.parse(await this.getValue(`users`));
         current = {};
         users = {};
-        for (steamId in savedUsers.users) {
+        for (const steamId in savedUsers.users) {
             savedUser = savedUsers.users[steamId];
             if (savedUser.tags && (savedUser.tags.length > 1 || (savedUser.tags[0] && savedUser.tags[0].trim()))) {
                 context = insertHtml(popup.scrollable, `beforeEnd`, `
@@ -33913,7 +33895,7 @@ class ESGST {
         }
     }    
     async openManageGameTagsPopup() {
-        let button, context, current, games, input, popup, savedGame, savedGames, toggleSwitch;
+        let context, current, games, input, popup, savedGame, savedGames;
         popup = new Popup(`fa-tags`, `Manage game tags:`, true);
         input = insertHtml(popup.description, `afterBegin`, `<input type="text"/>`);
         popup.description.insertAdjacentHTML(`afterBegin`, `<div class="esgst-description">Type tags below to filter the games by.</div>`);
@@ -33932,7 +33914,7 @@ class ESGST {
             apps: {},
             subs: {}
         };
-        for (id in savedGames.apps) {
+        for (const id in savedGames.apps) {
             savedGame = savedGames.apps[id];
             if (savedGame.tags && (savedGame.tags.length > 1 || savedGame.tags[0].trim())) {
                 context = insertHtml(popup.scrollable, `beforeEnd`, `
@@ -33948,7 +33930,7 @@ class ESGST {
                 };
             }
         }
-        for (id in savedGames.subs) {
+        for (const id in savedGames.subs) {
             savedGame = savedGames.subs[id];
             if (savedGame.tags && (savedGame.tags.length > 1 || savedGame.tags[0].trim())) {
                 context = insertHtml(popup.scrollable, `beforeEnd`, `
@@ -34001,7 +33983,7 @@ class ESGST {
     }    
     setSMRecentUsernameChanges(SMRecentUsernameChanges) {
         SMRecentUsernameChanges.addEventListener(`click`, async () => {
-            let popup, SMRecentUsernameChangesPopup;
+            let popup;
             popup = new Popup(`fa-comments`, `Recent Username Changes`);
             popup.Progress = insertHtml(popup.description, `beforeEnd`, `
                 <div>
@@ -34051,7 +34033,7 @@ class ESGST {
         }
     }    
     loadDataManagement(openInTab, type, autoBackup) {
-        let container, context, group1, group2, i, icon, input, n, onClick, option, options, prep, popup, section, title1, title2;
+        let container, context, group1, group2, i, icon, n, onClick, option, prep, popup, section, title1, title2;
         let dm = {
             autoBackup: autoBackup,
             type: type
@@ -34102,7 +34084,7 @@ class ESGST {
                 <div>Total: <span class="esgst-bold"></span> <i class="esgst-clickable fa fa-refresh" title="Calculate/refresh data sizes"></i></div>
             `);
             dm.computerSpaceCount = dm.computerSpace.firstElementChild;
-            dm.computerSpaceCount.nextElementSibling.addEventListener(`click`, this.getDataSizes.bind(this));
+            dm.computerSpaceCount.nextElementSibling.addEventListener(`click`, this.getDataSizes.bind(this, dm));
             section = createMenuSection(context, null, 1, title1);
         }
         dm.switches = {};
@@ -34430,7 +34412,7 @@ class ESGST {
                 popup.open();
             }
             if (esgst[`calculate${capitalizeFirstLetter(type)}`]) {
-                this.getDataSizes();
+                this.getDataSizes(dm);
             }
         }
     }    
@@ -34441,7 +34423,7 @@ class ESGST {
         this.observeNumChange(new ToggleSwitch(popup.description, `cleanEntries`, false, `Entries data older than <input class="esgst-switch-input" type="text" value="${esgst.cleanEntries_days}"> days.`, false, false, ``, esgst.cleanEntries).name.firstElementChild, `cleanEntries_days`);
         this.observeNumChange(new ToggleSwitch(popup.description, `cleanGiveaways`, false, `Giveaways data older than <input class="esgst-switch-input" type="text" value="${esgst.cleanGiveaways_days}"> days.`, false, false, `Some giveaways data only started being date-tracked since v7.11.0, so not all old data may be cleaned.`, esgst.cleanGiveaways).name.firstElementChild, `cleanGiveaways_days`);
         this.observeNumChange(new ToggleSwitch(popup.description, `cleanSgCommentHistory`, false, `SteamGifts comment history data older than <input class="esgst-switch-input" type="text" value="${esgst.cleanSgCommentHistory_days}"> days.`, false, false, ``, esgst.cleanSgCommentHistory).name.firstElementChild, `cleanSgCommentHistory_days`);
-        this.observeNumChange(new ToggleSwitch(popup.description, `cleanStCommentHistory`, false, `SteamTrades comment history data older than <input class="esgst-switch-input" type="text" value="${esgst.cleanStCommentHistory_days}"> days.`, false, false, ``, esgst.cleanStCommentHistory).name.firstElementChild, `cleanStCommentHistory_days`, value);
+        this.observeNumChange(new ToggleSwitch(popup.description, `cleanStCommentHistory`, false, `SteamTrades comment history data older than <input class="esgst-switch-input" type="text" value="${esgst.cleanStCommentHistory_days}"> days.`, false, false, ``, esgst.cleanStCommentHistory).name.firstElementChild, `cleanStCommentHistory_days`);
         this.observeNumChange(new ToggleSwitch(popup.description, `cleanTickets`, false, `Tickets data older than <input class="esgst-switch-input" type="text" value="${esgst.cleanTickets_days}"> days.`, false, false, `Tickets data only started being date-tracked since v7.11.0, so not all old data may be cleaned.`, esgst.cleanTickets).name.firstElementChild, `cleanTickets_days`);
         this.observeNumChange(new ToggleSwitch(popup.description, `cleanTrades`, false, `Trades data older than <input class="esgst-switch-input" type="text" value="${esgst.cleanTrades_days}"> days.`, false, false, `Trades data only started being date-tracked since v7.11.0, so not all old data may be cleaned.`, esgst.cleanTrades).name.firstElementChild, `cleanTrades_days`);
         new ToggleSwitch(popup.description, `cleanDuplicates`, false, `Duplicate data.`, false, false, `Cleans up any duplicate data it finds.`, esgst.cleanDuplicates);
@@ -34544,7 +34526,7 @@ class ESGST {
     async manageData(dm, dropbox, googleDrive, oneDrive, space, callback) {
         let data = {};
         let totalSize = 0;
-        let popup = {};
+        let mainUsernameFound;
         for (let i = 0, n = dm.options.length; i < n; i++) {
             let option = dm.options[i];
             let optionKey = option.key;
@@ -35310,7 +35292,7 @@ class ESGST {
                         wbc: 0
                     };
                     mainFound = false;
-                    let mainUsernameFound = false;
+                    mainUsernameFound = false;
                     for (let mergedDataKey in mergedData.users) {
                         let mergedDataValue = mergedData.users[mergedDataKey];
                         let newData = {};
@@ -35544,7 +35526,7 @@ class ESGST {
                     data = new Blob([JSON.stringify(data)]);
                     let url = URL.createObjectURL(data);
                     let file = document.createElement(`a`);
-                    file.download = `${esgst.askFileName ? prompt(`Enter the name of the file:`, `esgst_data_${new Date().toISOString().replace(/:/g, `_`)}`) : `esgst_data_${new Date().toISOString().replace(/:/g, `_`)}`}.json`;
+                    file.download = `${esgst.askFileName ?  prompt(`Enter the name of the file:`, `esgst_data_${new Date().toISOString().replace(/:/g, `_`)}`) : `esgst_data_${new Date().toISOString().replace(/:/g, `_`)}`}.json`;
                     if (file.download === `null.json`) {
                         callback();
                         return;
@@ -35565,7 +35547,7 @@ class ESGST {
             }
         }
     }
-    getDataSizes() {
+    getDataSizes(dm) {
         let spacePopup = new Popup(`fa-circle-o-notch fa-spin`, `Calculating data sizes...`);
         spacePopup.open();
         setTimeout(this.manageData.bind(this), 0, dm, false, false, false, spacePopup);
@@ -35614,7 +35596,7 @@ class ESGST {
         let value = await this.getValue(`dropboxToken`);
         if (value) {
             if (dm.type === `export` || (data && esgst.settings.exportBackup)) {
-                let name = esgst.askFileName ? prompt(`Enter the name of the file:`, `esgst_data_${new Date().toISOString().replace(/:/g, `_`)}`) : `esgst_data_${new Date().toISOString().replace(/:/g, `_`)}`;
+                let name = esgst.askFileName ?  prompt(`Enter the name of the file:`, `esgst_data_${new Date().toISOString().replace(/:/g, `_`)}`) : `esgst_data_${new Date().toISOString().replace(/:/g, `_`)}`;
                 if (name === null) {
                     callback();
                     return;
@@ -35656,7 +35638,7 @@ class ESGST {
         let value = await this.getValue(`googleDriveToken`);
         if (value) {
             if (dm.type === `export` || (data && esgst.settings.exportBackup)) {
-                let name = esgst.askFileName ? prompt(`Enter the name of the file:`, `esgst_data_${new Date().toISOString().replace(/:/g, `_`)}`) : `esgst_data_${new Date().toISOString().replace(/:/g, `_`)}`;
+                let name = esgst.askFileName ?  prompt(`Enter the name of the file:`, `esgst_data_${new Date().toISOString().replace(/:/g, `_`)}`) : `esgst_data_${new Date().toISOString().replace(/:/g, `_`)}`;
                 if (name === null) {
                     callback();
                     return;
@@ -35698,7 +35680,7 @@ class ESGST {
         let value = await this.getValue(`oneDriveToken`);
         if (value) {
             if (dm.type === `export` || (data && esgst.settings.exportBackup)) {
-                let name = esgst.askFileName ? prompt(`Enter the name of the file:`, `esgst_data_${new Date().toISOString().replace(/:/g, `_`)}`) : `esgst_data_${new Date().toISOString().replace(/:/g, `_`)}`;
+                let name = esgst.askFileName ?  prompt(`Enter the name of the file:`, `esgst_data_${new Date().toISOString().replace(/:/g, `_`)}`) : `esgst_data_${new Date().toISOString().replace(/:/g, `_`)}`;
                 if (name === null) {
                     callback();
                     return;
@@ -35923,8 +35905,8 @@ class ESGST {
         delete data.settings.username;
         data = new Blob([JSON.stringify(data)]);
         let url = URL.createObjectURL(data);
-        file = document.createElement(`a`);
-        file.download = `${esgst.askFileName ? prompt(`Enter the name of the file:`, `esgst_settings_${new Date().toISOString().replace(/:/g, `_`)}`) : `esgst_settings_${new Date().toISOString().replace(/:/g, `_`)}`}.json`;
+        const file = document.createElement(`a`);
+        file.download = `${esgst.askFileName ?  prompt(`Enter the name of the file:`, `esgst_settings_${new Date().toISOString().replace(/:/g, `_`)}`) : `esgst_settings_${new Date().toISOString().replace(/:/g, `_`)}`}.json`;
         if (file.download === `null.json`) return;
         file.href = url;
         document.body.appendChild(file);
@@ -38611,7 +38593,7 @@ class ESGST {
         popup.open();
     }    
     unhideGame(button, id, name) {
-        let elements, i, popup;
+        let popup;
         popup = new Popup(`fa-eye-slash`, `Would you like to unhide all giveaways for <span class="esgst-bold">${name}</span>?`, true);
         popup.description.appendChild(new ButtonSet(`green`, `grey`, `fa-check-circle`, `fa-refresh fa-spin`, `Yes`, `Please wait...`, async callback => {
             await this.request({data: `xsrf_token=${esgst.xsrfToken}&do=remove_filter&game_id=${id}`, method: `POST`, url: `/ajax.php`});
@@ -38641,7 +38623,7 @@ class ESGST {
         if (version && version[1] != esgst.version) {
             location.href = `https://raw.githubusercontent.com/revilheart/ESGST/master/ESGST.user.js`;
         } else {
-            alert(`No ESGST updates found!`);
+             alert(`No ESGST updates found!`);
         }
     }
     //here
@@ -38764,7 +38746,7 @@ class ButtonSet_v2 {
             this.button1.addEventListener(`click`, async () => {
                 this.isCanceled = false;
                 this.toggle();
-                let result = await this.callback1();
+                await this.callback1();
                 if (!this.isCanceled) {
                     this.toggle();
                 }
@@ -39025,10 +39007,10 @@ class Popout {
         contextRect = this.context.getBoundingClientRect();
         contextLeft = contextRect.left;
         contextTop = contextRect.top;
-        if (contextTop > (window.innerHeight - (contextTop + contextRect.height))) {
+        if (contextTop > (innerHeight - (contextTop + contextRect.height))) {
             this.popout.style.maxHeight = `${contextTop - 10}px`;
         } else {
-            this.popout.style.maxHeight = `${window.innerHeight - (contextTop + contextRect.height) - 10}px`;
+            this.popout.style.maxHeight = `${innerHeight - (contextTop + contextRect.height) - 10}px`;
         }
         popoutHeight = this.popout.offsetHeight;
         popoutWidth = this.popout.offsetWidth;
@@ -39039,9 +39021,9 @@ class Popout {
             this.popout.style.left = `${contextLeft - (this.popup ? popupRect.left : 0)}px`;
         }
         if (contextTop + popoutHeight > document.documentElement.clientHeight) {
-            this.popout.style.top = `${(contextTop - popoutHeight + (this.isFixed || this.popup ? 0 : scrollY)) - (this.popup ? popupRect.top : 0)}px`;
+            this.popout.style.top = `${(contextTop - popoutHeight + (this.isFixed || this.popup ? 0 :  scrollY)) - (this.popup ? popupRect.top : 0)}px`;
         } else {
-            this.popout.style.top = `${(contextTop + contextRect.height + (this.isFixed || this.popup ? 0 : scrollY)) - (this.popup ? popupRect.top : 0)}px`;
+            this.popout.style.top = `${(contextTop + contextRect.height + (this.isFixed || this.popup ? 0 :  scrollY)) - (this.popup ? popupRect.top : 0)}px`;
         }
     }
 }
@@ -39138,9 +39120,9 @@ class Popup {
     reposition() {
         if (this.isCreated) {
             if (esgst.staticPopups) {
-                this.scrollable.style.maxHeight = `${innerHeight - (this.popup.offsetHeight - this.scrollable.offsetHeight) - 100}px`;
+                this.scrollable.style.maxHeight = `${ innerHeight - (this.popup.offsetHeight - this.scrollable.offsetHeight) - 100}px`;
             } else {
-                this.scrollable.style.maxHeight = `${innerHeight * 0.9 - (this.popup.offsetHeight - this.scrollable.offsetHeight)}px`;
+                this.scrollable.style.maxHeight = `${ innerHeight * 0.9 - (this.popup.offsetHeight - this.scrollable.offsetHeight)}px`;
             }
         }
         if (!esgst.staticPopups) {
@@ -39291,9 +39273,9 @@ class Popup_v2 {
     reposition() {
         if (this.isCreated && this.scrollable) {
             if (esgst.staticPopups) {
-                this.scrollable.style.maxHeight = `${innerHeight - (this.popup.offsetHeight - this.scrollable.offsetHeight) - 100}px`;
+                this.scrollable.style.maxHeight = `${ innerHeight - (this.popup.offsetHeight - this.scrollable.offsetHeight) - 100}px`;
             } else {
-                this.scrollable.style.maxHeight = `${innerHeight * 0.9 - (this.popup.offsetHeight - this.scrollable.offsetHeight)}px`;
+                this.scrollable.style.maxHeight = `${ innerHeight * 0.9 - (this.popup.offsetHeight - this.scrollable.offsetHeight)}px`;
             }
         }
         if (!esgst.staticPopups) {
@@ -40522,7 +40504,7 @@ function animateScroll(y) {
         p = currentTime / time;
         if (p < 1) {
             requestAnimationFrame(tick);
-            scrollTo(0, scrollY + ((y - scrollY) * ((p /= 0.5) < 1 ? 0.5 * Math.pow(p, 5) : 0.5 * (Math.pow((p - 2), 5) + 2))));
+            scrollTo(0,  scrollY + ((y -  scrollY) * ((p /= 0.5) < 1 ? 0.5 * Math.pow(p, 5) : 0.5 * (Math.pow((p - 2), 5) + 2))));
         } else {
             scrollTo(0, y);
         }
@@ -40663,8 +40645,24 @@ function getThemeCss(theme) {
 }
 
 function loadChangelog(version) {
-    let changelog, current, html, i, index, n, popup;
+    let changelog, html, i, index, n, popup;
     changelog = [
+        {
+            date: `May 04, 2018`,
+            version: `7.18.0`,
+            changelog: `
+                <ul>
+                    <li><a href="https://github.com/revilheart/ESGST/issues/651">#651</a> Update FontAwesome links</li>
+                    <li><a href="https://github.com/revilheart/ESGST/issues/644">#644</a> Fix a bug that does not delete table rows in Comment Formatting Helper</li>
+                    <li><a href="https://github.com/revilheart/ESGST/issues/642">#642</a> Add option to group all keys for the same game in Multiple Giveaway Creator</li>
+                    <li><a href="https://github.com/revilheart/ESGST/issues/641">#641</a> Add a new section to the settings menu: Themes</li>
+                    <li><a href="https://github.com/revilheart/ESGST/issues/640">#640</a> Fix tooltip in Multiple Giveaway Creator</li>
+                    <li><a href="https://github.com/revilheart/ESGST/issues/639">#639</a> Convert checkboxes from circles to squares</li>
+                    <li><a href="https://github.com/revilheart/ESGST/issues/638">#638</a> Fix some bugs that happen when marking comments as unread</li>
+                    <li><a href="https://github.com/revilheart/ESGST/issues/608">#608</a> Add a feature: Multi-Manager (remove Giveaway Manager and Multi-Tag)</li>
+                </ul>
+            `
+        },
         {
             date: `April 19, 2018`,
             version: `7.17.8`,
