@@ -551,7 +551,7 @@ class ESGST {
             sg: location.hostname.match(/www.steamgifts.com/),
             st: location.hostname.match(/www.steamtrades.com/),
             currentVersion: `7.17.8`,
-            devVersion: `7.18.0 (Dev.29)`,
+            devVersion: `7.18.0 (Dev.30)`,
             icon: `data:image/x-icon;base64,AAABAAEAEBAAAAEAIABoBAAAFgAAACgAAAAQAAAAIAAAAAEAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAqv8DCbP/Hgeq+CQIrf8iCK3/Igit/yIIrf8iB6//Iwit9x8Aqv8DAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAKr0GAa2/c0DvfzfA7f83QO3/N0Dt/zdA7f83QO+/d4Gs/3OAKP1GQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACm/xQFs/n2Bcf//wW///8FwP//BcD//wW///8Fx///BbP69gC2/xUAAAAAAAAAAAAAAAAA/1UDFptOFxSZMxkLpJktAq720QW1+ugEsfvjA7b92wO2/dsEsfvjBbX66Aau/dEoiO4tUlLWGU5k3hdVVf8DEJxKHxWqT8cVrU7uE6VN0guqny0Apv8XAJfQGwBAVywAQFcsAJfQGwCx/xcogugtS2Lk0lBl6u5Qae7ISmPeHxagSSMVr07jF7lV/xOiSu0brgATAAAAAAAAAA8AAAC/AAAAwAAAABAAAAAAYznjEkth4OxWb/3/T2jv40lf4iMXnksiEq1O3RayUv8UpEnkEo0+HQAAABkAAABBAAAA8QAAAPEAAABBAAAAGUBSvxxOYeDjU2v0/05m7d1LYuEiF55LIhKtTt0Ws1L/FahN2gU1FTAAAADAAAAA7AAAAP0AAAD9AAAA7AAAAMAVG0owUGPm2lNr9P9OZu3dS2LhIheeSyISrU7dFrNS/xWoTdoFNRswAAAAvwAAAOsAAAD9AAAA/QAAAOsAAADAFRtKMFBj6NpTa/T/Tmbt3Uti4SIXnksiEq1O3RayUv8UpEnkEo0+HQAAABgAAABAAAAA8QAAAPEAAABBAAAAGT5PuR1OYeDjU2v0/05m7d1LYuEiFqBJIxWuT+QXuVX/E6JL7QC8XhMAAAAAAAAADwAAAL8AAAC/AAAAEAAAAAAOR/8SSWLh7FZv/f9PaO/jSV/iIxCUSh8Vrk7HFqxN7ROlS9JskzMt1XULGK12EhxGLgYsRy8GK612EhzVgAsYgmxxLU1i39JNZ+vtT2fwx0pj1h8AqlUDF65GFgqZUhlsiC0txH0T0s5/EujJgBPkz4QR28+EEdvJgBPkzn8Q6Md+E9KLdHosM1LWGUZo6BZVVf8DAAAAAAAAAAAAAAAA/2YAFMl9EvbgjRb/14gV/9eIFf/XiBX/14gV/9+NFv/KgBD254YAFQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAL91FRjKgRHN1IgU3s+EEt3PhBLdz4QS3c+EEt3UiBTezYMRzcJ6FBkAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACqqgADxIARHr18FiO8eA8ivHgPIrx4DyK8eA8ivXwPI8SAER7/VQADAAAAAAAAAAAAAAAA78cAAPA3AAD4FwAABCAAADGOAAAE+AAAkBEAAJ55AACYOQAAlgEAAER4AAAXaAAATnoAAPgXAAD0JwAA69cAAA==`,
             sgIcon: `data:image/x-icon;base64,AAABAAEAEBAAAAEAIABoBAAAFgAAACgAAAAQAAAAIAAAAAEAIAAAAAAAQAQAABMLAAATCwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIUAAAD5AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAPoAAACFAAAAAAAAAAAAAAD8AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA+QAAAAAAAAAAAAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAAAAAAAAAAAAP8AAAD/AAAA/wAAABwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAcAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAcAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAHAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAAAAAAAAAAAAPwAAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD5AAAAAAAAAAAAAACFAAAA+QAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD5AAAAhQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA//8AAP//AADAAwAAwAMAAMfjAADP8wAAz/MAAM/zAADP8wAAz/MAAM/zAADH4wAAwAMAAMADAAD//wAA//8AAA==`,
             stIcon: `data:image/x-icon;base64,AAABAAEAEBAAAAEAIABoBAAAFgAAACgAAAAQAAAAIAAAAAEAIAAAAAAAQAQAABMLAAATCwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABbD6SgWw+ucFsPrkBbD6SgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAWw+uYFsPr/BbD6/wWw+ucAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAFsPrmBbD6/wWw+v8FsPrmAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABbD6SQWw+uYFsPrmBbD6SQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAFKRLShSkS+cUpEvkFKRLSgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAExi4EpMYuDnTGLg5Exi4EoAAAAAAAAAABSkS+YUpEv/FKRL/xSkS+cAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABMYuDmTGLg/0xi4P9MYuDnAAAAAAAAAAAUpEvmFKRL/xSkS/8UpEvmAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAATGLg5kxi4P9MYuD/TGLg5gAAAAAAAAAAFKRLSRSkS+YUpEvmFKRLSQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAExi4ElMYuDmTGLg5kxi4EkAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAMZ9E0rGfRPnxn0T5MZ9E0oAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADGfRPmxn0T/8Z9E//GfRPnAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAxn0T5sZ9E//GfRP/xn0T5gAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAMZ9E0nGfRPmxn0T5sZ9E0kAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA//8AAPw/AAD8PwAA/D8AAPw/AAD//wAAh+EAAIfhAACH4QAAh+EAAP//AAD8PwAA/D8AAPw/AAD8PwAA//8AAA==`,
@@ -614,10 +614,6 @@ class ESGST {
             apPopouts: {},
             tsTables: [],
             currentUsers: {},
-            currentGames: {
-                apps: {},
-                subs: {}
-            },
             mainGiveaways: [],
             mainDiscussions: [],
             mainUsers: [],
@@ -6462,9 +6458,9 @@ class ESGST {
         esgst.aicButton.classList.add(`esgst-hidden`);
         esgst.aicButton.addEventListener(`click`, this.aic_openCarousel.bind(this, 0, null));
     }
-    aic_getImages(context, main) {
+    aic_getImages(context, main, source, endless) {
         if (!main) return;
-        let buttons = context.querySelectorAll(`.comment__toggle-attached, .view_attached`);
+        let buttons = context.querySelectorAll(`${endless ? `.esgst-es-page-${endless} .comment__toggle-attached, .esgst-es-page-${endless}.comment__toggle-attached` : `.comment__toggle-attached`}, ${endless ? `.esgst-es-page-${endless} .view_attached, .esgst-es-page-${endless}.view_attached` : `.view_attached`}`);
         let found = false;
         for (let i = 0, n = buttons.length; i < n; i++) {
             let button = buttons[i];
@@ -6478,6 +6474,7 @@ class ESGST {
             esgst.attachedImages.push({
                 button: button,
                 image: image,
+                outerWrap: button,
                 source: comment && comment.querySelector(`.comment__summary`).id,
                 url: url
             });
@@ -6558,12 +6555,12 @@ class ESGST {
         if (esgst.vai) return;
         esgst.endlessFeatures.push(this.ail_getImages.bind(this));
     }
-    ail_getImages(context) {
-        let buttons = context.querySelectorAll(`.comment__toggle-attached, .view_attached`);
+    ail_getImages(context, main, source, endless) {
+        const buttons = context.querySelectorAll(`${endless ? `.esgst-es-page-${endless} .comment__toggle-attached, .esgst-es-page-${endless}.comment__toggle-attached` : `.comment__toggle-attached`}, ${endless ? `.esgst-es-page-${endless} .view_attached, .esgst-es-page-${endless}.view_attached` : `.view_attached`}`);
         for (let i = 0, n = buttons.length; i < n; i++) {
-            let button = buttons[i];
-            let image = button.nextElementSibling.firstElementChild;
-            let url = image.getAttribute(`src`);
+            const button = buttons[i],
+                  image = button.nextElementSibling.firstElementChild,
+                  url = image.getAttribute(`src`);
             image.removeAttribute(`src`);
             button.addEventListener(`click`, image.setAttribute.bind(image, `src`, url));
         }
@@ -6571,11 +6568,10 @@ class ESGST {
     ap() {
         esgst.endlessFeatures.push(this.ap_getAvatars.bind(this));
     }
-    ap_getAvatars(context) {
-        let i, matches, n;
-        matches = context.querySelectorAll(`.global__image-outer-wrap--avatar-small, .giveaway_image_avatar, .table_image_avatar, .featured_giveaway_image_avatar, .nav__avatar-outer-wrap`);
-        for (i = 0, n = matches.length; i < n; ++i) {
-            this.ap_setAvatar(matches[i]);
+    ap_getAvatars(context, main, source, endless) {
+        const elements = context.querySelectorAll(`${endless ? `.esgst-es-page-${endless} .global__image-outer-wrap--avatar-small, .esgst-es-page-${endless}.global__image-outer-wrap--avatar-small` : `.global__image-outer-wrap--avatar-small`}, ${endless ? `.esgst-es-page-${endless} .giveaway_image_avatar, .esgst-es-page-${endless}.giveaway_image_avatar` : `.giveaway_image_avatar`}, ${endless ? `.esgst-es-page-${endless} .table_image_avatar, .esgst-es-page-${endless}.table_image_avatar` : `.table_image_avatar`}, ${endless ? `.esgst-es-page-${endless} .featured_giveaway_image_avatar, .esgst-es-page-${endless}.featured_giveaway_image_avatar` : `.featured_giveaway_image_avatar`}, ${endless ? `.esgst-es-page-${endless} .nav__avatar-outer-wrap, .esgst-es-page-${endless}.nav__avatar-outer-wrap` : `.nav__avatar-outer-wrap`}`);
+        for (let i = 0, n = elements.length; i < n; ++i) {
+            this.ap_setAvatar(elements[i]);
         }
     }
     ap_setAvatar(apAvatar) {
@@ -6757,9 +6753,9 @@ class ESGST {
     at() {
         esgst.endlessFeatures.push(this.at_getTimestamps.bind(this));
     }
-    at_getTimestamps(context) {
+    at_getTimestamps(context, main, source, endless) {
         let timestamps, i, n, timestamp, text, edited, seconds, accurateTimestamp;
-        timestamps = context.querySelectorAll(`[data-timestamp]`);
+        timestamps = context.querySelectorAll(`${endless ? `.esgst-es-page-${endless} [data-timestamp], .esgst-es-page-${endless}[data-timestamp]` : `[data-timestamp]`}`);
         for (i = 0, n = timestamps.length; i < n; ++i) {
             timestamp = timestamps[i];
             if (((esgst.activeDiscussions && ((esgst.activeDiscussions.contains(timestamp) && esgst.adots_index === 0) || !esgst.activeDiscussions.contains(timestamp))) || !esgst.activeDiscussions) && !timestamp.classList.contains(`esgst-at`)) {
@@ -6989,10 +6985,11 @@ class ESGST {
             esgst.endlessFeatures.push(this.cerb_getReplies.bind(this, collapse, expand));
         }
     }
-    cerb_getReplies(collapse, expand, context, main) {
+    cerb_getReplies(collapse, expand, context, main, source, endless) {
         let id = context === document && main ? location.hash.replace(/#/, ``) : null,
             permalink = id ? document.getElementById(id) : null,
-            elements = context.querySelectorAll(`:not(.esgst-popup) .comments > .comment, :not(.esgst-popup) .comments > .comment_outer`);
+            elements = context.querySelectorAll(`${endless ? `.esgst-es-page-${endless} :not(.esgst-popup) .comments > .comment, .esgst-es-page-${endless}:not(.esgst-popup) .comments > .comment` : `:not(.esgst-popup) .comments > .comment`}, ${endless ? `.esgst-es-page-${endless} :not(.esgst-popup) .comments > .comment_outer, .esgst-es-page-${endless}:not(.esgst-popup) .comments > .comment_outer` : `:not(.esgst-popup) .comments > .comment_outer`}`);
+        if (!elements.length) return;
         for (let reply of elements) {
             let replies = reply.querySelector(`.comment__children, .comment_children`);
             if (replies && replies.children.length) {
@@ -7067,9 +7064,9 @@ class ESGST {
         esgst.endlessFeatures.push(this.cewgd_addHeading.bind(this));
         esgst.giveawayFeatures.push(this.cewgd_getDetails.bind(this));
     }
-    cewgd_addHeading(context, main) {
+    cewgd_addHeading(context, main, source, endless) {
         if (!main) return;
-        let table = context.getElementsByClassName(`table__heading`)[0];
+        const table = context.querySelector(`${endless ? `.esgst-es-page-${endless} .table__heading, .esgst-es-page-${endless}.table__heading` : `.table__heading`}`);
         if (!table || table.getElementsByClassName(`esgst-cewgd-heading`)[0]) return;
         table.firstElementChild.insertAdjacentHTML(`afterEnd`, `
             <div class="table__column--width-small text-center esgst-cewgd-heading">Type</div>
@@ -10190,11 +10187,10 @@ class ESGST {
         }
         esgst.cfh.preview.className = `esgst-cfh-preview markdown`;
     }
-    cfh_setTextAreas(context) {
-        let i, textAreas;
-        textAreas = context.querySelectorAll(`textarea[name*="description"]`);
-        for (i = textAreas.length - 1; i > -1; --i) {
-            textAreas[i].onfocus = this.cfh_addPanel.bind(this, textAreas[i]);
+    cfh_setTextAreas(context, main, source, endless) {
+        const elements = context.querySelectorAll(`${endless ? `.esgst-es-page-${endless} textarea[name*="description"], .esgst-es-page-${endless}textarea[name*="description"]` : `textarea[name*="description"]`}`);
+        for (let i = elements.length - 1; i > -1; --i) {
+            elements[i].onfocus = this.cfh_addPanel.bind(this, elements[i]);
         }
     }
     cfh_addPanel(textArea) {
@@ -11267,6 +11263,8 @@ class ESGST {
     }
     async ct_addDiscussionPanels(context, main, source, endless, dh) {
         let code, comments, count, countLink, diff, heading, i, id, j, match, matches, n, read, url, key;
+        matches = context.querySelectorAll(`${endless ? `.esgst-es-page-${endless} .table__row-outer-wrap, .esgst-es-page-${endless}.table__row-outer-wrap` : `.table__row-outer-wrap`}, ${endless ? `.esgst-es-page-${endless} .row_outer_wrap, .esgst-es-page-${endless}.row_outer_wrap` : `.row_outer_wrap`}`);
+        if (!matches.length) return;
         if (esgst.discussionsPath || dh) {
             key = `discussions`;
         } else if (esgst.ticketsPath) {
@@ -11277,7 +11275,6 @@ class ESGST {
             key = `discussions`;
         }
         comments = JSON.parse(await this.getValue(key, `{}`));
-        matches = context.querySelectorAll(`.table__row-outer-wrap, .row_outer_wrap`);
         for (i = 0, n = matches.length; i < n; ++i) {
             match = matches[i];
             countLink = match.querySelector(`.table__column__secondary-link[href*="/discussion/"], .table__column--width-small.text-center, .column_small.text_center`);
@@ -13060,16 +13057,15 @@ class ESGST {
         if (!esgst.giveawayPath) return;
         esgst.endlessFeatures.push(this.dkc_getLinks.bind(this));
     }
-    dkc_getLinks(context) {
-        let i, link, links, newLink;
-        links = context.getElementsByClassName(`form__key-btn-delete`);
-        for (i = links.length - 1; i > -1; --i) {
-            link = links[i];
-            newLink = insertHtml(link, `afterEnd`, `
-                <span class="table__column__secondary-link esgst-clickable">Delete</span>
-            `);
-            link.remove();
-            newLink.addEventListener(`click`, createConfirmation.bind(null, `Are you sure you want to delete this key?`, this.dkc_deleteKey.bind(this, newLink), null));
+    dkc_getLinks(context, main, source, endless) {
+        const elements = context.querySelectorAll(`${endless ? `.esgst-es-page-${endless} .form__key-btn-delete, .esgst-es-page-${endless}.form__key-btn-delete` : `.form__key-btn-delete`}`);
+        for (let i = elements.length - 1; i > -1; --i) {
+            const element = elements[i];
+                  newElement = insertHtml(element, `afterEnd`, `
+                      <span class="table__column__secondary-link esgst-clickable">Delete</span>
+                  `);
+            element.remove();
+            newElement.addEventListener(`click`, createConfirmation.bind(null, `Are you sure you want to delete this key?`, this.dkc_deleteKey.bind(this, newElement), null));
         }
     }
     async dkc_deleteKey(link) {
@@ -13124,19 +13120,18 @@ class ESGST {
         if (esgst.sal || !esgst.wonPath) return;
         esgst.endlessFeatures.push(this.sal_addObservers.bind(this));
     }
-    ef_hideElements(context, main) {
-        let i, property;
+    ef_hideElements(context, main, source, endless) {
         if (context === document && main) return;
         esgst.ef_filters.split(`, `).forEach(filter => {
             if (!filter) return;
             try {
-                property = filter.match(/\[esgst\.(.+)\]/);
+                const property = filter.match(/\[esgst\.(.+)\]/);
                 if (property) {
                     if (!esgst[property[1]]) return;
                     filter = filter.replace(/\[esgst\..+\]/, ``);
                 }
-                let elements = context.querySelectorAll(filter);
-                for (i = elements.length - 1; i > -1; i--) {
+                const elements = context.querySelectorAll(`${endless ? `.esgst-es-page-${endless} ${filter}, .esgst-es-page-${endless}${filter}` : `${filter}`}`);
+                for (let i = elements.length - 1; i > -1; i--) {
                     elements[i].classList.add(`esgst-hidden`);
                 }
             } catch (e) { /**/ }
@@ -13634,18 +13629,15 @@ class ESGST {
         if (esgst.cr && esgst.discussionPath) {
             reverseComments(context);
         }
-        if (!refreshAll) {
-            await this.endless_load(context, true, null, true);
-            this.es_setRemoveEntry(context);
-        }
         let n = context.children.length;
+        const currentPage = refresh ? refreshAll || es.pageIndex : es.nextPage;
         for (let i = 0; i < n; ++i) {
             let child = context.children[0];
-            child.classList.add(`esgst-es-page-${refresh ? refreshAll || es.pageIndex : es.nextPage}`);
+            child.classList.add(`esgst-es-page-${currentPage}`);
             fragment.appendChild(child);
         }
         if (refresh) {
-            let elements = document.getElementsByClassName(`esgst-es-page-${refreshAll || es.pageIndex}`),
+            let elements = document.getElementsByClassName(`esgst-es-page-${currentPage}`),
                 oldN = elements.length;
             for (let i = 1; i < oldN; ++i) {
                 elements[0].remove();
@@ -13654,6 +13646,9 @@ class ESGST {
             es.mainContext.insertBefore(fragment, element);
             element.remove();
             if (!refreshAll) {
+                this.es_purgeRemovedElements();
+                await this.endless_load(es.mainContext, true, null, currentPage);
+                this.es_setRemoveEntry(es.mainContext);
                 if (esgst.gf && esgst.gf.filteredCount) {
                     this.gf_updateCount(esgst.gf);
                 }
@@ -13685,6 +13680,8 @@ class ESGST {
                 `);
             }
             es.mainContext.appendChild(fragment);
+            await this.endless_load(es.mainContext, true, null, currentPage);
+            this.es_setRemoveEntry(es.mainContext);
             if (esgst.ts && !esgst.us) {
                 this.ts_sortTables();
             }
@@ -13723,6 +13720,29 @@ class ESGST {
                     callback();
                 }
             }
+        }
+    }
+    es_purgeRemovedElements() {
+        // there are more elements that need to be purged,
+        // but for now these are the most critical ones
+        [`attachedImages`, `currentComments`, `tsTables`, `mainGiveaways`, `mainDiscussions`, `mainUsers`, `mainGames`, `popupGiveaways`, `popupDiscussions`, `popupUsers`, `popupGames`].forEach(key => {
+            for (let i = esgst[key].length - 1; i > -1; i--) {
+                if (document.contains(esgst[key][i].outerWrap)) continue;
+                esgst[key].splice(i, 1);
+            }
+        });
+        for (const key in esgst.apPopouts) {
+            if (document.contains(esgst.apPopouts[key].popout)) continue;
+            delete esgst.apPopouts[key];            
+        }
+        for (const key in esgst.currentUsers) {
+            const elements = esgst.currentUsers[key].elements;
+            for (let i = elements.length - 1; i > -1; i--) {
+                if (document.contains(elements[i])) continue;
+                elements.splice(i, 1);
+            }
+            if (elements.length) continue;
+            delete esgst.currentUsers[key];
         }
     }
     es_changePagination(es) {
@@ -13835,6 +13855,7 @@ class ESGST {
             <i class="fa fa-circle-o-notch fa-spin"></i>
         `;
         es.check = new CompletionCheck(es.paginations.length, async () => {
+            this.es_purgeRemovedElements();
             await this.endless_load(es.mainContext, true);
             this.es_setRemoveEntry(es.mainContext);
             es.refreshAllButton.addEventListener(`click`, esgst.es_refreshAll);
@@ -14056,10 +14077,9 @@ class ESGST {
         popup.close();
         this.et_menu();
     }
-    et_getEntries(context) {
-        let elements, i, n;
-        elements = context.querySelectorAll(`.table__remove-default:not(.is-hidden)`);
-        for (i = 0, n = elements.length; i < n; ++i) {
+    et_getEntries(context, main, source, endless) {
+        const elements = context.querySelectorAll(`${endless ? `.esgst-es-page-${endless} .table__remove-default:not(.is-hidden), .esgst-es-page-${endless}.table__remove-default:not(.is-hidden)` : `.table__remove-default:not(.is-hidden)`}`);
+        for (let i = 0, n = elements.length; i < n; ++i) {
             this.et_setObserver(elements[i]);
         }
     }
@@ -14084,12 +14104,12 @@ class ESGST {
     ev() {
         esgst.endlessFeatures.push(this.ev_getVideos.bind(this));
     }
-    ev_getVideos(context) {
+    ev_getVideos(context, main, source, endless) {
         let types, i, numTypes, type, videos, j, numVideos, video, previous, next, embedUrl, url, text, title;
         types = [`youtube.com`, `youtu.be`, `vimeo.com`];
         for (i = 0, numTypes = types.length; i < numTypes; ++i) {
             type = types[i];
-            videos = context.querySelectorAll(`a[href*="${type}"]`);
+            videos = context.querySelectorAll(`${endless ? `.esgst-es-page-${endless} a[href*="${type}"], .esgst-es-page-${endless}a[href*="${type}"]` : `a[href*="${type}"]`}`);
             for (j = 0, numVideos = videos.length; j < numVideos; ++j) {
                 video = videos[j];
                 previous = video.previousSibling;
@@ -15763,8 +15783,9 @@ class ESGST {
         setHoverOpacity(container, `1`, `1`);
         return true;
     }
-    async gdttt_checkVisited(context) {
-        let matches = context.querySelectorAll(`.homepage_table_column_heading, .table__column__heading, .giveaway__heading__name, .column_flex h3 a`);
+    async gdttt_checkVisited(context, main, src, endless) {
+        let matches = context.querySelectorAll(`${endless ? `.esgst-es-page-${endless} .homepage_table_column_heading, .esgst-es-page-${endless}.homepage_table_column_heading` : `.homepage_table_column_heading`}, ${endless ? `.esgst-es-page-${endless} .table__column__heading, .esgst-es-page-${endless}.table__column__heading` : `.table__column__heading`}, ${endless ? `.esgst-es-page-${endless} .giveaway__heading__name, .esgst-es-page-${endless}.giveaway__heading__name` : `.giveaway__heading__name`}, ${endless ? `.esgst-es-page-${endless} .column_flex h3 a, .esgst-es-page-${endless}.column_flex h3 a` : `.column_flex h3 a`}`);
+        if (!matches.length) return;
         let values = await this.getValues({
             giveaways: `{}`,
             discussions: `{}`,
@@ -18182,13 +18203,14 @@ class ESGST {
         if (esgst.groupsPath) return;
         esgst.endlessFeatures.push(this.gh_highlightGroups.bind(this));
     }
-    async gh_highlightGroups(context) {
-        let code, element, elements, i, j, n, savedGroups;
-        savedGroups = JSON.parse(await this.getValue(`groups`, `[]`));
-        elements = context.querySelectorAll(`.table__column__heading[href*="/group/"]`);
-        for (i = 0, n = elements.length; i < n; ++i) {
-            element = elements[i];
-            code = element.getAttribute(`href`).match(/\/group\/(.+?)\//)[1];
+    async gh_highlightGroups(context, main, source, endless) {
+        const elements = context.querySelectorAll(`${endless ? `.esgst-es-page-${endless} .table__column__heading[href*="/group/"], .esgst-es-page-${endless}.table__column__heading[href*="/group/"]` : `.table__column__heading[href*="/group/"]`}`);
+        if (!elements.length) return;
+        const savedGroups = JSON.parse(await this.getValue(`groups`, `[]`));
+        for (let i = 0, n = elements.length; i < n; ++i) {
+            const element = elements[i],
+                  code = element.getAttribute(`href`).match(/\/group\/(.+?)\//)[1];
+            let j;
             for (j = savedGroups.length - 1; j >= 0 && savedGroups[j].code !== code; --j);
             if (j >= 0 && savedGroups[j].member) {
                 element.closest(`.table__row-outer-wrap`).classList.add(`esgst-gh-highlight`);
@@ -18739,8 +18761,8 @@ class ESGST {
         `);
         esgst.endlessFeatures.push(this.gs_getGroups.bind(this));
     }
-    gs_getGroups(context) {
-        let elements = context.getElementsByClassName(`table__row-inner-wrap`);
+    gs_getGroups(context, main, source, endless) {
+        const elements = context.querySelectorAll(`${endless ? `.esgst-es-page-${endless} .table__row-inner-wrap, .esgst-es-page-${endless}.table__row-inner-wrap` : `.table__row-inner-wrap`}`);
         for (let i = 0, n = elements.length; i < n; i++) {
             this.gs_addStatus(elements[i]);
         }
@@ -19738,21 +19760,19 @@ class ESGST {
             <span>${esgst.gwc_a && advancedChance ? (esgst.gwc_a_b ? `<span${basicColor ? ` style="color: ${basicColor}; font-weight: bold;"` : ``}>${basicChance}%</span> (<span${advancedColor ? ` style="color: ${advancedColor}; font-weight: bold;"` : ``}>${advancedChance}%</span>)` : `<span${advancedColor ? ` style="color: ${advancedColor}; font-weight: bold;"` : ``}>${advancedChance}%</span>`) : `<span${basicColor ? ` style="color: ${basicColor}; font-weight: bold;"` : ``}>${basicChance}%</span>`}${esgst.enteredPath && esgst.gwr ? ` / ` : ``}</span>
         `;
     }
-    gwc_addHeading(context, main) {
-        let table, title;
-        if ((!esgst.createdPath && !esgst.wonPath) && main) {
-            table = context.getElementsByClassName(`table__heading`)[0];
-            if (table && !table.getElementsByClassName(`esgst-gwcr-heading`)[0]) {
-                if (esgst.gwc && esgst.gwr) {
-                    title = `Chance / Ratio`;
-                } else if (esgst.gwc) {
-                    title = `Chance`;
-                } else {
-                    title = `Ratio`;
-                }
-                table.firstElementChild.insertAdjacentHTML(`afterEnd`, `<div class="table__column--width-small text-center esgst-gwcr-heading">${title}</div>`);
-            }
+    gwc_addHeading(context, main, source, endless) {
+        if (esgst.createdPath || esgst.wonPath || !main) return;
+        const table = context.querySelector(`${endless ? `.esgst-es-page-${endless} .table__heading, .esgst-es-page-${endless}.table__heading` : `.table__heading`}`);
+        if (!table || table.getElementsByClassName(`esgst-gwcr-heading`)[0]) return;
+        let title;
+        if (esgst.gwc && esgst.gwr) {
+            title = `Chance / Ratio`;
+        } else if (esgst.gwc) {
+            title = `Chance`;
+        } else {
+            title = `Ratio`;
         }
+        table.firstElementChild.insertAdjacentHTML(`afterEnd`, `<div class="table__column--width-small text-center esgst-gwcr-heading">${title}</div>`);
     }
     gwl() {
         esgst.giveawayFeatures.push(this.gwl_addLinks.bind(this));
@@ -20302,15 +20322,14 @@ class ESGST {
     ib() {
         esgst.endlessFeatures.push(this.ib_addBorders.bind(this));
     }
-    ib_addBorders(context) {
-        let elements, i, n;
-        elements = context.querySelectorAll(`.giveaway_image_avatar, .featured_giveaway_image_avatar, :not(.esgst-ggl-panel) .table_image_avatar`);
-        for (i = 0, n = elements.length; i < n; ++i) {
-            elements[i].classList.add(`esgst-ib-user`);
+    ib_addBorders(context, main, source, endless) {
+        const userElements = context.querySelectorAll(`${endless ? `.esgst-es-page-${endless} .giveaway_image_avatar, .esgst-es-page-${endless}.giveaway_image_avatar` : `.giveaway_image_avatar`}, ${endless ? `.esgst-es-page-${endless} .featured_giveaway_image_avatar, .esgst-es-page-${endless}.featured_giveaway_image_avatar` : `.featured_giveaway_image_avatar`}, ${endless ? `.esgst-es-page-${endless} :not(.esgst-ggl-panel) .table_image_avatar, .esgst-es-page-${endless}:not(.esgst-ggl-panel) .table_image_avatar` : `:not(.esgst-ggl-panel) .table_image_avatar`}`);
+        for (let i = 0, n = userElements.length; i < n; ++i) {
+            userElements[i].classList.add(`esgst-ib-user`);
         }
-        elements = context.querySelectorAll(`.giveaway_image_thumbnail, .giveaway_image_thumbnail_missing, .table_image_thumbnail, .table_image_thumbnail_missing`);
-        for (i = 0, n = elements.length; i < n; ++i) {
-            elements[i].classList.add(`esgst-ib-game`);
+        const gameElements = context.querySelectorAll(`${endless ? `.esgst-es-page-${endless} .giveaway_image_thumbnail, .esgst-es-page-${endless}.giveaway_image_thumbnail` : `.giveaway_image_thumbnail`}, ${endless ? `.esgst-es-page-${endless} .giveaway_image_thumbnail_missing, .esgst-es-page-${endless}.giveaway_image_thumbnail_missing` : `.giveaway_image_thumbnail_missing`}, ${endless ? `.esgst-es-page-${endless} .table_image_thumbnail, .esgst-es-page-${endless}.table_image_thumbnail` : `.table_image_thumbnail`}, ${endless ? `.esgst-es-page-${endless} .table_image_thumbnail_missing, .esgst-es-page-${endless}.table_image_thumbnail_missing` : `.table_image_thumbnail_missing`}`);
+        for (let i = 0, n = gameElements.length; i < n; ++i) {
+            gameElements[i].classList.add(`esgst-ib-game`);
         }
     }
     itadi() {
@@ -20514,13 +20533,14 @@ class ESGST {
     iwh() {
         esgst.endlessFeatures.push(this.iwh_getUsers.bind(this));
     }
-    async iwh_getUsers(context) {
+    async iwh_getUsers(context, main, source, endless) {
         if (!esgst.winnersPath && !esgst.inboxPath && (!context.getAttribute || !context.getAttribute(`data-esgst-qiv`))) return;
-        let [callback, className] = esgst.winnersPath ? [this.iwh_setObserver.bind(this), `table__gift-not-sent`] : [this.iwh_highlightWinner.bind(this), `comments__entity`];
-        let winners = JSON.parse(await this.getValue(`winners`, `{}`));
-        let matches = context.getElementsByClassName(className);
-        for (let i = 0, n = matches.length; i < n; ++i) {
-            callback(matches[i], winners);
+        const [callback, query] = esgst.winnersPath ? [this.iwh_setObserver.bind(this), `${endless ? `.esgst-es-page-${endless} .table__gift-not-sent, .esgst-es-page-${endless}.table__gift-not-sent` : `.table__gift-not-sent`}`] : [this.iwh_highlightWinner.bind(this), `${endless ? `.esgst-es-page-${endless} .comments__entity, .esgst-es-page-${endless}.comments__entity` : `.comments__entity`}`],
+              elements = context.querySelectorAll(query);
+        if (!elements.length) return;
+        const winners = JSON.parse(await this.getValue(`winners`, `{}`));
+        for (let i = 0, n = elements.length; i < n; ++i) {
+            callback(elements[i], winners);
         }
     }
     iwh_setObserver(Context) {
@@ -23246,11 +23266,11 @@ class ESGST {
     mr() {
         esgst.endlessFeatures.push(this.mr_getButtons.bind(this));
     }
-    mr_getButtons(context, main) {
+    mr_getButtons(context, main, source, endless) {
         if ((!esgst.mr || esgst.inboxPath) && (!esgst.rfi || (!esgst.inboxPath && main))) return;
-        let matches = context.getElementsByClassName(esgst.sg ? `comment__actions` : `action_list`);
-        for (let i = 0, n = matches.length; i < n; ++i) {
-            this.mr_addButton(matches[i], main);
+        const elements = context.querySelectorAll(`${endless ? `.esgst-es-page-${endless} .comment__actions, .esgst-es-page-${endless}.comment__actions` : `.comment__actions`}, ${endless ? `.esgst-es-page-${endless} .action_list, .esgst-es-page-${endless}.action_list` : `.action_list`}`);
+        for (let i = 0, n = elements.length; i < n; ++i) {
+            this.mr_addButton(elements[i], main);
         }
     }
     mr_addButton(Context, main) {
@@ -24177,7 +24197,7 @@ class ESGST {
             }
         }
         savedDiscussions = JSON.parse(await this.getValue(`discussions`, `{}`));
-        let elements = await this.discussions_get(response1Html, true, savedDiscussions);
+        let elements = await this.discussions_get(response1Html, true);
         if (!esgst.oadd_d) {
             revisedElements = [];
             elements.forEach(element => {
@@ -24193,7 +24213,7 @@ class ESGST {
                 i += 1;
             }
         }
-        elements = await this.discussions_get(response2Html, true, savedDiscussions);
+        elements = await this.discussions_get(response2Html, true);
         for (i = 0, j = elements.length - 1; i < 5 && j > -1; j--) {
             if (!preset || !this.df_filterDiscussion(preset, elements[j])) {
                 dealsRows.appendChild(elements[j].outerWrap);
@@ -24801,12 +24821,12 @@ class ESGST {
     rml() {
         esgst.endlessFeatures.push(this.rml_addLinks.bind(this));
     }
-    rml_addLinks(context) {
-        let matches = context.getElementsByClassName(esgst.sg ? `comment__children` : `comment_children`);
-        for (let i = 0, n = matches.length; i < n; ++i) {
-            let Matches = matches[i].children;
-            if (Matches.length) {
-                this.rml_addLink(esgst.sg ? matches[i].parentElement.getElementsByClassName(`comment__summary`)[0] : matches[i].parentElement, Matches);
+    rml_addLinks(context, main, source, endless) {
+        const elements = context.querySelectorAll(`${endless ? `.esgst-es-page-${endless} .comment__children, .esgst-es-page-${endless}.comment__children` : `.comment__children`}, ${endless ? `.esgst-es-page-${endless} .comment_children, .esgst-es-page-${endless}.comment_children` : `.comment_children`}`);
+        for (let i = 0, n = elements.length; i < n; ++i) {
+            const children = elements[i].children;
+            if (children.length) {
+                this.rml_addLink(esgst.sg ? elements[i].parentElement.getElementsByClassName(`comment__summary`)[0] : elements[i].parentElement, children);
             }
         }
     }
@@ -24877,10 +24897,9 @@ class ESGST {
         if (!esgst.wonPath) return;
         esgst.endlessFeatures.push(this.sal_addLinks.bind(this), this.sal_addObservers.bind(this));
     }
-    sal_addObservers(context) {
-        let elements, i, n;
-        elements = context.getElementsByClassName(`view_key_btn`);
-        for (i = 0, n = elements.length; i < n; ++i) {
+    sal_addObservers(context, main, source, endless) {
+        const elements = context.querySelectorAll(`${endless ? `.esgst-es-page-${endless} .view_key_btn, .esgst-es-page-${endless}.view_key_btn` : `.view_key_btn`}`);
+        for (let i = 0, n = elements.length; i < n; ++i) {
             this.sal_addObserver(elements[i]);
         }
     }
@@ -24905,12 +24924,11 @@ class ESGST {
             }, 100);
         });
     }
-    sal_addLinks(context) {
-        let i, element, elements, match, n;
-        elements = context.querySelectorAll(`[data-clipboard-text]`);
-        for (i = 0, n = elements.length; i < n; ++i) {
-            element = elements[i];
-            match = element.getAttribute(`data-clipboard-text`).match(/^[\d\w]{5}(-[\d\w]{5}){2,}$/);
+    sal_addLinks(context, main, source, endless) {
+        const elements = context.querySelectorAll(`${endless ? `.esgst-es-page-${endless} [data-clipboard-text], .esgst-es-page-${endless}[data-clipboard-text]` : `[data-clipboard-text]`}`);
+        for (let i = 0, n = elements.length; i < n; ++i) {
+            const element = elements[i],
+                  match = element.getAttribute(`data-clipboard-text`).match(/^[\d\w]{5}(-[\d\w]{5}){2,}$/);
             if (match) {
                 this.sal_addLink(element, match[0]);
             }
@@ -25072,9 +25090,10 @@ class ESGST {
             }
         }
     }
-    async sgg_setGroups(context) {
-        let savedGroups = JSON.parse(await this.getValue(`groups`, `[]`));
-        let elements = context.getElementsByClassName(`table__row-inner-wrap`);
+    async sgg_setGroups(context, main, source, endless) {
+        const elements = context.querySelectorAll(`${endless ? `.esgst-es-page-${endless} .table__row-inner-wrap, .esgst-es-page-${endless}.table__row-inner-wrap` : `.table__row-inner-wrap`}`);
+        if (!elements.length) return;
+        const savedGroups = JSON.parse(await this.getValue(`groups`, `[]`));
         for (let i = 0, n = elements.length; i < n; i++) {
             let element = elements[i];
             let avatar = element.getElementsByClassName(`table_image_avatar`)[0].style.backgroundImage;
@@ -25690,10 +25709,9 @@ class ESGST {
     sto() {
         esgst.endlessFeatures.push(this.sto_setLinks.bind(this));
     }
-    sto_setLinks(context) {
-        let elements, i, n;
-        elements = context.querySelectorAll(`[target="_blank"]`);
-        for (i = 0, n = elements.length; i < n; ++i) {
+    sto_setLinks(context, main, source, endless) {
+        const elements = context.querySelectorAll(`${endless ? `.esgst-es-page-${endless} [target="_blank"], .esgst-es-page-${endless}[target="_blank"]` : `[target="_blank"]`}`);
+        for (let i = 0, n = elements.length; i < n; ++i) {
             elements[i].removeAttribute(`target`);
         }
     }
@@ -25920,9 +25938,8 @@ class ESGST {
         esgst.endlessFeatures.push(this.ts_getTables.bind(this));
     }
     ts_getTables(context, main, source, endless) {
-        let i, n, tables;
-        tables = context.querySelectorAll(`.table, table`);
-        for (i = 0, n = tables.length; i < n; ++i) {
+        const tables = context.querySelectorAll(`${endless ? `.esgst-es-page-${endless} .table, .esgst-es-page-${endless}.table` : `.table`}, ${endless ? `.esgst-es-page-${endless} table, .esgst-es-page-${endless}table` : `table`}`);
+        for (let i = 0, n = tables.length; i < n; ++i) {
             this.ts_setTable(tables[i]);
         }
         if (!endless && !esgst.us) {
@@ -25946,6 +25963,7 @@ class ESGST {
             columnName: ``,
             key: `sortIndex`,
             name: `asc`,
+            outerWrap: table,
             table: table
         };
         esgst.tsTables.push(tsTable);
@@ -26127,10 +26145,9 @@ class ESGST {
     ueg() {
         esgst.endlessFeatures.push(this.ueg_remove.bind(this));
     }
-    ueg_remove(context) {
-        let elements, i, n;
-        elements = context.getElementsByClassName(`giveaway__row-inner-wrap is-faded`);
-        for (i = 0, n = elements.length; i < n; ++i) {
+    ueg_remove(context, main, source, endless) {
+        const elements = context.querySelectorAll(`${endless ? `.esgst-es-page-${endless} .giveaway__row-inner-wrap.is-faded, .esgst-es-page-${endless}.giveaway__row-inner-wrap.is-faded` : `.giveaway__row-inner-wrap.is-faded`}`);
+        for (let i = 0, n = elements.length; i < n; ++i) {
             elements[i].classList.add(`esgst-ueg`);
         }
     }
@@ -27435,7 +27452,7 @@ class ESGST {
         if (!esgst.whitelistPath && !esgst.blacklistPath) return;
         esgst.endlessFeatures.push(this.us_get.bind(this));
     }
-    async us_get(context, main) {
+    async us_get(context, main, source, endless) {
         if (!main && !context.closest(`.esgst-wbs-popup`)) {
             return;
         }
@@ -27449,7 +27466,7 @@ class ESGST {
             `);
         }
         let users = {};
-        let elements = context.getElementsByClassName(`table__row-inner-wrap`);
+        let elements = context.querySelectorAll(`${endless ? `.esgst-es-page-${endless} .table__row-inner-wrap, .esgst-es-page-${endless}.table__row-inner-wrap` : `.table__row-inner-wrap`}`);
         for (let i = 0, n = elements.length; i < n; ++i) {
             let element = elements[i];
             users[element.getElementsByClassName(`table__column__heading`)[0].textContent] = (main && element.firstElementChild.nextElementSibling) || element.firstElementChild;
@@ -27929,8 +27946,8 @@ class ESGST {
     vai() {
         esgst.endlessFeatures.push(this.vai_getImages.bind(this));
     }
-    vai_getImages(context) {
-        let buttons = context.querySelectorAll(`.comment__toggle-attached, .view_attached`);
+    vai_getImages(context, main, source, endless) {
+        let buttons = context.querySelectorAll(`${endless ? `.esgst-es-page-${endless} .comment__toggle-attached, .esgst-es-page-${endless}.comment__toggle-attached` : `.comment__toggle-attached`}, ${endless ? `.esgst-es-page-${endless} .view_attached, .esgst-es-page-${endless}.view_attached` : `.view_attached`}`);
         for (let i = 0, n = buttons.length; i < n; i++) {
             let button = buttons[i];
             let image = button.nextElementSibling.firstElementChild;
@@ -29024,6 +29041,7 @@ class ESGST {
     async giveaways_load(context, main, source, endless) {
         if (context.getAttribute && context.getAttribute(`data-rfi`)) return;
         let giveaways = await this.giveaways_get(context, main, null, false, null, false, endless, source);
+        if (!giveaways.length) return;
         if (main) {
             for (let i = giveaways.length - 1; i > -1; --i) {
                 giveaways[i].sortIndex = esgst.mainGiveaways.length;
@@ -29058,9 +29076,9 @@ class ESGST {
         let giveaway, giveaways, i, mainContext, matches, query;
         giveaways = [];
         if (!hr && main && (esgst.createdPath || esgst.enteredPath || esgst.wonPath)) {
-            query = `.giveaway__row-outer-wrap, .featured__outer-wrap--giveaway, .table:not(.table--summary) .table__row-outer-wrap`;
+            query = `${endless ? `.esgst-es-page-${endless} .giveaway__row-outer-wrap, .esgst-es-page-${endless}.giveaway__row-outer-wrap` : `.giveaway__row-outer-wrap`}, ${endless ? `.esgst-es-page-${endless} .featured__outer-wrap--giveaway, .esgst-es-page-${endless}.featured__outer-wrap--giveaway` : `.featured__outer-wrap--giveaway`}, ${endless ? `.esgst-es-page-${endless} .table:not(.table--summary) .table__row-outer-wrap, .esgst-es-page-${endless}.table:not(.table--summary) .table__row-outer-wrap` : `.table:not(.table--summary) .table__row-outer-wrap`}`;
         } else {
-            query = `.giveaway__row-outer-wrap, .featured__outer-wrap--giveaway`;
+            query = `${endless ? `.esgst-es-page-${endless} .giveaway__row-outer-wrap, .esgst-es-page-${endless}.giveaway__row-outer-wrap` : `.giveaway__row-outer-wrap`}, ${endless ? `.esgst-es-page-${endless} .featured__outer-wrap--giveaway, .esgst-es-page-${endless}.featured__outer-wrap--giveaway` : `.featured__outer-wrap--giveaway`}`;
         }
         if (key) {
             mainContext = context;
@@ -29564,12 +29582,13 @@ class ESGST {
         esgst.endlessFeatures.push(this.discussions_load.bind(this));
     }
     async discussions_load(context, main, source, endless) {
-        let discussions = await this.discussions_get(context, main);
+        let discussions = await this.discussions_get(context, main, endless);
+        if (!discussions.length) return;
         if (main) {
-        for (let i = discussions.length - 1; i > -1; --i) {
+            for (let i = discussions.length - 1; i > -1; --i) {
                 discussions[i].sortIndex = esgst.mainDiscussions.length;
                 esgst.mainDiscussions.push(discussions[i]);
-        }
+            }
         } else {
             for (let i = discussions.length - 1; i > -1; --i) {
                 discussions[i].sortIndex = esgst.popupDiscussions.length;
@@ -29588,15 +29607,15 @@ class ESGST {
             esgst.mm_enable(esgst[main ? `mainDiscussions` : `popupDiscussions`], `Discussions`);
         }
     }
-    async discussions_get(context, main) {
+    async discussions_get(context, main, endless) {
         let discussions = [];
-        let elements = context.getElementsByClassName(`table__row-outer-wrap`);
+        let elements = context.querySelectorAll(`${endless ? `.esgst-es-page-${endless} .table__row-outer-wrap, .esgst-es-page-${endless}.table__row-outer-wrap` : `.table__row-outer-wrap`}`);
         for (let i = elements.length - 1; i > -1; --i) {
             let discussion = await this.discussions_getInfo(elements[i], main);
             if (!discussion) continue;
             discussions.push(discussion);
         }
-        if (main && esgst.discussionPath) {
+        if (context === document && main && esgst.discussionPath) {
             let discussion = {
                 code: location.pathname.match(/^\/discussion\/(.+?)\//)[1],
                 heading: document.getElementsByClassName(`page__heading__breadcrumbs`)[0],
@@ -29772,9 +29791,10 @@ class ESGST {
     comments() {
         esgst.endlessFeatures.push(this.comments_load.bind(this));
     }
-    async comments_load(context, main) {
+    async comments_load(context, main, source, endless) {
         let count, comments, i, n;
-        comments = await this.comments_get(context, document, main);
+        comments = await this.comments_get(context, document, main, endless);
+        if (!comments.length) return;
         if (main) {
             for (i = 0, n = comments.length; i < n; ++i) {
                 comments[i].index = i;
@@ -29803,14 +29823,13 @@ class ESGST {
             esgst.ged_addIcons(comments, main);
         }
     }
-    async comments_get(context, mainContext, main) {
-        let comment, comments, i, matches, sourceLink, savedUsers;
+    async comments_get(context, mainContext, main, endless) {
+        let comment, comments, i, matches, sourceLink;
         comments = [];
-        savedUsers = JSON.parse(await this.getValue(`users`));
-        matches = context.querySelectorAll(`:not(.comment--submit) > .comment__parent, .comment__child, .comment_inner`);
+        matches = context.querySelectorAll(`${endless ? `.esgst-es-page-${endless} :not(.comment--submit) > .comment__parent, .esgst-es-page-${endless}:not(.comment--submit) > .comment__parent` : `:not(.comment--submit) > .comment__parent`}, ${endless ? `.esgst-es-page-${endless} .comment__child, .esgst-es-page-${endless}.comment__child` : `.comment__child`}, ${endless ? `.esgst-es-page-${endless} .comment_inner, .esgst-es-page-${endless}.comment_inner` : `.comment_inner`}`);
         sourceLink = mainContext.querySelector(`.page__heading__breadcrumbs a[href*="/giveaway/"], .page__heading__breadcrumbs a[href*="/discussion/"], .page__heading__breadcrumbs a[href*="/ticket/"], .page_heading_breadcrumbs a[href*="/trade/"]`);
         for (i = matches.length - 1; i >= 0; --i) {
-            comment = await this.comments_getInfo(matches[i], sourceLink, savedUsers, main);
+            comment = await this.comments_getInfo(matches[i], sourceLink, endless ? esgst.users : JSON.parse(await this.getValue(`users`)), main);
             if (comment) {
                 comments.push(comment);
             }
@@ -29821,6 +29840,7 @@ class ESGST {
         let comment, matches, n, source;
         comment = {};
         comment.comment = context;
+        comment.outerWrap = comment.comment;
         comment.author = comment.comment.querySelector(`.comment__author, .author_name`).textContent.trim();
         if (esgst.uf && savedUsers) {
             let savedUser = await this.getUser(savedUsers, {
@@ -29902,8 +29922,8 @@ class ESGST {
         esgst.endlessFeatures.push(this.games_load.bind(this));
     }
     async games_load(context, main, source, endless) {
-        let savedGames = JSON.parse(await this.getValue(`games`));
-        let games = this.games_get(context, main, savedGames);
+        let games = this.games_get(context, main, endless ? esgst.games : JSON.parse(await this.getValue(`games`)), endless);
+        if (!Object.keys(games.apps).length && !Object.keys(games.subs).length) return;
         [`apps`, `subs`].forEach(type => {
             for (let id in games[type]) {
                 games[type][id].forEach(game => {
@@ -29924,17 +29944,17 @@ class ESGST {
             esgst.mm_enable(esgst[main ? `mainGames` : `popupGames`], `Games`);
         }
     }
-    games_get(context, main, savedGames) {
+    games_get(context, main, savedGames, endless) {
         let game, games, i, id, info, matches, n, headingQuery, matchesQuery, type;
         games = {
             apps: {},
             subs: {}
         };
         if (esgst.discussionPath && main) {
-            matchesQuery = `.featured__outer-wrap--giveaway, .giveaway__row-outer-wrap, .table__row-outer-wrap, .markdown table td`;
+            matchesQuery = `${endless ? `.esgst-es-page-${endless} .featured__outer-wrap--giveaway, .esgst-es-page-${endless}.featured__outer-wrap--giveaway` : `.featured__outer-wrap--giveaway`}, ${endless ? `.esgst-es-page-${endless} .giveaway__row-outer-wrap, .esgst-es-page-${endless}.giveaway__row-outer-wrap` : `.giveaway__row-outer-wrap`}, ${endless ? `.esgst-es-page-${endless} .table__row-outer-wrap, .esgst-es-page-${endless}.table__row-outer-wrap` : `.table__row-outer-wrap`}, ${endless ? `.esgst-es-page-${endless} .markdown table td, .esgst-es-page-${endless}.markdown table td` : `.markdown table td`}`;
             headingQuery = `.featured__heading, .giveaway__heading, .table__column__heading, a`;
         } else {
-            matchesQuery = `.featured__outer-wrap--giveaway, .giveaway__row-outer-wrap, .table__row-outer-wrap`;
+            matchesQuery = `${endless ? `.esgst-es-page-${endless} .featured__outer-wrap--giveaway, .esgst-es-page-${endless}.featured__outer-wrap--giveaway` : `.featured__outer-wrap--giveaway`}, ${endless ? `.esgst-es-page-${endless} .giveaway__row-outer-wrap, .esgst-es-page-${endless}.giveaway__row-outer-wrap` : `.giveaway__row-outer-wrap`}, ${endless ? `.esgst-es-page-${endless} .table__row-outer-wrap, .esgst-es-page-${endless}.table__row-outer-wrap` : `.table__row-outer-wrap`}`;
             headingQuery = `.featured__heading, .giveaway__heading, .table__column__heading`;
         }
         matches = context.querySelectorAll(matchesQuery);
@@ -30019,8 +30039,9 @@ class ESGST {
     users() {
         esgst.endlessFeatures.push(this.users_load.bind(this));
     }
-    users_load(mainContext, main) {
-        let elements = mainContext.querySelectorAll(`a[href*='/user/']`);
+    users_load(mainContext, main, source, endless) {
+        let elements = mainContext.querySelectorAll(`${endless ? `.esgst-es-page-${endless} a[href*='/user/'], .esgst-es-page-${endless}a[href*='/user/']` : `a[href*='/user/']`}`);
+        if (!elements.length) return;
         let found = false;
         for (let i = elements.length - 1; i > -1; i--) {
             let element = elements[i];
@@ -30125,12 +30146,14 @@ class ESGST {
                 found = true;
             }
         }
-        if (found && esgst.wbcButton && mainContext === document && !esgst.aboutPath) {
-            esgst.wbcButton.classList.remove(`esgst-hidden`);
-            esgst.wbcButton.parentElement.classList.remove(`esgst-hidden`);
-        }
-        if (esgst.mm_enableUsers && esgst.mm_enable) {
-            esgst.mm_enable(esgst[main ? `mainUsers` : `popupUsers`], `Users`);
+        if (found) {
+            if (esgst.wbcButton && mainContext === document && !esgst.aboutPath) {
+                esgst.wbcButton.classList.remove(`esgst-hidden`);
+                esgst.wbcButton.parentElement.classList.remove(`esgst-hidden`);
+            }
+            if (esgst.mm_enableUsers && esgst.mm_enable) {
+                esgst.mm_enable(esgst[main ? `mainUsers` : `popupUsers`], `Users`);
+            }
         }
     }
     profile() {
@@ -32486,7 +32509,7 @@ class ESGST {
                 }
             }
             if (preset) {
-                (await this.discussions_get(rows[0], true, savedDiscussions)).forEach(discussion => {
+                (await this.discussions_get(rows[0], true)).forEach(discussion => {
                     if (this.df_filterDiscussion(preset, discussion)) {
                         discussion.outerWrap.remove();
                         filteredDiscussions += 1;
@@ -32494,7 +32517,7 @@ class ESGST {
                         numDiscussions += 1;
                     }
                 });
-                (await this.discussions_get(rows[1], true, savedDiscussions)).forEach(deal => {
+                (await this.discussions_get(rows[1], true)).forEach(deal => {
                     if (this.df_filterDiscussion(preset, deal)) {
                         deal.outerWrap.remove();
                         filteredDeals += 1;
@@ -32503,8 +32526,8 @@ class ESGST {
                     }
                 });
             } else {
-                numDiscussions = (await this.discussions_get(rows[0], true, savedDiscussions)).length;
-                numDeals = (await this.discussions_get(rows[1], true, savedDiscussions)).length;
+                numDiscussions = (await this.discussions_get(rows[0], true)).length;
+                numDeals = (await this.discussions_get(rows[1], true)).length;
             }
         }
         if (numDiscussions < 5 || numDeals < 5) {
@@ -32524,7 +32547,7 @@ class ESGST {
                     }
                 }
             }
-            (await this.discussions_get(response1Html, true, savedDiscussions)).forEach(element => {
+            (await this.discussions_get(response1Html, true)).forEach(element => {
                 if (element.category !== `Deals`) {
                     revisedElements.push(element);
                 }
@@ -32538,7 +32561,7 @@ class ESGST {
                 }
                 i -= 1;
             }
-            let elements = await this.discussions_get(response2Html, true, savedDiscussions);
+            let elements = await this.discussions_get(response2Html, true);
             i = elements.length - (numDeals + filteredDeals + 1);
             while (numDeals < 5 && i > -1) {
                 if (!preset || !this.df_filterDiscussion(preset, elements[i])) {
@@ -38626,7 +38649,6 @@ class ESGST {
              alert(`No ESGST updates found!`);
         }
     }
-    //here
 }
 
 class Button {
