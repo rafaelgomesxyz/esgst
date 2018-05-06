@@ -551,7 +551,7 @@ class ESGST {
             sg: location.hostname.match(/www.steamgifts.com/),
             st: location.hostname.match(/www.steamtrades.com/),
             currentVersion: `7.17.8`,
-            devVersion: `7.18.0 (Dev.30)`,
+            devVersion: `7.18.0 (Dev.31)`,
             icon: `data:image/x-icon;base64,AAABAAEAEBAAAAEAIABoBAAAFgAAACgAAAAQAAAAIAAAAAEAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAqv8DCbP/Hgeq+CQIrf8iCK3/Igit/yIIrf8iB6//Iwit9x8Aqv8DAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAKr0GAa2/c0DvfzfA7f83QO3/N0Dt/zdA7f83QO+/d4Gs/3OAKP1GQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACm/xQFs/n2Bcf//wW///8FwP//BcD//wW///8Fx///BbP69gC2/xUAAAAAAAAAAAAAAAAA/1UDFptOFxSZMxkLpJktAq720QW1+ugEsfvjA7b92wO2/dsEsfvjBbX66Aau/dEoiO4tUlLWGU5k3hdVVf8DEJxKHxWqT8cVrU7uE6VN0guqny0Apv8XAJfQGwBAVywAQFcsAJfQGwCx/xcogugtS2Lk0lBl6u5Qae7ISmPeHxagSSMVr07jF7lV/xOiSu0brgATAAAAAAAAAA8AAAC/AAAAwAAAABAAAAAAYznjEkth4OxWb/3/T2jv40lf4iMXnksiEq1O3RayUv8UpEnkEo0+HQAAABkAAABBAAAA8QAAAPEAAABBAAAAGUBSvxxOYeDjU2v0/05m7d1LYuEiF55LIhKtTt0Ws1L/FahN2gU1FTAAAADAAAAA7AAAAP0AAAD9AAAA7AAAAMAVG0owUGPm2lNr9P9OZu3dS2LhIheeSyISrU7dFrNS/xWoTdoFNRswAAAAvwAAAOsAAAD9AAAA/QAAAOsAAADAFRtKMFBj6NpTa/T/Tmbt3Uti4SIXnksiEq1O3RayUv8UpEnkEo0+HQAAABgAAABAAAAA8QAAAPEAAABBAAAAGT5PuR1OYeDjU2v0/05m7d1LYuEiFqBJIxWuT+QXuVX/E6JL7QC8XhMAAAAAAAAADwAAAL8AAAC/AAAAEAAAAAAOR/8SSWLh7FZv/f9PaO/jSV/iIxCUSh8Vrk7HFqxN7ROlS9JskzMt1XULGK12EhxGLgYsRy8GK612EhzVgAsYgmxxLU1i39JNZ+vtT2fwx0pj1h8AqlUDF65GFgqZUhlsiC0txH0T0s5/EujJgBPkz4QR28+EEdvJgBPkzn8Q6Md+E9KLdHosM1LWGUZo6BZVVf8DAAAAAAAAAAAAAAAA/2YAFMl9EvbgjRb/14gV/9eIFf/XiBX/14gV/9+NFv/KgBD254YAFQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAL91FRjKgRHN1IgU3s+EEt3PhBLdz4QS3c+EEt3UiBTezYMRzcJ6FBkAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACqqgADxIARHr18FiO8eA8ivHgPIrx4DyK8eA8ivXwPI8SAER7/VQADAAAAAAAAAAAAAAAA78cAAPA3AAD4FwAABCAAADGOAAAE+AAAkBEAAJ55AACYOQAAlgEAAER4AAAXaAAATnoAAPgXAAD0JwAA69cAAA==`,
             sgIcon: `data:image/x-icon;base64,AAABAAEAEBAAAAEAIABoBAAAFgAAACgAAAAQAAAAIAAAAAEAIAAAAAAAQAQAABMLAAATCwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIUAAAD5AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAPoAAACFAAAAAAAAAAAAAAD8AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA+QAAAAAAAAAAAAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAAAAAAAAAAAAP8AAAD/AAAA/wAAABwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAcAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAcAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAHAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAAAAAAAAAAAAPwAAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD5AAAAAAAAAAAAAACFAAAA+QAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD5AAAAhQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA//8AAP//AADAAwAAwAMAAMfjAADP8wAAz/MAAM/zAADP8wAAz/MAAM/zAADH4wAAwAMAAMADAAD//wAA//8AAA==`,
             stIcon: `data:image/x-icon;base64,AAABAAEAEBAAAAEAIABoBAAAFgAAACgAAAAQAAAAIAAAAAEAIAAAAAAAQAQAABMLAAATCwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABbD6SgWw+ucFsPrkBbD6SgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAWw+uYFsPr/BbD6/wWw+ucAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAFsPrmBbD6/wWw+v8FsPrmAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABbD6SQWw+uYFsPrmBbD6SQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAFKRLShSkS+cUpEvkFKRLSgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAExi4EpMYuDnTGLg5Exi4EoAAAAAAAAAABSkS+YUpEv/FKRL/xSkS+cAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABMYuDmTGLg/0xi4P9MYuDnAAAAAAAAAAAUpEvmFKRL/xSkS/8UpEvmAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAATGLg5kxi4P9MYuD/TGLg5gAAAAAAAAAAFKRLSRSkS+YUpEvmFKRLSQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAExi4ElMYuDmTGLg5kxi4EkAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAMZ9E0rGfRPnxn0T5MZ9E0oAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADGfRPmxn0T/8Z9E//GfRPnAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAxn0T5sZ9E//GfRP/xn0T5gAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAMZ9E0nGfRPmxn0T5sZ9E0kAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA//8AAPw/AAD8PwAA/D8AAPw/AAD//wAAh+EAAIfhAACH4QAAh+EAAP//AAD8PwAA/D8AAPw/AAD8PwAA//8AAA==`,
@@ -12119,7 +12119,6 @@ class ESGST {
                 {
                     check: true,
                     infinite: true,
-                    maxValue: 999999,
                     minValue: 0,
                     name: `Comments`
                 }
@@ -12200,6 +12199,7 @@ class ESGST {
         `;
         esgst.df = df = {
             counters: {},
+            filter: this.df_filterDiscussions.bind(this),
             filters: this.df_getFilters(),
             type: esgst.createdDiscussionsPath ? `Created` : ``
         };
@@ -12214,7 +12214,7 @@ class ESGST {
                         <div class="esgst-gf-basic-filters esgst-hidden">
                             <div>
                                 <span class="esgst-bold">Basic Filters:</span>
-                                <i class="fa fa-question-circle" title="The entries/copies filters are infinite. To increase/decrease their max value, simply enter the new max value into the input field and it will be changed."></i>
+                                <i class="fa fa-question-circle" title="'?' means that the filter is infinite. For example, if you have 10 in your min entries field and '?' in your max entries field, you will see giveaways that have 10 or more entries. You can edit the max field if you want to limit how far it goes. If you want to reset to the infinite limit, simply enter '?' again.\n\nInfinite dates work the same way, the only difference is that they will show something like 'mm/dd/yyyy' instead of '?'. Resetting dates to the infinite limit is a bit more difficult, since some browsers do not allow you to enter text in date fields. If your browser has a button to clear the date field, that will do it. If not, try pressing the backspace key when selecting the day, month and year."></i>
                             </div>
                         </div>
                         <div class="esgst-gf-type-filters">
@@ -12324,14 +12324,18 @@ class ESGST {
         df.filters.basic.forEach(filter => {
             if (!filter.check) return;
             [maxKey, minKey, key] = this.gf_getKeys(filter, true);
-            maxValue = filter.maxValue;
-            minValue = filter.minValue;
+            maxValue = isSet(filter.maxValue) ? filter.maxValue : `?`;
+            minValue = isSet(filter.minValue) ? filter.minValue : `?`;
             if (esgst[`df_${key}`]) {
                 infinite = filter.infinite;
-                maxSavedValue = preset[maxKey] || maxValue;
-                minSavedValue = preset[minKey] || minValue;
+                maxSavedValue = isSet(preset[maxKey]) ? preset[maxKey] : maxValue;
+                minSavedValue = isSet(preset[minKey]) ? preset[minKey] : minValue;
                 step = filter.step || 1;
-                if (!infinite && maxSavedValue > maxValue) {
+                if (infinite) {
+                    if (maxSavedValue === 99999 || maxSavedValue === 999999 || maxSavedValue === 999999999) {
+                        maxSavedValue = `?`;
+                    }
+                } else if (maxSavedValue > maxValue) {
                     maxSavedValue = maxValue;
                 }
                 df[maxKey] = maxSavedValue;
@@ -12348,19 +12352,28 @@ class ESGST {
                 df.counters[key] = display.firstElementChild.nextElementSibling;
                 df[`${minKey}Input`] = df.counters[key].nextElementSibling.firstElementChild;
                 df[`${maxKey}Input`] = df[`${minKey}Input`].nextElementSibling;
-                df[`${maxKey}Input`].addEventListener(`change`, this.gf_changeMaxValue.bind(this, infinite, slider, step));
-                df[`${minKey}Input`].addEventListener(`change`, this.gf_changeMinValue.bind(this, slider, step));
+                df[`${maxKey}Input`].addEventListener(`change`, this.gf_changeMaxValue.bind(this, df, infinite, maxKey, slider, step));
+                df[`${minKey}Input`].addEventListener(`change`, this.gf_changeMinValue.bind(this, df, infinite, minKey, slider, step));
                 if (infinite) {
                     maxValue = maxSavedValue;
                 }
+                if (maxSavedValue === `?`) {
+                    df[`${maxKey}Infinite`] = true;
+                }
+                if (minSavedValue === `?`) {
+                    df[`${minKey}Infinite`] = true;
+                }
                 $(slider).slider({
-                    change: this.df_changeSlider.bind(this, df, maxKey, minKey),
-                    min: minValue,
-                    max: maxValue,
+                    change: this.gf_changeSlider.bind(this, df, maxKey, minKey),
+                    min: minValue === `?` ? 0 : minValue,
+                    max: maxValue === `?` ? 1e3 : maxValue,
                     range: true,
                     slide: this.gf_slide.bind(this, df, maxKey, minKey),
                     step: step,
-                    values: [minSavedValue, maxSavedValue]
+                    values: [                        
+                        minSavedValue === `?` ? 0 : minSavedValue,
+                        maxSavedValue === `?` ? 1e3 : maxSavedValue
+                    ]
                 });
             } else {
                 df[maxKey] = maxValue;
@@ -12401,11 +12414,6 @@ class ESGST {
             typeFilters.classList.add(`esgst-hidden`);
         }
         return headingButton;
-    }
-    df_changeSlider(df, maxKey, minKey, event, ui) {
-        df[maxKey] = ui.values[1];
-        df[minKey] = ui.values[0];
-        this.df_filterDiscussions(df);
     }
     df_changeValue(context, df, key) {
         df[key] = context.value;
@@ -16523,7 +16531,7 @@ class ESGST {
         }
     }
     gf_getKeys(filter, includeKey) {
-        if (filter.maxValue) {
+        if (filter.maxValue || filter.minValue || filter.infinite) {
             let key = filter.name.replace(/[^A-Za-z]|\s/g, ``);
             return includeKey ? [`max${key}`, `min${key}`, key.replace(/^(.)/, (m, p1) => { return p1.toLowerCase(); })] : [`max${key}`, `min${key}`];
         } else {
@@ -16616,6 +16624,7 @@ class ESGST {
         let basicFilter, basicFilters, box, button, categoryFilter, categoryFilters, collapseButton, display, exceptionButton, exceptionCount, exceptionPanel, expandButton, filters, gf, headingButton, i, id, infinite, key, maxKey, maxSavedValue, maxValue, minKey, minSavedValue, minValue, name, preset, presetButton, presetDisplay, presetInput, presetMessage, presetPanel, presets, presetWarning, sgFilters, slider, step, toggleSwitch, typeFilter, typeFilters, value;
         gf = {
             counters: {},
+            filter: this.gf_filterGiveaways.bind(this),
             filters: {
                 basic: [
                     {
@@ -16627,14 +16636,12 @@ class ESGST {
                     {
                         check: (!esgst.parameters.entry_min && !esgst.parameters.entry_max) && (!esgst.wonPath || popup),
                         infinite: true,
-                        maxValue: 99999,
                         minValue: 0,
                         name: `Entries`
                     },
                     {
                         check: (!esgst.parameters.copy_min && !esgst.parameters.copy_max) && (!esgst.wonPath || popup),
                         infinite: true,
-                        maxValue: 99999,
                         minValue: 1,
                         name: `Copies`
                     },
@@ -16646,13 +16653,13 @@ class ESGST {
                     },
                     {
                         check: popup || (!esgst.createdPath && !esgst.enteredPath && !esgst.wonPath),
-                        maxValue: 99999,
+                        infinite: true,
                         minValue: 0,
                         name: `Comments`
                     },
                     {
                         check: !esgst.wonPath || popup,
-                        maxValue: 43800,
+                        infinite: true,
                         minValue: 0,
                         name: `Minutes To End`
                     },
@@ -16672,7 +16679,7 @@ class ESGST {
                     },
                     {
                         check: ((!esgst.enteredPath || esgst.cewgd) && !esgst.createdPath && !esgst.wonPath) || popup,
-                        maxValue: 99999,
+                        infinite: true,
                         minValue: 0,
                         name: `Ratio`
                     },
@@ -16685,8 +16692,6 @@ class ESGST {
                     {
                         check: !esgst.parameters.release_date_min && !esgst.parameters.release_date_max,
                         infinite: true,
-                        maxValue: new Date(`2070-12-31`).getTime() / 1e3,
-                        minValue: new Date(`1970-01-01`).getTime() / 1e3,
                         name: `Release Date`
                     }
                 ],
@@ -16998,21 +17003,28 @@ class ESGST {
             name = filter.name;
             if ((name === `Rating` && (!esgst.gc || !esgst.gc_r)) || (name === `Release Date` && (!esgst.gc || !esgst.gc_rd))) return;
             [maxKey, minKey, key] = this.gf_getKeys(filter, true);
-            maxValue = filter.maxValue;
-            minValue = filter.minValue;
+            maxValue = isSet(filter.maxValue) ? filter.maxValue : `?`;
+            minValue = isSet(filter.minValue) ? filter.minValue : `?`;
             if (esgst[`gf_${key}`]) {
                 infinite = filter.infinite;
-                maxSavedValue = preset[maxKey] || maxValue;
-                minSavedValue = preset[minKey] || minValue;
+                maxSavedValue = isSet(preset[maxKey]) ? preset[maxKey] : maxValue;
+                minSavedValue = isSet(preset[minKey]) ? preset[minKey] : minValue;
                 step = filter.step || 1;
-                if (!infinite && maxSavedValue > maxValue) {
+                if (infinite) {
+                    if (maxSavedValue === 43800 || maxSavedValue === 99999 || maxSavedValue === 999999 || maxSavedValue === 999999999 || (name === `Release Date` && maxSavedValue === new Date(`2070-12-31`).getTime() / 1e3)) {
+                        maxSavedValue = `?`;
+                    }
+                    if (name === `Release Date` && minSavedValue === 0) {
+                        minSavedValue = `?`;
+                    }
+                } else if (maxSavedValue > maxValue) {
                     maxSavedValue = maxValue;
                 }
                 gf[maxKey] = maxSavedValue;
                 gf[minKey] = minSavedValue;
                 basicFilter = insertHtml(basicFilters, `beforeEnd`, `
                     <div class="esgst-gf-basic-filter">
-                        <div>${name} <span class="esgst-gf-filter-count" title="Number of giveaways this filter is filtering">0</span> <span class="esgst-float-right"><input type="${name === `ReleaseDate` ? `date` : `text`}" value="${name === `Release Date` ? getDate(`[YYYY]-[MM]-[DD]`, minSavedValue * 1e3) : minSavedValue}"> - <input type="${name === `Release Date` ? `date` : `text`}" value="${name === `Release Date` ? getDate(`[YYYY]-[MM]-[DD]`, maxSavedValue * 1e3) : maxSavedValue}"></span></div>
+                        <div>${name} <span class="esgst-gf-filter-count" title="Number of giveaways this filter is filtering">0</span> <span class="esgst-float-right"><input type="${name === `Release Date` ? `date` : `text`}" value="${name === `Release Date` && minSavedValue !== `?` ? getDate(`[YYYY]-[MM]-[DD]`, minSavedValue * 1e3) : minSavedValue}"> - <input type="${name === `Release Date` ? `date` : `text`}" value="${name === `Release Date` && maxSavedValue !== `?` ? getDate(`[YYYY]-[MM]-[DD]`, maxSavedValue * 1e3) : maxSavedValue}"></span></div>
                         <div></div>
                         <div></div>
                     </div>
@@ -17032,19 +17044,28 @@ class ESGST {
                 gf.counters[key] = display.firstElementChild.nextElementSibling;
                 gf[`${minKey}Input`] = gf.counters[key].nextElementSibling.firstElementChild;
                 gf[`${maxKey}Input`] = gf[`${minKey}Input`].nextElementSibling;
-                gf[`${maxKey}Input`].addEventListener(`change`, this.gf_changeMaxValue.bind(this, infinite, slider, step));
-                gf[`${minKey}Input`].addEventListener(`change`, this.gf_changeMinValue.bind(this, slider, step));
+                gf[`${maxKey}Input`].addEventListener(`change`, this.gf_changeMaxValue.bind(this, gf, infinite, maxKey, slider, step));
+                gf[`${minKey}Input`].addEventListener(`change`, this.gf_changeMinValue.bind(this, gf, infinite, minKey, slider, step));
                 if (infinite) {
                     maxValue = maxSavedValue;
                 }
+                if (maxSavedValue === `?`) {
+                    gf[`${maxKey}Infinite`] = true;
+                }
+                if (minSavedValue === `?`) {
+                    gf[`${minKey}Infinite`] = true;
+                }
                 $(slider).slider({
                     change: this.gf_changeSlider.bind(this, gf, maxKey, minKey),
-                    min: minValue,
-                    max: maxValue,
+                    min: minValue === `?` ? 0 : minValue,
+                    max: maxValue === `?` ? (name === `Release Date` ? 5e9 : 1e3) : maxValue,
                     range: true,
                     slide: this.gf_slide.bind(this, gf, maxKey, minKey),
                     step: step,
-                    values: [minSavedValue, maxSavedValue]
+                    values: [
+                        minSavedValue === `?` ? 0 : minSavedValue,
+                        maxSavedValue === `?` ? (name === `Release Date` ? 5e9 : 1e3) : maxSavedValue
+                    ]
                 });
             } else {
                 gf[maxKey] = maxValue;
@@ -17183,35 +17204,67 @@ class ESGST {
         expandButton.classList.toggle(`esgst-hidden`);
         filters.classList.toggle(`esgst-hidden`);
     }
-    gf_changeMaxValue(infinite, slider, step, event) {
-        let max, min, value;
-        max = $(slider).slider(`values`, 1);
-        min = $(slider).slider(`values`, 0);
-        value = event.currentTarget.type === `date` ? new Date(event.currentTarget.value).getTime() / 1e3 : (step ? parseFloat(event.currentTarget.value) : parseInt(event.currentTarget.value));
-        if (value !== max && value >= min) {
-            if (infinite) {
-                $(slider).slider(`option`, `max`, value);
+    gf_changeMaxValue(gf, infinite, maxKey, slider, step, event) {
+        const max = $(slider).slider(`values`, 1),
+              min = $(slider).slider(`values`, 0);
+        let value = event.currentTarget.value;
+        if (infinite) {
+            if (!value || value === `?`) {
+                gf[`${maxKey}Infinite`] = true;
+                value = maxKey === `maxReleaseDate` ? 5e12 : 1e3;
+            } else {
+                gf[`${maxKey}Infinite`] = false;
             }
-            $(slider).slider(`values`, [min, value]);
+        }
+        const newValue = event.currentTarget.type === `date` ? new Date(value).getTime() / 1e3 : (step ? parseFloat(value) : parseInt(value));
+        if (newValue !== max && newValue >= min) {
+            if (infinite) {
+                $(slider).slider(`option`, `max`, newValue);
+            }
+            $(slider).slider(`values`, [min, newValue]);
         }
     }
-    gf_changeMinValue(slider, step, event) {
-        let max, min, value;
-        max = $(slider).slider(`values`, 1);
-        min = $(slider).slider(`values`, 0);
-        value = event.currentTarget.type === `date` ? new Date(event.currentTarget.value).getTime() / 1e3 : (step ? parseFloat(event.currentTarget.value) : parseInt(event.currentTarget.value));
-        if (value !== min && value <= max) {
-            $(slider).slider(`values`, [value, max]);
+    gf_changeMinValue(gf, infinite, minKey, slider, step, event) {
+        const max = $(slider).slider(`values`, 1),
+              min = $(slider).slider(`values`, 0);
+        let value = event.currentTarget.value;
+        if (infinite && minKey === `minReleaseDate`) {
+            if (!value || value === `?`) {
+                gf[`${minKey}Infinite`] = true;
+                value = 0;
+            } else {
+                gf[`${minKey}Infinite`] = false;
+            }
+        }
+        const newValue = event.currentTarget.type === `date` ? new Date(value).getTime() / 1e3 : (step ? parseFloat(value) : parseInt(value));
+        if (newValue !== min && newValue <= max) {
+            $(slider).slider(`values`, [newValue, max]);
         }
     }
     gf_changeSlider(gf, maxKey, minKey, event, ui) {
-        gf[maxKey] = ui.values[1];
-        gf[minKey] = ui.values[0];
-        this.gf_filterGiveaways(gf);
+        if (gf[`${maxKey}Infinite`] && ui.values[1] === (maxKey === `maxReleaseDate` ? 5e9 : 1e3)) {
+            gf[maxKey] = `?`;
+        } else {
+            gf[maxKey] = ui.values[1];
+        }
+        if (minKey === `minReleaseDate` && gf[`${minKey}Infinite`] && ui.values[0] === 0) {
+            gf[minKey] = `?`;
+        } else {
+            gf[minKey] = ui.values[0];
+        }
+        gf.filter(gf);
     }
     gf_slide(gf, maxKey, minKey, event, ui) {
-        gf[`${maxKey}Input`].value = maxKey === `maxReleaseDate` ? getDate(`[YYYY]-[MM]-[DD]`, ui.values[1]) : ui.values[1];
-        gf[`${minKey}Input`].value = minKey === `minReleaseDate` ? getDate(`[YYYY]-[MM]-[DD]`, ui.values[0]) : ui.values[0];
+        if (gf[`${maxKey}Infinite`] && ui.values[1] === (maxKey === `maxReleaseDate` ? 5e9 : 1e3)) {
+            gf[`${maxKey}Input`].value = `?`;
+        } else {
+            gf[`${maxKey}Input`].value = maxKey === `maxReleaseDate` ? getDate(`[YYYY]-[MM]-[DD]`, ui.values[1] * 1e3) : ui.values[1];
+        }
+        if (minKey === `minReleaseDate` && gf[`${minKey}Infinite`] && ui.values[0] === 0) {
+            gf[`${minKey}Input`].value = `?`;
+        } else {
+            gf[`${minKey}Input`].value = minKey === `minReleaseDate` ? getDate(`[YYYY]-[MM]-[DD]`, ui.values[0] * 1e3) : ui.values[0];
+        }
     }
     gf_changeValue(context, gf, key) {
         if (key === `ended`) {
