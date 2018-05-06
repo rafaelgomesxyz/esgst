@@ -551,7 +551,7 @@ class ESGST {
             sg: location.hostname.match(/www.steamgifts.com/),
             st: location.hostname.match(/www.steamtrades.com/),
             currentVersion: `7.17.8`,
-            devVersion: `7.18.0 (Dev.39)`,
+            devVersion: `7.18.0 (Dev.40)`,
             icon: `data:image/x-icon;base64,AAABAAEAEBAAAAEAIABoBAAAFgAAACgAAAAQAAAAIAAAAAEAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAqv8DCbP/Hgeq+CQIrf8iCK3/Igit/yIIrf8iB6//Iwit9x8Aqv8DAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAKr0GAa2/c0DvfzfA7f83QO3/N0Dt/zdA7f83QO+/d4Gs/3OAKP1GQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACm/xQFs/n2Bcf//wW///8FwP//BcD//wW///8Fx///BbP69gC2/xUAAAAAAAAAAAAAAAAA/1UDFptOFxSZMxkLpJktAq720QW1+ugEsfvjA7b92wO2/dsEsfvjBbX66Aau/dEoiO4tUlLWGU5k3hdVVf8DEJxKHxWqT8cVrU7uE6VN0guqny0Apv8XAJfQGwBAVywAQFcsAJfQGwCx/xcogugtS2Lk0lBl6u5Qae7ISmPeHxagSSMVr07jF7lV/xOiSu0brgATAAAAAAAAAA8AAAC/AAAAwAAAABAAAAAAYznjEkth4OxWb/3/T2jv40lf4iMXnksiEq1O3RayUv8UpEnkEo0+HQAAABkAAABBAAAA8QAAAPEAAABBAAAAGUBSvxxOYeDjU2v0/05m7d1LYuEiF55LIhKtTt0Ws1L/FahN2gU1FTAAAADAAAAA7AAAAP0AAAD9AAAA7AAAAMAVG0owUGPm2lNr9P9OZu3dS2LhIheeSyISrU7dFrNS/xWoTdoFNRswAAAAvwAAAOsAAAD9AAAA/QAAAOsAAADAFRtKMFBj6NpTa/T/Tmbt3Uti4SIXnksiEq1O3RayUv8UpEnkEo0+HQAAABgAAABAAAAA8QAAAPEAAABBAAAAGT5PuR1OYeDjU2v0/05m7d1LYuEiFqBJIxWuT+QXuVX/E6JL7QC8XhMAAAAAAAAADwAAAL8AAAC/AAAAEAAAAAAOR/8SSWLh7FZv/f9PaO/jSV/iIxCUSh8Vrk7HFqxN7ROlS9JskzMt1XULGK12EhxGLgYsRy8GK612EhzVgAsYgmxxLU1i39JNZ+vtT2fwx0pj1h8AqlUDF65GFgqZUhlsiC0txH0T0s5/EujJgBPkz4QR28+EEdvJgBPkzn8Q6Md+E9KLdHosM1LWGUZo6BZVVf8DAAAAAAAAAAAAAAAA/2YAFMl9EvbgjRb/14gV/9eIFf/XiBX/14gV/9+NFv/KgBD254YAFQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAL91FRjKgRHN1IgU3s+EEt3PhBLdz4QS3c+EEt3UiBTezYMRzcJ6FBkAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACqqgADxIARHr18FiO8eA8ivHgPIrx4DyK8eA8ivXwPI8SAER7/VQADAAAAAAAAAAAAAAAA78cAAPA3AAD4FwAABCAAADGOAAAE+AAAkBEAAJ55AACYOQAAlgEAAER4AAAXaAAATnoAAPgXAAD0JwAA69cAAA==`,
             sgIcon: `data:image/x-icon;base64,AAABAAEAEBAAAAEAIABoBAAAFgAAACgAAAAQAAAAIAAAAAEAIAAAAAAAQAQAABMLAAATCwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIUAAAD5AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAPoAAACFAAAAAAAAAAAAAAD8AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA+QAAAAAAAAAAAAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAAAAAAAAAAAAP8AAAD/AAAA/wAAABwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAcAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAcAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAHAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAAAAAAAAAAAAPwAAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD5AAAAAAAAAAAAAACFAAAA+QAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD5AAAAhQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA//8AAP//AADAAwAAwAMAAMfjAADP8wAAz/MAAM/zAADP8wAAz/MAAM/zAADH4wAAwAMAAMADAAD//wAA//8AAA==`,
             stIcon: `data:image/x-icon;base64,AAABAAEAEBAAAAEAIABoBAAAFgAAACgAAAAQAAAAIAAAAAEAIAAAAAAAQAQAABMLAAATCwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABbD6SgWw+ucFsPrkBbD6SgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAWw+uYFsPr/BbD6/wWw+ucAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAFsPrmBbD6/wWw+v8FsPrmAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABbD6SQWw+uYFsPrmBbD6SQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAFKRLShSkS+cUpEvkFKRLSgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAExi4EpMYuDnTGLg5Exi4EoAAAAAAAAAABSkS+YUpEv/FKRL/xSkS+cAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABMYuDmTGLg/0xi4P9MYuDnAAAAAAAAAAAUpEvmFKRL/xSkS/8UpEvmAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAATGLg5kxi4P9MYuD/TGLg5gAAAAAAAAAAFKRLSRSkS+YUpEvmFKRLSQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAExi4ElMYuDmTGLg5kxi4EkAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAMZ9E0rGfRPnxn0T5MZ9E0oAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADGfRPmxn0T/8Z9E//GfRPnAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAxn0T5sZ9E//GfRP/xn0T5gAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAMZ9E0nGfRPmxn0T5sZ9E0kAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA//8AAPw/AAD8PwAA/D8AAPw/AAD//wAAh+EAAIfhAACH4QAAh+EAAP//AAD8PwAA/D8AAPw/AAD8PwAA//8AAA==`,
@@ -20124,11 +20124,8 @@ class ESGST {
             this.qiv();
             if (esgst.qiv.popout && esgst.messageCount > 0 && esgst.qiv_p) {
                 esgst.qiv.nextPage = 1;
-                esgst.qiv.popout.popout.innerHTML = ``;
-                esgst.qiv.markReadButton = null;
                 this.qiv_addMarkReadButton();
-                esgst.qiv.comments = insertHtml(esgst.qiv.popout.popout, `beforeEnd`, `<div class="esgst-qiv-comments"></div>`);
-                this.qiv_scroll(true);
+                this.qiv_scroll(false, true);
             }
         }
         if (esgst.hr) {
@@ -24541,7 +24538,7 @@ class ESGST {
                     this.qiv_addMarkReadButton();
                 }
                 esgst.qiv.comments = insertHtml(esgst.qiv.popout.popout, `beforeEnd`, `<div class="esgst-qiv-comments"></div>`);
-                esgst.qiv.comments.addEventListener(`scroll`, this.qiv_scroll.bind(this, false));
+                esgst.qiv.comments.addEventListener(`scroll`, this.qiv_scroll.bind(this, false, false));
                 this.qiv_scroll(true);
             }
         }
@@ -24562,14 +24559,6 @@ class ESGST {
         esgst.qiv.timeout = setTimeout(() => {
             if (esgst.qiv.popout) {
                 esgst.qiv.popout.open(esgst.inboxButton);
-                if (esgst.messageCount > 0 && !esgst.qiv_p) {
-                    esgst.qiv.nextPage = 1;
-                    esgst.qiv.popout.popout.innerHTML = ``;
-                    esgst.qiv.markReadButton = null;
-                    this.qiv_addMarkReadButton();
-                    esgst.qiv.comments = insertHtml(esgst.qiv.popout.popout, `beforeEnd`, `<div class="esgst-qiv-comments"></div>`);
-                    this.qiv_scroll(true);
-                }
             } else {
                 esgst.qiv.popout = new Popout(`esgst-qiv-popout`, null, 1000);
                 esgst.qiv.popout.open(esgst.inboxButton);
@@ -24577,7 +24566,7 @@ class ESGST {
                     this.qiv_addMarkReadButton();
                 }
                 esgst.qiv.comments = insertHtml(esgst.qiv.popout.popout, `beforeEnd`, `<div class="esgst-qiv-comments"></div>`);
-                esgst.qiv.comments.addEventListener(`scroll`, this.qiv_scroll.bind(this, false));
+                esgst.qiv.comments.addEventListener(`scroll`, this.qiv_scroll.bind(this, false, false));
                 this.qiv_scroll(true);
             }
             esgst.qiv.popout.popout.onmouseenter = () => {
@@ -24588,20 +24577,85 @@ class ESGST {
             };
         }, 1000);
     }
-    async qiv_scroll(first) {
-        if ((first || esgst.qiv.comments.scrollTop + esgst.qiv.comments.offsetHeight >= esgst.qiv.comments.scrollHeight) && !esgst.qiv.busy) {
+    async qiv_scroll(first, preload) {
+        if ((first || preload || esgst.qiv.comments.scrollTop + esgst.qiv.comments.offsetHeight >= esgst.qiv.comments.scrollHeight) && !esgst.qiv.busy) {
             esgst.qiv.busy = true;
-            let loading = insertHtml(esgst.qiv.popout.popout, `beforeEnd`, `<span><i class="fa fa-circle-o-notch fa-spin"></i> Loading...</span>`);
-            let element = this.parseHtml((await this.request({method: `GET`, url: `/messages/search?page=${esgst.qiv.nextPage}`})).responseText).querySelector(`.page__heading, .page_heading`).nextElementSibling;
-            loading.remove();
-            esgst.qiv.comments.appendChild(element);
-            element.setAttribute(`data-esgst-qiv`, true);
-            await this.endless_load(element);
-            if (esgst.qiv.popout.isOpen) {
-                esgst.qiv.popout.reposition();
-            }
+            const firstPage = esgst.qiv.comments.firstElementChild;
+            let doContinue = false;
+            do {
+                const loading = insertHtml(esgst.qiv.popout.popout,
+                          first || preload ? `afterBegin` : `beforeEnd`, `
+                              <span><i class="fa fa-circle-o-notch fa-spin"></i> Loading...</span>
+                          `),
+                      context = this.parseHtml((await this.request({
+                              method: `GET`,
+                              url: `/messages/search?page=${esgst.qiv.nextPage}`
+                          })).responseText)
+                          .querySelector(`.page__heading, .page_heading`).nextElementSibling;
+                loading.remove();
+
+                if (preload) {
+                    const currentId = esgst.qiv.comments.querySelector(`[href*="/go/comment/"]`)
+                              .getAttribute(`href`).match(/\/go\/comment\/(.+)/)[1],
+                          comments = context.querySelectorAll(`.comment, .comment_outer`);
+                    let i = comments.length - 1;
+                    while (i > -1 && comments[i].querySelector(`[href*="/go/comment/"]`).getAttribute(`href`).match(/\/go\/comment\/(.+)/)[1] !== currentId) i--;
+                    if (i > -1) {
+                        doContinue = false;
+                        i--;
+                        for (let j = comments.length - 1; j > i; j--) {
+                            const container = comments[j].parentElement;
+                            comments[j].remove();
+                            if (!container.children.length) {
+                                container.previousElementSibling.remove();
+                                container.remove();
+                            }
+                        }
+                    } else {
+                        doContinue = true;
+                    }
+                    if (context.children.length) {
+                        esgst.qiv.comments.insertBefore(context, firstPage);
+                        firstPage.insertAdjacentHTML(`beforeBegin`, `
+                            <div class="esgst-bold esgst-text-center esgst-warning">-------------------------------------------------- ^^ NEW ^^ --------------------------------------------------</div>
+                        `);
+                    }
+                } else {
+                    const comments = context.querySelectorAll(`.comment, .comment_outer`);
+                    let i = comments.length - 1;
+                    while (i > -1 && !esgst.qiv.comments.querySelector(`[href*="/go/comment/${comments[i].querySelector(`[href*="/go/comment/"]`).getAttribute(`href`).match(/\/go\/comment\/(.+)/)[1]}"]`)) i--;
+                    if (i > -1) {
+                        while (i > -1) {
+                            const container = comments[i].parentElements;
+                            comments[i].remove();
+                            if (!container.children.length) {
+                                container.previousElementSibling.remove();
+                                container.remove();
+                            }
+                            i--;
+                        }
+                        if (context.children.length) {
+                            doContinue = false;
+                        } else {
+                            doContinue = true;
+                        }
+                    } else {
+                        doContinue = false;
+                    }
+                    if (context.children.length) {
+                        esgst.qiv.comments.appendChild(context);
+                    }
+                }
+                if (context.children.length) {
+                    context.setAttribute(`data-esgst-qiv`, true);
+                    await this.endless_load(context);
+                }
+                if (esgst.qiv.popout.isOpen) {
+                    esgst.qiv.popout.reposition(esgst.inboxButton);
+                }
+                esgst.qiv.nextPage += 1;
+            } while (doContinue);
             esgst.qiv.busy = false;
-            esgst.qiv.nextPage += 1;
         }
     }
     qiv_addMarkReadButton() {
