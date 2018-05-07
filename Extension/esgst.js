@@ -551,7 +551,7 @@ class ESGST {
             sg: location.hostname.match(/www.steamgifts.com/),
             st: location.hostname.match(/www.steamtrades.com/),
             currentVersion: `7.17.8`,
-            devVersion: `7.18.0 (Dev.44)`,
+            devVersion: `7.18.0 (Dev.45)`,
             icon: `data:image/x-icon;base64,AAABAAEAEBAAAAEAIABoBAAAFgAAACgAAAAQAAAAIAAAAAEAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAqv8DCbP/Hgeq+CQIrf8iCK3/Igit/yIIrf8iB6//Iwit9x8Aqv8DAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAKr0GAa2/c0DvfzfA7f83QO3/N0Dt/zdA7f83QO+/d4Gs/3OAKP1GQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACm/xQFs/n2Bcf//wW///8FwP//BcD//wW///8Fx///BbP69gC2/xUAAAAAAAAAAAAAAAAA/1UDFptOFxSZMxkLpJktAq720QW1+ugEsfvjA7b92wO2/dsEsfvjBbX66Aau/dEoiO4tUlLWGU5k3hdVVf8DEJxKHxWqT8cVrU7uE6VN0guqny0Apv8XAJfQGwBAVywAQFcsAJfQGwCx/xcogugtS2Lk0lBl6u5Qae7ISmPeHxagSSMVr07jF7lV/xOiSu0brgATAAAAAAAAAA8AAAC/AAAAwAAAABAAAAAAYznjEkth4OxWb/3/T2jv40lf4iMXnksiEq1O3RayUv8UpEnkEo0+HQAAABkAAABBAAAA8QAAAPEAAABBAAAAGUBSvxxOYeDjU2v0/05m7d1LYuEiF55LIhKtTt0Ws1L/FahN2gU1FTAAAADAAAAA7AAAAP0AAAD9AAAA7AAAAMAVG0owUGPm2lNr9P9OZu3dS2LhIheeSyISrU7dFrNS/xWoTdoFNRswAAAAvwAAAOsAAAD9AAAA/QAAAOsAAADAFRtKMFBj6NpTa/T/Tmbt3Uti4SIXnksiEq1O3RayUv8UpEnkEo0+HQAAABgAAABAAAAA8QAAAPEAAABBAAAAGT5PuR1OYeDjU2v0/05m7d1LYuEiFqBJIxWuT+QXuVX/E6JL7QC8XhMAAAAAAAAADwAAAL8AAAC/AAAAEAAAAAAOR/8SSWLh7FZv/f9PaO/jSV/iIxCUSh8Vrk7HFqxN7ROlS9JskzMt1XULGK12EhxGLgYsRy8GK612EhzVgAsYgmxxLU1i39JNZ+vtT2fwx0pj1h8AqlUDF65GFgqZUhlsiC0txH0T0s5/EujJgBPkz4QR28+EEdvJgBPkzn8Q6Md+E9KLdHosM1LWGUZo6BZVVf8DAAAAAAAAAAAAAAAA/2YAFMl9EvbgjRb/14gV/9eIFf/XiBX/14gV/9+NFv/KgBD254YAFQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAL91FRjKgRHN1IgU3s+EEt3PhBLdz4QS3c+EEt3UiBTezYMRzcJ6FBkAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACqqgADxIARHr18FiO8eA8ivHgPIrx4DyK8eA8ivXwPI8SAER7/VQADAAAAAAAAAAAAAAAA78cAAPA3AAD4FwAABCAAADGOAAAE+AAAkBEAAJ55AACYOQAAlgEAAER4AAAXaAAATnoAAPgXAAD0JwAA69cAAA==`,
             sgIcon: `data:image/x-icon;base64,AAABAAEAEBAAAAEAIABoBAAAFgAAACgAAAAQAAAAIAAAAAEAIAAAAAAAQAQAABMLAAATCwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIUAAAD5AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAPoAAACFAAAAAAAAAAAAAAD8AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA+QAAAAAAAAAAAAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAAAAAAAAAAAAP8AAAD/AAAA/wAAABwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAcAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAcAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAHAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAAAAAAAAAAAAPwAAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD5AAAAAAAAAAAAAACFAAAA+QAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD5AAAAhQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA//8AAP//AADAAwAAwAMAAMfjAADP8wAAz/MAAM/zAADP8wAAz/MAAM/zAADH4wAAwAMAAMADAAD//wAA//8AAA==`,
             stIcon: `data:image/x-icon;base64,AAABAAEAEBAAAAEAIABoBAAAFgAAACgAAAAQAAAAIAAAAAEAIAAAAAAAQAQAABMLAAATCwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABbD6SgWw+ucFsPrkBbD6SgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAWw+uYFsPr/BbD6/wWw+ucAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAFsPrmBbD6/wWw+v8FsPrmAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABbD6SQWw+uYFsPrmBbD6SQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAFKRLShSkS+cUpEvkFKRLSgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAExi4EpMYuDnTGLg5Exi4EoAAAAAAAAAABSkS+YUpEv/FKRL/xSkS+cAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABMYuDmTGLg/0xi4P9MYuDnAAAAAAAAAAAUpEvmFKRL/xSkS/8UpEvmAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAATGLg5kxi4P9MYuD/TGLg5gAAAAAAAAAAFKRLSRSkS+YUpEvmFKRLSQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAExi4ElMYuDmTGLg5kxi4EkAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAMZ9E0rGfRPnxn0T5MZ9E0oAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADGfRPmxn0T/8Z9E//GfRPnAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAxn0T5sZ9E//GfRP/xn0T5gAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAMZ9E0nGfRPmxn0T5sZ9E0kAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA//8AAPw/AAD8PwAA/D8AAPw/AAD//wAAh+EAAIfhAACH4QAAh+EAAP//AAD8PwAA/D8AAPw/AAD8PwAA//8AAA==`,
@@ -21490,47 +21490,37 @@ class ESGST {
     }
     mgc_getGiveaways(mgc, popup, progress, textArea, callback) {
         let giveaways, lines, max, n, value;
-        if ((esgst.mgc_createTrain && mgc.description.value.match(/\[ESGST-P\]|\[ESGST-N\]/)) || !esgst.mgc_createTrain) {
-            if ((mgc.discussion && mgc.description.value.match(/\[ESGST-B\]/)) || !mgc.discussion) {
-                esgst.busy = true;
-                giveaways = [];
-                lines = textArea.value.trim().split(/\n/);
-                for (let i = 0, n = lines.length; i < n; ++i) {
-                    const line = lines[i].trim();
-                    if (line) {
-                        giveaways.push(line);
-                    }
-                }
-                textArea.value = `${giveaways.join(`\n`)}\n`;
-                n = giveaways.length;
-                if ($(progress.bar).progressbar(`instance`)) {
-                    max = $(progress.bar).progressbar(`option`, `max`);
-                    value = $(progress.bar).progressbar(`option`, `value`);
-                    if (value + n !== max) {
-                        $(progress.bar).progressbar({
-                            max: value + n,
-                            value: value
-                        });
-                        progress.total.textContent = value + n;
-                    }
-                } else {
-                    $(progress.bar).progressbar({
-                        max: n
-                    });
-                    progress.total.textContent = n;
-                }
-                this.mgc_importGiveaway(giveaways, 0, mgc, n, popup, progress, textArea, () => {
-                    this.mgc_updateCache(mgc);
-                    popup.close();
-                }, callback);
-            } else {
-                createAlert(`The bump link format is missing from the description.`);
-                callback();
+        esgst.busy = true;
+        giveaways = [];
+        lines = textArea.value.trim().split(/\n/);
+        for (let i = 0, n = lines.length; i < n; ++i) {
+            const line = lines[i].trim();
+            if (line) {
+                giveaways.push(line);
+            }
+        }
+        textArea.value = `${giveaways.join(`\n`)}\n`;
+        n = giveaways.length;
+        if ($(progress.bar).progressbar(`instance`)) {
+            max = $(progress.bar).progressbar(`option`, `max`);
+            value = $(progress.bar).progressbar(`option`, `value`);
+            if (value + n !== max) {
+                $(progress.bar).progressbar({
+                    max: value + n,
+                    value: value
+                });
+                progress.total.textContent = value + n;
             }
         } else {
-            createAlert(`The next/previous links format is missing from the description.`);
-            callback();
+            $(progress.bar).progressbar({
+                max: n
+            });
+            progress.total.textContent = n;
         }
+        this.mgc_importGiveaway(giveaways, 0, mgc, n, popup, progress, textArea, () => {
+            this.mgc_updateCache(mgc);
+            popup.close();
+        }, callback);
     }
     async mgc_importGiveaway(giveaways, i, mgc, n, popup, progress, textArea, mainCallback, callback) {
         let copies, found, giveaway, key, keyPos, match, name, namePos, values;
@@ -21542,6 +21532,16 @@ class ESGST {
             let groups = giveaways[i].match(/\[groups="(.+?)"\]/);
             let level = giveaways[i].match(/\[level="(.+?)"\]/);
             let description = giveaways[i].match(/\[description="(.+?)"\]/);
+            if (esgst.mgc_createTrain && !((description && description[1]) || mgc.description.value || ``).match(/\[ESGST-P\]|\[ESGST-N\]/)) {
+                createAlert(`The next/previous links format is missing from the description.`);
+                callback();
+                return;
+            }
+            if (mgc.discussion && !((description && description[1]) || mgc.description.value || ``).match(/\[ESGST-B\]/)) {
+                createAlert(`The bump link format is missing from the description.`);
+                callback();
+                return;
+            }
             if (countries) {
                 if (countries[1] === `*`) {
                     countries = `*`;
@@ -21886,21 +21886,11 @@ class ESGST {
     mgc_createGiveaways_2(mgc, viewButton, popup, callback) {
         popup.onClose = null;
         popup.close();
-        if ((esgst.mgc_createTrain && mgc.description.value.match(/\[ESGST-P\]|\[ESGST-N\]/)) || !esgst.mgc_createTrain) {
-            if ((mgc.discussion && mgc.description.value.match(/\[ESGST-B\]/)) || !mgc.discussion) {
-                mgc.copies.value = `1`;
-                mgc.keys.value = ``;
-                viewButton.set.classList.add(`esgst-hidden`);
-                mgc.saveGiveaways = {};
-                this.mgc_createGiveaway(0, mgc, mgc.giveaways.children.length, esgst.cewgd || (esgst.gc && esgst.gc_gi) || esgst.lpv || esgst.rcvc ? this.mgc_saveGiveaways.bind(this, mgc, this.mgc_completeCreation.bind(this, mgc, viewButton, callback)) : this.mgc_completeCreation.bind(this, mgc, viewButton, callback));
-            } else {
-                createAlert(`The bump link format is missing from the description.`);
-                callback();
-            }
-        } else {
-            createAlert(`The next/previous links format is missing from the description.`);
-            callback();
-        }
+        mgc.copies.value = `1`;
+        mgc.keys.value = ``;
+        viewButton.set.classList.add(`esgst-hidden`);
+        mgc.saveGiveaways = {};
+        this.mgc_createGiveaway(0, mgc, mgc.giveaways.children.length, esgst.cewgd || (esgst.gc && esgst.gc_gi) || esgst.lpv || esgst.rcvc ? this.mgc_saveGiveaways.bind(this, mgc, this.mgc_completeCreation.bind(this, mgc, viewButton, callback)) : this.mgc_completeCreation.bind(this, mgc, viewButton, callback));
     }
     async mgc_createGiveaway(i, mgc, n, callback) {
         if (i < n) {
