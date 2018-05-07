@@ -551,7 +551,7 @@ class ESGST {
             sg: location.hostname.match(/www.steamgifts.com/),
             st: location.hostname.match(/www.steamtrades.com/),
             currentVersion: `7.17.8`,
-            devVersion: `7.18.0 (Dev.42)`,
+            devVersion: `7.18.0 (Dev.43)`,
             icon: `data:image/x-icon;base64,AAABAAEAEBAAAAEAIABoBAAAFgAAACgAAAAQAAAAIAAAAAEAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAqv8DCbP/Hgeq+CQIrf8iCK3/Igit/yIIrf8iB6//Iwit9x8Aqv8DAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAKr0GAa2/c0DvfzfA7f83QO3/N0Dt/zdA7f83QO+/d4Gs/3OAKP1GQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACm/xQFs/n2Bcf//wW///8FwP//BcD//wW///8Fx///BbP69gC2/xUAAAAAAAAAAAAAAAAA/1UDFptOFxSZMxkLpJktAq720QW1+ugEsfvjA7b92wO2/dsEsfvjBbX66Aau/dEoiO4tUlLWGU5k3hdVVf8DEJxKHxWqT8cVrU7uE6VN0guqny0Apv8XAJfQGwBAVywAQFcsAJfQGwCx/xcogugtS2Lk0lBl6u5Qae7ISmPeHxagSSMVr07jF7lV/xOiSu0brgATAAAAAAAAAA8AAAC/AAAAwAAAABAAAAAAYznjEkth4OxWb/3/T2jv40lf4iMXnksiEq1O3RayUv8UpEnkEo0+HQAAABkAAABBAAAA8QAAAPEAAABBAAAAGUBSvxxOYeDjU2v0/05m7d1LYuEiF55LIhKtTt0Ws1L/FahN2gU1FTAAAADAAAAA7AAAAP0AAAD9AAAA7AAAAMAVG0owUGPm2lNr9P9OZu3dS2LhIheeSyISrU7dFrNS/xWoTdoFNRswAAAAvwAAAOsAAAD9AAAA/QAAAOsAAADAFRtKMFBj6NpTa/T/Tmbt3Uti4SIXnksiEq1O3RayUv8UpEnkEo0+HQAAABgAAABAAAAA8QAAAPEAAABBAAAAGT5PuR1OYeDjU2v0/05m7d1LYuEiFqBJIxWuT+QXuVX/E6JL7QC8XhMAAAAAAAAADwAAAL8AAAC/AAAAEAAAAAAOR/8SSWLh7FZv/f9PaO/jSV/iIxCUSh8Vrk7HFqxN7ROlS9JskzMt1XULGK12EhxGLgYsRy8GK612EhzVgAsYgmxxLU1i39JNZ+vtT2fwx0pj1h8AqlUDF65GFgqZUhlsiC0txH0T0s5/EujJgBPkz4QR28+EEdvJgBPkzn8Q6Md+E9KLdHosM1LWGUZo6BZVVf8DAAAAAAAAAAAAAAAA/2YAFMl9EvbgjRb/14gV/9eIFf/XiBX/14gV/9+NFv/KgBD254YAFQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAL91FRjKgRHN1IgU3s+EEt3PhBLdz4QS3c+EEt3UiBTezYMRzcJ6FBkAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACqqgADxIARHr18FiO8eA8ivHgPIrx4DyK8eA8ivXwPI8SAER7/VQADAAAAAAAAAAAAAAAA78cAAPA3AAD4FwAABCAAADGOAAAE+AAAkBEAAJ55AACYOQAAlgEAAER4AAAXaAAATnoAAPgXAAD0JwAA69cAAA==`,
             sgIcon: `data:image/x-icon;base64,AAABAAEAEBAAAAEAIABoBAAAFgAAACgAAAAQAAAAIAAAAAEAIAAAAAAAQAQAABMLAAATCwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIUAAAD5AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAPoAAACFAAAAAAAAAAAAAAD8AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA+QAAAAAAAAAAAAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAAAAAAAAAAAAP8AAAD/AAAA/wAAABwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAcAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAcAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAHAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAAAAAAAAAAAAPwAAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD5AAAAAAAAAAAAAACFAAAA+QAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD5AAAAhQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA//8AAP//AADAAwAAwAMAAMfjAADP8wAAz/MAAM/zAADP8wAAz/MAAM/zAADH4wAAwAMAAMADAAD//wAA//8AAA==`,
             stIcon: `data:image/x-icon;base64,AAABAAEAEBAAAAEAIABoBAAAFgAAACgAAAAQAAAAIAAAAAEAIAAAAAAAQAQAABMLAAATCwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABbD6SgWw+ucFsPrkBbD6SgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAWw+uYFsPr/BbD6/wWw+ucAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAFsPrmBbD6/wWw+v8FsPrmAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABbD6SQWw+uYFsPrmBbD6SQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAFKRLShSkS+cUpEvkFKRLSgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAExi4EpMYuDnTGLg5Exi4EoAAAAAAAAAABSkS+YUpEv/FKRL/xSkS+cAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABMYuDmTGLg/0xi4P9MYuDnAAAAAAAAAAAUpEvmFKRL/xSkS/8UpEvmAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAATGLg5kxi4P9MYuD/TGLg5gAAAAAAAAAAFKRLSRSkS+YUpEvmFKRLSQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAExi4ElMYuDmTGLg5kxi4EkAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAMZ9E0rGfRPnxn0T5MZ9E0oAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADGfRPmxn0T/8Z9E//GfRPnAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAxn0T5sZ9E//GfRP/xn0T5gAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAMZ9E0nGfRPmxn0T5sZ9E0kAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA//8AAPw/AAD8PwAA/D8AAPw/AAD//wAAh+EAAIfhAACH4QAAh+EAAP//AAD8PwAA/D8AAPw/AAD8PwAA//8AAA==`,
@@ -7311,6 +7311,7 @@ class ESGST {
         }
     }
     async cfh() {
+        this.cfh_addScrollingEvent(window, esgst.commentsTop);
         esgst.endlessFeatures.push(this.cfh_setTextAreas.bind(this));
         esgst.cfh = {
             backup: [],
@@ -10207,6 +10208,32 @@ class ESGST {
         }
         esgst.cfh.preview.className = `esgst-cfh-preview markdown`;
     }
+    cfh_addScrollingEvent(context, baseTop = 0) {
+        let placeholder = null;
+        context.addEventListener(`scroll`, event => {
+            let unfix = true;
+            if (esgst.cfh.textArea) {
+                const textAreaTop = esgst.cfh.textArea.getBoundingClientRect().top,
+                      top = baseTop + (context !== window ? context.getBoundingClientRect().top : 0) + esgst.cfh.panel.offsetHeight;
+                if (textAreaTop < top && textAreaTop > -(esgst.cfh.textArea.offsetHeight - top)) {
+                    unfix = false;
+                    if (!esgst.cfh.panel.classList.contains(`esgst-cfh-panel-fixed`)) {
+                        esgst.cfh.panel.classList.add(`esgst-cfh-panel-fixed`);
+                        esgst.cfh.panel.style.top = `${baseTop || (context !== window && context.getBoundingClientRect().top)}px`;
+                        placeholder = insertHtml(esgst.cfh.panel, `beforeBegin`, `
+                            <div style="height: ${esgst.cfh.panel.offsetHeight}px;"></div>
+                        `);
+                    }
+                }
+            }
+            if (!unfix) return;
+            if (esgst.cfh.panel.classList.contains(`esgst-cfh-panel-fixed`)) {
+                esgst.cfh.panel.classList.remove(`esgst-cfh-panel-fixed`);
+                esgst.cfh.panel.style.top = ``;
+                placeholder.remove();
+            }
+        });
+    }
     cfh_setTextAreas(context, main, source, endless) {
         const elements = context.querySelectorAll(`${endless ? `.esgst-es-page-${endless} textarea[name*="description"], .esgst-es-page-${endless}textarea[name*="description"]` : `textarea[name*="description"]`}`);
         for (let i = elements.length - 1; i > -1; --i) {
@@ -10552,6 +10579,7 @@ class ESGST {
         descriptionArea = descriptionArea.lastElementChild;
         if (esgst.cfh) {
             this.cfh_addPanel(descriptionArea);
+            this.cfh_addScrollingEvent(popup.scrollable);
         }
         popup.description.appendChild(new ButtonSet(`green`, `grey`, `fa-check`, `fa-circle-o-notch fa-spin`, `Save`, `Saving...`, this.cfh_saveReply.bind(this, description, descriptionArea, name, nameArea, popup, replies, summary)).set);
         popup.open();
@@ -10645,7 +10673,7 @@ class ESGST {
         }
     }
     ch() {
-        new Process({
+        const process = new Process({
             button: insertHtml(esgst.sg ? esgst.mainButton.parentElement.getElementsByClassName(`nav__absolute-dropdown`)[0].lastElementChild : esgst.mainButton.parentElement.getElementsByClassName(`dropdown`)[0].firstElementChild.lastElementChild, `beforeBegin`, `
                 <div class="esgst-header-menu-row" data-link-id="ch" data-link-key="account" title="${this.getFeatureTooltip(`ch`)}">
                     <i class="fa fa-fw fa-comments yellow"></i>
@@ -10658,6 +10686,7 @@ class ESGST {
             popup: {
                 icon: `fa-comments`,
                 title: `Comment History`,
+                addCfhEvent: true,
                 addProgress: true,
                 addScrollable: `left`
             },
@@ -11164,6 +11193,7 @@ class ESGST {
                         tooltip: `If unchecked, all pages will be searched.`
                     }
                 ],
+                addCfhEvent: true,
                 addProgress: true,
                 addScrollable: `left`
             },
@@ -11940,9 +11970,10 @@ class ESGST {
                     children.classList.add(`esgst-text-left`);
                     popup.scrollable.appendChild(children);
                     await this.endless_load(children);
-                    let textArea = insertHtml(popup.description, `beforeEnd`, `<textarea></textarea>`);
+                    let textArea = insertHtml(popup.scrollable, `beforeEnd`, `<textarea></textarea>`);
                     if (esgst.cfh) {
                         this.cfh_addPanel(textArea);
+                        this.cfh_addScrollingEvent(popup.scrollable);
                     }
                     textArea.value = Description.value;
                     popup.description.appendChild(new ButtonSet(`green`, `grey`, `fa-send`, `fa-circle-o-notch fa-spin`, `Submit`, `Submitting...`, () => {
@@ -13397,6 +13428,7 @@ class ESGST {
             box = insertHtml(popup.scrollable, `beforeEnd`, `<textarea></textarea>`);
             if (esgst.cfh) {
                 this.cfh_addPanel(box);
+                this.cfh_addScrollingEvent(popup.scrollable);
             }
             popup.description.appendChild(new ButtonSet(`green`, `grey`, `fa-arrow-circle-right`, `fa-circle-o-notch fa-spin`, `Add Comment`, `Saving...`, async callback => {
                 if (box.value) {
@@ -24538,6 +24570,9 @@ class ESGST {
                     this.qiv_addMarkReadButton();
                 }
                 esgst.qiv.comments = insertHtml(esgst.qiv.popout.popout, `beforeEnd`, `<div class="esgst-qiv-comments"></div>`);
+                if (esgst.cfh) {
+                    this.cfh_addScrollingEvent(esgst.qiv.comments);
+                }
                 esgst.qiv.comments.addEventListener(`scroll`, this.qiv_scroll.bind(this, false, false));
                 this.qiv_scroll(true);
             }
@@ -24566,6 +24601,9 @@ class ESGST {
                     this.qiv_addMarkReadButton();
                 }
                 esgst.qiv.comments = insertHtml(esgst.qiv.popout.popout, `beforeEnd`, `<div class="esgst-qiv-comments"></div>`);
+                if (esgst.cfh) {
+                    this.cfh_addScrollingEvent(esgst.qiv.comments);
+                }
                 esgst.qiv.comments.addEventListener(`scroll`, this.qiv_scroll.bind(this, false, false));
                 this.qiv_scroll(true);
             }
@@ -24745,6 +24783,9 @@ class ESGST {
         popup.textArea = insertHtml(popup.scrollable, `beforeEnd`, `
             <textarea name="description"></textarea>
         `);
+        if (esgst.cfh) {
+            this.cfh_addScrollingEvent(popup.scrollable);
+        }
         popup.description.appendChild(new ButtonSet(`green`, `grey`, `fa-check`, `fa-circle-o-notch fa-spin`, `Save`, `Saving...`, Callback => {
             popup.progress.innerHTML = ``;
             this.saveComment(esgst.sg ? `` : document.querySelector(`[name="trade_code"]`).value, ``, popup.textArea.value, esgst.sg ? location.href.match(/(.+?)(#.+?)?$/)[1] : `/ajax.php`, popup.progress,
@@ -24969,6 +25010,7 @@ class ESGST {
         textArea = insertHtml(popup.scrollable, `beforeEnd`, `<textarea></textarea>`);
         if (esgst.cfh) {
             this.cfh_addPanel(textArea);
+            this.cfh_addScrollingEvent(popup.scrollable);
         }
         popup.description.appendChild(new ButtonSet(`green`, `grey`, `fa-check`, `fa-circle-o-notch fa-spin`, `Save`, `Saving...`, callback => {
             progress.innerHTML = ``;
@@ -36977,6 +37019,14 @@ class ESGST {
                 margin: 0 0 2px;
                 text-align: left;
             }
+
+            .esgst-cfh-panel-fixed {
+                background-color: #fff;
+                border: 1px solid #ccc;
+                border-radius: 5px;
+                padding: 2px;
+                position: fixed;
+            }
     
             .esgst-cfh-panel >* {
                 background-color: #fff;
@@ -37037,11 +37087,6 @@ class ESGST {
                 cursor: pointer;
                 display: inline-block;
                 margin: 2px;
-            }
-    
-            .esgst-cfh-panel ~ textarea {
-                max-height: 475px;
-                overflow: auto !important;
             }
     
             .esgst-cfh-popout {
@@ -39570,7 +39615,10 @@ class Process {
                 callback2: this.stop.bind(this)
             }
         ];
-        this.popup = new Popup_v2(this.popupDetails);
+        this.popup = new Popup_v2(this.popupDetails);        
+        if (this.popupDetails.addCfhEvent && esgst.cfh) {
+            _ESGST.cfh_addScrollingEvent(this.popup.scrollable);
+        }
         this.popup.open();
         if (this.urls) {
             this.index = 0;
