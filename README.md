@@ -236,6 +236,11 @@ To learn more about each feature you have to install ESGST.
 
 ## Changelog
 
+**7.18.2 (May 07, 2018)**
+
+* [#668](https://github.com/revilheart/ESGST/issues/668) Hotfix for v7.18.1
+
+
 **7.18.1 (May 07, 2018)**
 
 * [#666](https://github.com/revilheart/ESGST/issues/666) Hotfix for v7.18.0
