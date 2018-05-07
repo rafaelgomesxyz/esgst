@@ -45,22 +45,22 @@
 
 let _USER_INFO = {},
     browser = null,
-    GM = null;
-if (!this.GM && !this.GM_setValue) {
+    gm = null;
+if (typeof GM === `undefined` && typeof GM_setValue === `undefined`) {
     [_USER_INFO.extension, browser] = this.chrome && this.chrome.runtime ?
         [this.browser ? `firefox` : `chrome`, this.chrome] : [`edge`, this.browser];
-} else if (!this.GM) {
+} else if (typeof GM === `undefined`) {
     // polyfill for userscript managers that do not support the gm-dot api
-    GM = {
-        deleteValue: this.GM_deleteValue,
-        getValue: this.GM_getValue,
-        listValues: this.GM_listValues,
-        setValue: this.GM_setValue,
-        xmlHttpRequest: this.GM_xmlhttpRequest
+    gm = {
+        deleteValue: GM_deleteValue,
+        getValue: GM_getValue,
+        listValues: GM_listValues,
+        setValue: GM_setValue,
+        xmlHttpRequest: GM_xmlhttpRequest
     };
-    for (const key in GM) {
-        const old = GM[key];
-        GM[key] = (...args) => {
+    for (const key in gm) {
+        const old = gm[key];
+        gm[key] = (...args) => {
             return new Promise((resolve, reject) => {
                 try {
                     resolve(old.apply(this, args));
@@ -70,6 +70,8 @@ if (!this.GM && !this.GM_setValue) {
             });
         };
     }
+} else {
+    gm = GM;
 }
 
 class ESGST {
@@ -551,7 +553,7 @@ class ESGST {
             sg: location.hostname.match(/www.steamgifts.com/),
             st: location.hostname.match(/www.steamtrades.com/),
             currentVersion: `7.18.0`,
-            devVersion: `7.18.0`,
+            devVersion: `7.18.1 (Dev.1)`,
             icon: `data:image/x-icon;base64,AAABAAEAEBAAAAEAIABoBAAAFgAAACgAAAAQAAAAIAAAAAEAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAqv8DCbP/Hgeq+CQIrf8iCK3/Igit/yIIrf8iB6//Iwit9x8Aqv8DAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAKr0GAa2/c0DvfzfA7f83QO3/N0Dt/zdA7f83QO+/d4Gs/3OAKP1GQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACm/xQFs/n2Bcf//wW///8FwP//BcD//wW///8Fx///BbP69gC2/xUAAAAAAAAAAAAAAAAA/1UDFptOFxSZMxkLpJktAq720QW1+ugEsfvjA7b92wO2/dsEsfvjBbX66Aau/dEoiO4tUlLWGU5k3hdVVf8DEJxKHxWqT8cVrU7uE6VN0guqny0Apv8XAJfQGwBAVywAQFcsAJfQGwCx/xcogugtS2Lk0lBl6u5Qae7ISmPeHxagSSMVr07jF7lV/xOiSu0brgATAAAAAAAAAA8AAAC/AAAAwAAAABAAAAAAYznjEkth4OxWb/3/T2jv40lf4iMXnksiEq1O3RayUv8UpEnkEo0+HQAAABkAAABBAAAA8QAAAPEAAABBAAAAGUBSvxxOYeDjU2v0/05m7d1LYuEiF55LIhKtTt0Ws1L/FahN2gU1FTAAAADAAAAA7AAAAP0AAAD9AAAA7AAAAMAVG0owUGPm2lNr9P9OZu3dS2LhIheeSyISrU7dFrNS/xWoTdoFNRswAAAAvwAAAOsAAAD9AAAA/QAAAOsAAADAFRtKMFBj6NpTa/T/Tmbt3Uti4SIXnksiEq1O3RayUv8UpEnkEo0+HQAAABgAAABAAAAA8QAAAPEAAABBAAAAGT5PuR1OYeDjU2v0/05m7d1LYuEiFqBJIxWuT+QXuVX/E6JL7QC8XhMAAAAAAAAADwAAAL8AAAC/AAAAEAAAAAAOR/8SSWLh7FZv/f9PaO/jSV/iIxCUSh8Vrk7HFqxN7ROlS9JskzMt1XULGK12EhxGLgYsRy8GK612EhzVgAsYgmxxLU1i39JNZ+vtT2fwx0pj1h8AqlUDF65GFgqZUhlsiC0txH0T0s5/EujJgBPkz4QR28+EEdvJgBPkzn8Q6Md+E9KLdHosM1LWGUZo6BZVVf8DAAAAAAAAAAAAAAAA/2YAFMl9EvbgjRb/14gV/9eIFf/XiBX/14gV/9+NFv/KgBD254YAFQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAL91FRjKgRHN1IgU3s+EEt3PhBLdz4QS3c+EEt3UiBTezYMRzcJ6FBkAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACqqgADxIARHr18FiO8eA8ivHgPIrx4DyK8eA8ivXwPI8SAER7/VQADAAAAAAAAAAAAAAAA78cAAPA3AAD4FwAABCAAADGOAAAE+AAAkBEAAJ55AACYOQAAlgEAAER4AAAXaAAATnoAAPgXAAD0JwAA69cAAA==`,
             sgIcon: `data:image/x-icon;base64,AAABAAEAEBAAAAEAIABoBAAAFgAAACgAAAAQAAAAIAAAAAEAIAAAAAAAQAQAABMLAAATCwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIUAAAD5AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAPoAAACFAAAAAAAAAAAAAAD8AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA+QAAAAAAAAAAAAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAAAAAAAAAAAAP8AAAD/AAAA/wAAABwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAcAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAcAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAHAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAAAAAAAAAAAAPwAAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD5AAAAAAAAAAAAAACFAAAA+QAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD5AAAAhQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA//8AAP//AADAAwAAwAMAAMfjAADP8wAAz/MAAM/zAADP8wAAz/MAAM/zAADH4wAAwAMAAMADAAD//wAA//8AAA==`,
             stIcon: `data:image/x-icon;base64,AAABAAEAEBAAAAEAIABoBAAAFgAAACgAAAAQAAAAIAAAAAEAIAAAAAAAQAQAABMLAAATCwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABbD6SgWw+ucFsPrkBbD6SgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAWw+uYFsPr/BbD6/wWw+ucAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAFsPrmBbD6/wWw+v8FsPrmAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABbD6SQWw+uYFsPrmBbD6SQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAFKRLShSkS+cUpEvkFKRLSgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAExi4EpMYuDnTGLg5Exi4EoAAAAAAAAAABSkS+YUpEv/FKRL/xSkS+cAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABMYuDmTGLg/0xi4P9MYuDnAAAAAAAAAAAUpEvmFKRL/xSkS/8UpEvmAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAATGLg5kxi4P9MYuD/TGLg5gAAAAAAAAAAFKRLSRSkS+YUpEvmFKRLSQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAExi4ElMYuDmTGLg5kxi4EkAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAMZ9E0rGfRPnxn0T5MZ9E0oAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADGfRPmxn0T/8Z9E//GfRPnAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAxn0T5sZ9E//GfRP/xn0T5gAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAMZ9E0nGfRPmxn0T5sZ9E0kAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA//8AAPw/AAD8PwAA/D8AAPw/AAD//wAAh+EAAIfhAACH4QAAh+EAAP//AAD8PwAA/D8AAPw/AAD8PwAA//8AAA==`,
@@ -873,20 +875,20 @@ class ESGST {
             });
         } else {
             // esgst is running as a script
-            this.setValue = GM.setValue;
+            this.setValue = gm.setValue;
             this.setValues = async values => {
                 let promises = [];
                 for (let key in values) {
-                    promises.push(GM.setValue(key, values[key]));
+                    promises.push(gm.setValue(key, values[key]));
                 }
                 await Promise.all(promises);
             };
-            this.getValue = GM.getValue;
+            this.getValue = gm.getValue;
             this.getValues = async values => {
                 let output = {};
                 let promises = [];
                 for (let key in values) {
-                    let promise = GM.getValue(key, values[key]);
+                    let promise = gm.getValue(key, values[key]);
                     promise.then(value => {
                         output[key] = value;
                     });
@@ -895,20 +897,20 @@ class ESGST {
                 await Promise.all(promises);
                 return output;
             };
-            this.delValue = GM.deleteValue;
+            this.delValue = gm.deleteValue;
             this.delValues = async keys => {
                 let promises = [];
                 for (let i = keys.length - 1; i > -1; i--) {
-                    promises.push(GM.deleteValue(keys[i]));
+                    promises.push(gm.deleteValue(keys[i]));
                 }
                 await Promise.all(promises);
             };
             this.getStorage = async () => {
-                let keys = await GM.listValues();
+                let keys = await gm.listValues();
                 let promises = [];
                 let storage = {};
                 for (let i = keys.length - 1; i > -1; i--) {
-                    let promise = GM.getValue(keys[i]);
+                    let promise = gm.getValue(keys[i]);
                     promise.then(value => {
                         storage[keys[i]] = value;
                     });
@@ -957,7 +959,7 @@ class ESGST {
                             this.lookForPopups(response);
                         }
                     } else {
-                        GM.xmlHttpRequest({
+                        gm.xmlHttpRequest({
                             data: details.data,
                             headers: details.headers,
                             method: details.method,
@@ -10947,7 +10949,7 @@ class ESGST {
                     <a href="#">Reset Links</a>
                 </${esgst.sg ? `div` : `li`}>
             ` : this.generateHeaderMenuItem({color: `grey`, icon: `fa-undo`, name: `Reset Links`, description: `Click here to reset the custom links.`}));
-            chfl.resetButton.addEventListener(`click`, createConfirmation.bind(null, `Are you sure you want to reset the links? Any custom links you added will be deleted.`, this.chfl_resetLinks.bind(null, chfl, key), null));
+            chfl.resetButton.addEventListener(`click`, createConfirmation.bind(null, `Are you sure you want to reset the links? Any custom links you added will be deleted.`, this.chfl_resetLinks.bind(this, chfl, key), null));
             let elements = {};
             esgst[`chfl_${key}`].forEach(item => {
                 if (item.id) {
@@ -17365,7 +17367,7 @@ class ESGST {
                 <span>Undo Delete</span>
             </div>
         `);
-        undoButton.addEventListener(`click`, this.gf_undoDeletePreset.bind(null, deleted, undoButton));
+        undoButton.addEventListener(`click`, this.gf_undoDeletePreset.bind(this, deleted, undoButton));
         table = insertHtml(popup.scrollable, `beforeEnd`, `<div class="esgst-text-left popup__keys__list"></div>`);
         JSON.parse(await this.getValue(`filterPresets`, `[]`)).forEach(preset => {
             details = ``;
@@ -17584,7 +17586,7 @@ class ESGST {
         presets = JSON.parse(await this.getValue(`filterPresets`, `[]`));
         for (i = presets.length - 1; i >= 0 && presets[i].name !== name; --i);
         preset = presets[i];
-        undoButton.addEventListener(`click`, this.gf_undoDeleteException.bind(null, deleted, exceptionCount, gf, preset, undoButton));
+        undoButton.addEventListener(`click`, this.gf_undoDeleteException.bind(this, deleted, exceptionCount, gf, preset, undoButton));
         if (preset.exceptions) {
             preset.exceptions.forEach(exception => {
                 details = ``;
@@ -18757,7 +18759,7 @@ class ESGST {
         giveaways.forEach(giveaway => {
             if (giveaway.sgTools || (main && (esgst.createdPath || esgst.enteredPath || esgst.wonPath || esgst.giveawayPath || esgst.newGiveawayPath))) return;
             if (!giveaway.innerWrap.getElementsByClassName(`esgst-gp-button`)[0] && (!giveaway.inviteOnly || giveaway.url)) {
-                let buttonSet = new ButtonSet(`grey`, `grey`, `fa-external-link`, `fa-circle-o-notch fa-spin`, ``, ``, this.elgb_openPopup.bind(null, giveaway, main, source)).set;
+                let buttonSet = new ButtonSet(`grey`, `grey`, `fa-external-link`, `fa-circle-o-notch fa-spin`, ``, ``, this.elgb_openPopup.bind(this, giveaway, main, source)).set;
                 buttonSet.classList.add(`esgst-gp-button`);
                 buttonSet.setAttribute(`data-columnId`, `gp`);
                 buttonSet.title = this.getFeatureTooltip(`gp`, `View giveaway description/add a comment`);
@@ -27049,7 +27051,7 @@ class ESGST {
             let button = this.createHeadingButton({id: `ugs`, icons: [`fa-gift`, `fa-send`], title: `Send unsent gifts`});
             button.addEventListener(`click`, this.ugs_openPopup.bind(this, {button}));
         } else if (esgst.newTicketPath) {
-            document.getElementsByClassName(`form__submit-button`)[0].addEventListener(`click`, this.ugs_saveReroll.bind(null, document.querySelector(`[name="category_id"]`), document.querySelector(`[name="reroll_winner_id"]`)));
+            document.getElementsByClassName(`form__submit-button`)[0].addEventListener(`click`, this.ugs_saveReroll.bind(this, document.querySelector(`[name="category_id"]`), document.querySelector(`[name="reroll_winner_id"]`)));
         }
     }
     async ugs_saveReroll(category, winner) {
@@ -34271,7 +34273,7 @@ class ESGST {
                 break;
             case `delete`:
                 icon = `fa-trash`;
-                onClick = this.confirmDataDeletion.bind(null);
+                onClick = this.confirmDataDeletion.bind(this);
                 prep = `from`;
                 title1 = `Delete`;
                 title2 = `Deleting`;
