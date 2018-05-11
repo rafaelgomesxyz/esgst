@@ -236,6 +236,14 @@ To learn more about each feature you have to install ESGST.
 
 ## Changelog
 
+**7.18.3 (May 11, 2018)**
+
+* [#675](https://github.com/revilheart/ESGST/issues/675) Remove Comment History from SteamTrades
+* [#673](https://github.com/revilheart/ESGST/issues/673) Fix a bug that happens when creating giveaways through either Giveaway Templates or Multiple Giveaway Creator
+* [#670](https://github.com/revilheart/ESGST/issues/670) Fix a bug that does not return Endless Scrolling to a paused state after continuously loading pages
+* [#667](https://github.com/revilheart/ESGST/issues/667) Fix a bug that does not load endless features correctly in some pages
+
+
 **7.18.2 (May 07, 2018)**
 
 * [#668](https://github.com/revilheart/ESGST/issues/668) Hotfix for v7.18.1

@@ -3,7 +3,7 @@
 // @namespace ESGST
 // @description Enhances SteamGifts and SteamTrades by adding some cool features to them.
 // @icon https://dl.dropboxusercontent.com/s/lr3t3bxrxfxylqe/esgstIcon.ico?raw=1
-// @version 7.18.2
+// @version 7.18.3
 // @author revilheart
 // @contributor Royalgamer06
 // @downloadURL https://github.com/revilheart/ESGST/raw/master/ESGST.user.js
@@ -186,8 +186,7 @@ class ESGST {
                     `user=[steamId]`
                 ],
                 chfl_account_st: [
-                    `user=[steamId]`,
-                    `ch`
+                    `user=[steamId]`
                 ],
                 chfl_footer_st: [
                     `guidelines`,
@@ -552,8 +551,8 @@ class ESGST {
             markdownParser: new Parsedown(),
             sg: location.hostname.match(/www.steamgifts.com/),
             st: location.hostname.match(/www.steamtrades.com/),
-            currentVersion: `7.18.2`,
-            devVersion: `7.18.2`,
+            currentVersion: `7.18.3`,
+            devVersion: `7.18.3`,
             icon: `data:image/x-icon;base64,AAABAAEAEBAAAAEAIABoBAAAFgAAACgAAAAQAAAAIAAAAAEAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAqv8DCbP/Hgeq+CQIrf8iCK3/Igit/yIIrf8iB6//Iwit9x8Aqv8DAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAKr0GAa2/c0DvfzfA7f83QO3/N0Dt/zdA7f83QO+/d4Gs/3OAKP1GQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACm/xQFs/n2Bcf//wW///8FwP//BcD//wW///8Fx///BbP69gC2/xUAAAAAAAAAAAAAAAAA/1UDFptOFxSZMxkLpJktAq720QW1+ugEsfvjA7b92wO2/dsEsfvjBbX66Aau/dEoiO4tUlLWGU5k3hdVVf8DEJxKHxWqT8cVrU7uE6VN0guqny0Apv8XAJfQGwBAVywAQFcsAJfQGwCx/xcogugtS2Lk0lBl6u5Qae7ISmPeHxagSSMVr07jF7lV/xOiSu0brgATAAAAAAAAAA8AAAC/AAAAwAAAABAAAAAAYznjEkth4OxWb/3/T2jv40lf4iMXnksiEq1O3RayUv8UpEnkEo0+HQAAABkAAABBAAAA8QAAAPEAAABBAAAAGUBSvxxOYeDjU2v0/05m7d1LYuEiF55LIhKtTt0Ws1L/FahN2gU1FTAAAADAAAAA7AAAAP0AAAD9AAAA7AAAAMAVG0owUGPm2lNr9P9OZu3dS2LhIheeSyISrU7dFrNS/xWoTdoFNRswAAAAvwAAAOsAAAD9AAAA/QAAAOsAAADAFRtKMFBj6NpTa/T/Tmbt3Uti4SIXnksiEq1O3RayUv8UpEnkEo0+HQAAABgAAABAAAAA8QAAAPEAAABBAAAAGT5PuR1OYeDjU2v0/05m7d1LYuEiFqBJIxWuT+QXuVX/E6JL7QC8XhMAAAAAAAAADwAAAL8AAAC/AAAAEAAAAAAOR/8SSWLh7FZv/f9PaO/jSV/iIxCUSh8Vrk7HFqxN7ROlS9JskzMt1XULGK12EhxGLgYsRy8GK612EhzVgAsYgmxxLU1i39JNZ+vtT2fwx0pj1h8AqlUDF65GFgqZUhlsiC0txH0T0s5/EujJgBPkz4QR28+EEdvJgBPkzn8Q6Md+E9KLdHosM1LWGUZo6BZVVf8DAAAAAAAAAAAAAAAA/2YAFMl9EvbgjRb/14gV/9eIFf/XiBX/14gV/9+NFv/KgBD254YAFQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAL91FRjKgRHN1IgU3s+EEt3PhBLdz4QS3c+EEt3UiBTezYMRzcJ6FBkAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACqqgADxIARHr18FiO8eA8ivHgPIrx4DyK8eA8ivXwPI8SAER7/VQADAAAAAAAAAAAAAAAA78cAAPA3AAD4FwAABCAAADGOAAAE+AAAkBEAAJ55AACYOQAAlgEAAER4AAAXaAAATnoAAPgXAAD0JwAA69cAAA==`,
             sgIcon: `data:image/x-icon;base64,AAABAAEAEBAAAAEAIABoBAAAFgAAACgAAAAQAAAAIAAAAAEAIAAAAAAAQAQAABMLAAATCwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIUAAAD5AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAPoAAACFAAAAAAAAAAAAAAD8AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA+QAAAAAAAAAAAAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAAAAAAAAAAAAP8AAAD/AAAA/wAAABwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAcAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAcAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAHAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAAAAAAAAAAAAPwAAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD5AAAAAAAAAAAAAACFAAAA+QAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD5AAAAhQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA//8AAP//AADAAwAAwAMAAMfjAADP8wAAz/MAAM/zAADP8wAAz/MAAM/zAADH4wAAwAMAAMADAAD//wAA//8AAA==`,
             stIcon: `data:image/x-icon;base64,AAABAAEAEBAAAAEAIABoBAAAFgAAACgAAAAQAAAAIAAAAAEAIAAAAAAAQAQAABMLAAATCwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABbD6SgWw+ucFsPrkBbD6SgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAWw+uYFsPr/BbD6/wWw+ucAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAFsPrmBbD6/wWw+v8FsPrmAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABbD6SQWw+uYFsPrmBbD6SQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAFKRLShSkS+cUpEvkFKRLSgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAExi4EpMYuDnTGLg5Exi4EoAAAAAAAAAABSkS+YUpEv/FKRL/xSkS+cAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABMYuDmTGLg/0xi4P9MYuDnAAAAAAAAAAAUpEvmFKRL/xSkS/8UpEvmAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAATGLg5kxi4P9MYuD/TGLg5gAAAAAAAAAAFKRLSRSkS+YUpEvmFKRLSQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAExi4ElMYuDmTGLg5kxi4EkAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAMZ9E0rGfRPnxn0T5MZ9E0oAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADGfRPmxn0T/8Z9E//GfRPnAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAxn0T5sZ9E//GfRP/xn0T5gAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAMZ9E0nGfRPmxn0T5sZ9E0kAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA//8AAPw/AAD8PwAA/D8AAPw/AAD//wAAh+EAAIfhAACH4QAAh+EAAP//AAD8PwAA/D8AAPw/AAD8PwAA//8AAA==`,
@@ -3993,8 +3992,7 @@ class ESGST {
                             </ul>
                         `,
                         name: `Comment History`,
-                        sg: true,
-                        st: true
+                        sg: true
                     },
                     cr: {
                         description: `
@@ -10676,7 +10674,7 @@ class ESGST {
     }
     ch() {
         new Process({
-            button: insertHtml(esgst.sg ? esgst.mainButton.parentElement.getElementsByClassName(`nav__absolute-dropdown`)[0].lastElementChild : esgst.mainButton.parentElement.getElementsByClassName(`dropdown`)[0].firstElementChild.lastElementChild, `beforeBegin`, `
+            button: insertHtml(esgst.mainButton.parentElement.getElementsByClassName(`nav__absolute-dropdown`)[0].lastElementChild, `beforeBegin`, `
                 <div class="esgst-header-menu-row" data-link-id="ch" data-link-key="account" title="${this.getFeatureTooltip(`ch`)}">
                     <i class="fa fa-fw fa-comments yellow"></i>
                     <div>
@@ -13616,7 +13614,7 @@ class ESGST {
         es.refreshButton.addEventListener(`click`, esgst.es_refresh);
         esgst.es_refreshAll = this.es_refreshAll.bind(this, es);
         es.refreshAllButton.addEventListener(`click`, esgst.es_refreshAll);
-        es.continuousButton.addEventListener(`click`, this.es_contiuouslyLoad.bind(this, es));
+        es.continuousButton.addEventListener(`click`, this.es_continuouslyLoad.bind(this, es));
         es.nextButton.addEventListener(`click`, this.es_stepNext.bind(this, es));
         es.pauseButton.addEventListener(`click`, this.es_pause.bind(this, es));
         es.resumeButton.addEventListener(`click`, this.es_resume.bind(this, es));
@@ -13842,7 +13840,7 @@ class ESGST {
         if (es.step) return;
         es.nextButton.innerHTML = `<i class="fa fa-circle-o-notch fa-spin"></i>`;
         es.step = true;
-        let wasPaused = es.paused;
+        const wasPaused = es.paused;
         await this.es_resume(es);
         document.addEventListener(`scroll`, esgst.es_loadNext);
         esgst.es_loadNext(async () => {
@@ -13855,14 +13853,20 @@ class ESGST {
             es.nextButton.innerHTML = `<i class="fa fa-step-forward"></i>`;
         });
     }
-    es_contiuouslyLoad(es) {
+    async es_continuouslyLoad(es) {
         if (es.continuous) return;
         es.continuousButton.innerHTML = `<i class="fa fa-circle-o-notch fa-spin"></i>`;
         es.continuous = true;
-        this.es_resume(es);
+        const wasPaused = es.paused;
+        await this.es_resume(es);
         document.addEventListener(`scroll`, esgst.es_loadNext);
-        esgst.es_loadNext(() => {
+        esgst.es_loadNext(async () => {
             es.continuous = false;
+            if (wasPaused) {
+                await this.es_pause(es);
+            } else {
+                await this.es_resume(es);
+            }
             es.continuousButton.innerHTML = `<i class="fa fa-fast-forward"></i>`;
         });
     }
@@ -19139,23 +19143,34 @@ class ESGST {
         let gts = {};
         gts.deletedTemplates = [];
         reviewButton = rows.lastElementChild;
-        createGiveawayButton = new ButtonSet(`green`, `grey`, `fa-plus-circle`, `fa-circle-o-notch fa-spin`, `Create Giveaway`, `Creating...`, async () => {
-            let data;
-            data = `xsrf_token=${esgst.xsrfToken}&next_step=3&`;
+        createGiveawayButton = new ButtonSet(`green`, `grey`, `fa-plus-circle`, `fa-circle-o-notch fa-spin`, `Create Giveaway`, `Creating...`, async callback => {
+            let data = `xsrf_token=${esgst.xsrfToken}&next_step=3&`;
             data += `game_id=${document.querySelector(`[name="game_id"]`).value}&`;
             data += `type=${document.querySelector(`[name="type"]`).value}&`;
             data += `copies=${document.querySelector(`[name="copies"]`).value}&`;
-            data += `key_string=${document.querySelector(`[name="key_string"]`).value}&`;
-            data += `start_time=${document.querySelector(`[name="start_time"]`).value}&`;
-            data += `end_time=${document.querySelector(`[name="end_time"]`).value}&`;
+            data += `key_string=${encodeURIComponent(document.querySelector(`[name="key_string"]`).value)}&`;
+            data += `timezone=${new Date().getTimezoneOffset()}&`;
+            data += `start_time=${encodeURIComponent(document.querySelector(`[name="start_time"]`).value)}&`;
+            data += `end_time=${encodeURIComponent(document.querySelector(`[name="end_time"]`).value)}&`;
             data += `region_restricted=${document.querySelector(`[name="region_restricted"]`).value}&`;
-            data += `country_item_string=${document.querySelector(`[name="country_item_string"]`).value.trim()}&`;
-            data += `group_item_string=${document.querySelector(`[name="group_item_string"]`).value.trim()}&`;
+            data += `country_item_string=${encodeURIComponent(document.querySelector(`[name="country_item_string"]`).value.trim())}&`;
+            data += `group_item_string=${encodeURIComponent(document.querySelector(`[name="group_item_string"]`).value.trim())}&`;
             data += `who_can_enter=${document.querySelector(`[name="who_can_enter"]`).value}&`;
             data += `whitelist=${document.querySelector(`.form__row--who-can-enter [name="whitelist"]`).value}&`;
             data += `contributor_level=${document.querySelector(`[name="contributor_level"]`).value}&`;
             data += `description=${encodeURIComponent(document.querySelector(`[name="description"]`).value)}`;
-            location.href = (await this.request({data, method: `POST`, url: `/giveaways/new`})).finalUrl;
+            const response = await this.request({data: data.replace(/start_time=(.+?)&/, this.mgc_correctTime.bind(this)), method: `POST`, url: `/giveaways/new`});
+            if (response.finalUrl.match(/\/giveaways\/new/)) {
+                callback();
+                const errors = this.parseHtml(response.responseText).getElementsByClassName(`form__row__error`);
+                let message = `Unable to create giveaway because of the following errors:\n\n`;
+                for (const error of errors) {
+                    message += `* ${error.textContent.trim()}`;
+                }
+                alert(message);
+            } else {
+                location.href = response.finalUrl;
+            }
         });
         rows.appendChild(createGiveawayButton.set);
         button.addEventListener(`click`, this.gts_openPopup.bind(this, gts));
@@ -20993,6 +21008,7 @@ class ESGST {
                 groups: document.querySelector(`[name="group_item_string"]`),
                 level: document.querySelector(`[name="contributor_level"]`),
                 description: document.querySelector(`[name="description"]`),
+                timezone: new Date().getTimezoneOffset(),
                 datas: [],
                 values: [],
                 created: [],
@@ -21298,7 +21314,7 @@ class ESGST {
             .replace(/\[ESGST-STEAM-TYPE\]/ig, values.steam.type.slice(0, -1))
             .replace(/\[ESGST-STEAM-URL\]/ig, `http://store.steampowered.com/${values.steam.type.slice(0, -1)}/${values.steam.id}`);
         details += `Level ${values.level}\n\n${values.description}`;
-        data = `xsrf_token=${esgst.xsrfToken}&next_step=3&game_id=${values.gameId}&type=${values.gameType}&copies=${values.copies}&key_string=${values.keys}&start_time=${values.startTime}&end_time=${values.endTime}&region_restricted=${values.region}&country_item_string=${values.countries}&who_can_enter=${values.whoCanEnter}&whitelist=${values.whitelist}&group_item_string=${values.groups}&contributor_level=${values.level}&description=${encodeURIComponent(values.description)}`;
+        data = `xsrf_token=${esgst.xsrfToken}&next_step=3&game_id=${values.gameId}&type=${values.gameType}&copies=${values.copies}&key_string=${encodeURIComponent(values.keys)}&timezone=${mgc.timezone}&start_time=${encodeURIComponent(values.startTime)}&end_time=${encodeURIComponent(values.endTime)}&region_restricted=${values.region}&country_item_string=${encodeURIComponent(values.countries)}&who_can_enter=${values.whoCanEnter}&whitelist=${values.whitelist}&group_item_string=${encodeURIComponent(values.groups)}&contributor_level=${values.level}&description=${encodeURIComponent(values.description)}`;
         if (edit) {
             mgc.datas[mgc.editPos] = data;
             mgc.values[mgc.editPos] = values;
@@ -21909,8 +21925,9 @@ class ESGST {
         }
     }
     mgc_correctTime(fullMatch, match1) {
-        if ((new Date(match1).getTime()) < Date.now()) {
-            return `start_time=${getDate(`[MMM] [D], [YYYY] [H12]:[HMM] [XX]`, new Date())}&`;
+        const offsetTime = Date.now() + 5000;
+        if ((new Date(decodeURIComponent(match1)).getTime()) < offsetTime) {
+            return `start_time=${encodeURIComponent(getDate(`[MMM] [D], [YYYY] [H12]:[HMM] [XX]`, offsetTime))}&`;
         } else {
             return fullMatch;
         }
@@ -29218,7 +29235,7 @@ class ESGST {
         let giveaway, giveaways, i, mainContext, matches, query;
         giveaways = [];
         if (!hr && main && (esgst.createdPath || esgst.enteredPath || esgst.wonPath)) {
-            query = `${endless ? `.esgst-es-page-${endless} .giveaway__row-outer-wrap, .esgst-es-page-${endless}.giveaway__row-outer-wrap` : `.giveaway__row-outer-wrap`}, ${endless ? `.esgst-es-page-${endless} .featured__outer-wrap--giveaway, .esgst-es-page-${endless}.featured__outer-wrap--giveaway` : `.featured__outer-wrap--giveaway`}, ${endless ? `.esgst-es-page-${endless} .table:not(.table--summary) .table__row-outer-wrap, .esgst-es-page-${endless}.table:not(.table--summary) .table__row-outer-wrap` : `.table:not(.table--summary) .table__row-outer-wrap`}`;
+            query = `${endless ? `.esgst-es-page-${endless} .giveaway__row-outer-wrap, .esgst-es-page-${endless}.giveaway__row-outer-wrap` : `.giveaway__row-outer-wrap`}, ${endless ? `.esgst-es-page-${endless} .featured__outer-wrap--giveaway, .esgst-es-page-${endless}.featured__outer-wrap--giveaway` : `.featured__outer-wrap--giveaway`}, ${endless ? `.table:not(.table--summary) .esgst-es-page-${endless} .table__row-outer-wrap, .table:not(.table--summary) .esgst-es-page-${endless}.table__row-outer-wrap` : `.table:not(.table--summary) .table__row-outer-wrap`}`;
         } else {
             query = `${endless ? `.esgst-es-page-${endless} .giveaway__row-outer-wrap, .esgst-es-page-${endless}.giveaway__row-outer-wrap` : `.giveaway__row-outer-wrap`}, ${endless ? `.esgst-es-page-${endless} .featured__outer-wrap--giveaway, .esgst-es-page-${endless}.featured__outer-wrap--giveaway` : `.featured__outer-wrap--giveaway`}`;
         }
@@ -34450,11 +34467,6 @@ class ESGST {
                 name: `SG Comment History`
             },
             {
-                check: true,
-                key: `stCommentHistory`,
-                name: `ST Comment History`
-            },
-            {
                 check: esgst.sg,
                 key: `stickiedCountries`,
                 name: `Stickied Giveaway Countries`
@@ -34638,7 +34650,6 @@ class ESGST {
         this.observeNumChange(new ToggleSwitch(popup.description, `cleanEntries`, false, `Entries data older than <input class="esgst-switch-input" type="text" value="${esgst.cleanEntries_days}"> days.`, false, false, ``, esgst.cleanEntries).name.firstElementChild, `cleanEntries_days`);
         this.observeNumChange(new ToggleSwitch(popup.description, `cleanGiveaways`, false, `Giveaways data older than <input class="esgst-switch-input" type="text" value="${esgst.cleanGiveaways_days}"> days.`, false, false, `Some giveaways data only started being date-tracked since v7.11.0, so not all old data may be cleaned.`, esgst.cleanGiveaways).name.firstElementChild, `cleanGiveaways_days`);
         this.observeNumChange(new ToggleSwitch(popup.description, `cleanSgCommentHistory`, false, `SteamGifts comment history data older than <input class="esgst-switch-input" type="text" value="${esgst.cleanSgCommentHistory_days}"> days.`, false, false, ``, esgst.cleanSgCommentHistory).name.firstElementChild, `cleanSgCommentHistory_days`);
-        this.observeNumChange(new ToggleSwitch(popup.description, `cleanStCommentHistory`, false, `SteamTrades comment history data older than <input class="esgst-switch-input" type="text" value="${esgst.cleanStCommentHistory_days}"> days.`, false, false, ``, esgst.cleanStCommentHistory).name.firstElementChild, `cleanStCommentHistory_days`);
         this.observeNumChange(new ToggleSwitch(popup.description, `cleanTickets`, false, `Tickets data older than <input class="esgst-switch-input" type="text" value="${esgst.cleanTickets_days}"> days.`, false, false, `Tickets data only started being date-tracked since v7.11.0, so not all old data may be cleaned.`, esgst.cleanTickets).name.firstElementChild, `cleanTickets_days`);
         this.observeNumChange(new ToggleSwitch(popup.description, `cleanTrades`, false, `Trades data older than <input class="esgst-switch-input" type="text" value="${esgst.cleanTrades_days}"> days.`, false, false, `Trades data only started being date-tracked since v7.11.0, so not all old data may be cleaned.`, esgst.cleanTrades).name.firstElementChild, `cleanTrades_days`);
         new ToggleSwitch(popup.description, `cleanDuplicates`, false, `Duplicate data.`, false, false, `Cleans up any duplicate data it finds.`, esgst.cleanDuplicates);
@@ -34682,16 +34693,6 @@ class ESGST {
                 items.forEach(item => {
                     if (currentTime - item.timestamp <= days) {
                         toSave.sgCommentHistory.push(item);
-                    }
-                });
-            }
-            if (esgst.cleanStCommentHistory) {
-                let days = esgst.cleanStCommentHistory_days * 86400000;
-                let items = JSON.parse(await this.getValue(`stCommentHistory`));
-                toSave.stCommentHistory = [];
-                items.forEach(item => {
-                    if (currentTime - item.timestamp <= days) {
-                        toSave.stCommentHistory.push(item);
                     }
                 });
             }
@@ -35423,7 +35424,6 @@ class ESGST {
                     }
                     break;
                 case `sgCommentHistory`:
-                case `stCommentHistory`:
                     data[optionKey] = JSON.parse(await this.getValue(optionKey, `[]`));
                     if (!space) {
                         if (dm.import) {
@@ -40901,6 +40901,18 @@ function getThemeCss(theme) {
 function loadChangelog(version) {
     let changelog, html, i, index, n, popup;
     changelog = [
+        {
+            date: `May 11, 2018`,
+            version: `7.18.3`,
+            changelog: `
+                <ul>
+                    <li><a href="https://github.com/revilheart/ESGST/issues/675">#675</a> Remove Comment History from SteamTrades</li>
+                    <li><a href="https://github.com/revilheart/ESGST/issues/673">#673</a> Fix a bug that happens when creating giveaways through either Giveaway Templates or Multiple Giveaway Creator</li>
+                    <li><a href="https://github.com/revilheart/ESGST/issues/670">#670</a> Fix a bug that does not return Endless Scrolling to a paused state after continuously loading pages</li>
+                    <li><a href="https://github.com/revilheart/ESGST/issues/667">#667</a> Fix a bug that does not load endless features correctly in some pages</li>
+                </ul>
+            `
+        },
         {
             date: `May 07, 2018`,
             version: `7.18.2`,
