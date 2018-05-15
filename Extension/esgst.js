@@ -312,9 +312,9 @@ class ESGST {
                 gas_autoPopup: false,
                 gas_optionPopup: `sortIndex_asc`,
                 gb_hours: 1,
-                gc_categories: [`gc_gi`, `gc_r`, `gc_fcv`, `gc_rcv`, `gc_ncv`, `gc_h`, `gc_i`, `gc_o`, `gc_w`, `gc_a`, `gc_mp`, `gc_sc`, `gc_tc`, `gc_l`, `gc_m`, `gc_ea`, `gc_rm`, `gc_dlc`, `gc_p`, `gc_rd`, `gc_g`],
+                gc_categories: [`gc_gi`, `gc_r`, `gc_fcv`, `gc_rcv`, `gc_ncv`, `gc_h`, `gc_i`, `gc_o`, `gc_w`, `gc_pw`, `gc_a`, `gc_mp`, `gc_sc`, `gc_tc`, `gc_l`, `gc_m`, `gc_ea`, `gc_rm`, `gc_dlc`, `gc_p`, `gc_rd`, `gc_g`],
                 gc_indexes: {},
-                gc_categories_gv: [`gc_gi`, `gc_r`, `gc_fcv`, `gc_rcv`, `gc_ncv`, `gc_h`, `gc_i`, `gc_o`, `gc_w`, `gc_a`, `gc_mp`, `gc_sc`, `gc_tc`, `gc_l`, `gc_m`, `gc_ea`, `gc_rm`, `gc_dlc`, `gc_p`, `gc_rd`, `gc_g`],
+                gc_categories_gv: [`gc_gi`, `gc_r`, `gc_fcv`, `gc_rcv`, `gc_ncv`, `gc_h`, `gc_i`, `gc_o`, `gc_w`, `gc_pw`, `gc_a`, `gc_mp`, `gc_sc`, `gc_tc`, `gc_l`, `gc_m`, `gc_ea`, `gc_rm`, `gc_dlc`, `gc_p`, `gc_rd`, `gc_g`],
                 gc_indexes_gv: {},
                 gc_o_altAccounts: [],
                 gc_g_colors: [],
@@ -331,6 +331,7 @@ class ESGST {
                 gc_iIcon: `ban`,
                 gc_oIcon: `folder`,
                 gc_wIcon: `heart`,
+                gc_pwIcon: `gift`,
                 gc_aIcon: `trophy`,
                 gc_mpIcon: `users`,
                 gc_scIcon: `cloud`,
@@ -349,6 +350,7 @@ class ESGST {
                 gc_iLabel: `Ignored`,
                 gc_oLabel: `Owned`,
                 gc_wLabel: `Wishlisted`,
+                gc_pwLabel: `Previously Won`,
                 gc_aLabel: `Achievements`,
                 gc_mpLabel: `Multiplayer`,
                 gc_scLabel: `Steam Cloud`,
@@ -367,6 +369,7 @@ class ESGST {
                 gc_ncv_color: `#ffffff`,
                 gc_w_color: `#ffffff`,
                 gc_o_color: `#ffffff`,
+                gc_pw_color: `#ffffff`,
                 gc_i_color: `#ffffff`,
                 gc_rm_color: `#ffffff`,
                 gc_ea_color: `#ffffff`,
@@ -387,6 +390,7 @@ class ESGST {
                 gc_ncv_bgColor: `#641e16`,
                 gc_o_bgColor: `#16a085`,
                 gc_w_bgColor: `#3498db`,
+                gc_pw_bgColor: `#16a085`,
                 gc_i_bgColor: `#e74c3c`,
                 gc_rm_bgColor: `#e74c3c`,
                 gc_ea_bgColor: `#3498db`,
@@ -554,7 +558,7 @@ class ESGST {
             sg: location.hostname.match(/www.steamgifts.com/),
             st: location.hostname.match(/www.steamtrades.com/),
             currentVersion: `7.18.3`,
-            devVersion: `7.18.4 (Dev.3)`,
+            devVersion: `7.18.4 (Dev.4)`,
             icon: `data:image/x-icon;base64,AAABAAEAEBAAAAEAIABoBAAAFgAAACgAAAAQAAAAIAAAAAEAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAqv8DCbP/Hgeq+CQIrf8iCK3/Igit/yIIrf8iB6//Iwit9x8Aqv8DAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAKr0GAa2/c0DvfzfA7f83QO3/N0Dt/zdA7f83QO+/d4Gs/3OAKP1GQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACm/xQFs/n2Bcf//wW///8FwP//BcD//wW///8Fx///BbP69gC2/xUAAAAAAAAAAAAAAAAA/1UDFptOFxSZMxkLpJktAq720QW1+ugEsfvjA7b92wO2/dsEsfvjBbX66Aau/dEoiO4tUlLWGU5k3hdVVf8DEJxKHxWqT8cVrU7uE6VN0guqny0Apv8XAJfQGwBAVywAQFcsAJfQGwCx/xcogugtS2Lk0lBl6u5Qae7ISmPeHxagSSMVr07jF7lV/xOiSu0brgATAAAAAAAAAA8AAAC/AAAAwAAAABAAAAAAYznjEkth4OxWb/3/T2jv40lf4iMXnksiEq1O3RayUv8UpEnkEo0+HQAAABkAAABBAAAA8QAAAPEAAABBAAAAGUBSvxxOYeDjU2v0/05m7d1LYuEiF55LIhKtTt0Ws1L/FahN2gU1FTAAAADAAAAA7AAAAP0AAAD9AAAA7AAAAMAVG0owUGPm2lNr9P9OZu3dS2LhIheeSyISrU7dFrNS/xWoTdoFNRswAAAAvwAAAOsAAAD9AAAA/QAAAOsAAADAFRtKMFBj6NpTa/T/Tmbt3Uti4SIXnksiEq1O3RayUv8UpEnkEo0+HQAAABgAAABAAAAA8QAAAPEAAABBAAAAGT5PuR1OYeDjU2v0/05m7d1LYuEiFqBJIxWuT+QXuVX/E6JL7QC8XhMAAAAAAAAADwAAAL8AAAC/AAAAEAAAAAAOR/8SSWLh7FZv/f9PaO/jSV/iIxCUSh8Vrk7HFqxN7ROlS9JskzMt1XULGK12EhxGLgYsRy8GK612EhzVgAsYgmxxLU1i39JNZ+vtT2fwx0pj1h8AqlUDF65GFgqZUhlsiC0txH0T0s5/EujJgBPkz4QR28+EEdvJgBPkzn8Q6Md+E9KLdHosM1LWGUZo6BZVVf8DAAAAAAAAAAAAAAAA/2YAFMl9EvbgjRb/14gV/9eIFf/XiBX/14gV/9+NFv/KgBD254YAFQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAL91FRjKgRHN1IgU3s+EEt3PhBLdz4QS3c+EEt3UiBTezYMRzcJ6FBkAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACqqgADxIARHr18FiO8eA8ivHgPIrx4DyK8eA8ivXwPI8SAER7/VQADAAAAAAAAAAAAAAAA78cAAPA3AAD4FwAABCAAADGOAAAE+AAAkBEAAJ55AACYOQAAlgEAAER4AAAXaAAATnoAAPgXAAD0JwAA69cAAA==`,
             sgIcon: `data:image/x-icon;base64,AAABAAEAEBAAAAEAIABoBAAAFgAAACgAAAAQAAAAIAAAAAEAIAAAAAAAQAQAABMLAAATCwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIUAAAD5AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAPoAAACFAAAAAAAAAAAAAAD8AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA+QAAAAAAAAAAAAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAAAAAAAAAAAAP8AAAD/AAAA/wAAABwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAcAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAcAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAHAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAAAAAAAAAAAAPwAAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD5AAAAAAAAAAAAAACFAAAA+QAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD5AAAAhQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA//8AAP//AADAAwAAwAMAAMfjAADP8wAAz/MAAM/zAADP8wAAz/MAAM/zAADH4wAAwAMAAMADAAD//wAA//8AAA==`,
             stIcon: `data:image/x-icon;base64,AAABAAEAEBAAAAEAIABoBAAAFgAAACgAAAAQAAAAIAAAAAEAIAAAAAAAQAQAABMLAAATCwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABbD6SgWw+ucFsPrkBbD6SgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAWw+uYFsPr/BbD6/wWw+ucAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAFsPrmBbD6/wWw+v8FsPrmAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABbD6SQWw+uYFsPrmBbD6SQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAFKRLShSkS+cUpEvkFKRLSgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAExi4EpMYuDnTGLg5Exi4EoAAAAAAAAAABSkS+YUpEv/FKRL/xSkS+cAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABMYuDmTGLg/0xi4P9MYuDnAAAAAAAAAAAUpEvmFKRL/xSkS/8UpEvmAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAATGLg5kxi4P9MYuD/TGLg5gAAAAAAAAAAFKRLSRSkS+YUpEvmFKRLSQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAExi4ElMYuDmTGLg5kxi4EkAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAMZ9E0rGfRPnxn0T5MZ9E0oAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADGfRPmxn0T/8Z9E//GfRPnAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAxn0T5sZ9E//GfRP/xn0T5gAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAMZ9E0nGfRPmxn0T5sZ9E0kAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA//8AAPw/AAD8PwAA/D8AAPw/AAD//wAAh+EAAIfhAACH4QAAh+EAAP//AAD8PwAA/D8AAPw/AAD8PwAA//8AAA==`,
@@ -5072,6 +5076,39 @@ class ESGST {
                                 name: `Package`,
                                 sg: true
                             },
+                            gc_pw: {
+                                colors: true,
+                                description: `
+                                    <ul>
+                                        <li>Shows if you have previously won the game.</li>
+                                    </ul>
+                                `,
+                                features: {
+                                    gc_pw_o: {
+                                        name: `Do not show if the game already has the Owned category.`,
+                                        sg: true
+                                    },
+                                    gc_pw_s: {
+                                        description: `
+                                            <ul>
+                                                <li>Shows the category initials instead of its full name.</li>
+                                                <li>Not compatible with custom labels.</li>
+                                            </ul>
+                                        `,
+                                        features: {
+                                            gc_pw_s_i: {
+                                                name: `Use icons instead of initials.`,
+                                                sg: true
+                                            }
+                                        },
+                                        name: `Enable the simplified version.`,
+                                        sg: true
+                                    }
+                                },
+                                input: true,
+                                name: `Previously Won`,
+                                sg: true
+                            },
                             gc_r: {
                                 description: `
                                     <ul>
@@ -5650,6 +5687,16 @@ class ESGST {
         if (esgst.gc_categories.indexOf(`gc_rd`) < 0) {
             esgst.gc_categories.push(`gc_rd`);
             esgst.settings.gc_categories = esgst.gc_categories;
+            esgst.settingsChanged = true;
+        }
+        if (esgst.gc_categories.indexOf(`gc_pw`) < 0) {
+            esgst.gc_categories.push(`gc_pw`);
+            esgst.settings.gc_categories = esgst.gc_categories;
+            esgst.settingsChanged = true;
+        }
+        if (esgst.gc_categories_gv.indexOf(`gc_pw`) < 0) {
+            esgst.gc_categories_gv.push(`gc_pw`);
+            esgst.settings.gc_categories_gv = esgst.gc_categories_gv;
             esgst.settingsChanged = true;
         }
         [`gc_categories`, `gc_categories_gv`].forEach(key => {
@@ -14949,6 +14996,7 @@ class ESGST {
                     gc_i: `ignored`,
                     gc_o: `owned`,
                     gc_w: `wishlisted`,
+                    gc_pw: `won`,
                     gc_a: `achievements`,
                     gc_mp: `multiplayer`,
                     gc_sc: `steamCloud`,
@@ -14998,6 +15046,7 @@ class ESGST {
                     gc_i: `ignored`,
                     gc_o: `owned`,
                     gc_w: `wishlisted`,
+                    gc_pw: `won`,
                     gc_a: `achievements`,
                     gc_mp: `multiplayer`,
                     gc_sc: `steamCloud`,
@@ -15236,6 +15285,13 @@ class ESGST {
                         if (savedGame && savedGame.wishlisted) {
                             elements.push(`
                                 <a class="esgst-gc esgst-gc-wishlisted" data-id="gc_w" href="https://www.steamgifts.com/account/steam/wishlist/search?q=${encodedName}" title="${this.getFeatureTooltip(`gc_w`, `Wishlisted${typeof savedGame.wishlisted === `number` ? ` since ${this.gc_formatDate(savedGame.wishlisted * 1e3)}` : ``}`)}">${esgst.gc_w_s ? (esgst.gc_w_s_i ? `<i class="fa fa-${esgst.gc_wIcon}"></i>` : `W`) : esgst.gc_wLabel}</a>
+                            `);
+                        }
+                        break;
+                    case `gc_pw`:
+                        if (savedGame && savedGame.won && (!esgst.gc_pw_o || !esgst.gc_o || !savedGame.owned)) {
+                            elements.push(`
+                                <a class="esgst-gc esgst-gc-won" data-id="gc_pw" href="https://www.steamgifts.com/user/${esgst.usename}/won/search?q=${encodedName}" title="${this.getFeatureTooltip(`gc_pw`, `Previously Won`)}">${esgst.gc_pw_s ? (esgst.gc_pw_s_i ? `<i class="fa fa-${esgst.gc_pwIcon}"></i>` : `PW`) : esgst.gc_pwLabel}</a>
                             `);
                         }
                         break;
@@ -32190,7 +32246,7 @@ class ESGST {
         // sync won games
         if (!syncer.autoSync && ((syncer.parameters && syncer.parameters.WonGames) || (!syncer.parameters && esgst.settings.syncWonGames))) {
             syncer.progress.lastElementChild.textContent = `Syncing your won games...`;
-            await this.getWonGames(`0`);
+            await this.getWonGames(`0`, syncer);
         }
     
         // if sync has been canceled stop
@@ -32664,30 +32720,47 @@ class ESGST {
             new Popup(null, null, true, false, popup).open();
         }
     }
-    async getWonGames(count) {
-        let responseHtml = this.parseHtml((await this.request({method: `GET`, url: `/giveaways/won`})).responseText);
-        let savedGames = JSON.parse(await this.getValue(`games`));
-        for (let id in savedGames.apps) {
-            if (savedGames.apps[id].won) {
-                savedGames.apps[id].won = null;
+    async getWonGames(count, syncer) {
+        const savedGames = JSON.parse(await this.getValue(`games`));
+        if (syncer) {
+            for (const id in savedGames.apps) {
+                if (savedGames.apps[id].won) {
+                    savedGames.apps[id].won = null;
+                }
+            }
+            for (const id in savedGames.subs) {
+                if (savedGames.subs[id].won) {
+                    savedGames.subs[id].won = null;
+                }
             }
         }
-        for (let id in savedGames.subs) {
-            if (savedGames.subs[id].won) {
-                savedGames.subs[id].won = null;
+        let lastPage = null,
+            nextPage = 1,
+            pagination = null;
+        do {
+            if (syncer) {
+                syncer.progress.lastElementChild.textContent = `Syncing your won games (page ${nextPage}${lastPage ? ` of ${lastPage}` : ``})...`;
             }
-        }
-        let elements = responseHtml.querySelectorAll(`.table__gift-feedback-awaiting-reply[data-feedback="1"]:not(.is-hidden)`);
-        for (let i = elements.length - 1; i > -1; --i) {
-            let element = elements[i].closest(`.table__row-inner-wrap`);
-            if (element.querySelector(`.table__gift-feedback-awaiting-reply[data-feedback="0"]:not(.is-hidden), [data-popup="popup--not-received"]`)) {
-                let info = this.games_getInfo(element);
+            const responseHtml = this.parseHtml((await this.request({
+                      method: `GET`,
+                      url: `/giveaways/won/search?page=${nextPage}`
+                  })).responseText),
+                  elements = responseHtml.getElementsByClassName(`table__row-outer-wrap`);
+            if (!lastPage) {
+                lastPage = this.lpl_getLastPage(responseHtml);
+            }
+            for (const element of elements) {
+                if (element.querySelector(`.table__gift-feedback-not-received:not(.is-hidden), .table__column--gift-feedback .trigger-popup .icon-red`)) continue;
+                const info = this.games_getInfo(element);
+                if (!info) continue;
                 if (!savedGames[info.type][info.id]) {
                     savedGames[info.type][info.id] = {};
                 }
                 savedGames[info.type][info.id].won = 1;
             }
-        }
+            nextPage += 1;
+            pagination = responseHtml.getElementsByClassName(`pagination__navigation`)[0];
+        } while (syncer && pagination && !pagination.lastElementChild.classList.contains(`is-selected`));
         await this.lockAndSaveGames(savedGames);
         setLocalValue(`wonCount`, count);
     }    
@@ -33587,6 +33660,11 @@ class ESGST {
                 case `gc_w`:
                     elements.push(`
                         <div class="esgst-clickable esgst-gc esgst-gc-wishlisted ${esgst.gc_w ? `` : `esgst-hidden`}" draggable="true" id="gc_w" title="Wishlisted">${esgst.gc_w_s ? (esgst.gc_w_s_i ? `<i class="fa fa-${esgst.gc_wIcon}"></i>` : `W`) : esgst.gc_wLabel}</div>
+                    `);
+                    break;
+                case `gc_pw`:
+                    elements.push(`
+                        <div class="esgst-clickable esgst-gc esgst-gc-won ${esgst.gc_pw ? `` : `esgst-hidden`}" draggable="true" id="gc_pw" title="Previously Won">${esgst.gc_pw_s ? (esgst.gc_pw_s_i ? `<i class="fa fa-${esgst.gc_pwIcon}"></i>` : `PW`) : esgst.gc_pwLabel}</div>
                     `);
                     break;
                 case `gc_gi`:
@@ -36214,6 +36292,11 @@ class ESGST {
             {
                 id: `gc_o`,
                 key: `owned`,
+                mainKey: `esgst-gc`
+            },
+            {
+                id: `gc_pw`,
+                key: `won`,
                 mainKey: `esgst-gc`
             },
             {
