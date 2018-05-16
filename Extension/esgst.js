@@ -2975,7 +2975,7 @@ class ESGST {
             sg: location.hostname.match(/www.steamgifts.com/),
             st: location.hostname.match(/www.steamtrades.com/),
             currentVersion: `7.18.3`,
-            devVersion: `7.18.4 (Dev.7)`,
+            devVersion: `7.18.4 (Dev.8)`,
             icon: `data:image/x-icon;base64,AAABAAEAEBAAAAEAIABoBAAAFgAAACgAAAAQAAAAIAAAAAEAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAqv8DCbP/Hgeq+CQIrf8iCK3/Igit/yIIrf8iB6//Iwit9x8Aqv8DAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAKr0GAa2/c0DvfzfA7f83QO3/N0Dt/zdA7f83QO+/d4Gs/3OAKP1GQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACm/xQFs/n2Bcf//wW///8FwP//BcD//wW///8Fx///BbP69gC2/xUAAAAAAAAAAAAAAAAA/1UDFptOFxSZMxkLpJktAq720QW1+ugEsfvjA7b92wO2/dsEsfvjBbX66Aau/dEoiO4tUlLWGU5k3hdVVf8DEJxKHxWqT8cVrU7uE6VN0guqny0Apv8XAJfQGwBAVywAQFcsAJfQGwCx/xcogugtS2Lk0lBl6u5Qae7ISmPeHxagSSMVr07jF7lV/xOiSu0brgATAAAAAAAAAA8AAAC/AAAAwAAAABAAAAAAYznjEkth4OxWb/3/T2jv40lf4iMXnksiEq1O3RayUv8UpEnkEo0+HQAAABkAAABBAAAA8QAAAPEAAABBAAAAGUBSvxxOYeDjU2v0/05m7d1LYuEiF55LIhKtTt0Ws1L/FahN2gU1FTAAAADAAAAA7AAAAP0AAAD9AAAA7AAAAMAVG0owUGPm2lNr9P9OZu3dS2LhIheeSyISrU7dFrNS/xWoTdoFNRswAAAAvwAAAOsAAAD9AAAA/QAAAOsAAADAFRtKMFBj6NpTa/T/Tmbt3Uti4SIXnksiEq1O3RayUv8UpEnkEo0+HQAAABgAAABAAAAA8QAAAPEAAABBAAAAGT5PuR1OYeDjU2v0/05m7d1LYuEiFqBJIxWuT+QXuVX/E6JL7QC8XhMAAAAAAAAADwAAAL8AAAC/AAAAEAAAAAAOR/8SSWLh7FZv/f9PaO/jSV/iIxCUSh8Vrk7HFqxN7ROlS9JskzMt1XULGK12EhxGLgYsRy8GK612EhzVgAsYgmxxLU1i39JNZ+vtT2fwx0pj1h8AqlUDF65GFgqZUhlsiC0txH0T0s5/EujJgBPkz4QR28+EEdvJgBPkzn8Q6Md+E9KLdHosM1LWGUZo6BZVVf8DAAAAAAAAAAAAAAAA/2YAFMl9EvbgjRb/14gV/9eIFf/XiBX/14gV/9+NFv/KgBD254YAFQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAL91FRjKgRHN1IgU3s+EEt3PhBLdz4QS3c+EEt3UiBTezYMRzcJ6FBkAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACqqgADxIARHr18FiO8eA8ivHgPIrx4DyK8eA8ivXwPI8SAER7/VQADAAAAAAAAAAAAAAAA78cAAPA3AAD4FwAABCAAADGOAAAE+AAAkBEAAJ55AACYOQAAlgEAAER4AAAXaAAATnoAAPgXAAD0JwAA69cAAA==`,
             sgIcon: `data:image/x-icon;base64,AAABAAEAEBAAAAEAIABoBAAAFgAAACgAAAAQAAAAIAAAAAEAIAAAAAAAQAQAABMLAAATCwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIUAAAD5AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAPoAAACFAAAAAAAAAAAAAAD8AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA+QAAAAAAAAAAAAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAAAAAAAAAAAAP8AAAD/AAAA/wAAABwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAcAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAcAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAHAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAAAAAAAAAAAAPwAAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD5AAAAAAAAAAAAAACFAAAA+QAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD5AAAAhQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA//8AAP//AADAAwAAwAMAAMfjAADP8wAAz/MAAM/zAADP8wAAz/MAAM/zAADH4wAAwAMAAMADAAD//wAA//8AAA==`,
             stIcon: `data:image/x-icon;base64,AAABAAEAEBAAAAEAIABoBAAAFgAAACgAAAAQAAAAIAAAAAEAIAAAAAAAQAQAABMLAAATCwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABbD6SgWw+ucFsPrkBbD6SgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAWw+uYFsPr/BbD6/wWw+ucAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAFsPrmBbD6/wWw+v8FsPrmAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABbD6SQWw+uYFsPrmBbD6SQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAFKRLShSkS+cUpEvkFKRLSgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAExi4EpMYuDnTGLg5Exi4EoAAAAAAAAAABSkS+YUpEv/FKRL/xSkS+cAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABMYuDmTGLg/0xi4P9MYuDnAAAAAAAAAAAUpEvmFKRL/xSkS/8UpEvmAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAATGLg5kxi4P9MYuD/TGLg5gAAAAAAAAAAFKRLSRSkS+YUpEvmFKRLSQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAExi4ElMYuDmTGLg5kxi4EkAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAMZ9E0rGfRPnxn0T5MZ9E0oAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADGfRPmxn0T/8Z9E//GfRPnAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAxn0T5sZ9E//GfRP/xn0T5gAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAMZ9E0nGfRPmxn0T5sZ9E0kAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA//8AAPw/AAD8PwAA/D8AAPw/AAD//wAAh+EAAIfhAACH4QAAh+EAAP//AAD8PwAA/D8AAPw/AAD8PwAA//8AAA==`,
@@ -10033,6 +10033,7 @@ class ESGST {
                         <div class="form__saving-button btn_action white">Select Emojis</div>
                     `;
                     emojis = popout.popout.firstElementChild;
+                    this.draggable_set({context: emojis, id: `emojis`});
                     this.cfh_setEmojis(emojis);
                     emojis.nextElementSibling.addEventListener(`click`, async () => {
                         if (popup) {
@@ -10045,18 +10046,34 @@ class ESGST {
                             filter = popup.getScrollable(`
                                 <input placeholder="Filter emojis..." type="text"/>
                                 <div class="esgst-cfh-emojis"></div>
-                                <div class="esgst-description">Drag the emojis you want to use and drop them in the box below. Click on an emoji to remove it.</div>
+                                <div class="esgst-description">Simply click on an emoji above to add it to your selection. You can re-order emojis in your selection by dragging and dropping them. To remove an emoji from your selection, start dragging it and a trash area will appear, then drop it there.</div>
                                 <div class="global__image-outer-wrap page_heading_btn esgst-cfh-emojis">${await this.cfh_getEmojis()}</div>
                             `).firstElementChild;
                             emojis = filter.nextElementSibling;
+                            const savedEmojis = emojis.nextElementSibling.nextElementSibling;
+                            const obj = {
+                                context: savedEmojis,
+                                id: `emojid`
+                            };
+                            this.draggable_set(obj);
                             for (const emoji in this.emojis) {
                                 emojis.insertAdjacentHTML(`beforeEnd`, `
-                                    <span data-id="${encodeURIComponent(emoji)}" draggable="true" title="${this.emojis[emoji]}">${emoji}</span>
+                                    <span data-id="${encodeURIComponent(emoji)}" title="${this.emojis[emoji]}">${emoji}</span>
                                 `);
-                                emojis.lastElementChild.addEventListener(`dragstart`, event => {
-                                    event.dataTransfer.setData(`text`, event.currentTarget.getAttribute(`data-id`));
+                                emojis.lastElementChild.addEventListener(`click`, event => {
+                                    savedEmojis.insertAdjacentHTML(`beforeEnd`, `
+                                        <span data-id="${encodeURIComponent(emoji)}" title="${this.emojis[emoji]}">${emoji}</span>                                    
+                                    `);
+                                    this.draggable_set(obj);
                                 });
                             }
+                            popup.onClose = () => {
+                                const emojArr = [];
+                                for (const element of savedEmojis.children) {
+                                    emojArr.push(decodeURIComponent(element.getAttribute(`data-id`)));
+                                }
+                                this.setValue(`emojis`, JSON.stringify(emojArr));
+                            };
                             filter.addEventListener(`input`, () => {
                                 if (filter.value) {
                                     for (i = emojis.children.length - 1; i > -1; --i) {
@@ -10073,40 +10090,6 @@ class ESGST {
                                     }
                                 }
                             });
-                            let savedEmojis = emojis.nextElementSibling.nextElementSibling;
-                            for (i = savedEmojis.children.length - 1; i > -1; --i) {
-                                savedEmojis.children[i].addEventListener(`click`, event => {
-                                    event.currentTarget.remove();
-                                    const emojArr = [];
-                                    for (const element of savedEmojis.children) {
-                                        emojArr.push(decodeURIComponent(element.getAttribute(`data-id`)));
-                                    }
-                                    this.setValue(`emojis`, JSON.stringify(emojArr));
-                                });
-                            }
-                            savedEmojis.addEventListener(`dragover`, event => {
-                                event.preventDefault();
-                            });
-                            savedEmojis.addEventListener(`drop`, event => {
-                                event.preventDefault();
-                                let id = event.dataTransfer.getData(`text`).replace(/\\/g, `\\\\`);
-                                if (!savedEmojis.querySelector(`[data-id="${id}"]`)) {
-                                    savedEmojis.appendChild(document.querySelector(`[data-id="${id}"]`).cloneNode(true));
-                                    const emojArr = [];
-                                    for (const element of savedEmojis.children) {
-                                        emojArr.push(decodeURIComponent(element.getAttribute(`data-id`)));
-                                    }
-                                    this.setValue(`emojis`, JSON.stringify(emojArr));
-                                    savedEmojis.lastElementChild.addEventListener(`click`, event => {
-                                        event.currentTarget.remove();
-                                        const emojArr = [];
-                                        for (const element of savedEmojis.children) {
-                                            emojArr.push(decodeURIComponent(element.getAttribute(`data-id`)));
-                                        }
-                                        this.setValue(`emojis`, JSON.stringify(emojArr));
-                                    });
-                                }
-                            });
                             popup.open(() => {
                                 popout.popout.classList.add(`esgst-hidden`)
                             });
@@ -10116,6 +10099,7 @@ class ESGST {
                 callback: async popout => {
                     let emojis = popout.firstElementChild;
                     emojis.innerHTML = await this.cfh_getEmojis();
+                    this.draggable_set({context: emojis, id: `emojis`});
                     this.cfh_setEmojis(emojis);
                 }
             },
@@ -10293,7 +10277,7 @@ class ESGST {
     async cfh_getEmojis() {
         return JSON.parse(await this.getValue(`emojis`, `[]`)).map(
             emoji => `
-                <span data-id="${encodeURIComponent(emoji)}" draggable="true" title="${this.emojis[emoji]}">${emoji}</span>
+                <span data-id="${encodeURIComponent(emoji)}" title="${this.emojis[emoji]}">${emoji}</span>
             `
         ).join(``);
     }
@@ -35085,7 +35069,7 @@ class ESGST {
                     data.emojis = JSON.parse(await this.getValue(`emojis`, `[]`));
                     if (!space) {
                         if (dm.import) {
-                            let newData = dm.data.emojis;
+                            let newData = JSON.stringify(dm.data.emojis);
                             if (newData) {
                                 if (esgst.settings.importAndMerge) {
                                     await this.setValue(`emojis`, JSON.stringify(
@@ -36457,6 +36441,20 @@ class ESGST {
             `;
         }
         style += `
+            .esgst-draggable-trash {
+                background-color: #C11B17;
+                border-radius: 5px;
+                color: #E77471;
+                position: absolute;
+                text-align: center;
+                text-shadow: none;
+            }
+
+            .esgst-draggable-trash i {
+                font-size: 25px;
+                margin: 5px;
+            }
+
             .esgst-qiv-new {
                 float: right;
                 font-weight: bold;
@@ -38993,6 +38991,66 @@ class ESGST {
         } else {
              alert(`No ESGST updates found!`);
         }
+    }
+
+    draggable_set(obj) {
+        obj.context.setAttribute(`data-dragid`, obj.id);
+        for (const element of obj.context.children) {
+            if (element.getAttribute(`draggable`)) continue;
+            element.setAttribute(`draggable`, true);
+            element.addEventListener(`dragstart`, this.draggable_start.bind(this, obj, element));
+            element.addEventListener(`dragenter`, this.draggable_enter.bind(this, obj, element));
+            element.addEventListener(`dragend`, this.draggable_end.bind(this, obj));
+        }
+    }
+    draggable_start(obj, element, event) {
+        event.dataTransfer.setData(`text/plain`, ``);
+        obj.dragging = element;
+        this.draggable_setTrash(obj);
+    }
+    draggable_enter(obj, element) {
+        if (obj.context !== element.parentElement) return;
+        let current = obj.dragging;
+        if (!current) return;
+        do {
+            current = current.previousElementSibling;
+            if (current && current === element) {
+                obj.context.insertBefore(obj.dragging, element);
+                return;
+            }
+        } while (current);
+        obj.context.insertBefore(obj.dragging, element.nextElementSibling);
+    }
+    async draggable_end(obj) {
+        if (obj.trash) {
+            obj.trash.remove();
+            obj.trash = null;
+        }
+        const array = [];
+        for (const element of obj.context.children) {
+            array.push(decodeURIComponent(element.getAttribute(`data-id`)));
+        }
+        this.setValue(obj.id, JSON.stringify(array));
+    }
+    draggable_setTrash(obj) {
+        obj.trash = insertHtml(obj.context, `afterEnd`, `
+            <div class="esgst-draggable-trash">
+                <i class="fa fa-trash"></i>
+            </div>
+        `);
+        obj.trash.style.width = `${obj.context.offsetWidth}px`;
+        obj.trash.addEventListener(`dragenter`, () => {
+            if (!obj.dragging) return;
+            if (!confirm(`Are you sure you want to delete this item?`)) return;
+
+            obj.dragging.remove();
+            obj.dragging = null;
+            const array = [];
+            for (const element of obj.context.children) {
+                array.push(decodeURIComponent(element.getAttribute(`data-id`)));
+            }
+            this.setValue(obj.id, JSON.stringify(array));
+        });
     }
 }
 
