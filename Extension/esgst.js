@@ -39,6 +39,7 @@
 // @require https://github.com/revilheart/ESGST/raw/master/Extension/jQuery.min.js
 // @require https://github.com/revilheart/ESGST/raw/master/Extension/jQueryUI.min.js
 // @require https://github.com/revilheart/ESGST/raw/master/Extension/Parsedown.js
+// @require https://github.com/revilheart/ESGST/raw/master/Extension/jszip.min.js
 // @run-at document-start
 // @noframes
 // ==/UserScript==
@@ -2976,7 +2977,7 @@ class ESGST {
             sg: location.hostname.match(/www.steamgifts.com/),
             st: location.hostname.match(/www.steamtrades.com/),
             currentVersion: `7.18.3`,
-            devVersion: `7.18.4 (Dev.9)`,
+            devVersion: `7.18.4 (Dev.10)`,
             icon: `data:image/x-icon;base64,AAABAAEAEBAAAAEAIABoBAAAFgAAACgAAAAQAAAAIAAAAAEAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAqv8DCbP/Hgeq+CQIrf8iCK3/Igit/yIIrf8iB6//Iwit9x8Aqv8DAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAKr0GAa2/c0DvfzfA7f83QO3/N0Dt/zdA7f83QO+/d4Gs/3OAKP1GQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACm/xQFs/n2Bcf//wW///8FwP//BcD//wW///8Fx///BbP69gC2/xUAAAAAAAAAAAAAAAAA/1UDFptOFxSZMxkLpJktAq720QW1+ugEsfvjA7b92wO2/dsEsfvjBbX66Aau/dEoiO4tUlLWGU5k3hdVVf8DEJxKHxWqT8cVrU7uE6VN0guqny0Apv8XAJfQGwBAVywAQFcsAJfQGwCx/xcogugtS2Lk0lBl6u5Qae7ISmPeHxagSSMVr07jF7lV/xOiSu0brgATAAAAAAAAAA8AAAC/AAAAwAAAABAAAAAAYznjEkth4OxWb/3/T2jv40lf4iMXnksiEq1O3RayUv8UpEnkEo0+HQAAABkAAABBAAAA8QAAAPEAAABBAAAAGUBSvxxOYeDjU2v0/05m7d1LYuEiF55LIhKtTt0Ws1L/FahN2gU1FTAAAADAAAAA7AAAAP0AAAD9AAAA7AAAAMAVG0owUGPm2lNr9P9OZu3dS2LhIheeSyISrU7dFrNS/xWoTdoFNRswAAAAvwAAAOsAAAD9AAAA/QAAAOsAAADAFRtKMFBj6NpTa/T/Tmbt3Uti4SIXnksiEq1O3RayUv8UpEnkEo0+HQAAABgAAABAAAAA8QAAAPEAAABBAAAAGT5PuR1OYeDjU2v0/05m7d1LYuEiFqBJIxWuT+QXuVX/E6JL7QC8XhMAAAAAAAAADwAAAL8AAAC/AAAAEAAAAAAOR/8SSWLh7FZv/f9PaO/jSV/iIxCUSh8Vrk7HFqxN7ROlS9JskzMt1XULGK12EhxGLgYsRy8GK612EhzVgAsYgmxxLU1i39JNZ+vtT2fwx0pj1h8AqlUDF65GFgqZUhlsiC0txH0T0s5/EujJgBPkz4QR28+EEdvJgBPkzn8Q6Md+E9KLdHosM1LWGUZo6BZVVf8DAAAAAAAAAAAAAAAA/2YAFMl9EvbgjRb/14gV/9eIFf/XiBX/14gV/9+NFv/KgBD254YAFQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAL91FRjKgRHN1IgU3s+EEt3PhBLdz4QS3c+EEt3UiBTezYMRzcJ6FBkAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACqqgADxIARHr18FiO8eA8ivHgPIrx4DyK8eA8ivXwPI8SAER7/VQADAAAAAAAAAAAAAAAA78cAAPA3AAD4FwAABCAAADGOAAAE+AAAkBEAAJ55AACYOQAAlgEAAER4AAAXaAAATnoAAPgXAAD0JwAA69cAAA==`,
             sgIcon: `data:image/x-icon;base64,AAABAAEAEBAAAAEAIABoBAAAFgAAACgAAAAQAAAAIAAAAAEAIAAAAAAAQAQAABMLAAATCwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIUAAAD5AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAPoAAACFAAAAAAAAAAAAAAD8AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA+QAAAAAAAAAAAAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAAAAAAAAAAAAP8AAAD/AAAA/wAAABwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAcAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAcAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAHAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAAAAAAAAAAAAPwAAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD5AAAAAAAAAAAAAACFAAAA+QAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD5AAAAhQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA//8AAP//AADAAwAAwAMAAMfjAADP8wAAz/MAAM/zAADP8wAAz/MAAM/zAADH4wAAwAMAAMADAAD//wAA//8AAA==`,
             stIcon: `data:image/x-icon;base64,AAABAAEAEBAAAAEAIABoBAAAFgAAACgAAAAQAAAAIAAAAAEAIAAAAAAAQAQAABMLAAATCwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABbD6SgWw+ucFsPrkBbD6SgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAWw+uYFsPr/BbD6/wWw+ucAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAFsPrmBbD6/wWw+v8FsPrmAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABbD6SQWw+uYFsPrmBbD6SQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAFKRLShSkS+cUpEvkFKRLSgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAExi4EpMYuDnTGLg5Exi4EoAAAAAAAAAABSkS+YUpEv/FKRL/xSkS+cAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABMYuDmTGLg/0xi4P9MYuDnAAAAAAAAAAAUpEvmFKRL/xSkS/8UpEvmAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAATGLg5kxi4P9MYuD/TGLg5gAAAAAAAAAAFKRLSRSkS+YUpEvmFKRLSQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAExi4ElMYuDmTGLg5kxi4EkAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAMZ9E0rGfRPnxn0T5MZ9E0oAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADGfRPmxn0T/8Z9E//GfRPnAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAxn0T5sZ9E//GfRP/xn0T5gAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAMZ9E0nGfRPmxn0T5sZ9E0kAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA//8AAPw/AAD8PwAA/D8AAPw/AAD//wAAh+EAAIfhAACH4QAAh+EAAP//AAD8PwAA/D8AAPw/AAD8PwAA//8AAA==`,
@@ -3164,6 +3165,8 @@ class ESGST {
                     } else {
                         browser.runtime.sendMessage({
                             action: `fetch`,
+                            blob: details.blob,
+                            fileName: details.fileName,
                             manipulateCookies: _USER_INFO.extension === `firefox` && esgst.manipulateCookies,
                             parameters: JSON.stringify({
                                 body: details.data,
@@ -3383,11 +3386,18 @@ class ESGST {
                         }
                     } else {
                         gm.xmlHttpRequest({
-                            data: details.data,
+                            binary: details.fileName ? true : false,
+                            data: details.fileName
+                                ? await this.getZip(details.data, details.fileName, `binarystring`)
+                                : details.data,
                             headers: details.headers,
                             method: details.method,
+                            overrideMimeType: details.blob ? `text/plain; charset=x-user-defined` : ``,
                             url: details.url,
-                            onload: response => {
+                            onload: async response => {
+                                if (details.blob) {
+                                    response.responseText = (await this.readZip(response.responseText))[0].value;
+                                }
                                 resolve(response);
                                 if (response.finalUrl.match(/www.steamgifts.com/)) {
                                     this.lookForPopups(response);
@@ -21882,14 +21892,7 @@ class ESGST {
                     }
                 }
             }
-            anchor = document.createElement(`a`);
-            anchor.download = `giveaways.txt`;
-            url = URL.createObjectURL(new Blob([file]));
-            anchor.href = url;
-            document.body.appendChild(anchor);
-            anchor.click();
-            anchor.remove();
-            URL.revokeObjectURL(url);
+            this.downloadFile(file, `giveaways.txt`);
             callback();
         }).set);
         popup.open();
@@ -25894,14 +25897,7 @@ class ESGST {
             `);
         });
         if (esgst.sks_exportKeys) {
-            let anchor = document.createElement(`a`);
-            anchor.download = `esgst_sks_keys_${new Date().toISOString()}.txt`;
-            let url = URL.createObjectURL(new Blob([sks.allKeys.join(`\r\n`)]));
-            anchor.href = url;
-            document.body.appendChild(anchor);
-            anchor.click();
-            anchor.remove();
-            URL.revokeObjectURL(url);
+            this.downloadFile(sks.allKeys.join(`\r\n`), `esgst_sks_keys_${new Date().toISOString()}.txt`);
         }
         sks.progress.innerHTML = ``;
         sks.overallProgress.innerHTML = ``;
@@ -29063,14 +29059,7 @@ class ESGST {
                     list.push(esgst.users.users[steamId].id);
                 }
             }
-            url = URL.createObjectURL(new Blob([JSON.stringify(list)]));
-            file = document.createElement(`a`);
-            file.download = `esgst_${wbm.key}_${new Date().toISOString()}.json`;
-            file.href = url;
-            document.body.appendChild(file);
-            file.click();
-            file.remove();
-            URL.revokeObjectURL(url);
+            this.downloadFile(JSON.stringify(list), `esgst_${wbm.key}_${new Date().toISOString()}.json`);
             createFadeMessage(wbm.message, `List exported with success!`);
             callback();
         } else {
@@ -29088,15 +29077,7 @@ class ESGST {
             if (pagination && !pagination.lastElementChild.classList.contains(`is-selected`)) {
                 setTimeout(this.wbm_exportList.bind(this), 0, wbm, list, ++nextPage, callback);
             } else {
-                let file, url;
-                url = URL.createObjectURL(new Blob([JSON.stringify(list)]));
-                file = document.createElement(`a`);
-                file.download = `esgst_${wbm.key}_${new Date().toISOString()}.json`;
-                file.href = url;
-                document.body.appendChild(file);
-                file.click();
-                file.remove();
-                URL.revokeObjectURL(url);
+                this.downloadFile(JSON.stringify(list), `esgst_${wbm.key}_${new Date().toISOString()}.json`);
                 createFadeMessage(wbm.message, `List exported with success!`);
                 callback();
             }
@@ -35861,19 +35842,12 @@ class ESGST {
                     openSmallWindow(`https://login.microsoftonline.com/common/oauth2/v2.0/authorize?redirect_uri=https://www.steamgifts.com/esgst/onedrive&response_type=token&client_id=1781429b-289b-4e6e-877a-e50015c0af21&scope=files.readwrite`);
                     this.checkOneDriveComplete(data, dm, callback);
                 } else {
-                    data = new Blob([JSON.stringify(data)]);
-                    let url = URL.createObjectURL(data);
-                    let file = document.createElement(`a`);
-                    file.download = `${esgst.askFileName ?  prompt(`Enter the name of the file:`, `esgst_data_${new Date().toISOString().replace(/:/g, `_`)}`) : `esgst_data_${new Date().toISOString().replace(/:/g, `_`)}`}.json`;
-                    if (file.download === `null.json`) {
+                    const name = `${esgst.askFileName ?  prompt(`Enter the name of the file:`, `esgst_data_${new Date().toISOString().replace(/:/g, `_`)}`) : `esgst_data_${new Date().toISOString().replace(/:/g, `_`)}`}`;
+                    if (name === `null`) {
                         callback();
                         return;
                     }
-                    file.href = url;
-                    document.body.appendChild(file);
-                    file.click();
-                    file.remove();
-                    URL.revokeObjectURL(url);
+                    await this.downloadZip(data, `${name}.json`, `${name}.zip`);
                     if (!dm.autoBackup) {
                         createFadeMessage(dm.message, `Data ${dm.pastTense} with success!`);
                     }
@@ -35884,6 +35858,43 @@ class ESGST {
                 callback();
             }
         }
+    }
+    async downloadZip(data, fileName, zipName) {
+        this.downloadFile(null, zipName, await this.getZip(JSON.stringify(data), fileName));
+    }
+    async getZip(data, fileName, type = `blob`) {
+        const zip = new JSZip();
+        zip.file(fileName, data);
+        return (await zip.generateAsync({
+            compression: `DEFLATE`,
+            compressionOptions: {
+                level: 9
+            },
+            type: type
+        }));
+    }
+    async readZip(data) {
+        const zip = new JSZip(),
+              contents = await zip.loadAsync(data),
+              keys = Object.keys(contents.files),
+              output = [];
+        for (const key of keys) {
+            output.push({
+                name: key,
+                value: await zip.file(key).async(`string`)
+            });
+        }
+        return output;
+    }
+    downloadFile(data, fileName, blob) {
+        const url = URL.createObjectURL(blob || new Blob([data])),
+              file = document.createElement(`a`);
+        file.download = fileName;
+        file.href = url;
+        document.body.appendChild(file);
+        file.click();
+        file.remove();
+        URL.revokeObjectURL(url);
     }
     getDataSizes(dm) {
         let spacePopup = new Popup(`fa-circle-o-notch fa-spin`, `Calculating data sizes...`);
@@ -35934,16 +35945,37 @@ class ESGST {
         let value = await this.getValue(`dropboxToken`);
         if (value) {
             if (dm.type === `export` || (data && esgst.settings.exportBackup)) {
-                let name = esgst.askFileName ?  prompt(`Enter the name of the file:`, `esgst_data_${new Date().toISOString().replace(/:/g, `_`)}`) : `esgst_data_${new Date().toISOString().replace(/:/g, `_`)}`;
+                const name = esgst.askFileName ?  prompt(`Enter the name of the file:`, `esgst_data_${new Date().toISOString().replace(/:/g, `_`)}`) : `esgst_data_${new Date().toISOString().replace(/:/g, `_`)}`;
                 if (name === null) {
                     callback();
                     return;
                 }
-                await this.request({data: JSON.stringify(data), headers: {authorization: `Bearer ${value}`, [`Dropbox-API-Arg`]: `{"path": "/${name}.json"}`, [`Content-Type`]: `application/octet-stream`}, method: `POST`, url: `https://content.dropboxapi.com/2/files/upload`});
-                if (!dm.autoBackup) {
-                    createFadeMessage(dm.message, `Data ${dm.pastTense} with success!`);
+                let responseText = ``;
+                try {
+                    const response = await this.request({
+                        data: JSON.stringify(data),
+                        fileName: `${name}.json`,
+                        headers: {
+                            authorization: `Bearer ${value}`,
+                            [`Dropbox-API-Arg`]: `{"path": "/${name}.zip"}`,
+                            [`Content-Type`]: `application/octet-stream`
+                        },
+                        method: `POST`,
+                        url: `https://content.dropboxapi.com/2/files/upload`
+                    });
+                    responseText = response.responseText;
+                    const responseJson = JSON.parse(responseText);
+                    if (!responseJson.id) {
+                        throw ``;
+                    }
+                    if (!dm.autoBackup) {
+                        createFadeMessage(dm.message, `Data ${dm.pastTense} with success!`);
+                    }
+                    callback();
+                } catch (e) {
+                    callback();
+                    alert(`An error ocurred when uploading the file.\n\n${e}\n\n${responseText}`);
                 }
-                callback();
             } else {
                 let canceled = true;
                 let popup = new Popup(`fa-dropbox`, `Select a file to restore:`, true);
@@ -35954,7 +35986,15 @@ class ESGST {
                 };
                 popup.open();
                 let entries = insertHtml(popup.scrollable, `beforeEnd`, `<div class="popup__keys__list"></div>`);
-                JSON.parse((await this.request({data: `{"path": ""}`, headers: {authorization: `Bearer ${value}`, [`Content-Type`]: `application/json`}, method: `POST`, url: `https://api.dropboxapi.com/2/files/list_folder`})).responseText).entries.forEach(entry => {
+                JSON.parse((await this.request({
+                    data: `{"path": ""}`,
+                    headers: {
+                        authorization: `Bearer ${value}`,
+                        [`Content-Type`]: `application/json`
+                    },
+                    method: `POST`,
+                    url: `https://api.dropboxapi.com/2/files/list_folder`
+                })).responseText).entries.forEach(entry => {
                     let item = insertHtml(entries, `beforeEnd`, `
                         <div class="esgst-clickable">${entry.name} - ${convertBytes(entry.size)}</div>
                     `);
@@ -35962,7 +36002,16 @@ class ESGST {
                         createConfirmation(`Are you sure you want to restore the selected data?`, async () => {
                             canceled = false;
                             popup.close();
-                            dm.data = JSON.parse((await this.request({headers: {authorization: `Bearer ${value}`, [`Dropbox-API-Arg`]: `{"path": "/${entry.name}"}`, [`Content-Type`]: `text/plain`}, method: `GET`, url: `https://content.dropboxapi.com/2/files/download`})).responseText);
+                            dm.data = JSON.parse((await this.request({
+                                blob: entry.name.match(/\.zip$/),
+                                headers: {
+                                    authorization: `Bearer ${value}`,
+                                    [`Dropbox-API-Arg`]: `{"path": "/${entry.name}"}`,
+                                    [`Content-Type`]: `text/plain`
+                                },
+                                method: `GET`,
+                                url: `https://content.dropboxapi.com/2/files/download`
+                            })).responseText);
                             this.manageData(dm, false, false, false, false, callback);
                         });
                     });
@@ -35976,16 +36025,45 @@ class ESGST {
         let value = await this.getValue(`googleDriveToken`);
         if (value) {
             if (dm.type === `export` || (data && esgst.settings.exportBackup)) {
-                let name = esgst.askFileName ?  prompt(`Enter the name of the file:`, `esgst_data_${new Date().toISOString().replace(/:/g, `_`)}`) : `esgst_data_${new Date().toISOString().replace(/:/g, `_`)}`;
+                const name = esgst.askFileName ?  prompt(`Enter the name of the file:`, `esgst_data_${new Date().toISOString().replace(/:/g, `_`)}`) : `esgst_data_${new Date().toISOString().replace(/:/g, `_`)}`;
                 if (name === null) {
                     callback();
                     return;
                 }
-                await this.request({data: `--esgst\nContent-Type: application/json; charset=UTF-8\n\n{"mimeType": "mime/type", "name": "${name}.json", "parents": ["appDataFolder"]}\n\n--esgst\nContent-Type: mime/type\n\n${JSON.stringify(data)}\n--esgst--`, headers: {authorization: `Bearer ${value}`, [`Content-Type`]: `multipart/related; boundary=esgst`}, method: `POST`, url: `https://www.googleapis.com/upload/drive/v3/files?uploadType=multipart`});
-                if (!dm.autoBackup) {
-                    createFadeMessage(dm.message, `Data ${dm.pastTense} with success!`);
+                let responseText = ``;
+                try {
+                    const resourceResponse = await this.request({
+                        data: `{"name": "${name}.zip", "parents": ["appDataFolder"]}`,
+                        headers: {
+                            authorization: `Bearer ${value}`,
+                            [`Content-Type`]: `application/json`
+                        },
+                        method: `POST`,
+                        url: `https://www.googleapis.com/drive/v3/files`
+                    });
+                    const reponse = await this.request({
+                        data: JSON.stringify(data),
+                        fileName: `${name}.json`,
+                        headers: {
+                            authorization: `Bearer ${value}`,
+                            [`Content-Type`]: `application/zip`
+                        },
+                        method: `PATCH`,
+                        url: `https://www.googleapis.com/upload/drive/v3/files/${JSON.parse(resourceResponse.responseText).id}?uploadType=media`
+                    });
+                    responseText = response.responseText;
+                    const responseJson = JSON.parse(responseText);
+                    if (!responseJson.id) {
+                        throw ``;
+                    }
+                    if (!dm.autoBackup) {
+                        createFadeMessage(dm.message, `Data ${dm.pastTense} with success!`);
+                    }
+                    callback();
+                } catch (e) {
+                    callback();
+                    alert(`An error ocurred when uploading the file.\n\n${e}\n\n${responseText}`);
                 }
-                callback();
             } else {
                 let canceled = true;
                 let popup = new Popup(`fa-google`, `Select a file to restore:`, true);
@@ -35996,7 +36074,13 @@ class ESGST {
                 };
                 popup.open();
                 let entries = insertHtml(popup.scrollable, `beforeEnd`, `<div class="popup__keys__list"></div>`);
-                JSON.parse((await this.request({headers: {authorization: `Bearer ${value}`}, method: `GET`, url: `https://www.googleapis.com/drive/v3/files?spaces=appDataFolder`})).responseText).files.forEach(file => {
+                JSON.parse((await this.request({
+                    headers: {
+                        authorization: `Bearer ${value}`
+                    },
+                    method: `GET`,
+                    url: `https://www.googleapis.com/drive/v3/files?spaces=appDataFolder`
+                })).responseText).files.forEach(file => {
                     let item = insertHtml(entries, `beforeEnd`, `
                         <div class="esgst-clickable">${file.name}</div>
                     `);
@@ -36004,7 +36088,14 @@ class ESGST {
                         createConfirmation(`Are you sure you want to restore the selected data?`, async () => {
                             canceled = false;
                             popup.close();
-                            dm.data = JSON.parse((await this.request({headers: {authorization: `Bearer ${value}`}, method: `GET`, url: `https://www.googleapis.com/drive/v3/files/${file.id}?alt=media`})).responseText);
+                            dm.data = JSON.parse((await this.request({
+                                blob: file.name.match(/\.zip$/),
+                                headers: {
+                                    authorization: `Bearer ${value}`
+                                },
+                                method: `GET`,
+                                url: `https://www.googleapis.com/drive/v3/files/${file.id}?alt=media`
+                            })).responseText);
                             this.manageData(dm, false, false, false, false, callback);
                         });
                     });
@@ -36018,21 +36109,49 @@ class ESGST {
         let value = await this.getValue(`oneDriveToken`);
         if (value) {
             if (dm.type === `export` || (data && esgst.settings.exportBackup)) {
-                let name = esgst.askFileName ?  prompt(`Enter the name of the file:`, `esgst_data_${new Date().toISOString().replace(/:/g, `_`)}`) : `esgst_data_${new Date().toISOString().replace(/:/g, `_`)}`;
+                const name = esgst.askFileName ?  prompt(`Enter the name of the file:`, `esgst_data_${new Date().toISOString().replace(/:/g, `_`)}`) : `esgst_data_${new Date().toISOString().replace(/:/g, `_`)}`;
                 if (name === null) {
                     callback();
                     return;
                 }
-                await this.request({anon: true, data: JSON.stringify(data), headers: {Authorization: `bearer ${value}`, [`Content-Type`]: `application/json`}, method: `PUT`, url: `https://graph.microsoft.com/v1.0/me/drive/special/approot:/${name}.json:/content`});
-                if (!dm.autoBackup) {
-                    createFadeMessage(dm.message, `Data ${dm.pastTense} with success!`);
+                let responseText = ``;
+                try {
+                    const response = await this.request({
+                        anon: true,
+                        data: JSON.stringify(data),
+                        fileName: `${name}.json`,
+                        headers: {
+                            Authorization: `bearer ${value}`,
+                            [`Content-Type`]: `application/zip`
+                        },
+                        method: `PUT`,
+                        url: `https://graph.microsoft.com/v1.0/me/drive/special/approot:/${name}.zip:/content`
+                    });
+                    responseText = response.responseText;
+                    const responseJson = JSON.parse(responseText);
+                    if (!responseJson.id) {
+                        throw ``;
+                    }
+                    if (!dm.autoBackup) {
+                        createFadeMessage(dm.message, `Data ${dm.pastTense} with success!`);
+                    }
+                    callback();
+                } catch (e) {
+                    callback();
+                    alert(`An error ocurred when uploading the file.\n\n${e}\n\n${responseText}`);
                 }
-                callback();
             } else {
                 let canceled = true;
                 let popup = new Popup(`fa-windows`, `Select a file to restore:`, true);
                 let entries = insertHtml(popup.scrollable, `beforeEnd`, `<div class="popup__keys__list"></div>`);
-                JSON.parse((await this.request({anon: true, headers: {Authorization: `bearer ${value}`}, method: `GET`, url: `https://graph.microsoft.com/v1.0/me/drive/special/approot/children`})).responseText).value.forEach(file => {
+                JSON.parse((await this.request({
+                    anon: true,
+                    headers: {
+                        Authorization: `bearer ${value}`
+                    },
+                    method: `GET`,
+                    url: `https://graph.microsoft.com/v1.0/me/drive/special/approot/children`
+                })).responseText).value.forEach(file => {
                     let item = insertHtml(entries, `beforeEnd`, `
                         <div class="esgst-clickable">${file.name} - ${convertBytes(file.size)}</div>
                     `);
@@ -36040,7 +36159,15 @@ class ESGST {
                         createConfirmation(`Are you sure you want to restore the selected data?`, async () => {
                             canceled = false;
                             popup.close();
-                            dm.data = JSON.parse((await this.request({anon: true, headers: {authorization: `Bearer ${value}`}, method: `GET`, url: `https://graph.microsoft.com/v1.0/me/drive/items/${file.id}/content`})).responseText);
+                            dm.data = JSON.parse((await this.request({
+                                anon: true,
+                                blob: file.name.match(/\.zip$/),
+                                headers: {
+                                    authorization: `Bearer ${value}`
+                                },
+                                method: `GET`,
+                                url: `https://graph.microsoft.com/v1.0/me/drive/items/${file.id}/content`
+                            })).responseText);
                             this.manageData(dm, false, false, false, false, callback);
                         });
                     });
@@ -36241,16 +36368,9 @@ class ESGST {
         delete data.settings.steamId;
         delete data.settings.syncFrequency;
         delete data.settings.username;
-        data = new Blob([JSON.stringify(data)]);
-        let url = URL.createObjectURL(data);
-        const file = document.createElement(`a`);
-        file.download = `${esgst.askFileName ?  prompt(`Enter the name of the file:`, `esgst_settings_${new Date().toISOString().replace(/:/g, `_`)}`) : `esgst_settings_${new Date().toISOString().replace(/:/g, `_`)}`}.json`;
-        if (file.download === `null.json`) return;
-        file.href = url;
-        document.body.appendChild(file);
-        file.click();
-        file.remove();
-        URL.revokeObjectURL(url);
+        const name = `${esgst.askFileName ?  prompt(`Enter the name of the file:`, `esgst_settings_${new Date().toISOString().replace(/:/g, `_`)}`) : `esgst_settings_${new Date().toISOString().replace(/:/g, `_`)}`}.json`;
+        if (name === `null.json`) return;
+        this.downloadFile(JSON.stringify(data), name);
     }
     async selectSwitches(switches, type, settings, callback) {
         for (let key in switches) {
@@ -41052,7 +41172,7 @@ function createFadeMessage(context, message) {
     context.textContent = message;
     setTimeout(() => {
         context.textContent = ``;
-    }, 2000);
+    }, 10000);
 }
 
 function getDataMenu(option, switches, type) {

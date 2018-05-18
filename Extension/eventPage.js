@@ -13,10 +13,41 @@ function sendMessage(action, sender, values) {
     });
 }
 
+async function getZip(data, fileName) {
+    const zip = new JSZip();
+    zip.file(fileName, data);
+    return (await zip.generateAsync({
+        compression: `DEFLATE`,
+        compressionOptions: {
+            level: 9
+        },
+        type: `blob`
+    }));
+}
+
+async function readZip(data) {
+    const zip = new JSZip(),
+          contents = await zip.loadAsync(data),
+          keys = Object.keys(contents.files),
+          output = [];
+    for (const key of keys) {
+        output.push({
+            name: key,
+            value: await zip.file(key).async(`string`)
+        });
+    }
+    return output;
+}
+
 async function doFetch(parameters, request, sender, callback) {
+    if (request.fileName) {
+        parameters.body = await getZip(parameters.body, request.fileName);
+    }
     if (!request.manipulateCookies) {
         let response = await fetch(request.url, parameters);
-        let responseText = await response.text();
+        let responseText = request.blob
+            ? (await readZip(await response.blob()))[0].value
+            : await response.text();
         callback(JSON.stringify({
             finalUrl: response.url,
             redirected: response.redirected,
@@ -27,7 +58,9 @@ async function doFetch(parameters, request, sender, callback) {
     browser.tabs.get(sender.tab.id, async tab => {
         if (tab.cookieStoreId === `firefox-default`) {
             let response = await fetch(request.url, parameters);
-            let responseText = await response.text();
+            let responseText = request.blob
+                ? (await readZip(await response.blob()))[0].value
+                : await response.text();
             callback(JSON.stringify({
                 finalUrl: response.url,
                 redirected: response.redirected,
@@ -69,7 +102,9 @@ async function doFetch(parameters, request, sender, callback) {
 
         // request
         let response = await fetch(request.url, parameters);
-        let responseText = await response.text();
+        let responseText = request.blob
+            ? (await readZip(await response.blob()))[0].value
+            : await response.text();
 
         // delete container cookies from no-container scope
         for (let i = containerCookies.length - 1; i > -1; i--) {
