@@ -2978,7 +2978,7 @@ class ESGST {
             sg: location.hostname.match(/www.steamgifts.com/),
             st: location.hostname.match(/www.steamtrades.com/),
             currentVersion: `7.19.0`,
-            devVersion: `7.19.1 (Dev.5)`,
+            devVersion: `7.19.1 (Dev.6)`,
             icon: `data:image/x-icon;base64,AAABAAEAEBAAAAEAIABoBAAAFgAAACgAAAAQAAAAIAAAAAEAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAqv8DCbP/Hgeq+CQIrf8iCK3/Igit/yIIrf8iB6//Iwit9x8Aqv8DAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAKr0GAa2/c0DvfzfA7f83QO3/N0Dt/zdA7f83QO+/d4Gs/3OAKP1GQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACm/xQFs/n2Bcf//wW///8FwP//BcD//wW///8Fx///BbP69gC2/xUAAAAAAAAAAAAAAAAA/1UDFptOFxSZMxkLpJktAq720QW1+ugEsfvjA7b92wO2/dsEsfvjBbX66Aau/dEoiO4tUlLWGU5k3hdVVf8DEJxKHxWqT8cVrU7uE6VN0guqny0Apv8XAJfQGwBAVywAQFcsAJfQGwCx/xcogugtS2Lk0lBl6u5Qae7ISmPeHxagSSMVr07jF7lV/xOiSu0brgATAAAAAAAAAA8AAAC/AAAAwAAAABAAAAAAYznjEkth4OxWb/3/T2jv40lf4iMXnksiEq1O3RayUv8UpEnkEo0+HQAAABkAAABBAAAA8QAAAPEAAABBAAAAGUBSvxxOYeDjU2v0/05m7d1LYuEiF55LIhKtTt0Ws1L/FahN2gU1FTAAAADAAAAA7AAAAP0AAAD9AAAA7AAAAMAVG0owUGPm2lNr9P9OZu3dS2LhIheeSyISrU7dFrNS/xWoTdoFNRswAAAAvwAAAOsAAAD9AAAA/QAAAOsAAADAFRtKMFBj6NpTa/T/Tmbt3Uti4SIXnksiEq1O3RayUv8UpEnkEo0+HQAAABgAAABAAAAA8QAAAPEAAABBAAAAGT5PuR1OYeDjU2v0/05m7d1LYuEiFqBJIxWuT+QXuVX/E6JL7QC8XhMAAAAAAAAADwAAAL8AAAC/AAAAEAAAAAAOR/8SSWLh7FZv/f9PaO/jSV/iIxCUSh8Vrk7HFqxN7ROlS9JskzMt1XULGK12EhxGLgYsRy8GK612EhzVgAsYgmxxLU1i39JNZ+vtT2fwx0pj1h8AqlUDF65GFgqZUhlsiC0txH0T0s5/EujJgBPkz4QR28+EEdvJgBPkzn8Q6Md+E9KLdHosM1LWGUZo6BZVVf8DAAAAAAAAAAAAAAAA/2YAFMl9EvbgjRb/14gV/9eIFf/XiBX/14gV/9+NFv/KgBD254YAFQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAL91FRjKgRHN1IgU3s+EEt3PhBLdz4QS3c+EEt3UiBTezYMRzcJ6FBkAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACqqgADxIARHr18FiO8eA8ivHgPIrx4DyK8eA8ivXwPI8SAER7/VQADAAAAAAAAAAAAAAAA78cAAPA3AAD4FwAABCAAADGOAAAE+AAAkBEAAJ55AACYOQAAlgEAAER4AAAXaAAATnoAAPgXAAD0JwAA69cAAA==`,
             sgIcon: `data:image/x-icon;base64,AAABAAEAEBAAAAEAIABoBAAAFgAAACgAAAAQAAAAIAAAAAEAIAAAAAAAQAQAABMLAAATCwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIUAAAD5AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAPoAAACFAAAAAAAAAAAAAAD8AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA+QAAAAAAAAAAAAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAAAAAAAAAAAAP8AAAD/AAAA/wAAABwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAcAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAcAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAHAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAAAAAAAAAAAAPwAAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD5AAAAAAAAAAAAAACFAAAA+QAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD5AAAAhQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA//8AAP//AADAAwAAwAMAAMfjAADP8wAAz/MAAM/zAADP8wAAz/MAAM/zAADH4wAAwAMAAMADAAD//wAA//8AAA==`,
             stIcon: `data:image/x-icon;base64,AAABAAEAEBAAAAEAIABoBAAAFgAAACgAAAAQAAAAIAAAAAEAIAAAAAAAQAQAABMLAAATCwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABbD6SgWw+ucFsPrkBbD6SgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAWw+uYFsPr/BbD6/wWw+ucAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAFsPrmBbD6/wWw+v8FsPrmAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABbD6SQWw+uYFsPrmBbD6SQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAFKRLShSkS+cUpEvkFKRLSgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAExi4EpMYuDnTGLg5Exi4EoAAAAAAAAAABSkS+YUpEv/FKRL/xSkS+cAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABMYuDmTGLg/0xi4P9MYuDnAAAAAAAAAAAUpEvmFKRL/xSkS/8UpEvmAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAATGLg5kxi4P9MYuD/TGLg5gAAAAAAAAAAFKRLSRSkS+YUpEvmFKRLSQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAExi4ElMYuDmTGLg5kxi4EkAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAMZ9E0rGfRPnxn0T5MZ9E0oAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADGfRPmxn0T/8Z9E//GfRPnAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAxn0T5sZ9E//GfRP/xn0T5gAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAMZ9E0nGfRPmxn0T5sZ9E0kAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA//8AAPw/AAD8PwAA/D8AAPw/AAD//wAAh+EAAIfhAACH4QAAh+EAAP//AAD8PwAA/D8AAPw/AAD8PwAA//8AAA==`,
@@ -12068,55 +12068,125 @@ class ESGST {
             this.ded_addButton(esgst.replyBox);
         }
     }
-    ded_addButton(Context, CommentURL, DEDCallback) {
-        let TradeCode, ParentID, Description, URL, DEDButton, DEDStatus, ResponseHTML;
-        TradeCode = Context.querySelector(`[name="trade_code"]`);
-        TradeCode = TradeCode ? TradeCode.value : ``;
-        ParentID = Context.querySelector(`[name="parent_id"]`);
-        Description = Context.querySelector(`[name="description"]`);
-        URL = esgst.sg ? location.href.match(/(.+?)(#.+?)?$/)[1] : `/ajax.php`;
-        Context = Context.getElementsByClassName(esgst.sg ? `align-button-container` : `btn_actions`)[0];
-        Context.firstElementChild.remove();
-        Context.insertAdjacentHTML(`afterBegin`, `<div class="esgst-ded-button"></div>`);
-        Context.insertAdjacentHTML(`beforeEnd`, `<div class="comment__actions action_list esgst-ded-status"></div>`);
-        DEDButton = Context.firstElementChild;
-        DEDStatus = Context.lastElementChild;
-        DEDButton.appendChild(new ButtonSet(`grey`, `grey`, `fa-send`, `fa-circle-o-notch fa-spin`, `Submit`, `Saving...`, async Callback => {
-            DEDStatus.innerHTML = ``;
-            if (CommentURL) {
-                let Response = await this.request({method: `GET`, url: CommentURL});
-                ResponseHTML = this.parseHtml(Response.responseText);
-                TradeCode = esgst.sg ? `` : Response.finalUrl.match(/\/trade\/(.+?)\//)[1];
-                let comment = ResponseHTML.getElementById(CommentURL.match(/\/comment\/(.+)/)[1]);
-                ParentID = esgst.sg ? comment.closest(`.comment`).getAttribute(`data-comment-id`) : comment.getAttribute(`data-id`);
-                let children = esgst.sg ? comment.closest(`.comment`).getElementsByClassName(`comment__children`)[0] : comment.getElementsByClassName(`comment_children`)[0];
-                URL = esgst.sg ? Response.finalUrl.match(/(.+?)(#.+?)?$/)[1] : `/ajax.php`;
-                if (esgst.rfi_c && children.children.length > 0) {
-                    let popup = new Popup(`fa-clock-o`, `Somebody beat you to it! There are other replies to this comment, you can review them before submitting your reply.`);
-                    children.classList.add(`esgst-text-left`);
-                    popup.scrollable.appendChild(children);
-                    await this.endless_load(children);
-                    let textArea = insertHtml(popup.scrollable, `beforeEnd`, `<textarea></textarea>`);
-                    if (esgst.cfh) {
-                        this.cfh_addPanel(textArea);
-                        this.cfh_addScrollingEvent(popup.scrollable);
-                    }
-                    textArea.value = Description.value;
-                    popup.description.appendChild(new ButtonSet(`green`, `grey`, `fa-send`, `fa-circle-o-notch fa-spin`, `Submit`, `Submitting...`, () => {
-                        this.saveComment(TradeCode, ParentID, textArea.value, URL, DEDStatus, null, (id, response, status) => {
-                            popup.close();
-                            DEDCallback(id, response, status);
-                        });
-                    }).set);
-                    popup.open();
-                    popup.onClose = Callback;
-                } else {
-                    this.saveComment(TradeCode, ParentID, Description.value, URL, DEDStatus, Callback, DEDCallback);
-                }
-            } else {
-                this.saveComment(TradeCode, ParentID.value, Description.value, URL, DEDStatus, Callback, DEDCallback);
+    ded_addButton(context, commentUrl, callback) {
+        const obj = {
+            callback,
+            checked: false,
+            commentUrl,
+            context: context.parentElement,
+            description: context.querySelector(`[name="description"]`),
+            parentId: context.querySelector(`[name="parent_id"]`),
+            tradeCode: (context.querySelector(`[name="trade_code"]`) || {value: ``}).value,
+            url: esgst.sg ? location.href.match(/(.+?)(#.+?)?$/)[1] : `/ajax.php`
+        };
+        const container = context.getElementsByClassName(esgst.sg
+            ? `align-button-container`
+            : `btn_actions`
+        )[0];
+        container.firstElementChild.remove();
+        obj.button = insertHtml(container, `afterBegin`, `
+            <div class="esgst-ded-button"></div>
+        `);
+        obj.status = insertHtml(container, `beforeEnd`, `
+            <div class="comment__actions action_list esgst-ded-status"></div>
+        `);
+        obj.set = new ButtonSet_v2({
+            color1: `grey`,
+            color2: `grey`,
+            icon1: `fa-send`,
+            icon2: `fa-circle-o-notch fa-spin`,
+            title1: `Submit`,
+            title2: `Saving...`,
+            callback1: this.ded_submitComment.bind(this, obj)
+        });
+        obj.button.appendChild(obj.set.set);
+    }
+    async ded_submitComment(obj) {
+        obj.status.innerHTML = ``;
+
+        if (!obj.commentUrl) {
+            this.saveComment(
+                obj.tradeCode,
+                obj.parentId.value,
+                obj.description.value,
+                obj.url,
+                obj.status,
+                null,
+                obj.callback
+            );
+            return;
+        }
+
+        const response = await this.request({
+                  method: `GET`,
+                  url: obj.commentUrl
+              }),
+              responseHtml = this.parseHtml(response.responseText),
+              comment = responseHtml.getElementById(obj.commentUrl.match(/\/comment\/(.+)/)[1]);
+        obj.parentId = esgst.sg
+            ? comment.closest(`.comment`).getAttribute(`data-comment-id`)
+            : comment.getAttribute(`data-id`);
+        obj.tradeCode = esgst.sg
+            ? ``
+            : response.finalUrl.match(/\/trade\/(.+?)\//)[1];
+        obj.url = esgst.sg
+            ? response.finalUrl.match(/(.+?)(#.+?)?$/)[1]
+            : `/ajax.php`;
+        
+        if (obj.checked || !esgst.rfi_c) {
+            this.saveComment(
+                obj.tradeCode,
+                obj.parentId,
+                obj.description.value,
+                obj.url,
+                obj.status,
+                null,
+                obj.callback
+            );
+            return;
+        }
+
+        const comments = esgst.sg
+            ? comment.closest(`.comment`).getElementsByClassName(`comment__children`)[0]
+            : comment.getElementsByClassName(`comment_children`)[0];
+        for (let i = comments.children.length - 1; i > -1; i--) {
+            const comment = comments.children[i],
+                  id = comment.querySelector(`[href*="/go/comment/"]`)
+                           .getAttribute(`href`)
+                           .match(/\/go\/comment\/(.+)/)[1];
+            if (obj.context.querySelector(`[href*="/go/comment/${id}"`)) {
+                comment.remove();
             }
-        }).set);
+        }
+        if (comments.children.length) {
+            obj.context.appendChild(comments);
+            await this.endless_load(comments);
+            for (let i = comments.children.length - 1; i > -1; i--) {
+                obj.context.appendChild(comments.children[i]);
+            }
+            comments.remove();
+            obj.set.changeButton(1).setTitle(`Confirm`);
+            obj.status.innerHTML = `
+                <span class="esgst-bold esgst-warning">
+                    Somebody beat you to it!
+                    <br>
+                    There are other replies to this comment.
+                    <br>
+                    You can review them below before confirming your reply.
+                </span>
+            `;
+            obj.checked = true;
+        } else {
+            this.saveComment(
+                obj.tradeCode,
+                obj.parentId,
+                obj.description.value,
+                obj.url,
+                obj.status,
+                null,
+                obj.callback
+            );
+        }
     }
     async df() {
         if (esgst.df_m && esgst.discussionsPath && !esgst.editDiscussionPath) {
@@ -39494,6 +39564,18 @@ class ButtonSet_v2 {
     }
     trigger() {
         this.button1.dispatchEvent(new Event(`click`));
+    }
+    changeButton(i) {
+        return {
+            setIcon: this.setIcon.bind(this, this[`button${i}`]),
+            setTitle: this.setTitle.bind(this, this[`button${i}`])
+        }
+    }
+    setIcon(button, icon) {
+        button.firstElementChild.className = `fa ${icon}`;
+    }
+    setTitle(button, title) {
+        button.lastElementChild.textContent = title;
     }
 }
 
