@@ -3,7 +3,7 @@
 // @namespace ESGST
 // @description Enhances SteamGifts and SteamTrades by adding some cool features to them.
 // @icon https://dl.dropboxusercontent.com/s/lr3t3bxrxfxylqe/esgstIcon.ico?raw=1
-// @version 7.18.3
+// @version 7.19.0
 // @author revilheart
 // @contributor Royalgamer06
 // @downloadURL https://github.com/revilheart/ESGST/raw/master/ESGST.user.js
@@ -39,6 +39,7 @@
 // @require https://github.com/revilheart/ESGST/raw/master/Extension/jQuery.min.js
 // @require https://github.com/revilheart/ESGST/raw/master/Extension/jQueryUI.min.js
 // @require https://github.com/revilheart/ESGST/raw/master/Extension/Parsedown.js
+// @require https://github.com/revilheart/ESGST/raw/master/Extension/jszip.min.js
 // @run-at document-start
 // @noframes
 // ==/UserScript==
@@ -76,6 +77,2423 @@ if (typeof GM === `undefined` && typeof GM_setValue === `undefined`) {
 
 class ESGST {
     constructor() {
+        this.emojis = {
+            [`&#xAF&#x5C&#x5C&#x5C&#x5F&#x28&#x30C4&#x29&#x5F&#x2F&#xAF`]: ``,
+            [`&#x28&#x20&#x361&#xB0&#x20&#x35C&#x296&#x20&#x361&#xB0&#x29`]: ``,
+            [`&#x28&#x20&#x361&#x2299&#x20&#x35C&#x296&#x20&#x361&#x2299&#x29`]: ``,
+            [`&#x28&#x30CE&#xCA0&#x76CA&#xCA0&#x29&#x30CE`]: ``,
+            [`&#x28&#x256F&#xB0&#x25A1&#xB0&#xFF09&#x256F&#xFE35&#x20&#x253B&#x2501&#x253B`]: ``,
+            [`&#x252C&#x2500&#x252C&#x30CE&#x28&#x20&#xBA&#x20&#x5F&#x20&#xBA&#x30CE&#x29`]: ``,
+            [`&#x10DA&#x28&#xCA0&#x76CA&#xCA0&#x10DA&#x29`]: ``,
+            [`&#x28&#x25D5&#x203F&#x2D&#x29&#x270C`]: ``,
+            [`&#x28&#xFF61&#x25D5&#x203F&#x25D5&#xFF61&#x29`]: ``,
+            [`&#x28&#x25D1&#x203F&#x25D0&#x29`]: ``,
+            [`&#x25D4&#x5F&#x25D4`]: ``,
+            [`&#x28&#x2022&#x203F&#x2022&#x29`]: ``,
+            [`&#x28&#xCA0&#x5F&#xCA0&#x29`]: ``,
+            [`&#x28&#xAC&#xFF64&#xAC&#x29`]: ``,
+            [`&#x28&#x2500&#x203F&#x203F&#x2500&#x29`]: ``,
+            [`&#x28&#xCA5&#xFE4F&#xCA5&#x29`]: ``,
+            [`&#x28&#xCA5&#x2038&#xCA5&#x29`]: ``,
+            [`&#x28&#x2310&#x25A0&#x5F&#x25A0&#x29`]: ``,
+            [`&#x28&#x25B0&#x2D8&#x25E1&#x2D8&#x25B0&#x29`]: ``,
+            [`&#x4E41&#x28&#x20&#x25D4&#x20&#xC6A&#x25D4&#x29&#x310F`]: ``,
+            [`&#x28&#xE07&#x20&#x360&#xB0&#x20&#x35F&#x296&#x20&#x361&#xB0&#x29&#xE07`]: ``,
+            [`&#x3B6&#xF3C&#x19F&#x346&#x644&#x35C&#x19F&#x346&#xF3D&#x1D98`]: ``,
+            [`&#x295&#x2022&#x1D25&#x2022&#x294`]: ``,
+            [`&#x28&#x20&#x35D&#xB0&#x20&#x35C&#x296&#x361&#xB0&#x29`]: ``,
+            [`&#x28&#x2F&#xFF9F&#x414&#xFF9F&#x29&#x2F`]: ``,
+            [`&#xB67&#xF3C&#xCA0&#x76CA&#xCA0&#xF3D&#xB68`]: ``,
+            [`&#x28&#xE07&#x20&#x2022&#x300&#x5F&#x2022&#x301&#x29&#xE07`]: ``,
+            [`&#x1F600`]: `Grinning Face`,
+            [`&#x1F601`]: `Grinning Face With Smiling Eyes`,
+            [`&#x1F602`]: `Face With Tears Of Joy`,
+            [`&#x1F923`]: `Rolling On The Floor Laughing`,
+            [`&#x1F603`]: `Smiling Face With Open Mouth`,
+            [`&#x1F604`]: `Smiling Face With Open Mouth & Smiling Eyes`,
+            [`&#x1F605`]: `Smiling Face With Open Mouth & Cold Sweat`,
+            [`&#x1F606`]: `Smiling Face With Open Mouth & Closed Eyes`,
+            [`&#x1F609`]: `Winking Face`,
+            [`&#x1F60A`]: `Smiling Face With Smiling Eyes`,
+            [`&#x1F60B`]: `Face Savouring Delicious Food`,
+            [`&#x1F60E`]: `Smiling Face With Sunglasses`,
+            [`&#x1F60D`]: `Smiling Face With Heart-Eyes`,
+            [`&#x1F618`]: `Face Blowing A Kiss`,
+            [`&#x1F617`]: `Kissing Face`,
+            [`&#x1F619`]: `Kissing Face With Smiling Eyes`,
+            [`&#x1F61A`]: `Kissing Face With Closed Eyes`,
+            [`&#x263A`]: `Smiling Face`,
+            [`&#x1F642`]: `Slightly Smiling Face`,
+            [`&#x1F917`]: `Hugging Face`,
+            [`&#x1F914`]: `Thinking Face`,
+            [`&#x1F610`]: `Neutral Face`,
+            [`&#x1F611`]: `Expressionless Face`,
+            [`&#x1F636`]: `Face Without Mouth`,
+            [`&#x1F644`]: `Face With Rolling Eyes`,
+            [`&#x1F60F`]: `Smirking Face`,
+            [`&#x1F623`]: `Persevering Face`,
+            [`&#x1F625`]: `Disappointed But Relieved Face`,
+            [`&#x1F62E`]: `Face With Open Mouth`,
+            [`&#x1F910`]: `Zipper-Mouth Face`,
+            [`&#x1F62F`]: `Hushed Face`,
+            [`&#x1F62A`]: `Sleepy Face`,
+            [`&#x1F62B`]: `Tired Face`,
+            [`&#x1F634`]: `Sleeping Face`,
+            [`&#x1F60C`]: `Relieved Face`,
+            [`&#x1F913`]: `Nerd Face`,
+            [`&#x1F61B`]: `Face With Stuck-Out Tongue`,
+            [`&#x1F61C`]: `Face With Stuck-Out Tongue & Winking Eye`,
+            [`&#x1F61D`]: `Face With Stuck-Out Tongue & Closed Eyes`,
+            [`&#x1F924`]: `Drooling Face`,
+            [`&#x1F612`]: `Unamused Face`,
+            [`&#x1F613`]: `Face With Cold Sweat`,
+            [`&#x1F614`]: `Pensive Face`,
+            [`&#x1F615`]: `Confused Face`,
+            [`&#x1F643`]: `Upside-Down Face`,
+            [`&#x1F911`]: `Money-Mouth Face`,
+            [`&#x1F632`]: `Astonished Face`,
+            [`&#x2639`]: `Frowning Face`,
+            [`&#x1F641`]: `Slightly Frowning Face`,
+            [`&#x1F616`]: `Confounded Face`,
+            [`&#x1F61E`]: `Disappointed Face`,
+            [`&#x1F61F`]: `Worried Face`,
+            [`&#x1F624`]: `Face With Steam From Nose`,
+            [`&#x1F622`]: `Crying Face`,
+            [`&#x1F62D`]: `Loudly Crying Face`,
+            [`&#x1F626`]: `Frowning Face With Open Mouth`,
+            [`&#x1F627`]: `Anguished Face`,
+            [`&#x1F628`]: `Fearful Face`,
+            [`&#x1F629`]: `Weary Face`,
+            [`&#x1F62C`]: `Grimacing Face`,
+            [`&#x1F630`]: `Face With Open Mouth & Cold Sweat`,
+            [`&#x1F631`]: `Face Screaming In Fear`,
+            [`&#x1F633`]: `Flushed Face`,
+            [`&#x1F635`]: `Dizzy Face`,
+            [`&#x1F621`]: `Pouting Face`,
+            [`&#x1F620`]: `Angry Face`,
+            [`&#x1F607`]: `Smiling Face With Halo`,
+            [`&#x1F920`]: `Cowboy Hat Face`,
+            [`&#x1F921`]: `Clown Face`,
+            [`&#x1F925`]: `Lying Face`,
+            [`&#x1F637`]: `Face With Medical Mask`,
+            [`&#x1F912`]: `Face With Thermometer`,
+            [`&#x1F915`]: `Face With Head-Bandage`,
+            [`&#x1F922`]: `Nauseated Face`,
+            [`&#x1F927`]: `Sneezing Face`,
+            [`&#x1F608`]: `Smiling Face With Horns`,
+            [`&#x1F47F`]: `Angry Face With Horns`,
+            [`&#x1F479`]: `Ogre`,
+            [`&#x1F47A`]: `Goblin`,
+            [`&#x1F480`]: `Skull`,
+            [`&#x2620`]: `Skull And Crossbones`,
+            [`&#x1F47B`]: `Ghost`,
+            [`&#x1F47D`]: `Alien`,
+            [`&#x1F47E`]: `Alien Monster`,
+            [`&#x1F916`]: `Robot Face`,
+            [`&#x1F4A9`]: `Pile Of Poo`,
+            [`&#x1F63A`]: `Smiling Cat Face With Open Mouth`,
+            [`&#x1F638`]: `Grinning Cat Face With Smiling Eyes`,
+            [`&#x1F639`]: `Cat Face With Tears Of Joy`,
+            [`&#x1F63B`]: `Smiling Cat Face With Heart-Eyes`,
+            [`&#x1F63C`]: `Cat Face With Wry Smile`,
+            [`&#x1F63D`]: `Kissing Cat Face With Closed Eyes`,
+            [`&#x1F640`]: `Weary Cat Face`,
+            [`&#x1F63F`]: `Crying Cat Face`,
+            [`&#x1F63E`]: `Pouting Cat Face`,
+            [`&#x1F648`]: `See-No-Evil Monkey`,
+            [`&#x1F649`]: `Hear-No-Evil Monkey`,
+            [`&#x1F64A`]: `Speak-No-Evil Monkey`,
+            [`&#x1F466`]: `Boy`,
+            [`&#x1F466&#x1F3FB`]: `Boy: Light Skin Tone`,
+            [`&#x1F466&#x1F3FC`]: `Boy: Medium-Light Skin Tone`,
+            [`&#x1F466&#x1F3FD`]: `Boy: Medium Skin Tone`,
+            [`&#x1F466&#x1F3FE`]: `Boy: Medium-Dark Skin Tone`,
+            [`&#x1F466&#x1F3FF`]: `Boy: Dark Skin Tone`,
+            [`&#x1F467`]: `Girl`,
+            [`&#x1F467&#x1F3FB`]: `Girl: Light Skin Tone`,
+            [`&#x1F467&#x1F3FC`]: `Girl: Medium-Light Skin Tone`,
+            [`&#x1F467&#x1F3FD`]: `Girl: Medium Skin Tone`,
+            [`&#x1F467&#x1F3FE`]: `Girl: Medium-Dark Skin Tone`,
+            [`&#x1F467&#x1F3FF`]: `Girl: Dark Skin Tone`,
+            [`&#x1F468`]: `Man`,
+            [`&#x1F468&#x1F3FB`]: `Man: Light Skin Tone`,
+            [`&#x1F468&#x1F3FC`]: `Man: Medium-Light Skin Tone`,
+            [`&#x1F468&#x1F3FD`]: `Man: Medium Skin Tone`,
+            [`&#x1F468&#x1F3FE`]: `Man: Medium-Dark Skin Tone`,
+            [`&#x1F468&#x1F3FF`]: `Man: Dark Skin Tone`,
+            [`&#x1F469`]: `Woman`,
+            [`&#x1F469&#x1F3FB`]: `Woman: Light Skin Tone`,
+            [`&#x1F469&#x1F3FC`]: `Woman: Medium-Light Skin Tone`,
+            [`&#x1F469&#x1F3FD`]: `Woman: Medium Skin Tone`,
+            [`&#x1F469&#x1F3FE`]: `Woman: Medium-Dark Skin Tone`,
+            [`&#x1F469&#x1F3FF`]: `Woman: Dark Skin Tone`,
+            [`&#x1F474`]: `Old Man`,
+            [`&#x1F474&#x1F3FB`]: `Old Man: Light Skin Tone`,
+            [`&#x1F474&#x1F3FC`]: `Old Man: Medium-Light Skin Tone`,
+            [`&#x1F474&#x1F3FD`]: `Old Man: Medium Skin Tone`,
+            [`&#x1F474&#x1F3FE`]: `Old Man: Medium-Dark Skin Tone`,
+            [`&#x1F474&#x1F3FF`]: `Old Man: Dark Skin Tone`,
+            [`&#x1F475`]: `Old Woman`,
+            [`&#x1F475&#x1F3FB`]: `Old Woman: Light Skin Tone`,
+            [`&#x1F475&#x1F3FC`]: `Old Woman: Medium-Light Skin Tone`,
+            [`&#x1F475&#x1F3FD`]: `Old Woman: Medium Skin Tone`,
+            [`&#x1F475&#x1F3FE`]: `Old Woman: Medium-Dark Skin Tone`,
+            [`&#x1F475&#x1F3FF`]: `Old Woman: Dark Skin Tone`,
+            [`&#x1F476`]: `Baby`,
+            [`&#x1F476&#x1F3FB`]: `Baby: Light Skin Tone`,
+            [`&#x1F476&#x1F3FC`]: `Baby: Medium-Light Skin Tone`,
+            [`&#x1F476&#x1F3FD`]: `Baby: Medium Skin Tone`,
+            [`&#x1F476&#x1F3FE`]: `Baby: Medium-Dark Skin Tone`,
+            [`&#x1F476&#x1F3FF`]: `Baby: Dark Skin Tone`,
+            [`&#x1F47C`]: `Baby Angel`,
+            [`&#x1F47C&#x1F3FB`]: `Baby Angel: Light Skin Tone`,
+            [`&#x1F47C&#x1F3FC`]: `Baby Angel: Medium-Light Skin Tone`,
+            [`&#x1F47C&#x1F3FD`]: `Baby Angel: Medium Skin Tone`,
+            [`&#x1F47C&#x1F3FE`]: `Baby Angel: Medium-Dark Skin Tone`,
+            [`&#x1F47C&#x1F3FF`]: `Baby Angel: Dark Skin Tone`,
+            [`&#x1F468&#x200D&#x2695&#xFE0F`]: `Man Health Worker`,
+            [`&#x1F468&#x1F3FB&#x200D&#x2695&#xFE0F`]: `Man Health Worker: Light Skin Tone`,
+            [`&#x1F468&#x1F3FC&#x200D&#x2695&#xFE0F`]: `Man Health Worker: Medium-Light Skin Tone`,
+            [`&#x1F468&#x1F3FD&#x200D&#x2695&#xFE0F`]: `Man Health Worker: Medium Skin Tone`,
+            [`&#x1F468&#x1F3FE&#x200D&#x2695&#xFE0F`]: `Man Health Worker: Medium-Dark Skin Tone`,
+            [`&#x1F468&#x1F3FF&#x200D&#x2695&#xFE0F`]: `Man Health Worker: Dark Skin Tone`,
+            [`&#x1F469&#x200D&#x2695&#xFE0F`]: `Woman Health Worker`,
+            [`&#x1F469&#x1F3FB&#x200D&#x2695&#xFE0F`]: `Woman Health Worker: Light Skin Tone`,
+            [`&#x1F469&#x1F3FC&#x200D&#x2695&#xFE0F`]: `Woman Health Worker: Medium-Light Skin Tone`,
+            [`&#x1F469&#x1F3FD&#x200D&#x2695&#xFE0F`]: `Woman Health Worker: Medium Skin Tone`,
+            [`&#x1F469&#x1F3FE&#x200D&#x2695&#xFE0F`]: `Woman Health Worker: Medium-Dark Skin Tone`,
+            [`&#x1F469&#x1F3FF&#x200D&#x2695&#xFE0F`]: `Woman Health Worker: Dark Skin Tone`,
+            [`&#x1F468&#x200D&#x1F393`]: `Man Student`,
+            [`&#x1F468&#x1F3FB&#x200D&#x1F393`]: `Man Student: Light Skin Tone`,
+            [`&#x1F468&#x1F3FC&#x200D&#x1F393`]: `Man Student: Medium-Light Skin Tone`,
+            [`&#x1F468&#x1F3FD&#x200D&#x1F393`]: `Man Student: Medium Skin Tone`,
+            [`&#x1F468&#x1F3FE&#x200D&#x1F393`]: `Man Student: Medium-Dark Skin Tone`,
+            [`&#x1F468&#x1F3FF&#x200D&#x1F393`]: `Man Student: Dark Skin Tone`,
+            [`&#x1F469&#x200D&#x1F393`]: `Woman Student`,
+            [`&#x1F469&#x1F3FB&#x200D&#x1F393`]: `Woman Student: Light Skin Tone`,
+            [`&#x1F469&#x1F3FC&#x200D&#x1F393`]: `Woman Student: Medium-Light Skin Tone`,
+            [`&#x1F469&#x1F3FD&#x200D&#x1F393`]: `Woman Student: Medium Skin Tone`,
+            [`&#x1F469&#x1F3FE&#x200D&#x1F393`]: `Woman Student: Medium-Dark Skin Tone`,
+            [`&#x1F469&#x1F3FF&#x200D&#x1F393`]: `Woman Student: Dark Skin Tone`,
+            [`&#x1F468&#x200D&#x1F3EB`]: `Man Teacher`,
+            [`&#x1F468&#x1F3FB&#x200D&#x1F3EB`]: `Man Teacher: Light Skin Tone`,
+            [`&#x1F468&#x1F3FC&#x200D&#x1F3EB`]: `Man Teacher: Medium-Light Skin Tone`,
+            [`&#x1F468&#x1F3FD&#x200D&#x1F3EB`]: `Man Teacher: Medium Skin Tone`,
+            [`&#x1F468&#x1F3FE&#x200D&#x1F3EB`]: `Man Teacher: Medium-Dark Skin Tone`,
+            [`&#x1F468&#x1F3FF&#x200D&#x1F3EB`]: `Man Teacher: Dark Skin Tone`,
+            [`&#x1F469&#x200D&#x1F3EB`]: `Woman Teacher`,
+            [`&#x1F469&#x1F3FB&#x200D&#x1F3EB`]: `Woman Teacher: Light Skin Tone`,
+            [`&#x1F469&#x1F3FC&#x200D&#x1F3EB`]: `Woman Teacher: Medium-Light Skin Tone`,
+            [`&#x1F469&#x1F3FD&#x200D&#x1F3EB`]: `Woman Teacher: Medium Skin Tone`,
+            [`&#x1F469&#x1F3FE&#x200D&#x1F3EB`]: `Woman Teacher: Medium-Dark Skin Tone`,
+            [`&#x1F469&#x1F3FF&#x200D&#x1F3EB`]: `Woman Teacher: Dark Skin Tone`,
+            [`&#x1F468&#x200D&#x2696&#xFE0F`]: `Man Judge`,
+            [`&#x1F468&#x1F3FB&#x200D&#x2696&#xFE0F`]: `Man Judge: Light Skin Tone`,
+            [`&#x1F468&#x1F3FC&#x200D&#x2696&#xFE0F`]: `Man Judge: Medium-Light Skin Tone`,
+            [`&#x1F468&#x1F3FD&#x200D&#x2696&#xFE0F`]: `Man Judge: Medium Skin Tone`,
+            [`&#x1F468&#x1F3FE&#x200D&#x2696&#xFE0F`]: `Man Judge: Medium-Dark Skin Tone`,
+            [`&#x1F468&#x1F3FF&#x200D&#x2696&#xFE0F`]: `Man Judge: Dark Skin Tone`,
+            [`&#x1F469&#x200D&#x2696&#xFE0F`]: `Woman Judge`,
+            [`&#x1F469&#x1F3FB&#x200D&#x2696&#xFE0F`]: `Woman Judge: Light Skin Tone`,
+            [`&#x1F469&#x1F3FC&#x200D&#x2696&#xFE0F`]: `Woman Judge: Medium-Light Skin Tone`,
+            [`&#x1F469&#x1F3FD&#x200D&#x2696&#xFE0F`]: `Woman Judge: Medium Skin Tone`,
+            [`&#x1F469&#x1F3FE&#x200D&#x2696&#xFE0F`]: `Woman Judge: Medium-Dark Skin Tone`,
+            [`&#x1F469&#x1F3FF&#x200D&#x2696&#xFE0F`]: `Woman Judge: Dark Skin Tone`,
+            [`&#x1F468&#x200D&#x1F33E`]: `Man Farmer`,
+            [`&#x1F468&#x1F3FB&#x200D&#x1F33E`]: `Man Farmer: Light Skin Tone`,
+            [`&#x1F468&#x1F3FC&#x200D&#x1F33E`]: `Man Farmer: Medium-Light Skin Tone`,
+            [`&#x1F468&#x1F3FD&#x200D&#x1F33E`]: `Man Farmer: Medium Skin Tone`,
+            [`&#x1F468&#x1F3FE&#x200D&#x1F33E`]: `Man Farmer: Medium-Dark Skin Tone`,
+            [`&#x1F468&#x1F3FF&#x200D&#x1F33E`]: `Man Farmer: Dark Skin Tone`,
+            [`&#x1F469&#x200D&#x1F33E`]: `Woman Farmer`,
+            [`&#x1F469&#x1F3FB&#x200D&#x1F33E`]: `Woman Farmer: Light Skin Tone`,
+            [`&#x1F469&#x1F3FC&#x200D&#x1F33E`]: `Woman Farmer: Medium-Light Skin Tone`,
+            [`&#x1F469&#x1F3FD&#x200D&#x1F33E`]: `Woman Farmer: Medium Skin Tone`,
+            [`&#x1F469&#x1F3FE&#x200D&#x1F33E`]: `Woman Farmer: Medium-Dark Skin Tone`,
+            [`&#x1F469&#x1F3FF&#x200D&#x1F33E`]: `Woman Farmer: Dark Skin Tone`,
+            [`&#x1F468&#x200D&#x1F373`]: `Man Cook`,
+            [`&#x1F468&#x1F3FB&#x200D&#x1F373`]: `Man Cook: Light Skin Tone`,
+            [`&#x1F468&#x1F3FC&#x200D&#x1F373`]: `Man Cook: Medium-Light Skin Tone`,
+            [`&#x1F468&#x1F3FD&#x200D&#x1F373`]: `Man Cook: Medium Skin Tone`,
+            [`&#x1F468&#x1F3FE&#x200D&#x1F373`]: `Man Cook: Medium-Dark Skin Tone`,
+            [`&#x1F468&#x1F3FF&#x200D&#x1F373`]: `Man Cook: Dark Skin Tone`,
+            [`&#x1F469&#x200D&#x1F373`]: `Woman Cook`,
+            [`&#x1F469&#x1F3FB&#x200D&#x1F373`]: `Woman Cook: Light Skin Tone`,
+            [`&#x1F469&#x1F3FC&#x200D&#x1F373`]: `Woman Cook: Medium-Light Skin Tone`,
+            [`&#x1F469&#x1F3FD&#x200D&#x1F373`]: `Woman Cook: Medium Skin Tone`,
+            [`&#x1F469&#x1F3FE&#x200D&#x1F373`]: `Woman Cook: Medium-Dark Skin Tone`,
+            [`&#x1F469&#x1F3FF&#x200D&#x1F373`]: `Woman Cook: Dark Skin Tone`,
+            [`&#x1F468&#x200D&#x1F527`]: `Man Mechanic`,
+            [`&#x1F468&#x1F3FB&#x200D&#x1F527`]: `Man Mechanic: Light Skin Tone`,
+            [`&#x1F468&#x1F3FC&#x200D&#x1F527`]: `Man Mechanic: Medium-Light Skin Tone`,
+            [`&#x1F468&#x1F3FD&#x200D&#x1F527`]: `Man Mechanic: Medium Skin Tone`,
+            [`&#x1F468&#x1F3FE&#x200D&#x1F527`]: `Man Mechanic: Medium-Dark Skin Tone`,
+            [`&#x1F468&#x1F3FF&#x200D&#x1F527`]: `Man Mechanic: Dark Skin Tone`,
+            [`&#x1F469&#x200D&#x1F527`]: `Woman Mechanic`,
+            [`&#x1F469&#x1F3FB&#x200D&#x1F527`]: `Woman Mechanic: Light Skin Tone`,
+            [`&#x1F469&#x1F3FC&#x200D&#x1F527`]: `Woman Mechanic: Medium-Light Skin Tone`,
+            [`&#x1F469&#x1F3FD&#x200D&#x1F527`]: `Woman Mechanic: Medium Skin Tone`,
+            [`&#x1F469&#x1F3FE&#x200D&#x1F527`]: `Woman Mechanic: Medium-Dark Skin Tone`,
+            [`&#x1F469&#x1F3FF&#x200D&#x1F527`]: `Woman Mechanic: Dark Skin Tone`,
+            [`&#x1F468&#x200D&#x1F3ED`]: `Man Factory Worker`,
+            [`&#x1F468&#x1F3FB&#x200D&#x1F3ED`]: `Man Factory Worker: Light Skin Tone`,
+            [`&#x1F468&#x1F3FC&#x200D&#x1F3ED`]: `Man Factory Worker: Medium-Light Skin Tone`,
+            [`&#x1F468&#x1F3FD&#x200D&#x1F3ED`]: `Man Factory Worker: Medium Skin Tone`,
+            [`&#x1F468&#x1F3FE&#x200D&#x1F3ED`]: `Man Factory Worker: Medium-Dark Skin Tone`,
+            [`&#x1F468&#x1F3FF&#x200D&#x1F3ED`]: `Man Factory Worker: Dark Skin Tone`,
+            [`&#x1F469&#x200D&#x1F3ED`]: `Woman Factory Worker`,
+            [`&#x1F469&#x1F3FB&#x200D&#x1F3ED`]: `Woman Factory Worker: Light Skin Tone`,
+            [`&#x1F469&#x1F3FC&#x200D&#x1F3ED`]: `Woman Factory Worker: Medium-Light Skin Tone`,
+            [`&#x1F469&#x1F3FD&#x200D&#x1F3ED`]: `Woman Factory Worker: Medium Skin Tone`,
+            [`&#x1F469&#x1F3FE&#x200D&#x1F3ED`]: `Woman Factory Worker: Medium-Dark Skin Tone`,
+            [`&#x1F469&#x1F3FF&#x200D&#x1F3ED`]: `Woman Factory Worker: Dark Skin Tone`,
+            [`&#x1F468&#x200D&#x1F4BC`]: `Man Office Worker`,
+            [`&#x1F468&#x1F3FB&#x200D&#x1F4BC`]: `Man Office Worker: Light Skin Tone`,
+            [`&#x1F468&#x1F3FC&#x200D&#x1F4BC`]: `Man Office Worker: Medium-Light Skin Tone`,
+            [`&#x1F468&#x1F3FD&#x200D&#x1F4BC`]: `Man Office Worker: Medium Skin Tone`,
+            [`&#x1F468&#x1F3FE&#x200D&#x1F4BC`]: `Man Office Worker: Medium-Dark Skin Tone`,
+            [`&#x1F468&#x1F3FF&#x200D&#x1F4BC`]: `Man Office Worker: Dark Skin Tone`,
+            [`&#x1F469&#x200D&#x1F4BC`]: `Woman Office Worker`,
+            [`&#x1F469&#x1F3FB&#x200D&#x1F4BC`]: `Woman Office Worker: Light Skin Tone`,
+            [`&#x1F469&#x1F3FC&#x200D&#x1F4BC`]: `Woman Office Worker: Medium-Light Skin Tone`,
+            [`&#x1F469&#x1F3FD&#x200D&#x1F4BC`]: `Woman Office Worker: Medium Skin Tone`,
+            [`&#x1F469&#x1F3FE&#x200D&#x1F4BC`]: `Woman Office Worker: Medium-Dark Skin Tone`,
+            [`&#x1F469&#x1F3FF&#x200D&#x1F4BC`]: `Woman Office Worker: Dark Skin Tone`,
+            [`&#x1F468&#x200D&#x1F52C`]: `Man Scientist`,
+            [`&#x1F468&#x1F3FB&#x200D&#x1F52C`]: `Man Scientist: Light Skin Tone`,
+            [`&#x1F468&#x1F3FC&#x200D&#x1F52C`]: `Man Scientist: Medium-Light Skin Tone`,
+            [`&#x1F468&#x1F3FD&#x200D&#x1F52C`]: `Man Scientist: Medium Skin Tone`,
+            [`&#x1F468&#x1F3FE&#x200D&#x1F52C`]: `Man Scientist: Medium-Dark Skin Tone`,
+            [`&#x1F468&#x1F3FF&#x200D&#x1F52C`]: `Man Scientist: Dark Skin Tone`,
+            [`&#x1F469&#x200D&#x1F52C`]: `Woman Scientist`,
+            [`&#x1F469&#x1F3FB&#x200D&#x1F52C`]: `Woman Scientist: Light Skin Tone`,
+            [`&#x1F469&#x1F3FC&#x200D&#x1F52C`]: `Woman Scientist: Medium-Light Skin Tone`,
+            [`&#x1F469&#x1F3FD&#x200D&#x1F52C`]: `Woman Scientist: Medium Skin Tone`,
+            [`&#x1F469&#x1F3FE&#x200D&#x1F52C`]: `Woman Scientist: Medium-Dark Skin Tone`,
+            [`&#x1F469&#x1F3FF&#x200D&#x1F52C`]: `Woman Scientist: Dark Skin Tone`,
+            [`&#x1F468&#x200D&#x1F4BB`]: `Man Technologist`,
+            [`&#x1F468&#x1F3FB&#x200D&#x1F4BB`]: `Man Technologist: Light Skin Tone`,
+            [`&#x1F468&#x1F3FC&#x200D&#x1F4BB`]: `Man Technologist: Medium-Light Skin Tone`,
+            [`&#x1F468&#x1F3FD&#x200D&#x1F4BB`]: `Man Technologist: Medium Skin Tone`,
+            [`&#x1F468&#x1F3FE&#x200D&#x1F4BB`]: `Man Technologist: Medium-Dark Skin Tone`,
+            [`&#x1F468&#x1F3FF&#x200D&#x1F4BB`]: `Man Technologist: Dark Skin Tone`,
+            [`&#x1F469&#x200D&#x1F4BB`]: `Woman Technologist`,
+            [`&#x1F469&#x1F3FB&#x200D&#x1F4BB`]: `Woman Technologist: Light Skin Tone`,
+            [`&#x1F469&#x1F3FC&#x200D&#x1F4BB`]: `Woman Technologist: Medium-Light Skin Tone`,
+            [`&#x1F469&#x1F3FD&#x200D&#x1F4BB`]: `Woman Technologist: Medium Skin Tone`,
+            [`&#x1F469&#x1F3FE&#x200D&#x1F4BB`]: `Woman Technologist: Medium-Dark Skin Tone`,
+            [`&#x1F469&#x1F3FF&#x200D&#x1F4BB`]: `Woman Technologist: Dark Skin Tone`,
+            [`&#x1F468&#x200D&#x1F3A4`]: `Man Singer`,
+            [`&#x1F468&#x1F3FB&#x200D&#x1F3A4`]: `Man Singer: Light Skin Tone`,
+            [`&#x1F468&#x1F3FC&#x200D&#x1F3A4`]: `Man Singer: Medium-Light Skin Tone`,
+            [`&#x1F468&#x1F3FD&#x200D&#x1F3A4`]: `Man Singer: Medium Skin Tone`,
+            [`&#x1F468&#x1F3FE&#x200D&#x1F3A4`]: `Man Singer: Medium-Dark Skin Tone`,
+            [`&#x1F468&#x1F3FF&#x200D&#x1F3A4`]: `Man Singer: Dark Skin Tone`,
+            [`&#x1F469&#x200D&#x1F3A4`]: `Woman Singer`,
+            [`&#x1F469&#x1F3FB&#x200D&#x1F3A4`]: `Woman Singer: Light Skin Tone`,
+            [`&#x1F469&#x1F3FC&#x200D&#x1F3A4`]: `Woman Singer: Medium-Light Skin Tone`,
+            [`&#x1F469&#x1F3FD&#x200D&#x1F3A4`]: `Woman Singer: Medium Skin Tone`,
+            [`&#x1F469&#x1F3FE&#x200D&#x1F3A4`]: `Woman Singer: Medium-Dark Skin Tone`,
+            [`&#x1F469&#x1F3FF&#x200D&#x1F3A4`]: `Woman Singer: Dark Skin Tone`,
+            [`&#x1F468&#x200D&#x1F3A8`]: `Man Artist`,
+            [`&#x1F468&#x1F3FB&#x200D&#x1F3A8`]: `Man Artist: Light Skin Tone`,
+            [`&#x1F468&#x1F3FC&#x200D&#x1F3A8`]: `Man Artist: Medium-Light Skin Tone`,
+            [`&#x1F468&#x1F3FD&#x200D&#x1F3A8`]: `Man Artist: Medium Skin Tone`,
+            [`&#x1F468&#x1F3FE&#x200D&#x1F3A8`]: `Man Artist: Medium-Dark Skin Tone`,
+            [`&#x1F468&#x1F3FF&#x200D&#x1F3A8`]: `Man Artist: Dark Skin Tone`,
+            [`&#x1F469&#x200D&#x1F3A8`]: `Woman Artist`,
+            [`&#x1F469&#x1F3FB&#x200D&#x1F3A8`]: `Woman Artist: Light Skin Tone`,
+            [`&#x1F469&#x1F3FC&#x200D&#x1F3A8`]: `Woman Artist: Medium-Light Skin Tone`,
+            [`&#x1F469&#x1F3FD&#x200D&#x1F3A8`]: `Woman Artist: Medium Skin Tone`,
+            [`&#x1F469&#x1F3FE&#x200D&#x1F3A8`]: `Woman Artist: Medium-Dark Skin Tone`,
+            [`&#x1F469&#x1F3FF&#x200D&#x1F3A8`]: `Woman Artist: Dark Skin Tone`,
+            [`&#x1F468&#x200D&#x2708&#xFE0F`]: `Man Pilot`,
+            [`&#x1F468&#x1F3FB&#x200D&#x2708&#xFE0F`]: `Man Pilot: Light Skin Tone`,
+            [`&#x1F468&#x1F3FC&#x200D&#x2708&#xFE0F`]: `Man Pilot: Medium-Light Skin Tone`,
+            [`&#x1F468&#x1F3FD&#x200D&#x2708&#xFE0F`]: `Man Pilot: Medium Skin Tone`,
+            [`&#x1F468&#x1F3FE&#x200D&#x2708&#xFE0F`]: `Man Pilot: Medium-Dark Skin Tone`,
+            [`&#x1F468&#x1F3FF&#x200D&#x2708&#xFE0F`]: `Man Pilot: Dark Skin Tone`,
+            [`&#x1F469&#x200D&#x2708&#xFE0F`]: `Woman Pilot`,
+            [`&#x1F469&#x1F3FB&#x200D&#x2708&#xFE0F`]: `Woman Pilot: Light Skin Tone`,
+            [`&#x1F469&#x1F3FC&#x200D&#x2708&#xFE0F`]: `Woman Pilot: Medium-Light Skin Tone`,
+            [`&#x1F469&#x1F3FD&#x200D&#x2708&#xFE0F`]: `Woman Pilot: Medium Skin Tone`,
+            [`&#x1F469&#x1F3FE&#x200D&#x2708&#xFE0F`]: `Woman Pilot: Medium-Dark Skin Tone`,
+            [`&#x1F469&#x1F3FF&#x200D&#x2708&#xFE0F`]: `Woman Pilot: Dark Skin Tone`,
+            [`&#x1F468&#x200D&#x1F680`]: `Man Astronaut`,
+            [`&#x1F468&#x1F3FB&#x200D&#x1F680`]: `Man Astronaut: Light Skin Tone`,
+            [`&#x1F468&#x1F3FC&#x200D&#x1F680`]: `Man Astronaut: Medium-Light Skin Tone`,
+            [`&#x1F468&#x1F3FD&#x200D&#x1F680`]: `Man Astronaut: Medium Skin Tone`,
+            [`&#x1F468&#x1F3FE&#x200D&#x1F680`]: `Man Astronaut: Medium-Dark Skin Tone`,
+            [`&#x1F468&#x1F3FF&#x200D&#x1F680`]: `Man Astronaut: Dark Skin Tone`,
+            [`&#x1F469&#x200D&#x1F680`]: `Woman Astronaut`,
+            [`&#x1F469&#x1F3FB&#x200D&#x1F680`]: `Woman Astronaut: Light Skin Tone`,
+            [`&#x1F469&#x1F3FC&#x200D&#x1F680`]: `Woman Astronaut: Medium-Light Skin Tone`,
+            [`&#x1F469&#x1F3FD&#x200D&#x1F680`]: `Woman Astronaut: Medium Skin Tone`,
+            [`&#x1F469&#x1F3FE&#x200D&#x1F680`]: `Woman Astronaut: Medium-Dark Skin Tone`,
+            [`&#x1F469&#x1F3FF&#x200D&#x1F680`]: `Woman Astronaut: Dark Skin Tone`,
+            [`&#x1F468&#x200D&#x1F692`]: `Man Firefighter`,
+            [`&#x1F468&#x1F3FB&#x200D&#x1F692`]: `Man Firefighter: Light Skin Tone`,
+            [`&#x1F468&#x1F3FC&#x200D&#x1F692`]: `Man Firefighter: Medium-Light Skin Tone`,
+            [`&#x1F468&#x1F3FD&#x200D&#x1F692`]: `Man Firefighter: Medium Skin Tone`,
+            [`&#x1F468&#x1F3FE&#x200D&#x1F692`]: `Man Firefighter: Medium-Dark Skin Tone`,
+            [`&#x1F468&#x1F3FF&#x200D&#x1F692`]: `Man Firefighter: Dark Skin Tone`,
+            [`&#x1F469&#x200D&#x1F692`]: `Woman Firefighter`,
+            [`&#x1F469&#x1F3FB&#x200D&#x1F692`]: `Woman Firefighter: Light Skin Tone`,
+            [`&#x1F469&#x1F3FC&#x200D&#x1F692`]: `Woman Firefighter: Medium-Light Skin Tone`,
+            [`&#x1F469&#x1F3FD&#x200D&#x1F692`]: `Woman Firefighter: Medium Skin Tone`,
+            [`&#x1F469&#x1F3FE&#x200D&#x1F692`]: `Woman Firefighter: Medium-Dark Skin Tone`,
+            [`&#x1F469&#x1F3FF&#x200D&#x1F692`]: `Woman Firefighter: Dark Skin Tone`,
+            [`&#x1F46E`]: `Police Officer`,
+            [`&#x1F46E&#x1F3FB`]: `Police Officer: Light Skin Tone`,
+            [`&#x1F46E&#x1F3FC`]: `Police Officer: Medium-Light Skin Tone`,
+            [`&#x1F46E&#x1F3FD`]: `Police Officer: Medium Skin Tone`,
+            [`&#x1F46E&#x1F3FE`]: `Police Officer: Medium-Dark Skin Tone`,
+            [`&#x1F46E&#x1F3FF`]: `Police Officer: Dark Skin Tone`,
+            [`&#x1F46E&#x200D&#x2642&#xFE0F`]: `Man Police Officer`,
+            [`&#x1F46E&#x1F3FB&#x200D&#x2642&#xFE0F`]: `Man Police Officer: Light Skin Tone`,
+            [`&#x1F46E&#x1F3FC&#x200D&#x2642&#xFE0F`]: `Man Police Officer: Medium-Light Skin Tone`,
+            [`&#x1F46E&#x1F3FD&#x200D&#x2642&#xFE0F`]: `Man Police Officer: Medium Skin Tone`,
+            [`&#x1F46E&#x1F3FE&#x200D&#x2642&#xFE0F`]: `Man Police Officer: Medium-Dark Skin Tone`,
+            [`&#x1F46E&#x1F3FF&#x200D&#x2642&#xFE0F`]: `Man Police Officer: Dark Skin Tone`,
+            [`&#x1F46E&#x200D&#x2640&#xFE0F`]: `Woman Police Officer`,
+            [`&#x1F46E&#x1F3FB&#x200D&#x2640&#xFE0F`]: `Woman Police Officer: Light Skin Tone`,
+            [`&#x1F46E&#x1F3FC&#x200D&#x2640&#xFE0F`]: `Woman Police Officer: Medium-Light Skin Tone`,
+            [`&#x1F46E&#x1F3FD&#x200D&#x2640&#xFE0F`]: `Woman Police Officer: Medium Skin Tone`,
+            [`&#x1F46E&#x1F3FE&#x200D&#x2640&#xFE0F`]: `Woman Police Officer: Medium-Dark Skin Tone`,
+            [`&#x1F46E&#x1F3FF&#x200D&#x2640&#xFE0F`]: `Woman Police Officer: Dark Skin Tone`,
+            [`&#x1F575`]: `Detective`,
+            [`&#x1F575&#x1F3FB`]: `Detective: Light Skin Tone`,
+            [`&#x1F575&#x1F3FC`]: `Detective: Medium-Light Skin Tone`,
+            [`&#x1F575&#x1F3FD`]: `Detective: Medium Skin Tone`,
+            [`&#x1F575&#x1F3FE`]: `Detective: Medium-Dark Skin Tone`,
+            [`&#x1F575&#x1F3FF`]: `Detective: Dark Skin Tone`,
+            [`&#x1F575&#xFE0F&#x200D&#x2642&#xFE0F`]: `Man Detective`,
+            [`&#x1F575&#x1F3FB&#x200D&#x2642&#xFE0F`]: `Man Detective: Light Skin Tone`,
+            [`&#x1F575&#x1F3FC&#x200D&#x2642&#xFE0F`]: `Man Detective: Medium-Light Skin Tone`,
+            [`&#x1F575&#x1F3FD&#x200D&#x2642&#xFE0F`]: `Man Detective: Medium Skin Tone`,
+            [`&#x1F575&#x1F3FE&#x200D&#x2642&#xFE0F`]: `Man Detective: Medium-Dark Skin Tone`,
+            [`&#x1F575&#x1F3FF&#x200D&#x2642&#xFE0F`]: `Man Detective: Dark Skin Tone`,
+            [`&#x1F575&#xFE0F&#x200D&#x2640&#xFE0F`]: `Woman Detective`,
+            [`&#x1F575&#x1F3FB&#x200D&#x2640&#xFE0F`]: `Woman Detective: Light Skin Tone`,
+            [`&#x1F575&#x1F3FC&#x200D&#x2640&#xFE0F`]: `Woman Detective: Medium-Light Skin Tone`,
+            [`&#x1F575&#x1F3FD&#x200D&#x2640&#xFE0F`]: `Woman Detective: Medium Skin Tone`,
+            [`&#x1F575&#x1F3FE&#x200D&#x2640&#xFE0F`]: `Woman Detective: Medium-Dark Skin Tone`,
+            [`&#x1F575&#x1F3FF&#x200D&#x2640&#xFE0F`]: `Woman Detective: Dark Skin Tone`,
+            [`&#x1F482`]: `Guard`,
+            [`&#x1F482&#x1F3FB`]: `Guard: Light Skin Tone`,
+            [`&#x1F482&#x1F3FC`]: `Guard: Medium-Light Skin Tone`,
+            [`&#x1F482&#x1F3FD`]: `Guard: Medium Skin Tone`,
+            [`&#x1F482&#x1F3FE`]: `Guard: Medium-Dark Skin Tone`,
+            [`&#x1F482&#x1F3FF`]: `Guard: Dark Skin Tone`,
+            [`&#x1F482&#x200D&#x2642&#xFE0F`]: `Man Guard`,
+            [`&#x1F482&#x1F3FB&#x200D&#x2642&#xFE0F`]: `Man Guard: Light Skin Tone`,
+            [`&#x1F482&#x1F3FC&#x200D&#x2642&#xFE0F`]: `Man Guard: Medium-Light Skin Tone`,
+            [`&#x1F482&#x1F3FD&#x200D&#x2642&#xFE0F`]: `Man Guard: Medium Skin Tone`,
+            [`&#x1F482&#x1F3FE&#x200D&#x2642&#xFE0F`]: `Man Guard: Medium-Dark Skin Tone`,
+            [`&#x1F482&#x1F3FF&#x200D&#x2642&#xFE0F`]: `Man Guard: Dark Skin Tone`,
+            [`&#x1F482&#x200D&#x2640&#xFE0F`]: `Woman Guard`,
+            [`&#x1F482&#x1F3FB&#x200D&#x2640&#xFE0F`]: `Woman Guard: Light Skin Tone`,
+            [`&#x1F482&#x1F3FC&#x200D&#x2640&#xFE0F`]: `Woman Guard: Medium-Light Skin Tone`,
+            [`&#x1F482&#x1F3FD&#x200D&#x2640&#xFE0F`]: `Woman Guard: Medium Skin Tone`,
+            [`&#x1F482&#x1F3FE&#x200D&#x2640&#xFE0F`]: `Woman Guard: Medium-Dark Skin Tone`,
+            [`&#x1F482&#x1F3FF&#x200D&#x2640&#xFE0F`]: `Woman Guard: Dark Skin Tone`,
+            [`&#x1F477`]: `Construction Worker`,
+            [`&#x1F477&#x1F3FB`]: `Construction Worker: Light Skin Tone`,
+            [`&#x1F477&#x1F3FC`]: `Construction Worker: Medium-Light Skin Tone`,
+            [`&#x1F477&#x1F3FD`]: `Construction Worker: Medium Skin Tone`,
+            [`&#x1F477&#x1F3FE`]: `Construction Worker: Medium-Dark Skin Tone`,
+            [`&#x1F477&#x1F3FF`]: `Construction Worker: Dark Skin Tone`,
+            [`&#x1F477&#x200D&#x2642&#xFE0F`]: `Man Construction Worker`,
+            [`&#x1F477&#x1F3FB&#x200D&#x2642&#xFE0F`]: `Man Construction Worker: Light Skin Tone`,
+            [`&#x1F477&#x1F3FC&#x200D&#x2642&#xFE0F`]: `Man Construction Worker: Medium-Light Skin Tone`,
+            [`&#x1F477&#x1F3FD&#x200D&#x2642&#xFE0F`]: `Man Construction Worker: Medium Skin Tone`,
+            [`&#x1F477&#x1F3FE&#x200D&#x2642&#xFE0F`]: `Man Construction Worker: Medium-Dark Skin Tone`,
+            [`&#x1F477&#x1F3FF&#x200D&#x2642&#xFE0F`]: `Man Construction Worker: Dark Skin Tone`,
+            [`&#x1F477&#x200D&#x2640&#xFE0F`]: `Woman Construction Worker`,
+            [`&#x1F477&#x1F3FB&#x200D&#x2640&#xFE0F`]: `Woman Construction Worker: Light Skin Tone`,
+            [`&#x1F477&#x1F3FC&#x200D&#x2640&#xFE0F`]: `Woman Construction Worker: Medium-Light Skin Tone`,
+            [`&#x1F477&#x1F3FD&#x200D&#x2640&#xFE0F`]: `Woman Construction Worker: Medium Skin Tone`,
+            [`&#x1F477&#x1F3FE&#x200D&#x2640&#xFE0F`]: `Woman Construction Worker: Medium-Dark Skin Tone`,
+            [`&#x1F477&#x1F3FF&#x200D&#x2640&#xFE0F`]: `Woman Construction Worker: Dark Skin Tone`,
+            [`&#x1F473`]: `Person Wearing Turban`,
+            [`&#x1F473&#x1F3FB`]: `Person Wearing Turban: Light Skin Tone`,
+            [`&#x1F473&#x1F3FC`]: `Person Wearing Turban: Medium-Light Skin Tone`,
+            [`&#x1F473&#x1F3FD`]: `Person Wearing Turban: Medium Skin Tone`,
+            [`&#x1F473&#x1F3FE`]: `Person Wearing Turban: Medium-Dark Skin Tone`,
+            [`&#x1F473&#x1F3FF`]: `Person Wearing Turban: Dark Skin Tone`,
+            [`&#x1F473&#x200D&#x2642&#xFE0F`]: `Man Wearing Turban`,
+            [`&#x1F473&#x1F3FB&#x200D&#x2642&#xFE0F`]: `Man Wearing Turban: Light Skin Tone`,
+            [`&#x1F473&#x1F3FC&#x200D&#x2642&#xFE0F`]: `Man Wearing Turban: Medium-Light Skin Tone`,
+            [`&#x1F473&#x1F3FD&#x200D&#x2642&#xFE0F`]: `Man Wearing Turban: Medium Skin Tone`,
+            [`&#x1F473&#x1F3FE&#x200D&#x2642&#xFE0F`]: `Man Wearing Turban: Medium-Dark Skin Tone`,
+            [`&#x1F473&#x1F3FF&#x200D&#x2642&#xFE0F`]: `Man Wearing Turban: Dark Skin Tone`,
+            [`&#x1F473&#x200D&#x2640&#xFE0F`]: `Woman Wearing Turban`,
+            [`&#x1F473&#x1F3FB&#x200D&#x2640&#xFE0F`]: `Woman Wearing Turban: Light Skin Tone`,
+            [`&#x1F473&#x1F3FC&#x200D&#x2640&#xFE0F`]: `Woman Wearing Turban: Medium-Light Skin Tone`,
+            [`&#x1F473&#x1F3FD&#x200D&#x2640&#xFE0F`]: `Woman Wearing Turban: Medium Skin Tone`,
+            [`&#x1F473&#x1F3FE&#x200D&#x2640&#xFE0F`]: `Woman Wearing Turban: Medium-Dark Skin Tone`,
+            [`&#x1F473&#x1F3FF&#x200D&#x2640&#xFE0F`]: `Woman Wearing Turban: Dark Skin Tone`,
+            [`&#x1F471`]: `Blond-Haired Person`,
+            [`&#x1F471&#x1F3FB`]: `Blond-Haired Person: Light Skin Tone`,
+            [`&#x1F471&#x1F3FC`]: `Blond-Haired Person: Medium-Light Skin Tone`,
+            [`&#x1F471&#x1F3FD`]: `Blond-Haired Person: Medium Skin Tone`,
+            [`&#x1F471&#x1F3FE`]: `Blond-Haired Person: Medium-Dark Skin Tone`,
+            [`&#x1F471&#x1F3FF`]: `Blond-Haired Person: Dark Skin Tone`,
+            [`&#x1F471&#x200D&#x2642&#xFE0F`]: `Blond-Haired Man`,
+            [`&#x1F471&#x1F3FB&#x200D&#x2642&#xFE0F`]: `Blond-Haired Man: Light Skin Tone`,
+            [`&#x1F471&#x1F3FC&#x200D&#x2642&#xFE0F`]: `Blond-Haired Man: Medium-Light Skin Tone`,
+            [`&#x1F471&#x1F3FD&#x200D&#x2642&#xFE0F`]: `Blond-Haired Man: Medium Skin Tone`,
+            [`&#x1F471&#x1F3FE&#x200D&#x2642&#xFE0F`]: `Blond-Haired Man: Medium-Dark Skin Tone`,
+            [`&#x1F471&#x1F3FF&#x200D&#x2642&#xFE0F`]: `Blond-Haired Man: Dark Skin Tone`,
+            [`&#x1F471&#x200D&#x2640&#xFE0F`]: `Blond-Haired Woman`,
+            [`&#x1F471&#x1F3FB&#x200D&#x2640&#xFE0F`]: `Blond-Haired Woman: Light Skin Tone`,
+            [`&#x1F471&#x1F3FC&#x200D&#x2640&#xFE0F`]: `Blond-Haired Woman: Medium-Light Skin Tone`,
+            [`&#x1F471&#x1F3FD&#x200D&#x2640&#xFE0F`]: `Blond-Haired Woman: Medium Skin Tone`,
+            [`&#x1F471&#x1F3FE&#x200D&#x2640&#xFE0F`]: `Blond-Haired Woman: Medium-Dark Skin Tone`,
+            [`&#x1F471&#x1F3FF&#x200D&#x2640&#xFE0F`]: `Blond-Haired Woman: Dark Skin Tone`,
+            [`&#x1F385`]: `Santa Claus`,
+            [`&#x1F385&#x1F3FB`]: `Santa Claus: Light Skin Tone`,
+            [`&#x1F385&#x1F3FC`]: `Santa Claus: Medium-Light Skin Tone`,
+            [`&#x1F385&#x1F3FD`]: `Santa Claus: Medium Skin Tone`,
+            [`&#x1F385&#x1F3FE`]: `Santa Claus: Medium-Dark Skin Tone`,
+            [`&#x1F385&#x1F3FF`]: `Santa Claus: Dark Skin Tone`,
+            [`&#x1F936`]: `Mrs. Claus`,
+            [`&#x1F936&#x1F3FB`]: `Mrs. Claus: Light Skin Tone`,
+            [`&#x1F936&#x1F3FC`]: `Mrs. Claus: Medium-Light Skin Tone`,
+            [`&#x1F936&#x1F3FD`]: `Mrs. Claus: Medium Skin Tone`,
+            [`&#x1F936&#x1F3FE`]: `Mrs. Claus: Medium-Dark Skin Tone`,
+            [`&#x1F936&#x1F3FF`]: `Mrs. Claus: Dark Skin Tone`,
+            [`&#x1F478`]: `Princess`,
+            [`&#x1F478&#x1F3FB`]: `Princess: Light Skin Tone`,
+            [`&#x1F478&#x1F3FC`]: `Princess: Medium-Light Skin Tone`,
+            [`&#x1F478&#x1F3FD`]: `Princess: Medium Skin Tone`,
+            [`&#x1F478&#x1F3FE`]: `Princess: Medium-Dark Skin Tone`,
+            [`&#x1F478&#x1F3FF`]: `Princess: Dark Skin Tone`,
+            [`&#x1F934`]: `Prince`,
+            [`&#x1F934&#x1F3FB`]: `Prince: Light Skin Tone`,
+            [`&#x1F934&#x1F3FC`]: `Prince: Medium-Light Skin Tone`,
+            [`&#x1F934&#x1F3FD`]: `Prince: Medium Skin Tone`,
+            [`&#x1F934&#x1F3FE`]: `Prince: Medium-Dark Skin Tone`,
+            [`&#x1F934&#x1F3FF`]: `Prince: Dark Skin Tone`,
+            [`&#x1F470`]: `Bride With Veil`,
+            [`&#x1F470&#x1F3FB`]: `Bride With Veil: Light Skin Tone`,
+            [`&#x1F470&#x1F3FC`]: `Bride With Veil: Medium-Light Skin Tone`,
+            [`&#x1F470&#x1F3FD`]: `Bride With Veil: Medium Skin Tone`,
+            [`&#x1F470&#x1F3FE`]: `Bride With Veil: Medium-Dark Skin Tone`,
+            [`&#x1F470&#x1F3FF`]: `Bride With Veil: Dark Skin Tone`,
+            [`&#x1F935`]: `Man In Tuxedo`,
+            [`&#x1F935&#x1F3FB`]: `Man In Tuxedo: Light Skin Tone`,
+            [`&#x1F935&#x1F3FC`]: `Man In Tuxedo: Medium-Light Skin Tone`,
+            [`&#x1F935&#x1F3FD`]: `Man In Tuxedo: Medium Skin Tone`,
+            [`&#x1F935&#x1F3FE`]: `Man In Tuxedo: Medium-Dark Skin Tone`,
+            [`&#x1F935&#x1F3FF`]: `Man In Tuxedo: Dark Skin Tone`,
+            [`&#x1F930`]: `Pregnant Woman`,
+            [`&#x1F930&#x1F3FB`]: `Pregnant Woman: Light Skin Tone`,
+            [`&#x1F930&#x1F3FC`]: `Pregnant Woman: Medium-Light Skin Tone`,
+            [`&#x1F930&#x1F3FD`]: `Pregnant Woman: Medium Skin Tone`,
+            [`&#x1F930&#x1F3FE`]: `Pregnant Woman: Medium-Dark Skin Tone`,
+            [`&#x1F930&#x1F3FF`]: `Pregnant Woman: Dark Skin Tone`,
+            [`&#x1F472`]: `Man With Chinese Cap`,
+            [`&#x1F472&#x1F3FB`]: `Man With Chinese Cap: Light Skin Tone`,
+            [`&#x1F472&#x1F3FC`]: `Man With Chinese Cap: Medium-Light Skin Tone`,
+            [`&#x1F472&#x1F3FD`]: `Man With Chinese Cap: Medium Skin Tone`,
+            [`&#x1F472&#x1F3FE`]: `Man With Chinese Cap: Medium-Dark Skin Tone`,
+            [`&#x1F472&#x1F3FF`]: `Man With Chinese Cap: Dark Skin Tone`,
+            [`&#x1F64D`]: `Person Frowning`,
+            [`&#x1F64D&#x1F3FB`]: `Person Frowning: Light Skin Tone`,
+            [`&#x1F64D&#x1F3FC`]: `Person Frowning: Medium-Light Skin Tone`,
+            [`&#x1F64D&#x1F3FD`]: `Person Frowning: Medium Skin Tone`,
+            [`&#x1F64D&#x1F3FE`]: `Person Frowning: Medium-Dark Skin Tone`,
+            [`&#x1F64D&#x1F3FF`]: `Person Frowning: Dark Skin Tone`,
+            [`&#x1F64D&#x200D&#x2642&#xFE0F`]: `Man Frowning`,
+            [`&#x1F64D&#x1F3FB&#x200D&#x2642&#xFE0F`]: `Man Frowning: Light Skin Tone`,
+            [`&#x1F64D&#x1F3FC&#x200D&#x2642&#xFE0F`]: `Man Frowning: Medium-Light Skin Tone`,
+            [`&#x1F64D&#x1F3FD&#x200D&#x2642&#xFE0F`]: `Man Frowning: Medium Skin Tone`,
+            [`&#x1F64D&#x1F3FE&#x200D&#x2642&#xFE0F`]: `Man Frowning: Medium-Dark Skin Tone`,
+            [`&#x1F64D&#x1F3FF&#x200D&#x2642&#xFE0F`]: `Man Frowning: Dark Skin Tone`,
+            [`&#x1F64D&#x200D&#x2640&#xFE0F`]: `Woman Frowning`,
+            [`&#x1F64D&#x1F3FB&#x200D&#x2640&#xFE0F`]: `Woman Frowning: Light Skin Tone`,
+            [`&#x1F64D&#x1F3FC&#x200D&#x2640&#xFE0F`]: `Woman Frowning: Medium-Light Skin Tone`,
+            [`&#x1F64D&#x1F3FD&#x200D&#x2640&#xFE0F`]: `Woman Frowning: Medium Skin Tone`,
+            [`&#x1F64D&#x1F3FE&#x200D&#x2640&#xFE0F`]: `Woman Frowning: Medium-Dark Skin Tone`,
+            [`&#x1F64D&#x1F3FF&#x200D&#x2640&#xFE0F`]: `Woman Frowning: Dark Skin Tone`,
+            [`&#x1F64E`]: `Person Pouting`,
+            [`&#x1F64E&#x1F3FB`]: `Person Pouting: Light Skin Tone`,
+            [`&#x1F64E&#x1F3FC`]: `Person Pouting: Medium-Light Skin Tone`,
+            [`&#x1F64E&#x1F3FD`]: `Person Pouting: Medium Skin Tone`,
+            [`&#x1F64E&#x1F3FE`]: `Person Pouting: Medium-Dark Skin Tone`,
+            [`&#x1F64E&#x1F3FF`]: `Person Pouting: Dark Skin Tone`,
+            [`&#x1F64E&#x200D&#x2642&#xFE0F`]: `Man Pouting`,
+            [`&#x1F64E&#x1F3FB&#x200D&#x2642&#xFE0F`]: `Man Pouting: Light Skin Tone`,
+            [`&#x1F64E&#x1F3FC&#x200D&#x2642&#xFE0F`]: `Man Pouting: Medium-Light Skin Tone`,
+            [`&#x1F64E&#x1F3FD&#x200D&#x2642&#xFE0F`]: `Man Pouting: Medium Skin Tone`,
+            [`&#x1F64E&#x1F3FE&#x200D&#x2642&#xFE0F`]: `Man Pouting: Medium-Dark Skin Tone`,
+            [`&#x1F64E&#x1F3FF&#x200D&#x2642&#xFE0F`]: `Man Pouting: Dark Skin Tone`,
+            [`&#x1F64E&#x200D&#x2640&#xFE0F`]: `Woman Pouting`,
+            [`&#x1F64E&#x1F3FB&#x200D&#x2640&#xFE0F`]: `Woman Pouting: Light Skin Tone`,
+            [`&#x1F64E&#x1F3FC&#x200D&#x2640&#xFE0F`]: `Woman Pouting: Medium-Light Skin Tone`,
+            [`&#x1F64E&#x1F3FD&#x200D&#x2640&#xFE0F`]: `Woman Pouting: Medium Skin Tone`,
+            [`&#x1F64E&#x1F3FE&#x200D&#x2640&#xFE0F`]: `Woman Pouting: Medium-Dark Skin Tone`,
+            [`&#x1F64E&#x1F3FF&#x200D&#x2640&#xFE0F`]: `Woman Pouting: Dark Skin Tone`,
+            [`&#x1F645`]: `Person Gesturing NO`,
+            [`&#x1F645&#x1F3FB`]: `Person Gesturing NO: Light Skin Tone`,
+            [`&#x1F645&#x1F3FC`]: `Person Gesturing NO: Medium-Light Skin Tone`,
+            [`&#x1F645&#x1F3FD`]: `Person Gesturing NO: Medium Skin Tone`,
+            [`&#x1F645&#x1F3FE`]: `Person Gesturing NO: Medium-Dark Skin Tone`,
+            [`&#x1F645&#x1F3FF`]: `Person Gesturing NO: Dark Skin Tone`,
+            [`&#x1F645&#x200D&#x2642&#xFE0F`]: `Man Gesturing NO`,
+            [`&#x1F645&#x1F3FB&#x200D&#x2642&#xFE0F`]: `Man Gesturing NO: Light Skin Tone`,
+            [`&#x1F645&#x1F3FC&#x200D&#x2642&#xFE0F`]: `Man Gesturing NO: Medium-Light Skin Tone`,
+            [`&#x1F645&#x1F3FD&#x200D&#x2642&#xFE0F`]: `Man Gesturing NO: Medium Skin Tone`,
+            [`&#x1F645&#x1F3FE&#x200D&#x2642&#xFE0F`]: `Man Gesturing NO: Medium-Dark Skin Tone`,
+            [`&#x1F645&#x1F3FF&#x200D&#x2642&#xFE0F`]: `Man Gesturing NO: Dark Skin Tone`,
+            [`&#x1F645&#x200D&#x2640&#xFE0F`]: `Woman Gesturing NO`,
+            [`&#x1F645&#x1F3FB&#x200D&#x2640&#xFE0F`]: `Woman Gesturing NO: Light Skin Tone`,
+            [`&#x1F645&#x1F3FC&#x200D&#x2640&#xFE0F`]: `Woman Gesturing NO: Medium-Light Skin Tone`,
+            [`&#x1F645&#x1F3FD&#x200D&#x2640&#xFE0F`]: `Woman Gesturing NO: Medium Skin Tone`,
+            [`&#x1F645&#x1F3FE&#x200D&#x2640&#xFE0F`]: `Woman Gesturing NO: Medium-Dark Skin Tone`,
+            [`&#x1F645&#x1F3FF&#x200D&#x2640&#xFE0F`]: `Woman Gesturing NO: Dark Skin Tone`,
+            [`&#x1F646`]: `Person Gesturing OK`,
+            [`&#x1F646&#x1F3FB`]: `Person Gesturing OK: Light Skin Tone`,
+            [`&#x1F646&#x1F3FC`]: `Person Gesturing OK: Medium-Light Skin Tone`,
+            [`&#x1F646&#x1F3FD`]: `Person Gesturing OK: Medium Skin Tone`,
+            [`&#x1F646&#x1F3FE`]: `Person Gesturing OK: Medium-Dark Skin Tone`,
+            [`&#x1F646&#x1F3FF`]: `Person Gesturing OK: Dark Skin Tone`,
+            [`&#x1F646&#x200D&#x2642&#xFE0F`]: `Man Gesturing OK`,
+            [`&#x1F646&#x1F3FB&#x200D&#x2642&#xFE0F`]: `Man Gesturing OK: Light Skin Tone`,
+            [`&#x1F646&#x1F3FC&#x200D&#x2642&#xFE0F`]: `Man Gesturing OK: Medium-Light Skin Tone`,
+            [`&#x1F646&#x1F3FD&#x200D&#x2642&#xFE0F`]: `Man Gesturing OK: Medium Skin Tone`,
+            [`&#x1F646&#x1F3FE&#x200D&#x2642&#xFE0F`]: `Man Gesturing OK: Medium-Dark Skin Tone`,
+            [`&#x1F646&#x1F3FF&#x200D&#x2642&#xFE0F`]: `Man Gesturing OK: Dark Skin Tone`,
+            [`&#x1F646&#x200D&#x2640&#xFE0F`]: `Woman Gesturing OK`,
+            [`&#x1F646&#x1F3FB&#x200D&#x2640&#xFE0F`]: `Woman Gesturing OK: Light Skin Tone`,
+            [`&#x1F646&#x1F3FC&#x200D&#x2640&#xFE0F`]: `Woman Gesturing OK: Medium-Light Skin Tone`,
+            [`&#x1F646&#x1F3FD&#x200D&#x2640&#xFE0F`]: `Woman Gesturing OK: Medium Skin Tone`,
+            [`&#x1F646&#x1F3FE&#x200D&#x2640&#xFE0F`]: `Woman Gesturing OK: Medium-Dark Skin Tone`,
+            [`&#x1F646&#x1F3FF&#x200D&#x2640&#xFE0F`]: `Woman Gesturing OK: Dark Skin Tone`,
+            [`&#x1F481`]: `Person Tipping Hand`,
+            [`&#x1F481&#x1F3FB`]: `Person Tipping Hand: Light Skin Tone`,
+            [`&#x1F481&#x1F3FC`]: `Person Tipping Hand: Medium-Light Skin Tone`,
+            [`&#x1F481&#x1F3FD`]: `Person Tipping Hand: Medium Skin Tone`,
+            [`&#x1F481&#x1F3FE`]: `Person Tipping Hand: Medium-Dark Skin Tone`,
+            [`&#x1F481&#x1F3FF`]: `Person Tipping Hand: Dark Skin Tone`,
+            [`&#x1F481&#x200D&#x2642&#xFE0F`]: `Man Tipping Hand`,
+            [`&#x1F481&#x1F3FB&#x200D&#x2642&#xFE0F`]: `Man Tipping Hand: Light Skin Tone`,
+            [`&#x1F481&#x1F3FC&#x200D&#x2642&#xFE0F`]: `Man Tipping Hand: Medium-Light Skin Tone`,
+            [`&#x1F481&#x1F3FD&#x200D&#x2642&#xFE0F`]: `Man Tipping Hand: Medium Skin Tone`,
+            [`&#x1F481&#x1F3FE&#x200D&#x2642&#xFE0F`]: `Man Tipping Hand: Medium-Dark Skin Tone`,
+            [`&#x1F481&#x1F3FF&#x200D&#x2642&#xFE0F`]: `Man Tipping Hand: Dark Skin Tone`,
+            [`&#x1F481&#x200D&#x2640&#xFE0F`]: `Woman Tipping Hand`,
+            [`&#x1F481&#x1F3FB&#x200D&#x2640&#xFE0F`]: `Woman Tipping Hand: Light Skin Tone`,
+            [`&#x1F481&#x1F3FC&#x200D&#x2640&#xFE0F`]: `Woman Tipping Hand: Medium-Light Skin Tone`,
+            [`&#x1F481&#x1F3FD&#x200D&#x2640&#xFE0F`]: `Woman Tipping Hand: Medium Skin Tone`,
+            [`&#x1F481&#x1F3FE&#x200D&#x2640&#xFE0F`]: `Woman Tipping Hand: Medium-Dark Skin Tone`,
+            [`&#x1F481&#x1F3FF&#x200D&#x2640&#xFE0F`]: `Woman Tipping Hand: Dark Skin Tone`,
+            [`&#x1F64B`]: `Person Raising Hand`,
+            [`&#x1F64B&#x1F3FB`]: `Person Raising Hand: Light Skin Tone`,
+            [`&#x1F64B&#x1F3FC`]: `Person Raising Hand: Medium-Light Skin Tone`,
+            [`&#x1F64B&#x1F3FD`]: `Person Raising Hand: Medium Skin Tone`,
+            [`&#x1F64B&#x1F3FE`]: `Person Raising Hand: Medium-Dark Skin Tone`,
+            [`&#x1F64B&#x1F3FF`]: `Person Raising Hand: Dark Skin Tone`,
+            [`&#x1F64B&#x200D&#x2642&#xFE0F`]: `Man Raising Hand`,
+            [`&#x1F64B&#x1F3FB&#x200D&#x2642&#xFE0F`]: `Man Raising Hand: Light Skin Tone`,
+            [`&#x1F64B&#x1F3FC&#x200D&#x2642&#xFE0F`]: `Man Raising Hand: Medium-Light Skin Tone`,
+            [`&#x1F64B&#x1F3FD&#x200D&#x2642&#xFE0F`]: `Man Raising Hand: Medium Skin Tone`,
+            [`&#x1F64B&#x1F3FE&#x200D&#x2642&#xFE0F`]: `Man Raising Hand: Medium-Dark Skin Tone`,
+            [`&#x1F64B&#x1F3FF&#x200D&#x2642&#xFE0F`]: `Man Raising Hand: Dark Skin Tone`,
+            [`&#x1F64B&#x200D&#x2640&#xFE0F`]: `Woman Raising Hand`,
+            [`&#x1F64B&#x1F3FB&#x200D&#x2640&#xFE0F`]: `Woman Raising Hand: Light Skin Tone`,
+            [`&#x1F64B&#x1F3FC&#x200D&#x2640&#xFE0F`]: `Woman Raising Hand: Medium-Light Skin Tone`,
+            [`&#x1F64B&#x1F3FD&#x200D&#x2640&#xFE0F`]: `Woman Raising Hand: Medium Skin Tone`,
+            [`&#x1F64B&#x1F3FE&#x200D&#x2640&#xFE0F`]: `Woman Raising Hand: Medium-Dark Skin Tone`,
+            [`&#x1F64B&#x1F3FF&#x200D&#x2640&#xFE0F`]: `Woman Raising Hand: Dark Skin Tone`,
+            [`&#x1F647`]: `Person Bowing`,
+            [`&#x1F647&#x1F3FB`]: `Person Bowing: Light Skin Tone`,
+            [`&#x1F647&#x1F3FC`]: `Person Bowing: Medium-Light Skin Tone`,
+            [`&#x1F647&#x1F3FD`]: `Person Bowing: Medium Skin Tone`,
+            [`&#x1F647&#x1F3FE`]: `Person Bowing: Medium-Dark Skin Tone`,
+            [`&#x1F647&#x1F3FF`]: `Person Bowing: Dark Skin Tone`,
+            [`&#x1F647&#x200D&#x2642&#xFE0F`]: `Man Bowing`,
+            [`&#x1F647&#x1F3FB&#x200D&#x2642&#xFE0F`]: `Man Bowing: Light Skin Tone`,
+            [`&#x1F647&#x1F3FC&#x200D&#x2642&#xFE0F`]: `Man Bowing: Medium-Light Skin Tone`,
+            [`&#x1F647&#x1F3FD&#x200D&#x2642&#xFE0F`]: `Man Bowing: Medium Skin Tone`,
+            [`&#x1F647&#x1F3FE&#x200D&#x2642&#xFE0F`]: `Man Bowing: Medium-Dark Skin Tone`,
+            [`&#x1F647&#x1F3FF&#x200D&#x2642&#xFE0F`]: `Man Bowing: Dark Skin Tone`,
+            [`&#x1F647&#x200D&#x2640&#xFE0F`]: `Woman Bowing`,
+            [`&#x1F647&#x1F3FB&#x200D&#x2640&#xFE0F`]: `Woman Bowing: Light Skin Tone`,
+            [`&#x1F647&#x1F3FC&#x200D&#x2640&#xFE0F`]: `Woman Bowing: Medium-Light Skin Tone`,
+            [`&#x1F647&#x1F3FD&#x200D&#x2640&#xFE0F`]: `Woman Bowing: Medium Skin Tone`,
+            [`&#x1F647&#x1F3FE&#x200D&#x2640&#xFE0F`]: `Woman Bowing: Medium-Dark Skin Tone`,
+            [`&#x1F647&#x1F3FF&#x200D&#x2640&#xFE0F`]: `Woman Bowing: Dark Skin Tone`,
+            [`&#x1F926`]: `Person Facepalming`,
+            [`&#x1F926&#x1F3FB`]: `Person Facepalming: Light Skin Tone`,
+            [`&#x1F926&#x1F3FC`]: `Person Facepalming: Medium-Light Skin Tone`,
+            [`&#x1F926&#x1F3FD`]: `Person Facepalming: Medium Skin Tone`,
+            [`&#x1F926&#x1F3FE`]: `Person Facepalming: Medium-Dark Skin Tone`,
+            [`&#x1F926&#x1F3FF`]: `Person Facepalming: Dark Skin Tone`,
+            [`&#x1F926&#x200D&#x2642&#xFE0F`]: `Man Facepalming`,
+            [`&#x1F926&#x1F3FB&#x200D&#x2642&#xFE0F`]: `Man Facepalming: Light Skin Tone`,
+            [`&#x1F926&#x1F3FC&#x200D&#x2642&#xFE0F`]: `Man Facepalming: Medium-Light Skin Tone`,
+            [`&#x1F926&#x1F3FD&#x200D&#x2642&#xFE0F`]: `Man Facepalming: Medium Skin Tone`,
+            [`&#x1F926&#x1F3FE&#x200D&#x2642&#xFE0F`]: `Man Facepalming: Medium-Dark Skin Tone`,
+            [`&#x1F926&#x1F3FF&#x200D&#x2642&#xFE0F`]: `Man Facepalming: Dark Skin Tone`,
+            [`&#x1F926&#x200D&#x2640&#xFE0F`]: `Woman Facepalming`,
+            [`&#x1F926&#x1F3FB&#x200D&#x2640&#xFE0F`]: `Woman Facepalming: Light Skin Tone`,
+            [`&#x1F926&#x1F3FC&#x200D&#x2640&#xFE0F`]: `Woman Facepalming: Medium-Light Skin Tone`,
+            [`&#x1F926&#x1F3FD&#x200D&#x2640&#xFE0F`]: `Woman Facepalming: Medium Skin Tone`,
+            [`&#x1F926&#x1F3FE&#x200D&#x2640&#xFE0F`]: `Woman Facepalming: Medium-Dark Skin Tone`,
+            [`&#x1F926&#x1F3FF&#x200D&#x2640&#xFE0F`]: `Woman Facepalming: Dark Skin Tone`,
+            [`&#x1F937`]: `Person Shrugging`,
+            [`&#x1F937&#x1F3FB`]: `Person Shrugging: Light Skin Tone`,
+            [`&#x1F937&#x1F3FC`]: `Person Shrugging: Medium-Light Skin Tone`,
+            [`&#x1F937&#x1F3FD`]: `Person Shrugging: Medium Skin Tone`,
+            [`&#x1F937&#x1F3FE`]: `Person Shrugging: Medium-Dark Skin Tone`,
+            [`&#x1F937&#x1F3FF`]: `Person Shrugging: Dark Skin Tone`,
+            [`&#x1F937&#x200D&#x2642&#xFE0F`]: `Man Shrugging`,
+            [`&#x1F937&#x1F3FB&#x200D&#x2642&#xFE0F`]: `Man Shrugging: Light Skin Tone`,
+            [`&#x1F937&#x1F3FC&#x200D&#x2642&#xFE0F`]: `Man Shrugging: Medium-Light Skin Tone`,
+            [`&#x1F937&#x1F3FD&#x200D&#x2642&#xFE0F`]: `Man Shrugging: Medium Skin Tone`,
+            [`&#x1F937&#x1F3FE&#x200D&#x2642&#xFE0F`]: `Man Shrugging: Medium-Dark Skin Tone`,
+            [`&#x1F937&#x1F3FF&#x200D&#x2642&#xFE0F`]: `Man Shrugging: Dark Skin Tone`,
+            [`&#x1F937&#x200D&#x2640&#xFE0F`]: `Woman Shrugging`,
+            [`&#x1F937&#x1F3FB&#x200D&#x2640&#xFE0F`]: `Woman Shrugging: Light Skin Tone`,
+            [`&#x1F937&#x1F3FC&#x200D&#x2640&#xFE0F`]: `Woman Shrugging: Medium-Light Skin Tone`,
+            [`&#x1F937&#x1F3FD&#x200D&#x2640&#xFE0F`]: `Woman Shrugging: Medium Skin Tone`,
+            [`&#x1F937&#x1F3FE&#x200D&#x2640&#xFE0F`]: `Woman Shrugging: Medium-Dark Skin Tone`,
+            [`&#x1F937&#x1F3FF&#x200D&#x2640&#xFE0F`]: `Woman Shrugging: Dark Skin Tone`,
+            [`&#x1F486`]: `Person Getting Massage`,
+            [`&#x1F486&#x1F3FB`]: `Person Getting Massage: Light Skin Tone`,
+            [`&#x1F486&#x1F3FC`]: `Person Getting Massage: Medium-Light Skin Tone`,
+            [`&#x1F486&#x1F3FD`]: `Person Getting Massage: Medium Skin Tone`,
+            [`&#x1F486&#x1F3FE`]: `Person Getting Massage: Medium-Dark Skin Tone`,
+            [`&#x1F486&#x1F3FF`]: `Person Getting Massage: Dark Skin Tone`,
+            [`&#x1F486&#x200D&#x2642&#xFE0F`]: `Man Getting Massage`,
+            [`&#x1F486&#x1F3FB&#x200D&#x2642&#xFE0F`]: `Man Getting Massage: Light Skin Tone`,
+            [`&#x1F486&#x1F3FC&#x200D&#x2642&#xFE0F`]: `Man Getting Massage: Medium-Light Skin Tone`,
+            [`&#x1F486&#x1F3FD&#x200D&#x2642&#xFE0F`]: `Man Getting Massage: Medium Skin Tone`,
+            [`&#x1F486&#x1F3FE&#x200D&#x2642&#xFE0F`]: `Man Getting Massage: Medium-Dark Skin Tone`,
+            [`&#x1F486&#x1F3FF&#x200D&#x2642&#xFE0F`]: `Man Getting Massage: Dark Skin Tone`,
+            [`&#x1F486&#x200D&#x2640&#xFE0F`]: `Woman Getting Massage`,
+            [`&#x1F486&#x1F3FB&#x200D&#x2640&#xFE0F`]: `Woman Getting Massage: Light Skin Tone`,
+            [`&#x1F486&#x1F3FC&#x200D&#x2640&#xFE0F`]: `Woman Getting Massage: Medium-Light Skin Tone`,
+            [`&#x1F486&#x1F3FD&#x200D&#x2640&#xFE0F`]: `Woman Getting Massage: Medium Skin Tone`,
+            [`&#x1F486&#x1F3FE&#x200D&#x2640&#xFE0F`]: `Woman Getting Massage: Medium-Dark Skin Tone`,
+            [`&#x1F486&#x1F3FF&#x200D&#x2640&#xFE0F`]: `Woman Getting Massage: Dark Skin Tone`,
+            [`&#x1F487`]: `Person Getting Haircut`,
+            [`&#x1F487&#x1F3FB`]: `Person Getting Haircut: Light Skin Tone`,
+            [`&#x1F487&#x1F3FC`]: `Person Getting Haircut: Medium-Light Skin Tone`,
+            [`&#x1F487&#x1F3FD`]: `Person Getting Haircut: Medium Skin Tone`,
+            [`&#x1F487&#x1F3FE`]: `Person Getting Haircut: Medium-Dark Skin Tone`,
+            [`&#x1F487&#x1F3FF`]: `Person Getting Haircut: Dark Skin Tone`,
+            [`&#x1F487&#x200D&#x2642&#xFE0F`]: `Man Getting Haircut`,
+            [`&#x1F487&#x1F3FB&#x200D&#x2642&#xFE0F`]: `Man Getting Haircut: Light Skin Tone`,
+            [`&#x1F487&#x1F3FC&#x200D&#x2642&#xFE0F`]: `Man Getting Haircut: Medium-Light Skin Tone`,
+            [`&#x1F487&#x1F3FD&#x200D&#x2642&#xFE0F`]: `Man Getting Haircut: Medium Skin Tone`,
+            [`&#x1F487&#x1F3FE&#x200D&#x2642&#xFE0F`]: `Man Getting Haircut: Medium-Dark Skin Tone`,
+            [`&#x1F487&#x1F3FF&#x200D&#x2642&#xFE0F`]: `Man Getting Haircut: Dark Skin Tone`,
+            [`&#x1F487&#x200D&#x2640&#xFE0F`]: `Woman Getting Haircut`,
+            [`&#x1F487&#x1F3FB&#x200D&#x2640&#xFE0F`]: `Woman Getting Haircut: Light Skin Tone`,
+            [`&#x1F487&#x1F3FC&#x200D&#x2640&#xFE0F`]: `Woman Getting Haircut: Medium-Light Skin Tone`,
+            [`&#x1F487&#x1F3FD&#x200D&#x2640&#xFE0F`]: `Woman Getting Haircut: Medium Skin Tone`,
+            [`&#x1F487&#x1F3FE&#x200D&#x2640&#xFE0F`]: `Woman Getting Haircut: Medium-Dark Skin Tone`,
+            [`&#x1F487&#x1F3FF&#x200D&#x2640&#xFE0F`]: `Woman Getting Haircut: Dark Skin Tone`,
+            [`&#x1F6B6`]: `Person Walking`,
+            [`&#x1F6B6&#x1F3FB`]: `Person Walking: Light Skin Tone`,
+            [`&#x1F6B6&#x1F3FC`]: `Person Walking: Medium-Light Skin Tone`,
+            [`&#x1F6B6&#x1F3FD`]: `Person Walking: Medium Skin Tone`,
+            [`&#x1F6B6&#x1F3FE`]: `Person Walking: Medium-Dark Skin Tone`,
+            [`&#x1F6B6&#x1F3FF`]: `Person Walking: Dark Skin Tone`,
+            [`&#x1F6B6&#x200D&#x2642&#xFE0F`]: `Man Walking`,
+            [`&#x1F6B6&#x1F3FB&#x200D&#x2642&#xFE0F`]: `Man Walking: Light Skin Tone`,
+            [`&#x1F6B6&#x1F3FC&#x200D&#x2642&#xFE0F`]: `Man Walking: Medium-Light Skin Tone`,
+            [`&#x1F6B6&#x1F3FD&#x200D&#x2642&#xFE0F`]: `Man Walking: Medium Skin Tone`,
+            [`&#x1F6B6&#x1F3FE&#x200D&#x2642&#xFE0F`]: `Man Walking: Medium-Dark Skin Tone`,
+            [`&#x1F6B6&#x1F3FF&#x200D&#x2642&#xFE0F`]: `Man Walking: Dark Skin Tone`,
+            [`&#x1F6B6&#x200D&#x2640&#xFE0F`]: `Woman Walking`,
+            [`&#x1F6B6&#x1F3FB&#x200D&#x2640&#xFE0F`]: `Woman Walking: Light Skin Tone`,
+            [`&#x1F6B6&#x1F3FC&#x200D&#x2640&#xFE0F`]: `Woman Walking: Medium-Light Skin Tone`,
+            [`&#x1F6B6&#x1F3FD&#x200D&#x2640&#xFE0F`]: `Woman Walking: Medium Skin Tone`,
+            [`&#x1F6B6&#x1F3FE&#x200D&#x2640&#xFE0F`]: `Woman Walking: Medium-Dark Skin Tone`,
+            [`&#x1F6B6&#x1F3FF&#x200D&#x2640&#xFE0F`]: `Woman Walking: Dark Skin Tone`,
+            [`&#x1F3C3`]: `Person Running`,
+            [`&#x1F3C3&#x1F3FB`]: `Person Running: Light Skin Tone`,
+            [`&#x1F3C3&#x1F3FC`]: `Person Running: Medium-Light Skin Tone`,
+            [`&#x1F3C3&#x1F3FD`]: `Person Running: Medium Skin Tone`,
+            [`&#x1F3C3&#x1F3FE`]: `Person Running: Medium-Dark Skin Tone`,
+            [`&#x1F3C3&#x1F3FF`]: `Person Running: Dark Skin Tone`,
+            [`&#x1F3C3&#x200D&#x2642&#xFE0F`]: `Man Running`,
+            [`&#x1F3C3&#x1F3FB&#x200D&#x2642&#xFE0F`]: `Man Running: Light Skin Tone`,
+            [`&#x1F3C3&#x1F3FC&#x200D&#x2642&#xFE0F`]: `Man Running: Medium-Light Skin Tone`,
+            [`&#x1F3C3&#x1F3FD&#x200D&#x2642&#xFE0F`]: `Man Running: Medium Skin Tone`,
+            [`&#x1F3C3&#x1F3FE&#x200D&#x2642&#xFE0F`]: `Man Running: Medium-Dark Skin Tone`,
+            [`&#x1F3C3&#x1F3FF&#x200D&#x2642&#xFE0F`]: `Man Running: Dark Skin Tone`,
+            [`&#x1F3C3&#x200D&#x2640&#xFE0F`]: `Woman Running`,
+            [`&#x1F3C3&#x1F3FB&#x200D&#x2640&#xFE0F`]: `Woman Running: Light Skin Tone`,
+            [`&#x1F3C3&#x1F3FC&#x200D&#x2640&#xFE0F`]: `Woman Running: Medium-Light Skin Tone`,
+            [`&#x1F3C3&#x1F3FD&#x200D&#x2640&#xFE0F`]: `Woman Running: Medium Skin Tone`,
+            [`&#x1F3C3&#x1F3FE&#x200D&#x2640&#xFE0F`]: `Woman Running: Medium-Dark Skin Tone`,
+            [`&#x1F3C3&#x1F3FF&#x200D&#x2640&#xFE0F`]: `Woman Running: Dark Skin Tone`,
+            [`&#x1F483`]: `Woman Dancing`,
+            [`&#x1F483&#x1F3FB`]: `Woman Dancing: Light Skin Tone`,
+            [`&#x1F483&#x1F3FC`]: `Woman Dancing: Medium-Light Skin Tone`,
+            [`&#x1F483&#x1F3FD`]: `Woman Dancing: Medium Skin Tone`,
+            [`&#x1F483&#x1F3FE`]: `Woman Dancing: Medium-Dark Skin Tone`,
+            [`&#x1F483&#x1F3FF`]: `Woman Dancing: Dark Skin Tone`,
+            [`&#x1F57A`]: `Man Dancing`,
+            [`&#x1F57A&#x1F3FB`]: `Man Dancing: Light Skin Tone`,
+            [`&#x1F57A&#x1F3FC`]: `Man Dancing: Medium-Light Skin Tone`,
+            [`&#x1F57A&#x1F3FD`]: `Man Dancing: Medium Skin Tone`,
+            [`&#x1F57A&#x1F3FE`]: `Man Dancing: Medium-Dark Skin Tone`,
+            [`&#x1F57A&#x1F3FF`]: `Man Dancing: Dark Skin Tone`,
+            [`&#x1F46F`]: `People With Bunny Ears Partying`,
+            [`&#x1F46F&#x200D&#x2642&#xFE0F`]: `Men With Bunny Ears Partying`,
+            [`&#x1F46F&#x200D&#x2640&#xFE0F`]: `Women With Bunny Ears Partying`,
+            [`&#x1F574`]: `Man In Business Suit Levitating`,
+            [`&#x1F574&#x1F3FB`]: `Man In Business Suit Levitating: Light Skin Tone`,
+            [`&#x1F574&#x1F3FC`]: `Man In Business Suit Levitating: Medium-Light Skin Tone`,
+            [`&#x1F574&#x1F3FD`]: `Man In Business Suit Levitating: Medium Skin Tone`,
+            [`&#x1F574&#x1F3FE`]: `Man In Business Suit Levitating: Medium-Dark Skin Tone`,
+            [`&#x1F574&#x1F3FF`]: `Man In Business Suit Levitating: Dark Skin Tone`,
+            [`&#x1F5E3`]: `Speaking Head`,
+            [`&#x1F464`]: `Bust In Silhouette`,
+            [`&#x1F465`]: `Busts In Silhouette`,
+            [`&#x1F93A`]: `Person Fencing`,
+            [`&#x1F3C7`]: `Horse Racing`,
+            [`&#x1F3C7&#x1F3FB`]: `Horse Racing: Light Skin Tone`,
+            [`&#x1F3C7&#x1F3FC`]: `Horse Racing: Medium-Light Skin Tone`,
+            [`&#x1F3C7&#x1F3FD`]: `Horse Racing: Medium Skin Tone`,
+            [`&#x1F3C7&#x1F3FE`]: `Horse Racing: Medium-Dark Skin Tone`,
+            [`&#x1F3C7&#x1F3FF`]: `Horse Racing: Dark Skin Tone`,
+            [`&#x26F7`]: `Skier`,
+            [`&#x1F3C2`]: `Snowboarder`,
+            [`&#x1F3C2&#x1F3FB`]: `Snowboarder: Light Skin Tone`,
+            [`&#x1F3C2&#x1F3FC`]: `Snowboarder: Medium-Light Skin Tone`,
+            [`&#x1F3C2&#x1F3FD`]: `Snowboarder: Medium Skin Tone`,
+            [`&#x1F3C2&#x1F3FE`]: `Snowboarder: Medium-Dark Skin Tone`,
+            [`&#x1F3C2&#x1F3FF`]: `Snowboarder: Dark Skin Tone`,
+            [`&#x1F3CC`]: `Person Golfing`,
+            [`&#x1F3CC&#x1F3FB`]: `Person Golfing: Light Skin Tone`,
+            [`&#x1F3CC&#x1F3FC`]: `Person Golfing: Medium-Light Skin Tone`,
+            [`&#x1F3CC&#x1F3FD`]: `Person Golfing: Medium Skin Tone`,
+            [`&#x1F3CC&#x1F3FE`]: `Person Golfing: Medium-Dark Skin Tone`,
+            [`&#x1F3CC&#x1F3FF`]: `Person Golfing: Dark Skin Tone`,
+            [`&#x1F3CC&#xFE0F&#x200D&#x2642&#xFE0F`]: `Man Golfing`,
+            [`&#x1F3CC&#x1F3FB&#x200D&#x2642&#xFE0F`]: `Man Golfing: Light Skin Tone`,
+            [`&#x1F3CC&#x1F3FC&#x200D&#x2642&#xFE0F`]: `Man Golfing: Medium-Light Skin Tone`,
+            [`&#x1F3CC&#x1F3FD&#x200D&#x2642&#xFE0F`]: `Man Golfing: Medium Skin Tone`,
+            [`&#x1F3CC&#x1F3FE&#x200D&#x2642&#xFE0F`]: `Man Golfing: Medium-Dark Skin Tone`,
+            [`&#x1F3CC&#x1F3FF&#x200D&#x2642&#xFE0F`]: `Man Golfing: Dark Skin Tone`,
+            [`&#x1F3CC&#xFE0F&#x200D&#x2640&#xFE0F`]: `Woman Golfing`,
+            [`&#x1F3CC&#x1F3FB&#x200D&#x2640&#xFE0F`]: `Woman Golfing: Light Skin Tone`,
+            [`&#x1F3CC&#x1F3FC&#x200D&#x2640&#xFE0F`]: `Woman Golfing: Medium-Light Skin Tone`,
+            [`&#x1F3CC&#x1F3FD&#x200D&#x2640&#xFE0F`]: `Woman Golfing: Medium Skin Tone`,
+            [`&#x1F3CC&#x1F3FE&#x200D&#x2640&#xFE0F`]: `Woman Golfing: Medium-Dark Skin Tone`,
+            [`&#x1F3CC&#x1F3FF&#x200D&#x2640&#xFE0F`]: `Woman Golfing: Dark Skin Tone`,
+            [`&#x1F3C4`]: `Person Surfing`,
+            [`&#x1F3C4&#x1F3FB`]: `Person Surfing: Light Skin Tone`,
+            [`&#x1F3C4&#x1F3FC`]: `Person Surfing: Medium-Light Skin Tone`,
+            [`&#x1F3C4&#x1F3FD`]: `Person Surfing: Medium Skin Tone`,
+            [`&#x1F3C4&#x1F3FE`]: `Person Surfing: Medium-Dark Skin Tone`,
+            [`&#x1F3C4&#x1F3FF`]: `Person Surfing: Dark Skin Tone`,
+            [`&#x1F3C4&#x200D&#x2642&#xFE0F`]: `Man Surfing`,
+            [`&#x1F3C4&#x1F3FB&#x200D&#x2642&#xFE0F`]: `Man Surfing: Light Skin Tone`,
+            [`&#x1F3C4&#x1F3FC&#x200D&#x2642&#xFE0F`]: `Man Surfing: Medium-Light Skin Tone`,
+            [`&#x1F3C4&#x1F3FD&#x200D&#x2642&#xFE0F`]: `Man Surfing: Medium Skin Tone`,
+            [`&#x1F3C4&#x1F3FE&#x200D&#x2642&#xFE0F`]: `Man Surfing: Medium-Dark Skin Tone`,
+            [`&#x1F3C4&#x1F3FF&#x200D&#x2642&#xFE0F`]: `Man Surfing: Dark Skin Tone`,
+            [`&#x1F3C4&#x200D&#x2640&#xFE0F`]: `Woman Surfing`,
+            [`&#x1F3C4&#x1F3FB&#x200D&#x2640&#xFE0F`]: `Woman Surfing: Light Skin Tone`,
+            [`&#x1F3C4&#x1F3FC&#x200D&#x2640&#xFE0F`]: `Woman Surfing: Medium-Light Skin Tone`,
+            [`&#x1F3C4&#x1F3FD&#x200D&#x2640&#xFE0F`]: `Woman Surfing: Medium Skin Tone`,
+            [`&#x1F3C4&#x1F3FE&#x200D&#x2640&#xFE0F`]: `Woman Surfing: Medium-Dark Skin Tone`,
+            [`&#x1F3C4&#x1F3FF&#x200D&#x2640&#xFE0F`]: `Woman Surfing: Dark Skin Tone`,
+            [`&#x1F6A3`]: `Person Rowing Boat`,
+            [`&#x1F6A3&#x1F3FB`]: `Person Rowing Boat: Light Skin Tone`,
+            [`&#x1F6A3&#x1F3FC`]: `Person Rowing Boat: Medium-Light Skin Tone`,
+            [`&#x1F6A3&#x1F3FD`]: `Person Rowing Boat: Medium Skin Tone`,
+            [`&#x1F6A3&#x1F3FE`]: `Person Rowing Boat: Medium-Dark Skin Tone`,
+            [`&#x1F6A3&#x1F3FF`]: `Person Rowing Boat: Dark Skin Tone`,
+            [`&#x1F6A3&#x200D&#x2642&#xFE0F`]: `Man Rowing Boat`,
+            [`&#x1F6A3&#x1F3FB&#x200D&#x2642&#xFE0F`]: `Man Rowing Boat: Light Skin Tone`,
+            [`&#x1F6A3&#x1F3FC&#x200D&#x2642&#xFE0F`]: `Man Rowing Boat: Medium-Light Skin Tone`,
+            [`&#x1F6A3&#x1F3FD&#x200D&#x2642&#xFE0F`]: `Man Rowing Boat: Medium Skin Tone`,
+            [`&#x1F6A3&#x1F3FE&#x200D&#x2642&#xFE0F`]: `Man Rowing Boat: Medium-Dark Skin Tone`,
+            [`&#x1F6A3&#x1F3FF&#x200D&#x2642&#xFE0F`]: `Man Rowing Boat: Dark Skin Tone`,
+            [`&#x1F6A3&#x200D&#x2640&#xFE0F`]: `Woman Rowing Boat`,
+            [`&#x1F6A3&#x1F3FB&#x200D&#x2640&#xFE0F`]: `Woman Rowing Boat: Light Skin Tone`,
+            [`&#x1F6A3&#x1F3FC&#x200D&#x2640&#xFE0F`]: `Woman Rowing Boat: Medium-Light Skin Tone`,
+            [`&#x1F6A3&#x1F3FD&#x200D&#x2640&#xFE0F`]: `Woman Rowing Boat: Medium Skin Tone`,
+            [`&#x1F6A3&#x1F3FE&#x200D&#x2640&#xFE0F`]: `Woman Rowing Boat: Medium-Dark Skin Tone`,
+            [`&#x1F6A3&#x1F3FF&#x200D&#x2640&#xFE0F`]: `Woman Rowing Boat: Dark Skin Tone`,
+            [`&#x1F3CA`]: `Person Swimming`,
+            [`&#x1F3CA&#x1F3FB`]: `Person Swimming: Light Skin Tone`,
+            [`&#x1F3CA&#x1F3FC`]: `Person Swimming: Medium-Light Skin Tone`,
+            [`&#x1F3CA&#x1F3FD`]: `Person Swimming: Medium Skin Tone`,
+            [`&#x1F3CA&#x1F3FE`]: `Person Swimming: Medium-Dark Skin Tone`,
+            [`&#x1F3CA&#x1F3FF`]: `Person Swimming: Dark Skin Tone`,
+            [`&#x1F3CA&#x200D&#x2642&#xFE0F`]: `Man Swimming`,
+            [`&#x1F3CA&#x1F3FB&#x200D&#x2642&#xFE0F`]: `Man Swimming: Light Skin Tone`,
+            [`&#x1F3CA&#x1F3FC&#x200D&#x2642&#xFE0F`]: `Man Swimming: Medium-Light Skin Tone`,
+            [`&#x1F3CA&#x1F3FD&#x200D&#x2642&#xFE0F`]: `Man Swimming: Medium Skin Tone`,
+            [`&#x1F3CA&#x1F3FE&#x200D&#x2642&#xFE0F`]: `Man Swimming: Medium-Dark Skin Tone`,
+            [`&#x1F3CA&#x1F3FF&#x200D&#x2642&#xFE0F`]: `Man Swimming: Dark Skin Tone`,
+            [`&#x1F3CA&#x200D&#x2640&#xFE0F`]: `Woman Swimming`,
+            [`&#x1F3CA&#x1F3FB&#x200D&#x2640&#xFE0F`]: `Woman Swimming: Light Skin Tone`,
+            [`&#x1F3CA&#x1F3FC&#x200D&#x2640&#xFE0F`]: `Woman Swimming: Medium-Light Skin Tone`,
+            [`&#x1F3CA&#x1F3FD&#x200D&#x2640&#xFE0F`]: `Woman Swimming: Medium Skin Tone`,
+            [`&#x1F3CA&#x1F3FE&#x200D&#x2640&#xFE0F`]: `Woman Swimming: Medium-Dark Skin Tone`,
+            [`&#x1F3CA&#x1F3FF&#x200D&#x2640&#xFE0F`]: `Woman Swimming: Dark Skin Tone`,
+            [`&#x26F9`]: `Person Bouncing Ball`,
+            [`&#x26F9&#x1F3FB`]: `Person Bouncing Ball: Light Skin Tone`,
+            [`&#x26F9&#x1F3FC`]: `Person Bouncing Ball: Medium-Light Skin Tone`,
+            [`&#x26F9&#x1F3FD`]: `Person Bouncing Ball: Medium Skin Tone`,
+            [`&#x26F9&#x1F3FE`]: `Person Bouncing Ball: Medium-Dark Skin Tone`,
+            [`&#x26F9&#x1F3FF`]: `Person Bouncing Ball: Dark Skin Tone`,
+            [`&#x26F9&#xFE0F&#x200D&#x2642&#xFE0F`]: `Man Bouncing Ball`,
+            [`&#x26F9&#x1F3FB&#x200D&#x2642&#xFE0F`]: `Man Bouncing Ball: Light Skin Tone`,
+            [`&#x26F9&#x1F3FC&#x200D&#x2642&#xFE0F`]: `Man Bouncing Ball: Medium-Light Skin Tone`,
+            [`&#x26F9&#x1F3FD&#x200D&#x2642&#xFE0F`]: `Man Bouncing Ball: Medium Skin Tone`,
+            [`&#x26F9&#x1F3FE&#x200D&#x2642&#xFE0F`]: `Man Bouncing Ball: Medium-Dark Skin Tone`,
+            [`&#x26F9&#x1F3FF&#x200D&#x2642&#xFE0F`]: `Man Bouncing Ball: Dark Skin Tone`,
+            [`&#x26F9&#xFE0F&#x200D&#x2640&#xFE0F`]: `Woman Bouncing Ball`,
+            [`&#x26F9&#x1F3FB&#x200D&#x2640&#xFE0F`]: `Woman Bouncing Ball: Light Skin Tone`,
+            [`&#x26F9&#x1F3FC&#x200D&#x2640&#xFE0F`]: `Woman Bouncing Ball: Medium-Light Skin Tone`,
+            [`&#x26F9&#x1F3FD&#x200D&#x2640&#xFE0F`]: `Woman Bouncing Ball: Medium Skin Tone`,
+            [`&#x26F9&#x1F3FE&#x200D&#x2640&#xFE0F`]: `Woman Bouncing Ball: Medium-Dark Skin Tone`,
+            [`&#x26F9&#x1F3FF&#x200D&#x2640&#xFE0F`]: `Woman Bouncing Ball: Dark Skin Tone`,
+            [`&#x1F3CB`]: `Person Lifting Weights`,
+            [`&#x1F3CB&#x1F3FB`]: `Person Lifting Weights: Light Skin Tone`,
+            [`&#x1F3CB&#x1F3FC`]: `Person Lifting Weights: Medium-Light Skin Tone`,
+            [`&#x1F3CB&#x1F3FD`]: `Person Lifting Weights: Medium Skin Tone`,
+            [`&#x1F3CB&#x1F3FE`]: `Person Lifting Weights: Medium-Dark Skin Tone`,
+            [`&#x1F3CB&#x1F3FF`]: `Person Lifting Weights: Dark Skin Tone`,
+            [`&#x1F3CB&#xFE0F&#x200D&#x2642&#xFE0F`]: `Man Lifting Weights`,
+            [`&#x1F3CB&#x1F3FB&#x200D&#x2642&#xFE0F`]: `Man Lifting Weights: Light Skin Tone`,
+            [`&#x1F3CB&#x1F3FC&#x200D&#x2642&#xFE0F`]: `Man Lifting Weights: Medium-Light Skin Tone`,
+            [`&#x1F3CB&#x1F3FD&#x200D&#x2642&#xFE0F`]: `Man Lifting Weights: Medium Skin Tone`,
+            [`&#x1F3CB&#x1F3FE&#x200D&#x2642&#xFE0F`]: `Man Lifting Weights: Medium-Dark Skin Tone`,
+            [`&#x1F3CB&#x1F3FF&#x200D&#x2642&#xFE0F`]: `Man Lifting Weights: Dark Skin Tone`,
+            [`&#x1F3CB&#xFE0F&#x200D&#x2640&#xFE0F`]: `Woman Lifting Weights`,
+            [`&#x1F3CB&#x1F3FB&#x200D&#x2640&#xFE0F`]: `Woman Lifting Weights: Light Skin Tone`,
+            [`&#x1F3CB&#x1F3FC&#x200D&#x2640&#xFE0F`]: `Woman Lifting Weights: Medium-Light Skin Tone`,
+            [`&#x1F3CB&#x1F3FD&#x200D&#x2640&#xFE0F`]: `Woman Lifting Weights: Medium Skin Tone`,
+            [`&#x1F3CB&#x1F3FE&#x200D&#x2640&#xFE0F`]: `Woman Lifting Weights: Medium-Dark Skin Tone`,
+            [`&#x1F3CB&#x1F3FF&#x200D&#x2640&#xFE0F`]: `Woman Lifting Weights: Dark Skin Tone`,
+            [`&#x1F6B4`]: `Person Biking`,
+            [`&#x1F6B4&#x1F3FB`]: `Person Biking: Light Skin Tone`,
+            [`&#x1F6B4&#x1F3FC`]: `Person Biking: Medium-Light Skin Tone`,
+            [`&#x1F6B4&#x1F3FD`]: `Person Biking: Medium Skin Tone`,
+            [`&#x1F6B4&#x1F3FE`]: `Person Biking: Medium-Dark Skin Tone`,
+            [`&#x1F6B4&#x1F3FF`]: `Person Biking: Dark Skin Tone`,
+            [`&#x1F6B4&#x200D&#x2642&#xFE0F`]: `Man Biking`,
+            [`&#x1F6B4&#x1F3FB&#x200D&#x2642&#xFE0F`]: `Man Biking: Light Skin Tone`,
+            [`&#x1F6B4&#x1F3FC&#x200D&#x2642&#xFE0F`]: `Man Biking: Medium-Light Skin Tone`,
+            [`&#x1F6B4&#x1F3FD&#x200D&#x2642&#xFE0F`]: `Man Biking: Medium Skin Tone`,
+            [`&#x1F6B4&#x1F3FE&#x200D&#x2642&#xFE0F`]: `Man Biking: Medium-Dark Skin Tone`,
+            [`&#x1F6B4&#x1F3FF&#x200D&#x2642&#xFE0F`]: `Man Biking: Dark Skin Tone`,
+            [`&#x1F6B4&#x200D&#x2640&#xFE0F`]: `Woman Biking`,
+            [`&#x1F6B4&#x1F3FB&#x200D&#x2640&#xFE0F`]: `Woman Biking: Light Skin Tone`,
+            [`&#x1F6B4&#x1F3FC&#x200D&#x2640&#xFE0F`]: `Woman Biking: Medium-Light Skin Tone`,
+            [`&#x1F6B4&#x1F3FD&#x200D&#x2640&#xFE0F`]: `Woman Biking: Medium Skin Tone`,
+            [`&#x1F6B4&#x1F3FE&#x200D&#x2640&#xFE0F`]: `Woman Biking: Medium-Dark Skin Tone`,
+            [`&#x1F6B4&#x1F3FF&#x200D&#x2640&#xFE0F`]: `Woman Biking: Dark Skin Tone`,
+            [`&#x1F6B5`]: `Person Mountain Biking`,
+            [`&#x1F6B5&#x1F3FB`]: `Person Mountain Biking: Light Skin Tone`,
+            [`&#x1F6B5&#x1F3FC`]: `Person Mountain Biking: Medium-Light Skin Tone`,
+            [`&#x1F6B5&#x1F3FD`]: `Person Mountain Biking: Medium Skin Tone`,
+            [`&#x1F6B5&#x1F3FE`]: `Person Mountain Biking: Medium-Dark Skin Tone`,
+            [`&#x1F6B5&#x1F3FF`]: `Person Mountain Biking: Dark Skin Tone`,
+            [`&#x1F6B5&#x200D&#x2642&#xFE0F`]: `Man Mountain Biking`,
+            [`&#x1F6B5&#x1F3FB&#x200D&#x2642&#xFE0F`]: `Man Mountain Biking: Light Skin Tone`,
+            [`&#x1F6B5&#x1F3FC&#x200D&#x2642&#xFE0F`]: `Man Mountain Biking: Medium-Light Skin Tone`,
+            [`&#x1F6B5&#x1F3FD&#x200D&#x2642&#xFE0F`]: `Man Mountain Biking: Medium Skin Tone`,
+            [`&#x1F6B5&#x1F3FE&#x200D&#x2642&#xFE0F`]: `Man Mountain Biking: Medium-Dark Skin Tone`,
+            [`&#x1F6B5&#x1F3FF&#x200D&#x2642&#xFE0F`]: `Man Mountain Biking: Dark Skin Tone`,
+            [`&#x1F6B5&#x200D&#x2640&#xFE0F`]: `Woman Mountain Biking`,
+            [`&#x1F6B5&#x1F3FB&#x200D&#x2640&#xFE0F`]: `Woman Mountain Biking: Light Skin Tone`,
+            [`&#x1F6B5&#x1F3FC&#x200D&#x2640&#xFE0F`]: `Woman Mountain Biking: Medium-Light Skin Tone`,
+            [`&#x1F6B5&#x1F3FD&#x200D&#x2640&#xFE0F`]: `Woman Mountain Biking: Medium Skin Tone`,
+            [`&#x1F6B5&#x1F3FE&#x200D&#x2640&#xFE0F`]: `Woman Mountain Biking: Medium-Dark Skin Tone`,
+            [`&#x1F6B5&#x1F3FF&#x200D&#x2640&#xFE0F`]: `Woman Mountain Biking: Dark Skin Tone`,
+            [`&#x1F3CE`]: `Racing Car`,
+            [`&#x1F3CD`]: `Motorcycle`,
+            [`&#x1F938`]: `Person Cartwheeling`,
+            [`&#x1F938&#x1F3FB`]: `Person Cartwheeling: Light Skin Tone`,
+            [`&#x1F938&#x1F3FC`]: `Person Cartwheeling: Medium-Light Skin Tone`,
+            [`&#x1F938&#x1F3FD`]: `Person Cartwheeling: Medium Skin Tone`,
+            [`&#x1F938&#x1F3FE`]: `Person Cartwheeling: Medium-Dark Skin Tone`,
+            [`&#x1F938&#x1F3FF`]: `Person Cartwheeling: Dark Skin Tone`,
+            [`&#x1F938&#x200D&#x2642&#xFE0F`]: `Man Cartwheeling`,
+            [`&#x1F938&#x1F3FB&#x200D&#x2642&#xFE0F`]: `Man Cartwheeling: Light Skin Tone`,
+            [`&#x1F938&#x1F3FC&#x200D&#x2642&#xFE0F`]: `Man Cartwheeling: Medium-Light Skin Tone`,
+            [`&#x1F938&#x1F3FD&#x200D&#x2642&#xFE0F`]: `Man Cartwheeling: Medium Skin Tone`,
+            [`&#x1F938&#x1F3FE&#x200D&#x2642&#xFE0F`]: `Man Cartwheeling: Medium-Dark Skin Tone`,
+            [`&#x1F938&#x1F3FF&#x200D&#x2642&#xFE0F`]: `Man Cartwheeling: Dark Skin Tone`,
+            [`&#x1F938&#x200D&#x2640&#xFE0F`]: `Woman Cartwheeling`,
+            [`&#x1F938&#x1F3FB&#x200D&#x2640&#xFE0F`]: `Woman Cartwheeling: Light Skin Tone`,
+            [`&#x1F938&#x1F3FC&#x200D&#x2640&#xFE0F`]: `Woman Cartwheeling: Medium-Light Skin Tone`,
+            [`&#x1F938&#x1F3FD&#x200D&#x2640&#xFE0F`]: `Woman Cartwheeling: Medium Skin Tone`,
+            [`&#x1F938&#x1F3FE&#x200D&#x2640&#xFE0F`]: `Woman Cartwheeling: Medium-Dark Skin Tone`,
+            [`&#x1F938&#x1F3FF&#x200D&#x2640&#xFE0F`]: `Woman Cartwheeling: Dark Skin Tone`,
+            [`&#x1F93C`]: `People Wrestling`,
+            [`&#x1F93C&#x200D&#x2642&#xFE0F`]: `Men Wrestling`,
+            [`&#x1F93C&#x200D&#x2640&#xFE0F`]: `Women Wrestling`,
+            [`&#x1F93D`]: `Person Playing Water Polo`,
+            [`&#x1F93D&#x1F3FB`]: `Person Playing Water Polo: Light Skin Tone`,
+            [`&#x1F93D&#x1F3FC`]: `Person Playing Water Polo: Medium-Light Skin Tone`,
+            [`&#x1F93D&#x1F3FD`]: `Person Playing Water Polo: Medium Skin Tone`,
+            [`&#x1F93D&#x1F3FE`]: `Person Playing Water Polo: Medium-Dark Skin Tone`,
+            [`&#x1F93D&#x1F3FF`]: `Person Playing Water Polo: Dark Skin Tone`,
+            [`&#x1F93D&#x200D&#x2642&#xFE0F`]: `Man Playing Water Polo`,
+            [`&#x1F93D&#x1F3FB&#x200D&#x2642&#xFE0F`]: `Man Playing Water Polo: Light Skin Tone`,
+            [`&#x1F93D&#x1F3FC&#x200D&#x2642&#xFE0F`]: `Man Playing Water Polo: Medium-Light Skin Tone`,
+            [`&#x1F93D&#x1F3FD&#x200D&#x2642&#xFE0F`]: `Man Playing Water Polo: Medium Skin Tone`,
+            [`&#x1F93D&#x1F3FE&#x200D&#x2642&#xFE0F`]: `Man Playing Water Polo: Medium-Dark Skin Tone`,
+            [`&#x1F93D&#x1F3FF&#x200D&#x2642&#xFE0F`]: `Man Playing Water Polo: Dark Skin Tone`,
+            [`&#x1F93D&#x200D&#x2640&#xFE0F`]: `Woman Playing Water Polo`,
+            [`&#x1F93D&#x1F3FB&#x200D&#x2640&#xFE0F`]: `Woman Playing Water Polo: Light Skin Tone`,
+            [`&#x1F93D&#x1F3FC&#x200D&#x2640&#xFE0F`]: `Woman Playing Water Polo: Medium-Light Skin Tone`,
+            [`&#x1F93D&#x1F3FD&#x200D&#x2640&#xFE0F`]: `Woman Playing Water Polo: Medium Skin Tone`,
+            [`&#x1F93D&#x1F3FE&#x200D&#x2640&#xFE0F`]: `Woman Playing Water Polo: Medium-Dark Skin Tone`,
+            [`&#x1F93D&#x1F3FF&#x200D&#x2640&#xFE0F`]: `Woman Playing Water Polo: Dark Skin Tone`,
+            [`&#x1F93E`]: `Person Playing Handball`,
+            [`&#x1F93E&#x1F3FB`]: `Person Playing Handball: Light Skin Tone`,
+            [`&#x1F93E&#x1F3FC`]: `Person Playing Handball: Medium-Light Skin Tone`,
+            [`&#x1F93E&#x1F3FD`]: `Person Playing Handball: Medium Skin Tone`,
+            [`&#x1F93E&#x1F3FE`]: `Person Playing Handball: Medium-Dark Skin Tone`,
+            [`&#x1F93E&#x1F3FF`]: `Person Playing Handball: Dark Skin Tone`,
+            [`&#x1F93E&#x200D&#x2642&#xFE0F`]: `Man Playing Handball`,
+            [`&#x1F93E&#x1F3FB&#x200D&#x2642&#xFE0F`]: `Man Playing Handball: Light Skin Tone`,
+            [`&#x1F93E&#x1F3FC&#x200D&#x2642&#xFE0F`]: `Man Playing Handball: Medium-Light Skin Tone`,
+            [`&#x1F93E&#x1F3FD&#x200D&#x2642&#xFE0F`]: `Man Playing Handball: Medium Skin Tone`,
+            [`&#x1F93E&#x1F3FE&#x200D&#x2642&#xFE0F`]: `Man Playing Handball: Medium-Dark Skin Tone`,
+            [`&#x1F93E&#x1F3FF&#x200D&#x2642&#xFE0F`]: `Man Playing Handball: Dark Skin Tone`,
+            [`&#x1F93E&#x200D&#x2640&#xFE0F`]: `Woman Playing Handball`,
+            [`&#x1F93E&#x1F3FB&#x200D&#x2640&#xFE0F`]: `Woman Playing Handball: Light Skin Tone`,
+            [`&#x1F93E&#x1F3FC&#x200D&#x2640&#xFE0F`]: `Woman Playing Handball: Medium-Light Skin Tone`,
+            [`&#x1F93E&#x1F3FD&#x200D&#x2640&#xFE0F`]: `Woman Playing Handball: Medium Skin Tone`,
+            [`&#x1F93E&#x1F3FE&#x200D&#x2640&#xFE0F`]: `Woman Playing Handball: Medium-Dark Skin Tone`,
+            [`&#x1F93E&#x1F3FF&#x200D&#x2640&#xFE0F`]: `Woman Playing Handball: Dark Skin Tone`,
+            [`&#x1F939`]: `Person Juggling`,
+            [`&#x1F939&#x1F3FB`]: `Person Juggling: Light Skin Tone`,
+            [`&#x1F939&#x1F3FC`]: `Person Juggling: Medium-Light Skin Tone`,
+            [`&#x1F939&#x1F3FD`]: `Person Juggling: Medium Skin Tone`,
+            [`&#x1F939&#x1F3FE`]: `Person Juggling: Medium-Dark Skin Tone`,
+            [`&#x1F939&#x1F3FF`]: `Person Juggling: Dark Skin Tone`,
+            [`&#x1F939&#x200D&#x2642&#xFE0F`]: `Man Juggling`,
+            [`&#x1F939&#x1F3FB&#x200D&#x2642&#xFE0F`]: `Man Juggling: Light Skin Tone`,
+            [`&#x1F939&#x1F3FC&#x200D&#x2642&#xFE0F`]: `Man Juggling: Medium-Light Skin Tone`,
+            [`&#x1F939&#x1F3FD&#x200D&#x2642&#xFE0F`]: `Man Juggling: Medium Skin Tone`,
+            [`&#x1F939&#x1F3FE&#x200D&#x2642&#xFE0F`]: `Man Juggling: Medium-Dark Skin Tone`,
+            [`&#x1F939&#x1F3FF&#x200D&#x2642&#xFE0F`]: `Man Juggling: Dark Skin Tone`,
+            [`&#x1F939&#x200D&#x2640&#xFE0F`]: `Woman Juggling`,
+            [`&#x1F939&#x1F3FB&#x200D&#x2640&#xFE0F`]: `Woman Juggling: Light Skin Tone`,
+            [`&#x1F939&#x1F3FC&#x200D&#x2640&#xFE0F`]: `Woman Juggling: Medium-Light Skin Tone`,
+            [`&#x1F939&#x1F3FD&#x200D&#x2640&#xFE0F`]: `Woman Juggling: Medium Skin Tone`,
+            [`&#x1F939&#x1F3FE&#x200D&#x2640&#xFE0F`]: `Woman Juggling: Medium-Dark Skin Tone`,
+            [`&#x1F939&#x1F3FF&#x200D&#x2640&#xFE0F`]: `Woman Juggling: Dark Skin Tone`,
+            [`&#x1F46B`]: `Man And Woman Holding Hands`,
+            [`&#x1F46C`]: `Two Men Holding Hands`,
+            [`&#x1F46D`]: `Two Women Holding Hands`,
+            [`&#x1F48F`]: `Kiss`,
+            [`&#x1F469&#x200D&#x2764&#xFE0F&#x200D&#x1F48B&#x200D&#x1F468`]: `Kiss: Woman, Man`,
+            [`&#x1F468&#x200D&#x2764&#xFE0F&#x200D&#x1F48B&#x200D&#x1F468`]: `Kiss: Man, Man`,
+            [`&#x1F469&#x200D&#x2764&#xFE0F&#x200D&#x1F48B&#x200D&#x1F469`]: `Kiss: Woman, Woman`,
+            [`&#x1F491`]: `Couple With Heart`,
+            [`&#x1F469&#x200D&#x2764&#xFE0F&#x200D&#x1F468`]: `Couple With Heart: Woman, Man`,
+            [`&#x1F468&#x200D&#x2764&#xFE0F&#x200D&#x1F468`]: `Couple With Heart: Man, Man`,
+            [`&#x1F469&#x200D&#x2764&#xFE0F&#x200D&#x1F469`]: `Couple With Heart: Woman, Woman`,
+            [`&#x1F46A`]: `Family`,
+            [`&#x1F468&#x200D&#x1F469&#x200D&#x1F466`]: `Family: Man, Woman, Boy`,
+            [`&#x1F468&#x200D&#x1F469&#x200D&#x1F467`]: `Family: Man, Woman, Girl`,
+            [`&#x1F468&#x200D&#x1F469&#x200D&#x1F467&#x200D&#x1F466`]: `Family: Man, Woman, Girl, Boy`,
+            [`&#x1F468&#x200D&#x1F469&#x200D&#x1F466&#x200D&#x1F466`]: `Family: Man, Woman, Boy, Boy`,
+            [`&#x1F468&#x200D&#x1F469&#x200D&#x1F467&#x200D&#x1F467`]: `Family: Man, Woman, Girl, Girl`,
+            [`&#x1F468&#x200D&#x1F468&#x200D&#x1F466`]: `Family: Man, Man, Boy`,
+            [`&#x1F468&#x200D&#x1F468&#x200D&#x1F467`]: `Family: Man, Man, Girl`,
+            [`&#x1F468&#x200D&#x1F468&#x200D&#x1F467&#x200D&#x1F466`]: `Family: Man, Man, Girl, Boy`,
+            [`&#x1F468&#x200D&#x1F468&#x200D&#x1F466&#x200D&#x1F466`]: `Family: Man, Man, Boy, Boy`,
+            [`&#x1F468&#x200D&#x1F468&#x200D&#x1F467&#x200D&#x1F467`]: `Family: Man, Man, Girl, Girl`,
+            [`&#x1F469&#x200D&#x1F469&#x200D&#x1F466`]: `Family: Woman, Woman, Boy`,
+            [`&#x1F469&#x200D&#x1F469&#x200D&#x1F467`]: `Family: Woman, Woman, Girl`,
+            [`&#x1F469&#x200D&#x1F469&#x200D&#x1F467&#x200D&#x1F466`]: `Family: Woman, Woman, Girl, Boy`,
+            [`&#x1F469&#x200D&#x1F469&#x200D&#x1F466&#x200D&#x1F466`]: `Family: Woman, Woman, Boy, Boy`,
+            [`&#x1F469&#x200D&#x1F469&#x200D&#x1F467&#x200D&#x1F467`]: `Family: Woman, Woman, Girl, Girl`,
+            [`&#x1F468&#x200D&#x1F466`]: `Family: Man, Boy`,
+            [`&#x1F468&#x200D&#x1F466&#x200D&#x1F466`]: `Family: Man, Boy, Boy`,
+            [`&#x1F468&#x200D&#x1F467`]: `Family: Man, Girl`,
+            [`&#x1F468&#x200D&#x1F467&#x200D&#x1F466`]: `Family: Man, Girl, Boy`,
+            [`&#x1F468&#x200D&#x1F467&#x200D&#x1F467`]: `Family: Man, Girl, Girl`,
+            [`&#x1F469&#x200D&#x1F466`]: `Family: Woman, Boy`,
+            [`&#x1F469&#x200D&#x1F466&#x200D&#x1F466`]: `Family: Woman, Boy, Boy`,
+            [`&#x1F469&#x200D&#x1F467`]: `Family: Woman, Girl`,
+            [`&#x1F469&#x200D&#x1F467&#x200D&#x1F466`]: `Family: Woman, Girl, Boy`,
+            [`&#x1F469&#x200D&#x1F467&#x200D&#x1F467`]: `Family: Woman, Girl, Girl`,
+            [`&#x1F3FB`]: `Light Skin Tone`,
+            [`&#x1F3FC`]: `Medium-Light Skin Tone`,
+            [`&#x1F3FD`]: `Medium Skin Tone`,
+            [`&#x1F3FE`]: `Medium-Dark Skin Tone`,
+            [`&#x1F3FF`]: `Dark Skin Tone`,
+            [`&#x1F4AA`]: `Flexed Biceps`,
+            [`&#x1F4AA&#x1F3FB`]: `Flexed Biceps: Light Skin Tone`,
+            [`&#x1F4AA&#x1F3FC`]: `Flexed Biceps: Medium-Light Skin Tone`,
+            [`&#x1F4AA&#x1F3FD`]: `Flexed Biceps: Medium Skin Tone`,
+            [`&#x1F4AA&#x1F3FE`]: `Flexed Biceps: Medium-Dark Skin Tone`,
+            [`&#x1F4AA&#x1F3FF`]: `Flexed Biceps: Dark Skin Tone`,
+            [`&#x1F933`]: `Selfie`,
+            [`&#x1F933&#x1F3FB`]: `Selfie: Light Skin Tone`,
+            [`&#x1F933&#x1F3FC`]: `Selfie: Medium-Light Skin Tone`,
+            [`&#x1F933&#x1F3FD`]: `Selfie: Medium Skin Tone`,
+            [`&#x1F933&#x1F3FE`]: `Selfie: Medium-Dark Skin Tone`,
+            [`&#x1F933&#x1F3FF`]: `Selfie: Dark Skin Tone`,
+            [`&#x1F448`]: `Backhand Index Pointing Left`,
+            [`&#x1F448&#x1F3FB`]: `Backhand Index Pointing Left: Light Skin Tone`,
+            [`&#x1F448&#x1F3FC`]: `Backhand Index Pointing Left: Medium-Light Skin Tone`,
+            [`&#x1F448&#x1F3FD`]: `Backhand Index Pointing Left: Medium Skin Tone`,
+            [`&#x1F448&#x1F3FE`]: `Backhand Index Pointing Left: Medium-Dark Skin Tone`,
+            [`&#x1F448&#x1F3FF`]: `Backhand Index Pointing Left: Dark Skin Tone`,
+            [`&#x1F449`]: `Backhand Index Pointing Right`,
+            [`&#x1F449&#x1F3FB`]: `Backhand Index Pointing Right: Light Skin Tone`,
+            [`&#x1F449&#x1F3FC`]: `Backhand Index Pointing Right: Medium-Light Skin Tone`,
+            [`&#x1F449&#x1F3FD`]: `Backhand Index Pointing Right: Medium Skin Tone`,
+            [`&#x1F449&#x1F3FE`]: `Backhand Index Pointing Right: Medium-Dark Skin Tone`,
+            [`&#x1F449&#x1F3FF`]: `Backhand Index Pointing Right: Dark Skin Tone`,
+            [`&#x261D`]: `Index Pointing Up`,
+            [`&#x261D&#x1F3FB`]: `Index Pointing Up: Light Skin Tone`,
+            [`&#x261D&#x1F3FC`]: `Index Pointing Up: Medium-Light Skin Tone`,
+            [`&#x261D&#x1F3FD`]: `Index Pointing Up: Medium Skin Tone`,
+            [`&#x261D&#x1F3FE`]: `Index Pointing Up: Medium-Dark Skin Tone`,
+            [`&#x261D&#x1F3FF`]: `Index Pointing Up: Dark Skin Tone`,
+            [`&#x1F446`]: `Backhand Index Pointing Up`,
+            [`&#x1F446&#x1F3FB`]: `Backhand Index Pointing Up: Light Skin Tone`,
+            [`&#x1F446&#x1F3FC`]: `Backhand Index Pointing Up: Medium-Light Skin Tone`,
+            [`&#x1F446&#x1F3FD`]: `Backhand Index Pointing Up: Medium Skin Tone`,
+            [`&#x1F446&#x1F3FE`]: `Backhand Index Pointing Up: Medium-Dark Skin Tone`,
+            [`&#x1F446&#x1F3FF`]: `Backhand Index Pointing Up: Dark Skin Tone`,
+            [`&#x1F595`]: `Middle Finger`,
+            [`&#x1F595&#x1F3FB`]: `Middle Finger: Light Skin Tone`,
+            [`&#x1F595&#x1F3FC`]: `Middle Finger: Medium-Light Skin Tone`,
+            [`&#x1F595&#x1F3FD`]: `Middle Finger: Medium Skin Tone`,
+            [`&#x1F595&#x1F3FE`]: `Middle Finger: Medium-Dark Skin Tone`,
+            [`&#x1F595&#x1F3FF`]: `Middle Finger: Dark Skin Tone`,
+            [`&#x1F447`]: `Backhand Index Pointing Down`,
+            [`&#x1F447&#x1F3FB`]: `Backhand Index Pointing Down: Light Skin Tone`,
+            [`&#x1F447&#x1F3FC`]: `Backhand Index Pointing Down: Medium-Light Skin Tone`,
+            [`&#x1F447&#x1F3FD`]: `Backhand Index Pointing Down: Medium Skin Tone`,
+            [`&#x1F447&#x1F3FE`]: `Backhand Index Pointing Down: Medium-Dark Skin Tone`,
+            [`&#x1F447&#x1F3FF`]: `Backhand Index Pointing Down: Dark Skin Tone`,
+            [`&#x270C`]: `Victory Hand`,
+            [`&#x270C&#x1F3FB`]: `Victory Hand: Light Skin Tone`,
+            [`&#x270C&#x1F3FC`]: `Victory Hand: Medium-Light Skin Tone`,
+            [`&#x270C&#x1F3FD`]: `Victory Hand: Medium Skin Tone`,
+            [`&#x270C&#x1F3FE`]: `Victory Hand: Medium-Dark Skin Tone`,
+            [`&#x270C&#x1F3FF`]: `Victory Hand: Dark Skin Tone`,
+            [`&#x1F91E`]: `Crossed Fingers`,
+            [`&#x1F91E&#x1F3FB`]: `Crossed Fingers: Light Skin Tone`,
+            [`&#x1F91E&#x1F3FC`]: `Crossed Fingers: Medium-Light Skin Tone`,
+            [`&#x1F91E&#x1F3FD`]: `Crossed Fingers: Medium Skin Tone`,
+            [`&#x1F91E&#x1F3FE`]: `Crossed Fingers: Medium-Dark Skin Tone`,
+            [`&#x1F91E&#x1F3FF`]: `Crossed Fingers: Dark Skin Tone`,
+            [`&#x1F596`]: `Vulcan Salute`,
+            [`&#x1F596&#x1F3FB`]: `Vulcan Salute: Light Skin Tone`,
+            [`&#x1F596&#x1F3FC`]: `Vulcan Salute: Medium-Light Skin Tone`,
+            [`&#x1F596&#x1F3FD`]: `Vulcan Salute: Medium Skin Tone`,
+            [`&#x1F596&#x1F3FE`]: `Vulcan Salute: Medium-Dark Skin Tone`,
+            [`&#x1F596&#x1F3FF`]: `Vulcan Salute: Dark Skin Tone`,
+            [`&#x1F918`]: `Sign Of The Horns`,
+            [`&#x1F918&#x1F3FB`]: `Sign Of The Horns: Light Skin Tone`,
+            [`&#x1F918&#x1F3FC`]: `Sign Of The Horns: Medium-Light Skin Tone`,
+            [`&#x1F918&#x1F3FD`]: `Sign Of The Horns: Medium Skin Tone`,
+            [`&#x1F918&#x1F3FE`]: `Sign Of The Horns: Medium-Dark Skin Tone`,
+            [`&#x1F918&#x1F3FF`]: `Sign Of The Horns: Dark Skin Tone`,
+            [`&#x1F919`]: `Call Me Hand`,
+            [`&#x1F919&#x1F3FB`]: `Call Me Hand: Light Skin Tone`,
+            [`&#x1F919&#x1F3FC`]: `Call Me Hand: Medium-Light Skin Tone`,
+            [`&#x1F919&#x1F3FD`]: `Call Me Hand: Medium Skin Tone`,
+            [`&#x1F919&#x1F3FE`]: `Call Me Hand: Medium-Dark Skin Tone`,
+            [`&#x1F919&#x1F3FF`]: `Call Me Hand: Dark Skin Tone`,
+            [`&#x1F590`]: `Raised Hand With Fingers Splayed`,
+            [`&#x1F590&#x1F3FB`]: `Raised Hand With Fingers Splayed: Light Skin Tone`,
+            [`&#x1F590&#x1F3FC`]: `Raised Hand With Fingers Splayed: Medium-Light Skin Tone`,
+            [`&#x1F590&#x1F3FD`]: `Raised Hand With Fingers Splayed: Medium Skin Tone`,
+            [`&#x1F590&#x1F3FE`]: `Raised Hand With Fingers Splayed: Medium-Dark Skin Tone`,
+            [`&#x1F590&#x1F3FF`]: `Raised Hand With Fingers Splayed: Dark Skin Tone`,
+            [`&#x270B`]: `Raised Hand`,
+            [`&#x270B&#x1F3FB`]: `Raised Hand: Light Skin Tone`,
+            [`&#x270B&#x1F3FC`]: `Raised Hand: Medium-Light Skin Tone`,
+            [`&#x270B&#x1F3FD`]: `Raised Hand: Medium Skin Tone`,
+            [`&#x270B&#x1F3FE`]: `Raised Hand: Medium-Dark Skin Tone`,
+            [`&#x270B&#x1F3FF`]: `Raised Hand: Dark Skin Tone`,
+            [`&#x1F44C`]: `OK Hand`,
+            [`&#x1F44C&#x1F3FB`]: `OK Hand: Light Skin Tone`,
+            [`&#x1F44C&#x1F3FC`]: `OK Hand: Medium-Light Skin Tone`,
+            [`&#x1F44C&#x1F3FD`]: `OK Hand: Medium Skin Tone`,
+            [`&#x1F44C&#x1F3FE`]: `OK Hand: Medium-Dark Skin Tone`,
+            [`&#x1F44C&#x1F3FF`]: `OK Hand: Dark Skin Tone`,
+            [`&#x1F44D`]: `Thumbs Up`,
+            [`&#x1F44D&#x1F3FB`]: `Thumbs Up: Light Skin Tone`,
+            [`&#x1F44D&#x1F3FC`]: `Thumbs Up: Medium-Light Skin Tone`,
+            [`&#x1F44D&#x1F3FD`]: `Thumbs Up: Medium Skin Tone`,
+            [`&#x1F44D&#x1F3FE`]: `Thumbs Up: Medium-Dark Skin Tone`,
+            [`&#x1F44D&#x1F3FF`]: `Thumbs Up: Dark Skin Tone`,
+            [`&#x1F44E`]: `Thumbs Down`,
+            [`&#x1F44E&#x1F3FB`]: `Thumbs Down: Light Skin Tone`,
+            [`&#x1F44E&#x1F3FC`]: `Thumbs Down: Medium-Light Skin Tone`,
+            [`&#x1F44E&#x1F3FD`]: `Thumbs Down: Medium Skin Tone`,
+            [`&#x1F44E&#x1F3FE`]: `Thumbs Down: Medium-Dark Skin Tone`,
+            [`&#x1F44E&#x1F3FF`]: `Thumbs Down: Dark Skin Tone`,
+            [`&#x270A`]: `Raised Fist`,
+            [`&#x270A&#x1F3FB`]: `Raised Fist: Light Skin Tone`,
+            [`&#x270A&#x1F3FC`]: `Raised Fist: Medium-Light Skin Tone`,
+            [`&#x270A&#x1F3FD`]: `Raised Fist: Medium Skin Tone`,
+            [`&#x270A&#x1F3FE`]: `Raised Fist: Medium-Dark Skin Tone`,
+            [`&#x270A&#x1F3FF`]: `Raised Fist: Dark Skin Tone`,
+            [`&#x1F44A`]: `Oncoming Fist`,
+            [`&#x1F44A&#x1F3FB`]: `Oncoming Fist: Light Skin Tone`,
+            [`&#x1F44A&#x1F3FC`]: `Oncoming Fist: Medium-Light Skin Tone`,
+            [`&#x1F44A&#x1F3FD`]: `Oncoming Fist: Medium Skin Tone`,
+            [`&#x1F44A&#x1F3FE`]: `Oncoming Fist: Medium-Dark Skin Tone`,
+            [`&#x1F44A&#x1F3FF`]: `Oncoming Fist: Dark Skin Tone`,
+            [`&#x1F91B`]: `Left-Facing Fist`,
+            [`&#x1F91B&#x1F3FB`]: `Left-Facing Fist: Light Skin Tone`,
+            [`&#x1F91B&#x1F3FC`]: `Left-Facing Fist: Medium-Light Skin Tone`,
+            [`&#x1F91B&#x1F3FD`]: `Left-Facing Fist: Medium Skin Tone`,
+            [`&#x1F91B&#x1F3FE`]: `Left-Facing Fist: Medium-Dark Skin Tone`,
+            [`&#x1F91B&#x1F3FF`]: `Left-Facing Fist: Dark Skin Tone`,
+            [`&#x1F91C`]: `Right-Facing Fist`,
+            [`&#x1F91C&#x1F3FB`]: `Right-Facing Fist: Light Skin Tone`,
+            [`&#x1F91C&#x1F3FC`]: `Right-Facing Fist: Medium-Light Skin Tone`,
+            [`&#x1F91C&#x1F3FD`]: `Right-Facing Fist: Medium Skin Tone`,
+            [`&#x1F91C&#x1F3FE`]: `Right-Facing Fist: Medium-Dark Skin Tone`,
+            [`&#x1F91C&#x1F3FF`]: `Right-Facing Fist: Dark Skin Tone`,
+            [`&#x1F91A`]: `Raised Back Of Hand`,
+            [`&#x1F91A&#x1F3FB`]: `Raised Back Of Hand: Light Skin Tone`,
+            [`&#x1F91A&#x1F3FC`]: `Raised Back Of Hand: Medium-Light Skin Tone`,
+            [`&#x1F91A&#x1F3FD`]: `Raised Back Of Hand: Medium Skin Tone`,
+            [`&#x1F91A&#x1F3FE`]: `Raised Back Of Hand: Medium-Dark Skin Tone`,
+            [`&#x1F91A&#x1F3FF`]: `Raised Back Of Hand: Dark Skin Tone`,
+            [`&#x1F44B`]: `Waving Hand`,
+            [`&#x1F44B&#x1F3FB`]: `Waving Hand: Light Skin Tone`,
+            [`&#x1F44B&#x1F3FC`]: `Waving Hand: Medium-Light Skin Tone`,
+            [`&#x1F44B&#x1F3FD`]: `Waving Hand: Medium Skin Tone`,
+            [`&#x1F44B&#x1F3FE`]: `Waving Hand: Medium-Dark Skin Tone`,
+            [`&#x1F44B&#x1F3FF`]: `Waving Hand: Dark Skin Tone`,
+            [`&#x1F44F`]: `Clapping Hands`,
+            [`&#x1F44F&#x1F3FB`]: `Clapping Hands: Light Skin Tone`,
+            [`&#x1F44F&#x1F3FC`]: `Clapping Hands: Medium-Light Skin Tone`,
+            [`&#x1F44F&#x1F3FD`]: `Clapping Hands: Medium Skin Tone`,
+            [`&#x1F44F&#x1F3FE`]: `Clapping Hands: Medium-Dark Skin Tone`,
+            [`&#x1F44F&#x1F3FF`]: `Clapping Hands: Dark Skin Tone`,
+            [`&#x270D`]: `Writing Hand`,
+            [`&#x270D&#x1F3FB`]: `Writing Hand: Light Skin Tone`,
+            [`&#x270D&#x1F3FC`]: `Writing Hand: Medium-Light Skin Tone`,
+            [`&#x270D&#x1F3FD`]: `Writing Hand: Medium Skin Tone`,
+            [`&#x270D&#x1F3FE`]: `Writing Hand: Medium-Dark Skin Tone`,
+            [`&#x270D&#x1F3FF`]: `Writing Hand: Dark Skin Tone`,
+            [`&#x1F450`]: `Open Hands`,
+            [`&#x1F450&#x1F3FB`]: `Open Hands: Light Skin Tone`,
+            [`&#x1F450&#x1F3FC`]: `Open Hands: Medium-Light Skin Tone`,
+            [`&#x1F450&#x1F3FD`]: `Open Hands: Medium Skin Tone`,
+            [`&#x1F450&#x1F3FE`]: `Open Hands: Medium-Dark Skin Tone`,
+            [`&#x1F450&#x1F3FF`]: `Open Hands: Dark Skin Tone`,
+            [`&#x1F64C`]: `Raising Hands`,
+            [`&#x1F64C&#x1F3FB`]: `Raising Hands: Light Skin Tone`,
+            [`&#x1F64C&#x1F3FC`]: `Raising Hands: Medium-Light Skin Tone`,
+            [`&#x1F64C&#x1F3FD`]: `Raising Hands: Medium Skin Tone`,
+            [`&#x1F64C&#x1F3FE`]: `Raising Hands: Medium-Dark Skin Tone`,
+            [`&#x1F64C&#x1F3FF`]: `Raising Hands: Dark Skin Tone`,
+            [`&#x1F64F`]: `Folded Hands`,
+            [`&#x1F64F&#x1F3FB`]: `Folded Hands: Light Skin Tone`,
+            [`&#x1F64F&#x1F3FC`]: `Folded Hands: Medium-Light Skin Tone`,
+            [`&#x1F64F&#x1F3FD`]: `Folded Hands: Medium Skin Tone`,
+            [`&#x1F64F&#x1F3FE`]: `Folded Hands: Medium-Dark Skin Tone`,
+            [`&#x1F64F&#x1F3FF`]: `Folded Hands: Dark Skin Tone`,
+            [`&#x1F91D`]: `Handshake`,
+            [`&#x1F485`]: `Nail Polish`,
+            [`&#x1F485&#x1F3FB`]: `Nail Polish: Light Skin Tone`,
+            [`&#x1F485&#x1F3FC`]: `Nail Polish: Medium-Light Skin Tone`,
+            [`&#x1F485&#x1F3FD`]: `Nail Polish: Medium Skin Tone`,
+            [`&#x1F485&#x1F3FE`]: `Nail Polish: Medium-Dark Skin Tone`,
+            [`&#x1F485&#x1F3FF`]: `Nail Polish: Dark Skin Tone`,
+            [`&#x1F442`]: `Ear`,
+            [`&#x1F442&#x1F3FB`]: `Ear: Light Skin Tone`,
+            [`&#x1F442&#x1F3FC`]: `Ear: Medium-Light Skin Tone`,
+            [`&#x1F442&#x1F3FD`]: `Ear: Medium Skin Tone`,
+            [`&#x1F442&#x1F3FE`]: `Ear: Medium-Dark Skin Tone`,
+            [`&#x1F442&#x1F3FF`]: `Ear: Dark Skin Tone`,
+            [`&#x1F443`]: `Nose`,
+            [`&#x1F443&#x1F3FB`]: `Nose: Light Skin Tone`,
+            [`&#x1F443&#x1F3FC`]: `Nose: Medium-Light Skin Tone`,
+            [`&#x1F443&#x1F3FD`]: `Nose: Medium Skin Tone`,
+            [`&#x1F443&#x1F3FE`]: `Nose: Medium-Dark Skin Tone`,
+            [`&#x1F443&#x1F3FF`]: `Nose: Dark Skin Tone`,
+            [`&#x1F463`]: `Footprints`,
+            [`&#x1F440`]: `Eyes`,
+            [`&#x1F441`]: `Eye`,
+            [`&#x1F441&#xFE0F&#x200D&#x1F5E8&#xFE0F`]: `Eye In Speech Bubble`,
+            [`&#x1F445`]: `Tongue`,
+            [`&#x1F444`]: `Mouth`,
+            [`&#x1F48B`]: `Kiss Mark`,
+            [`&#x1F498`]: `Heart With Arrow`,
+            [`&#x2764`]: `Red Heart`,
+            [`&#x1F493`]: `Beating Heart`,
+            [`&#x1F494`]: `Broken Heart`,
+            [`&#x1F495`]: `Two Hearts`,
+            [`&#x1F496`]: `Sparkling Heart`,
+            [`&#x1F497`]: `Growing Heart`,
+            [`&#x1F499`]: `Blue Heart`,
+            [`&#x1F49A`]: `Green Heart`,
+            [`&#x1F49B`]: `Yellow Heart`,
+            [`&#x1F49C`]: `Purple Heart`,
+            [`&#x1F5A4`]: `Black Heart`,
+            [`&#x1F49D`]: `Heart With Ribbon`,
+            [`&#x1F49E`]: `Revolving Hearts`,
+            [`&#x1F49F`]: `Heart Decoration`,
+            [`&#x2763`]: `Heavy Heart Exclamation`,
+            [`&#x1F48C`]: `Love Letter`,
+            [`&#x1F4A4`]: `Zzz`,
+            [`&#x1F4A2`]: `Anger Symbol`,
+            [`&#x1F4A3`]: `Bomb`,
+            [`&#x1F4A5`]: `Collision`,
+            [`&#x1F4A6`]: `Sweat Droplets`,
+            [`&#x1F4A8`]: `Dashing Away`,
+            [`&#x1F4AB`]: `Dizzy`,
+            [`&#x1F4AC`]: `Speech Balloon`,
+            [`&#x1F5E8`]: `Left Speech Bubble`,
+            [`&#x1F5EF`]: `Right Anger Bubble`,
+            [`&#x1F4AD`]: `Thought Balloon`,
+            [`&#x1F573`]: `Hole`,
+            [`&#x1F453`]: `Glasses`,
+            [`&#x1F576`]: `Sunglasses`,
+            [`&#x1F454`]: `Necktie`,
+            [`&#x1F455`]: `T-Shirt`,
+            [`&#x1F456`]: `Jeans`,
+            [`&#x1F457`]: `Dress`,
+            [`&#x1F458`]: `Kimono`,
+            [`&#x1F459`]: `Bikini`,
+            [`&#x1F45A`]: `Woman’s Clothes`,
+            [`&#x1F45B`]: `Purse`,
+            [`&#x1F45C`]: `Handbag`,
+            [`&#x1F45D`]: `Clutch Bag`,
+            [`&#x1F6CD`]: `Shopping Bags`,
+            [`&#x1F392`]: `School Backpack`,
+            [`&#x1F45E`]: `Man’s Shoe`,
+            [`&#x1F45F`]: `Running Shoe`,
+            [`&#x1F460`]: `High-Heeled Shoe`,
+            [`&#x1F461`]: `Woman’s Sandal`,
+            [`&#x1F462`]: `Woman’s Boot`,
+            [`&#x1F451`]: `Crown`,
+            [`&#x1F452`]: `Woman’s Hat`,
+            [`&#x1F3A9`]: `Top Hat`,
+            [`&#x1F393`]: `Graduation Cap`,
+            [`&#x26D1`]: `Rescue Worker’s Helmet`,
+            [`&#x1F4FF`]: `Prayer Beads`,
+            [`&#x1F484`]: `Lipstick`,
+            [`&#x1F48D`]: `Ring`,
+            [`&#x1F48E`]: `Gem Stone`,
+            [`&#x1F435`]: `Monkey Face`,
+            [`&#x1F412`]: `Monkey`,
+            [`&#x1F98D`]: `Gorilla`,
+            [`&#x1F436`]: `Dog Face`,
+            [`&#x1F415`]: `Dog`,
+            [`&#x1F429`]: `Poodle`,
+            [`&#x1F43A`]: `Wolf Face`,
+            [`&#x1F98A`]: `Fox Face`,
+            [`&#x1F431`]: `Cat Face`,
+            [`&#x1F408`]: `Cat`,
+            [`&#x1F981`]: `Lion Face`,
+            [`&#x1F42F`]: `Tiger Face`,
+            [`&#x1F405`]: `Tiger`,
+            [`&#x1F406`]: `Leopard`,
+            [`&#x1F434`]: `Horse Face`,
+            [`&#x1F40E`]: `Horse`,
+            [`&#x1F98C`]: `Deer`,
+            [`&#x1F984`]: `Unicorn Face`,
+            [`&#x1F42E`]: `Cow Face`,
+            [`&#x1F402`]: `Ox`,
+            [`&#x1F403`]: `Water Buffalo`,
+            [`&#x1F404`]: `Cow`,
+            [`&#x1F437`]: `Pig Face`,
+            [`&#x1F416`]: `Pig`,
+            [`&#x1F417`]: `Boar`,
+            [`&#x1F43D`]: `Pig Nose`,
+            [`&#x1F40F`]: `Ram`,
+            [`&#x1F411`]: `Sheep`,
+            [`&#x1F410`]: `Goat`,
+            [`&#x1F42A`]: `Camel`,
+            [`&#x1F42B`]: `Two-Hump Camel`,
+            [`&#x1F418`]: `Elephant`,
+            [`&#x1F98F`]: `Rhinoceros`,
+            [`&#x1F42D`]: `Mouse Face`,
+            [`&#x1F401`]: `Mouse`,
+            [`&#x1F400`]: `Rat`,
+            [`&#x1F439`]: `Hamster Face`,
+            [`&#x1F430`]: `Rabbit Face`,
+            [`&#x1F407`]: `Rabbit`,
+            [`&#x1F43F`]: `Chipmunk`,
+            [`&#x1F987`]: `Bat`,
+            [`&#x1F43B`]: `Bear Face`,
+            [`&#x1F428`]: `Koala`,
+            [`&#x1F43C`]: `Panda Face`,
+            [`&#x1F43E`]: `Paw Prints`,
+            [`&#x1F983`]: `Turkey`,
+            [`&#x1F414`]: `Chicken`,
+            [`&#x1F413`]: `Rooster`,
+            [`&#x1F423`]: `Hatching Chick`,
+            [`&#x1F424`]: `Baby Chick`,
+            [`&#x1F425`]: `Front-Facing Baby Chick`,
+            [`&#x1F426`]: `Bird`,
+            [`&#x1F427`]: `Penguin`,
+            [`&#x1F54A`]: `Dove`,
+            [`&#x1F985`]: `Eagle`,
+            [`&#x1F986`]: `Duck`,
+            [`&#x1F989`]: `Owl`,
+            [`&#x1F438`]: `Frog Face`,
+            [`&#x1F40A`]: `Crocodile`,
+            [`&#x1F422`]: `Turtle`,
+            [`&#x1F98E`]: `Lizard`,
+            [`&#x1F40D`]: `Snake`,
+            [`&#x1F432`]: `Dragon Face`,
+            [`&#x1F409`]: `Dragon`,
+            [`&#x1F433`]: `Spouting Whale`,
+            [`&#x1F40B`]: `Whale`,
+            [`&#x1F42C`]: `Dolphin`,
+            [`&#x1F41F`]: `Fish`,
+            [`&#x1F420`]: `Tropical Fish`,
+            [`&#x1F421`]: `Blowfish`,
+            [`&#x1F988`]: `Shark`,
+            [`&#x1F419`]: `Octopus`,
+            [`&#x1F41A`]: `Spiral Shell`,
+            [`&#x1F980`]: `Crab`,
+            [`&#x1F990`]: `Shrimp`,
+            [`&#x1F991`]: `Squid`,
+            [`&#x1F98B`]: `Butterfly`,
+            [`&#x1F40C`]: `Snail`,
+            [`&#x1F41B`]: `Bug`,
+            [`&#x1F41C`]: `Ant`,
+            [`&#x1F41D`]: `Honeybee`,
+            [`&#x1F41E`]: `Lady Beetle`,
+            [`&#x1F577`]: `Spider`,
+            [`&#x1F578`]: `Spider Web`,
+            [`&#x1F982`]: `Scorpion`,
+            [`&#x1F490`]: `Bouquet`,
+            [`&#x1F338`]: `Cherry Blossom`,
+            [`&#x1F4AE`]: `White Flower`,
+            [`&#x1F3F5`]: `Rosette`,
+            [`&#x1F339`]: `Rose`,
+            [`&#x1F940`]: `Wilted Flower`,
+            [`&#x1F33A`]: `Hibiscus`,
+            [`&#x1F33B`]: `Sunflower`,
+            [`&#x1F33C`]: `Blossom`,
+            [`&#x1F337`]: `Tulip`,
+            [`&#x1F331`]: `Seedling`,
+            [`&#x1F332`]: `Evergreen Tree`,
+            [`&#x1F333`]: `Deciduous Tree`,
+            [`&#x1F334`]: `Palm Tree`,
+            [`&#x1F335`]: `Cactus`,
+            [`&#x1F33E`]: `Sheaf Of Rice`,
+            [`&#x1F33F`]: `Herb`,
+            [`&#x2618`]: `Shamrock`,
+            [`&#x1F340`]: `Four Leaf Clover`,
+            [`&#x1F341`]: `Maple Leaf`,
+            [`&#x1F342`]: `Fallen Leaf`,
+            [`&#x1F343`]: `Leaf Fluttering In Wind`,
+            [`&#x1F347`]: `Grapes`,
+            [`&#x1F348`]: `Melon`,
+            [`&#x1F349`]: `Watermelon`,
+            [`&#x1F34A`]: `Tangerine`,
+            [`&#x1F34B`]: `Lemon`,
+            [`&#x1F34C`]: `Banana`,
+            [`&#x1F34D`]: `Pineapple`,
+            [`&#x1F34E`]: `Red Apple`,
+            [`&#x1F34F`]: `Green Apple`,
+            [`&#x1F350`]: `Pear`,
+            [`&#x1F351`]: `Peach`,
+            [`&#x1F352`]: `Cherries`,
+            [`&#x1F353`]: `Strawberry`,
+            [`&#x1F95D`]: `Kiwi Fruit`,
+            [`&#x1F345`]: `Tomato`,
+            [`&#x1F951`]: `Avocado`,
+            [`&#x1F346`]: `Eggplant`,
+            [`&#x1F954`]: `Potato`,
+            [`&#x1F955`]: `Carrot`,
+            [`&#x1F33D`]: `Ear Of Corn`,
+            [`&#x1F336`]: `Hot Pepper`,
+            [`&#x1F952`]: `Cucumber`,
+            [`&#x1F344`]: `Mushroom`,
+            [`&#x1F95C`]: `Peanuts`,
+            [`&#x1F330`]: `Chestnut`,
+            [`&#x1F35E`]: `Bread`,
+            [`&#x1F950`]: `Croissant`,
+            [`&#x1F956`]: `Baguette Bread`,
+            [`&#x1F95E`]: `Pancakes`,
+            [`&#x1F9C0`]: `Cheese Wedge`,
+            [`&#x1F356`]: `Meat On Bone`,
+            [`&#x1F357`]: `Poultry Leg`,
+            [`&#x1F953`]: `Bacon`,
+            [`&#x1F354`]: `Hamburger`,
+            [`&#x1F35F`]: `French Fries`,
+            [`&#x1F355`]: `Pizza`,
+            [`&#x1F32D`]: `Hot Dog`,
+            [`&#x1F32E`]: `Taco`,
+            [`&#x1F32F`]: `Burrito`,
+            [`&#x1F959`]: `Stuffed Flatbread`,
+            [`&#x1F95A`]: `Egg`,
+            [`&#x1F373`]: `Cooking`,
+            [`&#x1F958`]: `Shallow Pan Of Food`,
+            [`&#x1F372`]: `Pot Of Food`,
+            [`&#x1F957`]: `Green Salad`,
+            [`&#x1F37F`]: `Popcorn`,
+            [`&#x1F371`]: `Bento Box`,
+            [`&#x1F358`]: `Rice Cracker`,
+            [`&#x1F359`]: `Rice Ball`,
+            [`&#x1F35A`]: `Cooked Rice`,
+            [`&#x1F35B`]: `Curry Rice`,
+            [`&#x1F35C`]: `Steaming Bowl`,
+            [`&#x1F35D`]: `Spaghetti`,
+            [`&#x1F360`]: `Roasted Sweet Potato`,
+            [`&#x1F362`]: `Oden`,
+            [`&#x1F363`]: `Sushi`,
+            [`&#x1F364`]: `Fried Shrimp`,
+            [`&#x1F365`]: `Fish Cake With Swirl`,
+            [`&#x1F361`]: `Dango`,
+            [`&#x1F366`]: `Soft Ice Cream`,
+            [`&#x1F367`]: `Shaved Ice`,
+            [`&#x1F368`]: `Ice Cream`,
+            [`&#x1F369`]: `Doughnut`,
+            [`&#x1F36A`]: `Cookie`,
+            [`&#x1F382`]: `Birthday Cake`,
+            [`&#x1F370`]: `Shortcake`,
+            [`&#x1F36B`]: `Chocolate Bar`,
+            [`&#x1F36C`]: `Candy`,
+            [`&#x1F36D`]: `Lollipop`,
+            [`&#x1F36E`]: `Custard`,
+            [`&#x1F36F`]: `Honey Pot`,
+            [`&#x1F37C`]: `Baby Bottle`,
+            [`&#x1F95B`]: `Glass Of Milk`,
+            [`&#x2615`]: `Hot Beverage`,
+            [`&#x1F375`]: `Teacup Without Handle`,
+            [`&#x1F376`]: `Sake`,
+            [`&#x1F37E`]: `Bottle With Popping Cork`,
+            [`&#x1F377`]: `Wine Glass`,
+            [`&#x1F378`]: `Cocktail Glass`,
+            [`&#x1F379`]: `Tropical Drink`,
+            [`&#x1F37A`]: `Beer Mug`,
+            [`&#x1F37B`]: `Clinking Beer Mugs`,
+            [`&#x1F942`]: `Clinking Glasses`,
+            [`&#x1F943`]: `Tumbler Glass`,
+            [`&#x1F37D`]: `Fork And Knife With Plate`,
+            [`&#x1F374`]: `Fork And Knife`,
+            [`&#x1F944`]: `Spoon`,
+            [`&#x1F52A`]: `Kitchen Knife`,
+            [`&#x1F3FA`]: `Amphora`,
+            [`&#x1F30D`]: `Globe Showing Europe-Africa`,
+            [`&#x1F30E`]: `Globe Showing Americas`,
+            [`&#x1F30F`]: `Globe Showing Asia-Australia`,
+            [`&#x1F310`]: `Globe With Meridians`,
+            [`&#x1F5FA`]: `World Map`,
+            [`&#x1F5FE`]: `Map Of Japan`,
+            [`&#x1F3D4`]: `Snow-Capped Mountain`,
+            [`&#x26F0`]: `Mountain`,
+            [`&#x1F30B`]: `Volcano`,
+            [`&#x1F5FB`]: `Mount Fuji`,
+            [`&#x1F3D5`]: `Camping`,
+            [`&#x1F3D6`]: `Beach With Umbrella`,
+            [`&#x1F3DC`]: `Desert`,
+            [`&#x1F3DD`]: `Desert Island`,
+            [`&#x1F3DE`]: `National Park`,
+            [`&#x1F3DF`]: `Stadium`,
+            [`&#x1F3DB`]: `Classical Building`,
+            [`&#x1F3D7`]: `Building Construction`,
+            [`&#x1F3D8`]: `House`,
+            [`&#x1F3D9`]: `Cityscape`,
+            [`&#x1F3DA`]: `Derelict House`,
+            [`&#x1F3E0`]: `House`,
+            [`&#x1F3E1`]: `House With Garden`,
+            [`&#x1F3E2`]: `Office Building`,
+            [`&#x1F3E3`]: `Japanese Post Office`,
+            [`&#x1F3E4`]: `Post Office`,
+            [`&#x1F3E5`]: `Hospital`,
+            [`&#x1F3E6`]: `Bank`,
+            [`&#x1F3E8`]: `Hotel`,
+            [`&#x1F3E9`]: `Love Hotel`,
+            [`&#x1F3EA`]: `Convenience Store`,
+            [`&#x1F3EB`]: `School`,
+            [`&#x1F3EC`]: `Department Store`,
+            [`&#x1F3ED`]: `Factory`,
+            [`&#x1F3EF`]: `Japanese Castle`,
+            [`&#x1F3F0`]: `Castle`,
+            [`&#x1F492`]: `Wedding`,
+            [`&#x1F5FC`]: `Tokyo Tower`,
+            [`&#x1F5FD`]: `Statue Of Liberty`,
+            [`&#x26EA`]: `Church`,
+            [`&#x1F54C`]: `Mosque`,
+            [`&#x1F54D`]: `Synagogue`,
+            [`&#x26E9`]: `Shinto Shrine`,
+            [`&#x1F54B`]: `Kaaba`,
+            [`&#x26F2`]: `Fountain`,
+            [`&#x26FA`]: `Tent`,
+            [`&#x1F301`]: `Foggy`,
+            [`&#x1F303`]: `Night With Stars`,
+            [`&#x1F304`]: `Sunrise Over Mountains`,
+            [`&#x1F305`]: `Sunrise`,
+            [`&#x1F306`]: `Cityscape At Dusk`,
+            [`&#x1F307`]: `Sunset`,
+            [`&#x1F309`]: `Bridge At Night`,
+            [`&#x2668`]: `Hot Springs`,
+            [`&#x1F30C`]: `Milky Way`,
+            [`&#x1F3A0`]: `Carousel Horse`,
+            [`&#x1F3A1`]: `Ferris Wheel`,
+            [`&#x1F3A2`]: `Roller Coaster`,
+            [`&#x1F488`]: `Barber Pole`,
+            [`&#x1F3AA`]: `Circus Tent`,
+            [`&#x1F3AD`]: `Performing Arts`,
+            [`&#x1F5BC`]: `Framed Picture`,
+            [`&#x1F3A8`]: `Artist Palette`,
+            [`&#x1F3B0`]: `Slot Machine`,
+            [`&#x1F682`]: `Locomotive`,
+            [`&#x1F683`]: `Railway Car`,
+            [`&#x1F684`]: `High-Speed Train`,
+            [`&#x1F685`]: `High-Speed Train With Bullet Nose`,
+            [`&#x1F686`]: `Train`,
+            [`&#x1F687`]: `Metro`,
+            [`&#x1F688`]: `Light Rail`,
+            [`&#x1F689`]: `Station`,
+            [`&#x1F68A`]: `Tram`,
+            [`&#x1F69D`]: `Monorail`,
+            [`&#x1F69E`]: `Mountain Railway`,
+            [`&#x1F68B`]: `Tram Car`,
+            [`&#x1F68C`]: `Bus`,
+            [`&#x1F68D`]: `Oncoming Bus`,
+            [`&#x1F68E`]: `Trolleybus`,
+            [`&#x1F690`]: `Minibus`,
+            [`&#x1F691`]: `Ambulance`,
+            [`&#x1F692`]: `Fire Engine`,
+            [`&#x1F693`]: `Police Car`,
+            [`&#x1F694`]: `Oncoming Police Car`,
+            [`&#x1F695`]: `Taxi`,
+            [`&#x1F696`]: `Oncoming Taxi`,
+            [`&#x1F697`]: `Automobile`,
+            [`&#x1F698`]: `Oncoming Automobile`,
+            [`&#x1F699`]: `Sport Utility Vehicle`,
+            [`&#x1F69A`]: `Delivery Truck`,
+            [`&#x1F69B`]: `Articulated Lorry`,
+            [`&#x1F69C`]: `Tractor`,
+            [`&#x1F6B2`]: `Bicycle`,
+            [`&#x1F6F4`]: `Kick Scooter`,
+            [`&#x1F6F5`]: `Motor Scooter`,
+            [`&#x1F68F`]: `Bus Stop`,
+            [`&#x1F6E3`]: `Motorway`,
+            [`&#x1F6E4`]: `Railway Track`,
+            [`&#x26FD`]: `Fuel Pump`,
+            [`&#x1F6A8`]: `Police Car Light`,
+            [`&#x1F6A5`]: `Horizontal Traffic Light`,
+            [`&#x1F6A6`]: `Vertical Traffic Light`,
+            [`&#x1F6A7`]: `Construction`,
+            [`&#x1F6D1`]: `Stop Sign`,
+            [`&#x2693`]: `Anchor`,
+            [`&#x26F5`]: `Sailboat`,
+            [`&#x1F6F6`]: `Canoe`,
+            [`&#x1F6A4`]: `Speedboat`,
+            [`&#x1F6F3`]: `Passenger Ship`,
+            [`&#x26F4`]: `Ferry`,
+            [`&#x1F6E5`]: `Motor Boat`,
+            [`&#x1F6A2`]: `Ship`,
+            [`&#x2708`]: `Airplane`,
+            [`&#x1F6E9`]: `Small Airplane`,
+            [`&#x1F6EB`]: `Airplane Departure`,
+            [`&#x1F6EC`]: `Airplane Arrival`,
+            [`&#x1F4BA`]: `Seat`,
+            [`&#x1F681`]: `Helicopter`,
+            [`&#x1F69F`]: `Suspension Railway`,
+            [`&#x1F6A0`]: `Mountain Cableway`,
+            [`&#x1F6A1`]: `Aerial Tramway`,
+            [`&#x1F680`]: `Rocket`,
+            [`&#x1F6F0`]: `Satellite`,
+            [`&#x1F6CE`]: `Bellhop Bell`,
+            [`&#x1F6AA`]: `Door`,
+            [`&#x1F6CC`]: `Person In Bed`,
+            [`&#x1F6CC&#x1F3FB`]: `Person In Bed: Light Skin Tone`,
+            [`&#x1F6CC&#x1F3FC`]: `Person In Bed: Medium-Light Skin Tone`,
+            [`&#x1F6CC&#x1F3FD`]: `Person In Bed: Medium Skin Tone`,
+            [`&#x1F6CC&#x1F3FE`]: `Person In Bed: Medium-Dark Skin Tone`,
+            [`&#x1F6CC&#x1F3FF`]: `Person In Bed: Dark Skin Tone`,
+            [`&#x1F6CF`]: `Bed`,
+            [`&#x1F6CB`]: `Couch And Lamp`,
+            [`&#x1F6BD`]: `Toilet`,
+            [`&#x1F6BF`]: `Shower`,
+            [`&#x1F6C0`]: `Person Taking Bath`,
+            [`&#x1F6C0&#x1F3FB`]: `Person Taking Bath: Light Skin Tone`,
+            [`&#x1F6C0&#x1F3FC`]: `Person Taking Bath: Medium-Light Skin Tone`,
+            [`&#x1F6C0&#x1F3FD`]: `Person Taking Bath: Medium Skin Tone`,
+            [`&#x1F6C0&#x1F3FE`]: `Person Taking Bath: Medium-Dark Skin Tone`,
+            [`&#x1F6C0&#x1F3FF`]: `Person Taking Bath: Dark Skin Tone`,
+            [`&#x1F6C1`]: `Bathtub`,
+            [`&#x231B`]: `Hourglass`,
+            [`&#x23F3`]: `Hourglass With Flowing Sand`,
+            [`&#x231A`]: `Watch`,
+            [`&#x23F0`]: `Alarm Clock`,
+            [`&#x23F1`]: `Stopwatch`,
+            [`&#x23F2`]: `Timer Clock`,
+            [`&#x1F570`]: `Mantelpiece Clock`,
+            [`&#x1F55B`]: `Twelve O’clock`,
+            [`&#x1F567`]: `Twelve-Thirty`,
+            [`&#x1F550`]: `One O’clock`,
+            [`&#x1F55C`]: `One-Thirty`,
+            [`&#x1F551`]: `Two O’clock`,
+            [`&#x1F55D`]: `Two-Thirty`,
+            [`&#x1F552`]: `Three O’clock`,
+            [`&#x1F55E`]: `Three-Thirty`,
+            [`&#x1F553`]: `Four O’clock`,
+            [`&#x1F55F`]: `Four-Thirty`,
+            [`&#x1F554`]: `Five O’clock`,
+            [`&#x1F560`]: `Five-Thirty`,
+            [`&#x1F555`]: `Six O’clock`,
+            [`&#x1F561`]: `Six-Thirty`,
+            [`&#x1F556`]: `Seven O’clock`,
+            [`&#x1F562`]: `Seven-Thirty`,
+            [`&#x1F557`]: `Eight O’clock`,
+            [`&#x1F563`]: `Eight-Thirty`,
+            [`&#x1F558`]: `Nine O’clock`,
+            [`&#x1F564`]: `Nine-Thirty`,
+            [`&#x1F559`]: `Ten O’clock`,
+            [`&#x1F565`]: `Ten-Thirty`,
+            [`&#x1F55A`]: `Eleven O’clock`,
+            [`&#x1F566`]: `Eleven-Thirty`,
+            [`&#x1F311`]: `New Moon`,
+            [`&#x1F312`]: `Waxing Crescent Moon`,
+            [`&#x1F313`]: `First Quarter Moon`,
+            [`&#x1F314`]: `Waxing Gibbous Moon`,
+            [`&#x1F315`]: `Full Moon`,
+            [`&#x1F316`]: `Waning Gibbous Moon`,
+            [`&#x1F317`]: `Last Quarter Moon`,
+            [`&#x1F318`]: `Waning Crescent Moon`,
+            [`&#x1F319`]: `Crescent Moon`,
+            [`&#x1F31A`]: `New Moon Face`,
+            [`&#x1F31B`]: `First Quarter Moon With Face`,
+            [`&#x1F31C`]: `Last Quarter Moon With Face`,
+            [`&#x1F321`]: `Thermometer`,
+            [`&#x2600`]: `Sun`,
+            [`&#x1F31D`]: `Full Moon With Face`,
+            [`&#x1F31E`]: `Sun With Face`,
+            [`&#x2B50`]: `White Medium Star`,
+            [`&#x1F31F`]: `Glowing Star`,
+            [`&#x1F320`]: `Shooting Star`,
+            [`&#x2601`]: `Cloud`,
+            [`&#x26C5`]: `Sun Behind Cloud`,
+            [`&#x26C8`]: `Cloud With Lightning And Rain`,
+            [`&#x1F324`]: `Sun Behind Small Cloud`,
+            [`&#x1F325`]: `Sun Behind Large Cloud`,
+            [`&#x1F326`]: `Sun Behind Rain Cloud`,
+            [`&#x1F327`]: `Cloud With Rain`,
+            [`&#x1F328`]: `Cloud With Snow`,
+            [`&#x1F329`]: `Cloud With Lightning`,
+            [`&#x1F32A`]: `Tornado`,
+            [`&#x1F32B`]: `Fog`,
+            [`&#x1F32C`]: `Wind Face`,
+            [`&#x1F300`]: `Cyclone`,
+            [`&#x1F308`]: `Rainbow`,
+            [`&#x1F302`]: `Closed Umbrella`,
+            [`&#x2602`]: `Umbrella`,
+            [`&#x2614`]: `Umbrella With Rain Drops`,
+            [`&#x26F1`]: `Umbrella On Ground`,
+            [`&#x26A1`]: `High Voltage`,
+            [`&#x2744`]: `Snowflake`,
+            [`&#x2603`]: `Snowman`,
+            [`&#x26C4`]: `Snowman Without Snow`,
+            [`&#x2604`]: `Comet`,
+            [`&#x1F525`]: `Fire`,
+            [`&#x1F4A7`]: `Droplet`,
+            [`&#x1F30A`]: `Water Wave`,
+            [`&#x1F383`]: `Jack-O-Lantern`,
+            [`&#x1F384`]: `Christmas Tree`,
+            [`&#x1F386`]: `Fireworks`,
+            [`&#x1F387`]: `Sparkler`,
+            [`&#x2728`]: `Sparkles`,
+            [`&#x1F388`]: `Balloon`,
+            [`&#x1F389`]: `Party Popper`,
+            [`&#x1F38A`]: `Confetti Ball`,
+            [`&#x1F38B`]: `Tanabata Tree`,
+            [`&#x1F38D`]: `Pine Decoration`,
+            [`&#x1F38E`]: `Japanese Dolls`,
+            [`&#x1F38F`]: `Carp Streamer`,
+            [`&#x1F390`]: `Wind Chime`,
+            [`&#x1F391`]: `Moon Viewing Ceremony`,
+            [`&#x1F380`]: `Ribbon`,
+            [`&#x1F381`]: `Wrapped Gift`,
+            [`&#x1F397`]: `Reminder Ribbon`,
+            [`&#x1F39F`]: `Admission Tickets`,
+            [`&#x1F3AB`]: `Ticket`,
+            [`&#x1F396`]: `Military Medal`,
+            [`&#x1F3C6`]: `Trophy`,
+            [`&#x1F3C5`]: `Sports Medal`,
+            [`&#x1F947`]: `1st Place Medal`,
+            [`&#x1F948`]: `2nd Place Medal`,
+            [`&#x1F949`]: `3rd Place Medal`,
+            [`&#x26BD`]: `Soccer Ball`,
+            [`&#x26BE`]: `Baseball`,
+            [`&#x1F3C0`]: `Basketball`,
+            [`&#x1F3D0`]: `Volleyball`,
+            [`&#x1F3C8`]: `American Football`,
+            [`&#x1F3C9`]: `Rugby Football`,
+            [`&#x1F3BE`]: `Tennis`,
+            [`&#x1F3B1`]: `Pool 8 Ball`,
+            [`&#x1F3B3`]: `Bowling`,
+            [`&#x1F3CF`]: `Cricket`,
+            [`&#x1F3D1`]: `Field Hockey`,
+            [`&#x1F3D2`]: `Ice Hockey`,
+            [`&#x1F3D3`]: `Ping Pong`,
+            [`&#x1F3F8`]: `Badminton`,
+            [`&#x1F94A`]: `Boxing Glove`,
+            [`&#x1F94B`]: `Martial Arts Uniform`,
+            [`&#x1F945`]: `Goal Net`,
+            [`&#x1F3AF`]: `Direct Hit`,
+            [`&#x26F3`]: `Flag In Hole`,
+            [`&#x26F8`]: `Ice Skate`,
+            [`&#x1F3A3`]: `Fishing Pole`,
+            [`&#x1F3BD`]: `Running Shirt`,
+            [`&#x1F3BF`]: `Skis`,
+            [`&#x1F3AE`]: `Video Game`,
+            [`&#x1F579`]: `Joystick`,
+            [`&#x1F3B2`]: `Game Die`,
+            [`&#x2660`]: `Spade Suit`,
+            [`&#x2665`]: `Heart Suit`,
+            [`&#x2666`]: `Diamond Suit`,
+            [`&#x2663`]: `Club Suit`,
+            [`&#x1F0CF`]: `Joker`,
+            [`&#x1F004`]: `Mahjong Red Dragon`,
+            [`&#x1F3B4`]: `Flower Playing Cards`,
+            [`&#x1F507`]: `Muted Speaker`,
+            [`&#x1F508`]: `Speaker Low Volume`,
+            [`&#x1F509`]: `Speaker Medium Volume`,
+            [`&#x1F50A`]: `Speaker High Volume`,
+            [`&#x1F4E2`]: `Loudspeaker`,
+            [`&#x1F4E3`]: `Megaphone`,
+            [`&#x1F4EF`]: `Postal Horn`,
+            [`&#x1F514`]: `Bell`,
+            [`&#x1F515`]: `Bell With Slash`,
+            [`&#x1F3BC`]: `Musical Score`,
+            [`&#x1F3B5`]: `Musical Note`,
+            [`&#x1F3B6`]: `Musical Notes`,
+            [`&#x1F399`]: `Studio Microphone`,
+            [`&#x1F39A`]: `Level Slider`,
+            [`&#x1F39B`]: `Control Knobs`,
+            [`&#x1F3A4`]: `Microphone`,
+            [`&#x1F3A7`]: `Headphone`,
+            [`&#x1F4FB`]: `Radio`,
+            [`&#x1F3B7`]: `Saxophone`,
+            [`&#x1F3B8`]: `Guitar`,
+            [`&#x1F3B9`]: `Musical Keyboard`,
+            [`&#x1F3BA`]: `Trumpet`,
+            [`&#x1F3BB`]: `Violin`,
+            [`&#x1F941`]: `Drum`,
+            [`&#x1F4F1`]: `Mobile Phone`,
+            [`&#x1F4F2`]: `Mobile Phone With Arrow`,
+            [`&#x260E`]: `Telephone`,
+            [`&#x1F4DE`]: `Telephone Receiver`,
+            [`&#x1F4DF`]: `Pager`,
+            [`&#x1F4E0`]: `Fax Machine`,
+            [`&#x1F50B`]: `Battery`,
+            [`&#x1F50C`]: `Electric Plug`,
+            [`&#x1F4BB`]: `Laptop Computer`,
+            [`&#x1F5A5`]: `Desktop Computer`,
+            [`&#x1F5A8`]: `Printer`,
+            [`&#x2328`]: `Keyboard`,
+            [`&#x1F5B1`]: `Computer Mouse`,
+            [`&#x1F5B2`]: `Trackball`,
+            [`&#x1F4BD`]: `Computer Disk`,
+            [`&#x1F4BE`]: `Floppy Disk`,
+            [`&#x1F4BF`]: `Optical Disk`,
+            [`&#x1F4C0`]: `Dvd`,
+            [`&#x1F3A5`]: `Movie Camera`,
+            [`&#x1F39E`]: `Film Frames`,
+            [`&#x1F4FD`]: `Film Projector`,
+            [`&#x1F3AC`]: `Clapper Board`,
+            [`&#x1F4FA`]: `Television`,
+            [`&#x1F4F7`]: `Camera`,
+            [`&#x1F4F8`]: `Camera With Flash`,
+            [`&#x1F4F9`]: `Video Camera`,
+            [`&#x1F4FC`]: `Videocassette`,
+            [`&#x1F50D`]: `Left-Pointing Magnifying Glass`,
+            [`&#x1F50E`]: `Right-Pointing Magnifying Glass`,
+            [`&#x1F52C`]: `Microscope`,
+            [`&#x1F52D`]: `Telescope`,
+            [`&#x1F4E1`]: `Satellite Antenna`,
+            [`&#x1F56F`]: `Candle`,
+            [`&#x1F4A1`]: `Light Bulb`,
+            [`&#x1F526`]: `Flashlight`,
+            [`&#x1F3EE`]: `Red Paper Lantern`,
+            [`&#x1F4D4`]: `Notebook With Decorative Cover`,
+            [`&#x1F4D5`]: `Closed Book`,
+            [`&#x1F4D6`]: `Open Book`,
+            [`&#x1F4D7`]: `Green Book`,
+            [`&#x1F4D8`]: `Blue Book`,
+            [`&#x1F4D9`]: `Orange Book`,
+            [`&#x1F4DA`]: `Books`,
+            [`&#x1F4D3`]: `Notebook`,
+            [`&#x1F4D2`]: `Ledger`,
+            [`&#x1F4C3`]: `Page With Curl`,
+            [`&#x1F4DC`]: `Scroll`,
+            [`&#x1F4C4`]: `Page Facing Up`,
+            [`&#x1F4F0`]: `Newspaper`,
+            [`&#x1F5DE`]: `Rolled-Up Newspaper`,
+            [`&#x1F4D1`]: `Bookmark Tabs`,
+            [`&#x1F516`]: `Bookmark`,
+            [`&#x1F3F7`]: `Label`,
+            [`&#x1F4B0`]: `Money Bag`,
+            [`&#x1F4B4`]: `Yen Banknote`,
+            [`&#x1F4B5`]: `Dollar Banknote`,
+            [`&#x1F4B6`]: `Euro Banknote`,
+            [`&#x1F4B7`]: `Pound Banknote`,
+            [`&#x1F4B8`]: `Money With Wings`,
+            [`&#x1F4B3`]: `Credit Card`,
+            [`&#x1F4B9`]: `Chart Increasing With Yen`,
+            [`&#x1F4B1`]: `Currency Exchange`,
+            [`&#x1F4B2`]: `Heavy Dollar Sign`,
+            [`&#x2709`]: `Envelope`,
+            [`&#x1F4E7`]: `E-Mail`,
+            [`&#x1F4E8`]: `Incoming Envelope`,
+            [`&#x1F4E9`]: `Envelope With Arrow`,
+            [`&#x1F4E4`]: `Outbox Tray`,
+            [`&#x1F4E5`]: `Inbox Tray`,
+            [`&#x1F4E6`]: `Package`,
+            [`&#x1F4EB`]: `Closed Mailbox With Raised Flag`,
+            [`&#x1F4EA`]: `Closed Mailbox With Lowered Flag`,
+            [`&#x1F4EC`]: `Open Mailbox With Raised Flag`,
+            [`&#x1F4ED`]: `Open Mailbox With Lowered Flag`,
+            [`&#x1F4EE`]: `Postbox`,
+            [`&#x1F5F3`]: `Ballot Box With Ballot`,
+            [`&#x270F`]: `Pencil`,
+            [`&#x2712`]: `Black Nib`,
+            [`&#x1F58B`]: `Fountain Pen`,
+            [`&#x1F58A`]: `Pen`,
+            [`&#x1F58C`]: `Paintbrush`,
+            [`&#x1F58D`]: `Crayon`,
+            [`&#x1F4DD`]: `Memo`,
+            [`&#x1F4BC`]: `Briefcase`,
+            [`&#x1F4C1`]: `File Folder`,
+            [`&#x1F4C2`]: `Open File Folder`,
+            [`&#x1F5C2`]: `Card Index Dividers`,
+            [`&#x1F4C5`]: `Calendar`,
+            [`&#x1F4C6`]: `Tear-Off Calendar`,
+            [`&#x1F5D2`]: `Spiral Notepad`,
+            [`&#x1F5D3`]: `Spiral Calendar`,
+            [`&#x1F4C7`]: `Card Index`,
+            [`&#x1F4C8`]: `Chart Increasing`,
+            [`&#x1F4C9`]: `Chart Decreasing`,
+            [`&#x1F4CA`]: `Bar Chart`,
+            [`&#x1F4CB`]: `Clipboard`,
+            [`&#x1F4CC`]: `Pushpin`,
+            [`&#x1F4CD`]: `Round Pushpin`,
+            [`&#x1F4CE`]: `Paperclip`,
+            [`&#x1F587`]: `Linked Paperclips`,
+            [`&#x1F4CF`]: `Straight Ruler`,
+            [`&#x1F4D0`]: `Triangular Ruler`,
+            [`&#x2702`]: `Scissors`,
+            [`&#x1F5C3`]: `Card File Box`,
+            [`&#x1F5C4`]: `File Cabinet`,
+            [`&#x1F5D1`]: `Wastebasket`,
+            [`&#x1F512`]: `Locked`,
+            [`&#x1F513`]: `Unlocked`,
+            [`&#x1F50F`]: `Locked With Pen`,
+            [`&#x1F510`]: `Locked With Key`,
+            [`&#x1F511`]: `Key`,
+            [`&#x1F5DD`]: `Old Key`,
+            [`&#x1F528`]: `Hammer`,
+            [`&#x26CF`]: `Pick`,
+            [`&#x2692`]: `Hammer And Pick`,
+            [`&#x1F6E0`]: `Hammer And Wrench`,
+            [`&#x1F5E1`]: `Dagger`,
+            [`&#x2694`]: `Crossed Swords`,
+            [`&#x1F52B`]: `Pistol`,
+            [`&#x1F3F9`]: `Bow And Arrow`,
+            [`&#x1F6E1`]: `Shield`,
+            [`&#x1F527`]: `Wrench`,
+            [`&#x1F529`]: `Nut And Bolt`,
+            [`&#x2699`]: `Gear`,
+            [`&#x1F5DC`]: `Clamp`,
+            [`&#x2697`]: `Alembic`,
+            [`&#x2696`]: `Balance Scale`,
+            [`&#x1F517`]: `Link`,
+            [`&#x26D3`]: `Chains`,
+            [`&#x1F489`]: `Syringe`,
+            [`&#x1F48A`]: `Pill`,
+            [`&#x1F6AC`]: `Cigarette`,
+            [`&#x26B0`]: `Coffin`,
+            [`&#x26B1`]: `Funeral Urn`,
+            [`&#x1F5FF`]: `Moai`,
+            [`&#x1F6E2`]: `Oil Drum`,
+            [`&#x1F52E`]: `Crystal Ball`,
+            [`&#x1F6D2`]: `Shopping Cart`,
+            [`&#x1F3E7`]: `ATM Sign`,
+            [`&#x1F6AE`]: `Litter In Bin Sign`,
+            [`&#x1F6B0`]: `Potable Water`,
+            [`&#x267F`]: `Wheelchair Symbol`,
+            [`&#x1F6B9`]: `Men’s Room`,
+            [`&#x1F6BA`]: `Women’s Room`,
+            [`&#x1F6BB`]: `Restroom`,
+            [`&#x1F6BC`]: `Baby Symbol`,
+            [`&#x1F6BE`]: `Water Closet`,
+            [`&#x1F6C2`]: `Passport Control`,
+            [`&#x1F6C3`]: `Customs`,
+            [`&#x1F6C4`]: `Baggage Claim`,
+            [`&#x1F6C5`]: `Left Luggage`,
+            [`&#x26A0`]: `Warning`,
+            [`&#x1F6B8`]: `Children Crossing`,
+            [`&#x26D4`]: `No Entry`,
+            [`&#x1F6AB`]: `Prohibited`,
+            [`&#x1F6B3`]: `No Bicycles`,
+            [`&#x1F6AD`]: `No Smoking`,
+            [`&#x1F6AF`]: `No Littering`,
+            [`&#x1F6B1`]: `Non-Potable Water`,
+            [`&#x1F6B7`]: `No Pedestrians`,
+            [`&#x1F4F5`]: `No Mobile Phones`,
+            [`&#x1F51E`]: `No One Under Eighteen`,
+            [`&#x2622`]: `Radioactive`,
+            [`&#x2623`]: `Biohazard`,
+            [`&#x2B06`]: `Up Arrow`,
+            [`&#x2197`]: `Up-Right Arrow`,
+            [`&#x27A1`]: `Right Arrow`,
+            [`&#x2198`]: `Down-Right Arrow`,
+            [`&#x2B07`]: `Down Arrow`,
+            [`&#x2199`]: `Down-Left Arrow`,
+            [`&#x2B05`]: `Left Arrow`,
+            [`&#x2196`]: `Up-Left Arrow`,
+            [`&#x2195`]: `Up-Down Arrow`,
+            [`&#x2194`]: `Left-Right Arrow`,
+            [`&#x21A9`]: `Right Arrow Curving Left`,
+            [`&#x21AA`]: `Left Arrow Curving Right`,
+            [`&#x2934`]: `Right Arrow Curving Up`,
+            [`&#x2935`]: `Right Arrow Curving Down`,
+            [`&#x1F503`]: `Clockwise Vertical Arrows`,
+            [`&#x1F504`]: `Anticlockwise Arrows Button`,
+            [`&#x1F519`]: `BACK Arrow`,
+            [`&#x1F51A`]: `END Arrow`,
+            [`&#x1F51B`]: `ON! Arrow`,
+            [`&#x1F51C`]: `SOON Arrow`,
+            [`&#x1F51D`]: `TOP Arrow`,
+            [`&#x1F6D0`]: `Place Of Worship`,
+            [`&#x269B`]: `Atom Symbol`,
+            [`&#x1F549`]: `Om`,
+            [`&#x2721`]: `Star Of David`,
+            [`&#x2638`]: `Wheel Of Dharma`,
+            [`&#x262F`]: `Yin Yang`,
+            [`&#x271D`]: `Latin Cross`,
+            [`&#x2626`]: `Orthodox Cross`,
+            [`&#x262A`]: `Star And Crescent`,
+            [`&#x262E`]: `Peace Symbol`,
+            [`&#x1F54E`]: `Menorah`,
+            [`&#x1F52F`]: `Dotted Six-Pointed Star`,
+            [`&#x2648`]: `Aries`,
+            [`&#x2649`]: `Taurus`,
+            [`&#x264A`]: `Gemini`,
+            [`&#x264B`]: `Cancer`,
+            [`&#x264C`]: `Leo`,
+            [`&#x264D`]: `Virgo`,
+            [`&#x264E`]: `Libra`,
+            [`&#x264F`]: `Scorpius`,
+            [`&#x2650`]: `Sagittarius`,
+            [`&#x2651`]: `Capricorn`,
+            [`&#x2652`]: `Aquarius`,
+            [`&#x2653`]: `Pisces`,
+            [`&#x26CE`]: `Ophiuchus`,
+            [`&#x1F500`]: `Shuffle Tracks Button`,
+            [`&#x1F501`]: `Repeat Button`,
+            [`&#x1F502`]: `Repeat Single Button`,
+            [`&#x25B6`]: `Play Button`,
+            [`&#x23E9`]: `Fast-Forward Button`,
+            [`&#x23ED`]: `Next Track Button`,
+            [`&#x23EF`]: `Play Or Pause Button`,
+            [`&#x25C0`]: `Reverse Button`,
+            [`&#x23EA`]: `Fast Reverse Button`,
+            [`&#x23EE`]: `Last Track Button`,
+            [`&#x1F53C`]: `Up Button`,
+            [`&#x23EB`]: `Fast Up Button`,
+            [`&#x1F53D`]: `Down Button`,
+            [`&#x23EC`]: `Fast Down Button`,
+            [`&#x23F8`]: `Pause Button`,
+            [`&#x23F9`]: `Stop Button`,
+            [`&#x23FA`]: `Record Button`,
+            [`&#x23CF`]: `Eject Button`,
+            [`&#x1F3A6`]: `Cinema`,
+            [`&#x1F505`]: `Dim Button`,
+            [`&#x1F506`]: `Bright Button`,
+            [`&#x1F4F6`]: `Antenna Bars`,
+            [`&#x1F4F3`]: `Vibration Mode`,
+            [`&#x1F4F4`]: `Mobile Phone Off`,
+            [`&#x267B`]: `Recycling Symbol`,
+            [`&#x1F4DB`]: `Name Badge`,
+            [`&#x269C`]: `Fleur-De-Lis`,
+            [`&#x1F530`]: `Japanese Symbol For Beginner`,
+            [`&#x1F531`]: `Trident Emblem`,
+            [`&#x2B55`]: `Heavy Large Circle`,
+            [`&#x2705`]: `White Heavy Check Mark`,
+            [`&#x2611`]: `Ballot Box With Check`,
+            [`&#x2714`]: `Heavy Check Mark`,
+            [`&#x2716`]: `Heavy Multiplication X`,
+            [`&#x274C`]: `Cross Mark`,
+            [`&#x274E`]: `Cross Mark Button`,
+            [`&#x2795`]: `Heavy Plus Sign`,
+            [`&#x2640`]: `Female Sign`,
+            [`&#x2642`]: `Male Sign`,
+            [`&#x2695`]: `Medical Symbol`,
+            [`&#x2796`]: `Heavy Minus Sign`,
+            [`&#x2797`]: `Heavy Division Sign`,
+            [`&#x27B0`]: `Curly Loop`,
+            [`&#x27BF`]: `Double Curly Loop`,
+            [`&#x303D`]: `Part Alternation Mark`,
+            [`&#x2733`]: `Eight-Spoked Asterisk`,
+            [`&#x2734`]: `Eight-Pointed Star`,
+            [`&#x2747`]: `Sparkle`,
+            [`&#x203C`]: `Double Exclamation Mark`,
+            [`&#x2049`]: `Exclamation Question Mark`,
+            [`&#x2753`]: `Question Mark`,
+            [`&#x2754`]: `White Question Mark`,
+            [`&#x2755`]: `White Exclamation Mark`,
+            [`&#x2757`]: `Exclamation Mark`,
+            [`&#x3030`]: `Wavy Dash`,
+            [`&#x00A9`]: `Copyright`,
+            [`&#x00AE`]: `Registered`,
+            [`&#x2122`]: `Trade Mark`,
+            [`&#x0023&#xFE0F&#x20E3`]: `Keycap: #`,
+            [`&#x002A&#xFE0F&#x20E3`]: `Keycap: *`,
+            [`&#x0030&#xFE0F&#x20E3`]: `Keycap: 0`,
+            [`&#x0031&#xFE0F&#x20E3`]: `Keycap: 1`,
+            [`&#x0032&#xFE0F&#x20E3`]: `Keycap: 2`,
+            [`&#x0033&#xFE0F&#x20E3`]: `Keycap: 3`,
+            [`&#x0034&#xFE0F&#x20E3`]: `Keycap: 4`,
+            [`&#x0035&#xFE0F&#x20E3`]: `Keycap: 5`,
+            [`&#x0036&#xFE0F&#x20E3`]: `Keycap: 6`,
+            [`&#x0037&#xFE0F&#x20E3`]: `Keycap: 7`,
+            [`&#x0038&#xFE0F&#x20E3`]: `Keycap: 8`,
+            [`&#x0039&#xFE0F&#x20E3`]: `Keycap: 9`,
+            [`&#x1F51F`]: `Keycap 10`,
+            [`&#x1F4AF`]: `Hundred Points`,
+            [`&#x1F520`]: `Input Latin Uppercase`,
+            [`&#x1F521`]: `Input Latin Lowercase`,
+            [`&#x1F522`]: `Input Numbers`,
+            [`&#x1F523`]: `Input Symbols`,
+            [`&#x1F524`]: `Input Latin Letters`,
+            [`&#x1F170`]: `A Button (blood Type)`,
+            [`&#x1F18E`]: `AB Button (blood Type)`,
+            [`&#x1F171`]: `B Button (blood Type)`,
+            [`&#x1F191`]: `CL Button`,
+            [`&#x1F192`]: `COOL Button`,
+            [`&#x1F193`]: `FREE Button`,
+            [`&#x2139`]: `Information`,
+            [`&#x1F194`]: `ID Button`,
+            [`&#x24C2`]: `Circled M`,
+            [`&#x1F195`]: `NEW Button`,
+            [`&#x1F196`]: `NG Button`,
+            [`&#x1F17E`]: `O Button (blood Type)`,
+            [`&#x1F197`]: `OK Button`,
+            [`&#x1F17F`]: `P Button`,
+            [`&#x1F198`]: `SOS Button`,
+            [`&#x1F199`]: `UP! Button`,
+            [`&#x1F19A`]: `VS Button`,
+            [`&#x1F201`]: `Japanese “here” Button`,
+            [`&#x1F202`]: `Japanese “service Charge” Button`,
+            [`&#x1F237`]: `Japanese “monthly Amount” Button`,
+            [`&#x1F236`]: `Japanese “not Free Of Charge” Button`,
+            [`&#x1F22F`]: `Japanese “reserved” Button`,
+            [`&#x1F250`]: `Japanese “bargain” Button`,
+            [`&#x1F239`]: `Japanese “discount” Button`,
+            [`&#x1F21A`]: `Japanese “free Of Charge” Button`,
+            [`&#x1F232`]: `Japanese “prohibited” Button`,
+            [`&#x1F251`]: `Japanese “acceptable” Button`,
+            [`&#x1F238`]: `Japanese “application” Button`,
+            [`&#x1F234`]: `Japanese “passing Grade” Button`,
+            [`&#x1F233`]: `Japanese “vacancy” Button`,
+            [`&#x3297`]: `Japanese “congratulations” Button`,
+            [`&#x3299`]: `Japanese “secret” Button`,
+            [`&#x1F23A`]: `Japanese “open For Business” Button`,
+            [`&#x1F235`]: `Japanese “no Vacancy” Button`,
+            [`&#x25AA`]: `Black Small Square`,
+            [`&#x25AB`]: `White Small Square`,
+            [`&#x25FB`]: `White Medium Square`,
+            [`&#x25FC`]: `Black Medium Square`,
+            [`&#x25FD`]: `White Medium-Small Square`,
+            [`&#x25FE`]: `Black Medium-Small Square`,
+            [`&#x2B1B`]: `Black Large Square`,
+            [`&#x2B1C`]: `White Large Square`,
+            [`&#x1F536`]: `Large Orange Diamond`,
+            [`&#x1F537`]: `Large Blue Diamond`,
+            [`&#x1F538`]: `Small Orange Diamond`,
+            [`&#x1F539`]: `Small Blue Diamond`,
+            [`&#x1F53A`]: `Red Triangle Pointed Up`,
+            [`&#x1F53B`]: `Red Triangle Pointed Down`,
+            [`&#x1F4A0`]: `Diamond With A Dot`,
+            [`&#x1F518`]: `Radio Button`,
+            [`&#x1F532`]: `Black Square Button`,
+            [`&#x1F533`]: `White Square Button`,
+            [`&#x26AA`]: `White Circle`,
+            [`&#x26AB`]: `Black Circle`,
+            [`&#x1F534`]: `Red Circle`,
+            [`&#x1F535`]: `Blue Circle`,
+            [`&#x1F3C1`]: `Chequered Flag`,
+            [`&#x1F6A9`]: `Triangular Flag`,
+            [`&#x1F38C`]: `Crossed Flags`,
+            [`&#x1F3F4`]: `Black Flag`,
+            [`&#x1F3F3`]: `White Flag`,
+            [`&#x1F3F3&#xFE0F&#x200D&#x1F308`]: `Rainbow Flag`,
+            [`&#x1F1E6&#x1F1E8`]: `Ascension Island`,
+            [`&#x1F1E6&#x1F1E9`]: `Andorra`,
+            [`&#x1F1E6&#x1F1EA`]: `United Arab Emirates`,
+            [`&#x1F1E6&#x1F1EB`]: `Afghanistan`,
+            [`&#x1F1E6&#x1F1EC`]: `Antigua & Barbuda`,
+            [`&#x1F1E6&#x1F1EE`]: `Anguilla`,
+            [`&#x1F1E6&#x1F1F1`]: `Albania`,
+            [`&#x1F1E6&#x1F1F2`]: `Armenia`,
+            [`&#x1F1E6&#x1F1F4`]: `Angola`,
+            [`&#x1F1E6&#x1F1F6`]: `Antarctica`,
+            [`&#x1F1E6&#x1F1F7`]: `Argentina`,
+            [`&#x1F1E6&#x1F1F8`]: `American Samoa`,
+            [`&#x1F1E6&#x1F1F9`]: `Austria`,
+            [`&#x1F1E6&#x1F1FA`]: `Australia`,
+            [`&#x1F1E6&#x1F1FC`]: `Aruba`,
+            [`&#x1F1E6&#x1F1FD`]: `Åland Islands`,
+            [`&#x1F1E6&#x1F1FF`]: `Azerbaijan`,
+            [`&#x1F1E7&#x1F1E6`]: `Bosnia & Herzegovina`,
+            [`&#x1F1E7&#x1F1E7`]: `Barbados`,
+            [`&#x1F1E7&#x1F1E9`]: `Bangladesh`,
+            [`&#x1F1E7&#x1F1EA`]: `Belgium`,
+            [`&#x1F1E7&#x1F1EB`]: `Burkina Faso`,
+            [`&#x1F1E7&#x1F1EC`]: `Bulgaria`,
+            [`&#x1F1E7&#x1F1ED`]: `Bahrain`,
+            [`&#x1F1E7&#x1F1EE`]: `Burundi`,
+            [`&#x1F1E7&#x1F1EF`]: `Benin`,
+            [`&#x1F1E7&#x1F1F1`]: `St. Barthélemy`,
+            [`&#x1F1E7&#x1F1F2`]: `Bermuda`,
+            [`&#x1F1E7&#x1F1F3`]: `Brunei`,
+            [`&#x1F1E7&#x1F1F4`]: `Bolivia`,
+            [`&#x1F1E7&#x1F1F6`]: `Caribbean Netherlands`,
+            [`&#x1F1E7&#x1F1F7`]: `Brazil`,
+            [`&#x1F1E7&#x1F1F8`]: `Bahamas`,
+            [`&#x1F1E7&#x1F1F9`]: `Bhutan`,
+            [`&#x1F1E7&#x1F1FB`]: `Bouvet Island`,
+            [`&#x1F1E7&#x1F1FC`]: `Botswana`,
+            [`&#x1F1E7&#x1F1FE`]: `Belarus`,
+            [`&#x1F1E7&#x1F1FF`]: `Belize`,
+            [`&#x1F1E8&#x1F1E6`]: `Canada`,
+            [`&#x1F1E8&#x1F1E8`]: `Cocos (Keeling) Islands`,
+            [`&#x1F1E8&#x1F1E9`]: `Congo - Kinshasa`,
+            [`&#x1F1E8&#x1F1EB`]: `Central African Republic`,
+            [`&#x1F1E8&#x1F1EC`]: `Congo - Brazzaville`,
+            [`&#x1F1E8&#x1F1ED`]: `Switzerland`,
+            [`&#x1F1E8&#x1F1EE`]: `Côte D’Ivoire`,
+            [`&#x1F1E8&#x1F1F0`]: `Cook Islands`,
+            [`&#x1F1E8&#x1F1F1`]: `Chile`,
+            [`&#x1F1E8&#x1F1F2`]: `Cameroon`,
+            [`&#x1F1E8&#x1F1F3`]: `China`,
+            [`&#x1F1E8&#x1F1F4`]: `Colombia`,
+            [`&#x1F1E8&#x1F1F5`]: `Clipperton Island`,
+            [`&#x1F1E8&#x1F1F7`]: `Costa Rica`,
+            [`&#x1F1E8&#x1F1FA`]: `Cuba`,
+            [`&#x1F1E8&#x1F1FB`]: `Cape Verde`,
+            [`&#x1F1E8&#x1F1FC`]: `Curaçao`,
+            [`&#x1F1E8&#x1F1FD`]: `Christmas Island`,
+            [`&#x1F1E8&#x1F1FE`]: `Cyprus`,
+            [`&#x1F1E8&#x1F1FF`]: `Czech Republic`,
+            [`&#x1F1E9&#x1F1EA`]: `Germany`,
+            [`&#x1F1E9&#x1F1EC`]: `Diego Garcia`,
+            [`&#x1F1E9&#x1F1EF`]: `Djibouti`,
+            [`&#x1F1E9&#x1F1F0`]: `Denmark`,
+            [`&#x1F1E9&#x1F1F2`]: `Dominica`,
+            [`&#x1F1E9&#x1F1F4`]: `Dominican Republic`,
+            [`&#x1F1E9&#x1F1FF`]: `Algeria`,
+            [`&#x1F1EA&#x1F1E6`]: `Ceuta & Melilla`,
+            [`&#x1F1EA&#x1F1E8`]: `Ecuador`,
+            [`&#x1F1EA&#x1F1EA`]: `Estonia`,
+            [`&#x1F1EA&#x1F1EC`]: `Egypt`,
+            [`&#x1F1EA&#x1F1ED`]: `Western Sahara`,
+            [`&#x1F1EA&#x1F1F7`]: `Eritrea`,
+            [`&#x1F1EA&#x1F1F8`]: `Spain`,
+            [`&#x1F1EA&#x1F1F9`]: `Ethiopia`,
+            [`&#x1F1EA&#x1F1FA`]: `European Union`,
+            [`&#x1F1EB&#x1F1EE`]: `Finland`,
+            [`&#x1F1EB&#x1F1EF`]: `Fiji`,
+            [`&#x1F1EB&#x1F1F0`]: `Falkland Islands`,
+            [`&#x1F1EB&#x1F1F2`]: `Micronesia`,
+            [`&#x1F1EB&#x1F1F4`]: `Faroe Islands`,
+            [`&#x1F1EB&#x1F1F7`]: `France`,
+            [`&#x1F1EC&#x1F1E6`]: `Gabon`,
+            [`&#x1F1EC&#x1F1E7`]: `United Kingdom`,
+            [`&#x1F1EC&#x1F1E9`]: `Grenada`,
+            [`&#x1F1EC&#x1F1EA`]: `Georgia`,
+            [`&#x1F1EC&#x1F1EB`]: `French Guiana`,
+            [`&#x1F1EC&#x1F1EC`]: `Guernsey`,
+            [`&#x1F1EC&#x1F1ED`]: `Ghana`,
+            [`&#x1F1EC&#x1F1EE`]: `Gibraltar`,
+            [`&#x1F1EC&#x1F1F1`]: `Greenland`,
+            [`&#x1F1EC&#x1F1F2`]: `Gambia`,
+            [`&#x1F1EC&#x1F1F3`]: `Guinea`,
+            [`&#x1F1EC&#x1F1F5`]: `Guadeloupe`,
+            [`&#x1F1EC&#x1F1F6`]: `Equatorial Guinea`,
+            [`&#x1F1EC&#x1F1F7`]: `Greece`,
+            [`&#x1F1EC&#x1F1F8`]: `South Georgia & South Sandwich Islands`,
+            [`&#x1F1EC&#x1F1F9`]: `Guatemala`,
+            [`&#x1F1EC&#x1F1FA`]: `Guam`,
+            [`&#x1F1EC&#x1F1FC`]: `Guinea-Bissau`,
+            [`&#x1F1EC&#x1F1FE`]: `Guyana`,
+            [`&#x1F1ED&#x1F1F0`]: `Hong Kong SAR China`,
+            [`&#x1F1ED&#x1F1F2`]: `Heard & McDonald Islands`,
+            [`&#x1F1ED&#x1F1F3`]: `Honduras`,
+            [`&#x1F1ED&#x1F1F7`]: `Croatia`,
+            [`&#x1F1ED&#x1F1F9`]: `Haiti`,
+            [`&#x1F1ED&#x1F1FA`]: `Hungary`,
+            [`&#x1F1EE&#x1F1E8`]: `Canary Islands`,
+            [`&#x1F1EE&#x1F1E9`]: `Indonesia`,
+            [`&#x1F1EE&#x1F1EA`]: `Ireland`,
+            [`&#x1F1EE&#x1F1F1`]: `Israel`,
+            [`&#x1F1EE&#x1F1F2`]: `Isle Of Man`,
+            [`&#x1F1EE&#x1F1F3`]: `India`,
+            [`&#x1F1EE&#x1F1F4`]: `British Indian Ocean Territory`,
+            [`&#x1F1EE&#x1F1F6`]: `Iraq`,
+            [`&#x1F1EE&#x1F1F7`]: `Iran`,
+            [`&#x1F1EE&#x1F1F8`]: `Iceland`,
+            [`&#x1F1EE&#x1F1F9`]: `Italy`,
+            [`&#x1F1EF&#x1F1EA`]: `Jersey`,
+            [`&#x1F1EF&#x1F1F2`]: `Jamaica`,
+            [`&#x1F1EF&#x1F1F4`]: `Jordan`,
+            [`&#x1F1EF&#x1F1F5`]: `Japan`,
+            [`&#x1F1F0&#x1F1EA`]: `Kenya`,
+            [`&#x1F1F0&#x1F1EC`]: `Kyrgyzstan`,
+            [`&#x1F1F0&#x1F1ED`]: `Cambodia`,
+            [`&#x1F1F0&#x1F1EE`]: `Kiribati`,
+            [`&#x1F1F0&#x1F1F2`]: `Comoros`,
+            [`&#x1F1F0&#x1F1F3`]: `St. Kitts & Nevis`,
+            [`&#x1F1F0&#x1F1F5`]: `North Korea`,
+            [`&#x1F1F0&#x1F1F7`]: `South Korea`,
+            [`&#x1F1F0&#x1F1FC`]: `Kuwait`,
+            [`&#x1F1F0&#x1F1FE`]: `Cayman Islands`,
+            [`&#x1F1F0&#x1F1FF`]: `Kazakhstan`,
+            [`&#x1F1F1&#x1F1E6`]: `Laos`,
+            [`&#x1F1F1&#x1F1E7`]: `Lebanon`,
+            [`&#x1F1F1&#x1F1E8`]: `St. Lucia`,
+            [`&#x1F1F1&#x1F1EE`]: `Liechtenstein`,
+            [`&#x1F1F1&#x1F1F0`]: `Sri Lanka`,
+            [`&#x1F1F1&#x1F1F7`]: `Liberia`,
+            [`&#x1F1F1&#x1F1F8`]: `Lesotho`,
+            [`&#x1F1F1&#x1F1F9`]: `Lithuania`,
+            [`&#x1F1F1&#x1F1FA`]: `Luxembourg`,
+            [`&#x1F1F1&#x1F1FB`]: `Latvia`,
+            [`&#x1F1F1&#x1F1FE`]: `Libya`,
+            [`&#x1F1F2&#x1F1E6`]: `Morocco`,
+            [`&#x1F1F2&#x1F1E8`]: `Monaco`,
+            [`&#x1F1F2&#x1F1E9`]: `Moldova`,
+            [`&#x1F1F2&#x1F1EA`]: `Montenegro`,
+            [`&#x1F1F2&#x1F1EB`]: `St. Martin`,
+            [`&#x1F1F2&#x1F1EC`]: `Madagascar`,
+            [`&#x1F1F2&#x1F1ED`]: `Marshall Islands`,
+            [`&#x1F1F2&#x1F1F0`]: `Macedonia`,
+            [`&#x1F1F2&#x1F1F1`]: `Mali`,
+            [`&#x1F1F2&#x1F1F2`]: `Myanmar (Burma)`,
+            [`&#x1F1F2&#x1F1F3`]: `Mongolia`,
+            [`&#x1F1F2&#x1F1F4`]: `Macau SAR China`,
+            [`&#x1F1F2&#x1F1F5`]: `Northern Mariana Islands`,
+            [`&#x1F1F2&#x1F1F6`]: `Martinique`,
+            [`&#x1F1F2&#x1F1F7`]: `Mauritania`,
+            [`&#x1F1F2&#x1F1F8`]: `Montserrat`,
+            [`&#x1F1F2&#x1F1F9`]: `Malta`,
+            [`&#x1F1F2&#x1F1FA`]: `Mauritius`,
+            [`&#x1F1F2&#x1F1FB`]: `Maldives`,
+            [`&#x1F1F2&#x1F1FC`]: `Malawi`,
+            [`&#x1F1F2&#x1F1FD`]: `Mexico`,
+            [`&#x1F1F2&#x1F1FE`]: `Malaysia`,
+            [`&#x1F1F2&#x1F1FF`]: `Mozambique`,
+            [`&#x1F1F3&#x1F1E6`]: `Namibia`,
+            [`&#x1F1F3&#x1F1E8`]: `New Caledonia`,
+            [`&#x1F1F3&#x1F1EA`]: `Niger`,
+            [`&#x1F1F3&#x1F1EB`]: `Norfolk Island`,
+            [`&#x1F1F3&#x1F1EC`]: `Nigeria`,
+            [`&#x1F1F3&#x1F1EE`]: `Nicaragua`,
+            [`&#x1F1F3&#x1F1F1`]: `Netherlands`,
+            [`&#x1F1F3&#x1F1F4`]: `Norway`,
+            [`&#x1F1F3&#x1F1F5`]: `Nepal`,
+            [`&#x1F1F3&#x1F1F7`]: `Nauru`,
+            [`&#x1F1F3&#x1F1FA`]: `Niue`,
+            [`&#x1F1F3&#x1F1FF`]: `New Zealand`,
+            [`&#x1F1F4&#x1F1F2`]: `Oman`,
+            [`&#x1F1F5&#x1F1E6`]: `Panama`,
+            [`&#x1F1F5&#x1F1EA`]: `Peru`,
+            [`&#x1F1F5&#x1F1EB`]: `French Polynesia`,
+            [`&#x1F1F5&#x1F1EC`]: `Papua New Guinea`,
+            [`&#x1F1F5&#x1F1ED`]: `Philippines`,
+            [`&#x1F1F5&#x1F1F0`]: `Pakistan`,
+            [`&#x1F1F5&#x1F1F1`]: `Poland`,
+            [`&#x1F1F5&#x1F1F2`]: `St. Pierre & Miquelon`,
+            [`&#x1F1F5&#x1F1F3`]: `Pitcairn Islands`,
+            [`&#x1F1F5&#x1F1F7`]: `Puerto Rico`,
+            [`&#x1F1F5&#x1F1F8`]: `Palestinian Territories`,
+            [`&#x1F1F5&#x1F1F9`]: `Portugal`,
+            [`&#x1F1F5&#x1F1FC`]: `Palau`,
+            [`&#x1F1F5&#x1F1FE`]: `Paraguay`,
+            [`&#x1F1F6&#x1F1E6`]: `Qatar`,
+            [`&#x1F1F7&#x1F1EA`]: `Réunion`,
+            [`&#x1F1F7&#x1F1F4`]: `Romania`,
+            [`&#x1F1F7&#x1F1F8`]: `Serbia`,
+            [`&#x1F1F7&#x1F1FA`]: `Russia`,
+            [`&#x1F1F7&#x1F1FC`]: `Rwanda`,
+            [`&#x1F1F8&#x1F1E6`]: `Saudi Arabia`,
+            [`&#x1F1F8&#x1F1E7`]: `Solomon Islands`,
+            [`&#x1F1F8&#x1F1E8`]: `Seychelles`,
+            [`&#x1F1F8&#x1F1E9`]: `Sudan`,
+            [`&#x1F1F8&#x1F1EA`]: `Sweden`,
+            [`&#x1F1F8&#x1F1EC`]: `Singapore`,
+            [`&#x1F1F8&#x1F1ED`]: `St. Helena`,
+            [`&#x1F1F8&#x1F1EE`]: `Slovenia`,
+            [`&#x1F1F8&#x1F1EF`]: `Svalbard & Jan Mayen`,
+            [`&#x1F1F8&#x1F1F0`]: `Slovakia`,
+            [`&#x1F1F8&#x1F1F1`]: `Sierra Leone`,
+            [`&#x1F1F8&#x1F1F2`]: `San Marino`,
+            [`&#x1F1F8&#x1F1F3`]: `Senegal`,
+            [`&#x1F1F8&#x1F1F4`]: `Somalia`,
+            [`&#x1F1F8&#x1F1F7`]: `Suriname`,
+            [`&#x1F1F8&#x1F1F8`]: `South Sudan`,
+            [`&#x1F1F8&#x1F1F9`]: `São Tomé & Príncipe`,
+            [`&#x1F1F8&#x1F1FB`]: `El Salvador`,
+            [`&#x1F1F8&#x1F1FD`]: `Sint Maarten`,
+            [`&#x1F1F8&#x1F1FE`]: `Syria`,
+            [`&#x1F1F8&#x1F1FF`]: `Swaziland`,
+            [`&#x1F1F9&#x1F1E6`]: `Tristan Da Cunha`,
+            [`&#x1F1F9&#x1F1E8`]: `Turks & Caicos Islands`,
+            [`&#x1F1F9&#x1F1E9`]: `Chad`,
+            [`&#x1F1F9&#x1F1EB`]: `French Southern Territories`,
+            [`&#x1F1F9&#x1F1EC`]: `Togo`,
+            [`&#x1F1F9&#x1F1ED`]: `Thailand`,
+            [`&#x1F1F9&#x1F1EF`]: `Tajikistan`,
+            [`&#x1F1F9&#x1F1F0`]: `Tokelau`,
+            [`&#x1F1F9&#x1F1F1`]: `Timor-Leste`,
+            [`&#x1F1F9&#x1F1F2`]: `Turkmenistan`,
+            [`&#x1F1F9&#x1F1F3`]: `Tunisia`,
+            [`&#x1F1F9&#x1F1F4`]: `Tonga`,
+            [`&#x1F1F9&#x1F1F7`]: `Turkey`,
+            [`&#x1F1F9&#x1F1F9`]: `Trinidad & Tobago`,
+            [`&#x1F1F9&#x1F1FB`]: `Tuvalu`,
+            [`&#x1F1F9&#x1F1FC`]: `Taiwan`,
+            [`&#x1F1F9&#x1F1FF`]: `Tanzania`,
+            [`&#x1F1FA&#x1F1E6`]: `Ukraine`,
+            [`&#x1F1FA&#x1F1EC`]: `Uganda`,
+            [`&#x1F1FA&#x1F1F2`]: `U.S. Outlying Islands`,
+            [`&#x1F1FA&#x1F1F3`]: `United Nations`,
+            [`&#x1F1FA&#x1F1F8`]: `United States`,
+            [`&#x1F1FA&#x1F1FE`]: `Uruguay`,
+            [`&#x1F1FA&#x1F1FF`]: `Uzbekistan`,
+            [`&#x1F1FB&#x1F1E6`]: `Vatican City`,
+            [`&#x1F1FB&#x1F1E8`]: `St. Vincent & Grenadines`,
+            [`&#x1F1FB&#x1F1EA`]: `Venezuela`,
+            [`&#x1F1FB&#x1F1EC`]: `British Virgin Islands`,
+            [`&#x1F1FB&#x1F1EE`]: `U.S. Virgin Islands`,
+            [`&#x1F1FB&#x1F1F3`]: `Vietnam`,
+            [`&#x1F1FB&#x1F1FA`]: `Vanuatu`,
+            [`&#x1F1FC&#x1F1EB`]: `Wallis & Futuna`,
+            [`&#x1F1FC&#x1F1F8`]: `Samoa`,
+            [`&#x1F1FD&#x1F1F0`]: `Kosovo`,
+            [`&#x1F1FE&#x1F1EA`]: `Yemen`,
+            [`&#x1F1FE&#x1F1F9`]: `Mayotte`,
+            [`&#x1F1FF&#x1F1E6`]: `South Africa`,
+            [`&#x1F1FF&#x1F1F2`]: `Zambia`
+        };
     }
     async init() {
         if (document.getElementById(`esgst`)) {
@@ -87,6 +2505,9 @@ class ESGST {
         esgst = {
             parameters: getParameters(),
             defaultValues: {
+                chfl_key: `ctrlKey + e`,
+                getSyncGameNames_sg: false,
+                getSyncGameNames_st: false,
                 sgDarkGrey_startTime: `00:00`,
                 sgDarkGrey_endTime: `23:59`,
                 sgv2Dark_startTime: `00:00`,
@@ -152,7 +2573,8 @@ class ESGST {
                     `new`,
                     {color: `grey`, description: `Check a user's real CV.`, icon: `fa-dollar`, id: `real-cv`, name: `Real CV`, url: `https://www.sgtools.info/real-cv`},
                     {color: `red`, description: `Check if a user has not activated wins.`, icon: `fa-exchange`, id: `activation`, name: `Not Activated Wins`, url: `https://www.sgtools.info/activation`},
-                    {color: `red`, description: `Check if a user has multiple wins.`, icon: `fa-clone`, id: `multiple-wins`, name: `Multiple Wins`, url: `https://www.sgtools.info/multiple-wins`}
+                    {color: `red`, description: `Check if a user has multiple wins.`, icon: `fa-clone`, id: `multiple-wins`, name: `Multiple Wins`, url: `https://www.sgtools.info/multiple-wins`},
+                    {color: `grey`, description: `Check the last bundled games.`, icon: `fa-percent`, id: `lastbundled`, name: `Last Bundled`, url: `https://www.sgtools.info/lastbundled`}
                 ],
                 chfl_help_sg: [
                     `comment-formatting`,
@@ -310,9 +2732,9 @@ class ESGST {
                 gas_autoPopup: false,
                 gas_optionPopup: `sortIndex_asc`,
                 gb_hours: 1,
-                gc_categories: [`gc_gi`, `gc_r`, `gc_fcv`, `gc_rcv`, `gc_ncv`, `gc_h`, `gc_i`, `gc_o`, `gc_w`, `gc_a`, `gc_mp`, `gc_sc`, `gc_tc`, `gc_l`, `gc_m`, `gc_ea`, `gc_rm`, `gc_dlc`, `gc_p`, `gc_rd`, `gc_g`],
+                gc_categories: [`gc_gi`, `gc_r`, `gc_fcv`, `gc_rcv`, `gc_ncv`, `gc_h`, `gc_i`, `gc_o`, `gc_w`, `gc_pw`, `gc_a`, `gc_mp`, `gc_sc`, `gc_tc`, `gc_l`, `gc_m`, `gc_ea`, `gc_rm`, `gc_dlc`, `gc_p`, `gc_rd`, `gc_g`],
                 gc_indexes: {},
-                gc_categories_gv: [`gc_gi`, `gc_r`, `gc_fcv`, `gc_rcv`, `gc_ncv`, `gc_h`, `gc_i`, `gc_o`, `gc_w`, `gc_a`, `gc_mp`, `gc_sc`, `gc_tc`, `gc_l`, `gc_m`, `gc_ea`, `gc_rm`, `gc_dlc`, `gc_p`, `gc_rd`, `gc_g`],
+                gc_categories_gv: [`gc_gi`, `gc_r`, `gc_fcv`, `gc_rcv`, `gc_ncv`, `gc_h`, `gc_i`, `gc_o`, `gc_w`, `gc_pw`, `gc_a`, `gc_mp`, `gc_sc`, `gc_tc`, `gc_l`, `gc_m`, `gc_ea`, `gc_rm`, `gc_dlc`, `gc_p`, `gc_rd`, `gc_g`],
                 gc_indexes_gv: {},
                 gc_o_altAccounts: [],
                 gc_g_colors: [],
@@ -329,6 +2751,7 @@ class ESGST {
                 gc_iIcon: `ban`,
                 gc_oIcon: `folder`,
                 gc_wIcon: `heart`,
+                gc_pwIcon: `gift`,
                 gc_aIcon: `trophy`,
                 gc_mpIcon: `users`,
                 gc_scIcon: `cloud`,
@@ -347,6 +2770,7 @@ class ESGST {
                 gc_iLabel: `Ignored`,
                 gc_oLabel: `Owned`,
                 gc_wLabel: `Wishlisted`,
+                gc_pwLabel: `Previously Won`,
                 gc_aLabel: `Achievements`,
                 gc_mpLabel: `Multiplayer`,
                 gc_scLabel: `Steam Cloud`,
@@ -365,6 +2789,7 @@ class ESGST {
                 gc_ncv_color: `#ffffff`,
                 gc_w_color: `#ffffff`,
                 gc_o_color: `#ffffff`,
+                gc_pw_color: `#ffffff`,
                 gc_i_color: `#ffffff`,
                 gc_rm_color: `#ffffff`,
                 gc_ea_color: `#ffffff`,
@@ -385,6 +2810,7 @@ class ESGST {
                 gc_ncv_bgColor: `#641e16`,
                 gc_o_bgColor: `#16a085`,
                 gc_w_bgColor: `#3498db`,
+                gc_pw_bgColor: `#16a085`,
                 gc_i_bgColor: `#e74c3c`,
                 gc_rm_bgColor: `#e74c3c`,
                 gc_ea_bgColor: `#3498db`,
@@ -551,8 +2977,8 @@ class ESGST {
             markdownParser: new Parsedown(),
             sg: location.hostname.match(/www.steamgifts.com/),
             st: location.hostname.match(/www.steamtrades.com/),
-            currentVersion: `7.18.3`,
-            devVersion: `7.18.3`,
+            currentVersion: `7.19.0`,
+            devVersion: `7.19.0`,
             icon: `data:image/x-icon;base64,AAABAAEAEBAAAAEAIABoBAAAFgAAACgAAAAQAAAAIAAAAAEAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAqv8DCbP/Hgeq+CQIrf8iCK3/Igit/yIIrf8iB6//Iwit9x8Aqv8DAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAKr0GAa2/c0DvfzfA7f83QO3/N0Dt/zdA7f83QO+/d4Gs/3OAKP1GQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACm/xQFs/n2Bcf//wW///8FwP//BcD//wW///8Fx///BbP69gC2/xUAAAAAAAAAAAAAAAAA/1UDFptOFxSZMxkLpJktAq720QW1+ugEsfvjA7b92wO2/dsEsfvjBbX66Aau/dEoiO4tUlLWGU5k3hdVVf8DEJxKHxWqT8cVrU7uE6VN0guqny0Apv8XAJfQGwBAVywAQFcsAJfQGwCx/xcogugtS2Lk0lBl6u5Qae7ISmPeHxagSSMVr07jF7lV/xOiSu0brgATAAAAAAAAAA8AAAC/AAAAwAAAABAAAAAAYznjEkth4OxWb/3/T2jv40lf4iMXnksiEq1O3RayUv8UpEnkEo0+HQAAABkAAABBAAAA8QAAAPEAAABBAAAAGUBSvxxOYeDjU2v0/05m7d1LYuEiF55LIhKtTt0Ws1L/FahN2gU1FTAAAADAAAAA7AAAAP0AAAD9AAAA7AAAAMAVG0owUGPm2lNr9P9OZu3dS2LhIheeSyISrU7dFrNS/xWoTdoFNRswAAAAvwAAAOsAAAD9AAAA/QAAAOsAAADAFRtKMFBj6NpTa/T/Tmbt3Uti4SIXnksiEq1O3RayUv8UpEnkEo0+HQAAABgAAABAAAAA8QAAAPEAAABBAAAAGT5PuR1OYeDjU2v0/05m7d1LYuEiFqBJIxWuT+QXuVX/E6JL7QC8XhMAAAAAAAAADwAAAL8AAAC/AAAAEAAAAAAOR/8SSWLh7FZv/f9PaO/jSV/iIxCUSh8Vrk7HFqxN7ROlS9JskzMt1XULGK12EhxGLgYsRy8GK612EhzVgAsYgmxxLU1i39JNZ+vtT2fwx0pj1h8AqlUDF65GFgqZUhlsiC0txH0T0s5/EujJgBPkz4QR28+EEdvJgBPkzn8Q6Md+E9KLdHosM1LWGUZo6BZVVf8DAAAAAAAAAAAAAAAA/2YAFMl9EvbgjRb/14gV/9eIFf/XiBX/14gV/9+NFv/KgBD254YAFQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAL91FRjKgRHN1IgU3s+EEt3PhBLdz4QS3c+EEt3UiBTezYMRzcJ6FBkAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACqqgADxIARHr18FiO8eA8ivHgPIrx4DyK8eA8ivXwPI8SAER7/VQADAAAAAAAAAAAAAAAA78cAAPA3AAD4FwAABCAAADGOAAAE+AAAkBEAAJ55AACYOQAAlgEAAER4AAAXaAAATnoAAPgXAAD0JwAA69cAAA==`,
             sgIcon: `data:image/x-icon;base64,AAABAAEAEBAAAAEAIABoBAAAFgAAACgAAAAQAAAAIAAAAAEAIAAAAAAAQAQAABMLAAATCwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIUAAAD5AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAPoAAACFAAAAAAAAAAAAAAD8AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA+QAAAAAAAAAAAAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAAAAAAAAAAAAP8AAAD/AAAA/wAAABwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAcAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAcAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAHAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAAAAAAAAAAAAPwAAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD5AAAAAAAAAAAAAACFAAAA+QAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD5AAAAhQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA//8AAP//AADAAwAAwAMAAMfjAADP8wAAz/MAAM/zAADP8wAAz/MAAM/zAADH4wAAwAMAAMADAAD//wAA//8AAA==`,
             stIcon: `data:image/x-icon;base64,AAABAAEAEBAAAAEAIABoBAAAFgAAACgAAAAQAAAAIAAAAAEAIAAAAAAAQAQAABMLAAATCwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABbD6SgWw+ucFsPrkBbD6SgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAWw+uYFsPr/BbD6/wWw+ucAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAFsPrmBbD6/wWw+v8FsPrmAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABbD6SQWw+uYFsPrmBbD6SQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAFKRLShSkS+cUpEvkFKRLSgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAExi4EpMYuDnTGLg5Exi4EoAAAAAAAAAABSkS+YUpEv/FKRL/xSkS+cAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABMYuDmTGLg/0xi4P9MYuDnAAAAAAAAAAAUpEvmFKRL/xSkS/8UpEvmAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAATGLg5kxi4P9MYuD/TGLg5gAAAAAAAAAAFKRLSRSkS+YUpEvmFKRLSQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAExi4ElMYuDmTGLg5kxi4EkAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAMZ9E0rGfRPnxn0T5MZ9E0oAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADGfRPmxn0T/8Z9E//GfRPnAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAxn0T5sZ9E//GfRP/xn0T5gAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAMZ9E0nGfRPmxn0T5sZ9E0kAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA//8AAPw/AAD8PwAA/D8AAPw/AAD//wAAh+EAAIfhAACH4QAAh+EAAP//AAD8PwAA/D8AAPw/AAD8PwAA//8AAA==`,
@@ -740,6 +3166,8 @@ class ESGST {
                     } else {
                         browser.runtime.sendMessage({
                             action: `fetch`,
+                            blob: details.blob,
+                            fileName: details.fileName,
                             manipulateCookies: _USER_INFO.extension === `firefox` && esgst.manipulateCookies,
                             parameters: JSON.stringify({
                                 body: details.data,
@@ -959,11 +3387,18 @@ class ESGST {
                         }
                     } else {
                         gm.xmlHttpRequest({
-                            data: details.data,
+                            binary: details.fileName ? true : false,
+                            data: details.fileName
+                                ? await this.getZip(details.data, details.fileName, `binarystring`)
+                                : details.data,
                             headers: details.headers,
                             method: details.method,
+                            overrideMimeType: details.blob ? `text/plain; charset=x-user-defined` : ``,
                             url: details.url,
-                            onload: response => {
+                            onload: async response => {
+                                if (details.blob) {
+                                    response.responseText = (await this.readZip(response.responseText))[0].value;
+                                }
                                 resolve(response);
                                 if (response.finalUrl.match(/www.steamgifts.com/)) {
                                     this.lookForPopups(response);
@@ -1110,8 +3545,15 @@ class ESGST {
             toSet[`${esgst.name}RfiCache`] = getLocalValue(`replies`, `{}`);
             delLocalValue(`replies`);
         }
-        if (!isSet(esgst.storage.emojis)) {
-            toSet.emojis = isSet(esgst.storage.Emojis) ? esgst.storage.Emojis : ``;
+        if (isSet(esgst.storage.emojis)) {
+            const fixed = fixEmojis(esgst.storage.emojis);
+            if (esgst.storage.emojis !== fixed) {
+                toSet.emojis = fixed;
+            } else if (!esgst.storage.emojis) {
+                toSet.emojis = `[]`;
+            }
+        } else {
+            toSet.emojis = isSet(esgst.storage.Emojis) ? fixEmojis(esgst.storage.Emojis) : `[]`;
             toDelete.push(`Emojis`);
         }
         if (esgst.sg) {
@@ -1387,6 +3829,7 @@ class ESGST {
                                 <li>You can move the custom links by dragging and dropping them.</li>
                             </ul>
                         `,
+                        inputItems: `chfl_key`,
                         name: `Custom Header/Footer Links`,
                         sg: true,
                         st: true
@@ -4468,6 +6911,17 @@ class ESGST {
                         name: `Username History`,
                         sg: true
                     },
+                    vrcv: {
+                        description: `
+                            <ul>
+                                <li>Displays the real sent/won CV next to the raw value in a user's <a href="https://www.steamgifts.com/user/cg">profile</a> page.</li>
+                                <li>This also extends to [id=swr], if you have that feature enabled.</li>
+                                <li>With this feature disabled, you can still view the real CV, as provided by SteamGifts, by hovering over the raw value.</li>
+                            </ul>
+                        `,
+                        name: `Visible Real CV`,
+                        sg: true
+                    },
                     wbc: {
                         description: `
                             <ul>
@@ -5070,6 +7524,39 @@ class ESGST {
                                 name: `Package`,
                                 sg: true
                             },
+                            gc_pw: {
+                                colors: true,
+                                description: `
+                                    <ul>
+                                        <li>Shows if you have previously won the game.</li>
+                                    </ul>
+                                `,
+                                features: {
+                                    gc_pw_o: {
+                                        name: `Do not show if the game already has the Owned category.`,
+                                        sg: true
+                                    },
+                                    gc_pw_s: {
+                                        description: `
+                                            <ul>
+                                                <li>Shows the category initials instead of its full name.</li>
+                                                <li>Not compatible with custom labels.</li>
+                                            </ul>
+                                        `,
+                                        features: {
+                                            gc_pw_s_i: {
+                                                name: `Use icons instead of initials.`,
+                                                sg: true
+                                            }
+                                        },
+                                        name: `Enable the simplified version.`,
+                                        sg: true
+                                    }
+                                },
+                                input: true,
+                                name: `Previously Won`,
+                                sg: true
+                            },
                             gc_r: {
                                 description: `
                                     <ul>
@@ -5534,6 +8021,17 @@ class ESGST {
                         sg: true,
                         st: true
                     },
+                    getSyncGameNames: {
+                        description: `
+                            <ul>
+                                <li>With this disabled, only the app/sub ids of the games will appear.</li>
+                                <li>This can lead to lots of requests to the Steam store, so only enable it if you truly need to see the names of the games that were added/removed.</li>
+                            </ul>
+                        `,
+                        name: `Retrieve game names when syncing.`,
+                        sg: true,
+                        st: true
+                    },
                     openSettingsInTab: {
                         name: `Open settings menu in a separate tab.`,
                         sg: true,
@@ -5637,6 +8135,16 @@ class ESGST {
         if (esgst.gc_categories.indexOf(`gc_rd`) < 0) {
             esgst.gc_categories.push(`gc_rd`);
             esgst.settings.gc_categories = esgst.gc_categories;
+            esgst.settingsChanged = true;
+        }
+        if (esgst.gc_categories.indexOf(`gc_pw`) < 0) {
+            esgst.gc_categories.push(`gc_pw`);
+            esgst.settings.gc_categories = esgst.gc_categories;
+            esgst.settingsChanged = true;
+        }
+        if (esgst.gc_categories_gv.indexOf(`gc_pw`) < 0) {
+            esgst.gc_categories_gv.push(`gc_pw`);
+            esgst.settings.gc_categories_gv = esgst.gc_categories_gv;
             esgst.settingsChanged = true;
         }
         [`gc_categories`, `gc_categories_gv`].forEach(key => {
@@ -5776,8 +8284,8 @@ class ESGST {
             esgst.lastPage = this.lpl_getLastPage(document, true);
             if (esgst.menuPath) {
                 document.head.insertAdjacentHTML(`beforeEnd`, `
-                    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.min.css">
-                    <link rel="stylesheet" type="text/css" href="https://cdn.steamgifts.com/css/minified_v32.css">
+                    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+                    <link rel="stylesheet" type="text/css" href="https://cdn.steamgifts.com/css/minified_v33.css">
                 `);
             }
             await this.getElements();
@@ -7545,10 +10053,11 @@ class ESGST {
                 setPopout: async popout => {
                     let emojis, popup;
                     popout.popout.innerHTML = `
-                        <div class="esgst-cfh-emojis">${await this.getValue(`emojis`, ``)}</div>
+                        <div class="esgst-cfh-emojis">${await this.cfh_getEmojis()}</div>
                         <div class="form__saving-button btn_action white">Select Emojis</div>
                     `;
                     emojis = popout.popout.firstElementChild;
+                    this.draggable_set({context: emojis, id: `emojis`});
                     this.cfh_setEmojis(emojis);
                     emojis.nextElementSibling.addEventListener(`click`, async () => {
                         if (popup) {
@@ -7561,2432 +10070,34 @@ class ESGST {
                             filter = popup.getScrollable(`
                                 <input placeholder="Filter emojis..." type="text"/>
                                 <div class="esgst-cfh-emojis"></div>
-                                <div class="esgst-description">Drag the emojis you want to use and drop them in the box below. Click on an emoji to remove it.</div>
-                                <div class="global__image-outer-wrap page_heading_btn esgst-cfh-emojis">${await this.getValue(`emojis`, ``)}</div>
+                                <div class="esgst-description">Simply click on an emoji above to add it to your selection. You can re-order emojis in your selection by dragging and dropping them. To remove an emoji from your selection, start dragging it and a trash area will appear, then drop it there.</div>
+                                <div class="global__image-outer-wrap page_heading_btn esgst-cfh-emojis">${await this.cfh_getEmojis()}</div>
                             `).firstElementChild;
                             emojis = filter.nextElementSibling;
-                            [
-                                {emoji: `&#xAF;&#92;&#92;&#92;&#95;&#40;&#x30C4;&#41;&#95;&#47;&#xAF;`, name: ``},
-                                {emoji: `&#40; &#x361;&#xB0; &#x35C;&#x296; &#x361;&#xB0;&#41;`, name: ``},
-                                {emoji: `&#40; &#x361;&#x2299; &#x35C;&#x296; &#x361;&#x2299;&#41;`, name: ``},
-                                {emoji: `&#40;&#x30CE;&#xCA0;&#x76CA;&#xCA0;&#41;&#x30CE;`, name: ``},
-                                {emoji: `&#40;&#x256F;&#xB0;&#x25A1;&#xB0;&#xFF09;&#x256F;&#xFE35; &#x253B;&#x2501;&#x253B;`, name: ``},
-                                {emoji: `&#x252C;&#x2500;&#x252C;&#x30CE;&#40; &#xBA; &#95; &#xBA;&#x30CE;&#41;`, name: ``},
-                                {emoji: `&#x10DA;&#40;&#xCA0;&#x76CA;&#xCA0;&#x10DA;&#41;`, name: ``},
-                                {emoji: `&#40;&#x25D5;&#x203F;-&#41;&#x270C;`, name: ``},
-                                {emoji: `&#40;&#xFF61;&#x25D5;&#x203F;&#x25D5;&#xFF61;&#41;`, name: ``},
-                                {emoji: `&#40;&#x25D1;&#x203F;&#x25D0;&#41;`, name: ``},
-                                {emoji: `&#x25D4;&#95;&#x25D4;`, name: ``},
-                                {emoji: `&#40;&#x2022;&#x203F;&#x2022;&#41;`, name: ``},
-                                {emoji: `&#40;&#xCA0;&#95;&#xCA0;&#41;`, name: ``},
-                                {emoji: `&#40;&#xAC;&#xFF64;&#xAC;&#41;`, name: ``},
-                                {emoji: `&#40;&#x2500;&#x203F;&#x203F;&#x2500;&#41;`, name: ``},
-                                {emoji: `&#40;&#xCA5;&#xFE4F;&#xCA5;&#41;`, name: ``},
-                                {emoji: `&#40;&#xCA5;&#x2038;&#xCA5;&#41;`, name: ``},
-                                {emoji: `&#40;&#x2310;&#x25A0;&#95;&#x25A0;&#41;`, name: ``},
-                                {emoji: `&#40;&#x25B0;&#x2D8;&#x25E1;&#x2D8;&#x25B0;&#41;`, name: ``},
-                                {emoji: `&#x4E41;&#40; &#x25D4; &#xC6A;&#x25D4;&#41;&#x310F;`, name: ``},
-                                {emoji: `&#40;&#xE07; &#x360;&#xB0; &#x35F;&#x296; &#x361;&#xB0;&#41;&#xE07;`, name: ``},
-                                {emoji: `&#x3B6;&#xF3C;&#x19F;&#x346;&#x644;&#x35C;&#x19F;&#x346;&#xF3D;&#x1D98;`, name: ``},
-                                {emoji: `&#x295;&#x2022;&#x1D25;&#x2022;&#x294;`, name: ``},
-                                {emoji: `&#40; &#x35D;&#xB0; &#x35C;&#x296;&#x361;&#xB0;&#41;`, name: ``},
-                                {emoji: `&#40;&#47;&#xFF9F;&#x414;&#xFF9F;&#41;&#47;`, name: ``},
-                                {emoji: `&#xB67;&#xF3C;&#xCA0;&#x76CA;&#xCA0;&#xF3D;&#xB68;`, name: ``},
-                                {emoji: `&#40;&#xE07; &#x2022;&#x300;&#95;&#x2022;&#x301;&#41;&#xE07;`, name: ``},
-                                {emoji: `&#x1F600`, name: `Grinning Face`},
-                                {emoji: `&#x1F601`, name: `Grinning Face With Smiling Eyes`},
-                                {emoji: `&#x1F602`, name: `Face With Tears Of Joy`},
-                                {emoji: `&#x1F923`, name: `Rolling On The Floor Laughing`},
-                                {emoji: `&#x1F603`, name: `Smiling Face With Open Mouth`},
-                                {emoji: `&#x1F604`, name: `Smiling Face With Open Mouth & Smiling Eyes`},
-                                {emoji: `&#x1F605`, name: `Smiling Face With Open Mouth & Cold Sweat`},
-                                {emoji: `&#x1F606`, name: `Smiling Face With Open Mouth & Closed Eyes`},
-                                {emoji: `&#x1F609`, name: `Winking Face`},
-                                {emoji: `&#x1F60A`, name: `Smiling Face With Smiling Eyes`},
-                                {emoji: `&#x1F60B`, name: `Face Savouring Delicious Food`},
-                                {emoji: `&#x1F60E`, name: `Smiling Face With Sunglasses`},
-                                {emoji: `&#x1F60D`, name: `Smiling Face With Heart-Eyes`},
-                                {emoji: `&#x1F618`, name: `Face Blowing A Kiss`},
-                                {emoji: `&#x1F617`, name: `Kissing Face`},
-                                {emoji: `&#x1F619`, name: `Kissing Face With Smiling Eyes`},
-                                {emoji: `&#x1F61A`, name: `Kissing Face With Closed Eyes`},
-                                {emoji: `&#x263A`, name: `Smiling Face`},
-                                {emoji: `&#x1F642`, name: `Slightly Smiling Face`},
-                                {emoji: `&#x1F917`, name: `Hugging Face`},
-                                {emoji: `&#x1F914`, name: `Thinking Face`},
-                                {emoji: `&#x1F610`, name: `Neutral Face`},
-                                {emoji: `&#x1F611`, name: `Expressionless Face`},
-                                {emoji: `&#x1F636`, name: `Face Without Mouth`},
-                                {emoji: `&#x1F644`, name: `Face With Rolling Eyes`},
-                                {emoji: `&#x1F60F`, name: `Smirking Face`},
-                                {emoji: `&#x1F623`, name: `Persevering Face`},
-                                {emoji: `&#x1F625`, name: `Disappointed But Relieved Face`},
-                                {emoji: `&#x1F62E`, name: `Face With Open Mouth`},
-                                {emoji: `&#x1F910`, name: `Zipper-Mouth Face`},
-                                {emoji: `&#x1F62F`, name: `Hushed Face`},
-                                {emoji: `&#x1F62A`, name: `Sleepy Face`},
-                                {emoji: `&#x1F62B`, name: `Tired Face`},
-                                {emoji: `&#x1F634`, name: `Sleeping Face`},
-                                {emoji: `&#x1F60C`, name: `Relieved Face`},
-                                {emoji: `&#x1F913`, name: `Nerd Face`},
-                                {emoji: `&#x1F61B`, name: `Face With Stuck-Out Tongue`},
-                                {emoji: `&#x1F61C`, name: `Face With Stuck-Out Tongue & Winking Eye`},
-                                {emoji: `&#x1F61D`, name: `Face With Stuck-Out Tongue & Closed Eyes`},
-                                {emoji: `&#x1F924`, name: `Drooling Face`},
-                                {emoji: `&#x1F612`, name: `Unamused Face`},
-                                {emoji: `&#x1F613`, name: `Face With Cold Sweat`},
-                                {emoji: `&#x1F614`, name: `Pensive Face`},
-                                {emoji: `&#x1F615`, name: `Confused Face`},
-                                {emoji: `&#x1F643`, name: `Upside-Down Face`},
-                                {emoji: `&#x1F911`, name: `Money-Mouth Face`},
-                                {emoji: `&#x1F632`, name: `Astonished Face`},
-                                {emoji: `&#x2639`, name: `Frowning Face`},
-                                {emoji: `&#x1F641`, name: `Slightly Frowning Face`},
-                                {emoji: `&#x1F616`, name: `Confounded Face`},
-                                {emoji: `&#x1F61E`, name: `Disappointed Face`},
-                                {emoji: `&#x1F61F`, name: `Worried Face`},
-                                {emoji: `&#x1F624`, name: `Face With Steam From Nose`},
-                                {emoji: `&#x1F622`, name: `Crying Face`},
-                                {emoji: `&#x1F62D`, name: `Loudly Crying Face`},
-                                {emoji: `&#x1F626`, name: `Frowning Face With Open Mouth`},
-                                {emoji: `&#x1F627`, name: `Anguished Face`},
-                                {emoji: `&#x1F628`, name: `Fearful Face`},
-                                {emoji: `&#x1F629`, name: `Weary Face`},
-                                {emoji: `&#x1F62C`, name: `Grimacing Face`},
-                                {emoji: `&#x1F630`, name: `Face With Open Mouth & Cold Sweat`},
-                                {emoji: `&#x1F631`, name: `Face Screaming In Fear`},
-                                {emoji: `&#x1F633`, name: `Flushed Face`},
-                                {emoji: `&#x1F635`, name: `Dizzy Face`},
-                                {emoji: `&#x1F621`, name: `Pouting Face`},
-                                {emoji: `&#x1F620`, name: `Angry Face`},
-                                {emoji: `&#x1F607`, name: `Smiling Face With Halo`},
-                                {emoji: `&#x1F920`, name: `Cowboy Hat Face`},
-                                {emoji: `&#x1F921`, name: `Clown Face`},
-                                {emoji: `&#x1F925`, name: `Lying Face`},
-                                {emoji: `&#x1F637`, name: `Face With Medical Mask`},
-                                {emoji: `&#x1F912`, name: `Face With Thermometer`},
-                                {emoji: `&#x1F915`, name: `Face With Head-Bandage`},
-                                {emoji: `&#x1F922`, name: `Nauseated Face`},
-                                {emoji: `&#x1F927`, name: `Sneezing Face`},
-                                {emoji: `&#x1F608`, name: `Smiling Face With Horns`},
-                                {emoji: `&#x1F47F`, name: `Angry Face With Horns`},
-                                {emoji: `&#x1F479`, name: `Ogre`},
-                                {emoji: `&#x1F47A`, name: `Goblin`},
-                                {emoji: `&#x1F480`, name: `Skull`},
-                                {emoji: `&#x2620`, name: `Skull And Crossbones`},
-                                {emoji: `&#x1F47B`, name: `Ghost`},
-                                {emoji: `&#x1F47D`, name: `Alien`},
-                                {emoji: `&#x1F47E`, name: `Alien Monster`},
-                                {emoji: `&#x1F916`, name: `Robot Face`},
-                                {emoji: `&#x1F4A9`, name: `Pile Of Poo`},
-                                {emoji: `&#x1F63A`, name: `Smiling Cat Face With Open Mouth`},
-                                {emoji: `&#x1F638`, name: `Grinning Cat Face With Smiling Eyes`},
-                                {emoji: `&#x1F639`, name: `Cat Face With Tears Of Joy`},
-                                {emoji: `&#x1F63B`, name: `Smiling Cat Face With Heart-Eyes`},
-                                {emoji: `&#x1F63C`, name: `Cat Face With Wry Smile`},
-                                {emoji: `&#x1F63D`, name: `Kissing Cat Face With Closed Eyes`},
-                                {emoji: `&#x1F640`, name: `Weary Cat Face`},
-                                {emoji: `&#x1F63F`, name: `Crying Cat Face`},
-                                {emoji: `&#x1F63E`, name: `Pouting Cat Face`},
-                                {emoji: `&#x1F648`, name: `See-No-Evil Monkey`},
-                                {emoji: `&#x1F649`, name: `Hear-No-Evil Monkey`},
-                                {emoji: `&#x1F64A`, name: `Speak-No-Evil Monkey`},
-                                {emoji: `&#x1F466`, name: `Boy`},
-                                {emoji: `&#x1F466&#x1F3FB`, name: `Boy: Light Skin Tone`},
-                                {emoji: `&#x1F466&#x1F3FC`, name: `Boy: Medium-Light Skin Tone`},
-                                {emoji: `&#x1F466&#x1F3FD`, name: `Boy: Medium Skin Tone`},
-                                {emoji: `&#x1F466&#x1F3FE`, name: `Boy: Medium-Dark Skin Tone`},
-                                {emoji: `&#x1F466&#x1F3FF`, name: `Boy: Dark Skin Tone`},
-                                {emoji: `&#x1F467`, name: `Girl`},
-                                {emoji: `&#x1F467&#x1F3FB`, name: `Girl: Light Skin Tone`},
-                                {emoji: `&#x1F467&#x1F3FC`, name: `Girl: Medium-Light Skin Tone`},
-                                {emoji: `&#x1F467&#x1F3FD`, name: `Girl: Medium Skin Tone`},
-                                {emoji: `&#x1F467&#x1F3FE`, name: `Girl: Medium-Dark Skin Tone`},
-                                {emoji: `&#x1F467&#x1F3FF`, name: `Girl: Dark Skin Tone`},
-                                {emoji: `&#x1F468`, name: `Man`},
-                                {emoji: `&#x1F468&#x1F3FB`, name: `Man: Light Skin Tone`},
-                                {emoji: `&#x1F468&#x1F3FC`, name: `Man: Medium-Light Skin Tone`},
-                                {emoji: `&#x1F468&#x1F3FD`, name: `Man: Medium Skin Tone`},
-                                {emoji: `&#x1F468&#x1F3FE`, name: `Man: Medium-Dark Skin Tone`},
-                                {emoji: `&#x1F468&#x1F3FF`, name: `Man: Dark Skin Tone`},
-                                {emoji: `&#x1F469`, name: `Woman`},
-                                {emoji: `&#x1F469&#x1F3FB`, name: `Woman: Light Skin Tone`},
-                                {emoji: `&#x1F469&#x1F3FC`, name: `Woman: Medium-Light Skin Tone`},
-                                {emoji: `&#x1F469&#x1F3FD`, name: `Woman: Medium Skin Tone`},
-                                {emoji: `&#x1F469&#x1F3FE`, name: `Woman: Medium-Dark Skin Tone`},
-                                {emoji: `&#x1F469&#x1F3FF`, name: `Woman: Dark Skin Tone`},
-                                {emoji: `&#x1F474`, name: `Old Man`},
-                                {emoji: `&#x1F474&#x1F3FB`, name: `Old Man: Light Skin Tone`},
-                                {emoji: `&#x1F474&#x1F3FC`, name: `Old Man: Medium-Light Skin Tone`},
-                                {emoji: `&#x1F474&#x1F3FD`, name: `Old Man: Medium Skin Tone`},
-                                {emoji: `&#x1F474&#x1F3FE`, name: `Old Man: Medium-Dark Skin Tone`},
-                                {emoji: `&#x1F474&#x1F3FF`, name: `Old Man: Dark Skin Tone`},
-                                {emoji: `&#x1F475`, name: `Old Woman`},
-                                {emoji: `&#x1F475&#x1F3FB`, name: `Old Woman: Light Skin Tone`},
-                                {emoji: `&#x1F475&#x1F3FC`, name: `Old Woman: Medium-Light Skin Tone`},
-                                {emoji: `&#x1F475&#x1F3FD`, name: `Old Woman: Medium Skin Tone`},
-                                {emoji: `&#x1F475&#x1F3FE`, name: `Old Woman: Medium-Dark Skin Tone`},
-                                {emoji: `&#x1F475&#x1F3FF`, name: `Old Woman: Dark Skin Tone`},
-                                {emoji: `&#x1F476`, name: `Baby`},
-                                {emoji: `&#x1F476&#x1F3FB`, name: `Baby: Light Skin Tone`},
-                                {emoji: `&#x1F476&#x1F3FC`, name: `Baby: Medium-Light Skin Tone`},
-                                {emoji: `&#x1F476&#x1F3FD`, name: `Baby: Medium Skin Tone`},
-                                {emoji: `&#x1F476&#x1F3FE`, name: `Baby: Medium-Dark Skin Tone`},
-                                {emoji: `&#x1F476&#x1F3FF`, name: `Baby: Dark Skin Tone`},
-                                {emoji: `&#x1F47C`, name: `Baby Angel`},
-                                {emoji: `&#x1F47C&#x1F3FB`, name: `Baby Angel: Light Skin Tone`},
-                                {emoji: `&#x1F47C&#x1F3FC`, name: `Baby Angel: Medium-Light Skin Tone`},
-                                {emoji: `&#x1F47C&#x1F3FD`, name: `Baby Angel: Medium Skin Tone`},
-                                {emoji: `&#x1F47C&#x1F3FE`, name: `Baby Angel: Medium-Dark Skin Tone`},
-                                {emoji: `&#x1F47C&#x1F3FF`, name: `Baby Angel: Dark Skin Tone`},
-                                {emoji: `&#x1F468&#x200D&#x2695&#xFE0F`, name: `Man Health Worker`},
-                                {emoji: `&#x1F468&#x1F3FB&#x200D&#x2695&#xFE0F`, name: `Man Health Worker: Light Skin Tone`},
-                                {emoji: `&#x1F468&#x1F3FC&#x200D&#x2695&#xFE0F`, name: `Man Health Worker: Medium-Light Skin Tone`},
-                                {emoji: `&#x1F468&#x1F3FD&#x200D&#x2695&#xFE0F`, name: `Man Health Worker: Medium Skin Tone`},
-                                {emoji: `&#x1F468&#x1F3FE&#x200D&#x2695&#xFE0F`, name: `Man Health Worker: Medium-Dark Skin Tone`},
-                                {emoji: `&#x1F468&#x1F3FF&#x200D&#x2695&#xFE0F`, name: `Man Health Worker: Dark Skin Tone`},
-                                {emoji: `&#x1F469&#x200D&#x2695&#xFE0F`, name: `Woman Health Worker`},
-                                {emoji: `&#x1F469&#x1F3FB&#x200D&#x2695&#xFE0F`, name: `Woman Health Worker: Light Skin Tone`},
-                                {emoji: `&#x1F469&#x1F3FC&#x200D&#x2695&#xFE0F`, name: `Woman Health Worker: Medium-Light Skin Tone`},
-                                {emoji: `&#x1F469&#x1F3FD&#x200D&#x2695&#xFE0F`, name: `Woman Health Worker: Medium Skin Tone`},
-                                {emoji: `&#x1F469&#x1F3FE&#x200D&#x2695&#xFE0F`, name: `Woman Health Worker: Medium-Dark Skin Tone`},
-                                {emoji: `&#x1F469&#x1F3FF&#x200D&#x2695&#xFE0F`, name: `Woman Health Worker: Dark Skin Tone`},
-                                {emoji: `&#x1F468&#x200D&#x1F393`, name: `Man Student`},
-                                {emoji: `&#x1F468&#x1F3FB&#x200D&#x1F393`, name: `Man Student: Light Skin Tone`},
-                                {emoji: `&#x1F468&#x1F3FC&#x200D&#x1F393`, name: `Man Student: Medium-Light Skin Tone`},
-                                {emoji: `&#x1F468&#x1F3FD&#x200D&#x1F393`, name: `Man Student: Medium Skin Tone`},
-                                {emoji: `&#x1F468&#x1F3FE&#x200D&#x1F393`, name: `Man Student: Medium-Dark Skin Tone`},
-                                {emoji: `&#x1F468&#x1F3FF&#x200D&#x1F393`, name: `Man Student: Dark Skin Tone`},
-                                {emoji: `&#x1F469&#x200D&#x1F393`, name: `Woman Student`},
-                                {emoji: `&#x1F469&#x1F3FB&#x200D&#x1F393`, name: `Woman Student: Light Skin Tone`},
-                                {emoji: `&#x1F469&#x1F3FC&#x200D&#x1F393`, name: `Woman Student: Medium-Light Skin Tone`},
-                                {emoji: `&#x1F469&#x1F3FD&#x200D&#x1F393`, name: `Woman Student: Medium Skin Tone`},
-                                {emoji: `&#x1F469&#x1F3FE&#x200D&#x1F393`, name: `Woman Student: Medium-Dark Skin Tone`},
-                                {emoji: `&#x1F469&#x1F3FF&#x200D&#x1F393`, name: `Woman Student: Dark Skin Tone`},
-                                {emoji: `&#x1F468&#x200D&#x1F3EB`, name: `Man Teacher`},
-                                {emoji: `&#x1F468&#x1F3FB&#x200D&#x1F3EB`, name: `Man Teacher: Light Skin Tone`},
-                                {emoji: `&#x1F468&#x1F3FC&#x200D&#x1F3EB`, name: `Man Teacher: Medium-Light Skin Tone`},
-                                {emoji: `&#x1F468&#x1F3FD&#x200D&#x1F3EB`, name: `Man Teacher: Medium Skin Tone`},
-                                {emoji: `&#x1F468&#x1F3FE&#x200D&#x1F3EB`, name: `Man Teacher: Medium-Dark Skin Tone`},
-                                {emoji: `&#x1F468&#x1F3FF&#x200D&#x1F3EB`, name: `Man Teacher: Dark Skin Tone`},
-                                {emoji: `&#x1F469&#x200D&#x1F3EB`, name: `Woman Teacher`},
-                                {emoji: `&#x1F469&#x1F3FB&#x200D&#x1F3EB`, name: `Woman Teacher: Light Skin Tone`},
-                                {emoji: `&#x1F469&#x1F3FC&#x200D&#x1F3EB`, name: `Woman Teacher: Medium-Light Skin Tone`},
-                                {emoji: `&#x1F469&#x1F3FD&#x200D&#x1F3EB`, name: `Woman Teacher: Medium Skin Tone`},
-                                {emoji: `&#x1F469&#x1F3FE&#x200D&#x1F3EB`, name: `Woman Teacher: Medium-Dark Skin Tone`},
-                                {emoji: `&#x1F469&#x1F3FF&#x200D&#x1F3EB`, name: `Woman Teacher: Dark Skin Tone`},
-                                {emoji: `&#x1F468&#x200D&#x2696&#xFE0F`, name: `Man Judge`},
-                                {emoji: `&#x1F468&#x1F3FB&#x200D&#x2696&#xFE0F`, name: `Man Judge: Light Skin Tone`},
-                                {emoji: `&#x1F468&#x1F3FC&#x200D&#x2696&#xFE0F`, name: `Man Judge: Medium-Light Skin Tone`},
-                                {emoji: `&#x1F468&#x1F3FD&#x200D&#x2696&#xFE0F`, name: `Man Judge: Medium Skin Tone`},
-                                {emoji: `&#x1F468&#x1F3FE&#x200D&#x2696&#xFE0F`, name: `Man Judge: Medium-Dark Skin Tone`},
-                                {emoji: `&#x1F468&#x1F3FF&#x200D&#x2696&#xFE0F`, name: `Man Judge: Dark Skin Tone`},
-                                {emoji: `&#x1F469&#x200D&#x2696&#xFE0F`, name: `Woman Judge`},
-                                {emoji: `&#x1F469&#x1F3FB&#x200D&#x2696&#xFE0F`, name: `Woman Judge: Light Skin Tone`},
-                                {emoji: `&#x1F469&#x1F3FC&#x200D&#x2696&#xFE0F`, name: `Woman Judge: Medium-Light Skin Tone`},
-                                {emoji: `&#x1F469&#x1F3FD&#x200D&#x2696&#xFE0F`, name: `Woman Judge: Medium Skin Tone`},
-                                {emoji: `&#x1F469&#x1F3FE&#x200D&#x2696&#xFE0F`, name: `Woman Judge: Medium-Dark Skin Tone`},
-                                {emoji: `&#x1F469&#x1F3FF&#x200D&#x2696&#xFE0F`, name: `Woman Judge: Dark Skin Tone`},
-                                {emoji: `&#x1F468&#x200D&#x1F33E`, name: `Man Farmer`},
-                                {emoji: `&#x1F468&#x1F3FB&#x200D&#x1F33E`, name: `Man Farmer: Light Skin Tone`},
-                                {emoji: `&#x1F468&#x1F3FC&#x200D&#x1F33E`, name: `Man Farmer: Medium-Light Skin Tone`},
-                                {emoji: `&#x1F468&#x1F3FD&#x200D&#x1F33E`, name: `Man Farmer: Medium Skin Tone`},
-                                {emoji: `&#x1F468&#x1F3FE&#x200D&#x1F33E`, name: `Man Farmer: Medium-Dark Skin Tone`},
-                                {emoji: `&#x1F468&#x1F3FF&#x200D&#x1F33E`, name: `Man Farmer: Dark Skin Tone`},
-                                {emoji: `&#x1F469&#x200D&#x1F33E`, name: `Woman Farmer`},
-                                {emoji: `&#x1F469&#x1F3FB&#x200D&#x1F33E`, name: `Woman Farmer: Light Skin Tone`},
-                                {emoji: `&#x1F469&#x1F3FC&#x200D&#x1F33E`, name: `Woman Farmer: Medium-Light Skin Tone`},
-                                {emoji: `&#x1F469&#x1F3FD&#x200D&#x1F33E`, name: `Woman Farmer: Medium Skin Tone`},
-                                {emoji: `&#x1F469&#x1F3FE&#x200D&#x1F33E`, name: `Woman Farmer: Medium-Dark Skin Tone`},
-                                {emoji: `&#x1F469&#x1F3FF&#x200D&#x1F33E`, name: `Woman Farmer: Dark Skin Tone`},
-                                {emoji: `&#x1F468&#x200D&#x1F373`, name: `Man Cook`},
-                                {emoji: `&#x1F468&#x1F3FB&#x200D&#x1F373`, name: `Man Cook: Light Skin Tone`},
-                                {emoji: `&#x1F468&#x1F3FC&#x200D&#x1F373`, name: `Man Cook: Medium-Light Skin Tone`},
-                                {emoji: `&#x1F468&#x1F3FD&#x200D&#x1F373`, name: `Man Cook: Medium Skin Tone`},
-                                {emoji: `&#x1F468&#x1F3FE&#x200D&#x1F373`, name: `Man Cook: Medium-Dark Skin Tone`},
-                                {emoji: `&#x1F468&#x1F3FF&#x200D&#x1F373`, name: `Man Cook: Dark Skin Tone`},
-                                {emoji: `&#x1F469&#x200D&#x1F373`, name: `Woman Cook`},
-                                {emoji: `&#x1F469&#x1F3FB&#x200D&#x1F373`, name: `Woman Cook: Light Skin Tone`},
-                                {emoji: `&#x1F469&#x1F3FC&#x200D&#x1F373`, name: `Woman Cook: Medium-Light Skin Tone`},
-                                {emoji: `&#x1F469&#x1F3FD&#x200D&#x1F373`, name: `Woman Cook: Medium Skin Tone`},
-                                {emoji: `&#x1F469&#x1F3FE&#x200D&#x1F373`, name: `Woman Cook: Medium-Dark Skin Tone`},
-                                {emoji: `&#x1F469&#x1F3FF&#x200D&#x1F373`, name: `Woman Cook: Dark Skin Tone`},
-                                {emoji: `&#x1F468&#x200D&#x1F527`, name: `Man Mechanic`},
-                                {emoji: `&#x1F468&#x1F3FB&#x200D&#x1F527`, name: `Man Mechanic: Light Skin Tone`},
-                                {emoji: `&#x1F468&#x1F3FC&#x200D&#x1F527`, name: `Man Mechanic: Medium-Light Skin Tone`},
-                                {emoji: `&#x1F468&#x1F3FD&#x200D&#x1F527`, name: `Man Mechanic: Medium Skin Tone`},
-                                {emoji: `&#x1F468&#x1F3FE&#x200D&#x1F527`, name: `Man Mechanic: Medium-Dark Skin Tone`},
-                                {emoji: `&#x1F468&#x1F3FF&#x200D&#x1F527`, name: `Man Mechanic: Dark Skin Tone`},
-                                {emoji: `&#x1F469&#x200D&#x1F527`, name: `Woman Mechanic`},
-                                {emoji: `&#x1F469&#x1F3FB&#x200D&#x1F527`, name: `Woman Mechanic: Light Skin Tone`},
-                                {emoji: `&#x1F469&#x1F3FC&#x200D&#x1F527`, name: `Woman Mechanic: Medium-Light Skin Tone`},
-                                {emoji: `&#x1F469&#x1F3FD&#x200D&#x1F527`, name: `Woman Mechanic: Medium Skin Tone`},
-                                {emoji: `&#x1F469&#x1F3FE&#x200D&#x1F527`, name: `Woman Mechanic: Medium-Dark Skin Tone`},
-                                {emoji: `&#x1F469&#x1F3FF&#x200D&#x1F527`, name: `Woman Mechanic: Dark Skin Tone`},
-                                {emoji: `&#x1F468&#x200D&#x1F3ED`, name: `Man Factory Worker`},
-                                {emoji: `&#x1F468&#x1F3FB&#x200D&#x1F3ED`, name: `Man Factory Worker: Light Skin Tone`},
-                                {emoji: `&#x1F468&#x1F3FC&#x200D&#x1F3ED`, name: `Man Factory Worker: Medium-Light Skin Tone`},
-                                {emoji: `&#x1F468&#x1F3FD&#x200D&#x1F3ED`, name: `Man Factory Worker: Medium Skin Tone`},
-                                {emoji: `&#x1F468&#x1F3FE&#x200D&#x1F3ED`, name: `Man Factory Worker: Medium-Dark Skin Tone`},
-                                {emoji: `&#x1F468&#x1F3FF&#x200D&#x1F3ED`, name: `Man Factory Worker: Dark Skin Tone`},
-                                {emoji: `&#x1F469&#x200D&#x1F3ED`, name: `Woman Factory Worker`},
-                                {emoji: `&#x1F469&#x1F3FB&#x200D&#x1F3ED`, name: `Woman Factory Worker: Light Skin Tone`},
-                                {emoji: `&#x1F469&#x1F3FC&#x200D&#x1F3ED`, name: `Woman Factory Worker: Medium-Light Skin Tone`},
-                                {emoji: `&#x1F469&#x1F3FD&#x200D&#x1F3ED`, name: `Woman Factory Worker: Medium Skin Tone`},
-                                {emoji: `&#x1F469&#x1F3FE&#x200D&#x1F3ED`, name: `Woman Factory Worker: Medium-Dark Skin Tone`},
-                                {emoji: `&#x1F469&#x1F3FF&#x200D&#x1F3ED`, name: `Woman Factory Worker: Dark Skin Tone`},
-                                {emoji: `&#x1F468&#x200D&#x1F4BC`, name: `Man Office Worker`},
-                                {emoji: `&#x1F468&#x1F3FB&#x200D&#x1F4BC`, name: `Man Office Worker: Light Skin Tone`},
-                                {emoji: `&#x1F468&#x1F3FC&#x200D&#x1F4BC`, name: `Man Office Worker: Medium-Light Skin Tone`},
-                                {emoji: `&#x1F468&#x1F3FD&#x200D&#x1F4BC`, name: `Man Office Worker: Medium Skin Tone`},
-                                {emoji: `&#x1F468&#x1F3FE&#x200D&#x1F4BC`, name: `Man Office Worker: Medium-Dark Skin Tone`},
-                                {emoji: `&#x1F468&#x1F3FF&#x200D&#x1F4BC`, name: `Man Office Worker: Dark Skin Tone`},
-                                {emoji: `&#x1F469&#x200D&#x1F4BC`, name: `Woman Office Worker`},
-                                {emoji: `&#x1F469&#x1F3FB&#x200D&#x1F4BC`, name: `Woman Office Worker: Light Skin Tone`},
-                                {emoji: `&#x1F469&#x1F3FC&#x200D&#x1F4BC`, name: `Woman Office Worker: Medium-Light Skin Tone`},
-                                {emoji: `&#x1F469&#x1F3FD&#x200D&#x1F4BC`, name: `Woman Office Worker: Medium Skin Tone`},
-                                {emoji: `&#x1F469&#x1F3FE&#x200D&#x1F4BC`, name: `Woman Office Worker: Medium-Dark Skin Tone`},
-                                {emoji: `&#x1F469&#x1F3FF&#x200D&#x1F4BC`, name: `Woman Office Worker: Dark Skin Tone`},
-                                {emoji: `&#x1F468&#x200D&#x1F52C`, name: `Man Scientist`},
-                                {emoji: `&#x1F468&#x1F3FB&#x200D&#x1F52C`, name: `Man Scientist: Light Skin Tone`},
-                                {emoji: `&#x1F468&#x1F3FC&#x200D&#x1F52C`, name: `Man Scientist: Medium-Light Skin Tone`},
-                                {emoji: `&#x1F468&#x1F3FD&#x200D&#x1F52C`, name: `Man Scientist: Medium Skin Tone`},
-                                {emoji: `&#x1F468&#x1F3FE&#x200D&#x1F52C`, name: `Man Scientist: Medium-Dark Skin Tone`},
-                                {emoji: `&#x1F468&#x1F3FF&#x200D&#x1F52C`, name: `Man Scientist: Dark Skin Tone`},
-                                {emoji: `&#x1F469&#x200D&#x1F52C`, name: `Woman Scientist`},
-                                {emoji: `&#x1F469&#x1F3FB&#x200D&#x1F52C`, name: `Woman Scientist: Light Skin Tone`},
-                                {emoji: `&#x1F469&#x1F3FC&#x200D&#x1F52C`, name: `Woman Scientist: Medium-Light Skin Tone`},
-                                {emoji: `&#x1F469&#x1F3FD&#x200D&#x1F52C`, name: `Woman Scientist: Medium Skin Tone`},
-                                {emoji: `&#x1F469&#x1F3FE&#x200D&#x1F52C`, name: `Woman Scientist: Medium-Dark Skin Tone`},
-                                {emoji: `&#x1F469&#x1F3FF&#x200D&#x1F52C`, name: `Woman Scientist: Dark Skin Tone`},
-                                {emoji: `&#x1F468&#x200D&#x1F4BB`, name: `Man Technologist`},
-                                {emoji: `&#x1F468&#x1F3FB&#x200D&#x1F4BB`, name: `Man Technologist: Light Skin Tone`},
-                                {emoji: `&#x1F468&#x1F3FC&#x200D&#x1F4BB`, name: `Man Technologist: Medium-Light Skin Tone`},
-                                {emoji: `&#x1F468&#x1F3FD&#x200D&#x1F4BB`, name: `Man Technologist: Medium Skin Tone`},
-                                {emoji: `&#x1F468&#x1F3FE&#x200D&#x1F4BB`, name: `Man Technologist: Medium-Dark Skin Tone`},
-                                {emoji: `&#x1F468&#x1F3FF&#x200D&#x1F4BB`, name: `Man Technologist: Dark Skin Tone`},
-                                {emoji: `&#x1F469&#x200D&#x1F4BB`, name: `Woman Technologist`},
-                                {emoji: `&#x1F469&#x1F3FB&#x200D&#x1F4BB`, name: `Woman Technologist: Light Skin Tone`},
-                                {emoji: `&#x1F469&#x1F3FC&#x200D&#x1F4BB`, name: `Woman Technologist: Medium-Light Skin Tone`},
-                                {emoji: `&#x1F469&#x1F3FD&#x200D&#x1F4BB`, name: `Woman Technologist: Medium Skin Tone`},
-                                {emoji: `&#x1F469&#x1F3FE&#x200D&#x1F4BB`, name: `Woman Technologist: Medium-Dark Skin Tone`},
-                                {emoji: `&#x1F469&#x1F3FF&#x200D&#x1F4BB`, name: `Woman Technologist: Dark Skin Tone`},
-                                {emoji: `&#x1F468&#x200D&#x1F3A4`, name: `Man Singer`},
-                                {emoji: `&#x1F468&#x1F3FB&#x200D&#x1F3A4`, name: `Man Singer: Light Skin Tone`},
-                                {emoji: `&#x1F468&#x1F3FC&#x200D&#x1F3A4`, name: `Man Singer: Medium-Light Skin Tone`},
-                                {emoji: `&#x1F468&#x1F3FD&#x200D&#x1F3A4`, name: `Man Singer: Medium Skin Tone`},
-                                {emoji: `&#x1F468&#x1F3FE&#x200D&#x1F3A4`, name: `Man Singer: Medium-Dark Skin Tone`},
-                                {emoji: `&#x1F468&#x1F3FF&#x200D&#x1F3A4`, name: `Man Singer: Dark Skin Tone`},
-                                {emoji: `&#x1F469&#x200D&#x1F3A4`, name: `Woman Singer`},
-                                {emoji: `&#x1F469&#x1F3FB&#x200D&#x1F3A4`, name: `Woman Singer: Light Skin Tone`},
-                                {emoji: `&#x1F469&#x1F3FC&#x200D&#x1F3A4`, name: `Woman Singer: Medium-Light Skin Tone`},
-                                {emoji: `&#x1F469&#x1F3FD&#x200D&#x1F3A4`, name: `Woman Singer: Medium Skin Tone`},
-                                {emoji: `&#x1F469&#x1F3FE&#x200D&#x1F3A4`, name: `Woman Singer: Medium-Dark Skin Tone`},
-                                {emoji: `&#x1F469&#x1F3FF&#x200D&#x1F3A4`, name: `Woman Singer: Dark Skin Tone`},
-                                {emoji: `&#x1F468&#x200D&#x1F3A8`, name: `Man Artist`},
-                                {emoji: `&#x1F468&#x1F3FB&#x200D&#x1F3A8`, name: `Man Artist: Light Skin Tone`},
-                                {emoji: `&#x1F468&#x1F3FC&#x200D&#x1F3A8`, name: `Man Artist: Medium-Light Skin Tone`},
-                                {emoji: `&#x1F468&#x1F3FD&#x200D&#x1F3A8`, name: `Man Artist: Medium Skin Tone`},
-                                {emoji: `&#x1F468&#x1F3FE&#x200D&#x1F3A8`, name: `Man Artist: Medium-Dark Skin Tone`},
-                                {emoji: `&#x1F468&#x1F3FF&#x200D&#x1F3A8`, name: `Man Artist: Dark Skin Tone`},
-                                {emoji: `&#x1F469&#x200D&#x1F3A8`, name: `Woman Artist`},
-                                {emoji: `&#x1F469&#x1F3FB&#x200D&#x1F3A8`, name: `Woman Artist: Light Skin Tone`},
-                                {emoji: `&#x1F469&#x1F3FC&#x200D&#x1F3A8`, name: `Woman Artist: Medium-Light Skin Tone`},
-                                {emoji: `&#x1F469&#x1F3FD&#x200D&#x1F3A8`, name: `Woman Artist: Medium Skin Tone`},
-                                {emoji: `&#x1F469&#x1F3FE&#x200D&#x1F3A8`, name: `Woman Artist: Medium-Dark Skin Tone`},
-                                {emoji: `&#x1F469&#x1F3FF&#x200D&#x1F3A8`, name: `Woman Artist: Dark Skin Tone`},
-                                {emoji: `&#x1F468&#x200D&#x2708&#xFE0F`, name: `Man Pilot`},
-                                {emoji: `&#x1F468&#x1F3FB&#x200D&#x2708&#xFE0F`, name: `Man Pilot: Light Skin Tone`},
-                                {emoji: `&#x1F468&#x1F3FC&#x200D&#x2708&#xFE0F`, name: `Man Pilot: Medium-Light Skin Tone`},
-                                {emoji: `&#x1F468&#x1F3FD&#x200D&#x2708&#xFE0F`, name: `Man Pilot: Medium Skin Tone`},
-                                {emoji: `&#x1F468&#x1F3FE&#x200D&#x2708&#xFE0F`, name: `Man Pilot: Medium-Dark Skin Tone`},
-                                {emoji: `&#x1F468&#x1F3FF&#x200D&#x2708&#xFE0F`, name: `Man Pilot: Dark Skin Tone`},
-                                {emoji: `&#x1F469&#x200D&#x2708&#xFE0F`, name: `Woman Pilot`},
-                                {emoji: `&#x1F469&#x1F3FB&#x200D&#x2708&#xFE0F`, name: `Woman Pilot: Light Skin Tone`},
-                                {emoji: `&#x1F469&#x1F3FC&#x200D&#x2708&#xFE0F`, name: `Woman Pilot: Medium-Light Skin Tone`},
-                                {emoji: `&#x1F469&#x1F3FD&#x200D&#x2708&#xFE0F`, name: `Woman Pilot: Medium Skin Tone`},
-                                {emoji: `&#x1F469&#x1F3FE&#x200D&#x2708&#xFE0F`, name: `Woman Pilot: Medium-Dark Skin Tone`},
-                                {emoji: `&#x1F469&#x1F3FF&#x200D&#x2708&#xFE0F`, name: `Woman Pilot: Dark Skin Tone`},
-                                {emoji: `&#x1F468&#x200D&#x1F680`, name: `Man Astronaut`},
-                                {emoji: `&#x1F468&#x1F3FB&#x200D&#x1F680`, name: `Man Astronaut: Light Skin Tone`},
-                                {emoji: `&#x1F468&#x1F3FC&#x200D&#x1F680`, name: `Man Astronaut: Medium-Light Skin Tone`},
-                                {emoji: `&#x1F468&#x1F3FD&#x200D&#x1F680`, name: `Man Astronaut: Medium Skin Tone`},
-                                {emoji: `&#x1F468&#x1F3FE&#x200D&#x1F680`, name: `Man Astronaut: Medium-Dark Skin Tone`},
-                                {emoji: `&#x1F468&#x1F3FF&#x200D&#x1F680`, name: `Man Astronaut: Dark Skin Tone`},
-                                {emoji: `&#x1F469&#x200D&#x1F680`, name: `Woman Astronaut`},
-                                {emoji: `&#x1F469&#x1F3FB&#x200D&#x1F680`, name: `Woman Astronaut: Light Skin Tone`},
-                                {emoji: `&#x1F469&#x1F3FC&#x200D&#x1F680`, name: `Woman Astronaut: Medium-Light Skin Tone`},
-                                {emoji: `&#x1F469&#x1F3FD&#x200D&#x1F680`, name: `Woman Astronaut: Medium Skin Tone`},
-                                {emoji: `&#x1F469&#x1F3FE&#x200D&#x1F680`, name: `Woman Astronaut: Medium-Dark Skin Tone`},
-                                {emoji: `&#x1F469&#x1F3FF&#x200D&#x1F680`, name: `Woman Astronaut: Dark Skin Tone`},
-                                {emoji: `&#x1F468&#x200D&#x1F692`, name: `Man Firefighter`},
-                                {emoji: `&#x1F468&#x1F3FB&#x200D&#x1F692`, name: `Man Firefighter: Light Skin Tone`},
-                                {emoji: `&#x1F468&#x1F3FC&#x200D&#x1F692`, name: `Man Firefighter: Medium-Light Skin Tone`},
-                                {emoji: `&#x1F468&#x1F3FD&#x200D&#x1F692`, name: `Man Firefighter: Medium Skin Tone`},
-                                {emoji: `&#x1F468&#x1F3FE&#x200D&#x1F692`, name: `Man Firefighter: Medium-Dark Skin Tone`},
-                                {emoji: `&#x1F468&#x1F3FF&#x200D&#x1F692`, name: `Man Firefighter: Dark Skin Tone`},
-                                {emoji: `&#x1F469&#x200D&#x1F692`, name: `Woman Firefighter`},
-                                {emoji: `&#x1F469&#x1F3FB&#x200D&#x1F692`, name: `Woman Firefighter: Light Skin Tone`},
-                                {emoji: `&#x1F469&#x1F3FC&#x200D&#x1F692`, name: `Woman Firefighter: Medium-Light Skin Tone`},
-                                {emoji: `&#x1F469&#x1F3FD&#x200D&#x1F692`, name: `Woman Firefighter: Medium Skin Tone`},
-                                {emoji: `&#x1F469&#x1F3FE&#x200D&#x1F692`, name: `Woman Firefighter: Medium-Dark Skin Tone`},
-                                {emoji: `&#x1F469&#x1F3FF&#x200D&#x1F692`, name: `Woman Firefighter: Dark Skin Tone`},
-                                {emoji: `&#x1F46E`, name: `Police Officer`},
-                                {emoji: `&#x1F46E&#x1F3FB`, name: `Police Officer: Light Skin Tone`},
-                                {emoji: `&#x1F46E&#x1F3FC`, name: `Police Officer: Medium-Light Skin Tone`},
-                                {emoji: `&#x1F46E&#x1F3FD`, name: `Police Officer: Medium Skin Tone`},
-                                {emoji: `&#x1F46E&#x1F3FE`, name: `Police Officer: Medium-Dark Skin Tone`},
-                                {emoji: `&#x1F46E&#x1F3FF`, name: `Police Officer: Dark Skin Tone`},
-                                {emoji: `&#x1F46E&#x200D&#x2642&#xFE0F`, name: `Man Police Officer`},
-                                {emoji: `&#x1F46E&#x1F3FB&#x200D&#x2642&#xFE0F`, name: `Man Police Officer: Light Skin Tone`},
-                                {emoji: `&#x1F46E&#x1F3FC&#x200D&#x2642&#xFE0F`, name: `Man Police Officer: Medium-Light Skin Tone`},
-                                {emoji: `&#x1F46E&#x1F3FD&#x200D&#x2642&#xFE0F`, name: `Man Police Officer: Medium Skin Tone`},
-                                {emoji: `&#x1F46E&#x1F3FE&#x200D&#x2642&#xFE0F`, name: `Man Police Officer: Medium-Dark Skin Tone`},
-                                {emoji: `&#x1F46E&#x1F3FF&#x200D&#x2642&#xFE0F`, name: `Man Police Officer: Dark Skin Tone`},
-                                {emoji: `&#x1F46E&#x200D&#x2640&#xFE0F`, name: `Woman Police Officer`},
-                                {emoji: `&#x1F46E&#x1F3FB&#x200D&#x2640&#xFE0F`, name: `Woman Police Officer: Light Skin Tone`},
-                                {emoji: `&#x1F46E&#x1F3FC&#x200D&#x2640&#xFE0F`, name: `Woman Police Officer: Medium-Light Skin Tone`},
-                                {emoji: `&#x1F46E&#x1F3FD&#x200D&#x2640&#xFE0F`, name: `Woman Police Officer: Medium Skin Tone`},
-                                {emoji: `&#x1F46E&#x1F3FE&#x200D&#x2640&#xFE0F`, name: `Woman Police Officer: Medium-Dark Skin Tone`},
-                                {emoji: `&#x1F46E&#x1F3FF&#x200D&#x2640&#xFE0F`, name: `Woman Police Officer: Dark Skin Tone`},
-                                {emoji: `&#x1F575`, name: `Detective`},
-                                {emoji: `&#x1F575&#x1F3FB`, name: `Detective: Light Skin Tone`},
-                                {emoji: `&#x1F575&#x1F3FC`, name: `Detective: Medium-Light Skin Tone`},
-                                {emoji: `&#x1F575&#x1F3FD`, name: `Detective: Medium Skin Tone`},
-                                {emoji: `&#x1F575&#x1F3FE`, name: `Detective: Medium-Dark Skin Tone`},
-                                {emoji: `&#x1F575&#x1F3FF`, name: `Detective: Dark Skin Tone`},
-                                {emoji: `&#x1F575&#xFE0F&#x200D&#x2642&#xFE0F`, name: `Man Detective`},
-                                {emoji: `&#x1F575&#x1F3FB&#x200D&#x2642&#xFE0F`, name: `Man Detective: Light Skin Tone`},
-                                {emoji: `&#x1F575&#x1F3FC&#x200D&#x2642&#xFE0F`, name: `Man Detective: Medium-Light Skin Tone`},
-                                {emoji: `&#x1F575&#x1F3FD&#x200D&#x2642&#xFE0F`, name: `Man Detective: Medium Skin Tone`},
-                                {emoji: `&#x1F575&#x1F3FE&#x200D&#x2642&#xFE0F`, name: `Man Detective: Medium-Dark Skin Tone`},
-                                {emoji: `&#x1F575&#x1F3FF&#x200D&#x2642&#xFE0F`, name: `Man Detective: Dark Skin Tone`},
-                                {emoji: `&#x1F575&#xFE0F&#x200D&#x2640&#xFE0F`, name: `Woman Detective`},
-                                {emoji: `&#x1F575&#x1F3FB&#x200D&#x2640&#xFE0F`, name: `Woman Detective: Light Skin Tone`},
-                                {emoji: `&#x1F575&#x1F3FC&#x200D&#x2640&#xFE0F`, name: `Woman Detective: Medium-Light Skin Tone`},
-                                {emoji: `&#x1F575&#x1F3FD&#x200D&#x2640&#xFE0F`, name: `Woman Detective: Medium Skin Tone`},
-                                {emoji: `&#x1F575&#x1F3FE&#x200D&#x2640&#xFE0F`, name: `Woman Detective: Medium-Dark Skin Tone`},
-                                {emoji: `&#x1F575&#x1F3FF&#x200D&#x2640&#xFE0F`, name: `Woman Detective: Dark Skin Tone`},
-                                {emoji: `&#x1F482`, name: `Guard`},
-                                {emoji: `&#x1F482&#x1F3FB`, name: `Guard: Light Skin Tone`},
-                                {emoji: `&#x1F482&#x1F3FC`, name: `Guard: Medium-Light Skin Tone`},
-                                {emoji: `&#x1F482&#x1F3FD`, name: `Guard: Medium Skin Tone`},
-                                {emoji: `&#x1F482&#x1F3FE`, name: `Guard: Medium-Dark Skin Tone`},
-                                {emoji: `&#x1F482&#x1F3FF`, name: `Guard: Dark Skin Tone`},
-                                {emoji: `&#x1F482&#x200D&#x2642&#xFE0F`, name: `Man Guard`},
-                                {emoji: `&#x1F482&#x1F3FB&#x200D&#x2642&#xFE0F`, name: `Man Guard: Light Skin Tone`},
-                                {emoji: `&#x1F482&#x1F3FC&#x200D&#x2642&#xFE0F`, name: `Man Guard: Medium-Light Skin Tone`},
-                                {emoji: `&#x1F482&#x1F3FD&#x200D&#x2642&#xFE0F`, name: `Man Guard: Medium Skin Tone`},
-                                {emoji: `&#x1F482&#x1F3FE&#x200D&#x2642&#xFE0F`, name: `Man Guard: Medium-Dark Skin Tone`},
-                                {emoji: `&#x1F482&#x1F3FF&#x200D&#x2642&#xFE0F`, name: `Man Guard: Dark Skin Tone`},
-                                {emoji: `&#x1F482&#x200D&#x2640&#xFE0F`, name: `Woman Guard`},
-                                {emoji: `&#x1F482&#x1F3FB&#x200D&#x2640&#xFE0F`, name: `Woman Guard: Light Skin Tone`},
-                                {emoji: `&#x1F482&#x1F3FC&#x200D&#x2640&#xFE0F`, name: `Woman Guard: Medium-Light Skin Tone`},
-                                {emoji: `&#x1F482&#x1F3FD&#x200D&#x2640&#xFE0F`, name: `Woman Guard: Medium Skin Tone`},
-                                {emoji: `&#x1F482&#x1F3FE&#x200D&#x2640&#xFE0F`, name: `Woman Guard: Medium-Dark Skin Tone`},
-                                {emoji: `&#x1F482&#x1F3FF&#x200D&#x2640&#xFE0F`, name: `Woman Guard: Dark Skin Tone`},
-                                {emoji: `&#x1F477`, name: `Construction Worker`},
-                                {emoji: `&#x1F477&#x1F3FB`, name: `Construction Worker: Light Skin Tone`},
-                                {emoji: `&#x1F477&#x1F3FC`, name: `Construction Worker: Medium-Light Skin Tone`},
-                                {emoji: `&#x1F477&#x1F3FD`, name: `Construction Worker: Medium Skin Tone`},
-                                {emoji: `&#x1F477&#x1F3FE`, name: `Construction Worker: Medium-Dark Skin Tone`},
-                                {emoji: `&#x1F477&#x1F3FF`, name: `Construction Worker: Dark Skin Tone`},
-                                {emoji: `&#x1F477&#x200D&#x2642&#xFE0F`, name: `Man Construction Worker`},
-                                {emoji: `&#x1F477&#x1F3FB&#x200D&#x2642&#xFE0F`, name: `Man Construction Worker: Light Skin Tone`},
-                                {emoji: `&#x1F477&#x1F3FC&#x200D&#x2642&#xFE0F`, name: `Man Construction Worker: Medium-Light Skin Tone`},
-                                {emoji: `&#x1F477&#x1F3FD&#x200D&#x2642&#xFE0F`, name: `Man Construction Worker: Medium Skin Tone`},
-                                {emoji: `&#x1F477&#x1F3FE&#x200D&#x2642&#xFE0F`, name: `Man Construction Worker: Medium-Dark Skin Tone`},
-                                {emoji: `&#x1F477&#x1F3FF&#x200D&#x2642&#xFE0F`, name: `Man Construction Worker: Dark Skin Tone`},
-                                {emoji: `&#x1F477&#x200D&#x2640&#xFE0F`, name: `Woman Construction Worker`},
-                                {emoji: `&#x1F477&#x1F3FB&#x200D&#x2640&#xFE0F`, name: `Woman Construction Worker: Light Skin Tone`},
-                                {emoji: `&#x1F477&#x1F3FC&#x200D&#x2640&#xFE0F`, name: `Woman Construction Worker: Medium-Light Skin Tone`},
-                                {emoji: `&#x1F477&#x1F3FD&#x200D&#x2640&#xFE0F`, name: `Woman Construction Worker: Medium Skin Tone`},
-                                {emoji: `&#x1F477&#x1F3FE&#x200D&#x2640&#xFE0F`, name: `Woman Construction Worker: Medium-Dark Skin Tone`},
-                                {emoji: `&#x1F477&#x1F3FF&#x200D&#x2640&#xFE0F`, name: `Woman Construction Worker: Dark Skin Tone`},
-                                {emoji: `&#x1F473`, name: `Person Wearing Turban`},
-                                {emoji: `&#x1F473&#x1F3FB`, name: `Person Wearing Turban: Light Skin Tone`},
-                                {emoji: `&#x1F473&#x1F3FC`, name: `Person Wearing Turban: Medium-Light Skin Tone`},
-                                {emoji: `&#x1F473&#x1F3FD`, name: `Person Wearing Turban: Medium Skin Tone`},
-                                {emoji: `&#x1F473&#x1F3FE`, name: `Person Wearing Turban: Medium-Dark Skin Tone`},
-                                {emoji: `&#x1F473&#x1F3FF`, name: `Person Wearing Turban: Dark Skin Tone`},
-                                {emoji: `&#x1F473&#x200D&#x2642&#xFE0F`, name: `Man Wearing Turban`},
-                                {emoji: `&#x1F473&#x1F3FB&#x200D&#x2642&#xFE0F`, name: `Man Wearing Turban: Light Skin Tone`},
-                                {emoji: `&#x1F473&#x1F3FC&#x200D&#x2642&#xFE0F`, name: `Man Wearing Turban: Medium-Light Skin Tone`},
-                                {emoji: `&#x1F473&#x1F3FD&#x200D&#x2642&#xFE0F`, name: `Man Wearing Turban: Medium Skin Tone`},
-                                {emoji: `&#x1F473&#x1F3FE&#x200D&#x2642&#xFE0F`, name: `Man Wearing Turban: Medium-Dark Skin Tone`},
-                                {emoji: `&#x1F473&#x1F3FF&#x200D&#x2642&#xFE0F`, name: `Man Wearing Turban: Dark Skin Tone`},
-                                {emoji: `&#x1F473&#x200D&#x2640&#xFE0F`, name: `Woman Wearing Turban`},
-                                {emoji: `&#x1F473&#x1F3FB&#x200D&#x2640&#xFE0F`, name: `Woman Wearing Turban: Light Skin Tone`},
-                                {emoji: `&#x1F473&#x1F3FC&#x200D&#x2640&#xFE0F`, name: `Woman Wearing Turban: Medium-Light Skin Tone`},
-                                {emoji: `&#x1F473&#x1F3FD&#x200D&#x2640&#xFE0F`, name: `Woman Wearing Turban: Medium Skin Tone`},
-                                {emoji: `&#x1F473&#x1F3FE&#x200D&#x2640&#xFE0F`, name: `Woman Wearing Turban: Medium-Dark Skin Tone`},
-                                {emoji: `&#x1F473&#x1F3FF&#x200D&#x2640&#xFE0F`, name: `Woman Wearing Turban: Dark Skin Tone`},
-                                {emoji: `&#x1F471`, name: `Blond-Haired Person`},
-                                {emoji: `&#x1F471&#x1F3FB`, name: `Blond-Haired Person: Light Skin Tone`},
-                                {emoji: `&#x1F471&#x1F3FC`, name: `Blond-Haired Person: Medium-Light Skin Tone`},
-                                {emoji: `&#x1F471&#x1F3FD`, name: `Blond-Haired Person: Medium Skin Tone`},
-                                {emoji: `&#x1F471&#x1F3FE`, name: `Blond-Haired Person: Medium-Dark Skin Tone`},
-                                {emoji: `&#x1F471&#x1F3FF`, name: `Blond-Haired Person: Dark Skin Tone`},
-                                {emoji: `&#x1F471&#x200D&#x2642&#xFE0F`, name: `Blond-Haired Man`},
-                                {emoji: `&#x1F471&#x1F3FB&#x200D&#x2642&#xFE0F`, name: `Blond-Haired Man: Light Skin Tone`},
-                                {emoji: `&#x1F471&#x1F3FC&#x200D&#x2642&#xFE0F`, name: `Blond-Haired Man: Medium-Light Skin Tone`},
-                                {emoji: `&#x1F471&#x1F3FD&#x200D&#x2642&#xFE0F`, name: `Blond-Haired Man: Medium Skin Tone`},
-                                {emoji: `&#x1F471&#x1F3FE&#x200D&#x2642&#xFE0F`, name: `Blond-Haired Man: Medium-Dark Skin Tone`},
-                                {emoji: `&#x1F471&#x1F3FF&#x200D&#x2642&#xFE0F`, name: `Blond-Haired Man: Dark Skin Tone`},
-                                {emoji: `&#x1F471&#x200D&#x2640&#xFE0F`, name: `Blond-Haired Woman`},
-                                {emoji: `&#x1F471&#x1F3FB&#x200D&#x2640&#xFE0F`, name: `Blond-Haired Woman: Light Skin Tone`},
-                                {emoji: `&#x1F471&#x1F3FC&#x200D&#x2640&#xFE0F`, name: `Blond-Haired Woman: Medium-Light Skin Tone`},
-                                {emoji: `&#x1F471&#x1F3FD&#x200D&#x2640&#xFE0F`, name: `Blond-Haired Woman: Medium Skin Tone`},
-                                {emoji: `&#x1F471&#x1F3FE&#x200D&#x2640&#xFE0F`, name: `Blond-Haired Woman: Medium-Dark Skin Tone`},
-                                {emoji: `&#x1F471&#x1F3FF&#x200D&#x2640&#xFE0F`, name: `Blond-Haired Woman: Dark Skin Tone`},
-                                {emoji: `&#x1F385`, name: `Santa Claus`},
-                                {emoji: `&#x1F385&#x1F3FB`, name: `Santa Claus: Light Skin Tone`},
-                                {emoji: `&#x1F385&#x1F3FC`, name: `Santa Claus: Medium-Light Skin Tone`},
-                                {emoji: `&#x1F385&#x1F3FD`, name: `Santa Claus: Medium Skin Tone`},
-                                {emoji: `&#x1F385&#x1F3FE`, name: `Santa Claus: Medium-Dark Skin Tone`},
-                                {emoji: `&#x1F385&#x1F3FF`, name: `Santa Claus: Dark Skin Tone`},
-                                {emoji: `&#x1F936`, name: `Mrs. Claus`},
-                                {emoji: `&#x1F936&#x1F3FB`, name: `Mrs. Claus: Light Skin Tone`},
-                                {emoji: `&#x1F936&#x1F3FC`, name: `Mrs. Claus: Medium-Light Skin Tone`},
-                                {emoji: `&#x1F936&#x1F3FD`, name: `Mrs. Claus: Medium Skin Tone`},
-                                {emoji: `&#x1F936&#x1F3FE`, name: `Mrs. Claus: Medium-Dark Skin Tone`},
-                                {emoji: `&#x1F936&#x1F3FF`, name: `Mrs. Claus: Dark Skin Tone`},
-                                {emoji: `&#x1F478`, name: `Princess`},
-                                {emoji: `&#x1F478&#x1F3FB`, name: `Princess: Light Skin Tone`},
-                                {emoji: `&#x1F478&#x1F3FC`, name: `Princess: Medium-Light Skin Tone`},
-                                {emoji: `&#x1F478&#x1F3FD`, name: `Princess: Medium Skin Tone`},
-                                {emoji: `&#x1F478&#x1F3FE`, name: `Princess: Medium-Dark Skin Tone`},
-                                {emoji: `&#x1F478&#x1F3FF`, name: `Princess: Dark Skin Tone`},
-                                {emoji: `&#x1F934`, name: `Prince`},
-                                {emoji: `&#x1F934&#x1F3FB`, name: `Prince: Light Skin Tone`},
-                                {emoji: `&#x1F934&#x1F3FC`, name: `Prince: Medium-Light Skin Tone`},
-                                {emoji: `&#x1F934&#x1F3FD`, name: `Prince: Medium Skin Tone`},
-                                {emoji: `&#x1F934&#x1F3FE`, name: `Prince: Medium-Dark Skin Tone`},
-                                {emoji: `&#x1F934&#x1F3FF`, name: `Prince: Dark Skin Tone`},
-                                {emoji: `&#x1F470`, name: `Bride With Veil`},
-                                {emoji: `&#x1F470&#x1F3FB`, name: `Bride With Veil: Light Skin Tone`},
-                                {emoji: `&#x1F470&#x1F3FC`, name: `Bride With Veil: Medium-Light Skin Tone`},
-                                {emoji: `&#x1F470&#x1F3FD`, name: `Bride With Veil: Medium Skin Tone`},
-                                {emoji: `&#x1F470&#x1F3FE`, name: `Bride With Veil: Medium-Dark Skin Tone`},
-                                {emoji: `&#x1F470&#x1F3FF`, name: `Bride With Veil: Dark Skin Tone`},
-                                {emoji: `&#x1F935`, name: `Man In Tuxedo`},
-                                {emoji: `&#x1F935&#x1F3FB`, name: `Man In Tuxedo: Light Skin Tone`},
-                                {emoji: `&#x1F935&#x1F3FC`, name: `Man In Tuxedo: Medium-Light Skin Tone`},
-                                {emoji: `&#x1F935&#x1F3FD`, name: `Man In Tuxedo: Medium Skin Tone`},
-                                {emoji: `&#x1F935&#x1F3FE`, name: `Man In Tuxedo: Medium-Dark Skin Tone`},
-                                {emoji: `&#x1F935&#x1F3FF`, name: `Man In Tuxedo: Dark Skin Tone`},
-                                {emoji: `&#x1F930`, name: `Pregnant Woman`},
-                                {emoji: `&#x1F930&#x1F3FB`, name: `Pregnant Woman: Light Skin Tone`},
-                                {emoji: `&#x1F930&#x1F3FC`, name: `Pregnant Woman: Medium-Light Skin Tone`},
-                                {emoji: `&#x1F930&#x1F3FD`, name: `Pregnant Woman: Medium Skin Tone`},
-                                {emoji: `&#x1F930&#x1F3FE`, name: `Pregnant Woman: Medium-Dark Skin Tone`},
-                                {emoji: `&#x1F930&#x1F3FF`, name: `Pregnant Woman: Dark Skin Tone`},
-                                {emoji: `&#x1F472`, name: `Man With Chinese Cap`},
-                                {emoji: `&#x1F472&#x1F3FB`, name: `Man With Chinese Cap: Light Skin Tone`},
-                                {emoji: `&#x1F472&#x1F3FC`, name: `Man With Chinese Cap: Medium-Light Skin Tone`},
-                                {emoji: `&#x1F472&#x1F3FD`, name: `Man With Chinese Cap: Medium Skin Tone`},
-                                {emoji: `&#x1F472&#x1F3FE`, name: `Man With Chinese Cap: Medium-Dark Skin Tone`},
-                                {emoji: `&#x1F472&#x1F3FF`, name: `Man With Chinese Cap: Dark Skin Tone`},
-                                {emoji: `&#x1F64D`, name: `Person Frowning`},
-                                {emoji: `&#x1F64D&#x1F3FB`, name: `Person Frowning: Light Skin Tone`},
-                                {emoji: `&#x1F64D&#x1F3FC`, name: `Person Frowning: Medium-Light Skin Tone`},
-                                {emoji: `&#x1F64D&#x1F3FD`, name: `Person Frowning: Medium Skin Tone`},
-                                {emoji: `&#x1F64D&#x1F3FE`, name: `Person Frowning: Medium-Dark Skin Tone`},
-                                {emoji: `&#x1F64D&#x1F3FF`, name: `Person Frowning: Dark Skin Tone`},
-                                {emoji: `&#x1F64D&#x200D&#x2642&#xFE0F`, name: `Man Frowning`},
-                                {emoji: `&#x1F64D&#x1F3FB&#x200D&#x2642&#xFE0F`, name: `Man Frowning: Light Skin Tone`},
-                                {emoji: `&#x1F64D&#x1F3FC&#x200D&#x2642&#xFE0F`, name: `Man Frowning: Medium-Light Skin Tone`},
-                                {emoji: `&#x1F64D&#x1F3FD&#x200D&#x2642&#xFE0F`, name: `Man Frowning: Medium Skin Tone`},
-                                {emoji: `&#x1F64D&#x1F3FE&#x200D&#x2642&#xFE0F`, name: `Man Frowning: Medium-Dark Skin Tone`},
-                                {emoji: `&#x1F64D&#x1F3FF&#x200D&#x2642&#xFE0F`, name: `Man Frowning: Dark Skin Tone`},
-                                {emoji: `&#x1F64D&#x200D&#x2640&#xFE0F`, name: `Woman Frowning`},
-                                {emoji: `&#x1F64D&#x1F3FB&#x200D&#x2640&#xFE0F`, name: `Woman Frowning: Light Skin Tone`},
-                                {emoji: `&#x1F64D&#x1F3FC&#x200D&#x2640&#xFE0F`, name: `Woman Frowning: Medium-Light Skin Tone`},
-                                {emoji: `&#x1F64D&#x1F3FD&#x200D&#x2640&#xFE0F`, name: `Woman Frowning: Medium Skin Tone`},
-                                {emoji: `&#x1F64D&#x1F3FE&#x200D&#x2640&#xFE0F`, name: `Woman Frowning: Medium-Dark Skin Tone`},
-                                {emoji: `&#x1F64D&#x1F3FF&#x200D&#x2640&#xFE0F`, name: `Woman Frowning: Dark Skin Tone`},
-                                {emoji: `&#x1F64E`, name: `Person Pouting`},
-                                {emoji: `&#x1F64E&#x1F3FB`, name: `Person Pouting: Light Skin Tone`},
-                                {emoji: `&#x1F64E&#x1F3FC`, name: `Person Pouting: Medium-Light Skin Tone`},
-                                {emoji: `&#x1F64E&#x1F3FD`, name: `Person Pouting: Medium Skin Tone`},
-                                {emoji: `&#x1F64E&#x1F3FE`, name: `Person Pouting: Medium-Dark Skin Tone`},
-                                {emoji: `&#x1F64E&#x1F3FF`, name: `Person Pouting: Dark Skin Tone`},
-                                {emoji: `&#x1F64E&#x200D&#x2642&#xFE0F`, name: `Man Pouting`},
-                                {emoji: `&#x1F64E&#x1F3FB&#x200D&#x2642&#xFE0F`, name: `Man Pouting: Light Skin Tone`},
-                                {emoji: `&#x1F64E&#x1F3FC&#x200D&#x2642&#xFE0F`, name: `Man Pouting: Medium-Light Skin Tone`},
-                                {emoji: `&#x1F64E&#x1F3FD&#x200D&#x2642&#xFE0F`, name: `Man Pouting: Medium Skin Tone`},
-                                {emoji: `&#x1F64E&#x1F3FE&#x200D&#x2642&#xFE0F`, name: `Man Pouting: Medium-Dark Skin Tone`},
-                                {emoji: `&#x1F64E&#x1F3FF&#x200D&#x2642&#xFE0F`, name: `Man Pouting: Dark Skin Tone`},
-                                {emoji: `&#x1F64E&#x200D&#x2640&#xFE0F`, name: `Woman Pouting`},
-                                {emoji: `&#x1F64E&#x1F3FB&#x200D&#x2640&#xFE0F`, name: `Woman Pouting: Light Skin Tone`},
-                                {emoji: `&#x1F64E&#x1F3FC&#x200D&#x2640&#xFE0F`, name: `Woman Pouting: Medium-Light Skin Tone`},
-                                {emoji: `&#x1F64E&#x1F3FD&#x200D&#x2640&#xFE0F`, name: `Woman Pouting: Medium Skin Tone`},
-                                {emoji: `&#x1F64E&#x1F3FE&#x200D&#x2640&#xFE0F`, name: `Woman Pouting: Medium-Dark Skin Tone`},
-                                {emoji: `&#x1F64E&#x1F3FF&#x200D&#x2640&#xFE0F`, name: `Woman Pouting: Dark Skin Tone`},
-                                {emoji: `&#x1F645`, name: `Person Gesturing NO`},
-                                {emoji: `&#x1F645&#x1F3FB`, name: `Person Gesturing NO: Light Skin Tone`},
-                                {emoji: `&#x1F645&#x1F3FC`, name: `Person Gesturing NO: Medium-Light Skin Tone`},
-                                {emoji: `&#x1F645&#x1F3FD`, name: `Person Gesturing NO: Medium Skin Tone`},
-                                {emoji: `&#x1F645&#x1F3FE`, name: `Person Gesturing NO: Medium-Dark Skin Tone`},
-                                {emoji: `&#x1F645&#x1F3FF`, name: `Person Gesturing NO: Dark Skin Tone`},
-                                {emoji: `&#x1F645&#x200D&#x2642&#xFE0F`, name: `Man Gesturing NO`},
-                                {emoji: `&#x1F645&#x1F3FB&#x200D&#x2642&#xFE0F`, name: `Man Gesturing NO: Light Skin Tone`},
-                                {emoji: `&#x1F645&#x1F3FC&#x200D&#x2642&#xFE0F`, name: `Man Gesturing NO: Medium-Light Skin Tone`},
-                                {emoji: `&#x1F645&#x1F3FD&#x200D&#x2642&#xFE0F`, name: `Man Gesturing NO: Medium Skin Tone`},
-                                {emoji: `&#x1F645&#x1F3FE&#x200D&#x2642&#xFE0F`, name: `Man Gesturing NO: Medium-Dark Skin Tone`},
-                                {emoji: `&#x1F645&#x1F3FF&#x200D&#x2642&#xFE0F`, name: `Man Gesturing NO: Dark Skin Tone`},
-                                {emoji: `&#x1F645&#x200D&#x2640&#xFE0F`, name: `Woman Gesturing NO`},
-                                {emoji: `&#x1F645&#x1F3FB&#x200D&#x2640&#xFE0F`, name: `Woman Gesturing NO: Light Skin Tone`},
-                                {emoji: `&#x1F645&#x1F3FC&#x200D&#x2640&#xFE0F`, name: `Woman Gesturing NO: Medium-Light Skin Tone`},
-                                {emoji: `&#x1F645&#x1F3FD&#x200D&#x2640&#xFE0F`, name: `Woman Gesturing NO: Medium Skin Tone`},
-                                {emoji: `&#x1F645&#x1F3FE&#x200D&#x2640&#xFE0F`, name: `Woman Gesturing NO: Medium-Dark Skin Tone`},
-                                {emoji: `&#x1F645&#x1F3FF&#x200D&#x2640&#xFE0F`, name: `Woman Gesturing NO: Dark Skin Tone`},
-                                {emoji: `&#x1F646`, name: `Person Gesturing OK`},
-                                {emoji: `&#x1F646&#x1F3FB`, name: `Person Gesturing OK: Light Skin Tone`},
-                                {emoji: `&#x1F646&#x1F3FC`, name: `Person Gesturing OK: Medium-Light Skin Tone`},
-                                {emoji: `&#x1F646&#x1F3FD`, name: `Person Gesturing OK: Medium Skin Tone`},
-                                {emoji: `&#x1F646&#x1F3FE`, name: `Person Gesturing OK: Medium-Dark Skin Tone`},
-                                {emoji: `&#x1F646&#x1F3FF`, name: `Person Gesturing OK: Dark Skin Tone`},
-                                {emoji: `&#x1F646&#x200D&#x2642&#xFE0F`, name: `Man Gesturing OK`},
-                                {emoji: `&#x1F646&#x1F3FB&#x200D&#x2642&#xFE0F`, name: `Man Gesturing OK: Light Skin Tone`},
-                                {emoji: `&#x1F646&#x1F3FC&#x200D&#x2642&#xFE0F`, name: `Man Gesturing OK: Medium-Light Skin Tone`},
-                                {emoji: `&#x1F646&#x1F3FD&#x200D&#x2642&#xFE0F`, name: `Man Gesturing OK: Medium Skin Tone`},
-                                {emoji: `&#x1F646&#x1F3FE&#x200D&#x2642&#xFE0F`, name: `Man Gesturing OK: Medium-Dark Skin Tone`},
-                                {emoji: `&#x1F646&#x1F3FF&#x200D&#x2642&#xFE0F`, name: `Man Gesturing OK: Dark Skin Tone`},
-                                {emoji: `&#x1F646&#x200D&#x2640&#xFE0F`, name: `Woman Gesturing OK`},
-                                {emoji: `&#x1F646&#x1F3FB&#x200D&#x2640&#xFE0F`, name: `Woman Gesturing OK: Light Skin Tone`},
-                                {emoji: `&#x1F646&#x1F3FC&#x200D&#x2640&#xFE0F`, name: `Woman Gesturing OK: Medium-Light Skin Tone`},
-                                {emoji: `&#x1F646&#x1F3FD&#x200D&#x2640&#xFE0F`, name: `Woman Gesturing OK: Medium Skin Tone`},
-                                {emoji: `&#x1F646&#x1F3FE&#x200D&#x2640&#xFE0F`, name: `Woman Gesturing OK: Medium-Dark Skin Tone`},
-                                {emoji: `&#x1F646&#x1F3FF&#x200D&#x2640&#xFE0F`, name: `Woman Gesturing OK: Dark Skin Tone`},
-                                {emoji: `&#x1F481`, name: `Person Tipping Hand`},
-                                {emoji: `&#x1F481&#x1F3FB`, name: `Person Tipping Hand: Light Skin Tone`},
-                                {emoji: `&#x1F481&#x1F3FC`, name: `Person Tipping Hand: Medium-Light Skin Tone`},
-                                {emoji: `&#x1F481&#x1F3FD`, name: `Person Tipping Hand: Medium Skin Tone`},
-                                {emoji: `&#x1F481&#x1F3FE`, name: `Person Tipping Hand: Medium-Dark Skin Tone`},
-                                {emoji: `&#x1F481&#x1F3FF`, name: `Person Tipping Hand: Dark Skin Tone`},
-                                {emoji: `&#x1F481&#x200D&#x2642&#xFE0F`, name: `Man Tipping Hand`},
-                                {emoji: `&#x1F481&#x1F3FB&#x200D&#x2642&#xFE0F`, name: `Man Tipping Hand: Light Skin Tone`},
-                                {emoji: `&#x1F481&#x1F3FC&#x200D&#x2642&#xFE0F`, name: `Man Tipping Hand: Medium-Light Skin Tone`},
-                                {emoji: `&#x1F481&#x1F3FD&#x200D&#x2642&#xFE0F`, name: `Man Tipping Hand: Medium Skin Tone`},
-                                {emoji: `&#x1F481&#x1F3FE&#x200D&#x2642&#xFE0F`, name: `Man Tipping Hand: Medium-Dark Skin Tone`},
-                                {emoji: `&#x1F481&#x1F3FF&#x200D&#x2642&#xFE0F`, name: `Man Tipping Hand: Dark Skin Tone`},
-                                {emoji: `&#x1F481&#x200D&#x2640&#xFE0F`, name: `Woman Tipping Hand`},
-                                {emoji: `&#x1F481&#x1F3FB&#x200D&#x2640&#xFE0F`, name: `Woman Tipping Hand: Light Skin Tone`},
-                                {emoji: `&#x1F481&#x1F3FC&#x200D&#x2640&#xFE0F`, name: `Woman Tipping Hand: Medium-Light Skin Tone`},
-                                {emoji: `&#x1F481&#x1F3FD&#x200D&#x2640&#xFE0F`, name: `Woman Tipping Hand: Medium Skin Tone`},
-                                {emoji: `&#x1F481&#x1F3FE&#x200D&#x2640&#xFE0F`, name: `Woman Tipping Hand: Medium-Dark Skin Tone`},
-                                {emoji: `&#x1F481&#x1F3FF&#x200D&#x2640&#xFE0F`, name: `Woman Tipping Hand: Dark Skin Tone`},
-                                {emoji: `&#x1F64B`, name: `Person Raising Hand`},
-                                {emoji: `&#x1F64B&#x1F3FB`, name: `Person Raising Hand: Light Skin Tone`},
-                                {emoji: `&#x1F64B&#x1F3FC`, name: `Person Raising Hand: Medium-Light Skin Tone`},
-                                {emoji: `&#x1F64B&#x1F3FD`, name: `Person Raising Hand: Medium Skin Tone`},
-                                {emoji: `&#x1F64B&#x1F3FE`, name: `Person Raising Hand: Medium-Dark Skin Tone`},
-                                {emoji: `&#x1F64B&#x1F3FF`, name: `Person Raising Hand: Dark Skin Tone`},
-                                {emoji: `&#x1F64B&#x200D&#x2642&#xFE0F`, name: `Man Raising Hand`},
-                                {emoji: `&#x1F64B&#x1F3FB&#x200D&#x2642&#xFE0F`, name: `Man Raising Hand: Light Skin Tone`},
-                                {emoji: `&#x1F64B&#x1F3FC&#x200D&#x2642&#xFE0F`, name: `Man Raising Hand: Medium-Light Skin Tone`},
-                                {emoji: `&#x1F64B&#x1F3FD&#x200D&#x2642&#xFE0F`, name: `Man Raising Hand: Medium Skin Tone`},
-                                {emoji: `&#x1F64B&#x1F3FE&#x200D&#x2642&#xFE0F`, name: `Man Raising Hand: Medium-Dark Skin Tone`},
-                                {emoji: `&#x1F64B&#x1F3FF&#x200D&#x2642&#xFE0F`, name: `Man Raising Hand: Dark Skin Tone`},
-                                {emoji: `&#x1F64B&#x200D&#x2640&#xFE0F`, name: `Woman Raising Hand`},
-                                {emoji: `&#x1F64B&#x1F3FB&#x200D&#x2640&#xFE0F`, name: `Woman Raising Hand: Light Skin Tone`},
-                                {emoji: `&#x1F64B&#x1F3FC&#x200D&#x2640&#xFE0F`, name: `Woman Raising Hand: Medium-Light Skin Tone`},
-                                {emoji: `&#x1F64B&#x1F3FD&#x200D&#x2640&#xFE0F`, name: `Woman Raising Hand: Medium Skin Tone`},
-                                {emoji: `&#x1F64B&#x1F3FE&#x200D&#x2640&#xFE0F`, name: `Woman Raising Hand: Medium-Dark Skin Tone`},
-                                {emoji: `&#x1F64B&#x1F3FF&#x200D&#x2640&#xFE0F`, name: `Woman Raising Hand: Dark Skin Tone`},
-                                {emoji: `&#x1F647`, name: `Person Bowing`},
-                                {emoji: `&#x1F647&#x1F3FB`, name: `Person Bowing: Light Skin Tone`},
-                                {emoji: `&#x1F647&#x1F3FC`, name: `Person Bowing: Medium-Light Skin Tone`},
-                                {emoji: `&#x1F647&#x1F3FD`, name: `Person Bowing: Medium Skin Tone`},
-                                {emoji: `&#x1F647&#x1F3FE`, name: `Person Bowing: Medium-Dark Skin Tone`},
-                                {emoji: `&#x1F647&#x1F3FF`, name: `Person Bowing: Dark Skin Tone`},
-                                {emoji: `&#x1F647&#x200D&#x2642&#xFE0F`, name: `Man Bowing`},
-                                {emoji: `&#x1F647&#x1F3FB&#x200D&#x2642&#xFE0F`, name: `Man Bowing: Light Skin Tone`},
-                                {emoji: `&#x1F647&#x1F3FC&#x200D&#x2642&#xFE0F`, name: `Man Bowing: Medium-Light Skin Tone`},
-                                {emoji: `&#x1F647&#x1F3FD&#x200D&#x2642&#xFE0F`, name: `Man Bowing: Medium Skin Tone`},
-                                {emoji: `&#x1F647&#x1F3FE&#x200D&#x2642&#xFE0F`, name: `Man Bowing: Medium-Dark Skin Tone`},
-                                {emoji: `&#x1F647&#x1F3FF&#x200D&#x2642&#xFE0F`, name: `Man Bowing: Dark Skin Tone`},
-                                {emoji: `&#x1F647&#x200D&#x2640&#xFE0F`, name: `Woman Bowing`},
-                                {emoji: `&#x1F647&#x1F3FB&#x200D&#x2640&#xFE0F`, name: `Woman Bowing: Light Skin Tone`},
-                                {emoji: `&#x1F647&#x1F3FC&#x200D&#x2640&#xFE0F`, name: `Woman Bowing: Medium-Light Skin Tone`},
-                                {emoji: `&#x1F647&#x1F3FD&#x200D&#x2640&#xFE0F`, name: `Woman Bowing: Medium Skin Tone`},
-                                {emoji: `&#x1F647&#x1F3FE&#x200D&#x2640&#xFE0F`, name: `Woman Bowing: Medium-Dark Skin Tone`},
-                                {emoji: `&#x1F647&#x1F3FF&#x200D&#x2640&#xFE0F`, name: `Woman Bowing: Dark Skin Tone`},
-                                {emoji: `&#x1F926`, name: `Person Facepalming`},
-                                {emoji: `&#x1F926&#x1F3FB`, name: `Person Facepalming: Light Skin Tone`},
-                                {emoji: `&#x1F926&#x1F3FC`, name: `Person Facepalming: Medium-Light Skin Tone`},
-                                {emoji: `&#x1F926&#x1F3FD`, name: `Person Facepalming: Medium Skin Tone`},
-                                {emoji: `&#x1F926&#x1F3FE`, name: `Person Facepalming: Medium-Dark Skin Tone`},
-                                {emoji: `&#x1F926&#x1F3FF`, name: `Person Facepalming: Dark Skin Tone`},
-                                {emoji: `&#x1F926&#x200D&#x2642&#xFE0F`, name: `Man Facepalming`},
-                                {emoji: `&#x1F926&#x1F3FB&#x200D&#x2642&#xFE0F`, name: `Man Facepalming: Light Skin Tone`},
-                                {emoji: `&#x1F926&#x1F3FC&#x200D&#x2642&#xFE0F`, name: `Man Facepalming: Medium-Light Skin Tone`},
-                                {emoji: `&#x1F926&#x1F3FD&#x200D&#x2642&#xFE0F`, name: `Man Facepalming: Medium Skin Tone`},
-                                {emoji: `&#x1F926&#x1F3FE&#x200D&#x2642&#xFE0F`, name: `Man Facepalming: Medium-Dark Skin Tone`},
-                                {emoji: `&#x1F926&#x1F3FF&#x200D&#x2642&#xFE0F`, name: `Man Facepalming: Dark Skin Tone`},
-                                {emoji: `&#x1F926&#x200D&#x2640&#xFE0F`, name: `Woman Facepalming`},
-                                {emoji: `&#x1F926&#x1F3FB&#x200D&#x2640&#xFE0F`, name: `Woman Facepalming: Light Skin Tone`},
-                                {emoji: `&#x1F926&#x1F3FC&#x200D&#x2640&#xFE0F`, name: `Woman Facepalming: Medium-Light Skin Tone`},
-                                {emoji: `&#x1F926&#x1F3FD&#x200D&#x2640&#xFE0F`, name: `Woman Facepalming: Medium Skin Tone`},
-                                {emoji: `&#x1F926&#x1F3FE&#x200D&#x2640&#xFE0F`, name: `Woman Facepalming: Medium-Dark Skin Tone`},
-                                {emoji: `&#x1F926&#x1F3FF&#x200D&#x2640&#xFE0F`, name: `Woman Facepalming: Dark Skin Tone`},
-                                {emoji: `&#x1F937`, name: `Person Shrugging`},
-                                {emoji: `&#x1F937&#x1F3FB`, name: `Person Shrugging: Light Skin Tone`},
-                                {emoji: `&#x1F937&#x1F3FC`, name: `Person Shrugging: Medium-Light Skin Tone`},
-                                {emoji: `&#x1F937&#x1F3FD`, name: `Person Shrugging: Medium Skin Tone`},
-                                {emoji: `&#x1F937&#x1F3FE`, name: `Person Shrugging: Medium-Dark Skin Tone`},
-                                {emoji: `&#x1F937&#x1F3FF`, name: `Person Shrugging: Dark Skin Tone`},
-                                {emoji: `&#x1F937&#x200D&#x2642&#xFE0F`, name: `Man Shrugging`},
-                                {emoji: `&#x1F937&#x1F3FB&#x200D&#x2642&#xFE0F`, name: `Man Shrugging: Light Skin Tone`},
-                                {emoji: `&#x1F937&#x1F3FC&#x200D&#x2642&#xFE0F`, name: `Man Shrugging: Medium-Light Skin Tone`},
-                                {emoji: `&#x1F937&#x1F3FD&#x200D&#x2642&#xFE0F`, name: `Man Shrugging: Medium Skin Tone`},
-                                {emoji: `&#x1F937&#x1F3FE&#x200D&#x2642&#xFE0F`, name: `Man Shrugging: Medium-Dark Skin Tone`},
-                                {emoji: `&#x1F937&#x1F3FF&#x200D&#x2642&#xFE0F`, name: `Man Shrugging: Dark Skin Tone`},
-                                {emoji: `&#x1F937&#x200D&#x2640&#xFE0F`, name: `Woman Shrugging`},
-                                {emoji: `&#x1F937&#x1F3FB&#x200D&#x2640&#xFE0F`, name: `Woman Shrugging: Light Skin Tone`},
-                                {emoji: `&#x1F937&#x1F3FC&#x200D&#x2640&#xFE0F`, name: `Woman Shrugging: Medium-Light Skin Tone`},
-                                {emoji: `&#x1F937&#x1F3FD&#x200D&#x2640&#xFE0F`, name: `Woman Shrugging: Medium Skin Tone`},
-                                {emoji: `&#x1F937&#x1F3FE&#x200D&#x2640&#xFE0F`, name: `Woman Shrugging: Medium-Dark Skin Tone`},
-                                {emoji: `&#x1F937&#x1F3FF&#x200D&#x2640&#xFE0F`, name: `Woman Shrugging: Dark Skin Tone`},
-                                {emoji: `&#x1F486`, name: `Person Getting Massage`},
-                                {emoji: `&#x1F486&#x1F3FB`, name: `Person Getting Massage: Light Skin Tone`},
-                                {emoji: `&#x1F486&#x1F3FC`, name: `Person Getting Massage: Medium-Light Skin Tone`},
-                                {emoji: `&#x1F486&#x1F3FD`, name: `Person Getting Massage: Medium Skin Tone`},
-                                {emoji: `&#x1F486&#x1F3FE`, name: `Person Getting Massage: Medium-Dark Skin Tone`},
-                                {emoji: `&#x1F486&#x1F3FF`, name: `Person Getting Massage: Dark Skin Tone`},
-                                {emoji: `&#x1F486&#x200D&#x2642&#xFE0F`, name: `Man Getting Massage`},
-                                {emoji: `&#x1F486&#x1F3FB&#x200D&#x2642&#xFE0F`, name: `Man Getting Massage: Light Skin Tone`},
-                                {emoji: `&#x1F486&#x1F3FC&#x200D&#x2642&#xFE0F`, name: `Man Getting Massage: Medium-Light Skin Tone`},
-                                {emoji: `&#x1F486&#x1F3FD&#x200D&#x2642&#xFE0F`, name: `Man Getting Massage: Medium Skin Tone`},
-                                {emoji: `&#x1F486&#x1F3FE&#x200D&#x2642&#xFE0F`, name: `Man Getting Massage: Medium-Dark Skin Tone`},
-                                {emoji: `&#x1F486&#x1F3FF&#x200D&#x2642&#xFE0F`, name: `Man Getting Massage: Dark Skin Tone`},
-                                {emoji: `&#x1F486&#x200D&#x2640&#xFE0F`, name: `Woman Getting Massage`},
-                                {emoji: `&#x1F486&#x1F3FB&#x200D&#x2640&#xFE0F`, name: `Woman Getting Massage: Light Skin Tone`},
-                                {emoji: `&#x1F486&#x1F3FC&#x200D&#x2640&#xFE0F`, name: `Woman Getting Massage: Medium-Light Skin Tone`},
-                                {emoji: `&#x1F486&#x1F3FD&#x200D&#x2640&#xFE0F`, name: `Woman Getting Massage: Medium Skin Tone`},
-                                {emoji: `&#x1F486&#x1F3FE&#x200D&#x2640&#xFE0F`, name: `Woman Getting Massage: Medium-Dark Skin Tone`},
-                                {emoji: `&#x1F486&#x1F3FF&#x200D&#x2640&#xFE0F`, name: `Woman Getting Massage: Dark Skin Tone`},
-                                {emoji: `&#x1F487`, name: `Person Getting Haircut`},
-                                {emoji: `&#x1F487&#x1F3FB`, name: `Person Getting Haircut: Light Skin Tone`},
-                                {emoji: `&#x1F487&#x1F3FC`, name: `Person Getting Haircut: Medium-Light Skin Tone`},
-                                {emoji: `&#x1F487&#x1F3FD`, name: `Person Getting Haircut: Medium Skin Tone`},
-                                {emoji: `&#x1F487&#x1F3FE`, name: `Person Getting Haircut: Medium-Dark Skin Tone`},
-                                {emoji: `&#x1F487&#x1F3FF`, name: `Person Getting Haircut: Dark Skin Tone`},
-                                {emoji: `&#x1F487&#x200D&#x2642&#xFE0F`, name: `Man Getting Haircut`},
-                                {emoji: `&#x1F487&#x1F3FB&#x200D&#x2642&#xFE0F`, name: `Man Getting Haircut: Light Skin Tone`},
-                                {emoji: `&#x1F487&#x1F3FC&#x200D&#x2642&#xFE0F`, name: `Man Getting Haircut: Medium-Light Skin Tone`},
-                                {emoji: `&#x1F487&#x1F3FD&#x200D&#x2642&#xFE0F`, name: `Man Getting Haircut: Medium Skin Tone`},
-                                {emoji: `&#x1F487&#x1F3FE&#x200D&#x2642&#xFE0F`, name: `Man Getting Haircut: Medium-Dark Skin Tone`},
-                                {emoji: `&#x1F487&#x1F3FF&#x200D&#x2642&#xFE0F`, name: `Man Getting Haircut: Dark Skin Tone`},
-                                {emoji: `&#x1F487&#x200D&#x2640&#xFE0F`, name: `Woman Getting Haircut`},
-                                {emoji: `&#x1F487&#x1F3FB&#x200D&#x2640&#xFE0F`, name: `Woman Getting Haircut: Light Skin Tone`},
-                                {emoji: `&#x1F487&#x1F3FC&#x200D&#x2640&#xFE0F`, name: `Woman Getting Haircut: Medium-Light Skin Tone`},
-                                {emoji: `&#x1F487&#x1F3FD&#x200D&#x2640&#xFE0F`, name: `Woman Getting Haircut: Medium Skin Tone`},
-                                {emoji: `&#x1F487&#x1F3FE&#x200D&#x2640&#xFE0F`, name: `Woman Getting Haircut: Medium-Dark Skin Tone`},
-                                {emoji: `&#x1F487&#x1F3FF&#x200D&#x2640&#xFE0F`, name: `Woman Getting Haircut: Dark Skin Tone`},
-                                {emoji: `&#x1F6B6`, name: `Person Walking`},
-                                {emoji: `&#x1F6B6&#x1F3FB`, name: `Person Walking: Light Skin Tone`},
-                                {emoji: `&#x1F6B6&#x1F3FC`, name: `Person Walking: Medium-Light Skin Tone`},
-                                {emoji: `&#x1F6B6&#x1F3FD`, name: `Person Walking: Medium Skin Tone`},
-                                {emoji: `&#x1F6B6&#x1F3FE`, name: `Person Walking: Medium-Dark Skin Tone`},
-                                {emoji: `&#x1F6B6&#x1F3FF`, name: `Person Walking: Dark Skin Tone`},
-                                {emoji: `&#x1F6B6&#x200D&#x2642&#xFE0F`, name: `Man Walking`},
-                                {emoji: `&#x1F6B6&#x1F3FB&#x200D&#x2642&#xFE0F`, name: `Man Walking: Light Skin Tone`},
-                                {emoji: `&#x1F6B6&#x1F3FC&#x200D&#x2642&#xFE0F`, name: `Man Walking: Medium-Light Skin Tone`},
-                                {emoji: `&#x1F6B6&#x1F3FD&#x200D&#x2642&#xFE0F`, name: `Man Walking: Medium Skin Tone`},
-                                {emoji: `&#x1F6B6&#x1F3FE&#x200D&#x2642&#xFE0F`, name: `Man Walking: Medium-Dark Skin Tone`},
-                                {emoji: `&#x1F6B6&#x1F3FF&#x200D&#x2642&#xFE0F`, name: `Man Walking: Dark Skin Tone`},
-                                {emoji: `&#x1F6B6&#x200D&#x2640&#xFE0F`, name: `Woman Walking`},
-                                {emoji: `&#x1F6B6&#x1F3FB&#x200D&#x2640&#xFE0F`, name: `Woman Walking: Light Skin Tone`},
-                                {emoji: `&#x1F6B6&#x1F3FC&#x200D&#x2640&#xFE0F`, name: `Woman Walking: Medium-Light Skin Tone`},
-                                {emoji: `&#x1F6B6&#x1F3FD&#x200D&#x2640&#xFE0F`, name: `Woman Walking: Medium Skin Tone`},
-                                {emoji: `&#x1F6B6&#x1F3FE&#x200D&#x2640&#xFE0F`, name: `Woman Walking: Medium-Dark Skin Tone`},
-                                {emoji: `&#x1F6B6&#x1F3FF&#x200D&#x2640&#xFE0F`, name: `Woman Walking: Dark Skin Tone`},
-                                {emoji: `&#x1F3C3`, name: `Person Running`},
-                                {emoji: `&#x1F3C3&#x1F3FB`, name: `Person Running: Light Skin Tone`},
-                                {emoji: `&#x1F3C3&#x1F3FC`, name: `Person Running: Medium-Light Skin Tone`},
-                                {emoji: `&#x1F3C3&#x1F3FD`, name: `Person Running: Medium Skin Tone`},
-                                {emoji: `&#x1F3C3&#x1F3FE`, name: `Person Running: Medium-Dark Skin Tone`},
-                                {emoji: `&#x1F3C3&#x1F3FF`, name: `Person Running: Dark Skin Tone`},
-                                {emoji: `&#x1F3C3&#x200D&#x2642&#xFE0F`, name: `Man Running`},
-                                {emoji: `&#x1F3C3&#x1F3FB&#x200D&#x2642&#xFE0F`, name: `Man Running: Light Skin Tone`},
-                                {emoji: `&#x1F3C3&#x1F3FC&#x200D&#x2642&#xFE0F`, name: `Man Running: Medium-Light Skin Tone`},
-                                {emoji: `&#x1F3C3&#x1F3FD&#x200D&#x2642&#xFE0F`, name: `Man Running: Medium Skin Tone`},
-                                {emoji: `&#x1F3C3&#x1F3FE&#x200D&#x2642&#xFE0F`, name: `Man Running: Medium-Dark Skin Tone`},
-                                {emoji: `&#x1F3C3&#x1F3FF&#x200D&#x2642&#xFE0F`, name: `Man Running: Dark Skin Tone`},
-                                {emoji: `&#x1F3C3&#x200D&#x2640&#xFE0F`, name: `Woman Running`},
-                                {emoji: `&#x1F3C3&#x1F3FB&#x200D&#x2640&#xFE0F`, name: `Woman Running: Light Skin Tone`},
-                                {emoji: `&#x1F3C3&#x1F3FC&#x200D&#x2640&#xFE0F`, name: `Woman Running: Medium-Light Skin Tone`},
-                                {emoji: `&#x1F3C3&#x1F3FD&#x200D&#x2640&#xFE0F`, name: `Woman Running: Medium Skin Tone`},
-                                {emoji: `&#x1F3C3&#x1F3FE&#x200D&#x2640&#xFE0F`, name: `Woman Running: Medium-Dark Skin Tone`},
-                                {emoji: `&#x1F3C3&#x1F3FF&#x200D&#x2640&#xFE0F`, name: `Woman Running: Dark Skin Tone`},
-                                {emoji: `&#x1F483`, name: `Woman Dancing`},
-                                {emoji: `&#x1F483&#x1F3FB`, name: `Woman Dancing: Light Skin Tone`},
-                                {emoji: `&#x1F483&#x1F3FC`, name: `Woman Dancing: Medium-Light Skin Tone`},
-                                {emoji: `&#x1F483&#x1F3FD`, name: `Woman Dancing: Medium Skin Tone`},
-                                {emoji: `&#x1F483&#x1F3FE`, name: `Woman Dancing: Medium-Dark Skin Tone`},
-                                {emoji: `&#x1F483&#x1F3FF`, name: `Woman Dancing: Dark Skin Tone`},
-                                {emoji: `&#x1F57A`, name: `Man Dancing`},
-                                {emoji: `&#x1F57A&#x1F3FB`, name: `Man Dancing: Light Skin Tone`},
-                                {emoji: `&#x1F57A&#x1F3FC`, name: `Man Dancing: Medium-Light Skin Tone`},
-                                {emoji: `&#x1F57A&#x1F3FD`, name: `Man Dancing: Medium Skin Tone`},
-                                {emoji: `&#x1F57A&#x1F3FE`, name: `Man Dancing: Medium-Dark Skin Tone`},
-                                {emoji: `&#x1F57A&#x1F3FF`, name: `Man Dancing: Dark Skin Tone`},
-                                {emoji: `&#x1F46F`, name: `People With Bunny Ears Partying`},
-                                {emoji: `&#x1F46F&#x200D&#x2642&#xFE0F`, name: `Men With Bunny Ears Partying`},
-                                {emoji: `&#x1F46F&#x200D&#x2640&#xFE0F`, name: `Women With Bunny Ears Partying`},
-                                {emoji: `&#x1F574`, name: `Man In Business Suit Levitating`},
-                                {emoji: `&#x1F574&#x1F3FB`, name: `Man In Business Suit Levitating: Light Skin Tone`},
-                                {emoji: `&#x1F574&#x1F3FC`, name: `Man In Business Suit Levitating: Medium-Light Skin Tone`},
-                                {emoji: `&#x1F574&#x1F3FD`, name: `Man In Business Suit Levitating: Medium Skin Tone`},
-                                {emoji: `&#x1F574&#x1F3FE`, name: `Man In Business Suit Levitating: Medium-Dark Skin Tone`},
-                                {emoji: `&#x1F574&#x1F3FF`, name: `Man In Business Suit Levitating: Dark Skin Tone`},
-                                {emoji: `&#x1F5E3`, name: `Speaking Head`},
-                                {emoji: `&#x1F464`, name: `Bust In Silhouette`},
-                                {emoji: `&#x1F465`, name: `Busts In Silhouette`},
-                                {emoji: `&#x1F93A`, name: `Person Fencing`},
-                                {emoji: `&#x1F3C7`, name: `Horse Racing`},
-                                {emoji: `&#x1F3C7&#x1F3FB`, name: `Horse Racing: Light Skin Tone`},
-                                {emoji: `&#x1F3C7&#x1F3FC`, name: `Horse Racing: Medium-Light Skin Tone`},
-                                {emoji: `&#x1F3C7&#x1F3FD`, name: `Horse Racing: Medium Skin Tone`},
-                                {emoji: `&#x1F3C7&#x1F3FE`, name: `Horse Racing: Medium-Dark Skin Tone`},
-                                {emoji: `&#x1F3C7&#x1F3FF`, name: `Horse Racing: Dark Skin Tone`},
-                                {emoji: `&#x26F7`, name: `Skier`},
-                                {emoji: `&#x1F3C2`, name: `Snowboarder`},
-                                {emoji: `&#x1F3C2&#x1F3FB`, name: `Snowboarder: Light Skin Tone`},
-                                {emoji: `&#x1F3C2&#x1F3FC`, name: `Snowboarder: Medium-Light Skin Tone`},
-                                {emoji: `&#x1F3C2&#x1F3FD`, name: `Snowboarder: Medium Skin Tone`},
-                                {emoji: `&#x1F3C2&#x1F3FE`, name: `Snowboarder: Medium-Dark Skin Tone`},
-                                {emoji: `&#x1F3C2&#x1F3FF`, name: `Snowboarder: Dark Skin Tone`},
-                                {emoji: `&#x1F3CC`, name: `Person Golfing`},
-                                {emoji: `&#x1F3CC&#x1F3FB`, name: `Person Golfing: Light Skin Tone`},
-                                {emoji: `&#x1F3CC&#x1F3FC`, name: `Person Golfing: Medium-Light Skin Tone`},
-                                {emoji: `&#x1F3CC&#x1F3FD`, name: `Person Golfing: Medium Skin Tone`},
-                                {emoji: `&#x1F3CC&#x1F3FE`, name: `Person Golfing: Medium-Dark Skin Tone`},
-                                {emoji: `&#x1F3CC&#x1F3FF`, name: `Person Golfing: Dark Skin Tone`},
-                                {emoji: `&#x1F3CC&#xFE0F&#x200D&#x2642&#xFE0F`, name: `Man Golfing`},
-                                {emoji: `&#x1F3CC&#x1F3FB&#x200D&#x2642&#xFE0F`, name: `Man Golfing: Light Skin Tone`},
-                                {emoji: `&#x1F3CC&#x1F3FC&#x200D&#x2642&#xFE0F`, name: `Man Golfing: Medium-Light Skin Tone`},
-                                {emoji: `&#x1F3CC&#x1F3FD&#x200D&#x2642&#xFE0F`, name: `Man Golfing: Medium Skin Tone`},
-                                {emoji: `&#x1F3CC&#x1F3FE&#x200D&#x2642&#xFE0F`, name: `Man Golfing: Medium-Dark Skin Tone`},
-                                {emoji: `&#x1F3CC&#x1F3FF&#x200D&#x2642&#xFE0F`, name: `Man Golfing: Dark Skin Tone`},
-                                {emoji: `&#x1F3CC&#xFE0F&#x200D&#x2640&#xFE0F`, name: `Woman Golfing`},
-                                {emoji: `&#x1F3CC&#x1F3FB&#x200D&#x2640&#xFE0F`, name: `Woman Golfing: Light Skin Tone`},
-                                {emoji: `&#x1F3CC&#x1F3FC&#x200D&#x2640&#xFE0F`, name: `Woman Golfing: Medium-Light Skin Tone`},
-                                {emoji: `&#x1F3CC&#x1F3FD&#x200D&#x2640&#xFE0F`, name: `Woman Golfing: Medium Skin Tone`},
-                                {emoji: `&#x1F3CC&#x1F3FE&#x200D&#x2640&#xFE0F`, name: `Woman Golfing: Medium-Dark Skin Tone`},
-                                {emoji: `&#x1F3CC&#x1F3FF&#x200D&#x2640&#xFE0F`, name: `Woman Golfing: Dark Skin Tone`},
-                                {emoji: `&#x1F3C4`, name: `Person Surfing`},
-                                {emoji: `&#x1F3C4&#x1F3FB`, name: `Person Surfing: Light Skin Tone`},
-                                {emoji: `&#x1F3C4&#x1F3FC`, name: `Person Surfing: Medium-Light Skin Tone`},
-                                {emoji: `&#x1F3C4&#x1F3FD`, name: `Person Surfing: Medium Skin Tone`},
-                                {emoji: `&#x1F3C4&#x1F3FE`, name: `Person Surfing: Medium-Dark Skin Tone`},
-                                {emoji: `&#x1F3C4&#x1F3FF`, name: `Person Surfing: Dark Skin Tone`},
-                                {emoji: `&#x1F3C4&#x200D&#x2642&#xFE0F`, name: `Man Surfing`},
-                                {emoji: `&#x1F3C4&#x1F3FB&#x200D&#x2642&#xFE0F`, name: `Man Surfing: Light Skin Tone`},
-                                {emoji: `&#x1F3C4&#x1F3FC&#x200D&#x2642&#xFE0F`, name: `Man Surfing: Medium-Light Skin Tone`},
-                                {emoji: `&#x1F3C4&#x1F3FD&#x200D&#x2642&#xFE0F`, name: `Man Surfing: Medium Skin Tone`},
-                                {emoji: `&#x1F3C4&#x1F3FE&#x200D&#x2642&#xFE0F`, name: `Man Surfing: Medium-Dark Skin Tone`},
-                                {emoji: `&#x1F3C4&#x1F3FF&#x200D&#x2642&#xFE0F`, name: `Man Surfing: Dark Skin Tone`},
-                                {emoji: `&#x1F3C4&#x200D&#x2640&#xFE0F`, name: `Woman Surfing`},
-                                {emoji: `&#x1F3C4&#x1F3FB&#x200D&#x2640&#xFE0F`, name: `Woman Surfing: Light Skin Tone`},
-                                {emoji: `&#x1F3C4&#x1F3FC&#x200D&#x2640&#xFE0F`, name: `Woman Surfing: Medium-Light Skin Tone`},
-                                {emoji: `&#x1F3C4&#x1F3FD&#x200D&#x2640&#xFE0F`, name: `Woman Surfing: Medium Skin Tone`},
-                                {emoji: `&#x1F3C4&#x1F3FE&#x200D&#x2640&#xFE0F`, name: `Woman Surfing: Medium-Dark Skin Tone`},
-                                {emoji: `&#x1F3C4&#x1F3FF&#x200D&#x2640&#xFE0F`, name: `Woman Surfing: Dark Skin Tone`},
-                                {emoji: `&#x1F6A3`, name: `Person Rowing Boat`},
-                                {emoji: `&#x1F6A3&#x1F3FB`, name: `Person Rowing Boat: Light Skin Tone`},
-                                {emoji: `&#x1F6A3&#x1F3FC`, name: `Person Rowing Boat: Medium-Light Skin Tone`},
-                                {emoji: `&#x1F6A3&#x1F3FD`, name: `Person Rowing Boat: Medium Skin Tone`},
-                                {emoji: `&#x1F6A3&#x1F3FE`, name: `Person Rowing Boat: Medium-Dark Skin Tone`},
-                                {emoji: `&#x1F6A3&#x1F3FF`, name: `Person Rowing Boat: Dark Skin Tone`},
-                                {emoji: `&#x1F6A3&#x200D&#x2642&#xFE0F`, name: `Man Rowing Boat`},
-                                {emoji: `&#x1F6A3&#x1F3FB&#x200D&#x2642&#xFE0F`, name: `Man Rowing Boat: Light Skin Tone`},
-                                {emoji: `&#x1F6A3&#x1F3FC&#x200D&#x2642&#xFE0F`, name: `Man Rowing Boat: Medium-Light Skin Tone`},
-                                {emoji: `&#x1F6A3&#x1F3FD&#x200D&#x2642&#xFE0F`, name: `Man Rowing Boat: Medium Skin Tone`},
-                                {emoji: `&#x1F6A3&#x1F3FE&#x200D&#x2642&#xFE0F`, name: `Man Rowing Boat: Medium-Dark Skin Tone`},
-                                {emoji: `&#x1F6A3&#x1F3FF&#x200D&#x2642&#xFE0F`, name: `Man Rowing Boat: Dark Skin Tone`},
-                                {emoji: `&#x1F6A3&#x200D&#x2640&#xFE0F`, name: `Woman Rowing Boat`},
-                                {emoji: `&#x1F6A3&#x1F3FB&#x200D&#x2640&#xFE0F`, name: `Woman Rowing Boat: Light Skin Tone`},
-                                {emoji: `&#x1F6A3&#x1F3FC&#x200D&#x2640&#xFE0F`, name: `Woman Rowing Boat: Medium-Light Skin Tone`},
-                                {emoji: `&#x1F6A3&#x1F3FD&#x200D&#x2640&#xFE0F`, name: `Woman Rowing Boat: Medium Skin Tone`},
-                                {emoji: `&#x1F6A3&#x1F3FE&#x200D&#x2640&#xFE0F`, name: `Woman Rowing Boat: Medium-Dark Skin Tone`},
-                                {emoji: `&#x1F6A3&#x1F3FF&#x200D&#x2640&#xFE0F`, name: `Woman Rowing Boat: Dark Skin Tone`},
-                                {emoji: `&#x1F3CA`, name: `Person Swimming`},
-                                {emoji: `&#x1F3CA&#x1F3FB`, name: `Person Swimming: Light Skin Tone`},
-                                {emoji: `&#x1F3CA&#x1F3FC`, name: `Person Swimming: Medium-Light Skin Tone`},
-                                {emoji: `&#x1F3CA&#x1F3FD`, name: `Person Swimming: Medium Skin Tone`},
-                                {emoji: `&#x1F3CA&#x1F3FE`, name: `Person Swimming: Medium-Dark Skin Tone`},
-                                {emoji: `&#x1F3CA&#x1F3FF`, name: `Person Swimming: Dark Skin Tone`},
-                                {emoji: `&#x1F3CA&#x200D&#x2642&#xFE0F`, name: `Man Swimming`},
-                                {emoji: `&#x1F3CA&#x1F3FB&#x200D&#x2642&#xFE0F`, name: `Man Swimming: Light Skin Tone`},
-                                {emoji: `&#x1F3CA&#x1F3FC&#x200D&#x2642&#xFE0F`, name: `Man Swimming: Medium-Light Skin Tone`},
-                                {emoji: `&#x1F3CA&#x1F3FD&#x200D&#x2642&#xFE0F`, name: `Man Swimming: Medium Skin Tone`},
-                                {emoji: `&#x1F3CA&#x1F3FE&#x200D&#x2642&#xFE0F`, name: `Man Swimming: Medium-Dark Skin Tone`},
-                                {emoji: `&#x1F3CA&#x1F3FF&#x200D&#x2642&#xFE0F`, name: `Man Swimming: Dark Skin Tone`},
-                                {emoji: `&#x1F3CA&#x200D&#x2640&#xFE0F`, name: `Woman Swimming`},
-                                {emoji: `&#x1F3CA&#x1F3FB&#x200D&#x2640&#xFE0F`, name: `Woman Swimming: Light Skin Tone`},
-                                {emoji: `&#x1F3CA&#x1F3FC&#x200D&#x2640&#xFE0F`, name: `Woman Swimming: Medium-Light Skin Tone`},
-                                {emoji: `&#x1F3CA&#x1F3FD&#x200D&#x2640&#xFE0F`, name: `Woman Swimming: Medium Skin Tone`},
-                                {emoji: `&#x1F3CA&#x1F3FE&#x200D&#x2640&#xFE0F`, name: `Woman Swimming: Medium-Dark Skin Tone`},
-                                {emoji: `&#x1F3CA&#x1F3FF&#x200D&#x2640&#xFE0F`, name: `Woman Swimming: Dark Skin Tone`},
-                                {emoji: `&#x26F9`, name: `Person Bouncing Ball`},
-                                {emoji: `&#x26F9&#x1F3FB`, name: `Person Bouncing Ball: Light Skin Tone`},
-                                {emoji: `&#x26F9&#x1F3FC`, name: `Person Bouncing Ball: Medium-Light Skin Tone`},
-                                {emoji: `&#x26F9&#x1F3FD`, name: `Person Bouncing Ball: Medium Skin Tone`},
-                                {emoji: `&#x26F9&#x1F3FE`, name: `Person Bouncing Ball: Medium-Dark Skin Tone`},
-                                {emoji: `&#x26F9&#x1F3FF`, name: `Person Bouncing Ball: Dark Skin Tone`},
-                                {emoji: `&#x26F9&#xFE0F&#x200D&#x2642&#xFE0F`, name: `Man Bouncing Ball`},
-                                {emoji: `&#x26F9&#x1F3FB&#x200D&#x2642&#xFE0F`, name: `Man Bouncing Ball: Light Skin Tone`},
-                                {emoji: `&#x26F9&#x1F3FC&#x200D&#x2642&#xFE0F`, name: `Man Bouncing Ball: Medium-Light Skin Tone`},
-                                {emoji: `&#x26F9&#x1F3FD&#x200D&#x2642&#xFE0F`, name: `Man Bouncing Ball: Medium Skin Tone`},
-                                {emoji: `&#x26F9&#x1F3FE&#x200D&#x2642&#xFE0F`, name: `Man Bouncing Ball: Medium-Dark Skin Tone`},
-                                {emoji: `&#x26F9&#x1F3FF&#x200D&#x2642&#xFE0F`, name: `Man Bouncing Ball: Dark Skin Tone`},
-                                {emoji: `&#x26F9&#xFE0F&#x200D&#x2640&#xFE0F`, name: `Woman Bouncing Ball`},
-                                {emoji: `&#x26F9&#x1F3FB&#x200D&#x2640&#xFE0F`, name: `Woman Bouncing Ball: Light Skin Tone`},
-                                {emoji: `&#x26F9&#x1F3FC&#x200D&#x2640&#xFE0F`, name: `Woman Bouncing Ball: Medium-Light Skin Tone`},
-                                {emoji: `&#x26F9&#x1F3FD&#x200D&#x2640&#xFE0F`, name: `Woman Bouncing Ball: Medium Skin Tone`},
-                                {emoji: `&#x26F9&#x1F3FE&#x200D&#x2640&#xFE0F`, name: `Woman Bouncing Ball: Medium-Dark Skin Tone`},
-                                {emoji: `&#x26F9&#x1F3FF&#x200D&#x2640&#xFE0F`, name: `Woman Bouncing Ball: Dark Skin Tone`},
-                                {emoji: `&#x1F3CB`, name: `Person Lifting Weights`},
-                                {emoji: `&#x1F3CB&#x1F3FB`, name: `Person Lifting Weights: Light Skin Tone`},
-                                {emoji: `&#x1F3CB&#x1F3FC`, name: `Person Lifting Weights: Medium-Light Skin Tone`},
-                                {emoji: `&#x1F3CB&#x1F3FD`, name: `Person Lifting Weights: Medium Skin Tone`},
-                                {emoji: `&#x1F3CB&#x1F3FE`, name: `Person Lifting Weights: Medium-Dark Skin Tone`},
-                                {emoji: `&#x1F3CB&#x1F3FF`, name: `Person Lifting Weights: Dark Skin Tone`},
-                                {emoji: `&#x1F3CB&#xFE0F&#x200D&#x2642&#xFE0F`, name: `Man Lifting Weights`},
-                                {emoji: `&#x1F3CB&#x1F3FB&#x200D&#x2642&#xFE0F`, name: `Man Lifting Weights: Light Skin Tone`},
-                                {emoji: `&#x1F3CB&#x1F3FC&#x200D&#x2642&#xFE0F`, name: `Man Lifting Weights: Medium-Light Skin Tone`},
-                                {emoji: `&#x1F3CB&#x1F3FD&#x200D&#x2642&#xFE0F`, name: `Man Lifting Weights: Medium Skin Tone`},
-                                {emoji: `&#x1F3CB&#x1F3FE&#x200D&#x2642&#xFE0F`, name: `Man Lifting Weights: Medium-Dark Skin Tone`},
-                                {emoji: `&#x1F3CB&#x1F3FF&#x200D&#x2642&#xFE0F`, name: `Man Lifting Weights: Dark Skin Tone`},
-                                {emoji: `&#x1F3CB&#xFE0F&#x200D&#x2640&#xFE0F`, name: `Woman Lifting Weights`},
-                                {emoji: `&#x1F3CB&#x1F3FB&#x200D&#x2640&#xFE0F`, name: `Woman Lifting Weights: Light Skin Tone`},
-                                {emoji: `&#x1F3CB&#x1F3FC&#x200D&#x2640&#xFE0F`, name: `Woman Lifting Weights: Medium-Light Skin Tone`},
-                                {emoji: `&#x1F3CB&#x1F3FD&#x200D&#x2640&#xFE0F`, name: `Woman Lifting Weights: Medium Skin Tone`},
-                                {emoji: `&#x1F3CB&#x1F3FE&#x200D&#x2640&#xFE0F`, name: `Woman Lifting Weights: Medium-Dark Skin Tone`},
-                                {emoji: `&#x1F3CB&#x1F3FF&#x200D&#x2640&#xFE0F`, name: `Woman Lifting Weights: Dark Skin Tone`},
-                                {emoji: `&#x1F6B4`, name: `Person Biking`},
-                                {emoji: `&#x1F6B4&#x1F3FB`, name: `Person Biking: Light Skin Tone`},
-                                {emoji: `&#x1F6B4&#x1F3FC`, name: `Person Biking: Medium-Light Skin Tone`},
-                                {emoji: `&#x1F6B4&#x1F3FD`, name: `Person Biking: Medium Skin Tone`},
-                                {emoji: `&#x1F6B4&#x1F3FE`, name: `Person Biking: Medium-Dark Skin Tone`},
-                                {emoji: `&#x1F6B4&#x1F3FF`, name: `Person Biking: Dark Skin Tone`},
-                                {emoji: `&#x1F6B4&#x200D&#x2642&#xFE0F`, name: `Man Biking`},
-                                {emoji: `&#x1F6B4&#x1F3FB&#x200D&#x2642&#xFE0F`, name: `Man Biking: Light Skin Tone`},
-                                {emoji: `&#x1F6B4&#x1F3FC&#x200D&#x2642&#xFE0F`, name: `Man Biking: Medium-Light Skin Tone`},
-                                {emoji: `&#x1F6B4&#x1F3FD&#x200D&#x2642&#xFE0F`, name: `Man Biking: Medium Skin Tone`},
-                                {emoji: `&#x1F6B4&#x1F3FE&#x200D&#x2642&#xFE0F`, name: `Man Biking: Medium-Dark Skin Tone`},
-                                {emoji: `&#x1F6B4&#x1F3FF&#x200D&#x2642&#xFE0F`, name: `Man Biking: Dark Skin Tone`},
-                                {emoji: `&#x1F6B4&#x200D&#x2640&#xFE0F`, name: `Woman Biking`},
-                                {emoji: `&#x1F6B4&#x1F3FB&#x200D&#x2640&#xFE0F`, name: `Woman Biking: Light Skin Tone`},
-                                {emoji: `&#x1F6B4&#x1F3FC&#x200D&#x2640&#xFE0F`, name: `Woman Biking: Medium-Light Skin Tone`},
-                                {emoji: `&#x1F6B4&#x1F3FD&#x200D&#x2640&#xFE0F`, name: `Woman Biking: Medium Skin Tone`},
-                                {emoji: `&#x1F6B4&#x1F3FE&#x200D&#x2640&#xFE0F`, name: `Woman Biking: Medium-Dark Skin Tone`},
-                                {emoji: `&#x1F6B4&#x1F3FF&#x200D&#x2640&#xFE0F`, name: `Woman Biking: Dark Skin Tone`},
-                                {emoji: `&#x1F6B5`, name: `Person Mountain Biking`},
-                                {emoji: `&#x1F6B5&#x1F3FB`, name: `Person Mountain Biking: Light Skin Tone`},
-                                {emoji: `&#x1F6B5&#x1F3FC`, name: `Person Mountain Biking: Medium-Light Skin Tone`},
-                                {emoji: `&#x1F6B5&#x1F3FD`, name: `Person Mountain Biking: Medium Skin Tone`},
-                                {emoji: `&#x1F6B5&#x1F3FE`, name: `Person Mountain Biking: Medium-Dark Skin Tone`},
-                                {emoji: `&#x1F6B5&#x1F3FF`, name: `Person Mountain Biking: Dark Skin Tone`},
-                                {emoji: `&#x1F6B5&#x200D&#x2642&#xFE0F`, name: `Man Mountain Biking`},
-                                {emoji: `&#x1F6B5&#x1F3FB&#x200D&#x2642&#xFE0F`, name: `Man Mountain Biking: Light Skin Tone`},
-                                {emoji: `&#x1F6B5&#x1F3FC&#x200D&#x2642&#xFE0F`, name: `Man Mountain Biking: Medium-Light Skin Tone`},
-                                {emoji: `&#x1F6B5&#x1F3FD&#x200D&#x2642&#xFE0F`, name: `Man Mountain Biking: Medium Skin Tone`},
-                                {emoji: `&#x1F6B5&#x1F3FE&#x200D&#x2642&#xFE0F`, name: `Man Mountain Biking: Medium-Dark Skin Tone`},
-                                {emoji: `&#x1F6B5&#x1F3FF&#x200D&#x2642&#xFE0F`, name: `Man Mountain Biking: Dark Skin Tone`},
-                                {emoji: `&#x1F6B5&#x200D&#x2640&#xFE0F`, name: `Woman Mountain Biking`},
-                                {emoji: `&#x1F6B5&#x1F3FB&#x200D&#x2640&#xFE0F`, name: `Woman Mountain Biking: Light Skin Tone`},
-                                {emoji: `&#x1F6B5&#x1F3FC&#x200D&#x2640&#xFE0F`, name: `Woman Mountain Biking: Medium-Light Skin Tone`},
-                                {emoji: `&#x1F6B5&#x1F3FD&#x200D&#x2640&#xFE0F`, name: `Woman Mountain Biking: Medium Skin Tone`},
-                                {emoji: `&#x1F6B5&#x1F3FE&#x200D&#x2640&#xFE0F`, name: `Woman Mountain Biking: Medium-Dark Skin Tone`},
-                                {emoji: `&#x1F6B5&#x1F3FF&#x200D&#x2640&#xFE0F`, name: `Woman Mountain Biking: Dark Skin Tone`},
-                                {emoji: `&#x1F3CE`, name: `Racing Car`},
-                                {emoji: `&#x1F3CD`, name: `Motorcycle`},
-                                {emoji: `&#x1F938`, name: `Person Cartwheeling`},
-                                {emoji: `&#x1F938&#x1F3FB`, name: `Person Cartwheeling: Light Skin Tone`},
-                                {emoji: `&#x1F938&#x1F3FC`, name: `Person Cartwheeling: Medium-Light Skin Tone`},
-                                {emoji: `&#x1F938&#x1F3FD`, name: `Person Cartwheeling: Medium Skin Tone`},
-                                {emoji: `&#x1F938&#x1F3FE`, name: `Person Cartwheeling: Medium-Dark Skin Tone`},
-                                {emoji: `&#x1F938&#x1F3FF`, name: `Person Cartwheeling: Dark Skin Tone`},
-                                {emoji: `&#x1F938&#x200D&#x2642&#xFE0F`, name: `Man Cartwheeling`},
-                                {emoji: `&#x1F938&#x1F3FB&#x200D&#x2642&#xFE0F`, name: `Man Cartwheeling: Light Skin Tone`},
-                                {emoji: `&#x1F938&#x1F3FC&#x200D&#x2642&#xFE0F`, name: `Man Cartwheeling: Medium-Light Skin Tone`},
-                                {emoji: `&#x1F938&#x1F3FD&#x200D&#x2642&#xFE0F`, name: `Man Cartwheeling: Medium Skin Tone`},
-                                {emoji: `&#x1F938&#x1F3FE&#x200D&#x2642&#xFE0F`, name: `Man Cartwheeling: Medium-Dark Skin Tone`},
-                                {emoji: `&#x1F938&#x1F3FF&#x200D&#x2642&#xFE0F`, name: `Man Cartwheeling: Dark Skin Tone`},
-                                {emoji: `&#x1F938&#x200D&#x2640&#xFE0F`, name: `Woman Cartwheeling`},
-                                {emoji: `&#x1F938&#x1F3FB&#x200D&#x2640&#xFE0F`, name: `Woman Cartwheeling: Light Skin Tone`},
-                                {emoji: `&#x1F938&#x1F3FC&#x200D&#x2640&#xFE0F`, name: `Woman Cartwheeling: Medium-Light Skin Tone`},
-                                {emoji: `&#x1F938&#x1F3FD&#x200D&#x2640&#xFE0F`, name: `Woman Cartwheeling: Medium Skin Tone`},
-                                {emoji: `&#x1F938&#x1F3FE&#x200D&#x2640&#xFE0F`, name: `Woman Cartwheeling: Medium-Dark Skin Tone`},
-                                {emoji: `&#x1F938&#x1F3FF&#x200D&#x2640&#xFE0F`, name: `Woman Cartwheeling: Dark Skin Tone`},
-                                {emoji: `&#x1F93C`, name: `People Wrestling`},
-                                {emoji: `&#x1F93C&#x200D&#x2642&#xFE0F`, name: `Men Wrestling`},
-                                {emoji: `&#x1F93C&#x200D&#x2640&#xFE0F`, name: `Women Wrestling`},
-                                {emoji: `&#x1F93D`, name: `Person Playing Water Polo`},
-                                {emoji: `&#x1F93D&#x1F3FB`, name: `Person Playing Water Polo: Light Skin Tone`},
-                                {emoji: `&#x1F93D&#x1F3FC`, name: `Person Playing Water Polo: Medium-Light Skin Tone`},
-                                {emoji: `&#x1F93D&#x1F3FD`, name: `Person Playing Water Polo: Medium Skin Tone`},
-                                {emoji: `&#x1F93D&#x1F3FE`, name: `Person Playing Water Polo: Medium-Dark Skin Tone`},
-                                {emoji: `&#x1F93D&#x1F3FF`, name: `Person Playing Water Polo: Dark Skin Tone`},
-                                {emoji: `&#x1F93D&#x200D&#x2642&#xFE0F`, name: `Man Playing Water Polo`},
-                                {emoji: `&#x1F93D&#x1F3FB&#x200D&#x2642&#xFE0F`, name: `Man Playing Water Polo: Light Skin Tone`},
-                                {emoji: `&#x1F93D&#x1F3FC&#x200D&#x2642&#xFE0F`, name: `Man Playing Water Polo: Medium-Light Skin Tone`},
-                                {emoji: `&#x1F93D&#x1F3FD&#x200D&#x2642&#xFE0F`, name: `Man Playing Water Polo: Medium Skin Tone`},
-                                {emoji: `&#x1F93D&#x1F3FE&#x200D&#x2642&#xFE0F`, name: `Man Playing Water Polo: Medium-Dark Skin Tone`},
-                                {emoji: `&#x1F93D&#x1F3FF&#x200D&#x2642&#xFE0F`, name: `Man Playing Water Polo: Dark Skin Tone`},
-                                {emoji: `&#x1F93D&#x200D&#x2640&#xFE0F`, name: `Woman Playing Water Polo`},
-                                {emoji: `&#x1F93D&#x1F3FB&#x200D&#x2640&#xFE0F`, name: `Woman Playing Water Polo: Light Skin Tone`},
-                                {emoji: `&#x1F93D&#x1F3FC&#x200D&#x2640&#xFE0F`, name: `Woman Playing Water Polo: Medium-Light Skin Tone`},
-                                {emoji: `&#x1F93D&#x1F3FD&#x200D&#x2640&#xFE0F`, name: `Woman Playing Water Polo: Medium Skin Tone`},
-                                {emoji: `&#x1F93D&#x1F3FE&#x200D&#x2640&#xFE0F`, name: `Woman Playing Water Polo: Medium-Dark Skin Tone`},
-                                {emoji: `&#x1F93D&#x1F3FF&#x200D&#x2640&#xFE0F`, name: `Woman Playing Water Polo: Dark Skin Tone`},
-                                {emoji: `&#x1F93E`, name: `Person Playing Handball`},
-                                {emoji: `&#x1F93E&#x1F3FB`, name: `Person Playing Handball: Light Skin Tone`},
-                                {emoji: `&#x1F93E&#x1F3FC`, name: `Person Playing Handball: Medium-Light Skin Tone`},
-                                {emoji: `&#x1F93E&#x1F3FD`, name: `Person Playing Handball: Medium Skin Tone`},
-                                {emoji: `&#x1F93E&#x1F3FE`, name: `Person Playing Handball: Medium-Dark Skin Tone`},
-                                {emoji: `&#x1F93E&#x1F3FF`, name: `Person Playing Handball: Dark Skin Tone`},
-                                {emoji: `&#x1F93E&#x200D&#x2642&#xFE0F`, name: `Man Playing Handball`},
-                                {emoji: `&#x1F93E&#x1F3FB&#x200D&#x2642&#xFE0F`, name: `Man Playing Handball: Light Skin Tone`},
-                                {emoji: `&#x1F93E&#x1F3FC&#x200D&#x2642&#xFE0F`, name: `Man Playing Handball: Medium-Light Skin Tone`},
-                                {emoji: `&#x1F93E&#x1F3FD&#x200D&#x2642&#xFE0F`, name: `Man Playing Handball: Medium Skin Tone`},
-                                {emoji: `&#x1F93E&#x1F3FE&#x200D&#x2642&#xFE0F`, name: `Man Playing Handball: Medium-Dark Skin Tone`},
-                                {emoji: `&#x1F93E&#x1F3FF&#x200D&#x2642&#xFE0F`, name: `Man Playing Handball: Dark Skin Tone`},
-                                {emoji: `&#x1F93E&#x200D&#x2640&#xFE0F`, name: `Woman Playing Handball`},
-                                {emoji: `&#x1F93E&#x1F3FB&#x200D&#x2640&#xFE0F`, name: `Woman Playing Handball: Light Skin Tone`},
-                                {emoji: `&#x1F93E&#x1F3FC&#x200D&#x2640&#xFE0F`, name: `Woman Playing Handball: Medium-Light Skin Tone`},
-                                {emoji: `&#x1F93E&#x1F3FD&#x200D&#x2640&#xFE0F`, name: `Woman Playing Handball: Medium Skin Tone`},
-                                {emoji: `&#x1F93E&#x1F3FE&#x200D&#x2640&#xFE0F`, name: `Woman Playing Handball: Medium-Dark Skin Tone`},
-                                {emoji: `&#x1F93E&#x1F3FF&#x200D&#x2640&#xFE0F`, name: `Woman Playing Handball: Dark Skin Tone`},
-                                {emoji: `&#x1F939`, name: `Person Juggling`},
-                                {emoji: `&#x1F939&#x1F3FB`, name: `Person Juggling: Light Skin Tone`},
-                                {emoji: `&#x1F939&#x1F3FC`, name: `Person Juggling: Medium-Light Skin Tone`},
-                                {emoji: `&#x1F939&#x1F3FD`, name: `Person Juggling: Medium Skin Tone`},
-                                {emoji: `&#x1F939&#x1F3FE`, name: `Person Juggling: Medium-Dark Skin Tone`},
-                                {emoji: `&#x1F939&#x1F3FF`, name: `Person Juggling: Dark Skin Tone`},
-                                {emoji: `&#x1F939&#x200D&#x2642&#xFE0F`, name: `Man Juggling`},
-                                {emoji: `&#x1F939&#x1F3FB&#x200D&#x2642&#xFE0F`, name: `Man Juggling: Light Skin Tone`},
-                                {emoji: `&#x1F939&#x1F3FC&#x200D&#x2642&#xFE0F`, name: `Man Juggling: Medium-Light Skin Tone`},
-                                {emoji: `&#x1F939&#x1F3FD&#x200D&#x2642&#xFE0F`, name: `Man Juggling: Medium Skin Tone`},
-                                {emoji: `&#x1F939&#x1F3FE&#x200D&#x2642&#xFE0F`, name: `Man Juggling: Medium-Dark Skin Tone`},
-                                {emoji: `&#x1F939&#x1F3FF&#x200D&#x2642&#xFE0F`, name: `Man Juggling: Dark Skin Tone`},
-                                {emoji: `&#x1F939&#x200D&#x2640&#xFE0F`, name: `Woman Juggling`},
-                                {emoji: `&#x1F939&#x1F3FB&#x200D&#x2640&#xFE0F`, name: `Woman Juggling: Light Skin Tone`},
-                                {emoji: `&#x1F939&#x1F3FC&#x200D&#x2640&#xFE0F`, name: `Woman Juggling: Medium-Light Skin Tone`},
-                                {emoji: `&#x1F939&#x1F3FD&#x200D&#x2640&#xFE0F`, name: `Woman Juggling: Medium Skin Tone`},
-                                {emoji: `&#x1F939&#x1F3FE&#x200D&#x2640&#xFE0F`, name: `Woman Juggling: Medium-Dark Skin Tone`},
-                                {emoji: `&#x1F939&#x1F3FF&#x200D&#x2640&#xFE0F`, name: `Woman Juggling: Dark Skin Tone`},
-                                {emoji: `&#x1F46B`, name: `Man And Woman Holding Hands`},
-                                {emoji: `&#x1F46C`, name: `Two Men Holding Hands`},
-                                {emoji: `&#x1F46D`, name: `Two Women Holding Hands`},
-                                {emoji: `&#x1F48F`, name: `Kiss`},
-                                {emoji: `&#x1F469&#x200D&#x2764&#xFE0F&#x200D&#x1F48B&#x200D&#x1F468`, name: `Kiss: Woman, Man`},
-                                {emoji: `&#x1F468&#x200D&#x2764&#xFE0F&#x200D&#x1F48B&#x200D&#x1F468`, name: `Kiss: Man, Man`},
-                                {emoji: `&#x1F469&#x200D&#x2764&#xFE0F&#x200D&#x1F48B&#x200D&#x1F469`, name: `Kiss: Woman, Woman`},
-                                {emoji: `&#x1F491`, name: `Couple With Heart`},
-                                {emoji: `&#x1F469&#x200D&#x2764&#xFE0F&#x200D&#x1F468`, name: `Couple With Heart: Woman, Man`},
-                                {emoji: `&#x1F468&#x200D&#x2764&#xFE0F&#x200D&#x1F468`, name: `Couple With Heart: Man, Man`},
-                                {emoji: `&#x1F469&#x200D&#x2764&#xFE0F&#x200D&#x1F469`, name: `Couple With Heart: Woman, Woman`},
-                                {emoji: `&#x1F46A`, name: `Family`},
-                                {emoji: `&#x1F468&#x200D&#x1F469&#x200D&#x1F466`, name: `Family: Man, Woman, Boy`},
-                                {emoji: `&#x1F468&#x200D&#x1F469&#x200D&#x1F467`, name: `Family: Man, Woman, Girl`},
-                                {emoji: `&#x1F468&#x200D&#x1F469&#x200D&#x1F467&#x200D&#x1F466`, name: `Family: Man, Woman, Girl, Boy`},
-                                {emoji: `&#x1F468&#x200D&#x1F469&#x200D&#x1F466&#x200D&#x1F466`, name: `Family: Man, Woman, Boy, Boy`},
-                                {emoji: `&#x1F468&#x200D&#x1F469&#x200D&#x1F467&#x200D&#x1F467`, name: `Family: Man, Woman, Girl, Girl`},
-                                {emoji: `&#x1F468&#x200D&#x1F468&#x200D&#x1F466`, name: `Family: Man, Man, Boy`},
-                                {emoji: `&#x1F468&#x200D&#x1F468&#x200D&#x1F467`, name: `Family: Man, Man, Girl`},
-                                {emoji: `&#x1F468&#x200D&#x1F468&#x200D&#x1F467&#x200D&#x1F466`, name: `Family: Man, Man, Girl, Boy`},
-                                {emoji: `&#x1F468&#x200D&#x1F468&#x200D&#x1F466&#x200D&#x1F466`, name: `Family: Man, Man, Boy, Boy`},
-                                {emoji: `&#x1F468&#x200D&#x1F468&#x200D&#x1F467&#x200D&#x1F467`, name: `Family: Man, Man, Girl, Girl`},
-                                {emoji: `&#x1F469&#x200D&#x1F469&#x200D&#x1F466`, name: `Family: Woman, Woman, Boy`},
-                                {emoji: `&#x1F469&#x200D&#x1F469&#x200D&#x1F467`, name: `Family: Woman, Woman, Girl`},
-                                {emoji: `&#x1F469&#x200D&#x1F469&#x200D&#x1F467&#x200D&#x1F466`, name: `Family: Woman, Woman, Girl, Boy`},
-                                {emoji: `&#x1F469&#x200D&#x1F469&#x200D&#x1F466&#x200D&#x1F466`, name: `Family: Woman, Woman, Boy, Boy`},
-                                {emoji: `&#x1F469&#x200D&#x1F469&#x200D&#x1F467&#x200D&#x1F467`, name: `Family: Woman, Woman, Girl, Girl`},
-                                {emoji: `&#x1F468&#x200D&#x1F466`, name: `Family: Man, Boy`},
-                                {emoji: `&#x1F468&#x200D&#x1F466&#x200D&#x1F466`, name: `Family: Man, Boy, Boy`},
-                                {emoji: `&#x1F468&#x200D&#x1F467`, name: `Family: Man, Girl`},
-                                {emoji: `&#x1F468&#x200D&#x1F467&#x200D&#x1F466`, name: `Family: Man, Girl, Boy`},
-                                {emoji: `&#x1F468&#x200D&#x1F467&#x200D&#x1F467`, name: `Family: Man, Girl, Girl`},
-                                {emoji: `&#x1F469&#x200D&#x1F466`, name: `Family: Woman, Boy`},
-                                {emoji: `&#x1F469&#x200D&#x1F466&#x200D&#x1F466`, name: `Family: Woman, Boy, Boy`},
-                                {emoji: `&#x1F469&#x200D&#x1F467`, name: `Family: Woman, Girl`},
-                                {emoji: `&#x1F469&#x200D&#x1F467&#x200D&#x1F466`, name: `Family: Woman, Girl, Boy`},
-                                {emoji: `&#x1F469&#x200D&#x1F467&#x200D&#x1F467`, name: `Family: Woman, Girl, Girl`},
-                                {emoji: `&#x1F3FB`, name: `Light Skin Tone`},
-                                {emoji: `&#x1F3FC`, name: `Medium-Light Skin Tone`},
-                                {emoji: `&#x1F3FD`, name: `Medium Skin Tone`},
-                                {emoji: `&#x1F3FE`, name: `Medium-Dark Skin Tone`},
-                                {emoji: `&#x1F3FF`, name: `Dark Skin Tone`},
-                                {emoji: `&#x1F4AA`, name: `Flexed Biceps`},
-                                {emoji: `&#x1F4AA&#x1F3FB`, name: `Flexed Biceps: Light Skin Tone`},
-                                {emoji: `&#x1F4AA&#x1F3FC`, name: `Flexed Biceps: Medium-Light Skin Tone`},
-                                {emoji: `&#x1F4AA&#x1F3FD`, name: `Flexed Biceps: Medium Skin Tone`},
-                                {emoji: `&#x1F4AA&#x1F3FE`, name: `Flexed Biceps: Medium-Dark Skin Tone`},
-                                {emoji: `&#x1F4AA&#x1F3FF`, name: `Flexed Biceps: Dark Skin Tone`},
-                                {emoji: `&#x1F933`, name: `Selfie`},
-                                {emoji: `&#x1F933&#x1F3FB`, name: `Selfie: Light Skin Tone`},
-                                {emoji: `&#x1F933&#x1F3FC`, name: `Selfie: Medium-Light Skin Tone`},
-                                {emoji: `&#x1F933&#x1F3FD`, name: `Selfie: Medium Skin Tone`},
-                                {emoji: `&#x1F933&#x1F3FE`, name: `Selfie: Medium-Dark Skin Tone`},
-                                {emoji: `&#x1F933&#x1F3FF`, name: `Selfie: Dark Skin Tone`},
-                                {emoji: `&#x1F448`, name: `Backhand Index Pointing Left`},
-                                {emoji: `&#x1F448&#x1F3FB`, name: `Backhand Index Pointing Left: Light Skin Tone`},
-                                {emoji: `&#x1F448&#x1F3FC`, name: `Backhand Index Pointing Left: Medium-Light Skin Tone`},
-                                {emoji: `&#x1F448&#x1F3FD`, name: `Backhand Index Pointing Left: Medium Skin Tone`},
-                                {emoji: `&#x1F448&#x1F3FE`, name: `Backhand Index Pointing Left: Medium-Dark Skin Tone`},
-                                {emoji: `&#x1F448&#x1F3FF`, name: `Backhand Index Pointing Left: Dark Skin Tone`},
-                                {emoji: `&#x1F449`, name: `Backhand Index Pointing Right`},
-                                {emoji: `&#x1F449&#x1F3FB`, name: `Backhand Index Pointing Right: Light Skin Tone`},
-                                {emoji: `&#x1F449&#x1F3FC`, name: `Backhand Index Pointing Right: Medium-Light Skin Tone`},
-                                {emoji: `&#x1F449&#x1F3FD`, name: `Backhand Index Pointing Right: Medium Skin Tone`},
-                                {emoji: `&#x1F449&#x1F3FE`, name: `Backhand Index Pointing Right: Medium-Dark Skin Tone`},
-                                {emoji: `&#x1F449&#x1F3FF`, name: `Backhand Index Pointing Right: Dark Skin Tone`},
-                                {emoji: `&#x261D`, name: `Index Pointing Up`},
-                                {emoji: `&#x261D&#x1F3FB`, name: `Index Pointing Up: Light Skin Tone`},
-                                {emoji: `&#x261D&#x1F3FC`, name: `Index Pointing Up: Medium-Light Skin Tone`},
-                                {emoji: `&#x261D&#x1F3FD`, name: `Index Pointing Up: Medium Skin Tone`},
-                                {emoji: `&#x261D&#x1F3FE`, name: `Index Pointing Up: Medium-Dark Skin Tone`},
-                                {emoji: `&#x261D&#x1F3FF`, name: `Index Pointing Up: Dark Skin Tone`},
-                                {emoji: `&#x1F446`, name: `Backhand Index Pointing Up`},
-                                {emoji: `&#x1F446&#x1F3FB`, name: `Backhand Index Pointing Up: Light Skin Tone`},
-                                {emoji: `&#x1F446&#x1F3FC`, name: `Backhand Index Pointing Up: Medium-Light Skin Tone`},
-                                {emoji: `&#x1F446&#x1F3FD`, name: `Backhand Index Pointing Up: Medium Skin Tone`},
-                                {emoji: `&#x1F446&#x1F3FE`, name: `Backhand Index Pointing Up: Medium-Dark Skin Tone`},
-                                {emoji: `&#x1F446&#x1F3FF`, name: `Backhand Index Pointing Up: Dark Skin Tone`},
-                                {emoji: `&#x1F595`, name: `Middle Finger`},
-                                {emoji: `&#x1F595&#x1F3FB`, name: `Middle Finger: Light Skin Tone`},
-                                {emoji: `&#x1F595&#x1F3FC`, name: `Middle Finger: Medium-Light Skin Tone`},
-                                {emoji: `&#x1F595&#x1F3FD`, name: `Middle Finger: Medium Skin Tone`},
-                                {emoji: `&#x1F595&#x1F3FE`, name: `Middle Finger: Medium-Dark Skin Tone`},
-                                {emoji: `&#x1F595&#x1F3FF`, name: `Middle Finger: Dark Skin Tone`},
-                                {emoji: `&#x1F447`, name: `Backhand Index Pointing Down`},
-                                {emoji: `&#x1F447&#x1F3FB`, name: `Backhand Index Pointing Down: Light Skin Tone`},
-                                {emoji: `&#x1F447&#x1F3FC`, name: `Backhand Index Pointing Down: Medium-Light Skin Tone`},
-                                {emoji: `&#x1F447&#x1F3FD`, name: `Backhand Index Pointing Down: Medium Skin Tone`},
-                                {emoji: `&#x1F447&#x1F3FE`, name: `Backhand Index Pointing Down: Medium-Dark Skin Tone`},
-                                {emoji: `&#x1F447&#x1F3FF`, name: `Backhand Index Pointing Down: Dark Skin Tone`},
-                                {emoji: `&#x270C`, name: `Victory Hand`},
-                                {emoji: `&#x270C&#x1F3FB`, name: `Victory Hand: Light Skin Tone`},
-                                {emoji: `&#x270C&#x1F3FC`, name: `Victory Hand: Medium-Light Skin Tone`},
-                                {emoji: `&#x270C&#x1F3FD`, name: `Victory Hand: Medium Skin Tone`},
-                                {emoji: `&#x270C&#x1F3FE`, name: `Victory Hand: Medium-Dark Skin Tone`},
-                                {emoji: `&#x270C&#x1F3FF`, name: `Victory Hand: Dark Skin Tone`},
-                                {emoji: `&#x1F91E`, name: `Crossed Fingers`},
-                                {emoji: `&#x1F91E&#x1F3FB`, name: `Crossed Fingers: Light Skin Tone`},
-                                {emoji: `&#x1F91E&#x1F3FC`, name: `Crossed Fingers: Medium-Light Skin Tone`},
-                                {emoji: `&#x1F91E&#x1F3FD`, name: `Crossed Fingers: Medium Skin Tone`},
-                                {emoji: `&#x1F91E&#x1F3FE`, name: `Crossed Fingers: Medium-Dark Skin Tone`},
-                                {emoji: `&#x1F91E&#x1F3FF`, name: `Crossed Fingers: Dark Skin Tone`},
-                                {emoji: `&#x1F596`, name: `Vulcan Salute`},
-                                {emoji: `&#x1F596&#x1F3FB`, name: `Vulcan Salute: Light Skin Tone`},
-                                {emoji: `&#x1F596&#x1F3FC`, name: `Vulcan Salute: Medium-Light Skin Tone`},
-                                {emoji: `&#x1F596&#x1F3FD`, name: `Vulcan Salute: Medium Skin Tone`},
-                                {emoji: `&#x1F596&#x1F3FE`, name: `Vulcan Salute: Medium-Dark Skin Tone`},
-                                {emoji: `&#x1F596&#x1F3FF`, name: `Vulcan Salute: Dark Skin Tone`},
-                                {emoji: `&#x1F918`, name: `Sign Of The Horns`},
-                                {emoji: `&#x1F918&#x1F3FB`, name: `Sign Of The Horns: Light Skin Tone`},
-                                {emoji: `&#x1F918&#x1F3FC`, name: `Sign Of The Horns: Medium-Light Skin Tone`},
-                                {emoji: `&#x1F918&#x1F3FD`, name: `Sign Of The Horns: Medium Skin Tone`},
-                                {emoji: `&#x1F918&#x1F3FE`, name: `Sign Of The Horns: Medium-Dark Skin Tone`},
-                                {emoji: `&#x1F918&#x1F3FF`, name: `Sign Of The Horns: Dark Skin Tone`},
-                                {emoji: `&#x1F919`, name: `Call Me Hand`},
-                                {emoji: `&#x1F919&#x1F3FB`, name: `Call Me Hand: Light Skin Tone`},
-                                {emoji: `&#x1F919&#x1F3FC`, name: `Call Me Hand: Medium-Light Skin Tone`},
-                                {emoji: `&#x1F919&#x1F3FD`, name: `Call Me Hand: Medium Skin Tone`},
-                                {emoji: `&#x1F919&#x1F3FE`, name: `Call Me Hand: Medium-Dark Skin Tone`},
-                                {emoji: `&#x1F919&#x1F3FF`, name: `Call Me Hand: Dark Skin Tone`},
-                                {emoji: `&#x1F590`, name: `Raised Hand With Fingers Splayed`},
-                                {emoji: `&#x1F590&#x1F3FB`, name: `Raised Hand With Fingers Splayed: Light Skin Tone`},
-                                {emoji: `&#x1F590&#x1F3FC`, name: `Raised Hand With Fingers Splayed: Medium-Light Skin Tone`},
-                                {emoji: `&#x1F590&#x1F3FD`, name: `Raised Hand With Fingers Splayed: Medium Skin Tone`},
-                                {emoji: `&#x1F590&#x1F3FE`, name: `Raised Hand With Fingers Splayed: Medium-Dark Skin Tone`},
-                                {emoji: `&#x1F590&#x1F3FF`, name: `Raised Hand With Fingers Splayed: Dark Skin Tone`},
-                                {emoji: `&#x270B`, name: `Raised Hand`},
-                                {emoji: `&#x270B&#x1F3FB`, name: `Raised Hand: Light Skin Tone`},
-                                {emoji: `&#x270B&#x1F3FC`, name: `Raised Hand: Medium-Light Skin Tone`},
-                                {emoji: `&#x270B&#x1F3FD`, name: `Raised Hand: Medium Skin Tone`},
-                                {emoji: `&#x270B&#x1F3FE`, name: `Raised Hand: Medium-Dark Skin Tone`},
-                                {emoji: `&#x270B&#x1F3FF`, name: `Raised Hand: Dark Skin Tone`},
-                                {emoji: `&#x1F44C`, name: `OK Hand`},
-                                {emoji: `&#x1F44C&#x1F3FB`, name: `OK Hand: Light Skin Tone`},
-                                {emoji: `&#x1F44C&#x1F3FC`, name: `OK Hand: Medium-Light Skin Tone`},
-                                {emoji: `&#x1F44C&#x1F3FD`, name: `OK Hand: Medium Skin Tone`},
-                                {emoji: `&#x1F44C&#x1F3FE`, name: `OK Hand: Medium-Dark Skin Tone`},
-                                {emoji: `&#x1F44C&#x1F3FF`, name: `OK Hand: Dark Skin Tone`},
-                                {emoji: `&#x1F44D`, name: `Thumbs Up`},
-                                {emoji: `&#x1F44D&#x1F3FB`, name: `Thumbs Up: Light Skin Tone`},
-                                {emoji: `&#x1F44D&#x1F3FC`, name: `Thumbs Up: Medium-Light Skin Tone`},
-                                {emoji: `&#x1F44D&#x1F3FD`, name: `Thumbs Up: Medium Skin Tone`},
-                                {emoji: `&#x1F44D&#x1F3FE`, name: `Thumbs Up: Medium-Dark Skin Tone`},
-                                {emoji: `&#x1F44D&#x1F3FF`, name: `Thumbs Up: Dark Skin Tone`},
-                                {emoji: `&#x1F44E`, name: `Thumbs Down`},
-                                {emoji: `&#x1F44E&#x1F3FB`, name: `Thumbs Down: Light Skin Tone`},
-                                {emoji: `&#x1F44E&#x1F3FC`, name: `Thumbs Down: Medium-Light Skin Tone`},
-                                {emoji: `&#x1F44E&#x1F3FD`, name: `Thumbs Down: Medium Skin Tone`},
-                                {emoji: `&#x1F44E&#x1F3FE`, name: `Thumbs Down: Medium-Dark Skin Tone`},
-                                {emoji: `&#x1F44E&#x1F3FF`, name: `Thumbs Down: Dark Skin Tone`},
-                                {emoji: `&#x270A`, name: `Raised Fist`},
-                                {emoji: `&#x270A&#x1F3FB`, name: `Raised Fist: Light Skin Tone`},
-                                {emoji: `&#x270A&#x1F3FC`, name: `Raised Fist: Medium-Light Skin Tone`},
-                                {emoji: `&#x270A&#x1F3FD`, name: `Raised Fist: Medium Skin Tone`},
-                                {emoji: `&#x270A&#x1F3FE`, name: `Raised Fist: Medium-Dark Skin Tone`},
-                                {emoji: `&#x270A&#x1F3FF`, name: `Raised Fist: Dark Skin Tone`},
-                                {emoji: `&#x1F44A`, name: `Oncoming Fist`},
-                                {emoji: `&#x1F44A&#x1F3FB`, name: `Oncoming Fist: Light Skin Tone`},
-                                {emoji: `&#x1F44A&#x1F3FC`, name: `Oncoming Fist: Medium-Light Skin Tone`},
-                                {emoji: `&#x1F44A&#x1F3FD`, name: `Oncoming Fist: Medium Skin Tone`},
-                                {emoji: `&#x1F44A&#x1F3FE`, name: `Oncoming Fist: Medium-Dark Skin Tone`},
-                                {emoji: `&#x1F44A&#x1F3FF`, name: `Oncoming Fist: Dark Skin Tone`},
-                                {emoji: `&#x1F91B`, name: `Left-Facing Fist`},
-                                {emoji: `&#x1F91B&#x1F3FB`, name: `Left-Facing Fist: Light Skin Tone`},
-                                {emoji: `&#x1F91B&#x1F3FC`, name: `Left-Facing Fist: Medium-Light Skin Tone`},
-                                {emoji: `&#x1F91B&#x1F3FD`, name: `Left-Facing Fist: Medium Skin Tone`},
-                                {emoji: `&#x1F91B&#x1F3FE`, name: `Left-Facing Fist: Medium-Dark Skin Tone`},
-                                {emoji: `&#x1F91B&#x1F3FF`, name: `Left-Facing Fist: Dark Skin Tone`},
-                                {emoji: `&#x1F91C`, name: `Right-Facing Fist`},
-                                {emoji: `&#x1F91C&#x1F3FB`, name: `Right-Facing Fist: Light Skin Tone`},
-                                {emoji: `&#x1F91C&#x1F3FC`, name: `Right-Facing Fist: Medium-Light Skin Tone`},
-                                {emoji: `&#x1F91C&#x1F3FD`, name: `Right-Facing Fist: Medium Skin Tone`},
-                                {emoji: `&#x1F91C&#x1F3FE`, name: `Right-Facing Fist: Medium-Dark Skin Tone`},
-                                {emoji: `&#x1F91C&#x1F3FF`, name: `Right-Facing Fist: Dark Skin Tone`},
-                                {emoji: `&#x1F91A`, name: `Raised Back Of Hand`},
-                                {emoji: `&#x1F91A&#x1F3FB`, name: `Raised Back Of Hand: Light Skin Tone`},
-                                {emoji: `&#x1F91A&#x1F3FC`, name: `Raised Back Of Hand: Medium-Light Skin Tone`},
-                                {emoji: `&#x1F91A&#x1F3FD`, name: `Raised Back Of Hand: Medium Skin Tone`},
-                                {emoji: `&#x1F91A&#x1F3FE`, name: `Raised Back Of Hand: Medium-Dark Skin Tone`},
-                                {emoji: `&#x1F91A&#x1F3FF`, name: `Raised Back Of Hand: Dark Skin Tone`},
-                                {emoji: `&#x1F44B`, name: `Waving Hand`},
-                                {emoji: `&#x1F44B&#x1F3FB`, name: `Waving Hand: Light Skin Tone`},
-                                {emoji: `&#x1F44B&#x1F3FC`, name: `Waving Hand: Medium-Light Skin Tone`},
-                                {emoji: `&#x1F44B&#x1F3FD`, name: `Waving Hand: Medium Skin Tone`},
-                                {emoji: `&#x1F44B&#x1F3FE`, name: `Waving Hand: Medium-Dark Skin Tone`},
-                                {emoji: `&#x1F44B&#x1F3FF`, name: `Waving Hand: Dark Skin Tone`},
-                                {emoji: `&#x1F44F`, name: `Clapping Hands`},
-                                {emoji: `&#x1F44F&#x1F3FB`, name: `Clapping Hands: Light Skin Tone`},
-                                {emoji: `&#x1F44F&#x1F3FC`, name: `Clapping Hands: Medium-Light Skin Tone`},
-                                {emoji: `&#x1F44F&#x1F3FD`, name: `Clapping Hands: Medium Skin Tone`},
-                                {emoji: `&#x1F44F&#x1F3FE`, name: `Clapping Hands: Medium-Dark Skin Tone`},
-                                {emoji: `&#x1F44F&#x1F3FF`, name: `Clapping Hands: Dark Skin Tone`},
-                                {emoji: `&#x270D`, name: `Writing Hand`},
-                                {emoji: `&#x270D&#x1F3FB`, name: `Writing Hand: Light Skin Tone`},
-                                {emoji: `&#x270D&#x1F3FC`, name: `Writing Hand: Medium-Light Skin Tone`},
-                                {emoji: `&#x270D&#x1F3FD`, name: `Writing Hand: Medium Skin Tone`},
-                                {emoji: `&#x270D&#x1F3FE`, name: `Writing Hand: Medium-Dark Skin Tone`},
-                                {emoji: `&#x270D&#x1F3FF`, name: `Writing Hand: Dark Skin Tone`},
-                                {emoji: `&#x1F450`, name: `Open Hands`},
-                                {emoji: `&#x1F450&#x1F3FB`, name: `Open Hands: Light Skin Tone`},
-                                {emoji: `&#x1F450&#x1F3FC`, name: `Open Hands: Medium-Light Skin Tone`},
-                                {emoji: `&#x1F450&#x1F3FD`, name: `Open Hands: Medium Skin Tone`},
-                                {emoji: `&#x1F450&#x1F3FE`, name: `Open Hands: Medium-Dark Skin Tone`},
-                                {emoji: `&#x1F450&#x1F3FF`, name: `Open Hands: Dark Skin Tone`},
-                                {emoji: `&#x1F64C`, name: `Raising Hands`},
-                                {emoji: `&#x1F64C&#x1F3FB`, name: `Raising Hands: Light Skin Tone`},
-                                {emoji: `&#x1F64C&#x1F3FC`, name: `Raising Hands: Medium-Light Skin Tone`},
-                                {emoji: `&#x1F64C&#x1F3FD`, name: `Raising Hands: Medium Skin Tone`},
-                                {emoji: `&#x1F64C&#x1F3FE`, name: `Raising Hands: Medium-Dark Skin Tone`},
-                                {emoji: `&#x1F64C&#x1F3FF`, name: `Raising Hands: Dark Skin Tone`},
-                                {emoji: `&#x1F64F`, name: `Folded Hands`},
-                                {emoji: `&#x1F64F&#x1F3FB`, name: `Folded Hands: Light Skin Tone`},
-                                {emoji: `&#x1F64F&#x1F3FC`, name: `Folded Hands: Medium-Light Skin Tone`},
-                                {emoji: `&#x1F64F&#x1F3FD`, name: `Folded Hands: Medium Skin Tone`},
-                                {emoji: `&#x1F64F&#x1F3FE`, name: `Folded Hands: Medium-Dark Skin Tone`},
-                                {emoji: `&#x1F64F&#x1F3FF`, name: `Folded Hands: Dark Skin Tone`},
-                                {emoji: `&#x1F91D`, name: `Handshake`},
-                                {emoji: `&#x1F485`, name: `Nail Polish`},
-                                {emoji: `&#x1F485&#x1F3FB`, name: `Nail Polish: Light Skin Tone`},
-                                {emoji: `&#x1F485&#x1F3FC`, name: `Nail Polish: Medium-Light Skin Tone`},
-                                {emoji: `&#x1F485&#x1F3FD`, name: `Nail Polish: Medium Skin Tone`},
-                                {emoji: `&#x1F485&#x1F3FE`, name: `Nail Polish: Medium-Dark Skin Tone`},
-                                {emoji: `&#x1F485&#x1F3FF`, name: `Nail Polish: Dark Skin Tone`},
-                                {emoji: `&#x1F442`, name: `Ear`},
-                                {emoji: `&#x1F442&#x1F3FB`, name: `Ear: Light Skin Tone`},
-                                {emoji: `&#x1F442&#x1F3FC`, name: `Ear: Medium-Light Skin Tone`},
-                                {emoji: `&#x1F442&#x1F3FD`, name: `Ear: Medium Skin Tone`},
-                                {emoji: `&#x1F442&#x1F3FE`, name: `Ear: Medium-Dark Skin Tone`},
-                                {emoji: `&#x1F442&#x1F3FF`, name: `Ear: Dark Skin Tone`},
-                                {emoji: `&#x1F443`, name: `Nose`},
-                                {emoji: `&#x1F443&#x1F3FB`, name: `Nose: Light Skin Tone`},
-                                {emoji: `&#x1F443&#x1F3FC`, name: `Nose: Medium-Light Skin Tone`},
-                                {emoji: `&#x1F443&#x1F3FD`, name: `Nose: Medium Skin Tone`},
-                                {emoji: `&#x1F443&#x1F3FE`, name: `Nose: Medium-Dark Skin Tone`},
-                                {emoji: `&#x1F443&#x1F3FF`, name: `Nose: Dark Skin Tone`},
-                                {emoji: `&#x1F463`, name: `Footprints`},
-                                {emoji: `&#x1F440`, name: `Eyes`},
-                                {emoji: `&#x1F441`, name: `Eye`},
-                                {emoji: `&#x1F441&#xFE0F&#x200D&#x1F5E8&#xFE0F`, name: `Eye In Speech Bubble`},
-                                {emoji: `&#x1F445`, name: `Tongue`},
-                                {emoji: `&#x1F444`, name: `Mouth`},
-                                {emoji: `&#x1F48B`, name: `Kiss Mark`},
-                                {emoji: `&#x1F498`, name: `Heart With Arrow`},
-                                {emoji: `&#x2764`, name: `Red Heart`},
-                                {emoji: `&#x1F493`, name: `Beating Heart`},
-                                {emoji: `&#x1F494`, name: `Broken Heart`},
-                                {emoji: `&#x1F495`, name: `Two Hearts`},
-                                {emoji: `&#x1F496`, name: `Sparkling Heart`},
-                                {emoji: `&#x1F497`, name: `Growing Heart`},
-                                {emoji: `&#x1F499`, name: `Blue Heart`},
-                                {emoji: `&#x1F49A`, name: `Green Heart`},
-                                {emoji: `&#x1F49B`, name: `Yellow Heart`},
-                                {emoji: `&#x1F49C`, name: `Purple Heart`},
-                                {emoji: `&#x1F5A4`, name: `Black Heart`},
-                                {emoji: `&#x1F49D`, name: `Heart With Ribbon`},
-                                {emoji: `&#x1F49E`, name: `Revolving Hearts`},
-                                {emoji: `&#x1F49F`, name: `Heart Decoration`},
-                                {emoji: `&#x2763`, name: `Heavy Heart Exclamation`},
-                                {emoji: `&#x1F48C`, name: `Love Letter`},
-                                {emoji: `&#x1F4A4`, name: `Zzz`},
-                                {emoji: `&#x1F4A2`, name: `Anger Symbol`},
-                                {emoji: `&#x1F4A3`, name: `Bomb`},
-                                {emoji: `&#x1F4A5`, name: `Collision`},
-                                {emoji: `&#x1F4A6`, name: `Sweat Droplets`},
-                                {emoji: `&#x1F4A8`, name: `Dashing Away`},
-                                {emoji: `&#x1F4AB`, name: `Dizzy`},
-                                {emoji: `&#x1F4AC`, name: `Speech Balloon`},
-                                {emoji: `&#x1F5E8`, name: `Left Speech Bubble`},
-                                {emoji: `&#x1F5EF`, name: `Right Anger Bubble`},
-                                {emoji: `&#x1F4AD`, name: `Thought Balloon`},
-                                {emoji: `&#x1F573`, name: `Hole`},
-                                {emoji: `&#x1F453`, name: `Glasses`},
-                                {emoji: `&#x1F576`, name: `Sunglasses`},
-                                {emoji: `&#x1F454`, name: `Necktie`},
-                                {emoji: `&#x1F455`, name: `T-Shirt`},
-                                {emoji: `&#x1F456`, name: `Jeans`},
-                                {emoji: `&#x1F457`, name: `Dress`},
-                                {emoji: `&#x1F458`, name: `Kimono`},
-                                {emoji: `&#x1F459`, name: `Bikini`},
-                                {emoji: `&#x1F45A`, name: `Woman’s Clothes`},
-                                {emoji: `&#x1F45B`, name: `Purse`},
-                                {emoji: `&#x1F45C`, name: `Handbag`},
-                                {emoji: `&#x1F45D`, name: `Clutch Bag`},
-                                {emoji: `&#x1F6CD`, name: `Shopping Bags`},
-                                {emoji: `&#x1F392`, name: `School Backpack`},
-                                {emoji: `&#x1F45E`, name: `Man’s Shoe`},
-                                {emoji: `&#x1F45F`, name: `Running Shoe`},
-                                {emoji: `&#x1F460`, name: `High-Heeled Shoe`},
-                                {emoji: `&#x1F461`, name: `Woman’s Sandal`},
-                                {emoji: `&#x1F462`, name: `Woman’s Boot`},
-                                {emoji: `&#x1F451`, name: `Crown`},
-                                {emoji: `&#x1F452`, name: `Woman’s Hat`},
-                                {emoji: `&#x1F3A9`, name: `Top Hat`},
-                                {emoji: `&#x1F393`, name: `Graduation Cap`},
-                                {emoji: `&#x26D1`, name: `Rescue Worker’s Helmet`},
-                                {emoji: `&#x1F4FF`, name: `Prayer Beads`},
-                                {emoji: `&#x1F484`, name: `Lipstick`},
-                                {emoji: `&#x1F48D`, name: `Ring`},
-                                {emoji: `&#x1F48E`, name: `Gem Stone`},
-                                {emoji: `&#x1F435`, name: `Monkey Face`},
-                                {emoji: `&#x1F412`, name: `Monkey`},
-                                {emoji: `&#x1F98D`, name: `Gorilla`},
-                                {emoji: `&#x1F436`, name: `Dog Face`},
-                                {emoji: `&#x1F415`, name: `Dog`},
-                                {emoji: `&#x1F429`, name: `Poodle`},
-                                {emoji: `&#x1F43A`, name: `Wolf Face`},
-                                {emoji: `&#x1F98A`, name: `Fox Face`},
-                                {emoji: `&#x1F431`, name: `Cat Face`},
-                                {emoji: `&#x1F408`, name: `Cat`},
-                                {emoji: `&#x1F981`, name: `Lion Face`},
-                                {emoji: `&#x1F42F`, name: `Tiger Face`},
-                                {emoji: `&#x1F405`, name: `Tiger`},
-                                {emoji: `&#x1F406`, name: `Leopard`},
-                                {emoji: `&#x1F434`, name: `Horse Face`},
-                                {emoji: `&#x1F40E`, name: `Horse`},
-                                {emoji: `&#x1F98C`, name: `Deer`},
-                                {emoji: `&#x1F984`, name: `Unicorn Face`},
-                                {emoji: `&#x1F42E`, name: `Cow Face`},
-                                {emoji: `&#x1F402`, name: `Ox`},
-                                {emoji: `&#x1F403`, name: `Water Buffalo`},
-                                {emoji: `&#x1F404`, name: `Cow`},
-                                {emoji: `&#x1F437`, name: `Pig Face`},
-                                {emoji: `&#x1F416`, name: `Pig`},
-                                {emoji: `&#x1F417`, name: `Boar`},
-                                {emoji: `&#x1F43D`, name: `Pig Nose`},
-                                {emoji: `&#x1F40F`, name: `Ram`},
-                                {emoji: `&#x1F411`, name: `Sheep`},
-                                {emoji: `&#x1F410`, name: `Goat`},
-                                {emoji: `&#x1F42A`, name: `Camel`},
-                                {emoji: `&#x1F42B`, name: `Two-Hump Camel`},
-                                {emoji: `&#x1F418`, name: `Elephant`},
-                                {emoji: `&#x1F98F`, name: `Rhinoceros`},
-                                {emoji: `&#x1F42D`, name: `Mouse Face`},
-                                {emoji: `&#x1F401`, name: `Mouse`},
-                                {emoji: `&#x1F400`, name: `Rat`},
-                                {emoji: `&#x1F439`, name: `Hamster Face`},
-                                {emoji: `&#x1F430`, name: `Rabbit Face`},
-                                {emoji: `&#x1F407`, name: `Rabbit`},
-                                {emoji: `&#x1F43F`, name: `Chipmunk`},
-                                {emoji: `&#x1F987`, name: `Bat`},
-                                {emoji: `&#x1F43B`, name: `Bear Face`},
-                                {emoji: `&#x1F428`, name: `Koala`},
-                                {emoji: `&#x1F43C`, name: `Panda Face`},
-                                {emoji: `&#x1F43E`, name: `Paw Prints`},
-                                {emoji: `&#x1F983`, name: `Turkey`},
-                                {emoji: `&#x1F414`, name: `Chicken`},
-                                {emoji: `&#x1F413`, name: `Rooster`},
-                                {emoji: `&#x1F423`, name: `Hatching Chick`},
-                                {emoji: `&#x1F424`, name: `Baby Chick`},
-                                {emoji: `&#x1F425`, name: `Front-Facing Baby Chick`},
-                                {emoji: `&#x1F426`, name: `Bird`},
-                                {emoji: `&#x1F427`, name: `Penguin`},
-                                {emoji: `&#x1F54A`, name: `Dove`},
-                                {emoji: `&#x1F985`, name: `Eagle`},
-                                {emoji: `&#x1F986`, name: `Duck`},
-                                {emoji: `&#x1F989`, name: `Owl`},
-                                {emoji: `&#x1F438`, name: `Frog Face`},
-                                {emoji: `&#x1F40A`, name: `Crocodile`},
-                                {emoji: `&#x1F422`, name: `Turtle`},
-                                {emoji: `&#x1F98E`, name: `Lizard`},
-                                {emoji: `&#x1F40D`, name: `Snake`},
-                                {emoji: `&#x1F432`, name: `Dragon Face`},
-                                {emoji: `&#x1F409`, name: `Dragon`},
-                                {emoji: `&#x1F433`, name: `Spouting Whale`},
-                                {emoji: `&#x1F40B`, name: `Whale`},
-                                {emoji: `&#x1F42C`, name: `Dolphin`},
-                                {emoji: `&#x1F41F`, name: `Fish`},
-                                {emoji: `&#x1F420`, name: `Tropical Fish`},
-                                {emoji: `&#x1F421`, name: `Blowfish`},
-                                {emoji: `&#x1F988`, name: `Shark`},
-                                {emoji: `&#x1F419`, name: `Octopus`},
-                                {emoji: `&#x1F41A`, name: `Spiral Shell`},
-                                {emoji: `&#x1F980`, name: `Crab`},
-                                {emoji: `&#x1F990`, name: `Shrimp`},
-                                {emoji: `&#x1F991`, name: `Squid`},
-                                {emoji: `&#x1F98B`, name: `Butterfly`},
-                                {emoji: `&#x1F40C`, name: `Snail`},
-                                {emoji: `&#x1F41B`, name: `Bug`},
-                                {emoji: `&#x1F41C`, name: `Ant`},
-                                {emoji: `&#x1F41D`, name: `Honeybee`},
-                                {emoji: `&#x1F41E`, name: `Lady Beetle`},
-                                {emoji: `&#x1F577`, name: `Spider`},
-                                {emoji: `&#x1F578`, name: `Spider Web`},
-                                {emoji: `&#x1F982`, name: `Scorpion`},
-                                {emoji: `&#x1F490`, name: `Bouquet`},
-                                {emoji: `&#x1F338`, name: `Cherry Blossom`},
-                                {emoji: `&#x1F4AE`, name: `White Flower`},
-                                {emoji: `&#x1F3F5`, name: `Rosette`},
-                                {emoji: `&#x1F339`, name: `Rose`},
-                                {emoji: `&#x1F940`, name: `Wilted Flower`},
-                                {emoji: `&#x1F33A`, name: `Hibiscus`},
-                                {emoji: `&#x1F33B`, name: `Sunflower`},
-                                {emoji: `&#x1F33C`, name: `Blossom`},
-                                {emoji: `&#x1F337`, name: `Tulip`},
-                                {emoji: `&#x1F331`, name: `Seedling`},
-                                {emoji: `&#x1F332`, name: `Evergreen Tree`},
-                                {emoji: `&#x1F333`, name: `Deciduous Tree`},
-                                {emoji: `&#x1F334`, name: `Palm Tree`},
-                                {emoji: `&#x1F335`, name: `Cactus`},
-                                {emoji: `&#x1F33E`, name: `Sheaf Of Rice`},
-                                {emoji: `&#x1F33F`, name: `Herb`},
-                                {emoji: `&#x2618`, name: `Shamrock`},
-                                {emoji: `&#x1F340`, name: `Four Leaf Clover`},
-                                {emoji: `&#x1F341`, name: `Maple Leaf`},
-                                {emoji: `&#x1F342`, name: `Fallen Leaf`},
-                                {emoji: `&#x1F343`, name: `Leaf Fluttering In Wind`},
-                                {emoji: `&#x1F347`, name: `Grapes`},
-                                {emoji: `&#x1F348`, name: `Melon`},
-                                {emoji: `&#x1F349`, name: `Watermelon`},
-                                {emoji: `&#x1F34A`, name: `Tangerine`},
-                                {emoji: `&#x1F34B`, name: `Lemon`},
-                                {emoji: `&#x1F34C`, name: `Banana`},
-                                {emoji: `&#x1F34D`, name: `Pineapple`},
-                                {emoji: `&#x1F34E`, name: `Red Apple`},
-                                {emoji: `&#x1F34F`, name: `Green Apple`},
-                                {emoji: `&#x1F350`, name: `Pear`},
-                                {emoji: `&#x1F351`, name: `Peach`},
-                                {emoji: `&#x1F352`, name: `Cherries`},
-                                {emoji: `&#x1F353`, name: `Strawberry`},
-                                {emoji: `&#x1F95D`, name: `Kiwi Fruit`},
-                                {emoji: `&#x1F345`, name: `Tomato`},
-                                {emoji: `&#x1F951`, name: `Avocado`},
-                                {emoji: `&#x1F346`, name: `Eggplant`},
-                                {emoji: `&#x1F954`, name: `Potato`},
-                                {emoji: `&#x1F955`, name: `Carrot`},
-                                {emoji: `&#x1F33D`, name: `Ear Of Corn`},
-                                {emoji: `&#x1F336`, name: `Hot Pepper`},
-                                {emoji: `&#x1F952`, name: `Cucumber`},
-                                {emoji: `&#x1F344`, name: `Mushroom`},
-                                {emoji: `&#x1F95C`, name: `Peanuts`},
-                                {emoji: `&#x1F330`, name: `Chestnut`},
-                                {emoji: `&#x1F35E`, name: `Bread`},
-                                {emoji: `&#x1F950`, name: `Croissant`},
-                                {emoji: `&#x1F956`, name: `Baguette Bread`},
-                                {emoji: `&#x1F95E`, name: `Pancakes`},
-                                {emoji: `&#x1F9C0`, name: `Cheese Wedge`},
-                                {emoji: `&#x1F356`, name: `Meat On Bone`},
-                                {emoji: `&#x1F357`, name: `Poultry Leg`},
-                                {emoji: `&#x1F953`, name: `Bacon`},
-                                {emoji: `&#x1F354`, name: `Hamburger`},
-                                {emoji: `&#x1F35F`, name: `French Fries`},
-                                {emoji: `&#x1F355`, name: `Pizza`},
-                                {emoji: `&#x1F32D`, name: `Hot Dog`},
-                                {emoji: `&#x1F32E`, name: `Taco`},
-                                {emoji: `&#x1F32F`, name: `Burrito`},
-                                {emoji: `&#x1F959`, name: `Stuffed Flatbread`},
-                                {emoji: `&#x1F95A`, name: `Egg`},
-                                {emoji: `&#x1F373`, name: `Cooking`},
-                                {emoji: `&#x1F958`, name: `Shallow Pan Of Food`},
-                                {emoji: `&#x1F372`, name: `Pot Of Food`},
-                                {emoji: `&#x1F957`, name: `Green Salad`},
-                                {emoji: `&#x1F37F`, name: `Popcorn`},
-                                {emoji: `&#x1F371`, name: `Bento Box`},
-                                {emoji: `&#x1F358`, name: `Rice Cracker`},
-                                {emoji: `&#x1F359`, name: `Rice Ball`},
-                                {emoji: `&#x1F35A`, name: `Cooked Rice`},
-                                {emoji: `&#x1F35B`, name: `Curry Rice`},
-                                {emoji: `&#x1F35C`, name: `Steaming Bowl`},
-                                {emoji: `&#x1F35D`, name: `Spaghetti`},
-                                {emoji: `&#x1F360`, name: `Roasted Sweet Potato`},
-                                {emoji: `&#x1F362`, name: `Oden`},
-                                {emoji: `&#x1F363`, name: `Sushi`},
-                                {emoji: `&#x1F364`, name: `Fried Shrimp`},
-                                {emoji: `&#x1F365`, name: `Fish Cake With Swirl`},
-                                {emoji: `&#x1F361`, name: `Dango`},
-                                {emoji: `&#x1F366`, name: `Soft Ice Cream`},
-                                {emoji: `&#x1F367`, name: `Shaved Ice`},
-                                {emoji: `&#x1F368`, name: `Ice Cream`},
-                                {emoji: `&#x1F369`, name: `Doughnut`},
-                                {emoji: `&#x1F36A`, name: `Cookie`},
-                                {emoji: `&#x1F382`, name: `Birthday Cake`},
-                                {emoji: `&#x1F370`, name: `Shortcake`},
-                                {emoji: `&#x1F36B`, name: `Chocolate Bar`},
-                                {emoji: `&#x1F36C`, name: `Candy`},
-                                {emoji: `&#x1F36D`, name: `Lollipop`},
-                                {emoji: `&#x1F36E`, name: `Custard`},
-                                {emoji: `&#x1F36F`, name: `Honey Pot`},
-                                {emoji: `&#x1F37C`, name: `Baby Bottle`},
-                                {emoji: `&#x1F95B`, name: `Glass Of Milk`},
-                                {emoji: `&#x2615`, name: `Hot Beverage`},
-                                {emoji: `&#x1F375`, name: `Teacup Without Handle`},
-                                {emoji: `&#x1F376`, name: `Sake`},
-                                {emoji: `&#x1F37E`, name: `Bottle With Popping Cork`},
-                                {emoji: `&#x1F377`, name: `Wine Glass`},
-                                {emoji: `&#x1F378`, name: `Cocktail Glass`},
-                                {emoji: `&#x1F379`, name: `Tropical Drink`},
-                                {emoji: `&#x1F37A`, name: `Beer Mug`},
-                                {emoji: `&#x1F37B`, name: `Clinking Beer Mugs`},
-                                {emoji: `&#x1F942`, name: `Clinking Glasses`},
-                                {emoji: `&#x1F943`, name: `Tumbler Glass`},
-                                {emoji: `&#x1F37D`, name: `Fork And Knife With Plate`},
-                                {emoji: `&#x1F374`, name: `Fork And Knife`},
-                                {emoji: `&#x1F944`, name: `Spoon`},
-                                {emoji: `&#x1F52A`, name: `Kitchen Knife`},
-                                {emoji: `&#x1F3FA`, name: `Amphora`},
-                                {emoji: `&#x1F30D`, name: `Globe Showing Europe-Africa`},
-                                {emoji: `&#x1F30E`, name: `Globe Showing Americas`},
-                                {emoji: `&#x1F30F`, name: `Globe Showing Asia-Australia`},
-                                {emoji: `&#x1F310`, name: `Globe With Meridians`},
-                                {emoji: `&#x1F5FA`, name: `World Map`},
-                                {emoji: `&#x1F5FE`, name: `Map Of Japan`},
-                                {emoji: `&#x1F3D4`, name: `Snow-Capped Mountain`},
-                                {emoji: `&#x26F0`, name: `Mountain`},
-                                {emoji: `&#x1F30B`, name: `Volcano`},
-                                {emoji: `&#x1F5FB`, name: `Mount Fuji`},
-                                {emoji: `&#x1F3D5`, name: `Camping`},
-                                {emoji: `&#x1F3D6`, name: `Beach With Umbrella`},
-                                {emoji: `&#x1F3DC`, name: `Desert`},
-                                {emoji: `&#x1F3DD`, name: `Desert Island`},
-                                {emoji: `&#x1F3DE`, name: `National Park`},
-                                {emoji: `&#x1F3DF`, name: `Stadium`},
-                                {emoji: `&#x1F3DB`, name: `Classical Building`},
-                                {emoji: `&#x1F3D7`, name: `Building Construction`},
-                                {emoji: `&#x1F3D8`, name: `House`},
-                                {emoji: `&#x1F3D9`, name: `Cityscape`},
-                                {emoji: `&#x1F3DA`, name: `Derelict House`},
-                                {emoji: `&#x1F3E0`, name: `House`},
-                                {emoji: `&#x1F3E1`, name: `House With Garden`},
-                                {emoji: `&#x1F3E2`, name: `Office Building`},
-                                {emoji: `&#x1F3E3`, name: `Japanese Post Office`},
-                                {emoji: `&#x1F3E4`, name: `Post Office`},
-                                {emoji: `&#x1F3E5`, name: `Hospital`},
-                                {emoji: `&#x1F3E6`, name: `Bank`},
-                                {emoji: `&#x1F3E8`, name: `Hotel`},
-                                {emoji: `&#x1F3E9`, name: `Love Hotel`},
-                                {emoji: `&#x1F3EA`, name: `Convenience Store`},
-                                {emoji: `&#x1F3EB`, name: `School`},
-                                {emoji: `&#x1F3EC`, name: `Department Store`},
-                                {emoji: `&#x1F3ED`, name: `Factory`},
-                                {emoji: `&#x1F3EF`, name: `Japanese Castle`},
-                                {emoji: `&#x1F3F0`, name: `Castle`},
-                                {emoji: `&#x1F492`, name: `Wedding`},
-                                {emoji: `&#x1F5FC`, name: `Tokyo Tower`},
-                                {emoji: `&#x1F5FD`, name: `Statue Of Liberty`},
-                                {emoji: `&#x26EA`, name: `Church`},
-                                {emoji: `&#x1F54C`, name: `Mosque`},
-                                {emoji: `&#x1F54D`, name: `Synagogue`},
-                                {emoji: `&#x26E9`, name: `Shinto Shrine`},
-                                {emoji: `&#x1F54B`, name: `Kaaba`},
-                                {emoji: `&#x26F2`, name: `Fountain`},
-                                {emoji: `&#x26FA`, name: `Tent`},
-                                {emoji: `&#x1F301`, name: `Foggy`},
-                                {emoji: `&#x1F303`, name: `Night With Stars`},
-                                {emoji: `&#x1F304`, name: `Sunrise Over Mountains`},
-                                {emoji: `&#x1F305`, name: `Sunrise`},
-                                {emoji: `&#x1F306`, name: `Cityscape At Dusk`},
-                                {emoji: `&#x1F307`, name: `Sunset`},
-                                {emoji: `&#x1F309`, name: `Bridge At Night`},
-                                {emoji: `&#x2668`, name: `Hot Springs`},
-                                {emoji: `&#x1F30C`, name: `Milky Way`},
-                                {emoji: `&#x1F3A0`, name: `Carousel Horse`},
-                                {emoji: `&#x1F3A1`, name: `Ferris Wheel`},
-                                {emoji: `&#x1F3A2`, name: `Roller Coaster`},
-                                {emoji: `&#x1F488`, name: `Barber Pole`},
-                                {emoji: `&#x1F3AA`, name: `Circus Tent`},
-                                {emoji: `&#x1F3AD`, name: `Performing Arts`},
-                                {emoji: `&#x1F5BC`, name: `Framed Picture`},
-                                {emoji: `&#x1F3A8`, name: `Artist Palette`},
-                                {emoji: `&#x1F3B0`, name: `Slot Machine`},
-                                {emoji: `&#x1F682`, name: `Locomotive`},
-                                {emoji: `&#x1F683`, name: `Railway Car`},
-                                {emoji: `&#x1F684`, name: `High-Speed Train`},
-                                {emoji: `&#x1F685`, name: `High-Speed Train With Bullet Nose`},
-                                {emoji: `&#x1F686`, name: `Train`},
-                                {emoji: `&#x1F687`, name: `Metro`},
-                                {emoji: `&#x1F688`, name: `Light Rail`},
-                                {emoji: `&#x1F689`, name: `Station`},
-                                {emoji: `&#x1F68A`, name: `Tram`},
-                                {emoji: `&#x1F69D`, name: `Monorail`},
-                                {emoji: `&#x1F69E`, name: `Mountain Railway`},
-                                {emoji: `&#x1F68B`, name: `Tram Car`},
-                                {emoji: `&#x1F68C`, name: `Bus`},
-                                {emoji: `&#x1F68D`, name: `Oncoming Bus`},
-                                {emoji: `&#x1F68E`, name: `Trolleybus`},
-                                {emoji: `&#x1F690`, name: `Minibus`},
-                                {emoji: `&#x1F691`, name: `Ambulance`},
-                                {emoji: `&#x1F692`, name: `Fire Engine`},
-                                {emoji: `&#x1F693`, name: `Police Car`},
-                                {emoji: `&#x1F694`, name: `Oncoming Police Car`},
-                                {emoji: `&#x1F695`, name: `Taxi`},
-                                {emoji: `&#x1F696`, name: `Oncoming Taxi`},
-                                {emoji: `&#x1F697`, name: `Automobile`},
-                                {emoji: `&#x1F698`, name: `Oncoming Automobile`},
-                                {emoji: `&#x1F699`, name: `Sport Utility Vehicle`},
-                                {emoji: `&#x1F69A`, name: `Delivery Truck`},
-                                {emoji: `&#x1F69B`, name: `Articulated Lorry`},
-                                {emoji: `&#x1F69C`, name: `Tractor`},
-                                {emoji: `&#x1F6B2`, name: `Bicycle`},
-                                {emoji: `&#x1F6F4`, name: `Kick Scooter`},
-                                {emoji: `&#x1F6F5`, name: `Motor Scooter`},
-                                {emoji: `&#x1F68F`, name: `Bus Stop`},
-                                {emoji: `&#x1F6E3`, name: `Motorway`},
-                                {emoji: `&#x1F6E4`, name: `Railway Track`},
-                                {emoji: `&#x26FD`, name: `Fuel Pump`},
-                                {emoji: `&#x1F6A8`, name: `Police Car Light`},
-                                {emoji: `&#x1F6A5`, name: `Horizontal Traffic Light`},
-                                {emoji: `&#x1F6A6`, name: `Vertical Traffic Light`},
-                                {emoji: `&#x1F6A7`, name: `Construction`},
-                                {emoji: `&#x1F6D1`, name: `Stop Sign`},
-                                {emoji: `&#x2693`, name: `Anchor`},
-                                {emoji: `&#x26F5`, name: `Sailboat`},
-                                {emoji: `&#x1F6F6`, name: `Canoe`},
-                                {emoji: `&#x1F6A4`, name: `Speedboat`},
-                                {emoji: `&#x1F6F3`, name: `Passenger Ship`},
-                                {emoji: `&#x26F4`, name: `Ferry`},
-                                {emoji: `&#x1F6E5`, name: `Motor Boat`},
-                                {emoji: `&#x1F6A2`, name: `Ship`},
-                                {emoji: `&#x2708`, name: `Airplane`},
-                                {emoji: `&#x1F6E9`, name: `Small Airplane`},
-                                {emoji: `&#x1F6EB`, name: `Airplane Departure`},
-                                {emoji: `&#x1F6EC`, name: `Airplane Arrival`},
-                                {emoji: `&#x1F4BA`, name: `Seat`},
-                                {emoji: `&#x1F681`, name: `Helicopter`},
-                                {emoji: `&#x1F69F`, name: `Suspension Railway`},
-                                {emoji: `&#x1F6A0`, name: `Mountain Cableway`},
-                                {emoji: `&#x1F6A1`, name: `Aerial Tramway`},
-                                {emoji: `&#x1F680`, name: `Rocket`},
-                                {emoji: `&#x1F6F0`, name: `Satellite`},
-                                {emoji: `&#x1F6CE`, name: `Bellhop Bell`},
-                                {emoji: `&#x1F6AA`, name: `Door`},
-                                {emoji: `&#x1F6CC`, name: `Person In Bed`},
-                                {emoji: `&#x1F6CC&#x1F3FB`, name: `Person In Bed: Light Skin Tone`},
-                                {emoji: `&#x1F6CC&#x1F3FC`, name: `Person In Bed: Medium-Light Skin Tone`},
-                                {emoji: `&#x1F6CC&#x1F3FD`, name: `Person In Bed: Medium Skin Tone`},
-                                {emoji: `&#x1F6CC&#x1F3FE`, name: `Person In Bed: Medium-Dark Skin Tone`},
-                                {emoji: `&#x1F6CC&#x1F3FF`, name: `Person In Bed: Dark Skin Tone`},
-                                {emoji: `&#x1F6CF`, name: `Bed`},
-                                {emoji: `&#x1F6CB`, name: `Couch And Lamp`},
-                                {emoji: `&#x1F6BD`, name: `Toilet`},
-                                {emoji: `&#x1F6BF`, name: `Shower`},
-                                {emoji: `&#x1F6C0`, name: `Person Taking Bath`},
-                                {emoji: `&#x1F6C0&#x1F3FB`, name: `Person Taking Bath: Light Skin Tone`},
-                                {emoji: `&#x1F6C0&#x1F3FC`, name: `Person Taking Bath: Medium-Light Skin Tone`},
-                                {emoji: `&#x1F6C0&#x1F3FD`, name: `Person Taking Bath: Medium Skin Tone`},
-                                {emoji: `&#x1F6C0&#x1F3FE`, name: `Person Taking Bath: Medium-Dark Skin Tone`},
-                                {emoji: `&#x1F6C0&#x1F3FF`, name: `Person Taking Bath: Dark Skin Tone`},
-                                {emoji: `&#x1F6C1`, name: `Bathtub`},
-                                {emoji: `&#x231B`, name: `Hourglass`},
-                                {emoji: `&#x23F3`, name: `Hourglass With Flowing Sand`},
-                                {emoji: `&#x231A`, name: `Watch`},
-                                {emoji: `&#x23F0`, name: `Alarm Clock`},
-                                {emoji: `&#x23F1`, name: `Stopwatch`},
-                                {emoji: `&#x23F2`, name: `Timer Clock`},
-                                {emoji: `&#x1F570`, name: `Mantelpiece Clock`},
-                                {emoji: `&#x1F55B`, name: `Twelve O’clock`},
-                                {emoji: `&#x1F567`, name: `Twelve-Thirty`},
-                                {emoji: `&#x1F550`, name: `One O’clock`},
-                                {emoji: `&#x1F55C`, name: `One-Thirty`},
-                                {emoji: `&#x1F551`, name: `Two O’clock`},
-                                {emoji: `&#x1F55D`, name: `Two-Thirty`},
-                                {emoji: `&#x1F552`, name: `Three O’clock`},
-                                {emoji: `&#x1F55E`, name: `Three-Thirty`},
-                                {emoji: `&#x1F553`, name: `Four O’clock`},
-                                {emoji: `&#x1F55F`, name: `Four-Thirty`},
-                                {emoji: `&#x1F554`, name: `Five O’clock`},
-                                {emoji: `&#x1F560`, name: `Five-Thirty`},
-                                {emoji: `&#x1F555`, name: `Six O’clock`},
-                                {emoji: `&#x1F561`, name: `Six-Thirty`},
-                                {emoji: `&#x1F556`, name: `Seven O’clock`},
-                                {emoji: `&#x1F562`, name: `Seven-Thirty`},
-                                {emoji: `&#x1F557`, name: `Eight O’clock`},
-                                {emoji: `&#x1F563`, name: `Eight-Thirty`},
-                                {emoji: `&#x1F558`, name: `Nine O’clock`},
-                                {emoji: `&#x1F564`, name: `Nine-Thirty`},
-                                {emoji: `&#x1F559`, name: `Ten O’clock`},
-                                {emoji: `&#x1F565`, name: `Ten-Thirty`},
-                                {emoji: `&#x1F55A`, name: `Eleven O’clock`},
-                                {emoji: `&#x1F566`, name: `Eleven-Thirty`},
-                                {emoji: `&#x1F311`, name: `New Moon`},
-                                {emoji: `&#x1F312`, name: `Waxing Crescent Moon`},
-                                {emoji: `&#x1F313`, name: `First Quarter Moon`},
-                                {emoji: `&#x1F314`, name: `Waxing Gibbous Moon`},
-                                {emoji: `&#x1F315`, name: `Full Moon`},
-                                {emoji: `&#x1F316`, name: `Waning Gibbous Moon`},
-                                {emoji: `&#x1F317`, name: `Last Quarter Moon`},
-                                {emoji: `&#x1F318`, name: `Waning Crescent Moon`},
-                                {emoji: `&#x1F319`, name: `Crescent Moon`},
-                                {emoji: `&#x1F31A`, name: `New Moon Face`},
-                                {emoji: `&#x1F31B`, name: `First Quarter Moon With Face`},
-                                {emoji: `&#x1F31C`, name: `Last Quarter Moon With Face`},
-                                {emoji: `&#x1F321`, name: `Thermometer`},
-                                {emoji: `&#x2600`, name: `Sun`},
-                                {emoji: `&#x1F31D`, name: `Full Moon With Face`},
-                                {emoji: `&#x1F31E`, name: `Sun With Face`},
-                                {emoji: `&#x2B50`, name: `White Medium Star`},
-                                {emoji: `&#x1F31F`, name: `Glowing Star`},
-                                {emoji: `&#x1F320`, name: `Shooting Star`},
-                                {emoji: `&#x2601`, name: `Cloud`},
-                                {emoji: `&#x26C5`, name: `Sun Behind Cloud`},
-                                {emoji: `&#x26C8`, name: `Cloud With Lightning And Rain`},
-                                {emoji: `&#x1F324`, name: `Sun Behind Small Cloud`},
-                                {emoji: `&#x1F325`, name: `Sun Behind Large Cloud`},
-                                {emoji: `&#x1F326`, name: `Sun Behind Rain Cloud`},
-                                {emoji: `&#x1F327`, name: `Cloud With Rain`},
-                                {emoji: `&#x1F328`, name: `Cloud With Snow`},
-                                {emoji: `&#x1F329`, name: `Cloud With Lightning`},
-                                {emoji: `&#x1F32A`, name: `Tornado`},
-                                {emoji: `&#x1F32B`, name: `Fog`},
-                                {emoji: `&#x1F32C`, name: `Wind Face`},
-                                {emoji: `&#x1F300`, name: `Cyclone`},
-                                {emoji: `&#x1F308`, name: `Rainbow`},
-                                {emoji: `&#x1F302`, name: `Closed Umbrella`},
-                                {emoji: `&#x2602`, name: `Umbrella`},
-                                {emoji: `&#x2614`, name: `Umbrella With Rain Drops`},
-                                {emoji: `&#x26F1`, name: `Umbrella On Ground`},
-                                {emoji: `&#x26A1`, name: `High Voltage`},
-                                {emoji: `&#x2744`, name: `Snowflake`},
-                                {emoji: `&#x2603`, name: `Snowman`},
-                                {emoji: `&#x26C4`, name: `Snowman Without Snow`},
-                                {emoji: `&#x2604`, name: `Comet`},
-                                {emoji: `&#x1F525`, name: `Fire`},
-                                {emoji: `&#x1F4A7`, name: `Droplet`},
-                                {emoji: `&#x1F30A`, name: `Water Wave`},
-                                {emoji: `&#x1F383`, name: `Jack-O-Lantern`},
-                                {emoji: `&#x1F384`, name: `Christmas Tree`},
-                                {emoji: `&#x1F386`, name: `Fireworks`},
-                                {emoji: `&#x1F387`, name: `Sparkler`},
-                                {emoji: `&#x2728`, name: `Sparkles`},
-                                {emoji: `&#x1F388`, name: `Balloon`},
-                                {emoji: `&#x1F389`, name: `Party Popper`},
-                                {emoji: `&#x1F38A`, name: `Confetti Ball`},
-                                {emoji: `&#x1F38B`, name: `Tanabata Tree`},
-                                {emoji: `&#x1F38D`, name: `Pine Decoration`},
-                                {emoji: `&#x1F38E`, name: `Japanese Dolls`},
-                                {emoji: `&#x1F38F`, name: `Carp Streamer`},
-                                {emoji: `&#x1F390`, name: `Wind Chime`},
-                                {emoji: `&#x1F391`, name: `Moon Viewing Ceremony`},
-                                {emoji: `&#x1F380`, name: `Ribbon`},
-                                {emoji: `&#x1F381`, name: `Wrapped Gift`},
-                                {emoji: `&#x1F397`, name: `Reminder Ribbon`},
-                                {emoji: `&#x1F39F`, name: `Admission Tickets`},
-                                {emoji: `&#x1F3AB`, name: `Ticket`},
-                                {emoji: `&#x1F396`, name: `Military Medal`},
-                                {emoji: `&#x1F3C6`, name: `Trophy`},
-                                {emoji: `&#x1F3C5`, name: `Sports Medal`},
-                                {emoji: `&#x1F947`, name: `1st Place Medal`},
-                                {emoji: `&#x1F948`, name: `2nd Place Medal`},
-                                {emoji: `&#x1F949`, name: `3rd Place Medal`},
-                                {emoji: `&#x26BD`, name: `Soccer Ball`},
-                                {emoji: `&#x26BE`, name: `Baseball`},
-                                {emoji: `&#x1F3C0`, name: `Basketball`},
-                                {emoji: `&#x1F3D0`, name: `Volleyball`},
-                                {emoji: `&#x1F3C8`, name: `American Football`},
-                                {emoji: `&#x1F3C9`, name: `Rugby Football`},
-                                {emoji: `&#x1F3BE`, name: `Tennis`},
-                                {emoji: `&#x1F3B1`, name: `Pool 8 Ball`},
-                                {emoji: `&#x1F3B3`, name: `Bowling`},
-                                {emoji: `&#x1F3CF`, name: `Cricket`},
-                                {emoji: `&#x1F3D1`, name: `Field Hockey`},
-                                {emoji: `&#x1F3D2`, name: `Ice Hockey`},
-                                {emoji: `&#x1F3D3`, name: `Ping Pong`},
-                                {emoji: `&#x1F3F8`, name: `Badminton`},
-                                {emoji: `&#x1F94A`, name: `Boxing Glove`},
-                                {emoji: `&#x1F94B`, name: `Martial Arts Uniform`},
-                                {emoji: `&#x1F945`, name: `Goal Net`},
-                                {emoji: `&#x1F3AF`, name: `Direct Hit`},
-                                {emoji: `&#x26F3`, name: `Flag In Hole`},
-                                {emoji: `&#x26F8`, name: `Ice Skate`},
-                                {emoji: `&#x1F3A3`, name: `Fishing Pole`},
-                                {emoji: `&#x1F3BD`, name: `Running Shirt`},
-                                {emoji: `&#x1F3BF`, name: `Skis`},
-                                {emoji: `&#x1F3AE`, name: `Video Game`},
-                                {emoji: `&#x1F579`, name: `Joystick`},
-                                {emoji: `&#x1F3B2`, name: `Game Die`},
-                                {emoji: `&#x2660`, name: `Spade Suit`},
-                                {emoji: `&#x2665`, name: `Heart Suit`},
-                                {emoji: `&#x2666`, name: `Diamond Suit`},
-                                {emoji: `&#x2663`, name: `Club Suit`},
-                                {emoji: `&#x1F0CF`, name: `Joker`},
-                                {emoji: `&#x1F004`, name: `Mahjong Red Dragon`},
-                                {emoji: `&#x1F3B4`, name: `Flower Playing Cards`},
-                                {emoji: `&#x1F507`, name: `Muted Speaker`},
-                                {emoji: `&#x1F508`, name: `Speaker Low Volume`},
-                                {emoji: `&#x1F509`, name: `Speaker Medium Volume`},
-                                {emoji: `&#x1F50A`, name: `Speaker High Volume`},
-                                {emoji: `&#x1F4E2`, name: `Loudspeaker`},
-                                {emoji: `&#x1F4E3`, name: `Megaphone`},
-                                {emoji: `&#x1F4EF`, name: `Postal Horn`},
-                                {emoji: `&#x1F514`, name: `Bell`},
-                                {emoji: `&#x1F515`, name: `Bell With Slash`},
-                                {emoji: `&#x1F3BC`, name: `Musical Score`},
-                                {emoji: `&#x1F3B5`, name: `Musical Note`},
-                                {emoji: `&#x1F3B6`, name: `Musical Notes`},
-                                {emoji: `&#x1F399`, name: `Studio Microphone`},
-                                {emoji: `&#x1F39A`, name: `Level Slider`},
-                                {emoji: `&#x1F39B`, name: `Control Knobs`},
-                                {emoji: `&#x1F3A4`, name: `Microphone`},
-                                {emoji: `&#x1F3A7`, name: `Headphone`},
-                                {emoji: `&#x1F4FB`, name: `Radio`},
-                                {emoji: `&#x1F3B7`, name: `Saxophone`},
-                                {emoji: `&#x1F3B8`, name: `Guitar`},
-                                {emoji: `&#x1F3B9`, name: `Musical Keyboard`},
-                                {emoji: `&#x1F3BA`, name: `Trumpet`},
-                                {emoji: `&#x1F3BB`, name: `Violin`},
-                                {emoji: `&#x1F941`, name: `Drum`},
-                                {emoji: `&#x1F4F1`, name: `Mobile Phone`},
-                                {emoji: `&#x1F4F2`, name: `Mobile Phone With Arrow`},
-                                {emoji: `&#x260E`, name: `Telephone`},
-                                {emoji: `&#x1F4DE`, name: `Telephone Receiver`},
-                                {emoji: `&#x1F4DF`, name: `Pager`},
-                                {emoji: `&#x1F4E0`, name: `Fax Machine`},
-                                {emoji: `&#x1F50B`, name: `Battery`},
-                                {emoji: `&#x1F50C`, name: `Electric Plug`},
-                                {emoji: `&#x1F4BB`, name: `Laptop Computer`},
-                                {emoji: `&#x1F5A5`, name: `Desktop Computer`},
-                                {emoji: `&#x1F5A8`, name: `Printer`},
-                                {emoji: `&#x2328`, name: `Keyboard`},
-                                {emoji: `&#x1F5B1`, name: `Computer Mouse`},
-                                {emoji: `&#x1F5B2`, name: `Trackball`},
-                                {emoji: `&#x1F4BD`, name: `Computer Disk`},
-                                {emoji: `&#x1F4BE`, name: `Floppy Disk`},
-                                {emoji: `&#x1F4BF`, name: `Optical Disk`},
-                                {emoji: `&#x1F4C0`, name: `Dvd`},
-                                {emoji: `&#x1F3A5`, name: `Movie Camera`},
-                                {emoji: `&#x1F39E`, name: `Film Frames`},
-                                {emoji: `&#x1F4FD`, name: `Film Projector`},
-                                {emoji: `&#x1F3AC`, name: `Clapper Board`},
-                                {emoji: `&#x1F4FA`, name: `Television`},
-                                {emoji: `&#x1F4F7`, name: `Camera`},
-                                {emoji: `&#x1F4F8`, name: `Camera With Flash`},
-                                {emoji: `&#x1F4F9`, name: `Video Camera`},
-                                {emoji: `&#x1F4FC`, name: `Videocassette`},
-                                {emoji: `&#x1F50D`, name: `Left-Pointing Magnifying Glass`},
-                                {emoji: `&#x1F50E`, name: `Right-Pointing Magnifying Glass`},
-                                {emoji: `&#x1F52C`, name: `Microscope`},
-                                {emoji: `&#x1F52D`, name: `Telescope`},
-                                {emoji: `&#x1F4E1`, name: `Satellite Antenna`},
-                                {emoji: `&#x1F56F`, name: `Candle`},
-                                {emoji: `&#x1F4A1`, name: `Light Bulb`},
-                                {emoji: `&#x1F526`, name: `Flashlight`},
-                                {emoji: `&#x1F3EE`, name: `Red Paper Lantern`},
-                                {emoji: `&#x1F4D4`, name: `Notebook With Decorative Cover`},
-                                {emoji: `&#x1F4D5`, name: `Closed Book`},
-                                {emoji: `&#x1F4D6`, name: `Open Book`},
-                                {emoji: `&#x1F4D7`, name: `Green Book`},
-                                {emoji: `&#x1F4D8`, name: `Blue Book`},
-                                {emoji: `&#x1F4D9`, name: `Orange Book`},
-                                {emoji: `&#x1F4DA`, name: `Books`},
-                                {emoji: `&#x1F4D3`, name: `Notebook`},
-                                {emoji: `&#x1F4D2`, name: `Ledger`},
-                                {emoji: `&#x1F4C3`, name: `Page With Curl`},
-                                {emoji: `&#x1F4DC`, name: `Scroll`},
-                                {emoji: `&#x1F4C4`, name: `Page Facing Up`},
-                                {emoji: `&#x1F4F0`, name: `Newspaper`},
-                                {emoji: `&#x1F5DE`, name: `Rolled-Up Newspaper`},
-                                {emoji: `&#x1F4D1`, name: `Bookmark Tabs`},
-                                {emoji: `&#x1F516`, name: `Bookmark`},
-                                {emoji: `&#x1F3F7`, name: `Label`},
-                                {emoji: `&#x1F4B0`, name: `Money Bag`},
-                                {emoji: `&#x1F4B4`, name: `Yen Banknote`},
-                                {emoji: `&#x1F4B5`, name: `Dollar Banknote`},
-                                {emoji: `&#x1F4B6`, name: `Euro Banknote`},
-                                {emoji: `&#x1F4B7`, name: `Pound Banknote`},
-                                {emoji: `&#x1F4B8`, name: `Money With Wings`},
-                                {emoji: `&#x1F4B3`, name: `Credit Card`},
-                                {emoji: `&#x1F4B9`, name: `Chart Increasing With Yen`},
-                                {emoji: `&#x1F4B1`, name: `Currency Exchange`},
-                                {emoji: `&#x1F4B2`, name: `Heavy Dollar Sign`},
-                                {emoji: `&#x2709`, name: `Envelope`},
-                                {emoji: `&#x1F4E7`, name: `E-Mail`},
-                                {emoji: `&#x1F4E8`, name: `Incoming Envelope`},
-                                {emoji: `&#x1F4E9`, name: `Envelope With Arrow`},
-                                {emoji: `&#x1F4E4`, name: `Outbox Tray`},
-                                {emoji: `&#x1F4E5`, name: `Inbox Tray`},
-                                {emoji: `&#x1F4E6`, name: `Package`},
-                                {emoji: `&#x1F4EB`, name: `Closed Mailbox With Raised Flag`},
-                                {emoji: `&#x1F4EA`, name: `Closed Mailbox With Lowered Flag`},
-                                {emoji: `&#x1F4EC`, name: `Open Mailbox With Raised Flag`},
-                                {emoji: `&#x1F4ED`, name: `Open Mailbox With Lowered Flag`},
-                                {emoji: `&#x1F4EE`, name: `Postbox`},
-                                {emoji: `&#x1F5F3`, name: `Ballot Box With Ballot`},
-                                {emoji: `&#x270F`, name: `Pencil`},
-                                {emoji: `&#x2712`, name: `Black Nib`},
-                                {emoji: `&#x1F58B`, name: `Fountain Pen`},
-                                {emoji: `&#x1F58A`, name: `Pen`},
-                                {emoji: `&#x1F58C`, name: `Paintbrush`},
-                                {emoji: `&#x1F58D`, name: `Crayon`},
-                                {emoji: `&#x1F4DD`, name: `Memo`},
-                                {emoji: `&#x1F4BC`, name: `Briefcase`},
-                                {emoji: `&#x1F4C1`, name: `File Folder`},
-                                {emoji: `&#x1F4C2`, name: `Open File Folder`},
-                                {emoji: `&#x1F5C2`, name: `Card Index Dividers`},
-                                {emoji: `&#x1F4C5`, name: `Calendar`},
-                                {emoji: `&#x1F4C6`, name: `Tear-Off Calendar`},
-                                {emoji: `&#x1F5D2`, name: `Spiral Notepad`},
-                                {emoji: `&#x1F5D3`, name: `Spiral Calendar`},
-                                {emoji: `&#x1F4C7`, name: `Card Index`},
-                                {emoji: `&#x1F4C8`, name: `Chart Increasing`},
-                                {emoji: `&#x1F4C9`, name: `Chart Decreasing`},
-                                {emoji: `&#x1F4CA`, name: `Bar Chart`},
-                                {emoji: `&#x1F4CB`, name: `Clipboard`},
-                                {emoji: `&#x1F4CC`, name: `Pushpin`},
-                                {emoji: `&#x1F4CD`, name: `Round Pushpin`},
-                                {emoji: `&#x1F4CE`, name: `Paperclip`},
-                                {emoji: `&#x1F587`, name: `Linked Paperclips`},
-                                {emoji: `&#x1F4CF`, name: `Straight Ruler`},
-                                {emoji: `&#x1F4D0`, name: `Triangular Ruler`},
-                                {emoji: `&#x2702`, name: `Scissors`},
-                                {emoji: `&#x1F5C3`, name: `Card File Box`},
-                                {emoji: `&#x1F5C4`, name: `File Cabinet`},
-                                {emoji: `&#x1F5D1`, name: `Wastebasket`},
-                                {emoji: `&#x1F512`, name: `Locked`},
-                                {emoji: `&#x1F513`, name: `Unlocked`},
-                                {emoji: `&#x1F50F`, name: `Locked With Pen`},
-                                {emoji: `&#x1F510`, name: `Locked With Key`},
-                                {emoji: `&#x1F511`, name: `Key`},
-                                {emoji: `&#x1F5DD`, name: `Old Key`},
-                                {emoji: `&#x1F528`, name: `Hammer`},
-                                {emoji: `&#x26CF`, name: `Pick`},
-                                {emoji: `&#x2692`, name: `Hammer And Pick`},
-                                {emoji: `&#x1F6E0`, name: `Hammer And Wrench`},
-                                {emoji: `&#x1F5E1`, name: `Dagger`},
-                                {emoji: `&#x2694`, name: `Crossed Swords`},
-                                {emoji: `&#x1F52B`, name: `Pistol`},
-                                {emoji: `&#x1F3F9`, name: `Bow And Arrow`},
-                                {emoji: `&#x1F6E1`, name: `Shield`},
-                                {emoji: `&#x1F527`, name: `Wrench`},
-                                {emoji: `&#x1F529`, name: `Nut And Bolt`},
-                                {emoji: `&#x2699`, name: `Gear`},
-                                {emoji: `&#x1F5DC`, name: `Clamp`},
-                                {emoji: `&#x2697`, name: `Alembic`},
-                                {emoji: `&#x2696`, name: `Balance Scale`},
-                                {emoji: `&#x1F517`, name: `Link`},
-                                {emoji: `&#x26D3`, name: `Chains`},
-                                {emoji: `&#x1F489`, name: `Syringe`},
-                                {emoji: `&#x1F48A`, name: `Pill`},
-                                {emoji: `&#x1F6AC`, name: `Cigarette`},
-                                {emoji: `&#x26B0`, name: `Coffin`},
-                                {emoji: `&#x26B1`, name: `Funeral Urn`},
-                                {emoji: `&#x1F5FF`, name: `Moai`},
-                                {emoji: `&#x1F6E2`, name: `Oil Drum`},
-                                {emoji: `&#x1F52E`, name: `Crystal Ball`},
-                                {emoji: `&#x1F6D2`, name: `Shopping Cart`},
-                                {emoji: `&#x1F3E7`, name: `ATM Sign`},
-                                {emoji: `&#x1F6AE`, name: `Litter In Bin Sign`},
-                                {emoji: `&#x1F6B0`, name: `Potable Water`},
-                                {emoji: `&#x267F`, name: `Wheelchair Symbol`},
-                                {emoji: `&#x1F6B9`, name: `Men’s Room`},
-                                {emoji: `&#x1F6BA`, name: `Women’s Room`},
-                                {emoji: `&#x1F6BB`, name: `Restroom`},
-                                {emoji: `&#x1F6BC`, name: `Baby Symbol`},
-                                {emoji: `&#x1F6BE`, name: `Water Closet`},
-                                {emoji: `&#x1F6C2`, name: `Passport Control`},
-                                {emoji: `&#x1F6C3`, name: `Customs`},
-                                {emoji: `&#x1F6C4`, name: `Baggage Claim`},
-                                {emoji: `&#x1F6C5`, name: `Left Luggage`},
-                                {emoji: `&#x26A0`, name: `Warning`},
-                                {emoji: `&#x1F6B8`, name: `Children Crossing`},
-                                {emoji: `&#x26D4`, name: `No Entry`},
-                                {emoji: `&#x1F6AB`, name: `Prohibited`},
-                                {emoji: `&#x1F6B3`, name: `No Bicycles`},
-                                {emoji: `&#x1F6AD`, name: `No Smoking`},
-                                {emoji: `&#x1F6AF`, name: `No Littering`},
-                                {emoji: `&#x1F6B1`, name: `Non-Potable Water`},
-                                {emoji: `&#x1F6B7`, name: `No Pedestrians`},
-                                {emoji: `&#x1F4F5`, name: `No Mobile Phones`},
-                                {emoji: `&#x1F51E`, name: `No One Under Eighteen`},
-                                {emoji: `&#x2622`, name: `Radioactive`},
-                                {emoji: `&#x2623`, name: `Biohazard`},
-                                {emoji: `&#x2B06`, name: `Up Arrow`},
-                                {emoji: `&#x2197`, name: `Up-Right Arrow`},
-                                {emoji: `&#x27A1`, name: `Right Arrow`},
-                                {emoji: `&#x2198`, name: `Down-Right Arrow`},
-                                {emoji: `&#x2B07`, name: `Down Arrow`},
-                                {emoji: `&#x2199`, name: `Down-Left Arrow`},
-                                {emoji: `&#x2B05`, name: `Left Arrow`},
-                                {emoji: `&#x2196`, name: `Up-Left Arrow`},
-                                {emoji: `&#x2195`, name: `Up-Down Arrow`},
-                                {emoji: `&#x2194`, name: `Left-Right Arrow`},
-                                {emoji: `&#x21A9`, name: `Right Arrow Curving Left`},
-                                {emoji: `&#x21AA`, name: `Left Arrow Curving Right`},
-                                {emoji: `&#x2934`, name: `Right Arrow Curving Up`},
-                                {emoji: `&#x2935`, name: `Right Arrow Curving Down`},
-                                {emoji: `&#x1F503`, name: `Clockwise Vertical Arrows`},
-                                {emoji: `&#x1F504`, name: `Anticlockwise Arrows Button`},
-                                {emoji: `&#x1F519`, name: `BACK Arrow`},
-                                {emoji: `&#x1F51A`, name: `END Arrow`},
-                                {emoji: `&#x1F51B`, name: `ON! Arrow`},
-                                {emoji: `&#x1F51C`, name: `SOON Arrow`},
-                                {emoji: `&#x1F51D`, name: `TOP Arrow`},
-                                {emoji: `&#x1F6D0`, name: `Place Of Worship`},
-                                {emoji: `&#x269B`, name: `Atom Symbol`},
-                                {emoji: `&#x1F549`, name: `Om`},
-                                {emoji: `&#x2721`, name: `Star Of David`},
-                                {emoji: `&#x2638`, name: `Wheel Of Dharma`},
-                                {emoji: `&#x262F`, name: `Yin Yang`},
-                                {emoji: `&#x271D`, name: `Latin Cross`},
-                                {emoji: `&#x2626`, name: `Orthodox Cross`},
-                                {emoji: `&#x262A`, name: `Star And Crescent`},
-                                {emoji: `&#x262E`, name: `Peace Symbol`},
-                                {emoji: `&#x1F54E`, name: `Menorah`},
-                                {emoji: `&#x1F52F`, name: `Dotted Six-Pointed Star`},
-                                {emoji: `&#x2648`, name: `Aries`},
-                                {emoji: `&#x2649`, name: `Taurus`},
-                                {emoji: `&#x264A`, name: `Gemini`},
-                                {emoji: `&#x264B`, name: `Cancer`},
-                                {emoji: `&#x264C`, name: `Leo`},
-                                {emoji: `&#x264D`, name: `Virgo`},
-                                {emoji: `&#x264E`, name: `Libra`},
-                                {emoji: `&#x264F`, name: `Scorpius`},
-                                {emoji: `&#x2650`, name: `Sagittarius`},
-                                {emoji: `&#x2651`, name: `Capricorn`},
-                                {emoji: `&#x2652`, name: `Aquarius`},
-                                {emoji: `&#x2653`, name: `Pisces`},
-                                {emoji: `&#x26CE`, name: `Ophiuchus`},
-                                {emoji: `&#x1F500`, name: `Shuffle Tracks Button`},
-                                {emoji: `&#x1F501`, name: `Repeat Button`},
-                                {emoji: `&#x1F502`, name: `Repeat Single Button`},
-                                {emoji: `&#x25B6`, name: `Play Button`},
-                                {emoji: `&#x23E9`, name: `Fast-Forward Button`},
-                                {emoji: `&#x23ED`, name: `Next Track Button`},
-                                {emoji: `&#x23EF`, name: `Play Or Pause Button`},
-                                {emoji: `&#x25C0`, name: `Reverse Button`},
-                                {emoji: `&#x23EA`, name: `Fast Reverse Button`},
-                                {emoji: `&#x23EE`, name: `Last Track Button`},
-                                {emoji: `&#x1F53C`, name: `Up Button`},
-                                {emoji: `&#x23EB`, name: `Fast Up Button`},
-                                {emoji: `&#x1F53D`, name: `Down Button`},
-                                {emoji: `&#x23EC`, name: `Fast Down Button`},
-                                {emoji: `&#x23F8`, name: `Pause Button`},
-                                {emoji: `&#x23F9`, name: `Stop Button`},
-                                {emoji: `&#x23FA`, name: `Record Button`},
-                                {emoji: `&#x23CF`, name: `Eject Button`},
-                                {emoji: `&#x1F3A6`, name: `Cinema`},
-                                {emoji: `&#x1F505`, name: `Dim Button`},
-                                {emoji: `&#x1F506`, name: `Bright Button`},
-                                {emoji: `&#x1F4F6`, name: `Antenna Bars`},
-                                {emoji: `&#x1F4F3`, name: `Vibration Mode`},
-                                {emoji: `&#x1F4F4`, name: `Mobile Phone Off`},
-                                {emoji: `&#x267B`, name: `Recycling Symbol`},
-                                {emoji: `&#x1F4DB`, name: `Name Badge`},
-                                {emoji: `&#x269C`, name: `Fleur-De-Lis`},
-                                {emoji: `&#x1F530`, name: `Japanese Symbol For Beginner`},
-                                {emoji: `&#x1F531`, name: `Trident Emblem`},
-                                {emoji: `&#x2B55`, name: `Heavy Large Circle`},
-                                {emoji: `&#x2705`, name: `White Heavy Check Mark`},
-                                {emoji: `&#x2611`, name: `Ballot Box With Check`},
-                                {emoji: `&#x2714`, name: `Heavy Check Mark`},
-                                {emoji: `&#x2716`, name: `Heavy Multiplication X`},
-                                {emoji: `&#x274C`, name: `Cross Mark`},
-                                {emoji: `&#x274E`, name: `Cross Mark Button`},
-                                {emoji: `&#x2795`, name: `Heavy Plus Sign`},
-                                {emoji: `&#x2640`, name: `Female Sign`},
-                                {emoji: `&#x2642`, name: `Male Sign`},
-                                {emoji: `&#x2695`, name: `Medical Symbol`},
-                                {emoji: `&#x2796`, name: `Heavy Minus Sign`},
-                                {emoji: `&#x2797`, name: `Heavy Division Sign`},
-                                {emoji: `&#x27B0`, name: `Curly Loop`},
-                                {emoji: `&#x27BF`, name: `Double Curly Loop`},
-                                {emoji: `&#x303D`, name: `Part Alternation Mark`},
-                                {emoji: `&#x2733`, name: `Eight-Spoked Asterisk`},
-                                {emoji: `&#x2734`, name: `Eight-Pointed Star`},
-                                {emoji: `&#x2747`, name: `Sparkle`},
-                                {emoji: `&#x203C`, name: `Double Exclamation Mark`},
-                                {emoji: `&#x2049`, name: `Exclamation Question Mark`},
-                                {emoji: `&#x2753`, name: `Question Mark`},
-                                {emoji: `&#x2754`, name: `White Question Mark`},
-                                {emoji: `&#x2755`, name: `White Exclamation Mark`},
-                                {emoji: `&#x2757`, name: `Exclamation Mark`},
-                                {emoji: `&#x3030`, name: `Wavy Dash`},
-                                {emoji: `&#x00A9`, name: `Copyright`},
-                                {emoji: `&#x00AE`, name: `Registered`},
-                                {emoji: `&#x2122`, name: `Trade Mark`},
-                                {emoji: `&#x0023&#xFE0F&#x20E3`, name: `Keycap: #`},
-                                {emoji: `&#x002A&#xFE0F&#x20E3`, name: `Keycap: *`},
-                                {emoji: `&#x0030&#xFE0F&#x20E3`, name: `Keycap: 0`},
-                                {emoji: `&#x0031&#xFE0F&#x20E3`, name: `Keycap: 1`},
-                                {emoji: `&#x0032&#xFE0F&#x20E3`, name: `Keycap: 2`},
-                                {emoji: `&#x0033&#xFE0F&#x20E3`, name: `Keycap: 3`},
-                                {emoji: `&#x0034&#xFE0F&#x20E3`, name: `Keycap: 4`},
-                                {emoji: `&#x0035&#xFE0F&#x20E3`, name: `Keycap: 5`},
-                                {emoji: `&#x0036&#xFE0F&#x20E3`, name: `Keycap: 6`},
-                                {emoji: `&#x0037&#xFE0F&#x20E3`, name: `Keycap: 7`},
-                                {emoji: `&#x0038&#xFE0F&#x20E3`, name: `Keycap: 8`},
-                                {emoji: `&#x0039&#xFE0F&#x20E3`, name: `Keycap: 9`},
-                                {emoji: `&#x1F51F`, name: `Keycap 10`},
-                                {emoji: `&#x1F4AF`, name: `Hundred Points`},
-                                {emoji: `&#x1F520`, name: `Input Latin Uppercase`},
-                                {emoji: `&#x1F521`, name: `Input Latin Lowercase`},
-                                {emoji: `&#x1F522`, name: `Input Numbers`},
-                                {emoji: `&#x1F523`, name: `Input Symbols`},
-                                {emoji: `&#x1F524`, name: `Input Latin Letters`},
-                                {emoji: `&#x1F170`, name: `A Button (blood Type)`},
-                                {emoji: `&#x1F18E`, name: `AB Button (blood Type)`},
-                                {emoji: `&#x1F171`, name: `B Button (blood Type)`},
-                                {emoji: `&#x1F191`, name: `CL Button`},
-                                {emoji: `&#x1F192`, name: `COOL Button`},
-                                {emoji: `&#x1F193`, name: `FREE Button`},
-                                {emoji: `&#x2139`, name: `Information`},
-                                {emoji: `&#x1F194`, name: `ID Button`},
-                                {emoji: `&#x24C2`, name: `Circled M`},
-                                {emoji: `&#x1F195`, name: `NEW Button`},
-                                {emoji: `&#x1F196`, name: `NG Button`},
-                                {emoji: `&#x1F17E`, name: `O Button (blood Type)`},
-                                {emoji: `&#x1F197`, name: `OK Button`},
-                                {emoji: `&#x1F17F`, name: `P Button`},
-                                {emoji: `&#x1F198`, name: `SOS Button`},
-                                {emoji: `&#x1F199`, name: `UP! Button`},
-                                {emoji: `&#x1F19A`, name: `VS Button`},
-                                {emoji: `&#x1F201`, name: `Japanese “here” Button`},
-                                {emoji: `&#x1F202`, name: `Japanese “service Charge” Button`},
-                                {emoji: `&#x1F237`, name: `Japanese “monthly Amount” Button`},
-                                {emoji: `&#x1F236`, name: `Japanese “not Free Of Charge” Button`},
-                                {emoji: `&#x1F22F`, name: `Japanese “reserved” Button`},
-                                {emoji: `&#x1F250`, name: `Japanese “bargain” Button`},
-                                {emoji: `&#x1F239`, name: `Japanese “discount” Button`},
-                                {emoji: `&#x1F21A`, name: `Japanese “free Of Charge” Button`},
-                                {emoji: `&#x1F232`, name: `Japanese “prohibited” Button`},
-                                {emoji: `&#x1F251`, name: `Japanese “acceptable” Button`},
-                                {emoji: `&#x1F238`, name: `Japanese “application” Button`},
-                                {emoji: `&#x1F234`, name: `Japanese “passing Grade” Button`},
-                                {emoji: `&#x1F233`, name: `Japanese “vacancy” Button`},
-                                {emoji: `&#x3297`, name: `Japanese “congratulations” Button`},
-                                {emoji: `&#x3299`, name: `Japanese “secret” Button`},
-                                {emoji: `&#x1F23A`, name: `Japanese “open For Business” Button`},
-                                {emoji: `&#x1F235`, name: `Japanese “no Vacancy” Button`},
-                                {emoji: `&#x25AA`, name: `Black Small Square`},
-                                {emoji: `&#x25AB`, name: `White Small Square`},
-                                {emoji: `&#x25FB`, name: `White Medium Square`},
-                                {emoji: `&#x25FC`, name: `Black Medium Square`},
-                                {emoji: `&#x25FD`, name: `White Medium-Small Square`},
-                                {emoji: `&#x25FE`, name: `Black Medium-Small Square`},
-                                {emoji: `&#x2B1B`, name: `Black Large Square`},
-                                {emoji: `&#x2B1C`, name: `White Large Square`},
-                                {emoji: `&#x1F536`, name: `Large Orange Diamond`},
-                                {emoji: `&#x1F537`, name: `Large Blue Diamond`},
-                                {emoji: `&#x1F538`, name: `Small Orange Diamond`},
-                                {emoji: `&#x1F539`, name: `Small Blue Diamond`},
-                                {emoji: `&#x1F53A`, name: `Red Triangle Pointed Up`},
-                                {emoji: `&#x1F53B`, name: `Red Triangle Pointed Down`},
-                                {emoji: `&#x1F4A0`, name: `Diamond With A Dot`},
-                                {emoji: `&#x1F518`, name: `Radio Button`},
-                                {emoji: `&#x1F532`, name: `Black Square Button`},
-                                {emoji: `&#x1F533`, name: `White Square Button`},
-                                {emoji: `&#x26AA`, name: `White Circle`},
-                                {emoji: `&#x26AB`, name: `Black Circle`},
-                                {emoji: `&#x1F534`, name: `Red Circle`},
-                                {emoji: `&#x1F535`, name: `Blue Circle`},
-                                {emoji: `&#x1F3C1`, name: `Chequered Flag`},
-                                {emoji: `&#x1F6A9`, name: `Triangular Flag`},
-                                {emoji: `&#x1F38C`, name: `Crossed Flags`},
-                                {emoji: `&#x1F3F4`, name: `Black Flag`},
-                                {emoji: `&#x1F3F3`, name: `White Flag`},
-                                {emoji: `&#x1F3F3&#xFE0F&#x200D&#x1F308`, name: `Rainbow Flag`},
-                                {emoji: `&#x1F1E6&#x1F1E8`, name: `Ascension Island`},
-                                {emoji: `&#x1F1E6&#x1F1E9`, name: `Andorra`},
-                                {emoji: `&#x1F1E6&#x1F1EA`, name: `United Arab Emirates`},
-                                {emoji: `&#x1F1E6&#x1F1EB`, name: `Afghanistan`},
-                                {emoji: `&#x1F1E6&#x1F1EC`, name: `Antigua & Barbuda`},
-                                {emoji: `&#x1F1E6&#x1F1EE`, name: `Anguilla`},
-                                {emoji: `&#x1F1E6&#x1F1F1`, name: `Albania`},
-                                {emoji: `&#x1F1E6&#x1F1F2`, name: `Armenia`},
-                                {emoji: `&#x1F1E6&#x1F1F4`, name: `Angola`},
-                                {emoji: `&#x1F1E6&#x1F1F6`, name: `Antarctica`},
-                                {emoji: `&#x1F1E6&#x1F1F7`, name: `Argentina`},
-                                {emoji: `&#x1F1E6&#x1F1F8`, name: `American Samoa`},
-                                {emoji: `&#x1F1E6&#x1F1F9`, name: `Austria`},
-                                {emoji: `&#x1F1E6&#x1F1FA`, name: `Australia`},
-                                {emoji: `&#x1F1E6&#x1F1FC`, name: `Aruba`},
-                                {emoji: `&#x1F1E6&#x1F1FD`, name: `Åland Islands`},
-                                {emoji: `&#x1F1E6&#x1F1FF`, name: `Azerbaijan`},
-                                {emoji: `&#x1F1E7&#x1F1E6`, name: `Bosnia & Herzegovina`},
-                                {emoji: `&#x1F1E7&#x1F1E7`, name: `Barbados`},
-                                {emoji: `&#x1F1E7&#x1F1E9`, name: `Bangladesh`},
-                                {emoji: `&#x1F1E7&#x1F1EA`, name: `Belgium`},
-                                {emoji: `&#x1F1E7&#x1F1EB`, name: `Burkina Faso`},
-                                {emoji: `&#x1F1E7&#x1F1EC`, name: `Bulgaria`},
-                                {emoji: `&#x1F1E7&#x1F1ED`, name: `Bahrain`},
-                                {emoji: `&#x1F1E7&#x1F1EE`, name: `Burundi`},
-                                {emoji: `&#x1F1E7&#x1F1EF`, name: `Benin`},
-                                {emoji: `&#x1F1E7&#x1F1F1`, name: `St. Barthélemy`},
-                                {emoji: `&#x1F1E7&#x1F1F2`, name: `Bermuda`},
-                                {emoji: `&#x1F1E7&#x1F1F3`, name: `Brunei`},
-                                {emoji: `&#x1F1E7&#x1F1F4`, name: `Bolivia`},
-                                {emoji: `&#x1F1E7&#x1F1F6`, name: `Caribbean Netherlands`},
-                                {emoji: `&#x1F1E7&#x1F1F7`, name: `Brazil`},
-                                {emoji: `&#x1F1E7&#x1F1F8`, name: `Bahamas`},
-                                {emoji: `&#x1F1E7&#x1F1F9`, name: `Bhutan`},
-                                {emoji: `&#x1F1E7&#x1F1FB`, name: `Bouvet Island`},
-                                {emoji: `&#x1F1E7&#x1F1FC`, name: `Botswana`},
-                                {emoji: `&#x1F1E7&#x1F1FE`, name: `Belarus`},
-                                {emoji: `&#x1F1E7&#x1F1FF`, name: `Belize`},
-                                {emoji: `&#x1F1E8&#x1F1E6`, name: `Canada`},
-                                {emoji: `&#x1F1E8&#x1F1E8`, name: `Cocos (Keeling) Islands`},
-                                {emoji: `&#x1F1E8&#x1F1E9`, name: `Congo - Kinshasa`},
-                                {emoji: `&#x1F1E8&#x1F1EB`, name: `Central African Republic`},
-                                {emoji: `&#x1F1E8&#x1F1EC`, name: `Congo - Brazzaville`},
-                                {emoji: `&#x1F1E8&#x1F1ED`, name: `Switzerland`},
-                                {emoji: `&#x1F1E8&#x1F1EE`, name: `Côte D’Ivoire`},
-                                {emoji: `&#x1F1E8&#x1F1F0`, name: `Cook Islands`},
-                                {emoji: `&#x1F1E8&#x1F1F1`, name: `Chile`},
-                                {emoji: `&#x1F1E8&#x1F1F2`, name: `Cameroon`},
-                                {emoji: `&#x1F1E8&#x1F1F3`, name: `China`},
-                                {emoji: `&#x1F1E8&#x1F1F4`, name: `Colombia`},
-                                {emoji: `&#x1F1E8&#x1F1F5`, name: `Clipperton Island`},
-                                {emoji: `&#x1F1E8&#x1F1F7`, name: `Costa Rica`},
-                                {emoji: `&#x1F1E8&#x1F1FA`, name: `Cuba`},
-                                {emoji: `&#x1F1E8&#x1F1FB`, name: `Cape Verde`},
-                                {emoji: `&#x1F1E8&#x1F1FC`, name: `Curaçao`},
-                                {emoji: `&#x1F1E8&#x1F1FD`, name: `Christmas Island`},
-                                {emoji: `&#x1F1E8&#x1F1FE`, name: `Cyprus`},
-                                {emoji: `&#x1F1E8&#x1F1FF`, name: `Czech Republic`},
-                                {emoji: `&#x1F1E9&#x1F1EA`, name: `Germany`},
-                                {emoji: `&#x1F1E9&#x1F1EC`, name: `Diego Garcia`},
-                                {emoji: `&#x1F1E9&#x1F1EF`, name: `Djibouti`},
-                                {emoji: `&#x1F1E9&#x1F1F0`, name: `Denmark`},
-                                {emoji: `&#x1F1E9&#x1F1F2`, name: `Dominica`},
-                                {emoji: `&#x1F1E9&#x1F1F4`, name: `Dominican Republic`},
-                                {emoji: `&#x1F1E9&#x1F1FF`, name: `Algeria`},
-                                {emoji: `&#x1F1EA&#x1F1E6`, name: `Ceuta & Melilla`},
-                                {emoji: `&#x1F1EA&#x1F1E8`, name: `Ecuador`},
-                                {emoji: `&#x1F1EA&#x1F1EA`, name: `Estonia`},
-                                {emoji: `&#x1F1EA&#x1F1EC`, name: `Egypt`},
-                                {emoji: `&#x1F1EA&#x1F1ED`, name: `Western Sahara`},
-                                {emoji: `&#x1F1EA&#x1F1F7`, name: `Eritrea`},
-                                {emoji: `&#x1F1EA&#x1F1F8`, name: `Spain`},
-                                {emoji: `&#x1F1EA&#x1F1F9`, name: `Ethiopia`},
-                                {emoji: `&#x1F1EA&#x1F1FA`, name: `European Union`},
-                                {emoji: `&#x1F1EB&#x1F1EE`, name: `Finland`},
-                                {emoji: `&#x1F1EB&#x1F1EF`, name: `Fiji`},
-                                {emoji: `&#x1F1EB&#x1F1F0`, name: `Falkland Islands`},
-                                {emoji: `&#x1F1EB&#x1F1F2`, name: `Micronesia`},
-                                {emoji: `&#x1F1EB&#x1F1F4`, name: `Faroe Islands`},
-                                {emoji: `&#x1F1EB&#x1F1F7`, name: `France`},
-                                {emoji: `&#x1F1EC&#x1F1E6`, name: `Gabon`},
-                                {emoji: `&#x1F1EC&#x1F1E7`, name: `United Kingdom`},
-                                {emoji: `&#x1F1EC&#x1F1E9`, name: `Grenada`},
-                                {emoji: `&#x1F1EC&#x1F1EA`, name: `Georgia`},
-                                {emoji: `&#x1F1EC&#x1F1EB`, name: `French Guiana`},
-                                {emoji: `&#x1F1EC&#x1F1EC`, name: `Guernsey`},
-                                {emoji: `&#x1F1EC&#x1F1ED`, name: `Ghana`},
-                                {emoji: `&#x1F1EC&#x1F1EE`, name: `Gibraltar`},
-                                {emoji: `&#x1F1EC&#x1F1F1`, name: `Greenland`},
-                                {emoji: `&#x1F1EC&#x1F1F2`, name: `Gambia`},
-                                {emoji: `&#x1F1EC&#x1F1F3`, name: `Guinea`},
-                                {emoji: `&#x1F1EC&#x1F1F5`, name: `Guadeloupe`},
-                                {emoji: `&#x1F1EC&#x1F1F6`, name: `Equatorial Guinea`},
-                                {emoji: `&#x1F1EC&#x1F1F7`, name: `Greece`},
-                                {emoji: `&#x1F1EC&#x1F1F8`, name: `South Georgia & South Sandwich Islands`},
-                                {emoji: `&#x1F1EC&#x1F1F9`, name: `Guatemala`},
-                                {emoji: `&#x1F1EC&#x1F1FA`, name: `Guam`},
-                                {emoji: `&#x1F1EC&#x1F1FC`, name: `Guinea-Bissau`},
-                                {emoji: `&#x1F1EC&#x1F1FE`, name: `Guyana`},
-                                {emoji: `&#x1F1ED&#x1F1F0`, name: `Hong Kong SAR China`},
-                                {emoji: `&#x1F1ED&#x1F1F2`, name: `Heard & McDonald Islands`},
-                                {emoji: `&#x1F1ED&#x1F1F3`, name: `Honduras`},
-                                {emoji: `&#x1F1ED&#x1F1F7`, name: `Croatia`},
-                                {emoji: `&#x1F1ED&#x1F1F9`, name: `Haiti`},
-                                {emoji: `&#x1F1ED&#x1F1FA`, name: `Hungary`},
-                                {emoji: `&#x1F1EE&#x1F1E8`, name: `Canary Islands`},
-                                {emoji: `&#x1F1EE&#x1F1E9`, name: `Indonesia`},
-                                {emoji: `&#x1F1EE&#x1F1EA`, name: `Ireland`},
-                                {emoji: `&#x1F1EE&#x1F1F1`, name: `Israel`},
-                                {emoji: `&#x1F1EE&#x1F1F2`, name: `Isle Of Man`},
-                                {emoji: `&#x1F1EE&#x1F1F3`, name: `India`},
-                                {emoji: `&#x1F1EE&#x1F1F4`, name: `British Indian Ocean Territory`},
-                                {emoji: `&#x1F1EE&#x1F1F6`, name: `Iraq`},
-                                {emoji: `&#x1F1EE&#x1F1F7`, name: `Iran`},
-                                {emoji: `&#x1F1EE&#x1F1F8`, name: `Iceland`},
-                                {emoji: `&#x1F1EE&#x1F1F9`, name: `Italy`},
-                                {emoji: `&#x1F1EF&#x1F1EA`, name: `Jersey`},
-                                {emoji: `&#x1F1EF&#x1F1F2`, name: `Jamaica`},
-                                {emoji: `&#x1F1EF&#x1F1F4`, name: `Jordan`},
-                                {emoji: `&#x1F1EF&#x1F1F5`, name: `Japan`},
-                                {emoji: `&#x1F1F0&#x1F1EA`, name: `Kenya`},
-                                {emoji: `&#x1F1F0&#x1F1EC`, name: `Kyrgyzstan`},
-                                {emoji: `&#x1F1F0&#x1F1ED`, name: `Cambodia`},
-                                {emoji: `&#x1F1F0&#x1F1EE`, name: `Kiribati`},
-                                {emoji: `&#x1F1F0&#x1F1F2`, name: `Comoros`},
-                                {emoji: `&#x1F1F0&#x1F1F3`, name: `St. Kitts & Nevis`},
-                                {emoji: `&#x1F1F0&#x1F1F5`, name: `North Korea`},
-                                {emoji: `&#x1F1F0&#x1F1F7`, name: `South Korea`},
-                                {emoji: `&#x1F1F0&#x1F1FC`, name: `Kuwait`},
-                                {emoji: `&#x1F1F0&#x1F1FE`, name: `Cayman Islands`},
-                                {emoji: `&#x1F1F0&#x1F1FF`, name: `Kazakhstan`},
-                                {emoji: `&#x1F1F1&#x1F1E6`, name: `Laos`},
-                                {emoji: `&#x1F1F1&#x1F1E7`, name: `Lebanon`},
-                                {emoji: `&#x1F1F1&#x1F1E8`, name: `St. Lucia`},
-                                {emoji: `&#x1F1F1&#x1F1EE`, name: `Liechtenstein`},
-                                {emoji: `&#x1F1F1&#x1F1F0`, name: `Sri Lanka`},
-                                {emoji: `&#x1F1F1&#x1F1F7`, name: `Liberia`},
-                                {emoji: `&#x1F1F1&#x1F1F8`, name: `Lesotho`},
-                                {emoji: `&#x1F1F1&#x1F1F9`, name: `Lithuania`},
-                                {emoji: `&#x1F1F1&#x1F1FA`, name: `Luxembourg`},
-                                {emoji: `&#x1F1F1&#x1F1FB`, name: `Latvia`},
-                                {emoji: `&#x1F1F1&#x1F1FE`, name: `Libya`},
-                                {emoji: `&#x1F1F2&#x1F1E6`, name: `Morocco`},
-                                {emoji: `&#x1F1F2&#x1F1E8`, name: `Monaco`},
-                                {emoji: `&#x1F1F2&#x1F1E9`, name: `Moldova`},
-                                {emoji: `&#x1F1F2&#x1F1EA`, name: `Montenegro`},
-                                {emoji: `&#x1F1F2&#x1F1EB`, name: `St. Martin`},
-                                {emoji: `&#x1F1F2&#x1F1EC`, name: `Madagascar`},
-                                {emoji: `&#x1F1F2&#x1F1ED`, name: `Marshall Islands`},
-                                {emoji: `&#x1F1F2&#x1F1F0`, name: `Macedonia`},
-                                {emoji: `&#x1F1F2&#x1F1F1`, name: `Mali`},
-                                {emoji: `&#x1F1F2&#x1F1F2`, name: `Myanmar (Burma)`},
-                                {emoji: `&#x1F1F2&#x1F1F3`, name: `Mongolia`},
-                                {emoji: `&#x1F1F2&#x1F1F4`, name: `Macau SAR China`},
-                                {emoji: `&#x1F1F2&#x1F1F5`, name: `Northern Mariana Islands`},
-                                {emoji: `&#x1F1F2&#x1F1F6`, name: `Martinique`},
-                                {emoji: `&#x1F1F2&#x1F1F7`, name: `Mauritania`},
-                                {emoji: `&#x1F1F2&#x1F1F8`, name: `Montserrat`},
-                                {emoji: `&#x1F1F2&#x1F1F9`, name: `Malta`},
-                                {emoji: `&#x1F1F2&#x1F1FA`, name: `Mauritius`},
-                                {emoji: `&#x1F1F2&#x1F1FB`, name: `Maldives`},
-                                {emoji: `&#x1F1F2&#x1F1FC`, name: `Malawi`},
-                                {emoji: `&#x1F1F2&#x1F1FD`, name: `Mexico`},
-                                {emoji: `&#x1F1F2&#x1F1FE`, name: `Malaysia`},
-                                {emoji: `&#x1F1F2&#x1F1FF`, name: `Mozambique`},
-                                {emoji: `&#x1F1F3&#x1F1E6`, name: `Namibia`},
-                                {emoji: `&#x1F1F3&#x1F1E8`, name: `New Caledonia`},
-                                {emoji: `&#x1F1F3&#x1F1EA`, name: `Niger`},
-                                {emoji: `&#x1F1F3&#x1F1EB`, name: `Norfolk Island`},
-                                {emoji: `&#x1F1F3&#x1F1EC`, name: `Nigeria`},
-                                {emoji: `&#x1F1F3&#x1F1EE`, name: `Nicaragua`},
-                                {emoji: `&#x1F1F3&#x1F1F1`, name: `Netherlands`},
-                                {emoji: `&#x1F1F3&#x1F1F4`, name: `Norway`},
-                                {emoji: `&#x1F1F3&#x1F1F5`, name: `Nepal`},
-                                {emoji: `&#x1F1F3&#x1F1F7`, name: `Nauru`},
-                                {emoji: `&#x1F1F3&#x1F1FA`, name: `Niue`},
-                                {emoji: `&#x1F1F3&#x1F1FF`, name: `New Zealand`},
-                                {emoji: `&#x1F1F4&#x1F1F2`, name: `Oman`},
-                                {emoji: `&#x1F1F5&#x1F1E6`, name: `Panama`},
-                                {emoji: `&#x1F1F5&#x1F1EA`, name: `Peru`},
-                                {emoji: `&#x1F1F5&#x1F1EB`, name: `French Polynesia`},
-                                {emoji: `&#x1F1F5&#x1F1EC`, name: `Papua New Guinea`},
-                                {emoji: `&#x1F1F5&#x1F1ED`, name: `Philippines`},
-                                {emoji: `&#x1F1F5&#x1F1F0`, name: `Pakistan`},
-                                {emoji: `&#x1F1F5&#x1F1F1`, name: `Poland`},
-                                {emoji: `&#x1F1F5&#x1F1F2`, name: `St. Pierre & Miquelon`},
-                                {emoji: `&#x1F1F5&#x1F1F3`, name: `Pitcairn Islands`},
-                                {emoji: `&#x1F1F5&#x1F1F7`, name: `Puerto Rico`},
-                                {emoji: `&#x1F1F5&#x1F1F8`, name: `Palestinian Territories`},
-                                {emoji: `&#x1F1F5&#x1F1F9`, name: `Portugal`},
-                                {emoji: `&#x1F1F5&#x1F1FC`, name: `Palau`},
-                                {emoji: `&#x1F1F5&#x1F1FE`, name: `Paraguay`},
-                                {emoji: `&#x1F1F6&#x1F1E6`, name: `Qatar`},
-                                {emoji: `&#x1F1F7&#x1F1EA`, name: `Réunion`},
-                                {emoji: `&#x1F1F7&#x1F1F4`, name: `Romania`},
-                                {emoji: `&#x1F1F7&#x1F1F8`, name: `Serbia`},
-                                {emoji: `&#x1F1F7&#x1F1FA`, name: `Russia`},
-                                {emoji: `&#x1F1F7&#x1F1FC`, name: `Rwanda`},
-                                {emoji: `&#x1F1F8&#x1F1E6`, name: `Saudi Arabia`},
-                                {emoji: `&#x1F1F8&#x1F1E7`, name: `Solomon Islands`},
-                                {emoji: `&#x1F1F8&#x1F1E8`, name: `Seychelles`},
-                                {emoji: `&#x1F1F8&#x1F1E9`, name: `Sudan`},
-                                {emoji: `&#x1F1F8&#x1F1EA`, name: `Sweden`},
-                                {emoji: `&#x1F1F8&#x1F1EC`, name: `Singapore`},
-                                {emoji: `&#x1F1F8&#x1F1ED`, name: `St. Helena`},
-                                {emoji: `&#x1F1F8&#x1F1EE`, name: `Slovenia`},
-                                {emoji: `&#x1F1F8&#x1F1EF`, name: `Svalbard & Jan Mayen`},
-                                {emoji: `&#x1F1F8&#x1F1F0`, name: `Slovakia`},
-                                {emoji: `&#x1F1F8&#x1F1F1`, name: `Sierra Leone`},
-                                {emoji: `&#x1F1F8&#x1F1F2`, name: `San Marino`},
-                                {emoji: `&#x1F1F8&#x1F1F3`, name: `Senegal`},
-                                {emoji: `&#x1F1F8&#x1F1F4`, name: `Somalia`},
-                                {emoji: `&#x1F1F8&#x1F1F7`, name: `Suriname`},
-                                {emoji: `&#x1F1F8&#x1F1F8`, name: `South Sudan`},
-                                {emoji: `&#x1F1F8&#x1F1F9`, name: `São Tomé & Príncipe`},
-                                {emoji: `&#x1F1F8&#x1F1FB`, name: `El Salvador`},
-                                {emoji: `&#x1F1F8&#x1F1FD`, name: `Sint Maarten`},
-                                {emoji: `&#x1F1F8&#x1F1FE`, name: `Syria`},
-                                {emoji: `&#x1F1F8&#x1F1FF`, name: `Swaziland`},
-                                {emoji: `&#x1F1F9&#x1F1E6`, name: `Tristan Da Cunha`},
-                                {emoji: `&#x1F1F9&#x1F1E8`, name: `Turks & Caicos Islands`},
-                                {emoji: `&#x1F1F9&#x1F1E9`, name: `Chad`},
-                                {emoji: `&#x1F1F9&#x1F1EB`, name: `French Southern Territories`},
-                                {emoji: `&#x1F1F9&#x1F1EC`, name: `Togo`},
-                                {emoji: `&#x1F1F9&#x1F1ED`, name: `Thailand`},
-                                {emoji: `&#x1F1F9&#x1F1EF`, name: `Tajikistan`},
-                                {emoji: `&#x1F1F9&#x1F1F0`, name: `Tokelau`},
-                                {emoji: `&#x1F1F9&#x1F1F1`, name: `Timor-Leste`},
-                                {emoji: `&#x1F1F9&#x1F1F2`, name: `Turkmenistan`},
-                                {emoji: `&#x1F1F9&#x1F1F3`, name: `Tunisia`},
-                                {emoji: `&#x1F1F9&#x1F1F4`, name: `Tonga`},
-                                {emoji: `&#x1F1F9&#x1F1F7`, name: `Turkey`},
-                                {emoji: `&#x1F1F9&#x1F1F9`, name: `Trinidad & Tobago`},
-                                {emoji: `&#x1F1F9&#x1F1FB`, name: `Tuvalu`},
-                                {emoji: `&#x1F1F9&#x1F1FC`, name: `Taiwan`},
-                                {emoji: `&#x1F1F9&#x1F1FF`, name: `Tanzania`},
-                                {emoji: `&#x1F1FA&#x1F1E6`, name: `Ukraine`},
-                                {emoji: `&#x1F1FA&#x1F1EC`, name: `Uganda`},
-                                {emoji: `&#x1F1FA&#x1F1F2`, name: `U.S. Outlying Islands`},
-                                {emoji: `&#x1F1FA&#x1F1F3`, name: `United Nations`},
-                                {emoji: `&#x1F1FA&#x1F1F8`, name: `United States`},
-                                {emoji: `&#x1F1FA&#x1F1FE`, name: `Uruguay`},
-                                {emoji: `&#x1F1FA&#x1F1FF`, name: `Uzbekistan`},
-                                {emoji: `&#x1F1FB&#x1F1E6`, name: `Vatican City`},
-                                {emoji: `&#x1F1FB&#x1F1E8`, name: `St. Vincent & Grenadines`},
-                                {emoji: `&#x1F1FB&#x1F1EA`, name: `Venezuela`},
-                                {emoji: `&#x1F1FB&#x1F1EC`, name: `British Virgin Islands`},
-                                {emoji: `&#x1F1FB&#x1F1EE`, name: `U.S. Virgin Islands`},
-                                {emoji: `&#x1F1FB&#x1F1F3`, name: `Vietnam`},
-                                {emoji: `&#x1F1FB&#x1F1FA`, name: `Vanuatu`},
-                                {emoji: `&#x1F1FC&#x1F1EB`, name: `Wallis & Futuna`},
-                                {emoji: `&#x1F1FC&#x1F1F8`, name: `Samoa`},
-                                {emoji: `&#x1F1FD&#x1F1F0`, name: `Kosovo`},
-                                {emoji: `&#x1F1FE&#x1F1EA`, name: `Yemen`},
-                                {emoji: `&#x1F1FE&#x1F1F9`, name: `Mayotte`},
-                                {emoji: `&#x1F1FF&#x1F1E6`, name: `South Africa`},
-                                {emoji: `&#x1F1FF&#x1F1F2`, name: `Zambia`}
-                            ].forEach(emoji => {
-                                emojis.insertAdjacentHTML(`beforeEnd`, `<span data-id="${emoji.emoji}" draggable="true" title="${emoji.name}">${emoji.emoji}</span>`);
-                                emojis.lastElementChild.addEventListener(`dragstart`, event => {
-                                    event.dataTransfer.setData(`text`, event.currentTarget.getAttribute(`data-id`));
+                            const savedEmojis = emojis.nextElementSibling.nextElementSibling;
+                            const obj = {
+                                context: savedEmojis,
+                                id: `emojid`
+                            };
+                            this.draggable_set(obj);
+                            for (const emoji in this.emojis) {
+                                emojis.insertAdjacentHTML(`beforeEnd`, `
+                                    <span data-id="${encodeURIComponent(emoji)}" title="${this.emojis[emoji]}">${emoji}</span>
+                                `);
+                                emojis.lastElementChild.addEventListener(`click`, event => {
+                                    savedEmojis.insertAdjacentHTML(`beforeEnd`, `
+                                        <span data-id="${encodeURIComponent(emoji)}" title="${this.emojis[emoji]}">${emoji}</span>                                    
+                                    `);
+                                    this.draggable_set(obj);
                                 });
-                            });
+                            }
+                            popup.onClose = () => {
+                                const emojArr = [];
+                                for (const element of savedEmojis.children) {
+                                    emojArr.push(decodeURIComponent(element.getAttribute(`data-id`)));
+                                }
+                                this.setValue(`emojis`, JSON.stringify(emojArr));
+                            };
                             filter.addEventListener(`input`, () => {
                                 if (filter.value) {
                                     for (i = emojis.children.length - 1; i > -1; --i) {
@@ -10003,28 +10114,6 @@ class ESGST {
                                     }
                                 }
                             });
-                            let savedEmojis = emojis.nextElementSibling.nextElementSibling;
-                            for (i = savedEmojis.children.length - 1; i > -1; --i) {
-                                savedEmojis.children[i].addEventListener(`click`, event => {
-                                    event.currentTarget.remove();
-                                    this.setValue(`emojis`, savedEmojis.innerHTML);
-                                });
-                            }
-                            savedEmojis.addEventListener(`dragover`, event => {
-                                event.preventDefault();
-                            });
-                            savedEmojis.addEventListener(`drop`, event => {
-                                event.preventDefault();
-                                let id = event.dataTransfer.getData(`text`).replace(/\\/g, `\\\\`);
-                                if (!savedEmojis.querySelector(`[data-id="${id}"]`)) {
-                                    savedEmojis.appendChild(document.querySelector(`[data-id="${id}"]`).cloneNode(true));
-                                    this.setValue(`emojis`, savedEmojis.innerHTML);
-                                    savedEmojis.lastElementChild.addEventListener(`click`, event => {
-                                        event.currentTarget.remove();
-                                        this.setValue(`emojis`, savedEmojis.innerHTML);
-                                    });
-                                }
-                            });
                             popup.open(() => {
                                 popout.popout.classList.add(`esgst-hidden`)
                             });
@@ -10033,7 +10122,8 @@ class ESGST {
                 },
                 callback: async popout => {
                     let emojis = popout.firstElementChild;
-                    emojis.innerHTML = await this.getValue(`emojis`, ``);
+                    emojis.innerHTML = await this.cfh_getEmojis();
+                    this.draggable_set({context: emojis, id: `emojis`});
                     this.cfh_setEmojis(emojis);
                 }
             },
@@ -10207,6 +10297,13 @@ class ESGST {
             });
         }
         esgst.cfh.preview.className = `esgst-cfh-preview markdown`;
+    }
+    async cfh_getEmojis() {
+        return JSON.parse(await this.getValue(`emojis`, `[]`)).map(
+            emoji => `
+                <span data-id="${encodeURIComponent(emoji)}" title="${this.emojis[emoji]}">${emoji}</span>
+            `
+        ).join(``);
     }
     cfh_addScrollingEvent(context, baseTop = 0) {
         let placeholder = null;
@@ -10835,8 +10932,24 @@ class ESGST {
             }
             this.chfl_reorder(chfl, key, true);
         }
-        document.addEventListener(`keydown`, this.chfl_addButton.bind(this, chfl));
-        document.addEventListener(`keyup`, this.chfl_removeButton.bind(this, chfl));
+        document.addEventListener(`keydown`, this.chfl_checkKey.bind(this, chfl));
+    }
+    chfl_checkKey(chfl, event) {
+        event.stopPropagation();
+        let value = ``;
+        if (event.ctrlKey) {
+            value += `ctrlKey + `;
+        } else if (event.shiftKey) {
+            value += `shiftKey + `;
+        } else if (event.altKey) {
+            value += `altKey + `;
+        }
+        value += event.key.toLowerCase();
+
+        if (value !== esgst.chfl_key) return;
+
+        const removedKey = this.chfl_removeButton(chfl);
+        this.chfl_addButton(chfl, removedKey);
     }
     chfl_reorder(chfl, key, firstRun) {
         let source = chfl.sources[key];
@@ -10885,6 +10998,10 @@ class ESGST {
             source.elements[key].remove();
             delete source.elements[key];
         }
+        if (!firstRun) {
+            this.chfl_removeButton(chfl, key);
+            this.chfl_addButton(chfl, null, key);
+        }
     }
     chfl_makeDraggable(chfl, element) {
         element.setAttribute(`draggable`, true);
@@ -10929,39 +11046,35 @@ class ESGST {
         }
         this.setValue(`settings`, JSON.stringify(esgst.settings));
     }
-    chfl_addButton(chfl, event) {
-        if (chfl.button || !event.ctrlKey) return;
-        for (let key in chfl.sources) {
-            let source = chfl.sources[key];
-            if (source.container.classList.contains(`is-hidden`) || source.container.classList.contains(`is_hidden`)) continue;
-            chfl.button = insertHtml(source.context, `beforeEnd`, key === `footer` ? `
-                <${esgst.sg ? `div` : `li`}>
+    chfl_addButton(chfl, removedKey, forceKey) {
+        for (const key in chfl.sources) {
+            if (key === removedKey) return;
+
+            const source = chfl.sources[key];
+            if (key !== forceKey && (source.container.classList.contains(`is-hidden`) || source.container.classList.contains(`is_hidden`))) continue;
+
+            const button = insertHtml(source.context, `beforeEnd`, key === `footer` ? `
+                <${esgst.sg ? `div` : `li`} class="esgst-chfl-button">
                     <i class="fa fa-plus"></i>
                     <a href="#">Add Custom Link</a>
                 </${esgst.sg ? `div` : `li`}>
-            ` : this.generateHeaderMenuItem({color: `grey`, icon: `fa-plus-circle`, name: `Add Custom Link`, description: `Click here to add a custom link.`}));
-            chfl.button.addEventListener(`click`, this.chfl_openPopup.bind(this, chfl, null, key));
-            chfl.resetButton = insertHtml(source.context, `beforeEnd`, key === `footer` ? `
-                <${esgst.sg ? `div` : `li`}>
+            ` : this.generateHeaderMenuItem({className: ` esgst-chfl-button`, color: `grey`, icon: `fa-plus-circle`, name: `Add Custom Link`, description: `Click here to add a custom link.`}));
+            button.addEventListener(`click`, this.chfl_openPopup.bind(this, chfl, null, key));
+            const resetButton = insertHtml(source.context, `beforeEnd`, key === `footer` ? `
+                <${esgst.sg ? `div` : `li`} class="esgst-chfl-button">
                     <i class="fa fa-undo"></i>
                     <a href="#">Reset Links</a>
                 </${esgst.sg ? `div` : `li`}>
-            ` : this.generateHeaderMenuItem({color: `grey`, icon: `fa-undo`, name: `Reset Links`, description: `Click here to reset the custom links.`}));
-            chfl.resetButton.addEventListener(`click`, createConfirmation.bind(null, `Are you sure you want to reset the links? Any custom links you added will be deleted.`, this.chfl_resetLinks.bind(this, chfl, key), null));
-            let elements = {};
-            esgst[`chfl_${key}`].forEach(item => {
-                if (item.id) {
-                    elements[item.id] = item;
-                }
-            });
-            for (let subKey in source.elements) {
-                let element = source.elements[subKey];
-                let panel = insertHtml(element, `beforeEnd`, `
-                    <div class="esgst-chfl-panel">
-                        <i class="esgst-chfl-edit-button fa fa-edit icon-grey"></i>
-                        <i class="esgst-chfl-remove-button fa fa-trash icon-grey"></i>
-                    </div>
-                `);
+            ` : this.generateHeaderMenuItem({className: ` esgst-chfl-button`, color: `grey`, icon: `fa-undo`, name: `Reset Links`, description: `Click here to reset the custom links.`}));
+            resetButton.addEventListener(`click`, createConfirmation.bind(null, `Are you sure you want to reset the links? Any custom links you added will be deleted.`, this.chfl_resetLinks.bind(this, chfl, key), null));
+            for (const subKey in source.elements) {
+                const element = source.elements[subKey],
+                      panel = insertHtml(element, `beforeEnd`, `
+                          <div class="esgst-chfl-panel">
+                              <i class="esgst-chfl-edit-button fa fa-edit icon-grey"></i>
+                              <i class="esgst-chfl-remove-button fa fa-trash icon-grey"></i>
+                          </div>
+                      `);
                 panel.firstElementChild.addEventListener(`click`, this.chfl_openPopup.bind(this, chfl, subKey, key));
                 panel.lastElementChild.addEventListener(`click`, this.chfl_removeLink.bind(this, chfl, subKey, key));
             }
@@ -11136,15 +11249,25 @@ class ESGST {
         delete chfl.sources[key].elements[id];
         this.chfl_saveOrder(chfl);
     }
-    chfl_removeButton(chfl) {
-        if (!chfl.button) return;
-        chfl.button.remove();
-        chfl.button = null;
-        chfl.resetButton.remove();
-        chfl.resetButton = null;
-        let elements = document.getElementsByClassName(`esgst-chfl-panel`);
-        for (let i = elements.length - 1; i > -1; i--) {
-            elements[i].remove();
+    chfl_removeButton(chfl, forceKey) {
+        for (const key in chfl.sources) {
+            const source = chfl.sources[key];
+            if (key !== forceKey && (source.container.classList.contains(`is-hidden`) || source.container.classList.contains(`is_hidden`))) continue;
+
+            const buttons = source.context.getElementsByClassName(`esgst-chfl-button`);
+            let found = false;
+            for (let i = buttons.length - 1; i > -1; i--) {
+                found = true;
+                buttons[i].remove();
+            }
+            for (const subKey in source.elements) {
+                const element = source.elements[subKey],
+                      elements = element.getElementsByClassName(`esgst-chfl-panel`);
+                for (let i = elements.length - 1; i > -1; i--) {
+                    elements[i].remove();
+                }
+            }
+            return (found ? key : null);
         }
     }
     async codb_close(discussion) {
@@ -11289,6 +11412,7 @@ class ESGST {
                 code = match[2];
                 comments = JSON.parse(await this.getValue(type));
                 count = parseInt(element.textContent.replace(/,/g, ``).match(/\d+/)[0]);
+                console.log(`c1`, count);
                 if (comments[code]) {
                     let id, read;
                     if (esgst.ct_s) {
@@ -11301,12 +11425,14 @@ class ESGST {
                             }
                         }
                     }
+                    console.log(`c2`, read);
                     diff = count === read ? 0 : count - read;
                 } else if (esgst.ct_s && esgst.ct_s_h) {
                     diff = 0;
                 } else {
                     diff = count;
                 }
+                console.log(`c3`, diff);
                 element.insertAdjacentHTML(`beforeEnd`, ` <span class="esgst-ct-count" title="${this.getFeatureTooltip(`ct`, `Unread comments`)}">(+${diff})</span>`);
             }
         }
@@ -12323,7 +12449,7 @@ class ESGST {
         button = box.nextElementSibling;
         expandButton = button.firstElementChild;
         collapseButton = expandButton.nextElementSibling;
-        button.addEventListener(`click`, this.gf_toggleFilters.bind(this, collapseButton, expandButton, filters));
+        button.addEventListener(`click`, this.gf_toggleFilters.bind(this, df, collapseButton, expandButton, filters));
         df.filteredCount = collapseButton.nextElementSibling;
         df.paginationFilteredCount = insertHtml(esgst.pagination.firstElementChild, `beforeEnd`, `
             <span>
@@ -12894,6 +13020,7 @@ class ESGST {
         }
     }
     df_filterDiscussions(df, unfilter, endless) {
+        if (!unfilter && !esgst[`df_enable${df.type}`]) return;
         let key;
         for (key in df.counters) {
             df.counters[key].textContent = `0`;
@@ -13383,7 +13510,12 @@ class ESGST {
         }
         let description = null;
         if (esgst.elgb_d || (esgst.elgb_r && esgst.elgb_r_d) || mainCallback) {
-            description = this.parseHtml((await this.request({method: `GET`, url: giveaway.url})).responseText).getElementsByClassName(`page__description`)[0];
+            const responseHtml = this.parseHtml((await this.request({method: `GET`, url: giveaway.url})).responseText);
+            if (mainCallback && !responseHtml.getElementsByClassName(`featured__outer-wrap--giveaway`)[0]) {
+                mainCallback(true);
+                return;
+            }
+            description = responseHtml.getElementsByClassName(`page__description`)[0];
         }
         if (description && description.textContent.trim() && !mainCallback) {
             if (esgst.elgb_c) {
@@ -14286,7 +14418,7 @@ class ESGST {
         esgst.commentsTop += height + 30;
     }
     fmph_fix() {
-        if (scrollY > (esgst.mainPageHeading.offsetTop - esgst.pageTop) && document.documentElement.offsetHeight >  innerHeight * 2) {
+        if (scrollY > (esgst.mainPageHeading.offsetTop - esgst.pageTop) && document.documentElement.offsetHeight > innerHeight) {
             document.removeEventListener(`scroll`, esgst.fmph_fix);
             esgst.mainPageHeading.classList.add(`esgst-fmph`);
             esgst.mainPageHeadingPlaceholder.classList.remove(`esgst-hidden`);
@@ -14295,10 +14427,16 @@ class ESGST {
             esgst.mainPageHeading.style.width = width;
             esgst.mainPageHeadingBackground.style.width = width;
             if (esgst.gf && esgst.gf.container) {
+                esgst.filterPlaceholder = insertHtml(esgst.mainPageHeadingBackground, `afterEnd`, `
+                    <div style="height: ${esgst.gf.container.offsetHeight}px;"></div>
+                `);
                 esgst.gf.container.classList.add(`esgst-gf-container-fixed`);
                 esgst.gf.container.style.width = width;
             }
             if (esgst.df && esgst.df.container) {
+                esgst.filterPlaceholder = insertHtml(esgst.mainPageHeadingBackground, `afterEnd`, `
+                    <div style="height: ${esgst.df.container.offsetHeight}px;"></div>
+                `);
                 esgst.df.container.classList.add(`esgst-gf-container-fixed`);
                 esgst.df.container.style.width = width;
             }
@@ -14315,9 +14453,15 @@ class ESGST {
             esgst.mainPageHeading.style.width = width;
             esgst.mainPageHeadingBackground.style.width = width;
             if (esgst.gf && esgst.gf.container) {
+                if (esgst.filterPlaceholder) {
+                    esgst.filterPlaceholder.remove();
+                }
                 esgst.gf.container.classList.remove(`esgst-gf-container-fixed`);
             }
             if (esgst.df && esgst.df.container) {
+                if (esgst.filterPlaceholder) {
+                    esgst.filterPlaceholder.remove();
+                }
                 esgst.df.container.classList.remove(`esgst-gf-container-fixed`);
             }
             document.addEventListener(`scroll`, esgst.fmph_fix);
@@ -14326,7 +14470,9 @@ class ESGST {
     fs() {
         if (!esgst.sidebar) return;
         esgst.sidebarAd = esgst.sidebar.getElementsByClassName(`sidebar__mpu`)[0];
-        esgst.sidebarSibling = esgst.sidebar.nextElementSibling;
+        esgst.sidebarPlaceholder = insertHtml(esgst.sidebar, `afterEnd`, `
+            <div class="esgst-fs-placeholder esgst-hidden"></div>
+        `);
         esgst.fs_fix = this.fs_fix.bind(this);
         esgst.fs_unfix = this.fs_unfix.bind(this);
         document.addEventListener(`scroll`, esgst.fs_fix);
@@ -14336,33 +14482,37 @@ class ESGST {
                 position: fixed;
                 top: ${esgst.pageTop}px;
             }
+
+            .esgst-fs-placeholder {
+                border: 0 !important;
+                box-shadow: none !important;
+                margin: 0 !important;
+                padding: 0 !important;
+            }
         `);
     }
     fs_fix() {
-        if (esgst.sidebar.offsetTop >= esgst.pageTop) {
-            esgst.sidebarTop = esgst.sidebar.offsetTop - esgst.pageTop;
-        } else {
-            esgst.sidebarTop = esgst.sidebar.offsetTop;
-        }
-        if (scrollY > esgst.sidebarTop && document.documentElement.offsetHeight >  innerHeight * 2) {
+        if (scrollY > (esgst.sidebar.offsetTop - esgst.pageTop) && document.documentElement.offsetHeight >  innerHeight) {
             document.removeEventListener(`scroll`, esgst.fs_fix);
+            esgst.sidebarPlaceholder.style.height = `${esgst.sidebar.offsetHeight}px`;
+            esgst.sidebarPlaceholder.style.maxWidth = `${esgst.sidebar.offsetWidth}px`;
             esgst.sidebar.classList.add(`esgst-fs`);
             if (esgst.sidebarAd) {
                 esgst.sidebarAd.classList.add(`esgst-hidden`);
             }
-            esgst.sidebarSibling.style.marginLeft = `${esgst.sidebar.offsetWidth + 25}px`;
+            esgst.sidebarPlaceholder.classList.remove(`esgst-hidden`);
             document.addEventListener(`scroll`, esgst.fs_unfix);
         }
     }
     fs_unfix() {
-        if (scrollY <= esgst.sidebarTop) {
-            document.removeEventListener(`scroll`, esgst.fs_fix);
+        if (scrollY <= (esgst.sidebarPlaceholder.offsetTop - esgst.pageTop)) {
+            document.removeEventListener(`scroll`, esgst.fs_unfix);
             esgst.sidebar.classList.remove(`esgst-fs`);
             if (esgst.sidebarAd) {
                 esgst.sidebarAd.classList.remove(`esgst-hidden`);
             }
-            esgst.sidebarSibling.style.marginLeft = `25px`;
-            document.addEventListener(`scroll`, esgst.fs_unfix);
+            esgst.sidebarPlaceholder.classList.add(`esgst-hidden`);
+            document.addEventListener(`scroll`, esgst.fs_fix);
         }
     }
     // [G]
@@ -14935,6 +15085,7 @@ class ESGST {
                     gc_i: `ignored`,
                     gc_o: `owned`,
                     gc_w: `wishlisted`,
+                    gc_pw: `won`,
                     gc_a: `achievements`,
                     gc_mp: `multiplayer`,
                     gc_sc: `steamCloud`,
@@ -14984,6 +15135,7 @@ class ESGST {
                     gc_i: `ignored`,
                     gc_o: `owned`,
                     gc_w: `wishlisted`,
+                    gc_pw: `won`,
                     gc_a: `achievements`,
                     gc_mp: `multiplayer`,
                     gc_sc: `steamCloud`,
@@ -15222,6 +15374,13 @@ class ESGST {
                         if (savedGame && savedGame.wishlisted) {
                             elements.push(`
                                 <a class="esgst-gc esgst-gc-wishlisted" data-id="gc_w" href="https://www.steamgifts.com/account/steam/wishlist/search?q=${encodedName}" title="${this.getFeatureTooltip(`gc_w`, `Wishlisted${typeof savedGame.wishlisted === `number` ? ` since ${this.gc_formatDate(savedGame.wishlisted * 1e3)}` : ``}`)}">${esgst.gc_w_s ? (esgst.gc_w_s_i ? `<i class="fa fa-${esgst.gc_wIcon}"></i>` : `W`) : esgst.gc_wLabel}</a>
+                            `);
+                        }
+                        break;
+                    case `gc_pw`:
+                        if (savedGame && savedGame.won && (!esgst.gc_pw_o || !esgst.gc_o || !savedGame.owned)) {
+                            elements.push(`
+                                <a class="esgst-gc esgst-gc-won" data-id="gc_pw" href="https://www.steamgifts.com/user/${esgst.usename}/won/search?q=${encodedName}" title="${this.getFeatureTooltip(`gc_pw`, `Previously Won`)}">${esgst.gc_pw_s ? (esgst.gc_pw_s_i ? `<i class="fa fa-${esgst.gc_pwIcon}"></i>` : `PW`) : esgst.gc_pwLabel}</a>
                             `);
                         }
                         break;
@@ -16993,7 +17152,7 @@ class ESGST {
         button = box.nextElementSibling;
         expandButton = button.firstElementChild;
         collapseButton = expandButton.nextElementSibling;
-        button.addEventListener(`click`, this.gf_toggleFilters.bind(this, collapseButton, expandButton, filters));
+        button.addEventListener(`click`, this.gf_toggleFilters.bind(this, gf, collapseButton, expandButton, filters));
         gf.filteredCount = collapseButton.nextElementSibling;
         gf.pointsCount = gf.filteredCount.nextElementSibling;
         if (!gf.popup && esgst.pagination) {
@@ -17245,10 +17404,13 @@ class ESGST {
         }
         return headingButton;
     }
-    gf_toggleFilters(collapseButton, expandButton, filters) {
+    gf_toggleFilters(obj, collapseButton, expandButton, filters) {
         collapseButton.classList.toggle(`esgst-hidden`);
         expandButton.classList.toggle(`esgst-hidden`);
         filters.classList.toggle(`esgst-hidden`);
+        if (esgst.filterPlaceholder) {
+            esgst.filterPlaceholder.style.height = `${obj.container.offsetHeight}px`;
+        }
     }
     gf_changeMaxValue(gf, infinite, maxKey, slider, step, event) {
         const max = $(slider).slider(`values`, 1),
@@ -17786,6 +17948,7 @@ class ESGST {
         }
     }
     gf_filterGiveaways(gf, unfilter, endless) {
+        if (!unfilter && !esgst[`gf_enable${gf.type}`]) return;
         let giveaways, key;
         for (key in gf.counters) {
             gf.counters[key].textContent = `0`;
@@ -18096,6 +18259,8 @@ class ESGST {
                                         <div class="table__rows"></div>
                                     </div>
                                 `;
+                                console.log(groups);
+                                console.log(savedGroups);
                                 groupCount = 0;
                                 for (i = 0, n = groups.length; i < n; ++i) {
                                     code = groups[i];
@@ -18763,7 +18928,20 @@ class ESGST {
         giveaways.forEach(giveaway => {
             if (giveaway.sgTools || (main && (esgst.createdPath || esgst.enteredPath || esgst.wonPath || esgst.giveawayPath || esgst.newGiveawayPath))) return;
             if (!giveaway.innerWrap.getElementsByClassName(`esgst-gp-button`)[0] && (!giveaway.inviteOnly || giveaway.url)) {
-                let buttonSet = new ButtonSet(`grey`, `grey`, `fa-external-link`, `fa-circle-o-notch fa-spin`, ``, ``, this.elgb_openPopup.bind(this, giveaway, main, source)).set;
+                let buttonSet = new ButtonSet(`grey`, `grey`, `fa-external-link`, `fa-circle-o-notch fa-spin`, ``, ``, callback => {
+                    this.elgb_openPopup(giveaway, main, source, error => {
+                        if (error) {
+                            buttonSet.firstElementChild.classList.remove(`form__saving-button`, `grey`);
+                            buttonSet.firstElementChild.classList.add(`sidebar__error`, `red`);
+                            buttonSet.title = this.getFeatureTooltip(`gp`, `Could not access giveaway`);
+                        } else if (buttonSet.firstElementChild.classList.contains(`sidebar__error`)) {
+                            buttonSet.firstElementChild.classList.remove(`sidebar__error`, `red`);
+                            buttonSet.firstElementChild.classList.add(`form__saving-button`, `grey`);
+                            buttonSet.title = this.getFeatureTooltip(`gp`, `View giveaway description/add a comment`);
+                        }
+                        callback();
+                    });
+                }).set;
                 buttonSet.classList.add(`esgst-gp-button`);
                 buttonSet.setAttribute(`data-columnId`, `gp`);
                 buttonSet.title = this.getFeatureTooltip(`gp`, `View giveaway description/add a comment`);
@@ -19801,7 +19979,7 @@ class ESGST {
     }
     gwc_addChances(giveaways, main, source) {
         giveaways.forEach(giveaway => {
-            if (giveaway.sgTools || (main && (esgst.createdPath || esgst.wonPath || esgst.newGiveawayPath))) return;
+            if (giveaway.sgTools || (main && (esgst.createdPath || esgst.wonPath || esgst.newGiveawayPath || esgst.archivePath))) return;
             if (((giveaway.inviteOnly && ((main && esgst.giveawayPath) || !main || giveaway.ended)) || !giveaway.inviteOnly) && !giveaway.innerWrap.getElementsByClassName(`esgst-gwc`)[0]) {
                 if (giveaway.started) {
                     giveaway.gwcContext = insertHtml(giveaway.panel, (esgst.gv && ((main && esgst.giveawaysPath) || (source === `gb` && esgst.gv_gb) || (source === `ged` && esgst.gv_ged) || (source === `ge` && esgst.gv_ge))) ? `afterBegin` : `beforeEnd`, `<div class="${esgst.giveawayPath ? `featured__column` : ``} esgst-gwc" data-columnId="gwc" title="${this.getFeatureTooltip(`gwc`, `Giveaway Winning Chance`)}">`);
@@ -19883,7 +20061,7 @@ class ESGST {
         esgst.giveawayFeatures.push(this.gwl_addLinks.bind(this));
     }
     gwl_addLinks(giveaways, main) {
-        if (((!esgst.createdPath && !esgst.enteredPath && !esgst.wonPath && !esgst.giveawayPath) || main) && (esgst.giveawayPath || esgst.createdPath || esgst.enteredPath || esgst.wonPath)) return;
+        if (((!esgst.createdPath && !esgst.enteredPath && !esgst.wonPath && !esgst.giveawayPath && !esgst.archivePath) || main) && (esgst.giveawayPath || esgst.createdPath || esgst.enteredPath || esgst.wonPath || esgst.archivePath)) return;
         giveaways.forEach(giveaway => {
             if (giveaway.innerWrap.getElementsByClassName(`esgst-gwl`)[0] || !giveaway.ended) return;
             giveaway.entriesLink.insertAdjacentHTML(`afterEnd`, `
@@ -19901,7 +20079,7 @@ class ESGST {
     }
     gwr_addRatios(giveaways, main, source) {
         giveaways.forEach(giveaway => {
-            if (giveaway.sgTools || (main && (esgst.createdPath || esgst.wonPath || esgst.newGiveawayPath))) return;
+            if (giveaway.sgTools || (main && (esgst.createdPath || esgst.wonPath || esgst.newGiveawayPath || esgst.archivePath))) return;
             if (giveaway.started && ((giveaway.inviteOnly && ((main && esgst.giveawayPath) || !main || giveaway.ended)) || !giveaway.inviteOnly) && !giveaway.innerWrap.getElementsByClassName(`esgst-gwr`)[0]) {
                 let context = insertHtml(giveaway.panel, (esgst.gv && ((main && esgst.giveawaysPath) || (source === `gb` && esgst.gv_gb) || (source === `ged` && esgst.gv_ged) || (source === `ge` && esgst.gv_ge))) ? `afterBegin` : `beforeEnd`, `<div class="${esgst.giveawayPath ? `featured__column` : ``} esgst-gwr" data-columnId="gwr" title="${this.getFeatureTooltip(`gwr`, `Giveaway Winning Ratio`)}">`);
                 this.gwr_addRatio(context, giveaway);
@@ -21797,14 +21975,7 @@ class ESGST {
                     }
                 }
             }
-            anchor = document.createElement(`a`);
-            anchor.download = `giveaways.txt`;
-            url = URL.createObjectURL(new Blob([file]));
-            anchor.href = url;
-            document.body.appendChild(anchor);
-            anchor.click();
-            anchor.remove();
-            URL.revokeObjectURL(url);
+            this.downloadFile(file, `giveaways.txt`);
             callback();
         }).set);
         popup.open();
@@ -21851,6 +22022,7 @@ class ESGST {
             if (values.region === `1`) {
                 regionRestricted = `Yes (`;
                 values.countries.split(/\s/).forEach(id => {
+                    console.log(id, mgc.countryNames[id]);
                     regionRestricted += `${mgc.countryNames[id].match(/.+\s(.+)$/)[1]}, `;
                 });
                 regionRestricted = `${regionRestricted.slice(0, -2)})`;
@@ -24576,6 +24748,7 @@ class ESGST {
             };
             if (esgst.qiv_p) {
                 esgst.qiv.popout = new Popout(`esgst-qiv-popout`, null, 1000);
+                esgst.qiv.popout.onClose = this.qiv_removeNew.bind(this);
                 if (esgst.messageCount > 0) {
                     this.qiv_addMarkReadButton();
                 }
@@ -24606,6 +24779,7 @@ class ESGST {
                 esgst.qiv.popout.open(esgst.inboxButton);
             } else {
                 esgst.qiv.popout = new Popout(`esgst-qiv-popout`, null, 1000);
+                esgst.qiv.popout.onClose = this.qiv_removeNew.bind(this);
                 esgst.qiv.popout.open(esgst.inboxButton);
                 if (esgst.messageCount > 0) {
                     this.qiv_addMarkReadButton();
@@ -24624,6 +24798,12 @@ class ESGST {
                 }
             };
         }, 1000);
+    }
+    qiv_removeNew() {
+        const elements = esgst.qiv.popout.popout.getElementsByClassName(`esgst-qiv-new`);
+        for (let i = elements.length - 1; i > -1; i--) {
+            elements[i].remove();
+        }
     }
     async qiv_scroll(first, preload) {
         if ((first || preload || esgst.qiv.comments.scrollTop + esgst.qiv.comments.offsetHeight >= esgst.qiv.comments.scrollHeight) && !esgst.qiv.busy) {
@@ -24663,10 +24843,12 @@ class ESGST {
                         doContinue = true;
                     }
                     if (context.children.length) {
+                        for (const element of comments) {
+                            element.insertAdjacentHTML(`afterBegin`, `
+                                <div class="esgst-qiv-new esgst-warning">[NEW]</div>
+                            `);
+                        }
                         esgst.qiv.comments.insertBefore(context, firstPage);
-                        firstPage.insertAdjacentHTML(`beforeBegin`, `
-                            <div class="esgst-bold esgst-text-center esgst-warning">-------------------------------------------------- ^^ NEW ^^ --------------------------------------------------</div>
-                        `);
                     }
                 } else {
                     const comments = context.querySelectorAll(`.comment, .comment_outer`);
@@ -25799,14 +25981,7 @@ class ESGST {
             `);
         });
         if (esgst.sks_exportKeys) {
-            let anchor = document.createElement(`a`);
-            anchor.download = `esgst_sks_keys_${new Date().toISOString()}.txt`;
-            let url = URL.createObjectURL(new Blob([sks.allKeys.join(`\r\n`)]));
-            anchor.href = url;
-            document.body.appendChild(anchor);
-            anchor.click();
-            anchor.remove();
-            URL.revokeObjectURL(url);
+            this.downloadFile(sks.allKeys.join(`\r\n`), `esgst_sks_keys_${new Date().toISOString()}.txt`);
         }
         sks.progress.innerHTML = ``;
         sks.overallProgress.innerHTML = ``;
@@ -26025,7 +26200,7 @@ class ESGST {
                 <div class="featured__table__row__left">Ratio</div>
                 <div class="featured__table__row__right">
                     <span data-ui-tooltip='${JSON.stringify(ratioTooltip)}'>${ratio}</span>
-                    (<span data-ui-tooltip='${JSON.stringify(cvTooltip)}'>$${cvRatio}</span>)
+                    (<span data-ui-tooltip='${JSON.stringify(cvTooltip)}'>$${esgst.vrcv ? `${cvRatio} / $${realCVRatio.toLocaleString(`en`)}` : cvRatio}</span>)
                 </div>
             </div>
         `);
@@ -28118,6 +28293,13 @@ class ESGST {
             image.classList.remove(`is_hidden`, `is-hidden`);
         }
     }
+    vrcv() {
+        esgst.profileFeatures.push(this.vrcv_add.bind(this));
+    }
+    vrcv_add(profile) {
+        profile.sentCvContainer.insertAdjacentText(`beforeEnd`, ` / $${profile.realSentCV.toLocaleString(`en`)}`);
+        profile.wonCvContainer.insertAdjacentText(`beforeEnd`, ` / $${profile.realWonCV.toLocaleString(`en`)}`);
+    }
     // [W]
     wbc() {
         if (!esgst.mainPageHeading) return;
@@ -28968,14 +29150,7 @@ class ESGST {
                     list.push(esgst.users.users[steamId].id);
                 }
             }
-            url = URL.createObjectURL(new Blob([JSON.stringify(list)]));
-            file = document.createElement(`a`);
-            file.download = `esgst_${wbm.key}_${new Date().toISOString()}.json`;
-            file.href = url;
-            document.body.appendChild(file);
-            file.click();
-            file.remove();
-            URL.revokeObjectURL(url);
+            this.downloadFile(JSON.stringify(list), `esgst_${wbm.key}_${new Date().toISOString()}.json`);
             createFadeMessage(wbm.message, `List exported with success!`);
             callback();
         } else {
@@ -28993,15 +29168,7 @@ class ESGST {
             if (pagination && !pagination.lastElementChild.classList.contains(`is-selected`)) {
                 setTimeout(this.wbm_exportList.bind(this), 0, wbm, list, ++nextPage, callback);
             } else {
-                let file, url;
-                url = URL.createObjectURL(new Blob([JSON.stringify(list)]));
-                file = document.createElement(`a`);
-                file.download = `esgst_${wbm.key}_${new Date().toISOString()}.json`;
-                file.href = url;
-                document.body.appendChild(file);
-                file.click();
-                file.remove();
-                URL.revokeObjectURL(url);
+                this.downloadFile(JSON.stringify(list), `esgst_${wbm.key}_${new Date().toISOString()}.json`);
                 createFadeMessage(wbm.message, `List exported with success!`);
                 callback();
             }
@@ -29234,7 +29401,7 @@ class ESGST {
     async giveaways_get(context, main, mainUrl, hr, key, ged, endless, source) {
         let giveaway, giveaways, i, mainContext, matches, query;
         giveaways = [];
-        if (!hr && main && (esgst.createdPath || esgst.enteredPath || esgst.wonPath)) {
+        if (!hr && main && (esgst.createdPath || esgst.enteredPath || esgst.wonPath || esgst.archivePath)) {
             query = `${endless ? `.esgst-es-page-${endless} .giveaway__row-outer-wrap, .esgst-es-page-${endless}.giveaway__row-outer-wrap` : `.giveaway__row-outer-wrap`}, ${endless ? `.esgst-es-page-${endless} .featured__outer-wrap--giveaway, .esgst-es-page-${endless}.featured__outer-wrap--giveaway` : `.featured__outer-wrap--giveaway`}, ${endless ? `.table:not(.table--summary) .esgst-es-page-${endless} .table__row-outer-wrap, .table:not(.table--summary) .esgst-es-page-${endless}.table__row-outer-wrap` : `.table:not(.table--summary) .table__row-outer-wrap`}`;
         } else {
             query = `${endless ? `.esgst-es-page-${endless} .giveaway__row-outer-wrap, .esgst-es-page-${endless}.giveaway__row-outer-wrap` : `.giveaway__row-outer-wrap`}, ${endless ? `.esgst-es-page-${endless} .featured__outer-wrap--giveaway, .esgst-es-page-${endless}.featured__outer-wrap--giveaway` : `.featured__outer-wrap--giveaway`}`;
@@ -29362,6 +29529,16 @@ class ESGST {
         } else {
             giveaway.started = true;
         }
+        if (main && esgst.archivePath) {
+            giveaway.startTimeColumn = giveaway.innerWrap.querySelector(`[data-timestamp]`);
+            if (giveaway.startTimeColumn) {
+                giveaway.startTime = parseInt(giveaway.startTimeColumn.getAttribute(`data-timestamp`)) * 1e3;
+                giveaway.creatorContainer = giveaway.startTimeColumn.nextElementSibling;
+                giveaway.creator = giveaway.creatorContainer.textContent;
+            } else {
+                giveaway.startTime = 0;
+            }            
+        }
         if (!giveaway.endTime && main && (esgst.createdPath || esgst.enteredPath || esgst.wonPath)) {
             giveaway.endTime = giveaway.innerWrap.querySelector(`[data-timestamp]`);
             if (giveaway.endTime) {
@@ -29447,7 +29624,12 @@ class ESGST {
                     <div style="clear: both;"></div>
                 `);
             } else if (giveaway.columns) {
-                giveaway.panel = insertHtml(giveaway.columns, `afterEnd`, `<div class="featured__columns esgst-giveaway-panel"></div>`);
+                if (esgst.archivePath) {
+                    giveaway.columns.style.justifyContent = `right`;
+                    giveaway.panel = insertHtml(giveaway.columns, `afterEnd`, `<div class="giveaway__columns esgst-giveaway-panel"></div>`);
+                } else {
+                    giveaway.panel = insertHtml(giveaway.columns, `afterEnd`, `<div class="featured__columns esgst-giveaway-panel"></div>`);
+                }
             } else if (esgst.enteredPath && (esgst.gwc || esgst.gwr)) {
                 giveaway.panel = insertHtml(giveaway.innerWrap.firstElementChild.nextElementSibling, `afterEnd`, `<div class="table__column--width-small text-center esgst-giveaway-panel"></div>`);
             }
@@ -30352,7 +30534,7 @@ class ESGST {
         this.profile_load(document);
     }
     profile_load(context) {
-        let cvrow, element, elements, i, input, key, match, profile, rows;
+        let element, elements, i, input, key, match, profile, rows;
         profile = {};
         if (esgst.sg) {
             profile.heading = context.getElementsByClassName(`featured__heading`)[0];
@@ -30392,9 +30574,9 @@ class ESGST {
                         profile.wonFull = parseInt(rows[1].columns[1].name.replace(/,/g, ``));
                         profile.wonReduced = parseInt(rows[2].columns[1].name.replace(/,/g, ``));
                         profile.wonZero = parseInt(rows[3].columns[1].name.replace(/,/g, ``));
-                        cvrow = profile.wonRowRight.firstElementChild.lastElementChild;
-                        rows = JSON.parse(cvrow.getAttribute(`data-ui-tooltip`)).rows;
-                        profile.wonCV = parseFloat(cvrow.textContent.replace(/\$|,/g, ``));
+                        profile.wonCvContainer = profile.wonRowRight.firstElementChild.lastElementChild;
+                        rows = JSON.parse(profile.wonCvContainer.getAttribute(`data-ui-tooltip`)).rows;
+                        profile.wonCV = parseFloat(profile.wonCvContainer.textContent.replace(/\$|,/g, ``));
                         profile.realWonCV = parseFloat(rows[0].columns[1].name.replace(/\$|,/g, ``));
                     } else {
                         profile.sentRow = element.parentElement;
@@ -30406,9 +30588,9 @@ class ESGST {
                         profile.sentReduced = parseInt(rows[2].columns[1].name.replace(/,/g, ``));
                         profile.sentZero = parseInt(rows[3].columns[1].name.replace(/,/g, ``));
                         profile.notSent = parseInt(rows[5].columns[1].name.replace(/,/g, ``));
-                        cvrow = profile.sentRowRight.firstElementChild.lastElementChild;
-                        rows = JSON.parse(cvrow.getAttribute(`data-ui-tooltip`)).rows;
-                        profile.sentCV = parseFloat(cvrow.textContent.replace(/\$|,/g, ``));
+                        profile.sentCvContainer = profile.sentRowRight.firstElementChild.lastElementChild;
+                        rows = JSON.parse(profile.sentCvContainer.getAttribute(`data-ui-tooltip`)).rows;
+                        profile.sentCV = parseFloat(profile.sentCvContainer.textContent.replace(/\$|,/g, ``));
                         profile.realSentCV = parseFloat(rows[0].columns[1].name.replace(/\$|,/g, ``));
                     }
                 } else {
@@ -30981,6 +31163,9 @@ class ESGST {
                 id: `swr`
             },
             {
+                id: `vrcv`
+            },
+            {
                 id: `luc`
             },
             {
@@ -31177,7 +31362,7 @@ class ESGST {
             }
             if (details.url) {
                 return `
-                    <a class="esgst-header-menu-row" data-link-id="${details.id}" data-link-key="${key}" href="${details.url}"${details.title ? ` title="${details.title}"` : ``}>
+                    <a class="esgst-header-menu-row${details.className || ``}" data-link-id="${details.id}" data-link-key="${key}" href="${details.url}"${details.title ? ` title="${details.title}"` : ``}>
                         <i class="fa fa-fw ${icon}"></i>
                         <div>
                             <p class="esgst-header-menu-name">${details.name}</p>
@@ -31187,7 +31372,7 @@ class ESGST {
                 `;
             }
             return `
-                <div class="esgst-header-menu-row" data-link-id="${details.id}" data-link-key="${key}"${details.title ? ` title="${details.title}"` : ``}>
+                <div class="esgst-header-menu-row${details.className || ``}" data-link-id="${details.id}" data-link-key="${key}"${details.title ? ` title="${details.title}"` : ``}>
                     <i class="fa fa-fw ${icon}"></i>
                     <div>
                         <p class="esgst-header-menu-name">${details.name}</p>
@@ -31199,7 +31384,7 @@ class ESGST {
         }
         if (esgst.sg) {
             return `
-                <a class="nav__row" data-link-id="${details.id}" data-link-key="${key}" href="${details.url}"${details.title ? ` title="${details.title}"` : ``}>
+                <a class="nav__row${details.className || ``}" data-link-id="${details.id}" data-link-key="${key}" href="${details.url}"${details.title ? ` title="${details.title}"` : ``}>
                     <div class="nav__row__summary">
                         <p class="nav__row__summary__name">${details.name}</p>
                         ${details.description ? `<p class="esgst-header-menu-description">${details.description}</p>` : ``}
@@ -31208,7 +31393,7 @@ class ESGST {
             `;
         } else {
             return `
-                <a class="dropdown_btn" data-link-id="${details.id}" data-link-key="${key}" href="${details.url}"${details.title ? ` title="${details.title}"` : ``}>
+                <a class="dropdown_btn${details.className || ``}" data-link-id="${details.id}" data-link-key="${key}" href="${details.url}"${details.title ? ` title="${details.title}"` : ``}>
                     <span>${details.name}</p>
                 </a>
             `;
@@ -31337,7 +31522,8 @@ class ESGST {
         }
     }    
     async setSetting(id, value, sg, st) {
-        let settings = JSON.parse(await this.getValue(`settings`, `{}`));
+        const deleteLock = await this.createLock(`settingsLock`, 100),
+              settings = JSON.parse(await this.getValue(`settings`, `{}`));
         if (sg) {
             id = `${id}_sg`;
         } else if (st) {
@@ -31346,6 +31532,7 @@ class ESGST {
         settings[id] = value;
         await this.setValue(`settings`, JSON.stringify(settings));
         esgst.settings[id] = value;
+        deleteLock();
     }    
     getSetting(key, inverse) {
         let value = esgst.settings[key];
@@ -31470,7 +31657,9 @@ class ESGST {
             } else {
                 setting.include = [{enabled: setting.enabled, pattern: `.*`}];
             }
-            this.getOldValues(id, name, setting);
+            if (setting.new) {
+                this.getOldValues(id, name, setting);
+            }
         }
         return setting;
     }    
@@ -31904,9 +32093,9 @@ class ESGST {
         } else {
             document.body.innerHTML = ``;
             let description = insertHtml(document.body, `beforeEnd`, `
-                <div class="description esgst-hidden esgst-popup-progress">
+                <div class="description">
                     <div></div>
-                    <div></div>
+                    <div class="esgst-hidden esgst-popup-progress"></div>
                 </div>
             `);
             syncer.results = description.firstElementChild;
@@ -32159,7 +32348,9 @@ class ESGST {
             }
             if (syncer.html) {
                 syncer.results.insertAdjacentHTML(`afterBegin`, syncer.html);
-                this.getGameNames(syncer);
+                if (esgst.getSyncGameNames) {
+                    this.getGameNames(syncer);
+                }
             }
         }
     
@@ -32171,7 +32362,7 @@ class ESGST {
         // sync won games
         if (!syncer.autoSync && ((syncer.parameters && syncer.parameters.WonGames) || (!syncer.parameters && esgst.settings.syncWonGames))) {
             syncer.progress.lastElementChild.textContent = `Syncing your won games...`;
-            await this.getWonGames(`0`);
+            await this.getWonGames(`0`, syncer);
         }
     
         // if sync has been canceled stop
@@ -32645,30 +32836,47 @@ class ESGST {
             new Popup(null, null, true, false, popup).open();
         }
     }
-    async getWonGames(count) {
-        let responseHtml = this.parseHtml((await this.request({method: `GET`, url: `/giveaways/won`})).responseText);
-        let savedGames = JSON.parse(await this.getValue(`games`));
-        for (let id in savedGames.apps) {
-            if (savedGames.apps[id].won) {
-                savedGames.apps[id].won = null;
+    async getWonGames(count, syncer) {
+        const savedGames = JSON.parse(await this.getValue(`games`));
+        if (syncer) {
+            for (const id in savedGames.apps) {
+                if (savedGames.apps[id].won) {
+                    savedGames.apps[id].won = null;
+                }
+            }
+            for (const id in savedGames.subs) {
+                if (savedGames.subs[id].won) {
+                    savedGames.subs[id].won = null;
+                }
             }
         }
-        for (let id in savedGames.subs) {
-            if (savedGames.subs[id].won) {
-                savedGames.subs[id].won = null;
+        let lastPage = null,
+            nextPage = 1,
+            pagination = null;
+        do {
+            if (syncer) {
+                syncer.progress.lastElementChild.textContent = `Syncing your won games (page ${nextPage}${lastPage ? ` of ${lastPage}` : ``})...`;
             }
-        }
-        let elements = responseHtml.querySelectorAll(`.table__gift-feedback-awaiting-reply[data-feedback="1"]:not(.is-hidden)`);
-        for (let i = elements.length - 1; i > -1; --i) {
-            let element = elements[i].closest(`.table__row-inner-wrap`);
-            if (element.querySelector(`.table__gift-feedback-awaiting-reply[data-feedback="0"]:not(.is-hidden), [data-popup="popup--not-received"]`)) {
-                let info = this.games_getInfo(element);
+            const responseHtml = this.parseHtml((await this.request({
+                      method: `GET`,
+                      url: `/giveaways/won/search?page=${nextPage}`
+                  })).responseText),
+                  elements = responseHtml.getElementsByClassName(`table__row-outer-wrap`);
+            if (!lastPage) {
+                lastPage = this.lpl_getLastPage(responseHtml);
+            }
+            for (const element of elements) {
+                if (element.querySelector(`.table__gift-feedback-not-received:not(.is-hidden), .table__column--gift-feedback .trigger-popup .icon-red`)) continue;
+                const info = this.games_getInfo(element);
+                if (!info) continue;
                 if (!savedGames[info.type][info.id]) {
                     savedGames[info.type][info.id] = {};
                 }
                 savedGames[info.type][info.id].won = 1;
             }
-        }
+            nextPage += 1;
+            pagination = responseHtml.getElementsByClassName(`pagination__navigation`)[0];
+        } while (syncer && pagination && !pagination.lastElementChild.classList.contains(`is-selected`));
         await this.lockAndSaveGames(savedGames);
         setLocalValue(`wonCount`, count);
     }    
@@ -32814,10 +33022,16 @@ class ESGST {
         }
         Container.innerHTML = `
             <div class="esgst-page-heading"></div>
-            <input placeholder="Filter features..." type="text">
+            <div class="esgst-clear-container">
+                <input placeholder="Filter features..." type="text">
+                <span class="esgst-clear-button esgst-hidden" title="Clear">X</span>
+            </div>
             <div class="esgst-settings-menu"></div>
         `;
-        Container.firstElementChild.nextElementSibling.addEventListener(`input`, filterSm);
+        const input = Container.firstElementChild.nextElementSibling.firstElementChild;
+        input.addEventListener(`input`, filterSm);
+        input.addEventListener(`change`, filterSm);
+        setClearButton(input);
         let heading = Container.getElementsByClassName(`esgst-page-heading`)[0];
         createSMButtons(heading, [{
             Check: true,
@@ -33360,13 +33574,13 @@ class ESGST {
             let container = insertHtml(SMFeatures, `beforeEnd`, `
                 <div class="esgst-sm-colors"></div>
             `);
-            if (ID.match(/^sk_/)) {
+            if (ID.match(/^(chfl|sk_)/)) {
                 Feature.inputItems = [
                     {
                         event: `keydown`,
                         id: Feature.inputItems,
                         shortcutKey: true,
-                        prefix: `Enter the key you want to use for this task: `
+                        prefix: `Enter the key combo you want to use for this task: `
                     }
                 ]
             } else if (ID.match(/^hr_.+_s$/)) {
@@ -33568,6 +33782,11 @@ class ESGST {
                 case `gc_w`:
                     elements.push(`
                         <div class="esgst-clickable esgst-gc esgst-gc-wishlisted ${esgst.gc_w ? `` : `esgst-hidden`}" draggable="true" id="gc_w" title="Wishlisted">${esgst.gc_w_s ? (esgst.gc_w_s_i ? `<i class="fa fa-${esgst.gc_wIcon}"></i>` : `W`) : esgst.gc_wLabel}</div>
+                    `);
+                    break;
+                case `gc_pw`:
+                    elements.push(`
+                        <div class="esgst-clickable esgst-gc esgst-gc-won ${esgst.gc_pw ? `` : `esgst-hidden`}" draggable="true" id="gc_pw" title="Previously Won">${esgst.gc_pw_s ? (esgst.gc_pw_s_i ? `<i class="fa fa-${esgst.gc_pwIcon}"></i>` : `PW`) : esgst.gc_pwLabel}</div>
                     `);
                     break;
                 case `gc_gi`:
@@ -34944,23 +35163,23 @@ class ESGST {
                     }
                     break;
                 case `emojis`:
-                    data.emojis = await this.getValue(`emojis`, ``);
+                    data.emojis = JSON.parse(await this.getValue(`emojis`, `[]`));
                     if (!space) {
                         if (dm.import) {
-                            let newData = dm.data.emojis;
+                            let newData = JSON.stringify(dm.data.emojis);
                             if (newData) {
                                 if (esgst.settings.importAndMerge) {
-                                    mergedData = data.emojis;
-                                    newData = this.parseHtml(newData).getElementsByTagName(`span`);
-                                    for (let j = 0, numNew = newData.length; j < numNew; ++j) {
-                                        let newDataValue = newData[j].outerHTML;
-                                        if (!mergedData.match(newDataValue)) {
-                                            mergedData = `${mergedData}${newDataValue}`;
-                                        }
-                                    }
-                                    await this.setValue(`emojis`, mergedData);
+                                    await this.setValue(`emojis`, JSON.stringify(
+                                        Array.from(
+                                            new Set(
+                                                data.emojis.concat(
+                                                    JSON.parse(fixEmojis(newData))
+                                                )
+                                            )
+                                        )
+                                    ));
                                 } else {
-                                    await this.setValue(`emojis`, newData);
+                                    await this.setValue(`emojis`, fixEmojis(newData));
                                 }
                             }
                         } else if (dm.delete) {
@@ -34968,7 +35187,7 @@ class ESGST {
                         }
                     }
                     if (!dm.autoBackup) {
-                        let size = (new TextEncoder(`utf-8`).encode(`{"${optionKey}":${await this.getValue(optionKey, `""`)}}`)).length;
+                        let size = (new TextEncoder(`utf-8`).encode(`{"${optionKey}":${await this.getValue(optionKey, `"[]"`)}}`)).length;
                         totalSize += size;
                         dm.switches[optionKey].size.textContent = convertBytes(size);
                     }
@@ -35738,19 +35957,12 @@ class ESGST {
                     openSmallWindow(`https://login.microsoftonline.com/common/oauth2/v2.0/authorize?redirect_uri=https://www.steamgifts.com/esgst/onedrive&response_type=token&client_id=1781429b-289b-4e6e-877a-e50015c0af21&scope=files.readwrite`);
                     this.checkOneDriveComplete(data, dm, callback);
                 } else {
-                    data = new Blob([JSON.stringify(data)]);
-                    let url = URL.createObjectURL(data);
-                    let file = document.createElement(`a`);
-                    file.download = `${esgst.askFileName ?  prompt(`Enter the name of the file:`, `esgst_data_${new Date().toISOString().replace(/:/g, `_`)}`) : `esgst_data_${new Date().toISOString().replace(/:/g, `_`)}`}.json`;
-                    if (file.download === `null.json`) {
+                    const name = `${esgst.askFileName ?  prompt(`Enter the name of the file:`, `esgst_data_${new Date().toISOString().replace(/:/g, `_`)}`) : `esgst_data_${new Date().toISOString().replace(/:/g, `_`)}`}`;
+                    if (name === `null`) {
                         callback();
                         return;
                     }
-                    file.href = url;
-                    document.body.appendChild(file);
-                    file.click();
-                    file.remove();
-                    URL.revokeObjectURL(url);
+                    await this.downloadZip(data, `${name}.json`, `${name}.zip`);
                     if (!dm.autoBackup) {
                         createFadeMessage(dm.message, `Data ${dm.pastTense} with success!`);
                     }
@@ -35761,6 +35973,43 @@ class ESGST {
                 callback();
             }
         }
+    }
+    async downloadZip(data, fileName, zipName) {
+        this.downloadFile(null, zipName, await this.getZip(JSON.stringify(data), fileName));
+    }
+    async getZip(data, fileName, type = `blob`) {
+        const zip = new JSZip();
+        zip.file(fileName, data);
+        return (await zip.generateAsync({
+            compression: `DEFLATE`,
+            compressionOptions: {
+                level: 9
+            },
+            type: type
+        }));
+    }
+    async readZip(data) {
+        const zip = new JSZip(),
+              contents = await zip.loadAsync(data),
+              keys = Object.keys(contents.files),
+              output = [];
+        for (const key of keys) {
+            output.push({
+                name: key,
+                value: await zip.file(key).async(`string`)
+            });
+        }
+        return output;
+    }
+    downloadFile(data, fileName, blob) {
+        const url = URL.createObjectURL(blob || new Blob([data])),
+              file = document.createElement(`a`);
+        file.download = fileName;
+        file.href = url;
+        document.body.appendChild(file);
+        file.click();
+        file.remove();
+        URL.revokeObjectURL(url);
     }
     getDataSizes(dm) {
         let spacePopup = new Popup(`fa-circle-o-notch fa-spin`, `Calculating data sizes...`);
@@ -35811,16 +36060,37 @@ class ESGST {
         let value = await this.getValue(`dropboxToken`);
         if (value) {
             if (dm.type === `export` || (data && esgst.settings.exportBackup)) {
-                let name = esgst.askFileName ?  prompt(`Enter the name of the file:`, `esgst_data_${new Date().toISOString().replace(/:/g, `_`)}`) : `esgst_data_${new Date().toISOString().replace(/:/g, `_`)}`;
+                const name = esgst.askFileName ?  prompt(`Enter the name of the file:`, `esgst_data_${new Date().toISOString().replace(/:/g, `_`)}`) : `esgst_data_${new Date().toISOString().replace(/:/g, `_`)}`;
                 if (name === null) {
                     callback();
                     return;
                 }
-                await this.request({data: JSON.stringify(data), headers: {authorization: `Bearer ${value}`, [`Dropbox-API-Arg`]: `{"path": "/${name}.json"}`, [`Content-Type`]: `application/octet-stream`}, method: `POST`, url: `https://content.dropboxapi.com/2/files/upload`});
-                if (!dm.autoBackup) {
-                    createFadeMessage(dm.message, `Data ${dm.pastTense} with success!`);
+                let responseText = ``;
+                try {
+                    const response = await this.request({
+                        data: JSON.stringify(data),
+                        fileName: `${name}.json`,
+                        headers: {
+                            authorization: `Bearer ${value}`,
+                            [`Dropbox-API-Arg`]: `{"path": "/${name}.zip"}`,
+                            [`Content-Type`]: `application/octet-stream`
+                        },
+                        method: `POST`,
+                        url: `https://content.dropboxapi.com/2/files/upload`
+                    });
+                    responseText = response.responseText;
+                    const responseJson = JSON.parse(responseText);
+                    if (!responseJson.id) {
+                        throw ``;
+                    }
+                    if (!dm.autoBackup) {
+                        createFadeMessage(dm.message, `Data ${dm.pastTense} with success!`);
+                    }
+                    callback();
+                } catch (e) {
+                    callback();
+                    alert(`An error ocurred when uploading the file.\n\n${e}\n\n${responseText}`);
                 }
-                callback();
             } else {
                 let canceled = true;
                 let popup = new Popup(`fa-dropbox`, `Select a file to restore:`, true);
@@ -35831,7 +36101,15 @@ class ESGST {
                 };
                 popup.open();
                 let entries = insertHtml(popup.scrollable, `beforeEnd`, `<div class="popup__keys__list"></div>`);
-                JSON.parse((await this.request({data: `{"path": ""}`, headers: {authorization: `Bearer ${value}`, [`Content-Type`]: `application/json`}, method: `POST`, url: `https://api.dropboxapi.com/2/files/list_folder`})).responseText).entries.forEach(entry => {
+                JSON.parse((await this.request({
+                    data: `{"path": ""}`,
+                    headers: {
+                        authorization: `Bearer ${value}`,
+                        [`Content-Type`]: `application/json`
+                    },
+                    method: `POST`,
+                    url: `https://api.dropboxapi.com/2/files/list_folder`
+                })).responseText).entries.forEach(entry => {
                     let item = insertHtml(entries, `beforeEnd`, `
                         <div class="esgst-clickable">${entry.name} - ${convertBytes(entry.size)}</div>
                     `);
@@ -35839,7 +36117,16 @@ class ESGST {
                         createConfirmation(`Are you sure you want to restore the selected data?`, async () => {
                             canceled = false;
                             popup.close();
-                            dm.data = JSON.parse((await this.request({headers: {authorization: `Bearer ${value}`, [`Dropbox-API-Arg`]: `{"path": "/${entry.name}"}`, [`Content-Type`]: `text/plain`}, method: `GET`, url: `https://content.dropboxapi.com/2/files/download`})).responseText);
+                            dm.data = JSON.parse((await this.request({
+                                blob: entry.name.match(/\.zip$/),
+                                headers: {
+                                    authorization: `Bearer ${value}`,
+                                    [`Dropbox-API-Arg`]: `{"path": "/${entry.name}"}`,
+                                    [`Content-Type`]: `text/plain`
+                                },
+                                method: `GET`,
+                                url: `https://content.dropboxapi.com/2/files/download`
+                            })).responseText);
                             this.manageData(dm, false, false, false, false, callback);
                         });
                     });
@@ -35853,16 +36140,45 @@ class ESGST {
         let value = await this.getValue(`googleDriveToken`);
         if (value) {
             if (dm.type === `export` || (data && esgst.settings.exportBackup)) {
-                let name = esgst.askFileName ?  prompt(`Enter the name of the file:`, `esgst_data_${new Date().toISOString().replace(/:/g, `_`)}`) : `esgst_data_${new Date().toISOString().replace(/:/g, `_`)}`;
+                const name = esgst.askFileName ?  prompt(`Enter the name of the file:`, `esgst_data_${new Date().toISOString().replace(/:/g, `_`)}`) : `esgst_data_${new Date().toISOString().replace(/:/g, `_`)}`;
                 if (name === null) {
                     callback();
                     return;
                 }
-                await this.request({data: `--esgst\nContent-Type: application/json; charset=UTF-8\n\n{"mimeType": "mime/type", "name": "${name}.json", "parents": ["appDataFolder"]}\n\n--esgst\nContent-Type: mime/type\n\n${JSON.stringify(data)}\n--esgst--`, headers: {authorization: `Bearer ${value}`, [`Content-Type`]: `multipart/related; boundary=esgst`}, method: `POST`, url: `https://www.googleapis.com/upload/drive/v3/files?uploadType=multipart`});
-                if (!dm.autoBackup) {
-                    createFadeMessage(dm.message, `Data ${dm.pastTense} with success!`);
+                let responseText = ``;
+                try {
+                    const resourceResponse = await this.request({
+                        data: `{"name": "${name}.zip", "parents": ["appDataFolder"]}`,
+                        headers: {
+                            authorization: `Bearer ${value}`,
+                            [`Content-Type`]: `application/json`
+                        },
+                        method: `POST`,
+                        url: `https://www.googleapis.com/drive/v3/files`
+                    });
+                    const reponse = await this.request({
+                        data: JSON.stringify(data),
+                        fileName: `${name}.json`,
+                        headers: {
+                            authorization: `Bearer ${value}`,
+                            [`Content-Type`]: `application/zip`
+                        },
+                        method: `PATCH`,
+                        url: `https://www.googleapis.com/upload/drive/v3/files/${JSON.parse(resourceResponse.responseText).id}?uploadType=media`
+                    });
+                    responseText = response.responseText;
+                    const responseJson = JSON.parse(responseText);
+                    if (!responseJson.id) {
+                        throw ``;
+                    }
+                    if (!dm.autoBackup) {
+                        createFadeMessage(dm.message, `Data ${dm.pastTense} with success!`);
+                    }
+                    callback();
+                } catch (e) {
+                    callback();
+                    alert(`An error ocurred when uploading the file.\n\n${e}\n\n${responseText}`);
                 }
-                callback();
             } else {
                 let canceled = true;
                 let popup = new Popup(`fa-google`, `Select a file to restore:`, true);
@@ -35873,7 +36189,13 @@ class ESGST {
                 };
                 popup.open();
                 let entries = insertHtml(popup.scrollable, `beforeEnd`, `<div class="popup__keys__list"></div>`);
-                JSON.parse((await this.request({headers: {authorization: `Bearer ${value}`}, method: `GET`, url: `https://www.googleapis.com/drive/v3/files?spaces=appDataFolder`})).responseText).files.forEach(file => {
+                JSON.parse((await this.request({
+                    headers: {
+                        authorization: `Bearer ${value}`
+                    },
+                    method: `GET`,
+                    url: `https://www.googleapis.com/drive/v3/files?spaces=appDataFolder`
+                })).responseText).files.forEach(file => {
                     let item = insertHtml(entries, `beforeEnd`, `
                         <div class="esgst-clickable">${file.name}</div>
                     `);
@@ -35881,7 +36203,14 @@ class ESGST {
                         createConfirmation(`Are you sure you want to restore the selected data?`, async () => {
                             canceled = false;
                             popup.close();
-                            dm.data = JSON.parse((await this.request({headers: {authorization: `Bearer ${value}`}, method: `GET`, url: `https://www.googleapis.com/drive/v3/files/${file.id}?alt=media`})).responseText);
+                            dm.data = JSON.parse((await this.request({
+                                blob: file.name.match(/\.zip$/),
+                                headers: {
+                                    authorization: `Bearer ${value}`
+                                },
+                                method: `GET`,
+                                url: `https://www.googleapis.com/drive/v3/files/${file.id}?alt=media`
+                            })).responseText);
                             this.manageData(dm, false, false, false, false, callback);
                         });
                     });
@@ -35895,21 +36224,49 @@ class ESGST {
         let value = await this.getValue(`oneDriveToken`);
         if (value) {
             if (dm.type === `export` || (data && esgst.settings.exportBackup)) {
-                let name = esgst.askFileName ?  prompt(`Enter the name of the file:`, `esgst_data_${new Date().toISOString().replace(/:/g, `_`)}`) : `esgst_data_${new Date().toISOString().replace(/:/g, `_`)}`;
+                const name = esgst.askFileName ?  prompt(`Enter the name of the file:`, `esgst_data_${new Date().toISOString().replace(/:/g, `_`)}`) : `esgst_data_${new Date().toISOString().replace(/:/g, `_`)}`;
                 if (name === null) {
                     callback();
                     return;
                 }
-                await this.request({anon: true, data: JSON.stringify(data), headers: {Authorization: `bearer ${value}`, [`Content-Type`]: `application/json`}, method: `PUT`, url: `https://graph.microsoft.com/v1.0/me/drive/special/approot:/${name}.json:/content`});
-                if (!dm.autoBackup) {
-                    createFadeMessage(dm.message, `Data ${dm.pastTense} with success!`);
+                let responseText = ``;
+                try {
+                    const response = await this.request({
+                        anon: true,
+                        data: JSON.stringify(data),
+                        fileName: `${name}.json`,
+                        headers: {
+                            Authorization: `bearer ${value}`,
+                            [`Content-Type`]: `application/zip`
+                        },
+                        method: `PUT`,
+                        url: `https://graph.microsoft.com/v1.0/me/drive/special/approot:/${name}.zip:/content`
+                    });
+                    responseText = response.responseText;
+                    const responseJson = JSON.parse(responseText);
+                    if (!responseJson.id) {
+                        throw ``;
+                    }
+                    if (!dm.autoBackup) {
+                        createFadeMessage(dm.message, `Data ${dm.pastTense} with success!`);
+                    }
+                    callback();
+                } catch (e) {
+                    callback();
+                    alert(`An error ocurred when uploading the file.\n\n${e}\n\n${responseText}`);
                 }
-                callback();
             } else {
                 let canceled = true;
                 let popup = new Popup(`fa-windows`, `Select a file to restore:`, true);
                 let entries = insertHtml(popup.scrollable, `beforeEnd`, `<div class="popup__keys__list"></div>`);
-                JSON.parse((await this.request({anon: true, headers: {Authorization: `bearer ${value}`}, method: `GET`, url: `https://graph.microsoft.com/v1.0/me/drive/special/approot/children`})).responseText).value.forEach(file => {
+                JSON.parse((await this.request({
+                    anon: true,
+                    headers: {
+                        Authorization: `bearer ${value}`
+                    },
+                    method: `GET`,
+                    url: `https://graph.microsoft.com/v1.0/me/drive/special/approot/children`
+                })).responseText).value.forEach(file => {
                     let item = insertHtml(entries, `beforeEnd`, `
                         <div class="esgst-clickable">${file.name} - ${convertBytes(file.size)}</div>
                     `);
@@ -35917,7 +36274,15 @@ class ESGST {
                         createConfirmation(`Are you sure you want to restore the selected data?`, async () => {
                             canceled = false;
                             popup.close();
-                            dm.data = JSON.parse((await this.request({anon: true, headers: {authorization: `Bearer ${value}`}, method: `GET`, url: `https://graph.microsoft.com/v1.0/me/drive/items/${file.id}/content`})).responseText);
+                            dm.data = JSON.parse((await this.request({
+                                anon: true,
+                                blob: file.name.match(/\.zip$/),
+                                headers: {
+                                    authorization: `Bearer ${value}`
+                                },
+                                method: `GET`,
+                                url: `https://graph.microsoft.com/v1.0/me/drive/items/${file.id}/content`
+                            })).responseText);
                             this.manageData(dm, false, false, false, false, callback);
                         });
                     });
@@ -36118,16 +36483,9 @@ class ESGST {
         delete data.settings.steamId;
         delete data.settings.syncFrequency;
         delete data.settings.username;
-        data = new Blob([JSON.stringify(data)]);
-        let url = URL.createObjectURL(data);
-        const file = document.createElement(`a`);
-        file.download = `${esgst.askFileName ?  prompt(`Enter the name of the file:`, `esgst_settings_${new Date().toISOString().replace(/:/g, `_`)}`) : `esgst_settings_${new Date().toISOString().replace(/:/g, `_`)}`}.json`;
-        if (file.download === `null.json`) return;
-        file.href = url;
-        document.body.appendChild(file);
-        file.click();
-        file.remove();
-        URL.revokeObjectURL(url);
+        const name = `${esgst.askFileName ?  prompt(`Enter the name of the file:`, `esgst_settings_${new Date().toISOString().replace(/:/g, `_`)}`) : `esgst_settings_${new Date().toISOString().replace(/:/g, `_`)}`}.json`;
+        if (name === `null.json`) return;
+        this.downloadFile(JSON.stringify(data), name);
     }
     async selectSwitches(switches, type, settings, callback) {
         for (let key in switches) {
@@ -36195,6 +36553,11 @@ class ESGST {
             {
                 id: `gc_o`,
                 key: `owned`,
+                mainKey: `esgst-gc`
+            },
+            {
+                id: `gc_pw`,
+                key: `won`,
                 mainKey: `esgst-gc`
             },
             {
@@ -36314,6 +36677,36 @@ class ESGST {
             `;
         }
         style += `
+            .esgst-clear-container {
+                display: flex;
+            }
+
+            .esgst-clear-button {
+                align-self: center;
+                cursor: pointer;
+                padding: 5px 10px;
+            }
+
+            .esgst-draggable-trash {
+                background-color: #C11B17;
+                border-radius: 5px;
+                color: #E77471;
+                position: absolute;
+                text-align: center;
+                text-shadow: none;
+            }
+
+            .esgst-draggable-trash i {
+                font-size: 25px;
+                margin: 5px;
+            }
+
+            .esgst-qiv-new {
+                float: right;
+                font-weight: bold;
+                margin-right: 10px;
+            }
+
             .esgst-mm-checkbox {
                 display: inline-block;
                 margin-right: 5px;
@@ -38845,6 +39238,66 @@ class ESGST {
              alert(`No ESGST updates found!`);
         }
     }
+
+    draggable_set(obj) {
+        obj.context.setAttribute(`data-dragid`, obj.id);
+        for (const element of obj.context.children) {
+            if (element.getAttribute(`draggable`)) continue;
+            element.setAttribute(`draggable`, true);
+            element.addEventListener(`dragstart`, this.draggable_start.bind(this, obj, element));
+            element.addEventListener(`dragenter`, this.draggable_enter.bind(this, obj, element));
+            element.addEventListener(`dragend`, this.draggable_end.bind(this, obj));
+        }
+    }
+    draggable_start(obj, element, event) {
+        event.dataTransfer.setData(`text/plain`, ``);
+        obj.dragging = element;
+        this.draggable_setTrash(obj);
+    }
+    draggable_enter(obj, element) {
+        if (obj.context !== element.parentElement) return;
+        let current = obj.dragging;
+        if (!current) return;
+        do {
+            current = current.previousElementSibling;
+            if (current && current === element) {
+                obj.context.insertBefore(obj.dragging, element);
+                return;
+            }
+        } while (current);
+        obj.context.insertBefore(obj.dragging, element.nextElementSibling);
+    }
+    async draggable_end(obj) {
+        if (obj.trash) {
+            obj.trash.remove();
+            obj.trash = null;
+        }
+        const array = [];
+        for (const element of obj.context.children) {
+            array.push(decodeURIComponent(element.getAttribute(`data-id`)));
+        }
+        this.setValue(obj.id, JSON.stringify(array));
+    }
+    draggable_setTrash(obj) {
+        obj.trash = insertHtml(obj.context, `afterEnd`, `
+            <div class="esgst-draggable-trash">
+                <i class="fa fa-trash"></i>
+            </div>
+        `);
+        obj.trash.style.width = `${obj.context.offsetWidth}px`;
+        obj.trash.addEventListener(`dragenter`, () => {
+            if (!obj.dragging) return;
+            if (!confirm(`Are you sure you want to delete this item?`)) return;
+
+            obj.dragging.remove();
+            obj.dragging = null;
+            const array = [];
+            for (const element of obj.context.children) {
+                array.push(decodeURIComponent(element.getAttribute(`data-id`)));
+            }
+            this.setValue(obj.id, JSON.stringify(array));
+        });
+    }
 }
 
 class Button {
@@ -39222,6 +39675,9 @@ class Popout {
     }
     close() {
         this.popout.classList.add(`esgst-hidden`);
+        if (this.isOpen && this.onClose) {
+            this.onClose();
+        }
         this.isOpen = false;
     }
     reposition(context = null) {
@@ -39241,11 +39697,11 @@ class Popout {
         popoutWidth = this.popout.offsetWidth;
         popupRect = this.popup && this.popup.getBoundingClientRect();
         if (contextLeft + popoutWidth > document.documentElement.clientWidth) {
-            this.popout.style.left = `${(contextLeft - popoutWidth + contextRect.width) - (this.popup ? popupRect.left : 0)}px`;
+            this.popout.style.left = `${(contextLeft - popoutWidth + contextRect.width) - (this.popup ? popupRect.left : 0) + scrollX}px`;
         } else {
-            this.popout.style.left = `${contextLeft - (this.popup ? popupRect.left : 0)}px`;
+            this.popout.style.left = `${contextLeft - (this.popup ? popupRect.left : 0) + scrollX}px`;
         }
-        if (contextTop + popoutHeight > document.documentElement.clientHeight) {
+        if (contextTop + contextRect.height + popoutHeight > document.documentElement.clientHeight) {
             this.popout.style.top = `${(contextTop - popoutHeight + (this.isFixed || this.popup ? 0 :  scrollY)) - (this.popup ? popupRect.top : 0)}px`;
         } else {
             this.popout.style.top = `${(contextTop + contextRect.height + (this.isFixed || this.popup ? 0 :  scrollY)) - (this.popup ? popupRect.top : 0)}px`;
@@ -39793,6 +40249,63 @@ let esgst, _ESGST = new ESGST();
 // initialize esgst
 _ESGST.init();
 
+function setClearButton(input) {
+    const button = input.nextElementSibling;
+    input.addEventListener(`input`, toggleClearButton.bind(null, button, input));
+    input.addEventListener(`change`, toggleClearButton.bind(null, button, input));
+    input.nextElementSibling.addEventListener(`click`, clearInput.bind(null, input));
+}
+
+function toggleClearButton(button, input) {
+    if (input.value) {
+        if (button.classList.contains(`esgst-hidden`)) {
+            button.classList.remove(`esgst-hidden`);
+        }
+    } else if (!button.classList.contains(`esgst-hidden`)) {
+        button.classList.add(`esgst-hidden`);
+    }
+}
+
+function clearInput(input) {
+    input.value = ``;
+    input.dispatchEvent(new Event(`change`));
+}
+
+function fixEmojis(emojis) {
+    const matches = emojis.split(/<\/span>/);
+    if (matches.length < 2) return emojis;
+    matches.pop();
+    return JSON.stringify(matches.map(fixEmoji));
+}
+
+function fixEmoji(emoji) {
+    const match = emoji.match(/title="(.+?)"/);
+    emoji = emoji.replace(/<span.+?>/, ``);
+    if (match) {
+        return getEmojiHtml(emoji);
+    }
+    let fixed = ``;
+    for (let i = 0, n = emoji.length; i < n; i++) {
+        fixed += getEmojiHtml(emoji[i]);
+    }
+    return fixed;
+}
+
+function getEmojiHtml(emoji) {
+    return `&#x${getEmojiUnicode(emoji).toString(`16`).toUpperCase()}`;
+}
+
+function getEmojiUnicode(emoji) {
+    if (emoji.length === 1) {
+        return emoji.charCodeAt(0);
+    }
+    const code = (emoji.charCodeAt(0) - 0xD800) * 0x400 + (emoji.charCodeAt(1) - 0xDC00) + 0x10000;
+    if (code < 0) {
+        return emoji.charCodeAt(0);
+    }
+    return code;
+}
+
 function triggerOnEnter(callback, event) {
     if (event.key === `Enter`) {
         event.preventDefault();
@@ -40145,6 +40658,8 @@ function sortContent(array, mainKey, option) {
         context = array[0].outerWrap.closest(`.esgst-popup`).getElementsByClassName(`esgst-gv-view`)[0] || array[0].outerWrap.parentElement.parentElement;
     }
     for (i = 0, n = array.length; i < n; ++i) {
+        if (!array[i].outerWrap.parentElement) continue;
+
         if (context) {
             context.appendChild(array[i].outerWrap.parentElement);
         } else {
@@ -40806,7 +41321,7 @@ function createFadeMessage(context, message) {
     context.textContent = message;
     setTimeout(() => {
         context.textContent = ``;
-    }, 2000);
+    }, 10000);
 }
 
 function getDataMenu(option, switches, type) {
@@ -40901,6 +41416,36 @@ function getThemeCss(theme) {
 function loadChangelog(version) {
     let changelog, html, i, index, n, popup;
     changelog = [
+        {
+            date: `May 20, 2018`,
+            version: `7.19.0`,
+            changelog: `
+                <ul>
+                    <li><a href="https://github.com/revilheart/ESGST/issues/701">#701</a> Remove min-height requirement from Fixed Sidebar</li>
+                    <li><a href="https://github.com/revilheart/ESGST/issues/700">#700</a> Fix a bug that does not fix the sidebar after scrolling down a second time from the top</li>
+                    <li><a href="https://github.com/revilheart/ESGST/issues/699">#699</a> Fix a bug that does not display the sync page</li>
+                    <li><a href="https://github.com/revilheart/ESGST/issues/698">#698</a> Add option to choose the key combination to trigger the Custom Header/Footer Links editor</li>
+                    <li><a href="https://github.com/revilheart/ESGST/issues/695">#695</a> Fix a bug where sorting fails after hiding a single giveaway</li>
+                    <li><a href="https://github.com/revilheart/ESGST/issues/694">#694</a> Fix a style issue that does not position popouts above/below correctly</li>
+                    <li><a href="https://github.com/revilheart/ESGST/issues/693">#693</a> Fix a style issue that does not position popouts correctly if the window is scrolled horizontally</li>
+                    <li><a href="https://github.com/revilheart/ESGST/issues/692">#692</a> Remove min-height requirement from Fixed Main Page Heading</li>
+                    <li><a href="https://github.com/revilheart/ESGST/issues/691">#691</a> Change Giveaway Popup button to red if giveaway cannot be accessed</li>
+                    <li><a href="https://github.com/revilheart/ESGST/issues/689">#689</a> Add a button to clear the current query to the search field in the settings menu</li>
+                    <li><a href="https://github.com/revilheart/ESGST/issues/688">#688</a> Extend giveaway features to the archive page</li>
+                    <li><a href="https://github.com/revilheart/ESGST/issues/686">#686</a> Changes to how emojis are stored</li>
+                    <li><a href="https://github.com/revilheart/ESGST/issues/685">#685</a> Compress data when backing up</li>
+                    <li><a href="https://github.com/revilheart/ESGST/issues/684">#684</a> Add &quot;Last Bundled&quot; default link to Custom Header/Footer Links</li>
+                    <li><a href="https://github.com/revilheart/ESGST/issues/683">#683</a> Allow selected emojis to be re-ordered</li>
+                    <li><a href="https://github.com/revilheart/ESGST/issues/682">#682</a> Add option to retrieve game names when syncing</li>
+                    <li><a href="https://github.com/revilheart/ESGST/issues/681">#681</a> Fix a bug where filtering is applied when changing any filter options despite filtering being disabled</li>
+                    <li><a href="https://github.com/revilheart/ESGST/issues/680">#680</a> Add a feature: Visible Real CV</li>
+                    <li><a href="https://github.com/revilheart/ESGST/issues/679">#679</a> Add &quot;Previously Won&quot; game category</li>
+                    <li><a href="https://github.com/revilheart/ESGST/issues/677">#677</a> Fix a bug that does not persist some settings</li>
+                    <li><a href="https://github.com/revilheart/ESGST/issues/676">#676</a> Fix a bug that auto-backups to computer on every page load</li>
+                    <li><a href="https://github.com/revilheart/ESGST/issues/674">#674</a> Change how the NEW indicator works on Quick Inbox View</li>
+                </ul>
+            `
+        },
         {
             date: `May 11, 2018`,
             version: `7.18.3`,

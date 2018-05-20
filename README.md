@@ -236,6 +236,32 @@ To learn more about each feature you have to install ESGST.
 
 ## Changelog
 
+**7.19.0 (May 20, 2018)**
+
+* [#701](https://github.com/revilheart/ESGST/issues/701) Remove min-height requirement from Fixed Sidebar
+* [#700](https://github.com/revilheart/ESGST/issues/700) Fix a bug that does not fix the sidebar after scrolling down a second time from the top
+* [#699](https://github.com/revilheart/ESGST/issues/699) Fix a bug that does not display the sync page
+* [#698](https://github.com/revilheart/ESGST/issues/698) Add option to choose the key combination to trigger the Custom Header/Footer Links editor
+* [#695](https://github.com/revilheart/ESGST/issues/695) Fix a bug where sorting fails after hiding a single giveaway
+* [#694](https://github.com/revilheart/ESGST/issues/694) Fix a style issue that does not position popouts above/below correctly
+* [#693](https://github.com/revilheart/ESGST/issues/693) Fix a style issue that does not position popouts correctly if the window is scrolled horizontally
+* [#692](https://github.com/revilheart/ESGST/issues/692) Remove min-height requirement from Fixed Main Page Heading
+* [#691](https://github.com/revilheart/ESGST/issues/691) Change Giveaway Popup button to red if giveaway cannot be accessed
+* [#689](https://github.com/revilheart/ESGST/issues/689) Add a button to clear the current query to the search field in the settings menu
+* [#688](https://github.com/revilheart/ESGST/issues/688) Extend giveaway features to the archive page
+* [#686](https://github.com/revilheart/ESGST/issues/686) Changes to how emojis are stored
+* [#685](https://github.com/revilheart/ESGST/issues/685) Compress data when backing up
+* [#684](https://github.com/revilheart/ESGST/issues/684) Add &quot;Last Bundled&quot; default link to Custom Header/Footer Links
+* [#683](https://github.com/revilheart/ESGST/issues/683) Allow selected emojis to be re-ordered
+* [#682](https://github.com/revilheart/ESGST/issues/682) Add option to retrieve game names when syncing
+* [#681](https://github.com/revilheart/ESGST/issues/681) Fix a bug where filtering is applied when changing any filter options despite filtering being disabled
+* [#680](https://github.com/revilheart/ESGST/issues/680) Add a feature: Visible Real CV
+* [#679](https://github.com/revilheart/ESGST/issues/679) Add &quot;Previously Won&quot; game category
+* [#677](https://github.com/revilheart/ESGST/issues/677) Fix a bug that does not persist some settings
+* [#676](https://github.com/revilheart/ESGST/issues/676) Fix a bug that auto-backups to computer on every page load
+* [#674](https://github.com/revilheart/ESGST/issues/674) Change how the NEW indicator works on Quick Inbox View
+
+
 **7.18.3 (May 11, 2018)**
 
 * [#675](https://github.com/revilheart/ESGST/issues/675) Remove Comment History from SteamTrades
