@@ -2978,7 +2978,7 @@ class ESGST {
             sg: location.hostname.match(/www.steamgifts.com/),
             st: location.hostname.match(/www.steamtrades.com/),
             currentVersion: `7.19.0`,
-            devVersion: `7.19.1 (Dev.9)`,
+            devVersion: `7.19.1 (Dev.10)`,
             icon: `data:image/x-icon;base64,AAABAAEAEBAAAAEAIABoBAAAFgAAACgAAAAQAAAAIAAAAAEAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAqv8DCbP/Hgeq+CQIrf8iCK3/Igit/yIIrf8iB6//Iwit9x8Aqv8DAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAKr0GAa2/c0DvfzfA7f83QO3/N0Dt/zdA7f83QO+/d4Gs/3OAKP1GQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACm/xQFs/n2Bcf//wW///8FwP//BcD//wW///8Fx///BbP69gC2/xUAAAAAAAAAAAAAAAAA/1UDFptOFxSZMxkLpJktAq720QW1+ugEsfvjA7b92wO2/dsEsfvjBbX66Aau/dEoiO4tUlLWGU5k3hdVVf8DEJxKHxWqT8cVrU7uE6VN0guqny0Apv8XAJfQGwBAVywAQFcsAJfQGwCx/xcogugtS2Lk0lBl6u5Qae7ISmPeHxagSSMVr07jF7lV/xOiSu0brgATAAAAAAAAAA8AAAC/AAAAwAAAABAAAAAAYznjEkth4OxWb/3/T2jv40lf4iMXnksiEq1O3RayUv8UpEnkEo0+HQAAABkAAABBAAAA8QAAAPEAAABBAAAAGUBSvxxOYeDjU2v0/05m7d1LYuEiF55LIhKtTt0Ws1L/FahN2gU1FTAAAADAAAAA7AAAAP0AAAD9AAAA7AAAAMAVG0owUGPm2lNr9P9OZu3dS2LhIheeSyISrU7dFrNS/xWoTdoFNRswAAAAvwAAAOsAAAD9AAAA/QAAAOsAAADAFRtKMFBj6NpTa/T/Tmbt3Uti4SIXnksiEq1O3RayUv8UpEnkEo0+HQAAABgAAABAAAAA8QAAAPEAAABBAAAAGT5PuR1OYeDjU2v0/05m7d1LYuEiFqBJIxWuT+QXuVX/E6JL7QC8XhMAAAAAAAAADwAAAL8AAAC/AAAAEAAAAAAOR/8SSWLh7FZv/f9PaO/jSV/iIxCUSh8Vrk7HFqxN7ROlS9JskzMt1XULGK12EhxGLgYsRy8GK612EhzVgAsYgmxxLU1i39JNZ+vtT2fwx0pj1h8AqlUDF65GFgqZUhlsiC0txH0T0s5/EujJgBPkz4QR28+EEdvJgBPkzn8Q6Md+E9KLdHosM1LWGUZo6BZVVf8DAAAAAAAAAAAAAAAA/2YAFMl9EvbgjRb/14gV/9eIFf/XiBX/14gV/9+NFv/KgBD254YAFQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAL91FRjKgRHN1IgU3s+EEt3PhBLdz4QS3c+EEt3UiBTezYMRzcJ6FBkAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACqqgADxIARHr18FiO8eA8ivHgPIrx4DyK8eA8ivXwPI8SAER7/VQADAAAAAAAAAAAAAAAA78cAAPA3AAD4FwAABCAAADGOAAAE+AAAkBEAAJ55AACYOQAAlgEAAER4AAAXaAAATnoAAPgXAAD0JwAA69cAAA==`,
             sgIcon: `data:image/x-icon;base64,AAABAAEAEBAAAAEAIABoBAAAFgAAACgAAAAQAAAAIAAAAAEAIAAAAAAAQAQAABMLAAATCwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIUAAAD5AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAPoAAACFAAAAAAAAAAAAAAD8AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA+QAAAAAAAAAAAAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAAAAAAAAAAAAP8AAAD/AAAA/wAAABwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAcAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAcAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAHAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAAAAAAAAAAAAPwAAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD5AAAAAAAAAAAAAACFAAAA+QAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD5AAAAhQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA//8AAP//AADAAwAAwAMAAMfjAADP8wAAz/MAAM/zAADP8wAAz/MAAM/zAADH4wAAwAMAAMADAAD//wAA//8AAA==`,
             stIcon: `data:image/x-icon;base64,AAABAAEAEBAAAAEAIABoBAAAFgAAACgAAAAQAAAAIAAAAAEAIAAAAAAAQAQAABMLAAATCwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABbD6SgWw+ucFsPrkBbD6SgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAWw+uYFsPr/BbD6/wWw+ucAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAFsPrmBbD6/wWw+v8FsPrmAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABbD6SQWw+uYFsPrmBbD6SQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAFKRLShSkS+cUpEvkFKRLSgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAExi4EpMYuDnTGLg5Exi4EoAAAAAAAAAABSkS+YUpEv/FKRL/xSkS+cAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABMYuDmTGLg/0xi4P9MYuDnAAAAAAAAAAAUpEvmFKRL/xSkS/8UpEvmAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAATGLg5kxi4P9MYuD/TGLg5gAAAAAAAAAAFKRLSRSkS+YUpEvmFKRLSQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAExi4ElMYuDmTGLg5kxi4EkAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAMZ9E0rGfRPnxn0T5MZ9E0oAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADGfRPmxn0T/8Z9E//GfRPnAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAxn0T5sZ9E//GfRP/xn0T5gAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAMZ9E0nGfRPmxn0T5sZ9E0kAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA//8AAPw/AAD8PwAA/D8AAPw/AAD//wAAh+EAAIfhAACH4QAAh+EAAP//AAD8PwAA/D8AAPw/AAD8PwAA//8AAA==`,
@@ -8973,18 +8973,19 @@ class ESGST {
     }
     aic() {
         esgst.endlessFeatures.push(this.aic_getImages.bind(this));
-        document.addEventListener(`keydown`, event => {
-            if (event.key === `ArrowLeft` && esgst.aicPrevious) {
-                esgst.aicPrevious.click();
-            }
-            if (event.key === `ArrowRight` && esgst.aicNext) {
-                esgst.aicNext.click();
-            }
-        });
+        document.addEventListener(`keydown`, this.aic_move.bind(this));
         if (!esgst.mainPageHeading) return;
         esgst.aicButton = this.createHeadingButton({id: `aic`, icons: [`fa-image`], title: `View attached images`});
         esgst.aicButton.classList.add(`esgst-hidden`);
         esgst.aicButton.addEventListener(`click`, this.aic_openCarousel.bind(this, 0, null));
+    }
+    aic_move(event) {
+        if (event.key === `ArrowLeft` && esgst.aicPrevious) {
+            esgst.aicPrevious.click();
+        }
+        if (event.key === `ArrowRight` && esgst.aicNext) {
+            esgst.aicNext.click();
+        }
     }
     aic_getImages(context, main, source, endless) {
         if (!main) return;
@@ -9018,12 +9019,13 @@ class ESGST {
         }
         let carousel = insertHtml(document.body, `beforeEnd`, `<div class="esgst-popup-modal esgst-aic-carousel"></div>`);
         carousel.style.zIndex = 9999 + document.querySelectorAll(`.esgst-popup:not(.esgst-hidden), .esgst-popout:not(.esgst-hidden)`).length;
-        carousel.addEventListener(`click`, event => {
-            if (!event.target.closest(`.esgst-aic-panel`) && !event.target.closest(`img`)) {
-                carousel.remove();
-            }
-        });
+        carousel.addEventListener(`click`, this.aic_removeCarousel.bind(this));
         this.aic_showImage(carousel, i);
+    }
+    aic_removeCarousel(event) {
+        if (event.target.closest(`.esgst-aic-panel`) || event.target.closest(`img`)) return;
+
+        event.currentTarget.remove();
     }
     aic_showImage(carousel, i) {
         let attachedImage, height, image, n, panel;
@@ -9449,7 +9451,7 @@ class ESGST {
         entries = sortArray(Array.from(new Set(entries)));
         let both = [];
         let commented = [];
-        comments.forEach(user => {
+        for (const user of comments) {
             if (entries.indexOf(user) > -1) {
                 // user commented and entered
                 both.push(`<a href="/user/${user}">${user}</a>`);
@@ -9457,16 +9459,16 @@ class ESGST {
                 // user commented but did not enter
                 commented.push(`<a href="/user/${user}">${user}</a>`);
             }
-        });
+        }
         let entered = [];
         let total = comments.length;
-        entries.forEach(user => {
+        for (const user of entries) {
             if (comments.indexOf(user) < 0) {
                 // user entered but did not comment
                 entered.push(`<a href="/user/${user}">${user}</a>`);
                 total += 1;
             }
-        });
+        }
         obj.popup.setScrollable(`
             ${both.length > 0 ? `
                 <div>
@@ -9760,45 +9762,13 @@ class ESGST {
                 if (n > 1) {
                     winner = details.winners[0].username;
                     winnersColumn.innerHTML = `<a class="table__column__secondary-link" href="/user/${winner}">${winner}</a> <span class="esgst-clickable table__column__secondary-link">(+${n - 1} more)</span>`;
-                    winnersColumn.lastElementChild.addEventListener(`click`, () => {
-                        let popup = new Popup_v2({icon: `fa-users`, title: `Winners`, addScrollable: `left`});
-                        let html = `
-                            <div class="table__heading">
-                                <div class="table__column--width-small">Winner</div>
-                                <div class="table__column--width-small">Received</div>
-                            </div>
-                            <div class="table__rows">
-                        `;
-                        details.winners.forEach(winner => {
-                            html += `
-                                <div class="table__row-outer-wrap">
-                                    <div class="table__row-inner-wrap">
-                                        <div class="table__column--width-small">
-                                            <a class="table__column__secondary-link" href="/user/${winner.username}">${winner.username}</a>
-                                        </div>
-                                        <div class="table__column--width-small">
-                                        ${{
-                                            [`Received`]: `<i class="fa fa-check-circle esgst-green"></i>`,
-                                            [`Not Received`]: `<i class="fa fa-times-circle esgst-red"></i>`,
-                                            [`Awaiting Feedback`]: `<i class="fa fa-question-circle esgst-grey"></i>`
-                                        }[winner.status]}
-                                        </div>
-                                    </div>
-                                </div>
-                            `;
-                        });
-                        html += `
-                            </div>
-                        `;
-                        popup.open();
-                        this.endless_load(popup.getScrollable(html));
-                    });
+                    winnersColumn.lastElementChild.addEventListener(`click`, this.cewgd_openWinnersPopup.bind(this, details));
                     let received = 0;
-                    details.winners.forEach(winner => {
+                    for (const winner of details.winners) {
                         if (winner.status === `Received`) {
                             received += 1;
                         }
-                    });
+                    }
                     giveaway.innerWrap.lastElementChild.insertAdjacentText(`beforeEnd`, ` (${received}/${n})`);
                 } else {
                     winner = details.winners[0].username;
@@ -9817,6 +9787,43 @@ class ESGST {
         if (giveaway.group && esgst.ggl) {
             this.ggl_getGiveaways([giveaway]);
         }
+    }
+    cewgd_openWinnersPopup(details) {
+        const popup = new Popup_v2({
+            icon: `fa-users`,
+            title: `Winners`,
+            addScrollable: `left`
+        });
+        let html = `
+            <div class="table__heading">
+                <div class="table__column--width-small">Winner</div>
+                <div class="table__column--width-small">Received</div>
+            </div>
+            <div class="table__rows">
+        `;
+        for (const winner of details.winners) {
+            html += `
+                <div class="table__row-outer-wrap">
+                    <div class="table__row-inner-wrap">
+                        <div class="table__column--width-small">
+                            <a class="table__column__secondary-link" href="/user/${winner.username}">${winner.username}</a>
+                        </div>
+                        <div class="table__column--width-small">
+                        ${{
+                            [`Received`]: `<i class="fa fa-check-circle esgst-green"></i>`,
+                            [`Not Received`]: `<i class="fa fa-times-circle esgst-red"></i>`,
+                            [`Awaiting Feedback`]: `<i class="fa fa-question-circle esgst-grey"></i>`
+                        }[winner.status]}
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+        html += `
+            </div>
+        `;
+        popup.open();
+        this.endless_load(popup.getScrollable(html));
     }
     async cfh() {
         this.cfh_addScrollingEvent(window, esgst.commentsTop);
@@ -11029,11 +11036,11 @@ class ESGST {
     chfl_saveOrder(chfl) {
         for (let key in chfl.sources) {
             let elements = {};
-            esgst.settings[`chfl_${key}_${esgst.name}`].forEach(item => {
+            for (const item of esgst.settings[`chfl_${key}_${esgst.name}`]) {
                 if (item.id) {
                     elements[item.id] = item;
                 }
-            });
+            }
             esgst.settings[`chfl_${key}_${esgst.name}`] = [];
             let source = chfl.sources[key];
             for (let i = 0, n = source.context.children.length; i < n; i++) {
@@ -11230,13 +11237,13 @@ class ESGST {
     chfl_resetLinks(chfl, key, event) {
         event.preventDefault();
         event.stopPropagation();
-        esgst.settings[`chfl_${key}_${esgst.name}`].forEach(item => {
-            if (!item.id) return;
+        for (const item of esgst.settings[`chfl_${key}_${esgst.name}`]) {
+            if (!item.id) continue;
             let element = chfl.sources[key].elements[item.id];
-            if (!element) return;
+            if (!element) continue;
             element.remove();
             delete chfl.sources[key].elements[item.id];
-        });
+        }
         esgst.settings[`chfl_${key}_${esgst.name}`] = esgst.defaultValues[`chfl_${key}_${esgst.name}`];
         esgst[`chfl_${key}`] = esgst.settings[`chfl_${key}_${esgst.name}`];
         this.chfl_reorder(chfl, key);
@@ -11331,9 +11338,10 @@ class ESGST {
         });
     }
     cs_init(obj) {
-        obj.usernames = obj.popup.getTextInputValue(0).toLowerCase().replace(/(,\s*)+/g, (match, p1, offset, string) => {
-            return (((offset === 0) || (offset === (string.length - match.length))) ? `` : `, `);
-        }).split(`, `);
+        obj.usernames = obj.popup.getTextInputValue(0)
+            .toLowerCase()
+            .replace(/(,\s*)+/g, this.cs_format.bind(this))
+            .split(`, `);
         let match = location.pathname.match(/^\/(giveaway|discussion|support\/ticket|trade)\/(.+?)\//);
         obj.code = match[2];
         obj.type = match[1];
@@ -11343,6 +11351,9 @@ class ESGST {
             obj.requests[0].nextPage = esgst.cs_minPage;
             obj.requests[0].maxPage = esgst.cs_maxPage;
         }
+    }
+    cs_format(match, p1, offset, string) {
+        return (((offset === 0) || (offset === (string.length - match.length))) ? `` : `, `);
     }
     async cs_request(obj, details, response, responseHtml) {
         obj.popup.setProgress(`Searching comments (page ${details.nextPage}${details.maxPage ? ` of ${details.maxPage}` : details.lastPage})..`);
@@ -11508,20 +11519,18 @@ class ESGST {
             }
         }
     }
-    async ct_getComments(count, comments, index, goToUnread, markRead, markUnread, callback) {
+    async ct_getComments(count, comments, index, goToUnread, markRead, markUnread) {
+        let found = false;
         if (goToUnread) {
-            this.ct_checkComments(count, comments, index, true, false, false, callback);
+            found = await this.ct_checkComments(count, comments, index, true, false, false);
         } else {
-            let deleteLock = await this.createLock(`commentLock`, 300);
-            this.ct_checkComments(count, comments, index, false, markRead, markUnread, (found) => {
-                if (callback) {
-                    callback(found);
-                }
-                deleteLock();
-            });
+            const deleteLock = await this.createLock(`commentLock`, 300);
+            found = await this.ct_checkComments(count, comments, index, false, markRead, markUnread);
+            deleteLock();
         }
+        return found;
     }
-    async ct_checkComments(count, comments, index, goToUnread, markRead, markUnread, callback) {
+    async ct_checkComments(count, comments, index, goToUnread, markRead, markUnread) {
         let code, comment, found, i, n, saved, source, type, unread;
         esgst.ctGoToUnread = false;
         let values = await this.getValues({
@@ -11542,8 +11551,8 @@ class ESGST {
             };
         }
         n = comments.length;
+        found = false;
         if (n > 0) {
-            found = false;
             for (i = index || 0; i < n; ++i) {
                 comment = comments[i];
                 if (comment.id || comment.id.match(/^$/)) {
@@ -11649,9 +11658,6 @@ class ESGST {
                         goToComment(unread.id, unread.comment);
                     }
                 }
-                if (callback) {
-                    callback(found);
-                }
             } else {
                 if (esgst.sg) {
                     await this.setValues({
@@ -11659,14 +11665,8 @@ class ESGST {
                         discussions: JSON.stringify(saved.discussions),
                         tickets: JSON.stringify(saved.tickets)
                     });
-                    if (callback) {
-                        callback(found);
-                    }
                 } else {
                     await this.setValue(`trades`, JSON.stringify(saved.trades));
-                    if (callback) {
-                        callback(found);
-                    }
                 }
             }
         } else {
@@ -11690,21 +11690,14 @@ class ESGST {
                         discussions: JSON.stringify(saved.discussions),
                         tickets: JSON.stringify(saved.tickets)
                     });
-                    if (callback) {
-                        callback();
-                    }
                 } else {
                     await this.setValue(`trades`, JSON.stringify(saved.trades));
-                    if (callback) {
-                        callback();
-                    }
                 }
-            } else if (callback) {
-                callback();
             }
         }
+        return found;
     }
-    async ct_markCommentRead(comment, comments, save, callback) {
+    async ct_markCommentRead(comment, comments, save) {
         let count;
         if (save) {
             let deleteLock = await this.createLock(`commentLock`, 300);
@@ -11719,7 +11712,6 @@ class ESGST {
             comment.comment.classList.add(`esgst-ct-comment-read`);
             comment.comment.style.opacity = `0.5`;
             setHoverOpacity(comment.comment, `1`, `0.5`);
-            callback();
         } else {
             if (comments) {
                 if (comment.id && !comments[comment.type][comment.code].readComments[comment.id] && esgst.commentsPath) {
@@ -11733,7 +11725,7 @@ class ESGST {
             setHoverOpacity(comment.comment, `1`, `0.5`);
         }
     }
-    async ct_markCommentUnread(comment, comments, save, callback) {
+    async ct_markCommentUnread(comment, comments, save) {
         let count;
         if (save) {
             let deleteLock = await this.createLock(`commentLock`, 300);
@@ -11750,7 +11742,6 @@ class ESGST {
             comment.comment.classList.remove(`esgst-ct-comment-read`);
             comment.comment.style.opacity = `1`;
             setHoverOpacity(comment.comment, `1`, `1`);
-            callback();
         } else {
             if (comments && comments[comment.type][comment.code].readComments[comment.id]) {
                 if (comment.id && esgst.commentsPath) {
@@ -11774,12 +11765,12 @@ class ESGST {
                 <i class="fa fa-angle-up"></i>
             </span>
         `;
-        button.firstElementChild.addEventListener(`click`, () => {
-            button.innerHTML = `<i class="fa fa-circle-o-notch fa-spin"></i>`;
-            this.ct_getComments(0, esgst.currentComments, comment.index, false, true, false, () => {
-                this.ct_addReadUntilHereButton(button, comment);
-            });
-        });
+        button.firstElementChild.addEventListener(`click`, this.ct_readUntilHere.bind(this, button, comment));
+    }
+    async ct_readUntilHere(button, comment) {
+        button.innerHTML = `<i class="fa fa-circle-o-notch fa-spin"></i>`;
+        await this.ct_getComments(0, esgst.currentComments, comment.index, false, true, false);
+        this.ct_addReadUntilHereButton(button, comment);
     }
     ct_addUnreadUntilHereButton(button, comment) {
         if (!button) {
@@ -11791,12 +11782,12 @@ class ESGST {
                 <i class="fa fa-angle-up"></i>
             </span>
         `;
-        button.firstElementChild.addEventListener(`click`, () => {
-            button.innerHTML = `<i class="fa fa-circle-o-notch fa-spin"></i>`;
-            this.ct_getComments(0, esgst.currentComments, comment.index, false, false, true, () => {
-                this.ct_addUnreadUntilHereButton(button, comment);
-            });
-        });
+        button.firstElementChild.addEventListener(`click`, this.ct_unreadUntilHere.bind(this, button, comment));
+    }
+    async ct_unreadUntilHere(button, comment) {
+        button.innerHTML = `<i class="fa fa-circle-o-notch fa-spin"></i>`;
+        await this.ct_getComments(0, esgst.currentComments, comment.index, false, false, true);
+        this.ct_addUnreadUntilHereButton(button, comment);
     }
     ct_addReadCommentButton(button, comment) {
         if (!button) {
@@ -11809,39 +11800,39 @@ class ESGST {
                 <i class="fa fa-angle-double-right"></i>
             </span>
         `;
-        button.firstElementChild.addEventListener(`click`, () => {
-            button.innerHTML = `<i class="fa fa-circle-o-notch fa-spin"></i>`;
-            this.ct_markCommentRead(comment, null, true, () => {
-                button.innerHTML = ``;
-                this.ct_addUnreadCommentButton(button, comment);
-            });
-        });
-        button.lastElementChild.addEventListener(`click`, () => {
-            button.innerHTML = `<i class="fa fa-circle-o-notch fa-spin"></i>`;
-            this.ct_markCommentRead(comment, null, true, () => {
-                button.innerHTML = ``;
-                this.ct_addUnreadCommentButton(button, comment);
-                this.ct_getComments(0, esgst.currentComments, null, true);
-            });
-        });
+        button.firstElementChild.addEventListener(`click`, this.ct_readComment.bind(this, button, comment));
+        button.lastElementChild.addEventListener(`click`, this.ct_readCommentAndGo.bind(this, button, comment));
+    }
+    async ct_readComment(button, comment) {
+        button.innerHTML = `<i class="fa fa-circle-o-notch fa-spin"></i>`;
+        await this.ct_markCommentRead(comment, null, true);
+        button.innerHTML = ``;
+        this.ct_addUnreadCommentButton(button, comment);
+    }
+    async ct_readCommentAndGo(button, comment) {
+        button.innerHTML = `<i class="fa fa-circle-o-notch fa-spin"></i>`;
+        await this.ct_markCommentRead(comment, null, true);
+        button.innerHTML = ``;
+        this.ct_addUnreadCommentButton(button, comment);
+        this.ct_getComments(0, esgst.currentComments, null, true);
     }
     ct_addUnreadCommentButton(button, comment) {
         if (!button) {
             button = insertHtml(comment.actions, `beforeEnd`, `<div class="esgst-ct-comment-button"></div>`);
         }
         button.innerHTML = `<i class="fa fa-eye-slash" title="${this.getFeatureTooltip(`ct`, `Mark comment as unread`)}">`;
-        button.firstElementChild.addEventListener(`click`, () => {
-            button.innerHTML = `<i class="fa fa-circle-o-notch fa-spin"></i>`;
-            this.ct_markCommentUnread(comment, null, true, () => {
-                button.innerHTML = ``;
-                this.ct_addReadCommentButton(button, comment);
-            });
-        });
+        button.firstElementChild.addEventListener(`click`, this.ct_unreadComment.bind(this, button, comment));
+    }
+    async ct_unreadComment(button, comment) {
+        button.innerHTML = `<i class="fa fa-circle-o-notch fa-spin"></i>`;
+        await this.ct_markCommentUnread(comment, null, true);
+        button.innerHTML = ``;
+        this.ct_addReadCommentButton(button, comment);
     }
     ct_addCommentPanel(goToUnread, markRead, markUnread) {
         let button, key, newButton, url;
         goToUnread.addEventListener(`click`, this.ct_goToUnread.bind(this, goToUnread));
-        markRead.addEventListener(`click`, this.ct_markCommentsRead.bind(this, markRead, null));
+        markRead.addEventListener(`click`, this.ct_markCommentsRead.bind(this, markRead));
         markUnread.addEventListener(`click`, this.ct_markCommentsUnread.bind(this, markUnread));
         if (esgst.ct_a && esgst.inboxPath) {
             button = document.querySelector(`.js__submit-form, .js_mark_as_read`);
@@ -11865,11 +11856,14 @@ class ESGST {
                     url = `/ajax.php`;
                 }
                 button.remove();
-                newButton.addEventListener(`click`, async () => {
-                    await this.request({data: `xsrf_token=${esgst.xsrfToken}&do=${key}`, method: `POST`, url}); this.ct_markCommentsRead(markRead, this.ct_completeInboxRead.bind(this, newButton));
-                });
+                newButton.addEventListener(`click`, this.ct_markMessagesRead.bind(this, key, markRead, url));
             }
         }
+    }
+    async ct_markMessagesRead(key, markRead, url, event) {
+        await this.request({data: `xsrf_token=${esgst.xsrfToken}&do=${key}`, method: `POST`, url}); 
+        await this.ct_markCommentsRead(markRead);
+        this.ct_completeInboxRead(event.currentTarget);
     }
     ct_completeInboxRead(newButton) {
         let elements, i, n;
@@ -11879,67 +11873,66 @@ class ESGST {
         }
         newButton.remove();
     }
-    ct_goToUnread(goToUnread) {
+    async ct_goToUnread(goToUnread) {
         goToUnread.innerHTML = `
             <i class="fa fa-circle-o-notch fa-spin"></i>
         `;
-        this.ct_getComments(0, esgst.currentComments, null, true, false, false, found => {
-            goToUnread.innerHTML = `
-                <i class="fa fa-comments-o"></i>
-            `;
-            if (!found) {
-                createAlert(`No unread comments were found.`);
-            }
-        });
+        const found = await this.ct_getComments(0, esgst.currentComments, null, true, false, false);
+        goToUnread.innerHTML = `
+            <i class="fa fa-comments-o"></i>
+        `;
+        if (!found) {
+            createAlert(`No unread comments were found.`);
+        }
     }
-    ct_markCommentsRead(markRead, callback) {
+    async ct_markCommentsRead(markRead) {
         markRead.innerHTML = `
             <i class="fa fa-circle-o-notch fa-spin"></i>
         `;
-        this.ct_getComments(0, esgst.currentComments, null, false, true, false, () => {
-            markRead.innerHTML = `
-                <i class="fa fa-eye"></i>
-            `;
-            if (callback) {
-                callback();
-            }
-        });
+        await this.ct_getComments(0, esgst.currentComments, null, false, true, false);
+        markRead.innerHTML = `
+            <i class="fa fa-eye"></i>
+        `;
     }
-    ct_markCommentsUnread(markUnread) {
+    async ct_markCommentsUnread(markUnread) {
         markUnread.innerHTML = `
             <i class="fa fa-circle-o-notch fa-spin"></i>
         `;
-        this.ct_getComments(0, esgst.currentComments, null, false, false, true, () => {
-            markUnread.innerHTML = `
-                <i class="fa fa-eye-slash"></i>
-            `;
-        });
+        await this.ct_getComments(0, esgst.currentComments, null, false, false, true);
+        markUnread.innerHTML = `
+            <i class="fa fa-eye-slash"></i>
+        `;
     }
     ct_addDiscussionPanel(code, comments, container, context, count, diff, url, type, dh, discussion) {
-        let diffContainer, goToUnread, loadingIcon, markRead, markUnread, panel;
-        panel = insertHtml(context, esgst.giveawaysPath && !esgst.oadd ? `afterEnd` : `beforeEnd`, `
-            <span>
-                <span class="esgst-ct-count esgst-hidden" title="${this.getFeatureTooltip(`ct`)}">(+${diff})</span>
-                <div class="esgst-heading-button esgst-hidden" title="${this.getFeatureTooltip(`ct`, `Go to first unread comment of this discussion`)}">
-                    <i class="fa fa-comments-o"></i>
-                </div>
-                <div class="esgst-heading-button esgst-hidden" title="${this.getFeatureTooltip(`ct`, `Mark all comments in this discussion as read`)}">
-                    <i class="fa fa-eye"></i>
-                </div>
-                <div class="esgst-heading-button esgst-hidden" title="${this.getFeatureTooltip(`ct`, `Mark all comments in this discussion as unread`)}">
-                    <i class="fa fa-eye-slash"></i>
-                </div>
-                <i class="fa fa-circle-o-notch fa-spin esgst-hidden"></i>
-            </span>
-        `);
-        diffContainer = panel.firstElementChild;
-        goToUnread = diffContainer.nextElementSibling;
-        markRead = goToUnread.nextElementSibling;
-        markUnread = markRead.nextElementSibling;
-        loadingIcon = markUnread.nextElementSibling;
+        const obj = {
+            code,
+            count,
+            diff,
+            panel: insertHtml(context, esgst.giveawaysPath && !esgst.oadd ? `afterEnd` : `beforeEnd`, `
+                <span>
+                    <span class="esgst-ct-count esgst-hidden" title="${this.getFeatureTooltip(`ct`)}">(+${diff})</span>
+                    <div class="esgst-heading-button esgst-hidden" title="${this.getFeatureTooltip(`ct`, `Go to first unread comment of this discussion`)}">
+                        <i class="fa fa-comments-o"></i>
+                    </div>
+                    <div class="esgst-heading-button esgst-hidden" title="${this.getFeatureTooltip(`ct`, `Mark all comments in this discussion as read`)}">
+                        <i class="fa fa-eye"></i>
+                    </div>
+                    <div class="esgst-heading-button esgst-hidden" title="${this.getFeatureTooltip(`ct`, `Mark all comments in this discussion as unread`)}">
+                        <i class="fa fa-eye-slash"></i>
+                    </div>
+                    <i class="fa fa-circle-o-notch fa-spin esgst-hidden"></i>
+                </span>
+            `),
+            url
+        };
+        obj.diffContainer = obj.panel.firstElementChild;
+        obj.goToUnread = obj.diffContainer.nextElementSibling;
+        obj.markRead = obj.goToUnread.nextElementSibling;
+        obj.markUnread = obj.markRead.nextElementSibling;
+        obj.loadingIcon = obj.markUnread.nextElementSibling;
         if (esgst.gdttt) {
-            let button = new Button(panel, `beforeEnd`, {
-                callbacks: [this.gdttt_markVisited.bind(this, code, container, count, diffContainer, type), null, this.gdttt_markUnvisited.bind(this, code, container, count, diffContainer, type), null],
+            const button = new Button(obj.panel, `beforeEnd`, {
+                callbacks: [this.gdttt_markVisited.bind(this, code, container, count, obj.diffContainer, type), null, this.gdttt_markUnvisited.bind(this, code, container, count, obj.diffContainer, type), null],
                 className: `esgst-gdttt-button`,
                 icons: [`fa-check esgst-clickable`, `fa-circle-o-notch fa-spin`, `fa-times esgst-clickable`, `fa-circle-o-notch fa-spin`],
                 id: `gdttt`,
@@ -11954,113 +11947,115 @@ class ESGST {
         if (esgst.ct && (esgst.giveawaysPath || esgst.discussionsPath || dh)) {
             if (esgst.ct_s) {
                 if (diff > 0) {
-                    diffContainer.classList.remove(`esgst-hidden`);
+                    obj.diffContainer.classList.remove(`esgst-hidden`);
                 }
             } else {
                 if (diff > 0) {
-                    diffContainer.classList.remove(`esgst-hidden`);
-                    goToUnread.classList.remove(`esgst-hidden`);
-                    markRead.classList.remove(`esgst-hidden`);
+                    obj.diffContainer.classList.remove(`esgst-hidden`);
+                    obj.goToUnread.classList.remove(`esgst-hidden`);
+                    obj.markRead.classList.remove(`esgst-hidden`);
                     if (diff !== count) {
-                        markUnread.classList.remove(`esgst-hidden`);
+                        obj.markUnread.classList.remove(`esgst-hidden`);
                     }
                 } else {
-                    markUnread.classList.remove(`esgst-hidden`);
+                    obj.markUnread.classList.remove(`esgst-hidden`);
                 }
             }
         }
-        goToUnread.addEventListener(`mousedown`, event => {
-            esgst.ctNewTab = false;
-            if (event.button === 1) {
-                event.preventDefault();
-                esgst.ctNewTab = true;
-            } else if (event.button === 2) {
-                return;
-            }
-            goToUnread.classList.add(`esgst-hidden`);
-            markRead.classList.add(`esgst-hidden`);
-            markUnread.classList.add(`esgst-hidden`);
-            loadingIcon.classList.remove(`esgst-hidden`);
-            esgst.ctUnreadFound = false;
-            this.ct_markCommentsReadUnread(true, true, false, false, false, 1, `${url}/search?page=`, () => {
-                loadingIcon.classList.add(`esgst-hidden`);
-                goToUnread.classList.remove(`esgst-hidden`);
-                markRead.classList.remove(`esgst-hidden`);
-                if (diff !== count) {
-                    markUnread.classList.remove(`esgst-hidden`);
-                }
-            });
-        });
-        markRead.addEventListener(`click`, () => {
-            goToUnread.classList.add(`esgst-hidden`);
-            markRead.classList.add(`esgst-hidden`);
-            markUnread.classList.add(`esgst-hidden`);
-            loadingIcon.classList.remove(`esgst-hidden`);
-            this.ct_markCommentsReadUnread(true, false, false, true, false, 1, `${url}/search?page=`, () => {
-                loadingIcon.classList.add(`esgst-hidden`);
-                diffContainer.classList.add(`esgst-hidden`);
-                markUnread.classList.remove(`esgst-hidden`);
-            });
-        });
-        markUnread.addEventListener(`click`, async () => {
-            goToUnread.classList.add(`esgst-hidden`);
-            markRead.classList.add(`esgst-hidden`);
-            markUnread.classList.add(`esgst-hidden`);
-            loadingIcon.classList.remove(`esgst-hidden`);
-            let deleteLock = await this.createLock(`commentLock`, 300);
-            comments = JSON.parse(await this.getValue(`discussions`));
-            for (let key in comments[code].readComments) {
-                delete comments[code].readComments[key];
-            }
-            comments[code].lastUsed = Date.now();
-            await this.setValue(`discussions`, JSON.stringify(comments));
-            deleteLock();
-            loadingIcon.classList.add(`esgst-hidden`);
-            diffContainer.classList.remove(`esgst-hidden`);
-            diffContainer.textContent = `(+${count})`;
-            goToUnread.classList.remove(`esgst-hidden`);
-            markRead.classList.remove(`esgst-hidden`);
-        });
+        obj.goToUnread.addEventListener(`mousedown`, this.ct_goToUnreadPanel.bind(this, obj));
+        obj.markRead.addEventListener(`click`, this.ct_markReadPanel.bind(this, obj));
+        obj.markUnread.addEventListener(`click`, this.ct_markUnreadPanel.bind(this, obj));
     }
-    async ct_markCommentsReadUnread(firstRun, goToUnread, lastPageMissing, markRead, markUnread, nextPage, url, callback) {
-        let context, lastLink, pagination;
-        context = this.parseHtml((await this.request({method: `GET`, queue: true, url: `${url}${nextPage}`})).responseText);
-        this.ct_getComments(0, await this.comments_get(context, context, true), null, goToUnread, markRead, markUnread, () => {
-            if ((goToUnread && !esgst.ctUnreadFound) || !goToUnread) {
-                pagination = context.getElementsByClassName(`pagination__navigation`)[0];
-                ++nextPage;
-                if (pagination && ((goToUnread && ((esgst.ct_r && nextPage > 1) || (!esgst.ct_r && !pagination.lastElementChild.classList.contains(`is-selected`)))) || (!goToUnread && !pagination.lastElementChild.classList.contains(`is-selected`)))) {
-                    if (goToUnread && esgst.ct_r) {
-                        if (firstRun) {
-                            lastLink = pagination.lastElementChild;
-                            if (lastLink.textContent.match(/Last/)) {
-                                nextPage = parseInt(lastLink.getAttribute(`data-page-number`));
-                            } else {
-                                nextPage = 999999999;
-                                lastPageMissing = true;
-                            }
-                        } else {
-                            if (lastPageMissing) {
-                                nextPage = parseInt(pagination.lastElementChild.getAttribute(`data-page-number`)) - 1;
-                            } else {
-                                nextPage -= 2;
-                            }
-                        }
-                        if (nextPage > 1) {
-                            setTimeout(this.ct_markCommentsReadUnread.bind(this), 0, false, goToUnread, lastPageMissing, markRead, markUnread, nextPage, url, callback);
-                        } else {
-                            callback();
-                        }
-                    } else {
-                        setTimeout(this.ct_markCommentsReadUnread.bind(this), 0, false, goToUnread, lastPageMissing, markRead, markUnread, nextPage, url, callback);
-                    }
+    async ct_goToUnreadPanel(obj, event) {
+        esgst.ctNewTab = false;
+        if (event.button === 1) {
+            event.preventDefault();
+            esgst.ctNewTab = true;
+        } else if (event.button === 2) {
+            return;
+        }
+        obj.goToUnread.classList.add(`esgst-hidden`);
+        obj.markRead.classList.add(`esgst-hidden`);
+        obj.markUnread.classList.add(`esgst-hidden`);
+        obj.loadingIcon.classList.remove(`esgst-hidden`);
+        esgst.ctUnreadFound = false;
+        await this.ct_markCommentsReadUnread(true, false, false, `${obj.url}/search?page=`);
+        obj.loadingIcon.classList.add(`esgst-hidden`);
+        obj.goToUnread.classList.remove(`esgst-hidden`);
+        obj.markRead.classList.remove(`esgst-hidden`);
+        if (obj.diff !== obj.count) {
+            obj.markUnread.classList.remove(`esgst-hidden`);
+        }
+    }
+    async ct_markReadPanel(obj) {
+        obj.goToUnread.classList.add(`esgst-hidden`);
+        obj.markRead.classList.add(`esgst-hidden`);
+        obj.markUnread.classList.add(`esgst-hidden`);
+        obj.loadingIcon.classList.remove(`esgst-hidden`);
+        await this.ct_markCommentsReadUnread(false, true, false, `${obj.url}/search?page=`);
+        obj.loadingIcon.classList.add(`esgst-hidden`);
+        obj.diffContainer.classList.add(`esgst-hidden`);
+        obj.markUnread.classList.remove(`esgst-hidden`);
+    }
+    async ct_markUnreadPanel(obj) {
+        obj.goToUnread.classList.add(`esgst-hidden`);
+        obj.markRead.classList.add(`esgst-hidden`);
+        obj.markUnread.classList.add(`esgst-hidden`);
+        obj.loadingIcon.classList.remove(`esgst-hidden`);
+        const deleteLock = await this.createLock(`commentLock`, 300);
+        const comments = JSON.parse(await this.getValue(`discussions`));
+        for (const key in comments[obj.code].readComments) {
+            delete comments[obj.code].readComments[key];
+        }
+        comments[obj.code].lastUsed = Date.now();
+        await this.setValue(`discussions`, JSON.stringify(comments));
+        deleteLock();
+        obj.loadingIcon.classList.add(`esgst-hidden`);
+        obj.diffContainer.classList.remove(`esgst-hidden`);
+        obj.diffContainer.textContent = `(+${obj.count})`;
+        obj.goToUnread.classList.remove(`esgst-hidden`);
+        obj.markRead.classList.remove(`esgst-hidden`);
+    }
+    async ct_markCommentsReadUnread(goToUnread, markRead, markUnread, url) {
+        let firstRun = true;
+        let lastPageMissing = false;
+        let nextPage = 1;
+        while (true) {
+            const context = this.parseHtml((await this.request({
+                method: `GET`,
+                queue: true,
+                url: `${url}${nextPage}`
+            })).responseText);
+            await this.ct_getComments(0, await this.comments_get(context, context, true), null, goToUnread, markRead, markUnread);
+
+            if (goToUnread && esgst.ctUnreadFound) break;
+
+            nextPage += 1;
+            const pagination = context.getElementsByClassName(`pagination__navigation`)[0];
+
+            if (!pagination || ((!goToUnread || ((!esgst.ct_r || nextPage <= 1) && (esgst.ct_r || pagination.lastElementChild.classList.contains(`is-selected`)))) && (goToUnread || pagination.lastElementChild.classList.contains(`is-selected`)))) break;
+
+            if (!goToUnread || !esgst.ct_r) continue;
+
+            if (firstRun) {
+                firstRun = !firstRun;
+                const lastLink = pagination.lastElementChild;
+                if (lastLink.textContent.match(/Last/)) {
+                    nextPage = parseInt(lastLink.getAttribute(`data-page-number`));
                 } else {
-                    callback();
+                    nextPage = 999999999;
+                    lastPageMissing = true;
                 }
             } else {
-                callback();
+                if (lastPageMissing) {
+                    nextPage = parseInt(pagination.lastElementChild.getAttribute(`data-page-number`)) - 1;
+                } else {
+                    nextPage -= 2;
+                }
             }
-        });
+
+            if (nextPage <= 1) break;
+        }
     }
     // [D]
     ded() {
@@ -12203,110 +12198,92 @@ class ESGST {
         if (!esgst.giveawaysPath || !esgst.activeDiscussions || esgst.adots || esgst.oadd) return;
         await this.checkMissingDiscussions();
     }
-    df_menu(SMManageFilteredDiscussions) {
-        let discussion, discussions, hidden, i, popup, set;
-        SMManageFilteredDiscussions.addEventListener(`click`, async () => {
-            popup = new Popup(`fa-comments`, `Hidden Discussions`);
-            popup.discussions = insertHtml(popup.scrollable, `afterBegin`, `
-                <div class="table esgst-text-left">
-                    <div class="table__heading">
-                        <div class="table__column--width-fill">Summary</div>
-                        <div class="table__column--width-small text-center">Comments</div>
-                    </div>
-                </div>
-            `);
-            discussions = JSON.parse(await this.getValue(`discussions`));
-            hidden = [];
-            for (const key in discussions) {
-                if (discussions[key].hidden) {
-                    discussion = {
-                        code: key,
-                        hidden: discussions[key].hidden
-                    };
-                    hidden.push(discussion);
+    df_menu(obj, event) {
+        if (obj.process) return;
+
+        obj.process = new Process({
+            button: event.currentTarget,
+            popup: {
+                icon: `fa-comments`,
+                title: `Hidden Discussions`,
+                addProgress: true,
+                addScrollable: `left`
+            },
+            urls: {
+                id: `df`,
+                init: this.df_initUrls.bind(this),
+                perLoad: 5,
+                request: {
+                    request: this.df_requestUrl.bind(this)
                 }
-            }
-            hidden = hidden.sort((a, b) => {
-                if (a.hidden > b.hidden) {
-                    return -1;
-                } else if (a.hidden < b.hidden) {
-                    return 1;
-                } else {
-                    return 0;
-                }
-            });
-            i = 0;
-            set = new ButtonSet(`green`, `grey`, `fa-plus`, `fa-circle-o-notch fa-spin`, `Load more...`, `Loading more...`, callback => {
-                this.df_loadDiscussions(hidden, i, i, i + 5, popup, value => {
-                    i = value;
-                    if (i > hidden.length) {
-                        set.set.remove();
-                    } else if (esgst.es_df && popup.scrollable.scrollHeight <= popup.scrollable.offsetHeight) {
-                        set.trigger();
-                    }
-                    callback();
-                });
-            });
-            popup.description.appendChild(set.set);
-            popup.open();
-            set.trigger();
-            if (esgst.es_df) {
-                popup.scrollable.addEventListener(`scroll`, () => {
-                    if ((popup.scrollable.scrollTop + popup.scrollable.offsetHeight) >= popup.scrollable.scrollHeight && !set.busy) {
-                        set.trigger();
-                    }
-                });
             }
         });
+        obj.process.openPopup();
     }
-    async df_loadDiscussions(hidden, i, j, n, popup, callback) {
-        if (i < n) {
-            if (hidden[i]) {
-                let breadcrumbs, categoryLink, context, usernameLink;
-                context = this.parseHtml((await this.request({method: `GET`, url: `/discussion/${hidden[i].code}/`})).responseText);
-                breadcrumbs = context.getElementsByClassName(`page__heading__breadcrumbs`);
-                categoryLink = breadcrumbs[0].firstElementChild.nextElementSibling.nextElementSibling;
-                usernameLink = context.getElementsByClassName(`comment__username`)[0].firstElementChild;
-                popup.discussions.insertAdjacentHTML(`beforeEnd`, `
-                    <div>
-                        <div class="table__row-outer-wrap">
-                            <div class="table__row-inner-wrap">
-                                <div>
-                                    ${context.getElementsByClassName(`global__image-outer-wrap`)[0].outerHTML}
-                                </div>
-                                <div class="table__column--width-fill">
-                                    <h3>
-                                        <a class="table__column__heading" href="/discussion/${hidden[i].code}/">${categoryLink.nextElementSibling.nextElementSibling.firstElementChild.textContent}</a>
-                                    </h3>
-                                    <p>
-                                        <a class="table__column__secondary-link" href="${categoryLink.getAttribute(`href`)}">${categoryLink.textContent}</a> -
-                                        ${context.querySelector(`.comment [data-timestamp]`).outerHTML} ago by
-                                        <a class="table__column__secondary-link" href="${usernameLink.getAttribute(`href`)}">${usernameLink.textContent}</a>
-                                    </p>
-                                </div>
-                                <div class="table__column--width-small text-center">
-                                    <a class="table__column__secondary-link" href="/discussion/${hidden[i].code}/">${breadcrumbs[1].textContent.match(/(.+) Comments?/)[1]}</a>
-                                </div>
-                            </div>
+    async df_initUrls(obj) {
+        obj. discussions = obj.popup.getScrollable(`
+            <div class="table esgst-text-left">
+                <div class="table__heading">
+                    <div class="table__column--width-fill">Summary</div>
+                    <div class="table__column--width-small text-center">Comments</div>
+                </div>
+            </div>
+        `);
+        const discussions = JSON.parse(await this.getValue(`discussions`));
+        let hidden = [];
+        for (const key in discussions) {
+            if (discussions[key].hidden) {
+                const discussion = {
+                    code: key,
+                    hidden: discussions[key].hidden
+                };
+                hidden.push(discussion);
+            }
+        }
+        hidden = sortArrayByNumberKey(hidden, `hidden`, true);
+        obj.ids = [];
+        for (const discussion of hidden) {
+            obj.ids.push(discussion.code);
+            obj.items.push(`/discussion/${discussion.code}/`);
+        }
+    }
+    async df_requestUrl(obj, details, response, responseHtml) {
+        const breadcrumbs = responseHtml.getElementsByClassName(`page__heading__breadcrumbs`);
+        const categoryLink = breadcrumbs[0].firstElementChild.nextElementSibling.nextElementSibling;
+        const usernameLink = responseHtml.getElementsByClassName(`comment__username`)[0].firstElementChild;
+        obj.discussions.insertAdjacentHTML(`beforeEnd`, `
+            <div>
+                <div class="table__row-outer-wrap">
+                    <div class="table__row-inner-wrap">
+                        <div>
+                            ${responseHtml.getElementsByClassName(`global__image-outer-wrap`)[0].outerHTML}
+                        </div>
+                        <div class="table__column--width-fill">
+                            <h3>
+                                <a class="table__column__heading" href="/discussion/${obj.ids[obj.index]}/">${categoryLink.nextElementSibling.nextElementSibling.firstElementChild.textContent}</a>
+                            </h3>
+                            <p>
+                                <a class="table__column__secondary-link" href="${categoryLink.getAttribute(`href`)}">${categoryLink.textContent}</a> -
+                                ${responseHtml.querySelector(`.comment [data-timestamp]`).outerHTML} ago by
+                                <a class="table__column__secondary-link" href="${usernameLink.getAttribute(`href`)}">${usernameLink.textContent}</a>
+                            </p>
+                        </div>
+                        <div class="table__column--width-small text-center">
+                            <a class="table__column__secondary-link" href="/discussion/${obj.ids[obj.index]}/">${breadcrumbs[1].textContent.match(/(.+) Comments?/)[1]}</a>
                         </div>
                     </div>
-                `);
-                await this.endless_load(popup.discussions.lastElementChild);
-                if (!esgst.giveawaysPath && !esgst.discussionsPath) {
-                    if (esgst.gdttt) {
-                        await this.ct_addDiscussionPanels(popup.discussions.lastElementChild, true);
-                        await this.gdttt_checkVisited(popup.discussions.lastElementChild);
-                    } else if (esgst.ct) {
-                        await this.ct_addDiscussionPanels(popup.discussions.lastElementChild, true);
-                    }
-                    await this.discussions_load(popup.discussions.lastElementChild);
-                }
-                setTimeout(this.df_loadDiscussions.bind(this), 0, hidden, ++i, ++j, n, popup, callback);
-            } else {
-                callback(j + 1);
+                </div>
+            </div>
+        `);
+        await this.endless_load(obj.discussions.lastElementChild);
+        if (!esgst.giveawaysPath && !esgst.discussionsPath) {
+            if (esgst.gdttt) {
+                await this.ct_addDiscussionPanels(obj.discussions.lastElementChild, true);
+                await this.gdttt_checkVisited(obj.discussions.lastElementChild);
+            } else if (esgst.ct) {
+                await this.ct_addDiscussionPanels(obj.discussions.lastElementChild, true);
             }
-        } else {
-            callback(j);
+            await this.discussions_load(obj.discussions.lastElementChild);
         }
     }
     async df_hideDiscussion(discussion, main) {
@@ -33334,7 +33311,7 @@ class ESGST {
             this.setSMManageFilteredGiveaways(SMManageFilteredGiveaways);
         }
         if (SMManageFilteredDiscussions) {
-            this.df_menu(SMManageFilteredDiscussions);
+            SMManageFilteredDiscussions.addEventListener(`click`, this.df_menu.bind(this, {}));
         }
         if (SMViewUsernameChanges) {
             this.setSMRecentUsernameChanges(SMViewUsernameChanges);
