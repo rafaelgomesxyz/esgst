@@ -36,10 +36,18 @@
 // @grant GM.deleteValue
 // @grant GM.listValues
 // @grant GM.xmlHttpRequest
-// @require https://github.com/revilheart/ESGST/raw/master/Extension/jQuery.min.js
-// @require https://github.com/revilheart/ESGST/raw/master/Extension/jQueryUI.min.js
-// @require https://github.com/revilheart/ESGST/raw/master/Extension/Parsedown.js
-// @require https://github.com/revilheart/ESGST/raw/master/Extension/jszip.min.js
+// @require https://github.com/revilheart/ESGST/raw/master/Extension/js/jquery.min.js
+// @require https://github.com/revilheart/ESGST/raw/master/Extension/js/jquery-ui.min.js
+// @require https://github.com/revilheart/ESGST/raw/master/Extension/js/bootstrap.min.js
+// @require https://github.com/revilheart/ESGST/raw/master/Extension/js/bootstrap-select.min.js
+// @require https://github.com/revilheart/ESGST/raw/master/Extension/js/interact.min.js
+// @require https://github.com/revilheart/ESGST/raw/master/Extension/js/jszip.min.js
+// @require https://github.com/revilheart/ESGST/raw/master/Extension/js/parsedown.js
+// @require https://github.com/revilheart/ESGST/raw/master/Extension/js/query-builder.min.js
+// @resource bs https://github.com/revilheart/ESGST/raw/master/Extension/css/bootstrap.min.css
+// @resource bss https://github.com/revilheart/ESGST/raw/master/Extension/css/bootstrap-select.min.css
+// @resource abc https://github.com/revilheart/ESGST/raw/master/Extension/css/awesome-bootstrap-checkbox.min.css
+// @resource qb https://github.com/revilheart/ESGST/raw/master/Extension/css/query-builder.min.css
 // @run-at document-start
 // @noframes
 // ==/UserScript==
@@ -56,6 +64,7 @@ if (typeof GM === `undefined` && typeof GM_setValue === `undefined`) {
         deleteValue: GM_deleteValue,
         getValue: GM_getValue,
         listValues: GM_listValues,
+        getResourceUrl: GM_getResourceUrl,
         setValue: GM_setValue,
         xmlHttpRequest: GM_xmlhttpRequest
     };
@@ -73,6 +82,16 @@ if (typeof GM === `undefined` && typeof GM_setValue === `undefined`) {
     }
 } else {
     gm = GM;
+}
+if (gm) {
+    (async () => {
+        document.head.insertAdjacentHTML(`beforeEnd`, `
+            <link href="${await gm.getResourceUrl(`bs`)}" rel="stylesheet">
+            <link href="${await gm.getResourceUrl(`bss`)}" rel="stylesheet">
+            <link href="${await gm.getResourceUrl(`abc`)}" rel="stylesheet">
+            <link href="${await gm.getResourceUrl(`qb`)}" rel="stylesheet">
+        `);
+    })();
 }
 
 class ESGST {
@@ -2505,6 +2524,8 @@ class ESGST {
         esgst = {
             parameters: getParameters(),
             defaultValues: {
+                gf_presets: [],
+                df_presets: [],
                 chfl_key: `ctrlKey + e`,
                 getSyncGameNames_sg: false,
                 getSyncGameNames_st: false,
@@ -2712,7 +2733,6 @@ class ESGST {
                 elgb_filters: `.|(bestof|(g(ood)?)?)(l(uck)?)?(h(ave)?)?(f(un)?)?|enjoy|(h(umble)?)?(b(undle)?)?(g(ift)?)?(l(ink)?)?`,
                 exportBackup: true,
                 exportBackupIndex: 0,
-                filterPresets: [],
                 gas_auto: false,
                 gas_option: `sortIndex_asc`,
                 gas_autoWishlist: false,
@@ -2978,7 +2998,7 @@ class ESGST {
             sg: location.hostname.match(/www.steamgifts.com/),
             st: location.hostname.match(/www.steamtrades.com/),
             currentVersion: `7.19.0`,
-            devVersion: `7.19.1 (Dev.14)`,
+            devVersion: `7.20.0 (Dev.1)`,
             icon: `data:image/x-icon;base64,AAABAAEAEBAAAAEAIABoBAAAFgAAACgAAAAQAAAAIAAAAAEAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAqv8DCbP/Hgeq+CQIrf8iCK3/Igit/yIIrf8iB6//Iwit9x8Aqv8DAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAKr0GAa2/c0DvfzfA7f83QO3/N0Dt/zdA7f83QO+/d4Gs/3OAKP1GQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACm/xQFs/n2Bcf//wW///8FwP//BcD//wW///8Fx///BbP69gC2/xUAAAAAAAAAAAAAAAAA/1UDFptOFxSZMxkLpJktAq720QW1+ugEsfvjA7b92wO2/dsEsfvjBbX66Aau/dEoiO4tUlLWGU5k3hdVVf8DEJxKHxWqT8cVrU7uE6VN0guqny0Apv8XAJfQGwBAVywAQFcsAJfQGwCx/xcogugtS2Lk0lBl6u5Qae7ISmPeHxagSSMVr07jF7lV/xOiSu0brgATAAAAAAAAAA8AAAC/AAAAwAAAABAAAAAAYznjEkth4OxWb/3/T2jv40lf4iMXnksiEq1O3RayUv8UpEnkEo0+HQAAABkAAABBAAAA8QAAAPEAAABBAAAAGUBSvxxOYeDjU2v0/05m7d1LYuEiF55LIhKtTt0Ws1L/FahN2gU1FTAAAADAAAAA7AAAAP0AAAD9AAAA7AAAAMAVG0owUGPm2lNr9P9OZu3dS2LhIheeSyISrU7dFrNS/xWoTdoFNRswAAAAvwAAAOsAAAD9AAAA/QAAAOsAAADAFRtKMFBj6NpTa/T/Tmbt3Uti4SIXnksiEq1O3RayUv8UpEnkEo0+HQAAABgAAABAAAAA8QAAAPEAAABBAAAAGT5PuR1OYeDjU2v0/05m7d1LYuEiFqBJIxWuT+QXuVX/E6JL7QC8XhMAAAAAAAAADwAAAL8AAAC/AAAAEAAAAAAOR/8SSWLh7FZv/f9PaO/jSV/iIxCUSh8Vrk7HFqxN7ROlS9JskzMt1XULGK12EhxGLgYsRy8GK612EhzVgAsYgmxxLU1i39JNZ+vtT2fwx0pj1h8AqlUDF65GFgqZUhlsiC0txH0T0s5/EujJgBPkz4QR28+EEdvJgBPkzn8Q6Md+E9KLdHosM1LWGUZo6BZVVf8DAAAAAAAAAAAAAAAA/2YAFMl9EvbgjRb/14gV/9eIFf/XiBX/14gV/9+NFv/KgBD254YAFQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAL91FRjKgRHN1IgU3s+EEt3PhBLdz4QS3c+EEt3UiBTezYMRzcJ6FBkAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACqqgADxIARHr18FiO8eA8ivHgPIrx4DyK8eA8ivXwPI8SAER7/VQADAAAAAAAAAAAAAAAA78cAAPA3AAD4FwAABCAAADGOAAAE+AAAkBEAAJ55AACYOQAAlgEAAER4AAAXaAAATnoAAPgXAAD0JwAA69cAAA==`,
             sgIcon: `data:image/x-icon;base64,AAABAAEAEBAAAAEAIABoBAAAFgAAACgAAAAQAAAAIAAAAAEAIAAAAAAAQAQAABMLAAATCwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIUAAAD5AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAPoAAACFAAAAAAAAAAAAAAD8AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA+QAAAAAAAAAAAAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAAAAAAAAAAAAP8AAAD/AAAA/wAAABwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAcAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAcAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAHAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAAAAAAAAAAAAPwAAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD5AAAAAAAAAAAAAACFAAAA+QAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD5AAAAhQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA//8AAP//AADAAwAAwAMAAMfjAADP8wAAz/MAAM/zAADP8wAAz/MAAM/zAADH4wAAwAMAAMADAAD//wAA//8AAA==`,
             stIcon: `data:image/x-icon;base64,AAABAAEAEBAAAAEAIABoBAAAFgAAACgAAAAQAAAAIAAAAAEAIAAAAAAAQAQAABMLAAATCwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABbD6SgWw+ucFsPrkBbD6SgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAWw+uYFsPr/BbD6/wWw+ucAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAFsPrmBbD6/wWw+v8FsPrmAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABbD6SQWw+uYFsPrmBbD6SQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAFKRLShSkS+cUpEvkFKRLSgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAExi4EpMYuDnTGLg5Exi4EoAAAAAAAAAABSkS+YUpEv/FKRL/xSkS+cAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABMYuDmTGLg/0xi4P9MYuDnAAAAAAAAAAAUpEvmFKRL/xSkS/8UpEvmAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAATGLg5kxi4P9MYuD/TGLg5gAAAAAAAAAAFKRLSRSkS+YUpEvmFKRLSQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAExi4ElMYuDmTGLg5kxi4EkAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAMZ9E0rGfRPnxn0T5MZ9E0oAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADGfRPmxn0T/8Z9E//GfRPnAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAxn0T5sZ9E//GfRP/xn0T5gAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAMZ9E0nGfRPmxn0T5sZ9E0kAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA//8AAPw/AAD8PwAA/D8AAPw/AAD//wAAh+EAAIfhAACH4QAAh+EAAP//AAD8PwAA/D8AAPw/AAD8PwAA//8AAA==`,
@@ -3557,40 +3577,6 @@ class ESGST {
             toDelete.push(`Emojis`);
         }
         if (esgst.sg) {
-            if (isSet(esgst.storage.dfPresets)) {
-                let changed = false,
-                    presets = JSON.parse(esgst.storage.dfPresets);
-                presets.forEach(preset => {
-                    if (typeof preset.bugs_suggestions !== `undefined`) {
-                        preset.bugsSuggestions = preset.bugs_suggestions;
-                        delete preset.bugs_suggestions;
-                        changed = true;
-                    }
-                });
-                if (changed) {
-                    toSet.dfPresets = JSON.stringify(presets);
-                }
-            } else {
-                toSet.dfPresets = getLocalValue(`dfPresets`, `[]`);
-                delLocalValue(`dfPresets`);
-            }
-            if (isSet(esgst.storage.filterPresets)) {
-                let changed = false,
-                    presets = JSON.parse(esgst.storage.filterPresets);
-                presets.forEach(preset => {
-                    if (typeof preset.genreList !== `undefined`) {
-                        preset.genresList = preset.genreList;
-                        delete preset.genreList;
-                        changed = true;
-                    }
-                });
-                if (changed) {
-                    toSet.filterPresets = JSON.stringify(presets);
-                }
-            } else {
-                toSet.filterPresets = getLocalValue(`filterPresets`, `[]`);
-                delLocalValue(`filterPresets`);
-            }
             if (!isSet(esgst.storage.templates)) {
                 toSet.templates = getLocalValue(`templates`, `[]`);
                 delLocalValue(`templates`);
@@ -11523,7 +11509,7 @@ class ESGST {
             }
         }
         if (esgst.df && esgst.df.filteredCount && esgst[`df_enable${esgst.df.type}`]) {
-            this.df_filterDiscussions(esgst.df, false, endless);
+            this.filters_filter(esgst.df, false, endless);
         }
         if (esgst.ustButton) {
             if (esgst.numUstTickets > 0) {
@@ -12201,12 +12187,12 @@ class ESGST {
         if (esgst.df_m && esgst.discussionsPath && !esgst.editDiscussionPath) {
             if (esgst.hideButtons && esgst.hideButtons_df) {
                 if (esgst.leftButtonIds.indexOf(`df`) > -1) {
-                    esgst.leftButtons.insertBefore(this.df_addContainer(esgst.mainPageHeading), esgst.leftButtons.firstElementChild);
+                    esgst.leftButtons.insertBefore(this.filters_addContainer(`df`, esgst.mainPageHeading), esgst.leftButtons.firstElementChild);
                 } else {
-                    esgst.rightButtons.appendChild(this.df_addContainer(esgst.mainPageHeading));
+                    esgst.rightButtons.appendChild(this.filters_addContainer(`df`, esgst.mainPageHeading));
                 }
             } else {
-                esgst.mainPageHeading.insertBefore(this.df_addContainer(esgst.mainPageHeading), esgst.mainPageHeading.firstElementChild);
+                esgst.mainPageHeading.insertBefore(this.filters_addContainer(`df`, esgst.mainPageHeading), esgst.mainPageHeading.firstElementChild);
             }
         }
         if (!esgst.giveawaysPath || !esgst.activeDiscussions || esgst.adots || esgst.oadd) return;
@@ -12328,35 +12314,12 @@ class ESGST {
         }
         return true;
     }
-    df_setOveride(df, context, key) {
-        let button;
-        button = insertHtml(context, `afterBegin`, `<span class="esgst-gf-override"></span>`);
-        df.overrideButtons[key] = {
-            change: () => {
-                if (typeof df.overrides[key] === `undefined`) {
-                    df.overrides[key] = 0;
-                }
-                df.overrideButtons[key].value = df.overrides[key];
-                if (df.overrideButtons[key].value) {
-                    button.innerHTML = `<i class="fa fa-exclamation" title="Click to make this filter overridable"></i>`;
-                } else {
-                    button.innerHTML = `<i class="fa fa-exclamation esgst-faded" title="Click to make this filter non-overridable"></i>`;
-                }
-            }
-        };
-        df.overrideButtons[key].change();
-        button.addEventListener(`click`, () => {
-            df.overrides[key] = df.overrideButtons[key].value ? 0 : 1;
-            df.overrideButtons[key].change();
-            this.df_filterDiscussions(df);
-        });
-    }
     df_getFilters() {
         return {
             basic: [
                 {
                     check: true,
-                    infinite: true,
+                    key: `comments`,
                     minValue: 0,
                     name: `Comments`
                 }
@@ -12364,838 +12327,83 @@ class ESGST {
             type: [
                 {
                     check: true,
+                    key: `announcements`,
                     name: `Announcements`
                 },
                 {
                     check: true,
+                    key: `bugsSuggestion`,
                     name: `Bugs / Suggestion`
                 },
                 {
                     check: true,
+                    key: `deals`,
                     name: `Deals`
                 },
                 {
                     check: true,
+                    key: `general`,
                     name: `General`
                 },
                 {
                     check: true,
+                    key: `groupRecruitment`,
                     name: `Group Recruitment`
                 },
                 {
                     check: true,
+                    key: `letsPlayTogether`,
                     name: `Let's Play Together`
                 },
                 {
                     check: true,
+                    key: `offTopic`,
                     name: `Off-Topic`
                 },
                 {
                     check: true,
+                    key: `puzzles`,
                     name: `Puzzles`
                 },
                 {
                     check: true,
+                    key: `uncategorized`,
                     name: `Uncategorized`
                 },
                 {
                     check: true,
+                    key: `created`,
                     name: `Created`
                 },
                 {
                     check: true,
+                    key: `poll`,
                     name: `Poll`
                 },
                 {
                     check: esgst.dh,
+                    key: `highlighted`,
                     name: `Highlighted`
                 },
                 {
                     check: esgst.gdttt,
+                    key: `visited`,
                     name: `Visited`
                 },
                 {
                     check: esgst.ct,
+                    key: `unread`,
                     name: `Unread`
                 },
                 {
                     check: true,
+                    key: `authors`,
                     list: true,
                     name: `Authors`
                 }
-            ]
+            ],
+            category: []
         };
-    }
-    df_addContainer(heading) {
-        let basicFilter, basicFilters, box, button, collapseButton, display, exceptionButton, exceptionCount, exceptionPanel, expandButton, filters, df, headingButton, i, infinite, key, maxKey, maxSavedValue, maxValue, minKey, minSavedValue, minValue, name, preset, presetButton, presetDisplay, presetInput, presetMessage, presetPanel, presets, presetWarning, slider, step, toggleSwitch, typeFilter, typeFilters, value;
-        headingButton = document.createElement(`div`);
-        headingButton.className = `esgst-heading-button esgst-gf-heading-button`;
-        headingButton.id = `esgst-df`;
-        headingButton.innerHTML = `
-            <span class="esgst-gf-toggle-switch"></span>
-            <i class="fa fa-sliders" title="${this.getFeatureTooltip(`df`, `Manage presets`)}"></i>
-        `;
-        esgst.df = df = {
-            counters: {},
-            filter: this.df_filterDiscussions.bind(this),
-            filters: this.df_getFilters(),
-            type: esgst.createdDiscussionsPath ? `Created` : ``
-        };
-        toggleSwitch = new ToggleSwitch(headingButton.firstElementChild, `df_enable${esgst.df.type}`, true, ``, false, false, null, esgst[`df_enable${esgst.df.type}`]);
-        toggleSwitch.onEnabled = this.df_filterDiscussions.bind(this, df);
-        toggleSwitch.onDisabled = this.df_filterDiscussions.bind(this, df, true);
-        presetButton = headingButton.lastElementChild;
-        df.container = insertHtml(heading, `afterEnd`, `
-            <div class="esgst-gf-container">
-                <div class="esgst-gf-box">
-                    <div class="esgst-gf-filters esgst-hidden">
-                        <div class="esgst-gf-basic-filters esgst-hidden">
-                            <div>
-                                <span class="esgst-bold">Basic Filters:</span>
-                                <i class="fa fa-question-circle" title="'?' means that the filter is infinite. For example, if you have 10 in your min entries field and '?' in your max entries field, you will see giveaways that have 10 or more entries. You can edit the max field if you want to limit how far it goes. If you want to reset to the infinite limit, simply enter '?' again."></i>
-                            </div>
-                        </div>
-                        <div class="esgst-gf-type-filters">
-                            <div>
-                                <span class="esgst-bold">Type Filters:</span>
-                            </div>
-                        </div>
-                        <div class="esgst-gf-right-panel">
-                            <div class="esgst-gf-legend-panel">
-                                <div>
-                                    <span class="esgst-bold">Legend:</span>
-                                    <i class="fa fa-question-circle" title="This legend applies to the type filters, except where noted"></i>
-                                </div>
-                                <div class="esgst-gf-legend"><i class="fa fa-square-o"></i> - Hide all.</div>
-                                <div class="esgst-gf-legend"><i class="fa fa-square"></i> - Show only.</div>
-                                <div class="esgst-gf-legend"><i class="fa fa-check-square"></i> - Show all.</div>
-                                <div class="esgst-gf-legend"><i class="fa fa-exclamation esgst-faded"></i> - Overridable <i class="fa fa-question-circle" title="Overridable filters can be overridden by exceptions"></i></div>
-                                <div class="esgst-gf-legend"><i class="fa fa-exclamation"></i> - Non-Overridable <i class="fa fa-question-circle" title="Non-Overridable filters cannot be overridden by exceptions"></i></div>
-                            </div>
-                            <br>
-                            <div class="esgst-gf-preset-panel">
-                                <div>
-                                    <span class="esgst-bold">Preset:</span>
-                                </div>
-                                <div>
-                                    <span></span> exceptions <i class="esgst-clickable fa fa-gear" title="Manage exceptions"></i>
-                                </div>
-                                <input class="form__input-small" type="text"/>
-                                <div class="esgst-description esgst-bold"></div>
-                                <div class="form__row__error esgst-hidden">
-                                    <i class="fa fa-exclamation-circle"></i> Please enter a name for the preset.
-                                </div>
-                                <div class="esgst-description">The name of the preset.</div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="esgst-gf-button" title="${this.getFeatureTooltip(`df`)}">
-                    <span>Expand</span><span class="esgst-hidden">Collapse</span> filters (<span>0</span> filtered - <span></span>)
-                </div>
-            </div>
-        `);
-        box = df.container.firstElementChild;
-        filters = box.firstElementChild;
-        basicFilters = filters.firstElementChild;
-        typeFilters = basicFilters.nextElementSibling;
-        presetPanel = typeFilters.nextElementSibling.lastElementChild;
-        exceptionPanel = presetPanel.firstElementChild.nextElementSibling;
-        exceptionCount = exceptionPanel.firstElementChild;
-        exceptionButton = exceptionCount.nextElementSibling;
-        presetInput = exceptionPanel.nextElementSibling;
-        presetMessage = presetInput.nextElementSibling;
-        presetWarning = presetMessage.nextElementSibling;
-        presetPanel.appendChild(new ButtonSet(`green`, `grey`, `fa-check`, `fa-circle-o-notch fa-spin`, `Save Preset`, `Saving...`, this.df_savePreset.bind(this, df, presetInput, presetMessage, presetWarning)).set);
-        button = box.nextElementSibling;
-        expandButton = button.firstElementChild;
-        collapseButton = expandButton.nextElementSibling;
-        button.addEventListener(`click`, this.gf_toggleFilters.bind(this, df, collapseButton, expandButton, filters));
-        df.filteredCount = collapseButton.nextElementSibling;
-        df.paginationFilteredCount = insertHtml(esgst.pagination.firstElementChild, `beforeEnd`, `
-            <span>
-                (<span class="esgst-bold">0</span> filtered by Discussion Filters)
-            </span>
-        `).firstElementChild;
-        presetDisplay = df.filteredCount.nextElementSibling;
-        presetButton.addEventListener(`click`, this.df_openPresetPopup.bind(this, df, exceptionCount, presetDisplay, presetInput));
-        name = esgst[`df_preset${esgst.df.type}`];
-        if (name) {
-            presets = JSON.parse(esgst.storage.dfPresets);
-            for (i = presets.length - 1; i >= 0 && presets[i].name !== name; --i);
-            if (i >= 0) {
-                preset = presets[i];
-                presetDisplay.textContent = presetInput.value = name;
-            } else {
-                preset = null;
-            }
-        }
-        if (!preset) {
-            name = `Default${esgst.df.type}`;
-            preset = { name };
-            for (let type in df.filters) {
-                df.filters[type].forEach(filter => {
-                    this.gf_getKeys(filter).forEach(key => {
-                        preset[key] = esgst.settings[`df_${key}`];
-                        if (filter.list) {
-                            preset[`${key}List`] = esgst.settings[`df_${key}List$`] || ``;
-                        }
-                    });
-                });
-            }
-            presets = JSON.parse(esgst.storage.dfPresets);
-            presets.push(preset);
-            this.setValue(`dfPresets`, JSON.stringify(presets));
-            this.setSetting(`df_preset${esgst.df.type}`, name);
-            presetDisplay.textContent = presetInput.value = name;
-        }
-        if (preset.exceptions) {
-            df.exceptions = preset.exceptions;
-            exceptionCount.textContent = preset.exceptions.length;
-        } else {
-            exceptionCount.textContent = 0;
-        }
-        df.overrides = preset.overrides || {};
-        df.overrideButtons = {};
-        exceptionButton.addEventListener(`click`, this.df_openExceptionPopup.bind(this, exceptionCount, df, presetInput));
-        basicFilters.classList.remove(`esgst-hidden`);
-        df.filters.basic.forEach(filter => {
-            if (!filter.check) return;
-            [maxKey, minKey, key] = this.gf_getKeys(filter, true);
-            maxValue = isSet(filter.maxValue) ? filter.maxValue : `?`;
-            minValue = isSet(filter.minValue) ? filter.minValue : `?`;
-            if (esgst[`df_${key}`]) {
-                infinite = filter.infinite;
-                maxSavedValue = isSet(preset[maxKey]) ? preset[maxKey] : maxValue;
-                minSavedValue = isSet(preset[minKey]) ? preset[minKey] : minValue;
-                step = filter.step || 1;
-                if (infinite) {
-                    if (maxSavedValue === 99999 || maxSavedValue === 999999 || maxSavedValue === 999999999) {
-                        maxSavedValue = `?`;
-                    }
-                } else if (maxSavedValue > maxValue) {
-                    maxSavedValue = maxValue;
-                }
-                df[maxKey] = maxSavedValue;
-                df[minKey] = minSavedValue;
-                basicFilter = insertHtml(basicFilters, `beforeEnd`, `
-                    <div class="esgst-gf-basic-filter">
-                        <div>${filter.name} <span class="esgst-gf-filter-count" title="Number of discussions this filter is filtering">0</span> <span class="esgst-float-right"><input type="text" value="${minSavedValue}"> - <input type="text" value="${maxSavedValue}"></span></div>
-                        <div></div>
-                    </div>
-                `);
-                display = basicFilter.firstElementChild;
-                this.df_setOveride(df, display, key);
-                slider = display.nextElementSibling;
-                df.counters[key] = display.firstElementChild.nextElementSibling;
-                df[`${minKey}Input`] = df.counters[key].nextElementSibling.firstElementChild;
-                df[`${maxKey}Input`] = df[`${minKey}Input`].nextElementSibling;
-                df[`${maxKey}Input`].addEventListener(`change`, this.gf_changeMaxValue.bind(this, df, infinite, maxKey, slider, step));
-                df[`${minKey}Input`].addEventListener(`change`, this.gf_changeMinValue.bind(this, df, infinite, minKey, slider, step));
-                if (infinite) {
-                    maxValue = maxSavedValue;
-                }
-                if (maxSavedValue === `?`) {
-                    df[`${maxKey}Infinite`] = true;
-                }
-                if (minSavedValue === `?`) {
-                    df[`${minKey}Infinite`] = true;
-                }
-                $(slider).slider({
-                    change: this.gf_changeSlider.bind(this, df, maxKey, minKey),
-                    min: minValue === `?` ? 0 : minValue,
-                    max: maxValue === `?` ? 1e3 : maxValue,
-                    range: true,
-                    slide: this.gf_slide.bind(this, df, maxKey, minKey),
-                    step: step,
-                    values: [                        
-                        minSavedValue === `?` ? 0 : minSavedValue,
-                        maxSavedValue === `?` ? 1e3 : maxSavedValue
-                    ]
-                });
-            } else {
-                df[maxKey] = maxValue;
-                df[minKey] = minValue;
-            }
-        });
-        if (basicFilters.children.length === 1) {
-            basicFilters.classList.add(`esgst-hidden`);
-        }
-        df.filters.type.forEach(filter => {
-            if (!filter.check) return;
-            key = this.gf_getKeys(filter)[0];
-            if (esgst[`df_${key}`]) {
-                typeFilter = insertHtml(typeFilters, `beforeEnd`, `
-                    <div class="esgst-gf-type-filter">
-                        <span>${filter.name} ${filter.list ? `<input placeholder="item1, item2" type="text">` : ``}</span>
-                        <span class="esgst-gf-filter-count" title="Number of discussions this filter is filtering">0</span>
-                    </div>
-                `);
-                value = preset[key] || `enabled`;
-                df[key] = value;
-                df[`${key}Checkbox`] = new Checkbox(typeFilter, value, true);
-                df.counters[key] = typeFilter.lastElementChild;
-                this.df_setOveride(df, typeFilter, key);
-                df[`${key}Checkbox`].checkbox.addEventListener(`click`, this.df_changeValue.bind(this, df[`${key}Checkbox`], df, key));
-                if (filter.list) {
-                    let listKey = `${key}List`;
-                    df[`${listKey}Input`] = typeFilter.firstElementChild.nextElementSibling.nextElementSibling.firstElementChild;
-                    value = (preset[listKey] && preset[listKey].replace(/,(?!\s)/g, `, `)) || ``;
-                    df[listKey] = df[`${listKey}Input`].value = value;
-                    df[`${listKey}Input`].addEventListener(`change`, this.df_changeValue.bind(this, df[`${listKey}Input`], df, listKey));
-                }
-            } else {
-                df[key] = `enabled`;
-            }
-        });
-        if (typeFilters.children.length === 1) {
-            typeFilters.classList.add(`esgst-hidden`);
-        }
-        return headingButton;
-    }
-    df_changeValue(context, df, key) {
-        df[key] = context.value;
-        this.df_filterDiscussions(df);
-    }
-    async df_savePreset(df, presetInput, presetMessage, presetWarning, callback) {
-        let exceptions, name, preset, presets;
-        name = presetInput.value;
-        if (name) {
-            presetWarning.classList.add(`esgst-hidden`);
-            preset = { name };
-            for (let type in df.filters) {
-                df.filters[type].forEach(filter => {
-                    this.gf_getKeys(filter).forEach(key => {
-                        if (typeof df[key] !== `undefined`) {
-                            preset[key] = df[key];
-                            if (filter.list) {
-                                preset[`${key}List`] = df[`${key}List`];
-                            }
-                        }
-                    });
-                });
-            }
-            preset.exceptions = df.exceptions;
-            preset.overrides = df.overrides;
-            presets = JSON.parse(await this.getValue(`dfPresets`, `[]`));
-            let i;
-            for (i = presets.length - 1; i >= 0 && presets[i].name !== name; --i);
-            if (i >= 0) {
-                exceptions = presets[i].exceptions;
-                if (exceptions) {
-                    preset.exceptions = exceptions;
-                }
-                presets[i] = preset;
-            } else {
-                presets.push(preset);
-            }
-            await this.setValue(`dfPresets`, JSON.stringify(presets));
-            await this.setSetting(`df_preset${esgst.df.type}`, name);
-            createFadeMessage(presetMessage, `Saved!`);
-            callback();
-        } else {
-            presetWarning.classList.remove(`esgst-hidden`);
-            callback();
-        }
-    }
-    async df_openPresetPopup(df, exceptionCount, presetDisplay, presetInput) {
-        let deleted, details, heading, hideAll, popup, renameButton, renameInput, row, showOnly, table, undoButton;
-        popup = new Popup(`fa-sliders`, `Manage presets:`, true);
-        popup.description.insertAdjacentHTML(`afterBegin`, `<div class="esgst-description">To edit a preset, apply it and save it with the same name. To rename a preset, click the edit icon, enter the new name and hit "Enter". Drag and drop presets to move them.</div>`);
-        deleted = [];
-        undoButton = insertHtml(popup.description, `beforeEnd`, `
-            <div class="esgst-clickable esgst-hidden">
-                <i class="fa fa-rotate-left"></i>
-                <span>Undo Delete</span>
-            </div>
-        `);
-        undoButton.addEventListener(`click`, this.df_undoDeletePreset.bind(this, deleted, undoButton));
-        table = insertHtml(popup.scrollable, `beforeEnd`, `<div class="esgst-text-left popup__keys__list"></div>`);
-        JSON.parse(await this.getValue(`dfPresets`, `[]`)).forEach(preset => {
-            details = ``;
-            hideAll = [];
-            showOnly = [];
-            for (let type in df.filters) {
-                df.filters[type].forEach(filter => {
-                    if (type === `basic`) {
-                        let [maxKey, minKey] = this.gf_getKeys(filter);
-                        if (typeof preset[maxKey] !== `undefined`) {
-                            details += `${preset[minKey]}-${preset[maxKey]} ${filter.name.toLowerCase()}, `;
-                        }
-                    } else {
-                        let key = this.gf_getKeys(filter)[0];
-                        if (preset[key] === `disabled`) {
-                            if (filter.list && preset[`${key}List`]) {
-                                hideAll.push(`${filter.name.toLowerCase()} (${preset[`${key}List`].toLowerCase()})`);
-                            } else {
-                                hideAll.push(filter.name.toLowerCase());
-                            }
-                        } else if (preset[key] === `none`) {
-                            if (filter.list && preset[`${key}List`]) {
-                                showOnly.push(`${filter.name.toLowerCase()} (${preset[`${key}List`].toLowerCase()})`);
-                            } else {
-                                showOnly.push(filter.name.toLowerCase());
-                            }
-                        }
-                    }
-                });
-            }
-            if (hideAll.length > 0) {
-                details += `hide: ${hideAll.join(` & `)}, `;
-            }
-            if (showOnly.length > 0) {
-                details += `only show: ${showOnly.join(` & `)}, `;
-            }
-            row = insertHtml(table, `beforeEnd`, `
-                <div ${presetInput.value === preset.name ? `class="esgst-green-highlight"` : ``} draggable="true">
-                    <div class="esgst-float-left">
-                        <input class="esgst-hidden" type="text" value="${preset.name}"/>
-                        <strong class="esgst-clickable">${preset.name}</strong>
-                    </div>
-                    <div class="esgst-clickable esgst-float-right">
-                        <i class="fa fa-edit" title="Rename preset"></i>
-                        <span title="Delete preset">
-                            <i class="fa fa-trash"></i>
-                        </span>
-                    </div>
-                    <div class="esgst-clear"></div>
-                    <div class="esgst-description">${details.slice(0, -2)}</div>
-                </div>
-            `);
-            row.addEventListener(`dragstart`, this.df_setSource.bind(this, df, preset, row));
-            row.addEventListener(`dragenter`, this.gf_getSource.bind(this, df, row, table));
-            row.addEventListener(`dragend`, this.df_saveSource.bind(this, df));
-            renameInput = row.firstElementChild.firstElementChild;
-            heading = renameInput.nextElementSibling;
-            renameInput.addEventListener(`keypress`, this.df_renamePreset.bind(this, heading, preset, presetDisplay, presetInput));
-            heading.addEventListener(`click`, this.df_applyPreset.bind(this, df, exceptionCount, popup, preset, presetDisplay, presetInput));
-            renameButton = row.firstElementChild.nextElementSibling.firstElementChild;
-            renameButton.addEventListener(`click`, this.gf_showRenameInput.bind(this, heading, renameInput));
-            renameButton.nextElementSibling.addEventListener(`click`, this.df_deletePreset.bind(this, deleted, preset, row, undoButton));
-        });
-        popup.open();
-    }
-    async df_setSource(df, preset, row, event) {
-        let i, presets;
-        event.dataTransfer.setData(`text/plain`, ``);
-        df.source = row;
-        presets = JSON.parse(await this.getValue(`dfPresets`, `[]`));
-        for (i = presets.length - 1; i >= 0 && presets[i].name !== preset.name; --i);
-        df.sourceIndex = i;
-    }
-    async df_saveSource(df) {
-        let presets = JSON.parse(await this.getValue(`dfPresets`, `[]`));
-        presets.splice(df.sourceNewIndex, 0, presets.splice(df.sourceIndex, 1)[0]);
-        this.setValue(`dfPresets`, JSON.stringify(presets));
-    }
-    async df_applyPreset(df, exceptionCount, popup, preset, presetDisplay, presetInput) {
-        let checkbox, input, key;
-        for (let type in df.filters) {
-            df.filters[type].forEach(filter => {
-                this.gf_getKeys(filter).forEach(key => {
-                    checkbox = df[`${key}Checkbox`];
-                    if (checkbox) {
-                        if (checkbox.isThreeState) {
-                            df[key] = checkbox.value = preset[key];
-                            checkbox.change(false, df[key]);
-                        } else {
-                            if (preset[key]) {
-                                df[key] = true;
-                                checkbox.check();
-                            } else {
-                                df[key] = false;
-                                checkbox.uncheck();
-                            }
-                        }
-                    } else {
-                        input = df[`${key}Input`];
-                        if (input) {
-                            df[key] = input.value = preset[key];
-                            input.dispatchEvent(new Event(`change`));
-                        }
-                    }
-                    if (filter.list) {
-                        input = df[`${key}ListInput`];
-                        if (input) {
-                            df[`${key}List`] = input.value = preset[`${key}List`];
-                            input.dispatchEvent(new Event(`change`));
-                        }
-                    }
-                });
-            });
-        }
-        presetDisplay.textContent = presetInput.value = preset.name;
-        if (preset.exceptions) {
-            df.exceptions = preset.exceptions;
-            exceptionCount.textContent = preset.exceptions.length;
-        } else {
-            exceptionCount.textContent = 0;
-        }
-        df.overrides = preset.overrides || {};
-        for (key in df.overrideButtons) {
-            df.overrideButtons[key].change();
-        }
-        await this.setSetting(`df_preset${esgst.df.type}`, preset.name);
-        popup.close();
-        this.df_filterDiscussions(df);
-    }
-    async df_renamePreset(heading, preset, presetDisplay, presetInput, event) {
-        let i, newName, oldName, presets;
-        if (event.key === `Enter`) {
-            oldName = preset.name;
-            newName = event.currentTarget.value;
-            presets = JSON.parse(await this.getValue(`dfPresets`));
-            for (i = presets.length - 1; i >= 0 && presets[i].name !== oldName; --i);
-            preset.name = presets[i].name = newName;
-            this.setValue(`dfPresets`, JSON.stringify(presets));
-            heading.textContent = newName;
-            if (presetInput.value === oldName) {
-                presetDisplay.textContent = presetInput.value = newName;
-            }
-            if (esgst[`df_preset${esgst.df.type}`] === oldName) {
-                this.setSetting(`df_preset${esgst.df.type}`, newName);
-            }
-            event.currentTarget.classList.add(`esgst-hidden`);
-            heading.classList.remove(`esgst-hidden`);
-        }
-    }
-    async df_deletePreset(deleted, preset, row, undoButton, event) {
-        let deleteButton = event.currentTarget;
-        deleteButton.innerHTML = `<i class="fa fa-circle-o-notch fa-spin"></i>`;
-        let presets = JSON.parse(await this.getValue(`dfPresets`, `[]`));
-        let i;
-        for (i = presets.length - 1; i >= 0 && presets[i].name !== preset.name; --i);
-        presets.splice(i, 1);
-        await this.setValue(`dfPresets`, JSON.stringify(presets));
-        deleteButton.innerHTML = `<i class="fa fa-trash"></i>`;
-        row.classList.add(`esgst-hidden`);
-        deleted.push({
-            details: preset,
-            row: row
-        });
-        undoButton.classList.remove(`esgst-hidden`);
-    }
-    async df_undoDeletePreset(deleted, undoButton) {
-        let preset = deleted.pop();
-        preset.row.classList.remove(`esgst-hidden`);
-        preset.row.parentElement.appendChild(preset.row);
-        let presets = JSON.parse(await this.getValue(`dfPresets`, `[]`));
-        presets.push(preset.details);
-        this.setValue(`dfPresets`, JSON.stringify(presets));
-        if (deleted.length === 0) {
-            undoButton.classList.add(`esgst-hidden`);
-        }
-    }
-    async df_openExceptionPopup(exceptionCount, df, presetInput) {
-        let deleted, details, i, max, min, name, popup, preset, presets, row, table, undoButton;
-        popup = new Popup(`fa-gear`, `Manage exceptions: <i class="fa fa-question-circle" title="Exceptions are discussion that will always appear, no matter which filters are set (they still get filtered by type filters). For example, if you have a filter that only shows discussion with 100+ comments, but you have an exception for deals, all deal discussions will appear, regardless of their number of comments.\n\nEach exception works as an AND conjunction, so if you want to make an exception for deal discussions **or** poll discussions, you have to create 2 separate exceptions, otherwise the exception will be for discussions that are both deal **and** poll."></i>`, true);
-        deleted = [];
-        undoButton = insertHtml(popup.description, `beforeEnd`, `
-            <div class="esgst-clickable esgst-hidden">
-                <i class="fa fa-rotate-left"></i>
-                <span>Undo Delete</span>
-            </div>
-        `);
-        table = insertHtml(popup.scrollable, `beforeEnd`, `<div class="esgst-text-left popup__keys__list"></div>`);
-        name = presetInput.value;
-        presets = JSON.parse(await this.getValue(`dfPresets`, `[]`));
-        for (i = presets.length - 1; i >= 0 && presets[i].name !== name; --i);
-        preset = presets[i];
-        undoButton.addEventListener(`click`, this.df_undoDeleteException.bind(this, deleted, exceptionCount, df, preset, undoButton));
-        if (preset.exceptions) {
-            preset.exceptions.forEach(exception => {
-                details = ``;
-                for (let type in df.filters) {
-                    df.filters[type].forEach(filter => {
-                        if (type === `basic`) {
-                            let [maxKey, minKey] = this.gf_getKeys(filter);
-                            max = exception[maxKey];
-                            min = exception[minKey];
-                            if (typeof max !== `undefined` && typeof min !== `undefined`) {
-                                details += `${min}-${max} ${filter.name.toLowerCase()}, `;
-                            } else if (typeof max !== `undefined`) {
-                                details += `?-${max} ${filter.name.toLowerCase()}, `;
-                            } else if (typeof min !== `undefined`) {
-                                details += `${min}-? ${filter.name.toLowerCase()}, `;
-                            }
-                        } else {
-                            let key = this.gf_getKeys(filter)[0];
-                            if (exception[key]) {
-                                details += (filter.list ? `${filter.name.toLowerCase()} (${exception[`${key}List`].toLowerCase()}), ` : `${filter.name.toLowerCase()}, `);
-                            }
-                        }
-                    });
-                }
-                row = insertHtml(table, `beforeEnd`, `
-                    <div>
-                        <div class="esgst-bold esgst-clickable esgst-float-left">${exception.name}</div>
-                        <div class="esgst-clickable esgst-float-right">
-                            <i class="fa fa-edit" title="Edit exception"></i>
-                            <span title="Delete exception">
-                                <i class="fa fa-trash"></i>
-                            </span>
-                        </div>
-                        <div class="esgst-clear"></div>
-                        <div class="esgst-description">${details.slice(0, -2)}</div>
-                    </div>
-                `);
-                const heading = row.firstElementChild;
-                const editButton = heading.nextElementSibling.firstElementChild;
-                editButton.addEventListener(`click`, this.df_openManageExceptionPopup.bind(this, exception, exceptionCount, df, preset, () => popup.close()));
-                editButton.nextElementSibling.addEventListener(`click`, this.df_deleteException.bind(this, deleted, exception, exceptionCount, df, heading, preset, row, undoButton));
-            });
-        }
-        popup.description.appendChild(new ButtonSet(`green`, ``, `fa-plus`, ``, `Create Exception`, ``, this.df_openManageExceptionPopup.bind(this, {}, exceptionCount, df, preset, () => popup.close())).set);
-        popup.open();
-    }
-    df_openManageExceptionPopup(exception, exceptionCount, df, preset, callback) {
-        let basicFilters, context, typeFilters;
-        if (callback) {
-            callback();
-        }
-        const popup = new Popup(`fa-edit`, `Create/edit exception:`, true);
-        popup.scrollable.classList.add(`esgst-gf-container`, `esgst-gf-filters`, `esgst-text-left`);
-        popup.name = insertHtml(popup.description, `afterBegin`, `Name: <input type="text" value="${exception.name || ``}"/>`);
-        for (let type in df.filters) {
-            df.filters[type].forEach(filter => {
-                if (type === `basic`) {
-                    if (!basicFilters) {
-                        basicFilters = insertHtml(popup.scrollable, `beforeEnd`, `
-                            <div class="esgst-gf-basic-filters">
-                                <div>
-                                    <span class="esgst-bold">Basic Filters:</span>
-                                </div>
-                            </div>
-                        `);
-                    }
-                    let [maxKey, minKey] = this.gf_getKeys(filter);
-                    context = insertHtml(basicFilters, `beforeEnd`, `
-                        <div class="esgst-gf-basic-filter esgst-text-left">
-                            <div>${filter.name} <span class="esgst-float-right"><input type="text" value="${exception[minKey] || ``}"/> - <input type="text" value="${exception[maxKey] || ``}"/></span></div>
-                        </div>
-                    `).firstElementChild.lastElementChild;
-                    popup[minKey] = context.firstElementChild;
-                    popup[maxKey] = context.lastElementChild;
-                } else {
-                    if (!typeFilters) {
-                        typeFilters = insertHtml(popup.scrollable, `beforeEnd`, `
-                            <div class="esgst-gf-type-filters">
-                                <div>
-                                    <span class="esgst-bold">Type Filters:</span>
-                                </div>
-                            </div>
-                        `);
-                    }
-                    let key = this.gf_getKeys(filter)[0];
-                    context = insertHtml(typeFilters, `beforeEnd`, `<div class="esgst-gf-type-filter"><span></span> ${filter.name}${filter.list ? ` <input type="text" value="${exception[`${key}List`] || ``}"/>` : ``}</div>`);
-                    popup[key] = new Checkbox(context.firstElementChild, exception[key]);
-                    if (filter.list) {
-                        popup[`${key}List`] = context.lastElementChild;
-                    }
-                }
-            });
-        }
-        popup.description.appendChild(new ButtonSet(`green`, `grey`, `fa-plus`, `fa-circle-o-notch fa-spin`, `Save`, `Saving...`, this.df_saveException.bind(this, exceptionCount, df, preset, popup)).set);
-        popup.open();
-    }
-    async df_saveException(exceptionCount, df, preset, popup, callback) {
-        let exception, i, presets;
-        exception = { name: popup.name.value };
-        for (let type in df.filters) {
-            df.filters[type].forEach(filter => {
-                if (type === `basic`) {
-                    this.gf_getKeys(filter).forEach(key => {
-                        if (popup[key].value.length) {
-                            exception[key] = filter.name === `Release Date` ? new Date(popup[key].value).getTime() : parseFloat(popup[key].value);
-                        }
-                    });
-                } else {
-                    let key = this.gf_getKeys(filter)[0];
-                    if (popup[key].input.checked) {
-                        if (filter.list) {
-                            if (popup[`${key}List`].value.length) {
-                                exception[key] = 1;
-                                exception[`${key}List`] = popup[`${key}List`].value;
-                            }
-                        } else {
-                            exception[key] = 1;
-                        }
-                    }
-                }
-            });
-        }
-        if (!preset.exceptions) {
-            preset.exceptions = [];
-        }
-        for (i = preset.exceptions.length - 1; i >= 0 && preset.exceptions[i].name !== exception.name; --i);
-        if (i >= 0) {
-            preset.exceptions[i] = exception;
-        } else {
-            preset.exceptions.push(exception);
-            exceptionCount.textContent = preset.exceptions.length;
-        }
-        df.exceptions = preset.exceptions;
-        presets = JSON.parse(await this.getValue(`dfPresets`, `[]`));
-        for (i = presets.length - 1; i >= 0 && presets[i].name !== preset.name; --i);
-        presets[i] = preset;
-        await this.setValue(`dfPresets`, JSON.stringify(presets));
-        callback();
-        popup.close();
-        this.df_filterDiscussions(df);
-    }
-    async df_deleteException(deleted, exception, exceptionCount, df, heading, preset, row, undoButton, event) {
-        let deleteButton, i, presets;
-        deleteButton = event.currentTarget;
-        deleteButton.innerHTML = `<i class="fa fa-circle-o-notch fa-spin"></i>`;
-        for (i = preset.exceptions.length - 1; i >= 0 && preset.exceptions[i].name !== exception.name; --i);
-        preset.exceptions.splice(i, 1);
-        df.exceptions = preset.exceptions;
-        exceptionCount.textContent = preset.exceptions.length;
-        presets = JSON.parse(await this.getValue(`dfPresets`, `[]`));
-        for (i = presets.length - 1; i >= 0 && presets[i].name !== preset.name; --i);
-        presets[i] = preset;
-        await this.setValue(`dfPresets`, JSON.stringify(presets));
-        deleteButton.innerHTML = `<i class="fa fa-trash"></i>`;
-        row.classList.add(`esgst-hidden`);
-        deleted.push({
-            details: exception,
-            row: row
-        });
-        undoButton.classList.remove(`esgst-hidden`);
-        this.df_filterDiscussions(df);
-    }
-    async df_undoDeleteException(deleted, exceptionCount, df, preset, undoButton) {
-        let exception, i, presets;
-        exception = deleted.pop();
-        exception.row.classList.remove(`esgst-hidden`);
-        exception.row.parentElement.appendChild(exception.row);
-        preset.exceptions.push(exception.details);
-        df.exceptions = preset.exceptions;
-        exceptionCount.textContent = preset.exceptions.length;
-        presets = JSON.parse(await this.getValue(`dfPresets`, `[]`));
-        for (i = presets.length - 1; i >= 0 && presets[i].name !== preset.name; --i);
-        presets[i] = preset;
-        this.setValue(`dfPresets`, JSON.stringify(presets));
-        if (deleted.length === 0) {
-            undoButton.classList.add(`esgst-hidden`);
-        }
-    }
-    df_filterDiscussions(df, unfilter, endless) {
-        if (!unfilter && !esgst[`df_enable${df.type}`]) return;
-        let key;
-        for (key in df.counters) {
-            df.counters[key].textContent = `0`;
-        }
-        esgst.mainDiscussions.forEach(discussion => {
-            if (unfilter) {
-                if (discussion.outerWrap.classList.contains(`esgst-hidden`)) {
-                    discussion.outerWrap.classList.remove(`esgst-hidden`);
-                }
-            } else if (this.df_filterDiscussion(df, discussion)) {
-                if (!discussion.outerWrap.classList.contains(`esgst-hidden`)) {
-                    discussion.outerWrap.classList.add(`esgst-hidden`);
-                }
-            } else if (discussion.outerWrap.classList.contains(`esgst-hidden`)) {
-                discussion.outerWrap.classList.remove(`esgst-hidden`);
-            }
-        });
-        this.df_updateCount(df, endless);
-    }
-    df_filterException(filters, exception, discussion) {
-        let filtered, i, j, key, maxKey, minKey, n;
-        filtered = false;
-        for (i = 0, n = filters.basic.length; !filtered && i < n; ++i) {
-            [maxKey, minKey, key] = this.gf_getKeys(filters.basic[i], true);
-            if (typeof exception[minKey] !== `undefined`) {
-                filtered = discussion[key] >= exception[minKey] ? false : true;
-            }
-            if (!filtered && typeof exception[maxKey] !== `undefined`) {
-                filtered = discussion[key] <= exception[maxKey] ? false : true;
-            }
-        }
-        for (i = 0, n = filters.type.length; !filtered && i < n; ++i) {
-            key = this.gf_getKeys(filters.type[i])[0];
-            let value;
-            if (filters.type[i].list) {
-                if (discussion[key] && exception[`${key}List`]) {
-                    let list = exception[`${key}List`].toLowerCase().split(/,\s/);
-                    for (j = list.length - 1; j > -1 && discussion[key].indexOf(list[j]) < 0; --j);
-                    value = j >= 0;
-                } else {
-                    value = false;
-                }
-            } else {
-                value = discussion[key];
-            }
-            if (exception[key]) {
-                filtered = value ? false : true;
-            }
-        }
-        return filtered;
-    }
-    df_filterDiscussion(df, discussion) {
-        let counterKey, filtered, i, j, key, maxKey, minKey, n, override;
-        let filters = df.filters;
-        if (!filters) {
-            filters = this.df_getFilters();
-        }
-        filtered = false;
-        override = 0;
-        for (i = 0, n = filters.basic.length; i < n && (!filtered || !override); ++i) {
-            [maxKey, minKey, key] = this.gf_getKeys(filters.basic[i], true);
-            if (discussion[key] < df[minKey] || discussion[key] > df[maxKey]) {
-                filtered = true;
-                override = df.overrides[key];
-                counterKey = key;
-            }
-        }
-        for (i = 0, n = filters.type.length; i < n && (!filtered || !override); ++i) {
-            key = this.gf_getKeys(filters.type[i])[0];
-            let value;
-            if (filters.type[i].list) {
-                if (discussion[key] && df[`${key}List`]) {
-                    let list = df[`${key}List`].toLowerCase().split(/,\s/);
-                    for (j = list.length - 1; j > -1 && discussion[key].indexOf(list[j]) < 0; --j);
-                    value = j >= 0;
-                } else {
-                    value = false;
-                }
-            } else {
-                value = discussion[key];
-            }
-            if ((df[key] === `disabled` && value) || (df[key] === `none` && !value)) {
-                filtered = true;
-                override = df.overrides[key];
-                if (!counterKey) {
-                    counterKey = key;
-                }
-            }
-        }
-        if (df.exceptions && !override) {
-            for (i = df.exceptions.length - 1; i >= 0 && filtered; --i) {
-                filtered = this.df_filterException(filters, df.exceptions[i], discussion);
-            }
-        }
-        if (filtered && df.counters && df.counters[counterKey]) {
-            df.counters[counterKey].textContent = parseInt(df.counters[counterKey].textContent) + 1;
-        }
-        return filtered;
-    }
-    df_updateCount(df, endless) {
-        let filtered, discussion, i;
-        filtered = 0;
-        for (i = esgst.mainDiscussions.length - 1; i > -1; --i) {
-            discussion = esgst.mainDiscussions[i];
-            if (document.body.contains(discussion.outerWrap) || endless) {
-                if (discussion.outerWrap.classList.contains(`esgst-hidden`)) {
-                    filtered += 1;
-                }
-            } else {
-                esgst.mainDiscussions.splice(i, 1);
-            }
-        }
-        df.filteredCount.textContent = filtered;
-        df.paginationFilteredCount.textContent = filtered;
     }
     dh() {
         new Process({
@@ -13681,10 +12889,10 @@ class ESGST {
                 }
             }
             if (esgst.gf && esgst.gf.filteredCount && esgst[`gf_enable${esgst.gf.type}`]) {
-                this.gf_filterGiveaways(esgst.gf);
+                this.filters_filter(esgst.gf);
             }
             if (esgst.gfPopup && esgst.gfPopup.filteredCount && esgst[`gf_enable${esgst.gfPopup.type}`]) {
-                this.gf_filterGiveaways(esgst.gfPopup);
+                this.filters_filter(esgst.gfPopup);
             }
             if (callback) {
                 callback();
@@ -13721,10 +12929,10 @@ class ESGST {
                 giveaway.gbButton.button.classList.remove(`esgst-hidden`);
             }
             if (esgst.gf && esgst.gf.filteredCount && esgst[`gf_enable${esgst.gf.type}`]) {
-                this.gf_filterGiveaways(esgst.gf);
+                this.filters_filter(esgst.gf);
             }
             if (esgst.gfPopup && esgst.gfPopup.filteredCount && esgst[`gf_enable${esgst.gfPopup.type}`]) {
-                this.gf_filterGiveaways(esgst.gfPopup);
+                this.filters_filter(esgst.gfPopup);
             }
             if (callback) {
                 callback();
@@ -13903,10 +13111,10 @@ class ESGST {
                 await this.endless_load(es.mainContext, true, null, currentPage);
                 this.es_setRemoveEntry(es.mainContext);
                 if (esgst.gf && esgst.gf.filteredCount) {
-                    this.gf_updateCount(esgst.gf);
+                    this.filters_updateCount(esgst.gf);
                 }
                 if (esgst.df && esgst.df.filteredCount) {
-                    this.df_updateCount(esgst.df);
+                    this.filters_updateCount(esgst.df);
                 }
                 if (esgst.ts && !esgst.us) {
                     this.ts_sortTables();
@@ -14122,10 +13330,10 @@ class ESGST {
                 <i class="fa fa-refresh"></i>
             `;
             if (esgst.gf && esgst.gf.filteredCount) {
-                this.gf_updateCount(esgst.gf);
+                this.filters_updateCount(esgst.gf);
             }
             if (esgst.df && esgst.df.filteredCount) {
-                this.df_updateCount(esgst.df);
+                this.filters_updateCount(esgst.df);
             }
             if (esgst.ts && !esgst.us) {
                 this.ts_sortTables();
@@ -14819,7 +14027,7 @@ class ESGST {
                 this.gas(heading);
             }
             if (esgst.gf && esgst.gf_m) {
-                heading.appendChild(this.gf_addContainer(heading, `Gb`));
+                heading.appendChild(this.filters_addContainer(`gf`, heading, `Gb`));
             }
             if (esgst.mm) {
                 this.mm(heading);
@@ -15121,7 +14329,7 @@ class ESGST {
                         if (giveaway.releaseDate === `?`) {
                             giveaway.releaseDate = -1;
                         } else {
-                            giveaway.releaseDate = parseInt(giveaway.releaseDate);
+                            giveaway.releaseDate = parseInt(giveaway.releaseDate) * 1e3;
                         }
                     } else if (id === `genres`) {
                         giveaway.genres = category.textContent.toLowerCase().trim().replace(/\s{2,}/g, `, `).split(/,\s/);
@@ -15131,7 +14339,7 @@ class ESGST {
                         giveaway[id] = true;
                     }
                 } else if (id === `rating`) {
-                    giveaway.rating = 0;
+                    giveaway.rating = -1;
                 } else if (id === `releaseDate`) {
                     giveaway.releaseDate = -1;
                 }
@@ -15217,10 +14425,10 @@ class ESGST {
             giveaway.gcReady = true;
         }
         if (esgst.gf && esgst.gf.filteredCount && esgst[`gf_enable${esgst.gf.type}`]) {
-            this.gf_filterGiveaways(esgst.gf, false, endless);
+            this.filters_filter(esgst.gf, false, endless);
         }
         if (esgst.gfPopup && esgst.gfPopup.filteredCount && esgst[`gf_enable${esgst.gfPopup.type}`]) {
-            this.gf_filterGiveaways(esgst.gfPopup);
+            this.filters_filter(esgst.gfPopup);
         }
     }
     async gc_getCategories(gc, id, type) {
@@ -15622,7 +14830,7 @@ class ESGST {
                     case `gc_rd`:
                         if (cache && cache.releaseDate) {
                             elements.push(`
-                                <a class="esgst-gc esgst-gc-releaseDate" data-id="gc_rd" data-timestamp="${cache.releaseDate / 1e3}" href="http://store.steampowered.com/${singularType}/${id}" title="${this.getFeatureTooltip(`gc_rd`, `Release Date`)}">
+                                <a class="esgst-gc esgst-gc-releaseDate" data-id="gc_rd" data-timestamp="${cache.releaseDate === `?` ? cache.releaseDate : (cache.releaseDate / 1e3)}" href="http://store.steampowered.com/${singularType}/${id}" title="${this.getFeatureTooltip(`gc_rd`, `Release Date`)}">
                                     <i class="fa fa-${esgst.gc_rdIcon}"></i> ${this.gc_formatDate(cache.releaseDate)}
                                 </a>
                             `);
@@ -16207,7 +15415,7 @@ class ESGST {
                 this.gas(heading);
             }
             if (esgst.gf && esgst.gf_m) {
-                heading.appendChild(this.gf_addContainer(heading, `Ge`));
+                heading.appendChild(this.filters_addContainer(`gf`, heading, `Ge`));
             }
             if (esgst.mm) {
                 this.mm(heading);
@@ -16474,7 +15682,7 @@ class ESGST {
                 this.gas(heading);
             }
             if (esgst.gf && esgst.gf_m) {
-                heading.appendChild(this.gf_addContainer(heading, `Ged`));
+                heading.appendChild(this.filters_addContainer(`gf`, heading, `Ged`));
             }
             if (esgst.mm) {
                 this.mm(heading);
@@ -16772,12 +15980,12 @@ class ESGST {
         if (esgst.gf_m && (esgst.giveawaysPath || esgst.createdPath || esgst.enteredPath || esgst.wonPath || esgst.groupPath || esgst.userPath)) {
             if (esgst.hideButtons && esgst.hideButtons_gf) {
                 if (esgst.leftButtonIds.indexOf(`gf`) > -1) {
-                    esgst.leftButtons.insertBefore(this.gf_addContainer(esgst.mainPageHeading), esgst.leftButtons.firstElementChild);
+                    esgst.leftButtons.insertBefore(this.filters_addContainer(`gf`, esgst.mainPageHeading), esgst.leftButtons.firstElementChild);
                 } else {
-                    esgst.rightButtons.appendChild(this.gf_addContainer(esgst.mainPageHeading));
+                    esgst.rightButtons.appendChild(this.filters_addContainer(`gf`, esgst.mainPageHeading));
                 }
             } else {
-                esgst.mainPageHeading.insertBefore(this.gf_addContainer(esgst.mainPageHeading), esgst.mainPageHeading.firstElementChild);
+                esgst.mainPageHeading.insertBefore(this.filters_addContainer(`gf`, esgst.mainPageHeading), esgst.mainPageHeading.firstElementChild);
             }
         }
         if (location.pathname.match(/^\/account\/settings\/giveaways$/) && (esgst.gf_os || esgst.gf_alreadyOwned || esgst.gf_dlcMissingBase || esgst.gf_aboveLevel || esgst.gf_manuallyFiltered)) {
@@ -16798,14 +16006,6 @@ class ESGST {
                 }
                 this.setValue(`settings`, JSON.stringify(esgst.settings));
             });
-        }
-    }
-    gf_getKeys(filter, includeKey) {
-        if (filter.maxValue || filter.minValue || filter.infinite) {
-            let key = filter.name.replace(/[^A-Za-z]|\s/g, ``);
-            return includeKey ? [`max${key}`, `min${key}`, key.replace(/^(.)/, (m, p1) => { return p1.toLowerCase(); })] : [`max${key}`, `min${key}`];
-        } else {
-            return [filter.name.replace(/[^A-Za-z]|Base|\s/g, ``).replace(/DLC/, `dlc`).replace(/SG/, `sg`).replace(/^(.)/, (m, p1) => { return p1.toLowerCase(); })];
         }
     }
     gf_getGiveaways(giveaways, main, source) {
@@ -16867,327 +16067,336 @@ class ESGST {
         }
         return true;
     }
-    gf_setOverride(gf, context, key) {
-        let button;
-        button = insertHtml(context, `afterBegin`, `<span class="esgst-gf-override"></span>`);
-        gf.overrideButtons[key] = {
-            change: () => {
-                if (typeof gf.overrides[key] === `undefined`) {
-                    gf.overrides[key] = 0;
+    gf_getFilters(popup) {
+        return {
+            basic: [
+                {
+                    check: (!esgst.parameters.level_min && !esgst.parameters.level_max) && (((!esgst.createdPath || esgst.cewgd) && (!esgst.enteredPath || esgst.cewgd) && (!esgst.wonPath || esgst.cewgd)) || popup),
+                    key: `level`,
+                    maxValue: 10,
+                    minValue: 0,
+                    name: `Level`
+                },
+                {
+                    check: (!esgst.parameters.entry_min && !esgst.parameters.entry_max) && (!esgst.wonPath || popup),
+                    key: `entries`,
+                    minValue: 0,
+                    name: `Entries`
+                },
+                {
+                    check: (!esgst.parameters.copy_min && !esgst.parameters.copy_max) && (!esgst.wonPath || popup),
+                    key: `copies`,
+                    minValue: 1,
+                    name: `Copies`
+                },
+                {
+                    check: (!esgst.parameters.point_min && !esgst.parameters.point_max) && (((!esgst.createdPath || esgst.cewgd) && (!esgst.enteredPath || esgst.cewgd) && (!esgst.wonPath || esgst.cewgd)) || popup),
+                    key: `points`,
+                    maxValue: 100,
+                    minValue: 0,
+                    name: `Points`
+                },
+                {
+                    check: popup || (!esgst.createdPath && !esgst.enteredPath && !esgst.wonPath),
+                    minValue: 0,
+                    key: `comments`,
+                    name: `Comments`
+                },
+                {
+                    check: !esgst.wonPath || popup,
+                    key: `minutesToEnd`,
+                    minValue: 0,
+                    name: `Minutes To End`
+                },
+                {
+                    check: ((!esgst.enteredPath || esgst.cewgd) && !esgst.createdPath && !esgst.wonPath) || popup,
+                    key: `chance`,
+                    maxValue: 100,
+                    minValue: 0,
+                    name: `Chance`,
+                    step: 0.01
+                },
+                {
+                    check: ((!esgst.enteredPath || esgst.cewgd) && !esgst.createdPath && !esgst.wonPath) || popup,
+                    key: `chancePerPoint`,
+                    maxValue: 100,
+                    minValue: 0,
+                    name: `Chance Per Point`,
+                    step: 0.01
+                },
+                {
+                    check: ((!esgst.enteredPath || esgst.cewgd) && !esgst.createdPath && !esgst.wonPath) || popup,
+                    key: `ratio`,
+                    minValue: 0,
+                    name: `Ratio`
+                },
+                {
+                    category: `gc_r`,
+                    check: true,
+                    key: `rating`,
+                    maxValue: 100,
+                    minValue: 0,
+                    name: `Rating`
+                },
+                {
+                    category: `gc_rd`,
+                    check: !esgst.parameters.release_date_min && !esgst.parameters.release_date_max,
+                    date: true,
+                    key: `releaseDate`,
+                    name: `Release Date`
                 }
-                gf.overrideButtons[key].value = gf.overrides[key];
-                if (gf.overrideButtons[key].value) {
-                    button.innerHTML = `<i class="fa fa-exclamation" title="Click to make this filter overridable"></i>`;
-                } else {
-                    button.innerHTML = `<i class="fa fa-exclamation esgst-faded" title="Click to make this filter non-overridable"></i>`;
+            ],
+            type: [
+                {
+                    check: esgst.giveawaysPath,
+                    key: `pinned`,
+                    name: `Pinned`
+                },
+                {
+                    check: ((!esgst.createdPath || esgst.cewgd) && (!esgst.enteredPath || esgst.cewgd) && (!esgst.wonPath || esgst.cewgd)) || popup,
+                    key: `inviteOnly`,
+                    name: `Invite Only`
+                },
+                {
+                    check: ((!esgst.createdPath || esgst.cewgd) && (!esgst.enteredPath || esgst.cewgd) && (!esgst.wonPath || esgst.cewgd)) || popup,
+                    key: `group`,
+                    name: `Group`
+                },
+                {
+                    check: ((!esgst.createdPath || esgst.cewgd) && (!esgst.enteredPath || esgst.cewgd) && (!esgst.wonPath || esgst.cewgd)) || popup,
+                    key: `whitelist`,
+                    name: `Whitelist`
+                },
+                {
+                    check: ((!esgst.createdPath || esgst.cewgd) && (!esgst.enteredPath || esgst.cewgd) && (!esgst.wonPath || esgst.cewgd)) || popup,
+                    key: `regionRestricted`,
+                    name: `Region Restricted`
+                },
+                {
+                    check: (!esgst.createdPath && !esgst.enteredPath && !esgst.wonPath) || popup,
+                    key: `created`,
+                    name: `Created`
+                },
+                {
+                    check: esgst.createdPath,
+                    key: `received`,
+                    name: `Received`
+                },
+                {
+                    check: esgst.createdPath,
+                    key: `notReceived`,
+                    name: `Not Received`
+                },
+                {
+                    check: esgst.createdPath,
+                    key: `awaitingFeedback`,
+                    name: `Awaiting Feedback`
+                },
+                {
+                    check: (!esgst.createdPath && !esgst.enteredPah && !esgst.wonPath) || popup,
+                    key: `entered`,
+                    name: `Entered`
+                },
+                {
+                    check: (!esgst.enteredPath && !esgst.wonPath) || popup,
+                    key: `started`,
+                    name: `Started`
+                },
+                {
+                    check: !esgst.wonPath || popup,
+                    key: `ended`,
+                    name: `Ended`
+                },
+                {
+                    check: esgst.createdPath || esgst.enteredPath,
+                    key: `deleted`,
+                    name: `Deleted`
+                },
+                {
+                    check: true,
+                    key: `owned`,
+                    name: `Owned`
+                },
+                {
+                    check: true,
+                    key: `wishlisted`,
+                    name: `Wishlisted`
+                },
+                {
+                    check: true,
+                    key: `hidden`,
+                    name: `Hidden`
+                },
+                {
+                    check: true,
+                    key: `ignored`,
+                    name: `Ignored`
+                },
+                {
+                    check: true,
+                    key: `previouslyEntered`,
+                    name: `Previously Entered`
+                },
+                {
+                    check: true,
+                    key: `previouslyWon`,
+                    name: `Previously Won`
+                },
+                {
+                    check: true,
+                    key: `fullCV`,
+                    name: `Full CV`
+                },
+                {
+                    check: true,
+                    key: `reducedCV`,
+                    name: `Reduced CV`
+                },
+                {
+                    check: true,
+                    key: `noCV`,
+                    name: `No CV`
+                },
+                {
+                    check: esgst.ge,
+                    key: `sgTools`,
+                    name: `SGTools`
+                },
+                {
+                    check: esgst.ggl && esgst.ggl_index === 0,
+                    key: `groups`,
+                    list: true,
+                    name: `Groups`
+                },
+                {
+                    check: true,
+                    key: `creators`,
+                    list: true,
+                    name: `Creators`
                 }
-            }
+            ],
+            category: [
+                {
+                    id: `gc_rm`,
+                    key: `removed`,
+                    name: `Removed`
+                },
+                {
+                    id: `gc_tc`,
+                    key: `tradingCards`,
+                    name: `Trading Cards`
+                },
+                {
+                    id: `gc_a`,
+                    key: `achievements`,
+                    name: `Achievements`
+                },
+                {
+                    id: `gc_mp`,
+                    key: `multiplayer`,
+                    name: `Multiplayer`
+                },
+                {
+                    id: `gc_sc`,
+                    key: `steamCloud`,
+                    name: `Steam Cloud`
+                },
+                {
+                    id: `gc_l`,
+                    key: `linux`,
+                    name: `Linux`
+                },
+                {
+                    id: `gc_m`,
+                    key: `mac`,
+                    name: `Mac`
+                },
+                {
+                    id: `gc_dlc`,
+                    key: `dlc`,
+                    name: `DLC`
+                },
+                {
+                    id: `gc_dlc_b`,
+                    key: `dlcFree`,
+                    name: `DLC (Free Base)`
+                },
+                {
+                    id: `gc_dlc_b`,
+                    key: `dlcNonFree`,
+                    name: `DLC (Non-Free Base)`
+                },
+                {
+                    id: `gc_p`,
+                    key: `package`,
+                    name: `Package`
+                },
+                {
+                    id: `gc_ea`,
+                    key: `earlyAccess`,
+                    name: `Early Access`
+                },
+                {
+                    id: `gc_g`,
+                    key: `genres`,
+                    list: true,
+                    name: `Genres`
+                }
+            ]
         };
-        gf.overrideButtons[key].change();
-        button.addEventListener(`click`, () => {
-            gf.overrides[key] = gf.overrideButtons[key].value ? 0 : 1;
-            gf.overrideButtons[key].change();
-            this.gf_filterGiveaways(gf);
-        });
     }
-    gf_addContainer(heading, popup) {
-        let basicFilter, basicFilters, box, button, categoryFilter, categoryFilters, collapseButton, display, exceptionButton, exceptionCount, exceptionPanel, expandButton, filters, gf, headingButton, i, id, infinite, key, maxKey, maxSavedValue, maxValue, minKey, minSavedValue, minValue, name, preset, presetButton, presetDisplay, presetInput, presetMessage, presetPanel, presets, presetWarning, sgFilters, slider, step, toggleSwitch, typeFilter, typeFilters, value;
-        gf = {
-            counters: {},
-            filter: this.gf_filterGiveaways.bind(this),
-            filters: {
-                basic: [
-                    {
-                        check: (!esgst.parameters.level_min && !esgst.parameters.level_max) && (((!esgst.createdPath || esgst.cewgd) && (!esgst.enteredPath || esgst.cewgd) && (!esgst.wonPath || esgst.cewgd)) || popup),
-                        maxValue: 10,
-                        minValue: 0,
-                        name: `Level`
-                    },
-                    {
-                        check: (!esgst.parameters.entry_min && !esgst.parameters.entry_max) && (!esgst.wonPath || popup),
-                        infinite: true,
-                        minValue: 0,
-                        name: `Entries`
-                    },
-                    {
-                        check: (!esgst.parameters.copy_min && !esgst.parameters.copy_max) && (!esgst.wonPath || popup),
-                        infinite: true,
-                        minValue: 1,
-                        name: `Copies`
-                    },
-                    {
-                        check: (!esgst.parameters.point_min && !esgst.parameters.point_max) && (((!esgst.createdPath || esgst.cewgd) && (!esgst.enteredPath || esgst.cewgd) && (!esgst.wonPath || esgst.cewgd)) || popup),
-                        maxValue: 100,
-                        minValue: 0,
-                        name: `Points`
-                    },
-                    {
-                        check: popup || (!esgst.createdPath && !esgst.enteredPath && !esgst.wonPath),
-                        infinite: true,
-                        minValue: 0,
-                        name: `Comments`
-                    },
-                    {
-                        check: !esgst.wonPath || popup,
-                        infinite: true,
-                        minValue: 0,
-                        name: `Minutes To End`
-                    },
-                    {
-                        check: ((!esgst.enteredPath || esgst.cewgd) && !esgst.createdPath && !esgst.wonPath) || popup,
-                        maxValue: 100,
-                        minValue: 0,
-                        name: `Chance`,
-                        step: 0.01
-                    },
-                    {
-                        check: ((!esgst.enteredPath || esgst.cewgd) && !esgst.createdPath && !esgst.wonPath) || popup,
-                        maxValue: 100,
-                        minValue: 0,
-                        name: `Chance Per Point`,
-                        step: 0.01
-                    },
-                    {
-                        check: ((!esgst.enteredPath || esgst.cewgd) && !esgst.createdPath && !esgst.wonPath) || popup,
-                        infinite: true,
-                        minValue: 0,
-                        name: `Ratio`
-                    },
-                    {
-                        check: true,
-                        maxValue: 100,
-                        minValue: 0,
-                        name: `Rating`
-                    },
-                    {
-                        check: !esgst.parameters.release_date_min && !esgst.parameters.release_date_max,
-                        infinite: true,
-                        name: `Release Date`
-                    }
-                ],
-                type: [
-                    {
-                        check: esgst.giveawaysPath,
-                        name: `Pinned`
-                    },
-                    {
-                        check: ((!esgst.createdPath || esgst.cewgd) && (!esgst.enteredPath || esgst.cewgd) && (!esgst.wonPath || esgst.cewgd)) || popup,
-                        name: `Invite Only`
-                    },
-                    {
-                        check: ((!esgst.createdPath || esgst.cewgd) && (!esgst.enteredPath || esgst.cewgd) && (!esgst.wonPath || esgst.cewgd)) || popup,
-                        name: `Group`
-                    },
-                    {
-                        check: ((!esgst.createdPath || esgst.cewgd) && (!esgst.enteredPath || esgst.cewgd) && (!esgst.wonPath || esgst.cewgd)) || popup,
-                        name: `Whitelist`
-                    },
-                    {
-                        check: ((!esgst.createdPath || esgst.cewgd) && (!esgst.enteredPath || esgst.cewgd) && (!esgst.wonPath || esgst.cewgd)) || popup,
-                        name: `Region Restricted`
-                    },
-                    {
-                        check: (!esgst.createdPath && !esgst.enteredPath && !esgst.wonPath) || popup,
-                        name: `Created`
-                    },
-                    {
-                        check: esgst.createdPath,
-                        name: `Received`
-                    },
-                    {
-                        check: esgst.createdPath,
-                        name: `Not Received`
-                    },
-                    {
-                        check: esgst.createdPath,
-                        name: `Awaiting Feedback`
-                    },
-                    {
-                        check: (!esgst.createdPath && !esgst.enteredPah && !esgst.wonPath) || popup,
-                        name: `Entered`
-                    },
-                    {
-                        check: (!esgst.enteredPath && !esgst.wonPath) || popup,
-                        name: `Started`
-                    },
-                    {
-                        check: !esgst.wonPath || popup,
-                        name: `Ended`
-                    },
-                    {
-                        check: esgst.createdPath || esgst.enteredPath,
-                        name: `Deleted`
-                    },
-                    {
-                        check: true,
-                        name: `Owned`
-                    },
-                    {
-                        check: true,
-                        name: `Wishlisted`
-                    },
-                    {
-                        check: true,
-                        name: `Hidden`
-                    },
-                    {
-                        check: true,
-                        name: `Ignored`
-                    },
-                    {
-                        check: true,
-                        name: `Previously Entered`
-                    },
-                    {
-                        check: true,
-                        name: `Previously Won`
-                    },
-                    {
-                        check: true,
-                        name: `Full CV`
-                    },
-                    {
-                        check: true,
-                        name: `Reduced CV`
-                    },
-                    {
-                        check: true,
-                        name: `No CV`
-                    },
-                    {
-                        check: esgst.ge,
-                        name: `SGTools`
-                    },
-                    {
-                        check: esgst.ggl && esgst.ggl_index === 0,
-                        list: true,
-                        name: `Groups`
-                    },
-                    {
-                        check: true,
-                        list: true,
-                        name: `Creators`
-                    }
-                ],
-                category: [
-                    {
-                        id: `gc_rm`,
-                        name: `Removed`
-                    },
-                    {
-                        id: `gc_tc`,
-                        name: `Trading Cards`
-                    },
-                    {
-                        id: `gc_a`,
-                        name: `Achievements`
-                    },
-                    {
-                        id: `gc_mp`,
-                        name: `Multiplayer`
-                    },
-                    {
-                        id: `gc_sc`,
-                        name: `Steam Cloud`
-                    },
-                    {
-                        id: `gc_l`,
-                        name: `Linux`
-                    },
-                    {
-                        id: `gc_m`,
-                        name: `Mac`
-                    },
-                    {
-                        id: `gc_dlc`,
-                        name: `DLC`
-                    },
-                    {
-                        id: `gc_dlc_b`,
-                        name: `DLC (Free Base)`
-                    },
-                    {
-                        id: `gc_dlc_b`,
-                        name: `DLC (Non-Free Base)`
-                    },
-                    {
-                        id: `gc_p`,
-                        name: `Package`
-                    },
-                    {
-                        id: `gc_ea`,
-                        name: `Early Access`
-                    },
-                    {
-                        id: `gc_g`,
-                        list: true,
-                        name: `Genres`
-                    }
-                ]
-            },
+    filters_addContainer(id, heading, popup) {
+        const obj = {
+            filters: this[`${id}_getFilters`](popup),
+            id: id,
+            key: `${id}_presets`,
             popup: popup,
+            rules: null,
             type: popup || (esgst.groupPath ? `Groups` : (location.search.match(/type/) ? { wishlist: `Wishlist`, recommended: `Recommended`, group: `Group`, new: `New` }[location.search.match(/type=(wishlist|recommended|group|new)/)[1]] : (esgst.createdPath ? `Created` : (esgst.enteredPath ? `Entered` : (esgst.wonPath ? `Won` : (esgst.userPath ? `User` : ``))))))
         };
         if (popup) {
-            esgst.gfPopup = gf;
+            esgst[`${id}Popup`] = obj;
         } else {
-            esgst.gf = gf;
+            esgst[id] = obj;
         }
-        headingButton = document.createElement(`div`);
+
+        const headingButton = document.createElement(`div`);
         headingButton.className = `esgst-heading-button esgst-gf-heading-button`;
-        headingButton.id = `esgst-gf`;
+        headingButton.id = `esgst-${obj.id}`;
         headingButton.innerHTML = `
             <span class="esgst-gf-toggle-switch"></span>
-            <i class="fa fa-sliders" title="${this.getFeatureTooltip(`gf`, `Manage presets`)}"></i>
+            <i class="fa fa-sliders" title="${this.getFeatureTooltip(obj.id, `Manage presets`)}"></i>
         `;
-        toggleSwitch = new ToggleSwitch(headingButton.firstElementChild, `gf_enable${gf.type}`, true, ``, false, false, null, esgst[`gf_enable${gf.type}`]);
-        toggleSwitch.onEnabled = this.gf_filterGiveaways.bind(this, gf);
-        toggleSwitch.onDisabled = this.gf_filterGiveaways.bind(this, gf, true);
-        presetButton = headingButton.lastElementChild;
-        gf.container = insertHtml(heading, `afterEnd`, `
+        const toggleSwitch = new ToggleSwitch(
+            headingButton.firstElementChild,
+            `${obj.id}_enable${obj.type}`,
+            true,
+            ``,
+            false,
+            false,
+            null,
+            esgst[`${obj.id}_enable${obj.type}`]
+        );
+        const presetButton = headingButton.lastElementChild;
+
+        toggleSwitch.onEnabled = this.filters_filter.bind(this, obj);
+        toggleSwitch.onDisabled = this.filters_filter.bind(this, obj, true);
+
+        obj.container = insertHtml(heading, `afterEnd`, `
             <div class="esgst-gf-container">
                 <div class="esgst-gf-box">
                     <div class="esgst-gf-filters esgst-hidden">
-                        <div class="esgst-gf-basic-filters">
-                            <div>
-                                <span class="esgst-bold">Basic Filters:</span>
-                                <i class="fa fa-question-circle" title="'?' means that the filter is infinite. For example, if you have 10 in your min entries field and '?' in your max entries field, you will see giveaways that have 10 or more entries. You can edit the max field if you want to limit how far it goes. If you want to reset to the infinite limit, simply enter '?' again.\n\nInfinite dates work the same way, the only difference is that they will show something like 'mm/dd/yyyy' instead of '?'. Resetting dates to the infinite limit is a bit more difficult, since some browsers do not allow you to enter text in date fields. If your browser has a button to clear the date field, that will do it. If not, try pressing the backspace key when selecting the day, month and year."></i>
-                            </div>
-                        </div>
-                        <div class="esgst-gf-type-filters">
-                            <div>
-                                <span class="esgst-bold">Type Filters:</span>
-                            </div>
-                        </div>
-                        <div class="esgst-gf-category-filters esgst-hidden">
-                            <div>
-                                <span class="esgst-bold">Category Filters:</span>
-                            </div>
-                        </div>
+                        <div class="esgst-gf-left-panel"></div>
                         <div class="esgst-gf-right-panel">
-                            <div class="esgst-gf-steamgifts-filters esgst-hidden">
+                            <div class="esgst-gf-steamgifts-filters">
                                 <div>
                                     <span class="esgst-bold">SteamGifts Filters:</span>
                                 </div>
-                            </div>
-                            <div class="esgst-gf-legend-panel">
-                                <div>
-                                    <span class="esgst-bold">Legend:</span>
-                                    <i class="fa fa-question-circle" title="This legend applies to the type/category filters, except where noted"></i>
-                                </div>
-                                <div class="esgst-gf-legend"><i class="fa fa-square-o"></i> - Hide all.</div>
-                                <div class="esgst-gf-legend"><i class="fa fa-square"></i> - Show only.</div>
-                                <div class="esgst-gf-legend"><i class="fa fa-check-square"></i> - Show all.</div>
-                                <div class="esgst-gf-legend"><i class="fa fa-exclamation esgst-faded"></i> - Overridable <i class="fa fa-question-circle" title="Overridable filters can be overridden by exceptions"></i></div>
-                                <div class="esgst-gf-legend"><i class="fa fa-exclamation"></i> - Non-Overridable <i class="fa fa-question-circle" title="Non-Overridable filters cannot be overridden by exceptions"></i></div>
                             </div>
                             <br>
                             <div class="esgst-gf-preset-panel">
                                 <div>
                                     <span class="esgst-bold">Preset:</span>
-                                </div>
-                                <div>
-                                    <span></span> exceptions <i class="esgst-clickable fa fa-gear" title="Manage exceptions"></i>
                                 </div>
                                 <input class="form__input-small" type="text"/>
                                 <div class="esgst-description esgst-bold"></div>
@@ -17200,447 +16409,357 @@ class ESGST {
                     </div>
                 </div>
                 <div class="esgst-gf-button">
-                    <span>Expand</span><span class="esgst-hidden">Collapse</span> filters (<span>0</span> filtered - <span>0</span>P required to enter all unfiltered - <span></span>)
+                    <span>Expand</span><span class="esgst-hidden">Collapse</span> filters (<span>0</span> filtered ${obj.id === `gf` ? `- <span>0</span>P required to enter all unfiltered ` : ``}- <span></span>)
                 </div>
             </div>
         `);
-        box = gf.container.firstElementChild;
-        filters = box.firstElementChild;
-        basicFilters = filters.firstElementChild;
-        typeFilters = basicFilters.nextElementSibling;
-        categoryFilters = typeFilters.nextElementSibling;
-        sgFilters = categoryFilters.nextElementSibling.firstElementChild;
-        presetPanel = categoryFilters.nextElementSibling.lastElementChild;
-        exceptionPanel = presetPanel.firstElementChild.nextElementSibling;
-        exceptionCount = exceptionPanel.firstElementChild;
-        exceptionButton = exceptionCount.nextElementSibling;
-        presetInput = exceptionPanel.nextElementSibling;
-        presetMessage = presetInput.nextElementSibling;
-        presetWarning = presetMessage.nextElementSibling;
-        presetPanel.appendChild(new ButtonSet(`green`, `grey`, `fa-check`, `fa-circle-o-notch fa-spin`, `Save Preset`, `Saving...`, this.gf_savePreset.bind(this, gf, presetInput, presetMessage, presetWarning)).set);
-        button = box.nextElementSibling;
-        expandButton = button.firstElementChild;
-        collapseButton = expandButton.nextElementSibling;
-        button.addEventListener(`click`, this.gf_toggleFilters.bind(this, gf, collapseButton, expandButton, filters));
-        gf.filteredCount = collapseButton.nextElementSibling;
-        gf.pointsCount = gf.filteredCount.nextElementSibling;
-        if (!gf.popup && esgst.pagination) {
-            gf.paginationFilteredCount = insertHtml(esgst.pagination.firstElementChild, `beforeEnd`, `
+        const box = obj.container.firstElementChild;
+        obj.filtersPanel = box.firstElementChild;
+        obj.leftPanel = obj.filtersPanel.firstElementChild;
+        const rightPanel = obj.leftPanel.nextElementSibling;
+        const sgFilters = rightPanel.firstElementChild;
+        const presetPanel = rightPanel.lastElementChild;
+        obj.presetInput = presetPanel.firstElementChild.nextElementSibling;
+        obj.presetMessage = obj.presetInput.nextElementSibling;
+        obj.presetWarning = obj.presetMessage.nextElementSibling;
+        const button = box.nextElementSibling;
+        obj.expandButton = button.firstElementChild;
+        obj.collapseButton = obj.expandButton.nextElementSibling;
+        obj.filteredCount = obj.collapseButton.nextElementSibling;
+        if (obj.id === `gf`) {
+            obj.pointsCount = obj.filteredCount.nextElementSibling;
+            obj.presetDisplay = obj.pointsCount.nextElementSibling;
+        } else {
+            obj.presetDisplay = obj.filteredCount.nextElementSibling;
+        }
+
+        presetPanel.appendChild(new ButtonSet_v2({
+            color1: `green`,
+            color2: `grey`,
+            icon1: `fa-check`,
+            icon2: `fa-circle-o-notch fa-spin`,
+            title1: `Save Preset`,
+            title2: `Saving...`,
+            callback1: this.filters_savePreset.bind(this, obj)
+        }).set);
+        
+        let name = esgst[`${obj.id}_preset${obj.type}`];
+        if (name) {
+            let i;
+            for (i = esgst[obj.key].length - 1; i > -1 && esgst[obj.key][i].name !== name; i--);
+            if (i > -1) {
+                obj.rules = esgst[obj.key][i].rules;
+            }
+        }
+        if (!obj.rules) {
+            name = `Default${obj.type}`;
+            const preset = {
+                name,
+                rules: {}
+            };
+            esgst[obj.key].push(preset);
+            this.setSetting([
+                {
+                    id: `${obj.id}_preset${obj.type}`,
+                    value: name
+                },
+                {
+                    id: obj.key,
+                    value: esgst[obj.key]
+                }
+            ]);
+            obj.rules = {};
+        }
+        obj.presetDisplay.textContent = obj.presetInput.value = name;
+
+        if (!obj.popup && esgst.pagination) {
+            obj.paginationFilteredCount = insertHtml(esgst.pagination.firstElementChild, `beforeEnd`, `
                 <span>
-                    (<span class="esgst-bold">0</span> filtered by Giveaway Filters)
+                    (<span class="esgst-bold">0</span> filtered by ${obj.id === `gf` ? `Giveaway` : `Discussion`} Filters)
                 </span>
             `).firstElementChild;
         }
-        presetDisplay = gf.pointsCount.nextElementSibling;
-        presetButton.addEventListener(`click`, this.gf_openPresetPopup.bind(this, gf, exceptionCount, presetDisplay, presetInput));
-        name = esgst[`gf_preset${gf.type}`];
-        if (name) {
-            presets = JSON.parse(esgst.storage.filterPresets);
-            for (i = presets.length - 1; i >= 0 && presets[i].name !== name; --i);
-            if (i >= 0) {
-                preset = presets[i];
-                presetDisplay.textContent = presetInput.value = name;
+
+        presetButton.addEventListener(`click`, this.filters_openPresetPopup.bind(this, obj));
+        button.addEventListener(`click`, this.filters_toggleFilters.bind(this, obj));
+
+        const builderFilters = [];
+        for (const filter of obj.filters.basic) {
+            if (!filter.check) continue;
+
+            if (filter.category && (!esgst.gc || !esgst[filter.category])) continue;
+
+            if (!esgst[`${obj.id}_${filter.key}`]) continue;
+
+            const rule = {
+                id: filter.key,
+                label: filter.name,
+                operators: [
+                    `equal`,
+                    `not_equal`,
+                    `less`,
+                    `less_or_equal`,
+                    `greater`,
+                    `greater_or_equal`,
+                    `is_null`,
+                    `is_not_null`
+                ]
+            };
+            if (filter.date) {         
+                rule.plugin = `datepicker`;       
+                rule.plugin_config = {
+                    changeMonth: true,
+                    changeYear: true,
+                    dateFormat: `yy/mm/dd`
+                };
+                rule.type = `date`;
             } else {
-                preset = null;
+                rule.input = `number`;
+                if (filter.step) {
+                    rule.type = `double`;
+                } else {
+                    rule.type = `integer`;
+                }
+                rule.validation = {
+                    max: filter.maxValue,
+                    min: filter.minValue,
+                    step: filter.step
+                };
             }
-        }
-        if (!preset) {
-            name = `Default${gf.type}`;
-            preset = { name };
-            for (let type in gf.filters) {
-                gf.filters[type].forEach(filter => {
-                    this.gf_getKeys(filter).forEach(key => {
-                        preset[key] = esgst.settings[`gf_${key}${gf.type}`];
-                        if (filter.list) {
-                            preset[`${key}List`] = esgst.settings[`gf_${key}List${gf.type}`];
-                        }
-                    });
-                });
+            if (filter.category) {
+                rule.data = {
+                    category: true
+                };
             }
-            presets = JSON.parse(esgst.storage.filterPresets);
-            presets.push(preset);
-            this.setValue(`filterPresets`, JSON.stringify(presets));
-            this.setSetting(`gf_preset${gf.type}`, name);
-            presetDisplay.textContent = presetInput.value = name;
+            builderFilters.push(rule);
         }
-        if (preset.exceptions) {
-            gf.exceptions = preset.exceptions;
-            exceptionCount.textContent = preset.exceptions.length;
-        } else {
-            exceptionCount.textContent = 0;
-        }
-        gf.overrides = preset.overrides || {};
-        gf.overrideButtons = {};
-        exceptionButton.addEventListener(`click`, this.gf_openExceptionPopup.bind(this, exceptionCount, gf, presetInput));
-        gf.filters.basic.forEach(filter => {
-            if (!filter.check) return;
-            name = filter.name;
-            if ((name === `Rating` && (!esgst.gc || !esgst.gc_r)) || (name === `Release Date` && (!esgst.gc || !esgst.gc_rd))) return;
-            [maxKey, minKey, key] = this.gf_getKeys(filter, true);
-            maxValue = isSet(filter.maxValue) ? filter.maxValue : `?`;
-            minValue = isSet(filter.minValue) ? filter.minValue : `?`;
-            if (esgst[`gf_${key}`]) {
-                infinite = filter.infinite;
-                maxSavedValue = isSet(preset[maxKey]) ? preset[maxKey] : maxValue;
-                minSavedValue = isSet(preset[minKey]) ? preset[minKey] : minValue;
-                step = filter.step || 1;
-                if (infinite) {
-                    if (maxSavedValue === 43800 || maxSavedValue === 99999 || maxSavedValue === 999999 || maxSavedValue === 999999999 || (name === `Release Date` && maxSavedValue === new Date(`2070-12-31`).getTime() / 1e3)) {
-                        maxSavedValue = `?`;
-                    }
-                    if (name === `Release Date` && minSavedValue === 0) {
-                        minSavedValue = `?`;
-                    }
-                } else if (maxSavedValue > maxValue) {
-                    maxSavedValue = maxValue;
-                }
-                gf[maxKey] = maxSavedValue;
-                gf[minKey] = minSavedValue;
-                basicFilter = insertHtml(basicFilters, `beforeEnd`, `
-                    <div class="esgst-gf-basic-filter">
-                        <div>${name} <span class="esgst-gf-filter-count" title="Number of giveaways this filter is filtering">0</span> <span class="esgst-float-right"><input type="${name === `Release Date` ? `date` : `text`}" value="${name === `Release Date` && minSavedValue !== `?` ? getDate(`[YYYY]-[MM]-[DD]`, minSavedValue * 1e3) : minSavedValue}"> - <input type="${name === `Release Date` ? `date` : `text`}" value="${name === `Release Date` && maxSavedValue !== `?` ? getDate(`[YYYY]-[MM]-[DD]`, maxSavedValue * 1e3) : maxSavedValue}"></span></div>
-                        <div></div>
-                        <div></div>
-                    </div>
-                `);
-                display = basicFilter.firstElementChild;
-                this.gf_setOverride(gf, display, key);
-                slider = display.nextElementSibling;
-                if (name === `Rating`) {
-                    let toggle = new ToggleSwitch(slider.nextElementSibling, `gf_noRating`, false, `Filter games with no rating.`, false, false, null, esgst.gf_noRating);
-                    toggle.onEnabled = this.gf_filterGiveaways.bind(this, gf);
-                    toggle.onDisabled = this.gf_filterGiveaways.bind(this, gf);
-                } else if (name === `Release Date`) {
-                    let toggle = new ToggleSwitch(slider.nextElementSibling, `gf_noReleaseDate`, false, `Filter games with no release date.`, false, false, null, esgst.gf_noReleaseDate);
-                    toggle.onEnabled = this.gf_filterGiveaways.bind(this, gf);
-                    toggle.onDisabled = this.gf_filterGiveaways.bind(this, gf);
-                }
-                gf.counters[key] = display.firstElementChild.nextElementSibling;
-                gf[`${minKey}Input`] = gf.counters[key].nextElementSibling.firstElementChild;
-                gf[`${maxKey}Input`] = gf[`${minKey}Input`].nextElementSibling;
-                gf[`${maxKey}Input`].addEventListener(`change`, this.gf_changeMaxValue.bind(this, gf, infinite, maxKey, slider, step));
-                gf[`${minKey}Input`].addEventListener(`change`, this.gf_changeMinValue.bind(this, gf, infinite, minKey, slider, step));
-                if (infinite) {
-                    maxValue = maxSavedValue;
-                }
-                if (maxSavedValue === `?`) {
-                    gf[`${maxKey}Infinite`] = true;
-                }
-                if (minSavedValue === `?`) {
-                    gf[`${minKey}Infinite`] = true;
-                }
-                $(slider).slider({
-                    change: this.gf_changeSlider.bind(this, gf, maxKey, minKey),
-                    min: minValue === `?` ? 0 : minValue,
-                    max: maxValue === `?` ? (name === `Release Date` ? 5e9 : 1e3) : maxValue,
-                    range: true,
-                    slide: this.gf_slide.bind(this, gf, maxKey, minKey),
-                    step: step,
-                    values: [
-                        minSavedValue === `?` ? 0 : minSavedValue,
-                        maxSavedValue === `?` ? (name === `Release Date` ? 5e9 : 1e3) : maxSavedValue
-                    ]
-                });
+        for (const filter of obj.filters.type) {
+            if (!filter.check) continue;
+
+            if (filter.key === `regionRestricted` && esgst.parameters.region_restricted) continue;
+
+            if (!esgst[`${obj.id}_${filter.key}`]) continue;
+
+            const rule = {
+                id: filter.key,
+                label: filter.name
+            };
+            if (filter.list) {
+                rule.operators = [`contains`, `not_contains`];
+                rule.placeholder =  `Item1, Item2, ...`;
+                rule.type = `string`;
             } else {
-                gf[maxKey] = maxValue;
-                gf[minKey] = minValue;
+                rule.input = `radio`;
+                rule.operators = [`equal`],
+                rule.type = `boolean`,
+                rule.values = [`true`, `false`]
             }
-        });
-        if (basicFilters.children.length === 1) {
-            basicFilters.classList.add(`esgst-hidden`);
-        }
-        gf.filters.type.forEach(filter => {
-            if (!filter.check) return;
-            key = this.gf_getKeys(filter)[0];
-            if (key === `regionRestricted` && esgst.parameters.region_restricted) return;
-            if (esgst[`gf_${key}`]) {
-                name = filter.name;
-                typeFilter = insertHtml(typeFilters, `beforeEnd`, `
-                    <div class="esgst-gf-type-filter">
-                        <span>${name} ${filter.list ? `<input placeholder="item1, item2" type="text">` : ``}</span>
-                        <span class="esgst-gf-filter-count" title="Number of giveaways this filter is filtering">0</span>
-                    </div>
-                `);
-                value = preset[key] || `enabled`;
-                gf[key] = value;
-                gf[`${key}Checkbox`] = new Checkbox(typeFilter, value, true);
-                this.gf_setOverride(gf, typeFilter, key);
-                gf[`${key}Checkbox`].checkbox.addEventListener(`click`, this.gf_changeValue.bind(this, gf[`${key}Checkbox`], gf, key));
-                gf.counters[key] = typeFilter.lastElementChild;
-                if (filter.list) {
-                    let listKey = `${key}List`;
-                    gf[`${listKey}Input`] = typeFilter.firstElementChild.nextElementSibling.nextElementSibling.firstElementChild;
-                    value = (preset[listKey] && preset[listKey].replace(/,(?!\s)/g, `, `)) || ``;
-                    gf[listKey] = gf[`${listKey}Input`].value = value;
-                    gf[`${listKey}Input`].addEventListener(`change`, this.gf_changeValue.bind(this, gf[`${listKey}Input`], gf, listKey));
-                }
-            } else {
-                gf[key] = `enabled`;
-            }
-        });
-        if (typeFilters.children.length === 1) {
-            typeFilters.classList.add(`esgst-hidden`);
+            builderFilters.push(rule);
         }
         if (esgst.gc) {
-            categoryFilters.classList.remove(`esgst-hidden`);
-            gf.filters.category.forEach(filter => {
-                id = filter.id;
-                if (!id || (id === `gc_dlc` && esgst.parameters.dlc) || !esgst[id]) return;
-                key = this.gf_getKeys(filter)[0];
-                if (esgst[`gf_${key}`]) {
-                    name = filter.name;
-                    categoryFilter = insertHtml(categoryFilters, `beforeEnd`, `
-                        <div class="esgst-gf-category-filter">
-                            <span>${name} ${filter.list ? `<input placeholder="${name}1, ${name}2" type="text">` : ``}</span>
-                            <span class="esgst-gf-filter-count" title="Number of giveaways this filter is filtering">0</span>
-                        </div>
-                    `);
-                    value = typeof preset[key] !== `undefined` ? preset[key] : `enabled`;
-                    gf[key] = value;
-                    gf[`${key}Checkbox`] = new Checkbox(categoryFilter, value, true);
-                    this.gf_setOverride(gf, categoryFilter, key);
-                    gf[`${key}Checkbox`].checkbox.addEventListener(`click`, this.gf_changeValue.bind(this, gf[`${key}Checkbox`], gf, key));
-                    gf.counters[key] = categoryFilter.lastElementChild;
-                    if (filter.list) {
-                        let listKey = `${key}List`;
-                        gf[`${listKey}Input`] = categoryFilter.firstElementChild.nextElementSibling.nextElementSibling.firstElementChild;
-                        value = (preset[listKey] && preset[listKey].replace(/,(?!\s)/g, `, `)) || ``;
-                        gf[listKey] = gf[`${listKey}Input`].value = value;
-                        gf[`${listKey}Input`].addEventListener(`change`, this.gf_changeValue.bind(this, gf[`${listKey}Input`], gf, listKey));
-                    }
+            for (const filter of obj.filters.category) {
+                if ((filter.id === `gc_dlc` && esgst.parameters.dlc) || !esgst[filter.id]) continue;
+
+                if (!esgst[`${obj.id}_${filter.key}`]) continue;
+
+                const rule = {
+                    data: {
+                        category: true
+                    },
+                    id: filter.key,
+                    label: filter.name
+                };
+                if (filter.list) {
+                    rule.operators = [`contains`, `not_contains`];
+                    rule.placeholder =  `Item1, Item2, ...`;
+                    rule.type = `string`;
                 } else {
-                    gf[key] = `enabled`;
+                    rule.input = `radio`;
+                    rule.operators = [`equal`],
+                    rule.type = `boolean`,
+                    rule.values = [`true`, `false`]
                 }
-            });
-            if (categoryFilters.children.length === 1) {
-                categoryFilters.classList.add(`esgst-hidden`);
+                builderFilters.push(rule);
             }
         }
-        sgFilters.classList.remove(`esgst-hidden`);
-        [
-            {id: `filter_os`, key: `os`, name: `OS`},
-            {id: `filter_giveaways_exist_in_account`, key: `alreadyOwned`, name: `Already Owned`},
-            {id: `filter_giveaways_missing_base_game`, key: `dlcMissingBase`, name: `DLC Missing Base`},
-            {id: `filter_giveaways_level`, key: `aboveLevel`, name: `Above Level`},
-            {id: `filter_giveaways_additional_games`, key: `manuallyFiltered`, name: `Manually Filtered`}
-        ].forEach(filter => {
-            if (!esgst[`gf_${filter.key}`]) return;
-            let sgFilter = insertHtml(sgFilters, `beforeEnd`, `
-                <div class="esgst-gf-category-filter">
-                    <span>${filter.name}
-                    ${filter.key === `os` ? `
-                        <select>
-                            <option value="0">All</option>
-                            <option value="1">Windows</option>
-                            <option value="2">Linux</option>
-                            <option value="3">Mac</option>
-                        </select>`
-                    : ``}
-                    </span>
-                    <i class="fa fa-circle-o-notch fa-spin esgst-hidden"></i>
-                    <i class="fa fa-check esgst-green esgst-hidden"></i>
-                </div>
-            `);
-            let check = sgFilter.lastElementChild;
-            let spinning = check.previousElementSibling;
-            if (filter.key === `os`) {
-                let select = sgFilter.firstElementChild.firstElementChild;
-                select.value = esgst[filter.id];
-                select.addEventListener(`change`, async () => {
-                    check.classList.add(`esgst-hidden`);
-                    spinning.classList.remove(`esgst-hidden`);
-                    await this.setSetting(filter.id, select.value);
-                    esgst[filter.id] = select.value;
-                    await this.request({data: `filter_os=${esgst.filter_os}&filter_giveaways_exist_in_account=${esgst.filter_giveaways_exist_in_account}&filter_giveaways_missing_base_game=${esgst.filter_giveaways_missing_base_game}&filter_giveaways_level=${esgst.filter_giveaways_level}&filter_giveaways_additional_games=${esgst.filter_giveaways_additional_games}&xsrf_token=${esgst.xsrfToken}`, method: `POST`, url: `/account/settings/giveaways`});
-                    spinning.classList.add(`esgst-hidden`);
-                    check.classList.remove(`esgst-hidden`);
-                });
-            } else {
-                let checkbox = new Checkbox(sgFilter, esgst[filter.id]);
-                checkbox.checkbox.addEventListener(`click`, async () => {
-                    check.classList.add(`esgst-hidden`);
-                    spinning.classList.remove(`esgst-hidden`);
-                    await this.setSetting(filter.id, checkbox.checked ? 1 : 0);
-                    esgst[filter.id] = checkbox.checked ? 1 : 0;
-                    await this.request({data: `filter_os=${esgst.filter_os}&filter_giveaways_exist_in_account=${esgst.filter_giveaways_exist_in_account}&filter_giveaways_missing_base_game=${esgst.filter_giveaways_missing_base_game}&filter_giveaways_level=${esgst.filter_giveaways_level}&filter_giveaways_additional_games=${esgst.filter_giveaways_additional_games}&xsrf_token=${esgst.xsrfToken}`, method: `POST`, url: `/account/settings/giveaways`});
-                    spinning.classList.add(`esgst-hidden`);
-                    check.classList.remove(`esgst-hidden`);
-                });
-            }
+
+        $(obj.leftPanel).queryBuilder({
+            filters: builderFilters,
+            icons: {
+                add_group: `fa fa-plus`,
+                add_rule: `fa fa-plus`,
+                remove_group: `fa fa-times`,
+                remove_rule: `fa fa-times`,
+                error: `fa fa-exclamation`
+            },
+            plugins: {
+                [`bt-checkbox`]: {
+                    font: `fontawesome`
+                },
+                [`bt-selectpicker`]: {
+                    liveSearch: true,
+                    liveSearchNormalize: true
+                },
+                [`invert`]: {
+                    icon: `fa fa-random`
+                },
+                [`not-group`]: {
+                    icon_checked: `fa fa-check-square-o`,
+                    icon_unchecked: `fa fa-square-o`
+                },
+                [`sortable`]: {
+                    icon: `fa fa-arrows`
+                }
+            },
+            rules: (Object.keys(obj.rules).length && obj.rules) || null,
+            sort_filters: true,
         });
+        $(obj.leftPanel).on(`rulesChanged.queryBuilder`, () => {
+            try {
+                obj.rules = $(obj.leftPanel).queryBuilder(`getRules`);
+                this.filters_filter(obj);
+            } catch (e) {}
+        });
+
+        if (obj.id === `gf`) {
+            [
+                {
+                    id: `filter_os`,
+                    key: `os`,
+                    name: `OS`
+                },
+                {
+                    id: `filter_giveaways_exist_in_account`,
+                    key: `alreadyOwned`,
+                    name: `Already Owned`
+                },
+                {
+                    id: `filter_giveaways_missing_base_game`,
+                    key: `dlcMissingBase`,
+                    name: `DLC Missing Base`
+                },
+                {
+                    id: `filter_giveaways_level`,
+                    key: `aboveLevel`,
+                    name: `Above Level`
+                },
+                {
+                    id: `filter_giveaways_additional_games`,
+                    key: `manuallyFiltered`,
+                    name: `Manually Filtered`
+                }
+            ].forEach(filter => {
+                if (!esgst[`${obj.id}_${filter.key}`]) return;
+
+                const sgFilter = insertHtml(sgFilters, `beforeEnd`, `
+                    <div class="esgst-gf-category-filter">
+                        <span>${filter.name}
+                        ${filter.key === `os` ? `
+                            <select>
+                                <option value="0">All</option>
+                                <option value="1">Windows</option>
+                                <option value="2">Linux</option>
+                                <option value="3">Mac</option>
+                            </select>`
+                        : ``}
+                        </span>
+                        <i class="fa fa-circle-o-notch fa-spin esgst-hidden"></i>
+                        <i class="fa fa-check esgst-green esgst-hidden"></i>
+                    </div>
+                `);
+                const check = sgFilter.lastElementChild;
+                const spinning = check.previousElementSibling;
+                if (filter.key === `os`) {
+                    const select = sgFilter.firstElementChild.firstElementChild;
+                    select.value = esgst[filter.id];
+                    select.addEventListener(`change`, async () => {
+                        check.classList.add(`esgst-hidden`);
+                        spinning.classList.remove(`esgst-hidden`);
+                        await this.setSetting(filter.id, select.value);
+                        esgst[filter.id] = select.value;
+                        await this.request({
+                            data: `filter_os=${esgst.filter_os}&filter_giveaways_exist_in_account=${esgst.filter_giveaways_exist_in_account}&filter_giveaways_missing_base_game=${esgst.filter_giveaways_missing_base_game}&filter_giveaways_level=${esgst.filter_giveaways_level}&filter_giveaways_additional_games=${esgst.filter_giveaways_additional_games}&xsrf_token=${esgst.xsrfToken}`,
+                            method: `POST`,
+                            url: `/account/settings/giveaways`
+                        });
+                        spinning.classList.add(`esgst-hidden`);
+                        check.classList.remove(`esgst-hidden`);
+                    });
+                } else {
+                    const checkbox = new Checkbox(sgFilter, esgst[filter.id]);
+                    checkbox.checkbox.addEventListener(`click`, async () => {
+                        check.classList.add(`esgst-hidden`);
+                        spinning.classList.remove(`esgst-hidden`);
+                        await this.setSetting(filter.id, checkbox.checked ? 1 : 0);
+                        esgst[filter.id] = checkbox.checked ? 1 : 0;
+                        await this.request({
+                            data: `filter_os=${esgst.filter_os}&filter_giveaways_exist_in_account=${esgst.filter_giveaways_exist_in_account}&filter_giveaways_missing_base_game=${esgst.filter_giveaways_missing_base_game}&filter_giveaways_level=${esgst.filter_giveaways_level}&filter_giveaways_additional_games=${esgst.filter_giveaways_additional_games}&xsrf_token=${esgst.xsrfToken}`,
+                            method: `POST`,
+                            url: `/account/settings/giveaways`
+                        });
+                        spinning.classList.add(`esgst-hidden`);
+                        check.classList.remove(`esgst-hidden`);
+                    });
+                }
+            });
+        }
         if (sgFilters.children.length === 1) {
             sgFilters.classList.add(`esgst-hidden`);
         }
+
         return headingButton;
     }
-    gf_toggleFilters(obj, collapseButton, expandButton, filters) {
-        collapseButton.classList.toggle(`esgst-hidden`);
-        expandButton.classList.toggle(`esgst-hidden`);
-        filters.classList.toggle(`esgst-hidden`);
-        if (esgst.filterPlaceholder) {
-            esgst.filterPlaceholder.style.height = `${obj.container.offsetHeight}px`;
+    async filters_savePreset(obj) {
+        const name = obj.presetInput.value;
+
+        if (!name) {            
+            obj.presetWarning.classList.remove(`esgst-hidden`);
+            return;
         }
-    }
-    gf_changeMaxValue(gf, infinite, maxKey, slider, step, event) {
-        const max = $(slider).slider(`values`, 1),
-              min = $(slider).slider(`values`, 0);
-        let value = event.currentTarget.value;
-        if (infinite) {
-            if (!value || value === `?`) {
-                gf[`${maxKey}Infinite`] = true;
-                value = maxKey === `maxReleaseDate` ? 5e12 : 1e3;
-            } else {
-                gf[`${maxKey}Infinite`] = false;
-            }
-        }
-        const newValue = event.currentTarget.type === `date` ? new Date(value).getTime() / 1e3 : (step ? parseFloat(value) : parseInt(value));
-        if (newValue !== max && newValue >= min) {
-            if (infinite) {
-                $(slider).slider(`option`, `max`, newValue);
-            }
-            $(slider).slider(`values`, [min, newValue]);
-        }
-    }
-    gf_changeMinValue(gf, infinite, minKey, slider, step, event) {
-        const max = $(slider).slider(`values`, 1),
-              min = $(slider).slider(`values`, 0);
-        let value = event.currentTarget.value;
-        if (infinite && minKey === `minReleaseDate`) {
-            if (!value || value === `?`) {
-                gf[`${minKey}Infinite`] = true;
-                value = 0;
-            } else {
-                gf[`${minKey}Infinite`] = false;
-            }
-        }
-        const newValue = event.currentTarget.type === `date` ? new Date(value).getTime() / 1e3 : (step ? parseFloat(value) : parseInt(value));
-        if (newValue !== min && newValue <= max) {
-            $(slider).slider(`values`, [newValue, max]);
-        }
-    }
-    gf_changeSlider(gf, maxKey, minKey, event, ui) {
-        if (gf[`${maxKey}Infinite`] && ui.values[1] === (maxKey === `maxReleaseDate` ? 5e9 : 1e3)) {
-            gf[maxKey] = `?`;
+
+        obj.presetWarning.classList.add(`esgst-hidden`);
+        const preset = {
+            name,
+            rules: obj.rules
+        };
+        let i;
+        for (i = esgst[obj.key].length - 1; i > -1 && esgst[obj.key][i].name !== name; i--);
+        if (i > -1) {
+            esgst[obj.key][i] = preset;
         } else {
-            gf[maxKey] = ui.values[1];
+            esgst[obj.key].push(preset);
         }
-        if (minKey === `minReleaseDate` && gf[`${minKey}Infinite`] && ui.values[0] === 0) {
-            gf[minKey] = `?`;
-        } else {
-            gf[minKey] = ui.values[0];
-        }
-        gf.filter(gf);
-    }
-    gf_slide(gf, maxKey, minKey, event, ui) {
-        if (gf[`${maxKey}Infinite`] && ui.values[1] === (maxKey === `maxReleaseDate` ? 5e9 : 1e3)) {
-            gf[`${maxKey}Input`].value = `?`;
-        } else {
-            gf[`${maxKey}Input`].value = maxKey === `maxReleaseDate` ? getDate(`[YYYY]-[MM]-[DD]`, ui.values[1] * 1e3) : ui.values[1];
-        }
-        if (minKey === `minReleaseDate` && gf[`${minKey}Infinite`] && ui.values[0] === 0) {
-            gf[`${minKey}Input`].value = `?`;
-        } else {
-            gf[`${minKey}Input`].value = minKey === `minReleaseDate` ? getDate(`[YYYY]-[MM]-[DD]`, ui.values[0] * 1e3) : ui.values[0];
-        }
-    }
-    gf_changeValue(context, gf, key) {
-        if (key === `ended`) {
-            esgst.stopEs = false;
-        }
-        gf[key] = context.value;
-        this.gf_filterGiveaways(gf);
-    }
-    async gf_savePreset(gf, presetInput, presetMessage, presetWarning, callback) {
-        let exceptions, name, preset, presets;
-        name = presetInput.value;
-        if (name) {
-            presetWarning.classList.add(`esgst-hidden`);
-            preset = { name };
-            for (let type in gf.filters) {
-                gf.filters[type].forEach(filter => {
-                    this.gf_getKeys(filter).forEach(key => {
-                        if (typeof gf[key] !== `undefined`) {
-                            preset[key] = gf[key];
-                            if (filter.list) {
-                                preset[`${key}List`] = gf[`${key}List`];
-                            }
-                        }
-                    });
-                });
+        await this.setSetting([
+            {
+                id: `${obj.id}_preset${obj.type}`,
+                value: name
+            },
+            {
+                id: obj.key,
+                value: esgst[obj.key]
             }
-            preset.exceptions = gf.exceptions;
-            preset.overrides = gf.overrides;
-            presets = JSON.parse(await this.getValue(`filterPresets`, `[]`));
-            let i;
-            for (i = presets.length - 1; i >= 0 && presets[i].name !== name; --i);
-            if (i >= 0) {
-                exceptions = presets[i].exceptions;
-                if (exceptions) {
-                    preset.exceptions = exceptions;
-                }
-                presets[i] = preset;
-            } else {
-                presets.push(preset);
-            }
-            await this.setValue(`filterPresets`, JSON.stringify(presets));
-            await this.setSetting(`gf_preset${gf.type}`, name);
-            createFadeMessage(presetMessage, `Saved!`);
-            callback();
-        } else {
-            presetWarning.classList.remove(`esgst-hidden`);
-            callback();
-        }
+        ]);
+        createFadeMessage(obj.presetMessage, `Saved!`);
     }
-    async gf_openPresetPopup(gf, exceptionCount, presetDisplay, presetInput) {
-        let deleted, details, heading, hideAll, popup, renameButton, renameInput, row, showOnly, table, undoButton;
-        popup = new Popup(`fa-sliders`, `Manage presets:`, true);
-        popup.description.insertAdjacentHTML(`afterBegin`, `<div class="esgst-description">To edit a preset, apply it and save it with the same name. To rename a preset, click the edit icon, enter the new name and hit "Enter". Drag and drop presets to move them.</div>`);
-        deleted = [];
-        undoButton = insertHtml(popup.description, `beforeEnd`, `
+    async filters_openPresetPopup(obj) {
+        const popup = new Popup(`fa-sliders`, `Manage presets:`, true);
+        popup.description.insertAdjacentHTML(`afterBegin`, `
+            <div class="esgst-description">To edit a preset, apply it and save it with the same name. To rename a preset, click the edit icon, enter the new name and hit "Enter". Drag and drop presets to move them.</div>
+        `);
+        let deleted = [];
+        const undoButton = insertHtml(popup.description, `beforeEnd`, `
             <div class="esgst-clickable esgst-hidden">
                 <i class="fa fa-rotate-left"></i>
                 <span>Undo Delete</span>
             </div>
         `);
-        undoButton.addEventListener(`click`, this.gf_undoDeletePreset.bind(this, deleted, undoButton));
-        table = insertHtml(popup.scrollable, `beforeEnd`, `<div class="esgst-text-left popup__keys__list"></div>`);
-        JSON.parse(await this.getValue(`filterPresets`, `[]`)).forEach(preset => {
-            details = ``;
-            hideAll = [];
-            showOnly = [];
-            for (let type in gf.filters) {
-                gf.filters[type].forEach(filter => {
-                    if (type === `basic`) {
-                        let [maxKey, minKey] = this.gf_getKeys(filter);
-                        if (typeof preset[maxKey] !== `undefined`) {
-                            details += `${preset[minKey]}-${preset[maxKey]} ${filter.name.toLowerCase()}, `;
-                        }
-                    } else if (type !== `category` || filter.id) {
-                        let key = this.gf_getKeys(filter)[0];
-                        if (preset[key] === `disabled`) {
-                            if (filter.list && preset[`${key}List`]) {
-                                hideAll.push(`${filter.name.toLowerCase()} (${preset[`${key}List`].toLowerCase()})`);
-                            } else {
-                                hideAll.push(filter.name.toLowerCase());
-                            }
-                        } else if (preset[key] === `none`) {
-                            if (filter.list && preset[`${key}List`]) {
-                                showOnly.push(`${filter.name.toLowerCase()} (${preset[`${key}List`].toLowerCase()})`);
-                            } else {
-                                showOnly.push(filter.name.toLowerCase());
-                            }
-                        }
-                    }
-                });
-            }
-            if (hideAll.length > 0) {
-                details += `hide: ${hideAll.join(` & `)}, `;
-            }
-            if (showOnly.length > 0) {
-                details += `only show: ${showOnly.join(` & `)}, `;
-            }
-            row = insertHtml(table, `beforeEnd`, `
-                <div ${presetInput.value === preset.name ? `class="esgst-green-highlight"` : ``} draggable="true">
+        undoButton.addEventListener(`click`, this.filters_undoDeletePreset.bind(this, obj, deleted, undoButton));
+        const table = insertHtml(popup.scrollable, `beforeEnd`, `
+            <div class="esgst-text-left popup__keys__list"></div>
+        `);
+        for (const preset of esgst[obj.key]) {
+            const row = insertHtml(table, `beforeEnd`, `
+                <div ${obj.presetInput.value === preset.name ? `class="esgst-green-highlight"` : ``} draggable="true">
                     <div class="esgst-float-left">
                         <input class="esgst-hidden" type="text" value="${preset.name}"/>
                         <strong class="esgst-clickable">${preset.name}</strong>
@@ -17652,141 +16771,99 @@ class ESGST {
                         </span>
                     </div>
                     <div class="esgst-clear"></div>
-                    <div class="esgst-description">${details.slice(0, -2)}</div>
                 </div>
             `);
-            row.addEventListener(`dragstart`, this.gf_setSource.bind(this, gf, preset, row));
-            row.addEventListener(`dragenter`, this.gf_getSource.bind(this, gf, row, table));
-            row.addEventListener(`dragend`, this.gf_saveSource.bind(this, gf));
-            renameInput = row.firstElementChild.firstElementChild;
-            heading = renameInput.nextElementSibling;
-            renameInput.addEventListener(`keypress`, this.gf_renamePreset.bind(this, heading, preset, presetDisplay, presetInput));
-            heading.addEventListener(`click`, this.gf_applyPreset.bind(this, gf, exceptionCount, popup, preset, presetDisplay, presetInput));
-            renameButton = row.firstElementChild.nextElementSibling.firstElementChild;
-            renameButton.addEventListener(`click`, this.gf_showRenameInput.bind(this, heading, renameInput));
-            renameButton.nextElementSibling.addEventListener(`click`, this.gf_deletePreset.bind(this, deleted, preset, row, undoButton));
-        });
+            const renameInput = row.firstElementChild.firstElementChild;
+            const heading = renameInput.nextElementSibling;
+            const renameButton = row.firstElementChild.nextElementSibling.firstElementChild;
+
+            row.addEventListener(`dragstart`, this.filters_setSource.bind(this, obj, preset, row));
+            row.addEventListener(`dragenter`, this.filters_getSource.bind(this, obj, row, table));
+            row.addEventListener(`dragend`, this.filters_saveSource.bind(this, obj));
+            renameInput.addEventListener(`keypress`, this.filters_renamePreset.bind(this, obj, heading, preset));
+            heading.addEventListener(`click`, this.filters_applyPreset.bind(this, obj, popup, preset));
+            renameButton.addEventListener(`click`, this.filters_showRenameInput.bind(this, heading, renameInput));
+            renameButton.nextElementSibling.addEventListener(`click`, this.filters_deletePreset.bind(this, obj, deleted, preset, row, undoButton));
+        }
         popup.open();
     }
-    async gf_setSource(gf, preset, row, event) {
-        let i, presets;
+    async filters_setSource(obj, preset, row, event) {
         event.dataTransfer.setData(`text/plain`, ``);
-        gf.source = row;
-        presets = JSON.parse(await this.getValue(`filterPresets`, `[]`));
-        for (i = presets.length - 1; i >= 0 && presets[i].name !== preset.name; --i);
-        gf.sourceIndex = i;
+        obj.source = row;
+        let i;
+        for (i = esgst[obj.key].length - 1; i > -1 && esgst[obj.key][i].name !== preset.name; i--);
+        obj.sourceIndex = i;
     }
-    gf_getSource(gf, row, table) {
-        let current, i;
-        current = gf.source;
-        i = 0;
+    filters_getSource(obj, row, table) {
+        let current = obj.source;
+        let i = 0;
         do {
             current = current.previousElementSibling;
             if (current && current === row) {
-                gf.sourceNewIndex = i;
-                table.insertBefore(gf.source, row);
+                obj.sourceNewIndex = i;
+                table.insertBefore(obj.source, row);
                 return;
             }
             ++i;
         } while (current);
-        gf.sourceNewIndex = i - 1;
-        table.insertBefore(gf.source, row.nextElementSibling);
+        obj.sourceNewIndex = i - 1;
+        table.insertBefore(obj.source, row.nextElementSibling);
     }
-    async gf_saveSource(gf) {
-        let presets = JSON.parse(await this.getValue(`filterPresets`, `[]`));
-        presets.splice(gf.sourceNewIndex, 0, presets.splice(gf.sourceIndex, 1)[0]);
-        this.setValue(`filterPresets`, JSON.stringify(presets));
+    async filters_saveSource(obj) {
+        esgst[obj.key].splice(obj.sourceNewIndex, 0, esgst[obj.key].splice(obj.sourceIndex, 1)[0]);
+        await this.setSetting(obj.key, esgst[obj.key]);
     }
-    async gf_applyPreset(gf, exceptionCount, popup, preset, presetDisplay, presetInput) {
-        let checkbox, input, key;
-        for (let type in gf.filters) {
-            gf.filters[type].forEach(filter => {
-                this.gf_getKeys(filter).forEach(key => {
-                    checkbox = gf[`${key}Checkbox`];
-                    if (checkbox) {
-                        if (checkbox.isThreeState) {
-                            gf[key] = checkbox.value = preset[key];
-                            checkbox.change(false, gf[key]);
-                        } else {
-                            if (preset[key]) {
-                                gf[key] = true;
-                                checkbox.check();
-                            } else {
-                                gf[key] = false;
-                                checkbox.uncheck();
-                            }
-                        }
-                    } else {
-                        input = gf[`${key}Input`];
-                        if (input) {
-                            gf[key] = input.value = preset[key];
-                            input.dispatchEvent(new Event(`change`));
-                        }
-                    }
-                    if (filter.list) {
-                        input = gf[`${key}ListInput`];
-                        if (input) {
-                            gf[`${key}List`] = input.value = preset[`${key}List`];
-                            input.dispatchEvent(new Event(`change`));
-                        }
-                    }
-                });
-            });
-        }
-        presetDisplay.textContent = presetInput.value = preset.name;
-        if (preset.exceptions) {
-            gf.exceptions = preset.exceptions;
-            exceptionCount.textContent = preset.exceptions.length;
-        } else {
-            exceptionCount.textContent = 0;
-        }
-        gf.overrides = preset.overrides || {};
-        for (key in gf.overrideButtons) {
-            gf.overrideButtons[key].change();
-        }
-        await this.setSetting(`gf_preset${gf.type}`, preset.name);
+    async filters_applyPreset(obj, popup, preset) {
+        $(obj.leftPanel).queryBuilder(`setRules`, preset.rules);
+        obj.presetDisplay.textContent = obj.presetInput.value = preset.name;
+        await this.setSetting(`${obj.id}_preset${obj.type}`, preset.name);
         popup.close();
-        this.gf_filterGiveaways(gf);
+        this.filters_filter(obj);
     }
-    gf_showRenameInput(heading, renameInput) {
-        let value;
+    filters_showRenameInput(heading, renameInput) {
         heading.classList.add(`esgst-hidden`);
         renameInput.classList.remove(`esgst-hidden`);
-        value = renameInput.value;
+        const value = renameInput.value;
         renameInput.value = ``;
         renameInput.focus();
         renameInput.value = value;
     }
-    async gf_renamePreset(heading, preset, presetDisplay, presetInput, event) {
-        let i, newName, oldName, presets;
-        if (event.key === `Enter`) {
-            oldName = preset.name;
-            newName = event.currentTarget.value;
-            presets = JSON.parse(await this.getValue(`filterPresets`));
-            for (i = presets.length - 1; i >= 0 && presets[i].name !== oldName; --i);
-            preset.name = presets[i].name = newName;
-            this.setValue(`filterPresets`, JSON.stringify(presets));
-            heading.textContent = newName;
-            if (presetInput.value === oldName) {
-                presetDisplay.textContent = presetInput.value = newName;
-            }
-            [``, `Wishlist`, `Recommended`, `Group`, `New`, `Created`, `Entered`, `Won`, `Groups`, `User`, `Gb`, `Ge`, `Ged`].forEach(type => {
-                if (esgst[`gf_preset${type}`] === oldName) {
-                    this.setSetting(`gf_preset${type}`, newName);
-                }
-            });
-            event.currentTarget.classList.add(`esgst-hidden`);
-            heading.classList.remove(`esgst-hidden`);
+    async filters_renamePreset(obj, heading, preset, event) {
+        if (event.key !== `Enter`) return;
+
+        const oldName = preset.name;
+        const newName = event.currentTarget.value;
+        let i;
+        for (i = esgst[obj.key].length - 1; i > -1 && esgst[obj.key][i].name !== oldName; i--);
+        preset.name = esgst[obj.key][i].name = newName;
+        const values = [{
+            id: obj.key,
+            value: esgst[obj.key]
+        }];
+        heading.textContent = newName;
+        if (obj.presetInput.value === oldName) {
+            obj.presetDisplay.textContent = obj.presetInput.value = newName;
         }
+        const types = [``, `Wishlist`, `Recommended`, `Group`, `New`, `Created`, `Entered`, `Won`, `Groups`, `User`, `Gb`, `Ge`, `Ged`];
+        for (const type of types) {
+            if (esgst[`${obj.id}_preset${type}`] === oldName) {
+                values.push({
+                    id: `${obj.id}_preset${type}`,
+                    value: newName
+                });
+            }
+        }
+        event.currentTarget.classList.add(`esgst-hidden`);
+        heading.classList.remove(`esgst-hidden`);
+        await this.setSetting(values);
     }
-    async gf_deletePreset(deleted, preset, row, undoButton, event) {
-        let deleteButton, i, presets;
-        deleteButton = event.currentTarget;
+    async filters_deletePreset(obj, deleted, preset, row, undoButton, event) {
+        const deleteButton = event.currentTarget;
         deleteButton.innerHTML = `<i class="fa fa-circle-o-notch fa-spin"></i>`;
-        presets = JSON.parse(await this.getValue(`filterPresets`, `[]`));
-        for (i = presets.length - 1; i >= 0 && presets[i].name !== preset.name; --i);
-        presets.splice(i, 1);
-        this.setValue(`filterPresets`, JSON.stringify(presets));
+        let i;
+        for (i = esgst[obj.key].length - 1; i > -1 && esgst[obj.key][i].name !== preset.name; i--);
+        esgst[obj.key].splice(i, 1);
+        await this.setSetting(obj.key, esgst[obj.key]);
         deleteButton.innerHTML = `<i class="fa fa-trash"></i>`;
         row.classList.add(`esgst-hidden`);
         deleted.push({
@@ -17795,434 +16872,194 @@ class ESGST {
         });
         undoButton.classList.remove(`esgst-hidden`);
     }
-    async gf_undoDeletePreset(deleted, undoButton) {
-        let preset = deleted.pop();
+    async filters_undoDeletePreset(obj, deleted, undoButton) {
+        const preset = deleted.pop();
         preset.row.classList.remove(`esgst-hidden`);
         preset.row.parentElement.appendChild(preset.row);
-        let presets = JSON.parse(await this.getValue(`filterPresets`, `[]`));
-        presets.push(preset.details);
-        this.setValue(`filterPresets`, JSON.stringify(presets));
+        esgst[obj.key].push(preset.details);
+        await this.setSetting(obj.key, esgst[obj.key]);
         if (deleted.length === 0) {
             undoButton.classList.add(`esgst-hidden`);
         }
     }
-    async gf_openExceptionPopup(exceptionCount, gf, presetInput) {
-        let deleted, details, i, max, min, name, popup, preset, presets, row, table, undoButton;
-        popup = new Popup(`fa-gear`, `Manage exceptions: <i class="fa fa-question-circle" title="Exceptions are giveaways that will always appear, no matter which filters are set (they still get filtered by type/category filters). For example, if you have a filter that only shows giveaways with 0.5+ chance, but you have an exception for wishlist, all wishlist giveaways will appear, regardless of their chance.\n\nEach exception works as an AND conjunction, so if you want to make an exception for wishlist giveaways **or** giveaways with multiple copies, you have to create 2 separate exceptions, otherwise the exception will be for giveaways that are both wishlist **and** multiple copies."></i>`, true);
-        deleted = [];
-        undoButton = insertHtml(popup.description, `beforeEnd`, `
-            <div class="esgst-clickable esgst-hidden">
-                <i class="fa fa-rotate-left"></i>
-                <span>Undo Delete</span>
-            </div>
-        `);
-        table = insertHtml(popup.scrollable, `beforeEnd`, `<div class="esgst-text-left popup__keys__list"></div>`);
-        name = presetInput.value;
-        presets = JSON.parse(await this.getValue(`filterPresets`, `[]`));
-        for (i = presets.length - 1; i >= 0 && presets[i].name !== name; --i);
-        preset = presets[i];
-        undoButton.addEventListener(`click`, this.gf_undoDeleteException.bind(this, deleted, exceptionCount, gf, preset, undoButton));
-        if (preset.exceptions) {
-            preset.exceptions.forEach(exception => {
-                details = ``;
-                for (let type in gf.filters) {
-                    gf.filters[type].forEach(filter => {
-                        if (type === `basic`) {
-                            let [maxKey, minKey] = this.gf_getKeys(filter);
-                            max = exception[maxKey];
-                            min = exception[minKey];
-                            if (typeof max !== `undefined` && typeof min !== `undefined`) {
-                                details += `${min}-${max} ${filter.name.toLowerCase()}, `;
-                            } else if (typeof max !== `undefined`) {
-                                details += `?-${max} ${filter.name.toLowerCase()}, `;
-                            } else if (typeof min !== `undefined`) {
-                                details += `${min}-? ${filter.name.toLowerCase()}, `;
-                            }
-                        } else if (type !== `category` || filter.id) {
-                            let key = this.gf_getKeys(filter)[0];
-                            if (exception[key]) {
-                                details += (filter.list ? `${filter.name.toLowerCase()} (${exception[`${key}List`].toLowerCase()}), ` : `${filter.name.toLowerCase()}, `);
-                            }
-                        }
-                    });
-                }
-                row = insertHtml(table, `beforeEnd`, `
-                    <div>
-                        <div class="esgst-bold esgst-clickable esgst-float-left">${exception.name}</div>
-                        <div class="esgst-clickable esgst-float-right">
-                            <i class="fa fa-edit" title="Edit exception"></i>
-                            <span title="Delete exception">
-                                <i class="fa fa-trash"></i>
-                            </span>
-                        </div>
-                        <div class="esgst-clear"></div>
-                        <div class="esgst-description">${details.slice(0, -2)}</div>
-                    </div>
-                `);
-                const heading = row.firstElementChild;
-                const editButton = heading.nextElementSibling.firstElementChild;
-                editButton.addEventListener(`click`, this.gf_openManageExceptionPopup.bind(this, exception, exceptionCount, gf, preset, () => popup.close()));
-                editButton.nextElementSibling.addEventListener(`click`, this.gf_deleteException.bind(this, deleted, exception, exceptionCount, gf, heading, preset, row, undoButton));
-            });
+    filters_toggleFilters(obj) {
+        obj.collapseButton.classList.toggle(`esgst-hidden`);
+        obj.expandButton.classList.toggle(`esgst-hidden`);
+        obj.filtersPanel.classList.toggle(`esgst-hidden`);
+        if (esgst.filterPlaceholder) {
+            esgst.filterPlaceholder.style.height = `${obj.container.offsetHeight}px`;
         }
-        popup.description.appendChild(new ButtonSet(`green`, ``, `fa-plus`, ``, `Create Exception`, ``, this.gf_openManageExceptionPopup.bind(this, {}, exceptionCount, gf, preset, () => popup.close())).set);
-        popup.open();
     }
-    gf_openManageExceptionPopup(exception, exceptionCount, gf, preset, callback) {
-        let basicFilters, categoryFilters, context, typeFilters;
-        if (callback) {
-            callback();
-        }
-        const popup = new Popup(`fa-edit`, `Create/edit exception:`, true);
-        popup.scrollable.classList.add(`esgst-gf-container`, `esgst-gf-filters`, `esgst-text-left`);
-        popup.name = insertHtml(popup.description, `afterBegin`, `Name: <input type="text" value="${exception.name || ``}"/>`);
-        for (let type in gf.filters) {
-            gf.filters[type].forEach(filter => {
-                if (type === `basic`) {
-                    if (!basicFilters) {
-                        basicFilters = insertHtml(popup.scrollable, `beforeEnd`, `
-                            <div class="esgst-gf-basic-filters">
-                                <div>
-                                    <span class="esgst-bold">Basic Filters:</span>
-                                </div>
-                            </div>
-                        `);
-                    }
-                    let [maxKey, minKey] = this.gf_getKeys(filter);
-                    context = insertHtml(basicFilters, `beforeEnd`, `
-                        <div class="esgst-gf-basic-filter esgst-text-left">
-                            <div>${filter.name} <span class="esgst-float-right"><input type="text" value="${exception[minKey] || ``}"/> - <input type="text" value="${exception[maxKey] || ``}"/></span></div>
-                        </div>
-                    `).firstElementChild.lastElementChild;
-                    popup[minKey] = context.firstElementChild;
-                    popup[maxKey] = context.lastElementChild;
-                } else if (type === `type`) {
-                    if (!typeFilters) {
-                        typeFilters = insertHtml(popup.scrollable, `beforeEnd`, `
-                            <div class="esgst-gf-type-filters">
-                                <div>
-                                    <span class="esgst-bold">Type Filters:</span>
-                                </div>
-                            </div>
-                        `);
-                    }
-                    let key = this.gf_getKeys(filter)[0];
-                    context = insertHtml(typeFilters, `beforeEnd`, `<div class="esgst-gf-type-filter"><span></span> ${filter.name}${filter.list ? ` <input type="text" value="${exception[`${key}List`] || ``}"/>` : ``}</div>`);
-                    popup[key] = new Checkbox(context.firstElementChild, exception[key]);
-                    if (filter.list) {
-                        popup[`${key}List`] = context.lastElementChild;
-                    }
-                } else if (type === `category` && filter.id) {
-                    if (!categoryFilters) {
-                        categoryFilters = insertHtml(popup.scrollable, `beforeEnd`, `
-                            <div class="esgst-gf-category-filters">
-                                <div>
-                                    <span class="esgst-bold">Category Filters:</span>
-                                </div>
-                            </div>
-                        `);
-                    }
-                    let key = this.gf_getKeys(filter)[0];
-                    context = insertHtml(categoryFilters, `beforeEnd`, `<div class="esgst-gf-category-filter"><span></span> ${filter.name}${filter.list ? ` <input type="text" value="${exception[`${key}List`] || ``}"/>` : ``}</div>`);
-                    popup[key] = new Checkbox(context.firstElementChild, exception[key]);
-                    if (filter.list) {
-                        popup[`${key}List`] = context.lastElementChild;
-                    }
-                }
-            });
-        }
-        popup.description.appendChild(new ButtonSet(`green`, `grey`, `fa-plus`, `fa-circle-o-notch fa-spin`, `Save`, `Saving...`, this.gf_saveException.bind(this, exceptionCount, gf, preset, popup)).set);
-        popup.open();
-    }
-    async gf_saveException(exceptionCount, gf, preset, popup, callback) {
-        let exception, i, presets;
-        exception = { name: popup.name.value };
-        for (let type in gf.filters) {
-            gf.filters[type].forEach(filter => {
-                if (type === `basic`) {
-                    this.gf_getKeys(filter).forEach(key => {
-                        if (popup[key].value.length) {
-                            exception[key] = filter.name === `Release Date` ? new Date(popup[key].value).getTime() : parseFloat(popup[key].value);
-                        }
-                    });
-                } else if (type !== `category` || filter.id) {
-                    let key = this.gf_getKeys(filter)[0];
-                    if (popup[key].input.checked) {
-                        if (filter.list) {
-                            if (popup[`${key}List`].value.length) {
-                                exception[key] = 1;
-                                exception[`${key}List`] = popup[`${key}List`].value;
-                            }
-                        } else {
-                            exception[key] = 1;
-                        }
-                    }
-                }
-            });
-        }
-        if (!preset.exceptions) {
-            preset.exceptions = [];
-        }
-        for (i = preset.exceptions.length - 1; i >= 0 && preset.exceptions[i].name !== exception.name; --i);
-        if (i >= 0) {
-            preset.exceptions[i] = exception;
+    filters_filter(obj, unfilter, endless) {
+        if (!unfilter && !esgst[`${obj.id}_enable${obj.type}`]) return;
+
+        let items;
+        if (obj.id === `gf`) {
+            items = obj.popup ? esgst.popupGiveaways : esgst.mainGiveaways;
         } else {
-            preset.exceptions.push(exception);
-            exceptionCount.textContent = preset.exceptions.length;
+            items = obj.popup ? esgst.popupDiscussions : esgst.mainDiscussions;
         }
-        gf.exceptions = preset.exceptions;
-        presets = JSON.parse(await this.getValue(`filterPresets`, `[]`));
-        for (i = presets.length - 1; i >= 0 && presets[i].name !== preset.name; --i);
-        presets[i] = preset;
-        await this.setValue(`filterPresets`, JSON.stringify(presets));
-        callback();
-        popup.close();
-        this.gf_filterGiveaways(gf);
-    }
-    async gf_deleteException(deleted, exception, exceptionCount, gf, heading, preset, row, undoButton, event) {
-        let deleteButton, i, presets;
-        deleteButton = event.currentTarget;
-        deleteButton.innerHTML = `<i class="fa fa-circle-o-notch fa-spin"></i>`;
-        for (i = preset.exceptions.length - 1; i >= 0 && preset.exceptions[i].name !== exception.name; --i);
-        preset.exceptions.splice(i, 1);
-        gf.exceptions = preset.exceptions;
-        exceptionCount.textContent = preset.exceptions.length;
-        presets = JSON.parse(await this.getValue(`filterPresets`, `[]`));
-        for (i = presets.length - 1; i >= 0 && presets[i].name !== preset.name; --i);
-        presets[i] = preset;
-        this.setValue(`filterPresets`, JSON.stringify(presets));
-        deleteButton.innerHTML = `<i class="fa fa-trash"></i>`;
-        row.classList.add(`esgst-hidden`);
-        deleted.push({
-            details: exception,
-            row: row
-        });
-        undoButton.classList.remove(`esgst-hidden`);
-        this.gf_filterGiveaways(gf);
-    }
-    async gf_undoDeleteException(deleted, exceptionCount, gf, preset, undoButton) {
-        let exception, i, presets;
-        exception = deleted.pop();
-        exception.row.classList.remove(`esgst-hidden`);
-        exception.row.parentElement.appendChild(exception.row);
-        preset.exceptions.push(exception.details);
-        gf.exceptions = preset.exceptions;
-        exceptionCount.textContent = preset.exceptions.length;
-        presets = JSON.parse(await this.getValue(`filterPresets`, `[]`));
-        for (i = presets.length - 1; i >= 0 && presets[i].name !== preset.name; --i);
-        presets[i] = preset;
-        this.setValue(`filterPresets`, JSON.stringify(presets));
-        if (deleted.length === 0) {
-            undoButton.classList.add(`esgst-hidden`);
-        }
-    }
-    gf_filterGiveaways(gf, unfilter, endless) {
-        if (!unfilter && !esgst[`gf_enable${gf.type}`]) return;
-        let giveaways, key;
-        for (key in gf.counters) {
-            gf.counters[key].textContent = `0`;
-        }
-        giveaways = gf.popup ? esgst.popupGiveaways : esgst.mainGiveaways;
-        giveaways.forEach(giveaway => {
+        for (const item of items) {
             if (unfilter) {
-                if (giveaway.outerWrap.classList.contains(`esgst-hidden`)) {
-                    giveaway.outerWrap.classList.remove(`esgst-hidden`);
+                if (item.outerWrap.classList.contains(`esgst-hidden`)) {
+                    item.outerWrap.classList.remove(`esgst-hidden`);
                 }
-            } else if (this.gf_filterGiveaway(gf, giveaway)) {
-                if (!giveaway.outerWrap.classList.contains(`esgst-hidden`)) {
-                    giveaway.outerWrap.classList.add(`esgst-hidden`);
+            } else if (this.filters_filterItem(obj, item, obj.rules)) {
+                if (!item.outerWrap.classList.contains(`esgst-hidden`)) {
+                    item.outerWrap.classList.add(`esgst-hidden`);
                 }
-            } else if (giveaway.outerWrap.classList.contains(`esgst-hidden`)) {
-                giveaway.outerWrap.classList.remove(`esgst-hidden`);
+            } else if (item.outerWrap.classList.contains(`esgst-hidden`)) {
+                item.outerWrap.classList.remove(`esgst-hidden`);
             }
-        });
-        this.gf_updateCount(gf, endless);
-        if (esgst.gfType !== `Popup` && esgst.es_loadNext) {
+        }
+        this.filters_updateCount(obj, endless);
+        if (esgst[`${obj.id}Type`] !== `Popup` && esgst.es_loadNext) {
             esgst.es_loadNext();
         }
     }
-    gf_filterException(gf, exception, giveaway) {
-        let filtered, i, j, key, maxKey, minKey, minutes, n, value;
-        filtered = false;
-        for (i = 0, n = gf.filters.basic.length; !filtered && i < n; ++i) {
-            [maxKey, minKey, key] = this.gf_getKeys(gf.filters.basic[i], true);
-            if ((key !== `rating` && key !== `releaseDate`) || (esgst.gc && giveaway.gcReady)) {
-                if (key === `minutesToEnd`) {
-                    minutes = (giveaway.endTime - Date.now()) / 60000;
+    filters_filterItem(obj, item, rules) {
+        if (!rules || (!rules.id && (!rules.condition || !rules.valid))) return;
+
+        if (rules.condition) {
+            let check;
+            if (rules.condition === `AND`) {
+                check = true;
+                for (const rule of rules.rules) {
+                    check = check && !this.filters_filterItem(obj, item, rule);
+                    if (!check) break;
                 }
-                if (typeof exception[minKey] !== `undefined`) {
-                    if (key === `minutesToEnd`) {
-                        filtered = minutes >= exception[minKey] && !giveaway.ended ? false : true;
-                    } else {
-                        filtered = giveaway[key] >= exception[minKey] ? false : true;
-                    }
-                }
-                if (!filtered) {
-                    if (typeof exception[maxKey] !== `undefined`) {
-                        if (key === `minutesToEnd`) {
-                            filtered = minutes <= exception[maxKey] && !giveaway.ended ? false : true;
-                        } else {
-                            filtered = giveaway[key] <= exception[maxKey] ? false : true;
-                        }
-                    }
+            } else {
+                check = false;
+                for (const rule of rules.rules) {
+                    check = check || !this.filters_filterItem(obj, item, rule);
+                    if (check) break;
                 }
             }
+            return rules.not ? check : !check;
         }
-        for (i = 0, n = gf.filters.type.length; !filtered && i < n; ++i) {
-            key = this.gf_getKeys(gf.filters.type[i])[0];
-            if ((key === `regionRestricted` && !esgst.parameters.region_restricted) || key !== `regionRestricted`) {
-                if (gf.filters.type[i].list) {
-                    if (giveaway[key] && exception[`${key}List`]) {
-                        let list = exception[`${key}List`].toLowerCase().split(/,\s/);
-                        for (j = list.length - 1; j > -1 && giveaway[key].indexOf(list[j]) < 0; --j);
-                        value = j >= 0;
-                    } else {
-                        value = false;
-                    }
+
+        let filtered = false;
+        const key = rules.id;
+        switch (rules.type) {
+            case `date`:
+                rules.value = new Date(rules.value).getTime();
+            case `integer`:
+            case `double`:
+                if (key === `minutesToEnd` && (item.ended || item.deleted)) break;
+
+                if (rules.data && rules.data.category && !item.gcReady) break;
+
+                const value = key === `minutesToEnd`
+                    ? ((item.endTime - Date.now()) / 60000)
+                    : item[key];
+
+                switch (rules.operator) {
+                    case `equal`:
+                        filtered = rules.value !== value;
+                        break;
+                    case `not_equal`:
+                        filtered = rules.value === value;
+                        break;
+                    case `less`:
+                        filtered = value >= rules.value;
+                        break;
+                    case `less_or_equal`:
+                        filtered = value > rules.values;
+                        break;
+                    case `greater`:
+                        filtered = value <= rules.value;
+                        break;
+                    case `greater_or_equal`:
+                        filtered = value < rules.values;
+                        break;
+                    case `is_null`:
+                        filtered = isSet(value) && value > -1;
+                        break;
+                    case `is_not_null`:
+                        filtered = !isSet(value) || value < 0;
+                        break;
+                }
+
+                break;
+            case `boolean`:
+                if (key === `regionRestricted` && esgst.parameters.region_restricted) break;
+
+                if (key === `dlc` && esgst.parameters.dlc) break;
+
+                if (rules.data && rules.data.category && !item.gcReady) break;
+
+                if (
+                    (
+                        key !== `fullCV` || (
+                            (rules.value || item.reducedCV || item.noCV) &&
+                            (!rules.value || (!item.reducedCV && !item.noCV))
+                        )
+                    ) &&
+                    (
+                        key === `fullCV` || (
+                            (!rules.value || item[key]) && (rules.value || !item[key])
+                        )
+                    )
+                ) break;
+
+                filtered = true;
+
+                if (!item.deleted && key === `ended` && !rules.value && (esgst.createdPath || esgst.enteredPath || esgst.wonPath || esgst.userPath)) {
+                    esgst.stopEs = true;
+                }
+
+                break;
+            case `string`:
+                const list = rules.value.toLowerCase().split(/,\s/);
+
+                if (rules.operator === `contains`) {
+                    let i;
+                    for (i = list.length - 1; i > -1 && item[key].indexOf(list[i]) < 0; i--);
+                    filtered = i < 0;
                 } else {
-                    value = giveaway[key];
+                    let i;
+                    for (i = list.length - 1; i > -1 && item[key].indexOf(list[i]) < 0; i--);
+                    filtered = i > -1;
                 }
-                if (exception[key]) {
-                    filtered = (key === `fullCV` ? !giveaway.reducedCV && !giveaway.noCV : value) ? false : true;
-                }
-            }
+
+                break;
         }
-        if (esgst.gc && giveaway.gcReady) {
-            for (i = 0, n = gf.filters.category.length; !filtered && i < n; ++i) {
-                if (!gf.filters.category[i].id) continue;
-                key = this.gf_getKeys(gf.filters.category[i])[0];
-                if (gf.filters.category[i].list) {
-                    if (giveaway[key] && exception[`${key}List`]) {
-                        let list = exception[`${key}List`].toLowerCase().split(/,\s/);
-                        for (j = list.length - 1; j > -1 && giveaway[key].indexOf(list[j]) < 0; --j);
-                        value = j >= 0;
-                    } else {
-                        value = false;
-                    }
-                } else {
-                    value = giveaway[key];
-                }
-                if (exception[key]) {
-                    filtered = value ? false : true;
-                }
-            }
-        }
+
         return filtered;
     }
-    gf_filterGiveaway(gf, giveaway) {
-        let counterKey, filtered, i, j, key, maxKey, minKey, minutes, n, override, value;
-        filtered = false;
-        override = 0;
-        for (i = 0, n = gf.filters.basic.length; i < n && (!filtered || !override); ++i) {
-            [maxKey, minKey, key] = this.gf_getKeys(gf.filters.basic[i], true);
-            if (((key !== `rating` && key !== `releaseDate`) || (esgst.gc && giveaway.gcReady)) && gf[`${maxKey}Input`]) {
-                if (key === `minutesToEnd`) {
-                    if (!giveaway.ended && !giveaway.deleted) {
-                        minutes = (giveaway.endTime - Date.now()) / 60000;
-                        if (minutes < gf[minKey] || minutes > gf[maxKey]) {
-                            filtered = true;
-                            override = gf.overrides[key];
-                            counterKey = key;
-                        }
-                    }
-                } else if (giveaway[key] < gf[minKey] || giveaway[key] > gf[maxKey]) {
-                    if ((key === `rating` && (giveaway.rating !== 0 || esgst.gf_noRating)) || (key === `releaseDate` && (giveaway.releaseDate !== -1 || esgst.gf_noReleaseDate)) || (key !== `rating` && key !== `releaseDate`)) {
-                        filtered = true;
-                        override = gf.overrides[key];
-                        counterKey = key;
-                    }
-                }
-            }
+    filters_updateCount(obj, endless) {
+        let filtered = 0;
+        let points = 0;
+        let paginationFiltered = 0;
+        let key;
+        if (obj.id === `gf`) {
+            key = obj.popup ? `popupGiveaways` : `mainGiveaways`;
+        } else {
+            key = obj.popup ? `popupDiscussions` : `mainDiscussions`;
         }
-        for (i = 0, n = gf.filters.type.length; i < n && (!filtered || !override); ++i) {
-            key = this.gf_getKeys(gf.filters.type[i])[0];
-            if ((key === `regionRestricted` && !esgst.parameters.region_restricted) || key !== `regionRestricted`) {
-                if (gf.filters.type[i].list) {
-                    if (giveaway[key] && gf[`${key}List`]) {
-                        let list = gf[`${key}List`].toLowerCase().split(/,\s/);
-                        for (j = list.length - 1; j > -1 && giveaway[key].indexOf(list[j]) < 0; --j);
-                        value = j >= 0;
-                    } else {
-                        value = false;
-                    }
-                } else {
-                    value = giveaway[key];
-                }
-                if ((key === `fullCV` && ((gf.fullCV === `disabled` && !giveaway.reducedCV && !giveaway.noCV) || (gf.fullCV === `none` && (giveaway.reducedCV || giveaway.noCV)))) || (key !== `fullCV` && ((gf[key] === `disabled` && value) || (gf[key] === `none` && !value)))) {
-                    filtered = true;
-                    override = gf.overrides[key];
-                    if (!counterKey) {
-                        counterKey = key;
-                    }
-                    if (!giveaway.deleted && key === `ended` && gf.ended === `disabled` && (esgst.createdPath || esgst.enteredPath || esgst.wonPath || esgst.userPath)) {
-                        esgst.stopEs = true;
-                    }
-                }
-            }
-        }
-        if (esgst.gc && giveaway.gcReady) {
-            for (i = 0, n = gf.filters.category.length; i < n && (!filtered || !override); ++i) {
-                if (!gf.filters.category[i].id) continue;
-                key = this.gf_getKeys(gf.filters.category[i])[0];
-                if (key !== `dlc` || !esgst.parameters.dlc) {
-                    if (gf.filters.category[i].list) {
-                        if (giveaway[key] && gf[`${key}List`]) {
-                            let list = gf[`${key}List`].toLowerCase().split(/,\s/);
-                            for (j = list.length - 1; j > -1 && giveaway[key].indexOf(list[j]) < 0; --j);
-                            value = j >= 0;
-                        } else {
-                            value = false;
-                        }
-                    } else {
-                        value = giveaway[key];
-                    }
-                    if ((gf[key] === `disabled` && value) || (gf[key] === `none` && !value)) {
-                        filtered = true;
-                        override = gf.overrides[key];
-                        if (!counterKey) {
-                            counterKey = key;
-                        }
-                    }
-                }
-            }
-        }
-        if (gf.exceptions && !override) {
-            for (i = gf.exceptions.length - 1; i >= 0 && filtered; --i) {
-                filtered = this.gf_filterException(gf, gf.exceptions[i], giveaway);
-            }
-        }
-        if (filtered && gf.counters && gf.counters[counterKey]) {
-            gf.counters[counterKey].textContent = parseInt(gf.counters[counterKey].textContent) + 1;
-        }
-        return filtered;
-    }
-    gf_updateCount(gf, endless) {
-        let filtered, giveaway, i, paginationFiltered, points;
-        filtered = 0;
-        points = 0;
-        paginationFiltered = 0;
-        let key = gf.popup ? `popupGiveaways` : `mainGiveaways`;
-        for (i = esgst[key].length - 1; i > -1; --i) {
-            giveaway = esgst[key][i];
-            if (document.body.contains(giveaway.outerWrap) || endless) {
-                if (!giveaway.pinned || !esgst.pinnedGiveaways.classList.contains(`esgst-hidden`)) {
-                    if (giveaway.outerWrap.classList.contains(`esgst-hidden`)) {
-                        if (!giveaway.pinned) {
+        for (let i = esgst[key].length - 1; i > -1; i--) {
+            const item = esgst[key][i];
+            if (document.body.contains(item.outerWrap) || endless) {
+                if (!item.pinned || !esgst.pinnedGiveaways.classList.contains(`esgst-hidden`)) {
+                    if (item.outerWrap.classList.contains(`esgst-hidden`)) {
+                        if (!item.pinned) {
                             paginationFiltered += 1;
                         }
                         filtered += 1;
-                    } else if (!giveaway.entered) {
-                        points += giveaway.points;
+                    } else if (item.points && !item.entered) {
+                        points += item.points;
                     }
                 }
             } else {
                 esgst[key].splice(i, 1);
             }
         }
-        gf.filteredCount.textContent = filtered;
-        gf.pointsCount.textContent = points;
-        if (!gf.popup && gf.paginationFilteredCount) {
-            gf.paginationFilteredCount.textContent = paginationFiltered;
+        obj.filteredCount.textContent = filtered;
+        if (obj.id === `gf`) {
+            obj.pointsCount.textContent = points;
+        }
+        if (!obj.popup && obj.paginationFilteredCount) {
+            obj.paginationFilteredCount.textContent = paginationFiltered;
         }
     }
     ggl() {
@@ -24578,11 +23415,10 @@ class ESGST {
         if (esgst.df) {
             let name = esgst.df_preset;
             if (name) {
-                let presets = JSON.parse(esgst.storage.dfPresets);
                 let i;
-                for (i = presets.length - 1; i > -1 && presets[i].name !== name; i--);
+                for (i = esgst.df_presets.length - 1; i > -1 && esgst.df_presets[i].name !== name; i--);
                 if (i > -1) {
-                    preset = presets[i];
+                    preset = esgst.df_presets[i];
                 }
             }
         }
@@ -24598,14 +23434,14 @@ class ESGST {
             elements = revisedElements;
         }
         for (i = 0, j = elements.length - 1; i < 5 && j > -1; j--) {
-            if (!preset || !this.df_filterDiscussion(preset, elements[j])) {
+            if (!preset || !this.filters_filterItem(preset, elements[j], preset.rules)) {
                 discussionsRows.appendChild(elements[j].outerWrap);
                 i += 1;
             }
         }
         elements = await this.discussions_get(response2Html, true);
         for (i = 0, j = elements.length - 1; i < 5 && j > -1; j--) {
-            if (!preset || !this.df_filterDiscussion(preset, elements[j])) {
+            if (!preset || !this.filters_filterItem(preset, elements[j], preset.rules)) {
                 dealsRows.appendChild(elements[j].outerWrap);
                 i += 1;
             }
@@ -29515,10 +28351,10 @@ class ESGST {
             sortContent(esgst[esgst.gas.mainKey], esgst.gas.mainKey, esgst[esgst.gas.optionKey]);
         }
         if (esgst.gf && esgst.gf.filteredCount && esgst[`gf_enable${esgst.gf.type}`]) {
-            this.gf_filterGiveaways(esgst.gf, false, endless);
+            this.filters_filter(esgst.gf, false, endless);
         }
         if (esgst.gfPopup && esgst.gfPopup.filteredCount && esgst[`gf_enable${esgst.gfPopup.type}`]) {
-            this.gf_filterGiveaways(esgst.gfPopup);
+            this.filters_filter(esgst.gfPopup);
         }
         if (esgst.mm_enableGiveaways && esgst.mm_enable) {
             esgst.mm_enable(esgst[main ? `mainGiveaways` : `popupGiveaways`], `Giveaways`);
@@ -30096,7 +28932,7 @@ class ESGST {
         }
         if (!main || esgst.discussionsPath) {
             if (esgst.df && esgst.df.filteredCount && esgst[`df_enable${esgst.df.type}`]) {
-                this.df_filterDiscussions(esgst.df, false, endless);
+                this.filters_filter(esgst.df, false, endless);
             }
             if (esgst.ds && esgst.ds_auto) {
                 sortContent(esgst.mainDiscussions, null, esgst.ds_option);
@@ -31375,8 +30211,11 @@ class ESGST {
                 popup.title.innerHTML = `
                     <i class="fa fa-check"></i> Thanks for installing ESGST, <span>${esgst.username}</span>. You are ready to go! Click on the <span>Settings</span> link below to choose which features you want to use.
                 `;
-            } else if (esgst.showChangelog) {
-                loadChangelog(esgst.version);
+            } else {
+                if (esgst.showChangelog) {
+                    loadChangelog(esgst.version);
+                }
+                new Popup(`fa-exclamation`, `Hi! ESGST is using a new filter system since v7.20.0. This unfortunately means that you will have to reconfigure all of your filters, because the differences between the two systems are too many and an automatic data conversion was not doable. The good news is that the new system offers a much more rich filtering experience. `, true).open();
             }
             esgst.version = esgst.currentVersion;
             this.setValue(`version`, esgst.version);
@@ -31650,17 +30489,29 @@ class ESGST {
             esgst.isRepositioning = false;
         }
     }    
-    async setSetting(id, value, sg, st) {
-        const deleteLock = await this.createLock(`settingsLock`, 100),
-              settings = JSON.parse(await this.getValue(`settings`, `{}`));
-        if (sg) {
-            id = `${id}_sg`;
-        } else if (st) {
-            id = `${id}_st`;
+    async setSetting() {
+        const deleteLock = await this.createLock(`settingsLock`, 100);
+        const settings = JSON.parse(await this.getValue(`settings`, `{}`));
+        const values = Array.isArray(arguments[0])
+            ? arguments[0]
+            : [
+                {
+                    id: arguments[0],
+                    value: arguments[1],
+                    sg: arguments[2],
+                    st: arguments[3]
+                }
+            ];
+        for (const value of values) {
+            if (value.sg) {
+                value.id = `${value.id}_sg`;
+            } else if (value.st) {
+                value.id = `${value.id}_st`;
+            }
+            settings[value.id] = value.value;
+            esgst.settings[value.id] = value.value;
         }
-        settings[id] = value;
         await this.setValue(`settings`, JSON.stringify(settings));
-        esgst.settings[id] = value;
         deleteLock();
     }    
     getSetting(key, inverse) {
@@ -33046,17 +31897,16 @@ class ESGST {
             if (esgst.df) {
                 let name = esgst.df_preset;
                 if (name) {
-                    let presets = JSON.parse(esgst.storage.dfPresets);
                     let i;
-                    for (i = presets.length - 1; i > -1 && presets[i].name !== name; i--);
+                    for (i = esgst.df_presets.length - 1; i > -1 && esgst.df_presets[i].name !== name; i--);
                     if (i > -1) {
-                        preset = presets[i];
+                        preset = esgst.df_presets[i];
                     }
                 }
             }
             if (preset) {
                 (await this.discussions_get(rows[0], true)).forEach(discussion => {
-                    if (this.df_filterDiscussion(preset, discussion)) {
+                    if (this.filters_filterItem(preset, discussion, preset.rules)) {
                         discussion.outerWrap.remove();
                         filteredDiscussions += 1;
                     } else {
@@ -33064,7 +31914,7 @@ class ESGST {
                     }
                 });
                 (await this.discussions_get(rows[1], true)).forEach(deal => {
-                    if (this.df_filterDiscussion(preset, deal)) {
+                    if (this.filters_filterItem(preset, deal, preset.rules)) {
                         deal.outerWrap.remove();
                         filteredDeals += 1;
                     } else {
@@ -33085,11 +31935,10 @@ class ESGST {
             if (esgst.df) {
                 let name = esgst.df_preset;
                 if (name) {
-                    let presets = JSON.parse(esgst.storage.dfPresets);
                     let i;
-                    for (i = presets.length - 1; i > -1 && presets[i].name !== name; i--);
+                    for (i = esgst.df_presets.length - 1; i > -1 && esgst.df_presets[i].name !== name; i--);
                     if (i > -1) {
-                        preset = presets[i];
+                        preset = esgst.df_presets[i];
                     }
                 }
             }
@@ -33100,7 +31949,7 @@ class ESGST {
             });
             let i = revisedElements.length - (numDiscussions + filteredDiscussions + 1);
             while (numDiscussions < 5 && i > -1) {
-                if (!preset || !this.df_filterDiscussion(preset, revisedElements[i])) {
+                if (!preset || !this.filters_filterItem(preset, revisedElements[i], preset.rules)) {
                     setMissingDiscussion(revisedElements[i]);
                     rows[0].appendChild(revisedElements[i].outerWrap);
                     numDiscussions += 1;
@@ -33110,7 +31959,7 @@ class ESGST {
             let elements = await this.discussions_get(response2Html, true);
             i = elements.length - (numDeals + filteredDeals + 1);
             while (numDeals < 5 && i > -1) {
-                if (!preset || !this.df_filterDiscussion(preset, elements[i])) {
+                if (!preset || !this.filters_filterItem(preset, elements[i], preset.rules)) {
                     setMissingDiscussion(elements[i]);
                     rows[1].appendChild(elements[i].outerWrap);
                     numDeals += 1;
@@ -34676,11 +33525,6 @@ class ESGST {
             },
             {
                 check: esgst.sg,
-                key: `dfPresets`,
-                name: `Discussion Filters Presets`
-            },
-            {
-                check: esgst.sg,
                 key: `discussions`,
                 name: `Discussions`,
                 options: [
@@ -34742,11 +33586,6 @@ class ESGST {
                         name: `IsThereAnyDeal Info`
                     }
                 ]
-            },
-            {
-                check: esgst.sg,
-                key: `filterPresets`,
-                name: `Giveaway Filters Presets`
             },
             {
                 check: esgst.sg,
@@ -35321,9 +34160,7 @@ class ESGST {
                         dm.switches[optionKey].size.textContent = convertBytes(size);
                     }
                     break;
-                case `dfPresets`:
                 case `entries`:
-                case `filterPresets`:
                 case `templates`:
                 case `savedReplies`:
                     data[optionKey] = JSON.parse(await this.getValue(optionKey, `[]`));
@@ -38214,20 +37051,6 @@ class ESGST {
                 white-space: nowrap;
             }
     
-            .esgst-gf-right-panel {
-                float: right;
-            }
-    
-            .esgst-gf-legend-panel, .esgst-gf-preset-panel {
-                margin: 5px;
-                text-align: right;
-            }
-    
-            .esgst-gf-override {
-                cursor: pointer;
-                margin-right: 5px;
-            }
-    
             .esgst-gf-container {
                 text-align: left;
             }
@@ -38241,38 +37064,29 @@ class ESGST {
                 min-width: 650px;
             }
     
-            .esgst-gf-container input {
-                display: inline-block;
-                height: 20px;
-                padding: 0 5px;
-                width: 75px !important;
-            }
-    
-            .esgst-gf-container input[type=date] {
-                width: 120px !important;
-            }
-    
             .esgst-gf-filters {
+                display: flex;
+                justify-content: space-between;
                 overflow: auto;
                 position: relative;
             }
     
+            .esgst-gf-left-panel {
+                flex: 1;
+                max-height: 300px;
+                overflow-y: auto;
+            }
+
             .esgst-gf-filters >* {
-                display: inline-block;
                 margin: 5px;
-                vertical-align: top;
             }
-    
-            .esgst-gf-basic-filter {
-                margin: 10px;
-                width: 375px;
+
+            .esgst-gf-preset-panel {
+                margin: 5px;
+                text-align: right;
             }
-    
-            .esgst-gf-basic-filter >* {
-                margin: 8px;
-            }
-    
-            .esgst-gf-type-filter, .esgst-gf-category-filter, .esgst-gf-exception-filter, .esgst-gf-legend, .esgst-gf-preset-panel >* {
+
+            .esgst-gf-preset-panel >* {
                 margin: 5px;
             }
     

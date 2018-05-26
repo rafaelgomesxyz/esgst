@@ -2,7 +2,7 @@
     "author": "revilheart",
     "background": {
         "scripts": [
-            "jszip.min.js",
+            "js/jszip.min.js",
             "eventPage.js"
         ],
         "persistent": true
@@ -18,11 +18,21 @@
                 "*://*.steamgifts.com/*",
                 "*://*.steamtrades.com/*"
             ],
+            "css": [
+                "css/bootstrap.min.css",
+                "css/bootstrap-select.min.css",
+                "css/awesome-bootstrap-checkbox.min.css",
+                "css/query-builder.min.css"
+            ],
             "js": [
-                "jQuery.min.js",
-                "jQueryUI.min.js",
-                "Parsedown.js",
-                "jszip.min.js",
+                "js/jquery.min.js",
+                "js/jquery-ui.min.js",
+                "js/bootstrap.min.js",
+                "js/bootstrap-select.min.js",
+                "js/interact.min.js",
+                "js/jszip.min.js",
+                "js/parsedown.js",
+                "js/query-builder.min.js",
                 "esgst.js"
             ],
             "run_at": "document_start"
