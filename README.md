@@ -236,6 +236,20 @@ To learn more about each feature you have to install ESGST.
 
 ## Changelog
 
+**7.20.0 (May 26, 2018)**
+
+* [#709](https://github.com/revilheart/ESGST/issues/709) Use jQuery QueryBuilder to configure filters
+* [#715](https://github.com/revilheart/ESGST/issues/715) Add a feature: Narrow Sidebar
+* [#708](https://github.com/revilheart/ESGST/issues/708) Fix a bug that does not load features correctly in new tabs
+* [#667](https://github.com/revilheart/ESGST/issues/667) Fix a bug that does not load endless features correctly in some pages
+* [#678](https://github.com/revilheart/ESGST/issues/678) Display ? instead of negative CV in Game Categories - Giveaway Info and get the price from the giveaway points when available
+* [#707](https://github.com/revilheart/ESGST/issues/707) Do not go to comment in Quick Inbox View
+* [#665](https://github.com/revilheart/ESGST/issues/665) Add other found replies to the comment instead of showing them in a popup in Reply From Inbox
+* [#703](https://github.com/revilheart/ESGST/issues/703) Improve description variables explanation in Multiple Giveaway Creator
+* [#706](https://github.com/revilheart/ESGST/issues/706) Fix a bug that reverses the pages of a discussion when there is a hash in the URL
+* [#705](https://github.com/revilheart/ESGST/issues/705) Fix a bug that does not manage items inside of Grid View popouts in Multi-Manager
+* [#704](https://github.com/revilheart/ESGST/issues/704) Add option to hide games to Multi-Manager
+
 **7.19.0 (May 20, 2018)**
 
 * [#701](https://github.com/revilheart/ESGST/issues/701) Remove min-height requirement from Fixed Sidebar
