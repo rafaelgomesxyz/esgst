@@ -236,6 +236,17 @@ To learn more about each feature you have to install ESGST.
 
 ## Changelog
 
+**7.20.3 (May 27, 2018)**
+
+* [#730](https://github.com/revilheart/ESGST/issues/730) Possible fix to massive CPU usage spikes
+* [#728](https://github.com/revilheart/ESGST/issues/728) Increase max-height of filters area
+* [#727](https://github.com/revilheart/ESGST/issues/727) Fix a bug that happens when backing up to Google Drive
+* [#726](https://github.com/revilheart/ESGST/issues/726) Fix a bug in the filters
+* [#723](https://github.com/revilheart/ESGST/issues/723) Change color of AND/OR filter buttons
+* [#721](https://github.com/revilheart/ESGST/issues/721) Fix a bug that happens in Giveaway Encrypter/Decrypter because of filters
+* [#720](https://github.com/revilheart/ESGST/issues/720) Bring back the core of the basic filters as an opt-out option
+* [#718](https://github.com/revilheart/ESGST/issues/718) Add button to pause filter rules/groups to advanced filters
+
 **7.20.2 (May 27, 2018)**
 
 * Hotfix for v7.20.0

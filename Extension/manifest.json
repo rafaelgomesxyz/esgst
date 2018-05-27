@@ -2,7 +2,7 @@
     "author": "revilheart",
     "background": {
         "scripts": [
-            "js/jszip.min.js",
+            "js/jszip-3.1.5.min.js",
             "eventPage.js"
         ],
         "persistent": true
@@ -19,20 +19,20 @@
                 "*://*.steamtrades.com/*"
             ],
             "css": [
-                "css/bootstrap.min.css",
-                "css/bootstrap-select.min.css",
-                "css/awesome-bootstrap-checkbox.min.css",
-                "css/query-builder.min.css"
+                "css/bootstrap-3.3.7.min.css",
+                "css/bootstrap-select-1.12.4.min.css",
+                "css/awesome-bootstrap-checkbox-0.3.7.min.css",
+                "css/query-builder-2.5.2.min.css"
             ],
             "js": [
-                "js/jquery.min.js",
-                "js/jquery-ui.min.js",
-                "js/bootstrap.min.js",
-                "js/bootstrap-select.min.js",
-                "js/interact.min.js",
-                "js/jszip.min.js",
-                "js/parsedown.js",
-                "js/query-builder.min.js",
+                "js/jquery-3.3.1.min.js",
+                "js/jquery-ui-1.12.1.min.js",
+                "js/bootstrap-3.3.7.min.js",
+                "js/bootstrap-select-1.12.4.min.js",
+                "js/interact-1.3.4.min.js",
+                "js/jszip-3.1.5.min.js",
+                "js/parsedown-0.0.1.js",
+                "js/query-builder-2.5.2.min.js",
                 "esgst.js"
             ],
             "run_at": "document_start"
@@ -66,5 +66,5 @@
         "unlimitedStorage",
         "cookies"
     ],
-    "version": "7.20.2"
+    "version": "7.20.3"
 }
