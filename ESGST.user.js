@@ -3,7 +3,7 @@
 // @namespace ESGST
 // @description Enhances SteamGifts and SteamTrades by adding some cool features to them.
 // @icon https://dl.dropboxusercontent.com/s/lr3t3bxrxfxylqe/esgstIcon.ico?raw=1
-// @version 7.20.2
+// @version 7.20.3
 // @author revilheart
 // @contributor Royalgamer06
 // @downloadURL https://github.com/revilheart/ESGST/raw/master/ESGST.user.js
@@ -38,18 +38,18 @@
 // @grant GM.listValues
 // @grant GM.xmlHttpRequest
 // @grant GM.getResourceUrl
-// @require https://github.com/revilheart/ESGST/raw/master/Extension/js/jquery.min.js
-// @require https://github.com/revilheart/ESGST/raw/master/Extension/js/jquery-ui.min.js
-// @require https://github.com/revilheart/ESGST/raw/master/Extension/js/bootstrap.min.js
-// @require https://github.com/revilheart/ESGST/raw/master/Extension/js/bootstrap-select.min.js
-// @require https://github.com/revilheart/ESGST/raw/master/Extension/js/interact.min.js
-// @require https://github.com/revilheart/ESGST/raw/master/Extension/js/jszip.min.js
-// @require https://github.com/revilheart/ESGST/raw/master/Extension/js/parsedown.js
-// @require https://github.com/revilheart/ESGST/raw/master/Extension/js/query-builder.min.js
-// @resource bs https://github.com/revilheart/ESGST/raw/master/Extension/css/bootstrap.min.css
-// @resource bss https://github.com/revilheart/ESGST/raw/master/Extension/css/bootstrap-select.min.css
-// @resource abc https://github.com/revilheart/ESGST/raw/master/Extension/css/awesome-bootstrap-checkbox.min.css
-// @resource qb https://github.com/revilheart/ESGST/raw/master/Extension/css/query-builder.min.css
+// @require https://github.com/revilheart/ESGST/raw/master/Extension/js/jquery-3.3.1.min.js
+// @require https://github.com/revilheart/ESGST/raw/master/Extension/js/jquery-ui-1.12.1.min.js
+// @require https://github.com/revilheart/ESGST/raw/master/Extension/js/bootstrap-3.3.7.min.js
+// @require https://github.com/revilheart/ESGST/raw/master/Extension/js/bootstrap-select-1.12.4.min.js
+// @require https://github.com/revilheart/ESGST/raw/master/Extension/js/interact-1.3.4.min.js
+// @require https://github.com/revilheart/ESGST/raw/master/Extension/js/jszip-3.1.5.min.js
+// @require https://github.com/revilheart/ESGST/raw/master/Extension/js/parsedown-0.0.1.js
+// @require https://github.com/revilheart/ESGST/raw/master/Extension/js/query-builder-2.5.2.min.js
+// @resource bs https://github.com/revilheart/ESGST/raw/master/Extension/css/bootstrap-3.3.7.min.css
+// @resource bss https://github.com/revilheart/ESGST/raw/master/Extension/css/bootstrap-select-1.12.4.min.css
+// @resource abc https://github.com/revilheart/ESGST/raw/master/Extension/css/awesome-bootstrap-checkbox-0.3.7.min.css
+// @resource qb https://github.com/revilheart/ESGST/raw/master/Extension/css/query-builder-2.5.2.min.css
 // @run-at document-start
 // @noframes
 // ==/UserScript==
@@ -2526,6 +2526,10 @@ class ESGST {
         esgst = {
             parameters: getParameters(),
             defaultValues: {
+                gf_m_b_sg: false,
+                gf_m_a_sg: false,
+                df_m_b_sg: false,
+                df_m_a_sg: false,
                 gf_presets: [],
                 df_presets: [],
                 chfl_key: `ctrlKey + e`,
@@ -2997,8 +3001,8 @@ class ESGST {
             markdownParser: new Parsedown(),
             sg: location.hostname.match(/www.steamgifts.com/),
             st: location.hostname.match(/www.steamtrades.com/),
-            currentVersion: `7.20.2`,
-            devVersion: `7.20.2`,
+            currentVersion: `7.20.3`,
+            devVersion: `7.20.3`,
             icon: `data:image/x-icon;base64,AAABAAEAEBAAAAEAIABoBAAAFgAAACgAAAAQAAAAIAAAAAEAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAqv8DCbP/Hgeq+CQIrf8iCK3/Igit/yIIrf8iB6//Iwit9x8Aqv8DAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAKr0GAa2/c0DvfzfA7f83QO3/N0Dt/zdA7f83QO+/d4Gs/3OAKP1GQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACm/xQFs/n2Bcf//wW///8FwP//BcD//wW///8Fx///BbP69gC2/xUAAAAAAAAAAAAAAAAA/1UDFptOFxSZMxkLpJktAq720QW1+ugEsfvjA7b92wO2/dsEsfvjBbX66Aau/dEoiO4tUlLWGU5k3hdVVf8DEJxKHxWqT8cVrU7uE6VN0guqny0Apv8XAJfQGwBAVywAQFcsAJfQGwCx/xcogugtS2Lk0lBl6u5Qae7ISmPeHxagSSMVr07jF7lV/xOiSu0brgATAAAAAAAAAA8AAAC/AAAAwAAAABAAAAAAYznjEkth4OxWb/3/T2jv40lf4iMXnksiEq1O3RayUv8UpEnkEo0+HQAAABkAAABBAAAA8QAAAPEAAABBAAAAGUBSvxxOYeDjU2v0/05m7d1LYuEiF55LIhKtTt0Ws1L/FahN2gU1FTAAAADAAAAA7AAAAP0AAAD9AAAA7AAAAMAVG0owUGPm2lNr9P9OZu3dS2LhIheeSyISrU7dFrNS/xWoTdoFNRswAAAAvwAAAOsAAAD9AAAA/QAAAOsAAADAFRtKMFBj6NpTa/T/Tmbt3Uti4SIXnksiEq1O3RayUv8UpEnkEo0+HQAAABgAAABAAAAA8QAAAPEAAABBAAAAGT5PuR1OYeDjU2v0/05m7d1LYuEiFqBJIxWuT+QXuVX/E6JL7QC8XhMAAAAAAAAADwAAAL8AAAC/AAAAEAAAAAAOR/8SSWLh7FZv/f9PaO/jSV/iIxCUSh8Vrk7HFqxN7ROlS9JskzMt1XULGK12EhxGLgYsRy8GK612EhzVgAsYgmxxLU1i39JNZ+vtT2fwx0pj1h8AqlUDF65GFgqZUhlsiC0txH0T0s5/EujJgBPkz4QR28+EEdvJgBPkzn8Q6Md+E9KLdHosM1LWGUZo6BZVVf8DAAAAAAAAAAAAAAAA/2YAFMl9EvbgjRb/14gV/9eIFf/XiBX/14gV/9+NFv/KgBD254YAFQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAL91FRjKgRHN1IgU3s+EEt3PhBLdz4QS3c+EEt3UiBTezYMRzcJ6FBkAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACqqgADxIARHr18FiO8eA8ivHgPIrx4DyK8eA8ivXwPI8SAER7/VQADAAAAAAAAAAAAAAAA78cAAPA3AAD4FwAABCAAADGOAAAE+AAAkBEAAJ55AACYOQAAlgEAAER4AAAXaAAATnoAAPgXAAD0JwAA69cAAA==`,
             sgIcon: `data:image/x-icon;base64,AAABAAEAEBAAAAEAIABoBAAAFgAAACgAAAAQAAAAIAAAAAEAIAAAAAAAQAQAABMLAAATCwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIUAAAD5AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAPoAAACFAAAAAAAAAAAAAAD8AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA+QAAAAAAAAAAAAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAAAAAAAAAAAAP8AAAD/AAAA/wAAABwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAcAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAcAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAHAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAAAAAAAAAAAAPwAAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD5AAAAAAAAAAAAAACFAAAA+QAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD5AAAAhQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA//8AAP//AADAAwAAwAMAAMfjAADP8wAAz/MAAM/zAADP8wAAz/MAAM/zAADH4wAAwAMAAMADAAD//wAA//8AAA==`,
             stIcon: `data:image/x-icon;base64,AAABAAEAEBAAAAEAIABoBAAAFgAAACgAAAAQAAAAIAAAAAEAIAAAAAAAQAQAABMLAAATCwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABbD6SgWw+ucFsPrkBbD6SgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAWw+uYFsPr/BbD6/wWw+ucAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAFsPrmBbD6/wWw+v8FsPrmAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABbD6SQWw+uYFsPrmBbD6SQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAFKRLShSkS+cUpEvkFKRLSgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAExi4EpMYuDnTGLg5Exi4EoAAAAAAAAAABSkS+YUpEv/FKRL/xSkS+cAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABMYuDmTGLg/0xi4P9MYuDnAAAAAAAAAAAUpEvmFKRL/xSkS/8UpEvmAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAATGLg5kxi4P9MYuD/TGLg5gAAAAAAAAAAFKRLSRSkS+YUpEvmFKRLSQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAExi4ElMYuDmTGLg5kxi4EkAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAMZ9E0rGfRPnxn0T5MZ9E0oAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADGfRPmxn0T/8Z9E//GfRPnAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAxn0T5sZ9E//GfRP/xn0T5gAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAMZ9E0nGfRPmxn0T5sZ9E0kAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA//8AAPw/AAD8PwAA/D8AAPw/AAD//wAAh+EAAIfhAACH4QAAh+EAAP//AAD8PwAA/D8AAPw/AAD8PwAA//8AAA==`,
@@ -3073,7 +3077,8 @@ class ESGST {
             giveawayFeatures: [],
             discussionFeatures: [],
             profileFeatures: [],
-            endlessFeatures: []
+            endlessFeatures: [],
+            edited: {}
         };
         esgst.markdownParser.setBreaksEnabled(true);
         esgst.markdownParser.setMarkupEscaped(true);
@@ -3591,6 +3596,17 @@ class ESGST {
                 toSet.giveaways = getLocalValue(`giveaways`, `{}`);
                 esgst.giveaways = JSON.parse(toSet.giveaways);
                 delLocalValue(`giveaways`);
+            }
+            if (isSet(esgst.storage.decryptedGiveaways)) {
+                esgst.decryptedGiveaways = esgst.storage.decryptedGiveaways;
+                if (typeof esgst.decryptedGiveaways === `string`) {
+                    esgst.decryptedGiveaways = JSON.parse(esgst.decryptedGiveaways);
+                } else {
+                    toSet.decryptedGiveaways = JSON.stringify(esgst.decryptedGiveaways);
+                }
+            } else {
+                toSet.decryptedGiveaways = `{}`;
+                esgst.decryptedGiveaways = {};
             }
             if (isSet(esgst.storage.discussions)) {
                 esgst.discussions = JSON.parse(esgst.storage.discussions);
@@ -4825,6 +4841,14 @@ class ESGST {
                                     </ul>
                                 `,
                                 features: {
+                                    gf_m_b: {
+                                        name: `Hide basic filters.`,
+                                        sg: true
+                                    },
+                                    gf_m_a: {
+                                        name: `Hide advanced filters.`,
+                                        sg: true
+                                    },
                                     gf_os: {
                                         description: `
                                             <ul>
@@ -5389,6 +5413,16 @@ class ESGST {
                                         <li>Adds a text in parenthesis to the pagination of the page showing how many discussions in the page are being filtered by the filters.</li>
                                     </ul>
                                 `,
+                                features: {                                    
+                                    df_m_b: {
+                                        name: `Hide basic filters.`,
+                                        sg: true
+                                    },
+                                    df_m_a: {
+                                        name: `Hide advanced filters.`,
+                                        sg: true
+                                    }
+                                },
                                 name: `Multiple Filters`,
                                 sg: true
                             }
@@ -9591,7 +9625,7 @@ class ESGST {
                 name: `Automatic Links / Images Paste Formatting: OFF`,
                 callback: context => {
                     esgst.cfh.alipf = context.firstElementChild;
-                    this.cfh_setAlipf(esgst.cfh_pasteFormatting);
+                    this.cfh_setAlipf(esgst.cfh_pasteFormatting, true);
                 },
                 onClick: this.cfh_setAlipf.bind(this)
             }, {
@@ -10131,11 +10165,13 @@ class ESGST {
             esgst.cfh.undoDelete.classList.add(`esgst-hidden`);
         }
     }
-    cfh_setAlipf(value) {
+    cfh_setAlipf(value, firstTime) {
         if (typeof value === `undefined`) {
             value = esgst.cfh_pasteFormatting ? false : true;
         }
-        this.setSetting(`cfh_pasteFormatting`, value);
+        if (!firstTime) {
+            this.setSetting(`cfh_pasteFormatting`, value);
+        }
         esgst.cfh_pasteFormatting = value;
         if (value) {
             esgst.cfh.alipf.title = this.getFeatureTooltip(`cfh`, `Automatic Links / Images Paste Formatting: ON`);
@@ -10908,36 +10944,56 @@ class ESGST {
             }
         }
     }
-    async ct_getComments(count, comments, index, goToUnread, markRead, markUnread) {
+    async ct_getComments(count, comments, index, goToUnread, markRead, markUnread, endless) {
         let found = false;
         if (goToUnread) {
-            found = await this.ct_checkComments(count, comments, index, true, false, false);
+            found = await this.ct_checkComments(count, comments, index, true, false, false, endless);
         } else {
-            const deleteLock = await this.createLock(`commentLock`, 300);
-            found = await this.ct_checkComments(count, comments, index, false, markRead, markUnread);
-            deleteLock();
+            let deleteLock;
+            if (!endless) {
+                deleteLock = await this.createLock(`commentLock`, 300);
+            }
+            found = await this.ct_checkComments(count, comments, index, false, markRead, markUnread, endless);
+            if (deleteLock) {
+                deleteLock();
+            }
         }
         return found;
     }
-    async ct_checkComments(count, comments, index, goToUnread, markRead, markUnread) {
+    async ct_checkComments(count, comments, index, goToUnread, markRead, markUnread, endless) {
         let code, comment, found, i, n, saved, source, type, unread;
         esgst.ctGoToUnread = false;
-        let values = await this.getValues({
-            giveaways: `{}`,
-            discussions: `{}`,
-            tickets: `{}`,
-            trades: `{}`
-        });
-        if (esgst.sg) {
-            saved = {
-                giveaways: JSON.parse(values.giveaways),
-                discussions: JSON.parse(values.discussions),
-                tickets: JSON.parse(values.tickets)
-            };
+        let values;
+        if (endless) {
+            if (esgst.sg) {
+                saved = {
+                    giveaways: esgst.giveaways,
+                    discussions: esgst.discussions,
+                    tickets: esgst.tickets
+                };
+            } else {
+                saved = {
+                    trades: esgst.trades
+                };
+            }
         } else {
-            saved = {
-                trades: JSON.parse(values.trades)
-            };
+            values = await this.getValues({
+                giveaways: `{}`,
+                discussions: `{}`,
+                tickets: `{}`,
+                trades: `{}`
+            });
+            if (esgst.sg) {
+                saved = {
+                    giveaways: JSON.parse(values.giveaways),
+                    discussions: JSON.parse(values.discussions),
+                    tickets: JSON.parse(values.tickets)
+                };
+            } else {
+                saved = {
+                    trades: JSON.parse(values.trades)
+                };
+            }
         }
         n = comments.length;
         found = false;
@@ -10969,6 +11025,7 @@ class ESGST {
                         }
                     }
                     saved[comment.type][comment.code].lastUsed = Date.now();
+                    esgst.edited[comment.type] = true;
                     if (!esgst.ct_s) {
                         let buttons = comment.comment.getElementsByClassName(`esgst-ct-comment-button`);
                         if (comment.author === esgst.username) {
@@ -11047,7 +11104,7 @@ class ESGST {
                         goToComment(unread.id, unread.comment);
                     }
                 }
-            } else {
+            } else if (!endless) {
                 if (esgst.sg) {
                     await this.setValues({
                         giveaways: JSON.stringify(saved.giveaways),
@@ -11073,14 +11130,17 @@ class ESGST {
                     saved[type][code].count = count;
                 }
                 saved[type][code].lastUsed = Date.now();
-                if (esgst.sg) {
-                    await this.setValues({
-                        giveaways: JSON.stringify(saved.giveaways),
-                        discussions: JSON.stringify(saved.discussions),
-                        tickets: JSON.stringify(saved.tickets)
-                    });
-                } else {
-                    await this.setValue(`trades`, JSON.stringify(saved.trades));
+                esgst.edited[type] = true;
+                if (!endless) {
+                    if (esgst.sg) {
+                        await this.setValues({
+                            giveaways: JSON.stringify(saved.giveaways),
+                            discussions: JSON.stringify(saved.discussions),
+                            tickets: JSON.stringify(saved.tickets)
+                        });
+                    } else {
+                        await this.setValue(`trades`, JSON.stringify(saved.trades));
+                    }
                 }
             }
         }
@@ -12413,9 +12473,9 @@ class ESGST {
         es.busy = false;
         es.paused = await this.getValue(`esPause`, false);
         if (es.paused) {
-            this.es_pause(es);
+            this.es_pause(es, true);
         } else {
-            this.es_resume(es);
+            this.es_resume(es, true);
         }
         es.pageIndex = es.currentPage;
         document.addEventListener(`scroll`, this.es_changePagination.bind(this, es));
@@ -12655,22 +12715,26 @@ class ESGST {
             es.continuousButton.innerHTML = `<i class="fa fa-fast-forward"></i>`;
         });
     }
-    async es_pause(es) {
+    async es_pause(es, firstRun) {
         if (!es.ended) {
             document.removeEventListener(`scroll`, esgst.es_loadNext);
         }
         es.pauseButton.classList.add(`esgst-hidden`);
         es.resumeButton.classList.remove(`esgst-hidden`);
         es.paused = true;
-        await this.setValue(`esPause`, es.paused);
+        if (!firstRun) {
+            await this.setValue(`esPause`, es.paused);
+        }
         es.continuous = false;
         es.continuousButton.innerHTML = `<i class="fa fa-fast-forward"></i>`;
     }
-    async es_resume(es) {
+    async es_resume(es, firstRun) {
         es.resumeButton.classList.add(`esgst-hidden`);
         es.pauseButton.classList.remove(`esgst-hidden`);
         es.paused = false;
-        await this.setValue(`esPause`, es.paused);
+        if (!firstRun) {
+            await this.setValue(`esPause`, es.paused);
+        }
         if (!es.ended && !es.continuous && !es.step) {
             document.addEventListener(`scroll`, esgst.es_loadNext);
             esgst.es_loadNext();
@@ -13283,34 +13347,35 @@ class ESGST {
     async gb_addButton(button) {
         let i, n;
         let bookmarked = [], endingSoon = 1, started = 0, ending = 0;
-        let deleteLock = await this.createLock(`giveawayLock`, 300);
-        let giveaways = JSON.parse(await this.getValue(`giveaways`, `{}`));
         if (esgst.gb_h && button) {
             button.classList.add(`esgst-gb-highlighted`);
         }
-        for (let key in giveaways) {
-            if (giveaways[key].bookmarked) {
-                if (typeof giveaways[key].started === `undefined`) {
-                    giveaways[key].started = true;
+        for (let key in esgst.giveaways) {
+            const giveaway = esgst.giveaways[key];
+            if (giveaway.bookmarked) {
+                if (typeof giveaway.started === `undefined`) {
+                    giveaway.started = true;
+                    esgst.edited.giveaways = true;
                 }
-                if (Date.now() >= giveaways[key].endTime || !giveaways[key].endTime) {
-                    if (giveaways[key].started) {
+                if (Date.now() >= giveaway.endTime || !giveaway.endTime) {
+                    if (giveaway.started) {
                         if (esgst.gb_u) {
-                            delete giveaways[key].bookmarked;
+                            delete giveaway.bookmarked;
+                            esgst.edited.giveaways = true;
                         } else {
-                            bookmarked.push(giveaways[key]);
+                            bookmarked.push(giveaway);
                         }
                     } else {
-                        bookmarked.push(giveaways[key]);
+                        bookmarked.push(giveaway);
                         ++started;
                         if (esgst.gb_h && button) {
                             button.classList.add(`started`);
                         }
                     }
                 } else {
-                    if (giveaways[key].started) {
-                        bookmarked.push(giveaways[key]);
-                        endingSoon = giveaways[key].endTime - Date.now() - (esgst.gb_hours * 3600000);
+                    if (giveaway.started) {
+                        bookmarked.push(giveaway);
+                        endingSoon = giveaway.endTime - Date.now() - (esgst.gb_hours * 3600000);
                         if (endingSoon <= 0) {
                             ++ending;
                         }
@@ -13359,8 +13424,6 @@ class ESGST {
                 }
             }
         }
-        await this.setValue(`giveaways`, JSON.stringify(giveaways));
-        deleteLock();
         if (esgst.gbPath) {
             this.gb_loadGibs(bookmarked, esgst.mainContext, insertHtml(esgst.mainContext, `beforeEnd`, `<div></div>`));
         }
@@ -15034,7 +15097,7 @@ class ESGST {
                 </div>
             `);
             ged.button.addEventListener(`mousedown`, this.ged_openPopup.bind(this, ged));
-            this.ged_getGiveaways(ged);
+            this.ged_getGiveaways(ged, true);
         }
         esgst.ged_addIcons = this.ged_addIcons.bind(this, ged);
     }
@@ -15080,21 +15143,23 @@ class ESGST {
             ged.context.addEventListener(`scroll`, this.ged_checkEndless.bind(this, ged));
         }
     }
-    async ged_getGiveaways(ged) {
+    async ged_getGiveaways(ged, firstRun) {
         ged.giveaways = [];
         ged.i = 0;
         let currentGiveaways = {};
         let currentTime = Date.now();
-        let deleteLock = await this.createLock(`gedLock`, 300);
-        let decryptedGiveaways = await this.getValue(`decryptedGiveaways`, await this.getValue(`exclusiveGiveaways`, {}));
-        if (typeof decryptedGiveaways === `string`) {
-            decryptedGiveaways = JSON.parse(decryptedGiveaways);
+        let deleteLock;
+        if (!firstRun) {
+            deleteLock = await this.createLock(`gedLock`, 300);
+            esgst.decryptedGiveaways = JSON.parse(await this.getValue(`decryptedGiveaways`));
         }
-        for (let code in decryptedGiveaways) {
-            if (decryptedGiveaways[code].html) {
-                delete decryptedGiveaways[code].html;
+        delete esgst.edited.decryptedGiveaways;
+        for (let code in esgst.decryptedGiveaways) {
+            if (esgst.decryptedGiveaways[code].html) {
+                delete esgst.decryptedGiveaways[code].html;
+                esgst.edited.decryptedGiveaways = true;
             }
-            let isEnded = decryptedGiveaways[code].timestamp <= currentTime;
+            let isEnded = esgst.decryptedGiveaways[code].timestamp <= currentTime;
             let filtered = true;
             let giveaway = esgst.giveaways[code];
             if (giveaway) {
@@ -15107,26 +15172,30 @@ class ESGST {
                     let i;
                     for (i = esgst.gf_presets.length - 1; i > -1 && esgst.gf_presets[i].name !== name; i--);
                     if (i > -1) {
-                        preset = esgst.gf_presets[i];
+                        const preset = esgst.gf_presets[i];
                         filtered = this.filters_filterItem(this.gf_getFilters(true), giveaway, preset.rules);
                     }
                 }
                 if (filtered && isEnded && !giveaway.started) {
-                    await this.ged_getGiveaway(code, currentGiveaways, decryptedGiveaways, true);
-                    isEnded = decryptedGiveaways[code].timestamp <= currentTime;
+                    await this.ged_getGiveaway(code, currentGiveaways, true);
+                    isEnded = esgst.decryptedGiveaways[code].timestamp <= currentTime;
                 }
             }
             if (filtered && !isEnded) {
                 ged.giveaways.push({
                     code: code,
-                    source: decryptedGiveaways[code].source,
-                    timestamp: decryptedGiveaways[code].timestamp
+                    source: esgst.decryptedGiveaways[code].source,
+                    timestamp: esgst.decryptedGiveaways[code].timestamp
                 });
             }
         }
-        await this.lockAndSaveGiveaways(currentGiveaways);
-        await this.setValue(`decryptedGiveaways`, JSON.stringify(decryptedGiveaways));
-        deleteLock();
+        await this.lockAndSaveGiveaways(currentGiveaways, firstRun);
+        if (esgst.edited.decryptedGiveaways && !firstRun) {
+            await this.setValue(`decryptedGiveaways`, JSON.stringify(esgst.decryptedGiveaways));
+        }
+        if (deleteLock) {
+            deleteLock();
+        }
         ged.n = ged.giveaways.length;
         if (ged.n > 0) {
             if (ged.button) {
@@ -15135,17 +15204,17 @@ class ESGST {
             ged.giveaways = sortArrayByNumberKey(ged.giveaways, `timestamp`);
         }
     }
-    async ged_getGiveaway(code, currentGiveaways, decryptedGiveaways, isEnded, source) {
+    async ged_getGiveaway(code, currentGiveaways, isEnded, source) {
         let response = await this.request({method: `GET`, url: `/giveaway/${code}/`});
         let giveaway = (await this.giveaways_get(this.parseHtml(response.responseText), false, response.finalUrl, false, null, true))[0];
         if (giveaway) {
             currentGiveaways[code] = giveaway;
             if (giveaway.started && isEnded) {
-                decryptedGiveaways[code].timestamp = giveaway.endTime;
+                esgst.decryptedGiveaways[code].timestamp = giveaway.endTime;
             }
         }
         if (source) {
-            decryptedGiveaways[code] = {
+            esgst.decryptedGiveaways[code] = {
                 source: source,
                 timestamp: (giveaway && giveaway.endTime) || 0
             };
@@ -15183,10 +15252,9 @@ class ESGST {
             ged.set.trigger();
         }
     }
-    async ged_addIcons(ged, comments) {
+    async ged_addIcons(ged, comments, firstRun) {
         let currentGiveaways = {};
         let currentTime = Date.now();
-        let decryptedGiveaways = null;
         let deleteLock = null;
         let hasNew = false;
         for (let i = comments.length - 1; i > -1; i--) {
@@ -15202,19 +15270,16 @@ class ESGST {
                 if (code.match(/currentVersion/)) {
                     continue;
                 }
-                if (!deleteLock) {
-                    deleteLock = await this.createLock(`gedLock`, 300);
-                    decryptedGiveaways = await this.getValue(`decryptedGiveaways`, await this.getValue(`exclusiveGiveaways`, {}));
-                    if (typeof decryptedGiveaways === `string`) {
-                        decryptedGiveaways = JSON.parse(decryptedGiveaways);
-                    }
+                if (!deleteLock && !firstRun) {
+                    deleteLock = await this.createLock(`gedLock`, 300);                    
+                    esgst.decryptedGiveaways = JSON.parse(await this.getValue(`decryptedGiveaways`));
                 }
                 code = this.ged_decryptCode(code);
-                let isEnded = decryptedGiveaways[code] && currentTime > decryptedGiveaways[code].timestamp;
+                let isEnded = esgst.decryptedGiveaways[code] && currentTime > esgst.decryptedGiveaways[code].timestamp;
                 let isNew = false;
                 let isStarted = esgst.giveaways[code] && esgst.giveaways[code].started;
-                if (!decryptedGiveaways[code] || (isEnded && !isStarted)) {
-                    let giveaway = await this.ged_getGiveaway(code, currentGiveaways, decryptedGiveaways, false, comment.id || location.href);
+                if (!esgst.decryptedGiveaways[code] || (isEnded && !isStarted)) {
+                    let giveaway = await this.ged_getGiveaway(code, currentGiveaways, false, comment.id || location.href);
                     ged.newGiveaways.push(code);
                     hasNew = isNew = true;
                     if (giveaway) {
@@ -15229,10 +15294,11 @@ class ESGST {
                 `);
             }
         }
-        if (deleteLock) {
-            await this.lockAndSaveGiveaways(currentGiveaways);
-            await this.setValue(`decryptedGiveaways`, JSON.stringify(decryptedGiveaways));
-            deleteLock();
+        if (deleteLock || firstRun) {
+            await this.lockAndSaveGiveaways(currentGiveaways, firstRun);
+            if (deleteLock) {
+                deleteLock();
+            }
         }
         if (ged.button && hasNew) {
             ged.button.classList.remove(`esgst-hidden`);
@@ -15314,29 +15380,26 @@ class ESGST {
             return;
         }
         let ged = {
-            decryptedGiveaways: await this.getValue(`decryptedGiveaways`, await this.getValue(`exclusiveGiveaways`, {})),
             giveaways: {}
         };
-        if (typeof ged.decryptedGiveaways === `string`) {
-            ged.decryptedGiveaways = JSON.parse(ged.decryptedGiveaways);
-        }
+        esgst.decryptedGiveaways = JSON.parse(await this.getValue(`decryptedGiveaways`));
         let promises = [];
         codes.forEach(code => {
-            if (ged.decryptedGiveaways[code]) {
+            if (esgst.decryptedGiveaways[code]) {
                 return;
             }
             let giveaway = esgst.giveaways[code];
             if (giveaway && giveaway.endTime) {
-                ged.decryptedGiveaways[code] = {
+                esgst.decryptedGiveaways[code] = {
                     source: source,
                     timestamp: giveaway.endTime
                 };
                 return;
             }
-            promises.push(this.ged_getGiveaway(code, ged.giveaways, ged.decryptedGiveaways, false, source));
+            promises.push(this.ged_getGiveaway(code, ged.giveaways, false, source));
         });
         await Promise.all(promises);
-        await this.setValue(`decryptedGiveaways`, JSON.stringify(ged.decryptedGiveaways));
+        await this.setValue(`decryptedGiveaways`, JSON.stringify(esgst.decryptedGiveaways));
         await this.lockAndSaveGiveaways(ged.giveaways);
     }
     gesl() {
@@ -15742,6 +15805,7 @@ class ESGST {
     }
     filters_addContainer(id, heading, popup) {
         const obj = {
+            basicFilters: {},
             filters: this[`${id}_getFilters`](popup),
             id: id,
             key: `${id}_presets`,
@@ -15781,7 +15845,17 @@ class ESGST {
             <div class="esgst-gf-container">
                 <div class="esgst-gf-box">
                     <div class="esgst-gf-filters esgst-hidden">
-                        <div class="esgst-gf-left-panel"></div>
+                        <div class="esgst-gf-left-panel">
+                            <div class="esgst-gf-basic-filters">
+                                <div class="esgst-gf-number-filters"></div>
+                                <div class="esgst-gf-boolean-filters"></div>
+                                <div class="esgst-gf-string-filters"></div>
+                            </div>
+                            <div>
+                                Advanced <i class="fa fa-question-circle" title="Advanced filters offer more options and flexibility, but may be more complex to understand and use. When you change settings in the basic filters, they will also be changed in the advanced ones, and vice-versa. But the two types are not compatible backwards: basic -> advanced conversion works fine, but advanced -> basic conversion does not, and will result in the loss of any settings that are exclusive to the advanced filter. Bear this in mind when saving a preset, since the last applied preset will be saved."></i>
+                            </div>
+                            <div class="esgst-gf-advanced-filters"></div>
+                        </div>
                         <div class="esgst-gf-right-panel">
                             <div class="esgst-gf-steamgifts-filters">
                                 <div>
@@ -15792,6 +15866,7 @@ class ESGST {
                             <div class="esgst-gf-preset-panel">
                                 <div>
                                     <span class="esgst-bold">Preset:</span>
+                                    <i class="fa fa-question-circle" title="If you have both the basic and the advanced filters enabled, the last applied preset will be saved. For example, if the last setting you altered was in the basic filters, it will save the basic preset, and if the last setting you altered was in the advanced filters, it will save the advanced preset. The two presets are not compatible, so they will overwrite each other. Be careful with this, as you might lose some settings."></i>
                                 </div>
                                 <input class="form__input-small" type="text"/>
                                 <div class="esgst-description esgst-bold"></div>
@@ -15810,8 +15885,13 @@ class ESGST {
         `);
         const box = obj.container.firstElementChild;
         obj.filtersPanel = box.firstElementChild;
-        obj.leftPanel = obj.filtersPanel.firstElementChild;
-        const rightPanel = obj.leftPanel.nextElementSibling;
+        const leftPanel = obj.filtersPanel.firstElementChild;
+        const basicFilters = leftPanel.firstElementChild;
+        const numberFilters = basicFilters.firstElementChild;
+        const booleanFilters = numberFilters.nextElementSibling;
+        const stringFilters = booleanFilters.nextElementSibling;
+        const advancedFilters = leftPanel.lastElementChild;
+        const rightPanel = leftPanel.nextElementSibling;
         const sgFilters = rightPanel.firstElementChild;
         const presetPanel = rightPanel.lastElementChild;
         obj.presetInput = presetPanel.firstElementChild.nextElementSibling;
@@ -15885,12 +15965,34 @@ class ESGST {
                 id: key,
                 label: filter.name
             };
+            let context;
+            let checkbox;
+            let textInput;
+            let maxInput;
+            let minInput;
             switch (filter.type) {
-                case `boolean`:                
+                case `boolean`:
                     rule.input = `radio`;
-                    rule.operators = [`equal`],
-                    rule.type = `boolean`,
-                    rule.values = [`true`, `false`]
+                    rule.operators = [`equal`];
+                    rule.type = `boolean`;
+                    rule.values = [`true`, `false`];
+
+                    if (!esgst[`${obj.id}_m_b`]) {
+                        context = insertHtml(booleanFilters, `beforeEnd`, `
+                            <div>
+                                <span></span> ${filter.name}
+                            </div>
+                        `);
+                        checkbox = new Checkbox(context.firstElementChild, `enabled`, true);
+                        obj.basicFilters[rule.id] = {
+                            input: rule.input,
+                            operator: `equal`,
+                            type: rule.type,
+                            filterType: `boolean`,
+                            checkbox: checkbox
+                        };
+                        checkbox.onChange = this.filters_basicToAdv.bind(this, obj);
+                    }
                     break;
                 case `number`:
                     rule.operators = [
@@ -15904,6 +16006,7 @@ class ESGST {
                         `is_not_null`
                     ];
                     if (filter.date) {
+                        rule.input = `text`;
                         rule.plugin = `datepicker`;       
                         rule.plugin_config = {
                             changeMonth: true,
@@ -15911,6 +16014,17 @@ class ESGST {
                             dateFormat: `yy/mm/dd`
                         };
                         rule.type = `date`;
+
+                        if (!esgst[`${obj.id}_m_b`]) {
+                            context = insertHtml(numberFilters, `beforeEnd`, `
+                                <div>
+                                    ${filter.name}
+                                    <span>
+                                        <input type="date">-<input type="date">
+                                    </span>
+                                </div>
+                            `);
+                        }
                     } else {
                         rule.input = `number`;
                         if (filter.step) {
@@ -15923,57 +16037,296 @@ class ESGST {
                             min: filter.minValue,
                             step: filter.step
                         };
+
+                        if (!esgst[`${obj.id}_m_b`]) {
+                            context = insertHtml(numberFilters, `beforeEnd`, `
+                                <div>
+                                    ${filter.name}
+                                    <span>
+                                        <input type="number">-<input type="number">
+                                    </span>
+                                </div>
+                            `);
+                        }
                     }
+
+                    if (!esgst[`${obj.id}_m_b`]) {
+                        minInput = context.lastElementChild.firstElementChild;
+                        maxInput = minInput.nextElementSibling;                    
+                        obj.basicFilters[rule.id] = {
+                            input: rule.input,
+                            type: rule.type,
+                            filterType: `number`,
+                            maxInput: maxInput,
+                            minInput: minInput
+                        };
+                        maxInput.addEventListener(`change`, this.filters_basicToAdv.bind(this, obj));
+                        minInput.addEventListener(`change`, this.filters_basicToAdv.bind(this, obj));
+                    }
+                
                     break;
-                case `string`:                
+                case `string`:
+                    rule.input = `text`;
                     rule.operators = [`contains`, `not_contains`];
                     rule.placeholder =  `Item1, Item2, ...`;
                     rule.type = `string`;
+
+                    if (!esgst[`${obj.id}_m_b`]) {
+                        context = insertHtml(stringFilters, `beforeEnd`, `
+                            <div>
+                                <span>
+                                    <span></span> ${filter.name}
+                                </span>
+                                <input placeholder="Item1, Item2, ..." type="text">
+                            </div>
+                        `);
+                        checkbox = new Checkbox(context.firstElementChild.firstElementChild, `enabled`,  true);
+                        textInput = context.lastElementChild;
+                        obj.basicFilters[rule.id] = {
+                            id: rule.id,
+                            input: rule.input,
+                            type: rule.type,
+                            filterType: `string`,
+                            checkbox: checkbox,
+                            textInput: textInput
+                        };
+                        checkbox.onChange = this.filters_basicToAdv.bind(this, obj);
+                        textInput.addEventListener(`change`, this.filters_basicToAdv.bind(this, obj));
+                    }
                     break;
             }
             filters.push(rule);
         }
 
-        const options = {
-            filters: filters,
-            icons: {
-                add_group: `fa fa-plus`,
-                add_rule: `fa fa-plus`,
-                remove_group: `fa fa-times`,
-                remove_rule: `fa fa-times`,
-                error: `fa fa-exclamation`
-            },
-            plugins: {
-                [`bt-checkbox`]: {
-                    font: `fontawesome`
-                },
-                [`bt-selectpicker`]: {
-                    liveSearch: true,
-                    liveSearchNormalize: true
-                },
-                [`invert`]: {
-                    icon: `fa fa-random`
-                },
-                [`not-group`]: {
-                    icon_checked: `fa fa-check-square-o`,
-                    icon_unchecked: `fa fa-square-o`
-                },
-                [`sortable`]: {
-                    icon: `fa fa-arrows`
-                }
-            },
-            sort_filters: true
-        };
-        if (Object.keys(obj.rules).length) {
-            options.rules = obj.rules;
+        if (!esgst[`${obj.id}_m_b`]) {
+            stringFilters.insertAdjacentHTML(`beforeEnd`, `        
+                <div class="esgst-gf-legend-panel">
+                    <div class="esgst-bold">Legend:</div>
+                    <div>
+                        <i class="fa fa-check-square"></i> - Show All</i>
+                    </div>
+                    <div>
+                        <i class="fa fa-square-o"></i> - Hide All</i>
+                    </div>
+                    <div>
+                        <i class="fa fa-square"></i> - Show Only</i>
+                    </div>
+                </div>
+            `);
+            if (obj.rules.rules && obj.rules.rules.length) {
+                this.filters_applyBasic(obj, obj.rules);
+            }
         }
-        $(obj.leftPanel).queryBuilder(options);
-        $(obj.leftPanel).on(`rulesChanged.queryBuilder`, () => {
-            try {
-                obj.rules = $(obj.leftPanel).queryBuilder(`getRules`);
+        if (!esgst[`${obj.id}_m_a`]) {
+            const templates = {
+                group : `
+                    <div id="{{= it.group_id }}" class="rules-group-container">
+                        <div class="rules-group-header">
+                            <div class="btn-group pull-right group-actions">
+                                <button type="button" class="btn btn-xs btn-success" data-add="rule">
+                                    <i class="{{= it.icons.add_rule }}"></i> {{= it.translate("add_rule") }}
+                                </button>
+                            {{? it.settings.allow_groups===-1 || it.settings.allow_groups>=it.level }}
+                                <button type="button" class="btn btn-xs btn-success" data-add="group">
+                                    <i class="{{= it.icons.add_group }}"></i> {{= it.translate("add_group") }}
+                                </button>
+                            {{?}}
+                            {{? it.level>1 }}
+                                <button type="button" class="btn btn-xs btn-primary" data-pause="group">
+                                    <i class="{{= it.icons.pause_group }}"></i> {{= it.translate("pause_group") }}
+                                </button>
+                                <button type="button" class="btn btn-xs btn-primary" data-resume="group">
+                                    <i class="{{= it.icons.resume_group }}"></i> {{= it.translate("resume_group") }}
+                                </button>
+                                <button type="button" class="btn btn-xs btn-danger" data-delete="group">
+                                    <i class="{{= it.icons.remove_group }}"></i> {{= it.translate("delete_group") }}
+                                </button>
+                            {{?}}
+                            </div>
+                            <div class="btn-group group-conditions">
+                            {{~ it.conditions: condition }}
+                                <label class="btn btn-xs btn-default">
+                                    <input type="radio" name="{{= it.group_id }}_cond" value="{{= condition }}"> {{= it.translate("conditions", condition) }}
+                                </label>
+                            {{~}}
+                            </div>
+                        {{? it.settings.display_errors }}
+                            <div class="error-container">
+                                <i class="{{= it.icons.error }}"></i>
+                            </div>
+                        {{?}}
+                        </div>
+                        <div class=rules-group-body>
+                            <div class=rules-list></div>
+                        </div>
+                    </div>
+                `,
+                rule: `
+                    <div id="{{= it.rule_id }}" class="rule-container">
+                        <div class="rule-header">
+                            <div class="btn-group pull-right rule-actions">
+                                <button type="button" class="btn btn-xs btn-primary" data-pause="rule">
+                                    <i class="{{= it.icons.pause_rule }}"></i> {{= it.translate("pause_rule") }}
+                                </button>
+                                <button type="button" class="btn btn-xs btn-primary" data-resume="rule">
+                                    <i class="{{= it.icons.resume_rule }}"></i> {{= it.translate("resume_rule") }}
+                                </button>
+                                <button type="button" class="btn btn-xs btn-danger" data-delete="rule">
+                                    <i class="{{= it.icons.remove_rule }}"></i> {{= it.translate("delete_rule") }}
+                                </button>
+                            </div>
+                        </div>
+                    {{? it.settings.display_errors }}
+                        <div class="error-container">
+                            <i class="{{= it.icons.error }}"></i>
+                        </div>
+                    {{?}}
+                        <div class="rule-filter-container"></div>
+                        <div class="rule-operator-container"></div>
+                        <div class="rule-value-container"></div>
+                    </div>
+                `
+            };
+            const options = {
+                filters: filters,
+                icons: {
+                    add_group: `fa fa-plus`,
+                    add_rule: `fa fa-plus`,
+                    pause_group: `fa fa-pause`,
+                    pause_rule: `fa fa-pause`,
+                    remove_group: `fa fa-times`,
+                    remove_rule: `fa fa-times`,
+                    resume_group: `fa fa-play`,
+                    resume_rule: `fa fa-play`,
+                    error: `fa fa-exclamation`
+                },
+                plugins: {
+                    [`bt-checkbox`]: {
+                        font: `fontawesome`
+                    },
+                    [`bt-selectpicker`]: {
+                        liveSearch: true,
+                        liveSearchNormalize: true
+                    },
+                    [`invert`]: {
+                        icon: `fa fa-random`
+                    },
+                    [`not-group`]: {
+                        icon_checked: `fa fa-check-square-o`,
+                        icon_unchecked: `fa fa-square-o`
+                    },
+                    [`sortable`]: {
+                        icon: `fa fa-arrows`
+                    }
+                },
+                sort_filters: true,
+                lang: {
+                    pause_group: `Pause`,
+                    pause_rule: `Pause`,
+                    resume_group: `Resume`,
+                    resume_rule: `Resume`
+                },
+                templates: templates
+            };
+            if (obj.rules.rules && obj.rules.rules.length) {
+                options.rules = obj.rules;
+            }
+            $(advancedFilters).queryBuilder(options);
+            obj.builder = $(advancedFilters)[0].queryBuilder;
+
+            obj.builder.$el.on(`click.queryBuilder`, `[data-pause=group]`, event => {
+                const group = event.currentTarget.closest(`.rules-group-container`);
+                group.setAttribute(`data-esgst-paused`, true);
+                obj.rules = obj.builder.getRules();
                 this.filters_filter(obj);
-            } catch (e) {}
-        });
+            });
+            obj.builder.$el.on(`click.queryBuilder`, `[data-resume=group]`, event => {
+                const group = event.currentTarget.closest(`.rules-group-container`);
+                group.removeAttribute(`data-esgst-paused`);
+                obj.rules = obj.builder.getRules();
+                this.filters_filter(obj);
+            });
+            obj.builder.$el.on(`click.queryBuilder`, `[data-pause=rule]`, event => {
+                const rule = event.currentTarget.closest(`.rule-container`);
+                rule.setAttribute(`data-esgst-paused`, true);
+                obj.rules = obj.builder.getRules();
+                this.filters_filter(obj);
+            });
+            obj.builder.$el.on(`click.queryBuilder`, `[data-resume=rule]`, event => {
+                const rule = event.currentTarget.closest(`.rule-container`);
+                rule.removeAttribute(`data-esgst-paused`);
+                obj.rules = obj.builder.getRules();
+                this.filters_filter(obj);
+            });
+
+            obj.builder.on(`rulesChanged.queryBuilder`, () => {
+                try {
+                    obj.rules = obj.builder.getRules();
+                    if (!obj.basicApplied && !esgst[`${obj.id}_m_b`]) {
+                        this.filters_resetBasic(obj);
+                        this.filters_applyBasic(obj, obj.rules);
+                    }
+                    this.filters_filter(obj);
+                } catch (e) {}
+                obj.basicApplied = false;
+            });
+            obj.builder.on(`getRules.queryBuilder.filter`, event => {                
+                const valid = obj.builder.validate();
+
+                if (!valid) {
+                    return null;
+                }
+                
+                const out = (function parse(group) {
+                    const groupData = {
+                        condition: group.condition,
+                        rules: []
+                    };
+                    group.each(function(rule) {
+                        if (rule.$el[0].getAttribute(`data-esgst-paused`)) {
+                            return;
+                        }
+
+                        let value = null;
+                        if (!rule.operator || rule.operator.nb_inputs !== 0) {
+                            value = rule.value;
+                        }            
+                        const ruleData = {
+                            id: rule.filter ? rule.filter.id : null,
+                            field: rule.filter ? rule.filter.field : null,
+                            type: rule.filter ? rule.filter.type : null,
+                            input: rule.filter ? rule.filter.input : null,
+                            operator: rule.operator ? rule.operator.type : null,
+                            value: value
+                        };
+                        groupData.rules.push(obj.builder.change(`ruleToJson`, ruleData, rule));            
+                    }, function (model) {
+                        if (model.$el[0].getAttribute(`data-esgst-paused`)) {
+                            return;
+                        }
+
+                        const data = parse(model);
+                        if (data.rules.length !== 0) {
+                            groupData.rules.push(data);
+                        }
+                    }, obj.builder);
+
+                    return obj.builder.change(`groupToJson`, groupData, group);                
+                }(obj.builder.model.root));
+                
+                out.valid = valid;
+                event.value = out;
+            });
+        }
+
+        if (esgst[`${obj.id}_m_b`]) {
+            basicFilters.classList.add(`esgst-hidden`);
+            basicFilters.nextElementSibling.classList.add(`esgst-hidden`);
+        }
+        if (esgst[`${obj.id}_m_a`]) {
+            advancedFilters.classList.add(`esgst-hidden`);
+            basicFilters.nextElementSibling.classList.add(`esgst-hidden`);
+        }
 
         if (obj.id === `gf`) {
             [
@@ -16062,6 +16415,121 @@ class ESGST {
         }
 
         return headingButton;
+    }
+    filters_basicToAdv(obj) {
+        const adv = {
+            condition: `AND`,
+            not: false,
+            rules: [],
+            valid: true
+        };
+        for (const id in obj.basicFilters) {
+            const filter = obj.basicFilters[id];
+            switch (filter.filterType) {
+                case `boolean`:
+                    if (filter.checkbox.value === `enabled`) break;
+
+                    adv.rules.push({
+                        field: id,
+                        id: id,
+                        input: filter.input,
+                        operator: filter.operator,
+                        type: filter.type,
+                        value: filter.checkbox.value === `none`
+                    });
+                    break;
+                case `number`:
+                    if (filter.maxInput.value) {
+                        adv.rules.push({
+                            field: id,
+                            id: id,
+                            input: filter.input,
+                            operator: `less_or_equal`,
+                            type: filter.type,
+                            value: filter.maxInput.value
+                        });
+                    }
+                    if (filter.minInput.value) {
+                        adv.rules.push({
+                            field: id,
+                            id: id,
+                            input: filter.input,
+                            operator: `greater_or_equal`,
+                            type: filter.type,
+                            value: filter.minInput.value
+                        });
+                    }
+                    break;
+                case `string`:
+                    if (filter.checkbox.value === `enabled`) break;
+
+                    if (!filter.textInput.value) break;
+
+                    adv.rules.push({
+                        field: id,
+                        id: id,
+                        input: filter.input,
+                        operator: filter.checkbox.value === `none` ? `contains` : `not_contains`,
+                        type: filter.type,
+                        value: filter.textInput.value
+                    });
+                    break;
+            }
+        }
+        obj.rules = adv;
+        if (obj.rules.rules && obj.rules.rules.length) {
+            if (esgst[`${obj.id}_m_a`]) {
+                this.filters_filter(obj);
+            } else {
+                obj.basicApplied = true;
+                obj.builder.setRules(obj.rules);
+            }
+        }
+    }
+    filters_applyBasic(obj, rules) {
+        if (rules.condition !== `AND`) return;
+
+        for (const rule of rules.rules) {
+            if (rule.condition) continue;
+
+            const filter = obj.basicFilters[rule.id];
+            switch (rule.type) {
+                case `boolean`:
+                    filter.checkbox.change(false, rule.value ? `none` : `disabled`);
+                    break;
+                case `date`:
+                case `double`:
+                case `integer`:
+                    if (rule.operator === `less_or_equal`) {
+                        filter.maxInput.value = rule.value;
+                    } else if (rule.operator === `greater_or_equal`) {
+                        filter.minInput.value = rule.value;
+                    }
+                    break;
+                case `string`:                    
+                    filter.checkbox.change(false, rule.operator === `contains` ? `none` : `disabled`);
+                    filter.textInput.value = rule.value;
+                    break;
+            }
+        }
+    }
+    filters_resetBasic(obj) {        
+        for (const id in obj.basicFilters) {
+            const filter = obj.basicFilters[id];
+            switch (filter.filterType) {
+                case `boolean`:
+                    filter.checkbox.change(false, `enabled`);
+                    break;
+                case `number`:
+                    filter.maxInput.value = ``;
+                    filter.minInput.value = ``;
+                    break;
+                case `string`:
+                    filter.checkbox.change(false, `enabled`);
+                    filter.textInput.value = ``;
+                    break;
+            }
+        }
     }
     async filters_savePreset(obj) {
         const name = obj.presetInput.value;
@@ -16167,12 +16635,23 @@ class ESGST {
         esgst[obj.key].splice(obj.sourceNewIndex, 0, esgst[obj.key].splice(obj.sourceIndex, 1)[0]);
         await this.setSetting(obj.key, esgst[obj.key]);
     }
-    async filters_applyPreset(obj, popup, preset) {
-        $(obj.leftPanel).queryBuilder(`setRules`, preset.rules);
+    async filters_applyPreset(obj, popup, preset) {        
+        if (!preset.rules || !preset.rules.length) {
+            popup.close();
+            return;
+        }
+
+        if (!esgst[`${obj.id}_m_b`]) {
+            this.filters_resetBasic(obj);
+            this.filters_applyBasic(obj, preset.rules);
+        }        
+        if (!esgst[`${obj.id}_m_a`]) {
+            console.log(preset.rules);
+            obj.builder.setRules(preset.rules);
+        }
         obj.presetDisplay.textContent = obj.presetInput.value = preset.name;
-        await this.setSetting(`${obj.id}_preset${obj.type}`, preset.name);
-        popup.close();
         this.filters_filter(obj);
+        this.setSetting(`${obj.id}_preset${obj.type}`, preset.name);
     }
     filters_showRenameInput(heading, renameInput) {
         heading.classList.add(`esgst-hidden`);
@@ -16296,14 +16775,19 @@ class ESGST {
             } else {
                 // The giveaway must be filtered by at least 1 rule.
                 filtered = false;
-                for (const rule of rules.rules) {
-                    filtered = filtered || this.filters_filterItem(filters, item, rule);
-                    if (filtered) break;
+                if (rules.rules.length) {
+                    for (const rule of rules.rules) {
+                        filtered = filtered || this.filters_filterItem(filters, item, rule);
+                        if (filtered) break;
+                    }
+                } else {
+                    filtered = true;
                 }
             }
             return rules.not ? !filtered : filtered;
         }
 
+        filtered = true;
         const key = rules.id;
         const filter = filters[key];
 
@@ -16311,10 +16795,9 @@ class ESGST {
             !filter.check ||
             (filter.category && (!esgst.gc || !esgst[filter.category] || !item.gcReady))
         ) {
-            return false;
+            return filtered;
         }
 
-        filtered = true;
         switch (rules.type) {
             case `date`:
                 rules.value = new Date(rules.value).getTime();
@@ -23467,8 +23950,8 @@ class ESGST {
         }
         await this.setValue(`${esgst.name}RfiCache`, JSON.stringify(saved));
     }
-    async rfi_getReplies(comments) {
-        let children, comment, i, id, j, key, n, numReplies, saved;
+    async rfi_getReplies(comments, endless) {
+        let children, comment, i, id, j, key, n, numReplies, saved, edited = false;
         saved = JSON.parse(await this.getValue(`${esgst.name}RfiCache`, `{}`));
         for (i = 0, n = comments.length; i < n; ++i) {
             comment = comments[i];
@@ -23479,23 +23962,27 @@ class ESGST {
                     insertHtml(children, `beforeEnd`, saved[id][j].reply).querySelector(`[data-timestamp]`).textContent = getTimeSince(saved[id][j].timestamp);
                 }
                 children.setAttribute(`data-rfi`, true);
-                await this.endless_load(children);
+                await this.endless_load(children, false, null, false, endless);
                 children.removeAttribute(`data-rfi`);
             }
         }
         for (key in saved) {
             for (i = 0, n = saved[key].length; i < n; ++i) {
                 if (Date.now() - saved[key][i].timestamp > 604800000) {
+                    edited = true;
                     saved[key].splice(i, 1);
                     i -= 1;
                     n -= 1;
                 }
             }
             if (!saved[key].length) {
+                edited = true;
                 delete saved[key];
             }
         }
-        await this.setValue(`${esgst.name}RfiCache`, JSON.stringify(saved));
+        if (edited) {
+            await this.setValue(`${esgst.name}RfiCache`, JSON.stringify(saved));
+        }
     }
     rml() {
         esgst.endlessFeatures.push(this.rml_addLinks.bind(this));
@@ -28503,7 +28990,7 @@ class ESGST {
     comments() {
         esgst.endlessFeatures.push(this.comments_load.bind(this));
     }
-    async comments_load(context, main, source, endless) {
+    async comments_load(context, main, source, endless, mainEndless) {
         let count, comments, i, n;
         comments = await this.comments_get(context, document, main, endless);
         if (!comments.length) return;
@@ -28524,15 +29011,15 @@ class ESGST {
                     count = 0;
                 }
             }
-            this.ct_getComments(count, comments);
+            this.ct_getComments(count, comments, null, false, false, false, main || endless || mainEndless);
         }
         if (esgst.rfi) {
             if (esgst.rfi_s && (!main || esgst.inboxPath) && (!context.getAttribute || !context.getAttribute(`data-rfi`))) {
-                await this.rfi_getReplies(comments, main);
+                await this.rfi_getReplies(comments, main || endless || mainEndless);
             }
         }
         if (esgst.ged) {
-            esgst.ged_addIcons(comments, main);
+            esgst.ged_addIcons(comments, context === document && main);
         }
     }
     async comments_get(context, mainContext, main, endless) {
@@ -29022,22 +29509,40 @@ class ESGST {
         await this.lockAndSaveGames(games);
         button.remove();
     }
-    async endless_load(context, main, source, endless) {
-        let values = await this.getValues({
-            discussions: `{}`,
-            games: `{"apps":{},"subs":{}}`,
-            giveaways: `{}`,
-            users: `{"steamIds":{},"users":{}}`
-        });
-        esgst.discussions = JSON.parse(values.discussions);
-        esgst.games = JSON.parse(values.games);
-        esgst.giveaways = JSON.parse(values.giveaways);
-        esgst.users = JSON.parse(values.users);
+    async endless_load(context, main, source, endless, mainEndless) {
+        if (!mainEndless) {
+            esgst.edited = {};
+            let values = await this.getValues({
+                discussions: `{}`,
+                games: `{"apps":{},"subs":{}}`,
+                giveaways: `{}`,
+                tickets: `{}`,
+                trades: `{}`,
+                users: `{"steamIds":{},"users":{}}`
+            });
+            esgst.discussions = JSON.parse(values.discussions);
+            esgst.games = JSON.parse(values.games);
+            esgst.giveaways = JSON.parse(values.giveaways);
+            esgst.tickets = JSON.parse(values.tickets);
+            esgst.trades = JSON.parse(values.trades);
+            esgst.users = JSON.parse(values.users);
+        }
+
         for (let feature of esgst.endlessFeatures) {
             try {
-                await feature(context, main, source, endless);
+                await feature(context, main, source, endless, mainEndless);
             } catch(e) {
                 console.log(e);
+            }
+        }
+
+        if (!mainEndless) {
+            const newValues = {};
+            for (const key in esgst.edited) {
+                newValues[key] = JSON.stringify(esgst[key]);
+            }
+            if (Object.keys(newValues).length) {
+                this.setValues(newValues);
             }
         }
     }
@@ -31119,20 +31624,32 @@ class ESGST {
             await timeout(1000);
         }
     }
-    async lockAndSaveGiveaways(giveaways) {
-        let deleteLock = await this.createLock(`giveawayLock`, 300),
-        savedGiveaways = JSON.parse(await this.getValue(`giveaways`, `{}`));
+    async lockAndSaveGiveaways(giveaways, firstRun) {
+        if (!Object.keys(giveaways).length) return;
+
+        let deleteLock;
+        let savedGiveaways;
+        if (firstRun) {
+            savedGiveaways = esgst.giveaways;
+        } else {
+            deleteLock = await this.createLock(`giveawayLock`, 300),
+            savedGiveaways = JSON.parse(await this.getValue(`giveaways`, `{}`));
+        }
         for (let key in giveaways) {
             if (savedGiveaways[key]) {
                 for (let subKey in giveaways[key]) {
                     savedGiveaways[key][subKey] = giveaways[key][subKey];
+                    esgst.edited.giveaways = true;
                 }
             } else {
                 savedGiveaways[key] = giveaways[key];
+                esgst.edited.giveaways = true;
             }
         }
-        await this.setValue(`giveaways`, JSON.stringify(savedGiveaways));
-        deleteLock();
+        if (!firstRun) {
+            await this.setValue(`giveaways`, JSON.stringify(savedGiveaways));
+            deleteLock();
+        }
     }    
     async lockAndSaveDiscussions(discussions) {
         let deleteLock = await this.createLock(`discussionLock`, 300),
@@ -34501,7 +35018,7 @@ class ESGST {
                         method: `POST`,
                         url: `https://www.googleapis.com/drive/v3/files`
                     });
-                    const reponse = await this.request({
+                    const response = await this.request({
                         data: JSON.stringify(data),
                         fileName: `${name}.json`,
                         headers: {
@@ -35022,6 +35539,48 @@ class ESGST {
             `;
         }
         style += `
+            .esgst-gf-basic-filters {
+                display: flex;
+                justify-content: space-between;
+            }
+
+            .esgst-gf-basic-filters input {
+                display: inline-block;
+                padding: 2px;
+                width: 100px;
+            }
+
+            .esgst-gf-basic-filters >* {                
+                margin: 5px;
+            }
+
+            .esgst-gf-number-filters {
+                flex: 1;
+            }
+
+            .esgst-gf-number-filters >*, .esgst-gf-string-filters >* {
+                align-items: center;
+                display: flex;
+                justify-content: space-between;
+            }
+
+            .esgst-gf-boolean-filters {
+                column-count: 2;
+                flex: 1;
+            }
+
+            .esgst-gf-basic-filters + div {
+                font-size: 14px;
+                font-weight: bold;
+            }
+
+            .esgst-gf-legend-panel {
+                display: block;
+                float: right;
+                text-align: right;
+                margin-top: 50px;
+            }
+
             .esgst-ns * {
                 max-width: 206px;
             }
@@ -36452,7 +37011,7 @@ class ESGST {
     
             .esgst-gf-left-panel {
                 flex: 1;
-                max-height: 300px;
+                max-height: 500px;
                 overflow-y: auto;
             }
 
@@ -37815,7 +38374,7 @@ class Checkbox {
                 this.disabled.classList.add(`esgst-hidden`);
                 this.none.classList.add(`esgst-hidden`);
             }
-            this.checkbox.addEventListener(`click`, () => this.change());
+            this.checkbox.addEventListener(`click`, event => this.change(false, null, null, event));
         } else {
             this.input.checked = this.value;
             if (this.value) {
@@ -37876,6 +38435,9 @@ class Checkbox {
                     this.onDisabled(event);
                 }
             }
+        }
+        if (event && this.onChange) {
+            this.onChange();
         }
     }
     showNone() {
@@ -39754,6 +40316,22 @@ function getThemeCss(theme) {
 function loadChangelog(version) {
     let changelog, html, i, index, n, popup;
     changelog = [
+        {
+            date: `May 27, 2018`,
+            version: `7.20.3`,
+            changelog: `
+                <ul>
+                    <li><a href="https://github.com/revilheart/ESGST/issues/730">#730</a> Possible fix to massive CPU usage spikes</li>
+                    <li><a href="https://github.com/revilheart/ESGST/issues/728">#728</a> Increase max-height of filters area</li>
+                    <li><a href="https://github.com/revilheart/ESGST/issues/727">#727</a> Fix a bug that happens when backing up to Google Drive</li>
+                    <li><a href="https://github.com/revilheart/ESGST/issues/726">#726</a> Fix a bug in the filters</li>
+                    <li><a href="https://github.com/revilheart/ESGST/issues/723">#723</a> Change color of AND/OR filter buttons</li>
+                    <li><a href="https://github.com/revilheart/ESGST/issues/721">#721</a> Fix a bug that happens in Giveaway Encrypter/Decrypter because of filters</li>
+                    <li><a href="https://github.com/revilheart/ESGST/issues/720">#720</a> Bring back the core of the basic filters as an opt-out option</li>
+                    <li><a href="https://github.com/revilheart/ESGST/issues/718">#718</a> Add button to pause filter rules/groups to advanced filters</li>
+                </ul>
+            `
+        },
         {
             date: `May 27, 2018`,
             version: `7.20.2`,
