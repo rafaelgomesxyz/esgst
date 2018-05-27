@@ -3,7 +3,7 @@
 // @namespace ESGST
 // @description Enhances SteamGifts and SteamTrades by adding some cool features to them.
 // @icon https://dl.dropboxusercontent.com/s/lr3t3bxrxfxylqe/esgstIcon.ico?raw=1
-// @version 7.20.1
+// @version 7.20.2
 // @author revilheart
 // @contributor Royalgamer06
 // @downloadURL https://github.com/revilheart/ESGST/raw/master/ESGST.user.js
@@ -2877,8 +2877,6 @@ class ESGST {
                 gf_presetGb: null,
                 gf_presetGe: null,
                 gf_presetGed: null,
-                gf_noRating: true,
-                gf_noReleaseDate: false,
                 ggl_index: 0,
                 gt_colors: {},
                 gts_preciseStart: false,
@@ -2999,8 +2997,8 @@ class ESGST {
             markdownParser: new Parsedown(),
             sg: location.hostname.match(/www.steamgifts.com/),
             st: location.hostname.match(/www.steamtrades.com/),
-            currentVersion: `7.20.1`,
-            devVersion: `7.20.1`,
+            currentVersion: `7.20.2`,
+            devVersion: `7.20.2`,
             icon: `data:image/x-icon;base64,AAABAAEAEBAAAAEAIABoBAAAFgAAACgAAAAQAAAAIAAAAAEAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAqv8DCbP/Hgeq+CQIrf8iCK3/Igit/yIIrf8iB6//Iwit9x8Aqv8DAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAKr0GAa2/c0DvfzfA7f83QO3/N0Dt/zdA7f83QO+/d4Gs/3OAKP1GQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACm/xQFs/n2Bcf//wW///8FwP//BcD//wW///8Fx///BbP69gC2/xUAAAAAAAAAAAAAAAAA/1UDFptOFxSZMxkLpJktAq720QW1+ugEsfvjA7b92wO2/dsEsfvjBbX66Aau/dEoiO4tUlLWGU5k3hdVVf8DEJxKHxWqT8cVrU7uE6VN0guqny0Apv8XAJfQGwBAVywAQFcsAJfQGwCx/xcogugtS2Lk0lBl6u5Qae7ISmPeHxagSSMVr07jF7lV/xOiSu0brgATAAAAAAAAAA8AAAC/AAAAwAAAABAAAAAAYznjEkth4OxWb/3/T2jv40lf4iMXnksiEq1O3RayUv8UpEnkEo0+HQAAABkAAABBAAAA8QAAAPEAAABBAAAAGUBSvxxOYeDjU2v0/05m7d1LYuEiF55LIhKtTt0Ws1L/FahN2gU1FTAAAADAAAAA7AAAAP0AAAD9AAAA7AAAAMAVG0owUGPm2lNr9P9OZu3dS2LhIheeSyISrU7dFrNS/xWoTdoFNRswAAAAvwAAAOsAAAD9AAAA/QAAAOsAAADAFRtKMFBj6NpTa/T/Tmbt3Uti4SIXnksiEq1O3RayUv8UpEnkEo0+HQAAABgAAABAAAAA8QAAAPEAAABBAAAAGT5PuR1OYeDjU2v0/05m7d1LYuEiFqBJIxWuT+QXuVX/E6JL7QC8XhMAAAAAAAAADwAAAL8AAAC/AAAAEAAAAAAOR/8SSWLh7FZv/f9PaO/jSV/iIxCUSh8Vrk7HFqxN7ROlS9JskzMt1XULGK12EhxGLgYsRy8GK612EhzVgAsYgmxxLU1i39JNZ+vtT2fwx0pj1h8AqlUDF65GFgqZUhlsiC0txH0T0s5/EujJgBPkz4QR28+EEdvJgBPkzn8Q6Md+E9KLdHosM1LWGUZo6BZVVf8DAAAAAAAAAAAAAAAA/2YAFMl9EvbgjRb/14gV/9eIFf/XiBX/14gV/9+NFv/KgBD254YAFQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAL91FRjKgRHN1IgU3s+EEt3PhBLdz4QS3c+EEt3UiBTezYMRzcJ6FBkAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACqqgADxIARHr18FiO8eA8ivHgPIrx4DyK8eA8ivXwPI8SAER7/VQADAAAAAAAAAAAAAAAA78cAAPA3AAD4FwAABCAAADGOAAAE+AAAkBEAAJ55AACYOQAAlgEAAER4AAAXaAAATnoAAPgXAAD0JwAA69cAAA==`,
             sgIcon: `data:image/x-icon;base64,AAABAAEAEBAAAAEAIABoBAAAFgAAACgAAAAQAAAAIAAAAAEAIAAAAAAAQAQAABMLAAATCwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIUAAAD5AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAPoAAACFAAAAAAAAAAAAAAD8AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA+QAAAAAAAAAAAAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAAAAAAAAAAAAP8AAAD/AAAA/wAAABwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAcAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAcAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAHAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAAAAAAAAAAAAPwAAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD5AAAAAAAAAAAAAACFAAAA+QAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD5AAAAhQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA//8AAP//AADAAwAAwAMAAMfjAADP8wAAz/MAAM/zAADP8wAAz/MAAM/zAADH4wAAwAMAAMADAAD//wAA//8AAA==`,
             stIcon: `data:image/x-icon;base64,AAABAAEAEBAAAAEAIABoBAAAFgAAACgAAAAQAAAAIAAAAAEAIAAAAAAAQAQAABMLAAATCwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABbD6SgWw+ucFsPrkBbD6SgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAWw+uYFsPr/BbD6/wWw+ucAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAFsPrmBbD6/wWw+v8FsPrmAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABbD6SQWw+uYFsPrmBbD6SQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAFKRLShSkS+cUpEvkFKRLSgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAExi4EpMYuDnTGLg5Exi4EoAAAAAAAAAABSkS+YUpEv/FKRL/xSkS+cAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABMYuDmTGLg/0xi4P9MYuDnAAAAAAAAAAAUpEvmFKRL/xSkS/8UpEvmAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAATGLg5kxi4P9MYuD/TGLg5gAAAAAAAAAAFKRLSRSkS+YUpEvmFKRLSQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAExi4ElMYuDmTGLg5kxi4EkAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAMZ9E0rGfRPnxn0T5MZ9E0oAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADGfRPmxn0T/8Z9E//GfRPnAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAxn0T5sZ9E//GfRP/xn0T5gAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAMZ9E0nGfRPmxn0T5sZ9E0kAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA//8AAPw/AAD8PwAA/D8AAPw/AAD//wAAh+EAAIfhAACH4QAAh+EAAP//AAD8PwAA/D8AAPw/AAD8PwAA//8AAA==`,
@@ -4827,468 +4825,6 @@ class ESGST {
                                     </ul>
                                 `,
                                 features: {
-                                    gf_level: {
-                                        description: `
-                                            <ul>
-                                                <li>Allows you to filter giveaways by level.</li>
-                                            </ul>
-                                        `,
-                                        name: `Level`,
-                                        sg: true
-                                    },
-                                    gf_entries: {
-                                        description: `
-                                            <ul>
-                                                <li>Allows you to filter giveaways by number of entries.</li>
-                                            </ul>
-                                        `,
-                                        name: `Entries`,
-                                        sg: true
-                                    },
-                                    gf_copies: {
-                                        description: `
-                                            <ul>
-                                                <li>Allows you to filter giveaways by number of copies.</li>
-                                            </ul>
-                                        `,
-                                        name: `Copies`,
-                                        sg: true
-                                    },
-                                    gf_points: {
-                                        description: `
-                                            <ul>
-                                                <li>Allows you to filter giveaways by how many points they cost.</li>
-                                            </ul>
-                                        `,
-                                        name: `Points`,
-                                        sg: true
-                                    },
-                                    gf_comments: {
-                                        description: `
-                                            <ul>
-                                                <li>Allows you to filter giveaways by number of comments.</li>
-                                            </ul>
-                                        `,
-                                        name: `Comments`,
-                                        sg: true
-                                    },
-                                    gf_minutesToEnd: {
-                                        description: `
-                                            <ul>
-                                                <li>Allows you to filter giveaways by how much time they have left.</li>
-                                            </ul>
-                                        `,
-                                        name: `Minutes To End`,
-                                        sg: true
-                                    },
-                                    gf_chance: {
-                                        description: `
-                                            <ul>
-                                                <li>Allows you to filter giveaways by chance.</li>
-                                                <li>This option requires [id=gwc] enabled to work.</li>
-                                            </ul>
-                                        `,
-                                        name: `Chance`,
-                                        sg: true
-                                    },
-                                    gf_chancePerPoint: {
-                                        description: `
-                                            <ul>
-                                                <li>Allows you to filter giveaways by chance per point.</li>
-                                                <li>This option requires [id=gwc] enabled to work.</li>
-                                            </ul>
-                                        `,
-                                        name: `Chance Per Point`,
-                                        sg: true
-                                    },
-                                    gf_ratio: {
-                                        description: `
-                                            <ul>
-                                                <li>Allows you to filter giveaways by ratio.</li>
-                                                <li>This option requires [id=gwr] enabled to work.</li>
-                                            </ul>
-                                        `,
-                                        name: `Ratio`,
-                                        sg: true
-                                    },
-                                    gf_rating: {
-                                        description: `
-                                            <ul>
-                                                <li>Allows you to filter giveaways by rating percentage of the game.</li>
-                                                <li>This option requires [id=gc_r] enabled to work.</li>
-                                            </ul>
-                                        `,
-                                        name: `Rating`,
-                                        sg: true
-                                    },
-                                    gf_releaseDate: {
-                                        description: `
-                                            <ul>
-                                                <li>Allows you to filter giveaways by release date of the game.</li>
-                                                <li>This option requires [id=gc_rd] enabled to work.</li>
-                                            </ul>
-                                        `,
-                                        name: `Release Date`,
-                                        sg: true
-                                    },
-                                    gf_pinned: {
-                                        description: `
-                                            <ul>
-                                                <li>Allows you to filter giveaways that are pinned.</li>
-                                            </ul>
-                                        `,
-                                        name: `Pinned`,
-                                        sg: true
-                                    },
-                                    gf_inviteOnly: {
-                                        description: `
-                                            <ul>
-                                                <li>Allows you to filter giveaways that are invite only.</li>
-                                            </ul>
-                                        `,
-                                        name: `Invite Only`,
-                                        sg: true
-                                    },
-                                    gf_group: {
-                                        description: `
-                                            <ul>
-                                                <li>Allows you to filter giveaways that are for groups.</li>
-                                            </ul>
-                                        `,
-                                        name: `Group`,
-                                        sg: true
-                                    },
-                                    gf_whitelist: {
-                                        description: `
-                                            <ul>
-                                                <li>Allows you to filter giveaways that are for whitelist.</li>
-                                            </ul>
-                                        `,
-                                        name: `Whitelist`,
-                                        sg: true
-                                    },
-                                    gf_regionRestricted: {
-                                        description: `
-                                            <ul>
-                                                <li>Allows you to filter giveaways that are region restricted.</li>
-                                            </ul>
-                                        `,
-                                        name: `Region Restricted`,
-                                        sg: true
-                                    },
-                                    gf_created: {
-                                        description: `
-                                            <ul>
-                                                <li>Allows you to filter giveaways created by yourself.</li>
-                                            </ul>
-                                        `,
-                                        name: `Created`,
-                                        sg: true
-                                    },
-                                    gf_received: {
-                                        description: `
-                                            <ul>
-                                                <li>Allows you to filter giveaways that have been marked as received.</li>
-                                            </ul>
-                                        `,
-                                        name: `Received`,
-                                        sg: true
-                                    },
-                                    gf_notReceived: {
-                                        description: `
-                                            <ul>
-                                                <li>Allows you to filter giveaways that have been marked as not received.</li>
-                                            </ul>
-                                        `,
-                                        name: `Not Received`,
-                                        sg: true
-                                    },
-                                    gf_awaitingFeedback: {
-                                        description: `
-                                            <ul>
-                                                <li>Allows you to filter giveaways that are awaiting feedback.</li>
-                                            </ul>
-                                        `,
-                                        name: `Awaiting Feedback`,
-                                        sg: true
-                                    },
-                                    gf_entered: {
-                                        description: `
-                                            <ul>
-                                                <li>Allows you to filter giveaways that you have entered.</li>
-                                            </ul>
-                                        `,
-                                        name: `Entered`,
-                                        sg: true
-                                    },
-                                    gf_started: {
-                                        description: `
-                                            <ul>
-                                                <li>Allows you to filter giveaways that have started.</li>
-                                            </ul>
-                                        `,
-                                        name: `Started`,
-                                        sg: true
-                                    },
-                                    gf_ended: {
-                                        description: `
-                                            <ul>
-                                                <li>Allows you to filter giveaways that have ended.</li>
-                                            </ul>
-                                        `,
-                                        name: `Ended`,
-                                        sg: true
-                                    },
-                                    gf_deleted: {
-                                        description: `
-                                            <ul>
-                                                <li>Allows you to filter giveaways that have been deleted.</li>
-                                            </ul>
-                                        `,
-                                        name: `Deleted`,
-                                        sg: true
-                                    },
-                                    gf_owned: {
-                                        description: `
-                                            <ul>
-                                                <li>Allows you to filter giveaways for games that you own on Steam.</li>
-                                            </ul>
-                                        `,
-                                        name: `Owned`,
-                                        sg: true
-                                    },
-                                    gf_wishlisted: {
-                                        description: `
-                                            <ul>
-                                                <li>Allows you to filter giveaways for games that you have wishlisted on Steam.</li>
-                                            </ul>
-                                        `,
-                                        name: `Wishlisted`,
-                                        sg: true
-                                    },
-                                    gf_hidden: {
-                                        description: `
-                                            <ul>
-                                                <li>Allows you to filter giveaways for games that you have hidden on SteamGifts.</li>
-                                            </ul>
-                                        `,
-                                        name: `Hidden`,
-                                        sg: true
-                                    },
-                                    gf_ignored: {
-                                        description: `
-                                            <ul>
-                                                <li>Allows you to filter giveaways for games that you have ignored on Steam.</li>
-                                            </ul>
-                                        `,
-                                        name: `Ignored`,
-                                        sg: true
-                                    },
-                                    gf_previouslyEntered: {
-                                        description: `
-                                            <ul>
-                                                <li>Allows you to filter giveaways for games that you have previously entered giveaways for.</li>
-                                                <li>This option requires [id=egh] enabled to work.</li>
-                                            </ul>
-                                        `,
-                                        name: `Previously Entered`,
-                                        sg: true
-                                    },
-                                    gf_previouslyWon: {
-                                        description: `
-                                            <ul>
-                                                <li>Allows you to filter giveaways for games that you have previously won.</li>
-                                            </ul>
-                                        `,
-                                        name: `Previously Won`,
-                                        sg: true
-                                    },
-                                    gf_fullCV: {
-                                        description: `
-                                            <ul>
-                                                <li>Allows you to filter giveaways for games that give full CV.</li>
-                                            </ul>
-                                        `,
-                                        name: `Full CV`,
-                                        sg: true
-                                    },
-                                    gf_reducedCV: {
-                                        description: `
-                                            <ul>
-                                                <li>Allows you to filter giveaways for games that give reduced CV.</li>
-                                            </ul>
-                                        `,
-                                        name: `Reduced CV`,
-                                        sg: true
-                                    },
-                                    gf_noCV: {
-                                        description: `
-                                            <ul>
-                                                <li>Allows you to filter giveaways for games that give no CV.</li>
-                                            </ul>
-                                        `,
-                                        name: `No CV`,
-                                        sg: true
-                                    },
-                                    gf_sgTools: {
-                                        description: `
-                                            <ul>
-                                                <li>Allows you to filter SGTools giveaways.</li>
-                                                <li>This option requires [id=ge] enabled to work.</li>
-                                            </ul>
-                                        `,
-                                        name: `SGTools`,
-                                        sg: true
-                                    },
-                                    gf_groups: {
-                                        description: `
-                                            <ul>
-                                                <li>Allows you to filter giveaways by group.</li>
-                                                <li>This option requires [id=ggl] enabled as "Panel (On Page Load)" to work.</li>
-                                            </ul>
-                                        `,
-                                        name: `Groups`,
-                                        sg: true
-                                    },
-                                    gf_creators: {
-                                        description: `
-                                            <ul>
-                                                <li>Allows you to filter giveaways by creator.</li>
-                                            </ul>
-                                        `,
-                                        name: `Creators`,
-                                        sg: true
-                                    },
-                                    gf_removed: {
-                                        description: `
-                                            <ul>
-                                                <li>Allows you to filter giveaways for games that have been removed from the Steam store.</li>
-                                                <li>This option requires [id=gc_rm] enabled to work.</li>
-                                            </ul>
-                                        `,
-                                        name: `Removed`,
-                                        sg: true
-                                    },
-                                    gf_tradingCards: {
-                                        description: `
-                                            <ul>
-                                                <li>Allows you to filter giveaways for games that have trading cards.</li>
-                                                <li>This option requires [id=gc_tc] enabled to work.</li>
-                                            </ul>
-                                        `,
-                                        name: `Trading Cards`,
-                                        sg: true
-                                    },
-                                    gf_achievements: {
-                                        description: `
-                                            <ul>
-                                                <li>Allows you to filter giveaways for games that have achievements.</li>
-                                                <li>This option requires [id=gc_a] enabled to work.</li>
-                                            </ul>
-                                        `,
-                                        name: `Achievements`,
-                                        sg: true
-                                    },
-                                    gf_multiplayer: {
-                                        description: `
-                                            <ul>
-                                                <li>Allows you to filter giveaways for games that are multiplayer.</li>
-                                                <li>This option requires [id=gc_mp] enabled to work.</li>
-                                            </ul>
-                                        `,
-                                        name: `Multiplayer`,
-                                        sg: true
-                                    },
-                                    gf_steamCloud: {
-                                        description: `
-                                            <ul>
-                                                <li>Allows you to filter giveaways for games that have Steam Cloud.</li>
-                                                <li>This option requires [id=gc_sc] enabled to work.</li>
-                                            </ul>
-                                        `,
-                                        name: `Steam Cloud`,
-                                        sg: true
-                                    },
-                                    gf_linux: {
-                                        description: `
-                                            <ul>
-                                                <li>Allows you to filter giveaways for games that have are compatible with Linux.</li>
-                                                <li>This option requires [id=gc_l] enabled to work.</li>
-                                            </ul>
-                                        `,
-                                        name: `Linux`,
-                                        sg: true
-                                    },
-                                    gf_mac: {
-                                        description: `
-                                            <ul>
-                                                <li>Allows you to filter giveaways for games that are compatible with Mac.</li>
-                                                <li>This option requires [id=gc_m] enabled to work.</li>
-                                            </ul>
-                                        `,
-                                        name: `Mac`,
-                                        sg: true
-                                    },
-                                    gf_dlc: {
-                                        description: `
-                                            <ul>
-                                                <li>Allows you to filter giveaways for games that are DLCs.</li>
-                                                <li>This option requires [id=gc_dlc] enabled to work.</li>
-                                            </ul>
-                                        `,
-                                        name: `DLC`,
-                                        sg: true
-                                    },
-                                    gf_dlcFree: {
-                                        description: `
-                                            <ul>
-                                                <li>Allows you to filter giveaways for games that are DLCs and have a free base game.</li>
-                                                <li>This option requires [id=gc_dlc_b] enabled to work.</li>
-                                            </ul>
-                                        `,
-                                        name: `DLC (Free Base)`,
-                                        sg: true
-                                    },
-                                    gf_dlcNonFree: {
-                                        description: `
-                                            <ul>
-                                                <li>Allows you to filter giveaways for games that are DLCs and have a non-free base game.</li>
-                                                <li>This option requires [id=gc_dlc_b] enabled to work.</li>
-                                            </ul>
-                                        `,
-                                        name: `DLC (Non-Free Base)`,
-                                        sg: true
-                                    },
-                                    gf_package: {
-                                        description: `
-                                            <ul>
-                                                <li>Allows you to filter giveaways for games that are packages.</li>
-                                                <li>This option requires [id=gc_p] enabled to work.</li>
-                                            </ul>
-                                        `,
-                                        name: `Package`,
-                                        sg: true
-                                    },
-                                    gf_earlyAccess: {
-                                        description: `
-                                            <ul>
-                                                <li>Allows you to filter giveaways for games that are in early access.</li>
-                                                <li>This option requires [id=gc_ea] enabled to work.</li>
-                                            </ul>
-                                        `,
-                                        name: `Early Access`,
-                                        sg: true
-                                    },
-                                    gf_genres: {
-                                        description: `
-                                            <ul>
-                                                <li>Allows you to filter giveaways by game genre.</li>
-                                                <li>This option requires [id=gc_g] enabled to work.</li>
-                                            </ul>
-                                        `,
-                                        name: `Genres`,
-                                        sg: true
-                                    },
                                     gf_os: {
                                         description: `
                                             <ul>
@@ -5853,155 +5389,6 @@ class ESGST {
                                         <li>Adds a text in parenthesis to the pagination of the page showing how many discussions in the page are being filtered by the filters.</li>
                                     </ul>
                                 `,
-                                features: {
-                                    df_comments: {
-                                        description: `
-                                            <ul>
-                                                <li>Allows you to filter discussions by number of comments.</li>
-                                            </ul>
-                                        `,
-                                        name: `Comments`,
-                                        sg: true
-                                    },
-                                    df_announcements: {
-                                        description: `
-                                            <ul>
-                                                <li>Allows you to filter discussions categorized as "Announcements".</li>
-                                            </ul>
-                                        `,
-                                        name: `Announcements`,
-                                        sg: true
-                                    },
-                                    df_bugsSuggestions: {
-                                        description: `
-                                            <ul>
-                                                <li>Allows you to filter discussions categorized as "Bugs / Suggestions".</li>
-                                            </ul>
-                                        `,
-                                        name: `Bugs / Suggestions`,
-                                        sg: true
-                                    },
-                                    df_deals: {
-                                        description: `
-                                            <ul>
-                                                <li>Allows you to filter discussions categorized as "Deals".</li>
-                                            </ul>
-                                        `,
-                                        name: `Deals`,
-                                        sg: true
-                                    },
-                                    df_general: {
-                                        description: `
-                                            <ul>
-                                                <li>Allows you to filter discussions categorized as "General".</li>
-                                            </ul>
-                                        `,
-                                        name: `General`,
-                                        sg: true
-                                    },
-                                    df_groupRecruitment: {
-                                        description: `
-                                            <ul>
-                                                <li>Allows you to filter discussions categorized as "Group Recruitment".</li>
-                                            </ul>
-                                        `,
-                                        name: `Group Recruitment`,
-                                        sg: true
-                                    },
-                                    df_letsPlayTogether: {
-                                        description: `
-                                            <ul>
-                                                <li>Allows you to filter discussions categorized as "Let's Play Together".</li>
-                                            </ul>
-                                        `,
-                                        name: `Let's Play Together`,
-                                        sg: true
-                                    },
-                                    df_offTopic: {
-                                        description: `
-                                            <ul>
-                                                <li>Allows you to filter discussions categorized as "Off-Topic".</li>
-                                            </ul>
-                                        `,
-                                        name: `Off-Topic`,
-                                        sg: true
-                                    },
-                                    df_puzzles: {
-                                        description: `
-                                            <ul>
-                                                <li>Allows you to filter discussions categorized as "Puzzles".</li>
-                                            </ul>
-                                        `,
-                                        name: `Puzzles`,
-                                        sg: true
-                                    },
-                                    df_uncategorized: {
-                                        description: `
-                                            <ul>
-                                                <li>Allows you to filter discussions categorized as "Uncategorized".</li>
-                                            </ul>
-                                        `,
-                                        name: `Uncategorized`,
-                                        sg: true
-                                    },
-                                    df_created: {
-                                        description: `
-                                            <ul>
-                                                <li>Allows you to filter discussions created by yourself.</li>
-                                            </ul>
-                                        `,
-                                        name: `Created`,
-                                        sg: true
-                                    },
-                                    df_poll: {
-                                        description: `
-                                            <ul>
-                                                <li>Allows you to filter discussions that contain polls.</li>
-                                            </ul>
-                                        `,
-                                        name: `Poll`,
-                                        sg: true
-                                    },
-                                    df_highlighted: {
-                                        description: `
-                                            <ul>
-                                                <li>Allows you to filter discussions that you have highlighted.</li>
-                                                <li>This option requires [id=dh] enabled to work.</li>
-                                            </ul>
-                                        `,
-                                        name: `Highlighted`,
-                                        sg: true
-                                    },
-                                    df_visited: {
-                                        description: `
-                                            <ul>
-                                                <li>Allows you to filter discussions that you have visited.</li>
-                                                <li>This option requires [id=gdttt] enabled to work.</li>
-                                            </ul>
-                                        `,
-                                        name: `Visited`,
-                                        sg: true
-                                    },
-                                    df_unread: {
-                                        description: `
-                                            <ul>
-                                                <li>Allows you to filter discussions that you have read.</li>
-                                                <li>This option requires [id=ct] enabled to work.</li>
-                                            </ul>
-                                        `,
-                                        name: `Unread`,
-                                        sg: true
-                                    },
-                                    df_authors: {
-                                        description: `
-                                            <ul>
-                                                <li>Allows you to filter discussions by author.</li>
-                                            </ul>
-                                        `,
-                                        name: `Authors`,
-                                        sg: true
-                                    }
-                                },
                                 name: `Multiple Filters`,
                                 sg: true
                             }
@@ -12318,93 +11705,88 @@ class ESGST {
     }
     df_getFilters() {
         return {
-            basic: [
-                {
-                    check: true,
-                    key: `comments`,
-                    minValue: 0,
-                    name: `Comments`
-                }
-            ],
-            type: [
-                {
-                    check: true,
-                    key: `announcements`,
-                    name: `Announcements`
-                },
-                {
-                    check: true,
-                    key: `bugsSuggestion`,
-                    name: `Bugs / Suggestion`
-                },
-                {
-                    check: true,
-                    key: `deals`,
-                    name: `Deals`
-                },
-                {
-                    check: true,
-                    key: `general`,
-                    name: `General`
-                },
-                {
-                    check: true,
-                    key: `groupRecruitment`,
-                    name: `Group Recruitment`
-                },
-                {
-                    check: true,
-                    key: `letsPlayTogether`,
-                    name: `Let's Play Together`
-                },
-                {
-                    check: true,
-                    key: `offTopic`,
-                    name: `Off-Topic`
-                },
-                {
-                    check: true,
-                    key: `puzzles`,
-                    name: `Puzzles`
-                },
-                {
-                    check: true,
-                    key: `uncategorized`,
-                    name: `Uncategorized`
-                },
-                {
-                    check: true,
-                    key: `created`,
-                    name: `Created`
-                },
-                {
-                    check: true,
-                    key: `poll`,
-                    name: `Poll`
-                },
-                {
-                    check: esgst.dh,
-                    key: `highlighted`,
-                    name: `Highlighted`
-                },
-                {
-                    check: esgst.gdttt,
-                    key: `visited`,
-                    name: `Visited`
-                },
-                {
-                    check: esgst.ct,
-                    key: `unread`,
-                    name: `Unread`
-                },
-                {
-                    check: true,
-                    key: `authors`,
-                    list: true,
-                    name: `Authors`
-                }
-            ],
-            category: []
+            comments: {
+                check: true,
+                minValue: 0,
+                name: `Comments`,
+                type: `number`
+            },
+            announcements: {
+                check: true,
+                name: `Announcements`,
+                type: `boolean`
+            },
+            bugsSuggestion: {
+                check: true,                
+                name: `Bugs / Suggestion`,
+                type: `boolean`
+            },
+            deals: {
+                check: true,                
+                name: `Deals`,
+                type: `boolean`
+            },
+            general: {
+                check: true,                
+                name: `General`,
+                type: `boolean`
+            },
+            groupRecruitment: {
+                check: true,                
+                name: `Group Recruitment`,
+                type: `boolean`
+            },
+            letsPlayTogether: {
+                check: true,                
+                name: `Let's Play Together`,
+                type: `boolean`
+            },
+            offTopic: {
+                check: true,                
+                name: `Off-Topic`,
+                type: `boolean`
+            },
+            puzzles: {
+                check: true,                
+                name: `Puzzles`,
+                type: `boolean`
+            },
+            uncategorized: {
+                check: true,                
+                name: `Uncategorized`,
+                type: `boolean`
+            },
+            created: {
+                check: true,                
+                name: `Created`,
+                type: `boolean`
+            },
+            poll: {
+                check: true,                
+                name: `Poll`,
+                type: `boolean`
+            },
+            highlighted: {
+                check: esgst.dh,                
+                name: `Highlighted`,
+                type: `boolean`
+            },
+            visited: {
+                check: esgst.gdttt,                
+                name: `Visited`,
+                type: `boolean`
+            },
+            unread: {
+                check: esgst.ct,                
+                name: `Unread`,
+                type: `boolean`
+            },
+            authors: {
+                check: true,
+                list: true,
+                name: `Authors`,
+                type: `string`
+            }
         };
     }
     dh() {
@@ -15713,22 +15095,28 @@ class ESGST {
                 delete decryptedGiveaways[code].html;
             }
             let isEnded = decryptedGiveaways[code].timestamp <= currentTime;
-            let filtered = false;
+            let filtered = true;
             let giveaway = esgst.giveaways[code];
             if (giveaway) {
                 let game = null;
                 if (giveaway.gameType && giveaway.gameSteamId) {
                     game = esgst.games[giveaway.gameType][giveaway.gameSteamId];
                 }
-                if (((giveaway.level < esgst.gf_minLevelPopup) || (giveaway.level > esgst.gf_maxLevelPopup)) || ((giveaway.copies < esgst.gf_minCopiesPopup) || (giveaway.copies > esgst.gf_maxCopiesPopup)) || ((giveaway.points < esgst.gf_minPointsPopup) || (giveaway.points > esgst.gf_maxPointsPopup)) || ((esgst.gf_createdPopup === `disabled` && giveaway.creator === esgst.username) || (esgst.gf_createdPopup === `none` && giveaway.creator !== esgst.username)) || (game && (((esgst.gf_hiddenPopup === `disabled` && game.hidden) || (esgst.gf_hiddenPopup === `none` && !game.hidden)) || ((esgst.gf_ownedPopup === `disabled` && game.owned) || (esgst.gf_ownedPopup === `none` && !game.owned)) || ((esgst.gf_ignoredPopup === `disabled` && game.ignored) || (esgst.gf_ignoredPopup === `none` && !game.ignored))))) {
-                    filtered = true;
+                const name = esgst.gf_presetGed;
+                if (name) {
+                    let i;
+                    for (i = esgst.gf_presets.length - 1; i > -1 && esgst.gf_presets[i].name !== name; i--);
+                    if (i > -1) {
+                        preset = esgst.gf_presets[i];
+                        filtered = this.filters_filterItem(this.gf_getFilters(true), giveaway, preset.rules);
+                    }
                 }
-                if (!filtered && isEnded && !giveaway.started) {
+                if (filtered && isEnded && !giveaway.started) {
                     await this.ged_getGiveaway(code, currentGiveaways, decryptedGiveaways, true);
                     isEnded = decryptedGiveaways[code].timestamp <= currentTime;
                 }
             }
-            if (!filtered && !isEnded) {
+            if (filtered && !isEnded) {
                 ged.giveaways.push({
                     code: code,
                     source: decryptedGiveaways[code].source,
@@ -16071,280 +15459,285 @@ class ESGST {
     }
     gf_getFilters(popup) {
         return {
-            basic: [
-                {
-                    check: (!esgst.parameters.level_min && !esgst.parameters.level_max) && (((!esgst.createdPath || esgst.cewgd) && (!esgst.enteredPath || esgst.cewgd) && (!esgst.wonPath || esgst.cewgd)) || popup),
-                    key: `level`,
-                    maxValue: 10,
-                    minValue: 0,
-                    name: `Level`
-                },
-                {
-                    check: (!esgst.parameters.entry_min && !esgst.parameters.entry_max) && (!esgst.wonPath || popup),
-                    key: `entries`,
-                    minValue: 0,
-                    name: `Entries`
-                },
-                {
-                    check: (!esgst.parameters.copy_min && !esgst.parameters.copy_max) && (!esgst.wonPath || popup),
-                    key: `copies`,
-                    minValue: 1,
-                    name: `Copies`
-                },
-                {
-                    check: (!esgst.parameters.point_min && !esgst.parameters.point_max) && (((!esgst.createdPath || esgst.cewgd) && (!esgst.enteredPath || esgst.cewgd) && (!esgst.wonPath || esgst.cewgd)) || popup),
-                    key: `points`,
-                    maxValue: 100,
-                    minValue: 0,
-                    name: `Points`
-                },
-                {
-                    check: popup || (!esgst.createdPath && !esgst.enteredPath && !esgst.wonPath),
-                    minValue: 0,
-                    key: `comments`,
-                    name: `Comments`
-                },
-                {
-                    check: !esgst.wonPath || popup,
-                    key: `minutesToEnd`,
-                    minValue: 0,
-                    name: `Minutes To End`
-                },
-                {
-                    check: ((!esgst.enteredPath || esgst.cewgd) && !esgst.createdPath && !esgst.wonPath) || popup,
-                    key: `chance`,
-                    maxValue: 100,
-                    minValue: 0,
-                    name: `Chance`,
-                    step: 0.01
-                },
-                {
-                    check: ((!esgst.enteredPath || esgst.cewgd) && !esgst.createdPath && !esgst.wonPath) || popup,
-                    key: `chancePerPoint`,
-                    maxValue: 100,
-                    minValue: 0,
-                    name: `Chance Per Point`,
-                    step: 0.01
-                },
-                {
-                    check: ((!esgst.enteredPath || esgst.cewgd) && !esgst.createdPath && !esgst.wonPath) || popup,
-                    key: `ratio`,
-                    minValue: 0,
-                    name: `Ratio`
-                },
-                {
-                    category: `gc_r`,
-                    check: true,
-                    key: `rating`,
-                    maxValue: 100,
-                    minValue: 0,
-                    name: `Rating`
-                },
-                {
-                    category: `gc_rd`,
-                    check: !esgst.parameters.release_date_min && !esgst.parameters.release_date_max,
-                    date: true,
-                    key: `releaseDate`,
-                    name: `Release Date`
-                }
-            ],
-            type: [
-                {
-                    check: esgst.giveawaysPath,
-                    key: `pinned`,
-                    name: `Pinned`
-                },
-                {
-                    check: ((!esgst.createdPath || esgst.cewgd) && (!esgst.enteredPath || esgst.cewgd) && (!esgst.wonPath || esgst.cewgd)) || popup,
-                    key: `inviteOnly`,
-                    name: `Invite Only`
-                },
-                {
-                    check: ((!esgst.createdPath || esgst.cewgd) && (!esgst.enteredPath || esgst.cewgd) && (!esgst.wonPath || esgst.cewgd)) || popup,
-                    key: `group`,
-                    name: `Group`
-                },
-                {
-                    check: ((!esgst.createdPath || esgst.cewgd) && (!esgst.enteredPath || esgst.cewgd) && (!esgst.wonPath || esgst.cewgd)) || popup,
-                    key: `whitelist`,
-                    name: `Whitelist`
-                },
-                {
-                    check: ((!esgst.createdPath || esgst.cewgd) && (!esgst.enteredPath || esgst.cewgd) && (!esgst.wonPath || esgst.cewgd)) || popup,
-                    key: `regionRestricted`,
-                    name: `Region Restricted`
-                },
-                {
-                    check: (!esgst.createdPath && !esgst.enteredPath && !esgst.wonPath) || popup,
-                    key: `created`,
-                    name: `Created`
-                },
-                {
-                    check: esgst.createdPath,
-                    key: `received`,
-                    name: `Received`
-                },
-                {
-                    check: esgst.createdPath,
-                    key: `notReceived`,
-                    name: `Not Received`
-                },
-                {
-                    check: esgst.createdPath,
-                    key: `awaitingFeedback`,
-                    name: `Awaiting Feedback`
-                },
-                {
-                    check: (!esgst.createdPath && !esgst.enteredPah && !esgst.wonPath) || popup,
-                    key: `entered`,
-                    name: `Entered`
-                },
-                {
-                    check: (!esgst.enteredPath && !esgst.wonPath) || popup,
-                    key: `started`,
-                    name: `Started`
-                },
-                {
-                    check: !esgst.wonPath || popup,
-                    key: `ended`,
-                    name: `Ended`
-                },
-                {
-                    check: esgst.createdPath || esgst.enteredPath,
-                    key: `deleted`,
-                    name: `Deleted`
-                },
-                {
-                    check: true,
-                    key: `owned`,
-                    name: `Owned`
-                },
-                {
-                    check: true,
-                    key: `wishlisted`,
-                    name: `Wishlisted`
-                },
-                {
-                    check: true,
-                    key: `hidden`,
-                    name: `Hidden`
-                },
-                {
-                    check: true,
-                    key: `ignored`,
-                    name: `Ignored`
-                },
-                {
-                    check: true,
-                    key: `previouslyEntered`,
-                    name: `Previously Entered`
-                },
-                {
-                    check: true,
-                    key: `previouslyWon`,
-                    name: `Previously Won`
-                },
-                {
-                    check: true,
-                    key: `fullCV`,
-                    name: `Full CV`
-                },
-                {
-                    check: true,
-                    key: `reducedCV`,
-                    name: `Reduced CV`
-                },
-                {
-                    check: true,
-                    key: `noCV`,
-                    name: `No CV`
-                },
-                {
-                    check: esgst.ge,
-                    key: `sgTools`,
-                    name: `SGTools`
-                },
-                {
-                    check: esgst.ggl && esgst.ggl_index === 0,
-                    key: `groups`,
-                    list: true,
-                    name: `Groups`
-                },
-                {
-                    check: true,
-                    key: `creators`,
-                    list: true,
-                    name: `Creators`
-                }
-            ],
-            category: [
-                {
-                    id: `gc_rm`,
-                    key: `removed`,
-                    name: `Removed`
-                },
-                {
-                    id: `gc_tc`,
-                    key: `tradingCards`,
-                    name: `Trading Cards`
-                },
-                {
-                    id: `gc_a`,
-                    key: `achievements`,
-                    name: `Achievements`
-                },
-                {
-                    id: `gc_mp`,
-                    key: `multiplayer`,
-                    name: `Multiplayer`
-                },
-                {
-                    id: `gc_sc`,
-                    key: `steamCloud`,
-                    name: `Steam Cloud`
-                },
-                {
-                    id: `gc_l`,
-                    key: `linux`,
-                    name: `Linux`
-                },
-                {
-                    id: `gc_m`,
-                    key: `mac`,
-                    name: `Mac`
-                },
-                {
-                    id: `gc_dlc`,
-                    key: `dlc`,
-                    name: `DLC`
-                },
-                {
-                    id: `gc_dlc_b`,
-                    key: `dlcFree`,
-                    name: `DLC (Free Base)`
-                },
-                {
-                    id: `gc_dlc_b`,
-                    key: `dlcNonFree`,
-                    name: `DLC (Non-Free Base)`
-                },
-                {
-                    id: `gc_p`,
-                    key: `package`,
-                    name: `Package`
-                },
-                {
-                    id: `gc_ea`,
-                    key: `earlyAccess`,
-                    name: `Early Access`
-                },
-                {
-                    id: `gc_g`,
-                    key: `genres`,
-                    list: true,
-                    name: `Genres`
-                }
-            ]
+            level: {
+                check: (!esgst.parameters.level_min && !esgst.parameters.level_max) && (((!esgst.createdPath || esgst.cewgd) && (!esgst.enteredPath || esgst.cewgd) && (!esgst.wonPath || esgst.cewgd)) || popup),
+                maxValue: 10,
+                minValue: 0,
+                name: `Level`,
+                type: `number`
+            },
+            entries: {
+                check: (!esgst.parameters.entry_min && !esgst.parameters.entry_max) && (!esgst.wonPath || popup),
+                minValue: 0,
+                name: `Entries`,
+                type: `number`
+            },
+            copies: {
+                check: (!esgst.parameters.copy_min && !esgst.parameters.copy_max) && (!esgst.wonPath || popup),
+                minValue: 1,
+                name: `Copies`,
+                type: `number`
+            },
+            points: {
+                check: (!esgst.parameters.point_min && !esgst.parameters.point_max) && (((!esgst.createdPath || esgst.cewgd) && (!esgst.enteredPath || esgst.cewgd) && (!esgst.wonPath || esgst.cewgd)) || popup),
+                maxValue: 100,
+                minValue: 0,
+                name: `Points`,
+                type: `number`
+            },
+            comments: {
+                check: popup || (!esgst.createdPath && !esgst.enteredPath && !esgst.wonPath),
+                minValue: 0,                
+                name: `Comments`,
+                type: `number`
+            },
+            minutesToEnd: {
+                check: !esgst.wonPath || popup,                
+                minValue: 0,
+                name: `Minutes To End`,
+                type: `number`
+            },
+            chance: {
+                check: ((!esgst.enteredPath || esgst.cewgd) && !esgst.createdPath && !esgst.wonPath) || popup,
+                maxValue: 100,
+                minValue: 0,
+                name: `Chance`,
+                step: 0.01,
+                type: `number`
+            },
+            chancePerPoint: {
+                check: ((!esgst.enteredPath || esgst.cewgd) && !esgst.createdPath && !esgst.wonPath) || popup,
+                maxValue: 100,
+                minValue: 0,
+                name: `Chance Per Point`,
+                step: 0.01,
+                type: `number`
+            },
+            ratio: {
+                check: ((!esgst.enteredPath || esgst.cewgd) && !esgst.createdPath && !esgst.wonPath) || popup,
+                minValue: 0,
+                name: `Ratio`,
+                type: `number`
+            },
+            rating: {
+                category: `gc_r`,
+                check: true,                
+                maxValue: 100,
+                minValue: 0,
+                name: `Rating`,
+                type: `number`
+            },
+            releaseDate: {
+                category: `gc_rd`,
+                check: !esgst.parameters.release_date_min && !esgst.parameters.release_date_max,
+                date: true,                
+                name: `Release Date`,
+                type: `number`
+            },
+            pinned: {
+                check: esgst.giveawaysPath,                
+                name: `Pinned`,
+                type: `boolean`
+            },
+            inviteOnly: {
+                check: ((!esgst.createdPath || esgst.cewgd) && (!esgst.enteredPath || esgst.cewgd) && (!esgst.wonPath || esgst.cewgd)) || popup,                
+                name: `Invite Only`,
+                type: `boolean`
+            },
+            group: {
+                check: ((!esgst.createdPath || esgst.cewgd) && (!esgst.enteredPath || esgst.cewgd) && (!esgst.wonPath || esgst.cewgd)) || popup,                
+                name: `Group`,
+                type: `boolean`
+            },
+            whitelist: {
+                check: ((!esgst.createdPath || esgst.cewgd) && (!esgst.enteredPath || esgst.cewgd) && (!esgst.wonPath || esgst.cewgd)) || popup,                
+                name: `Whitelist`,
+                type: `boolean`
+            },
+            regionRestricted: {
+                check: ((!esgst.createdPath || esgst.cewgd) && (!esgst.enteredPath || esgst.cewgd) && (!esgst.wonPath || esgst.cewgd)) || popup,                
+                name: `Region Restricted`,
+                type: `boolean`
+            },
+            created: {
+                check: (!esgst.createdPath && !esgst.enteredPath && !esgst.wonPath) || popup,                
+                name: `Created`,
+                type: `boolean`
+            },
+            received: {
+                check: esgst.createdPath,                
+                name: `Received`,
+                type: `boolean`
+            },
+            notReceived: {
+                check: esgst.createdPath,                
+                name: `Not Received`,
+                type: `boolean`
+            },
+            awaitingFeedback: {
+                check: esgst.createdPath,                
+                name: `Awaiting Feedback`,
+                type: `boolean`
+            },
+            entered: {
+                check: (!esgst.createdPath && !esgst.enteredPah && !esgst.wonPath) || popup,                
+                name: `Entered`,
+                type: `boolean`
+            },
+            started: {
+                check: (!esgst.enteredPath && !esgst.wonPath) || popup,                
+                name: `Started`,
+                type: `boolean`
+            },
+            ended: {
+                check: !esgst.wonPath || popup,                
+                name: `Ended`,
+                type: `boolean`
+            },
+            deleted: {
+                check: esgst.createdPath || esgst.enteredPath,                
+                name: `Deleted`,
+                type: `boolean`
+            },
+            owned: {
+                check: true,                
+                name: `Owned`,
+                type: `boolean`
+            },
+            wishlisted: {
+                check: true,                
+                name: `Wishlisted`,
+                type: `boolean`
+            },
+            hidden: {
+                check: true,                
+                name: `Hidden`,
+                type: `boolean`
+            },
+            ignored: {
+                check: true,                
+                name: `Ignored`,
+                type: `boolean`
+            },
+            previouslyEntered: {
+                check: true,                
+                name: `Previously Entered`,
+                type: `boolean`
+            },
+            previouslyWon: {
+                check: true,                
+                name: `Previously Won`,
+                type: `boolean`
+            },
+            fullCV: {
+                check: true,                
+                name: `Full CV`,
+                type: `boolean`
+            },
+            reducedCV: {
+                check: true,                
+                name: `Reduced CV`,
+                type: `boolean`
+            },
+            noCV: {
+                check: true,                
+                name: `No CV`,
+                type: `boolean`
+            },
+            sgTools: {
+                check: esgst.ge,                
+                name: `SGTools`,
+                type: `boolean`
+            },
+            groups: {
+                check: esgst.ggl && esgst.ggl_index === 0,                
+                list: true,
+                name: `Groups`,
+                type: `string`
+            },
+            creators: {
+                check: true,                
+                list: true,
+                name: `Creators`,
+                type: `string`
+            },
+            removed: {
+                category: `gc_rm`,  
+                check: true,              
+                name: `Removed`,
+                type: `boolean`
+            },
+            tradingCards: {
+                category: `gc_tc`,  
+                check: true,              
+                name: `Trading Cards`,
+                type: `boolean`
+            },
+            achievements: {
+                category: `gc_a`,                
+                name: `Achievements`,
+                type: `boolean`
+            },
+            multiplayer: {
+                category: `gc_mp`,  
+                check: true,              
+                name: `Multiplayer`,
+                type: `boolean`
+            },
+            steamCloud: {
+                category: `gc_sc`, 
+                check: true,               
+                name: `Steam Cloud`,
+                type: `boolean`
+            },
+            linux: {
+                category: `gc_l`,                
+                name: `Linux`,
+                type: `boolean`
+            },
+            mac: {
+                category: `gc_m`, 
+                check: true,               
+                name: `Mac`,
+                type: `boolean`
+            },
+            dlc: {
+                category: `gc_dlc`,  
+                check: true,              
+                name: `DLC`,
+                type: `boolean`
+            },
+            dlcFree: {
+                category: `gc_dlc_b`,  
+                check: true,              
+                name: `DLC (Free Base)`,
+                type: `boolean`
+            },
+            dlcNonFree: {
+                category: `gc_dlc_b`,       
+                check: true,         
+                name: `DLC (Non-Free Base)`,
+                type: `boolean`
+            },
+            package: {
+                category: `gc_p`,  
+                check: true,              
+                name: `Package`,
+                type: `boolean`
+            },
+            earlyAccess: {
+                category: `gc_ea`,  
+                check: true,              
+                name: `Early Access`,
+                type: `boolean`
+            },
+            genres: {
+                category: `gc_g`,
+                check: true,
+                list: true,
+                name: `Genres`,
+                type: `string`
+            }
         };
     }
     filters_addContainer(id, heading, popup) {
@@ -16485,108 +15878,64 @@ class ESGST {
         presetButton.addEventListener(`click`, this.filters_openPresetPopup.bind(this, obj));
         button.addEventListener(`click`, this.filters_toggleFilters.bind(this, obj));
 
-        const builderFilters = [];
-        for (const filter of obj.filters.basic) {
-            if (!filter.check) continue;
-
-            if (filter.category && (!esgst.gc || !esgst[filter.category])) continue;
-
-            if (!esgst[`${obj.id}_${filter.key}`]) continue;
-
+        const filters = [];
+        for (const key in obj.filters) {
+            const filter = obj.filters[key];
             const rule = {
-                id: filter.key,
-                label: filter.name,
-                operators: [
-                    `equal`,
-                    `not_equal`,
-                    `less`,
-                    `less_or_equal`,
-                    `greater`,
-                    `greater_or_equal`,
-                    `is_null`,
-                    `is_not_null`
-                ]
-            };
-            if (filter.date) {         
-                rule.plugin = `datepicker`;       
-                rule.plugin_config = {
-                    changeMonth: true,
-                    changeYear: true,
-                    dateFormat: `yy/mm/dd`
-                };
-                rule.type = `date`;
-            } else {
-                rule.input = `number`;
-                if (filter.step) {
-                    rule.type = `double`;
-                } else {
-                    rule.type = `integer`;
-                }
-                rule.validation = {
-                    max: filter.maxValue,
-                    min: filter.minValue,
-                    step: filter.step
-                };
-            }
-            if (filter.category) {
-                rule.data = {
-                    category: true
-                };
-            }
-            builderFilters.push(rule);
-        }
-        for (const filter of obj.filters.type) {
-            if (!filter.check) continue;
-
-            if (filter.key === `regionRestricted` && esgst.parameters.region_restricted) continue;
-
-            if (!esgst[`${obj.id}_${filter.key}`]) continue;
-
-            const rule = {
-                id: filter.key,
+                id: key,
                 label: filter.name
             };
-            if (filter.list) {
-                rule.operators = [`contains`, `not_contains`];
-                rule.placeholder =  `Item1, Item2, ...`;
-                rule.type = `string`;
-            } else {
-                rule.input = `radio`;
-                rule.operators = [`equal`],
-                rule.type = `boolean`,
-                rule.values = [`true`, `false`]
-            }
-            builderFilters.push(rule);
-        }
-        if (esgst.gc) {
-            for (const filter of obj.filters.category) {
-                if ((filter.id === `gc_dlc` && esgst.parameters.dlc) || !esgst[filter.id]) continue;
-
-                if (!esgst[`${obj.id}_${filter.key}`]) continue;
-
-                const rule = {
-                    data: {
-                        category: true
-                    },
-                    id: filter.key,
-                    label: filter.name
-                };
-                if (filter.list) {
-                    rule.operators = [`contains`, `not_contains`];
-                    rule.placeholder =  `Item1, Item2, ...`;
-                    rule.type = `string`;
-                } else {
+            switch (filter.type) {
+                case `boolean`:                
                     rule.input = `radio`;
                     rule.operators = [`equal`],
                     rule.type = `boolean`,
                     rule.values = [`true`, `false`]
-                }
-                builderFilters.push(rule);
+                    break;
+                case `number`:
+                    rule.operators = [
+                        `equal`,
+                        `not_equal`,
+                        `less`,
+                        `less_or_equal`,
+                        `greater`,
+                        `greater_or_equal`,
+                        `is_null`,
+                        `is_not_null`
+                    ];
+                    if (filter.date) {
+                        rule.plugin = `datepicker`;       
+                        rule.plugin_config = {
+                            changeMonth: true,
+                            changeYear: true,
+                            dateFormat: `yy/mm/dd`
+                        };
+                        rule.type = `date`;
+                    } else {
+                        rule.input = `number`;
+                        if (filter.step) {
+                            rule.type = `double`;
+                        } else {
+                            rule.type = `integer`;
+                        }
+                        rule.validation = {
+                            max: filter.maxValue,
+                            min: filter.minValue,
+                            step: filter.step
+                        };
+                    }
+                    break;
+                case `string`:                
+                    rule.operators = [`contains`, `not_contains`];
+                    rule.placeholder =  `Item1, Item2, ...`;
+                    rule.type = `string`;
+                    break;
             }
+            filters.push(rule);
         }
 
-        $(obj.leftPanel).queryBuilder({
-            filters: builderFilters,
+        const options = {
+            filters: filters,
             icons: {
                 add_group: `fa fa-plus`,
                 add_rule: `fa fa-plus`,
@@ -16613,9 +15962,12 @@ class ESGST {
                     icon: `fa fa-arrows`
                 }
             },
-            rules: (Object.keys(obj.rules).length && obj.rules) || null,
-            sort_filters: true,
-        });
+            sort_filters: true
+        };
+        if (Object.keys(obj.rules).length) {
+            options.rules = obj.rules;
+        }
+        $(obj.leftPanel).queryBuilder(options);
         $(obj.leftPanel).on(`rulesChanged.queryBuilder`, () => {
             try {
                 obj.rules = $(obj.leftPanel).queryBuilder(`getRules`);
@@ -16906,12 +16258,12 @@ class ESGST {
                 if (item.outerWrap.classList.contains(`esgst-hidden`)) {
                     item.outerWrap.classList.remove(`esgst-hidden`);
                 }
-            } else if (this.filters_filterItem(obj, item, obj.rules)) {
-                if (!item.outerWrap.classList.contains(`esgst-hidden`)) {
-                    item.outerWrap.classList.add(`esgst-hidden`);
+            } else if (this.filters_filterItem(obj.filters, item, obj.rules)) {
+                if (item.outerWrap.classList.contains(`esgst-hidden`)) {
+                    item.outerWrap.classList.remove(`esgst-hidden`);
                 }
-            } else if (item.outerWrap.classList.contains(`esgst-hidden`)) {
-                item.outerWrap.classList.remove(`esgst-hidden`);
+            } else if (!item.outerWrap.classList.contains(`esgst-hidden`)) {
+                item.outerWrap.classList.add(`esgst-hidden`);
             }
         }
         this.filters_updateCount(obj, endless);
@@ -16919,29 +16271,50 @@ class ESGST {
             esgst.es_loadNext();
         }
     }
-    filters_filterItem(obj, item, rules) {
-        if (!rules || (!rules.id && (!rules.condition || (isSet(rules.valid) && !rules.valid)))) return;
-
-        if (rules.condition) {
-            let check;
-            if (rules.condition === `AND`) {
-                check = true;
-                for (const rule of rules.rules) {
-                    check = check && !this.filters_filterItem(obj, item, rule);
-                    if (!check) break;
-                }
-            } else {
-                check = false;
-                for (const rule of rules.rules) {
-                    check = check || !this.filters_filterItem(obj, item, rule);
-                    if (check) break;
-                }
-            }
-            return rules.not ? check : !check;
+    /**
+     * Checks if an item passes a set of filter rules.
+     * @param {object} filters An object containing all the filters.
+     * @param {object} item An object containing information about the item to be checked.
+     * @param {object} rules An object containing the rules to check.
+     * @returns {boolean} True if the item passed the filters and false otherwise.
+     */
+    filters_filterItem(filters, item, rules) {
+        if (!rules || (!rules.id && (!rules.condition || (isSet(rules.valid) && !rules.valid)))) {
+            return true;
         }
 
-        let filtered = false;
+        let filtered;
+
+        if (rules.condition) {
+            if (rules.condition === `AND`) {
+                // The giveaway must be filtered by all rules.
+                filtered = true;
+                for (const rule of rules.rules) {
+                    filtered = filtered && this.filters_filterItem(filters, item, rule);
+                    if (!filtered) break;
+                }
+            } else {
+                // The giveaway must be filtered by at least 1 rule.
+                filtered = false;
+                for (const rule of rules.rules) {
+                    filtered = filtered || this.filters_filterItem(filters, item, rule);
+                    if (filtered) break;
+                }
+            }
+            return rules.not ? !filtered : filtered;
+        }
+
         const key = rules.id;
+        const filter = filters[key];
+
+        if (
+            !filter.check ||
+            (filter.category && (!esgst.gc || !esgst[filter.category] || !item.gcReady))
+        ) {
+            return false;
+        }
+
+        filtered = true;
         switch (rules.type) {
             case `date`:
                 rules.value = new Date(rules.value).getTime();
@@ -16949,35 +16322,33 @@ class ESGST {
             case `double`:
                 if (key === `minutesToEnd` && (item.ended || item.deleted)) break;
 
-                if (rules.data && rules.data.category && !item.gcReady) break;
-
                 const value = key === `minutesToEnd`
                     ? ((item.endTime - Date.now()) / 60000)
                     : item[key];
                 switch (rules.operator) {
                     case `equal`:
-                        filtered = rules.value !== value;
-                        break;
-                    case `not_equal`:
                         filtered = rules.value === value;
                         break;
+                    case `not_equal`:
+                        filtered = rules.value !== value;
+                        break;
                     case `less`:
-                        filtered = value >= rules.value;
+                        filtered = value < rules.value;
                         break;
                     case `less_or_equal`:
-                        filtered = value > rules.values;
-                        break;
-                    case `greater`:
                         filtered = value <= rules.value;
                         break;
+                    case `greater`:
+                        filtered = value > rules.value;
+                        break;
                     case `greater_or_equal`:
-                        filtered = value < rules.values;
+                        filtered = value >= rules.value;
                         break;
                     case `is_null`:
-                        filtered = isSet(value) && value > -1;
+                        filtered = !isSet(value) || value < 0;
                         break;
                     case `is_not_null`:
-                        filtered = !isSet(value) || value < 0;
+                        filtered = isSet(value) && value > -1;
                         break;
                 }
 
@@ -16986,8 +16357,6 @@ class ESGST {
                 if (key === `regionRestricted` && esgst.parameters.region_restricted) break;
 
                 if (key === `dlc` && esgst.parameters.dlc) break;
-
-                if (rules.data && rules.data.category && !item.gcReady) break;
 
                 if (
                     (
@@ -17003,7 +16372,7 @@ class ESGST {
                     )
                 ) break;
 
-                filtered = true;
+                filtered = false;
 
                 if (!item.deleted && key === `ended` && !rules.value && (esgst.createdPath || esgst.enteredPath || esgst.wonPath || esgst.userPath)) {
                     esgst.stopEs = true;
@@ -17015,23 +16384,23 @@ class ESGST {
 
                 if (rules.operator === `contains`) {
                     if (!item[key]) {
-                        filtered = true;
+                        filtered = false;
                         break;
                     }
+
                     let i;
                     for (i = list.length - 1; i > -1 && item[key].indexOf(list[i]) < 0; i--);
-                    filtered = i < 0;
+                    filtered = i > -1;
                 } else {
                     if (!item[key]) break;
 
                     let i;
                     for (i = list.length - 1; i > -1 && item[key].indexOf(list[i]) < 0; i--);
-                    filtered = i > -1;
+                    filtered = i < 0;
                 }
 
                 break;
         }
-
         return filtered;
     }
     filters_updateCount(obj, endless) {
@@ -23440,15 +22809,16 @@ class ESGST {
             });
             elements = revisedElements;
         }
+        const filters = this.df_getFilters();
         for (i = 0, j = elements.length - 1; i < 5 && j > -1; j--) {
-            if (!preset || !this.filters_filterItem(preset, elements[j], preset.rules)) {
+            if (!preset || this.filters_filterItem(filters, elements[j], preset.rules)) {
                 discussionsRows.appendChild(elements[j].outerWrap);
                 i += 1;
             }
         }
         elements = await this.discussions_get(response2Html, true);
         for (i = 0, j = elements.length - 1; i < 5 && j > -1; j--) {
-            if (!preset || !this.filters_filterItem(preset, elements[j], preset.rules)) {
+            if (!preset || this.filters_filterItem(filters, elements[j], preset.rules)) {
                 dealsRows.appendChild(elements[j].outerWrap);
                 i += 1;
             }
@@ -31912,8 +31282,9 @@ class ESGST {
                 }
             }
             if (preset) {
+                const filters = this.df_getFilters();
                 (await this.discussions_get(rows[0], true)).forEach(discussion => {
-                    if (this.filters_filterItem(preset, discussion, preset.rules)) {
+                    if (!this.filters_filterItem(filters, discussion, preset.rules)) {
                         discussion.outerWrap.remove();
                         filteredDiscussions += 1;
                     } else {
@@ -31921,7 +31292,7 @@ class ESGST {
                     }
                 });
                 (await this.discussions_get(rows[1], true)).forEach(deal => {
-                    if (this.filters_filterItem(preset, deal, preset.rules)) {
+                    if (!this.filters_filterItem(filters, deal, preset.rules)) {
                         deal.outerWrap.remove();
                         filteredDeals += 1;
                     } else {
@@ -31954,9 +31325,10 @@ class ESGST {
                     revisedElements.push(element);
                 }
             });
+            const filters = this.df_getFilters();
             let i = revisedElements.length - (numDiscussions + filteredDiscussions + 1);
             while (numDiscussions < 5 && i > -1) {
-                if (!preset || !this.filters_filterItem(preset, revisedElements[i], preset.rules)) {
+                if (!preset || this.filters_filterItem(filters, revisedElements[i], preset.rules)) {
                     setMissingDiscussion(revisedElements[i]);
                     rows[0].appendChild(revisedElements[i].outerWrap);
                     numDiscussions += 1;
@@ -31966,7 +31338,7 @@ class ESGST {
             let elements = await this.discussions_get(response2Html, true);
             i = elements.length - (numDeals + filteredDeals + 1);
             while (numDeals < 5 && i > -1) {
-                if (!preset || !this.filters_filterItem(preset, elements[i], preset.rules)) {
+                if (!preset || this.filters_filterItem(filters, elements[i], preset.rules)) {
                     setMissingDiscussion(elements[i]);
                     rows[1].appendChild(elements[i].outerWrap);
                     numDeals += 1;
@@ -40382,6 +39754,15 @@ function getThemeCss(theme) {
 function loadChangelog(version) {
     let changelog, html, i, index, n, popup;
     changelog = [
+        {
+            date: `May 27, 2018`,
+            version: `7.20.2`,
+            changelog: `
+                <ul>
+                    <li>Hotfix for v7.20.1.</li>
+                </ul>
+            `
+        },
         {
             date: `May 26, 2018`,
             version: `7.20.1`,
