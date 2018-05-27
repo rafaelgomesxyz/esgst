@@ -236,6 +236,10 @@ To learn more about each feature you have to install ESGST.
 
 ## Changelog
 
+**7.20.1 (May 26, 2018)**
+
+* Hotfix for v7.20.0
+
 **7.20.0 (May 26, 2018)**
 
 * [#709](https://github.com/revilheart/ESGST/issues/709) Use jQuery QueryBuilder to configure filters
