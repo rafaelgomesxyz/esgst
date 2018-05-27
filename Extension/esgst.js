@@ -2526,6 +2526,10 @@ class ESGST {
         esgst = {
             parameters: getParameters(),
             defaultValues: {
+                gf_m_b_sg: false,
+                gf_m_a_sg: false,
+                df_m_b_sg: false,
+                df_m_a_sg: false,
                 gf_presets: [],
                 df_presets: [],
                 chfl_key: `ctrlKey + e`,
@@ -2998,7 +3002,7 @@ class ESGST {
             sg: location.hostname.match(/www.steamgifts.com/),
             st: location.hostname.match(/www.steamtrades.com/),
             currentVersion: `7.20.2`,
-            devVersion: `7.20.3 (Dev.2)`,
+            devVersion: `7.20.3 (Dev.3)`,
             icon: `data:image/x-icon;base64,AAABAAEAEBAAAAEAIABoBAAAFgAAACgAAAAQAAAAIAAAAAEAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAqv8DCbP/Hgeq+CQIrf8iCK3/Igit/yIIrf8iB6//Iwit9x8Aqv8DAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAKr0GAa2/c0DvfzfA7f83QO3/N0Dt/zdA7f83QO+/d4Gs/3OAKP1GQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACm/xQFs/n2Bcf//wW///8FwP//BcD//wW///8Fx///BbP69gC2/xUAAAAAAAAAAAAAAAAA/1UDFptOFxSZMxkLpJktAq720QW1+ugEsfvjA7b92wO2/dsEsfvjBbX66Aau/dEoiO4tUlLWGU5k3hdVVf8DEJxKHxWqT8cVrU7uE6VN0guqny0Apv8XAJfQGwBAVywAQFcsAJfQGwCx/xcogugtS2Lk0lBl6u5Qae7ISmPeHxagSSMVr07jF7lV/xOiSu0brgATAAAAAAAAAA8AAAC/AAAAwAAAABAAAAAAYznjEkth4OxWb/3/T2jv40lf4iMXnksiEq1O3RayUv8UpEnkEo0+HQAAABkAAABBAAAA8QAAAPEAAABBAAAAGUBSvxxOYeDjU2v0/05m7d1LYuEiF55LIhKtTt0Ws1L/FahN2gU1FTAAAADAAAAA7AAAAP0AAAD9AAAA7AAAAMAVG0owUGPm2lNr9P9OZu3dS2LhIheeSyISrU7dFrNS/xWoTdoFNRswAAAAvwAAAOsAAAD9AAAA/QAAAOsAAADAFRtKMFBj6NpTa/T/Tmbt3Uti4SIXnksiEq1O3RayUv8UpEnkEo0+HQAAABgAAABAAAAA8QAAAPEAAABBAAAAGT5PuR1OYeDjU2v0/05m7d1LYuEiFqBJIxWuT+QXuVX/E6JL7QC8XhMAAAAAAAAADwAAAL8AAAC/AAAAEAAAAAAOR/8SSWLh7FZv/f9PaO/jSV/iIxCUSh8Vrk7HFqxN7ROlS9JskzMt1XULGK12EhxGLgYsRy8GK612EhzVgAsYgmxxLU1i39JNZ+vtT2fwx0pj1h8AqlUDF65GFgqZUhlsiC0txH0T0s5/EujJgBPkz4QR28+EEdvJgBPkzn8Q6Md+E9KLdHosM1LWGUZo6BZVVf8DAAAAAAAAAAAAAAAA/2YAFMl9EvbgjRb/14gV/9eIFf/XiBX/14gV/9+NFv/KgBD254YAFQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAL91FRjKgRHN1IgU3s+EEt3PhBLdz4QS3c+EEt3UiBTezYMRzcJ6FBkAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACqqgADxIARHr18FiO8eA8ivHgPIrx4DyK8eA8ivXwPI8SAER7/VQADAAAAAAAAAAAAAAAA78cAAPA3AAD4FwAABCAAADGOAAAE+AAAkBEAAJ55AACYOQAAlgEAAER4AAAXaAAATnoAAPgXAAD0JwAA69cAAA==`,
             sgIcon: `data:image/x-icon;base64,AAABAAEAEBAAAAEAIABoBAAAFgAAACgAAAAQAAAAIAAAAAEAIAAAAAAAQAQAABMLAAATCwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIUAAAD5AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAPoAAACFAAAAAAAAAAAAAAD8AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA+QAAAAAAAAAAAAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAAAAAAAAAAAAP8AAAD/AAAA/wAAABwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAcAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAcAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAHAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAAAAAAAAAAAAPwAAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD5AAAAAAAAAAAAAACFAAAA+QAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD5AAAAhQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA//8AAP//AADAAwAAwAMAAMfjAADP8wAAz/MAAM/zAADP8wAAz/MAAM/zAADH4wAAwAMAAMADAAD//wAA//8AAA==`,
             stIcon: `data:image/x-icon;base64,AAABAAEAEBAAAAEAIABoBAAAFgAAACgAAAAQAAAAIAAAAAEAIAAAAAAAQAQAABMLAAATCwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABbD6SgWw+ucFsPrkBbD6SgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAWw+uYFsPr/BbD6/wWw+ucAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAFsPrmBbD6/wWw+v8FsPrmAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABbD6SQWw+uYFsPrmBbD6SQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAFKRLShSkS+cUpEvkFKRLSgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAExi4EpMYuDnTGLg5Exi4EoAAAAAAAAAABSkS+YUpEv/FKRL/xSkS+cAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABMYuDmTGLg/0xi4P9MYuDnAAAAAAAAAAAUpEvmFKRL/xSkS/8UpEvmAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAATGLg5kxi4P9MYuD/TGLg5gAAAAAAAAAAFKRLSRSkS+YUpEvmFKRLSQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAExi4ElMYuDmTGLg5kxi4EkAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAMZ9E0rGfRPnxn0T5MZ9E0oAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADGfRPmxn0T/8Z9E//GfRPnAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAxn0T5sZ9E//GfRP/xn0T5gAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAMZ9E0nGfRPmxn0T5sZ9E0kAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA//8AAPw/AAD8PwAA/D8AAPw/AAD//wAAh+EAAIfhAACH4QAAh+EAAP//AAD8PwAA/D8AAPw/AAD8PwAA//8AAA==`,
@@ -4825,6 +4829,14 @@ class ESGST {
                                     </ul>
                                 `,
                                 features: {
+                                    gf_m_b: {
+                                        name: `Hide basic filters.`,
+                                        sg: true
+                                    },
+                                    gf_m_a: {
+                                        name: `Hide advanced filters.`,
+                                        sg: true
+                                    },
                                     gf_os: {
                                         description: `
                                             <ul>
@@ -5389,6 +5401,16 @@ class ESGST {
                                         <li>Adds a text in parenthesis to the pagination of the page showing how many discussions in the page are being filtered by the filters.</li>
                                     </ul>
                                 `,
+                                features: {                                    
+                                    df_b: {
+                                        name: `Hide basic filters.`,
+                                        sg: true
+                                    },
+                                    df_a: {
+                                        name: `Hide advanced filters.`,
+                                        sg: true
+                                    }
+                                },
                                 name: `Multiple Filters`,
                                 sg: true
                             }
@@ -15742,6 +15764,7 @@ class ESGST {
     }
     filters_addContainer(id, heading, popup) {
         const obj = {
+            basicFilters: {},
             filters: this[`${id}_getFilters`](popup),
             id: id,
             key: `${id}_presets`,
@@ -15781,7 +15804,17 @@ class ESGST {
             <div class="esgst-gf-container">
                 <div class="esgst-gf-box">
                     <div class="esgst-gf-filters esgst-hidden">
-                        <div class="esgst-gf-left-panel"></div>
+                        <div class="esgst-gf-left-panel">
+                            <div class="esgst-gf-basic-filters">
+                                <div class="esgst-gf-number-filters"></div>
+                                <div class="esgst-gf-boolean-filters"></div>
+                                <div class="esgst-gf-string-filters"></div>
+                            </div>
+                            <div>
+                                Advanced <i class="fa fa-question-circle" title="Advanced filters offer more options and flexibility, but may be more complex to understand and use. When you change settings in the basic filters, they will also be changed in the advanced ones, and vice-versa. But the two types are not compatible backwards: basic -> advanced conversion works fine, but advanced -> basic conversion does not, and will result in the loss of any settings that are exclusive to the advanced filter. Bear this in mind when saving a preset, since the last applied preset will be saved."></i>
+                            </div>
+                            <div class="esgst-gf-advanced-filters"></div>
+                        </div>
                         <div class="esgst-gf-right-panel">
                             <div class="esgst-gf-steamgifts-filters">
                                 <div>
@@ -15792,6 +15825,7 @@ class ESGST {
                             <div class="esgst-gf-preset-panel">
                                 <div>
                                     <span class="esgst-bold">Preset:</span>
+                                    <i class="fa fa-question-circle" title="If you have both the basic and the advanced filters enabled, the last applied preset will be saved. For example, if the last setting you altered was in the basic filters, it will save the basic preset, and if the last setting you altered was in the advanced filters, it will save the advanced preset. The two presets are not compatible, so they will overwrite each other. Be careful with this, as you might lose some settings."></i>
                                 </div>
                                 <input class="form__input-small" type="text"/>
                                 <div class="esgst-description esgst-bold"></div>
@@ -15810,8 +15844,13 @@ class ESGST {
         `);
         const box = obj.container.firstElementChild;
         obj.filtersPanel = box.firstElementChild;
-        obj.leftPanel = obj.filtersPanel.firstElementChild;
-        const rightPanel = obj.leftPanel.nextElementSibling;
+        const leftPanel = obj.filtersPanel.firstElementChild;
+        const basicFilters = leftPanel.firstElementChild;
+        const numberFilters = basicFilters.firstElementChild;
+        const booleanFilters = numberFilters.nextElementSibling;
+        const stringFilters = booleanFilters.nextElementSibling;
+        obj.advancedFilters = leftPanel.lastElementChild;
+        const rightPanel = leftPanel.nextElementSibling;
         const sgFilters = rightPanel.firstElementChild;
         const presetPanel = rightPanel.lastElementChild;
         obj.presetInput = presetPanel.firstElementChild.nextElementSibling;
@@ -15885,12 +15924,34 @@ class ESGST {
                 id: key,
                 label: filter.name
             };
+            let context;
+            let checkbox;
+            let textInput;
+            let maxInput;
+            let minInput;
             switch (filter.type) {
-                case `boolean`:                
+                case `boolean`:
                     rule.input = `radio`;
-                    rule.operators = [`equal`],
-                    rule.type = `boolean`,
-                    rule.values = [`true`, `false`]
+                    rule.operators = [`equal`];
+                    rule.type = `boolean`;
+                    rule.values = [`true`, `false`];
+
+                    if (!esgst[`${obj.id}_m_b`]) {
+                        context = insertHtml(booleanFilters, `beforeEnd`, `
+                            <div>
+                                <span></span> ${filter.name}
+                            </div>
+                        `);
+                        checkbox = new Checkbox(context.firstElementChild, `enabled`, true);
+                        obj.basicFilters[rule.id] = {
+                            input: rule.input,
+                            operator: `equal`,
+                            type: rule.type,
+                            filterType: `boolean`,
+                            checkbox: checkbox
+                        };
+                        checkbox.onChange = this.filters_basicToAdv.bind(this, obj);
+                    }
                     break;
                 case `number`:
                     rule.operators = [
@@ -15904,6 +15965,7 @@ class ESGST {
                         `is_not_null`
                     ];
                     if (filter.date) {
+                        rule.input = `text`;
                         rule.plugin = `datepicker`;       
                         rule.plugin_config = {
                             changeMonth: true,
@@ -15911,6 +15973,17 @@ class ESGST {
                             dateFormat: `yy/mm/dd`
                         };
                         rule.type = `date`;
+
+                        if (!esgst[`${obj.id}_m_b`]) {
+                            context = insertHtml(numberFilters, `beforeEnd`, `
+                                <div>
+                                    ${filter.name}
+                                    <span>
+                                        <input type="date">-<input type="date">
+                                    </span>
+                                </div>
+                            `);
+                        }
                     } else {
                         rule.input = `number`;
                         if (filter.step) {
@@ -15923,96 +15996,181 @@ class ESGST {
                             min: filter.minValue,
                             step: filter.step
                         };
+
+                        if (!esgst[`${obj.id}_m_b`]) {
+                            context = insertHtml(numberFilters, `beforeEnd`, `
+                                <div>
+                                    ${filter.name}
+                                    <span>
+                                        <input type="number">-<input type="number">
+                                    </span>
+                                </div>
+                            `);
+                        }
                     }
+
+                    if (!esgst[`${obj.id}_m_b`]) {
+                        minInput = context.lastElementChild.firstElementChild;
+                        maxInput = minInput.nextElementSibling;                    
+                        obj.basicFilters[rule.id] = {
+                            input: rule.input,
+                            type: rule.type,
+                            filterType: `number`,
+                            maxInput: maxInput,
+                            minInput: minInput
+                        };
+                        maxInput.addEventListener(`change`, this.filters_basicToAdv.bind(this, obj));
+                        minInput.addEventListener(`change`, this.filters_basicToAdv.bind(this, obj));
+                    }
+                
                     break;
-                case `string`:                
+                case `string`:
+                    rule.input = `text`;
                     rule.operators = [`contains`, `not_contains`];
                     rule.placeholder =  `Item1, Item2, ...`;
                     rule.type = `string`;
+
+                    if (!esgst[`${obj.id}_m_b`]) {
+                        context = insertHtml(stringFilters, `beforeEnd`, `
+                            <div>
+                                <span>
+                                    <span></span> ${filter.name}
+                                </span>
+                                <input placeholder="Item1, Item2, ..." type="text">
+                            </div>
+                        `);
+                        checkbox = new Checkbox(context.firstElementChild.firstElementChild, `enabled`,  true);
+                        textInput = context.lastElementChild;
+                        obj.basicFilters[rule.id] = {
+                            id: rule.id,
+                            input: rule.input,
+                            type: rule.type,
+                            filterType: `string`,
+                            checkbox: checkbox,
+                            textInput: textInput
+                        };
+                        checkbox.onChange = this.filters_basicToAdv.bind(this, obj);
+                        textInput.addEventListener(`change`, this.filters_basicToAdv.bind(this, obj));
+                    }
                     break;
             }
             filters.push(rule);
         }
 
-        const templates = {
-            group : `
-                <div id="{{= it.group_id }}" class="rules-group-container">
-                    <div class="rules-group-header">
-                        <div class="btn-group pull-right group-actions">
-                            <button type="button" class="btn btn-xs btn-success" data-add="rule">
-                                <i class="{{= it.icons.add_rule }}"></i> {{= it.translate("add_rule") }}
-                            </button>
-                        {{? it.settings.allow_groups===-1 || it.settings.allow_groups>=it.level }}
-                            <button type="button" class="btn btn-xs btn-success" data-add="group">
-                                <i class="{{= it.icons.add_group }}"></i> {{= it.translate("add_group") }}
-                            </button>
-                        {{?}}
-                        {{? it.level>1 }}
-                            <button type="button" class="btn btn-xs btn-danger" data-delete="group">
-                                <i class="{{= it.icons.remove_group }}"></i> {{= it.translate("delete_group") }}
-                            </button>
-                        {{?}}
-                        </div>
-                        <div class="btn-group group-conditions">
-                        {{~ it.conditions: condition }} \
-                            <label class="btn btn-xs btn-default">
-                                <input type="radio" name="{{= it.group_id }}_cond" value="{{= condition }}"> {{= it.translate("conditions", condition) }}
-                            </label>
-                        {{~}}
-                        </div>
-                        {{? it.settings.display_errors }}
-                        <div class="error-container">
-                            <i class="{{= it.icons.error }}"></i>
-                        </div>
-                        {{?}}
+        if (!esgst[`${obj.id}_m_b`]) {
+            stringFilters.insertAdjacentHTML(`beforeEnd`, `        
+                <div class="esgst-gf-legend-panel">
+                    <div class="esgst-bold">Legend:</div>
+                    <div>
+                        <i class="fa fa-check-square"></i> - Show All</i>
                     </div>
-                    <div class=rules-group-body>
-                        <div class=rules-list></div>
+                    <div>
+                        <i class="fa fa-square-o"></i> - Hide All</i>
+                    </div>
+                    <div>
+                        <i class="fa fa-square"></i> - Show Only</i>
                     </div>
                 </div>
-            `
-        };
-        const options = {
-            filters: filters,
-            icons: {
-                add_group: `fa fa-plus`,
-                add_rule: `fa fa-plus`,
-                remove_group: `fa fa-times`,
-                remove_rule: `fa fa-times`,
-                error: `fa fa-exclamation`
-            },
-            plugins: {
-                [`bt-checkbox`]: {
-                    font: `fontawesome`
-                },
-                [`bt-selectpicker`]: {
-                    liveSearch: true,
-                    liveSearchNormalize: true
-                },
-                [`invert`]: {
-                    icon: `fa fa-random`
-                },
-                [`not-group`]: {
-                    icon_checked: `fa fa-check-square-o`,
-                    icon_unchecked: `fa fa-square-o`
-                },
-                [`sortable`]: {
-                    icon: `fa fa-arrows`
-                }
-            },
-            sort_filters: true,
-            templates: templates
-        };
-        if (Object.keys(obj.rules).length) {
-            options.rules = obj.rules;
+            `);
+            if (Object.keys(obj.rules).length) {
+                this.filters_applyBasic(obj, obj.rules);
+            }
         }
-        $(obj.leftPanel).queryBuilder(options);
-        $(obj.leftPanel).on(`rulesChanged.queryBuilder`, () => {
-            try {
-                obj.rules = $(obj.leftPanel).queryBuilder(`getRules`);
-                this.filters_filter(obj);
-            } catch (e) {}
-        });
+        if (!esgst[`${obj.id}_m_a`]) {
+            const templates = {
+                group : `
+                    <div id="{{= it.group_id }}" class="rules-group-container">
+                        <div class="rules-group-header">
+                            <div class="btn-group pull-right group-actions">
+                                <button type="button" class="btn btn-xs btn-success" data-add="rule">
+                                    <i class="{{= it.icons.add_rule }}"></i> {{= it.translate("add_rule") }}
+                                </button>
+                            {{? it.settings.allow_groups===-1 || it.settings.allow_groups>=it.level }}
+                                <button type="button" class="btn btn-xs btn-success" data-add="group">
+                                    <i class="{{= it.icons.add_group }}"></i> {{= it.translate("add_group") }}
+                                </button>
+                            {{?}}
+                            {{? it.level>1 }}
+                                <button type="button" class="btn btn-xs btn-danger" data-delete="group">
+                                    <i class="{{= it.icons.remove_group }}"></i> {{= it.translate("delete_group") }}
+                                </button>
+                            {{?}}
+                            </div>
+                            <div class="btn-group group-conditions">
+                            {{~ it.conditions: condition }} \
+                                <label class="btn btn-xs btn-default">
+                                    <input type="radio" name="{{= it.group_id }}_cond" value="{{= condition }}"> {{= it.translate("conditions", condition) }}
+                                </label>
+                            {{~}}
+                            </div>
+                            {{? it.settings.display_errors }}
+                            <div class="error-container">
+                                <i class="{{= it.icons.error }}"></i>
+                            </div>
+                            {{?}}
+                        </div>
+                        <div class=rules-group-body>
+                            <div class=rules-list></div>
+                        </div>
+                    </div>
+                `
+            };
+            const options = {
+                filters: filters,
+                icons: {
+                    add_group: `fa fa-plus`,
+                    add_rule: `fa fa-plus`,
+                    remove_group: `fa fa-times`,
+                    remove_rule: `fa fa-times`,
+                    error: `fa fa-exclamation`
+                },
+                plugins: {
+                    [`bt-checkbox`]: {
+                        font: `fontawesome`
+                    },
+                    [`bt-selectpicker`]: {
+                        liveSearch: true,
+                        liveSearchNormalize: true
+                    },
+                    [`invert`]: {
+                        icon: `fa fa-random`
+                    },
+                    [`not-group`]: {
+                        icon_checked: `fa fa-check-square-o`,
+                        icon_unchecked: `fa fa-square-o`
+                    },
+                    [`sortable`]: {
+                        icon: `fa fa-arrows`
+                    }
+                },
+                sort_filters: true,
+                templates: templates
+            };
+            if (Object.keys(obj.rules).length) {
+                options.rules = obj.rules;
+            }
+            $(obj.advancedFilters).queryBuilder(options);
+            $(obj.advancedFilters).on(`rulesChanged.queryBuilder`, () => {
+                try {
+                    obj.rules = $(obj.advancedFilters).queryBuilder(`getRules`);
+                    if (!obj.basicApplied && !esgst[`${obj.id}_m_b`]) {
+                        this.filters_resetBasic(obj);
+                        this.filters_applyBasic(obj, obj.rules);
+                    }
+                    this.filters_filter(obj);
+                } catch (e) {}
+                obj.basicApplied = false;
+            });
+        }
+
+        if (esgst[`${obj.id}_m_b`]) {
+            basicFilters.classList.add(`esgst-hidden`);
+            basicFilters.nextElementSibling.classList.add(`esgst-hidden`);
+        }
+        if (esgst[`${obj.id}_m_a`]) {
+            obj.advancedFilters.classList.add(`esgst-hidden`);
+            basicFilters.nextElementSibling.classList.add(`esgst-hidden`);
+        }
 
         if (obj.id === `gf`) {
             [
@@ -16101,6 +16259,118 @@ class ESGST {
         }
 
         return headingButton;
+    }
+    filters_basicToAdv(obj) {
+        const adv = {
+            condition: `AND`,
+            not: false,
+            rules: []
+        };
+        for (const id in obj.basicFilters) {
+            const filter = obj.basicFilters[id];
+            switch (filter.filterType) {
+                case `boolean`:
+                    if (filter.checkbox.value === `enabled`) break;
+
+                    adv.rules.push({
+                        field: id,
+                        id: id,
+                        input: filter.input,
+                        operator: filter.operator,
+                        type: filter.type,
+                        value: filter.checkbox.value === `none`
+                    });
+                    break;
+                case `number`:
+                    if (filter.maxInput.value) {
+                        adv.rules.push({
+                            field: id,
+                            id: id,
+                            input: filter.input,
+                            operator: `less_or_equal`,
+                            type: filter.type,
+                            value: filter.maxInput.value
+                        });
+                    }
+                    if (filter.minInput.value) {
+                        adv.rules.push({
+                            field: id,
+                            id: id,
+                            input: filter.input,
+                            operator: `greater_or_equal`,
+                            type: filter.type,
+                            value: filter.minInput.value
+                        });
+                    }
+                    break;
+                case `string`:
+                    if (filter.checkbox.value === `enabled`) break;
+
+                    if (!filter.textInput.value) break;
+
+                    adv.rules.push({
+                        field: id,
+                        id: id,
+                        input: filter.input,
+                        operator: filter.checkbox.value === `none` ? `contains` : `not_contains`,
+                        type: filter.type,
+                        value: filter.textInput.value
+                    });
+                    break;
+            }
+        }
+        obj.rules = adv;
+        if (esgst[`${obj.id}_m_a`]) {
+            this.filters_filter(obj);
+        } else {
+            obj.basicApplied = true;
+            $(obj.advancedFilters).queryBuilder(`setRules`, obj.rules);
+        }
+    }
+    filters_applyBasic(obj, rules) {
+        if (rules.condition !== `AND`) return;
+
+        for (const rule of rules.rules) {
+            if (rule.condition) continue;
+
+            const filter = obj.basicFilters[rule.id];
+            switch (rule.type) {
+                case `boolean`:
+                    filter.checkbox.change(false, rule.value ? `none` : `disabled`);
+                    break;
+                case `date`:
+                case `double`:
+                case `integer`:
+                    if (rule.operator === `less_or_equal`) {
+                        filter.maxInput.value = rule.value;
+                    } else if (rule.operator === `greater_or_equal`) {
+                        filter.minInput.value = rule.value;
+                    }
+                    break;
+                case `string`:                    
+                    filter.checkbox.change(false, rule.operator === `contains` ? `none` : `disabled`);
+                    filter.textInput.value = rule.value;
+                    break;
+            }
+        }
+    }
+    filters_resetBasic(obj) {        
+        for (const id in obj.basicFilters) {
+            const filter = obj.basicFilters[id];
+            switch (filter.filterType) {
+                case `boolean`:
+                    filter.checkbox.change(false, `enabled`);
+                    break;
+                case `number`:
+                    filter.maxInput.value = ``;
+                    filter.minInput.value = ``;
+                    break;
+                case `string`:
+                    filter.checkbox.change(false, `enabled`);
+                    filter.textInput.value = ``;
+                    break;
+            }
+        }
     }
     async filters_savePreset(obj) {
         const name = obj.presetInput.value;
@@ -16207,7 +16477,13 @@ class ESGST {
         await this.setSetting(obj.key, esgst[obj.key]);
     }
     async filters_applyPreset(obj, popup, preset) {
-        $(obj.leftPanel).queryBuilder(`setRules`, preset.rules);
+        if (!esgst[`${obj.id}_m_b`]) {
+            this.filters_resetBasic(obj);
+            this.filters_applyBasic(obj, preset.rules);
+        }        
+        if (!esgst[`${obj.id}_m_a`]) {
+            $(obj.advancedFilters).queryBuilder(`setRules`, preset.rules);
+        }
         obj.presetDisplay.textContent = obj.presetInput.value = preset.name;
         await this.setSetting(`${obj.id}_preset${obj.type}`, preset.name);
         popup.close();
@@ -35061,6 +35337,48 @@ class ESGST {
             `;
         }
         style += `
+            .esgst-gf-basic-filters {
+                display: flex;
+                justify-content: space-between;
+            }
+
+            .esgst-gf-basic-filters input {
+                display: inline-block;
+                padding: 2px;
+                width: 100px;
+            }
+
+            .esgst-gf-basic-filters >* {                
+                margin: 5px;
+            }
+
+            .esgst-gf-number-filters {
+                flex: 1;
+            }
+
+            .esgst-gf-number-filters >*, .esgst-gf-string-filters >* {
+                align-items: center;
+                display: flex;
+                justify-content: space-between;
+            }
+
+            .esgst-gf-boolean-filters {
+                column-count: 2;
+                flex: 1;
+            }
+
+            .esgst-gf-basic-filters + div {
+                font-size: 14px;
+                font-weight: bold;
+            }
+
+            .esgst-gf-legend-panel {
+                display: block;
+                float: right;
+                text-align: right;
+                margin-top: 50px;
+            }
+
             .esgst-ns * {
                 max-width: 206px;
             }
@@ -37854,7 +38172,7 @@ class Checkbox {
                 this.disabled.classList.add(`esgst-hidden`);
                 this.none.classList.add(`esgst-hidden`);
             }
-            this.checkbox.addEventListener(`click`, () => this.change());
+            this.checkbox.addEventListener(`click`, event => this.change(false, null, null, event));
         } else {
             this.input.checked = this.value;
             if (this.value) {
@@ -37915,6 +38233,9 @@ class Checkbox {
                     this.onDisabled(event);
                 }
             }
+        }
+        if (event && this.onChange) {
+            this.onChange();
         }
     }
     showNone() {
