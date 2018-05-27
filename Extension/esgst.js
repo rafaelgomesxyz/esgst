@@ -3002,7 +3002,7 @@ class ESGST {
             sg: location.hostname.match(/www.steamgifts.com/),
             st: location.hostname.match(/www.steamtrades.com/),
             currentVersion: `7.20.2`,
-            devVersion: `7.20.3 (Dev.9)`,
+            devVersion: `7.20.3 (Dev.10)`,
             icon: `data:image/x-icon;base64,AAABAAEAEBAAAAEAIABoBAAAFgAAACgAAAAQAAAAIAAAAAEAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAqv8DCbP/Hgeq+CQIrf8iCK3/Igit/yIIrf8iB6//Iwit9x8Aqv8DAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAKr0GAa2/c0DvfzfA7f83QO3/N0Dt/zdA7f83QO+/d4Gs/3OAKP1GQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACm/xQFs/n2Bcf//wW///8FwP//BcD//wW///8Fx///BbP69gC2/xUAAAAAAAAAAAAAAAAA/1UDFptOFxSZMxkLpJktAq720QW1+ugEsfvjA7b92wO2/dsEsfvjBbX66Aau/dEoiO4tUlLWGU5k3hdVVf8DEJxKHxWqT8cVrU7uE6VN0guqny0Apv8XAJfQGwBAVywAQFcsAJfQGwCx/xcogugtS2Lk0lBl6u5Qae7ISmPeHxagSSMVr07jF7lV/xOiSu0brgATAAAAAAAAAA8AAAC/AAAAwAAAABAAAAAAYznjEkth4OxWb/3/T2jv40lf4iMXnksiEq1O3RayUv8UpEnkEo0+HQAAABkAAABBAAAA8QAAAPEAAABBAAAAGUBSvxxOYeDjU2v0/05m7d1LYuEiF55LIhKtTt0Ws1L/FahN2gU1FTAAAADAAAAA7AAAAP0AAAD9AAAA7AAAAMAVG0owUGPm2lNr9P9OZu3dS2LhIheeSyISrU7dFrNS/xWoTdoFNRswAAAAvwAAAOsAAAD9AAAA/QAAAOsAAADAFRtKMFBj6NpTa/T/Tmbt3Uti4SIXnksiEq1O3RayUv8UpEnkEo0+HQAAABgAAABAAAAA8QAAAPEAAABBAAAAGT5PuR1OYeDjU2v0/05m7d1LYuEiFqBJIxWuT+QXuVX/E6JL7QC8XhMAAAAAAAAADwAAAL8AAAC/AAAAEAAAAAAOR/8SSWLh7FZv/f9PaO/jSV/iIxCUSh8Vrk7HFqxN7ROlS9JskzMt1XULGK12EhxGLgYsRy8GK612EhzVgAsYgmxxLU1i39JNZ+vtT2fwx0pj1h8AqlUDF65GFgqZUhlsiC0txH0T0s5/EujJgBPkz4QR28+EEdvJgBPkzn8Q6Md+E9KLdHosM1LWGUZo6BZVVf8DAAAAAAAAAAAAAAAA/2YAFMl9EvbgjRb/14gV/9eIFf/XiBX/14gV/9+NFv/KgBD254YAFQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAL91FRjKgRHN1IgU3s+EEt3PhBLdz4QS3c+EEt3UiBTezYMRzcJ6FBkAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACqqgADxIARHr18FiO8eA8ivHgPIrx4DyK8eA8ivXwPI8SAER7/VQADAAAAAAAAAAAAAAAA78cAAPA3AAD4FwAABCAAADGOAAAE+AAAkBEAAJ55AACYOQAAlgEAAER4AAAXaAAATnoAAPgXAAD0JwAA69cAAA==`,
             sgIcon: `data:image/x-icon;base64,AAABAAEAEBAAAAEAIABoBAAAFgAAACgAAAAQAAAAIAAAAAEAIAAAAAAAQAQAABMLAAATCwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIUAAAD5AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAPoAAACFAAAAAAAAAAAAAAD8AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA+QAAAAAAAAAAAAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAAAAAAAAAAAAP8AAAD/AAAA/wAAABwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAcAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAcAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAHAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAAAAAAAAAAAAPwAAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD5AAAAAAAAAAAAAACFAAAA+QAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD5AAAAhQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA//8AAP//AADAAwAAwAMAAMfjAADP8wAAz/MAAM/zAADP8wAAz/MAAM/zAADH4wAAwAMAAMADAAD//wAA//8AAA==`,
             stIcon: `data:image/x-icon;base64,AAABAAEAEBAAAAEAIABoBAAAFgAAACgAAAAQAAAAIAAAAAEAIAAAAAAAQAQAABMLAAATCwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABbD6SgWw+ucFsPrkBbD6SgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAWw+uYFsPr/BbD6/wWw+ucAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAFsPrmBbD6/wWw+v8FsPrmAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABbD6SQWw+uYFsPrmBbD6SQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAFKRLShSkS+cUpEvkFKRLSgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAExi4EpMYuDnTGLg5Exi4EoAAAAAAAAAABSkS+YUpEv/FKRL/xSkS+cAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABMYuDmTGLg/0xi4P9MYuDnAAAAAAAAAAAUpEvmFKRL/xSkS/8UpEvmAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAATGLg5kxi4P9MYuD/TGLg5gAAAAAAAAAAFKRLSRSkS+YUpEvmFKRLSQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAExi4ElMYuDmTGLg5kxi4EkAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAMZ9E0rGfRPnxn0T5MZ9E0oAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADGfRPmxn0T/8Z9E//GfRPnAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAxn0T5sZ9E//GfRP/xn0T5gAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAMZ9E0nGfRPmxn0T5sZ9E0kAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA//8AAPw/AAD8PwAA/D8AAPw/AAD//wAAh+EAAIfhAACH4QAAh+EAAP//AAD8PwAA/D8AAPw/AAD8PwAA//8AAA==`,
@@ -15890,7 +15890,7 @@ class ESGST {
         const numberFilters = basicFilters.firstElementChild;
         const booleanFilters = numberFilters.nextElementSibling;
         const stringFilters = booleanFilters.nextElementSibling;
-        obj.advancedFilters = leftPanel.lastElementChild;
+        const advancedFilters = leftPanel.lastElementChild;
         const rightPanel = leftPanel.nextElementSibling;
         const sgFilters = rightPanel.firstElementChild;
         const presetPanel = rightPanel.lastElementChild;
@@ -16132,27 +16132,58 @@ class ESGST {
                                 </button>
                             {{?}}
                             {{? it.level>1 }}
+                                <button type="button" class="btn btn-xs btn-primary" data-pause="group">
+                                    <i class="{{= it.icons.pause_group }}"></i> {{= it.translate("pause_group") }}
+                                </button>
+                                <button type="button" class="btn btn-xs btn-primary" data-resume="group">
+                                    <i class="{{= it.icons.resume_group }}"></i> {{= it.translate("resume_group") }}
+                                </button>
                                 <button type="button" class="btn btn-xs btn-danger" data-delete="group">
                                     <i class="{{= it.icons.remove_group }}"></i> {{= it.translate("delete_group") }}
                                 </button>
                             {{?}}
                             </div>
                             <div class="btn-group group-conditions">
-                            {{~ it.conditions: condition }} \
+                            {{~ it.conditions: condition }}
                                 <label class="btn btn-xs btn-default">
                                     <input type="radio" name="{{= it.group_id }}_cond" value="{{= condition }}"> {{= it.translate("conditions", condition) }}
                                 </label>
                             {{~}}
                             </div>
-                            {{? it.settings.display_errors }}
+                        {{? it.settings.display_errors }}
                             <div class="error-container">
                                 <i class="{{= it.icons.error }}"></i>
                             </div>
-                            {{?}}
+                        {{?}}
                         </div>
                         <div class=rules-group-body>
                             <div class=rules-list></div>
                         </div>
+                    </div>
+                `,
+                rule: `
+                    <div id="{{= it.rule_id }}" class="rule-container">
+                        <div class="rule-header">
+                            <div class="btn-group pull-right rule-actions">
+                                <button type="button" class="btn btn-xs btn-primary" data-pause="rule">
+                                    <i class="{{= it.icons.pause_rule }}"></i> {{= it.translate("pause_rule") }}
+                                </button>
+                                <button type="button" class="btn btn-xs btn-primary" data-resume="rule">
+                                    <i class="{{= it.icons.resume_rule }}"></i> {{= it.translate("resume_rule") }}
+                                </button>
+                                <button type="button" class="btn btn-xs btn-danger" data-delete="rule">
+                                    <i class="{{= it.icons.remove_rule }}"></i> {{= it.translate("delete_rule") }}
+                                </button>
+                            </div>
+                        </div>
+                    {{? it.settings.display_errors }}
+                        <div class="error-container">
+                            <i class="{{= it.icons.error }}"></i>
+                        </div>
+                    {{?}}
+                        <div class="rule-filter-container"></div>
+                        <div class="rule-operator-container"></div>
+                        <div class="rule-value-container"></div>
                     </div>
                 `
             };
@@ -16161,8 +16192,12 @@ class ESGST {
                 icons: {
                     add_group: `fa fa-plus`,
                     add_rule: `fa fa-plus`,
+                    pause_group: `fa fa-pause`,
+                    pause_rule: `fa fa-pause`,
                     remove_group: `fa fa-times`,
                     remove_rule: `fa fa-times`,
+                    resume_group: `fa fa-play`,
+                    resume_rule: `fa fa-play`,
                     error: `fa fa-exclamation`
                 },
                 plugins: {
@@ -16185,15 +16220,48 @@ class ESGST {
                     }
                 },
                 sort_filters: true,
+                lang: {
+                    pause_group: `Pause`,
+                    pause_rule: `Pause`,
+                    resume_group: `Resume`,
+                    resume_rule: `Resume`
+                },
                 templates: templates
             };
             if (Object.keys(obj.rules).length) {
                 options.rules = obj.rules;
             }
-            $(obj.advancedFilters).queryBuilder(options);
-            $(obj.advancedFilters).on(`rulesChanged.queryBuilder`, () => {
+            $(advancedFilters).queryBuilder(options);
+            obj.builder = $(advancedFilters)[0].queryBuilder;
+
+            obj.builder.$el.on(`click.queryBuilder`, `[data-pause=group]`, event => {
+                const group = event.currentTarget.closest(`.rules-group-container`);
+                group.setAttribute(`data-esgst-paused`, true);
+                obj.rules = obj.builder.getRules();
+                this.filters_filter(obj);
+            });
+            obj.builder.$el.on(`click.queryBuilder`, `[data-resume=group]`, event => {
+                const group = event.currentTarget.closest(`.rules-group-container`);
+                group.removeAttribute(`data-esgst-paused`);
+                obj.rules = obj.builder.getRules();
+                this.filters_filter(obj);
+            });
+            obj.builder.$el.on(`click.queryBuilder`, `[data-pause=rule]`, event => {
+                const rule = event.currentTarget.closest(`.rule-container`);
+                rule.setAttribute(`data-esgst-paused`, true);
+                obj.rules = obj.builder.getRules();
+                this.filters_filter(obj);
+            });
+            obj.builder.$el.on(`click.queryBuilder`, `[data-resume=rule]`, event => {
+                const rule = event.currentTarget.closest(`.rule-container`);
+                rule.removeAttribute(`data-esgst-paused`);
+                obj.rules = obj.builder.getRules();
+                this.filters_filter(obj);
+            });
+
+            obj.builder.on(`rulesChanged.queryBuilder`, () => {
                 try {
-                    obj.rules = $(obj.advancedFilters).queryBuilder(`getRules`);
+                    obj.rules = obj.builder.getRules();
                     if (!obj.basicApplied && !esgst[`${obj.id}_m_b`]) {
                         this.filters_resetBasic(obj);
                         this.filters_applyBasic(obj, obj.rules);
@@ -16202,6 +16270,53 @@ class ESGST {
                 } catch (e) {}
                 obj.basicApplied = false;
             });
+            obj.builder.on(`getRules.queryBuilder.filter`, event => {                
+                const valid = obj.builder.validate();
+
+                if (!valid) {
+                    return null;
+                }
+                
+                const out = (function parse(group) {
+                    const groupData = {
+                        condition: group.condition,
+                        rules: []
+                    };
+                    group.each(function(rule) {
+                        if (rule.$el[0].getAttribute(`data-esgst-paused`)) {
+                            return;
+                        }
+
+                        let value = null;
+                        if (!rule.operator || rule.operator.nb_inputs !== 0) {
+                            value = rule.value;
+                        }            
+                        const ruleData = {
+                            id: rule.filter ? rule.filter.id : null,
+                            field: rule.filter ? rule.filter.field : null,
+                            type: rule.filter ? rule.filter.type : null,
+                            input: rule.filter ? rule.filter.input : null,
+                            operator: rule.operator ? rule.operator.type : null,
+                            value: value
+                        };
+                        groupData.rules.push(obj.builder.change(`ruleToJson`, ruleData, rule));            
+                    }, function (model) {
+                        if (model.$el[0].getAttribute(`data-esgst-paused`)) {
+                            return;
+                        }
+
+                        const data = parse(model);
+                        if (data.rules.length !== 0) {
+                            groupData.rules.push(data);
+                        }
+                    }, obj.builder);
+
+                    return obj.builder.change(`groupToJson`, groupData, group);                
+                }(obj.builder.model.root));
+                
+                out.valid = valid;
+                event.value = out;
+            });
         }
 
         if (esgst[`${obj.id}_m_b`]) {
@@ -16209,7 +16324,7 @@ class ESGST {
             basicFilters.nextElementSibling.classList.add(`esgst-hidden`);
         }
         if (esgst[`${obj.id}_m_a`]) {
-            obj.advancedFilters.classList.add(`esgst-hidden`);
+            advancedFilters.classList.add(`esgst-hidden`);
             basicFilters.nextElementSibling.classList.add(`esgst-hidden`);
         }
 
@@ -16365,7 +16480,7 @@ class ESGST {
             this.filters_filter(obj);
         } else {
             obj.basicApplied = true;
-            $(obj.advancedFilters).queryBuilder(`setRules`, obj.rules);
+            obj.builder.setRules(obj.rules);
         }
     }
     filters_applyBasic(obj, rules) {
@@ -16524,7 +16639,7 @@ class ESGST {
         }        
         if (!esgst[`${obj.id}_m_a`]) {
             console.log(preset.rules);
-            $(obj.advancedFilters).queryBuilder(`setRules`, preset.rules);
+            obj.builder.setRules(preset.rules);
         }
         obj.presetDisplay.textContent = obj.presetInput.value = preset.name;
         popup.close();
@@ -16602,6 +16717,7 @@ class ESGST {
         }
     }
     filters_filter(obj, unfilter, endless) {
+        console.log(obj.rules);
         if (!unfilter && !esgst[`${obj.id}_enable${obj.type}`]) return;
 
         let items;
@@ -16653,9 +16769,13 @@ class ESGST {
             } else {
                 // The giveaway must be filtered by at least 1 rule.
                 filtered = false;
-                for (const rule of rules.rules) {
-                    filtered = filtered || this.filters_filterItem(filters, item, rule);
-                    if (filtered) break;
+                if (rules.rules.length) {
+                    for (const rule of rules.rules) {
+                        filtered = filtered || this.filters_filterItem(filters, item, rule);
+                        if (filtered) break;
+                    }
+                } else {
+                    filtered = true;
                 }
             }
             return rules.not ? !filtered : filtered;
