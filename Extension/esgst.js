@@ -3002,7 +3002,7 @@ class ESGST {
             sg: location.hostname.match(/www.steamgifts.com/),
             st: location.hostname.match(/www.steamtrades.com/),
             currentVersion: `7.20.2`,
-            devVersion: `7.20.3 (Dev.5)`,
+            devVersion: `7.20.3 (Dev.6)`,
             icon: `data:image/x-icon;base64,AAABAAEAEBAAAAEAIABoBAAAFgAAACgAAAAQAAAAIAAAAAEAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAqv8DCbP/Hgeq+CQIrf8iCK3/Igit/yIIrf8iB6//Iwit9x8Aqv8DAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAKr0GAa2/c0DvfzfA7f83QO3/N0Dt/zdA7f83QO+/d4Gs/3OAKP1GQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACm/xQFs/n2Bcf//wW///8FwP//BcD//wW///8Fx///BbP69gC2/xUAAAAAAAAAAAAAAAAA/1UDFptOFxSZMxkLpJktAq720QW1+ugEsfvjA7b92wO2/dsEsfvjBbX66Aau/dEoiO4tUlLWGU5k3hdVVf8DEJxKHxWqT8cVrU7uE6VN0guqny0Apv8XAJfQGwBAVywAQFcsAJfQGwCx/xcogugtS2Lk0lBl6u5Qae7ISmPeHxagSSMVr07jF7lV/xOiSu0brgATAAAAAAAAAA8AAAC/AAAAwAAAABAAAAAAYznjEkth4OxWb/3/T2jv40lf4iMXnksiEq1O3RayUv8UpEnkEo0+HQAAABkAAABBAAAA8QAAAPEAAABBAAAAGUBSvxxOYeDjU2v0/05m7d1LYuEiF55LIhKtTt0Ws1L/FahN2gU1FTAAAADAAAAA7AAAAP0AAAD9AAAA7AAAAMAVG0owUGPm2lNr9P9OZu3dS2LhIheeSyISrU7dFrNS/xWoTdoFNRswAAAAvwAAAOsAAAD9AAAA/QAAAOsAAADAFRtKMFBj6NpTa/T/Tmbt3Uti4SIXnksiEq1O3RayUv8UpEnkEo0+HQAAABgAAABAAAAA8QAAAPEAAABBAAAAGT5PuR1OYeDjU2v0/05m7d1LYuEiFqBJIxWuT+QXuVX/E6JL7QC8XhMAAAAAAAAADwAAAL8AAAC/AAAAEAAAAAAOR/8SSWLh7FZv/f9PaO/jSV/iIxCUSh8Vrk7HFqxN7ROlS9JskzMt1XULGK12EhxGLgYsRy8GK612EhzVgAsYgmxxLU1i39JNZ+vtT2fwx0pj1h8AqlUDF65GFgqZUhlsiC0txH0T0s5/EujJgBPkz4QR28+EEdvJgBPkzn8Q6Md+E9KLdHosM1LWGUZo6BZVVf8DAAAAAAAAAAAAAAAA/2YAFMl9EvbgjRb/14gV/9eIFf/XiBX/14gV/9+NFv/KgBD254YAFQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAL91FRjKgRHN1IgU3s+EEt3PhBLdz4QS3c+EEt3UiBTezYMRzcJ6FBkAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACqqgADxIARHr18FiO8eA8ivHgPIrx4DyK8eA8ivXwPI8SAER7/VQADAAAAAAAAAAAAAAAA78cAAPA3AAD4FwAABCAAADGOAAAE+AAAkBEAAJ55AACYOQAAlgEAAER4AAAXaAAATnoAAPgXAAD0JwAA69cAAA==`,
             sgIcon: `data:image/x-icon;base64,AAABAAEAEBAAAAEAIABoBAAAFgAAACgAAAAQAAAAIAAAAAEAIAAAAAAAQAQAABMLAAATCwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIUAAAD5AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAPoAAACFAAAAAAAAAAAAAAD8AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA+QAAAAAAAAAAAAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAAAAAAAAAAAAP8AAAD/AAAA/wAAABwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAcAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAcAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAHAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAAAAAAAAAAAAPwAAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD5AAAAAAAAAAAAAACFAAAA+QAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD5AAAAhQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA//8AAP//AADAAwAAwAMAAMfjAADP8wAAz/MAAM/zAADP8wAAz/MAAM/zAADH4wAAwAMAAMADAAD//wAA//8AAA==`,
             stIcon: `data:image/x-icon;base64,AAABAAEAEBAAAAEAIABoBAAAFgAAACgAAAAQAAAAIAAAAAEAIAAAAAAAQAQAABMLAAATCwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABbD6SgWw+ucFsPrkBbD6SgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAWw+uYFsPr/BbD6/wWw+ucAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAFsPrmBbD6/wWw+v8FsPrmAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABbD6SQWw+uYFsPrmBbD6SQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAFKRLShSkS+cUpEvkFKRLSgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAExi4EpMYuDnTGLg5Exi4EoAAAAAAAAAABSkS+YUpEv/FKRL/xSkS+cAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABMYuDmTGLg/0xi4P9MYuDnAAAAAAAAAAAUpEvmFKRL/xSkS/8UpEvmAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAATGLg5kxi4P9MYuD/TGLg5gAAAAAAAAAAFKRLSRSkS+YUpEvmFKRLSQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAExi4ElMYuDmTGLg5kxi4EkAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAMZ9E0rGfRPnxn0T5MZ9E0oAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADGfRPmxn0T/8Z9E//GfRPnAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAxn0T5sZ9E//GfRP/xn0T5gAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAMZ9E0nGfRPmxn0T5sZ9E0kAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA//8AAPw/AAD8PwAA/D8AAPw/AAD//wAAh+EAAIfhAACH4QAAh+EAAP//AAD8PwAA/D8AAPw/AAD8PwAA//8AAA==`,
@@ -3077,7 +3077,8 @@ class ESGST {
             giveawayFeatures: [],
             discussionFeatures: [],
             profileFeatures: [],
-            endlessFeatures: []
+            endlessFeatures: [],
+            edited: {}
         };
         esgst.markdownParser.setBreaksEnabled(true);
         esgst.markdownParser.setMarkupEscaped(true);
@@ -3595,6 +3596,17 @@ class ESGST {
                 toSet.giveaways = getLocalValue(`giveaways`, `{}`);
                 esgst.giveaways = JSON.parse(toSet.giveaways);
                 delLocalValue(`giveaways`);
+            }
+            if (isSet(esgst.storage.decryptedGiveaways)) {
+                esgst.decryptedGiveaways = esgst.storage.decryptedGiveaways;
+                if (typeof esgst.decryptedGiveaways === `string`) {
+                    esgst.decryptedGiveaways = JSON.parse(esgst.decryptedGiveaways);
+                } else {
+                    toSet.decryptedGiveaways = JSON.stringify(esgst.decryptedGiveaways);
+                }
+            } else {
+                toSet.decryptedGiveaways = `{}`;
+                esgst.decryptedGiveaways = {};
             }
             if (isSet(esgst.storage.discussions)) {
                 esgst.discussions = JSON.parse(esgst.storage.discussions);
@@ -9613,7 +9625,7 @@ class ESGST {
                 name: `Automatic Links / Images Paste Formatting: OFF`,
                 callback: context => {
                     esgst.cfh.alipf = context.firstElementChild;
-                    this.cfh_setAlipf(esgst.cfh_pasteFormatting);
+                    this.cfh_setAlipf(esgst.cfh_pasteFormatting, true);
                 },
                 onClick: this.cfh_setAlipf.bind(this)
             }, {
@@ -10153,11 +10165,13 @@ class ESGST {
             esgst.cfh.undoDelete.classList.add(`esgst-hidden`);
         }
     }
-    cfh_setAlipf(value) {
+    cfh_setAlipf(value, firstTime) {
         if (typeof value === `undefined`) {
             value = esgst.cfh_pasteFormatting ? false : true;
         }
-        this.setSetting(`cfh_pasteFormatting`, value);
+        if (!firstTime) {
+            this.setSetting(`cfh_pasteFormatting`, value);
+        }
         esgst.cfh_pasteFormatting = value;
         if (value) {
             esgst.cfh.alipf.title = this.getFeatureTooltip(`cfh`, `Automatic Links / Images Paste Formatting: ON`);
@@ -10930,36 +10944,56 @@ class ESGST {
             }
         }
     }
-    async ct_getComments(count, comments, index, goToUnread, markRead, markUnread) {
+    async ct_getComments(count, comments, index, goToUnread, markRead, markUnread, endless) {
         let found = false;
         if (goToUnread) {
-            found = await this.ct_checkComments(count, comments, index, true, false, false);
+            found = await this.ct_checkComments(count, comments, index, true, false, false, endless);
         } else {
-            const deleteLock = await this.createLock(`commentLock`, 300);
-            found = await this.ct_checkComments(count, comments, index, false, markRead, markUnread);
-            deleteLock();
+            let deleteLock;
+            if (!endless) {
+                deleteLock = await this.createLock(`commentLock`, 300);
+            }
+            found = await this.ct_checkComments(count, comments, index, false, markRead, markUnread, endless);
+            if (deleteLock) {
+                deleteLock();
+            }
         }
         return found;
     }
-    async ct_checkComments(count, comments, index, goToUnread, markRead, markUnread) {
+    async ct_checkComments(count, comments, index, goToUnread, markRead, markUnread, endless) {
         let code, comment, found, i, n, saved, source, type, unread;
         esgst.ctGoToUnread = false;
-        let values = await this.getValues({
-            giveaways: `{}`,
-            discussions: `{}`,
-            tickets: `{}`,
-            trades: `{}`
-        });
-        if (esgst.sg) {
-            saved = {
-                giveaways: JSON.parse(values.giveaways),
-                discussions: JSON.parse(values.discussions),
-                tickets: JSON.parse(values.tickets)
-            };
+        let values;
+        if (endless) {
+            if (esgst.sg) {
+                saved = {
+                    giveaways: esgst.giveaways,
+                    discussions: esgst.discussions,
+                    tickets: esgst.tickets
+                };
+            } else {
+                saved = {
+                    trades: esgst.trades
+                };
+            }
         } else {
-            saved = {
-                trades: JSON.parse(values.trades)
-            };
+            values = await this.getValues({
+                giveaways: `{}`,
+                discussions: `{}`,
+                tickets: `{}`,
+                trades: `{}`
+            });
+            if (esgst.sg) {
+                saved = {
+                    giveaways: JSON.parse(values.giveaways),
+                    discussions: JSON.parse(values.discussions),
+                    tickets: JSON.parse(values.tickets)
+                };
+            } else {
+                saved = {
+                    trades: JSON.parse(values.trades)
+                };
+            }
         }
         n = comments.length;
         found = false;
@@ -10991,6 +11025,7 @@ class ESGST {
                         }
                     }
                     saved[comment.type][comment.code].lastUsed = Date.now();
+                    esgst.edited[comment.type] = true;
                     if (!esgst.ct_s) {
                         let buttons = comment.comment.getElementsByClassName(`esgst-ct-comment-button`);
                         if (comment.author === esgst.username) {
@@ -11069,7 +11104,7 @@ class ESGST {
                         goToComment(unread.id, unread.comment);
                     }
                 }
-            } else {
+            } else if (!endless) {
                 if (esgst.sg) {
                     await this.setValues({
                         giveaways: JSON.stringify(saved.giveaways),
@@ -11095,14 +11130,17 @@ class ESGST {
                     saved[type][code].count = count;
                 }
                 saved[type][code].lastUsed = Date.now();
-                if (esgst.sg) {
-                    await this.setValues({
-                        giveaways: JSON.stringify(saved.giveaways),
-                        discussions: JSON.stringify(saved.discussions),
-                        tickets: JSON.stringify(saved.tickets)
-                    });
-                } else {
-                    await this.setValue(`trades`, JSON.stringify(saved.trades));
+                esgst.edited[type] = true;
+                if (!endless) {
+                    if (esgst.sg) {
+                        await this.setValues({
+                            giveaways: JSON.stringify(saved.giveaways),
+                            discussions: JSON.stringify(saved.discussions),
+                            tickets: JSON.stringify(saved.tickets)
+                        });
+                    } else {
+                        await this.setValue(`trades`, JSON.stringify(saved.trades));
+                    }
                 }
             }
         }
@@ -12435,9 +12473,9 @@ class ESGST {
         es.busy = false;
         es.paused = await this.getValue(`esPause`, false);
         if (es.paused) {
-            this.es_pause(es);
+            this.es_pause(es, true);
         } else {
-            this.es_resume(es);
+            this.es_resume(es, true);
         }
         es.pageIndex = es.currentPage;
         document.addEventListener(`scroll`, this.es_changePagination.bind(this, es));
@@ -12677,22 +12715,26 @@ class ESGST {
             es.continuousButton.innerHTML = `<i class="fa fa-fast-forward"></i>`;
         });
     }
-    async es_pause(es) {
+    async es_pause(es, firstRun) {
         if (!es.ended) {
             document.removeEventListener(`scroll`, esgst.es_loadNext);
         }
         es.pauseButton.classList.add(`esgst-hidden`);
         es.resumeButton.classList.remove(`esgst-hidden`);
         es.paused = true;
-        await this.setValue(`esPause`, es.paused);
+        if (!firstRun) {
+            await this.setValue(`esPause`, es.paused);
+        }
         es.continuous = false;
         es.continuousButton.innerHTML = `<i class="fa fa-fast-forward"></i>`;
     }
-    async es_resume(es) {
+    async es_resume(es, firstRun) {
         es.resumeButton.classList.add(`esgst-hidden`);
         es.pauseButton.classList.remove(`esgst-hidden`);
         es.paused = false;
-        await this.setValue(`esPause`, es.paused);
+        if (!firstRun) {
+            await this.setValue(`esPause`, es.paused);
+        }
         if (!es.ended && !es.continuous && !es.step) {
             document.addEventListener(`scroll`, esgst.es_loadNext);
             esgst.es_loadNext();
@@ -13305,34 +13347,35 @@ class ESGST {
     async gb_addButton(button) {
         let i, n;
         let bookmarked = [], endingSoon = 1, started = 0, ending = 0;
-        let deleteLock = await this.createLock(`giveawayLock`, 300);
-        let giveaways = JSON.parse(await this.getValue(`giveaways`, `{}`));
         if (esgst.gb_h && button) {
             button.classList.add(`esgst-gb-highlighted`);
         }
-        for (let key in giveaways) {
-            if (giveaways[key].bookmarked) {
-                if (typeof giveaways[key].started === `undefined`) {
-                    giveaways[key].started = true;
+        for (let key in esgst.giveaways) {
+            const giveaway = esgst.giveaways[key];
+            if (giveaway.bookmarked) {
+                if (typeof giveaway.started === `undefined`) {
+                    giveaway.started = true;
+                    esgst.edited.giveaways = true;
                 }
-                if (Date.now() >= giveaways[key].endTime || !giveaways[key].endTime) {
-                    if (giveaways[key].started) {
+                if (Date.now() >= giveaway.endTime || !giveaway.endTime) {
+                    if (giveaway.started) {
                         if (esgst.gb_u) {
-                            delete giveaways[key].bookmarked;
+                            delete giveaway.bookmarked;
+                            esgst.edited.giveaways = true;
                         } else {
-                            bookmarked.push(giveaways[key]);
+                            bookmarked.push(giveaway);
                         }
                     } else {
-                        bookmarked.push(giveaways[key]);
+                        bookmarked.push(giveaway);
                         ++started;
                         if (esgst.gb_h && button) {
                             button.classList.add(`started`);
                         }
                     }
                 } else {
-                    if (giveaways[key].started) {
-                        bookmarked.push(giveaways[key]);
-                        endingSoon = giveaways[key].endTime - Date.now() - (esgst.gb_hours * 3600000);
+                    if (giveaway.started) {
+                        bookmarked.push(giveaway);
+                        endingSoon = giveaway.endTime - Date.now() - (esgst.gb_hours * 3600000);
                         if (endingSoon <= 0) {
                             ++ending;
                         }
@@ -13381,8 +13424,6 @@ class ESGST {
                 }
             }
         }
-        await this.setValue(`giveaways`, JSON.stringify(giveaways));
-        deleteLock();
         if (esgst.gbPath) {
             this.gb_loadGibs(bookmarked, esgst.mainContext, insertHtml(esgst.mainContext, `beforeEnd`, `<div></div>`));
         }
@@ -15056,7 +15097,7 @@ class ESGST {
                 </div>
             `);
             ged.button.addEventListener(`mousedown`, this.ged_openPopup.bind(this, ged));
-            this.ged_getGiveaways(ged);
+            this.ged_getGiveaways(ged, true);
         }
         esgst.ged_addIcons = this.ged_addIcons.bind(this, ged);
     }
@@ -15102,21 +15143,23 @@ class ESGST {
             ged.context.addEventListener(`scroll`, this.ged_checkEndless.bind(this, ged));
         }
     }
-    async ged_getGiveaways(ged) {
+    async ged_getGiveaways(ged, firstRun) {
         ged.giveaways = [];
         ged.i = 0;
         let currentGiveaways = {};
         let currentTime = Date.now();
-        let deleteLock = await this.createLock(`gedLock`, 300);
-        let decryptedGiveaways = await this.getValue(`decryptedGiveaways`, await this.getValue(`exclusiveGiveaways`, {}));
-        if (typeof decryptedGiveaways === `string`) {
-            decryptedGiveaways = JSON.parse(decryptedGiveaways);
+        let deleteLock;
+        if (!firstRun) {
+            deleteLock = await this.createLock(`gedLock`, 300);
+            esgst.decryptedGiveaways = JSON.parse(await this.getValue(`decryptedGiveaways`));
         }
-        for (let code in decryptedGiveaways) {
-            if (decryptedGiveaways[code].html) {
-                delete decryptedGiveaways[code].html;
+        delete esgst.edited.decryptedGiveaways;
+        for (let code in esgst.decryptedGiveaways) {
+            if (esgst.decryptedGiveaways[code].html) {
+                delete esgst.decryptedGiveaways[code].html;
+                esgst.edited.decryptedGiveaways = true;
             }
-            let isEnded = decryptedGiveaways[code].timestamp <= currentTime;
+            let isEnded = esgst.decryptedGiveaways[code].timestamp <= currentTime;
             let filtered = true;
             let giveaway = esgst.giveaways[code];
             if (giveaway) {
@@ -15134,21 +15177,25 @@ class ESGST {
                     }
                 }
                 if (filtered && isEnded && !giveaway.started) {
-                    await this.ged_getGiveaway(code, currentGiveaways, decryptedGiveaways, true);
-                    isEnded = decryptedGiveaways[code].timestamp <= currentTime;
+                    await this.ged_getGiveaway(code, currentGiveaways, true);
+                    isEnded = esgst.decryptedGiveaways[code].timestamp <= currentTime;
                 }
             }
             if (filtered && !isEnded) {
                 ged.giveaways.push({
                     code: code,
-                    source: decryptedGiveaways[code].source,
-                    timestamp: decryptedGiveaways[code].timestamp
+                    source: esgst.decryptedGiveaways[code].source,
+                    timestamp: esgst.decryptedGiveaways[code].timestamp
                 });
             }
         }
-        await this.lockAndSaveGiveaways(currentGiveaways);
-        await this.setValue(`decryptedGiveaways`, JSON.stringify(decryptedGiveaways));
-        deleteLock();
+        await this.lockAndSaveGiveaways(currentGiveaways, firstRun);
+        if (esgst.edited.decryptedGiveaways && !firstRun) {
+            await this.setValue(`decryptedGiveaways`, JSON.stringify(esgst.decryptedGiveaways));
+        }
+        if (deleteLock) {
+            deleteLock();
+        }
         ged.n = ged.giveaways.length;
         if (ged.n > 0) {
             if (ged.button) {
@@ -15157,17 +15204,17 @@ class ESGST {
             ged.giveaways = sortArrayByNumberKey(ged.giveaways, `timestamp`);
         }
     }
-    async ged_getGiveaway(code, currentGiveaways, decryptedGiveaways, isEnded, source) {
+    async ged_getGiveaway(code, currentGiveaways, isEnded, source) {
         let response = await this.request({method: `GET`, url: `/giveaway/${code}/`});
         let giveaway = (await this.giveaways_get(this.parseHtml(response.responseText), false, response.finalUrl, false, null, true))[0];
         if (giveaway) {
             currentGiveaways[code] = giveaway;
             if (giveaway.started && isEnded) {
-                decryptedGiveaways[code].timestamp = giveaway.endTime;
+                esgst.decryptedGiveaways[code].timestamp = giveaway.endTime;
             }
         }
         if (source) {
-            decryptedGiveaways[code] = {
+            esgst.decryptedGiveaways[code] = {
                 source: source,
                 timestamp: (giveaway && giveaway.endTime) || 0
             };
@@ -15205,10 +15252,9 @@ class ESGST {
             ged.set.trigger();
         }
     }
-    async ged_addIcons(ged, comments) {
+    async ged_addIcons(ged, comments, firstRun) {
         let currentGiveaways = {};
         let currentTime = Date.now();
-        let decryptedGiveaways = null;
         let deleteLock = null;
         let hasNew = false;
         for (let i = comments.length - 1; i > -1; i--) {
@@ -15224,19 +15270,16 @@ class ESGST {
                 if (code.match(/currentVersion/)) {
                     continue;
                 }
-                if (!deleteLock) {
-                    deleteLock = await this.createLock(`gedLock`, 300);
-                    decryptedGiveaways = await this.getValue(`decryptedGiveaways`, await this.getValue(`exclusiveGiveaways`, {}));
-                    if (typeof decryptedGiveaways === `string`) {
-                        decryptedGiveaways = JSON.parse(decryptedGiveaways);
-                    }
+                if (!deleteLock && !firstRun) {
+                    deleteLock = await this.createLock(`gedLock`, 300);                    
+                    esgst.decryptedGiveaways = JSON.parse(await this.getValue(`decryptedGiveaways`));
                 }
                 code = this.ged_decryptCode(code);
-                let isEnded = decryptedGiveaways[code] && currentTime > decryptedGiveaways[code].timestamp;
+                let isEnded = esgst.decryptedGiveaways[code] && currentTime > esgst.decryptedGiveaways[code].timestamp;
                 let isNew = false;
                 let isStarted = esgst.giveaways[code] && esgst.giveaways[code].started;
-                if (!decryptedGiveaways[code] || (isEnded && !isStarted)) {
-                    let giveaway = await this.ged_getGiveaway(code, currentGiveaways, decryptedGiveaways, false, comment.id || location.href);
+                if (!esgst.decryptedGiveaways[code] || (isEnded && !isStarted)) {
+                    let giveaway = await this.ged_getGiveaway(code, currentGiveaways, false, comment.id || location.href);
                     ged.newGiveaways.push(code);
                     hasNew = isNew = true;
                     if (giveaway) {
@@ -15251,10 +15294,11 @@ class ESGST {
                 `);
             }
         }
-        if (deleteLock) {
-            await this.lockAndSaveGiveaways(currentGiveaways);
-            await this.setValue(`decryptedGiveaways`, JSON.stringify(decryptedGiveaways));
-            deleteLock();
+        if (deleteLock || firstRun) {
+            await this.lockAndSaveGiveaways(currentGiveaways, firstRun);
+            if (deleteLock) {
+                deleteLock();
+            }
         }
         if (ged.button && hasNew) {
             ged.button.classList.remove(`esgst-hidden`);
@@ -15336,29 +15380,26 @@ class ESGST {
             return;
         }
         let ged = {
-            decryptedGiveaways: await this.getValue(`decryptedGiveaways`, await this.getValue(`exclusiveGiveaways`, {})),
             giveaways: {}
         };
-        if (typeof ged.decryptedGiveaways === `string`) {
-            ged.decryptedGiveaways = JSON.parse(ged.decryptedGiveaways);
-        }
+        esgst.decryptedGiveaways = JSON.parse(await this.getValue(`decryptedGiveaways`));
         let promises = [];
         codes.forEach(code => {
-            if (ged.decryptedGiveaways[code]) {
+            if (esgst.decryptedGiveaways[code]) {
                 return;
             }
             let giveaway = esgst.giveaways[code];
             if (giveaway && giveaway.endTime) {
-                ged.decryptedGiveaways[code] = {
+                esgst.decryptedGiveaways[code] = {
                     source: source,
                     timestamp: giveaway.endTime
                 };
                 return;
             }
-            promises.push(this.ged_getGiveaway(code, ged.giveaways, ged.decryptedGiveaways, false, source));
+            promises.push(this.ged_getGiveaway(code, ged.giveaways, false, source));
         });
         await Promise.all(promises);
-        await this.setValue(`decryptedGiveaways`, JSON.stringify(ged.decryptedGiveaways));
+        await this.setValue(`decryptedGiveaways`, JSON.stringify(esgst.decryptedGiveaways));
         await this.lockAndSaveGiveaways(ged.giveaways);
     }
     gesl() {
@@ -23782,8 +23823,8 @@ class ESGST {
         }
         await this.setValue(`${esgst.name}RfiCache`, JSON.stringify(saved));
     }
-    async rfi_getReplies(comments) {
-        let children, comment, i, id, j, key, n, numReplies, saved;
+    async rfi_getReplies(comments, endless) {
+        let children, comment, i, id, j, key, n, numReplies, saved, edited = false;
         saved = JSON.parse(await this.getValue(`${esgst.name}RfiCache`, `{}`));
         for (i = 0, n = comments.length; i < n; ++i) {
             comment = comments[i];
@@ -23794,23 +23835,27 @@ class ESGST {
                     insertHtml(children, `beforeEnd`, saved[id][j].reply).querySelector(`[data-timestamp]`).textContent = getTimeSince(saved[id][j].timestamp);
                 }
                 children.setAttribute(`data-rfi`, true);
-                await this.endless_load(children);
+                await this.endless_load(children, false, null, false, endless);
                 children.removeAttribute(`data-rfi`);
             }
         }
         for (key in saved) {
             for (i = 0, n = saved[key].length; i < n; ++i) {
                 if (Date.now() - saved[key][i].timestamp > 604800000) {
+                    edited = true;
                     saved[key].splice(i, 1);
                     i -= 1;
                     n -= 1;
                 }
             }
             if (!saved[key].length) {
+                edited = true;
                 delete saved[key];
             }
         }
-        await this.setValue(`${esgst.name}RfiCache`, JSON.stringify(saved));
+        if (edited) {
+            await this.setValue(`${esgst.name}RfiCache`, JSON.stringify(saved));
+        }
     }
     rml() {
         esgst.endlessFeatures.push(this.rml_addLinks.bind(this));
@@ -28818,7 +28863,7 @@ class ESGST {
     comments() {
         esgst.endlessFeatures.push(this.comments_load.bind(this));
     }
-    async comments_load(context, main, source, endless) {
+    async comments_load(context, main, source, endless, mainEndless) {
         let count, comments, i, n;
         comments = await this.comments_get(context, document, main, endless);
         if (!comments.length) return;
@@ -28839,15 +28884,15 @@ class ESGST {
                     count = 0;
                 }
             }
-            this.ct_getComments(count, comments);
+            this.ct_getComments(count, comments, null, false, false, false, main || endless || mainEndless);
         }
         if (esgst.rfi) {
             if (esgst.rfi_s && (!main || esgst.inboxPath) && (!context.getAttribute || !context.getAttribute(`data-rfi`))) {
-                await this.rfi_getReplies(comments, main);
+                await this.rfi_getReplies(comments, main || endless || mainEndless);
             }
         }
         if (esgst.ged) {
-            esgst.ged_addIcons(comments, main);
+            esgst.ged_addIcons(comments, context === document && main);
         }
     }
     async comments_get(context, mainContext, main, endless) {
@@ -29337,22 +29382,40 @@ class ESGST {
         await this.lockAndSaveGames(games);
         button.remove();
     }
-    async endless_load(context, main, source, endless) {
-        let values = await this.getValues({
-            discussions: `{}`,
-            games: `{"apps":{},"subs":{}}`,
-            giveaways: `{}`,
-            users: `{"steamIds":{},"users":{}}`
-        });
-        esgst.discussions = JSON.parse(values.discussions);
-        esgst.games = JSON.parse(values.games);
-        esgst.giveaways = JSON.parse(values.giveaways);
-        esgst.users = JSON.parse(values.users);
+    async endless_load(context, main, source, endless, mainEndless) {
+        if (!mainEndless) {
+            esgst.edited = {};
+            let values = await this.getValues({
+                discussions: `{}`,
+                games: `{"apps":{},"subs":{}}`,
+                giveaways: `{}`,
+                tickets: `{}`,
+                trades: `{}`,
+                users: `{"steamIds":{},"users":{}}`
+            });
+            esgst.discussions = JSON.parse(values.discussions);
+            esgst.games = JSON.parse(values.games);
+            esgst.giveaways = JSON.parse(values.giveaways);
+            esgst.tickets = JSON.parse(values.tickets);
+            esgst.trades = JSON.parse(values.trades);
+            esgst.users = JSON.parse(values.users);
+        }
+
         for (let feature of esgst.endlessFeatures) {
             try {
-                await feature(context, main, source, endless);
+                await feature(context, main, source, endless, mainEndless);
             } catch(e) {
                 console.log(e);
+            }
+        }
+
+        if (!mainEndless) {
+            const newValues = {};
+            for (const key in esgst.edited) {
+                newValues[key] = JSON.stringify(esgst[key]);
+            }
+            if (Object.keys(newValues).length) {
+                this.setValues(newValues);
             }
         }
     }
@@ -31434,20 +31497,32 @@ class ESGST {
             await timeout(1000);
         }
     }
-    async lockAndSaveGiveaways(giveaways) {
-        let deleteLock = await this.createLock(`giveawayLock`, 300),
-        savedGiveaways = JSON.parse(await this.getValue(`giveaways`, `{}`));
+    async lockAndSaveGiveaways(giveaways, firstRun) {
+        if (!Object.keys(giveaways).length) return;
+
+        let deleteLock;
+        let savedGiveaways;
+        if (firstRun) {
+            savedGiveaways = esgst.giveaways;
+        } else {
+            deleteLock = await this.createLock(`giveawayLock`, 300),
+            savedGiveaways = JSON.parse(await this.getValue(`giveaways`, `{}`));
+        }
         for (let key in giveaways) {
             if (savedGiveaways[key]) {
                 for (let subKey in giveaways[key]) {
                     savedGiveaways[key][subKey] = giveaways[key][subKey];
+                    esgst.edited.giveaways = true;
                 }
             } else {
                 savedGiveaways[key] = giveaways[key];
+                esgst.edited.giveaways = true;
             }
         }
-        await this.setValue(`giveaways`, JSON.stringify(savedGiveaways));
-        deleteLock();
+        if (!firstRun) {
+            await this.setValue(`giveaways`, JSON.stringify(savedGiveaways));
+            deleteLock();
+        }
     }    
     async lockAndSaveDiscussions(discussions) {
         let deleteLock = await this.createLock(`discussionLock`, 300),
