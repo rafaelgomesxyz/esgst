@@ -3002,7 +3002,7 @@ class ESGST {
             sg: location.hostname.match(/www.steamgifts.com/),
             st: location.hostname.match(/www.steamtrades.com/),
             currentVersion: `7.20.3`,
-            devVersion: `7.20.4 (Dev.3)`,
+            devVersion: `7.20.4 (Dev.4)`,
             icon: `data:image/x-icon;base64,AAABAAEAEBAAAAEAIABoBAAAFgAAACgAAAAQAAAAIAAAAAEAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAqv8DCbP/Hgeq+CQIrf8iCK3/Igit/yIIrf8iB6//Iwit9x8Aqv8DAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAKr0GAa2/c0DvfzfA7f83QO3/N0Dt/zdA7f83QO+/d4Gs/3OAKP1GQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACm/xQFs/n2Bcf//wW///8FwP//BcD//wW///8Fx///BbP69gC2/xUAAAAAAAAAAAAAAAAA/1UDFptOFxSZMxkLpJktAq720QW1+ugEsfvjA7b92wO2/dsEsfvjBbX66Aau/dEoiO4tUlLWGU5k3hdVVf8DEJxKHxWqT8cVrU7uE6VN0guqny0Apv8XAJfQGwBAVywAQFcsAJfQGwCx/xcogugtS2Lk0lBl6u5Qae7ISmPeHxagSSMVr07jF7lV/xOiSu0brgATAAAAAAAAAA8AAAC/AAAAwAAAABAAAAAAYznjEkth4OxWb/3/T2jv40lf4iMXnksiEq1O3RayUv8UpEnkEo0+HQAAABkAAABBAAAA8QAAAPEAAABBAAAAGUBSvxxOYeDjU2v0/05m7d1LYuEiF55LIhKtTt0Ws1L/FahN2gU1FTAAAADAAAAA7AAAAP0AAAD9AAAA7AAAAMAVG0owUGPm2lNr9P9OZu3dS2LhIheeSyISrU7dFrNS/xWoTdoFNRswAAAAvwAAAOsAAAD9AAAA/QAAAOsAAADAFRtKMFBj6NpTa/T/Tmbt3Uti4SIXnksiEq1O3RayUv8UpEnkEo0+HQAAABgAAABAAAAA8QAAAPEAAABBAAAAGT5PuR1OYeDjU2v0/05m7d1LYuEiFqBJIxWuT+QXuVX/E6JL7QC8XhMAAAAAAAAADwAAAL8AAAC/AAAAEAAAAAAOR/8SSWLh7FZv/f9PaO/jSV/iIxCUSh8Vrk7HFqxN7ROlS9JskzMt1XULGK12EhxGLgYsRy8GK612EhzVgAsYgmxxLU1i39JNZ+vtT2fwx0pj1h8AqlUDF65GFgqZUhlsiC0txH0T0s5/EujJgBPkz4QR28+EEdvJgBPkzn8Q6Md+E9KLdHosM1LWGUZo6BZVVf8DAAAAAAAAAAAAAAAA/2YAFMl9EvbgjRb/14gV/9eIFf/XiBX/14gV/9+NFv/KgBD254YAFQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAL91FRjKgRHN1IgU3s+EEt3PhBLdz4QS3c+EEt3UiBTezYMRzcJ6FBkAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACqqgADxIARHr18FiO8eA8ivHgPIrx4DyK8eA8ivXwPI8SAER7/VQADAAAAAAAAAAAAAAAA78cAAPA3AAD4FwAABCAAADGOAAAE+AAAkBEAAJ55AACYOQAAlgEAAER4AAAXaAAATnoAAPgXAAD0JwAA69cAAA==`,
             sgIcon: `data:image/x-icon;base64,AAABAAEAEBAAAAEAIABoBAAAFgAAACgAAAAQAAAAIAAAAAEAIAAAAAAAQAQAABMLAAATCwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIUAAAD5AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAPoAAACFAAAAAAAAAAAAAAD8AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA+QAAAAAAAAAAAAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAAAAAAAAAAAAP8AAAD/AAAA/wAAABwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAcAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAcAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAHAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAAAAAAAAAAAAPwAAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD5AAAAAAAAAAAAAACFAAAA+QAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD5AAAAhQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA//8AAP//AADAAwAAwAMAAMfjAADP8wAAz/MAAM/zAADP8wAAz/MAAM/zAADH4wAAwAMAAMADAAD//wAA//8AAA==`,
             stIcon: `data:image/x-icon;base64,AAABAAEAEBAAAAEAIABoBAAAFgAAACgAAAAQAAAAIAAAAAEAIAAAAAAAQAQAABMLAAATCwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABbD6SgWw+ucFsPrkBbD6SgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAWw+uYFsPr/BbD6/wWw+ucAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAFsPrmBbD6/wWw+v8FsPrmAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABbD6SQWw+uYFsPrmBbD6SQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAFKRLShSkS+cUpEvkFKRLSgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAExi4EpMYuDnTGLg5Exi4EoAAAAAAAAAABSkS+YUpEv/FKRL/xSkS+cAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABMYuDmTGLg/0xi4P9MYuDnAAAAAAAAAAAUpEvmFKRL/xSkS/8UpEvmAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAATGLg5kxi4P9MYuD/TGLg5gAAAAAAAAAAFKRLSRSkS+YUpEvmFKRLSQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAExi4ElMYuDmTGLg5kxi4EkAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAMZ9E0rGfRPnxn0T5MZ9E0oAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADGfRPmxn0T/8Z9E//GfRPnAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAxn0T5sZ9E//GfRP/xn0T5gAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAMZ9E0nGfRPmxn0T5sZ9E0kAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA//8AAPw/AAD8PwAA/D8AAPw/AAD//wAAh+EAAIfhAACH4QAAh+EAAP//AAD8PwAA/D8AAPw/AAD8PwAA//8AAA==`,
@@ -3711,6 +3711,24 @@ class ESGST {
             if (typeof esgst[localKey] === `undefined`) {
                 esgst[localKey] = this.getSetting(key, key.match(/^(wbc_checkBlacklist|wbc_hb_sg)$/));
             }
+        }
+        if (isSet(esgst.storage.filterPresets)) {
+            esgst.gf_presets = esgst.gf_presets.concat(
+                this.filters_convert(JSON.parse(esgst.storage.filterPresets))
+            );
+            esgst.settings.gf_presets = esgst.gf_presets;
+            esgst.settingsChanged = true;
+            toSet.old_gf_presets = esgst.storage.filterPresets;
+            toDelete.push(`filterPresets`);
+        }
+        if (isSet(esgst.storage.dfPresets)) {
+            esgst.df_presets = esgst.df_presets.concat(
+                this.filters_convert(JSON.parse(esgst.storage.dfPresets))
+            );
+            esgst.settings.df_presets = esgst.df_presets;
+            esgst.settingsChanged = true;
+            toSet.old_df_presets = esgst.storage.dfPresets;
+            toDelete.push(`dfPresets`);
         }
     
         esgst.features = {
@@ -16372,6 +16390,215 @@ class ESGST {
 
         return headingButton;
     }
+    filters_convert(presets) {
+        const minValues = {
+            level: 0,
+            entries: 0,
+            copies: 1,
+            points: 0,
+            comments: 0,
+            minutesToEnd: 0,
+            chance: 0,
+            chancePerPoint: 0,
+            ratio: 0,
+            rating: 0,
+            releaseDate: 0
+        };
+        const maxValues = {
+            level: 10,
+            points: 100,
+            minutesToEnd: 43800,
+            chance: 100,
+            chancePerPoint: 100,
+            rating: 100,
+            releaseDate: 3187209600
+        };
+        const newPresets = [];
+        for (const preset of presets) {
+            let newPreset = {
+                condition: `AND`,
+                not: false,
+                rules: []
+            };
+
+            // Convert basic rules.
+            for (let key in preset) {
+                if (key.match(/^(authors|creators|exceptions|genres|groups|name|overrides)$/)) {
+                    continue;
+                }
+
+                const isMax = key.match(/^max/);
+                const isMin = key.match(/^min/);
+                const value = preset[key];
+                key = key.replace(/(^(max|min))|List$/, ``);
+                key = `${key[0].toLowerCase()}${key.slice(1)}`;
+                if (isMax) {
+                    if (value !== maxValues[key] && !value.toString().match(/^9+$/)) {
+                        newPreset.rules.push({
+                            field: key,
+                            id: key,
+                            input: key === `releaseDate` ? `date` : `number`,
+                            operator: `less_or_equal`,
+                            type: key === `releaseDate` ? `text` : (key.match(/^(chance|chancePerPoint)$/) ? `double` : `integer`),
+                            value: value
+                        });
+                    }                        
+                } else if (isMin) {
+                    if (value !== minValues[key]) {
+                        newPreset.rules.push({
+                            field: key,
+                            id: key,
+                            input: key === `releaseDate` ? `date` : `number`,
+                            operator: `greater_or_equal`,
+                            type: key === `releaseDate` ? `text` : (key.match(/^(chance|chancePerPoint)$/) ? `double` : `integer`),
+                            value: value
+                        });
+                    } 
+                } else if (value && !value.match(/^(enabled|undefined)$/)) {
+                    if (value === `disabled`) {
+                        newPreset.rules.push({
+                            field: key,
+                            id: key,
+                            input: `radio`,
+                            operator: `equal`,
+                            type: `boolean`,
+                            value: false
+                        });
+                    } else if (value === `none`) {
+                        newPreset.rules.push({
+                            field: key,
+                            id: key,
+                            input: `radio`,
+                            operator: `equal`,
+                            type: `boolean`,
+                            value: true
+                        });
+                    } else {
+                        const rule = {
+                            field: key,
+                            id: key,
+                            input: `text`,
+                            operator: preset[key] === `disabled` ? `not_contains` : `contains`,
+                            type: `string`,
+                            value: value
+                        };
+                        if (preset[key] === `enabled`) {
+                            rule.data = {
+                                paused: true
+                            };
+                        }
+                        newPreset.rules.push(rule);
+                    }
+                }
+            }
+
+            // Convert exceptions.
+            let newExceptions = null;
+            if (preset.exceptions) {
+                newExceptions = {
+                    condition: `OR`,
+                    not: false,
+                    rules: []
+                };
+                if (newPreset.rules.length) {
+                    newExceptions.rules.push(newPreset);
+                }
+                for (const exception of preset.exceptions) {
+                    const newException = {
+                        condition: `AND`,
+                        not: false,
+                        rules: []
+                    };
+                    for (let key in exception) {
+                        if (key.match(/^(authors|creators|exceptions|genres|groups|name|overrides)$/)) {
+                            continue;
+                        }
+        
+                        const isMax = key.match(/^max/);
+                        const isMin = key.match(/^min/);
+                        const value = preset[key];
+                        key = key.replace(/(^(max|min))|List$/, ``);
+                        key = `${key[0].toLowerCase()}${key.slice(1)}`;
+                        if (isMax) {
+                            if (value !== maxValues[key] && !value.toString().match(/^9+$/)) {
+                                newException.rules.push({
+                                    field: key,
+                                    id: key,
+                                    input: key === `releaseDate` ? `date` : `number`,
+                                    operator: `less_or_equal`,
+                                    type: key === `releaseDate` ? `text` : (key.match(/^(chance|chancePerPoint)$/) ? `double` : `integer`),
+                                    value: value
+                                });
+                            }                        
+                        } else if (isMin) {
+                            if (value !== minValues[key]) {
+                                newException.rules.push({
+                                    field: key,
+                                    id: key,
+                                    input: key === `releaseDate` ? `date` : `number`,
+                                    operator: `greater_or_equal`,
+                                    type: key === `releaseDate` ? `text` : (key.match(/^(chance|chancePerPoint)$/) ? `double` : `integer`),
+                                    value: value
+                                });
+                            } 
+                        } else if (value && value !== `undefined`) {
+                            if (key.match(/^(authors|creators|genres|groups)$/)) {
+                                if (exception[key]) {
+                                    newException.rules.push({
+                                        field: key,
+                                        id: key,
+                                        input: `text`,
+                                        operator: `contains`,
+                                        type: `string`,
+                                        value: value
+                                    });
+                                }
+                            } else {
+                                newException.rules.push({
+                                    field: key,
+                                    id: key,
+                                    input: `radio`,
+                                    operator: `equal`,
+                                    type: `boolean`,
+                                    value: true
+                                });
+                            }
+                        }
+                    }
+                    if (newException.rules.length) {
+                        newExceptions.rules.push(newException);
+                    }
+                }
+
+                // Apply overrides.
+                if (preset.overrides) {
+                    for (let i = newPreset.rules.length - 1; i > -1; i--) {
+                        const rule = newPreset.rules[i];
+                        if (preset.overrides[rule.id]) {
+                            for (const exception of newExceptions.rules) {
+                                if (exception === newPreset) continue;
+
+                                exception.rules.push(rule);
+                            }
+                        }
+                    }
+                }
+
+                if (newExceptions.rules.length) {
+                    newPreset = newExceptions;
+                }
+            }
+
+            if (newPreset.rules.length) {
+                newPreset.valid = true;
+                newPresets.push({
+                    name: `__old-preset__${preset.name}`,
+                    rules: newPreset
+                });
+            }
+        }
+        return newPresets;
+    }
     filters_changeRules(obj, event) {
         const valid = obj.builder.validate();
 
@@ -16689,6 +16916,7 @@ class ESGST {
         if (!esgst[`${obj.id}_m_a`]) {
             console.log(preset.rules);
             obj.builder.setRules(preset.rules);
+            [obj.rules, obj.rules_save] = this.filters_changeRules(obj);
         }
         popup.close();
         obj.presetDisplay.textContent = obj.presetInput.value = preset.name;
