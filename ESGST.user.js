@@ -3,7 +3,7 @@
 // @namespace ESGST
 // @description Enhances SteamGifts and SteamTrades by adding some cool features to them.
 // @icon https://dl.dropboxusercontent.com/s/lr3t3bxrxfxylqe/esgstIcon.ico?raw=1
-// @version 7.20.3
+// @version 7.20.4
 // @author revilheart
 // @contributor Royalgamer06
 // @downloadURL https://github.com/revilheart/ESGST/raw/master/ESGST.user.js
@@ -3001,8 +3001,8 @@ class ESGST {
             markdownParser: new Parsedown(),
             sg: location.hostname.match(/www.steamgifts.com/),
             st: location.hostname.match(/www.steamtrades.com/),
-            currentVersion: `7.20.3`,
-            devVersion: `7.20.3`,
+            currentVersion: `7.20.4`,
+            devVersion: `7.20.4`,
             icon: `data:image/x-icon;base64,AAABAAEAEBAAAAEAIABoBAAAFgAAACgAAAAQAAAAIAAAAAEAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAqv8DCbP/Hgeq+CQIrf8iCK3/Igit/yIIrf8iB6//Iwit9x8Aqv8DAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAKr0GAa2/c0DvfzfA7f83QO3/N0Dt/zdA7f83QO+/d4Gs/3OAKP1GQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACm/xQFs/n2Bcf//wW///8FwP//BcD//wW///8Fx///BbP69gC2/xUAAAAAAAAAAAAAAAAA/1UDFptOFxSZMxkLpJktAq720QW1+ugEsfvjA7b92wO2/dsEsfvjBbX66Aau/dEoiO4tUlLWGU5k3hdVVf8DEJxKHxWqT8cVrU7uE6VN0guqny0Apv8XAJfQGwBAVywAQFcsAJfQGwCx/xcogugtS2Lk0lBl6u5Qae7ISmPeHxagSSMVr07jF7lV/xOiSu0brgATAAAAAAAAAA8AAAC/AAAAwAAAABAAAAAAYznjEkth4OxWb/3/T2jv40lf4iMXnksiEq1O3RayUv8UpEnkEo0+HQAAABkAAABBAAAA8QAAAPEAAABBAAAAGUBSvxxOYeDjU2v0/05m7d1LYuEiF55LIhKtTt0Ws1L/FahN2gU1FTAAAADAAAAA7AAAAP0AAAD9AAAA7AAAAMAVG0owUGPm2lNr9P9OZu3dS2LhIheeSyISrU7dFrNS/xWoTdoFNRswAAAAvwAAAOsAAAD9AAAA/QAAAOsAAADAFRtKMFBj6NpTa/T/Tmbt3Uti4SIXnksiEq1O3RayUv8UpEnkEo0+HQAAABgAAABAAAAA8QAAAPEAAABBAAAAGT5PuR1OYeDjU2v0/05m7d1LYuEiFqBJIxWuT+QXuVX/E6JL7QC8XhMAAAAAAAAADwAAAL8AAAC/AAAAEAAAAAAOR/8SSWLh7FZv/f9PaO/jSV/iIxCUSh8Vrk7HFqxN7ROlS9JskzMt1XULGK12EhxGLgYsRy8GK612EhzVgAsYgmxxLU1i39JNZ+vtT2fwx0pj1h8AqlUDF65GFgqZUhlsiC0txH0T0s5/EujJgBPkz4QR28+EEdvJgBPkzn8Q6Md+E9KLdHosM1LWGUZo6BZVVf8DAAAAAAAAAAAAAAAA/2YAFMl9EvbgjRb/14gV/9eIFf/XiBX/14gV/9+NFv/KgBD254YAFQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAL91FRjKgRHN1IgU3s+EEt3PhBLdz4QS3c+EEt3UiBTezYMRzcJ6FBkAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACqqgADxIARHr18FiO8eA8ivHgPIrx4DyK8eA8ivXwPI8SAER7/VQADAAAAAAAAAAAAAAAA78cAAPA3AAD4FwAABCAAADGOAAAE+AAAkBEAAJ55AACYOQAAlgEAAER4AAAXaAAATnoAAPgXAAD0JwAA69cAAA==`,
             sgIcon: `data:image/x-icon;base64,AAABAAEAEBAAAAEAIABoBAAAFgAAACgAAAAQAAAAIAAAAAEAIAAAAAAAQAQAABMLAAATCwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIUAAAD5AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAPoAAACFAAAAAAAAAAAAAAD8AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA+QAAAAAAAAAAAAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAAAAAAAAAAAAP8AAAD/AAAA/wAAABwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAcAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAcAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAHAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAAAAAAAAAAAAPwAAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD5AAAAAAAAAAAAAACFAAAA+QAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD5AAAAhQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA//8AAP//AADAAwAAwAMAAMfjAADP8wAAz/MAAM/zAADP8wAAz/MAAM/zAADH4wAAwAMAAMADAAD//wAA//8AAA==`,
             stIcon: `data:image/x-icon;base64,AAABAAEAEBAAAAEAIABoBAAAFgAAACgAAAAQAAAAIAAAAAEAIAAAAAAAQAQAABMLAAATCwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABbD6SgWw+ucFsPrkBbD6SgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAWw+uYFsPr/BbD6/wWw+ucAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAFsPrmBbD6/wWw+v8FsPrmAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABbD6SQWw+uYFsPrmBbD6SQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAFKRLShSkS+cUpEvkFKRLSgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAExi4EpMYuDnTGLg5Exi4EoAAAAAAAAAABSkS+YUpEv/FKRL/xSkS+cAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABMYuDmTGLg/0xi4P9MYuDnAAAAAAAAAAAUpEvmFKRL/xSkS/8UpEvmAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAATGLg5kxi4P9MYuD/TGLg5gAAAAAAAAAAFKRLSRSkS+YUpEvmFKRLSQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAExi4ElMYuDmTGLg5kxi4EkAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAMZ9E0rGfRPnxn0T5MZ9E0oAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADGfRPmxn0T/8Z9E//GfRPnAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAxn0T5sZ9E//GfRP/xn0T5gAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAMZ9E0nGfRPmxn0T5sZ9E0kAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA//8AAPw/AAD8PwAA/D8AAPw/AAD//wAAh+EAAIfhAACH4QAAh+EAAP//AAD8PwAA/D8AAPw/AAD8PwAA//8AAA==`,
@@ -3711,6 +3711,24 @@ class ESGST {
             if (typeof esgst[localKey] === `undefined`) {
                 esgst[localKey] = this.getSetting(key, key.match(/^(wbc_checkBlacklist|wbc_hb_sg)$/));
             }
+        }
+        if (isSet(esgst.storage.filterPresets)) {
+            esgst.gf_presets = esgst.gf_presets.concat(
+                this.filters_convert(JSON.parse(esgst.storage.filterPresets))
+            );
+            esgst.settings.gf_presets = esgst.gf_presets;
+            esgst.settingsChanged = true;
+            toSet.old_gf_presets = esgst.storage.filterPresets;
+            toDelete.push(`filterPresets`);
+        }
+        if (isSet(esgst.storage.dfPresets)) {
+            esgst.df_presets = esgst.df_presets.concat(
+                this.filters_convert(JSON.parse(esgst.storage.dfPresets))
+            );
+            esgst.settings.df_presets = esgst.df_presets;
+            esgst.settingsChanged = true;
+            toSet.old_df_presets = esgst.storage.dfPresets;
+            toDelete.push(`dfPresets`);
         }
     
         esgst.features = {
@@ -12461,8 +12479,8 @@ class ESGST {
         es.refreshAllButton.addEventListener(`click`, esgst.es_refreshAll);
         es.continuousButton.addEventListener(`click`, this.es_continuouslyLoad.bind(this, es));
         es.nextButton.addEventListener(`click`, this.es_stepNext.bind(this, es));
-        es.pauseButton.addEventListener(`click`, this.es_pause.bind(this, es));
-        es.resumeButton.addEventListener(`click`, this.es_resume.bind(this, es));
+        es.pauseButton.addEventListener(`click`, this.es_pause.bind(this, es, false));
+        es.resumeButton.addEventListener(`click`, this.es_resume.bind(this, es, false));
         if (esgst.paginationNavigation) {
             let lastLink = esgst.paginationNavigation.lastElementChild;
             if (esgst.lastPageLink && esgst.lastPage !== es.pageIndex && !lastLink.classList.contains(`is-selected`) && !lastLink.textContent.match(/Last/)) {
@@ -12472,6 +12490,7 @@ class ESGST {
         }
         es.busy = false;
         es.paused = await this.getValue(`esPause`, false);
+        esgst.es_loadNext = this.es_loadNext.bind(this, es);
         if (es.paused) {
             this.es_pause(es, true);
         } else {
@@ -12479,7 +12498,6 @@ class ESGST {
         }
         es.pageIndex = es.currentPage;
         document.addEventListener(`scroll`, this.es_changePagination.bind(this, es));
-        esgst.es_loadNext = this.es_loadNext.bind(this, es);
         if (es.paused && es.reversePages) {
             esgst.es_loadNext();
         }
@@ -15945,6 +15963,7 @@ class ESGST {
             ]);
             obj.rules = {};
         }
+        obj.rules_save = obj.rules;
         obj.presetDisplay.textContent = obj.presetInput.value = name;
 
         if (!obj.popup && esgst.pagination) {
@@ -16233,35 +16252,36 @@ class ESGST {
             }
             $(advancedFilters).queryBuilder(options);
             obj.builder = $(advancedFilters)[0].queryBuilder;
+            [obj.rules, obj.rules_save] = this.filters_changeRules(obj);
 
             obj.builder.$el.on(`click.queryBuilder`, `[data-pause=group]`, event => {
                 const group = event.currentTarget.closest(`.rules-group-container`);
                 group.setAttribute(`data-esgst-paused`, true);
-                obj.rules = obj.builder.getRules();
+                [obj.rules, obj.rules_save] = obj.builder.getRules();
                 this.filters_filter(obj);
             });
             obj.builder.$el.on(`click.queryBuilder`, `[data-resume=group]`, event => {
                 const group = event.currentTarget.closest(`.rules-group-container`);
                 group.removeAttribute(`data-esgst-paused`);
-                obj.rules = obj.builder.getRules();
+                [obj.rules, obj.rules_save] = obj.builder.getRules();
                 this.filters_filter(obj);
             });
             obj.builder.$el.on(`click.queryBuilder`, `[data-pause=rule]`, event => {
                 const rule = event.currentTarget.closest(`.rule-container`);
                 rule.setAttribute(`data-esgst-paused`, true);
-                obj.rules = obj.builder.getRules();
+                [obj.rules, obj.rules_save] = obj.builder.getRules();
                 this.filters_filter(obj);
             });
             obj.builder.$el.on(`click.queryBuilder`, `[data-resume=rule]`, event => {
                 const rule = event.currentTarget.closest(`.rule-container`);
                 rule.removeAttribute(`data-esgst-paused`);
-                obj.rules = obj.builder.getRules();
+                [obj.rules, obj.rules_save] = obj.builder.getRules();
                 this.filters_filter(obj);
             });
 
             obj.builder.on(`rulesChanged.queryBuilder`, () => {
                 try {
-                    obj.rules = obj.builder.getRules();
+                    [obj.rules, obj.rules_save] = obj.builder.getRules();
                     if (!obj.basicApplied && !esgst[`${obj.id}_m_b`]) {
                         this.filters_resetBasic(obj);
                         this.filters_applyBasic(obj, obj.rules);
@@ -16270,53 +16290,7 @@ class ESGST {
                 } catch (e) {}
                 obj.basicApplied = false;
             });
-            obj.builder.on(`getRules.queryBuilder.filter`, event => {                
-                const valid = obj.builder.validate();
-
-                if (!valid) {
-                    return null;
-                }
-                
-                const out = (function parse(group) {
-                    const groupData = {
-                        condition: group.condition,
-                        rules: []
-                    };
-                    group.each(function(rule) {
-                        if (rule.$el[0].getAttribute(`data-esgst-paused`)) {
-                            return;
-                        }
-
-                        let value = null;
-                        if (!rule.operator || rule.operator.nb_inputs !== 0) {
-                            value = rule.value;
-                        }            
-                        const ruleData = {
-                            id: rule.filter ? rule.filter.id : null,
-                            field: rule.filter ? rule.filter.field : null,
-                            type: rule.filter ? rule.filter.type : null,
-                            input: rule.filter ? rule.filter.input : null,
-                            operator: rule.operator ? rule.operator.type : null,
-                            value: value
-                        };
-                        groupData.rules.push(obj.builder.change(`ruleToJson`, ruleData, rule));            
-                    }, function (model) {
-                        if (model.$el[0].getAttribute(`data-esgst-paused`)) {
-                            return;
-                        }
-
-                        const data = parse(model);
-                        if (data.rules.length !== 0) {
-                            groupData.rules.push(data);
-                        }
-                    }, obj.builder);
-
-                    return obj.builder.change(`groupToJson`, groupData, group);                
-                }(obj.builder.model.root));
-                
-                out.valid = valid;
-                event.value = out;
-            });
+            obj.builder.on(`getRules.queryBuilder.filter`, this.filters_changeRules.bind(this, obj));
         }
 
         if (esgst[`${obj.id}_m_b`]) {
@@ -16415,6 +16389,297 @@ class ESGST {
         }
 
         return headingButton;
+    }
+    filters_convert(presets) {
+        const minValues = {
+            level: 0,
+            entries: 0,
+            copies: 1,
+            points: 0,
+            comments: 0,
+            minutesToEnd: 0,
+            chance: 0,
+            chancePerPoint: 0,
+            ratio: 0,
+            rating: 0,
+            releaseDate: 0
+        };
+        const maxValues = {
+            level: 10,
+            points: 100,
+            minutesToEnd: 43800,
+            chance: 100,
+            chancePerPoint: 100,
+            rating: 100,
+            releaseDate: 3187209600
+        };
+        const newPresets = [];
+        for (const preset of presets) {
+            let newPreset = {
+                condition: `AND`,
+                not: false,
+                rules: []
+            };
+
+            // Convert basic rules.
+            for (let key in preset) {
+                if (key.match(/^(authors|creators|exceptions|genres|groups|name|overrides)$/)) {
+                    continue;
+                }
+
+                const isMax = key.match(/^max/);
+                const isMin = key.match(/^min/);
+                const value = preset[key];
+                key = key.replace(/(^(max|min))|List$/, ``);
+                key = `${key[0].toLowerCase()}${key.slice(1)}`;
+                if (isMax) {
+                    if (value !== maxValues[key] && !value.toString().match(/^9+$/)) {
+                        newPreset.rules.push({
+                            field: key,
+                            id: key,
+                            input: key === `releaseDate` ? `date` : `number`,
+                            operator: `less_or_equal`,
+                            type: key === `releaseDate` ? `text` : (key.match(/^(chance|chancePerPoint)$/) ? `double` : `integer`),
+                            value: value
+                        });
+                    }                        
+                } else if (isMin) {
+                    if (value !== minValues[key]) {
+                        newPreset.rules.push({
+                            field: key,
+                            id: key,
+                            input: key === `releaseDate` ? `date` : `number`,
+                            operator: `greater_or_equal`,
+                            type: key === `releaseDate` ? `text` : (key.match(/^(chance|chancePerPoint)$/) ? `double` : `integer`),
+                            value: value
+                        });
+                    } 
+                } else if (value && !value.match(/^(enabled|undefined)$/)) {
+                    if (value === `disabled`) {
+                        newPreset.rules.push({
+                            field: key,
+                            id: key,
+                            input: `radio`,
+                            operator: `equal`,
+                            type: `boolean`,
+                            value: false
+                        });
+                    } else if (value === `none`) {
+                        newPreset.rules.push({
+                            field: key,
+                            id: key,
+                            input: `radio`,
+                            operator: `equal`,
+                            type: `boolean`,
+                            value: true
+                        });
+                    } else {
+                        const rule = {
+                            field: key,
+                            id: key,
+                            input: `text`,
+                            operator: preset[key] === `disabled` ? `not_contains` : `contains`,
+                            type: `string`,
+                            value: value
+                        };
+                        if (preset[key] === `enabled`) {
+                            rule.data = {
+                                paused: true
+                            };
+                        }
+                        newPreset.rules.push(rule);
+                    }
+                }
+            }
+
+            // Convert exceptions.
+            let newExceptions = null;
+            if (preset.exceptions) {
+                newExceptions = {
+                    condition: `OR`,
+                    not: false,
+                    rules: []
+                };
+                if (newPreset.rules.length) {
+                    newExceptions.rules.push(newPreset);
+                }
+                for (const exception of preset.exceptions) {
+                    const newException = {
+                        condition: `AND`,
+                        not: false,
+                        rules: []
+                    };
+                    for (let key in exception) {
+                        if (key.match(/^(authors|creators|exceptions|genres|groups|name|overrides)$/)) {
+                            continue;
+                        }
+        
+                        const isMax = key.match(/^max/);
+                        const isMin = key.match(/^min/);
+                        const value = preset[key];
+                        key = key.replace(/(^(max|min))|List$/, ``);
+                        key = `${key[0].toLowerCase()}${key.slice(1)}`;
+                        if (isMax) {
+                            if (value !== maxValues[key] && !value.toString().match(/^9+$/)) {
+                                newException.rules.push({
+                                    field: key,
+                                    id: key,
+                                    input: key === `releaseDate` ? `date` : `number`,
+                                    operator: `less_or_equal`,
+                                    type: key === `releaseDate` ? `text` : (key.match(/^(chance|chancePerPoint)$/) ? `double` : `integer`),
+                                    value: value
+                                });
+                            }                        
+                        } else if (isMin) {
+                            if (value !== minValues[key]) {
+                                newException.rules.push({
+                                    field: key,
+                                    id: key,
+                                    input: key === `releaseDate` ? `date` : `number`,
+                                    operator: `greater_or_equal`,
+                                    type: key === `releaseDate` ? `text` : (key.match(/^(chance|chancePerPoint)$/) ? `double` : `integer`),
+                                    value: value
+                                });
+                            } 
+                        } else if (value && value !== `undefined`) {
+                            if (key.match(/^(authors|creators|genres|groups)$/)) {
+                                if (exception[key]) {
+                                    newException.rules.push({
+                                        field: key,
+                                        id: key,
+                                        input: `text`,
+                                        operator: `contains`,
+                                        type: `string`,
+                                        value: value
+                                    });
+                                }
+                            } else {
+                                newException.rules.push({
+                                    field: key,
+                                    id: key,
+                                    input: `radio`,
+                                    operator: `equal`,
+                                    type: `boolean`,
+                                    value: true
+                                });
+                            }
+                        }
+                    }
+                    if (newException.rules.length) {
+                        newExceptions.rules.push(newException);
+                    }
+                }
+
+                // Apply overrides.
+                if (preset.overrides) {
+                    for (let i = newPreset.rules.length - 1; i > -1; i--) {
+                        const rule = newPreset.rules[i];
+                        if (preset.overrides[rule.id]) {
+                            for (const exception of newExceptions.rules) {
+                                if (exception === newPreset) continue;
+
+                                exception.rules.push(rule);
+                            }
+                        }
+                    }
+                }
+
+                if (newExceptions.rules.length) {
+                    newPreset = newExceptions;
+                }
+            }
+
+            if (newPreset.rules.length) {
+                newPreset.valid = true;
+                newPresets.push({
+                    name: `__old-preset__${preset.name}`,
+                    rules: newPreset
+                });
+            }
+        }
+        return newPresets;
+    }
+    filters_changeRules(obj, event) {
+        const valid = obj.builder.validate();
+
+        if (!valid) {
+            return null;
+        }
+        
+        const out = (function parse(group) {
+            const groupData = {
+                condition: group.condition,
+                rules: []
+            };
+            const groupData_save = {
+                condition: group.condition,
+                rules: []
+            };
+            group.each(function(rule) {
+                if (!event) {
+                    if (rule.data && rule.data.paused) {
+                        rule.$el[0].setAttribute(`data-esgst-paused`, true);
+                    } else {
+                        rule.$el[0].removeAttribute(`data-esgst-paused`);
+                    }
+                }
+
+                let value = null;
+                if (!rule.operator || rule.operator.nb_inputs !== 0) {
+                    value = rule.value;
+                }    
+                const ruleData = {
+                    id: rule.filter ? rule.filter.id : null,
+                    field: rule.filter ? rule.filter.field : null,
+                    type: rule.filter ? rule.filter.type : null,
+                    input: rule.filter ? rule.filter.input : null,
+                    operator: rule.operator ? rule.operator.type : null,
+                    value: value
+                };
+                if (rule.$el[0].getAttribute(`data-esgst-paused`)) {
+                    ruleData.data = {
+                        paused: true
+                    };
+                } else {
+                    groupData.rules.push(obj.builder.change(`ruleToJson`, ruleData, rule));
+                }
+                groupData_save.rules.push(obj.builder.change(`ruleToJson`, ruleData, rule));
+            }, function (model) {
+                if (!event) {
+                    if (model.data && model.data.paused) {
+                        model.$el[0].setAttribute(`data-esgst-paused`, true);
+                    } else {
+                        model.$el[0].removeAttribute(`data-esgst-paused`);
+                    }
+                }
+
+                const [data, data_save] = parse(model);
+                if (data.rules.length !== 0) {
+                    if (model.$el[0].getAttribute(`data-esgst-paused`)) {
+                        data_save.data = {
+                            paused: true
+                        };
+                    } else {
+                        groupData.rules.push(data);
+                    }
+                    groupData_save.rules.push(data_save);
+                }
+            }, obj.builder);
+
+            return [
+                obj.builder.change(`groupToJson`, groupData, group),
+                obj.builder.change(`groupToJson`, groupData_save, group)
+            ];
+        }(obj.builder.model.root));
+
+        out[0].valid = valid;
+        out[1].valid = valid;
+
+        if (event) {
+            event.value = out;
+        }
+
+        return out;
     }
     filters_basicToAdv(obj) {
         const adv = {
@@ -16542,7 +16807,7 @@ class ESGST {
         obj.presetWarning.classList.add(`esgst-hidden`);
         const preset = {
             name,
-            rules: obj.rules
+            rules: obj.rules_save
         };
         let i;
         for (i = esgst[obj.key].length - 1; i > -1 && esgst[obj.key][i].name !== name; i--);
@@ -16635,9 +16900,12 @@ class ESGST {
         esgst[obj.key].splice(obj.sourceNewIndex, 0, esgst[obj.key].splice(obj.sourceIndex, 1)[0]);
         await this.setSetting(obj.key, esgst[obj.key]);
     }
-    async filters_applyPreset(obj, popup, preset) {        
-        if (!preset.rules || !preset.rules.length) {
+    async filters_applyPreset(obj, popup, preset) {
+        if (!preset.rules || !preset.rules.rules || !preset.rules.rules.length) {
             popup.close();
+            const alPopup = new Popup(``, `Error! Cannot apply this preset. There might be something wrong with it. You can report this in the ESGST thread or on GitHub. Please include the following text in your report:`, true);
+            alPopup.scrollable.innerHTML = JSON.stringify(preset);
+            alPopup.open();
             return;
         }
 
@@ -16648,7 +16916,9 @@ class ESGST {
         if (!esgst[`${obj.id}_m_a`]) {
             console.log(preset.rules);
             obj.builder.setRules(preset.rules);
+            [obj.rules, obj.rules_save] = this.filters_changeRules(obj);
         }
+        popup.close();
         obj.presetDisplay.textContent = obj.presetInput.value = preset.name;
         this.filters_filter(obj);
         this.setSetting(`${obj.id}_preset${obj.type}`, preset.name);
@@ -30097,7 +30367,6 @@ class ESGST {
                 if (esgst.showChangelog) {
                     loadChangelog(esgst.version);
                 }
-                new Popup(`fa-exclamation`, `Hi! ESGST is using a new filter system since v7.20.0. This unfortunately means that you will have to reconfigure all of your filters, because the differences between the two systems are too many and an automatic data conversion was not doable. The good news is that the new system offers a much more rich filtering experience. `, true).open();
             }
             esgst.version = esgst.currentVersion;
             this.setValue(`version`, esgst.version);
@@ -40316,6 +40585,19 @@ function getThemeCss(theme) {
 function loadChangelog(version) {
     let changelog, html, i, index, n, popup;
     changelog = [
+        {
+            date: `May 28, 2018`,
+            version: `7.20.4`,
+            changelog: `
+                <ul>
+                    <li><a href="https://github.com/revilheart/ESGST/issues/737">#737</a> Save paused state of filters to allow them to remain paused when refreshing the page</li>
+                    <li><a href="https://github.com/revilheart/ESGST/issues/736">#736</a> Fix a bug that deletes settings if saving a preset with some filters paused</li>
+                    <li><a href="https://github.com/revilheart/ESGST/issues/735">#735</a> Convert old presets to the new system</li>
+                    <li><a href="https://github.com/revilheart/ESGST/issues/734">#734</a> Fix a bug in Endless Scrolling</li>
+                    <li><a href="https://github.com/revilheart/ESGST/issues/731">#731</a> Fix a bug that does not apply presets</li>
+                </ul>
+            `
+        },
         {
             date: `May 27, 2018`,
             version: `7.20.3`,
