@@ -236,6 +236,10 @@ To learn more about each feature you have to install ESGST.
 
 ## Changelog
 
+**7.20.5 (May 28, 2018)**
+
+* Hotfix for v7.20.4
+
 **7.20.4 (May 28, 2018)**
 
 * [#737](https://github.com/revilheart/ESGST/issues/737) Save paused state of filters to allow them to remain paused when refreshing the page
