@@ -236,6 +236,14 @@ To learn more about each feature you have to install ESGST.
 
 ## Changelog
 
+**7.20.4 (May 28, 2018)**
+
+* [#737](https://github.com/revilheart/ESGST/issues/737) Save paused state of filters to allow them to remain paused when refreshing the page
+* [#736](https://github.com/revilheart/ESGST/issues/736) Fix a bug that deletes settings if saving a preset with some filters paused
+* [#735](https://github.com/revilheart/ESGST/issues/735) Convert old presets to the new system
+* [#734](https://github.com/revilheart/ESGST/issues/734) Fix a bug in Endless Scrolling
+* [#731](https://github.com/revilheart/ESGST/issues/731) Fix a bug that does not apply presets
+
 **7.20.3 (May 27, 2018)**
 
 * [#730](https://github.com/revilheart/ESGST/issues/730) Possible fix to massive CPU usage spikes
