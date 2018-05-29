@@ -3002,7 +3002,7 @@ class ESGST {
             sg: location.hostname.match(/www.steamgifts.com/),
             st: location.hostname.match(/www.steamtrades.com/),
             currentVersion: `7.20.5`,
-            devVersion: `7.20.6 (Dev.1)`,
+            devVersion: `7.20.6 (Dev.2)`,
             icon: `data:image/x-icon;base64,AAABAAEAEBAAAAEAIABoBAAAFgAAACgAAAAQAAAAIAAAAAEAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAqv8DCbP/Hgeq+CQIrf8iCK3/Igit/yIIrf8iB6//Iwit9x8Aqv8DAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAKr0GAa2/c0DvfzfA7f83QO3/N0Dt/zdA7f83QO+/d4Gs/3OAKP1GQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACm/xQFs/n2Bcf//wW///8FwP//BcD//wW///8Fx///BbP69gC2/xUAAAAAAAAAAAAAAAAA/1UDFptOFxSZMxkLpJktAq720QW1+ugEsfvjA7b92wO2/dsEsfvjBbX66Aau/dEoiO4tUlLWGU5k3hdVVf8DEJxKHxWqT8cVrU7uE6VN0guqny0Apv8XAJfQGwBAVywAQFcsAJfQGwCx/xcogugtS2Lk0lBl6u5Qae7ISmPeHxagSSMVr07jF7lV/xOiSu0brgATAAAAAAAAAA8AAAC/AAAAwAAAABAAAAAAYznjEkth4OxWb/3/T2jv40lf4iMXnksiEq1O3RayUv8UpEnkEo0+HQAAABkAAABBAAAA8QAAAPEAAABBAAAAGUBSvxxOYeDjU2v0/05m7d1LYuEiF55LIhKtTt0Ws1L/FahN2gU1FTAAAADAAAAA7AAAAP0AAAD9AAAA7AAAAMAVG0owUGPm2lNr9P9OZu3dS2LhIheeSyISrU7dFrNS/xWoTdoFNRswAAAAvwAAAOsAAAD9AAAA/QAAAOsAAADAFRtKMFBj6NpTa/T/Tmbt3Uti4SIXnksiEq1O3RayUv8UpEnkEo0+HQAAABgAAABAAAAA8QAAAPEAAABBAAAAGT5PuR1OYeDjU2v0/05m7d1LYuEiFqBJIxWuT+QXuVX/E6JL7QC8XhMAAAAAAAAADwAAAL8AAAC/AAAAEAAAAAAOR/8SSWLh7FZv/f9PaO/jSV/iIxCUSh8Vrk7HFqxN7ROlS9JskzMt1XULGK12EhxGLgYsRy8GK612EhzVgAsYgmxxLU1i39JNZ+vtT2fwx0pj1h8AqlUDF65GFgqZUhlsiC0txH0T0s5/EujJgBPkz4QR28+EEdvJgBPkzn8Q6Md+E9KLdHosM1LWGUZo6BZVVf8DAAAAAAAAAAAAAAAA/2YAFMl9EvbgjRb/14gV/9eIFf/XiBX/14gV/9+NFv/KgBD254YAFQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAL91FRjKgRHN1IgU3s+EEt3PhBLdz4QS3c+EEt3UiBTezYMRzcJ6FBkAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACqqgADxIARHr18FiO8eA8ivHgPIrx4DyK8eA8ivXwPI8SAER7/VQADAAAAAAAAAAAAAAAA78cAAPA3AAD4FwAABCAAADGOAAAE+AAAkBEAAJ55AACYOQAAlgEAAER4AAAXaAAATnoAAPgXAAD0JwAA69cAAA==`,
             sgIcon: `data:image/x-icon;base64,AAABAAEAEBAAAAEAIABoBAAAFgAAACgAAAAQAAAAIAAAAAEAIAAAAAAAQAQAABMLAAATCwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIUAAAD5AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAPoAAACFAAAAAAAAAAAAAAD8AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA+QAAAAAAAAAAAAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAAAAAAAAAAAAP8AAAD/AAAA/wAAABwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAcAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAcAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAHAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAAAAAAAAAAAAPwAAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD5AAAAAAAAAAAAAACFAAAA+QAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD5AAAAhQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA//8AAP//AADAAwAAwAMAAMfjAADP8wAAz/MAAM/zAADP8wAAz/MAAM/zAADH4wAAwAMAAMADAAD//wAA//8AAA==`,
             stIcon: `data:image/x-icon;base64,AAABAAEAEBAAAAEAIABoBAAAFgAAACgAAAAQAAAAIAAAAAEAIAAAAAAAQAQAABMLAAATCwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABbD6SgWw+ucFsPrkBbD6SgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAWw+uYFsPr/BbD6/wWw+ucAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAFsPrmBbD6/wWw+v8FsPrmAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABbD6SQWw+uYFsPrmBbD6SQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAFKRLShSkS+cUpEvkFKRLSgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAExi4EpMYuDnTGLg5Exi4EoAAAAAAAAAABSkS+YUpEv/FKRL/xSkS+cAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABMYuDmTGLg/0xi4P9MYuDnAAAAAAAAAAAUpEvmFKRL/xSkS/8UpEvmAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAATGLg5kxi4P9MYuD/TGLg5gAAAAAAAAAAFKRLSRSkS+YUpEvmFKRLSQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAExi4ElMYuDmTGLg5kxi4EkAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAMZ9E0rGfRPnxn0T5MZ9E0oAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADGfRPmxn0T/8Z9E//GfRPnAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAxn0T5sZ9E//GfRP/xn0T5gAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAMZ9E0nGfRPmxn0T5sZ9E0kAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA//8AAPw/AAD8PwAA/D8AAPw/AAD//wAAh+EAAIfhAACH4QAAh+EAAP//AAD8PwAA/D8AAPw/AAD8PwAA//8AAA==`,
@@ -6611,6 +6611,15 @@ class ESGST {
                                             </ul>
                                         `,
                                         name: `Indicate if the base game of the DLC is free.`,
+                                        sg: true
+                                    },
+                                    gc_dlc_o: {
+                                        description: `
+                                            <ul>
+                                                <li>The same icon you use for the Owned category will be added if the base is owned.</li>
+                                            </ul>
+                                        `,
+                                        name: `Indicate if the base game of the DLC is owned.`,
                                         sg: true
                                     }
                                 },
@@ -13717,7 +13726,15 @@ class ESGST {
             }
         }
         if (esgst.gc_gi || esgst.gc_r || esgst.gc_a || esgst.gc_mp || esgst.gc_sc || esgst.gc_tc || esgst.gc_l || esgst.gc_m || esgst.gc_dlc || esgst.gc_ea || esgst.gc_rm || esgst.gc_rd || esgst.gc_g || esgst.gc_p) {
-            gc.cache = JSON.parse(getLocalValue(`gcCache`, `{ "apps": {}, "subs": {}, "timestamp": 0 }`));
+            gc.cache = JSON.parse(getLocalValue(`gcCache`, `{ "apps": {}, "subs": {}, "timestamp": 0, "version": 2 }`));
+            if (gc.cache.version !== 2) {
+                gc.cache = {
+                    apps: {},
+                    subs: {},
+                    timestamp: 0,
+                    version: 2
+                };
+            }
             let currentTime = Date.now();
             for (let id in gc.cache.apps) {
                 if (gc.cache.apps[id].lastCheck) {
@@ -13779,7 +13796,7 @@ class ESGST {
             let id = gc.subs[i];
             this.gc_addCategory(gc.cache.subs[id], games.subs[id], id, savedGames.subs[id], `subs`);
         }
-        let categories = [`achievements`, `dlc`, `dlcFree`, `dlcNonFree`, `genres`, `linux`, `mac`, `multiplayer`, `package`, `rating`, `removed`, `steamCloud`, `tradingCards`, `earlyAccess`, `releaseDate`];
+        let categories = [`achievements`, `dlc`, `dlcOwned`, `dlcFree`, `dlcNonFree`, `genres`, `linux`, `mac`, `multiplayer`, `package`, `rating`, `removed`, `steamCloud`, `tradingCards`, `earlyAccess`, `releaseDate`];
         for (let i = 0, n = esgst.mainGiveaways.length; i < n; ++i) {
             let giveaway = esgst.mainGiveaways[i];
             if (giveaway.gcReady || !giveaway.outerWrap.querySelector(`[data-gcReady]`)) {
@@ -13950,7 +13967,13 @@ class ESGST {
                     if (categories.achievements && data.achievements && data.achievements.total) {
                         categories.achievements = data.achievements.total;
                     }
+                    categories.free = data.is_free;
                     categories.dlc = data.type === `dlc` ? 1 : 0;
+                    if (categories.dlc && data.fullgame && data.fullgame.appid) {
+                        categories.base = parseInt(data.fullgame.appid);
+                    } else if (data.dlc) {
+                        categories.dlcs = data.dlc;
+                    }
                     let genres = [];
                     if (data.genres) {
                         for (let i = 0, n = data.genres.length; i < n; ++i) {
@@ -14023,8 +14046,13 @@ class ESGST {
                     categories.removed = 1;
                 }
             }
-            if (esgst.gc_dlc_b && categories.dlc && data && data.fullgame && data.fullgame.appid) {
-                categories.freeBase = JSON.parse((await this.request({method: `GET`, url: `http://store.steampowered.com/api/appdetails?appids=${data.fullgame.appid}&filters=basic&cc=us&l=en`})).responseText)[data.fullgame.appid].data.is_free;
+            if (esgst.gc_dlc_b && categories.dlc && categories.base) {
+                if (gc.cache.apps[categories.base]) {
+                    categories.freeBase = gc.cache.apps[categories.base].free;
+                }
+                if (typeof categories.freeBase === `undefined`) {
+                    categories.freeBase = JSON.parse((await this.request({method: `GET`, url: `http://store.steampowered.com/api/appdetails?appids=${categories.base}&filters=basic&cc=us&l=en`})).responseText)[data.fullgame.appid].data.is_free;
+                }
             }
             gc.cache[type][id] = categories;
         } catch (error) {
@@ -14266,8 +14294,54 @@ class ESGST {
                         break;
                     case `gc_dlc`:
                         if (cache && cache.dlc) {
+                            let baseOwned;
+                            if (esgst.gc_dlc_o) {
+                                if (cache.base && esgst.games.apps[cache.base]) {
+                                    baseOwned = esgst.games.apps[cache.base].owned;
+                                }
+                            }
                             elements.push(`
-                                <a class="esgst-gc esgst-gc-dlc" data-id="gc_dlc" href="http://store.steampowered.com/${singularType}/${id}" title="${this.getFeatureTooltip(`gc_dlc`, `DLC${typeof cache.freeBase !== `undefined` ? (cache.freeBase ? ` (the base game of this DLC is free)` : ` (the base game of this DLC is not free)`) : ``}`)}">${esgst.gc_dlc_s ? (esgst.gc_dlc_s_i ? `<i class="fa fa-${esgst.gc_dlcIcon}"></i>${typeof cache.freeBase !== `undefined` ? (cache.freeBase ? ` <i class="fa fa-certificate esgst-gc-dlcFree"></i>` : ` <i class="fa fa-money esgst-gc-dlcNonFree"></i>`) : ``}` : `DLC${typeof cache.freeBase !== `undefined` ? (cache.freeBase ? ` <span class="esgst-gc-dlcFree">(F)</span>` : ` <span class="esgst-gc-dlcNonFree">(NF)</span>`) : ``}`) : `${esgst.gc_dlcLabel}${typeof cache.freeBase !== `undefined` ? (cache.freeBase ? ` <span class="esgst-gc-dlcFree">(Free)</span>` : ` <span class="esgst-gc-dlcNonFree">(Not Free)</span>`) : ``}`}</a>
+                                <a class="esgst-gc esgst-gc-dlc" data-id="gc_dlc" href="http://store.steampowered.com/${singularType}/${id}" title="${this.getFeatureTooltip(`gc_dlc`, `DLC${esgst.gc_dlc_b && typeof cache.freeBase !== `undefined` ? (cache.freeBase ? ` (the base game of this DLC is free)` : ` (the base game of this DLC is not free)`) : ``}`)}">
+                                    ${esgst.gc_dlc_s ? (
+                                        esgst.gc_dlc_s_i ? `
+                                            <i class="fa fa-${esgst.gc_dlcIcon}"></i>
+                                            ${esgst.gc_dlc_o && baseOwned ? `
+                                                <i class="fa fa-${esgst.gc_oIcon} esgst-gc-dlcOwned"></i>
+                                            `: ``}
+                                            ${esgst.gc_dlc_b && typeof cache.freeBase !== `undefined` ? (
+                                                cache.freeBase ? `
+                                                    <i class="fa fa-certificate esgst-gc-dlcFree"></i>
+                                                ` : `
+                                                    <i class="fa fa-money esgst-gc-dlcNonFree"></i>
+                                                `
+                                            ) : ``}
+                                        ` : `
+                                            DLC
+                                            ${esgst.gc_dlc_o && baseOwned ? `
+                                                <span class="esgst-gc-dlcOwned">(O)</span>
+                                            `: ``}
+                                            ${esgst.gc_dlc_b && typeof cache.freeBase !== `undefined` ? (
+                                                cache.freeBase ? `
+                                                    <span class="esgst-gc-dlcFree">(F)</span>
+                                                ` : `
+                                                    <span class="esgst-gc-dlcNonFree">(NF)</span>
+                                                `
+                                            ) : ``}
+                                        `
+                                    ) : `
+                                        ${esgst.gc_dlcLabel}
+                                        ${esgst.gc_dlc_o && baseOwned ? `
+                                            <span class="esgst-gc-dlcOwned">(Owned)</span>
+                                        `: ``}
+                                        ${esgst.gc_dlc_b && typeof cache.freeBase !== `undefined` ? (
+                                            cache.freeBase ? `
+                                                <span class="esgst-gc-dlcFree">(Free)</span>
+                                            ` : `
+                                                <span class="esgst-gc-dlcNonFree">(Not Free)</span>
+                                            `
+                                        ) : ``}
+                                    `}
+                                </a>
                             `);
                         }
                         break;
@@ -15788,6 +15862,12 @@ class ESGST {
                 name: `DLC`,
                 type: `boolean`
             },
+            dlcOwned: {
+                category: `gc_dlc_o`,  
+                check: true,              
+                name: `DLC (Owned Base)`,
+                type: `boolean`
+            },
             dlcFree: {
                 category: `gc_dlc_b`,  
                 check: true,              
@@ -17108,8 +17188,6 @@ class ESGST {
                 break;
             case `boolean`:
                 if (key === `regionRestricted` && esgst.parameters.region_restricted) break;
-
-                if (key === `dlc` && esgst.parameters.dlc) break;
 
                 if (
                     (
