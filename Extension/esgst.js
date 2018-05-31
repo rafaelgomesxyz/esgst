@@ -3002,7 +3002,7 @@ class ESGST {
             sg: location.hostname.match(/www.steamgifts.com/),
             st: location.hostname.match(/www.steamtrades.com/),
             currentVersion: `7.20.5`,
-            devVersion: `7.21.0 (Dev.2)`,
+            devVersion: `7.21.0 (Dev.3)`,
             icon: `data:image/x-icon;base64,AAABAAEAEBAAAAEAIABoBAAAFgAAACgAAAAQAAAAIAAAAAEAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAqv8DCbP/Hgeq+CQIrf8iCK3/Igit/yIIrf8iB6//Iwit9x8Aqv8DAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAKr0GAa2/c0DvfzfA7f83QO3/N0Dt/zdA7f83QO+/d4Gs/3OAKP1GQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACm/xQFs/n2Bcf//wW///8FwP//BcD//wW///8Fx///BbP69gC2/xUAAAAAAAAAAAAAAAAA/1UDFptOFxSZMxkLpJktAq720QW1+ugEsfvjA7b92wO2/dsEsfvjBbX66Aau/dEoiO4tUlLWGU5k3hdVVf8DEJxKHxWqT8cVrU7uE6VN0guqny0Apv8XAJfQGwBAVywAQFcsAJfQGwCx/xcogugtS2Lk0lBl6u5Qae7ISmPeHxagSSMVr07jF7lV/xOiSu0brgATAAAAAAAAAA8AAAC/AAAAwAAAABAAAAAAYznjEkth4OxWb/3/T2jv40lf4iMXnksiEq1O3RayUv8UpEnkEo0+HQAAABkAAABBAAAA8QAAAPEAAABBAAAAGUBSvxxOYeDjU2v0/05m7d1LYuEiF55LIhKtTt0Ws1L/FahN2gU1FTAAAADAAAAA7AAAAP0AAAD9AAAA7AAAAMAVG0owUGPm2lNr9P9OZu3dS2LhIheeSyISrU7dFrNS/xWoTdoFNRswAAAAvwAAAOsAAAD9AAAA/QAAAOsAAADAFRtKMFBj6NpTa/T/Tmbt3Uti4SIXnksiEq1O3RayUv8UpEnkEo0+HQAAABgAAABAAAAA8QAAAPEAAABBAAAAGT5PuR1OYeDjU2v0/05m7d1LYuEiFqBJIxWuT+QXuVX/E6JL7QC8XhMAAAAAAAAADwAAAL8AAAC/AAAAEAAAAAAOR/8SSWLh7FZv/f9PaO/jSV/iIxCUSh8Vrk7HFqxN7ROlS9JskzMt1XULGK12EhxGLgYsRy8GK612EhzVgAsYgmxxLU1i39JNZ+vtT2fwx0pj1h8AqlUDF65GFgqZUhlsiC0txH0T0s5/EujJgBPkz4QR28+EEdvJgBPkzn8Q6Md+E9KLdHosM1LWGUZo6BZVVf8DAAAAAAAAAAAAAAAA/2YAFMl9EvbgjRb/14gV/9eIFf/XiBX/14gV/9+NFv/KgBD254YAFQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAL91FRjKgRHN1IgU3s+EEt3PhBLdz4QS3c+EEt3UiBTezYMRzcJ6FBkAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACqqgADxIARHr18FiO8eA8ivHgPIrx4DyK8eA8ivXwPI8SAER7/VQADAAAAAAAAAAAAAAAA78cAAPA3AAD4FwAABCAAADGOAAAE+AAAkBEAAJ55AACYOQAAlgEAAER4AAAXaAAATnoAAPgXAAD0JwAA69cAAA==`,
             sgIcon: `data:image/x-icon;base64,AAABAAEAEBAAAAEAIABoBAAAFgAAACgAAAAQAAAAIAAAAAEAIAAAAAAAQAQAABMLAAATCwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIUAAAD5AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAPoAAACFAAAAAAAAAAAAAAD8AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA+QAAAAAAAAAAAAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAAAAAAAAAAAAP8AAAD/AAAA/wAAABwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAcAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAcAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAHAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAAAAAAAAAAAAPwAAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD5AAAAAAAAAAAAAACFAAAA+QAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD5AAAAhQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA//8AAP//AADAAwAAwAMAAMfjAADP8wAAz/MAAM/zAADP8wAAz/MAAM/zAADH4wAAwAMAAMADAAD//wAA//8AAA==`,
             stIcon: `data:image/x-icon;base64,AAABAAEAEBAAAAEAIABoBAAAFgAAACgAAAAQAAAAIAAAAAEAIAAAAAAAQAQAABMLAAATCwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABbD6SgWw+ucFsPrkBbD6SgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAWw+uYFsPr/BbD6/wWw+ucAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAFsPrmBbD6/wWw+v8FsPrmAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABbD6SQWw+uYFsPrmBbD6SQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAFKRLShSkS+cUpEvkFKRLSgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAExi4EpMYuDnTGLg5Exi4EoAAAAAAAAAABSkS+YUpEv/FKRL/xSkS+cAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABMYuDmTGLg/0xi4P9MYuDnAAAAAAAAAAAUpEvmFKRL/xSkS/8UpEvmAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAATGLg5kxi4P9MYuD/TGLg5gAAAAAAAAAAFKRLSRSkS+YUpEvmFKRLSQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAExi4ElMYuDmTGLg5kxi4EkAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAMZ9E0rGfRPnxn0T5MZ9E0oAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADGfRPmxn0T/8Z9E//GfRPnAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAxn0T5sZ9E//GfRP/xn0T5gAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAMZ9E0nGfRPmxn0T5sZ9E0kAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA//8AAPw/AAD8PwAA/D8AAPw/AAD//wAAh+EAAIfhAACH4QAAh+EAAP//AAD8PwAA/D8AAPw/AAD8PwAA//8AAA==`,
@@ -3060,7 +3060,7 @@ class ESGST {
             blacklistPath: location.pathname.match(/^\/account\/manage\/blacklist/),
             inboxPath: location.pathname.match(/^\/messages/),
             groupsPath: location.pathname.match(/^\/account\/steam\/groups/),
-            pageTop: 25,
+            pageTop: 0,
             commentsTop: 0,
             apPopouts: {},
             tsTables: [],
@@ -7881,6 +7881,8 @@ class ESGST {
         if (esgst.qiv) this.qiv(true); // needs to wait for endless features
         if (esgst.es) this.es(); // needs to wait for everything else
 
+        observeStickyChanges(document.body);
+
         if (esgst.newGiveawayPath) {
             // when the user searches for a game in the new giveaway page, wait until the results appear and load the game features for them
             let rows = document.getElementsByClassName(`form__rows`)[0];
@@ -8958,7 +8960,7 @@ class ESGST {
         comments = document.getElementsByClassName(`comments`)[0];
         if (comments && comments.children.length) {
             esgst.cerbButtons = [];
-            button = insertHtml(esgst.mainPageHeadingBackground || esgst.mainPageHeading, `afterEnd`, `
+            button = insertHtml(esgst.mainPageHeading, `afterEnd`, `
                 <div class="esgst-cerb-button esgst-clickable">
                     <span>
                         <i class="fa fa-minus-square"></i> Collapse all replies
@@ -9291,7 +9293,6 @@ class ESGST {
         this.endless_load(popup.getScrollable(html));
     }
     async cfh() {
-        this.cfh_addScrollingEvent(window, esgst.commentsTop);
         esgst.endlessFeatures.push(this.cfh_setTextAreas.bind(this));
         esgst.cfh = {
             backup: [],
@@ -9777,32 +9778,6 @@ class ESGST {
             `
         ).join(``);
     }
-    cfh_addScrollingEvent(context, baseTop = 0) {
-        let placeholder = null;
-        context.addEventListener(`scroll`, event => {
-            let unfix = true;
-            if (esgst.cfh.textArea) {
-                const textAreaTop = esgst.cfh.textArea.getBoundingClientRect().top,
-                      top = baseTop + (context !== window ? context.getBoundingClientRect().top : 0) + esgst.cfh.panel.offsetHeight;
-                if (textAreaTop < top && textAreaTop > -(esgst.cfh.textArea.offsetHeight - top)) {
-                    unfix = false;
-                    if (!esgst.cfh.panel.classList.contains(`esgst-cfh-panel-fixed`)) {
-                        esgst.cfh.panel.classList.add(`esgst-cfh-panel-fixed`);
-                        esgst.cfh.panel.style.top = `${baseTop || (context !== window && context.getBoundingClientRect().top)}px`;
-                        placeholder = insertHtml(esgst.cfh.panel, `beforeBegin`, `
-                            <div style="height: ${esgst.cfh.panel.offsetHeight}px;"></div>
-                        `);
-                    }
-                }
-            }
-            if (!unfix) return;
-            if (esgst.cfh.panel.classList.contains(`esgst-cfh-panel-fixed`)) {
-                esgst.cfh.panel.classList.remove(`esgst-cfh-panel-fixed`);
-                esgst.cfh.panel.style.top = ``;
-                placeholder.remove();
-            }
-        });
-    }
     cfh_setTextAreas(context, main, source, endless) {
         const elements = context.querySelectorAll(`${endless ? `.esgst-es-page-${endless} textarea[name*="description"], .esgst-es-page-${endless}textarea[name*="description"]` : `textarea[name*="description"]`}`);
         for (let i = elements.length - 1; i > -1; --i) {
@@ -9811,6 +9786,14 @@ class ESGST {
     }
     cfh_addPanel(textArea) {
         if (textArea === esgst.cfh.textArea) return;
+
+        const isNotMain = textArea.closest(`.esgst-popup, .esgst-popout`);
+        if (isNotMain) {
+            esgst.cfh.panel.style.top = `0px`;
+        } else {
+            esgst.cfh.panel.style.top = `${esgst.commentsTop}px`;
+        }
+
         textArea.parentElement.insertBefore(esgst.cfh.panel, textArea);
         textArea.onfocus = this.cfh_addPanel.bind(this, textArea);
         textArea.onpaste = event => {
@@ -10148,7 +10131,6 @@ class ESGST {
         descriptionArea = descriptionArea.lastElementChild;
         if (esgst.cfh) {
             this.cfh_addPanel(descriptionArea);
-            this.cfh_addScrollingEvent(popup.scrollable);
         }
         popup.description.appendChild(new ButtonSet(`green`, `grey`, `fa-check`, `fa-circle-o-notch fa-spin`, `Save`, `Saving...`, this.cfh_saveReply.bind(this, description, descriptionArea, name, nameArea, popup, replies, summary)).set);
         popup.open();
@@ -10257,7 +10239,6 @@ class ESGST {
             popup: {
                 icon: `fa-comments`,
                 title: `Comment History`,
-                addCfhEvent: true,
                 addProgress: true,
                 addScrollable: `left`
             },
@@ -10790,7 +10771,6 @@ class ESGST {
                         tooltip: `If unchecked, all pages will be searched.`
                     }
                 ],
-                addCfhEvent: true,
                 addProgress: true,
                 addScrollable: `left`
             },
@@ -12315,7 +12295,6 @@ class ESGST {
             box = insertHtml(popup.scrollable, `beforeEnd`, `<textarea></textarea>`);
             if (esgst.cfh) {
                 this.cfh_addPanel(box);
-                this.cfh_addScrollingEvent(popup.scrollable);
             }
             popup.description.appendChild(new ButtonSet(`green`, `grey`, `fa-arrow-circle-right`, `fa-circle-o-notch fa-spin`, `Add Comment`, `Saving...`, async callback => {
                 if (box.value) {
@@ -12442,6 +12421,7 @@ class ESGST {
     es() {
         if (!esgst.mainPageHeading || !esgst.pagination) return;
         let es = {};
+        esgst.es = es;
         es.divisors = esgst.es_pd;
         es.mainContext = esgst.pagination.previousElementSibling;
         let rows = es.mainContext.getElementsByClassName(`table__rows`)[0];
@@ -12482,10 +12462,41 @@ class ESGST {
             es.pageBase = es.currentPage - 1;
             es.ended = (!esgst.paginationNavigation || esgst.paginationNavigation.lastElementChild.classList.contains(esgst.selectedClass));
         }
+        const options = {
+            rootMargin: `-${esgst.commentsTop + 1}px 0px 0px 0px`
+        };
+        es.observer = new IntersectionObserver(this.es_observe.bind(this, es), options);
         this.es_activate(es);
+    }
+    es_observe(es, entries) {
+        for (const entry of entries) {
+            if (!entry.target.getAttribute(`data-esgst-intersection`)) {
+                // So it doesn't get fired when starting to observe an element.
+                entry.target.setAttribute(`data-esgst-intersection`, true);
+                continue;
+            }
+
+            if (entry.target.classList.contains(`pagination`)) {
+                if (entry.isIntersecting) {
+                    esgst.es_loadNext(null, true);
+                }
+            } else {
+                const index = parseInt(entry.target.className.match(/es-page-(\d+)/)[1]);
+                if (entry.isIntersecting) {
+                    this.es_changePagination(es, index);
+                } else if (entry.boundingClientRect.y <= entry.rootBounds.y) {
+                    // The intersection element is no longer visible, but was scrolled upwards,
+                    // so we can now change the pagination.
+                    this.es_changePagination(es, es.reverseScrolling ? index - 1 : index + 1);
+                }
+            }
+        }
     }
     async es_activate(es) {
         for (let i = 0, n = es.mainContext.children.length; i < n; ++i) {
+            if (i === n - 1) {
+                es.observer.observe(es.mainContext.children[i]);
+            }
             es.mainContext.children[i].classList.add(`esgst-es-page-${es.currentPage}`);
         }
         es.nextButton = this.createHeadingButton({featureId: `es`, id: `esNext`, icons: [`fa-step-forward`], title: `Load next page`});
@@ -12510,7 +12521,7 @@ class ESGST {
             if (esgst.lastPageLink && esgst.lastPage !== es.pageIndex && !lastLink.classList.contains(`is-selected`) && !lastLink.textContent.match(/Last/)) {
                 esgst.paginationNavigation.insertAdjacentHTML(`beforeEnd`, esgst.lastPageLink);
             }
-            this.es_setPagination();
+            this.es_setPagination(es);
         }
         es.busy = false;
         es.paused = await this.getValue(`esPause`, false);
@@ -12521,15 +12532,14 @@ class ESGST {
             this.es_resume(es, true);
         }
         es.pageIndex = es.currentPage;
-        document.addEventListener(`scroll`, this.es_changePagination.bind(this, es));
+        es.observer.observe(esgst.pagination);
         if (es.paused && es.reversePages) {
             esgst.es_loadNext();
         }
     }
-    async es_loadNext(es, callback) {
-        if (!esgst.stopEs && !es.busy && (!es.paused || es.reversePages) && !es.ended && (es.continuous || es.step ||  scrollY >= document.body.offsetHeight -  innerHeight * 2)) {
+    async es_loadNext(es, callback, force) {
+        if (!esgst.stopEs && !es.busy && (!es.paused || es.reversePages) && !es.ended && ((force && !es.continuous && !es.step) || (!force && (es.continuous || es.step)))) {
             es.busy = true;
-            document.removeEventListener(`scroll`, esgst.es_loadNext);
             es.progress = insertHtml(esgst.pagination.firstElementChild, `beforeEnd`, `
                 <span class="esgst-bold"><i class="fa fa-circle-o-notch fa-spin"></i> Loading next page...</span>
             `);
@@ -12554,7 +12564,7 @@ class ESGST {
                 if (esgst.lastPageLink && esgst.lastPage !== es.pageIndex && !lastLink.classList.contains(`is-selected`) && !lastLink.textContent.match(/Last/)) {
                     esgst.paginationNavigation.insertAdjacentHTML(`beforeEnd`, esgst.lastPageLink);
                 }
-                this.es_setPagination();
+                this.es_setPagination(es);
             }
             es.reversePages = false;
             if (es.currentPage === 999999999) {
@@ -12591,6 +12601,7 @@ class ESGST {
             }
             let element = elements[0];
             es.mainContext.insertBefore(fragment, element);
+            es.observer.observe(element.previousElementSibling);
             element.remove();
             if (!refreshAll) {
                 this.es_purgeRemovedElements();
@@ -12627,6 +12638,7 @@ class ESGST {
                 `);
             }
             es.mainContext.appendChild(fragment);
+            es.observer.observe(es.mainContext.lastElementChild);
             await this.endless_load(es.mainContext, true, null, currentPage);
             this.es_setRemoveEntry(es.mainContext);
             if (esgst.ts && !esgst.us) {
@@ -12642,10 +12654,7 @@ class ESGST {
                     if (callback && typeof callback === `function`) {
                         callback();
                     }
-                } else if (!es.paused && !es.step) {
-                    if (!es.continuous) {
-                        document.addEventListener(`scroll`, esgst.es_loadNext);
-                    }
+                } else if (!es.paused && !es.step && es.continuous) {
                     esgst.es_loadNext(callback);
                 } else if (callback && typeof callback === `function`) {
                     callback();
@@ -12658,10 +12667,7 @@ class ESGST {
                     if (callback && typeof callback === `function`) {
                         callback();
                     }
-                } else if (!es.paused && !es.step) {
-                    if (!es.continuous) {
-                        document.addEventListener(`scroll`, esgst.es_loadNext);
-                    }
+                } else if (!es.paused && !es.step && es.continuous) {
                     esgst.es_loadNext(callback);
                 } else if (callback && typeof callback === `function`) {
                     callback();
@@ -12692,35 +12698,15 @@ class ESGST {
             delete esgst.currentUsers[key];
         }
     }
-    es_changePagination(es) {
-        if (!esgst.paginationNavigation || es.paginations.length < 1) return;
-        if (scrollY +  innerHeight === document.documentElement.offsetHeight) {
-            es.pageIndex = es.reverseScrolling ? es.pageBase - es.paginations.length : es.pageBase + es.paginations.length;
-        } else {
-            let currentElement = document.querySelector(`.esgst-es-page-${es.pageIndex}:not(.esgst-hidden)`),
-                nextElement = document.querySelector(`.esgst-es-page-${es.reverseScrolling ? es.pageIndex - 1 : es.pageIndex + 1}:not(.esgst-hidden)`);
-            if (currentElement) {
-                if (scrollY + esgst.commentsTop < currentElement.offsetTop) {
-                    if (es.pageIndex !== es.currentPage) {
-                        es.pageIndex = es.reverseScrolling ? es.pageIndex + 1 : es.pageIndex - 1;
-                    }
-                } else if (nextElement &&  scrollY + esgst.commentsTop >= nextElement.offsetTop) {
-                    es.pageIndex = es.reverseScrolling ? es.pageIndex - 1 : es.pageIndex + 1;
-                }
-            } else if (nextElement &&  scrollY + esgst.commentsTop >= nextElement.offsetTop) {
-                es.pageIndex = es.reverseScrolling ? es.pageIndex - 1 : es.pageIndex + 1;
-            } else if (es.pageIndex !== es.currentPage) {
-                es.pageIndex = es.reverseScrolling ? es.pageIndex + 1 : es.pageIndex - 1;
-            }
-        }
-        let pagination = es.paginations[(es.reverseScrolling ? es.pageBase - es.pageIndex : es.pageIndex - es.pageBase) - 1] || es.paginations[0];
-        if (esgst.paginationNavigation.innerHTML !== pagination) {
+    es_changePagination(es, index) {
+        const pagination = es.paginations[index - 1];
+        if (pagination && esgst.paginationNavigation.innerHTML !== pagination) {
             esgst.paginationNavigation.innerHTML = pagination;
             let lastLink = esgst.paginationNavigation.lastElementChild;
             if (esgst.lastPageLink && esgst.lastPage !== es.pageIndex && !lastLink.classList.contains(`is-selected`) && !lastLink.textContent.match(/Last/)) {
                 esgst.paginationNavigation.insertAdjacentHTML(`beforeEnd`, esgst.lastPageLink);
             }
-            this.es_setPagination();
+            this.es_setPagination(es);
         }
     }
     async es_stepNext(es) {
@@ -12729,7 +12715,6 @@ class ESGST {
         es.step = true;
         const wasPaused = es.paused;
         await this.es_resume(es);
-        document.addEventListener(`scroll`, esgst.es_loadNext);
         esgst.es_loadNext(async () => {
             es.step = false;
             if (wasPaused) {
@@ -12746,7 +12731,6 @@ class ESGST {
         es.continuous = true;
         const wasPaused = es.paused;
         await this.es_resume(es);
-        document.addEventListener(`scroll`, esgst.es_loadNext);
         esgst.es_loadNext(async () => {
             es.continuous = false;
             if (wasPaused) {
@@ -12758,12 +12742,9 @@ class ESGST {
         });
     }
     async es_pause(es, firstRun) {
-        if (!es.ended) {
-            document.removeEventListener(`scroll`, esgst.es_loadNext);
-        }
+        es.paused = true;
         es.pauseButton.classList.add(`esgst-hidden`);
         es.resumeButton.classList.remove(`esgst-hidden`);
-        es.paused = true;
         if (!firstRun) {
             await this.setValue(`esPause`, es.paused);
         }
@@ -12771,15 +12752,11 @@ class ESGST {
         es.continuousButton.innerHTML = `<i class="fa fa-fast-forward"></i>`;
     }
     async es_resume(es, firstRun) {
+        es.paused = false;
         es.resumeButton.classList.add(`esgst-hidden`);
         es.pauseButton.classList.remove(`esgst-hidden`);
-        es.paused = false;
         if (!firstRun) {
             await this.setValue(`esPause`, es.paused);
-        }
-        if (!es.ended && !es.continuous && !es.step) {
-            document.addEventListener(`scroll`, esgst.es_loadNext);
-            esgst.es_loadNext();
         }
     }
     async es_refresh(es) {
@@ -12853,18 +12830,20 @@ class ESGST {
             this.hr_refreshHeader(this.hr_getCache());
         }
     }
-    es_setPagination() {
+    es_setPagination(es) {
         let matches = esgst.paginationNavigation.children;
         for (let i = 0, n = matches.length; i < n; ++i) {
-            matches[i].addEventListener(`click`, this.es_setPaginationItem.bind(this));
+            matches[i].addEventListener(`click`, this.es_setPaginationItem.bind(this, es));
         }
     }
-    es_setPaginationItem(event) {
+    es_setPaginationItem(es, event) {
         event.preventDefault();
-        let page = event.currentTarget.getAttribute(`data-page-number`),
+        let page = parseInt(event.currentTarget.getAttribute(`data-page-number`)),
             element = document.querySelector(`.esgst-es-page-${page}:not(.esgst-hidden)`);
         if (element) {
-            animateScroll(element.offsetTop);
+            animateScroll(element.offsetTop, () => {
+                this.es_changePagination(es, page);
+            });
         } else {
             location.href = event.currentTarget.getAttribute(`href`);
         }
@@ -13117,162 +13096,54 @@ class ESGST {
     }
     // [F]
     ff() {
-        if (!esgst.footer) return;
+        if (!esgst.footer) {
+            return;
+        }
 
         esgst.footer.classList.add(`esgst-ff`);
-        esgst.pageOuterWrap.classList.add(`esgst-ff-sibling`);
     }
     fh() {
-        if (!esgst.header) return;
+        if (!esgst.header) {
+            return;
+        }
 
         esgst.header.classList.add(`esgst-fh`);
-        (((!esgst.giveawaysPath || (esgst.featuredContainer && !esgst.featuredContainer.classList.contains(`esgst-hidden`))) && esgst.featuredContainer) || esgst.pageOuterWrap).classList.add(`esgst-fh-sibling`);
-
-        let height = esgst.header.offsetHeight;
+        const height = esgst.header.offsetHeight;
         esgst.pageTop += height;
         esgst.commentsTop += height;
-        esgst.style.insertAdjacentText(`beforeEnd`, `
-            .esgst-fh-sibling {
-                margin-top: ${height}px;
-            }
-        `);
     }
     fmph() {
-        if (!esgst.mainPageHeading) return;
-        let height;
-        esgst.mainPageHeading.insertAdjacentHTML(`afterEnd`, `
-            <div class="esgst-fmph-placeholder esgst-hidden"></div>
-            <div class="esgst-fmph-background ${esgst.pageOuterWrapClass} esgst-hidden"></div>
-        `);
-        esgst.mainPageHeadingPlaceholder = esgst.mainPageHeading.nextElementSibling;
-        esgst.mainPageHeadingBackground = esgst.mainPageHeadingPlaceholder.nextElementSibling;
-        esgst.fmph_fix = this.fmph_fix.bind(this);
-        esgst.fmph_unfix = this.fmph_unfix.bind(this);
-        document.addEventListener(`scroll`, esgst.fmph_fix);
-        esgst.fmph_fix();
-        height = esgst.mainPageHeading.offsetHeight;
-        let newHeight = (esgst.gf && esgst.gf_m && (esgst.giveawaysPath || esgst.groupsPath || esgst.createdPath || esgst.enteredPath || esgst.wonPath)) || (esgst.df && esgst.df_m && esgst.discussionsPath) ? height + 23 : height;
+        if (!esgst.mainPageHeading) {
+            return;
+        }
+
         esgst.style.insertAdjacentText(`beforeEnd`, `
             .esgst-fmph {
-                position: fixed;
                 top: ${esgst.pageTop}px;
-                z-index: 998;
-            }
-            .esgst-fmph-placeholder {
-                height: ${newHeight}px;
-            }
-            .esgst-fmph-background {
-                height: ${esgst.pageTop + newHeight + 5}px;
-                padding: 0;
-                position: fixed;
-                top: 0;
-                z-index: 997;
-            }
-            .esgst-gf-container-fixed {
-                position: fixed;
-                top: ${esgst.pageTop + 34}px;
-                z-index: 998;
             }
         `);
-        esgst.commentsTop += height + 30;
-    }
-    fmph_fix() {
-        if (scrollY > (esgst.mainPageHeading.offsetTop - esgst.pageTop) && document.documentElement.offsetHeight > innerHeight) {
-            document.removeEventListener(`scroll`, esgst.fmph_fix);
-            esgst.mainPageHeading.classList.add(`esgst-fmph`);
-            esgst.mainPageHeadingPlaceholder.classList.remove(`esgst-hidden`);
-            esgst.mainPageHeadingBackground.classList.remove(`esgst-hidden`);
-            let width = `${getComputedStyle(esgst.mainPageHeading.parentElement).getPropertyValue(`width`)}`;
-            esgst.mainPageHeading.style.width = width;
-            esgst.mainPageHeadingBackground.style.width = width;
-            if (esgst.gf && esgst.gf.container) {
-                esgst.filterPlaceholder = insertHtml(esgst.mainPageHeadingBackground, `afterEnd`, `
-                    <div style="height: ${esgst.gf.container.offsetHeight}px;"></div>
-                `);
-                esgst.gf.container.classList.add(`esgst-gf-container-fixed`);
-                esgst.gf.container.style.width = width;
-            }
-            if (esgst.df && esgst.df.container) {
-                esgst.filterPlaceholder = insertHtml(esgst.mainPageHeadingBackground, `afterEnd`, `
-                    <div style="height: ${esgst.df.container.offsetHeight}px;"></div>
-                `);
-                esgst.df.container.classList.add(`esgst-gf-container-fixed`);
-                esgst.df.container.style.width = width;
-            }
-            document.addEventListener(`scroll`, esgst.fmph_unfix);
-        }
-    }
-    fmph_unfix() {
-        if (scrollY <= (esgst.mainPageHeadingPlaceholder.offsetTop - esgst.pageTop)) {
-            document.removeEventListener(`scroll`, esgst.fmph_unfix);
-            esgst.mainPageHeading.classList.remove(`esgst-fmph`);
-            esgst.mainPageHeadingPlaceholder.classList.add(`esgst-hidden`);
-            esgst.mainPageHeadingBackground.classList.add(`esgst-hidden`);
-            let width = ``;
-            esgst.mainPageHeading.style.width = width;
-            esgst.mainPageHeadingBackground.style.width = width;
-            if (esgst.gf && esgst.gf.container) {
-                if (esgst.filterPlaceholder) {
-                    esgst.filterPlaceholder.remove();
-                }
-                esgst.gf.container.classList.remove(`esgst-gf-container-fixed`);
-            }
-            if (esgst.df && esgst.df.container) {
-                if (esgst.filterPlaceholder) {
-                    esgst.filterPlaceholder.remove();
-                }
-                esgst.df.container.classList.remove(`esgst-gf-container-fixed`);
-            }
-            document.addEventListener(`scroll`, esgst.fmph_fix);
-        }
+
+        esgst.mainPageHeading.classList.add(`esgst-fmph`);
+        const height = esgst.mainPageHeading.offsetHeight;
+        esgst.commentsTop += height;
     }
     fs() {
-        if (!esgst.sidebar) return;
-        esgst.sidebarAd = esgst.sidebar.getElementsByClassName(`sidebar__mpu`)[0];
-        esgst.sidebarPlaceholder = insertHtml(esgst.sidebar, `afterEnd`, `
-            <div class="esgst-fs-placeholder esgst-hidden"></div>
-        `);
-        esgst.fs_fix = this.fs_fix.bind(this);
-        esgst.fs_unfix = this.fs_unfix.bind(this);
-        document.addEventListener(`scroll`, esgst.fs_fix);
-        esgst.fs_fix();
+        if (!esgst.sidebar) {
+            return;
+        }
+
+        const top = esgst.pageTop + 25;
         esgst.style.insertAdjacentText(`beforeEnd`, `
             .esgst-fs {
-                position: fixed;
-                top: ${esgst.pageTop}px;
+                max-height: calc(100vh - ${top + 30 + (esgst.ff ? 39 : 0)}px);
+                top: ${top}px;
             }
-
-            .esgst-fs-placeholder {
-                border: 0 !important;
-                box-shadow: none !important;
-                margin: 0 !important;
-                padding: 0 !important;
+            .sticky_sentinel--top {
+                height: ${esgst.sidebar.offsetTop}px;
             }
         `);
-    }
-    fs_fix() {
-        if (scrollY > (esgst.sidebar.offsetTop - esgst.pageTop) && document.documentElement.offsetHeight >  innerHeight) {
-            document.removeEventListener(`scroll`, esgst.fs_fix);
-            esgst.sidebarPlaceholder.style.height = `${esgst.sidebar.offsetHeight}px`;
-            esgst.sidebarPlaceholder.style.maxWidth = `${esgst.sidebar.offsetWidth}px`;
-            esgst.sidebar.classList.add(`esgst-fs`);
-            if (esgst.sidebarAd) {
-                esgst.sidebarAd.classList.add(`esgst-hidden`);
-            }
-            esgst.sidebarPlaceholder.classList.remove(`esgst-hidden`);
-            document.addEventListener(`scroll`, esgst.fs_unfix);
-        }
-    }
-    fs_unfix() {
-        if (scrollY <= (esgst.sidebarPlaceholder.offsetTop - esgst.pageTop)) {
-            document.removeEventListener(`scroll`, esgst.fs_unfix);
-            esgst.sidebar.classList.remove(`esgst-fs`);
-            if (esgst.sidebarAd) {
-                esgst.sidebarAd.classList.remove(`esgst-hidden`);
-            }
-            esgst.sidebarPlaceholder.classList.add(`esgst-hidden`);
-            document.addEventListener(`scroll`, esgst.fs_fix);
-        }
+
+        esgst.sidebar.classList.add(`esgst-fs`, `sticky`);
     }
     // [G]
     gas(popup) {
@@ -15534,6 +15405,11 @@ class ESGST {
         `);
     }
     gf() {
+        esgst.style.insertAdjacentText(`beforeEnd`, `
+            .esgst-gf-container {
+                top: ${esgst.commentsTop - 5}px;
+            }
+        `);
         if (esgst.gf_s) {
             esgst.giveawayFeatures.push(this.gf_getGiveaways.bind(this));
         }
@@ -17084,9 +16960,6 @@ class ESGST {
         obj.collapseButton.classList.toggle(`esgst-hidden`);
         obj.expandButton.classList.toggle(`esgst-hidden`);
         obj.filtersPanel.classList.toggle(`esgst-hidden`);
-        if (esgst.filterPlaceholder) {
-            esgst.filterPlaceholder.style.height = `${obj.container.offsetHeight}px`;
-        }
     }
     filters_filter(obj, unfilter, endless) {
         if (!unfilter && !esgst[`${obj.id}_enable${obj.type}`]) return;
@@ -17111,9 +16984,6 @@ class ESGST {
             }
         }
         this.filters_updateCount(obj, endless);
-        if (esgst[`${obj.id}Type`] !== `Popup` && esgst.es_loadNext) {
-            esgst.es_loadNext();
-        }
     }
     /**
      * Checks if an item passes a set of filter rules.
@@ -23983,9 +23853,6 @@ class ESGST {
                     this.qiv_addMarkReadButton();
                 }
                 esgst.qiv.comments = insertHtml(esgst.qiv.popout.popout, `beforeEnd`, `<div class="esgst-qiv-comments"></div>`);
-                if (esgst.cfh) {
-                    this.cfh_addScrollingEvent(esgst.qiv.comments);
-                }
                 esgst.qiv.comments.addEventListener(`scroll`, this.qiv_scroll.bind(this, false, false));
                 this.qiv_scroll(true);
             }
@@ -24015,9 +23882,6 @@ class ESGST {
                     this.qiv_addMarkReadButton();
                 }
                 esgst.qiv.comments = insertHtml(esgst.qiv.popout.popout, `beforeEnd`, `<div class="esgst-qiv-comments"></div>`);
-                if (esgst.cfh) {
-                    this.cfh_addScrollingEvent(esgst.qiv.comments);
-                }
                 esgst.qiv.comments.addEventListener(`scroll`, this.qiv_scroll.bind(this, false, false));
                 this.qiv_scroll(true);
             }
@@ -24180,7 +24044,7 @@ class ESGST {
         }
     }
     rbot() {
-        let element = esgst.mainPageHeadingBackground || esgst.mainPageHeading;
+        let element = esgst.mainPageHeading;
         if (!esgst.replyBox) {
             if (esgst.st && esgst.userPath) {
                 let review = document.getElementsByClassName(`notification yellow`)[0];
@@ -24205,9 +24069,6 @@ class ESGST {
         popup.textArea = insertHtml(popup.scrollable, `beforeEnd`, `
             <textarea name="description"></textarea>
         `);
-        if (esgst.cfh) {
-            this.cfh_addScrollingEvent(popup.scrollable);
-        }
         popup.description.appendChild(new ButtonSet(`green`, `grey`, `fa-check`, `fa-circle-o-notch fa-spin`, `Save`, `Saving...`, Callback => {
             popup.progress.innerHTML = ``;
             this.saveComment(esgst.sg ? `` : document.querySelector(`[name="trade_code"]`).value, ``, popup.textArea.value, esgst.sg ? location.href.match(/(.+?)(#.+?)?$/)[1] : `/ajax.php`, popup.progress,
@@ -24436,7 +24297,6 @@ class ESGST {
         textArea = insertHtml(popup.scrollable, `beforeEnd`, `<textarea></textarea>`);
         if (esgst.cfh) {
             this.cfh_addPanel(textArea);
-            this.cfh_addScrollingEvent(popup.scrollable);
         }
         popup.description.appendChild(new ButtonSet(`green`, `grey`, `fa-check`, `fa-circle-o-notch fa-spin`, `Save`, `Saving...`, callback => {
             progress.innerHTML = ``;
@@ -25272,7 +25132,11 @@ class ESGST {
                 `);
                 break;
         }
-        button.addEventListener(`click`, () => animateScroll(document.documentElement.offsetHeight));
+        button.addEventListener(`click`, () => animateScroll(document.documentElement.offsetHeight, () => {            
+            if (esgst.es) {            
+                this.es_changePagination(esgst.es, esgst.es.reverseScrolling ? 1 : esgst.es.paginations.length);
+            }
+        }));
     }
     sto() {
         esgst.endlessFeatures.push(this.sto_setLinks.bind(this));
@@ -25335,7 +25199,11 @@ class ESGST {
                 `);
                 break;
         }
-        button.addEventListener(`click`, animateScroll.bind(null, 0));
+        button.addEventListener(`click`, animateScroll.bind(null, 0, () => {
+            if (esgst.es) {            
+                this.es_changePagination(esgst.es, esgst.es.reverseScrolling ? esgst.es.paginations.length : 1);
+            }
+        }));
     }
     swr() {
         esgst.profileFeatures.push(this.swr_add.bind(this));
@@ -35948,7 +35816,18 @@ class ESGST {
                 }
             `;
         }
-        style += `
+        style += `        
+            .sticky_sentinel {
+                left: 0;
+                position: absolute;
+                right: 0;
+                visibility: hidden;
+            }
+
+            .sticky_sentinel--top {
+                top: 0px;
+            }
+
             .esgst-gf-basic-filters {
                 display: flex;
                 justify-content: space-between;
@@ -36721,15 +36600,8 @@ class ESGST {
     
             .esgst-cfh-panel {
                 margin: 0 0 2px;
+                position: sticky;
                 text-align: left;
-            }
-
-            .esgst-cfh-panel-fixed {
-                background-color: #fff;
-                border: 1px solid #ccc;
-                border-radius: 5px;
-                padding: 2px;
-                position: fixed;
             }
     
             .esgst-cfh-panel >* {
@@ -36821,29 +36693,45 @@ class ESGST {
     
             .esgst-fh {
                 height: auto !important;
-                position: fixed;
+                position: sticky;
                 top: 0;
-                width: 100%;
                 z-index: 999 !important;
+            }
+
+            .esgst-fs {
+                position: sticky;
+            }
+
+            .esgst-fs.stuck {
+                overflow-y: auto;
+            }
+
+            .esgst-fs.stuck .sidebar__mpu {
+                display: none !important;
+            }
+
+            .esgst-fmph {
+                background-color: #f0f2f5;
+                margin-top: -5px;
+                padding: 5px 0;
+                position: sticky;
+                z-index: 998;
+            }
+
+            .esgst-fmph + * {
+                margin-top: -5px;
             }
     
             .esgst-ff {
-                background-color: #95a4c0;
+                background-color: inherit;
                 bottom: 0;
                 padding: 0;
-                position: fixed;
-                text-shadow: none;
-                width: 100%;
+                position: sticky;
                 z-index: 999;
             }
     
             .esgst-ff >* {
-                max-width: none;
                 padding: 15px 25px;
-            }
-    
-            .esgst-ff-sibling {
-                margin-bottom: 39px;
             }
     
             .esgst-sgac-button, .esgst-sgg-button {
@@ -37400,7 +37288,9 @@ class ESGST {
             }
     
             .esgst-gf-container {
+                position: sticky;
                 text-align: left;
+                z-index: 998;
             }
     
             .esgst-gf-container:not(.esgst-popup-scrollable) {
@@ -39378,10 +39268,7 @@ class Process {
                 callback2: this.stop.bind(this)
             }
         ];
-        this.popup = new Popup_v2(this.popupDetails);        
-        if (this.popupDetails.addCfhEvent && esgst.cfh) {
-            _ESGST.cfh_addScrollingEvent(this.popup.scrollable);
-        }
+        this.popup = new Popup_v2(this.popupDetails);
         this.popup.open();
         if (this.urls) {
             this.index = 0;
@@ -39562,6 +39449,50 @@ class ToggleSwitch {
 let esgst, _ESGST = new ESGST();
 // initialize esgst
 _ESGST.init();
+
+function observeStickyChanges() {
+    observeHeaders();
+}
+
+/**
+ * Sets up an intersection observer to notify when elements with the class
+ * `.sticky_sentinel--top` become visible/invisible at the top of the container.
+ * @param {Element} container
+ */
+function observeHeaders() {
+    const observer = new IntersectionObserver(records => {
+        for (const record of records) {
+            const targetInfo = record.boundingClientRect;
+            const stickyTarget = record.target.parentElement.querySelector(`.sticky`);
+            const rootBoundsInfo = record.rootBounds;
+
+            // Started sticking.
+            if (targetInfo.bottom < rootBoundsInfo.top) {
+                stickyTarget.classList.add(`stuck`);
+            }
+
+            // Stopped sticking.
+            if (
+                targetInfo.bottom >= rootBoundsInfo.top &&
+                targetInfo.bottom < rootBoundsInfo.bottom
+            ) {
+                stickyTarget.classList.remove(`stuck`);
+            }
+        }
+    }, {threshold: 0});
+  
+    // Add the top sentinels to each section and attach an observer.
+    const sentinels = addSentinels(`sticky_sentinel--top`);
+    sentinels.forEach(el => observer.observe(el));
+}
+
+function addSentinels(className) {
+    return Array.from(document.querySelectorAll(`.sticky`)).map(el => {
+        const sentinel = document.createElement(`div`);
+        sentinel.classList.add(`sticky_sentinel`, className);
+        return el.parentElement.appendChild(sentinel);
+    });
+}
 
 function setClearButton(input) {
     const button = input.nextElementSibling;
@@ -40571,7 +40502,7 @@ function formatTags(fullMatch, match1, offset, string) {
     return (((offset === 0) || (offset === (string.length - fullMatch.length))) ? `` : `, `);
 }
 
-function animateScroll(y) {
+function animateScroll(y, callback) {
     // From https://stackoverflow.com/a/26808520/8115112
 
     let currentTime, time;
@@ -40590,6 +40521,9 @@ function animateScroll(y) {
             scrollTo(0,  scrollY + ((y -  scrollY) * ((p /= 0.5) < 1 ? 0.5 * Math.pow(p, 5) : 0.5 * (Math.pow((p - 2), 5) + 2))));
         } else {
             scrollTo(0, y);
+            if (callback) {
+                callback();
+            }
         }
     }
 
