@@ -3003,7 +3003,7 @@ class ESGST {
             sg: location.hostname.match(/www.steamgifts.com/),
             st: location.hostname.match(/www.steamtrades.com/),
             currentVersion: `7.20.5`,
-            devVersion: `7.21.0 (Dev.12)`,
+            devVersion: `7.21.0 (Dev.13)`,
             icon: `data:image/x-icon;base64,AAABAAEAEBAAAAEAIABoBAAAFgAAACgAAAAQAAAAIAAAAAEAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAqv8DCbP/Hgeq+CQIrf8iCK3/Igit/yIIrf8iB6//Iwit9x8Aqv8DAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAKr0GAa2/c0DvfzfA7f83QO3/N0Dt/zdA7f83QO+/d4Gs/3OAKP1GQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACm/xQFs/n2Bcf//wW///8FwP//BcD//wW///8Fx///BbP69gC2/xUAAAAAAAAAAAAAAAAA/1UDFptOFxSZMxkLpJktAq720QW1+ugEsfvjA7b92wO2/dsEsfvjBbX66Aau/dEoiO4tUlLWGU5k3hdVVf8DEJxKHxWqT8cVrU7uE6VN0guqny0Apv8XAJfQGwBAVywAQFcsAJfQGwCx/xcogugtS2Lk0lBl6u5Qae7ISmPeHxagSSMVr07jF7lV/xOiSu0brgATAAAAAAAAAA8AAAC/AAAAwAAAABAAAAAAYznjEkth4OxWb/3/T2jv40lf4iMXnksiEq1O3RayUv8UpEnkEo0+HQAAABkAAABBAAAA8QAAAPEAAABBAAAAGUBSvxxOYeDjU2v0/05m7d1LYuEiF55LIhKtTt0Ws1L/FahN2gU1FTAAAADAAAAA7AAAAP0AAAD9AAAA7AAAAMAVG0owUGPm2lNr9P9OZu3dS2LhIheeSyISrU7dFrNS/xWoTdoFNRswAAAAvwAAAOsAAAD9AAAA/QAAAOsAAADAFRtKMFBj6NpTa/T/Tmbt3Uti4SIXnksiEq1O3RayUv8UpEnkEo0+HQAAABgAAABAAAAA8QAAAPEAAABBAAAAGT5PuR1OYeDjU2v0/05m7d1LYuEiFqBJIxWuT+QXuVX/E6JL7QC8XhMAAAAAAAAADwAAAL8AAAC/AAAAEAAAAAAOR/8SSWLh7FZv/f9PaO/jSV/iIxCUSh8Vrk7HFqxN7ROlS9JskzMt1XULGK12EhxGLgYsRy8GK612EhzVgAsYgmxxLU1i39JNZ+vtT2fwx0pj1h8AqlUDF65GFgqZUhlsiC0txH0T0s5/EujJgBPkz4QR28+EEdvJgBPkzn8Q6Md+E9KLdHosM1LWGUZo6BZVVf8DAAAAAAAAAAAAAAAA/2YAFMl9EvbgjRb/14gV/9eIFf/XiBX/14gV/9+NFv/KgBD254YAFQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAL91FRjKgRHN1IgU3s+EEt3PhBLdz4QS3c+EEt3UiBTezYMRzcJ6FBkAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACqqgADxIARHr18FiO8eA8ivHgPIrx4DyK8eA8ivXwPI8SAER7/VQADAAAAAAAAAAAAAAAA78cAAPA3AAD4FwAABCAAADGOAAAE+AAAkBEAAJ55AACYOQAAlgEAAER4AAAXaAAATnoAAPgXAAD0JwAA69cAAA==`,
             sgIcon: `data:image/x-icon;base64,AAABAAEAEBAAAAEAIABoBAAAFgAAACgAAAAQAAAAIAAAAAEAIAAAAAAAQAQAABMLAAATCwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIUAAAD5AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAPoAAACFAAAAAAAAAAAAAAD8AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA+QAAAAAAAAAAAAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAAAAAAAAAAAAP8AAAD/AAAA/wAAABwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAcAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAcAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAHAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAAAAAAAAAAAAPwAAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD5AAAAAAAAAAAAAACFAAAA+QAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD5AAAAhQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA//8AAP//AADAAwAAwAMAAMfjAADP8wAAz/MAAM/zAADP8wAAz/MAAM/zAADH4wAAwAMAAMADAAD//wAA//8AAA==`,
             stIcon: `data:image/x-icon;base64,AAABAAEAEBAAAAEAIABoBAAAFgAAACgAAAAQAAAAIAAAAAEAIAAAAAAAQAQAABMLAAATCwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABbD6SgWw+ucFsPrkBbD6SgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAWw+uYFsPr/BbD6/wWw+ucAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAFsPrmBbD6/wWw+v8FsPrmAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABbD6SQWw+uYFsPrmBbD6SQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAFKRLShSkS+cUpEvkFKRLSgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAExi4EpMYuDnTGLg5Exi4EoAAAAAAAAAABSkS+YUpEv/FKRL/xSkS+cAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABMYuDmTGLg/0xi4P9MYuDnAAAAAAAAAAAUpEvmFKRL/xSkS/8UpEvmAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAATGLg5kxi4P9MYuD/TGLg5gAAAAAAAAAAFKRLSRSkS+YUpEvmFKRLSQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAExi4ElMYuDmTGLg5kxi4EkAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAMZ9E0rGfRPnxn0T5MZ9E0oAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADGfRPmxn0T/8Z9E//GfRPnAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAxn0T5sZ9E//GfRP/xn0T5gAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAMZ9E0nGfRPmxn0T5sZ9E0kAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA//8AAPw/AAD8PwAA/D8AAPw/AAD//wAAh+EAAIfhAACH4QAAh+EAAP//AAD8PwAA/D8AAPw/AAD8PwAA//8AAA==`,
@@ -25843,14 +25843,17 @@ class ESGST {
             </div>
         `);        
     }
-    ugd_add(context, key, user) {
-        const button = insertHtml(context, `beforeEnd`, `
-            <span class="esgst-ugd-button" title="${this.getFeatureTooltip(`ugd`, `Get ${key} giveaway data`)}">
-                <i class="fa fa-bar-chart"></i>
-            </span>
-        `);
+    ugd_add(context, key, user, mainPopup) {
+        let button = null;
+        if (context) {
+            button = insertHtml(context, `beforeEnd`, `
+                <span class="esgst-ugd-button" title="${this.getFeatureTooltip(`ugd`, `Get ${key} giveaway data`)}">
+                    <i class="fa fa-bar-chart"></i>
+                </span>
+            `);
+        }
         const details = {
-            button: context,
+            button: button,
             popup: {
                 icon: `fa-bar-chart`,
                 title: `Get ${user.username}'s ${key} giveaway data:`,
@@ -25875,6 +25878,7 @@ class ESGST {
                 addProgress: true,
                 addScrollable: `left`
             },
+            mainPopup: mainPopup,
             init: this.ugd_init.bind(this, key, user),
             requests: [
                 {
@@ -25884,7 +25888,7 @@ class ESGST {
                 this.ugd_requestGiveawaysDone.bind(this)
             ]
         };
-        new Process(details);
+        return new Process(details);
     }
     async ugd_init(key, user, obj) {
         obj.giveaways = {};
@@ -25897,7 +25901,7 @@ class ESGST {
         const savedUser = await this.getUser(null, obj.user);
         obj.ugdCache = savedUser && savedUser.ugdCache;
         obj.userGiveaways = await this.ugd_getUserGiveaways(savedUser);
-        if (esgst.ugd_clearCache) {
+        if (obj.popup && esgst.ugd_clearCache) {
             obj.userGiveaways[obj.key] = null;
         }
         if (
@@ -25980,7 +25984,12 @@ class ESGST {
         return userGiveaways;
     }
     async ugd_requestGiveaways(obj, details, response, responseHtml) {
-        obj.popup.setProgress(`Retrieving giveaways (page ${details.nextPage}${details.lastPage})...`);
+        const msg = `Retrieving giveaways (page ${details.nextPage}${details.lastPage})...`;
+        if (obj.popup) {
+            obj.popup.setProgress(msg);
+        } else {
+            obj.mainPopup.progress.lastElementChild.textContent = msg;
+        }
 
         let found = false;
         const currentTime = Date.now();
@@ -26021,12 +26030,16 @@ class ESGST {
                 games[id].push(code);
                 obj.giveaways[code] = giveaway;
                 if (obj.toGet) {
-                    obj.requests.push({
-                        giveaway: giveaway,
-                        onDone: this.ugd_requestGiveawayDone.bind(this),
-                        request: this.ugd_requestGiveaway.bind(this),
-                        url: `/giveaway/${code}/_/winners/search?page=`
-                    });
+                    const savedGiveaway = esgst.giveaways[code];
+                    if (!savedGiveaway || !Array.isArray(savedGiveaway.winners)) {
+                        giveaway.winners = [];
+                        obj.requests.push({
+                            giveaway: giveaway,
+                            onDone: this.ugd_requestGiveawayDone.bind(this),
+                            request: this.ugd_requestGiveaway.bind(this),
+                            url: `/giveaway/${code}/_/winners/search?page=`
+                        });
+                    }
                 }
             } else {
                 games[id].push(giveaway);
@@ -26098,6 +26111,11 @@ class ESGST {
             giveaways: obj.userGiveaways,
             ugd: null
         };
+
+        if (!obj.popup) {
+            await this.saveUser(null, null, obj.user);
+            return;
+        }
 
         obj.popup.setProgress(`Calculating results...`);
 
@@ -26451,6 +26469,9 @@ class ESGST {
                     const list = obj.lists[key];
                     const values = list.values;
                     const selectors = key === `username` ? giveaway.winners : [giveaway];
+                    if (!Array.isArray(selectors)) {
+                        continue;
+                    }
                     for (const selector of selectors) {
                         const value = selector[key];
                         if (!values[value]) {
@@ -26467,6 +26488,13 @@ class ESGST {
         }
     }
     async ugd_requestGiveaway(obj, details, response, responseHtml) {
+        const msg = `Retrieving giveaway winners (${details.giveaway.gameName})...`;
+        if (obj.popup) {
+            obj.popup.setProgress(msg);
+        } else {
+            obj.mainPopup.progress.lastElementChild.textContent = msg;
+        }
+
         if (responseHtml.getElementsByClassName(`table--summary`)[0]) {
             return true;
         }
@@ -31458,6 +31486,9 @@ class ESGST {
         }
     }    
     cancelSync(syncer) {
+        if (syncer.process) {
+            syncer.process.stop();
+        }
         syncer.canceled = true;
     }    
     async sync(syncer) {
@@ -31730,89 +31761,13 @@ class ESGST {
         // sync giveaways
         if (!syncer.autoSync && ((syncer.parameters && syncer.parameters.Giveaways) || (!syncer.parameters && esgst.settings.syncGiveaways)) && esgst.sg) {
             syncer.progress.lastElementChild.textContent = `Syncing your giveaways...`;
-            let user = {
+            const key = `sent`;
+            const user = {
                 steamId: esgst.steamId,
                 username: esgst.username
             };
-            let savedUser = await this.getUser(null, user);
-            let giveaways = null;
-            if (savedUser) {
-                giveaways = savedUser.giveaways;
-            }
-            if (!giveaways) {
-                giveaways = {
-                    sent: {
-                        apps: {},
-                        subs: {}
-                    },
-                    won: {
-                        apps: {},
-                        subs: {}
-                    },
-                    sentTimestamp: 0,
-                    wonTimestamp: 0
-                };
-                if (savedUser) {
-                    let ugd = savedUser.ugd;
-                    if (ugd) {
-                        let ggiveaways = {};
-                        if (ugd.sent) {
-                            for (let key in ugd.sent.apps) {
-                                giveaways.sent.apps[key] = [];
-                                for (let i = 0, n = ugd.sent.apps[key].length; i < n; ++i) {
-                                    ggiveaways[ugd.sent.apps[key][i].code] = ugd.sent.apps[key][i];
-                                    giveaways.sent.apps[key].push(ugd.sent.apps[key][i].code);
-                                }
-                            }
-                            for (let key in ugd.sent.subs) {
-                                giveaways.sent.subs[key] = [];
-                                for (let i = 0, n = ugd.sent.subs[key].length; i < n; ++i) {
-                                    ggiveaways[ugd.sent.subs[key][i].code] = ugd.sent.subs[key][i];
-                                    giveaways.sent.subs[key].push(ugd.sent.subs[key][i].code);
-                                }
-                            }
-                            giveaways.sentTimestamp = ugd.sentTimestamp;
-                        }
-                        if (ugd.won) {
-                            for (let key in ugd.won.apps) {
-                                giveaways.won.apps[key] = [];
-                                for (let i = 0, n = ugd.won.apps[key].length; i < n; ++i) {
-                                    ggiveaways[ugd.won.apps[key][i].code] = ugd.won.apps[key][i];
-                                    giveaways.won.apps[key].push(ugd.won.apps[key][i].code);
-                                }
-                            }
-                            for (let key in ugd.won.subs) {
-                                giveaways.won.subs[key] = [];
-                                for (let i = 0, n = ugd.won.subs[key].length; i < n; ++i) {
-                                    ggiveaways[ugd.won.subs[key][i].code] = ugd.won.subs[key][i];
-                                    giveaways.won.subs[key].push(ugd.won.subs[key][i].code);
-                                }
-                            }
-                            giveaways.wonTimestamp = ugd.wonTimestamp;
-                        }
-                        if (Object.keys(ggiveaways).length > 0) {
-                            await this.lockAndSaveGiveaways(ggiveaways);
-                        }
-                    }
-                }
-            }
-            let UGD = {
-                key: `sent`
-            };
-            UGD.giveaways = {};
-            if (giveaways.version !== `7.13.0`) {
-                giveaways.sent = {
-                    apps: {},
-                    subs: {}
-                };
-                giveaways.sentTimestamp = 0;
-                giveaways.version = `7.13.0`;
-            }
-            user.values = {
-                giveaways: await this.ugd_get(UGD, giveaways, 1, esgst.username),
-                ugd: null
-            };
-            await this.saveUser(null, null, user);
+            syncer.process = this.ugd_add(null, key, user, syncer);
+            await syncer.process.start();
         }
     
         // finish sync
@@ -39464,17 +39419,20 @@ class Popup_v2 {
 
 class Process {
     constructor(details) {
+        this.mainPopup = details.mainPopup;
         this.popupDetails = details.popup;
         this.contextHtml = details.contextHtml;
         this.init = details.init;
         this.requests = details.requests;
         this.urls = details.urls;
-        if (details.button) {
-            this.button = details.button;
-        } else {
-            this.button = _ESGST.createHeadingButton(details.headingButton);
+        if (!details.mainPopup) {
+            if (details.button) {
+                this.button = details.button;
+            } else {
+                this.button = _ESGST.createHeadingButton(details.headingButton);
+            }
+            this.button.addEventListener(`click`, this.openPopup.bind(this));
         }
-        this.button.addEventListener(`click`, this.openPopup.bind(this));
     }
     async openPopup() {
         if (this.popup) {
@@ -39514,15 +39472,19 @@ class Process {
         }
     }
     async start() {
-        this.button.classList.add(`esgst-busy`);
+        if (this.button) {
+            this.button.classList.add(`esgst-busy`);
+        }
         this.isCanceled = false;
 
-        if (!this.urls || this.urls.doNotTrigger) {
+        if (this.popup && (!this.urls || this.urls.doNotTrigger)) {
             this.popup.clear();
         }
 
         if (this.init && (await this.init(this))) {
-            this.button.classList.remove(`esgst-busy`);
+            if (this.button) {
+                this.button.classList.remove(`esgst-busy`);
+            }
             return;
         }
 
@@ -39542,8 +39504,12 @@ class Process {
             }
         }
 
-        this.button.classList.remove(`esgst-busy`);
-        this.popup.clearProgress();
+        if (this.button) {
+            this.button.classList.remove(`esgst-busy`);
+        }
+        if (this.popup) {
+            this.popup.clearProgress();
+        }
     }
     stop() {
         this.isCanceled = true;
