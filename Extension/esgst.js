@@ -3004,7 +3004,7 @@ class ESGST {
             sg: location.hostname.match(/www.steamgifts.com/),
             st: location.hostname.match(/www.steamtrades.com/),
             currentVersion: `7.20.5`,
-            devVersion: `7.21.0 (Dev.31)`,
+            devVersion: `7.21.0 (Dev.32)`,
             icon: `data:image/x-icon;base64,AAABAAEAEBAAAAEAIABoBAAAFgAAACgAAAAQAAAAIAAAAAEAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAqv8DCbP/Hgeq+CQIrf8iCK3/Igit/yIIrf8iB6//Iwit9x8Aqv8DAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAKr0GAa2/c0DvfzfA7f83QO3/N0Dt/zdA7f83QO+/d4Gs/3OAKP1GQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACm/xQFs/n2Bcf//wW///8FwP//BcD//wW///8Fx///BbP69gC2/xUAAAAAAAAAAAAAAAAA/1UDFptOFxSZMxkLpJktAq720QW1+ugEsfvjA7b92wO2/dsEsfvjBbX66Aau/dEoiO4tUlLWGU5k3hdVVf8DEJxKHxWqT8cVrU7uE6VN0guqny0Apv8XAJfQGwBAVywAQFcsAJfQGwCx/xcogugtS2Lk0lBl6u5Qae7ISmPeHxagSSMVr07jF7lV/xOiSu0brgATAAAAAAAAAA8AAAC/AAAAwAAAABAAAAAAYznjEkth4OxWb/3/T2jv40lf4iMXnksiEq1O3RayUv8UpEnkEo0+HQAAABkAAABBAAAA8QAAAPEAAABBAAAAGUBSvxxOYeDjU2v0/05m7d1LYuEiF55LIhKtTt0Ws1L/FahN2gU1FTAAAADAAAAA7AAAAP0AAAD9AAAA7AAAAMAVG0owUGPm2lNr9P9OZu3dS2LhIheeSyISrU7dFrNS/xWoTdoFNRswAAAAvwAAAOsAAAD9AAAA/QAAAOsAAADAFRtKMFBj6NpTa/T/Tmbt3Uti4SIXnksiEq1O3RayUv8UpEnkEo0+HQAAABgAAABAAAAA8QAAAPEAAABBAAAAGT5PuR1OYeDjU2v0/05m7d1LYuEiFqBJIxWuT+QXuVX/E6JL7QC8XhMAAAAAAAAADwAAAL8AAAC/AAAAEAAAAAAOR/8SSWLh7FZv/f9PaO/jSV/iIxCUSh8Vrk7HFqxN7ROlS9JskzMt1XULGK12EhxGLgYsRy8GK612EhzVgAsYgmxxLU1i39JNZ+vtT2fwx0pj1h8AqlUDF65GFgqZUhlsiC0txH0T0s5/EujJgBPkz4QR28+EEdvJgBPkzn8Q6Md+E9KLdHosM1LWGUZo6BZVVf8DAAAAAAAAAAAAAAAA/2YAFMl9EvbgjRb/14gV/9eIFf/XiBX/14gV/9+NFv/KgBD254YAFQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAL91FRjKgRHN1IgU3s+EEt3PhBLdz4QS3c+EEt3UiBTezYMRzcJ6FBkAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACqqgADxIARHr18FiO8eA8ivHgPIrx4DyK8eA8ivXwPI8SAER7/VQADAAAAAAAAAAAAAAAA78cAAPA3AAD4FwAABCAAADGOAAAE+AAAkBEAAJ55AACYOQAAlgEAAER4AAAXaAAATnoAAPgXAAD0JwAA69cAAA==`,
             sgIcon: `data:image/x-icon;base64,AAABAAEAEBAAAAEAIABoBAAAFgAAACgAAAAQAAAAIAAAAAEAIAAAAAAAQAQAABMLAAATCwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIUAAAD5AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAPoAAACFAAAAAAAAAAAAAAD8AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA+QAAAAAAAAAAAAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAAAAAAAAAAAAP8AAAD/AAAA/wAAABwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAcAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAcAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAHAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAAAAAAAAAAAAPwAAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD5AAAAAAAAAAAAAACFAAAA+QAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD5AAAAhQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA//8AAP//AADAAwAAwAMAAMfjAADP8wAAz/MAAM/zAADP8wAAz/MAAM/zAADH4wAAwAMAAMADAAD//wAA//8AAA==`,
             stIcon: `data:image/x-icon;base64,AAABAAEAEBAAAAEAIABoBAAAFgAAACgAAAAQAAAAIAAAAAEAIAAAAAAAQAQAABMLAAATCwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABbD6SgWw+ucFsPrkBbD6SgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAWw+uYFsPr/BbD6/wWw+ucAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAFsPrmBbD6/wWw+v8FsPrmAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABbD6SQWw+uYFsPrmBbD6SQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAFKRLShSkS+cUpEvkFKRLSgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAExi4EpMYuDnTGLg5Exi4EoAAAAAAAAAABSkS+YUpEv/FKRL/xSkS+cAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABMYuDmTGLg/0xi4P9MYuDnAAAAAAAAAAAUpEvmFKRL/xSkS/8UpEvmAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAATGLg5kxi4P9MYuD/TGLg5gAAAAAAAAAAFKRLSRSkS+YUpEvmFKRLSQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAExi4ElMYuDmTGLg5kxi4EkAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAMZ9E0rGfRPnxn0T5MZ9E0oAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADGfRPmxn0T/8Z9E//GfRPnAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAxn0T5sZ9E//GfRP/xn0T5gAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAMZ9E0nGfRPmxn0T5sZ9E0kAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA//8AAPw/AAD8PwAA/D8AAPw/AAD//wAAh+EAAIfhAACH4QAAh+EAAP//AAD8PwAA/D8AAPw/AAD8PwAA//8AAA==`,
@@ -6899,7 +6899,7 @@ class ESGST {
                             <ul>
                                 <li>Adds 2 identical buttons (<i class="fa fa-bar-chart"></i>) to the "Gifts Won" and "Gifts Sent" rows of a user's <a href="https://www.steamgifts.com/user/cg">profile</a> page that allow you to gather data about their giveaways:</li>
                                 <ul>
-                                    <li>The won data contains a table with the number and percentage of won giveaways per type/level, a list with the creators that the user has most won from and (optionally) 2 other tables with the user's playtime/achievement stats for the games.</li>
+                                    <li>The won data contains a table with the number and percentage of won giveaways per type/level, a list with the creators that the user has most won from and (optionally) 2 other tables with the user's playtime/achievement stats for the games (DLCs cannot be counted, but packages will be listed with playtime > 0 and achievements > 0 if one or more of the games in the package have playtime/achievements).</li>
                                     <li>The sent data contains a table with the number and percentage of sent giveaways per type/level and a list with the games that the user has most given away.</li>
                                 </ul>
                                 <li>Results are cached forever, so every time you check the same user again the feature will only retrieve the giveaways that they have created/won since the last check, unless you check them with the option to clear the cache enabled, in which case all of their giveaways will be retrieved again as if they were being checked for the first time.</li>
@@ -14390,14 +14390,14 @@ class ESGST {
             let missingSubs = [];
             for (let i = 0, n = gc.apps.length; i < n; ++i) {
                 let id = gc.apps[i];
-                if (gc.cache.apps[id]) {
+                if (gc.cache.apps[id] && gc.cache.apps[id].name) {
                     continue;
                 }
                 missingApps.push(id);
             }
             for (let i = 0, n = gc.subs.length; i < n; ++i) {
                 let id = gc.subs[i];
-                if (gc.cache.subs[id]) {
+                if (gc.cache.subs[id] && gc.cache.subs[id].name) {
                     continue;
                 }
                 missingSubs.push(id);
@@ -26644,6 +26644,9 @@ class ESGST {
         obj.userGiveaways = await this.ugd_getUserGiveaways(savedUser);
         if (obj.popup && esgst.ugd_clearCache) {
             obj.userGiveaways[obj.key] = null;
+            if (obj.key === `won`) {
+                obj.ugdCache = null;
+            }
         }
         if (
             !obj.userGiveaways.sent || (
@@ -26860,7 +26863,7 @@ class ESGST {
 
         obj.popup.setProgress(`Calculating results...`);
 
-        const games = obj.userGiveaways[obj.key];
+        obj.games = obj.userGiveaways[obj.key];
         obj.perType = {};
         obj.typeTotal = {};
         obj.levelTotal = new Array(11).fill(0);
@@ -26919,9 +26922,9 @@ class ESGST {
             obj.perType[selector] = new Array(11).fill(0);
             obj.typeTotal[selector] = 0;
         }        
-        const savedGiveaways = JSON.parse(await this.getValue(`giveaways`));
-        await this.ugd_count(obj, games.apps, savedGiveaways, types);
-        await this.ugd_count(obj, games.subs, savedGiveaways, types);
+        obj.savedGiveaways = JSON.parse(await this.getValue(`giveaways`));
+        await this.ugd_count(obj, obj.games.apps, obj.savedGiveaways, types);
+        await this.ugd_count(obj, obj.games.subs, obj.savedGiveaways, types);
 
         const results = obj.popup.getScrollable();
 
@@ -26977,7 +26980,7 @@ class ESGST {
             return;
         }
 
-        const playtimeTable = new Table([
+        obj.playtimeTable = new Table([
             [
                 {
                     alignment: `left`,
@@ -26991,13 +26994,13 @@ class ESGST {
             ]
         ]);
         if (!esgst.ugd_getPlaytime) {
-            playtimeTable.hideColumns(2, 3);
+            obj.playtimeTable.hideColumns(2, 3);
         }
         if (!esgst.ugd_getAchievements) {
-            playtimeTable.hideColumns(4);
+            obj.playtimeTable.hideColumns(4);
         }
 
-        let isUpdating = false;
+        obj.isUpdating = false;
         const currentTime = Date.now();
         if (
             !obj.ugdCache ||
@@ -27005,7 +27008,7 @@ class ESGST {
             (esgst.ugd_getPlaytime && !Object.keys(obj.ugdCache.playtimes).length) ||
             (esgst.ugd_getAchievements && !Object.keys(obj.ugdCache.achievements).length)
         ) {
-            isUpdating = true;
+            obj.isUpdating = true;
             if (!obj.ugdCache) {
                 obj.ugdCache = {
                     achievements: {},
@@ -27015,8 +27018,8 @@ class ESGST {
             obj.ugdCache.lastCheck = currentTime;
         }
 
-        let playtimes = null;
-        if (esgst.ugd_getPlaytime && isUpdating) {
+        obj.playtimes = null;
+        if (esgst.ugd_getPlaytime && obj.isUpdating) {
             obj.popup.setProgress(`Retrieving playtime stats...`);
             obj.ugdCache.playtimes = {};
             try {
@@ -27025,7 +27028,7 @@ class ESGST {
                     url: `https://api.steampowered.com/IPlayerService/GetOwnedGames/v0001/?key=${esgst.steamApiKey}&steamid=${obj.user.steamId}&format=json`
                 });
                 const responseText = response.responseText;
-                playtimes = JSON.parse(responseText).response.games;
+                obj.playtimes = JSON.parse(responseText).response.games;
             } catch (e) {
                 console.log(e);
                 alert(`An error ocurred when retrieving playtime stats. Please check your Steam API key in the settings menu or try again later.`);
@@ -27034,147 +27037,69 @@ class ESGST {
                 return;
             }
         }
-        if (esgst.ugd_getAchievements && isUpdating) {
+        if (esgst.ugd_getAchievements && obj.isUpdating) {
             obj.ugdCache.achievements = {};
         }
 
-        let playedCount = 0;
-        let achievementCount = 0;
-        let achievementTotal = 0;
-        let appsTotal = Object.keys(games.apps).length;
-        const total = appsTotal;
-        for (const id in games.apps) {
-            const appId = parseInt(id);
-            let i;
-            if (playtimes) {
-                for (i = playtimes.length - 1; i > -1 && playtimes[i].appid !== appId; i--);
-            }
-            const giveaways = games.apps[appId];
+        obj.playedCount = 0;
+        obj.achievementCount = 0;
+        obj.achievementTotal = 0;
+        obj.appsTotal = Object.keys(obj.games.apps).length;
+        obj.subsTotal = Object.keys(obj.games.subs).length;
+        const total = obj.appsTotal + obj.subsTotal;
+        for (const id in obj.games.apps) {
+            await this.ugd_addGame(obj, id);
+            obj.appsTotal--;
+        }
+        const gcCache = JSON.parse(getLocalValue(`gcCache`, `{ "apps": {}, "subs": {}, "timestamp": 0, "version": 2 }`));
+        if (gcCache.version !== 2) {
+            gcCache = {
+                apps: {},
+                subs: {},
+                timestamp: 0,
+                version: 2
+            };
+        }
+        for (const id in obj.games.subs) {
+            const giveaways = obj.games.subs[id];
             const item = giveaways[0];
-            const giveaway = typeof item === `string` ? savedGiveaways[item] : item;
-            let timestamp2Weeks = 0;
-            let timestampForever = 0;
-            let time2Weeks = 0;
-            let timeForever = 0;
-            let achievementsAttributes = null;
-            let achievements = `?`;
-            if (esgst.ugd_getPlaytime && (i > -1 || obj.ugdCache.playtimes[appId])) {
-                if (isUpdating) {
-                    const game = playtimes[i];
-                    timestamp2Weeks = game.playtime_2weeks || 0;
-                    timestampForever = game.playtime_forever;
-                    obj.ugdCache.playtimes[appId] = [timestamp2Weeks, timestampForever];
-                } else {
-                    [timestamp2Weeks, timestampForever] = obj.ugdCache.playtimes[appId];
-                }
-                if (timestampForever > 0) {
-                    playedCount += 1;
-                }
-                time2Weeks = timestamp2Weeks && timestamp2Weeks > 0 ? (
-                    timestamp2Weeks > 60
-                    ? `${Math.round(timestamp2Weeks / 60 * 100) / 100}h`
-                    : `${timestamp2Weeks}m`
-                ) : `0`;
-                timeForever = timestampForever > 0 ? (
-                    timestampForever > 60
-                        ? `${Math.round(timestampForever / 60 * 100) / 100}h`
-                        : `${timestampForever}m`
-                    ) : `0`;
-            }
-            if (esgst.ugd_getAchievements) {
-                let achievementsData = obj.ugdCache && obj.ugdCache.achievements[appId];
-                if (isUpdating) {
-                    obj.popup.setProgress(`Retrieving achievement stats for ${giveaway.gameName || appId} (${appsTotal--} left)...`);
+            const giveaway = typeof item === `string` ? obj.savedGiveaways[item] : item;
+            let apps = gcCache.subs[id] && gcCache.subs[id].apps;
+            if (!apps) {
+                try {
                     const response = await this.request({
                         method: `GET`,
-                        url: `http://api.steampowered.com/ISteamUserStats/GetPlayerAchievements/v0001/?appid=${appId}&key=${esgst.steamApiKey}&steamid=${obj.user.steamId}`
+                        url: `http://store.steampowered.com/api/packagedetails?packageids=${id}&filters=basic`
                     });
                     const responseText = response.responseText;
-                    const responseJson = JSON.parse(responseText).playerstats;
-                    if (responseJson.success) {
-                        achievementsData = responseJson.achievements;
+                    const responseJson = JSON.parse(responseText);
+                    apps = responseJson[id].data.apps;
+                    if (!gcCache.subs[id]) {
+                        gcCache.subs[id] = {};
                     }
-                }
-                achievements = `0/0`;
-                if (achievementsData) {
-                    let count = 0;
-                    let total = 0;
-                    if (isUpdating) {
-                        for (const achievement of achievementsData) {
-                            if (achievement.achieved) {
-                                count += 1;
-                            }
-                            total += 1;
-                        }
-                        achievementsAttributes = Math.round(count / total * 10000) / 100;
-                        achievements = `${count}/${total} (${achievementsAttributes}%)`;
-                        obj.ugdCache.achievements[appId] = achievements;
-                    } else {
-                        const parts = achievementsData.match(/(.+?)\/(.+?)\s\((.+?)%\)/);
-                        count = parseInt(parts[0]);
-                        total = parseInt(parts[1]);
-                        achievementsAttributes = parseFloat(parts[2]);
-                        achievements = achievementsData;
-                    }
-                    if (count > 0) {
-                        achievementCount += 1;
-                    }
-                    achievementTotal += 1;
+                    gcCache.subs[id].apps = apps;
+                } catch (e) {}
+            }
+            if (apps) {
+                for (const app of apps) {
+                    obj.packagePlayed = false;
+                    obj.packageAchieved = false;
+                    await this.ugd_addGame(obj, app.id, id, app.name);
                 }
             }
-            playtimeTable.addRow([
-                {
-                    alignment: `left`,
-                    size: `fill`,
-                    value: giveaway.gameName
-                },
-                {
-                    attributes: [`data-sort-value="${timestamp2Weeks}"`],
-                    value: time2Weeks
-                },
-                {
-                    attributes: [`data-sort-value="${timestampForever}"`],
-                    value: timeForever
-                },
-                {
-                    attributes: [`data-sort-value="${achievementsAttributes}"`],
-                    value: achievements
-                },
-                `<a class="table__column__secondary-link" href="/user/${giveaway.creator}">${giveaway.creator}</a>`
-            ]);
+            obj.subsTotal--;
         }
-        for (const id in games.subs) {
-            const giveaways = games.subs[id];
-            const item = giveaways[0];
-            const giveaway = typeof item === `string` ? savedGiveaways[item] : item;
-            playtimeTable.addRow([
-                {
-                    alignment: `left`,
-                    size: `fill`,
-                    value: giveaway.gameName
-                },
-                {
-                    attributes: [`data-sort-value="0"`],
-                    value: `?`
-                },
-                {
-                    attributes: [`data-sort-value="0"`],
-                    value: `?`
-                },
-                `?`,
-                `<a class="table__column__secondary-link" href="/user/${giveaway.creator}">${giveaway.creator}</a>`
-            ]);
-        }
-        results.appendChild(playtimeTable.table);
+        setLocalValue(`gcCache`, JSON.stringify(gcCache));
 
+        results.appendChild(obj.playtimeTable.table);
         results.insertAdjacentHTML(`beforeEnd`, `
             ${esgst.ugd_getPlaytime ? `
                 <div class="esgst-bold">
-                    ${playedCount} out of ${total} games with more than 0 hours playtime (${Math.round(playedCount / total * 10000) / 100}%)
+                    ${obj.playedCount} out of ${total} games with more than 0 hours playtime (${Math.round(obj.playedCount / total * 10000) / 100}%)
                 </div>
                 ` : ``}
             ${esgst.ugd_getAchievements ? `
-                <div class="esgst-bold">${achievementCount} out of ${achievementTotal} games with more than 0 achievements (${Math.round(achievementCount / Math.max(1, achievementTotal) * 10000) / 100}%)</div>
+                <div class="esgst-bold">${obj.achievementCount} out of ${obj.achievementTotal} games with more than 0 achievements (${Math.round(obj.achievementCount / Math.max(1, obj.achievementTotal) * 10000) / 100}%)</div>
             ` : ``}
         `);
 
@@ -27182,6 +27107,110 @@ class ESGST {
 
         obj.user.values.ugdCache = obj.ugdCache;
         await this.saveUser(null, null, obj.user);
+    }
+    async ugd_addGame(obj, id, packageId, name) {
+        const appId = parseInt(id);
+        let i;
+        if (obj.playtimes) {
+            for (i = obj.playtimes.length - 1; i > -1 && obj.playtimes[i].appid !== appId; i--);
+        }
+        const giveaways = obj.games[packageId ? `subs` : `apps`][packageId || id];
+        const item = giveaways[0];
+        const giveaway = typeof item === `string` ? obj.savedGiveaways[item] : item;
+        let timestamp2Weeks = 0;
+        let timestampForever = 0;
+        let time2Weeks = 0;
+        let timeForever = 0;
+        let achievementsAttributes = null;
+        let achievements = `?`;
+        if (esgst.ugd_getPlaytime && (i > -1 || obj.ugdCache.playtimes[appId])) {
+            if (obj.isUpdating) {
+                const game = obj.playtimes[i];
+                timestamp2Weeks = game.playtime_2weeks || 0;
+                timestampForever = game.playtime_forever;
+                obj.ugdCache.playtimes[appId] = [timestamp2Weeks, timestampForever];
+            } else {
+                [timestamp2Weeks, timestampForever] = obj.ugdCache.playtimes[appId];
+            }
+            if (timestampForever > 0 && (!packageId || !obj.packagePlayed)) {
+                obj.playedCount += 1;
+                obj.packagePlayed = true;
+            }
+            time2Weeks = timestamp2Weeks && timestamp2Weeks > 0 ? (
+                timestamp2Weeks > 60
+                ? `${Math.round(timestamp2Weeks / 60 * 100) / 100}h`
+                : `${timestamp2Weeks}m`
+            ) : `0`;
+            timeForever = timestampForever > 0 ? (
+                timestampForever > 60
+                    ? `${Math.round(timestampForever / 60 * 100) / 100}h`
+                    : `${timestampForever}m`
+                ) : `0`;
+        }
+        if (esgst.ugd_getAchievements) {
+            let achievementsData = obj.ugdCache && obj.ugdCache.achievements[appId];
+            if (obj.isUpdating) {
+                obj.popup.setProgress(`Retrieving achievement stats for ${giveaway.gameName || packageId} (${packageId ? `${obj.subsTotal} packages` : obj.appsTotal} left)...`);
+                const response = await this.request({
+                    method: `GET`,
+                    url: `http://api.steampowered.com/ISteamUserStats/GetPlayerAchievements/v0001/?appid=${appId}&key=${esgst.steamApiKey}&steamid=${obj.user.steamId}`
+                });
+                const responseText = response.responseText;
+                const responseJson = JSON.parse(responseText).playerstats;
+                if (responseJson.success) {
+                    achievementsData = responseJson.achievements;
+                }
+            }
+            achievements = `0/0`;
+            if (achievementsData) {
+                let count = 0;
+                let total = 0;
+                if (obj.isUpdating) {
+                    for (const achievement of achievementsData) {
+                        if (achievement.achieved) {
+                            count += 1;
+                        }
+                        total += 1;
+                    }
+                    achievementsAttributes = Math.round(count / total * 10000) / 100;
+                    achievements = `${count}/${total} (${achievementsAttributes}%)`;
+                    obj.ugdCache.achievements[appId] = achievements;
+                } else {
+                    const parts = achievementsData.match(/(.+?)\/(.+?)\s\((.+?)%\)/);
+                    count = parseInt(parts[0]);
+                    total = parseInt(parts[1]);
+                    achievementsAttributes = parseFloat(parts[2]);
+                    achievements = achievementsData;
+                }
+                if (!packageId || !obj.packageAchieved) {
+                    if (count > 0) {
+                        obj.achievementCount += 1;
+                    }
+                    obj.achievementTotal += 1;
+                    obj.packageAchieved = true;
+                }
+            }
+        }
+        obj.playtimeTable.addRow([
+            {
+                alignment: `left`,
+                size: `fill`,
+                value: `${giveaway.gameName}${packageId ? ` => ${name}` : ``}`
+            },
+            {
+                attributes: [`data-sort-value="${timestamp2Weeks}"`],
+                value: time2Weeks
+            },
+            {
+                attributes: [`data-sort-value="${timestampForever}"`],
+                value: timeForever
+            },
+            {
+                attributes: [`data-sort-value="${achievementsAttributes}"`],
+                value: achievements
+            },
+            `<a class="table__column__secondary-link" href="/user/${giveaway.creator}">${giveaway.creator}</a>`
+        ]);
     }
     async ugd_count(obj, games, savedGiveaways, types) {
         for (const id in games) {
