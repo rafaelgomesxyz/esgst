@@ -66,5 +66,9 @@
         "unlimitedStorage",
         "cookies"
     ],
+    "web_accessible_resources": [
+        "css/steamgifts-v33.min.css",
+        "icon.png"
+    ],
     "version": "7.20.5"
 }
