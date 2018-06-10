@@ -236,6 +236,33 @@ To learn more about each feature you have to install ESGST.
 
 ## Changelog
 
+**7.21.0 (June 10, 2018)**
+
+* [#765](https://github.com/revilheart/ESGST/issues/765) Fix a bug that does not allow restoring .zip files
+* [#764](https://github.com/revilheart/ESGST/issues/764) Fix a bug that does not save filter settings if only basic filters are enabled
+* [#763](https://github.com/revilheart/ESGST/issues/763) Fix a bug that does not retrieve all pages correctly in Whitelist/Blacklist Checker
+* [#762](https://github.com/revilheart/ESGST/issues/762) Fix a bug that adds duplicate "Sticky group" buttons
+* [#760](https://github.com/revilheart/ESGST/issues/760) Add SteamGifts' CSS file to the repository to prevent ESGST pages from being messed up if cg updates the CSS
+* [#759](https://github.com/revilheart/ESGST/issues/759) Fix a bug that shows wrong list of users in Group Library/Wishlist Checker when searching by app ID
+* [#758](https://github.com/revilheart/ESGST/issues/758) Fix a bug that only previews comments on user input
+* [#757](https://github.com/revilheart/ESGST/issues/757) Fix a bug that does not load encrypted giveaways
+* [#756](https://github.com/revilheart/ESGST/issues/756) Open settings menu when clicking on the extension icon
+* [#755](https://github.com/revilheart/ESGST/issues/755) Add option to minimize non-temporary popups
+* [#753](https://github.com/revilheart/ESGST/issues/753) Fix a bug that adds duplicate "Skip User" buttons to Whitelist/Blacklist Checker
+* [#752](https://github.com/revilheart/ESGST/issues/752) Fix active discussions on narrow sidebar
+* [#750](https://github.com/revilheart/ESGST/issues/750) Fix a bug that positions large popouts incorrectly in screens below 1440x900
+* [#749](https://github.com/revilheart/ESGST/issues/749) Fix a bug that does not allow applying empty presets
+* [#748](https://github.com/revilheart/ESGST/issues/748) Improve the scrolling
+* [#747](https://github.com/revilheart/ESGST/issues/747) Fix a bug that applies discussion filter on the main page even when disabled
+* [#746](https://github.com/revilheart/ESGST/issues/746) Add a feature: Points Visualizer
+* [#745](https://github.com/revilheart/ESGST/issues/745) Fix a style issue in the filters
+* [#744](https://github.com/revilheart/ESGST/issues/744) Add a new game category: DLC (Base Owned)
+* [#743](https://github.com/revilheart/ESGST/issues/743) Bring back option to select which filters to appear
+* [#742](https://github.com/revilheart/ESGST/issues/742) Fix a bug that does not load Multi-Manager in the regular pages
+* [#711](https://github.com/revilheart/ESGST/issues/711) Fix a bug in Quick Inbox View
+* [#671](https://github.com/revilheart/ESGST/issues/671) Add a feature: Giveaway End Time Highlighter
+* [#573](https://github.com/revilheart/ESGST/issues/573) Completely revamp User Giveaway Data
+
 **7.20.5 (May 28, 2018)**
 
 * Hotfix for v7.20.4

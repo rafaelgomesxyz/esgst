@@ -3,7 +3,7 @@
 // @namespace ESGST
 // @description Enhances SteamGifts and SteamTrades by adding some cool features to them.
 // @icon https://dl.dropboxusercontent.com/s/lr3t3bxrxfxylqe/esgstIcon.ico?raw=1
-// @version 7.20.5
+// @version 7.21.0
 // @author revilheart
 // @contributor Royalgamer06
 // @downloadURL https://github.com/revilheart/ESGST/raw/master/ESGST.user.js
@@ -50,6 +50,7 @@
 // @resource bss https://github.com/revilheart/ESGST/raw/master/Extension/css/bootstrap-select-1.12.4.min.css
 // @resource abc https://github.com/revilheart/ESGST/raw/master/Extension/css/awesome-bootstrap-checkbox-0.3.7.min.css
 // @resource qb https://github.com/revilheart/ESGST/raw/master/Extension/css/query-builder-2.5.2.min.css
+// @resource sg https://github.com/revilheart/ESGST/raw/master/Extension/css/steamgifts-v33.min.css
 // @run-at document-start
 // @noframes
 // ==/UserScript==
@@ -2890,6 +2891,7 @@ class ESGST {
                 gv_spacing: 0,
                 gwc_colors: [],
                 gwr_colors: [],
+                geth_colors: [],
                 hr_minutes: 1,
                 hr_w_hours: 24,
                 lastBackup: 0,
@@ -3001,8 +3003,8 @@ class ESGST {
             markdownParser: new Parsedown(),
             sg: location.hostname.match(/www.steamgifts.com/),
             st: location.hostname.match(/www.steamtrades.com/),
-            currentVersion: `7.20.5`,
-            devVersion: `7.20.5`,
+            currentVersion: `7.21.0`,
+            devVersion: `7.21.0`,
             icon: `data:image/x-icon;base64,AAABAAEAEBAAAAEAIABoBAAAFgAAACgAAAAQAAAAIAAAAAEAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAqv8DCbP/Hgeq+CQIrf8iCK3/Igit/yIIrf8iB6//Iwit9x8Aqv8DAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAKr0GAa2/c0DvfzfA7f83QO3/N0Dt/zdA7f83QO+/d4Gs/3OAKP1GQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACm/xQFs/n2Bcf//wW///8FwP//BcD//wW///8Fx///BbP69gC2/xUAAAAAAAAAAAAAAAAA/1UDFptOFxSZMxkLpJktAq720QW1+ugEsfvjA7b92wO2/dsEsfvjBbX66Aau/dEoiO4tUlLWGU5k3hdVVf8DEJxKHxWqT8cVrU7uE6VN0guqny0Apv8XAJfQGwBAVywAQFcsAJfQGwCx/xcogugtS2Lk0lBl6u5Qae7ISmPeHxagSSMVr07jF7lV/xOiSu0brgATAAAAAAAAAA8AAAC/AAAAwAAAABAAAAAAYznjEkth4OxWb/3/T2jv40lf4iMXnksiEq1O3RayUv8UpEnkEo0+HQAAABkAAABBAAAA8QAAAPEAAABBAAAAGUBSvxxOYeDjU2v0/05m7d1LYuEiF55LIhKtTt0Ws1L/FahN2gU1FTAAAADAAAAA7AAAAP0AAAD9AAAA7AAAAMAVG0owUGPm2lNr9P9OZu3dS2LhIheeSyISrU7dFrNS/xWoTdoFNRswAAAAvwAAAOsAAAD9AAAA/QAAAOsAAADAFRtKMFBj6NpTa/T/Tmbt3Uti4SIXnksiEq1O3RayUv8UpEnkEo0+HQAAABgAAABAAAAA8QAAAPEAAABBAAAAGT5PuR1OYeDjU2v0/05m7d1LYuEiFqBJIxWuT+QXuVX/E6JL7QC8XhMAAAAAAAAADwAAAL8AAAC/AAAAEAAAAAAOR/8SSWLh7FZv/f9PaO/jSV/iIxCUSh8Vrk7HFqxN7ROlS9JskzMt1XULGK12EhxGLgYsRy8GK612EhzVgAsYgmxxLU1i39JNZ+vtT2fwx0pj1h8AqlUDF65GFgqZUhlsiC0txH0T0s5/EujJgBPkz4QR28+EEdvJgBPkzn8Q6Md+E9KLdHosM1LWGUZo6BZVVf8DAAAAAAAAAAAAAAAA/2YAFMl9EvbgjRb/14gV/9eIFf/XiBX/14gV/9+NFv/KgBD254YAFQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAL91FRjKgRHN1IgU3s+EEt3PhBLdz4QS3c+EEt3UiBTezYMRzcJ6FBkAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACqqgADxIARHr18FiO8eA8ivHgPIrx4DyK8eA8ivXwPI8SAER7/VQADAAAAAAAAAAAAAAAA78cAAPA3AAD4FwAABCAAADGOAAAE+AAAkBEAAJ55AACYOQAAlgEAAER4AAAXaAAATnoAAPgXAAD0JwAA69cAAA==`,
             sgIcon: `data:image/x-icon;base64,AAABAAEAEBAAAAEAIABoBAAAFgAAACgAAAAQAAAAIAAAAAEAIAAAAAAAQAQAABMLAAATCwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIUAAAD5AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAPoAAACFAAAAAAAAAAAAAAD8AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA+QAAAAAAAAAAAAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAAAAAAAAAAAAP8AAAD/AAAA/wAAABwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAcAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAcAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAHAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAAAAAAAAAAAAPwAAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD5AAAAAAAAAAAAAACFAAAA+QAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD5AAAAhQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA//8AAP//AADAAwAAwAMAAMfjAADP8wAAz/MAAM/zAADP8wAAz/MAAM/zAADH4wAAwAMAAMADAAD//wAA//8AAA==`,
             stIcon: `data:image/x-icon;base64,AAABAAEAEBAAAAEAIABoBAAAFgAAACgAAAAQAAAAIAAAAAEAIAAAAAAAQAQAABMLAAATCwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABbD6SgWw+ucFsPrkBbD6SgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAWw+uYFsPr/BbD6/wWw+ucAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAFsPrmBbD6/wWw+v8FsPrmAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABbD6SQWw+uYFsPrmBbD6SQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAFKRLShSkS+cUpEvkFKRLSgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAExi4EpMYuDnTGLg5Exi4EoAAAAAAAAAABSkS+YUpEv/FKRL/xSkS+cAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABMYuDmTGLg/0xi4P9MYuDnAAAAAAAAAAAUpEvmFKRL/xSkS/8UpEvmAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAATGLg5kxi4P9MYuD/TGLg5gAAAAAAAAAAFKRLSRSkS+YUpEvmFKRLSQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAExi4ElMYuDmTGLg5kxi4EkAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAMZ9E0rGfRPnxn0T5MZ9E0oAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADGfRPmxn0T/8Z9E//GfRPnAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAxn0T5sZ9E//GfRP/xn0T5gAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAMZ9E0nGfRPmxn0T5sZ9E0kAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA//8AAPw/AAD8PwAA/D8AAPw/AAD//wAAh+EAAIfhAACH4QAAh+EAAP//AAD8PwAA/D8AAPw/AAD8PwAA//8AAA==`,
@@ -3060,7 +3062,7 @@ class ESGST {
             blacklistPath: location.pathname.match(/^\/account\/manage\/blacklist/),
             inboxPath: location.pathname.match(/^\/messages/),
             groupsPath: location.pathname.match(/^\/account\/steam\/groups/),
-            pageTop: 25,
+            pageTop: 0,
             commentsTop: 0,
             apPopouts: {},
             tsTables: [],
@@ -3080,6 +3082,11 @@ class ESGST {
             endlessFeatures: [],
             edited: {}
         };
+        if (document.body && document.body.getAttribute(`data-esgst-action`)) {
+            esgst.menuPath = true;
+            esgst.settingsPath = true;
+            esgst.sg = true;
+        }
         esgst.markdownParser.setBreaksEnabled(true);
         esgst.markdownParser.setMarkupEscaped(true);
         esgst.name = esgst.sg ? `sg` : `st`;
@@ -4239,6 +4246,9 @@ class ESGST {
                         sg: true
                     },
                     lpv: {
+                        conflicts: [
+                            {id: `pv`, name: `Points Visualizer`}
+                        ],
                         description: `
                             <ul>
                                 <li>Displays a green bar in the account button at the header of any page that represents your level progress.</li>
@@ -4306,6 +4316,18 @@ class ESGST {
                         name: `Pagination Navigation On Top`,
                         sg: true,
                         st: true
+                    },
+                    pv: {
+                        conflicts: [
+                            {id: `lpv`, name: `Level Progress Visualizer`}
+                        ],
+                        description: `
+                            <ul>
+                                <li>Displays a green bar in the account button at the header of any page that represents the amount of points that you have.</li>
+                            </ul>
+                        `,
+                        name: `Points Visualizer`,
+                        sg: true
                     },
                     qiv: {
                         description: `
@@ -4741,6 +4763,15 @@ class ESGST {
                         name: `Giveaway Encrypter/Decrypter`,
                         sg: true
                     },
+                    geth: {
+                        description: `
+                            <ul>
+                                <li>Allows you to highlight the end time of a giveaway (in any page) by coloring it based on how many hours there are left.</li>
+                            </ul>
+                        `,
+                        name: `Giveaway End Time Highlighter`,
+                        sg: true
+                    },
                     gesl: {
                         // by Royalgamer06
                         description: `
@@ -4865,6 +4896,478 @@ class ESGST {
                                     },
                                     gf_m_a: {
                                         name: `Hide advanced filters.`,
+                                        sg: true
+                                    },
+                                    gf_level: {
+                                        description: `
+                                            <ul>
+                                                <li>Allows you to filter giveaways by level.</li>
+                                            </ul>
+                                        `,
+                                        name: `Level`,
+                                        sg: true
+                                    },
+                                    gf_entries: {
+                                        description: `
+                                            <ul>
+                                                <li>Allows you to filter giveaways by number of entries.</li>
+                                            </ul>
+                                        `,
+                                        name: `Entries`,
+                                        sg: true
+                                    },
+                                    gf_copies: {
+                                        description: `
+                                            <ul>
+                                                <li>Allows you to filter giveaways by number of copies.</li>
+                                            </ul>
+                                        `,
+                                        name: `Copies`,
+                                        sg: true
+                                    },
+                                    gf_points: {
+                                        description: `
+                                            <ul>
+                                                <li>Allows you to filter giveaways by how many points they cost.</li>
+                                            </ul>
+                                        `,
+                                        name: `Points`,
+                                        sg: true
+                                    },
+                                    gf_comments: {
+                                        description: `
+                                            <ul>
+                                                <li>Allows you to filter giveaways by number of comments.</li>
+                                            </ul>
+                                        `,
+                                        name: `Comments`,
+                                        sg: true
+                                    },
+                                    gf_minutesToEnd: {
+                                        description: `
+                                            <ul>
+                                                <li>Allows you to filter giveaways by how much time they have left.</li>
+                                            </ul>
+                                        `,
+                                        name: `Minutes To End`,
+                                        sg: true
+                                    },
+                                    gf_chance: {
+                                        description: `
+                                            <ul>
+                                                <li>Allows you to filter giveaways by chance.</li>
+                                                <li>This option requires [id=gwc] enabled to work.</li>
+                                            </ul>
+                                        `,
+                                        name: `Chance`,
+                                        sg: true
+                                    },
+                                    gf_chancePerPoint: {
+                                        description: `
+                                            <ul>
+                                                <li>Allows you to filter giveaways by chance per point.</li>
+                                                <li>This option requires [id=gwc] enabled to work.</li>
+                                            </ul>
+                                        `,
+                                        name: `Chance Per Point`,
+                                        sg: true
+                                    },
+                                    gf_ratio: {
+                                        description: `
+                                            <ul>
+                                                <li>Allows you to filter giveaways by ratio.</li>
+                                                <li>This option requires [id=gwr] enabled to work.</li>
+                                            </ul>
+                                        `,
+                                        name: `Ratio`,
+                                        sg: true
+                                    },
+                                    gf_rating: {
+                                        description: `
+                                            <ul>
+                                                <li>Allows you to filter giveaways by rating percentage of the game.</li>
+                                                <li>This option requires [id=gc_r] enabled to work.</li>
+                                            </ul>
+                                        `,
+                                        name: `Rating`,
+                                        sg: true
+                                    },
+                                    gf_releaseDate: {
+                                        description: `
+                                            <ul>
+                                                <li>Allows you to filter giveaways by release date of the game.</li>
+                                                <li>This option requires [id=gc_rd] enabled to work.</li>
+                                            </ul>
+                                        `,
+                                        name: `Release Date`,
+                                        sg: true
+                                    },
+                                    gf_pinned: {
+                                        description: `
+                                            <ul>
+                                                <li>Allows you to filter giveaways that are pinned.</li>
+                                            </ul>
+                                        `,
+                                        name: `Pinned`,
+                                        sg: true
+                                    },
+                                    gf_inviteOnly: {
+                                        description: `
+                                            <ul>
+                                                <li>Allows you to filter giveaways that are invite only.</li>
+                                            </ul>
+                                        `,
+                                        name: `Invite Only`,
+                                        sg: true
+                                    },
+                                    gf_group: {
+                                        description: `
+                                            <ul>
+                                                <li>Allows you to filter giveaways that are for groups.</li>
+                                            </ul>
+                                        `,
+                                        name: `Group`,
+                                        sg: true
+                                    },
+                                    gf_whitelist: {
+                                        description: `
+                                            <ul>
+                                                <li>Allows you to filter giveaways that are for whitelist.</li>
+                                            </ul>
+                                        `,
+                                        name: `Whitelist`,
+                                        sg: true
+                                    },
+                                    gf_regionRestricted: {
+                                        description: `
+                                            <ul>
+                                                <li>Allows you to filter giveaways that are region restricted.</li>
+                                            </ul>
+                                        `,
+                                        name: `Region Restricted`,
+                                        sg: true
+                                    },
+                                    gf_created: {
+                                        description: `
+                                            <ul>
+                                                <li>Allows you to filter giveaways created by yourself.</li>
+                                            </ul>
+                                        `,
+                                        name: `Created`,
+                                        sg: true
+                                    },
+                                    gf_received: {
+                                        description: `
+                                            <ul>
+                                                <li>Allows you to filter giveaways that have been marked as received.</li>
+                                            </ul>
+                                        `,
+                                        name: `Received`,
+                                        sg: true
+                                    },
+                                    gf_notReceived: {
+                                        description: `
+                                            <ul>
+                                                <li>Allows you to filter giveaways that have been marked as not received.</li>
+                                            </ul>
+                                        `,
+                                        name: `Not Received`,
+                                        sg: true
+                                    },
+                                    gf_awaitingFeedback: {
+                                        description: `
+                                            <ul>
+                                                <li>Allows you to filter giveaways that are awaiting feedback.</li>
+                                            </ul>
+                                        `,
+                                        name: `Awaiting Feedback`,
+                                        sg: true
+                                    },
+                                    gf_entered: {
+                                        description: `
+                                            <ul>
+                                                <li>Allows you to filter giveaways that you have entered.</li>
+                                            </ul>
+                                        `,
+                                        name: `Entered`,
+                                        sg: true
+                                    },
+                                    gf_started: {
+                                        description: `
+                                            <ul>
+                                                <li>Allows you to filter giveaways that have started.</li>
+                                            </ul>
+                                        `,
+                                        name: `Started`,
+                                        sg: true
+                                    },
+                                    gf_ended: {
+                                        description: `
+                                            <ul>
+                                                <li>Allows you to filter giveaways that have ended.</li>
+                                            </ul>
+                                        `,
+                                        name: `Ended`,
+                                        sg: true
+                                    },
+                                    gf_deleted: {
+                                        description: `
+                                            <ul>
+                                                <li>Allows you to filter giveaways that have been deleted.</li>
+                                            </ul>
+                                        `,
+                                        name: `Deleted`,
+                                        sg: true
+                                    },
+                                    gf_owned: {
+                                        description: `
+                                            <ul>
+                                                <li>Allows you to filter giveaways for games that you own on Steam.</li>
+                                            </ul>
+                                        `,
+                                        name: `Owned`,
+                                        sg: true
+                                    },
+                                    gf_wishlisted: {
+                                        description: `
+                                            <ul>
+                                                <li>Allows you to filter giveaways for games that you have wishlisted on Steam.</li>
+                                            </ul>
+                                        `,
+                                        name: `Wishlisted`,
+                                        sg: true
+                                    },
+                                    gf_hidden: {
+                                        description: `
+                                            <ul>
+                                                <li>Allows you to filter giveaways for games that you have hidden on SteamGifts.</li>
+                                            </ul>
+                                        `,
+                                        name: `Hidden`,
+                                        sg: true
+                                    },
+                                    gf_ignored: {
+                                        description: `
+                                            <ul>
+                                                <li>Allows you to filter giveaways for games that you have ignored on Steam.</li>
+                                            </ul>
+                                        `,
+                                        name: `Ignored`,
+                                        sg: true
+                                    },
+                                    gf_previouslyEntered: {
+                                        description: `
+                                            <ul>
+                                                <li>Allows you to filter giveaways for games that you have previously entered giveaways for.</li>
+                                                <li>This option requires [id=egh] enabled to work.</li>
+                                            </ul>
+                                        `,
+                                        name: `Previously Entered`,
+                                        sg: true
+                                    },
+                                    gf_previouslyWon: {
+                                        description: `
+                                            <ul>
+                                                <li>Allows you to filter giveaways for games that you have previously won.</li>
+                                            </ul>
+                                        `,
+                                        name: `Previously Won`,
+                                        sg: true
+                                    },
+                                    gf_fullCV: {
+                                        description: `
+                                            <ul>
+                                                <li>Allows you to filter giveaways for games that give full CV.</li>
+                                            </ul>
+                                        `,
+                                        name: `Full CV`,
+                                        sg: true
+                                    },
+                                    gf_reducedCV: {
+                                        description: `
+                                            <ul>
+                                                <li>Allows you to filter giveaways for games that give reduced CV.</li>
+                                            </ul>
+                                        `,
+                                        name: `Reduced CV`,
+                                        sg: true
+                                    },
+                                    gf_noCV: {
+                                        description: `
+                                            <ul>
+                                                <li>Allows you to filter giveaways for games that give no CV.</li>
+                                            </ul>
+                                        `,
+                                        name: `No CV`,
+                                        sg: true
+                                    },
+                                    gf_sgTools: {
+                                        description: `
+                                            <ul>
+                                                <li>Allows you to filter SGTools giveaways.</li>
+                                                <li>This option requires [id=ge] enabled to work.</li>
+                                            </ul>
+                                        `,
+                                        name: `SGTools`,
+                                        sg: true
+                                    },
+                                    gf_groups: {
+                                        description: `
+                                            <ul>
+                                                <li>Allows you to filter giveaways by group.</li>
+                                                <li>This option requires [id=ggl] enabled as "Panel (On Page Load)" to work.</li>
+                                            </ul>
+                                        `,
+                                        name: `Groups`,
+                                        sg: true
+                                    },
+                                    gf_creators: {
+                                        description: `
+                                            <ul>
+                                                <li>Allows you to filter giveaways by creator.</li>
+                                            </ul>
+                                        `,
+                                        name: `Creators`,
+                                        sg: true
+                                    },
+                                    gf_removed: {
+                                        description: `
+                                            <ul>
+                                                <li>Allows you to filter giveaways for games that have been removed from the Steam store.</li>
+                                                <li>This option requires [id=gc_rm] enabled to work.</li>
+                                            </ul>
+                                        `,
+                                        name: `Removed`,
+                                        sg: true
+                                    },
+                                    gf_tradingCards: {
+                                        description: `
+                                            <ul>
+                                                <li>Allows you to filter giveaways for games that have trading cards.</li>
+                                                <li>This option requires [id=gc_tc] enabled to work.</li>
+                                            </ul>
+                                        `,
+                                        name: `Trading Cards`,
+                                        sg: true
+                                    },
+                                    gf_achievements: {
+                                        description: `
+                                            <ul>
+                                                <li>Allows you to filter giveaways for games that have achievements.</li>
+                                                <li>This option requires [id=gc_a] enabled to work.</li>
+                                            </ul>
+                                        `,
+                                        name: `Achievements`,
+                                        sg: true
+                                    },
+                                    gf_multiplayer: {
+                                        description: `
+                                            <ul>
+                                                <li>Allows you to filter giveaways for games that are multiplayer.</li>
+                                                <li>This option requires [id=gc_mp] enabled to work.</li>
+                                            </ul>
+                                        `,
+                                        name: `Multiplayer`,
+                                        sg: true
+                                    },
+                                    gf_steamCloud: {
+                                        description: `
+                                            <ul>
+                                                <li>Allows you to filter giveaways for games that have Steam Cloud.</li>
+                                                <li>This option requires [id=gc_sc] enabled to work.</li>
+                                            </ul>
+                                        `,
+                                        name: `Steam Cloud`,
+                                        sg: true
+                                    },
+                                    gf_linux: {
+                                        description: `
+                                            <ul>
+                                                <li>Allows you to filter giveaways for games that have are compatible with Linux.</li>
+                                                <li>This option requires [id=gc_l] enabled to work.</li>
+                                            </ul>
+                                        `,
+                                        name: `Linux`,
+                                        sg: true
+                                    },
+                                    gf_mac: {
+                                        description: `
+                                            <ul>
+                                                <li>Allows you to filter giveaways for games that are compatible with Mac.</li>
+                                                <li>This option requires [id=gc_m] enabled to work.</li>
+                                            </ul>
+                                        `,
+                                        name: `Mac`,
+                                        sg: true
+                                    },
+                                    gf_dlc: {
+                                        description: `
+                                            <ul>
+                                                <li>Allows you to filter giveaways for games that are DLCs.</li>
+                                                <li>This option requires [id=gc_dlc] enabled to work.</li>
+                                            </ul>
+                                        `,
+                                        name: `DLC`,
+                                        sg: true
+                                    },
+                                    gf_dlcOwned: {
+                                        description: `
+                                            <ul>
+                                                <li>Allows you to filter giveaways for games that are DLCs and have a base game that you own.</li>
+                                                <li>This option requires [id=gc_dlc_o] enabled to work.</li>
+                                            </ul>
+                                        `,
+                                        name: `DLC (Owned Base)`,
+                                        sg: true
+                                    },
+                                    gf_dlcFree: {
+                                        description: `
+                                            <ul>
+                                                <li>Allows you to filter giveaways for games that are DLCs and have a free base game.</li>
+                                                <li>This option requires [id=gc_dlc_b] enabled to work.</li>
+                                            </ul>
+                                        `,
+                                        name: `DLC (Free Base)`,
+                                        sg: true
+                                    },
+                                    gf_dlcNonFree: {
+                                        description: `
+                                            <ul>
+                                                <li>Allows you to filter giveaways for games that are DLCs and have a non-free base game.</li>
+                                                <li>This option requires [id=gc_dlc_b] enabled to work.</li>
+                                            </ul>
+                                        `,
+                                        name: `DLC (Non-Free Base)`,
+                                        sg: true
+                                    },
+                                    gf_package: {
+                                        description: `
+                                            <ul>
+                                                <li>Allows you to filter giveaways for games that are packages.</li>
+                                                <li>This option requires [id=gc_p] enabled to work.</li>
+                                            </ul>
+                                        `,
+                                        name: `Package`,
+                                        sg: true
+                                    },
+                                    gf_earlyAccess: {
+                                        description: `
+                                            <ul>
+                                                <li>Allows you to filter giveaways for games that are in early access.</li>
+                                                <li>This option requires [id=gc_ea] enabled to work.</li>
+                                            </ul>
+                                        `,
+                                        name: `Early Access`,
+                                        sg: true
+                                    },
+                                    gf_genres: {
+                                        description: `
+                                            <ul>
+                                                <li>Allows you to filter giveaways by game genre.</li>
+                                                <li>This option requires [id=gc_g] enabled to work.</li>
+                                            </ul>
+                                        `,
+                                        name: `Genres`,
                                         sg: true
                                     },
                                     gf_os: {
@@ -5438,6 +5941,153 @@ class ESGST {
                                     },
                                     df_m_a: {
                                         name: `Hide advanced filters.`,
+                                        sg: true
+                                    },
+                                    df_comments: {
+                                        description: `
+                                            <ul>
+                                                <li>Allows you to filter discussions by number of comments.</li>
+                                            </ul>
+                                        `,
+                                        name: `Comments`,
+                                        sg: true
+                                    },
+                                    df_announcements: {
+                                        description: `
+                                            <ul>
+                                                <li>Allows you to filter discussions categorized as "Announcements".</li>
+                                            </ul>
+                                        `,
+                                        name: `Announcements`,
+                                        sg: true
+                                    },
+                                    df_bugsSuggestions: {
+                                        description: `
+                                            <ul>
+                                                <li>Allows you to filter discussions categorized as "Bugs / Suggestions".</li>
+                                            </ul>
+                                        `,
+                                        name: `Bugs / Suggestions`,
+                                        sg: true
+                                    },
+                                    df_deals: {
+                                        description: `
+                                            <ul>
+                                                <li>Allows you to filter discussions categorized as "Deals".</li>
+                                            </ul>
+                                        `,
+                                        name: `Deals`,
+                                        sg: true
+                                    },
+                                    df_general: {
+                                        description: `
+                                            <ul>
+                                                <li>Allows you to filter discussions categorized as "General".</li>
+                                            </ul>
+                                        `,
+                                        name: `General`,
+                                        sg: true
+                                    },
+                                    df_groupRecruitment: {
+                                        description: `
+                                            <ul>
+                                                <li>Allows you to filter discussions categorized as "Group Recruitment".</li>
+                                            </ul>
+                                        `,
+                                        name: `Group Recruitment`,
+                                        sg: true
+                                    },
+                                    df_letsPlayTogether: {
+                                        description: `
+                                            <ul>
+                                                <li>Allows you to filter discussions categorized as "Let's Play Together".</li>
+                                            </ul>
+                                        `,
+                                        name: `Let's Play Together`,
+                                        sg: true
+                                    },
+                                    df_offTopic: {
+                                        description: `
+                                            <ul>
+                                                <li>Allows you to filter discussions categorized as "Off-Topic".</li>
+                                            </ul>
+                                        `,
+                                        name: `Off-Topic`,
+                                        sg: true
+                                    },
+                                    df_puzzles: {
+                                        description: `
+                                            <ul>
+                                                <li>Allows you to filter discussions categorized as "Puzzles".</li>
+                                            </ul>
+                                        `,
+                                        name: `Puzzles`,
+                                        sg: true
+                                    },
+                                    df_uncategorized: {
+                                        description: `
+                                            <ul>
+                                                <li>Allows you to filter discussions categorized as "Uncategorized".</li>
+                                            </ul>
+                                        `,
+                                        name: `Uncategorized`,
+                                        sg: true
+                                    },
+                                    df_created: {
+                                        description: `
+                                            <ul>
+                                                <li>Allows you to filter discussions created by yourself.</li>
+                                            </ul>
+                                        `,
+                                        name: `Created`,
+                                        sg: true
+                                    },
+                                    df_poll: {
+                                        description: `
+                                            <ul>
+                                                <li>Allows you to filter discussions that contain polls.</li>
+                                            </ul>
+                                        `,
+                                        name: `Poll`,
+                                        sg: true
+                                    },
+                                    df_highlighted: {
+                                        description: `
+                                            <ul>
+                                                <li>Allows you to filter discussions that you have highlighted.</li>
+                                                <li>This option requires [id=dh] enabled to work.</li>
+                                            </ul>
+                                        `,
+                                        name: `Highlighted`,
+                                        sg: true
+                                    },
+                                    df_visited: {
+                                        description: `
+                                            <ul>
+                                                <li>Allows you to filter discussions that you have visited.</li>
+                                                <li>This option requires [id=gdttt] enabled to work.</li>
+                                            </ul>
+                                        `,
+                                        name: `Visited`,
+                                        sg: true
+                                    },
+                                    df_unread: {
+                                        description: `
+                                            <ul>
+                                                <li>Allows you to filter discussions that you have read.</li>
+                                                <li>This option requires [id=ct] enabled to work.</li>
+                                            </ul>
+                                        `,
+                                        name: `Unread`,
+                                        sg: true
+                                    },
+                                    df_authors: {
+                                        description: `
+                                            <ul>
+                                                <li>Allows you to filter discussions by author.</li>
+                                            </ul>
+                                        `,
+                                        name: `Authors`,
                                         sg: true
                                     }
                                 },
@@ -6249,12 +6899,18 @@ class ESGST {
                             <ul>
                                 <li>Adds 2 identical buttons (<i class="fa fa-bar-chart"></i>) to the "Gifts Won" and "Gifts Sent" rows of a user's <a href="https://www.steamgifts.com/user/cg">profile</a> page that allow you to gather data about their giveaways:</li>
                                 <ul>
-                                    <li>The won data contains a table with the number and percentage of won giveaways per type/level, a list with the creators that the user has most won from and (optionally) 2 other tables with the user's playtime/achievement stats for the games.</li>
+                                    <li>The won data contains a table with the number and percentage of won giveaways per type/level, a list with the creators that the user has most won from and (optionally) 2 other tables with the user's playtime/achievement stats for the games (DLCs cannot be counted, but packages will be listed with playtime > 0 and achievements > 0 if one or more of the games in the package have playtime/achievements).</li>
                                     <li>The sent data contains a table with the number and percentage of sent giveaways per type/level and a list with the games that the user has most given away.</li>
                                 </ul>
                                 <li>Results are cached forever, so every time you check the same user again the feature will only retrieve the giveaways that they have created/won since the last check, unless you check them with the option to clear the cache enabled, in which case all of their giveaways will be retrieved again as if they were being checked for the first time.</li>
                             </ul>
                         `,
+                        features: {
+                            ugd_s: {
+                                name: `Display playtime/achievement stats in the user's profile page.`,
+                                sg: true
+                            }
+                        },
                         name: `User Giveaway Data`,
                         sg: true
                     },
@@ -6611,6 +7267,15 @@ class ESGST {
                                             </ul>
                                         `,
                                         name: `Indicate if the base game of the DLC is free.`,
+                                        sg: true
+                                    },
+                                    gc_dlc_o: {
+                                        description: `
+                                            <ul>
+                                                <li>The same icon you use for the Owned category will be added if the base is owned.</li>
+                                            </ul>
+                                        `,
+                                        name: `Indicate if the base game of the DLC is owned.`,
                                         sg: true
                                     }
                                 },
@@ -7457,6 +8122,19 @@ class ESGST {
                         sg: true,
                         st: true
                     },
+                    minimizePanel: {
+                        description: `
+                            <ul>
+                                <li>When you close a non-temporary popup, it will be minimized to a panel that can be accessed by moving your mouse to the left corner of the window in any page. There you can quickly find and re-open all of the popups that you minimized.</li>
+                                <li>A non-temporary popup is a popup that does not get destroyed when you close it. For example, the settings popup is a temporary popup - when you close it, the popup is destroyed, and when you click on the button to open the settings again, a new popup is created. The Whitelist/Blacklist Checker popup is an example of a non-temporary popup - if you close it and re-open it, it will be the exact same popup.</li>
+                                <li>With this option enabled, the sync/backup popups become non-temporary, which allows you to close them and keep navigating through the page while ESGST is performing the sync/backup, without having to wait for it to finish.</li>
+                                <li>Some popups will notify you when they are done. When this happens, a red bar will flash at the left side of the screen that only disappears when you open the minimize panel and re-open the popup that is requiring your attention.</li>
+                            </ul>
+                        `,
+                        name: `Minimize non-temporary popups to a panel when closing them.`,
+                        sg: true,
+                        st: true
+                    },
                     getSyncGameNames: {
                         description: `
                             <ul>
@@ -7634,7 +8312,7 @@ class ESGST {
         if (esgst.menuPath) {
             document.head.insertAdjacentHTML(`beforeEnd`, `
                 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
-                <link rel="stylesheet" type="text/css" href="https://cdn.steamgifts.com/css/minified_v33.css">
+                <link rel="stylesheet" type="text/css" href="${_USER_INFO.extension ? browser.runtime.getURL(`css/steamgifts-v33.min.css`) : (await gm.getResourceUrl(`sg`))}">
             `);
         }
         this.addStyle();
@@ -7798,7 +8476,7 @@ class ESGST {
                             }
                             if (!isSelected) {
                                 element.classList.add(`is-selected`);
-                                element.previousElementSibling.previousElementSibling.classList.remove(`is-hidden`);
+                                (element.previousElementSibling.previousElementSibling || element.nextElementSibling).classList.remove(`is-hidden`);
                             }
                             event.stopPropagation();
                         });
@@ -7821,7 +8499,56 @@ class ESGST {
             this.loadFeatures();
         }
     }
+    minimizePanel_add() {
+        if (!esgst.pageOuterWrap) {
+            return;
+        }
+
+        esgst.minimizePanel = insertHtml(esgst.pageOuterWrap, `beforeEnd`, `
+            <div class="esgst-minimize-panel">
+                <div class="esgst-minimize-container markdown">
+                    <h3>Minimized Popups:</h3>
+                    <hr></hr>
+                    <ul class="esgst-minimize-list"></ul>
+                </div>
+            </div>
+        `);
+        esgst.minimizeList = esgst.minimizePanel.firstElementChild.lastElementChild;
+    }
+    minimizePanel_addItem(popup) {
+        if (!esgst.minimizeList) {
+            return;
+        }
+
+        popup.minimizeItem = insertHtml(esgst.minimizeList, `beforeEnd`, `
+            <li class="esgst-minimize-item">
+                <a href="javascript:void(0);">${popup.title.textContent.replace(/:$/, ``)}</a>
+            </li>
+        `);
+        popup.minimizeLink = popup.minimizeItem.firstElementChild;
+        popup.minimizeItem.addEventListener(`click`, this.minimizePanel_openItem.bind(this, popup));
+    }
+    minimizePanel_openItem(popup) {
+        popup.open();
+        popup.minimizeItem.remove();
+        popup.minimizeItem = null;
+        if (!esgst.minimizePanel.getElementsByClassName(`alert`).length) {
+            esgst.minimizePanel.classList.remove(`alert`);
+        }
+    }
+    minimizePanel_alert(popup) {
+        if (popup.minimizeItem) {
+            popup.minimizeItem.classList.add(`alert`);
+        }
+        if (esgst.minimizePanel) {
+            esgst.minimizePanel.classList.add(`alert`);
+        }
+    }
     async loadFeatures() {
+        if (esgst.minimizePanel) {
+            this.minimizePanel_add();
+        }
+
         let hiddenButtonsBefore, hiddenButtonsAfter;
         if (esgst.hideButtons) {
             hiddenButtonsBefore = document.createElement(`div`);
@@ -7856,6 +8583,8 @@ class ESGST {
 
         if (esgst.qiv) this.qiv(true); // needs to wait for endless features
         if (esgst.es) this.es(); // needs to wait for everything else
+
+        observeStickyChanges(document.body);
 
         if (esgst.newGiveawayPath) {
             // when the user searches for a game in the new giveaway page, wait until the results appear and load the game features for them
@@ -8934,7 +9663,7 @@ class ESGST {
         comments = document.getElementsByClassName(`comments`)[0];
         if (comments && comments.children.length) {
             esgst.cerbButtons = [];
-            button = insertHtml(esgst.mainPageHeadingBackground || esgst.mainPageHeading, `afterEnd`, `
+            button = insertHtml(esgst.mainPageHeading, `afterEnd`, `
                 <div class="esgst-cerb-button esgst-clickable">
                     <span>
                         <i class="fa fa-minus-square"></i> Collapse all replies
@@ -9267,7 +9996,6 @@ class ESGST {
         this.endless_load(popup.getScrollable(html));
     }
     async cfh() {
-        this.cfh_addScrollingEvent(window, esgst.commentsTop);
         esgst.endlessFeatures.push(this.cfh_setTextAreas.bind(this));
         esgst.cfh = {
             backup: [],
@@ -9753,32 +10481,6 @@ class ESGST {
             `
         ).join(``);
     }
-    cfh_addScrollingEvent(context, baseTop = 0) {
-        let placeholder = null;
-        context.addEventListener(`scroll`, event => {
-            let unfix = true;
-            if (esgst.cfh.textArea) {
-                const textAreaTop = esgst.cfh.textArea.getBoundingClientRect().top,
-                      top = baseTop + (context !== window ? context.getBoundingClientRect().top : 0) + esgst.cfh.panel.offsetHeight;
-                if (textAreaTop < top && textAreaTop > -(esgst.cfh.textArea.offsetHeight - top)) {
-                    unfix = false;
-                    if (!esgst.cfh.panel.classList.contains(`esgst-cfh-panel-fixed`)) {
-                        esgst.cfh.panel.classList.add(`esgst-cfh-panel-fixed`);
-                        esgst.cfh.panel.style.top = `${baseTop || (context !== window && context.getBoundingClientRect().top)}px`;
-                        placeholder = insertHtml(esgst.cfh.panel, `beforeBegin`, `
-                            <div style="height: ${esgst.cfh.panel.offsetHeight}px;"></div>
-                        `);
-                    }
-                }
-            }
-            if (!unfix) return;
-            if (esgst.cfh.panel.classList.contains(`esgst-cfh-panel-fixed`)) {
-                esgst.cfh.panel.classList.remove(`esgst-cfh-panel-fixed`);
-                esgst.cfh.panel.style.top = ``;
-                placeholder.remove();
-            }
-        });
-    }
     cfh_setTextAreas(context, main, source, endless) {
         const elements = context.querySelectorAll(`${endless ? `.esgst-es-page-${endless} textarea[name*="description"], .esgst-es-page-${endless}textarea[name*="description"]` : `textarea[name*="description"]`}`);
         for (let i = elements.length - 1; i > -1; --i) {
@@ -9787,6 +10489,14 @@ class ESGST {
     }
     cfh_addPanel(textArea) {
         if (textArea === esgst.cfh.textArea) return;
+
+        const isNotMain = textArea.closest(`.esgst-popup, .esgst-popout`);
+        if (isNotMain) {
+            esgst.cfh.panel.style.top = `0px`;
+        } else {
+            esgst.cfh.panel.style.top = `${esgst.commentsTop}px`;
+        }
+
         textArea.parentElement.insertBefore(esgst.cfh.panel, textArea);
         textArea.onfocus = this.cfh_addPanel.bind(this, textArea);
         textArea.onpaste = event => {
@@ -9858,6 +10568,10 @@ class ESGST {
         esgst.cfh.textArea.value = `${value.slice(0, start)}${text}${value.slice(end)}`;
         esgst.cfh.textArea.setSelectionRange(range, range);
         esgst.cfh.textArea.focus();
+        if (esgst.cfh_p && esgst.cfh_p_a) {            
+            esgst.cfh.preview.innerHTML = this.parseMarkdown(esgst.cfh.textArea.value);
+            this.cfh_formatImages(esgst.cfh.preview);
+        }
     }
     cfh_formatLink(title, url, isImage, isPaste) {
         let end, start, value;
@@ -9876,6 +10590,10 @@ class ESGST {
             esgst.cfh.textArea.setSelectionRange(end + value.indexOf(`[`) + 1, end + value.indexOf(`[`) + 1);
         }
         esgst.cfh.textArea.focus();
+        if (esgst.cfh_p && esgst.cfh_p_a) {            
+            esgst.cfh.preview.innerHTML = this.parseMarkdown(esgst.cfh.textArea.value);
+            this.cfh_formatImages(esgst.cfh.preview);
+        }
     }
     async cfh_checkImgur(popout, url) {
         let value = await this.getValue(`imgurToken`);
@@ -10124,7 +10842,6 @@ class ESGST {
         descriptionArea = descriptionArea.lastElementChild;
         if (esgst.cfh) {
             this.cfh_addPanel(descriptionArea);
-            this.cfh_addScrollingEvent(popup.scrollable);
         }
         popup.description.appendChild(new ButtonSet(`green`, `grey`, `fa-check`, `fa-circle-o-notch fa-spin`, `Save`, `Saving...`, this.cfh_saveReply.bind(this, description, descriptionArea, name, nameArea, popup, replies, summary)).set);
         popup.open();
@@ -10233,7 +10950,6 @@ class ESGST {
             popup: {
                 icon: `fa-comments`,
                 title: `Comment History`,
-                addCfhEvent: true,
                 addProgress: true,
                 addScrollable: `left`
             },
@@ -10766,7 +11482,6 @@ class ESGST {
                         tooltip: `If unchecked, all pages will be searched.`
                     }
                 ],
-                addCfhEvent: true,
                 addProgress: true,
                 addScrollable: `left`
             },
@@ -11652,6 +12367,11 @@ class ESGST {
     }
     async df() {
         if (esgst.df_m && esgst.discussionsPath && !esgst.editDiscussionPath) {
+            esgst.style.insertAdjacentText(`beforeEnd`, `
+                .esgst-gf-container {
+                    top: ${esgst.commentsTop - 5}px;
+                }
+            `);
             if (esgst.hideButtons && esgst.hideButtons_df) {
                 if (esgst.leftButtonIds.indexOf(`df`) > -1) {
                     esgst.leftButtons.insertBefore(this.filters_addContainer(`df`, esgst.mainPageHeading), esgst.leftButtons.firstElementChild);
@@ -12291,7 +13011,6 @@ class ESGST {
             box = insertHtml(popup.scrollable, `beforeEnd`, `<textarea></textarea>`);
             if (esgst.cfh) {
                 this.cfh_addPanel(box);
-                this.cfh_addScrollingEvent(popup.scrollable);
             }
             popup.description.appendChild(new ButtonSet(`green`, `grey`, `fa-arrow-circle-right`, `fa-circle-o-notch fa-spin`, `Add Comment`, `Saving...`, async callback => {
                 if (box.value) {
@@ -12418,6 +13137,7 @@ class ESGST {
     es() {
         if (!esgst.mainPageHeading || !esgst.pagination) return;
         let es = {};
+        esgst.es = es;
         es.divisors = esgst.es_pd;
         es.mainContext = esgst.pagination.previousElementSibling;
         let rows = es.mainContext.getElementsByClassName(`table__rows`)[0];
@@ -12458,10 +13178,46 @@ class ESGST {
             es.pageBase = es.currentPage - 1;
             es.ended = (!esgst.paginationNavigation || esgst.paginationNavigation.lastElementChild.classList.contains(esgst.selectedClass));
         }
+        const options = {
+            rootMargin: `-${esgst.commentsTop + 1}px 0px 0px 0px`
+        };
+        es.observer = new IntersectionObserver(this.es_observe.bind(this, es), options);
         this.es_activate(es);
+    }
+    es_observe(es, entries) {
+        for (const entry of entries) {
+            if (!entry.target.getAttribute(`data-esgst-intersection`)) {
+                // So it doesn't get fired when starting to observe an element.
+                entry.target.setAttribute(`data-esgst-intersection`, true);
+                if (!entry.isIntersecting) {
+                    continue;
+                }
+            }
+
+            if (entry.target.classList.contains(`pagination`)) {
+                if (entry.isIntersecting) {
+                    esgst.pagination.setAttribute(`data-esgst-intersecting`, true);
+                    esgst.es_loadNext(null, true);
+                } else {
+                    esgst.pagination.removeAttribute(`data-esgst-intersecting`);
+                }
+            } else {
+                const index = parseInt(entry.target.className.match(/es-page-(\d+)/)[1]);
+                if (entry.isIntersecting) {
+                    this.es_changePagination(es, index);
+                } else if (entry.boundingClientRect.y <= entry.rootBounds.y) {
+                    // The intersection element is no longer visible, but was scrolled upwards,
+                    // so we can now change the pagination.
+                    this.es_changePagination(es, es.reverseScrolling ? index - 1 : index + 1);
+                }
+            }
+        }
     }
     async es_activate(es) {
         for (let i = 0, n = es.mainContext.children.length; i < n; ++i) {
+            if (i === n - 1) {
+                es.observer.observe(es.mainContext.children[i]);
+            }
             es.mainContext.children[i].classList.add(`esgst-es-page-${es.currentPage}`);
         }
         es.nextButton = this.createHeadingButton({featureId: `es`, id: `esNext`, icons: [`fa-step-forward`], title: `Load next page`});
@@ -12486,7 +13242,7 @@ class ESGST {
             if (esgst.lastPageLink && esgst.lastPage !== es.pageIndex && !lastLink.classList.contains(`is-selected`) && !lastLink.textContent.match(/Last/)) {
                 esgst.paginationNavigation.insertAdjacentHTML(`beforeEnd`, esgst.lastPageLink);
             }
-            this.es_setPagination();
+            this.es_setPagination(es);
         }
         es.busy = false;
         es.paused = await this.getValue(`esPause`, false);
@@ -12497,15 +13253,18 @@ class ESGST {
             this.es_resume(es, true);
         }
         es.pageIndex = es.currentPage;
-        document.addEventListener(`scroll`, this.es_changePagination.bind(this, es));
+        const options = {
+            rootMargin: `0px 0px ${innerHeight}px 0px`
+        };
+        const observer = new IntersectionObserver(this.es_observe.bind(this, es), options);
+        observer.observe(esgst.pagination);
         if (es.paused && es.reversePages) {
             esgst.es_loadNext();
         }
     }
-    async es_loadNext(es, callback) {
-        if (!esgst.stopEs && !es.busy && (!es.paused || es.reversePages) && !es.ended && (es.continuous || es.step ||  scrollY >= document.body.offsetHeight -  innerHeight * 2)) {
+    async es_loadNext(es, callback, force) {
+        if (!esgst.stopEs && !es.busy && (!es.paused || es.reversePages) && !es.ended && ((force && !es.continuous && !es.step) || (!force && (es.continuous || es.step)))) {
             es.busy = true;
-            document.removeEventListener(`scroll`, esgst.es_loadNext);
             es.progress = insertHtml(esgst.pagination.firstElementChild, `beforeEnd`, `
                 <span class="esgst-bold"><i class="fa fa-circle-o-notch fa-spin"></i> Loading next page...</span>
             `);
@@ -12530,7 +13289,7 @@ class ESGST {
                 if (esgst.lastPageLink && esgst.lastPage !== es.pageIndex && !lastLink.classList.contains(`is-selected`) && !lastLink.textContent.match(/Last/)) {
                     esgst.paginationNavigation.insertAdjacentHTML(`beforeEnd`, esgst.lastPageLink);
                 }
-                this.es_setPagination();
+                this.es_setPagination(es);
             }
             es.reversePages = false;
             if (es.currentPage === 999999999) {
@@ -12567,6 +13326,7 @@ class ESGST {
             }
             let element = elements[0];
             es.mainContext.insertBefore(fragment, element);
+            es.observer.observe(element.previousElementSibling);
             element.remove();
             if (!refreshAll) {
                 this.es_purgeRemovedElements();
@@ -12603,6 +13363,7 @@ class ESGST {
                 `);
             }
             es.mainContext.appendChild(fragment);
+            es.observer.observe(es.mainContext.lastElementChild);
             await this.endless_load(es.mainContext, true, null, currentPage);
             this.es_setRemoveEntry(es.mainContext);
             if (esgst.ts && !esgst.us) {
@@ -12619,10 +13380,13 @@ class ESGST {
                         callback();
                     }
                 } else if (!es.paused && !es.step) {
-                    if (!es.continuous) {
-                        document.addEventListener(`scroll`, esgst.es_loadNext);
+                    if (es.continuous) {
+                        esgst.es_loadNext(callback);
+                    } else if (callback && typeof callback === `function`) {
+                        callback();
+                    } else if (esgst.pagination.getAttribute(`data-esgst-intersecting`)) {
+                        esgst.es_loadNext(null, true);
                     }
-                    esgst.es_loadNext(callback);
                 } else if (callback && typeof callback === `function`) {
                     callback();
                 }
@@ -12635,10 +13399,13 @@ class ESGST {
                         callback();
                     }
                 } else if (!es.paused && !es.step) {
-                    if (!es.continuous) {
-                        document.addEventListener(`scroll`, esgst.es_loadNext);
+                    if (es.continuous) {
+                        esgst.es_loadNext(callback);
+                    } else if (callback && typeof callback === `function`) {
+                        callback();
+                    } else if (esgst.pagination.getAttribute(`data-esgst-intersecting`)) {
+                        esgst.es_loadNext(null, true);
                     }
-                    esgst.es_loadNext(callback);
                 } else if (callback && typeof callback === `function`) {
                     callback();
                 }
@@ -12668,35 +13435,15 @@ class ESGST {
             delete esgst.currentUsers[key];
         }
     }
-    es_changePagination(es) {
-        if (!esgst.paginationNavigation || es.paginations.length < 1) return;
-        if (scrollY +  innerHeight === document.documentElement.offsetHeight) {
-            es.pageIndex = es.reverseScrolling ? es.pageBase - es.paginations.length : es.pageBase + es.paginations.length;
-        } else {
-            let currentElement = document.querySelector(`.esgst-es-page-${es.pageIndex}:not(.esgst-hidden)`),
-                nextElement = document.querySelector(`.esgst-es-page-${es.reverseScrolling ? es.pageIndex - 1 : es.pageIndex + 1}:not(.esgst-hidden)`);
-            if (currentElement) {
-                if (scrollY + esgst.commentsTop < currentElement.offsetTop) {
-                    if (es.pageIndex !== es.currentPage) {
-                        es.pageIndex = es.reverseScrolling ? es.pageIndex + 1 : es.pageIndex - 1;
-                    }
-                } else if (nextElement &&  scrollY + esgst.commentsTop >= nextElement.offsetTop) {
-                    es.pageIndex = es.reverseScrolling ? es.pageIndex - 1 : es.pageIndex + 1;
-                }
-            } else if (nextElement &&  scrollY + esgst.commentsTop >= nextElement.offsetTop) {
-                es.pageIndex = es.reverseScrolling ? es.pageIndex - 1 : es.pageIndex + 1;
-            } else if (es.pageIndex !== es.currentPage) {
-                es.pageIndex = es.reverseScrolling ? es.pageIndex + 1 : es.pageIndex - 1;
-            }
-        }
-        let pagination = es.paginations[(es.reverseScrolling ? es.pageBase - es.pageIndex : es.pageIndex - es.pageBase) - 1] || es.paginations[0];
-        if (esgst.paginationNavigation.innerHTML !== pagination) {
+    es_changePagination(es, index) {
+        const pagination = es.paginations[index - 1];
+        if (pagination && esgst.paginationNavigation.innerHTML !== pagination) {
             esgst.paginationNavigation.innerHTML = pagination;
             let lastLink = esgst.paginationNavigation.lastElementChild;
             if (esgst.lastPageLink && esgst.lastPage !== es.pageIndex && !lastLink.classList.contains(`is-selected`) && !lastLink.textContent.match(/Last/)) {
                 esgst.paginationNavigation.insertAdjacentHTML(`beforeEnd`, esgst.lastPageLink);
             }
-            this.es_setPagination();
+            this.es_setPagination(es);
         }
     }
     async es_stepNext(es) {
@@ -12705,7 +13452,6 @@ class ESGST {
         es.step = true;
         const wasPaused = es.paused;
         await this.es_resume(es);
-        document.addEventListener(`scroll`, esgst.es_loadNext);
         esgst.es_loadNext(async () => {
             es.step = false;
             if (wasPaused) {
@@ -12722,7 +13468,6 @@ class ESGST {
         es.continuous = true;
         const wasPaused = es.paused;
         await this.es_resume(es);
-        document.addEventListener(`scroll`, esgst.es_loadNext);
         esgst.es_loadNext(async () => {
             es.continuous = false;
             if (wasPaused) {
@@ -12734,12 +13479,9 @@ class ESGST {
         });
     }
     async es_pause(es, firstRun) {
-        if (!es.ended) {
-            document.removeEventListener(`scroll`, esgst.es_loadNext);
-        }
+        es.paused = true;
         es.pauseButton.classList.add(`esgst-hidden`);
         es.resumeButton.classList.remove(`esgst-hidden`);
-        es.paused = true;
         if (!firstRun) {
             await this.setValue(`esPause`, es.paused);
         }
@@ -12747,15 +13489,14 @@ class ESGST {
         es.continuousButton.innerHTML = `<i class="fa fa-fast-forward"></i>`;
     }
     async es_resume(es, firstRun) {
+        es.paused = false;
         es.resumeButton.classList.add(`esgst-hidden`);
         es.pauseButton.classList.remove(`esgst-hidden`);
-        es.paused = false;
         if (!firstRun) {
             await this.setValue(`esPause`, es.paused);
         }
-        if (!es.ended && !es.continuous && !es.step) {
-            document.addEventListener(`scroll`, esgst.es_loadNext);
-            esgst.es_loadNext();
+        if (esgst.pagination.getAttribute(`data-esgst-intersecting`)) {
+            esgst.es_loadNext(null, true);
         }
     }
     async es_refresh(es) {
@@ -12829,18 +13570,20 @@ class ESGST {
             this.hr_refreshHeader(this.hr_getCache());
         }
     }
-    es_setPagination() {
+    es_setPagination(es) {
         let matches = esgst.paginationNavigation.children;
         for (let i = 0, n = matches.length; i < n; ++i) {
-            matches[i].addEventListener(`click`, this.es_setPaginationItem.bind(this));
+            matches[i].addEventListener(`click`, this.es_setPaginationItem.bind(this, es));
         }
     }
-    es_setPaginationItem(event) {
+    es_setPaginationItem(es, event) {
         event.preventDefault();
-        let page = event.currentTarget.getAttribute(`data-page-number`),
+        let page = parseInt(event.currentTarget.getAttribute(`data-page-number`)),
             element = document.querySelector(`.esgst-es-page-${page}:not(.esgst-hidden)`);
         if (element) {
-            animateScroll(element.offsetTop);
+            animateScroll(element.offsetTop, () => {
+                this.es_changePagination(es, page);
+            });
         } else {
             location.href = event.currentTarget.getAttribute(`href`);
         }
@@ -13093,162 +13836,59 @@ class ESGST {
     }
     // [F]
     ff() {
-        if (!esgst.footer) return;
+        if (!esgst.footer) {
+            return;
+        }
 
         esgst.footer.classList.add(`esgst-ff`);
-        esgst.pageOuterWrap.classList.add(`esgst-ff-sibling`);
     }
     fh() {
-        if (!esgst.header) return;
+        if (!esgst.header) {
+            return;
+        }
 
         esgst.header.classList.add(`esgst-fh`);
-        (((!esgst.giveawaysPath || (esgst.featuredContainer && !esgst.featuredContainer.classList.contains(`esgst-hidden`))) && esgst.featuredContainer) || esgst.pageOuterWrap).classList.add(`esgst-fh-sibling`);
-
-        let height = esgst.header.offsetHeight;
+        const height = esgst.header.offsetHeight;
         esgst.pageTop += height;
         esgst.commentsTop += height;
-        esgst.style.insertAdjacentText(`beforeEnd`, `
-            .esgst-fh-sibling {
-                margin-top: ${height}px;
-            }
-        `);
     }
     fmph() {
-        if (!esgst.mainPageHeading) return;
-        let height;
-        esgst.mainPageHeading.insertAdjacentHTML(`afterEnd`, `
-            <div class="esgst-fmph-placeholder esgst-hidden"></div>
-            <div class="esgst-fmph-background ${esgst.pageOuterWrapClass} esgst-hidden"></div>
-        `);
-        esgst.mainPageHeadingPlaceholder = esgst.mainPageHeading.nextElementSibling;
-        esgst.mainPageHeadingBackground = esgst.mainPageHeadingPlaceholder.nextElementSibling;
-        esgst.fmph_fix = this.fmph_fix.bind(this);
-        esgst.fmph_unfix = this.fmph_unfix.bind(this);
-        document.addEventListener(`scroll`, esgst.fmph_fix);
-        esgst.fmph_fix();
-        height = esgst.mainPageHeading.offsetHeight;
-        let newHeight = (esgst.gf && esgst.gf_m && (esgst.giveawaysPath || esgst.groupsPath || esgst.createdPath || esgst.enteredPath || esgst.wonPath)) || (esgst.df && esgst.df_m && esgst.discussionsPath) ? height + 23 : height;
+        if (!esgst.mainPageHeading) {
+            return;
+        }
+
         esgst.style.insertAdjacentText(`beforeEnd`, `
             .esgst-fmph {
-                position: fixed;
                 top: ${esgst.pageTop}px;
-                z-index: 998;
-            }
-            .esgst-fmph-placeholder {
-                height: ${newHeight}px;
-            }
-            .esgst-fmph-background {
-                height: ${esgst.pageTop + newHeight + 5}px;
-                padding: 0;
-                position: fixed;
-                top: 0;
-                z-index: 997;
-            }
-            .esgst-gf-container-fixed {
-                position: fixed;
-                top: ${esgst.pageTop + 34}px;
-                z-index: 998;
             }
         `);
-        esgst.commentsTop += height + 30;
-    }
-    fmph_fix() {
-        if (scrollY > (esgst.mainPageHeading.offsetTop - esgst.pageTop) && document.documentElement.offsetHeight > innerHeight) {
-            document.removeEventListener(`scroll`, esgst.fmph_fix);
-            esgst.mainPageHeading.classList.add(`esgst-fmph`);
-            esgst.mainPageHeadingPlaceholder.classList.remove(`esgst-hidden`);
-            esgst.mainPageHeadingBackground.classList.remove(`esgst-hidden`);
-            let width = `${getComputedStyle(esgst.mainPageHeading.parentElement).getPropertyValue(`width`)}`;
-            esgst.mainPageHeading.style.width = width;
-            esgst.mainPageHeadingBackground.style.width = width;
-            if (esgst.gf && esgst.gf.container) {
-                esgst.filterPlaceholder = insertHtml(esgst.mainPageHeadingBackground, `afterEnd`, `
-                    <div style="height: ${esgst.gf.container.offsetHeight}px;"></div>
-                `);
-                esgst.gf.container.classList.add(`esgst-gf-container-fixed`);
-                esgst.gf.container.style.width = width;
-            }
-            if (esgst.df && esgst.df.container) {
-                esgst.filterPlaceholder = insertHtml(esgst.mainPageHeadingBackground, `afterEnd`, `
-                    <div style="height: ${esgst.df.container.offsetHeight}px;"></div>
-                `);
-                esgst.df.container.classList.add(`esgst-gf-container-fixed`);
-                esgst.df.container.style.width = width;
-            }
-            document.addEventListener(`scroll`, esgst.fmph_unfix);
-        }
-    }
-    fmph_unfix() {
-        if (scrollY <= (esgst.mainPageHeadingPlaceholder.offsetTop - esgst.pageTop)) {
-            document.removeEventListener(`scroll`, esgst.fmph_unfix);
-            esgst.mainPageHeading.classList.remove(`esgst-fmph`);
-            esgst.mainPageHeadingPlaceholder.classList.add(`esgst-hidden`);
-            esgst.mainPageHeadingBackground.classList.add(`esgst-hidden`);
-            let width = ``;
-            esgst.mainPageHeading.style.width = width;
-            esgst.mainPageHeadingBackground.style.width = width;
-            if (esgst.gf && esgst.gf.container) {
-                if (esgst.filterPlaceholder) {
-                    esgst.filterPlaceholder.remove();
-                }
-                esgst.gf.container.classList.remove(`esgst-gf-container-fixed`);
-            }
-            if (esgst.df && esgst.df.container) {
-                if (esgst.filterPlaceholder) {
-                    esgst.filterPlaceholder.remove();
-                }
-                esgst.df.container.classList.remove(`esgst-gf-container-fixed`);
-            }
-            document.addEventListener(`scroll`, esgst.fmph_fix);
-        }
+
+        esgst.mainPageHeading.classList.add(`esgst-fmph`);
+        const height = esgst.mainPageHeading.offsetHeight;
+        esgst.commentsTop += height;
     }
     fs() {
-        if (!esgst.sidebar) return;
-        esgst.sidebarAd = esgst.sidebar.getElementsByClassName(`sidebar__mpu`)[0];
-        esgst.sidebarPlaceholder = insertHtml(esgst.sidebar, `afterEnd`, `
-            <div class="esgst-fs-placeholder esgst-hidden"></div>
-        `);
-        esgst.fs_fix = this.fs_fix.bind(this);
-        esgst.fs_unfix = this.fs_unfix.bind(this);
-        document.addEventListener(`scroll`, esgst.fs_fix);
-        esgst.fs_fix();
+        if (!esgst.sidebar) {
+            return;
+        }
+
+        const top = esgst.pageTop + 25;
         esgst.style.insertAdjacentText(`beforeEnd`, `
             .esgst-fs {
-                position: fixed;
-                top: ${esgst.pageTop}px;
+                max-height: calc(100vh - ${top + 30 + (esgst.ff ? 39 : 0)}px);
+                top: ${top}px;
             }
 
-            .esgst-fs-placeholder {
-                border: 0 !important;
-                box-shadow: none !important;
-                margin: 0 !important;
-                padding: 0 !important;
+            .esgst-fs.stuck {
+                height: calc(100vh - ${top + 30 + (esgst.ff ? 39 : 0)}px);
+            }
+
+            .sticky_sentinel--top {
+                top: ${esgst.sidebar.offsetTop - top - 1}px;
             }
         `);
-    }
-    fs_fix() {
-        if (scrollY > (esgst.sidebar.offsetTop - esgst.pageTop) && document.documentElement.offsetHeight >  innerHeight) {
-            document.removeEventListener(`scroll`, esgst.fs_fix);
-            esgst.sidebarPlaceholder.style.height = `${esgst.sidebar.offsetHeight}px`;
-            esgst.sidebarPlaceholder.style.maxWidth = `${esgst.sidebar.offsetWidth}px`;
-            esgst.sidebar.classList.add(`esgst-fs`);
-            if (esgst.sidebarAd) {
-                esgst.sidebarAd.classList.add(`esgst-hidden`);
-            }
-            esgst.sidebarPlaceholder.classList.remove(`esgst-hidden`);
-            document.addEventListener(`scroll`, esgst.fs_unfix);
-        }
-    }
-    fs_unfix() {
-        if (scrollY <= (esgst.sidebarPlaceholder.offsetTop - esgst.pageTop)) {
-            document.removeEventListener(`scroll`, esgst.fs_unfix);
-            esgst.sidebar.classList.remove(`esgst-fs`);
-            if (esgst.sidebarAd) {
-                esgst.sidebarAd.classList.remove(`esgst-hidden`);
-            }
-            esgst.sidebarPlaceholder.classList.add(`esgst-hidden`);
-            document.addEventListener(`scroll`, esgst.fs_fix);
-        }
+
+        esgst.sidebar.classList.add(`esgst-fs`, `sticky`);
     }
     // [G]
     gas(popup) {
@@ -13717,7 +14357,15 @@ class ESGST {
             }
         }
         if (esgst.gc_gi || esgst.gc_r || esgst.gc_a || esgst.gc_mp || esgst.gc_sc || esgst.gc_tc || esgst.gc_l || esgst.gc_m || esgst.gc_dlc || esgst.gc_ea || esgst.gc_rm || esgst.gc_rd || esgst.gc_g || esgst.gc_p) {
-            gc.cache = JSON.parse(getLocalValue(`gcCache`, `{ "apps": {}, "subs": {}, "timestamp": 0 }`));
+            gc.cache = JSON.parse(getLocalValue(`gcCache`, `{ "apps": {}, "subs": {}, "timestamp": 0, "version": 2 }`));
+            if (gc.cache.version !== 2) {
+                gc.cache = {
+                    apps: {},
+                    subs: {},
+                    timestamp: 0,
+                    version: 2
+                };
+            }
             let currentTime = Date.now();
             for (let id in gc.cache.apps) {
                 if (gc.cache.apps[id].lastCheck) {
@@ -13742,14 +14390,14 @@ class ESGST {
             let missingSubs = [];
             for (let i = 0, n = gc.apps.length; i < n; ++i) {
                 let id = gc.apps[i];
-                if (gc.cache.apps[id]) {
+                if (gc.cache.apps[id] && gc.cache.apps[id].name) {
                     continue;
                 }
                 missingApps.push(id);
             }
             for (let i = 0, n = gc.subs.length; i < n; ++i) {
                 let id = gc.subs[i];
-                if (gc.cache.subs[id]) {
+                if (gc.cache.subs[id] && gc.cache.subs[id].name) {
                     continue;
                 }
                 missingSubs.push(id);
@@ -13779,7 +14427,7 @@ class ESGST {
             let id = gc.subs[i];
             this.gc_addCategory(gc.cache.subs[id], games.subs[id], id, savedGames.subs[id], `subs`);
         }
-        let categories = [`achievements`, `dlc`, `dlcFree`, `dlcNonFree`, `genres`, `linux`, `mac`, `multiplayer`, `package`, `rating`, `removed`, `steamCloud`, `tradingCards`, `earlyAccess`, `releaseDate`];
+        let categories = [`achievements`, `dlc`, `dlcOwned`, `dlcFree`, `dlcNonFree`, `genres`, `linux`, `mac`, `multiplayer`, `package`, `rating`, `removed`, `steamCloud`, `tradingCards`, `earlyAccess`, `releaseDate`];
         for (let i = 0, n = esgst.mainGiveaways.length; i < n; ++i) {
             let giveaway = esgst.mainGiveaways[i];
             if (giveaway.gcReady || !giveaway.outerWrap.querySelector(`[data-gcReady]`)) {
@@ -13950,7 +14598,13 @@ class ESGST {
                     if (categories.achievements && data.achievements && data.achievements.total) {
                         categories.achievements = data.achievements.total;
                     }
+                    categories.free = data.is_free;
                     categories.dlc = data.type === `dlc` ? 1 : 0;
+                    if (categories.dlc && data.fullgame && data.fullgame.appid) {
+                        categories.base = parseInt(data.fullgame.appid);
+                    } else if (data.dlc) {
+                        categories.dlcs = data.dlc;
+                    }
                     let genres = [];
                     if (data.genres) {
                         for (let i = 0, n = data.genres.length; i < n; ++i) {
@@ -14023,8 +14677,13 @@ class ESGST {
                     categories.removed = 1;
                 }
             }
-            if (esgst.gc_dlc_b && categories.dlc && data && data.fullgame && data.fullgame.appid) {
-                categories.freeBase = JSON.parse((await this.request({method: `GET`, url: `http://store.steampowered.com/api/appdetails?appids=${data.fullgame.appid}&filters=basic&cc=us&l=en`})).responseText)[data.fullgame.appid].data.is_free;
+            if (esgst.gc_dlc_b && categories.dlc && categories.base) {
+                if (gc.cache.apps[categories.base]) {
+                    categories.freeBase = gc.cache.apps[categories.base].free;
+                }
+                if (typeof categories.freeBase === `undefined`) {
+                    categories.freeBase = JSON.parse((await this.request({method: `GET`, url: `http://store.steampowered.com/api/appdetails?appids=${categories.base}&filters=basic&cc=us&l=en`})).responseText)[data.fullgame.appid].data.is_free;
+                }
             }
             gc.cache[type][id] = categories;
         } catch (error) {
@@ -14266,8 +14925,54 @@ class ESGST {
                         break;
                     case `gc_dlc`:
                         if (cache && cache.dlc) {
+                            let baseOwned;
+                            if (esgst.gc_dlc_o) {
+                                if (cache.base && esgst.games.apps[cache.base]) {
+                                    baseOwned = esgst.games.apps[cache.base].owned;
+                                }
+                            }
                             elements.push(`
-                                <a class="esgst-gc esgst-gc-dlc" data-id="gc_dlc" href="http://store.steampowered.com/${singularType}/${id}" title="${this.getFeatureTooltip(`gc_dlc`, `DLC${typeof cache.freeBase !== `undefined` ? (cache.freeBase ? ` (the base game of this DLC is free)` : ` (the base game of this DLC is not free)`) : ``}`)}">${esgst.gc_dlc_s ? (esgst.gc_dlc_s_i ? `<i class="fa fa-${esgst.gc_dlcIcon}"></i>${typeof cache.freeBase !== `undefined` ? (cache.freeBase ? ` <i class="fa fa-certificate esgst-gc-dlcFree"></i>` : ` <i class="fa fa-money esgst-gc-dlcNonFree"></i>`) : ``}` : `DLC${typeof cache.freeBase !== `undefined` ? (cache.freeBase ? ` <span class="esgst-gc-dlcFree">(F)</span>` : ` <span class="esgst-gc-dlcNonFree">(NF)</span>`) : ``}`) : `${esgst.gc_dlcLabel}${typeof cache.freeBase !== `undefined` ? (cache.freeBase ? ` <span class="esgst-gc-dlcFree">(Free)</span>` : ` <span class="esgst-gc-dlcNonFree">(Not Free)</span>`) : ``}`}</a>
+                                <a class="esgst-gc esgst-gc-dlc" data-id="gc_dlc" href="http://store.steampowered.com/${singularType}/${id}" title="${this.getFeatureTooltip(`gc_dlc`, `DLC${esgst.gc_dlc_b && typeof cache.freeBase !== `undefined` ? (cache.freeBase ? ` (the base game of this DLC is free)` : ` (the base game of this DLC is not free)`) : ``}`)}">
+                                    ${esgst.gc_dlc_s ? (
+                                        esgst.gc_dlc_s_i ? `
+                                            <i class="fa fa-${esgst.gc_dlcIcon}"></i>
+                                            ${esgst.gc_dlc_o && baseOwned ? `
+                                                <i class="fa fa-${esgst.gc_oIcon} esgst-gc-dlcOwned"></i>
+                                            `: ``}
+                                            ${esgst.gc_dlc_b && typeof cache.freeBase !== `undefined` ? (
+                                                cache.freeBase ? `
+                                                    <i class="fa fa-certificate esgst-gc-dlcFree"></i>
+                                                ` : `
+                                                    <i class="fa fa-money esgst-gc-dlcNonFree"></i>
+                                                `
+                                            ) : ``}
+                                        ` : `
+                                            DLC
+                                            ${esgst.gc_dlc_o && baseOwned ? `
+                                                <span class="esgst-gc-dlcOwned">(O)</span>
+                                            `: ``}
+                                            ${esgst.gc_dlc_b && typeof cache.freeBase !== `undefined` ? (
+                                                cache.freeBase ? `
+                                                    <span class="esgst-gc-dlcFree">(F)</span>
+                                                ` : `
+                                                    <span class="esgst-gc-dlcNonFree">(NF)</span>
+                                                `
+                                            ) : ``}
+                                        `
+                                    ) : `
+                                        ${esgst.gc_dlcLabel}
+                                        ${esgst.gc_dlc_o && baseOwned ? `
+                                            <span class="esgst-gc-dlcOwned">(Owned)</span>
+                                        `: ``}
+                                        ${esgst.gc_dlc_b && typeof cache.freeBase !== `undefined` ? (
+                                            cache.freeBase ? `
+                                                <span class="esgst-gc-dlcFree">(Free)</span>
+                                            ` : `
+                                                <span class="esgst-gc-dlcNonFree">(Not Free)</span>
+                                            `
+                                        ) : ``}
+                                    `}
+                                </a>
                             `);
                         }
                         break;
@@ -15191,7 +15896,7 @@ class ESGST {
                     for (i = esgst.gf_presets.length - 1; i > -1 && esgst.gf_presets[i].name !== name; i--);
                     if (i > -1) {
                         const preset = esgst.gf_presets[i];
-                        filtered = this.filters_filterItem(this.gf_getFilters(true), giveaway, preset.rules);
+                        filtered = this.filters_filterItem(`gf`, this.gf_getFilters(true), giveaway, preset.rules);
                     }
                 }
                 if (filtered && isEnded && !giveaway.started) {
@@ -15229,6 +15934,7 @@ class ESGST {
             currentGiveaways[code] = giveaway;
             if (giveaway.started && isEnded) {
                 esgst.decryptedGiveaways[code].timestamp = giveaway.endTime;
+                esgst.edited.decryptedGiveaways = true;
             }
         }
         if (source) {
@@ -15236,6 +15942,7 @@ class ESGST {
                 source: source,
                 timestamp: (giveaway && giveaway.endTime) || 0
             };
+            esgst.edited.decryptedGiveaways = true;
         }
         return giveaway;
     }
@@ -15270,7 +15977,7 @@ class ESGST {
             ged.set.trigger();
         }
     }
-    async ged_addIcons(ged, comments, firstRun) {
+    async ged_addIcons(ged, comments) {
         let currentGiveaways = {};
         let currentTime = Date.now();
         let deleteLock = null;
@@ -15288,7 +15995,7 @@ class ESGST {
                 if (code.match(/currentVersion/)) {
                     continue;
                 }
-                if (!deleteLock && !firstRun) {
+                if (!deleteLock) {
                     deleteLock = await this.createLock(`gedLock`, 300);                    
                     esgst.decryptedGiveaways = JSON.parse(await this.getValue(`decryptedGiveaways`));
                 }
@@ -15312,11 +16019,12 @@ class ESGST {
                 `);
             }
         }
-        if (deleteLock || firstRun) {
-            await this.lockAndSaveGiveaways(currentGiveaways, firstRun);
-            if (deleteLock) {
-                deleteLock();
-            }
+        if (deleteLock) {
+            await this.lockAndSaveGiveaways(currentGiveaways);
+            deleteLock();
+        }
+        if (esgst.edited.decryptedGiveaways) {
+            await this.setValue(`decryptedGiveaways`, JSON.stringify(esgst.decryptedGiveaways));
         }
         if (ged.button && hasNew) {
             ged.button.classList.remove(`esgst-hidden`);
@@ -15444,11 +16152,39 @@ class ESGST {
             </div>
         `);
     }
+    geth() {
+        esgst.giveawayFeatures.push(this.geth_getGiveaways.bind(this));
+    }
+    geth_getGiveaways(giveaways) {
+        if (!esgst.geth_colors.length) {
+            return;
+        }
+
+        for (const giveaway of giveaways) {
+            if (!giveaway.started) {
+                continue;
+            }
+
+            const hoursLeft = (giveaway.endTime - Date.now()) / 3600000;
+            for (let i = esgst.geth_colors.length - 1; i > -1; i--) {
+                const colors = esgst.geth_colors[i];
+                if (hoursLeft >= parseFloat(colors.lower) && hoursLeft <= parseFloat(colors.upper)) {
+                    (giveaway.endTimeColumn_gv || giveaway.endTimeColumn).style.color = colors.color;
+                    break;
+                }
+            }
+        }
+    }
     gf() {
         if (esgst.gf_s) {
             esgst.giveawayFeatures.push(this.gf_getGiveaways.bind(this));
         }
         if (esgst.gf_m && (esgst.giveawaysPath || esgst.createdPath || esgst.enteredPath || esgst.wonPath || esgst.groupPath || esgst.userPath)) {
+            esgst.style.insertAdjacentText(`beforeEnd`, `
+                .esgst-gf-container {
+                    top: ${esgst.commentsTop - 5}px;
+                }
+            `);
             if (esgst.hideButtons && esgst.hideButtons_gf) {
                 if (esgst.leftButtonIds.indexOf(`gf`) > -1) {
                     esgst.leftButtons.insertBefore(this.filters_addContainer(`gf`, esgst.mainPageHeading), esgst.leftButtons.firstElementChild);
@@ -15788,6 +16524,12 @@ class ESGST {
                 name: `DLC`,
                 type: `boolean`
             },
+            dlcOwned: {
+                category: `gc_dlc_o`,  
+                check: true,              
+                name: `DLC (Owned Base)`,
+                type: `boolean`
+            },
             dlcFree: {
                 category: `gc_dlc_b`,  
                 check: true,              
@@ -15901,6 +16643,11 @@ class ESGST {
                 </div>
             </div>
         `);
+        
+        if (!obj.popup) {
+            esgst.commentsTop += obj.container.offsetHeight;
+        }
+
         const box = obj.container.firstElementChild;
         obj.filtersPanel = box.firstElementChild;
         const leftPanel = obj.filtersPanel.firstElementChild;
@@ -15931,7 +16678,7 @@ class ESGST {
             color2: `grey`,
             icon1: `fa-check`,
             icon2: `fa-circle-o-notch fa-spin`,
-            title1: `Save Preset`,
+            title1: `Save`,
             title2: `Saving...`,
             callback1: this.filters_savePreset.bind(this, obj)
         }).set);
@@ -15998,7 +16745,7 @@ class ESGST {
 
                     if (!esgst[`${obj.id}_m_b`]) {
                         context = insertHtml(booleanFilters, `beforeEnd`, `
-                            <div>
+                            <div ${esgst[`${obj.id}_${key}`] ? `` : `class="esgst-hidden"`}>
                                 <span></span> ${filter.name}
                             </div>
                         `);
@@ -16036,7 +16783,7 @@ class ESGST {
 
                         if (!esgst[`${obj.id}_m_b`]) {
                             context = insertHtml(numberFilters, `beforeEnd`, `
-                                <div>
+                                <div ${esgst[`${obj.id}_${key}`] ? `` : `class="esgst-hidden"`}>
                                     ${filter.name}
                                     <span>
                                         <input type="date">-<input type="date">
@@ -16059,7 +16806,7 @@ class ESGST {
 
                         if (!esgst[`${obj.id}_m_b`]) {
                             context = insertHtml(numberFilters, `beforeEnd`, `
-                                <div>
+                                <div ${esgst[`${obj.id}_${key}`] ? `` : `class="esgst-hidden"`}>
                                     ${filter.name}
                                     <span>
                                         <input type="number">-<input type="number">
@@ -16092,7 +16839,7 @@ class ESGST {
 
                     if (!esgst[`${obj.id}_m_b`]) {
                         context = insertHtml(stringFilters, `beforeEnd`, `
-                            <div>
+                            <div ${esgst[`${obj.id}_${key}`] ? `` : `class="esgst-hidden"`}>
                                 <span>
                                     <span></span> ${filter.name}
                                 </span>
@@ -16204,6 +16951,25 @@ class ESGST {
                         <div class="rule-operator-container"></div>
                         <div class="rule-value-container"></div>
                     </div>
+                `,
+                filterSelect: `
+                    {{ var optgroup = null; }}
+                    <select class="form-control" name="{{= it.rule.id }}_filter">
+                    {{? it.settings.display_empty_filter }}
+                        <option value="-1">{{= it.settings.select_placeholder }}</option>
+                    {{?}}
+                    {{~ it.filters: filter }}
+                        {{ var className = esgst['${obj.id}_{{= filter.id}}'] ? '' : 'class="esgst-hidden"'; }}
+                        {{? optgroup !== filter.optgroup }}
+                            {{? optgroup !== null }}</optgroup>{{?}}
+                            {{? (optgroup = filter.optgroup) !== null }}
+                                <optgroup label="{{= it.translate(it.settings.optgroups[optgroup]) }}">
+                            {{?}}
+                        {{?}}
+                        <option {{= className }} value="{{= filter.id }}" {{? filter.icon}}data-icon="{{= filter.icon}}"{{?}}>{{= it.translate(filter.label) }}</option>
+                    {{~}}
+                    {{? optgroup !== null }}</optgroup>{{?}}
+                    </select>
                 `
             };
             const options = {
@@ -16744,6 +17510,7 @@ class ESGST {
         obj.rules = adv;
         if (obj.rules.rules && obj.rules.rules.length) {
             if (esgst[`${obj.id}_m_a`]) {
+                obj.rules_save = obj.rules;
                 this.filters_filter(obj);
             } else {
                 obj.basicApplied = true;
@@ -16902,11 +17669,13 @@ class ESGST {
     }
     async filters_applyPreset(obj, popup, preset) {
         if (!preset.rules || !preset.rules.rules || !preset.rules.rules.length) {
-            popup.close();
-            const alPopup = new Popup(``, `Error! Cannot apply this preset. There might be something wrong with it. You can report this in the ESGST thread or on GitHub. Please include the following text in your report:`, true);
-            alPopup.scrollable.innerHTML = JSON.stringify(preset);
-            alPopup.open();
-            return;
+            preset.rules = {
+                condition: `AND`,
+                rules: [
+                    {empty: true}
+                ],
+                valid: true
+            };
         }
 
         if (!esgst[`${obj.id}_m_b`]) {
@@ -16914,7 +17683,6 @@ class ESGST {
             this.filters_applyBasic(obj, preset.rules);
         }        
         if (!esgst[`${obj.id}_m_a`]) {
-            console.log(preset.rules);
             obj.builder.setRules(preset.rules);
             [obj.rules, obj.rules_save] = this.filters_changeRules(obj);
         }
@@ -16989,9 +17757,6 @@ class ESGST {
         obj.collapseButton.classList.toggle(`esgst-hidden`);
         obj.expandButton.classList.toggle(`esgst-hidden`);
         obj.filtersPanel.classList.toggle(`esgst-hidden`);
-        if (esgst.filterPlaceholder) {
-            esgst.filterPlaceholder.style.height = `${obj.container.offsetHeight}px`;
-        }
     }
     filters_filter(obj, unfilter, endless) {
         if (!unfilter && !esgst[`${obj.id}_enable${obj.type}`]) return;
@@ -17007,7 +17772,7 @@ class ESGST {
                 if (item.outerWrap.classList.contains(`esgst-hidden`)) {
                     item.outerWrap.classList.remove(`esgst-hidden`);
                 }
-            } else if (this.filters_filterItem(obj.filters, item, obj.rules)) {
+            } else if (this.filters_filterItem(obj.id, obj.filters, item, obj.rules)) {
                 if (item.outerWrap.classList.contains(`esgst-hidden`)) {
                     item.outerWrap.classList.remove(`esgst-hidden`);
                 }
@@ -17016,9 +17781,6 @@ class ESGST {
             }
         }
         this.filters_updateCount(obj, endless);
-        if (esgst[`${obj.id}Type`] !== `Popup` && esgst.es_loadNext) {
-            esgst.es_loadNext();
-        }
     }
     /**
      * Checks if an item passes a set of filter rules.
@@ -17027,8 +17789,12 @@ class ESGST {
      * @param {object} rules An object containing the rules to check.
      * @returns {boolean} True if the item passed the filters and false otherwise.
      */
-    filters_filterItem(filters, item, rules) {
-        if (!rules || (!rules.id && (!rules.condition || (isSet(rules.valid) && !rules.valid)))) {
+    filters_filterItem(id, filters, item, rules) {
+        if (
+            !rules ||
+            (!rules.id && (!rules.condition || (isSet(rules.valid) && !rules.valid))) ||
+            (rules.id && !esgst[`${id}_${rules.id}`])
+        ) {
             return true;
         }
 
@@ -17039,7 +17805,7 @@ class ESGST {
                 // The giveaway must be filtered by all rules.
                 filtered = true;
                 for (const rule of rules.rules) {
-                    filtered = filtered && this.filters_filterItem(filters, item, rule);
+                    filtered = filtered && this.filters_filterItem(id, filters, item, rule);
                     if (!filtered) break;
                 }
             } else {
@@ -17047,7 +17813,7 @@ class ESGST {
                 filtered = false;
                 if (rules.rules.length) {
                     for (const rule of rules.rules) {
-                        filtered = filtered || this.filters_filterItem(filters, item, rule);
+                        filtered = filtered || this.filters_filterItem(id, filters, item, rule);
                         if (filtered) break;
                     }
                 } else {
@@ -17108,8 +17874,6 @@ class ESGST {
                 break;
             case `boolean`:
                 if (key === `regionRestricted` && esgst.parameters.region_restricted) break;
-
-                if (key === `dlc` && esgst.parameters.dlc) break;
 
                 if (
                     (
@@ -17637,6 +18401,9 @@ class ESGST {
                         if (games && games[id]) {
                             game.logo = games[id].capsule;
                             game.name = games[id].name;
+                        } else {
+                            game.logo = `https://steamcdn-a.akamaihd.net/steam/apps/${id}/header.jpg`;
+                            game.name = `${id}`;
                         }
                         if (glwc.games[id]) {
                             if (game.logo && game.name) {
@@ -17647,7 +18414,7 @@ class ESGST {
                             game.libraries = [];
                             game.wishlists = [];
                             glwc.games[id] = game;
-                    }
+                        }
                         glwc.games[id].wishlists.push(i);
                         glwc.users[i].wishlist.push(parseInt(id));
                     });
@@ -17881,6 +18648,7 @@ class ESGST {
                 game = glwc.games[value];
                 if (game) {
                     if (game.wishlists.length) {
+                        users = [];
                         game.wishlists.forEach(k => {
                             user = glwc.users[k];
                             users.push(`<a href="http://store.steampowered.com/wishlist/profiles/${user.steamId}">${user.username}</a>`);
@@ -18957,12 +19725,13 @@ class ESGST {
             giveaway.gvIcons = insertHtml(giveaway.innerWrap, `afterBegin`, `
                 <div class="esgst-gv-icons giveaway__columns">
                     <div class="esgst-gv-time" data-columnId="time" draggable="true">
-                            <span title="${giveaway.started ? `Ends` : `Starts`} ${giveaway.endTimeColumn.lastElementChild.textContent}">${getRemainingTime(giveaway.endTime)}</span>
+                        <span title="${giveaway.started ? `Ends` : `Starts`} ${giveaway.endTimeColumn.lastElementChild.textContent}">${getRemainingTime(giveaway.endTime)}</span>
                         <i class="fa fa-clock-o"></i>
                         <span title="Created ${giveaway.startTimeColumn.lastElementChild.previousElementSibling.textContent}">${getRemainingTime(giveaway.startTime)}</span>
                     </div>
                 </div>
             `);
+            giveaway.endTimeColumn_gv = giveaway.gvIcons.firstElementChild.firstElementChild;
             if (!esgst.lockGiveawayColumns) {
                 giveaway.gvIcons.addEventListener(`dragenter`, this.giveaways_getSource.bind(this, giveaway, false));
                 let item = giveaway.gvIcons.firstElementChild;
@@ -19395,6 +20164,8 @@ class ESGST {
         }
         if (esgst.lpv) {
             this.lpv_setStyle();
+        } else if (esgst.pv) {
+            this.pv_setStyle();
         }
     }
     async hr_refreshHeaderElements(context) {
@@ -21504,7 +22275,7 @@ class ESGST {
         }
     }
     mm(context, items, itemsKey) {
-        if (!context) return;
+        if (!context && !esgst.mainPageHeading) return;
         let obj = {
             button: this.createHeadingButton({
                 context,
@@ -23009,7 +23780,10 @@ class ESGST {
             }
         }
 
-        if (users.length === 0) return;
+        if (users.length === 0) {            
+            obj.popup.setDone();
+            return;
+        }
 
         // check users
         users = sortArray(users);
@@ -23077,11 +23851,15 @@ class ESGST {
             obj.popup.overallProgress.textContent = `${i + 1} of ${n} users checked...`;
         }
 
-        if (obj.isCanceled) return;
+        if (obj.isCanceled) {            
+            obj.popup.setDone();
+            return;
+        }
 
         if (!esgst.ust || obj.isMenu) {
             obj.button.classList.remove(`esgst-busy`);
             obj.popup.progress.innerHTML = ``;
+            obj.popup.setDone();
             return;
         }
 
@@ -23120,6 +23898,7 @@ class ESGST {
         await this.saveUsers(users);
         obj.button.classList.remove(`esgst-busy`);
         obj.popup.progress.innerHTML = ``;
+        obj.popup.setDone();
     }
     namwc_stop(obj) {
         obj.button.classList.remove(`esgst-busy`);
@@ -23541,7 +24320,7 @@ class ESGST {
         dealsSwitch = deals.firstElementChild.firstElementChild;
         dealsRows = deals.lastElementChild.lastElementChild;
         let preset = null;
-        if (esgst.df) {
+        if (esgst.df && esgst.df_m && esgst.df_enable) {
             let name = esgst.df_preset;
             if (name) {
                 let i;
@@ -23564,14 +24343,14 @@ class ESGST {
         }
         const filters = this.df_getFilters();
         for (i = 0, j = elements.length - 1; i < 5 && j > -1; j--) {
-            if (!preset || this.filters_filterItem(filters, elements[j], preset.rules)) {
+            if (!preset || this.filters_filterItem(`df`, filters, elements[j], preset.rules)) {
                 discussionsRows.appendChild(elements[j].outerWrap);
                 i += 1;
             }
         }
         elements = await this.discussions_get(response2Html, true);
         for (i = 0, j = elements.length - 1; i < 5 && j > -1; j--) {
-            if (!preset || this.filters_filterItem(filters, elements[j], preset.rules)) {
+            if (!preset || this.filters_filterItem(`df`, filters, elements[j], preset.rules)) {
                 dealsRows.appendChild(elements[j].outerWrap);
                 i += 1;
             }
@@ -23805,6 +24584,49 @@ class ESGST {
         deleteLock();
         return true;
     }
+    pv() {
+        this.pv_setStyle();
+    }
+    pv_setStyle() {
+        const points = Math.min(400, esgst.points);
+        const percentage = points / 400 * 100;
+        const progress = parseInt(percentage * 1.86); // 186px is the width of the button
+        const firstBar = `${progress}px`;
+        const secondBar = `${Math.max(0, progress - 157)}px`; // 157px is the width of the button without the arrow
+        if (!esgst.pvStyle) {
+            esgst.pvStyle = insertHtml(esgst.style, `afterEnd`, `<style id="esgst-pv-style"></style>`);
+        }
+        esgst.pvStyle.innerHTML = `
+            .esgst-lpv-container {
+                background-image: linear-gradient(to right, var(--esgst-lpv-bar, #609f60) ${firstBar}, transparent ${firstBar}), var(--esgst-lpv-button, linear-gradient(#8a92a1 0px, #757e8f 8px, #4e5666 100%)) !important;
+            }
+            .esgst-lpv-container .nav__button--is-dropdown:hover {
+                background-image: linear-gradient(to right, var(--esgst-lpv-bar-hover, #6dac6d) ${firstBar}, transparent ${firstBar}), var(--esgst-lpv-button-hover, linear-gradient(#9ba2b0 0px, #8c94a3 8px, #596070 100%)) !important;
+            }
+            .esgst-lpv-container .nav__button--is-dropdown-arrow:hover {
+                background-image: linear-gradient(to right, var(--esgst-lpv-bar-hover, #6dac6d) ${secondBar}, transparent ${secondBar}), var(--esgst-lpv-button-hover, linear-gradient(#9ba2b0 0px, #8c94a3 8px, #596070 100%)) !important;
+            }
+            .esgst-lpv-container .nav__button--is-dropdown-arrow.is-selected {
+                background-image: linear-gradient(to right, var(--esgst-lpv-bar, #609f60) ${secondBar}, transparent ${secondBar}), var(--esgst-lpv-arrow, linear-gradient(#4e525f 0px, #434857 5px, #2b2e3a 100%)) !important;
+            }
+            .esgst-lpv-container.is-selected .nav__button--is-dropdown {
+                background-image: linear-gradient(to right, var(--esgst-lpv-bar-hover, #6dac6d) ${firstBar}, transparent ${firstBar}), var(--esgst-lpv-button-selected, linear-gradient(#d0d5de 0px, #c9cdd7 5px, #9097a6 100%)) !important;
+            }
+            .esgst-lpv-container.is-selected .nav__button--is-dropdown-arrow {
+                background-image: linear-gradient(to right, var(--esgst-lpv-bar-hover, #6dac6d) ${secondBar}, transparent ${secondBar}), var(--esgst-lpv-button-selected, linear-gradient(#d0d5de 0px, #c9cdd7 5px, #9097a6 100%)) !important;
+            }
+            .esgst-lpv-container.is-selected .nav__button--is-dropdown:hover {
+                background-image: linear-gradient(to right, var(--esgst-lpv-bar-selected, #7ab97a) ${firstBar}, transparent ${firstBar}), var(--esgst-lpv-button-selected-hover, linear-gradient(#f0f1f5 0px, #d1d4de 100%)) !important;
+            }
+            .esgst-lpv-container.is-selected .nav__button--is-dropdown-arrow:hover:not(.is-selected) {
+                background-image: linear-gradient(to right, var(--esgst-lpv-bar-selected, #7ab97a) ${secondBar}, transparent ${secondBar}), var(--esgst-lpv-button-selected-hover, linear-gradient(#f0f1f5 0px, #d1d4de 100%)) !important;
+            }
+            .esgst-lpv-container.is-selected .nav__button--is-dropdown-arrow.is-selected {
+                background-image: linear-gradient(to right, var(--esgst-lpv-bar-selected, #7ab97a) ${secondBar}, transparent ${secondBar}), var(--esgst-lpv-arrow-selected, linear-gradient(#4e525f 0px, #434857 5px, #2b2e3a 100%)) !important;
+            }
+        `;
+        esgst.mainButton.parentElement.classList.add(`esgst-lpv-container`);
+    }
     // [Q]
     qgs() {
         let container = insertHtml(document.getElementsByClassName(`nav__left-container`)[0], `afterBegin`, `
@@ -23834,23 +24656,22 @@ class ESGST {
     }
     qiv(first) {
         if (!esgst.inboxButton) return;
-        if (first) {
+
+        if (typeof esgst.qiv !== `object`) {
             esgst.qiv = {
                 nextPage: 1
             };
-            if (esgst.qiv_p) {
-                esgst.qiv.popout = new Popout(`esgst-qiv-popout`, null, 1000);
-                esgst.qiv.popout.onClose = this.qiv_removeNew.bind(this);
-                if (esgst.messageCount > 0) {
-                    this.qiv_addMarkReadButton();
-                }
-                esgst.qiv.comments = insertHtml(esgst.qiv.popout.popout, `beforeEnd`, `<div class="esgst-qiv-comments"></div>`);
-                if (esgst.cfh) {
-                    this.cfh_addScrollingEvent(esgst.qiv.comments);
-                }
-                esgst.qiv.comments.addEventListener(`scroll`, this.qiv_scroll.bind(this, false, false));
-                this.qiv_scroll(true);
+        }
+
+        if (first && esgst.qiv_p) {
+            esgst.qiv.popout = new Popout(`esgst-qiv-popout`, null, 1000);
+            esgst.qiv.popout.onClose = this.qiv_removeNew.bind(this);
+            if (esgst.messageCount > 0) {
+                this.qiv_addMarkReadButton();
             }
+            esgst.qiv.comments = insertHtml(esgst.qiv.popout.popout, `beforeEnd`, `<div class="esgst-qiv-comments"></div>`);
+            esgst.qiv.comments.addEventListener(`scroll`, this.qiv_scroll.bind(this, false, false));
+            this.qiv_scroll(true);
         }
         esgst.inboxButton.addEventListener(`mouseenter`, this.qiv_openPopout.bind(this));
         esgst.inboxButton.addEventListener(`mouseleave`, event => {
@@ -23872,14 +24693,11 @@ class ESGST {
             } else {
                 esgst.qiv.popout = new Popout(`esgst-qiv-popout`, null, 1000);
                 esgst.qiv.popout.onClose = this.qiv_removeNew.bind(this);
-                esgst.qiv.popout.open(esgst.inboxButton);
                 if (esgst.messageCount > 0) {
                     this.qiv_addMarkReadButton();
                 }
                 esgst.qiv.comments = insertHtml(esgst.qiv.popout.popout, `beforeEnd`, `<div class="esgst-qiv-comments"></div>`);
-                if (esgst.cfh) {
-                    this.cfh_addScrollingEvent(esgst.qiv.comments);
-                }
+                esgst.qiv.popout.open(esgst.inboxButton);
                 esgst.qiv.comments.addEventListener(`scroll`, this.qiv_scroll.bind(this, false, false));
                 this.qiv_scroll(true);
             }
@@ -23903,15 +24721,16 @@ class ESGST {
             const firstPage = esgst.qiv.comments.firstElementChild;
             let doContinue = false;
             do {
-                const loading = insertHtml(esgst.qiv.popout.popout,
-                          first || preload ? `afterBegin` : `beforeEnd`, `
-                              <span><i class="fa fa-circle-o-notch fa-spin"></i> Loading...</span>
-                          `),
-                      context = this.parseHtml((await this.request({
-                              method: `GET`,
-                              url: `/messages/search?page=${esgst.qiv.nextPage}`
-                          })).responseText)
-                          .querySelector(`.page__heading, .page_heading`).nextElementSibling;
+                const loading = insertHtml(
+                    esgst.qiv.popout.popout,
+                    first || preload ? `afterBegin` : `beforeEnd`, `
+                    <span><i class="fa fa-circle-o-notch fa-spin"></i> Loading...</span>
+                `);
+                esgst.qiv.popout.reposition(esgst.inboxButton);
+                const context = this.parseHtml((await this.request({
+                    method: `GET`,
+                    url: `/messages/search?page=${esgst.qiv.nextPage}`
+                })).responseText).querySelector(`.page__heading, .page_heading`).nextElementSibling;
                 loading.remove();
 
                 if (preload) {
@@ -24042,7 +24861,7 @@ class ESGST {
         }
     }
     rbot() {
-        let element = esgst.mainPageHeadingBackground || esgst.mainPageHeading;
+        let element = esgst.mainPageHeading;
         if (!esgst.replyBox) {
             if (esgst.st && esgst.userPath) {
                 let review = document.getElementsByClassName(`notification yellow`)[0];
@@ -24067,9 +24886,6 @@ class ESGST {
         popup.textArea = insertHtml(popup.scrollable, `beforeEnd`, `
             <textarea name="description"></textarea>
         `);
-        if (esgst.cfh) {
-            this.cfh_addScrollingEvent(popup.scrollable);
-        }
         popup.description.appendChild(new ButtonSet(`green`, `grey`, `fa-check`, `fa-circle-o-notch fa-spin`, `Save`, `Saving...`, Callback => {
             popup.progress.innerHTML = ``;
             this.saveComment(esgst.sg ? `` : document.querySelector(`[name="trade_code"]`).value, ``, popup.textArea.value, esgst.sg ? location.href.match(/(.+?)(#.+?)?$/)[1] : `/ajax.php`, popup.progress,
@@ -24298,7 +25114,6 @@ class ESGST {
         textArea = insertHtml(popup.scrollable, `beforeEnd`, `<textarea></textarea>`);
         if (esgst.cfh) {
             this.cfh_addPanel(textArea);
-            this.cfh_addScrollingEvent(popup.scrollable);
         }
         popup.description.appendChild(new ButtonSet(`green`, `grey`, `fa-check`, `fa-circle-o-notch fa-spin`, `Save`, `Saving...`, callback => {
             progress.innerHTML = ``;
@@ -25134,7 +25949,11 @@ class ESGST {
                 `);
                 break;
         }
-        button.addEventListener(`click`, () => animateScroll(document.documentElement.offsetHeight));
+        button.addEventListener(`click`, () => animateScroll(document.documentElement.offsetHeight, () => {            
+            if (esgst.es) {            
+                this.es_changePagination(esgst.es, esgst.es.reverseScrolling ? 1 : esgst.es.paginations.length);
+            }
+        }));
     }
     sto() {
         esgst.endlessFeatures.push(this.sto_setLinks.bind(this));
@@ -25197,7 +26016,11 @@ class ESGST {
                 `);
                 break;
         }
-        button.addEventListener(`click`, animateScroll.bind(null, 0));
+        button.addEventListener(`click`, animateScroll.bind(null, 0, () => {
+            if (esgst.es) {            
+                this.es_changePagination(esgst.es, esgst.es.reverseScrolling ? esgst.es.paginations.length : 1);
+            }
+        }));
     }
     swr() {
         esgst.profileFeatures.push(this.swr_add.bind(this));
@@ -25709,9 +26532,12 @@ class ESGST {
     }
     ugd() {
         esgst.profileFeatures.push(this.ugd_addButtons.bind(this));
+        if (esgst.ugd_s) {
+            esgst.profileFeatures.push(this.ugd_addStats.bind(this));
+        }
     }
     ugd_addButtons(profile) {
-        let user = {
+        const user = {
             steamId: profile.steamId,
             id: profile.id,
             username: profile.username
@@ -25719,620 +26545,785 @@ class ESGST {
         this.ugd_add(profile.wonRowLeft, `won`, user);
         this.ugd_add(profile.sentRowLeft, `sent`, user);
     }
-    ugd_add(Context, key, user) {
-        let UGD, UGDButton, popup;
-        UGD = {
-            key: key
-        };
-        Context.insertAdjacentHTML(`beforeEnd`, `
-            <span class="esgst-ugd-button" title="${this.getFeatureTooltip(`ugd`, `Get ${UGD.key} giveaways data`)}">
-                <i class="fa fa-bar-chart"></i>
-            </span>
-        `);
-        UGDButton = Context.lastElementChild;
-        popup = new Popup(`fa-bar-chart`, `Get ${user.username}'s ${UGD.key} giveaways data:`);
-        insertHtml(popup.description, `beforeEnd`, `<div></div>`).appendChild(createOptions([{
-            check: UGD.key === `won`,
-            dependencies: [`ugd_getAchievements`],
-            description: `Get playtime stats.`,
-            id: `ugd_getPlaytime`,
-            tooltip: `Get playtime stats for each won game by this user (requires a Steam API Key inserted into the settings menu - does not check DLCs/packages).`
-        }, {
-            check: UGD.key === `won`,
-            description: `Get achievements stats.`,
-            id: `ugd_getAchievements`,
-            tooltip: `Get achievements stats for each won game by this user (slower - does not check DLCs/packages).`
-        }, {
-            check: true,
-            description: `Clear cache.`,
-            id: `ugd_clearCache`,
-            tooltip: `If enabled, the cache will be cleared and all giveaways will be retrieved again (slower).`
-        }]));
-        popup.description.appendChild(new ButtonSet(`green`, `grey`, `fa-bar-chart`, `fa-times-circle`, `Get Data`, `Cancel`, async Callback => {
-            UGD.canceled = false;
-            UGDButton.classList.add(`esgst-busy`);
-            let ugd, giveaways;
-            const savedUser = await this.getUser(null, user);
-            if (savedUser) {
-                giveaways = savedUser.giveaways;
-            }
-            if (!giveaways) {
-                giveaways = {
-                    sent: {
-                        apps: {},
-                        subs: {}
-                    },
-                    won: {
-                        apps: {},
-                        subs: {}
-                    },
-                    sentTimestamp: 0,
-                    wonTimestamp: 0
-                };
-                if (savedUser) {
-                    ugd = savedUser.ugd;
-                    if (ugd) {
-                        let ggiveaways = {};
-                        if (ugd.sent) {
-                            for (let key in ugd.sent.apps) {
-                                giveaways.sent.apps[key] = [];
-                                for (let i = 0, n = ugd.sent.apps[key].length; i < n; ++i) {
-                                    ggiveaways[ugd.sent.apps[key][i].code] = ugd.sent.apps[key][i];
-                                    giveaways.sent.apps[key].push(ugd.sent.apps[key][i].code);
-                                }
-                            }
-                            for (let key in ugd.sent.subs) {
-                                giveaways.sent.subs[key] = [];
-                                for (let i = 0, n = ugd.sent.subs[key].length; i < n; ++i) {
-                                    ggiveaways[ugd.sent.subs[key][i].code] = ugd.sent.subs[key][i];
-                                    giveaways.sent.subs[key].push(ugd.sent.subs[key][i].code);
-                                }
-                            }
-                            giveaways.sentTimestamp = ugd.sentTimestamp;
-                        }
-                        if (ugd.won) {
-                            for (let key in ugd.won.apps) {
-                                giveaways.won.apps[key] = [];
-                                for (let i = 0, n = ugd.won.apps[key].length; i < n; ++i) {
-                                    ggiveaways[ugd.won.apps[key][i].code] = ugd.won.apps[key][i];
-                                    giveaways.won.apps[key].push(ugd.won.apps[key][i].code);
-                                }
-                            }
-                            for (let key in ugd.won.subs) {
-                                giveaways.won.subs[key] = [];
-                                for (let i = 0, n = ugd.won.subs[key].length; i < n; ++i) {
-                                    ggiveaways[ugd.won.subs[key][i].code] = ugd.won.subs[key][i];
-                                    giveaways.won.subs[key].push(ugd.won.subs[key][i].code);
-                                }
-                            }
-                            giveaways.wonTimestamp = ugd.wonTimestamp;
-                        }
-                        if (Object.keys(ggiveaways).length > 0) {
-                            await this.lockAndSaveGiveaways(ggiveaways);
-                        }
-                    }
-                }
-            }
-            if (esgst.ugd_clearCache) {
-                giveaways[UGD.key] = null;
-            }
-            if (!giveaways.sent) {
-                giveaways.sent = {
-                    apps: {},
-                    subs: {}
-                };
-                giveaways.sentTimestamp = 0;
-            }
-            if (!giveaways.won) {
-                giveaways.won = {
-                    apps: {},
-                    subs: {}
-                };
-                giveaways.wonTimestamp = 0;
-            }
-            if (UGD.key === `sent` && user.username === esgst.username && giveaways.version !== `7.13.0`) {
-                giveaways.sent = {
-                    apps: {},
-                    subs: {}
-                };
-                giveaways.sentTimestamp = 0;
-                giveaways.version = `7.13.0`;
-            }
-            UGD.giveaways = {};
-            user.values = {
-                giveaways: await this.ugd_get(UGD, giveaways, 1, user.username),
-                ugd: null
-            };
-            await this.saveUser(null, null, user);
-            let Giveaways, Types, TypesTotal, Frequencies, Total, LevelsTotal;
-            UGDButton.classList.remove(`esgst-busy`);
-            Giveaways = giveaways[UGD.key];
-                Types = {
-                    Everyone: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-                    Invite: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-                    Group: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-                    Whitelist: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-                    Group_Whitelist: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-                    Region: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-                    Region_Invite: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-                    Region_Group: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-                    Region_Whitelist: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-                    Region_Group_Whitelist: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
-                };
-                TypesTotal = {
-                    Everyone: 0,
-                    Invite: 0,
-                    Group: 0,
-                    Whitelist: 0,
-                    Group_Whitelist: 0,
-                    Region: 0,
-                    Region_Invite: 0,
-                    Region_Group: 0,
-                    Region_Whitelist: 0,
-                    Region_Group_Whitelist: 0
-                };
-                LevelsTotal = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
-                Total = 0;
-                Frequencies = {};
-            UGD.progress.textContent = `Calculating stats...`;
-            this.ugd_count(Frequencies, Giveaways.apps, LevelsTotal, Total, UGD.key === `won` ? `creators` : `apps`, Types, TypesTotal, UGD, (LevelsTotal, Total) => {
-                this.ugd_count(Frequencies, Giveaways.subs, LevelsTotal, Total, UGD.key === `won` ? `creators` : `subs`, Types, TypesTotal, UGD, async (LevelsTotal, Total) => {
-                    let Type, I, N, Value, Ordered;
-                    UGD.HTML = `
-                        <div class="esgst-ugd-table table">
-                            <div class="table__heading">
-                                <div class="table__column--width-small text-center">Type</div>
-                                <div class="table__column--width-small text-center">Level 0</div>
-                                <div class="table__column--width-small text-center">Level 1</div>
-                                <div class="table__column--width-small text-center">Level 2</div>
-                                <div class="table__column--width-small text-center">Level 3</div>
-                                <div class="table__column--width-small text-center">Level 4</div>
-                                <div class="table__column--width-small text-center">Level 5</div>
-                                <div class="table__column--width-small text-center">Level 6</div>
-                                <div class="table__column--width-small text-center">Level 7</div>
-                                <div class="table__column--width-small text-center">Level 8</div>
-                                <div class="table__column--width-small text-center">Level 9</div>
-                                <div class="table__column--width-small text-center">Level 10</div>
-                                <div class="table__column--width-small text-center">Total</div>
-                            </div>
-                            <div class="table__rows">
-                    `;
-                    for (Type in Types) {
-                        UGD.HTML += `
-                                <div class="table__row-outer-wrap">
-                                    <div class="table__row-inner-wrap">
-                                            <div class="table__column--width-small text-center">${Type.replace(/_/g, ` + `)}</div>
-                        `;
-                        for (I = 0; I <= 10; ++I) {
-                            Value = Types[Type][I];
-                            UGD.HTML += `
-                                        <div class="table__column--width-small text-center${Value ? `` : ` is-faded`}">${Value}</div>
-                            `;
-                        }
-                        Value = Math.round(TypesTotal[Type] / Total * 10000) / 100;
-                        UGD.HTML += `
-                                        <div class="table__column--width-small text-center${Value ? `` : ` is-faded`}">${TypesTotal[Type]} (${Value}%)</div>
-                                    </div>
-                                </div>
-                        `;
-                    }
-                    UGD.HTML += `
-                                <div class="table__row-outer-wrap">
-                                    <div class="table__row-inner-wrap">
-                                        <div class="table__column--width-small text-center">Total</div>
-                    `;
-                    for (I = 0; I <= 10; ++I) {
-                        Value = Math.round(LevelsTotal[I] / Total * 10000) / 100;
-                        UGD.HTML += `
-                                        <div class="table__column--width-small text-center${Value ? `` : ` is-faded`}">${LevelsTotal[I]} (${Value}%)</div>
-                        `;
-                    }
-                    UGD.HTML += `
-                                        <div class="table__column--width-small text-center${Total ? `` : ` is-faded`}">${Total}</div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    `;
-                    Ordered = [];
-                    for (const Key in Frequencies.apps) {
-                        for (I = 0, N = Ordered.length; (I < N) && (Frequencies.apps[Key].frequency <= Ordered[I].frequency); ++I);
-                        Ordered.splice(I, 0, Frequencies.apps[Key]);
-                    }
-                    for (const Key in Frequencies.subs) {
-                            for (I = 0, N = Ordered.length; (I < N) && (Frequencies.subs[Key].frequency <= Ordered[I].frequency); ++I);
-                        Ordered.splice(I, 0, Frequencies.subs[Key]);
-                    }
-                    for (const Key in Frequencies.creators) {
-                        for (I = 0, N = Ordered.length; (I < N) && (Frequencies.creators[Key].frequency <= Ordered[I].frequency); ++I);
-                        Ordered.splice(I, 0, Frequencies.creators[Key]);
-                    }
-                    UGD.ordered = Ordered;
-                    if (UGD.key === `won` && esgst.ugd_getPlaytime && esgst.steamApiKey) {
-                        UGD.progress.textContent = `Retrieving game stats...`;
-                        UGD.HTML += `
-                            <div class="esgst-ugd-table table">
-                                <div class="table__heading">
-                                    <div class="table__column--width-fill">Game</div>
-                                    <div class="table__column--width-small text-center">Playtime (Last 2 Weeks)</div>
-                                    <div class="table__column--width-small text-center">Playtime (Forever)</div>
-                                    ${esgst.ugd_getAchievements ? `<div class="table__column--width-small text-center">Achievements</div>` : ``}
-                                    <div class="table__column--width-small text-center">Gifter</div>
-                                </div>
-                                <div class="table__rows">
-                        `;
-                        let check, games = JSON.parse((await this.request({method: `GET`, url: `https://api.steampowered.com/IPlayerService/GetOwnedGames/v0001/?key=${esgst.steamApiKey}&steamid=${user.steamId}&format=json`})).responseText).response.games, id;
-                        check = new CompletionCheck(Object.keys(Giveaways.apps).length + Object.keys(Giveaways.subs).length, this.ugd_complete.bind(this, popup, UGD, Callback), () => {
-                            UGD.progress.textContent = `Retrieving game stats (${check.count} of ${check.total})...`;
-                        });
-                        UGD.total = check.total;
-                        UGD.playedCount = 0;
-                        UGD.achievementsCount = 0;
-                        UGD.achievementsTotal = 0;
-                        for (id in Giveaways.apps) {
-                            let i;
-                            for (i = games.length - 1; i >= 0 && games[i].appid !== parseInt(id); --i);
-                            let giveaway = typeof Giveaways.apps[id][0] === `string` ? esgst.giveaways[Giveaways.apps[id][0]] : Giveaways.apps[id][0];
-                            if (i >= 0) {
-                                let game = games[i];
-                                let time2Weeks = game.playtime_2weeks;
-                                let timeForever = game.playtime_forever;
-                                if (timeForever > 0) {
-                                    UGD.playedCount += 1;
-                                }
-                                time2Weeks = time2Weeks && time2Weeks > 0 ? (time2Weeks > 60 ? `${Math.round(time2Weeks / 60 * 100) / 100}h` : `${time2Weeks}m`) : `0`;
-                                timeForever = timeForever > 0 ? (timeForever > 60 ? `${Math.round(timeForever / 60 * 100) / 100}h` : `${timeForever}m`) : `0`;
-                                if (esgst.ugd_getAchievements) {
-                                    let responseJson = JSON.parse((await this.request({method: `GET`, url: `http://api.steampowered.com/ISteamUserStats/GetPlayerAchievements/v0001/?appid=${game.appid}&key=${esgst.steamApiKey}&steamid=${user.steamId}`})).responseText).playerstats, achievements, count = 0, total = 0;
-                                    if (responseJson.success && responseJson.achievements) {
-                                        responseJson.achievements.forEach(achievement => {
-                                            if (achievement.achieved) {
-                                                count += 1;
-                                            }
-                                            total += 1;
-                                        });
-                                        if (count > 0) {
-                                            UGD.achievementsCount += 1;
-                                        }
-                                        UGD.achievementsTotal += 1;
-                                        achievements = `${count}/${total} (${Math.round(count / total * 10000) / 100}%)`;
-                                    } else {
-                                        achievements = `0/0`;
-                                    }
-                                    UGD.HTML += `
-                                        <div class="table__row-outer-wrap">
-                                            <div class="table__row-inner-wrap">
-                                                <div class="table__column--width-fill">${giveaway.gameName}</div>
-                                                <div class="table__column--width-small text-center" data-sort-value="${game.playtime_2weeks || 0}">${time2Weeks}</div>
-                                                <div class="table__column--width-small text-center" data-sort-value="${game.playtime_forever}">${timeForever}</div>
-                                                <div class="table__column--width-small text-center" data-sort-value="${Math.round(count / total * 10000) / 100}">${achievements}</div>
-                                                <div class="table__column--width-small text-center"><a class="table__column__secondary-link" href="/user/${giveaway.creator}">${giveaway.creator}</a></div>
-                                            </div>
-                                        </div>
-                                    `;
-                                    check.count += 1;
-                                } else {
-                                    UGD.HTML += `
-                                        <div class="table__row-outer-wrap">
-                                            <div class="table__row-inner-wrap">
-                                                <div class="table__column--width-fill">${giveaway.gameName}</div>
-                                                <div class="table__column--width-small text-center" data-sort-value="${game.playtime_2weeks || 0}">${time2Weeks}</div>
-                                                <div class="table__column--width-small text-center" data-sort-value="${game.playtime_forever}">${timeForever}</div>
-                                                <div class="table__column--width-small text-center"><a class="table__column__secondary-link" href="/user/${giveaway.creator}">${giveaway.creator}</a></div>
-                                            </div>
-                                        </div>
-                                    `;
-                                    check.count += 1;
-                                }
-                            } else {
-                                UGD.HTML += `
-                                    <div class="table__row-outer-wrap">
-                                        <div class="table__row-inner-wrap">
-                                            <div class="table__column--width-fill">${giveaway.gameName}</div>
-                                            <div class="table__column--width-small text-center">0</div>
-                                            <div class="table__column--width-small text-center">0</div>
-                                            ${esgst.ugd_getAchievements ? `<div class="table__column--width-small text-center">0/0</div>` : ``}
-                                            <div class="table__column--width-small text-center"><a class="table__column__secondary-link" href="/user/${giveaway.creator}">${giveaway.creator}</a></div>
-                                        </div>
-                                    </div>
-                                `;
-                                check.count += 1;
-                            }
-                        }
-                        for (id in Giveaways.subs) {
-                            let giveaway = typeof Giveaways.subs[id][0] === `string` ? esgst.giveaways[Giveaways.subs[id][0]] : Giveaways.subs[id][0];
-                            UGD.HTML += `
-                                <div class="table__row-outer-wrap">
-                                    <div class="table__row-inner-wrap">
-                                        <div class="table__column--width-fill">${giveaway.gameName}</div>
-                                        <div class="table__column--width-small text-center">0</div>
-                                        <div class="table__column--width-small text-center">0</div>
-                                        ${esgst.ugd_getAchievements ? `<div class="table__column--width-small text-center">0/0</div>` : ``}
-                                        <div class="table__column--width-small text-center"><a class="table__column__secondary-link" href="/user/${giveaway.creator}">${giveaway.creator}</a></div>
-                                    </div>
-                                </div>
-                            `;
-                            check.count += 1;
-                        }
-                    } else {
-                        this.ugd_complete(popup, UGD, Callback);
-                    }
-                });
-            });
-        }, () => {
-            clearInterval(UGD.Request);
-            clearInterval(UGD.Save);
-            UGD.canceled = true;
-            setTimeout(() => {
-                UGD.progress.innerHTML = UGD.OverallProgress = ``;
-            }, 500);
-            UGDButton.classList.remove(`esgst-busy`);
-        }).set);
-        UGD.progress = insertHtml(popup.description, `beforeEnd`, `<div></div>`);
-        UGD.OverallProgress = insertHtml(popup.description, `beforeEnd`, `<div></div>`);
-        popup.Results = insertHtml(popup.scrollable, `beforeEnd`, `<div class="esgst-text-left"></div>`);
-        UGD.popup = popup;
-        UGDButton.addEventListener(`click`, () => {
-            popup.open();
-        });
-    }
-    async ugd_complete(popup, UGD, callback) {
-        let key;
-        if (UGD.key === `won` && esgst.ugd_getPlaytime && esgst.steamApiKey) {
-            UGD.HTML += `
-                    </div>
-                </div>
-                <div class="esgst-bold">${UGD.playedCount} out of ${UGD.total} games with more than 0 hours playtime (${Math.round(UGD.playedCount / UGD.total * 10000) / 100}%)</div>
-                ${esgst.ugd_getAchievements ? `<div class="esgst-bold">${UGD.achievementsCount} out of ${UGD.achievementsTotal} games with more than 0 achievements (${Math.round(UGD.achievementsCount / UGD.achievementsTotal * 10000) / 100}%)</div>` : ``}
-                <br/>
-            `;
+    ugd_addStats(profile, savedUser) {
+        if (!savedUser) {
+            return;
         }
-        UGD.HTML += `
-            <div class="esgst-text-center markdown">
-                <div class="esgst-bold">${UGD.key === `sent` ? `Most given away:` : `Most won from:`}</div>
-                <ol>
-        `;
-        for (key in UGD.ordered) {
-            UGD.HTML += `
-                    <li>${UGD.ordered[key].name} - <span class="esgst-bold">${UGD.ordered[key].frequency}</span></li>
-            `;
+
+        const ugdCache = savedUser.ugdCache;
+        if (!ugdCache) {
+            return;
         }
-        UGD.HTML += `
-                </ol>
+
+        let playtimes = 0;
+        let achievements = 0;
+        for (const key in ugdCache.playtimes) {
+            const playtime = ugdCache.playtimes[key];
+            if (playtime[1] > 0) {
+                playtimes += 1;
+            }
+        }
+        const totalPlaytimes = Object.keys(ugdCache.playtimes).length;
+        playtimes = `${playtimes}/${totalPlaytimes} (${Math.round(playtimes / totalPlaytimes * 10000) / 100}%)`;
+        for (const key in ugdCache.achievements) {
+            const achievement = ugdCache.achievements[key];
+            if (achievement.match(/(.+?)\//)[1] !== `0`) {
+                achievements += 1;
+            }
+        }
+        const totalAchievements = Object.keys(ugdCache.achievements).length;
+        achievements = `${achievements}/${totalAchievements} (${Math.round(achievements / totalAchievements * 10000) / 100}%)`;
+        profile.commentsRow.insertAdjacentHTML(`afterEnd`, `
+            <div class="esgst-ugd featured__table__row" title="${this.getFeatureTooltip(`ugd`)}">
+                <div class="featured__table__row__left">Won Games Playtime > 0</div>
+                <div class="featured__table__row__right">${playtimes}</div>
             </div>
-        `;
-        popup.Results.innerHTML = UGD.HTML;
-        UGD.progress.innerHTML = ``;
-        await this.endless_load(popup.Results);
-        callback();
+            <div class="esgst-ugd featured__table__row" title="${this.getFeatureTooltip(`ugd`)}">
+                <div class="featured__table__row__left">Won Games Achievements > 0</div>
+                <div class="featured__table__row__right">${achievements}</div>
+            </div>
+        `);        
     }
-    async ugd_count(Frequencies, Giveaways, LevelsTotal, Total, type, Types, TypesTotal, UGD, Callback) {
-        let Key, I, N, Giveaway, Private, Group, Whitelist, Region, Level, Copies;
-        let savedGiveaways = JSON.parse(await this.getValue(`giveaways`));
-        for (Key in Giveaways) {
-            for (I = 0, N = Giveaways[Key].length; I < N; ++I) {
-                Giveaway = typeof Giveaways[Key][I] === `string` ? savedGiveaways[Giveaways[Key][I]] : Giveaways[Key][I];
-                if (Giveaway && Giveaway.entries > 0) {
-                    Private = Giveaway.inviteOnly;
-                    Group = Giveaway.group;
-                    Whitelist = Giveaway.whitelist;
-                    Region = Giveaway.regionRestricted;
-                    Level = Giveaway.level;
-                    Copies = (UGD.key === `sent`) ? Giveaway.copies : 1;
-                    if (Private) {
-                        if (Region) {
-                            Types.Region_Invite[Level] += Copies;
-                            TypesTotal.Region_Invite += Copies;
-                        } else {
-                            Types.Invite[Level] += Copies;
-                            TypesTotal.Invite += Copies;
-                        }
-                    } else if (Group) {
-                        if (Region) {
-                            Types.Region_Group[Level] += Copies;
-                            TypesTotal.Region_Group += Copies;
-                        } else if (Whitelist) {
-                            if (Region) {
-                                Types.Region_Group_Whitelist[Level] += Copies;
-                                TypesTotal.Region_Group_Whitelist += Copies;
-                            } else {
-                                Types.Group_Whitelist[Level] += Copies;
-                                TypesTotal.Group_Whitelist += Copies;
-                            }
-                        } else {
-                            Types.Group[Level] += Copies;
-                            TypesTotal.Group += Copies;
-                        }
-                    } else if (Whitelist) {
-                        if (Region) {
-                            Types.Region_Whitelist[Level] += Copies;
-                            TypesTotal.Region_Whitelist += Copies;
-                        } else {
-                            Types.Whitelist[Level] += Copies;
-                            TypesTotal.Whitelist += Copies;
-                        }
-                    } else if (Region) {
-                        Types.Region[Level] += Copies;
-                        TypesTotal.Region += Copies;
-                    } else {
-                        Types.Everyone[Level] += Copies;
-                        TypesTotal.Everyone += Copies;
+    ugd_add(context, key, user, mainPopup) {
+        let button = null;
+        if (context) {
+            button = insertHtml(context, `beforeEnd`, `
+                <span class="esgst-ugd-button" title="${this.getFeatureTooltip(`ugd`, `Get ${key} giveaway data`)}">
+                    <i class="fa fa-bar-chart"></i>
+                </span>
+            `);
+        }
+        const details = {
+            button: button,
+            popup: {
+                icon: `fa-bar-chart`,
+                title: `Get ${user.username}'s ${key} giveaway data:`,
+                options: [
+                    {
+                        check: key === `won`,
+                        description: `Get playtime stats.`,
+                        id: `ugd_getPlaytime`,
+                        tooltip: `Get playtime stats for each won game by this user (requires a Steam API Key inserted into the settings menu - does not check DLCs/packages).`
+                    }, {
+                        check: key === `won`,
+                        description: `Get achievements stats.`,
+                        id: `ugd_getAchievements`,
+                        tooltip: `Get achievements stats for each won game by this user (slower - does not check DLCs/packages).`
+                    }, {
+                        check: true,
+                        description: `Clear cache.`,
+                        id: `ugd_clearCache`,
+                        tooltip: `If enabled, the cache will be cleared and all giveaways will be retrieved again (slower).`
                     }
-                    LevelsTotal[Level] += Copies;
-                    Total += Copies;
-                    if (UGD.key === `sent`) {
-                        if (!Frequencies[type]) {
-                            Frequencies[type] = {};
+                ],
+                addProgress: true,
+                addScrollable: `left`
+            },
+            mainPopup: mainPopup,
+            init: this.ugd_init.bind(this, key, user),
+            requests: [
+                {
+                    url: `/user/${user.username}${key === `won` ? `/giveaways/won` : ``}/search?page=`,
+                    request: this.ugd_requestGiveaways.bind(this)
+                },
+                this.ugd_requestGiveawaysDone.bind(this)
+            ]
+        };
+        return new Process(details);
+    }
+    async ugd_init(key, user, obj) {
+        obj.giveaways = {};
+        obj.key = key;
+        obj.user = user;
+        if (obj.key === `sent` && obj.user.username === esgst.username) {
+            obj.toGet = true;
+        }
+
+        const savedUser = await this.getUser(null, obj.user);
+        obj.ugdCache = savedUser && savedUser.ugdCache;
+        obj.userGiveaways = await this.ugd_getUserGiveaways(savedUser);
+        if (obj.popup && esgst.ugd_clearCache) {
+            obj.userGiveaways[obj.key] = null;
+            if (obj.key === `won`) {
+                obj.ugdCache = null;
+            }
+        }
+        if (
+            !obj.userGiveaways.sent || (
+                obj.key === `sent` &&
+                obj.user.username === esgst.username &&
+                obj.userGiveaways.version !== `7.13.0`
+            )
+        ) {
+            obj.userGiveaways.sent = {
+                apps: {},
+                subs: {}
+            };
+            obj.userGiveaways.sentTimestamp = 0;
+            obj.userGiveaways.version = `7.13.0`;
+        }
+        if (!obj.userGiveaways.won) {
+            obj.userGiveaways.won = {
+                apps: {},
+                subs: {}
+            };
+            obj.userGiveaways.wonTimestamp = 0;
+        }
+    }
+    async ugd_getUserGiveaways(savedUser) {
+        let userGiveaways = savedUser && savedUser.giveaways;
+        if (userGiveaways) {
+            return userGiveaways;
+        }
+ 
+        userGiveaways = {
+            sent: {
+                apps: {},
+                subs: {}
+            },
+            won: {
+                apps: {},
+                subs: {}
+            },
+            sentTimestamp: 0,
+            wonTimestamp: 0,
+            version: `7.13.0`
+        };
+        if (!savedUser) {
+            return userGiveaways;
+        }
+
+        const ugd = savedUser.ugd;
+        if (!ugd) {
+            return userGiveaways;
+        }
+
+        let newGiveaways = {};
+        const keys = [`sent`, `won`];
+        const types = [`apps`, `subs`];
+        for (const key of keys) {
+            if (!ugd[key]) {
+                continue;
+            }
+
+            for (const type of types) {
+                const ids = ugd[key][type];
+                for (const id of ids) {
+                    userGiveaways[key][type][id] = [];
+                    const giveaways = ugd[key][type][id];
+                    const n = giveaways.length;
+                    for (let i = 0; i < n; i++) {
+                        const giveaway = giveaways[i];
+                        const code = giveaway.code;
+                        newGiveaways[code] = giveaway;
+                        userGiveaways[key][type][id].push(code);
+                    }
+                }
+            }
+            userGiveaways[`${key}Timestamp`] = ugd[`${key}Timestamp`];
+        }
+        if (Object.keys(newGiveaways).length) {
+            await this.lockAndSaveGiveaways(newGiveaways);
+        }
+        return userGiveaways;
+    }
+    async ugd_requestGiveaways(obj, details, response, responseHtml) {
+        const msg = `Retrieving giveaways (page ${details.nextPage}${details.lastPage})...`;
+        if (obj.popup) {
+            obj.popup.setProgress(msg);
+        } else {
+            obj.mainPopup.progress.lastElementChild.textContent = msg;
+        }
+
+        let found = false;
+        const currentTime = Date.now();
+        const elements = responseHtml.getElementsByClassName(`giveaway__row-outer-wrap`);
+        const n = elements.length;
+        for (let i = 0; i < n; i++) {
+            const giveaway = (
+                await this.giveaways_getInfo(elements[i], document, obj.user.username, obj.key)
+            ).data;
+            const endTime = giveaway.endTime;
+
+            // giveaway has not ended yet, so cannot store it
+            if (endTime >= currentTime) {
+                continue;
+            }
+
+            if (!obj.timestamp) {
+                obj.timestamp = endTime;
+            }
+
+            // giveaway has already been stored previously
+            if (endTime <= obj.userGiveaways[`${obj.key}Timestamp`]) {
+                found = true;
+                break;
+            }
+
+            const id = giveaway.gameSteamId;
+            if (!id) {
+                continue;
+            }
+
+            const games = obj.userGiveaways[obj.key][giveaway.gameType];
+            const code = giveaway.code;
+            if (!games[id]) {
+                games[id] = [];
+            }
+            if (code) {
+                games[id].push(code);
+                obj.giveaways[code] = giveaway;
+                if (obj.toGet) {
+                    const savedGiveaway = esgst.giveaways[code];
+                    if (!savedGiveaway || !Array.isArray(savedGiveaway.winners)) {
+                        giveaway.winners = [];
+                        obj.requests.push({
+                            giveaway: giveaway,
+                            onDone: this.ugd_requestGiveawayDone.bind(this),
+                            request: this.ugd_requestGiveaway.bind(this),
+                            url: `/giveaway/${code}/_/winners/search?page=`
+                        });
+                    }
+                }
+            } else {
+                games[id].push(giveaway);
+            }
+        }
+        if (found) {
+            return true;
+        }
+    }
+    async ugd_requestGiveawaysDone(obj) {
+        if (!obj.toGet) {
+            await this.ugd_requestGiveawaysDone_2(obj);
+            return;
+        }
+
+        // check if there are winners of a giveaway in the 'awaiting feedback' status so they can be updated
+        const types = [`apps`, `subs`];
+        for (const type of types) {
+            const games = obj.userGiveaways.sent[type];
+            for (const id in games) {
+                const game = games[id];
+                for (const item of game) {
+                    const giveaway = typeof item === `string` ? esgst.giveaways[item] : item;
+                    if (!giveaway || !Array.isArray(giveaway.winners)) {
+                        break;
+                    }
+
+                    let i;
+                    for (i = giveaway.winners.length - 1; i > -1; i--) {
+                        const winner = giveaway.winners[i];
+                        if (winner.status !== `Received` && winner.status !== `Not Received`) {
+                            break;
                         }
-                        if (!Frequencies[type][Key]) {
-                            Frequencies[type][Key] = {
-                                name: Giveaway.gameName,
-                                frequency: 0
-                            };
+                    }
+                    if (i > -1) {
+                        const code = giveaway.code;
+                        if (code) {
+                            obj.giveaways[code] = giveaway;
                         }
-                        Frequencies[type][Key].frequency += Copies;
-                    } else {
-                        if (!Frequencies[type]) {
-                            Frequencies[type] = {};
-                        }
-                        if (!Frequencies[type][Giveaway.creator]) {
-                            Frequencies[type][Giveaway.creator] = {
-                                name: Giveaway.creator,
-                                frequency: 0
-                            };
-                        }
-                        ++Frequencies[type][Giveaway.creator].frequency;
+                        obj.requests.push({
+                            giveaway: giveaway,
+                            onDone: this.ugd_requestGiveawayDone.bind(this),
+                            request: this.ugd_requestGiveaway.bind(this),
+                            url: `/giveaway/${code}/_/winners/search?page=`
+                        });
                     }
                 }
             }
         }
-        Callback(LevelsTotal, Total);
+        obj.requests.push(this.ugd_requestGiveawaysDone_2.bind(this));
+
+        obj.lpvCache = JSON.parse(
+            getLocalValue(
+                `lpvCache`,
+                `{"games": {"apps":{}, "subs":{}}, "giveaways": [], "timestamp": ${Date.now()}}`
+            )
+        );
+        obj.lpvCache.giveaways = [];
     }
-    async ugd_get(ugd, giveaways, nextPage, username) {
-        // retrieve giveaways
-        let found = false;
-        let pagination = null;
-        let toGet = [];
-        do {
-            let context = this.parseHtml((await this.request({method: `GET`, url: `/user/${username}${ugd.key === `won` ? `/giveaways/won` : ``}/search?page=${nextPage}`})).responseText);
-            if (ugd.progress) {
-                if (nextPage === 1) {
-                    ugd.lastPage = this.lpl_getLastPage(context, false, false, true, ugd.key === `won`);
-                    ugd.lastPage = ugd.lastPage === 999999999 ? `` : ` of ${ugd.lastPage}`;
+    async ugd_requestGiveawaysDone_2(obj) {
+        if (obj.lpvCache) {
+            setLocalValue(`lpvCache`, JSON.stringify(obj.lpvCache));
+        }
+
+        obj.userGiveaways[`${obj.key}Timestamp`] = obj.timestamp;
+        await this.lockAndSaveGiveaways(obj.giveaways);
+
+        obj.user.values = {
+            giveaways: obj.userGiveaways,
+            ugd: null
+        };
+
+        if (!obj.popup) {
+            await this.saveUser(null, null, obj.user);
+            return;
+        }
+
+        obj.popup.setProgress(`Calculating results...`);
+
+        obj.games = obj.userGiveaways[obj.key];
+        obj.perType = {};
+        obj.typeTotal = {};
+        obj.levelTotal = new Array(11).fill(0);
+        obj.total = 0;
+        obj.lists = {};
+        if (obj.key === `sent`) {
+            obj.lists.gameName = {
+                name: `Most given away:`,
+                values: []
+            };
+            if (obj.user.username === esgst.username) {
+                obj.lists.username = {
+                    name: `Most sent to:`,
+                    values: []
+                };
+            }
+        } else {
+            obj.lists.creator = {
+                name: `Most won from:`,
+                values: []
+            };
+        }
+        const types = {
+            public: `Everyone`,
+            regionRestricted: {
+                name: `Region`,
+                combo: [`inviteOnly`, `group`, `whitelist`]
+            },
+            inviteOnly: `Invite`,
+            group: {
+                name: `Group`,
+                combo: [`whitelist`]
+            },
+            whitelist: `Whitelist`
+        };
+        const selectors = [];
+        for (const key in types) {
+            const type = types[key];
+            if (typeof type === `string`) {
+                selectors.push(type);
+            } else {
+                selectors.push(type.name);        
+                for (const combo of type.combo) {
+                    const comboType = types[combo];
+                    selectors.push(`${type.name}_${typeof comboType === `string` ? comboType : comboType.name}`);
+                    if (comboType.combo) {
+                        for (const subCombo of comboType.combo) {
+                            const subComboType = types[subCombo];
+                            selectors.push(`${type.name}_${typeof comboType === `string` ? comboType : comboType.name}_${typeof subComboType === `string` ? subComboType : subComboType.name}`);
+                        }
+                    }
                 }
-                ugd.progress.innerHTML = `
-                    <i class="fa fa-circle-o-notch fa-spin"></i>
-                    <span>Retrieving giveaways (page ${nextPage}${ugd.lastPage})...</span>
+            }
+        }
+        for (const selector of selectors) {            
+            obj.perType[selector] = new Array(11).fill(0);
+            obj.typeTotal[selector] = 0;
+        }        
+        obj.savedGiveaways = JSON.parse(await this.getValue(`giveaways`));
+        await this.ugd_count(obj, obj.games.apps, obj.savedGiveaways, types);
+        await this.ugd_count(obj, obj.games.subs, obj.savedGiveaways, types);
+
+        const results = obj.popup.getScrollable();
+
+        const heading = [`Type`];
+        for (let i = 0; i < 11; i++) {
+            heading.push(`Level ${i}`);
+        }
+        heading.push(`Total`);
+        const table = new Table([
+            heading
+        ]);
+        for (const key in obj.perType) {
+            const item = obj.perType[key];
+            const columns = [key.replace(/_/g, ` + `)];
+            for (let i = 0; i < 11; i++) {
+                const value = item[i];
+                columns.push(value);
+            }
+            const typeTotal = obj.typeTotal[key];
+            const total = Math.round(typeTotal / obj.total * 10000) / 100;
+            columns.push(`${typeTotal} (${total}%)`);
+            table.addRow(columns);
+        }
+        const columns = [`Total`];
+        for (let i = 0; i < 11; i++) {
+            const levelTotal = obj.levelTotal[i];
+            const total = Math.round(levelTotal / obj.total * 10000) / 100;
+            columns.push(`${levelTotal} (${total}%)`);
+        }
+        columns.push(obj.total);
+        table.addRow(columns);
+        results.appendChild(table.table);
+
+        for (const key in obj.lists) {
+            const array = [];
+            const list = obj.lists[key];
+            const values = list.values;
+            for (const selector in values) {
+                const item = values[selector];
+                item.name = selector;
+                array.push(item);
+            }
+            list.values = sortArrayByNumberKey(array, `value`, true);
+        }
+
+        if (
+            obj.key !== `won` ||
+            (!esgst.ugd_getPlaytime && !esgst.ugd_getAchievements) ||
+            !esgst.steamApiKey
+        ) {
+            await this.ugd_complete(obj, results);
+            await this.saveUser(null, null, obj.user);
+            return;
+        }
+
+        obj.playtimeTable = new Table([
+            [
+                {
+                    alignment: `left`,
+                    size: `fill`,
+                    value: `Game`
+                },
+                `Playtime (Last 2 Weeks)`,
+                `Playtime (Forever)`,
+                `Achievements`,
+                `Gifter`
+            ]
+        ]);
+        if (!esgst.ugd_getPlaytime) {
+            obj.playtimeTable.hideColumns(2, 3);
+        }
+        if (!esgst.ugd_getAchievements) {
+            obj.playtimeTable.hideColumns(4);
+        }
+
+        obj.isUpdating = false;
+        const currentTime = Date.now();
+        if (
+            !obj.ugdCache ||
+            (currentTime - obj.ugdCache.lastCheck) > 604800000 ||
+            (esgst.ugd_getPlaytime && !Object.keys(obj.ugdCache.playtimes).length) ||
+            (esgst.ugd_getAchievements && !Object.keys(obj.ugdCache.achievements).length)
+        ) {
+            obj.isUpdating = true;
+            if (!obj.ugdCache) {
+                obj.ugdCache = {
+                    achievements: {},
+                    playtimes: {}
+                };
+            }
+            obj.ugdCache.lastCheck = currentTime;
+        }
+
+        obj.playtimes = null;
+        if (esgst.ugd_getPlaytime && obj.isUpdating) {
+            obj.popup.setProgress(`Retrieving playtime stats...`);
+            obj.ugdCache.playtimes = {};
+            try {
+                const response = await this.request({
+                    method: `GET`,
+                    url: `https://api.steampowered.com/IPlayerService/GetOwnedGames/v0001/?key=${esgst.steamApiKey}&steamid=${obj.user.steamId}&format=json`
+                });
+                const responseText = response.responseText;
+                obj.playtimes = JSON.parse(responseText).response.games;
+            } catch (e) {
+                console.log(e);
+                alert(`An error ocurred when retrieving playtime stats. Please check your Steam API key in the settings menu or try again later.`);
+                await this.ugd_complete(obj, results);
+                await this.saveUser(null, null, obj.user);
+                return;
+            }
+        }
+        if (esgst.ugd_getAchievements && obj.isUpdating) {
+            obj.ugdCache.achievements = {};
+        }
+
+        obj.playedCount = 0;
+        obj.achievementCount = 0;
+        obj.achievementTotal = 0;
+        obj.appsTotal = Object.keys(obj.games.apps).length;
+        obj.subsTotal = Object.keys(obj.games.subs).length;
+        const total = obj.appsTotal + obj.subsTotal;
+        for (const id in obj.games.apps) {
+            await this.ugd_addGame(obj, id);
+            obj.appsTotal--;
+        }
+        const gcCache = JSON.parse(getLocalValue(`gcCache`, `{ "apps": {}, "subs": {}, "timestamp": 0, "version": 2 }`));
+        if (gcCache.version !== 2) {
+            gcCache = {
+                apps: {},
+                subs: {},
+                timestamp: 0,
+                version: 2
+            };
+        }
+        for (const id in obj.games.subs) {
+            const giveaways = obj.games.subs[id];
+            const item = giveaways[0];
+            const giveaway = typeof item === `string` ? obj.savedGiveaways[item] : item;
+            let apps = gcCache.subs[id] && gcCache.subs[id].apps;
+            if (!apps) {
+                try {
+                    const response = await this.request({
+                        method: `GET`,
+                        url: `http://store.steampowered.com/api/packagedetails?packageids=${id}&filters=basic`
+                    });
+                    const responseText = response.responseText;
+                    const responseJson = JSON.parse(responseText);
+                    apps = responseJson[id].data.apps;
+                    if (!gcCache.subs[id]) {
+                        gcCache.subs[id] = {};
+                    }
+                    gcCache.subs[id].apps = apps;
+                } catch (e) {}
+            }
+            if (apps) {
+                for (const app of apps) {
+                    obj.packagePlayed = false;
+                    obj.packageAchieved = false;
+                    await this.ugd_addGame(obj, app.id, id, app.name);
+                }
+            }
+            obj.subsTotal--;
+        }
+        setLocalValue(`gcCache`, JSON.stringify(gcCache));
+
+        results.appendChild(obj.playtimeTable.table);
+        results.insertAdjacentHTML(`beforeEnd`, `
+            ${esgst.ugd_getPlaytime ? `
+                <div class="esgst-bold">
+                    ${obj.playedCount} out of ${total} games with more than 0 hours playtime (${Math.round(obj.playedCount / total * 10000) / 100}%)
+                </div>
+                ` : ``}
+            ${esgst.ugd_getAchievements ? `
+                <div class="esgst-bold">${obj.achievementCount} out of ${obj.achievementTotal} games with more than 0 achievements (${Math.round(obj.achievementCount / Math.max(1, obj.achievementTotal) * 10000) / 100}%)</div>
+            ` : ``}
+        `);
+
+        await this.ugd_complete(obj, results);
+
+        obj.user.values.ugdCache = obj.ugdCache;
+        await this.saveUser(null, null, obj.user);
+    }
+    async ugd_addGame(obj, id, packageId, name) {
+        const appId = parseInt(id);
+        let i;
+        if (obj.playtimes) {
+            for (i = obj.playtimes.length - 1; i > -1 && obj.playtimes[i].appid !== appId; i--);
+        }
+        const giveaways = obj.games[packageId ? `subs` : `apps`][packageId || id];
+        const item = giveaways[0];
+        const giveaway = typeof item === `string` ? obj.savedGiveaways[item] : item;
+        let timestamp2Weeks = 0;
+        let timestampForever = 0;
+        let time2Weeks = 0;
+        let timeForever = 0;
+        let achievementsAttributes = null;
+        let achievements = `?`;
+        if (esgst.ugd_getPlaytime && (i > -1 || obj.ugdCache.playtimes[appId])) {
+            if (obj.isUpdating) {
+                const game = obj.playtimes[i];
+                timestamp2Weeks = game.playtime_2weeks || 0;
+                timestampForever = game.playtime_forever;
+                obj.ugdCache.playtimes[appId] = [timestamp2Weeks, timestampForever];
+            } else {
+                [timestamp2Weeks, timestampForever] = obj.ugdCache.playtimes[appId];
+            }
+            if (timestampForever > 0 && (!packageId || !obj.packagePlayed)) {
+                obj.playedCount += 1;
+                obj.packagePlayed = true;
+            }
+            time2Weeks = timestamp2Weeks && timestamp2Weeks > 0 ? (
+                timestamp2Weeks > 60
+                ? `${Math.round(timestamp2Weeks / 60 * 100) / 100}h`
+                : `${timestamp2Weeks}m`
+            ) : `0`;
+            timeForever = timestampForever > 0 ? (
+                timestampForever > 60
+                    ? `${Math.round(timestampForever / 60 * 100) / 100}h`
+                    : `${timestampForever}m`
+                ) : `0`;
+        }
+        if (esgst.ugd_getAchievements) {
+            let achievementsData = obj.ugdCache && obj.ugdCache.achievements[appId];
+            if (obj.isUpdating) {
+                obj.popup.setProgress(`Retrieving achievement stats for ${giveaway.gameName || packageId} (${packageId ? `${obj.subsTotal} packages` : obj.appsTotal} left)...`);
+                const response = await this.request({
+                    method: `GET`,
+                    url: `http://api.steampowered.com/ISteamUserStats/GetPlayerAchievements/v0001/?appid=${appId}&key=${esgst.steamApiKey}&steamid=${obj.user.steamId}`
+                });
+                const responseText = response.responseText;
+                const responseJson = JSON.parse(responseText).playerstats;
+                if (responseJson.success) {
+                    achievementsData = responseJson.achievements;
+                }
+            }
+            achievements = `0/0`;
+            if (achievementsData) {
+                let count = 0;
+                let total = 0;
+                if (obj.isUpdating) {
+                    for (const achievement of achievementsData) {
+                        if (achievement.achieved) {
+                            count += 1;
+                        }
+                        total += 1;
+                    }
+                    achievementsAttributes = Math.round(count / total * 10000) / 100;
+                    achievements = `${count}/${total} (${achievementsAttributes}%)`;
+                    obj.ugdCache.achievements[appId] = achievements;
+                } else {
+                    const parts = achievementsData.match(/(.+?)\/(.+?)\s\((.+?)%\)/);
+                    count = parseInt(parts[0]);
+                    total = parseInt(parts[1]);
+                    achievementsAttributes = parseFloat(parts[2]);
+                    achievements = achievementsData;
+                }
+                if (!packageId || !obj.packageAchieved) {
+                    if (count > 0) {
+                        obj.achievementCount += 1;
+                    }
+                    obj.achievementTotal += 1;
+                    obj.packageAchieved = true;
+                }
+            }
+        }
+        obj.playtimeTable.addRow([
+            {
+                alignment: `left`,
+                size: `fill`,
+                value: `${giveaway.gameName}${packageId ? ` => ${name}` : ``}`
+            },
+            {
+                attributes: [`data-sort-value="${timestamp2Weeks}"`],
+                value: time2Weeks
+            },
+            {
+                attributes: [`data-sort-value="${timestampForever}"`],
+                value: timeForever
+            },
+            {
+                attributes: [`data-sort-value="${achievementsAttributes}"`],
+                value: achievements
+            },
+            `<a class="table__column__secondary-link" href="/user/${giveaway.creator}">${giveaway.creator}</a>`
+        ]);
+    }
+    async ugd_count(obj, games, savedGiveaways, types) {
+        for (const id in games) {
+            const giveaways = games[id];
+            for (const item of giveaways) {
+                const giveaway = typeof item === `string` ? savedGiveaways[item] : item;
+                let selector = ``;
+                for (const key in types) {
+                    const type = types[key];
+                    if (giveaway[key]) {
+                        selector += typeof type === `string` ? type : type.name;
+                        selector += `_`;
+                    }
+                }
+                selector = selector.slice(0, -1);
+                if (!selector) {
+                    selector = `Everyone`;
+                }
+                const level = giveaway.level;
+                const copies = obj.key === `sent` ? giveaway.copies : 1;
+                obj.perType[selector][level] += copies;
+                obj.typeTotal[selector] += copies;
+                obj.levelTotal[level] += copies;
+                obj.total += copies;
+                for (const key in obj.lists) {
+                    const list = obj.lists[key];
+                    const values = list.values;
+                    const selectors = key === `username` ? giveaway.winners : [giveaway];
+                    if (!Array.isArray(selectors)) {
+                        continue;
+                    }
+                    for (const selector of selectors) {
+                        const value = selector[key];
+                        if (!values[value]) {
+                            values[value] = {
+                                gameSteamId: giveaway.gameSteamId,
+                                gameType: giveaway.gameType,
+                                value: 0
+                            };
+                        }
+                        values[value].value += copies;
+                    }
+                }
+            }
+        }
+    }
+    async ugd_requestGiveaway(obj, details, response, responseHtml) {
+        const msg = `Retrieving giveaway winners (${details.giveaway.gameName})...`;
+        if (obj.popup) {
+            obj.popup.setProgress(msg);
+        } else {
+            obj.mainPopup.progress.lastElementChild.textContent = msg;
+        }
+
+        if (responseHtml.getElementsByClassName(`table--summary`)[0]) {
+            return true;
+        }
+
+        const elements = responseHtml.getElementsByClassName(`table__row-inner-wrap`);
+        const n = elements.length;
+        for (let i = 0; i < n; i++) {
+            const element = elements[i];
+            details.giveaway.winners.push({
+                status: element.lastElementChild.textContent.trim(),
+                username: element.firstElementChild.nextElementSibling.firstElementChild.textContent.trim()
+            });
+        }
+        if (details.nextPage === 1) {
+            details.url = `${response.finalUrl}/search?page=`;
+        }
+    }
+    ugd_requestGiveawayDone(obj, details) {
+        let count = 0;
+        for (const winner of details.giveaway.winners) {
+            if (winner.status === `Received`) {
+                continue;
+            }
+
+            count += 1;
+        }
+        if (count > 0) {
+            obj.lpvCache.giveaways.push(details.giveaway.code);
+        }
+    }
+    async ugd_complete(obj, results) {
+        let html = `
+            <div class="esgst-ugd-lists esgst-text-center markdown">
+        `;
+        for (const key in obj.lists) {
+            const list = obj.lists[key];
+            html += `
+                <div>
+                    <div class="esgst-bold">${list.name}</div>
+                    <ol>
+            `;
+            const values = list.values;
+            for (const item of values) {
+                html += `
+                        <li>
+                            ${item.name} - <span class="esgst-bold">${item.value}</span>
+                        </li>                
                 `;
             }
-            let currentTime = Date.now();
-            let elements = context.getElementsByClassName(`giveaway__row-outer-wrap`);
-            for (let i = 0, n = elements.length; i < n; i++) {
-                let giveaway = (await this.giveaways_getInfo(elements[i], document, username, ugd.key)).data;
-                if (giveaway.endTime >= currentTime) {
-                    // giveaway has not ended yet, so cannot store it
-                    continue;
-                }
-                if (!ugd.timestamp) {
-                    ugd.timestamp = giveaway.endTime;
-                }
-                if (giveaway.endTime <= giveaways[`${ugd.key}Timestamp`]) {
-                    // giveaway has already been stored previously
-                    found = true;
-                    break;
-                }
-                if (!giveaway.gameSteamId) {
-                    continue;
-                }
-                if (!giveaways[ugd.key][giveaway.gameType][giveaway.gameSteamId]) {
-                    giveaways[ugd.key][giveaway.gameType][giveaway.gameSteamId] = [];
-                }
-                if (giveaway.code) {
-                    giveaways[ugd.key][giveaway.gameType][giveaway.gameSteamId].push(giveaway.code);
-                    ugd.giveaways[giveaway.code] = giveaway;
-                } else {
-                    giveaways[ugd.key][giveaway.gameType][giveaway.gameSteamId].push(giveaway);
-                }
-                toGet.push(giveaway);
-            }
-            nextPage += 1;
-            pagination = context.getElementsByClassName(`pagination__navigation`)[0];
-        } while (!ugd.canceled && !found && pagination && !pagination.lastElementChild.classList.contains(`is-selected`));
-
-        if (ugd.key === `sent` && username === esgst.username) {
-            // check if there are winners of a giveaway in the 'awaiting feedback' status so they can be updated
-            for (let key in giveaways.sent.apps) {
-                giveaways.sent.apps[key].forEach(item => {
-                    let giveaway = typeof item === `string` ? esgst.giveaways[item] : item;
-                    if (!giveaway || !Array.isArray(giveaway.winners)) {
-                        return;
-                    }
-                    let i;
-                    for (i = giveaway.winners.length - 1; i > -1; i--) {
-                        let winner = giveaway.winners[i];
-                        if (winner.status !== `Received` && winner.status !== `Not Received`) {
-                            break;
-                        }
-                    }
-                    if (i > -1) {
-                        if (giveaway.code) {
-                            ugd.giveaways[giveaway.code] = giveaway;
-                        }
-                        toGet.push(giveaway);
-                    }
-                });
-            }
-            for (let key in giveaways.sent.subs) {
-                giveaways.sent.subs[key].forEach(item => {
-                    let giveaway = typeof item === `string` ? esgst.giveaways[item] : item;
-                    if (!giveaway || !Array.isArray(giveaway.winners)) {
-                        return;
-                    }
-                    let i;
-                    for (i = giveaway.winners.length - 1; i > -1; i--) {
-                        let winner = giveaway.winners[i];
-                        if (winner.status !== `Received` && winner.status !== `Not Received`) {
-                            break;
-                        }
-                    }
-                    if (i > -1) {
-                        if (giveaway.code) {
-                            ugd.giveaways[giveaway.code] = giveaway;
-                        }
-                        toGet.push(giveaway);
-                    }
-                });
-            }
-
-            let lpvCache = JSON.parse(getLocalValue(`lpvCache`, `{"games": {"apps":{},"subs":{}},"giveaways": [],"timestamp": ${Date.now()}}`));
-            lpvCache.giveaways = [];
-
-            // retrieve giveaway winners
-            for (let i = 0, n = toGet.length; i < n; i++) {
-                let giveaway = toGet[i];
-                if (!giveaway.code) {
-                    continue;
-                }
-                giveaway.winners = [];
-                let nextPage = 1;
-                let url = `/giveaway/${giveaway.code}/_/winners/search?page=`;
-                let pagination;
-                do {
-                    let response = await this.request({method: `GET`, url: `${url}${nextPage}`});
-                    let responseHtml = this.parseHtml(response.responseText);
-                    if (responseHtml.getElementsByClassName(`table--summary`)[0]) break;
-                    let elements = responseHtml.getElementsByClassName(`table__row-inner-wrap`);
-                    for (let i = 0, n = elements.length; i < n; i++) {
-                        let element = elements[i];
-                        giveaway.winners.push({
-                            status: element.lastElementChild.textContent.trim(),
-                            username: element.firstElementChild.nextElementSibling.firstElementChild.textContent.trim()
-                        });
-                    }
-                    if (nextPage === 1) {
-                        url = `${response.finalUrl}/search?page=`;
-                    }
-                    nextPage += 1;
-                    pagination = responseHtml.getElementsByClassName(`pagination__navigation`)[0];
-                } while (!ugd.canceled && pagination && !pagination.lastElementChild.classList.contains(`is-selected`));
-
-                let count = 0;
-                giveaway.winners.forEach(winner => {
-                    if (winner.status === `Received`) return;
-                    count += 1;
-                });
-                if (count > 0) {
-                    lpvCache.giveaways.push(giveaway.code);
-                }
-            }
-
-            setLocalValue(`lpvCache`, JSON.stringify(lpvCache));
+            html += `
+                    </ol>
+                </div>
+            `;
         }
-
-        // save
-        giveaways[`${ugd.key}Timestamp`] = ugd.timestamp;
-        await this.lockAndSaveGiveaways(ugd.giveaways);
-        return giveaways;
+        html += `
+            </div>
+        `;
+        results.insertAdjacentHTML(`beforeEnd`, html);
+        await this.endless_load(results);
     }
     ugs() {
         if (esgst.createdPath) {
@@ -27519,8 +28510,10 @@ class ESGST {
                 skip.innerHTML = ``;
                 WBCButton.classList.remove(`esgst-busy`);
                 Callback();
+                WBC.popup.setDone();
             });
         }, () => {
+            skip.innerHTML = ``;
             clearInterval(WBC.Request);
             clearInterval(WBC.Save);
             WBC.Canceled = true;
@@ -27648,7 +28641,7 @@ class ESGST {
             }
             if ((esgst.wbc_checkAll || esgst.wbc_checkPages) && ((((WBC.User && !esgst.wbc_checkSingle) || !WBC.User) && !WBC.Update && !location.pathname.match(/^\/(discussions|users|archive)/)))) {
                 WBC.lastPage = esgst.wbc_checkPages ? `of ${esgst.wbc_maxPage}` : ``;
-                this.wbc_getUsers(WBC, esgst.wbc_checkPages ? esgst.wbc_minPage : 1, esgst.currentPage, esgst.searchUrl, () => {
+                this.wbc_getUsers(WBC, esgst.wbc_checkPages ? (esgst.wbc_minPage - 1) : 0, esgst.currentPage, esgst.searchUrl, () => {
                     skip.appendChild(new ButtonSet(`green`, ``, `fa-forward`, ``, `Skip User`, ``, callback => {
                         callback();
                         WBC.manualSkip = true;
@@ -28125,7 +29118,7 @@ class ESGST {
             }
             WBC.Progress.innerHTML = `
                 <i class="fa fa-circle-o-notch fa-spin"></i>
-                <span>Retrieving users (page ${NextPage - 1}${WBC.lastPage})...</span>
+                <span>Retrieving users (page ${NextPage}${WBC.lastPage})...</span>
             `;
             Matches = Context.querySelectorAll(`a[href*="/user/"]`);
             for (I = 0, N = Matches.length; I < N; ++I) {
@@ -28145,10 +29138,11 @@ class ESGST {
             }
         } else if (!WBC.Canceled) {
             if (!esgst.wbc_checkPages || NextPage <= esgst.wbc_maxPage) {
+                NextPage += 1;
                 if (CurrentPage != NextPage) {
-                    setTimeout(this.wbc_getUsers.bind(this), 0, WBC, ++NextPage, CurrentPage, URL, Callback, this.parseHtml((await this.request({method: `GET`, queue: true, url: URL + NextPage})).responseText));
+                    setTimeout(this.wbc_getUsers.bind(this), 0, WBC, NextPage, CurrentPage, URL, Callback, this.parseHtml((await this.request({method: `GET`, queue: true, url: URL + NextPage})).responseText));
                 } else {
-                    setTimeout(this.wbc_getUsers.bind(this), 0, WBC, ++NextPage, CurrentPage, URL, Callback, esgst.pageOuterWrap);
+                    setTimeout(this.wbc_getUsers.bind(this), 0, WBC, NextPage, CurrentPage, URL, Callback, esgst.pageOuterWrap);
                 }
             } else {
                 Callback();
@@ -29214,9 +30208,12 @@ class ESGST {
         discussion.created = discussion.author === esgst.username;
         discussion.poll = discussion.outerWrap.getElementsByClassName(`fa-align-left`)[0];
         if (discussion.headingColumn) {
-            discussion.commentsColumn = discussion.headingColumn.nextElementSibling;
+            discussion.commentsColumn = discussion.headingColumn.nextElementSibling || discussion.headingColumn.children[1];
             if (discussion.commentsColumn) {
                 discussion.comments = parseInt(discussion.commentsColumn.firstElementChild.textContent.replace(/,/g, ``));
+                if (esgst.giveawaysPath && esgst.adots && esgst.adots_index === 1 && esgst.ns) {
+                    discussion.commentsColumn.firstElementChild.textContent = discussion.commentsColumn.firstElementChild.textContent.replace(/\sComments/, ``);
+                }
             }
         }
         discussion.lastPost = discussion.outerWrap.getElementsByClassName(`table__column--last-comment`)[0];
@@ -29289,7 +30286,7 @@ class ESGST {
             }
         }
         if (esgst.ged) {
-            esgst.ged_addIcons(comments, context === document && main);
+            esgst.ged_addIcons(comments);
         }
     }
     async comments_get(context, mainContext, main, endless) {
@@ -29657,7 +30654,7 @@ class ESGST {
         elements = context.getElementsByClassName(`featured__table__row__left`);
         for (i = elements.length - 1; i >= 0; --i) {
             element = elements[i];
-            match = element.textContent.match(/(Gifts (Won|Sent)|Contributor Level)/);
+            match = element.textContent.match(/(Comments|Gifts (Won|Sent)|Contributor Level)/);
             if (match) {
                 key = match[2];
                 if (key) {
@@ -29689,6 +30686,8 @@ class ESGST {
                         profile.sentCV = parseFloat(profile.sentCvContainer.textContent.replace(/\$|,/g, ``));
                         profile.realSentCV = parseFloat(rows[0].columns[1].name.replace(/\$|,/g, ``));
                     }
+                } else if (match[1] === `Comments`) {
+                    profile.commentsRow = element.parentElement;
                 } else {
                     profile.levelRow = element.parentElement;
                     profile.levelRowLeft = element;
@@ -29937,9 +30936,6 @@ class ESGST {
                 id: `adots`
             },
             {
-                id: `df`
-            },
-            {
                 id: `ef`
             },
             {
@@ -30022,6 +31018,9 @@ class ESGST {
                 id: `gesl`
             },
             {
+                id: `df`
+            },
+            {
                 id: `gf`
             },
             {
@@ -30082,6 +31081,9 @@ class ESGST {
                 id: `pgb`
             },
             {
+                id: `pv`
+            },
+            {
                 id: `qgs`
             },
             { // needs to wait for QGS
@@ -30101,9 +31103,6 @@ class ESGST {
             },
             {
                 id: `sgac`
-            },
-            {
-                id: `sgg`
             },
             {
                 id: `sk`
@@ -30164,6 +31163,9 @@ class ESGST {
             },
             {
                 id: `gwr`
+            },
+            {
+                id: `geth`
             },
             {
                 id: `sal`
@@ -31184,7 +32186,7 @@ class ESGST {
         if (esgst.firstInstall) {
             await this.sync(syncer);
         } else if (syncer.autoSync || mainCallback || parameters) {
-            syncer.popup = new Popup(parameters ? `fa-circle-o-notch fa-spin` : `fa-refresh`, parameters ? `ESGST is syncing... Please wait until the sync is complete to close this popup.` : `Sync`);
+            syncer.popup = new Popup(parameters ? `fa-circle-o-notch fa-spin` : `fa-refresh`, parameters ? `ESGST is syncing your data... ${esgst.minimizePanel ? `You can close this popup, ESGST will notify you when it is done through the minimize panel.` : `Please do not close this popup until it is done.`}` : `Sync`, !esgst.minimizePanel);
             if (!syncer.autoSync && !parameters) {
                 syncer.popup.description.insertAdjacentHTML(`afterBegin`, `<div class="esgst-description">By selecting a number X in the dropdown menu next to each data other than 0, you are enabling automatic sync for that data (which means the data will be synced every X days).</div>`);
                 syncer.switches = {
@@ -31254,6 +32256,9 @@ class ESGST {
         }
     }    
     cancelSync(syncer) {
+        if (syncer.process) {
+            syncer.process.stop();
+        }
         syncer.canceled = true;
     }    
     async sync(syncer) {
@@ -31526,89 +32531,13 @@ class ESGST {
         // sync giveaways
         if (!syncer.autoSync && ((syncer.parameters && syncer.parameters.Giveaways) || (!syncer.parameters && esgst.settings.syncGiveaways)) && esgst.sg) {
             syncer.progress.lastElementChild.textContent = `Syncing your giveaways...`;
-            let user = {
+            const key = `sent`;
+            const user = {
                 steamId: esgst.steamId,
                 username: esgst.username
             };
-            let savedUser = await this.getUser(null, user);
-            let giveaways = null;
-            if (savedUser) {
-                giveaways = savedUser.giveaways;
-            }
-            if (!giveaways) {
-                giveaways = {
-                    sent: {
-                        apps: {},
-                        subs: {}
-                    },
-                    won: {
-                        apps: {},
-                        subs: {}
-                    },
-                    sentTimestamp: 0,
-                    wonTimestamp: 0
-                };
-                if (savedUser) {
-                    let ugd = savedUser.ugd;
-                    if (ugd) {
-                        let ggiveaways = {};
-                        if (ugd.sent) {
-                            for (let key in ugd.sent.apps) {
-                                giveaways.sent.apps[key] = [];
-                                for (let i = 0, n = ugd.sent.apps[key].length; i < n; ++i) {
-                                    ggiveaways[ugd.sent.apps[key][i].code] = ugd.sent.apps[key][i];
-                                    giveaways.sent.apps[key].push(ugd.sent.apps[key][i].code);
-                                }
-                            }
-                            for (let key in ugd.sent.subs) {
-                                giveaways.sent.subs[key] = [];
-                                for (let i = 0, n = ugd.sent.subs[key].length; i < n; ++i) {
-                                    ggiveaways[ugd.sent.subs[key][i].code] = ugd.sent.subs[key][i];
-                                    giveaways.sent.subs[key].push(ugd.sent.subs[key][i].code);
-                                }
-                            }
-                            giveaways.sentTimestamp = ugd.sentTimestamp;
-                        }
-                        if (ugd.won) {
-                            for (let key in ugd.won.apps) {
-                                giveaways.won.apps[key] = [];
-                                for (let i = 0, n = ugd.won.apps[key].length; i < n; ++i) {
-                                    ggiveaways[ugd.won.apps[key][i].code] = ugd.won.apps[key][i];
-                                    giveaways.won.apps[key].push(ugd.won.apps[key][i].code);
-                                }
-                            }
-                            for (let key in ugd.won.subs) {
-                                giveaways.won.subs[key] = [];
-                                for (let i = 0, n = ugd.won.subs[key].length; i < n; ++i) {
-                                    ggiveaways[ugd.won.subs[key][i].code] = ugd.won.subs[key][i];
-                                    giveaways.won.subs[key].push(ugd.won.subs[key][i].code);
-                                }
-                            }
-                            giveaways.wonTimestamp = ugd.wonTimestamp;
-                        }
-                        if (Object.keys(ggiveaways).length > 0) {
-                            await this.lockAndSaveGiveaways(ggiveaways);
-                        }
-                    }
-                }
-            }
-            let UGD = {
-                key: `sent`
-            };
-            UGD.giveaways = {};
-            if (giveaways.version !== `7.13.0`) {
-                giveaways.sent = {
-                    apps: {},
-                    subs: {}
-                };
-                giveaways.sentTimestamp = 0;
-                giveaways.version = `7.13.0`;
-            }
-            user.values = {
-                giveaways: await this.ugd_get(UGD, giveaways, 1, esgst.username),
-                ugd: null
-            };
-            await this.saveUser(null, null, user);
+            syncer.process = this.ugd_add(null, key, user, syncer);
+            await syncer.process.start();
         }
     
         // finish sync
@@ -31645,7 +32574,8 @@ class ESGST {
         if (syncer.parameters && syncer.popup) {
             syncer.popup.icon.classList.remove(`fa-circle-o-notch`, `fa-spin`);
             syncer.popup.icon.classList.add(`fa-check`);
-            syncer.popup.title.textContent = `Done! You can close this now.`;
+            syncer.popup.setTitle(`Sync done! You can close this popup now.`);
+            syncer.popup.setDone(true);
         }
     }    
     async syncWhitelistBlacklist(key, syncer, url) {
@@ -32057,7 +32987,7 @@ class ESGST {
             rows[1].innerHTML = ``;
         } else {
             let preset = null;
-            if (esgst.df) {
+            if (esgst.df && esgst.df_m && esgst.df_enable) {
                 let name = esgst.df_preset;
                 if (name) {
                     let i;
@@ -32070,7 +33000,7 @@ class ESGST {
             if (preset) {
                 const filters = this.df_getFilters();
                 (await this.discussions_get(rows[0], true)).forEach(discussion => {
-                    if (!this.filters_filterItem(filters, discussion, preset.rules)) {
+                    if (!this.filters_filterItem(`df`, filters, discussion, preset.rules)) {
                         discussion.outerWrap.remove();
                         filteredDiscussions += 1;
                     } else {
@@ -32078,7 +33008,7 @@ class ESGST {
                     }
                 });
                 (await this.discussions_get(rows[1], true)).forEach(deal => {
-                    if (!this.filters_filterItem(filters, deal, preset.rules)) {
+                    if (!this.filters_filterItem(`df`, filters, deal, preset.rules)) {
                         deal.outerWrap.remove();
                         filteredDeals += 1;
                     } else {
@@ -32096,7 +33026,7 @@ class ESGST {
             let response2Html = this.parseHtml(response2.responseText);
             let revisedElements = [];
             let preset = null;
-            if (esgst.df) {
+            if (esgst.df && esgst.df_m && esgst.df_enable) {
                 let name = esgst.df_preset;
                 if (name) {
                     let i;
@@ -32114,7 +33044,7 @@ class ESGST {
             const filters = this.df_getFilters();
             let i = revisedElements.length - (numDiscussions + filteredDiscussions + 1);
             while (numDiscussions < 5 && i > -1) {
-                if (!preset || this.filters_filterItem(filters, revisedElements[i], preset.rules)) {
+                if (!preset || this.filters_filterItem(`df`, filters, revisedElements[i], preset.rules)) {
                     setMissingDiscussion(revisedElements[i]);
                     rows[0].appendChild(revisedElements[i].outerWrap);
                     numDiscussions += 1;
@@ -32124,7 +33054,7 @@ class ESGST {
             let elements = await this.discussions_get(response2Html, true);
             i = elements.length - (numDeals + filteredDeals + 1);
             while (numDeals < 5 && i > -1) {
-                if (!preset || this.filters_filterItem(filters, elements[i], preset.rules)) {
+                if (!preset || this.filters_filterItem(`df`, filters, elements[i], preset.rules)) {
                     setMissingDiscussion(elements[i]);
                     rows[1].appendChild(elements[i].outerWrap);
                     numDeals += 1;
@@ -32635,6 +33565,9 @@ class ESGST {
             SMFeatures.classList.remove(`esgst-hidden`);
         } else if (ID === `gwr`) {
             this.addGwcrMenuPanel(SMFeatures, `gwr_colors`, `ratio`);
+            SMFeatures.classList.remove(`esgst-hidden`);
+        } else if (ID === `geth`) {
+            this.addGwcrMenuPanel(SMFeatures, `geth_colors`, `hours`);
             SMFeatures.classList.remove(`esgst-hidden`);
         } else if (ID === `gc_r`) {
             this.addGcRatingPanel(SMFeatures);
@@ -33665,7 +34598,7 @@ class ESGST {
             context.innerHTML = ``;
         } else {
             if (dm.autoBackup) {
-                popup = new Popup(`fa-circle-o-notch fa-spin`, `ESGST is backing up your data... Please do not close this window until it is done.`, true, true);
+                popup = new Popup(`fa-circle-o-notch fa-spin`, `ESGST is backing up your data... ${esgst.minimizePanel ? `You can close this popup, ESGST will notify you when it is done through the minimize panel.` : `Please do not close this popup until it is done.`}`, !esgst.minimizePanel, true);
             } else {
                 popup = new Popup(icon, title1, true, true);
             }
@@ -33934,7 +34867,10 @@ class ESGST {
             this.manageData(dm, dropbox, googleDrive, oneDrive, false, async () => {
                 delLocalValue(`isBackingUp`);
                 await this.setSetting(`lastBackup`, Date.now());
-                popup.close();
+                popup.icon.classList.remove(`fa-circle-o-notch`, `fa-spin`);
+                popup.icon.classList.add(`fa-check`);
+                popup.setTitle(`Backup done! You can close this popup now.`);
+                popup.setDone(true);
             });
         } else {
             for (i = 0, n = dm.options.length; i < n; ++i) {
@@ -35077,11 +36013,11 @@ class ESGST {
             if (dm.type === `export` || esgst.settings.exportBackup) {
                 if (dropbox || (dm.type !== `export` && esgst.settings.exportBackupIndex === 1)) {
                     await this.delValue(`dropboxToken`);
-                    openSmallWindow(`https://www.dropbox.com/oauth2/authorize?redirect_uri=https://${location.hostname}/esgst/dropbox&response_type=token&client_id=nix7kvchwa8wdvj`);
+                    openSmallWindow(`https://www.dropbox.com/oauth2/authorize?redirect_uri=https://www.steamgifts.com/esgst/dropbox&response_type=token&client_id=nix7kvchwa8wdvj`);
                     this.checkDropboxComplete(data, dm, callback);
                 } else if (googleDrive || (dm.type !== `export` && esgst.settings.exportBackupIndex === 2)) {
                     await this.delValue(`googleDriveToken`);
-                    openSmallWindow(`https://accounts.google.com/o/oauth2/v2/auth?redirect_uri=https://${location.hostname}/esgst/google-drive&response_type=token&client_id=102804278399-95kit5e09mdskdta7eq97ra7tuj20qps.apps.googleusercontent.com&scope=https://www.googleapis.com/auth/drive.appdata`);
+                    openSmallWindow(`https://accounts.google.com/o/oauth2/v2/auth?redirect_uri=https://www.steamgifts.com/esgst/google-drive&response_type=token&client_id=102804278399-95kit5e09mdskdta7eq97ra7tuj20qps.apps.googleusercontent.com&scope=https://www.googleapis.com/auth/drive.appdata`);
                     this.checkGoogleDriveComplete(data, dm, callback);
                 } else if (oneDrive || (dm.type !== `export` && esgst.settings.exportBackupIndex === 3)) {
                     await this.delValue(`oneDriveToken`);
@@ -35151,11 +36087,11 @@ class ESGST {
         let file;
         if (dropbox) {
             await this.delValue(`dropboxToken`);
-            openSmallWindow(`https://www.dropbox.com/oauth2/authorize?redirect_uri=https://${location.hostname}/esgst/dropbox&response_type=token&client_id=nix7kvchwa8wdvj`);
+            openSmallWindow(`https://www.dropbox.com/oauth2/authorize?redirect_uri=https://www.steamgifts.com/esgst/dropbox&response_type=token&client_id=nix7kvchwa8wdvj`);
             this.checkDropboxComplete(null, dm, callback);
         } else if (googleDrive) {
             await this.delValue(`googleDriveToken`);
-            openSmallWindow(`https://accounts.google.com/o/oauth2/v2/auth?redirect_uri=https://${location.hostname}/esgst/google-drive&response_type=token&client_id=102804278399-95kit5e09mdskdta7eq97ra7tuj20qps.apps.googleusercontent.com&scope=https://www.googleapis.com/auth/drive.appdata`);
+            openSmallWindow(`https://accounts.google.com/o/oauth2/v2/auth?redirect_uri=https://www.steamgifts.com/esgst/google-drive&response_type=token&client_id=102804278399-95kit5e09mdskdta7eq97ra7tuj20qps.apps.googleusercontent.com&scope=https://www.googleapis.com/auth/drive.appdata`);
             this.checkGoogleDriveComplete(null, dm, callback);
         } else if (oneDrive) {
             await this.delValue(`oneDriveToken`);
@@ -35165,18 +36101,26 @@ class ESGST {
             file = dm.input.files[0];
             if (file) {
                 dm.reader = new FileReader();
-                dm.reader.readAsText(file);
-                dm.reader.onload = this.readImportFile.bind(this, dm, dropbox, googleDrive, oneDrive, space, callback);
+                const blob = file.name.match(/\.zip$/) && file;
+                if (blob) {
+                    this.readImportFile(dm, dropbox, googleDrive, oneDrive, space, blob, callback);
+                } else {
+                    dm.reader.readAsText(file);
+                    dm.reader.onload = this.readImportFile.bind(this, dm, dropbox, googleDrive, oneDrive, space, null, callback);
+                }
             } else {
                 createFadeMessage(dm.warning, `No file was loaded!`);
                 callback();
             }
         }
     }    
-    readImportFile(dm, dropbox, googleDrive, oneDrive, space, callback) {
+    async readImportFile(dm, dropbox, googleDrive, oneDrive, space, blob, callback) {
         try {
             if (dm.reader) {
-                dm.data = JSON.parse(dm.reader.result);
+                dm.data = JSON.parse(blob
+                    ? (await this.readZip(blob))[0].value
+                    : dm.reader.result
+                );
             }
             createConfirmation(`Are you sure you want to restore the selected data?`, this.manageData.bind(this, dm, dropbox, googleDrive, oneDrive, space, callback), callback);
         } catch (error) {
@@ -35808,6 +36752,59 @@ class ESGST {
             `;
         }
         style += `
+            @keyframes border-blink {
+                50% {
+                    border-color: transparent;
+                }
+            }
+
+            .esgst-minimize-panel {
+                left: -198px;
+                position: fixed;
+                top: 0;
+                width: 200px;
+                z-index: 999999999;
+            }
+
+            .esgst-minimize-panel:hover {
+                padding-left: 198px;
+            }
+
+            .esgst-minimize-container {
+                background-color: #fff;
+                height: 100vh;
+                overflow-y: auto;
+                padding: 5px;
+                width: 188px;
+            }
+
+            .esgst-minimize-panel.alert {
+                animation: border-blink 1s ease-in-out infinite;
+                border-right: 10px solid #ff0000;
+                left: -200px;
+            }
+
+            .esgst-minimize-panel.alert:hover {
+                border: none;
+                left: -198px;
+            }
+
+            .esgst-minimize-item.alert {
+                animation: border-blink 1s ease-in-out infinite;
+                border: 2px solid #ff0000;
+            }
+
+            :root {
+                --esgst-body-bg-color: #f0f2f5;
+            }
+
+            .sticky_sentinel {
+                left: 0;
+                position: absolute;
+                right: 0;
+                visibility: hidden;
+            }
+
             .esgst-gf-basic-filters {
                 display: flex;
                 justify-content: space-between;
@@ -36010,11 +37007,12 @@ class ESGST {
             }
     
             .esgst-qiv-popout {
+                max-height: 600px !important;
+                overflow: hidden !important;
                 width: 600px;
             }
     
             .esgst-qiv-comments {
-                max-height: 600px !important;
                 overflow-y: auto;
             }
     
@@ -36219,7 +37217,7 @@ class ESGST {
             }
     
             .esgst-tab-menu {
-                background-color: #f0f2f5;
+                background-color: var(--esgst-body-bg-color);
                 background-image: none;
                 display: block;
                 padding: 25px;
@@ -36340,6 +37338,11 @@ class ESGST {
             .esgst-ugd-table .table__column--width-small {
                 min-width: 0;
                 width: 12%;
+            }
+
+            .esgst-ugd-lists {
+                display: flex;
+                justify-content: center;
             }
     
             .markdown {
@@ -36580,15 +37583,8 @@ class ESGST {
     
             .esgst-cfh-panel {
                 margin: 0 0 2px;
+                position: sticky;
                 text-align: left;
-            }
-
-            .esgst-cfh-panel-fixed {
-                background-color: #fff;
-                border: 1px solid #ccc;
-                border-radius: 5px;
-                padding: 2px;
-                position: fixed;
             }
     
             .esgst-cfh-panel >* {
@@ -36680,29 +37676,46 @@ class ESGST {
     
             .esgst-fh {
                 height: auto !important;
-                position: fixed;
+                position: sticky;
                 top: 0;
-                width: 100%;
                 z-index: 999 !important;
+            }
+
+            .esgst-fs {
+                overflow-y: hidden;
+                position: sticky;
+            }
+
+            .esgst-fs.stuck {
+                overflow-y: auto;
+            }
+
+            .esgst-fs.stuck .sidebar__mpu {
+                display: none !important;
+            }
+
+            .esgst-fmph {
+                background-color: var(--esgst-body-bg-color);
+                margin-top: -5px;
+                padding: 5px 0;
+                position: sticky;
+                z-index: 998;
+            }
+
+            .esgst-fmph + * {
+                margin-top: -5px;
             }
     
             .esgst-ff {
-                background-color: #95a4c0;
+                background-color: inherit;
                 bottom: 0;
                 padding: 0;
-                position: fixed;
-                text-shadow: none;
-                width: 100%;
+                position: sticky;
                 z-index: 999;
             }
     
             .esgst-ff >* {
-                max-width: none;
                 padding: 15px 25px;
-            }
-    
-            .esgst-ff-sibling {
-                margin-bottom: 39px;
             }
     
             .esgst-sgac-button, .esgst-sgg-button {
@@ -37001,7 +38014,7 @@ class ESGST {
             }
     
             .esgst-popup {
-                background-color: #f0f2f5;
+                background-color: var(--esgst-body-bg-color);
                 border-radius: 4px;
                 color: #465670;
                 padding: 25px;
@@ -37259,7 +38272,9 @@ class ESGST {
             }
     
             .esgst-gf-container {
+                position: sticky;
                 text-align: left;
+                z-index: 998;
             }
     
             .esgst-gf-container:not(.esgst-popup-scrollable) {
@@ -37282,6 +38297,10 @@ class ESGST {
                 flex: 1;
                 max-height: 500px;
                 overflow-y: auto;
+            }
+
+            .esgst-gf-right-panel .form__input-small {
+                width: 100px !important;
             }
 
             .esgst-gf-filters >* {
@@ -37485,6 +38504,10 @@ class ESGST {
                 text-overflow: ellipsis;
                 vertical-align: middle;
                 white-space: nowrap;
+            }
+
+            .esgst-ns .esgst-adots .table__column__heading, .esgst-ns .esgst-adots .homepage_table_column_heading {
+                max-width: 100px;
             }
     
             .sidebar .esgst-adots .table__row-outer-wrap {
@@ -38851,6 +39874,10 @@ class Popout {
     }
     reposition(context = null) {
         let contextLeft, contextRect, contextTop, popoutHeight, popoutWidth, popupRect;
+        this.popout.style.height = ``;
+        if (esgst.qiv && esgst.qiv.popout === this && esgst.qiv.comments) {
+            esgst.qiv.comments.style.maxHeight = ``;
+        }
         this.popout.style.left = `0`;
         this.popout.style.top = `0`;
         this.context = context || this.context;
@@ -38858,9 +39885,18 @@ class Popout {
         contextLeft = contextRect.left;
         contextTop = contextRect.top;
         if (contextTop > (innerHeight - (contextTop + contextRect.height))) {
-            this.popout.style.maxHeight = `${contextTop - 10}px`;
+            this.popout.style.maxHeight = `${contextTop}px`;
         } else {
-            this.popout.style.maxHeight = `${innerHeight - (contextTop + contextRect.height) - 10}px`;
+            this.popout.style.maxHeight = `${innerHeight - (contextTop + contextRect.height)}px`;
+        }
+        const oldHeight = this.popout.offsetHeight;
+        const newHeight = Math.max(
+            Math.min(oldHeight, document.documentElement.clientHeight - (contextTop + contextRect.height)),
+            Math.min(oldHeight, contextTop)
+        );
+        this.popout.style.height = `${newHeight}px`;
+        if (esgst.qiv && esgst.qiv.popout === this && esgst.qiv.comments) {
+            esgst.qiv.comments.style.maxHeight = `${newHeight - esgst.qiv.comments.offsetTop}px`;
         }
         popoutHeight = this.popout.offsetHeight;
         popoutWidth = this.popout.offsetWidth;
@@ -38962,6 +39998,9 @@ class Popup {
                 this.popup.remove();
             } else {
                 this.popup.classList.add(`esgst-hidden`);
+                if (esgst.minimizePanel) {
+                    _ESGST.minimizePanel_addItem(this);
+                }
             }
         } else {
             this.popup.style = ``;
@@ -38989,6 +40028,18 @@ class Popup {
                 this.popup.style.left = `${newLeft}px`;
                 this.popup.style.top = `${newTop}px`;
             }
+        }
+    }
+    setTitle(title) {
+        this.title.innerHTML = title;
+        if (this.minimizeLink) {
+            this.minimizeLink.textContent = title;
+        }
+    }
+    setDone(temp) {
+        this.temp = temp;
+        if (esgst.minimizePanel) {
+            _ESGST.minimizePanel_alert(this);
         }
     }
 }
@@ -39121,6 +40172,9 @@ class Popup_v2 {
                 this.popup.remove();
             } else {
                 this.popup.classList.add(`esgst-hidden`);
+                if (esgst.minimizePanel) {
+                    _ESGST.minimizePanel_addItem(this);
+                }
             }
         } else {
             this.popup.style = ``;
@@ -39200,21 +40254,30 @@ class Popup_v2 {
         this.overallProgress.textContent = ``;
         this.scrollable.innerHTML = ``;
     }
+    setDone(temp) {
+        this.temp = temp;
+        if (esgst.minimizePanel) {
+            _ESGST.minimizePanel_alert(this);
+        }
+    }
 }
 
 class Process {
     constructor(details) {
+        this.mainPopup = details.mainPopup;
         this.popupDetails = details.popup;
         this.contextHtml = details.contextHtml;
         this.init = details.init;
         this.requests = details.requests;
         this.urls = details.urls;
-        if (details.button) {
-            this.button = details.button;
-        } else {
-            this.button = _ESGST.createHeadingButton(details.headingButton);
+        if (!details.mainPopup) {
+            if (details.button) {
+                this.button = details.button;
+            } else {
+                this.button = _ESGST.createHeadingButton(details.headingButton);
+            }
+            this.button.addEventListener(`click`, this.openPopup.bind(this));
         }
-        this.button.addEventListener(`click`, this.openPopup.bind(this));
     }
     async openPopup() {
         if (this.popup) {
@@ -39233,10 +40296,7 @@ class Process {
                 callback2: this.stop.bind(this)
             }
         ];
-        this.popup = new Popup_v2(this.popupDetails);        
-        if (this.popupDetails.addCfhEvent && esgst.cfh) {
-            _ESGST.cfh_addScrollingEvent(this.popup.scrollable);
-        }
+        this.popup = new Popup_v2(this.popupDetails);
         this.popup.open();
         if (this.urls) {
             this.index = 0;
@@ -39247,38 +40307,54 @@ class Process {
             if (!this.urls.doNotTrigger) {
                 this.popup.triggerButton(0);
             }
-        }
-        if (esgst[`es_${this.urls.id}`]) {
-            this.popup.scrollable.addEventListener(`scroll`, () => {
-                if (this.popup.scrollable.scrollTop + this.popup.scrollable.offsetHeight >= this.popup.scrollable.scrollHeight && !this.popup.isButtonBusy(0)) {
-                    this.popup.triggerButton(0);
-                }
-            });
+            if (esgst[`es_${this.urls.id}`]) {
+                this.popup.scrollable.addEventListener(`scroll`, () => {
+                    if (this.popup.scrollable.scrollTop + this.popup.scrollable.offsetHeight >= this.popup.scrollable.scrollHeight && !this.popup.isButtonBusy(0)) {
+                        this.popup.triggerButton(0);
+                    }
+                });
+            }
         }
     }
     async start() {
-        this.button.classList.add(`esgst-busy`);
+        if (this.button) {
+            this.button.classList.add(`esgst-busy`);
+        }
         this.isCanceled = false;
 
-        if (!this.urls || this.urls.doNotTrigger) {
+        if (this.popup && (!this.urls || this.urls.doNotTrigger)) {
             this.popup.clear();
         }
 
         if (this.init && (await this.init(this))) {
-            this.button.classList.remove(`esgst-busy`);
+            if (this.button) {
+                this.button.classList.remove(`esgst-busy`);
+            }
             return;
         }
 
         if (this.urls) {
             await this.requestNextUrl(this.urls.request);
         } else {
-            for (let i = 0, n = this.requests.length; !this.isCanceled && i < n; i++) {
-                await this.request(this.requests[i]);
+            for (let i = 0; !this.isCanceled && i < this.requests.length; i++) {
+                const request = this.requests[i];
+                if (typeof request === `object`) {
+                    await this.request(request);
+                    if (request.onDone) {
+                        await request.onDone(this, request);
+                    }
+                } else {
+                    await request(this);
+                }
             }
         }
 
-        this.button.classList.remove(`esgst-busy`);
-        this.popup.clearProgress();
+        if (this.button) {
+            this.button.classList.remove(`esgst-busy`);
+        }
+        if (this.popup) {
+            this.popup.clearProgress();
+        }
     }
     stop() {
         this.isCanceled = true;
@@ -39318,6 +40394,7 @@ class Process {
         let backup = details.nextPage;
         details.lastPage = ``;
         let pagination = null;
+        let stop = false;
         do {
             let response = await _ESGST.request({method: `GET`, queue: details.queue, url: `${details.url}${details.nextPage}`});
             let responseHtml = _ESGST.parseHtml(response.responseText);
@@ -39325,11 +40402,108 @@ class Process {
                 details.lastPage = _ESGST.lpl_getLastPage(responseHtml, false, details.source);
                 details.lastPage = details.lastPage === 999999999 ? `` : ` of ${details.lastPage}`;
             }
-            await details.request(this, details, response, responseHtml);
+            stop = await details.request(this, details, response, responseHtml);
             details.nextPage += 1;
             pagination = responseHtml.getElementsByClassName(`pagination__navigation`)[0];
-        } while (!this.isCanceled && (!details.maxPage || details.nextPage <= details.maxPage) && pagination && !pagination.lastElementChild.classList.contains(esgst.selectedClass));
+        } while (!stop && !this.isCanceled && (!details.maxPage || details.nextPage <= details.maxPage) && pagination && !pagination.lastElementChild.classList.contains(esgst.selectedClass));
         details.nextPage = backup;
+    }
+}
+
+class Table {
+    /**
+     * @param {Array[]} [values] A matrix containing the values of the table.
+     */
+    constructor(values) {
+        this.table = document.createElement(`div`);
+        this.table.className = `table esgst-ugd-table`;
+        this.table.innerHTML = `
+            <div class="table__heading"></div>
+            <div class="table__rows"></div>
+        `;
+        this.heading = this.table.firstElementChild;
+        this.rows = this.heading.nextElementSibling;
+        this.hiddenColumns = [];
+        this.numRows = 0;
+        this.numColumns = 0;
+
+        if (!values) {
+            return this;
+        }
+
+        for (const column of values[0]) {
+            this.addColumn(column);
+        }
+        const n = values.length;
+        for (let i = 1; i < n; i++) {
+            this.addRow(values[i]);
+        }
+    }
+    addRow(columns) {
+        const row = insertHtml(this.rows, `beforeEnd`, `
+            <div class="table__row-outer-wrap">
+                <div class="table__row-inner-wrap"></div>
+            </div>        
+        `).firstElementChild;
+        let isBold = false;
+        for (let i = 0; i < this.numColumns; i++) {
+            let cell = columns ? columns[i] : ``;
+            let additionalClasses = [];
+            let alignment = `center`;
+            let attributes = [];
+            let size = `small`;
+            if (cell && typeof cell === `object`) {
+                additionalClasses = additionalClasses.concat(cell.additionalClasses);
+                alignment = cell.alignment || alignment;
+                attributes = attributes.concat(cell.attributes);
+                size = cell.size || size;
+                cell = cell.value;
+            }
+            if (this.hiddenColumns.indexOf(i) > -1) {
+                additionalClasses.push(`esgst-hidden`);
+            }
+            if (i === 0 && cell && cell === `Total`) {
+                isBold = true;
+            }
+            if (!cell || cell === `0 (0%)`) {
+                additionalClasses.push(`is-faded`);
+            }
+            if (isBold) {
+                additionalClasses.push(`esgst-bold`);
+            }
+            row.insertAdjacentHTML(`beforeEnd`, `
+                <div class="table__column--width-${size} text-${alignment} ${additionalClasses.join(` `)}" ${attributes.join(` `)}>
+                    ${cell}
+                </div>
+            `);
+        }
+        this.numRows += 1;
+    }
+    addColumn(column) {
+        let cell = typeof column === `string` ? column : column.value;
+        let additionalClasses = [].concat(column.additionalClasses);
+        let alignment = column.alignment || `center`;
+        let attributes = [].concat(column.attributes);
+        let size = column.size || `small`;
+        this.heading.insertAdjacentHTML(`beforeEnd`, `
+            <div class="table__column--width-${size} text-${alignment} ${additionalClasses.join(` `)}" ${attributes.join(` `)}>${cell}</div>
+        `);
+        for (let i = 0; i < this.numRows; i++) {
+            const row = this.rows.children[i];
+            row.insertAdjacentHTML(`beforeEnd`, `
+                <div class="table__column--width-${size} text-${alignment} ${cell === `Total` ? `esgst-bold` : ``}${additionalClasses.join(` `)}" ${attributes.join(` `)}></div>            
+            `);
+        }
+        this.numColumns += 1;
+    }
+    hideColumns() {
+        for (const column of arguments) {
+            this.hiddenColumns.push(column - 1);
+            this.heading.children[column - 1].classList.add(`esgst-hidden`);
+            for (let i = this.numRows.length - 1; i > -1; i--) {
+                this.rows.children[i].firstElementChild.chilren[column - 1].classList.add(`esgst-hidden`);
+            }
+        }
     }
 }
 
@@ -39417,6 +40591,50 @@ class ToggleSwitch {
 let esgst, _ESGST = new ESGST();
 // initialize esgst
 _ESGST.init();
+
+function observeStickyChanges() {
+    observeHeaders();
+}
+
+/**
+ * Sets up an intersection observer to notify when elements with the class
+ * `.sticky_sentinel--top` become visible/invisible at the top of the container.
+ * @param {Element} container
+ */
+function observeHeaders() {
+    const observer = new IntersectionObserver(records => {
+        for (const record of records) {
+            const targetInfo = record.boundingClientRect;
+            const stickyTarget = record.target.parentElement.querySelector(`.sticky`);
+            const rootBoundsInfo = record.rootBounds;
+
+            // Started sticking.
+            if (targetInfo.bottom < rootBoundsInfo.top) {
+                stickyTarget.classList.add(`stuck`);
+            }
+
+            // Stopped sticking.
+            if (
+                targetInfo.bottom >= rootBoundsInfo.top &&
+                targetInfo.bottom < rootBoundsInfo.bottom
+            ) {
+                stickyTarget.classList.remove(`stuck`);
+            }
+        }
+    }, {threshold: 0});
+  
+    // Add the top sentinels to each section and attach an observer.
+    const sentinels = addSentinels(`sticky_sentinel--top`);
+    sentinels.forEach(el => observer.observe(el));
+}
+
+function addSentinels(className) {
+    return Array.from(document.querySelectorAll(`.sticky`)).map(el => {
+        const sentinel = document.createElement(`div`);
+        sentinel.classList.add(`sticky_sentinel`, className);
+        return el.parentElement.appendChild(sentinel);
+    });
+}
 
 function setClearButton(input) {
     const button = input.nextElementSibling;
@@ -40426,7 +41644,7 @@ function formatTags(fullMatch, match1, offset, string) {
     return (((offset === 0) || (offset === (string.length - fullMatch.length))) ? `` : `, `);
 }
 
-function animateScroll(y) {
+function animateScroll(y, callback) {
     // From https://stackoverflow.com/a/26808520/8115112
 
     let currentTime, time;
@@ -40445,6 +41663,9 @@ function animateScroll(y) {
             scrollTo(0,  scrollY + ((y -  scrollY) * ((p /= 0.5) < 1 ? 0.5 * Math.pow(p, 5) : 0.5 * (Math.pow((p - 2), 5) + 2))));
         } else {
             scrollTo(0, y);
+            if (callback) {
+                callback();
+            }
         }
     }
 
@@ -40585,6 +41806,38 @@ function getThemeCss(theme) {
 function loadChangelog(version) {
     let changelog, html, i, index, n, popup;
     changelog = [
+        {
+            date: `June 10, 2018`,
+            version: `7.21.0`,
+            changelog: `
+                <ul>
+                    <li><a href="https://github.com/revilheart/ESGST/issues/765">#765</a> Fix a bug that does not allow restoring .zip files</li>
+                    <li><a href="https://github.com/revilheart/ESGST/issues/764">#764</a> Fix a bug that does not save filter settings if only basic filters are enabled</li>
+                    <li><a href="https://github.com/revilheart/ESGST/issues/763">#763</a> Fix a bug that does not retrieve all pages correctly in Whitelist/Blacklist Checker</li>
+                    <li><a href="https://github.com/revilheart/ESGST/issues/762">#762</a> Fix a bug that adds duplicate "Sticky group" buttons</li>
+                    <li><a href="https://github.com/revilheart/ESGST/issues/760">#760</a> Add SteamGifts' CSS file to the repository to prevent ESGST pages from being messed up if cg updates the CSS</li>
+                    <li><a href="https://github.com/revilheart/ESGST/issues/759">#759</a> Fix a bug that shows wrong list of users in Group Library/Wishlist Checker when searching by app ID</li>
+                    <li><a href="https://github.com/revilheart/ESGST/issues/758">#758</a> Fix a bug that only previews comments on user input</li>
+                    <li><a href="https://github.com/revilheart/ESGST/issues/757">#757</a> Fix a bug that does not load encrypted giveaways</li>
+                    <li><a href="https://github.com/revilheart/ESGST/issues/756">#756</a> Open settings menu when clicking on the extension icon</li>
+                    <li><a href="https://github.com/revilheart/ESGST/issues/755">#755</a> Add option to minimize non-temporary popups</li>
+                    <li><a href="https://github.com/revilheart/ESGST/issues/753">#753</a> Fix a bug that adds duplicate "Skip User" buttons to Whitelist/Blacklist Checker</li>
+                    <li><a href="https://github.com/revilheart/ESGST/issues/752">#752</a> Fix active discussions on narrow sidebar</li>
+                    <li><a href="https://github.com/revilheart/ESGST/issues/750">#750</a> Fix a bug that positions large popouts incorrectly in screens below 1440x900</li>
+                    <li><a href="https://github.com/revilheart/ESGST/issues/749">#749</a> Fix a bug that does not allow applying empty presets</li>
+                    <li><a href="https://github.com/revilheart/ESGST/issues/748">#748</a> Improve the scrolling</li>
+                    <li><a href="https://github.com/revilheart/ESGST/issues/747">#747</a> Fix a bug that applies discussion filter on the main page even when disabled</li>
+                    <li><a href="https://github.com/revilheart/ESGST/issues/746">#746</a> Add a feature: Points Visualizer</li>
+                    <li><a href="https://github.com/revilheart/ESGST/issues/745">#745</a> Fix a style issue in the filters</li>
+                    <li><a href="https://github.com/revilheart/ESGST/issues/744">#744</a> Add a new game category: DLC (Base Owned)</li>
+                    <li><a href="https://github.com/revilheart/ESGST/issues/743">#743</a> Bring back option to select which filters to appear</li>
+                    <li><a href="https://github.com/revilheart/ESGST/issues/742">#742</a> Fix a bug that does not load Multi-Manager in the regular pages</li>
+                    <li><a href="https://github.com/revilheart/ESGST/issues/711">#711</a> Fix a bug in Quick Inbox View</li>
+                    <li><a href="https://github.com/revilheart/ESGST/issues/671">#671</a> Add a feature: Giveaway End Time Highlighter</li>
+                    <li><a href="https://github.com/revilheart/ESGST/issues/573">#573</a> Completely revamp User Giveaway Data</li>
+                </ul>
+            `
+        },
         {
             date: `May 28, 2018`,
             version: `7.20.5`,
