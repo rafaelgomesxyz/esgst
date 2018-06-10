@@ -3003,7 +3003,7 @@ class ESGST {
             sg: location.hostname.match(/www.steamgifts.com/),
             st: location.hostname.match(/www.steamtrades.com/),
             currentVersion: `7.20.5`,
-            devVersion: `7.21.0 (Dev.18)`,
+            devVersion: `7.21.0 (Dev.19)`,
             icon: `data:image/x-icon;base64,AAABAAEAEBAAAAEAIABoBAAAFgAAACgAAAAQAAAAIAAAAAEAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAqv8DCbP/Hgeq+CQIrf8iCK3/Igit/yIIrf8iB6//Iwit9x8Aqv8DAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAKr0GAa2/c0DvfzfA7f83QO3/N0Dt/zdA7f83QO+/d4Gs/3OAKP1GQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACm/xQFs/n2Bcf//wW///8FwP//BcD//wW///8Fx///BbP69gC2/xUAAAAAAAAAAAAAAAAA/1UDFptOFxSZMxkLpJktAq720QW1+ugEsfvjA7b92wO2/dsEsfvjBbX66Aau/dEoiO4tUlLWGU5k3hdVVf8DEJxKHxWqT8cVrU7uE6VN0guqny0Apv8XAJfQGwBAVywAQFcsAJfQGwCx/xcogugtS2Lk0lBl6u5Qae7ISmPeHxagSSMVr07jF7lV/xOiSu0brgATAAAAAAAAAA8AAAC/AAAAwAAAABAAAAAAYznjEkth4OxWb/3/T2jv40lf4iMXnksiEq1O3RayUv8UpEnkEo0+HQAAABkAAABBAAAA8QAAAPEAAABBAAAAGUBSvxxOYeDjU2v0/05m7d1LYuEiF55LIhKtTt0Ws1L/FahN2gU1FTAAAADAAAAA7AAAAP0AAAD9AAAA7AAAAMAVG0owUGPm2lNr9P9OZu3dS2LhIheeSyISrU7dFrNS/xWoTdoFNRswAAAAvwAAAOsAAAD9AAAA/QAAAOsAAADAFRtKMFBj6NpTa/T/Tmbt3Uti4SIXnksiEq1O3RayUv8UpEnkEo0+HQAAABgAAABAAAAA8QAAAPEAAABBAAAAGT5PuR1OYeDjU2v0/05m7d1LYuEiFqBJIxWuT+QXuVX/E6JL7QC8XhMAAAAAAAAADwAAAL8AAAC/AAAAEAAAAAAOR/8SSWLh7FZv/f9PaO/jSV/iIxCUSh8Vrk7HFqxN7ROlS9JskzMt1XULGK12EhxGLgYsRy8GK612EhzVgAsYgmxxLU1i39JNZ+vtT2fwx0pj1h8AqlUDF65GFgqZUhlsiC0txH0T0s5/EujJgBPkz4QR28+EEdvJgBPkzn8Q6Md+E9KLdHosM1LWGUZo6BZVVf8DAAAAAAAAAAAAAAAA/2YAFMl9EvbgjRb/14gV/9eIFf/XiBX/14gV/9+NFv/KgBD254YAFQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAL91FRjKgRHN1IgU3s+EEt3PhBLdz4QS3c+EEt3UiBTezYMRzcJ6FBkAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACqqgADxIARHr18FiO8eA8ivHgPIrx4DyK8eA8ivXwPI8SAER7/VQADAAAAAAAAAAAAAAAA78cAAPA3AAD4FwAABCAAADGOAAAE+AAAkBEAAJ55AACYOQAAlgEAAER4AAAXaAAATnoAAPgXAAD0JwAA69cAAA==`,
             sgIcon: `data:image/x-icon;base64,AAABAAEAEBAAAAEAIABoBAAAFgAAACgAAAAQAAAAIAAAAAEAIAAAAAAAQAQAABMLAAATCwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIUAAAD5AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAPoAAACFAAAAAAAAAAAAAAD8AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA+QAAAAAAAAAAAAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAAAAAAAAAAAAP8AAAD/AAAA/wAAABwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAcAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAcAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAHAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAAAAAAAAAAAAPwAAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD5AAAAAAAAAAAAAACFAAAA+QAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD5AAAAhQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA//8AAP//AADAAwAAwAMAAMfjAADP8wAAz/MAAM/zAADP8wAAz/MAAM/zAADH4wAAwAMAAMADAAD//wAA//8AAA==`,
             stIcon: `data:image/x-icon;base64,AAABAAEAEBAAAAEAIABoBAAAFgAAACgAAAAQAAAAIAAAAAEAIAAAAAAAQAQAABMLAAATCwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABbD6SgWw+ucFsPrkBbD6SgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAWw+uYFsPr/BbD6/wWw+ucAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAFsPrmBbD6/wWw+v8FsPrmAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABbD6SQWw+uYFsPrmBbD6SQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAFKRLShSkS+cUpEvkFKRLSgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAExi4EpMYuDnTGLg5Exi4EoAAAAAAAAAABSkS+YUpEv/FKRL/xSkS+cAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABMYuDmTGLg/0xi4P9MYuDnAAAAAAAAAAAUpEvmFKRL/xSkS/8UpEvmAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAATGLg5kxi4P9MYuD/TGLg5gAAAAAAAAAAFKRLSRSkS+YUpEvmFKRLSQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAExi4ElMYuDmTGLg5kxi4EkAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAMZ9E0rGfRPnxn0T5MZ9E0oAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADGfRPmxn0T/8Z9E//GfRPnAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAxn0T5sZ9E//GfRP/xn0T5gAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAMZ9E0nGfRPmxn0T5sZ9E0kAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA//8AAPw/AAD8PwAA/D8AAPw/AAD//wAAh+EAAIfhAACH4QAAh+EAAP//AAD8PwAA/D8AAPw/AAD8PwAA//8AAA==`,
@@ -7498,6 +7498,11 @@ class ESGST {
                         sg: true,
                         st: true
                     },
+                    minimizePanel: {
+                        name: `Add closed popups that were not removed to a panel of minimized popups.`,
+                        sg: true,
+                        st: true
+                    },
                     getSyncGameNames: {
                         description: `
                             <ul>
@@ -7855,26 +7860,55 @@ class ESGST {
             this.loadFeatures();
         }
     }
-    addToPopupsPanel(popup) {
-        const link = insertHtml(esgst.popupsPanel, `beforeEnd`, `
-            <li><a href="javascript:void(0);">${popup.title.textContent.replace(/:$/, ``)}</a></li>
-        `);
-        link.addEventListener(`click`, () => {
-            popup.open();
-            link.remove();
-        });
-    }
-    async loadFeatures() {
-        esgst.popupsPanel = insertHtml(esgst.pageOuterWrap, `beforeEnd`, `
-            <div class="esgst-popups-panel">
-                <div class="markdown">
+    minimizePanel_add() {
+        if (!esgst.pageOuterWrap) {
+            return;
+        }
+
+        esgst.minimizePanel = insertHtml(esgst.pageOuterWrap, `beforeEnd`, `
+            <div class="esgst-minimize-panel">
+                <div class="esgst-minimize-container markdown">
                     <h3>Minimized Popups:</h3>
                     <hr></hr>
-                    <ul>
-                    </ul>
+                    <ul class="esgst-minimize-list"></ul>
                 </div>
             </div>
-        `).firstElementChild.lastElementChild;
+        `);
+        esgst.minimizeList = esgst.minimizePanel.firstElementChild.lastElementChild;
+    }
+    minimizePanel_addItem(popup) {
+        if (!esgst.minimizeList) {
+            return;
+        }
+
+        popup.minimizeItem = insertHtml(esgst.minimizeList, `beforeEnd`, `
+            <li class="esgst-minimize-item">
+                <a href="javascript:void(0);">${popup.title.textContent.replace(/:$/, ``)}</a>
+            </li>
+        `);
+        popup.minimizeLink = popup.minimizeItem.firstElementChild;
+        popup.minimizeItem.addEventListener(`click`, this.minimizePanel_openItem.bind(this, popup));
+    }
+    minimizePanel_openItem(popup) {
+        popup.open();
+        popup.minimizeItem.remove();
+        popup.minimizeItem = null;
+        if (!esgst.minimizePanel.getElementsByClassName(`alert`).length) {
+            esgst.minimizePanel.classList.remove(`alert`);
+        }
+    }
+    minimizePanel_alert(popup) {
+        if (popup.minimizeItem) {
+            popup.minimizeItem.classList.add(`alert`);
+        }
+        if (esgst.minimizePanel) {
+            esgst.minimizePanel.classList.add(`alert`);
+        }
+    }
+    async loadFeatures() {
+        if (esgst.minimizePanel) {
+            this.minimizePanel_add();
+        }
 
         let hiddenButtonsBefore, hiddenButtonsAfter;
         if (esgst.hideButtons) {
@@ -23065,7 +23099,10 @@ class ESGST {
             }
         }
 
-        if (users.length === 0) return;
+        if (users.length === 0) {            
+            obj.popup.setDone();
+            return;
+        }
 
         // check users
         users = sortArray(users);
@@ -23133,11 +23170,15 @@ class ESGST {
             obj.popup.overallProgress.textContent = `${i + 1} of ${n} users checked...`;
         }
 
-        if (obj.isCanceled) return;
+        if (obj.isCanceled) {            
+            obj.popup.setDone();
+            return;
+        }
 
         if (!esgst.ust || obj.isMenu) {
             obj.button.classList.remove(`esgst-busy`);
             obj.popup.progress.innerHTML = ``;
+            obj.popup.setDone();
             return;
         }
 
@@ -23176,6 +23217,7 @@ class ESGST {
         await this.saveUsers(users);
         obj.button.classList.remove(`esgst-busy`);
         obj.popup.progress.innerHTML = ``;
+        obj.popup.setDone();
     }
     namwc_stop(obj) {
         obj.button.classList.remove(`esgst-busy`);
@@ -27754,6 +27796,7 @@ class ESGST {
                 skip.innerHTML = ``;
                 WBCButton.classList.remove(`esgst-busy`);
                 Callback();
+                WBC.popup.setDone();
             });
         }, () => {
             skip.innerHTML = ``;
@@ -31816,7 +31859,8 @@ class ESGST {
         if (syncer.parameters && syncer.popup) {
             syncer.popup.icon.classList.remove(`fa-circle-o-notch`, `fa-spin`);
             syncer.popup.icon.classList.add(`fa-check`);
-            syncer.popup.title.textContent = `Done! You can close this now.`;
+            syncer.popup.setTitle(`Done! You can close this now.`);
+            syncer.popup.setDone(true);
         }
     }    
     async syncWhitelistBlacklist(key, syncer, url) {
@@ -35982,24 +36026,46 @@ class ESGST {
             `;
         }
         style += `
-            .esgst-popups-panel {
+            @keyframes border-blink {
+                50% {
+                    border-color: transparent;
+                }
+            }
+
+            .esgst-minimize-panel {
                 left: -198px;
-                position:  fixed;
+                position: fixed;
                 top: 0;
                 width: 200px;
                 z-index: 999999999;
             }
 
-            .esgst-popups-panel:hover {
+            .esgst-minimize-panel:hover {
                 padding-left: 198px;
             }
 
-            .esgst-popups-panel >* {
+            .esgst-minimize-container {
                 background-color: #fff;
                 height: 100vh;
                 overflow-y: auto;
                 padding: 5px;
                 width: 188px;
+            }
+
+            .esgst-minimize-panel.alert {
+                animation: border-blink 1s ease-in-out infinite;
+                border-right: 10px solid #ff0000;
+                left: -200px;
+            }
+
+            .esgst-minimize-panel.alert:hover {
+                border: none;
+                left: -198px;
+            }
+
+            .esgst-minimize-item.alert {
+                animation: border-blink 1s ease-in-out infinite;
+                border: 2px solid #ff0000;
             }
 
             :root {
@@ -39209,7 +39275,9 @@ class Popup {
                 this.popup.remove();
             } else {
                 this.popup.classList.add(`esgst-hidden`);
-                _ESGST.addToPopupsPanel(this);
+                if (esgst.minimizePanel) {
+                    _ESGST.minimizePanel_addItem(this);
+                }
             }
         } else {
             this.popup.style = ``;
@@ -39237,6 +39305,18 @@ class Popup {
                 this.popup.style.left = `${newLeft}px`;
                 this.popup.style.top = `${newTop}px`;
             }
+        }
+    }
+    setTitle(title) {
+        this.title.innerHTML = title;
+        if (this.minimizeLink) {
+            this.minimizeLink.textContent = title;
+        }
+    }
+    setDone(temp) {
+        this.temp = temp;
+        if (esgst.minimizePanel) {
+            _ESGST.minimizePanel_alert(this);
         }
     }
 }
@@ -39369,7 +39449,9 @@ class Popup_v2 {
                 this.popup.remove();
             } else {
                 this.popup.classList.add(`esgst-hidden`);
-                _ESGST.addToPopupsPanel(this);
+                if (esgst.minimizePanel) {
+                    _ESGST.minimizePanel_addItem(this);
+                }
             }
         } else {
             this.popup.style = ``;
@@ -39448,6 +39530,12 @@ class Popup_v2 {
         this.progressMessage = null;
         this.overallProgress.textContent = ``;
         this.scrollable.innerHTML = ``;
+    }
+    setDone(temp) {
+        this.temp = temp;
+        if (esgst.minimizePanel) {
+            _ESGST.minimizePanel_alert(this);
+        }
     }
 }
 
