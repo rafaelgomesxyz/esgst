@@ -10,7 +10,8 @@
     "browser_action": {
         "default_icon": {
             "64": "icon.png"
-        }
+        },
+        "default_popup": "popup.html"
     },
     "content_scripts": [
         {
