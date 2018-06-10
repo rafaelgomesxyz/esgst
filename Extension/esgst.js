@@ -3003,7 +3003,11 @@ class ESGST {
             sg: location.hostname.match(/www.steamgifts.com/),
             st: location.hostname.match(/www.steamtrades.com/),
             currentVersion: `7.20.5`,
+<<<<<<< HEAD
             devVersion: `7.21.0 (Dev.26)`,
+=======
+            devVersion: `7.21.0 (Dev.13)`,
+>>>>>>> parent of 751e478... v7.21.0 (Dev.14) Generate ESGST-exclusive pages in the account page instead of a separate page (close #760)
             icon: `data:image/x-icon;base64,AAABAAEAEBAAAAEAIABoBAAAFgAAACgAAAAQAAAAIAAAAAEAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAqv8DCbP/Hgeq+CQIrf8iCK3/Igit/yIIrf8iB6//Iwit9x8Aqv8DAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAKr0GAa2/c0DvfzfA7f83QO3/N0Dt/zdA7f83QO+/d4Gs/3OAKP1GQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACm/xQFs/n2Bcf//wW///8FwP//BcD//wW///8Fx///BbP69gC2/xUAAAAAAAAAAAAAAAAA/1UDFptOFxSZMxkLpJktAq720QW1+ugEsfvjA7b92wO2/dsEsfvjBbX66Aau/dEoiO4tUlLWGU5k3hdVVf8DEJxKHxWqT8cVrU7uE6VN0guqny0Apv8XAJfQGwBAVywAQFcsAJfQGwCx/xcogugtS2Lk0lBl6u5Qae7ISmPeHxagSSMVr07jF7lV/xOiSu0brgATAAAAAAAAAA8AAAC/AAAAwAAAABAAAAAAYznjEkth4OxWb/3/T2jv40lf4iMXnksiEq1O3RayUv8UpEnkEo0+HQAAABkAAABBAAAA8QAAAPEAAABBAAAAGUBSvxxOYeDjU2v0/05m7d1LYuEiF55LIhKtTt0Ws1L/FahN2gU1FTAAAADAAAAA7AAAAP0AAAD9AAAA7AAAAMAVG0owUGPm2lNr9P9OZu3dS2LhIheeSyISrU7dFrNS/xWoTdoFNRswAAAAvwAAAOsAAAD9AAAA/QAAAOsAAADAFRtKMFBj6NpTa/T/Tmbt3Uti4SIXnksiEq1O3RayUv8UpEnkEo0+HQAAABgAAABAAAAA8QAAAPEAAABBAAAAGT5PuR1OYeDjU2v0/05m7d1LYuEiFqBJIxWuT+QXuVX/E6JL7QC8XhMAAAAAAAAADwAAAL8AAAC/AAAAEAAAAAAOR/8SSWLh7FZv/f9PaO/jSV/iIxCUSh8Vrk7HFqxN7ROlS9JskzMt1XULGK12EhxGLgYsRy8GK612EhzVgAsYgmxxLU1i39JNZ+vtT2fwx0pj1h8AqlUDF65GFgqZUhlsiC0txH0T0s5/EujJgBPkz4QR28+EEdvJgBPkzn8Q6Md+E9KLdHosM1LWGUZo6BZVVf8DAAAAAAAAAAAAAAAA/2YAFMl9EvbgjRb/14gV/9eIFf/XiBX/14gV/9+NFv/KgBD254YAFQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAL91FRjKgRHN1IgU3s+EEt3PhBLdz4QS3c+EEt3UiBTezYMRzcJ6FBkAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACqqgADxIARHr18FiO8eA8ivHgPIrx4DyK8eA8ivXwPI8SAER7/VQADAAAAAAAAAAAAAAAA78cAAPA3AAD4FwAABCAAADGOAAAE+AAAkBEAAJ55AACYOQAAlgEAAER4AAAXaAAATnoAAPgXAAD0JwAA69cAAA==`,
             sgIcon: `data:image/x-icon;base64,AAABAAEAEBAAAAEAIABoBAAAFgAAACgAAAAQAAAAIAAAAAEAIAAAAAAAQAQAABMLAAATCwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIUAAAD5AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAPoAAACFAAAAAAAAAAAAAAD8AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA+QAAAAAAAAAAAAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAAAAAAAAAAAAP8AAAD/AAAA/wAAABwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAcAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAcAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAHAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAAAAAAAAAAAAPwAAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD5AAAAAAAAAAAAAACFAAAA+QAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD5AAAAhQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA//8AAP//AADAAwAAwAMAAMfjAADP8wAAz/MAAM/zAADP8wAAz/MAAM/zAADH4wAAwAMAAMADAAD//wAA//8AAA==`,
             stIcon: `data:image/x-icon;base64,AAABAAEAEBAAAAEAIABoBAAAFgAAACgAAAAQAAAAIAAAAAEAIAAAAAAAQAQAABMLAAATCwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABbD6SgWw+ucFsPrkBbD6SgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAWw+uYFsPr/BbD6/wWw+ucAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAFsPrmBbD6/wWw+v8FsPrmAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABbD6SQWw+uYFsPrmBbD6SQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAFKRLShSkS+cUpEvkFKRLSgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAExi4EpMYuDnTGLg5Exi4EoAAAAAAAAAABSkS+YUpEv/FKRL/xSkS+cAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABMYuDmTGLg/0xi4P9MYuDnAAAAAAAAAAAUpEvmFKRL/xSkS/8UpEvmAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAATGLg5kxi4P9MYuD/TGLg5gAAAAAAAAAAFKRLSRSkS+YUpEvmFKRLSQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAExi4ElMYuDmTGLg5kxi4EkAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAMZ9E0rGfRPnxn0T5MZ9E0oAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADGfRPmxn0T/8Z9E//GfRPnAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAxn0T5sZ9E//GfRP/xn0T5gAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAMZ9E0nGfRPmxn0T5sZ9E0kAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA//8AAPw/AAD8PwAA/D8AAPw/AAD//wAAh+EAAIfhAACH4QAAh+EAAP//AAD8PwAA/D8AAPw/AAD8PwAA//8AAA==`,
@@ -3015,6 +3019,15 @@ class ESGST {
             ustTickets: {},
             numUstTickets: 0,
             elgbCache: JSON.parse(getLocalValue(`elgbCache`, `{"descriptions": {}, "timestamp": ${Date.now()}}`)),
+            menuPath: location.pathname.match(/^\/esgst\//),
+            settingsPath: location.pathname.match(/^\/esgst\/settings/),
+            importMenuPath: location.pathname.match(/^\/esgst\/(import|restore)/),
+            exportMenuPath: location.pathname.match(/^\/esgst\/(backup|export)/),
+            deleteMenuPath: location.pathname.match(/^\/esgst\/delete/),
+            gbPath: location.pathname.match(/^\/esgst\/bookmarked-giveaways/),
+            gedPath: location.pathname.match(/^\/esgst\/decrypted-giveaways/),
+            gePath: location.pathname.match(/^\/esgst\/extracted-giveaways/),
+            glwcPath: location.pathname.match(/^\/esgst\/glwc/),
             userPath: location.pathname.match(/^\/user\//),
             groupPath: location.pathname.match(/^\/group\//),
             regionsPath: location.pathname.match(/^\/regions\//),
@@ -3072,16 +3085,6 @@ class ESGST {
             endlessFeatures: [],
             edited: {}
         };
-        esgst.specialUrl = esgst.sg ? `/account/settings/profile` : `/settings`;
-        esgst.menuPath = esgst.parameters.esgst;
-        esgst.settingsPath = esgst.parameters.esgst === `settings`;
-        esgst.importMenuPath = esgst.parameters.esgst === `restore`;
-        esgst.exportMenuPath = esgst.parameters.esgst === `backup`;
-        esgst.deleteMenuPath = esgst.parameters.esgst === `delete`;
-        esgst.gbPath = esgst.parameters.esgst === `bookmarked-giveaways`;
-        esgst.gedPath = esgst.parameters.esgst === `decrypted-giveaways`;
-        esgst.gePath = esgst.parameters.esgst === `extracted-giveaways`;
-        esgst.glwcPath = esgst.parameters.esgst === `glwc`;
         esgst.markdownParser.setBreaksEnabled(true);
         esgst.markdownParser.setMarkupEscaped(true);
         esgst.name = esgst.sg ? `sg` : `st`;
@@ -3302,7 +3305,7 @@ class ESGST {
                     if (event.button === 2) return;
                     event.preventDefault();
                     if (esgst.openSettingsInTab || event.button === 1) {
-                        open(`${esgst.specialUrl}?esgst=settings`);
+                        open(`/esgst/settings`);
                     } else {
                         this.menu();
                     }
@@ -3530,7 +3533,7 @@ class ESGST {
                     if (event.button === 2) return;
                     event.preventDefault();
                     if (esgst.openSettingsInTab || event.button === 1) {
-                        open(`${esgst.specialUrl}?esgst=settings`);
+                        open(`/esgst/settings`);
                     } else {
                         this.menu();
                     }
@@ -7678,7 +7681,10 @@ class ESGST {
     }
     async load(toDelete, toSet) {
         if (esgst.menuPath) {
-            document.body.innerHTML = ``;
+            document.head.insertAdjacentHTML(`beforeEnd`, `
+                <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+                <link rel="stylesheet" type="text/css" href="https://cdn.steamgifts.com/css/minified_v33.css">
+            `);
         }
         this.addStyle();
         if (esgst.sg) {
@@ -7738,7 +7744,11 @@ class ESGST {
             location.href = `${location.href}/`;
         }
 
-        if (esgst.parameters.esgst === `sync`) {
+        if (location.pathname.match(/esgst-settings/)) {
+            location.href = `/esgst/settings`;
+        } else if (location.pathname.match(/esgst-sync/)) {
+            location.href = `/esgst/sync`;
+        } else if (location.pathname.match(/esgst\/sync/)) {
             await this.setSync();
         } else if (location.pathname.match(/^\/esgst\/dropbox/)) {
             await this.setValue(`dropboxToken`, location.hash.match(/access_token=(.+?)&/)[1]);
@@ -7770,7 +7780,7 @@ class ESGST {
             if (esgst.autoBackup) {
                 this.checkBackup();
             }
-            if (!esgst.menuPath && esgst.profilePath && esgst.autoSync) {
+            if (esgst.profilePath && esgst.autoSync) {
                 document.getElementsByClassName(`form__sync-default`)[0].addEventListener(`click`, this.setSync.bind(this, true, null, null));
             }
             if (esgst.menuPath) {
@@ -13448,7 +13458,7 @@ class ESGST {
                 if (event.button === 2) return;
                 event.preventDefault();
                 if (esgst.gb_t || event.button === 1) {
-                    open(`${esgst.specialUrl}?esgst=bookmarked-giveaways`);
+                    open(`/esgst/bookmarked-giveaways`);
                 } else {
                     let popup = new Popup(`fa-bookmark`, `Bookmarked Giveaways`, true);
                     this.gb_loadGibs(bookmarked, popup.description, popup.scrollable, popup);
@@ -14904,7 +14914,7 @@ class ESGST {
             let ge = {
                 button: this.createHeadingButton({id: `ge`, icons: [`fa-gift`, `fa-search`], title: `Extract giveaways`})
             };
-            this.setMouseEvent(ge.button, `ge_t`, `${esgst.specialUrl}?esgst=extracted-giveaways&url=${location.pathname.match(/^\/(giveaway|discussion)\/.+?\//)[0]}`, this.ge_openPopup.bind(this, ge));
+            this.setMouseEvent(ge.button, `ge_t`, `/esgst/extracted-giveaways?url=${location.pathname.match(/^\/(giveaway|discussion)\/.+?\//)[0]}`, this.ge_openPopup.bind(this, ge));
         } else if (esgst.gePath) {
             let ge = {
                 context: this.parseHtml((await this.request({method: `GET`, url: getParameters().url})).responseText)
@@ -15190,7 +15200,7 @@ class ESGST {
         if (esgst.gedPath) {
             ged.container = ged.context = esgst.mainContext;
         } else if (esgst.ged_t || (event && event.button === 1)) {
-            open(`${esgst.specialUrl}?esgst=decrypted-giveaways`);
+            open(`/esgst/decrypted-giveaways`);
         } else {
             ged.popup = new Popup(`fa-star`, `Decrypted Giveaways`, true);
             ged.container = ged.popup.description;
@@ -17619,14 +17629,14 @@ class ESGST {
         if (esgst.whitelistPath || esgst.blacklistPath || esgst.groupPath) {
             let parameters;
             if (esgst.whitelistPath) {
-                parameters = `&url=account/manage/whitelist`;
+                parameters = `?url=account/manage/whitelist`;
             } else if (esgst.blacklistPath) {
-                parameters = `&url=account/manage/blacklist`;
+                parameters = `?url=account/manage/blacklist`;
             } else {
-                parameters = `&url=${location.pathname.match(/\/(group\/(.+?)\/(.+?))(\/.*)?$/)[1]}/users&id=${document.querySelector(`[href*="/gid/"]`).getAttribute(`href`).match(/\d+/)[0]}`;
+                parameters = `?url=${location.pathname.match(/\/(group\/(.+?)\/(.+?))(\/.*)?$/)[1]}/users&id=${document.querySelector(`[href*="/gid/"]`).getAttribute(`href`).match(/\d+/)[0]}`;
             }
             this.createHeadingButton({id: `glwc`, icons: [`fa-folder`, `fa-star`], title: `Check libraries/wishlists`}).addEventListener(`click`, () => {
-                open(`${esgst.specialUrl}?esgst=glwc${parameters}`);
+                open(`/esgst/glwc${parameters}`);
             });
         } else if (esgst.glwcPath) {
             let glwc = {}, parameters;
@@ -31461,9 +31471,9 @@ class ESGST {
                 });
                 if (parameters) {
                     if (esgst.sg) {
-                        open(`${esgst.specialUrl}?esgst=sync?${parameters.replace(/&$/, ``)}`);
+                        open(`/esgst/sync?${parameters.replace(/&$/, ``)}`);
                     } else {
-                        open(`${esgst.specialUrl}?esgst=sync?${parameters.replace(/&$/, ``)}`);
+                        open(`/esgst/sync?${parameters.replace(/&$/, ``)}`);
                     }
                 } else {
                     delLocalValue(`isSyncing`);
@@ -39252,7 +39262,7 @@ class Popup {
                     if (event.button === 2) return;
                     event.preventDefault();
                     if (esgst.openSettingsInTab || event.button === 1) {
-                        open(`${esgst.specialUrl}?esgst=settings`);
+                        open(`/esgst/settings`);
                     } else {
                         _ESGST.menu();
                     }
@@ -39379,7 +39389,7 @@ class Popup_v2 {
                     if (event.button === 2) return;
                     event.preventDefault();
                     if (esgst.openSettingsInTab || event.button === 1) {
-                        open(`${esgst.specialUrl}?esgst=settings`);
+                        open(`/esgst/settings`);
                     } else {
                         _ESGST.menu();
                     }
