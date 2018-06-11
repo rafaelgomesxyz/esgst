@@ -238,6 +238,10 @@ To learn more about each feature you have to install ESGST.
 
 **7.21.0 (June 10, 2018)**
 
+* Hotfix for v7.20.4
+
+**7.21.0 (June 10, 2018)**
+
 * [#765](https://github.com/revilheart/ESGST/issues/765) Fix a bug that does not allow restoring .zip files
 * [#764](https://github.com/revilheart/ESGST/issues/764) Fix a bug that does not save filter settings if only basic filters are enabled
 * [#763](https://github.com/revilheart/ESGST/issues/763) Fix a bug that does not retrieve all pages correctly in Whitelist/Blacklist Checker
