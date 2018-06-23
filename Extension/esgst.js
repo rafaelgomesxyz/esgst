@@ -3005,7 +3005,7 @@ class ESGST {
             sg: location.hostname.match(/www.steamgifts.com/),
             st: location.hostname.match(/www.steamtrades.com/),
             currentVersion: `7.21.1`,
-            devVersion: `7.21.2 (Dev.15)`,
+            devVersion: `7.21.2 (Dev.16)`,
             icon: `data:image/x-icon;base64,AAABAAEAEBAAAAEAIABoBAAAFgAAACgAAAAQAAAAIAAAAAEAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAqv8DCbP/Hgeq+CQIrf8iCK3/Igit/yIIrf8iB6//Iwit9x8Aqv8DAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAKr0GAa2/c0DvfzfA7f83QO3/N0Dt/zdA7f83QO+/d4Gs/3OAKP1GQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACm/xQFs/n2Bcf//wW///8FwP//BcD//wW///8Fx///BbP69gC2/xUAAAAAAAAAAAAAAAAA/1UDFptOFxSZMxkLpJktAq720QW1+ugEsfvjA7b92wO2/dsEsfvjBbX66Aau/dEoiO4tUlLWGU5k3hdVVf8DEJxKHxWqT8cVrU7uE6VN0guqny0Apv8XAJfQGwBAVywAQFcsAJfQGwCx/xcogugtS2Lk0lBl6u5Qae7ISmPeHxagSSMVr07jF7lV/xOiSu0brgATAAAAAAAAAA8AAAC/AAAAwAAAABAAAAAAYznjEkth4OxWb/3/T2jv40lf4iMXnksiEq1O3RayUv8UpEnkEo0+HQAAABkAAABBAAAA8QAAAPEAAABBAAAAGUBSvxxOYeDjU2v0/05m7d1LYuEiF55LIhKtTt0Ws1L/FahN2gU1FTAAAADAAAAA7AAAAP0AAAD9AAAA7AAAAMAVG0owUGPm2lNr9P9OZu3dS2LhIheeSyISrU7dFrNS/xWoTdoFNRswAAAAvwAAAOsAAAD9AAAA/QAAAOsAAADAFRtKMFBj6NpTa/T/Tmbt3Uti4SIXnksiEq1O3RayUv8UpEnkEo0+HQAAABgAAABAAAAA8QAAAPEAAABBAAAAGT5PuR1OYeDjU2v0/05m7d1LYuEiFqBJIxWuT+QXuVX/E6JL7QC8XhMAAAAAAAAADwAAAL8AAAC/AAAAEAAAAAAOR/8SSWLh7FZv/f9PaO/jSV/iIxCUSh8Vrk7HFqxN7ROlS9JskzMt1XULGK12EhxGLgYsRy8GK612EhzVgAsYgmxxLU1i39JNZ+vtT2fwx0pj1h8AqlUDF65GFgqZUhlsiC0txH0T0s5/EujJgBPkz4QR28+EEdvJgBPkzn8Q6Md+E9KLdHosM1LWGUZo6BZVVf8DAAAAAAAAAAAAAAAA/2YAFMl9EvbgjRb/14gV/9eIFf/XiBX/14gV/9+NFv/KgBD254YAFQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAL91FRjKgRHN1IgU3s+EEt3PhBLdz4QS3c+EEt3UiBTezYMRzcJ6FBkAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACqqgADxIARHr18FiO8eA8ivHgPIrx4DyK8eA8ivXwPI8SAER7/VQADAAAAAAAAAAAAAAAA78cAAPA3AAD4FwAABCAAADGOAAAE+AAAkBEAAJ55AACYOQAAlgEAAER4AAAXaAAATnoAAPgXAAD0JwAA69cAAA==`,
             sgIcon: `data:image/x-icon;base64,AAABAAEAEBAAAAEAIABoBAAAFgAAACgAAAAQAAAAIAAAAAEAIAAAAAAAQAQAABMLAAATCwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIUAAAD5AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAPoAAACFAAAAAAAAAAAAAAD8AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA+QAAAAAAAAAAAAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAAAAAAAAAAAAP8AAAD/AAAA/wAAABwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAcAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAcAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAHAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAAAAAAAAAAAAPwAAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD5AAAAAAAAAAAAAACFAAAA+QAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD5AAAAhQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA//8AAP//AADAAwAAwAMAAMfjAADP8wAAz/MAAM/zAADP8wAAz/MAAM/zAADH4wAAwAMAAMADAAD//wAA//8AAA==`,
             stIcon: `data:image/x-icon;base64,AAABAAEAEBAAAAEAIABoBAAAFgAAACgAAAAQAAAAIAAAAAEAIAAAAAAAQAQAABMLAAATCwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABbD6SgWw+ucFsPrkBbD6SgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAWw+uYFsPr/BbD6/wWw+ucAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAFsPrmBbD6/wWw+v8FsPrmAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABbD6SQWw+uYFsPrmBbD6SQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAFKRLShSkS+cUpEvkFKRLSgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAExi4EpMYuDnTGLg5Exi4EoAAAAAAAAAABSkS+YUpEv/FKRL/xSkS+cAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABMYuDmTGLg/0xi4P9MYuDnAAAAAAAAAAAUpEvmFKRL/xSkS/8UpEvmAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAATGLg5kxi4P9MYuD/TGLg5gAAAAAAAAAAFKRLSRSkS+YUpEvmFKRLSQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAExi4ElMYuDmTGLg5kxi4EkAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAMZ9E0rGfRPnxn0T5MZ9E0oAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADGfRPmxn0T/8Z9E//GfRPnAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAxn0T5sZ9E//GfRP/xn0T5gAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAMZ9E0nGfRPmxn0T5sZ9E0kAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA//8AAPw/AAD8PwAA/D8AAPw/AAD//wAAh+EAAIfhAACH4QAAh+EAAP//AAD8PwAA/D8AAPw/AAD8PwAA//8AAA==`,
@@ -16771,11 +16771,16 @@ class ESGST {
                     if (!esgst[`${obj.id}_m_b`]) {
                         context = insertHtml(booleanFilters, `beforeEnd`, `
                             <div ${esgst[`${obj.id}_${key}`] ? `` : `class="esgst-hidden"`}>
-                                <span></span> ${filter.name}
+                                <span></span>
+                                <span class="esgst-gf-filter-count" title="Number of items this rule is hiding"></span>
+                                ${filter.name}
                             </div>
                         `);
                         checkbox = new Checkbox(context.firstElementChild, `enabled`, true);
                         obj.basicFilters[rule.id] = {
+                            data: {
+                                basicCount: context.firstElementChild.nextElementSibling
+                            },
                             input: rule.input,
                             operator: `equal`,
                             type: rule.type,
@@ -16809,6 +16814,7 @@ class ESGST {
                         if (!esgst[`${obj.id}_m_b`]) {
                             context = insertHtml(numberFilters, `beforeEnd`, `
                                 <div ${esgst[`${obj.id}_${key}`] ? `` : `class="esgst-hidden"`}>
+                                    <span class="esgst-gf-filter-count" title="Number of items this rule is hiding"></span>
                                     ${filter.name}
                                     <span>
                                         <input type="date">-<input type="date">
@@ -16832,6 +16838,7 @@ class ESGST {
                         if (!esgst[`${obj.id}_m_b`]) {
                             context = insertHtml(numberFilters, `beforeEnd`, `
                                 <div ${esgst[`${obj.id}_${key}`] ? `` : `class="esgst-hidden"`}>
+                                    <span class="esgst-gf-filter-count" title="Number of items this rule is hiding"></span>
                                     ${filter.name}
                                     <span>
                                         <input type="number">-<input type="number">
@@ -16845,6 +16852,9 @@ class ESGST {
                         minInput = context.lastElementChild.firstElementChild;
                         maxInput = minInput.nextElementSibling;                    
                         obj.basicFilters[rule.id] = {
+                            data: {
+                                basicCount: context.firstElementChild
+                            },
                             input: rule.input,
                             type: rule.type,
                             filterType: `number`,
@@ -16868,12 +16878,16 @@ class ESGST {
                                 <span>
                                     <span></span> ${filter.name}
                                 </span>
+                                <span class="esgst-gf-filter-count" title="Number of items this rule is hiding"></span>
                                 <input placeholder="Item1, Item2, ..." type="text">
                             </div>
                         `);
                         checkbox = new Checkbox(context.firstElementChild.firstElementChild, `enabled`,  true);
                         textInput = context.lastElementChild;
                         obj.basicFilters[rule.id] = {
+                            data: {
+                                basicCount: context.firstElementChild.nextElementSibling
+                            },
                             id: rule.id,
                             input: rule.input,
                             type: rule.type,
@@ -16913,6 +16927,7 @@ class ESGST {
                 group : `
                     <div id="{{= it.group_id }}" class="rules-group-container">
                         <div class="rules-group-header">
+                            <span class="esgst-gf-filter-count" title="Number of items this group is hiding">0</span>
                             <div class="btn-group pull-right group-actions">
                                 <button type="button" class="btn btn-xs btn-success" data-add="rule">
                                     <i class="{{= it.icons.add_rule }}"></i> {{= it.translate("add_rule") }}
@@ -16972,6 +16987,7 @@ class ESGST {
                             <i class="{{= it.icons.error }}"></i>
                         </div>
                     {{?}}
+                        <span class="esgst-gf-filter-count" title="Number of items this rule is hiding">0</span>
                         <div class="rule-filter-container"></div>
                         <div class="rule-operator-container"></div>
                         <div class="rule-value-container"></div>
@@ -17468,31 +17484,37 @@ class ESGST {
         }
         return newPresets;
     }
-    filters_changeRules(obj, event) {
-        const valid = obj.builder.validate();
-
+    filters_changeRules(obj, event) {        
         let out = [{
             condition: `AND`,
             not: false,
             rules: [],
-            valid: valid
+            valid: true
         }, {
             condition: `AND`,
             not: false,
             rules: [],
-            valid: valid
+            valid: true
         }];
+        let valid = false;
+        try {
+            valid = obj.builder.validate();
+        } catch (e) {
+            return out;
+        }
         if (!valid) {
             if (event) {
                 event.value = out;
             }
-
             return out;
-        }
-        
+        }        
+
         out = (function parse(group) {
             const groupData = {
                 condition: group.condition,
+                data: {
+                    count: group.$el[0].getElementsByClassName(`esgst-gf-filter-count`)[0]
+                },
                 rules: []
             };
             const groupData_save = {
@@ -17511,8 +17533,8 @@ class ESGST {
                 let value = null;
                 if (!rule.operator || rule.operator.nb_inputs !== 0) {
                     value = rule.value;
-                }    
-                const ruleData = {
+                }
+                const ruleData_save = {
                     id: rule.filter ? rule.filter.id : null,
                     field: rule.filter ? rule.filter.field : null,
                     type: rule.filter ? rule.filter.type : null,
@@ -17521,13 +17543,31 @@ class ESGST {
                     value: value
                 };
                 if (rule.$el[0].getAttribute(`data-esgst-paused`)) {
-                    ruleData.data = {
+                    ruleData_save.data = {
                         paused: true
                     };
                 } else {
+                    const ruleData = {
+                        data: rule.data,
+                        id: rule.filter ? rule.filter.id : null,
+                        field: rule.filter ? rule.filter.field : null,
+                        type: rule.filter ? rule.filter.type : null,
+                        input: rule.filter ? rule.filter.input : null,
+                        operator: rule.operator ? rule.operator.type : null,
+                        value: value
+                    };
+                    if (groupData.condition === `AND`) {
+                        if (!ruleData.data) {
+                            ruleData.data = {};
+                        }
+                        ruleData.data.count = rule.$el[0].getElementsByClassName(`esgst-gf-filter-count`)[0];
+                        ruleData.data.count.classList.remove(`esgst-hidden`);
+                    } else {
+                        rule.$el[0].getElementsByClassName(`esgst-gf-filter-count`)[0].classList.add(`esgst-hidden`);
+                    }
                     groupData.rules.push(obj.builder.change(`ruleToJson`, ruleData, rule));
                 }
-                groupData_save.rules.push(obj.builder.change(`ruleToJson`, ruleData, rule));
+                groupData_save.rules.push(obj.builder.change(`ruleToJson`, ruleData_save, rule));
             }, function (model) {
                 if (!event) {
                     if (model.data && model.data.paused) {
@@ -17579,6 +17619,7 @@ class ESGST {
                     if (filter.checkbox.value === `enabled`) break;
 
                     adv.rules.push({
+                        data: filter.data,
                         field: id,
                         id: id,
                         input: filter.input,
@@ -17590,6 +17631,7 @@ class ESGST {
                 case `number`:
                     if (filter.maxInput.value) {
                         adv.rules.push({
+                            data: filter.data,
                             field: id,
                             id: id,
                             input: filter.input,
@@ -17600,6 +17642,7 @@ class ESGST {
                     }
                     if (filter.minInput.value) {
                         adv.rules.push({
+                            data: filter.data,
                             field: id,
                             id: id,
                             input: filter.input,
@@ -17615,6 +17658,7 @@ class ESGST {
                     if (!filter.textInput.value) break;
 
                     adv.rules.push({
+                        data: filter.data,
                         field: id,
                         id: id,
                         input: filter.input,
@@ -17626,11 +17670,20 @@ class ESGST {
             }
         }
         obj.rules = adv;
-        if (obj.rules.rules && obj.rules.rules.length) {
+        if (obj.rules.rules) {
             if (esgst[`${obj.id}_m_a`]) {
                 obj.rules_save = obj.rules;
                 this.filters_filter(obj);
             } else {
+                if (!obj.rules.rules.length) {                
+                    obj.rules = {
+                        condition: `AND`,
+                        rules: [
+                            {empty: true}
+                        ],
+                        valid: true
+                    };
+                }
                 obj.basicApplied = true;
                 obj.builder.setRules(obj.rules);
             }
@@ -17885,6 +17938,10 @@ class ESGST {
         } else {
             items = obj.popup ? esgst.popupDiscussions : esgst.mainDiscussions;
         }
+        const counters = document.getElementsByClassName(`esgst-gf-filter-count`);
+        for (const counter of counters) {
+            counter.textContent = `0`;
+        }
         for (const item of items) {
             if (unfilter) {
                 if (item.outerWrap.classList.contains(`esgst-hidden`)) {
@@ -17938,7 +17995,11 @@ class ESGST {
                     filtered = true;
                 }
             }
-            return rules.not ? !filtered : filtered;
+            filtered = rules.not ? !filtered : filtered;
+            if (!filtered && rules.data && rules.data.count) {
+                rules.data.count.textContent = parseInt(rules.data.count.textContent) + 1;
+            }
+            return filtered;
         }
 
         filtered = true;
@@ -18035,6 +18096,14 @@ class ESGST {
                 }
 
                 break;
+        }
+        if (!filtered && rules.data) {
+            if (rules.data.count) {
+                rules.data.count.textContent = parseInt(rules.data.count.textContent) + 1;
+            }
+            if (rules.data.basicCount) {
+                rules.data.basicCount.textContent = parseInt(rules.data.basicCount.textContent) + 1;
+            }
         }
         return filtered;
     }
@@ -38520,6 +38589,7 @@ class ESGST {
                 border-radius: 5px;
                 font-size: 10px;
                 padding: 2px;
+                vertical-align: middle;
             }
     
             .esgst-gf-button {
