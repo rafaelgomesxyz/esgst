@@ -3005,7 +3005,7 @@ class ESGST {
             sg: location.hostname.match(/www.steamgifts.com/),
             st: location.hostname.match(/www.steamtrades.com/),
             currentVersion: `7.21.1`,
-            devVersion: `7.21.2 (Dev.18)`,
+            devVersion: `7.22.0 (Dev.1)`,
             icon: `data:image/x-icon;base64,AAABAAEAEBAAAAEAIABoBAAAFgAAACgAAAAQAAAAIAAAAAEAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAqv8DCbP/Hgeq+CQIrf8iCK3/Igit/yIIrf8iB6//Iwit9x8Aqv8DAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAKr0GAa2/c0DvfzfA7f83QO3/N0Dt/zdA7f83QO+/d4Gs/3OAKP1GQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACm/xQFs/n2Bcf//wW///8FwP//BcD//wW///8Fx///BbP69gC2/xUAAAAAAAAAAAAAAAAA/1UDFptOFxSZMxkLpJktAq720QW1+ugEsfvjA7b92wO2/dsEsfvjBbX66Aau/dEoiO4tUlLWGU5k3hdVVf8DEJxKHxWqT8cVrU7uE6VN0guqny0Apv8XAJfQGwBAVywAQFcsAJfQGwCx/xcogugtS2Lk0lBl6u5Qae7ISmPeHxagSSMVr07jF7lV/xOiSu0brgATAAAAAAAAAA8AAAC/AAAAwAAAABAAAAAAYznjEkth4OxWb/3/T2jv40lf4iMXnksiEq1O3RayUv8UpEnkEo0+HQAAABkAAABBAAAA8QAAAPEAAABBAAAAGUBSvxxOYeDjU2v0/05m7d1LYuEiF55LIhKtTt0Ws1L/FahN2gU1FTAAAADAAAAA7AAAAP0AAAD9AAAA7AAAAMAVG0owUGPm2lNr9P9OZu3dS2LhIheeSyISrU7dFrNS/xWoTdoFNRswAAAAvwAAAOsAAAD9AAAA/QAAAOsAAADAFRtKMFBj6NpTa/T/Tmbt3Uti4SIXnksiEq1O3RayUv8UpEnkEo0+HQAAABgAAABAAAAA8QAAAPEAAABBAAAAGT5PuR1OYeDjU2v0/05m7d1LYuEiFqBJIxWuT+QXuVX/E6JL7QC8XhMAAAAAAAAADwAAAL8AAAC/AAAAEAAAAAAOR/8SSWLh7FZv/f9PaO/jSV/iIxCUSh8Vrk7HFqxN7ROlS9JskzMt1XULGK12EhxGLgYsRy8GK612EhzVgAsYgmxxLU1i39JNZ+vtT2fwx0pj1h8AqlUDF65GFgqZUhlsiC0txH0T0s5/EujJgBPkz4QR28+EEdvJgBPkzn8Q6Md+E9KLdHosM1LWGUZo6BZVVf8DAAAAAAAAAAAAAAAA/2YAFMl9EvbgjRb/14gV/9eIFf/XiBX/14gV/9+NFv/KgBD254YAFQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAL91FRjKgRHN1IgU3s+EEt3PhBLdz4QS3c+EEt3UiBTezYMRzcJ6FBkAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACqqgADxIARHr18FiO8eA8ivHgPIrx4DyK8eA8ivXwPI8SAER7/VQADAAAAAAAAAAAAAAAA78cAAPA3AAD4FwAABCAAADGOAAAE+AAAkBEAAJ55AACYOQAAlgEAAER4AAAXaAAATnoAAPgXAAD0JwAA69cAAA==`,
             sgIcon: `data:image/x-icon;base64,AAABAAEAEBAAAAEAIABoBAAAFgAAACgAAAAQAAAAIAAAAAEAIAAAAAAAQAQAABMLAAATCwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIUAAAD5AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAPoAAACFAAAAAAAAAAAAAAD8AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA+QAAAAAAAAAAAAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAAAAAAAAAAAAP8AAAD/AAAA/wAAABwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAcAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAcAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAHAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAAAAAAAAAAAAPwAAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD5AAAAAAAAAAAAAACFAAAA+QAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD5AAAAhQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA//8AAP//AADAAwAAwAMAAMfjAADP8wAAz/MAAM/zAADP8wAAz/MAAM/zAADH4wAAwAMAAMADAAD//wAA//8AAA==`,
             stIcon: `data:image/x-icon;base64,AAABAAEAEBAAAAEAIABoBAAAFgAAACgAAAAQAAAAIAAAAAEAIAAAAAAAQAQAABMLAAATCwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABbD6SgWw+ucFsPrkBbD6SgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAWw+uYFsPr/BbD6/wWw+ucAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAFsPrmBbD6/wWw+v8FsPrmAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABbD6SQWw+uYFsPrmBbD6SQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAFKRLShSkS+cUpEvkFKRLSgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAExi4EpMYuDnTGLg5Exi4EoAAAAAAAAAABSkS+YUpEv/FKRL/xSkS+cAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABMYuDmTGLg/0xi4P9MYuDnAAAAAAAAAAAUpEvmFKRL/xSkS/8UpEvmAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAATGLg5kxi4P9MYuD/TGLg5gAAAAAAAAAAFKRLSRSkS+YUpEvmFKRLSQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAExi4ElMYuDmTGLg5kxi4EkAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAMZ9E0rGfRPnxn0T5MZ9E0oAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADGfRPmxn0T/8Z9E//GfRPnAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAxn0T5sZ9E//GfRP/xn0T5gAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAMZ9E0nGfRPmxn0T5sZ9E0kAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA//8AAPw/AAD8PwAA/D8AAPw/AAD//wAAh+EAAIfhAACH4QAAh+EAAP//AAD8PwAA/D8AAPw/AAD8PwAA//8AAA==`,
@@ -6205,6 +6205,15 @@ class ESGST {
             },
             trades: {
                 features: {
+                    hwlc: {
+                        description: `
+                            <ul>
+                                <li>Adds a button (<i class="fa fa-list"></i>) to the right side of the first page heading of any trade that allows you to check the have/want list against your wishlisted/owned games, along with some filtering options.</li>
+                            </ul>
+                        `,
+                        name: `Have/Want List Checker`,
+                        st: true
+                    },
                     tb: {
                         description: `
                             <ul>
@@ -20605,6 +20614,317 @@ class ESGST {
             notification.close();
         };
     }
+    hwlc() {
+        if (!esgst.tradePath) {
+            return;
+        }
+        let obj = {
+            button: this.createHeadingButton({
+                context: document.getElementsByClassName(`page_heading`)[0],
+                id: `hwlc`,
+                icons: [`fa-list`]
+            })
+        };
+        obj.button.addEventListener(`click`, this.hwlc_openPopup.bind(this, obj));
+    }
+    hwlc_openPopup(obj) {
+        if (obj.popup) {
+            obj.popup.open();
+            return;
+        }
+        obj.popup = new Popup_v2({
+            icon: `fa-list`,
+            title: `Have/Want List Checker`,
+            addScrollable: `left`
+        });
+        this.hwlc_addPanel(obj);
+        obj.popup.open();
+        setTimeout(this.hwlc_getGames.bind(this), 1000, obj);
+    }
+    hwlc_addPanel(obj) {
+        obj.panel = obj.popup.getScrollable();
+        obj.panel.classList.add(`esgst-hwlc-panel`, `markdown`);
+        obj.sections = {};
+        this.hwlc_addSection(obj, `have`, `want`);
+        this.hwlc_addSection(obj, `want`, `have`);
+    }
+    hwlc_addSection(obj, key, counterKey) {
+        obj[key] = document.querySelector(`.${key}`);
+        obj.panel.insertAdjacentHTML(`beforeEnd`, `        
+            <div class="esgst-hwlc-section">
+                <h2>You ${counterKey}:</h2>
+                <br>
+                <textarea id="esgst-hwlc-${key}-textArea"></textarea>
+                <br>
+                <br>
+                <h2>Matches (you ${counterKey} x they ${key}):</h2>
+                <ul id="esgst-hwlc-${key}-matches">
+                    <i class="fa fa-circle-o-notch fa-spin"></i>
+                </ul>
+                <br>
+                <h2>They ${key}:</h2>
+                <ul id="esgst-hwlc-${key}-games">
+                    <i class="fa fa-circle-o-notch fa-spin"></i>
+                </ul>
+                <br>
+                <h2>Unable to identify: <i class="fa fa-question-circle" title="You can report unidentified games in the ESGST thread so that exceptions can be added for them"></i></h2>
+                <ul id="esgst-hwlc-${key}-unidentified">
+                    <i class="fa fa-circle-o-notch fa-spin"></i>
+                </ul>
+            </div>
+        `);
+        obj.sections[key] = {
+            textArea: document.getElementById(`esgst-hwlc-${key}-textArea`),
+            matches: document.getElementById(`esgst-hwlc-${key}-matches`),
+            games: document.getElementById(`esgst-hwlc-${key}-games`),
+            unidentified: document.getElementById(`esgst-hwlc-${key}-unidentified`)
+        };
+        obj.sections[key].textArea.addEventListener(`input`, this.hwlc_filter.bind(this, obj, key, null));
+    }
+    async hwlc_getGames(obj) {
+        const currentTime = Date.now();
+        let cache = JSON.parse(getLocalValue(`hwlcCache`, `{"lastUpdate": 0}`));
+        let json = null;
+        if (currentTime - cache.lastUpdate > 604800000) {
+            try {
+                const response = await this.request({
+                    method: `GET`,
+                    url: `https://api.steampowered.com/ISteamApps/GetAppList/v2/`
+                });
+                cache = {
+                    data: response.responseText,
+                    lastUpdate: currentTime
+                };
+                setLocalValue(`hwlcCache`, JSON.stringify(cache));
+            } catch (error) {
+                alert(`Could not retrieve list of Steam games. Games will not be identified by name.`);
+            }
+        }
+        json = JSON.parse(cache.data);
+        obj.games = {};
+        this.hwlc_addGames(obj, `have`, json);
+        this.hwlc_addGames(obj, `want`, json);
+    }
+    async hwlc_addGames(obj, key, json) {
+        obj.games[key] = {
+            apps: [],
+            subs: []
+        };
+        const unidentified = [];
+        const elements = getTextNodesIn(obj[key]);
+        for (const element of elements) {
+            const parent = element.parentElement;
+            const striked = parent.closest(`del`);
+            if (striked) {
+                // Game assumed to no longer be available.
+                continue;
+            }
+            const name = element.textContent.trim();
+            const link = parent.closest(`a`);
+            const url = link && link.getAttribute && link.getAttribute(`href`);
+            if (url) {
+                const match = url.match(/\/(app|sub)\/(\d+)/);
+                if (match) {
+                    obj.games[key][`${match[1]}s`].push({
+                        id: parseInt(match[2]),
+                        name,
+                        parent
+                    });
+                    continue;
+                }
+            }
+            if (!this.hwlc_tidyName(name)) {
+                continue;
+            }
+            if (json) {
+                const matches = json.applist.apps.filter(x => this.hwlc_formatName(x.name) === this.hwlc_formatName(name));
+                if (matches.length) {
+                    obj.games[key].apps.push({
+                        id: matches[0].appid,
+                        name,
+                        parent
+                    });
+                    continue;
+                }
+            }
+            if (unidentified.filter(x => x.name === name).length) {
+                // Name has already been found (duplicate).
+                continue;
+            }
+            unidentified.push({name, parent});
+        }
+        if (key === `want`) {
+            try {
+                const steamId = document.querySelector(`.author_name`).getAttribute(`href`).match(/\d+/)[0];
+                const response = await this.request({
+                    method: `GET`,
+                    url: `http://store.steampowered.com/wishlist/profiles/${steamId}`
+                });
+                const responseText = response.responseText;
+                const wishlistData = responseText.match(/g_rgWishlistData\s=\s(\[(.+?)\]);/);
+                if (wishlistData) {
+                    const appInfo = responseText.match(/g_rgAppInfo\s=\s({(.+?)});/);
+                    const apps = appInfo ? JSON.parse(appInfo[1]) : null;
+                    JSON.parse(wishlistData[1]).forEach(item => {
+                        const id = parseInt(item.appid);
+                        if (apps && apps[id]) {
+                            obj.games[key].apps.push({
+                                id,
+                                name: apps[id].name,
+                                wishlisted: true
+                            });
+                        } else {
+                            obj.games[key].apps.push({
+                                id,
+                                name: `${id}`,
+                                wishlisted: true
+                            });
+                        }
+                    });
+                }
+            } catch (e) { /**/ }
+        }
+        for (const section in obj.sections[key]) {
+            obj.sections[key][section].innerHTML = ``;
+        }
+        obj.games[key].apps = obj.games[key].apps.map(game => {
+            if (game.wishlisted) {                
+                game.html = `
+                    <li>
+                        <i class="fa fa-star" title="On their wishlist"></i>
+                        <a href="https://store.steampowered.com/app/${game.id}">${game.name}</a>
+                    </li>
+                `;
+                return game;
+            }
+            if (esgst.games.apps[game.id]) {
+                if (esgst.games.apps[game.id].owned) {
+                    game.owned = true;
+                    game.html = `
+                        <li>
+                            <i class="fa fa-folder" title="On your library"></i>
+                            <a href="https://store.steampowered.com/app/${game.id}">${game.name}</a>
+                        </li>
+                    `;
+                    return game;
+                } else if (esgst.games.apps[game.id].wishlisted) {
+                    game.wishlisted = true;
+                    game.html = `
+                        <li>
+                            <i class="fa fa-star" title="On your wishlist"></i>
+                            <a href="https://store.steampowered.com/app/${game.id}">${game.name}</a>
+                        </li>
+                    `;
+                    return game;
+                }
+            }
+            game.html = `
+                <li>
+                    <a href="https://store.steampowered.com/app/${game.id}">${game.name}</a>
+                </li>
+            `;
+            return game;
+        }).sort(this.hwlc_sortGames.bind(this));
+        obj.games[key].subs = obj.games[key].subs.sort(this.hwlc_sortGames.bind(this));
+        for (const game of obj.games[key].apps) {
+            obj.sections[key].games.insertAdjacentHTML(`beforeEnd`, game.html);
+        }
+        for (const game of obj.games[key].subs) {
+            obj.sections[key].games.insertAdjacentHTML(`beforeEnd`, `
+                <li>
+                    <i class="fa fa-suitcase" title="This is a package (packages are not checked for wishlisted/owned status)"></i>
+                    <a href="https://store.steampowered.com/sub/${game.id}">${game.name || game.id}</a>
+                </li>
+            `);
+        }
+        for (const game of unidentified) {
+            obj.sections[key].unidentified.insertAdjacentHTML(`beforeEnd`, `
+                <li>${game.name}</li>
+            `);
+        }        
+        for (const section in obj.sections[key]) {
+            if (section === `textArea` || obj.sections[key][section].innerHTML) {
+                continue;
+            }
+            obj.sections[key][section].innerHTML = `None.`;
+        }
+        const query = getLocalValue(`hwlc_${key}`);
+        if (query) {
+            obj.sections[key].textArea.value = query;
+            this.hwlc_filter(obj, key);
+        }
+    }
+    hwlc_filter(obj, key) {
+        obj.sections[key].matches.innerHTML = ``;
+        const query = obj.sections[key].textArea.value;
+        setLocalValue(`hwlc_${key}`, query);
+        let found = [];
+        const values = query.split(/\n/);
+        for (let value of values) {
+            value = value.trim().toLowerCase();
+            if (!value) {
+                continue;
+            }
+            obj.games[key].apps.filter(game => game.name.toLowerCase().match(value)).forEach(game => {
+                if (found.filter(x => x.name === game.name).length) {
+                    return;
+                }
+                found.push({
+                    id: game.id,
+                    name: game.name,
+                    type: `app`
+                });
+            });
+            obj.games[key].subs.filter(game => game.name.toLowerCase().match(value)).forEach(game => {
+                if (found.filter(x => x.name === game.name).length) {
+                    return;
+                }
+                found.push({
+                    id: game.id,
+                    name: game.name,
+                    type: `sub`
+                });
+            });
+        }
+        found = found.sort(this.hwlc_sortGames.bind(this));
+        for (const game of found) {               
+            obj.sections[key].matches.insertAdjacentHTML(`beforeEnd`, `
+                <li>
+                    <a href="https://store.steampowered.com/${game.type}/${game.id}">${game.name || game.id}</a>
+                </li>
+            `);
+        }
+        if (!obj.sections[key].matches.innerHTML) {
+            obj.sections[key].matches.innerHTML = `None.`;
+        }
+    }
+    hwlc_tidyName(name) {
+        return name
+            .replace(/[^\w]/g, ``).toLowerCase()
+            .replace(/steamkeys/, ``);
+    }
+    hwlc_formatName(name) {
+        return name
+            .replace(/[^\w]/g, ``).toLowerCase()
+            .replace(/windowsedition/, ``);
+    }
+    hwlc_sortGames(a, b) {
+        if (a.wishlisted && !b.wishlisted) {
+            return -1;
+        }
+        if (!a.wishlisted && b.wishlisted) {
+            return 1;
+        }
+        if (a.owned && !b.owned) {
+            return 1;
+        }
+        if (!a.owned && b.owned) {
+            return -1;
+        }
+        return a.name.localeCompare(b.name, {
+            sensitivity: `base`
+        });
+    }
     // [I]
     ib() {
         esgst.endlessFeatures.push(this.ib_addBorders.bind(this));
@@ -31316,6 +31636,9 @@ class ESGST {
                 id: `hr`
             },
             {
+                id: `hwlc`
+            },
+            {
                 id: `lpl`
             },
             {
@@ -37030,6 +37353,20 @@ class ESGST {
             `;
         }
         style += `
+            .esgst-hwlc-panel {
+                display: flex;
+                justify-items: space-between;
+            }
+
+            .esgst-hwlc-section {
+                margin: 25px;
+                width: 300px;
+            }
+
+            .esgst-hwlc-section textarea {
+                min-height: 200px;
+            }
+
             @keyframes border-blink {
                 50% {
                     border-color: transparent;
@@ -40873,6 +41210,25 @@ class ToggleSwitch {
 let esgst, _ESGST = new ESGST();
 // initialize esgst
 _ESGST.init();
+
+
+function getTextNodesIn(elem, opt_fnFilter) {
+    var textNodes = [];
+    if (elem) {
+      for (var nodes = elem.childNodes, i = 0, n = nodes.length; i < n; i++) {
+        var node = nodes[i], nodeType = node.nodeType;
+        if (nodeType == 3) {
+          if (!opt_fnFilter || opt_fnFilter(node, elem)) {
+            textNodes.push(node);
+          }
+        }
+        else if (nodeType == 1 || nodeType == 9 || nodeType == 11) {
+          textNodes = textNodes.concat(getTextNodesIn(node, opt_fnFilter));
+        }
+      }
+    }
+    return textNodes;
+}
 
 function observeStickyChanges() {
     observeHeaders();
