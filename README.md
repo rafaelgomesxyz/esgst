@@ -236,6 +236,28 @@ To learn more about each feature you have to install ESGST.
 
 ## Changelog
 
+**7.22.0 (June 24, 2018)**
+
+* [#545](https://github.com/revilheart/ESGST/issues/545) Add a feature: Have/Want List Checker
+* [#572](https://github.com/revilheart/ESGST/issues/572) Fix a bug that does not predict the level in Level Progress Visualizer correctly
+* [#690](https://github.com/revilheart/ESGST/issues/690) Fix a bug where Giveaway Group Loader fails in some pages
+* [#702](https://github.com/revilheart/ESGST/issues/702) Extend Attached Image Carousel to Quick Inbox View
+* [#722](https://github.com/revilheart/ESGST/issues/722) Improve performance when applying filter presets (removes live-search select box and invert rule)
+* [#732](https://github.com/revilheart/ESGST/issues/732) Bring back filter counters
+* [#768](https://github.com/revilheart/ESGST/issues/768) Save state of "create train" and "remove links" switches from Multiple Giveaway Creator with Giveaway Templates
+* [#769](https://github.com/revilheart/ESGST/issues/769) Add polyfill for IntersectionObserver
+* [#771](https://github.com/revilheart/ESGST/issues/771) Fix a bug that does not filter games without images after data being retrieved with Created/Entered/Won Giveaway Details
+* [#772](https://github.com/revilheart/ESGST/issues/772) Fix domain for SteamGifts popups on SteamTrades
+* [#773](https://github.com/revilheart/ESGST/issues/773) Fix Shared Group Checker for new Steam group page design
+* [#775](https://github.com/revilheart/ESGST/issues/775) Save game name when it doesn't have an image for future use
+* [#776](https://github.com/revilheart/ESGST/issues/776) Fix a bug that does not save an advanced filter preset after deleting the rules
+* [#777](https://github.com/revilheart/ESGST/issues/777) Fix a bug that does not filter by Achievements or Linux
+* [#778](https://github.com/revilheart/ESGST/issues/778) Add small manual for advanced filters
+* [#779](https://github.com/revilheart/ESGST/issues/779) Fix conflict with Touhou script
+* [#780](https://github.com/revilheart/ESGST/issues/780) Fix a bug that blinks the minimize popups panel if the popup was open when it ended
+* [#781](https://github.com/revilheart/ESGST/issues/781) Fix a bug that does not allow restoring .zip files in Firefox
+* [#782](https://github.com/revilheart/ESGST/issues/782) Fix a bug that skips the Quick Inbox View popout to the top when scrolling down
+
 **7.21.0 (June 10, 2018)**
 
 * Hotfix for v7.20.4
