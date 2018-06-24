@@ -3005,7 +3005,7 @@ class ESGST {
             sg: location.hostname.match(/www.steamgifts.com/),
             st: location.hostname.match(/www.steamtrades.com/),
             currentVersion: `7.21.1`,
-            devVersion: `7.22.0 (Dev.3)`,
+            devVersion: `7.22.0 (Dev.4)`,
             icon: `data:image/x-icon;base64,AAABAAEAEBAAAAEAIABoBAAAFgAAACgAAAAQAAAAIAAAAAEAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAqv8DCbP/Hgeq+CQIrf8iCK3/Igit/yIIrf8iB6//Iwit9x8Aqv8DAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAKr0GAa2/c0DvfzfA7f83QO3/N0Dt/zdA7f83QO+/d4Gs/3OAKP1GQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACm/xQFs/n2Bcf//wW///8FwP//BcD//wW///8Fx///BbP69gC2/xUAAAAAAAAAAAAAAAAA/1UDFptOFxSZMxkLpJktAq720QW1+ugEsfvjA7b92wO2/dsEsfvjBbX66Aau/dEoiO4tUlLWGU5k3hdVVf8DEJxKHxWqT8cVrU7uE6VN0guqny0Apv8XAJfQGwBAVywAQFcsAJfQGwCx/xcogugtS2Lk0lBl6u5Qae7ISmPeHxagSSMVr07jF7lV/xOiSu0brgATAAAAAAAAAA8AAAC/AAAAwAAAABAAAAAAYznjEkth4OxWb/3/T2jv40lf4iMXnksiEq1O3RayUv8UpEnkEo0+HQAAABkAAABBAAAA8QAAAPEAAABBAAAAGUBSvxxOYeDjU2v0/05m7d1LYuEiF55LIhKtTt0Ws1L/FahN2gU1FTAAAADAAAAA7AAAAP0AAAD9AAAA7AAAAMAVG0owUGPm2lNr9P9OZu3dS2LhIheeSyISrU7dFrNS/xWoTdoFNRswAAAAvwAAAOsAAAD9AAAA/QAAAOsAAADAFRtKMFBj6NpTa/T/Tmbt3Uti4SIXnksiEq1O3RayUv8UpEnkEo0+HQAAABgAAABAAAAA8QAAAPEAAABBAAAAGT5PuR1OYeDjU2v0/05m7d1LYuEiFqBJIxWuT+QXuVX/E6JL7QC8XhMAAAAAAAAADwAAAL8AAAC/AAAAEAAAAAAOR/8SSWLh7FZv/f9PaO/jSV/iIxCUSh8Vrk7HFqxN7ROlS9JskzMt1XULGK12EhxGLgYsRy8GK612EhzVgAsYgmxxLU1i39JNZ+vtT2fwx0pj1h8AqlUDF65GFgqZUhlsiC0txH0T0s5/EujJgBPkz4QR28+EEdvJgBPkzn8Q6Md+E9KLdHosM1LWGUZo6BZVVf8DAAAAAAAAAAAAAAAA/2YAFMl9EvbgjRb/14gV/9eIFf/XiBX/14gV/9+NFv/KgBD254YAFQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAL91FRjKgRHN1IgU3s+EEt3PhBLdz4QS3c+EEt3UiBTezYMRzcJ6FBkAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACqqgADxIARHr18FiO8eA8ivHgPIrx4DyK8eA8ivXwPI8SAER7/VQADAAAAAAAAAAAAAAAA78cAAPA3AAD4FwAABCAAADGOAAAE+AAAkBEAAJ55AACYOQAAlgEAAER4AAAXaAAATnoAAPgXAAD0JwAA69cAAA==`,
             sgIcon: `data:image/x-icon;base64,AAABAAEAEBAAAAEAIABoBAAAFgAAACgAAAAQAAAAIAAAAAEAIAAAAAAAQAQAABMLAAATCwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIUAAAD5AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAPoAAACFAAAAAAAAAAAAAAD8AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA+QAAAAAAAAAAAAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAAAAAAAAAAAAP8AAAD/AAAA/wAAABwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAcAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAcAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAHAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAAAAAAAAAAAAPwAAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD5AAAAAAAAAAAAAACFAAAA+QAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD5AAAAhQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA//8AAP//AADAAwAAwAMAAMfjAADP8wAAz/MAAM/zAADP8wAAz/MAAM/zAADH4wAAwAMAAMADAAD//wAA//8AAA==`,
             stIcon: `data:image/x-icon;base64,AAABAAEAEBAAAAEAIABoBAAAFgAAACgAAAAQAAAAIAAAAAEAIAAAAAAAQAQAABMLAAATCwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABbD6SgWw+ucFsPrkBbD6SgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAWw+uYFsPr/BbD6/wWw+ucAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAFsPrmBbD6/wWw+v8FsPrmAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABbD6SQWw+uYFsPrmBbD6SQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAFKRLShSkS+cUpEvkFKRLSgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAExi4EpMYuDnTGLg5Exi4EoAAAAAAAAAABSkS+YUpEv/FKRL/xSkS+cAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABMYuDmTGLg/0xi4P9MYuDnAAAAAAAAAAAUpEvmFKRL/xSkS/8UpEvmAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAATGLg5kxi4P9MYuD/TGLg5gAAAAAAAAAAFKRLSRSkS+YUpEvmFKRLSQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAExi4ElMYuDmTGLg5kxi4EkAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAMZ9E0rGfRPnxn0T5MZ9E0oAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADGfRPmxn0T/8Z9E//GfRPnAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAxn0T5sZ9E//GfRP/xn0T5gAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAMZ9E0nGfRPmxn0T5sZ9E0kAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA//8AAPw/AAD8PwAA/D8AAPw/AAD//wAAh+EAAIfhAACH4QAAh+EAAP//AAD8PwAA/D8AAPw/AAD8PwAA//8AAA==`,
@@ -21301,117 +21301,41 @@ class ESGST {
         if (esgst.hr) return;
         this.lpv_setStyle();
     }
-    async lpv_getCv() {
-        let user = esgst.users.users[esgst.steamId];
-        if (!user) return 0;
-        let giveaways = user.giveaways;
-        if (!giveaways) return 0;
-        let lpv = {
-            cache: JSON.parse(getLocalValue(`lpvCache`, `{"games": {"apps":{},"subs":{}},"giveaways": [],"timestamp": ${Date.now()}}`)),
-            cv: 0
-        };
-        let currentTime = Date.now();
-        if (currentTime - lpv.cache.timestamp > 604800000) {
-            // last wipe was more than 7 days ago, wipe again
-            lpv.cache = {
-                games: {apps: {}, subs: {}},
-                giveaways: [],
-                timestamp: Date.now()
+    lpv_setStyle() {
+        const currentLevel = parseFloat(esgst.levelContainer.getAttribute(`title`));
+        const currentBase = parseInt(currentLevel);
+        if (currentBase === 10) {
+            return;
+        }
+        let cache = JSON.parse(getLocalValue(`lpvCache`, `{}`));
+        if (!cache.level) {
+            cache = {
+                difference: 0,
+                level: currentLevel
             };
         }
-        let promises = [];
-        [`apps`, `subs`].forEach(type => {
-            let items = giveaways.sent[type];
-            for (let id in items) {
-                let open = 0;
-                let sent = 0;
-                let value = 0;
-                items[id].forEach(code => {
-                    let giveaway = esgst.giveaways[code];
-                    if (!giveaway) return;
-                    value = giveaway.points;
-                    if (currentTime < giveaway.endTime || lpv.cache.giveaways.indexOf(code) > -1) {
-                        // giveaway is open or was open recently
-                        open += giveaway.copies;
-                        if (lpv.cache.giveaways.indexOf(code) < 0) {
-                            lpv.cache.giveaways.push(code);
-                        }
-                    } else {
-                        // giveaway is closed
-                        if (giveaway.entries >= 5 || (!giveaway.inviteOnly && !giveaway.group && !giveaway.whitelist)) {
-                            // giveaway counts for cv
-                            if (Array.isArray(giveaway.winners)) {
-                                // user is using the new database, which is more accurate
-                                giveaway.winners.forEach(winner => {
-                                    if (winner.status !== `Received`) return;
-                                    sent += 1;
-                                });
-                            } else if (giveaway.winners > 0) {
-                                // user is using the old database, not very accurate
-                                sent += Math.min(giveaway.entries, giveaway.winners);
-                            }
-                        }
-                    }
-                });
-                promises.push(this.lpv_getValue(lpv, id, open, sent, type, value));
-            }
-        });
-        await Promise.all(promises);
-        setLocalValue(`lpvCache`, JSON.stringify(lpv.cache));
-        return lpv.cv;
-    }
-    async lpv_getValue(lpv, id, open, sent, type, value) {
-        if (open <= 0) return;
-        if (!lpv.cache.games[type][id]) {
-            try {
-                let responseJson = JSON.parse((await this.request({method: `GET`, url: `http://store.steampowered.com/api/${type === `apps` ? `appdetails?appids` : `packagedetails?packageids`}=${id}&cc=us&filters=price,price_overview`})).responseText)[id].data;
-                value = Math.ceil((responseJson.price_overview || responseJson.price).initial / 100);
-            } catch (e) { /**/ }
-            lpv.cache.games[type][id] = value;
-        }
-        value = lpv.cache.games[type][id] || value;
-        let game = esgst.games.apps[id];
-        if (game) {
-            if (game.noCV) {
-                // game gives no cv
-                value = 0;
-            } else if (game.reducedCV) {
-                // game gives reduced cv (15% of the value)
-                value *= 0.15;
-            }
-        }
-        if (sent > 5 || sent + open > 5) {
-            // after 5 copies each next copy is worth only 90% of the previous value
-            for (let i = sent - 5; i > 0; i--) {
-                value *= 0.90;
-            }
-            for (let i = open; i > 0; i--) {
-                value *= 0.90;
-                lpv.cv += value;
-            }
-        } else {
-            lpv.cv += (value * open);
-        }
-    }
-    async lpv_setStyle() {
-        let parts = esgst.levelContainer.getAttribute(`title`).match(/(\d+)\.(\d+)/);
-        let base = parseInt(parts[1]);
-        if (base === 10) return;
-        let percentage = parseInt(parts[2]);
-        let progress = parseInt(percentage * 1.86); // 186px is the width of the button
-        let firstBar = `${progress}px`;
-        let secondBar = `${Math.max(0, progress - 157)}px`; // 157px is the width of the button without the arrow
-        let cv = await this.lpv_getCv();
+        cache.difference += round(currentLevel - cache.level);
+        cache.difference = round(cache.difference);
+        cache.level = currentLevel;
+        setLocalValue(`lpvCache`, JSON.stringify(cache));
+        const currentPercentage = parseInt(round(currentLevel - currentBase) * 100);
+        const currentProgress = parseInt(currentPercentage * 1.86); // 186px is the width of the button
+        const firstBar = `${currentProgress}px`;
+        const secondBar = `${Math.max(0, currentProgress - 157)}px`; // 157px is the width of the button without the arrow
         let projectedFirstBar = `0`;
         let projectedSecondBar = `0`;
+        const cv = this.lpv_getCv();
         if (cv > 0) {
             // the formula is: current_percentage + (real_cv_to_gain / real_cv_difference),
             // where real_cv_difference is the real CV difference between the next level and the current one
-            percentage = parseInt(Math.round((percentage + ((Math.round(cv * 100) / 100) / [0.01, 25, 50, 100, 150, 250, 500, 1000, 1000, 2000][base] * 100)) * 100) / 100);
-            progress = Math.min(100, percentage) * 1.86;
-            projectedFirstBar = `${progress}px`;
-            projectedSecondBar = `${Math.max(0, progress - 157)}px`;
-            esgst.levelContainer.title = this.getFeatureTooltip(`lpv`, `${esgst.levelContainer.getAttribute(`title`)} (${Math.min(10, Math.round((base + (percentage / 100)) * 100) / 100)})`);
+            const prediction = round(currentPercentage + (round(cv) / [0.01, 25, 50, 100, 150, 250, 500, 1000, 1000, 2000][currentBase] * 100));
+            const newLevel = round(Math.min(10, round(currentBase + (prediction / 100))) - cache.difference);
+            const newBase = parseInt(newLevel);
+            const newPercentage = parseInt(round(newLevel - newBase) * 100);
+            const newProgress = parseInt(Math.min(100, newPercentage) * 1.86);
+            projectedFirstBar = `${newProgress}px`;
+            projectedSecondBar = `${Math.max(0, newProgress - 157)}px`;
+            esgst.levelContainer.title = this.getFeatureTooltip(`lpv`, `${esgst.levelContainer.getAttribute(`title`)} (${newLevel})`);
         }
         if (!esgst.lpvStyle) {
             esgst.lpvStyle = insertHtml(esgst.style, `afterEnd`, `<style id="esgst-lpv-style"></style>`);
@@ -21446,6 +21370,76 @@ class ESGST {
             }
         `;
         esgst.mainButton.parentElement.classList.add(`esgst-lpv-container`);
+    }
+    lpv_getCv() {
+        let cv = 0;
+        const user = esgst.users.users[esgst.steamId];
+        if (!user) {
+            return cv;
+        }
+        const giveaways = user.giveaways;
+        if (!giveaways) {
+            return cv;
+        }
+        const currentTime = Date.now();
+        for (const type of [`apps`, `subs`]) {
+            const items = giveaways.sent[type];
+            for (const id in items) {
+                let open = 0;
+                let sent = 0;
+                let value = 0;
+                for (const code of items[id]) {
+                    const giveaway = esgst.giveaways[code];
+                    if (!giveaway) {
+                        continue;
+                    }
+                    value = giveaway.points;
+                    if (currentTime < giveaway.endTime || !giveaway.started) {
+                        // giveaway is open or has not started yet
+                        open += giveaway.copies;
+                    } else {
+                        // giveaway is closed
+                        if (giveaway.entries >= 5 || (!giveaway.inviteOnly && !giveaway.group && !giveaway.whitelist)) {
+                            // giveaway counts for cv
+                            if (Array.isArray(giveaway.winners)) {
+                                // user is using the new database, which is more accurate
+                                for (const winner of giveaway.winners) {
+                                    if (winner.status === `Received`) {
+                                        sent += 1;
+                                    }
+                                }
+                            } else if (giveaway.winners > 0) {
+                                // user is using the old database, not very accurate
+                                sent += Math.min(giveaway.entries, giveaway.winners);
+                            }
+                        }
+                    }
+                }                
+                const game = esgst.games[type][id];
+                if (game) {
+                    if (game.noCV) {
+                        // game gives no cv
+                        value = 0;
+                    } else if (game.reducedCV) {
+                        // game gives reduced cv (15% of the value)
+                        value *= 0.15;
+                    }
+                }
+                if (sent > 5 || sent + open > 5) {
+                    // after 5 copies each next copy is worth only 90% of the previous value
+                    for (let i = sent - 5; i > 0; i--) {
+                        value *= 0.90;
+                    }
+                    for (let i = open; i > 0; i--) {
+                        value *= 0.90;
+                        cv += value;
+                    }
+                } else {
+                    cv += (value * open);
+                }
+            }
+        }
+        return cv;
     }
     luc() {
         esgst.profileFeatures.push(this.luc_calculate.bind(this));
@@ -27304,7 +27298,6 @@ class ESGST {
                         giveaway.winners = [];
                         obj.requests.push({
                             giveaway: giveaway,
-                            onDone: this.ugd_requestGiveawayDone.bind(this),
                             request: this.ugd_requestGiveaway.bind(this),
                             url: `/giveaway/${code}/_/winners/search?page=`
                         });
@@ -27350,7 +27343,6 @@ class ESGST {
                         }
                         obj.requests.push({
                             giveaway: giveaway,
-                            onDone: this.ugd_requestGiveawayDone.bind(this),
                             request: this.ugd_requestGiveaway.bind(this),
                             url: `/giveaway/${code}/_/winners/search?page=`
                         });
@@ -27359,19 +27351,11 @@ class ESGST {
             }
         }
         obj.requests.push(this.ugd_requestGiveawaysDone_2.bind(this));
-
-        obj.lpvCache = JSON.parse(
-            getLocalValue(
-                `lpvCache`,
-                `{"games": {"apps":{}, "subs":{}}, "giveaways": [], "timestamp": ${Date.now()}}`
-            )
-        );
-        obj.lpvCache.giveaways = [];
     }
     async ugd_requestGiveawaysDone_2(obj) {
-        if (obj.lpvCache) {
-            setLocalValue(`lpvCache`, JSON.stringify(obj.lpvCache));
-        }
+        const lpvCache = JSON.parse(getLocalValue(`lpvCache`, `{}`));
+        lpvCache.difference = 0;
+        setLocalValue(`lpvCache`, JSON.stringify(lpvCache));
 
         obj.userGiveaways[`${obj.key}Timestamp`] = obj.timestamp;
         await this.lockAndSaveGiveaways(obj.giveaways);
@@ -27805,19 +27789,6 @@ class ESGST {
         }
         if (details.nextPage === 1) {
             details.url = `${response.finalUrl}/search?page=`;
-        }
-    }
-    ugd_requestGiveawayDone(obj, details) {
-        let count = 0;
-        for (const winner of details.giveaway.winners) {
-            if (winner.status === `Received`) {
-                continue;
-            }
-
-            count += 1;
-        }
-        if (count > 0) {
-            obj.lpvCache.giveaways.push(details.giveaway.code);
         }
     }
     async ugd_complete(obj, results) {
@@ -41211,6 +41182,10 @@ let esgst, _ESGST = new ESGST();
 // initialize esgst
 _ESGST.init();
 
+function round(number, decimals = 2) {
+    const multiplier = Math.pow(10, decimals);
+    return Math.round(number * multiplier) / multiplier;
+}
 
 function getTextNodesIn(elem, opt_fnFilter) {
     var textNodes = [];
