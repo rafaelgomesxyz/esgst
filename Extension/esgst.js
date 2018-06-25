@@ -2521,7 +2521,7 @@ class ESGST {
             // esgst is already running
             return;
         }
-    
+
         // initialize the global variable
         esgst = {
             parameters: getParameters(),
@@ -3003,7 +3003,7 @@ class ESGST {
             sg: location.hostname.match(/www.steamgifts.com/),
             st: location.hostname.match(/www.steamtrades.com/),
             currentVersion: `7.22.0`,
-            devVersion: `7.22.1 (Dev.1)`,
+            devVersion: `7.22.1 (Dev.2)`,
             icon: `data:image/x-icon;base64,AAABAAEAEBAAAAEAIABoBAAAFgAAACgAAAAQAAAAIAAAAAEAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAqv8DCbP/Hgeq+CQIrf8iCK3/Igit/yIIrf8iB6//Iwit9x8Aqv8DAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAKr0GAa2/c0DvfzfA7f83QO3/N0Dt/zdA7f83QO+/d4Gs/3OAKP1GQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACm/xQFs/n2Bcf//wW///8FwP//BcD//wW///8Fx///BbP69gC2/xUAAAAAAAAAAAAAAAAA/1UDFptOFxSZMxkLpJktAq720QW1+ugEsfvjA7b92wO2/dsEsfvjBbX66Aau/dEoiO4tUlLWGU5k3hdVVf8DEJxKHxWqT8cVrU7uE6VN0guqny0Apv8XAJfQGwBAVywAQFcsAJfQGwCx/xcogugtS2Lk0lBl6u5Qae7ISmPeHxagSSMVr07jF7lV/xOiSu0brgATAAAAAAAAAA8AAAC/AAAAwAAAABAAAAAAYznjEkth4OxWb/3/T2jv40lf4iMXnksiEq1O3RayUv8UpEnkEo0+HQAAABkAAABBAAAA8QAAAPEAAABBAAAAGUBSvxxOYeDjU2v0/05m7d1LYuEiF55LIhKtTt0Ws1L/FahN2gU1FTAAAADAAAAA7AAAAP0AAAD9AAAA7AAAAMAVG0owUGPm2lNr9P9OZu3dS2LhIheeSyISrU7dFrNS/xWoTdoFNRswAAAAvwAAAOsAAAD9AAAA/QAAAOsAAADAFRtKMFBj6NpTa/T/Tmbt3Uti4SIXnksiEq1O3RayUv8UpEnkEo0+HQAAABgAAABAAAAA8QAAAPEAAABBAAAAGT5PuR1OYeDjU2v0/05m7d1LYuEiFqBJIxWuT+QXuVX/E6JL7QC8XhMAAAAAAAAADwAAAL8AAAC/AAAAEAAAAAAOR/8SSWLh7FZv/f9PaO/jSV/iIxCUSh8Vrk7HFqxN7ROlS9JskzMt1XULGK12EhxGLgYsRy8GK612EhzVgAsYgmxxLU1i39JNZ+vtT2fwx0pj1h8AqlUDF65GFgqZUhlsiC0txH0T0s5/EujJgBPkz4QR28+EEdvJgBPkzn8Q6Md+E9KLdHosM1LWGUZo6BZVVf8DAAAAAAAAAAAAAAAA/2YAFMl9EvbgjRb/14gV/9eIFf/XiBX/14gV/9+NFv/KgBD254YAFQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAL91FRjKgRHN1IgU3s+EEt3PhBLdz4QS3c+EEt3UiBTezYMRzcJ6FBkAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACqqgADxIARHr18FiO8eA8ivHgPIrx4DyK8eA8ivXwPI8SAER7/VQADAAAAAAAAAAAAAAAA78cAAPA3AAD4FwAABCAAADGOAAAE+AAAkBEAAJ55AACYOQAAlgEAAER4AAAXaAAATnoAAPgXAAD0JwAA69cAAA==`,
             sgIcon: `data:image/x-icon;base64,AAABAAEAEBAAAAEAIABoBAAAFgAAACgAAAAQAAAAIAAAAAEAIAAAAAAAQAQAABMLAAATCwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIUAAAD5AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAPoAAACFAAAAAAAAAAAAAAD8AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA+QAAAAAAAAAAAAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAAAAAAAAAAAAP8AAAD/AAAA/wAAABwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAcAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAcAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAHAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAAAAAAAAAAAAPwAAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD5AAAAAAAAAAAAAACFAAAA+QAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD5AAAAhQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA//8AAP//AADAAwAAwAMAAMfjAADP8wAAz/MAAM/zAADP8wAAz/MAAM/zAADH4wAAwAMAAMADAAD//wAA//8AAA==`,
             stIcon: `data:image/x-icon;base64,AAABAAEAEBAAAAEAIABoBAAAFgAAACgAAAAQAAAAIAAAAAEAIAAAAAAAQAQAABMLAAATCwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABbD6SgWw+ucFsPrkBbD6SgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAWw+uYFsPr/BbD6/wWw+ucAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAFsPrmBbD6/wWw+v8FsPrmAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABbD6SQWw+uYFsPrmBbD6SQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAFKRLShSkS+cUpEvkFKRLSgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAExi4EpMYuDnTGLg5Exi4EoAAAAAAAAAABSkS+YUpEv/FKRL/xSkS+cAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABMYuDmTGLg/0xi4P9MYuDnAAAAAAAAAAAUpEvmFKRL/xSkS/8UpEvmAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAATGLg5kxi4P9MYuD/TGLg5gAAAAAAAAAAFKRLSRSkS+YUpEvmFKRLSQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAExi4ElMYuDmTGLg5kxi4EkAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAMZ9E0rGfRPnxn0T5MZ9E0oAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADGfRPmxn0T/8Z9E//GfRPnAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAxn0T5sZ9E//GfRP/xn0T5gAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAMZ9E0nGfRPmxn0T5sZ9E0kAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA//8AAPw/AAD8PwAA/D8AAPw/AAD//wAAh+EAAIfhAACH4QAAh+EAAP//AAD8PwAA/D8AAPw/AAD8PwAA//8AAA==`,
@@ -3089,7 +3089,7 @@ class ESGST {
         esgst.markdownParser.setBreaksEnabled(true);
         esgst.markdownParser.setMarkupEscaped(true);
         esgst.name = esgst.sg ? `sg` : `st`;
-    
+
         if (_USER_INFO.extension) {
             // esgst is running as an extension
             this.setValue = (key, value) => {
@@ -3545,9 +3545,9 @@ class ESGST {
                 dropdown.firstElementChild.lastElementChild.previousElementSibling.previousElementSibling.addEventListener(`click`, loadChangelog);
             };
         }
-    
+
         let toDelete, toSet;
-    
+
         // set default values or correct values
         esgst.storage = await this.getStorage();
         toDelete = [];
@@ -3736,7 +3736,7 @@ class ESGST {
             toSet.old_df_presets = esgst.storage.dfPresets;
             toDelete.push(`dfPresets`);
         }
-    
+
         esgst.features = {
             general: {
                 features: {
@@ -5933,7 +5933,7 @@ class ESGST {
                                         <li>Adds a text in parenthesis to the pagination of the page showing how many discussions in the page are being filtered by the filters.</li>
                                     </ul>
                                 `,
-                                features: {                                    
+                                features: {
                                     df_m_b: {
                                         name: `Hide basic filters.`,
                                         sg: true
@@ -8219,7 +8219,7 @@ class ESGST {
                 this.getFeatureSetting(esgst.features[type].features[id], id);
             }
         }
-    
+
         [
             {id: `cec`, side: `left`},
             {id: `esContinuous`, side: `right`},
@@ -10294,7 +10294,7 @@ class ESGST {
                                 `);
                                 emojis.lastElementChild.addEventListener(`click`, event => {
                                     savedEmojis.insertAdjacentHTML(`beforeEnd`, `
-                                        <span data-id="${encodeURIComponent(emoji)}" title="${this.emojis[emoji]}">${emoji}</span>                                    
+                                        <span data-id="${encodeURIComponent(emoji)}" title="${this.emojis[emoji]}">${emoji}</span>
                                     `);
                                     this.draggable_set(obj);
                                 });
@@ -10600,7 +10600,7 @@ class ESGST {
         esgst.cfh.textArea.value = `${value.slice(0, start)}${text}${value.slice(end)}`;
         esgst.cfh.textArea.setSelectionRange(range, range);
         esgst.cfh.textArea.focus();
-        if (esgst.cfh_p && esgst.cfh_p_a) {            
+        if (esgst.cfh_p && esgst.cfh_p_a) {
             esgst.cfh.preview.innerHTML = this.parseMarkdown(esgst.cfh.textArea.value);
             this.cfh_formatImages(esgst.cfh.preview);
         }
@@ -10622,7 +10622,7 @@ class ESGST {
             esgst.cfh.textArea.setSelectionRange(end + value.indexOf(`[`) + 1, end + value.indexOf(`[`) + 1);
         }
         esgst.cfh.textArea.focus();
-        if (esgst.cfh_p && esgst.cfh_p_a) {            
+        if (esgst.cfh_p && esgst.cfh_p_a) {
             esgst.cfh.preview.innerHTML = this.parseMarkdown(esgst.cfh.textArea.value);
             this.cfh_formatImages(esgst.cfh.preview);
         }
@@ -11631,7 +11631,6 @@ class ESGST {
                 } else {
                     diff = count;
                 }
-                console.log(JSON.stringify(comments[code]));
                 element.insertAdjacentHTML(`beforeEnd`, ` <span class="esgst-ct-count" title="${this.getFeatureTooltip(`ct`, `Unread comments`)}">(+${diff})</span>`);
             }
         }
@@ -12073,7 +12072,7 @@ class ESGST {
         }
     }
     async ct_markMessagesRead(key, markRead, url, event) {
-        await this.request({data: `xsrf_token=${esgst.xsrfToken}&do=${key}`, method: `POST`, url}); 
+        await this.request({data: `xsrf_token=${esgst.xsrfToken}&do=${key}`, method: `POST`, url});
         await this.ct_markCommentsRead(markRead);
         this.ct_completeInboxRead(event.currentTarget);
     }
@@ -12132,6 +12131,9 @@ class ESGST {
                     <div class="esgst-heading-button esgst-hidden" title="${this.getFeatureTooltip(`ct`, `Mark all comments in this discussion as unread`)}">
                         <i class="fa fa-eye-slash"></i>
                     </div>
+                    <div class="esgst-heading-button esgst-hidden" title="${this.getFeatureTooltip(`ct`, `Clean discussion (remove deleted comments from the database)`)}">
+                        <i class="fa fa-paint-brush"></i>
+                    </div>
                     <i class="fa fa-circle-o-notch fa-spin esgst-hidden"></i>
                 </span>
             `),
@@ -12141,7 +12143,8 @@ class ESGST {
         obj.goToUnread = obj.diffContainer.nextElementSibling;
         obj.markRead = obj.goToUnread.nextElementSibling;
         obj.markUnread = obj.markRead.nextElementSibling;
-        obj.loadingIcon = obj.markUnread.nextElementSibling;
+        obj.clean = obj.markUnread.nextElementSibling;
+        obj.loadingIcon = obj.clean.nextElementSibling;
         if (esgst.gdttt) {
             const button = new Button(obj.panel, `beforeEnd`, {
                 callbacks: [this.gdttt_markVisited.bind(this, code, container, count, obj.diffContainer, type), null, this.gdttt_markUnvisited.bind(this, code, container, count, obj.diffContainer, type), null],
@@ -12172,11 +12175,28 @@ class ESGST {
                 } else {
                     obj.markUnread.classList.remove(`esgst-hidden`);
                 }
+                obj.clean.classList.remove(`esgst-hidden`);
             }
         }
         obj.goToUnread.addEventListener(`mousedown`, this.ct_goToUnreadPanel.bind(this, obj));
         obj.markRead.addEventListener(`click`, this.ct_markReadPanel.bind(this, obj));
         obj.markUnread.addEventListener(`click`, this.ct_markUnreadPanel.bind(this, obj));
+        obj.clean.addEventListener(`click`, this.ct_clean.bind(this, obj));
+    }
+    async ct_clean(obj, event) {
+        obj.clean.classList.add(`esgst-hidden`);
+        obj.goToUnread.classList.add(`esgst-hidden`);
+        obj.markRead.classList.add(`esgst-hidden`);
+        obj.markUnread.classList.add(`esgst-hidden`);
+        obj.loadingIcon.classList.remove(`esgst-hidden`);
+        await this.ct_markCommentsReadUnread(false, false, false, obj.code, `${obj.url}/search?page=`);
+        obj.loadingIcon.classList.add(`esgst-hidden`);
+        obj.goToUnread.classList.remove(`esgst-hidden`);
+        obj.markRead.classList.remove(`esgst-hidden`);
+        obj.clean.classList.remove(`esgst-hidden`);
+        if (obj.diff !== obj.count) {
+            obj.markUnread.classList.remove(`esgst-hidden`);
+        }
     }
     async ct_goToUnreadPanel(obj, event) {
         esgst.ctNewTab = false;
@@ -12186,30 +12206,35 @@ class ESGST {
         } else if (event.button === 2) {
             return;
         }
+        obj.clean.classList.add(`esgst-hidden`);
         obj.goToUnread.classList.add(`esgst-hidden`);
         obj.markRead.classList.add(`esgst-hidden`);
         obj.markUnread.classList.add(`esgst-hidden`);
         obj.loadingIcon.classList.remove(`esgst-hidden`);
         esgst.ctUnreadFound = false;
-        await this.ct_markCommentsReadUnread(true, false, false, `${obj.url}/search?page=`);
+        await this.ct_markCommentsReadUnread(true, false, false, null, `${obj.url}/search?page=`);
         obj.loadingIcon.classList.add(`esgst-hidden`);
         obj.goToUnread.classList.remove(`esgst-hidden`);
         obj.markRead.classList.remove(`esgst-hidden`);
+        obj.clean.classList.remove(`esgst-hidden`);
         if (obj.diff !== obj.count) {
             obj.markUnread.classList.remove(`esgst-hidden`);
         }
     }
     async ct_markReadPanel(obj) {
+        obj.clean.classList.add(`esgst-hidden`);
         obj.goToUnread.classList.add(`esgst-hidden`);
         obj.markRead.classList.add(`esgst-hidden`);
         obj.markUnread.classList.add(`esgst-hidden`);
         obj.loadingIcon.classList.remove(`esgst-hidden`);
-        await this.ct_markCommentsReadUnread(false, true, false, `${obj.url}/search?page=`);
+        await this.ct_markCommentsReadUnread(false, true, false, null, `${obj.url}/search?page=`);
         obj.loadingIcon.classList.add(`esgst-hidden`);
         obj.diffContainer.classList.add(`esgst-hidden`);
         obj.markUnread.classList.remove(`esgst-hidden`);
+        obj.clean.classList.remove(`esgst-hidden`);
     }
     async ct_markUnreadPanel(obj) {
+        obj.clean.classList.add(`esgst-hidden`);
         obj.goToUnread.classList.add(`esgst-hidden`);
         obj.markRead.classList.add(`esgst-hidden`);
         obj.markUnread.classList.add(`esgst-hidden`);
@@ -12227,18 +12252,34 @@ class ESGST {
         obj.diffContainer.textContent = `(+${obj.count})`;
         obj.goToUnread.classList.remove(`esgst-hidden`);
         obj.markRead.classList.remove(`esgst-hidden`);
+        obj.clean.classList.remove(`esgst-hidden`);
     }
-    async ct_markCommentsReadUnread(goToUnread, markRead, markUnread, url) {
+    async ct_markCommentsReadUnread(goToUnread, markRead, markUnread, code, url) {
         let firstRun = true;
         let lastPageMissing = false;
         let nextPage = 1;
+        let comments = [];
+        let discussion = null;
+        if (code) {
+            discussion = JSON.parse(await this.getValue(`discussions`))[code];
+            if (!discussion || !discussion.readComments) {
+                return;
+            }
+        }
         while (true) {
             const context = this.parseHtml((await this.request({
                 method: `GET`,
                 queue: true,
                 url: `${url}${nextPage}`
             })).responseText);
-            await this.ct_getComments(0, await this.comments_get(context, context, true), null, goToUnread, markRead, markUnread);
+            if (code) {
+                const elements = context.querySelectorAll(`[href*="/go/comment/"]`);
+                for (const element of elements) {
+                    comments.push(element.getAttribute(`href`).match(/\/go\/comment\/(.+)/)[1]);
+                }
+            } else {
+                await this.ct_getComments(0, await this.comments_get(context, context, true), null, goToUnread, markRead, markUnread);
+            }
 
             if (goToUnread && esgst.ctUnreadFound) break;
 
@@ -12267,6 +12308,14 @@ class ESGST {
             }
 
             if (nextPage <= 1) break;
+        }
+        if (code) {
+            for (const id in discussion.readComments) {
+                if (id && comments.indexOf(id) < 0) {
+                    delete discussion.readComments[id];
+                }
+            }
+            await this.lockAndSaveDiscussions({[code]: discussion});
         }
     }
     // [D]
@@ -12339,7 +12388,7 @@ class ESGST {
         obj.url = esgst.sg
             ? response.finalUrl.match(/(.+?)(#.+?)?$/)[1]
             : `/ajax.php`;
-        
+
         if (obj.checked || !esgst.rfi_c) {
             this.saveComment(
                 obj.tradeCode,
@@ -12545,67 +12594,67 @@ class ESGST {
                 type: `boolean`
             },
             bugsSuggestion: {
-                check: true,                
+                check: true,
                 name: `Bugs / Suggestion`,
                 type: `boolean`
             },
             deals: {
-                check: true,                
+                check: true,
                 name: `Deals`,
                 type: `boolean`
             },
             general: {
-                check: true,                
+                check: true,
                 name: `General`,
                 type: `boolean`
             },
             groupRecruitment: {
-                check: true,                
+                check: true,
                 name: `Group Recruitment`,
                 type: `boolean`
             },
             letsPlayTogether: {
-                check: true,                
+                check: true,
                 name: `Let's Play Together`,
                 type: `boolean`
             },
             offTopic: {
-                check: true,                
+                check: true,
                 name: `Off-Topic`,
                 type: `boolean`
             },
             puzzles: {
-                check: true,                
+                check: true,
                 name: `Puzzles`,
                 type: `boolean`
             },
             uncategorized: {
-                check: true,                
+                check: true,
                 name: `Uncategorized`,
                 type: `boolean`
             },
             created: {
-                check: true,                
+                check: true,
                 name: `Created`,
                 type: `boolean`
             },
             poll: {
-                check: true,                
+                check: true,
                 name: `Poll`,
                 type: `boolean`
             },
             highlighted: {
-                check: esgst.dh,                
+                check: esgst.dh,
                 name: `Highlighted`,
                 type: `boolean`
             },
             visited: {
-                check: esgst.gdttt,                
+                check: esgst.gdttt,
                 name: `Visited`,
                 type: `boolean`
             },
             unread: {
-                check: esgst.ct,                
+                check: esgst.ct,
                 name: `Unread`,
                 type: `boolean`
             },
@@ -13453,7 +13502,7 @@ class ESGST {
         });
         for (const key in esgst.apPopouts) {
             if (document.contains(esgst.apPopouts[key].popout)) continue;
-            delete esgst.apPopouts[key];            
+            delete esgst.apPopouts[key];
         }
         for (const key in esgst.currentUsers) {
             const elements = esgst.currentUsers[key].elements;
@@ -16026,7 +16075,7 @@ class ESGST {
                     continue;
                 }
                 if (!deleteLock) {
-                    deleteLock = await this.createLock(`gedLock`, 300);                    
+                    deleteLock = await this.createLock(`gedLock`, 300);
                     esgst.decryptedGiveaways = JSON.parse(await this.getValue(`decryptedGiveaways`));
                 }
                 code = this.ged_decryptCode(code);
@@ -16334,12 +16383,12 @@ class ESGST {
             },
             comments: {
                 check: popup || (!esgst.createdPath && !esgst.enteredPath && !esgst.wonPath),
-                minValue: 0,                
+                minValue: 0,
                 name: `Comments`,
                 type: `number`
             },
             minutesToEnd: {
-                check: !esgst.wonPath || popup,                
+                check: !esgst.wonPath || popup,
                 minValue: 0,
                 name: `Minutes To End`,
                 type: `number`
@@ -16368,7 +16417,7 @@ class ESGST {
             },
             rating: {
                 category: `gc_r`,
-                check: true,                
+                check: true,
                 maxValue: 100,
                 minValue: 0,
                 name: `Rating`,
@@ -16377,164 +16426,164 @@ class ESGST {
             releaseDate: {
                 category: `gc_rd`,
                 check: !esgst.parameters.release_date_min && !esgst.parameters.release_date_max,
-                date: true,                
+                date: true,
                 name: `Release Date`,
                 type: `number`
             },
             pinned: {
-                check: esgst.giveawaysPath,                
+                check: esgst.giveawaysPath,
                 name: `Pinned`,
                 type: `boolean`
             },
             inviteOnly: {
-                check: ((!esgst.createdPath || esgst.cewgd) && (!esgst.enteredPath || esgst.cewgd) && (!esgst.wonPath || esgst.cewgd)) || popup,                
+                check: ((!esgst.createdPath || esgst.cewgd) && (!esgst.enteredPath || esgst.cewgd) && (!esgst.wonPath || esgst.cewgd)) || popup,
                 name: `Invite Only`,
                 type: `boolean`
             },
             group: {
-                check: ((!esgst.createdPath || esgst.cewgd) && (!esgst.enteredPath || esgst.cewgd) && (!esgst.wonPath || esgst.cewgd)) || popup,                
+                check: ((!esgst.createdPath || esgst.cewgd) && (!esgst.enteredPath || esgst.cewgd) && (!esgst.wonPath || esgst.cewgd)) || popup,
                 name: `Group`,
                 type: `boolean`
             },
             whitelist: {
-                check: ((!esgst.createdPath || esgst.cewgd) && (!esgst.enteredPath || esgst.cewgd) && (!esgst.wonPath || esgst.cewgd)) || popup,                
+                check: ((!esgst.createdPath || esgst.cewgd) && (!esgst.enteredPath || esgst.cewgd) && (!esgst.wonPath || esgst.cewgd)) || popup,
                 name: `Whitelist`,
                 type: `boolean`
             },
             regionRestricted: {
-                check: ((!esgst.createdPath || esgst.cewgd) && (!esgst.enteredPath || esgst.cewgd) && (!esgst.wonPath || esgst.cewgd)) || popup,                
+                check: ((!esgst.createdPath || esgst.cewgd) && (!esgst.enteredPath || esgst.cewgd) && (!esgst.wonPath || esgst.cewgd)) || popup,
                 name: `Region Restricted`,
                 type: `boolean`
             },
             created: {
-                check: (!esgst.createdPath && !esgst.enteredPath && !esgst.wonPath) || popup,                
+                check: (!esgst.createdPath && !esgst.enteredPath && !esgst.wonPath) || popup,
                 name: `Created`,
                 type: `boolean`
             },
             received: {
-                check: esgst.createdPath,                
+                check: esgst.createdPath,
                 name: `Received`,
                 type: `boolean`
             },
             notReceived: {
-                check: esgst.createdPath,                
+                check: esgst.createdPath,
                 name: `Not Received`,
                 type: `boolean`
             },
             awaitingFeedback: {
-                check: esgst.createdPath,                
+                check: esgst.createdPath,
                 name: `Awaiting Feedback`,
                 type: `boolean`
             },
             entered: {
-                check: (!esgst.createdPath && !esgst.enteredPah && !esgst.wonPath) || popup,                
+                check: (!esgst.createdPath && !esgst.enteredPah && !esgst.wonPath) || popup,
                 name: `Entered`,
                 type: `boolean`
             },
             started: {
-                check: (!esgst.enteredPath && !esgst.wonPath) || popup,                
+                check: (!esgst.enteredPath && !esgst.wonPath) || popup,
                 name: `Started`,
                 type: `boolean`
             },
             ended: {
-                check: !esgst.wonPath || popup,                
+                check: !esgst.wonPath || popup,
                 name: `Ended`,
                 type: `boolean`
             },
             deleted: {
-                check: esgst.createdPath || esgst.enteredPath,                
+                check: esgst.createdPath || esgst.enteredPath,
                 name: `Deleted`,
                 type: `boolean`
             },
             owned: {
-                check: true,                
+                check: true,
                 name: `Owned`,
                 type: `boolean`
             },
             wishlisted: {
-                check: true,                
+                check: true,
                 name: `Wishlisted`,
                 type: `boolean`
             },
             hidden: {
-                check: true,                
+                check: true,
                 name: `Hidden`,
                 type: `boolean`
             },
             ignored: {
-                check: true,                
+                check: true,
                 name: `Ignored`,
                 type: `boolean`
             },
             previouslyEntered: {
-                check: true,                
+                check: true,
                 name: `Previously Entered`,
                 type: `boolean`
             },
             previouslyWon: {
-                check: true,                
+                check: true,
                 name: `Previously Won`,
                 type: `boolean`
             },
             fullCV: {
-                check: true,                
+                check: true,
                 name: `Full CV`,
                 type: `boolean`
             },
             reducedCV: {
-                check: true,                
+                check: true,
                 name: `Reduced CV`,
                 type: `boolean`
             },
             noCV: {
-                check: true,                
+                check: true,
                 name: `No CV`,
                 type: `boolean`
             },
             sgTools: {
-                check: esgst.ge,                
+                check: esgst.ge,
                 name: `SGTools`,
                 type: `boolean`
             },
             groups: {
-                check: esgst.ggl && esgst.ggl_index === 0,                
+                check: esgst.ggl && esgst.ggl_index === 0,
                 list: true,
                 name: `Groups`,
                 type: `string`
             },
             creators: {
-                check: true,                
+                check: true,
                 list: true,
                 name: `Creators`,
                 type: `string`
             },
             removed: {
-                category: `gc_rm`,  
-                check: true,              
+                category: `gc_rm`,
+                check: true,
                 name: `Removed`,
                 type: `boolean`
             },
             tradingCards: {
-                category: `gc_tc`,  
+                category: `gc_tc`,
                 check: true,
                 name: `Trading Cards`,
                 type: `boolean`
             },
             achievements: {
-                category: `gc_a`,    
-                check: true,            
+                category: `gc_a`,
+                check: true,
                 name: `Achievements`,
                 type: `boolean`
             },
             multiplayer: {
-                category: `gc_mp`,  
-                check: true,              
+                category: `gc_mp`,
+                check: true,
                 name: `Multiplayer`,
                 type: `boolean`
             },
             steamCloud: {
-                category: `gc_sc`, 
-                check: true,               
+                category: `gc_sc`,
+                check: true,
                 name: `Steam Cloud`,
                 type: `boolean`
             },
@@ -16545,44 +16594,44 @@ class ESGST {
                 type: `boolean`
             },
             mac: {
-                category: `gc_m`, 
-                check: true,               
+                category: `gc_m`,
+                check: true,
                 name: `Mac`,
                 type: `boolean`
             },
             dlc: {
-                category: `gc_dlc`,  
-                check: true,              
+                category: `gc_dlc`,
+                check: true,
                 name: `DLC`,
                 type: `boolean`
             },
             dlcOwned: {
-                category: `gc_dlc_o`,  
-                check: true,              
+                category: `gc_dlc_o`,
+                check: true,
                 name: `DLC (Owned Base)`,
                 type: `boolean`
             },
             dlcFree: {
-                category: `gc_dlc_b`,  
-                check: true,              
+                category: `gc_dlc_b`,
+                check: true,
                 name: `DLC (Free Base)`,
                 type: `boolean`
             },
             dlcNonFree: {
-                category: `gc_dlc_b`,       
-                check: true,         
+                category: `gc_dlc_b`,
+                check: true,
                 name: `DLC (Non-Free Base)`,
                 type: `boolean`
             },
             package: {
-                category: `gc_p`,  
-                check: true,              
+                category: `gc_p`,
+                check: true,
                 name: `Package`,
                 type: `boolean`
             },
             earlyAccess: {
-                category: `gc_ea`,  
-                check: true,              
+                category: `gc_ea`,
+                check: true,
                 name: `Early Access`,
                 type: `boolean`
             },
@@ -16678,7 +16727,7 @@ class ESGST {
                 </div>
             </div>
         `);
-        
+
         if (!obj.popup) {
             esgst.commentsTop += obj.container.offsetHeight;
         }
@@ -16719,7 +16768,7 @@ class ESGST {
             title2: `Saving...`,
             callback1: this.filters_savePreset.bind(this, obj)
         }).set);
-        
+
         let name = esgst[`${obj.id}_preset${obj.type}`];
         if (name) {
             let i;
@@ -16815,7 +16864,7 @@ class ESGST {
                     ];
                     if (filter.date) {
                         rule.input = `text`;
-                        rule.plugin = `datepicker`;       
+                        rule.plugin = `datepicker`;
                         rule.plugin_config = {
                             changeMonth: true,
                             changeYear: true,
@@ -16862,7 +16911,7 @@ class ESGST {
 
                     if (!esgst[`${obj.id}_m_b`]) {
                         minInput = context.lastElementChild.firstElementChild;
-                        maxInput = minInput.nextElementSibling;                    
+                        maxInput = minInput.nextElementSibling;
                         obj.basicFilters[rule.id] = {
                             data: {
                                 basicCount: context.firstElementChild
@@ -16876,7 +16925,7 @@ class ESGST {
                         maxInput.addEventListener(`change`, this.filters_basicToAdv.bind(this, obj));
                         minInput.addEventListener(`change`, this.filters_basicToAdv.bind(this, obj));
                     }
-                
+
                     break;
                 case `string`:
                     rule.input = `text`;
@@ -16920,7 +16969,7 @@ class ESGST {
         }
 
         if (!esgst[`${obj.id}_m_b`]) {
-            stringFilters.insertAdjacentHTML(`beforeEnd`, `        
+            stringFilters.insertAdjacentHTML(`beforeEnd`, `
                 <div class="esgst-gf-legend-panel">
                     <div class="esgst-bold">Legend:</div>
                     <div>
@@ -17335,7 +17384,7 @@ class ESGST {
                             type: key === `releaseDate` ? `text` : (key.match(/^(chance|chancePerPoint)$/) ? `double` : `integer`),
                             value: value
                         });
-                    }                        
+                    }
                 } else if (isMin) {
                     if (value !== minValues[key]) {
                         newPreset.rules.push({
@@ -17346,7 +17395,7 @@ class ESGST {
                             type: key === `releaseDate` ? `text` : (key.match(/^(chance|chancePerPoint)$/) ? `double` : `integer`),
                             value: value
                         });
-                    } 
+                    }
                 } else if (value && typeof value === `string` && !value.match(/^(enabled|undefined)$/)) {
                     if (value === `disabled`) {
                         newPreset.rules.push({
@@ -17406,7 +17455,7 @@ class ESGST {
                         if (key.match(/^(authors|creators|exceptions|genres|groups|name|overrides)$/)) {
                             continue;
                         }
-        
+
                         const isMax = key.match(/^max/);
                         const isMin = key.match(/^min/);
                         const value = preset[key];
@@ -17422,7 +17471,7 @@ class ESGST {
                                     type: key === `releaseDate` ? `text` : (key.match(/^(chance|chancePerPoint)$/) ? `double` : `integer`),
                                     value: value
                                 });
-                            }                        
+                            }
                         } else if (isMin) {
                             if (value !== minValues[key]) {
                                 newException.rules.push({
@@ -17433,7 +17482,7 @@ class ESGST {
                                     type: key === `releaseDate` ? `text` : (key.match(/^(chance|chancePerPoint)$/) ? `double` : `integer`),
                                     value: value
                                 });
-                            } 
+                            }
                         } else if (value && value !== `undefined`) {
                             if (key.match(/^(authors|creators|genres|groups)$/)) {
                                 if (exception[key]) {
@@ -17492,7 +17541,7 @@ class ESGST {
         }
         return newPresets;
     }
-    filters_changeRules(obj, event) {        
+    filters_changeRules(obj, event) {
         let out = [{
             condition: `AND`,
             not: false,
@@ -17515,7 +17564,7 @@ class ESGST {
                 event.value = out;
             }
             return out;
-        }        
+        }
 
         out = (function parse(group) {
             const groupData = {
@@ -17683,7 +17732,7 @@ class ESGST {
                 obj.rules_save = obj.rules;
                 this.filters_filter(obj);
             } else {
-                if (!obj.rules.rules.length) {                
+                if (!obj.rules.rules.length) {
                     obj.rules = {
                         condition: `AND`,
                         rules: [
@@ -17717,14 +17766,14 @@ class ESGST {
                         filter.minInput.value = rule.value;
                     }
                     break;
-                case `string`:                    
+                case `string`:
                     filter.checkbox.change(false, rule.operator === `contains` ? `none` : `disabled`);
                     filter.textInput.value = rule.value;
                     break;
             }
         }
     }
-    filters_resetBasic(obj) {        
+    filters_resetBasic(obj) {
         for (const id in obj.basicFilters) {
             const filter = obj.basicFilters[id];
             switch (filter.filterType) {
@@ -17745,7 +17794,7 @@ class ESGST {
     async filters_savePreset(obj) {
         const name = obj.presetInput.value;
 
-        if (!name) {            
+        if (!name) {
             obj.presetWarning.classList.remove(`esgst-hidden`);
             return;
         }
@@ -17860,7 +17909,7 @@ class ESGST {
         if (!esgst[`${obj.id}_m_b`]) {
             this.filters_resetBasic(obj);
             this.filters_applyBasic(obj, preset.rules);
-        }        
+        }
         if (!esgst[`${obj.id}_m_a`]) {
             obj.builder.setRules(preset.rules);
             [obj.rules, obj.rules_save] = this.filters_changeRules(obj);
@@ -20649,7 +20698,7 @@ class ESGST {
     }
     hwlc_addSection(obj, key, counterKey) {
         obj[key] = document.querySelector(`.${key}`);
-        obj.panel.insertAdjacentHTML(`beforeEnd`, `        
+        obj.panel.insertAdjacentHTML(`beforeEnd`, `
             <div class="esgst-hwlc-section">
                 <h2>You ${counterKey}:</h2>
                 <br>
@@ -20787,7 +20836,7 @@ class ESGST {
             obj.sections[key][section].innerHTML = ``;
         }
         obj.games[key].apps = obj.games[key].apps.map(game => {
-            if (game.wishlisted) {                
+            if (game.wishlisted) {
                 game.html = `
                     <li>
                         <i class="fa fa-star" title="On their wishlist"></i>
@@ -20840,7 +20889,7 @@ class ESGST {
             obj.sections[key].unidentified.insertAdjacentHTML(`beforeEnd`, `
                 <li>${game.name}</li>
             `);
-        }        
+        }
         for (const section in obj.sections[key]) {
             if (section === `textArea` || obj.sections[key][section].innerHTML) {
                 continue;
@@ -20886,7 +20935,7 @@ class ESGST {
             });
         }
         found = found.sort(this.hwlc_sortGames.bind(this));
-        for (const game of found) {               
+        for (const game of found) {
             obj.sections[key].matches.insertAdjacentHTML(`beforeEnd`, `
                 <li>
                     <a href="https://store.steampowered.com/${game.type}/${game.id}">${game.name || game.id}</a>
@@ -21413,7 +21462,7 @@ class ESGST {
                             }
                         }
                     }
-                }                
+                }
                 const game = esgst.games[type][id];
                 if (game) {
                     if (game.noCV) {
@@ -24294,7 +24343,7 @@ class ESGST {
             }
         }
 
-        if (users.length === 0) {            
+        if (users.length === 0) {
             obj.popup.setDone();
             return;
         }
@@ -24365,7 +24414,7 @@ class ESGST {
             obj.popup.overallProgress.textContent = `${i + 1} of ${n} users checked...`;
         }
 
-        if (obj.isCanceled) {            
+        if (obj.isCanceled) {
             obj.popup.setDone();
             return;
         }
@@ -25070,7 +25119,7 @@ class ESGST {
         button = insertHtml(container, `afterEnd`, `
             <div class="esgst-pgb-button">
                 <i class="esgst-pgb-icon fa fa-angle-down"></i>
-            </div>        
+            </div>
         `);
         const icon = button.firstElementChild;
         button.addEventListener(`click`, this.pgb_toggle.bind(this, container, icon));
@@ -26467,8 +26516,8 @@ class ESGST {
                 `);
                 break;
         }
-        button.addEventListener(`click`, () => animateScroll(document.documentElement.offsetHeight, () => {            
-            if (esgst.es) {            
+        button.addEventListener(`click`, () => animateScroll(document.documentElement.offsetHeight, () => {
+            if (esgst.es) {
                 this.es_changePagination(esgst.es, esgst.es.reverseScrolling ? 1 : esgst.es.paginations.length);
             }
         }));
@@ -26535,7 +26584,7 @@ class ESGST {
                 break;
         }
         button.addEventListener(`click`, animateScroll.bind(null, 0, () => {
-            if (esgst.es) {            
+            if (esgst.es) {
                 this.es_changePagination(esgst.es, esgst.es.reverseScrolling ? esgst.es.paginations.length : 1);
             }
         }));
@@ -27100,7 +27149,7 @@ class ESGST {
                 <div class="featured__table__row__left">Won Games Achievements > 0</div>
                 <div class="featured__table__row__right">${achievements}</div>
             </div>
-        `);        
+        `);
     }
     ugd_add(context, key, user, mainPopup) {
         let button = null;
@@ -27193,7 +27242,7 @@ class ESGST {
         if (userGiveaways) {
             return userGiveaways;
         }
- 
+
         userGiveaways = {
             sent: {
                 apps: {},
@@ -27413,7 +27462,7 @@ class ESGST {
             if (typeof type === `string`) {
                 selectors.push(type);
             } else {
-                selectors.push(type.name);        
+                selectors.push(type.name);
                 for (const combo of type.combo) {
                     const comboType = types[combo];
                     selectors.push(`${type.name}_${typeof comboType === `string` ? comboType : comboType.name}`);
@@ -27426,10 +27475,10 @@ class ESGST {
                 }
             }
         }
-        for (const selector of selectors) {            
+        for (const selector of selectors) {
             obj.perType[selector] = new Array(11).fill(0);
             obj.typeTotal[selector] = 0;
-        }        
+        }
         obj.savedGiveaways = JSON.parse(await this.getValue(`giveaways`));
         await this.ugd_count(obj, obj.games.apps, obj.savedGiveaways, types);
         await this.ugd_count(obj, obj.games.subs, obj.savedGiveaways, types);
@@ -27806,7 +27855,7 @@ class ESGST {
                 html += `
                         <li>
                             ${item.name} - <span class="esgst-bold">${item.value}</span>
-                        </li>                
+                        </li>
                 `;
             }
             html += `
@@ -30123,7 +30172,7 @@ class ESGST {
                 giveaway.creator = giveaway.creatorContainer.textContent;
             } else {
                 giveaway.startTime = 0;
-            }            
+            }
         }
         if (!giveaway.endTime && main && (esgst.createdPath || esgst.enteredPath || esgst.wonPath)) {
             giveaway.endTime = giveaway.innerWrap.querySelector(`[data-timestamp]`);
@@ -31017,7 +31066,7 @@ class ESGST {
                     return {
                         type: `subs`,
                         id: id
-                    };                        
+                    };
                 }
             }
             this.request({method: `GET`, url: heading.getAttribute(`href`)}).then(async response => {
@@ -31046,7 +31095,7 @@ class ESGST {
                             }
                         }
                         return x;
-                    });                    
+                    });
                     if (esgst.gf && esgst.gf.filteredCount && esgst[`gf_enable${esgst.gf.type}`]) {
                         this.filters_filter(esgst.gf);
                     }
@@ -31859,7 +31908,7 @@ class ESGST {
                 id: `profile`
             }
         ];
-    }    
+    }
     checkBusy(event) {
         if (document.getElementsByClassName(`esgst-busy`)[0] || esgst.busy) {
             event.returnValue = true;
@@ -31944,10 +31993,10 @@ class ESGST {
     }
     parseHtml(string) {
         return esgst.domParser.parseFromString(string, `text/html`);
-    }    
+    }
     parseMarkdown(string) {
         return esgst.markdownParser.text(string);
-    }    
+    }
     async addGiveawayToStorage() {
         let giveaway, ggiveaways, i, key, n, popup, ugd, user;
         popup = new Popup(`fa-circle-o-notch fa-spin`, `Please wait... ESGST is adding this giveaway to the storage...`, true);
@@ -32032,7 +32081,7 @@ class ESGST {
             await this.saveUser(null, null, user);
             popup.close();
         }
-    }    
+    }
     generateHeaderMenuItem(details, key) {
         if (details.icon) {
             let icon = details.icon;
@@ -32058,7 +32107,7 @@ class ESGST {
                         ${details.description ? `<p class="esgst-header-menu-description">${details.description}</p>` : ``}
                     </div>
                 </div>
-    
+
             `;
         }
         if (esgst.sg) {
@@ -32077,7 +32126,7 @@ class ESGST {
                 </a>
             `;
         }
-    }    
+    }
     reorderButtons(leftButton, leftButtons, rightButton, rightButtons) {
         let leftHidden, rightHidden, source;
         leftHidden = leftButton && leftButton.classList.contains(`esgst-hidden`);
@@ -32190,7 +32239,7 @@ class ESGST {
                 });
             }
         });
-    }    
+    }
     repositionPopups() {
         if (esgst.openPopups > 0) {
             esgst.popups.forEach(popup => popup.reposition());
@@ -32199,7 +32248,7 @@ class ESGST {
         } else {
             esgst.isRepositioning = false;
         }
-    }    
+    }
     async setSetting() {
         const deleteLock = await this.createLock(`settingsLock`, 100);
         const settings = JSON.parse(await this.getValue(`settings`, `{}`));
@@ -32224,7 +32273,7 @@ class ESGST {
         }
         await this.setValue(`settings`, JSON.stringify(settings));
         deleteLock();
-    }    
+    }
     getSetting(key, inverse) {
         let value = esgst.settings[key];
         if (typeof value === `undefined`) {
@@ -32329,7 +32378,7 @@ class ESGST {
             default:
                 return;
         }
-    }    
+    }
     getFeaturePath(feature, id, name) {
         let key = `${id}_${name}`;
         let setting = esgst.settings[key];
@@ -32353,7 +32402,7 @@ class ESGST {
             }
         }
         return setting;
-    }    
+    }
     getFeatureSetting(feature, id) {
         esgst[id] = false;
         if (feature[esgst.name]) {
@@ -32379,7 +32428,7 @@ class ESGST {
                 this.getFeatureSetting(feature.features[id], id);
             }
         }
-    }    
+    }
     toggleHeaderMenu(arrow, dropdown) {
         if (esgst.sg) {
             let buttons = document.querySelectorAll(`nav .nav__button`);
@@ -32411,11 +32460,11 @@ class ESGST {
             return `This element was added by ESGST${id ? ` (${this.getFeatureNumber(id).number})` : ``}`;
         }
         return title;
-    }    
+    }
     getFeatureName(fullMatch, match) {
         let feature = this.getFeatureNumber(match);
         return `${feature.number} "${feature.name}"`;
-    }    
+    }
     getFeatureNumber(queryId) {
         let n = 1;
         for (let type in esgst.features) {
@@ -32438,7 +32487,7 @@ class ESGST {
             name: ``,
             number: ``
         };
-    }    
+    }
     getFeatureNumber_2(feature, id, i, n, queryId) {
         if (id === queryId) {
             return {
@@ -32460,7 +32509,7 @@ class ESGST {
             }
         }
         return null;
-    }    
+    }
     async getUser(savedUsers, user) {
         let savedUser = null;
         if (!savedUsers) {
@@ -32484,7 +32533,7 @@ class ESGST {
             }
         }
         return savedUser;
-    }    
+    }
     async saveUser(list, savedUsers, user) {
         if (!savedUsers) {
             savedUsers = JSON.parse(await this.getValue(`users`));
@@ -32524,7 +32573,7 @@ class ESGST {
                 await this.getSteamId(list, true, null, user);
             }
         }
-    }    
+    }
     checkUsernameChange(savedUsers, user) {
         let i, n;
         if (typeof savedUsers.users[user.steamId].username !== `undefined` && savedUsers.users[user.steamId].username !== user.username) {
@@ -32547,7 +32596,7 @@ class ESGST {
         if (!savedUsers.users[user.steamId].tags) {
             delete savedUsers.users[user.steamId].tags;
         }
-    }    
+    }
     async addUser(user) {
         let deleteLock, savedUser, savedUsers;
         deleteLock = await this.createLock(`userLock`, 300);
@@ -32575,7 +32624,7 @@ class ESGST {
         }
         await this.setValue(`users`, JSON.stringify(savedUsers));
         deleteLock();
-    }    
+    }
     async getUsername(list, save, user) {
         let match, response, responseHtml;
         response = await this.request({method: `GET`, url: `https://www.steamgifts.com/go/user/${user.steamId}`});
@@ -32595,7 +32644,7 @@ class ESGST {
                 await this.addUser(user);
             }
         }
-    }    
+    }
     async getSteamId(list, save, savedUsers, user) {
         let input, responseHtml;
         if (!save) {
@@ -32622,7 +32671,7 @@ class ESGST {
                 await this.addUser(user);
             }
         }
-    }    
+    }
     async saveUsers(users) {
         let list, promises, savedUsers;
         list = {
@@ -32677,7 +32726,7 @@ class ESGST {
         }
         await this.setValue(`users`, JSON.stringify(savedUsers));
         deleteLock();
-    }    
+    }
     async deleteUserValues(values) {
         let deleteLock, savedUsers;
         deleteLock = await this.createLock(`userLock`, 300);
@@ -32689,14 +32738,14 @@ class ESGST {
         }
         await this.setValue(`users`, JSON.stringify(savedUsers));
         deleteLock();
-    }    
+    }
     async getUserId(user) {
         if (user.username) {
             await this.getSteamId(null, false, null, user);
         } else {
             await this.getUsername(null, false, user);
         }
-    }    
+    }
     async checkSync(menu, callback) {
         let currentDate = Date.now();
         let isSyncing = getLocalValue(`isSyncing`);
@@ -32735,7 +32784,7 @@ class ESGST {
                 }
             }
         }
-    }    
+    }
     async setSync(autoSync, mainCallback, parameters) {
         let syncer = {
             autoSync: autoSync,
@@ -32794,7 +32843,7 @@ class ESGST {
             syncer.parameters = getParameters();
             await this.sync(syncer);
         }
-    }    
+    }
     setAutoSync(id, switches) {
         let html, i, key, select, toggleSwitch;
         key = id.replace(/^sync/, ``);
@@ -32812,13 +32861,13 @@ class ESGST {
         } else {
             toggleSwitch.date = insertHtml(toggleSwitch.name, `beforeEnd`, `<span><i class="fa fa-times"></i> Never synced.</span>`);
         }
-    }    
+    }
     cancelSync(syncer) {
         if (syncer.process) {
             syncer.process.stop();
         }
         syncer.canceled = true;
-    }    
+    }
     async sync(syncer) {
         if (!esgst.firstInstall) {
             await this.setSetting(`lastSync`, Date.now());
@@ -32829,17 +32878,17 @@ class ESGST {
                 <span></span>
             `;
         }
-    
+
         // if this is the user's fist time using the script, only sync steam id and stop
         if (esgst.firstInstall) {
             return;
         }
-    
+
         // if sync has been canceled stop
         if (syncer.canceled) {
             return;
         }
-    
+
         // sync groups
         if (esgst.sg && ((syncer.parameters && syncer.parameters.Groups) || (!syncer.parameters && (esgst.settings.syncGroups || syncer.autoSync)))) {
             syncer.progress.lastElementChild.textContent = `Syncing your Steam groups...`;
@@ -32934,12 +32983,12 @@ class ESGST {
             }
             syncer.results.insertAdjacentHTML(`afterBegin`, syncer.html);
         }
-    
+
         // if sync has been canceled stop
         if (syncer.canceled) {
             return;
         }
-    
+
         // sync whitelist and blacklist
         if (!syncer.autoSync && ((syncer.parameters && (syncer.parameters.Whitelist || syncer.parameters.Blacklist)) || (!syncer.parameters && (esgst.settings.syncWhitelist || esgst.settings.syncBlacklist)))) {
             if ((syncer.parameters && syncer.parameters.Whitelist && syncer.parameters.Blacklist) || (!syncer.parameters && esgst.settings.syncWhitelist && esgst.settings.syncBlacklist)) {
@@ -32963,12 +33012,12 @@ class ESGST {
             syncer.progress.lastElementChild.textContent = `Saving your whitelist/blacklist (this may take a while)...`;
             await this.saveUsers(syncer.users);
         }
-    
+
         // if sync has been canceled stop
         if (syncer.canceled) {
             return;
         }
-    
+
         // sync hidden games
         if (!syncer.autoSync && ((syncer.parameters && syncer.parameters.HiddenGames) || (!syncer.parameters && esgst.settings.syncHiddenGames))) {
             syncer.progress.lastElementChild.textContent = `Syncing your hidden games...`;
@@ -33014,12 +33063,12 @@ class ESGST {
             await this.setValue(`games`, JSON.stringify(savedGames));
             deleteLock();
         }
-    
+
         // if sync has been canceled stop
         if (syncer.canceled) {
             return;
         }
-    
+
         // sync wishlisted/owned/ignored games
         if ((syncer.parameters && syncer.parameters.Games) || (!syncer.parameters && (syncer.autoSync || esgst.settings.syncGames))) {
             syncer.progress.lastElementChild.textContent = `Syncing your wishlisted/owned/ignored games...`;
@@ -33047,45 +33096,45 @@ class ESGST {
                 }
             }
         }
-    
+
         // if sync has been canceled stop
         if (syncer.canceled) {
             return;
         }
-    
+
         // sync won games
         if (!syncer.autoSync && ((syncer.parameters && syncer.parameters.WonGames) || (!syncer.parameters && esgst.settings.syncWonGames))) {
             syncer.progress.lastElementChild.textContent = `Syncing your won games...`;
             await this.getWonGames(`0`, syncer);
         }
-    
+
         // if sync has been canceled stop
         if (syncer.canceled) {
             return;
         }
-    
+
         // sync reduced cv games
         if (!syncer.autoSync && ((syncer.parameters && syncer.parameters.ReducedCvGames) || (!syncer.parameters && esgst.settings.syncReducedCvGames))) {
             syncer.progress.lastElementChild.textContent = `Syncing reduced CV games...`;
             await this.lockAndSaveGames(JSON.parse((await this.request({method: `GET`, url: `https://script.google.com/macros/s/AKfycbwJK-7RBh5ghaKprEsmx4DQ6CyXc_3_9eYiOCu3yhI6W4B3W4YN/exec`})).responseText).success);
         }
-    
+
         // if sync has been canceled stop
         if (syncer.canceled) {
             return;
         }
-    
+
         // sync no cv games
         if (!syncer.autoSync && ((syncer.parameters && syncer.parameters.NoCvGames) || (!syncer.parameters && esgst.settings.syncNoCvGames))) {
             syncer.progress.lastElementChild.textContent = `Syncing no CV games...`;
             await this.lockAndSaveGames(JSON.parse((await this.request({method: `GET`, url: `https://script.google.com/macros/s/AKfycbym0nzeyr3_b93ViuiZRivkBMl9PBI2dTHQxNC0rtgeQSlCTI-P/exec`})).responseText).success);
         }
-    
+
         // if sync has been canceled stop
         if (syncer.canceled) {
             return;
         }
-    
+
         // sync giveaways
         if (!syncer.autoSync && ((syncer.parameters && syncer.parameters.Giveaways) || (!syncer.parameters && esgst.settings.syncGiveaways)) && esgst.sg) {
             syncer.progress.lastElementChild.textContent = `Syncing your giveaways...`;
@@ -33097,7 +33146,7 @@ class ESGST {
             syncer.process = this.ugd_add(null, key, user, syncer);
             await syncer.process.start();
         }
-    
+
         // finish sync
         if (!esgst.firstInstall) {
             syncer.progress.lastElementChild.textContent = `Updating last sync date...`;
@@ -33135,7 +33184,7 @@ class ESGST {
             syncer.popup.setTitle(`Sync done! You can close this popup now.`);
             syncer.popup.setDone(true);
         }
-    }    
+    }
     async syncWhitelistBlacklist(key, syncer, url) {
         let nextPage = 1;
         let pagination = null;
@@ -33158,7 +33207,7 @@ class ESGST {
             pagination = responseHtml.getElementsByClassName(`pagination__navigation`)[0];
             nextPage += 1;
         } while (!syncer.canceled && pagination && !pagination.lastElementChild.classList.contains(`is-selected`));
-    }    
+    }
     async syncGames(altAccount, syncer, apiResponse, storeResponse) {
         let apiJson = null,
             storeJson = null;
@@ -33364,7 +33413,7 @@ class ESGST {
                 </div>
             `;
         }
-    }  
+    }
     async getGameNames(syncer) {
         const elements = syncer.results.getElementsByTagName(`a`);
         for (let i = elements.length - 1; i > -1; --i) {
@@ -33408,7 +33457,7 @@ class ESGST {
             await this.setValue(`giveaways`, JSON.stringify(savedGiveaways));
             deleteLock();
         }
-    }    
+    }
     async lockAndSaveDiscussions(discussions) {
         let deleteLock = await this.createLock(`discussionLock`, 300),
             savedDiscussions = JSON.parse(await this.getValue(`discussions`, `{}`));
@@ -33426,7 +33475,7 @@ class ESGST {
         }
         await this.setValue(`discussions`, JSON.stringify(savedDiscussions));
         deleteLock();
-    }    
+    }
     async lockAndSaveGroups(groups, sync) {
         let deleteLock, savedGroups;
         deleteLock = await this.createLock(`groupLock`, 300);
@@ -33523,7 +33572,7 @@ class ESGST {
         } while (syncer && pagination && !pagination.lastElementChild.classList.contains(`is-selected`));
         await this.lockAndSaveGames(savedGames);
         setLocalValue(`wonCount`, count);
-    }    
+    }
     saveAndSortContent(key, mainKey, options, callback) {
         if (callback) {
             callback();
@@ -33537,7 +33586,7 @@ class ESGST {
             this.setSetting(id, value);
             esgst[id] = value;
         });
-    }    
+    }
     observeNumChange(context, id, key = `value`) {
         esgst[id] = parseFloat(esgst[id]);
         context.addEventListener(`change`, () => {
@@ -33545,7 +33594,7 @@ class ESGST {
             this.setSetting(id, value);
             esgst[id] = value;
         });
-    }    
+    }
     async checkMissingDiscussions(refresh, callback) {
         let savedDiscussions = JSON.parse(await this.getValue(`discussions`, `{}`));
         let rows = document.getElementsByClassName(`table__rows`);
@@ -33879,7 +33928,7 @@ class ESGST {
                 esgst.firstInstall = false;
             }
         }
-    }    
+    }
     openPathsPopup(feature, id, name) {
         let obj = {
             excludeItems: [],
@@ -33907,7 +33956,7 @@ class ESGST {
         obj.setting.include.forEach(path => this.addPath(`include`, obj, path));
         obj.setting.exclude.forEach(path => this.addPath(`exclude`, obj, path));
         obj.popup.open();
-    }    
+    }
     addPath(key, obj, path) {
         let item = {};
         item.container = insertHtml(obj[key], `beforeEnd`, `<div></div>`);
@@ -33925,7 +33974,7 @@ class ESGST {
         `);
         obj[`${key}Items`].push(item);
         item.input.focus();
-    }    
+    }
     removePath(item, key, obj) {
         let i = obj[`${key}Items`].length - 1;
         if (i === 0 && key === `include`) {
@@ -33937,7 +33986,7 @@ class ESGST {
             obj[`${key}Items`].splice(i, 1);
         }
         item.container.remove();
-    }    
+    }
     validatePathRegex(item) {
         item.invalid.classList.add(`esgst-hidden`);
         try {
@@ -33946,7 +33995,7 @@ class ESGST {
             console.log(error);
             item.invalid.classList.remove(`esgst-hidden`);
         }
-    }    
+    }
     savePaths(id, obj) {
         obj.setting.include = [];
         obj.setting.exclude = [];
@@ -33958,14 +34007,14 @@ class ESGST {
         }
         obj.popup.close();
         this.setSetting(`${id}_${obj.name}`, obj.setting);
-    }    
+    }
     dismissNewOption(id, event) {
         event.currentTarget.remove();
         if (esgst.dismissedOptions.indexOf(id) < 0) {
             esgst.dismissedOptions.push(id);
             this.setSetting(`dismissedOptions`, esgst.dismissedOptions);
         }
-    }    
+    }
     getSMFeature(Feature, ID, aaa) {
         let Menu, SMFeatures, isMainNew = false;
         Menu = document.createElement(`div`);
@@ -34539,7 +34588,7 @@ class ESGST {
             popup.icon.classList.add(`fa-times`);
             popup.title.textContent = `An error happened.`;
         }
-    }    
+    }
     async saveHrFile(id, popup, reader) {
         try {
             let bytes = new Uint8Array(reader.result);
@@ -34558,11 +34607,11 @@ class ESGST {
             popup.icon.classList.add(`fa-times`);
             popup.title.textContent = `An error happened.`;
         }
-    }    
+    }
     setSmSource(child, sm, event) {
         event.dataTransfer.setData(`text/plain`, ``);
         sm.source = child;
-    }    
+    }
     getSmSource(child, sm) {
         let current = sm.source;
         if (!current) return;
@@ -34574,7 +34623,7 @@ class ESGST {
             }
         } while (current);
         sm.panel.insertBefore(sm.source, child.nextElementSibling);
-    }    
+    }
     saveSmSource(sm) {
         sm.source = null;
         esgst[sm.categoryKey] = [];
@@ -34606,7 +34655,7 @@ class ESGST {
             esgst[id].push(colors);
             this.addGwcColorSetting(colors, id, key, panel);
         });
-    }    
+    }
     addGwcColorSetting(colors, id, key, panel) {
         let color, i, lower, n, remove, setting, upper;
         setting = insertHtml(panel, `beforeEnd`, `
@@ -34640,7 +34689,7 @@ class ESGST {
                 }
             }
         });
-    }    
+    }
     addGcRatingPanel(context) {
         let panel = insertHtml(context, `beforeEnd`, `
             <div class="esgst-sm-colors">
@@ -34665,7 +34714,7 @@ class ESGST {
             esgst.gc_r_colors.push(colors);
             this.addGcRatingColorSetting(colors, panel);
         });
-    }    
+    }
     addGcRatingColorSetting(colors, panel) {
         let setting = insertHtml(panel, `beforeEnd`, `
             <div>
@@ -34711,7 +34760,7 @@ class ESGST {
                 }
             }
         });
-    }    
+    }
     addGcMenuPanel(context) {
         let button, colorSetting, i, n, panel;
         panel = insertHtml(context, `beforeEnd`, `
@@ -34735,7 +34784,7 @@ class ESGST {
             esgst.gc_g_colors.push(colorSetting);
             this.addGcColorSetting(colorSetting, panel);
         });
-    }    
+    }
     addGcColorSetting(colorSetting, panel) {
         let bgColor, color, genre, i, n, remove, setting;
         setting = insertHtml(panel, `beforeEnd`, `
@@ -34769,7 +34818,7 @@ class ESGST {
                 }
             }
         });
-    }    
+    }
     addGcAltMenuPanel(context) {
         let altSetting, button, i, n, panel;
         panel = insertHtml(context, `beforeEnd`, `
@@ -34806,7 +34855,7 @@ class ESGST {
             esgst.gc_o_altAccounts.push(altSetting);
             this.addGcAltSetting(altSetting, panel);
         });
-    }    
+    }
     addGcAltSetting(altSetting, panel) {
         let color, bgColor, i, icon, label, n, name, remove, setting, steamId;
         setting = insertHtml(panel, `beforeEnd`, `
@@ -34855,7 +34904,7 @@ class ESGST {
                 }
             }
         });
-    }    
+    }
     addColorObserver(context, id, key) {
         context.addEventListener(`change`, () => {
             this.setSetting(`${id}_${key}`, context.value);
@@ -34938,7 +34987,7 @@ class ESGST {
         } else {
             callback(i);
         }
-    }    
+    }
     async openManageUserTagsPopup() {
         let context, current, input, popup, savedUser, savedUsers, users;
         popup = new Popup(`fa-tags`, `Manage user tags:`, true);
@@ -34972,7 +35021,7 @@ class ESGST {
         await this.endless_load(popup.scrollable);
         input.addEventListener(`input`, this.filterUserTags.bind(this, current, popup, users));
         popup.open();
-    }    
+    }
     filterUserTags(current, popup, users, event) {
         let i, tags, username, userTags;
         if (event.currentTarget.value) {
@@ -34991,7 +35040,7 @@ class ESGST {
                 users[username].context.classList.remove(`esgst-hidden`);
             }
         }
-    }    
+    }
     async openManageGameTagsPopup() {
         let context, current, games, input, popup, savedGame, savedGames;
         popup = new Popup(`fa-tags`, `Manage game tags:`, true);
@@ -35047,7 +35096,7 @@ class ESGST {
         await this.endless_load(popup.scrollable);
         input.addEventListener(`input`, this.filterGameTags.bind(this, current, games, popup));
         popup.open();
-    }    
+    }
     filterGameTags(current, games, popup, event) {
         let gameTags, i, id, tags;
         if (event.currentTarget.value) {
@@ -35078,7 +35127,7 @@ class ESGST {
                 games.subs[id].context.classList.remove(`esgst-hidden`);
             }
         }
-    }    
+    }
     setSMRecentUsernameChanges(SMRecentUsernameChanges) {
         SMRecentUsernameChanges.addEventListener(`click`, async () => {
             let popup;
@@ -35105,7 +35154,7 @@ class ESGST {
                 this.endless_load(popup.Results);
             }
         });
-    }    
+    }
     updateWhitelistBlacklist(key, profile, event) {
         let user;
         user = {
@@ -35129,7 +35178,7 @@ class ESGST {
             setLocalValue(`isBackingUp`, currentDate);
             this.loadDataManagement(false, `export`, true);
         }
-    }    
+    }
     loadDataManagement(openInTab, type, autoBackup) {
         let container, context, group1, group2, i, icon, n, onClick, option, prep, popup, section, title1, title2;
         let dm = {
@@ -35501,7 +35550,7 @@ class ESGST {
                 this.getDataSizes(dm);
             }
         }
-    }    
+    }
     loadDataCleaner() {
         let popup = new Popup(`fa-paint-brush`, `Clean old data:`);
         popup.description.insertAdjacentHTML(`afterBegin`, `<div class="esgst-bold esgst-description esgst-red">Make sure to backup your data before using the cleaner.</div>`);
@@ -36653,7 +36702,7 @@ class ESGST {
         let spacePopup = new Popup(`fa-circle-o-notch fa-spin`, `Calculating data sizes...`);
         spacePopup.open();
         setTimeout(this.manageData.bind(this), 0, dm, false, false, false, spacePopup);
-    }    
+    }
     async loadImportFile(dm, dropbox, googleDrive, oneDrive, space, callback) {
         let file;
         if (dropbox) {
@@ -36684,7 +36733,7 @@ class ESGST {
                 callback();
             }
         }
-    }    
+    }
     async readImportFile(dm, dropbox, googleDrive, oneDrive, space, blob, callback) {
         try {
             if (dm.reader) {
@@ -36698,7 +36747,7 @@ class ESGST {
             createFadeMessage(dm.warning, `Cannot parse file!`);
             callback();
         }
-    }    
+    }
     confirmDataDeletion(dm, dropbox, googleDrive, oneDrive, space, callback) {
         createConfirmation(`Are you sure you want to delete the selected data?`, this.manageData.bind(this, dm, dropbox, googleDrive, oneDrive, space, callback), callback);
     }
@@ -36781,7 +36830,7 @@ class ESGST {
         } else {
             setTimeout(this.checkDropboxComplete.bind(this).bind(this), 250, data, dm, callback);
         }
-    }    
+    }
     async checkGoogleDriveComplete(data, dm, callback) {
         let value = await this.getValue(`googleDriveToken`);
         if (value) {
@@ -36865,7 +36914,7 @@ class ESGST {
         } else {
             setTimeout(this.checkGoogleDriveComplete.bind(this).bind(this), 250, data, dm, callback);
         }
-    }    
+    }
     async checkOneDriveComplete(data, dm, callback) {
         let value = await this.getValue(`oneDriveToken`);
         if (value) {
@@ -36952,7 +37001,7 @@ class ESGST {
         };
         await this.checkLock(lock);
         return this.setValue.bind(this, key, `{}`);
-    }    
+    }
     async checkLock(lock) {
         let locked = JSON.parse(await this.getValue(lock.key, `{}`));
         if (!locked || !locked.uuid || locked.timestamp < Date.now() - (lock.threshold + 1000)) {
@@ -37023,7 +37072,7 @@ class ESGST {
         bgColorContext.value = esgst.defaultValues[`${id}_bgColor`];
         esgst.settings[`${id}_bgColor`] = bgColorContext.value;
         this.setValue(`settings`, JSON.stringify(esgst.settings));
-    }    
+    }
     async resetOrder(select, event) {
         let message = insertHtml(event.currentTarget, `afterEnd`, `
             <div class="esgst-description esgst-bold">
@@ -37118,7 +37167,7 @@ class ESGST {
             }).set);
             popup.open();
         }
-    }    
+    }
     async exportSettings() {
         let data = {
             settings: JSON.parse(await this.getValue(`settings`, `{}`))
@@ -37156,7 +37205,7 @@ class ESGST {
         if (callback) {
             callback();
         }
-    }    
+    }
     addStyle() {
         let backgroundColor, color, colors, i, n, style;
         style = `
@@ -37401,7 +37450,7 @@ class ESGST {
                 width: 100px;
             }
 
-            .esgst-gf-basic-filters >* {                
+            .esgst-gf-basic-filters >* {
                 margin: 5px;
             }
 
@@ -37470,20 +37519,20 @@ class ESGST {
                 display: inline-block;
                 margin-right: 5px;
             }
-    
+
             .esgst-mm-checkbox i {
                 margin: 0;
             }
-    
+
             .esgst-mm-popout {
                 width: 550px;
             }
-    
+
             .esgst-mm-popout textarea {
                 height: 150px !important;
                 overflow-y: auto !important;
             }
-    
+
             .esgst-mm-popout .esgst-button-set >* {
                 line-height: 25px;
                 margin: 2px;
@@ -37491,12 +37540,12 @@ class ESGST {
                 padding-top: 0;
                 width: 100px;
             }
-    
+
             .esgst-mm-headings {
                 display: flex;
                 font-size: 0;
             }
-    
+
             .esgst-mm-headings >* {
                 background-color: #eee;
                 border: 1px solid #ccc;
@@ -37507,48 +37556,48 @@ class ESGST {
                 padding: 5px;
                 width: 150px;
             }
-    
+
             .esgst-mm-headings .esgst-selected {
                 background-color: #fff;
                 border-bottom: 0;
             }
-    
+
             .esgst-mm-sections {
                 border-bottom: 1px solid #ccc;
                 border-left: 1px solid #ccc;
                 border-right: 1px solid #ccc;
                 padding: 5px;
             }
-    
+
             .esgst-mm-sections >* {
                 display: none;
             }
-    
+
             .esgst-mm-sections .esgst-selected {
                 display: block;
             }
-    
+
             .esgst-rotate-90 {
                 transform: rotate(90deg);
             }
-    
+
             .esgst-rotate-270 {
                 transform: rotate(270deg);
             }
-    
+
             .esgst-chfl-compact {
                 padding: 8px 15px !important;
             }
-    
+
             .footer__outer-wrap .esgst-chfl-panel, footer .esgst-chfl-panel {
                 position: static !important;
             }
-    
+
             .esgst-chfl-panel {
                 position: absolute;
                 right: 10px;
             }
-    
+
             .esgst-chfl-panel i {
                 background-color: #fff;
                 border: 1px solid #ccc;
@@ -37560,121 +37609,121 @@ class ESGST {
                 padding: 5px;
                 width: auto !important;
             }
-    
+
             .esgst-chfl-small i {
                 font-size: 18px !important;
                 width: 36px;
             }
-    
+
             .esgst-mgc-table * {
                 text-align: left;
             }
-    
+
             .esgst-ochgb {
                 display: inline-block;
             }
-    
+
             .featured__heading .esgst-ochgb i, .featured__heading .esgst-gf-hide-button i, .featured__heading .esgst-gf-unhide-button i, .featured__heading .esgst-gb-button i {
                 opacity: .6;
                 transition: opacity .2s;
             }
-    
+
             .featured__heading .esgst-ochgb i:hover, .featured__heading .esgst-gf-hide-button i:hover, .featured__heading .esgst-gf-unhide-button i:hover, .featured__heading .esgst-gb-button i:hover {
                 opacity: 1;
             }
-    
+
             @keyframes esgst-blinker {
                 50% { opacity: 0; }
             }
-    
+
             .esgst-blinking {
                 animation: esgst-blinker 1s linear infinite;
             }
-    
+
             .esgst-qiv-popout {
                 max-height: 600px !important;
                 overflow: hidden !important;
                 width: 600px;
             }
-    
+
             .esgst-qiv-comments {
                 overflow-y: auto;
             }
-    
+
             .esgst-giveaway-column-button {
                 border: 0;
                 padding: 0;
             }
-    
+
             .esgst-giveaway-column-button >* {
                 line-height: inherit;
             }
-    
+
             .esgst-elgb-button .sidebar__error {
                 margin-bottom: 0;
             }
-    
+
             .esgst-mgc-preview {
                 border: 1px solid #ccc;
                 padding: 25px;
                 width: 600px;
             }
-    
+
             .esgst-mgc-input {
                 display: inline-block;
                 text-align: center;
                 width: 75px;
             }
-    
+
             .esgst-relative {
                 position: relative;
             }
-    
+
             .esgst-nm-icon {
                 color: #ff0000 !important;
             }
-    
+
             .esgst-disabled {
                 cursor: default !important;
                 opacity: 0.5;
             }
-    
+
             .esgst-changelog img {
                 max-width: 98%;
             }
-    
+
             .esgst-debug {
                 height: 300px;
                 width: 600px;
             }
-    
+
             .esgst-radb-button {
                 cursor: pointer;
                 display: inline-block;
             }
-    
+
             .esgst-radb-button.homepage_heading {
                 margin-right: 5px;
             }
-    
+
             :not(.page__heading) > .esgst-radb-button:not(.homepage_heading) {
                 margin-left: 5px;
             }
-    
+
             .esgst-radb-button + .homepage_heading {
                 display: inline-block;
                 width: calc(100% - 80px);
             }
-    
+
             .esgst-cfh-preview {
                 margin: 5px 0;
                 text-align: left;
             }
-    
+
             .esgst-qgs-container i {
                 color: #AAB5C6;
             }
-    
+
             .esgst-qgs-container {
                 align-items: center;
                 background-color: #fff;
@@ -37686,19 +37735,19 @@ class ESGST {
                 margin-right: 5px;
                 padding: 5px 10px;
             }
-    
+
             .esgst-qgs-container-expanded {
                 position: absolute;
             }
-    
+
             .esgst-qgs-container-expanded .esgst-qgs-input {
                 width: 300px;
             }
-    
+
             .esgst-qgs-container-expanded + .nav__button-container {
                 margin-left: 40px;
             }
-    
+
             .esgst-qgs-input {
                 border: 0 !important;
                 height: 100%;
@@ -37706,31 +37755,31 @@ class ESGST {
                 padding: 0 !important;
                 width: 0;
             }
-    
+
             .esgst-sgc-results .table__row-outer-wrap {
                 padding: 10px 5px;
             }
-    
+
             .esgst-glwc-results {
                 display: flex;
             }
-    
+
             .esgst-glwc-results >* {
                 flex: 1;
                 margin: 10px;
             }
-    
+
             .esgst-glwc-heading {
                 font-family: "Open Sans";
                 font-size: 25px;
                 margin: 5px;
                 text-align: center;
             }
-    
+
             .esgst-stbb-button, .esgst-sttb-button {
                 cursor: pointer;
             }
-    
+
             .esgst-stbb-button-fixed, .esgst-sttb-button-fixed {
                 bottom: ${esgst.ff ? 49 : 5}px;
                 background-color: #fff;
@@ -37741,30 +37790,30 @@ class ESGST {
                 position: fixed;
                 right: 5px;
             }
-    
+
             .esgst-stbb-button:not(.esgst-hidden) + .esgst-sttb-button {
                 bottom: 79px;
             }
-    
+
             .esgst-bold {
                 font-weight: bold;
             }
-    
+
             .esgst-italic {
                 font-style: italic;
             }
-    
+
             .esgst-es-page-divisor {
                 margin: 5px 0;
             }
-    
+
             .comment__parent .esgst-cerb-reply-button {
                 margin-top: 54px;
                 position: absolute;
                 text-align: center;
                 width: 44px;
             }
-    
+
             .comment_inner .esgst-cerb-reply-button {
                 margin-left: 21px;
                 margin-top: 34px;
@@ -37772,13 +37821,13 @@ class ESGST {
                 text-align: center;
                 width: 24px;
             }
-    
+
             .esgst-page-heading {
                 display: flex;
                 align-items: flex-start;
                 word-wrap: break-word;
             }
-    
+
             .esgst-page-heading >* {
                 background-image: linear-gradient(#fff 0%, rgba(255,255,255,0.4) 100%);
                 display: flex;
@@ -37788,19 +37837,19 @@ class ESGST {
                 color: #4B72D4;
                 font: 700 14px/22px "Open Sans", sans-serif;
             }
-    
+
             .esgst-page-heading i {
                 line-height: 22px;
             }
-    
+
             .esgst-page-heading >*:not(.page__heading__breadcrumbs) {
                 align-items: center;
             }
-    
+
             .esgst-page-heading >*:not(:last-child) {
                 margin-right: 5px;
             }
-    
+
             .esgst-tab-menu {
                 background-color: var(--esgst-body-bg-color);
                 background-image: none;
@@ -37810,54 +37859,54 @@ class ESGST {
                 text-shadow: 1px 1px rgba(255,255,255,0.94);
                 color: #465670;
             }
-    
+
             .esgst-tab-menu-header {
                 padding: 0;
             }
-    
+
             .esgst-form-row {
                 margin-bottom: 20px;
             }
-    
+
             .esgst-form-row:first-of-type {
                 margin-top: 14px;
             }
-    
+
             .esgst-form-heading {
                 align-items: center;
                 display: flex;
                 margin-bottom: 5px;
             }
-    
+
             .esgst-form-heading > div:not(:last-child) {
                 margin-right: 10px;
             }
-    
+
             .esgst-form-heading-number {
                 font: 300 14px "Open Sans", sans-serif;
                 color:#6b7a8c;
             }
-    
+
             .esgst-form-heading-text {
                 font: 700 14px "Open Sans", sans-serif;
                 color: #4B72D4;
             }
-    
+
             .esgst-form-row-indent {
                 padding: 3px 0 3px 20px;
                 margin-left: 5px;
                 border-left: 1px solid #d2d6e0;
                 box-shadow: 1px 0 0 rgba(255,255,255,0.3) inset;
             }
-    
+
             .esgst-form-sync {
                 display: flex;
             }
-    
+
             .esgst-form-sync-data {
                 flex: 1;
             }
-    
+
             .esgst-notification {
                 border: 1px solid;
                 border-radius: 4px;
@@ -37866,60 +37915,60 @@ class ESGST {
                 line-height: 32px;
                 overflow: hidden;
             }
-    
+
             .esgst-notification a {
                 text-decoration: underline;
             }
-    
+
             .esgst-notification-success {
                 background-image: linear-gradient(#f7fcf2 0%, #e7f6da 100%);
                 border-color: #C5E9A5;
                 color:#8fa47b;
             }
-    
+
             .esgst-notification-warning {
                 background-image: linear-gradient(#F6F6E6 0px, #F5F5DF 20px);
                 border-color: #EDE5B2;
                 color: #a59d7c;
             }
-    
+
             .esgst-user-icon {
                 display: inline-block;
                 line-height: normal;
                 margin: 0 5px 0 0;
             }
-    
+
             .esgst-user-icon i {
                 border: 0;
                 line-height: normal;
                 margin: 0;
                 text-shadow: none !important;
             }
-    
+
             .esgst-whitelist {
                 color: #556da9 !important;
             }
-    
+
             .esgst-blacklist {
                 color: #a95570 !important;
             }
-    
+
             .esgst-positive {
                 color: #96c468 !important;
             }
-    
+
             .esgst-negative {
                 color: #ec8583 !important;
             }
-    
+
             .esgst-unknown {
                 color: #77899a !important;
             }
-    
+
             .esgst-ugd-table .table__rows .table__row-outer-wrap:hover {
                 background-color: rgba(119, 137, 154, 0.1);
             }
-    
+
             .esgst-ugd-table .table__column--width-small {
                 min-width: 0;
                 width: 12%;
@@ -37929,67 +37978,67 @@ class ESGST {
                 display: flex;
                 justify-content: center;
             }
-    
+
             .markdown {
                 word-break: break-word;
             }
-    
+
             .esgst-busy >* {
                 opacity: 0.2;
             }
-    
+
             .comment__actions .esgst-rml-link {
                 margin: 0 0 0 10px;
             }
-    
+
             .esgst-settings-menu .form__sync-default {
                 margin: 0 5px;
             }
-    
+
             .esgst-uh-popup a {
                 border-bottom: 1px dotted;
             }
-    
+
             .esgst-auto-sync {
                 display: inline-block;
                 margin: -5px 5px 0;
                 padding: 2px;
                 width: 50px;
             }
-    
+
             .esgst-ap-popout .featured__table__row__left:not(.esgst-uh-title), .esgst-mr-reply, .esgst-mr-edit, .esgst-mr-delete, .esgst-mr-undelete {
                 margin: 0 10px 0 0;
             }
-    
+
             .esgst-ugd-button {
                 cursor: pointer;
                 display: inline-block;
             }
-    
+
             .esgst-cfh-popout {
                 font: 700 12px "Open Sans", sans-serif;
             }
-    
+
             .esgst-cfh-panel span >:first-child >* {
                 margin: 0 !important;
             }
-    
+
             .esgst-cfh-popout input {
                 width: auto;
             }
-    
+
             .esgst-namwc-highlight {
                 font-weight: bold;
             }
-    
+
             .esgst-iwh-icon {
                 margin: 0 0 0 5px;
             }
-    
+
             .esgst-ap-suspended >* {
                 color: #e9202a;
             }
-    
+
             .esgst-ap-popout {
                 border: none !important;
                 border-radius: 5px;
@@ -37998,180 +38047,180 @@ class ESGST {
                 padding: 0 !important;
                 text-shadow: none;
             }
-    
+
             .ui-tooltip {
                 z-index: 99999;
             }
-    
+
             .esgst-ap-popout .featured__outer-wrap:not(.esgst-uh-box) {
                 border-radius: 5px;
                 padding: 5px;
                 width: auto;
                 white-space: normal;
             }
-    
+
             .esgst-ap-popout .featured__inner-wrap {
                 align-items: flex-start;
                 padding: 0 5px 0 0;
             }
-    
+
             .esgst-ap-popout .featured__heading {
                 margin: 0;
             }
-    
+
             .esgst-ap-popout .featured__heading__medium {
                 font-size: 18px;
             }
-    
+
             .esgst-ap-link {
                 width: 100px;
             }
-    
+
             .esgst-ap-link .global__image-outer-wrap--avatar-large {
                 box-sizing: content-box !important;
                 height: 64px !important;
                 margin: 5px;
                 width: 64px !important;
             }
-    
+
             .esgst-ap-popout .global__image-outer-wrap--avatar-large:hover {
                 background-color: hsla(0, 0%, 25%, 0.2) !important;
             }
-    
+
             .esgst-ap-link .global__image-inner-wrap {
                 background-size: cover !important;
             }
-    
+
             .esgst-ap-popout .sidebar__shortcut-outer-wrap {
                 margin: 10px 0;
             }
-    
+
             .esgst-ap-popout .sidebar__shortcut-inner-wrap i {
                 height: 18px;
                 font-size: 12px;
             }
-    
+
             .esgst-ap-popout .sidebar__shortcut-inner-wrap * {
                 line-height: 18px;
                 vertical-align: middle;
             }
-    
+
             .esgst-ap-popout .sidebar__shortcut-inner-wrap img {
                 height: 16px;
                 vertical-align: baseline !important;
                 width: 16px;
             }
-    
+
             .esgst-ap-popout .featured__table {
                 display: inline-block;
                 width: 100%;
             }
-    
+
             .esgst-ap-popout .featured__table__row {
                 padding: 2px;
             }
-    
+
             .esgst-ap-popout .featured__table__row:nth-child(n + 3) {
                 margin-left: -95px;
             }
-    
+
             .esgst-ap-popout .featured__table__row:last-of-type .featured__table__row__right * {
                 font-size: 11px;
             }
-    
+
             .esgst-ct-comment-button {
                 cursor: pointer;
             }
-    
+
             .popup__keys__list .esgst-ggl-member, .esgst-dh-highlighted, .esgst-dh-highlighted.table__row-outer-wrap {
                 background-color: rgba(150, 196, 104, 0.2) !important;
                 padding: 5px !important;
             }
-    
+
             .esgst-gb-highlighted.ending, .esgst-error-button, .esgst-error-button >*:hover {
                 background-color: rgba(236, 133, 131, 0.8) !important;
                 background-image: none !important;
             }
-    
+
             .esgst-gb-highlighted.started {
                 background-color: rgba(150, 196, 104, 0.8) !important;
                 background-image: none !important;
             }
-    
+
             .esgst-gb-highlighted.ending.started {
                 background-color: rgba(193, 165, 118, 0.8) !important;
                 background-image: none !important;
             }
-    
+
             .esgst-ct-comment-read:hover, .esgst-ct-visited:hover {
                 background-color: rgba(119, 137, 154, 0.1) !important;
             }
-    
+
             .esgst-gf-hide-button, .esgst-gf-unhide-button, .esgst-gb-button, .esgst-gdttt-button {
                 cursor: pointer; display: inline-block;
                 margin: 0 5px 0 0;
             }
-    
+
             .esgst-codb-button, .esgst-dh-button, .esgst-df-button {
                 display: inline-block;
                 margin: 0 5px 0 0;
                 padding: 0;
             }
-    
+
             .page__heading .esgst-codb-button >*, .page__heading .esgst-dh-button >*, .page__heading .esgst-df-button >* {
                 padding: 5px 10px;
             }
-    
+
             .esgst-ust-checkbox {
                 cursor: pointer;
                 margin-left: -17px;
                 position: absolute;
                 top: calc(50% - 7px);
             }
-    
+
             .esgst-pm-button {
                 margin-left: -17px;
                 position: absolute;
                 top: calc(50% - 7px);
             }
-    
+
             .esgst-dh-highlighted .esgst-pm-button {
                 margin-left: -22px;
             }
-    
+
             .page__heading .esgst-pm-button {
                 display: inline-block;
                 margin: 0 5px 0 0;
                 padding: 0;
                 position: static;
             }
-    
+
             .page__heading .esgst-pm-button >* {
                 padding: 5px 10px;
             }
-    
+
             .esgst-adots .esgst-pm-button {
                 margin-left: -58px;
             }
-    
+
             .comment__actions .esgst-ct-comment-button {
                 margin: 0 0 0 10px;
             }
-    
+
             .comment__actions >:first-child + .esgst-ct-comment-button {
                 margin: 0;
             }
-    
+
             .esgst-ct-comment-button >:not(:last-child) {
                 margin: 0 10px 0 0;
             }
-    
+
             .esgst-cfh-panel {
                 margin: 0 0 2px;
                 position: sticky;
                 text-align: left;
             }
-    
+
             .esgst-cfh-panel >* {
                 background-color: #fff;
                 border: 1px solid #ccc;
@@ -38182,42 +38231,42 @@ class ESGST {
                 opacity: 0.5;
                 padding: 5px;
             }
-    
+
             .esgst-cfh-panel >*:hover {
                 opacity: 1;
             }
-    
+
             .esgst-cfh-panel span >:not(:first-child), .esgst-ded-status {
                 display: block;
             }
-    
+
             .esgst-cfh-panel span i {
                 line-height: 22px;
             }
-    
+
             .esgst-cfh-panel .form__saving-button {
                 display: inline-block;
                 margin: 5px;
                 min-width:0;
             }
-    
+
             .esgst-cfh-panel table {
                 display: block;
                 max-height: 200px;
                 max-width: 375px;
                 overflow: auto;
             }
-    
+
             .esgst-cfh-panel table td:first-child {
                 min-width: 25px;
                 text-align: center;
             }
-    
+
             .esgst-cfh-panel table td:not(:first-child) {
                 min-width: 75px;
                 text-align: center;
             }
-    
+
             .esgst-cfh-emojis {
                 display: block !important;
                 font-size: 18px;
@@ -38226,26 +38275,26 @@ class ESGST {
                 overflow: auto;
                 text-align: center;
             }
-    
+
             .esgst-cfh-emojis >* {
                 cursor: pointer;
                 display: inline-block;
                 margin: 2px;
             }
-    
+
             .esgst-cfh-popout {
                 white-space: normal;
                 width: 300px;
             }
-    
+
             .esgst-mpp-popup {
                 position: fixed !important;
             }
-    
+
             .esgst-mpp-visible {
                 padding: 0;
             }
-    
+
             .esgst-mpp-hidden {
                 display: none;
                 max-height: 75%;
@@ -38254,11 +38303,11 @@ class ESGST {
                 position: absolute;
                 width: 75%;
             }
-    
+
             .esgst-ueg {
                 opacity: 1 !important;
             }
-    
+
             .esgst-fh {
                 height: auto !important;
                 position: sticky;
@@ -38290,7 +38339,7 @@ class ESGST {
             .esgst-fmph + * {
                 margin-top: -5px;
             }
-    
+
             .esgst-ff {
                 background-color: inherit;
                 bottom: 0;
@@ -38298,20 +38347,20 @@ class ESGST {
                 position: sticky;
                 z-index: 999;
             }
-    
+
             .esgst-ff >* {
                 padding: 15px 25px;
             }
-    
+
             .esgst-sgac-button, .esgst-sgg-button {
                 margin: 0 5px 0 0;
             }
-    
+
             .esgst-ct-count {
                 color: #e9202a;
                 font-weight: bold;
             }
-    
+
             .esgst-uh-box {
                 background: linear-gradient(to bottom, #555, #222);
                 border: 1px solid #888;
@@ -38320,34 +38369,34 @@ class ESGST {
                 position: absolute;
                 text-align: center;
             }
-    
+
             .esgst-uh-title {
                 color: rgba(255, 255, 255, 0.6);
                 font-weight: bold;
                 margin: 0 0 15px;
             }
-    
+
             .esgst-uh-list {
                 color: rgba(255, 255, 255, 0.4);
             }
-    
+
             .esgst-wbc-button, .esgst-namwc-button, .esgst-nrf-button {
                 cursor: pointer;
                 margin: 0 0 0 5px;
             }
-    
+
             .esgst-luc-value {
                 margin: 0 0 0 5px;
             }
-    
+
             .esgst-sgpb-container {
                 display: flex;
             }
-    
+
             .esgst-sgpb-container >* {
                 flex: 1;
             }
-    
+
             .esgst-sgpb-button {
                 background-image: linear-gradient(rgba(255, 255, 255, 0.8) 0%, rgba(255, 255, 255, 0.3) 100%);
                 border-color: #dde2ea #cdd4df #cbd1dc #d6dbe7;
@@ -38364,7 +38413,7 @@ class ESGST {
                 border-style: solid;
                 text-decoration: none;
             }
-    
+
             .esgst-sgpb-button:active {
                 background-image: linear-gradient(#e1e7eb 0%, #e6ebf0 50%, #ebeff2 100%) !important;
                 box-shadow: 2px 2px 5px #ccd4db inset;
@@ -38372,31 +38421,31 @@ class ESGST {
                 margin: 2px 0 0 7px !important;
                 border: 0;
             }
-    
+
             .esgst-sgpb-button:hover {
                 background-image: linear-gradient(rgba(255, 255, 255, 1) 0%, rgba(255, 255, 255, 0.3) 100%);
             }
-    
+
             .esgst-sgpb-button i {
                 height: 14px;
                 margin: 0 10px 0;
                 width: 14px;
             }
-    
+
             .esgst-sgpb-button img {
                 height: 14px;
                 vertical-align: baseline;
                 width: 14px;
             }
-    
+
             .esgst-stpb-button img {
                 vertical-align: top;
             }
-    
+
             .esgst-gh-highlight, .esgst-green-highlight {
                 background-color: rgba(150, 196, 104, 0.2);
             }
-    
+
             .esgst-pgb-button, .esgst-gf-button {
                 border: 1px solid #d2d6e0;
                 border-top: none;
@@ -38408,15 +38457,15 @@ class ESGST {
                 text-align: center;
                 border-radius: 0 0 4px 4px;
             }
-    
+
             .esgst-gf-button {
                 margin-bottom: 0 !important;
             }
-    
+
             .esgst-pgb-button:hover, .esgst-gf-button:hover {
                 background-image:linear-gradient(rgba(255, 255, 255, 0.4) 0%, rgba(255, 255, 255, 0) 100%);
             }
-    
+
             .esgst-gm-giveaway {
                 background-color: #fff;
                 border: 1px solid;
@@ -38426,7 +38475,7 @@ class ESGST {
                 margin: 5px 2px;
                 padding: 2px 5px;
             }
-    
+
             .esgst-feature-description {
                 background-color: #fff;
                 color: #465670;
@@ -38434,71 +38483,71 @@ class ESGST {
                 width: 420px;
                 border-radius: 4px;
             }
-    
+
             .esgst-feature-description img {
                 max-width: 400px;
             }
-    
+
             .esgst-gm-giveaway.error {
                 background-color: rgba(236, 133, 131, 0.5);
             }
-    
+
             .esgst-gm-giveaway.success {
                 background-color: rgba(150, 196, 104, 0.5);
             }
-    
+
             .esgst-gm-giveaway.connected {
                 text-decoration: line-through;
             }
-    
+
             .esgst-gts-section >*, .esgst-gm-section >* {
                 margin: 5px 0;
             }
-    
+
             .esgst-gm-section .esgst-button-set {
                 display: inline-block;
                 margin: 5px;
             }
-    
+
             .sidebar .esgst-button-set >* {
                 margin-bottom: 5px;
                 width: 304px;
             }
-    
+
             .esgst-button-set .sidebar__entry-delete, .esgst-button-set .sidebar__error {
                 display: inline-block;
             }
-    
+
             .esgst-button-group {
                 display: block;
             }
-    
+
             .esgst-button-group >* {
                 display: inline-block;
             }
-    
+
             .esgst-button-group >*:not(:first-child) {
                 margin-left: 5px;
             }
-    
+
             .esgst-ggl-panel {
                 color: #6b7a8c;
                 font-size: 12px;
                 padding: 5px;
             }
-    
+
             .esgst-ggl-panel >* {
                 display: inline-block;
             }
-    
+
             .esgst-ggl-panel >*:not(:last-child) {
                 margin-right: 10px;
             }
-    
+
             .esgst-ggl-panel a:last-child {
                 border-bottom: 1px dotted;
             }
-    
+
             .esgst-ggl-panel .table_image_avatar {
                 cursor: pointer;
                 display: inline-block;
@@ -38506,29 +38555,29 @@ class ESGST {
                 width: 12px;
                 vertical-align: middle;
             }
-    
+
             .esgst-ggl-member {
                 font-weight: bold;
             }
-    
+
             .esgst-ggl-heading {
                 font-weight: bold;
                 line-weight: 22px;
                 margin: 10px;
             }
-    
+
             .esgst-gcl-popout, .esgst-ggl-popout {
                 padding: 0 !important;
             }
-    
+
             .esgst-gcl-popout .table__row-outer-wrap, .esgst-ggl-popout .table__row-outer-wrap {
                 padding: 10px 5px;
             }
-    
+
             .esgst-hidden-buttons {
                 padding: 2px !important;
             }
-    
+
             .esgst-popout {
                 background-color: #fff;
                 border: 1px solid #d2d6e0;
@@ -38541,31 +38590,31 @@ class ESGST {
                 top: 0;
                 z-index: 99999;
             }
-    
+
             .esgst-aic-carousel {
                 align-items: center;
                 cursor: default !important;
                 display: flex;
                 justify-content: center;
             }
-    
+
             .esgst-aic-carousel >:last-child {
                 border: 5px solid #fff;
                 border-radius: 5px;
                 max-width: 90%;
             }
-    
+
             .esgst-aic-carousel img {
                 display: block;
             }
-    
+
             .esgst-aic-panel {
                 color: #fff;
                 position: absolute;
                 text-align: center;
                 top: 25px;
             }
-    
+
             .esgst-aic-left-button, .esgst-aic-right-button {
                 cursor: pointer;
                 display: inline-block;
@@ -38573,17 +38622,17 @@ class ESGST {
                 text-align: center;
                 width: 25px;
             }
-    
+
             .esgst-aic-left-button i, .esgst-aic-right-button i {
                 font-size: 25px;
             }
-    
+
             .esgst-aic-source {
                 font-weight: bold;
                 margin-top: 10px;
                 text-decoration: underline;
             }
-    
+
             .esgst-popup-modal {
                 background-color: rgba(60, 66, 77, 0.7);
                 bottom: 0;
@@ -38593,11 +38642,11 @@ class ESGST {
                 right: 0;
                 top: 0;
             }
-    
+
             .esgst-popup-large {
                 width: 75%;
             }
-    
+
             .esgst-popup {
                 background-color: var(--esgst-body-bg-color);
                 border-radius: 4px;
@@ -38622,7 +38671,7 @@ class ESGST {
                     max-width: calc(90% - 50px);
                 `}
             }
-    
+
             .esgst-popout li:before, .esgst-popup li:before {
                 margin-left: 0;
                 padding-right: 10px;
@@ -38630,109 +38679,109 @@ class ESGST {
                 width: auto;
                 text-align: left;
             }
-    
+
             .esgst-popup-description >*, .esgst-popup-scrollable >* {
                 margin: 10px 0 0 !important;
             }
-    
+
             .esgst-popup-actions {
                 color: #4b72d4;
                 margin-top: 15px;
             }
-    
+
             .esgst-popup-actions >* {
                 border-bottom: 1px dotted;
                 box-shadow: 0 1px 0 #fff;
                 cursor: pointer;
                 display: inline-block;
             }
-    
+
             .esgst-popup-actions >*:not(:last-child) {
                 margin-right: 15px;
             }
-    
+
             .esgst-popup-scrollable {
                 overflow: auto;
             }
-    
+
             .esgst-popup .popup__keys__list {
                 max-height: none;
             }
-    
+
             .esgst-heading-button {
                 display: inline-block;
                 cursor: pointer;
             }
-    
+
             .esgst-popup-heading {
                 display: flex;
                 align-items: center;
                 margin-bottom: 5px;
             }
-    
+
             .esgst-popup-icon {
                 font-size: 25px;
                 margin-right: 10px;
             }
-    
+
             .esgst-popup-title {
                 font: 300 18px 'Open Sans', sans-serif;
             }
-    
+
             .esgst-popup-title span {
                 font-weight: bold;
             }
-    
+
             .esgst-text-left {
                 text-align: left;
             }
-    
+
             .esgst-text-center {
                 text-align: center;
             }
-    
+
             .esgst-hidden {
                 display: none !important;
             }
-    
+
             .esgst-clickable {
                 cursor: pointer;
             }
-    
+
             .fa img {
                 height: 14px;
                 width: 14px;
                 vertical-align: middle;
             }
-    
+
             .nav__left-container .fa img {
                 vertical-align: baseline;
             }
-    
+
             .esgst-checkbox, .esgst-hb-update, .esgst-hb-changelog, .esgst-dh-view-button {
                 cursor: pointer;
             }
-    
+
             .esgst-sm-small-number {
                 font-size: 12px;
                 display: inline-block;
             }
-    
+
             .esgst-toggle-switch-container {
                 margin: 2px;
             }
-    
+
             .esgst-toggle-switch-container.inline {
                 display: inline-block;
             }
-    
+
             .page__heading .esgst-toggle-switch-container.inline, .page_heading .esgst-toggle-switch-container.inline, .esgst-page-heading .esgst-toggle-switch-container.inline {
                 height: 16px;
                 margin: 0 2px;
                 line-height: normal;
                 vertical-align: middle;
             }
-    
+
             .esgst-toggle-switch {
                 position: relative;
                 display: inline-block;
@@ -38740,11 +38789,11 @@ class ESGST {
                 height: 14px;
                 vertical-align: top;
             }
-    
+
             .esgst-toggle-switch input {
                 display: none !important;
             }
-    
+
             .esgst-toggle-switch-slider {
                 border-radius: 20px;
                 position: absolute;
@@ -38757,7 +38806,7 @@ class ESGST {
                 -webkit-transition: .4s;
                 transition: .4s;
             }
-    
+
             .esgst-toggle-switch-slider:before {
                 border-radius: 50%;
                 position: absolute;
@@ -38770,74 +38819,74 @@ class ESGST {
                 -webkit-transition: .4s;
                 transition: .4s;
             }
-    
+
             input:checked + .esgst-toggle-switch-slider {
                 background-color: #4B72D4;
             }
-    
+
             input:focus + .esgst-toggle-switch-slider {
                 box-shadow: 0 0 1px #4B72D4;
             }
-    
+
             input:checked + .esgst-toggle-switch-slider:before {
                 -webkit-transform: translateX(12px);
                 -ms-transform: translateX(12px);
                 transform: translateX(12px);
             }
-    
+
             .esgst-adots, .esgst-rbot {
                 margin-bottom: 25px;
             }
-    
+
             .esgst-float-left {
                 float: left;
             }
-    
+
             .esgst-float-right {
                 float: right;
             }
-    
+
             .esgst-clear {
                 clear: both;
             }
-    
+
             .esgst-rbot .reply_form .btn_cancel {
                 display: none;
             }
-    
+
             .esgst-aas-button {
                 cursor: pointer;
                 display: inline-block;
             }
-    
+
             .esgst-es-page-heading {
                 margin-top: 25px;
             }
-    
+
             .esgst-gc-border {
                 display: flex;
                 height: 5px;
                 margin-left: 5px;
                 width: ${esgst.ib ? `186px` : `174px`};
             }
-    
+
             .esgst-gc-border >* {
                 flex: 1;
             }
-    
+
             .esgst-gc-panel {
                 text-align: left;
             }
-    
+
             .esgst-gc-panel a {
                 text-decoration: none;
             }
-    
+
             .esgst-gc-panel-inline {
                 display: inline-block;
                 margin: 0 0 0 5px;
             }
-    
+
             .esgst-gc:not(.giveaway__column):not(.featured__column) {
                 border-radius: 4px;
                 display: inline-block;
@@ -38847,7 +38896,7 @@ class ESGST {
                 padding: 2px 3px;
                 text-shadow: none;
             }
-    
+
             a.esgst-gc-genres {
                 max-width: 150px;
                 overflow: hidden;
@@ -38855,29 +38904,29 @@ class ESGST {
                 vertical-align: middle;
                 white-space: nowrap;
             }
-    
+
             .esgst-gf-container {
                 position: sticky;
                 text-align: left;
                 z-index: 998;
             }
-    
+
             .esgst-gf-container:not(.esgst-popup-scrollable) {
                 background-color: #E8EAEF;
                 border-radius: 4px;
             }
-    
+
             .esgst-gf-container.esgst-popup-scrollable {
                 min-width: 650px;
             }
-    
+
             .esgst-gf-filters {
                 display: flex;
                 justify-content: space-between;
                 overflow: auto;
                 position: relative;
             }
-    
+
             .esgst-gf-left-panel {
                 flex: 1;
                 max-height: 500px;
@@ -38900,7 +38949,7 @@ class ESGST {
             .esgst-gf-preset-panel >* {
                 margin: 5px;
             }
-    
+
             .esgst-gf-filter-count {
                 background-color: #ddd;
                 border-radius: 5px;
@@ -38908,52 +38957,52 @@ class ESGST {
                 padding: 2px;
                 vertical-align: middle;
             }
-    
+
             .esgst-gf-button {
                 border-top: 1px;
             }
-    
+
             .esgst-wbh-highlight {
                 border: none !important;
                 border-radius: 4px;
                 padding: 2px 5px;
                 text-shadow: none;
             }
-    
+
             .page__heading__breadcrumbs .esgst-wbh-highlight {
                 padding: 0 2px;
             }
-    
+
             .esgst-sm-colors input {
                 display: inline-block;
                 padding: 0;
                 width: 100px;
             }
-    
+
             .esgst-sm-colors input[type=color] {
                 width: 25px;
             }
-    
+
             .esgst-sm-colors select {
                 display: inline-block;
                 padding: 0;
                 width: 100px;
             }
-    
+
             .esgst-sm-colors-default {
                 line-height: normal;
                 padding: 5px 15px;
             }
-    
+
             .esgst-ged-icon {
                 margin: 0 0 0 10px;
             }
-    
+
             .esgst-pgb-container {
                 border-radius: 0 !important;
                 margin: 0! important;
             }
-    
+
             .esgst-gf-box {
                 background-color: #E8EAEF;
                 border: 1px solid #d2d6e0;
@@ -38961,62 +39010,62 @@ class ESGST {
                 margin: 0! important;
                 padding: 0 15px;
             }
-    
+
             .esgst-gr-button {
                 cursor: pointer;
                 display: inline-block;
             }
-    
+
             .esgst-egh-icon {
                 cursor: pointer;
             }
-    
+
             .giveaway__row-outer-wrap .esgst-egh-button, .giveaway__row-outer-wrap .esgst-gr-button, .table__row-outer-wrap .esgst-egh-button, .table__row-outer-wrap .esgst-egh-button, .table__row-outer-wrap .esgst-gr-button {
                 margin-right: 5px;
             }
-    
+
             p.table__column__heading {
                 display: inline-block;
             }
-    
+
             .esgst-giveaway-links {
                 float: left;
                 margin: 2px;
             }
-    
+
             .esgst-gv-box .esgst-giveaway-panel:empty {
                 height: 0;
                 width: 0;
             }
-    
+
             .esgst-giveaway-panel:empty {
                 height: 25px;
                 width: 250px;
             }
-    
+
             .esgst-giveaway-panel.giveaway__columns {
                 float: right;
                 margin: 2px;
             }
-    
+
             .esgst-giveaway-panel .esgst-button-set {
                 border: 0;
                 padding: 0;
             }
-    
+
             .esgst-giveaway-panel .esgst-button-set >* {
                 line-height: inherit;
                 margin:0;
             }
-    
+
             .esgst-giveaway-panel >:first-child {
                 margin: 0;
             }
-    
+
             .esgst-giveaway-panel >*:not(:first-child) {
                 margin: 0 0 0 5px;
             }
-    
+
             .esgst-gv-popout .esgst-gwc, .esgst-gv-popout .esgst-gwr, .esgst-gv-popout .esgst-ttec {
                 display: inline-block;
                 margin: 0 !important;
@@ -39024,37 +39073,37 @@ class ESGST {
                 width: 67px !important;
                 vertical-align: top;
             }
-    
+
             .esgst-gv-popout .esgst-gp-button {
                 display: inline-block;
                 margin: 0 !important;
                 width: auto !important;
                 vertical-align: top;
             }
-    
+
             .esgst-gv-popout .esgst-gp-button >* {
                 padding: 0 5px !important;
                 width: 67px !important;
             }
-    
+
             .esgst-giveaway-panel .form__submit-button, .esgst-giveaway-panel .form__saving-button {
                 margin-bottom: 0;
                 min-width: 0;
             }
-    
+
             .esgst-ged-source {
                 font-weight: bold;
                 margin: 5px 0;
             }
-    
+
             .table__column--width-small {
                 width: 8%;
             }
-    
+
             .sidebar .table__row-outer-wrap {
                 padding: 5px 0;
             }
-    
+
             .esgst-adots-tab-heading {
                 background-color: #2f3540;
                 border-top-left-radius: 5px;
@@ -39066,23 +39115,23 @@ class ESGST {
                 padding: 5px 10px;
                 text-shadow: none;
             }
-    
+
             .esgst-adots-tab-heading.esgst-selected {
                 opacity: 1;
             }
-    
+
             .sidebar .esgst-adots {
                 margin: 0;
                 max-height: 300px;
                 max-width: 336px;
                 overflow: auto;
             }
-    
+
             .sidebar .esgst-adots .esgst-dh-highlighted {
                 padding: 0 !important;
                 padding-bottom: 5px !important;
             }
-    
+
             .sidebar .esgst-adots .table__column__heading, .esgst-adots .homepage_table_column_heading {
                 display: inline-block;
                 max-width: 225px;
@@ -39095,79 +39144,79 @@ class ESGST {
             .esgst-ns .esgst-adots .table__column__heading, .esgst-ns .esgst-adots .homepage_table_column_heading {
                 max-width: 100px;
             }
-    
+
             .sidebar .esgst-adots .table__row-outer-wrap {
                 padding: 0 !important;
                 padding-bottom: 5px !important;
                 border: 0;
                 box-shadow: none;
             }
-    
+
             .sidebar .esgst-adots .table__row-inner-wrap {
                 display: block;
             }
-    
+
             .sidebar .esgst-adots .table__row-inner-wrap >*:not(:last-child) {
                 display: inline-block;
             }
-    
+
             .esgst-faded {
                 opacity: 0.5;
             }
-    
+
             .esgst-sm-faded >*:not(.SMFeatures), .esgst-sm-faded > .SMFeatures > .esgst-sm-colors {
                 opacity: 0.5;
             }
-    
+
             .esgst-green {
                 color: #96c468 !important;
             }
-    
+
             .esgst-grey {
                 color: #77899a !important;
             }
-    
+
             .esgst-orange {
                 color: #c1a576 !important;
             }
-    
+
             .esgst-red {
                 color: #ec8583 !important;
             }
-    
+
             .esgst-yellow {
                 color: #fecc66 !important;
             }
-    
+
             .esgst-warning {
                 color: #e9202a !important;
                 font-weight: bold;
             }
-    
+
             .esgst-toggle-switch-container .esgst-description, .esgst-button-group .esgst-description {
                 display: inline-block;
                 margin: 0;
             }
-    
+
             .esgst-description {
                 color: #6b7a8c;
                 font-size: 11px;
                 font-style: italic;
                 margin-top: 10px;
             }
-    
+
             .esgst-progress-bar {
                 height: 10px;
                 overflow: hidden;
                 text-align: left;
             }
-    
+
             .esgst-progress-bar .ui-progressbar-value {
                 background-color: #96c468;
                 height: 100%;
                 margin: -1px;
             }
-    
+
             .esgst-ib-user {
                 background-color: #fff;
                 background-position: 5px 5px;
@@ -39178,12 +39227,12 @@ class ESGST {
                 padding: 5px;
                 width: 44px;
             }
-    
+
             .featured__outer-wrap .esgst-ib-user {
                 background-color: transparent;
                 border: 1px solid rgba(255, 255, 255, 0.1);
             }
-    
+
             .esgst-ib-game {
                 background-color: #fff;
                 background-position: 5px 5px;
@@ -39191,43 +39240,43 @@ class ESGST {
                 border-radius: 4px;
                 padding: 5px;
             }
-    
+
             .giveaway__row-outer-wrap .esgst-ib-game {
                 background-size: 184px 69px;
                 height: 81px;
                 width: 196px;
             }
-    
+
             .table__row-outer-wrap .esgst-ib-game {
                 background-size: 85px 32px;
                 height: 44px;
                 width: 97px;
             }
-    
+
             .esgst-oadd >* {
                 padding-left: 0 !important;
                 margin-left: 0 !important;
                 border-left: none !important;
                 box-shadow: none !important;
             }
-    
+
             .esgst-gv-spacing {
                 font-weight: bold;
                 padding: 10px;
                 text-align: center;
                 width: 100px;
             }
-    
+
             .esgst-gv-view {
                 font-size: 0;
                 padding: 5px 0;
                 text-align: center;
             }
-    
+
             .esgst-gv-view.pinned-giveaways__inner-wrap--minimized .giveaway__row-outer-wrap:nth-child(-n + 10) {
                 display: inline-block;
             }
-    
+
             .esgst-gv-container {
                 border: 0 !important;
                 box-shadow: none !important;
@@ -39238,56 +39287,56 @@ class ESGST {
                 vertical-align: top;
                 width: ${esgst.ib ? `196px` : `184px`};
             }
-    
+
             .esgst-gv-box {
                 display: block;
             }
-    
+
             .esgst-gv-box >*:not(.giveaway__summary):not(.esgst-gv-icons) {
                 margin: 0 !important;
             }
-    
+
             .esgst-gv-box.is-faded:hover, .esgst-gv-box.esgst-faded:hover {
                 opacity: 1;
             }
-    
+
             .esgst-gv-icons {
                 float: right;
                 height: 18px;
                 margin: -18px 0 0 !important;
             }
-    
+
             .esgst-gv-icons .esgst-gc, .esgst-gv-icons .esgst-gwc, .esgst-gv-icons .esgst-gwr, .esgst-gv-icons .esgst-ttec, .esgst-gv-time, .esgst-gv-icons .esgst-ged-source {
                 background-color: #fff;
                 padding: 2px !important;
             }
-    
+
             .esgst-gv-icons .esgst-gp-button {
                 background-color: #fff;
             }
-    
+
             .esgst-ged-source {
                 font-weight: bold;
             }
-    
+
             .esgst-gv-time i {
                 font-size: 12px;
                 vertical-align: baseline;
             }
-    
+
             .esgst-gv-icons >* {
                 line-height: normal;
                 margin: 0 !important;
             }
-    
+
             .esgst-gv-icons >*:not(.esgst-giveaway-column-button) {
                 padding: 1px 3px;
             }
-    
+
             .esgst-gv-icons .giveaway__column--contributor-level {
                 padding: 2px 5px !important;
             }
-    
+
             .esgst-gv-popout {
                 font-size: 11px;
                 max-width: ${esgst.ib ? `174px` : `162px`};
@@ -39295,12 +39344,12 @@ class ESGST {
                 width: ${esgst.ib ? `174px` : `162px`};
                 z-index: 1;
             }
-    
+
             .esgst-gv-popout .giveaway__heading {
                 display: block;
                 height: auto;
             }
-    
+
             .esgst-gv-popout .giveaway__heading__name {
                 display: inline-block;
                 font-size: 12px;
@@ -39309,44 +39358,44 @@ class ESGST {
                 text-overflow: ellipsis;
                 vertical-align: middle;
             }
-    
+
             .esgst-gv-popout .giveaway__heading__thin {
                 font-size: 11px;
             }
-    
+
             .esgst-gv-popout .esgst-gc-panel {
                 font-size: 11px;
                 text-align: center;
             }
-    
+
             .esgst-gv-popout .esgst-gc-panel i, .esgst-gv-popout .giveaway__links i, .esgst-gv-popout .esgst-gwc i, .esgst-gv-popout .esgst-gwr i, .esgst-gv-popout .esgst-ggl-panel, .esgst-gv-popout .esgst-ggl-panel i {
                 font-size: 11px;
             }
-    
+
             .esgst-gv-popout .giveaway__columns:not(.esgst-giveaway-panel):not(.esgst-gv-icons) {
                 display: block;
                 float: left;
                 width: calc(100% - 37px);
             }
-    
+
             .esgst-gv-popout .giveaway__columns:not(.esgst-giveaway-panel):not(.esgst-gv-icons) >* {
                 margin: 0;
                 text-align: left;
             }
-    
+
             .esgst-gv-popout .esgst-giveaway-panel {
                 display: block;
                 font-size: 11px;
             }
-    
+
             .esgst-gv-popout .esgst-giveaway-panel >* {
                 margin: 0;
             }
-    
+
             .esgst-gv-popout .esgst-button-set {
                 width: 100%;
             }
-    
+
             .esgst-gv-popout .esgst-button-set >* {
                 padding: 0;
                 width: 100%;
@@ -39354,51 +39403,51 @@ class ESGST {
             .esgst-gv-popout .giveaway__links a:last-child {
                 margin: 0 !important;
             }
-    
+
             .esgst-gv-popout .giveaway_image_avatar, .esgst-gv-popout .featured_giveaway_image_avatar {
                 margin: 5px;
                 position: absolute;
                 right: 5px;
             }
-    
+
             .esgst-gv-popout .esgst-giveaway-links, .esgst-gv-popout .esgst-giveaway-panel {
                 float: none;
             }
-    
+
             .esgst-ags-panel {
                 margin: 0 0 15px 0;
                 max-width: 316px;
                 text-align: center;
             }
-    
+
             .esgst-ags-panel >* {
                 display: inline-block;
             }
-    
+
             .esgst-ags-filter {
                 display: block;
                 margin: 5px;
             }
-    
+
             .esgst-ags-filter >* {
                 padding: 0 5px !important;
                 width: 125px;
             }
-    
+
             .esgst-ags-checkbox-filter {
                 margin: 5px;
             }
-    
+
             .esgst-ugs-difference, .esgst-switch-input {
                 display: inline-block;
                 padding: 0 !important;
                 width: 50px;
             }
-    
+
             .esgst-switch-input-large {
                 width: 150px;
             }
-    
+
             .esgst-gas-popout {
                 background-color: #fff;
                 border: 1px solid #d2d6e0;
@@ -39406,7 +39455,7 @@ class ESGST {
                 color: #465670;
                 padding: 10px;
             }
-    
+
             .esgst-ds-popout {
                 background-color: #fff;
                 border: 1px solid #d2d6e0;
@@ -39414,36 +39463,36 @@ class ESGST {
                 color: #465670;
                 padding: 10px;
             }
-    
+
             .esgst-cfh-sr-container {
                 max-height: 234px;
                 overflow-y: auto;
             }
-    
+
             .esgst-cfh-sr-box {
                 position: relative;
             }
-    
+
             .esgst-cfh-sr-summary {
                 border-radius: 5px;
                 cursor: pointer;
                 padding: 5px;
                 width: 200px;
             }
-    
+
             .esgst-cfh-sr-box:not(:first-child) {
                 border-top: 1px solid #ccc;
             }
-    
+
             .esgst-cfh-sr-box:last-child) {
                 border-bottom: 1px solid #ccc;
             }
-    
+
             .esgst-cfh-sr-summary:hover {
                 background-color: #465670;
                 color: #fff;
             }
-    
+
             .esgst-cfh-sr-name {
                 font-size: 14px;
                 overflow: hidden;
@@ -39451,7 +39500,7 @@ class ESGST {
                 width: 200px;
                 white-space: nowrap;
             }
-    
+
             .esgst-cfh-sr-description {
                 opacity: 0.75;
                 overflow: hidden;
@@ -39459,27 +39508,27 @@ class ESGST {
                 width: 200px;
                 white-space: nowrap;
             }
-    
+
             .esgst-cfh-sr-controls {
                 position: absolute;
                 right: 5px;
                 top: 10px;
             }
-    
+
             .esgst-cfh-sr-controls >* {
                 margin: 2px;
             }
-    
+
             .esgst-gt-preview .esgst-gt-tags {
                 display: inline-block;
             }
-    
+
             .esgst-gt-preview input[type=text] {
                 display: inline-block;
                 width: 100px;
                 height: 15px;
             }
-    
+
             .esgst-gt-preview input[type=color] {
                 box-sizing: unset;
                 height: 13px;
@@ -39489,7 +39538,7 @@ class ESGST {
                 vertical-align: top;
                 width: 15px;
             }
-    
+
             .esgst-gt-button {
                 border: 0! important;
                 cursor: pointer;
@@ -39498,24 +39547,24 @@ class ESGST {
                 text-decoration: none !important;
                 transition: opacity 0.2s;
             }
-    
+
             .esgst-gt-button:hover {
                 opacity: 1;
             }
-    
+
             .esgst-gt-button i {
                 margin: 0 !important;
             }
-    
+
             .giveaway__row-outer-wrap .esgst-gt-button, .table__row-outer-wrap .esgst-gt-button {
                 margin-left: 5px;
             }
-    
+
             .esgst-gt-tags {
                 font-size: 10px;
                 font-weight: bold;
             }
-    
+
             .esgst-gt-tags >* {
                 display: inline-block !important;
                 height: auto;
@@ -39524,37 +39573,37 @@ class ESGST {
                 text-shadow: none;
                 width: auto;
             }
-    
+
             .esgst-gt-tags >:not(:first-child) {
                 margin: 0 0 0 5px;
             }
-    
+
             .esgst-gv-popout .esgst-gt-tags {
                 display: none;
             }
-    
+
             .esgst-ut-existing-button {
                 padding: 8px;
                 right: 25px;
                 position: absolute;
             }
-    
+
             .esgst-ut-existing-tags {
                 font-weight: bold;
                 text-align: left;
                 text-shadow: none;
             }
-    
+
             .esgst-ut-preview .esgst-ut-tags {
                 display: inline-block;
             }
-    
+
             .esgst-ut-preview input[type=text] {
                 display: inline-block;
                 width: 100px;
                 height: 15px;
             }
-    
+
             .esgst-ut-preview input[type=color] {
                 box-sizing: unset;
                 height: 13px;
@@ -39564,7 +39613,7 @@ class ESGST {
                 vertical-align: top;
                 width: 15px;
             }
-    
+
             .esgst-ut-button {
                 border: 0! important;
                 cursor: pointer;
@@ -39574,24 +39623,24 @@ class ESGST {
                 text-decoration: none !important;
                 transition: opacity 0.2s;
             }
-    
+
             .esgst-ut-button:hover {
                 opacity: 1;
             }
-    
+
             .author_name + .esgst-ut-button {
                 margin: 0 5px 0 0;
             }
-    
+
             .esgst-ut-button i {
                 margin: 0 !important;
             }
-    
+
             .esgst-ut-tags {
                 font-size: 10px;
                 font-weight: bold;
             }
-    
+
             .esgst-ut-tags >* {
                 display: inline-block !important;
                 height: auto;
@@ -39600,11 +39649,11 @@ class ESGST {
                 text-shadow: none;
                 width: auto;
             }
-    
+
             .esgst-ut-tags >:not(:first-child) {
                 margin: 0 0 0 5px;
             }
-    
+
             .esgst-gv-popout .esgst-ut-tags, .esgst-adots .esgst-ut-tags {
                 display: none;
             }
@@ -39618,11 +39667,11 @@ class ESGST {
                     display: flex;
                     margin-right: 5px;
                 }
-    
+
                 .esgst-header-menu-relative-dropdown {
                     position: relative;
                 }
-    
+
                 .esgst-header-menu-absolute-dropdown {
                     top: 34px;
                     position: absolute;
@@ -39632,7 +39681,7 @@ class ESGST {
                     overflow: hidden;
                     z-index: 1;
                 }
-    
+
                 .esgst-header-menu-row {
                     cursor: pointer;
                     background-image: linear-gradient(#fff 0%, #f6f7f9 100%);
@@ -39641,71 +39690,71 @@ class ESGST {
                     text-shadow: 1px 1px #fff;
                     align-items: center;
                 }
-    
+
                 .esgst-version-row {
                     cursor: default;
                 }
-    
+
                 .esgst-header-menu-row:not(:first-child) {
                     border-top: 1px dotted #d2d6e0;
                 }
-    
+
                 .esgst-header-menu-row:not(.esgst-version-row):hover, .esgst.header-menu-button:hover + .esgst-header-menu-button {
                     border-top-color: transparent;
                 }
-    
+
                 .esgst-header-menu-row i {
                     font-size: 28px;
                     margin-right: 15px;
                 }
-    
+
                 .esgst-header-menu-row:not(.esgst-version-row):hover i:not(.esgst-chfl-edit-button):not(.esgst-chfl-remove-button) {
                     color: #fff !important;
                 }
-    
+
                 .esgst-header-menu-row:not(.esgst-version-row):hover {
                     background-image: linear-gradient(#63a0f4 0%, #63a0f4 100%);
                     text-shadow: none;
                 }
-    
+
                 .esgst-header-menu-row i.blue {
                     color: #9dd9e1;
                 }
-    
+
                 .esgst-header-menu-row i.green {
                     color: #96c468;
                 }
-    
+
                 .esgst-header-menu-row i.red {
                     color: #ec8583;
                 }
-    
+
                 .esgst-header-menu-row i.grey{
                     color: #77899A;
                 }
-    
+
                 .esgst-header-menu-row i.yellow{
                     color: #FECC66;
                 }
-    
+
                 .esgst-header-menu-name {
                     color: #4B72D4;
                     font: bold 11px/15px Arial, sans-serif;
                 }
-    
+
                 .esgst-header-menu-description {
                     color: #6b7a8c;
                     font: 11px/13px Arial, sans-serif
                 }
-    
+
                 .esgst-header-menu-row:not(.esgst-version-row):hover .esgst-header-menu-name {
                     color: #fff;
                 }
-    
+
                 .esgst-header-menu-row:not(.esgst-version-row):hover .esgst-header-menu-description {
                     color: rgba(255, 255, 255, 0.7);
                 }
-    
+
                 .esgst-header-menu-button {
                     white-space: nowrap;
                     color: #21262f;
@@ -39715,29 +39764,29 @@ class ESGST {
                     text-shadow: 1px 1px rgba(255, 255, 255, 0.08);
                     border-radius: 4px 0 0 4px;
                 }
-    
+
                 .esgst-header-menu-button.arrow {
                     border-radius: 0 4px 4px 0;
                     padding: 0 10px;
                 }
-    
+
                 .esgst-header-menu-button:hover {
                     background-image: linear-gradient(#9ba2b0 0px, #8c94a3 8px, #596070 100%);
                 }
-    
+
                 .esgst-header-menu-button.selected {
                     background-image: linear-gradient(#4e525f 0px, #434857 5px, #2b2e3a 100%);
                     box-shadow: 3px 3px 5px rgba(0, 0, 0, 0.3) inset;
                     color: #aec5f3;
                     text-shadow: 1px 1px rgba(0, 0, 0, 0.2);
                 }
-    
+
                 .esgst-header-menu.selected .esgst-header-menu-button {
                     background-image: linear-gradient(#d0d5de 0px, #c9cdd7 5px, #9097a6 100%);
                     color: #3c465c;
                     text-shadow: 1px 1px rgba(255, 255, 255, 0.2);
                 }
-    
+
                 .esgst-header-menu.selected .esgst-header-menu-button:hover:not(.selected) {
                     background-image: linear-gradient(#f0f1f5 0px, #d1d4de 100%);
                 }
@@ -39749,7 +39798,7 @@ class ESGST {
                     margin: 0 5px 0 0;
                     box-shadow: 0 0 15px rgba(6, 52, 84, 0.07), 2px 2px 5px rgba(6, 52, 84, 0.07), 1px 1px 2px rgba(6, 52, 84, 0.07);
                 }
-    
+
                 .esgst-header-menu-relative-dropdown > div {
                     overflow: hidden;
                     border-radius: 3px;
@@ -39760,7 +39809,7 @@ class ESGST {
                     z-index: 10;
                     width: 190px;
                 }
-    
+
                 .esgst-header-menu-row {
                     padding: 15px 20px;
                     color: #557a93;
@@ -39770,65 +39819,65 @@ class ESGST {
                     transition: background-color 0.15s;
                     cursor: pointer;
                 }
-    
+
                 .esgst-version-row {
                     cursor: default;
                 }
-    
+
                 .esgst-header-menu-row:not(:last-child) {
                     border-bottom: 1px solid #e1ebf2;
                 }
-    
+
                 .esgst-header-menu-row.disabled {
                     cursor: default
                 }
-    
+
                 .esgst-header-menu-row > * {
                     transition: opacity 0.15s;
                 }
-    
+
                 .esgst-header-menu-row i {
                     margin-right: 20px;
                     font-size: 24px;
                     transition: color 0.15s;
                 }
-    
+
                 .esgst-header-menu-row:hover {
                     background-color: #f0f3f5;
                 }
-    
+
                 .esgst-header-menu-relative-dropdown:hover .esgst-header-menu-row:not(:hover) > * {
                     opacity: 0.5;
                 }
-    
+
                 .esgst-header-menu-relative-dropdown:hover .esgst-header-menu-row:not(:hover) i {
                     color: #bdcbd5;
                 }
-    
+
                 .esgst-header-menu-row i.blue {
                     color: #9dd9e1;
                 }
-    
+
                 .esgst-header-menu-row i.green {
                     color: #96c468;
                 }
-    
+
                 .esgst-header-menu-row i.red {
                     color: #ec8583;
                 }
-    
+
                 .esgst-header-menu-row i.grey{
                     color: #77899a;
                 }
-    
+
                 .esgst-header-menu-row i.yellow{
                     color: #FECC66;
                 }
-    
+
                 .esgst-header-menu-row:not(.esgst-version-row) .esgst-header-menu-description {
                     display: none;
                 }
-    
+
                 .esgst-header-menu-button {
                     cursor: pointer;
                     border-radius: 3px;
@@ -39847,24 +39896,24 @@ class ESGST {
                     border-radius: 3px 0 0 3px;
                     border-right: 0;
                 }
-    
+
                 .esgst-header-menu-button:hover:not(.selected) {
                     opacity: 1;
                 }
-    
+
                 .esgst-header-menu-button.selected {
                     opacity: 0.6;
                 }
-    
+
                 .esgst-header-menu-button.arrow {
                     border-radius: 0 3px 3px 0;
                     border-left: 0;
                 }
-    
+
                 .esgst-header-menu-button:not(.arrow) > i {
                     margin-right: 10px;
                 }
-    
+
                 .esgst-un-button, .page_heading .esgst-heading-button {
                     background-image: linear-gradient(#fff 0%, rgba(255, 255, 255, 0.4) 100%);
                     border: 1px solid #d2d6e0;
@@ -39879,7 +39928,7 @@ class ESGST {
         }
         esgst.style = insertHtml(document.head, `beforeEnd`, `<style id="esgst-style">${style}</style>`);
         this.setTheme();
-    }    
+    }
     async setTheme() {
         if (esgst.theme) {
             esgst.theme.remove();
@@ -39966,7 +40015,7 @@ class ESGST {
             <a href="/account/settings/giveaways/filters">View Hidden Games</a>
         `;
         popup.open();
-    }    
+    }
     unhideGame(button, id, name) {
         let popup;
         popup = new Popup(`fa-eye-slash`, `Would you like to unhide all giveaways for <span class="esgst-bold">${name}</span>?`, true);
@@ -41029,7 +41078,7 @@ class Table {
         const row = insertHtml(this.rows, `beforeEnd`, `
             <div class="table__row-outer-wrap">
                 <div class="table__row-inner-wrap"></div>
-            </div>        
+            </div>
         `).firstElementChild;
         let isBold = false;
         for (let i = 0; i < this.numColumns; i++) {
@@ -41077,7 +41126,7 @@ class Table {
         for (let i = 0; i < this.numRows; i++) {
             const row = this.rows.children[i];
             row.insertAdjacentHTML(`beforeEnd`, `
-                <div class="table__column--width-${size} text-${alignment} ${cell === `Total` ? `esgst-bold` : ``}${additionalClasses.join(` `)}" ${attributes.join(` `)}></div>            
+                <div class="table__column--width-${size} text-${alignment} ${cell === `Total` ? `esgst-bold` : ``}${additionalClasses.join(` `)}" ${attributes.join(` `)}></div>
             `);
         }
         this.numColumns += 1;
@@ -41231,7 +41280,7 @@ function observeHeaders() {
             }
         }
     }, {threshold: 0});
-  
+
     // Add the top sentinels to each section and attach an observer.
     const sentinels = addSentinels(`sticky_sentinel--top`);
     sentinels.forEach(el => observer.observe(el));
