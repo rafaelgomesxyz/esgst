@@ -3003,7 +3003,7 @@ class ESGST {
             sg: location.hostname.match(/www.steamgifts.com/),
             st: location.hostname.match(/www.steamtrades.com/),
             currentVersion: `7.22.0`,
-            devVersion: `7.22.1 (Dev.2)`,
+            devVersion: `7.22.1 (Dev.3)`,
             icon: `data:image/x-icon;base64,AAABAAEAEBAAAAEAIABoBAAAFgAAACgAAAAQAAAAIAAAAAEAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAqv8DCbP/Hgeq+CQIrf8iCK3/Igit/yIIrf8iB6//Iwit9x8Aqv8DAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAKr0GAa2/c0DvfzfA7f83QO3/N0Dt/zdA7f83QO+/d4Gs/3OAKP1GQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACm/xQFs/n2Bcf//wW///8FwP//BcD//wW///8Fx///BbP69gC2/xUAAAAAAAAAAAAAAAAA/1UDFptOFxSZMxkLpJktAq720QW1+ugEsfvjA7b92wO2/dsEsfvjBbX66Aau/dEoiO4tUlLWGU5k3hdVVf8DEJxKHxWqT8cVrU7uE6VN0guqny0Apv8XAJfQGwBAVywAQFcsAJfQGwCx/xcogugtS2Lk0lBl6u5Qae7ISmPeHxagSSMVr07jF7lV/xOiSu0brgATAAAAAAAAAA8AAAC/AAAAwAAAABAAAAAAYznjEkth4OxWb/3/T2jv40lf4iMXnksiEq1O3RayUv8UpEnkEo0+HQAAABkAAABBAAAA8QAAAPEAAABBAAAAGUBSvxxOYeDjU2v0/05m7d1LYuEiF55LIhKtTt0Ws1L/FahN2gU1FTAAAADAAAAA7AAAAP0AAAD9AAAA7AAAAMAVG0owUGPm2lNr9P9OZu3dS2LhIheeSyISrU7dFrNS/xWoTdoFNRswAAAAvwAAAOsAAAD9AAAA/QAAAOsAAADAFRtKMFBj6NpTa/T/Tmbt3Uti4SIXnksiEq1O3RayUv8UpEnkEo0+HQAAABgAAABAAAAA8QAAAPEAAABBAAAAGT5PuR1OYeDjU2v0/05m7d1LYuEiFqBJIxWuT+QXuVX/E6JL7QC8XhMAAAAAAAAADwAAAL8AAAC/AAAAEAAAAAAOR/8SSWLh7FZv/f9PaO/jSV/iIxCUSh8Vrk7HFqxN7ROlS9JskzMt1XULGK12EhxGLgYsRy8GK612EhzVgAsYgmxxLU1i39JNZ+vtT2fwx0pj1h8AqlUDF65GFgqZUhlsiC0txH0T0s5/EujJgBPkz4QR28+EEdvJgBPkzn8Q6Md+E9KLdHosM1LWGUZo6BZVVf8DAAAAAAAAAAAAAAAA/2YAFMl9EvbgjRb/14gV/9eIFf/XiBX/14gV/9+NFv/KgBD254YAFQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAL91FRjKgRHN1IgU3s+EEt3PhBLdz4QS3c+EEt3UiBTezYMRzcJ6FBkAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACqqgADxIARHr18FiO8eA8ivHgPIrx4DyK8eA8ivXwPI8SAER7/VQADAAAAAAAAAAAAAAAA78cAAPA3AAD4FwAABCAAADGOAAAE+AAAkBEAAJ55AACYOQAAlgEAAER4AAAXaAAATnoAAPgXAAD0JwAA69cAAA==`,
             sgIcon: `data:image/x-icon;base64,AAABAAEAEBAAAAEAIABoBAAAFgAAACgAAAAQAAAAIAAAAAEAIAAAAAAAQAQAABMLAAATCwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIUAAAD5AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAPoAAACFAAAAAAAAAAAAAAD8AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA+QAAAAAAAAAAAAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAAAAAAAAAAAAP8AAAD/AAAA/wAAABwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAcAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAcAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAHAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAAAAAAAAAAAAPwAAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD5AAAAAAAAAAAAAACFAAAA+QAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD5AAAAhQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA//8AAP//AADAAwAAwAMAAMfjAADP8wAAz/MAAM/zAADP8wAAz/MAAM/zAADH4wAAwAMAAMADAAD//wAA//8AAA==`,
             stIcon: `data:image/x-icon;base64,AAABAAEAEBAAAAEAIABoBAAAFgAAACgAAAAQAAAAIAAAAAEAIAAAAAAAQAQAABMLAAATCwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABbD6SgWw+ucFsPrkBbD6SgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAWw+uYFsPr/BbD6/wWw+ucAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAFsPrmBbD6/wWw+v8FsPrmAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABbD6SQWw+uYFsPrmBbD6SQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAFKRLShSkS+cUpEvkFKRLSgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAExi4EpMYuDnTGLg5Exi4EoAAAAAAAAAABSkS+YUpEv/FKRL/xSkS+cAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABMYuDmTGLg/0xi4P9MYuDnAAAAAAAAAAAUpEvmFKRL/xSkS/8UpEvmAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAATGLg5kxi4P9MYuD/TGLg5gAAAAAAAAAAFKRLSRSkS+YUpEvmFKRLSQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAExi4ElMYuDmTGLg5kxi4EkAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAMZ9E0rGfRPnxn0T5MZ9E0oAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADGfRPmxn0T/8Z9E//GfRPnAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAxn0T5sZ9E//GfRP/xn0T5gAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAMZ9E0nGfRPmxn0T5sZ9E0kAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA//8AAPw/AAD8PwAA/D8AAPw/AAD//wAAh+EAAIfhAACH4QAAh+EAAP//AAD8PwAA/D8AAPw/AAD8PwAA//8AAA==`,
@@ -8327,6 +8327,11 @@ class ESGST {
                 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
                 <link rel="stylesheet" type="text/css" href="${_USER_INFO.extension ? browser.runtime.getURL(`css/steamgifts-v33.min.css`) : (await gm.getResourceUrl(`sg`))}">
             `);
+            const element = document.querySelector(`[href*="https://cdn.steamgifts.com/css/static.css"]`);
+            if (element) {
+                element.remove();
+            }
+            document.body.innerHTML = ``;
         }
         this.addStyle();
         if (esgst.sg) {
@@ -8390,8 +8395,6 @@ class ESGST {
             location.href = `/esgst/settings`;
         } else if (location.pathname.match(/esgst-sync/)) {
             location.href = `/esgst/sync`;
-        } else if (location.pathname.match(/esgst\/sync/)) {
-            await this.setSync();
         } else if (location.pathname.match(/^\/esgst\/dropbox/)) {
             await this.setValue(`dropboxToken`, location.hash.match(/access_token=(.+?)&/)[1]);
             close();
@@ -8427,6 +8430,26 @@ class ESGST {
             }
             if (esgst.menuPath) {
                 esgst.favicon.href = esgst.icon;
+                let response = await this.request({method: `GET`, url: `/`});
+                let responseHtml = this.parseHtml(response.responseText);
+                document.body.innerHTML = `
+                    ${responseHtml.getElementsByTagName(`header`)[0].outerHTML}
+                    <div class="page__outer-wrap">
+                        <div class="page__inner-wrap"></div>
+                    </div>
+                    ${responseHtml.getElementsByClassName(`footer__outer-wrap`)[0].outerHTML}
+                `;
+                esgst.header = document.body.firstElementChild;
+                esgst.footer = document.body.lastElementChild;
+                esgst.headerNavigationLeft = document.getElementsByClassName(`nav__left-container`)[0];
+                esgst.pageOuterWrap = esgst.header.nextElementSibling;
+                esgst.mainContext = esgst.pageOuterWrap.lastElementChild;
+                esgst.logoutButton = responseHtml.getElementsByClassName(esgst.sg ? `js__logout` : `js_logout`)[0];
+                if (esgst.logoutButton) {
+                    esgst.xsrfToken = esgst.logoutButton.getAttribute(`data-form`).match(/xsrf_token=(.+)/)[1];
+                }
+                await this.hr_refreshHeaderElements(document);
+                
                 if (esgst.settingsPath) {
                     document.title = `ESGST - Settings`;
                     this.menu(true);
@@ -8439,63 +8462,28 @@ class ESGST {
                 } else if (esgst.deleteMenuPath) {
                     document.title = `ESGST - Delete`;
                     this.loadDataManagement(true, `delete`);
-                } else {
-                    let response = await this.request({method: `GET`, url: `/`});
-                    let responseHtml = this.parseHtml(response.responseText);
-                    document.body.className = `esgst-tab-menu esgst-tab-menu-header`;
-                    document.body.innerHTML = `
-                        ${responseHtml.getElementsByTagName(`header`)[0].outerHTML}
-                        <div class="page__outer-wrap">
-                            <div class="page__inner-wrap"></div>
-                        </div>
-                        ${responseHtml.getElementsByClassName(`footer__outer-wrap`)[0].outerHTML}
-                    `;
-                    esgst.header = document.body.firstElementChild;
-                    esgst.footer = document.body.lastElementChild;
-                    esgst.headerNavigationLeft = document.getElementsByClassName(`nav__left-container`)[0];
-                    esgst.pageOuterWrap = esgst.header.nextElementSibling;
-                    esgst.mainContext = esgst.pageOuterWrap.lastElementChild;
-                    esgst.logoutButton = responseHtml.getElementsByClassName(esgst.sg ? `js__logout` : `js_logout`)[0];
-                    if (esgst.logoutButton) {
-                        esgst.xsrfToken = esgst.logoutButton.getAttribute(`data-form`).match(/xsrf_token=(.+)/)[1];
-                    }
-                    await this.hr_refreshHeaderElements(document);
-                    if (esgst.gbPath) {
-                        document.title = `ESGST - Giveaway Bookmarks`;
-                        esgst.originalTitle = `ESGST - Giveaway Bookmarks`;
-                    } else if (esgst.gedPath) {
-                        document.title = `ESGST - Decrypted Giveaways`;
-                        esgst.originalTitle = `ESGST - Decrypted Giveaways`;
-                    } else if (esgst.gePath) {
-                        document.title = `ESGST - Extracted Giveaways`;
-                        esgst.originalTitle = `ESGST - Extracted Giveaways`;
-                    } else if (esgst.glwcPath) {
-                        document.title = `ESGST - Group Library/Wishlist Checker`;
-                        esgst.originalTitle = `ESGST - Group Library/Wishlist Checker`;
-                    }
+                } else if (esgst.gbPath) {
+                    document.title = `ESGST - Giveaway Bookmarks`;
+                    esgst.originalTitle = `ESGST - Giveaway Bookmarks`;
+                } else if (esgst.gedPath) {
+                    document.title = `ESGST - Decrypted Giveaways`;
+                    esgst.originalTitle = `ESGST - Decrypted Giveaways`;
+                } else if (esgst.gePath) {
+                    document.title = `ESGST - Extracted Giveaways`;
+                    esgst.originalTitle = `ESGST - Extracted Giveaways`;
+                } else if (esgst.glwcPath) {
+                    document.title = `ESGST - Group Library/Wishlist Checker`;
+                    esgst.originalTitle = `ESGST - Group Library/Wishlist Checker`;
+                } else  if (location.pathname.match(/esgst\/sync/)) {
+                    await this.setSync();
+                }
 
-                    // make the header dropdown menus work
-                    let elements = document.querySelectorAll(`nav .nav__button--is-dropdown-arrow`);
-                    for (let element of elements) {
-                        element.addEventListener(`click`, event => {
-                            let isSelected = element.classList.contains(`is-selected`);
-                            let buttons = document.querySelectorAll(`nav .nav__button`);
-                            for (let button of buttons) {
-                                button.classList.remove(`is-selected`);
-                            }
-                            let dropdowns = document.querySelectorAll(`nav .nav__relative-dropdown`);
-                            for (let dropdown of dropdowns) {
-                                dropdown.classList.add(`is-hidden`);
-                            }
-                            if (!isSelected) {
-                                element.classList.add(`is-selected`);
-                                (element.previousElementSibling.previousElementSibling || element.nextElementSibling).classList.remove(`is-hidden`);
-                            }
-                            event.stopPropagation();
-                        });
-                    }
-                    document.addEventListener(`click`, () => {
-                        let buttons = document.querySelectorAll(`nav .nav__button, .page__heading__button--is-dropdown`);
+                // make the header dropdown menus work
+                let elements = document.querySelectorAll(`nav .nav__button--is-dropdown-arrow`);
+                for (let element of elements) {
+                    element.addEventListener(`click`, event => {
+                        let isSelected = element.classList.contains(`is-selected`);
+                        let buttons = document.querySelectorAll(`nav .nav__button`);
                         for (let button of buttons) {
                             button.classList.remove(`is-selected`);
                         }
@@ -8503,8 +8491,23 @@ class ESGST {
                         for (let dropdown of dropdowns) {
                             dropdown.classList.add(`is-hidden`);
                         }
+                        if (!isSelected) {
+                            element.classList.add(`is-selected`);
+                            (element.previousElementSibling.previousElementSibling || element.nextElementSibling).classList.remove(`is-hidden`);
+                        }
+                        event.stopPropagation();
                     });
                 }
+                document.addEventListener(`click`, () => {
+                    let buttons = document.querySelectorAll(`nav .nav__button, .page__heading__button--is-dropdown`);
+                    for (let button of buttons) {
+                        button.classList.remove(`is-selected`);
+                    }
+                    let dropdowns = document.querySelectorAll(`nav .nav__relative-dropdown`);
+                    for (let dropdown of dropdowns) {
+                        dropdown.classList.add(`is-hidden`);
+                    }
+                });
             }
 
             this.addHeaderMenu();
@@ -26517,7 +26520,7 @@ class ESGST {
                 break;
         }
         button.addEventListener(`click`, () => animateScroll(document.documentElement.offsetHeight, () => {
-            if (esgst.es) {
+            if (esgst.es && esgst.es.paginations) {
                 this.es_changePagination(esgst.es, esgst.es.reverseScrolling ? 1 : esgst.es.paginations.length);
             }
         }));
@@ -26584,7 +26587,7 @@ class ESGST {
                 break;
         }
         button.addEventListener(`click`, animateScroll.bind(null, 0, () => {
-            if (esgst.es) {
+            if (esgst.es && esgst.es.paginations) {
                 this.es_changePagination(esgst.es, esgst.es.reverseScrolling ? esgst.es.paginations.length : 1);
             }
         }));
@@ -32831,8 +32834,8 @@ class ESGST {
                 await this.sync(syncer);
             }
         } else {
-            document.body.innerHTML = ``;
-            let description = insertHtml(document.body, `beforeEnd`, `
+            esgst.mainContext.innerHTML = ``;
+            let description = insertHtml(esgst.mainContext, `beforeEnd`, `
                 <div class="description">
                     <div></div>
                     <div class="esgst-hidden esgst-popup-progress"></div>
@@ -33706,8 +33709,7 @@ class ESGST {
     menu(tab) {
         let Container, SMManageFilteredUsers, SMAPIKey, popup;
         if (tab) {
-            document.body.className = `esgst-tab-menu`;
-            Container = document.body;
+            Container = esgst.mainContext;
         } else {
             popup = new Popup(`fa-gear`, `Settings`, true, true);
             popup.description.classList.add(`esgst-text-left`);
@@ -35213,8 +35215,7 @@ class ESGST {
                 break;
         }
         if (openInTab) {
-            document.body.className = `esgst-tab-menu`;
-            context = container = document.body;
+            context = container = esgst.mainContext;
             context.innerHTML = ``;
         } else {
             if (dm.autoBackup) {
@@ -37848,20 +37849,6 @@ class ESGST {
 
             .esgst-page-heading >*:not(:last-child) {
                 margin-right: 5px;
-            }
-
-            .esgst-tab-menu {
-                background-color: var(--esgst-body-bg-color);
-                background-image: none;
-                display: block;
-                padding: 25px;
-                font: 12px Arial, sans-serif;
-                text-shadow: 1px 1px rgba(255,255,255,0.94);
-                color: #465670;
-            }
-
-            .esgst-tab-menu-header {
-                padding: 0;
             }
 
             .esgst-form-row {
