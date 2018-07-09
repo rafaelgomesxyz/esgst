@@ -33,6 +33,7 @@
                 "js/parsedown-0.0.1.js",
                 "js/query-builder-2.5.2.min.js",
                 "js/intersection-observer.js",
+                "js/encoding.js",
                 "esgst.js"
             ],
             "run_at": "document_start"

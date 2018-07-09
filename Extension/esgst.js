@@ -46,6 +46,7 @@
 // @require https://github.com/revilheart/ESGST/raw/master/Extension/js/parsedown-0.0.1.js
 // @require https://github.com/revilheart/ESGST/raw/master/Extension/js/query-builder-2.5.2.min.js
 // @require https://github.com/revilheart/ESGST/raw/master/Extension/js/intersection-observer.js
+// @require https://github.com/revilheart/ESGST/raw/master/Extension/js/encoding.js
 // @resource bs https://github.com/revilheart/ESGST/raw/master/Extension/css/bootstrap-3.3.7.min.css
 // @resource abc https://github.com/revilheart/ESGST/raw/master/Extension/css/awesome-bootstrap-checkbox-0.3.7.min.css
 // @resource qb https://github.com/revilheart/ESGST/raw/master/Extension/css/query-builder-2.5.2.min.css
@@ -53,6 +54,13 @@
 // @run-at document-start
 // @noframes
 // ==/UserScript==
+
+if (!NodeList.prototype[Symbol.iterator]) {
+    NodeList.prototype[Symbol.iterator] = Array.prototype[Symbol.iterator];
+}
+if (!HTMLCollection.prototype[Symbol.iterator]) {
+    HTMLCollection.prototype[Symbol.iterator] = Array.prototype[Symbol.iterator];
+}
 
 const theme = getLocalValue(`theme`);
 if (theme) {
@@ -3018,7 +3026,7 @@ class ESGST {
             sg: location.hostname.match(/www.steamgifts.com/),
             st: location.hostname.match(/www.steamtrades.com/),
             currentVersion: `7.22.0`,
-            devVersion: `7.22.1 (Dev.11)`,
+            devVersion: `7.22.1 (Dev.12)`,
             icon: `data:image/x-icon;base64,AAABAAEAEBAAAAEAIABoBAAAFgAAACgAAAAQAAAAIAAAAAEAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAqv8DCbP/Hgeq+CQIrf8iCK3/Igit/yIIrf8iB6//Iwit9x8Aqv8DAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAKr0GAa2/c0DvfzfA7f83QO3/N0Dt/zdA7f83QO+/d4Gs/3OAKP1GQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACm/xQFs/n2Bcf//wW///8FwP//BcD//wW///8Fx///BbP69gC2/xUAAAAAAAAAAAAAAAAA/1UDFptOFxSZMxkLpJktAq720QW1+ugEsfvjA7b92wO2/dsEsfvjBbX66Aau/dEoiO4tUlLWGU5k3hdVVf8DEJxKHxWqT8cVrU7uE6VN0guqny0Apv8XAJfQGwBAVywAQFcsAJfQGwCx/xcogugtS2Lk0lBl6u5Qae7ISmPeHxagSSMVr07jF7lV/xOiSu0brgATAAAAAAAAAA8AAAC/AAAAwAAAABAAAAAAYznjEkth4OxWb/3/T2jv40lf4iMXnksiEq1O3RayUv8UpEnkEo0+HQAAABkAAABBAAAA8QAAAPEAAABBAAAAGUBSvxxOYeDjU2v0/05m7d1LYuEiF55LIhKtTt0Ws1L/FahN2gU1FTAAAADAAAAA7AAAAP0AAAD9AAAA7AAAAMAVG0owUGPm2lNr9P9OZu3dS2LhIheeSyISrU7dFrNS/xWoTdoFNRswAAAAvwAAAOsAAAD9AAAA/QAAAOsAAADAFRtKMFBj6NpTa/T/Tmbt3Uti4SIXnksiEq1O3RayUv8UpEnkEo0+HQAAABgAAABAAAAA8QAAAPEAAABBAAAAGT5PuR1OYeDjU2v0/05m7d1LYuEiFqBJIxWuT+QXuVX/E6JL7QC8XhMAAAAAAAAADwAAAL8AAAC/AAAAEAAAAAAOR/8SSWLh7FZv/f9PaO/jSV/iIxCUSh8Vrk7HFqxN7ROlS9JskzMt1XULGK12EhxGLgYsRy8GK612EhzVgAsYgmxxLU1i39JNZ+vtT2fwx0pj1h8AqlUDF65GFgqZUhlsiC0txH0T0s5/EujJgBPkz4QR28+EEdvJgBPkzn8Q6Md+E9KLdHosM1LWGUZo6BZVVf8DAAAAAAAAAAAAAAAA/2YAFMl9EvbgjRb/14gV/9eIFf/XiBX/14gV/9+NFv/KgBD254YAFQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAL91FRjKgRHN1IgU3s+EEt3PhBLdz4QS3c+EEt3UiBTezYMRzcJ6FBkAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACqqgADxIARHr18FiO8eA8ivHgPIrx4DyK8eA8ivXwPI8SAER7/VQADAAAAAAAAAAAAAAAA78cAAPA3AAD4FwAABCAAADGOAAAE+AAAkBEAAJ55AACYOQAAlgEAAER4AAAXaAAATnoAAPgXAAD0JwAA69cAAA==`,
             sgIcon: `data:image/x-icon;base64,AAABAAEAEBAAAAEAIABoBAAAFgAAACgAAAAQAAAAIAAAAAEAIAAAAAAAQAQAABMLAAATCwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIUAAAD5AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAPoAAACFAAAAAAAAAAAAAAD8AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA+QAAAAAAAAAAAAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAAAAAAAAAAAAP8AAAD/AAAA/wAAABwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAcAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAcAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAHAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAAAAAAAAAAAAPwAAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD5AAAAAAAAAAAAAACFAAAA+QAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD5AAAAhQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA//8AAP//AADAAwAAwAMAAMfjAADP8wAAz/MAAM/zAADP8wAAz/MAAM/zAADH4wAAwAMAAMADAAD//wAA//8AAA==`,
             stIcon: `data:image/x-icon;base64,AAABAAEAEBAAAAEAIABoBAAAFgAAACgAAAAQAAAAIAAAAAEAIAAAAAAAQAQAABMLAAATCwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABbD6SgWw+ucFsPrkBbD6SgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAWw+uYFsPr/BbD6/wWw+ucAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAFsPrmBbD6/wWw+v8FsPrmAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABbD6SQWw+uYFsPrmBbD6SQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAFKRLShSkS+cUpEvkFKRLSgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAExi4EpMYuDnTGLg5Exi4EoAAAAAAAAAABSkS+YUpEv/FKRL/xSkS+cAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABMYuDmTGLg/0xi4P9MYuDnAAAAAAAAAAAUpEvmFKRL/xSkS/8UpEvmAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAATGLg5kxi4P9MYuD/TGLg5gAAAAAAAAAAFKRLSRSkS+YUpEvmFKRLSQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAExi4ElMYuDmTGLg5kxi4EkAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAMZ9E0rGfRPnxn0T5MZ9E0oAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADGfRPmxn0T/8Z9E//GfRPnAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAxn0T5sZ9E//GfRP/xn0T5gAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAMZ9E0nGfRPmxn0T5sZ9E0kAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA//8AAPw/AAD8PwAA/D8AAPw/AAD//wAAh+EAAIfhAACH4QAAh+EAAP//AAD8PwAA/D8AAPw/AAD8PwAA//8AAA==`,
@@ -8636,7 +8644,7 @@ class ESGST {
             // when the user searches for a game in the new giveaway page, wait until the results appear and load the game features for them
             let rows = document.getElementsByClassName(`form__rows`)[0];
             if (rows) {
-                setTimeout(this.checkNewGiveawayInput.bind(this), 1000, document.getElementsByClassName(`js__autocomplete-data`)[0]);
+                setTimeout(() => this.checkNewGiveawayInput(document.getElementsByClassName(`js__autocomplete-data`)[0]), 1000);
             }
         }
 
@@ -8659,7 +8667,7 @@ class ESGST {
         addEventListener(`beforeunload`, this.checkBusy.bind(this));
         addEventListener(`hashchange`, goToComment.bind(null, null, null, false));
         if (!esgst.staticPopups) {
-            setTimeout(this.repositionPopups.bind(this), 2000);
+            setTimeout(() => this.repositionPopups(), 2000);
         }
     }
     async getElements() {
@@ -10505,7 +10513,7 @@ class ESGST {
                             item.setPopup(popup);
                             popup.open();
                         }
-                    })
+                    });
                 } else {
                     if (item.callback) {
                         item.callback(button);
@@ -10665,7 +10673,7 @@ class ESGST {
         if (value) {
             this.cfh_uploadImage(`Bearer ${value}`, popout, url);
         } else {
-            setTimeout(this.cfh_checkImgur.bind(this), 250, popout, url);
+            setTimeout(() => this.cfh_checkImgur(popout, url), 250);
         }
     }
     cfh_uploadImage(authorization, popout, url) {
@@ -14372,12 +14380,12 @@ class ESGST {
                         giveaways[bookmarked[i].code].endTime = endTime;
                         await this.setValue(`giveaways`, JSON.stringify(giveaways));
                         deleteLock();
-                        setTimeout(this.gb_loadGiveaways.bind(this), 0, ++i, n, bookmarked, gbGiveaways, info, popup, callback);
+                        setTimeout(() => this.gb_loadGiveaways(++i, n, bookmarked, gbGiveaways, info, popup, callback), 0);
                     } else {
-                        setTimeout(this.gb_loadGiveaways.bind(this), 0, ++i, n, bookmarked, gbGiveaways, info, popup, callback);
+                        setTimeout(() => this.gb_loadGiveaways(++i, n, bookmarked, gbGiveaways, info, popup, callback), 0);
                     }
                 } else {
-                    setTimeout(this.gb_loadGiveaways.bind(this), 0, ++i, n, bookmarked, gbGiveaways, info, popup, callback);
+                    setTimeout(() => this.gb_loadGiveaways(++i, n, bookmarked, gbGiveaways, info, popup, callback), 0);
                 }
             } else {
                 callback(i + 1);
@@ -15544,7 +15552,7 @@ class ESGST {
             }
             pagination = responseHtml.getElementsByClassName(`pagination__navigation`)[0];
             if (pagination && !pagination.lastElementChild.classList.contains(`is-selected`)) {
-                setTimeout(this.gcl_getCountries.bind(this), 0, countries, ++nextPage, url, callback);
+                setTimeout(() => this.gcl_getCountries(countries, ++nextPage, url, callback), 0);
             } else {
                 setTimeout(callback, 0, countries);
             }
@@ -15865,7 +15873,7 @@ class ESGST {
                             giveaways = this.ge_getGiveaways(ge, responseHtml);
                             n = giveaways.length;
                             if (n > 0) {
-                                setTimeout(this.ge_extractGiveaways.bind(this), 0, ge, giveaways, 0, n, callback);
+                                setTimeout(() => this.ge_extractGiveaways(ge, giveaways, 0, n, callback), 0);
                             } else {
                                 callback();
                             }
@@ -15895,7 +15903,7 @@ class ESGST {
                         giveaways = this.ge_getGiveaways(ge, responseHtml);
                         n = giveaways.length;
                         if (n > 0) {
-                            setTimeout(this.ge_extractGiveaways.bind(this), 0, ge, giveaways, 0, n, callback);
+                            setTimeout(() => this.ge_extractGiveaways(ge, giveaways, 0, n, callback), 0);
                         } else {
                             callback();
                         }
@@ -18499,7 +18507,7 @@ class ESGST {
                     } else {
                         this.ggl_addPanel(giveaway, savedGiveaways[giveaway.code].groups, newGroups, savedGroups);
                     }
-                    setTimeout(this.ggl_loadGroups.bind(this), 0, giveaways, ++i, n, newGiveaways, newGroups, savedGiveaways, savedGroups);
+                    setTimeout(() => this.ggl_loadGroups(giveaways, ++i, n, newGiveaways, newGroups, savedGiveaways, savedGroups), 0);
                 } else {
                     this.ggl_getGroups([], 1, newGroups, `${giveaway.url}/groups/search?page=`, groups => {
                         if (groups) {
@@ -18511,16 +18519,16 @@ class ESGST {
                             } else {
                                 this.ggl_addPanel(giveaway, groups, newGroups, savedGroups);
                             }
-                            setTimeout(this.ggl_loadGroups.bind(this), 0, giveaways, ++i, n, newGiveaways, newGroups,  savedGiveaways, savedGroups);
+                            setTimeout(() => this.ggl_loadGroups(giveaways, ++i, n, newGiveaways, newGroups,  savedGiveaways, savedGroups), 0);
                         } else if (callback) {
                             callback(null);
                         } else {
-                            setTimeout(this.ggl_loadGroups.bind(this), 0, giveaways, ++i, n, newGiveaways, newGroups,  savedGiveaways, savedGroups);
+                            setTimeout(() => this.ggl_loadGroups(giveaways, ++i, n, newGiveaways, newGroups,  savedGiveaways, savedGroups), 0);
                         }
                     });
                 }
             } else {
-                setTimeout(this.ggl_loadGroups.bind(this), 0, giveaways, ++i, n, newGiveaways, newGroups,  savedGiveaways, savedGroups);
+                setTimeout(() => this.ggl_loadGroups(giveaways, ++i, n, newGiveaways, newGroups,  savedGiveaways, savedGroups), 0);
             }
         } else {
             await this.lockAndSaveGiveaways(newGiveaways);
@@ -18593,7 +18601,7 @@ class ESGST {
             }
             pagination = responseHtml.getElementsByClassName(`pagination__navigation`)[0];
             if (pagination && !pagination.lastElementChild.classList.contains(`is-selected`)) {
-                setTimeout(this.ggl_getGroups.bind(this), 0, groups, ++nextPage, newGroups, url, callback);
+                setTimeout(() => this.ggl_getGroups(groups, ++nextPage, newGroups, url, callback), 0);
             } else {
                 setTimeout(callback, 0, groups);
             }
@@ -18671,7 +18679,7 @@ class ESGST {
         }
         pagination = responseHtml.getElementsByClassName(`pagination__navigation`)[0];
         if (pagination && !pagination.lastElementChild.classList.contains(`is-selected`)) {
-            setTimeout(this.glwc_getUsers.bind(this), 0, glwc, ++nextPage);
+            setTimeout(() => this.glwc_getUsers(glwc, ++nextPage), 0);
         } else {
             glwc.overallProgress.textContent = `Step 2 of 3`;
             this.glwc_getSteamIds(glwc, 0, glwc.users.length);
@@ -18687,10 +18695,10 @@ class ESGST {
             let steamId = esgst.users.steamIds[glwc.users[i].username];
             if (steamId) {
                 glwc.users[i].steamId = steamId;
-                setTimeout(this.glwc_getSteamIds.bind(this), 0, glwc, ++i, n);
+                setTimeout(() => this.glwc_getSteamIds(glwc, ++i, n), 0);
             } else {
                 glwc.users[i].steamId = this.parseHtml((await this.request({method: `GET`, url: `/user/${glwc.users[i].username}`})).responseText).querySelector(`[href*="/profiles/"]`).getAttribute(`href`).match(/\d+/)[0];
-                setTimeout(this.glwc_getSteamIds.bind(this), 0, glwc, ++i, n);
+                setTimeout(() => this.glwc_getSteamIds(glwc, ++i, n), 0);
             }
         } else {
             glwc.overallProgress.textContent = `Step 3 of 3 (this might take a while)`;
@@ -18757,9 +18765,9 @@ class ESGST {
                     });
                 }
                 glwc.memberCount += 1;
-                setTimeout(this.glwc_getGames.bind(this), 0, glwc, ++i, n);
+                setTimeout(() => this.glwc_getGames(glwc, ++i, n), 0);
             } else {
-                setTimeout(this.glwc_getGames.bind(this), 0, glwc, ++i, n);
+                setTimeout(() => this.glwc_getGames(glwc, ++i, n), 0);
             }
         } else {
             this.glwc_showResults(glwc);
@@ -20473,7 +20481,7 @@ class ESGST {
         let cache = this.hr_getCache();
         setLocalValue(`hrCache`, JSON.stringify(cache));
         await this.hr_refreshHeader(cache, hr);
-        hr.refresher = setTimeout(this.hr_continueRefresher.bind(this), esgst.hr_minutes * 60000, hr);
+        hr.refresher = setTimeout(() => this.hr_continueRefresher(hr), esgst.hr_minutes * 60000);
     }
     async hr_continueRefresher(hr) {
         let cache = JSON.parse(getLocalValue(`hrCache`));
@@ -20484,11 +20492,11 @@ class ESGST {
             cache = this.hr_getCache();
             setLocalValue(`hrCache`, JSON.stringify(cache));
             await this.hr_refreshHeader(cache, hr, true);
-            hr.refresher = setTimeout(this.hr_continueRefresher.bind(this), esgst.hr_minutes * 60000, hr);
+            hr.refresher = setTimeout(() => this.hr_continueRefresher(hr), esgst.hr_minutes * 60000);
         } else {
             esgst.wishlist = cache.wishlist;
             await this.hr_refreshHeader(cache, hr);
-            setTimeout(this.hr_continueRefresher.bind(this), esgst.hr_minutes * 60000, hr);
+            setTimeout(() => this.hr_continueRefresher(hr), esgst.hr_minutes * 60000);
         }
     }
     async hr_refreshHeader(cache, hr, notify) {
@@ -20782,7 +20790,7 @@ class ESGST {
         });
         this.hwlc_addPanel(obj);
         obj.popup.open();
-        setTimeout(this.hwlc_getGames.bind(this), 1000, obj);
+        setTimeout(() => this.hwlc_getGames(obj), 1000);
     }
     hwlc_addPanel(obj) {
         obj.panel = obj.popup.getScrollable();
@@ -22374,7 +22382,7 @@ class ESGST {
             toRemove.forEach(line => {
                 textArea.value = textArea.value.replace(`${line}\n`, ``);
             });
-            setTimeout(this.mgc_importGiveaway.bind(this), 0, giveaways, i, mgc, n, popup, progress, textArea, mainCallback, callback);
+            setTimeout(() => this.mgc_importGiveaway(giveaways, i, mgc, n, popup, progress, textArea, mainCallback, callback), 0);
         } else if (matches.length > 0) {
             conflictPopup = new Popup_v2({
                 icon: `fa-exclamation`,
@@ -22398,7 +22406,7 @@ class ESGST {
                     toRemove.forEach(line => {
                         textArea.value = textArea.value.replace(`${line}\n`, ``);
                     });
-                    setTimeout(this.mgc_importGiveaway.bind(this), 0, giveaways, i, mgc, n, popup, progress, textArea, mainCallback, callback);
+                    setTimeout(() => this.mgc_importGiveaway(giveaways, i, mgc, n, popup, progress, textArea, mainCallback, callback), 0);
                 }});
                 button.set.style.position = `absolute`;
                 button.set.style.right = `50px`;
@@ -22552,7 +22560,7 @@ class ESGST {
                 const j = parseInt(mgc.giveaways.children[i].textContent) - 1;
                 this.mgc_checkCreation(i, mgc, n, callback, await this.request({data: mgc.datas[j].replace(/start_time=(.+?)&/, this.mgc_correctTime.bind(this)), method: `POST`, url: `/giveaways/new`}));
             } else {
-                setTimeout(this.mgc_createGiveaway.bind(this), 0, i + 1, mgc, n, callback);
+                setTimeout(() => this.mgc_createGiveaway(i + 1, mgc, n, callback), 0);
             }
         } else if (esgst.mgc_createTrain) {
             this.mgc_createTrain(0, mgc, mgc.created.length, callback);
@@ -22578,7 +22586,7 @@ class ESGST {
                 setCountdown(popup.title.firstElementChild, 120, async () => {
                     popup.close();
                     const j = parseInt(mgc.giveaways.children[i].textContent) - 1;
-                    setTimeout(this.mgc_checkCreation.bind(this), 0, i, mgc, n, callback, await this.request({data: mgc.datas[j].replace(/start_time=(.+?)&/, this.mgc_correctTime.bind(this)), method: `POST`, url: `/giveaways/new`}));
+                    setTimeout(async () => this.mgc_checkCreation(i, mgc, n, callback, await this.request({data: mgc.datas[j].replace(/start_time=(.+?)&/, this.mgc_correctTime.bind(this)), method: `POST`, url: `/giveaways/new`})), 0);
                 });
             } else {
                 giveaway.classList.add(`error`);
@@ -22589,7 +22597,7 @@ class ESGST {
                 }
                 errorsTitle += `\n`;
                 giveaway.title = `${errorsTitle}${giveaway.title}`;
-                setTimeout(this.mgc_createGiveaway.bind(this), 0, ++i, mgc, n, callback);
+                setTimeout(() => this.mgc_createGiveaway(++i, mgc, n, callback), 0);
             }
         } else {
             giveaway.classList.add(`success`);
@@ -22604,9 +22612,9 @@ class ESGST {
                 if (giveaway) {
                     mgc.saveGiveaways[giveaway.code] = giveaway;
                 }
-                setTimeout(this.mgc_createGiveaway.bind(this), 0, ++i, mgc, n, callback);
+                setTimeout(() => this.mgc_createGiveaway(++i, mgc, n, callback), 0);
             } else {
-                setTimeout(this.mgc_createGiveaway.bind(this), 0, ++i, mgc, n, callback);
+                setTimeout(() => this.mgc_createGiveaway(++i, mgc, n, callback), 0);
             }
         }
     }
@@ -22716,7 +22724,7 @@ class ESGST {
             }
             await this.request({data: `xsrf_token=${esgst.xsrfToken}&do=edit_giveaway_description&giveaway_id=${id}&description=${encodeURIComponent(description.trim())}`, method: `POST`, url: `/ajax.php`});
             mgc.created[i].giveaway.classList.add(`connected`);
-            setTimeout(this.mgc_createTrain.bind(this), 0, i + 1, mgc, n, callback);
+            setTimeout(() => this.mgc_createTrain(i + 1, mgc, n, callback), 0);
         }
     }
     mgc_getNext(i, mgc, single, fullMatch, match1, match2, match3) {
@@ -22868,7 +22876,7 @@ class ESGST {
         let win;
         setLocalValue(`mgcAttach_step1`, true);
         win = open(`/discussions/new`);
-        setTimeout(this.mgc_checkAttached.bind(this), 100, mgc, popup, win, callback);
+        setTimeout(() => this.mgc_checkAttached(mgc, popup, win, callback), 100);
     }
     mgc_checkAttached(mgc, popup, win, callback) {
         if (win.closed) {
@@ -22880,7 +22888,7 @@ class ESGST {
             callback();
             popup.close();
         } else {
-            setTimeout(this.mgc_checkAttached.bind(this), 100, mgc, popup, win, callback);
+            setTimeout(() => this.mgc_checkAttached(mgc, popup, win, callback), 100);
         }
     }
     mgc_addCreateAndAttachButton() {
@@ -24855,9 +24863,9 @@ class ESGST {
                 }
                 Pagination = Context.getElementsByClassName(`pagination__navigation`)[0];
                 if (Pagination && !Pagination.lastElementChild.classList.contains(`is-selected`)) {
-                    setTimeout(this.nrf_searchUser.bind(this), 0, NRF, username, NextPage, CurrentPage, URL, Callback);
+                    setTimeout(() => this.nrf_searchUser(NRF, username, NextPage, CurrentPage, URL, Callback), 0);
                 } else if (esgst.nrf_searchMultiple && NRF.Multiple.length) {
-                    setTimeout(this.nrf_searchMultiple.bind(this), 0, NRF, 0, NRF.Multiple.length, Callback);
+                    setTimeout(() => this.nrf_searchMultiple(NRF, 0, NRF.Multiple.length, Callback), 0);
                 } else {
                     Callback();
                 }
@@ -24865,7 +24873,7 @@ class ESGST {
                 Callback();
             }
         } else if (!NRF.Canceled) {
-            setTimeout(this.nrf_searchUser.bind(this), 0, NRF, username, ++NextPage, CurrentPage, URL, Callback, this.parseHtml((await this.request({method: `GET`, queue: true, url: URL + NextPage})).responseText));
+            setTimeout(async () => this.nrf_searchUser(NRF, username, ++NextPage, CurrentPage, URL, Callback, this.parseHtml((await this.request({method: `GET`, queue: true, url: URL + NextPage})).responseText)), 0);
         }
     }
     nrf_searchMultiple(NRF, I, N, Callback) {
@@ -24880,7 +24888,7 @@ class ESGST {
                         NRF.Results.appendChild(NRF.Multiple[I].cloneNode(true));
                     }
                     if (NRF.I < NRF.N) {
-                        setTimeout(this.nrf_searchMultiple.bind(this), 0, NRF, ++I, N, Callback);
+                        setTimeout(() => this.nrf_searchMultiple(NRF, ++I, N, Callback), 0);
                     } else {
                         Callback();
                     }
@@ -24907,7 +24915,7 @@ class ESGST {
         }
         Pagination = ResponseHTML.getElementsByClassName(`pagination__navigation`)[0];
         if ((NRF.I < NRF.N) && Pagination && !Pagination.lastElementChild.classList.contains(`is-selected`)) {
-            setTimeout(this.nrf_searchGiveaway.bind(this), 0, NRF, URL, ++NextPage, Callback);
+            setTimeout(() => this.nrf_searchGiveaway(NRF, URL, ++NextPage, Callback), 0);
         } else {
             Callback(Found);
         }
@@ -26839,7 +26847,7 @@ class ESGST {
             await this.setValue(`lastBump`, currentTime);
             this.tb_autoBumpTrades(button);
         } else {
-            setTimeout(this.tb_setAutoBump.bind(this), 3600000 - dif, button);
+            setTimeout(() => this.tb_setAutoBump(button), 3600000 - dif);
         }
     }
     async tb_autoBumpTrades(button) {
@@ -29312,7 +29320,7 @@ class ESGST {
             if (I < N) {
                 if (WBC.manualSkip) {
                     this.wbc_skipUser(WBC, WBC.Users[I]);
-                    setTimeout(this.wbc_checkUsers.bind(this), 0, WBC, ++I, N, Callback);
+                    setTimeout(() => this.wbc_checkUsers(WBC, ++I, N, Callback), 0);
                 } else {
                     User = (WBC.User && esgst.wbc_checkSingle) ? WBC.User : {
                         Username: WBC.Users[I]
@@ -29336,14 +29344,14 @@ class ESGST {
                     if (!wbc || !esgst.wbc_checkNew) {
                         this.wbc_checkUser(WBC, wbc, user.username, wbc => {
                             if (wbc) {
-                                setTimeout(this.wbc_setResult.bind(this), 0, WBC, user, wbc, notes, whitelisted, blacklisted, (Result != wbc.result) ? true : false, I, N, Callback);
+                                setTimeout(() => this.wbc_setResult(WBC, user, wbc, notes, whitelisted, blacklisted, (Result != wbc.result) ? true : false, I, N, Callback), 0);
                             } else {
                                 this.wbc_skipUser(WBC, user.username);
-                                setTimeout(this.wbc_checkUsers.bind(this), 0, WBC, ++I, N, Callback);
+                                setTimeout(() => this.wbc_checkUsers(WBC, ++I, N, Callback), 0);
                             }
                         });
                     } else {
-                        setTimeout(this.wbc_setResult.bind(this), 0, WBC, user, wbc, notes, whitelisted, blacklisted, (Result != wbc.result) ? true : false, I, N, Callback);
+                        setTimeout(() => this.wbc_setResult(WBC, user, wbc, notes, whitelisted, blacklisted, (Result != wbc.result) ? true : false, I, N, Callback), 0);
                     }
                 }
             } else if (Callback) {
@@ -29375,7 +29383,7 @@ class ESGST {
                                 user.values[`${wbc.result}Date`] = Date.now();
                             }
                             await this.saveUser(null, null, user);
-                            setTimeout(this.wbc_checkUsers.bind(this), 0, WBC, ++I, N, Callback);
+                            setTimeout(() => this.wbc_checkUsers(WBC, ++I, N, Callback), 0);
                         });
                     } else {
                         await this.getUserId(user);
@@ -29393,7 +29401,7 @@ class ESGST {
                                 user.values[`${wbc.result}Date`] = Date.now();
                             }
                             await this.saveUser(null, null, user);
-                            setTimeout(this.wbc_checkUsers.bind(this), 0, WBC, ++I, N, Callback);
+                            setTimeout(() => this.wbc_checkUsers(WBC, ++I, N, Callback), 0);
                         });
                     }
                 } else if (wbc.result === `whitelisted` || wbc.result === `blacklisted` || whitelisted || blacklisted) {
@@ -29401,15 +29409,15 @@ class ESGST {
                         wbc: wbc
                     };
                     await this.saveUser(null, null, user);
-                    setTimeout(this.wbc_checkUsers.bind(this), 0, WBC, ++I, N, Callback);
+                    setTimeout(() => this.wbc_checkUsers(WBC, ++I, N, Callback), 0);
                 } else if (New) {
                     user.values = {
                         wbc: null
                     };
                     await this.saveUser(null, null, user);
-                    setTimeout(this.wbc_checkUsers.bind(this), 0, WBC, ++I, N, Callback);
+                    setTimeout(() => this.wbc_checkUsers(WBC, ++I, N, Callback), 0);
                 } else {
-                    setTimeout(this.wbc_checkUsers.bind(this), 0, WBC, ++I, N, Callback);
+                    setTimeout(() => this.wbc_checkUsers(WBC, ++I, N, Callback), 0);
                 }
             }
         }
@@ -29609,7 +29617,7 @@ class ESGST {
                                 if (wbc.wl_ga) {
                                     this.wbc_checkGiveaway(WBC, wbc, username, Callback);
                                 } else if (((WBC.Timestamp >= wbc.timestamp) || (WBC.Timestamp === 0)) && Pagination && !Pagination.lastElementChild.classList.contains(`is-selected`)) {
-                                    setTimeout(this.wbc_getGiveaways.bind(this), 0, WBC, wbc, username, NextPage, CurrentPage, URL, Callback);
+                                    setTimeout(() => this.wbc_getGiveaways(WBC, wbc, username, NextPage, CurrentPage, URL, Callback), 0);
                                 } else if ((wbc.g_wl_gas && Object.keys(wbc.g_wl_gas).length) || WBC.GroupGiveaways.length) {
                                     this.wbc_getGroupGiveaways(WBC, 0, WBC.GroupGiveaways.length, wbc, username, async (wbc, Result) => {
                                         let Groups, GroupGiveaways, Found;
@@ -29652,7 +29660,7 @@ class ESGST {
                             }
                         });
                     } else if (((WBC.Timestamp >= wbc.timestamp) || (WBC.Timestamp === 0)) && Pagination && !Pagination.lastElementChild.classList.contains(`is-selected`)) {
-                        setTimeout(this.wbc_getGiveaways.bind(this), 0, WBC, wbc, username, NextPage, CurrentPage, URL, Callback);
+                        setTimeout(() => this.wbc_getGiveaways(WBC, wbc, username, NextPage, CurrentPage, URL, Callback), 0);
                     } else {
                         wbc.result = `unknown`;
                         wbc.lastCheck = Date.now();
@@ -29663,7 +29671,7 @@ class ESGST {
                     if (CurrentPage != NextPage) {
                         let Response = await this.request({method: `GET`, queue: true, url: URL + NextPage});
                         if (Response.finalUrl.match(/\/user\//)) {
-                            setTimeout(this.wbc_getGiveaways.bind(this), 0, WBC, wbc, username, ++NextPage, CurrentPage, URL, Callback, this.parseHtml(Response.responseText));
+                            setTimeout(() => this.wbc_getGiveaways(WBC, wbc, username, ++NextPage, CurrentPage, URL, Callback, this.parseHtml(Response.responseText)), 0);
                         } else {
                             wbc.result = `unknown`;
                             wbc.lastCheck = Date.now();
@@ -29671,7 +29679,7 @@ class ESGST {
                             Callback(wbc);
                         }
                     } else {
-                        setTimeout(this.wbc_getGiveaways.bind(this), 0, WBC, wbc, username, ++NextPage, CurrentPage, URL, Callback, document);
+                        setTimeout(() => this.wbc_getGiveaways(WBC, wbc, username, ++NextPage, CurrentPage, URL, Callback, document), 0);
                     }
                 }
             }
@@ -29690,14 +29698,14 @@ class ESGST {
                         <span>Retrieving ${username}'s group giveaways (${I + 1} of ${N})...</span>
                     `;
                     if (wbc.groupGiveaways && wbc.groupGiveaways[WBC.GroupGiveaways[I]]) {
-                        setTimeout(this.wbc_getGroupGiveaways.bind(this), 0, WBC, ++I, N, wbc, username, callback);
+                        setTimeout(() => this.wbc_getGroupGiveaways(WBC, ++I, N, wbc, username, callback), 0);
                     } else {
                         this.wbc_getGroups(WBC, `/giveaway/${WBC.GroupGiveaways[I]}/_/groups/search?page=`, 1, wbc, username, (wbc, Result) => {
                             if (wbc) {
                                 if (Result) {
                                     callback(wbc, Result);
                                 } else {
-                                    setTimeout(this.wbc_getGroupGiveaways.bind(this), 0, WBC, ++I, N, wbc, username, callback);
+                                    setTimeout(() => this.wbc_getGroupGiveaways(WBC, ++I, N, wbc, username, callback), 0);
                                 }
                             } else {
                                 callback();
@@ -29737,7 +29745,7 @@ class ESGST {
                 }
                 Pagination = ResponseHTML.getElementsByClassName(`pagination__navigation`)[0];
                 if (Pagination && !Pagination.lastElementChild.classList.contains(`is-selected`)) {
-                    setTimeout(this.wbc_getGroups.bind(this), 0, WBC, NextPage === 1 ? `${Response.finalUrl}/search?page=` : URL, ++NextPage, wbc, username, Callback);
+                    setTimeout(() => this.wbc_getGroups(WBC, NextPage === 1 ? `${Response.finalUrl}/search?page=` : URL, ++NextPage, wbc, username, Callback), 0);
                 } else {
                     Callback(wbc);
                 }
@@ -29771,7 +29779,7 @@ class ESGST {
             }
             Pagination = Context.getElementsByClassName(`pagination__navigation`)[0];
             if (Pagination && !Pagination.lastElementChild.classList.contains(`is-selected`)) {
-                setTimeout(this.wbc_getUsers.bind(this), 0, WBC, NextPage, CurrentPage, URL, Callback);
+                setTimeout(() => this.wbc_getUsers(WBC, NextPage, CurrentPage, URL, Callback), 0);
             } else {
                 Callback();
             }
@@ -29779,9 +29787,9 @@ class ESGST {
             if (!esgst.wbc_checkPages || NextPage <= esgst.wbc_maxPage) {
                 NextPage += 1;
                 if (CurrentPage != NextPage) {
-                    setTimeout(this.wbc_getUsers.bind(this), 0, WBC, NextPage, CurrentPage, URL, Callback, this.parseHtml((await this.request({method: `GET`, queue: true, url: URL + NextPage})).responseText));
+                    setTimeout(async () => this.wbc_getUsers(WBC, NextPage, CurrentPage, URL, Callback, this.parseHtml((await this.request({method: `GET`, queue: true, url: URL + NextPage})).responseText)), 0);
                 } else {
-                    setTimeout(this.wbc_getUsers.bind(this), 0, WBC, NextPage, CurrentPage, URL, Callback, esgst.pageOuterWrap);
+                    setTimeout(() => this.wbc_getUsers(WBC, NextPage, CurrentPage, URL, Callback, esgst.pageOuterWrap), 0);
                 }
             } else {
                 Callback();
@@ -29864,7 +29872,7 @@ class ESGST {
         `;
         if (i < n) {
             await this.request({data: `xsrf_token=${esgst.xsrfToken}&do=${wbm.key}&action=insert&child_user_id=${list[i]}`, method: `POST`, url: `/ajax.php`});
-            setTimeout(this.wbm_insertUsers.bind(this), 0, wbm, list, ++i, n, callback);
+            setTimeout(() => this.wbm_insertUsers(wbm, list, ++i, n, callback), 0);
         } else {
             createFadeMessage(wbm.message, `List imported with success!`);
             callback();
@@ -29895,7 +29903,7 @@ class ESGST {
             }
             pagination = responseHtml.getElementsByClassName(`pagination__navigation`)[0];
             if (pagination && !pagination.lastElementChild.classList.contains(`is-selected`)) {
-                setTimeout(this.wbm_exportList.bind(this), 0, wbm, list, ++nextPage, callback);
+                setTimeout(() => this.wbm_exportList(wbm, list, ++nextPage, callback), 0);
             } else {
                 this.downloadFile(JSON.stringify(list), `esgst_${wbm.key}_${new Date().toISOString()}.json`);
                 createFadeMessage(wbm.message, `List exported with success!`);
@@ -29956,7 +29964,7 @@ class ESGST {
             }
             pagination = responseHtml.getElementsByClassName(`pagination__navigation`)[0];
             if (pagination && !pagination.lastElementChild.classList.contains(`is-selected`)) {
-                setTimeout(this.wbm_clearList.bind(this), 0, wbm, list, ++nextPage, callback);
+                setTimeout(() => this.wbm_clearList(wbm, list, ++nextPage, callback), 0);
             } else {
                 this.wbm_deleteUsers(wbm, list, 0, list.length, callback);
             }
@@ -29970,7 +29978,7 @@ class ESGST {
         `;
         if (i < n) {
             await this.request({data: `xsrf_token=${esgst.xsrfToken}&do=${wbm.key}&action=delete&child_user_id=${list[i]}`, method: `POST`, url: `/ajax.php`});
-            setTimeout(this.wbm_deleteUsers.bind(this), 0, wbm, list, ++i, n, callback);
+            setTimeout(() => this.wbm_deleteUsers(wbm, list, ++i, n, callback), 0);
         } else {
             createFadeMessage(wbm.message, `List cleared with success!`);
             wbm.results.innerHTML = `
@@ -31420,7 +31428,7 @@ class ESGST {
         } else {
             context.removeAttribute(`data-esgst`);
         }
-        setTimeout(this.checkNewGiveawayInput.bind(this), 1000, context);
+        setTimeout(() => this.checkNewGiveawayInput(context), 1000);
     }
     async loadNewGiveawayFeatures(context) {
         // check if there are no cv games in the results and if they are already in the database
@@ -32346,7 +32354,7 @@ class ESGST {
         if (esgst.openPopups > 0) {
             esgst.popups.forEach(popup => popup.reposition());
             esgst.isRepositioning = true;
-            setTimeout(this.repositionPopups.bind(this), 2000);
+            setTimeout(() => this.repositionPopups(), 2000);
         } else {
             esgst.isRepositioning = false;
         }
@@ -35100,9 +35108,9 @@ class ESGST {
                 if (giveaway) {
                     gfGiveaways.insertAdjacentHTML(`beforeEnd`, giveaway.html);
                     await this.endless_load(gfGiveaways.lastElementChild, false, `gf`);
-                    setTimeout(this.loadGfGiveaways.bind(this), 0, ++i, n, hidden, gfGiveaways, popup, callback);
+                    setTimeout(() => this.loadGfGiveaways(++i, n, hidden, gfGiveaways, popup, callback), 0);
                 } else {
-                    setTimeout(this.loadGfGiveaways.bind(this), 0, ++i, n, hidden, gfGiveaways, popup, callback);
+                    setTimeout(() => this.loadGfGiveaways(++i, n, hidden, gfGiveaways, popup, callback), 0);
                 }
             } else {
                 callback(i + 1);
@@ -36822,8 +36830,7 @@ class ESGST {
     }
     getDataSizes(dm) {
         let spacePopup = new Popup(`fa-circle-o-notch fa-spin`, `Calculating data sizes...`);
-        spacePopup.open();
-        setTimeout(this.manageData.bind(this), 0, dm, false, false, false, spacePopup);
+        spacePopup.open(this.manageData.bind(this, dm, false, false, false, spacePopup));
     }
     async loadImportFile(dm, dropbox, googleDrive, oneDrive, space, callback) {
         let file;
@@ -36950,7 +36957,7 @@ class ESGST {
                 });
             }
         } else {
-            setTimeout(this.checkDropboxComplete.bind(this).bind(this), 250, data, dm, callback);
+            setTimeout(() => this.checkDropboxComplete(data, dm, callback), 250);
         }
     }
     async checkGoogleDriveComplete(data, dm, callback) {
@@ -37034,7 +37041,7 @@ class ESGST {
                 });
             }
         } else {
-            setTimeout(this.checkGoogleDriveComplete.bind(this).bind(this), 250, data, dm, callback);
+            setTimeout(() => this.checkGoogleDriveComplete(data, dm, callback), 250);
         }
     }
     async checkOneDriveComplete(data, dm, callback) {
@@ -37112,7 +37119,7 @@ class ESGST {
                 popup.open();
             }
         } else {
-            setTimeout(this.checkOneDriveComplete.bind(this).bind(this), 250, data, dm, callback);
+            setTimeout(() => this.checkOneDriveComplete(data, dm, callback), 250);
         }
     }
     async createLock(key, threshold) {
@@ -37206,7 +37213,7 @@ class ESGST {
         await this.setValue(`settings`, JSON.stringify(esgst.settings));
         message.classList.add(`esgst-green`);
         message.innerHTML = `<i class="fa fa-check"></i> Saved!`;
-        setTimeout(message.remove.bind(message), 2500);
+        setTimeout(() => message.remove(), 2500);
     }
     setSMManageFilteredUsers(SMManageFilteredUsers) {
         let popup;
@@ -37322,7 +37329,7 @@ class ESGST {
             await this.setValue(`settings`, JSON.stringify(esgst.settings));
             message.classList.add(`esgst-green`);
             message.innerHTML = `<i class="fa fa-check" title="Saved!"></i>`;
-            setTimeout(message.remove.bind(message), 2500);
+            setTimeout(() => message.remove(), 2500);
         }
         if (callback) {
             callback();
@@ -40098,7 +40105,7 @@ class ESGST {
             }
         }
         if (currentDate >= startDate && currentDate <= endDate) {
-            setTimeout(this.setTheme.bind(this), endDate - currentDate);
+            setTimeout(() => this.setTheme(), endDate - currentDate);
             return true;
         }
     }
@@ -40170,7 +40177,6 @@ class ESGST {
              alert(`No ESGST updates found!`);
         }
     }
-
     draggable_set(obj) {
         obj.context.setAttribute(`data-dragid`, obj.id);
         for (const element of obj.context.children) {
@@ -40739,7 +40745,7 @@ class Popup {
         this.modal.addEventListener(`click`, () => this.close());
         this.reposition();
         if (!esgst.isRepositioning && !esgst.staticPopups) {
-            setTimeout(_ESGST.repositionPopups.bind(_ESGST), 2000);
+            setTimeout(() => _ESGST.repositionPopups(), 2000);
         }
         if (callback) {
             callback();
@@ -40911,7 +40917,7 @@ class Popup_v2 {
         this.modal.addEventListener(`click`, () => this.close());
         this.reposition();
         if (!esgst.isRepositioning && !esgst.staticPopups) {
-            setTimeout(_ESGST.repositionPopups.bind(_ESGST), 2000);
+            setTimeout(() => _ESGST.repositionPopups(), 2000);
         }
         if (this.textInputs) {
             this.textInputs[0].focus();
@@ -41312,7 +41318,7 @@ class ToggleSwitch {
                 await _ESGST.setSetting(key, setting);
                 message.classList.add(`esgst-green`);
                 message.innerHTML = `<i class="fa fa-check" title="Saved!"></i>`;
-                setTimeout(message.remove.bind(message), 2500);
+                setTimeout(() => message.remove(), 2500);
             }
         }
         if (this.value) {
