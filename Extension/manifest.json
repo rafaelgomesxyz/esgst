@@ -68,7 +68,7 @@
         "cookies"
     ],
     "web_accessible_resources": [
-        "css/steamgifts-v33.min.css",
+        "css/steamgifts-v34.min.css",
         "icon.png"
     ],
     "version": "7.22.0"
