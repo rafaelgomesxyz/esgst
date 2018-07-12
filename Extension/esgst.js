@@ -2553,8 +2553,11 @@ class ESGST {
                 gf_m_a_sg: false,
                 df_m_b_sg: false,
                 df_m_a_sg: false,
+                cf_m_b_sg: false,
+                cf_m_a_sg: false,
                 gf_presets: [],
                 df_presets: [],
+                cf_presets: [],
                 chfl_key: `ctrlKey + e`,
                 getSyncGameNames_sg: false,
                 getSyncGameNames_st: false,
@@ -2677,6 +2680,7 @@ class ESGST {
                 giveawayPanel_gv: [`ttec`, `gwc`, `gwr`, `gp`, `elgb`],
                 enableByDefault_sg: false,
                 enableByDefault_st: false,
+                cf_m_sg: true,
                 checkVersion_sg: true,
                 checkVersionMain_sg: true,
                 collapseSections_sg: false,
@@ -2735,6 +2739,8 @@ class ESGST {
                 calculateDelete: true,
                 calculateExport: true,
                 calculateImport: true,
+                cf_enable: true,
+                cf_preset: null,
                 cfh_pasteFormatting: true,
                 cfh_img_choice: 1,
                 cfh_img_remember: false,
@@ -2926,7 +2932,7 @@ class ESGST {
                 lastSyncReducedCvGames: 0,
                 lastSyncNoCvGames: 0,
                 lastSyncGiveaways: 0,
-                leftButtonIds: [`wbsDesc`, `wbsAsc`, `wbc`, `ugs`, `tb`, `sks`, `rbp`, `namwc`, `mpp`, `mm`, `hgr`, `gv`, `gts`, `gf`, `ge`, `gas`, `ds`, `df`, `ctUnread`, `ctRead`, `ctGo`, `cs`, `as`, `aic`],
+                leftButtonIds: [`wbsDesc`, `wbsAsc`, `wbc`, `ugs`, `tb`, `sks`, `rbp`, `namwc`, `mpp`, `mm`, `hgr`, `gv`, `gts`, `gf`, `ge`, `gas`, `ds`, `df`, `ctUnread`, `ctRead`, `ctGo`, `cs`, `cf`, `as`, `aic`],
                 mgc_createTrain: true,
                 mgc_bumpLast: true,
                 mgc_groupKeys: false,
@@ -3026,12 +3032,13 @@ class ESGST {
             sg: location.hostname.match(/www.steamgifts.com/),
             st: location.hostname.match(/www.steamtrades.com/),
             currentVersion: `7.22.0`,
-            devVersion: `7.22.1 (Dev.12)`,
+            devVersion: `7.22.1 (Dev.13)`,
             icon: `data:image/x-icon;base64,AAABAAEAEBAAAAEAIABoBAAAFgAAACgAAAAQAAAAIAAAAAEAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAqv8DCbP/Hgeq+CQIrf8iCK3/Igit/yIIrf8iB6//Iwit9x8Aqv8DAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAKr0GAa2/c0DvfzfA7f83QO3/N0Dt/zdA7f83QO+/d4Gs/3OAKP1GQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACm/xQFs/n2Bcf//wW///8FwP//BcD//wW///8Fx///BbP69gC2/xUAAAAAAAAAAAAAAAAA/1UDFptOFxSZMxkLpJktAq720QW1+ugEsfvjA7b92wO2/dsEsfvjBbX66Aau/dEoiO4tUlLWGU5k3hdVVf8DEJxKHxWqT8cVrU7uE6VN0guqny0Apv8XAJfQGwBAVywAQFcsAJfQGwCx/xcogugtS2Lk0lBl6u5Qae7ISmPeHxagSSMVr07jF7lV/xOiSu0brgATAAAAAAAAAA8AAAC/AAAAwAAAABAAAAAAYznjEkth4OxWb/3/T2jv40lf4iMXnksiEq1O3RayUv8UpEnkEo0+HQAAABkAAABBAAAA8QAAAPEAAABBAAAAGUBSvxxOYeDjU2v0/05m7d1LYuEiF55LIhKtTt0Ws1L/FahN2gU1FTAAAADAAAAA7AAAAP0AAAD9AAAA7AAAAMAVG0owUGPm2lNr9P9OZu3dS2LhIheeSyISrU7dFrNS/xWoTdoFNRswAAAAvwAAAOsAAAD9AAAA/QAAAOsAAADAFRtKMFBj6NpTa/T/Tmbt3Uti4SIXnksiEq1O3RayUv8UpEnkEo0+HQAAABgAAABAAAAA8QAAAPEAAABBAAAAGT5PuR1OYeDjU2v0/05m7d1LYuEiFqBJIxWuT+QXuVX/E6JL7QC8XhMAAAAAAAAADwAAAL8AAAC/AAAAEAAAAAAOR/8SSWLh7FZv/f9PaO/jSV/iIxCUSh8Vrk7HFqxN7ROlS9JskzMt1XULGK12EhxGLgYsRy8GK612EhzVgAsYgmxxLU1i39JNZ+vtT2fwx0pj1h8AqlUDF65GFgqZUhlsiC0txH0T0s5/EujJgBPkz4QR28+EEdvJgBPkzn8Q6Md+E9KLdHosM1LWGUZo6BZVVf8DAAAAAAAAAAAAAAAA/2YAFMl9EvbgjRb/14gV/9eIFf/XiBX/14gV/9+NFv/KgBD254YAFQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAL91FRjKgRHN1IgU3s+EEt3PhBLdz4QS3c+EEt3UiBTezYMRzcJ6FBkAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACqqgADxIARHr18FiO8eA8ivHgPIrx4DyK8eA8ivXwPI8SAER7/VQADAAAAAAAAAAAAAAAA78cAAPA3AAD4FwAABCAAADGOAAAE+AAAkBEAAJ55AACYOQAAlgEAAER4AAAXaAAATnoAAPgXAAD0JwAA69cAAA==`,
             sgIcon: `data:image/x-icon;base64,AAABAAEAEBAAAAEAIABoBAAAFgAAACgAAAAQAAAAIAAAAAEAIAAAAAAAQAQAABMLAAATCwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIUAAAD5AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAPoAAACFAAAAAAAAAAAAAAD8AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA+QAAAAAAAAAAAAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAAAAAAAAAAAAP8AAAD/AAAA/wAAABwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAcAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAcAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAHAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAAAAAAAAAAAAPwAAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD5AAAAAAAAAAAAAACFAAAA+QAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD5AAAAhQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA//8AAP//AADAAwAAwAMAAMfjAADP8wAAz/MAAM/zAADP8wAAz/MAAM/zAADH4wAAwAMAAMADAAD//wAA//8AAA==`,
             stIcon: `data:image/x-icon;base64,AAABAAEAEBAAAAEAIABoBAAAFgAAACgAAAAQAAAAIAAAAAEAIAAAAAAAQAQAABMLAAATCwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABbD6SgWw+ucFsPrkBbD6SgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAWw+uYFsPr/BbD6/wWw+ucAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAFsPrmBbD6/wWw+v8FsPrmAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABbD6SQWw+uYFsPrmBbD6SQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAFKRLShSkS+cUpEvkFKRLSgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAExi4EpMYuDnTGLg5Exi4EoAAAAAAAAAABSkS+YUpEv/FKRL/xSkS+cAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABMYuDmTGLg/0xi4P9MYuDnAAAAAAAAAAAUpEvmFKRL/xSkS/8UpEvmAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAATGLg5kxi4P9MYuD/TGLg5gAAAAAAAAAAFKRLSRSkS+YUpEvmFKRLSQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAExi4ElMYuDmTGLg5kxi4EkAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAMZ9E0rGfRPnxn0T5MZ9E0oAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADGfRPmxn0T/8Z9E//GfRPnAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAxn0T5sZ9E//GfRP/xn0T5gAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAMZ9E0nGfRPmxn0T5sZ9E0kAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA//8AAPw/AAD8PwAA/D8AAPw/AAD//wAAh+EAAIfhAACH4QAAh+EAAP//AAD8PwAA/D8AAPw/AAD8PwAA//8AAA==`,
             attachedImages: [],
-            currentComments: [],
+            mainComments: [],
+            popupComments: [],
             popups: [],
             openPopups: 0,
             ustCheckboxes: {},
@@ -6293,6 +6300,82 @@ class ESGST {
                         name: `Collapse/Expand Reply Button`,
                         sg: true,
                         st: true
+                    },                    
+                    cf: {
+                        description: `
+                            <ul>
+                                <li>Allows you to filter comments.</li>
+                            </ul>
+                        `,
+                        features: {
+                            cf_m: {
+                                description: `
+                                    <ul>
+                                        <li>Allows you to hide multiple comments in a page using many different filters.</li>
+                                        <li>Adds a toggle switch with a button (<i class="fa fa-sliders"></i>) to the main page heading of any comment page. The switch allows you to turn the filters on/off and the button allows you to manage your presets.</li>
+                                        <li>Adds a collapsible panel below the same main page heading that allows you to change/save the rules of a preset. The filters are separated in 2 categories:</li>
+                                        <ul>
+                                            <li>Basic filters are related to a numeric value (such as the length of a comment) and have a slider that you can use to set the range of the filter (any comments that do not apply to the range will be hidden).</li>
+                                            <li>Type filters are related to a boolean value (such as whether or not a comment is a bump comment) and have a checkbox that changes states when you click on it. The checkbox has 3 states:</li>
+                                            <ul>
+                                                <li>"Show all" (<i class="fa fa-check-square"></i>) does not hide any comments that apply to the filter (this is the default state).</li>
+                                                <li>"Show only" (<i class="fa fa-square"></i>) hides any comments that do not apply to the filter.</li>
+                                                <li>"Hide all" (<i class="fa fa-square-o"></i>) hides any comments that apply to the filter.</li>
+                                            </ul>
+                                        </ul>
+                                        <li>A preset contains all of your rules and can be saved to be reused later. You can save as many presets as you want.</li>
+                                        <li>Adds a text in parenthesis to the pagination of the page showing how many comments in the page are being filtered by the filters.</li>
+                                    </ul>
+                                `,
+                                features: {
+                                    cf_m_b: {
+                                        name: `Hide basic filters.`,
+                                        sg: true,
+                                        st: true
+                                    },
+                                    cf_m_a: {
+                                        name: `Hide advanced filters.`,
+                                        sg: true,
+                                        st: true
+                                    },
+                                    cf_bump: {
+                                        description: `
+                                            <ul>
+                                                <li>Allows you to filter bump comments.</li>
+                                            </ul>
+                                        `,
+                                        name: `Bump`,
+                                        sg: true,
+                                        st: true
+                                    },
+                                    cf_length: {
+                                        description: `
+                                            <ul>
+                                                <li>Allows you to filter comments by their length.</li>
+                                            </ul>
+                                        `,
+                                        name: `Length`,
+                                        sg: true,
+                                        st: true
+                                    },
+                                    cf_words: {
+                                        description: `
+                                            <ul>
+                                                <li>Allows you to filter comments containing certain words.</li>
+                                            </ul>
+                                        `,
+                                        name: `Words`,
+                                        sg: true,
+                                        st: true
+                                    }
+                                },
+                                sg: true,
+                                st: true
+                            }
+                        },
+                        name: `Comment Filters`,
+                        sg: true,
+                        st: true
                     },
                     cfh: {
                         description: `
@@ -7999,6 +8082,10 @@ class ESGST {
                             },
                             hideButtons_aic: {
                                 name: `Attached Image Carousel Button`,
+                                sg: true
+                            },
+                            hideButtons_cf: {
+                                name: `Comment Filters Button`,
                                 sg: true
                             },
                             hideButtons_cs: {
@@ -10068,6 +10155,45 @@ class ESGST {
         popup.open();
         this.endless_load(popup.getScrollable(html));
     }
+    async cf() {
+        if (esgst.cf_m && (esgst.commentsPath || esgst.inboxPath)) {
+            esgst.style.insertAdjacentText(`beforeEnd`, `
+                .esgst-gf-container {
+                    top: ${esgst.commentsTop - 5}px;
+                }
+            `);
+            if (esgst.hideButtons && esgst.hideButtons_cf) {
+                if (esgst.leftButtonIds.indexOf(`cf`) > -1) {
+                    esgst.leftButtons.insertBefore(this.filters_addContainer(`cf`, esgst.mainPageHeading), esgst.leftButtons.firstElementChild);
+                } else {
+                    esgst.rightButtons.appendChild(this.filters_addContainer(`cf`, esgst.mainPageHeading));
+                }
+            } else {
+                esgst.mainPageHeading.insertBefore(this.filters_addContainer(`cf`, esgst.mainPageHeading), esgst.mainPageHeading.firstElementChild);
+            }
+        }
+    }
+    cf_getFilters() {
+        return {
+            bump: {
+                check: true,
+                name: `Bump`,
+                type: `boolean`
+            },
+            length: {
+                check: true,
+                minValue: 0,
+                name: `Length`,
+                type: `number`
+            },
+            words: {
+                check: true,
+                list: true,
+                name: `Words`,
+                type: `string`
+            }
+        };
+    }
     async cfh() {
         esgst.endlessFeatures.push(this.cfh_setTextAreas.bind(this));
         esgst.cfh = {
@@ -12021,7 +12147,7 @@ class ESGST {
     }
     async ct_readUntilHere(button, comment) {
         button.innerHTML = `<i class="fa fa-circle-o-notch fa-spin"></i>`;
-        await this.ct_getComments(0, esgst.currentComments, comment.index, false, true, false);
+        await this.ct_getComments(0, esgst.mainComments, comment.index, false, true, false);
         this.ct_addReadUntilHereButton(button, comment);
     }
     ct_addUnreadUntilHereButton(button, comment) {
@@ -12038,7 +12164,7 @@ class ESGST {
     }
     async ct_unreadUntilHere(button, comment) {
         button.innerHTML = `<i class="fa fa-circle-o-notch fa-spin"></i>`;
-        await this.ct_getComments(0, esgst.currentComments, comment.index, false, false, true);
+        await this.ct_getComments(0, esgst.mainComments, comment.index, false, false, true);
         this.ct_addUnreadUntilHereButton(button, comment);
     }
     ct_addReadCommentButton(button, comment) {
@@ -12066,7 +12192,7 @@ class ESGST {
         await this.ct_markCommentRead(comment, null, true);
         button.innerHTML = ``;
         this.ct_addUnreadCommentButton(button, comment);
-        this.ct_getComments(0, esgst.currentComments, null, true);
+        this.ct_getComments(0, esgst.mainComments, null, true);
     }
     ct_addUnreadCommentButton(button, comment) {
         if (!button) {
@@ -12129,7 +12255,7 @@ class ESGST {
         goToUnread.innerHTML = `
             <i class="fa fa-circle-o-notch fa-spin"></i>
         `;
-        const found = await this.ct_getComments(0, esgst.currentComments, null, true, false, false);
+        const found = await this.ct_getComments(0, esgst.mainComments, null, true, false, false);
         goToUnread.innerHTML = `
             <i class="fa fa-comments-o"></i>
         `;
@@ -12141,7 +12267,7 @@ class ESGST {
         markRead.innerHTML = `
             <i class="fa fa-circle-o-notch fa-spin"></i>
         `;
-        await this.ct_getComments(0, esgst.currentComments, null, false, true, false);
+        await this.ct_getComments(0, esgst.mainComments, null, false, true, false);
         markRead.innerHTML = `
             <i class="fa fa-eye"></i>
         `;
@@ -12150,7 +12276,7 @@ class ESGST {
         markUnread.innerHTML = `
             <i class="fa fa-circle-o-notch fa-spin"></i>
         `;
-        await this.ct_getComments(0, esgst.currentComments, null, false, false, true);
+        await this.ct_getComments(0, esgst.mainComments, null, false, false, true);
         markUnread.innerHTML = `
             <i class="fa fa-eye-slash"></i>
         `;
@@ -13271,7 +13397,7 @@ class ESGST {
                 for (let i = 0, n = es.mainContext.children.length; i < n; ++i) {
                     es.mainContext.children[0].remove();
                 }
-                esgst.currentComments = [];
+                esgst.mainComments = [];
                 esgst.pagination.firstElementChild.firstElementChild.nextElementSibling.textContent = 0;
                 if (esgst.paginationNavigation) {
                     let lastLink = esgst.paginationNavigation.lastElementChild;
@@ -13458,6 +13584,9 @@ class ESGST {
                 if (esgst.df && esgst.df.filteredCount) {
                     this.filters_updateCount(esgst.df);
                 }
+                if (esgst.cf && esgst.cf.filteredCount) {
+                    this.filters_updateCount(esgst.cf);
+                }
                 if (esgst.ts && !esgst.us) {
                     this.ts_sortTables();
                 }
@@ -13535,7 +13664,7 @@ class ESGST {
     es_purgeRemovedElements() {
         // there are more elements that need to be purged,
         // but for now these are the most critical ones
-        [`attachedImages`, `currentComments`, `tsTables`, `mainGiveaways`, `mainDiscussions`, `mainUsers`, `mainGames`, `popupGiveaways`, `popupDiscussions`, `popupUsers`, `popupGames`].forEach(key => {
+        [`attachedImages`, `mainComments`, `tsTables`, `mainGiveaways`, `mainDiscussions`, `mainUsers`, `mainGames`, `popupGiveaways`, `popupDiscussions`, `popupUsers`, `popupGames`].forEach(key => {
             for (let i = esgst[key].length - 1; i > -1; i--) {
                 if (document.contains(esgst[key][i].outerWrap)) continue;
                 esgst[key].splice(i, 1);
@@ -13661,6 +13790,9 @@ class ESGST {
             }
             if (esgst.df && esgst.df.filteredCount) {
                 this.filters_updateCount(esgst.df);
+            }
+            if (esgst.cf && esgst.cf.filteredCount) {
+                this.filters_updateCount(esgst.cf);
             }
             if (esgst.ts && !esgst.us) {
                 this.ts_sortTables();
@@ -16905,7 +17037,7 @@ class ESGST {
         if (!obj.popup && esgst.pagination) {
             obj.paginationFilteredCount = insertHtml(esgst.pagination.firstElementChild, `beforeEnd`, `
                 <span>
-                    (<span class="esgst-bold">0</span> filtered by ${obj.id === `gf` ? `Giveaway` : `Discussion`} Filters)
+                    (<span class="esgst-bold">0</span> filtered by ${obj.id === `gf` ? `Giveaway` : (obj.id === `df` ? `Discussion` : `Comment`)} Filters)
                 </span>
             `).firstElementChild;
         }
@@ -17468,7 +17600,7 @@ class ESGST {
 
             // Convert basic rules.
             for (let key in preset) {
-                if (key.match(/^(authors|creators|exceptions|genres|groups|name|overrides)$/)) {
+                if (key.match(/^(authors|creators|exceptions|genres|groups|words|name|overrides)$/)) {
                     continue;
                 }
 
@@ -17555,7 +17687,7 @@ class ESGST {
                         rules: []
                     };
                     for (let key in exception) {
-                        if (key.match(/^(authors|creators|exceptions|genres|groups|name|overrides)$/)) {
+                        if (key.match(/^(authors|creators|exceptions|genres|groups|words|name|overrides)$/)) {
                             continue;
                         }
 
@@ -17587,7 +17719,7 @@ class ESGST {
                                 });
                             }
                         } else if (value && value !== `undefined`) {
-                            if (key.match(/^(authors|creators|genres|groups)$/)) {
+                            if (key.match(/^(authors|creators|genres|groups|words)$/)) {
                                 if (exception[key]) {
                                     newException.rules.push({
                                         field: key,
@@ -18095,8 +18227,10 @@ class ESGST {
         let items;
         if (obj.id === `gf`) {
             items = obj.popup ? esgst.popupGiveaways : esgst.mainGiveaways;
-        } else {
+        } else if (obj.id === `df`) {
             items = obj.popup ? esgst.popupDiscussions : esgst.mainDiscussions;
+        } else {
+            items = obj.popup ? esgst.popupComments : esgst.mainComments;
         }
         const counters = document.getElementsByClassName(`esgst-gf-filter-count`);
         for (const counter of counters) {
@@ -18107,12 +18241,23 @@ class ESGST {
                 if (item.outerWrap.classList.contains(`esgst-hidden`)) {
                     item.outerWrap.classList.remove(`esgst-hidden`);
                 }
+                if (obj.id === `cf` && item.outerWrap.parentElement.classList.contains(`esgst-hidden`)) {
+                    item.outerWrap.parentElement.classList.remove(`esgst-hidden`);
+                }
             } else if (this.filters_filterItem(obj.id, obj.filters, item, obj.rules)) {
                 if (item.outerWrap.classList.contains(`esgst-hidden`)) {
                     item.outerWrap.classList.remove(`esgst-hidden`);
                 }
-            } else if (!item.outerWrap.classList.contains(`esgst-hidden`)) {
-                item.outerWrap.classList.add(`esgst-hidden`);
+                if (obj.id === `cf` && item.outerWrap.parentElement.classList.contains(`esgst-hidden`)) {
+                    item.outerWrap.parentElement.classList.remove(`esgst-hidden`);
+                }
+            } else {
+                if (!item.outerWrap.classList.contains(`esgst-hidden`)) {
+                    item.outerWrap.classList.add(`esgst-hidden`);
+                }                
+                if (obj.id === `cf` && !item.outerWrap.parentElement.classList.contains(`esgst-hidden`)) {
+                    item.outerWrap.parentElement.classList.add(`esgst-hidden`);
+                }
             }
         }
         this.filters_updateCount(obj, endless);
@@ -18274,8 +18419,10 @@ class ESGST {
         let key;
         if (obj.id === `gf`) {
             key = obj.popup ? `popupGiveaways` : `mainGiveaways`;
-        } else {
+        } else if (obj.id === `df`) {
             key = obj.popup ? `popupDiscussions` : `mainDiscussions`;
+        } else {
+            key = obj.popup ? `popupComments` : `mainComments`;
         }
         for (let i = esgst[key].length - 1; i > -1; i--) {
             const item = esgst[key][i];
@@ -30916,7 +31063,12 @@ class ESGST {
         if (main) {
             for (i = 0, n = comments.length; i < n; ++i) {
                 comments[i].index = i;
-                esgst.currentComments.push(comments[i]);
+                esgst.mainComments.push(comments[i]);
+            }
+        }
+        if (!main || esgst.commentsPath || esgst.inboxPath) {
+            if (esgst.cf && esgst.cf.filteredCount && esgst[`cf_enable${esgst.cf.type}`]) {
+                this.filters_filter(esgst.cf, false, endless);
             }
         }
         if (esgst.ct) {
@@ -31010,6 +31162,10 @@ class ESGST {
         }
         comment.summary = comment.comment.querySelector(`.comment__summary`, `.comment_inner`);
         comment.displayState = comment.comment.querySelector(`.comment__display-state, .comment_body_default`);
+        comment.text = comment.displayState.textContent.trim().replace(/View\sattached\simage\./, ``);
+        comment.bump = comment.text.replace(/[^A-Za-z]/g, ``).match(/^(havea|takea|thanksand|thankyou)?bump(ing|ity|o)?$/i);
+        comment.length = comment.text.length;
+        comment.words = Array.from(new Set(comment.text.split(/\s/)));
         comment.actions = comment.comment.querySelector(`.comment__actions, .action_list`);
         matches = comment.actions.querySelectorAll(`[href*="/comment/"]`);
         n = matches.length;
@@ -31723,6 +31879,9 @@ class ESGST {
             },
             {
                 id: `gesl`
+            },
+            {
+                id: `cf`
             },
             {
                 id: `df`
