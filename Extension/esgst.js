@@ -1730,7 +1730,7 @@
       sg: location.hostname.match(/www.steamgifts.com/),
       st: location.hostname.match(/www.steamtrades.com/),
       currentVersion: `7.22.0`,
-      devVersion: `7.22.1 (Dev.16)`,
+      devVersion: `7.22.1 (Dev.17)`,
       icon: `data:image/x-icon;base64,AAABAAEAEBAAAAEAIABoBAAAFgAAACgAAAAQAAAAIAAAAAEAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAqv8DCbP/Hgeq+CQIrf8iCK3/Igit/yIIrf8iB6//Iwit9x8Aqv8DAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAKr0GAa2/c0DvfzfA7f83QO3/N0Dt/zdA7f83QO+/d4Gs/3OAKP1GQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACm/xQFs/n2Bcf//wW///8FwP//BcD//wW///8Fx///BbP69gC2/xUAAAAAAAAAAAAAAAAA/1UDFptOFxSZMxkLpJktAq720QW1+ugEsfvjA7b92wO2/dsEsfvjBbX66Aau/dEoiO4tUlLWGU5k3hdVVf8DEJxKHxWqT8cVrU7uE6VN0guqny0Apv8XAJfQGwBAVywAQFcsAJfQGwCx/xcogugtS2Lk0lBl6u5Qae7ISmPeHxagSSMVr07jF7lV/xOiSu0brgATAAAAAAAAAA8AAAC/AAAAwAAAABAAAAAAYznjEkth4OxWb/3/T2jv40lf4iMXnksiEq1O3RayUv8UpEnkEo0+HQAAABkAAABBAAAA8QAAAPEAAABBAAAAGUBSvxxOYeDjU2v0/05m7d1LYuEiF55LIhKtTt0Ws1L/FahN2gU1FTAAAADAAAAA7AAAAP0AAAD9AAAA7AAAAMAVG0owUGPm2lNr9P9OZu3dS2LhIheeSyISrU7dFrNS/xWoTdoFNRswAAAAvwAAAOsAAAD9AAAA/QAAAOsAAADAFRtKMFBj6NpTa/T/Tmbt3Uti4SIXnksiEq1O3RayUv8UpEnkEo0+HQAAABgAAABAAAAA8QAAAPEAAABBAAAAGT5PuR1OYeDjU2v0/05m7d1LYuEiFqBJIxWuT+QXuVX/E6JL7QC8XhMAAAAAAAAADwAAAL8AAAC/AAAAEAAAAAAOR/8SSWLh7FZv/f9PaO/jSV/iIxCUSh8Vrk7HFqxN7ROlS9JskzMt1XULGK12EhxGLgYsRy8GK612EhzVgAsYgmxxLU1i39JNZ+vtT2fwx0pj1h8AqlUDF65GFgqZUhlsiC0txH0T0s5/EujJgBPkz4QR28+EEdvJgBPkzn8Q6Md+E9KLdHosM1LWGUZo6BZVVf8DAAAAAAAAAAAAAAAA/2YAFMl9EvbgjRb/14gV/9eIFf/XiBX/14gV/9+NFv/KgBD254YAFQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAL91FRjKgRHN1IgU3s+EEt3PhBLdz4QS3c+EEt3UiBTezYMRzcJ6FBkAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACqqgADxIARHr18FiO8eA8ivHgPIrx4DyK8eA8ivXwPI8SAER7/VQADAAAAAAAAAAAAAAAA78cAAPA3AAD4FwAABCAAADGOAAAE+AAAkBEAAJ55AACYOQAAlgEAAER4AAAXaAAATnoAAPgXAAD0JwAA69cAAA==`,
       sgIcon: `data:image/x-icon;base64,AAABAAEAEBAAAAEAIABoBAAAFgAAACgAAAAQAAAAIAAAAAEAIAAAAAAAQAQAABMLAAATCwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIUAAAD5AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAPoAAACFAAAAAAAAAAAAAAD8AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA+QAAAAAAAAAAAAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAAAAAAAAAAAAP8AAAD/AAAA/wAAABwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAcAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAcAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAHAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAAAAAAAAAAAAPwAAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD5AAAAAAAAAAAAAACFAAAA+QAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD5AAAAhQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA//8AAP//AADAAwAAwAMAAMfjAADP8wAAz/MAAM/zAADP8wAAz/MAAM/zAADH4wAAwAMAAMADAAD//wAA//8AAA==`,
       stIcon: `data:image/x-icon;base64,AAABAAEAEBAAAAEAIABoBAAAFgAAACgAAAAQAAAAIAAAAAEAIAAAAAAAQAQAABMLAAATCwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABbD6SgWw+ucFsPrkBbD6SgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAWw+uYFsPr/BbD6/wWw+ucAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAFsPrmBbD6/wWw+v8FsPrmAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABbD6SQWw+uYFsPrmBbD6SQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAFKRLShSkS+cUpEvkFKRLSgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAExi4EpMYuDnTGLg5Exi4EoAAAAAAAAAABSkS+YUpEv/FKRL/xSkS+cAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABMYuDmTGLg/0xi4P9MYuDnAAAAAAAAAAAUpEvmFKRL/xSkS/8UpEvmAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAATGLg5kxi4P9MYuD/TGLg5gAAAAAAAAAAFKRLSRSkS+YUpEvmFKRLSQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAExi4ElMYuDmTGLg5kxi4EkAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAMZ9E0rGfRPnxn0T5MZ9E0oAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADGfRPmxn0T/8Z9E//GfRPnAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAxn0T5sZ9E//GfRP/xn0T5gAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAMZ9E0nGfRPmxn0T5sZ9E0kAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA//8AAPw/AAD8PwAA/D8AAPw/AAD//wAAh+EAAIfhAACH4QAAh+EAAP//AAD8PwAA/D8AAPw/AAD8PwAA//8AAA==`,
@@ -7428,7 +7428,11 @@
     let features = getFeatures();
     for (let feature of features) {
       if (!feature.endless && !esgst[feature.id]) continue;
-      await this[feature.id]();
+      try {
+        await feature.load();
+      } catch (e) {
+        console.log(e);
+      }
     }
 
     if (!esgst.menuPath) {
@@ -8252,7 +8256,7 @@
     }
   }
 
-  function as() {
+  function as_load() {
     if (!esgst.archivePath) return;
 
     let category = location.pathname.match(/^\/archive\/(coming-soon|open|closed|deleted)/);
@@ -18260,13 +18264,25 @@
   function filters_addContainer(id, heading, popup) {
     const obj = {
       basicFilters: {},
-      filters: this[`${id}_getFilters`](popup),
       id: id,
       key: `${id}_presets`,
       popup: popup,
       rules: null,
       type: popup || (esgst.groupPath ? `Groups` : (location.search.match(/type/) ? { wishlist: `Wishlist`, recommended: `Recommended`, group: `Group`, new: `New` }[location.search.match(/type=(wishlist|recommended|group|new)/)[1]] : (esgst.createdPath ? `Created` : (esgst.enteredPath ? `Entered` : (esgst.wonPath ? `Won` : (esgst.userPath ? `User` : ``))))))
     };
+    switch (id) {
+      case `gf`:
+        obj.filters = gf_getFilters(popup);
+        break;
+      case `df`:
+        obj.filters = df_getFilters(popup);
+        break;
+      case `cf`:
+        obj.filters = cf_getFilters(popup);
+        break;
+      default:
+        break;
+    } 
     if (popup) {
       esgst[`${id}Popup`] = obj;
     } else {
@@ -33598,390 +33614,516 @@
   function getFeatures() {
     return [
       { // needs to be waited
-        id: `bgl`
+        id: `bgl`,
+        load: bgl
       },
       {
-        id: `ns`
+        id: `ns`,
+        load: ns
       },
       {
-        id: `hcp`
+        id: `hcp`,
+        load: hcp
       },
       {
-        id: `oadd`
+        id: `oadd`,
+        load: oadd
       },
       {
-        id: `adots`
+        id: `adots`,
+        load: adots
       },
       {
-        id: `ef`
+        id: `ef`,
+        load: ef
       },
       {
         endless: true,
-        id: `giveaways_addToStorage`
+        id: `giveaways_addToStorage`,
+        load: giveaways_addToStorage
       },
       {
-        id: `aic`
+        id: `aic`,
+        load: aic
       },
       {
-        id: `as`
+        id: `as`,
+        load: as_load
       },
       {
-        id: `cdr`
+        id: `cdr`,
+        load: cdr
       },
       {
-        id: `cec`
+        id: `cec`,
+        load: cec
       },
       {
-        id: `cr`
+        id: `cr`,
+        load: cr
       },
       {
-        id: `cs`
+        id: `cs`,
+        load: cs
       },
       {
-        id: `ct`
+        id: `ct`,
+        load: ct
       },
       {
-        id: `ded`
+        id: `ded`,
+        load: ded
       },
       {
-        id: `dh`
+        id: `dh`,
+        load: dh
       },
       {
-        id: `ds`
+        id: `ds`,
+        load: ds
       },
       {
-        id: `et`
+        id: `et`,
+        load: et
       },
       { // needs to wait for ET, for button order
-        id: `ch`
+        id: `ch`,
+        load: ch
       },
       { // needs to wait for ET and CH
-        id: `chfl`
+        id: `chfl`,
+        load: chfl
       },
       {
-        id: `ff`
+        id: `ff`,
+        load: ff
       },
       {
-        id: `fh`
+        id: `fh`,
+        load: fh
       },
       { // needs to wait for FH
-        id: `fmph`
+        id: `fmph`,
+        load: fmph
       },
       { // needs to wait for FMPH
-        id: `cerb`
+        id: `cerb`,
+        load: cerb
       },
       { // needs to wait for FMPH
-        id: `rbot`
+        id: `rbot`,
+        load: rbot
       },
       { // needs to wait for FH
-        id: `fs`
+        id: `fs`,
+        load: fs
       },
       {
-        id: `gas`
+        id: `gas`,
+        load: gas
       },
       {
-        id: `gb`
+        id: `gb`,
+        load: gb
       },
       {
-        id: `gdttt`
+        id: `gdttt`,
+        load: gdttt
       },
       {
-        id: `ge`
+        id: `ge`,
+        load: ge
       },
       { // needs to wait for GB, for button order
-        id: `ged`
+        id: `ged`,
+        load: ged
       },
       {
-        id: `gesl`
+        id: `gesl`,
+        load: gesl
       },
       {
-        id: `cf`
+        id: `cf`,
+        load: cf
       },
       {
-        id: `df`
+        id: `df`,
+        load: df
       },
       {
-        id: `gf`
+        id: `gf`,
+        load: gf
       },
       {
-        id: `glwc`
+        id: `glwc`,
+        load: glwc
       },
       {
-        id: `gr`
+        id: `gr`,
+        load: gr
       },
       {
-        id: `gs`
+        id: `gs`,
+        load: gs
       },
       {
-        id: `gts`
+        id: `gts`,
+        load: gts
       },
       {
-        id: `gv`
+        id: `gv`,
+        load: gv
       },
       {
-        id: `hbs`
+        id: `hbs`,
+        load: hbs
       },
       {
-        id: `hgebd`
+        id: `hgebd`,
+        load: hgebd
       },
       {
-        id: `hgr`
+        id: `hgr`,
+        load: hgr
       },
       {
-        id: `hr`
+        id: `hr`,
+        load: hr
       },
       {
-        id: `hwlc`
+        id: `hwlc`,
+        load: hwlc
       },
       {
-        id: `lpl`
+        id: `lpl`,
+        load: lpl
       },
       {
-        id: `lpv`
+        id: `lpv`,
+        load: lpv
       },
       {
-        id: `mgc`
+        id: `mgc`,
+        load: mgc
       },
       {
-        id: `mm`
+        id: `mm`,
+        load: mm
       },
       {
-        id: `mpp`
+        id: `mpp`,
+        load: mpp
       },
       {
-        id: `mps`
+        id: `mps`,
+        load: mps
       },
       {
-        id: `nm`
+        id: `nm`,
+        load: nm
       },
       {
-        id: `npth`
+        id: `npth`,
+        load: npth
       },
       {
-        id: `pnot`
+        id: `pnot`,
+        load: pnot
       },
       {
-        id: `pgb`
+        id: `pgb`,
+        load: pgb
       },
       {
-        id: `pv`
+        id: `pv`,
+        load: pv
       },
       {
-        id: `qgs`
+        id: `qgs`,
+        load: qgs
       },
       { // needs to wait for QGS
-        id: `ags`
+        id: `ags`,
+        load: ags
       },
       { // needs to wait for QGS
-        id: `smgb`
+        id: `smgb`,
+        load: smgb
       },
       {
-        id: `rbp`
+        id: `rbp`,
+        load: rbp
       },
       { // needs to wait for RBP
-        id: `cfh`
+        id: `cfh`,
+        load: cfh
       },
       {
-        id: `rcvc`
+        id: `rcvc`,
+        load: rcvc
       },
       {
-        id: `sgac`
+        id: `sgac`,
+        load: sgac
       },
       {
-        id: `sk`
+        id: `sk`,
+        load: sk
       },
       {
-        id: `sks`
+        id: `sks`,
+        load: sks
       },
       {
-        id: `stbb`
+        id: `stbb`,
+        load: stbb
       },
       {
-        id: `sttb`
+        id: `sttb`,
+        load: sttb
       },
       {
-        id: `tb`
+        id: `tb`,
+        load: tb
       },
       {
-        id: `ugs`
+        id: `ugs`,
+        load: ugs
       },
       {
-        id: `ust`
+        id: `ust`,
+        load: ust
       },
       {
-        id: `wbc`
+        id: `wbc`,
+        load: wbc
       },
       {
-        id: `wbs`
+        id: `wbs`,
+        load: wbs
       },
       {
-        id: `wbm`
+        id: `wbm`,
+        load: wbm
       },
       {
-        id: `at`
+        id: `at`,
+        load: at
       },
       {
-        id: `ev`
+        id: `ev`,
+        load: ev
       },
       {
-        id: `ib`
+        id: `ib`,
+        load: ib
       },
       {
-        id: `vai`
+        id: `vai`,
+        load: vai
       },
       {
-        id: `ail`
+        id: `ail`,
+        load: ail
       },
       {
-        id: `cewgd`
+        id: `cewgd`,
+        load: cewgd
       },
       {
-        id: `dkc`
+        id: `dkc`,
+        load: dkc
       },
       {
-        id: `gcl`
+        id: `gcl`,
+        load: gcl
       },
       {
-        id: `gwc`
+        id: `gwc`,
+        load: gwc
       },
       {
-        id: `gwr`
+        id: `gwr`,
+        load: gwr
       },
       {
-        id: `geth`
+        id: `geth`,
+        load: geth
       },
       {
-        id: `sal`
+        id: `sal`,
+        load: sal
       },
       {
-        id: `ueg`
+        id: `ueg`,
+        load: ueg
       },
       {
-        id: `sgg`
+        id: `sgg`,
+        load: sgg
       },
       {
-        id: `mr`
+        id: `mr`,
+        load: mr
       },
       {
-        id: `rfi`
+        id: `rfi`,
+        load: rfi
       },
       {
-        id: `rml`
+        id: `rml`,
+        load: rml
       },
       {
-        id: `iwh`
+        id: `iwh`,
+        load: iwh
       },
       {
-        id: `us`
+        id: `us`,
+        load: us
       },
       {
-        id: `gh`
+        id: `gh`,
+        load: gh
       },
       {
-        id: `ap`
+        id: `ap`,
+        load: ap
       },
       {
-        id: `gp`
+        id: `gp`,
+        load: gp
       },
       {
-        id: `elgb`
+        id: `elgb`,
+        load: elgb
       },
       {
-        id: `itadi`
+        id: `itadi`,
+        load: itadi
       },
       {
-        id: `ugb`
+        id: `ugb`,
+        load: ugb
       },
       {
-        id: `ochgb`
+        id: `ochgb`,
+        load: ochgb
       },
       {
-        id: `gwl`
+        id: `gwl`,
+        load: gwl
       },
       {
-        id: `ttec`
+        id: `ttec`,
+        load: ttec
       },
       {
-        id: `ggl`
+        id: `ggl`,
+        load: ggl
       },
       {
-        id: `rrbp`
+        id: `rrbp`,
+        load: rrbp
       },
       {
         endless: true,
-        id: `giveaways`
+        id: `giveaways`,
+        load: giveaways
       },
       {
         endless: true,
-        id: `discussions`
+        id: `discussions`,
+        load: discussions
       },
       {
         endless: true,
-        id: `discussionPanels`
+        id: `discussionPanels`,
+        load: discussionPanels
       },
       {
         endless: true,
-        id: `comments`
+        id: `comments`,
+        load: comments
       },
       {
         endless: true,
-        id: `games`
+        id: `games`,
+        load: games
       },
       {
         endless: true,
-        id: `users`
+        id: `users`,
+        load: users
       },
       {
-        id: `ts`
+        id: `ts`,
+        load: ts
       },
       {
-        id: `sto`
+        id: `sto`,
+        load: sto
       },
       {
-        id: `uh`
+        id: `uh`,
+        load: uh
       },
       {
-        id: `un`
+        id: `un`,
+        load: un
       },
       {
-        id: `uf`
+        id: `uf`,
+        load: uf
       },
       {
-        id: `sgc`
+        id: `sgc`,
+        load: sgc
       },
       {
-        id: `rwscvl`
+        id: `rwscvl`,
+        load: rwscvl
       },
       {
-        id: `ugd`
+        id: `ugd`,
+        load: ugd
       },
       {
-        id: `namwc`
+        id: `namwc`,
+        load: namwc
       },
       {
-        id: `nrf`
+        id: `nrf`,
+        load: nrf
       },
       {
-        id: `swr`
+        id: `swr`,
+        load: swr
       },
       {
-        id: `vrcv`
+        id: `vrcv`,
+        load: vrcv
       },
       {
-        id: `luc`
+        id: `luc`,
+        load: luc
       },
       {
-        id: `sgpb`
+        id: `sgpb`,
+        load: sgpb
       },
       {
-        id: `stpb`
+        id: `stpb`,
+        load: stpb
       },
       {
-        id: `pl`
+        id: `pl`,
+        load: pl
       },
       {
         endless: true,
-        id: `profile`
+        id: `profile`,
+        load: profile
       }
     ];
   }
