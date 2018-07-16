@@ -38,18 +38,18 @@
 // @grant GM.listValues
 // @grant GM.xmlHttpRequest
 // @grant GM.getResourceUrl
-// @require https://github.com/revilheart/ESGST/raw/master/Extension/js/jquery-3.3.1.min.js
-// @require https://github.com/revilheart/ESGST/raw/master/Extension/js/jquery-ui-1.12.1.min.js
-// @require https://github.com/revilheart/ESGST/raw/master/Extension/js/bootstrap-3.3.7.min.js
-// @require https://github.com/revilheart/ESGST/raw/master/Extension/js/interact-1.3.4.min.js
-// @require https://github.com/revilheart/ESGST/raw/master/Extension/js/jszip-3.1.5.min.js
-// @require https://github.com/revilheart/ESGST/raw/master/Extension/js/parsedown-0.0.1.js
-// @require https://github.com/revilheart/ESGST/raw/master/Extension/js/query-builder-2.5.2.min.js
-// @require https://github.com/revilheart/ESGST/raw/master/Extension/js/intersection-observer.js
-// @resource bs https://github.com/revilheart/ESGST/raw/master/Extension/css/bootstrap-3.3.7.min.css
-// @resource abc https://github.com/revilheart/ESGST/raw/master/Extension/css/awesome-bootstrap-checkbox-0.3.7.min.css
-// @resource qb https://github.com/revilheart/ESGST/raw/master/Extension/css/query-builder-2.5.2.min.css
-// @resource sg https://github.com/revilheart/ESGST/raw/master/Extension/css/steamgifts-v33.min.css
+// @require https://raw.githubusercontent.com/revilheart/ESGST/7.22.0/Extension/js/jquery-3.3.1.min.js
+// @require https://raw.githubusercontent.com/revilheart/ESGST/7.22.0/Extension/js/jquery-ui-1.12.1.min.js
+// @require https://raw.githubusercontent.com/revilheart/ESGST/7.22.0/Extension/js/bootstrap-3.3.7.min.js
+// @require https://raw.githubusercontent.com/revilheart/ESGST/7.22.0/Extension/js/interact-1.3.4.min.js
+// @require https://raw.githubusercontent.com/revilheart/ESGST/7.22.0/Extension/js/jszip-3.1.5.min.js
+// @require https://raw.githubusercontent.com/revilheart/ESGST/7.22.0/Extension/js/parsedown-0.0.1.js
+// @require https://raw.githubusercontent.com/revilheart/ESGST/7.22.0/Extension/js/query-builder-2.5.2.min.js
+// @require https://raw.githubusercontent.com/revilheart/ESGST/7.22.0/Extension/js/intersection-observer.js
+// @resource bs https://raw.githubusercontent.com/revilheart/ESGST/7.22.0/Extension/css/bootstrap-3.3.7.min.css
+// @resource abc https://raw.githubusercontent.com/revilheart/ESGST/7.22.0/Extension/css/awesome-bootstrap-checkbox-0.3.7.min.css
+// @resource qb https://raw.githubusercontent.com/revilheart/ESGST/7.22.0/Extension/css/query-builder-2.5.2.min.css
+// @resource sg https://raw.githubusercontent.com/revilheart/ESGST/7.22.0/Extension/steamgifts-v33.min.css
 // @run-at document-start
 // @noframes
 // ==/UserScript==
