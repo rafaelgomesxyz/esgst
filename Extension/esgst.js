@@ -1618,6 +1618,7 @@
         gts_preciseStartDate: false,
         gts_preciseEndDate: false,
         gv_spacing: 0,
+        gch_colors: [],
         gwc_colors: [],
         gwr_colors: [],
         geth_colors: [],
@@ -1733,7 +1734,7 @@
       sg: location.hostname.match(/www.steamgifts.com/),
       st: location.hostname.match(/www.steamtrades.com/),
       currentVersion: `7.22.0`,
-      devVersion: `7.22.1 (Dev.31)`,
+      devVersion: `7.22.1 (Dev.32)`,
       icon: `data:image/x-icon;base64,AAABAAEAEBAAAAEAIABoBAAAFgAAACgAAAAQAAAAIAAAAAEAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAqv8DCbP/Hgeq+CQIrf8iCK3/Igit/yIIrf8iB6//Iwit9x8Aqv8DAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAKr0GAa2/c0DvfzfA7f83QO3/N0Dt/zdA7f83QO+/d4Gs/3OAKP1GQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACm/xQFs/n2Bcf//wW///8FwP//BcD//wW///8Fx///BbP69gC2/xUAAAAAAAAAAAAAAAAA/1UDFptOFxSZMxkLpJktAq720QW1+ugEsfvjA7b92wO2/dsEsfvjBbX66Aau/dEoiO4tUlLWGU5k3hdVVf8DEJxKHxWqT8cVrU7uE6VN0guqny0Apv8XAJfQGwBAVywAQFcsAJfQGwCx/xcogugtS2Lk0lBl6u5Qae7ISmPeHxagSSMVr07jF7lV/xOiSu0brgATAAAAAAAAAA8AAAC/AAAAwAAAABAAAAAAYznjEkth4OxWb/3/T2jv40lf4iMXnksiEq1O3RayUv8UpEnkEo0+HQAAABkAAABBAAAA8QAAAPEAAABBAAAAGUBSvxxOYeDjU2v0/05m7d1LYuEiF55LIhKtTt0Ws1L/FahN2gU1FTAAAADAAAAA7AAAAP0AAAD9AAAA7AAAAMAVG0owUGPm2lNr9P9OZu3dS2LhIheeSyISrU7dFrNS/xWoTdoFNRswAAAAvwAAAOsAAAD9AAAA/QAAAOsAAADAFRtKMFBj6NpTa/T/Tmbt3Uti4SIXnksiEq1O3RayUv8UpEnkEo0+HQAAABgAAABAAAAA8QAAAPEAAABBAAAAGT5PuR1OYeDjU2v0/05m7d1LYuEiFqBJIxWuT+QXuVX/E6JL7QC8XhMAAAAAAAAADwAAAL8AAAC/AAAAEAAAAAAOR/8SSWLh7FZv/f9PaO/jSV/iIxCUSh8Vrk7HFqxN7ROlS9JskzMt1XULGK12EhxGLgYsRy8GK612EhzVgAsYgmxxLU1i39JNZ+vtT2fwx0pj1h8AqlUDF65GFgqZUhlsiC0txH0T0s5/EujJgBPkz4QR28+EEdvJgBPkzn8Q6Md+E9KLdHosM1LWGUZo6BZVVf8DAAAAAAAAAAAAAAAA/2YAFMl9EvbgjRb/14gV/9eIFf/XiBX/14gV/9+NFv/KgBD254YAFQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAL91FRjKgRHN1IgU3s+EEt3PhBLdz4QS3c+EEt3UiBTezYMRzcJ6FBkAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACqqgADxIARHr18FiO8eA8ivHgPIrx4DyK8eA8ivXwPI8SAER7/VQADAAAAAAAAAAAAAAAA78cAAPA3AAD4FwAABCAAADGOAAAE+AAAkBEAAJ55AACYOQAAlgEAAER4AAAXaAAATnoAAPgXAAD0JwAA69cAAA==`,
       sgIcon: `data:image/x-icon;base64,AAABAAEAEBAAAAEAIABoBAAAFgAAACgAAAAQAAAAIAAAAAEAIAAAAAAAQAQAABMLAAATCwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIUAAAD5AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAPoAAACFAAAAAAAAAAAAAAD8AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA+QAAAAAAAAAAAAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAAAAAAAAAAAAP8AAAD/AAAA/wAAABwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAcAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAcAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAHAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAAAAAAAAAAAAPwAAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD5AAAAAAAAAAAAAACFAAAA+QAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD5AAAAhQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA//8AAP//AADAAwAAwAMAAMfjAADP8wAAz/MAAM/zAADP8wAAz/MAAM/zAADH4wAAwAMAAMADAAD//wAA//8AAA==`,
       stIcon: `data:image/x-icon;base64,AAABAAEAEBAAAAEAIABoBAAAFgAAACgAAAAQAAAAIAAAAAEAIAAAAAAAQAQAABMLAAATCwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABbD6SgWw+ucFsPrkBbD6SgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAWw+uYFsPr/BbD6/wWw+ucAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAFsPrmBbD6/wWw+v8FsPrmAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABbD6SQWw+uYFsPrmBbD6SQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAFKRLShSkS+cUpEvkFKRLSgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAExi4EpMYuDnTGLg5Exi4EoAAAAAAAAAABSkS+YUpEv/FKRL/xSkS+cAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABMYuDmTGLg/0xi4P9MYuDnAAAAAAAAAAAUpEvmFKRL/xSkS/8UpEvmAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAATGLg5kxi4P9MYuD/TGLg5gAAAAAAAAAAFKRLSRSkS+YUpEvmFKRLSQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAExi4ElMYuDmTGLg5kxi4EkAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAMZ9E0rGfRPnxn0T5MZ9E0oAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADGfRPmxn0T/8Z9E//GfRPnAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAxn0T5sZ9E//GfRP/xn0T5gAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAMZ9E0nGfRPmxn0T5sZ9E0kAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA//8AAPw/AAD8PwAA/D8AAPw/AAD//wAAh+EAAIfhAACH4QAAh+EAAP//AAD8PwAA/D8AAPw/AAD8PwAA//8AAA==`,
@@ -29366,10 +29367,27 @@
     giveaway.points = 0;
     if (n > 0) {
       if (n > 1) {
-        if (esgst.gch && !giveaway.pinned) {
-          thinHeadings[0].classList.add(`esgst-bold`, `esgst-red`);
-        }
         giveaway.copies = parseInt(thinHeadings[0].textContent.replace(/,/g, ``).match(/\d+/)[0]);
+        if (esgst.gch && !giveaway.pinned) {
+          let color, bgColor;
+          for (const colors of esgst.gch_colors) {
+            if (giveaway.copies >= parseInt(colors.lower) && giveaway.copies <= parseInt(colors.upper)) {
+              color = colors.color;
+              bgColor = colors.bgColor;
+              break;
+            }
+          }
+          thinHeadings[0].classList.add(`esgst-bold`);
+          if (color) {
+            thinHeadings[0].style.color = color;
+            if (bgColor) {
+              thinHeadings[0].classList.add(`esgst-gch-highlight`);
+              thinHeadings[0].style.backgroundColor = bgColor;
+            }
+          } else {
+            thinHeadings[0].classList.add(`esgst-red`);
+          }
+        }
         giveaway.pointsContainer = thinHeadings[1];
         giveaway.points = parseInt(thinHeadings[1].textContent.match(/\d+/)[0]);
       } else {
@@ -36916,6 +36934,9 @@
         addGcCategoryPanel(SMFeatures, `gc_categories_gv`);
       }
       SMFeatures.classList.remove(`esgst-hidden`);
+    } else if (ID === `gch`) {
+      addGwcrMenuPanel(SMFeatures, `gch_colors`, `copies`, true);
+      SMFeatures.classList.remove(`esgst-hidden`);
     } else if (ID === `gwc`) {
       addGwcrMenuPanel(SMFeatures, `gwc_colors`, `chance`);
       SMFeatures.classList.remove(`esgst-hidden`);
@@ -37375,7 +37396,7 @@
     setSetting(sm.categoryKey, esgst[sm.categoryKey]);
   }
 
-  function addGwcrMenuPanel(context, id, key) {
+  function addGwcrMenuPanel(context, id, key, background) {
     let button, colors, i, n, panel;
     panel = insertHtml(context, `beforeEnd`, `
       <div class="esgst-sm-colors">
@@ -37387,7 +37408,7 @@
     `);
     button = panel.firstElementChild;
     for (i = 0, n = esgst[id].length; i < n; ++i) {
-      addGwcColorSetting(esgst[id][i], id, key, panel);
+      addGwcColorSetting(esgst[id][i], id, key, panel, background);
     }
     button.addEventListener(`click`, () => {
       colors = {
@@ -37395,22 +37416,30 @@
         lower: `0`,
         upper: `100`
       };
+      if (background) {
+        colors.bgColor = ``;
+      }
       esgst[id].push(colors);
-      addGwcColorSetting(colors, id, key, panel);
+      addGwcColorSetting(colors, id, key, panel, background);
     });
   }
 
-  function addGwcColorSetting(colors, id, key, panel) {
-    let color, i, lower, n, remove, setting, upper;
+  function addGwcColorSetting(colors, id, key, panel, background) {
+    let bgColor, color, i, lower, n, remove, setting, upper;
     setting = insertHtml(panel, `beforeEnd`, `
       <div>
-        From <input step="0.01" type="number" value="${colors.lower}"/> to <input step="0.01" type="number" value="${colors.upper}"/> ${key}, color it as <input type="color" value="${colors.color}"/>. <i class="esgst-clickable fa fa-times" title="Delete this setting"></i>
+        From <input step="0.01" type="number" value="${colors.lower}"/> to <input step="0.01" type="number" value="${colors.upper}"/> ${key}, color it as <input type="color" value="${colors.color}"/>${background ? ` with background <input type="color" value="${colors.bgColor}"/>` : ``}. <i class="esgst-clickable fa fa-times" title="Delete this setting"></i>
       </div>
     `);
     lower = setting.firstElementChild;
     upper = lower.nextElementSibling;
     color = upper.nextElementSibling;
-    remove = color.nextElementSibling;
+    if (background) {
+      bgColor = color.nextElementSibling;
+      remove = bgColor.nextElementSibling;
+    } else {
+      remove = color.nextElementSibling;
+    }
     lower.addEventListener(`change`, () => {
       colors.lower = lower.value;
       setSetting(id, esgst[id]);
@@ -37423,6 +37452,12 @@
       colors.color = color.value;
       setSetting(id, esgst[id]);
     });
+    if (bgColor) {
+        bgColor.addEventListener(`change`, () => {
+        colors.bgColor = bgColor.value;
+        setSetting(id, esgst[id]);
+      });
+    }
     remove.addEventListener(`click`, () => {
       if (confirm(`Are you sure you want to delete this setting?`)) {
         for (i = 0, n = esgst[id].length; i < n && esgst[id][i] !== colors; ++i);
@@ -41932,7 +41967,7 @@
         margin: 0 0 0 5px;
       }
 
-      .esgst-gc:not(.giveaway__column):not(.featured__column) {
+      .esgst-gch-highlight, .esgst-gc:not(.giveaway__column):not(.featured__column) {
         border-radius: 4px;
         display: inline-block;
         font-size: 10px;
@@ -41940,6 +41975,12 @@
         margin: 5px 0;
         padding: 2px 3px;
         text-shadow: none;
+      }
+
+      .esgst-gch-highlight {
+        font-size: 14px;
+        line-height: 14px;
+        margin: 0 5px;
       }
 
       a.esgst-gc-genres {
