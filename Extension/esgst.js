@@ -1729,7 +1729,7 @@
       sg: location.hostname.match(/www.steamgifts.com/),
       st: location.hostname.match(/www.steamtrades.com/),
       currentVersion: `7.22.0`,
-      devVersion: `7.22.1 (Dev.22)`,
+      devVersion: `7.22.1 (Dev.23)`,
       icon: `data:image/x-icon;base64,AAABAAEAEBAAAAEAIABoBAAAFgAAACgAAAAQAAAAIAAAAAEAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAqv8DCbP/Hgeq+CQIrf8iCK3/Igit/yIIrf8iB6//Iwit9x8Aqv8DAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAKr0GAa2/c0DvfzfA7f83QO3/N0Dt/zdA7f83QO+/d4Gs/3OAKP1GQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACm/xQFs/n2Bcf//wW///8FwP//BcD//wW///8Fx///BbP69gC2/xUAAAAAAAAAAAAAAAAA/1UDFptOFxSZMxkLpJktAq720QW1+ugEsfvjA7b92wO2/dsEsfvjBbX66Aau/dEoiO4tUlLWGU5k3hdVVf8DEJxKHxWqT8cVrU7uE6VN0guqny0Apv8XAJfQGwBAVywAQFcsAJfQGwCx/xcogugtS2Lk0lBl6u5Qae7ISmPeHxagSSMVr07jF7lV/xOiSu0brgATAAAAAAAAAA8AAAC/AAAAwAAAABAAAAAAYznjEkth4OxWb/3/T2jv40lf4iMXnksiEq1O3RayUv8UpEnkEo0+HQAAABkAAABBAAAA8QAAAPEAAABBAAAAGUBSvxxOYeDjU2v0/05m7d1LYuEiF55LIhKtTt0Ws1L/FahN2gU1FTAAAADAAAAA7AAAAP0AAAD9AAAA7AAAAMAVG0owUGPm2lNr9P9OZu3dS2LhIheeSyISrU7dFrNS/xWoTdoFNRswAAAAvwAAAOsAAAD9AAAA/QAAAOsAAADAFRtKMFBj6NpTa/T/Tmbt3Uti4SIXnksiEq1O3RayUv8UpEnkEo0+HQAAABgAAABAAAAA8QAAAPEAAABBAAAAGT5PuR1OYeDjU2v0/05m7d1LYuEiFqBJIxWuT+QXuVX/E6JL7QC8XhMAAAAAAAAADwAAAL8AAAC/AAAAEAAAAAAOR/8SSWLh7FZv/f9PaO/jSV/iIxCUSh8Vrk7HFqxN7ROlS9JskzMt1XULGK12EhxGLgYsRy8GK612EhzVgAsYgmxxLU1i39JNZ+vtT2fwx0pj1h8AqlUDF65GFgqZUhlsiC0txH0T0s5/EujJgBPkz4QR28+EEdvJgBPkzn8Q6Md+E9KLdHosM1LWGUZo6BZVVf8DAAAAAAAAAAAAAAAA/2YAFMl9EvbgjRb/14gV/9eIFf/XiBX/14gV/9+NFv/KgBD254YAFQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAL91FRjKgRHN1IgU3s+EEt3PhBLdz4QS3c+EEt3UiBTezYMRzcJ6FBkAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACqqgADxIARHr18FiO8eA8ivHgPIrx4DyK8eA8ivXwPI8SAER7/VQADAAAAAAAAAAAAAAAA78cAAPA3AAD4FwAABCAAADGOAAAE+AAAkBEAAJ55AACYOQAAlgEAAER4AAAXaAAATnoAAPgXAAD0JwAA69cAAA==`,
       sgIcon: `data:image/x-icon;base64,AAABAAEAEBAAAAEAIABoBAAAFgAAACgAAAAQAAAAIAAAAAEAIAAAAAAAQAQAABMLAAATCwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIUAAAD5AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAPoAAACFAAAAAAAAAAAAAAD8AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA+QAAAAAAAAAAAAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAAAAAAAAAAAAP8AAAD/AAAA/wAAABwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAcAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAcAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAHAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAAAAAAAAAAAAPwAAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD5AAAAAAAAAAAAAACFAAAA+QAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD5AAAAhQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA//8AAP//AADAAwAAwAMAAMfjAADP8wAAz/MAAM/zAADP8wAAz/MAAM/zAADH4wAAwAMAAMADAAD//wAA//8AAA==`,
       stIcon: `data:image/x-icon;base64,AAABAAEAEBAAAAEAIABoBAAAFgAAACgAAAAQAAAAIAAAAAEAIAAAAAAAQAQAABMLAAATCwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABbD6SgWw+ucFsPrkBbD6SgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAWw+uYFsPr/BbD6/wWw+ucAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAFsPrmBbD6/wWw+v8FsPrmAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABbD6SQWw+uYFsPrmBbD6SQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAFKRLShSkS+cUpEvkFKRLSgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAExi4EpMYuDnTGLg5Exi4EoAAAAAAAAAABSkS+YUpEv/FKRL/xSkS+cAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABMYuDmTGLg/0xi4P9MYuDnAAAAAAAAAAAUpEvmFKRL/xSkS/8UpEvmAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAATGLg5kxi4P9MYuD/TGLg5gAAAAAAAAAAFKRLSRSkS+YUpEvmFKRLSQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAExi4ElMYuDmTGLg5kxi4EkAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAMZ9E0rGfRPnxn0T5MZ9E0oAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADGfRPmxn0T/8Z9E//GfRPnAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAxn0T5sZ9E//GfRP/xn0T5gAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAMZ9E0nGfRPmxn0T5sZ9E0kAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA//8AAPw/AAD8PwAA/D8AAPw/AAD//wAAh+EAAIfhAACH4QAAh+EAAP//AAD8PwAA/D8AAPw/AAD8PwAA//8AAA==`,
@@ -38235,6 +38235,241 @@
     observeNumChange(new ToggleSwitch(popup.description, `cleanTrades`, false, `Trades data older than <input class="esgst-switch-input" type="text" value="${esgst.cleanTrades_days}"> days.`, false, false, `Trades data only started being date-tracked since v7.11.0, so not all old data may be cleaned.`, esgst.cleanTrades).name.firstElementChild, `cleanTrades_days`);
     new ToggleSwitch(popup.description, `cleanDuplicates`, false, `Duplicate data.`, false, false, `Cleans up any duplicate data it finds.`, esgst.cleanDuplicates);
     popup.description.appendChild(new ButtonSet_v2({color1: `green`, color2: `grey`, icon1: `fa-check`, icon2: `fa-circle-o-notch fa-spin`, title1: `Clean`, title2: `Cleaning...`, callback1: async () => {
+      const dm = {};
+      dm.options = [
+        {
+          check: true,
+          key: `decryptedGiveaways`,
+          name: `Decrypted Giveaways`
+        },
+        {
+          check: esgst.sg,
+          key: `discussions`,
+          name: `Discussions`,
+          options: [
+            {
+              key: `discussions_main`,
+              name: `Main`
+            },
+            {
+              key: `discussions_ct`,
+              name: `Comment Tracker`
+            },
+            {
+              key: `discussions_df`,
+              name: `Discussion Filters`
+            },
+            {
+              key: `discussions_dh`,
+              name: `Discussion Highlighter`
+            },
+            {
+              key: `discussions_gdttt`,
+              name: `Giveaway/Discussion/Ticket/Trade Tracker`
+            },
+            {
+              key: `discussions_pm`,
+              name: `Puzzle Marker`
+            }
+          ]
+        },
+        {
+          check: true,
+          key: `emojis`,
+          name: `Emojis`
+        },
+        {
+          check: esgst.sg,
+          key: `entries`,
+          name: `Entries`
+        },
+        {
+          check: true,
+          key: `games`,
+          name: `Games`,
+          options: [
+            {
+              key: `games_main`,
+              name: `Main`
+            },
+            {
+              key: `games_egh`,
+              name: `Entered Game Highlighter`
+            },
+            {
+              key: `games_gt`,
+              name: `Game Tags`
+            },
+            {
+              key: `games_itadi`,
+              name: `IsThereAnyDeal Info`
+            }
+          ]
+        },
+        {
+          check: esgst.sg,
+          key: `giveaways`,
+          name: `Giveaways`,
+          options: [
+            {
+              key: `giveaways_main`,
+              name: `Main`
+            },
+            {
+              key: `giveaways_ct`,
+              name: `Comment Tracker`
+            },
+            {
+              key: `giveaways_gb`,
+              name: `Giveaway Bookmarks`
+            },
+            {
+              key: `giveaways_gdttt`,
+              name: `Giveaway/Discussion/Ticket/Trade Tracker`
+            },
+            {
+              key: `giveaways_gf`,
+              name: `Giveaway Filters`
+            },
+            {
+              key: `giveaways_ggl`,
+              name: `Giveaway Group Loader`
+            }
+          ]
+        },
+        {
+          check: esgst.sg,
+          key: `groups`,
+          name: `Groups`,
+          options: [
+            {
+              key: `groups_main`,
+              name: `Main`
+            },
+            {
+              key: `groups_sgg`,
+              name: `Stickied Giveaway Groups`
+            }
+          ]
+        },
+        {
+          check: esgst.sg,
+          key: `rerolls`,
+          name: `Rerolls`
+        },
+        {
+          check: true,
+          key: `savedReplies`,
+          name: `Saved Replies`
+        },
+        {
+          check: true,
+          key: `settings`,
+          name: `Settings`
+        },
+        {
+          check: true,
+          key: `sgCommentHistory`,
+          name: `SG Comment History`
+        },
+        {
+          check: esgst.sg,
+          key: `stickiedCountries`,
+          name: `Stickied Giveaway Countries`
+        },
+        {
+          check: esgst.sg,
+          key: `templates`,
+          name: `Templates`
+        },
+        {
+          check: esgst.sg,
+          key: `tickets`,
+          name: `Tickets`,
+          options: [
+            {
+              key: `tickets_main`,
+              name: `Main`
+            },
+            {
+              key: `tickets_ct`,
+              name: `Comment Tracker`
+            },
+            {
+              key: `tickets_gdttt`,
+              name: `Giveaway/Discussion/Ticket/Trade Tracker`
+            },
+            {
+              key: `tickets_ust`,
+              name: `User Suspension Tracker`
+            }
+          ]
+        },
+        {
+          check: esgst.st,
+          key: `trades`,
+          name: `Trades`,
+          options: [
+            {
+              key: `trades_main`,
+              name: `Main`
+            },
+            {
+              key: `trades_ct`,
+              name: `Comment Tracker`
+            },
+            {
+              key: `trades_gdttt`,
+              name: `Giveaway/Discussion/Ticket/Trade Tracker`
+            }
+          ]
+        },
+        {
+          check: true,
+          key: `users`,
+          name: `Users`,
+          options: [
+            {
+              key: `users_main`,
+              name: `Main`
+            },
+            {
+              key: `users_namwc`,
+              name: `Not Activated/Multiple Win  Checker`
+            },
+            {
+              key: `users_nrf`,
+              name: `Not Received Finder`
+            },
+            {
+              key: `users_uf`,
+              name: `User Filters`
+            },
+            {
+              key: `users_giveaways`,
+              name: `Giveaways Data`
+            },
+            {
+              key: `users_notes`,
+              name: `User Notes`
+            },
+            {
+              key: `users_tags`,
+              name: `User Tags`
+            },
+            {
+              key: `users_wbc`,
+              name: `Whitelist/Blacklist Checker`
+            }
+          ]
+        },
+        {
+          check: esgst.sg,
+          key: `winners`,
+          name: `Winners`
+        }
+      ];
+      const oldSize = await manageData(dm, false, false, false, true);
       let currentTime = Date.now();
       let toSave = {};
       if (esgst.cleanDiscussions) {
@@ -38316,7 +38551,13 @@
         toSave[key] = JSON.stringify(toSave[key]);
       }
       await setValues(toSave);
-      popup.close();
+      const newSize = await manageData(dm, false, false, false, true);
+      const successPopup = new Popup_v2({
+        icon: `fa-check`,
+        title: `Success! The selected data was cleaned.<br><br>Size before cleaning: <span class="esgst-bold">${convertBytes(oldSize)}</span><br>Size after cleaning: <span class="esgst-bold">${convertBytes(newSize)}</span><br><br>${Math.round((100 - (newSize / oldSize * 100)) * 100) / 100}% reduction`,
+        temp: true
+      });
+      successPopup.open();
     }}).set);
     popup.open();
   }
@@ -38358,7 +38599,9 @@
           if (!dm.autoBackup) {
             let size = (new TextEncoder(`utf-8`).encode(`{"${optionKey}":${await getValue(optionKey, `{}`)}}`)).length;
             totalSize += size;
-            dm.switches[optionKey].size.textContent = convertBytes(size);
+            if (dm.switches) {
+              dm.switches[optionKey].size.textContent = convertBytes(size);
+            }
           }
           break;
         case `discussions`:
@@ -38516,12 +38759,14 @@
             let size = (new TextEncoder(`utf-8`).encode(`{"${optionKey}":{}}`)).length;
             sizes.main += size;
             sizes.total += size;
-            for (let value in values) {
-              if (dm.switches[`${optionKey}_${value}`]) {
-                dm.switches[`${optionKey}_${value}`].size.textContent = convertBytes(sizes[value]);
+            if (dm.switches) {
+              for (let value in values) {
+                if (dm.switches[`${optionKey}_${value}`]) {
+                  dm.switches[`${optionKey}_${value}`].size.textContent = convertBytes(sizes[value]);
+                }
               }
+              dm.switches[optionKey].size.textContent = convertBytes(sizes.total);
             }
-            dm.switches[optionKey].size.textContent = convertBytes(sizes.total);
             totalSize += sizes.total;
           }
           break;
@@ -38552,7 +38797,9 @@
           if (!dm.autoBackup) {
             let size = (new TextEncoder(`utf-8`).encode(`{"${optionKey}":${await getValue(optionKey, `"[]"`)}}`)).length;
             totalSize += size;
-            dm.switches[optionKey].size.textContent = convertBytes(size);
+            if (dm.switches) {
+              dm.switches[optionKey].size.textContent = convertBytes(size);
+            }
           }
           break;
         case `entries`:
@@ -38591,7 +38838,9 @@
           if (!dm.autoBackup) {
             let size = (new TextEncoder(`utf-8`).encode(`{"${optionKey}":${await getValue(optionKey, `[]`)}}`)).length;
             totalSize += size;
-            dm.switches[optionKey].size.textContent = convertBytes(size);
+            if (dm.switches) {
+              dm.switches[optionKey].size.textContent = convertBytes(size);
+            }
           }
           break;
         case `games`:
@@ -38839,12 +39088,14 @@
             let size = (new TextEncoder(`utf-8`).encode(`{"${optionKey}":{"apps":{},"subs":{}}}`)).length;
             sizes.main += size;
             sizes.total += size;
-            for (let value in values) {
-              if (dm.switches[`${optionKey}_${value}`]) {
-                dm.switches[`${optionKey}_${value}`].size.textContent = convertBytes(sizes[value]);
+            if (dm.switches) {
+              for (let value in values) {
+                if (dm.switches[`${optionKey}_${value}`]) {
+                  dm.switches[`${optionKey}_${value}`].size.textContent = convertBytes(sizes[value]);
+                }
               }
+              dm.switches[optionKey].size.textContent = convertBytes(sizes.total);
             }
-            dm.switches[optionKey].size.textContent = convertBytes(sizes.total);
             totalSize += sizes.total;
           }
           break;
@@ -38964,12 +39215,14 @@
             let size = (new TextEncoder(`utf-8`).encode(`{"${optionKey}":[]}`)).length;
             sizes.main += size;
             sizes.total += size;
-            for (let value in values) {
-              if (dm.switches[`${optionKey}_${value}`]) {
-                dm.switches[`${optionKey}_${value}`].size.textContent = convertBytes(sizes[value]);
+            if (dm.switches) {
+              for (let value in values) {
+                if (dm.switches[`${optionKey}_${value}`]) {
+                  dm.switches[`${optionKey}_${value}`].size.textContent = convertBytes(sizes[value]);
+                }
               }
+              dm.switches[optionKey].size.textContent = convertBytes(sizes.total);
             }
-            dm.switches[optionKey].size.textContent = convertBytes(sizes.total);
             totalSize += sizes.total;
           }
           break;
@@ -39000,7 +39253,9 @@
           if (!dm.autoBackup) {
             let size = (new TextEncoder(`utf-8`).encode(`{"${optionKey}":${await getValue(optionKey, `[]`)}}`)).length;
             totalSize += size;
-            dm.switches[optionKey].size.textContent = convertBytes(size);
+            if (dm.switches) {
+              dm.switches[optionKey].size.textContent = convertBytes(size);
+            }
           }
           break;
         case `sgCommentHistory`:
@@ -39056,7 +39311,9 @@
           if (!dm.autoBackup) {
             let size = (new TextEncoder(`utf-8`).encode(`{"${optionKey}":${await getValue(optionKey, `[]`)}}`)).length;
             totalSize += size;
-            dm.switches[optionKey].size.textContent = convertBytes(size);
+            if (dm.switches) {
+              dm.switches[optionKey].size.textContent = convertBytes(size);
+            }
           }
           break;
         case `users`:
@@ -39249,12 +39506,14 @@
             let size = (new TextEncoder(`utf-8`).encode(`{"${optionKey}":{"steamIds":{},"users":{}}}`)).length;
             sizes.main += size;
             sizes.total += size;
-            for (const value in values) {
-              if (dm.switches[`${optionKey}_${value}`]) {
-                dm.switches[`${optionKey}_${value}`].size.textContent = convertBytes(sizes[value]);
+            if (dm.switches) {
+              for (const value in values) {
+                if (dm.switches[`${optionKey}_${value}`]) {
+                  dm.switches[`${optionKey}_${value}`].size.textContent = convertBytes(sizes[value]);
+                }
               }
+              dm.switches[optionKey].size.textContent = convertBytes(sizes.total);
             }
-            dm.switches[optionKey].size.textContent = convertBytes(sizes.total);
             totalSize += sizes.total;
           }
           break;
@@ -39289,20 +39548,23 @@
           if (!dm.autoBackup) {
             let size = (new TextEncoder(`utf-8`).encode(`{"${optionKey}":${await getValue(optionKey, `{}`)}}`)).length;
             totalSize += size;
-            dm.switches[optionKey].size.textContent = convertBytes(size);
+            if (dm.switches) {
+              dm.switches[optionKey].size.textContent = convertBytes(size);
+            }
           }
           break;
         default:
           break;
       }
     }
-    if (!dm.autoBackup) {
+    if (!dm.autoBackup && dm.computerSpaceCount) {
       dm.computerSpaceCount.textContent = convertBytes(totalSize);
     }
     if (space) {
       if (space.close) {
         space.close();
       }
+      return totalSize;
     } else {
       if (dm.type === `export` || esgst.settings.exportBackup) {
         if (dropbox || (dm.type !== `export` && esgst.settings.exportBackupIndex === 1)) {
