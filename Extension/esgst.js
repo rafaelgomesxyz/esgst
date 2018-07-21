@@ -776,7 +776,7 @@
         this.overallProgress = insertHtml(this.description, `beforeEnd`, `<div></div>`);
       }
       if (details.addScrollable) {
-        this.scrollable = insertHtml(this.description, `beforeEnd`, `<div class="esgst-popup-scrollable"></div>`);
+        this.scrollable = insertHtml(this.description, `beforeEnd`, `<div class="esgst-popup-scrollable">${details.scrollableContent || ``}</div>`);
         if (details.addScrollable === `left`) {
           this.scrollable.classList.add(`esgst-text-left`);
         }
@@ -1073,6 +1073,7 @@
       `;
       this.heading = this.table.firstElementChild;
       this.rows = this.heading.nextElementSibling;
+      this.rowGroups = {};
       this.hiddenColumns = [];
       this.numRows = 0;
       this.numColumns = 0;
@@ -1089,12 +1090,36 @@
         this.addRow(values[i]);
       }
     }
-    addRow(columns) {
+    addRow(columns, name, isCollapsibleGroup, isCollapsible, collapseMessage, expandMessage) {
       const row = insertHtml(this.rows, `beforeEnd`, `
-        <div class="table__row-outer-wrap">
-          <div class="table__row-inner-wrap"></div>
+        <div class="table__row-outer-wrap ${name && isCollapsible ? `esgst-hidden` : ``}">
+          <div class="table__row-inner-wrap">
+            ${name && isCollapsible ? `              
+              <i class="fa fa-chevron-right"></i>
+            ` : ``}
+          </div>
         </div>
       `).firstElementChild;
+      let group = null;
+      if (name) {
+        if (isCollapsibleGroup) {
+          group = this.rowGroups[name] = {
+            collapsibles: [],
+            columns: [],
+            isCollapsible: true,
+            row: row
+          };
+          const expand = insertHtml(row, `afterBegin`, `
+            <i class="fa fa-plus-square esgst-clickable" title="${expandMessage}"></i>
+            <i class="fa fa-minus-square esgst-clickable esgst-hidden" title="${collapseMessage}"></i>
+          `);
+          const collapse = expand.nextElementSibling;
+          collapse.addEventListener(`click`, this.collapseRows.bind(this, collapse, expand, name));
+          expand.addEventListener(`click`, this.expandRows.bind(this, collapse, expand, name));
+        } else if (isCollapsible) {
+          this.rowGroups[name].collapsibles.push(row);
+        }
+      }
       let isBold = false;
       for (let i = 0; i < this.numColumns; i++) {
         let cell = columns ? columns[i] : ``;
@@ -1121,11 +1146,14 @@
         if (isBold) {
           additionalClasses.push(`esgst-bold`);
         }
-        row.insertAdjacentHTML(`beforeEnd`, `
+        const column = insertHtml(row, `beforeEnd`, `
           <div class="table__column--width-${size} text-${alignment} ${additionalClasses.join(` `)}" ${attributes.join(` `)}>
             ${cell}
           </div>
         `);
+        if (group) {
+          group.columns.push(column);
+        }
       }
       this.numRows += 1;
     }
@@ -1153,6 +1181,23 @@
         for (let i = this.numRows.length - 1; i > -1; i--) {
           this.rows.children[i].firstElementChild.chilren[column - 1].classList.add(`esgst-hidden`);
         }
+      }
+    }
+    getRowGroup(name) {
+      return this.rowGroups[name];
+    }
+    collapseRows(collapse, expand, name) {
+      collapse.classList.add(`esgst-hidden`);
+      expand.classList.remove(`esgst-hidden`);
+      for (const row of this.rowGroups[name].collapsibles) {
+        row.parentElement.classList.add(`esgst-hidden`);
+      }
+    }
+    expandRows(collapse, expand, name) {
+      expand.classList.add(`esgst-hidden`);
+      collapse.classList.remove(`esgst-hidden`);
+      for (const row of this.rowGroups[name].collapsibles) {
+        row.parentElement.classList.remove(`esgst-hidden`);
       }
     }
   }
@@ -1248,6 +1293,8 @@
     esgst = {
       parameters: getParameters(),
       defaultValues: {
+        ugd_playtime: 0,
+        ugd_achievements: 0,
         ct_o_sg: true,
         ct_o_st: true,
         ct_f_sg: true,
@@ -1736,7 +1783,7 @@
       sg: location.hostname.match(/www.steamgifts.com/),
       st: location.hostname.match(/www.steamtrades.com/),
       currentVersion: `7.22.0`,
-      devVersion: `7.22.1 (Dev.39)`,
+      devVersion: `7.22.1 (Dev.40)`,
       icon: `data:image/x-icon;base64,AAABAAEAEBAAAAEAIABoBAAAFgAAACgAAAAQAAAAIAAAAAEAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAqv8DCbP/Hgeq+CQIrf8iCK3/Igit/yIIrf8iB6//Iwit9x8Aqv8DAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAKr0GAa2/c0DvfzfA7f83QO3/N0Dt/zdA7f83QO+/d4Gs/3OAKP1GQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACm/xQFs/n2Bcf//wW///8FwP//BcD//wW///8Fx///BbP69gC2/xUAAAAAAAAAAAAAAAAA/1UDFptOFxSZMxkLpJktAq720QW1+ugEsfvjA7b92wO2/dsEsfvjBbX66Aau/dEoiO4tUlLWGU5k3hdVVf8DEJxKHxWqT8cVrU7uE6VN0guqny0Apv8XAJfQGwBAVywAQFcsAJfQGwCx/xcogugtS2Lk0lBl6u5Qae7ISmPeHxagSSMVr07jF7lV/xOiSu0brgATAAAAAAAAAA8AAAC/AAAAwAAAABAAAAAAYznjEkth4OxWb/3/T2jv40lf4iMXnksiEq1O3RayUv8UpEnkEo0+HQAAABkAAABBAAAA8QAAAPEAAABBAAAAGUBSvxxOYeDjU2v0/05m7d1LYuEiF55LIhKtTt0Ws1L/FahN2gU1FTAAAADAAAAA7AAAAP0AAAD9AAAA7AAAAMAVG0owUGPm2lNr9P9OZu3dS2LhIheeSyISrU7dFrNS/xWoTdoFNRswAAAAvwAAAOsAAAD9AAAA/QAAAOsAAADAFRtKMFBj6NpTa/T/Tmbt3Uti4SIXnksiEq1O3RayUv8UpEnkEo0+HQAAABgAAABAAAAA8QAAAPEAAABBAAAAGT5PuR1OYeDjU2v0/05m7d1LYuEiFqBJIxWuT+QXuVX/E6JL7QC8XhMAAAAAAAAADwAAAL8AAAC/AAAAEAAAAAAOR/8SSWLh7FZv/f9PaO/jSV/iIxCUSh8Vrk7HFqxN7ROlS9JskzMt1XULGK12EhxGLgYsRy8GK612EhzVgAsYgmxxLU1i39JNZ+vtT2fwx0pj1h8AqlUDF65GFgqZUhlsiC0txH0T0s5/EujJgBPkz4QR28+EEdvJgBPkzn8Q6Md+E9KLdHosM1LWGUZo6BZVVf8DAAAAAAAAAAAAAAAA/2YAFMl9EvbgjRb/14gV/9eIFf/XiBX/14gV/9+NFv/KgBD254YAFQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAL91FRjKgRHN1IgU3s+EEt3PhBLdz4QS3c+EEt3UiBTezYMRzcJ6FBkAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACqqgADxIARHr18FiO8eA8ivHgPIrx4DyK8eA8ivXwPI8SAER7/VQADAAAAAAAAAAAAAAAA78cAAPA3AAD4FwAABCAAADGOAAAE+AAAkBEAAJ55AACYOQAAlgEAAER4AAAXaAAATnoAAPgXAAD0JwAA69cAAA==`,
       sgIcon: `data:image/x-icon;base64,AAABAAEAEBAAAAEAIABoBAAAFgAAACgAAAAQAAAAIAAAAAEAIAAAAAAAQAQAABMLAAATCwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIUAAAD5AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAPoAAACFAAAAAAAAAAAAAAD8AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA+QAAAAAAAAAAAAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAAAAAAAAAAAAP8AAAD/AAAA/wAAABwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAcAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAcAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAHAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAAAAAAAAAAAAPwAAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD5AAAAAAAAAAAAAACFAAAA+QAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD5AAAAhQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA//8AAP//AADAAwAAwAMAAMfjAADP8wAAz/MAAM/zAADP8wAAz/MAAM/zAADH4wAAwAMAAMADAAD//wAA//8AAA==`,
       stIcon: `data:image/x-icon;base64,AAABAAEAEBAAAAEAIABoBAAAFgAAACgAAAAQAAAAIAAAAAEAIAAAAAAAQAQAABMLAAATCwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABbD6SgWw+ucFsPrkBbD6SgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAWw+uYFsPr/BbD6/wWw+ucAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAFsPrmBbD6/wWw+v8FsPrmAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABbD6SQWw+uYFsPrmBbD6SQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAFKRLShSkS+cUpEvkFKRLSgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAExi4EpMYuDnTGLg5Exi4EoAAAAAAAAAABSkS+YUpEv/FKRL/xSkS+cAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABMYuDmTGLg/0xi4P9MYuDnAAAAAAAAAAAUpEvmFKRL/xSkS/8UpEvmAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAATGLg5kxi4P9MYuD/TGLg5gAAAAAAAAAAFKRLSRSkS+YUpEvmFKRLSQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAExi4ElMYuDmTGLg5kxi4EkAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAMZ9E0rGfRPnxn0T5MZ9E0oAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADGfRPmxn0T/8Z9E//GfRPnAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAxn0T5sZ9E//GfRP/xn0T5gAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAMZ9E0nGfRPmxn0T5sZ9E0kAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA//8AAPw/AAD8PwAA/D8AAPw/AAD//wAAh+EAAIfhAACH4QAAh+EAAP//AAD8PwAA/D8AAPw/AAD8PwAA//8AAA==`,
@@ -31323,14 +31370,14 @@
     }
   }
 
-  function ugd_addButtons(profile) {
+  async function ugd_addButtons(profile) {
     const user = {
       steamId: profile.steamId,
       id: profile.id,
       username: profile.username
     };
-    ugd_add(profile.wonRowLeft, `won`, user);
-    ugd_add(profile.sentRowLeft, `sent`, user);
+    await ugd_add(profile.wonRowLeft, `won`, user);
+    await ugd_add(profile.sentRowLeft, `sent`, user);
   }
 
   function ugd_addStats(profile, savedUser) {
@@ -31342,38 +31389,68 @@
     if (!ugdCache) {
       return;
     }
+    
+    const context = insertHtml(profile.commentsRow, `afterEnd`, `
+      <div class="esgst-ugd featured__table__row" title="${getFeatureTooltip(`ugd`)}">
+        <div class="featured__table__row__left">Won Games Playtime > <input class="esgst-ugd-input" min="0" step="0.1" type="number" value="${esgst.ugd_playtime}">hours</div>
+        <div class="featured__table__row__right"></div>
+      </div>
+      <div class="esgst-ugd featured__table__row" title="${getFeatureTooltip(`ugd`)}">
+        <div class="featured__table__row__left">Won Games Achievements > <input class="esgst-ugd-input" max="100" min="0" step="0.1" type="number" value="${esgst.ugd_achievements}">%</div>
+        <div class="featured__table__row__right"></div>
+      </div>
+      <div class="esgst-ugd featured__table__row">
+        <div class="featured__table__row__left"></div>
+        <div class="featured__table__row__right">
+          <span class="esgst-italic">Last checked ${getDate(`[MMM] [DD], [YYYY], [HH]:[HMM]:[SS]`, ugdCache.lastCheck)}.</span>
+        </div>
+      </div>
+    `);
+    const playtimeInput = context.firstElementChild.lastElementChild;
+    const playtimeDisplay = context.lastElementChild;
+    const achievementsInput = context.nextElementSibling.firstElementChild.lastElementChild;
+    const achievementsDisplay = context.nextElementSibling.lastElementChild;
+    playtimeInput.addEventListener(`change`, ugd_calculatePlaytime.bind(null, playtimeDisplay, playtimeInput, ugdCache, false));
+    achievementsInput.addEventListener(`change`, ugd_calculateAchievements.bind(null, achievementsDisplay, achievementsInput, ugdCache, false));
+    ugd_calculatePlaytime(playtimeDisplay, playtimeInput, ugdCache, true);
+    ugd_calculateAchievements(achievementsDisplay, achievementsInput, ugdCache, true);
+  }
 
+  function ugd_calculatePlaytime(playtimeDisplay, playtimeInput, ugdCache, firstRun) {
+    esgst.ugd_playtime = parseFloat(playtimeInput.value);
     let playtimes = 0;
-    let achievements = 0;
     for (const key in ugdCache.playtimes) {
       const playtime = ugdCache.playtimes[key];
-      if (playtime[1] > 0) {
+      if ((playtime[1] / 60) > esgst.ugd_playtime) {
         playtimes += 1;
       }
     }
     const totalPlaytimes = Object.keys(ugdCache.playtimes).length;
     playtimes = `${playtimes}/${totalPlaytimes} (${Math.round(playtimes / totalPlaytimes * 10000) / 100}%)`;
+    playtimeDisplay.textContent = playtimes;
+    if (!firstRun) {
+      setSetting(`ugd_playtime`, esgst.ugd_playtime);
+    }
+  }
+
+  function ugd_calculateAchievements(achievementsDisplay, achievementsInput, ugdCache, firstRun) {
+    esgst.ugd_achievements = parseFloat(achievementsInput.value);
+    let achievements = 0;
     for (const key in ugdCache.achievements) {
       const achievement = ugdCache.achievements[key];
-      if (achievement.match(/(.+?)\//)[1] !== `0`) {
+      if (parseFloat(achievement.match(/\((.+?)%\)/)[1]) > esgst.ugd_achievements) {
         achievements += 1;
       }
     }
     const totalAchievements = Object.keys(ugdCache.achievements).length;
     achievements = `${achievements}/${totalAchievements} (${Math.round(achievements / totalAchievements * 10000) / 100}%)`;
-    profile.commentsRow.insertAdjacentHTML(`afterEnd`, `
-      <div class="esgst-ugd featured__table__row" title="${getFeatureTooltip(`ugd`)}">
-        <div class="featured__table__row__left">Won Games Playtime > 0</div>
-        <div class="featured__table__row__right">${playtimes}</div>
-      </div>
-      <div class="esgst-ugd featured__table__row" title="${getFeatureTooltip(`ugd`)}">
-        <div class="featured__table__row__left">Won Games Achievements > 0</div>
-        <div class="featured__table__row__right">${achievements}</div>
-      </div>
-    `);
+    achievementsDisplay.textContent = achievements;
+    if (!firstRun) {
+      setSetting(`ugd_achievements`, esgst.ugd_achievements);
+    }
   }
 
-  function ugd_add(context, key, user, mainPopup) {
+  async function ugd_add(context, key, user, mainPopup) {
     let button = null;
     if (context) {
       button = insertHtml(context, `beforeEnd`, `
@@ -31382,6 +31459,8 @@
         </span>
       `);
     }
+    const savedUser = await getUser(null, user);
+    const ugdCache = savedUser && savedUser.ugdCache;
     const details = {
       button: button,
       popup: {
@@ -31390,14 +31469,21 @@
         options: [
           {
             check: key === `won`,
+            dependencies: [`ugd_forceUpdate`],
             description: `Get playtime stats.`,
             id: `ugd_getPlaytime`,
             tooltip: `Get playtime stats for each won game by this user (requires a Steam API Key inserted into the settings menu - does not check DLCs/packages).`
           }, {
             check: key === `won`,
+            dependencies: [`ugd_forceUpdate`],
             description: `Get achievements stats.`,
             id: `ugd_getAchievements`,
             tooltip: `Get achievements stats for each won game by this user (slower - does not check DLCs/packages).`
+          }, {
+            check: key === `won`,
+            description: `Force-update playtime/achievements stats.`,
+            id: `ugd_forceUpdate`,
+            tooltip: `Playtime/achievements stats are updated automatically if you re-check the user after a week. With this option enabled, they are force-updated.`
           }, {
             check: true,
             description: `Clear cache.`,
@@ -31406,7 +31492,10 @@
           }
         ],
         addProgress: true,
-        addScrollable: `left`
+        addScrollable: `left`,
+        scrollableContent: !mainPopup && ugdCache ? `
+          <span class="esgst-italic">Last checked ${getDate(`[MMM] [DD], [YYYY], [HH]:[HMM]:[SS]`, ugdCache.lastCheck)}.</span>
+        ` : ``
       },
       mainPopup: mainPopup,
       init: ugd_init.bind(null, key, user),
@@ -31790,7 +31879,8 @@
       !obj.ugdCache ||
       (currentTime - obj.ugdCache.lastCheck) > 604800000 ||
       (esgst.ugd_getPlaytime && !Object.keys(obj.ugdCache.playtimes).length) ||
-      (esgst.ugd_getAchievements && !Object.keys(obj.ugdCache.achievements).length)
+      (esgst.ugd_getAchievements && !Object.keys(obj.ugdCache.achievements).length) ||
+      esgst.ugd_forceUpdate
     ) {
       obj.isUpdating = true;
       if (!obj.ugdCache) {
@@ -31932,6 +32022,8 @@
           : `${timestampForever}m`
         ) : `0`;
     }
+    let count = 0;
+    let total = 0;
     if (esgst.ugd_getAchievements) {
       let achievementsData = obj.ugdCache && obj.ugdCache.achievements[appId];
       if (obj.isUpdating) {
@@ -31948,8 +32040,6 @@
       }
       achievements = `0/0`;
       if (achievementsData) {
-        let count = 0;
-        let total = 0;
         if (obj.isUpdating) {
           for (const achievement of achievementsData) {
             if (achievement.achieved) {
@@ -31962,9 +32052,9 @@
           obj.ugdCache.achievements[appId] = achievements;
         } else {
           const parts = achievementsData.match(/(.+?)\/(.+?)\s\((.+?)%\)/);
-          count = parseInt(parts[0]);
-          total = parseInt(parts[1]);
-          achievementsAttributes = parseFloat(parts[2]);
+          count = parseInt(parts[1]);
+          total = parseInt(parts[2]);
+          achievementsAttributes = parseFloat(parts[3]);
           achievements = achievementsData;
         }
         if (!packageId || !obj.packageAchieved) {
@@ -31976,11 +32066,61 @@
         }
       }
     }
+    let group = null;
+    if (packageId) {
+      group = obj.playtimeTable.getRowGroup(packageId);
+      if (!group) {
+        obj.playtimeTable.addRow([
+          {
+            alignment: `left`,
+            size: `fill`,
+            value: giveaway.gameName
+          },
+          {
+            attributes: [`data-sort-value="0"`],
+            value: `0`
+          },
+          {
+            attributes: [`data-sort-value="0"`],
+            value: `0`
+          },
+          {
+            attributes: [`data-sort-value="0"`],
+            value: `0/0 (0%)`
+          },
+          `<a class="table__column__secondary-link" href="/user/${giveaway.creator}">${giveaway.creator}</a>`
+        ], packageId, true, false, `Hide contents of the package`, `Show contents of the package`);
+      }
+      group = obj.playtimeTable.getRowGroup(packageId);
+      const packageTimestamp2Weeks = (parseFloat(group.columns[1].textContent) * 60) + timestamp2Weeks;
+      const packageTime2Weeks = packageTimestamp2Weeks && packageTimestamp2Weeks > 0 ? (
+        packageTimestamp2Weeks > 60
+        ? `${Math.round(packageTimestamp2Weeks / 60 * 100) / 100}h`
+        : `${packageTimestamp2Weeks}m`
+      ) : `0`;
+      group.columns[1].textContent = packageTime2Weeks;
+      group.columns[1].setAttribute(`data-sort-value`, packageTimestamp2Weeks);
+      const packageTimestampForever = (parseFloat(group.columns[2].textContent) * 60) + timestampForever;
+      const packageTimeForever = packageTimestampForever && packageTimestampForever > 0 ? (
+        packageTimestampForever > 60
+        ? `${Math.round(packageTimestampForever / 60 * 100) / 100}h`
+        : `${packageTimestampForever}m`
+      ) : `0`;
+      group.columns[2].textContent = packageTimeForever;
+      group.columns[2].setAttribute(`data-sort-value`, packageTimestampForever);
+      const packageParts = group.columns[3].textContent.match(/(.+?)\/(.+?)\s\((.+?)%\)/);
+      const packageCount = parseInt(packageParts[1]) + count;
+      const packageTotal = parseInt(packageParts[2]) + total;
+      const packageAchievementsAttributes = Math.round(packageCount / packageTotal * 10000) / 100;
+      const packageAchievements = `${packageCount}/${packageTotal} (${packageAchievementsAttributes}%)`;
+      group.columns[3].textContent = packageAchievements;
+      group.columns[3].setAttribute(`data-sort-value`, packageAchievementsAttributes);
+    }
     obj.playtimeTable.addRow([
       {
         alignment: `left`,
         size: `fill`,
-        value: `${giveaway.gameName}${packageId ? ` => ${name}` : ``}`
+        value: packageId ? name : giveaway.gameName
       },
       {
         attributes: [`data-sort-value="${timestamp2Weeks}"`],
@@ -31995,7 +32135,7 @@
         value: achievements
       },
       `<a class="table__column__secondary-link" href="/user/${giveaway.creator}">${giveaway.creator}</a>`
-    ]);
+    ], packageId, false, true);
   }
 
   async function ugd_count(obj, games, savedGiveaways, types) {
@@ -35880,7 +36020,7 @@
         steamId: esgst.steamId,
         username: esgst.username
       };
-      syncer.process = ugd_add(null, key, user, syncer);
+      syncer.process = await ugd_add(null, key, user, syncer);
       await syncer.process.start();
     }
 
@@ -40480,6 +40620,16 @@
       `;
     }
     style += `
+      .esgst-ugd-input {
+        background-color: inherit !important;
+        border-color: inherit !important;
+        color: inherit;
+        display: inline-block;
+        margin: 0 5px;
+        padding: 0 2px !important;
+        width: 50px;
+      }
+
       .esgst-hwlc-panel {
         display: flex;
         justify-items: space-between;
