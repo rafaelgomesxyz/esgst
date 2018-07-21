@@ -1425,9 +1425,9 @@
         staticPopups_width: `900px`,
         hgr_removeOwned: true,
         giveawayColumns: [`ged`, `endTime`, `winners`, `startTime`, `touhou`, `inviteOnly`, `whitelist`, `group`, `regionRestricted`, `level`],
-        giveawayPanel: [`ttec`, `gwc`, `gwr`, `gp`, `elgb`, `sgTools`],
+        giveawayPanel: [`ttec`, `gwc`, `gwr`, `gptw`, `gp`, `elgb`, `sgTools`],
         giveawayColumns_gv: [`sgTools`, `ged`, `time`, `touhou`, `inviteOnly`, `whitelist`, `group`, `regionRestricted`, `level`],
-        giveawayPanel_gv: [`ttec`, `gwc`, `gwr`, `gp`, `elgb`],
+        giveawayPanel_gv: [`ttec`, `gwc`, `gwr`, `gptw`, `gp`, `elgb`],
         enableByDefault_sg: false,
         enableByDefault_st: false,
         cf_m_sg: true,
@@ -1670,6 +1670,7 @@
         gch_colors: [],
         gwc_colors: [],
         gwr_colors: [],
+        gptw_colors: [],
         geth_colors: [],
         hr_minutes: 1,
         hr_w_hours: 24,
@@ -1783,7 +1784,7 @@
       sg: location.hostname.match(/www.steamgifts.com/),
       st: location.hostname.match(/www.steamtrades.com/),
       currentVersion: `7.23.0`,
-      devVersion: `7.23.1 (Dev.4)`,
+      devVersion: `7.23.1 (Dev.5)`,
       icon: `data:image/x-icon;base64,AAABAAEAEBAAAAEAIABoBAAAFgAAACgAAAAQAAAAIAAAAAEAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAqv8DCbP/Hgeq+CQIrf8iCK3/Igit/yIIrf8iB6//Iwit9x8Aqv8DAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAKr0GAa2/c0DvfzfA7f83QO3/N0Dt/zdA7f83QO+/d4Gs/3OAKP1GQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACm/xQFs/n2Bcf//wW///8FwP//BcD//wW///8Fx///BbP69gC2/xUAAAAAAAAAAAAAAAAA/1UDFptOFxSZMxkLpJktAq720QW1+ugEsfvjA7b92wO2/dsEsfvjBbX66Aau/dEoiO4tUlLWGU5k3hdVVf8DEJxKHxWqT8cVrU7uE6VN0guqny0Apv8XAJfQGwBAVywAQFcsAJfQGwCx/xcogugtS2Lk0lBl6u5Qae7ISmPeHxagSSMVr07jF7lV/xOiSu0brgATAAAAAAAAAA8AAAC/AAAAwAAAABAAAAAAYznjEkth4OxWb/3/T2jv40lf4iMXnksiEq1O3RayUv8UpEnkEo0+HQAAABkAAABBAAAA8QAAAPEAAABBAAAAGUBSvxxOYeDjU2v0/05m7d1LYuEiF55LIhKtTt0Ws1L/FahN2gU1FTAAAADAAAAA7AAAAP0AAAD9AAAA7AAAAMAVG0owUGPm2lNr9P9OZu3dS2LhIheeSyISrU7dFrNS/xWoTdoFNRswAAAAvwAAAOsAAAD9AAAA/QAAAOsAAADAFRtKMFBj6NpTa/T/Tmbt3Uti4SIXnksiEq1O3RayUv8UpEnkEo0+HQAAABgAAABAAAAA8QAAAPEAAABBAAAAGT5PuR1OYeDjU2v0/05m7d1LYuEiFqBJIxWuT+QXuVX/E6JL7QC8XhMAAAAAAAAADwAAAL8AAAC/AAAAEAAAAAAOR/8SSWLh7FZv/f9PaO/jSV/iIxCUSh8Vrk7HFqxN7ROlS9JskzMt1XULGK12EhxGLgYsRy8GK612EhzVgAsYgmxxLU1i39JNZ+vtT2fwx0pj1h8AqlUDF65GFgqZUhlsiC0txH0T0s5/EujJgBPkz4QR28+EEdvJgBPkzn8Q6Md+E9KLdHosM1LWGUZo6BZVVf8DAAAAAAAAAAAAAAAA/2YAFMl9EvbgjRb/14gV/9eIFf/XiBX/14gV/9+NFv/KgBD254YAFQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAL91FRjKgRHN1IgU3s+EEt3PhBLdz4QS3c+EEt3UiBTezYMRzcJ6FBkAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACqqgADxIARHr18FiO8eA8ivHgPIrx4DyK8eA8ivXwPI8SAER7/VQADAAAAAAAAAAAAAAAA78cAAPA3AAD4FwAABCAAADGOAAAE+AAAkBEAAJ55AACYOQAAlgEAAER4AAAXaAAATnoAAPgXAAD0JwAA69cAAA==`,
       sgIcon: `data:image/x-icon;base64,AAABAAEAEBAAAAEAIABoBAAAFgAAACgAAAAQAAAAIAAAAAEAIAAAAAAAQAQAABMLAAATCwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIUAAAD5AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAPoAAACFAAAAAAAAAAAAAAD8AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA+QAAAAAAAAAAAAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAAAAAAAAAAAAP8AAAD/AAAA/wAAABwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAcAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAcAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAHAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAAAAAAAAAAAAPwAAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD5AAAAAAAAAAAAAACFAAAA+QAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD5AAAAhQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA//8AAP//AADAAwAAwAMAAMfjAADP8wAAz/MAAM/zAADP8wAAz/MAAM/zAADH4wAAwAMAAMADAAD//wAA//8AAA==`,
       stIcon: `data:image/x-icon;base64,AAABAAEAEBAAAAEAIABoBAAAFgAAACgAAAAQAAAAIAAAAAEAIAAAAAAAQAQAABMLAAATCwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABbD6SgWw+ucFsPrkBbD6SgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAWw+uYFsPr/BbD6/wWw+ucAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAFsPrmBbD6/wWw+v8FsPrmAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABbD6SQWw+uYFsPrmBbD6SQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAFKRLShSkS+cUpEvkFKRLSgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAExi4EpMYuDnTGLg5Exi4EoAAAAAAAAAABSkS+YUpEv/FKRL/xSkS+cAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABMYuDmTGLg/0xi4P9MYuDnAAAAAAAAAAAUpEvmFKRL/xSkS/8UpEvmAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAATGLg5kxi4P9MYuD/TGLg5gAAAAAAAAAAFKRLSRSkS+YUpEvmFKRLSQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAExi4ElMYuDmTGLg5kxi4EkAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAMZ9E0rGfRPnxn0T5MZ9E0oAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADGfRPmxn0T/8Z9E//GfRPnAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAxn0T5sZ9E//GfRP/xn0T5gAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAMZ9E0nGfRPmxn0T5sZ9E0kAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA//8AAPw/AAD8PwAA/D8AAPw/AAD//wAAh+EAAIfhAACH4QAAh+EAAP//AAD8PwAA/D8AAPw/AAD8PwAA//8AAA==`,
@@ -2615,6 +2616,11 @@
       if (esgst[`giveawayColumns${key}`].indexOf(`touhou`) < 0 && esgst[`giveawayPanel${key}`].indexOf(`touhou`) < 0) {
         esgst[`giveawayColumns${key}`].push(`touhou`);
         esgst.settings[`giveawayColumns${key}`] = esgst[`giveawayColumns${key}`];
+        esgst.settingsChanged = true;
+      }
+      if (esgst[`giveawayColumns${key}`].indexOf(`gptw`) < 0 && esgst[`giveawayPanel${key}`].indexOf(`gptw`) < 0) {
+        esgst[`giveawayPanel${key}`].push(`gptw`);
+        esgst.settings[`giveawayPanel${key}`] = esgst[`giveawayPanel${key}`];
         esgst.settingsChanged = true;
       }
       for (let i = esgst[`giveawayColumns${key}`].length - 1; i > -1; i--) {
@@ -6477,7 +6483,7 @@
   _MODULES.push({
     description: `
       <ul>
-        <li>Adds a button (<i class="fa fa-sort"></i>) to the main page heading of any <a href="https://www.steamgifts.com/giveaways">giveaways</a>/<a href="https://www.steamgifts.com/entered">entered</a>/<a href="https://www.steamgifts.com/group/SJ7Bu/">group</a>/<a href="https://www.steamgifts.com/user/cg">user</a> page that allows you to sort the giveaways in the page by game name, points, rating (if [id=gc_r] is enabled), end time, start time, creator, comments, entries, chance/chance per point (if [id=gwc] is enabled) and ratio (if [id=gwr] is enabled).</li>
+        <li>Adds a button (<i class="fa fa-sort"></i>) to the main page heading of any <a href="https://www.steamgifts.com/giveaways">giveaways</a>/<a href="https://www.steamgifts.com/entered">entered</a>/<a href="https://www.steamgifts.com/group/SJ7Bu/">group</a>/<a href="https://www.steamgifts.com/user/cg">user</a> page that allows you to sort the giveaways in the page by game name, points, rating (if [id=gc_r] is enabled), end time, start time, creator, comments, entries, chance/chance per point (if [id=gwc] is enabled), ratio (if [id=gwr] is enabled) and points to win (if [id=gptw] is enabled).</li>
         <li>There is also an option to automatically sort the giveaways so that every time you open the page the giveaways are already sorted by whatever option you prefer.</li>
       </ul>
     `,
@@ -6566,6 +6572,10 @@
           <option value="projectedRatio_asc">Projected Ratio - Ascending</option>
           <option value="projectedRatio_desc">Projected Ratio - Descending</option>
         ` : ``}
+      ` : ``}
+      ${esgst.gptw ? `
+        <option value="pointsToWin_asc">Points To Win - Ascending</option>
+        <option value="pointsToWin_desc">Points To Win - Descending</option>
       ` : ``}
       </select>
     `);
@@ -10330,6 +10340,16 @@
             name: `Projected Ratio`,
             sg: true
           },
+          gf_pointsToWin: {
+            description: `
+              <ul>
+                <li>Allows you to filter giveaways by points to win.</li>
+                <li>This option requires [id=gptw] enabled to work.</li>
+              </ul>
+            `,
+            name: `Points To Win`,
+            sg: true
+          },
           gf_rating: {
             description: `
               <ul>
@@ -10970,6 +10990,12 @@
         check: esgst.gwr && esgst.gwr_a && (((!esgst.enteredPath || esgst.cewgd) && !esgst.createdPath && !esgst.wonPath) || popup),
         minValue: 0,
         name: `Projected Ratio`,
+        type: `number`
+      },
+      pointsToWin: {
+        check: esgst.gptw && (((!esgst.enteredPath || esgst.cewgd) && !esgst.createdPath && !esgst.wonPath) || popup),
+        minValue: 0,
+        name: `Points To Win`,
         type: `number`
       },
       rating: {
@@ -26614,7 +26640,7 @@
       }
     }
   }
-  
+
   // [GWC]
   
   _MODULES.push({
@@ -26679,7 +26705,7 @@
 
   function gwc() {
     esgst.giveawayFeatures.push(gwc_addChances);
-    if (!esgst.enteredPath) return;
+    if (esgst.gptw || !esgst.enteredPath) return;
     esgst.endlessFeatures.push(gwc_addHeading);
   }
 
@@ -26760,14 +26786,17 @@
     if (esgst.createdPath || esgst.wonPath || !main) return;
     const table = context.querySelector(`${endless ? `.esgst-es-page-${endless} .table__heading, .esgst-es-page-${endless}.table__heading` : `.table__heading`}`);
     if (!table || table.getElementsByClassName(`esgst-gwcr-heading`)[0]) return;
-    let title;
-    if (esgst.gwc && esgst.gwr) {
-      title = `Chance / Ratio`;
-    } else if (esgst.gwc) {
-      title = `Chance`;
-    } else {
-      title = `Ratio`;
+    let title = ``;
+    if (esgst.gwc) {
+      title += `Chance / `;
     }
+    if (esgst.gwr) {
+      title += `Ratio / `;
+    }
+    if (esgst.gptw) {
+      title += `Points To Win / `;
+    }
+    title = title.slice(0, -3);
     table.firstElementChild.insertAdjacentHTML(`afterEnd`, `<div class="table__column--width-small text-center esgst-gwcr-heading">${title}</div>`);
   }
   
@@ -26835,7 +26864,7 @@
 
   function gwr() {
     esgst.giveawayFeatures.push(gwr_addRatios);
-    if (esgst.gwc || !esgst.enteredPath) return;
+    if (esgst.gptw || esgst.gwc || !esgst.enteredPath) return;
     esgst.endlessFeatures.push(gwc_addHeading);
   }
 
@@ -26894,10 +26923,88 @@
     }
     context.innerHTML = `
       ${esgst.enteredPath ? `` : `<i class="fa fa-pie-chart"></i>`}
-      <span>${esgst.gwr_a && advancedRatio ? (esgst.gwr_a_b ? `<span${basicColor ? ` style="color: ${basicColor}; font-weight: bold;"` : ``}>${basicRatio}:1</span> (<span${advancedColor ? ` style="color: ${advancedColor}; font-weight: bold;"` : ``}>${advancedRatio}:1</span>)` : `<span${advancedColor ? ` style="color: ${advancedColor}; font-weight: bold;"` : ``}>${advancedRatio}:1</span>`) : `<span${basicColor ? ` style="color: ${basicColor}; font-weight: bold;"` : ``}>${basicRatio}:1</span>`}</span>
+      <span>${esgst.gwr_a && advancedRatio ? (esgst.gwr_a_b ? `<span${basicColor ? ` style="color: ${basicColor}; font-weight: bold;"` : ``}>${basicRatio}:1</span> (<span${advancedColor ? ` style="color: ${advancedColor}; font-weight: bold;"` : ``}>${advancedRatio}:1</span>)` : `<span${advancedColor ? ` style="color: ${advancedColor}; font-weight: bold;"` : ``}>${advancedRatio}:1</span>`) : `<span${basicColor ? ` style="color: ${basicColor}; font-weight: bold;"` : ``}>${basicRatio}:1</span>`}${esgst.gptw && esgst.enteredPath ? ` / ` : ``}</span>      
     `;
   }
   
+  // [GPTW]
+
+  _MODULES.push({
+    description: `
+      <ul>
+        <li>Adds an element (<i class="fa fa-rub"></i> [Points]) below a giveaway's start time (in any page) that shows how many points you would have to spend to win the giveaway.</li>
+        <li>The points are calculated by rounding up (using 2 decimals) the result of the following formula: number_of_points / number_of_copies * number_of_entries
+        <li>You can move the element around by dragging and dropping it.</li>
+      </ul>
+    `,
+    features: {
+      gptw_e: {
+        description: `
+          <ul>
+            <li>The formula changes to: number_of_points / number_of_copies * (number_of_entries + 1)
+            <li>For example, if a giveaway for 2 copies has 5 entries and is worth 10 points, the current points to win are 25, but after you enter it, it will have 6 entries, so the points will increase to 30.</li>
+          </ul>
+        `,
+        name: `Show what the points to win will be when you enter the giveaway instead of the current points to win.`,
+        sg: true
+      }
+    },
+    id: `gptw`,
+    load: gptw,
+    name: `Giveaway Points To Win`,
+    sg: true,
+    type: `giveaways`
+  });
+
+  function gptw() {
+    esgst.giveawayFeatures.push(gptw_addPoints);
+    if (!esgst.enteredPath) return;
+    esgst.endlessFeatures.push(gwc_addHeading);
+  }
+
+  function gptw_addPoints(giveaways, main, source) {
+    for (const giveaway of giveaways) {
+      if (giveaway.sgTools || (main && (esgst.createdPath || esgst.wonPath || esgst.newGiveawayPath || esgst.archivePath))) {
+        continue;
+      }
+      if (((!giveaway.inviteOnly || ((!main || (!esgst.giveawayPath && !esgst.enteredPath)) && main && !giveaway.ended)) && giveaway.inviteOnly) || giveaway.innerWrap.getElementsByClassName(`esgst-gptw`)[0]) {
+        continue;
+      }
+      if (giveaway.started) {
+        giveaway.gptwContext = insertHtml(giveaway.panel, (esgst.gv && ((main && esgst.giveawaysPath) || (source === `gb` && esgst.gv_gb) || (source === `ged` && esgst.gv_ged) || (source === `ge` && esgst.gv_ge))) ? `afterBegin` : `beforeEnd`, `<div class="${esgst.giveawayPath ? `featured__column` : ``} esgst-gptw" data-columnId="gptw" title="${getFeatureTooltip(`gptw`, `Giveaway Points To Win`)}">`);
+        gptw_addPoint(giveaway);
+        if (!esgst.lockGiveawayColumns && (!main || esgst.giveawaysPath || esgst.userPath || esgst.groupPath)) {
+          giveaway.gptwContext.setAttribute(`draggable`, true);
+          giveaway.gptwContext.addEventListener(`dragstart`, giveaways_setSource.bind(null, giveaway));
+          giveaway.gptwContext.addEventListener(`dragenter`, giveaways_getSource.bind(null, giveaway, false));
+          giveaway.gptwContext.addEventListener(`dragend`, giveaways_saveSource.bind(null, giveaway));
+        }
+      } else {
+        giveaway.pointsToWin = 0;
+      }
+    }
+  }
+
+  function gptw_addPoint(giveaway) {
+    const entries = giveaway.entered || giveaway.ended || giveaway.created || !esgst.gptw_e ? giveaway.entries : giveaway.entries + 1;
+    giveaway.pointsToWin = Math.round((giveaway.points || 0) / giveaway.copies * entries * 100) / 100;
+    giveaway.gptwContext.setAttribute(`data-pointsToWin`, giveaway.pointsToWin);
+    let color = null;
+    for (const colors of esgst.gptw_colors) {
+      if (giveaway.pointsToWin >= parseFloat(colors.lower) && giveaway.pointsToWin <= parseFloat(colors.upper)) {
+        color = colors.color;
+        break;
+      }
+    }
+    if (esgst.enteredPath) {
+      giveaway.gptwContext.style.display = `inline-block`;
+    }
+    giveaway.gptwContext.innerHTML = `
+      ${esgst.enteredPath ? `` : `<i class="fa fa-rub"></i>`}
+      <span${color ? ` style="color: ${color}; font-weight: bold;"` : ``}>${giveaway.pointsToWin}</span>
+    `;
+  }
+
   // [GETH]
   
   _MODULES.push({
@@ -29630,7 +29737,7 @@
       giveaway.comments = parseInt(giveaway.commentsLink.textContent.replace(/,/g, ``).match(/\d+/)[0]);
     }
     giveaway.panel = giveaway.innerWrap.getElementsByClassName(`esgst-giveaway-panel`)[0];
-    if (!giveaway.panel && (esgst.gwc || esgst.gwr || esgst.gp || esgst.elgb || esgst.cewgd)) {
+    if (!giveaway.panel && (esgst.gwc || esgst.gwr || esgst.gptw || esgst.gp || esgst.elgb || esgst.cewgd)) {
       if (giveaway.links) {
         giveaway.panel = insertHtml(giveaway.links, `afterEnd`, `
           <div class="giveaway__columns esgst-giveaway-panel"></div>
@@ -29643,7 +29750,7 @@
         } else {
           giveaway.panel = insertHtml(giveaway.columns, `afterEnd`, `<div class="featured__columns esgst-giveaway-panel"></div>`);
         }
-      } else if (esgst.enteredPath && (esgst.gwc || esgst.gwr)) {
+      } else if (esgst.enteredPath && (esgst.gwc || esgst.gwr || esgst.gptw)) {
         giveaway.panel = insertHtml(giveaway.innerWrap.firstElementChild.nextElementSibling, `afterEnd`, `<div class="table__column--width-small text-center esgst-giveaway-panel"></div>`);
       }
     }
@@ -29714,6 +29821,8 @@
     const ratio = context.getElementsByClassName(`esgst-gwr`)[0];
     giveaway.ratio = ratio ? parseFloat(ratio.getAttribute(`data-ratio`)) : 0;
     giveaway.projectedRatio = ratio ? parseFloat(ratio.getAttribute(`data-projectedRatio`)) : 0;
+    const pointsToWin = context.getElementsByClassName(`esgst-gptw`)[0];
+    giveaway.pointsToWin = pointsToWin ? parseFloat(pointsToWin.getAttribute(`data-pointsToWin`)) : 0;
     if (main) {
       if (esgst.gr && giveaway.creator === esgst.username && (esgst.gr_a || (giveaway.ended && (giveaway.entries === 0 || giveaway.entries < giveaway.copies))) && (!esgst.gr_r || !esgst.giveaways[giveaway.code] || !esgst.giveaways[giveaway.code].recreated) && !giveaway.headingName.parentElement.getElementsByClassName(`esgst-gr-button`)[0]) {
         let button = insertHtml(giveaway.headingName, `beforeBegin`, `
@@ -37172,6 +37281,9 @@
     } else if (ID === `gwr`) {
       addGwcrMenuPanel(SMFeatures, `gwr_colors`, `ratio`);
       SMFeatures.classList.remove(`esgst-hidden`);
+    } else if (ID === `gptw`) {
+      addGwcrMenuPanel(SMFeatures, `gptw_colors`, `points to win`);
+      SMFeatures.classList.remove(`esgst-hidden`);
     } else if (ID === `geth`) {
       addGwcrMenuPanel(SMFeatures, `geth_colors`, `hours`);
       SMFeatures.classList.remove(`esgst-hidden`);
@@ -42391,7 +42503,7 @@
         margin: 0 0 0 5px;
       }
 
-      .esgst-gv-popout .esgst-gwc, .esgst-gv-popout .esgst-gwr, .esgst-gv-popout .esgst-ttec {
+      .esgst-gv-popout .esgst-gwc, .esgst-gv-popout .esgst-gwr, .esgst-gv-popout .esgst-gptw, .esgst-gv-popout .esgst-ttec {
         display: inline-block;
         margin: 0 !important;
         padding: 0 5px !important;
@@ -42631,7 +42743,7 @@
         margin: -18px 0 0 !important;
       }
 
-      .esgst-gv-icons .esgst-gc, .esgst-gv-icons .esgst-gwc, .esgst-gv-icons .esgst-gwr, .esgst-gv-icons .esgst-ttec, .esgst-gv-time, .esgst-gv-icons .esgst-ged-source {
+      .esgst-gv-icons .esgst-gc, .esgst-gv-icons .esgst-gwc, .esgst-gv-icons .esgst-gwr, .esgst-gv-icons .esgst-gptw, .esgst-gv-icons .esgst-ttec, .esgst-gv-time, .esgst-gv-icons .esgst-ged-source {
         background-color: #fff;
         padding: 2px !important;
       }
@@ -42693,7 +42805,7 @@
         text-align: center;
       }
 
-      .esgst-gv-popout .esgst-gc-panel i, .esgst-gv-popout .giveaway__links i, .esgst-gv-popout .esgst-gwc i, .esgst-gv-popout .esgst-gwr i, .esgst-gv-popout .esgst-ggl-panel, .esgst-gv-popout .esgst-ggl-panel i {
+      .esgst-gv-popout .esgst-gc-panel i, .esgst-gv-popout .giveaway__links i, .esgst-gv-popout .esgst-gwc i, .esgst-gv-popout .esgst-gwr i, .esgst-gv-popout .esgst-gptw i, .esgst-gv-popout .esgst-ggl-panel, .esgst-gv-popout .esgst-ggl-panel i {
         font-size: 11px;
       }
 
