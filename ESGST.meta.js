@@ -1,3 +1,3 @@
 // ==UserScript==
-// @version 7.22.0
+// @version 7.23.0
 // ==/UserScript==
