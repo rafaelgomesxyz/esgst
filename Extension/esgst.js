@@ -1783,7 +1783,7 @@
       sg: location.hostname.match(/www.steamgifts.com/),
       st: location.hostname.match(/www.steamtrades.com/),
       currentVersion: `7.23.0`,
-      devVersion: `7.23.1 (Dev.2)`,
+      devVersion: `7.23.1 (Dev.3)`,
       icon: `data:image/x-icon;base64,AAABAAEAEBAAAAEAIABoBAAAFgAAACgAAAAQAAAAIAAAAAEAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAqv8DCbP/Hgeq+CQIrf8iCK3/Igit/yIIrf8iB6//Iwit9x8Aqv8DAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAKr0GAa2/c0DvfzfA7f83QO3/N0Dt/zdA7f83QO+/d4Gs/3OAKP1GQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACm/xQFs/n2Bcf//wW///8FwP//BcD//wW///8Fx///BbP69gC2/xUAAAAAAAAAAAAAAAAA/1UDFptOFxSZMxkLpJktAq720QW1+ugEsfvjA7b92wO2/dsEsfvjBbX66Aau/dEoiO4tUlLWGU5k3hdVVf8DEJxKHxWqT8cVrU7uE6VN0guqny0Apv8XAJfQGwBAVywAQFcsAJfQGwCx/xcogugtS2Lk0lBl6u5Qae7ISmPeHxagSSMVr07jF7lV/xOiSu0brgATAAAAAAAAAA8AAAC/AAAAwAAAABAAAAAAYznjEkth4OxWb/3/T2jv40lf4iMXnksiEq1O3RayUv8UpEnkEo0+HQAAABkAAABBAAAA8QAAAPEAAABBAAAAGUBSvxxOYeDjU2v0/05m7d1LYuEiF55LIhKtTt0Ws1L/FahN2gU1FTAAAADAAAAA7AAAAP0AAAD9AAAA7AAAAMAVG0owUGPm2lNr9P9OZu3dS2LhIheeSyISrU7dFrNS/xWoTdoFNRswAAAAvwAAAOsAAAD9AAAA/QAAAOsAAADAFRtKMFBj6NpTa/T/Tmbt3Uti4SIXnksiEq1O3RayUv8UpEnkEo0+HQAAABgAAABAAAAA8QAAAPEAAABBAAAAGT5PuR1OYeDjU2v0/05m7d1LYuEiFqBJIxWuT+QXuVX/E6JL7QC8XhMAAAAAAAAADwAAAL8AAAC/AAAAEAAAAAAOR/8SSWLh7FZv/f9PaO/jSV/iIxCUSh8Vrk7HFqxN7ROlS9JskzMt1XULGK12EhxGLgYsRy8GK612EhzVgAsYgmxxLU1i39JNZ+vtT2fwx0pj1h8AqlUDF65GFgqZUhlsiC0txH0T0s5/EujJgBPkz4QR28+EEdvJgBPkzn8Q6Md+E9KLdHosM1LWGUZo6BZVVf8DAAAAAAAAAAAAAAAA/2YAFMl9EvbgjRb/14gV/9eIFf/XiBX/14gV/9+NFv/KgBD254YAFQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAL91FRjKgRHN1IgU3s+EEt3PhBLdz4QS3c+EEt3UiBTezYMRzcJ6FBkAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACqqgADxIARHr18FiO8eA8ivHgPIrx4DyK8eA8ivXwPI8SAER7/VQADAAAAAAAAAAAAAAAA78cAAPA3AAD4FwAABCAAADGOAAAE+AAAkBEAAJ55AACYOQAAlgEAAER4AAAXaAAATnoAAPgXAAD0JwAA69cAAA==`,
       sgIcon: `data:image/x-icon;base64,AAABAAEAEBAAAAEAIABoBAAAFgAAACgAAAAQAAAAIAAAAAEAIAAAAAAAQAQAABMLAAATCwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIUAAAD5AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAPoAAACFAAAAAAAAAAAAAAD8AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA+QAAAAAAAAAAAAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAAAAAAAAAAAAP8AAAD/AAAA/wAAABwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAcAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAcAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAHAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAAAAAAAAAAAAPwAAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD5AAAAAAAAAAAAAACFAAAA+QAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD5AAAAhQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA//8AAP//AADAAwAAwAMAAMfjAADP8wAAz/MAAM/zAADP8wAAz/MAAM/zAADH4wAAwAMAAMADAAD//wAA//8AAA==`,
       stIcon: `data:image/x-icon;base64,AAABAAEAEBAAAAEAIABoBAAAFgAAACgAAAAQAAAAIAAAAAEAIAAAAAAAQAQAABMLAAATCwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABbD6SgWw+ucFsPrkBbD6SgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAWw+uYFsPr/BbD6/wWw+ucAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAFsPrmBbD6/wWw+v8FsPrmAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABbD6SQWw+uYFsPrmBbD6SQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAFKRLShSkS+cUpEvkFKRLSgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAExi4EpMYuDnTGLg5Exi4EoAAAAAAAAAABSkS+YUpEv/FKRL/xSkS+cAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABMYuDmTGLg/0xi4P9MYuDnAAAAAAAAAAAUpEvmFKRL/xSkS/8UpEvmAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAATGLg5kxi4P9MYuD/TGLg5gAAAAAAAAAAFKRLSRSkS+YUpEvmFKRLSQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAExi4ElMYuDmTGLg5kxi4EkAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAMZ9E0rGfRPnxn0T5MZ9E0oAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADGfRPmxn0T/8Z9E//GfRPnAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAxn0T5sZ9E//GfRP/xn0T5gAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAMZ9E0nGfRPmxn0T5sZ9E0kAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA//8AAPw/AAD8PwAA/D8AAPw/AAD//wAAh+EAAIfhAACH4QAAh+EAAP//AAD8PwAA/D8AAPw/AAD8PwAA//8AAA==`,
@@ -10263,8 +10263,18 @@
           gf_chance: {
             description: `
               <ul>
-                <li>Allows you to filter giveaways by chance.</li>
+                <li>Allows you to filter giveaways by chance (basic).</li>
                 <li>This option requires [id=gwc] enabled to work.</li>
+              </ul>
+            `,
+            name: `Chance`,
+            sg: true
+          },
+          gf_projectedChance: {
+            description: `
+              <ul>
+                <li>Allows you to filter giveaways by projected chance (advanced).</li>
+                <li>This option requires [id=gwc_a] enabled to work.</li>
               </ul>
             `,
             name: `Chance`,
@@ -10273,21 +10283,41 @@
           gf_chancePerPoint: {
             description: `
               <ul>
-                <li>Allows you to filter giveaways by chance per point.</li>
+                <li>Allows you to filter giveaways by chance per point using the basic chance.</li>
                 <li>This option requires [id=gwc] enabled to work.</li>
               </ul>
             `,
             name: `Chance Per Point`,
             sg: true
           },
+          gf_projectedChancePerPoint: {
+            description: `
+              <ul>
+                <li>Allows you to filter giveaways by chance per point using the advanced chance.</li>
+                <li>This option requires [id=gwc_a] enabled to work.</li>
+              </ul>
+            `,
+            name: `Projected Chance Per Point`,
+            sg: true
+          },
           gf_ratio: {
             description: `
               <ul>
-                <li>Allows you to filter giveaways by ratio.</li>
+                <li>Allows you to filter giveaways by ratio (basic).</li>
                 <li>This option requires [id=gwr] enabled to work.</li>
               </ul>
             `,
             name: `Ratio`,
+            sg: true
+          },
+          gf_projectedRatio: {
+            description: `
+              <ul>
+                <li>Allows you to filter giveaways by projected ratio (advanced).</li>
+                <li>This option requires [id=gwr_a] enabled to work.</li>
+              </ul>
+            `,
+            name: `Projected Ratio`,
             sg: true
           },
           gf_rating: {
@@ -10889,25 +10919,47 @@
         type: `number`
       },
       chance: {
-        check: ((!esgst.enteredPath || esgst.cewgd) && !esgst.createdPath && !esgst.wonPath) || popup,
+        check: esgst.gwc && (((!esgst.enteredPath || esgst.cewgd) && !esgst.createdPath && !esgst.wonPath) || popup),
         maxValue: 100,
         minValue: 0,
         name: `Chance`,
         step: 0.01,
         type: `number`
       },
+      projectedChance: {
+        check: esgst.gwc && esgst.gwc_a && (((!esgst.enteredPath || esgst.cewgd) && !esgst.createdPath && !esgst.wonPath) || popup),
+        maxValue: 100,
+        minValue: 0,
+        name: `Projected Chance`,
+        step: 0.01,
+        type: `number`
+      },
       chancePerPoint: {
-        check: ((!esgst.enteredPath || esgst.cewgd) && !esgst.createdPath && !esgst.wonPath) || popup,
+        check: esgst.gwc && (((!esgst.enteredPath || esgst.cewgd) && !esgst.createdPath && !esgst.wonPath) || popup),
         maxValue: 100,
         minValue: 0,
         name: `Chance Per Point`,
         step: 0.01,
         type: `number`
       },
+      projectedChancePerPoint: {
+        check: esgst.gwc && esgst.gwc_a && (((!esgst.enteredPath || esgst.cewgd) && !esgst.createdPath && !esgst.wonPath) || popup),
+        maxValue: 100,
+        minValue: 0,
+        name: `Projected Chance Per Point`,
+        step: 0.01,
+        type: `number`
+      },
       ratio: {
-        check: ((!esgst.enteredPath || esgst.cewgd) && !esgst.createdPath && !esgst.wonPath) || popup,
+        check: esgst.gwr && (((!esgst.enteredPath || esgst.cewgd) && !esgst.createdPath && !esgst.wonPath) || popup),
         minValue: 0,
         name: `Ratio`,
+        type: `number`
+      },
+      projectedRatio: {
+        check: esgst.gwr && esgst.gwr_a && (((!esgst.enteredPath || esgst.cewgd) && !esgst.createdPath && !esgst.wonPath) || popup),
+        minValue: 0,
+        name: `Projected Ratio`,
         type: `number`
       },
       rating: {
@@ -26205,6 +26257,7 @@
     giveaway.points = details.points;
     if (giveaway.gwcContext) {
       giveaway.chancePerPoint = Math.round(giveaway.chance / Math.max(1, giveaway.points) * 100) / 100;
+      giveaway.projectedChancePerPoint = Math.round(giveaway.projectedChance / Math.max(1, giveaway.points) * 100) / 100;
       giveaway.gwcContext.title = getFeatureTooltip(`gwc`, `Giveaway Winning Chance (${giveaway.chancePerPoint}% per point)`);
     }
     giveaway.level = details.level;
@@ -26635,14 +26688,16 @@
           }
         } else {
           giveaway.chance = 100;
-          giveaway.chancePerPoint = Math.round(100 / Math.max(1, giveaway.points) * 100) / 100;
+          giveaway.projectedChance = 100;
+          giveaway.chancePerPoint = Math.round(giveaway.chance / Math.max(1, giveaway.points) * 100) / 100;
+          giveaway.projectedChancePerPoint = giveaway.chancePerPoint;
         }
       }
     });
   }
 
   function gwc_addChance(giveaway) {
-    let advancedChance, advancedColor, basicChance, basicColor, colors, entries, i;
+    let advancedChance = 0, advancedColor, basicChance, basicColor, colors, entries, i;
     entries = giveaway.entered || giveaway.ended || giveaway.created || !esgst.gwc_e ? giveaway.entries : giveaway.entries + 1;
     basicChance = entries > 0 ? Math.round(giveaway.copies / entries * 10000) / 100 : 100;
     basicChance = basicChance > 100 ? 100 : (basicChance <= 0 ? 0.01 : basicChance);
@@ -26650,12 +26705,15 @@
       advancedChance = entries > 0 ? Math.round(giveaway.copies / (entries / (Date.now() - giveaway.startTime) * (giveaway.endTime - giveaway.startTime)) * 10000) / 100 : 100;
       advancedChance = advancedChance > 100 ? 100 : (advancedChance <= 0 ? 0.01 : advancedChance);
     }
-    giveaway.chance = esgst.gwc_a && !esgst.gwc_a_b ? advancedChance : basicChance;
+    giveaway.chance = basicChance;
+    giveaway.projectedChance = advancedChance;
     giveaway.chancePerPoint = Math.round(giveaway.chance / Math.max(1, giveaway.points) * 100) / 100;
+    giveaway.projectedChancePerPoint = Math.round(giveaway.projectedChance / Math.max(1, giveaway.points) * 100) / 100;
     if (giveaway.points) {
-      giveaway.gwcContext.title = getFeatureTooltip(`gwc`, `Giveaway Winning Chance (${giveaway.chancePerPoint}% per point)`);
+      giveaway.gwcContext.title = getFeatureTooltip(`gwc`, `Giveaway Winning Chance (${giveaway.chancePerPoint}% basic and ${giveaway.projectedChancePerPoint}% advanced per point)`);
     }
     giveaway.gwcContext.setAttribute(`data-chance`, giveaway.chance);
+    giveaway.gwcContext.setAttribute(`data-projectedChance`, giveaway.projectedChance);
     for (i = esgst.gwc_colors.length - 1; i > -1; --i) {
       colors = esgst.gwc_colors[i];
       if (basicChance >= parseFloat(colors.lower) && basicChance <= parseFloat(colors.upper)) {
@@ -26788,14 +26846,16 @@
   }
 
   function gwr_addRatio(context, giveaway) {
-    let advancedColor, advancedRatio, basicColor, basicRatio, colors, entries, i;
+    let advancedColor, advancedRatio = 0, basicColor, basicRatio, colors, entries, i;
     entries = giveaway.entered || giveaway.ended || giveaway.created || !esgst.gwr_e ? giveaway.entries : giveaway.entries + 1;
     basicRatio = Math.ceil(entries / giveaway.copies);
     if (esgst.gwr_a && !giveaway.ended && giveaway.startTime) {
       advancedRatio = Math.ceil((entries / (Date.now() - giveaway.startTime) * (giveaway.endTime - giveaway.startTime)) / giveaway.copies);
     }
-    giveaway.ratio = esgst.gwr_a && !esgst.gwr_a_b ? advancedRatio : basicRatio;
+    giveaway.ratio = basicRatio;
+    giveaway.projectedRatio = advancedRatio;
     context.setAttribute(`data-ratio`, giveaway.ratio);
+    context.setAttribute(`data-projectedRatio`, giveaway.projectedRatio);
     for (i = esgst.gwr_colors.length - 1; i > -1; --i) {
       colors = esgst.gwr_colors[i];
       if (basicRatio >= parseInt(colors.lower) && basicRatio <= parseInt(colors.upper)) {
@@ -29636,9 +29696,14 @@
     }
     chance = context.getElementsByClassName(`esgst-gwc`)[0];
     giveaway.chance = chance ? parseFloat(chance.getAttribute(`data-chance`)) : 0;
+    giveaway.projectedChance = chance ? parseFloat(chance.getAttribute(`data-projectedChance`)) : 0;
     giveaway.chancePerPoint = Math.round(giveaway.chance / Math.max(1, giveaway.points) * 100) / 100;
+    giveaway.projectedChancePerPoint = Math.round(giveaway.projectedChance / Math.max(1, giveaway.points) * 100) / 100;
     giveaway.blacklist = giveaway.outerWrap.getAttribute(`data-blacklist`);
     giveaway.error = giveaway.outerWrap.getAttribute(`data-error`);
+    const ratio = context.getElementsByClassName(`esgst-gwr`)[0];
+    giveaway.ratio = ratio ? parseFloat(ratio.getAttribute(`data-ratio`)) : 0;
+    giveaway.projectedRatio = ratio ? parseFloat(ratio.getAttribute(`data-projectedRatio`)) : 0;
     if (main) {
       if (esgst.gr && giveaway.creator === esgst.username && (esgst.gr_a || (giveaway.ended && (giveaway.entries === 0 || giveaway.entries < giveaway.copies))) && (!esgst.gr_r || !esgst.giveaways[giveaway.code] || !esgst.giveaways[giveaway.code].recreated) && !giveaway.headingName.parentElement.getElementsByClassName(`esgst-gr-button`)[0]) {
         let button = insertHtml(giveaway.headingName, `beforeBegin`, `
