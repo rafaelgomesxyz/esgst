@@ -3,7 +3,7 @@
 // @namespace ESGST
 // @description Enhances SteamGifts and SteamTrades by adding some cool features to them.
 // @icon https://dl.dropboxusercontent.com/s/lr3t3bxrxfxylqe/esgstIcon.ico?raw=1
-// @version 7.23.0
+// @version 7.24.0
 // @author revilheart
 // @contributor Royalgamer06
 // @downloadURL https://github.com/revilheart/ESGST/raw/master/ESGST.user.js
@@ -38,19 +38,19 @@
 // @grant GM.listValues
 // @grant GM.xmlHttpRequest
 // @grant GM.getResourceUrl
-// @require https://raw.githubusercontent.com/revilheart/ESGST/7.23.0/Extension/js/jquery-3.3.1.min.js
-// @require https://raw.githubusercontent.com/revilheart/ESGST/7.23.0/Extension/js/jquery-ui-1.12.1.min.js
-// @require https://raw.githubusercontent.com/revilheart/ESGST/7.23.0/Extension/js/bootstrap-3.3.7.min.js
-// @require https://raw.githubusercontent.com/revilheart/ESGST/7.23.0/Extension/js/interact-1.3.4.min.js
-// @require https://raw.githubusercontent.com/revilheart/ESGST/7.23.0/Extension/js/jszip-3.1.5.min.js
-// @require https://raw.githubusercontent.com/revilheart/ESGST/7.23.0/Extension/js/parsedown-0.0.1.js
-// @require https://raw.githubusercontent.com/revilheart/ESGST/7.23.0/Extension/js/query-builder-2.5.2.min.js
-// @require https://raw.githubusercontent.com/revilheart/ESGST/7.23.0/Extension/js/intersection-observer.js
-// @require https://raw.githubusercontent.com/revilheart/ESGST/7.23.0/Extension/js/encoding.js
-// @resource bs https://raw.githubusercontent.com/revilheart/ESGST/7.23.0/Extension/css/bootstrap-3.3.7.min.css
-// @resource abc https://raw.githubusercontent.com/revilheart/ESGST/7.23.0/Extension/css/awesome-bootstrap-checkbox-0.3.7.min.css
-// @resource qb https://raw.githubusercontent.com/revilheart/ESGST/7.23.0/Extension/css/query-builder-2.5.2.min.css
-// @resource sg https://raw.githubusercontent.com/revilheart/ESGST/7.23.0/Extension/css/steamgifts-v34.min.css
+// @require https://raw.githubusercontent.com/revilheart/ESGST/7.24.0/Extension/js/jquery-3.3.1.min.js
+// @require https://raw.githubusercontent.com/revilheart/ESGST/7.24.0/Extension/js/jquery-ui-1.12.1.min.js
+// @require https://raw.githubusercontent.com/revilheart/ESGST/7.24.0/Extension/js/bootstrap-3.3.7.min.js
+// @require https://raw.githubusercontent.com/revilheart/ESGST/7.24.0/Extension/js/interact-1.3.4.min.js
+// @require https://raw.githubusercontent.com/revilheart/ESGST/7.24.0/Extension/js/jszip-3.1.5.min.js
+// @require https://raw.githubusercontent.com/revilheart/ESGST/7.24.0/Extension/js/parsedown-0.0.1.js
+// @require https://raw.githubusercontent.com/revilheart/ESGST/7.24.0/Extension/js/query-builder-2.5.2.min.js
+// @require https://raw.githubusercontent.com/revilheart/ESGST/7.24.0/Extension/js/intersection-observer.js
+// @require https://raw.githubusercontent.com/revilheart/ESGST/7.24.0/Extension/js/encoding.js
+// @resource bs https://raw.githubusercontent.com/revilheart/ESGST/7.24.0/Extension/css/bootstrap-3.3.7.min.css
+// @resource abc https://raw.githubusercontent.com/revilheart/ESGST/7.24.0/Extension/css/awesome-bootstrap-checkbox-0.3.7.min.css
+// @resource qb https://raw.githubusercontent.com/revilheart/ESGST/7.24.0/Extension/css/query-builder-2.5.2.min.css
+// @resource sg https://raw.githubusercontent.com/revilheart/ESGST/7.24.0/Extension/css/steamgifts-v34.min.css
 // @run-at document-start
 // @noframes
 // ==/UserScript==
@@ -1293,6 +1293,8 @@
     esgst = {
       parameters: getParameters(),
       defaultValues: {
+        gc_lr_sg: true,
+        gc_rt_sg: true,
         ugd_playtime: 0,
         ugd_achievements: 0,
         ct_o_sg: true,
@@ -1425,9 +1427,9 @@
         staticPopups_width: `900px`,
         hgr_removeOwned: true,
         giveawayColumns: [`ged`, `endTime`, `winners`, `startTime`, `touhou`, `inviteOnly`, `whitelist`, `group`, `regionRestricted`, `level`],
-        giveawayPanel: [`ttec`, `gwc`, `gwr`, `gp`, `elgb`, `sgTools`],
+        giveawayPanel: [`ttec`, `gwc`, `gwr`, `gptw`, `gp`, `elgb`, `sgTools`],
         giveawayColumns_gv: [`sgTools`, `ged`, `time`, `touhou`, `inviteOnly`, `whitelist`, `group`, `regionRestricted`, `level`],
-        giveawayPanel_gv: [`ttec`, `gwc`, `gwr`, `gp`, `elgb`],
+        giveawayPanel_gv: [`ttec`, `gwc`, `gwr`, `gptw`, `gp`, `elgb`],
         enableByDefault_sg: false,
         enableByDefault_st: false,
         cf_m_sg: true,
@@ -1670,6 +1672,7 @@
         gch_colors: [],
         gwc_colors: [],
         gwr_colors: [],
+        gptw_colors: [],
         geth_colors: [],
         hr_minutes: 1,
         hr_w_hours: 24,
@@ -1782,8 +1785,8 @@
       markdownParser: new Parsedown(),
       sg: location.hostname.match(/www.steamgifts.com/),
       st: location.hostname.match(/www.steamtrades.com/),
-      currentVersion: `7.23.0`,
-      devVersion: `7.23.0`,
+      currentVersion: `7.24.0`,
+      devVersion: `7.24.0`,
       icon: `data:image/x-icon;base64,AAABAAEAEBAAAAEAIABoBAAAFgAAACgAAAAQAAAAIAAAAAEAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAqv8DCbP/Hgeq+CQIrf8iCK3/Igit/yIIrf8iB6//Iwit9x8Aqv8DAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAKr0GAa2/c0DvfzfA7f83QO3/N0Dt/zdA7f83QO+/d4Gs/3OAKP1GQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACm/xQFs/n2Bcf//wW///8FwP//BcD//wW///8Fx///BbP69gC2/xUAAAAAAAAAAAAAAAAA/1UDFptOFxSZMxkLpJktAq720QW1+ugEsfvjA7b92wO2/dsEsfvjBbX66Aau/dEoiO4tUlLWGU5k3hdVVf8DEJxKHxWqT8cVrU7uE6VN0guqny0Apv8XAJfQGwBAVywAQFcsAJfQGwCx/xcogugtS2Lk0lBl6u5Qae7ISmPeHxagSSMVr07jF7lV/xOiSu0brgATAAAAAAAAAA8AAAC/AAAAwAAAABAAAAAAYznjEkth4OxWb/3/T2jv40lf4iMXnksiEq1O3RayUv8UpEnkEo0+HQAAABkAAABBAAAA8QAAAPEAAABBAAAAGUBSvxxOYeDjU2v0/05m7d1LYuEiF55LIhKtTt0Ws1L/FahN2gU1FTAAAADAAAAA7AAAAP0AAAD9AAAA7AAAAMAVG0owUGPm2lNr9P9OZu3dS2LhIheeSyISrU7dFrNS/xWoTdoFNRswAAAAvwAAAOsAAAD9AAAA/QAAAOsAAADAFRtKMFBj6NpTa/T/Tmbt3Uti4SIXnksiEq1O3RayUv8UpEnkEo0+HQAAABgAAABAAAAA8QAAAPEAAABBAAAAGT5PuR1OYeDjU2v0/05m7d1LYuEiFqBJIxWuT+QXuVX/E6JL7QC8XhMAAAAAAAAADwAAAL8AAAC/AAAAEAAAAAAOR/8SSWLh7FZv/f9PaO/jSV/iIxCUSh8Vrk7HFqxN7ROlS9JskzMt1XULGK12EhxGLgYsRy8GK612EhzVgAsYgmxxLU1i39JNZ+vtT2fwx0pj1h8AqlUDF65GFgqZUhlsiC0txH0T0s5/EujJgBPkz4QR28+EEdvJgBPkzn8Q6Md+E9KLdHosM1LWGUZo6BZVVf8DAAAAAAAAAAAAAAAA/2YAFMl9EvbgjRb/14gV/9eIFf/XiBX/14gV/9+NFv/KgBD254YAFQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAL91FRjKgRHN1IgU3s+EEt3PhBLdz4QS3c+EEt3UiBTezYMRzcJ6FBkAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACqqgADxIARHr18FiO8eA8ivHgPIrx4DyK8eA8ivXwPI8SAER7/VQADAAAAAAAAAAAAAAAA78cAAPA3AAD4FwAABCAAADGOAAAE+AAAkBEAAJ55AACYOQAAlgEAAER4AAAXaAAATnoAAPgXAAD0JwAA69cAAA==`,
       sgIcon: `data:image/x-icon;base64,AAABAAEAEBAAAAEAIABoBAAAFgAAACgAAAAQAAAAIAAAAAEAIAAAAAAAQAQAABMLAAATCwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIUAAAD5AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAPoAAACFAAAAAAAAAAAAAAD8AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA+QAAAAAAAAAAAAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAAAAAAAAAAAAP8AAAD/AAAA/wAAABwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAcAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAcAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAHAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAAAAAAAAAAAAPwAAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD5AAAAAAAAAAAAAACFAAAA+QAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD5AAAAhQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA//8AAP//AADAAwAAwAMAAMfjAADP8wAAz/MAAM/zAADP8wAAz/MAAM/zAADH4wAAwAMAAMADAAD//wAA//8AAA==`,
       stIcon: `data:image/x-icon;base64,AAABAAEAEBAAAAEAIABoBAAAFgAAACgAAAAQAAAAIAAAAAEAIAAAAAAAQAQAABMLAAATCwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABbD6SgWw+ucFsPrkBbD6SgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAWw+uYFsPr/BbD6/wWw+ucAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAFsPrmBbD6/wWw+v8FsPrmAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABbD6SQWw+uYFsPrmBbD6SQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAFKRLShSkS+cUpEvkFKRLSgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAExi4EpMYuDnTGLg5Exi4EoAAAAAAAAAABSkS+YUpEv/FKRL/xSkS+cAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABMYuDmTGLg/0xi4P9MYuDnAAAAAAAAAAAUpEvmFKRL/xSkS/8UpEvmAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAATGLg5kxi4P9MYuD/TGLg5gAAAAAAAAAAFKRLSRSkS+YUpEvmFKRLSQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAExi4ElMYuDmTGLg5kxi4EkAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAMZ9E0rGfRPnxn0T5MZ9E0oAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADGfRPmxn0T/8Z9E//GfRPnAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAxn0T5sZ9E//GfRP/xn0T5gAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAMZ9E0nGfRPmxn0T5sZ9E0kAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA//8AAPw/AAD8PwAA/D8AAPw/AAD//wAAh+EAAIfhAACH4QAAh+EAAP//AAD8PwAA/D8AAPw/AAD8PwAA//8AAA==`,
@@ -2615,6 +2618,11 @@
       if (esgst[`giveawayColumns${key}`].indexOf(`touhou`) < 0 && esgst[`giveawayPanel${key}`].indexOf(`touhou`) < 0) {
         esgst[`giveawayColumns${key}`].push(`touhou`);
         esgst.settings[`giveawayColumns${key}`] = esgst[`giveawayColumns${key}`];
+        esgst.settingsChanged = true;
+      }
+      if (esgst[`giveawayColumns${key}`].indexOf(`gptw`) < 0 && esgst[`giveawayPanel${key}`].indexOf(`gptw`) < 0) {
+        esgst[`giveawayPanel${key}`].push(`gptw`);
+        esgst.settings[`giveawayPanel${key}`] = esgst[`giveawayPanel${key}`];
         esgst.settingsChanged = true;
       }
       for (let i = esgst[`giveawayColumns${key}`].length - 1; i > -1; i--) {
@@ -5514,6 +5522,21 @@
         dates[key].left += 1;
       }
     }
+    const currentKeys = Object.keys(dates).map(x => parseInt(x));
+    const lastDate = currentKeys[0];
+    let currentDate = currentKeys[currentKeys.length - 1];
+    while (currentDate < lastDate) {
+      const dateObj = new Date(currentDate);
+      dateObj.setDate(dateObj.getDate() + 1);
+      currentDate = dateObj.getTime();
+      if (!dates[currentDate]) {
+        dates[currentDate] = {
+          date: getDate(`[MMM] [D], [YYYY]`, currentDate),
+          entered: 0,
+          left: 0
+        };
+      }
+    }
     let popup = new Popup(`fa-history`, `Entry Tracker`, true);
     let rows = insertHtml(popup.scrollable, `beforeEnd`, `
       <div class="esgst-text-left esgst-float-right table" style="width: auto;">
@@ -6477,7 +6500,7 @@
   _MODULES.push({
     description: `
       <ul>
-        <li>Adds a button (<i class="fa fa-sort"></i>) to the main page heading of any <a href="https://www.steamgifts.com/giveaways">giveaways</a>/<a href="https://www.steamgifts.com/entered">entered</a>/<a href="https://www.steamgifts.com/group/SJ7Bu/">group</a>/<a href="https://www.steamgifts.com/user/cg">user</a> page that allows you to sort the giveaways in the page by game name, points, rating (if [id=gc_r] is enabled), end time, start time, creator, comments, entries, chance/chance per point (if [id=gwc] is enabled) and ratio (if [id=gwr] is enabled).</li>
+        <li>Adds a button (<i class="fa fa-sort"></i>) to the main page heading of any <a href="https://www.steamgifts.com/giveaways">giveaways</a>/<a href="https://www.steamgifts.com/entered">entered</a>/<a href="https://www.steamgifts.com/group/SJ7Bu/">group</a>/<a href="https://www.steamgifts.com/user/cg">user</a> page that allows you to sort the giveaways in the page by game name, points, rating (if [id=gc_r] is enabled), end time, start time, creator, comments, entries, chance/chance per point (if [id=gwc] is enabled), ratio (if [id=gwr] is enabled) and points to win (if [id=gptw] is enabled).</li>
         <li>There is also an option to automatically sort the giveaways so that every time you open the page the giveaways are already sorted by whatever option you prefer.</li>
       </ul>
     `,
@@ -6552,10 +6575,24 @@
         <option value="chance_desc">Chance - Descending</option>
         <option value="chancePerPoint_asc">Chance Per Point - Ascending</option>
         <option value="chancePerPoint_desc">Chance Per Point - Descending</option>
+        ${esgst.gwc_a ? `
+          <option value="projectedChance_asc">Projected Chance - Ascending</option>
+          <option value="projectedChance_desc">Projected Chance - Descending</option>
+          <option value="projectedChancePerPoint_asc">Projected Chance Per Point - Ascending</option>
+          <option value="projectedChancePerPoint_desc">Projected Chance Per Point - Descending</option>
+        ` : ``}
       ` : ``}
       ${esgst.gwr ? `
         <option value="ratio_asc">Ratio - Ascending</option>
         <option value="ratio_desc">Ratio - Descending</option>
+        ${esgst.gwr_a ? `
+          <option value="projectedRatio_asc">Projected Ratio - Ascending</option>
+          <option value="projectedRatio_desc">Projected Ratio - Descending</option>
+        ` : ``}
+      ` : ``}
+      ${esgst.gptw ? `
+        <option value="pointsToWin_asc">Points To Win - Ascending</option>
+        <option value="pointsToWin_desc">Points To Win - Descending</option>
       ` : ``}
       </select>
     `);
@@ -6988,6 +7025,25 @@
       </ul>
     `,
     features: {
+      gc_lr: {
+        description: `
+          <ul>
+            <li>With this option enabled, the categories will take a lot longer to load (when they are not already in the cache) because the requests will be sequential (the next game will only be requested when the current game has finished requesting).</li>
+            <li>With this option disabled, all of the requests happen at the same time, which is a lot faster, but can get you easily blocked from the Steam store for an hour or so if you use the feature too much in a short period of time.</li>
+          </ul>
+        `,
+        name: `Limit requests to the Steam store.`,
+        sg: true
+      },
+      gc_rt: {
+        description: `
+          <ul>
+            <li>Normally the categories only appear in the page after all requests have been made (meaning they all appear in the page at the same time). With this option enabled, the categories will appear as they are requested, so they appear in different times for each game.</li>
+          </ul>
+        `,
+        name: `Show categories in real time.`,
+        sg: true
+      },
       gc_lp: {
         description: `
           <ul>
@@ -7743,10 +7799,18 @@
       if (numApps || numSubs) {
         let promises = [];
         for (let i = 0, n = missingApps.length; i < n; ++i) {
-          promises.push(gc_getCategories(gc, missingApps[i], `apps`));
+          if (esgst.gc_lr) {
+            await gc_getCategories(gc, games, missingApps[i], `apps`);
+          } else {
+            promises.push(gc_getCategories(gc, games, missingApps[i], `apps`));
+          }
         }
         for (let i = 0, n = missingSubs.length; i < n; ++i) {
-          promises.push(gc_getCategories(gc, missingSubs[i], `subs`));
+          if (esgst.gc_lr) {
+            await gc_getCategories(gc, games, missingSubs[i], `subs`);
+          } else {
+            promises.push(gc_getCategories(gc, games, missingSubs[i], `subs`));
+          }
         }
         await Promise.all(promises);
         await lockAndSaveGames(esgst.games);
@@ -7755,14 +7819,15 @@
     }
 
     // add categories
-    let savedGames = JSON.parse(await getValue(`games`));
-    for (let i = 0, n = gc.apps.length; i < n; ++i) {
-      let id = parseInt(gc.apps[i]);
-      gc_addCategory(gc.cache.apps[id], games.apps[id], id, savedGames.apps[id], savedGames, `apps`);
-    }
-    for (let i = 0, n = gc.subs.length; i < n; ++i) {
-      let id = parseInt(gc.subs[i]);
-      gc_addCategory(gc.cache.subs[id], games.subs[id], id, savedGames.subs[id], savedGames, `subs`);
+    if (!esgst.gc_rt) {
+      for (let i = 0, n = gc.apps.length; i < n; ++i) {
+        let id = parseInt(gc.apps[i]);
+        gc_addCategory(gc.cache.apps[id], games.apps[id], id, esgst.games.apps[id], `apps`);
+      }
+      for (let i = 0, n = gc.subs.length; i < n; ++i) {
+        let id = parseInt(gc.subs[i]);
+        gc_addCategory(gc.cache.subs[id], games.subs[id], id, esgst.games.subs[id], `subs`);
+      }
     }
     let categories = [`achievements`, `dlc`, `dlcOwned`, `dlcFree`, `dlcNonFree`, `genres`, `linux`, `mac`, `multiplayer`, `package`, `rating`, `removed`, `steamCloud`, `tradingCards`, `earlyAccess`, `releaseDate`];
     for (let i = 0, n = esgst.mainGiveaways.length; i < n; ++i) {
@@ -7882,7 +7947,7 @@
     }
   }
 
-  async function gc_getCategories(gc, id, type) {
+  async function gc_getCategories(gc, games, id, type) {
     try {
       let categories = {
         achievements: 0,
@@ -8030,22 +8095,32 @@
         }
       }
       gc.cache[type][id] = categories;
+      if (esgst.gc_rt) {
+        id = parseInt(id);
+        gc_addCategory(gc.cache[type][id], games[type][id], id, esgst.games[type][id], type);
+      }
     } catch (error) {
       console.log(error);
     }
   }
 
-  function gc_checkPackage(id, savedGame, savedGames) {
-    const packg = savedGames.subs[id];
+  function gc_checkPackage(id, savedGame) {
+    const packg = esgst.games.subs[id];
     if (!packg || !packg.apps) {
       return;
     }
+    const added = [];
     const games = packg.apps
       .map(x => {
+        x = parseInt(x);
         const y = esgst.games.apps[x];
         if (!y) {
           return;
         }
+        if (added.indexOf(x) > -1) {
+          return;
+        }
+        added.push(x);
         y.id = x;
         return y;
       })
@@ -8053,21 +8128,26 @@
         Object.keys(esgst.games.apps)
         .filter(x => esgst.games.apps[x].packages && esgst.games.apps[x].packages.indexOf(id) > -1)
         .map(x => {
+          x = parseInt(x);
           const y = esgst.games.apps[x];
           if (!y) {
             return;
           }
+          if (added.indexOf(x) > -1) {
+            return;
+          }
+          added.push(x);
           y.id = x;
           return y;
         })
-      );
+      )
+      .filter(x => x);
     let found = false;
     let isOwned = false;
     const count = {
       num: 0,
       total: packg.apps.length
     };
-    let numOwned = 0;
     for (const game of games) {
       if (!game) {
         continue;
@@ -8092,16 +8172,16 @@
     return count;   
   }
 
-  function gc_addCategory(cache, games, id, savedGame, savedGames, type) {
+  function gc_addCategory(cache, games, id, savedGame, type) {
     let active, category, colored, count, cv, elements, encodedName, genre, genreList, genres, giveaway, giveaways, html, i, j, k, n, panel, name, sent, singularType, user, value;
     if (type === `apps` && savedGame && savedGame.packages) {
       for (const subId of savedGame.packages) {
-        gc_checkPackage(subId, savedGame, savedGames);
+        gc_checkPackage(subId, savedGame);
       }
     }
     let packageCount = null;
     if (type === `subs` && savedGame && savedGame.apps) {
-      packageCount = gc_checkPackage(id, savedGame, savedGames);
+      packageCount = gc_checkPackage(id, savedGame);
     }
     singularType = type.slice(0, -1);
     name = cache ? cache.name : games[0].name;
@@ -10263,8 +10343,18 @@
           gf_chance: {
             description: `
               <ul>
-                <li>Allows you to filter giveaways by chance.</li>
+                <li>Allows you to filter giveaways by chance (basic).</li>
                 <li>This option requires [id=gwc] enabled to work.</li>
+              </ul>
+            `,
+            name: `Chance`,
+            sg: true
+          },
+          gf_projectedChance: {
+            description: `
+              <ul>
+                <li>Allows you to filter giveaways by projected chance (advanced).</li>
+                <li>This option requires [id=gwc_a] enabled to work.</li>
               </ul>
             `,
             name: `Chance`,
@@ -10273,21 +10363,51 @@
           gf_chancePerPoint: {
             description: `
               <ul>
-                <li>Allows you to filter giveaways by chance per point.</li>
+                <li>Allows you to filter giveaways by chance per point using the basic chance.</li>
                 <li>This option requires [id=gwc] enabled to work.</li>
               </ul>
             `,
             name: `Chance Per Point`,
             sg: true
           },
+          gf_projectedChancePerPoint: {
+            description: `
+              <ul>
+                <li>Allows you to filter giveaways by chance per point using the advanced chance.</li>
+                <li>This option requires [id=gwc_a] enabled to work.</li>
+              </ul>
+            `,
+            name: `Projected Chance Per Point`,
+            sg: true
+          },
           gf_ratio: {
             description: `
               <ul>
-                <li>Allows you to filter giveaways by ratio.</li>
+                <li>Allows you to filter giveaways by ratio (basic).</li>
                 <li>This option requires [id=gwr] enabled to work.</li>
               </ul>
             `,
             name: `Ratio`,
+            sg: true
+          },
+          gf_projectedRatio: {
+            description: `
+              <ul>
+                <li>Allows you to filter giveaways by projected ratio (advanced).</li>
+                <li>This option requires [id=gwr_a] enabled to work.</li>
+              </ul>
+            `,
+            name: `Projected Ratio`,
+            sg: true
+          },
+          gf_pointsToWin: {
+            description: `
+              <ul>
+                <li>Allows you to filter giveaways by points to win.</li>
+                <li>This option requires [id=gptw] enabled to work.</li>
+              </ul>
+            `,
+            name: `Points To Win`,
             sg: true
           },
           gf_rating: {
@@ -10889,25 +11009,53 @@
         type: `number`
       },
       chance: {
-        check: ((!esgst.enteredPath || esgst.cewgd) && !esgst.createdPath && !esgst.wonPath) || popup,
+        check: esgst.gwc && (((!esgst.enteredPath || esgst.cewgd) && !esgst.createdPath && !esgst.wonPath) || popup),
         maxValue: 100,
         minValue: 0,
         name: `Chance`,
         step: 0.01,
         type: `number`
       },
+      projectedChance: {
+        check: esgst.gwc && esgst.gwc_a && (((!esgst.enteredPath || esgst.cewgd) && !esgst.createdPath && !esgst.wonPath) || popup),
+        maxValue: 100,
+        minValue: 0,
+        name: `Projected Chance`,
+        step: 0.01,
+        type: `number`
+      },
       chancePerPoint: {
-        check: ((!esgst.enteredPath || esgst.cewgd) && !esgst.createdPath && !esgst.wonPath) || popup,
+        check: esgst.gwc && (((!esgst.enteredPath || esgst.cewgd) && !esgst.createdPath && !esgst.wonPath) || popup),
         maxValue: 100,
         minValue: 0,
         name: `Chance Per Point`,
         step: 0.01,
         type: `number`
       },
+      projectedChancePerPoint: {
+        check: esgst.gwc && esgst.gwc_a && (((!esgst.enteredPath || esgst.cewgd) && !esgst.createdPath && !esgst.wonPath) || popup),
+        maxValue: 100,
+        minValue: 0,
+        name: `Projected Chance Per Point`,
+        step: 0.01,
+        type: `number`
+      },
       ratio: {
-        check: ((!esgst.enteredPath || esgst.cewgd) && !esgst.createdPath && !esgst.wonPath) || popup,
+        check: esgst.gwr && (((!esgst.enteredPath || esgst.cewgd) && !esgst.createdPath && !esgst.wonPath) || popup),
         minValue: 0,
         name: `Ratio`,
+        type: `number`
+      },
+      projectedRatio: {
+        check: esgst.gwr && esgst.gwr_a && (((!esgst.enteredPath || esgst.cewgd) && !esgst.createdPath && !esgst.wonPath) || popup),
+        minValue: 0,
+        name: `Projected Ratio`,
+        type: `number`
+      },
+      pointsToWin: {
+        check: esgst.gptw && (((!esgst.enteredPath || esgst.cewgd) && !esgst.createdPath && !esgst.wonPath) || popup),
+        minValue: 0,
+        name: `Points To Win`,
         type: `number`
       },
       rating: {
@@ -26205,6 +26353,7 @@
     giveaway.points = details.points;
     if (giveaway.gwcContext) {
       giveaway.chancePerPoint = Math.round(giveaway.chance / Math.max(1, giveaway.points) * 100) / 100;
+      giveaway.projectedChancePerPoint = Math.round(giveaway.projectedChance / Math.max(1, giveaway.points) * 100) / 100;
       giveaway.gwcContext.title = getFeatureTooltip(`gwc`, `Giveaway Winning Chance (${giveaway.chancePerPoint}% per point)`);
     }
     giveaway.level = details.level;
@@ -26551,7 +26700,7 @@
       }
     }
   }
-  
+
   // [GWC]
   
   _MODULES.push({
@@ -26616,7 +26765,7 @@
 
   function gwc() {
     esgst.giveawayFeatures.push(gwc_addChances);
-    if (!esgst.enteredPath) return;
+    if (esgst.gptw || !esgst.enteredPath) return;
     esgst.endlessFeatures.push(gwc_addHeading);
   }
 
@@ -26635,14 +26784,16 @@
           }
         } else {
           giveaway.chance = 100;
-          giveaway.chancePerPoint = Math.round(100 / Math.max(1, giveaway.points) * 100) / 100;
+          giveaway.projectedChance = 100;
+          giveaway.chancePerPoint = Math.round(giveaway.chance / Math.max(1, giveaway.points) * 100) / 100;
+          giveaway.projectedChancePerPoint = giveaway.chancePerPoint;
         }
       }
     });
   }
 
   function gwc_addChance(giveaway) {
-    let advancedChance, advancedColor, basicChance, basicColor, colors, entries, i;
+    let advancedChance = 0, advancedColor, basicChance, basicColor, colors, entries, i;
     entries = giveaway.entered || giveaway.ended || giveaway.created || !esgst.gwc_e ? giveaway.entries : giveaway.entries + 1;
     basicChance = entries > 0 ? Math.round(giveaway.copies / entries * 10000) / 100 : 100;
     basicChance = basicChance > 100 ? 100 : (basicChance <= 0 ? 0.01 : basicChance);
@@ -26650,12 +26801,15 @@
       advancedChance = entries > 0 ? Math.round(giveaway.copies / (entries / (Date.now() - giveaway.startTime) * (giveaway.endTime - giveaway.startTime)) * 10000) / 100 : 100;
       advancedChance = advancedChance > 100 ? 100 : (advancedChance <= 0 ? 0.01 : advancedChance);
     }
-    giveaway.chance = esgst.gwc_a && !esgst.gwc_a_b ? advancedChance : basicChance;
+    giveaway.chance = basicChance;
+    giveaway.projectedChance = advancedChance;
     giveaway.chancePerPoint = Math.round(giveaway.chance / Math.max(1, giveaway.points) * 100) / 100;
+    giveaway.projectedChancePerPoint = Math.round(giveaway.projectedChance / Math.max(1, giveaway.points) * 100) / 100;
     if (giveaway.points) {
-      giveaway.gwcContext.title = getFeatureTooltip(`gwc`, `Giveaway Winning Chance (${giveaway.chancePerPoint}% per point)`);
+      giveaway.gwcContext.title = getFeatureTooltip(`gwc`, `Giveaway Winning Chance (${giveaway.chancePerPoint}% basic and ${giveaway.projectedChancePerPoint}% advanced per point)`);
     }
     giveaway.gwcContext.setAttribute(`data-chance`, giveaway.chance);
+    giveaway.gwcContext.setAttribute(`data-projectedChance`, giveaway.projectedChance);
     for (i = esgst.gwc_colors.length - 1; i > -1; --i) {
       colors = esgst.gwc_colors[i];
       if (basicChance >= parseFloat(colors.lower) && basicChance <= parseFloat(colors.upper)) {
@@ -26692,14 +26846,17 @@
     if (esgst.createdPath || esgst.wonPath || !main) return;
     const table = context.querySelector(`${endless ? `.esgst-es-page-${endless} .table__heading, .esgst-es-page-${endless}.table__heading` : `.table__heading`}`);
     if (!table || table.getElementsByClassName(`esgst-gwcr-heading`)[0]) return;
-    let title;
-    if (esgst.gwc && esgst.gwr) {
-      title = `Chance / Ratio`;
-    } else if (esgst.gwc) {
-      title = `Chance`;
-    } else {
-      title = `Ratio`;
+    let title = ``;
+    if (esgst.gwc) {
+      title += `Chance / `;
     }
+    if (esgst.gwr) {
+      title += `Ratio / `;
+    }
+    if (esgst.gptw) {
+      title += `Points To Win / `;
+    }
+    title = title.slice(0, -3);
     table.firstElementChild.insertAdjacentHTML(`afterEnd`, `<div class="table__column--width-small text-center esgst-gwcr-heading">${title}</div>`);
   }
   
@@ -26767,7 +26924,7 @@
 
   function gwr() {
     esgst.giveawayFeatures.push(gwr_addRatios);
-    if (esgst.gwc || !esgst.enteredPath) return;
+    if (esgst.gptw || esgst.gwc || !esgst.enteredPath) return;
     esgst.endlessFeatures.push(gwc_addHeading);
   }
 
@@ -26788,14 +26945,16 @@
   }
 
   function gwr_addRatio(context, giveaway) {
-    let advancedColor, advancedRatio, basicColor, basicRatio, colors, entries, i;
+    let advancedColor, advancedRatio = 0, basicColor, basicRatio, colors, entries, i;
     entries = giveaway.entered || giveaway.ended || giveaway.created || !esgst.gwr_e ? giveaway.entries : giveaway.entries + 1;
     basicRatio = Math.ceil(entries / giveaway.copies);
     if (esgst.gwr_a && !giveaway.ended && giveaway.startTime) {
       advancedRatio = Math.ceil((entries / (Date.now() - giveaway.startTime) * (giveaway.endTime - giveaway.startTime)) / giveaway.copies);
     }
-    giveaway.ratio = esgst.gwr_a && !esgst.gwr_a_b ? advancedRatio : basicRatio;
+    giveaway.ratio = basicRatio;
+    giveaway.projectedRatio = advancedRatio;
     context.setAttribute(`data-ratio`, giveaway.ratio);
+    context.setAttribute(`data-projectedRatio`, giveaway.projectedRatio);
     for (i = esgst.gwr_colors.length - 1; i > -1; --i) {
       colors = esgst.gwr_colors[i];
       if (basicRatio >= parseInt(colors.lower) && basicRatio <= parseInt(colors.upper)) {
@@ -26824,10 +26983,88 @@
     }
     context.innerHTML = `
       ${esgst.enteredPath ? `` : `<i class="fa fa-pie-chart"></i>`}
-      <span>${esgst.gwr_a && advancedRatio ? (esgst.gwr_a_b ? `<span${basicColor ? ` style="color: ${basicColor}; font-weight: bold;"` : ``}>${basicRatio}:1</span> (<span${advancedColor ? ` style="color: ${advancedColor}; font-weight: bold;"` : ``}>${advancedRatio}:1</span>)` : `<span${advancedColor ? ` style="color: ${advancedColor}; font-weight: bold;"` : ``}>${advancedRatio}:1</span>`) : `<span${basicColor ? ` style="color: ${basicColor}; font-weight: bold;"` : ``}>${basicRatio}:1</span>`}</span>
+      <span>${esgst.gwr_a && advancedRatio ? (esgst.gwr_a_b ? `<span${basicColor ? ` style="color: ${basicColor}; font-weight: bold;"` : ``}>${basicRatio}:1</span> (<span${advancedColor ? ` style="color: ${advancedColor}; font-weight: bold;"` : ``}>${advancedRatio}:1</span>)` : `<span${advancedColor ? ` style="color: ${advancedColor}; font-weight: bold;"` : ``}>${advancedRatio}:1</span>`) : `<span${basicColor ? ` style="color: ${basicColor}; font-weight: bold;"` : ``}>${basicRatio}:1</span>`}${esgst.gptw && esgst.enteredPath ? ` / ` : ``}</span>      
     `;
   }
   
+  // [GPTW]
+
+  _MODULES.push({
+    description: `
+      <ul>
+        <li>Adds an element (<i class="fa fa-rub"></i> [Points]) below a giveaway's start time (in any page) that shows how many points you would have to spend to win the giveaway.</li>
+        <li>The points are calculated by rounding up (using 2 decimals) the result of the following formula: number_of_points / number_of_copies * number_of_entries
+        <li>You can move the element around by dragging and dropping it.</li>
+      </ul>
+    `,
+    features: {
+      gptw_e: {
+        description: `
+          <ul>
+            <li>The formula changes to: number_of_points / number_of_copies * (number_of_entries + 1)
+            <li>For example, if a giveaway for 2 copies has 5 entries and is worth 10 points, the current points to win are 25, but after you enter it, it will have 6 entries, so the points will increase to 30.</li>
+          </ul>
+        `,
+        name: `Show what the points to win will be when you enter the giveaway instead of the current points to win.`,
+        sg: true
+      }
+    },
+    id: `gptw`,
+    load: gptw,
+    name: `Giveaway Points To Win`,
+    sg: true,
+    type: `giveaways`
+  });
+
+  function gptw() {
+    esgst.giveawayFeatures.push(gptw_addPoints);
+    if (!esgst.enteredPath) return;
+    esgst.endlessFeatures.push(gwc_addHeading);
+  }
+
+  function gptw_addPoints(giveaways, main, source) {
+    for (const giveaway of giveaways) {
+      if (giveaway.sgTools || (main && (esgst.createdPath || esgst.wonPath || esgst.newGiveawayPath || esgst.archivePath))) {
+        continue;
+      }
+      if (((!giveaway.inviteOnly || ((!main || (!esgst.giveawayPath && !esgst.enteredPath)) && main && !giveaway.ended)) && giveaway.inviteOnly) || giveaway.innerWrap.getElementsByClassName(`esgst-gptw`)[0]) {
+        continue;
+      }
+      if (giveaway.started) {
+        giveaway.gptwContext = insertHtml(giveaway.panel, (esgst.gv && ((main && esgst.giveawaysPath) || (source === `gb` && esgst.gv_gb) || (source === `ged` && esgst.gv_ged) || (source === `ge` && esgst.gv_ge))) ? `afterBegin` : `beforeEnd`, `<div class="${esgst.giveawayPath ? `featured__column` : ``} esgst-gptw" data-columnId="gptw" title="${getFeatureTooltip(`gptw`, `Giveaway Points To Win`)}">`);
+        gptw_addPoint(giveaway);
+        if (!esgst.lockGiveawayColumns && (!main || esgst.giveawaysPath || esgst.userPath || esgst.groupPath)) {
+          giveaway.gptwContext.setAttribute(`draggable`, true);
+          giveaway.gptwContext.addEventListener(`dragstart`, giveaways_setSource.bind(null, giveaway));
+          giveaway.gptwContext.addEventListener(`dragenter`, giveaways_getSource.bind(null, giveaway, false));
+          giveaway.gptwContext.addEventListener(`dragend`, giveaways_saveSource.bind(null, giveaway));
+        }
+      } else {
+        giveaway.pointsToWin = 0;
+      }
+    }
+  }
+
+  function gptw_addPoint(giveaway) {
+    const entries = giveaway.entered || giveaway.ended || giveaway.created || !esgst.gptw_e ? giveaway.entries : giveaway.entries + 1;
+    giveaway.pointsToWin = Math.round((giveaway.points || 0) / giveaway.copies * entries * 100) / 100;
+    giveaway.gptwContext.setAttribute(`data-pointsToWin`, giveaway.pointsToWin);
+    let color = null;
+    for (const colors of esgst.gptw_colors) {
+      if (giveaway.pointsToWin >= parseFloat(colors.lower) && giveaway.pointsToWin <= parseFloat(colors.upper)) {
+        color = colors.color;
+        break;
+      }
+    }
+    if (esgst.enteredPath) {
+      giveaway.gptwContext.style.display = `inline-block`;
+    }
+    giveaway.gptwContext.innerHTML = `
+      ${esgst.enteredPath ? `` : `<i class="fa fa-rub"></i>`}
+      <span${color ? ` style="color: ${color}; font-weight: bold;"` : ``}>${giveaway.pointsToWin}</span>
+    `;
+  }
+
   // [GETH]
   
   _MODULES.push({
@@ -29560,7 +29797,7 @@
       giveaway.comments = parseInt(giveaway.commentsLink.textContent.replace(/,/g, ``).match(/\d+/)[0]);
     }
     giveaway.panel = giveaway.innerWrap.getElementsByClassName(`esgst-giveaway-panel`)[0];
-    if (!giveaway.panel && (esgst.gwc || esgst.gwr || esgst.gp || esgst.elgb || esgst.cewgd)) {
+    if (!giveaway.panel && (esgst.gwc || esgst.gwr || esgst.gptw || esgst.gp || esgst.elgb || esgst.cewgd)) {
       if (giveaway.links) {
         giveaway.panel = insertHtml(giveaway.links, `afterEnd`, `
           <div class="giveaway__columns esgst-giveaway-panel"></div>
@@ -29573,7 +29810,7 @@
         } else {
           giveaway.panel = insertHtml(giveaway.columns, `afterEnd`, `<div class="featured__columns esgst-giveaway-panel"></div>`);
         }
-      } else if (esgst.enteredPath && (esgst.gwc || esgst.gwr)) {
+      } else if (esgst.enteredPath && (esgst.gwc || esgst.gwr || esgst.gptw)) {
         giveaway.panel = insertHtml(giveaway.innerWrap.firstElementChild.nextElementSibling, `afterEnd`, `<div class="table__column--width-small text-center esgst-giveaway-panel"></div>`);
       }
     }
@@ -29636,9 +29873,16 @@
     }
     chance = context.getElementsByClassName(`esgst-gwc`)[0];
     giveaway.chance = chance ? parseFloat(chance.getAttribute(`data-chance`)) : 0;
+    giveaway.projectedChance = chance ? parseFloat(chance.getAttribute(`data-projectedChance`)) : 0;
     giveaway.chancePerPoint = Math.round(giveaway.chance / Math.max(1, giveaway.points) * 100) / 100;
+    giveaway.projectedChancePerPoint = Math.round(giveaway.projectedChance / Math.max(1, giveaway.points) * 100) / 100;
     giveaway.blacklist = giveaway.outerWrap.getAttribute(`data-blacklist`);
     giveaway.error = giveaway.outerWrap.getAttribute(`data-error`);
+    const ratio = context.getElementsByClassName(`esgst-gwr`)[0];
+    giveaway.ratio = ratio ? parseFloat(ratio.getAttribute(`data-ratio`)) : 0;
+    giveaway.projectedRatio = ratio ? parseFloat(ratio.getAttribute(`data-projectedRatio`)) : 0;
+    const pointsToWin = context.getElementsByClassName(`esgst-gptw`)[0];
+    giveaway.pointsToWin = pointsToWin ? parseFloat(pointsToWin.getAttribute(`data-pointsToWin`)) : 0;
     if (main) {
       if (esgst.gr && giveaway.creator === esgst.username && (esgst.gr_a || (giveaway.ended && (giveaway.entries === 0 || giveaway.entries < giveaway.copies))) && (!esgst.gr_r || !esgst.giveaways[giveaway.code] || !esgst.giveaways[giveaway.code].recreated) && !giveaway.headingName.parentElement.getElementsByClassName(`esgst-gr-button`)[0]) {
         let button = insertHtml(giveaway.headingName, `beforeBegin`, `
@@ -29676,7 +29920,7 @@
       }
       if (giveaway.startTimeColumn) {
         giveaway.startTimeColumn.setAttribute(`data-columnId`, `startTime`);
-        if (esgst.userPath && main) {
+        if ((esgst.userPath || esgst.groupPath) && main) {
           giveaway.startTimeColumn.previousElementSibling.setAttribute(`data-columnId`, `winners`);
         }
       }
@@ -31951,7 +32195,7 @@
           if (!gcCache.subs[id]) {
             gcCache.subs[id] = {};
           }
-          gcCache.subs[id].apps = apps;
+          gcCache.subs[id].apps = apps.map(x => parseInt(x.id));
         } catch (e) {}
       }
       if (apps) {
@@ -36704,7 +36948,7 @@
       Name: `esgst-heading-button`,
       Title: `Request access to the Steam group`
     }]);
-    Container.style.maxHeight = `${innerHeight - (Container.offsetTop + (esgst.ff ? 44 : 0) + 25)}px`;
+    Container.style.maxHeight = `${innerHeight - (Container.offsetTop + 69)}px`;
     let SMMenu = Container.getElementsByClassName(`esgst-settings-menu`)[0];
     let i, type;
     i = 1;
@@ -37096,6 +37340,9 @@
       SMFeatures.classList.remove(`esgst-hidden`);
     } else if (ID === `gwr`) {
       addGwcrMenuPanel(SMFeatures, `gwr_colors`, `ratio`);
+      SMFeatures.classList.remove(`esgst-hidden`);
+    } else if (ID === `gptw`) {
+      addGwcrMenuPanel(SMFeatures, `gptw_colors`, `points to win`);
       SMFeatures.classList.remove(`esgst-hidden`);
     } else if (ID === `geth`) {
       addGwcrMenuPanel(SMFeatures, `geth_colors`, `hours`);
@@ -39136,7 +39383,7 @@
           break;
         case `games`:
           values = {
-            main: [`reducedCV`, `noCV`, `hidden`, `ignored`, `owned`, `wishlisted`],
+            main: [`apps`, `packages`, `reducedCV`, `noCV`, `hidden`, `ignored`, `owned`, `wishlisted`],
             gt: [`tags`],
             egh: [`entered`],
             itadi: [`itadi`]
@@ -42316,7 +42563,7 @@
         margin: 0 0 0 5px;
       }
 
-      .esgst-gv-popout .esgst-gwc, .esgst-gv-popout .esgst-gwr, .esgst-gv-popout .esgst-ttec {
+      .esgst-gv-popout .esgst-gwc, .esgst-gv-popout .esgst-gwr, .esgst-gv-popout .esgst-gptw, .esgst-gv-popout .esgst-ttec {
         display: inline-block;
         margin: 0 !important;
         padding: 0 5px !important;
@@ -42556,7 +42803,7 @@
         margin: -18px 0 0 !important;
       }
 
-      .esgst-gv-icons .esgst-gc, .esgst-gv-icons .esgst-gwc, .esgst-gv-icons .esgst-gwr, .esgst-gv-icons .esgst-ttec, .esgst-gv-time, .esgst-gv-icons .esgst-ged-source {
+      .esgst-gv-icons .esgst-gc, .esgst-gv-icons .esgst-gwc, .esgst-gv-icons .esgst-gwr, .esgst-gv-icons .esgst-gptw, .esgst-gv-icons .esgst-ttec, .esgst-gv-time, .esgst-gv-icons .esgst-ged-source {
         background-color: #fff;
         padding: 2px !important;
       }
@@ -42618,7 +42865,7 @@
         text-align: center;
       }
 
-      .esgst-gv-popout .esgst-gc-panel i, .esgst-gv-popout .giveaway__links i, .esgst-gv-popout .esgst-gwc i, .esgst-gv-popout .esgst-gwr i, .esgst-gv-popout .esgst-ggl-panel, .esgst-gv-popout .esgst-ggl-panel i {
+      .esgst-gv-popout .esgst-gc-panel i, .esgst-gv-popout .giveaway__links i, .esgst-gv-popout .esgst-gwc i, .esgst-gv-popout .esgst-gwr i, .esgst-gv-popout .esgst-gptw i, .esgst-gv-popout .esgst-ggl-panel, .esgst-gv-popout .esgst-ggl-panel i {
         font-size: 11px;
       }
 
@@ -44646,6 +44893,22 @@
   function loadChangelog(version) {
     let changelog, html, i, index, n, popup;
     changelog = [
+      {
+        date: `July 22, 2018`,
+        version: `7.24.0`,
+        changelog: `
+          <ul>
+            <li><a href="https://github.com/revilheart/ESGST/issues/829">#829</a> Add options to limit requests to the Steam store and show categories in real time to Game Categories</li>
+            <li><a href="https://github.com/revilheart/ESGST/issues/831">#831</a> Fix a bug that does not calculate average entries correctly in Entry Tracker</li>
+            <li><a href="https://github.com/revilheart/ESGST/issues/830">#830</a> Fix a bug that identifies non-owned games as owned in Game Categories</li>
+            <li><a href="https://github.com/revilheart/ESGST/issues/827">#827</a> Add a feature: Giveaway Points To Win</li>
+            <li><a href="https://github.com/revilheart/ESGST/issues/826">#826</a> Add "Projected Chance", "Projected Chance Per Point" and "Projected Ratio" to Giveaways Sorter</li>
+            <li><a href="https://github.com/revilheart/ESGST/issues/805">#805</a> Add "Projected Chance", "Projected Chance Per Point" and "Projected Ratio" giveaway filters</li>
+            <li><a href="https://github.com/revilheart/ESGST/issues/808">#808</a> Fix a bug that does not remember the position of the winners column in group pages when dragging</li>
+            <li><a href="https://github.com/revilheart/ESGST/issues/825">#825</a> Fix a style issue that shows two scrollbars in the settings menu</li>
+          </ul>
+        `
+      },
       {
         date: `July 20, 2018`,
         version: `7.23.0`,

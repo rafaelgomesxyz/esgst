@@ -236,6 +236,17 @@ To learn more about each feature you have to install ESGST.
 
 ## Changelog
 
+**7.24.0 (July 22, 2018)**
+
+* [#829](https://github.com/revilheart/ESGST/issues/829)Add options to limit requests to the Steam store and show categories in real time to Game Categories
+* [#831](https://github.com/revilheart/ESGST/issues/831)Fix a bug that does not calculate average entries correctly in Entry Tracker
+* [#830](https://github.com/revilheart/ESGST/issues/830)Fix a bug that identifies non-owned games as owned in Game Categories
+* [#827](https://github.com/revilheart/ESGST/issues/827)Add a feature: Giveaway Points To Win
+* [#826](https://github.com/revilheart/ESGST/issues/826)Add "Projected Chance", "Projected Chance Per Point" and "Projected Ratio" to Giveaways Sorter
+* [#805](https://github.com/revilheart/ESGST/issues/805)Add "Projected Chance", "Projected Chance Per Point" and "Projected Ratio" giveaway filters
+* [#808](https://github.com/revilheart/ESGST/issues/808)Fix a bug that does not remember the position of the winners column in group pages when dragging
+* [#825](https://github.com/revilheart/ESGST/issues/825)Fix a style issue that shows two scrollbars in the settings menu
+
 **7.23.0 (July 20, 2018)**
 
 * [#824](https://github.com/revilheart/ESGST/issues/824)Add enhancements to User Giveaway Data
