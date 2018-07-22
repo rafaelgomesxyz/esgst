@@ -43,11 +43,45 @@ async function doFetch(parameters, request, sender, callback) {
   if (request.fileName) {
     parameters.body = await getZip(parameters.body, request.fileName);
   }
+
+  let domain = request.url.match(/https?:\/\/(.+?)(\/.*)?$/)[1];
+  let url = request.url.match(/(https?:\/\/.+?)(\/.*)?$/)[1];
+
+  // get no-container cookies
+  let cookies = await getCookies({
+    domain: domain
+  });
+
+  const cookieHeader = parameters.headers.get(`Cookie`);
+  let setCookies = [];
+  if (cookieHeader) {
+    setCookies = cookieHeader
+      .split(/;\s/)
+      .map(x => {
+        const parts = x.match(/(.+?)=(.+?)/);
+        return {
+          name: parts[1],
+          url: url,
+          value: parts[2]
+        };
+      })
+      .filter(x => x && !cookies.filter(y => x.name === y.name).length);
+    for (const cookie of setCookies) {
+      await setCookie(cookie);
+    }
+  }
+
   if (!request.manipulateCookies) {
     let response = await fetch(request.url, parameters);
     let responseText = request.blob
       ? (await readZip(await response.blob()))[0].value
       : await response.text();
+    for (const cookie of setCookies) {
+      await deleteCookie({
+        name: cookie.name,
+        url: url
+      });
+    }
     callback(JSON.stringify({
       finalUrl: response.url,
       redirected: response.redirected,
@@ -61,6 +95,12 @@ async function doFetch(parameters, request, sender, callback) {
       let responseText = request.blob
         ? (await readZip(await response.blob()))[0].value
         : await response.text();
+      for (const cookie of setCookies) {
+        await deleteCookie({
+          name: cookie.name,
+          url: url
+        });
+      }
       callback(JSON.stringify({
         finalUrl: response.url,
         redirected: response.redirected,
@@ -69,13 +109,6 @@ async function doFetch(parameters, request, sender, callback) {
       return;
     }
 
-    let domain = request.url.match(/https?:\/\/(.+?)(\/.*)?$/)[1];
-    let url = request.url.match(/(https?:\/\/.+?)(\/.*)?$/)[1];
-
-    // get no-container cookies
-    let cookies = await getCookies({
-      domain: domain
-    });
     // get container cookies
     let containerCookies = await getCookies({
       domain: domain,
@@ -124,6 +157,12 @@ async function doFetch(parameters, request, sender, callback) {
       await setCookie(cookie);
     }
 
+    for (const cookie of setCookies) {
+      await deleteCookie({
+        name: cookie.name,
+        url: url
+      });
+    }
     callback(JSON.stringify({
       finalUrl: response.url,
       redirected: response.redirected,
