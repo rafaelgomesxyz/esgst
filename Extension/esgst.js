@@ -1786,7 +1786,7 @@
       sg: location.hostname.match(/www.steamgifts.com/),
       st: location.hostname.match(/www.steamtrades.com/),
       currentVersion: `7.24.0`,
-      devVersion: `7.24.1 (Dev.10)`,
+      devVersion: `7.24.1 (Dev.11)`,
       icon: `data:image/x-icon;base64,AAABAAEAEBAAAAEAIABoBAAAFgAAACgAAAAQAAAAIAAAAAEAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAqv8DCbP/Hgeq+CQIrf8iCK3/Igit/yIIrf8iB6//Iwit9x8Aqv8DAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAKr0GAa2/c0DvfzfA7f83QO3/N0Dt/zdA7f83QO+/d4Gs/3OAKP1GQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACm/xQFs/n2Bcf//wW///8FwP//BcD//wW///8Fx///BbP69gC2/xUAAAAAAAAAAAAAAAAA/1UDFptOFxSZMxkLpJktAq720QW1+ugEsfvjA7b92wO2/dsEsfvjBbX66Aau/dEoiO4tUlLWGU5k3hdVVf8DEJxKHxWqT8cVrU7uE6VN0guqny0Apv8XAJfQGwBAVywAQFcsAJfQGwCx/xcogugtS2Lk0lBl6u5Qae7ISmPeHxagSSMVr07jF7lV/xOiSu0brgATAAAAAAAAAA8AAAC/AAAAwAAAABAAAAAAYznjEkth4OxWb/3/T2jv40lf4iMXnksiEq1O3RayUv8UpEnkEo0+HQAAABkAAABBAAAA8QAAAPEAAABBAAAAGUBSvxxOYeDjU2v0/05m7d1LYuEiF55LIhKtTt0Ws1L/FahN2gU1FTAAAADAAAAA7AAAAP0AAAD9AAAA7AAAAMAVG0owUGPm2lNr9P9OZu3dS2LhIheeSyISrU7dFrNS/xWoTdoFNRswAAAAvwAAAOsAAAD9AAAA/QAAAOsAAADAFRtKMFBj6NpTa/T/Tmbt3Uti4SIXnksiEq1O3RayUv8UpEnkEo0+HQAAABgAAABAAAAA8QAAAPEAAABBAAAAGT5PuR1OYeDjU2v0/05m7d1LYuEiFqBJIxWuT+QXuVX/E6JL7QC8XhMAAAAAAAAADwAAAL8AAAC/AAAAEAAAAAAOR/8SSWLh7FZv/f9PaO/jSV/iIxCUSh8Vrk7HFqxN7ROlS9JskzMt1XULGK12EhxGLgYsRy8GK612EhzVgAsYgmxxLU1i39JNZ+vtT2fwx0pj1h8AqlUDF65GFgqZUhlsiC0txH0T0s5/EujJgBPkz4QR28+EEdvJgBPkzn8Q6Md+E9KLdHosM1LWGUZo6BZVVf8DAAAAAAAAAAAAAAAA/2YAFMl9EvbgjRb/14gV/9eIFf/XiBX/14gV/9+NFv/KgBD254YAFQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAL91FRjKgRHN1IgU3s+EEt3PhBLdz4QS3c+EEt3UiBTezYMRzcJ6FBkAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACqqgADxIARHr18FiO8eA8ivHgPIrx4DyK8eA8ivXwPI8SAER7/VQADAAAAAAAAAAAAAAAA78cAAPA3AAD4FwAABCAAADGOAAAE+AAAkBEAAJ55AACYOQAAlgEAAER4AAAXaAAATnoAAPgXAAD0JwAA69cAAA==`,
       sgIcon: `data:image/x-icon;base64,AAABAAEAEBAAAAEAIABoBAAAFgAAACgAAAAQAAAAIAAAAAEAIAAAAAAAQAQAABMLAAATCwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIUAAAD5AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAPoAAACFAAAAAAAAAAAAAAD8AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA+QAAAAAAAAAAAAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAAAAAAAAAAAAP8AAAD/AAAA/wAAABwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAcAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAcAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAHAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAAAAAAAAAAAAPwAAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD5AAAAAAAAAAAAAACFAAAA+QAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD5AAAAhQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA//8AAP//AADAAwAAwAMAAMfjAADP8wAAz/MAAM/zAADP8wAAz/MAAM/zAADH4wAAwAMAAMADAAD//wAA//8AAA==`,
       stIcon: `data:image/x-icon;base64,AAABAAEAEBAAAAEAIABoBAAAFgAAACgAAAAQAAAAIAAAAAEAIAAAAAAAQAQAABMLAAATCwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABbD6SgWw+ucFsPrkBbD6SgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAWw+uYFsPr/BbD6/wWw+ucAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAFsPrmBbD6/wWw+v8FsPrmAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABbD6SQWw+uYFsPrmBbD6SQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAFKRLShSkS+cUpEvkFKRLSgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAExi4EpMYuDnTGLg5Exi4EoAAAAAAAAAABSkS+YUpEv/FKRL/xSkS+cAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABMYuDmTGLg/0xi4P9MYuDnAAAAAAAAAAAUpEvmFKRL/xSkS/8UpEvmAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAATGLg5kxi4P9MYuD/TGLg5gAAAAAAAAAAFKRLSRSkS+YUpEvmFKRLSQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAExi4ElMYuDmTGLg5kxi4EkAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAMZ9E0rGfRPnxn0T5MZ9E0oAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADGfRPmxn0T/8Z9E//GfRPnAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAxn0T5sZ9E//GfRP/xn0T5gAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAMZ9E0nGfRPmxn0T5sZ9E0kAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA//8AAPw/AAD8PwAA/D8AAPw/AAD//wAAh+EAAIfhAACH4QAAh+EAAP//AAD8PwAA/D8AAPw/AAD8PwAA//8AAA==`,
@@ -28684,16 +28684,10 @@
   _MODULES.push({
     description: `
       <ul>
-        <li>Adds a box to the sidebar of any <a href="https://www.steamgifts.com/giveaway/aeqw7/">giveaway</a> page that shows the best current deal for the game, the historical lowest price of the game (optional) and a list with all of the bundles that the game has been in. All of this information is retrieved from <a href="https://isthereanydeal.com">IsThereAnyDeal</a>.</li>
+        <li>Adds a box to the sidebar of any <a href="https://www.steamgifts.com/giveaway/aeqw7/">giveaway</a> page that shows the best current deal for the game, the historical lowest price of the game and a list with all of the bundles that the game has been in. All of this information is retrieved from <a href="https://isthereanydeal.com">IsThereAnyDeal</a>.</li>
         <li>Results are cached for 24 hours, so if you access a giveaway for the same game again within that timeframe, the information will not change.</li>
       </ul>
     `,
-    features: {
-      itadi_h: {
-        name: `Retrieve the historical lowest price of the game (takes longer).`,
-        sg: true
-      }
-    },
     id: `itadi`,
     load: itadi,
     name: `IsThereAnyDeal Info`,
@@ -28702,196 +28696,149 @@
   });
 
   function itadi() {
-    if (!esgst.giveawayPath) return;
-    esgst.giveawayFeatures.push(itadi_getInfo);
+    if (!esgst.giveawayPath) {
+      return;
+    }
+    esgst.giveawayFeatures.push(itadi_getGiveaways);
   }
 
-  function itadi_getInfo(giveaways, main) {
-    let game, loading, plain;
-    if (!main) return;
-    giveaways.forEach(async giveaway => {
-      game = esgst.games[giveaway.type][giveaway.id];
-      plain = itadi_getPlain(giveaway.name);
-      if (game && game.itadi && ((esgst.itadi_h && typeof game.itadi.historical !== `undefined`) || !esgst.itadi_h) && (Date.now() - game.itadi.lastCheck < 86400000)) {
-        itadi_addInfo(game.itadi, plain);
-      } else {
-        loading = insertHtml(esgst.sidebar, `beforeEnd`, `
-          <h3 class="sidebar__heading">
-            <i class="fa fa-circle-o-notch fa-spin"></i> Loading IsThereAnyDeal info...
-          </h3>
-        `);
-        itadi_loadInfo(giveaway, await request({method: `GET`, queue: true, url: `https://isthereanydeal.com/ajax/game/info?plain=${plain}`}), loading, plain, esgst.itadi_h ? (await request({method: `GET`, queue: true, url: `https://isthereanydeal.com/ajax/game/price?plain=${plain}`})): null);
-      }
-    });
+  function itadi_getGiveaways(giveaways, main) {
+    if (!main) {
+      return;
+    }
+    const currentTime = Date.now();
+    for (const giveaway of giveaways) {
+      itadi_getInfo(currentTime, giveaway);
+    }
   }
 
-  async function itadi_loadInfo(giveaway, infoResponse, loading, plain, priceResponse) {
-    let bundles, current, currentBundle, currentBundles, currentDeal, currentDeals, date, deals, found, games, heading, headings, historical, i, infoHtml, itadi, n, name, parent, priceHtml, tag;
-    infoHtml = parseHtml(infoResponse.responseText);
-    deals = [];
-    currentDeals = infoHtml.getElementsByClassName(`new`);
-    n = currentDeals.length;
-    if (n > 0) {
-      for (i = 0; i < n; ++i) {
-        currentDeal = currentDeals[i];
-        deals.push({
-          price: currentDeal.textContent,
-          source: currentDeal.closest(`.row`).firstElementChild.firstElementChild.textContent
-        });
-      }
-      deals.sort((a, b) => {
-        a = parseFloat(a.price.replace(/(\$|£|€)/, ``));
-        b = parseFloat(b.price.replace(/(\$|£|€)/, ``));
-        if (a < b) {
-          return -1;
-        } else if (a > b) {
-          return 1;
-        } else {
-          return 0;
-        }
-      });
-      current = deals[0];
+  async function itadi_getInfo(currentTime, giveaway) {
+    const game = esgst.games[giveaway.type][giveaway.id];
+    let itadi = null;
+    const plain = itadi_getPlain(giveaway.name);
+    if (game && game.itadi && game.itadi.version === 2 && (currentTime - game.itadi.lastCheck < 86400000)) {
+      itadi = game.itadi;
     } else {
-      current = null;
+      const loading = insertHtml(esgst.sidebar, `beforeEnd`, `
+        <h3 class="sidebar__heading">
+          <i class="fa fa-circle-o-notch fa-spin"></i> Loading IsThereAnyDeal info...
+        </h3>
+      `);
+      itadi = await itadi_loadInfo(giveaway, plain);
+      loading.remove();
     }
-    if (esgst.itadi_h && priceResponse) {
-      priceHtml = parseHtml(priceResponse.responseText);
-      headings = priceHtml.getElementsByTagName(`th`);
-      n = headings.length;
-      if (n > 0) {
-        found = false;
-        for (i = 0; i < n && !found; ++i) {
-          heading = headings[i];
-          if (heading.textContent === `Lowest price`) {
-            found = true;
-            parent = heading.parentElement;
-            historical = {
-              date: parent.getElementsByClassName(`date`)[0].textContent,
-              price: parent.getElementsByClassName(`primary`)[0].textContent,
-              source: parent.getElementsByClassName(`shopTitle`)[0].textContent
-            };
-          }
-        }
-        if (!found) {
-          historical = null;
-        }
-      } else {
-        historical = null;
-      }
-    } else {
-      historical = null;
-    }
-    bundles = [];
-    currentBundles = infoHtml.getElementsByClassName(`bundle-head`);
-    n = currentBundles.length;
-    if (n > 0) {
-      for (i = 0; i < n; ++i) {
-        currentBundle = currentBundles[i];
-        tag = currentBundle.firstElementChild;
-        if (tag.textContent === `bundle`) {
-          date = tag.nextElementSibling;
-          name = date.nextElementSibling.firstElementChild;
-          bundles.push({
-            date: date.textContent.replace(/expired\s/, ``),
-            id: name.getAttribute(`href`).match(/\d+/)[0],
-            name: name.textContent
-          });
-        }
-      }
-      if (!bundles.length) {
-        bundles = null;
-      }
-    } else {
-      bundles = null;
-    }
-    itadi = {
-      bundles: bundles,
-      current: current,
-      historical: historical,
-      lastCheck: Date.now()
+    itadi_addInfo(itadi, plain);
+  }
+
+  async function itadi_loadInfo(giveaway, plain) {
+    const itadi = {
+      bundles: [],
+      current: null,
+      historical: null,
+      lastCheck: Date.now(),
+      version: 2
     };
-    let deleteLock = await createLock(`gameLock`, 300);
-    games = JSON.parse(await getValue(`games`));
+    const response = await request({
+      method: `GET`,
+      queue: true,
+      url: `https://isthereanydeal.com/game/${plain}/info/`
+    });
+    const html = parseHtml(response.responseText);
+    const deals = html.querySelectorAll(`#gh-po tr`);
+    for (const deal of deals) {
+      const match = deal.firstElementChild.textContent.trim().match(/(Current\sBest|Historical\sLow)/);
+      if (!match) {
+        continue;
+      }
+      itadi[match[1] === `Current Best` ? `current` : `historical`] = {
+        cut: deal.querySelector(`.gh-po__cut`).textContent.trim(),
+        date: deal.querySelector(`.date`).textContent.trim(),
+        price: deal.querySelector(`.gh-po__price`).textContent.trim(),
+        source: deal.querySelector(`.gh-po__shopTitle`).textContent.trim()
+      };
+    }
+    const bundles = html.querySelectorAll(`.bundleTable tr:not(:first-child)`);
+    for (const bundle of bundles) {
+      const link = bundle.querySelector(`.t-st3--link`);
+      itadi.bundles.push({
+        expiry: bundle.querySelector(`.bundleTable__expiry`).textContent.trim(),
+        id: link.getAttribute(`href`).match(/id\/(.+)/)[1],
+        name: link.textContent.trim(),
+        price: bundle.querySelector(`.t-st3__price`).textContent.trim(),
+        source: bundle.querySelector(`.shopTitle`).textContent.trim()
+      });
+    }
+    const deleteLock = await createLock(`gameLock`, 300);
+    const games = JSON.parse(await getValue(`games`));
     if (!games[giveaway.type][giveaway.id]) {
       games[giveaway.type][giveaway.id] = {};
     }
     games[giveaway.type][giveaway.id].itadi = itadi;
     await setValue(`games`, JSON.stringify(games));
     deleteLock();
-    loading.remove();
-    itadi_addInfo(itadi, plain);
+    return itadi;
   }
 
   function itadi_addInfo(itadi, plain) {
-    let bundle, bundlesHtml, bundlesItem, currentHtml, currentItem, historicalHtml, historicalItem, i, n;
+    let html = `    
+      <h3 class="sidebar__heading">Best Current Deal</h3>
+      <ul class="sidebar__navigation">
+    `;
     if (itadi.current) {
-      currentItem = `
+      html += `
         <li class="sidebar__navigation__item">
-          <a class="sidebar__navigation__item__link" href="https://isthereanydeal.com/#/page:game/info?plain=${plain}">
-            <div class="sidebar__navigation__item__name">${itadi.current.source}</div>
+          <a class="sidebar__navigation__item__link" href="https://isthereanydeal.com/game/${plain}/info/">
+            <div class="sidebar__navigation__item__name">${itadi.current.source} (${itadi.current.date})</div>
             <div class="sidebar__navigation__item__underline"></div>
-            <div class="sidebar__navigation__item__count">${itadi.current.price}</div>
+            <div class="sidebar__navigation__item__count">${itadi.current.price} (${itadi.current.cut})</div>
           </a>
         </li>
       `;
     } else {
-      currentItem = `There are no current deals for this game.`;
+      html += `There are no current deals for this game.`;
     }
-    currentHtml = `
-      <h3 class="sidebar__heading">Best Current Deal</h3>
+    html += `
+      </ul>   
+      <h3 class="sidebar__heading">Historical Lowest Price</h3>
       <ul class="sidebar__navigation">
-        ${currentItem}
-      </ul>
     `;
-    if (esgst.itadi_h) {
-      if (itadi.historical) {
-        historicalItem = `
-          <li class="sidebar__navigation__item">
-            <a class="sidebar__navigation__item__link" href="https://isthereanydeal.com/#/page:game/price?plain=${plain}">
-              <div class="sidebar__navigation__item__name">${itadi.historical.source}</div>
-              <div class="sidebar__navigation__item__underline"></div>
-              <div class="sidebar__navigation__item__count">${itadi.historical.price} (${itadi.historical.date})</div>
-            </a>
-          </li>
-        `;
-      } else {
-        historicalItem = `There is no price history for this game.`;
-      }
-      historicalHtml = `
-        <h3 class="sidebar__heading">Historical Lowest Price</h3>
-        <ul class="sidebar__navigation">
-          ${historicalItem}
-        </ul>
+    if (itadi.historical) {
+      html += `
+        <li class="sidebar__navigation__item">
+          <a class="sidebar__navigation__item__link" href="https://isthereanydeal.com/game/${plain}/info/">
+            <div class="sidebar__navigation__item__name">${itadi.historical.source} (${itadi.historical.date})</div>
+            <div class="sidebar__navigation__item__underline"></div>
+            <div class="sidebar__navigation__item__count">${itadi.historical.price} (${itadi.historical.cut})</div>
+          </a>
+        </li>
       `;
     } else {
-      historicalHtml = ``;
+      html += `There is no price history for this game.`;
     }
+    html += `
+      </ul>
+      <h3 class="sidebar__heading">Bundles</h3>
+      <ul class="sidebar__navigation">
+    `;
     if (itadi.bundles) {
-      bundlesItem = ``;
-      for (i = 0, n = itadi.bundles.length; i < n; ++i) {
-        bundle = itadi.bundles[i];
-        bundlesItem += `
+      for (const bundle of itadi.bundles) {
+        html += `
           <li class="sidebar__navigation__item">
             <a class="sidebar__navigation__item__link" href="https://isthereanydeal.com/specials/#/filter:id/${bundle.id}">
-              <div class="sidebar__navigation__item__name">${bundle.name}</div>
+              <div class="sidebar__navigation__item__name">${bundle.name} (${bundle.source})</div>
               <div class="sidebar__navigation__item__underline"></div>
-              <div class="sidebar__navigation__item__count">${bundle.date}</div>
+              <div class="sidebar__navigation__item__count">${bundle.price} (${bundle.expiry})</div>
             </a>
           </li>
         `;
       }
     } else {
-      bundlesItem = `This game has never been in a bundle.`;
+      html += `This game has never been in a bundle.`;
     }
-    bundlesHtml = `
-      <h3 class="sidebar__heading">Bundles</h3>
-      <ul class="sidebar__navigation">
-        ${bundlesItem}
+    html += `
       </ul>
     `;
-    esgst.sidebar.insertAdjacentHTML(`beforeEnd`, `
-      ${currentHtml}${historicalHtml}${bundlesHtml}
-    `);
+    esgst.sidebar.insertAdjacentHTML(`beforeEnd`, html);
   }
 
   function itadi_getPlain(name) {
