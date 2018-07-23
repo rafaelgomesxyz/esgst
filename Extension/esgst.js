@@ -1786,7 +1786,7 @@
       sg: location.hostname.match(/www.steamgifts.com/),
       st: location.hostname.match(/www.steamtrades.com/),
       currentVersion: `7.24.0`,
-      devVersion: `7.24.1 (Dev.7)`,
+      devVersion: `7.24.1 (Dev.8)`,
       icon: `data:image/x-icon;base64,AAABAAEAEBAAAAEAIABoBAAAFgAAACgAAAAQAAAAIAAAAAEAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAqv8DCbP/Hgeq+CQIrf8iCK3/Igit/yIIrf8iB6//Iwit9x8Aqv8DAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAKr0GAa2/c0DvfzfA7f83QO3/N0Dt/zdA7f83QO+/d4Gs/3OAKP1GQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACm/xQFs/n2Bcf//wW///8FwP//BcD//wW///8Fx///BbP69gC2/xUAAAAAAAAAAAAAAAAA/1UDFptOFxSZMxkLpJktAq720QW1+ugEsfvjA7b92wO2/dsEsfvjBbX66Aau/dEoiO4tUlLWGU5k3hdVVf8DEJxKHxWqT8cVrU7uE6VN0guqny0Apv8XAJfQGwBAVywAQFcsAJfQGwCx/xcogugtS2Lk0lBl6u5Qae7ISmPeHxagSSMVr07jF7lV/xOiSu0brgATAAAAAAAAAA8AAAC/AAAAwAAAABAAAAAAYznjEkth4OxWb/3/T2jv40lf4iMXnksiEq1O3RayUv8UpEnkEo0+HQAAABkAAABBAAAA8QAAAPEAAABBAAAAGUBSvxxOYeDjU2v0/05m7d1LYuEiF55LIhKtTt0Ws1L/FahN2gU1FTAAAADAAAAA7AAAAP0AAAD9AAAA7AAAAMAVG0owUGPm2lNr9P9OZu3dS2LhIheeSyISrU7dFrNS/xWoTdoFNRswAAAAvwAAAOsAAAD9AAAA/QAAAOsAAADAFRtKMFBj6NpTa/T/Tmbt3Uti4SIXnksiEq1O3RayUv8UpEnkEo0+HQAAABgAAABAAAAA8QAAAPEAAABBAAAAGT5PuR1OYeDjU2v0/05m7d1LYuEiFqBJIxWuT+QXuVX/E6JL7QC8XhMAAAAAAAAADwAAAL8AAAC/AAAAEAAAAAAOR/8SSWLh7FZv/f9PaO/jSV/iIxCUSh8Vrk7HFqxN7ROlS9JskzMt1XULGK12EhxGLgYsRy8GK612EhzVgAsYgmxxLU1i39JNZ+vtT2fwx0pj1h8AqlUDF65GFgqZUhlsiC0txH0T0s5/EujJgBPkz4QR28+EEdvJgBPkzn8Q6Md+E9KLdHosM1LWGUZo6BZVVf8DAAAAAAAAAAAAAAAA/2YAFMl9EvbgjRb/14gV/9eIFf/XiBX/14gV/9+NFv/KgBD254YAFQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAL91FRjKgRHN1IgU3s+EEt3PhBLdz4QS3c+EEt3UiBTezYMRzcJ6FBkAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACqqgADxIARHr18FiO8eA8ivHgPIrx4DyK8eA8ivXwPI8SAER7/VQADAAAAAAAAAAAAAAAA78cAAPA3AAD4FwAABCAAADGOAAAE+AAAkBEAAJ55AACYOQAAlgEAAER4AAAXaAAATnoAAPgXAAD0JwAA69cAAA==`,
       sgIcon: `data:image/x-icon;base64,AAABAAEAEBAAAAEAIABoBAAAFgAAACgAAAAQAAAAIAAAAAEAIAAAAAAAQAQAABMLAAATCwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIUAAAD5AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAPoAAACFAAAAAAAAAAAAAAD8AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA+QAAAAAAAAAAAAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAAAAAAAAAAAAP8AAAD/AAAA/wAAABwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAcAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAcAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAHAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAAAAAAAAAAAAPwAAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD5AAAAAAAAAAAAAACFAAAA+QAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD5AAAAhQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA//8AAP//AADAAwAAwAMAAMfjAADP8wAAz/MAAM/zAADP8wAAz/MAAM/zAADH4wAAwAMAAMADAAD//wAA//8AAA==`,
       stIcon: `data:image/x-icon;base64,AAABAAEAEBAAAAEAIABoBAAAFgAAACgAAAAQAAAAIAAAAAEAIAAAAAAAQAQAABMLAAATCwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABbD6SgWw+ucFsPrkBbD6SgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAWw+uYFsPr/BbD6/wWw+ucAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAFsPrmBbD6/wWw+v8FsPrmAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABbD6SQWw+uYFsPrmBbD6SQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAFKRLShSkS+cUpEvkFKRLSgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAExi4EpMYuDnTGLg5Exi4EoAAAAAAAAAABSkS+YUpEv/FKRL/xSkS+cAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABMYuDmTGLg/0xi4P9MYuDnAAAAAAAAAAAUpEvmFKRL/xSkS/8UpEvmAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAATGLg5kxi4P9MYuD/TGLg5gAAAAAAAAAAFKRLSRSkS+YUpEvmFKRLSQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAExi4ElMYuDmTGLg5kxi4EkAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAMZ9E0rGfRPnxn0T5MZ9E0oAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADGfRPmxn0T/8Z9E//GfRPnAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAxn0T5sZ9E//GfRP/xn0T5gAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAMZ9E0nGfRPmxn0T5sZ9E0kAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA//8AAPw/AAD8PwAA/D8AAPw/AAD//wAAh+EAAIfhAACH4QAAh+EAAP//AAD8PwAA/D8AAPw/AAD8PwAA//8AAA==`,
@@ -29725,7 +29725,6 @@
         giveaway.creatorContainer = giveaway.startTimeColumn.lastElementChild;
         giveaway.creator = giveaway.creatorContainer.textContent;
       }
-      giveaway.winners = giveaway.columns.textContent.match(/No winners/) ? 0 : giveaway.copies;
     } else {
       giveaway.started = true;
     }
@@ -29750,9 +29749,6 @@
         giveaway.endTime = 0;
       }
       giveaway.ended = Boolean(giveaway.deleted || giveaway.endTime < Date.now());
-    }
-    if (!giveaway.ended) {
-      giveaway.winners = 0;
     }
     if (ugd) {
       if (ugdType === `sent`) {
@@ -29934,15 +29930,36 @@
         });
       }
     }
+    giveaway.winnerColumns = {};
+    if (giveaway.startTimeColumn && giveaway.endTimeColumn) {
+      let column = giveaway.endTimeColumn.nextElementSibling;
+      while (column && column !== giveaway.startTimeColumn) {
+        let key = ``;
+        let status = ``;
+        if (column.classList.contains(`giveaway__column--positive`)) {
+          [key, status] = [`received`, `Received`];
+        } else if (column.classList.contains(`giveaway__column--negative`)) {
+          [key, status] = [`notReceived`, `Not Received`];
+        } else if (column.textContent.trim().match(/Awaiting\sfeedback/)) {
+          [key, status] = [`awaitingFeedback`, `Awaiting Feedback`];
+        } else if (column.textContent.trim().match(/No\swinners/)) {
+          [key, status] = [`noWinners`, ``];
+        } else {
+          continue;
+        }
+        const winners = column.textContent.trim().split(/,\s/).filter(x => x);
+        giveaway.winnerColumns[key] = { column, status, winners };
+        column.setAttribute(`data-columnId`, `winners`);
+        column = column.nextElementSibling;
+      }
+    }
+    giveaway.winners = giveaway.winnerColumns.noWinners ? 0 : Math.min(giveaway.entries || 0, giveaway.copies);
     if (!main || esgst.giveawaysPath || esgst.userPath || esgst.groupPath) {
       if (giveaway.endTimeColumn) {
         giveaway.endTimeColumn.setAttribute(`data-columnId`, `endTime`);
       }
       if (giveaway.startTimeColumn) {
         giveaway.startTimeColumn.setAttribute(`data-columnId`, `startTime`);
-        if ((esgst.userPath || esgst.groupPath) && main) {
-          giveaway.startTimeColumn.previousElementSibling.setAttribute(`data-columnId`, `winners`);
-        }
       }
       if (giveaway.inviteOnly) {
         giveaway.inviteOnly.setAttribute(`data-columnId`, `inviteOnly`);
@@ -30014,8 +30031,8 @@
   function giveaways_reorder(giveaway) {
     if (giveaway.columns) {
       (giveaway.gvIcons ? esgst.giveawayColumns_gv : esgst.giveawayColumns).forEach(id => {
-        let element = giveaway.outerWrap.querySelector(`[data-columnId="${id}"]`);
-        if (element) {
+        const elements = giveaway.outerWrap.querySelectorAll(`[data-columnId="${id}"]`);
+        for (const element of elements) {
           (giveaway.gvIcons || giveaway.columns).appendChild(element);
           if (id.match(/^elgb|gp|ttec$/)) {
             element.classList.add(`esgst-giveaway-column-button`);
@@ -30025,8 +30042,8 @@
     }
     if (giveaway.panel) {
       (giveaway.gvIcons ? esgst.giveawayPanel_gv : esgst.giveawayPanel).forEach(id => {
-        let element = giveaway.outerWrap.querySelector(`[data-columnId="${id}"]`);
-        if (element) {
+        const elements = giveaway.outerWrap.querySelectorAll(`[data-columnId="${id}"]`);
+        for (const element of elements) {
           giveaway.panel.appendChild(element);
           if (id.match(/^elgb|gp|ttec$/)) {
             element.classList.remove(`esgst-giveaway-column-button`);
@@ -30072,6 +30089,7 @@
     }
     let item = event.currentTarget;
     if (item === giveaway.sourceItem) return;
+    if (item.getAttribute(`data-columnId`) === giveaway.sourceItem.getAttribute(`data-columnId`)) return;
     if (item === giveaway.gvIcons) {
       if (giveaway.gvIcons.children.length < 1) {
         giveaway.gvIcons.appendChild(giveaway.sourceItem);
@@ -31886,9 +31904,11 @@
     const elements = responseHtml.getElementsByClassName(`giveaway__row-outer-wrap`);
     const n = elements.length;
     for (let i = 0; i < n; i++) {
-      const giveaway = (
+      const giveawayObj = (
         await giveaways_getInfo(elements[i], document, obj.user.username, obj.key)
-      ).data;
+      );
+      const giveawayRaw = giveawayObj.giveaway;
+      const giveaway = giveawayObj.data;
       const endTime = giveaway.endTime;
 
       // giveaway has not ended yet, so cannot store it
@@ -31918,16 +31938,31 @@
       }
       if (code) {
         games[id].push(code);
-        obj.giveaways[code] = giveaway;
         if (obj.toGet) {
           const savedGiveaway = esgst.giveaways[code];
           if (!savedGiveaway || !Array.isArray(savedGiveaway.winners)) {
+            obj.giveaways[code] = giveaway;
             giveaway.winners = [];
-            obj.requests.push({
-              giveaway: giveaway,
-              request: ugd_requestGiveaway,
-              url: `/giveaway/${code}/_/winners/search?page=`
-            });
+            if (giveawayRaw.winners > 3) {
+              obj.requests.push({
+                giveaway: giveaway,
+                request: ugd_requestGiveaway,
+                url: `/giveaway/${code}/_/winners/search?page=`
+              });
+            } else {
+              for (const key in giveawayRaw.winnerColumns) {
+                const column = giveawayRaw.winnerColumns[key];
+                if (!column.status || column.status === `Awaiting Feedback`) {
+                  continue;
+                }
+                for (const winner of column.winners) {
+                  giveaway.winners.push({
+                    status: column.status,
+                    username: winner
+                  });
+                }
+              }
+            }
           }
         }
       } else {
@@ -31952,7 +31987,7 @@
       for (const id in games) {
         const game = games[id];
         for (const item of game) {
-          const giveaway = typeof item === `string` ? esgst.giveaways[item] : item;
+          const giveaway = typeof item === `string` ? obj.giveaways[item] || esgst.giveaways[item] : item;
           if (!giveaway || !Array.isArray(giveaway.winners)) {
             break;
           }
@@ -32442,7 +32477,7 @@
                 value: 0
               };
             }
-            values[value].value += copies;
+            values[value].value += (key === `username` ? 1 : copies);
           }
         }
       }
