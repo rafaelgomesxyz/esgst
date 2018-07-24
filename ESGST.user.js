@@ -3,7 +3,7 @@
 // @namespace ESGST
 // @description Enhances SteamGifts and SteamTrades by adding some cool features to them.
 // @icon https://dl.dropboxusercontent.com/s/lr3t3bxrxfxylqe/esgstIcon.ico?raw=1
-// @version 7.24.0
+// @version 7.24.1
 // @author revilheart
 // @contributor Royalgamer06
 // @downloadURL https://github.com/revilheart/ESGST/raw/master/ESGST.user.js
@@ -38,19 +38,19 @@
 // @grant GM.listValues
 // @grant GM.xmlHttpRequest
 // @grant GM.getResourceUrl
-// @require https://raw.githubusercontent.com/revilheart/ESGST/7.24.0/Extension/js/jquery-3.3.1.min.js
-// @require https://raw.githubusercontent.com/revilheart/ESGST/7.24.0/Extension/js/jquery-ui-1.12.1.min.js
-// @require https://raw.githubusercontent.com/revilheart/ESGST/7.24.0/Extension/js/bootstrap-3.3.7.min.js
-// @require https://raw.githubusercontent.com/revilheart/ESGST/7.24.0/Extension/js/interact-1.3.4.min.js
-// @require https://raw.githubusercontent.com/revilheart/ESGST/7.24.0/Extension/js/jszip-3.1.5.min.js
-// @require https://raw.githubusercontent.com/revilheart/ESGST/7.24.0/Extension/js/parsedown-0.0.1.js
-// @require https://raw.githubusercontent.com/revilheart/ESGST/7.24.0/Extension/js/query-builder-2.5.2.min.js
-// @require https://raw.githubusercontent.com/revilheart/ESGST/7.24.0/Extension/js/intersection-observer.js
-// @require https://raw.githubusercontent.com/revilheart/ESGST/7.24.0/Extension/js/encoding.js
-// @resource bs https://raw.githubusercontent.com/revilheart/ESGST/7.24.0/Extension/css/bootstrap-3.3.7.min.css
-// @resource abc https://raw.githubusercontent.com/revilheart/ESGST/7.24.0/Extension/css/awesome-bootstrap-checkbox-0.3.7.min.css
-// @resource qb https://raw.githubusercontent.com/revilheart/ESGST/7.24.0/Extension/css/query-builder-2.5.2.min.css
-// @resource sg https://raw.githubusercontent.com/revilheart/ESGST/7.24.0/Extension/css/steamgifts-v34.min.css
+// @require https://raw.githubusercontent.com/revilheart/ESGST/7.24.1/Extension/js/jquery-3.3.1.min.js
+// @require https://raw.githubusercontent.com/revilheart/ESGST/7.24.1/Extension/js/jquery-ui-1.12.1.min.js
+// @require https://raw.githubusercontent.com/revilheart/ESGST/7.24.1/Extension/js/bootstrap-3.3.7.min.js
+// @require https://raw.githubusercontent.com/revilheart/ESGST/7.24.1/Extension/js/interact-1.3.4.min.js
+// @require https://raw.githubusercontent.com/revilheart/ESGST/7.24.1/Extension/js/jszip-3.1.5.min.js
+// @require https://raw.githubusercontent.com/revilheart/ESGST/7.24.1/Extension/js/parsedown-0.0.1.js
+// @require https://raw.githubusercontent.com/revilheart/ESGST/7.24.1/Extension/js/query-builder-2.5.2.min.js
+// @require https://raw.githubusercontent.com/revilheart/ESGST/7.24.1/Extension/js/intersection-observer.js
+// @require https://raw.githubusercontent.com/revilheart/ESGST/7.24.1/Extension/js/encoding.js
+// @resource bs https://raw.githubusercontent.com/revilheart/ESGST/7.24.1/Extension/css/bootstrap-3.3.7.min.css
+// @resource abc https://raw.githubusercontent.com/revilheart/ESGST/7.24.1/Extension/css/awesome-bootstrap-checkbox-0.3.7.min.css
+// @resource qb https://raw.githubusercontent.com/revilheart/ESGST/7.24.1/Extension/css/query-builder-2.5.2.min.css
+// @resource sg https://raw.githubusercontent.com/revilheart/ESGST/7.24.1/Extension/css/steamgifts-v34.min.css
 // @run-at document-start
 // @noframes
 // ==/UserScript==
@@ -1785,8 +1785,8 @@
       markdownParser: new Parsedown(),
       sg: location.hostname.match(/www.steamgifts.com/),
       st: location.hostname.match(/www.steamtrades.com/),
-      currentVersion: `7.24.0`,
-      devVersion: `7.24.0`,
+      currentVersion: `7.24.1`,
+      devVersion: `7.24.1`,
       icon: `data:image/x-icon;base64,AAABAAEAEBAAAAEAIABoBAAAFgAAACgAAAAQAAAAIAAAAAEAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAqv8DCbP/Hgeq+CQIrf8iCK3/Igit/yIIrf8iB6//Iwit9x8Aqv8DAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAKr0GAa2/c0DvfzfA7f83QO3/N0Dt/zdA7f83QO+/d4Gs/3OAKP1GQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACm/xQFs/n2Bcf//wW///8FwP//BcD//wW///8Fx///BbP69gC2/xUAAAAAAAAAAAAAAAAA/1UDFptOFxSZMxkLpJktAq720QW1+ugEsfvjA7b92wO2/dsEsfvjBbX66Aau/dEoiO4tUlLWGU5k3hdVVf8DEJxKHxWqT8cVrU7uE6VN0guqny0Apv8XAJfQGwBAVywAQFcsAJfQGwCx/xcogugtS2Lk0lBl6u5Qae7ISmPeHxagSSMVr07jF7lV/xOiSu0brgATAAAAAAAAAA8AAAC/AAAAwAAAABAAAAAAYznjEkth4OxWb/3/T2jv40lf4iMXnksiEq1O3RayUv8UpEnkEo0+HQAAABkAAABBAAAA8QAAAPEAAABBAAAAGUBSvxxOYeDjU2v0/05m7d1LYuEiF55LIhKtTt0Ws1L/FahN2gU1FTAAAADAAAAA7AAAAP0AAAD9AAAA7AAAAMAVG0owUGPm2lNr9P9OZu3dS2LhIheeSyISrU7dFrNS/xWoTdoFNRswAAAAvwAAAOsAAAD9AAAA/QAAAOsAAADAFRtKMFBj6NpTa/T/Tmbt3Uti4SIXnksiEq1O3RayUv8UpEnkEo0+HQAAABgAAABAAAAA8QAAAPEAAABBAAAAGT5PuR1OYeDjU2v0/05m7d1LYuEiFqBJIxWuT+QXuVX/E6JL7QC8XhMAAAAAAAAADwAAAL8AAAC/AAAAEAAAAAAOR/8SSWLh7FZv/f9PaO/jSV/iIxCUSh8Vrk7HFqxN7ROlS9JskzMt1XULGK12EhxGLgYsRy8GK612EhzVgAsYgmxxLU1i39JNZ+vtT2fwx0pj1h8AqlUDF65GFgqZUhlsiC0txH0T0s5/EujJgBPkz4QR28+EEdvJgBPkzn8Q6Md+E9KLdHosM1LWGUZo6BZVVf8DAAAAAAAAAAAAAAAA/2YAFMl9EvbgjRb/14gV/9eIFf/XiBX/14gV/9+NFv/KgBD254YAFQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAL91FRjKgRHN1IgU3s+EEt3PhBLdz4QS3c+EEt3UiBTezYMRzcJ6FBkAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACqqgADxIARHr18FiO8eA8ivHgPIrx4DyK8eA8ivXwPI8SAER7/VQADAAAAAAAAAAAAAAAA78cAAPA3AAD4FwAABCAAADGOAAAE+AAAkBEAAJ55AACYOQAAlgEAAER4AAAXaAAATnoAAPgXAAD0JwAA69cAAA==`,
       sgIcon: `data:image/x-icon;base64,AAABAAEAEBAAAAEAIABoBAAAFgAAACgAAAAQAAAAIAAAAAEAIAAAAAAAQAQAABMLAAATCwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIUAAAD5AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAPoAAACFAAAAAAAAAAAAAAD8AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA+QAAAAAAAAAAAAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAAAAAAAAAAAAP8AAAD/AAAA/wAAABwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAcAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAcAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAHAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAAAAAAAAAAAAPwAAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD5AAAAAAAAAAAAAACFAAAA+QAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD5AAAAhQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA//8AAP//AADAAwAAwAMAAMfjAADP8wAAz/MAAM/zAADP8wAAz/MAAM/zAADH4wAAwAMAAMADAAD//wAA//8AAA==`,
       stIcon: `data:image/x-icon;base64,AAABAAEAEBAAAAEAIABoBAAAFgAAACgAAAAQAAAAIAAAAAEAIAAAAAAAQAQAABMLAAATCwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABbD6SgWw+ucFsPrkBbD6SgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAWw+uYFsPr/BbD6/wWw+ucAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAFsPrmBbD6/wWw+v8FsPrmAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABbD6SQWw+uYFsPrmBbD6SQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAFKRLShSkS+cUpEvkFKRLSgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAExi4EpMYuDnTGLg5Exi4EoAAAAAAAAAABSkS+YUpEv/FKRL/xSkS+cAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABMYuDmTGLg/0xi4P9MYuDnAAAAAAAAAAAUpEvmFKRL/xSkS/8UpEvmAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAATGLg5kxi4P9MYuD/TGLg5gAAAAAAAAAAFKRLSRSkS+YUpEvmFKRLSQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAExi4ElMYuDmTGLg5kxi4EkAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAMZ9E0rGfRPnxn0T5MZ9E0oAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADGfRPmxn0T/8Z9E//GfRPnAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAxn0T5sZ9E//GfRP/xn0T5gAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAMZ9E0nGfRPmxn0T5sZ9E0kAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA//8AAPw/AAD8PwAA/D8AAPw/AAD//wAAh+EAAIfhAACH4QAAh+EAAP//AAD8PwAA/D8AAPw/AAD8PwAA//8AAA==`,
@@ -2016,49 +2016,49 @@
           <div class="esgst-header-menu" id="esgst" title="${getFeatureTooltip()}">
             <div class="esgst-header-menu-relative-dropdown esgst-hidden">
               <div class="esgst-header-menu-absolute-dropdown">
-                <a class="esgst-header-menu-row" href="https://github.com/revilheart/ESGST">
+                <a class="esgst-header-menu-row" href="https://github.com/revilheart/ESGST" target="_blank">
                   <i class="fa fa-fw fa-github grey"></i>
                   <div>
                     <p class="esgst-header-menu-name">GitHub</p>
                     <p class="esgst-header-menu-description">Visit the GitHub page.</p>
                   </div>
                 </a>
-                <a class="esgst-header-menu-row" href="https://github.com/revilheart/ESGST/issues">
+                <a class="esgst-header-menu-row" href="https://github.com/revilheart/ESGST/issues" target="_blank">
                   <i class="fa fa-fw fa-bug red"></i>
                   <div>
                     <p class="esgst-header-menu-name">Bugs/Suggestions</p>
                     <p class="esgst-header-menu-description">Report bugs and/or make suggestions.</p>
                   </div>
                 </a>
-                <a class="esgst-header-menu-row" href="https://github.com/revilheart/ESGST/milestones">
+                <a class="esgst-header-menu-row" href="https://github.com/revilheart/ESGST/milestones" target="_blank">
                   <i class="fa fa-fw fa-map-signs blue"></i>
                   <div>
                     <p class="esgst-header-menu-name">Milestones</p>
                     <p class="esgst-header-menu-description">Check out what's coming in the next version.</p>
                   </div>
                 </a>
-                <a class="esgst-header-menu-row" href="https://www.steamgifts.com/discussion/TDyzv/">
+                <a class="esgst-header-menu-row" href="https://www.steamgifts.com/discussion/TDyzv/" target="_blank">
                   <i class="fa fa-fw fa-commenting green"></i>
                   <div>
                     <p class="esgst-header-menu-name">Discussion</p>
                     <p class="esgst-header-menu-description">Visit the discussion page.</p>
                   </div>
                 </a>
-                <a class="esgst-header-menu-row" href="http://steamcommunity.com/groups/esgst">
+                <a class="esgst-header-menu-row" href="http://steamcommunity.com/groups/esgst" target="_blank">
                   <i class="fa fa-fw fa-steam green"></i>
                   <div>
                     <p class="esgst-header-menu-name">Steam Group</p>
                     <p class="esgst-header-menu-description">Visit/join the Steam group.</p>
                   </div>
                 </a>
-                <div class="esgst-header-menu-row">
+                <div class="esgst-header-menu-row" id="esgst-changelog">
                   <i class="fa fa-fw fa-file-text-o yellow"></i>
                   <div>
                     <p class="esgst-header-menu-name">Changelog</p>
                     <p class="esgst-header-menu-description">Check out the changelog.</p>
                   </div>
                 </div>
-                <a class="esgst-header-menu-row" href="https://www.patreon.com/revilheart">
+                <a class="esgst-header-menu-row" href="https://www.patreon.com/revilheart" target="_blank">
                   <i class="fa fa-fw fa-dollar grey"></i>
                   <div>
                     <p class="esgst-header-menu-name">Patreon</p>
@@ -2104,7 +2104,7 @@
         });
         arrow.addEventListener(`click`, toggleHeaderMenu.bind(null, arrow, dropdown));
         document.addEventListener(`click`, closeHeaderMenu.bind(null, arrow, dropdown, menu), true);
-        dropdown.firstElementChild.lastElementChild.previousElementSibling.previousElementSibling.addEventListener(`click`, loadChangelog);
+        document.getElementById(`esgst-changelog`).addEventListener(`click`, loadChangelog);
       };
       browser.runtime.onMessage.addListener(message => {
         let key;
@@ -2244,56 +2244,56 @@
           <div class="esgst-header-menu" id="esgst" title="${getFeatureTooltip()}">
             <div class="esgst-header-menu-relative-dropdown esgst-hidden">
               <div class="esgst-header-menu-absolute-dropdown">
-                <div class="esgst-header-menu-row">
+                <div class="esgst-header-menu-row" id="esgst-update">
                   <i class="fa fa-fw fa-refresh blue"></i>
                   <div>
                     <p class="esgst-header-menu-name">Update</p>
                     <p class="esgst-header-menu-description">Check for updates.</p>
                   </div>
                 </div>
-                <a class="esgst-header-menu-row" href="https://github.com/revilheart/ESGST">
+                <a class="esgst-header-menu-row" href="https://github.com/revilheart/ESGST" target="_blank">
                   <i class="fa fa-fw fa-github grey"></i>
                   <div>
                     <p class="esgst-header-menu-name">GitHub</p>
                     <p class="esgst-header-menu-description">Visit the GitHub page.</p>
                   </div>
                 </a>
-                <a class="esgst-header-menu-row" href="https://github.com/revilheart/ESGST/issues">
+                <a class="esgst-header-menu-row" href="https://github.com/revilheart/ESGST/issues" target="_blank">
                   <i class="fa fa-fw fa-bug red"></i>
                   <div>
                     <p class="esgst-header-menu-name">Bugs/Suggestions</p>
                     <p class="esgst-header-menu-description">Report bugs and/or make suggestions.</p>
                   </div>
                 </a>
-                <a class="esgst-header-menu-row" href="https://github.com/revilheart/ESGST/milestones">
+                <a class="esgst-header-menu-row" href="https://github.com/revilheart/ESGST/milestones" target="_blank">
                   <i class="fa fa-fw fa-map-signs blue"></i>
                   <div>
                     <p class="esgst-header-menu-name">Milestones</p>
                     <p class="esgst-header-menu-description">Check out what's coming in the next version.</p>
                   </div>
                 </a>
-                <a class="esgst-header-menu-row" href="https://www.steamgifts.com/discussion/TDyzv/">
+                <a class="esgst-header-menu-row" href="https://www.steamgifts.com/discussion/TDyzv/" target="_blank">
                   <i class="fa fa-fw fa-commenting green"></i>
                   <div>
                     <p class="esgst-header-menu-name">Discussion</p>
                     <p class="esgst-header-menu-description">Visit the discussion page.</p>
                   </div>
                 </a>
-                <a class="esgst-header-menu-row" href="http://steamcommunity.com/groups/esgst">
+                <a class="esgst-header-menu-row" href="http://steamcommunity.com/groups/esgst" target="_blank">
                   <i class="fa fa-fw fa-steam green"></i>
                   <div>
                     <p class="esgst-header-menu-name">Steam Group</p>
                     <p class="esgst-header-menu-description">Visit/join the Steam group.</p>
                   </div>
                 </a>
-                <div class="esgst-header-menu-row">
+                <div class="esgst-header-menu-row" id="esgst-changelog">
                   <i class="fa fa-fw fa-file-text-o yellow"></i>
                   <div>
                     <p class="esgst-header-menu-name">Changelog</p>
                     <p class="esgst-header-menu-description">Check out the changelog.</p>
                   </div>
                 </div>
-                <a class="esgst-header-menu-row" href="https://www.patreon.com/revilheart">
+                <a class="esgst-header-menu-row" href="https://www.patreon.com/revilheart" target="_blank">
                   <i class="fa fa-fw fa-dollar grey"></i>
                   <div>
                     <p class="esgst-header-menu-name">Patreon</p>
@@ -2339,8 +2339,8 @@
         });
         arrow.addEventListener(`click`, toggleHeaderMenu.bind(null, arrow, dropdown));
         document.addEventListener(`click`, closeHeaderMenu.bind(null, arrow, dropdown, menu), true);
-        dropdown.firstElementChild.firstElementChild.addEventListener(`click`, checkUpdate);
-        dropdown.firstElementChild.lastElementChild.previousElementSibling.previousElementSibling.addEventListener(`click`, loadChangelog);
+        document.getElementById(`esgst-update`).addEventListener(`click`, checkUpdate);
+        document.getElementById(`esgst-changelog`).addEventListener(`click`, loadChangelog);
       };
     }
 
@@ -7711,12 +7711,12 @@
 
   async function gc_getGames(games, endless) {
     let gc = {
-      apps: Object.keys(games.apps),
+      apps: Object.keys(games.apps).map(x => parseInt(x)),
       cache: {
         apps: {},
         subs: {}
       },
-      subs: Object.keys(games.subs)
+      subs: Object.keys(games.subs).map(x => parseInt(x))
     };
 
     // get categories
@@ -7748,6 +7748,8 @@
         }
       }
     }
+    const missingApps = [];
+    const missingSubs = [];
     if (esgst.gc_gi || esgst.gc_r || esgst.gc_a || esgst.gc_mp || esgst.gc_sc || esgst.gc_tc || esgst.gc_l || esgst.gc_m || esgst.gc_dlc || esgst.gc_ea || esgst.gc_rm || esgst.gc_rd || esgst.gc_g || esgst.gc_p) {
       gc.cache = JSON.parse(getLocalValue(`gcCache`, `{ "apps": {}, "subs": {}, "timestamp": 0, "version": 3 }`));
       if (gc.cache.version !== 3) {
@@ -7758,10 +7760,10 @@
           version: 3
         };
       }
-      let currentTime = Date.now();
+      const currentTime = Date.now();
       for (let id in gc.cache.apps) {
         if (gc.cache.apps[id].lastCheck) {
-          if (currentTime - gc.cache.apps[id].lastCheck > 604800000 || gc.cache.apps[id].price === -1 || (esgst.gc_g_udt && !gc.cache.apps[id].tags) || (esgst.gc_r && !gc.cache.apps[id].rating) || (esgst.gc_rd && gc.cache.apps[id].removed === -1)) {
+          if (currentTime - gc.cache.apps[id].lastCheck > 604800000 || ((gc.cache.apps[id].price === -1 || (esgst.gc_g_udt && !gc.cache.apps[id].tags) || (esgst.gc_r && !gc.cache.apps[id].rating) || (esgst.gc_rd && gc.cache.apps[id].removed === -1)) && currentTime - gc.cache.apps[id].lastCheck > 86400000)) {
             delete gc.cache.apps[id];
           }
         } else {
@@ -7770,7 +7772,7 @@
       }
       for (let id in gc.cache.subs) {
         if (gc.cache.subs[id].lastCheck) {
-          if (currentTime - gc.cache.subs[id].lastCheck > 604800000 || gc.cache.subs[id].price === -1 || (esgst.gc_g_udt && !gc.cache.subs[id].tags) || (esgst.gc_r && !gc.cache.subs[id].rating) || (esgst.gc_rd && gc.cache.subs[id].removed === -1)) {
+          if (currentTime - gc.cache.subs[id].lastCheck > 604800000 || ((gc.cache.subs[id].price === -1 || (esgst.gc_rd && gc.cache.subs[id].removed === -1)) && currentTime - gc.cache.subs[id].lastCheck > 86400000)) {
             delete gc.cache.subs[id];
           }
         } else {
@@ -7778,8 +7780,6 @@
         }
       }
       setLocalValue(`gcCache`, JSON.stringify(gc.cache));
-      let missingApps = [];
-      let missingSubs = [];
       for (let i = 0, n = gc.apps.length; i < n; ++i) {
         let id = gc.apps[i];
         if (gc.cache.apps[id] && gc.cache.apps[id].name) {
@@ -7800,16 +7800,16 @@
         let promises = [];
         for (let i = 0, n = missingApps.length; i < n; ++i) {
           if (esgst.gc_lr) {
-            await gc_getCategories(gc, games, missingApps[i], `apps`);
+            await gc_getCategories(gc, currentTime, games, missingApps[i], `apps`);
           } else {
-            promises.push(gc_getCategories(gc, games, missingApps[i], `apps`));
+            promises.push(gc_getCategories(gc, currentTime, games, missingApps[i], `apps`));
           }
         }
         for (let i = 0, n = missingSubs.length; i < n; ++i) {
           if (esgst.gc_lr) {
-            await gc_getCategories(gc, games, missingSubs[i], `subs`);
+            await gc_getCategories(gc, currentTime, games, missingSubs[i], `subs`);
           } else {
-            promises.push(gc_getCategories(gc, games, missingSubs[i], `subs`));
+            promises.push(gc_getCategories(gc, currentTime, games, missingSubs[i], `subs`));
           }
         }
         await Promise.all(promises);
@@ -7819,15 +7819,17 @@
     }
 
     // add categories
-    if (!esgst.gc_rt) {
-      for (let i = 0, n = gc.apps.length; i < n; ++i) {
-        let id = parseInt(gc.apps[i]);
-        gc_addCategory(gc.cache.apps[id], games.apps[id], id, esgst.games.apps[id], `apps`);
+    for (const id of gc.apps) {
+      if (missingApps.indexOf(id) > -1 && esgst.gc_rt) {
+        continue;
       }
-      for (let i = 0, n = gc.subs.length; i < n; ++i) {
-        let id = parseInt(gc.subs[i]);
-        gc_addCategory(gc.cache.subs[id], games.subs[id], id, esgst.games.subs[id], `subs`);
+      gc_addCategory(gc.cache.apps[id], games.apps[id], id, esgst.games.apps[id], `apps`);
+    }
+    for (const id of gc.subs) {
+      if (missingSubs.indexOf(id) > -1 && esgst.gc_rt) {
+        continue;
       }
+      gc_addCategory(gc.cache.subs[id], games.subs[id], id, esgst.games.subs[id], `subs`);
     }
     let categories = [`achievements`, `dlc`, `dlcOwned`, `dlcFree`, `dlcNonFree`, `genres`, `linux`, `mac`, `multiplayer`, `package`, `rating`, `removed`, `steamCloud`, `tradingCards`, `earlyAccess`, `releaseDate`];
     for (let i = 0, n = esgst.mainGiveaways.length; i < n; ++i) {
@@ -7947,13 +7949,14 @@
     }
   }
 
-  async function gc_getCategories(gc, games, id, type) {
+  async function gc_getCategories(gc, currentTime, games, id, type) {
     try {
       let categories = {
         achievements: 0,
         dlc: 0,
         earlyAccess: 0,
         genres: ``,
+        lastCheck: currentTime,
         linux: 0,
         mac: 0,
         multiplayer: 0,
@@ -8096,11 +8099,24 @@
       }
       gc.cache[type][id] = categories;
       if (esgst.gc_rt) {
-        id = parseInt(id);
         gc_addCategory(gc.cache[type][id], games[type][id], id, esgst.games[type][id], type);
       }
     } catch (error) {
       console.log(error);
+      for (const game of games[type][id]) {
+        const panel = game.container.getElementsByClassName(`esgst-gc-panel`)[0];
+        if (panel && !panel.getAttribute(`data-gcReady`)) {
+          if (esgst.gc_il && !esgst.giveawayPath) {
+            panel.previousElementSibling.style.display = `inline-block`;
+            panel.classList.add(`esgst-gc-panel-inline`);
+          }
+          panel.innerHTML = `
+            <span class="esgst-bold esgst-red">
+              <i class="fa fa-exclamation"></i> Error while loading game categories.
+            </span>
+          `;
+        }
+      }
     }
   }
 
@@ -9273,10 +9289,19 @@
         <li>Adds an icon (<i class="fa fa-star"></i> if the giveaway is open, <i class="fa fa-star esgst-green"></i> if it is open and new, <i class="fa fa-star esgst-yellow"></i> if it is not open yet and <i class="fa fa-star esgst-red"></i> if it has already ended) next to a comment's "Permalink" (in any page) for each encrypted giveaway that the comment has (if it has any). The icon links to the giveaway.</li>
         <li>Encrypted giveaways are basically invite only giveaway codes that ESGST encrypts using various encryption methods and hides in your comments so that they can only be visible through the source code of the page. Other ESGST users are able to easily see these giveaways if they have this feature enabled, but since the codes are visible through the source code of the page, anyone who finds them and manages to decrypt them can access the giveaways. So it is more like a puzzle that ESGST users can solve instantly and non-ESGST users can solve if they give it some effort, though it is doubtful that someone will check the source code of every page they open on SteamGifts looking for the codes.</li>
         <li>To add encrypted giveaways to your comments, check [id=cfh_g].</li>
-        <li>Adds a button (<i class="fa fa-star"></i>) next to the ESGST button at the header of any page that allows you to view all of the decrypted giveaways that you have unlocked (they are unlocked whenever you visit a page that contains them).</li>
+        <li>Adds a button (<i class="fa fa-star"></i>) next to the ESGST button at the header of any page that allows you to view all of the currently open decrypted giveaways that you have unlocked (they are unlocked whenever you visit a page that contains them).</li>
       </ul>
     `,
     features: {
+      ged_b: {
+        description: `
+          <ul>
+            <li>With this option enabled, the header button will always appear if there are decrypted giveaways in the page, even if they have already ended (but they will not be listed in the popup).</li>
+          </ul>
+        `,
+        name: `Always show the header button if there are decrypted giveaways in the page.`,
+        sg: true
+      },
       ged_t: {
         name: `Open the list of decrypted giveaways in a new tab.`,
         sg: true
@@ -9472,6 +9497,7 @@
     let currentGiveaways = {};
     let currentTime = Date.now();
     let deleteLock = null;
+    let hasEnded = false;
     let hasNew = false;
     for (let i = comments.length - 1; i > -1; i--) {
       let comment = comments[i];
@@ -9497,11 +9523,17 @@
         if (!esgst.decryptedGiveaways[code] || (isEnded && !isStarted)) {
           let giveaway = await ged_getGiveaway(code, currentGiveaways, false, comment.id || location.href);
           ged.newGiveaways.push(code);
-          hasNew = isNew = true;
           if (giveaway) {
             isEnded = giveaway.ended;
             isStarted = giveaway.started;
           }
+        }
+        if (isEnded) {
+          if (esgst.ged_b) {
+            hasEnded = true;
+          }
+        } else {
+          hasNew = isNew = true;
         }
         comment.actions.insertAdjacentHTML(`beforeEnd`, `
           <a class="esgst-ged-icon${isEnded ? ` esgst-red` : (isStarted ? (isNew ? ` esgst-green` : ``) : ` esgst-yellow`)}" href="/giveaway/${code}/" title="${getFeatureTooltip(`ged`, `ESGST Decrypted Giveaway`)}">
@@ -9517,9 +9549,11 @@
     if (esgst.edited.decryptedGiveaways) {
       await setValue(`decryptedGiveaways`, JSON.stringify(esgst.decryptedGiveaways));
     }
-    if (ged.button && hasNew) {
+    if (ged.button && (hasEnded || hasNew)) {
       ged.button.classList.remove(`esgst-hidden`);
-      ged.button.firstElementChild.firstElementChild.classList.add(`esgst-positive`);
+      if (hasNew) {
+        ged.button.firstElementChild.firstElementChild.classList.add(`esgst-positive`);
+      }
     }
   }
 
@@ -16796,7 +16830,7 @@
         }
         if (values.groups) {
           values.groups.split(/\s/).forEach(id => {
-            whoCanEnter += `${mgc.groupNames[id]}, `;
+            whoCanEnter += `${escapeHtml(mgc.groupNames[id])}, `;
           });
         }
         whoCanEnter = `${whoCanEnter.slice(0, -2)})`;
@@ -18843,7 +18877,7 @@
   }
 
   function qgs_collapse(event) {
-    if (event.relatedTarget.closest(`.esgst-popout`)) return;
+    if (event.relatedTarget && event.relatedTarget.closest(`.esgst-popout`)) return;
     event.currentTarget.classList.remove(`esgst-qgs-container-expanded`);
   }
 
@@ -28664,16 +28698,10 @@
   _MODULES.push({
     description: `
       <ul>
-        <li>Adds a box to the sidebar of any <a href="https://www.steamgifts.com/giveaway/aeqw7/">giveaway</a> page that shows the best current deal for the game, the historical lowest price of the game (optional) and a list with all of the bundles that the game has been in. All of this information is retrieved from <a href="https://isthereanydeal.com">IsThereAnyDeal</a>.</li>
+        <li>Adds a box to the sidebar of any <a href="https://www.steamgifts.com/giveaway/aeqw7/">giveaway</a> page that shows the best current deal for the game, the historical lowest price of the game and a list with all of the bundles that the game has been in. All of this information is retrieved from <a href="https://isthereanydeal.com">IsThereAnyDeal</a>.</li>
         <li>Results are cached for 24 hours, so if you access a giveaway for the same game again within that timeframe, the information will not change.</li>
       </ul>
     `,
-    features: {
-      itadi_h: {
-        name: `Retrieve the historical lowest price of the game (takes longer).`,
-        sg: true
-      }
-    },
     id: `itadi`,
     load: itadi,
     name: `IsThereAnyDeal Info`,
@@ -28682,196 +28710,149 @@
   });
 
   function itadi() {
-    if (!esgst.giveawayPath) return;
-    esgst.giveawayFeatures.push(itadi_getInfo);
+    if (!esgst.giveawayPath) {
+      return;
+    }
+    esgst.giveawayFeatures.push(itadi_getGiveaways);
   }
 
-  function itadi_getInfo(giveaways, main) {
-    let game, loading, plain;
-    if (!main) return;
-    giveaways.forEach(async giveaway => {
-      game = esgst.games[giveaway.type][giveaway.id];
-      plain = itadi_getPlain(giveaway.name);
-      if (game && game.itadi && ((esgst.itadi_h && typeof game.itadi.historical !== `undefined`) || !esgst.itadi_h) && (Date.now() - game.itadi.lastCheck < 86400000)) {
-        itadi_addInfo(game.itadi, plain);
-      } else {
-        loading = insertHtml(esgst.sidebar, `beforeEnd`, `
-          <h3 class="sidebar__heading">
-            <i class="fa fa-circle-o-notch fa-spin"></i> Loading IsThereAnyDeal info...
-          </h3>
-        `);
-        itadi_loadInfo(giveaway, await request({method: `GET`, queue: true, url: `https://isthereanydeal.com/ajax/game/info?plain=${plain}`}), loading, plain, esgst.itadi_h ? (await request({method: `GET`, queue: true, url: `https://isthereanydeal.com/ajax/game/price?plain=${plain}`})): null);
-      }
-    });
+  function itadi_getGiveaways(giveaways, main) {
+    if (!main) {
+      return;
+    }
+    const currentTime = Date.now();
+    for (const giveaway of giveaways) {
+      itadi_getInfo(currentTime, giveaway);
+    }
   }
 
-  async function itadi_loadInfo(giveaway, infoResponse, loading, plain, priceResponse) {
-    let bundles, current, currentBundle, currentBundles, currentDeal, currentDeals, date, deals, found, games, heading, headings, historical, i, infoHtml, itadi, n, name, parent, priceHtml, tag;
-    infoHtml = parseHtml(infoResponse.responseText);
-    deals = [];
-    currentDeals = infoHtml.getElementsByClassName(`new`);
-    n = currentDeals.length;
-    if (n > 0) {
-      for (i = 0; i < n; ++i) {
-        currentDeal = currentDeals[i];
-        deals.push({
-          price: currentDeal.textContent,
-          source: currentDeal.closest(`.row`).firstElementChild.firstElementChild.textContent
-        });
-      }
-      deals.sort((a, b) => {
-        a = parseFloat(a.price.replace(/(\$|£|€)/, ``));
-        b = parseFloat(b.price.replace(/(\$|£|€)/, ``));
-        if (a < b) {
-          return -1;
-        } else if (a > b) {
-          return 1;
-        } else {
-          return 0;
-        }
-      });
-      current = deals[0];
+  async function itadi_getInfo(currentTime, giveaway) {
+    const game = esgst.games[giveaway.type][giveaway.id];
+    let itadi = null;
+    const plain = itadi_getPlain(giveaway.name);
+    if (game && game.itadi && game.itadi.version === 2 && (currentTime - game.itadi.lastCheck < 86400000)) {
+      itadi = game.itadi;
     } else {
-      current = null;
+      const loading = insertHtml(esgst.sidebar, `beforeEnd`, `
+        <h3 class="sidebar__heading">
+          <i class="fa fa-circle-o-notch fa-spin"></i> Loading IsThereAnyDeal info...
+        </h3>
+      `);
+      itadi = await itadi_loadInfo(giveaway, plain);
+      loading.remove();
     }
-    if (esgst.itadi_h && priceResponse) {
-      priceHtml = parseHtml(priceResponse.responseText);
-      headings = priceHtml.getElementsByTagName(`th`);
-      n = headings.length;
-      if (n > 0) {
-        found = false;
-        for (i = 0; i < n && !found; ++i) {
-          heading = headings[i];
-          if (heading.textContent === `Lowest price`) {
-            found = true;
-            parent = heading.parentElement;
-            historical = {
-              date: parent.getElementsByClassName(`date`)[0].textContent,
-              price: parent.getElementsByClassName(`primary`)[0].textContent,
-              source: parent.getElementsByClassName(`shopTitle`)[0].textContent
-            };
-          }
-        }
-        if (!found) {
-          historical = null;
-        }
-      } else {
-        historical = null;
-      }
-    } else {
-      historical = null;
-    }
-    bundles = [];
-    currentBundles = infoHtml.getElementsByClassName(`bundle-head`);
-    n = currentBundles.length;
-    if (n > 0) {
-      for (i = 0; i < n; ++i) {
-        currentBundle = currentBundles[i];
-        tag = currentBundle.firstElementChild;
-        if (tag.textContent === `bundle`) {
-          date = tag.nextElementSibling;
-          name = date.nextElementSibling.firstElementChild;
-          bundles.push({
-            date: date.textContent.replace(/expired\s/, ``),
-            id: name.getAttribute(`href`).match(/\d+/)[0],
-            name: name.textContent
-          });
-        }
-      }
-      if (!bundles.length) {
-        bundles = null;
-      }
-    } else {
-      bundles = null;
-    }
-    itadi = {
-      bundles: bundles,
-      current: current,
-      historical: historical,
-      lastCheck: Date.now()
+    itadi_addInfo(itadi, plain);
+  }
+
+  async function itadi_loadInfo(giveaway, plain) {
+    const itadi = {
+      bundles: [],
+      current: null,
+      historical: null,
+      lastCheck: Date.now(),
+      version: 2
     };
-    let deleteLock = await createLock(`gameLock`, 300);
-    games = JSON.parse(await getValue(`games`));
+    const response = await request({
+      method: `GET`,
+      queue: true,
+      url: `https://isthereanydeal.com/game/${plain}/info/`
+    });
+    const html = parseHtml(response.responseText);
+    const deals = html.querySelectorAll(`#gh-po tr`);
+    for (const deal of deals) {
+      const match = deal.firstElementChild.textContent.trim().match(/(Current\sBest|Historical\sLow)/);
+      if (!match) {
+        continue;
+      }
+      itadi[match[1] === `Current Best` ? `current` : `historical`] = {
+        cut: deal.querySelector(`.gh-po__cut`).textContent.trim(),
+        date: deal.querySelector(`.date`).textContent.trim(),
+        price: deal.querySelector(`.gh-po__price`).textContent.trim(),
+        source: deal.querySelector(`.gh-po__shopTitle`).textContent.trim()
+      };
+    }
+    const bundles = html.querySelectorAll(`.bundleTable tr:not(:first-child)`);
+    for (const bundle of bundles) {
+      const link = bundle.querySelector(`.t-st3--link`);
+      itadi.bundles.push({
+        expiry: bundle.querySelector(`.bundleTable__expiry`).textContent.trim(),
+        id: link.getAttribute(`href`).match(/id\/(.+)/)[1],
+        name: link.textContent.trim(),
+        price: bundle.querySelector(`.t-st3__price`).textContent.trim(),
+        source: bundle.querySelector(`.shopTitle`).textContent.trim()
+      });
+    }
+    const deleteLock = await createLock(`gameLock`, 300);
+    const games = JSON.parse(await getValue(`games`));
     if (!games[giveaway.type][giveaway.id]) {
       games[giveaway.type][giveaway.id] = {};
     }
     games[giveaway.type][giveaway.id].itadi = itadi;
     await setValue(`games`, JSON.stringify(games));
     deleteLock();
-    loading.remove();
-    itadi_addInfo(itadi, plain);
+    return itadi;
   }
 
   function itadi_addInfo(itadi, plain) {
-    let bundle, bundlesHtml, bundlesItem, currentHtml, currentItem, historicalHtml, historicalItem, i, n;
+    let html = `    
+      <h3 class="sidebar__heading">Best Current Deal</h3>
+      <ul class="sidebar__navigation">
+    `;
     if (itadi.current) {
-      currentItem = `
+      html += `
         <li class="sidebar__navigation__item">
-          <a class="sidebar__navigation__item__link" href="https://isthereanydeal.com/#/page:game/info?plain=${plain}">
-            <div class="sidebar__navigation__item__name">${itadi.current.source}</div>
+          <a class="sidebar__navigation__item__link" href="https://isthereanydeal.com/game/${plain}/info/">
+            <div class="sidebar__navigation__item__name">${itadi.current.source} (${itadi.current.date})</div>
             <div class="sidebar__navigation__item__underline"></div>
-            <div class="sidebar__navigation__item__count">${itadi.current.price}</div>
+            <div class="sidebar__navigation__item__count">${itadi.current.price} (${itadi.current.cut})</div>
           </a>
         </li>
       `;
     } else {
-      currentItem = `There are no current deals for this game.`;
+      html += `There are no current deals for this game.`;
     }
-    currentHtml = `
-      <h3 class="sidebar__heading">Best Current Deal</h3>
+    html += `
+      </ul>   
+      <h3 class="sidebar__heading">Historical Lowest Price</h3>
       <ul class="sidebar__navigation">
-        ${currentItem}
-      </ul>
     `;
-    if (esgst.itadi_h) {
-      if (itadi.historical) {
-        historicalItem = `
-          <li class="sidebar__navigation__item">
-            <a class="sidebar__navigation__item__link" href="https://isthereanydeal.com/#/page:game/price?plain=${plain}">
-              <div class="sidebar__navigation__item__name">${itadi.historical.source}</div>
-              <div class="sidebar__navigation__item__underline"></div>
-              <div class="sidebar__navigation__item__count">${itadi.historical.price} (${itadi.historical.date})</div>
-            </a>
-          </li>
-        `;
-      } else {
-        historicalItem = `There is no price history for this game.`;
-      }
-      historicalHtml = `
-        <h3 class="sidebar__heading">Historical Lowest Price</h3>
-        <ul class="sidebar__navigation">
-          ${historicalItem}
-        </ul>
+    if (itadi.historical) {
+      html += `
+        <li class="sidebar__navigation__item">
+          <a class="sidebar__navigation__item__link" href="https://isthereanydeal.com/game/${plain}/info/">
+            <div class="sidebar__navigation__item__name">${itadi.historical.source} (${itadi.historical.date})</div>
+            <div class="sidebar__navigation__item__underline"></div>
+            <div class="sidebar__navigation__item__count">${itadi.historical.price} (${itadi.historical.cut})</div>
+          </a>
+        </li>
       `;
     } else {
-      historicalHtml = ``;
+      html += `There is no price history for this game.`;
     }
+    html += `
+      </ul>
+      <h3 class="sidebar__heading">Bundles</h3>
+      <ul class="sidebar__navigation">
+    `;
     if (itadi.bundles) {
-      bundlesItem = ``;
-      for (i = 0, n = itadi.bundles.length; i < n; ++i) {
-        bundle = itadi.bundles[i];
-        bundlesItem += `
+      for (const bundle of itadi.bundles) {
+        html += `
           <li class="sidebar__navigation__item">
             <a class="sidebar__navigation__item__link" href="https://isthereanydeal.com/specials/#/filter:id/${bundle.id}">
-              <div class="sidebar__navigation__item__name">${bundle.name}</div>
+              <div class="sidebar__navigation__item__name">${bundle.name} (${bundle.source})</div>
               <div class="sidebar__navigation__item__underline"></div>
-              <div class="sidebar__navigation__item__count">${bundle.date}</div>
+              <div class="sidebar__navigation__item__count">${bundle.price} (${bundle.expiry})</div>
             </a>
           </li>
         `;
       }
     } else {
-      bundlesItem = `This game has never been in a bundle.`;
+      html += `This game has never been in a bundle.`;
     }
-    bundlesHtml = `
-      <h3 class="sidebar__heading">Bundles</h3>
-      <ul class="sidebar__navigation">
-        ${bundlesItem}
+    html += `
       </ul>
     `;
-    esgst.sidebar.insertAdjacentHTML(`beforeEnd`, `
-      ${currentHtml}${historicalHtml}${bundlesHtml}
-    `);
+    esgst.sidebar.insertAdjacentHTML(`beforeEnd`, html);
   }
 
   function itadi_getPlain(name) {
@@ -29705,7 +29686,6 @@
         giveaway.creatorContainer = giveaway.startTimeColumn.lastElementChild;
         giveaway.creator = giveaway.creatorContainer.textContent;
       }
-      giveaway.winners = giveaway.columns.textContent.match(/No winners/) ? 0 : giveaway.copies;
     } else {
       giveaway.started = true;
     }
@@ -29730,9 +29710,6 @@
         giveaway.endTime = 0;
       }
       giveaway.ended = Boolean(giveaway.deleted || giveaway.endTime < Date.now());
-    }
-    if (!giveaway.ended) {
-      giveaway.winners = 0;
     }
     if (ugd) {
       if (ugdType === `sent`) {
@@ -29914,15 +29891,36 @@
         });
       }
     }
+    giveaway.winnerColumns = {};
+    if (giveaway.startTimeColumn && giveaway.endTimeColumn) {
+      let column = giveaway.endTimeColumn.nextElementSibling;
+      while (column && column !== giveaway.startTimeColumn) {
+        let key = ``;
+        let status = ``;
+        if (column.classList.contains(`giveaway__column--positive`)) {
+          [key, status] = [`received`, `Received`];
+        } else if (column.classList.contains(`giveaway__column--negative`)) {
+          [key, status] = [`notReceived`, `Not Received`];
+        } else if (column.textContent.trim().match(/Awaiting\sfeedback/)) {
+          [key, status] = [`awaitingFeedback`, `Awaiting Feedback`];
+        } else if (column.textContent.trim().match(/No\swinners/)) {
+          [key, status] = [`noWinners`, ``];
+        } else {
+          continue;
+        }
+        const winners = column.textContent.trim().split(/,\s/).filter(x => x);
+        giveaway.winnerColumns[key] = { column, status, winners };
+        column.setAttribute(`data-columnId`, `winners`);
+        column = column.nextElementSibling;
+      }
+    }
+    giveaway.winners = giveaway.winnerColumns.noWinners ? 0 : Math.min(giveaway.entries || 0, giveaway.copies);
     if (!main || esgst.giveawaysPath || esgst.userPath || esgst.groupPath) {
       if (giveaway.endTimeColumn) {
         giveaway.endTimeColumn.setAttribute(`data-columnId`, `endTime`);
       }
       if (giveaway.startTimeColumn) {
         giveaway.startTimeColumn.setAttribute(`data-columnId`, `startTime`);
-        if ((esgst.userPath || esgst.groupPath) && main) {
-          giveaway.startTimeColumn.previousElementSibling.setAttribute(`data-columnId`, `winners`);
-        }
       }
       if (giveaway.inviteOnly) {
         giveaway.inviteOnly.setAttribute(`data-columnId`, `inviteOnly`);
@@ -29973,6 +29971,7 @@
         code: giveaway.code,
         copies: giveaway.copies,
         points: giveaway.points,
+        ended: giveaway.ended,
         endTime: giveaway.endTime,
         startTime: giveaway.startTime,
         started: giveaway.started,
@@ -29993,8 +29992,8 @@
   function giveaways_reorder(giveaway) {
     if (giveaway.columns) {
       (giveaway.gvIcons ? esgst.giveawayColumns_gv : esgst.giveawayColumns).forEach(id => {
-        let element = giveaway.outerWrap.querySelector(`[data-columnId="${id}"]`);
-        if (element) {
+        const elements = giveaway.outerWrap.querySelectorAll(`[data-columnId="${id}"]`);
+        for (const element of elements) {
           (giveaway.gvIcons || giveaway.columns).appendChild(element);
           if (id.match(/^elgb|gp|ttec$/)) {
             element.classList.add(`esgst-giveaway-column-button`);
@@ -30004,8 +30003,8 @@
     }
     if (giveaway.panel) {
       (giveaway.gvIcons ? esgst.giveawayPanel_gv : esgst.giveawayPanel).forEach(id => {
-        let element = giveaway.outerWrap.querySelector(`[data-columnId="${id}"]`);
-        if (element) {
+        const elements = giveaway.outerWrap.querySelectorAll(`[data-columnId="${id}"]`);
+        for (const element of elements) {
           giveaway.panel.appendChild(element);
           if (id.match(/^elgb|gp|ttec$/)) {
             element.classList.remove(`esgst-giveaway-column-button`);
@@ -30051,6 +30050,7 @@
     }
     let item = event.currentTarget;
     if (item === giveaway.sourceItem) return;
+    if (item.getAttribute(`data-columnId`) === giveaway.sourceItem.getAttribute(`data-columnId`)) return;
     if (item === giveaway.gvIcons) {
       if (giveaway.gvIcons.children.length < 1) {
         giveaway.gvIcons.appendChild(giveaway.sourceItem);
@@ -31757,10 +31757,8 @@
   async function ugd_init(key, user, obj) {
     obj.giveaways = {};
     obj.key = key;
+    obj.requests = obj.requests.slice(0, 2);
     obj.user = user;
-    if (obj.key === `sent` && obj.user.username === esgst.username) {
-      obj.toGet = true;
-    }
 
     const savedUser = await getUser(null, obj.user);
     obj.ugdCache = savedUser && savedUser.ugdCache;
@@ -31774,7 +31772,6 @@
     if (
       !obj.userGiveaways.sent || (
         obj.key === `sent` &&
-        obj.user.username === esgst.username &&
         obj.userGiveaways.version !== `7.13.0`
       )
     ) {
@@ -31865,9 +31862,11 @@
     const elements = responseHtml.getElementsByClassName(`giveaway__row-outer-wrap`);
     const n = elements.length;
     for (let i = 0; i < n; i++) {
-      const giveaway = (
+      const giveawayObj = (
         await giveaways_getInfo(elements[i], document, obj.user.username, obj.key)
-      ).data;
+      );
+      const giveawayRaw = giveawayObj.giveaway;
+      const giveaway = giveawayObj.data;
       const endTime = giveaway.endTime;
 
       // giveaway has not ended yet, so cannot store it
@@ -31897,16 +31896,31 @@
       }
       if (code) {
         games[id].push(code);
-        obj.giveaways[code] = giveaway;
-        if (obj.toGet) {
-          const savedGiveaway = esgst.giveaways[code];
-          if (!savedGiveaway || !Array.isArray(savedGiveaway.winners)) {
+        const savedGiveaway = esgst.giveaways[code];
+        if (!savedGiveaway || !Array.isArray(savedGiveaway.winners)) {
+          obj.giveaways[code] = giveaway;          
+          if (obj.key === `sent`) {
             giveaway.winners = [];
-            obj.requests.push({
-              giveaway: giveaway,
-              request: ugd_requestGiveaway,
-              url: `/giveaway/${code}/_/winners/search?page=`
-            });
+            if (giveawayRaw.winners > 3) {
+              obj.requests.push({
+                giveaway: giveaway,
+                request: ugd_requestGiveaway,
+                url: `/giveaway/${code}/_/winners/search?page=`
+              });
+            } else {
+              for (const key in giveawayRaw.winnerColumns) {
+                const column = giveawayRaw.winnerColumns[key];
+                if (!column.status || column.status === `Awaiting Feedback`) {
+                  continue;
+                }
+                for (const winner of column.winners) {
+                  giveaway.winners.push({
+                    status: column.status,
+                    username: winner
+                  });
+                }
+              }
+            }
           }
         }
       } else {
@@ -31919,7 +31933,7 @@
   }
 
   async function ugd_requestGiveawaysDone(obj) {
-    if (!obj.toGet) {
+    if (obj.key !== `sent`) {
       await ugd_requestGiveawaysDone_2(obj);
       return;
     }
@@ -31931,7 +31945,7 @@
       for (const id in games) {
         const game = games[id];
         for (const item of game) {
-          const giveaway = typeof item === `string` ? esgst.giveaways[item] : item;
+          const giveaway = typeof item === `string` ? obj.giveaways[item] || esgst.giveaways[item] : item;
           if (!giveaway || !Array.isArray(giveaway.winners)) {
             break;
           }
@@ -31991,12 +32005,10 @@
         name: `Most given away:`,
         values: []
       };
-      if (obj.user.username === esgst.username) {
-        obj.lists.username = {
-          name: `Most sent to:`,
-          values: []
-        };
-      }
+      obj.lists.username = {
+        name: `Most sent to:${obj.user.username === esgst.username ? `` : ` <i class="fa fa-question-circle" title="This list might not be 100% accurate if the user has giveaways for more than 3 copies that you cannot access."></i>`}`,
+        values: []
+      };
     } else {
       obj.lists.creator = {
         name: `Most won from:`,
@@ -32400,7 +32412,9 @@
           selector = `Everyone`;
         }
         const level = giveaway.level;
-        const copies = obj.key === `sent` ? giveaway.copies : 1;
+        const isArrayWinners = Array.isArray(giveaway.winners);
+        const winners = isArrayWinners ? giveaway.winners.filter(x => x.status === `Received`) : giveaway.winners;
+        const copies = obj.key === `sent` ? isArrayWinners ? winners.length : giveaway.copies : 1;
         obj.perType[selector][level] += copies;
         obj.typeTotal[selector] += copies;
         obj.levelTotal[level] += copies;
@@ -32408,7 +32422,7 @@
         for (const key in obj.lists) {
           const list = obj.lists[key];
           const values = list.values;
-          const selectors = key === `username` ? giveaway.winners : [giveaway];
+          const selectors = key === `username` ? winners : [giveaway];
           if (!Array.isArray(selectors)) {
             continue;
           }
@@ -32421,7 +32435,7 @@
                 value: 0
               };
             }
-            values[value].value += copies;
+            values[value].value += (key === `username` ? 1 : copies);
           }
         }
       }
@@ -33523,7 +33537,13 @@
         savedUser = esgst.users.users[profile.steamId];
       }
     }
-    esgst.profileFeatures.forEach(feature => feature(profile, savedUser));
+    for (const feature of esgst.profileFeatures) {
+      try {
+        await feature(profile, savedUser);
+      } catch (error) {
+        console.log(error);
+      }
+    }
   }
 
   _MODULES.push({
@@ -43786,6 +43806,18 @@
   function escapeMarkdown(string) {
     return string.replace(/(\[|\]|\(|\)|\*|~|!|\.|`|-|>|#|\|)/g, `\\$1`);
   }
+  
+  function escapeHtml(string) {
+    return string
+      .replace(/&/g, `&amp;`)
+      .replace(/</g, `&lt;`)
+      .replace(/>/g, `&gt;`)
+      .replace(/"/g, `&quot;`)
+      .replace(/'/g, `&#39;`)
+      .replace(/\//g, `&#x2F;`)
+      .replace(/`/g, `&#x60;`)
+      .replace(/=/g, `&#x3D;`);
+  }
 
   function removeDuplicateNotes(notes) {
     let output = [];
@@ -44893,6 +44925,27 @@
   function loadChangelog(version) {
     let changelog, html, i, index, n, popup;
     changelog = [
+      {
+        date: `July 24, 2018`,
+        version: `7.24.1`,
+        changelog: `
+          <ul>
+            <li><a href="https://github.com/revilheart/ESGST/issues/844">#844</a> Show error message in the giveaway if game categories failed to load</li>
+            <li><a href="https://github.com/revilheart/ESGST/issues/843">#843</a> Fix a bug that re-retrieves categories for games that were already recently retrieved</li>
+            <li><a href="https://github.com/revilheart/ESGST/issues/842">#842</a> Fix Is There Any Deal? Info</li>
+            <li><a href="https://github.com/revilheart/ESGST/issues/841">#841</a> Extend "Most sent to" list to other users in User Giveaway Data</li>
+            <li><a href="https://github.com/revilheart/ESGST/issues/840">#840</a> Prevent User Giveaway Data from making useless requests if a giveaway has less than or equal to 3 winners</li>
+            <li><a href="https://github.com/revilheart/ESGST/issues/839">#839</a> Fix a bug that happens sometimes when hovering over the input field in Quick Giveaway Search</li>
+            <li><a href="https://github.com/revilheart/ESGST/issues/838">#838</a> Fix a bug that colors ended giveaways as green the first time they are found in Giveaway Encrypter/Decrypter</li>
+            <li><a href="https://github.com/revilheart/ESGST/issues/836">#836</a> Open links from the header menu in a new tab</li>
+            <li><a href="https://github.com/revilheart/ESGST/issues/834">#834</a> Enhance cookie manipulation in the extension to bypass age checks in requests to the Steam store</li>
+            <li><a href="https://github.com/revilheart/ESGST/issues/833">#833</a> Fix a bug that happens when showing game categories in real time</li>
+            <li><a href="https://github.com/revilheart/ESGST/issues/832">#832</a> Fix changelog link in the header menu</li>
+            <li><a href="https://github.com/revilheart/ESGST/issues/828">#828</a> Add option to show the Giveaway Encrypter/Decrypter header button even if there are only ended giveaways in the page</li>
+            <li><a href="https://github.com/revilheart/ESGST/issues/803">#803</a> Fix a bug that doesn't show groups containing HTML entities in Multiple Giveaway Creator</li>
+          </ul>
+        `
+      },
       {
         date: `July 22, 2018`,
         version: `7.24.0`,

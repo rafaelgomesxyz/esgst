@@ -236,6 +236,22 @@ To learn more about each feature you have to install ESGST.
 
 ## Changelog
 
+**7.24.1 (July 24, 2018)**
+
+* [#844](https://github.com/revilheart/ESGST/issues/844)Show error message in the giveaway if game categories failed to load
+* [#843](https://github.com/revilheart/ESGST/issues/843)Fix a bug that re-retrieves categories for games that were already recently retrieved
+* [#842](https://github.com/revilheart/ESGST/issues/842)Fix Is There Any Deal? Info
+* [#841](https://github.com/revilheart/ESGST/issues/841)Extend "Most sent to" list to other users in User Giveaway Data
+* [#840](https://github.com/revilheart/ESGST/issues/840)Prevent User Giveaway Data from making useless requests if a giveaway has less than or equal to 3 winners
+* [#839](https://github.com/revilheart/ESGST/issues/839)Fix a bug that happens sometimes when hovering over the input field in Quick Giveaway Search
+* [#838](https://github.com/revilheart/ESGST/issues/838)Fix a bug that colors ended giveaways as green the first time they are found in Giveaway Encrypter/Decrypter
+* [#836](https://github.com/revilheart/ESGST/issues/836)Open links from the header menu in a new tab
+* [#834](https://github.com/revilheart/ESGST/issues/834)Enhance cookie manipulation in the extension to bypass age checks in requests to the Steam store
+* [#833](https://github.com/revilheart/ESGST/issues/833)Fix a bug that happens when showing game categories in real time
+* [#832](https://github.com/revilheart/ESGST/issues/832)Fix changelog link in the header menu
+* [#828](https://github.com/revilheart/ESGST/issues/828)Add option to show the Giveaway Encrypter/Decrypter header button even if there are only ended giveaways in the page
+* [#803](https://github.com/revilheart/ESGST/issues/803)Fix a bug that doesn't show groups containing HTML entities in Multiple Giveaway Creator
+
 **7.24.0 (July 22, 2018)**
 
 * [#829](https://github.com/revilheart/ESGST/issues/829)Add options to limit requests to the Steam store and show categories in real time to Game Categories
