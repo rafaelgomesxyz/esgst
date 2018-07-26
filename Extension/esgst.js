@@ -916,7 +916,13 @@
         }]);
       }
       if (details.addScrollable) {
-        this.scrollable = insertHtml(this.description, `beforeEnd`, `<div class="esgst-popup-scrollable">${details.scrollableContent || ``}</div>`);
+        this.scrollable = createElements(this.description, `beforeEnd`, [{
+          attributes: {
+            class: `esgst-popup-scrollable`
+          },
+          type: `div`,
+          children: details.scrollableContent || null
+        }]);
         if (details.addScrollable === `left`) {
           this.scrollable.classList.add(`esgst-text-left`);
         }
@@ -933,9 +939,12 @@
       }
       esgst.openPopups += 1;
       esgst.popups.push(this);
-      this.modal = insertHtml(document.body, `beforeEnd`, `
-        <div class="esgst-popup-modal"></div>
-      `);
+      this.modal = createElements(document.body, `beforeEnd`, [{
+        attributes: {
+          class: `esgst-popup-modal`
+        },
+        type: `div`
+      }]);
       if (this.isCreated) {
         this.popup.classList.remove(`esgst-hidden`);
       } else {
@@ -1963,7 +1972,7 @@
       sg: location.hostname.match(/www.steamgifts.com/),
       st: location.hostname.match(/www.steamtrades.com/),
       currentVersion: `7.24.1`,
-      devVersion: `7.25.0 (Dev.2)`,
+      devVersion: `7.25.0 (Dev.3)`,
       icon: `data:image/x-icon;base64,AAABAAEAEBAAAAEAIABoBAAAFgAAACgAAAAQAAAAIAAAAAEAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAqv8DCbP/Hgeq+CQIrf8iCK3/Igit/yIIrf8iB6//Iwit9x8Aqv8DAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAKr0GAa2/c0DvfzfA7f83QO3/N0Dt/zdA7f83QO+/d4Gs/3OAKP1GQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACm/xQFs/n2Bcf//wW///8FwP//BcD//wW///8Fx///BbP69gC2/xUAAAAAAAAAAAAAAAAA/1UDFptOFxSZMxkLpJktAq720QW1+ugEsfvjA7b92wO2/dsEsfvjBbX66Aau/dEoiO4tUlLWGU5k3hdVVf8DEJxKHxWqT8cVrU7uE6VN0guqny0Apv8XAJfQGwBAVywAQFcsAJfQGwCx/xcogugtS2Lk0lBl6u5Qae7ISmPeHxagSSMVr07jF7lV/xOiSu0brgATAAAAAAAAAA8AAAC/AAAAwAAAABAAAAAAYznjEkth4OxWb/3/T2jv40lf4iMXnksiEq1O3RayUv8UpEnkEo0+HQAAABkAAABBAAAA8QAAAPEAAABBAAAAGUBSvxxOYeDjU2v0/05m7d1LYuEiF55LIhKtTt0Ws1L/FahN2gU1FTAAAADAAAAA7AAAAP0AAAD9AAAA7AAAAMAVG0owUGPm2lNr9P9OZu3dS2LhIheeSyISrU7dFrNS/xWoTdoFNRswAAAAvwAAAOsAAAD9AAAA/QAAAOsAAADAFRtKMFBj6NpTa/T/Tmbt3Uti4SIXnksiEq1O3RayUv8UpEnkEo0+HQAAABgAAABAAAAA8QAAAPEAAABBAAAAGT5PuR1OYeDjU2v0/05m7d1LYuEiFqBJIxWuT+QXuVX/E6JL7QC8XhMAAAAAAAAADwAAAL8AAAC/AAAAEAAAAAAOR/8SSWLh7FZv/f9PaO/jSV/iIxCUSh8Vrk7HFqxN7ROlS9JskzMt1XULGK12EhxGLgYsRy8GK612EhzVgAsYgmxxLU1i39JNZ+vtT2fwx0pj1h8AqlUDF65GFgqZUhlsiC0txH0T0s5/EujJgBPkz4QR28+EEdvJgBPkzn8Q6Md+E9KLdHosM1LWGUZo6BZVVf8DAAAAAAAAAAAAAAAA/2YAFMl9EvbgjRb/14gV/9eIFf/XiBX/14gV/9+NFv/KgBD254YAFQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAL91FRjKgRHN1IgU3s+EEt3PhBLdz4QS3c+EEt3UiBTezYMRzcJ6FBkAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACqqgADxIARHr18FiO8eA8ivHgPIrx4DyK8eA8ivXwPI8SAER7/VQADAAAAAAAAAAAAAAAA78cAAPA3AAD4FwAABCAAADGOAAAE+AAAkBEAAJ55AACYOQAAlgEAAER4AAAXaAAATnoAAPgXAAD0JwAA69cAAA==`,
       sgIcon: `data:image/x-icon;base64,AAABAAEAEBAAAAEAIABoBAAAFgAAACgAAAAQAAAAIAAAAAEAIAAAAAAAQAQAABMLAAATCwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIUAAAD5AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAPoAAACFAAAAAAAAAAAAAAD8AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA+QAAAAAAAAAAAAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAAAAAAAAAAAAP8AAAD/AAAA/wAAABwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAcAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAcAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAHAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAAAAAAAAAAAAPwAAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD5AAAAAAAAAAAAAACFAAAA+QAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD5AAAAhQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA//8AAP//AADAAwAAwAMAAMfjAADP8wAAz/MAAM/zAADP8wAAz/MAAM/zAADH4wAAwAMAAMADAAD//wAA//8AAA==`,
       stIcon: `data:image/x-icon;base64,AAABAAEAEBAAAAEAIABoBAAAFgAAACgAAAAQAAAAIAAAAAEAIAAAAAAAQAQAABMLAAATCwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABbD6SgWw+ucFsPrkBbD6SgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAWw+uYFsPr/BbD6/wWw+ucAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAFsPrmBbD6/wWw+v8FsPrmAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABbD6SQWw+uYFsPrmBbD6SQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAFKRLShSkS+cUpEvkFKRLSgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAExi4EpMYuDnTGLg5Exi4EoAAAAAAAAAABSkS+YUpEv/FKRL/xSkS+cAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABMYuDmTGLg/0xi4P9MYuDnAAAAAAAAAAAUpEvmFKRL/xSkS/8UpEvmAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAATGLg5kxi4P9MYuD/TGLg5gAAAAAAAAAAFKRLSRSkS+YUpEvmFKRLSQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAExi4ElMYuDmTGLg5kxi4EkAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAMZ9E0rGfRPnxn0T5MZ9E0oAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADGfRPmxn0T/8Z9E//GfRPnAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAxn0T5sZ9E//GfRP/xn0T5gAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAMZ9E0nGfRPmxn0T5sZ9E0kAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA//8AAPw/AAD8PwAA/D8AAPw/AAD//wAAh+EAAIfhAACH4QAAh+EAAP//AAD8PwAA/D8AAPw/AAD8PwAA//8AAA==`,
@@ -3105,9 +3114,12 @@
         },
         type: `i`
       }]);
-      esgst.leftButtons = insertHtml(new Popout(`esgst-hidden-buttons`, hiddenButtonsBefore, 0, true).popout, `beforeEnd`, `
-        <div class="esgst-page-heading"></div>
-      `);
+      esgst.leftButtons = createElements(new Popout(`esgst-hidden-buttons`, hiddenButtonsBefore, 0, true).popout, `beforeEnd`, [{
+        attributes: {
+          class: `esgst-page-heading`
+        },
+        type: `div`
+      }]);
       hiddenButtonsAfter = document.createElement(`div`);
       hiddenButtonsAfter.className = `esgst-heading-button`;
       hiddenButtonsAfter.title = getFeatureTooltip(`hideButtons`);
@@ -3117,9 +3129,12 @@
         },
         type: `i`
       }]);
-      esgst.rightButtons = insertHtml(new Popout(`esgst-hidden-buttons`, hiddenButtonsAfter, 0, true).popout, `beforeEnd`, `
-        <div class="esgst-page-heading"></div>
-      `);
+      esgst.rightButtons = createElements(new Popout(`esgst-hidden-buttons`, hiddenButtonsAfter, 0, true).popout, `beforeEnd`, [{
+        attributes: {
+          class: `esgst-page-heading`
+        },
+        type: `div`
+      }]);
     }
 
     for (const modd of _MODULES) {
@@ -3313,7 +3328,12 @@
         type: `span`
       }]);
     } else {
-      esgst.featuredContainer = insertHtml(esgst.pageOuterWrap, `beforeBegin`, `<div class="featured__container"></div>`);
+      esgst.featuredContainer = createElements(esgst.pageOuterWrap, `beforeBegin`, [{
+        attributes: {
+          class: `featured__container`
+        },
+        type: `div`
+      }]);
       createElements(esgst.featuredContainer, `inner`, Array.from(responseHtml.getElementsByClassName(`featured__container`)[0].children).map(x => {
         return {
           context: x
@@ -3802,7 +3822,14 @@
             element = elements[i];
             comments = element.getElementsByClassName(`table__column__secondary-link`)[0];
             parent = comments.parentElement;
-            panel = insertHtml(parent, `afterEnd`, `<p></p><div style="clear: both;"></div>`);
+            panel = createElements(parent, `afterEnd`, [{
+              type: `p`
+            }, {
+              attributes: {
+                style: `clear: both;`
+              },
+              type: `div`
+            }]);
             panel.appendChild(comments);
             if (parent.lastElementChild.classList.contains(`table__last-comment-icon`)) {
               parent.lastElementChild.classList.add(`esgst-float-right`);
@@ -3815,7 +3842,14 @@
             element = elements[i];
             comments = element.getElementsByClassName(`table__column__secondary-link`)[0];
             parent = comments.parentElement;
-            panel = insertHtml(parent, `afterEnd`, `<p></p><div style="clear: both;"></div>`);
+            panel = createElements(parent, `afterEnd`, [{
+              type: `p`
+            }, {
+              attributes: {
+                style: `clear: both;`
+              },
+              type: `div`
+            }]);
             panel.appendChild(comments);
             if (parent.lastElementChild.classList.contains(`table__last-comment-icon`)) {
               parent.lastElementChild.classList.add(`esgst-float-right`);
@@ -3838,7 +3872,9 @@
           deals.classList.remove(`esgst-hidden`);
         }
         if (!refresh) {
-          activeDiscussions = insertHtml(esgst.sidebar, `beforeEnd`, `<div></div>`);
+          activeDiscussions = createElements(esgst.sidebar, `beforeEnd`, [{
+            type: `div`
+          }]);
           activeDiscussions.appendChild(discussions);
           activeDiscussions.appendChild(deals);
           tabHeading1.addEventListener(`click`, adots_changeTab.bind(null, tabHeading1, tabHeading2));
@@ -4003,7 +4039,12 @@
       event.preventDefault();
       event.stopPropagation();
     }
-    let carousel = insertHtml(document.body, `beforeEnd`, `<div class="esgst-popup-modal esgst-aic-carousel"></div>`);
+    let carousel = createElements(document.body, `beforeEnd`, [{
+      attributes: {
+        class: `esgst-popup-modal esgst-aic-carousel`
+      },
+      type: `div`
+    }]);
     carousel.style.zIndex = 9999 + document.querySelectorAll(`.esgst-popup:not(.esgst-hidden), .esgst-popout:not(.esgst-hidden)`).length;
     carousel.addEventListener(`click`, aic_removeCarousel);
     aic_showImage(carousel, i);
@@ -5150,7 +5191,13 @@
 
   function ct_addReadUntilHereButton(button, comment) {
     if (!button) {
-      button = insertHtml(comment.actions, `beforeEnd`, `<div class="esgst-ct-comment-button" title="${getFeatureTooltip(`ct`, `Mark all comments from this comment upwards as read`)}"></div>`);
+      button = createElements(comment.actions, `beforeEnd`, [{
+        attributes: {
+          class: `esgst-ct-comment-button`,
+          title: `${getFeatureTooltip(`ct`, `Mark all comments from this comment upwards as read`)}`
+        },
+        type: `div`
+      }]);
     }
     createElements(button, `inner`, [{
       type: `span`,
@@ -5182,7 +5229,13 @@
 
   function ct_addUnreadUntilHereButton(button, comment) {
     if (!button) {
-      button = insertHtml(comment.actions, `beforeEnd`, `<div class="esgst-ct-comment-button" title="${getFeatureTooltip(`ct`, `Mark all comments from this comment upwards as unread`)}"></div>`);
+      button = createElements(comment.actions, `beforeEnd`, [{
+        attributes: {
+          class: `esgst-ct-comment-button`,
+          title: `${getFeatureTooltip(`ct`, `Mark all comments from this comment upwards as unread`)}`
+        },
+        type: `div`
+      }]);
     }
     createElements(button, `inner`, [{
       type: `span`,
@@ -5214,7 +5267,12 @@
 
   function ct_addReadCommentButton(button, comment) {
     if (!button) {
-      button = insertHtml(comment.actions, `beforeEnd`, `<div class="esgst-ct-comment-button"></div>`);
+      button = createElements(comment.actions, `beforeEnd`, [{
+        attributes: {
+          class: `esgst-ct-comment-button`
+        },
+        type: `div`
+      }]);
     }
     createElements(button, `inner`, [{
       attributes: {
@@ -5270,7 +5328,12 @@
 
   function ct_addUnreadCommentButton(button, comment) {
     if (!button) {
-      button = insertHtml(comment.actions, `beforeEnd`, `<div class="esgst-ct-comment-button"></div>`);
+      button = createElements(comment.actions, `beforeEnd`, [{
+        attributes: {
+          class: `esgst-ct-comment-button`
+        },
+        type: `div`
+      }]);
     }
     createElements(button, `inner`, [{
       attributes: {
@@ -5655,12 +5718,18 @@
       : `btn_actions`
     )[0];
     container.firstElementChild.remove();
-    obj.button = insertHtml(container, `afterBegin`, `
-      <div class="esgst-ded-button"></div>
-    `);
-    obj.status = insertHtml(container, `beforeEnd`, `
-      <div class="comment__actions action_list esgst-ded-status"></div>
-    `);
+    obj.button = createElements(container, `afterBegin`, [{
+      attributes: {
+        class: `esgst-ded-button`
+      },
+      type: `div`
+    }]);
+    obj.status = createElements(container, `beforeEnd`, [{
+      attributes: {
+        class: `comment__actions action_list esgst-ded-status`
+      },
+      type: `div`
+    }]);
     obj.set = new ButtonSet_v2({
       color1: `grey`,
       color2: `grey`,
@@ -7158,9 +7227,12 @@
       }
       return;
     }
-    let box = insertHtml(element, `afterEnd`, `
-      <div class="esgst-rbot"></div>
-    `);
+    let box = createElements(element, `afterEnd`, [{
+      attributes: {
+        class: `esgst-rbot`
+      },
+      type: `div`
+    }]);
     box.appendChild(esgst.replyBox);
     let button = box.getElementsByClassName(esgst.cancelButtonClass)[0];
     if (!button) return;
@@ -7504,7 +7576,12 @@
     let info;
     let i = 0;
     let n = bookmarked.length;
-    let gbGiveaways = insertHtml(context, `beforeEnd`, `<div class="esgst-text-left"></div>`);
+    let gbGiveaways = createElements(context, `beforeEnd`, [{
+      attributes: {
+        class: `esgst-text-left`
+      },
+      type: `div`
+    }]);
     let set = new ButtonSet(`green`, `grey`, `fa-plus`, `fa-circle-o-notch fa-spin`, `Load more...`, `Loading more...`, callback => {
       gb_loadGiveaways(i, i + 5, bookmarked, gbGiveaways, info, popup, value => {
         i = value;
@@ -7527,9 +7604,12 @@
       </div>
     `);
     if (esgst.gas || (esgst.gf && esgst.gf_m) || esgst.mm) {
-      let heading = insertHtml(context, `beforeBegin`, `
-        <div class="page__heading"></div>
-      `);
+      let heading = createElements(context, `beforeBegin`, [{
+        attributes: {
+          class: `page__heading`
+        },
+        type: `div`
+      }]);
       if (esgst.gas) {
         gas(heading);
       }
@@ -8685,7 +8765,12 @@
         }
       }
       if (giveaway.grid && esgst.gc_b) {
-        let borders = insertHtml(giveaway.outerWrap, `beforeEnd`, `<div class="esgst-gc-border"></div>`);
+        let borders = createElements(giveaway.outerWrap, `beforeEnd`, [{
+          attributes: {
+            class: `esgst-gc-border`
+          },
+          type: `div`
+        }]);
         let categoryNames = {
           gc_fcv: `fullCV`,
           gc_rcv: `reducedCV`,
@@ -8740,7 +8825,12 @@
         }
       }
       if (giveaway.grid && esgst.gc_b) {
-        let borders = insertHtml(giveaway.outerWrap, `beforeEnd`, `<div class="esgst-gc-border"></div>`);
+        let borders = createElements(giveaway.outerWrap, `beforeEnd`, [{
+          attributes: {
+            class: `esgst-gc-border`
+          },
+          type: `div`
+        }]);
         let categoryNames = {
           gc_fcv: `fullCV`,
           gc_rcv: `reducedCV`,
@@ -10164,7 +10254,12 @@
     let comments;
     let busy = false;
     if (!button) {
-      button = insertHtml(context, `afterBegin`, `<div class="esgst-gdttt-button page_heading_btn"><div>`);
+      button = createElements(context, `afterBegin`, [{
+        attributes: {
+          class: `esgst-gdttt-button page_heading_btn`
+        },
+        type: `div`
+      }]);
     }
     createElements(button, `inner`, [{
       attributes: {
@@ -10205,7 +10300,12 @@
     let comments;
     let busy = false;
     if (!button) {
-      button = insertHtml(context, `afterBegin`, `<div class="esgst-gdttt-button page_heading_btn"><div>`);
+      button = createElements(context, `afterBegin`, [{
+        attributes: {
+          class: `esgst-gdttt-button page_heading_btn`
+        },
+        type: `div`
+      }]);
     }
     createElements(button, `inner`, [{
       attributes: {
@@ -10339,11 +10439,19 @@
     } else {
       ge.popup = new Popup(`fa-gift`, `Extracted giveaways:`);
     }
-    ge.results = insertHtml(ge.popup.scrollable, `beforeEnd`, `<div class="esgst-text-left"></div>`);
+    ge.results = createElements(ge.popup.scrollable, `beforeEnd`, [{
+      attributes: {
+        class: `esgst-text-left`
+      },
+      type: `div`
+    }]);
     if (esgst.gas || (esgst.gf && esgst.gf_m) || esgst.mm) {
-      let heading = insertHtml(ge.popup.scrollable, `afterBegin`, `
-        <div class="page__heading"></div>
-      `);
+      let heading = createElements(ge.popup.scrollable, `afterBegin`, [{
+        attributes: {
+          class: `page__heading`
+        },
+        type: `div`
+      }]);
       if (esgst.gas) {
         gas(heading);
       }
@@ -10389,7 +10497,9 @@
       ge_completeExtraction(ge);
     });
     ge.popup.description.appendChild(ge.set.set);
-    ge.progress = insertHtml(ge.popup.description, `beforeEnd`, `<div></div>`);
+    ge.progress = createElements(ge.popup.description, `beforeEnd`, [{
+      type: `div`
+    }]);
     if (esgst.es_ge) {
       ge.popup.scrollable.addEventListener(`scroll`, () => {
         if (ge.popup.scrollable.scrollTop + ge.popup.scrollable.offsetHeight >= ge.popup.scrollable.scrollHeight && ge.set && !ge.set.busy) {
@@ -10694,9 +10804,12 @@
     await ged_getGiveaways(ged);
     ged.context.innerHTML = ``;
     if (esgst.gas || (esgst.gf && esgst.gf_m) || esgst.mm) {
-      let heading = insertHtml(ged.context, `afterBegin`, `
-        <div class="page__heading"></div>
-      `);
+      let heading = createElements(ged.context, `afterBegin`, [{
+        attributes: {
+          class: `page__heading`
+        },
+        type: `div`
+      }]);
       if (esgst.gas) {
         gas(heading);
       }
@@ -10707,7 +10820,12 @@
         mm(heading);
       }
     }
-    ged.results = insertHtml(ged.context, `beforeEnd`, `<div class="esgst-text-left"></div>`);
+    ged.results = createElements(ged.context, `beforeEnd`, [{
+      attributes: {
+        class: `esgst-text-left`
+      },
+      type: `div`
+    }]);
     ged.set = new ButtonSet_v2({color1: `green`, color2: `grey`, icon1: `fa-plus`, icon2: `fa-circle-o-notch fa-spin`, title1: `Load More`, title2: `Loading more...`, callback1: ged_loadGiveaways.bind(null, ged)});
     ged.container.appendChild(ged.set.set);
     ged.set.trigger();
@@ -14049,9 +14167,12 @@
       </div>
     `);
     undoButton.addEventListener(`click`, filters_undoDeletePreset.bind(null, obj, deleted, undoButton));
-    const table = insertHtml(popup.scrollable, `beforeEnd`, `
-      <div class="esgst-text-left popup__keys__list"></div>
-    `);
+    const table = createElements(popup.scrollable, `beforeEnd`, [{
+      attributes: {
+        class: `esgst-text-left popup__keys__list`
+      },
+      type: `div`
+    }]);
     for (const preset of esgst[obj.key]) {
       const row = insertHtml(table, `beforeEnd`, `
         <div ${obj.presetInput.value === preset.name ? `class="esgst-green-highlight"` : ``} draggable="true">
@@ -14486,8 +14607,12 @@
     } else if (esgst.glwcPath) {
       let glwc = {}, parameters;
       glwc.context = document.body.firstElementChild.nextElementSibling.firstElementChild;
-      glwc.progress = insertHtml(glwc.context, `beforeEnd`, `<div></div>`);
-      glwc.overallProgress = insertHtml(glwc.context, `beforeEnd`, `<div></div>`);
+      glwc.progress = createElements(glwc.context, `beforeEnd`, [{
+        type: `div`
+      }]);
+      glwc.overallProgress = createElements(glwc.context, `beforeEnd`, [{
+        type: `div`
+      }]);
       parameters = getParameters();
       glwc.id = parameters.id;
       glwc.url = parameters.url;
@@ -15355,8 +15480,18 @@
         type: `p`
       }]
     }]);
-    popup.tags = insertHtml(popup.description, `beforeEnd`, `<div class="esgst-gt-tags"></div>`);
-    popup.input = insertHtml(popup.description, `beforeEnd`, `<input type="text"/>`);
+    popup.tags = createElements(popup.description, `beforeEnd`, [{
+      attributes: {
+        class: `esgst-gt-tags`
+      },
+      type: `div`
+    }]);
+    popup.input = createElements(popup.description, `beforeEnd`, [{
+      attributes: {
+        type: `text`
+      },
+      type: `input`
+    }]);
     insertHtml(popup.description, `beforeEnd`, `<i class="esgst-ut-existing-button esgst-clickable fa fa-list" title="Select from existing tags"></i>`).addEventListener(`click`, gt_showExistingTags.bind(null, popup));
     popup.input.addEventListener(`keydown`, triggerSetOnEnter.bind(null, set));
     popup.input.addEventListener(`input`, gt_createTags.bind(null, popup));
@@ -15418,7 +15553,12 @@
         tag: tag
       });
     }
-    list = insertHtml(popup.scrollable, `beforeEnd`, `<div class="esgst-ut-existing-tags popup__keys__list"></div>`);
+    list = createElements(popup.scrollable, `beforeEnd`, [{
+      attributes: {
+        class: `esgst-ut-existing-tags popup__keys__list`
+      },
+      type: `div`
+    }]);
     selectedTags = [];
     tags = sortArrayByNumberKey(tags, `count`, true);
     tags.forEach(tag => {
@@ -15874,9 +16014,12 @@
       </div>
     `);
     gts.undo.addEventListener(`click`, gts_undoDelete.bind(null, gts));
-    let templates = insertHtml(popup.scrollable, `beforeEnd`, `
-      <div class="esgst-text-left popup__keys__list"></div>
-    `);
+    let templates = createElements(popup.scrollable, `beforeEnd`, [{
+      attributes: {
+        class: `esgst-text-left popup__keys__list`
+      },
+      type: `div`
+    }]);
     let savedTemplates = JSON.parse(await getValue(`templates`, `[]`));
     for (let i = 0, n = savedTemplates.length; i < n; ++i) {
       let savedTemplate = savedTemplates[i];
@@ -16488,10 +16631,17 @@
       return;
     }
     hgr.popup = new Popup(`fa-times`, `Remove hidden games:`);
-    hgr.removed = insertHtml(hgr.popup.scrollable, `beforeEnd`, `<div class="markdown"></div>`);
+    hgr.removed = createElements(hgr.popup.scrollable, `beforeEnd`, [{
+      attributes: {
+        class: `markdown`
+      },
+      type: `div`
+    }]);
     new ToggleSwitch(hgr.popup.description, `hgr_removeOwned`, false, `Only remove owned games.`, false, false, `If disabled, all games will be removed.`, esgst.hgr_removeOwned);
     hgr.popup.description.appendChild(new ButtonSet_v2({color1: `green`, color2: `grey`, icon1: `fa-arrow-circle-right`, icon2: `fa-times`, title1: `Remove`, title2: `Cancel`, callback1: hgr_startRemover.bind(null, hgr), callback2: hgr_stopRemover.bind(null, hgr)}).set);
-    hgr.progress = insertHtml(hgr.popup.description, `beforeEnd`, `<div></div>`);
+    hgr.progress = createElements(hgr.popup.description, `beforeEnd`, [{
+      type: `div`
+    }]);
     hgr.popup.open();
   }
 
@@ -17793,7 +17943,12 @@
       esgst.levelContainer.title = getFeatureTooltip(`lpv`, `${esgst.levelContainer.getAttribute(`title`)} (${newLevel})`);
     }
     if (!esgst.lpvStyle) {
-      esgst.lpvStyle = insertHtml(esgst.style, `afterEnd`, `<style id="esgst-lpv-style"></style>`);
+      esgst.lpvStyle = createElements(esgst.style, `afterEnd`, [{
+        attributes: {
+          id: `esgst-lpv-style`
+        },
+        type: `style`
+      }]);
     }
     esgst.lpvStyle.textContent = `
       .esgst-lpv-container {
@@ -18118,13 +18273,62 @@
       text: `Next/previous links`,
       type: `div`
     }]);
-    inputs.previousPrefix = insertHtml(popup.scrollable, `beforeEnd`, `<input class="esgst-mgc-input" placeholder="← " type="text">`);
-    inputs.previous = insertHtml(popup.scrollable, `beforeEnd`, `<input class="esgst-mgc-input" placeholder="Previous" type="text">`);
-    inputs.previousSuffix = insertHtml(popup.scrollable, `beforeEnd`, `<input class="esgst-mgc-input" placeholder=" ←" type="text">`);
-    inputs.separator = insertHtml(popup.scrollable, `beforeEnd`, `<input class="esgst-mgc-input" placeholder=" | " type="text">`);
-    inputs.nextPrefix = insertHtml(popup.scrollable, `beforeEnd`, `<input class="esgst-mgc-input" placeholder="→ " type="text">`);
-    inputs.next = insertHtml(popup.scrollable, `beforeEnd`, `<input class="esgst-mgc-input" placeholder="Next" type="text">`);
-    inputs.nextSuffix = insertHtml(popup.scrollable, `beforeEnd`, `<input class="esgst-mgc-input" placeholder=" →" type="text">`);
+    inputs.previousPrefix = createElements(popup.scrollable, `beforeEnd`, [{
+      attributes: {
+        class: `esgst-mgc-input`,
+        placeholder: `← `,
+        type: `text`
+      },
+      type: `input`
+    }]);
+    inputs.previous = createElements(popup.scrollable, `beforeEnd`, [{
+      attributes: {
+        class: `esgst-mgc-input`,
+        placeholder: `Previous`,
+        type: `text`
+      },
+      type: `input`
+    }]);
+    inputs.previousSuffix = createElements(popup.scrollable, `beforeEnd`, [{
+      attributes: {
+        class: `esgst-mgc-input`,
+        placeholder: ` ←`,
+        type: `text`
+      },
+      type: `input`
+    }]);
+    inputs.separator = createElements(popup.scrollable, `beforeEnd`, [{
+      attributes: {
+        class: `esgst-mgc-input`,
+        placeholder: ` | `,
+        type: `text`
+      },
+      type: `input`
+    }]);
+    inputs.nextPrefix = createElements(popup.scrollable, `beforeEnd`, [{
+      attributes: {
+        class: `esgst-mgc-input`,
+        placeholder: `→ `,
+        type: `text`
+      },
+      type: `input`
+    }]);
+    inputs.next = createElements(popup.scrollable, `beforeEnd`, [{
+      attributes: {
+        class: `esgst-mgc-input`,
+        placeholder: `Next`,
+        type: `text`
+      },
+      type: `input`
+    }]);
+    inputs.nextSuffix = createElements(popup.scrollable, `beforeEnd`, [{
+      attributes: {
+        class: `esgst-mgc-input`,
+        placeholder: ` →`,
+        type: `text`
+      },
+      type: `input`
+    }]);
     let output = insertHtml(popup.scrollable, `beforeEnd`, `
       <div class="esgst-mgc-preview esgst-text-left markdown">
         <div>
@@ -18148,7 +18352,14 @@
       text: `Counter`,
       type: `div`
     }]);
-    inputs.counter = insertHtml(popup.scrollable, `beforeEnd`, `<input class="esgst-mgc-input" placeholder=" of " type="text">`);
+    inputs.counter = createElements(popup.scrollable, `beforeEnd`, [{
+      attributes: {
+        class: `esgst-mgc-input`,
+        placeholder: ` of `,
+        type: `text`
+      },
+      type: `input`
+    }]);
     let counterOutput = insertHtml(popup.scrollable, `beforeEnd`, `
       <div class="esgst-mgc-preview esgst-text-left markdown">
         <div>
@@ -18172,7 +18383,14 @@
       text: `Bump link (for attached discussions)`,
       type: `div`
     }]);
-    inputs.bump = insertHtml(popup.scrollable, `beforeEnd`, `<input class="esgst-mgc-input" placeholder="Bump" type="text">`);
+    inputs.bump = createElements(popup.scrollable, `beforeEnd`, [{
+      attributes: {
+        class: `esgst-mgc-input`,
+        placeholder: `Bump`,
+        type: `text`
+      },
+      type: `input`
+    }]);
     let bumpOutput = insertHtml(popup.scrollable, `beforeEnd`, `
       <div class="esgst-mgc-preview esgst-text-left markdown">
         <div>
@@ -18193,7 +18411,14 @@
       text: `First train wagon link (for attached discussions)`,
       type: `div`
     }]);
-    inputs.train = insertHtml(popup.scrollable, `beforeEnd`, `<input class="esgst-mgc-input" placeholder="Choo choo!" type="text">`);
+    inputs.train = createElements(popup.scrollable, `beforeEnd`, [{
+      attributes: {
+        class: `esgst-mgc-input`,
+        placeholder: `Choo choo!`,
+        type: `text`
+      },
+      type: `input`
+    }]);
     let trainOutput = insertHtml(popup.scrollable, `beforeEnd`, `
       <div class="esgst-mgc-preview esgst-text-left markdown">
         <div>
@@ -19335,7 +19560,13 @@
         type: `br`
       }]
     }]);
-    input = insertHtml(popup.description, `beforeEnd`, `<input placeholder="XXXXX" type="text"/>`);
+    input = createElements(popup.description, `beforeEnd`, [{
+      attributes: {
+        placeholder: `XXXXX`,
+        type: `text`
+      },
+      type: `input`
+    }]);
     popup.description.appendChild(new ButtonSet(`green`, `grey`, `fa-paperclip`, `fa-circle-o-notch fa-spin`, `Attach Existing`, `Attaching...`, mgc_attachExistingDiscussion.bind(null, input, mgc, popup)).set);
     popup.description.appendChild(new ButtonSet(`green`, `grey`, `fa-paperclip`, `fa-circle-o-notch fa-spin`, `Attach New`, `Attaching...`, mgc_attachNewDiscussion.bind(null, mgc, popup)).set);
     popup.open();
@@ -19410,9 +19641,12 @@
     }]);
     const giveaways = await giveaways_get(popup.scrollable);
     if (esgst.mm) {
-      const heading = insertHtml(popup.scrollable, `afterBegin`, `
-        <div class="esgst-page-heading"></div>
-      `);
+      const heading = createElements(popup.scrollable, `afterBegin`, [{
+        attributes: {
+          class: `esgst-page-heading`
+        },
+        type: `div`
+      }]);
       mm(heading, giveaways, `Giveaways`);
     }
     popup.open();
@@ -19950,9 +20184,12 @@
     if (esgst.cfh) {
       cfh_addPanel(obj[`textArea${key}`]);
     }
-    obj[`message${key}`] = insertHtml(context, `beforeEnd`, `
-      <div class="esgst-description"></div>
-    `);
+    obj[`message${key}`] = createElements(context, `beforeEnd`, [{
+      attributes: {
+        class: `esgst-description`
+      },
+      type: `div`
+    }]);
     context.appendChild(new ButtonSet_v2({
       color1: `grey`, color2: `grey`,
       icon1: `fa-copy`, icon2: `fa-circle-o-notch fa-spin`,
@@ -20357,9 +20594,12 @@
         type: `p`
       }]
     }]);
-    obj.tPopup.tags = insertHtml(obj.tPopup.description, `beforeEnd`, `
-      <div class="esgst-${key[0].toLowerCase()}t-tags"></div>
-    `);
+    obj.tPopup.tags = createElements(obj.tPopup.description, `beforeEnd`, [{
+      attributes: {
+        class: `esgst-${key[0].toLowerCase()}t-tags`
+      },
+      type: `div`
+    }]);
     obj.tPopup.input = insertHtml(obj.tPopup.description, `beforeEnd`, `
       <input type="text">
     `);
@@ -21013,7 +21253,12 @@
     const firstBar = `${progress}px`;
     const secondBar = `${Math.max(0, progress - 157)}px`; // 157px is the width of the button without the arrow
     if (!esgst.pvStyle) {
-      esgst.pvStyle = insertHtml(esgst.style, `afterEnd`, `<style id="esgst-pv-style"></style>`);
+      esgst.pvStyle = createElements(esgst.style, `afterEnd`, [{
+        attributes: {
+          id: `esgst-pv-style`
+        },
+        type: `style`
+      }]);
     }
     esgst.pvStyle.textContent = `
       .esgst-lpv-container {
@@ -21148,9 +21393,12 @@
       }
     }
     if (!qgs && ((esgst.adots && esgst.adots_index === 0) || !esgst.adots)) {
-      obj.panel = insertHtml(context, `afterEnd`, `
-        <div class="esgst-ags-panel"></div>
-      `);
+      obj.panel = createElements(context, `afterEnd`, [{
+        attributes: {
+          class: `esgst-ags-panel`
+        },
+        type: `div`
+      }]);
     } else {
       obj.panel = new Popout(`esgst-ags-panel`, context, 100).popout;
     }
@@ -21310,32 +21558,54 @@
         parameter: details.parameter
       });
     } else {
-      let html = ``;
+      let items = [];
       if (details.type === `select`) {
-        html = `
-          <select>
-            <option></option>
-        `;
+        items.push({
+          type: `select`,
+          children: [{
+            type: `option`
+          }]
+        });
         for (let i = 0; i <= 10; ++i) {
-          html += `
-            <option>${i}</option>
-          `;
+          items[0].children.push({
+            text: i,
+            type: `option`
+          });
         }
-        html += `
-          </select>
-        `;
       } else if (details.maxKey === `ags_maxDate`) {
-        html = `
-          <input type="date">
-        `;
+        items = [{
+          attributes: {
+            type: `date`
+          },
+          type: `input`
+        }];        
       } else {
-        html = `
-          <input type="text">
-        `;
+        items = [{
+          attributes: {
+            type: `text`
+          },
+          type: `input`
+        }];
       }
-      let element = insertHtml(obj.panel, `beforeEnd`, `
-        <div>${details.name} <div class="esgst-ags-filter">${html}</div><div class="esgst-ags-filter">${html}</div></div>
-      `);
+      let element = createElements(obj.panel, `beforeEnd`, [{
+        type: `div`,
+        children: [{
+          text: `${details.name} `,
+          type: `node`
+        }, {
+          attributes: {
+            class: `esgst-ags-filter`
+          },
+          type: `div`,
+          children: items
+        }, {
+          attributes: {
+            class: `esgst-ags-filter`
+          },
+          type: `div`,
+          children: items
+        }]
+      }]);
       let maxFilter = element.lastElementChild.lastElementChild;
       maxFilter.value = esgst[details.maxKey];
       observeNumChange(maxFilter, details.maxKey);
@@ -22327,7 +22597,12 @@
     for (let i = 0, n = items.length; i < n; i++) {
       let item = items[i];
       if (!item.id || esgst[item.id]) {
-        let button = insertHtml(esgst.cfh.panel, `beforeEnd`, `<div title="${getFeatureTooltip(item.id || `cfh`, item.name)}"></div>`);
+        let button = createElements(esgst.cfh.panel, `beforeEnd`, [{
+          attributes: {
+            title: `${getFeatureTooltip(item.id || `cfh`, item.name)}`
+          },
+          type: `div`
+        }]);
         item.icons.forEach(icon => {
           createElements(button, `beforeEnd`, [{
             attributes: {
@@ -24962,8 +25237,18 @@
   function cfh_uploadImage(authorization, popout, url) {
     let input, popup, warning;
     popup = new Popup(`fa-upload`, `Upload Image`, true);
-    input = insertHtml(popup.description, `beforeEnd`, `<input type="file"/>`);
-    warning = insertHtml(popup.description, `beforeEnd`, `<div class="esgst-description esgst-warning"></div>`);
+    input = createElements(popup.description, `beforeEnd`, [{
+      attributes: {
+        type: `file`
+      },
+      type: `input`
+    }]);
+    warning = createElements(popup.description, `beforeEnd`, [{
+      attributes: {
+        class: `esgst-description esgst-warning`
+      },
+      type: `div`
+    }]);
     popup.description.appendChild(new ButtonSet(`green`, `grey`, `fa-upload`, `fa-circle-o-notch fa-spin`, `Upload`, `Uploading...`, callback => {
       let file = input.files[0];
       if (file) {
@@ -25949,10 +26234,16 @@
     observeChange(maxDate, `sks_maxDate`);
     observeNumChange(minPage, `sks_minPage`);
     observeNumChange(maxPage, `sks_maxPage`);
-    sks.results = insertHtml(sks.popup.scrollable, `beforeEnd`, `<div></div>`);
+    sks.results = createElements(sks.popup.scrollable, `beforeEnd`, [{
+      type: `div`
+    }]);
     sks.popup.description.appendChild(new ButtonSet_v2({color1: `green`, color2: `grey`, icon1: `fa-search`, icon2: `fa-times`, title1: `Search`, title2: `Cancel`, callback1: sks_searchGiveaways.bind(null, sks), callback2: sks_cancelSearch.bind(null, sks)}).set);
-    sks.progress = insertHtml(sks.popup.description, `beforeEnd`, `<div></div>`);
-    sks.overallProgress = insertHtml(sks.popup.description, `beforeEnd`, `<div></div>`);
+    sks.progress = createElements(sks.popup.description, `beforeEnd`, [{
+      type: `div`
+    }]);
+    sks.overallProgress = createElements(sks.popup.description, `beforeEnd`, [{
+      type: `div`
+    }]);
     sks.popup.open();
   }
 
@@ -26444,8 +26735,12 @@
       ugs.unsentCount = ugs.unsent.firstElementChild.firstElementChild;
       ugs.unsentGifts = ugs.unsent.lastElementChild;
       ugs.popup.description.appendChild(new ButtonSet_v2({color1: `green`, color2: `red`, icon1: `fa-send`, icon2: `fa-times-circle`, title1: `Send`, title2: `Cancel`, callback1: ugs_start.bind(null, ugs), callback2: ugs_cancel.bind(null, ugs)}).set);
-      ugs.progress = insertHtml(ugs.popup.description, `beforeEnd`, `<div></div>`);
-      ugs.overallProgress = insertHtml(ugs.popup.description, `beforeEnd`, `<div></div>`);
+      ugs.progress = createElements(ugs.popup.description, `beforeEnd`, [{
+        type: `div`
+      }]);
+      ugs.overallProgress = createElements(ugs.popup.description, `beforeEnd`, [{
+        type: `div`
+      }]);
       ugs.popup.description.appendChild(ugs.popup.scrollable);
     }
     ugs.popup.open();
@@ -28185,9 +28480,24 @@
         setSetting(`wbm_tags`, tags);
         esgst.wbm_tags = tags;
       });
-      wbm.input = insertHtml(wbm.popup.description, `beforeEnd`, `<input type="file"/>`);
-      wbm.message = insertHtml(wbm.popup.description, `beforeEnd`, `<div class="esgst-description"></div>`);
-      wbm.warning = insertHtml(wbm.popup.description, `beforeEnd`, `<div class="esgst-description esgst-warning"></div>`);
+      wbm.input = createElements(wbm.popup.description, `beforeEnd`, [{
+        attributes: {
+          type: `file`
+        },
+        type: `input`
+      }]);
+      wbm.message = createElements(wbm.popup.description, `beforeEnd`, [{
+        attributes: {
+          class: `esgst-description`
+        },
+        type: `div`
+      }]);
+      wbm.warning = createElements(wbm.popup.description, `beforeEnd`, [{
+        attributes: {
+          class: `esgst-description esgst-warning`
+        },
+        type: `div`
+      }]);
       wbm.popup.description.appendChild(new ButtonSet(`green`, `grey`, `fa-arrow-up`, `fa-times`, `Import`, `Cancel`, wbm_start.bind(null, wbm, wbm_importList.bind(null, wbm)), wbm_cancel.bind(null, wbm)).set);
       wbm.popup.description.appendChild(new ButtonSet(`green`, `grey`, `fa-arrow-down`, `fa-times`, `Export`, `Cancel`, wbm_start.bind(null, wbm, wbm_exportList.bind(null, wbm, [], 1)), wbm_cancel.bind(null, wbm)).set);
       wbm.popup.description.appendChild(new ButtonSet(`green`, `grey`, `fa-trash`, `fa-times`, `Clear`, `Cancel`, wbm_start.bind(null, wbm, wbm_clearList.bind(null, wbm, [], 1)), wbm_cancel.bind(null, wbm)).set);
@@ -28482,8 +28792,18 @@
         type: `p`
       }]
     }]);
-    popup.tags = insertHtml(popup.description, `beforeEnd`, `<div class="esgst-ut-tags"></div>`);
-    popup.input = insertHtml(popup.description, `beforeEnd`, `<input type="text"/>`);
+    popup.tags = createElements(popup.description, `beforeEnd`, [{
+      attributes: {
+        class: `esgst-ut-tags`
+      },
+      type: `div`
+    }]);
+    popup.input = createElements(popup.description, `beforeEnd`, [{
+      attributes: {
+        type: `text`
+      },
+      type: `input`
+    }]);
     insertHtml(popup.description, `beforeEnd`, `<i class="esgst-ut-existing-button esgst-clickable fa fa-list" title="Select from existing tags"></i>`).addEventListener(`click`, ut_showExistingTags.bind(null, popup));
     popup.input.addEventListener(`keydown`, triggerSetOnEnter.bind(null, set));
     popup.input.addEventListener(`input`, ut_createTags.bind(null, popup));
@@ -28521,7 +28841,12 @@
         tag: tag
       });
     }
-    list = insertHtml(popup.scrollable, `beforeEnd`, `<div class="esgst-ut-existing-tags popup__keys__list"></div>`);
+    list = createElements(popup.scrollable, `beforeEnd`, [{
+      attributes: {
+        class: `esgst-ut-existing-tags popup__keys__list`
+      },
+      type: `div`
+    }]);
     selectedTags = [];
     tags = sortArrayByNumberKey(tags, `count`, true);
     tags.forEach(tag => {
@@ -31459,7 +31784,12 @@
               popout.popout.innerHTML = ``;
               popout.popout.appendChild(responseHtml.getElementsByClassName(`featured__outer-wrap`)[0]);
               avatar = popout.popout.getElementsByClassName(`global__image-outer-wrap--avatar-large`)[0];
-              link = insertHtml(avatar, `afterEnd`, `<a class="esgst-ap-link"></a>`);
+              link = createElements(avatar, `afterEnd`, [{
+                attributes: {
+                  class: `esgst-ap-link`
+                },
+                type: `a`
+              }]);
               link.appendChild(avatar);
               link.setAttribute(`href`, url);
               table = popout.popout.getElementsByClassName(`featured__table`)[0];
@@ -31646,7 +31976,9 @@
         if (!sidebarButton || sidebarButton.textContent.trim() !== `Not Enough Points`) {
           return;
         }
-        giveaway.elgbPanel = insertHtml(sidebarButton.parentElement, `afterBegin`, `<div></div>`);
+        giveaway.elgbPanel = createElements(sidebarButton.parentElement, `afterBegin`, [{
+          type: `div`
+        }]);
         sidebarButton.remove();
         elgb_addButton(giveaway, main, source);
       } else {
@@ -31856,7 +32188,9 @@
     }
     let box = null;
     if ((esgst.elgb_r && (!esgst.elgb_r_d || description)) || mainCallback) {
-      box = insertHtml(popup.scrollable, `beforeEnd`, `<textarea></textarea>`);
+      box = createElements(popup.scrollable, `beforeEnd`, [{
+        type: `textarea`
+      }]);
       if (esgst.cfh) {
         cfh_addPanel(box);
       }
@@ -32755,9 +33089,12 @@
   function ggl_addPanel(giveaway, groups, newGroups, savedGroups) {
     let className, code, group, groupCount, i, j, link, n, panel;
     if (!giveaway.summary.getElementsByClassName(`esgst-ggl-panel`)[0]) {
-      panel = insertHtml(giveaway.summary, `beforeEnd`, `
-        <div class="esgst-ggl-panel"></div>
-      `);
+      panel = createElements(giveaway.summary, `beforeEnd`, [{
+        attributes: {
+          class: `esgst-ggl-panel`
+        },
+        type: `div`
+      }]);
       groupCount = 0;
       giveaway.groups = [];
       for (i = 0, n = groups.length; i < n; ++i) {
@@ -32858,7 +33195,9 @@
   function rrbp_openPopup(giveaway) {
     let popup, progress, textArea;
     popup = new Popup(`fa-comment`, `Add a comment:`);
-    textArea = insertHtml(popup.scrollable, `beforeEnd`, `<textarea></textarea>`);
+    textArea = createElements(popup.scrollable, `beforeEnd`, [{
+      type: `textarea`
+    }]);
     if (esgst.cfh) {
       cfh_addPanel(textArea);
     }
@@ -33164,12 +33503,27 @@
       } else if (giveaway.columns) {
         if (esgst.archivePath) {
           giveaway.columns.style.justifyContent = `right`;
-          giveaway.panel = insertHtml(giveaway.columns, `afterEnd`, `<div class="giveaway__columns esgst-giveaway-panel"></div>`);
+          giveaway.panel = createElements(giveaway.columns, `afterEnd`, [{
+            attributes: {
+              class: `giveaway__columns esgst-giveaway-panel`
+            },
+            type: `div`
+          }]);
         } else {
-          giveaway.panel = insertHtml(giveaway.columns, `afterEnd`, `<div class="featured__columns esgst-giveaway-panel"></div>`);
+          giveaway.panel = createElements(giveaway.columns, `afterEnd`, [{
+            attributes: {
+              class: `featured__columns esgst-giveaway-panel`
+            },
+            type: `div`
+          }]);
         }
       } else if (esgst.enteredPath && (esgst.gwc || esgst.gwr || esgst.gptw)) {
-        giveaway.panel = insertHtml(giveaway.innerWrap.firstElementChild.nextElementSibling, `afterEnd`, `<div class="table__column--width-small text-center esgst-giveaway-panel"></div>`);
+        giveaway.panel = createElements(giveaway.innerWrap.firstElementChild.nextElementSibling, `afterEnd`, [{
+          attributes: {
+            class: `table__column--width-small text-center esgst-giveaway-panel`
+          },
+          type: `div`
+        }]);
       }
     }
     if (giveaway.sgTools && !giveaway.summary.getElementsByClassName(`esgst-ge-sgt-button`)[0]) {
@@ -34781,7 +35135,9 @@
       text: `:`,
       type: `node`
     }], true);
-    profile.ufOptions = insertHtml(profile.ufPopup.description, `beforeEnd`, `<div></div>`);
+    profile.ufOptions = createElements(profile.ufPopup.description, `beforeEnd`, [{
+      type: `div`
+    }]);
     profile.ufGiveawaysOption = new ToggleSwitch(profile.ufOptions, null, false, `Filter this user's giveaways.`, false, false, `Hides the user's giveaways from the main pages.`, profile.ufValues.giveaways);
     profile.ufDiscussionsOption = new ToggleSwitch(profile.ufOptions, null, false, `Filter this user's discussions.`, false, false, `Hides the user's discussions from the main pages.`, profile.ufValues.discussions);
     profile.ufPostsOption = new ToggleSwitch(profile.ufOptions, null, false, `Filter this user's posts.`, false, false, `Hides the user's posts everywhere.`, profile.ufValues.posts);
@@ -35233,9 +35589,13 @@
         ],
         addProgress: true,
         addScrollable: `left`,
-        scrollableContent: !mainPopup && ugdCache ? `
-          <span class="esgst-italic">Last checked ${getDate(`[MMM] [DD], [YYYY], [HH]:[HMM]:[SS]`, ugdCache.lastCheck)}.</span>
-        ` : ``
+        scrollableContent: !mainPopup && ugdCache ? [{
+          attributes: {
+            class: `esgst-italic`
+          },
+          text: `Last checked ${getDate(`[MMM] [DD], [YYYY], [HH]:[HMM]:[SS]`, ugdCache.lastCheck)}.`,
+          type: `span`
+        }] : null
       },
       mainPopup: mainPopup,
       init: ugd_init.bind(null, key, user),
@@ -36129,9 +36489,15 @@
       }]);
       obj.popup.description.insertBefore(new ButtonSet_v2({color1: `green`, color2: `grey`, icon1: `fa-question-circle`, icon2: `fa-times-circle`, title1: `Check`, title2: `Cancel`, callback1: namwc_start.bind(null, obj), callback2: namwc_stop.bind(null, obj)}).set, obj.popup.scrollable);
     }
-    obj.popup.progress = insertHtml(obj.popup.scrollable, `beforeBegin`, `<div></div>`);
-    obj.popup.overallProgress = insertHtml(obj.popup.scrollable, `beforeBegin`, `<div></div>`);
-    obj.popup.results = insertHtml(obj.popup.scrollable, `beforeEnd`, `<div></div>`);
+    obj.popup.progress = createElements(obj.popup.scrollable, `beforeBegin`, [{
+      type: `div`
+    }]);
+    obj.popup.overallProgress = createElements(obj.popup.scrollable, `beforeBegin`, [{
+      type: `div`
+    }]);
+    obj.popup.results = createElements(obj.popup.scrollable, `beforeEnd`, [{
+      type: `div`
+    }]);
     createResults(obj.popup.results, obj.popup, [{
       Icon: `fa fa-check-circle esgst-positive`,
       Description: `Users with 0 not activated wins`,
@@ -37279,7 +37645,12 @@
       if (esgst.messageCount > 0) {
         qiv_addMarkReadButton();
       }
-      esgst.qiv.comments = insertHtml(esgst.qiv.popout.popout, `beforeEnd`, `<div class="esgst-qiv-comments"></div>`);
+      esgst.qiv.comments = createElements(esgst.qiv.popout.popout, `beforeEnd`, [{
+        attributes: {
+          class: `esgst-qiv-comments`
+        },
+        type: `div`
+      }]);
       esgst.qiv.comments.addEventListener(`scroll`, qiv_scroll.bind(null, false, false));
       qiv_scroll(true);
     }
@@ -37307,7 +37678,12 @@
         if (esgst.messageCount > 0) {
           qiv_addMarkReadButton();
         }
-        esgst.qiv.comments = insertHtml(esgst.qiv.popout.popout, `beforeEnd`, `<div class="esgst-qiv-comments"></div>`);
+        esgst.qiv.comments = createElements(esgst.qiv.popout.popout, `beforeEnd`, [{
+          attributes: {
+            class: `esgst-qiv-comments`
+          },
+          type: `div`
+        }]);
         esgst.qiv.popout.open(esgst.inboxButton);
         esgst.qiv.comments.addEventListener(`scroll`, qiv_scroll.bind(null, false, false));
         qiv_scroll(true);
@@ -39760,15 +40136,29 @@
         for (let id in syncer.switches) {
           setAutoSync(id, syncer.switches);
         }
-        let group = insertHtml(syncer.popup.description, `beforeEnd`, `<div class="esgst-button-group"><span>Select:</span></div>`);
+        let group = createElements(syncer.popup.description, `beforeEnd`, [{
+          attributes: {
+            class: `esgst-button-group`
+          },
+          type: `div`,
+          children: [{
+            text: `Select:`,
+            type: `span`
+          }]
+        }]);
         group.appendChild(new ButtonSet(`grey`, `grey`, `fa-square`, `fa-circle-o-notch fa-spin`, `All`, ``, selectSwitches.bind(null, syncer.switches, `enable`, group)).set);
         group.appendChild(new ButtonSet(`grey`, `grey`, `fa-square-o`, `fa-circle-o-notch fa-spin`, `None`, ``, selectSwitches.bind(null, syncer.switches, `disable`, group)).set);
         group.appendChild(new ButtonSet(`grey`, `grey`, `fa-plus-square-o`, `fa-circle-o-notch fa-spin`, `Inverse`, ``, selectSwitches.bind(null, syncer.switches, `toggle`, group)).set);
       }
-      syncer.progress = insertHtml(syncer.popup.description, `beforeEnd`, `
-        <div class="esgst-hidden esgst-popup-progress"></div>
-      `);
-      syncer.results = insertHtml(syncer.popup.scrollable, `afterBegin`, `<div></div>`);
+      syncer.progress = createElements(syncer.popup.description, `beforeEnd`, [{
+        attributes: {
+          class: `esgst-hidden esgst-popup-progress`
+        },
+        type: `div`
+      }]);
+      syncer.results = createElements(syncer.popup.scrollable, `afterBegin`, [{
+        type: `div`
+      }]);
       if (!parameters) {
         syncer.set = new ButtonSet_v2({color1: `green`, color2: `grey`, icon1: `fa-refresh`, icon2: `fa-times`, title1: `Sync`, title2: `Cancel`, callback1: sync.bind(null, syncer), callback2: cancelSync.bind(null, syncer)});
         syncer.popup.description.appendChild(syncer.set.set);
@@ -39808,9 +40198,31 @@
     select.selectedIndex = esgst[`autoSync${key}`];
     observeNumChange(select, `autoSync${key}`);
     if (esgst[`lastSync${key}`]) {
-      toggleSwitch.date = insertHtml(toggleSwitch.name, `beforeEnd`, `<span><i class="fa fa-check-circle"></i> Last synced ${new Date(esgst[`lastSync${key}`]).toLocaleString()}</span>`);
+      toggleSwitch.date = createElements(toggleSwitch.name, `beforeEnd`, [{
+        type: `span`,
+        children: [{
+          attributes: {
+            class: `fa fa-check-circle`
+          },
+          type: `i`
+        }, {
+          text: ` Last synced ${new Date(esgst[`lastSync${key}`]).toLocaleString()}`,
+          type: `node`
+        }]
+      }]);
     } else {
-      toggleSwitch.date = insertHtml(toggleSwitch.name, `beforeEnd`, `<span><i class="fa fa-times"></i> Never synced.</span>`);
+      toggleSwitch.date = createElements(toggleSwitch.name, `beforeEnd`, [{
+        type: `span`,
+        children: [{
+          attributes: {
+            class: `fa fa-times`
+          },
+          type: `i`
+        }, {
+          text: ` Never synced.`,
+          type: `node`
+        }]
+      }]);
     }
   }
 
@@ -41124,14 +41536,24 @@
       <div class="esgst-bold">Include: <i class="fa fa-question-circle" title="Enter the paths where you want the feature to run here. You need to use regular expressions, so if you are not familiar with them, just to go to the page where you want the feature to run and click 'Add Current'. '.*' means that the feature runs everywhere possible."></i></div>
       <div></div>
     `);
-    let group = insertHtml(obj.popup.scrollable, `beforeEnd`, `<div class="esgst-button-group"></div>`);
+    let group = createElements(obj.popup.scrollable, `beforeEnd`, [{
+      attributes: {
+        class: `esgst-button-group`
+      },
+      type: `div`
+    }]);
     group.appendChild(new ButtonSet_v2({color1: `grey`, color2: ``, icon1: `fa-plus-circle`, icon2: ``, title1: `Add New`, title2: ``, callback1: addPath.bind(null, `include`, obj, {enabled: 1, pattern: ``})}).set);
     group.appendChild(new ButtonSet_v2({color1: `grey`, color2: ``, icon1: `fa-plus-circle`, icon2: ``, title1: `Add Current`, title2: ``, callback1: addPath.bind(null, `include`, obj, {enabled: 1, pattern: `^${escapeRegExp(location.href.match(/\/($|giveaways(?!.*(new|wishlist|created|entered|won)))/) ? `/($|giveaways(?!.*(new|wishlist|created|entered|won)))` : location.pathname)}${escapeRegExp(location.search)}`})}).set);
     obj.exclude = insertHtml(obj.popup.scrollable, `beforeEnd`, `
       <div class="esgst-bold">Exclude: <i class="fa fa-question-circle" title="Enter the paths where you do not want the feature to run here. This acts as an exception to the included paths, as in, the feature will run in every included path, except for the excluded paths. You need to use regular expressions, so if you are not familiar with them, just to go to the page where you do not want the feature to run and click 'Add Current'."></i></div>
       <div></div>
     `);
-    group = insertHtml(obj.popup.scrollable, `beforeEnd`, `<div class="esgst-button-group"></div>`);
+    group = createElements(obj.popup.scrollable, `beforeEnd`, [{
+      attributes: {
+        class: `esgst-button-group`
+      },
+      type: `div`
+    }]);
     group.appendChild(new ButtonSet_v2({color1: `grey`, color2: ``, icon1: `fa-plus-circle`, icon2: ``, title1: `Add New`, title2: ``, callback1: addPath.bind(null, `exclude`, obj, {enabled: 1, pattern: ``})}).set);
     group.appendChild(new ButtonSet_v2({color1: `grey`, color2: ``, icon1: `fa-plus-circle`, icon2: ``, title1: `Add Current`, title2: ``, callback1: addPath.bind(null, `exclude`, obj, {enabled: 1, pattern: `^${escapeRegExp(location.pathname)}${escapeRegExp(location.search)}`})}).set);
     obj.popup.description.appendChild(new ButtonSet_v2({color1: `green`, color2: `grey`, icon1: `fa-check-circle`, icon2: `fa-circle-o-notch fa-spin`, title1: `Save`, title2: `Saving...`, callback1: savePaths.bind(null, id, obj)}).set);
@@ -41143,7 +41565,9 @@
 
   function addPath(key, obj, path) {
     let item = {};
-    item.container = insertHtml(obj[key], `beforeEnd`, `<div></div>`);
+    item.container = createElements(obj[key], `beforeEnd`, [{
+      type: `div`
+    }]);
     item.switch = new ToggleSwitch(item.container, null, true, ``, false, false, null, path.enabled);
     item.input = insertHtml(item.container, `beforeEnd`, `
       <input class="esgst-switch-input esgst-switch-input-large" type="text">
@@ -41533,9 +41957,12 @@
         SMFeatures.classList.remove(`esgst-hidden`);
       }
     } else if (Feature.inputItems) {
-      let container = insertHtml(SMFeatures, `beforeEnd`, `
-        <div class="esgst-sm-colors"></div>
-      `);
+      let container = createElements(SMFeatures, `beforeEnd`, [{
+        attributes: {
+          class: `esgst-sm-colors`
+        },
+        type: `div`
+      }]);
       if (ID.match(/^(chfl|sk_)/)) {
         Feature.inputItems = [
           {
@@ -42244,7 +42671,12 @@
       setValue(`giveaways`, JSON.stringify(esgst.giveaways));
       i = 0;
       n = hidden.length;
-      gfGiveaways = insertHtml(popup.scrollable, `beforeEnd`, `<div class="esgst-text-left"></div>`);
+      gfGiveaways = createElements(popup.scrollable, `beforeEnd`, [{
+        attributes: {
+          class: `esgst-text-left`
+        },
+        type: `div`
+      }]);
       if (n > 0) {
         set = new ButtonSet(`green`, `grey`, `fa-plus`, `fa-circle-o-notch fa-spin`, `Load more...`, `Loading more...`, callback => {
           loadGfGiveaways(i, i + 5, hidden, gfGiveaways, popup, value => {
@@ -42298,7 +42730,12 @@
   async function openManageUserTagsPopup() {
     let context, current, input, popup, savedUser, savedUsers, users;
     popup = new Popup(`fa-tags`, `Manage user tags:`, true);
-    input = insertHtml(popup.description, `afterBegin`, `<input type="text"/>`);
+    input = createElements(popup.description, `afterBegin`, [{
+      attributes: {
+        type: `text`
+      },
+      type: `input`
+    }]);
     createElements(popup.description, `afterBegin`, [{
       attributes: {
         class: `esgst-description`
@@ -42306,9 +42743,12 @@
       text: `Type tags below to filter the users by.`,
       type: `div`
     }]);
-    let heading = insertHtml(popup.description, `beforeBegin`, `
-      <div class="page__heading"></div>
-    `);
+    let heading = createElements(popup.description, `beforeBegin`, [{
+      attributes: {
+        class: `page__heading`
+      },
+      type: `div`
+    }]);
     if (esgst.mm) {
       mm(heading);
     }
@@ -42359,7 +42799,12 @@
   async function openManageGameTagsPopup() {
     let context, current, games, input, popup, savedGame, savedGames;
     popup = new Popup(`fa-tags`, `Manage game tags:`, true);
-    input = insertHtml(popup.description, `afterBegin`, `<input type="text"/>`);
+    input = createElements(popup.description, `afterBegin`, [{
+      attributes: {
+        type: `text`
+      },
+      type: `input`
+    }]);
     createElements(popup.description, `afterBegin`, [{
       attributes: {
         class: `esgst-description`
@@ -42367,9 +42812,12 @@
       text: `Type tags below to filter the games by.`,
       type: `div`
     }]);
-    let heading = insertHtml(popup.description, `beforeBegin`, `
-      <div class="page__heading"></div>
-    `);
+    let heading = createElements(popup.description, `beforeBegin`, [{
+      attributes: {
+        class: `page__heading`
+      },
+      type: `div`
+    }]);
     if (esgst.mm) {
       mm(heading);
     }
@@ -42863,7 +43311,12 @@
       }
       if (type === `import` || type === `delete`) {
         if (type === `import`) {
-          dm.input = insertHtml(container, `beforeEnd`, `<input type="file"/>`);
+          dm.input = createElements(container, `beforeEnd`, [{
+            attributes: {
+              type: `file`
+            },
+            type: `input`
+          }]);
           new ToggleSwitch(container, `importAndMerge`, false, `Merge`, false, false, `Merges the current data with the backup instead of replacing it.`, esgst.settings.importAndMerge);
         }
         let select = new ToggleSwitch(container, `exportBackup`, false, `Backup to <select><option>Computer</option><option>Dropbox</option><option>Google Drive</option><option>OneDrive</option></select>`, false, false, `Backs up the current data to one of the selected places before restoring another backup.`, esgst.settings.exportBackup).name.firstElementChild;
@@ -42872,13 +43325,41 @@
           setSetting(`exportBackupIndex`, select.selectedIndex);
         });
       }
-      dm.message = insertHtml(container, `beforeEnd`, `<div class="esgst-description"></div>`);
-      dm.warning = insertHtml(container, `beforeEnd`, `<div class="esgst-description esgst-warning"></div>`);
-      group1 = insertHtml(container, `beforeEnd`, `<div class="esgst-button-group"><span>Select:</span></div>`);
+      dm.message = createElements(container, `beforeEnd`, [{
+        attributes: {
+          class: `esgst-description`
+        },
+        type: `div`
+      }]);
+      dm.warning = createElements(container, `beforeEnd`, [{
+        attributes: {
+          class: `esgst-description esgst-warning`
+        },
+        type: `div`
+      }]);
+      group1 = createElements(container, `beforeEnd`, [{
+        attributes: {
+          class: `esgst-button-group`
+        },
+        type: `div`,
+        children: [{
+          text: `Select:`,
+          type: `span`
+        }]
+      }]);
       group1.appendChild(new ButtonSet(`grey`, `grey`, `fa-square`, `fa-circle-o-notch fa-spin`, `All`, ``, selectSwitches.bind(null, dm.switches, `enable`, group1)).set);
       group1.appendChild(new ButtonSet(`grey`, `grey`, `fa-square-o`, `fa-circle-o-notch fa-spin`, `None`, ``, selectSwitches.bind(null, dm.switches, `disable`, group1)).set);
       group1.appendChild(new ButtonSet(`grey`, `grey`, `fa-plus-square-o`, `fa-circle-o-notch fa-spin`, `Inverse`, ``, selectSwitches.bind(null, dm.switches, `toggle`, group1)).set);
-      group2 = insertHtml(container, `beforeEnd`, `<div class="esgst-button-group"><span>${title1} ${prep}:</span></div>`);
+      group2 = createElements(container, `beforeEnd`, [{
+        attributes: {
+          class: `esgst-button-group`
+        },
+        type: `div`,
+        children: [{
+          text: `${title1} ${prep}:`,
+          type: `span`
+        }]
+      }]);
       group2.appendChild(new ButtonSet(`green`, `grey`, `fa-desktop`, `fa-circle-o-notch fa-spin`, `Computer`, title2, callback => {
         onClick(dm, false, false, false, false, () => {
           manageData(dm, false, false, false, true);
@@ -44435,7 +44916,12 @@
           }
         };
         popup.open();
-        let entries = insertHtml(popup.scrollable, `beforeEnd`, `<div class="popup__keys__list"></div>`);
+        let entries = createElements(popup.scrollable, `beforeEnd`, [{
+          attributes: {
+            class: `popup__keys__list`
+          },
+          type: `div`
+        }]);
         JSON.parse((await request({
           data: `{"path": ""}`,
           headers: {
@@ -44445,9 +44931,13 @@
           method: `POST`,
           url: `https://api.dropboxapi.com/2/files/list_folder`
         })).responseText).entries.forEach(entry => {
-          let item = insertHtml(entries, `beforeEnd`, `
-            <div class="esgst-clickable">${entry.name} - ${convertBytes(entry.size)}</div>
-          `);
+          let item = createElements(entries, `beforeEnd`, [{
+            attributes: {
+              class: `esgst-clickable`
+            },
+            text: `${entry.name} - ${convertBytes(entry.size)}`,
+            type: `div`
+          }]);
           item.addEventListener(`click`, () => {
             createConfirmation(`Are you sure you want to restore the selected data?`, async () => {
               canceled = false;
@@ -44524,7 +45014,12 @@
           }
         };
         popup.open();
-        let entries = insertHtml(popup.scrollable, `beforeEnd`, `<div class="popup__keys__list"></div>`);
+        let entries = createElements(popup.scrollable, `beforeEnd`, [{
+          attributes: {
+            class: `popup__keys__list`
+          },
+          type: `div`
+        }]);
         JSON.parse((await request({
           headers: {
             authorization: `Bearer ${value}`
@@ -44532,9 +45027,13 @@
           method: `GET`,
           url: `https://www.googleapis.com/drive/v3/files?spaces=appDataFolder`
         })).responseText).files.forEach(file => {
-          let item = insertHtml(entries, `beforeEnd`, `
-            <div class="esgst-clickable">${file.name}</div>
-          `);
+          let item = createElements(entries, `beforeEnd`, [{
+            attributes: {
+              class: `esgst-clickable`
+            },
+            text: `${file.name}`,
+            type: `div`
+          }]);
           item.addEventListener(`click`, () => {
             createConfirmation(`Are you sure you want to restore the selected data?`, async () => {
               canceled = false;
@@ -44595,7 +45094,12 @@
       } else {
         let canceled = true;
         let popup = new Popup(`fa-windows`, `Select a file to restore:`, true);
-        let entries = insertHtml(popup.scrollable, `beforeEnd`, `<div class="popup__keys__list"></div>`);
+        let entries = createElements(popup.scrollable, `beforeEnd`, [{
+          attributes: {
+            class: `popup__keys__list`
+          },
+          type: `div`
+        }]);
         JSON.parse((await request({
           anon: true,
           headers: {
@@ -44604,9 +45108,13 @@
           method: `GET`,
           url: `https://graph.microsoft.com/v1.0/me/drive/special/approot/children`
         })).responseText).value.forEach(file => {
-          let item = insertHtml(entries, `beforeEnd`, `
-            <div class="esgst-clickable">${file.name} - ${convertBytes(file.size)}</div>
-          `);
+          let item = createElements(entries, `beforeEnd`, [{
+            attributes: {
+              class: `esgst-clickable`
+            },
+            text: `${file.name} - ${convertBytes(file.size)}`,
+            type: `div`
+          }]);
           item.addEventListener(`click`, () => {
             createConfirmation(`Are you sure you want to restore the selected data?`, async () => {
               canceled = false;
@@ -47638,7 +48146,13 @@
         }
       `;
     }
-    esgst.style = insertHtml(document.head, `beforeEnd`, `<style id="esgst-style">${style}</style>`);
+    esgst.style = createElements(document.head, `beforeEnd`, [{
+      attributes: {
+        id: `esgst-style`
+      },
+      text: style,
+      type: `style`
+    }]);
     esgst.theme = document.getElementById(`esgst-theme`);
     esgst.customThemeElement = document.getElementById(`esgst-custom-theme`);
     setTheme();
@@ -47661,7 +48175,13 @@
         const theme = await getValue(key, ``);
         if (!theme) continue;
         const css = getThemeCss(JSON.parse(theme));
-        esgst.theme = insertHtml(document.head, `beforeEnd`, `<style id="esgst-theme">${css}</style>`);
+        esgst.theme = createElements(document.head, `beforeEnd`, [{
+          attributes: {
+            id: `esgst-theme`
+          },
+          text: css,
+          type: `style`
+        }]);
         const revisedCss = css.replace(/!important;/g, `;`).replace(/;/g, `!important;`);
         if (revisedCss !== getLocalValue(`theme`)) {
           setLocalValue(`theme`, revisedCss);
@@ -47671,7 +48191,13 @@
     }
     if (esgst.customTheme && checkThemeTime(`customTheme`)) {
       const css = JSON.parse(await getValue(`customTheme`, ``));
-      esgst.customThemeElement = insertHtml(document.head, `beforeEnd`, `<style id="esgst-custom-theme">${css}</style>`);
+      esgst.customThemeElement = createElements(document.head, `beforeEnd`, [{
+        attributes: {
+          id: `esgst-custom-theme`
+        },
+        text: css,
+        type: `style`
+      }]);
       const revisedCss = css.replace(/!important;/g, `;`).replace(/;/g, `!important;`);
       if (revisedCss !== getLocalValue(`customTheme`)) {
         setLocalValue(`customTheme`, revisedCss);
@@ -48299,9 +48825,9 @@
     options.forEach(option => {
       if (option.check) {
         id = option.id;
-        elements[id] = insertHtml(context, `beforeEnd`, `
-          <div></div>
-        `);
+        createElements(elements[id], context, `beforeEnd`, [{
+          type: `div`
+        }]);
         switches[id] = new ToggleSwitch(elements[id], id, false, option.description, false, false, option.tooltip, esgst[id]);
       }
     });
@@ -49336,7 +49862,12 @@
     let i, m, menu, n, options, toggleSwitch;
     menu = document.createElement(`div`);
     switches[option.key] = toggleSwitch = new ToggleSwitch(menu, `${type}_${option.key}`, false, option.name, false, false, null, esgst.settings[`${type}_${option.key}`]);
-    switches[option.key].size = insertHtml(switches[option.key].name, `beforeEnd`, ` <span class="esgst-bold"></span>`);
+    switches[option.key].size = createElements(switches[option.key].name, `beforeEnd`, [{
+      attributes: {
+        class: `esgst-bold`
+      },
+      type: `span`
+    }]);
     if (option.name === `Main`) {
       createElements(switches[option.key].name, `beforeEnd`, [{
         attributes: {
@@ -49347,9 +49878,12 @@
       }]);
     }
     if (option.options) {
-      options = insertHtml(menu, `beforeEnd`, `
-        <div class="esgst-form-row-indent SMFeatures esgst-hidden"></div>
-      `);
+      options = createElements(menu, `beforeEnd`, [{
+        attributes: {
+          class: `esgst-form-row-indent SMFeatures esgst-hidden`
+        },
+        type: `div`
+      }]);
       for (i = 0, n = option.options.length; i < n; ++i) {
         m = getDataMenu(option.options[i], switches, type);
         options.appendChild(m);
