@@ -116,12 +116,31 @@
   }
   if (gm) {
     (async () => {
-      document.head.insertAdjacentHTML(`beforeEnd`, `
-        <link href="${await gm.getResourceUrl(`bs`)}" rel="stylesheet">
-        <link href="${await gm.getResourceUrl(`bss`)}" rel="stylesheet">
-        <link href="${await gm.getResourceUrl(`abc`)}" rel="stylesheet">
-        <link href="${await gm.getResourceUrl(`qb`)}" rel="stylesheet">
-      `);
+      createElements(document.head, `beforeEnd`, [{
+        attributes: {
+          href: await gm.getResourceUrl(`bs`),
+          rel: `stylesheet`
+        },
+        type: `link`
+      }, {
+        attributes: {
+          href: await gm.getResourceUrl(`bss`),
+          rel: `stylesheet`
+        },
+        type: `link`
+      }, {
+        attributes: {
+          href: await gm.getResourceUrl(`abc`),
+          rel: `stylesheet`
+        },
+        type: `link`
+      }, {
+        attributes: {
+          href: await gm.getResourceUrl(`qb`),
+          rel: `stylesheet`
+        },
+        type: `link`
+      }]);
     })();
   }
 
@@ -133,9 +152,12 @@
       this.id = details.id;
       this.index = details.index;
       this.titles = details.titles;
-      this.button = insertHtml(context, position, `
-        <div class="${details.className}"></div>
-      `);
+      this.button = createElements(context, position, [{
+        attributes: {
+          class: details.className
+        },
+        type: `div`
+      }]);
       this.change();
       return this;
     }
@@ -291,14 +313,36 @@
     constructor (context, defaultValue, threeState, messages = {}) {
       this.value = defaultValue;
       this.isThreeState = threeState;
-      this.checkbox = insertHtml(context, `afterBegin`, `
-        <span class="esgst-checkbox">
-          <input class="esgst-hidden" type="checkbox">
-          <i class="fa fa-square-o"></i>
-          <i class="fa fa-square" title="${messages.select || ``}"></i>
-          <i class="fa fa-check-square" title="${messages.unselect || ``}"></i>
-        </span>
-      `);
+      this.checkbox = createElements(context, `afterBegin`, [{
+        attributes: {
+          class: `esgst-checkbox`
+        },
+        type: `span`,
+        children: [{
+          attributes: {
+            class: `esgst-hidden`,
+            type: `checkbox`
+          },
+          type: `input`
+        }, {
+          attributes: {
+            class: `fa fa-square-o`
+          },
+          type: `i`
+        }, {
+          attributes: {
+            class: `fa fa-square`,
+            title: messages.select || ``
+          },
+          type: `i`
+        }, {
+          attributes: {
+            class: `fa fa-check-square`,
+            title: messages.unselect || ``
+          },
+          type: `i`
+        }]
+      }]);
       this.input = this.checkbox.firstElementChild;
       this.disabled = this.input.nextElementSibling;
       this.none = this.disabled.nextElementSibling;
@@ -434,7 +478,12 @@
     constructor(className = ``, context = null, hoverSpeed = 1000, onClick = false, popout = null, onOpen = null) {
       this.onOpen = onOpen;
       this.context = context;
-      this.popout = popout || insertHtml(document.body, `beforeEnd`, `<div class="${className}"></div>`);
+      this.popout = popout || createElements(document.body, `beforeEnd`, [{
+        attributes: {
+          class: className
+        },
+        type: `div`
+      }]);
       this.popout.classList.add(`esgst-popout`, `esgst-hidden`);
       this.popup = this.popout.closest(`.esgst-popup`);
       this.hoverSpeed = hoverSpeed;
@@ -567,21 +616,60 @@
     constructor(icon, title, temp, settings, popup = null) {
       this.isCreated = popup ? false : true;
       this.temp = temp;
-      this.popup = popup || insertHtml(document.body, `beforeEnd`, `
-        <div class="esgst-hidden esgst-popup">
-          <div class="esgst-popup-heading">
-            <i class="fa ${icon} esgst-popup-icon${icon ? `` : ` esgst-hidden`}"></i>
-            <div class="esgst-popup-title${title ? `` : ` esgst-hidden`}">${title}</div>
-          </div>
-          <div class="esgst-popup-description">
-            <div class="esgst-popup-scrollable"></div>
-          </div>
-          <div class="esgst-popup-actions">
-            <span class="esgst-hidden">Settings</span>
-            <span class="esgst-popup-close">Close</span>
-          </div>
-        </div>
-      `);
+      this.popup = popup || createElements(document.body, `beforeEnd`, [{
+        attributes: {
+          class: `esgst-hidden esgst-popup`
+        },
+        type: `div`,
+        children: [{
+          attributes: {
+            class: `esgst-popup-heading`
+          },
+          type: `div`,
+          children: [{
+            attributes: {
+              class: `fa ${icon} esgst-popup-icon${icon ? `` : ` esgst-hidden`}`
+            },
+            type: `i`
+          }, {
+            attributes: {
+              class: `esgst-popup-title${title ? `` : ` esgst-hidden`}`
+            },
+            text: typeof title === `string` ? title : ``,
+            type: `div`,
+            children: typeof title === `object` ? title : null
+          }]
+        }, {
+          attributes: {
+            class: `esgst-popup-description`
+          },
+          type: `div`,
+          children: [{
+            attributes: {
+              class: `esgst-popup-scrollable`
+            },
+            type: `div`
+          }]
+        }, {
+          attributes: {
+            class: `esgst-popup-actions`
+          },
+          type: `div`,
+          children: [{
+            attributes: {
+              class: `esgst-hidden`
+            },
+            text: `Settings`,
+            type: `span`
+          }, {
+            attributes: {
+              class: `esgst-popup-close`
+            },
+            text: `Close`,
+            type: `span`
+          }]
+        }]
+      }]);
       if (this.isCreated) {
         this.icon = this.popup.firstElementChild.firstElementChild;
         this.title = this.icon.nextElementSibling;
@@ -621,9 +709,12 @@
       }
       esgst.openPopups += 1;
       esgst.popups.push(this);
-      this.modal = insertHtml(document.body, `beforeEnd`, `
-        <div class="esgst-popup-modal"></div>
-      `);
+      this.modal = createElements(document.body, `beforeEnd`, [{
+        attributes: {
+          class: `esgst-popup-modal`
+        },
+        type: `div`
+      }]);
       if (this.isCreated) {
         this.popup.classList.remove(`esgst-hidden`);
       } else {
@@ -772,8 +863,12 @@
         });
       }
       if (details.addProgress) {
-        this.progress = insertHtml(this.description, `beforeEnd`, `<div></div>`);
-        this.overallProgress = insertHtml(this.description, `beforeEnd`, `<div></div>`);
+        this.progress = createElements(this.description, `beforeEnd`, [{
+          type: `div`
+        }]);
+        this.overallProgress = createElements(this.description, `beforeEnd`, [{
+          type: `div`
+        }]);
       }
       if (details.addScrollable) {
         this.scrollable = insertHtml(this.description, `beforeEnd`, `<div class="esgst-popup-scrollable">${details.scrollableContent || ``}</div>`);
@@ -1158,19 +1253,33 @@
       this.numRows += 1;
     }
     addColumn(column) {
-      let cell = typeof column === `string` ? column : column.value;
-      let additionalClasses = [].concat(column.additionalClasses);
-      let alignment = column.alignment || `center`;
-      let attributes = [].concat(column.attributes);
-      let size = column.size || `small`;
-      this.heading.insertAdjacentHTML(`beforeEnd`, `
-        <div class="table__column--width-${size} text-${alignment} ${additionalClasses.join(` `)}" ${attributes.join(` `)}>${cell}</div>
-      `);
+      const cell = typeof column === `string` ? column : column.value;
+      const additionalClasses = [].concat(column.additionalClasses);
+      const alignment = column.alignment || `center`;
+      const size = column.size || `small`;
+      const attributes = {
+        class: `table__column--width-${size} text-${alignment} ${additionalClasses.join(` `)}`
+      };
+      if (column.attributes) {
+        for (const attribute of column.attribute) {
+          const parts = attribute.match(/(.+?)="(.+?)"/);
+          attributes[parts[1]] = attributes[parts[2]];
+        }
+      }
+      createElements(this.heading, `beforeEnd`, [{
+        attributes,
+        text: cell,
+        type: `div`
+      }]);
+      if (cell === `Total`) {
+        attributes.class += ` esgst-bold`;
+      }
       for (let i = 0; i < this.numRows; i++) {
         const row = this.rows.children[i];
-        row.insertAdjacentHTML(`beforeEnd`, `
-          <div class="table__column--width-${size} text-${alignment} ${cell === `Total` ? `esgst-bold` : ``}${additionalClasses.join(` `)}" ${attributes.join(` `)}></div>
-        `);
+        createElements(row, `beforeEnd`, [{
+          attributes,
+          type: `div`
+        }]);
       }
       this.numColumns += 1;
     }
@@ -1786,7 +1895,7 @@
       sg: location.hostname.match(/www.steamgifts.com/),
       st: location.hostname.match(/www.steamtrades.com/),
       currentVersion: `7.24.1`,
-      devVersion: `7.24.1`,
+      devVersion: `7.25.0 (Dev.1)`,
       icon: `data:image/x-icon;base64,AAABAAEAEBAAAAEAIABoBAAAFgAAACgAAAAQAAAAIAAAAAEAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAqv8DCbP/Hgeq+CQIrf8iCK3/Igit/yIIrf8iB6//Iwit9x8Aqv8DAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAKr0GAa2/c0DvfzfA7f83QO3/N0Dt/zdA7f83QO+/d4Gs/3OAKP1GQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACm/xQFs/n2Bcf//wW///8FwP//BcD//wW///8Fx///BbP69gC2/xUAAAAAAAAAAAAAAAAA/1UDFptOFxSZMxkLpJktAq720QW1+ugEsfvjA7b92wO2/dsEsfvjBbX66Aau/dEoiO4tUlLWGU5k3hdVVf8DEJxKHxWqT8cVrU7uE6VN0guqny0Apv8XAJfQGwBAVywAQFcsAJfQGwCx/xcogugtS2Lk0lBl6u5Qae7ISmPeHxagSSMVr07jF7lV/xOiSu0brgATAAAAAAAAAA8AAAC/AAAAwAAAABAAAAAAYznjEkth4OxWb/3/T2jv40lf4iMXnksiEq1O3RayUv8UpEnkEo0+HQAAABkAAABBAAAA8QAAAPEAAABBAAAAGUBSvxxOYeDjU2v0/05m7d1LYuEiF55LIhKtTt0Ws1L/FahN2gU1FTAAAADAAAAA7AAAAP0AAAD9AAAA7AAAAMAVG0owUGPm2lNr9P9OZu3dS2LhIheeSyISrU7dFrNS/xWoTdoFNRswAAAAvwAAAOsAAAD9AAAA/QAAAOsAAADAFRtKMFBj6NpTa/T/Tmbt3Uti4SIXnksiEq1O3RayUv8UpEnkEo0+HQAAABgAAABAAAAA8QAAAPEAAABBAAAAGT5PuR1OYeDjU2v0/05m7d1LYuEiFqBJIxWuT+QXuVX/E6JL7QC8XhMAAAAAAAAADwAAAL8AAAC/AAAAEAAAAAAOR/8SSWLh7FZv/f9PaO/jSV/iIxCUSh8Vrk7HFqxN7ROlS9JskzMt1XULGK12EhxGLgYsRy8GK612EhzVgAsYgmxxLU1i39JNZ+vtT2fwx0pj1h8AqlUDF65GFgqZUhlsiC0txH0T0s5/EujJgBPkz4QR28+EEdvJgBPkzn8Q6Md+E9KLdHosM1LWGUZo6BZVVf8DAAAAAAAAAAAAAAAA/2YAFMl9EvbgjRb/14gV/9eIFf/XiBX/14gV/9+NFv/KgBD254YAFQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAL91FRjKgRHN1IgU3s+EEt3PhBLdz4QS3c+EEt3UiBTezYMRzcJ6FBkAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACqqgADxIARHr18FiO8eA8ivHgPIrx4DyK8eA8ivXwPI8SAER7/VQADAAAAAAAAAAAAAAAA78cAAPA3AAD4FwAABCAAADGOAAAE+AAAkBEAAJ55AACYOQAAlgEAAER4AAAXaAAATnoAAPgXAAD0JwAA69cAAA==`,
       sgIcon: `data:image/x-icon;base64,AAABAAEAEBAAAAEAIABoBAAAFgAAACgAAAAQAAAAIAAAAAEAIAAAAAAAQAQAABMLAAATCwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIUAAAD5AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAPoAAACFAAAAAAAAAAAAAAD8AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA+QAAAAAAAAAAAAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAAAAAAAAAAAAP8AAAD/AAAA/wAAABwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAcAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAcAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAHAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAAAAAAAAAAAAPwAAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD5AAAAAAAAAAAAAACFAAAA+QAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD5AAAAhQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA//8AAP//AADAAwAAwAMAAMfjAADP8wAAz/MAAM/zAADP8wAAz/MAAM/zAADH4wAAwAMAAMADAAD//wAA//8AAA==`,
       stIcon: `data:image/x-icon;base64,AAABAAEAEBAAAAEAIABoBAAAFgAAACgAAAAQAAAAIAAAAAEAIAAAAAAAQAQAABMLAAATCwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABbD6SgWw+ucFsPrkBbD6SgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAWw+uYFsPr/BbD6/wWw+ucAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAFsPrmBbD6/wWw+v8FsPrmAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABbD6SQWw+uYFsPrmBbD6SQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAFKRLShSkS+cUpEvkFKRLSgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAExi4EpMYuDnTGLg5Exi4EoAAAAAAAAAABSkS+YUpEv/FKRL/xSkS+cAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABMYuDmTGLg/0xi4P9MYuDnAAAAAAAAAAAUpEvmFKRL/xSkS/8UpEvmAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAATGLg5kxi4P9MYuD/TGLg5gAAAAAAAAAAFKRLSRSkS+YUpEvmFKRLSQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAExi4ElMYuDmTGLg5kxi4EkAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAMZ9E0rGfRPnxn0T5MZ9E0oAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADGfRPmxn0T/8Z9E//GfRPnAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAxn0T5sZ9E//GfRP/xn0T5gAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAMZ9E0nGfRPmxn0T5sZ9E0kAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA//8AAPw/AAD8PwAA/D8AAPw/AAD//wAAh+EAAIfhAACH4QAAh+EAAP//AAD8PwAA/D8AAPw/AAD8PwAA//8AAA==`,
@@ -2651,10 +2760,18 @@
 
   async function load(toDelete, toSet) {
     if (esgst.menuPath) {
-      document.head.insertAdjacentHTML(`beforeEnd`, `
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
-        <link rel="stylesheet" type="text/css" href="${_USER_INFO.extension ? browser.runtime.getURL(`css/steamgifts-v34.min.css`) : (await gm.getResourceUrl(`sg`))}">
-      `);
+      createElements(document.head, `beforeEnd`, [{
+        attributes :{
+          href: `https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.cs`,
+          rel: `stylesheet`
+        },
+        type: `link`
+      }, {
+        attributes :{
+          href: _USER_INFO.extension ? browser.runtime.getURL(`css/steamgifts-v34.min.css`) : await gm.getResourceUrl(`sg`)
+        },
+        type: `link`
+      }]);
       const element = document.querySelector(`[href*="https://cdn.steamgifts.com/css/static.css"]`);
       if (element) {
         element.remove();
@@ -3091,17 +3208,37 @@
     let responseHtml = parseHtml((await request({anon: true, method: `GET`, url: location.pathname})).responseText);
     if (responseHtml.getElementsByClassName(`table--summary`)[0]) {
       esgst.pageOuterWrap.innerHTML = backup;
-      esgst.pageOuterWrap.getElementsByClassName(`table--summary`)[0].lastElementChild.firstElementChild.lastElementChild.insertAdjacentHTML(`beforeEnd`, `<br><br><span class="esgst-red">This is a group/whitelist giveaway and therefore cannot be loaded by Blacklist Giveaway Loader.</span>`);
+      createElements(esgst.pageOuterWrap.getElementsByClassName(`table--summary`)[0].lastElementChild.firstElementChild.lastElementChild, `beforeEnd`, [{
+        type: `br`
+      }, {
+        type: `br`
+      }, {
+        attributes: {
+          class: `esgst-red`
+        },
+        text: `This is a group/whitelist giveaway and therefore cannot be loaded by Blacklist Giveaway Loader.`,
+        type: `span`
+      }]);
     } else {
       esgst.featuredContainer = insertHtml(esgst.pageOuterWrap, `beforeBegin`, `<div class="featured__container"></div>`);
       esgst.featuredContainer.innerHTML = responseHtml.getElementsByClassName(`featured__container`)[0].innerHTML;
       esgst.pageOuterWrap.innerHTML = responseHtml.getElementsByClassName(`page__outer-wrap`)[0].innerHTML;
       await getElements();
-      esgst.sidebar.insertAdjacentHTML(`afterBegin`, `
-        <div class="sidebar__error is-disabled">
-          <i class="fa fa-exclamation-circle"></i> ${match[1] ? (match[1] === `previously ` ? `Off Your Blacklist<br>(${summary.firstElementChild.outerHTML})` : (match[1] === `have been ` ? `You Are Blacklisted` : `On Your Blacklist`)) : `On Your Blacklist`}
-        </div>
-      `);
+      createElements(esgst.sidebar, `afterBegin`, [{
+        attributes: {
+          class: `sidebar__error is-disabled`
+        },
+        type: `div`,
+        children: [{
+          attributes: {
+            class: `fa fa-exclamation-circle`
+          },
+          type: `i`
+        }, {
+          text: `${match[1] ? (match[1] === `previously ` ? `Off Your Blacklist (${summary.firstElementChild.textContent})` : (match[1] === `have been ` ? `You Are Blacklisted` : `On Your Blacklist`)) : `On Your Blacklist`}`,
+          type: `node`
+        }]
+      }]);
     }
   }
 
@@ -4085,6 +4222,7 @@
       </ul>
     `,
     id: `cs`,
+    load: cs,
     name: `Comment Searcher`,
     sg: true,
     st: true,
@@ -4164,37 +4302,71 @@
       let parent = element.parentElement.closest(`.comment, .comment_outer`);
       element = element.cloneNode(true);
       element.lastElementChild.innerHTML = ``;
-      let html = `
-        <div class="comment comments comment_outer">
-      `;
+      const items = [{
+        attributes: {
+          class: `comment comments comment_outer`
+        },
+        type: `div`,
+        children: []
+      }];
       if (parent) {
         parent = parent.cloneNode(true);
         parent.lastElementChild.remove();
-        parent.insertAdjacentHTML(`beforeEnd`, `
-          <div class="comment__children comment_children">${element.outerHTML}</div>
-        `);
-        html += parent.outerHTML;
+        createElements(parent, `beforeEnd`, [{
+          attributes: {
+            class: `comment__children comment_children`
+          },
+          type: `div`,
+          children: [{
+            context: element
+          }]
+        }]);
+        items[0].children.push({
+          context: parent
+        });
       } else {
         if (esgst.st) {
-          element.getElementsByClassName(`action_list`)[0].firstElementChild.insertAdjacentHTML(`afterEnd`, `
-            <a href="/${obj.type}/${obj.code}/">${obj.title} - Page ${details.nextPage}</a>
-          `);
+          createElements(element.getElementsByClassName(`action_list`)[0].firstElementChild, `afterEnd`, [{
+            attributes: {
+              href: `/${obj.type}/${obj.code}/`
+            },
+            text: `${obj.title} - Page ${details.nextPage}`,
+            type: `a`
+          }]);
         }
-        html += esgst.sg ? `
-          <div class="comments__entity">
-            <p class="comments__entity__name">
-              <a href="/${obj.type}/${obj.code}/">${obj.title} - Page ${details.nextPage}</a>
-            </p>
-          </div>` : ``;
-        html += `
-          <div class="comment__children comment_children">${element.outerHTML}</div>
-        `;
+        if (esgst.sg) {
+          items[0].children.push({
+            attributes: {
+              class: `comments__entity`
+            },
+            type: `div`,
+            children: [{
+              attributes: {
+                class: `comments__entity__name`
+              },
+              type: `p`,
+              children: [{
+                attributes: {
+                  href: `/${obj.type}/${obj.code}/`
+                },
+                text: `${obj.title} - Page ${details.nextPage}`,
+                type: `a`
+              }]
+            }]
+          });
+        }
+        items[0].children.push({
+          attributes: {
+            class: `comment__children comment_children`
+          },
+          type: `div`,
+          children: [{
+            context: element
+          }]
+        });
       }
-      html += `
-        </div>
-      `;
       if (obj.usernames.indexOf(element.querySelector(`.comment__username, .author_name`).textContent.trim().toLowerCase()) > -1) {
-        context.insertAdjacentHTML(`beforeEnd`, html);
+        createElements(context, `beforeEnd`, items);
         obj.results += 1;
       }
     }
@@ -4324,7 +4496,14 @@
         } else {
           diff = count;
         }
-        element.insertAdjacentHTML(`beforeEnd`, ` <span class="esgst-ct-count" title="${getFeatureTooltip(`ct`, `Unread comments`)}">(+${diff})</span>`);
+        createElements(element, `beforeEnd`, [{
+          attributes: {
+            class: `esgst-ct-count`,
+            title: getFeatureTooltip(`ct`, `Unread comments`)
+          },
+          text: ` (+${diff})`,
+          type: `span`
+        }]);
       }
     }
   }
@@ -5301,30 +5480,81 @@
     let breadcrumbs = responseHtml.getElementsByClassName(`page__heading__breadcrumbs`);
     let categoryLink = breadcrumbs[0].firstElementChild.nextElementSibling.nextElementSibling;
     let usernameLink = responseHtml.getElementsByClassName(`comment__username`)[0].firstElementChild;
-    obj.context.insertAdjacentHTML(`beforeEnd`, `
-      <div>
-        <div class="table__row-outer-wrap">
-          <div class="table__row-inner-wrap">
-            <div>
-              ${responseHtml.getElementsByClassName(`global__image-outer-wrap`)[0].outerHTML}
-            </div>
-            <div class="table__column--width-fill">
-              <h3>
-                <a class="table__column__heading" href="/discussion/${key}/">${categoryLink.nextElementSibling.nextElementSibling.firstElementChild.textContent}</a>
-              </h3>
-              <p>
-                <a class="table__column__secondary-link" href="${categoryLink.getAttribute(`href`)}">${categoryLink.textContent}</a> -
-                ${responseHtml.querySelector(`.comment [data-timestamp]`).outerHTML} ago by
-                <a class="table__column__secondary-link" href="${usernameLink.getAttribute(`href`)}">${usernameLink.textContent}</a>
-              </p>
-            </div>
-            <div class="table__column--width-small text-center">
-              <a class="table__column__secondary-link" href="/discussion/${key}/">${breadcrumbs[1].textContent.match(/(.+) Comments?/)[1]}</a>
-            </div>
-          </div>
-        </div>
-      </div>
-    `);
+    createElements(obj.context, `beforeEnd`, [{
+      type: `div`,
+      children: [{
+        attributes: {
+          class: `table__row-outer-wrap`
+        },
+        type: `div`,
+        children: [{
+          attributes: {
+            class: `table__row-inner-wrap`
+          },
+          type: `div`,
+          children: [{
+            type: `div`,
+            children: [{
+              context: responseHtml.getElementsByClassName(`global__image-outer-wrap`)[0]
+            }]
+          }, {
+            attributes: {
+              class: `table__column--width-fill`
+            },
+            type: `div`,
+            children: [{
+              type: `h3`,
+              children: [{
+                attributes: {
+                  class: `table__column__heading`,
+                  href: `/discussion/${key}/`
+                },
+                text: categoryLink.nextElementSibling.nextElementSibling.firstElementChild.textContent,
+                type: `a`
+              }]
+            }, {
+              type: `p`,
+              children: [{
+                attributes: {
+                  class: `table__column__secondary-link`,
+                  href: categoryLink.getAttribute(`href`)
+                },
+                text: categoryLink.textContent,
+                type: `a`
+              }, {
+                text: ` - `,
+                type: `node`
+              }, {
+                context: responseHtml.querySelector(`.comment [data-timestamp]`)
+              }, {
+                text: ` ago by `,
+                type: `node`
+              }, {
+                attributes: {
+                  class: `table__column__secondary-link`,
+                  href: usernameLink.getAttribute(`href`)
+                },
+                text: usernameLink.textContent,
+                type: `a`
+              }]
+            }]
+          }, {
+            attributes: {
+              class: `table__column--width-small text-center`
+            },
+            type: `div`,
+            children: [{
+              attributes: {
+                class: `table__column__secondary-link`,
+                href: `/discussion/${key}/`
+              },
+              text: breadcrumbs[1].textContent.match(/(.+) Comments?/)[1],
+              type: `a`
+            }]
+          }]
+        }]
+      }]
+    }]);
   }
 
   async function dh_highlightDiscussion(code, context, save) {
@@ -5499,14 +5729,25 @@
   async function et_menu() {
     let dates = {};
     let entries = JSON.parse(await getValue(`entries`, `[]`));
-    let historyHtml = ``;
+    const items = [];
     for (let i = entries.length - 1; i > -1; i--) {
       let entry = entries[i];
-      historyHtml += `
-        <li>
-          ${entry.entry ? `Entered` : `Left`} <a href="/giveaway/${entry.code}/">${entry.name}</a> on ${getTimestamp(entry.timestamp, esgst.at_24, esgst.at_s)}
-        </li>
-      `;
+      items.push({
+        type: `li`,
+        children: [{
+          text: `${entry.entry ? `Entered` : `Left`} `,
+          type: `node`
+        }, {
+          attributes: {
+            href: `/giveaway/${entry.code}/`
+          },
+          text: entry.name,
+          type: `a`
+        }, {
+          text: `on ${getTimestamp(entry.timestamp, esgst.at_24, esgst.at_s)}`,
+          type: `node`
+        }]
+      });
       let date = getDate(`[MMM] [D], [YYYY]`, entry.timestamp);
       let key = new Date(date).getTime();
       if (!dates[key]) {
@@ -5586,23 +5827,86 @@
       total += dates[key].entered;
     }
     let average = Math.round(total / keys.length * 100) / 100;
-    popup.description.insertAdjacentHTML(`afterBegin`, `
-      <div>
-        You enter on average <span class="esgst-bold">${average}</span> giveaways per day.
-      </div>
-      <div>
-        Your highest entry count was on <span class="esgst-italic">${highest.date}</span> with <span class="esgst-bold">${highest.count}</span> entries.
-      </div>
-      <div>
-        Your lowest entry count was on <span class="esgst-italic">${lowest.date}</span> with <span class="esgst-bold">${lowest.count}</span> entries.
-      </div>
-    `);
-    popup.scrollable.insertAdjacentHTML(`beforeEnd`, `
-      <div class="esgst-text-left esgst-float-left markdown" style="border-right: 1px solid #ccc;">
-        <ul>${historyHtml}</ul>
-      </div>
-    `);
-    popup.scrollable.insertAdjacentHTML(`beforeEnd`, `<div class="esgst-clear"></div>`);
+    createElements(popup.description, `afterBegin`, [{
+      type: `div`,
+      children: [{
+        text: `You enter on average `,
+        type: `node`
+      }, {
+        attributes: {
+          class: `esgst-bold`
+        },
+        text: average,
+        type: `span`
+      }, {
+        text: ` giveaways per day.`,
+        type: `node`
+      }]
+    }, {
+      type: `div`,
+      children: [{
+        text: `Your highest entry count was on `,
+        type: `node`
+      }, {
+        attributes: {
+          class: `esgst-italic`
+        },
+        text: highest.date,
+        type: `span`
+      }, {
+        text: ` with `,
+        type: `node`
+      }, {
+        attributes: {
+          class: `esgst-bold`
+        },
+        text: highest.count,
+        type: `span`
+      }, {
+        text: ` entries.`,
+        type: `node`
+      }]
+    }, {
+      type: `div`,
+      children: [{
+        text: `Your lowest entry count was on `,
+        type: `node`
+      }, {
+        attributes: {
+          class: `esgst-italic`
+        },
+        text: lowest.date,
+        type: `span`
+      }, {
+        text: ` with `,
+        type: `node`
+      }, {
+        attributes: {
+          class: `esgst-bold`
+        },
+        text: lowest.count,
+        type: `span`
+      }, {
+        text: ` entries.`,
+        type: `node`
+      }]
+    }]);
+    createElements(popup.scrollable, `beforeEnd`, [{
+      attributes: {
+        class: `esgst-text-left esgst-float-left markdown`,
+        style: `border-right: 1px solid #ccc;`
+      },
+      type: `div`,
+      children: [{
+        type: `ul`,
+        children: items
+      }]
+    }, {
+      attributes: {
+        class: `esgst-clear`
+      },
+      type: `div`
+    }]);
     popup.open();
   }
 
@@ -5711,32 +6015,69 @@
     }
     comment.lastElementChild.remove();
     let parent = comment.parentElement.closest(`.comment, .comment_outer`);
-    let html = ``;
+    const items = [{
+      attributes: {
+        class: `comment comments comment_outer`
+      },
+      type: `div`,
+      children: []
+    }];
     if (parent) {
       parent.lastElementChild.remove();
-      parent.insertAdjacentHTML(`beforeEnd`, `
-        <div class="comment__children comment_children">${comment.outerHTML}</div>
-      `);
-      html += parent.outerHTML;
+      createElements(parent, `beforeEnd`, [{
+        attributes: {
+          class: `comment__children comment_children`
+        },
+        type: `div`,
+        children: [{
+          context: comment
+        }]
+      }]);
+      items[0].children.push({
+        context: parent
+      });
     } else {
       if (esgst.st) {
-        comment.getElementsByClassName(`action_list`)[0].firstElementChild.insertAdjacentHTML(`afterEnd`, `
-          <a href="${response.finalUrl}">${responseHtml.title}</a>
-        `);
+        createElements(comment.getElementsByClassName(`action_list`)[0].firstElementChild, `afterEnd`, [{
+          attributes: {
+            href: response.finalUrl
+          },
+          text: responseHtml.title,
+          type: `a`
+        }]);
       }
-      html += esgst.sg ? `
-        <div class="comments__entity">
-          <p class="comments__entity__name">
-            <a href="${response.finalUrl}">${responseHtml.title}</a>
-          </p>
-        </div>` : ``;
-      html += `
-        <div class="comment__children comment_children">${comment.outerHTML}</div>
-      `;
+      if (esgst.sg) {
+        items[0].children.push({
+          attributes: {
+            class: `comments__entity`
+          },
+          type: `div`,
+          children: [{
+            attributes: {
+              class: `comments__entity__name`
+            },
+            type: `p`,
+            children: [{
+              attributes: {
+                href: response.finalUrl
+              },
+              text: responseHtml.title,
+              type: `a`
+            }]
+          }]
+        })
+      }
+      items[0].children.push({
+        attributes: {
+          class: `comment__children comment_children`
+        },
+        type: `div`,
+        children: [{
+          context: comment
+        }]
+      });
     }
-    obj.context.insertAdjacentHTML(`beforeEnd`, `
-      <div class="comment comments comment_outer">${html}</div>
-    `);
+    createElements(obj.context, `beforeEnd`, items);
   }
 
   async function ch_saveComment(id, timestamp) {
@@ -6845,13 +7186,23 @@
       return;
     }
     gb.popup = new Popup(`fa-list`, `Bookmarked Giveaways (Raw List)`);
-    gb.bookmarked.forEach(giveaway => {
-      gb.popup.scrollable.insertAdjacentHTML(`beforeEnd`, `
-        <div>
-          <a class="table__column__secondary-link"${giveaway.name ? ` data-esgst="true"` : ``} href="/giveaway/${giveaway.code}/">${giveaway.name || giveaway.code}</a>
-        </div>
-      `);
-    });
+    for (const giveaway of gb.bookmarked) {
+      const attributes = {
+        class: `table__column__secondary-link`,
+        href: `/giveaway/${giveaway.code}/`
+      };
+      if (giveaway.name) {
+        attributes[`data-esgst`] = true;
+      }
+      createElements(gb.popup.scrollable, `beforeEnd`, [{
+        type: `div`,
+        children: [{
+          attributes,
+          text: giveaway.name || giveaway.code,
+          type: `a`
+        }]
+      }]);
+    }
     gb.popup.open();
     gb_loadNames(gb);
   }
@@ -6921,31 +7272,92 @@
           if (entered) {
             entered = !entered.classList.contains(`is-hidden`);
           }
-          let popupHtml = `${Date.now() > bookmarked[i].endTime && !gbGiveaways.getElementsByClassName(`row-spacer`)[0] ? `<div class="row-spacer"></div>` : ``}
-            <div>
-              <div class="giveaway__row-outer-wrap" ${entered ? `data-entered="true"` : ``}data-game-id="${gameId}">
-                <div class="giveaway__row-inner-wrap">
-                  <div class="giveaway__summary">
-                    <h2 class="giveaway__heading">${heading.innerHTML}</h2>
-                    <div class="giveaway__columns">${columns.innerHTML}</div>
-                    <div class="giveaway__links">
-                      <a href="${url}/entries">
-                        <i class="fa fa-tag"></i>
-                        <span>${(counts[1] && counts[1].textContent) || 0} entries</span>
-                      </a>
-                      <a href="${url}/comments">
-                        <i class="fa fa-comment"></i>
-                        <span>${counts[0].textContent} comments</span>
-                      </a>
-                    </div>
-                  </div>
-                  ${avatar.outerHTML}
-                  <a class="giveaway_image_thumbnail" href="${url}" style="background-image: url(${image})"></a>
-                </div>
-              </div>
-            </div>
-          `;
-          gbGiveaways.insertAdjacentHTML(`beforeEnd`, popupHtml);
+          const items = [];
+          if (Date.now() > bookmarked[i].endTime && !gbGiveaways.getElementsByClassName(`row-spacer`)[0]) {
+            items.push({
+              attributes: {
+                class: `row-spacer`
+              },
+              type: `div`
+            });
+          }
+          const attributes = {
+            class: `giveaway__row-outer-wrap`,
+            [`data-game-id`]: gameId
+          };
+          if (entered) {
+            attributes[`data-entered`] = true;
+          }
+          heading.className = `giveaway__heading`;
+          columns.className = `giveaway__columns`;
+          items.push({
+            type: `div`,
+            children: [{
+              attributes,
+              type: `div`,
+              children: [{
+                attributes: {
+                  class: `giveaway__row-inner-wrap`
+                },
+                type: `div`,
+                children: [{
+                  attributes: {
+                    class: `giveaway__summary`
+                  },
+                  type: `div`,
+                  children: [{
+                    context: heading
+                  }, {
+                    context: columns
+                  }, {
+                    attributes: {
+                      class: `giveaway__links`
+                    },
+                    type: `div`,
+                    children: [{
+                      attributes: {
+                        href: `${url}/entries`
+                      },
+                      type: `a`,
+                      children: [{
+                        attributes: {
+                          class: `fa fa-tag`
+                        },
+                        type: `i`
+                      }, {
+                        text: `${(counts[1] && counts[1].textContent) || 0} entries`,
+                        type: `span`
+                      }]
+                    }, {
+                      attributes: {
+                        href: `${url}/comments`
+                      },
+                      type: `a`,
+                      children: [{
+                        attributes: {
+                          class: `fa fa-comment`
+                        },
+                        type: `i`
+                      }, {
+                        text: `${counts[0].textContent} comments`,
+                        type: `span`
+                      }]
+                    }]
+                  }]
+                }, {
+                  context: avatar
+                }, {
+                  attributes: {
+                    class: `giveaway_image_thumbnail`,
+                    href: url,
+                    style: `background-image: url(${image})`
+                  },
+                  type: `a`
+                }]
+              }]
+            }]
+          });
+          createElements(gbGiveaways, `beforeEnd`, items);
           await endless_load(gbGiveaways.lastElementChild, false, `gb`);
           if (endTime > 0) {
             let deleteLock = await createLock(`giveawayLock`, 300);
@@ -7728,9 +8140,19 @@
           continue;
         }
         if (element.container.closest(`.poll`)) {
-          element.container.getElementsByClassName(`table__column__heading`)[0].insertAdjacentHTML(`afterEnd`, `<div class="esgst-gc-panel"></div>`);
+          createElements(element.container.getElementsByClassName(`table__column__heading`)[0], `afterEnd`, [{
+            attributes: {
+              class: `esgst-gc-panel`
+            },
+            type: `div`
+          }]);
         } else {
-          element.heading.insertAdjacentHTML(`afterEnd`, `<div class="esgst-gc-panel"></div>`);
+          createElements(element.heading, `afterEnd`, [{
+            attributes: {
+              class: `esgst-gc-panel`
+            },
+            type: `div`
+          }]);
         }
       }
     }
@@ -7742,9 +8164,19 @@
           continue;
         }
         if (element.container.closest(`.poll`)) {
-          element.container.getElementsByClassName(`table__column__heading`)[0].insertAdjacentHTML(`afterEnd`, `<div class="esgst-gc-panel"></div>`);
+          createElements(element.container.getElementsByClassName(`table__column__heading`)[0], `afterEnd`, [{
+            attributes: {
+              class: `esgst-gc-panel`
+            },
+            type: `div`
+          }]);
         } else {
-          element.heading.insertAdjacentHTML(`afterEnd`, `<div class="esgst-gc-panel"></div>`);
+          createElements(element.heading, `afterEnd`, [{
+            attributes: {
+              class: `esgst-gc-panel`
+            },
+            type: `div`
+          }]);
         }
       }
     }
@@ -7885,7 +8317,12 @@
         };
         esgst.gc_categories_gv.forEach(category => {
           if (categoryNames[category] && giveaway.innerWrap.getElementsByClassName(`esgst-gc-${categoryNames[category]}`)[0]) {
-            borders.insertAdjacentHTML(`beforeEnd`, `<div class="esgst-gc-${categoryNames[category]}"></div>`);
+            createElements(borders, `beforeEnd`, [{
+              attributes: {
+                class: `esgst-gc-${categoryNames[category]}`
+              },
+              type: `div`
+            }]);
           }
         });
       }
@@ -7935,7 +8372,12 @@
         };
         esgst.gc_categories_gv.forEach(category => {
           if (categoryNames[category] && giveaway.innerWrap.getElementsByClassName(`esgst-gc-${categoryNames[category]}`)[0]) {
-            borders.insertAdjacentHTML(`beforeEnd`, `<div class="esgst-gc-${categoryNames[category]}"></div>`);
+            createElements(borders, `beforeEnd`, [{
+              attributes: {
+                class: `esgst-gc-${categoryNames[category]}`
+              },
+              type: `div`
+            }]);
           }
         });
       }
@@ -9065,7 +9507,9 @@
     }
     ge.set = new ButtonSet(`green`, `grey`, `fa-search`, `fa-times`, `Extract`, `Cancel`, callback => {
       if (ge.callback) {
-        ge.results.insertAdjacentHTML(`beforeEnd`, `<div></div>`);
+        createElements(ge.results, `beforeEnd`, [{
+          type: `div`
+        }]);
         ge.callback();
       } else {
         ge.isCanceled = false;
@@ -9076,7 +9520,9 @@
           <i class="fa fa-circle-o-notch fa-spin"></i>
           <span>${ge.total}</span> giveaways extracted.
         `;
-        ge.results.insertAdjacentHTML(`beforeEnd`, `<div></div>`);
+        createElements(ge.results, `beforeEnd`, [{
+          type: `div`
+        }]);
         ge.mainCallback = callback;
         let giveaways = ge_getGiveaways(ge, esgst.gePath ? ge.context : esgst.pageOuterWrap);
         ge_extractGiveaways(ge, giveaways, 0, giveaways.length, ge_completeExtraction.bind(null, ge, callback));
@@ -9144,7 +9590,7 @@
           button = responseHtml.getElementsByClassName(`sidebar__error`)[0];
           giveaway = buildGiveaway(responseHtml, response.finalUrl, button && button.textContent);
           if (giveaway) {
-            ge.results.lastElementChild.insertAdjacentHTML(`beforeEnd`, giveaway.html);
+            createElements(ge.results.lastElementChild, `beforeEnd`, giveaway.html);
             ge.points += giveaway.points;
             ge.count += 1;
             ge.total += 1;
@@ -9176,7 +9622,7 @@
             responseHtml = parseHtml(response.responseText);
             giveaway = buildGiveaway(responseHtml, response.finalUrl, null, true);
             if (giveaway) {
-              ge.results.lastElementChild.insertAdjacentHTML(`beforeEnd`, giveaway.html);
+              createElements(ge.results.lastElementChild, `beforeEnd`, giveaway.html);
               ge.points += giveaway.points;
             }
             ge.count += 1;
@@ -9265,18 +9711,31 @@
       callback();
     }
     await endless_load(ge.results.lastElementChild, false, `ge`);
-    let html = `
-      <div class="markdown esgst-text-center">
-        ${ge.bumpLink && !esgst.discussionPath ? `
-          <h2>
-            <a href="${ge.bumpLink}">Bump</a>
-          </h2>
-        ` : ``}
-        ${ge.points}P required to enter all giveaways.
-      </div>
-    `;
-    ge.results.insertAdjacentHTML(`afterBegin`, html);
-    ge.results.insertAdjacentHTML(`beforeEnd`, html);
+    const items = [{
+      attributes: {
+        class: `markdown esgst-text-center`
+      },
+      type: `div`,
+      children: []
+    }];
+    if (ge.bumpLink && !esgst.discussionPath) {
+      items[0].children.push({
+        type: `h2`,
+        children: [{
+          attributes: {
+            href: ge.bumpLink
+          },
+          text: `Bump`,
+          type: `a`
+        }]
+      });
+    }
+    items[0].children.push({
+      text: `${ge.points}P required to enter all giveaways.`,
+      type: `node`
+    });
+    createElements(ge.results, `afterBegin`, items);
+    createElements(ge.results, `beforeEnd`, items);
     ge.set.set.remove();
     ge.set = null;
   }
@@ -9471,11 +9930,16 @@
       if (!builtGiveaway || !builtGiveaway.started) {
         continue;
       }
-      let context = insertHtml(ged.results, `beforeEnd`, builtGiveaway.html);
+      let context = createElements(ged.results, `beforeEnd`, builtGiveaway.html);
       if (giveaway.source) {
-        context.getElementsByClassName(`giveaway__columns`)[0].insertAdjacentHTML(`afterBegin`, `
-          <a class="esgst-ged-source" href="${giveaway.source.match(/\/discussion\//) ? giveaway.source : `/go/comment/${giveaway.source}`}">Source</a>
-        `);
+        createElements(context.getElementsByClassName(`giveaway__columns`)[0], `afterBegin`, [{
+          attributes: {
+            class: `esgst-ged-source`,
+            href: `${giveaway.source.match(/\/discussion\//) ? giveaway.source : `/go/comment/${giveaway.source}`}`
+          },
+          text: `Source`,
+          type: `a`
+        }]);
       }
       await endless_load(context, false, `ged`);
       if (ged.newGiveaways.indexOf(giveaway.code) > -1) {
@@ -9535,11 +9999,20 @@
         } else {
           hasNew = isNew = true;
         }
-        comment.actions.insertAdjacentHTML(`beforeEnd`, `
-          <a class="esgst-ged-icon${isEnded ? ` esgst-red` : (isStarted ? (isNew ? ` esgst-green` : ``) : ` esgst-yellow`)}" href="/giveaway/${code}/" title="${getFeatureTooltip(`ged`, `ESGST Decrypted Giveaway`)}">
-            <i class="fa fa-star"></i>
-          </a>
-        `);
+        createElements(comment.actions, `beforeEnd`, [{
+          attributes: {
+            class: `esgst-ged-icon${isEnded ? ` esgst-red` : (isStarted ? (isNew ? ` esgst-green` : ``) : ` esgst-yellow`)}`,
+            href: `/giveaway/${code}/`,
+            title: getFeatureTooltip(`ged`, `ESGST Decrypted Giveaway`)
+          },
+          type: `a`,
+          children: [{
+            attributes: {
+              class: `fa fa-star`
+            },
+            type: `i`
+          }]
+        }]);
       }
     }
     if (deleteLock) {
@@ -9681,26 +10154,89 @@
   function gesl() {
     if (!esgst.giveawayPath || !document.getElementsByClassName(`table--summary`)[0]) return;
     let name = encodeURIComponent(document.getElementsByClassName(`table__column__secondary-link`)[0].textContent);
-    document.getElementsByClassName(`table__row-outer-wrap`)[0].insertAdjacentHTML(`afterEnd`, `
-      <div class="table__row-outer-wrap" title="${getFeatureTooltip(`gesl`)}">
-        <div class="table__row-inner-wrap">
-          <div class="table__column--width-small">
-            <span class="esgst-bold">Search Links</span>
-          </div>
-          <div class="table__column--width-fill">
-            <a href="https://www.steamgifts.com/giveaways/search?q=${name}" target="_blank" title="Search for active giveaways">
-              <i class="fa"><img src="${esgst.sgIcon}"></i>
-            </a>
-            <a href="http://store.steampowered.com/search/?term=${name}" target="_blank" title="Search on Steam">
-              <i class="fa fa-steam"></i>
-            </a>
-            <a href="https://steamdb.info/search/?a=app&q=${name}" target="_blank" title="Search on SteamDB">
-              <i class="fa"><img src="https://steamdb.info/static/logos/favicon-16x16.png"></i>
-            </a>
-          </div>
-        </div>
-      </div>
-    `);
+    createElements(document.getElementsByClassName(`table__row-outer-wrap`)[0], `afterEnd`, [{
+      attributes: {
+        class: `table__row-outer-wrap`,
+        title: getFeatureTooltip(`gesl`)
+      },
+      type: `div`,
+      children: [{
+        attributes: {
+          class: `table__row-inner-wrap`
+        },
+        type: `div`,
+        children: [{
+          attributes: {
+            class: `table__column--width-small`
+          },
+          type: `div`,
+          children: [{
+            attributes: {
+              class: `esgst-bold`
+            },
+            text: `Search Links`,
+            type: `span`
+          }]
+        }, {
+          attributes: {
+            class: `table__column--width-fill`
+          },
+          type: `div`,
+          children: [{
+            attributes: {
+              href: `https://www.steamgifts.com/giveaways/search?q=${name}`,
+              target: `_blank`,
+              title: `Search for active giveaways`
+            },
+            type: `a`,
+            children: [{
+              attributes: {
+                class: `fa`
+              },
+              type: `i`,
+              children: [{
+                attributes: {
+                  src: esgst.sgIcon
+                },
+                type: `img`
+              }]
+            }]
+          }, {
+            attributes: {
+              href: `http://store.steampowered.com/search/?term=${name}`,
+              target: `_blank`,
+              title: `Search on Steam`
+            },
+            type: `a`,
+            children: [{
+              attributes: {
+                class: `fa fa-steam`
+              },
+              type: `i`
+            }]
+          }, {
+            attributes: {
+              href: `https://steamdb.info/search/?a=app&q=${name}`,
+              target: `_blank`,
+              title: `Search on SteamDB`
+            },
+            type: `a`,
+            children: [{
+              attributes: {
+                class: `fa`
+              },
+              type: `i`,
+              children: [{
+                attributes: {
+                  src: `https://steamdb.info/static/logos/favicon-16x16.png`
+                },
+                type: `img`
+              }]
+            }]
+          }]
+        }]
+      }]
+    }]);
   }
 
   // [CF]
@@ -10114,30 +10650,81 @@
     const breadcrumbs = responseHtml.getElementsByClassName(`page__heading__breadcrumbs`);
     const categoryLink = breadcrumbs[0].firstElementChild.nextElementSibling.nextElementSibling;
     const usernameLink = responseHtml.getElementsByClassName(`comment__username`)[0].firstElementChild;
-    obj.discussions.insertAdjacentHTML(`beforeEnd`, `
-      <div>
-        <div class="table__row-outer-wrap">
-          <div class="table__row-inner-wrap">
-            <div>
-              ${responseHtml.getElementsByClassName(`global__image-outer-wrap`)[0].outerHTML}
-            </div>
-            <div class="table__column--width-fill">
-              <h3>
-                <a class="table__column__heading" href="/discussion/${obj.ids[obj.index]}/">${categoryLink.nextElementSibling.nextElementSibling.firstElementChild.textContent}</a>
-              </h3>
-              <p>
-                <a class="table__column__secondary-link" href="${categoryLink.getAttribute(`href`)}">${categoryLink.textContent}</a> -
-                ${responseHtml.querySelector(`.comment [data-timestamp]`).outerHTML} ago by
-                <a class="table__column__secondary-link" href="${usernameLink.getAttribute(`href`)}">${usernameLink.textContent}</a>
-              </p>
-            </div>
-            <div class="table__column--width-small text-center">
-              <a class="table__column__secondary-link" href="/discussion/${obj.ids[obj.index]}/">${breadcrumbs[1].textContent.match(/(.+) Comments?/)[1]}</a>
-            </div>
-          </div>
-        </div>
-      </div>
-    `);
+    createElements(obj.discussions, `beforeEnd`, [{
+      type: `div`,
+      children: [{
+        attributes: {
+          class: `table__row-outer-wrap`
+        },
+        type: `div`,
+        children: [{
+          attributes: {
+            class: `table__row-inner-wrap`
+          },
+          type: `div`,
+          children: [{
+            type: `div`,
+            children: [{
+              context: responseHtml.getElementsByClassName(`global__image-outer-wrap`)[0]
+            }]
+          }, {
+            attributes: {
+              class: `table__column--width-fill`
+            },
+            type: `div`,
+            children: [{
+              type: `h3`,
+              children: [{
+                attributes: {
+                  class: `table__column__heading`,
+                  href: `/discussion/${obj.ids[obj.index]}/`
+                },
+                text: categoryLink.nextElementSibling.nextElementSibling.firstElementChild.textContent,
+                type: `a`
+              }]
+            }, {
+              type: `p`,
+              children: [{
+                attributes: {
+                  class: `table__column__secondary-link`,
+                  href: categoryLink.getAttribute(`href`)
+                },
+                text: categoryLink.textContent,
+                type: `a`
+              }, {
+                text: ` - `,
+                type: `node`
+              }, {
+                context: responseHtml.querySelector(`.comment [data-timestamp]`)
+              }, {
+                text: ` ago by `,
+                type: `node`
+              }, {
+                attributes: {
+                  class: `table__column__secondary-link`,
+                  href: usernameLink.getAttribute(`href`)
+                },
+                text: usernameLink.textContent,
+                type: `a`
+              }]
+            }]
+          }, {
+            attributes: {
+              class: `table__column--width-small text-center`
+            },
+            type: `div`,
+            children: [{
+              attributes: {
+                class: `table__column__secondary-link`,
+                href: `/discussion/${obj.ids[obj.index]}/`
+              },
+              text: `${breadcrumbs[1].textContent.match(/(.+) Comments?/)[1]}`,
+              type: `a`
+            }]
+          }]
+        }]
+      }]
+    }]);
     await endless_load(obj.discussions.lastElementChild);
     if (!esgst.giveawaysPath && !esgst.discussionsPath) {
       if (esgst.gdttt) {
@@ -11664,20 +12251,52 @@
     }
 
     if (!esgst[`${obj.id}_m_b`]) {
-      stringFilters.insertAdjacentHTML(`beforeEnd`, `
-        <div class="esgst-gf-legend-panel">
-          <div class="esgst-bold">Legend:</div>
-          <div>
-            <i class="fa fa-check-square"></i> - Show All</i>
-          </div>
-          <div>
-            <i class="fa fa-square-o"></i> - Hide All</i>
-          </div>
-          <div>
-            <i class="fa fa-square"></i> - Show Only</i>
-          </div>
-        </div>
-      `);
+      createElements(stringFilters, `beforeEnd`, [{
+        attributes: {
+          class: `esgst-gf-legend-panel`
+        },
+        type: `div`,
+        children: [{
+          attributes: {
+            class: `esgst-bold`
+          },
+          text: `Legend:`,
+          type: `div`
+        }, {
+          type: `div`,
+          children: [{
+            attributes: {
+              class: `fa fa-check-square`
+            },
+            type: `i`
+          }, {
+            text: ` - Show All`,
+            type: `node`
+          }]
+        }, {
+          type: `div`,
+          children: [{
+            attributes: {
+              class: `fa fa-square-o`
+            },
+            type: `i`
+          }, {
+            text: ` - Hide All`,
+            type: `node`
+          }]
+        }, {
+          type: `div`,
+          children: [{
+            attributes: {
+              class: `fa fa-square`
+            },
+            type: `i`
+          }, {
+            text: ` - Show Only`,
+            type: `node`
+          }]
+        }]
+      }]);
       if (obj.rules.rules && obj.rules.rules.length) {
         filters_applyBasic(obj, obj.rules);
       }
@@ -12528,9 +13147,13 @@
 
   async function filters_openPresetPopup(obj) {
     const popup = new Popup(`fa-sliders`, `Manage presets:`, true);
-    popup.description.insertAdjacentHTML(`afterBegin`, `
-      <div class="esgst-description">To edit a preset, apply it and save it with the same name. To rename a preset, click the edit icon, enter the new name and hit "Enter". Drag and drop presets to move them.</div>
-    `);
+    createElements(popup.description, `afterBegin`, [{
+      attributes: {
+        class: `esgst-description`
+      },
+      text: `To edit a preset, apply it and save it with the same name. To rename a preset, click the edit icon, enter the new name and hit "Enter". Drag and drop presets to move them.`,
+      type: `div`
+    }]);
     let deleted = [];
     const undoButton = insertHtml(popup.description, `beforeEnd`, `
       <div class="esgst-clickable esgst-hidden">
@@ -13516,13 +14139,37 @@
 
   function gs() {
     if (!esgst.groupsPath) return;
-    document.getElementsByClassName(`table__heading`)[0].insertAdjacentHTML(`beforeEnd`, `
-      <div class="table__column--width-small text-center">Sent</div>
-      <div class="table__column--width-small text-center">Received</div>
-      <div class="table__column--width-small text-center">Gift Difference</div>
-      <div class="table__column--width-small text-center">Value Difference</div>
-      <div class="table__column--width-small text-center">Users</div>
-    `);
+    createElements(document.getElementsByClassName(`table__heading`)[0], `beforeEnd`, [{
+      attributes: {
+        class: `table__column--width-small text-center`
+      },
+      text: `Sent`,
+      type: `div`
+    }, {
+      attributes: {
+        class: `table__column--width-small text-center`
+      },
+      text: `Received`,
+      type: `div`
+    }, {
+      attributes: {
+        class: `table__column--width-small text-center`
+      },
+      text: `Gift Difference`,
+      type: `div`
+    }, {
+      attributes: {
+        class: `table__column--width-small text-center`
+      },
+      text: `Value Difference`,
+      type: `div`
+    }, {
+      attributes: {
+        class: `table__column--width-small text-center`
+      },
+      text: `Users`,
+      type: `div`
+    }]);
     esgst.endlessFeatures.push(gs_getGroups);
   }
 
@@ -13541,9 +14188,13 @@
     for (let i = 0, n = elements.length; i < n; i++) {
       context.appendChild(elements[0]);
     }
-    context.insertAdjacentHTML(`beforeEnd`, `
-      <div class="table__column--width-small text-center">${responseHtml.getElementsByClassName(`sidebar__navigation__item__count`)[1].textContent}</div>
-    `);
+    createElements(context, `beforeEnd`, [{
+      attributes: {
+        class: `table__column--width-small text-center`
+      },
+      text: responseHtml.getElementsByClassName(`sidebar__navigation__item__count`)[1].textContent,
+      type: `div`
+    }]);
   }
 
   // [GT]
@@ -13565,15 +14216,44 @@
   });
 
   async function gt_openPopup(id, name, type) {
-    let popup = new Popup(`fa-tag`, `Edit game tags for <span>${name}</span>:`);
+    let popup = new Popup(`fa-tag`, [{
+      text: `Edit game tags for `,
+      type: `node`
+    }, {
+      text: name,
+      type: `span`
+    }, {
+      text: `:`,
+      type: `node`
+    }]);
     let set = new ButtonSet(`green`, `grey`, `fa-check`, `fa-circle-o-notch fa-spin`, `Save`, `Saving...`, gt_saveTags.bind(null, id, popup, type));
-    popup.description.insertAdjacentHTML(`beforeEnd`, `<div class="esgst-description">Drag the tags to move them.<br/><br/>When editing a tag color, it will also alter the color for all games with that tag (you have to refresh the page for it to take effect).</div>`);
+    createElements(popup.description, `beforeEnd`, [{
+      attributes: {
+        class: `esgst-description`
+      },
+      type: `div`,
+      children: [{
+        text: `Drag the tags to move them.`,
+        type: `p`
+      }, {
+        type: `br`
+      }, {
+        text: `When editing a tag color, it will also alter the color for all games with that tag (you have to refresh the page for it to take effect).`,
+        type: `p`
+      }]
+    }]);
     popup.tags = insertHtml(popup.description, `beforeEnd`, `<div class="esgst-gt-tags"></div>`);
     popup.input = insertHtml(popup.description, `beforeEnd`, `<input type="text"/>`);
     insertHtml(popup.description, `beforeEnd`, `<i class="esgst-ut-existing-button esgst-clickable fa fa-list" title="Select from existing tags"></i>`).addEventListener(`click`, gt_showExistingTags.bind(null, popup));
     popup.input.addEventListener(`keydown`, triggerSetOnEnter.bind(null, set));
     popup.input.addEventListener(`input`, gt_createTags.bind(null, popup));
-    popup.description.insertAdjacentHTML(`beforeEnd`, `<div class="esgst-description">Use commas to separate tags, for example: Tag1, Tag2, ...</div>`);
+    createElements(popup.description, `beforeEnd`, [{
+      attributes: {
+        class: `esgst-description`
+      },
+      text: `Use commas to separate tags, for example: Tag1, Tag2, ...`,
+      type: `div`
+    }]);
     popup.description.appendChild(set.set);
     popup.open();
     let savedGames = JSON.parse(await getValue(`games`));
@@ -14062,9 +14742,13 @@
 
   async function gts_openPopup(gts) {
     let popup = new Popup(`fa-file`, `View/apply templates:`, true);
-    popup.description.insertAdjacentHTML(`afterBegin`, `
-      <div class="esgst-description">Drag and drop templates to move them.</div>
-    `);
+    createElements(popup.description, `afterBegin`, [{
+      attributes: {
+        class: `esgst-description`
+      },
+      text: `Drag and drop templates to move them.`,
+      type: `div`
+    }]);
     gts.undo = insertHtml(popup.description, `beforeEnd`, `
       <div class="esgst-clickable esgst-hidden">
         <i class="fa fa-rotate-left"></i>
@@ -14549,11 +15233,18 @@
       giveaway.innerWrap.insertBefore(giveaway.image, giveaway.gvIcons);
       giveaway.summary.classList.add(`esgst-gv-popout`, `global__image-outer-wrap`);
       giveaway.summary.insertBefore(giveaway.avatar, giveaway.links);
-      giveaway.avatar.insertAdjacentHTML(`afterEnd`, `
-        <div style="clear: both;"></div>
-      `);
-      giveaway.headingName.insertAdjacentHTML(`afterEnd`, `<br>`);
-      giveaway.pointsContainer.insertAdjacentHTML(`afterEnd`, `<br>`);
+      createElements(giveaway.avatar, `afterEnd`, [{
+        attributes: {
+          style: `clear: both;`
+        },
+        type: `div`
+      }]);
+      createElements(giveaway.headingName, `afterEnd`, [{
+        type: `br`
+      }]);
+      createElements(giveaway.pointsContainer, `afterEnd`, [{
+        type: `br`
+      }]);
       giveaway.endTimeColumn.classList.add(`esgst-hidden`);
       giveaway.startTimeColumn.classList.add(`esgst-hidden`);
       giveaway.entriesLink.lastElementChild.textContent = giveaway.entriesLink.textContent.replace(/[^\d,]+/g, ``);
@@ -14627,11 +15318,21 @@
       if (esgst.enterGiveawayButton) {
         esgst.enterGiveawayButton.remove();
       }
-      parent.insertAdjacentHTML(`afterBegin`, `
-        <div class="sidebar__error is-disabled">
-          <i class="fa fa-exclamation-circle"></i> Hidden Game
-        </div>
-      `);
+      createElements(parent, `afterBegin`, [{
+        attributes: {
+          class: `sidebar__error is-disabled`
+        },
+        type: `div`,
+        children: [{
+          attributes: {
+            class: `fa fa-exclamation-circle`
+          },
+          type: `i`
+        }, {
+          text: ` Hidden Game`,
+          type: `node`
+        }]
+      }]);
     }
   }
 
@@ -14713,9 +15414,13 @@
         } else {
           request({data: `xsrf_token=${esgst.xsrfToken}&do=remove_filter&game_id=${button.parentElement.querySelector(`[name="game_id"]`).value}`, method: `POST`, url: `/ajax.php`});
         }
-        hgr.removed.insertAdjacentHTML(`beforeEnd`, `
-          <a href="http://store.steampowered.com/${info.type.slice(0, -1)}/${info.id}">${element.getElementsByClassName(`table__column__heading`)[0].textContent}</a>
-        `);
+        createElements(hgr.removed, `beforeEnd`, [{
+          attributes: {
+            href: `http://store.steampowered.com/${info.type.slice(0, -1)}/${info.id}`
+          },
+          text: element.getElementsByClassName(`table__column__heading`)[0].textContent,
+          type: `a`
+        }]);
       }
       nextPage += 1;
       pagination = context.getElementsByClassName(`pagination__navigation`)[0];
@@ -15309,29 +16014,82 @@
 
   function hwlc_addSection(obj, key, counterKey) {
     obj[key] = document.querySelector(`.${key}`);
-    obj.panel.insertAdjacentHTML(`beforeEnd`, `
-      <div class="esgst-hwlc-section">
-        <h2>You ${counterKey}:</h2>
-        <br>
-        <textarea id="esgst-hwlc-${key}-textArea"></textarea>
-        <br>
-        <br>
-        <h2>Matches (you ${counterKey} x they ${key}):</h2>
-        <ul id="esgst-hwlc-${key}-matches">
-          <i class="fa fa-circle-o-notch fa-spin"></i>
-        </ul>
-        <br>
-        <h2>They ${key}:</h2>
-        <ul id="esgst-hwlc-${key}-games">
-          <i class="fa fa-circle-o-notch fa-spin"></i>
-        </ul>
-        <br>
-        <h2>Unable to identify: <i class="fa fa-question-circle" title="You can report unidentified games in the ESGST thread so that exceptions can be added for them"></i></h2>
-        <ul id="esgst-hwlc-${key}-unidentified">
-          <i class="fa fa-circle-o-notch fa-spin"></i>
-        </ul>
-      </div>
-    `);
+    createElements(obj.panel, `beforeEnd`, [{
+      attributes: {
+        class: `esgst-hwlc-section`
+      },
+      type: `div`,
+      children: [{
+        text: `You ${counterKey}:`,
+        type: `h2`
+      }, {
+        type: `br`
+      }, {
+        attributes: {
+          id: `esgst-hwlc-${key}-textArea`
+        },
+        type: `textarea`
+      }, {
+        type: `br`
+      }, {
+        type: `br`
+      }, {
+        text: `Matches (you ${counterKey} x they ${key}):`,
+        type: `h2`
+      }, {
+        attributes: {
+          id: `esgst-hwlc-${key}-matches`
+        },
+        type: `ul`,
+        children: [{
+          attributes: {
+            class: `fa fa-circle-o-notch fa-spin`
+          },
+          type: `i`
+        }]
+      }, {
+        type: `br`
+      }, {
+        text: `They ${key}:`,
+        type: `h2`
+      }, {
+        attributes: {
+          id: `esgst-hwlc-${key}-games`
+        },
+        type: `ul`,
+        children: [{
+          attributes: {
+            class: `fa fa-circle-o-notch fa-spin`
+          },
+          type: `i`
+        }]
+      }, {
+        type: `br`
+      }, {
+        type: `h2`,
+        children: [{
+          text: `Unable to identify: `,
+          type: `node`
+        }, {
+          attributes: {
+            class: `fa fa-question-circle`,
+            title: `You can report unidentified games in the ESGST thread so that exceptions can be added for them`
+          },
+          type: `i`
+        }]
+      }, {
+        attributes: {
+          id: `esgst-hwlc-${key}-unidentified`
+        },
+        type: `ul`,
+        children: [{
+          attributes: {
+            class: `fa fa-circle-o-notch fa-spin`
+          },
+          type: `i`
+        }]
+      }]
+    }]);
     obj.sections[key] = {
       textArea: document.getElementById(`esgst-hwlc-${key}-textArea`),
       matches: document.getElementById(`esgst-hwlc-${key}-matches`),
@@ -15450,59 +16208,111 @@
     }
     obj.games[key].apps = obj.games[key].apps.map(game => {
       if (game.wishlisted) {
-        game.html = `
-          <li>
-            <i class="fa fa-star" title="On their wishlist"></i>
-            <a href="https://store.steampowered.com/app/${game.id}">${game.name}</a>
-          </li>
-        `;
+        game.html = {
+          type: `li`,
+          children: [{
+            attributes: {
+              class: `fa fa-star`,
+              title: `On their wishlist`
+            },
+            type: `i`
+          }, {
+            attributes: {
+              href: `https://store.steampowered.com/app/${game.id}`
+            },
+            text: game.name,
+            type: `a`
+          }]
+        };
         return game;
       }
       if (esgst.games.apps[game.id]) {
         if (esgst.games.apps[game.id].owned) {
           game.owned = true;
-          game.html = `
-            <li>
-              <i class="fa fa-folder" title="On your library"></i>
-              <a href="https://store.steampowered.com/app/${game.id}">${game.name}</a>
-            </li>
-          `;
+          game.html = {
+            type: `li`,
+            children: [{
+              attributes: {
+                class: `fa fa-folder`,
+                title: `On your library`
+              },
+              type: `i`
+            }, {
+              attributes: {
+                href: `https://store.steampowered.com/app/${game.id}`
+              },
+              text: game.name,
+              type: `a`
+            }]
+          };
           return game;
         } else if (esgst.games.apps[game.id].wishlisted) {
           game.wishlisted = true;
-          game.html = `
-            <li>
-              <i class="fa fa-star" title="On your wishlist"></i>
-              <a href="https://store.steampowered.com/app/${game.id}">${game.name}</a>
-            </li>
-          `;
+          game.html = {
+            type: `li`,
+            children: [{
+              attributes: {
+                class: `fa fa-star`,
+                title: `On your wishlist`
+              },
+              type: `i`
+            }, {
+              attributes: {
+                href: `https://store.steampowered.com/app/${game.id}`
+              },
+              text: game.name,
+              type: `a`
+            }]
+          };
           return game;
         }
       }
-      game.html = `
-        <li>
-          <a href="https://store.steampowered.com/app/${game.id}">${game.name}</a>
-        </li>
-      `;
+      game.html = {
+        type: `li`,
+        children: [{
+          attributes: {
+            href: `https://store.steampowered.com/app/${game.id}`
+          },
+          text: game.name,
+          type: `a`
+        }]
+      };
       return game;
     }).sort(hwlc_sortGames);
     obj.games[key].subs = obj.games[key].subs.sort(hwlc_sortGames);
+    const appItems = [];
     for (const game of obj.games[key].apps) {
-      obj.sections[key].games.insertAdjacentHTML(`beforeEnd`, game.html);
+      appItems.push(game.html);
     }
+    createElements(obj.sections[key].games, `beforeEnd`, appItems);
+    const subItems = [];
     for (const game of obj.games[key].subs) {
-      obj.sections[key].games.insertAdjacentHTML(`beforeEnd`, `
-        <li>
-          <i class="fa fa-suitcase" title="This is a package (packages are not checked for wishlisted/owned status)"></i>
-          <a href="https://store.steampowered.com/sub/${game.id}">${game.name || game.id}</a>
-        </li>
-      `);
+      subItems.push({
+        type: `li`,
+        children: [{
+          attributes: {
+            class: `fa fa-suitcase`,
+            title: `This is a package (packages are not checked for wishlisted/owned status)`
+          },
+          type: `i`
+        }, {
+          attributes: {
+            href: `https://store.steampowered.com/sub/${game.id}`
+          },
+          text: game.name || game.id,
+          type: `a`
+        }]
+      });
     }
+    createElements(obj.sections[key].games, `beforeEnd`, subItems);
+    const unidentifiedItems = [];
     for (const game of unidentified) {
-      obj.sections[key].unidentified.insertAdjacentHTML(`beforeEnd`, `
-        <li>${game.name}</li>
-      `);
+      unidentifiedItems.push({
+        text: game.name,
+        type: `li`
+      });
     }
+    createElements(obj.sections[key].unidentified, `beforeEnd`, unidentifiedItems);
     for (const section in obj.sections[key]) {
       if (section === `textArea` || obj.sections[key][section].innerHTML) {
         continue;
@@ -15549,13 +16359,20 @@
       });
     }
     found = found.sort(hwlc_sortGames);
+    const items = [];
     for (const game of found) {
-      obj.sections[key].matches.insertAdjacentHTML(`beforeEnd`, `
-        <li>
-          <a href="https://store.steampowered.com/${game.type}/${game.id}">${game.name || game.id}</a>
-        </li>
-      `);
+      items.push({
+        type: `li`,
+        children: [{
+          attributes: {
+            href: `https://store.steampowered.com/${game.type}/${game.id}`
+          },
+          text: game.name || game.id,
+          type: `a`
+        }]
+      });
     }
+    createElements(obj.sections[key].matches, `beforeEnd`, items);
     if (!obj.sections[key].matches.innerHTML) {
       obj.sections[key].matches.innerHTML = `None.`;
     }
@@ -15670,15 +16487,25 @@
   function lpl_addDiscussionLink() {
     let lastLink, url;
     url = `${location.pathname.replace(`/search`, ``)}/search?page=${esgst.lastPage}`;
-    esgst.lastPageLink = `
-      <a data-page-number="${esgst.lastPage}" href="${url}">
-        <span>Last</span>
-        <i class="fa fa-angle-double-right"></i>
-      </a>
-    `;
+    esgst.lastPageLink = [{
+      attributes: {
+        [`data-page-number`]: esgst.lastPage,
+        href: url
+      },
+      type: `a`,
+      children: [{
+        text: `Last`,
+        type: `span`
+      }, {
+        attributes: {
+          class: `fa fa-angle-double-right`
+        },
+        type: `i`
+      }]
+    }];
     lastLink = esgst.paginationNavigation.lastElementChild;
     if (!lastLink.classList.contains(`is-selected`) && !lastLink.textContent.match(/Last/)) {
-      esgst.paginationNavigation.insertAdjacentHTML(`beforeEnd`, esgst.lastPageLink);
+      createElements(esgst.paginationNavigation, `beforeEnd`, esgst.lastPageLink);
     }
   }
 
@@ -15690,15 +16517,25 @@
     } else {
       url = `/user/${username}/search?page=${esgst.lastPage}`;
     }
-    esgst.lastPageLink = `
-      <a data-page-number="${esgst.lastPage}" href="${url}">
-        <span>Last</span>
-        <i class="fa fa-angle-double-right"></i>
-      </a>
-    `;
+    esgst.lastPageLink = [{
+      attributes: {
+        [`data-page-number`]: esgst.lastPage,
+        href: url
+      },
+      type: `a`,
+      children: [{
+        text: `Last`,
+        type: `span`
+      }, {
+        attributes: {
+          class: `fa fa-angle-double-right`
+        },
+        type: `i`
+      }]
+    }];
     lastLink = esgst.paginationNavigation.lastElementChild;
     if (esgst.currentPage !== esgst.lastPage && !lastLink.classList.contains(`is-selected`) && !lastLink.textContent.match(/Last/)) {
-      esgst.paginationNavigation.insertAdjacentHTML(`beforeEnd`, esgst.lastPageLink);
+      createElements(esgst.paginationNavigation, `beforeEnd`, esgst.lastPageLink);
     }
   }
 
@@ -15712,15 +16549,25 @@
     } else {
       url = `/group/${group}/search?page=${esgst.lastPage}`;
     }
-    esgst.lastPageLink = `
-      <a data-page-number="${esgst.lastPage}" href="${url}">
-        <span>Last</span>
-        <i class="fa fa-angle-double-right"></i>
-      </a>
-    `;
+    esgst.lastPageLink = [{
+      attributes: {
+        [`data-page-number`]: esgst.lastPage,
+        href: url
+      },
+      type: `a`,
+      children: [{
+        text: `Last`,
+        type: `span`
+      }, {
+        attributes: {
+          class: `fa fa-angle-double-right`
+        },
+        type: `i`
+      }]
+    }];
     lastLink = esgst.paginationNavigation.lastElementChild;
     if (esgst.currentPage !== esgst.lastPage && !lastLink.classList.contains(`is-selected`) && !lastLink.textContent.match(/Last/)) {
-      esgst.paginationNavigation.insertAdjacentHTML(`beforeEnd`, esgst.lastPageLink);
+      createElements(esgst.paginationNavigation, `beforeEnd`, esgst.lastPageLink);
     }
   }
 
@@ -16083,9 +16930,34 @@
   function mgc_generateFormat(callback) {
     callback();
     let popup = new Popup(`fa-gear`, `Generate formats:`);
-    popup.description.insertAdjacentHTML(`afterBegin`, `<div class="esgst-description">1. Generate the format you want by editing the input fields (the text outside of the blue box is what the result will look like).<br>2. Copy the text inside of the blue box (you can use the copy icon for that).<br>3. Paste it in the giveaway description (section 8 in this page), wherever you want it to appear.</div>`);
+    createElements(popup.description, `afterBegin`, [{
+      attributes: {
+        class: `esgst-description`
+      },
+      type: `div`,
+      children: [{
+        text: `1. Generate the format you want by editing the input fields (the text outside of the blue box is what the result will look like).`,
+        type: `p`
+      }, {
+        type: `br`
+      }, {
+        text: `2. Copy the text inside of the blue box (you can use the copy icon for that).`,
+        type: `p`
+      }, {
+        type: `br`
+      }, {
+        text: `3. Paste it in the giveaway description (section 8 in this page), wherever you want it to appear.`,
+        type: `p`
+      }]
+    }]);
     let inputs = {};
-    popup.scrollable.insertAdjacentHTML(`beforeEnd`, `<div class="esgst-bold">Next/previous links</div>`);
+    createElements(popup.scrollable, `beforeEnd`, [{
+      attributes: {
+        class: `esgst-bold`
+      },
+      text: `Next/previous links`,
+      type: `div`
+    }]);
     inputs.previousPrefix = insertHtml(popup.scrollable, `beforeEnd`, `<input class="esgst-mgc-input" placeholder="← " type="text">`);
     inputs.previous = insertHtml(popup.scrollable, `beforeEnd`, `<input class="esgst-mgc-input" placeholder="Previous" type="text">`);
     inputs.previousSuffix = insertHtml(popup.scrollable, `beforeEnd`, `<input class="esgst-mgc-input" placeholder=" ←" type="text">`);
@@ -16109,7 +16981,13 @@
     outputCopy.addEventListener(`click`, () => {
       copyValue(outputCopy, outputCode.textContent);
     });
-    popup.scrollable.insertAdjacentHTML(`beforeEnd`, `<div class="esgst-bold">Counter</div>`);
+    createElements(popup.scrollable, `beforeEnd`, [{
+      attributes: {
+        class: `esgst-bold`
+      },
+      text: `Counter`,
+      type: `div`
+    }]);
     inputs.counter = insertHtml(popup.scrollable, `beforeEnd`, `<input class="esgst-mgc-input" placeholder=" of " type="text">`);
     let counterOutput = insertHtml(popup.scrollable, `beforeEnd`, `
       <div class="esgst-mgc-preview esgst-text-left markdown">
@@ -16127,7 +17005,13 @@
     counterOutputCopy.addEventListener(`click`, () => {
       copyValue(counterOutputCopy, counterOutputCode.textContent);
     });
-    popup.scrollable.insertAdjacentHTML(`beforeEnd`, `<div class="esgst-bold">Bump link (for attached discussions)</div>`);
+    createElements(popup.scrollable, `beforeEnd`, [{
+      attributes: {
+        class: `esgst-bold`
+      },
+      text: `Bump link (for attached discussions)`,
+      type: `div`
+    }]);
     inputs.bump = insertHtml(popup.scrollable, `beforeEnd`, `<input class="esgst-mgc-input" placeholder="Bump" type="text">`);
     let bumpOutput = insertHtml(popup.scrollable, `beforeEnd`, `
       <div class="esgst-mgc-preview esgst-text-left markdown">
@@ -16142,7 +17026,13 @@
     let bumpOutputPreview = bumpOutput.firstElementChild;
     let bumpOutputCopy = bumpOutput.lastElementChild;
     let bumpOutputCode = bumpOutputCopy.previousElementSibling.firstElementChild;
-    popup.scrollable.insertAdjacentHTML(`beforeEnd`, `<div class="esgst-bold">First train wagon link (for attached discussions)</div>`);
+    createElements(popup.scrollable, `beforeEnd`, [{
+      attributes: {
+        class: `esgst-bold`
+      },
+      text: `First train wagon link (for attached discussions)`,
+      type: `div`
+    }]);
     inputs.train = insertHtml(popup.scrollable, `beforeEnd`, `<input class="esgst-mgc-input" placeholder="Choo choo!" type="text">`);
     let trainOutput = insertHtml(popup.scrollable, `beforeEnd`, `
       <div class="esgst-mgc-preview esgst-text-left markdown">
@@ -16342,11 +17232,21 @@
     let counter, popup, progress, progressPanel, textArea;
     popup = new Popup(`fa-arrow-up`, `Import Giveaways`, true);
     popup.popup.classList.add(`esgst-popup-large`);
-    popup.description.insertAdjacentHTML(`afterBegin`, `
-      <div class="esgst-description">
-        Insert the keys below. <i class="fa fa-question-circle"></i>
-      </div>
-    `);
+    createElements(popup.description, `afterBegin`, [{
+      attributes: {
+        class: `esgst-description`
+      },
+      type: `div`,
+      children: [{
+        text: `Insert the keys below. `,
+        type: `node`
+      }, {
+        attributes: {
+          class: `fa fa-question-circle`
+        },
+        type: `i`
+      }]
+    }]);
     createTooltip(popup.description.firstElementChild.lastElementChild, `
       <div>Before importing, make sure you have filled the details of the giveaway (start/end times, regions, who can enter, whitelist, groups, level and description) or applied a template (with ${getFeatureNumber(`gts`).number} Giveaway Templates). You can also specify separate details for each giveaway using the parameters below:</div>
       <ul>
@@ -16835,27 +17735,84 @@
         }
         whoCanEnter = `${whoCanEnter.slice(0, -2)})`;
       }
-      rows.insertAdjacentHTML(`beforeEnd`, `
-        <div class="table__row-outer-wrap">
-          <div class="table__row-inner-wrap">
-            <div class="table__column--width-small">${i + 1}</div>
-            <div class="table__column--width-fill">
-            ${values.steam ? `
-              <a class="table__column__secondary-link" href="https://store.steampowered.com/${values.steam.type.slice(0, -1)}/${values.steam.id}">${values.gameName}</a>
-            ` : `
-              <span>${values.gameName}</span>
-            `}
-            </div>
-            <div class="table__column--width-small">${values.keys ? values.keys.replace(/\n/g, `<br>`) : `${values.copies} Copies`}</div>
-            <div class="table__column--width-small">${values.startTime}</div>
-            <div class="table__column--width-small">${values.endTime}</div>
-            <div class="table__column--width-small">${regionRestricted}</div>
-            <div class="table__column--width-small">${whoCanEnter}</div>
-            <div class="table__column--width-small">${values.level}</div>
-            <div class="table__column--width-small" title="${values.description.replace(/"/g, `&quot;`)}">${values.description.length > 100 ? `${values.description.slice(0, 100)}...` : values.description}</div>
-          </div>
-        </div>
-      `);
+      createElements(rows, `beforeEnd`, [{
+        attributes: {
+          class: `table__row-outer-wrap`
+        },
+        type: `div`,
+        children: [{
+          attributes: {
+            class: `table__row-inner-wrap`
+          },
+          type: `div`,
+          children: [{
+            attributes: {
+              class: `table__column--width-small`
+            },
+            text: i + 1,
+            type: `div`
+          }, {
+            attributes: {
+              class: `table__column--width-fill`
+            },
+            type: `div`,
+            children: [values.steam ? {
+              attributes: {
+                class: `table__column__secondary-link`,
+                href: `https://store.steampowered.com/${values.steam.type.slice(0, -1)}/${values.steam.id}`
+              },
+              text: values.gameName,
+              type: `a`
+            } : {
+              text: values.gameName,
+              type: `span`
+            }]
+          }, {
+            attributes: {
+              class: `table__column--width-small`
+            },
+            text: values.keys ? values.keys.replace(/\n/g, `<br>`) : `${values.copies} Copies`,
+            type: `div`
+          }, {
+            attributes: {
+              class: `table__column--width-small`
+            },
+            text: values.startTime,
+            type: `div`
+          }, {
+            attributes: {
+              class: `table__column--width-small`
+            },
+            text: values.endTime,
+            type: `div`
+          }, {
+            attributes: {
+              class: `table__column--width-small`
+            },
+            text: regionRestricted,
+            type: `div`
+          }, {
+            attributes: {
+              class: `table__column--width-small`
+            },
+            text: whoCanEnter,
+            type: `div`
+          }, {
+            attributes: {
+              class: `table__column--width-small`
+            },
+            text: values.level,
+            type: `div`
+          }, {
+            attributes: {
+              class: `table__column--width-small`,
+              title: values.description.replace(/"/g, `&quot;`)
+            },
+            text: values.description.length > 100 ? `${values.description.slice(0, 100)}...` : values.description,
+            type: `div`
+          }]
+        }]
+      }]);
     }
     popup.description.appendChild(new ButtonSet_v2({color1: `green`, color2: ``, icon1: `fa-check`, icon2: ``, title1: `Yes`, title2: ``, callback1: mgc_createGiveaways_2.bind(null, mgc, viewButton, popup, callback)}).set);
     popup.description.appendChild(new ButtonSet_v2({color1: `red`, color2: ``, icon1: `fa-times`, icon2: ``, title1: `No`, title2: ``, callback1: popup.close.bind(popup)}).set);
@@ -16906,7 +17863,15 @@
     giveaway = mgc.giveaways.children[i];
     if (response.finalUrl.match(/\/giveaways\/new/)) {
       if (response.responseText.match(/Error\.\sYou\salready\sposted\san\sidentical\sgiveaway\swithin\sthe\spast\s2\sminutes\.\sTo\sprevent\sdouble\sposts,\sit's\sbeen\sblocked\./)) {
-        const popup = new Popup(`fa-circle-o-notch fa-spin`, `Waiting <span></span> minutes to create another identical giveaway... Please do not close this popup. If you do not want this waiting period, create a single multiple-copy giveaway for the game.`, true);
+        const popup = new Popup(`fa-circle-o-notch fa-spin`, [{
+          text: `Waiting `,
+          type: `node`
+        }, {
+          type: `span`
+        }, {
+          text: ` minutes to create another identical giveaway... Please do not close this popup. If you do not want this waiting period, create a single multiple-copy giveaway for the game.`,
+          type: `node`
+        }]);
         popup.open();
         setCountdown(popup.title.firstElementChild, 120, async () => {
           popup.close();
@@ -17183,17 +18148,33 @@
     let input, popup;
     callback();
     popup = new Popup(`fa-comments`, `Attach discussion:`);
-    popup.description.insertAdjacentHTML(`afterBegin`, `
-      <div class="esgst-description">
-        <div>You can attach an existing or a new discussion. To attach an existing discussion, simply enter its code below and click "Attach Existing". To attach a new discussion, simply click "Attach New".</div>
-        <br/>
-        <div>Use [ESGST-B][/ESGST-B] to delimit the bump link in the description of the giveaway, for example: ### [ESGST-B]Bump[/ESGST-B]</div>
-        <br/>
-        <div>Use [ESGST-T][/ESGST-T] to delimit the train link in the description of the discussion (this link will lead to the first giveaway of the train), for example: ### [ESGST-T]Choo choo![/ESGST-T]</div>
-        <br/>
-        <div>When the discussion page opens in your browser at the end of the train creation, wait until it has completely finished altering it (you will get a popup when this happens).</div>
-      </div>
-    `);
+    createElements(popup.description, `afterBegin`, [{
+      attributes: {
+        class: `esgst-description`
+      },
+      type: `div`,
+      children: [{
+        text: `You can attach an existing or a new discussion. To attach an existing discussion, simply enter its code below and click "Attach Existing". To attach a new discussion, simply click "Attach New".`,
+        type: `div`
+      }, {
+        type: `br`
+      }, {
+        text: `Use [ESGST-B][/ESGST-B] to delimit the bump link in the description of the giveaway, for example: ### [ESGST-B]Bump[/ESGST-B]`,
+        type: `div`
+      }, {
+        type: `br`
+      }, {
+        text: `Use [ESGST-T][/ESGST-T] to delimit the train link in the description of the discussion (this link will lead to the first giveaway of the train), for example: ### [ESGST-T]Choo choo![/ESGST-T]`,
+        type: `div`
+      }, {
+        type: `br`
+      }, {
+        text: `When the discussion page opens in your browser at the end of the train creation, wait until it has completely finished altering it (you will get a popup when this happens).`,
+        type: `div`
+      }, {
+        type: `br`
+      }]
+    }]);
     input = insertHtml(popup.description, `beforeEnd`, `<input placeholder="XXXXX" type="text"/>`);
     popup.description.appendChild(new ButtonSet(`green`, `grey`, `fa-paperclip`, `fa-circle-o-notch fa-spin`, `Attach Existing`, `Attaching...`, mgc_attachExistingDiscussion.bind(null, input, mgc, popup)).set);
     popup.description.appendChild(new ButtonSet(`green`, `grey`, `fa-paperclip`, `fa-circle-o-notch fa-spin`, `Attach New`, `Attaching...`, mgc_attachNewDiscussion.bind(null, mgc, popup)).set);
@@ -17255,18 +18236,19 @@
   }
 
   async function mgc_viewResults(mgc, callback) {
-    let html, i, n, popup;
-    popup = new Popup(`fa-eye`, `Results`);
-    html = ``;
-    for (i = 0, n = mgc.created.length; i < n; ++i) {
-      html += mgc.created[i].html;
+    const popup = new Popup(`fa-eye`, `Results`);
+    const items = [];
+    for (const item of mgc.created) {
+      items.push(item.html);
     }
-    popup.scrollable.insertAdjacentHTML(`beforeEnd`, `
-      <div class="popup__keys__list">
-        ${html}
-      </div>
-    `);
-    let giveaways = await giveaways_get(popup.scrollable);
+    createElements(popup.scrollable, `beforeEnd`, [{
+      attributes: {
+        class: `popup__keys__list`
+      },
+      type: `div`,
+      children: items
+    }]);
+    const giveaways = await giveaways_get(popup.scrollable);
     if (esgst.mm) {
       const heading = insertHtml(popup.scrollable, `afterBegin`, `
         <div class="esgst-page-heading"></div>
@@ -17965,23 +18947,63 @@
       if (match) {
         let responseJson = JSON.parse((await request({data: `xsrf_token=${esgst.xsrfToken}&do=edit_giveaway_description&giveaway_id=${description.previousElementSibling.value}&description=${encodeURIComponent(description.value.replace(searchValue, replaceValue))}`, method: `POST`, url: `/ajax.php`})).responseText);
         if (responseJson.type === `success`) {
-          obj.context.firstElementChild.firstElementChild.insertAdjacentHTML(`beforeEnd`, `
-            <li>Found and replaced in <a href="${url}">${name}</a></li>
-          `);
+          createElements(obj.context.firstElementChild.firstElementChild, `beforeEnd`, [{
+            type: `li`,
+            children: [{
+              text: `Found and replaced in `,
+              type: `node`
+            }, {
+              attributes: {
+                href: url
+              },
+              text: name,
+              type: `a`
+            }]
+          }]);
         } else {
-          obj.context.firstElementChild.firstElementChild.insertAdjacentHTML(`beforeEnd`, `
-            <li>Found, but failed to replace, in <a href="${url}"
-          `);
+          createElements(obj.context.firstElementChild.firstElementChild, `beforeEnd`, [{
+            type: `li`,
+            children: [{
+              text: `Found, but failed to replace, in `,
+              type: `node`
+            }, {
+              attributes: {
+                href: url
+              },
+              text: name,
+              type: `a`
+            }]
+          }]);
         }
       } else {
-        obj.context.firstElementChild.firstElementChild.insertAdjacentHTML(`beforeEnd`, `
-          <li>Not found in <a href="${url}">${name}</a></li>
-        `);
+        createElements(obj.context.firstElementChild.firstElementChild, `beforeEnd`, [{
+          type: `li`,
+          children: [{
+            text: `Not found in `,
+            type: `node`
+          }, {
+            attributes: {
+              href: url
+            },
+            text: name,
+            type: `a`
+          }]
+        }]);
       }
     } else {
-      obj.context.firstElementChild.firstElementChild.insertAdjacentHTML(`beforeEnd`, `
-        <li>Not found in <a href="${url}">${name}</a></li>
-      `);
+      createElements(obj.context.firstElementChild.firstElementChild, `beforeEnd`, [{
+        type: `li`,
+        children: [{
+          text: `Not found in `,
+          type: `node`
+        }, {
+          attributes: {
+            href: url
+          },
+          text: name,
+          type: `a`
+        }]
+      }]);
     }
   }
 
@@ -18145,19 +19167,49 @@
   }
 
   async function mm_openTagPopup(obj, items, key) {
-    obj.tPopup = new Popup(`fa-tags`, `Tag <span>0</span> ${key}:`, true);
-    obj.tPopup.description.insertAdjacentHTML(`beforeEnd`, `
-      <div class="esgst-description">Drag the tags to move them.<br/><br/>When editing a tag color, it will also alter the color for all users/games with that tag (you have to refresh the page for it to take effect).<br/><br/>[*] means that there are tags that are not shared between all users/games. If you delete the [*] tag, those individual tags will be deleted.</div>
-    `);
+    obj.tPopup = new Popup(`fa-tags`, [{
+      text: `Tag `,
+      type: `node`
+    }, {
+      text: `0`,
+      type: `span`
+    }, {
+      text: ` ${key}:`,
+      type: `node`
+    }]);
+    createElements(obj.tPopup.description, `beforeEnd`, [{
+      attributes: {
+        class: `esgst-description`
+      },
+      type: `div`,
+      children: [{
+        text: `Drag the tags to move them.`,
+        type: `p`
+      }, {
+        type: `br`
+      }, {
+        text: `When editing a tag color, it will also alter the color for all users/games with that tag (you have to refresh the page for it to take effect).`,
+        type: `p`
+      }, {
+        type: `br`
+      }, {
+        text: `[*] means that there are tags that are not shared between all users/games. If you delete the [*] tag, those individual tags will be deleted.`,
+        type: `p`
+      }]
+    }]);
     obj.tPopup.tags = insertHtml(obj.tPopup.description, `beforeEnd`, `
       <div class="esgst-${key[0].toLowerCase()}t-tags"></div>
     `);
     obj.tPopup.input = insertHtml(obj.tPopup.description, `beforeEnd`, `
       <input type="text">
     `);
-    obj.tPopup.description.insertAdjacentHTML(`beforeEnd`, `
-      <div class="esgst-description">Use commas to separate tags, for example: Tag1, Tag2, ...</div>
-    `);
+    createElements(obj.tPopup.description, `beforeEnd`, [{
+      attributes: {
+        class: `esgst-description`
+      },
+      text: `Use commas to separate tags, for example: Tag1, Tag2, ...`,
+      type: `div`
+    }]);
     obj.tPopup.description.appendChild(new ButtonSet_v2({
       color1: `green`, color2: `grey`,
       icon1: `fa-check`, icon2: `fa-circle-o-notch fa-spin`,
@@ -19281,7 +20333,7 @@
       saveComment(esgst.sg ? `` : document.querySelector(`[name="trade_code"]`).value, ``, popup.textArea.value, esgst.sg ? location.href.match(/(.+?)(#.+?)?$/)[1] : `/ajax.php`, popup.progress,
         Callback);
     }).set);
-    popup.progress = insertHtml(popup.description, `beforeEnd`, `<div></div>`);
+    popup.progress = createElements(popup.description, `beforeEnd`, [{ type: `div` }]);
     button.addEventListener(`click`, popup.open.bind(popup, popup.textArea.focus.bind(popup.textArea)));
   }
 
@@ -19789,10 +20841,19 @@
         name: `Emojis`,
         setPopout: async popout => {
           let emojis, popup;
-          popout.popout.innerHTML = `
-            <div class="esgst-cfh-emojis">${await cfh_getEmojis()}</div>
-            <div class="form__saving-button btn_action white">Select Emojis</div>
-          `;
+          createElements(popout.popout, `inner`, [{
+            attributes: {
+              class: `esgst-cfh-emojis`
+            },
+            type: `div`,
+            children: await cfh_getEmojis()
+          }, {
+            attributes: {
+              class: `form__saving-button btn_action white`
+            },
+            text: `Select Emojis`,
+            type: `div`
+          }]);
           emojis = popout.popout.firstElementChild;
           draggable_set({context: emojis, id: `emojis`});
           cfh_setEmojis(emojis);
@@ -19808,30 +20869,41 @@
                 <input placeholder="Filter emojis..." type="text"/>
                 <div class="esgst-cfh-emojis"></div>
                 <div class="esgst-description">Simply click on an emoji above to add it to your selection. You can re-order emojis in your selection by dragging and dropping them. To remove an emoji from your selection, start dragging it and a trash area will appear, then drop it there.</div>
-                <div class="global__image-outer-wrap page_heading_btn esgst-cfh-emojis">${await cfh_getEmojis()}</div>
+                <div class="global__image-outer-wrap page_heading_btn esgst-cfh-emojis"></div>
               `).firstElementChild;
               emojis = filter.nextElementSibling;
               const savedEmojis = emojis.nextElementSibling.nextElementSibling;
+              createElements(savedEmojis, `inner`, await cfh_getEmojis());
               const obj = {
                 context: savedEmojis,
                 id: `emojid`
               };
               draggable_set(obj);
-              for (const emoji in esgst.cfhEmojis) {
-                emojis.insertAdjacentHTML(`beforeEnd`, `
-                  <span data-id="${encodeURIComponent(emoji)}" title="${esgst.cfhEmojis[emoji]}">${emoji}</span>
-                `);
+              for (const emojiData of esgst.cfhEmojis) {
+                createElements(emojis, `beforeEnd`, [{
+                  attributes: {
+                    [`data-id`]: emojiData.emoji,
+                    title: emojiData.name
+                  },
+                  text: emojiData.emoji,
+                  type: `span`
+                }]);
                 emojis.lastElementChild.addEventListener(`click`, event => {
-                  savedEmojis.insertAdjacentHTML(`beforeEnd`, `
-                    <span data-id="${encodeURIComponent(emoji)}" title="${esgst.cfhEmojis[emoji]}">${emoji}</span>
-                  `);
+                  createElements(savedEmojis, `beforeEnd`, [{
+                    attributes: {
+                      [`data-id`]: emojiData.emoji,
+                      title: emojiData.name
+                    },
+                    text: emojiData.emoji,
+                    type: `span`
+                  }]);
                   draggable_set(obj);
                 });
               }
               popup.onClose = () => {
                 const emojArr = [];
                 for (const element of savedEmojis.children) {
-                  emojArr.push(decodeURIComponent(element.getAttribute(`data-id`)));
+                  emojArr.push(element.getAttribute(`data-id`));
                 }
                 setValue(`emojis`, JSON.stringify(emojArr));
               };
@@ -19859,7 +20931,7 @@
         },
         callback: async popout => {
           let emojis = popout.firstElementChild;
-          emojis.innerHTML = await cfh_getEmojis();
+          createElements(emojis, `inner`, await cfh_getEmojis());
           draggable_set({context: emojis, id: `emojis`});
           cfh_setEmojis(emojis);
         }
@@ -19984,7 +21056,12 @@
       if (!item.id || esgst[item.id]) {
         let button = insertHtml(esgst.cfh.panel, `beforeEnd`, `<div title="${getFeatureTooltip(item.id || `cfh`, item.name)}"></div>`);
         item.icons.forEach(icon => {
-          button.insertAdjacentHTML(`beforeEnd`, `<i class="fa ${icon}"></i>`);
+          createElements(button, `beforeEnd`, [{
+            attributes: {
+              class: `fa ${icon}`
+            },
+            type: `i`
+          }]);
         });
         if (item.text) {
           button.insertAdjacentText(`beforeEnd`, item.text);
@@ -20017,11 +21094,19 @@
       }
     }
     if (esgst.cfh_cf) {
-      esgst.cfh.panel.insertAdjacentHTML(`beforeEnd`, `
-        <a href="/about/comment-formatting" title="${getFeatureTooltip(`cfh_cf`, `Comment Formatting`)}">
-          <i class="fa fa-question-circle"></i>
-        </a>
-      `);
+      createElements(esgst.cfh.panel, `beforeEnd`, [{
+        attributes: {
+          href: `/about/comment-formatting`,
+          title: getFeatureTooltip(`cfh_cf`, `Comment Formatting`)
+        },
+        type: `a`,
+        children: [{
+          attributes: {
+            class: `fa fa-question-circle`
+          },
+          type: `i`
+        }]
+      }]);
     }
     if (esgst.cfh_p && !esgst.cfh_p_a) {
       insertHtml(esgst.cfh.panel, `beforeEnd`, `
@@ -20037,2431 +21122,2439 @@
   }
 
   function cfh_emojis() {
-    return {
-      [`&#xAF&#x5C&#x5C&#x5C&#x5F&#x28&#x30C4&#x29&#x5F&#x2F&#xAF`]: ``,
-      [`&#x28&#x20&#x361&#xB0&#x20&#x35C&#x296&#x20&#x361&#xB0&#x29`]: ``,
-      [`&#x28&#x20&#x361&#x2299&#x20&#x35C&#x296&#x20&#x361&#x2299&#x29`]: ``,
-      [`&#x28&#x30CE&#xCA0&#x76CA&#xCA0&#x29&#x30CE`]: ``,
-      [`&#x28&#x256F&#xB0&#x25A1&#xB0&#xFF09&#x256F&#xFE35&#x20&#x253B&#x2501&#x253B`]: ``,
-      [`&#x252C&#x2500&#x252C&#x30CE&#x28&#x20&#xBA&#x20&#x5F&#x20&#xBA&#x30CE&#x29`]: ``,
-      [`&#x10DA&#x28&#xCA0&#x76CA&#xCA0&#x10DA&#x29`]: ``,
-      [`&#x28&#x25D5&#x203F&#x2D&#x29&#x270C`]: ``,
-      [`&#x28&#xFF61&#x25D5&#x203F&#x25D5&#xFF61&#x29`]: ``,
-      [`&#x28&#x25D1&#x203F&#x25D0&#x29`]: ``,
-      [`&#x25D4&#x5F&#x25D4`]: ``,
-      [`&#x28&#x2022&#x203F&#x2022&#x29`]: ``,
-      [`&#x28&#xCA0&#x5F&#xCA0&#x29`]: ``,
-      [`&#x28&#xAC&#xFF64&#xAC&#x29`]: ``,
-      [`&#x28&#x2500&#x203F&#x203F&#x2500&#x29`]: ``,
-      [`&#x28&#xCA5&#xFE4F&#xCA5&#x29`]: ``,
-      [`&#x28&#xCA5&#x2038&#xCA5&#x29`]: ``,
-      [`&#x28&#x2310&#x25A0&#x5F&#x25A0&#x29`]: ``,
-      [`&#x28&#x25B0&#x2D8&#x25E1&#x2D8&#x25B0&#x29`]: ``,
-      [`&#x4E41&#x28&#x20&#x25D4&#x20&#xC6A&#x25D4&#x29&#x310F`]: ``,
-      [`&#x28&#xE07&#x20&#x360&#xB0&#x20&#x35F&#x296&#x20&#x361&#xB0&#x29&#xE07`]: ``,
-      [`&#x3B6&#xF3C&#x19F&#x346&#x644&#x35C&#x19F&#x346&#xF3D&#x1D98`]: ``,
-      [`&#x295&#x2022&#x1D25&#x2022&#x294`]: ``,
-      [`&#x28&#x20&#x35D&#xB0&#x20&#x35C&#x296&#x361&#xB0&#x29`]: ``,
-      [`&#x28&#x2F&#xFF9F&#x414&#xFF9F&#x29&#x2F`]: ``,
-      [`&#xB67&#xF3C&#xCA0&#x76CA&#xCA0&#xF3D&#xB68`]: ``,
-      [`&#x28&#xE07&#x20&#x2022&#x300&#x5F&#x2022&#x301&#x29&#xE07`]: ``,
-      [`&#x1F600`]: `Grinning Face`,
-      [`&#x1F601`]: `Grinning Face With Smiling Eyes`,
-      [`&#x1F602`]: `Face With Tears Of Joy`,
-      [`&#x1F923`]: `Rolling On The Floor Laughing`,
-      [`&#x1F603`]: `Smiling Face With Open Mouth`,
-      [`&#x1F604`]: `Smiling Face With Open Mouth & Smiling Eyes`,
-      [`&#x1F605`]: `Smiling Face With Open Mouth & Cold Sweat`,
-      [`&#x1F606`]: `Smiling Face With Open Mouth & Closed Eyes`,
-      [`&#x1F609`]: `Winking Face`,
-      [`&#x1F60A`]: `Smiling Face With Smiling Eyes`,
-      [`&#x1F60B`]: `Face Savouring Delicious Food`,
-      [`&#x1F60E`]: `Smiling Face With Sunglasses`,
-      [`&#x1F60D`]: `Smiling Face With Heart-Eyes`,
-      [`&#x1F618`]: `Face Blowing A Kiss`,
-      [`&#x1F617`]: `Kissing Face`,
-      [`&#x1F619`]: `Kissing Face With Smiling Eyes`,
-      [`&#x1F61A`]: `Kissing Face With Closed Eyes`,
-      [`&#x263A`]: `Smiling Face`,
-      [`&#x1F642`]: `Slightly Smiling Face`,
-      [`&#x1F917`]: `Hugging Face`,
-      [`&#x1F914`]: `Thinking Face`,
-      [`&#x1F610`]: `Neutral Face`,
-      [`&#x1F611`]: `Expressionless Face`,
-      [`&#x1F636`]: `Face Without Mouth`,
-      [`&#x1F644`]: `Face With Rolling Eyes`,
-      [`&#x1F60F`]: `Smirking Face`,
-      [`&#x1F623`]: `Persevering Face`,
-      [`&#x1F625`]: `Disappointed But Relieved Face`,
-      [`&#x1F62E`]: `Face With Open Mouth`,
-      [`&#x1F910`]: `Zipper-Mouth Face`,
-      [`&#x1F62F`]: `Hushed Face`,
-      [`&#x1F62A`]: `Sleepy Face`,
-      [`&#x1F62B`]: `Tired Face`,
-      [`&#x1F634`]: `Sleeping Face`,
-      [`&#x1F60C`]: `Relieved Face`,
-      [`&#x1F913`]: `Nerd Face`,
-      [`&#x1F61B`]: `Face With Stuck-Out Tongue`,
-      [`&#x1F61C`]: `Face With Stuck-Out Tongue & Winking Eye`,
-      [`&#x1F61D`]: `Face With Stuck-Out Tongue & Closed Eyes`,
-      [`&#x1F924`]: `Drooling Face`,
-      [`&#x1F612`]: `Unamused Face`,
-      [`&#x1F613`]: `Face With Cold Sweat`,
-      [`&#x1F614`]: `Pensive Face`,
-      [`&#x1F615`]: `Confused Face`,
-      [`&#x1F643`]: `Upside-Down Face`,
-      [`&#x1F911`]: `Money-Mouth Face`,
-      [`&#x1F632`]: `Astonished Face`,
-      [`&#x2639`]: `Frowning Face`,
-      [`&#x1F641`]: `Slightly Frowning Face`,
-      [`&#x1F616`]: `Confounded Face`,
-      [`&#x1F61E`]: `Disappointed Face`,
-      [`&#x1F61F`]: `Worried Face`,
-      [`&#x1F624`]: `Face With Steam From Nose`,
-      [`&#x1F622`]: `Crying Face`,
-      [`&#x1F62D`]: `Loudly Crying Face`,
-      [`&#x1F626`]: `Frowning Face With Open Mouth`,
-      [`&#x1F627`]: `Anguished Face`,
-      [`&#x1F628`]: `Fearful Face`,
-      [`&#x1F629`]: `Weary Face`,
-      [`&#x1F62C`]: `Grimacing Face`,
-      [`&#x1F630`]: `Face With Open Mouth & Cold Sweat`,
-      [`&#x1F631`]: `Face Screaming In Fear`,
-      [`&#x1F633`]: `Flushed Face`,
-      [`&#x1F635`]: `Dizzy Face`,
-      [`&#x1F621`]: `Pouting Face`,
-      [`&#x1F620`]: `Angry Face`,
-      [`&#x1F607`]: `Smiling Face With Halo`,
-      [`&#x1F920`]: `Cowboy Hat Face`,
-      [`&#x1F921`]: `Clown Face`,
-      [`&#x1F925`]: `Lying Face`,
-      [`&#x1F637`]: `Face With Medical Mask`,
-      [`&#x1F912`]: `Face With Thermometer`,
-      [`&#x1F915`]: `Face With Head-Bandage`,
-      [`&#x1F922`]: `Nauseated Face`,
-      [`&#x1F927`]: `Sneezing Face`,
-      [`&#x1F608`]: `Smiling Face With Horns`,
-      [`&#x1F47F`]: `Angry Face With Horns`,
-      [`&#x1F479`]: `Ogre`,
-      [`&#x1F47A`]: `Goblin`,
-      [`&#x1F480`]: `Skull`,
-      [`&#x2620`]: `Skull And Crossbones`,
-      [`&#x1F47B`]: `Ghost`,
-      [`&#x1F47D`]: `Alien`,
-      [`&#x1F47E`]: `Alien Monster`,
-      [`&#x1F916`]: `Robot Face`,
-      [`&#x1F4A9`]: `Pile Of Poo`,
-      [`&#x1F63A`]: `Smiling Cat Face With Open Mouth`,
-      [`&#x1F638`]: `Grinning Cat Face With Smiling Eyes`,
-      [`&#x1F639`]: `Cat Face With Tears Of Joy`,
-      [`&#x1F63B`]: `Smiling Cat Face With Heart-Eyes`,
-      [`&#x1F63C`]: `Cat Face With Wry Smile`,
-      [`&#x1F63D`]: `Kissing Cat Face With Closed Eyes`,
-      [`&#x1F640`]: `Weary Cat Face`,
-      [`&#x1F63F`]: `Crying Cat Face`,
-      [`&#x1F63E`]: `Pouting Cat Face`,
-      [`&#x1F648`]: `See-No-Evil Monkey`,
-      [`&#x1F649`]: `Hear-No-Evil Monkey`,
-      [`&#x1F64A`]: `Speak-No-Evil Monkey`,
-      [`&#x1F466`]: `Boy`,
-      [`&#x1F466&#x1F3FB`]: `Boy: Light Skin Tone`,
-      [`&#x1F466&#x1F3FC`]: `Boy: Medium-Light Skin Tone`,
-      [`&#x1F466&#x1F3FD`]: `Boy: Medium Skin Tone`,
-      [`&#x1F466&#x1F3FE`]: `Boy: Medium-Dark Skin Tone`,
-      [`&#x1F466&#x1F3FF`]: `Boy: Dark Skin Tone`,
-      [`&#x1F467`]: `Girl`,
-      [`&#x1F467&#x1F3FB`]: `Girl: Light Skin Tone`,
-      [`&#x1F467&#x1F3FC`]: `Girl: Medium-Light Skin Tone`,
-      [`&#x1F467&#x1F3FD`]: `Girl: Medium Skin Tone`,
-      [`&#x1F467&#x1F3FE`]: `Girl: Medium-Dark Skin Tone`,
-      [`&#x1F467&#x1F3FF`]: `Girl: Dark Skin Tone`,
-      [`&#x1F468`]: `Man`,
-      [`&#x1F468&#x1F3FB`]: `Man: Light Skin Tone`,
-      [`&#x1F468&#x1F3FC`]: `Man: Medium-Light Skin Tone`,
-      [`&#x1F468&#x1F3FD`]: `Man: Medium Skin Tone`,
-      [`&#x1F468&#x1F3FE`]: `Man: Medium-Dark Skin Tone`,
-      [`&#x1F468&#x1F3FF`]: `Man: Dark Skin Tone`,
-      [`&#x1F469`]: `Woman`,
-      [`&#x1F469&#x1F3FB`]: `Woman: Light Skin Tone`,
-      [`&#x1F469&#x1F3FC`]: `Woman: Medium-Light Skin Tone`,
-      [`&#x1F469&#x1F3FD`]: `Woman: Medium Skin Tone`,
-      [`&#x1F469&#x1F3FE`]: `Woman: Medium-Dark Skin Tone`,
-      [`&#x1F469&#x1F3FF`]: `Woman: Dark Skin Tone`,
-      [`&#x1F474`]: `Old Man`,
-      [`&#x1F474&#x1F3FB`]: `Old Man: Light Skin Tone`,
-      [`&#x1F474&#x1F3FC`]: `Old Man: Medium-Light Skin Tone`,
-      [`&#x1F474&#x1F3FD`]: `Old Man: Medium Skin Tone`,
-      [`&#x1F474&#x1F3FE`]: `Old Man: Medium-Dark Skin Tone`,
-      [`&#x1F474&#x1F3FF`]: `Old Man: Dark Skin Tone`,
-      [`&#x1F475`]: `Old Woman`,
-      [`&#x1F475&#x1F3FB`]: `Old Woman: Light Skin Tone`,
-      [`&#x1F475&#x1F3FC`]: `Old Woman: Medium-Light Skin Tone`,
-      [`&#x1F475&#x1F3FD`]: `Old Woman: Medium Skin Tone`,
-      [`&#x1F475&#x1F3FE`]: `Old Woman: Medium-Dark Skin Tone`,
-      [`&#x1F475&#x1F3FF`]: `Old Woman: Dark Skin Tone`,
-      [`&#x1F476`]: `Baby`,
-      [`&#x1F476&#x1F3FB`]: `Baby: Light Skin Tone`,
-      [`&#x1F476&#x1F3FC`]: `Baby: Medium-Light Skin Tone`,
-      [`&#x1F476&#x1F3FD`]: `Baby: Medium Skin Tone`,
-      [`&#x1F476&#x1F3FE`]: `Baby: Medium-Dark Skin Tone`,
-      [`&#x1F476&#x1F3FF`]: `Baby: Dark Skin Tone`,
-      [`&#x1F47C`]: `Baby Angel`,
-      [`&#x1F47C&#x1F3FB`]: `Baby Angel: Light Skin Tone`,
-      [`&#x1F47C&#x1F3FC`]: `Baby Angel: Medium-Light Skin Tone`,
-      [`&#x1F47C&#x1F3FD`]: `Baby Angel: Medium Skin Tone`,
-      [`&#x1F47C&#x1F3FE`]: `Baby Angel: Medium-Dark Skin Tone`,
-      [`&#x1F47C&#x1F3FF`]: `Baby Angel: Dark Skin Tone`,
-      [`&#x1F468&#x200D&#x2695&#xFE0F`]: `Man Health Worker`,
-      [`&#x1F468&#x1F3FB&#x200D&#x2695&#xFE0F`]: `Man Health Worker: Light Skin Tone`,
-      [`&#x1F468&#x1F3FC&#x200D&#x2695&#xFE0F`]: `Man Health Worker: Medium-Light Skin Tone`,
-      [`&#x1F468&#x1F3FD&#x200D&#x2695&#xFE0F`]: `Man Health Worker: Medium Skin Tone`,
-      [`&#x1F468&#x1F3FE&#x200D&#x2695&#xFE0F`]: `Man Health Worker: Medium-Dark Skin Tone`,
-      [`&#x1F468&#x1F3FF&#x200D&#x2695&#xFE0F`]: `Man Health Worker: Dark Skin Tone`,
-      [`&#x1F469&#x200D&#x2695&#xFE0F`]: `Woman Health Worker`,
-      [`&#x1F469&#x1F3FB&#x200D&#x2695&#xFE0F`]: `Woman Health Worker: Light Skin Tone`,
-      [`&#x1F469&#x1F3FC&#x200D&#x2695&#xFE0F`]: `Woman Health Worker: Medium-Light Skin Tone`,
-      [`&#x1F469&#x1F3FD&#x200D&#x2695&#xFE0F`]: `Woman Health Worker: Medium Skin Tone`,
-      [`&#x1F469&#x1F3FE&#x200D&#x2695&#xFE0F`]: `Woman Health Worker: Medium-Dark Skin Tone`,
-      [`&#x1F469&#x1F3FF&#x200D&#x2695&#xFE0F`]: `Woman Health Worker: Dark Skin Tone`,
-      [`&#x1F468&#x200D&#x1F393`]: `Man Student`,
-      [`&#x1F468&#x1F3FB&#x200D&#x1F393`]: `Man Student: Light Skin Tone`,
-      [`&#x1F468&#x1F3FC&#x200D&#x1F393`]: `Man Student: Medium-Light Skin Tone`,
-      [`&#x1F468&#x1F3FD&#x200D&#x1F393`]: `Man Student: Medium Skin Tone`,
-      [`&#x1F468&#x1F3FE&#x200D&#x1F393`]: `Man Student: Medium-Dark Skin Tone`,
-      [`&#x1F468&#x1F3FF&#x200D&#x1F393`]: `Man Student: Dark Skin Tone`,
-      [`&#x1F469&#x200D&#x1F393`]: `Woman Student`,
-      [`&#x1F469&#x1F3FB&#x200D&#x1F393`]: `Woman Student: Light Skin Tone`,
-      [`&#x1F469&#x1F3FC&#x200D&#x1F393`]: `Woman Student: Medium-Light Skin Tone`,
-      [`&#x1F469&#x1F3FD&#x200D&#x1F393`]: `Woman Student: Medium Skin Tone`,
-      [`&#x1F469&#x1F3FE&#x200D&#x1F393`]: `Woman Student: Medium-Dark Skin Tone`,
-      [`&#x1F469&#x1F3FF&#x200D&#x1F393`]: `Woman Student: Dark Skin Tone`,
-      [`&#x1F468&#x200D&#x1F3EB`]: `Man Teacher`,
-      [`&#x1F468&#x1F3FB&#x200D&#x1F3EB`]: `Man Teacher: Light Skin Tone`,
-      [`&#x1F468&#x1F3FC&#x200D&#x1F3EB`]: `Man Teacher: Medium-Light Skin Tone`,
-      [`&#x1F468&#x1F3FD&#x200D&#x1F3EB`]: `Man Teacher: Medium Skin Tone`,
-      [`&#x1F468&#x1F3FE&#x200D&#x1F3EB`]: `Man Teacher: Medium-Dark Skin Tone`,
-      [`&#x1F468&#x1F3FF&#x200D&#x1F3EB`]: `Man Teacher: Dark Skin Tone`,
-      [`&#x1F469&#x200D&#x1F3EB`]: `Woman Teacher`,
-      [`&#x1F469&#x1F3FB&#x200D&#x1F3EB`]: `Woman Teacher: Light Skin Tone`,
-      [`&#x1F469&#x1F3FC&#x200D&#x1F3EB`]: `Woman Teacher: Medium-Light Skin Tone`,
-      [`&#x1F469&#x1F3FD&#x200D&#x1F3EB`]: `Woman Teacher: Medium Skin Tone`,
-      [`&#x1F469&#x1F3FE&#x200D&#x1F3EB`]: `Woman Teacher: Medium-Dark Skin Tone`,
-      [`&#x1F469&#x1F3FF&#x200D&#x1F3EB`]: `Woman Teacher: Dark Skin Tone`,
-      [`&#x1F468&#x200D&#x2696&#xFE0F`]: `Man Judge`,
-      [`&#x1F468&#x1F3FB&#x200D&#x2696&#xFE0F`]: `Man Judge: Light Skin Tone`,
-      [`&#x1F468&#x1F3FC&#x200D&#x2696&#xFE0F`]: `Man Judge: Medium-Light Skin Tone`,
-      [`&#x1F468&#x1F3FD&#x200D&#x2696&#xFE0F`]: `Man Judge: Medium Skin Tone`,
-      [`&#x1F468&#x1F3FE&#x200D&#x2696&#xFE0F`]: `Man Judge: Medium-Dark Skin Tone`,
-      [`&#x1F468&#x1F3FF&#x200D&#x2696&#xFE0F`]: `Man Judge: Dark Skin Tone`,
-      [`&#x1F469&#x200D&#x2696&#xFE0F`]: `Woman Judge`,
-      [`&#x1F469&#x1F3FB&#x200D&#x2696&#xFE0F`]: `Woman Judge: Light Skin Tone`,
-      [`&#x1F469&#x1F3FC&#x200D&#x2696&#xFE0F`]: `Woman Judge: Medium-Light Skin Tone`,
-      [`&#x1F469&#x1F3FD&#x200D&#x2696&#xFE0F`]: `Woman Judge: Medium Skin Tone`,
-      [`&#x1F469&#x1F3FE&#x200D&#x2696&#xFE0F`]: `Woman Judge: Medium-Dark Skin Tone`,
-      [`&#x1F469&#x1F3FF&#x200D&#x2696&#xFE0F`]: `Woman Judge: Dark Skin Tone`,
-      [`&#x1F468&#x200D&#x1F33E`]: `Man Farmer`,
-      [`&#x1F468&#x1F3FB&#x200D&#x1F33E`]: `Man Farmer: Light Skin Tone`,
-      [`&#x1F468&#x1F3FC&#x200D&#x1F33E`]: `Man Farmer: Medium-Light Skin Tone`,
-      [`&#x1F468&#x1F3FD&#x200D&#x1F33E`]: `Man Farmer: Medium Skin Tone`,
-      [`&#x1F468&#x1F3FE&#x200D&#x1F33E`]: `Man Farmer: Medium-Dark Skin Tone`,
-      [`&#x1F468&#x1F3FF&#x200D&#x1F33E`]: `Man Farmer: Dark Skin Tone`,
-      [`&#x1F469&#x200D&#x1F33E`]: `Woman Farmer`,
-      [`&#x1F469&#x1F3FB&#x200D&#x1F33E`]: `Woman Farmer: Light Skin Tone`,
-      [`&#x1F469&#x1F3FC&#x200D&#x1F33E`]: `Woman Farmer: Medium-Light Skin Tone`,
-      [`&#x1F469&#x1F3FD&#x200D&#x1F33E`]: `Woman Farmer: Medium Skin Tone`,
-      [`&#x1F469&#x1F3FE&#x200D&#x1F33E`]: `Woman Farmer: Medium-Dark Skin Tone`,
-      [`&#x1F469&#x1F3FF&#x200D&#x1F33E`]: `Woman Farmer: Dark Skin Tone`,
-      [`&#x1F468&#x200D&#x1F373`]: `Man Cook`,
-      [`&#x1F468&#x1F3FB&#x200D&#x1F373`]: `Man Cook: Light Skin Tone`,
-      [`&#x1F468&#x1F3FC&#x200D&#x1F373`]: `Man Cook: Medium-Light Skin Tone`,
-      [`&#x1F468&#x1F3FD&#x200D&#x1F373`]: `Man Cook: Medium Skin Tone`,
-      [`&#x1F468&#x1F3FE&#x200D&#x1F373`]: `Man Cook: Medium-Dark Skin Tone`,
-      [`&#x1F468&#x1F3FF&#x200D&#x1F373`]: `Man Cook: Dark Skin Tone`,
-      [`&#x1F469&#x200D&#x1F373`]: `Woman Cook`,
-      [`&#x1F469&#x1F3FB&#x200D&#x1F373`]: `Woman Cook: Light Skin Tone`,
-      [`&#x1F469&#x1F3FC&#x200D&#x1F373`]: `Woman Cook: Medium-Light Skin Tone`,
-      [`&#x1F469&#x1F3FD&#x200D&#x1F373`]: `Woman Cook: Medium Skin Tone`,
-      [`&#x1F469&#x1F3FE&#x200D&#x1F373`]: `Woman Cook: Medium-Dark Skin Tone`,
-      [`&#x1F469&#x1F3FF&#x200D&#x1F373`]: `Woman Cook: Dark Skin Tone`,
-      [`&#x1F468&#x200D&#x1F527`]: `Man Mechanic`,
-      [`&#x1F468&#x1F3FB&#x200D&#x1F527`]: `Man Mechanic: Light Skin Tone`,
-      [`&#x1F468&#x1F3FC&#x200D&#x1F527`]: `Man Mechanic: Medium-Light Skin Tone`,
-      [`&#x1F468&#x1F3FD&#x200D&#x1F527`]: `Man Mechanic: Medium Skin Tone`,
-      [`&#x1F468&#x1F3FE&#x200D&#x1F527`]: `Man Mechanic: Medium-Dark Skin Tone`,
-      [`&#x1F468&#x1F3FF&#x200D&#x1F527`]: `Man Mechanic: Dark Skin Tone`,
-      [`&#x1F469&#x200D&#x1F527`]: `Woman Mechanic`,
-      [`&#x1F469&#x1F3FB&#x200D&#x1F527`]: `Woman Mechanic: Light Skin Tone`,
-      [`&#x1F469&#x1F3FC&#x200D&#x1F527`]: `Woman Mechanic: Medium-Light Skin Tone`,
-      [`&#x1F469&#x1F3FD&#x200D&#x1F527`]: `Woman Mechanic: Medium Skin Tone`,
-      [`&#x1F469&#x1F3FE&#x200D&#x1F527`]: `Woman Mechanic: Medium-Dark Skin Tone`,
-      [`&#x1F469&#x1F3FF&#x200D&#x1F527`]: `Woman Mechanic: Dark Skin Tone`,
-      [`&#x1F468&#x200D&#x1F3ED`]: `Man Factory Worker`,
-      [`&#x1F468&#x1F3FB&#x200D&#x1F3ED`]: `Man Factory Worker: Light Skin Tone`,
-      [`&#x1F468&#x1F3FC&#x200D&#x1F3ED`]: `Man Factory Worker: Medium-Light Skin Tone`,
-      [`&#x1F468&#x1F3FD&#x200D&#x1F3ED`]: `Man Factory Worker: Medium Skin Tone`,
-      [`&#x1F468&#x1F3FE&#x200D&#x1F3ED`]: `Man Factory Worker: Medium-Dark Skin Tone`,
-      [`&#x1F468&#x1F3FF&#x200D&#x1F3ED`]: `Man Factory Worker: Dark Skin Tone`,
-      [`&#x1F469&#x200D&#x1F3ED`]: `Woman Factory Worker`,
-      [`&#x1F469&#x1F3FB&#x200D&#x1F3ED`]: `Woman Factory Worker: Light Skin Tone`,
-      [`&#x1F469&#x1F3FC&#x200D&#x1F3ED`]: `Woman Factory Worker: Medium-Light Skin Tone`,
-      [`&#x1F469&#x1F3FD&#x200D&#x1F3ED`]: `Woman Factory Worker: Medium Skin Tone`,
-      [`&#x1F469&#x1F3FE&#x200D&#x1F3ED`]: `Woman Factory Worker: Medium-Dark Skin Tone`,
-      [`&#x1F469&#x1F3FF&#x200D&#x1F3ED`]: `Woman Factory Worker: Dark Skin Tone`,
-      [`&#x1F468&#x200D&#x1F4BC`]: `Man Office Worker`,
-      [`&#x1F468&#x1F3FB&#x200D&#x1F4BC`]: `Man Office Worker: Light Skin Tone`,
-      [`&#x1F468&#x1F3FC&#x200D&#x1F4BC`]: `Man Office Worker: Medium-Light Skin Tone`,
-      [`&#x1F468&#x1F3FD&#x200D&#x1F4BC`]: `Man Office Worker: Medium Skin Tone`,
-      [`&#x1F468&#x1F3FE&#x200D&#x1F4BC`]: `Man Office Worker: Medium-Dark Skin Tone`,
-      [`&#x1F468&#x1F3FF&#x200D&#x1F4BC`]: `Man Office Worker: Dark Skin Tone`,
-      [`&#x1F469&#x200D&#x1F4BC`]: `Woman Office Worker`,
-      [`&#x1F469&#x1F3FB&#x200D&#x1F4BC`]: `Woman Office Worker: Light Skin Tone`,
-      [`&#x1F469&#x1F3FC&#x200D&#x1F4BC`]: `Woman Office Worker: Medium-Light Skin Tone`,
-      [`&#x1F469&#x1F3FD&#x200D&#x1F4BC`]: `Woman Office Worker: Medium Skin Tone`,
-      [`&#x1F469&#x1F3FE&#x200D&#x1F4BC`]: `Woman Office Worker: Medium-Dark Skin Tone`,
-      [`&#x1F469&#x1F3FF&#x200D&#x1F4BC`]: `Woman Office Worker: Dark Skin Tone`,
-      [`&#x1F468&#x200D&#x1F52C`]: `Man Scientist`,
-      [`&#x1F468&#x1F3FB&#x200D&#x1F52C`]: `Man Scientist: Light Skin Tone`,
-      [`&#x1F468&#x1F3FC&#x200D&#x1F52C`]: `Man Scientist: Medium-Light Skin Tone`,
-      [`&#x1F468&#x1F3FD&#x200D&#x1F52C`]: `Man Scientist: Medium Skin Tone`,
-      [`&#x1F468&#x1F3FE&#x200D&#x1F52C`]: `Man Scientist: Medium-Dark Skin Tone`,
-      [`&#x1F468&#x1F3FF&#x200D&#x1F52C`]: `Man Scientist: Dark Skin Tone`,
-      [`&#x1F469&#x200D&#x1F52C`]: `Woman Scientist`,
-      [`&#x1F469&#x1F3FB&#x200D&#x1F52C`]: `Woman Scientist: Light Skin Tone`,
-      [`&#x1F469&#x1F3FC&#x200D&#x1F52C`]: `Woman Scientist: Medium-Light Skin Tone`,
-      [`&#x1F469&#x1F3FD&#x200D&#x1F52C`]: `Woman Scientist: Medium Skin Tone`,
-      [`&#x1F469&#x1F3FE&#x200D&#x1F52C`]: `Woman Scientist: Medium-Dark Skin Tone`,
-      [`&#x1F469&#x1F3FF&#x200D&#x1F52C`]: `Woman Scientist: Dark Skin Tone`,
-      [`&#x1F468&#x200D&#x1F4BB`]: `Man Technologist`,
-      [`&#x1F468&#x1F3FB&#x200D&#x1F4BB`]: `Man Technologist: Light Skin Tone`,
-      [`&#x1F468&#x1F3FC&#x200D&#x1F4BB`]: `Man Technologist: Medium-Light Skin Tone`,
-      [`&#x1F468&#x1F3FD&#x200D&#x1F4BB`]: `Man Technologist: Medium Skin Tone`,
-      [`&#x1F468&#x1F3FE&#x200D&#x1F4BB`]: `Man Technologist: Medium-Dark Skin Tone`,
-      [`&#x1F468&#x1F3FF&#x200D&#x1F4BB`]: `Man Technologist: Dark Skin Tone`,
-      [`&#x1F469&#x200D&#x1F4BB`]: `Woman Technologist`,
-      [`&#x1F469&#x1F3FB&#x200D&#x1F4BB`]: `Woman Technologist: Light Skin Tone`,
-      [`&#x1F469&#x1F3FC&#x200D&#x1F4BB`]: `Woman Technologist: Medium-Light Skin Tone`,
-      [`&#x1F469&#x1F3FD&#x200D&#x1F4BB`]: `Woman Technologist: Medium Skin Tone`,
-      [`&#x1F469&#x1F3FE&#x200D&#x1F4BB`]: `Woman Technologist: Medium-Dark Skin Tone`,
-      [`&#x1F469&#x1F3FF&#x200D&#x1F4BB`]: `Woman Technologist: Dark Skin Tone`,
-      [`&#x1F468&#x200D&#x1F3A4`]: `Man Singer`,
-      [`&#x1F468&#x1F3FB&#x200D&#x1F3A4`]: `Man Singer: Light Skin Tone`,
-      [`&#x1F468&#x1F3FC&#x200D&#x1F3A4`]: `Man Singer: Medium-Light Skin Tone`,
-      [`&#x1F468&#x1F3FD&#x200D&#x1F3A4`]: `Man Singer: Medium Skin Tone`,
-      [`&#x1F468&#x1F3FE&#x200D&#x1F3A4`]: `Man Singer: Medium-Dark Skin Tone`,
-      [`&#x1F468&#x1F3FF&#x200D&#x1F3A4`]: `Man Singer: Dark Skin Tone`,
-      [`&#x1F469&#x200D&#x1F3A4`]: `Woman Singer`,
-      [`&#x1F469&#x1F3FB&#x200D&#x1F3A4`]: `Woman Singer: Light Skin Tone`,
-      [`&#x1F469&#x1F3FC&#x200D&#x1F3A4`]: `Woman Singer: Medium-Light Skin Tone`,
-      [`&#x1F469&#x1F3FD&#x200D&#x1F3A4`]: `Woman Singer: Medium Skin Tone`,
-      [`&#x1F469&#x1F3FE&#x200D&#x1F3A4`]: `Woman Singer: Medium-Dark Skin Tone`,
-      [`&#x1F469&#x1F3FF&#x200D&#x1F3A4`]: `Woman Singer: Dark Skin Tone`,
-      [`&#x1F468&#x200D&#x1F3A8`]: `Man Artist`,
-      [`&#x1F468&#x1F3FB&#x200D&#x1F3A8`]: `Man Artist: Light Skin Tone`,
-      [`&#x1F468&#x1F3FC&#x200D&#x1F3A8`]: `Man Artist: Medium-Light Skin Tone`,
-      [`&#x1F468&#x1F3FD&#x200D&#x1F3A8`]: `Man Artist: Medium Skin Tone`,
-      [`&#x1F468&#x1F3FE&#x200D&#x1F3A8`]: `Man Artist: Medium-Dark Skin Tone`,
-      [`&#x1F468&#x1F3FF&#x200D&#x1F3A8`]: `Man Artist: Dark Skin Tone`,
-      [`&#x1F469&#x200D&#x1F3A8`]: `Woman Artist`,
-      [`&#x1F469&#x1F3FB&#x200D&#x1F3A8`]: `Woman Artist: Light Skin Tone`,
-      [`&#x1F469&#x1F3FC&#x200D&#x1F3A8`]: `Woman Artist: Medium-Light Skin Tone`,
-      [`&#x1F469&#x1F3FD&#x200D&#x1F3A8`]: `Woman Artist: Medium Skin Tone`,
-      [`&#x1F469&#x1F3FE&#x200D&#x1F3A8`]: `Woman Artist: Medium-Dark Skin Tone`,
-      [`&#x1F469&#x1F3FF&#x200D&#x1F3A8`]: `Woman Artist: Dark Skin Tone`,
-      [`&#x1F468&#x200D&#x2708&#xFE0F`]: `Man Pilot`,
-      [`&#x1F468&#x1F3FB&#x200D&#x2708&#xFE0F`]: `Man Pilot: Light Skin Tone`,
-      [`&#x1F468&#x1F3FC&#x200D&#x2708&#xFE0F`]: `Man Pilot: Medium-Light Skin Tone`,
-      [`&#x1F468&#x1F3FD&#x200D&#x2708&#xFE0F`]: `Man Pilot: Medium Skin Tone`,
-      [`&#x1F468&#x1F3FE&#x200D&#x2708&#xFE0F`]: `Man Pilot: Medium-Dark Skin Tone`,
-      [`&#x1F468&#x1F3FF&#x200D&#x2708&#xFE0F`]: `Man Pilot: Dark Skin Tone`,
-      [`&#x1F469&#x200D&#x2708&#xFE0F`]: `Woman Pilot`,
-      [`&#x1F469&#x1F3FB&#x200D&#x2708&#xFE0F`]: `Woman Pilot: Light Skin Tone`,
-      [`&#x1F469&#x1F3FC&#x200D&#x2708&#xFE0F`]: `Woman Pilot: Medium-Light Skin Tone`,
-      [`&#x1F469&#x1F3FD&#x200D&#x2708&#xFE0F`]: `Woman Pilot: Medium Skin Tone`,
-      [`&#x1F469&#x1F3FE&#x200D&#x2708&#xFE0F`]: `Woman Pilot: Medium-Dark Skin Tone`,
-      [`&#x1F469&#x1F3FF&#x200D&#x2708&#xFE0F`]: `Woman Pilot: Dark Skin Tone`,
-      [`&#x1F468&#x200D&#x1F680`]: `Man Astronaut`,
-      [`&#x1F468&#x1F3FB&#x200D&#x1F680`]: `Man Astronaut: Light Skin Tone`,
-      [`&#x1F468&#x1F3FC&#x200D&#x1F680`]: `Man Astronaut: Medium-Light Skin Tone`,
-      [`&#x1F468&#x1F3FD&#x200D&#x1F680`]: `Man Astronaut: Medium Skin Tone`,
-      [`&#x1F468&#x1F3FE&#x200D&#x1F680`]: `Man Astronaut: Medium-Dark Skin Tone`,
-      [`&#x1F468&#x1F3FF&#x200D&#x1F680`]: `Man Astronaut: Dark Skin Tone`,
-      [`&#x1F469&#x200D&#x1F680`]: `Woman Astronaut`,
-      [`&#x1F469&#x1F3FB&#x200D&#x1F680`]: `Woman Astronaut: Light Skin Tone`,
-      [`&#x1F469&#x1F3FC&#x200D&#x1F680`]: `Woman Astronaut: Medium-Light Skin Tone`,
-      [`&#x1F469&#x1F3FD&#x200D&#x1F680`]: `Woman Astronaut: Medium Skin Tone`,
-      [`&#x1F469&#x1F3FE&#x200D&#x1F680`]: `Woman Astronaut: Medium-Dark Skin Tone`,
-      [`&#x1F469&#x1F3FF&#x200D&#x1F680`]: `Woman Astronaut: Dark Skin Tone`,
-      [`&#x1F468&#x200D&#x1F692`]: `Man Firefighter`,
-      [`&#x1F468&#x1F3FB&#x200D&#x1F692`]: `Man Firefighter: Light Skin Tone`,
-      [`&#x1F468&#x1F3FC&#x200D&#x1F692`]: `Man Firefighter: Medium-Light Skin Tone`,
-      [`&#x1F468&#x1F3FD&#x200D&#x1F692`]: `Man Firefighter: Medium Skin Tone`,
-      [`&#x1F468&#x1F3FE&#x200D&#x1F692`]: `Man Firefighter: Medium-Dark Skin Tone`,
-      [`&#x1F468&#x1F3FF&#x200D&#x1F692`]: `Man Firefighter: Dark Skin Tone`,
-      [`&#x1F469&#x200D&#x1F692`]: `Woman Firefighter`,
-      [`&#x1F469&#x1F3FB&#x200D&#x1F692`]: `Woman Firefighter: Light Skin Tone`,
-      [`&#x1F469&#x1F3FC&#x200D&#x1F692`]: `Woman Firefighter: Medium-Light Skin Tone`,
-      [`&#x1F469&#x1F3FD&#x200D&#x1F692`]: `Woman Firefighter: Medium Skin Tone`,
-      [`&#x1F469&#x1F3FE&#x200D&#x1F692`]: `Woman Firefighter: Medium-Dark Skin Tone`,
-      [`&#x1F469&#x1F3FF&#x200D&#x1F692`]: `Woman Firefighter: Dark Skin Tone`,
-      [`&#x1F46E`]: `Police Officer`,
-      [`&#x1F46E&#x1F3FB`]: `Police Officer: Light Skin Tone`,
-      [`&#x1F46E&#x1F3FC`]: `Police Officer: Medium-Light Skin Tone`,
-      [`&#x1F46E&#x1F3FD`]: `Police Officer: Medium Skin Tone`,
-      [`&#x1F46E&#x1F3FE`]: `Police Officer: Medium-Dark Skin Tone`,
-      [`&#x1F46E&#x1F3FF`]: `Police Officer: Dark Skin Tone`,
-      [`&#x1F46E&#x200D&#x2642&#xFE0F`]: `Man Police Officer`,
-      [`&#x1F46E&#x1F3FB&#x200D&#x2642&#xFE0F`]: `Man Police Officer: Light Skin Tone`,
-      [`&#x1F46E&#x1F3FC&#x200D&#x2642&#xFE0F`]: `Man Police Officer: Medium-Light Skin Tone`,
-      [`&#x1F46E&#x1F3FD&#x200D&#x2642&#xFE0F`]: `Man Police Officer: Medium Skin Tone`,
-      [`&#x1F46E&#x1F3FE&#x200D&#x2642&#xFE0F`]: `Man Police Officer: Medium-Dark Skin Tone`,
-      [`&#x1F46E&#x1F3FF&#x200D&#x2642&#xFE0F`]: `Man Police Officer: Dark Skin Tone`,
-      [`&#x1F46E&#x200D&#x2640&#xFE0F`]: `Woman Police Officer`,
-      [`&#x1F46E&#x1F3FB&#x200D&#x2640&#xFE0F`]: `Woman Police Officer: Light Skin Tone`,
-      [`&#x1F46E&#x1F3FC&#x200D&#x2640&#xFE0F`]: `Woman Police Officer: Medium-Light Skin Tone`,
-      [`&#x1F46E&#x1F3FD&#x200D&#x2640&#xFE0F`]: `Woman Police Officer: Medium Skin Tone`,
-      [`&#x1F46E&#x1F3FE&#x200D&#x2640&#xFE0F`]: `Woman Police Officer: Medium-Dark Skin Tone`,
-      [`&#x1F46E&#x1F3FF&#x200D&#x2640&#xFE0F`]: `Woman Police Officer: Dark Skin Tone`,
-      [`&#x1F575`]: `Detective`,
-      [`&#x1F575&#x1F3FB`]: `Detective: Light Skin Tone`,
-      [`&#x1F575&#x1F3FC`]: `Detective: Medium-Light Skin Tone`,
-      [`&#x1F575&#x1F3FD`]: `Detective: Medium Skin Tone`,
-      [`&#x1F575&#x1F3FE`]: `Detective: Medium-Dark Skin Tone`,
-      [`&#x1F575&#x1F3FF`]: `Detective: Dark Skin Tone`,
-      [`&#x1F575&#xFE0F&#x200D&#x2642&#xFE0F`]: `Man Detective`,
-      [`&#x1F575&#x1F3FB&#x200D&#x2642&#xFE0F`]: `Man Detective: Light Skin Tone`,
-      [`&#x1F575&#x1F3FC&#x200D&#x2642&#xFE0F`]: `Man Detective: Medium-Light Skin Tone`,
-      [`&#x1F575&#x1F3FD&#x200D&#x2642&#xFE0F`]: `Man Detective: Medium Skin Tone`,
-      [`&#x1F575&#x1F3FE&#x200D&#x2642&#xFE0F`]: `Man Detective: Medium-Dark Skin Tone`,
-      [`&#x1F575&#x1F3FF&#x200D&#x2642&#xFE0F`]: `Man Detective: Dark Skin Tone`,
-      [`&#x1F575&#xFE0F&#x200D&#x2640&#xFE0F`]: `Woman Detective`,
-      [`&#x1F575&#x1F3FB&#x200D&#x2640&#xFE0F`]: `Woman Detective: Light Skin Tone`,
-      [`&#x1F575&#x1F3FC&#x200D&#x2640&#xFE0F`]: `Woman Detective: Medium-Light Skin Tone`,
-      [`&#x1F575&#x1F3FD&#x200D&#x2640&#xFE0F`]: `Woman Detective: Medium Skin Tone`,
-      [`&#x1F575&#x1F3FE&#x200D&#x2640&#xFE0F`]: `Woman Detective: Medium-Dark Skin Tone`,
-      [`&#x1F575&#x1F3FF&#x200D&#x2640&#xFE0F`]: `Woman Detective: Dark Skin Tone`,
-      [`&#x1F482`]: `Guard`,
-      [`&#x1F482&#x1F3FB`]: `Guard: Light Skin Tone`,
-      [`&#x1F482&#x1F3FC`]: `Guard: Medium-Light Skin Tone`,
-      [`&#x1F482&#x1F3FD`]: `Guard: Medium Skin Tone`,
-      [`&#x1F482&#x1F3FE`]: `Guard: Medium-Dark Skin Tone`,
-      [`&#x1F482&#x1F3FF`]: `Guard: Dark Skin Tone`,
-      [`&#x1F482&#x200D&#x2642&#xFE0F`]: `Man Guard`,
-      [`&#x1F482&#x1F3FB&#x200D&#x2642&#xFE0F`]: `Man Guard: Light Skin Tone`,
-      [`&#x1F482&#x1F3FC&#x200D&#x2642&#xFE0F`]: `Man Guard: Medium-Light Skin Tone`,
-      [`&#x1F482&#x1F3FD&#x200D&#x2642&#xFE0F`]: `Man Guard: Medium Skin Tone`,
-      [`&#x1F482&#x1F3FE&#x200D&#x2642&#xFE0F`]: `Man Guard: Medium-Dark Skin Tone`,
-      [`&#x1F482&#x1F3FF&#x200D&#x2642&#xFE0F`]: `Man Guard: Dark Skin Tone`,
-      [`&#x1F482&#x200D&#x2640&#xFE0F`]: `Woman Guard`,
-      [`&#x1F482&#x1F3FB&#x200D&#x2640&#xFE0F`]: `Woman Guard: Light Skin Tone`,
-      [`&#x1F482&#x1F3FC&#x200D&#x2640&#xFE0F`]: `Woman Guard: Medium-Light Skin Tone`,
-      [`&#x1F482&#x1F3FD&#x200D&#x2640&#xFE0F`]: `Woman Guard: Medium Skin Tone`,
-      [`&#x1F482&#x1F3FE&#x200D&#x2640&#xFE0F`]: `Woman Guard: Medium-Dark Skin Tone`,
-      [`&#x1F482&#x1F3FF&#x200D&#x2640&#xFE0F`]: `Woman Guard: Dark Skin Tone`,
-      [`&#x1F477`]: `Construction Worker`,
-      [`&#x1F477&#x1F3FB`]: `Construction Worker: Light Skin Tone`,
-      [`&#x1F477&#x1F3FC`]: `Construction Worker: Medium-Light Skin Tone`,
-      [`&#x1F477&#x1F3FD`]: `Construction Worker: Medium Skin Tone`,
-      [`&#x1F477&#x1F3FE`]: `Construction Worker: Medium-Dark Skin Tone`,
-      [`&#x1F477&#x1F3FF`]: `Construction Worker: Dark Skin Tone`,
-      [`&#x1F477&#x200D&#x2642&#xFE0F`]: `Man Construction Worker`,
-      [`&#x1F477&#x1F3FB&#x200D&#x2642&#xFE0F`]: `Man Construction Worker: Light Skin Tone`,
-      [`&#x1F477&#x1F3FC&#x200D&#x2642&#xFE0F`]: `Man Construction Worker: Medium-Light Skin Tone`,
-      [`&#x1F477&#x1F3FD&#x200D&#x2642&#xFE0F`]: `Man Construction Worker: Medium Skin Tone`,
-      [`&#x1F477&#x1F3FE&#x200D&#x2642&#xFE0F`]: `Man Construction Worker: Medium-Dark Skin Tone`,
-      [`&#x1F477&#x1F3FF&#x200D&#x2642&#xFE0F`]: `Man Construction Worker: Dark Skin Tone`,
-      [`&#x1F477&#x200D&#x2640&#xFE0F`]: `Woman Construction Worker`,
-      [`&#x1F477&#x1F3FB&#x200D&#x2640&#xFE0F`]: `Woman Construction Worker: Light Skin Tone`,
-      [`&#x1F477&#x1F3FC&#x200D&#x2640&#xFE0F`]: `Woman Construction Worker: Medium-Light Skin Tone`,
-      [`&#x1F477&#x1F3FD&#x200D&#x2640&#xFE0F`]: `Woman Construction Worker: Medium Skin Tone`,
-      [`&#x1F477&#x1F3FE&#x200D&#x2640&#xFE0F`]: `Woman Construction Worker: Medium-Dark Skin Tone`,
-      [`&#x1F477&#x1F3FF&#x200D&#x2640&#xFE0F`]: `Woman Construction Worker: Dark Skin Tone`,
-      [`&#x1F473`]: `Person Wearing Turban`,
-      [`&#x1F473&#x1F3FB`]: `Person Wearing Turban: Light Skin Tone`,
-      [`&#x1F473&#x1F3FC`]: `Person Wearing Turban: Medium-Light Skin Tone`,
-      [`&#x1F473&#x1F3FD`]: `Person Wearing Turban: Medium Skin Tone`,
-      [`&#x1F473&#x1F3FE`]: `Person Wearing Turban: Medium-Dark Skin Tone`,
-      [`&#x1F473&#x1F3FF`]: `Person Wearing Turban: Dark Skin Tone`,
-      [`&#x1F473&#x200D&#x2642&#xFE0F`]: `Man Wearing Turban`,
-      [`&#x1F473&#x1F3FB&#x200D&#x2642&#xFE0F`]: `Man Wearing Turban: Light Skin Tone`,
-      [`&#x1F473&#x1F3FC&#x200D&#x2642&#xFE0F`]: `Man Wearing Turban: Medium-Light Skin Tone`,
-      [`&#x1F473&#x1F3FD&#x200D&#x2642&#xFE0F`]: `Man Wearing Turban: Medium Skin Tone`,
-      [`&#x1F473&#x1F3FE&#x200D&#x2642&#xFE0F`]: `Man Wearing Turban: Medium-Dark Skin Tone`,
-      [`&#x1F473&#x1F3FF&#x200D&#x2642&#xFE0F`]: `Man Wearing Turban: Dark Skin Tone`,
-      [`&#x1F473&#x200D&#x2640&#xFE0F`]: `Woman Wearing Turban`,
-      [`&#x1F473&#x1F3FB&#x200D&#x2640&#xFE0F`]: `Woman Wearing Turban: Light Skin Tone`,
-      [`&#x1F473&#x1F3FC&#x200D&#x2640&#xFE0F`]: `Woman Wearing Turban: Medium-Light Skin Tone`,
-      [`&#x1F473&#x1F3FD&#x200D&#x2640&#xFE0F`]: `Woman Wearing Turban: Medium Skin Tone`,
-      [`&#x1F473&#x1F3FE&#x200D&#x2640&#xFE0F`]: `Woman Wearing Turban: Medium-Dark Skin Tone`,
-      [`&#x1F473&#x1F3FF&#x200D&#x2640&#xFE0F`]: `Woman Wearing Turban: Dark Skin Tone`,
-      [`&#x1F471`]: `Blond-Haired Person`,
-      [`&#x1F471&#x1F3FB`]: `Blond-Haired Person: Light Skin Tone`,
-      [`&#x1F471&#x1F3FC`]: `Blond-Haired Person: Medium-Light Skin Tone`,
-      [`&#x1F471&#x1F3FD`]: `Blond-Haired Person: Medium Skin Tone`,
-      [`&#x1F471&#x1F3FE`]: `Blond-Haired Person: Medium-Dark Skin Tone`,
-      [`&#x1F471&#x1F3FF`]: `Blond-Haired Person: Dark Skin Tone`,
-      [`&#x1F471&#x200D&#x2642&#xFE0F`]: `Blond-Haired Man`,
-      [`&#x1F471&#x1F3FB&#x200D&#x2642&#xFE0F`]: `Blond-Haired Man: Light Skin Tone`,
-      [`&#x1F471&#x1F3FC&#x200D&#x2642&#xFE0F`]: `Blond-Haired Man: Medium-Light Skin Tone`,
-      [`&#x1F471&#x1F3FD&#x200D&#x2642&#xFE0F`]: `Blond-Haired Man: Medium Skin Tone`,
-      [`&#x1F471&#x1F3FE&#x200D&#x2642&#xFE0F`]: `Blond-Haired Man: Medium-Dark Skin Tone`,
-      [`&#x1F471&#x1F3FF&#x200D&#x2642&#xFE0F`]: `Blond-Haired Man: Dark Skin Tone`,
-      [`&#x1F471&#x200D&#x2640&#xFE0F`]: `Blond-Haired Woman`,
-      [`&#x1F471&#x1F3FB&#x200D&#x2640&#xFE0F`]: `Blond-Haired Woman: Light Skin Tone`,
-      [`&#x1F471&#x1F3FC&#x200D&#x2640&#xFE0F`]: `Blond-Haired Woman: Medium-Light Skin Tone`,
-      [`&#x1F471&#x1F3FD&#x200D&#x2640&#xFE0F`]: `Blond-Haired Woman: Medium Skin Tone`,
-      [`&#x1F471&#x1F3FE&#x200D&#x2640&#xFE0F`]: `Blond-Haired Woman: Medium-Dark Skin Tone`,
-      [`&#x1F471&#x1F3FF&#x200D&#x2640&#xFE0F`]: `Blond-Haired Woman: Dark Skin Tone`,
-      [`&#x1F385`]: `Santa Claus`,
-      [`&#x1F385&#x1F3FB`]: `Santa Claus: Light Skin Tone`,
-      [`&#x1F385&#x1F3FC`]: `Santa Claus: Medium-Light Skin Tone`,
-      [`&#x1F385&#x1F3FD`]: `Santa Claus: Medium Skin Tone`,
-      [`&#x1F385&#x1F3FE`]: `Santa Claus: Medium-Dark Skin Tone`,
-      [`&#x1F385&#x1F3FF`]: `Santa Claus: Dark Skin Tone`,
-      [`&#x1F936`]: `Mrs. Claus`,
-      [`&#x1F936&#x1F3FB`]: `Mrs. Claus: Light Skin Tone`,
-      [`&#x1F936&#x1F3FC`]: `Mrs. Claus: Medium-Light Skin Tone`,
-      [`&#x1F936&#x1F3FD`]: `Mrs. Claus: Medium Skin Tone`,
-      [`&#x1F936&#x1F3FE`]: `Mrs. Claus: Medium-Dark Skin Tone`,
-      [`&#x1F936&#x1F3FF`]: `Mrs. Claus: Dark Skin Tone`,
-      [`&#x1F478`]: `Princess`,
-      [`&#x1F478&#x1F3FB`]: `Princess: Light Skin Tone`,
-      [`&#x1F478&#x1F3FC`]: `Princess: Medium-Light Skin Tone`,
-      [`&#x1F478&#x1F3FD`]: `Princess: Medium Skin Tone`,
-      [`&#x1F478&#x1F3FE`]: `Princess: Medium-Dark Skin Tone`,
-      [`&#x1F478&#x1F3FF`]: `Princess: Dark Skin Tone`,
-      [`&#x1F934`]: `Prince`,
-      [`&#x1F934&#x1F3FB`]: `Prince: Light Skin Tone`,
-      [`&#x1F934&#x1F3FC`]: `Prince: Medium-Light Skin Tone`,
-      [`&#x1F934&#x1F3FD`]: `Prince: Medium Skin Tone`,
-      [`&#x1F934&#x1F3FE`]: `Prince: Medium-Dark Skin Tone`,
-      [`&#x1F934&#x1F3FF`]: `Prince: Dark Skin Tone`,
-      [`&#x1F470`]: `Bride With Veil`,
-      [`&#x1F470&#x1F3FB`]: `Bride With Veil: Light Skin Tone`,
-      [`&#x1F470&#x1F3FC`]: `Bride With Veil: Medium-Light Skin Tone`,
-      [`&#x1F470&#x1F3FD`]: `Bride With Veil: Medium Skin Tone`,
-      [`&#x1F470&#x1F3FE`]: `Bride With Veil: Medium-Dark Skin Tone`,
-      [`&#x1F470&#x1F3FF`]: `Bride With Veil: Dark Skin Tone`,
-      [`&#x1F935`]: `Man In Tuxedo`,
-      [`&#x1F935&#x1F3FB`]: `Man In Tuxedo: Light Skin Tone`,
-      [`&#x1F935&#x1F3FC`]: `Man In Tuxedo: Medium-Light Skin Tone`,
-      [`&#x1F935&#x1F3FD`]: `Man In Tuxedo: Medium Skin Tone`,
-      [`&#x1F935&#x1F3FE`]: `Man In Tuxedo: Medium-Dark Skin Tone`,
-      [`&#x1F935&#x1F3FF`]: `Man In Tuxedo: Dark Skin Tone`,
-      [`&#x1F930`]: `Pregnant Woman`,
-      [`&#x1F930&#x1F3FB`]: `Pregnant Woman: Light Skin Tone`,
-      [`&#x1F930&#x1F3FC`]: `Pregnant Woman: Medium-Light Skin Tone`,
-      [`&#x1F930&#x1F3FD`]: `Pregnant Woman: Medium Skin Tone`,
-      [`&#x1F930&#x1F3FE`]: `Pregnant Woman: Medium-Dark Skin Tone`,
-      [`&#x1F930&#x1F3FF`]: `Pregnant Woman: Dark Skin Tone`,
-      [`&#x1F472`]: `Man With Chinese Cap`,
-      [`&#x1F472&#x1F3FB`]: `Man With Chinese Cap: Light Skin Tone`,
-      [`&#x1F472&#x1F3FC`]: `Man With Chinese Cap: Medium-Light Skin Tone`,
-      [`&#x1F472&#x1F3FD`]: `Man With Chinese Cap: Medium Skin Tone`,
-      [`&#x1F472&#x1F3FE`]: `Man With Chinese Cap: Medium-Dark Skin Tone`,
-      [`&#x1F472&#x1F3FF`]: `Man With Chinese Cap: Dark Skin Tone`,
-      [`&#x1F64D`]: `Person Frowning`,
-      [`&#x1F64D&#x1F3FB`]: `Person Frowning: Light Skin Tone`,
-      [`&#x1F64D&#x1F3FC`]: `Person Frowning: Medium-Light Skin Tone`,
-      [`&#x1F64D&#x1F3FD`]: `Person Frowning: Medium Skin Tone`,
-      [`&#x1F64D&#x1F3FE`]: `Person Frowning: Medium-Dark Skin Tone`,
-      [`&#x1F64D&#x1F3FF`]: `Person Frowning: Dark Skin Tone`,
-      [`&#x1F64D&#x200D&#x2642&#xFE0F`]: `Man Frowning`,
-      [`&#x1F64D&#x1F3FB&#x200D&#x2642&#xFE0F`]: `Man Frowning: Light Skin Tone`,
-      [`&#x1F64D&#x1F3FC&#x200D&#x2642&#xFE0F`]: `Man Frowning: Medium-Light Skin Tone`,
-      [`&#x1F64D&#x1F3FD&#x200D&#x2642&#xFE0F`]: `Man Frowning: Medium Skin Tone`,
-      [`&#x1F64D&#x1F3FE&#x200D&#x2642&#xFE0F`]: `Man Frowning: Medium-Dark Skin Tone`,
-      [`&#x1F64D&#x1F3FF&#x200D&#x2642&#xFE0F`]: `Man Frowning: Dark Skin Tone`,
-      [`&#x1F64D&#x200D&#x2640&#xFE0F`]: `Woman Frowning`,
-      [`&#x1F64D&#x1F3FB&#x200D&#x2640&#xFE0F`]: `Woman Frowning: Light Skin Tone`,
-      [`&#x1F64D&#x1F3FC&#x200D&#x2640&#xFE0F`]: `Woman Frowning: Medium-Light Skin Tone`,
-      [`&#x1F64D&#x1F3FD&#x200D&#x2640&#xFE0F`]: `Woman Frowning: Medium Skin Tone`,
-      [`&#x1F64D&#x1F3FE&#x200D&#x2640&#xFE0F`]: `Woman Frowning: Medium-Dark Skin Tone`,
-      [`&#x1F64D&#x1F3FF&#x200D&#x2640&#xFE0F`]: `Woman Frowning: Dark Skin Tone`,
-      [`&#x1F64E`]: `Person Pouting`,
-      [`&#x1F64E&#x1F3FB`]: `Person Pouting: Light Skin Tone`,
-      [`&#x1F64E&#x1F3FC`]: `Person Pouting: Medium-Light Skin Tone`,
-      [`&#x1F64E&#x1F3FD`]: `Person Pouting: Medium Skin Tone`,
-      [`&#x1F64E&#x1F3FE`]: `Person Pouting: Medium-Dark Skin Tone`,
-      [`&#x1F64E&#x1F3FF`]: `Person Pouting: Dark Skin Tone`,
-      [`&#x1F64E&#x200D&#x2642&#xFE0F`]: `Man Pouting`,
-      [`&#x1F64E&#x1F3FB&#x200D&#x2642&#xFE0F`]: `Man Pouting: Light Skin Tone`,
-      [`&#x1F64E&#x1F3FC&#x200D&#x2642&#xFE0F`]: `Man Pouting: Medium-Light Skin Tone`,
-      [`&#x1F64E&#x1F3FD&#x200D&#x2642&#xFE0F`]: `Man Pouting: Medium Skin Tone`,
-      [`&#x1F64E&#x1F3FE&#x200D&#x2642&#xFE0F`]: `Man Pouting: Medium-Dark Skin Tone`,
-      [`&#x1F64E&#x1F3FF&#x200D&#x2642&#xFE0F`]: `Man Pouting: Dark Skin Tone`,
-      [`&#x1F64E&#x200D&#x2640&#xFE0F`]: `Woman Pouting`,
-      [`&#x1F64E&#x1F3FB&#x200D&#x2640&#xFE0F`]: `Woman Pouting: Light Skin Tone`,
-      [`&#x1F64E&#x1F3FC&#x200D&#x2640&#xFE0F`]: `Woman Pouting: Medium-Light Skin Tone`,
-      [`&#x1F64E&#x1F3FD&#x200D&#x2640&#xFE0F`]: `Woman Pouting: Medium Skin Tone`,
-      [`&#x1F64E&#x1F3FE&#x200D&#x2640&#xFE0F`]: `Woman Pouting: Medium-Dark Skin Tone`,
-      [`&#x1F64E&#x1F3FF&#x200D&#x2640&#xFE0F`]: `Woman Pouting: Dark Skin Tone`,
-      [`&#x1F645`]: `Person Gesturing NO`,
-      [`&#x1F645&#x1F3FB`]: `Person Gesturing NO: Light Skin Tone`,
-      [`&#x1F645&#x1F3FC`]: `Person Gesturing NO: Medium-Light Skin Tone`,
-      [`&#x1F645&#x1F3FD`]: `Person Gesturing NO: Medium Skin Tone`,
-      [`&#x1F645&#x1F3FE`]: `Person Gesturing NO: Medium-Dark Skin Tone`,
-      [`&#x1F645&#x1F3FF`]: `Person Gesturing NO: Dark Skin Tone`,
-      [`&#x1F645&#x200D&#x2642&#xFE0F`]: `Man Gesturing NO`,
-      [`&#x1F645&#x1F3FB&#x200D&#x2642&#xFE0F`]: `Man Gesturing NO: Light Skin Tone`,
-      [`&#x1F645&#x1F3FC&#x200D&#x2642&#xFE0F`]: `Man Gesturing NO: Medium-Light Skin Tone`,
-      [`&#x1F645&#x1F3FD&#x200D&#x2642&#xFE0F`]: `Man Gesturing NO: Medium Skin Tone`,
-      [`&#x1F645&#x1F3FE&#x200D&#x2642&#xFE0F`]: `Man Gesturing NO: Medium-Dark Skin Tone`,
-      [`&#x1F645&#x1F3FF&#x200D&#x2642&#xFE0F`]: `Man Gesturing NO: Dark Skin Tone`,
-      [`&#x1F645&#x200D&#x2640&#xFE0F`]: `Woman Gesturing NO`,
-      [`&#x1F645&#x1F3FB&#x200D&#x2640&#xFE0F`]: `Woman Gesturing NO: Light Skin Tone`,
-      [`&#x1F645&#x1F3FC&#x200D&#x2640&#xFE0F`]: `Woman Gesturing NO: Medium-Light Skin Tone`,
-      [`&#x1F645&#x1F3FD&#x200D&#x2640&#xFE0F`]: `Woman Gesturing NO: Medium Skin Tone`,
-      [`&#x1F645&#x1F3FE&#x200D&#x2640&#xFE0F`]: `Woman Gesturing NO: Medium-Dark Skin Tone`,
-      [`&#x1F645&#x1F3FF&#x200D&#x2640&#xFE0F`]: `Woman Gesturing NO: Dark Skin Tone`,
-      [`&#x1F646`]: `Person Gesturing OK`,
-      [`&#x1F646&#x1F3FB`]: `Person Gesturing OK: Light Skin Tone`,
-      [`&#x1F646&#x1F3FC`]: `Person Gesturing OK: Medium-Light Skin Tone`,
-      [`&#x1F646&#x1F3FD`]: `Person Gesturing OK: Medium Skin Tone`,
-      [`&#x1F646&#x1F3FE`]: `Person Gesturing OK: Medium-Dark Skin Tone`,
-      [`&#x1F646&#x1F3FF`]: `Person Gesturing OK: Dark Skin Tone`,
-      [`&#x1F646&#x200D&#x2642&#xFE0F`]: `Man Gesturing OK`,
-      [`&#x1F646&#x1F3FB&#x200D&#x2642&#xFE0F`]: `Man Gesturing OK: Light Skin Tone`,
-      [`&#x1F646&#x1F3FC&#x200D&#x2642&#xFE0F`]: `Man Gesturing OK: Medium-Light Skin Tone`,
-      [`&#x1F646&#x1F3FD&#x200D&#x2642&#xFE0F`]: `Man Gesturing OK: Medium Skin Tone`,
-      [`&#x1F646&#x1F3FE&#x200D&#x2642&#xFE0F`]: `Man Gesturing OK: Medium-Dark Skin Tone`,
-      [`&#x1F646&#x1F3FF&#x200D&#x2642&#xFE0F`]: `Man Gesturing OK: Dark Skin Tone`,
-      [`&#x1F646&#x200D&#x2640&#xFE0F`]: `Woman Gesturing OK`,
-      [`&#x1F646&#x1F3FB&#x200D&#x2640&#xFE0F`]: `Woman Gesturing OK: Light Skin Tone`,
-      [`&#x1F646&#x1F3FC&#x200D&#x2640&#xFE0F`]: `Woman Gesturing OK: Medium-Light Skin Tone`,
-      [`&#x1F646&#x1F3FD&#x200D&#x2640&#xFE0F`]: `Woman Gesturing OK: Medium Skin Tone`,
-      [`&#x1F646&#x1F3FE&#x200D&#x2640&#xFE0F`]: `Woman Gesturing OK: Medium-Dark Skin Tone`,
-      [`&#x1F646&#x1F3FF&#x200D&#x2640&#xFE0F`]: `Woman Gesturing OK: Dark Skin Tone`,
-      [`&#x1F481`]: `Person Tipping Hand`,
-      [`&#x1F481&#x1F3FB`]: `Person Tipping Hand: Light Skin Tone`,
-      [`&#x1F481&#x1F3FC`]: `Person Tipping Hand: Medium-Light Skin Tone`,
-      [`&#x1F481&#x1F3FD`]: `Person Tipping Hand: Medium Skin Tone`,
-      [`&#x1F481&#x1F3FE`]: `Person Tipping Hand: Medium-Dark Skin Tone`,
-      [`&#x1F481&#x1F3FF`]: `Person Tipping Hand: Dark Skin Tone`,
-      [`&#x1F481&#x200D&#x2642&#xFE0F`]: `Man Tipping Hand`,
-      [`&#x1F481&#x1F3FB&#x200D&#x2642&#xFE0F`]: `Man Tipping Hand: Light Skin Tone`,
-      [`&#x1F481&#x1F3FC&#x200D&#x2642&#xFE0F`]: `Man Tipping Hand: Medium-Light Skin Tone`,
-      [`&#x1F481&#x1F3FD&#x200D&#x2642&#xFE0F`]: `Man Tipping Hand: Medium Skin Tone`,
-      [`&#x1F481&#x1F3FE&#x200D&#x2642&#xFE0F`]: `Man Tipping Hand: Medium-Dark Skin Tone`,
-      [`&#x1F481&#x1F3FF&#x200D&#x2642&#xFE0F`]: `Man Tipping Hand: Dark Skin Tone`,
-      [`&#x1F481&#x200D&#x2640&#xFE0F`]: `Woman Tipping Hand`,
-      [`&#x1F481&#x1F3FB&#x200D&#x2640&#xFE0F`]: `Woman Tipping Hand: Light Skin Tone`,
-      [`&#x1F481&#x1F3FC&#x200D&#x2640&#xFE0F`]: `Woman Tipping Hand: Medium-Light Skin Tone`,
-      [`&#x1F481&#x1F3FD&#x200D&#x2640&#xFE0F`]: `Woman Tipping Hand: Medium Skin Tone`,
-      [`&#x1F481&#x1F3FE&#x200D&#x2640&#xFE0F`]: `Woman Tipping Hand: Medium-Dark Skin Tone`,
-      [`&#x1F481&#x1F3FF&#x200D&#x2640&#xFE0F`]: `Woman Tipping Hand: Dark Skin Tone`,
-      [`&#x1F64B`]: `Person Raising Hand`,
-      [`&#x1F64B&#x1F3FB`]: `Person Raising Hand: Light Skin Tone`,
-      [`&#x1F64B&#x1F3FC`]: `Person Raising Hand: Medium-Light Skin Tone`,
-      [`&#x1F64B&#x1F3FD`]: `Person Raising Hand: Medium Skin Tone`,
-      [`&#x1F64B&#x1F3FE`]: `Person Raising Hand: Medium-Dark Skin Tone`,
-      [`&#x1F64B&#x1F3FF`]: `Person Raising Hand: Dark Skin Tone`,
-      [`&#x1F64B&#x200D&#x2642&#xFE0F`]: `Man Raising Hand`,
-      [`&#x1F64B&#x1F3FB&#x200D&#x2642&#xFE0F`]: `Man Raising Hand: Light Skin Tone`,
-      [`&#x1F64B&#x1F3FC&#x200D&#x2642&#xFE0F`]: `Man Raising Hand: Medium-Light Skin Tone`,
-      [`&#x1F64B&#x1F3FD&#x200D&#x2642&#xFE0F`]: `Man Raising Hand: Medium Skin Tone`,
-      [`&#x1F64B&#x1F3FE&#x200D&#x2642&#xFE0F`]: `Man Raising Hand: Medium-Dark Skin Tone`,
-      [`&#x1F64B&#x1F3FF&#x200D&#x2642&#xFE0F`]: `Man Raising Hand: Dark Skin Tone`,
-      [`&#x1F64B&#x200D&#x2640&#xFE0F`]: `Woman Raising Hand`,
-      [`&#x1F64B&#x1F3FB&#x200D&#x2640&#xFE0F`]: `Woman Raising Hand: Light Skin Tone`,
-      [`&#x1F64B&#x1F3FC&#x200D&#x2640&#xFE0F`]: `Woman Raising Hand: Medium-Light Skin Tone`,
-      [`&#x1F64B&#x1F3FD&#x200D&#x2640&#xFE0F`]: `Woman Raising Hand: Medium Skin Tone`,
-      [`&#x1F64B&#x1F3FE&#x200D&#x2640&#xFE0F`]: `Woman Raising Hand: Medium-Dark Skin Tone`,
-      [`&#x1F64B&#x1F3FF&#x200D&#x2640&#xFE0F`]: `Woman Raising Hand: Dark Skin Tone`,
-      [`&#x1F647`]: `Person Bowing`,
-      [`&#x1F647&#x1F3FB`]: `Person Bowing: Light Skin Tone`,
-      [`&#x1F647&#x1F3FC`]: `Person Bowing: Medium-Light Skin Tone`,
-      [`&#x1F647&#x1F3FD`]: `Person Bowing: Medium Skin Tone`,
-      [`&#x1F647&#x1F3FE`]: `Person Bowing: Medium-Dark Skin Tone`,
-      [`&#x1F647&#x1F3FF`]: `Person Bowing: Dark Skin Tone`,
-      [`&#x1F647&#x200D&#x2642&#xFE0F`]: `Man Bowing`,
-      [`&#x1F647&#x1F3FB&#x200D&#x2642&#xFE0F`]: `Man Bowing: Light Skin Tone`,
-      [`&#x1F647&#x1F3FC&#x200D&#x2642&#xFE0F`]: `Man Bowing: Medium-Light Skin Tone`,
-      [`&#x1F647&#x1F3FD&#x200D&#x2642&#xFE0F`]: `Man Bowing: Medium Skin Tone`,
-      [`&#x1F647&#x1F3FE&#x200D&#x2642&#xFE0F`]: `Man Bowing: Medium-Dark Skin Tone`,
-      [`&#x1F647&#x1F3FF&#x200D&#x2642&#xFE0F`]: `Man Bowing: Dark Skin Tone`,
-      [`&#x1F647&#x200D&#x2640&#xFE0F`]: `Woman Bowing`,
-      [`&#x1F647&#x1F3FB&#x200D&#x2640&#xFE0F`]: `Woman Bowing: Light Skin Tone`,
-      [`&#x1F647&#x1F3FC&#x200D&#x2640&#xFE0F`]: `Woman Bowing: Medium-Light Skin Tone`,
-      [`&#x1F647&#x1F3FD&#x200D&#x2640&#xFE0F`]: `Woman Bowing: Medium Skin Tone`,
-      [`&#x1F647&#x1F3FE&#x200D&#x2640&#xFE0F`]: `Woman Bowing: Medium-Dark Skin Tone`,
-      [`&#x1F647&#x1F3FF&#x200D&#x2640&#xFE0F`]: `Woman Bowing: Dark Skin Tone`,
-      [`&#x1F926`]: `Person Facepalming`,
-      [`&#x1F926&#x1F3FB`]: `Person Facepalming: Light Skin Tone`,
-      [`&#x1F926&#x1F3FC`]: `Person Facepalming: Medium-Light Skin Tone`,
-      [`&#x1F926&#x1F3FD`]: `Person Facepalming: Medium Skin Tone`,
-      [`&#x1F926&#x1F3FE`]: `Person Facepalming: Medium-Dark Skin Tone`,
-      [`&#x1F926&#x1F3FF`]: `Person Facepalming: Dark Skin Tone`,
-      [`&#x1F926&#x200D&#x2642&#xFE0F`]: `Man Facepalming`,
-      [`&#x1F926&#x1F3FB&#x200D&#x2642&#xFE0F`]: `Man Facepalming: Light Skin Tone`,
-      [`&#x1F926&#x1F3FC&#x200D&#x2642&#xFE0F`]: `Man Facepalming: Medium-Light Skin Tone`,
-      [`&#x1F926&#x1F3FD&#x200D&#x2642&#xFE0F`]: `Man Facepalming: Medium Skin Tone`,
-      [`&#x1F926&#x1F3FE&#x200D&#x2642&#xFE0F`]: `Man Facepalming: Medium-Dark Skin Tone`,
-      [`&#x1F926&#x1F3FF&#x200D&#x2642&#xFE0F`]: `Man Facepalming: Dark Skin Tone`,
-      [`&#x1F926&#x200D&#x2640&#xFE0F`]: `Woman Facepalming`,
-      [`&#x1F926&#x1F3FB&#x200D&#x2640&#xFE0F`]: `Woman Facepalming: Light Skin Tone`,
-      [`&#x1F926&#x1F3FC&#x200D&#x2640&#xFE0F`]: `Woman Facepalming: Medium-Light Skin Tone`,
-      [`&#x1F926&#x1F3FD&#x200D&#x2640&#xFE0F`]: `Woman Facepalming: Medium Skin Tone`,
-      [`&#x1F926&#x1F3FE&#x200D&#x2640&#xFE0F`]: `Woman Facepalming: Medium-Dark Skin Tone`,
-      [`&#x1F926&#x1F3FF&#x200D&#x2640&#xFE0F`]: `Woman Facepalming: Dark Skin Tone`,
-      [`&#x1F937`]: `Person Shrugging`,
-      [`&#x1F937&#x1F3FB`]: `Person Shrugging: Light Skin Tone`,
-      [`&#x1F937&#x1F3FC`]: `Person Shrugging: Medium-Light Skin Tone`,
-      [`&#x1F937&#x1F3FD`]: `Person Shrugging: Medium Skin Tone`,
-      [`&#x1F937&#x1F3FE`]: `Person Shrugging: Medium-Dark Skin Tone`,
-      [`&#x1F937&#x1F3FF`]: `Person Shrugging: Dark Skin Tone`,
-      [`&#x1F937&#x200D&#x2642&#xFE0F`]: `Man Shrugging`,
-      [`&#x1F937&#x1F3FB&#x200D&#x2642&#xFE0F`]: `Man Shrugging: Light Skin Tone`,
-      [`&#x1F937&#x1F3FC&#x200D&#x2642&#xFE0F`]: `Man Shrugging: Medium-Light Skin Tone`,
-      [`&#x1F937&#x1F3FD&#x200D&#x2642&#xFE0F`]: `Man Shrugging: Medium Skin Tone`,
-      [`&#x1F937&#x1F3FE&#x200D&#x2642&#xFE0F`]: `Man Shrugging: Medium-Dark Skin Tone`,
-      [`&#x1F937&#x1F3FF&#x200D&#x2642&#xFE0F`]: `Man Shrugging: Dark Skin Tone`,
-      [`&#x1F937&#x200D&#x2640&#xFE0F`]: `Woman Shrugging`,
-      [`&#x1F937&#x1F3FB&#x200D&#x2640&#xFE0F`]: `Woman Shrugging: Light Skin Tone`,
-      [`&#x1F937&#x1F3FC&#x200D&#x2640&#xFE0F`]: `Woman Shrugging: Medium-Light Skin Tone`,
-      [`&#x1F937&#x1F3FD&#x200D&#x2640&#xFE0F`]: `Woman Shrugging: Medium Skin Tone`,
-      [`&#x1F937&#x1F3FE&#x200D&#x2640&#xFE0F`]: `Woman Shrugging: Medium-Dark Skin Tone`,
-      [`&#x1F937&#x1F3FF&#x200D&#x2640&#xFE0F`]: `Woman Shrugging: Dark Skin Tone`,
-      [`&#x1F486`]: `Person Getting Massage`,
-      [`&#x1F486&#x1F3FB`]: `Person Getting Massage: Light Skin Tone`,
-      [`&#x1F486&#x1F3FC`]: `Person Getting Massage: Medium-Light Skin Tone`,
-      [`&#x1F486&#x1F3FD`]: `Person Getting Massage: Medium Skin Tone`,
-      [`&#x1F486&#x1F3FE`]: `Person Getting Massage: Medium-Dark Skin Tone`,
-      [`&#x1F486&#x1F3FF`]: `Person Getting Massage: Dark Skin Tone`,
-      [`&#x1F486&#x200D&#x2642&#xFE0F`]: `Man Getting Massage`,
-      [`&#x1F486&#x1F3FB&#x200D&#x2642&#xFE0F`]: `Man Getting Massage: Light Skin Tone`,
-      [`&#x1F486&#x1F3FC&#x200D&#x2642&#xFE0F`]: `Man Getting Massage: Medium-Light Skin Tone`,
-      [`&#x1F486&#x1F3FD&#x200D&#x2642&#xFE0F`]: `Man Getting Massage: Medium Skin Tone`,
-      [`&#x1F486&#x1F3FE&#x200D&#x2642&#xFE0F`]: `Man Getting Massage: Medium-Dark Skin Tone`,
-      [`&#x1F486&#x1F3FF&#x200D&#x2642&#xFE0F`]: `Man Getting Massage: Dark Skin Tone`,
-      [`&#x1F486&#x200D&#x2640&#xFE0F`]: `Woman Getting Massage`,
-      [`&#x1F486&#x1F3FB&#x200D&#x2640&#xFE0F`]: `Woman Getting Massage: Light Skin Tone`,
-      [`&#x1F486&#x1F3FC&#x200D&#x2640&#xFE0F`]: `Woman Getting Massage: Medium-Light Skin Tone`,
-      [`&#x1F486&#x1F3FD&#x200D&#x2640&#xFE0F`]: `Woman Getting Massage: Medium Skin Tone`,
-      [`&#x1F486&#x1F3FE&#x200D&#x2640&#xFE0F`]: `Woman Getting Massage: Medium-Dark Skin Tone`,
-      [`&#x1F486&#x1F3FF&#x200D&#x2640&#xFE0F`]: `Woman Getting Massage: Dark Skin Tone`,
-      [`&#x1F487`]: `Person Getting Haircut`,
-      [`&#x1F487&#x1F3FB`]: `Person Getting Haircut: Light Skin Tone`,
-      [`&#x1F487&#x1F3FC`]: `Person Getting Haircut: Medium-Light Skin Tone`,
-      [`&#x1F487&#x1F3FD`]: `Person Getting Haircut: Medium Skin Tone`,
-      [`&#x1F487&#x1F3FE`]: `Person Getting Haircut: Medium-Dark Skin Tone`,
-      [`&#x1F487&#x1F3FF`]: `Person Getting Haircut: Dark Skin Tone`,
-      [`&#x1F487&#x200D&#x2642&#xFE0F`]: `Man Getting Haircut`,
-      [`&#x1F487&#x1F3FB&#x200D&#x2642&#xFE0F`]: `Man Getting Haircut: Light Skin Tone`,
-      [`&#x1F487&#x1F3FC&#x200D&#x2642&#xFE0F`]: `Man Getting Haircut: Medium-Light Skin Tone`,
-      [`&#x1F487&#x1F3FD&#x200D&#x2642&#xFE0F`]: `Man Getting Haircut: Medium Skin Tone`,
-      [`&#x1F487&#x1F3FE&#x200D&#x2642&#xFE0F`]: `Man Getting Haircut: Medium-Dark Skin Tone`,
-      [`&#x1F487&#x1F3FF&#x200D&#x2642&#xFE0F`]: `Man Getting Haircut: Dark Skin Tone`,
-      [`&#x1F487&#x200D&#x2640&#xFE0F`]: `Woman Getting Haircut`,
-      [`&#x1F487&#x1F3FB&#x200D&#x2640&#xFE0F`]: `Woman Getting Haircut: Light Skin Tone`,
-      [`&#x1F487&#x1F3FC&#x200D&#x2640&#xFE0F`]: `Woman Getting Haircut: Medium-Light Skin Tone`,
-      [`&#x1F487&#x1F3FD&#x200D&#x2640&#xFE0F`]: `Woman Getting Haircut: Medium Skin Tone`,
-      [`&#x1F487&#x1F3FE&#x200D&#x2640&#xFE0F`]: `Woman Getting Haircut: Medium-Dark Skin Tone`,
-      [`&#x1F487&#x1F3FF&#x200D&#x2640&#xFE0F`]: `Woman Getting Haircut: Dark Skin Tone`,
-      [`&#x1F6B6`]: `Person Walking`,
-      [`&#x1F6B6&#x1F3FB`]: `Person Walking: Light Skin Tone`,
-      [`&#x1F6B6&#x1F3FC`]: `Person Walking: Medium-Light Skin Tone`,
-      [`&#x1F6B6&#x1F3FD`]: `Person Walking: Medium Skin Tone`,
-      [`&#x1F6B6&#x1F3FE`]: `Person Walking: Medium-Dark Skin Tone`,
-      [`&#x1F6B6&#x1F3FF`]: `Person Walking: Dark Skin Tone`,
-      [`&#x1F6B6&#x200D&#x2642&#xFE0F`]: `Man Walking`,
-      [`&#x1F6B6&#x1F3FB&#x200D&#x2642&#xFE0F`]: `Man Walking: Light Skin Tone`,
-      [`&#x1F6B6&#x1F3FC&#x200D&#x2642&#xFE0F`]: `Man Walking: Medium-Light Skin Tone`,
-      [`&#x1F6B6&#x1F3FD&#x200D&#x2642&#xFE0F`]: `Man Walking: Medium Skin Tone`,
-      [`&#x1F6B6&#x1F3FE&#x200D&#x2642&#xFE0F`]: `Man Walking: Medium-Dark Skin Tone`,
-      [`&#x1F6B6&#x1F3FF&#x200D&#x2642&#xFE0F`]: `Man Walking: Dark Skin Tone`,
-      [`&#x1F6B6&#x200D&#x2640&#xFE0F`]: `Woman Walking`,
-      [`&#x1F6B6&#x1F3FB&#x200D&#x2640&#xFE0F`]: `Woman Walking: Light Skin Tone`,
-      [`&#x1F6B6&#x1F3FC&#x200D&#x2640&#xFE0F`]: `Woman Walking: Medium-Light Skin Tone`,
-      [`&#x1F6B6&#x1F3FD&#x200D&#x2640&#xFE0F`]: `Woman Walking: Medium Skin Tone`,
-      [`&#x1F6B6&#x1F3FE&#x200D&#x2640&#xFE0F`]: `Woman Walking: Medium-Dark Skin Tone`,
-      [`&#x1F6B6&#x1F3FF&#x200D&#x2640&#xFE0F`]: `Woman Walking: Dark Skin Tone`,
-      [`&#x1F3C3`]: `Person Running`,
-      [`&#x1F3C3&#x1F3FB`]: `Person Running: Light Skin Tone`,
-      [`&#x1F3C3&#x1F3FC`]: `Person Running: Medium-Light Skin Tone`,
-      [`&#x1F3C3&#x1F3FD`]: `Person Running: Medium Skin Tone`,
-      [`&#x1F3C3&#x1F3FE`]: `Person Running: Medium-Dark Skin Tone`,
-      [`&#x1F3C3&#x1F3FF`]: `Person Running: Dark Skin Tone`,
-      [`&#x1F3C3&#x200D&#x2642&#xFE0F`]: `Man Running`,
-      [`&#x1F3C3&#x1F3FB&#x200D&#x2642&#xFE0F`]: `Man Running: Light Skin Tone`,
-      [`&#x1F3C3&#x1F3FC&#x200D&#x2642&#xFE0F`]: `Man Running: Medium-Light Skin Tone`,
-      [`&#x1F3C3&#x1F3FD&#x200D&#x2642&#xFE0F`]: `Man Running: Medium Skin Tone`,
-      [`&#x1F3C3&#x1F3FE&#x200D&#x2642&#xFE0F`]: `Man Running: Medium-Dark Skin Tone`,
-      [`&#x1F3C3&#x1F3FF&#x200D&#x2642&#xFE0F`]: `Man Running: Dark Skin Tone`,
-      [`&#x1F3C3&#x200D&#x2640&#xFE0F`]: `Woman Running`,
-      [`&#x1F3C3&#x1F3FB&#x200D&#x2640&#xFE0F`]: `Woman Running: Light Skin Tone`,
-      [`&#x1F3C3&#x1F3FC&#x200D&#x2640&#xFE0F`]: `Woman Running: Medium-Light Skin Tone`,
-      [`&#x1F3C3&#x1F3FD&#x200D&#x2640&#xFE0F`]: `Woman Running: Medium Skin Tone`,
-      [`&#x1F3C3&#x1F3FE&#x200D&#x2640&#xFE0F`]: `Woman Running: Medium-Dark Skin Tone`,
-      [`&#x1F3C3&#x1F3FF&#x200D&#x2640&#xFE0F`]: `Woman Running: Dark Skin Tone`,
-      [`&#x1F483`]: `Woman Dancing`,
-      [`&#x1F483&#x1F3FB`]: `Woman Dancing: Light Skin Tone`,
-      [`&#x1F483&#x1F3FC`]: `Woman Dancing: Medium-Light Skin Tone`,
-      [`&#x1F483&#x1F3FD`]: `Woman Dancing: Medium Skin Tone`,
-      [`&#x1F483&#x1F3FE`]: `Woman Dancing: Medium-Dark Skin Tone`,
-      [`&#x1F483&#x1F3FF`]: `Woman Dancing: Dark Skin Tone`,
-      [`&#x1F57A`]: `Man Dancing`,
-      [`&#x1F57A&#x1F3FB`]: `Man Dancing: Light Skin Tone`,
-      [`&#x1F57A&#x1F3FC`]: `Man Dancing: Medium-Light Skin Tone`,
-      [`&#x1F57A&#x1F3FD`]: `Man Dancing: Medium Skin Tone`,
-      [`&#x1F57A&#x1F3FE`]: `Man Dancing: Medium-Dark Skin Tone`,
-      [`&#x1F57A&#x1F3FF`]: `Man Dancing: Dark Skin Tone`,
-      [`&#x1F46F`]: `People With Bunny Ears Partying`,
-      [`&#x1F46F&#x200D&#x2642&#xFE0F`]: `Men With Bunny Ears Partying`,
-      [`&#x1F46F&#x200D&#x2640&#xFE0F`]: `Women With Bunny Ears Partying`,
-      [`&#x1F574`]: `Man In Business Suit Levitating`,
-      [`&#x1F574&#x1F3FB`]: `Man In Business Suit Levitating: Light Skin Tone`,
-      [`&#x1F574&#x1F3FC`]: `Man In Business Suit Levitating: Medium-Light Skin Tone`,
-      [`&#x1F574&#x1F3FD`]: `Man In Business Suit Levitating: Medium Skin Tone`,
-      [`&#x1F574&#x1F3FE`]: `Man In Business Suit Levitating: Medium-Dark Skin Tone`,
-      [`&#x1F574&#x1F3FF`]: `Man In Business Suit Levitating: Dark Skin Tone`,
-      [`&#x1F5E3`]: `Speaking Head`,
-      [`&#x1F464`]: `Bust In Silhouette`,
-      [`&#x1F465`]: `Busts In Silhouette`,
-      [`&#x1F93A`]: `Person Fencing`,
-      [`&#x1F3C7`]: `Horse Racing`,
-      [`&#x1F3C7&#x1F3FB`]: `Horse Racing: Light Skin Tone`,
-      [`&#x1F3C7&#x1F3FC`]: `Horse Racing: Medium-Light Skin Tone`,
-      [`&#x1F3C7&#x1F3FD`]: `Horse Racing: Medium Skin Tone`,
-      [`&#x1F3C7&#x1F3FE`]: `Horse Racing: Medium-Dark Skin Tone`,
-      [`&#x1F3C7&#x1F3FF`]: `Horse Racing: Dark Skin Tone`,
-      [`&#x26F7`]: `Skier`,
-      [`&#x1F3C2`]: `Snowboarder`,
-      [`&#x1F3C2&#x1F3FB`]: `Snowboarder: Light Skin Tone`,
-      [`&#x1F3C2&#x1F3FC`]: `Snowboarder: Medium-Light Skin Tone`,
-      [`&#x1F3C2&#x1F3FD`]: `Snowboarder: Medium Skin Tone`,
-      [`&#x1F3C2&#x1F3FE`]: `Snowboarder: Medium-Dark Skin Tone`,
-      [`&#x1F3C2&#x1F3FF`]: `Snowboarder: Dark Skin Tone`,
-      [`&#x1F3CC`]: `Person Golfing`,
-      [`&#x1F3CC&#x1F3FB`]: `Person Golfing: Light Skin Tone`,
-      [`&#x1F3CC&#x1F3FC`]: `Person Golfing: Medium-Light Skin Tone`,
-      [`&#x1F3CC&#x1F3FD`]: `Person Golfing: Medium Skin Tone`,
-      [`&#x1F3CC&#x1F3FE`]: `Person Golfing: Medium-Dark Skin Tone`,
-      [`&#x1F3CC&#x1F3FF`]: `Person Golfing: Dark Skin Tone`,
-      [`&#x1F3CC&#xFE0F&#x200D&#x2642&#xFE0F`]: `Man Golfing`,
-      [`&#x1F3CC&#x1F3FB&#x200D&#x2642&#xFE0F`]: `Man Golfing: Light Skin Tone`,
-      [`&#x1F3CC&#x1F3FC&#x200D&#x2642&#xFE0F`]: `Man Golfing: Medium-Light Skin Tone`,
-      [`&#x1F3CC&#x1F3FD&#x200D&#x2642&#xFE0F`]: `Man Golfing: Medium Skin Tone`,
-      [`&#x1F3CC&#x1F3FE&#x200D&#x2642&#xFE0F`]: `Man Golfing: Medium-Dark Skin Tone`,
-      [`&#x1F3CC&#x1F3FF&#x200D&#x2642&#xFE0F`]: `Man Golfing: Dark Skin Tone`,
-      [`&#x1F3CC&#xFE0F&#x200D&#x2640&#xFE0F`]: `Woman Golfing`,
-      [`&#x1F3CC&#x1F3FB&#x200D&#x2640&#xFE0F`]: `Woman Golfing: Light Skin Tone`,
-      [`&#x1F3CC&#x1F3FC&#x200D&#x2640&#xFE0F`]: `Woman Golfing: Medium-Light Skin Tone`,
-      [`&#x1F3CC&#x1F3FD&#x200D&#x2640&#xFE0F`]: `Woman Golfing: Medium Skin Tone`,
-      [`&#x1F3CC&#x1F3FE&#x200D&#x2640&#xFE0F`]: `Woman Golfing: Medium-Dark Skin Tone`,
-      [`&#x1F3CC&#x1F3FF&#x200D&#x2640&#xFE0F`]: `Woman Golfing: Dark Skin Tone`,
-      [`&#x1F3C4`]: `Person Surfing`,
-      [`&#x1F3C4&#x1F3FB`]: `Person Surfing: Light Skin Tone`,
-      [`&#x1F3C4&#x1F3FC`]: `Person Surfing: Medium-Light Skin Tone`,
-      [`&#x1F3C4&#x1F3FD`]: `Person Surfing: Medium Skin Tone`,
-      [`&#x1F3C4&#x1F3FE`]: `Person Surfing: Medium-Dark Skin Tone`,
-      [`&#x1F3C4&#x1F3FF`]: `Person Surfing: Dark Skin Tone`,
-      [`&#x1F3C4&#x200D&#x2642&#xFE0F`]: `Man Surfing`,
-      [`&#x1F3C4&#x1F3FB&#x200D&#x2642&#xFE0F`]: `Man Surfing: Light Skin Tone`,
-      [`&#x1F3C4&#x1F3FC&#x200D&#x2642&#xFE0F`]: `Man Surfing: Medium-Light Skin Tone`,
-      [`&#x1F3C4&#x1F3FD&#x200D&#x2642&#xFE0F`]: `Man Surfing: Medium Skin Tone`,
-      [`&#x1F3C4&#x1F3FE&#x200D&#x2642&#xFE0F`]: `Man Surfing: Medium-Dark Skin Tone`,
-      [`&#x1F3C4&#x1F3FF&#x200D&#x2642&#xFE0F`]: `Man Surfing: Dark Skin Tone`,
-      [`&#x1F3C4&#x200D&#x2640&#xFE0F`]: `Woman Surfing`,
-      [`&#x1F3C4&#x1F3FB&#x200D&#x2640&#xFE0F`]: `Woman Surfing: Light Skin Tone`,
-      [`&#x1F3C4&#x1F3FC&#x200D&#x2640&#xFE0F`]: `Woman Surfing: Medium-Light Skin Tone`,
-      [`&#x1F3C4&#x1F3FD&#x200D&#x2640&#xFE0F`]: `Woman Surfing: Medium Skin Tone`,
-      [`&#x1F3C4&#x1F3FE&#x200D&#x2640&#xFE0F`]: `Woman Surfing: Medium-Dark Skin Tone`,
-      [`&#x1F3C4&#x1F3FF&#x200D&#x2640&#xFE0F`]: `Woman Surfing: Dark Skin Tone`,
-      [`&#x1F6A3`]: `Person Rowing Boat`,
-      [`&#x1F6A3&#x1F3FB`]: `Person Rowing Boat: Light Skin Tone`,
-      [`&#x1F6A3&#x1F3FC`]: `Person Rowing Boat: Medium-Light Skin Tone`,
-      [`&#x1F6A3&#x1F3FD`]: `Person Rowing Boat: Medium Skin Tone`,
-      [`&#x1F6A3&#x1F3FE`]: `Person Rowing Boat: Medium-Dark Skin Tone`,
-      [`&#x1F6A3&#x1F3FF`]: `Person Rowing Boat: Dark Skin Tone`,
-      [`&#x1F6A3&#x200D&#x2642&#xFE0F`]: `Man Rowing Boat`,
-      [`&#x1F6A3&#x1F3FB&#x200D&#x2642&#xFE0F`]: `Man Rowing Boat: Light Skin Tone`,
-      [`&#x1F6A3&#x1F3FC&#x200D&#x2642&#xFE0F`]: `Man Rowing Boat: Medium-Light Skin Tone`,
-      [`&#x1F6A3&#x1F3FD&#x200D&#x2642&#xFE0F`]: `Man Rowing Boat: Medium Skin Tone`,
-      [`&#x1F6A3&#x1F3FE&#x200D&#x2642&#xFE0F`]: `Man Rowing Boat: Medium-Dark Skin Tone`,
-      [`&#x1F6A3&#x1F3FF&#x200D&#x2642&#xFE0F`]: `Man Rowing Boat: Dark Skin Tone`,
-      [`&#x1F6A3&#x200D&#x2640&#xFE0F`]: `Woman Rowing Boat`,
-      [`&#x1F6A3&#x1F3FB&#x200D&#x2640&#xFE0F`]: `Woman Rowing Boat: Light Skin Tone`,
-      [`&#x1F6A3&#x1F3FC&#x200D&#x2640&#xFE0F`]: `Woman Rowing Boat: Medium-Light Skin Tone`,
-      [`&#x1F6A3&#x1F3FD&#x200D&#x2640&#xFE0F`]: `Woman Rowing Boat: Medium Skin Tone`,
-      [`&#x1F6A3&#x1F3FE&#x200D&#x2640&#xFE0F`]: `Woman Rowing Boat: Medium-Dark Skin Tone`,
-      [`&#x1F6A3&#x1F3FF&#x200D&#x2640&#xFE0F`]: `Woman Rowing Boat: Dark Skin Tone`,
-      [`&#x1F3CA`]: `Person Swimming`,
-      [`&#x1F3CA&#x1F3FB`]: `Person Swimming: Light Skin Tone`,
-      [`&#x1F3CA&#x1F3FC`]: `Person Swimming: Medium-Light Skin Tone`,
-      [`&#x1F3CA&#x1F3FD`]: `Person Swimming: Medium Skin Tone`,
-      [`&#x1F3CA&#x1F3FE`]: `Person Swimming: Medium-Dark Skin Tone`,
-      [`&#x1F3CA&#x1F3FF`]: `Person Swimming: Dark Skin Tone`,
-      [`&#x1F3CA&#x200D&#x2642&#xFE0F`]: `Man Swimming`,
-      [`&#x1F3CA&#x1F3FB&#x200D&#x2642&#xFE0F`]: `Man Swimming: Light Skin Tone`,
-      [`&#x1F3CA&#x1F3FC&#x200D&#x2642&#xFE0F`]: `Man Swimming: Medium-Light Skin Tone`,
-      [`&#x1F3CA&#x1F3FD&#x200D&#x2642&#xFE0F`]: `Man Swimming: Medium Skin Tone`,
-      [`&#x1F3CA&#x1F3FE&#x200D&#x2642&#xFE0F`]: `Man Swimming: Medium-Dark Skin Tone`,
-      [`&#x1F3CA&#x1F3FF&#x200D&#x2642&#xFE0F`]: `Man Swimming: Dark Skin Tone`,
-      [`&#x1F3CA&#x200D&#x2640&#xFE0F`]: `Woman Swimming`,
-      [`&#x1F3CA&#x1F3FB&#x200D&#x2640&#xFE0F`]: `Woman Swimming: Light Skin Tone`,
-      [`&#x1F3CA&#x1F3FC&#x200D&#x2640&#xFE0F`]: `Woman Swimming: Medium-Light Skin Tone`,
-      [`&#x1F3CA&#x1F3FD&#x200D&#x2640&#xFE0F`]: `Woman Swimming: Medium Skin Tone`,
-      [`&#x1F3CA&#x1F3FE&#x200D&#x2640&#xFE0F`]: `Woman Swimming: Medium-Dark Skin Tone`,
-      [`&#x1F3CA&#x1F3FF&#x200D&#x2640&#xFE0F`]: `Woman Swimming: Dark Skin Tone`,
-      [`&#x26F9`]: `Person Bouncing Ball`,
-      [`&#x26F9&#x1F3FB`]: `Person Bouncing Ball: Light Skin Tone`,
-      [`&#x26F9&#x1F3FC`]: `Person Bouncing Ball: Medium-Light Skin Tone`,
-      [`&#x26F9&#x1F3FD`]: `Person Bouncing Ball: Medium Skin Tone`,
-      [`&#x26F9&#x1F3FE`]: `Person Bouncing Ball: Medium-Dark Skin Tone`,
-      [`&#x26F9&#x1F3FF`]: `Person Bouncing Ball: Dark Skin Tone`,
-      [`&#x26F9&#xFE0F&#x200D&#x2642&#xFE0F`]: `Man Bouncing Ball`,
-      [`&#x26F9&#x1F3FB&#x200D&#x2642&#xFE0F`]: `Man Bouncing Ball: Light Skin Tone`,
-      [`&#x26F9&#x1F3FC&#x200D&#x2642&#xFE0F`]: `Man Bouncing Ball: Medium-Light Skin Tone`,
-      [`&#x26F9&#x1F3FD&#x200D&#x2642&#xFE0F`]: `Man Bouncing Ball: Medium Skin Tone`,
-      [`&#x26F9&#x1F3FE&#x200D&#x2642&#xFE0F`]: `Man Bouncing Ball: Medium-Dark Skin Tone`,
-      [`&#x26F9&#x1F3FF&#x200D&#x2642&#xFE0F`]: `Man Bouncing Ball: Dark Skin Tone`,
-      [`&#x26F9&#xFE0F&#x200D&#x2640&#xFE0F`]: `Woman Bouncing Ball`,
-      [`&#x26F9&#x1F3FB&#x200D&#x2640&#xFE0F`]: `Woman Bouncing Ball: Light Skin Tone`,
-      [`&#x26F9&#x1F3FC&#x200D&#x2640&#xFE0F`]: `Woman Bouncing Ball: Medium-Light Skin Tone`,
-      [`&#x26F9&#x1F3FD&#x200D&#x2640&#xFE0F`]: `Woman Bouncing Ball: Medium Skin Tone`,
-      [`&#x26F9&#x1F3FE&#x200D&#x2640&#xFE0F`]: `Woman Bouncing Ball: Medium-Dark Skin Tone`,
-      [`&#x26F9&#x1F3FF&#x200D&#x2640&#xFE0F`]: `Woman Bouncing Ball: Dark Skin Tone`,
-      [`&#x1F3CB`]: `Person Lifting Weights`,
-      [`&#x1F3CB&#x1F3FB`]: `Person Lifting Weights: Light Skin Tone`,
-      [`&#x1F3CB&#x1F3FC`]: `Person Lifting Weights: Medium-Light Skin Tone`,
-      [`&#x1F3CB&#x1F3FD`]: `Person Lifting Weights: Medium Skin Tone`,
-      [`&#x1F3CB&#x1F3FE`]: `Person Lifting Weights: Medium-Dark Skin Tone`,
-      [`&#x1F3CB&#x1F3FF`]: `Person Lifting Weights: Dark Skin Tone`,
-      [`&#x1F3CB&#xFE0F&#x200D&#x2642&#xFE0F`]: `Man Lifting Weights`,
-      [`&#x1F3CB&#x1F3FB&#x200D&#x2642&#xFE0F`]: `Man Lifting Weights: Light Skin Tone`,
-      [`&#x1F3CB&#x1F3FC&#x200D&#x2642&#xFE0F`]: `Man Lifting Weights: Medium-Light Skin Tone`,
-      [`&#x1F3CB&#x1F3FD&#x200D&#x2642&#xFE0F`]: `Man Lifting Weights: Medium Skin Tone`,
-      [`&#x1F3CB&#x1F3FE&#x200D&#x2642&#xFE0F`]: `Man Lifting Weights: Medium-Dark Skin Tone`,
-      [`&#x1F3CB&#x1F3FF&#x200D&#x2642&#xFE0F`]: `Man Lifting Weights: Dark Skin Tone`,
-      [`&#x1F3CB&#xFE0F&#x200D&#x2640&#xFE0F`]: `Woman Lifting Weights`,
-      [`&#x1F3CB&#x1F3FB&#x200D&#x2640&#xFE0F`]: `Woman Lifting Weights: Light Skin Tone`,
-      [`&#x1F3CB&#x1F3FC&#x200D&#x2640&#xFE0F`]: `Woman Lifting Weights: Medium-Light Skin Tone`,
-      [`&#x1F3CB&#x1F3FD&#x200D&#x2640&#xFE0F`]: `Woman Lifting Weights: Medium Skin Tone`,
-      [`&#x1F3CB&#x1F3FE&#x200D&#x2640&#xFE0F`]: `Woman Lifting Weights: Medium-Dark Skin Tone`,
-      [`&#x1F3CB&#x1F3FF&#x200D&#x2640&#xFE0F`]: `Woman Lifting Weights: Dark Skin Tone`,
-      [`&#x1F6B4`]: `Person Biking`,
-      [`&#x1F6B4&#x1F3FB`]: `Person Biking: Light Skin Tone`,
-      [`&#x1F6B4&#x1F3FC`]: `Person Biking: Medium-Light Skin Tone`,
-      [`&#x1F6B4&#x1F3FD`]: `Person Biking: Medium Skin Tone`,
-      [`&#x1F6B4&#x1F3FE`]: `Person Biking: Medium-Dark Skin Tone`,
-      [`&#x1F6B4&#x1F3FF`]: `Person Biking: Dark Skin Tone`,
-      [`&#x1F6B4&#x200D&#x2642&#xFE0F`]: `Man Biking`,
-      [`&#x1F6B4&#x1F3FB&#x200D&#x2642&#xFE0F`]: `Man Biking: Light Skin Tone`,
-      [`&#x1F6B4&#x1F3FC&#x200D&#x2642&#xFE0F`]: `Man Biking: Medium-Light Skin Tone`,
-      [`&#x1F6B4&#x1F3FD&#x200D&#x2642&#xFE0F`]: `Man Biking: Medium Skin Tone`,
-      [`&#x1F6B4&#x1F3FE&#x200D&#x2642&#xFE0F`]: `Man Biking: Medium-Dark Skin Tone`,
-      [`&#x1F6B4&#x1F3FF&#x200D&#x2642&#xFE0F`]: `Man Biking: Dark Skin Tone`,
-      [`&#x1F6B4&#x200D&#x2640&#xFE0F`]: `Woman Biking`,
-      [`&#x1F6B4&#x1F3FB&#x200D&#x2640&#xFE0F`]: `Woman Biking: Light Skin Tone`,
-      [`&#x1F6B4&#x1F3FC&#x200D&#x2640&#xFE0F`]: `Woman Biking: Medium-Light Skin Tone`,
-      [`&#x1F6B4&#x1F3FD&#x200D&#x2640&#xFE0F`]: `Woman Biking: Medium Skin Tone`,
-      [`&#x1F6B4&#x1F3FE&#x200D&#x2640&#xFE0F`]: `Woman Biking: Medium-Dark Skin Tone`,
-      [`&#x1F6B4&#x1F3FF&#x200D&#x2640&#xFE0F`]: `Woman Biking: Dark Skin Tone`,
-      [`&#x1F6B5`]: `Person Mountain Biking`,
-      [`&#x1F6B5&#x1F3FB`]: `Person Mountain Biking: Light Skin Tone`,
-      [`&#x1F6B5&#x1F3FC`]: `Person Mountain Biking: Medium-Light Skin Tone`,
-      [`&#x1F6B5&#x1F3FD`]: `Person Mountain Biking: Medium Skin Tone`,
-      [`&#x1F6B5&#x1F3FE`]: `Person Mountain Biking: Medium-Dark Skin Tone`,
-      [`&#x1F6B5&#x1F3FF`]: `Person Mountain Biking: Dark Skin Tone`,
-      [`&#x1F6B5&#x200D&#x2642&#xFE0F`]: `Man Mountain Biking`,
-      [`&#x1F6B5&#x1F3FB&#x200D&#x2642&#xFE0F`]: `Man Mountain Biking: Light Skin Tone`,
-      [`&#x1F6B5&#x1F3FC&#x200D&#x2642&#xFE0F`]: `Man Mountain Biking: Medium-Light Skin Tone`,
-      [`&#x1F6B5&#x1F3FD&#x200D&#x2642&#xFE0F`]: `Man Mountain Biking: Medium Skin Tone`,
-      [`&#x1F6B5&#x1F3FE&#x200D&#x2642&#xFE0F`]: `Man Mountain Biking: Medium-Dark Skin Tone`,
-      [`&#x1F6B5&#x1F3FF&#x200D&#x2642&#xFE0F`]: `Man Mountain Biking: Dark Skin Tone`,
-      [`&#x1F6B5&#x200D&#x2640&#xFE0F`]: `Woman Mountain Biking`,
-      [`&#x1F6B5&#x1F3FB&#x200D&#x2640&#xFE0F`]: `Woman Mountain Biking: Light Skin Tone`,
-      [`&#x1F6B5&#x1F3FC&#x200D&#x2640&#xFE0F`]: `Woman Mountain Biking: Medium-Light Skin Tone`,
-      [`&#x1F6B5&#x1F3FD&#x200D&#x2640&#xFE0F`]: `Woman Mountain Biking: Medium Skin Tone`,
-      [`&#x1F6B5&#x1F3FE&#x200D&#x2640&#xFE0F`]: `Woman Mountain Biking: Medium-Dark Skin Tone`,
-      [`&#x1F6B5&#x1F3FF&#x200D&#x2640&#xFE0F`]: `Woman Mountain Biking: Dark Skin Tone`,
-      [`&#x1F3CE`]: `Racing Car`,
-      [`&#x1F3CD`]: `Motorcycle`,
-      [`&#x1F938`]: `Person Cartwheeling`,
-      [`&#x1F938&#x1F3FB`]: `Person Cartwheeling: Light Skin Tone`,
-      [`&#x1F938&#x1F3FC`]: `Person Cartwheeling: Medium-Light Skin Tone`,
-      [`&#x1F938&#x1F3FD`]: `Person Cartwheeling: Medium Skin Tone`,
-      [`&#x1F938&#x1F3FE`]: `Person Cartwheeling: Medium-Dark Skin Tone`,
-      [`&#x1F938&#x1F3FF`]: `Person Cartwheeling: Dark Skin Tone`,
-      [`&#x1F938&#x200D&#x2642&#xFE0F`]: `Man Cartwheeling`,
-      [`&#x1F938&#x1F3FB&#x200D&#x2642&#xFE0F`]: `Man Cartwheeling: Light Skin Tone`,
-      [`&#x1F938&#x1F3FC&#x200D&#x2642&#xFE0F`]: `Man Cartwheeling: Medium-Light Skin Tone`,
-      [`&#x1F938&#x1F3FD&#x200D&#x2642&#xFE0F`]: `Man Cartwheeling: Medium Skin Tone`,
-      [`&#x1F938&#x1F3FE&#x200D&#x2642&#xFE0F`]: `Man Cartwheeling: Medium-Dark Skin Tone`,
-      [`&#x1F938&#x1F3FF&#x200D&#x2642&#xFE0F`]: `Man Cartwheeling: Dark Skin Tone`,
-      [`&#x1F938&#x200D&#x2640&#xFE0F`]: `Woman Cartwheeling`,
-      [`&#x1F938&#x1F3FB&#x200D&#x2640&#xFE0F`]: `Woman Cartwheeling: Light Skin Tone`,
-      [`&#x1F938&#x1F3FC&#x200D&#x2640&#xFE0F`]: `Woman Cartwheeling: Medium-Light Skin Tone`,
-      [`&#x1F938&#x1F3FD&#x200D&#x2640&#xFE0F`]: `Woman Cartwheeling: Medium Skin Tone`,
-      [`&#x1F938&#x1F3FE&#x200D&#x2640&#xFE0F`]: `Woman Cartwheeling: Medium-Dark Skin Tone`,
-      [`&#x1F938&#x1F3FF&#x200D&#x2640&#xFE0F`]: `Woman Cartwheeling: Dark Skin Tone`,
-      [`&#x1F93C`]: `People Wrestling`,
-      [`&#x1F93C&#x200D&#x2642&#xFE0F`]: `Men Wrestling`,
-      [`&#x1F93C&#x200D&#x2640&#xFE0F`]: `Women Wrestling`,
-      [`&#x1F93D`]: `Person Playing Water Polo`,
-      [`&#x1F93D&#x1F3FB`]: `Person Playing Water Polo: Light Skin Tone`,
-      [`&#x1F93D&#x1F3FC`]: `Person Playing Water Polo: Medium-Light Skin Tone`,
-      [`&#x1F93D&#x1F3FD`]: `Person Playing Water Polo: Medium Skin Tone`,
-      [`&#x1F93D&#x1F3FE`]: `Person Playing Water Polo: Medium-Dark Skin Tone`,
-      [`&#x1F93D&#x1F3FF`]: `Person Playing Water Polo: Dark Skin Tone`,
-      [`&#x1F93D&#x200D&#x2642&#xFE0F`]: `Man Playing Water Polo`,
-      [`&#x1F93D&#x1F3FB&#x200D&#x2642&#xFE0F`]: `Man Playing Water Polo: Light Skin Tone`,
-      [`&#x1F93D&#x1F3FC&#x200D&#x2642&#xFE0F`]: `Man Playing Water Polo: Medium-Light Skin Tone`,
-      [`&#x1F93D&#x1F3FD&#x200D&#x2642&#xFE0F`]: `Man Playing Water Polo: Medium Skin Tone`,
-      [`&#x1F93D&#x1F3FE&#x200D&#x2642&#xFE0F`]: `Man Playing Water Polo: Medium-Dark Skin Tone`,
-      [`&#x1F93D&#x1F3FF&#x200D&#x2642&#xFE0F`]: `Man Playing Water Polo: Dark Skin Tone`,
-      [`&#x1F93D&#x200D&#x2640&#xFE0F`]: `Woman Playing Water Polo`,
-      [`&#x1F93D&#x1F3FB&#x200D&#x2640&#xFE0F`]: `Woman Playing Water Polo: Light Skin Tone`,
-      [`&#x1F93D&#x1F3FC&#x200D&#x2640&#xFE0F`]: `Woman Playing Water Polo: Medium-Light Skin Tone`,
-      [`&#x1F93D&#x1F3FD&#x200D&#x2640&#xFE0F`]: `Woman Playing Water Polo: Medium Skin Tone`,
-      [`&#x1F93D&#x1F3FE&#x200D&#x2640&#xFE0F`]: `Woman Playing Water Polo: Medium-Dark Skin Tone`,
-      [`&#x1F93D&#x1F3FF&#x200D&#x2640&#xFE0F`]: `Woman Playing Water Polo: Dark Skin Tone`,
-      [`&#x1F93E`]: `Person Playing Handball`,
-      [`&#x1F93E&#x1F3FB`]: `Person Playing Handball: Light Skin Tone`,
-      [`&#x1F93E&#x1F3FC`]: `Person Playing Handball: Medium-Light Skin Tone`,
-      [`&#x1F93E&#x1F3FD`]: `Person Playing Handball: Medium Skin Tone`,
-      [`&#x1F93E&#x1F3FE`]: `Person Playing Handball: Medium-Dark Skin Tone`,
-      [`&#x1F93E&#x1F3FF`]: `Person Playing Handball: Dark Skin Tone`,
-      [`&#x1F93E&#x200D&#x2642&#xFE0F`]: `Man Playing Handball`,
-      [`&#x1F93E&#x1F3FB&#x200D&#x2642&#xFE0F`]: `Man Playing Handball: Light Skin Tone`,
-      [`&#x1F93E&#x1F3FC&#x200D&#x2642&#xFE0F`]: `Man Playing Handball: Medium-Light Skin Tone`,
-      [`&#x1F93E&#x1F3FD&#x200D&#x2642&#xFE0F`]: `Man Playing Handball: Medium Skin Tone`,
-      [`&#x1F93E&#x1F3FE&#x200D&#x2642&#xFE0F`]: `Man Playing Handball: Medium-Dark Skin Tone`,
-      [`&#x1F93E&#x1F3FF&#x200D&#x2642&#xFE0F`]: `Man Playing Handball: Dark Skin Tone`,
-      [`&#x1F93E&#x200D&#x2640&#xFE0F`]: `Woman Playing Handball`,
-      [`&#x1F93E&#x1F3FB&#x200D&#x2640&#xFE0F`]: `Woman Playing Handball: Light Skin Tone`,
-      [`&#x1F93E&#x1F3FC&#x200D&#x2640&#xFE0F`]: `Woman Playing Handball: Medium-Light Skin Tone`,
-      [`&#x1F93E&#x1F3FD&#x200D&#x2640&#xFE0F`]: `Woman Playing Handball: Medium Skin Tone`,
-      [`&#x1F93E&#x1F3FE&#x200D&#x2640&#xFE0F`]: `Woman Playing Handball: Medium-Dark Skin Tone`,
-      [`&#x1F93E&#x1F3FF&#x200D&#x2640&#xFE0F`]: `Woman Playing Handball: Dark Skin Tone`,
-      [`&#x1F939`]: `Person Juggling`,
-      [`&#x1F939&#x1F3FB`]: `Person Juggling: Light Skin Tone`,
-      [`&#x1F939&#x1F3FC`]: `Person Juggling: Medium-Light Skin Tone`,
-      [`&#x1F939&#x1F3FD`]: `Person Juggling: Medium Skin Tone`,
-      [`&#x1F939&#x1F3FE`]: `Person Juggling: Medium-Dark Skin Tone`,
-      [`&#x1F939&#x1F3FF`]: `Person Juggling: Dark Skin Tone`,
-      [`&#x1F939&#x200D&#x2642&#xFE0F`]: `Man Juggling`,
-      [`&#x1F939&#x1F3FB&#x200D&#x2642&#xFE0F`]: `Man Juggling: Light Skin Tone`,
-      [`&#x1F939&#x1F3FC&#x200D&#x2642&#xFE0F`]: `Man Juggling: Medium-Light Skin Tone`,
-      [`&#x1F939&#x1F3FD&#x200D&#x2642&#xFE0F`]: `Man Juggling: Medium Skin Tone`,
-      [`&#x1F939&#x1F3FE&#x200D&#x2642&#xFE0F`]: `Man Juggling: Medium-Dark Skin Tone`,
-      [`&#x1F939&#x1F3FF&#x200D&#x2642&#xFE0F`]: `Man Juggling: Dark Skin Tone`,
-      [`&#x1F939&#x200D&#x2640&#xFE0F`]: `Woman Juggling`,
-      [`&#x1F939&#x1F3FB&#x200D&#x2640&#xFE0F`]: `Woman Juggling: Light Skin Tone`,
-      [`&#x1F939&#x1F3FC&#x200D&#x2640&#xFE0F`]: `Woman Juggling: Medium-Light Skin Tone`,
-      [`&#x1F939&#x1F3FD&#x200D&#x2640&#xFE0F`]: `Woman Juggling: Medium Skin Tone`,
-      [`&#x1F939&#x1F3FE&#x200D&#x2640&#xFE0F`]: `Woman Juggling: Medium-Dark Skin Tone`,
-      [`&#x1F939&#x1F3FF&#x200D&#x2640&#xFE0F`]: `Woman Juggling: Dark Skin Tone`,
-      [`&#x1F46B`]: `Man And Woman Holding Hands`,
-      [`&#x1F46C`]: `Two Men Holding Hands`,
-      [`&#x1F46D`]: `Two Women Holding Hands`,
-      [`&#x1F48F`]: `Kiss`,
-      [`&#x1F469&#x200D&#x2764&#xFE0F&#x200D&#x1F48B&#x200D&#x1F468`]: `Kiss: Woman, Man`,
-      [`&#x1F468&#x200D&#x2764&#xFE0F&#x200D&#x1F48B&#x200D&#x1F468`]: `Kiss: Man, Man`,
-      [`&#x1F469&#x200D&#x2764&#xFE0F&#x200D&#x1F48B&#x200D&#x1F469`]: `Kiss: Woman, Woman`,
-      [`&#x1F491`]: `Couple With Heart`,
-      [`&#x1F469&#x200D&#x2764&#xFE0F&#x200D&#x1F468`]: `Couple With Heart: Woman, Man`,
-      [`&#x1F468&#x200D&#x2764&#xFE0F&#x200D&#x1F468`]: `Couple With Heart: Man, Man`,
-      [`&#x1F469&#x200D&#x2764&#xFE0F&#x200D&#x1F469`]: `Couple With Heart: Woman, Woman`,
-      [`&#x1F46A`]: `Family`,
-      [`&#x1F468&#x200D&#x1F469&#x200D&#x1F466`]: `Family: Man, Woman, Boy`,
-      [`&#x1F468&#x200D&#x1F469&#x200D&#x1F467`]: `Family: Man, Woman, Girl`,
-      [`&#x1F468&#x200D&#x1F469&#x200D&#x1F467&#x200D&#x1F466`]: `Family: Man, Woman, Girl, Boy`,
-      [`&#x1F468&#x200D&#x1F469&#x200D&#x1F466&#x200D&#x1F466`]: `Family: Man, Woman, Boy, Boy`,
-      [`&#x1F468&#x200D&#x1F469&#x200D&#x1F467&#x200D&#x1F467`]: `Family: Man, Woman, Girl, Girl`,
-      [`&#x1F468&#x200D&#x1F468&#x200D&#x1F466`]: `Family: Man, Man, Boy`,
-      [`&#x1F468&#x200D&#x1F468&#x200D&#x1F467`]: `Family: Man, Man, Girl`,
-      [`&#x1F468&#x200D&#x1F468&#x200D&#x1F467&#x200D&#x1F466`]: `Family: Man, Man, Girl, Boy`,
-      [`&#x1F468&#x200D&#x1F468&#x200D&#x1F466&#x200D&#x1F466`]: `Family: Man, Man, Boy, Boy`,
-      [`&#x1F468&#x200D&#x1F468&#x200D&#x1F467&#x200D&#x1F467`]: `Family: Man, Man, Girl, Girl`,
-      [`&#x1F469&#x200D&#x1F469&#x200D&#x1F466`]: `Family: Woman, Woman, Boy`,
-      [`&#x1F469&#x200D&#x1F469&#x200D&#x1F467`]: `Family: Woman, Woman, Girl`,
-      [`&#x1F469&#x200D&#x1F469&#x200D&#x1F467&#x200D&#x1F466`]: `Family: Woman, Woman, Girl, Boy`,
-      [`&#x1F469&#x200D&#x1F469&#x200D&#x1F466&#x200D&#x1F466`]: `Family: Woman, Woman, Boy, Boy`,
-      [`&#x1F469&#x200D&#x1F469&#x200D&#x1F467&#x200D&#x1F467`]: `Family: Woman, Woman, Girl, Girl`,
-      [`&#x1F468&#x200D&#x1F466`]: `Family: Man, Boy`,
-      [`&#x1F468&#x200D&#x1F466&#x200D&#x1F466`]: `Family: Man, Boy, Boy`,
-      [`&#x1F468&#x200D&#x1F467`]: `Family: Man, Girl`,
-      [`&#x1F468&#x200D&#x1F467&#x200D&#x1F466`]: `Family: Man, Girl, Boy`,
-      [`&#x1F468&#x200D&#x1F467&#x200D&#x1F467`]: `Family: Man, Girl, Girl`,
-      [`&#x1F469&#x200D&#x1F466`]: `Family: Woman, Boy`,
-      [`&#x1F469&#x200D&#x1F466&#x200D&#x1F466`]: `Family: Woman, Boy, Boy`,
-      [`&#x1F469&#x200D&#x1F467`]: `Family: Woman, Girl`,
-      [`&#x1F469&#x200D&#x1F467&#x200D&#x1F466`]: `Family: Woman, Girl, Boy`,
-      [`&#x1F469&#x200D&#x1F467&#x200D&#x1F467`]: `Family: Woman, Girl, Girl`,
-      [`&#x1F3FB`]: `Light Skin Tone`,
-      [`&#x1F3FC`]: `Medium-Light Skin Tone`,
-      [`&#x1F3FD`]: `Medium Skin Tone`,
-      [`&#x1F3FE`]: `Medium-Dark Skin Tone`,
-      [`&#x1F3FF`]: `Dark Skin Tone`,
-      [`&#x1F4AA`]: `Flexed Biceps`,
-      [`&#x1F4AA&#x1F3FB`]: `Flexed Biceps: Light Skin Tone`,
-      [`&#x1F4AA&#x1F3FC`]: `Flexed Biceps: Medium-Light Skin Tone`,
-      [`&#x1F4AA&#x1F3FD`]: `Flexed Biceps: Medium Skin Tone`,
-      [`&#x1F4AA&#x1F3FE`]: `Flexed Biceps: Medium-Dark Skin Tone`,
-      [`&#x1F4AA&#x1F3FF`]: `Flexed Biceps: Dark Skin Tone`,
-      [`&#x1F933`]: `Selfie`,
-      [`&#x1F933&#x1F3FB`]: `Selfie: Light Skin Tone`,
-      [`&#x1F933&#x1F3FC`]: `Selfie: Medium-Light Skin Tone`,
-      [`&#x1F933&#x1F3FD`]: `Selfie: Medium Skin Tone`,
-      [`&#x1F933&#x1F3FE`]: `Selfie: Medium-Dark Skin Tone`,
-      [`&#x1F933&#x1F3FF`]: `Selfie: Dark Skin Tone`,
-      [`&#x1F448`]: `Backhand Index Pointing Left`,
-      [`&#x1F448&#x1F3FB`]: `Backhand Index Pointing Left: Light Skin Tone`,
-      [`&#x1F448&#x1F3FC`]: `Backhand Index Pointing Left: Medium-Light Skin Tone`,
-      [`&#x1F448&#x1F3FD`]: `Backhand Index Pointing Left: Medium Skin Tone`,
-      [`&#x1F448&#x1F3FE`]: `Backhand Index Pointing Left: Medium-Dark Skin Tone`,
-      [`&#x1F448&#x1F3FF`]: `Backhand Index Pointing Left: Dark Skin Tone`,
-      [`&#x1F449`]: `Backhand Index Pointing Right`,
-      [`&#x1F449&#x1F3FB`]: `Backhand Index Pointing Right: Light Skin Tone`,
-      [`&#x1F449&#x1F3FC`]: `Backhand Index Pointing Right: Medium-Light Skin Tone`,
-      [`&#x1F449&#x1F3FD`]: `Backhand Index Pointing Right: Medium Skin Tone`,
-      [`&#x1F449&#x1F3FE`]: `Backhand Index Pointing Right: Medium-Dark Skin Tone`,
-      [`&#x1F449&#x1F3FF`]: `Backhand Index Pointing Right: Dark Skin Tone`,
-      [`&#x261D`]: `Index Pointing Up`,
-      [`&#x261D&#x1F3FB`]: `Index Pointing Up: Light Skin Tone`,
-      [`&#x261D&#x1F3FC`]: `Index Pointing Up: Medium-Light Skin Tone`,
-      [`&#x261D&#x1F3FD`]: `Index Pointing Up: Medium Skin Tone`,
-      [`&#x261D&#x1F3FE`]: `Index Pointing Up: Medium-Dark Skin Tone`,
-      [`&#x261D&#x1F3FF`]: `Index Pointing Up: Dark Skin Tone`,
-      [`&#x1F446`]: `Backhand Index Pointing Up`,
-      [`&#x1F446&#x1F3FB`]: `Backhand Index Pointing Up: Light Skin Tone`,
-      [`&#x1F446&#x1F3FC`]: `Backhand Index Pointing Up: Medium-Light Skin Tone`,
-      [`&#x1F446&#x1F3FD`]: `Backhand Index Pointing Up: Medium Skin Tone`,
-      [`&#x1F446&#x1F3FE`]: `Backhand Index Pointing Up: Medium-Dark Skin Tone`,
-      [`&#x1F446&#x1F3FF`]: `Backhand Index Pointing Up: Dark Skin Tone`,
-      [`&#x1F595`]: `Middle Finger`,
-      [`&#x1F595&#x1F3FB`]: `Middle Finger: Light Skin Tone`,
-      [`&#x1F595&#x1F3FC`]: `Middle Finger: Medium-Light Skin Tone`,
-      [`&#x1F595&#x1F3FD`]: `Middle Finger: Medium Skin Tone`,
-      [`&#x1F595&#x1F3FE`]: `Middle Finger: Medium-Dark Skin Tone`,
-      [`&#x1F595&#x1F3FF`]: `Middle Finger: Dark Skin Tone`,
-      [`&#x1F447`]: `Backhand Index Pointing Down`,
-      [`&#x1F447&#x1F3FB`]: `Backhand Index Pointing Down: Light Skin Tone`,
-      [`&#x1F447&#x1F3FC`]: `Backhand Index Pointing Down: Medium-Light Skin Tone`,
-      [`&#x1F447&#x1F3FD`]: `Backhand Index Pointing Down: Medium Skin Tone`,
-      [`&#x1F447&#x1F3FE`]: `Backhand Index Pointing Down: Medium-Dark Skin Tone`,
-      [`&#x1F447&#x1F3FF`]: `Backhand Index Pointing Down: Dark Skin Tone`,
-      [`&#x270C`]: `Victory Hand`,
-      [`&#x270C&#x1F3FB`]: `Victory Hand: Light Skin Tone`,
-      [`&#x270C&#x1F3FC`]: `Victory Hand: Medium-Light Skin Tone`,
-      [`&#x270C&#x1F3FD`]: `Victory Hand: Medium Skin Tone`,
-      [`&#x270C&#x1F3FE`]: `Victory Hand: Medium-Dark Skin Tone`,
-      [`&#x270C&#x1F3FF`]: `Victory Hand: Dark Skin Tone`,
-      [`&#x1F91E`]: `Crossed Fingers`,
-      [`&#x1F91E&#x1F3FB`]: `Crossed Fingers: Light Skin Tone`,
-      [`&#x1F91E&#x1F3FC`]: `Crossed Fingers: Medium-Light Skin Tone`,
-      [`&#x1F91E&#x1F3FD`]: `Crossed Fingers: Medium Skin Tone`,
-      [`&#x1F91E&#x1F3FE`]: `Crossed Fingers: Medium-Dark Skin Tone`,
-      [`&#x1F91E&#x1F3FF`]: `Crossed Fingers: Dark Skin Tone`,
-      [`&#x1F596`]: `Vulcan Salute`,
-      [`&#x1F596&#x1F3FB`]: `Vulcan Salute: Light Skin Tone`,
-      [`&#x1F596&#x1F3FC`]: `Vulcan Salute: Medium-Light Skin Tone`,
-      [`&#x1F596&#x1F3FD`]: `Vulcan Salute: Medium Skin Tone`,
-      [`&#x1F596&#x1F3FE`]: `Vulcan Salute: Medium-Dark Skin Tone`,
-      [`&#x1F596&#x1F3FF`]: `Vulcan Salute: Dark Skin Tone`,
-      [`&#x1F918`]: `Sign Of The Horns`,
-      [`&#x1F918&#x1F3FB`]: `Sign Of The Horns: Light Skin Tone`,
-      [`&#x1F918&#x1F3FC`]: `Sign Of The Horns: Medium-Light Skin Tone`,
-      [`&#x1F918&#x1F3FD`]: `Sign Of The Horns: Medium Skin Tone`,
-      [`&#x1F918&#x1F3FE`]: `Sign Of The Horns: Medium-Dark Skin Tone`,
-      [`&#x1F918&#x1F3FF`]: `Sign Of The Horns: Dark Skin Tone`,
-      [`&#x1F919`]: `Call Me Hand`,
-      [`&#x1F919&#x1F3FB`]: `Call Me Hand: Light Skin Tone`,
-      [`&#x1F919&#x1F3FC`]: `Call Me Hand: Medium-Light Skin Tone`,
-      [`&#x1F919&#x1F3FD`]: `Call Me Hand: Medium Skin Tone`,
-      [`&#x1F919&#x1F3FE`]: `Call Me Hand: Medium-Dark Skin Tone`,
-      [`&#x1F919&#x1F3FF`]: `Call Me Hand: Dark Skin Tone`,
-      [`&#x1F590`]: `Raised Hand With Fingers Splayed`,
-      [`&#x1F590&#x1F3FB`]: `Raised Hand With Fingers Splayed: Light Skin Tone`,
-      [`&#x1F590&#x1F3FC`]: `Raised Hand With Fingers Splayed: Medium-Light Skin Tone`,
-      [`&#x1F590&#x1F3FD`]: `Raised Hand With Fingers Splayed: Medium Skin Tone`,
-      [`&#x1F590&#x1F3FE`]: `Raised Hand With Fingers Splayed: Medium-Dark Skin Tone`,
-      [`&#x1F590&#x1F3FF`]: `Raised Hand With Fingers Splayed: Dark Skin Tone`,
-      [`&#x270B`]: `Raised Hand`,
-      [`&#x270B&#x1F3FB`]: `Raised Hand: Light Skin Tone`,
-      [`&#x270B&#x1F3FC`]: `Raised Hand: Medium-Light Skin Tone`,
-      [`&#x270B&#x1F3FD`]: `Raised Hand: Medium Skin Tone`,
-      [`&#x270B&#x1F3FE`]: `Raised Hand: Medium-Dark Skin Tone`,
-      [`&#x270B&#x1F3FF`]: `Raised Hand: Dark Skin Tone`,
-      [`&#x1F44C`]: `OK Hand`,
-      [`&#x1F44C&#x1F3FB`]: `OK Hand: Light Skin Tone`,
-      [`&#x1F44C&#x1F3FC`]: `OK Hand: Medium-Light Skin Tone`,
-      [`&#x1F44C&#x1F3FD`]: `OK Hand: Medium Skin Tone`,
-      [`&#x1F44C&#x1F3FE`]: `OK Hand: Medium-Dark Skin Tone`,
-      [`&#x1F44C&#x1F3FF`]: `OK Hand: Dark Skin Tone`,
-      [`&#x1F44D`]: `Thumbs Up`,
-      [`&#x1F44D&#x1F3FB`]: `Thumbs Up: Light Skin Tone`,
-      [`&#x1F44D&#x1F3FC`]: `Thumbs Up: Medium-Light Skin Tone`,
-      [`&#x1F44D&#x1F3FD`]: `Thumbs Up: Medium Skin Tone`,
-      [`&#x1F44D&#x1F3FE`]: `Thumbs Up: Medium-Dark Skin Tone`,
-      [`&#x1F44D&#x1F3FF`]: `Thumbs Up: Dark Skin Tone`,
-      [`&#x1F44E`]: `Thumbs Down`,
-      [`&#x1F44E&#x1F3FB`]: `Thumbs Down: Light Skin Tone`,
-      [`&#x1F44E&#x1F3FC`]: `Thumbs Down: Medium-Light Skin Tone`,
-      [`&#x1F44E&#x1F3FD`]: `Thumbs Down: Medium Skin Tone`,
-      [`&#x1F44E&#x1F3FE`]: `Thumbs Down: Medium-Dark Skin Tone`,
-      [`&#x1F44E&#x1F3FF`]: `Thumbs Down: Dark Skin Tone`,
-      [`&#x270A`]: `Raised Fist`,
-      [`&#x270A&#x1F3FB`]: `Raised Fist: Light Skin Tone`,
-      [`&#x270A&#x1F3FC`]: `Raised Fist: Medium-Light Skin Tone`,
-      [`&#x270A&#x1F3FD`]: `Raised Fist: Medium Skin Tone`,
-      [`&#x270A&#x1F3FE`]: `Raised Fist: Medium-Dark Skin Tone`,
-      [`&#x270A&#x1F3FF`]: `Raised Fist: Dark Skin Tone`,
-      [`&#x1F44A`]: `Oncoming Fist`,
-      [`&#x1F44A&#x1F3FB`]: `Oncoming Fist: Light Skin Tone`,
-      [`&#x1F44A&#x1F3FC`]: `Oncoming Fist: Medium-Light Skin Tone`,
-      [`&#x1F44A&#x1F3FD`]: `Oncoming Fist: Medium Skin Tone`,
-      [`&#x1F44A&#x1F3FE`]: `Oncoming Fist: Medium-Dark Skin Tone`,
-      [`&#x1F44A&#x1F3FF`]: `Oncoming Fist: Dark Skin Tone`,
-      [`&#x1F91B`]: `Left-Facing Fist`,
-      [`&#x1F91B&#x1F3FB`]: `Left-Facing Fist: Light Skin Tone`,
-      [`&#x1F91B&#x1F3FC`]: `Left-Facing Fist: Medium-Light Skin Tone`,
-      [`&#x1F91B&#x1F3FD`]: `Left-Facing Fist: Medium Skin Tone`,
-      [`&#x1F91B&#x1F3FE`]: `Left-Facing Fist: Medium-Dark Skin Tone`,
-      [`&#x1F91B&#x1F3FF`]: `Left-Facing Fist: Dark Skin Tone`,
-      [`&#x1F91C`]: `Right-Facing Fist`,
-      [`&#x1F91C&#x1F3FB`]: `Right-Facing Fist: Light Skin Tone`,
-      [`&#x1F91C&#x1F3FC`]: `Right-Facing Fist: Medium-Light Skin Tone`,
-      [`&#x1F91C&#x1F3FD`]: `Right-Facing Fist: Medium Skin Tone`,
-      [`&#x1F91C&#x1F3FE`]: `Right-Facing Fist: Medium-Dark Skin Tone`,
-      [`&#x1F91C&#x1F3FF`]: `Right-Facing Fist: Dark Skin Tone`,
-      [`&#x1F91A`]: `Raised Back Of Hand`,
-      [`&#x1F91A&#x1F3FB`]: `Raised Back Of Hand: Light Skin Tone`,
-      [`&#x1F91A&#x1F3FC`]: `Raised Back Of Hand: Medium-Light Skin Tone`,
-      [`&#x1F91A&#x1F3FD`]: `Raised Back Of Hand: Medium Skin Tone`,
-      [`&#x1F91A&#x1F3FE`]: `Raised Back Of Hand: Medium-Dark Skin Tone`,
-      [`&#x1F91A&#x1F3FF`]: `Raised Back Of Hand: Dark Skin Tone`,
-      [`&#x1F44B`]: `Waving Hand`,
-      [`&#x1F44B&#x1F3FB`]: `Waving Hand: Light Skin Tone`,
-      [`&#x1F44B&#x1F3FC`]: `Waving Hand: Medium-Light Skin Tone`,
-      [`&#x1F44B&#x1F3FD`]: `Waving Hand: Medium Skin Tone`,
-      [`&#x1F44B&#x1F3FE`]: `Waving Hand: Medium-Dark Skin Tone`,
-      [`&#x1F44B&#x1F3FF`]: `Waving Hand: Dark Skin Tone`,
-      [`&#x1F44F`]: `Clapping Hands`,
-      [`&#x1F44F&#x1F3FB`]: `Clapping Hands: Light Skin Tone`,
-      [`&#x1F44F&#x1F3FC`]: `Clapping Hands: Medium-Light Skin Tone`,
-      [`&#x1F44F&#x1F3FD`]: `Clapping Hands: Medium Skin Tone`,
-      [`&#x1F44F&#x1F3FE`]: `Clapping Hands: Medium-Dark Skin Tone`,
-      [`&#x1F44F&#x1F3FF`]: `Clapping Hands: Dark Skin Tone`,
-      [`&#x270D`]: `Writing Hand`,
-      [`&#x270D&#x1F3FB`]: `Writing Hand: Light Skin Tone`,
-      [`&#x270D&#x1F3FC`]: `Writing Hand: Medium-Light Skin Tone`,
-      [`&#x270D&#x1F3FD`]: `Writing Hand: Medium Skin Tone`,
-      [`&#x270D&#x1F3FE`]: `Writing Hand: Medium-Dark Skin Tone`,
-      [`&#x270D&#x1F3FF`]: `Writing Hand: Dark Skin Tone`,
-      [`&#x1F450`]: `Open Hands`,
-      [`&#x1F450&#x1F3FB`]: `Open Hands: Light Skin Tone`,
-      [`&#x1F450&#x1F3FC`]: `Open Hands: Medium-Light Skin Tone`,
-      [`&#x1F450&#x1F3FD`]: `Open Hands: Medium Skin Tone`,
-      [`&#x1F450&#x1F3FE`]: `Open Hands: Medium-Dark Skin Tone`,
-      [`&#x1F450&#x1F3FF`]: `Open Hands: Dark Skin Tone`,
-      [`&#x1F64C`]: `Raising Hands`,
-      [`&#x1F64C&#x1F3FB`]: `Raising Hands: Light Skin Tone`,
-      [`&#x1F64C&#x1F3FC`]: `Raising Hands: Medium-Light Skin Tone`,
-      [`&#x1F64C&#x1F3FD`]: `Raising Hands: Medium Skin Tone`,
-      [`&#x1F64C&#x1F3FE`]: `Raising Hands: Medium-Dark Skin Tone`,
-      [`&#x1F64C&#x1F3FF`]: `Raising Hands: Dark Skin Tone`,
-      [`&#x1F64F`]: `Folded Hands`,
-      [`&#x1F64F&#x1F3FB`]: `Folded Hands: Light Skin Tone`,
-      [`&#x1F64F&#x1F3FC`]: `Folded Hands: Medium-Light Skin Tone`,
-      [`&#x1F64F&#x1F3FD`]: `Folded Hands: Medium Skin Tone`,
-      [`&#x1F64F&#x1F3FE`]: `Folded Hands: Medium-Dark Skin Tone`,
-      [`&#x1F64F&#x1F3FF`]: `Folded Hands: Dark Skin Tone`,
-      [`&#x1F91D`]: `Handshake`,
-      [`&#x1F485`]: `Nail Polish`,
-      [`&#x1F485&#x1F3FB`]: `Nail Polish: Light Skin Tone`,
-      [`&#x1F485&#x1F3FC`]: `Nail Polish: Medium-Light Skin Tone`,
-      [`&#x1F485&#x1F3FD`]: `Nail Polish: Medium Skin Tone`,
-      [`&#x1F485&#x1F3FE`]: `Nail Polish: Medium-Dark Skin Tone`,
-      [`&#x1F485&#x1F3FF`]: `Nail Polish: Dark Skin Tone`,
-      [`&#x1F442`]: `Ear`,
-      [`&#x1F442&#x1F3FB`]: `Ear: Light Skin Tone`,
-      [`&#x1F442&#x1F3FC`]: `Ear: Medium-Light Skin Tone`,
-      [`&#x1F442&#x1F3FD`]: `Ear: Medium Skin Tone`,
-      [`&#x1F442&#x1F3FE`]: `Ear: Medium-Dark Skin Tone`,
-      [`&#x1F442&#x1F3FF`]: `Ear: Dark Skin Tone`,
-      [`&#x1F443`]: `Nose`,
-      [`&#x1F443&#x1F3FB`]: `Nose: Light Skin Tone`,
-      [`&#x1F443&#x1F3FC`]: `Nose: Medium-Light Skin Tone`,
-      [`&#x1F443&#x1F3FD`]: `Nose: Medium Skin Tone`,
-      [`&#x1F443&#x1F3FE`]: `Nose: Medium-Dark Skin Tone`,
-      [`&#x1F443&#x1F3FF`]: `Nose: Dark Skin Tone`,
-      [`&#x1F463`]: `Footprints`,
-      [`&#x1F440`]: `Eyes`,
-      [`&#x1F441`]: `Eye`,
-      [`&#x1F441&#xFE0F&#x200D&#x1F5E8&#xFE0F`]: `Eye In Speech Bubble`,
-      [`&#x1F445`]: `Tongue`,
-      [`&#x1F444`]: `Mouth`,
-      [`&#x1F48B`]: `Kiss Mark`,
-      [`&#x1F498`]: `Heart With Arrow`,
-      [`&#x2764`]: `Red Heart`,
-      [`&#x1F493`]: `Beating Heart`,
-      [`&#x1F494`]: `Broken Heart`,
-      [`&#x1F495`]: `Two Hearts`,
-      [`&#x1F496`]: `Sparkling Heart`,
-      [`&#x1F497`]: `Growing Heart`,
-      [`&#x1F499`]: `Blue Heart`,
-      [`&#x1F49A`]: `Green Heart`,
-      [`&#x1F49B`]: `Yellow Heart`,
-      [`&#x1F49C`]: `Purple Heart`,
-      [`&#x1F5A4`]: `Black Heart`,
-      [`&#x1F49D`]: `Heart With Ribbon`,
-      [`&#x1F49E`]: `Revolving Hearts`,
-      [`&#x1F49F`]: `Heart Decoration`,
-      [`&#x2763`]: `Heavy Heart Exclamation`,
-      [`&#x1F48C`]: `Love Letter`,
-      [`&#x1F4A4`]: `Zzz`,
-      [`&#x1F4A2`]: `Anger Symbol`,
-      [`&#x1F4A3`]: `Bomb`,
-      [`&#x1F4A5`]: `Collision`,
-      [`&#x1F4A6`]: `Sweat Droplets`,
-      [`&#x1F4A8`]: `Dashing Away`,
-      [`&#x1F4AB`]: `Dizzy`,
-      [`&#x1F4AC`]: `Speech Balloon`,
-      [`&#x1F5E8`]: `Left Speech Bubble`,
-      [`&#x1F5EF`]: `Right Anger Bubble`,
-      [`&#x1F4AD`]: `Thought Balloon`,
-      [`&#x1F573`]: `Hole`,
-      [`&#x1F453`]: `Glasses`,
-      [`&#x1F576`]: `Sunglasses`,
-      [`&#x1F454`]: `Necktie`,
-      [`&#x1F455`]: `T-Shirt`,
-      [`&#x1F456`]: `Jeans`,
-      [`&#x1F457`]: `Dress`,
-      [`&#x1F458`]: `Kimono`,
-      [`&#x1F459`]: `Bikini`,
-      [`&#x1F45A`]: `Woman’s Clothes`,
-      [`&#x1F45B`]: `Purse`,
-      [`&#x1F45C`]: `Handbag`,
-      [`&#x1F45D`]: `Clutch Bag`,
-      [`&#x1F6CD`]: `Shopping Bags`,
-      [`&#x1F392`]: `School Backpack`,
-      [`&#x1F45E`]: `Man’s Shoe`,
-      [`&#x1F45F`]: `Running Shoe`,
-      [`&#x1F460`]: `High-Heeled Shoe`,
-      [`&#x1F461`]: `Woman’s Sandal`,
-      [`&#x1F462`]: `Woman’s Boot`,
-      [`&#x1F451`]: `Crown`,
-      [`&#x1F452`]: `Woman’s Hat`,
-      [`&#x1F3A9`]: `Top Hat`,
-      [`&#x1F393`]: `Graduation Cap`,
-      [`&#x26D1`]: `Rescue Worker’s Helmet`,
-      [`&#x1F4FF`]: `Prayer Beads`,
-      [`&#x1F484`]: `Lipstick`,
-      [`&#x1F48D`]: `Ring`,
-      [`&#x1F48E`]: `Gem Stone`,
-      [`&#x1F435`]: `Monkey Face`,
-      [`&#x1F412`]: `Monkey`,
-      [`&#x1F98D`]: `Gorilla`,
-      [`&#x1F436`]: `Dog Face`,
-      [`&#x1F415`]: `Dog`,
-      [`&#x1F429`]: `Poodle`,
-      [`&#x1F43A`]: `Wolf Face`,
-      [`&#x1F98A`]: `Fox Face`,
-      [`&#x1F431`]: `Cat Face`,
-      [`&#x1F408`]: `Cat`,
-      [`&#x1F981`]: `Lion Face`,
-      [`&#x1F42F`]: `Tiger Face`,
-      [`&#x1F405`]: `Tiger`,
-      [`&#x1F406`]: `Leopard`,
-      [`&#x1F434`]: `Horse Face`,
-      [`&#x1F40E`]: `Horse`,
-      [`&#x1F98C`]: `Deer`,
-      [`&#x1F984`]: `Unicorn Face`,
-      [`&#x1F42E`]: `Cow Face`,
-      [`&#x1F402`]: `Ox`,
-      [`&#x1F403`]: `Water Buffalo`,
-      [`&#x1F404`]: `Cow`,
-      [`&#x1F437`]: `Pig Face`,
-      [`&#x1F416`]: `Pig`,
-      [`&#x1F417`]: `Boar`,
-      [`&#x1F43D`]: `Pig Nose`,
-      [`&#x1F40F`]: `Ram`,
-      [`&#x1F411`]: `Sheep`,
-      [`&#x1F410`]: `Goat`,
-      [`&#x1F42A`]: `Camel`,
-      [`&#x1F42B`]: `Two-Hump Camel`,
-      [`&#x1F418`]: `Elephant`,
-      [`&#x1F98F`]: `Rhinoceros`,
-      [`&#x1F42D`]: `Mouse Face`,
-      [`&#x1F401`]: `Mouse`,
-      [`&#x1F400`]: `Rat`,
-      [`&#x1F439`]: `Hamster Face`,
-      [`&#x1F430`]: `Rabbit Face`,
-      [`&#x1F407`]: `Rabbit`,
-      [`&#x1F43F`]: `Chipmunk`,
-      [`&#x1F987`]: `Bat`,
-      [`&#x1F43B`]: `Bear Face`,
-      [`&#x1F428`]: `Koala`,
-      [`&#x1F43C`]: `Panda Face`,
-      [`&#x1F43E`]: `Paw Prints`,
-      [`&#x1F983`]: `Turkey`,
-      [`&#x1F414`]: `Chicken`,
-      [`&#x1F413`]: `Rooster`,
-      [`&#x1F423`]: `Hatching Chick`,
-      [`&#x1F424`]: `Baby Chick`,
-      [`&#x1F425`]: `Front-Facing Baby Chick`,
-      [`&#x1F426`]: `Bird`,
-      [`&#x1F427`]: `Penguin`,
-      [`&#x1F54A`]: `Dove`,
-      [`&#x1F985`]: `Eagle`,
-      [`&#x1F986`]: `Duck`,
-      [`&#x1F989`]: `Owl`,
-      [`&#x1F438`]: `Frog Face`,
-      [`&#x1F40A`]: `Crocodile`,
-      [`&#x1F422`]: `Turtle`,
-      [`&#x1F98E`]: `Lizard`,
-      [`&#x1F40D`]: `Snake`,
-      [`&#x1F432`]: `Dragon Face`,
-      [`&#x1F409`]: `Dragon`,
-      [`&#x1F433`]: `Spouting Whale`,
-      [`&#x1F40B`]: `Whale`,
-      [`&#x1F42C`]: `Dolphin`,
-      [`&#x1F41F`]: `Fish`,
-      [`&#x1F420`]: `Tropical Fish`,
-      [`&#x1F421`]: `Blowfish`,
-      [`&#x1F988`]: `Shark`,
-      [`&#x1F419`]: `Octopus`,
-      [`&#x1F41A`]: `Spiral Shell`,
-      [`&#x1F980`]: `Crab`,
-      [`&#x1F990`]: `Shrimp`,
-      [`&#x1F991`]: `Squid`,
-      [`&#x1F98B`]: `Butterfly`,
-      [`&#x1F40C`]: `Snail`,
-      [`&#x1F41B`]: `Bug`,
-      [`&#x1F41C`]: `Ant`,
-      [`&#x1F41D`]: `Honeybee`,
-      [`&#x1F41E`]: `Lady Beetle`,
-      [`&#x1F577`]: `Spider`,
-      [`&#x1F578`]: `Spider Web`,
-      [`&#x1F982`]: `Scorpion`,
-      [`&#x1F490`]: `Bouquet`,
-      [`&#x1F338`]: `Cherry Blossom`,
-      [`&#x1F4AE`]: `White Flower`,
-      [`&#x1F3F5`]: `Rosette`,
-      [`&#x1F339`]: `Rose`,
-      [`&#x1F940`]: `Wilted Flower`,
-      [`&#x1F33A`]: `Hibiscus`,
-      [`&#x1F33B`]: `Sunflower`,
-      [`&#x1F33C`]: `Blossom`,
-      [`&#x1F337`]: `Tulip`,
-      [`&#x1F331`]: `Seedling`,
-      [`&#x1F332`]: `Evergreen Tree`,
-      [`&#x1F333`]: `Deciduous Tree`,
-      [`&#x1F334`]: `Palm Tree`,
-      [`&#x1F335`]: `Cactus`,
-      [`&#x1F33E`]: `Sheaf Of Rice`,
-      [`&#x1F33F`]: `Herb`,
-      [`&#x2618`]: `Shamrock`,
-      [`&#x1F340`]: `Four Leaf Clover`,
-      [`&#x1F341`]: `Maple Leaf`,
-      [`&#x1F342`]: `Fallen Leaf`,
-      [`&#x1F343`]: `Leaf Fluttering In Wind`,
-      [`&#x1F347`]: `Grapes`,
-      [`&#x1F348`]: `Melon`,
-      [`&#x1F349`]: `Watermelon`,
-      [`&#x1F34A`]: `Tangerine`,
-      [`&#x1F34B`]: `Lemon`,
-      [`&#x1F34C`]: `Banana`,
-      [`&#x1F34D`]: `Pineapple`,
-      [`&#x1F34E`]: `Red Apple`,
-      [`&#x1F34F`]: `Green Apple`,
-      [`&#x1F350`]: `Pear`,
-      [`&#x1F351`]: `Peach`,
-      [`&#x1F352`]: `Cherries`,
-      [`&#x1F353`]: `Strawberry`,
-      [`&#x1F95D`]: `Kiwi Fruit`,
-      [`&#x1F345`]: `Tomato`,
-      [`&#x1F951`]: `Avocado`,
-      [`&#x1F346`]: `Eggplant`,
-      [`&#x1F954`]: `Potato`,
-      [`&#x1F955`]: `Carrot`,
-      [`&#x1F33D`]: `Ear Of Corn`,
-      [`&#x1F336`]: `Hot Pepper`,
-      [`&#x1F952`]: `Cucumber`,
-      [`&#x1F344`]: `Mushroom`,
-      [`&#x1F95C`]: `Peanuts`,
-      [`&#x1F330`]: `Chestnut`,
-      [`&#x1F35E`]: `Bread`,
-      [`&#x1F950`]: `Croissant`,
-      [`&#x1F956`]: `Baguette Bread`,
-      [`&#x1F95E`]: `Pancakes`,
-      [`&#x1F9C0`]: `Cheese Wedge`,
-      [`&#x1F356`]: `Meat On Bone`,
-      [`&#x1F357`]: `Poultry Leg`,
-      [`&#x1F953`]: `Bacon`,
-      [`&#x1F354`]: `Hamburger`,
-      [`&#x1F35F`]: `French Fries`,
-      [`&#x1F355`]: `Pizza`,
-      [`&#x1F32D`]: `Hot Dog`,
-      [`&#x1F32E`]: `Taco`,
-      [`&#x1F32F`]: `Burrito`,
-      [`&#x1F959`]: `Stuffed Flatbread`,
-      [`&#x1F95A`]: `Egg`,
-      [`&#x1F373`]: `Cooking`,
-      [`&#x1F958`]: `Shallow Pan Of Food`,
-      [`&#x1F372`]: `Pot Of Food`,
-      [`&#x1F957`]: `Green Salad`,
-      [`&#x1F37F`]: `Popcorn`,
-      [`&#x1F371`]: `Bento Box`,
-      [`&#x1F358`]: `Rice Cracker`,
-      [`&#x1F359`]: `Rice Ball`,
-      [`&#x1F35A`]: `Cooked Rice`,
-      [`&#x1F35B`]: `Curry Rice`,
-      [`&#x1F35C`]: `Steaming Bowl`,
-      [`&#x1F35D`]: `Spaghetti`,
-      [`&#x1F360`]: `Roasted Sweet Potato`,
-      [`&#x1F362`]: `Oden`,
-      [`&#x1F363`]: `Sushi`,
-      [`&#x1F364`]: `Fried Shrimp`,
-      [`&#x1F365`]: `Fish Cake With Swirl`,
-      [`&#x1F361`]: `Dango`,
-      [`&#x1F366`]: `Soft Ice Cream`,
-      [`&#x1F367`]: `Shaved Ice`,
-      [`&#x1F368`]: `Ice Cream`,
-      [`&#x1F369`]: `Doughnut`,
-      [`&#x1F36A`]: `Cookie`,
-      [`&#x1F382`]: `Birthday Cake`,
-      [`&#x1F370`]: `Shortcake`,
-      [`&#x1F36B`]: `Chocolate Bar`,
-      [`&#x1F36C`]: `Candy`,
-      [`&#x1F36D`]: `Lollipop`,
-      [`&#x1F36E`]: `Custard`,
-      [`&#x1F36F`]: `Honey Pot`,
-      [`&#x1F37C`]: `Baby Bottle`,
-      [`&#x1F95B`]: `Glass Of Milk`,
-      [`&#x2615`]: `Hot Beverage`,
-      [`&#x1F375`]: `Teacup Without Handle`,
-      [`&#x1F376`]: `Sake`,
-      [`&#x1F37E`]: `Bottle With Popping Cork`,
-      [`&#x1F377`]: `Wine Glass`,
-      [`&#x1F378`]: `Cocktail Glass`,
-      [`&#x1F379`]: `Tropical Drink`,
-      [`&#x1F37A`]: `Beer Mug`,
-      [`&#x1F37B`]: `Clinking Beer Mugs`,
-      [`&#x1F942`]: `Clinking Glasses`,
-      [`&#x1F943`]: `Tumbler Glass`,
-      [`&#x1F37D`]: `Fork And Knife With Plate`,
-      [`&#x1F374`]: `Fork And Knife`,
-      [`&#x1F944`]: `Spoon`,
-      [`&#x1F52A`]: `Kitchen Knife`,
-      [`&#x1F3FA`]: `Amphora`,
-      [`&#x1F30D`]: `Globe Showing Europe-Africa`,
-      [`&#x1F30E`]: `Globe Showing Americas`,
-      [`&#x1F30F`]: `Globe Showing Asia-Australia`,
-      [`&#x1F310`]: `Globe With Meridians`,
-      [`&#x1F5FA`]: `World Map`,
-      [`&#x1F5FE`]: `Map Of Japan`,
-      [`&#x1F3D4`]: `Snow-Capped Mountain`,
-      [`&#x26F0`]: `Mountain`,
-      [`&#x1F30B`]: `Volcano`,
-      [`&#x1F5FB`]: `Mount Fuji`,
-      [`&#x1F3D5`]: `Camping`,
-      [`&#x1F3D6`]: `Beach With Umbrella`,
-      [`&#x1F3DC`]: `Desert`,
-      [`&#x1F3DD`]: `Desert Island`,
-      [`&#x1F3DE`]: `National Park`,
-      [`&#x1F3DF`]: `Stadium`,
-      [`&#x1F3DB`]: `Classical Building`,
-      [`&#x1F3D7`]: `Building Construction`,
-      [`&#x1F3D8`]: `House`,
-      [`&#x1F3D9`]: `Cityscape`,
-      [`&#x1F3DA`]: `Derelict House`,
-      [`&#x1F3E0`]: `House`,
-      [`&#x1F3E1`]: `House With Garden`,
-      [`&#x1F3E2`]: `Office Building`,
-      [`&#x1F3E3`]: `Japanese Post Office`,
-      [`&#x1F3E4`]: `Post Office`,
-      [`&#x1F3E5`]: `Hospital`,
-      [`&#x1F3E6`]: `Bank`,
-      [`&#x1F3E8`]: `Hotel`,
-      [`&#x1F3E9`]: `Love Hotel`,
-      [`&#x1F3EA`]: `Convenience Store`,
-      [`&#x1F3EB`]: `School`,
-      [`&#x1F3EC`]: `Department Store`,
-      [`&#x1F3ED`]: `Factory`,
-      [`&#x1F3EF`]: `Japanese Castle`,
-      [`&#x1F3F0`]: `Castle`,
-      [`&#x1F492`]: `Wedding`,
-      [`&#x1F5FC`]: `Tokyo Tower`,
-      [`&#x1F5FD`]: `Statue Of Liberty`,
-      [`&#x26EA`]: `Church`,
-      [`&#x1F54C`]: `Mosque`,
-      [`&#x1F54D`]: `Synagogue`,
-      [`&#x26E9`]: `Shinto Shrine`,
-      [`&#x1F54B`]: `Kaaba`,
-      [`&#x26F2`]: `Fountain`,
-      [`&#x26FA`]: `Tent`,
-      [`&#x1F301`]: `Foggy`,
-      [`&#x1F303`]: `Night With Stars`,
-      [`&#x1F304`]: `Sunrise Over Mountains`,
-      [`&#x1F305`]: `Sunrise`,
-      [`&#x1F306`]: `Cityscape At Dusk`,
-      [`&#x1F307`]: `Sunset`,
-      [`&#x1F309`]: `Bridge At Night`,
-      [`&#x2668`]: `Hot Springs`,
-      [`&#x1F30C`]: `Milky Way`,
-      [`&#x1F3A0`]: `Carousel Horse`,
-      [`&#x1F3A1`]: `Ferris Wheel`,
-      [`&#x1F3A2`]: `Roller Coaster`,
-      [`&#x1F488`]: `Barber Pole`,
-      [`&#x1F3AA`]: `Circus Tent`,
-      [`&#x1F3AD`]: `Performing Arts`,
-      [`&#x1F5BC`]: `Framed Picture`,
-      [`&#x1F3A8`]: `Artist Palette`,
-      [`&#x1F3B0`]: `Slot Machine`,
-      [`&#x1F682`]: `Locomotive`,
-      [`&#x1F683`]: `Railway Car`,
-      [`&#x1F684`]: `High-Speed Train`,
-      [`&#x1F685`]: `High-Speed Train With Bullet Nose`,
-      [`&#x1F686`]: `Train`,
-      [`&#x1F687`]: `Metro`,
-      [`&#x1F688`]: `Light Rail`,
-      [`&#x1F689`]: `Station`,
-      [`&#x1F68A`]: `Tram`,
-      [`&#x1F69D`]: `Monorail`,
-      [`&#x1F69E`]: `Mountain Railway`,
-      [`&#x1F68B`]: `Tram Car`,
-      [`&#x1F68C`]: `Bus`,
-      [`&#x1F68D`]: `Oncoming Bus`,
-      [`&#x1F68E`]: `Trolleybus`,
-      [`&#x1F690`]: `Minibus`,
-      [`&#x1F691`]: `Ambulance`,
-      [`&#x1F692`]: `Fire Engine`,
-      [`&#x1F693`]: `Police Car`,
-      [`&#x1F694`]: `Oncoming Police Car`,
-      [`&#x1F695`]: `Taxi`,
-      [`&#x1F696`]: `Oncoming Taxi`,
-      [`&#x1F697`]: `Automobile`,
-      [`&#x1F698`]: `Oncoming Automobile`,
-      [`&#x1F699`]: `Sport Utility Vehicle`,
-      [`&#x1F69A`]: `Delivery Truck`,
-      [`&#x1F69B`]: `Articulated Lorry`,
-      [`&#x1F69C`]: `Tractor`,
-      [`&#x1F6B2`]: `Bicycle`,
-      [`&#x1F6F4`]: `Kick Scooter`,
-      [`&#x1F6F5`]: `Motor Scooter`,
-      [`&#x1F68F`]: `Bus Stop`,
-      [`&#x1F6E3`]: `Motorway`,
-      [`&#x1F6E4`]: `Railway Track`,
-      [`&#x26FD`]: `Fuel Pump`,
-      [`&#x1F6A8`]: `Police Car Light`,
-      [`&#x1F6A5`]: `Horizontal Traffic Light`,
-      [`&#x1F6A6`]: `Vertical Traffic Light`,
-      [`&#x1F6A7`]: `Construction`,
-      [`&#x1F6D1`]: `Stop Sign`,
-      [`&#x2693`]: `Anchor`,
-      [`&#x26F5`]: `Sailboat`,
-      [`&#x1F6F6`]: `Canoe`,
-      [`&#x1F6A4`]: `Speedboat`,
-      [`&#x1F6F3`]: `Passenger Ship`,
-      [`&#x26F4`]: `Ferry`,
-      [`&#x1F6E5`]: `Motor Boat`,
-      [`&#x1F6A2`]: `Ship`,
-      [`&#x2708`]: `Airplane`,
-      [`&#x1F6E9`]: `Small Airplane`,
-      [`&#x1F6EB`]: `Airplane Departure`,
-      [`&#x1F6EC`]: `Airplane Arrival`,
-      [`&#x1F4BA`]: `Seat`,
-      [`&#x1F681`]: `Helicopter`,
-      [`&#x1F69F`]: `Suspension Railway`,
-      [`&#x1F6A0`]: `Mountain Cableway`,
-      [`&#x1F6A1`]: `Aerial Tramway`,
-      [`&#x1F680`]: `Rocket`,
-      [`&#x1F6F0`]: `Satellite`,
-      [`&#x1F6CE`]: `Bellhop Bell`,
-      [`&#x1F6AA`]: `Door`,
-      [`&#x1F6CC`]: `Person In Bed`,
-      [`&#x1F6CC&#x1F3FB`]: `Person In Bed: Light Skin Tone`,
-      [`&#x1F6CC&#x1F3FC`]: `Person In Bed: Medium-Light Skin Tone`,
-      [`&#x1F6CC&#x1F3FD`]: `Person In Bed: Medium Skin Tone`,
-      [`&#x1F6CC&#x1F3FE`]: `Person In Bed: Medium-Dark Skin Tone`,
-      [`&#x1F6CC&#x1F3FF`]: `Person In Bed: Dark Skin Tone`,
-      [`&#x1F6CF`]: `Bed`,
-      [`&#x1F6CB`]: `Couch And Lamp`,
-      [`&#x1F6BD`]: `Toilet`,
-      [`&#x1F6BF`]: `Shower`,
-      [`&#x1F6C0`]: `Person Taking Bath`,
-      [`&#x1F6C0&#x1F3FB`]: `Person Taking Bath: Light Skin Tone`,
-      [`&#x1F6C0&#x1F3FC`]: `Person Taking Bath: Medium-Light Skin Tone`,
-      [`&#x1F6C0&#x1F3FD`]: `Person Taking Bath: Medium Skin Tone`,
-      [`&#x1F6C0&#x1F3FE`]: `Person Taking Bath: Medium-Dark Skin Tone`,
-      [`&#x1F6C0&#x1F3FF`]: `Person Taking Bath: Dark Skin Tone`,
-      [`&#x1F6C1`]: `Bathtub`,
-      [`&#x231B`]: `Hourglass`,
-      [`&#x23F3`]: `Hourglass With Flowing Sand`,
-      [`&#x231A`]: `Watch`,
-      [`&#x23F0`]: `Alarm Clock`,
-      [`&#x23F1`]: `Stopwatch`,
-      [`&#x23F2`]: `Timer Clock`,
-      [`&#x1F570`]: `Mantelpiece Clock`,
-      [`&#x1F55B`]: `Twelve O’clock`,
-      [`&#x1F567`]: `Twelve-Thirty`,
-      [`&#x1F550`]: `One O’clock`,
-      [`&#x1F55C`]: `One-Thirty`,
-      [`&#x1F551`]: `Two O’clock`,
-      [`&#x1F55D`]: `Two-Thirty`,
-      [`&#x1F552`]: `Three O’clock`,
-      [`&#x1F55E`]: `Three-Thirty`,
-      [`&#x1F553`]: `Four O’clock`,
-      [`&#x1F55F`]: `Four-Thirty`,
-      [`&#x1F554`]: `Five O’clock`,
-      [`&#x1F560`]: `Five-Thirty`,
-      [`&#x1F555`]: `Six O’clock`,
-      [`&#x1F561`]: `Six-Thirty`,
-      [`&#x1F556`]: `Seven O’clock`,
-      [`&#x1F562`]: `Seven-Thirty`,
-      [`&#x1F557`]: `Eight O’clock`,
-      [`&#x1F563`]: `Eight-Thirty`,
-      [`&#x1F558`]: `Nine O’clock`,
-      [`&#x1F564`]: `Nine-Thirty`,
-      [`&#x1F559`]: `Ten O’clock`,
-      [`&#x1F565`]: `Ten-Thirty`,
-      [`&#x1F55A`]: `Eleven O’clock`,
-      [`&#x1F566`]: `Eleven-Thirty`,
-      [`&#x1F311`]: `New Moon`,
-      [`&#x1F312`]: `Waxing Crescent Moon`,
-      [`&#x1F313`]: `First Quarter Moon`,
-      [`&#x1F314`]: `Waxing Gibbous Moon`,
-      [`&#x1F315`]: `Full Moon`,
-      [`&#x1F316`]: `Waning Gibbous Moon`,
-      [`&#x1F317`]: `Last Quarter Moon`,
-      [`&#x1F318`]: `Waning Crescent Moon`,
-      [`&#x1F319`]: `Crescent Moon`,
-      [`&#x1F31A`]: `New Moon Face`,
-      [`&#x1F31B`]: `First Quarter Moon With Face`,
-      [`&#x1F31C`]: `Last Quarter Moon With Face`,
-      [`&#x1F321`]: `Thermometer`,
-      [`&#x2600`]: `Sun`,
-      [`&#x1F31D`]: `Full Moon With Face`,
-      [`&#x1F31E`]: `Sun With Face`,
-      [`&#x2B50`]: `White Medium Star`,
-      [`&#x1F31F`]: `Glowing Star`,
-      [`&#x1F320`]: `Shooting Star`,
-      [`&#x2601`]: `Cloud`,
-      [`&#x26C5`]: `Sun Behind Cloud`,
-      [`&#x26C8`]: `Cloud With Lightning And Rain`,
-      [`&#x1F324`]: `Sun Behind Small Cloud`,
-      [`&#x1F325`]: `Sun Behind Large Cloud`,
-      [`&#x1F326`]: `Sun Behind Rain Cloud`,
-      [`&#x1F327`]: `Cloud With Rain`,
-      [`&#x1F328`]: `Cloud With Snow`,
-      [`&#x1F329`]: `Cloud With Lightning`,
-      [`&#x1F32A`]: `Tornado`,
-      [`&#x1F32B`]: `Fog`,
-      [`&#x1F32C`]: `Wind Face`,
-      [`&#x1F300`]: `Cyclone`,
-      [`&#x1F308`]: `Rainbow`,
-      [`&#x1F302`]: `Closed Umbrella`,
-      [`&#x2602`]: `Umbrella`,
-      [`&#x2614`]: `Umbrella With Rain Drops`,
-      [`&#x26F1`]: `Umbrella On Ground`,
-      [`&#x26A1`]: `High Voltage`,
-      [`&#x2744`]: `Snowflake`,
-      [`&#x2603`]: `Snowman`,
-      [`&#x26C4`]: `Snowman Without Snow`,
-      [`&#x2604`]: `Comet`,
-      [`&#x1F525`]: `Fire`,
-      [`&#x1F4A7`]: `Droplet`,
-      [`&#x1F30A`]: `Water Wave`,
-      [`&#x1F383`]: `Jack-O-Lantern`,
-      [`&#x1F384`]: `Christmas Tree`,
-      [`&#x1F386`]: `Fireworks`,
-      [`&#x1F387`]: `Sparkler`,
-      [`&#x2728`]: `Sparkles`,
-      [`&#x1F388`]: `Balloon`,
-      [`&#x1F389`]: `Party Popper`,
-      [`&#x1F38A`]: `Confetti Ball`,
-      [`&#x1F38B`]: `Tanabata Tree`,
-      [`&#x1F38D`]: `Pine Decoration`,
-      [`&#x1F38E`]: `Japanese Dolls`,
-      [`&#x1F38F`]: `Carp Streamer`,
-      [`&#x1F390`]: `Wind Chime`,
-      [`&#x1F391`]: `Moon Viewing Ceremony`,
-      [`&#x1F380`]: `Ribbon`,
-      [`&#x1F381`]: `Wrapped Gift`,
-      [`&#x1F397`]: `Reminder Ribbon`,
-      [`&#x1F39F`]: `Admission Tickets`,
-      [`&#x1F3AB`]: `Ticket`,
-      [`&#x1F396`]: `Military Medal`,
-      [`&#x1F3C6`]: `Trophy`,
-      [`&#x1F3C5`]: `Sports Medal`,
-      [`&#x1F947`]: `1st Place Medal`,
-      [`&#x1F948`]: `2nd Place Medal`,
-      [`&#x1F949`]: `3rd Place Medal`,
-      [`&#x26BD`]: `Soccer Ball`,
-      [`&#x26BE`]: `Baseball`,
-      [`&#x1F3C0`]: `Basketball`,
-      [`&#x1F3D0`]: `Volleyball`,
-      [`&#x1F3C8`]: `American Football`,
-      [`&#x1F3C9`]: `Rugby Football`,
-      [`&#x1F3BE`]: `Tennis`,
-      [`&#x1F3B1`]: `Pool 8 Ball`,
-      [`&#x1F3B3`]: `Bowling`,
-      [`&#x1F3CF`]: `Cricket`,
-      [`&#x1F3D1`]: `Field Hockey`,
-      [`&#x1F3D2`]: `Ice Hockey`,
-      [`&#x1F3D3`]: `Ping Pong`,
-      [`&#x1F3F8`]: `Badminton`,
-      [`&#x1F94A`]: `Boxing Glove`,
-      [`&#x1F94B`]: `Martial Arts Uniform`,
-      [`&#x1F945`]: `Goal Net`,
-      [`&#x1F3AF`]: `Direct Hit`,
-      [`&#x26F3`]: `Flag In Hole`,
-      [`&#x26F8`]: `Ice Skate`,
-      [`&#x1F3A3`]: `Fishing Pole`,
-      [`&#x1F3BD`]: `Running Shirt`,
-      [`&#x1F3BF`]: `Skis`,
-      [`&#x1F3AE`]: `Video Game`,
-      [`&#x1F579`]: `Joystick`,
-      [`&#x1F3B2`]: `Game Die`,
-      [`&#x2660`]: `Spade Suit`,
-      [`&#x2665`]: `Heart Suit`,
-      [`&#x2666`]: `Diamond Suit`,
-      [`&#x2663`]: `Club Suit`,
-      [`&#x1F0CF`]: `Joker`,
-      [`&#x1F004`]: `Mahjong Red Dragon`,
-      [`&#x1F3B4`]: `Flower Playing Cards`,
-      [`&#x1F507`]: `Muted Speaker`,
-      [`&#x1F508`]: `Speaker Low Volume`,
-      [`&#x1F509`]: `Speaker Medium Volume`,
-      [`&#x1F50A`]: `Speaker High Volume`,
-      [`&#x1F4E2`]: `Loudspeaker`,
-      [`&#x1F4E3`]: `Megaphone`,
-      [`&#x1F4EF`]: `Postal Horn`,
-      [`&#x1F514`]: `Bell`,
-      [`&#x1F515`]: `Bell With Slash`,
-      [`&#x1F3BC`]: `Musical Score`,
-      [`&#x1F3B5`]: `Musical Note`,
-      [`&#x1F3B6`]: `Musical Notes`,
-      [`&#x1F399`]: `Studio Microphone`,
-      [`&#x1F39A`]: `Level Slider`,
-      [`&#x1F39B`]: `Control Knobs`,
-      [`&#x1F3A4`]: `Microphone`,
-      [`&#x1F3A7`]: `Headphone`,
-      [`&#x1F4FB`]: `Radio`,
-      [`&#x1F3B7`]: `Saxophone`,
-      [`&#x1F3B8`]: `Guitar`,
-      [`&#x1F3B9`]: `Musical Keyboard`,
-      [`&#x1F3BA`]: `Trumpet`,
-      [`&#x1F3BB`]: `Violin`,
-      [`&#x1F941`]: `Drum`,
-      [`&#x1F4F1`]: `Mobile Phone`,
-      [`&#x1F4F2`]: `Mobile Phone With Arrow`,
-      [`&#x260E`]: `Telephone`,
-      [`&#x1F4DE`]: `Telephone Receiver`,
-      [`&#x1F4DF`]: `Pager`,
-      [`&#x1F4E0`]: `Fax Machine`,
-      [`&#x1F50B`]: `Battery`,
-      [`&#x1F50C`]: `Electric Plug`,
-      [`&#x1F4BB`]: `Laptop Computer`,
-      [`&#x1F5A5`]: `Desktop Computer`,
-      [`&#x1F5A8`]: `Printer`,
-      [`&#x2328`]: `Keyboard`,
-      [`&#x1F5B1`]: `Computer Mouse`,
-      [`&#x1F5B2`]: `Trackball`,
-      [`&#x1F4BD`]: `Computer Disk`,
-      [`&#x1F4BE`]: `Floppy Disk`,
-      [`&#x1F4BF`]: `Optical Disk`,
-      [`&#x1F4C0`]: `Dvd`,
-      [`&#x1F3A5`]: `Movie Camera`,
-      [`&#x1F39E`]: `Film Frames`,
-      [`&#x1F4FD`]: `Film Projector`,
-      [`&#x1F3AC`]: `Clapper Board`,
-      [`&#x1F4FA`]: `Television`,
-      [`&#x1F4F7`]: `Camera`,
-      [`&#x1F4F8`]: `Camera With Flash`,
-      [`&#x1F4F9`]: `Video Camera`,
-      [`&#x1F4FC`]: `Videocassette`,
-      [`&#x1F50D`]: `Left-Pointing Magnifying Glass`,
-      [`&#x1F50E`]: `Right-Pointing Magnifying Glass`,
-      [`&#x1F52C`]: `Microscope`,
-      [`&#x1F52D`]: `Telescope`,
-      [`&#x1F4E1`]: `Satellite Antenna`,
-      [`&#x1F56F`]: `Candle`,
-      [`&#x1F4A1`]: `Light Bulb`,
-      [`&#x1F526`]: `Flashlight`,
-      [`&#x1F3EE`]: `Red Paper Lantern`,
-      [`&#x1F4D4`]: `Notebook With Decorative Cover`,
-      [`&#x1F4D5`]: `Closed Book`,
-      [`&#x1F4D6`]: `Open Book`,
-      [`&#x1F4D7`]: `Green Book`,
-      [`&#x1F4D8`]: `Blue Book`,
-      [`&#x1F4D9`]: `Orange Book`,
-      [`&#x1F4DA`]: `Books`,
-      [`&#x1F4D3`]: `Notebook`,
-      [`&#x1F4D2`]: `Ledger`,
-      [`&#x1F4C3`]: `Page With Curl`,
-      [`&#x1F4DC`]: `Scroll`,
-      [`&#x1F4C4`]: `Page Facing Up`,
-      [`&#x1F4F0`]: `Newspaper`,
-      [`&#x1F5DE`]: `Rolled-Up Newspaper`,
-      [`&#x1F4D1`]: `Bookmark Tabs`,
-      [`&#x1F516`]: `Bookmark`,
-      [`&#x1F3F7`]: `Label`,
-      [`&#x1F4B0`]: `Money Bag`,
-      [`&#x1F4B4`]: `Yen Banknote`,
-      [`&#x1F4B5`]: `Dollar Banknote`,
-      [`&#x1F4B6`]: `Euro Banknote`,
-      [`&#x1F4B7`]: `Pound Banknote`,
-      [`&#x1F4B8`]: `Money With Wings`,
-      [`&#x1F4B3`]: `Credit Card`,
-      [`&#x1F4B9`]: `Chart Increasing With Yen`,
-      [`&#x1F4B1`]: `Currency Exchange`,
-      [`&#x1F4B2`]: `Heavy Dollar Sign`,
-      [`&#x2709`]: `Envelope`,
-      [`&#x1F4E7`]: `E-Mail`,
-      [`&#x1F4E8`]: `Incoming Envelope`,
-      [`&#x1F4E9`]: `Envelope With Arrow`,
-      [`&#x1F4E4`]: `Outbox Tray`,
-      [`&#x1F4E5`]: `Inbox Tray`,
-      [`&#x1F4E6`]: `Package`,
-      [`&#x1F4EB`]: `Closed Mailbox With Raised Flag`,
-      [`&#x1F4EA`]: `Closed Mailbox With Lowered Flag`,
-      [`&#x1F4EC`]: `Open Mailbox With Raised Flag`,
-      [`&#x1F4ED`]: `Open Mailbox With Lowered Flag`,
-      [`&#x1F4EE`]: `Postbox`,
-      [`&#x1F5F3`]: `Ballot Box With Ballot`,
-      [`&#x270F`]: `Pencil`,
-      [`&#x2712`]: `Black Nib`,
-      [`&#x1F58B`]: `Fountain Pen`,
-      [`&#x1F58A`]: `Pen`,
-      [`&#x1F58C`]: `Paintbrush`,
-      [`&#x1F58D`]: `Crayon`,
-      [`&#x1F4DD`]: `Memo`,
-      [`&#x1F4BC`]: `Briefcase`,
-      [`&#x1F4C1`]: `File Folder`,
-      [`&#x1F4C2`]: `Open File Folder`,
-      [`&#x1F5C2`]: `Card Index Dividers`,
-      [`&#x1F4C5`]: `Calendar`,
-      [`&#x1F4C6`]: `Tear-Off Calendar`,
-      [`&#x1F5D2`]: `Spiral Notepad`,
-      [`&#x1F5D3`]: `Spiral Calendar`,
-      [`&#x1F4C7`]: `Card Index`,
-      [`&#x1F4C8`]: `Chart Increasing`,
-      [`&#x1F4C9`]: `Chart Decreasing`,
-      [`&#x1F4CA`]: `Bar Chart`,
-      [`&#x1F4CB`]: `Clipboard`,
-      [`&#x1F4CC`]: `Pushpin`,
-      [`&#x1F4CD`]: `Round Pushpin`,
-      [`&#x1F4CE`]: `Paperclip`,
-      [`&#x1F587`]: `Linked Paperclips`,
-      [`&#x1F4CF`]: `Straight Ruler`,
-      [`&#x1F4D0`]: `Triangular Ruler`,
-      [`&#x2702`]: `Scissors`,
-      [`&#x1F5C3`]: `Card File Box`,
-      [`&#x1F5C4`]: `File Cabinet`,
-      [`&#x1F5D1`]: `Wastebasket`,
-      [`&#x1F512`]: `Locked`,
-      [`&#x1F513`]: `Unlocked`,
-      [`&#x1F50F`]: `Locked With Pen`,
-      [`&#x1F510`]: `Locked With Key`,
-      [`&#x1F511`]: `Key`,
-      [`&#x1F5DD`]: `Old Key`,
-      [`&#x1F528`]: `Hammer`,
-      [`&#x26CF`]: `Pick`,
-      [`&#x2692`]: `Hammer And Pick`,
-      [`&#x1F6E0`]: `Hammer And Wrench`,
-      [`&#x1F5E1`]: `Dagger`,
-      [`&#x2694`]: `Crossed Swords`,
-      [`&#x1F52B`]: `Pistol`,
-      [`&#x1F3F9`]: `Bow And Arrow`,
-      [`&#x1F6E1`]: `Shield`,
-      [`&#x1F527`]: `Wrench`,
-      [`&#x1F529`]: `Nut And Bolt`,
-      [`&#x2699`]: `Gear`,
-      [`&#x1F5DC`]: `Clamp`,
-      [`&#x2697`]: `Alembic`,
-      [`&#x2696`]: `Balance Scale`,
-      [`&#x1F517`]: `Link`,
-      [`&#x26D3`]: `Chains`,
-      [`&#x1F489`]: `Syringe`,
-      [`&#x1F48A`]: `Pill`,
-      [`&#x1F6AC`]: `Cigarette`,
-      [`&#x26B0`]: `Coffin`,
-      [`&#x26B1`]: `Funeral Urn`,
-      [`&#x1F5FF`]: `Moai`,
-      [`&#x1F6E2`]: `Oil Drum`,
-      [`&#x1F52E`]: `Crystal Ball`,
-      [`&#x1F6D2`]: `Shopping Cart`,
-      [`&#x1F3E7`]: `ATM Sign`,
-      [`&#x1F6AE`]: `Litter In Bin Sign`,
-      [`&#x1F6B0`]: `Potable Water`,
-      [`&#x267F`]: `Wheelchair Symbol`,
-      [`&#x1F6B9`]: `Men’s Room`,
-      [`&#x1F6BA`]: `Women’s Room`,
-      [`&#x1F6BB`]: `Restroom`,
-      [`&#x1F6BC`]: `Baby Symbol`,
-      [`&#x1F6BE`]: `Water Closet`,
-      [`&#x1F6C2`]: `Passport Control`,
-      [`&#x1F6C3`]: `Customs`,
-      [`&#x1F6C4`]: `Baggage Claim`,
-      [`&#x1F6C5`]: `Left Luggage`,
-      [`&#x26A0`]: `Warning`,
-      [`&#x1F6B8`]: `Children Crossing`,
-      [`&#x26D4`]: `No Entry`,
-      [`&#x1F6AB`]: `Prohibited`,
-      [`&#x1F6B3`]: `No Bicycles`,
-      [`&#x1F6AD`]: `No Smoking`,
-      [`&#x1F6AF`]: `No Littering`,
-      [`&#x1F6B1`]: `Non-Potable Water`,
-      [`&#x1F6B7`]: `No Pedestrians`,
-      [`&#x1F4F5`]: `No Mobile Phones`,
-      [`&#x1F51E`]: `No One Under Eighteen`,
-      [`&#x2622`]: `Radioactive`,
-      [`&#x2623`]: `Biohazard`,
-      [`&#x2B06`]: `Up Arrow`,
-      [`&#x2197`]: `Up-Right Arrow`,
-      [`&#x27A1`]: `Right Arrow`,
-      [`&#x2198`]: `Down-Right Arrow`,
-      [`&#x2B07`]: `Down Arrow`,
-      [`&#x2199`]: `Down-Left Arrow`,
-      [`&#x2B05`]: `Left Arrow`,
-      [`&#x2196`]: `Up-Left Arrow`,
-      [`&#x2195`]: `Up-Down Arrow`,
-      [`&#x2194`]: `Left-Right Arrow`,
-      [`&#x21A9`]: `Right Arrow Curving Left`,
-      [`&#x21AA`]: `Left Arrow Curving Right`,
-      [`&#x2934`]: `Right Arrow Curving Up`,
-      [`&#x2935`]: `Right Arrow Curving Down`,
-      [`&#x1F503`]: `Clockwise Vertical Arrows`,
-      [`&#x1F504`]: `Anticlockwise Arrows Button`,
-      [`&#x1F519`]: `BACK Arrow`,
-      [`&#x1F51A`]: `END Arrow`,
-      [`&#x1F51B`]: `ON! Arrow`,
-      [`&#x1F51C`]: `SOON Arrow`,
-      [`&#x1F51D`]: `TOP Arrow`,
-      [`&#x1F6D0`]: `Place Of Worship`,
-      [`&#x269B`]: `Atom Symbol`,
-      [`&#x1F549`]: `Om`,
-      [`&#x2721`]: `Star Of David`,
-      [`&#x2638`]: `Wheel Of Dharma`,
-      [`&#x262F`]: `Yin Yang`,
-      [`&#x271D`]: `Latin Cross`,
-      [`&#x2626`]: `Orthodox Cross`,
-      [`&#x262A`]: `Star And Crescent`,
-      [`&#x262E`]: `Peace Symbol`,
-      [`&#x1F54E`]: `Menorah`,
-      [`&#x1F52F`]: `Dotted Six-Pointed Star`,
-      [`&#x2648`]: `Aries`,
-      [`&#x2649`]: `Taurus`,
-      [`&#x264A`]: `Gemini`,
-      [`&#x264B`]: `Cancer`,
-      [`&#x264C`]: `Leo`,
-      [`&#x264D`]: `Virgo`,
-      [`&#x264E`]: `Libra`,
-      [`&#x264F`]: `Scorpius`,
-      [`&#x2650`]: `Sagittarius`,
-      [`&#x2651`]: `Capricorn`,
-      [`&#x2652`]: `Aquarius`,
-      [`&#x2653`]: `Pisces`,
-      [`&#x26CE`]: `Ophiuchus`,
-      [`&#x1F500`]: `Shuffle Tracks Button`,
-      [`&#x1F501`]: `Repeat Button`,
-      [`&#x1F502`]: `Repeat Single Button`,
-      [`&#x25B6`]: `Play Button`,
-      [`&#x23E9`]: `Fast-Forward Button`,
-      [`&#x23ED`]: `Next Track Button`,
-      [`&#x23EF`]: `Play Or Pause Button`,
-      [`&#x25C0`]: `Reverse Button`,
-      [`&#x23EA`]: `Fast Reverse Button`,
-      [`&#x23EE`]: `Last Track Button`,
-      [`&#x1F53C`]: `Up Button`,
-      [`&#x23EB`]: `Fast Up Button`,
-      [`&#x1F53D`]: `Down Button`,
-      [`&#x23EC`]: `Fast Down Button`,
-      [`&#x23F8`]: `Pause Button`,
-      [`&#x23F9`]: `Stop Button`,
-      [`&#x23FA`]: `Record Button`,
-      [`&#x23CF`]: `Eject Button`,
-      [`&#x1F3A6`]: `Cinema`,
-      [`&#x1F505`]: `Dim Button`,
-      [`&#x1F506`]: `Bright Button`,
-      [`&#x1F4F6`]: `Antenna Bars`,
-      [`&#x1F4F3`]: `Vibration Mode`,
-      [`&#x1F4F4`]: `Mobile Phone Off`,
-      [`&#x267B`]: `Recycling Symbol`,
-      [`&#x1F4DB`]: `Name Badge`,
-      [`&#x269C`]: `Fleur-De-Lis`,
-      [`&#x1F530`]: `Japanese Symbol For Beginner`,
-      [`&#x1F531`]: `Trident Emblem`,
-      [`&#x2B55`]: `Heavy Large Circle`,
-      [`&#x2705`]: `White Heavy Check Mark`,
-      [`&#x2611`]: `Ballot Box With Check`,
-      [`&#x2714`]: `Heavy Check Mark`,
-      [`&#x2716`]: `Heavy Multiplication X`,
-      [`&#x274C`]: `Cross Mark`,
-      [`&#x274E`]: `Cross Mark Button`,
-      [`&#x2795`]: `Heavy Plus Sign`,
-      [`&#x2640`]: `Female Sign`,
-      [`&#x2642`]: `Male Sign`,
-      [`&#x2695`]: `Medical Symbol`,
-      [`&#x2796`]: `Heavy Minus Sign`,
-      [`&#x2797`]: `Heavy Division Sign`,
-      [`&#x27B0`]: `Curly Loop`,
-      [`&#x27BF`]: `Double Curly Loop`,
-      [`&#x303D`]: `Part Alternation Mark`,
-      [`&#x2733`]: `Eight-Spoked Asterisk`,
-      [`&#x2734`]: `Eight-Pointed Star`,
-      [`&#x2747`]: `Sparkle`,
-      [`&#x203C`]: `Double Exclamation Mark`,
-      [`&#x2049`]: `Exclamation Question Mark`,
-      [`&#x2753`]: `Question Mark`,
-      [`&#x2754`]: `White Question Mark`,
-      [`&#x2755`]: `White Exclamation Mark`,
-      [`&#x2757`]: `Exclamation Mark`,
-      [`&#x3030`]: `Wavy Dash`,
-      [`&#x00A9`]: `Copyright`,
-      [`&#x00AE`]: `Registered`,
-      [`&#x2122`]: `Trade Mark`,
-      [`&#x0023&#xFE0F&#x20E3`]: `Keycap: #`,
-      [`&#x002A&#xFE0F&#x20E3`]: `Keycap: *`,
-      [`&#x0030&#xFE0F&#x20E3`]: `Keycap: 0`,
-      [`&#x0031&#xFE0F&#x20E3`]: `Keycap: 1`,
-      [`&#x0032&#xFE0F&#x20E3`]: `Keycap: 2`,
-      [`&#x0033&#xFE0F&#x20E3`]: `Keycap: 3`,
-      [`&#x0034&#xFE0F&#x20E3`]: `Keycap: 4`,
-      [`&#x0035&#xFE0F&#x20E3`]: `Keycap: 5`,
-      [`&#x0036&#xFE0F&#x20E3`]: `Keycap: 6`,
-      [`&#x0037&#xFE0F&#x20E3`]: `Keycap: 7`,
-      [`&#x0038&#xFE0F&#x20E3`]: `Keycap: 8`,
-      [`&#x0039&#xFE0F&#x20E3`]: `Keycap: 9`,
-      [`&#x1F51F`]: `Keycap 10`,
-      [`&#x1F4AF`]: `Hundred Points`,
-      [`&#x1F520`]: `Input Latin Uppercase`,
-      [`&#x1F521`]: `Input Latin Lowercase`,
-      [`&#x1F522`]: `Input Numbers`,
-      [`&#x1F523`]: `Input Symbols`,
-      [`&#x1F524`]: `Input Latin Letters`,
-      [`&#x1F170`]: `A Button (blood Type)`,
-      [`&#x1F18E`]: `AB Button (blood Type)`,
-      [`&#x1F171`]: `B Button (blood Type)`,
-      [`&#x1F191`]: `CL Button`,
-      [`&#x1F192`]: `COOL Button`,
-      [`&#x1F193`]: `FREE Button`,
-      [`&#x2139`]: `Information`,
-      [`&#x1F194`]: `ID Button`,
-      [`&#x24C2`]: `Circled M`,
-      [`&#x1F195`]: `NEW Button`,
-      [`&#x1F196`]: `NG Button`,
-      [`&#x1F17E`]: `O Button (blood Type)`,
-      [`&#x1F197`]: `OK Button`,
-      [`&#x1F17F`]: `P Button`,
-      [`&#x1F198`]: `SOS Button`,
-      [`&#x1F199`]: `UP! Button`,
-      [`&#x1F19A`]: `VS Button`,
-      [`&#x1F201`]: `Japanese “here” Button`,
-      [`&#x1F202`]: `Japanese “service Charge” Button`,
-      [`&#x1F237`]: `Japanese “monthly Amount” Button`,
-      [`&#x1F236`]: `Japanese “not Free Of Charge” Button`,
-      [`&#x1F22F`]: `Japanese “reserved” Button`,
-      [`&#x1F250`]: `Japanese “bargain” Button`,
-      [`&#x1F239`]: `Japanese “discount” Button`,
-      [`&#x1F21A`]: `Japanese “free Of Charge” Button`,
-      [`&#x1F232`]: `Japanese “prohibited” Button`,
-      [`&#x1F251`]: `Japanese “acceptable” Button`,
-      [`&#x1F238`]: `Japanese “application” Button`,
-      [`&#x1F234`]: `Japanese “passing Grade” Button`,
-      [`&#x1F233`]: `Japanese “vacancy” Button`,
-      [`&#x3297`]: `Japanese “congratulations” Button`,
-      [`&#x3299`]: `Japanese “secret” Button`,
-      [`&#x1F23A`]: `Japanese “open For Business” Button`,
-      [`&#x1F235`]: `Japanese “no Vacancy” Button`,
-      [`&#x25AA`]: `Black Small Square`,
-      [`&#x25AB`]: `White Small Square`,
-      [`&#x25FB`]: `White Medium Square`,
-      [`&#x25FC`]: `Black Medium Square`,
-      [`&#x25FD`]: `White Medium-Small Square`,
-      [`&#x25FE`]: `Black Medium-Small Square`,
-      [`&#x2B1B`]: `Black Large Square`,
-      [`&#x2B1C`]: `White Large Square`,
-      [`&#x1F536`]: `Large Orange Diamond`,
-      [`&#x1F537`]: `Large Blue Diamond`,
-      [`&#x1F538`]: `Small Orange Diamond`,
-      [`&#x1F539`]: `Small Blue Diamond`,
-      [`&#x1F53A`]: `Red Triangle Pointed Up`,
-      [`&#x1F53B`]: `Red Triangle Pointed Down`,
-      [`&#x1F4A0`]: `Diamond With A Dot`,
-      [`&#x1F518`]: `Radio Button`,
-      [`&#x1F532`]: `Black Square Button`,
-      [`&#x1F533`]: `White Square Button`,
-      [`&#x26AA`]: `White Circle`,
-      [`&#x26AB`]: `Black Circle`,
-      [`&#x1F534`]: `Red Circle`,
-      [`&#x1F535`]: `Blue Circle`,
-      [`&#x1F3C1`]: `Chequered Flag`,
-      [`&#x1F6A9`]: `Triangular Flag`,
-      [`&#x1F38C`]: `Crossed Flags`,
-      [`&#x1F3F4`]: `Black Flag`,
-      [`&#x1F3F3`]: `White Flag`,
-      [`&#x1F3F3&#xFE0F&#x200D&#x1F308`]: `Rainbow Flag`,
-      [`&#x1F1E6&#x1F1E8`]: `Ascension Island`,
-      [`&#x1F1E6&#x1F1E9`]: `Andorra`,
-      [`&#x1F1E6&#x1F1EA`]: `United Arab Emirates`,
-      [`&#x1F1E6&#x1F1EB`]: `Afghanistan`,
-      [`&#x1F1E6&#x1F1EC`]: `Antigua & Barbuda`,
-      [`&#x1F1E6&#x1F1EE`]: `Anguilla`,
-      [`&#x1F1E6&#x1F1F1`]: `Albania`,
-      [`&#x1F1E6&#x1F1F2`]: `Armenia`,
-      [`&#x1F1E6&#x1F1F4`]: `Angola`,
-      [`&#x1F1E6&#x1F1F6`]: `Antarctica`,
-      [`&#x1F1E6&#x1F1F7`]: `Argentina`,
-      [`&#x1F1E6&#x1F1F8`]: `American Samoa`,
-      [`&#x1F1E6&#x1F1F9`]: `Austria`,
-      [`&#x1F1E6&#x1F1FA`]: `Australia`,
-      [`&#x1F1E6&#x1F1FC`]: `Aruba`,
-      [`&#x1F1E6&#x1F1FD`]: `Åland Islands`,
-      [`&#x1F1E6&#x1F1FF`]: `Azerbaijan`,
-      [`&#x1F1E7&#x1F1E6`]: `Bosnia & Herzegovina`,
-      [`&#x1F1E7&#x1F1E7`]: `Barbados`,
-      [`&#x1F1E7&#x1F1E9`]: `Bangladesh`,
-      [`&#x1F1E7&#x1F1EA`]: `Belgium`,
-      [`&#x1F1E7&#x1F1EB`]: `Burkina Faso`,
-      [`&#x1F1E7&#x1F1EC`]: `Bulgaria`,
-      [`&#x1F1E7&#x1F1ED`]: `Bahrain`,
-      [`&#x1F1E7&#x1F1EE`]: `Burundi`,
-      [`&#x1F1E7&#x1F1EF`]: `Benin`,
-      [`&#x1F1E7&#x1F1F1`]: `St. Barthélemy`,
-      [`&#x1F1E7&#x1F1F2`]: `Bermuda`,
-      [`&#x1F1E7&#x1F1F3`]: `Brunei`,
-      [`&#x1F1E7&#x1F1F4`]: `Bolivia`,
-      [`&#x1F1E7&#x1F1F6`]: `Caribbean Netherlands`,
-      [`&#x1F1E7&#x1F1F7`]: `Brazil`,
-      [`&#x1F1E7&#x1F1F8`]: `Bahamas`,
-      [`&#x1F1E7&#x1F1F9`]: `Bhutan`,
-      [`&#x1F1E7&#x1F1FB`]: `Bouvet Island`,
-      [`&#x1F1E7&#x1F1FC`]: `Botswana`,
-      [`&#x1F1E7&#x1F1FE`]: `Belarus`,
-      [`&#x1F1E7&#x1F1FF`]: `Belize`,
-      [`&#x1F1E8&#x1F1E6`]: `Canada`,
-      [`&#x1F1E8&#x1F1E8`]: `Cocos (Keeling) Islands`,
-      [`&#x1F1E8&#x1F1E9`]: `Congo - Kinshasa`,
-      [`&#x1F1E8&#x1F1EB`]: `Central African Republic`,
-      [`&#x1F1E8&#x1F1EC`]: `Congo - Brazzaville`,
-      [`&#x1F1E8&#x1F1ED`]: `Switzerland`,
-      [`&#x1F1E8&#x1F1EE`]: `Côte D’Ivoire`,
-      [`&#x1F1E8&#x1F1F0`]: `Cook Islands`,
-      [`&#x1F1E8&#x1F1F1`]: `Chile`,
-      [`&#x1F1E8&#x1F1F2`]: `Cameroon`,
-      [`&#x1F1E8&#x1F1F3`]: `China`,
-      [`&#x1F1E8&#x1F1F4`]: `Colombia`,
-      [`&#x1F1E8&#x1F1F5`]: `Clipperton Island`,
-      [`&#x1F1E8&#x1F1F7`]: `Costa Rica`,
-      [`&#x1F1E8&#x1F1FA`]: `Cuba`,
-      [`&#x1F1E8&#x1F1FB`]: `Cape Verde`,
-      [`&#x1F1E8&#x1F1FC`]: `Curaçao`,
-      [`&#x1F1E8&#x1F1FD`]: `Christmas Island`,
-      [`&#x1F1E8&#x1F1FE`]: `Cyprus`,
-      [`&#x1F1E8&#x1F1FF`]: `Czech Republic`,
-      [`&#x1F1E9&#x1F1EA`]: `Germany`,
-      [`&#x1F1E9&#x1F1EC`]: `Diego Garcia`,
-      [`&#x1F1E9&#x1F1EF`]: `Djibouti`,
-      [`&#x1F1E9&#x1F1F0`]: `Denmark`,
-      [`&#x1F1E9&#x1F1F2`]: `Dominica`,
-      [`&#x1F1E9&#x1F1F4`]: `Dominican Republic`,
-      [`&#x1F1E9&#x1F1FF`]: `Algeria`,
-      [`&#x1F1EA&#x1F1E6`]: `Ceuta & Melilla`,
-      [`&#x1F1EA&#x1F1E8`]: `Ecuador`,
-      [`&#x1F1EA&#x1F1EA`]: `Estonia`,
-      [`&#x1F1EA&#x1F1EC`]: `Egypt`,
-      [`&#x1F1EA&#x1F1ED`]: `Western Sahara`,
-      [`&#x1F1EA&#x1F1F7`]: `Eritrea`,
-      [`&#x1F1EA&#x1F1F8`]: `Spain`,
-      [`&#x1F1EA&#x1F1F9`]: `Ethiopia`,
-      [`&#x1F1EA&#x1F1FA`]: `European Union`,
-      [`&#x1F1EB&#x1F1EE`]: `Finland`,
-      [`&#x1F1EB&#x1F1EF`]: `Fiji`,
-      [`&#x1F1EB&#x1F1F0`]: `Falkland Islands`,
-      [`&#x1F1EB&#x1F1F2`]: `Micronesia`,
-      [`&#x1F1EB&#x1F1F4`]: `Faroe Islands`,
-      [`&#x1F1EB&#x1F1F7`]: `France`,
-      [`&#x1F1EC&#x1F1E6`]: `Gabon`,
-      [`&#x1F1EC&#x1F1E7`]: `United Kingdom`,
-      [`&#x1F1EC&#x1F1E9`]: `Grenada`,
-      [`&#x1F1EC&#x1F1EA`]: `Georgia`,
-      [`&#x1F1EC&#x1F1EB`]: `French Guiana`,
-      [`&#x1F1EC&#x1F1EC`]: `Guernsey`,
-      [`&#x1F1EC&#x1F1ED`]: `Ghana`,
-      [`&#x1F1EC&#x1F1EE`]: `Gibraltar`,
-      [`&#x1F1EC&#x1F1F1`]: `Greenland`,
-      [`&#x1F1EC&#x1F1F2`]: `Gambia`,
-      [`&#x1F1EC&#x1F1F3`]: `Guinea`,
-      [`&#x1F1EC&#x1F1F5`]: `Guadeloupe`,
-      [`&#x1F1EC&#x1F1F6`]: `Equatorial Guinea`,
-      [`&#x1F1EC&#x1F1F7`]: `Greece`,
-      [`&#x1F1EC&#x1F1F8`]: `South Georgia & South Sandwich Islands`,
-      [`&#x1F1EC&#x1F1F9`]: `Guatemala`,
-      [`&#x1F1EC&#x1F1FA`]: `Guam`,
-      [`&#x1F1EC&#x1F1FC`]: `Guinea-Bissau`,
-      [`&#x1F1EC&#x1F1FE`]: `Guyana`,
-      [`&#x1F1ED&#x1F1F0`]: `Hong Kong SAR China`,
-      [`&#x1F1ED&#x1F1F2`]: `Heard & McDonald Islands`,
-      [`&#x1F1ED&#x1F1F3`]: `Honduras`,
-      [`&#x1F1ED&#x1F1F7`]: `Croatia`,
-      [`&#x1F1ED&#x1F1F9`]: `Haiti`,
-      [`&#x1F1ED&#x1F1FA`]: `Hungary`,
-      [`&#x1F1EE&#x1F1E8`]: `Canary Islands`,
-      [`&#x1F1EE&#x1F1E9`]: `Indonesia`,
-      [`&#x1F1EE&#x1F1EA`]: `Ireland`,
-      [`&#x1F1EE&#x1F1F1`]: `Israel`,
-      [`&#x1F1EE&#x1F1F2`]: `Isle Of Man`,
-      [`&#x1F1EE&#x1F1F3`]: `India`,
-      [`&#x1F1EE&#x1F1F4`]: `British Indian Ocean Territory`,
-      [`&#x1F1EE&#x1F1F6`]: `Iraq`,
-      [`&#x1F1EE&#x1F1F7`]: `Iran`,
-      [`&#x1F1EE&#x1F1F8`]: `Iceland`,
-      [`&#x1F1EE&#x1F1F9`]: `Italy`,
-      [`&#x1F1EF&#x1F1EA`]: `Jersey`,
-      [`&#x1F1EF&#x1F1F2`]: `Jamaica`,
-      [`&#x1F1EF&#x1F1F4`]: `Jordan`,
-      [`&#x1F1EF&#x1F1F5`]: `Japan`,
-      [`&#x1F1F0&#x1F1EA`]: `Kenya`,
-      [`&#x1F1F0&#x1F1EC`]: `Kyrgyzstan`,
-      [`&#x1F1F0&#x1F1ED`]: `Cambodia`,
-      [`&#x1F1F0&#x1F1EE`]: `Kiribati`,
-      [`&#x1F1F0&#x1F1F2`]: `Comoros`,
-      [`&#x1F1F0&#x1F1F3`]: `St. Kitts & Nevis`,
-      [`&#x1F1F0&#x1F1F5`]: `North Korea`,
-      [`&#x1F1F0&#x1F1F7`]: `South Korea`,
-      [`&#x1F1F0&#x1F1FC`]: `Kuwait`,
-      [`&#x1F1F0&#x1F1FE`]: `Cayman Islands`,
-      [`&#x1F1F0&#x1F1FF`]: `Kazakhstan`,
-      [`&#x1F1F1&#x1F1E6`]: `Laos`,
-      [`&#x1F1F1&#x1F1E7`]: `Lebanon`,
-      [`&#x1F1F1&#x1F1E8`]: `St. Lucia`,
-      [`&#x1F1F1&#x1F1EE`]: `Liechtenstein`,
-      [`&#x1F1F1&#x1F1F0`]: `Sri Lanka`,
-      [`&#x1F1F1&#x1F1F7`]: `Liberia`,
-      [`&#x1F1F1&#x1F1F8`]: `Lesotho`,
-      [`&#x1F1F1&#x1F1F9`]: `Lithuania`,
-      [`&#x1F1F1&#x1F1FA`]: `Luxembourg`,
-      [`&#x1F1F1&#x1F1FB`]: `Latvia`,
-      [`&#x1F1F1&#x1F1FE`]: `Libya`,
-      [`&#x1F1F2&#x1F1E6`]: `Morocco`,
-      [`&#x1F1F2&#x1F1E8`]: `Monaco`,
-      [`&#x1F1F2&#x1F1E9`]: `Moldova`,
-      [`&#x1F1F2&#x1F1EA`]: `Montenegro`,
-      [`&#x1F1F2&#x1F1EB`]: `St. Martin`,
-      [`&#x1F1F2&#x1F1EC`]: `Madagascar`,
-      [`&#x1F1F2&#x1F1ED`]: `Marshall Islands`,
-      [`&#x1F1F2&#x1F1F0`]: `Macedonia`,
-      [`&#x1F1F2&#x1F1F1`]: `Mali`,
-      [`&#x1F1F2&#x1F1F2`]: `Myanmar (Burma)`,
-      [`&#x1F1F2&#x1F1F3`]: `Mongolia`,
-      [`&#x1F1F2&#x1F1F4`]: `Macau SAR China`,
-      [`&#x1F1F2&#x1F1F5`]: `Northern Mariana Islands`,
-      [`&#x1F1F2&#x1F1F6`]: `Martinique`,
-      [`&#x1F1F2&#x1F1F7`]: `Mauritania`,
-      [`&#x1F1F2&#x1F1F8`]: `Montserrat`,
-      [`&#x1F1F2&#x1F1F9`]: `Malta`,
-      [`&#x1F1F2&#x1F1FA`]: `Mauritius`,
-      [`&#x1F1F2&#x1F1FB`]: `Maldives`,
-      [`&#x1F1F2&#x1F1FC`]: `Malawi`,
-      [`&#x1F1F2&#x1F1FD`]: `Mexico`,
-      [`&#x1F1F2&#x1F1FE`]: `Malaysia`,
-      [`&#x1F1F2&#x1F1FF`]: `Mozambique`,
-      [`&#x1F1F3&#x1F1E6`]: `Namibia`,
-      [`&#x1F1F3&#x1F1E8`]: `New Caledonia`,
-      [`&#x1F1F3&#x1F1EA`]: `Niger`,
-      [`&#x1F1F3&#x1F1EB`]: `Norfolk Island`,
-      [`&#x1F1F3&#x1F1EC`]: `Nigeria`,
-      [`&#x1F1F3&#x1F1EE`]: `Nicaragua`,
-      [`&#x1F1F3&#x1F1F1`]: `Netherlands`,
-      [`&#x1F1F3&#x1F1F4`]: `Norway`,
-      [`&#x1F1F3&#x1F1F5`]: `Nepal`,
-      [`&#x1F1F3&#x1F1F7`]: `Nauru`,
-      [`&#x1F1F3&#x1F1FA`]: `Niue`,
-      [`&#x1F1F3&#x1F1FF`]: `New Zealand`,
-      [`&#x1F1F4&#x1F1F2`]: `Oman`,
-      [`&#x1F1F5&#x1F1E6`]: `Panama`,
-      [`&#x1F1F5&#x1F1EA`]: `Peru`,
-      [`&#x1F1F5&#x1F1EB`]: `French Polynesia`,
-      [`&#x1F1F5&#x1F1EC`]: `Papua New Guinea`,
-      [`&#x1F1F5&#x1F1ED`]: `Philippines`,
-      [`&#x1F1F5&#x1F1F0`]: `Pakistan`,
-      [`&#x1F1F5&#x1F1F1`]: `Poland`,
-      [`&#x1F1F5&#x1F1F2`]: `St. Pierre & Miquelon`,
-      [`&#x1F1F5&#x1F1F3`]: `Pitcairn Islands`,
-      [`&#x1F1F5&#x1F1F7`]: `Puerto Rico`,
-      [`&#x1F1F5&#x1F1F8`]: `Palestinian Territories`,
-      [`&#x1F1F5&#x1F1F9`]: `Portugal`,
-      [`&#x1F1F5&#x1F1FC`]: `Palau`,
-      [`&#x1F1F5&#x1F1FE`]: `Paraguay`,
-      [`&#x1F1F6&#x1F1E6`]: `Qatar`,
-      [`&#x1F1F7&#x1F1EA`]: `Réunion`,
-      [`&#x1F1F7&#x1F1F4`]: `Romania`,
-      [`&#x1F1F7&#x1F1F8`]: `Serbia`,
-      [`&#x1F1F7&#x1F1FA`]: `Russia`,
-      [`&#x1F1F7&#x1F1FC`]: `Rwanda`,
-      [`&#x1F1F8&#x1F1E6`]: `Saudi Arabia`,
-      [`&#x1F1F8&#x1F1E7`]: `Solomon Islands`,
-      [`&#x1F1F8&#x1F1E8`]: `Seychelles`,
-      [`&#x1F1F8&#x1F1E9`]: `Sudan`,
-      [`&#x1F1F8&#x1F1EA`]: `Sweden`,
-      [`&#x1F1F8&#x1F1EC`]: `Singapore`,
-      [`&#x1F1F8&#x1F1ED`]: `St. Helena`,
-      [`&#x1F1F8&#x1F1EE`]: `Slovenia`,
-      [`&#x1F1F8&#x1F1EF`]: `Svalbard & Jan Mayen`,
-      [`&#x1F1F8&#x1F1F0`]: `Slovakia`,
-      [`&#x1F1F8&#x1F1F1`]: `Sierra Leone`,
-      [`&#x1F1F8&#x1F1F2`]: `San Marino`,
-      [`&#x1F1F8&#x1F1F3`]: `Senegal`,
-      [`&#x1F1F8&#x1F1F4`]: `Somalia`,
-      [`&#x1F1F8&#x1F1F7`]: `Suriname`,
-      [`&#x1F1F8&#x1F1F8`]: `South Sudan`,
-      [`&#x1F1F8&#x1F1F9`]: `São Tomé & Príncipe`,
-      [`&#x1F1F8&#x1F1FB`]: `El Salvador`,
-      [`&#x1F1F8&#x1F1FD`]: `Sint Maarten`,
-      [`&#x1F1F8&#x1F1FE`]: `Syria`,
-      [`&#x1F1F8&#x1F1FF`]: `Swaziland`,
-      [`&#x1F1F9&#x1F1E6`]: `Tristan Da Cunha`,
-      [`&#x1F1F9&#x1F1E8`]: `Turks & Caicos Islands`,
-      [`&#x1F1F9&#x1F1E9`]: `Chad`,
-      [`&#x1F1F9&#x1F1EB`]: `French Southern Territories`,
-      [`&#x1F1F9&#x1F1EC`]: `Togo`,
-      [`&#x1F1F9&#x1F1ED`]: `Thailand`,
-      [`&#x1F1F9&#x1F1EF`]: `Tajikistan`,
-      [`&#x1F1F9&#x1F1F0`]: `Tokelau`,
-      [`&#x1F1F9&#x1F1F1`]: `Timor-Leste`,
-      [`&#x1F1F9&#x1F1F2`]: `Turkmenistan`,
-      [`&#x1F1F9&#x1F1F3`]: `Tunisia`,
-      [`&#x1F1F9&#x1F1F4`]: `Tonga`,
-      [`&#x1F1F9&#x1F1F7`]: `Turkey`,
-      [`&#x1F1F9&#x1F1F9`]: `Trinidad & Tobago`,
-      [`&#x1F1F9&#x1F1FB`]: `Tuvalu`,
-      [`&#x1F1F9&#x1F1FC`]: `Taiwan`,
-      [`&#x1F1F9&#x1F1FF`]: `Tanzania`,
-      [`&#x1F1FA&#x1F1E6`]: `Ukraine`,
-      [`&#x1F1FA&#x1F1EC`]: `Uganda`,
-      [`&#x1F1FA&#x1F1F2`]: `U.S. Outlying Islands`,
-      [`&#x1F1FA&#x1F1F3`]: `United Nations`,
-      [`&#x1F1FA&#x1F1F8`]: `United States`,
-      [`&#x1F1FA&#x1F1FE`]: `Uruguay`,
-      [`&#x1F1FA&#x1F1FF`]: `Uzbekistan`,
-      [`&#x1F1FB&#x1F1E6`]: `Vatican City`,
-      [`&#x1F1FB&#x1F1E8`]: `St. Vincent & Grenadines`,
-      [`&#x1F1FB&#x1F1EA`]: `Venezuela`,
-      [`&#x1F1FB&#x1F1EC`]: `British Virgin Islands`,
-      [`&#x1F1FB&#x1F1EE`]: `U.S. Virgin Islands`,
-      [`&#x1F1FB&#x1F1F3`]: `Vietnam`,
-      [`&#x1F1FB&#x1F1FA`]: `Vanuatu`,
-      [`&#x1F1FC&#x1F1EB`]: `Wallis & Futuna`,
-      [`&#x1F1FC&#x1F1F8`]: `Samoa`,
-      [`&#x1F1FD&#x1F1F0`]: `Kosovo`,
-      [`&#x1F1FE&#x1F1EA`]: `Yemen`,
-      [`&#x1F1FE&#x1F1F9`]: `Mayotte`,
-      [`&#x1F1FF&#x1F1E6`]: `South Africa`,
-      [`&#x1F1FF&#x1F1F2`]: `Zambia`
-    };
+    return [
+      { emoji: `\u{AF}\u{5C}\u{5C}\u{5C}\u{5F}\u{28}\u{30C4}\u{29}\u{5F}\u{2F}\u{AF}`, entity: `&#xAF&#x5C&#x5C&#x5C&#x5F&#x28&#x30C4&#x29&#x5F&#x2F&#xAF`, name: `` },
+      { emoji: `\u{28}\u{20}\u{361}\u{B0}\u{20}\u{35C}\u{296}\u{20}\u{361}\u{B0}\u{29}`, entity: `&#x28&#x20&#x361&#xB0&#x20&#x35C&#x296&#x20&#x361&#xB0&#x29`, name: `` },
+      { emoji: `\u{28}\u{20}\u{361}\u{2299}\u{20}\u{35C}\u{296}\u{20}\u{361}\u{2299}\u{29}`, entity: `&#x28&#x20&#x361&#x2299&#x20&#x35C&#x296&#x20&#x361&#x2299&#x29`, name: `` },
+      { emoji: `\u{28}\u{30CE}\u{CA0}\u{76CA}\u{CA0}\u{29}\u{30CE}`, entity: `&#x28&#x30CE&#xCA0&#x76CA&#xCA0&#x29&#x30CE`, name: `` },
+      { emoji: `\u{28}\u{256F}\u{B0}\u{25A1}\u{B0}\u{FF09}\u{256F}\u{FE35}\u{20}\u{253B}\u{2501}\u{253B}`, entity: `&#x28&#x256F&#xB0&#x25A1&#xB0&#xFF09&#x256F&#xFE35&#x20&#x253B&#x2501&#x253B`, name: `` },
+      { emoji: `\u{252C}\u{2500}\u{252C}\u{30CE}\u{28}\u{20}\u{BA}\u{20}\u{5F}\u{20}\u{BA}\u{30CE}\u{29}`, entity: `&#x252C&#x2500&#x252C&#x30CE&#x28&#x20&#xBA&#x20&#x5F&#x20&#xBA&#x30CE&#x29`, name: `` },
+      { emoji: `\u{10DA}\u{28}\u{CA0}\u{76CA}\u{CA0}\u{10DA}\u{29}`, entity: `&#x10DA&#x28&#xCA0&#x76CA&#xCA0&#x10DA&#x29`, name: `` },
+      { emoji: `\u{28}\u{25D5}\u{203F}\u{2D}\u{29}\u{270C}`, entity: `&#x28&#x25D5&#x203F&#x2D&#x29&#x270C`, name: `` },
+      { emoji: `\u{28}\u{FF61}\u{25D5}\u{203F}\u{25D5}\u{FF61}\u{29}`, entity: `&#x28&#xFF61&#x25D5&#x203F&#x25D5&#xFF61&#x29`, name: `` },
+      { emoji: `\u{28}\u{25D1}\u{203F}\u{25D0}\u{29}`, entity: `&#x28&#x25D1&#x203F&#x25D0&#x29`, name: `` },
+      { emoji: `\u{25D4}\u{5F}\u{25D4}`, entity: `&#x25D4&#x5F&#x25D4`, name: `` },
+      { emoji: `\u{28}\u{2022}\u{203F}\u{2022}\u{29}`, entity: `&#x28&#x2022&#x203F&#x2022&#x29`, name: `` },
+      { emoji: `\u{28}\u{CA0}\u{5F}\u{CA0}\u{29}`, entity: `&#x28&#xCA0&#x5F&#xCA0&#x29`, name: `` },
+      { emoji: `\u{28}\u{AC}\u{FF64}\u{AC}\u{29}`, entity: `&#x28&#xAC&#xFF64&#xAC&#x29`, name: `` },
+      { emoji: `\u{28}\u{2500}\u{203F}\u{203F}\u{2500}\u{29}`, entity: `&#x28&#x2500&#x203F&#x203F&#x2500&#x29`, name: `` },
+      { emoji: `\u{28}\u{CA5}\u{FE4F}\u{CA5}\u{29}`, entity: `&#x28&#xCA5&#xFE4F&#xCA5&#x29`, name: `` },
+      { emoji: `\u{28}\u{CA5}\u{2038}\u{CA5}\u{29}`, entity: `&#x28&#xCA5&#x2038&#xCA5&#x29`, name: `` },
+      { emoji: `\u{28}\u{2310}\u{25A0}\u{5F}\u{25A0}\u{29}`, entity: `&#x28&#x2310&#x25A0&#x5F&#x25A0&#x29`, name: `` },
+      { emoji: `\u{28}\u{25B0}\u{2D8}\u{25E1}\u{2D8}\u{25B0}\u{29}`, entity: `&#x28&#x25B0&#x2D8&#x25E1&#x2D8&#x25B0&#x29`, name: `` },
+      { emoji: `\u{4E41}\u{28}\u{20}\u{25D4}\u{20}\u{C6A}\u{25D4}\u{29}\u{310F}`, entity: `&#x4E41&#x28&#x20&#x25D4&#x20&#xC6A&#x25D4&#x29&#x310F`, name: `` },
+      { emoji: `\u{28}\u{E07}\u{20}\u{360}\u{B0}\u{20}\u{35F}\u{296}\u{20}\u{361}\u{B0}\u{29}\u{E07}`, entity: `&#x28&#xE07&#x20&#x360&#xB0&#x20&#x35F&#x296&#x20&#x361&#xB0&#x29&#xE07`, name: `` },
+      { emoji: `\u{3B6}\u{F3C}\u{19F}\u{346}\u{644}\u{35C}\u{19F}\u{346}\u{F3D}\u{1D98}`, entity: `&#x3B6&#xF3C&#x19F&#x346&#x644&#x35C&#x19F&#x346&#xF3D&#x1D98`, name: `` },
+      { emoji: `\u{295}\u{2022}\u{1D25}\u{2022}\u{294}`, entity: `&#x295&#x2022&#x1D25&#x2022&#x294`, name: `` },
+      { emoji: `\u{28}\u{20}\u{35D}\u{B0}\u{20}\u{35C}\u{296}\u{361}\u{B0}\u{29}`, entity: `&#x28&#x20&#x35D&#xB0&#x20&#x35C&#x296&#x361&#xB0&#x29`, name: `` },
+      { emoji: `\u{28}\u{2F}\u{FF9F}\u{414}\u{FF9F}\u{29}\u{2F}`, entity: `&#x28&#x2F&#xFF9F&#x414&#xFF9F&#x29&#x2F`, name: `` },
+      { emoji: `\u{B67}\u{F3C}\u{CA0}\u{76CA}\u{CA0}\u{F3D}\u{B68}`, entity: `&#xB67&#xF3C&#xCA0&#x76CA&#xCA0&#xF3D&#xB68`, name: `` },
+      { emoji: `\u{28}\u{E07}\u{20}\u{2022}\u{300}\u{5F}\u{2022}\u{301}\u{29}\u{E07}`, entity: `&#x28&#xE07&#x20&#x2022&#x300&#x5F&#x2022&#x301&#x29&#xE07`, name: `` },
+      { emoji: `\u{1F600}`, entity: `&#x1F600`, name: `Grinning Face` },
+      { emoji: `\u{1F601}`, entity: `&#x1F601`, name: `Grinning Face With Smiling Eyes` },
+      { emoji: `\u{1F602}`, entity: `&#x1F602`, name: `Face With Tears Of Joy` },
+      { emoji: `\u{1F923}`, entity: `&#x1F923`, name: `Rolling On The Floor Laughing` },
+      { emoji: `\u{1F603}`, entity: `&#x1F603`, name: `Smiling Face With Open Mouth` },
+      { emoji: `\u{1F604}`, entity: `&#x1F604`, name: `Smiling Face With Open Mouth & Smiling Eyes` },
+      { emoji: `\u{1F605}`, entity: `&#x1F605`, name: `Smiling Face With Open Mouth & Cold Sweat` },
+      { emoji: `\u{1F606}`, entity: `&#x1F606`, name: `Smiling Face With Open Mouth & Closed Eyes` },
+      { emoji: `\u{1F609}`, entity: `&#x1F609`, name: `Winking Face` },
+      { emoji: `\u{1F60A}`, entity: `&#x1F60A`, name: `Smiling Face With Smiling Eyes` },
+      { emoji: `\u{1F60B}`, entity: `&#x1F60B`, name: `Face Savouring Delicious Food` },
+      { emoji: `\u{1F60E}`, entity: `&#x1F60E`, name: `Smiling Face With Sunglasses` },
+      { emoji: `\u{1F60D}`, entity: `&#x1F60D`, name: `Smiling Face With Heart-Eyes` },
+      { emoji: `\u{1F618}`, entity: `&#x1F618`, name: `Face Blowing A Kiss` },
+      { emoji: `\u{1F617}`, entity: `&#x1F617`, name: `Kissing Face` },
+      { emoji: `\u{1F619}`, entity: `&#x1F619`, name: `Kissing Face With Smiling Eyes` },
+      { emoji: `\u{1F61A}`, entity: `&#x1F61A`, name: `Kissing Face With Closed Eyes` },
+      { emoji: `\u{263A}`, entity: `&#x263A`, name: `Smiling Face` },
+      { emoji: `\u{1F642}`, entity: `&#x1F642`, name: `Slightly Smiling Face` },
+      { emoji: `\u{1F917}`, entity: `&#x1F917`, name: `Hugging Face` },
+      { emoji: `\u{1F914}`, entity: `&#x1F914`, name: `Thinking Face` },
+      { emoji: `\u{1F610}`, entity: `&#x1F610`, name: `Neutral Face` },
+      { emoji: `\u{1F611}`, entity: `&#x1F611`, name: `Expressionless Face` },
+      { emoji: `\u{1F636}`, entity: `&#x1F636`, name: `Face Without Mouth` },
+      { emoji: `\u{1F644}`, entity: `&#x1F644`, name: `Face With Rolling Eyes` },
+      { emoji: `\u{1F60F}`, entity: `&#x1F60F`, name: `Smirking Face` },
+      { emoji: `\u{1F623}`, entity: `&#x1F623`, name: `Persevering Face` },
+      { emoji: `\u{1F625}`, entity: `&#x1F625`, name: `Disappointed But Relieved Face` },
+      { emoji: `\u{1F62E}`, entity: `&#x1F62E`, name: `Face With Open Mouth` },
+      { emoji: `\u{1F910}`, entity: `&#x1F910`, name: `Zipper-Mouth Face` },
+      { emoji: `\u{1F62F}`, entity: `&#x1F62F`, name: `Hushed Face` },
+      { emoji: `\u{1F62A}`, entity: `&#x1F62A`, name: `Sleepy Face` },
+      { emoji: `\u{1F62B}`, entity: `&#x1F62B`, name: `Tired Face` },
+      { emoji: `\u{1F634}`, entity: `&#x1F634`, name: `Sleeping Face` },
+      { emoji: `\u{1F60C}`, entity: `&#x1F60C`, name: `Relieved Face` },
+      { emoji: `\u{1F913}`, entity: `&#x1F913`, name: `Nerd Face` },
+      { emoji: `\u{1F61B}`, entity: `&#x1F61B`, name: `Face With Stuck-Out Tongue` },
+      { emoji: `\u{1F61C}`, entity: `&#x1F61C`, name: `Face With Stuck-Out Tongue & Winking Eye` },
+      { emoji: `\u{1F61D}`, entity: `&#x1F61D`, name: `Face With Stuck-Out Tongue & Closed Eyes` },
+      { emoji: `\u{1F924}`, entity: `&#x1F924`, name: `Drooling Face` },
+      { emoji: `\u{1F612}`, entity: `&#x1F612`, name: `Unamused Face` },
+      { emoji: `\u{1F613}`, entity: `&#x1F613`, name: `Face With Cold Sweat` },
+      { emoji: `\u{1F614}`, entity: `&#x1F614`, name: `Pensive Face` },
+      { emoji: `\u{1F615}`, entity: `&#x1F615`, name: `Confused Face` },
+      { emoji: `\u{1F643}`, entity: `&#x1F643`, name: `Upside-Down Face` },
+      { emoji: `\u{1F911}`, entity: `&#x1F911`, name: `Money-Mouth Face` },
+      { emoji: `\u{1F632}`, entity: `&#x1F632`, name: `Astonished Face` },
+      { emoji: `\u{2639}`, entity: `&#x2639`, name: `Frowning Face` },
+      { emoji: `\u{1F641}`, entity: `&#x1F641`, name: `Slightly Frowning Face` },
+      { emoji: `\u{1F616}`, entity: `&#x1F616`, name: `Confounded Face` },
+      { emoji: `\u{1F61E}`, entity: `&#x1F61E`, name: `Disappointed Face` },
+      { emoji: `\u{1F61F}`, entity: `&#x1F61F`, name: `Worried Face` },
+      { emoji: `\u{1F624}`, entity: `&#x1F624`, name: `Face With Steam From Nose` },
+      { emoji: `\u{1F622}`, entity: `&#x1F622`, name: `Crying Face` },
+      { emoji: `\u{1F62D}`, entity: `&#x1F62D`, name: `Loudly Crying Face` },
+      { emoji: `\u{1F626}`, entity: `&#x1F626`, name: `Frowning Face With Open Mouth` },
+      { emoji: `\u{1F627}`, entity: `&#x1F627`, name: `Anguished Face` },
+      { emoji: `\u{1F628}`, entity: `&#x1F628`, name: `Fearful Face` },
+      { emoji: `\u{1F629}`, entity: `&#x1F629`, name: `Weary Face` },
+      { emoji: `\u{1F62C}`, entity: `&#x1F62C`, name: `Grimacing Face` },
+      { emoji: `\u{1F630}`, entity: `&#x1F630`, name: `Face With Open Mouth & Cold Sweat` },
+      { emoji: `\u{1F631}`, entity: `&#x1F631`, name: `Face Screaming In Fear` },
+      { emoji: `\u{1F633}`, entity: `&#x1F633`, name: `Flushed Face` },
+      { emoji: `\u{1F635}`, entity: `&#x1F635`, name: `Dizzy Face` },
+      { emoji: `\u{1F621}`, entity: `&#x1F621`, name: `Pouting Face` },
+      { emoji: `\u{1F620}`, entity: `&#x1F620`, name: `Angry Face` },
+      { emoji: `\u{1F607}`, entity: `&#x1F607`, name: `Smiling Face With Halo` },
+      { emoji: `\u{1F920}`, entity: `&#x1F920`, name: `Cowboy Hat Face` },
+      { emoji: `\u{1F921}`, entity: `&#x1F921`, name: `Clown Face` },
+      { emoji: `\u{1F925}`, entity: `&#x1F925`, name: `Lying Face` },
+      { emoji: `\u{1F637}`, entity: `&#x1F637`, name: `Face With Medical Mask` },
+      { emoji: `\u{1F912}`, entity: `&#x1F912`, name: `Face With Thermometer` },
+      { emoji: `\u{1F915}`, entity: `&#x1F915`, name: `Face With Head-Bandage` },
+      { emoji: `\u{1F922}`, entity: `&#x1F922`, name: `Nauseated Face` },
+      { emoji: `\u{1F927}`, entity: `&#x1F927`, name: `Sneezing Face` },
+      { emoji: `\u{1F608}`, entity: `&#x1F608`, name: `Smiling Face With Horns` },
+      { emoji: `\u{1F47F}`, entity: `&#x1F47F`, name: `Angry Face With Horns` },
+      { emoji: `\u{1F479}`, entity: `&#x1F479`, name: `Ogre` },
+      { emoji: `\u{1F47A}`, entity: `&#x1F47A`, name: `Goblin` },
+      { emoji: `\u{1F480}`, entity: `&#x1F480`, name: `Skull` },
+      { emoji: `\u{2620}`, entity: `&#x2620`, name: `Skull And Crossbones` },
+      { emoji: `\u{1F47B}`, entity: `&#x1F47B`, name: `Ghost` },
+      { emoji: `\u{1F47D}`, entity: `&#x1F47D`, name: `Alien` },
+      { emoji: `\u{1F47E}`, entity: `&#x1F47E`, name: `Alien Monster` },
+      { emoji: `\u{1F916}`, entity: `&#x1F916`, name: `Robot Face` },
+      { emoji: `\u{1F4A9}`, entity: `&#x1F4A9`, name: `Pile Of Poo` },
+      { emoji: `\u{1F63A}`, entity: `&#x1F63A`, name: `Smiling Cat Face With Open Mouth` },
+      { emoji: `\u{1F638}`, entity: `&#x1F638`, name: `Grinning Cat Face With Smiling Eyes` },
+      { emoji: `\u{1F639}`, entity: `&#x1F639`, name: `Cat Face With Tears Of Joy` },
+      { emoji: `\u{1F63B}`, entity: `&#x1F63B`, name: `Smiling Cat Face With Heart-Eyes` },
+      { emoji: `\u{1F63C}`, entity: `&#x1F63C`, name: `Cat Face With Wry Smile` },
+      { emoji: `\u{1F63D}`, entity: `&#x1F63D`, name: `Kissing Cat Face With Closed Eyes` },
+      { emoji: `\u{1F640}`, entity: `&#x1F640`, name: `Weary Cat Face` },
+      { emoji: `\u{1F63F}`, entity: `&#x1F63F`, name: `Crying Cat Face` },
+      { emoji: `\u{1F63E}`, entity: `&#x1F63E`, name: `Pouting Cat Face` },
+      { emoji: `\u{1F648}`, entity: `&#x1F648`, name: `See-No-Evil Monkey` },
+      { emoji: `\u{1F649}`, entity: `&#x1F649`, name: `Hear-No-Evil Monkey` },
+      { emoji: `\u{1F64A}`, entity: `&#x1F64A`, name: `Speak-No-Evil Monkey` },
+      { emoji: `\u{1F466}`, entity: `&#x1F466`, name: `Boy` },
+      { emoji: `\u{1F466}\u{1F3FB}`, entity: `&#x1F466&#x1F3FB`, name: `Boy: Light Skin Tone` },
+      { emoji: `\u{1F466}\u{1F3FC}`, entity: `&#x1F466&#x1F3FC`, name: `Boy: Medium-Light Skin Tone` },
+      { emoji: `\u{1F466}\u{1F3FD}`, entity: `&#x1F466&#x1F3FD`, name: `Boy: Medium Skin Tone` },
+      { emoji: `\u{1F466}\u{1F3FE}`, entity: `&#x1F466&#x1F3FE`, name: `Boy: Medium-Dark Skin Tone` },
+      { emoji: `\u{1F466}\u{1F3FF}`, entity: `&#x1F466&#x1F3FF`, name: `Boy: Dark Skin Tone` },
+      { emoji: `\u{1F467}`, entity: `&#x1F467`, name: `Girl` },
+      { emoji: `\u{1F467}\u{1F3FB}`, entity: `&#x1F467&#x1F3FB`, name: `Girl: Light Skin Tone` },
+      { emoji: `\u{1F467}\u{1F3FC}`, entity: `&#x1F467&#x1F3FC`, name: `Girl: Medium-Light Skin Tone` },
+      { emoji: `\u{1F467}\u{1F3FD}`, entity: `&#x1F467&#x1F3FD`, name: `Girl: Medium Skin Tone` },
+      { emoji: `\u{1F467}\u{1F3FE}`, entity: `&#x1F467&#x1F3FE`, name: `Girl: Medium-Dark Skin Tone` },
+      { emoji: `\u{1F467}\u{1F3FF}`, entity: `&#x1F467&#x1F3FF`, name: `Girl: Dark Skin Tone` },
+      { emoji: `\u{1F468}`, entity: `&#x1F468`, name: `Man` },
+      { emoji: `\u{1F468}\u{1F3FB}`, entity: `&#x1F468&#x1F3FB`, name: `Man: Light Skin Tone` },
+      { emoji: `\u{1F468}\u{1F3FC}`, entity: `&#x1F468&#x1F3FC`, name: `Man: Medium-Light Skin Tone` },
+      { emoji: `\u{1F468}\u{1F3FD}`, entity: `&#x1F468&#x1F3FD`, name: `Man: Medium Skin Tone` },
+      { emoji: `\u{1F468}\u{1F3FE}`, entity: `&#x1F468&#x1F3FE`, name: `Man: Medium-Dark Skin Tone` },
+      { emoji: `\u{1F468}\u{1F3FF}`, entity: `&#x1F468&#x1F3FF`, name: `Man: Dark Skin Tone` },
+      { emoji: `\u{1F469}`, entity: `&#x1F469`, name: `Woman` },
+      { emoji: `\u{1F469}\u{1F3FB}`, entity: `&#x1F469&#x1F3FB`, name: `Woman: Light Skin Tone` },
+      { emoji: `\u{1F469}\u{1F3FC}`, entity: `&#x1F469&#x1F3FC`, name: `Woman: Medium-Light Skin Tone` },
+      { emoji: `\u{1F469}\u{1F3FD}`, entity: `&#x1F469&#x1F3FD`, name: `Woman: Medium Skin Tone` },
+      { emoji: `\u{1F469}\u{1F3FE}`, entity: `&#x1F469&#x1F3FE`, name: `Woman: Medium-Dark Skin Tone` },
+      { emoji: `\u{1F469}\u{1F3FF}`, entity: `&#x1F469&#x1F3FF`, name: `Woman: Dark Skin Tone` },
+      { emoji: `\u{1F474}`, entity: `&#x1F474`, name: `Old Man` },
+      { emoji: `\u{1F474}\u{1F3FB}`, entity: `&#x1F474&#x1F3FB`, name: `Old Man: Light Skin Tone` },
+      { emoji: `\u{1F474}\u{1F3FC}`, entity: `&#x1F474&#x1F3FC`, name: `Old Man: Medium-Light Skin Tone` },
+      { emoji: `\u{1F474}\u{1F3FD}`, entity: `&#x1F474&#x1F3FD`, name: `Old Man: Medium Skin Tone` },
+      { emoji: `\u{1F474}\u{1F3FE}`, entity: `&#x1F474&#x1F3FE`, name: `Old Man: Medium-Dark Skin Tone` },
+      { emoji: `\u{1F474}\u{1F3FF}`, entity: `&#x1F474&#x1F3FF`, name: `Old Man: Dark Skin Tone` },
+      { emoji: `\u{1F475}`, entity: `&#x1F475`, name: `Old Woman` },
+      { emoji: `\u{1F475}\u{1F3FB}`, entity: `&#x1F475&#x1F3FB`, name: `Old Woman: Light Skin Tone` },
+      { emoji: `\u{1F475}\u{1F3FC}`, entity: `&#x1F475&#x1F3FC`, name: `Old Woman: Medium-Light Skin Tone` },
+      { emoji: `\u{1F475}\u{1F3FD}`, entity: `&#x1F475&#x1F3FD`, name: `Old Woman: Medium Skin Tone` },
+      { emoji: `\u{1F475}\u{1F3FE}`, entity: `&#x1F475&#x1F3FE`, name: `Old Woman: Medium-Dark Skin Tone` },
+      { emoji: `\u{1F475}\u{1F3FF}`, entity: `&#x1F475&#x1F3FF`, name: `Old Woman: Dark Skin Tone` },
+      { emoji: `\u{1F476}`, entity: `&#x1F476`, name: `Baby` },
+      { emoji: `\u{1F476}\u{1F3FB}`, entity: `&#x1F476&#x1F3FB`, name: `Baby: Light Skin Tone` },
+      { emoji: `\u{1F476}\u{1F3FC}`, entity: `&#x1F476&#x1F3FC`, name: `Baby: Medium-Light Skin Tone` },
+      { emoji: `\u{1F476}\u{1F3FD}`, entity: `&#x1F476&#x1F3FD`, name: `Baby: Medium Skin Tone` },
+      { emoji: `\u{1F476}\u{1F3FE}`, entity: `&#x1F476&#x1F3FE`, name: `Baby: Medium-Dark Skin Tone` },
+      { emoji: `\u{1F476}\u{1F3FF}`, entity: `&#x1F476&#x1F3FF`, name: `Baby: Dark Skin Tone` },
+      { emoji: `\u{1F47C}`, entity: `&#x1F47C`, name: `Baby Angel` },
+      { emoji: `\u{1F47C}\u{1F3FB}`, entity: `&#x1F47C&#x1F3FB`, name: `Baby Angel: Light Skin Tone` },
+      { emoji: `\u{1F47C}\u{1F3FC}`, entity: `&#x1F47C&#x1F3FC`, name: `Baby Angel: Medium-Light Skin Tone` },
+      { emoji: `\u{1F47C}\u{1F3FD}`, entity: `&#x1F47C&#x1F3FD`, name: `Baby Angel: Medium Skin Tone` },
+      { emoji: `\u{1F47C}\u{1F3FE}`, entity: `&#x1F47C&#x1F3FE`, name: `Baby Angel: Medium-Dark Skin Tone` },
+      { emoji: `\u{1F47C}\u{1F3FF}`, entity: `&#x1F47C&#x1F3FF`, name: `Baby Angel: Dark Skin Tone` },
+      { emoji: `\u{1F468}\u{200D}\u{2695}\u{FE0F}`, entity: `&#x1F468&#x200D&#x2695&#xFE0F`, name: `Man Health Worker` },
+      { emoji: `\u{1F468}\u{1F3FB}\u{200D}\u{2695}\u{FE0F}`, entity: `&#x1F468&#x1F3FB&#x200D&#x2695&#xFE0F`, name: `Man Health Worker: Light Skin Tone` },
+      { emoji: `\u{1F468}\u{1F3FC}\u{200D}\u{2695}\u{FE0F}`, entity: `&#x1F468&#x1F3FC&#x200D&#x2695&#xFE0F`, name: `Man Health Worker: Medium-Light Skin Tone` },
+      { emoji: `\u{1F468}\u{1F3FD}\u{200D}\u{2695}\u{FE0F}`, entity: `&#x1F468&#x1F3FD&#x200D&#x2695&#xFE0F`, name: `Man Health Worker: Medium Skin Tone` },
+      { emoji: `\u{1F468}\u{1F3FE}\u{200D}\u{2695}\u{FE0F}`, entity: `&#x1F468&#x1F3FE&#x200D&#x2695&#xFE0F`, name: `Man Health Worker: Medium-Dark Skin Tone` },
+      { emoji: `\u{1F468}\u{1F3FF}\u{200D}\u{2695}\u{FE0F}`, entity: `&#x1F468&#x1F3FF&#x200D&#x2695&#xFE0F`, name: `Man Health Worker: Dark Skin Tone` },
+      { emoji: `\u{1F469}\u{200D}\u{2695}\u{FE0F}`, entity: `&#x1F469&#x200D&#x2695&#xFE0F`, name: `Woman Health Worker` },
+      { emoji: `\u{1F469}\u{1F3FB}\u{200D}\u{2695}\u{FE0F}`, entity: `&#x1F469&#x1F3FB&#x200D&#x2695&#xFE0F`, name: `Woman Health Worker: Light Skin Tone` },
+      { emoji: `\u{1F469}\u{1F3FC}\u{200D}\u{2695}\u{FE0F}`, entity: `&#x1F469&#x1F3FC&#x200D&#x2695&#xFE0F`, name: `Woman Health Worker: Medium-Light Skin Tone` },
+      { emoji: `\u{1F469}\u{1F3FD}\u{200D}\u{2695}\u{FE0F}`, entity: `&#x1F469&#x1F3FD&#x200D&#x2695&#xFE0F`, name: `Woman Health Worker: Medium Skin Tone` },
+      { emoji: `\u{1F469}\u{1F3FE}\u{200D}\u{2695}\u{FE0F}`, entity: `&#x1F469&#x1F3FE&#x200D&#x2695&#xFE0F`, name: `Woman Health Worker: Medium-Dark Skin Tone` },
+      { emoji: `\u{1F469}\u{1F3FF}\u{200D}\u{2695}\u{FE0F}`, entity: `&#x1F469&#x1F3FF&#x200D&#x2695&#xFE0F`, name: `Woman Health Worker: Dark Skin Tone` },
+      { emoji: `\u{1F468}\u{200D}\u{1F393}`, entity: `&#x1F468&#x200D&#x1F393`, name: `Man Student` },
+      { emoji: `\u{1F468}\u{1F3FB}\u{200D}\u{1F393}`, entity: `&#x1F468&#x1F3FB&#x200D&#x1F393`, name: `Man Student: Light Skin Tone` },
+      { emoji: `\u{1F468}\u{1F3FC}\u{200D}\u{1F393}`, entity: `&#x1F468&#x1F3FC&#x200D&#x1F393`, name: `Man Student: Medium-Light Skin Tone` },
+      { emoji: `\u{1F468}\u{1F3FD}\u{200D}\u{1F393}`, entity: `&#x1F468&#x1F3FD&#x200D&#x1F393`, name: `Man Student: Medium Skin Tone` },
+      { emoji: `\u{1F468}\u{1F3FE}\u{200D}\u{1F393}`, entity: `&#x1F468&#x1F3FE&#x200D&#x1F393`, name: `Man Student: Medium-Dark Skin Tone` },
+      { emoji: `\u{1F468}\u{1F3FF}\u{200D}\u{1F393}`, entity: `&#x1F468&#x1F3FF&#x200D&#x1F393`, name: `Man Student: Dark Skin Tone` },
+      { emoji: `\u{1F469}\u{200D}\u{1F393}`, entity: `&#x1F469&#x200D&#x1F393`, name: `Woman Student` },
+      { emoji: `\u{1F469}\u{1F3FB}\u{200D}\u{1F393}`, entity: `&#x1F469&#x1F3FB&#x200D&#x1F393`, name: `Woman Student: Light Skin Tone` },
+      { emoji: `\u{1F469}\u{1F3FC}\u{200D}\u{1F393}`, entity: `&#x1F469&#x1F3FC&#x200D&#x1F393`, name: `Woman Student: Medium-Light Skin Tone` },
+      { emoji: `\u{1F469}\u{1F3FD}\u{200D}\u{1F393}`, entity: `&#x1F469&#x1F3FD&#x200D&#x1F393`, name: `Woman Student: Medium Skin Tone` },
+      { emoji: `\u{1F469}\u{1F3FE}\u{200D}\u{1F393}`, entity: `&#x1F469&#x1F3FE&#x200D&#x1F393`, name: `Woman Student: Medium-Dark Skin Tone` },
+      { emoji: `\u{1F469}\u{1F3FF}\u{200D}\u{1F393}`, entity: `&#x1F469&#x1F3FF&#x200D&#x1F393`, name: `Woman Student: Dark Skin Tone` },
+      { emoji: `\u{1F468}\u{200D}\u{1F3EB}`, entity: `&#x1F468&#x200D&#x1F3EB`, name: `Man Teacher` },
+      { emoji: `\u{1F468}\u{1F3FB}\u{200D}\u{1F3EB}`, entity: `&#x1F468&#x1F3FB&#x200D&#x1F3EB`, name: `Man Teacher: Light Skin Tone` },
+      { emoji: `\u{1F468}\u{1F3FC}\u{200D}\u{1F3EB}`, entity: `&#x1F468&#x1F3FC&#x200D&#x1F3EB`, name: `Man Teacher: Medium-Light Skin Tone` },
+      { emoji: `\u{1F468}\u{1F3FD}\u{200D}\u{1F3EB}`, entity: `&#x1F468&#x1F3FD&#x200D&#x1F3EB`, name: `Man Teacher: Medium Skin Tone` },
+      { emoji: `\u{1F468}\u{1F3FE}\u{200D}\u{1F3EB}`, entity: `&#x1F468&#x1F3FE&#x200D&#x1F3EB`, name: `Man Teacher: Medium-Dark Skin Tone` },
+      { emoji: `\u{1F468}\u{1F3FF}\u{200D}\u{1F3EB}`, entity: `&#x1F468&#x1F3FF&#x200D&#x1F3EB`, name: `Man Teacher: Dark Skin Tone` },
+      { emoji: `\u{1F469}\u{200D}\u{1F3EB}`, entity: `&#x1F469&#x200D&#x1F3EB`, name: `Woman Teacher` },
+      { emoji: `\u{1F469}\u{1F3FB}\u{200D}\u{1F3EB}`, entity: `&#x1F469&#x1F3FB&#x200D&#x1F3EB`, name: `Woman Teacher: Light Skin Tone` },
+      { emoji: `\u{1F469}\u{1F3FC}\u{200D}\u{1F3EB}`, entity: `&#x1F469&#x1F3FC&#x200D&#x1F3EB`, name: `Woman Teacher: Medium-Light Skin Tone` },
+      { emoji: `\u{1F469}\u{1F3FD}\u{200D}\u{1F3EB}`, entity: `&#x1F469&#x1F3FD&#x200D&#x1F3EB`, name: `Woman Teacher: Medium Skin Tone` },
+      { emoji: `\u{1F469}\u{1F3FE}\u{200D}\u{1F3EB}`, entity: `&#x1F469&#x1F3FE&#x200D&#x1F3EB`, name: `Woman Teacher: Medium-Dark Skin Tone` },
+      { emoji: `\u{1F469}\u{1F3FF}\u{200D}\u{1F3EB}`, entity: `&#x1F469&#x1F3FF&#x200D&#x1F3EB`, name: `Woman Teacher: Dark Skin Tone` },
+      { emoji: `\u{1F468}\u{200D}\u{2696}\u{FE0F}`, entity: `&#x1F468&#x200D&#x2696&#xFE0F`, name: `Man Judge` },
+      { emoji: `\u{1F468}\u{1F3FB}\u{200D}\u{2696}\u{FE0F}`, entity: `&#x1F468&#x1F3FB&#x200D&#x2696&#xFE0F`, name: `Man Judge: Light Skin Tone` },
+      { emoji: `\u{1F468}\u{1F3FC}\u{200D}\u{2696}\u{FE0F}`, entity: `&#x1F468&#x1F3FC&#x200D&#x2696&#xFE0F`, name: `Man Judge: Medium-Light Skin Tone` },
+      { emoji: `\u{1F468}\u{1F3FD}\u{200D}\u{2696}\u{FE0F}`, entity: `&#x1F468&#x1F3FD&#x200D&#x2696&#xFE0F`, name: `Man Judge: Medium Skin Tone` },
+      { emoji: `\u{1F468}\u{1F3FE}\u{200D}\u{2696}\u{FE0F}`, entity: `&#x1F468&#x1F3FE&#x200D&#x2696&#xFE0F`, name: `Man Judge: Medium-Dark Skin Tone` },
+      { emoji: `\u{1F468}\u{1F3FF}\u{200D}\u{2696}\u{FE0F}`, entity: `&#x1F468&#x1F3FF&#x200D&#x2696&#xFE0F`, name: `Man Judge: Dark Skin Tone` },
+      { emoji: `\u{1F469}\u{200D}\u{2696}\u{FE0F}`, entity: `&#x1F469&#x200D&#x2696&#xFE0F`, name: `Woman Judge` },
+      { emoji: `\u{1F469}\u{1F3FB}\u{200D}\u{2696}\u{FE0F}`, entity: `&#x1F469&#x1F3FB&#x200D&#x2696&#xFE0F`, name: `Woman Judge: Light Skin Tone` },
+      { emoji: `\u{1F469}\u{1F3FC}\u{200D}\u{2696}\u{FE0F}`, entity: `&#x1F469&#x1F3FC&#x200D&#x2696&#xFE0F`, name: `Woman Judge: Medium-Light Skin Tone` },
+      { emoji: `\u{1F469}\u{1F3FD}\u{200D}\u{2696}\u{FE0F}`, entity: `&#x1F469&#x1F3FD&#x200D&#x2696&#xFE0F`, name: `Woman Judge: Medium Skin Tone` },
+      { emoji: `\u{1F469}\u{1F3FE}\u{200D}\u{2696}\u{FE0F}`, entity: `&#x1F469&#x1F3FE&#x200D&#x2696&#xFE0F`, name: `Woman Judge: Medium-Dark Skin Tone` },
+      { emoji: `\u{1F469}\u{1F3FF}\u{200D}\u{2696}\u{FE0F}`, entity: `&#x1F469&#x1F3FF&#x200D&#x2696&#xFE0F`, name: `Woman Judge: Dark Skin Tone` },
+      { emoji: `\u{1F468}\u{200D}\u{1F33E}`, entity: `&#x1F468&#x200D&#x1F33E`, name: `Man Farmer` },
+      { emoji: `\u{1F468}\u{1F3FB}\u{200D}\u{1F33E}`, entity: `&#x1F468&#x1F3FB&#x200D&#x1F33E`, name: `Man Farmer: Light Skin Tone` },
+      { emoji: `\u{1F468}\u{1F3FC}\u{200D}\u{1F33E}`, entity: `&#x1F468&#x1F3FC&#x200D&#x1F33E`, name: `Man Farmer: Medium-Light Skin Tone` },
+      { emoji: `\u{1F468}\u{1F3FD}\u{200D}\u{1F33E}`, entity: `&#x1F468&#x1F3FD&#x200D&#x1F33E`, name: `Man Farmer: Medium Skin Tone` },
+      { emoji: `\u{1F468}\u{1F3FE}\u{200D}\u{1F33E}`, entity: `&#x1F468&#x1F3FE&#x200D&#x1F33E`, name: `Man Farmer: Medium-Dark Skin Tone` },
+      { emoji: `\u{1F468}\u{1F3FF}\u{200D}\u{1F33E}`, entity: `&#x1F468&#x1F3FF&#x200D&#x1F33E`, name: `Man Farmer: Dark Skin Tone` },
+      { emoji: `\u{1F469}\u{200D}\u{1F33E}`, entity: `&#x1F469&#x200D&#x1F33E`, name: `Woman Farmer` },
+      { emoji: `\u{1F469}\u{1F3FB}\u{200D}\u{1F33E}`, entity: `&#x1F469&#x1F3FB&#x200D&#x1F33E`, name: `Woman Farmer: Light Skin Tone` },
+      { emoji: `\u{1F469}\u{1F3FC}\u{200D}\u{1F33E}`, entity: `&#x1F469&#x1F3FC&#x200D&#x1F33E`, name: `Woman Farmer: Medium-Light Skin Tone` },
+      { emoji: `\u{1F469}\u{1F3FD}\u{200D}\u{1F33E}`, entity: `&#x1F469&#x1F3FD&#x200D&#x1F33E`, name: `Woman Farmer: Medium Skin Tone` },
+      { emoji: `\u{1F469}\u{1F3FE}\u{200D}\u{1F33E}`, entity: `&#x1F469&#x1F3FE&#x200D&#x1F33E`, name: `Woman Farmer: Medium-Dark Skin Tone` },
+      { emoji: `\u{1F469}\u{1F3FF}\u{200D}\u{1F33E}`, entity: `&#x1F469&#x1F3FF&#x200D&#x1F33E`, name: `Woman Farmer: Dark Skin Tone` },
+      { emoji: `\u{1F468}\u{200D}\u{1F373}`, entity: `&#x1F468&#x200D&#x1F373`, name: `Man Cook` },
+      { emoji: `\u{1F468}\u{1F3FB}\u{200D}\u{1F373}`, entity: `&#x1F468&#x1F3FB&#x200D&#x1F373`, name: `Man Cook: Light Skin Tone` },
+      { emoji: `\u{1F468}\u{1F3FC}\u{200D}\u{1F373}`, entity: `&#x1F468&#x1F3FC&#x200D&#x1F373`, name: `Man Cook: Medium-Light Skin Tone` },
+      { emoji: `\u{1F468}\u{1F3FD}\u{200D}\u{1F373}`, entity: `&#x1F468&#x1F3FD&#x200D&#x1F373`, name: `Man Cook: Medium Skin Tone` },
+      { emoji: `\u{1F468}\u{1F3FE}\u{200D}\u{1F373}`, entity: `&#x1F468&#x1F3FE&#x200D&#x1F373`, name: `Man Cook: Medium-Dark Skin Tone` },
+      { emoji: `\u{1F468}\u{1F3FF}\u{200D}\u{1F373}`, entity: `&#x1F468&#x1F3FF&#x200D&#x1F373`, name: `Man Cook: Dark Skin Tone` },
+      { emoji: `\u{1F469}\u{200D}\u{1F373}`, entity: `&#x1F469&#x200D&#x1F373`, name: `Woman Cook` },
+      { emoji: `\u{1F469}\u{1F3FB}\u{200D}\u{1F373}`, entity: `&#x1F469&#x1F3FB&#x200D&#x1F373`, name: `Woman Cook: Light Skin Tone` },
+      { emoji: `\u{1F469}\u{1F3FC}\u{200D}\u{1F373}`, entity: `&#x1F469&#x1F3FC&#x200D&#x1F373`, name: `Woman Cook: Medium-Light Skin Tone` },
+      { emoji: `\u{1F469}\u{1F3FD}\u{200D}\u{1F373}`, entity: `&#x1F469&#x1F3FD&#x200D&#x1F373`, name: `Woman Cook: Medium Skin Tone` },
+      { emoji: `\u{1F469}\u{1F3FE}\u{200D}\u{1F373}`, entity: `&#x1F469&#x1F3FE&#x200D&#x1F373`, name: `Woman Cook: Medium-Dark Skin Tone` },
+      { emoji: `\u{1F469}\u{1F3FF}\u{200D}\u{1F373}`, entity: `&#x1F469&#x1F3FF&#x200D&#x1F373`, name: `Woman Cook: Dark Skin Tone` },
+      { emoji: `\u{1F468}\u{200D}\u{1F527}`, entity: `&#x1F468&#x200D&#x1F527`, name: `Man Mechanic` },
+      { emoji: `\u{1F468}\u{1F3FB}\u{200D}\u{1F527}`, entity: `&#x1F468&#x1F3FB&#x200D&#x1F527`, name: `Man Mechanic: Light Skin Tone` },
+      { emoji: `\u{1F468}\u{1F3FC}\u{200D}\u{1F527}`, entity: `&#x1F468&#x1F3FC&#x200D&#x1F527`, name: `Man Mechanic: Medium-Light Skin Tone` },
+      { emoji: `\u{1F468}\u{1F3FD}\u{200D}\u{1F527}`, entity: `&#x1F468&#x1F3FD&#x200D&#x1F527`, name: `Man Mechanic: Medium Skin Tone` },
+      { emoji: `\u{1F468}\u{1F3FE}\u{200D}\u{1F527}`, entity: `&#x1F468&#x1F3FE&#x200D&#x1F527`, name: `Man Mechanic: Medium-Dark Skin Tone` },
+      { emoji: `\u{1F468}\u{1F3FF}\u{200D}\u{1F527}`, entity: `&#x1F468&#x1F3FF&#x200D&#x1F527`, name: `Man Mechanic: Dark Skin Tone` },
+      { emoji: `\u{1F469}\u{200D}\u{1F527}`, entity: `&#x1F469&#x200D&#x1F527`, name: `Woman Mechanic` },
+      { emoji: `\u{1F469}\u{1F3FB}\u{200D}\u{1F527}`, entity: `&#x1F469&#x1F3FB&#x200D&#x1F527`, name: `Woman Mechanic: Light Skin Tone` },
+      { emoji: `\u{1F469}\u{1F3FC}\u{200D}\u{1F527}`, entity: `&#x1F469&#x1F3FC&#x200D&#x1F527`, name: `Woman Mechanic: Medium-Light Skin Tone` },
+      { emoji: `\u{1F469}\u{1F3FD}\u{200D}\u{1F527}`, entity: `&#x1F469&#x1F3FD&#x200D&#x1F527`, name: `Woman Mechanic: Medium Skin Tone` },
+      { emoji: `\u{1F469}\u{1F3FE}\u{200D}\u{1F527}`, entity: `&#x1F469&#x1F3FE&#x200D&#x1F527`, name: `Woman Mechanic: Medium-Dark Skin Tone` },
+      { emoji: `\u{1F469}\u{1F3FF}\u{200D}\u{1F527}`, entity: `&#x1F469&#x1F3FF&#x200D&#x1F527`, name: `Woman Mechanic: Dark Skin Tone` },
+      { emoji: `\u{1F468}\u{200D}\u{1F3ED}`, entity: `&#x1F468&#x200D&#x1F3ED`, name: `Man Factory Worker` },
+      { emoji: `\u{1F468}\u{1F3FB}\u{200D}\u{1F3ED}`, entity: `&#x1F468&#x1F3FB&#x200D&#x1F3ED`, name: `Man Factory Worker: Light Skin Tone` },
+      { emoji: `\u{1F468}\u{1F3FC}\u{200D}\u{1F3ED}`, entity: `&#x1F468&#x1F3FC&#x200D&#x1F3ED`, name: `Man Factory Worker: Medium-Light Skin Tone` },
+      { emoji: `\u{1F468}\u{1F3FD}\u{200D}\u{1F3ED}`, entity: `&#x1F468&#x1F3FD&#x200D&#x1F3ED`, name: `Man Factory Worker: Medium Skin Tone` },
+      { emoji: `\u{1F468}\u{1F3FE}\u{200D}\u{1F3ED}`, entity: `&#x1F468&#x1F3FE&#x200D&#x1F3ED`, name: `Man Factory Worker: Medium-Dark Skin Tone` },
+      { emoji: `\u{1F468}\u{1F3FF}\u{200D}\u{1F3ED}`, entity: `&#x1F468&#x1F3FF&#x200D&#x1F3ED`, name: `Man Factory Worker: Dark Skin Tone` },
+      { emoji: `\u{1F469}\u{200D}\u{1F3ED}`, entity: `&#x1F469&#x200D&#x1F3ED`, name: `Woman Factory Worker` },
+      { emoji: `\u{1F469}\u{1F3FB}\u{200D}\u{1F3ED}`, entity: `&#x1F469&#x1F3FB&#x200D&#x1F3ED`, name: `Woman Factory Worker: Light Skin Tone` },
+      { emoji: `\u{1F469}\u{1F3FC}\u{200D}\u{1F3ED}`, entity: `&#x1F469&#x1F3FC&#x200D&#x1F3ED`, name: `Woman Factory Worker: Medium-Light Skin Tone` },
+      { emoji: `\u{1F469}\u{1F3FD}\u{200D}\u{1F3ED}`, entity: `&#x1F469&#x1F3FD&#x200D&#x1F3ED`, name: `Woman Factory Worker: Medium Skin Tone` },
+      { emoji: `\u{1F469}\u{1F3FE}\u{200D}\u{1F3ED}`, entity: `&#x1F469&#x1F3FE&#x200D&#x1F3ED`, name: `Woman Factory Worker: Medium-Dark Skin Tone` },
+      { emoji: `\u{1F469}\u{1F3FF}\u{200D}\u{1F3ED}`, entity: `&#x1F469&#x1F3FF&#x200D&#x1F3ED`, name: `Woman Factory Worker: Dark Skin Tone` },
+      { emoji: `\u{1F468}\u{200D}\u{1F4BC}`, entity: `&#x1F468&#x200D&#x1F4BC`, name: `Man Office Worker` },
+      { emoji: `\u{1F468}\u{1F3FB}\u{200D}\u{1F4BC}`, entity: `&#x1F468&#x1F3FB&#x200D&#x1F4BC`, name: `Man Office Worker: Light Skin Tone` },
+      { emoji: `\u{1F468}\u{1F3FC}\u{200D}\u{1F4BC}`, entity: `&#x1F468&#x1F3FC&#x200D&#x1F4BC`, name: `Man Office Worker: Medium-Light Skin Tone` },
+      { emoji: `\u{1F468}\u{1F3FD}\u{200D}\u{1F4BC}`, entity: `&#x1F468&#x1F3FD&#x200D&#x1F4BC`, name: `Man Office Worker: Medium Skin Tone` },
+      { emoji: `\u{1F468}\u{1F3FE}\u{200D}\u{1F4BC}`, entity: `&#x1F468&#x1F3FE&#x200D&#x1F4BC`, name: `Man Office Worker: Medium-Dark Skin Tone` },
+      { emoji: `\u{1F468}\u{1F3FF}\u{200D}\u{1F4BC}`, entity: `&#x1F468&#x1F3FF&#x200D&#x1F4BC`, name: `Man Office Worker: Dark Skin Tone` },
+      { emoji: `\u{1F469}\u{200D}\u{1F4BC}`, entity: `&#x1F469&#x200D&#x1F4BC`, name: `Woman Office Worker` },
+      { emoji: `\u{1F469}\u{1F3FB}\u{200D}\u{1F4BC}`, entity: `&#x1F469&#x1F3FB&#x200D&#x1F4BC`, name: `Woman Office Worker: Light Skin Tone` },
+      { emoji: `\u{1F469}\u{1F3FC}\u{200D}\u{1F4BC}`, entity: `&#x1F469&#x1F3FC&#x200D&#x1F4BC`, name: `Woman Office Worker: Medium-Light Skin Tone` },
+      { emoji: `\u{1F469}\u{1F3FD}\u{200D}\u{1F4BC}`, entity: `&#x1F469&#x1F3FD&#x200D&#x1F4BC`, name: `Woman Office Worker: Medium Skin Tone` },
+      { emoji: `\u{1F469}\u{1F3FE}\u{200D}\u{1F4BC}`, entity: `&#x1F469&#x1F3FE&#x200D&#x1F4BC`, name: `Woman Office Worker: Medium-Dark Skin Tone` },
+      { emoji: `\u{1F469}\u{1F3FF}\u{200D}\u{1F4BC}`, entity: `&#x1F469&#x1F3FF&#x200D&#x1F4BC`, name: `Woman Office Worker: Dark Skin Tone` },
+      { emoji: `\u{1F468}\u{200D}\u{1F52C}`, entity: `&#x1F468&#x200D&#x1F52C`, name: `Man Scientist` },
+      { emoji: `\u{1F468}\u{1F3FB}\u{200D}\u{1F52C}`, entity: `&#x1F468&#x1F3FB&#x200D&#x1F52C`, name: `Man Scientist: Light Skin Tone` },
+      { emoji: `\u{1F468}\u{1F3FC}\u{200D}\u{1F52C}`, entity: `&#x1F468&#x1F3FC&#x200D&#x1F52C`, name: `Man Scientist: Medium-Light Skin Tone` },
+      { emoji: `\u{1F468}\u{1F3FD}\u{200D}\u{1F52C}`, entity: `&#x1F468&#x1F3FD&#x200D&#x1F52C`, name: `Man Scientist: Medium Skin Tone` },
+      { emoji: `\u{1F468}\u{1F3FE}\u{200D}\u{1F52C}`, entity: `&#x1F468&#x1F3FE&#x200D&#x1F52C`, name: `Man Scientist: Medium-Dark Skin Tone` },
+      { emoji: `\u{1F468}\u{1F3FF}\u{200D}\u{1F52C}`, entity: `&#x1F468&#x1F3FF&#x200D&#x1F52C`, name: `Man Scientist: Dark Skin Tone` },
+      { emoji: `\u{1F469}\u{200D}\u{1F52C}`, entity: `&#x1F469&#x200D&#x1F52C`, name: `Woman Scientist` },
+      { emoji: `\u{1F469}\u{1F3FB}\u{200D}\u{1F52C}`, entity: `&#x1F469&#x1F3FB&#x200D&#x1F52C`, name: `Woman Scientist: Light Skin Tone` },
+      { emoji: `\u{1F469}\u{1F3FC}\u{200D}\u{1F52C}`, entity: `&#x1F469&#x1F3FC&#x200D&#x1F52C`, name: `Woman Scientist: Medium-Light Skin Tone` },
+      { emoji: `\u{1F469}\u{1F3FD}\u{200D}\u{1F52C}`, entity: `&#x1F469&#x1F3FD&#x200D&#x1F52C`, name: `Woman Scientist: Medium Skin Tone` },
+      { emoji: `\u{1F469}\u{1F3FE}\u{200D}\u{1F52C}`, entity: `&#x1F469&#x1F3FE&#x200D&#x1F52C`, name: `Woman Scientist: Medium-Dark Skin Tone` },
+      { emoji: `\u{1F469}\u{1F3FF}\u{200D}\u{1F52C}`, entity: `&#x1F469&#x1F3FF&#x200D&#x1F52C`, name: `Woman Scientist: Dark Skin Tone` },
+      { emoji: `\u{1F468}\u{200D}\u{1F4BB}`, entity: `&#x1F468&#x200D&#x1F4BB`, name: `Man Technologist` },
+      { emoji: `\u{1F468}\u{1F3FB}\u{200D}\u{1F4BB}`, entity: `&#x1F468&#x1F3FB&#x200D&#x1F4BB`, name: `Man Technologist: Light Skin Tone` },
+      { emoji: `\u{1F468}\u{1F3FC}\u{200D}\u{1F4BB}`, entity: `&#x1F468&#x1F3FC&#x200D&#x1F4BB`, name: `Man Technologist: Medium-Light Skin Tone` },
+      { emoji: `\u{1F468}\u{1F3FD}\u{200D}\u{1F4BB}`, entity: `&#x1F468&#x1F3FD&#x200D&#x1F4BB`, name: `Man Technologist: Medium Skin Tone` },
+      { emoji: `\u{1F468}\u{1F3FE}\u{200D}\u{1F4BB}`, entity: `&#x1F468&#x1F3FE&#x200D&#x1F4BB`, name: `Man Technologist: Medium-Dark Skin Tone` },
+      { emoji: `\u{1F468}\u{1F3FF}\u{200D}\u{1F4BB}`, entity: `&#x1F468&#x1F3FF&#x200D&#x1F4BB`, name: `Man Technologist: Dark Skin Tone` },
+      { emoji: `\u{1F469}\u{200D}\u{1F4BB}`, entity: `&#x1F469&#x200D&#x1F4BB`, name: `Woman Technologist` },
+      { emoji: `\u{1F469}\u{1F3FB}\u{200D}\u{1F4BB}`, entity: `&#x1F469&#x1F3FB&#x200D&#x1F4BB`, name: `Woman Technologist: Light Skin Tone` },
+      { emoji: `\u{1F469}\u{1F3FC}\u{200D}\u{1F4BB}`, entity: `&#x1F469&#x1F3FC&#x200D&#x1F4BB`, name: `Woman Technologist: Medium-Light Skin Tone` },
+      { emoji: `\u{1F469}\u{1F3FD}\u{200D}\u{1F4BB}`, entity: `&#x1F469&#x1F3FD&#x200D&#x1F4BB`, name: `Woman Technologist: Medium Skin Tone` },
+      { emoji: `\u{1F469}\u{1F3FE}\u{200D}\u{1F4BB}`, entity: `&#x1F469&#x1F3FE&#x200D&#x1F4BB`, name: `Woman Technologist: Medium-Dark Skin Tone` },
+      { emoji: `\u{1F469}\u{1F3FF}\u{200D}\u{1F4BB}`, entity: `&#x1F469&#x1F3FF&#x200D&#x1F4BB`, name: `Woman Technologist: Dark Skin Tone` },
+      { emoji: `\u{1F468}\u{200D}\u{1F3A4}`, entity: `&#x1F468&#x200D&#x1F3A4`, name: `Man Singer` },
+      { emoji: `\u{1F468}\u{1F3FB}\u{200D}\u{1F3A4}`, entity: `&#x1F468&#x1F3FB&#x200D&#x1F3A4`, name: `Man Singer: Light Skin Tone` },
+      { emoji: `\u{1F468}\u{1F3FC}\u{200D}\u{1F3A4}`, entity: `&#x1F468&#x1F3FC&#x200D&#x1F3A4`, name: `Man Singer: Medium-Light Skin Tone` },
+      { emoji: `\u{1F468}\u{1F3FD}\u{200D}\u{1F3A4}`, entity: `&#x1F468&#x1F3FD&#x200D&#x1F3A4`, name: `Man Singer: Medium Skin Tone` },
+      { emoji: `\u{1F468}\u{1F3FE}\u{200D}\u{1F3A4}`, entity: `&#x1F468&#x1F3FE&#x200D&#x1F3A4`, name: `Man Singer: Medium-Dark Skin Tone` },
+      { emoji: `\u{1F468}\u{1F3FF}\u{200D}\u{1F3A4}`, entity: `&#x1F468&#x1F3FF&#x200D&#x1F3A4`, name: `Man Singer: Dark Skin Tone` },
+      { emoji: `\u{1F469}\u{200D}\u{1F3A4}`, entity: `&#x1F469&#x200D&#x1F3A4`, name: `Woman Singer` },
+      { emoji: `\u{1F469}\u{1F3FB}\u{200D}\u{1F3A4}`, entity: `&#x1F469&#x1F3FB&#x200D&#x1F3A4`, name: `Woman Singer: Light Skin Tone` },
+      { emoji: `\u{1F469}\u{1F3FC}\u{200D}\u{1F3A4}`, entity: `&#x1F469&#x1F3FC&#x200D&#x1F3A4`, name: `Woman Singer: Medium-Light Skin Tone` },
+      { emoji: `\u{1F469}\u{1F3FD}\u{200D}\u{1F3A4}`, entity: `&#x1F469&#x1F3FD&#x200D&#x1F3A4`, name: `Woman Singer: Medium Skin Tone` },
+      { emoji: `\u{1F469}\u{1F3FE}\u{200D}\u{1F3A4}`, entity: `&#x1F469&#x1F3FE&#x200D&#x1F3A4`, name: `Woman Singer: Medium-Dark Skin Tone` },
+      { emoji: `\u{1F469}\u{1F3FF}\u{200D}\u{1F3A4}`, entity: `&#x1F469&#x1F3FF&#x200D&#x1F3A4`, name: `Woman Singer: Dark Skin Tone` },
+      { emoji: `\u{1F468}\u{200D}\u{1F3A8}`, entity: `&#x1F468&#x200D&#x1F3A8`, name: `Man Artist` },
+      { emoji: `\u{1F468}\u{1F3FB}\u{200D}\u{1F3A8}`, entity: `&#x1F468&#x1F3FB&#x200D&#x1F3A8`, name: `Man Artist: Light Skin Tone` },
+      { emoji: `\u{1F468}\u{1F3FC}\u{200D}\u{1F3A8}`, entity: `&#x1F468&#x1F3FC&#x200D&#x1F3A8`, name: `Man Artist: Medium-Light Skin Tone` },
+      { emoji: `\u{1F468}\u{1F3FD}\u{200D}\u{1F3A8}`, entity: `&#x1F468&#x1F3FD&#x200D&#x1F3A8`, name: `Man Artist: Medium Skin Tone` },
+      { emoji: `\u{1F468}\u{1F3FE}\u{200D}\u{1F3A8}`, entity: `&#x1F468&#x1F3FE&#x200D&#x1F3A8`, name: `Man Artist: Medium-Dark Skin Tone` },
+      { emoji: `\u{1F468}\u{1F3FF}\u{200D}\u{1F3A8}`, entity: `&#x1F468&#x1F3FF&#x200D&#x1F3A8`, name: `Man Artist: Dark Skin Tone` },
+      { emoji: `\u{1F469}\u{200D}\u{1F3A8}`, entity: `&#x1F469&#x200D&#x1F3A8`, name: `Woman Artist` },
+      { emoji: `\u{1F469}\u{1F3FB}\u{200D}\u{1F3A8}`, entity: `&#x1F469&#x1F3FB&#x200D&#x1F3A8`, name: `Woman Artist: Light Skin Tone` },
+      { emoji: `\u{1F469}\u{1F3FC}\u{200D}\u{1F3A8}`, entity: `&#x1F469&#x1F3FC&#x200D&#x1F3A8`, name: `Woman Artist: Medium-Light Skin Tone` },
+      { emoji: `\u{1F469}\u{1F3FD}\u{200D}\u{1F3A8}`, entity: `&#x1F469&#x1F3FD&#x200D&#x1F3A8`, name: `Woman Artist: Medium Skin Tone` },
+      { emoji: `\u{1F469}\u{1F3FE}\u{200D}\u{1F3A8}`, entity: `&#x1F469&#x1F3FE&#x200D&#x1F3A8`, name: `Woman Artist: Medium-Dark Skin Tone` },
+      { emoji: `\u{1F469}\u{1F3FF}\u{200D}\u{1F3A8}`, entity: `&#x1F469&#x1F3FF&#x200D&#x1F3A8`, name: `Woman Artist: Dark Skin Tone` },
+      { emoji: `\u{1F468}\u{200D}\u{2708}\u{FE0F}`, entity: `&#x1F468&#x200D&#x2708&#xFE0F`, name: `Man Pilot` },
+      { emoji: `\u{1F468}\u{1F3FB}\u{200D}\u{2708}\u{FE0F}`, entity: `&#x1F468&#x1F3FB&#x200D&#x2708&#xFE0F`, name: `Man Pilot: Light Skin Tone` },
+      { emoji: `\u{1F468}\u{1F3FC}\u{200D}\u{2708}\u{FE0F}`, entity: `&#x1F468&#x1F3FC&#x200D&#x2708&#xFE0F`, name: `Man Pilot: Medium-Light Skin Tone` },
+      { emoji: `\u{1F468}\u{1F3FD}\u{200D}\u{2708}\u{FE0F}`, entity: `&#x1F468&#x1F3FD&#x200D&#x2708&#xFE0F`, name: `Man Pilot: Medium Skin Tone` },
+      { emoji: `\u{1F468}\u{1F3FE}\u{200D}\u{2708}\u{FE0F}`, entity: `&#x1F468&#x1F3FE&#x200D&#x2708&#xFE0F`, name: `Man Pilot: Medium-Dark Skin Tone` },
+      { emoji: `\u{1F468}\u{1F3FF}\u{200D}\u{2708}\u{FE0F}`, entity: `&#x1F468&#x1F3FF&#x200D&#x2708&#xFE0F`, name: `Man Pilot: Dark Skin Tone` },
+      { emoji: `\u{1F469}\u{200D}\u{2708}\u{FE0F}`, entity: `&#x1F469&#x200D&#x2708&#xFE0F`, name: `Woman Pilot` },
+      { emoji: `\u{1F469}\u{1F3FB}\u{200D}\u{2708}\u{FE0F}`, entity: `&#x1F469&#x1F3FB&#x200D&#x2708&#xFE0F`, name: `Woman Pilot: Light Skin Tone` },
+      { emoji: `\u{1F469}\u{1F3FC}\u{200D}\u{2708}\u{FE0F}`, entity: `&#x1F469&#x1F3FC&#x200D&#x2708&#xFE0F`, name: `Woman Pilot: Medium-Light Skin Tone` },
+      { emoji: `\u{1F469}\u{1F3FD}\u{200D}\u{2708}\u{FE0F}`, entity: `&#x1F469&#x1F3FD&#x200D&#x2708&#xFE0F`, name: `Woman Pilot: Medium Skin Tone` },
+      { emoji: `\u{1F469}\u{1F3FE}\u{200D}\u{2708}\u{FE0F}`, entity: `&#x1F469&#x1F3FE&#x200D&#x2708&#xFE0F`, name: `Woman Pilot: Medium-Dark Skin Tone` },
+      { emoji: `\u{1F469}\u{1F3FF}\u{200D}\u{2708}\u{FE0F}`, entity: `&#x1F469&#x1F3FF&#x200D&#x2708&#xFE0F`, name: `Woman Pilot: Dark Skin Tone` },
+      { emoji: `\u{1F468}\u{200D}\u{1F680}`, entity: `&#x1F468&#x200D&#x1F680`, name: `Man Astronaut` },
+      { emoji: `\u{1F468}\u{1F3FB}\u{200D}\u{1F680}`, entity: `&#x1F468&#x1F3FB&#x200D&#x1F680`, name: `Man Astronaut: Light Skin Tone` },
+      { emoji: `\u{1F468}\u{1F3FC}\u{200D}\u{1F680}`, entity: `&#x1F468&#x1F3FC&#x200D&#x1F680`, name: `Man Astronaut: Medium-Light Skin Tone` },
+      { emoji: `\u{1F468}\u{1F3FD}\u{200D}\u{1F680}`, entity: `&#x1F468&#x1F3FD&#x200D&#x1F680`, name: `Man Astronaut: Medium Skin Tone` },
+      { emoji: `\u{1F468}\u{1F3FE}\u{200D}\u{1F680}`, entity: `&#x1F468&#x1F3FE&#x200D&#x1F680`, name: `Man Astronaut: Medium-Dark Skin Tone` },
+      { emoji: `\u{1F468}\u{1F3FF}\u{200D}\u{1F680}`, entity: `&#x1F468&#x1F3FF&#x200D&#x1F680`, name: `Man Astronaut: Dark Skin Tone` },
+      { emoji: `\u{1F469}\u{200D}\u{1F680}`, entity: `&#x1F469&#x200D&#x1F680`, name: `Woman Astronaut` },
+      { emoji: `\u{1F469}\u{1F3FB}\u{200D}\u{1F680}`, entity: `&#x1F469&#x1F3FB&#x200D&#x1F680`, name: `Woman Astronaut: Light Skin Tone` },
+      { emoji: `\u{1F469}\u{1F3FC}\u{200D}\u{1F680}`, entity: `&#x1F469&#x1F3FC&#x200D&#x1F680`, name: `Woman Astronaut: Medium-Light Skin Tone` },
+      { emoji: `\u{1F469}\u{1F3FD}\u{200D}\u{1F680}`, entity: `&#x1F469&#x1F3FD&#x200D&#x1F680`, name: `Woman Astronaut: Medium Skin Tone` },
+      { emoji: `\u{1F469}\u{1F3FE}\u{200D}\u{1F680}`, entity: `&#x1F469&#x1F3FE&#x200D&#x1F680`, name: `Woman Astronaut: Medium-Dark Skin Tone` },
+      { emoji: `\u{1F469}\u{1F3FF}\u{200D}\u{1F680}`, entity: `&#x1F469&#x1F3FF&#x200D&#x1F680`, name: `Woman Astronaut: Dark Skin Tone` },
+      { emoji: `\u{1F468}\u{200D}\u{1F692}`, entity: `&#x1F468&#x200D&#x1F692`, name: `Man Firefighter` },
+      { emoji: `\u{1F468}\u{1F3FB}\u{200D}\u{1F692}`, entity: `&#x1F468&#x1F3FB&#x200D&#x1F692`, name: `Man Firefighter: Light Skin Tone` },
+      { emoji: `\u{1F468}\u{1F3FC}\u{200D}\u{1F692}`, entity: `&#x1F468&#x1F3FC&#x200D&#x1F692`, name: `Man Firefighter: Medium-Light Skin Tone` },
+      { emoji: `\u{1F468}\u{1F3FD}\u{200D}\u{1F692}`, entity: `&#x1F468&#x1F3FD&#x200D&#x1F692`, name: `Man Firefighter: Medium Skin Tone` },
+      { emoji: `\u{1F468}\u{1F3FE}\u{200D}\u{1F692}`, entity: `&#x1F468&#x1F3FE&#x200D&#x1F692`, name: `Man Firefighter: Medium-Dark Skin Tone` },
+      { emoji: `\u{1F468}\u{1F3FF}\u{200D}\u{1F692}`, entity: `&#x1F468&#x1F3FF&#x200D&#x1F692`, name: `Man Firefighter: Dark Skin Tone` },
+      { emoji: `\u{1F469}\u{200D}\u{1F692}`, entity: `&#x1F469&#x200D&#x1F692`, name: `Woman Firefighter` },
+      { emoji: `\u{1F469}\u{1F3FB}\u{200D}\u{1F692}`, entity: `&#x1F469&#x1F3FB&#x200D&#x1F692`, name: `Woman Firefighter: Light Skin Tone` },
+      { emoji: `\u{1F469}\u{1F3FC}\u{200D}\u{1F692}`, entity: `&#x1F469&#x1F3FC&#x200D&#x1F692`, name: `Woman Firefighter: Medium-Light Skin Tone` },
+      { emoji: `\u{1F469}\u{1F3FD}\u{200D}\u{1F692}`, entity: `&#x1F469&#x1F3FD&#x200D&#x1F692`, name: `Woman Firefighter: Medium Skin Tone` },
+      { emoji: `\u{1F469}\u{1F3FE}\u{200D}\u{1F692}`, entity: `&#x1F469&#x1F3FE&#x200D&#x1F692`, name: `Woman Firefighter: Medium-Dark Skin Tone` },
+      { emoji: `\u{1F469}\u{1F3FF}\u{200D}\u{1F692}`, entity: `&#x1F469&#x1F3FF&#x200D&#x1F692`, name: `Woman Firefighter: Dark Skin Tone` },
+      { emoji: `\u{1F46E}`, entity: `&#x1F46E`, name: `Police Officer` },
+      { emoji: `\u{1F46E}\u{1F3FB}`, entity: `&#x1F46E&#x1F3FB`, name: `Police Officer: Light Skin Tone` },
+      { emoji: `\u{1F46E}\u{1F3FC}`, entity: `&#x1F46E&#x1F3FC`, name: `Police Officer: Medium-Light Skin Tone` },
+      { emoji: `\u{1F46E}\u{1F3FD}`, entity: `&#x1F46E&#x1F3FD`, name: `Police Officer: Medium Skin Tone` },
+      { emoji: `\u{1F46E}\u{1F3FE}`, entity: `&#x1F46E&#x1F3FE`, name: `Police Officer: Medium-Dark Skin Tone` },
+      { emoji: `\u{1F46E}\u{1F3FF}`, entity: `&#x1F46E&#x1F3FF`, name: `Police Officer: Dark Skin Tone` },
+      { emoji: `\u{1F46E}\u{200D}\u{2642}\u{FE0F}`, entity: `&#x1F46E&#x200D&#x2642&#xFE0F`, name: `Man Police Officer` },
+      { emoji: `\u{1F46E}\u{1F3FB}\u{200D}\u{2642}\u{FE0F}`, entity: `&#x1F46E&#x1F3FB&#x200D&#x2642&#xFE0F`, name: `Man Police Officer: Light Skin Tone` },
+      { emoji: `\u{1F46E}\u{1F3FC}\u{200D}\u{2642}\u{FE0F}`, entity: `&#x1F46E&#x1F3FC&#x200D&#x2642&#xFE0F`, name: `Man Police Officer: Medium-Light Skin Tone` },
+      { emoji: `\u{1F46E}\u{1F3FD}\u{200D}\u{2642}\u{FE0F}`, entity: `&#x1F46E&#x1F3FD&#x200D&#x2642&#xFE0F`, name: `Man Police Officer: Medium Skin Tone` },
+      { emoji: `\u{1F46E}\u{1F3FE}\u{200D}\u{2642}\u{FE0F}`, entity: `&#x1F46E&#x1F3FE&#x200D&#x2642&#xFE0F`, name: `Man Police Officer: Medium-Dark Skin Tone` },
+      { emoji: `\u{1F46E}\u{1F3FF}\u{200D}\u{2642}\u{FE0F}`, entity: `&#x1F46E&#x1F3FF&#x200D&#x2642&#xFE0F`, name: `Man Police Officer: Dark Skin Tone` },
+      { emoji: `\u{1F46E}\u{200D}\u{2640}\u{FE0F}`, entity: `&#x1F46E&#x200D&#x2640&#xFE0F`, name: `Woman Police Officer` },
+      { emoji: `\u{1F46E}\u{1F3FB}\u{200D}\u{2640}\u{FE0F}`, entity: `&#x1F46E&#x1F3FB&#x200D&#x2640&#xFE0F`, name: `Woman Police Officer: Light Skin Tone` },
+      { emoji: `\u{1F46E}\u{1F3FC}\u{200D}\u{2640}\u{FE0F}`, entity: `&#x1F46E&#x1F3FC&#x200D&#x2640&#xFE0F`, name: `Woman Police Officer: Medium-Light Skin Tone` },
+      { emoji: `\u{1F46E}\u{1F3FD}\u{200D}\u{2640}\u{FE0F}`, entity: `&#x1F46E&#x1F3FD&#x200D&#x2640&#xFE0F`, name: `Woman Police Officer: Medium Skin Tone` },
+      { emoji: `\u{1F46E}\u{1F3FE}\u{200D}\u{2640}\u{FE0F}`, entity: `&#x1F46E&#x1F3FE&#x200D&#x2640&#xFE0F`, name: `Woman Police Officer: Medium-Dark Skin Tone` },
+      { emoji: `\u{1F46E}\u{1F3FF}\u{200D}\u{2640}\u{FE0F}`, entity: `&#x1F46E&#x1F3FF&#x200D&#x2640&#xFE0F`, name: `Woman Police Officer: Dark Skin Tone` },
+      { emoji: `\u{1F575}`, entity: `&#x1F575`, name: `Detective` },
+      { emoji: `\u{1F575}\u{1F3FB}`, entity: `&#x1F575&#x1F3FB`, name: `Detective: Light Skin Tone` },
+      { emoji: `\u{1F575}\u{1F3FC}`, entity: `&#x1F575&#x1F3FC`, name: `Detective: Medium-Light Skin Tone` },
+      { emoji: `\u{1F575}\u{1F3FD}`, entity: `&#x1F575&#x1F3FD`, name: `Detective: Medium Skin Tone` },
+      { emoji: `\u{1F575}\u{1F3FE}`, entity: `&#x1F575&#x1F3FE`, name: `Detective: Medium-Dark Skin Tone` },
+      { emoji: `\u{1F575}\u{1F3FF}`, entity: `&#x1F575&#x1F3FF`, name: `Detective: Dark Skin Tone` },
+      { emoji: `\u{1F575}\u{FE0F}\u{200D}\u{2642}\u{FE0F}`, entity: `&#x1F575&#xFE0F&#x200D&#x2642&#xFE0F`, name: `Man Detective` },
+      { emoji: `\u{1F575}\u{1F3FB}\u{200D}\u{2642}\u{FE0F}`, entity: `&#x1F575&#x1F3FB&#x200D&#x2642&#xFE0F`, name: `Man Detective: Light Skin Tone` },
+      { emoji: `\u{1F575}\u{1F3FC}\u{200D}\u{2642}\u{FE0F}`, entity: `&#x1F575&#x1F3FC&#x200D&#x2642&#xFE0F`, name: `Man Detective: Medium-Light Skin Tone` },
+      { emoji: `\u{1F575}\u{1F3FD}\u{200D}\u{2642}\u{FE0F}`, entity: `&#x1F575&#x1F3FD&#x200D&#x2642&#xFE0F`, name: `Man Detective: Medium Skin Tone` },
+      { emoji: `\u{1F575}\u{1F3FE}\u{200D}\u{2642}\u{FE0F}`, entity: `&#x1F575&#x1F3FE&#x200D&#x2642&#xFE0F`, name: `Man Detective: Medium-Dark Skin Tone` },
+      { emoji: `\u{1F575}\u{1F3FF}\u{200D}\u{2642}\u{FE0F}`, entity: `&#x1F575&#x1F3FF&#x200D&#x2642&#xFE0F`, name: `Man Detective: Dark Skin Tone` },
+      { emoji: `\u{1F575}\u{FE0F}\u{200D}\u{2640}\u{FE0F}`, entity: `&#x1F575&#xFE0F&#x200D&#x2640&#xFE0F`, name: `Woman Detective` },
+      { emoji: `\u{1F575}\u{1F3FB}\u{200D}\u{2640}\u{FE0F}`, entity: `&#x1F575&#x1F3FB&#x200D&#x2640&#xFE0F`, name: `Woman Detective: Light Skin Tone` },
+      { emoji: `\u{1F575}\u{1F3FC}\u{200D}\u{2640}\u{FE0F}`, entity: `&#x1F575&#x1F3FC&#x200D&#x2640&#xFE0F`, name: `Woman Detective: Medium-Light Skin Tone` },
+      { emoji: `\u{1F575}\u{1F3FD}\u{200D}\u{2640}\u{FE0F}`, entity: `&#x1F575&#x1F3FD&#x200D&#x2640&#xFE0F`, name: `Woman Detective: Medium Skin Tone` },
+      { emoji: `\u{1F575}\u{1F3FE}\u{200D}\u{2640}\u{FE0F}`, entity: `&#x1F575&#x1F3FE&#x200D&#x2640&#xFE0F`, name: `Woman Detective: Medium-Dark Skin Tone` },
+      { emoji: `\u{1F575}\u{1F3FF}\u{200D}\u{2640}\u{FE0F}`, entity: `&#x1F575&#x1F3FF&#x200D&#x2640&#xFE0F`, name: `Woman Detective: Dark Skin Tone` },
+      { emoji: `\u{1F482}`, entity: `&#x1F482`, name: `Guard` },
+      { emoji: `\u{1F482}\u{1F3FB}`, entity: `&#x1F482&#x1F3FB`, name: `Guard: Light Skin Tone` },
+      { emoji: `\u{1F482}\u{1F3FC}`, entity: `&#x1F482&#x1F3FC`, name: `Guard: Medium-Light Skin Tone` },
+      { emoji: `\u{1F482}\u{1F3FD}`, entity: `&#x1F482&#x1F3FD`, name: `Guard: Medium Skin Tone` },
+      { emoji: `\u{1F482}\u{1F3FE}`, entity: `&#x1F482&#x1F3FE`, name: `Guard: Medium-Dark Skin Tone` },
+      { emoji: `\u{1F482}\u{1F3FF}`, entity: `&#x1F482&#x1F3FF`, name: `Guard: Dark Skin Tone` },
+      { emoji: `\u{1F482}\u{200D}\u{2642}\u{FE0F}`, entity: `&#x1F482&#x200D&#x2642&#xFE0F`, name: `Man Guard` },
+      { emoji: `\u{1F482}\u{1F3FB}\u{200D}\u{2642}\u{FE0F}`, entity: `&#x1F482&#x1F3FB&#x200D&#x2642&#xFE0F`, name: `Man Guard: Light Skin Tone` },
+      { emoji: `\u{1F482}\u{1F3FC}\u{200D}\u{2642}\u{FE0F}`, entity: `&#x1F482&#x1F3FC&#x200D&#x2642&#xFE0F`, name: `Man Guard: Medium-Light Skin Tone` },
+      { emoji: `\u{1F482}\u{1F3FD}\u{200D}\u{2642}\u{FE0F}`, entity: `&#x1F482&#x1F3FD&#x200D&#x2642&#xFE0F`, name: `Man Guard: Medium Skin Tone` },
+      { emoji: `\u{1F482}\u{1F3FE}\u{200D}\u{2642}\u{FE0F}`, entity: `&#x1F482&#x1F3FE&#x200D&#x2642&#xFE0F`, name: `Man Guard: Medium-Dark Skin Tone` },
+      { emoji: `\u{1F482}\u{1F3FF}\u{200D}\u{2642}\u{FE0F}`, entity: `&#x1F482&#x1F3FF&#x200D&#x2642&#xFE0F`, name: `Man Guard: Dark Skin Tone` },
+      { emoji: `\u{1F482}\u{200D}\u{2640}\u{FE0F}`, entity: `&#x1F482&#x200D&#x2640&#xFE0F`, name: `Woman Guard` },
+      { emoji: `\u{1F482}\u{1F3FB}\u{200D}\u{2640}\u{FE0F}`, entity: `&#x1F482&#x1F3FB&#x200D&#x2640&#xFE0F`, name: `Woman Guard: Light Skin Tone` },
+      { emoji: `\u{1F482}\u{1F3FC}\u{200D}\u{2640}\u{FE0F}`, entity: `&#x1F482&#x1F3FC&#x200D&#x2640&#xFE0F`, name: `Woman Guard: Medium-Light Skin Tone` },
+      { emoji: `\u{1F482}\u{1F3FD}\u{200D}\u{2640}\u{FE0F}`, entity: `&#x1F482&#x1F3FD&#x200D&#x2640&#xFE0F`, name: `Woman Guard: Medium Skin Tone` },
+      { emoji: `\u{1F482}\u{1F3FE}\u{200D}\u{2640}\u{FE0F}`, entity: `&#x1F482&#x1F3FE&#x200D&#x2640&#xFE0F`, name: `Woman Guard: Medium-Dark Skin Tone` },
+      { emoji: `\u{1F482}\u{1F3FF}\u{200D}\u{2640}\u{FE0F}`, entity: `&#x1F482&#x1F3FF&#x200D&#x2640&#xFE0F`, name: `Woman Guard: Dark Skin Tone` },
+      { emoji: `\u{1F477}`, entity: `&#x1F477`, name: `Construction Worker` },
+      { emoji: `\u{1F477}\u{1F3FB}`, entity: `&#x1F477&#x1F3FB`, name: `Construction Worker: Light Skin Tone` },
+      { emoji: `\u{1F477}\u{1F3FC}`, entity: `&#x1F477&#x1F3FC`, name: `Construction Worker: Medium-Light Skin Tone` },
+      { emoji: `\u{1F477}\u{1F3FD}`, entity: `&#x1F477&#x1F3FD`, name: `Construction Worker: Medium Skin Tone` },
+      { emoji: `\u{1F477}\u{1F3FE}`, entity: `&#x1F477&#x1F3FE`, name: `Construction Worker: Medium-Dark Skin Tone` },
+      { emoji: `\u{1F477}\u{1F3FF}`, entity: `&#x1F477&#x1F3FF`, name: `Construction Worker: Dark Skin Tone` },
+      { emoji: `\u{1F477}\u{200D}\u{2642}\u{FE0F}`, entity: `&#x1F477&#x200D&#x2642&#xFE0F`, name: `Man Construction Worker` },
+      { emoji: `\u{1F477}\u{1F3FB}\u{200D}\u{2642}\u{FE0F}`, entity: `&#x1F477&#x1F3FB&#x200D&#x2642&#xFE0F`, name: `Man Construction Worker: Light Skin Tone` },
+      { emoji: `\u{1F477}\u{1F3FC}\u{200D}\u{2642}\u{FE0F}`, entity: `&#x1F477&#x1F3FC&#x200D&#x2642&#xFE0F`, name: `Man Construction Worker: Medium-Light Skin Tone` },
+      { emoji: `\u{1F477}\u{1F3FD}\u{200D}\u{2642}\u{FE0F}`, entity: `&#x1F477&#x1F3FD&#x200D&#x2642&#xFE0F`, name: `Man Construction Worker: Medium Skin Tone` },
+      { emoji: `\u{1F477}\u{1F3FE}\u{200D}\u{2642}\u{FE0F}`, entity: `&#x1F477&#x1F3FE&#x200D&#x2642&#xFE0F`, name: `Man Construction Worker: Medium-Dark Skin Tone` },
+      { emoji: `\u{1F477}\u{1F3FF}\u{200D}\u{2642}\u{FE0F}`, entity: `&#x1F477&#x1F3FF&#x200D&#x2642&#xFE0F`, name: `Man Construction Worker: Dark Skin Tone` },
+      { emoji: `\u{1F477}\u{200D}\u{2640}\u{FE0F}`, entity: `&#x1F477&#x200D&#x2640&#xFE0F`, name: `Woman Construction Worker` },
+      { emoji: `\u{1F477}\u{1F3FB}\u{200D}\u{2640}\u{FE0F}`, entity: `&#x1F477&#x1F3FB&#x200D&#x2640&#xFE0F`, name: `Woman Construction Worker: Light Skin Tone` },
+      { emoji: `\u{1F477}\u{1F3FC}\u{200D}\u{2640}\u{FE0F}`, entity: `&#x1F477&#x1F3FC&#x200D&#x2640&#xFE0F`, name: `Woman Construction Worker: Medium-Light Skin Tone` },
+      { emoji: `\u{1F477}\u{1F3FD}\u{200D}\u{2640}\u{FE0F}`, entity: `&#x1F477&#x1F3FD&#x200D&#x2640&#xFE0F`, name: `Woman Construction Worker: Medium Skin Tone` },
+      { emoji: `\u{1F477}\u{1F3FE}\u{200D}\u{2640}\u{FE0F}`, entity: `&#x1F477&#x1F3FE&#x200D&#x2640&#xFE0F`, name: `Woman Construction Worker: Medium-Dark Skin Tone` },
+      { emoji: `\u{1F477}\u{1F3FF}\u{200D}\u{2640}\u{FE0F}`, entity: `&#x1F477&#x1F3FF&#x200D&#x2640&#xFE0F`, name: `Woman Construction Worker: Dark Skin Tone` },
+      { emoji: `\u{1F473}`, entity: `&#x1F473`, name: `Person Wearing Turban` },
+      { emoji: `\u{1F473}\u{1F3FB}`, entity: `&#x1F473&#x1F3FB`, name: `Person Wearing Turban: Light Skin Tone` },
+      { emoji: `\u{1F473}\u{1F3FC}`, entity: `&#x1F473&#x1F3FC`, name: `Person Wearing Turban: Medium-Light Skin Tone` },
+      { emoji: `\u{1F473}\u{1F3FD}`, entity: `&#x1F473&#x1F3FD`, name: `Person Wearing Turban: Medium Skin Tone` },
+      { emoji: `\u{1F473}\u{1F3FE}`, entity: `&#x1F473&#x1F3FE`, name: `Person Wearing Turban: Medium-Dark Skin Tone` },
+      { emoji: `\u{1F473}\u{1F3FF}`, entity: `&#x1F473&#x1F3FF`, name: `Person Wearing Turban: Dark Skin Tone` },
+      { emoji: `\u{1F473}\u{200D}\u{2642}\u{FE0F}`, entity: `&#x1F473&#x200D&#x2642&#xFE0F`, name: `Man Wearing Turban` },
+      { emoji: `\u{1F473}\u{1F3FB}\u{200D}\u{2642}\u{FE0F}`, entity: `&#x1F473&#x1F3FB&#x200D&#x2642&#xFE0F`, name: `Man Wearing Turban: Light Skin Tone` },
+      { emoji: `\u{1F473}\u{1F3FC}\u{200D}\u{2642}\u{FE0F}`, entity: `&#x1F473&#x1F3FC&#x200D&#x2642&#xFE0F`, name: `Man Wearing Turban: Medium-Light Skin Tone` },
+      { emoji: `\u{1F473}\u{1F3FD}\u{200D}\u{2642}\u{FE0F}`, entity: `&#x1F473&#x1F3FD&#x200D&#x2642&#xFE0F`, name: `Man Wearing Turban: Medium Skin Tone` },
+      { emoji: `\u{1F473}\u{1F3FE}\u{200D}\u{2642}\u{FE0F}`, entity: `&#x1F473&#x1F3FE&#x200D&#x2642&#xFE0F`, name: `Man Wearing Turban: Medium-Dark Skin Tone` },
+      { emoji: `\u{1F473}\u{1F3FF}\u{200D}\u{2642}\u{FE0F}`, entity: `&#x1F473&#x1F3FF&#x200D&#x2642&#xFE0F`, name: `Man Wearing Turban: Dark Skin Tone` },
+      { emoji: `\u{1F473}\u{200D}\u{2640}\u{FE0F}`, entity: `&#x1F473&#x200D&#x2640&#xFE0F`, name: `Woman Wearing Turban` },
+      { emoji: `\u{1F473}\u{1F3FB}\u{200D}\u{2640}\u{FE0F}`, entity: `&#x1F473&#x1F3FB&#x200D&#x2640&#xFE0F`, name: `Woman Wearing Turban: Light Skin Tone` },
+      { emoji: `\u{1F473}\u{1F3FC}\u{200D}\u{2640}\u{FE0F}`, entity: `&#x1F473&#x1F3FC&#x200D&#x2640&#xFE0F`, name: `Woman Wearing Turban: Medium-Light Skin Tone` },
+      { emoji: `\u{1F473}\u{1F3FD}\u{200D}\u{2640}\u{FE0F}`, entity: `&#x1F473&#x1F3FD&#x200D&#x2640&#xFE0F`, name: `Woman Wearing Turban: Medium Skin Tone` },
+      { emoji: `\u{1F473}\u{1F3FE}\u{200D}\u{2640}\u{FE0F}`, entity: `&#x1F473&#x1F3FE&#x200D&#x2640&#xFE0F`, name: `Woman Wearing Turban: Medium-Dark Skin Tone` },
+      { emoji: `\u{1F473}\u{1F3FF}\u{200D}\u{2640}\u{FE0F}`, entity: `&#x1F473&#x1F3FF&#x200D&#x2640&#xFE0F`, name: `Woman Wearing Turban: Dark Skin Tone` },
+      { emoji: `\u{1F471}`, entity: `&#x1F471`, name: `Blond-Haired Person` },
+      { emoji: `\u{1F471}\u{1F3FB}`, entity: `&#x1F471&#x1F3FB`, name: `Blond-Haired Person: Light Skin Tone` },
+      { emoji: `\u{1F471}\u{1F3FC}`, entity: `&#x1F471&#x1F3FC`, name: `Blond-Haired Person: Medium-Light Skin Tone` },
+      { emoji: `\u{1F471}\u{1F3FD}`, entity: `&#x1F471&#x1F3FD`, name: `Blond-Haired Person: Medium Skin Tone` },
+      { emoji: `\u{1F471}\u{1F3FE}`, entity: `&#x1F471&#x1F3FE`, name: `Blond-Haired Person: Medium-Dark Skin Tone` },
+      { emoji: `\u{1F471}\u{1F3FF}`, entity: `&#x1F471&#x1F3FF`, name: `Blond-Haired Person: Dark Skin Tone` },
+      { emoji: `\u{1F471}\u{200D}\u{2642}\u{FE0F}`, entity: `&#x1F471&#x200D&#x2642&#xFE0F`, name: `Blond-Haired Man` },
+      { emoji: `\u{1F471}\u{1F3FB}\u{200D}\u{2642}\u{FE0F}`, entity: `&#x1F471&#x1F3FB&#x200D&#x2642&#xFE0F`, name: `Blond-Haired Man: Light Skin Tone` },
+      { emoji: `\u{1F471}\u{1F3FC}\u{200D}\u{2642}\u{FE0F}`, entity: `&#x1F471&#x1F3FC&#x200D&#x2642&#xFE0F`, name: `Blond-Haired Man: Medium-Light Skin Tone` },
+      { emoji: `\u{1F471}\u{1F3FD}\u{200D}\u{2642}\u{FE0F}`, entity: `&#x1F471&#x1F3FD&#x200D&#x2642&#xFE0F`, name: `Blond-Haired Man: Medium Skin Tone` },
+      { emoji: `\u{1F471}\u{1F3FE}\u{200D}\u{2642}\u{FE0F}`, entity: `&#x1F471&#x1F3FE&#x200D&#x2642&#xFE0F`, name: `Blond-Haired Man: Medium-Dark Skin Tone` },
+      { emoji: `\u{1F471}\u{1F3FF}\u{200D}\u{2642}\u{FE0F}`, entity: `&#x1F471&#x1F3FF&#x200D&#x2642&#xFE0F`, name: `Blond-Haired Man: Dark Skin Tone` },
+      { emoji: `\u{1F471}\u{200D}\u{2640}\u{FE0F}`, entity: `&#x1F471&#x200D&#x2640&#xFE0F`, name: `Blond-Haired Woman` },
+      { emoji: `\u{1F471}\u{1F3FB}\u{200D}\u{2640}\u{FE0F}`, entity: `&#x1F471&#x1F3FB&#x200D&#x2640&#xFE0F`, name: `Blond-Haired Woman: Light Skin Tone` },
+      { emoji: `\u{1F471}\u{1F3FC}\u{200D}\u{2640}\u{FE0F}`, entity: `&#x1F471&#x1F3FC&#x200D&#x2640&#xFE0F`, name: `Blond-Haired Woman: Medium-Light Skin Tone` },
+      { emoji: `\u{1F471}\u{1F3FD}\u{200D}\u{2640}\u{FE0F}`, entity: `&#x1F471&#x1F3FD&#x200D&#x2640&#xFE0F`, name: `Blond-Haired Woman: Medium Skin Tone` },
+      { emoji: `\u{1F471}\u{1F3FE}\u{200D}\u{2640}\u{FE0F}`, entity: `&#x1F471&#x1F3FE&#x200D&#x2640&#xFE0F`, name: `Blond-Haired Woman: Medium-Dark Skin Tone` },
+      { emoji: `\u{1F471}\u{1F3FF}\u{200D}\u{2640}\u{FE0F}`, entity: `&#x1F471&#x1F3FF&#x200D&#x2640&#xFE0F`, name: `Blond-Haired Woman: Dark Skin Tone` },
+      { emoji: `\u{1F385}`, entity: `&#x1F385`, name: `Santa Claus` },
+      { emoji: `\u{1F385}\u{1F3FB}`, entity: `&#x1F385&#x1F3FB`, name: `Santa Claus: Light Skin Tone` },
+      { emoji: `\u{1F385}\u{1F3FC}`, entity: `&#x1F385&#x1F3FC`, name: `Santa Claus: Medium-Light Skin Tone` },
+      { emoji: `\u{1F385}\u{1F3FD}`, entity: `&#x1F385&#x1F3FD`, name: `Santa Claus: Medium Skin Tone` },
+      { emoji: `\u{1F385}\u{1F3FE}`, entity: `&#x1F385&#x1F3FE`, name: `Santa Claus: Medium-Dark Skin Tone` },
+      { emoji: `\u{1F385}\u{1F3FF}`, entity: `&#x1F385&#x1F3FF`, name: `Santa Claus: Dark Skin Tone` },
+      { emoji: `\u{1F936}`, entity: `&#x1F936`, name: `Mrs. Claus` },
+      { emoji: `\u{1F936}\u{1F3FB}`, entity: `&#x1F936&#x1F3FB`, name: `Mrs. Claus: Light Skin Tone` },
+      { emoji: `\u{1F936}\u{1F3FC}`, entity: `&#x1F936&#x1F3FC`, name: `Mrs. Claus: Medium-Light Skin Tone` },
+      { emoji: `\u{1F936}\u{1F3FD}`, entity: `&#x1F936&#x1F3FD`, name: `Mrs. Claus: Medium Skin Tone` },
+      { emoji: `\u{1F936}\u{1F3FE}`, entity: `&#x1F936&#x1F3FE`, name: `Mrs. Claus: Medium-Dark Skin Tone` },
+      { emoji: `\u{1F936}\u{1F3FF}`, entity: `&#x1F936&#x1F3FF`, name: `Mrs. Claus: Dark Skin Tone` },
+      { emoji: `\u{1F478}`, entity: `&#x1F478`, name: `Princess` },
+      { emoji: `\u{1F478}\u{1F3FB}`, entity: `&#x1F478&#x1F3FB`, name: `Princess: Light Skin Tone` },
+      { emoji: `\u{1F478}\u{1F3FC}`, entity: `&#x1F478&#x1F3FC`, name: `Princess: Medium-Light Skin Tone` },
+      { emoji: `\u{1F478}\u{1F3FD}`, entity: `&#x1F478&#x1F3FD`, name: `Princess: Medium Skin Tone` },
+      { emoji: `\u{1F478}\u{1F3FE}`, entity: `&#x1F478&#x1F3FE`, name: `Princess: Medium-Dark Skin Tone` },
+      { emoji: `\u{1F478}\u{1F3FF}`, entity: `&#x1F478&#x1F3FF`, name: `Princess: Dark Skin Tone` },
+      { emoji: `\u{1F934}`, entity: `&#x1F934`, name: `Prince` },
+      { emoji: `\u{1F934}\u{1F3FB}`, entity: `&#x1F934&#x1F3FB`, name: `Prince: Light Skin Tone` },
+      { emoji: `\u{1F934}\u{1F3FC}`, entity: `&#x1F934&#x1F3FC`, name: `Prince: Medium-Light Skin Tone` },
+      { emoji: `\u{1F934}\u{1F3FD}`, entity: `&#x1F934&#x1F3FD`, name: `Prince: Medium Skin Tone` },
+      { emoji: `\u{1F934}\u{1F3FE}`, entity: `&#x1F934&#x1F3FE`, name: `Prince: Medium-Dark Skin Tone` },
+      { emoji: `\u{1F934}\u{1F3FF}`, entity: `&#x1F934&#x1F3FF`, name: `Prince: Dark Skin Tone` },
+      { emoji: `\u{1F470}`, entity: `&#x1F470`, name: `Bride With Veil` },
+      { emoji: `\u{1F470}\u{1F3FB}`, entity: `&#x1F470&#x1F3FB`, name: `Bride With Veil: Light Skin Tone` },
+      { emoji: `\u{1F470}\u{1F3FC}`, entity: `&#x1F470&#x1F3FC`, name: `Bride With Veil: Medium-Light Skin Tone` },
+      { emoji: `\u{1F470}\u{1F3FD}`, entity: `&#x1F470&#x1F3FD`, name: `Bride With Veil: Medium Skin Tone` },
+      { emoji: `\u{1F470}\u{1F3FE}`, entity: `&#x1F470&#x1F3FE`, name: `Bride With Veil: Medium-Dark Skin Tone` },
+      { emoji: `\u{1F470}\u{1F3FF}`, entity: `&#x1F470&#x1F3FF`, name: `Bride With Veil: Dark Skin Tone` },
+      { emoji: `\u{1F935}`, entity: `&#x1F935`, name: `Man In Tuxedo` },
+      { emoji: `\u{1F935}\u{1F3FB}`, entity: `&#x1F935&#x1F3FB`, name: `Man In Tuxedo: Light Skin Tone` },
+      { emoji: `\u{1F935}\u{1F3FC}`, entity: `&#x1F935&#x1F3FC`, name: `Man In Tuxedo: Medium-Light Skin Tone` },
+      { emoji: `\u{1F935}\u{1F3FD}`, entity: `&#x1F935&#x1F3FD`, name: `Man In Tuxedo: Medium Skin Tone` },
+      { emoji: `\u{1F935}\u{1F3FE}`, entity: `&#x1F935&#x1F3FE`, name: `Man In Tuxedo: Medium-Dark Skin Tone` },
+      { emoji: `\u{1F935}\u{1F3FF}`, entity: `&#x1F935&#x1F3FF`, name: `Man In Tuxedo: Dark Skin Tone` },
+      { emoji: `\u{1F930}`, entity: `&#x1F930`, name: `Pregnant Woman` },
+      { emoji: `\u{1F930}\u{1F3FB}`, entity: `&#x1F930&#x1F3FB`, name: `Pregnant Woman: Light Skin Tone` },
+      { emoji: `\u{1F930}\u{1F3FC}`, entity: `&#x1F930&#x1F3FC`, name: `Pregnant Woman: Medium-Light Skin Tone` },
+      { emoji: `\u{1F930}\u{1F3FD}`, entity: `&#x1F930&#x1F3FD`, name: `Pregnant Woman: Medium Skin Tone` },
+      { emoji: `\u{1F930}\u{1F3FE}`, entity: `&#x1F930&#x1F3FE`, name: `Pregnant Woman: Medium-Dark Skin Tone` },
+      { emoji: `\u{1F930}\u{1F3FF}`, entity: `&#x1F930&#x1F3FF`, name: `Pregnant Woman: Dark Skin Tone` },
+      { emoji: `\u{1F472}`, entity: `&#x1F472`, name: `Man With Chinese Cap` },
+      { emoji: `\u{1F472}\u{1F3FB}`, entity: `&#x1F472&#x1F3FB`, name: `Man With Chinese Cap: Light Skin Tone` },
+      { emoji: `\u{1F472}\u{1F3FC}`, entity: `&#x1F472&#x1F3FC`, name: `Man With Chinese Cap: Medium-Light Skin Tone` },
+      { emoji: `\u{1F472}\u{1F3FD}`, entity: `&#x1F472&#x1F3FD`, name: `Man With Chinese Cap: Medium Skin Tone` },
+      { emoji: `\u{1F472}\u{1F3FE}`, entity: `&#x1F472&#x1F3FE`, name: `Man With Chinese Cap: Medium-Dark Skin Tone` },
+      { emoji: `\u{1F472}\u{1F3FF}`, entity: `&#x1F472&#x1F3FF`, name: `Man With Chinese Cap: Dark Skin Tone` },
+      { emoji: `\u{1F64D}`, entity: `&#x1F64D`, name: `Person Frowning` },
+      { emoji: `\u{1F64D}\u{1F3FB}`, entity: `&#x1F64D&#x1F3FB`, name: `Person Frowning: Light Skin Tone` },
+      { emoji: `\u{1F64D}\u{1F3FC}`, entity: `&#x1F64D&#x1F3FC`, name: `Person Frowning: Medium-Light Skin Tone` },
+      { emoji: `\u{1F64D}\u{1F3FD}`, entity: `&#x1F64D&#x1F3FD`, name: `Person Frowning: Medium Skin Tone` },
+      { emoji: `\u{1F64D}\u{1F3FE}`, entity: `&#x1F64D&#x1F3FE`, name: `Person Frowning: Medium-Dark Skin Tone` },
+      { emoji: `\u{1F64D}\u{1F3FF}`, entity: `&#x1F64D&#x1F3FF`, name: `Person Frowning: Dark Skin Tone` },
+      { emoji: `\u{1F64D}\u{200D}\u{2642}\u{FE0F}`, entity: `&#x1F64D&#x200D&#x2642&#xFE0F`, name: `Man Frowning` },
+      { emoji: `\u{1F64D}\u{1F3FB}\u{200D}\u{2642}\u{FE0F}`, entity: `&#x1F64D&#x1F3FB&#x200D&#x2642&#xFE0F`, name: `Man Frowning: Light Skin Tone` },
+      { emoji: `\u{1F64D}\u{1F3FC}\u{200D}\u{2642}\u{FE0F}`, entity: `&#x1F64D&#x1F3FC&#x200D&#x2642&#xFE0F`, name: `Man Frowning: Medium-Light Skin Tone` },
+      { emoji: `\u{1F64D}\u{1F3FD}\u{200D}\u{2642}\u{FE0F}`, entity: `&#x1F64D&#x1F3FD&#x200D&#x2642&#xFE0F`, name: `Man Frowning: Medium Skin Tone` },
+      { emoji: `\u{1F64D}\u{1F3FE}\u{200D}\u{2642}\u{FE0F}`, entity: `&#x1F64D&#x1F3FE&#x200D&#x2642&#xFE0F`, name: `Man Frowning: Medium-Dark Skin Tone` },
+      { emoji: `\u{1F64D}\u{1F3FF}\u{200D}\u{2642}\u{FE0F}`, entity: `&#x1F64D&#x1F3FF&#x200D&#x2642&#xFE0F`, name: `Man Frowning: Dark Skin Tone` },
+      { emoji: `\u{1F64D}\u{200D}\u{2640}\u{FE0F}`, entity: `&#x1F64D&#x200D&#x2640&#xFE0F`, name: `Woman Frowning` },
+      { emoji: `\u{1F64D}\u{1F3FB}\u{200D}\u{2640}\u{FE0F}`, entity: `&#x1F64D&#x1F3FB&#x200D&#x2640&#xFE0F`, name: `Woman Frowning: Light Skin Tone` },
+      { emoji: `\u{1F64D}\u{1F3FC}\u{200D}\u{2640}\u{FE0F}`, entity: `&#x1F64D&#x1F3FC&#x200D&#x2640&#xFE0F`, name: `Woman Frowning: Medium-Light Skin Tone` },
+      { emoji: `\u{1F64D}\u{1F3FD}\u{200D}\u{2640}\u{FE0F}`, entity: `&#x1F64D&#x1F3FD&#x200D&#x2640&#xFE0F`, name: `Woman Frowning: Medium Skin Tone` },
+      { emoji: `\u{1F64D}\u{1F3FE}\u{200D}\u{2640}\u{FE0F}`, entity: `&#x1F64D&#x1F3FE&#x200D&#x2640&#xFE0F`, name: `Woman Frowning: Medium-Dark Skin Tone` },
+      { emoji: `\u{1F64D}\u{1F3FF}\u{200D}\u{2640}\u{FE0F}`, entity: `&#x1F64D&#x1F3FF&#x200D&#x2640&#xFE0F`, name: `Woman Frowning: Dark Skin Tone` },
+      { emoji: `\u{1F64E}`, entity: `&#x1F64E`, name: `Person Pouting` },
+      { emoji: `\u{1F64E}\u{1F3FB}`, entity: `&#x1F64E&#x1F3FB`, name: `Person Pouting: Light Skin Tone` },
+      { emoji: `\u{1F64E}\u{1F3FC}`, entity: `&#x1F64E&#x1F3FC`, name: `Person Pouting: Medium-Light Skin Tone` },
+      { emoji: `\u{1F64E}\u{1F3FD}`, entity: `&#x1F64E&#x1F3FD`, name: `Person Pouting: Medium Skin Tone` },
+      { emoji: `\u{1F64E}\u{1F3FE}`, entity: `&#x1F64E&#x1F3FE`, name: `Person Pouting: Medium-Dark Skin Tone` },
+      { emoji: `\u{1F64E}\u{1F3FF}`, entity: `&#x1F64E&#x1F3FF`, name: `Person Pouting: Dark Skin Tone` },
+      { emoji: `\u{1F64E}\u{200D}\u{2642}\u{FE0F}`, entity: `&#x1F64E&#x200D&#x2642&#xFE0F`, name: `Man Pouting` },
+      { emoji: `\u{1F64E}\u{1F3FB}\u{200D}\u{2642}\u{FE0F}`, entity: `&#x1F64E&#x1F3FB&#x200D&#x2642&#xFE0F`, name: `Man Pouting: Light Skin Tone` },
+      { emoji: `\u{1F64E}\u{1F3FC}\u{200D}\u{2642}\u{FE0F}`, entity: `&#x1F64E&#x1F3FC&#x200D&#x2642&#xFE0F`, name: `Man Pouting: Medium-Light Skin Tone` },
+      { emoji: `\u{1F64E}\u{1F3FD}\u{200D}\u{2642}\u{FE0F}`, entity: `&#x1F64E&#x1F3FD&#x200D&#x2642&#xFE0F`, name: `Man Pouting: Medium Skin Tone` },
+      { emoji: `\u{1F64E}\u{1F3FE}\u{200D}\u{2642}\u{FE0F}`, entity: `&#x1F64E&#x1F3FE&#x200D&#x2642&#xFE0F`, name: `Man Pouting: Medium-Dark Skin Tone` },
+      { emoji: `\u{1F64E}\u{1F3FF}\u{200D}\u{2642}\u{FE0F}`, entity: `&#x1F64E&#x1F3FF&#x200D&#x2642&#xFE0F`, name: `Man Pouting: Dark Skin Tone` },
+      { emoji: `\u{1F64E}\u{200D}\u{2640}\u{FE0F}`, entity: `&#x1F64E&#x200D&#x2640&#xFE0F`, name: `Woman Pouting` },
+      { emoji: `\u{1F64E}\u{1F3FB}\u{200D}\u{2640}\u{FE0F}`, entity: `&#x1F64E&#x1F3FB&#x200D&#x2640&#xFE0F`, name: `Woman Pouting: Light Skin Tone` },
+      { emoji: `\u{1F64E}\u{1F3FC}\u{200D}\u{2640}\u{FE0F}`, entity: `&#x1F64E&#x1F3FC&#x200D&#x2640&#xFE0F`, name: `Woman Pouting: Medium-Light Skin Tone` },
+      { emoji: `\u{1F64E}\u{1F3FD}\u{200D}\u{2640}\u{FE0F}`, entity: `&#x1F64E&#x1F3FD&#x200D&#x2640&#xFE0F`, name: `Woman Pouting: Medium Skin Tone` },
+      { emoji: `\u{1F64E}\u{1F3FE}\u{200D}\u{2640}\u{FE0F}`, entity: `&#x1F64E&#x1F3FE&#x200D&#x2640&#xFE0F`, name: `Woman Pouting: Medium-Dark Skin Tone` },
+      { emoji: `\u{1F64E}\u{1F3FF}\u{200D}\u{2640}\u{FE0F}`, entity: `&#x1F64E&#x1F3FF&#x200D&#x2640&#xFE0F`, name: `Woman Pouting: Dark Skin Tone` },
+      { emoji: `\u{1F645}`, entity: `&#x1F645`, name: `Person Gesturing NO` },
+      { emoji: `\u{1F645}\u{1F3FB}`, entity: `&#x1F645&#x1F3FB`, name: `Person Gesturing NO: Light Skin Tone` },
+      { emoji: `\u{1F645}\u{1F3FC}`, entity: `&#x1F645&#x1F3FC`, name: `Person Gesturing NO: Medium-Light Skin Tone` },
+      { emoji: `\u{1F645}\u{1F3FD}`, entity: `&#x1F645&#x1F3FD`, name: `Person Gesturing NO: Medium Skin Tone` },
+      { emoji: `\u{1F645}\u{1F3FE}`, entity: `&#x1F645&#x1F3FE`, name: `Person Gesturing NO: Medium-Dark Skin Tone` },
+      { emoji: `\u{1F645}\u{1F3FF}`, entity: `&#x1F645&#x1F3FF`, name: `Person Gesturing NO: Dark Skin Tone` },
+      { emoji: `\u{1F645}\u{200D}\u{2642}\u{FE0F}`, entity: `&#x1F645&#x200D&#x2642&#xFE0F`, name: `Man Gesturing NO` },
+      { emoji: `\u{1F645}\u{1F3FB}\u{200D}\u{2642}\u{FE0F}`, entity: `&#x1F645&#x1F3FB&#x200D&#x2642&#xFE0F`, name: `Man Gesturing NO: Light Skin Tone` },
+      { emoji: `\u{1F645}\u{1F3FC}\u{200D}\u{2642}\u{FE0F}`, entity: `&#x1F645&#x1F3FC&#x200D&#x2642&#xFE0F`, name: `Man Gesturing NO: Medium-Light Skin Tone` },
+      { emoji: `\u{1F645}\u{1F3FD}\u{200D}\u{2642}\u{FE0F}`, entity: `&#x1F645&#x1F3FD&#x200D&#x2642&#xFE0F`, name: `Man Gesturing NO: Medium Skin Tone` },
+      { emoji: `\u{1F645}\u{1F3FE}\u{200D}\u{2642}\u{FE0F}`, entity: `&#x1F645&#x1F3FE&#x200D&#x2642&#xFE0F`, name: `Man Gesturing NO: Medium-Dark Skin Tone` },
+      { emoji: `\u{1F645}\u{1F3FF}\u{200D}\u{2642}\u{FE0F}`, entity: `&#x1F645&#x1F3FF&#x200D&#x2642&#xFE0F`, name: `Man Gesturing NO: Dark Skin Tone` },
+      { emoji: `\u{1F645}\u{200D}\u{2640}\u{FE0F}`, entity: `&#x1F645&#x200D&#x2640&#xFE0F`, name: `Woman Gesturing NO` },
+      { emoji: `\u{1F645}\u{1F3FB}\u{200D}\u{2640}\u{FE0F}`, entity: `&#x1F645&#x1F3FB&#x200D&#x2640&#xFE0F`, name: `Woman Gesturing NO: Light Skin Tone` },
+      { emoji: `\u{1F645}\u{1F3FC}\u{200D}\u{2640}\u{FE0F}`, entity: `&#x1F645&#x1F3FC&#x200D&#x2640&#xFE0F`, name: `Woman Gesturing NO: Medium-Light Skin Tone` },
+      { emoji: `\u{1F645}\u{1F3FD}\u{200D}\u{2640}\u{FE0F}`, entity: `&#x1F645&#x1F3FD&#x200D&#x2640&#xFE0F`, name: `Woman Gesturing NO: Medium Skin Tone` },
+      { emoji: `\u{1F645}\u{1F3FE}\u{200D}\u{2640}\u{FE0F}`, entity: `&#x1F645&#x1F3FE&#x200D&#x2640&#xFE0F`, name: `Woman Gesturing NO: Medium-Dark Skin Tone` },
+      { emoji: `\u{1F645}\u{1F3FF}\u{200D}\u{2640}\u{FE0F}`, entity: `&#x1F645&#x1F3FF&#x200D&#x2640&#xFE0F`, name: `Woman Gesturing NO: Dark Skin Tone` },
+      { emoji: `\u{1F646}`, entity: `&#x1F646`, name: `Person Gesturing OK` },
+      { emoji: `\u{1F646}\u{1F3FB}`, entity: `&#x1F646&#x1F3FB`, name: `Person Gesturing OK: Light Skin Tone` },
+      { emoji: `\u{1F646}\u{1F3FC}`, entity: `&#x1F646&#x1F3FC`, name: `Person Gesturing OK: Medium-Light Skin Tone` },
+      { emoji: `\u{1F646}\u{1F3FD}`, entity: `&#x1F646&#x1F3FD`, name: `Person Gesturing OK: Medium Skin Tone` },
+      { emoji: `\u{1F646}\u{1F3FE}`, entity: `&#x1F646&#x1F3FE`, name: `Person Gesturing OK: Medium-Dark Skin Tone` },
+      { emoji: `\u{1F646}\u{1F3FF}`, entity: `&#x1F646&#x1F3FF`, name: `Person Gesturing OK: Dark Skin Tone` },
+      { emoji: `\u{1F646}\u{200D}\u{2642}\u{FE0F}`, entity: `&#x1F646&#x200D&#x2642&#xFE0F`, name: `Man Gesturing OK` },
+      { emoji: `\u{1F646}\u{1F3FB}\u{200D}\u{2642}\u{FE0F}`, entity: `&#x1F646&#x1F3FB&#x200D&#x2642&#xFE0F`, name: `Man Gesturing OK: Light Skin Tone` },
+      { emoji: `\u{1F646}\u{1F3FC}\u{200D}\u{2642}\u{FE0F}`, entity: `&#x1F646&#x1F3FC&#x200D&#x2642&#xFE0F`, name: `Man Gesturing OK: Medium-Light Skin Tone` },
+      { emoji: `\u{1F646}\u{1F3FD}\u{200D}\u{2642}\u{FE0F}`, entity: `&#x1F646&#x1F3FD&#x200D&#x2642&#xFE0F`, name: `Man Gesturing OK: Medium Skin Tone` },
+      { emoji: `\u{1F646}\u{1F3FE}\u{200D}\u{2642}\u{FE0F}`, entity: `&#x1F646&#x1F3FE&#x200D&#x2642&#xFE0F`, name: `Man Gesturing OK: Medium-Dark Skin Tone` },
+      { emoji: `\u{1F646}\u{1F3FF}\u{200D}\u{2642}\u{FE0F}`, entity: `&#x1F646&#x1F3FF&#x200D&#x2642&#xFE0F`, name: `Man Gesturing OK: Dark Skin Tone` },
+      { emoji: `\u{1F646}\u{200D}\u{2640}\u{FE0F}`, entity: `&#x1F646&#x200D&#x2640&#xFE0F`, name: `Woman Gesturing OK` },
+      { emoji: `\u{1F646}\u{1F3FB}\u{200D}\u{2640}\u{FE0F}`, entity: `&#x1F646&#x1F3FB&#x200D&#x2640&#xFE0F`, name: `Woman Gesturing OK: Light Skin Tone` },
+      { emoji: `\u{1F646}\u{1F3FC}\u{200D}\u{2640}\u{FE0F}`, entity: `&#x1F646&#x1F3FC&#x200D&#x2640&#xFE0F`, name: `Woman Gesturing OK: Medium-Light Skin Tone` },
+      { emoji: `\u{1F646}\u{1F3FD}\u{200D}\u{2640}\u{FE0F}`, entity: `&#x1F646&#x1F3FD&#x200D&#x2640&#xFE0F`, name: `Woman Gesturing OK: Medium Skin Tone` },
+      { emoji: `\u{1F646}\u{1F3FE}\u{200D}\u{2640}\u{FE0F}`, entity: `&#x1F646&#x1F3FE&#x200D&#x2640&#xFE0F`, name: `Woman Gesturing OK: Medium-Dark Skin Tone` },
+      { emoji: `\u{1F646}\u{1F3FF}\u{200D}\u{2640}\u{FE0F}`, entity: `&#x1F646&#x1F3FF&#x200D&#x2640&#xFE0F`, name: `Woman Gesturing OK: Dark Skin Tone` },
+      { emoji: `\u{1F481}`, entity: `&#x1F481`, name: `Person Tipping Hand` },
+      { emoji: `\u{1F481}\u{1F3FB}`, entity: `&#x1F481&#x1F3FB`, name: `Person Tipping Hand: Light Skin Tone` },
+      { emoji: `\u{1F481}\u{1F3FC}`, entity: `&#x1F481&#x1F3FC`, name: `Person Tipping Hand: Medium-Light Skin Tone` },
+      { emoji: `\u{1F481}\u{1F3FD}`, entity: `&#x1F481&#x1F3FD`, name: `Person Tipping Hand: Medium Skin Tone` },
+      { emoji: `\u{1F481}\u{1F3FE}`, entity: `&#x1F481&#x1F3FE`, name: `Person Tipping Hand: Medium-Dark Skin Tone` },
+      { emoji: `\u{1F481}\u{1F3FF}`, entity: `&#x1F481&#x1F3FF`, name: `Person Tipping Hand: Dark Skin Tone` },
+      { emoji: `\u{1F481}\u{200D}\u{2642}\u{FE0F}`, entity: `&#x1F481&#x200D&#x2642&#xFE0F`, name: `Man Tipping Hand` },
+      { emoji: `\u{1F481}\u{1F3FB}\u{200D}\u{2642}\u{FE0F}`, entity: `&#x1F481&#x1F3FB&#x200D&#x2642&#xFE0F`, name: `Man Tipping Hand: Light Skin Tone` },
+      { emoji: `\u{1F481}\u{1F3FC}\u{200D}\u{2642}\u{FE0F}`, entity: `&#x1F481&#x1F3FC&#x200D&#x2642&#xFE0F`, name: `Man Tipping Hand: Medium-Light Skin Tone` },
+      { emoji: `\u{1F481}\u{1F3FD}\u{200D}\u{2642}\u{FE0F}`, entity: `&#x1F481&#x1F3FD&#x200D&#x2642&#xFE0F`, name: `Man Tipping Hand: Medium Skin Tone` },
+      { emoji: `\u{1F481}\u{1F3FE}\u{200D}\u{2642}\u{FE0F}`, entity: `&#x1F481&#x1F3FE&#x200D&#x2642&#xFE0F`, name: `Man Tipping Hand: Medium-Dark Skin Tone` },
+      { emoji: `\u{1F481}\u{1F3FF}\u{200D}\u{2642}\u{FE0F}`, entity: `&#x1F481&#x1F3FF&#x200D&#x2642&#xFE0F`, name: `Man Tipping Hand: Dark Skin Tone` },
+      { emoji: `\u{1F481}\u{200D}\u{2640}\u{FE0F}`, entity: `&#x1F481&#x200D&#x2640&#xFE0F`, name: `Woman Tipping Hand` },
+      { emoji: `\u{1F481}\u{1F3FB}\u{200D}\u{2640}\u{FE0F}`, entity: `&#x1F481&#x1F3FB&#x200D&#x2640&#xFE0F`, name: `Woman Tipping Hand: Light Skin Tone` },
+      { emoji: `\u{1F481}\u{1F3FC}\u{200D}\u{2640}\u{FE0F}`, entity: `&#x1F481&#x1F3FC&#x200D&#x2640&#xFE0F`, name: `Woman Tipping Hand: Medium-Light Skin Tone` },
+      { emoji: `\u{1F481}\u{1F3FD}\u{200D}\u{2640}\u{FE0F}`, entity: `&#x1F481&#x1F3FD&#x200D&#x2640&#xFE0F`, name: `Woman Tipping Hand: Medium Skin Tone` },
+      { emoji: `\u{1F481}\u{1F3FE}\u{200D}\u{2640}\u{FE0F}`, entity: `&#x1F481&#x1F3FE&#x200D&#x2640&#xFE0F`, name: `Woman Tipping Hand: Medium-Dark Skin Tone` },
+      { emoji: `\u{1F481}\u{1F3FF}\u{200D}\u{2640}\u{FE0F}`, entity: `&#x1F481&#x1F3FF&#x200D&#x2640&#xFE0F`, name: `Woman Tipping Hand: Dark Skin Tone` },
+      { emoji: `\u{1F64B}`, entity: `&#x1F64B`, name: `Person Raising Hand` },
+      { emoji: `\u{1F64B}\u{1F3FB}`, entity: `&#x1F64B&#x1F3FB`, name: `Person Raising Hand: Light Skin Tone` },
+      { emoji: `\u{1F64B}\u{1F3FC}`, entity: `&#x1F64B&#x1F3FC`, name: `Person Raising Hand: Medium-Light Skin Tone` },
+      { emoji: `\u{1F64B}\u{1F3FD}`, entity: `&#x1F64B&#x1F3FD`, name: `Person Raising Hand: Medium Skin Tone` },
+      { emoji: `\u{1F64B}\u{1F3FE}`, entity: `&#x1F64B&#x1F3FE`, name: `Person Raising Hand: Medium-Dark Skin Tone` },
+      { emoji: `\u{1F64B}\u{1F3FF}`, entity: `&#x1F64B&#x1F3FF`, name: `Person Raising Hand: Dark Skin Tone` },
+      { emoji: `\u{1F64B}\u{200D}\u{2642}\u{FE0F}`, entity: `&#x1F64B&#x200D&#x2642&#xFE0F`, name: `Man Raising Hand` },
+      { emoji: `\u{1F64B}\u{1F3FB}\u{200D}\u{2642}\u{FE0F}`, entity: `&#x1F64B&#x1F3FB&#x200D&#x2642&#xFE0F`, name: `Man Raising Hand: Light Skin Tone` },
+      { emoji: `\u{1F64B}\u{1F3FC}\u{200D}\u{2642}\u{FE0F}`, entity: `&#x1F64B&#x1F3FC&#x200D&#x2642&#xFE0F`, name: `Man Raising Hand: Medium-Light Skin Tone` },
+      { emoji: `\u{1F64B}\u{1F3FD}\u{200D}\u{2642}\u{FE0F}`, entity: `&#x1F64B&#x1F3FD&#x200D&#x2642&#xFE0F`, name: `Man Raising Hand: Medium Skin Tone` },
+      { emoji: `\u{1F64B}\u{1F3FE}\u{200D}\u{2642}\u{FE0F}`, entity: `&#x1F64B&#x1F3FE&#x200D&#x2642&#xFE0F`, name: `Man Raising Hand: Medium-Dark Skin Tone` },
+      { emoji: `\u{1F64B}\u{1F3FF}\u{200D}\u{2642}\u{FE0F}`, entity: `&#x1F64B&#x1F3FF&#x200D&#x2642&#xFE0F`, name: `Man Raising Hand: Dark Skin Tone` },
+      { emoji: `\u{1F64B}\u{200D}\u{2640}\u{FE0F}`, entity: `&#x1F64B&#x200D&#x2640&#xFE0F`, name: `Woman Raising Hand` },
+      { emoji: `\u{1F64B}\u{1F3FB}\u{200D}\u{2640}\u{FE0F}`, entity: `&#x1F64B&#x1F3FB&#x200D&#x2640&#xFE0F`, name: `Woman Raising Hand: Light Skin Tone` },
+      { emoji: `\u{1F64B}\u{1F3FC}\u{200D}\u{2640}\u{FE0F}`, entity: `&#x1F64B&#x1F3FC&#x200D&#x2640&#xFE0F`, name: `Woman Raising Hand: Medium-Light Skin Tone` },
+      { emoji: `\u{1F64B}\u{1F3FD}\u{200D}\u{2640}\u{FE0F}`, entity: `&#x1F64B&#x1F3FD&#x200D&#x2640&#xFE0F`, name: `Woman Raising Hand: Medium Skin Tone` },
+      { emoji: `\u{1F64B}\u{1F3FE}\u{200D}\u{2640}\u{FE0F}`, entity: `&#x1F64B&#x1F3FE&#x200D&#x2640&#xFE0F`, name: `Woman Raising Hand: Medium-Dark Skin Tone` },
+      { emoji: `\u{1F64B}\u{1F3FF}\u{200D}\u{2640}\u{FE0F}`, entity: `&#x1F64B&#x1F3FF&#x200D&#x2640&#xFE0F`, name: `Woman Raising Hand: Dark Skin Tone` },
+      { emoji: `\u{1F647}`, entity: `&#x1F647`, name: `Person Bowing` },
+      { emoji: `\u{1F647}\u{1F3FB}`, entity: `&#x1F647&#x1F3FB`, name: `Person Bowing: Light Skin Tone` },
+      { emoji: `\u{1F647}\u{1F3FC}`, entity: `&#x1F647&#x1F3FC`, name: `Person Bowing: Medium-Light Skin Tone` },
+      { emoji: `\u{1F647}\u{1F3FD}`, entity: `&#x1F647&#x1F3FD`, name: `Person Bowing: Medium Skin Tone` },
+      { emoji: `\u{1F647}\u{1F3FE}`, entity: `&#x1F647&#x1F3FE`, name: `Person Bowing: Medium-Dark Skin Tone` },
+      { emoji: `\u{1F647}\u{1F3FF}`, entity: `&#x1F647&#x1F3FF`, name: `Person Bowing: Dark Skin Tone` },
+      { emoji: `\u{1F647}\u{200D}\u{2642}\u{FE0F}`, entity: `&#x1F647&#x200D&#x2642&#xFE0F`, name: `Man Bowing` },
+      { emoji: `\u{1F647}\u{1F3FB}\u{200D}\u{2642}\u{FE0F}`, entity: `&#x1F647&#x1F3FB&#x200D&#x2642&#xFE0F`, name: `Man Bowing: Light Skin Tone` },
+      { emoji: `\u{1F647}\u{1F3FC}\u{200D}\u{2642}\u{FE0F}`, entity: `&#x1F647&#x1F3FC&#x200D&#x2642&#xFE0F`, name: `Man Bowing: Medium-Light Skin Tone` },
+      { emoji: `\u{1F647}\u{1F3FD}\u{200D}\u{2642}\u{FE0F}`, entity: `&#x1F647&#x1F3FD&#x200D&#x2642&#xFE0F`, name: `Man Bowing: Medium Skin Tone` },
+      { emoji: `\u{1F647}\u{1F3FE}\u{200D}\u{2642}\u{FE0F}`, entity: `&#x1F647&#x1F3FE&#x200D&#x2642&#xFE0F`, name: `Man Bowing: Medium-Dark Skin Tone` },
+      { emoji: `\u{1F647}\u{1F3FF}\u{200D}\u{2642}\u{FE0F}`, entity: `&#x1F647&#x1F3FF&#x200D&#x2642&#xFE0F`, name: `Man Bowing: Dark Skin Tone` },
+      { emoji: `\u{1F647}\u{200D}\u{2640}\u{FE0F}`, entity: `&#x1F647&#x200D&#x2640&#xFE0F`, name: `Woman Bowing` },
+      { emoji: `\u{1F647}\u{1F3FB}\u{200D}\u{2640}\u{FE0F}`, entity: `&#x1F647&#x1F3FB&#x200D&#x2640&#xFE0F`, name: `Woman Bowing: Light Skin Tone` },
+      { emoji: `\u{1F647}\u{1F3FC}\u{200D}\u{2640}\u{FE0F}`, entity: `&#x1F647&#x1F3FC&#x200D&#x2640&#xFE0F`, name: `Woman Bowing: Medium-Light Skin Tone` },
+      { emoji: `\u{1F647}\u{1F3FD}\u{200D}\u{2640}\u{FE0F}`, entity: `&#x1F647&#x1F3FD&#x200D&#x2640&#xFE0F`, name: `Woman Bowing: Medium Skin Tone` },
+      { emoji: `\u{1F647}\u{1F3FE}\u{200D}\u{2640}\u{FE0F}`, entity: `&#x1F647&#x1F3FE&#x200D&#x2640&#xFE0F`, name: `Woman Bowing: Medium-Dark Skin Tone` },
+      { emoji: `\u{1F647}\u{1F3FF}\u{200D}\u{2640}\u{FE0F}`, entity: `&#x1F647&#x1F3FF&#x200D&#x2640&#xFE0F`, name: `Woman Bowing: Dark Skin Tone` },
+      { emoji: `\u{1F926}`, entity: `&#x1F926`, name: `Person Facepalming` },
+      { emoji: `\u{1F926}\u{1F3FB}`, entity: `&#x1F926&#x1F3FB`, name: `Person Facepalming: Light Skin Tone` },
+      { emoji: `\u{1F926}\u{1F3FC}`, entity: `&#x1F926&#x1F3FC`, name: `Person Facepalming: Medium-Light Skin Tone` },
+      { emoji: `\u{1F926}\u{1F3FD}`, entity: `&#x1F926&#x1F3FD`, name: `Person Facepalming: Medium Skin Tone` },
+      { emoji: `\u{1F926}\u{1F3FE}`, entity: `&#x1F926&#x1F3FE`, name: `Person Facepalming: Medium-Dark Skin Tone` },
+      { emoji: `\u{1F926}\u{1F3FF}`, entity: `&#x1F926&#x1F3FF`, name: `Person Facepalming: Dark Skin Tone` },
+      { emoji: `\u{1F926}\u{200D}\u{2642}\u{FE0F}`, entity: `&#x1F926&#x200D&#x2642&#xFE0F`, name: `Man Facepalming` },
+      { emoji: `\u{1F926}\u{1F3FB}\u{200D}\u{2642}\u{FE0F}`, entity: `&#x1F926&#x1F3FB&#x200D&#x2642&#xFE0F`, name: `Man Facepalming: Light Skin Tone` },
+      { emoji: `\u{1F926}\u{1F3FC}\u{200D}\u{2642}\u{FE0F}`, entity: `&#x1F926&#x1F3FC&#x200D&#x2642&#xFE0F`, name: `Man Facepalming: Medium-Light Skin Tone` },
+      { emoji: `\u{1F926}\u{1F3FD}\u{200D}\u{2642}\u{FE0F}`, entity: `&#x1F926&#x1F3FD&#x200D&#x2642&#xFE0F`, name: `Man Facepalming: Medium Skin Tone` },
+      { emoji: `\u{1F926}\u{1F3FE}\u{200D}\u{2642}\u{FE0F}`, entity: `&#x1F926&#x1F3FE&#x200D&#x2642&#xFE0F`, name: `Man Facepalming: Medium-Dark Skin Tone` },
+      { emoji: `\u{1F926}\u{1F3FF}\u{200D}\u{2642}\u{FE0F}`, entity: `&#x1F926&#x1F3FF&#x200D&#x2642&#xFE0F`, name: `Man Facepalming: Dark Skin Tone` },
+      { emoji: `\u{1F926}\u{200D}\u{2640}\u{FE0F}`, entity: `&#x1F926&#x200D&#x2640&#xFE0F`, name: `Woman Facepalming` },
+      { emoji: `\u{1F926}\u{1F3FB}\u{200D}\u{2640}\u{FE0F}`, entity: `&#x1F926&#x1F3FB&#x200D&#x2640&#xFE0F`, name: `Woman Facepalming: Light Skin Tone` },
+      { emoji: `\u{1F926}\u{1F3FC}\u{200D}\u{2640}\u{FE0F}`, entity: `&#x1F926&#x1F3FC&#x200D&#x2640&#xFE0F`, name: `Woman Facepalming: Medium-Light Skin Tone` },
+      { emoji: `\u{1F926}\u{1F3FD}\u{200D}\u{2640}\u{FE0F}`, entity: `&#x1F926&#x1F3FD&#x200D&#x2640&#xFE0F`, name: `Woman Facepalming: Medium Skin Tone` },
+      { emoji: `\u{1F926}\u{1F3FE}\u{200D}\u{2640}\u{FE0F}`, entity: `&#x1F926&#x1F3FE&#x200D&#x2640&#xFE0F`, name: `Woman Facepalming: Medium-Dark Skin Tone` },
+      { emoji: `\u{1F926}\u{1F3FF}\u{200D}\u{2640}\u{FE0F}`, entity: `&#x1F926&#x1F3FF&#x200D&#x2640&#xFE0F`, name: `Woman Facepalming: Dark Skin Tone` },
+      { emoji: `\u{1F937}`, entity: `&#x1F937`, name: `Person Shrugging` },
+      { emoji: `\u{1F937}\u{1F3FB}`, entity: `&#x1F937&#x1F3FB`, name: `Person Shrugging: Light Skin Tone` },
+      { emoji: `\u{1F937}\u{1F3FC}`, entity: `&#x1F937&#x1F3FC`, name: `Person Shrugging: Medium-Light Skin Tone` },
+      { emoji: `\u{1F937}\u{1F3FD}`, entity: `&#x1F937&#x1F3FD`, name: `Person Shrugging: Medium Skin Tone` },
+      { emoji: `\u{1F937}\u{1F3FE}`, entity: `&#x1F937&#x1F3FE`, name: `Person Shrugging: Medium-Dark Skin Tone` },
+      { emoji: `\u{1F937}\u{1F3FF}`, entity: `&#x1F937&#x1F3FF`, name: `Person Shrugging: Dark Skin Tone` },
+      { emoji: `\u{1F937}\u{200D}\u{2642}\u{FE0F}`, entity: `&#x1F937&#x200D&#x2642&#xFE0F`, name: `Man Shrugging` },
+      { emoji: `\u{1F937}\u{1F3FB}\u{200D}\u{2642}\u{FE0F}`, entity: `&#x1F937&#x1F3FB&#x200D&#x2642&#xFE0F`, name: `Man Shrugging: Light Skin Tone` },
+      { emoji: `\u{1F937}\u{1F3FC}\u{200D}\u{2642}\u{FE0F}`, entity: `&#x1F937&#x1F3FC&#x200D&#x2642&#xFE0F`, name: `Man Shrugging: Medium-Light Skin Tone` },
+      { emoji: `\u{1F937}\u{1F3FD}\u{200D}\u{2642}\u{FE0F}`, entity: `&#x1F937&#x1F3FD&#x200D&#x2642&#xFE0F`, name: `Man Shrugging: Medium Skin Tone` },
+      { emoji: `\u{1F937}\u{1F3FE}\u{200D}\u{2642}\u{FE0F}`, entity: `&#x1F937&#x1F3FE&#x200D&#x2642&#xFE0F`, name: `Man Shrugging: Medium-Dark Skin Tone` },
+      { emoji: `\u{1F937}\u{1F3FF}\u{200D}\u{2642}\u{FE0F}`, entity: `&#x1F937&#x1F3FF&#x200D&#x2642&#xFE0F`, name: `Man Shrugging: Dark Skin Tone` },
+      { emoji: `\u{1F937}\u{200D}\u{2640}\u{FE0F}`, entity: `&#x1F937&#x200D&#x2640&#xFE0F`, name: `Woman Shrugging` },
+      { emoji: `\u{1F937}\u{1F3FB}\u{200D}\u{2640}\u{FE0F}`, entity: `&#x1F937&#x1F3FB&#x200D&#x2640&#xFE0F`, name: `Woman Shrugging: Light Skin Tone` },
+      { emoji: `\u{1F937}\u{1F3FC}\u{200D}\u{2640}\u{FE0F}`, entity: `&#x1F937&#x1F3FC&#x200D&#x2640&#xFE0F`, name: `Woman Shrugging: Medium-Light Skin Tone` },
+      { emoji: `\u{1F937}\u{1F3FD}\u{200D}\u{2640}\u{FE0F}`, entity: `&#x1F937&#x1F3FD&#x200D&#x2640&#xFE0F`, name: `Woman Shrugging: Medium Skin Tone` },
+      { emoji: `\u{1F937}\u{1F3FE}\u{200D}\u{2640}\u{FE0F}`, entity: `&#x1F937&#x1F3FE&#x200D&#x2640&#xFE0F`, name: `Woman Shrugging: Medium-Dark Skin Tone` },
+      { emoji: `\u{1F937}\u{1F3FF}\u{200D}\u{2640}\u{FE0F}`, entity: `&#x1F937&#x1F3FF&#x200D&#x2640&#xFE0F`, name: `Woman Shrugging: Dark Skin Tone` },
+      { emoji: `\u{1F486}`, entity: `&#x1F486`, name: `Person Getting Massage` },
+      { emoji: `\u{1F486}\u{1F3FB}`, entity: `&#x1F486&#x1F3FB`, name: `Person Getting Massage: Light Skin Tone` },
+      { emoji: `\u{1F486}\u{1F3FC}`, entity: `&#x1F486&#x1F3FC`, name: `Person Getting Massage: Medium-Light Skin Tone` },
+      { emoji: `\u{1F486}\u{1F3FD}`, entity: `&#x1F486&#x1F3FD`, name: `Person Getting Massage: Medium Skin Tone` },
+      { emoji: `\u{1F486}\u{1F3FE}`, entity: `&#x1F486&#x1F3FE`, name: `Person Getting Massage: Medium-Dark Skin Tone` },
+      { emoji: `\u{1F486}\u{1F3FF}`, entity: `&#x1F486&#x1F3FF`, name: `Person Getting Massage: Dark Skin Tone` },
+      { emoji: `\u{1F486}\u{200D}\u{2642}\u{FE0F}`, entity: `&#x1F486&#x200D&#x2642&#xFE0F`, name: `Man Getting Massage` },
+      { emoji: `\u{1F486}\u{1F3FB}\u{200D}\u{2642}\u{FE0F}`, entity: `&#x1F486&#x1F3FB&#x200D&#x2642&#xFE0F`, name: `Man Getting Massage: Light Skin Tone` },
+      { emoji: `\u{1F486}\u{1F3FC}\u{200D}\u{2642}\u{FE0F}`, entity: `&#x1F486&#x1F3FC&#x200D&#x2642&#xFE0F`, name: `Man Getting Massage: Medium-Light Skin Tone` },
+      { emoji: `\u{1F486}\u{1F3FD}\u{200D}\u{2642}\u{FE0F}`, entity: `&#x1F486&#x1F3FD&#x200D&#x2642&#xFE0F`, name: `Man Getting Massage: Medium Skin Tone` },
+      { emoji: `\u{1F486}\u{1F3FE}\u{200D}\u{2642}\u{FE0F}`, entity: `&#x1F486&#x1F3FE&#x200D&#x2642&#xFE0F`, name: `Man Getting Massage: Medium-Dark Skin Tone` },
+      { emoji: `\u{1F486}\u{1F3FF}\u{200D}\u{2642}\u{FE0F}`, entity: `&#x1F486&#x1F3FF&#x200D&#x2642&#xFE0F`, name: `Man Getting Massage: Dark Skin Tone` },
+      { emoji: `\u{1F486}\u{200D}\u{2640}\u{FE0F}`, entity: `&#x1F486&#x200D&#x2640&#xFE0F`, name: `Woman Getting Massage` },
+      { emoji: `\u{1F486}\u{1F3FB}\u{200D}\u{2640}\u{FE0F}`, entity: `&#x1F486&#x1F3FB&#x200D&#x2640&#xFE0F`, name: `Woman Getting Massage: Light Skin Tone` },
+      { emoji: `\u{1F486}\u{1F3FC}\u{200D}\u{2640}\u{FE0F}`, entity: `&#x1F486&#x1F3FC&#x200D&#x2640&#xFE0F`, name: `Woman Getting Massage: Medium-Light Skin Tone` },
+      { emoji: `\u{1F486}\u{1F3FD}\u{200D}\u{2640}\u{FE0F}`, entity: `&#x1F486&#x1F3FD&#x200D&#x2640&#xFE0F`, name: `Woman Getting Massage: Medium Skin Tone` },
+      { emoji: `\u{1F486}\u{1F3FE}\u{200D}\u{2640}\u{FE0F}`, entity: `&#x1F486&#x1F3FE&#x200D&#x2640&#xFE0F`, name: `Woman Getting Massage: Medium-Dark Skin Tone` },
+      { emoji: `\u{1F486}\u{1F3FF}\u{200D}\u{2640}\u{FE0F}`, entity: `&#x1F486&#x1F3FF&#x200D&#x2640&#xFE0F`, name: `Woman Getting Massage: Dark Skin Tone` },
+      { emoji: `\u{1F487}`, entity: `&#x1F487`, name: `Person Getting Haircut` },
+      { emoji: `\u{1F487}\u{1F3FB}`, entity: `&#x1F487&#x1F3FB`, name: `Person Getting Haircut: Light Skin Tone` },
+      { emoji: `\u{1F487}\u{1F3FC}`, entity: `&#x1F487&#x1F3FC`, name: `Person Getting Haircut: Medium-Light Skin Tone` },
+      { emoji: `\u{1F487}\u{1F3FD}`, entity: `&#x1F487&#x1F3FD`, name: `Person Getting Haircut: Medium Skin Tone` },
+      { emoji: `\u{1F487}\u{1F3FE}`, entity: `&#x1F487&#x1F3FE`, name: `Person Getting Haircut: Medium-Dark Skin Tone` },
+      { emoji: `\u{1F487}\u{1F3FF}`, entity: `&#x1F487&#x1F3FF`, name: `Person Getting Haircut: Dark Skin Tone` },
+      { emoji: `\u{1F487}\u{200D}\u{2642}\u{FE0F}`, entity: `&#x1F487&#x200D&#x2642&#xFE0F`, name: `Man Getting Haircut` },
+      { emoji: `\u{1F487}\u{1F3FB}\u{200D}\u{2642}\u{FE0F}`, entity: `&#x1F487&#x1F3FB&#x200D&#x2642&#xFE0F`, name: `Man Getting Haircut: Light Skin Tone` },
+      { emoji: `\u{1F487}\u{1F3FC}\u{200D}\u{2642}\u{FE0F}`, entity: `&#x1F487&#x1F3FC&#x200D&#x2642&#xFE0F`, name: `Man Getting Haircut: Medium-Light Skin Tone` },
+      { emoji: `\u{1F487}\u{1F3FD}\u{200D}\u{2642}\u{FE0F}`, entity: `&#x1F487&#x1F3FD&#x200D&#x2642&#xFE0F`, name: `Man Getting Haircut: Medium Skin Tone` },
+      { emoji: `\u{1F487}\u{1F3FE}\u{200D}\u{2642}\u{FE0F}`, entity: `&#x1F487&#x1F3FE&#x200D&#x2642&#xFE0F`, name: `Man Getting Haircut: Medium-Dark Skin Tone` },
+      { emoji: `\u{1F487}\u{1F3FF}\u{200D}\u{2642}\u{FE0F}`, entity: `&#x1F487&#x1F3FF&#x200D&#x2642&#xFE0F`, name: `Man Getting Haircut: Dark Skin Tone` },
+      { emoji: `\u{1F487}\u{200D}\u{2640}\u{FE0F}`, entity: `&#x1F487&#x200D&#x2640&#xFE0F`, name: `Woman Getting Haircut` },
+      { emoji: `\u{1F487}\u{1F3FB}\u{200D}\u{2640}\u{FE0F}`, entity: `&#x1F487&#x1F3FB&#x200D&#x2640&#xFE0F`, name: `Woman Getting Haircut: Light Skin Tone` },
+      { emoji: `\u{1F487}\u{1F3FC}\u{200D}\u{2640}\u{FE0F}`, entity: `&#x1F487&#x1F3FC&#x200D&#x2640&#xFE0F`, name: `Woman Getting Haircut: Medium-Light Skin Tone` },
+      { emoji: `\u{1F487}\u{1F3FD}\u{200D}\u{2640}\u{FE0F}`, entity: `&#x1F487&#x1F3FD&#x200D&#x2640&#xFE0F`, name: `Woman Getting Haircut: Medium Skin Tone` },
+      { emoji: `\u{1F487}\u{1F3FE}\u{200D}\u{2640}\u{FE0F}`, entity: `&#x1F487&#x1F3FE&#x200D&#x2640&#xFE0F`, name: `Woman Getting Haircut: Medium-Dark Skin Tone` },
+      { emoji: `\u{1F487}\u{1F3FF}\u{200D}\u{2640}\u{FE0F}`, entity: `&#x1F487&#x1F3FF&#x200D&#x2640&#xFE0F`, name: `Woman Getting Haircut: Dark Skin Tone` },
+      { emoji: `\u{1F6B6}`, entity: `&#x1F6B6`, name: `Person Walking` },
+      { emoji: `\u{1F6B6}\u{1F3FB}`, entity: `&#x1F6B6&#x1F3FB`, name: `Person Walking: Light Skin Tone` },
+      { emoji: `\u{1F6B6}\u{1F3FC}`, entity: `&#x1F6B6&#x1F3FC`, name: `Person Walking: Medium-Light Skin Tone` },
+      { emoji: `\u{1F6B6}\u{1F3FD}`, entity: `&#x1F6B6&#x1F3FD`, name: `Person Walking: Medium Skin Tone` },
+      { emoji: `\u{1F6B6}\u{1F3FE}`, entity: `&#x1F6B6&#x1F3FE`, name: `Person Walking: Medium-Dark Skin Tone` },
+      { emoji: `\u{1F6B6}\u{1F3FF}`, entity: `&#x1F6B6&#x1F3FF`, name: `Person Walking: Dark Skin Tone` },
+      { emoji: `\u{1F6B6}\u{200D}\u{2642}\u{FE0F}`, entity: `&#x1F6B6&#x200D&#x2642&#xFE0F`, name: `Man Walking` },
+      { emoji: `\u{1F6B6}\u{1F3FB}\u{200D}\u{2642}\u{FE0F}`, entity: `&#x1F6B6&#x1F3FB&#x200D&#x2642&#xFE0F`, name: `Man Walking: Light Skin Tone` },
+      { emoji: `\u{1F6B6}\u{1F3FC}\u{200D}\u{2642}\u{FE0F}`, entity: `&#x1F6B6&#x1F3FC&#x200D&#x2642&#xFE0F`, name: `Man Walking: Medium-Light Skin Tone` },
+      { emoji: `\u{1F6B6}\u{1F3FD}\u{200D}\u{2642}\u{FE0F}`, entity: `&#x1F6B6&#x1F3FD&#x200D&#x2642&#xFE0F`, name: `Man Walking: Medium Skin Tone` },
+      { emoji: `\u{1F6B6}\u{1F3FE}\u{200D}\u{2642}\u{FE0F}`, entity: `&#x1F6B6&#x1F3FE&#x200D&#x2642&#xFE0F`, name: `Man Walking: Medium-Dark Skin Tone` },
+      { emoji: `\u{1F6B6}\u{1F3FF}\u{200D}\u{2642}\u{FE0F}`, entity: `&#x1F6B6&#x1F3FF&#x200D&#x2642&#xFE0F`, name: `Man Walking: Dark Skin Tone` },
+      { emoji: `\u{1F6B6}\u{200D}\u{2640}\u{FE0F}`, entity: `&#x1F6B6&#x200D&#x2640&#xFE0F`, name: `Woman Walking` },
+      { emoji: `\u{1F6B6}\u{1F3FB}\u{200D}\u{2640}\u{FE0F}`, entity: `&#x1F6B6&#x1F3FB&#x200D&#x2640&#xFE0F`, name: `Woman Walking: Light Skin Tone` },
+      { emoji: `\u{1F6B6}\u{1F3FC}\u{200D}\u{2640}\u{FE0F}`, entity: `&#x1F6B6&#x1F3FC&#x200D&#x2640&#xFE0F`, name: `Woman Walking: Medium-Light Skin Tone` },
+      { emoji: `\u{1F6B6}\u{1F3FD}\u{200D}\u{2640}\u{FE0F}`, entity: `&#x1F6B6&#x1F3FD&#x200D&#x2640&#xFE0F`, name: `Woman Walking: Medium Skin Tone` },
+      { emoji: `\u{1F6B6}\u{1F3FE}\u{200D}\u{2640}\u{FE0F}`, entity: `&#x1F6B6&#x1F3FE&#x200D&#x2640&#xFE0F`, name: `Woman Walking: Medium-Dark Skin Tone` },
+      { emoji: `\u{1F6B6}\u{1F3FF}\u{200D}\u{2640}\u{FE0F}`, entity: `&#x1F6B6&#x1F3FF&#x200D&#x2640&#xFE0F`, name: `Woman Walking: Dark Skin Tone` },
+      { emoji: `\u{1F3C3}`, entity: `&#x1F3C3`, name: `Person Running` },
+      { emoji: `\u{1F3C3}\u{1F3FB}`, entity: `&#x1F3C3&#x1F3FB`, name: `Person Running: Light Skin Tone` },
+      { emoji: `\u{1F3C3}\u{1F3FC}`, entity: `&#x1F3C3&#x1F3FC`, name: `Person Running: Medium-Light Skin Tone` },
+      { emoji: `\u{1F3C3}\u{1F3FD}`, entity: `&#x1F3C3&#x1F3FD`, name: `Person Running: Medium Skin Tone` },
+      { emoji: `\u{1F3C3}\u{1F3FE}`, entity: `&#x1F3C3&#x1F3FE`, name: `Person Running: Medium-Dark Skin Tone` },
+      { emoji: `\u{1F3C3}\u{1F3FF}`, entity: `&#x1F3C3&#x1F3FF`, name: `Person Running: Dark Skin Tone` },
+      { emoji: `\u{1F3C3}\u{200D}\u{2642}\u{FE0F}`, entity: `&#x1F3C3&#x200D&#x2642&#xFE0F`, name: `Man Running` },
+      { emoji: `\u{1F3C3}\u{1F3FB}\u{200D}\u{2642}\u{FE0F}`, entity: `&#x1F3C3&#x1F3FB&#x200D&#x2642&#xFE0F`, name: `Man Running: Light Skin Tone` },
+      { emoji: `\u{1F3C3}\u{1F3FC}\u{200D}\u{2642}\u{FE0F}`, entity: `&#x1F3C3&#x1F3FC&#x200D&#x2642&#xFE0F`, name: `Man Running: Medium-Light Skin Tone` },
+      { emoji: `\u{1F3C3}\u{1F3FD}\u{200D}\u{2642}\u{FE0F}`, entity: `&#x1F3C3&#x1F3FD&#x200D&#x2642&#xFE0F`, name: `Man Running: Medium Skin Tone` },
+      { emoji: `\u{1F3C3}\u{1F3FE}\u{200D}\u{2642}\u{FE0F}`, entity: `&#x1F3C3&#x1F3FE&#x200D&#x2642&#xFE0F`, name: `Man Running: Medium-Dark Skin Tone` },
+      { emoji: `\u{1F3C3}\u{1F3FF}\u{200D}\u{2642}\u{FE0F}`, entity: `&#x1F3C3&#x1F3FF&#x200D&#x2642&#xFE0F`, name: `Man Running: Dark Skin Tone` },
+      { emoji: `\u{1F3C3}\u{200D}\u{2640}\u{FE0F}`, entity: `&#x1F3C3&#x200D&#x2640&#xFE0F`, name: `Woman Running` },
+      { emoji: `\u{1F3C3}\u{1F3FB}\u{200D}\u{2640}\u{FE0F}`, entity: `&#x1F3C3&#x1F3FB&#x200D&#x2640&#xFE0F`, name: `Woman Running: Light Skin Tone` },
+      { emoji: `\u{1F3C3}\u{1F3FC}\u{200D}\u{2640}\u{FE0F}`, entity: `&#x1F3C3&#x1F3FC&#x200D&#x2640&#xFE0F`, name: `Woman Running: Medium-Light Skin Tone` },
+      { emoji: `\u{1F3C3}\u{1F3FD}\u{200D}\u{2640}\u{FE0F}`, entity: `&#x1F3C3&#x1F3FD&#x200D&#x2640&#xFE0F`, name: `Woman Running: Medium Skin Tone` },
+      { emoji: `\u{1F3C3}\u{1F3FE}\u{200D}\u{2640}\u{FE0F}`, entity: `&#x1F3C3&#x1F3FE&#x200D&#x2640&#xFE0F`, name: `Woman Running: Medium-Dark Skin Tone` },
+      { emoji: `\u{1F3C3}\u{1F3FF}\u{200D}\u{2640}\u{FE0F}`, entity: `&#x1F3C3&#x1F3FF&#x200D&#x2640&#xFE0F`, name: `Woman Running: Dark Skin Tone` },
+      { emoji: `\u{1F483}`, entity: `&#x1F483`, name: `Woman Dancing` },
+      { emoji: `\u{1F483}\u{1F3FB}`, entity: `&#x1F483&#x1F3FB`, name: `Woman Dancing: Light Skin Tone` },
+      { emoji: `\u{1F483}\u{1F3FC}`, entity: `&#x1F483&#x1F3FC`, name: `Woman Dancing: Medium-Light Skin Tone` },
+      { emoji: `\u{1F483}\u{1F3FD}`, entity: `&#x1F483&#x1F3FD`, name: `Woman Dancing: Medium Skin Tone` },
+      { emoji: `\u{1F483}\u{1F3FE}`, entity: `&#x1F483&#x1F3FE`, name: `Woman Dancing: Medium-Dark Skin Tone` },
+      { emoji: `\u{1F483}\u{1F3FF}`, entity: `&#x1F483&#x1F3FF`, name: `Woman Dancing: Dark Skin Tone` },
+      { emoji: `\u{1F57A}`, entity: `&#x1F57A`, name: `Man Dancing` },
+      { emoji: `\u{1F57A}\u{1F3FB}`, entity: `&#x1F57A&#x1F3FB`, name: `Man Dancing: Light Skin Tone` },
+      { emoji: `\u{1F57A}\u{1F3FC}`, entity: `&#x1F57A&#x1F3FC`, name: `Man Dancing: Medium-Light Skin Tone` },
+      { emoji: `\u{1F57A}\u{1F3FD}`, entity: `&#x1F57A&#x1F3FD`, name: `Man Dancing: Medium Skin Tone` },
+      { emoji: `\u{1F57A}\u{1F3FE}`, entity: `&#x1F57A&#x1F3FE`, name: `Man Dancing: Medium-Dark Skin Tone` },
+      { emoji: `\u{1F57A}\u{1F3FF}`, entity: `&#x1F57A&#x1F3FF`, name: `Man Dancing: Dark Skin Tone` },
+      { emoji: `\u{1F46F}`, entity: `&#x1F46F`, name: `People With Bunny Ears Partying` },
+      { emoji: `\u{1F46F}\u{200D}\u{2642}\u{FE0F}`, entity: `&#x1F46F&#x200D&#x2642&#xFE0F`, name: `Men With Bunny Ears Partying` },
+      { emoji: `\u{1F46F}\u{200D}\u{2640}\u{FE0F}`, entity: `&#x1F46F&#x200D&#x2640&#xFE0F`, name: `Women With Bunny Ears Partying` },
+      { emoji: `\u{1F574}`, entity: `&#x1F574`, name: `Man In Business Suit Levitating` },
+      { emoji: `\u{1F574}\u{1F3FB}`, entity: `&#x1F574&#x1F3FB`, name: `Man In Business Suit Levitating: Light Skin Tone` },
+      { emoji: `\u{1F574}\u{1F3FC}`, entity: `&#x1F574&#x1F3FC`, name: `Man In Business Suit Levitating: Medium-Light Skin Tone` },
+      { emoji: `\u{1F574}\u{1F3FD}`, entity: `&#x1F574&#x1F3FD`, name: `Man In Business Suit Levitating: Medium Skin Tone` },
+      { emoji: `\u{1F574}\u{1F3FE}`, entity: `&#x1F574&#x1F3FE`, name: `Man In Business Suit Levitating: Medium-Dark Skin Tone` },
+      { emoji: `\u{1F574}\u{1F3FF}`, entity: `&#x1F574&#x1F3FF`, name: `Man In Business Suit Levitating: Dark Skin Tone` },
+      { emoji: `\u{1F5E3}`, entity: `&#x1F5E3`, name: `Speaking Head` },
+      { emoji: `\u{1F464}`, entity: `&#x1F464`, name: `Bust In Silhouette` },
+      { emoji: `\u{1F465}`, entity: `&#x1F465`, name: `Busts In Silhouette` },
+      { emoji: `\u{1F93A}`, entity: `&#x1F93A`, name: `Person Fencing` },
+      { emoji: `\u{1F3C7}`, entity: `&#x1F3C7`, name: `Horse Racing` },
+      { emoji: `\u{1F3C7}\u{1F3FB}`, entity: `&#x1F3C7&#x1F3FB`, name: `Horse Racing: Light Skin Tone` },
+      { emoji: `\u{1F3C7}\u{1F3FC}`, entity: `&#x1F3C7&#x1F3FC`, name: `Horse Racing: Medium-Light Skin Tone` },
+      { emoji: `\u{1F3C7}\u{1F3FD}`, entity: `&#x1F3C7&#x1F3FD`, name: `Horse Racing: Medium Skin Tone` },
+      { emoji: `\u{1F3C7}\u{1F3FE}`, entity: `&#x1F3C7&#x1F3FE`, name: `Horse Racing: Medium-Dark Skin Tone` },
+      { emoji: `\u{1F3C7}\u{1F3FF}`, entity: `&#x1F3C7&#x1F3FF`, name: `Horse Racing: Dark Skin Tone` },
+      { emoji: `\u{26F7}`, entity: `&#x26F7`, name: `Skier` },
+      { emoji: `\u{1F3C2}`, entity: `&#x1F3C2`, name: `Snowboarder` },
+      { emoji: `\u{1F3C2}\u{1F3FB}`, entity: `&#x1F3C2&#x1F3FB`, name: `Snowboarder: Light Skin Tone` },
+      { emoji: `\u{1F3C2}\u{1F3FC}`, entity: `&#x1F3C2&#x1F3FC`, name: `Snowboarder: Medium-Light Skin Tone` },
+      { emoji: `\u{1F3C2}\u{1F3FD}`, entity: `&#x1F3C2&#x1F3FD`, name: `Snowboarder: Medium Skin Tone` },
+      { emoji: `\u{1F3C2}\u{1F3FE}`, entity: `&#x1F3C2&#x1F3FE`, name: `Snowboarder: Medium-Dark Skin Tone` },
+      { emoji: `\u{1F3C2}\u{1F3FF}`, entity: `&#x1F3C2&#x1F3FF`, name: `Snowboarder: Dark Skin Tone` },
+      { emoji: `\u{1F3CC}`, entity: `&#x1F3CC`, name: `Person Golfing` },
+      { emoji: `\u{1F3CC}\u{1F3FB}`, entity: `&#x1F3CC&#x1F3FB`, name: `Person Golfing: Light Skin Tone` },
+      { emoji: `\u{1F3CC}\u{1F3FC}`, entity: `&#x1F3CC&#x1F3FC`, name: `Person Golfing: Medium-Light Skin Tone` },
+      { emoji: `\u{1F3CC}\u{1F3FD}`, entity: `&#x1F3CC&#x1F3FD`, name: `Person Golfing: Medium Skin Tone` },
+      { emoji: `\u{1F3CC}\u{1F3FE}`, entity: `&#x1F3CC&#x1F3FE`, name: `Person Golfing: Medium-Dark Skin Tone` },
+      { emoji: `\u{1F3CC}\u{1F3FF}`, entity: `&#x1F3CC&#x1F3FF`, name: `Person Golfing: Dark Skin Tone` },
+      { emoji: `\u{1F3CC}\u{FE0F}\u{200D}\u{2642}\u{FE0F}`, entity: `&#x1F3CC&#xFE0F&#x200D&#x2642&#xFE0F`, name: `Man Golfing` },
+      { emoji: `\u{1F3CC}\u{1F3FB}\u{200D}\u{2642}\u{FE0F}`, entity: `&#x1F3CC&#x1F3FB&#x200D&#x2642&#xFE0F`, name: `Man Golfing: Light Skin Tone` },
+      { emoji: `\u{1F3CC}\u{1F3FC}\u{200D}\u{2642}\u{FE0F}`, entity: `&#x1F3CC&#x1F3FC&#x200D&#x2642&#xFE0F`, name: `Man Golfing: Medium-Light Skin Tone` },
+      { emoji: `\u{1F3CC}\u{1F3FD}\u{200D}\u{2642}\u{FE0F}`, entity: `&#x1F3CC&#x1F3FD&#x200D&#x2642&#xFE0F`, name: `Man Golfing: Medium Skin Tone` },
+      { emoji: `\u{1F3CC}\u{1F3FE}\u{200D}\u{2642}\u{FE0F}`, entity: `&#x1F3CC&#x1F3FE&#x200D&#x2642&#xFE0F`, name: `Man Golfing: Medium-Dark Skin Tone` },
+      { emoji: `\u{1F3CC}\u{1F3FF}\u{200D}\u{2642}\u{FE0F}`, entity: `&#x1F3CC&#x1F3FF&#x200D&#x2642&#xFE0F`, name: `Man Golfing: Dark Skin Tone` },
+      { emoji: `\u{1F3CC}\u{FE0F}\u{200D}\u{2640}\u{FE0F}`, entity: `&#x1F3CC&#xFE0F&#x200D&#x2640&#xFE0F`, name: `Woman Golfing` },
+      { emoji: `\u{1F3CC}\u{1F3FB}\u{200D}\u{2640}\u{FE0F}`, entity: `&#x1F3CC&#x1F3FB&#x200D&#x2640&#xFE0F`, name: `Woman Golfing: Light Skin Tone` },
+      { emoji: `\u{1F3CC}\u{1F3FC}\u{200D}\u{2640}\u{FE0F}`, entity: `&#x1F3CC&#x1F3FC&#x200D&#x2640&#xFE0F`, name: `Woman Golfing: Medium-Light Skin Tone` },
+      { emoji: `\u{1F3CC}\u{1F3FD}\u{200D}\u{2640}\u{FE0F}`, entity: `&#x1F3CC&#x1F3FD&#x200D&#x2640&#xFE0F`, name: `Woman Golfing: Medium Skin Tone` },
+      { emoji: `\u{1F3CC}\u{1F3FE}\u{200D}\u{2640}\u{FE0F}`, entity: `&#x1F3CC&#x1F3FE&#x200D&#x2640&#xFE0F`, name: `Woman Golfing: Medium-Dark Skin Tone` },
+      { emoji: `\u{1F3CC}\u{1F3FF}\u{200D}\u{2640}\u{FE0F}`, entity: `&#x1F3CC&#x1F3FF&#x200D&#x2640&#xFE0F`, name: `Woman Golfing: Dark Skin Tone` },
+      { emoji: `\u{1F3C4}`, entity: `&#x1F3C4`, name: `Person Surfing` },
+      { emoji: `\u{1F3C4}\u{1F3FB}`, entity: `&#x1F3C4&#x1F3FB`, name: `Person Surfing: Light Skin Tone` },
+      { emoji: `\u{1F3C4}\u{1F3FC}`, entity: `&#x1F3C4&#x1F3FC`, name: `Person Surfing: Medium-Light Skin Tone` },
+      { emoji: `\u{1F3C4}\u{1F3FD}`, entity: `&#x1F3C4&#x1F3FD`, name: `Person Surfing: Medium Skin Tone` },
+      { emoji: `\u{1F3C4}\u{1F3FE}`, entity: `&#x1F3C4&#x1F3FE`, name: `Person Surfing: Medium-Dark Skin Tone` },
+      { emoji: `\u{1F3C4}\u{1F3FF}`, entity: `&#x1F3C4&#x1F3FF`, name: `Person Surfing: Dark Skin Tone` },
+      { emoji: `\u{1F3C4}\u{200D}\u{2642}\u{FE0F}`, entity: `&#x1F3C4&#x200D&#x2642&#xFE0F`, name: `Man Surfing` },
+      { emoji: `\u{1F3C4}\u{1F3FB}\u{200D}\u{2642}\u{FE0F}`, entity: `&#x1F3C4&#x1F3FB&#x200D&#x2642&#xFE0F`, name: `Man Surfing: Light Skin Tone` },
+      { emoji: `\u{1F3C4}\u{1F3FC}\u{200D}\u{2642}\u{FE0F}`, entity: `&#x1F3C4&#x1F3FC&#x200D&#x2642&#xFE0F`, name: `Man Surfing: Medium-Light Skin Tone` },
+      { emoji: `\u{1F3C4}\u{1F3FD}\u{200D}\u{2642}\u{FE0F}`, entity: `&#x1F3C4&#x1F3FD&#x200D&#x2642&#xFE0F`, name: `Man Surfing: Medium Skin Tone` },
+      { emoji: `\u{1F3C4}\u{1F3FE}\u{200D}\u{2642}\u{FE0F}`, entity: `&#x1F3C4&#x1F3FE&#x200D&#x2642&#xFE0F`, name: `Man Surfing: Medium-Dark Skin Tone` },
+      { emoji: `\u{1F3C4}\u{1F3FF}\u{200D}\u{2642}\u{FE0F}`, entity: `&#x1F3C4&#x1F3FF&#x200D&#x2642&#xFE0F`, name: `Man Surfing: Dark Skin Tone` },
+      { emoji: `\u{1F3C4}\u{200D}\u{2640}\u{FE0F}`, entity: `&#x1F3C4&#x200D&#x2640&#xFE0F`, name: `Woman Surfing` },
+      { emoji: `\u{1F3C4}\u{1F3FB}\u{200D}\u{2640}\u{FE0F}`, entity: `&#x1F3C4&#x1F3FB&#x200D&#x2640&#xFE0F`, name: `Woman Surfing: Light Skin Tone` },
+      { emoji: `\u{1F3C4}\u{1F3FC}\u{200D}\u{2640}\u{FE0F}`, entity: `&#x1F3C4&#x1F3FC&#x200D&#x2640&#xFE0F`, name: `Woman Surfing: Medium-Light Skin Tone` },
+      { emoji: `\u{1F3C4}\u{1F3FD}\u{200D}\u{2640}\u{FE0F}`, entity: `&#x1F3C4&#x1F3FD&#x200D&#x2640&#xFE0F`, name: `Woman Surfing: Medium Skin Tone` },
+      { emoji: `\u{1F3C4}\u{1F3FE}\u{200D}\u{2640}\u{FE0F}`, entity: `&#x1F3C4&#x1F3FE&#x200D&#x2640&#xFE0F`, name: `Woman Surfing: Medium-Dark Skin Tone` },
+      { emoji: `\u{1F3C4}\u{1F3FF}\u{200D}\u{2640}\u{FE0F}`, entity: `&#x1F3C4&#x1F3FF&#x200D&#x2640&#xFE0F`, name: `Woman Surfing: Dark Skin Tone` },
+      { emoji: `\u{1F6A3}`, entity: `&#x1F6A3`, name: `Person Rowing Boat` },
+      { emoji: `\u{1F6A3}\u{1F3FB}`, entity: `&#x1F6A3&#x1F3FB`, name: `Person Rowing Boat: Light Skin Tone` },
+      { emoji: `\u{1F6A3}\u{1F3FC}`, entity: `&#x1F6A3&#x1F3FC`, name: `Person Rowing Boat: Medium-Light Skin Tone` },
+      { emoji: `\u{1F6A3}\u{1F3FD}`, entity: `&#x1F6A3&#x1F3FD`, name: `Person Rowing Boat: Medium Skin Tone` },
+      { emoji: `\u{1F6A3}\u{1F3FE}`, entity: `&#x1F6A3&#x1F3FE`, name: `Person Rowing Boat: Medium-Dark Skin Tone` },
+      { emoji: `\u{1F6A3}\u{1F3FF}`, entity: `&#x1F6A3&#x1F3FF`, name: `Person Rowing Boat: Dark Skin Tone` },
+      { emoji: `\u{1F6A3}\u{200D}\u{2642}\u{FE0F}`, entity: `&#x1F6A3&#x200D&#x2642&#xFE0F`, name: `Man Rowing Boat` },
+      { emoji: `\u{1F6A3}\u{1F3FB}\u{200D}\u{2642}\u{FE0F}`, entity: `&#x1F6A3&#x1F3FB&#x200D&#x2642&#xFE0F`, name: `Man Rowing Boat: Light Skin Tone` },
+      { emoji: `\u{1F6A3}\u{1F3FC}\u{200D}\u{2642}\u{FE0F}`, entity: `&#x1F6A3&#x1F3FC&#x200D&#x2642&#xFE0F`, name: `Man Rowing Boat: Medium-Light Skin Tone` },
+      { emoji: `\u{1F6A3}\u{1F3FD}\u{200D}\u{2642}\u{FE0F}`, entity: `&#x1F6A3&#x1F3FD&#x200D&#x2642&#xFE0F`, name: `Man Rowing Boat: Medium Skin Tone` },
+      { emoji: `\u{1F6A3}\u{1F3FE}\u{200D}\u{2642}\u{FE0F}`, entity: `&#x1F6A3&#x1F3FE&#x200D&#x2642&#xFE0F`, name: `Man Rowing Boat: Medium-Dark Skin Tone` },
+      { emoji: `\u{1F6A3}\u{1F3FF}\u{200D}\u{2642}\u{FE0F}`, entity: `&#x1F6A3&#x1F3FF&#x200D&#x2642&#xFE0F`, name: `Man Rowing Boat: Dark Skin Tone` },
+      { emoji: `\u{1F6A3}\u{200D}\u{2640}\u{FE0F}`, entity: `&#x1F6A3&#x200D&#x2640&#xFE0F`, name: `Woman Rowing Boat` },
+      { emoji: `\u{1F6A3}\u{1F3FB}\u{200D}\u{2640}\u{FE0F}`, entity: `&#x1F6A3&#x1F3FB&#x200D&#x2640&#xFE0F`, name: `Woman Rowing Boat: Light Skin Tone` },
+      { emoji: `\u{1F6A3}\u{1F3FC}\u{200D}\u{2640}\u{FE0F}`, entity: `&#x1F6A3&#x1F3FC&#x200D&#x2640&#xFE0F`, name: `Woman Rowing Boat: Medium-Light Skin Tone` },
+      { emoji: `\u{1F6A3}\u{1F3FD}\u{200D}\u{2640}\u{FE0F}`, entity: `&#x1F6A3&#x1F3FD&#x200D&#x2640&#xFE0F`, name: `Woman Rowing Boat: Medium Skin Tone` },
+      { emoji: `\u{1F6A3}\u{1F3FE}\u{200D}\u{2640}\u{FE0F}`, entity: `&#x1F6A3&#x1F3FE&#x200D&#x2640&#xFE0F`, name: `Woman Rowing Boat: Medium-Dark Skin Tone` },
+      { emoji: `\u{1F6A3}\u{1F3FF}\u{200D}\u{2640}\u{FE0F}`, entity: `&#x1F6A3&#x1F3FF&#x200D&#x2640&#xFE0F`, name: `Woman Rowing Boat: Dark Skin Tone` },
+      { emoji: `\u{1F3CA}`, entity: `&#x1F3CA`, name: `Person Swimming` },
+      { emoji: `\u{1F3CA}\u{1F3FB}`, entity: `&#x1F3CA&#x1F3FB`, name: `Person Swimming: Light Skin Tone` },
+      { emoji: `\u{1F3CA}\u{1F3FC}`, entity: `&#x1F3CA&#x1F3FC`, name: `Person Swimming: Medium-Light Skin Tone` },
+      { emoji: `\u{1F3CA}\u{1F3FD}`, entity: `&#x1F3CA&#x1F3FD`, name: `Person Swimming: Medium Skin Tone` },
+      { emoji: `\u{1F3CA}\u{1F3FE}`, entity: `&#x1F3CA&#x1F3FE`, name: `Person Swimming: Medium-Dark Skin Tone` },
+      { emoji: `\u{1F3CA}\u{1F3FF}`, entity: `&#x1F3CA&#x1F3FF`, name: `Person Swimming: Dark Skin Tone` },
+      { emoji: `\u{1F3CA}\u{200D}\u{2642}\u{FE0F}`, entity: `&#x1F3CA&#x200D&#x2642&#xFE0F`, name: `Man Swimming` },
+      { emoji: `\u{1F3CA}\u{1F3FB}\u{200D}\u{2642}\u{FE0F}`, entity: `&#x1F3CA&#x1F3FB&#x200D&#x2642&#xFE0F`, name: `Man Swimming: Light Skin Tone` },
+      { emoji: `\u{1F3CA}\u{1F3FC}\u{200D}\u{2642}\u{FE0F}`, entity: `&#x1F3CA&#x1F3FC&#x200D&#x2642&#xFE0F`, name: `Man Swimming: Medium-Light Skin Tone` },
+      { emoji: `\u{1F3CA}\u{1F3FD}\u{200D}\u{2642}\u{FE0F}`, entity: `&#x1F3CA&#x1F3FD&#x200D&#x2642&#xFE0F`, name: `Man Swimming: Medium Skin Tone` },
+      { emoji: `\u{1F3CA}\u{1F3FE}\u{200D}\u{2642}\u{FE0F}`, entity: `&#x1F3CA&#x1F3FE&#x200D&#x2642&#xFE0F`, name: `Man Swimming: Medium-Dark Skin Tone` },
+      { emoji: `\u{1F3CA}\u{1F3FF}\u{200D}\u{2642}\u{FE0F}`, entity: `&#x1F3CA&#x1F3FF&#x200D&#x2642&#xFE0F`, name: `Man Swimming: Dark Skin Tone` },
+      { emoji: `\u{1F3CA}\u{200D}\u{2640}\u{FE0F}`, entity: `&#x1F3CA&#x200D&#x2640&#xFE0F`, name: `Woman Swimming` },
+      { emoji: `\u{1F3CA}\u{1F3FB}\u{200D}\u{2640}\u{FE0F}`, entity: `&#x1F3CA&#x1F3FB&#x200D&#x2640&#xFE0F`, name: `Woman Swimming: Light Skin Tone` },
+      { emoji: `\u{1F3CA}\u{1F3FC}\u{200D}\u{2640}\u{FE0F}`, entity: `&#x1F3CA&#x1F3FC&#x200D&#x2640&#xFE0F`, name: `Woman Swimming: Medium-Light Skin Tone` },
+      { emoji: `\u{1F3CA}\u{1F3FD}\u{200D}\u{2640}\u{FE0F}`, entity: `&#x1F3CA&#x1F3FD&#x200D&#x2640&#xFE0F`, name: `Woman Swimming: Medium Skin Tone` },
+      { emoji: `\u{1F3CA}\u{1F3FE}\u{200D}\u{2640}\u{FE0F}`, entity: `&#x1F3CA&#x1F3FE&#x200D&#x2640&#xFE0F`, name: `Woman Swimming: Medium-Dark Skin Tone` },
+      { emoji: `\u{1F3CA}\u{1F3FF}\u{200D}\u{2640}\u{FE0F}`, entity: `&#x1F3CA&#x1F3FF&#x200D&#x2640&#xFE0F`, name: `Woman Swimming: Dark Skin Tone` },
+      { emoji: `\u{26F9}`, entity: `&#x26F9`, name: `Person Bouncing Ball` },
+      { emoji: `\u{26F9}\u{1F3FB}`, entity: `&#x26F9&#x1F3FB`, name: `Person Bouncing Ball: Light Skin Tone` },
+      { emoji: `\u{26F9}\u{1F3FC}`, entity: `&#x26F9&#x1F3FC`, name: `Person Bouncing Ball: Medium-Light Skin Tone` },
+      { emoji: `\u{26F9}\u{1F3FD}`, entity: `&#x26F9&#x1F3FD`, name: `Person Bouncing Ball: Medium Skin Tone` },
+      { emoji: `\u{26F9}\u{1F3FE}`, entity: `&#x26F9&#x1F3FE`, name: `Person Bouncing Ball: Medium-Dark Skin Tone` },
+      { emoji: `\u{26F9}\u{1F3FF}`, entity: `&#x26F9&#x1F3FF`, name: `Person Bouncing Ball: Dark Skin Tone` },
+      { emoji: `\u{26F9}\u{FE0F}\u{200D}\u{2642}\u{FE0F}`, entity: `&#x26F9&#xFE0F&#x200D&#x2642&#xFE0F`, name: `Man Bouncing Ball` },
+      { emoji: `\u{26F9}\u{1F3FB}\u{200D}\u{2642}\u{FE0F}`, entity: `&#x26F9&#x1F3FB&#x200D&#x2642&#xFE0F`, name: `Man Bouncing Ball: Light Skin Tone` },
+      { emoji: `\u{26F9}\u{1F3FC}\u{200D}\u{2642}\u{FE0F}`, entity: `&#x26F9&#x1F3FC&#x200D&#x2642&#xFE0F`, name: `Man Bouncing Ball: Medium-Light Skin Tone` },
+      { emoji: `\u{26F9}\u{1F3FD}\u{200D}\u{2642}\u{FE0F}`, entity: `&#x26F9&#x1F3FD&#x200D&#x2642&#xFE0F`, name: `Man Bouncing Ball: Medium Skin Tone` },
+      { emoji: `\u{26F9}\u{1F3FE}\u{200D}\u{2642}\u{FE0F}`, entity: `&#x26F9&#x1F3FE&#x200D&#x2642&#xFE0F`, name: `Man Bouncing Ball: Medium-Dark Skin Tone` },
+      { emoji: `\u{26F9}\u{1F3FF}\u{200D}\u{2642}\u{FE0F}`, entity: `&#x26F9&#x1F3FF&#x200D&#x2642&#xFE0F`, name: `Man Bouncing Ball: Dark Skin Tone` },
+      { emoji: `\u{26F9}\u{FE0F}\u{200D}\u{2640}\u{FE0F}`, entity: `&#x26F9&#xFE0F&#x200D&#x2640&#xFE0F`, name: `Woman Bouncing Ball` },
+      { emoji: `\u{26F9}\u{1F3FB}\u{200D}\u{2640}\u{FE0F}`, entity: `&#x26F9&#x1F3FB&#x200D&#x2640&#xFE0F`, name: `Woman Bouncing Ball: Light Skin Tone` },
+      { emoji: `\u{26F9}\u{1F3FC}\u{200D}\u{2640}\u{FE0F}`, entity: `&#x26F9&#x1F3FC&#x200D&#x2640&#xFE0F`, name: `Woman Bouncing Ball: Medium-Light Skin Tone` },
+      { emoji: `\u{26F9}\u{1F3FD}\u{200D}\u{2640}\u{FE0F}`, entity: `&#x26F9&#x1F3FD&#x200D&#x2640&#xFE0F`, name: `Woman Bouncing Ball: Medium Skin Tone` },
+      { emoji: `\u{26F9}\u{1F3FE}\u{200D}\u{2640}\u{FE0F}`, entity: `&#x26F9&#x1F3FE&#x200D&#x2640&#xFE0F`, name: `Woman Bouncing Ball: Medium-Dark Skin Tone` },
+      { emoji: `\u{26F9}\u{1F3FF}\u{200D}\u{2640}\u{FE0F}`, entity: `&#x26F9&#x1F3FF&#x200D&#x2640&#xFE0F`, name: `Woman Bouncing Ball: Dark Skin Tone` },
+      { emoji: `\u{1F3CB}`, entity: `&#x1F3CB`, name: `Person Lifting Weights` },
+      { emoji: `\u{1F3CB}\u{1F3FB}`, entity: `&#x1F3CB&#x1F3FB`, name: `Person Lifting Weights: Light Skin Tone` },
+      { emoji: `\u{1F3CB}\u{1F3FC}`, entity: `&#x1F3CB&#x1F3FC`, name: `Person Lifting Weights: Medium-Light Skin Tone` },
+      { emoji: `\u{1F3CB}\u{1F3FD}`, entity: `&#x1F3CB&#x1F3FD`, name: `Person Lifting Weights: Medium Skin Tone` },
+      { emoji: `\u{1F3CB}\u{1F3FE}`, entity: `&#x1F3CB&#x1F3FE`, name: `Person Lifting Weights: Medium-Dark Skin Tone` },
+      { emoji: `\u{1F3CB}\u{1F3FF}`, entity: `&#x1F3CB&#x1F3FF`, name: `Person Lifting Weights: Dark Skin Tone` },
+      { emoji: `\u{1F3CB}\u{FE0F}\u{200D}\u{2642}\u{FE0F}`, entity: `&#x1F3CB&#xFE0F&#x200D&#x2642&#xFE0F`, name: `Man Lifting Weights` },
+      { emoji: `\u{1F3CB}\u{1F3FB}\u{200D}\u{2642}\u{FE0F}`, entity: `&#x1F3CB&#x1F3FB&#x200D&#x2642&#xFE0F`, name: `Man Lifting Weights: Light Skin Tone` },
+      { emoji: `\u{1F3CB}\u{1F3FC}\u{200D}\u{2642}\u{FE0F}`, entity: `&#x1F3CB&#x1F3FC&#x200D&#x2642&#xFE0F`, name: `Man Lifting Weights: Medium-Light Skin Tone` },
+      { emoji: `\u{1F3CB}\u{1F3FD}\u{200D}\u{2642}\u{FE0F}`, entity: `&#x1F3CB&#x1F3FD&#x200D&#x2642&#xFE0F`, name: `Man Lifting Weights: Medium Skin Tone` },
+      { emoji: `\u{1F3CB}\u{1F3FE}\u{200D}\u{2642}\u{FE0F}`, entity: `&#x1F3CB&#x1F3FE&#x200D&#x2642&#xFE0F`, name: `Man Lifting Weights: Medium-Dark Skin Tone` },
+      { emoji: `\u{1F3CB}\u{1F3FF}\u{200D}\u{2642}\u{FE0F}`, entity: `&#x1F3CB&#x1F3FF&#x200D&#x2642&#xFE0F`, name: `Man Lifting Weights: Dark Skin Tone` },
+      { emoji: `\u{1F3CB}\u{FE0F}\u{200D}\u{2640}\u{FE0F}`, entity: `&#x1F3CB&#xFE0F&#x200D&#x2640&#xFE0F`, name: `Woman Lifting Weights` },
+      { emoji: `\u{1F3CB}\u{1F3FB}\u{200D}\u{2640}\u{FE0F}`, entity: `&#x1F3CB&#x1F3FB&#x200D&#x2640&#xFE0F`, name: `Woman Lifting Weights: Light Skin Tone` },
+      { emoji: `\u{1F3CB}\u{1F3FC}\u{200D}\u{2640}\u{FE0F}`, entity: `&#x1F3CB&#x1F3FC&#x200D&#x2640&#xFE0F`, name: `Woman Lifting Weights: Medium-Light Skin Tone` },
+      { emoji: `\u{1F3CB}\u{1F3FD}\u{200D}\u{2640}\u{FE0F}`, entity: `&#x1F3CB&#x1F3FD&#x200D&#x2640&#xFE0F`, name: `Woman Lifting Weights: Medium Skin Tone` },
+      { emoji: `\u{1F3CB}\u{1F3FE}\u{200D}\u{2640}\u{FE0F}`, entity: `&#x1F3CB&#x1F3FE&#x200D&#x2640&#xFE0F`, name: `Woman Lifting Weights: Medium-Dark Skin Tone` },
+      { emoji: `\u{1F3CB}\u{1F3FF}\u{200D}\u{2640}\u{FE0F}`, entity: `&#x1F3CB&#x1F3FF&#x200D&#x2640&#xFE0F`, name: `Woman Lifting Weights: Dark Skin Tone` },
+      { emoji: `\u{1F6B4}`, entity: `&#x1F6B4`, name: `Person Biking` },
+      { emoji: `\u{1F6B4}\u{1F3FB}`, entity: `&#x1F6B4&#x1F3FB`, name: `Person Biking: Light Skin Tone` },
+      { emoji: `\u{1F6B4}\u{1F3FC}`, entity: `&#x1F6B4&#x1F3FC`, name: `Person Biking: Medium-Light Skin Tone` },
+      { emoji: `\u{1F6B4}\u{1F3FD}`, entity: `&#x1F6B4&#x1F3FD`, name: `Person Biking: Medium Skin Tone` },
+      { emoji: `\u{1F6B4}\u{1F3FE}`, entity: `&#x1F6B4&#x1F3FE`, name: `Person Biking: Medium-Dark Skin Tone` },
+      { emoji: `\u{1F6B4}\u{1F3FF}`, entity: `&#x1F6B4&#x1F3FF`, name: `Person Biking: Dark Skin Tone` },
+      { emoji: `\u{1F6B4}\u{200D}\u{2642}\u{FE0F}`, entity: `&#x1F6B4&#x200D&#x2642&#xFE0F`, name: `Man Biking` },
+      { emoji: `\u{1F6B4}\u{1F3FB}\u{200D}\u{2642}\u{FE0F}`, entity: `&#x1F6B4&#x1F3FB&#x200D&#x2642&#xFE0F`, name: `Man Biking: Light Skin Tone` },
+      { emoji: `\u{1F6B4}\u{1F3FC}\u{200D}\u{2642}\u{FE0F}`, entity: `&#x1F6B4&#x1F3FC&#x200D&#x2642&#xFE0F`, name: `Man Biking: Medium-Light Skin Tone` },
+      { emoji: `\u{1F6B4}\u{1F3FD}\u{200D}\u{2642}\u{FE0F}`, entity: `&#x1F6B4&#x1F3FD&#x200D&#x2642&#xFE0F`, name: `Man Biking: Medium Skin Tone` },
+      { emoji: `\u{1F6B4}\u{1F3FE}\u{200D}\u{2642}\u{FE0F}`, entity: `&#x1F6B4&#x1F3FE&#x200D&#x2642&#xFE0F`, name: `Man Biking: Medium-Dark Skin Tone` },
+      { emoji: `\u{1F6B4}\u{1F3FF}\u{200D}\u{2642}\u{FE0F}`, entity: `&#x1F6B4&#x1F3FF&#x200D&#x2642&#xFE0F`, name: `Man Biking: Dark Skin Tone` },
+      { emoji: `\u{1F6B4}\u{200D}\u{2640}\u{FE0F}`, entity: `&#x1F6B4&#x200D&#x2640&#xFE0F`, name: `Woman Biking` },
+      { emoji: `\u{1F6B4}\u{1F3FB}\u{200D}\u{2640}\u{FE0F}`, entity: `&#x1F6B4&#x1F3FB&#x200D&#x2640&#xFE0F`, name: `Woman Biking: Light Skin Tone` },
+      { emoji: `\u{1F6B4}\u{1F3FC}\u{200D}\u{2640}\u{FE0F}`, entity: `&#x1F6B4&#x1F3FC&#x200D&#x2640&#xFE0F`, name: `Woman Biking: Medium-Light Skin Tone` },
+      { emoji: `\u{1F6B4}\u{1F3FD}\u{200D}\u{2640}\u{FE0F}`, entity: `&#x1F6B4&#x1F3FD&#x200D&#x2640&#xFE0F`, name: `Woman Biking: Medium Skin Tone` },
+      { emoji: `\u{1F6B4}\u{1F3FE}\u{200D}\u{2640}\u{FE0F}`, entity: `&#x1F6B4&#x1F3FE&#x200D&#x2640&#xFE0F`, name: `Woman Biking: Medium-Dark Skin Tone` },
+      { emoji: `\u{1F6B4}\u{1F3FF}\u{200D}\u{2640}\u{FE0F}`, entity: `&#x1F6B4&#x1F3FF&#x200D&#x2640&#xFE0F`, name: `Woman Biking: Dark Skin Tone` },
+      { emoji: `\u{1F6B5}`, entity: `&#x1F6B5`, name: `Person Mountain Biking` },
+      { emoji: `\u{1F6B5}\u{1F3FB}`, entity: `&#x1F6B5&#x1F3FB`, name: `Person Mountain Biking: Light Skin Tone` },
+      { emoji: `\u{1F6B5}\u{1F3FC}`, entity: `&#x1F6B5&#x1F3FC`, name: `Person Mountain Biking: Medium-Light Skin Tone` },
+      { emoji: `\u{1F6B5}\u{1F3FD}`, entity: `&#x1F6B5&#x1F3FD`, name: `Person Mountain Biking: Medium Skin Tone` },
+      { emoji: `\u{1F6B5}\u{1F3FE}`, entity: `&#x1F6B5&#x1F3FE`, name: `Person Mountain Biking: Medium-Dark Skin Tone` },
+      { emoji: `\u{1F6B5}\u{1F3FF}`, entity: `&#x1F6B5&#x1F3FF`, name: `Person Mountain Biking: Dark Skin Tone` },
+      { emoji: `\u{1F6B5}\u{200D}\u{2642}\u{FE0F}`, entity: `&#x1F6B5&#x200D&#x2642&#xFE0F`, name: `Man Mountain Biking` },
+      { emoji: `\u{1F6B5}\u{1F3FB}\u{200D}\u{2642}\u{FE0F}`, entity: `&#x1F6B5&#x1F3FB&#x200D&#x2642&#xFE0F`, name: `Man Mountain Biking: Light Skin Tone` },
+      { emoji: `\u{1F6B5}\u{1F3FC}\u{200D}\u{2642}\u{FE0F}`, entity: `&#x1F6B5&#x1F3FC&#x200D&#x2642&#xFE0F`, name: `Man Mountain Biking: Medium-Light Skin Tone` },
+      { emoji: `\u{1F6B5}\u{1F3FD}\u{200D}\u{2642}\u{FE0F}`, entity: `&#x1F6B5&#x1F3FD&#x200D&#x2642&#xFE0F`, name: `Man Mountain Biking: Medium Skin Tone` },
+      { emoji: `\u{1F6B5}\u{1F3FE}\u{200D}\u{2642}\u{FE0F}`, entity: `&#x1F6B5&#x1F3FE&#x200D&#x2642&#xFE0F`, name: `Man Mountain Biking: Medium-Dark Skin Tone` },
+      { emoji: `\u{1F6B5}\u{1F3FF}\u{200D}\u{2642}\u{FE0F}`, entity: `&#x1F6B5&#x1F3FF&#x200D&#x2642&#xFE0F`, name: `Man Mountain Biking: Dark Skin Tone` },
+      { emoji: `\u{1F6B5}\u{200D}\u{2640}\u{FE0F}`, entity: `&#x1F6B5&#x200D&#x2640&#xFE0F`, name: `Woman Mountain Biking` },
+      { emoji: `\u{1F6B5}\u{1F3FB}\u{200D}\u{2640}\u{FE0F}`, entity: `&#x1F6B5&#x1F3FB&#x200D&#x2640&#xFE0F`, name: `Woman Mountain Biking: Light Skin Tone` },
+      { emoji: `\u{1F6B5}\u{1F3FC}\u{200D}\u{2640}\u{FE0F}`, entity: `&#x1F6B5&#x1F3FC&#x200D&#x2640&#xFE0F`, name: `Woman Mountain Biking: Medium-Light Skin Tone` },
+      { emoji: `\u{1F6B5}\u{1F3FD}\u{200D}\u{2640}\u{FE0F}`, entity: `&#x1F6B5&#x1F3FD&#x200D&#x2640&#xFE0F`, name: `Woman Mountain Biking: Medium Skin Tone` },
+      { emoji: `\u{1F6B5}\u{1F3FE}\u{200D}\u{2640}\u{FE0F}`, entity: `&#x1F6B5&#x1F3FE&#x200D&#x2640&#xFE0F`, name: `Woman Mountain Biking: Medium-Dark Skin Tone` },
+      { emoji: `\u{1F6B5}\u{1F3FF}\u{200D}\u{2640}\u{FE0F}`, entity: `&#x1F6B5&#x1F3FF&#x200D&#x2640&#xFE0F`, name: `Woman Mountain Biking: Dark Skin Tone` },
+      { emoji: `\u{1F3CE}`, entity: `&#x1F3CE`, name: `Racing Car` },
+      { emoji: `\u{1F3CD}`, entity: `&#x1F3CD`, name: `Motorcycle` },
+      { emoji: `\u{1F938}`, entity: `&#x1F938`, name: `Person Cartwheeling` },
+      { emoji: `\u{1F938}\u{1F3FB}`, entity: `&#x1F938&#x1F3FB`, name: `Person Cartwheeling: Light Skin Tone` },
+      { emoji: `\u{1F938}\u{1F3FC}`, entity: `&#x1F938&#x1F3FC`, name: `Person Cartwheeling: Medium-Light Skin Tone` },
+      { emoji: `\u{1F938}\u{1F3FD}`, entity: `&#x1F938&#x1F3FD`, name: `Person Cartwheeling: Medium Skin Tone` },
+      { emoji: `\u{1F938}\u{1F3FE}`, entity: `&#x1F938&#x1F3FE`, name: `Person Cartwheeling: Medium-Dark Skin Tone` },
+      { emoji: `\u{1F938}\u{1F3FF}`, entity: `&#x1F938&#x1F3FF`, name: `Person Cartwheeling: Dark Skin Tone` },
+      { emoji: `\u{1F938}\u{200D}\u{2642}\u{FE0F}`, entity: `&#x1F938&#x200D&#x2642&#xFE0F`, name: `Man Cartwheeling` },
+      { emoji: `\u{1F938}\u{1F3FB}\u{200D}\u{2642}\u{FE0F}`, entity: `&#x1F938&#x1F3FB&#x200D&#x2642&#xFE0F`, name: `Man Cartwheeling: Light Skin Tone` },
+      { emoji: `\u{1F938}\u{1F3FC}\u{200D}\u{2642}\u{FE0F}`, entity: `&#x1F938&#x1F3FC&#x200D&#x2642&#xFE0F`, name: `Man Cartwheeling: Medium-Light Skin Tone` },
+      { emoji: `\u{1F938}\u{1F3FD}\u{200D}\u{2642}\u{FE0F}`, entity: `&#x1F938&#x1F3FD&#x200D&#x2642&#xFE0F`, name: `Man Cartwheeling: Medium Skin Tone` },
+      { emoji: `\u{1F938}\u{1F3FE}\u{200D}\u{2642}\u{FE0F}`, entity: `&#x1F938&#x1F3FE&#x200D&#x2642&#xFE0F`, name: `Man Cartwheeling: Medium-Dark Skin Tone` },
+      { emoji: `\u{1F938}\u{1F3FF}\u{200D}\u{2642}\u{FE0F}`, entity: `&#x1F938&#x1F3FF&#x200D&#x2642&#xFE0F`, name: `Man Cartwheeling: Dark Skin Tone` },
+      { emoji: `\u{1F938}\u{200D}\u{2640}\u{FE0F}`, entity: `&#x1F938&#x200D&#x2640&#xFE0F`, name: `Woman Cartwheeling` },
+      { emoji: `\u{1F938}\u{1F3FB}\u{200D}\u{2640}\u{FE0F}`, entity: `&#x1F938&#x1F3FB&#x200D&#x2640&#xFE0F`, name: `Woman Cartwheeling: Light Skin Tone` },
+      { emoji: `\u{1F938}\u{1F3FC}\u{200D}\u{2640}\u{FE0F}`, entity: `&#x1F938&#x1F3FC&#x200D&#x2640&#xFE0F`, name: `Woman Cartwheeling: Medium-Light Skin Tone` },
+      { emoji: `\u{1F938}\u{1F3FD}\u{200D}\u{2640}\u{FE0F}`, entity: `&#x1F938&#x1F3FD&#x200D&#x2640&#xFE0F`, name: `Woman Cartwheeling: Medium Skin Tone` },
+      { emoji: `\u{1F938}\u{1F3FE}\u{200D}\u{2640}\u{FE0F}`, entity: `&#x1F938&#x1F3FE&#x200D&#x2640&#xFE0F`, name: `Woman Cartwheeling: Medium-Dark Skin Tone` },
+      { emoji: `\u{1F938}\u{1F3FF}\u{200D}\u{2640}\u{FE0F}`, entity: `&#x1F938&#x1F3FF&#x200D&#x2640&#xFE0F`, name: `Woman Cartwheeling: Dark Skin Tone` },
+      { emoji: `\u{1F93C}`, entity: `&#x1F93C`, name: `People Wrestling` },
+      { emoji: `\u{1F93C}\u{200D}\u{2642}\u{FE0F}`, entity: `&#x1F93C&#x200D&#x2642&#xFE0F`, name: `Men Wrestling` },
+      { emoji: `\u{1F93C}\u{200D}\u{2640}\u{FE0F}`, entity: `&#x1F93C&#x200D&#x2640&#xFE0F`, name: `Women Wrestling` },
+      { emoji: `\u{1F93D}`, entity: `&#x1F93D`, name: `Person Playing Water Polo` },
+      { emoji: `\u{1F93D}\u{1F3FB}`, entity: `&#x1F93D&#x1F3FB`, name: `Person Playing Water Polo: Light Skin Tone` },
+      { emoji: `\u{1F93D}\u{1F3FC}`, entity: `&#x1F93D&#x1F3FC`, name: `Person Playing Water Polo: Medium-Light Skin Tone` },
+      { emoji: `\u{1F93D}\u{1F3FD}`, entity: `&#x1F93D&#x1F3FD`, name: `Person Playing Water Polo: Medium Skin Tone` },
+      { emoji: `\u{1F93D}\u{1F3FE}`, entity: `&#x1F93D&#x1F3FE`, name: `Person Playing Water Polo: Medium-Dark Skin Tone` },
+      { emoji: `\u{1F93D}\u{1F3FF}`, entity: `&#x1F93D&#x1F3FF`, name: `Person Playing Water Polo: Dark Skin Tone` },
+      { emoji: `\u{1F93D}\u{200D}\u{2642}\u{FE0F}`, entity: `&#x1F93D&#x200D&#x2642&#xFE0F`, name: `Man Playing Water Polo` },
+      { emoji: `\u{1F93D}\u{1F3FB}\u{200D}\u{2642}\u{FE0F}`, entity: `&#x1F93D&#x1F3FB&#x200D&#x2642&#xFE0F`, name: `Man Playing Water Polo: Light Skin Tone` },
+      { emoji: `\u{1F93D}\u{1F3FC}\u{200D}\u{2642}\u{FE0F}`, entity: `&#x1F93D&#x1F3FC&#x200D&#x2642&#xFE0F`, name: `Man Playing Water Polo: Medium-Light Skin Tone` },
+      { emoji: `\u{1F93D}\u{1F3FD}\u{200D}\u{2642}\u{FE0F}`, entity: `&#x1F93D&#x1F3FD&#x200D&#x2642&#xFE0F`, name: `Man Playing Water Polo: Medium Skin Tone` },
+      { emoji: `\u{1F93D}\u{1F3FE}\u{200D}\u{2642}\u{FE0F}`, entity: `&#x1F93D&#x1F3FE&#x200D&#x2642&#xFE0F`, name: `Man Playing Water Polo: Medium-Dark Skin Tone` },
+      { emoji: `\u{1F93D}\u{1F3FF}\u{200D}\u{2642}\u{FE0F}`, entity: `&#x1F93D&#x1F3FF&#x200D&#x2642&#xFE0F`, name: `Man Playing Water Polo: Dark Skin Tone` },
+      { emoji: `\u{1F93D}\u{200D}\u{2640}\u{FE0F}`, entity: `&#x1F93D&#x200D&#x2640&#xFE0F`, name: `Woman Playing Water Polo` },
+      { emoji: `\u{1F93D}\u{1F3FB}\u{200D}\u{2640}\u{FE0F}`, entity: `&#x1F93D&#x1F3FB&#x200D&#x2640&#xFE0F`, name: `Woman Playing Water Polo: Light Skin Tone` },
+      { emoji: `\u{1F93D}\u{1F3FC}\u{200D}\u{2640}\u{FE0F}`, entity: `&#x1F93D&#x1F3FC&#x200D&#x2640&#xFE0F`, name: `Woman Playing Water Polo: Medium-Light Skin Tone` },
+      { emoji: `\u{1F93D}\u{1F3FD}\u{200D}\u{2640}\u{FE0F}`, entity: `&#x1F93D&#x1F3FD&#x200D&#x2640&#xFE0F`, name: `Woman Playing Water Polo: Medium Skin Tone` },
+      { emoji: `\u{1F93D}\u{1F3FE}\u{200D}\u{2640}\u{FE0F}`, entity: `&#x1F93D&#x1F3FE&#x200D&#x2640&#xFE0F`, name: `Woman Playing Water Polo: Medium-Dark Skin Tone` },
+      { emoji: `\u{1F93D}\u{1F3FF}\u{200D}\u{2640}\u{FE0F}`, entity: `&#x1F93D&#x1F3FF&#x200D&#x2640&#xFE0F`, name: `Woman Playing Water Polo: Dark Skin Tone` },
+      { emoji: `\u{1F93E}`, entity: `&#x1F93E`, name: `Person Playing Handball` },
+      { emoji: `\u{1F93E}\u{1F3FB}`, entity: `&#x1F93E&#x1F3FB`, name: `Person Playing Handball: Light Skin Tone` },
+      { emoji: `\u{1F93E}\u{1F3FC}`, entity: `&#x1F93E&#x1F3FC`, name: `Person Playing Handball: Medium-Light Skin Tone` },
+      { emoji: `\u{1F93E}\u{1F3FD}`, entity: `&#x1F93E&#x1F3FD`, name: `Person Playing Handball: Medium Skin Tone` },
+      { emoji: `\u{1F93E}\u{1F3FE}`, entity: `&#x1F93E&#x1F3FE`, name: `Person Playing Handball: Medium-Dark Skin Tone` },
+      { emoji: `\u{1F93E}\u{1F3FF}`, entity: `&#x1F93E&#x1F3FF`, name: `Person Playing Handball: Dark Skin Tone` },
+      { emoji: `\u{1F93E}\u{200D}\u{2642}\u{FE0F}`, entity: `&#x1F93E&#x200D&#x2642&#xFE0F`, name: `Man Playing Handball` },
+      { emoji: `\u{1F93E}\u{1F3FB}\u{200D}\u{2642}\u{FE0F}`, entity: `&#x1F93E&#x1F3FB&#x200D&#x2642&#xFE0F`, name: `Man Playing Handball: Light Skin Tone` },
+      { emoji: `\u{1F93E}\u{1F3FC}\u{200D}\u{2642}\u{FE0F}`, entity: `&#x1F93E&#x1F3FC&#x200D&#x2642&#xFE0F`, name: `Man Playing Handball: Medium-Light Skin Tone` },
+      { emoji: `\u{1F93E}\u{1F3FD}\u{200D}\u{2642}\u{FE0F}`, entity: `&#x1F93E&#x1F3FD&#x200D&#x2642&#xFE0F`, name: `Man Playing Handball: Medium Skin Tone` },
+      { emoji: `\u{1F93E}\u{1F3FE}\u{200D}\u{2642}\u{FE0F}`, entity: `&#x1F93E&#x1F3FE&#x200D&#x2642&#xFE0F`, name: `Man Playing Handball: Medium-Dark Skin Tone` },
+      { emoji: `\u{1F93E}\u{1F3FF}\u{200D}\u{2642}\u{FE0F}`, entity: `&#x1F93E&#x1F3FF&#x200D&#x2642&#xFE0F`, name: `Man Playing Handball: Dark Skin Tone` },
+      { emoji: `\u{1F93E}\u{200D}\u{2640}\u{FE0F}`, entity: `&#x1F93E&#x200D&#x2640&#xFE0F`, name: `Woman Playing Handball` },
+      { emoji: `\u{1F93E}\u{1F3FB}\u{200D}\u{2640}\u{FE0F}`, entity: `&#x1F93E&#x1F3FB&#x200D&#x2640&#xFE0F`, name: `Woman Playing Handball: Light Skin Tone` },
+      { emoji: `\u{1F93E}\u{1F3FC}\u{200D}\u{2640}\u{FE0F}`, entity: `&#x1F93E&#x1F3FC&#x200D&#x2640&#xFE0F`, name: `Woman Playing Handball: Medium-Light Skin Tone` },
+      { emoji: `\u{1F93E}\u{1F3FD}\u{200D}\u{2640}\u{FE0F}`, entity: `&#x1F93E&#x1F3FD&#x200D&#x2640&#xFE0F`, name: `Woman Playing Handball: Medium Skin Tone` },
+      { emoji: `\u{1F93E}\u{1F3FE}\u{200D}\u{2640}\u{FE0F}`, entity: `&#x1F93E&#x1F3FE&#x200D&#x2640&#xFE0F`, name: `Woman Playing Handball: Medium-Dark Skin Tone` },
+      { emoji: `\u{1F93E}\u{1F3FF}\u{200D}\u{2640}\u{FE0F}`, entity: `&#x1F93E&#x1F3FF&#x200D&#x2640&#xFE0F`, name: `Woman Playing Handball: Dark Skin Tone` },
+      { emoji: `\u{1F939}`, entity: `&#x1F939`, name: `Person Juggling` },
+      { emoji: `\u{1F939}\u{1F3FB}`, entity: `&#x1F939&#x1F3FB`, name: `Person Juggling: Light Skin Tone` },
+      { emoji: `\u{1F939}\u{1F3FC}`, entity: `&#x1F939&#x1F3FC`, name: `Person Juggling: Medium-Light Skin Tone` },
+      { emoji: `\u{1F939}\u{1F3FD}`, entity: `&#x1F939&#x1F3FD`, name: `Person Juggling: Medium Skin Tone` },
+      { emoji: `\u{1F939}\u{1F3FE}`, entity: `&#x1F939&#x1F3FE`, name: `Person Juggling: Medium-Dark Skin Tone` },
+      { emoji: `\u{1F939}\u{1F3FF}`, entity: `&#x1F939&#x1F3FF`, name: `Person Juggling: Dark Skin Tone` },
+      { emoji: `\u{1F939}\u{200D}\u{2642}\u{FE0F}`, entity: `&#x1F939&#x200D&#x2642&#xFE0F`, name: `Man Juggling` },
+      { emoji: `\u{1F939}\u{1F3FB}\u{200D}\u{2642}\u{FE0F}`, entity: `&#x1F939&#x1F3FB&#x200D&#x2642&#xFE0F`, name: `Man Juggling: Light Skin Tone` },
+      { emoji: `\u{1F939}\u{1F3FC}\u{200D}\u{2642}\u{FE0F}`, entity: `&#x1F939&#x1F3FC&#x200D&#x2642&#xFE0F`, name: `Man Juggling: Medium-Light Skin Tone` },
+      { emoji: `\u{1F939}\u{1F3FD}\u{200D}\u{2642}\u{FE0F}`, entity: `&#x1F939&#x1F3FD&#x200D&#x2642&#xFE0F`, name: `Man Juggling: Medium Skin Tone` },
+      { emoji: `\u{1F939}\u{1F3FE}\u{200D}\u{2642}\u{FE0F}`, entity: `&#x1F939&#x1F3FE&#x200D&#x2642&#xFE0F`, name: `Man Juggling: Medium-Dark Skin Tone` },
+      { emoji: `\u{1F939}\u{1F3FF}\u{200D}\u{2642}\u{FE0F}`, entity: `&#x1F939&#x1F3FF&#x200D&#x2642&#xFE0F`, name: `Man Juggling: Dark Skin Tone` },
+      { emoji: `\u{1F939}\u{200D}\u{2640}\u{FE0F}`, entity: `&#x1F939&#x200D&#x2640&#xFE0F`, name: `Woman Juggling` },
+      { emoji: `\u{1F939}\u{1F3FB}\u{200D}\u{2640}\u{FE0F}`, entity: `&#x1F939&#x1F3FB&#x200D&#x2640&#xFE0F`, name: `Woman Juggling: Light Skin Tone` },
+      { emoji: `\u{1F939}\u{1F3FC}\u{200D}\u{2640}\u{FE0F}`, entity: `&#x1F939&#x1F3FC&#x200D&#x2640&#xFE0F`, name: `Woman Juggling: Medium-Light Skin Tone` },
+      { emoji: `\u{1F939}\u{1F3FD}\u{200D}\u{2640}\u{FE0F}`, entity: `&#x1F939&#x1F3FD&#x200D&#x2640&#xFE0F`, name: `Woman Juggling: Medium Skin Tone` },
+      { emoji: `\u{1F939}\u{1F3FE}\u{200D}\u{2640}\u{FE0F}`, entity: `&#x1F939&#x1F3FE&#x200D&#x2640&#xFE0F`, name: `Woman Juggling: Medium-Dark Skin Tone` },
+      { emoji: `\u{1F939}\u{1F3FF}\u{200D}\u{2640}\u{FE0F}`, entity: `&#x1F939&#x1F3FF&#x200D&#x2640&#xFE0F`, name: `Woman Juggling: Dark Skin Tone` },
+      { emoji: `\u{1F46B}`, entity: `&#x1F46B`, name: `Man And Woman Holding Hands` },
+      { emoji: `\u{1F46C}`, entity: `&#x1F46C`, name: `Two Men Holding Hands` },
+      { emoji: `\u{1F46D}`, entity: `&#x1F46D`, name: `Two Women Holding Hands` },
+      { emoji: `\u{1F48F}`, entity: `&#x1F48F`, name: `Kiss` },
+      { emoji: `\u{1F469}\u{200D}\u{2764}\u{FE0F}\u{200D}\u{1F48B}\u{200D}\u{1F468}`, entity: `&#x1F469&#x200D&#x2764&#xFE0F&#x200D&#x1F48B&#x200D&#x1F468`, name: `Kiss: Woman, Man` },
+      { emoji: `\u{1F468}\u{200D}\u{2764}\u{FE0F}\u{200D}\u{1F48B}\u{200D}\u{1F468}`, entity: `&#x1F468&#x200D&#x2764&#xFE0F&#x200D&#x1F48B&#x200D&#x1F468`, name: `Kiss: Man, Man` },
+      { emoji: `\u{1F469}\u{200D}\u{2764}\u{FE0F}\u{200D}\u{1F48B}\u{200D}\u{1F469}`, entity: `&#x1F469&#x200D&#x2764&#xFE0F&#x200D&#x1F48B&#x200D&#x1F469`, name: `Kiss: Woman, Woman` },
+      { emoji: `\u{1F491}`, entity: `&#x1F491`, name: `Couple With Heart` },
+      { emoji: `\u{1F469}\u{200D}\u{2764}\u{FE0F}\u{200D}\u{1F468}`, entity: `&#x1F469&#x200D&#x2764&#xFE0F&#x200D&#x1F468`, name: `Couple With Heart: Woman, Man` },
+      { emoji: `\u{1F468}\u{200D}\u{2764}\u{FE0F}\u{200D}\u{1F468}`, entity: `&#x1F468&#x200D&#x2764&#xFE0F&#x200D&#x1F468`, name: `Couple With Heart: Man, Man` },
+      { emoji: `\u{1F469}\u{200D}\u{2764}\u{FE0F}\u{200D}\u{1F469}`, entity: `&#x1F469&#x200D&#x2764&#xFE0F&#x200D&#x1F469`, name: `Couple With Heart: Woman, Woman` },
+      { emoji: `\u{1F46A}`, entity: `&#x1F46A`, name: `Family` },
+      { emoji: `\u{1F468}\u{200D}\u{1F469}\u{200D}\u{1F466}`, entity: `&#x1F468&#x200D&#x1F469&#x200D&#x1F466`, name: `Family: Man, Woman, Boy` },
+      { emoji: `\u{1F468}\u{200D}\u{1F469}\u{200D}\u{1F467}`, entity: `&#x1F468&#x200D&#x1F469&#x200D&#x1F467`, name: `Family: Man, Woman, Girl` },
+      { emoji: `\u{1F468}\u{200D}\u{1F469}\u{200D}\u{1F467}\u{200D}\u{1F466}`, entity: `&#x1F468&#x200D&#x1F469&#x200D&#x1F467&#x200D&#x1F466`, name: `Family: Man, Woman, Girl, Boy` },
+      { emoji: `\u{1F468}\u{200D}\u{1F469}\u{200D}\u{1F466}\u{200D}\u{1F466}`, entity: `&#x1F468&#x200D&#x1F469&#x200D&#x1F466&#x200D&#x1F466`, name: `Family: Man, Woman, Boy, Boy` },
+      { emoji: `\u{1F468}\u{200D}\u{1F469}\u{200D}\u{1F467}\u{200D}\u{1F467}`, entity: `&#x1F468&#x200D&#x1F469&#x200D&#x1F467&#x200D&#x1F467`, name: `Family: Man, Woman, Girl, Girl` },
+      { emoji: `\u{1F468}\u{200D}\u{1F468}\u{200D}\u{1F466}`, entity: `&#x1F468&#x200D&#x1F468&#x200D&#x1F466`, name: `Family: Man, Man, Boy` },
+      { emoji: `\u{1F468}\u{200D}\u{1F468}\u{200D}\u{1F467}`, entity: `&#x1F468&#x200D&#x1F468&#x200D&#x1F467`, name: `Family: Man, Man, Girl` },
+      { emoji: `\u{1F468}\u{200D}\u{1F468}\u{200D}\u{1F467}\u{200D}\u{1F466}`, entity: `&#x1F468&#x200D&#x1F468&#x200D&#x1F467&#x200D&#x1F466`, name: `Family: Man, Man, Girl, Boy` },
+      { emoji: `\u{1F468}\u{200D}\u{1F468}\u{200D}\u{1F466}\u{200D}\u{1F466}`, entity: `&#x1F468&#x200D&#x1F468&#x200D&#x1F466&#x200D&#x1F466`, name: `Family: Man, Man, Boy, Boy` },
+      { emoji: `\u{1F468}\u{200D}\u{1F468}\u{200D}\u{1F467}\u{200D}\u{1F467}`, entity: `&#x1F468&#x200D&#x1F468&#x200D&#x1F467&#x200D&#x1F467`, name: `Family: Man, Man, Girl, Girl` },
+      { emoji: `\u{1F469}\u{200D}\u{1F469}\u{200D}\u{1F466}`, entity: `&#x1F469&#x200D&#x1F469&#x200D&#x1F466`, name: `Family: Woman, Woman, Boy` },
+      { emoji: `\u{1F469}\u{200D}\u{1F469}\u{200D}\u{1F467}`, entity: `&#x1F469&#x200D&#x1F469&#x200D&#x1F467`, name: `Family: Woman, Woman, Girl` },
+      { emoji: `\u{1F469}\u{200D}\u{1F469}\u{200D}\u{1F467}\u{200D}\u{1F466}`, entity: `&#x1F469&#x200D&#x1F469&#x200D&#x1F467&#x200D&#x1F466`, name: `Family: Woman, Woman, Girl, Boy` },
+      { emoji: `\u{1F469}\u{200D}\u{1F469}\u{200D}\u{1F466}\u{200D}\u{1F466}`, entity: `&#x1F469&#x200D&#x1F469&#x200D&#x1F466&#x200D&#x1F466`, name: `Family: Woman, Woman, Boy, Boy` },
+      { emoji: `\u{1F469}\u{200D}\u{1F469}\u{200D}\u{1F467}\u{200D}\u{1F467}`, entity: `&#x1F469&#x200D&#x1F469&#x200D&#x1F467&#x200D&#x1F467`, name: `Family: Woman, Woman, Girl, Girl` },
+      { emoji: `\u{1F468}\u{200D}\u{1F466}`, entity: `&#x1F468&#x200D&#x1F466`, name: `Family: Man, Boy` },
+      { emoji: `\u{1F468}\u{200D}\u{1F466}\u{200D}\u{1F466}`, entity: `&#x1F468&#x200D&#x1F466&#x200D&#x1F466`, name: `Family: Man, Boy, Boy` },
+      { emoji: `\u{1F468}\u{200D}\u{1F467}`, entity: `&#x1F468&#x200D&#x1F467`, name: `Family: Man, Girl` },
+      { emoji: `\u{1F468}\u{200D}\u{1F467}\u{200D}\u{1F466}`, entity: `&#x1F468&#x200D&#x1F467&#x200D&#x1F466`, name: `Family: Man, Girl, Boy` },
+      { emoji: `\u{1F468}\u{200D}\u{1F467}\u{200D}\u{1F467}`, entity: `&#x1F468&#x200D&#x1F467&#x200D&#x1F467`, name: `Family: Man, Girl, Girl` },
+      { emoji: `\u{1F469}\u{200D}\u{1F466}`, entity: `&#x1F469&#x200D&#x1F466`, name: `Family: Woman, Boy` },
+      { emoji: `\u{1F469}\u{200D}\u{1F466}\u{200D}\u{1F466}`, entity: `&#x1F469&#x200D&#x1F466&#x200D&#x1F466`, name: `Family: Woman, Boy, Boy` },
+      { emoji: `\u{1F469}\u{200D}\u{1F467}`, entity: `&#x1F469&#x200D&#x1F467`, name: `Family: Woman, Girl` },
+      { emoji: `\u{1F469}\u{200D}\u{1F467}\u{200D}\u{1F466}`, entity: `&#x1F469&#x200D&#x1F467&#x200D&#x1F466`, name: `Family: Woman, Girl, Boy` },
+      { emoji: `\u{1F469}\u{200D}\u{1F467}\u{200D}\u{1F467}`, entity: `&#x1F469&#x200D&#x1F467&#x200D&#x1F467`, name: `Family: Woman, Girl, Girl` },
+      { emoji: `\u{1F3FB}`, entity: `&#x1F3FB`, name: `Light Skin Tone` },
+      { emoji: `\u{1F3FC}`, entity: `&#x1F3FC`, name: `Medium-Light Skin Tone` },
+      { emoji: `\u{1F3FD}`, entity: `&#x1F3FD`, name: `Medium Skin Tone` },
+      { emoji: `\u{1F3FE}`, entity: `&#x1F3FE`, name: `Medium-Dark Skin Tone` },
+      { emoji: `\u{1F3FF}`, entity: `&#x1F3FF`, name: `Dark Skin Tone` },
+      { emoji: `\u{1F4AA}`, entity: `&#x1F4AA`, name: `Flexed Biceps` },
+      { emoji: `\u{1F4AA}\u{1F3FB}`, entity: `&#x1F4AA&#x1F3FB`, name: `Flexed Biceps: Light Skin Tone` },
+      { emoji: `\u{1F4AA}\u{1F3FC}`, entity: `&#x1F4AA&#x1F3FC`, name: `Flexed Biceps: Medium-Light Skin Tone` },
+      { emoji: `\u{1F4AA}\u{1F3FD}`, entity: `&#x1F4AA&#x1F3FD`, name: `Flexed Biceps: Medium Skin Tone` },
+      { emoji: `\u{1F4AA}\u{1F3FE}`, entity: `&#x1F4AA&#x1F3FE`, name: `Flexed Biceps: Medium-Dark Skin Tone` },
+      { emoji: `\u{1F4AA}\u{1F3FF}`, entity: `&#x1F4AA&#x1F3FF`, name: `Flexed Biceps: Dark Skin Tone` },
+      { emoji: `\u{1F933}`, entity: `&#x1F933`, name: `Selfie` },
+      { emoji: `\u{1F933}\u{1F3FB}`, entity: `&#x1F933&#x1F3FB`, name: `Selfie: Light Skin Tone` },
+      { emoji: `\u{1F933}\u{1F3FC}`, entity: `&#x1F933&#x1F3FC`, name: `Selfie: Medium-Light Skin Tone` },
+      { emoji: `\u{1F933}\u{1F3FD}`, entity: `&#x1F933&#x1F3FD`, name: `Selfie: Medium Skin Tone` },
+      { emoji: `\u{1F933}\u{1F3FE}`, entity: `&#x1F933&#x1F3FE`, name: `Selfie: Medium-Dark Skin Tone` },
+      { emoji: `\u{1F933}\u{1F3FF}`, entity: `&#x1F933&#x1F3FF`, name: `Selfie: Dark Skin Tone` },
+      { emoji: `\u{1F448}`, entity: `&#x1F448`, name: `Backhand Index Pointing Left` },
+      { emoji: `\u{1F448}\u{1F3FB}`, entity: `&#x1F448&#x1F3FB`, name: `Backhand Index Pointing Left: Light Skin Tone` },
+      { emoji: `\u{1F448}\u{1F3FC}`, entity: `&#x1F448&#x1F3FC`, name: `Backhand Index Pointing Left: Medium-Light Skin Tone` },
+      { emoji: `\u{1F448}\u{1F3FD}`, entity: `&#x1F448&#x1F3FD`, name: `Backhand Index Pointing Left: Medium Skin Tone` },
+      { emoji: `\u{1F448}\u{1F3FE}`, entity: `&#x1F448&#x1F3FE`, name: `Backhand Index Pointing Left: Medium-Dark Skin Tone` },
+      { emoji: `\u{1F448}\u{1F3FF}`, entity: `&#x1F448&#x1F3FF`, name: `Backhand Index Pointing Left: Dark Skin Tone` },
+      { emoji: `\u{1F449}`, entity: `&#x1F449`, name: `Backhand Index Pointing Right` },
+      { emoji: `\u{1F449}\u{1F3FB}`, entity: `&#x1F449&#x1F3FB`, name: `Backhand Index Pointing Right: Light Skin Tone` },
+      { emoji: `\u{1F449}\u{1F3FC}`, entity: `&#x1F449&#x1F3FC`, name: `Backhand Index Pointing Right: Medium-Light Skin Tone` },
+      { emoji: `\u{1F449}\u{1F3FD}`, entity: `&#x1F449&#x1F3FD`, name: `Backhand Index Pointing Right: Medium Skin Tone` },
+      { emoji: `\u{1F449}\u{1F3FE}`, entity: `&#x1F449&#x1F3FE`, name: `Backhand Index Pointing Right: Medium-Dark Skin Tone` },
+      { emoji: `\u{1F449}\u{1F3FF}`, entity: `&#x1F449&#x1F3FF`, name: `Backhand Index Pointing Right: Dark Skin Tone` },
+      { emoji: `\u{261D}`, entity: `&#x261D`, name: `Index Pointing Up` },
+      { emoji: `\u{261D}\u{1F3FB}`, entity: `&#x261D&#x1F3FB`, name: `Index Pointing Up: Light Skin Tone` },
+      { emoji: `\u{261D}\u{1F3FC}`, entity: `&#x261D&#x1F3FC`, name: `Index Pointing Up: Medium-Light Skin Tone` },
+      { emoji: `\u{261D}\u{1F3FD}`, entity: `&#x261D&#x1F3FD`, name: `Index Pointing Up: Medium Skin Tone` },
+      { emoji: `\u{261D}\u{1F3FE}`, entity: `&#x261D&#x1F3FE`, name: `Index Pointing Up: Medium-Dark Skin Tone` },
+      { emoji: `\u{261D}\u{1F3FF}`, entity: `&#x261D&#x1F3FF`, name: `Index Pointing Up: Dark Skin Tone` },
+      { emoji: `\u{1F446}`, entity: `&#x1F446`, name: `Backhand Index Pointing Up` },
+      { emoji: `\u{1F446}\u{1F3FB}`, entity: `&#x1F446&#x1F3FB`, name: `Backhand Index Pointing Up: Light Skin Tone` },
+      { emoji: `\u{1F446}\u{1F3FC}`, entity: `&#x1F446&#x1F3FC`, name: `Backhand Index Pointing Up: Medium-Light Skin Tone` },
+      { emoji: `\u{1F446}\u{1F3FD}`, entity: `&#x1F446&#x1F3FD`, name: `Backhand Index Pointing Up: Medium Skin Tone` },
+      { emoji: `\u{1F446}\u{1F3FE}`, entity: `&#x1F446&#x1F3FE`, name: `Backhand Index Pointing Up: Medium-Dark Skin Tone` },
+      { emoji: `\u{1F446}\u{1F3FF}`, entity: `&#x1F446&#x1F3FF`, name: `Backhand Index Pointing Up: Dark Skin Tone` },
+      { emoji: `\u{1F595}`, entity: `&#x1F595`, name: `Middle Finger` },
+      { emoji: `\u{1F595}\u{1F3FB}`, entity: `&#x1F595&#x1F3FB`, name: `Middle Finger: Light Skin Tone` },
+      { emoji: `\u{1F595}\u{1F3FC}`, entity: `&#x1F595&#x1F3FC`, name: `Middle Finger: Medium-Light Skin Tone` },
+      { emoji: `\u{1F595}\u{1F3FD}`, entity: `&#x1F595&#x1F3FD`, name: `Middle Finger: Medium Skin Tone` },
+      { emoji: `\u{1F595}\u{1F3FE}`, entity: `&#x1F595&#x1F3FE`, name: `Middle Finger: Medium-Dark Skin Tone` },
+      { emoji: `\u{1F595}\u{1F3FF}`, entity: `&#x1F595&#x1F3FF`, name: `Middle Finger: Dark Skin Tone` },
+      { emoji: `\u{1F447}`, entity: `&#x1F447`, name: `Backhand Index Pointing Down` },
+      { emoji: `\u{1F447}\u{1F3FB}`, entity: `&#x1F447&#x1F3FB`, name: `Backhand Index Pointing Down: Light Skin Tone` },
+      { emoji: `\u{1F447}\u{1F3FC}`, entity: `&#x1F447&#x1F3FC`, name: `Backhand Index Pointing Down: Medium-Light Skin Tone` },
+      { emoji: `\u{1F447}\u{1F3FD}`, entity: `&#x1F447&#x1F3FD`, name: `Backhand Index Pointing Down: Medium Skin Tone` },
+      { emoji: `\u{1F447}\u{1F3FE}`, entity: `&#x1F447&#x1F3FE`, name: `Backhand Index Pointing Down: Medium-Dark Skin Tone` },
+      { emoji: `\u{1F447}\u{1F3FF}`, entity: `&#x1F447&#x1F3FF`, name: `Backhand Index Pointing Down: Dark Skin Tone` },
+      { emoji: `\u{270C}`, entity: `&#x270C`, name: `Victory Hand` },
+      { emoji: `\u{270C}\u{1F3FB}`, entity: `&#x270C&#x1F3FB`, name: `Victory Hand: Light Skin Tone` },
+      { emoji: `\u{270C}\u{1F3FC}`, entity: `&#x270C&#x1F3FC`, name: `Victory Hand: Medium-Light Skin Tone` },
+      { emoji: `\u{270C}\u{1F3FD}`, entity: `&#x270C&#x1F3FD`, name: `Victory Hand: Medium Skin Tone` },
+      { emoji: `\u{270C}\u{1F3FE}`, entity: `&#x270C&#x1F3FE`, name: `Victory Hand: Medium-Dark Skin Tone` },
+      { emoji: `\u{270C}\u{1F3FF}`, entity: `&#x270C&#x1F3FF`, name: `Victory Hand: Dark Skin Tone` },
+      { emoji: `\u{1F91E}`, entity: `&#x1F91E`, name: `Crossed Fingers` },
+      { emoji: `\u{1F91E}\u{1F3FB}`, entity: `&#x1F91E&#x1F3FB`, name: `Crossed Fingers: Light Skin Tone` },
+      { emoji: `\u{1F91E}\u{1F3FC}`, entity: `&#x1F91E&#x1F3FC`, name: `Crossed Fingers: Medium-Light Skin Tone` },
+      { emoji: `\u{1F91E}\u{1F3FD}`, entity: `&#x1F91E&#x1F3FD`, name: `Crossed Fingers: Medium Skin Tone` },
+      { emoji: `\u{1F91E}\u{1F3FE}`, entity: `&#x1F91E&#x1F3FE`, name: `Crossed Fingers: Medium-Dark Skin Tone` },
+      { emoji: `\u{1F91E}\u{1F3FF}`, entity: `&#x1F91E&#x1F3FF`, name: `Crossed Fingers: Dark Skin Tone` },
+      { emoji: `\u{1F596}`, entity: `&#x1F596`, name: `Vulcan Salute` },
+      { emoji: `\u{1F596}\u{1F3FB}`, entity: `&#x1F596&#x1F3FB`, name: `Vulcan Salute: Light Skin Tone` },
+      { emoji: `\u{1F596}\u{1F3FC}`, entity: `&#x1F596&#x1F3FC`, name: `Vulcan Salute: Medium-Light Skin Tone` },
+      { emoji: `\u{1F596}\u{1F3FD}`, entity: `&#x1F596&#x1F3FD`, name: `Vulcan Salute: Medium Skin Tone` },
+      { emoji: `\u{1F596}\u{1F3FE}`, entity: `&#x1F596&#x1F3FE`, name: `Vulcan Salute: Medium-Dark Skin Tone` },
+      { emoji: `\u{1F596}\u{1F3FF}`, entity: `&#x1F596&#x1F3FF`, name: `Vulcan Salute: Dark Skin Tone` },
+      { emoji: `\u{1F918}`, entity: `&#x1F918`, name: `Sign Of The Horns` },
+      { emoji: `\u{1F918}\u{1F3FB}`, entity: `&#x1F918&#x1F3FB`, name: `Sign Of The Horns: Light Skin Tone` },
+      { emoji: `\u{1F918}\u{1F3FC}`, entity: `&#x1F918&#x1F3FC`, name: `Sign Of The Horns: Medium-Light Skin Tone` },
+      { emoji: `\u{1F918}\u{1F3FD}`, entity: `&#x1F918&#x1F3FD`, name: `Sign Of The Horns: Medium Skin Tone` },
+      { emoji: `\u{1F918}\u{1F3FE}`, entity: `&#x1F918&#x1F3FE`, name: `Sign Of The Horns: Medium-Dark Skin Tone` },
+      { emoji: `\u{1F918}\u{1F3FF}`, entity: `&#x1F918&#x1F3FF`, name: `Sign Of The Horns: Dark Skin Tone` },
+      { emoji: `\u{1F919}`, entity: `&#x1F919`, name: `Call Me Hand` },
+      { emoji: `\u{1F919}\u{1F3FB}`, entity: `&#x1F919&#x1F3FB`, name: `Call Me Hand: Light Skin Tone` },
+      { emoji: `\u{1F919}\u{1F3FC}`, entity: `&#x1F919&#x1F3FC`, name: `Call Me Hand: Medium-Light Skin Tone` },
+      { emoji: `\u{1F919}\u{1F3FD}`, entity: `&#x1F919&#x1F3FD`, name: `Call Me Hand: Medium Skin Tone` },
+      { emoji: `\u{1F919}\u{1F3FE}`, entity: `&#x1F919&#x1F3FE`, name: `Call Me Hand: Medium-Dark Skin Tone` },
+      { emoji: `\u{1F919}\u{1F3FF}`, entity: `&#x1F919&#x1F3FF`, name: `Call Me Hand: Dark Skin Tone` },
+      { emoji: `\u{1F590}`, entity: `&#x1F590`, name: `Raised Hand With Fingers Splayed` },
+      { emoji: `\u{1F590}\u{1F3FB}`, entity: `&#x1F590&#x1F3FB`, name: `Raised Hand With Fingers Splayed: Light Skin Tone` },
+      { emoji: `\u{1F590}\u{1F3FC}`, entity: `&#x1F590&#x1F3FC`, name: `Raised Hand With Fingers Splayed: Medium-Light Skin Tone` },
+      { emoji: `\u{1F590}\u{1F3FD}`, entity: `&#x1F590&#x1F3FD`, name: `Raised Hand With Fingers Splayed: Medium Skin Tone` },
+      { emoji: `\u{1F590}\u{1F3FE}`, entity: `&#x1F590&#x1F3FE`, name: `Raised Hand With Fingers Splayed: Medium-Dark Skin Tone` },
+      { emoji: `\u{1F590}\u{1F3FF}`, entity: `&#x1F590&#x1F3FF`, name: `Raised Hand With Fingers Splayed: Dark Skin Tone` },
+      { emoji: `\u{270B}`, entity: `&#x270B`, name: `Raised Hand` },
+      { emoji: `\u{270B}\u{1F3FB}`, entity: `&#x270B&#x1F3FB`, name: `Raised Hand: Light Skin Tone` },
+      { emoji: `\u{270B}\u{1F3FC}`, entity: `&#x270B&#x1F3FC`, name: `Raised Hand: Medium-Light Skin Tone` },
+      { emoji: `\u{270B}\u{1F3FD}`, entity: `&#x270B&#x1F3FD`, name: `Raised Hand: Medium Skin Tone` },
+      { emoji: `\u{270B}\u{1F3FE}`, entity: `&#x270B&#x1F3FE`, name: `Raised Hand: Medium-Dark Skin Tone` },
+      { emoji: `\u{270B}\u{1F3FF}`, entity: `&#x270B&#x1F3FF`, name: `Raised Hand: Dark Skin Tone` },
+      { emoji: `\u{1F44C}`, entity: `&#x1F44C`, name: `OK Hand` },
+      { emoji: `\u{1F44C}\u{1F3FB}`, entity: `&#x1F44C&#x1F3FB`, name: `OK Hand: Light Skin Tone` },
+      { emoji: `\u{1F44C}\u{1F3FC}`, entity: `&#x1F44C&#x1F3FC`, name: `OK Hand: Medium-Light Skin Tone` },
+      { emoji: `\u{1F44C}\u{1F3FD}`, entity: `&#x1F44C&#x1F3FD`, name: `OK Hand: Medium Skin Tone` },
+      { emoji: `\u{1F44C}\u{1F3FE}`, entity: `&#x1F44C&#x1F3FE`, name: `OK Hand: Medium-Dark Skin Tone` },
+      { emoji: `\u{1F44C}\u{1F3FF}`, entity: `&#x1F44C&#x1F3FF`, name: `OK Hand: Dark Skin Tone` },
+      { emoji: `\u{1F44D}`, entity: `&#x1F44D`, name: `Thumbs Up` },
+      { emoji: `\u{1F44D}\u{1F3FB}`, entity: `&#x1F44D&#x1F3FB`, name: `Thumbs Up: Light Skin Tone` },
+      { emoji: `\u{1F44D}\u{1F3FC}`, entity: `&#x1F44D&#x1F3FC`, name: `Thumbs Up: Medium-Light Skin Tone` },
+      { emoji: `\u{1F44D}\u{1F3FD}`, entity: `&#x1F44D&#x1F3FD`, name: `Thumbs Up: Medium Skin Tone` },
+      { emoji: `\u{1F44D}\u{1F3FE}`, entity: `&#x1F44D&#x1F3FE`, name: `Thumbs Up: Medium-Dark Skin Tone` },
+      { emoji: `\u{1F44D}\u{1F3FF}`, entity: `&#x1F44D&#x1F3FF`, name: `Thumbs Up: Dark Skin Tone` },
+      { emoji: `\u{1F44E}`, entity: `&#x1F44E`, name: `Thumbs Down` },
+      { emoji: `\u{1F44E}\u{1F3FB}`, entity: `&#x1F44E&#x1F3FB`, name: `Thumbs Down: Light Skin Tone` },
+      { emoji: `\u{1F44E}\u{1F3FC}`, entity: `&#x1F44E&#x1F3FC`, name: `Thumbs Down: Medium-Light Skin Tone` },
+      { emoji: `\u{1F44E}\u{1F3FD}`, entity: `&#x1F44E&#x1F3FD`, name: `Thumbs Down: Medium Skin Tone` },
+      { emoji: `\u{1F44E}\u{1F3FE}`, entity: `&#x1F44E&#x1F3FE`, name: `Thumbs Down: Medium-Dark Skin Tone` },
+      { emoji: `\u{1F44E}\u{1F3FF}`, entity: `&#x1F44E&#x1F3FF`, name: `Thumbs Down: Dark Skin Tone` },
+      { emoji: `\u{270A}`, entity: `&#x270A`, name: `Raised Fist` },
+      { emoji: `\u{270A}\u{1F3FB}`, entity: `&#x270A&#x1F3FB`, name: `Raised Fist: Light Skin Tone` },
+      { emoji: `\u{270A}\u{1F3FC}`, entity: `&#x270A&#x1F3FC`, name: `Raised Fist: Medium-Light Skin Tone` },
+      { emoji: `\u{270A}\u{1F3FD}`, entity: `&#x270A&#x1F3FD`, name: `Raised Fist: Medium Skin Tone` },
+      { emoji: `\u{270A}\u{1F3FE}`, entity: `&#x270A&#x1F3FE`, name: `Raised Fist: Medium-Dark Skin Tone` },
+      { emoji: `\u{270A}\u{1F3FF}`, entity: `&#x270A&#x1F3FF`, name: `Raised Fist: Dark Skin Tone` },
+      { emoji: `\u{1F44A}`, entity: `&#x1F44A`, name: `Oncoming Fist` },
+      { emoji: `\u{1F44A}\u{1F3FB}`, entity: `&#x1F44A&#x1F3FB`, name: `Oncoming Fist: Light Skin Tone` },
+      { emoji: `\u{1F44A}\u{1F3FC}`, entity: `&#x1F44A&#x1F3FC`, name: `Oncoming Fist: Medium-Light Skin Tone` },
+      { emoji: `\u{1F44A}\u{1F3FD}`, entity: `&#x1F44A&#x1F3FD`, name: `Oncoming Fist: Medium Skin Tone` },
+      { emoji: `\u{1F44A}\u{1F3FE}`, entity: `&#x1F44A&#x1F3FE`, name: `Oncoming Fist: Medium-Dark Skin Tone` },
+      { emoji: `\u{1F44A}\u{1F3FF}`, entity: `&#x1F44A&#x1F3FF`, name: `Oncoming Fist: Dark Skin Tone` },
+      { emoji: `\u{1F91B}`, entity: `&#x1F91B`, name: `Left-Facing Fist` },
+      { emoji: `\u{1F91B}\u{1F3FB}`, entity: `&#x1F91B&#x1F3FB`, name: `Left-Facing Fist: Light Skin Tone` },
+      { emoji: `\u{1F91B}\u{1F3FC}`, entity: `&#x1F91B&#x1F3FC`, name: `Left-Facing Fist: Medium-Light Skin Tone` },
+      { emoji: `\u{1F91B}\u{1F3FD}`, entity: `&#x1F91B&#x1F3FD`, name: `Left-Facing Fist: Medium Skin Tone` },
+      { emoji: `\u{1F91B}\u{1F3FE}`, entity: `&#x1F91B&#x1F3FE`, name: `Left-Facing Fist: Medium-Dark Skin Tone` },
+      { emoji: `\u{1F91B}\u{1F3FF}`, entity: `&#x1F91B&#x1F3FF`, name: `Left-Facing Fist: Dark Skin Tone` },
+      { emoji: `\u{1F91C}`, entity: `&#x1F91C`, name: `Right-Facing Fist` },
+      { emoji: `\u{1F91C}\u{1F3FB}`, entity: `&#x1F91C&#x1F3FB`, name: `Right-Facing Fist: Light Skin Tone` },
+      { emoji: `\u{1F91C}\u{1F3FC}`, entity: `&#x1F91C&#x1F3FC`, name: `Right-Facing Fist: Medium-Light Skin Tone` },
+      { emoji: `\u{1F91C}\u{1F3FD}`, entity: `&#x1F91C&#x1F3FD`, name: `Right-Facing Fist: Medium Skin Tone` },
+      { emoji: `\u{1F91C}\u{1F3FE}`, entity: `&#x1F91C&#x1F3FE`, name: `Right-Facing Fist: Medium-Dark Skin Tone` },
+      { emoji: `\u{1F91C}\u{1F3FF}`, entity: `&#x1F91C&#x1F3FF`, name: `Right-Facing Fist: Dark Skin Tone` },
+      { emoji: `\u{1F91A}`, entity: `&#x1F91A`, name: `Raised Back Of Hand` },
+      { emoji: `\u{1F91A}\u{1F3FB}`, entity: `&#x1F91A&#x1F3FB`, name: `Raised Back Of Hand: Light Skin Tone` },
+      { emoji: `\u{1F91A}\u{1F3FC}`, entity: `&#x1F91A&#x1F3FC`, name: `Raised Back Of Hand: Medium-Light Skin Tone` },
+      { emoji: `\u{1F91A}\u{1F3FD}`, entity: `&#x1F91A&#x1F3FD`, name: `Raised Back Of Hand: Medium Skin Tone` },
+      { emoji: `\u{1F91A}\u{1F3FE}`, entity: `&#x1F91A&#x1F3FE`, name: `Raised Back Of Hand: Medium-Dark Skin Tone` },
+      { emoji: `\u{1F91A}\u{1F3FF}`, entity: `&#x1F91A&#x1F3FF`, name: `Raised Back Of Hand: Dark Skin Tone` },
+      { emoji: `\u{1F44B}`, entity: `&#x1F44B`, name: `Waving Hand` },
+      { emoji: `\u{1F44B}\u{1F3FB}`, entity: `&#x1F44B&#x1F3FB`, name: `Waving Hand: Light Skin Tone` },
+      { emoji: `\u{1F44B}\u{1F3FC}`, entity: `&#x1F44B&#x1F3FC`, name: `Waving Hand: Medium-Light Skin Tone` },
+      { emoji: `\u{1F44B}\u{1F3FD}`, entity: `&#x1F44B&#x1F3FD`, name: `Waving Hand: Medium Skin Tone` },
+      { emoji: `\u{1F44B}\u{1F3FE}`, entity: `&#x1F44B&#x1F3FE`, name: `Waving Hand: Medium-Dark Skin Tone` },
+      { emoji: `\u{1F44B}\u{1F3FF}`, entity: `&#x1F44B&#x1F3FF`, name: `Waving Hand: Dark Skin Tone` },
+      { emoji: `\u{1F44F}`, entity: `&#x1F44F`, name: `Clapping Hands` },
+      { emoji: `\u{1F44F}\u{1F3FB}`, entity: `&#x1F44F&#x1F3FB`, name: `Clapping Hands: Light Skin Tone` },
+      { emoji: `\u{1F44F}\u{1F3FC}`, entity: `&#x1F44F&#x1F3FC`, name: `Clapping Hands: Medium-Light Skin Tone` },
+      { emoji: `\u{1F44F}\u{1F3FD}`, entity: `&#x1F44F&#x1F3FD`, name: `Clapping Hands: Medium Skin Tone` },
+      { emoji: `\u{1F44F}\u{1F3FE}`, entity: `&#x1F44F&#x1F3FE`, name: `Clapping Hands: Medium-Dark Skin Tone` },
+      { emoji: `\u{1F44F}\u{1F3FF}`, entity: `&#x1F44F&#x1F3FF`, name: `Clapping Hands: Dark Skin Tone` },
+      { emoji: `\u{270D}`, entity: `&#x270D`, name: `Writing Hand` },
+      { emoji: `\u{270D}\u{1F3FB}`, entity: `&#x270D&#x1F3FB`, name: `Writing Hand: Light Skin Tone` },
+      { emoji: `\u{270D}\u{1F3FC}`, entity: `&#x270D&#x1F3FC`, name: `Writing Hand: Medium-Light Skin Tone` },
+      { emoji: `\u{270D}\u{1F3FD}`, entity: `&#x270D&#x1F3FD`, name: `Writing Hand: Medium Skin Tone` },
+      { emoji: `\u{270D}\u{1F3FE}`, entity: `&#x270D&#x1F3FE`, name: `Writing Hand: Medium-Dark Skin Tone` },
+      { emoji: `\u{270D}\u{1F3FF}`, entity: `&#x270D&#x1F3FF`, name: `Writing Hand: Dark Skin Tone` },
+      { emoji: `\u{1F450}`, entity: `&#x1F450`, name: `Open Hands` },
+      { emoji: `\u{1F450}\u{1F3FB}`, entity: `&#x1F450&#x1F3FB`, name: `Open Hands: Light Skin Tone` },
+      { emoji: `\u{1F450}\u{1F3FC}`, entity: `&#x1F450&#x1F3FC`, name: `Open Hands: Medium-Light Skin Tone` },
+      { emoji: `\u{1F450}\u{1F3FD}`, entity: `&#x1F450&#x1F3FD`, name: `Open Hands: Medium Skin Tone` },
+      { emoji: `\u{1F450}\u{1F3FE}`, entity: `&#x1F450&#x1F3FE`, name: `Open Hands: Medium-Dark Skin Tone` },
+      { emoji: `\u{1F450}\u{1F3FF}`, entity: `&#x1F450&#x1F3FF`, name: `Open Hands: Dark Skin Tone` },
+      { emoji: `\u{1F64C}`, entity: `&#x1F64C`, name: `Raising Hands` },
+      { emoji: `\u{1F64C}\u{1F3FB}`, entity: `&#x1F64C&#x1F3FB`, name: `Raising Hands: Light Skin Tone` },
+      { emoji: `\u{1F64C}\u{1F3FC}`, entity: `&#x1F64C&#x1F3FC`, name: `Raising Hands: Medium-Light Skin Tone` },
+      { emoji: `\u{1F64C}\u{1F3FD}`, entity: `&#x1F64C&#x1F3FD`, name: `Raising Hands: Medium Skin Tone` },
+      { emoji: `\u{1F64C}\u{1F3FE}`, entity: `&#x1F64C&#x1F3FE`, name: `Raising Hands: Medium-Dark Skin Tone` },
+      { emoji: `\u{1F64C}\u{1F3FF}`, entity: `&#x1F64C&#x1F3FF`, name: `Raising Hands: Dark Skin Tone` },
+      { emoji: `\u{1F64F}`, entity: `&#x1F64F`, name: `Folded Hands` },
+      { emoji: `\u{1F64F}\u{1F3FB}`, entity: `&#x1F64F&#x1F3FB`, name: `Folded Hands: Light Skin Tone` },
+      { emoji: `\u{1F64F}\u{1F3FC}`, entity: `&#x1F64F&#x1F3FC`, name: `Folded Hands: Medium-Light Skin Tone` },
+      { emoji: `\u{1F64F}\u{1F3FD}`, entity: `&#x1F64F&#x1F3FD`, name: `Folded Hands: Medium Skin Tone` },
+      { emoji: `\u{1F64F}\u{1F3FE}`, entity: `&#x1F64F&#x1F3FE`, name: `Folded Hands: Medium-Dark Skin Tone` },
+      { emoji: `\u{1F64F}\u{1F3FF}`, entity: `&#x1F64F&#x1F3FF`, name: `Folded Hands: Dark Skin Tone` },
+      { emoji: `\u{1F91D}`, entity: `&#x1F91D`, name: `Handshake` },
+      { emoji: `\u{1F485}`, entity: `&#x1F485`, name: `Nail Polish` },
+      { emoji: `\u{1F485}\u{1F3FB}`, entity: `&#x1F485&#x1F3FB`, name: `Nail Polish: Light Skin Tone` },
+      { emoji: `\u{1F485}\u{1F3FC}`, entity: `&#x1F485&#x1F3FC`, name: `Nail Polish: Medium-Light Skin Tone` },
+      { emoji: `\u{1F485}\u{1F3FD}`, entity: `&#x1F485&#x1F3FD`, name: `Nail Polish: Medium Skin Tone` },
+      { emoji: `\u{1F485}\u{1F3FE}`, entity: `&#x1F485&#x1F3FE`, name: `Nail Polish: Medium-Dark Skin Tone` },
+      { emoji: `\u{1F485}\u{1F3FF}`, entity: `&#x1F485&#x1F3FF`, name: `Nail Polish: Dark Skin Tone` },
+      { emoji: `\u{1F442}`, entity: `&#x1F442`, name: `Ear` },
+      { emoji: `\u{1F442}\u{1F3FB}`, entity: `&#x1F442&#x1F3FB`, name: `Ear: Light Skin Tone` },
+      { emoji: `\u{1F442}\u{1F3FC}`, entity: `&#x1F442&#x1F3FC`, name: `Ear: Medium-Light Skin Tone` },
+      { emoji: `\u{1F442}\u{1F3FD}`, entity: `&#x1F442&#x1F3FD`, name: `Ear: Medium Skin Tone` },
+      { emoji: `\u{1F442}\u{1F3FE}`, entity: `&#x1F442&#x1F3FE`, name: `Ear: Medium-Dark Skin Tone` },
+      { emoji: `\u{1F442}\u{1F3FF}`, entity: `&#x1F442&#x1F3FF`, name: `Ear: Dark Skin Tone` },
+      { emoji: `\u{1F443}`, entity: `&#x1F443`, name: `Nose` },
+      { emoji: `\u{1F443}\u{1F3FB}`, entity: `&#x1F443&#x1F3FB`, name: `Nose: Light Skin Tone` },
+      { emoji: `\u{1F443}\u{1F3FC}`, entity: `&#x1F443&#x1F3FC`, name: `Nose: Medium-Light Skin Tone` },
+      { emoji: `\u{1F443}\u{1F3FD}`, entity: `&#x1F443&#x1F3FD`, name: `Nose: Medium Skin Tone` },
+      { emoji: `\u{1F443}\u{1F3FE}`, entity: `&#x1F443&#x1F3FE`, name: `Nose: Medium-Dark Skin Tone` },
+      { emoji: `\u{1F443}\u{1F3FF}`, entity: `&#x1F443&#x1F3FF`, name: `Nose: Dark Skin Tone` },
+      { emoji: `\u{1F463}`, entity: `&#x1F463`, name: `Footprints` },
+      { emoji: `\u{1F440}`, entity: `&#x1F440`, name: `Eyes` },
+      { emoji: `\u{1F441}`, entity: `&#x1F441`, name: `Eye` },
+      { emoji: `\u{1F441}\u{FE0F}\u{200D}\u{1F5E8}\u{FE0F}`, entity: `&#x1F441&#xFE0F&#x200D&#x1F5E8&#xFE0F`, name: `Eye In Speech Bubble` },
+      { emoji: `\u{1F445}`, entity: `&#x1F445`, name: `Tongue` },
+      { emoji: `\u{1F444}`, entity: `&#x1F444`, name: `Mouth` },
+      { emoji: `\u{1F48B}`, entity: `&#x1F48B`, name: `Kiss Mark` },
+      { emoji: `\u{1F498}`, entity: `&#x1F498`, name: `Heart With Arrow` },
+      { emoji: `\u{2764}`, entity: `&#x2764`, name: `Red Heart` },
+      { emoji: `\u{1F493}`, entity: `&#x1F493`, name: `Beating Heart` },
+      { emoji: `\u{1F494}`, entity: `&#x1F494`, name: `Broken Heart` },
+      { emoji: `\u{1F495}`, entity: `&#x1F495`, name: `Two Hearts` },
+      { emoji: `\u{1F496}`, entity: `&#x1F496`, name: `Sparkling Heart` },
+      { emoji: `\u{1F497}`, entity: `&#x1F497`, name: `Growing Heart` },
+      { emoji: `\u{1F499}`, entity: `&#x1F499`, name: `Blue Heart` },
+      { emoji: `\u{1F49A}`, entity: `&#x1F49A`, name: `Green Heart` },
+      { emoji: `\u{1F49B}`, entity: `&#x1F49B`, name: `Yellow Heart` },
+      { emoji: `\u{1F49C}`, entity: `&#x1F49C`, name: `Purple Heart` },
+      { emoji: `\u{1F5A4}`, entity: `&#x1F5A4`, name: `Black Heart` },
+      { emoji: `\u{1F49D}`, entity: `&#x1F49D`, name: `Heart With Ribbon` },
+      { emoji: `\u{1F49E}`, entity: `&#x1F49E`, name: `Revolving Hearts` },
+      { emoji: `\u{1F49F}`, entity: `&#x1F49F`, name: `Heart Decoration` },
+      { emoji: `\u{2763}`, entity: `&#x2763`, name: `Heavy Heart Exclamation` },
+      { emoji: `\u{1F48C}`, entity: `&#x1F48C`, name: `Love Letter` },
+      { emoji: `\u{1F4A4}`, entity: `&#x1F4A4`, name: `Zzz` },
+      { emoji: `\u{1F4A2}`, entity: `&#x1F4A2`, name: `Anger Symbol` },
+      { emoji: `\u{1F4A3}`, entity: `&#x1F4A3`, name: `Bomb` },
+      { emoji: `\u{1F4A5}`, entity: `&#x1F4A5`, name: `Collision` },
+      { emoji: `\u{1F4A6}`, entity: `&#x1F4A6`, name: `Sweat Droplets` },
+      { emoji: `\u{1F4A8}`, entity: `&#x1F4A8`, name: `Dashing Away` },
+      { emoji: `\u{1F4AB}`, entity: `&#x1F4AB`, name: `Dizzy` },
+      { emoji: `\u{1F4AC}`, entity: `&#x1F4AC`, name: `Speech Balloon` },
+      { emoji: `\u{1F5E8}`, entity: `&#x1F5E8`, name: `Left Speech Bubble` },
+      { emoji: `\u{1F5EF}`, entity: `&#x1F5EF`, name: `Right Anger Bubble` },
+      { emoji: `\u{1F4AD}`, entity: `&#x1F4AD`, name: `Thought Balloon` },
+      { emoji: `\u{1F573}`, entity: `&#x1F573`, name: `Hole` },
+      { emoji: `\u{1F453}`, entity: `&#x1F453`, name: `Glasses` },
+      { emoji: `\u{1F576}`, entity: `&#x1F576`, name: `Sunglasses` },
+      { emoji: `\u{1F454}`, entity: `&#x1F454`, name: `Necktie` },
+      { emoji: `\u{1F455}`, entity: `&#x1F455`, name: `T-Shirt` },
+      { emoji: `\u{1F456}`, entity: `&#x1F456`, name: `Jeans` },
+      { emoji: `\u{1F457}`, entity: `&#x1F457`, name: `Dress` },
+      { emoji: `\u{1F458}`, entity: `&#x1F458`, name: `Kimono` },
+      { emoji: `\u{1F459}`, entity: `&#x1F459`, name: `Bikini` },
+      { emoji: `\u{1F45A}`, entity: `&#x1F45A`, name: `Woman’s Clothes` },
+      { emoji: `\u{1F45B}`, entity: `&#x1F45B`, name: `Purse` },
+      { emoji: `\u{1F45C}`, entity: `&#x1F45C`, name: `Handbag` },
+      { emoji: `\u{1F45D}`, entity: `&#x1F45D`, name: `Clutch Bag` },
+      { emoji: `\u{1F6CD}`, entity: `&#x1F6CD`, name: `Shopping Bags` },
+      { emoji: `\u{1F392}`, entity: `&#x1F392`, name: `School Backpack` },
+      { emoji: `\u{1F45E}`, entity: `&#x1F45E`, name: `Man’s Shoe` },
+      { emoji: `\u{1F45F}`, entity: `&#x1F45F`, name: `Running Shoe` },
+      { emoji: `\u{1F460}`, entity: `&#x1F460`, name: `High-Heeled Shoe` },
+      { emoji: `\u{1F461}`, entity: `&#x1F461`, name: `Woman’s Sandal` },
+      { emoji: `\u{1F462}`, entity: `&#x1F462`, name: `Woman’s Boot` },
+      { emoji: `\u{1F451}`, entity: `&#x1F451`, name: `Crown` },
+      { emoji: `\u{1F452}`, entity: `&#x1F452`, name: `Woman’s Hat` },
+      { emoji: `\u{1F3A9}`, entity: `&#x1F3A9`, name: `Top Hat` },
+      { emoji: `\u{1F393}`, entity: `&#x1F393`, name: `Graduation Cap` },
+      { emoji: `\u{26D1}`, entity: `&#x26D1`, name: `Rescue Worker’s Helmet` },
+      { emoji: `\u{1F4FF}`, entity: `&#x1F4FF`, name: `Prayer Beads` },
+      { emoji: `\u{1F484}`, entity: `&#x1F484`, name: `Lipstick` },
+      { emoji: `\u{1F48D}`, entity: `&#x1F48D`, name: `Ring` },
+      { emoji: `\u{1F48E}`, entity: `&#x1F48E`, name: `Gem Stone` },
+      { emoji: `\u{1F435}`, entity: `&#x1F435`, name: `Monkey Face` },
+      { emoji: `\u{1F412}`, entity: `&#x1F412`, name: `Monkey` },
+      { emoji: `\u{1F98D}`, entity: `&#x1F98D`, name: `Gorilla` },
+      { emoji: `\u{1F436}`, entity: `&#x1F436`, name: `Dog Face` },
+      { emoji: `\u{1F415}`, entity: `&#x1F415`, name: `Dog` },
+      { emoji: `\u{1F429}`, entity: `&#x1F429`, name: `Poodle` },
+      { emoji: `\u{1F43A}`, entity: `&#x1F43A`, name: `Wolf Face` },
+      { emoji: `\u{1F98A}`, entity: `&#x1F98A`, name: `Fox Face` },
+      { emoji: `\u{1F431}`, entity: `&#x1F431`, name: `Cat Face` },
+      { emoji: `\u{1F408}`, entity: `&#x1F408`, name: `Cat` },
+      { emoji: `\u{1F981}`, entity: `&#x1F981`, name: `Lion Face` },
+      { emoji: `\u{1F42F}`, entity: `&#x1F42F`, name: `Tiger Face` },
+      { emoji: `\u{1F405}`, entity: `&#x1F405`, name: `Tiger` },
+      { emoji: `\u{1F406}`, entity: `&#x1F406`, name: `Leopard` },
+      { emoji: `\u{1F434}`, entity: `&#x1F434`, name: `Horse Face` },
+      { emoji: `\u{1F40E}`, entity: `&#x1F40E`, name: `Horse` },
+      { emoji: `\u{1F98C}`, entity: `&#x1F98C`, name: `Deer` },
+      { emoji: `\u{1F984}`, entity: `&#x1F984`, name: `Unicorn Face` },
+      { emoji: `\u{1F42E}`, entity: `&#x1F42E`, name: `Cow Face` },
+      { emoji: `\u{1F402}`, entity: `&#x1F402`, name: `Ox` },
+      { emoji: `\u{1F403}`, entity: `&#x1F403`, name: `Water Buffalo` },
+      { emoji: `\u{1F404}`, entity: `&#x1F404`, name: `Cow` },
+      { emoji: `\u{1F437}`, entity: `&#x1F437`, name: `Pig Face` },
+      { emoji: `\u{1F416}`, entity: `&#x1F416`, name: `Pig` },
+      { emoji: `\u{1F417}`, entity: `&#x1F417`, name: `Boar` },
+      { emoji: `\u{1F43D}`, entity: `&#x1F43D`, name: `Pig Nose` },
+      { emoji: `\u{1F40F}`, entity: `&#x1F40F`, name: `Ram` },
+      { emoji: `\u{1F411}`, entity: `&#x1F411`, name: `Sheep` },
+      { emoji: `\u{1F410}`, entity: `&#x1F410`, name: `Goat` },
+      { emoji: `\u{1F42A}`, entity: `&#x1F42A`, name: `Camel` },
+      { emoji: `\u{1F42B}`, entity: `&#x1F42B`, name: `Two-Hump Camel` },
+      { emoji: `\u{1F418}`, entity: `&#x1F418`, name: `Elephant` },
+      { emoji: `\u{1F98F}`, entity: `&#x1F98F`, name: `Rhinoceros` },
+      { emoji: `\u{1F42D}`, entity: `&#x1F42D`, name: `Mouse Face` },
+      { emoji: `\u{1F401}`, entity: `&#x1F401`, name: `Mouse` },
+      { emoji: `\u{1F400}`, entity: `&#x1F400`, name: `Rat` },
+      { emoji: `\u{1F439}`, entity: `&#x1F439`, name: `Hamster Face` },
+      { emoji: `\u{1F430}`, entity: `&#x1F430`, name: `Rabbit Face` },
+      { emoji: `\u{1F407}`, entity: `&#x1F407`, name: `Rabbit` },
+      { emoji: `\u{1F43F}`, entity: `&#x1F43F`, name: `Chipmunk` },
+      { emoji: `\u{1F987}`, entity: `&#x1F987`, name: `Bat` },
+      { emoji: `\u{1F43B}`, entity: `&#x1F43B`, name: `Bear Face` },
+      { emoji: `\u{1F428}`, entity: `&#x1F428`, name: `Koala` },
+      { emoji: `\u{1F43C}`, entity: `&#x1F43C`, name: `Panda Face` },
+      { emoji: `\u{1F43E}`, entity: `&#x1F43E`, name: `Paw Prints` },
+      { emoji: `\u{1F983}`, entity: `&#x1F983`, name: `Turkey` },
+      { emoji: `\u{1F414}`, entity: `&#x1F414`, name: `Chicken` },
+      { emoji: `\u{1F413}`, entity: `&#x1F413`, name: `Rooster` },
+      { emoji: `\u{1F423}`, entity: `&#x1F423`, name: `Hatching Chick` },
+      { emoji: `\u{1F424}`, entity: `&#x1F424`, name: `Baby Chick` },
+      { emoji: `\u{1F425}`, entity: `&#x1F425`, name: `Front-Facing Baby Chick` },
+      { emoji: `\u{1F426}`, entity: `&#x1F426`, name: `Bird` },
+      { emoji: `\u{1F427}`, entity: `&#x1F427`, name: `Penguin` },
+      { emoji: `\u{1F54A}`, entity: `&#x1F54A`, name: `Dove` },
+      { emoji: `\u{1F985}`, entity: `&#x1F985`, name: `Eagle` },
+      { emoji: `\u{1F986}`, entity: `&#x1F986`, name: `Duck` },
+      { emoji: `\u{1F989}`, entity: `&#x1F989`, name: `Owl` },
+      { emoji: `\u{1F438}`, entity: `&#x1F438`, name: `Frog Face` },
+      { emoji: `\u{1F40A}`, entity: `&#x1F40A`, name: `Crocodile` },
+      { emoji: `\u{1F422}`, entity: `&#x1F422`, name: `Turtle` },
+      { emoji: `\u{1F98E}`, entity: `&#x1F98E`, name: `Lizard` },
+      { emoji: `\u{1F40D}`, entity: `&#x1F40D`, name: `Snake` },
+      { emoji: `\u{1F432}`, entity: `&#x1F432`, name: `Dragon Face` },
+      { emoji: `\u{1F409}`, entity: `&#x1F409`, name: `Dragon` },
+      { emoji: `\u{1F433}`, entity: `&#x1F433`, name: `Spouting Whale` },
+      { emoji: `\u{1F40B}`, entity: `&#x1F40B`, name: `Whale` },
+      { emoji: `\u{1F42C}`, entity: `&#x1F42C`, name: `Dolphin` },
+      { emoji: `\u{1F41F}`, entity: `&#x1F41F`, name: `Fish` },
+      { emoji: `\u{1F420}`, entity: `&#x1F420`, name: `Tropical Fish` },
+      { emoji: `\u{1F421}`, entity: `&#x1F421`, name: `Blowfish` },
+      { emoji: `\u{1F988}`, entity: `&#x1F988`, name: `Shark` },
+      { emoji: `\u{1F419}`, entity: `&#x1F419`, name: `Octopus` },
+      { emoji: `\u{1F41A}`, entity: `&#x1F41A`, name: `Spiral Shell` },
+      { emoji: `\u{1F980}`, entity: `&#x1F980`, name: `Crab` },
+      { emoji: `\u{1F990}`, entity: `&#x1F990`, name: `Shrimp` },
+      { emoji: `\u{1F991}`, entity: `&#x1F991`, name: `Squid` },
+      { emoji: `\u{1F98B}`, entity: `&#x1F98B`, name: `Butterfly` },
+      { emoji: `\u{1F40C}`, entity: `&#x1F40C`, name: `Snail` },
+      { emoji: `\u{1F41B}`, entity: `&#x1F41B`, name: `Bug` },
+      { emoji: `\u{1F41C}`, entity: `&#x1F41C`, name: `Ant` },
+      { emoji: `\u{1F41D}`, entity: `&#x1F41D`, name: `Honeybee` },
+      { emoji: `\u{1F41E}`, entity: `&#x1F41E`, name: `Lady Beetle` },
+      { emoji: `\u{1F577}`, entity: `&#x1F577`, name: `Spider` },
+      { emoji: `\u{1F578}`, entity: `&#x1F578`, name: `Spider Web` },
+      { emoji: `\u{1F982}`, entity: `&#x1F982`, name: `Scorpion` },
+      { emoji: `\u{1F490}`, entity: `&#x1F490`, name: `Bouquet` },
+      { emoji: `\u{1F338}`, entity: `&#x1F338`, name: `Cherry Blossom` },
+      { emoji: `\u{1F4AE}`, entity: `&#x1F4AE`, name: `White Flower` },
+      { emoji: `\u{1F3F5}`, entity: `&#x1F3F5`, name: `Rosette` },
+      { emoji: `\u{1F339}`, entity: `&#x1F339`, name: `Rose` },
+      { emoji: `\u{1F940}`, entity: `&#x1F940`, name: `Wilted Flower` },
+      { emoji: `\u{1F33A}`, entity: `&#x1F33A`, name: `Hibiscus` },
+      { emoji: `\u{1F33B}`, entity: `&#x1F33B`, name: `Sunflower` },
+      { emoji: `\u{1F33C}`, entity: `&#x1F33C`, name: `Blossom` },
+      { emoji: `\u{1F337}`, entity: `&#x1F337`, name: `Tulip` },
+      { emoji: `\u{1F331}`, entity: `&#x1F331`, name: `Seedling` },
+      { emoji: `\u{1F332}`, entity: `&#x1F332`, name: `Evergreen Tree` },
+      { emoji: `\u{1F333}`, entity: `&#x1F333`, name: `Deciduous Tree` },
+      { emoji: `\u{1F334}`, entity: `&#x1F334`, name: `Palm Tree` },
+      { emoji: `\u{1F335}`, entity: `&#x1F335`, name: `Cactus` },
+      { emoji: `\u{1F33E}`, entity: `&#x1F33E`, name: `Sheaf Of Rice` },
+      { emoji: `\u{1F33F}`, entity: `&#x1F33F`, name: `Herb` },
+      { emoji: `\u{2618}`, entity: `&#x2618`, name: `Shamrock` },
+      { emoji: `\u{1F340}`, entity: `&#x1F340`, name: `Four Leaf Clover` },
+      { emoji: `\u{1F341}`, entity: `&#x1F341`, name: `Maple Leaf` },
+      { emoji: `\u{1F342}`, entity: `&#x1F342`, name: `Fallen Leaf` },
+      { emoji: `\u{1F343}`, entity: `&#x1F343`, name: `Leaf Fluttering In Wind` },
+      { emoji: `\u{1F347}`, entity: `&#x1F347`, name: `Grapes` },
+      { emoji: `\u{1F348}`, entity: `&#x1F348`, name: `Melon` },
+      { emoji: `\u{1F349}`, entity: `&#x1F349`, name: `Watermelon` },
+      { emoji: `\u{1F34A}`, entity: `&#x1F34A`, name: `Tangerine` },
+      { emoji: `\u{1F34B}`, entity: `&#x1F34B`, name: `Lemon` },
+      { emoji: `\u{1F34C}`, entity: `&#x1F34C`, name: `Banana` },
+      { emoji: `\u{1F34D}`, entity: `&#x1F34D`, name: `Pineapple` },
+      { emoji: `\u{1F34E}`, entity: `&#x1F34E`, name: `Red Apple` },
+      { emoji: `\u{1F34F}`, entity: `&#x1F34F`, name: `Green Apple` },
+      { emoji: `\u{1F350}`, entity: `&#x1F350`, name: `Pear` },
+      { emoji: `\u{1F351}`, entity: `&#x1F351`, name: `Peach` },
+      { emoji: `\u{1F352}`, entity: `&#x1F352`, name: `Cherries` },
+      { emoji: `\u{1F353}`, entity: `&#x1F353`, name: `Strawberry` },
+      { emoji: `\u{1F95D}`, entity: `&#x1F95D`, name: `Kiwi Fruit` },
+      { emoji: `\u{1F345}`, entity: `&#x1F345`, name: `Tomato` },
+      { emoji: `\u{1F951}`, entity: `&#x1F951`, name: `Avocado` },
+      { emoji: `\u{1F346}`, entity: `&#x1F346`, name: `Eggplant` },
+      { emoji: `\u{1F954}`, entity: `&#x1F954`, name: `Potato` },
+      { emoji: `\u{1F955}`, entity: `&#x1F955`, name: `Carrot` },
+      { emoji: `\u{1F33D}`, entity: `&#x1F33D`, name: `Ear Of Corn` },
+      { emoji: `\u{1F336}`, entity: `&#x1F336`, name: `Hot Pepper` },
+      { emoji: `\u{1F952}`, entity: `&#x1F952`, name: `Cucumber` },
+      { emoji: `\u{1F344}`, entity: `&#x1F344`, name: `Mushroom` },
+      { emoji: `\u{1F95C}`, entity: `&#x1F95C`, name: `Peanuts` },
+      { emoji: `\u{1F330}`, entity: `&#x1F330`, name: `Chestnut` },
+      { emoji: `\u{1F35E}`, entity: `&#x1F35E`, name: `Bread` },
+      { emoji: `\u{1F950}`, entity: `&#x1F950`, name: `Croissant` },
+      { emoji: `\u{1F956}`, entity: `&#x1F956`, name: `Baguette Bread` },
+      { emoji: `\u{1F95E}`, entity: `&#x1F95E`, name: `Pancakes` },
+      { emoji: `\u{1F9C0}`, entity: `&#x1F9C0`, name: `Cheese Wedge` },
+      { emoji: `\u{1F356}`, entity: `&#x1F356`, name: `Meat On Bone` },
+      { emoji: `\u{1F357}`, entity: `&#x1F357`, name: `Poultry Leg` },
+      { emoji: `\u{1F953}`, entity: `&#x1F953`, name: `Bacon` },
+      { emoji: `\u{1F354}`, entity: `&#x1F354`, name: `Hamburger` },
+      { emoji: `\u{1F35F}`, entity: `&#x1F35F`, name: `French Fries` },
+      { emoji: `\u{1F355}`, entity: `&#x1F355`, name: `Pizza` },
+      { emoji: `\u{1F32D}`, entity: `&#x1F32D`, name: `Hot Dog` },
+      { emoji: `\u{1F32E}`, entity: `&#x1F32E`, name: `Taco` },
+      { emoji: `\u{1F32F}`, entity: `&#x1F32F`, name: `Burrito` },
+      { emoji: `\u{1F959}`, entity: `&#x1F959`, name: `Stuffed Flatbread` },
+      { emoji: `\u{1F95A}`, entity: `&#x1F95A`, name: `Egg` },
+      { emoji: `\u{1F373}`, entity: `&#x1F373`, name: `Cooking` },
+      { emoji: `\u{1F958}`, entity: `&#x1F958`, name: `Shallow Pan Of Food` },
+      { emoji: `\u{1F372}`, entity: `&#x1F372`, name: `Pot Of Food` },
+      { emoji: `\u{1F957}`, entity: `&#x1F957`, name: `Green Salad` },
+      { emoji: `\u{1F37F}`, entity: `&#x1F37F`, name: `Popcorn` },
+      { emoji: `\u{1F371}`, entity: `&#x1F371`, name: `Bento Box` },
+      { emoji: `\u{1F358}`, entity: `&#x1F358`, name: `Rice Cracker` },
+      { emoji: `\u{1F359}`, entity: `&#x1F359`, name: `Rice Ball` },
+      { emoji: `\u{1F35A}`, entity: `&#x1F35A`, name: `Cooked Rice` },
+      { emoji: `\u{1F35B}`, entity: `&#x1F35B`, name: `Curry Rice` },
+      { emoji: `\u{1F35C}`, entity: `&#x1F35C`, name: `Steaming Bowl` },
+      { emoji: `\u{1F35D}`, entity: `&#x1F35D`, name: `Spaghetti` },
+      { emoji: `\u{1F360}`, entity: `&#x1F360`, name: `Roasted Sweet Potato` },
+      { emoji: `\u{1F362}`, entity: `&#x1F362`, name: `Oden` },
+      { emoji: `\u{1F363}`, entity: `&#x1F363`, name: `Sushi` },
+      { emoji: `\u{1F364}`, entity: `&#x1F364`, name: `Fried Shrimp` },
+      { emoji: `\u{1F365}`, entity: `&#x1F365`, name: `Fish Cake With Swirl` },
+      { emoji: `\u{1F361}`, entity: `&#x1F361`, name: `Dango` },
+      { emoji: `\u{1F366}`, entity: `&#x1F366`, name: `Soft Ice Cream` },
+      { emoji: `\u{1F367}`, entity: `&#x1F367`, name: `Shaved Ice` },
+      { emoji: `\u{1F368}`, entity: `&#x1F368`, name: `Ice Cream` },
+      { emoji: `\u{1F369}`, entity: `&#x1F369`, name: `Doughnut` },
+      { emoji: `\u{1F36A}`, entity: `&#x1F36A`, name: `Cookie` },
+      { emoji: `\u{1F382}`, entity: `&#x1F382`, name: `Birthday Cake` },
+      { emoji: `\u{1F370}`, entity: `&#x1F370`, name: `Shortcake` },
+      { emoji: `\u{1F36B}`, entity: `&#x1F36B`, name: `Chocolate Bar` },
+      { emoji: `\u{1F36C}`, entity: `&#x1F36C`, name: `Candy` },
+      { emoji: `\u{1F36D}`, entity: `&#x1F36D`, name: `Lollipop` },
+      { emoji: `\u{1F36E}`, entity: `&#x1F36E`, name: `Custard` },
+      { emoji: `\u{1F36F}`, entity: `&#x1F36F`, name: `Honey Pot` },
+      { emoji: `\u{1F37C}`, entity: `&#x1F37C`, name: `Baby Bottle` },
+      { emoji: `\u{1F95B}`, entity: `&#x1F95B`, name: `Glass Of Milk` },
+      { emoji: `\u{2615}`, entity: `&#x2615`, name: `Hot Beverage` },
+      { emoji: `\u{1F375}`, entity: `&#x1F375`, name: `Teacup Without Handle` },
+      { emoji: `\u{1F376}`, entity: `&#x1F376`, name: `Sake` },
+      { emoji: `\u{1F37E}`, entity: `&#x1F37E`, name: `Bottle With Popping Cork` },
+      { emoji: `\u{1F377}`, entity: `&#x1F377`, name: `Wine Glass` },
+      { emoji: `\u{1F378}`, entity: `&#x1F378`, name: `Cocktail Glass` },
+      { emoji: `\u{1F379}`, entity: `&#x1F379`, name: `Tropical Drink` },
+      { emoji: `\u{1F37A}`, entity: `&#x1F37A`, name: `Beer Mug` },
+      { emoji: `\u{1F37B}`, entity: `&#x1F37B`, name: `Clinking Beer Mugs` },
+      { emoji: `\u{1F942}`, entity: `&#x1F942`, name: `Clinking Glasses` },
+      { emoji: `\u{1F943}`, entity: `&#x1F943`, name: `Tumbler Glass` },
+      { emoji: `\u{1F37D}`, entity: `&#x1F37D`, name: `Fork And Knife With Plate` },
+      { emoji: `\u{1F374}`, entity: `&#x1F374`, name: `Fork And Knife` },
+      { emoji: `\u{1F944}`, entity: `&#x1F944`, name: `Spoon` },
+      { emoji: `\u{1F52A}`, entity: `&#x1F52A`, name: `Kitchen Knife` },
+      { emoji: `\u{1F3FA}`, entity: `&#x1F3FA`, name: `Amphora` },
+      { emoji: `\u{1F30D}`, entity: `&#x1F30D`, name: `Globe Showing Europe-Africa` },
+      { emoji: `\u{1F30E}`, entity: `&#x1F30E`, name: `Globe Showing Americas` },
+      { emoji: `\u{1F30F}`, entity: `&#x1F30F`, name: `Globe Showing Asia-Australia` },
+      { emoji: `\u{1F310}`, entity: `&#x1F310`, name: `Globe With Meridians` },
+      { emoji: `\u{1F5FA}`, entity: `&#x1F5FA`, name: `World Map` },
+      { emoji: `\u{1F5FE}`, entity: `&#x1F5FE`, name: `Map Of Japan` },
+      { emoji: `\u{1F3D4}`, entity: `&#x1F3D4`, name: `Snow-Capped Mountain` },
+      { emoji: `\u{26F0}`, entity: `&#x26F0`, name: `Mountain` },
+      { emoji: `\u{1F30B}`, entity: `&#x1F30B`, name: `Volcano` },
+      { emoji: `\u{1F5FB}`, entity: `&#x1F5FB`, name: `Mount Fuji` },
+      { emoji: `\u{1F3D5}`, entity: `&#x1F3D5`, name: `Camping` },
+      { emoji: `\u{1F3D6}`, entity: `&#x1F3D6`, name: `Beach With Umbrella` },
+      { emoji: `\u{1F3DC}`, entity: `&#x1F3DC`, name: `Desert` },
+      { emoji: `\u{1F3DD}`, entity: `&#x1F3DD`, name: `Desert Island` },
+      { emoji: `\u{1F3DE}`, entity: `&#x1F3DE`, name: `National Park` },
+      { emoji: `\u{1F3DF}`, entity: `&#x1F3DF`, name: `Stadium` },
+      { emoji: `\u{1F3DB}`, entity: `&#x1F3DB`, name: `Classical Building` },
+      { emoji: `\u{1F3D7}`, entity: `&#x1F3D7`, name: `Building Construction` },
+      { emoji: `\u{1F3D8}`, entity: `&#x1F3D8`, name: `House` },
+      { emoji: `\u{1F3D9}`, entity: `&#x1F3D9`, name: `Cityscape` },
+      { emoji: `\u{1F3DA}`, entity: `&#x1F3DA`, name: `Derelict House` },
+      { emoji: `\u{1F3E0}`, entity: `&#x1F3E0`, name: `House` },
+      { emoji: `\u{1F3E1}`, entity: `&#x1F3E1`, name: `House With Garden` },
+      { emoji: `\u{1F3E2}`, entity: `&#x1F3E2`, name: `Office Building` },
+      { emoji: `\u{1F3E3}`, entity: `&#x1F3E3`, name: `Japanese Post Office` },
+      { emoji: `\u{1F3E4}`, entity: `&#x1F3E4`, name: `Post Office` },
+      { emoji: `\u{1F3E5}`, entity: `&#x1F3E5`, name: `Hospital` },
+      { emoji: `\u{1F3E6}`, entity: `&#x1F3E6`, name: `Bank` },
+      { emoji: `\u{1F3E8}`, entity: `&#x1F3E8`, name: `Hotel` },
+      { emoji: `\u{1F3E9}`, entity: `&#x1F3E9`, name: `Love Hotel` },
+      { emoji: `\u{1F3EA}`, entity: `&#x1F3EA`, name: `Convenience Store` },
+      { emoji: `\u{1F3EB}`, entity: `&#x1F3EB`, name: `School` },
+      { emoji: `\u{1F3EC}`, entity: `&#x1F3EC`, name: `Department Store` },
+      { emoji: `\u{1F3ED}`, entity: `&#x1F3ED`, name: `Factory` },
+      { emoji: `\u{1F3EF}`, entity: `&#x1F3EF`, name: `Japanese Castle` },
+      { emoji: `\u{1F3F0}`, entity: `&#x1F3F0`, name: `Castle` },
+      { emoji: `\u{1F492}`, entity: `&#x1F492`, name: `Wedding` },
+      { emoji: `\u{1F5FC}`, entity: `&#x1F5FC`, name: `Tokyo Tower` },
+      { emoji: `\u{1F5FD}`, entity: `&#x1F5FD`, name: `Statue Of Liberty` },
+      { emoji: `\u{26EA}`, entity: `&#x26EA`, name: `Church` },
+      { emoji: `\u{1F54C}`, entity: `&#x1F54C`, name: `Mosque` },
+      { emoji: `\u{1F54D}`, entity: `&#x1F54D`, name: `Synagogue` },
+      { emoji: `\u{26E9}`, entity: `&#x26E9`, name: `Shinto Shrine` },
+      { emoji: `\u{1F54B}`, entity: `&#x1F54B`, name: `Kaaba` },
+      { emoji: `\u{26F2}`, entity: `&#x26F2`, name: `Fountain` },
+      { emoji: `\u{26FA}`, entity: `&#x26FA`, name: `Tent` },
+      { emoji: `\u{1F301}`, entity: `&#x1F301`, name: `Foggy` },
+      { emoji: `\u{1F303}`, entity: `&#x1F303`, name: `Night With Stars` },
+      { emoji: `\u{1F304}`, entity: `&#x1F304`, name: `Sunrise Over Mountains` },
+      { emoji: `\u{1F305}`, entity: `&#x1F305`, name: `Sunrise` },
+      { emoji: `\u{1F306}`, entity: `&#x1F306`, name: `Cityscape At Dusk` },
+      { emoji: `\u{1F307}`, entity: `&#x1F307`, name: `Sunset` },
+      { emoji: `\u{1F309}`, entity: `&#x1F309`, name: `Bridge At Night` },
+      { emoji: `\u{2668}`, entity: `&#x2668`, name: `Hot Springs` },
+      { emoji: `\u{1F30C}`, entity: `&#x1F30C`, name: `Milky Way` },
+      { emoji: `\u{1F3A0}`, entity: `&#x1F3A0`, name: `Carousel Horse` },
+      { emoji: `\u{1F3A1}`, entity: `&#x1F3A1`, name: `Ferris Wheel` },
+      { emoji: `\u{1F3A2}`, entity: `&#x1F3A2`, name: `Roller Coaster` },
+      { emoji: `\u{1F488}`, entity: `&#x1F488`, name: `Barber Pole` },
+      { emoji: `\u{1F3AA}`, entity: `&#x1F3AA`, name: `Circus Tent` },
+      { emoji: `\u{1F3AD}`, entity: `&#x1F3AD`, name: `Performing Arts` },
+      { emoji: `\u{1F5BC}`, entity: `&#x1F5BC`, name: `Framed Picture` },
+      { emoji: `\u{1F3A8}`, entity: `&#x1F3A8`, name: `Artist Palette` },
+      { emoji: `\u{1F3B0}`, entity: `&#x1F3B0`, name: `Slot Machine` },
+      { emoji: `\u{1F682}`, entity: `&#x1F682`, name: `Locomotive` },
+      { emoji: `\u{1F683}`, entity: `&#x1F683`, name: `Railway Car` },
+      { emoji: `\u{1F684}`, entity: `&#x1F684`, name: `High-Speed Train` },
+      { emoji: `\u{1F685}`, entity: `&#x1F685`, name: `High-Speed Train With Bullet Nose` },
+      { emoji: `\u{1F686}`, entity: `&#x1F686`, name: `Train` },
+      { emoji: `\u{1F687}`, entity: `&#x1F687`, name: `Metro` },
+      { emoji: `\u{1F688}`, entity: `&#x1F688`, name: `Light Rail` },
+      { emoji: `\u{1F689}`, entity: `&#x1F689`, name: `Station` },
+      { emoji: `\u{1F68A}`, entity: `&#x1F68A`, name: `Tram` },
+      { emoji: `\u{1F69D}`, entity: `&#x1F69D`, name: `Monorail` },
+      { emoji: `\u{1F69E}`, entity: `&#x1F69E`, name: `Mountain Railway` },
+      { emoji: `\u{1F68B}`, entity: `&#x1F68B`, name: `Tram Car` },
+      { emoji: `\u{1F68C}`, entity: `&#x1F68C`, name: `Bus` },
+      { emoji: `\u{1F68D}`, entity: `&#x1F68D`, name: `Oncoming Bus` },
+      { emoji: `\u{1F68E}`, entity: `&#x1F68E`, name: `Trolleybus` },
+      { emoji: `\u{1F690}`, entity: `&#x1F690`, name: `Minibus` },
+      { emoji: `\u{1F691}`, entity: `&#x1F691`, name: `Ambulance` },
+      { emoji: `\u{1F692}`, entity: `&#x1F692`, name: `Fire Engine` },
+      { emoji: `\u{1F693}`, entity: `&#x1F693`, name: `Police Car` },
+      { emoji: `\u{1F694}`, entity: `&#x1F694`, name: `Oncoming Police Car` },
+      { emoji: `\u{1F695}`, entity: `&#x1F695`, name: `Taxi` },
+      { emoji: `\u{1F696}`, entity: `&#x1F696`, name: `Oncoming Taxi` },
+      { emoji: `\u{1F697}`, entity: `&#x1F697`, name: `Automobile` },
+      { emoji: `\u{1F698}`, entity: `&#x1F698`, name: `Oncoming Automobile` },
+      { emoji: `\u{1F699}`, entity: `&#x1F699`, name: `Sport Utility Vehicle` },
+      { emoji: `\u{1F69A}`, entity: `&#x1F69A`, name: `Delivery Truck` },
+      { emoji: `\u{1F69B}`, entity: `&#x1F69B`, name: `Articulated Lorry` },
+      { emoji: `\u{1F69C}`, entity: `&#x1F69C`, name: `Tractor` },
+      { emoji: `\u{1F6B2}`, entity: `&#x1F6B2`, name: `Bicycle` },
+      { emoji: `\u{1F6F4}`, entity: `&#x1F6F4`, name: `Kick Scooter` },
+      { emoji: `\u{1F6F5}`, entity: `&#x1F6F5`, name: `Motor Scooter` },
+      { emoji: `\u{1F68F}`, entity: `&#x1F68F`, name: `Bus Stop` },
+      { emoji: `\u{1F6E3}`, entity: `&#x1F6E3`, name: `Motorway` },
+      { emoji: `\u{1F6E4}`, entity: `&#x1F6E4`, name: `Railway Track` },
+      { emoji: `\u{26FD}`, entity: `&#x26FD`, name: `Fuel Pump` },
+      { emoji: `\u{1F6A8}`, entity: `&#x1F6A8`, name: `Police Car Light` },
+      { emoji: `\u{1F6A5}`, entity: `&#x1F6A5`, name: `Horizontal Traffic Light` },
+      { emoji: `\u{1F6A6}`, entity: `&#x1F6A6`, name: `Vertical Traffic Light` },
+      { emoji: `\u{1F6A7}`, entity: `&#x1F6A7`, name: `Construction` },
+      { emoji: `\u{1F6D1}`, entity: `&#x1F6D1`, name: `Stop Sign` },
+      { emoji: `\u{2693}`, entity: `&#x2693`, name: `Anchor` },
+      { emoji: `\u{26F5}`, entity: `&#x26F5`, name: `Sailboat` },
+      { emoji: `\u{1F6F6}`, entity: `&#x1F6F6`, name: `Canoe` },
+      { emoji: `\u{1F6A4}`, entity: `&#x1F6A4`, name: `Speedboat` },
+      { emoji: `\u{1F6F3}`, entity: `&#x1F6F3`, name: `Passenger Ship` },
+      { emoji: `\u{26F4}`, entity: `&#x26F4`, name: `Ferry` },
+      { emoji: `\u{1F6E5}`, entity: `&#x1F6E5`, name: `Motor Boat` },
+      { emoji: `\u{1F6A2}`, entity: `&#x1F6A2`, name: `Ship` },
+      { emoji: `\u{2708}`, entity: `&#x2708`, name: `Airplane` },
+      { emoji: `\u{1F6E9}`, entity: `&#x1F6E9`, name: `Small Airplane` },
+      { emoji: `\u{1F6EB}`, entity: `&#x1F6EB`, name: `Airplane Departure` },
+      { emoji: `\u{1F6EC}`, entity: `&#x1F6EC`, name: `Airplane Arrival` },
+      { emoji: `\u{1F4BA}`, entity: `&#x1F4BA`, name: `Seat` },
+      { emoji: `\u{1F681}`, entity: `&#x1F681`, name: `Helicopter` },
+      { emoji: `\u{1F69F}`, entity: `&#x1F69F`, name: `Suspension Railway` },
+      { emoji: `\u{1F6A0}`, entity: `&#x1F6A0`, name: `Mountain Cableway` },
+      { emoji: `\u{1F6A1}`, entity: `&#x1F6A1`, name: `Aerial Tramway` },
+      { emoji: `\u{1F680}`, entity: `&#x1F680`, name: `Rocket` },
+      { emoji: `\u{1F6F0}`, entity: `&#x1F6F0`, name: `Satellite` },
+      { emoji: `\u{1F6CE}`, entity: `&#x1F6CE`, name: `Bellhop Bell` },
+      { emoji: `\u{1F6AA}`, entity: `&#x1F6AA`, name: `Door` },
+      { emoji: `\u{1F6CC}`, entity: `&#x1F6CC`, name: `Person In Bed` },
+      { emoji: `\u{1F6CC}\u{1F3FB}`, entity: `&#x1F6CC&#x1F3FB`, name: `Person In Bed: Light Skin Tone` },
+      { emoji: `\u{1F6CC}\u{1F3FC}`, entity: `&#x1F6CC&#x1F3FC`, name: `Person In Bed: Medium-Light Skin Tone` },
+      { emoji: `\u{1F6CC}\u{1F3FD}`, entity: `&#x1F6CC&#x1F3FD`, name: `Person In Bed: Medium Skin Tone` },
+      { emoji: `\u{1F6CC}\u{1F3FE}`, entity: `&#x1F6CC&#x1F3FE`, name: `Person In Bed: Medium-Dark Skin Tone` },
+      { emoji: `\u{1F6CC}\u{1F3FF}`, entity: `&#x1F6CC&#x1F3FF`, name: `Person In Bed: Dark Skin Tone` },
+      { emoji: `\u{1F6CF}`, entity: `&#x1F6CF`, name: `Bed` },
+      { emoji: `\u{1F6CB}`, entity: `&#x1F6CB`, name: `Couch And Lamp` },
+      { emoji: `\u{1F6BD}`, entity: `&#x1F6BD`, name: `Toilet` },
+      { emoji: `\u{1F6BF}`, entity: `&#x1F6BF`, name: `Shower` },
+      { emoji: `\u{1F6C0}`, entity: `&#x1F6C0`, name: `Person Taking Bath` },
+      { emoji: `\u{1F6C0}\u{1F3FB}`, entity: `&#x1F6C0&#x1F3FB`, name: `Person Taking Bath: Light Skin Tone` },
+      { emoji: `\u{1F6C0}\u{1F3FC}`, entity: `&#x1F6C0&#x1F3FC`, name: `Person Taking Bath: Medium-Light Skin Tone` },
+      { emoji: `\u{1F6C0}\u{1F3FD}`, entity: `&#x1F6C0&#x1F3FD`, name: `Person Taking Bath: Medium Skin Tone` },
+      { emoji: `\u{1F6C0}\u{1F3FE}`, entity: `&#x1F6C0&#x1F3FE`, name: `Person Taking Bath: Medium-Dark Skin Tone` },
+      { emoji: `\u{1F6C0}\u{1F3FF}`, entity: `&#x1F6C0&#x1F3FF`, name: `Person Taking Bath: Dark Skin Tone` },
+      { emoji: `\u{1F6C1}`, entity: `&#x1F6C1`, name: `Bathtub` },
+      { emoji: `\u{231B}`, entity: `&#x231B`, name: `Hourglass` },
+      { emoji: `\u{23F3}`, entity: `&#x23F3`, name: `Hourglass With Flowing Sand` },
+      { emoji: `\u{231A}`, entity: `&#x231A`, name: `Watch` },
+      { emoji: `\u{23F0}`, entity: `&#x23F0`, name: `Alarm Clock` },
+      { emoji: `\u{23F1}`, entity: `&#x23F1`, name: `Stopwatch` },
+      { emoji: `\u{23F2}`, entity: `&#x23F2`, name: `Timer Clock` },
+      { emoji: `\u{1F570}`, entity: `&#x1F570`, name: `Mantelpiece Clock` },
+      { emoji: `\u{1F55B}`, entity: `&#x1F55B`, name: `Twelve O’clock` },
+      { emoji: `\u{1F567}`, entity: `&#x1F567`, name: `Twelve-Thirty` },
+      { emoji: `\u{1F550}`, entity: `&#x1F550`, name: `One O’clock` },
+      { emoji: `\u{1F55C}`, entity: `&#x1F55C`, name: `One-Thirty` },
+      { emoji: `\u{1F551}`, entity: `&#x1F551`, name: `Two O’clock` },
+      { emoji: `\u{1F55D}`, entity: `&#x1F55D`, name: `Two-Thirty` },
+      { emoji: `\u{1F552}`, entity: `&#x1F552`, name: `Three O’clock` },
+      { emoji: `\u{1F55E}`, entity: `&#x1F55E`, name: `Three-Thirty` },
+      { emoji: `\u{1F553}`, entity: `&#x1F553`, name: `Four O’clock` },
+      { emoji: `\u{1F55F}`, entity: `&#x1F55F`, name: `Four-Thirty` },
+      { emoji: `\u{1F554}`, entity: `&#x1F554`, name: `Five O’clock` },
+      { emoji: `\u{1F560}`, entity: `&#x1F560`, name: `Five-Thirty` },
+      { emoji: `\u{1F555}`, entity: `&#x1F555`, name: `Six O’clock` },
+      { emoji: `\u{1F561}`, entity: `&#x1F561`, name: `Six-Thirty` },
+      { emoji: `\u{1F556}`, entity: `&#x1F556`, name: `Seven O’clock` },
+      { emoji: `\u{1F562}`, entity: `&#x1F562`, name: `Seven-Thirty` },
+      { emoji: `\u{1F557}`, entity: `&#x1F557`, name: `Eight O’clock` },
+      { emoji: `\u{1F563}`, entity: `&#x1F563`, name: `Eight-Thirty` },
+      { emoji: `\u{1F558}`, entity: `&#x1F558`, name: `Nine O’clock` },
+      { emoji: `\u{1F564}`, entity: `&#x1F564`, name: `Nine-Thirty` },
+      { emoji: `\u{1F559}`, entity: `&#x1F559`, name: `Ten O’clock` },
+      { emoji: `\u{1F565}`, entity: `&#x1F565`, name: `Ten-Thirty` },
+      { emoji: `\u{1F55A}`, entity: `&#x1F55A`, name: `Eleven O’clock` },
+      { emoji: `\u{1F566}`, entity: `&#x1F566`, name: `Eleven-Thirty` },
+      { emoji: `\u{1F311}`, entity: `&#x1F311`, name: `New Moon` },
+      { emoji: `\u{1F312}`, entity: `&#x1F312`, name: `Waxing Crescent Moon` },
+      { emoji: `\u{1F313}`, entity: `&#x1F313`, name: `First Quarter Moon` },
+      { emoji: `\u{1F314}`, entity: `&#x1F314`, name: `Waxing Gibbous Moon` },
+      { emoji: `\u{1F315}`, entity: `&#x1F315`, name: `Full Moon` },
+      { emoji: `\u{1F316}`, entity: `&#x1F316`, name: `Waning Gibbous Moon` },
+      { emoji: `\u{1F317}`, entity: `&#x1F317`, name: `Last Quarter Moon` },
+      { emoji: `\u{1F318}`, entity: `&#x1F318`, name: `Waning Crescent Moon` },
+      { emoji: `\u{1F319}`, entity: `&#x1F319`, name: `Crescent Moon` },
+      { emoji: `\u{1F31A}`, entity: `&#x1F31A`, name: `New Moon Face` },
+      { emoji: `\u{1F31B}`, entity: `&#x1F31B`, name: `First Quarter Moon With Face` },
+      { emoji: `\u{1F31C}`, entity: `&#x1F31C`, name: `Last Quarter Moon With Face` },
+      { emoji: `\u{1F321}`, entity: `&#x1F321`, name: `Thermometer` },
+      { emoji: `\u{2600}`, entity: `&#x2600`, name: `Sun` },
+      { emoji: `\u{1F31D}`, entity: `&#x1F31D`, name: `Full Moon With Face` },
+      { emoji: `\u{1F31E}`, entity: `&#x1F31E`, name: `Sun With Face` },
+      { emoji: `\u{2B50}`, entity: `&#x2B50`, name: `White Medium Star` },
+      { emoji: `\u{1F31F}`, entity: `&#x1F31F`, name: `Glowing Star` },
+      { emoji: `\u{1F320}`, entity: `&#x1F320`, name: `Shooting Star` },
+      { emoji: `\u{2601}`, entity: `&#x2601`, name: `Cloud` },
+      { emoji: `\u{26C5}`, entity: `&#x26C5`, name: `Sun Behind Cloud` },
+      { emoji: `\u{26C8}`, entity: `&#x26C8`, name: `Cloud With Lightning And Rain` },
+      { emoji: `\u{1F324}`, entity: `&#x1F324`, name: `Sun Behind Small Cloud` },
+      { emoji: `\u{1F325}`, entity: `&#x1F325`, name: `Sun Behind Large Cloud` },
+      { emoji: `\u{1F326}`, entity: `&#x1F326`, name: `Sun Behind Rain Cloud` },
+      { emoji: `\u{1F327}`, entity: `&#x1F327`, name: `Cloud With Rain` },
+      { emoji: `\u{1F328}`, entity: `&#x1F328`, name: `Cloud With Snow` },
+      { emoji: `\u{1F329}`, entity: `&#x1F329`, name: `Cloud With Lightning` },
+      { emoji: `\u{1F32A}`, entity: `&#x1F32A`, name: `Tornado` },
+      { emoji: `\u{1F32B}`, entity: `&#x1F32B`, name: `Fog` },
+      { emoji: `\u{1F32C}`, entity: `&#x1F32C`, name: `Wind Face` },
+      { emoji: `\u{1F300}`, entity: `&#x1F300`, name: `Cyclone` },
+      { emoji: `\u{1F308}`, entity: `&#x1F308`, name: `Rainbow` },
+      { emoji: `\u{1F302}`, entity: `&#x1F302`, name: `Closed Umbrella` },
+      { emoji: `\u{2602}`, entity: `&#x2602`, name: `Umbrella` },
+      { emoji: `\u{2614}`, entity: `&#x2614`, name: `Umbrella With Rain Drops` },
+      { emoji: `\u{26F1}`, entity: `&#x26F1`, name: `Umbrella On Ground` },
+      { emoji: `\u{26A1}`, entity: `&#x26A1`, name: `High Voltage` },
+      { emoji: `\u{2744}`, entity: `&#x2744`, name: `Snowflake` },
+      { emoji: `\u{2603}`, entity: `&#x2603`, name: `Snowman` },
+      { emoji: `\u{26C4}`, entity: `&#x26C4`, name: `Snowman Without Snow` },
+      { emoji: `\u{2604}`, entity: `&#x2604`, name: `Comet` },
+      { emoji: `\u{1F525}`, entity: `&#x1F525`, name: `Fire` },
+      { emoji: `\u{1F4A7}`, entity: `&#x1F4A7`, name: `Droplet` },
+      { emoji: `\u{1F30A}`, entity: `&#x1F30A`, name: `Water Wave` },
+      { emoji: `\u{1F383}`, entity: `&#x1F383`, name: `Jack-O-Lantern` },
+      { emoji: `\u{1F384}`, entity: `&#x1F384`, name: `Christmas Tree` },
+      { emoji: `\u{1F386}`, entity: `&#x1F386`, name: `Fireworks` },
+      { emoji: `\u{1F387}`, entity: `&#x1F387`, name: `Sparkler` },
+      { emoji: `\u{2728}`, entity: `&#x2728`, name: `Sparkles` },
+      { emoji: `\u{1F388}`, entity: `&#x1F388`, name: `Balloon` },
+      { emoji: `\u{1F389}`, entity: `&#x1F389`, name: `Party Popper` },
+      { emoji: `\u{1F38A}`, entity: `&#x1F38A`, name: `Confetti Ball` },
+      { emoji: `\u{1F38B}`, entity: `&#x1F38B`, name: `Tanabata Tree` },
+      { emoji: `\u{1F38D}`, entity: `&#x1F38D`, name: `Pine Decoration` },
+      { emoji: `\u{1F38E}`, entity: `&#x1F38E`, name: `Japanese Dolls` },
+      { emoji: `\u{1F38F}`, entity: `&#x1F38F`, name: `Carp Streamer` },
+      { emoji: `\u{1F390}`, entity: `&#x1F390`, name: `Wind Chime` },
+      { emoji: `\u{1F391}`, entity: `&#x1F391`, name: `Moon Viewing Ceremony` },
+      { emoji: `\u{1F380}`, entity: `&#x1F380`, name: `Ribbon` },
+      { emoji: `\u{1F381}`, entity: `&#x1F381`, name: `Wrapped Gift` },
+      { emoji: `\u{1F397}`, entity: `&#x1F397`, name: `Reminder Ribbon` },
+      { emoji: `\u{1F39F}`, entity: `&#x1F39F`, name: `Admission Tickets` },
+      { emoji: `\u{1F3AB}`, entity: `&#x1F3AB`, name: `Ticket` },
+      { emoji: `\u{1F396}`, entity: `&#x1F396`, name: `Military Medal` },
+      { emoji: `\u{1F3C6}`, entity: `&#x1F3C6`, name: `Trophy` },
+      { emoji: `\u{1F3C5}`, entity: `&#x1F3C5`, name: `Sports Medal` },
+      { emoji: `\u{1F947}`, entity: `&#x1F947`, name: `1st Place Medal` },
+      { emoji: `\u{1F948}`, entity: `&#x1F948`, name: `2nd Place Medal` },
+      { emoji: `\u{1F949}`, entity: `&#x1F949`, name: `3rd Place Medal` },
+      { emoji: `\u{26BD}`, entity: `&#x26BD`, name: `Soccer Ball` },
+      { emoji: `\u{26BE}`, entity: `&#x26BE`, name: `Baseball` },
+      { emoji: `\u{1F3C0}`, entity: `&#x1F3C0`, name: `Basketball` },
+      { emoji: `\u{1F3D0}`, entity: `&#x1F3D0`, name: `Volleyball` },
+      { emoji: `\u{1F3C8}`, entity: `&#x1F3C8`, name: `American Football` },
+      { emoji: `\u{1F3C9}`, entity: `&#x1F3C9`, name: `Rugby Football` },
+      { emoji: `\u{1F3BE}`, entity: `&#x1F3BE`, name: `Tennis` },
+      { emoji: `\u{1F3B1}`, entity: `&#x1F3B1`, name: `Pool 8 Ball` },
+      { emoji: `\u{1F3B3}`, entity: `&#x1F3B3`, name: `Bowling` },
+      { emoji: `\u{1F3CF}`, entity: `&#x1F3CF`, name: `Cricket` },
+      { emoji: `\u{1F3D1}`, entity: `&#x1F3D1`, name: `Field Hockey` },
+      { emoji: `\u{1F3D2}`, entity: `&#x1F3D2`, name: `Ice Hockey` },
+      { emoji: `\u{1F3D3}`, entity: `&#x1F3D3`, name: `Ping Pong` },
+      { emoji: `\u{1F3F8}`, entity: `&#x1F3F8`, name: `Badminton` },
+      { emoji: `\u{1F94A}`, entity: `&#x1F94A`, name: `Boxing Glove` },
+      { emoji: `\u{1F94B}`, entity: `&#x1F94B`, name: `Martial Arts Uniform` },
+      { emoji: `\u{1F945}`, entity: `&#x1F945`, name: `Goal Net` },
+      { emoji: `\u{1F3AF}`, entity: `&#x1F3AF`, name: `Direct Hit` },
+      { emoji: `\u{26F3}`, entity: `&#x26F3`, name: `Flag In Hole` },
+      { emoji: `\u{26F8}`, entity: `&#x26F8`, name: `Ice Skate` },
+      { emoji: `\u{1F3A3}`, entity: `&#x1F3A3`, name: `Fishing Pole` },
+      { emoji: `\u{1F3BD}`, entity: `&#x1F3BD`, name: `Running Shirt` },
+      { emoji: `\u{1F3BF}`, entity: `&#x1F3BF`, name: `Skis` },
+      { emoji: `\u{1F3AE}`, entity: `&#x1F3AE`, name: `Video Game` },
+      { emoji: `\u{1F579}`, entity: `&#x1F579`, name: `Joystick` },
+      { emoji: `\u{1F3B2}`, entity: `&#x1F3B2`, name: `Game Die` },
+      { emoji: `\u{2660}`, entity: `&#x2660`, name: `Spade Suit` },
+      { emoji: `\u{2665}`, entity: `&#x2665`, name: `Heart Suit` },
+      { emoji: `\u{2666}`, entity: `&#x2666`, name: `Diamond Suit` },
+      { emoji: `\u{2663}`, entity: `&#x2663`, name: `Club Suit` },
+      { emoji: `\u{1F0CF}`, entity: `&#x1F0CF`, name: `Joker` },
+      { emoji: `\u{1F004}`, entity: `&#x1F004`, name: `Mahjong Red Dragon` },
+      { emoji: `\u{1F3B4}`, entity: `&#x1F3B4`, name: `Flower Playing Cards` },
+      { emoji: `\u{1F507}`, entity: `&#x1F507`, name: `Muted Speaker` },
+      { emoji: `\u{1F508}`, entity: `&#x1F508`, name: `Speaker Low Volume` },
+      { emoji: `\u{1F509}`, entity: `&#x1F509`, name: `Speaker Medium Volume` },
+      { emoji: `\u{1F50A}`, entity: `&#x1F50A`, name: `Speaker High Volume` },
+      { emoji: `\u{1F4E2}`, entity: `&#x1F4E2`, name: `Loudspeaker` },
+      { emoji: `\u{1F4E3}`, entity: `&#x1F4E3`, name: `Megaphone` },
+      { emoji: `\u{1F4EF}`, entity: `&#x1F4EF`, name: `Postal Horn` },
+      { emoji: `\u{1F514}`, entity: `&#x1F514`, name: `Bell` },
+      { emoji: `\u{1F515}`, entity: `&#x1F515`, name: `Bell With Slash` },
+      { emoji: `\u{1F3BC}`, entity: `&#x1F3BC`, name: `Musical Score` },
+      { emoji: `\u{1F3B5}`, entity: `&#x1F3B5`, name: `Musical Note` },
+      { emoji: `\u{1F3B6}`, entity: `&#x1F3B6`, name: `Musical Notes` },
+      { emoji: `\u{1F399}`, entity: `&#x1F399`, name: `Studio Microphone` },
+      { emoji: `\u{1F39A}`, entity: `&#x1F39A`, name: `Level Slider` },
+      { emoji: `\u{1F39B}`, entity: `&#x1F39B`, name: `Control Knobs` },
+      { emoji: `\u{1F3A4}`, entity: `&#x1F3A4`, name: `Microphone` },
+      { emoji: `\u{1F3A7}`, entity: `&#x1F3A7`, name: `Headphone` },
+      { emoji: `\u{1F4FB}`, entity: `&#x1F4FB`, name: `Radio` },
+      { emoji: `\u{1F3B7}`, entity: `&#x1F3B7`, name: `Saxophone` },
+      { emoji: `\u{1F3B8}`, entity: `&#x1F3B8`, name: `Guitar` },
+      { emoji: `\u{1F3B9}`, entity: `&#x1F3B9`, name: `Musical Keyboard` },
+      { emoji: `\u{1F3BA}`, entity: `&#x1F3BA`, name: `Trumpet` },
+      { emoji: `\u{1F3BB}`, entity: `&#x1F3BB`, name: `Violin` },
+      { emoji: `\u{1F941}`, entity: `&#x1F941`, name: `Drum` },
+      { emoji: `\u{1F4F1}`, entity: `&#x1F4F1`, name: `Mobile Phone` },
+      { emoji: `\u{1F4F2}`, entity: `&#x1F4F2`, name: `Mobile Phone With Arrow` },
+      { emoji: `\u{260E}`, entity: `&#x260E`, name: `Telephone` },
+      { emoji: `\u{1F4DE}`, entity: `&#x1F4DE`, name: `Telephone Receiver` },
+      { emoji: `\u{1F4DF}`, entity: `&#x1F4DF`, name: `Pager` },
+      { emoji: `\u{1F4E0}`, entity: `&#x1F4E0`, name: `Fax Machine` },
+      { emoji: `\u{1F50B}`, entity: `&#x1F50B`, name: `Battery` },
+      { emoji: `\u{1F50C}`, entity: `&#x1F50C`, name: `Electric Plug` },
+      { emoji: `\u{1F4BB}`, entity: `&#x1F4BB`, name: `Laptop Computer` },
+      { emoji: `\u{1F5A5}`, entity: `&#x1F5A5`, name: `Desktop Computer` },
+      { emoji: `\u{1F5A8}`, entity: `&#x1F5A8`, name: `Printer` },
+      { emoji: `\u{2328}`, entity: `&#x2328`, name: `Keyboard` },
+      { emoji: `\u{1F5B1}`, entity: `&#x1F5B1`, name: `Computer Mouse` },
+      { emoji: `\u{1F5B2}`, entity: `&#x1F5B2`, name: `Trackball` },
+      { emoji: `\u{1F4BD}`, entity: `&#x1F4BD`, name: `Computer Disk` },
+      { emoji: `\u{1F4BE}`, entity: `&#x1F4BE`, name: `Floppy Disk` },
+      { emoji: `\u{1F4BF}`, entity: `&#x1F4BF`, name: `Optical Disk` },
+      { emoji: `\u{1F4C0}`, entity: `&#x1F4C0`, name: `Dvd` },
+      { emoji: `\u{1F3A5}`, entity: `&#x1F3A5`, name: `Movie Camera` },
+      { emoji: `\u{1F39E}`, entity: `&#x1F39E`, name: `Film Frames` },
+      { emoji: `\u{1F4FD}`, entity: `&#x1F4FD`, name: `Film Projector` },
+      { emoji: `\u{1F3AC}`, entity: `&#x1F3AC`, name: `Clapper Board` },
+      { emoji: `\u{1F4FA}`, entity: `&#x1F4FA`, name: `Television` },
+      { emoji: `\u{1F4F7}`, entity: `&#x1F4F7`, name: `Camera` },
+      { emoji: `\u{1F4F8}`, entity: `&#x1F4F8`, name: `Camera With Flash` },
+      { emoji: `\u{1F4F9}`, entity: `&#x1F4F9`, name: `Video Camera` },
+      { emoji: `\u{1F4FC}`, entity: `&#x1F4FC`, name: `Videocassette` },
+      { emoji: `\u{1F50D}`, entity: `&#x1F50D`, name: `Left-Pointing Magnifying Glass` },
+      { emoji: `\u{1F50E}`, entity: `&#x1F50E`, name: `Right-Pointing Magnifying Glass` },
+      { emoji: `\u{1F52C}`, entity: `&#x1F52C`, name: `Microscope` },
+      { emoji: `\u{1F52D}`, entity: `&#x1F52D`, name: `Telescope` },
+      { emoji: `\u{1F4E1}`, entity: `&#x1F4E1`, name: `Satellite Antenna` },
+      { emoji: `\u{1F56F}`, entity: `&#x1F56F`, name: `Candle` },
+      { emoji: `\u{1F4A1}`, entity: `&#x1F4A1`, name: `Light Bulb` },
+      { emoji: `\u{1F526}`, entity: `&#x1F526`, name: `Flashlight` },
+      { emoji: `\u{1F3EE}`, entity: `&#x1F3EE`, name: `Red Paper Lantern` },
+      { emoji: `\u{1F4D4}`, entity: `&#x1F4D4`, name: `Notebook With Decorative Cover` },
+      { emoji: `\u{1F4D5}`, entity: `&#x1F4D5`, name: `Closed Book` },
+      { emoji: `\u{1F4D6}`, entity: `&#x1F4D6`, name: `Open Book` },
+      { emoji: `\u{1F4D7}`, entity: `&#x1F4D7`, name: `Green Book` },
+      { emoji: `\u{1F4D8}`, entity: `&#x1F4D8`, name: `Blue Book` },
+      { emoji: `\u{1F4D9}`, entity: `&#x1F4D9`, name: `Orange Book` },
+      { emoji: `\u{1F4DA}`, entity: `&#x1F4DA`, name: `Books` },
+      { emoji: `\u{1F4D3}`, entity: `&#x1F4D3`, name: `Notebook` },
+      { emoji: `\u{1F4D2}`, entity: `&#x1F4D2`, name: `Ledger` },
+      { emoji: `\u{1F4C3}`, entity: `&#x1F4C3`, name: `Page With Curl` },
+      { emoji: `\u{1F4DC}`, entity: `&#x1F4DC`, name: `Scroll` },
+      { emoji: `\u{1F4C4}`, entity: `&#x1F4C4`, name: `Page Facing Up` },
+      { emoji: `\u{1F4F0}`, entity: `&#x1F4F0`, name: `Newspaper` },
+      { emoji: `\u{1F5DE}`, entity: `&#x1F5DE`, name: `Rolled-Up Newspaper` },
+      { emoji: `\u{1F4D1}`, entity: `&#x1F4D1`, name: `Bookmark Tabs` },
+      { emoji: `\u{1F516}`, entity: `&#x1F516`, name: `Bookmark` },
+      { emoji: `\u{1F3F7}`, entity: `&#x1F3F7`, name: `Label` },
+      { emoji: `\u{1F4B0}`, entity: `&#x1F4B0`, name: `Money Bag` },
+      { emoji: `\u{1F4B4}`, entity: `&#x1F4B4`, name: `Yen Banknote` },
+      { emoji: `\u{1F4B5}`, entity: `&#x1F4B5`, name: `Dollar Banknote` },
+      { emoji: `\u{1F4B6}`, entity: `&#x1F4B6`, name: `Euro Banknote` },
+      { emoji: `\u{1F4B7}`, entity: `&#x1F4B7`, name: `Pound Banknote` },
+      { emoji: `\u{1F4B8}`, entity: `&#x1F4B8`, name: `Money With Wings` },
+      { emoji: `\u{1F4B3}`, entity: `&#x1F4B3`, name: `Credit Card` },
+      { emoji: `\u{1F4B9}`, entity: `&#x1F4B9`, name: `Chart Increasing With Yen` },
+      { emoji: `\u{1F4B1}`, entity: `&#x1F4B1`, name: `Currency Exchange` },
+      { emoji: `\u{1F4B2}`, entity: `&#x1F4B2`, name: `Heavy Dollar Sign` },
+      { emoji: `\u{2709}`, entity: `&#x2709`, name: `Envelope` },
+      { emoji: `\u{1F4E7}`, entity: `&#x1F4E7`, name: `E-Mail` },
+      { emoji: `\u{1F4E8}`, entity: `&#x1F4E8`, name: `Incoming Envelope` },
+      { emoji: `\u{1F4E9}`, entity: `&#x1F4E9`, name: `Envelope With Arrow` },
+      { emoji: `\u{1F4E4}`, entity: `&#x1F4E4`, name: `Outbox Tray` },
+      { emoji: `\u{1F4E5}`, entity: `&#x1F4E5`, name: `Inbox Tray` },
+      { emoji: `\u{1F4E6}`, entity: `&#x1F4E6`, name: `Package` },
+      { emoji: `\u{1F4EB}`, entity: `&#x1F4EB`, name: `Closed Mailbox With Raised Flag` },
+      { emoji: `\u{1F4EA}`, entity: `&#x1F4EA`, name: `Closed Mailbox With Lowered Flag` },
+      { emoji: `\u{1F4EC}`, entity: `&#x1F4EC`, name: `Open Mailbox With Raised Flag` },
+      { emoji: `\u{1F4ED}`, entity: `&#x1F4ED`, name: `Open Mailbox With Lowered Flag` },
+      { emoji: `\u{1F4EE}`, entity: `&#x1F4EE`, name: `Postbox` },
+      { emoji: `\u{1F5F3}`, entity: `&#x1F5F3`, name: `Ballot Box With Ballot` },
+      { emoji: `\u{270F}`, entity: `&#x270F`, name: `Pencil` },
+      { emoji: `\u{2712}`, entity: `&#x2712`, name: `Black Nib` },
+      { emoji: `\u{1F58B}`, entity: `&#x1F58B`, name: `Fountain Pen` },
+      { emoji: `\u{1F58A}`, entity: `&#x1F58A`, name: `Pen` },
+      { emoji: `\u{1F58C}`, entity: `&#x1F58C`, name: `Paintbrush` },
+      { emoji: `\u{1F58D}`, entity: `&#x1F58D`, name: `Crayon` },
+      { emoji: `\u{1F4DD}`, entity: `&#x1F4DD`, name: `Memo` },
+      { emoji: `\u{1F4BC}`, entity: `&#x1F4BC`, name: `Briefcase` },
+      { emoji: `\u{1F4C1}`, entity: `&#x1F4C1`, name: `File Folder` },
+      { emoji: `\u{1F4C2}`, entity: `&#x1F4C2`, name: `Open File Folder` },
+      { emoji: `\u{1F5C2}`, entity: `&#x1F5C2`, name: `Card Index Dividers` },
+      { emoji: `\u{1F4C5}`, entity: `&#x1F4C5`, name: `Calendar` },
+      { emoji: `\u{1F4C6}`, entity: `&#x1F4C6`, name: `Tear-Off Calendar` },
+      { emoji: `\u{1F5D2}`, entity: `&#x1F5D2`, name: `Spiral Notepad` },
+      { emoji: `\u{1F5D3}`, entity: `&#x1F5D3`, name: `Spiral Calendar` },
+      { emoji: `\u{1F4C7}`, entity: `&#x1F4C7`, name: `Card Index` },
+      { emoji: `\u{1F4C8}`, entity: `&#x1F4C8`, name: `Chart Increasing` },
+      { emoji: `\u{1F4C9}`, entity: `&#x1F4C9`, name: `Chart Decreasing` },
+      { emoji: `\u{1F4CA}`, entity: `&#x1F4CA`, name: `Bar Chart` },
+      { emoji: `\u{1F4CB}`, entity: `&#x1F4CB`, name: `Clipboard` },
+      { emoji: `\u{1F4CC}`, entity: `&#x1F4CC`, name: `Pushpin` },
+      { emoji: `\u{1F4CD}`, entity: `&#x1F4CD`, name: `Round Pushpin` },
+      { emoji: `\u{1F4CE}`, entity: `&#x1F4CE`, name: `Paperclip` },
+      { emoji: `\u{1F587}`, entity: `&#x1F587`, name: `Linked Paperclips` },
+      { emoji: `\u{1F4CF}`, entity: `&#x1F4CF`, name: `Straight Ruler` },
+      { emoji: `\u{1F4D0}`, entity: `&#x1F4D0`, name: `Triangular Ruler` },
+      { emoji: `\u{2702}`, entity: `&#x2702`, name: `Scissors` },
+      { emoji: `\u{1F5C3}`, entity: `&#x1F5C3`, name: `Card File Box` },
+      { emoji: `\u{1F5C4}`, entity: `&#x1F5C4`, name: `File Cabinet` },
+      { emoji: `\u{1F5D1}`, entity: `&#x1F5D1`, name: `Wastebasket` },
+      { emoji: `\u{1F512}`, entity: `&#x1F512`, name: `Locked` },
+      { emoji: `\u{1F513}`, entity: `&#x1F513`, name: `Unlocked` },
+      { emoji: `\u{1F50F}`, entity: `&#x1F50F`, name: `Locked With Pen` },
+      { emoji: `\u{1F510}`, entity: `&#x1F510`, name: `Locked With Key` },
+      { emoji: `\u{1F511}`, entity: `&#x1F511`, name: `Key` },
+      { emoji: `\u{1F5DD}`, entity: `&#x1F5DD`, name: `Old Key` },
+      { emoji: `\u{1F528}`, entity: `&#x1F528`, name: `Hammer` },
+      { emoji: `\u{26CF}`, entity: `&#x26CF`, name: `Pick` },
+      { emoji: `\u{2692}`, entity: `&#x2692`, name: `Hammer And Pick` },
+      { emoji: `\u{1F6E0}`, entity: `&#x1F6E0`, name: `Hammer And Wrench` },
+      { emoji: `\u{1F5E1}`, entity: `&#x1F5E1`, name: `Dagger` },
+      { emoji: `\u{2694}`, entity: `&#x2694`, name: `Crossed Swords` },
+      { emoji: `\u{1F52B}`, entity: `&#x1F52B`, name: `Pistol` },
+      { emoji: `\u{1F3F9}`, entity: `&#x1F3F9`, name: `Bow And Arrow` },
+      { emoji: `\u{1F6E1}`, entity: `&#x1F6E1`, name: `Shield` },
+      { emoji: `\u{1F527}`, entity: `&#x1F527`, name: `Wrench` },
+      { emoji: `\u{1F529}`, entity: `&#x1F529`, name: `Nut And Bolt` },
+      { emoji: `\u{2699}`, entity: `&#x2699`, name: `Gear` },
+      { emoji: `\u{1F5DC}`, entity: `&#x1F5DC`, name: `Clamp` },
+      { emoji: `\u{2697}`, entity: `&#x2697`, name: `Alembic` },
+      { emoji: `\u{2696}`, entity: `&#x2696`, name: `Balance Scale` },
+      { emoji: `\u{1F517}`, entity: `&#x1F517`, name: `Link` },
+      { emoji: `\u{26D3}`, entity: `&#x26D3`, name: `Chains` },
+      { emoji: `\u{1F489}`, entity: `&#x1F489`, name: `Syringe` },
+      { emoji: `\u{1F48A}`, entity: `&#x1F48A`, name: `Pill` },
+      { emoji: `\u{1F6AC}`, entity: `&#x1F6AC`, name: `Cigarette` },
+      { emoji: `\u{26B0}`, entity: `&#x26B0`, name: `Coffin` },
+      { emoji: `\u{26B1}`, entity: `&#x26B1`, name: `Funeral Urn` },
+      { emoji: `\u{1F5FF}`, entity: `&#x1F5FF`, name: `Moai` },
+      { emoji: `\u{1F6E2}`, entity: `&#x1F6E2`, name: `Oil Drum` },
+      { emoji: `\u{1F52E}`, entity: `&#x1F52E`, name: `Crystal Ball` },
+      { emoji: `\u{1F6D2}`, entity: `&#x1F6D2`, name: `Shopping Cart` },
+      { emoji: `\u{1F3E7}`, entity: `&#x1F3E7`, name: `ATM Sign` },
+      { emoji: `\u{1F6AE}`, entity: `&#x1F6AE`, name: `Litter In Bin Sign` },
+      { emoji: `\u{1F6B0}`, entity: `&#x1F6B0`, name: `Potable Water` },
+      { emoji: `\u{267F}`, entity: `&#x267F`, name: `Wheelchair Symbol` },
+      { emoji: `\u{1F6B9}`, entity: `&#x1F6B9`, name: `Men’s Room` },
+      { emoji: `\u{1F6BA}`, entity: `&#x1F6BA`, name: `Women’s Room` },
+      { emoji: `\u{1F6BB}`, entity: `&#x1F6BB`, name: `Restroom` },
+      { emoji: `\u{1F6BC}`, entity: `&#x1F6BC`, name: `Baby Symbol` },
+      { emoji: `\u{1F6BE}`, entity: `&#x1F6BE`, name: `Water Closet` },
+      { emoji: `\u{1F6C2}`, entity: `&#x1F6C2`, name: `Passport Control` },
+      { emoji: `\u{1F6C3}`, entity: `&#x1F6C3`, name: `Customs` },
+      { emoji: `\u{1F6C4}`, entity: `&#x1F6C4`, name: `Baggage Claim` },
+      { emoji: `\u{1F6C5}`, entity: `&#x1F6C5`, name: `Left Luggage` },
+      { emoji: `\u{26A0}`, entity: `&#x26A0`, name: `Warning` },
+      { emoji: `\u{1F6B8}`, entity: `&#x1F6B8`, name: `Children Crossing` },
+      { emoji: `\u{26D4}`, entity: `&#x26D4`, name: `No Entry` },
+      { emoji: `\u{1F6AB}`, entity: `&#x1F6AB`, name: `Prohibited` },
+      { emoji: `\u{1F6B3}`, entity: `&#x1F6B3`, name: `No Bicycles` },
+      { emoji: `\u{1F6AD}`, entity: `&#x1F6AD`, name: `No Smoking` },
+      { emoji: `\u{1F6AF}`, entity: `&#x1F6AF`, name: `No Littering` },
+      { emoji: `\u{1F6B1}`, entity: `&#x1F6B1`, name: `Non-Potable Water` },
+      { emoji: `\u{1F6B7}`, entity: `&#x1F6B7`, name: `No Pedestrians` },
+      { emoji: `\u{1F4F5}`, entity: `&#x1F4F5`, name: `No Mobile Phones` },
+      { emoji: `\u{1F51E}`, entity: `&#x1F51E`, name: `No One Under Eighteen` },
+      { emoji: `\u{2622}`, entity: `&#x2622`, name: `Radioactive` },
+      { emoji: `\u{2623}`, entity: `&#x2623`, name: `Biohazard` },
+      { emoji: `\u{2B06}`, entity: `&#x2B06`, name: `Up Arrow` },
+      { emoji: `\u{2197}`, entity: `&#x2197`, name: `Up-Right Arrow` },
+      { emoji: `\u{27A1}`, entity: `&#x27A1`, name: `Right Arrow` },
+      { emoji: `\u{2198}`, entity: `&#x2198`, name: `Down-Right Arrow` },
+      { emoji: `\u{2B07}`, entity: `&#x2B07`, name: `Down Arrow` },
+      { emoji: `\u{2199}`, entity: `&#x2199`, name: `Down-Left Arrow` },
+      { emoji: `\u{2B05}`, entity: `&#x2B05`, name: `Left Arrow` },
+      { emoji: `\u{2196}`, entity: `&#x2196`, name: `Up-Left Arrow` },
+      { emoji: `\u{2195}`, entity: `&#x2195`, name: `Up-Down Arrow` },
+      { emoji: `\u{2194}`, entity: `&#x2194`, name: `Left-Right Arrow` },
+      { emoji: `\u{21A9}`, entity: `&#x21A9`, name: `Right Arrow Curving Left` },
+      { emoji: `\u{21AA}`, entity: `&#x21AA`, name: `Left Arrow Curving Right` },
+      { emoji: `\u{2934}`, entity: `&#x2934`, name: `Right Arrow Curving Up` },
+      { emoji: `\u{2935}`, entity: `&#x2935`, name: `Right Arrow Curving Down` },
+      { emoji: `\u{1F503}`, entity: `&#x1F503`, name: `Clockwise Vertical Arrows` },
+      { emoji: `\u{1F504}`, entity: `&#x1F504`, name: `Anticlockwise Arrows Button` },
+      { emoji: `\u{1F519}`, entity: `&#x1F519`, name: `BACK Arrow` },
+      { emoji: `\u{1F51A}`, entity: `&#x1F51A`, name: `END Arrow` },
+      { emoji: `\u{1F51B}`, entity: `&#x1F51B`, name: `ON! Arrow` },
+      { emoji: `\u{1F51C}`, entity: `&#x1F51C`, name: `SOON Arrow` },
+      { emoji: `\u{1F51D}`, entity: `&#x1F51D`, name: `TOP Arrow` },
+      { emoji: `\u{1F6D0}`, entity: `&#x1F6D0`, name: `Place Of Worship` },
+      { emoji: `\u{269B}`, entity: `&#x269B`, name: `Atom Symbol` },
+      { emoji: `\u{1F549}`, entity: `&#x1F549`, name: `Om` },
+      { emoji: `\u{2721}`, entity: `&#x2721`, name: `Star Of David` },
+      { emoji: `\u{2638}`, entity: `&#x2638`, name: `Wheel Of Dharma` },
+      { emoji: `\u{262F}`, entity: `&#x262F`, name: `Yin Yang` },
+      { emoji: `\u{271D}`, entity: `&#x271D`, name: `Latin Cross` },
+      { emoji: `\u{2626}`, entity: `&#x2626`, name: `Orthodox Cross` },
+      { emoji: `\u{262A}`, entity: `&#x262A`, name: `Star And Crescent` },
+      { emoji: `\u{262E}`, entity: `&#x262E`, name: `Peace Symbol` },
+      { emoji: `\u{1F54E}`, entity: `&#x1F54E`, name: `Menorah` },
+      { emoji: `\u{1F52F}`, entity: `&#x1F52F`, name: `Dotted Six-Pointed Star` },
+      { emoji: `\u{2648}`, entity: `&#x2648`, name: `Aries` },
+      { emoji: `\u{2649}`, entity: `&#x2649`, name: `Taurus` },
+      { emoji: `\u{264A}`, entity: `&#x264A`, name: `Gemini` },
+      { emoji: `\u{264B}`, entity: `&#x264B`, name: `Cancer` },
+      { emoji: `\u{264C}`, entity: `&#x264C`, name: `Leo` },
+      { emoji: `\u{264D}`, entity: `&#x264D`, name: `Virgo` },
+      { emoji: `\u{264E}`, entity: `&#x264E`, name: `Libra` },
+      { emoji: `\u{264F}`, entity: `&#x264F`, name: `Scorpius` },
+      { emoji: `\u{2650}`, entity: `&#x2650`, name: `Sagittarius` },
+      { emoji: `\u{2651}`, entity: `&#x2651`, name: `Capricorn` },
+      { emoji: `\u{2652}`, entity: `&#x2652`, name: `Aquarius` },
+      { emoji: `\u{2653}`, entity: `&#x2653`, name: `Pisces` },
+      { emoji: `\u{26CE}`, entity: `&#x26CE`, name: `Ophiuchus` },
+      { emoji: `\u{1F500}`, entity: `&#x1F500`, name: `Shuffle Tracks Button` },
+      { emoji: `\u{1F501}`, entity: `&#x1F501`, name: `Repeat Button` },
+      { emoji: `\u{1F502}`, entity: `&#x1F502`, name: `Repeat Single Button` },
+      { emoji: `\u{25B6}`, entity: `&#x25B6`, name: `Play Button` },
+      { emoji: `\u{23E9}`, entity: `&#x23E9`, name: `Fast-Forward Button` },
+      { emoji: `\u{23ED}`, entity: `&#x23ED`, name: `Next Track Button` },
+      { emoji: `\u{23EF}`, entity: `&#x23EF`, name: `Play Or Pause Button` },
+      { emoji: `\u{25C0}`, entity: `&#x25C0`, name: `Reverse Button` },
+      { emoji: `\u{23EA}`, entity: `&#x23EA`, name: `Fast Reverse Button` },
+      { emoji: `\u{23EE}`, entity: `&#x23EE`, name: `Last Track Button` },
+      { emoji: `\u{1F53C}`, entity: `&#x1F53C`, name: `Up Button` },
+      { emoji: `\u{23EB}`, entity: `&#x23EB`, name: `Fast Up Button` },
+      { emoji: `\u{1F53D}`, entity: `&#x1F53D`, name: `Down Button` },
+      { emoji: `\u{23EC}`, entity: `&#x23EC`, name: `Fast Down Button` },
+      { emoji: `\u{23F8}`, entity: `&#x23F8`, name: `Pause Button` },
+      { emoji: `\u{23F9}`, entity: `&#x23F9`, name: `Stop Button` },
+      { emoji: `\u{23FA}`, entity: `&#x23FA`, name: `Record Button` },
+      { emoji: `\u{23CF}`, entity: `&#x23CF`, name: `Eject Button` },
+      { emoji: `\u{1F3A6}`, entity: `&#x1F3A6`, name: `Cinema` },
+      { emoji: `\u{1F505}`, entity: `&#x1F505`, name: `Dim Button` },
+      { emoji: `\u{1F506}`, entity: `&#x1F506`, name: `Bright Button` },
+      { emoji: `\u{1F4F6}`, entity: `&#x1F4F6`, name: `Antenna Bars` },
+      { emoji: `\u{1F4F3}`, entity: `&#x1F4F3`, name: `Vibration Mode` },
+      { emoji: `\u{1F4F4}`, entity: `&#x1F4F4`, name: `Mobile Phone Off` },
+      { emoji: `\u{267B}`, entity: `&#x267B`, name: `Recycling Symbol` },
+      { emoji: `\u{1F4DB}`, entity: `&#x1F4DB`, name: `Name Badge` },
+      { emoji: `\u{269C}`, entity: `&#x269C`, name: `Fleur-De-Lis` },
+      { emoji: `\u{1F530}`, entity: `&#x1F530`, name: `Japanese Symbol For Beginner` },
+      { emoji: `\u{1F531}`, entity: `&#x1F531`, name: `Trident Emblem` },
+      { emoji: `\u{2B55}`, entity: `&#x2B55`, name: `Heavy Large Circle` },
+      { emoji: `\u{2705}`, entity: `&#x2705`, name: `White Heavy Check Mark` },
+      { emoji: `\u{2611}`, entity: `&#x2611`, name: `Ballot Box With Check` },
+      { emoji: `\u{2714}`, entity: `&#x2714`, name: `Heavy Check Mark` },
+      { emoji: `\u{2716}`, entity: `&#x2716`, name: `Heavy Multiplication X` },
+      { emoji: `\u{274C}`, entity: `&#x274C`, name: `Cross Mark` },
+      { emoji: `\u{274E}`, entity: `&#x274E`, name: `Cross Mark Button` },
+      { emoji: `\u{2795}`, entity: `&#x2795`, name: `Heavy Plus Sign` },
+      { emoji: `\u{2640}`, entity: `&#x2640`, name: `Female Sign` },
+      { emoji: `\u{2642}`, entity: `&#x2642`, name: `Male Sign` },
+      { emoji: `\u{2695}`, entity: `&#x2695`, name: `Medical Symbol` },
+      { emoji: `\u{2796}`, entity: `&#x2796`, name: `Heavy Minus Sign` },
+      { emoji: `\u{2797}`, entity: `&#x2797`, name: `Heavy Division Sign` },
+      { emoji: `\u{27B0}`, entity: `&#x27B0`, name: `Curly Loop` },
+      { emoji: `\u{27BF}`, entity: `&#x27BF`, name: `Double Curly Loop` },
+      { emoji: `\u{303D}`, entity: `&#x303D`, name: `Part Alternation Mark` },
+      { emoji: `\u{2733}`, entity: `&#x2733`, name: `Eight-Spoked Asterisk` },
+      { emoji: `\u{2734}`, entity: `&#x2734`, name: `Eight-Pointed Star` },
+      { emoji: `\u{2747}`, entity: `&#x2747`, name: `Sparkle` },
+      { emoji: `\u{203C}`, entity: `&#x203C`, name: `Double Exclamation Mark` },
+      { emoji: `\u{2049}`, entity: `&#x2049`, name: `Exclamation Question Mark` },
+      { emoji: `\u{2753}`, entity: `&#x2753`, name: `Question Mark` },
+      { emoji: `\u{2754}`, entity: `&#x2754`, name: `White Question Mark` },
+      { emoji: `\u{2755}`, entity: `&#x2755`, name: `White Exclamation Mark` },
+      { emoji: `\u{2757}`, entity: `&#x2757`, name: `Exclamation Mark` },
+      { emoji: `\u{3030}`, entity: `&#x3030`, name: `Wavy Dash` },
+      { emoji: `\u{00A9}`, entity: `&#x00A9`, name: `Copyright` },
+      { emoji: `\u{00AE}`, entity: `&#x00AE`, name: `Registered` },
+      { emoji: `\u{2122}`, entity: `&#x2122`, name: `Trade Mark` },
+      { emoji: `\u{0023}\u{FE0F}\u{20E3}`, entity: `&#x0023&#xFE0F&#x20E3`, name: `Keycap: #` },
+      { emoji: `\u{002A}\u{FE0F}\u{20E3}`, entity: `&#x002A&#xFE0F&#x20E3`, name: `Keycap: *` },
+      { emoji: `\u{0030}\u{FE0F}\u{20E3}`, entity: `&#x0030&#xFE0F&#x20E3`, name: `Keycap: 0` },
+      { emoji: `\u{0031}\u{FE0F}\u{20E3}`, entity: `&#x0031&#xFE0F&#x20E3`, name: `Keycap: 1` },
+      { emoji: `\u{0032}\u{FE0F}\u{20E3}`, entity: `&#x0032&#xFE0F&#x20E3`, name: `Keycap: 2` },
+      { emoji: `\u{0033}\u{FE0F}\u{20E3}`, entity: `&#x0033&#xFE0F&#x20E3`, name: `Keycap: 3` },
+      { emoji: `\u{0034}\u{FE0F}\u{20E3}`, entity: `&#x0034&#xFE0F&#x20E3`, name: `Keycap: 4` },
+      { emoji: `\u{0035}\u{FE0F}\u{20E3}`, entity: `&#x0035&#xFE0F&#x20E3`, name: `Keycap: 5` },
+      { emoji: `\u{0036}\u{FE0F}\u{20E3}`, entity: `&#x0036&#xFE0F&#x20E3`, name: `Keycap: 6` },
+      { emoji: `\u{0037}\u{FE0F}\u{20E3}`, entity: `&#x0037&#xFE0F&#x20E3`, name: `Keycap: 7` },
+      { emoji: `\u{0038}\u{FE0F}\u{20E3}`, entity: `&#x0038&#xFE0F&#x20E3`, name: `Keycap: 8` },
+      { emoji: `\u{0039}\u{FE0F}\u{20E3}`, entity: `&#x0039&#xFE0F&#x20E3`, name: `Keycap: 9` },
+      { emoji: `\u{1F51F}`, entity: `&#x1F51F`, name: `Keycap 10` },
+      { emoji: `\u{1F4AF}`, entity: `&#x1F4AF`, name: `Hundred Points` },
+      { emoji: `\u{1F520}`, entity: `&#x1F520`, name: `Input Latin Uppercase` },
+      { emoji: `\u{1F521}`, entity: `&#x1F521`, name: `Input Latin Lowercase` },
+      { emoji: `\u{1F522}`, entity: `&#x1F522`, name: `Input Numbers` },
+      { emoji: `\u{1F523}`, entity: `&#x1F523`, name: `Input Symbols` },
+      { emoji: `\u{1F524}`, entity: `&#x1F524`, name: `Input Latin Letters` },
+      { emoji: `\u{1F170}`, entity: `&#x1F170`, name: `A Button (blood Type)` },
+      { emoji: `\u{1F18E}`, entity: `&#x1F18E`, name: `AB Button (blood Type)` },
+      { emoji: `\u{1F171}`, entity: `&#x1F171`, name: `B Button (blood Type)` },
+      { emoji: `\u{1F191}`, entity: `&#x1F191`, name: `CL Button` },
+      { emoji: `\u{1F192}`, entity: `&#x1F192`, name: `COOL Button` },
+      { emoji: `\u{1F193}`, entity: `&#x1F193`, name: `FREE Button` },
+      { emoji: `\u{2139}`, entity: `&#x2139`, name: `Information` },
+      { emoji: `\u{1F194}`, entity: `&#x1F194`, name: `ID Button` },
+      { emoji: `\u{24C2}`, entity: `&#x24C2`, name: `Circled M` },
+      { emoji: `\u{1F195}`, entity: `&#x1F195`, name: `NEW Button` },
+      { emoji: `\u{1F196}`, entity: `&#x1F196`, name: `NG Button` },
+      { emoji: `\u{1F17E}`, entity: `&#x1F17E`, name: `O Button (blood Type)` },
+      { emoji: `\u{1F197}`, entity: `&#x1F197`, name: `OK Button` },
+      { emoji: `\u{1F17F}`, entity: `&#x1F17F`, name: `P Button` },
+      { emoji: `\u{1F198}`, entity: `&#x1F198`, name: `SOS Button` },
+      { emoji: `\u{1F199}`, entity: `&#x1F199`, name: `UP! Button` },
+      { emoji: `\u{1F19A}`, entity: `&#x1F19A`, name: `VS Button` },
+      { emoji: `\u{1F201}`, entity: `&#x1F201`, name: `Japanese “here” Button` },
+      { emoji: `\u{1F202}`, entity: `&#x1F202`, name: `Japanese “service Charge” Button` },
+      { emoji: `\u{1F237}`, entity: `&#x1F237`, name: `Japanese “monthly Amount” Button` },
+      { emoji: `\u{1F236}`, entity: `&#x1F236`, name: `Japanese “not Free Of Charge” Button` },
+      { emoji: `\u{1F22F}`, entity: `&#x1F22F`, name: `Japanese “reserved” Button` },
+      { emoji: `\u{1F250}`, entity: `&#x1F250`, name: `Japanese “bargain” Button` },
+      { emoji: `\u{1F239}`, entity: `&#x1F239`, name: `Japanese “discount” Button` },
+      { emoji: `\u{1F21A}`, entity: `&#x1F21A`, name: `Japanese “free Of Charge” Button` },
+      { emoji: `\u{1F232}`, entity: `&#x1F232`, name: `Japanese “prohibited” Button` },
+      { emoji: `\u{1F251}`, entity: `&#x1F251`, name: `Japanese “acceptable” Button` },
+      { emoji: `\u{1F238}`, entity: `&#x1F238`, name: `Japanese “application” Button` },
+      { emoji: `\u{1F234}`, entity: `&#x1F234`, name: `Japanese “passing Grade” Button` },
+      { emoji: `\u{1F233}`, entity: `&#x1F233`, name: `Japanese “vacancy” Button` },
+      { emoji: `\u{3297}`, entity: `&#x3297`, name: `Japanese “congratulations” Button` },
+      { emoji: `\u{3299}`, entity: `&#x3299`, name: `Japanese “secret” Button` },
+      { emoji: `\u{1F23A}`, entity: `&#x1F23A`, name: `Japanese “open For Business” Button` },
+      { emoji: `\u{1F235}`, entity: `&#x1F235`, name: `Japanese “no Vacancy” Button` },
+      { emoji: `\u{25AA}`, entity: `&#x25AA`, name: `Black Small Square` },
+      { emoji: `\u{25AB}`, entity: `&#x25AB`, name: `White Small Square` },
+      { emoji: `\u{25FB}`, entity: `&#x25FB`, name: `White Medium Square` },
+      { emoji: `\u{25FC}`, entity: `&#x25FC`, name: `Black Medium Square` },
+      { emoji: `\u{25FD}`, entity: `&#x25FD`, name: `White Medium-Small Square` },
+      { emoji: `\u{25FE}`, entity: `&#x25FE`, name: `Black Medium-Small Square` },
+      { emoji: `\u{2B1B}`, entity: `&#x2B1B`, name: `Black Large Square` },
+      { emoji: `\u{2B1C}`, entity: `&#x2B1C`, name: `White Large Square` },
+      { emoji: `\u{1F536}`, entity: `&#x1F536`, name: `Large Orange Diamond` },
+      { emoji: `\u{1F537}`, entity: `&#x1F537`, name: `Large Blue Diamond` },
+      { emoji: `\u{1F538}`, entity: `&#x1F538`, name: `Small Orange Diamond` },
+      { emoji: `\u{1F539}`, entity: `&#x1F539`, name: `Small Blue Diamond` },
+      { emoji: `\u{1F53A}`, entity: `&#x1F53A`, name: `Red Triangle Pointed Up` },
+      { emoji: `\u{1F53B}`, entity: `&#x1F53B`, name: `Red Triangle Pointed Down` },
+      { emoji: `\u{1F4A0}`, entity: `&#x1F4A0`, name: `Diamond With A Dot` },
+      { emoji: `\u{1F518}`, entity: `&#x1F518`, name: `Radio Button` },
+      { emoji: `\u{1F532}`, entity: `&#x1F532`, name: `Black Square Button` },
+      { emoji: `\u{1F533}`, entity: `&#x1F533`, name: `White Square Button` },
+      { emoji: `\u{26AA}`, entity: `&#x26AA`, name: `White Circle` },
+      { emoji: `\u{26AB}`, entity: `&#x26AB`, name: `Black Circle` },
+      { emoji: `\u{1F534}`, entity: `&#x1F534`, name: `Red Circle` },
+      { emoji: `\u{1F535}`, entity: `&#x1F535`, name: `Blue Circle` },
+      { emoji: `\u{1F3C1}`, entity: `&#x1F3C1`, name: `Chequered Flag` },
+      { emoji: `\u{1F6A9}`, entity: `&#x1F6A9`, name: `Triangular Flag` },
+      { emoji: `\u{1F38C}`, entity: `&#x1F38C`, name: `Crossed Flags` },
+      { emoji: `\u{1F3F4}`, entity: `&#x1F3F4`, name: `Black Flag` },
+      { emoji: `\u{1F3F3}`, entity: `&#x1F3F3`, name: `White Flag` },
+      { emoji: `\u{1F3F3}\u{FE0F}\u{200D}\u{1F308}`, entity: `&#x1F3F3&#xFE0F&#x200D&#x1F308`, name: `Rainbow Flag` },
+      { emoji: `\u{1F1E6}\u{1F1E8}`, entity: `&#x1F1E6&#x1F1E8`, name: `Ascension Island` },
+      { emoji: `\u{1F1E6}\u{1F1E9}`, entity: `&#x1F1E6&#x1F1E9`, name: `Andorra` },
+      { emoji: `\u{1F1E6}\u{1F1EA}`, entity: `&#x1F1E6&#x1F1EA`, name: `United Arab Emirates` },
+      { emoji: `\u{1F1E6}\u{1F1EB}`, entity: `&#x1F1E6&#x1F1EB`, name: `Afghanistan` },
+      { emoji: `\u{1F1E6}\u{1F1EC}`, entity: `&#x1F1E6&#x1F1EC`, name: `Antigua & Barbuda` },
+      { emoji: `\u{1F1E6}\u{1F1EE}`, entity: `&#x1F1E6&#x1F1EE`, name: `Anguilla` },
+      { emoji: `\u{1F1E6}\u{1F1F1}`, entity: `&#x1F1E6&#x1F1F1`, name: `Albania` },
+      { emoji: `\u{1F1E6}\u{1F1F2}`, entity: `&#x1F1E6&#x1F1F2`, name: `Armenia` },
+      { emoji: `\u{1F1E6}\u{1F1F4}`, entity: `&#x1F1E6&#x1F1F4`, name: `Angola` },
+      { emoji: `\u{1F1E6}\u{1F1F6}`, entity: `&#x1F1E6&#x1F1F6`, name: `Antarctica` },
+      { emoji: `\u{1F1E6}\u{1F1F7}`, entity: `&#x1F1E6&#x1F1F7`, name: `Argentina` },
+      { emoji: `\u{1F1E6}\u{1F1F8}`, entity: `&#x1F1E6&#x1F1F8`, name: `American Samoa` },
+      { emoji: `\u{1F1E6}\u{1F1F9}`, entity: `&#x1F1E6&#x1F1F9`, name: `Austria` },
+      { emoji: `\u{1F1E6}\u{1F1FA}`, entity: `&#x1F1E6&#x1F1FA`, name: `Australia` },
+      { emoji: `\u{1F1E6}\u{1F1FC}`, entity: `&#x1F1E6&#x1F1FC`, name: `Aruba` },
+      { emoji: `\u{1F1E6}\u{1F1FD}`, entity: `&#x1F1E6&#x1F1FD`, name: `Åland Islands` },
+      { emoji: `\u{1F1E6}\u{1F1FF}`, entity: `&#x1F1E6&#x1F1FF`, name: `Azerbaijan` },
+      { emoji: `\u{1F1E7}\u{1F1E6}`, entity: `&#x1F1E7&#x1F1E6`, name: `Bosnia & Herzegovina` },
+      { emoji: `\u{1F1E7}\u{1F1E7}`, entity: `&#x1F1E7&#x1F1E7`, name: `Barbados` },
+      { emoji: `\u{1F1E7}\u{1F1E9}`, entity: `&#x1F1E7&#x1F1E9`, name: `Bangladesh` },
+      { emoji: `\u{1F1E7}\u{1F1EA}`, entity: `&#x1F1E7&#x1F1EA`, name: `Belgium` },
+      { emoji: `\u{1F1E7}\u{1F1EB}`, entity: `&#x1F1E7&#x1F1EB`, name: `Burkina Faso` },
+      { emoji: `\u{1F1E7}\u{1F1EC}`, entity: `&#x1F1E7&#x1F1EC`, name: `Bulgaria` },
+      { emoji: `\u{1F1E7}\u{1F1ED}`, entity: `&#x1F1E7&#x1F1ED`, name: `Bahrain` },
+      { emoji: `\u{1F1E7}\u{1F1EE}`, entity: `&#x1F1E7&#x1F1EE`, name: `Burundi` },
+      { emoji: `\u{1F1E7}\u{1F1EF}`, entity: `&#x1F1E7&#x1F1EF`, name: `Benin` },
+      { emoji: `\u{1F1E7}\u{1F1F1}`, entity: `&#x1F1E7&#x1F1F1`, name: `St. Barthélemy` },
+      { emoji: `\u{1F1E7}\u{1F1F2}`, entity: `&#x1F1E7&#x1F1F2`, name: `Bermuda` },
+      { emoji: `\u{1F1E7}\u{1F1F3}`, entity: `&#x1F1E7&#x1F1F3`, name: `Brunei` },
+      { emoji: `\u{1F1E7}\u{1F1F4}`, entity: `&#x1F1E7&#x1F1F4`, name: `Bolivia` },
+      { emoji: `\u{1F1E7}\u{1F1F6}`, entity: `&#x1F1E7&#x1F1F6`, name: `Caribbean Netherlands` },
+      { emoji: `\u{1F1E7}\u{1F1F7}`, entity: `&#x1F1E7&#x1F1F7`, name: `Brazil` },
+      { emoji: `\u{1F1E7}\u{1F1F8}`, entity: `&#x1F1E7&#x1F1F8`, name: `Bahamas` },
+      { emoji: `\u{1F1E7}\u{1F1F9}`, entity: `&#x1F1E7&#x1F1F9`, name: `Bhutan` },
+      { emoji: `\u{1F1E7}\u{1F1FB}`, entity: `&#x1F1E7&#x1F1FB`, name: `Bouvet Island` },
+      { emoji: `\u{1F1E7}\u{1F1FC}`, entity: `&#x1F1E7&#x1F1FC`, name: `Botswana` },
+      { emoji: `\u{1F1E7}\u{1F1FE}`, entity: `&#x1F1E7&#x1F1FE`, name: `Belarus` },
+      { emoji: `\u{1F1E7}\u{1F1FF}`, entity: `&#x1F1E7&#x1F1FF`, name: `Belize` },
+      { emoji: `\u{1F1E8}\u{1F1E6}`, entity: `&#x1F1E8&#x1F1E6`, name: `Canada` },
+      { emoji: `\u{1F1E8}\u{1F1E8}`, entity: `&#x1F1E8&#x1F1E8`, name: `Cocos (Keeling) Islands` },
+      { emoji: `\u{1F1E8}\u{1F1E9}`, entity: `&#x1F1E8&#x1F1E9`, name: `Congo - Kinshasa` },
+      { emoji: `\u{1F1E8}\u{1F1EB}`, entity: `&#x1F1E8&#x1F1EB`, name: `Central African Republic` },
+      { emoji: `\u{1F1E8}\u{1F1EC}`, entity: `&#x1F1E8&#x1F1EC`, name: `Congo - Brazzaville` },
+      { emoji: `\u{1F1E8}\u{1F1ED}`, entity: `&#x1F1E8&#x1F1ED`, name: `Switzerland` },
+      { emoji: `\u{1F1E8}\u{1F1EE}`, entity: `&#x1F1E8&#x1F1EE`, name: `Côte D’Ivoire` },
+      { emoji: `\u{1F1E8}\u{1F1F0}`, entity: `&#x1F1E8&#x1F1F0`, name: `Cook Islands` },
+      { emoji: `\u{1F1E8}\u{1F1F1}`, entity: `&#x1F1E8&#x1F1F1`, name: `Chile` },
+      { emoji: `\u{1F1E8}\u{1F1F2}`, entity: `&#x1F1E8&#x1F1F2`, name: `Cameroon` },
+      { emoji: `\u{1F1E8}\u{1F1F3}`, entity: `&#x1F1E8&#x1F1F3`, name: `China` },
+      { emoji: `\u{1F1E8}\u{1F1F4}`, entity: `&#x1F1E8&#x1F1F4`, name: `Colombia` },
+      { emoji: `\u{1F1E8}\u{1F1F5}`, entity: `&#x1F1E8&#x1F1F5`, name: `Clipperton Island` },
+      { emoji: `\u{1F1E8}\u{1F1F7}`, entity: `&#x1F1E8&#x1F1F7`, name: `Costa Rica` },
+      { emoji: `\u{1F1E8}\u{1F1FA}`, entity: `&#x1F1E8&#x1F1FA`, name: `Cuba` },
+      { emoji: `\u{1F1E8}\u{1F1FB}`, entity: `&#x1F1E8&#x1F1FB`, name: `Cape Verde` },
+      { emoji: `\u{1F1E8}\u{1F1FC}`, entity: `&#x1F1E8&#x1F1FC`, name: `Curaçao` },
+      { emoji: `\u{1F1E8}\u{1F1FD}`, entity: `&#x1F1E8&#x1F1FD`, name: `Christmas Island` },
+      { emoji: `\u{1F1E8}\u{1F1FE}`, entity: `&#x1F1E8&#x1F1FE`, name: `Cyprus` },
+      { emoji: `\u{1F1E8}\u{1F1FF}`, entity: `&#x1F1E8&#x1F1FF`, name: `Czech Republic` },
+      { emoji: `\u{1F1E9}\u{1F1EA}`, entity: `&#x1F1E9&#x1F1EA`, name: `Germany` },
+      { emoji: `\u{1F1E9}\u{1F1EC}`, entity: `&#x1F1E9&#x1F1EC`, name: `Diego Garcia` },
+      { emoji: `\u{1F1E9}\u{1F1EF}`, entity: `&#x1F1E9&#x1F1EF`, name: `Djibouti` },
+      { emoji: `\u{1F1E9}\u{1F1F0}`, entity: `&#x1F1E9&#x1F1F0`, name: `Denmark` },
+      { emoji: `\u{1F1E9}\u{1F1F2}`, entity: `&#x1F1E9&#x1F1F2`, name: `Dominica` },
+      { emoji: `\u{1F1E9}\u{1F1F4}`, entity: `&#x1F1E9&#x1F1F4`, name: `Dominican Republic` },
+      { emoji: `\u{1F1E9}\u{1F1FF}`, entity: `&#x1F1E9&#x1F1FF`, name: `Algeria` },
+      { emoji: `\u{1F1EA}\u{1F1E6}`, entity: `&#x1F1EA&#x1F1E6`, name: `Ceuta & Melilla` },
+      { emoji: `\u{1F1EA}\u{1F1E8}`, entity: `&#x1F1EA&#x1F1E8`, name: `Ecuador` },
+      { emoji: `\u{1F1EA}\u{1F1EA}`, entity: `&#x1F1EA&#x1F1EA`, name: `Estonia` },
+      { emoji: `\u{1F1EA}\u{1F1EC}`, entity: `&#x1F1EA&#x1F1EC`, name: `Egypt` },
+      { emoji: `\u{1F1EA}\u{1F1ED}`, entity: `&#x1F1EA&#x1F1ED`, name: `Western Sahara` },
+      { emoji: `\u{1F1EA}\u{1F1F7}`, entity: `&#x1F1EA&#x1F1F7`, name: `Eritrea` },
+      { emoji: `\u{1F1EA}\u{1F1F8}`, entity: `&#x1F1EA&#x1F1F8`, name: `Spain` },
+      { emoji: `\u{1F1EA}\u{1F1F9}`, entity: `&#x1F1EA&#x1F1F9`, name: `Ethiopia` },
+      { emoji: `\u{1F1EA}\u{1F1FA}`, entity: `&#x1F1EA&#x1F1FA`, name: `European Union` },
+      { emoji: `\u{1F1EB}\u{1F1EE}`, entity: `&#x1F1EB&#x1F1EE`, name: `Finland` },
+      { emoji: `\u{1F1EB}\u{1F1EF}`, entity: `&#x1F1EB&#x1F1EF`, name: `Fiji` },
+      { emoji: `\u{1F1EB}\u{1F1F0}`, entity: `&#x1F1EB&#x1F1F0`, name: `Falkland Islands` },
+      { emoji: `\u{1F1EB}\u{1F1F2}`, entity: `&#x1F1EB&#x1F1F2`, name: `Micronesia` },
+      { emoji: `\u{1F1EB}\u{1F1F4}`, entity: `&#x1F1EB&#x1F1F4`, name: `Faroe Islands` },
+      { emoji: `\u{1F1EB}\u{1F1F7}`, entity: `&#x1F1EB&#x1F1F7`, name: `France` },
+      { emoji: `\u{1F1EC}\u{1F1E6}`, entity: `&#x1F1EC&#x1F1E6`, name: `Gabon` },
+      { emoji: `\u{1F1EC}\u{1F1E7}`, entity: `&#x1F1EC&#x1F1E7`, name: `United Kingdom` },
+      { emoji: `\u{1F1EC}\u{1F1E9}`, entity: `&#x1F1EC&#x1F1E9`, name: `Grenada` },
+      { emoji: `\u{1F1EC}\u{1F1EA}`, entity: `&#x1F1EC&#x1F1EA`, name: `Georgia` },
+      { emoji: `\u{1F1EC}\u{1F1EB}`, entity: `&#x1F1EC&#x1F1EB`, name: `French Guiana` },
+      { emoji: `\u{1F1EC}\u{1F1EC}`, entity: `&#x1F1EC&#x1F1EC`, name: `Guernsey` },
+      { emoji: `\u{1F1EC}\u{1F1ED}`, entity: `&#x1F1EC&#x1F1ED`, name: `Ghana` },
+      { emoji: `\u{1F1EC}\u{1F1EE}`, entity: `&#x1F1EC&#x1F1EE`, name: `Gibraltar` },
+      { emoji: `\u{1F1EC}\u{1F1F1}`, entity: `&#x1F1EC&#x1F1F1`, name: `Greenland` },
+      { emoji: `\u{1F1EC}\u{1F1F2}`, entity: `&#x1F1EC&#x1F1F2`, name: `Gambia` },
+      { emoji: `\u{1F1EC}\u{1F1F3}`, entity: `&#x1F1EC&#x1F1F3`, name: `Guinea` },
+      { emoji: `\u{1F1EC}\u{1F1F5}`, entity: `&#x1F1EC&#x1F1F5`, name: `Guadeloupe` },
+      { emoji: `\u{1F1EC}\u{1F1F6}`, entity: `&#x1F1EC&#x1F1F6`, name: `Equatorial Guinea` },
+      { emoji: `\u{1F1EC}\u{1F1F7}`, entity: `&#x1F1EC&#x1F1F7`, name: `Greece` },
+      { emoji: `\u{1F1EC}\u{1F1F8}`, entity: `&#x1F1EC&#x1F1F8`, name: `South Georgia & South Sandwich Islands` },
+      { emoji: `\u{1F1EC}\u{1F1F9}`, entity: `&#x1F1EC&#x1F1F9`, name: `Guatemala` },
+      { emoji: `\u{1F1EC}\u{1F1FA}`, entity: `&#x1F1EC&#x1F1FA`, name: `Guam` },
+      { emoji: `\u{1F1EC}\u{1F1FC}`, entity: `&#x1F1EC&#x1F1FC`, name: `Guinea-Bissau` },
+      { emoji: `\u{1F1EC}\u{1F1FE}`, entity: `&#x1F1EC&#x1F1FE`, name: `Guyana` },
+      { emoji: `\u{1F1ED}\u{1F1F0}`, entity: `&#x1F1ED&#x1F1F0`, name: `Hong Kong SAR China` },
+      { emoji: `\u{1F1ED}\u{1F1F2}`, entity: `&#x1F1ED&#x1F1F2`, name: `Heard & McDonald Islands` },
+      { emoji: `\u{1F1ED}\u{1F1F3}`, entity: `&#x1F1ED&#x1F1F3`, name: `Honduras` },
+      { emoji: `\u{1F1ED}\u{1F1F7}`, entity: `&#x1F1ED&#x1F1F7`, name: `Croatia` },
+      { emoji: `\u{1F1ED}\u{1F1F9}`, entity: `&#x1F1ED&#x1F1F9`, name: `Haiti` },
+      { emoji: `\u{1F1ED}\u{1F1FA}`, entity: `&#x1F1ED&#x1F1FA`, name: `Hungary` },
+      { emoji: `\u{1F1EE}\u{1F1E8}`, entity: `&#x1F1EE&#x1F1E8`, name: `Canary Islands` },
+      { emoji: `\u{1F1EE}\u{1F1E9}`, entity: `&#x1F1EE&#x1F1E9`, name: `Indonesia` },
+      { emoji: `\u{1F1EE}\u{1F1EA}`, entity: `&#x1F1EE&#x1F1EA`, name: `Ireland` },
+      { emoji: `\u{1F1EE}\u{1F1F1}`, entity: `&#x1F1EE&#x1F1F1`, name: `Israel` },
+      { emoji: `\u{1F1EE}\u{1F1F2}`, entity: `&#x1F1EE&#x1F1F2`, name: `Isle Of Man` },
+      { emoji: `\u{1F1EE}\u{1F1F3}`, entity: `&#x1F1EE&#x1F1F3`, name: `India` },
+      { emoji: `\u{1F1EE}\u{1F1F4}`, entity: `&#x1F1EE&#x1F1F4`, name: `British Indian Ocean Territory` },
+      { emoji: `\u{1F1EE}\u{1F1F6}`, entity: `&#x1F1EE&#x1F1F6`, name: `Iraq` },
+      { emoji: `\u{1F1EE}\u{1F1F7}`, entity: `&#x1F1EE&#x1F1F7`, name: `Iran` },
+      { emoji: `\u{1F1EE}\u{1F1F8}`, entity: `&#x1F1EE&#x1F1F8`, name: `Iceland` },
+      { emoji: `\u{1F1EE}\u{1F1F9}`, entity: `&#x1F1EE&#x1F1F9`, name: `Italy` },
+      { emoji: `\u{1F1EF}\u{1F1EA}`, entity: `&#x1F1EF&#x1F1EA`, name: `Jersey` },
+      { emoji: `\u{1F1EF}\u{1F1F2}`, entity: `&#x1F1EF&#x1F1F2`, name: `Jamaica` },
+      { emoji: `\u{1F1EF}\u{1F1F4}`, entity: `&#x1F1EF&#x1F1F4`, name: `Jordan` },
+      { emoji: `\u{1F1EF}\u{1F1F5}`, entity: `&#x1F1EF&#x1F1F5`, name: `Japan` },
+      { emoji: `\u{1F1F0}\u{1F1EA}`, entity: `&#x1F1F0&#x1F1EA`, name: `Kenya` },
+      { emoji: `\u{1F1F0}\u{1F1EC}`, entity: `&#x1F1F0&#x1F1EC`, name: `Kyrgyzstan` },
+      { emoji: `\u{1F1F0}\u{1F1ED}`, entity: `&#x1F1F0&#x1F1ED`, name: `Cambodia` },
+      { emoji: `\u{1F1F0}\u{1F1EE}`, entity: `&#x1F1F0&#x1F1EE`, name: `Kiribati` },
+      { emoji: `\u{1F1F0}\u{1F1F2}`, entity: `&#x1F1F0&#x1F1F2`, name: `Comoros` },
+      { emoji: `\u{1F1F0}\u{1F1F3}`, entity: `&#x1F1F0&#x1F1F3`, name: `St. Kitts & Nevis` },
+      { emoji: `\u{1F1F0}\u{1F1F5}`, entity: `&#x1F1F0&#x1F1F5`, name: `North Korea` },
+      { emoji: `\u{1F1F0}\u{1F1F7}`, entity: `&#x1F1F0&#x1F1F7`, name: `South Korea` },
+      { emoji: `\u{1F1F0}\u{1F1FC}`, entity: `&#x1F1F0&#x1F1FC`, name: `Kuwait` },
+      { emoji: `\u{1F1F0}\u{1F1FE}`, entity: `&#x1F1F0&#x1F1FE`, name: `Cayman Islands` },
+      { emoji: `\u{1F1F0}\u{1F1FF}`, entity: `&#x1F1F0&#x1F1FF`, name: `Kazakhstan` },
+      { emoji: `\u{1F1F1}\u{1F1E6}`, entity: `&#x1F1F1&#x1F1E6`, name: `Laos` },
+      { emoji: `\u{1F1F1}\u{1F1E7}`, entity: `&#x1F1F1&#x1F1E7`, name: `Lebanon` },
+      { emoji: `\u{1F1F1}\u{1F1E8}`, entity: `&#x1F1F1&#x1F1E8`, name: `St. Lucia` },
+      { emoji: `\u{1F1F1}\u{1F1EE}`, entity: `&#x1F1F1&#x1F1EE`, name: `Liechtenstein` },
+      { emoji: `\u{1F1F1}\u{1F1F0}`, entity: `&#x1F1F1&#x1F1F0`, name: `Sri Lanka` },
+      { emoji: `\u{1F1F1}\u{1F1F7}`, entity: `&#x1F1F1&#x1F1F7`, name: `Liberia` },
+      { emoji: `\u{1F1F1}\u{1F1F8}`, entity: `&#x1F1F1&#x1F1F8`, name: `Lesotho` },
+      { emoji: `\u{1F1F1}\u{1F1F9}`, entity: `&#x1F1F1&#x1F1F9`, name: `Lithuania` },
+      { emoji: `\u{1F1F1}\u{1F1FA}`, entity: `&#x1F1F1&#x1F1FA`, name: `Luxembourg` },
+      { emoji: `\u{1F1F1}\u{1F1FB}`, entity: `&#x1F1F1&#x1F1FB`, name: `Latvia` },
+      { emoji: `\u{1F1F1}\u{1F1FE}`, entity: `&#x1F1F1&#x1F1FE`, name: `Libya` },
+      { emoji: `\u{1F1F2}\u{1F1E6}`, entity: `&#x1F1F2&#x1F1E6`, name: `Morocco` },
+      { emoji: `\u{1F1F2}\u{1F1E8}`, entity: `&#x1F1F2&#x1F1E8`, name: `Monaco` },
+      { emoji: `\u{1F1F2}\u{1F1E9}`, entity: `&#x1F1F2&#x1F1E9`, name: `Moldova` },
+      { emoji: `\u{1F1F2}\u{1F1EA}`, entity: `&#x1F1F2&#x1F1EA`, name: `Montenegro` },
+      { emoji: `\u{1F1F2}\u{1F1EB}`, entity: `&#x1F1F2&#x1F1EB`, name: `St. Martin` },
+      { emoji: `\u{1F1F2}\u{1F1EC}`, entity: `&#x1F1F2&#x1F1EC`, name: `Madagascar` },
+      { emoji: `\u{1F1F2}\u{1F1ED}`, entity: `&#x1F1F2&#x1F1ED`, name: `Marshall Islands` },
+      { emoji: `\u{1F1F2}\u{1F1F0}`, entity: `&#x1F1F2&#x1F1F0`, name: `Macedonia` },
+      { emoji: `\u{1F1F2}\u{1F1F1}`, entity: `&#x1F1F2&#x1F1F1`, name: `Mali` },
+      { emoji: `\u{1F1F2}\u{1F1F2}`, entity: `&#x1F1F2&#x1F1F2`, name: `Myanmar (Burma)` },
+      { emoji: `\u{1F1F2}\u{1F1F3}`, entity: `&#x1F1F2&#x1F1F3`, name: `Mongolia` },
+      { emoji: `\u{1F1F2}\u{1F1F4}`, entity: `&#x1F1F2&#x1F1F4`, name: `Macau SAR China` },
+      { emoji: `\u{1F1F2}\u{1F1F5}`, entity: `&#x1F1F2&#x1F1F5`, name: `Northern Mariana Islands` },
+      { emoji: `\u{1F1F2}\u{1F1F6}`, entity: `&#x1F1F2&#x1F1F6`, name: `Martinique` },
+      { emoji: `\u{1F1F2}\u{1F1F7}`, entity: `&#x1F1F2&#x1F1F7`, name: `Mauritania` },
+      { emoji: `\u{1F1F2}\u{1F1F8}`, entity: `&#x1F1F2&#x1F1F8`, name: `Montserrat` },
+      { emoji: `\u{1F1F2}\u{1F1F9}`, entity: `&#x1F1F2&#x1F1F9`, name: `Malta` },
+      { emoji: `\u{1F1F2}\u{1F1FA}`, entity: `&#x1F1F2&#x1F1FA`, name: `Mauritius` },
+      { emoji: `\u{1F1F2}\u{1F1FB}`, entity: `&#x1F1F2&#x1F1FB`, name: `Maldives` },
+      { emoji: `\u{1F1F2}\u{1F1FC}`, entity: `&#x1F1F2&#x1F1FC`, name: `Malawi` },
+      { emoji: `\u{1F1F2}\u{1F1FD}`, entity: `&#x1F1F2&#x1F1FD`, name: `Mexico` },
+      { emoji: `\u{1F1F2}\u{1F1FE}`, entity: `&#x1F1F2&#x1F1FE`, name: `Malaysia` },
+      { emoji: `\u{1F1F2}\u{1F1FF}`, entity: `&#x1F1F2&#x1F1FF`, name: `Mozambique` },
+      { emoji: `\u{1F1F3}\u{1F1E6}`, entity: `&#x1F1F3&#x1F1E6`, name: `Namibia` },
+      { emoji: `\u{1F1F3}\u{1F1E8}`, entity: `&#x1F1F3&#x1F1E8`, name: `New Caledonia` },
+      { emoji: `\u{1F1F3}\u{1F1EA}`, entity: `&#x1F1F3&#x1F1EA`, name: `Niger` },
+      { emoji: `\u{1F1F3}\u{1F1EB}`, entity: `&#x1F1F3&#x1F1EB`, name: `Norfolk Island` },
+      { emoji: `\u{1F1F3}\u{1F1EC}`, entity: `&#x1F1F3&#x1F1EC`, name: `Nigeria` },
+      { emoji: `\u{1F1F3}\u{1F1EE}`, entity: `&#x1F1F3&#x1F1EE`, name: `Nicaragua` },
+      { emoji: `\u{1F1F3}\u{1F1F1}`, entity: `&#x1F1F3&#x1F1F1`, name: `Netherlands` },
+      { emoji: `\u{1F1F3}\u{1F1F4}`, entity: `&#x1F1F3&#x1F1F4`, name: `Norway` },
+      { emoji: `\u{1F1F3}\u{1F1F5}`, entity: `&#x1F1F3&#x1F1F5`, name: `Nepal` },
+      { emoji: `\u{1F1F3}\u{1F1F7}`, entity: `&#x1F1F3&#x1F1F7`, name: `Nauru` },
+      { emoji: `\u{1F1F3}\u{1F1FA}`, entity: `&#x1F1F3&#x1F1FA`, name: `Niue` },
+      { emoji: `\u{1F1F3}\u{1F1FF}`, entity: `&#x1F1F3&#x1F1FF`, name: `New Zealand` },
+      { emoji: `\u{1F1F4}\u{1F1F2}`, entity: `&#x1F1F4&#x1F1F2`, name: `Oman` },
+      { emoji: `\u{1F1F5}\u{1F1E6}`, entity: `&#x1F1F5&#x1F1E6`, name: `Panama` },
+      { emoji: `\u{1F1F5}\u{1F1EA}`, entity: `&#x1F1F5&#x1F1EA`, name: `Peru` },
+      { emoji: `\u{1F1F5}\u{1F1EB}`, entity: `&#x1F1F5&#x1F1EB`, name: `French Polynesia` },
+      { emoji: `\u{1F1F5}\u{1F1EC}`, entity: `&#x1F1F5&#x1F1EC`, name: `Papua New Guinea` },
+      { emoji: `\u{1F1F5}\u{1F1ED}`, entity: `&#x1F1F5&#x1F1ED`, name: `Philippines` },
+      { emoji: `\u{1F1F5}\u{1F1F0}`, entity: `&#x1F1F5&#x1F1F0`, name: `Pakistan` },
+      { emoji: `\u{1F1F5}\u{1F1F1}`, entity: `&#x1F1F5&#x1F1F1`, name: `Poland` },
+      { emoji: `\u{1F1F5}\u{1F1F2}`, entity: `&#x1F1F5&#x1F1F2`, name: `St. Pierre & Miquelon` },
+      { emoji: `\u{1F1F5}\u{1F1F3}`, entity: `&#x1F1F5&#x1F1F3`, name: `Pitcairn Islands` },
+      { emoji: `\u{1F1F5}\u{1F1F7}`, entity: `&#x1F1F5&#x1F1F7`, name: `Puerto Rico` },
+      { emoji: `\u{1F1F5}\u{1F1F8}`, entity: `&#x1F1F5&#x1F1F8`, name: `Palestinian Territories` },
+      { emoji: `\u{1F1F5}\u{1F1F9}`, entity: `&#x1F1F5&#x1F1F9`, name: `Portugal` },
+      { emoji: `\u{1F1F5}\u{1F1FC}`, entity: `&#x1F1F5&#x1F1FC`, name: `Palau` },
+      { emoji: `\u{1F1F5}\u{1F1FE}`, entity: `&#x1F1F5&#x1F1FE`, name: `Paraguay` },
+      { emoji: `\u{1F1F6}\u{1F1E6}`, entity: `&#x1F1F6&#x1F1E6`, name: `Qatar` },
+      { emoji: `\u{1F1F7}\u{1F1EA}`, entity: `&#x1F1F7&#x1F1EA`, name: `Réunion` },
+      { emoji: `\u{1F1F7}\u{1F1F4}`, entity: `&#x1F1F7&#x1F1F4`, name: `Romania` },
+      { emoji: `\u{1F1F7}\u{1F1F8}`, entity: `&#x1F1F7&#x1F1F8`, name: `Serbia` },
+      { emoji: `\u{1F1F7}\u{1F1FA}`, entity: `&#x1F1F7&#x1F1FA`, name: `Russia` },
+      { emoji: `\u{1F1F7}\u{1F1FC}`, entity: `&#x1F1F7&#x1F1FC`, name: `Rwanda` },
+      { emoji: `\u{1F1F8}\u{1F1E6}`, entity: `&#x1F1F8&#x1F1E6`, name: `Saudi Arabia` },
+      { emoji: `\u{1F1F8}\u{1F1E7}`, entity: `&#x1F1F8&#x1F1E7`, name: `Solomon Islands` },
+      { emoji: `\u{1F1F8}\u{1F1E8}`, entity: `&#x1F1F8&#x1F1E8`, name: `Seychelles` },
+      { emoji: `\u{1F1F8}\u{1F1E9}`, entity: `&#x1F1F8&#x1F1E9`, name: `Sudan` },
+      { emoji: `\u{1F1F8}\u{1F1EA}`, entity: `&#x1F1F8&#x1F1EA`, name: `Sweden` },
+      { emoji: `\u{1F1F8}\u{1F1EC}`, entity: `&#x1F1F8&#x1F1EC`, name: `Singapore` },
+      { emoji: `\u{1F1F8}\u{1F1ED}`, entity: `&#x1F1F8&#x1F1ED`, name: `St. Helena` },
+      { emoji: `\u{1F1F8}\u{1F1EE}`, entity: `&#x1F1F8&#x1F1EE`, name: `Slovenia` },
+      { emoji: `\u{1F1F8}\u{1F1EF}`, entity: `&#x1F1F8&#x1F1EF`, name: `Svalbard & Jan Mayen` },
+      { emoji: `\u{1F1F8}\u{1F1F0}`, entity: `&#x1F1F8&#x1F1F0`, name: `Slovakia` },
+      { emoji: `\u{1F1F8}\u{1F1F1}`, entity: `&#x1F1F8&#x1F1F1`, name: `Sierra Leone` },
+      { emoji: `\u{1F1F8}\u{1F1F2}`, entity: `&#x1F1F8&#x1F1F2`, name: `San Marino` },
+      { emoji: `\u{1F1F8}\u{1F1F3}`, entity: `&#x1F1F8&#x1F1F3`, name: `Senegal` },
+      { emoji: `\u{1F1F8}\u{1F1F4}`, entity: `&#x1F1F8&#x1F1F4`, name: `Somalia` },
+      { emoji: `\u{1F1F8}\u{1F1F7}`, entity: `&#x1F1F8&#x1F1F7`, name: `Suriname` },
+      { emoji: `\u{1F1F8}\u{1F1F8}`, entity: `&#x1F1F8&#x1F1F8`, name: `South Sudan` },
+      { emoji: `\u{1F1F8}\u{1F1F9}`, entity: `&#x1F1F8&#x1F1F9`, name: `São Tomé & Príncipe` },
+      { emoji: `\u{1F1F8}\u{1F1FB}`, entity: `&#x1F1F8&#x1F1FB`, name: `El Salvador` },
+      { emoji: `\u{1F1F8}\u{1F1FD}`, entity: `&#x1F1F8&#x1F1FD`, name: `Sint Maarten` },
+      { emoji: `\u{1F1F8}\u{1F1FE}`, entity: `&#x1F1F8&#x1F1FE`, name: `Syria` },
+      { emoji: `\u{1F1F8}\u{1F1FF}`, entity: `&#x1F1F8&#x1F1FF`, name: `Swaziland` },
+      { emoji: `\u{1F1F9}\u{1F1E6}`, entity: `&#x1F1F9&#x1F1E6`, name: `Tristan Da Cunha` },
+      { emoji: `\u{1F1F9}\u{1F1E8}`, entity: `&#x1F1F9&#x1F1E8`, name: `Turks & Caicos Islands` },
+      { emoji: `\u{1F1F9}\u{1F1E9}`, entity: `&#x1F1F9&#x1F1E9`, name: `Chad` },
+      { emoji: `\u{1F1F9}\u{1F1EB}`, entity: `&#x1F1F9&#x1F1EB`, name: `French Southern Territories` },
+      { emoji: `\u{1F1F9}\u{1F1EC}`, entity: `&#x1F1F9&#x1F1EC`, name: `Togo` },
+      { emoji: `\u{1F1F9}\u{1F1ED}`, entity: `&#x1F1F9&#x1F1ED`, name: `Thailand` },
+      { emoji: `\u{1F1F9}\u{1F1EF}`, entity: `&#x1F1F9&#x1F1EF`, name: `Tajikistan` },
+      { emoji: `\u{1F1F9}\u{1F1F0}`, entity: `&#x1F1F9&#x1F1F0`, name: `Tokelau` },
+      { emoji: `\u{1F1F9}\u{1F1F1}`, entity: `&#x1F1F9&#x1F1F1`, name: `Timor-Leste` },
+      { emoji: `\u{1F1F9}\u{1F1F2}`, entity: `&#x1F1F9&#x1F1F2`, name: `Turkmenistan` },
+      { emoji: `\u{1F1F9}\u{1F1F3}`, entity: `&#x1F1F9&#x1F1F3`, name: `Tunisia` },
+      { emoji: `\u{1F1F9}\u{1F1F4}`, entity: `&#x1F1F9&#x1F1F4`, name: `Tonga` },
+      { emoji: `\u{1F1F9}\u{1F1F7}`, entity: `&#x1F1F9&#x1F1F7`, name: `Turkey` },
+      { emoji: `\u{1F1F9}\u{1F1F9}`, entity: `&#x1F1F9&#x1F1F9`, name: `Trinidad & Tobago` },
+      { emoji: `\u{1F1F9}\u{1F1FB}`, entity: `&#x1F1F9&#x1F1FB`, name: `Tuvalu` },
+      { emoji: `\u{1F1F9}\u{1F1FC}`, entity: `&#x1F1F9&#x1F1FC`, name: `Taiwan` },
+      { emoji: `\u{1F1F9}\u{1F1FF}`, entity: `&#x1F1F9&#x1F1FF`, name: `Tanzania` },
+      { emoji: `\u{1F1FA}\u{1F1E6}`, entity: `&#x1F1FA&#x1F1E6`, name: `Ukraine` },
+      { emoji: `\u{1F1FA}\u{1F1EC}`, entity: `&#x1F1FA&#x1F1EC`, name: `Uganda` },
+      { emoji: `\u{1F1FA}\u{1F1F2}`, entity: `&#x1F1FA&#x1F1F2`, name: `U.S. Outlying Islands` },
+      { emoji: `\u{1F1FA}\u{1F1F3}`, entity: `&#x1F1FA&#x1F1F3`, name: `United Nations` },
+      { emoji: `\u{1F1FA}\u{1F1F8}`, entity: `&#x1F1FA&#x1F1F8`, name: `United States` },
+      { emoji: `\u{1F1FA}\u{1F1FE}`, entity: `&#x1F1FA&#x1F1FE`, name: `Uruguay` },
+      { emoji: `\u{1F1FA}\u{1F1FF}`, entity: `&#x1F1FA&#x1F1FF`, name: `Uzbekistan` },
+      { emoji: `\u{1F1FB}\u{1F1E6}`, entity: `&#x1F1FB&#x1F1E6`, name: `Vatican City` },
+      { emoji: `\u{1F1FB}\u{1F1E8}`, entity: `&#x1F1FB&#x1F1E8`, name: `St. Vincent & Grenadines` },
+      { emoji: `\u{1F1FB}\u{1F1EA}`, entity: `&#x1F1FB&#x1F1EA`, name: `Venezuela` },
+      { emoji: `\u{1F1FB}\u{1F1EC}`, entity: `&#x1F1FB&#x1F1EC`, name: `British Virgin Islands` },
+      { emoji: `\u{1F1FB}\u{1F1EE}`, entity: `&#x1F1FB&#x1F1EE`, name: `U.S. Virgin Islands` },
+      { emoji: `\u{1F1FB}\u{1F1F3}`, entity: `&#x1F1FB&#x1F1F3`, name: `Vietnam` },
+      { emoji: `\u{1F1FB}\u{1F1FA}`, entity: `&#x1F1FB&#x1F1FA`, name: `Vanuatu` },
+      { emoji: `\u{1F1FC}\u{1F1EB}`, entity: `&#x1F1FC&#x1F1EB`, name: `Wallis & Futuna` },
+      { emoji: `\u{1F1FC}\u{1F1F8}`, entity: `&#x1F1FC&#x1F1F8`, name: `Samoa` },
+      { emoji: `\u{1F1FD}\u{1F1F0}`, entity: `&#x1F1FD&#x1F1F0`, name: `Kosovo` },
+      { emoji: `\u{1F1FE}\u{1F1EA}`, entity: `&#x1F1FE&#x1F1EA`, name: `Yemen` },
+      { emoji: `\u{1F1FE}\u{1F1F9}`, entity: `&#x1F1FE&#x1F1F9`, name: `Mayotte` },
+      { emoji: `\u{1F1FF}\u{1F1E6}`, entity: `&#x1F1FF&#x1F1E6`, name: `South Africa` },
+      { emoji: `\u{1F1FF}\u{1F1F2}`, entity: `&#x1F1FF&#x1F1F2`, name: `Zambia` }
+    ];
   }
 
   async function cfh_getEmojis() {
-    return JSON.parse(await getValue(`emojis`, `[]`)).map(
-      emoji => `
-        <span data-id="${encodeURIComponent(emoji)}" title="${esgst.cfhEmojis[emoji]}">${emoji}</span>
-      `
-    ).join(``);
+    return JSON.parse(await getValue(`emojis`, `[]`))
+      .map(emoji => {
+        const emojiData = esgst.cfhEmojis.filter(x => x.emoji === emoji || x.entity === emoji)[0];
+        emoji = emojiData.emoji;
+        return {
+          attributes: {
+            [`data-id`]: emoji,
+            title: emojiData.name
+          },
+          text: emoji,
+          type: `span`
+        };
+      });
   }
 
   function cfh_setTextAreas(context, main, source, endless) {
@@ -22814,15 +23907,49 @@
   function cfh_openReplyPopup(description, name, replies, summary) {
     let descriptionArea, nameArea, panel, popup;
     popup = new Popup(`fa-floppy-o`, summary ? `Edit reply:` : `Save new reply:`, true);
-    popup.scrollable.insertAdjacentHTML(`beforeEnd`, `
-      <div class="esgst-description">
-        You can save a defined list of replies to be picked at random when using it. To do so, enclose each option with <span class="esgst-bold">[ESGST-R][/ESGST-R]</span>. For example, a defined list that renders a random "thank you" comment when using it would look like this:<br/><br/>
-        [ESGST-R]Thanks![/ESGST-R]<br/>
-        [ESGST-R]Thank you![/ESGST-R]<br/>
-        [ESGST-R]Thank you so much!<br/><br/>
-        Can't wait to play this game![/ESGST-R]
-      </div>
-    `);
+    createElements(popup.scrollable, `beforeEnd`, [{
+      attributes: {
+        class: `esgst-description`
+      },
+      type: `div`,
+      children: [{
+        text: `You can save a defined list of replies to be picked at random when using it. To do so, enclose each option with `,
+        type: `node`
+      }, {
+        attributes: {
+          class: `esgst-bold`
+        },
+        text: `[ESGST-R][/ESGST-R]`,
+        type: `span`
+      }, {
+        text: `. For example, a defined list that renders a random "thank you" comment when using it would look like this:`,
+        type: `node`
+      }, {
+        type: `br`
+      }, {
+        type: `br`
+      }, {
+        text: `[ESGST-R]Thanks![/ESGST-R]`,
+        type: `node`
+      }, {
+        type: `br`
+      }, {
+        text: `[ESGST-R]Thank you![/ESGST-R]`,
+        type: `node`
+      }, {
+        type: `br`
+      }, {
+        text: `[ESGST-R]Thank you so much!`,
+        type: `node`
+      }, {
+        type: `br`
+      }, {
+        type: `br`
+      }, {
+        text: `Can't wait to play this game![/ESGST-R]`,
+        type: `node`
+      }]
+    }]);
     panel = insertHtml(popup.scrollable, `beforeEnd`, `
       <div>
         <div>
@@ -23037,18 +24164,40 @@
               cv = value;
             }
             cv = Math.round(cv * 100) / 100;
-            let html = `
-              <div class="table__row-outer-wrap">
-                <div class="table__row-inner-wrap">
-                  <div class="table__column--width-medium table__column--align-top">
-                    <span class="esgst-bold">Real CV</span>
-                  </div>
-                  <div class="table__column--width-fill">You should get ~$${cv} real CV for this giveaway.</div>
-                </div>
-              </div>
-            `;
-            table.insertAdjacentHTML(`beforeEnd`, html);
-          } catch (e) { /**/ }
+            createElements(table, `beforeEnd`, [{
+              attributes: {
+                class: `table__row-outer-wrap`
+              },
+              type: `div`,
+              children: [{
+                attributes: {
+                  class: `table__row-inner-wrap`
+                },
+                type: `div`,
+                children: [{
+                  attributes: {
+                    class: `table__column--width-medium table__column--align-top`
+                  },
+                  type: `div`,
+                  children: [{
+                    attributes: {
+                      class: `esgst-bold`
+                    },
+                    text: `Real CV`,
+                    type: `span`
+                  }]
+                }, {
+                  attributes: {
+                    class: `table__column--width-fill`
+                  },
+                  text: `You should get ~$${cv} real CV for this giveaway.`,
+                  type: `div`
+                }]
+              }]
+            }]);
+          } catch (e) {
+            console.log(e);
+          }
           button = document.getElementsByClassName(`js__submit-form`)[0];
           button.addEventListener(`click`, () => {
             delValue(`rcvcGame`);
@@ -23584,30 +24733,58 @@
       let key = sks.keys[i];
       let giveaway = sks.giveaways[key];
       if (giveaway) {
-        found.push(`<li>${giveaway.active ? `[UNASSIGNED] ` : ``}${key} (<a href="/giveaway/${giveaway.code}/">${giveaway.name}</a>)</li>`);
+        found.push({
+          type: `li`,
+          children: [{
+            text: `${giveaway.active ? `[UNASSIGNED] ` : ``}${key} (`,
+            type: `node`
+          }, {
+            attributes: {
+              href: `/giveaway/${giveaway.code}/`
+            },
+            text: giveaway.name,
+            type: `a`
+          }, {
+            text: `)`,
+            type: `node`
+          }]
+        });
       } else {
-        notFound.push(`<li>${key}</li>`);
+        notFound.push({
+          text: key,
+          type: `li`
+        });
       }
     }
-    [
+    const items = [
       {array: found, name: `Found`},
       {array: notFound, name: `Did not find`}
-    ].forEach(item => {
+    ];
+    for (const item of items) {
       let n = item.array.length;
       if (n < 1) {
-        return;
+        continue;
       }
-      sks.results.insertAdjacentHTML(`beforeEnd`, `
-        <div class="markdown">
-          <div>
-            <span class="esgst-bold">${item.name} ${n} keys:</span>
-          </div>
-          <ul>
-            ${item.array.join(``)}
-          </ul>
-        </div>
-      `);
-    });
+      createElements(sks.results, `beforeEnd`, [{
+        attributes: {
+          class: `markdown`
+        },
+        type: `div`,
+        children: [{
+          type: `div`,
+          children: [{
+            attributes: {
+              class: `esgst-bold`
+            },
+            text: `${item.name} ${n} keys:`,
+            type: `span`
+          }]
+        }, {
+          type: `ul`,
+          children: item.array
+        }]
+      }]);
+    }
     if (esgst.sks_exportKeys) {
       downloadFile(sks.allKeys.join(`\r\n`), `esgst_sks_keys_${new Date().toISOString()}.txt`);
     }
@@ -24211,12 +25388,34 @@
             if (winner.error) {
               ugs.unsent.classList.remove(`esgst-hidden`);
               ugs.unsentCount.textContent = parseInt(ugs.unsentCount.textContent) + 1;
-              ugs.unsentGifts.insertAdjacentHTML(`beforeEnd`, `
-                <span>
-                  <a href="/user/${winner.username}">${winner.username}</a> (<a href="${giveaway.url}/winners">${giveaway.name}</a>)
-                  <i class="fa fa-question-circle" title="${winner.error}"></i>
-                </span>
-              `);
+              createElements(ugs.unsentGifts, `beforeEnd`, [{
+                type: `span`,
+                children: [{
+                  attributes: {
+                    href: `/user/${winner.username}`
+                  },
+                  text: winner.username,
+                  type: `a`
+                }, {
+                  text: ` (`,
+                  type: `node`
+                }, {
+                  attributes: {
+                    href: `${giveaway.url}/winners`
+                  },
+                  text: giveaway.name,
+                  type: `a`
+                }, {
+                  text: `) `,
+                  type: `node`
+                }, {
+                  attributes: {
+                    class: `fa fa-question-circle`,
+                    title: winner.error
+                  },
+                  type: `i`
+                }]
+              }]);
             } else if (!ugs.isCanceled) {
               await request({data: `xsrf_token=${esgst.xsrfToken}&do=sent_feedback&action=1&winner_id=${winner.winnerId}`, method: `POST`, url: `/ajax.php`});
               if (!ugs.sentWinners[giveaway.code]) {
@@ -24225,11 +25424,28 @@
               ugs.sent.classList.remove(`esgst-hidden`);
               ugs.sentWinners[giveaway.code].push(winner.username);
               ugs.sentCount.textContent = parseInt(ugs.sentCount.textContent) + 1;
-              ugs.sentGifts.insertAdjacentHTML(`beforeEnd`, `
-                <span>
-                  <a href="/user/${winner.username}">${winner.username}</a> (<a href="${giveaway.url}/winners">${giveaway.name}</a>)
-                </span>
-              `);
+              createElements(ugs.sentGifts, `beforeEnd`, [{
+                type: `span`,
+                children: [{
+                  attributes: {
+                    href: `/user/${winner.username}`
+                  },
+                  text: winner.username,
+                  type: `a`
+                }, {
+                  text: ` (`,
+                  type: `node`
+                }, {
+                  attributes: {
+                    href: `${giveaway.url}/winners`
+                  },
+                  text: giveaway.name,
+                  type: `a`
+                }, {
+                  text: `)`,
+                  type: `node`
+                }]
+              }]);
               ugs.winners[winner.username].push(giveaway.name);
               if (document.body.contains(giveaway.context)) {
                 giveaway.context.className = `fa fa-check-circle icon-green`;
@@ -24240,12 +25456,34 @@
             // exact same game has already been sent to this winner, meaning they won multiple copies of the same game, so extra gifts cannot be sent
             ugs.unsent.classList.remove(`esgst-hidden`);
             ugs.unsentCount.textContent = parseInt(ugs.unsentCount.textContent) + 1;
-            ugs.unsentGifts.insertAdjacentHTML(`beforeEnd`, `
-              <span>
-                <a href="/user/${winner.username}">${winner.username}</a> (<a href="${giveaway.url}/winners">${giveaway.name}</a>)
-                <i class="fa fa-question-circle" title="${winner.username} already won ${giveaway.name} from another giveaway of yours"></i>
-              </span>
-            `);
+            createElements(ugs.unsentGifts, `beforeEnd`, [{
+              type: `span`,
+              children: [{
+                attributes: {
+                  href: `/user/${winner.username}`
+                },
+                text: winner.username,
+                type: `a`
+              }, {
+                text: ` (`,
+                type: `node`
+              }, {
+                attributes: {
+                  href: `${giveaway.url}/winners`
+                },
+                text: giveaway.name,
+                type: `a`
+              }, {
+                text: `) `,
+                type: `node`
+              }, {
+                attributes: {
+                  class: `fa fa-question-circle`,
+                  title: `${winner.username} already won ${giveaway.name} from another giveaway of yours`
+                },
+                type: `i`
+              }]
+            }]);
           }
         }
       }
@@ -24535,7 +25773,7 @@
         SteamID64: document.querySelector(`a[href*="/profiles/"]`).href.match(/\d+/)[0],
       };
     }
-    popup.Options = insertHtml(popup.description, `beforeEnd`, `<div></div>`);
+    popup.Options = createElements(popup.description, `beforeEnd`, [{ type: `div` }]);
     if (WBC.User) {
       checkSingleSwitch = new ToggleSwitch(popup.Options, `wbc_checkSingle`, false, `Only check ${WBC.User ? WBC.User.Username : `current user`}.`, false, false, `If disabled, all users in the current page will be checked.`, esgst.wbc_checkSingle);
     }
@@ -24628,7 +25866,13 @@
         }
       }
     }
-    popup.Options.insertAdjacentHTML(`afterEnd`, `<div class="esgst-description">If an user is highlighted, that means they have been either checked for the first time or updated.</div>`);
+    createElements(popup.Options, `afterEnd`, [{
+      attributes: {
+        class: `esgst-description`
+      },
+      text: `If an user is highlighted, that means they have been either checked for the first time or updated.`,
+      type: `div`
+    }]);
     popup.description.appendChild(new ButtonSet(`green`, `grey`, WBC.Update ? `fa-refresh` : `fa-question-circle`, `fa-times-circle`, WBC.Update ? `Update` : `Check`, `Cancel`, Callback => {
       WBC.ShowResults = false;
       WBCButton.classList.add(`esgst-busy`);
@@ -24648,32 +25892,32 @@
       }, 500);
       WBCButton.classList.remove(`esgst-busy`);
     }).set);
-    skip = insertHtml(popup.description, `beforeEnd`, `<div></div>`);
-    WBC.Progress = insertHtml(popup.description, `beforeEnd`, `<div></div>`);
-    WBC.OverallProgress = insertHtml(popup.description, `beforeEnd`, `<div></div>`);
-    popup.Results = insertHtml(popup.scrollable, `beforeEnd`, `<div></div>`);
+    skip = createElements(popup.description, `beforeEnd`, [{ type: `div` }]);
+    WBC.Progress = createElements(popup.description, `beforeEnd`, [{ type: `div` }]);
+    WBC.OverallProgress = createElements(popup.description, `beforeEnd`, [{ type: `div` }]);
+    popup.Results = createElements(popup.scrollable, `beforeEnd`, [{ type: `div` }]);
     createResults(popup.Results, WBC, [{
-      Icon: `<i class="fa fa-heart esgst-whitelist"></i> `,
+      Icon: `fa fa-heart esgst-whitelist`,
       Description: `You are whitelisted by`,
       Key: `whitelisted`
     }, {
-      Icon: `<i class="fa fa-ban esgst-blacklist"></i> `,
+      Icon: `fa fa-ban esgst-blacklist`,
       Description: `You are blacklisted by`,
       Key: `blacklisted`
     }, {
-      Icon: `<i class="fa fa-check-circle"></i> `,
+      Icon: `fa fa-check-circle`,
       Description: WBC.B ? "You are neither whitelisted nor blacklisted by" : `You are not whitelisted by`,
       Key: `none`
     }, {
-      Icon: `<i class="fa fa-question-circle"></i> `,
+      Icon: `fa fa-question-circle`,
       Description: `You are not blacklisted and there is not enough information to know if you are whitelisted by`,
       Key: `notBlacklisted`
     }, {
-      Icon: `<i class="fa fa-question-circle"></i> `,
+      Icon: `fa fa-question-circle`,
       Description: `There is not enough information to know if you are whitelisted${WBC.B ? ` or blacklisted` : ``} by`,
       Key: `unknown`
     }, {
-      Icon: `<i class="fa fa-forward"></i> `,
+      Icon: `fa fa-forward`,
       Description: `Skipped users`,
       Key: `skipped`
     }]);
@@ -24791,7 +26035,13 @@
     wbc.manualSkip = false;
     wbc.skipped.classList.remove(`esgst-hidden`);
     wbc.skippedCount.textContent = parseInt(wbc.skippedCount.textContent) + 1;
-    wbc.skippedUsers.insertAdjacentHTML(`beforeEnd`, `<a href="/user/${username}">${username}</a>`);
+    createElements(wbc.skippedUsers, `beforeEnd`, [{
+      attributes: {
+        href: `/user/${username}`
+      },
+      text: username,
+      type: `a`
+    }]);
   }
 
   async function wbc_checkUsers(WBC, I, N, Callback) {
@@ -24847,8 +26097,18 @@
     if (!WBC.Canceled) {
       Key = ((wbc.result === `blacklisted` || wbc.result === `notBlacklisted`) && !WBC.B) ? `unknown` : wbc.result;
       WBC[Key].classList.remove(`esgst-hidden`);
+      const attributes = {
+        href: `href="/user/${user.username}`
+      };
+      if (New) {
+        attributes.class = `esgst-bold esgst-italic`;
+      }
       WBC[`${Key}Count`].textContent = parseInt(WBC[`${Key}Count`].textContent) + 1;
-      WBC[`${Key}Users`].insertAdjacentHTML(`beforeEnd`, `<a ${New ? `class="esgst-bold esgst-italic" ` : ``}href="/user/${user.username}">${user.username}</a>`);
+      createElements(WBC[`${Key}Users`], `beforeEnd`, [{
+        attributes,
+        text: user.username,
+        type: `a`
+      }]);
       if (!WBC.ShowResults) {
         if ((esgst.wbc_returnWhitelists && (wbc.result === `whitelisted`) && !whitelisted) || (WBC.B && esgst.wbc_returnBlacklists && (wbc.result === `blacklisted`) && !blacklisted)) {
           if (user.id) {
@@ -25663,7 +26923,13 @@
         <span class="esgst-popup-actions"></span>
       `;
       wbm.usernames.forEach(username => {
-        wbm.results.lastElementChild.insertAdjacentHTML(`beforeEnd`, `<a href="/user/${username}">${username}</a>`);
+        createElements(wbm.results.lastElementChild, `beforeEnd`, [{
+          attributes: {
+            href: `/user/${username}`
+          },
+          text: username,
+          type: `a`
+        }]);
       });
       callback();
     }
@@ -25724,15 +26990,44 @@
       steamId: steamId,
       username: username
     };
-    popup = new Popup(`fa-tag`, `Edit user tags for <span>${key}</span>:`);
+    popup = new Popup(`fa-tag`, [{
+      text: `Edit user tags for `,
+      type: `node`
+    }, {
+      text: key,
+      type: `span`
+    }, {
+      text: `:`,
+      type: `node`
+    }]);
     set = new ButtonSet(`green`, `grey`, `fa-check`, `fa-circle-o-notch fa-spin`, `Save`, `Saving...`, ut_saveTags.bind(null, key, popup, user));
-    popup.description.insertAdjacentHTML(`beforeEnd`, `<div class="esgst-description">Drag the tags to move them.<br/><br/>When editing a tag color, it will also alter the color for all users with that tag (you have to refresh the page for it to take effect).</div>`);
+    createElements(popup.description, `beforeEnd`, [{
+      attributes: {
+        class: `esgst-description`
+      },
+      type: `div`,
+      children: [{
+        text: `Drag the tags to move them.`,
+        type: `p`
+      }, {
+        type: `br`
+      }, {
+        text: `When editing a tag color, it will also alter the color for all users with that tag (you have to refresh the page for it to take effect).`,
+        type: `p`
+      }]
+    }]);
     popup.tags = insertHtml(popup.description, `beforeEnd`, `<div class="esgst-ut-tags"></div>`);
     popup.input = insertHtml(popup.description, `beforeEnd`, `<input type="text"/>`);
     insertHtml(popup.description, `beforeEnd`, `<i class="esgst-ut-existing-button esgst-clickable fa fa-list" title="Select from existing tags"></i>`).addEventListener(`click`, ut_showExistingTags.bind(null, popup));
     popup.input.addEventListener(`keydown`, triggerSetOnEnter.bind(null, set));
     popup.input.addEventListener(`input`, ut_createTags.bind(null, popup));
-    popup.description.insertAdjacentHTML(`beforeEnd`, `<div class="esgst-description">Use commas to separate tags, for example: Tag1, Tag2, ...</div>`);
+    createElements(popup.description, `beforeEnd`, [{
+      attributes: {
+        class: `esgst-description`
+      },
+      text: `Use commas to separate tags, for example: Tag1, Tag2, ...`,
+      type: `div`
+    }]);
     popup.description.appendChild(set.set);
     popup.open(ut_loadTags.bind(null, popup, user));
   }
@@ -26261,13 +27556,29 @@
     if (!main) return;
     const table = context.querySelector(`${endless ? `.esgst-es-page-${endless} .table__heading, .esgst-es-page-${endless}.table__heading` : `.table__heading`}`);
     if (!table || table.getElementsByClassName(`esgst-cewgd-heading`)[0]) return;
-    table.firstElementChild.insertAdjacentHTML(`afterEnd`, `
-      <div class="table__column--width-small text-center esgst-cewgd-heading">Type</div>
-      <div class="table__column--width-small text-center esgst-cewgd-heading">Level</div>
-      ${esgst.createdPath ? `
-        <div class="table__column--width-small text-center esgst-cewgd-heading">Winner(s)</div>
-      ` : ``}
-    `);
+    const items = [{
+      attributes: {
+        class: `table__column--width-small text-center esgst-cewgd-heading`
+      },
+      text: `Type`,
+      type: `div`
+    }, {
+      attributes: {
+        class: `table__column--width-small text-center esgst-cewgd-heading`
+      },
+      text: `Level`,
+      type: `div`
+    }];
+    if (esgst.createdPath) {
+      items.push({
+        attributes: {
+          class: `table__column--width-small text-center esgst-cewgd-heading`
+        },
+        text: `Winner(s)`,
+        type: `div`
+      });
+    }
+    createElements(table.firstElementChild, `afterEnd`, items);
   }
 
   function cewgd_getDetails_pre(giveaways, main) {
@@ -26339,11 +27650,13 @@
           }
           pagination = responseHtml.getElementsByClassName(`pagination__navigation`)[0];
         } else {
-          (giveaway.panel || (esgst.gm_enable && esgst.createdPath ? giveaway.innerWrap.firstElementChild.nextElementSibling.nextElementSibling : giveaway.innerWrap.firstElementChild.nextElementSibling)).insertAdjacentHTML(`afterEnd`, `
-            <div class="table__column--width-small text-center">-</div>
-            <div class="table__column--width-small text-center">-</div>
-            <div class="table__column--width-small text-center">-</div>
-          `);
+          createElements(giveaway.panel || (esgst.gm_enable && esgst.createdPath ? giveaway.innerWrap.firstElementChild.nextElementSibling.nextElementSibling : giveaway.innerWrap.firstElementChild.nextElementSibling), `afterEnd`, new Array(3).fill({
+            attributes: {
+              class: `table__column--width-small text-center`
+            },
+            text: `-`,
+            type: `div`
+          }));
           pagination = null;
         }
         nextPage += 1;
@@ -26362,10 +27675,13 @@
         cewgd_addDetails(giveaway, currentGiveaway);
         cewgd.count += 1;
       } else {
-        (giveaway.panel || (esgst.gm_enable && esgst.createdPath ? giveaway.innerWrap.firstElementChild.nextElementSibling.nextElementSibling : giveaway.innerWrap.firstElementChild.nextElementSibling)).insertAdjacentHTML(`afterEnd`, `
-          <div class="table__column--width-small text-center">-</div>
-          <div class="table__column--width-small text-center">-</div>
-        `);
+        createElements(giveaway.panel || (esgst.gm_enable && esgst.createdPath ? giveaway.innerWrap.firstElementChild.nextElementSibling.nextElementSibling : giveaway.innerWrap.firstElementChild.nextElementSibling), `afterEnd`, new Array(3).fill({
+          attributes: {
+            class: `table__column--width-small text-center`
+          },
+          text: `-`,
+          type: `div`
+        }));
       }
     }
   }
@@ -26391,14 +27707,27 @@
       giveaway.gwcContext.title = getFeatureTooltip(`gwc`, `Giveaway Winning Chance (${giveaway.chancePerPoint}% per point)`);
     }
     giveaway.level = details.level;
-    giveaway.headingName.insertAdjacentHTML(`beforeEnd`, `
-      <span>(${details.points}P)</span>
-      ${details.gameType ? `
-        <a class="giveaway__icon" href="http://store.steampowered.com/${details.gameType.slice(0, -1)}/${details.gameSteamId}" target="_blank">
-          <i class="fa fa-steam"></i>
-        </a>
-      ` : ``}
-    `);
+    const items = [{
+      text: `(${details.points}P)`,
+      type: `span`
+    }];
+    if (details.gameType) {
+      items.push({
+        attributes: {
+          class: `giveaway__icon`,
+          href: `http://store.steampowered.com/${details.gameType.slice(0, -1)}/${details.gameSteamId}`,
+          target: `_blank`
+        },
+        type: `a`,
+        children: [{
+          attributes: {
+            class: `fa fa-steam`
+          },
+          type: `i`
+        }]
+      });
+    }
+    createElements(giveaway.headingName, `beforeEnd`, items);
     giveaway.inviteOnly = details.inviteOnly;
     giveaway.regionRestricted = details.regionRestricted;
     giveaway.group = details.group;
@@ -26463,9 +27792,17 @@
         winnersColumn.textContent = `-`;
       }
     } else if (esgst.enteredPath || esgst.wonPath) {
-      giveaway.endTimeColumn.insertAdjacentHTML(`beforeEnd`, `
-        by <a class="table__column__secondary-link" href="/user/${details.creator}">${details.creator}</a>
-      `);
+      createElements(giveaway.endTimeColumn, `beforeEnd`, [{
+        text: `by `,
+        type: `node`
+      }, {
+        attributes: {
+          class: `table__column__secondary-link`,
+          href: `/user/${details.creator}`
+        },
+        text: details.creator,
+        type: `a`
+      }]);
       giveaway.creator = details.creator;
       giveaway.creators.push(giveaway.creator.toLowerCase());
     }
@@ -26623,7 +27960,7 @@
             break;
         }
         giveaway.regionRestricted.addEventListener(eventType, () => {
-          timeout = setTimeout(() => {
+          timeout = setTimeout(async () => {
             if (context) {
               switch (esgst.gcl_index) {
                 case 0:
@@ -26642,7 +27979,13 @@
               }
             } else {
               if (esgst.gcl_index === 2) {
-                context = new Popup(`fa-globe`, `<a href="${giveaway.url}/region-restrictions">Giveaway Countries</a>`);
+                context = new Popup(`fa-globe`, [{
+                  attributes :{
+                    href: `${giveaway.url}/region-restrictions`
+                  },
+                  text: `Giveaway Countries`,
+                  type: `a`
+                }]);
                 container = context.scrollable;
                 context.open();
               } else {
@@ -26654,53 +27997,66 @@
                 <i class="fa fa-circle-o-notch fa-spin"></i>
                 <span>Loading countries...</span>
               `;
-              gcl_getCountries([], 1, `${giveaway.url}/region-restrictions/search?page=`, async countries => {
-                if (countries) {
-                  container.innerHTML = `
-                    <input placeholder="Search country..." type="text"/>
-                    <div class="esgst-text-left table">
-                      <div class="table__rows"></div>
-                    </div>
-                  `;
-                  container.firstElementChild.addEventListener(`input`, () => {
-                    let elements, i, value;
-                    value = container.firstElementChild.value.toLowerCase();
-                    elements = container.lastElementChild.firstElementChild.children;
-                    if (value) {
-                      for (i = elements.length - 1; i > -1; --i) {
-                        const element = elements[i];
-                        if (element.getElementsByClassName(`table__column__heading`)[0].textContent.toLowerCase().match(value)) {
-                          element.classList.remove(`esgst-hidden`);
-                        } else {
-                          element.classList.add(`esgst-hidden`);
-                        }
-                      }
-                    } else {
-                      for (i = elements.length - 1; i > -1; --i) {
-                        elements[i].classList.remove(`esgst-hidden`);
+              const countries = await gcl_getCountries(1, `${giveaway.url}/region-restrictions/search?page=`);
+              if (countries) {
+                container.innerHTML = `
+                  <input placeholder="Search country..." type="text"/>
+                  <div class="esgst-text-left table">
+                    <div class="table__rows"></div>
+                  </div>
+                `;
+                container.firstElementChild.addEventListener(`input`, () => {
+                  let elements, i, value;
+                  value = container.firstElementChild.value.toLowerCase();
+                  elements = container.lastElementChild.firstElementChild.children;
+                  if (value) {
+                    for (i = elements.length - 1; i > -1; --i) {
+                      const element = elements[i];
+                      if (element.getElementsByClassName(`table__column__heading`)[0].textContent.toLowerCase().match(value)) {
+                        element.classList.remove(`esgst-hidden`);
+                      } else {
+                        element.classList.add(`esgst-hidden`);
                       }
                     }
-                    context.reposition();
-                  });
-                  countries.forEach(country => {
-                    container.lastElementChild.firstElementChild.insertAdjacentHTML(`beforeEnd`, country);
-                  });
-                  await endless_load(container);
-                  if (esgst.gcl_index === 1) {
-                    container.insertAdjacentHTML(`afterBegin`, `<a class="esgst-ggl-heading" href="${giveaway.url}/region-restrictions">Giveaway Countries</a>`);
+                  } else {
+                    for (i = elements.length - 1; i > -1; --i) {
+                      elements[i].classList.remove(`esgst-hidden`);
+                    }
                   }
                   context.reposition();
-                } else {
-                  container.innerHTML = `
-                    <i class="fa fa-times-circle"></i>
-                    <span>An error ocurred.</span>
-                  `;
-                  if (esgst.gcl_index === 1) {
-                    container.insertAdjacentHTML(`afterBegin`, `<a class="esgst-ggl-heading" href="${giveaway.url}/region-restrictions">Giveaway Countries</a>`);
-                  }
-                  context.reposition();
+                });
+                for (const country of countries) {
+                  container.lastElementChild.firstElementChild.appendChild(country);
                 }
-              });
+                await endless_load(container);
+                if (esgst.gcl_index === 1) {
+                  createElements(container, `afterBegin`, [{
+                    attributes: {
+                      class: `esgst-ggl-heading`,
+                      href: `${giveaway.url}/region-restrictions`
+                    },
+                    text: `Giveaway Countries`,
+                    type: `a`
+                  }]);
+                }
+                context.reposition();
+              } else {
+                container.innerHTML = `
+                  <i class="fa fa-times-circle"></i>
+                  <span>An error ocurred.</span>
+                `;
+                if (esgst.gcl_index === 1) {
+                  createElements(container, `afterBegin`, [{
+                    attributes: {
+                      class: `esgst-ggl-heading`,
+                      href: `${giveaway.url}/region-restrictions`
+                    },
+                    text: `Giveaway Countries`,
+                    type: `a`
+                  }]);
+                }
+                context.reposition();
+              }
             }
             if (esgst.gcl_index === 0) {
               container.onmouseenter = () => {
@@ -26716,23 +28072,22 @@
     });
   }
 
-  async function gcl_getCountries(countries, nextPage, url, callback) {
-    let responseHtml = parseHtml((await request({method: `GET`, url: `${url}${nextPage}`})).responseText);
-    if (responseHtml.getElementsByClassName(`table--summary`)[0]) {
-      setTimeout(callback, 0, null);
-    } else {
-      let elements, i, n, pagination;
-      elements = responseHtml.getElementsByClassName(`table__row-outer-wrap`);
-      for (i = 0, n = elements.length; i < n; ++i) {
-        countries.push(elements[i].outerHTML);
+  async function gcl_getCountries(nextPage, url) {
+    const countries = [];
+    let pagination = null;
+    do {
+      const responseHtml = parseHtml((await request({
+        method: `GET`,
+        url: `${url}${nextPage}`
+      })).responseText);
+      if (responseHtml.getElementsByClassName(`table--summary`)[0]) {
+        return;
       }
+      countries.push(...responseHtml.getElementsByClassName(`table__row-outer-wrap`));
       pagination = responseHtml.getElementsByClassName(`pagination__navigation`)[0];
-      if (pagination && !pagination.lastElementChild.classList.contains(`is-selected`)) {
-        setTimeout(() => gcl_getCountries(countries, ++nextPage, url, callback), 0);
-      } else {
-        setTimeout(callback, 0, countries);
-      }
-    }
+      nextPage += 1;
+    } while (pagination && !pagination.lastElementChild.classList.contains(`is-selected`));
+    return countries;
   }
 
   // [GWC]
@@ -26891,7 +28246,13 @@
       title += `Points To Win / `;
     }
     title = title.slice(0, -3);
-    table.firstElementChild.insertAdjacentHTML(`afterEnd`, `<div class="table__column--width-small text-center esgst-gwcr-heading">${title}</div>`);
+    createElements(table.firstElementChild, `afterEnd`, [{
+      attributes: {
+        class: `table__column--width-small text-center esgst-gwcr-heading`
+      },
+      text: title,
+      type: `div`
+    }]);
   }
   
   // [GWR]
@@ -27234,11 +28595,21 @@
           });
           break;
         case 1:
-          link.insertAdjacentHTML(`beforeEnd`, `
-            <a class="esgst-sal esgst-clickable" href="https://store.steampowered.com/account/registerkey?key=${match}" target="_blank" title="${getFeatureTooltip(`sal`, `Activate on Steam (browser)`)}">
-              <i class="fa fa-globe"></i>
-            </a>
-          `);
+          createElements(link, `beforeEnd`, [{
+            attributes: {
+              class: `esgst-sal esgst-clickable`,
+              href: `https://store.steampowered.com/account/registerkey?key=${match}`,
+              target: `_blank`,
+              title: getFeatureTooltip(`sal`, `Activate on Steam (browser)`)
+            },
+            type: `a`,
+            children: [{
+              attributes: {
+                class: `fa fa-globe`
+              },
+              type: `i`
+            }]
+          }]);
           break;
         case 2:
           insertHtml(link, `beforeEnd`, `
@@ -27474,7 +28845,12 @@
           MR.url = Permalink.getAttribute(`href`);
         } else {
           MR.url = MR.URL = Permalink.getAttribute(`href`);
-          MR.Comment.insertAdjacentHTML(`beforeEnd`, `<div class="comment__children comment_children"></div>`);
+          createElements(MR.Comment, `beforeEnd`, [{
+            attributes: {
+              class: `comment__children comment_children`
+            },
+            type: `div`
+          }]);
         }
         if (esgst.sg) {
           MR.TradeCode = ``;
@@ -27484,7 +28860,13 @@
           }
           MR.Username = MR.Comment.getElementsByClassName(`author_name`)[0].textContent;
         }
-        MR.Timestamp.insertAdjacentHTML(`afterEnd`, `<a class="comment__actions__button esgst-mr-reply">Reply</a>`);
+        createElements(MR.Timestamp, `afterEnd`, [{
+          attributes: {
+            class: `comment__actions__button esgst-mr-reply`
+          },
+          text: `Reply`,
+          type: `a`
+        }]);
         MR.Timestamp.nextElementSibling.addEventListener(`click`, () => {
           if (!MR.Box) {
             mr_addBox(MR);
@@ -27503,39 +28885,112 @@
   function mr_addBox(MR) {
     let Username;
     Username = esgst.username;
-    MR.Children.insertAdjacentHTML(`afterBegin`, `
-      <div class="comment reply_form MRBox">
-      ${esgst.sg ? `
-        <div class="comment__child">
-          <a href="/user/${Username}" class="global__image-outer-wrap global__image-outer-wrap--avatar-small">
-            <div class="global__image-inner-wrap" style="background-image: url(${esgst.avatar});"></div>
-          </a>
-          <div class="comment__summary">
-            <div class="comment__author">
-              <div class="comment__username">
-                <a href="/user/${Username}">${Username}</a>
-              </div>
-            </div>
-            <div class="comment__display-state">
-              <div class="comment__description">
-      ` : ``}
-                <input name="trade_code" type="hidden" value="${MR.TradeCode}">
-                <input name="parent_id" type="hidden" value="${MR.ParentID}">
-                <textarea class="esgst-mr-description" name="description"${esgst.sg ? `` : ` placeholder="Write a reply to ${MR.Username}..."`}></textarea>
-                <div class="align-button-container btn_actions">
-                  <div></div>
-                  <div class="comment__cancel-button btn_cancel esgst-mr-cancel">
-                    <span>Cancel</span>
-                  </div>
-                </div>
-      ${esgst.sg ? `
-              </div>
-            </div>
-          </div>
-        </div>
-      ` : ``}
-      </div>
-    `);
+    const items = [{
+      attributes: {
+        class: `comment reply_form MRBox`
+      },
+      type: `div`
+    }];
+    const basicItems = [{
+      attributes: {
+        name: `trade_code`,
+        type: `hidden`,
+        value: MR.TradeCode
+      },
+      type: `input`
+    }, {
+      attributes: {
+        name: `parent_id`,
+        type: `hidden`,
+        value: MR.ParentID
+      },
+      type: `input`
+    }, {
+      attributes: {
+        class: `esgst-mr-description`,
+        name: `description`
+      },
+      type: `textarea`
+    }, {
+      attributes: {
+        class: `align-button-container btn_actions`
+      },
+      type: `div`,
+      children: [{
+        type: `div`
+      }, {
+        attributes: {
+          class: `comment__cancel-button btn_cancel esgst-mr-cancel`
+        },
+        type: `div`,
+        children: [{
+          text: `Cancel`,
+          type: `span`
+        }]
+      }]
+    }];
+    if (esgst.sg) {
+      items[0].children = [{
+        attributes: {
+          class: `comment__child`
+        },
+        type: `div`,
+        children: [{
+          attributes: {
+            class: `global__image-outer-wrap global__image-outer-wrap--avatar-small`,
+            href: `/user/${Username}`
+          },
+          type: `a`,
+          children: [{
+            attributes: {
+              class: `global__image-inner-wrap`,
+              style: `background-image: url(${esgst.avatar});`
+            },
+            type: `div`
+          }]
+        }, {
+          attributes: {
+            class: `comment__summary`
+          },
+          type: `div`,
+          children: [{
+            attributes: {
+              class: `comment__author`
+            },
+            type: `div`,
+            children: [{
+              attributes: {
+                class: `comment__username`
+              },
+              type: `div`,
+              children: [{
+                attributes: {
+                  href: `/user/${Username}`
+                },
+                text: Username,
+                type: `a`
+              }]
+            }]
+          }, {
+            attributes: {
+              class: `comment__display-state`
+            },
+            type: `div`,
+            children: [{
+              attributes: {
+                class: `comment__description`
+              },
+              type: `div`,
+              children: basicItems
+            }]
+          }]
+        }]
+      }];
+    } else {      
+      basicItems[2].attributes.placeholder = `Write a reply to ${MR.Username}...`;
+      items[0].children = basicItems;
+    }
+    createElements(MR.Children, `afterBegin`, items);
     MR.Box = MR.Children.firstElementChild;
     MR.Description = MR.Box.getElementsByClassName(`esgst-mr-description`)[0];
     MR.Cancel = MR.Box.getElementsByClassName(`esgst-mr-cancel`)[0];
@@ -27597,18 +29052,33 @@
     let DisplayState, EditState, EditSave, ID, AllowReplies, Description;
     MR.Edit = MR.Context.getElementsByClassName(esgst.sg ? `js__comment-edit` : `js_comment_edit`)[0];
     if (MR.Edit) {
-      MR.Edit.insertAdjacentHTML(`afterEnd`, `<a class="comment__actions__button esgst-mr-edit">Edit</a>`);
+      createElements(MR.Edit, `afterEnd`, [{
+        attributes: {
+          class: `comment__actions__button esgst-mr-edit`
+        },
+        text: `Edit`,
+        type: `a`
+      }]);
       MR.Edit = MR.Edit.nextElementSibling;
       MR.Edit.previousElementSibling.remove();
       DisplayState = MR.Comment.getElementsByClassName(esgst.sg ? `comment__display-state` : `comment_body_default`)[0];
       EditState = MR.Comment.getElementsByClassName(esgst.sg ? `comment__edit-state` : `edit_form`)[0];
       EditSave = EditState.querySelector(`.js__comment-edit-save, .js_submit, .EditSave`);
-      EditSave.insertAdjacentHTML(`afterEnd`, `
-        <a class="comment__submit-button btn_action white EditSave">
-          <i class="fa fa-edit"></i>
-          <span>Edit</span>
-        </a>
-      `);
+      createElements(EditSave, `afterEnd`, [{
+        attributes: {
+          class: `comment__submit-button btn_action white EditSave`
+        },
+        type: `a`,
+        children: [{
+          attributes: {
+            class: `fa fa-edit`
+          },
+          type: `i`
+        }, {
+          text: `Edit`,
+          type: `span`
+        }]
+      }]);
       EditSave = EditSave.nextElementSibling;
       EditSave.previousElementSibling.remove();
       ID = EditState.querySelector(`[name="comment_id"]`).value;
@@ -27684,7 +29154,13 @@
       } else {
         data = mr.delete.getAttribute(`data-form`);
       }
-      mr.delete.insertAdjacentHTML(`afterEnd`, `<a class="comment__actions__button esgst-mr-delete">Delete</a>`);
+      createElements(mr.delete, `afterEnd`, [{
+        attributes: {
+          class: `comment__actions__button esgst-mr-delete`
+        },
+        text: `Delete`,
+        type: `a`
+      }]);
       mr.delete = mr.delete.nextElementSibling;
       mr.delete.previousElementSibling.remove();
       mr.delete.addEventListener(`click`, async () => {
@@ -27704,7 +29180,13 @@
       } else {
         data = mr.undelete.getAttribute(`data-form`);
       }
-      mr.undelete.insertAdjacentHTML(`afterEnd`, `<a class="comment__actions__button esgst-mr-undelete">Undelete</a>`);
+      createElements(mr.undelete, `afterEnd`, [{
+        attributes: {
+          class: `comment__actions__button esgst-mr-undelete`
+        },
+        text: `Undelete`,
+        type: `a`
+      }]);
       mr.undelete = mr.undelete.nextElementSibling;
       mr.undelete.previousElementSibling.remove();
       mr.undelete.addEventListener(`click`, async () => {
@@ -27891,7 +29373,14 @@
       if (RMLLink) {
         RMLLink.textContent = `@${Username}`;
       } else {
-        Context.insertAdjacentHTML(`beforeEnd`, `<a class="comment__actions__button esgst-rml-link" href="#${ID}">@${Username}</a>`);
+        createElements(Context, `beforeEnd`, [{
+          attributes: {
+            class: `comment__actions__button esgst-rml-link`,
+            href: `#${ID}`
+          },
+          text: `@${Username}`,
+          type: `a`
+        }]);
       }
     }
   }
@@ -27955,7 +29444,13 @@
           Context = Matches[I].getElementsByClassName(`comment__username`)[0];
           Username = Context.textContent;
           if (Winners[Key].indexOf(Username) >= 0) {
-            Context.insertAdjacentHTML(`afterEnd`, `<i class="fa fa-trophy esgst-iwh-icon" title="${getFeatureTooltip(`iwh`, `This is the winner or one of the winners of this giveaway`)}"></i>`);
+            createElements(Context, `afterEnd`, [{
+              attributes: {
+                class: `fa fa-trophy esgst-iwh-icon`,
+                title: getFeatureTooltip(`iwh`, `This is the winner or one of the winners of this giveaway`)
+              },
+              type: `i`
+            }]);
           }
         }
       }
@@ -27987,13 +29482,37 @@
       return;
     }
     if (context === document || !main) {
-      context.getElementsByClassName(`table__heading`)[0].firstElementChild.insertAdjacentHTML(`afterEnd`, `
-        <div class="table__column--width-small text-center">Last Online</div>
-        <div class="table__column--width-small text-center">Gifts Won</div>
-        <div class="table__column--width-small text-center">Gifts Sent</div>
-        <div class="table__column--width-small text-center">Ratio</div>
-        <div class="table__column--width-small text-center">Contributor Level</div>
-      `);
+      createElements(context.getElementsByClassName(`table__heading`)[0].firstElementChild, `afterEnd`, [{
+        attributes: {
+          class: `table__column--width-small text-center`
+        },
+        text: `Last Online`,
+        type: `div`
+      }, {
+        attributes: {
+          class: `table__column--width-small text-center`
+        },
+        text: `Gifts Won`,
+        type: `div`
+      }, {
+        attributes: {
+          class: `table__column--width-small text-center`
+        },
+        text: `Gifts Sent`,
+        type: `div`
+      }, {
+        attributes: {
+          class: `table__column--width-small text-center`
+        },
+        text: `Ratio`,
+        type: `div`
+      }, {
+        attributes: {
+          class: `table__column--width-small text-center`
+        },
+        text: `Contributor Level`,
+        type: `div`
+      }]);
     }
     let users = {};
     let elements = context.querySelectorAll(`${endless ? `.esgst-es-page-${endless} .table__row-inner-wrap, .esgst-es-page-${endless}.table__row-inner-wrap` : `.table__row-inner-wrap`}`);
@@ -28019,9 +29538,17 @@
       element = elements[i];
       switch (element.textContent) {
         case `Last Online`:
-          html.push(`
-            <div class="table__column--width-small text-center">${element.nextElementSibling.innerHTML}</div>
-          `);
+          html.push({
+            attributes: {
+              class: `table__column--width-small text-center`
+            },
+            type: `div`,
+            children: Array.from(element.nextElementSibling.children).map(x => {
+              return {
+                context: x
+              };
+            })
+          });
           break;
         case `Gifts Won`:
           profile.wonRow = element.parentElement;
@@ -28037,9 +29564,17 @@
           profile.wonCV = parseFloat(cvrow.textContent.replace(/\$|,/g, ``));
           profile.realWonCV = parseFloat(rows[0].columns[1].name.replace(/\$|,/g, ``));
           element.nextElementSibling.firstElementChild.firstElementChild.firstElementChild.removeAttribute(`style`);
-          html.push(`
-            <div class="table__column--width-small text-center">${element.nextElementSibling.innerHTML}</div>
-          `);
+          html.push({
+            attributes: {
+              class: `table__column--width-small text-center`
+            },
+            type: `div`,
+            children: Array.from(element.nextElementSibling.children).map(x => {
+              return {
+                context: x
+              };
+            })
+          });
           break;
         case `Gifts Sent`:
           profile.sentRow = element.parentElement;
@@ -28056,22 +29591,41 @@
           profile.sentCV = parseFloat(cvrow.textContent.replace(/\$|,/g, ``));
           profile.realSentCV = parseFloat(rows[0].columns[1].name.replace(/\$|,/g, ``));
           element.nextElementSibling.firstElementChild.firstElementChild.firstElementChild.removeAttribute(`style`);
-          html.push(`
-            <div class="table__column--width-small text-center">${element.nextElementSibling.innerHTML}</div>
-          `);
+          html.push({
+            attributes: {
+              class: `table__column--width-small text-center`
+            },
+            type: `div`,
+            children: Array.from(element.nextElementSibling.children).map(x => {
+              return {
+                context: x
+              };
+            })
+          });
           break;
         case `Contributor Level`:
           swr_add(profile);
-          html.push(`
-            <div class="table__column--width-small text-center">${profile.sentRow.nextElementSibling.lastElementChild.innerHTML}</div>
-          `);
-          html.push(`
-            <div class="table__column--width-small text-center">${parseFloat(JSON.parse(element.nextElementSibling.firstElementChild.getAttribute(`data-ui-tooltip`)).rows[0].columns[1].name)}</div>
-          `);
+          html.push({
+            attributes: {
+              class: `table__column--width-small text-center`
+            },
+            type: `div`,
+            children: Array.from(profile.sentRow.nextElementSibling.lastElementChild.children).map(x => {
+              return {
+                context: x
+              };
+            })
+          }, {
+            attributes: {
+              class: `table__column--width-small text-center`
+            },
+            text: parseFloat(JSON.parse(element.nextElementSibling.firstElementChild.getAttribute(`data-ui-tooltip`)).rows[0].columns[1].name),
+            type: `div`
+          });
           break;
       }
     }
-    context.insertAdjacentHTML(`afterEnd`, html.join(``));
+    createElements(context, `afterEnd`, html);
   }
 
   // [GH]
@@ -28215,12 +29769,25 @@
               }
               const suspension = responseHtml.getElementsByClassName(`sidebar__suspension`)[0];
               if (suspension) {
-                columns[0].insertAdjacentHTML(`beforeEnd`, `
-                  <div class="esgst-ap-suspended featured__table__row">
-                    <div class="featured__table__row__left">${suspension.textContent}</div>
-                    <div class="featured__table__row__right">${suspension.nextElementSibling.textContent}</div>
-                  </div>
-                `);
+                createElements(columns[0], `beforeEnd`, [{
+                  attributes: {
+                    class: `esgst-ap-suspended featured__table__row`
+                  },
+                  type: `div`,
+                  children: [{
+                    attributes: {
+                      class: `featured__table__row__left`
+                    },
+                    text: suspension.textContent,
+                    type: `div`
+                  }, {
+                    attributes: {
+                      class: `featured__table__row__right`
+                    },
+                    text: suspension.nextElementSibling.textContent,
+                    type: `div`
+                  }]
+                }]);
               }
               columns[1].remove();
               if (type === `user`) {
@@ -28493,7 +30060,24 @@
   }
 
   async function elgb_openPopup(giveaway, main, source, mainCallback) {
-    let popup = new Popup(`fa-file-text-o`, `<a href="${giveaway.url}"><span>${giveaway.name}</span></a> by <a href="/user/${giveaway.creator}">${giveaway.creator}</a>`, true);
+    let popup = new Popup(`fa-file-text-o`, [{
+      attributes: {
+        href: giveaway.url
+      },
+      type: `a`,
+      children: [{
+        text: giveaway.name,
+        type: `span`
+      }]
+    }, {
+      text: ` by `,
+      type: `node`
+    }, {
+      attributes: {
+        href: `/user/${giveaway.creator}`
+      }, text: giveaway.creator,
+      type: `a`
+    }], true);
     if (giveaway.entered) {
       let set = new ButtonSet(`yellow`, `grey`, `fa-minus-circle`, `fa-circle-o-notch fa-spin`, `Leave Giveaway`, `Leaving...`, callback => {
         elgb_leaveGiveaway(giveaway, main, source, () => {
@@ -28559,7 +30143,9 @@
     }
     if (description) {
       description.classList.add(`esgst-text-left`);
-      popup.scrollable.insertAdjacentHTML(`beforeEnd`, description.outerHTML);
+      createElements(popup.scrollable, `beforeEnd`, [{
+        context: description
+      }]);
     }
     let box = null;
     if ((esgst.elgb_r && (!esgst.elgb_r_d || description)) || mainCallback) {
@@ -28793,66 +30379,87 @@
     return itadi;
   }
 
+  function itadi_template(text) {
+    return [{
+      attributes: {
+        class: `sidebar__heading`
+      },
+      text,
+      type: `h3`
+    }, {
+      attributes: {
+        class: `sidebar__navigation`
+      },
+      type: `ul`,
+      children: []
+    }];
+  }
+
+  function itadi_itemTemplate(text1, text2, url) {
+    return {
+      attributes: {
+        class: `sidebar__navigation__item`
+      },
+      type: `li`,
+      children: [{
+        attributes: {
+          class: `sidebar__navigation__item__link`,
+          href: url
+        },
+        type: `a`,
+        children: [{
+          attributes: {
+            class: `sidebar__navigation__item__name`
+          },
+          text: text1,
+          type: `div`
+        }, {
+          attributes: {
+            class: `sidebar__navigation__item__underline`
+          },
+          type: `div`
+        }, {
+          attributes: {
+            class: `sidebar__navigation__item__count`
+          },
+          text: text2,
+          type: `div`
+        }]
+      }]
+    };
+  }
+
+  function itadi_noItemTemplate(text) {
+    return {
+      text,
+      type: `node`
+    };
+  }
+
   function itadi_addInfo(itadi, plain) {
-    let html = `    
-      <h3 class="sidebar__heading">Best Current Deal</h3>
-      <ul class="sidebar__navigation">
-    `;
+    const items = [
+      ...itadi_template(`Best Current Deal`),
+      ...itadi_template(`Historical Lowest Price`),
+      ...itadi_template(`Bundles`)
+    ];
     if (itadi.current) {
-      html += `
-        <li class="sidebar__navigation__item">
-          <a class="sidebar__navigation__item__link" href="https://isthereanydeal.com/game/${plain}/info/">
-            <div class="sidebar__navigation__item__name">${itadi.current.source} (${itadi.current.date})</div>
-            <div class="sidebar__navigation__item__underline"></div>
-            <div class="sidebar__navigation__item__count">${itadi.current.price} (${itadi.current.cut})</div>
-          </a>
-        </li>
-      `;
+      items[1].children.push(itadi_itemTemplate(`${itadi.current.source} (${itadi.current.date})`, `${itadi.current.price} (${itadi.current.cut})`, `https://isthereanydeal.com/game/${plain}/info/`));
     } else {
-      html += `There are no current deals for this game.`;
+      items[1].children.push(itadi_noItemTemplate(`There are no current deals for this game.`));
     }
-    html += `
-      </ul>   
-      <h3 class="sidebar__heading">Historical Lowest Price</h3>
-      <ul class="sidebar__navigation">
-    `;
     if (itadi.historical) {
-      html += `
-        <li class="sidebar__navigation__item">
-          <a class="sidebar__navigation__item__link" href="https://isthereanydeal.com/game/${plain}/info/">
-            <div class="sidebar__navigation__item__name">${itadi.historical.source} (${itadi.historical.date})</div>
-            <div class="sidebar__navigation__item__underline"></div>
-            <div class="sidebar__navigation__item__count">${itadi.historical.price} (${itadi.historical.cut})</div>
-          </a>
-        </li>
-      `;
+      items[3].children.push(itadi_itemTemplate(`${itadi.historical.source} (${itadi.historical.date})`, `${itadi.historical.price} (${itadi.historical.cut})`, `https://isthereanydeal.com/game/${plain}/info/`));
     } else {
-      html += `There is no price history for this game.`;
+      items[3].children.push(itadi_noItemTemplate(`There is no price history for this game.`));
     }
-    html += `
-      </ul>
-      <h3 class="sidebar__heading">Bundles</h3>
-      <ul class="sidebar__navigation">
-    `;
-    if (itadi.bundles) {
+    if (itadi.bundles && itadi.bundles.length) {
       for (const bundle of itadi.bundles) {
-        html += `
-          <li class="sidebar__navigation__item">
-            <a class="sidebar__navigation__item__link" href="https://isthereanydeal.com/specials/#/filter:id/${bundle.id}">
-              <div class="sidebar__navigation__item__name">${bundle.name} (${bundle.source})</div>
-              <div class="sidebar__navigation__item__underline"></div>
-              <div class="sidebar__navigation__item__count">${bundle.price} (${bundle.expiry})</div>
-            </a>
-          </li>
-        `;
+        items[5].children.push(itadi_itemTemplate(`${bundle.name} (${bundle.source})`, `${bundle.price} (${bundle.expiry})`, `https://isthereanydeal.com/specials/#/filter:id/${bundle.id}`));
       }
     } else {
-      html += `This game has never been in a bundle.`;
+      items[5].children.push(itadi_noItemTemplate(`This game has never been in a bundle.`));
     }
-    html += `
-      </ul>
-    `;
-    esgst.sidebar.insertAdjacentHTML(`beforeEnd`, html);
+    createElements(esgst.sidebar, `beforeEnd`, items);
   }
 
   function itadi_getPlain(name) {
@@ -29027,12 +30634,25 @@
     if (((!esgst.createdPath && !esgst.enteredPath && !esgst.wonPath && !esgst.giveawayPath && !esgst.archivePath) || main) && (esgst.giveawayPath || esgst.createdPath || esgst.enteredPath || esgst.wonPath || esgst.archivePath)) return;
     giveaways.forEach(giveaway => {
       if (giveaway.innerWrap.getElementsByClassName(`esgst-gwl`)[0] || !giveaway.ended) return;
-      giveaway.entriesLink.insertAdjacentHTML(`afterEnd`, `
-        <a class="esgst-gwl" ${giveaway.url ? `href="${giveaway.url}/winners"` : ``}>
-          <i class="fa fa-trophy"></i>
-          <span>${giveaway.winners} winners</span>
-        </a>
-      `);
+      const attributes = {
+        class: `esgst-gwl`
+      };
+      if (giveaway.url) {
+        attributes.href = `${giveaway.url}/winners`;
+      }
+      createElements(giveaway.entriesLink, `afterEnd`, [{
+        attributes,
+        type: `a`,
+        children: [{
+          attributes: {
+            class: `fa fa-trophy`
+          },
+          type: `i`
+        }, {
+          text: `${giveaway.winners} winners`,
+          type: `span`
+        }]
+      }]);
     });
   }
   
@@ -29210,7 +30830,13 @@
             }
           } else {
             if (esgst.ggl_index === 3) {
-              context = new Popup(`fa-user`, `<a href="${giveaway.url}/groups">Giveaway Groups</a>`);
+              context = new Popup(`fa-user`, [{
+                attributes: {
+                  href: `${giveaway.url}/groups`
+                },
+                text: `Giveaway Groups`,
+                type: `a`
+              }]);
               container = context.scrollable;
               context.open();
             } else {
@@ -29282,7 +30908,17 @@
                   endless_load(container);
                 }
                 if (esgst.ggl_index === 2) {
-                  container.insertAdjacentHTML(`afterBegin`, `<div><a class="esgst-ggl-heading" href="${giveaway.url}/groups">Giveaway Groups</a></div>`);
+                  createElements(container, `afterBegin`, [{
+                    type: `div`,
+                    children: [{
+                      attributes: {
+                        class: `esgst-ggl-heading`,
+                        href: `${giveaway.url}/groups`
+                      },
+                      text: `Giveaway Groups`,
+                      type: `a`
+                    }]
+                  }]);
                 }
                 context.reposition();
               } else {
@@ -29291,7 +30927,17 @@
                   <span>An error ocurred.</span>
                 `;
                 if (esgst.ggl_index === 2) {
-                  container.insertAdjacentHTML(`afterBegin`, `<div><a class="esgst-ggl-heading" href="${giveaway.url}/groups">Giveaway Groups</a></div>`);
+                  createElements(container, `afterBegin`, [{
+                    type: `div`,
+                    children: [{
+                      attributes: {
+                        class: `esgst-ggl-heading`,
+                        href: `${giveaway.url}/groups`
+                      },
+                      text: `Giveaway Groups`,
+                      type: `a`
+                    }]
+                  }]);
                 }
                 context.reposition();
               }
@@ -29487,7 +31133,7 @@
         popup.close();
       });
     }).set);
-    progress = insertHtml(popup.description, `beforeEnd`, `<div></div>`);
+    progress = createElements(popup.description, `beforeEnd`, [{ type: `div` }]);
     popup.open(() => {
       textArea.focus();
     });
@@ -31211,7 +32857,16 @@
 
   function un_open(profile) {
     let set;
-    profile.unPopup = new Popup(`fa-sticky-note`, `Edit user notes for <span>${profile.name}</span>:`, true);
+    profile.unPopup = new Popup(`fa-sticky-note`, [{
+      text: `Edit user notes for `,
+      type: `node`
+    }, {
+      text: profile.name,
+      type: `span`
+    }, {
+      text: `:`,
+      type: `node`
+    }], true);
     profile.unTextArea = insertHtml(profile.unPopup.scrollable, `beforeEnd`, `
       <textarea></textarea>
     `);
@@ -31327,7 +32982,16 @@
 
   function uf_open(profile) {
     let resetSet, saveSet;
-    profile.ufPopup = new Popup(`fa-eye`, `Apply user filters for <span>${profile.name}</span>:`, true);
+    profile.ufPopup = new Popup(`fa-eye`, [{
+      text: `Apply user filters for `,
+      type: `node`
+    }, {
+      text: profile.name,
+      type: `span`
+    }, {
+      text: `:`,
+      type: `node`
+    }], true);
     profile.ufOptions = insertHtml(profile.ufPopup.description, `beforeEnd`, `<div></div>`);
     profile.ufGiveawaysOption = new ToggleSwitch(profile.ufOptions, null, false, `Filter this user's giveaways.`, false, false, `Hides the user's giveaways from the main pages.`, profile.ufValues.giveaways);
     profile.ufDiscussionsOption = new ToggleSwitch(profile.ufOptions, null, false, `Filter this user's discussions.`, false, false, `Hides the user's discussions from the main pages.`, profile.ufValues.discussions);
@@ -31390,11 +33054,25 @@
         (<span class="esgst-bold">${parseInt(count.firstElementChild.textContent) + 1 + extraCount}</span> filtered by User Filters)
       `;
     } else {
-      context.insertAdjacentHTML(`beforeEnd`, `
-        <span class="esgst-uf-count">
-          (<span class="esgst-bold">${1 + extraCount}</span> filtered by User Filters)
-        </span>
-      `);
+      createElements(context, `beforeEnd`, [{
+        attributes: {
+          class: `esgst-uf-count`
+        },
+        type: `span`,
+        children: [{
+          text: `(`,
+          type: `node`
+        }, {
+          attributes: {
+            class: `esgst-bold`
+          },
+          text: `${1 + extraCount}`,
+          type: `span`
+        }, {
+          text: ` filtered by User Filters`,
+          type: `node`
+        }]
+      }]);
     }
   }
   
@@ -32222,16 +33900,26 @@
     setLocalValue(`gcCache`, JSON.stringify(gcCache));
 
     results.appendChild(obj.playtimeTable.table);
-    results.insertAdjacentHTML(`beforeEnd`, `
-      ${esgst.ugd_getPlaytime ? `
-        <div class="esgst-bold">
-          ${obj.playedCount} out of ${total} games with more than 0 hours playtime (${Math.round(obj.playedCount / total * 10000) / 100}%)
-        </div>
-        ` : ``}
-      ${esgst.ugd_getAchievements ? `
-        <div class="esgst-bold">${obj.achievementCount} out of ${obj.achievementTotal} games with more than 0 achievements (${Math.round(obj.achievementCount / Math.max(1, obj.achievementTotal) * 10000) / 100}%)</div>
-      ` : ``}
-    `);
+    const items = [];
+    if (esgst.ugd_getPlaytime) {
+      items.push({
+        attributes: {
+          class: `esgst-bold`
+        },
+        text: `${obj.playedCount} out of ${total} games with more than 0 hours playtime (${Math.round(obj.playedCount / total * 10000) / 100}%)`,
+        type: `div`
+      });
+    }
+    if (esgst.ugd_getAchievements) {
+      items.push({
+        attributes: {
+          class: `esgst-bold`
+        },
+        text: `${obj.achievementCount} out of ${obj.achievementTotal} games with more than 0 achievements (${Math.round(obj.achievementCount / Math.max(1, obj.achievementTotal) * 10000) / 100}%)`,
+        type: `div`
+      });
+    }
+    createElements(results, `beforeEnd`, items);
 
     await ugd_complete(obj, results);
 
@@ -32469,33 +34157,47 @@
   }
 
   async function ugd_complete(obj, results) {
-    let html = `
-      <div class="esgst-ugd-lists esgst-text-center markdown">
-    `;
+    const items = [{
+      attributes: {
+        class: `esgst-ugd-lists esgst-text-center markdown`
+      },
+      type: `div`,
+      children: []
+    }];
     for (const key in obj.lists) {
       const list = obj.lists[key];
-      html += `
-        <div>
-          <div class="esgst-bold">${list.name}</div>
-          <ol>
-      `;
       const values = list.values;
+      const listItems = [];
       for (const item of values) {
-        html += `
-            <li>
-              ${item.name} - <span class="esgst-bold">${item.value}</span>
-            </li>
-        `;
+        listItems.push({
+          type: `li`,
+          children: [{
+            text: `${item.name} - `,
+            type: `node`
+          }, {
+            atributes: {
+              class: `esgst-bold`
+            },
+            text: item.value,
+            type: `span`
+          }]
+        });
       }
-      html += `
-          </ol>
-        </div>
-      `;
+      items[0].children.push({
+        type: `div`,
+        children: [{
+          attributes: {
+            class: `esgst-bold`
+          },
+          text: list.name,
+          type: `div`
+        }, {
+          type: `ol`,
+          children: listItems
+        }]
+      });
     }
-    html += `
-      </div>
-    `;
-    results.insertAdjacentHTML(`beforeEnd`, html);
+    createElements(results, `beforeEnd`, items);
     await endless_load(results);
   }
 
@@ -32600,30 +34302,36 @@
         id: `namwc_checkMultiple`,
         tooltip: `If enabled, not activated wins will not be checked (faster).`
       }]));
-      obj.popup.scrollable.insertAdjacentHTML(`beforeBegin`, `<div class="esgst-description">If a user is highlighted, that means that they have been either checked for the first time or updated.</div>`);
+      createElements(obj.popup.scrollable, `beforeBegin`, [{
+        attributes: {
+          class: `esgst-description`
+        },
+        text: `If a user is highlighted, that means that they have been either checked for the first time or updated`,
+        type: `div`
+      }]);
       obj.popup.description.insertBefore(new ButtonSet_v2({color1: `green`, color2: `grey`, icon1: `fa-question-circle`, icon2: `fa-times-circle`, title1: `Check`, title2: `Cancel`, callback1: namwc_start.bind(null, obj), callback2: namwc_stop.bind(null, obj)}).set, obj.popup.scrollable);
     }
     obj.popup.progress = insertHtml(obj.popup.scrollable, `beforeBegin`, `<div></div>`);
     obj.popup.overallProgress = insertHtml(obj.popup.scrollable, `beforeBegin`, `<div></div>`);
     obj.popup.results = insertHtml(obj.popup.scrollable, `beforeEnd`, `<div></div>`);
     createResults(obj.popup.results, obj.popup, [{
-      Icon: `<i class="fa fa-check-circle esgst-positive"></i> `,
+      Icon: `fa fa-check-circle esgst-positive`,
       Description: `Users with 0 not activated wins`,
       Key: `activated`
     }, {
-      Icon: `<i class="fa fa-check-circle esgst-positive"></i> `,
+      Icon: `fa fa-check-circle esgst-positive`,
       Description: `Users with 0 multiple wins`,
       Key: `notMultiple`
     }, {
-      Icon: `<i class="fa fa-times-circle esgst-negative"></i> `,
+      Icon: `fa fa-times-circle esgst-negative`,
       Description: `Users with not activated wins`,
       Key: `notActivated`
     }, {
-      Icon: `<i class="fa fa-times-circle esgst-negative"></i> `,
+      Icon: `fa fa-times-circle esgst-negative`,
       Description: `Users with multiple wins`,
       Key: `multiple`
     }, {
-      Icon: `<i class="fa fa-question-circle"></i> `,
+      Icon: `fa fa-question-circle`,
       Description: `Users who cannot be checked for not activated wins either because they have a private profile or SteamCommunity is down`,
       Key: `unknown`
     }]);
@@ -32765,18 +34473,42 @@
         let i, n;
         for (i = 0, n = user.values.namwc.results.notActivated.length; i < n && user.values.namwc.results.notActivated[i] <= suspension; i++);
         if (i > 0) {
-          userElements[steamId].notActivated.insertAdjacentHTML(`beforeEnd`, ` <span title="${getFeatureTooltip(`ust`, `This user already served suspension for ${i} of their not activated wins (until ${getTimestamp(suspension, true, true)})`)}">[-${i}]</span>`);
+          createElements(userElements[steamId].notActivated, `beforeEnd`, [{
+            attributes: {
+              title: getFeatureTooltip(`ust`, `This user already served suspension for ${i} of their not activated wins (until ${getTimestamp(suspension, true, true)})`)
+            },
+            text: `[-${i}]`,
+            type: `span`
+          }]);
         } else if (userElements[steamId].activated) {
-          userElements[steamId].activated.insertAdjacentHTML(`beforeEnd`, ` <span title="${getFeatureTooltip(`ust`, `This user already served suspension for not activated wins until ${getTimestamp(suspension, true, true)}`)}">[x]</span>`);
+          createElements(userElements[steamId].activated, `beforeEnd`, [{
+            attributes: {
+              title: getFeatureTooltip(`ust`, `This user already served suspension for not activated wins until ${getTimestamp(suspension, true, true)}`)
+            },
+            text: `[x]`,
+            type: `span`
+          }]);
         }
       }
       if (Array.isArray(user.values.namwc.results.multiple)) {
         let i, n;
         for (i = 0, n = user.values.namwc.results.multiple.length; i < n && user.values.namwc.results.multiple[i] <= suspension; i++);
         if (i > 0) {
-          userElements[steamId].multiple.insertAdjacentHTML(`beforeEnd`, ` <span title="${getFeatureTooltip(`ust`, `This user already served suspension for ${i} of their multiple wins (until ${getTimestamp(suspension, true, true)})`)}">[-${i}]</span>`);
+          createElements(userElements[steamId].multiple, `beforeEnd`,[{
+            attributes: {
+              title: getFeatureTooltip(`ust`, `This user already served suspension for ${i} of their multiple wins (until ${getTimestamp(suspension, true, true)})`)
+            },
+            text: `[-${i}]`,
+            type: `span`
+          }]);
         } else if (userElements[steamId].notMultiple) {
-          userElements[steamId].notMultiple.insertAdjacentHTML(`beforeEnd`, ` <span title="${getFeatureTooltip(`ust`, `This user already served suspension for multiple wins until ${getTimestamp(suspension, true, true)}`)}">[x]</span>`);
+          createElements(userElements[steamId].notMultiple, `beforeEnd`, [{
+            attributes: {
+              title: getFeatureTooltip(`ust`, `This user already served suspension for multiple wins until ${getTimestamp(suspension, true, true)}`)
+            },
+            text: `[x]`,
+            type: `span`
+          }]);
         }
       }
     }
@@ -32867,11 +34599,19 @@
     if (NRF.N > 0) {
       NRF.I = 0;
       NRF.Multiple = [];
-      profile.sentRowLeft.insertAdjacentHTML(`beforeEnd`, `
-        <span class="esgst-nrf-button">
-          <i class="fa fa-times-circle" title="${getFeatureTooltip(`nrf`, `Find not received giveaways`)}"></i>
-        </span>
-      `);
+      createElements(profile.sentRowLeft, `beforeEnd`, [{
+        attributes: {
+          class: `esgst-nrf-button`
+        },
+        type: `span`,
+        children: [{
+          attributes: {
+            class: `fa fa-times-circle`,
+            title: getFeatureTooltip(`nrf`, `Find not received giveaways`)
+          },
+          type: `i`
+        }]
+      }]);
       nrf_setPopup(NRF, profile.sentRowLeft.lastElementChild, profile);
     }
   }
@@ -32879,14 +34619,20 @@
   function nrf_setPopup(NRF, NRFButton, profile) {
     let popup;
     popup = new Popup(`fa-times`, `Find ${profile.username}'s not received giveaways:`);
-    popup.Options = insertHtml(popup.description, `beforeEnd`, `<div></div>`);
+    popup.Options = createElements(popup.description, `beforeEnd`, [{ type: `div` }]);
     popup.Options.appendChild(createOptions([{
       check: true,
       description: `Also search inside giveaways with multiple copies.`,
       id: `nrf_searchMultiple`,
       tooltip: `If disabled, only giveaways with visible not received copies will be found (faster).`
     }]));
-    popup.Options.insertAdjacentHTML(`afterEnd`, `<div class="esgst-description">If you're blacklisted / not whitelisted / not a member of the same Steam groups, not all giveaways will be found.`);
+    createElements(popup.Options, `afterEnd`, [{
+      attributes: {
+        class: `esgst-description`
+      },
+      text: `If you're blacklisted / not whitelisted / not a member of the same Steam groups, not all giveaways will be found.`,
+      type: `div`
+    }]);
     popup.description.appendChild(new ButtonSet(`green`, `grey`, `fa-search`, `fa-times-circle`, `Find`, `Cancel`, Callback => {
       NRFButton.classList.add(`esgst-busy`);
       nrf_setSearch(NRF, profile, () => {
@@ -32903,9 +34649,9 @@
       }, 500);
       NRFButton.classList.remove(`esgst-busy`);
     }).set);
-    NRF.Progress = insertHtml(popup.description, `beforeEnd`, `<div></div>`);
-    NRF.OverallProgress = insertHtml(popup.description, `beforeEnd`, `<div></div>`);
-    NRF.Results = insertHtml(popup.scrollable, `beforeEnd`, `<div></div>`);
+    NRF.Progress = createElements(popup.description, `beforeEnd`, [{ type: `div` }]);
+    NRF.OverallProgress = createElements(popup.description, `beforeEnd`, [{ type: `div` }]);
+    NRF.Results = createElements(popup.scrollable, `beforeEnd`, [{ type: `div` }]);
     NRF.popup = popup;
     NRFButton.addEventListener(`click`, () => {
       popup.open();
@@ -33153,15 +34899,44 @@
         }
       ]
     };
-    profile.sentRow.insertAdjacentHTML(`afterEnd`, `
-      <div class="esgst-swr-ratio featured__table__row" title="${getFeatureTooltip(`swr`)}">
-        <div class="featured__table__row__left">Ratio</div>
-        <div class="featured__table__row__right">
-          <span data-ui-tooltip='${JSON.stringify(ratioTooltip)}'>${ratio}</span>
-          (<span data-ui-tooltip='${JSON.stringify(cvTooltip)}'>$${esgst.vrcv ? `${cvRatio} / $${realCVRatio.toLocaleString(`en`)}` : cvRatio}</span>)
-        </div>
-      </div>
-    `);
+    createElements(profile.sentRow, `afterEnd`, [{
+      attributes: {
+        class: `esgst-swr-ratio featured__table__row`,
+        title: getFeatureTooltip(`swr`)
+      },
+      type: `div`,
+      children: [{
+        attributes: {
+          class: `featured__table__row__left`
+        },
+        text: `Ratio`,
+        type: `div`
+      }, {
+        attributes: {
+          class: `featured__table__row__right`
+        },
+        type: `div`,
+        children: [{
+          attributes: {
+            [`data-ui-tooltip`]: JSON.stringify(ratioTooltip)
+          },
+          text: ratio,
+          type: `span`
+        }, {
+          text: ` (`,
+          type: `node`
+        }, {
+          attributes: {
+            [`data-ui-tooltip`]: JSON.stringify(cvTooltip)
+          },
+          text: esgst.vrcv ? `${cvRatio} / $${realCVRatio.toLocaleString(`en`)}` : cvRatio,
+          type: `span`
+        }, {
+          text: `)`,
+          type: `node`
+        }]
+      }]
+    }]);
   }
 
   // [VRCV]
@@ -33217,7 +34992,14 @@
       lower = values[base];
       upper = values[base + 1];
       value = Math.round((upper - (lower + ((upper - lower) * (profile.level - base)))) * 100) / 100;
-      profile.levelRowRight.insertAdjacentHTML(`beforeEnd`, `<span class="esgst-luc-value" title="${getFeatureTooltip(`luc`)}">(~$${value} real CV to level ${base + 1})</span>`);
+      createElements(profile.levelRowRight, `beforeEnd`, [{
+        attributes: {
+          class: `esgst-luc-value`,
+          title: getFeatureTooltip(`luc`)
+        },
+        text: `(~$${value} real CV to level ${base + 1})`,
+        type: `span`
+      }]);
     }
   }
   
@@ -33340,95 +35122,132 @@
   }
 
   function pl_add(profile) {
-    if (profile.username !== esgst.username) return;
-    let enabled, id, itemsHtml, game, user,
-      html = ``,
-      sections = [
-        {
-          items: [
-            {
-              count: 0,
-              id: `pl_w`,
-              name: `Whitelist`,
-              url: `/account/manage/whitelist`
-            },
-            {
-              count: 0,
-              id: `pl_b`,
-              name: `Blacklist`,
-              url: `/account/manage/blacklist`
-            }
-          ],
-          name: `Manage`
-        },
-        {
-          items: [
-            {
-              count: 0,
-              id: `pl_g`,
-              name: `Games`,
-              url: `/account/steam/games`
-            },
-            {
-              count: 0,
-              id: `pl_gs`,
-              name: `Groups`,
-              url: `/account/steam/groups`
-            },
-            {
-              count: 0,
-              id: `pl_wl`,
-              name: `Wishlist`,
-              url: `/account/steam/wishlist`
-            }
-          ],
-          name: `Steam`
-        }
-      ];
-    for (id in esgst.users.users) {
-      user = esgst.users.users[id];
+    if (profile.username !== esgst.username) {
+      return;
+    }
+    const items = [];
+    const sections = [
+      {
+        items: [
+          {
+            count: 0,
+            id: `pl_w`,
+            name: `Whitelist`,
+            url: `/account/manage/whitelist`
+          },
+          {
+            count: 0,
+            id: `pl_b`,
+            name: `Blacklist`,
+            url: `/account/manage/blacklist`
+          }
+        ],
+        name: `Manage`
+      },
+      {
+        items: [
+          {
+            count: 0,
+            id: `pl_g`,
+            name: `Games`,
+            url: `/account/steam/games`
+          },
+          {
+            count: 0,
+            id: `pl_gs`,
+            name: `Groups`,
+            url: `/account/steam/groups`
+          },
+          {
+            count: 0,
+            id: `pl_wl`,
+            name: `Wishlist`,
+            url: `/account/steam/wishlist`
+          }
+        ],
+        name: `Steam`
+      }
+    ];
+    for (const id in esgst.users.users) {
+      const user = esgst.users.users[id];
       if (user.whitelisted) {
         sections[0].items[0].count += 1;
       } else if (user.blacklisted) {
         sections[0].items[1].count += 1;
       }
     }
-    for (id in esgst.games.apps) {
-      game = esgst.games.apps[id];
+    for (const id in esgst.games.apps) {
+      const game = esgst.games.apps[id];
       if (game.owned) {
         sections[1].items[0].count += 1;
       } else if (game.wishlisted) {
         sections[1].items[2].count += 1;
       }
     }
-    esgst.groups.forEach(group => {
+    for (const group of esgst.groups) {
       if (group.member) {
         sections[1].items[1].count += 1
       }
-    });
-    sections.forEach(section => {
-      enabled = false;
-      itemsHtml = ``;
-      section.items.forEach(item => {
-        if (!esgst[item.id]) return;
-        itemsHtml += `
-          <li class="sidebar__navigation__item">
-            <a class="sidebar__navigation__item__link" href="${item.url}">
-              <div class="sidebar__navigation__item__name">${item.name}</div>
-              <div class="sidebar__navigation__item__underline"></div>
-              <div class="sidebar__navigation__item__count">${item.count}</div>
-            </a>
-          </li>
-        `;
+    }
+    for (const section of sections) {
+      let enabled = false;
+      const list = [];
+      for (const item of section.items) {
+        if (!esgst[item.id]) {
+          return;
+        }
+        list.push({
+          attributes: {
+            class: `sidebar__navigation__item`
+          },
+          type: `li`,
+          children: [{
+            attributes: {
+              class: `sidebar__navigation__item__link`,
+              href: item.url
+            },
+            type: `a`,
+            children: [{
+              attributes: {
+                class: `sidebar__navigation__item__name`
+              },
+              text: item.name,
+              type: `div`
+            }, {
+              attributes: {
+                class: `sidebar__navigation__item__underline`
+              },
+              type: `div`
+            }, {
+              attributes: {
+                class: `sidebar__navigation__item__count`
+              },
+              text: item.count,
+              type: `div`
+            }]
+          }]
+        });
         enabled = true;
+      }
+      if (!enabled) {
+        return;
+      }
+      items.push({
+        attributes: {
+          class: `sidebar__heading`
+        },
+        text: section.name,
+        type: `h3`
+      }, {
+        attributes: {
+          class: `sidebar__navigation`,
+          title: getFeatureTooltip(`pl`)
+        },
+        type: `ul`,
+        children: list
       });
-      if (!enabled) return;
-      html += `
-        <h3 class="sidebar__heading">${section.name}</h3>
-        <ul class="sidebar__navigation" title="${getFeatureTooltip(`pl`)}">${itemsHtml}</ul>
-      `;
-    });
-    esgst.sidebar.getElementsByClassName(`sidebar__navigation`)[0].insertAdjacentHTML(`afterEnd`, html);
+    }
+    createElements(esgst.sidebar.getElementsByClassName(`sidebar__navigation`)[0], `afterEnd`, items);
   }
 
   _MODULES.push({
@@ -33691,9 +35510,13 @@
           }
           if (context.children.length) {
             for (const element of comments) {
-              element.insertAdjacentHTML(`afterBegin`, `
-                <div class="esgst-qiv-new esgst-warning">[NEW]</div>
-              `);
+              createElements(element, `afterBegin`, [{
+                attributes: {
+                  class: `esgst-qiv-new esgst-warning`
+                },
+                text: `[NEW]`,
+                type: `div`
+              }]);
             }
             esgst.qiv.comments.insertBefore(context, firstPage);
           }
@@ -33964,7 +35787,7 @@
     if (esgst.paginationNavigation) {
       let lastLink = esgst.paginationNavigation.lastElementChild;
       if (esgst.lastPageLink && esgst.lastPage !== es.pageIndex && !lastLink.classList.contains(`is-selected`) && !lastLink.textContent.match(/Last/)) {
-        esgst.paginationNavigation.insertAdjacentHTML(`beforeEnd`, esgst.lastPageLink);
+        createElements(esgst.paginationNavigation, `beforeEnd`, esgst.lastPageLink);
       }
       es_setPagination(es);
     }
@@ -34013,7 +35836,7 @@
       if (esgst.paginationNavigation) {
         let lastLink = esgst.paginationNavigation.lastElementChild;
         if (esgst.lastPageLink && esgst.lastPage !== es.pageIndex && !lastLink.classList.contains(`is-selected`) && !lastLink.textContent.match(/Last/)) {
-          esgst.paginationNavigation.insertAdjacentHTML(`beforeEnd`, esgst.lastPageLink);
+          createElements(esgst.paginationNavigation, `beforeEnd`, esgst.lastPageLink);
         }
         es_setPagination(es);
       }
@@ -34083,13 +35906,25 @@
       }
     } else {
       if (es.divisors) {
-        es.mainContext.insertAdjacentHTML(`beforeEnd`, `
-          <div class="esgst-page-heading esgst-es-page-divisor">
-            <div class="page__heading__breadcrumbs page_heading_breadcrumbs">
-              <a href="${esgst.searchUrl}${es.nextPage}">Page ${es.nextPage}</a>
-            </div>
-          </div>
-        `);
+        createElements(es.mainContext, `beforeEnd`, [{
+          attributes: {
+            class: `esgst-page-heading esgst-es-page-divisor`
+          },
+          type: `div`,
+          children: [{
+            attributes: {
+              class: `page__heading__breadcrumbs page_heading_breadcrumbs`
+            },
+            type: `div`,
+            children: [{
+              attributes: {
+                href: `${esgst.searchUrl}${es.nextPage}`
+              },
+              text: `Page ${es.nextPage}`,
+              type: `a`
+            }]
+          }]
+        }]);
       }
       es.mainContext.appendChild(fragment);
       es.observer.observe(es.mainContext.lastElementChild);
@@ -34173,7 +36008,7 @@
       esgst.paginationNavigation.innerHTML = pagination;
       let lastLink = esgst.paginationNavigation.lastElementChild;
       if (esgst.lastPageLink && esgst.lastPage !== es.pageIndex && !lastLink.classList.contains(`is-selected`) && !lastLink.textContent.match(/Last/)) {
-        esgst.paginationNavigation.insertAdjacentHTML(`beforeEnd`, esgst.lastPageLink);
+        createElements(esgst.paginationNavigation, `beforeEnd`, esgst.lastPageLink);
       }
       es_setPagination(es);
     }
@@ -35047,7 +36882,16 @@
 
   function showPatreonNotice() {
     if (!esgst.storage.patreonNotice) {
-      const popup = new Popup(`fa-dollar`, `Hi! ESGST now has a Patreon page. If you want to support ESGST, please check it out: <a href="https://www.patreon.com/revilheart">https://www.patreon.com/revilheart</a>`, true);
+      const popup = new Popup(`fa-dollar`, [{
+        text: `Hi! ESGST now has a Patreon page. If you want to support ESGST, please check it out: `,
+        type: `node`
+      }, {
+        attributes: {
+          href: `https://www.patreon.com/revilheart`
+        },
+        text: `https://www.patreon.com/revilheart`,
+        type: `a`
+      }], true);
       popup.onClose = setValue.bind(null, `patreonNotice`, true);
       popup.open();
     }
@@ -35057,7 +36901,15 @@
     if (esgst.version !== esgst.currentVersion) {
       if (typeof esgst.version === `undefined`) {
         esgst.firstInstall = true;
-        let popup = new Popup(`fa-smile-o`, `<i class="fa fa-circle-o-notch fa-spin"></i> Hi! ESGST is getting things ready for you. This will not take long...`, true);
+        let popup = new Popup(`fa-smile-o`, [{
+          attributes: {
+            class: `fa fa-circle-o-notch fa-spin`
+          },
+          type: `i`
+        }, {
+          text: ` Hi! ESGST is getting things ready for you. This will not take long...`,
+          type: `node`
+        }], true);
         popup.open();
         await checkSync(true, true);
         popup.title.innerHTML = `
@@ -35075,8 +36927,27 @@
       let i;
       for (i = esgst.groups.length - 1; i > -1 && esgst.groups[i].steamId !== `103582791461018688`; i--);
       if (i < 0 || !esgst.groups[i] || !esgst.groups[i].member) {
-        let popup = new Popup(`fa-steam`, `Hello! In case you were not aware ESGST now has a Steam group. If you want to join it, you must first send a request from the <a class="esgst-bold" href="http://steamcommunity.com/groups/esgst">Steam group</a> page, then another request from the settings menu (last button in the heading). Have a good day. :)`);
-        popup.description.insertAdjacentHTML(`beforeEnd`, `<div class="esgst-description">This popup will never show up again after you close it.</div>`);
+        let popup = new Popup(`fa-steam`, [{
+          text: `Hello! In case you were not aware ESGST now has a Steam group. If you want to join it, you must first send a request from the `,
+          type: `node`
+        }, {
+          attributes: {
+            class: `esgst-bold`,
+            href: `http://steamcommunity.com/groups/esgst`
+          },
+          text: `Steam group`,
+          type: `a`
+        }, {
+          text: ` page, then another request from the settings menu (last button in the heading). Have a good day. :)`,
+          type: `node`
+        }]);
+        createElements(popup.description, `beforeEnd`, [{
+          attributes: {
+            class: `esgst-description`
+          },
+          text: `This popup will never show up again after you close it`,
+          type: `div`
+        }]);
         popup.open();
         popup.onClose = setSetting.bind(null, `groupPopupDismissed`, true);
       }
@@ -35914,7 +37785,13 @@
     } else if (syncer.autoSync || mainCallback || parameters) {
       syncer.popup = new Popup(parameters ? `fa-circle-o-notch fa-spin` : `fa-refresh`, parameters ? `ESGST is syncing your data... ${esgst.minimizePanel ? `You can close this popup, ESGST will notify you when it is done through the minimize panel.` : `Please do not close this popup until it is done.`}` : `Sync`, !esgst.minimizePanel);
       if (!syncer.autoSync && !parameters) {
-        syncer.popup.description.insertAdjacentHTML(`afterBegin`, `<div class="esgst-description">By selecting a number X in the dropdown menu next to each data other than 0, you are enabling automatic sync for that data (which means the data will be synced every X days).</div>`);
+        createElements(syncer.popup.description, `afterBegin`, [{
+          attributes: {
+            class: `esgst-description`
+          },
+          text: `By selecting a number X in the dropdown menu next to each data other than 0, you are enabling automatic sync for that data (which means the data will be synced every X days).`,
+          type: `div`
+        }]);
         syncer.switches = {
           syncGroups: new ToggleSwitch(syncer.popup.scrollable, `syncGroups`, false, `Steam Groups`, false, false, null, esgst.syncGroups),
           syncWhitelist: new ToggleSwitch(syncer.popup.scrollable, `syncWhitelist`, false, `Whitelist`, false, false, null, esgst.syncWhitelist),
@@ -36088,22 +37965,38 @@
           neww.push(`<a href="http://steamcommunity.com/gid/${id}">${syncer.newGroups[id]}</a>`);
         }
       }
-      syncer.html = ``;
+      syncer.html = [];
       if (missing.length) {
-        syncer.html += `
-          <div>
-            <span class="esgst-bold">Missing groups:</span> ${missing.join(`, `)}
-          </div>
-        `;
+        syncer.html.push({
+          type: `div`,
+          children: [{
+            attributes: {
+              class: `esgst-bold`
+            },
+            text: `Missing groups:`,
+            type: `span`
+          }, {
+            text: ` ${missing.join(`, `)}`,
+            type: `node`
+          }]
+        });
       }
       if (neww.length) {
-        syncer.html += `
-          <div>
-            <span class="esgst-bold">New groups:</span> ${neww.join(`, `)}
-          </div>
-        `;
+        syncer.html.push({
+          type: `div`,
+          children: [{
+            attributes: {
+              class: `esgst-bold`
+            },
+            text: `New groups:`,
+            type: `span`
+          }, {
+            text: ` ${neww.join(`, `)}`,
+            type: `node`
+          }]
+        });
       }
-      syncer.results.insertAdjacentHTML(`afterBegin`, syncer.html);
+      createElements(syncer.results, `afterBegin`, syncer.html);
     }
 
     // if sync has been canceled stop
@@ -36194,7 +38087,7 @@
     // sync wishlisted/owned/ignored games
     if ((syncer.parameters && syncer.parameters.Games) || (!syncer.parameters && (syncer.autoSync || esgst.settings.syncGames))) {
       syncer.progress.lastElementChild.textContent = `Syncing your wishlisted/owned/ignored games...`;
-      syncer.html = ``;
+      syncer.html = null;
       let apiResponse = null;
       if (esgst.steamApiKey) {
         apiResponse = await request({method: `GET`, url: `http://api.steampowered.com/IPlayerService/GetOwnedGames/v0001/?key=${esgst.steamApiKey}&steamid=${esgst.steamId}&format=json`});
@@ -36212,7 +38105,7 @@
         await setSetting(`gc_o_altAccounts`, esgst.settings.gc_o_altAccounts);
       }
       if (syncer.html) {
-        syncer.results.insertAdjacentHTML(`afterBegin`, syncer.html);
+        createElements(syncer.results, `afterBegin`, syncer.html);
         if (esgst.getSyncGameNames) {
           getGameNames(syncer);
         }
@@ -36364,14 +38257,36 @@
           apiJson.response.games.length,
         hasStore = storeJson && storeJson.rgOwnedApps && storeJson.rgOwnedApps.length;
     if (((altAccount && !esgst.steamApiKey) || (!altAccount && esgst.steamApiKey)) && !hasApi) {
-      syncer.html += `
-        <div>${altAccount ? `<span class="esgst-bold">${altAccount.name}:</span> ` : ``}Unable to sync through the Steam API. Check if you have a valid Steam API key set in the settings menu.${altAccount ? ` Also check the privacy settings of your alt account.` : ``}</div>
-      `;
+      const items = {
+        type: `div`,
+        children: []
+      };
+      if (altAccount) {
+        items.children.push({
+          attributes: {
+            class: `esgst-bold`
+          },
+          text: `${altAccount.name}: `,
+          type: `span`
+        });
+      }
+      items.children.push({
+        text: `Unable to sync through the Steam API. Check if you have a valid Steam API key set in the settings menu.`,
+        type: `node`
+      });
+      if (altAccount) {
+        items.children.push({
+          text: ` Also check the privacy settings of your alt account.`,
+          type: `node`
+        });
+      }
+      syncer.html.push(items);
     }
     if (!altAccount && !hasStore) {
-      syncer.html += `
-        Unable to sync through the Steam store. Check if you are logged in to Steam on your current browser session. If you are, try again later. Some games may not be available through the Steam API (if you have a Steam API key set).
-      `;
+      syncer.html.push({
+        text: `Unable to sync through the Steam store. Check if you are logged in to Steam on your current browser session. If you are, try again later. Some games may not be available through the Steam API (if you have a Steam API key set).`,
+        type: `text`
+      });
     }
     console.log(hasApi, hasStore);
     if (!hasApi && !hasStore) return;
@@ -36522,39 +38437,77 @@
       }
     });
     if (altAccount && (removedOwned.apps.length > 0 || removedOwned.subs.length > 0 || addedOwned.apps.length > 0 || addedOwned.subs.length > 0)) {
-      syncer.html += `
-        <br>
-        <div class="esgst-bold">Alt Account - ${altAccount.name}</div>
-        <br>
-      `;
+      syncer.html.push({
+        type: `br`,
+      }, {
+        attributes: {
+          class: `esgst-bold`
+        },
+        text: `Alt Account - ${altAccount.name}`,
+        type: `div`
+      }, {
+        type: `br`
+      });
     }
     if (removedOwned.apps.length > 0) {
-      syncer.html += `
-        <div>
-          <span class="esgst-bold">Removed apps:</span> ${removedOwned.apps.join(`, `)}
-        </div>
-      `;
+      syncer.html.push({
+        type: `div`,
+        children: [{
+          attributes: {
+            class: `esgst-bold`
+          },
+          text: `Removed apps:`,
+          type: `span`
+        }, {
+          text: ` ${removedOwned.apps.join(`, `)}`,
+          type: `node`
+        }]
+      });
     }
     if (removedOwned.subs.length > 0) {
-      syncer.html += `
-        <div>
-          <span class="esgst-bold">Removed packages:</span> ${removedOwned.subs.join(`, `)}
-        </div>
-      `;
+      syncer.html.push({
+        type: `div`,
+        children: [{
+          attributes: {
+            class: `esgst-bold`
+          },
+          text: `Removed packages:`,
+          type: `span`
+        }, {
+          text: ` ${removedOwned.subs.join(`, `)}`,
+          type: `node`
+        }]
+      });
     }
     if (addedOwned.apps.length > 0) {
-      syncer.html += `
-        <div>
-          <span class="esgst-bold">Added apps:</span> ${addedOwned.apps.join(`, `)}
-        </div>
-      `;
+      syncer.html.push({
+        type: `div`,
+        children: [{
+          attributes: {
+            class: `esgst-bold`
+          },
+          text: `Added apps:`,
+          type: `span`
+        }, {
+          text: ` ${addedOwned.apps.join(`, `)}`,
+          type: `node`
+        }]
+      });
     }
     if (addedOwned.subs.length > 0) {
-      syncer.html += `
-        <div>
-          <span class="esgst-bold">Added packages:</span> ${addedOwned.subs.join(`, `)}
-        </div>
-      `;
+      syncer.html.push({
+        type: `div`,
+        children: [{
+          attributes: {
+            class: `esgst-bold`
+          },
+          text: `Added packages:`,
+          type: `span`
+        }, {
+          text: ` ${addedOwned.subs.join(`, `)}`,
+          type: `node`
+        }]
+      });
     }
   }
 
@@ -36872,16 +38825,37 @@
       fixed = popup.description;
       Container = popup.scrollable;
     }
-    fixed.insertAdjacentHTML(`afterBegin`, `
-      <div class="esgst-page-heading"></div>
-      <div class="esgst-clear-container">
-        <input placeholder="Filter features..." type="text">
-        <span class="esgst-clear-button esgst-hidden" title="Clear">X</span>
-      </div>
-    `);
-    Container.innerHTML = `
-      <div class="esgst-settings-menu"></div>
-    `;
+    createElements(fixed, `afterBegin`, [{
+      attributes: {
+        class: `esgst-page-heading`
+      },
+      type: `div`
+    }, {
+      attributes: {
+        class: `esgst-clear-container`
+      },
+      type: `div`,
+      children: [{
+        attributes: {
+          placeholder: `Filter features...`,
+          type: `text`
+        },
+        type: `input`
+      }, {
+        attributes: {
+          class: `esgst-clear-button esgst-hidden`,
+          title: `Clear`
+        },
+        text: `X`,
+        type: `span`
+      }]
+    }]);
+    createElements(Container, `inner`, [{
+      attributes: {
+        class: `esgst-settings-menu`
+      },
+      type: `div`
+    }]);
     const input = fixed.firstElementChild.nextElementSibling.firstElementChild;
     input.addEventListener(`input`, filterSm);
     input.addEventListener(`change`, filterSm);
@@ -36959,11 +38933,6 @@
       Title: `Manage Not Activated / Multiple Wins Checker caches`
     }, {
       Check: true,
-      Icons: [`fa-bug`],
-      Name: `esgst-heading-button`,
-      Title: `Debug`
-    }, {
-      Check: true,
       Icons: [`fa-steam`],
       Name: `esgst-heading-button`,
       Title: `Request access to the Steam group`
@@ -36993,11 +38962,19 @@
           }
         }
         if (isNew) {
-          section.firstElementChild.lastElementChild.insertAdjacentHTML(`afterBegin`, `
-            <span class="esgst-bold esgst-red" title="There is a new feature/option in this section">
-              <i class="fa fa-star"></i>
-            </span>
-          `);
+          createElements(section.firstElementChild.lastElementChild, `afterBegin`, [{
+            attributes: {
+              class: `esgst-bold esgst-red`,
+              title: `There is a new feature/option in this section`
+            },
+            type: `span`,
+            children: [{
+              attributes: {
+                class: `fa fa-star`
+              },
+              type: `i`
+            }]
+          }]);
         }
         i += 1;
       }
@@ -37036,7 +39013,6 @@
     heading.firstElementChild.nextElementSibling.nextElementSibling.nextElementSibling.addEventListener(`click`, loadDataManagement.bind(null, false, `delete`, null));
     heading.firstElementChild.nextElementSibling.nextElementSibling.nextElementSibling.nextElementSibling.addEventListener(`click`, exportSettings);
     heading.firstElementChild.nextElementSibling.nextElementSibling.nextElementSibling.nextElementSibling.nextElementSibling.addEventListener(`click`, loadDataCleaner);
-    heading.lastElementChild.previousElementSibling.addEventListener(`click`, debug);
     if (esgst.groups) {
       for (i = esgst.groups.length - 1; i > -1 && esgst.groups[i].steamId !== `103582791461018688`; i--);
       if (i < 0 || !esgst.groups[i] || !esgst.groups[i].member) {
@@ -37188,9 +39164,13 @@
     let Menu, SMFeatures, isMainNew = false;
     Menu = document.createElement(`div`);
     Menu.id = `esgst_${ID}`;
-    Menu.insertAdjacentHTML(`beforeEnd`, `
-      <div class="esgst-sm-small-number esgst-form-heading-number">${aaa}.</div>
-    `);
+    createElements(Menu, `beforeEnd`, [{
+      attributes: {
+        class: `esgst-sm-small-number esgst-form-heading-number`
+      },
+      text: `${aaa}.`,
+      type: `div`
+    }]);
     let val, val1, val2;
     let siwtchSg, siwtchSt, set1, set2;
     if (Feature.sg) {
@@ -37293,10 +39273,33 @@
       `).addEventListener(`click`, dismissNewOption.bind(null, ID));
     }
     val = val1 || val2;
-    Menu.insertAdjacentHTML(`beforeEnd`, `
-      <span>${esgst.settings.esgst_st ? `- ` : ``}${Feature.name}</span> ${Feature.features ? `<i class="fa fa-ellipsis-h" title="This option has sub-options"></i>` : ``} ${Feature.sync ? `<i class="esgst-negative fa fa-refresh" title="This feature requires ${Feature.sync} data to be synced (section 1 of this menu)"></i>` : ``} ${Feature.description ? `<i class="fa fa-question-circle esgst-clickable"></i>` : ``}
-      <div class="esgst-form-row-indent SMFeatures esgst-hidden"></div>
-    `);
+    createElements(Menu, `beforeEnd`, [{
+      text: `${esgst.settings.esgst_st ? `- ` : ``}${Feature.name} `,
+      type: `span`
+    }, ...(Feature.features ? [{
+      attributes: {
+        class: `fa fa-ellipsis-h`,
+        title: `This option has sub-options`
+      },
+      type: `i`
+    }] : [null]), ...(Feature.sync ? [{
+      attributes: {
+        class: `esgst-negative fa fa-refresh`,
+        title: `This feature requires ${Feature.sync} data to be synced (section 1 of this menu)`
+      },
+      type: `i`
+    }] : [null]), ...(Feature.description ? [{
+      attributes: {
+        class: `fa fa-question-circle esgst-clickable`,
+        title: `This feature requires ${Feature.sync} data to be synced (section 1 of this menu)`
+      },
+      type: `i`
+    }] : [null]), {
+      attributes: {
+        class: `esgst-form-row-indent SMFeatures esgst-hidden`
+      },
+      type: `div`
+    }]);
     SMFeatures = Menu.lastElementChild;
     if (Feature.description) {
       let popout = null;
@@ -37339,11 +39342,19 @@
       }
       isMainNew = isMainNew || isNew;
       if (isNew) {
-        Menu.firstElementChild.insertAdjacentHTML(`afterEnd`, `
-          <span class="esgst-bold esgst-red" title="There is a new feature/option in this section">
-            <i class="fa fa-star"></i>
-          </span>
-        `);
+        createElements(Menu.firstElementChild, `afterEnd`, [{
+          attributes: {
+            class: `esgst-bold esgst-red`,
+            title: `There is a new feature/option in this section`
+          },
+          type: `span`,
+          children: [{
+            attributes: {
+              class: `fa fa-star`
+            },
+            type: `i`
+          }]
+        }]);
       }
     }
     if (ID === `gc`) {
@@ -37393,14 +39404,37 @@
     } else if (Feature.colors || Feature.background) {
       let color = esgst[`${ID}_color`];
       let bgColor = esgst[`${ID}_bgColor`];
-      let html = `
-        <div class="esgst-sm-colors">
-          ${Feature.background ? `` : `Text: <input type="color" value="${color}">`}
-          Background: <input type="color" value="${bgColor}">
-          <div class="form__saving-button esgst-sm-colors-default">Use Default</div>
-        </div>
-      `;
-      SMFeatures.insertAdjacentHTML(`beforeEnd`, html);
+      createElements(SMFeatures, `beforeEnd`, [{
+        attributes: {
+          class: `esgst-sm-colors`
+        },
+        type: `div`,
+        children: [...(Feature.background ? [null] : [{
+          text: `Text: `,
+          type: `node`
+        }, {
+          attributes: {
+            type: `color`,
+            value: color
+          },
+          type: `input`
+        }]), {
+          text: `Background: `,
+          type: `node`
+        }, {
+          attributes: {
+            type: `color`,
+            value: bgColor
+          },
+          type: `input`
+        }, {
+          attributes: {
+            class: `form__saving-button esgst-sm-colors-default`
+          },
+          text: `Use Default`,
+          type: `div`
+        }]
+      }]);
       let colorContext = SMFeatures.lastElementChild.firstElementChild;
       let bgColorContext = Feature.background ? colorContext : colorContext.nextElementSibling;
       if (!Feature.background) {
@@ -37432,7 +39466,13 @@
         observeChange(icon, `${ID}Icon`);
         observeChange(label, `${ID}Label`);
         if (ID === `gc_rd`) {
-          input.insertAdjacentHTML(`beforeEnd`, `<i class="fa fa-question-circle" title="Enter the date format here, using the following keywords:\n\nDD - Day\nMM - Month in numbers (i.e. 1)\nMon - Month in short name (i.e. Jan)\nMonth - Month in full name (i.e. January)\nYYYY - Year"></i>`)
+          createElements(input, `beforeEnd`, [{
+            attributes: {
+              class: `fa fa-question-circle`,
+              title: `Enter the date format here, using the following keywords:\n\nDD - Day\nMM - Month in numbers (i.e. 1)\nMon - Month in short name (i.e. Jan)\nMonth - Month in full name (i.e. January)\nYYYY - Year`
+            },
+            type: `i`
+          }]);
         }
       }
       if (siwtchSg) {
@@ -38184,7 +40224,7 @@
         let response = await request({method: `GET`, queue: true, url: `https://www.steamgifts.com/giveaway/${hidden[i].code}/`});
         giveaway = buildGiveaway(parseHtml(response.responseText), response.finalUrl);
         if (giveaway) {
-          gfGiveaways.insertAdjacentHTML(`beforeEnd`, giveaway.html);
+          createElements(gfGiveaways, `beforeEnd`, giveaway.html);
           await endless_load(gfGiveaways.lastElementChild, false, `gf`);
           setTimeout(() => loadGfGiveaways(++i, n, hidden, gfGiveaways, popup, callback), 0);
         } else {
@@ -38202,7 +40242,13 @@
     let context, current, input, popup, savedUser, savedUsers, users;
     popup = new Popup(`fa-tags`, `Manage user tags:`, true);
     input = insertHtml(popup.description, `afterBegin`, `<input type="text"/>`);
-    popup.description.insertAdjacentHTML(`afterBegin`, `<div class="esgst-description">Type tags below to filter the users by.</div>`);
+    createElements(popup.description, `afterBegin`, [{
+      attributes: {
+        class: `esgst-description`
+      },
+      text: `Type tags below to filter the users by.`,
+      type: `div`
+    }]);
     let heading = insertHtml(popup.description, `beforeBegin`, `
       <div class="page__heading"></div>
     `);
@@ -38257,7 +40303,13 @@
     let context, current, games, input, popup, savedGame, savedGames;
     popup = new Popup(`fa-tags`, `Manage game tags:`, true);
     input = insertHtml(popup.description, `afterBegin`, `<input type="text"/>`);
-    popup.description.insertAdjacentHTML(`afterBegin`, `<div class="esgst-description">Type tags below to filter the games by.</div>`);
+    createElements(popup.description, `afterBegin`, [{
+      attributes: {
+        class: `esgst-description`
+      },
+      text: `Type tags below to filter the games by.`,
+      type: `div`
+    }]);
     let heading = insertHtml(popup.description, `beforeBegin`, `
       <div class="page__heading"></div>
     `);
@@ -38784,7 +40836,13 @@
 
   function loadDataCleaner() {
     let popup = new Popup(`fa-paint-brush`, `Clean old data:`);
-    popup.description.insertAdjacentHTML(`afterBegin`, `<div class="esgst-bold esgst-description esgst-red">Make sure to backup your data before using the cleaner.</div>`);
+    createElements(popup.description, `afterBegin`, [{
+      attributes: {
+        class: `esgst-bold esgst-description esgst-red`
+      },
+      text: `Make sure to backup your data before using the cleaner.`,
+      type: `div`
+    }]);
     observeNumChange(new ToggleSwitch(popup.description, `cleanDiscussions`, false, `Discussions data older than <input class="esgst-switch-input" type="text" value="${esgst.cleanDiscussions_days}"> days.`, false, false, `Discussions data only started being date-tracked since v7.11.0, so not all old data may be cleaned.`, esgst.cleanDiscussions).name.firstElementChild, `cleanDiscussions_days`);
     observeNumChange(new ToggleSwitch(popup.description, `cleanEntries`, false, `Entries data older than <input class="esgst-switch-input" type="text" value="${esgst.cleanEntries_days}"> days.`, false, false, ``, esgst.cleanEntries).name.firstElementChild, `cleanEntries_days`);
     observeNumChange(new ToggleSwitch(popup.description, `cleanGiveaways`, false, `Giveaways data older than <input class="esgst-switch-input" type="text" value="${esgst.cleanGiveaways_days}"> days.`, false, false, `Some giveaways data only started being date-tracked since v7.11.0, so not all old data may be cleaned.`, esgst.cleanGiveaways).name.firstElementChild, `cleanGiveaways_days`);
@@ -40630,19 +42688,67 @@
           </div>
         `);
         for (let i = 0, n = filtered.length; i < n; ++i) {
-          let postsIcon = filtered[i].uf.posts ? `<i class="fa fa-check"></i>` : ``;
-          let discussionsIcon = filtered[i].uf.discussions ? `<i class="fa fa-check"></i>` : ``;
-          let giveawaysIcon = filtered[i].uf.giveaways ? `<i class="fa fa-check"></i>` : ``;
-          table.lastElementChild.insertAdjacentHTML(`beforeEnd`, `
-            <div class="table__row-outer-wrap">
-              <div class="table__row-inner-wrap">
-                <div class="table__column--width-fill"><a href="/user/${filtered[i].username}">${filtered[i].username}</a></div>
-                <div class="table__column--width-small">${postsIcon}</div>
-                <div class="table__column--width-small">${discussionsIcon}</div>
-                <div class="table__column--width-small">${giveawaysIcon}</div>
-              </div>
-            </div>
-          `);
+          const postsIcon = filtered[i].uf.posts ? `fa fa-check` : ``;
+          const discussionsIcon = filtered[i].uf.discussions ? `fa fa-check` : ``;
+          const giveawaysIcon = filtered[i].uf.giveaways ? `fa fa-check` : ``;
+          createElements(table.lastElementChild, `beforeEnd`, [{
+            attributes: {
+              class: `table__row-outer-wrap`
+            },
+            type: `div`,
+            children: [{
+              attributes: {
+                class: `table__row-inner-wrap`
+              },
+              type: `div`,
+              children: [{
+                attributes: {
+                  class: `table__column--width-fill`
+                },
+                type: `div`,
+                children: [{
+                  attributes: {
+                    href: `/user/${filtered[i].username}`
+                  },
+                  text: filtered[i].username,
+                  type: `a`
+                }]
+              }, {
+                attributes: {
+                  class: `table__column--width-small`
+                },
+                type: `div`,
+                children: postsIcon ? [{
+                  attributes: {
+                    class: postsIcon
+                  },
+                  type: `i`
+                }] : null
+              }, {
+                attributes: {
+                  class: `table__column--width-small`
+                },
+                type: `div`,
+                children: discussionsIcon ? [{
+                  attributes: {
+                    class: discussionsIcon
+                  },
+                  type: `i`
+                }] : null
+              }, {
+                attributes: {
+                  class: `table__column--width-small`
+                },
+                type: `div`,
+                children: giveawaysIcon ? [{
+                  attributes: {
+                    class: giveawaysIcon
+                  },
+                  type: `i`
+                }] : null
+              }]
+            }]
+          }]);
         }
         popup.open();
       }
@@ -41215,11 +43321,6 @@
 
       .esgst-changelog img {
         max-width: 98%;
-      }
-
-      .esgst-debug {
-        height: 300px;
-        width: 600px;
       }
 
       .esgst-radb-button {
@@ -43533,7 +45634,19 @@
 
   function hideGame(button, id, name, steamId, steamType) {
     let elements, i, popup;
-    popup = new Popup(`fa-eye-slash`, `Would you like to hide all giveaways for <span class="esgst-bold">${name}</span>?`, true);
+    popup = new Popup(`fa-eye-slash`, [{
+      text: `Would you like to hide all giveaways for `,
+      type: `node`
+    }, {
+      attributes: {
+        class: `esgst-bold`
+      },
+      text: name,
+      type: `span`
+    }, {
+      text: `?`,
+      type: `node`
+    }], true);
     popup.description.appendChild(new ButtonSet(`green`, `grey`, `fa-check-circle`, `fa-refresh fa-spin`, `Yes`, `Please wait...`, async callback => {
       await request({data: `xsrf_token=${esgst.xsrfToken}&do=hide_giveaways_by_game_id&game_id=${id}`, method: `POST`, url: `/ajax.php`});
       await updateHiddenGames(steamId, steamType);
@@ -43553,7 +45666,19 @@
 
   function unhideGame(button, id, name, steamId, steamType) {
     let popup;
-    popup = new Popup(`fa-eye-slash`, `Would you like to unhide all giveaways for <span class="esgst-bold">${name}</span>?`, true);
+    popup = new Popup(`fa-eye-slash`, [{
+      text: `Would you like to unhide all giveaways for `,
+      type: `node`
+    }, {
+      attributes: {
+        class: `esgst-bold`
+      },
+      text: name,
+      type: `span`
+    }, {
+      text: `?`,
+      type: `node`
+    }], true);
     popup.description.appendChild(new ButtonSet(`green`, `grey`, `fa-check-circle`, `fa-refresh fa-spin`, `Yes`, `Please wait...`, async callback => {
       await request({data: `xsrf_token=${esgst.xsrfToken}&do=remove_filter&game_id=${id}`, method: `POST`, url: `/ajax.php`});
       await updateHiddenGames(steamId, steamType, true);
@@ -43814,9 +45939,9 @@
       .replace(/>/g, `&gt;`)
       .replace(/"/g, `&quot;`)
       .replace(/'/g, `&#39;`)
-      .replace(/\//g, `&#x2F;`)
-      .replace(/`/g, `&#x60;`)
-      .replace(/=/g, `&#x3D;`);
+      .replace(/\//g, `\u{2F};`)
+      .replace(/`/g, `\u{60};`)
+      .replace(/=/g, `\u{3D};`);
   }
 
   function removeDuplicateNotes(notes) {
@@ -44089,20 +46214,43 @@
     return context;
   }
 
-  function createResults(Context, element, Results) {
-    let I, N, Key;
-    for (I = 0, N = Results.length; I < N; ++I) {
-      Context.insertAdjacentHTML(`beforeEnd`, `
-        <div class="esgst-hidden">
-          ${Results[I].Icon}
-          <span class="esgst-bold">${Results[I].Description} (<span>0</span>):</span>
-          <span class="esgst-popup-actions"></span>
-        </div>
-      `);
-      Key = Results[I].Key;
-      element[Key] = Context.lastElementChild;
-      element[`${Key}Count`] = element[Key].firstElementChild.nextElementSibling.firstElementChild;
-      element[`${Key}Users`] = element[Key].lastElementChild;
+  function createResults(context, element, results) {
+    for (const result of results) {
+      const key = result.Key;
+      element[key] = createElements(context, `beforeEnd`, [{
+        attributes: {
+          class: `esgst-hidden`
+        },
+        type: `div`,
+        children: [{
+          attributes: {
+            class: result.Icon
+          },
+          type: `i`
+        }, {
+          attributes: {
+            class: `esgst-bold`
+          },
+          type: `span`,
+          children: [{
+            text: `${result.Description} (`,
+            type: `node`
+          }, {
+            text: `0`,
+            type: `span`
+          }, {
+            text: `):`,
+            type: `node`
+          }]
+        }, {
+          attributes: {
+            class: `esgst-popup-actions`
+          },
+          type: `span`
+        }]
+      }]);
+      element[`${key}Count`] = element[key].firstElementChild.nextElementSibling.firstElementChild;
+      element[`${key}Users`] = element[key].lastElementChild;
     }
   }
 
@@ -44125,9 +46273,12 @@
     }
     element = element.querySelector(`.comment__username, .author_avatar`);
     if (!element) return;
-    element.insertAdjacentHTML(esgst.sg ? `beforeBegin` : `afterEnd`, `
-      <i class="fa fa-share is_permalink author_permalink"></i>
-    `);
+    createElements(element, esgst.sg ? `beforeBegin` : `afterEnd`, [{
+      attributes: {
+        class: `fa fa-share is_permalink author_permalink`
+      },
+      type: `i`
+    }]);
   }
 
   function sortContent(array, mainKey, option) {
@@ -44226,14 +46377,33 @@
       if (sgTools) {
         let info = games_getInfo(giveaway);
         if (info) {
-          heading.insertAdjacentHTML(`beforeEnd`, `
-            <a class="giveaway__icon" rel="nofollow" target="_blank" href="https://store.steampowered.com/${info.type.slice(0, -1)}/${info.id}/">
-              <i class="fa fa-steam"></i>
-            </a>
-            <a class="giveaway__icon" href="/giveaways/search?${info.type.slice(0, -1)}=${info.id}">
-              <i class="fa fa-search"></i>
-            </a>
-          `);
+          createElements(heading, `beforeEnd`, [{
+            attributes: {
+              class: `giveaway__icon`,
+              href: `https://store.steampowered.com/${info.type.slice(0, -1)}/${info.id}/`,
+              rel: `nofollow`,
+              target: `_blank`
+            },
+            type: `a`,
+            children: [{
+              attributes: {
+                class: `fa fa-steam`
+              },
+              type: `i`
+            }]
+          }, {
+            attributes: {
+              class: `giveaway__icon`,
+              href: `/giveaways/search?${info.type.slice(0, -1)}=${info.id}`
+            },
+            type: `a`,
+            children: [{
+              attributes: {
+                class: `fa fa-search`
+              },
+              type: `i`
+            }]
+          }]);
         }
         let date = new Date(`${endTimeColumn.lastElementChild.textContent}Z`).getTime();
         let ended = Date.now() > date;
@@ -44279,32 +46449,86 @@
         comments = 0;
       }
       image = giveaway.getElementsByClassName(`global__image-outer-wrap--game-large`)[0].firstElementChild.getAttribute(`src`);
+      const attributes = {
+        class: `giveaway__row-outer-wrap`,
+        [`data-game-id`]: id
+      };
+      if (errorMessage) {
+        attributes[`data-error`] = errorMessage;
+      }
+      if (blacklist) {
+        attributes[`data-blacklist`] = true;
+      }
+      heading.className = `giveaway__heading`;
+      columns.className = `giveaway__columns`;
       return {
         code: code,
-        html: `
-          <div>
-            <div class="giveaway__row-outer-wrap" ${errorMessage ? `data-error="${errorMessage}"` : ``} ${blacklist ? `data-blacklist="true"` : ``} data-game-id="${id}">
-              <div class="giveaway__row-inner-wrap ${entered}">
-                <div class="giveaway__summary">
-                  <h2 class="giveaway__heading">${heading.innerHTML}</h2>
-                  <div class="giveaway__columns">${columns.innerHTML}</div>
-                  <div class="giveaway__links">
-                    <a href="${url}/entries">
-                      <i class="fa fa-tag"></i>
-                      <span>${entries} entries</span>
-                    </a>
-                    <a href="${url}/comment">
-                      <i class="fa fa-comment"></i>
-                      <span>${comments} comments</span>
-                    </a>
-                  </div>
-                </div>
-                ${avatar.outerHTML}
-                <a class="giveaway_image_thumbnail" href="${url}" style="background-image: url(${image})"></a>
-              </div>
-            </div>
-          </div>
-        `,
+        html: [{
+          type: `div`,
+          children: [{
+            attributes,
+            type: `div`,
+            children: [{
+              attributes: {
+                class: `giveaway__row-inner-wrap ${entered}`
+              },
+              type: `div`,
+              children: [{
+                attributes: {
+                  class: `giveaway__summary`
+                },
+                children: [{
+                  context: heading
+                }, {
+                  context: columns
+                }, {
+                  attributes: {
+                    class: `giveaway__links`
+                  },
+                  type: `div`,
+                  children: [{
+                    attributes: {
+                      href: `${url}/entries`
+                    },
+                    type: `a`,
+                    children: [{
+                      attributes: {
+                        class: `fa fa-tag`
+                      },
+                      type: `i`
+                    }, {
+                      text: `${entries} entries`,
+                      type: `span`
+                    }]
+                  }, {
+                    attributes: {
+                      href: `${url}/comment`
+                    },
+                    type: `a`,
+                    children: [{
+                      attributes: {
+                        class: `fa fa-comment`
+                      },
+                      type: `i`
+                    }, {
+                      text: `${comments} comments`,
+                      type: `span`
+                    }]
+                  }]
+                }]
+              }, {
+                context: avatar,
+              }, {
+                attributes: {
+                  class: `giveaway_image_thumbnail`,
+                  href: url,
+                  style: `background-image: url(${image})`
+                },
+                type: `a`
+              }]
+            }]
+          }]
+        }],
         points: parseInt(heading.textContent.match(/\((\d+)P\)/)[1]),
         started: started,
         timestamp: endTime
@@ -44365,18 +46589,6 @@
       `;
       context.outerWrap = context.outerWrap.firstElementChild;
     }
-  }
-
-  function debug() {
-    let popup, textArea;
-    popup = new Popup(`fa-bug`, `Debug`);
-    popup.description.insertAdjacentHTML(`afterBegin`, `<div class="esgst-description">Insert the Javascript code below to debug it. To open the console, use Ctrl + Shift + I.<br><br><span class="esgst-bold esgst-red">BE CAREFUL! Only do this if you know what you are doing or if you have been instructed to.<br><br>Playing with this when you do not know what you are doing could lead to serious consequences, such as having your entire data wiped out.<br><br>YOU HAVE BEEN WARNED!</span></div>`);
-    textArea = insertHtml(popup.scrollable, `beforeEnd`, `<textarea class="esgst-debug"></textarea>`);
-    popup.description.appendChild(new ButtonSet(`green`, ``, `fa-bug`, ``, `Debug`, ``, callback => {
-      callback();
-      eval(textArea.value);
-    }).set);
-    popup.open(() => textArea.focus());
   }
 
   function filterSm(event) {
@@ -44684,9 +46896,13 @@
         </div>
       `).lastElementChild;
       (option.options || binaryOptions).forEach(subOption => {
-        option.select.insertAdjacentHTML(`beforeEnd`, `
-          <option value="${subOption.id}">${subOption.name}</option>
-        `);
+        createElements(option.select, `beforeEnd`, [{
+          attributes: {
+            value: subOption.id
+          },
+          text: subOption.name,
+          type: `option`
+        }]);
       });
       option.select.selectedIndex = option.default;
     });
@@ -44739,17 +46955,28 @@
     return section;
   }
 
-  function createSMButtons(Heading, Items) {
-    let I, N, Item, Icons, J, NumIcons;
-    for (I = 0, N = Items.length; I < N; ++I) {
-      Item = Items[I];
-      if (Item.Check) {
-        Icons = ``;
-        for (J = 0, NumIcons = Item.Icons.length; J < NumIcons; ++J) {
-          Icons += `<i class="fa ${Item.Icons[J]}"></i> `;
-        }
-        Heading.insertAdjacentHTML(`beforeEnd`, `<a class="${Item.Name}" title="${Item.Title}">${Icons}</a>`);
+  function createSMButtons(heading, items) {
+    for (const item of items) {
+      if (!item.Check) {
+        continue;
       }
+      const icons = [];
+      for (const icon of item.Icons) {
+        icons.push({
+          attributes: {
+            class: `fa ${icon}`
+          },
+          type: `i`
+        });
+      }
+      createElements(heading, `beforeEnd`, [{
+        attributes: {
+          class: item.Name,
+          title: item.Title
+        },
+        type: `a`,
+        children: icons
+      }]);
     }
   }
 
@@ -44839,7 +47066,13 @@
     switches[option.key] = toggleSwitch = new ToggleSwitch(menu, `${type}_${option.key}`, false, option.name, false, false, null, esgst.settings[`${type}_${option.key}`]);
     switches[option.key].size = insertHtml(switches[option.key].name, `beforeEnd`, ` <span class="esgst-bold"></span>`);
     if (option.name === `Main`) {
-      switches[option.key].name.insertAdjacentHTML(`beforeEnd`, ` <i class="fa fa-question-circle" title="Main data is the data that is needed by other sub-options. Because of that dependency, when deleting main data not all data may be deleted, but if you delete another sub-option first and then delete main data, all data that was required exclusively by that sub-option will be deleted."></i>`);
+      createElements(switches[option.key].name, `beforeEnd`, [{
+        attributes: {
+          class: `fa fa-question-circle`,
+          title: `Main data is the data that is needed by other sub-options. Because of that dependency, when deleting main data not all data may be deleted, but if you delete another sub-option first and then delete main data, all data that was required exclusively by that sub-option will be deleted.`
+        },
+        type: `i`
+      }]);
     }
     if (option.options) {
       options = insertHtml(menu, `beforeEnd`, `
@@ -44923,539 +47156,577 @@
   }
 
   function loadChangelog(version) {
-    let changelog, html, i, index, n, popup;
-    changelog = [
+    const changelog = [
       {
         date: `July 24, 2018`,
         version: `7.24.1`,
-        changelog: `
-          <ul>
-            <li><a href="https://github.com/revilheart/ESGST/issues/844">#844</a> Show error message in the giveaway if game categories failed to load</li>
-            <li><a href="https://github.com/revilheart/ESGST/issues/843">#843</a> Fix a bug that re-retrieves categories for games that were already recently retrieved</li>
-            <li><a href="https://github.com/revilheart/ESGST/issues/842">#842</a> Fix Is There Any Deal? Info</li>
-            <li><a href="https://github.com/revilheart/ESGST/issues/841">#841</a> Extend "Most sent to" list to other users in User Giveaway Data</li>
-            <li><a href="https://github.com/revilheart/ESGST/issues/840">#840</a> Prevent User Giveaway Data from making useless requests if a giveaway has less than or equal to 3 winners</li>
-            <li><a href="https://github.com/revilheart/ESGST/issues/839">#839</a> Fix a bug that happens sometimes when hovering over the input field in Quick Giveaway Search</li>
-            <li><a href="https://github.com/revilheart/ESGST/issues/838">#838</a> Fix a bug that colors ended giveaways as green the first time they are found in Giveaway Encrypter/Decrypter</li>
-            <li><a href="https://github.com/revilheart/ESGST/issues/836">#836</a> Open links from the header menu in a new tab</li>
-            <li><a href="https://github.com/revilheart/ESGST/issues/834">#834</a> Enhance cookie manipulation in the extension to bypass age checks in requests to the Steam store</li>
-            <li><a href="https://github.com/revilheart/ESGST/issues/833">#833</a> Fix a bug that happens when showing game categories in real time</li>
-            <li><a href="https://github.com/revilheart/ESGST/issues/832">#832</a> Fix changelog link in the header menu</li>
-            <li><a href="https://github.com/revilheart/ESGST/issues/828">#828</a> Add option to show the Giveaway Encrypter/Decrypter header button even if there are only ended giveaways in the page</li>
-            <li><a href="https://github.com/revilheart/ESGST/issues/803">#803</a> Fix a bug that doesn't show groups containing HTML entities in Multiple Giveaway Creator</li>
-          </ul>
-        `
+        changelog: {
+          844: `Show error message in the giveaway if game categories failed to load`,
+          843: `Fix a bug that re-retrieves categories for games that were already recently retrieved`,
+          842: `Fix Is There Any Deal? Info`,
+          841: `Extend "Most sent to" list to other users in User Giveaway Data`,
+          840: `Prevent User Giveaway Data from making useless requests if a giveaway has less than or equal to 3 winners`,
+          839: `Fix a bug that happens sometimes when hovering over the input field in Quick Giveaway Search`,
+          838: `Fix a bug that colors ended giveaways as green the first time they are found in Giveaway Encrypter/Decrypter`,
+          836: `Open links from the header menu in a new tab`,
+          834: `Enhance cookie manipulation in the extension to bypass age checks in requests to the Steam store`,
+          833: `Fix a bug that happens when showing game categories in real time`,
+          832: `Fix changelog link in the header menu`,
+          828: `Add option to show the Giveaway Encrypter/Decrypter header button even if there are only ended giveaways in the page`,
+          803: `Fix a bug that doesn't show groups containing HTML entities in Multiple Giveaway Creator`
+        }
       },
       {
         date: `July 22, 2018`,
         version: `7.24.0`,
-        changelog: `
-          <ul>
-            <li><a href="https://github.com/revilheart/ESGST/issues/829">#829</a> Add options to limit requests to the Steam store and show categories in real time to Game Categories</li>
-            <li><a href="https://github.com/revilheart/ESGST/issues/831">#831</a> Fix a bug that does not calculate average entries correctly in Entry Tracker</li>
-            <li><a href="https://github.com/revilheart/ESGST/issues/830">#830</a> Fix a bug that identifies non-owned games as owned in Game Categories</li>
-            <li><a href="https://github.com/revilheart/ESGST/issues/827">#827</a> Add a feature: Giveaway Points To Win</li>
-            <li><a href="https://github.com/revilheart/ESGST/issues/826">#826</a> Add "Projected Chance", "Projected Chance Per Point" and "Projected Ratio" to Giveaways Sorter</li>
-            <li><a href="https://github.com/revilheart/ESGST/issues/805">#805</a> Add "Projected Chance", "Projected Chance Per Point" and "Projected Ratio" giveaway filters</li>
-            <li><a href="https://github.com/revilheart/ESGST/issues/808">#808</a> Fix a bug that does not remember the position of the winners column in group pages when dragging</li>
-            <li><a href="https://github.com/revilheart/ESGST/issues/825">#825</a> Fix a style issue that shows two scrollbars in the settings menu</li>
-          </ul>
-        `
+        changelog: {
+          829: `Add options to limit requests to the Steam store and show categories in real time to Game Categories`,
+          831: `Fix a bug that does not calculate average entries correctly in Entry Tracker`,
+          830: `Fix a bug that identifies non-owned games as owned in Game Categories`,
+          827: `Add a feature: Giveaway Points To Win`,
+          826: `Add "Projected Chance", "Projected Chance Per Point" and "Projected Ratio" to Giveaways Sorter`,
+          805: `Add "Projected Chance", "Projected Chance Per Point" and "Projected Ratio" giveaway filters`,
+          808: `Fix a bug that does not remember the position of the winners column in group pages when dragging`,
+          825: `Fix a style issue that shows two scrollbars in the settings menu`
+        }
       },
       {
         date: `July 20, 2018`,
         version: `7.23.0`,
-        changelog: `
-          <ul>
-            <li><a href="https://github.com/revilheart/ESGST/issues/824">#824</a> Add enhancements to User Giveaway Data</li>
-            <li><a href="https://github.com/revilheart/ESGST/issues/823">#823</a> Fix a bug that does not change SteamGifts filters through Giveaway Filters correctly</li>
-            <li><a href="https://github.com/revilheart/ESGST/issues/822">#822</a> Fix a bug that does not pin highlighted discussions after sorting</li>
-            <li><a href="https://github.com/revilheart/ESGST/issues/821">#821</a> Make SGTools filter ignore the Chance, Chance Per Point, Comments, Entries and Ratio filters</li>
-            <li><a href="https://github.com/revilheart/ESGST/issues/820">#820</a> Fix the "Add Current" button for includes/excludes in the main page</li>
-            <li><a href="https://github.com/revilheart/ESGST/issues/819">#819</a> Possible fix for endless spawning issue with Steam Activation Links</li>
-            <li><a href="https://github.com/revilheart/ESGST/issues/818">#818</a> Use the featured heading of a user's profile page instead of the page heading</li>
-            <li><a href="https://github.com/revilheart/ESGST/issues/817">#817</a> Add option to choose custom colors for Giveaway Copy Highlighter</li>
-            <li><a href="https://github.com/revilheart/ESGST/issues/816">#816</a> Add option to automatically mark a user's own comments as read</li>
-            <li><a href="https://github.com/revilheart/ESGST/issues/815">#815</a> Add option to enable tracking controls for a user's own comments</li>
-            <li><a href="https://github.com/revilheart/ESGST/issues/814">#814</a> Add option to fade out read comments in Comment Tracker</li>
-            <li><a href="https://github.com/revilheart/ESGST/issues/813">#813</a> Fix a bug that happens when refreshing active discussions on the sidebar</li>
-            <li><a href="https://github.com/revilheart/ESGST/issues/812">#812</a> Fix a bug that happens when retrieving categories of discussions in the sidebar</li>
-            <li><a href="https://github.com/revilheart/ESGST/issues/790">#790</a> Add option to automatically update hidden games adding/removing a game to/from the list</li>
-            <li><a href="https://github.com/revilheart/ESGST/issues/811">#811</a> Show success message when cleaning data</li>
-            <li><a href="https://github.com/revilheart/ESGST/issues/795">#795</a> Fix a bug that happens when cleaning data for features that the user hasn't used yet</li>
-            <li><a href="https://github.com/revilheart/ESGST/issues/810">#810</a> Automatically detect username changes when visiting a user's profile page</li>
-            <li><a href="https://github.com/revilheart/ESGST/issues/804">#804</a> Change resource references to the current version in the userscript version</li>
-            <li><a href="https://github.com/revilheart/ESGST/issues/802">#802</a> Make the settings search bar stay always visible when scrolling</li>
-            <li><a href="https://github.com/revilheart/ESGST/issues/797">#797</a> Add Public giveaway filter</li>
-            <li><a href="https://github.com/revilheart/ESGST/issues/801">#801</a> Add a feature: Comment Filters</li>
-            <li><a href="https://github.com/revilheart/ESGST/issues/147">#147</a> Add extension support for Microsoft Edge</li>
-            <li><a href="https://github.com/revilheart/ESGST/issues/796">#796</a> Add countdown to the duplicate giveaway waiting period in Multiple Giveaway Creator</li>
-            <li><a href="https://github.com/revilheart/ESGST/issues/794">#794</a> Add Patreon as an additional form of donation</li>
-            <li><a href="https://github.com/revilheart/ESGST/issues/785">#785</a> Detect packages that contain owned/wishlisted games through Game Categories</li>
-            <li><a href="https://github.com/revilheart/ESGST/issues/792">#792</a> Fix a bug that does not update the list of reduced CV games if a game was removed</li>
-            <li><a href="https://github.com/revilheart/ESGST/issues/784">#784</a> Load themes faster</li>
-            <li><a href="https://github.com/revilheart/ESGST/issues/646">#646</a> Extend header/footer to ESGST-generated pages</li>
-            <li><a href="https://github.com/revilheart/ESGST/issues/672">#672</a> Add option to clean discussion (remove deleted comments from the database) to Comment Tracker</li>
-            <li><a href="https://github.com/revilheart/ESGST/issues/783">#783</a> Open SGTools links in new tabs on Giveaway Extractor</li>
-          </ul>
-        `
+        changelog: {
+          824: `Add enhancements to User Giveaway Data`,
+          823: `Fix a bug that does not change SteamGifts filters through Giveaway Filters correctly`,
+          822: `Fix a bug that does not pin highlighted discussions after sorting`,
+          821: `Make SGTools filter ignore the Chance, Chance Per Point, Comments, Entries and Ratio filters`,
+          820: `Fix the "Add Current" button for includes/excludes in the main page`,
+          819: `Possible fix for endless spawning issue with Steam Activation Links`,
+          818: `Use the featured heading of a user's profile page instead of the page heading`,
+          817: `Add option to choose custom colors for Giveaway Copy Highlighter`,
+          816: `Add option to automatically mark a user's own comments as read`,
+          815: `Add option to enable tracking controls for a user's own comments`,
+          814: `Add option to fade out read comments in Comment Tracker`,
+          813: `Fix a bug that happens when refreshing active discussions on the sidebar`,
+          812: `Fix a bug that happens when retrieving categories of discussions in the sidebar`,
+          790: `Add option to automatically update hidden games adding/removing a game to/from the list`,
+          811: `Show success message when cleaning data`,
+          795: `Fix a bug that happens when cleaning data for features that the user hasn't used yet`,
+          810: `Automatically detect username changes when visiting a user's profile page`,
+          804: `Change resource references to the current version in the userscript version`,
+          802: `Make the settings search bar stay always visible when scrolling`,
+          797: `Add Public giveaway filter`,
+          801: `Add a feature: Comment Filters`,
+          147: `Add extension support for Microsoft Edge`,
+          796: `Add countdown to the duplicate giveaway waiting period in Multiple Giveaway Creator`,
+          794: `Add Patreon as an additional form of donation`,
+          785: `Detect packages that contain owned/wishlisted games through Game Categories`,
+          792: `Fix a bug that does not update the list of reduced CV games if a game was removed`,
+          784: `Load themes faster`,
+          646: `Extend header/footer to ESGST-generated pages`,
+          672: `Add option to clean discussion (remove deleted comments from the database) to Comment Tracker`,
+          783: `Open SGTools links in new tabs on Giveaway Extractor`
+        }
       },
       {
         date: `June 24, 2018`,
         version: `7.22.0`,
-        changelog: `
-          <ul>
-            <li><a href="https://github.com/revilheart/ESGST/issues/545">#545</a> Add a feature: Have/Want List Checker</li>
-            <li><a href="https://github.com/revilheart/ESGST/issues/572">#572</a> Fix a bug that does not predict the level in Level Progress Visualizer correctly</li>
-            <li><a href="https://github.com/revilheart/ESGST/issues/690">#690</a> Fix a bug where Giveaway Group Loader fails in some pages</li>
-            <li><a href="https://github.com/revilheart/ESGST/issues/702">#702</a> Extend Attached Image Carousel to Quick Inbox View</li>
-            <li><a href="https://github.com/revilheart/ESGST/issues/722">#722</a> Improve performance when applying filter presets (removes live-search select box and invert rule)</li>
-            <li><a href="https://github.com/revilheart/ESGST/issues/732">#732</a> Bring back filter counters</li>
-            <li><a href="https://github.com/revilheart/ESGST/issues/768">#768</a> Save state of "create train" and "remove links" switches from Multiple Giveaway Creator with Giveaway Templates</li>
-            <li><a href="https://github.com/revilheart/ESGST/issues/769">#769</a> Add polyfill for IntersectionObserver</li>
-            <li><a href="https://github.com/revilheart/ESGST/issues/771">#771</a> Fix a bug that does not filter games without images after data being retrieved with Created/Entered/Won Giveaway Details</li>
-            <li><a href="https://github.com/revilheart/ESGST/issues/772">#772</a> Fix domain for SteamGifts popups on SteamTrades</li>
-            <li><a href="https://github.com/revilheart/ESGST/issues/773">#773</a> Fix Shared Group Checker for new Steam group page design</li>
-            <li><a href="https://github.com/revilheart/ESGST/issues/775">#775</a> Save game name when it doesn't have an image for future use</li>
-            <li><a href="https://github.com/revilheart/ESGST/issues/776">#776</a> Fix a bug that does not save an advanced filter preset after deleting the rules</li>
-            <li><a href="https://github.com/revilheart/ESGST/issues/777">#777</a> Fix a bug that does not filter by Achievements or Linux</li>
-            <li><a href="https://github.com/revilheart/ESGST/issues/778">#778</a> Add small manual for advanced filters</li>
-            <li><a href="https://github.com/revilheart/ESGST/issues/779">#779</a> Fix conflict with Touhou script</li>
-            <li><a href="https://github.com/revilheart/ESGST/issues/780">#780</a> Fix a bug that blinks the minimize popups panel if the popup was open when it ended</li>
-            <li><a href="https://github.com/revilheart/ESGST/issues/781">#781</a> Fix a bug that does not allow restoring .zip files in Firefox</li>
-            <li><a href="https://github.com/revilheart/ESGST/issues/782">#782</a> Fix a bug that skips the Quick Inbox View popout to the top when scrolling down</li>
-          </ul>
-        `
+        changelog: {
+          545: `Add a feature: Have/Want List Checker`,
+          572: `Fix a bug that does not predict the level in Level Progress Visualizer correctly`,
+          690: `Fix a bug where Giveaway Group Loader fails in some pages`,
+          702: `Extend Attached Image Carousel to Quick Inbox View`,
+          722: `Improve performance when applying filter presets (removes live-search select box and invert rule)`,
+          732: `Bring back filter counters`,
+          768: `Save state of "create train" and "remove links" switches from Multiple Giveaway Creator with Giveaway Templates`,
+          769: `Add polyfill for IntersectionObserver`,
+          771: `Fix a bug that does not filter games without images after data being retrieved with Created/Entered/Won Giveaway Details`,
+          772: `Fix domain for SteamGifts popups on SteamTrades`,
+          773: `Fix Shared Group Checker for new Steam group page design`,
+          775: `Save game name when it doesn't have an image for future use`,
+          776: `Fix a bug that does not save an advanced filter preset after deleting the rules`,
+          777: `Fix a bug that does not filter by Achievements or Linux`,
+          778: `Add small manual for advanced filters`,
+          779: `Fix conflict with Touhou script`,
+          780: `Fix a bug that blinks the minimize popups panel if the popup was open when it ended`,
+          781: `Fix a bug that does not allow restoring .zip files in Firefox`,
+          782: `Fix a bug that skips the Quick Inbox View popout to the top when scrolling down`
+        }
       },
       {
         date: `June 10, 2018`,
         version: `7.21.1`,
-        changelog: `
-          <ul>
-            <li>Hotfix for v7.21.0.</li>
-          </ul>
-        `
+        changelog: {
+          0: `Hotfix for v7.21.0.`
+        }
       },
       {
         date: `June 10, 2018`,
         version: `7.21.0`,
-        changelog: `
-          <ul>
-            <li><a href="https://github.com/revilheart/ESGST/issues/765">#765</a> Fix a bug that does not allow restoring .zip files</li>
-            <li><a href="https://github.com/revilheart/ESGST/issues/764">#764</a> Fix a bug that does not save filter settings if only basic filters are enabled</li>
-            <li><a href="https://github.com/revilheart/ESGST/issues/763">#763</a> Fix a bug that does not retrieve all pages correctly in Whitelist/Blacklist Checker</li>
-            <li><a href="https://github.com/revilheart/ESGST/issues/762">#762</a> Fix a bug that adds duplicate "Sticky group" buttons</li>
-            <li><a href="https://github.com/revilheart/ESGST/issues/760">#760</a> Add SteamGifts' CSS file to the repository to prevent ESGST pages from being messed up if cg updates the CSS</li>
-            <li><a href="https://github.com/revilheart/ESGST/issues/759">#759</a> Fix a bug that shows wrong list of users in Group Library/Wishlist Checker when searching by app ID</li>
-            <li><a href="https://github.com/revilheart/ESGST/issues/758">#758</a> Fix a bug that only previews comments on user input</li>
-            <li><a href="https://github.com/revilheart/ESGST/issues/757">#757</a> Fix a bug that does not load encrypted giveaways</li>
-            <li><a href="https://github.com/revilheart/ESGST/issues/756">#756</a> Open settings menu when clicking on the extension icon</li>
-            <li><a href="https://github.com/revilheart/ESGST/issues/755">#755</a> Add option to minimize non-temporary popups</li>
-            <li><a href="https://github.com/revilheart/ESGST/issues/753">#753</a> Fix a bug that adds duplicate "Skip User" buttons to Whitelist/Blacklist Checker</li>
-            <li><a href="https://github.com/revilheart/ESGST/issues/752">#752</a> Fix active discussions on narrow sidebar</li>
-            <li><a href="https://github.com/revilheart/ESGST/issues/750">#750</a> Fix a bug that positions large popouts incorrectly in screens below 1440x900</li>
-            <li><a href="https://github.com/revilheart/ESGST/issues/749">#749</a> Fix a bug that does not allow applying empty presets</li>
-            <li><a href="https://github.com/revilheart/ESGST/issues/748">#748</a> Improve the scrolling</li>
-            <li><a href="https://github.com/revilheart/ESGST/issues/747">#747</a> Fix a bug that applies discussion filter on the main page even when disabled</li>
-            <li><a href="https://github.com/revilheart/ESGST/issues/746">#746</a> Add a feature: Points Visualizer</li>
-            <li><a href="https://github.com/revilheart/ESGST/issues/745">#745</a> Fix a style issue in the filters</li>
-            <li><a href="https://github.com/revilheart/ESGST/issues/744">#744</a> Add a new game category: DLC (Base Owned)</li>
-            <li><a href="https://github.com/revilheart/ESGST/issues/743">#743</a> Bring back option to select which filters to appear</li>
-            <li><a href="https://github.com/revilheart/ESGST/issues/742">#742</a> Fix a bug that does not load Multi-Manager in the regular pages</li>
-            <li><a href="https://github.com/revilheart/ESGST/issues/711">#711</a> Fix a bug in Quick Inbox View</li>
-            <li><a href="https://github.com/revilheart/ESGST/issues/671">#671</a> Add a feature: Giveaway End Time Highlighter</li>
-            <li><a href="https://github.com/revilheart/ESGST/issues/573">#573</a> Completely revamp User Giveaway Data</li>
-          </ul>
-        `
+        changelog: {
+          765: `Fix a bug that does not allow restoring .zip files`,
+          764: `Fix a bug that does not save filter settings if only basic filters are enabled`,
+          763: `Fix a bug that does not retrieve all pages correctly in Whitelist/Blacklist Checker`,
+          762: `Fix a bug that adds duplicate "Sticky group" buttons`,
+          760: `Add SteamGifts' CSS file to the repository to prevent ESGST pages from being messed up if cg updates the CSS`,
+          759: `Fix a bug that shows wrong list of users in Group Library/Wishlist Checker when searching by app ID`,
+          758: `Fix a bug that only previews comments on user input`,
+          757: `Fix a bug that does not load encrypted giveaways`,
+          756: `Open settings menu when clicking on the extension icon`,
+          755: `Add option to minimize non-temporary popups`,
+          753: `Fix a bug that adds duplicate "Skip User" buttons to Whitelist/Blacklist Checker`,
+          752: `Fix active discussions on narrow sidebar`,
+          750: `Fix a bug that positions large popouts incorrectly in screens below 1440x900`,
+          749: `Fix a bug that does not allow applying empty presets`,
+          748: `Improve the scrolling`,
+          747: `Fix a bug that applies discussion filter on the main page even when disabled`,
+          746: `Add a feature: Points Visualizer`,
+          745: `Fix a style issue in the filters`,
+          744: `Add a new game category: DLC (Base Owned)`,
+          743: `Bring back option to select which filters to appear`,
+          742: `Fix a bug that does not load Multi-Manager in the regular pages`,
+          711: `Fix a bug in Quick Inbox View`,
+          671: `Add a feature: Giveaway End Time Highlighter`,
+          573: `Completely revamp User Giveaway Data`
+        }
       },
       {
         date: `May 28, 2018`,
         version: `7.20.5`,
-        changelog: `
-          <ul>
-            <li>Hotfix for v7.20.4.</li>
-          </ul>
-        `
+        changelog: {
+          0: `Hotfix for v7.20.4.`
+        }
       },
       {
         date: `May 28, 2018`,
         version: `7.20.4`,
-        changelog: `
-          <ul>
-            <li><a href="https://github.com/revilheart/ESGST/issues/737">#737</a> Save paused state of filters to allow them to remain paused when refreshing the page</li>
-            <li><a href="https://github.com/revilheart/ESGST/issues/736">#736</a> Fix a bug that deletes settings if saving a preset with some filters paused</li>
-            <li><a href="https://github.com/revilheart/ESGST/issues/735">#735</a> Convert old presets to the new system</li>
-            <li><a href="https://github.com/revilheart/ESGST/issues/734">#734</a> Fix a bug in Endless Scrolling</li>
-            <li><a href="https://github.com/revilheart/ESGST/issues/731">#731</a> Fix a bug that does not apply presets</li>
-          </ul>
-        `
+        changelog: {
+          737: `Save paused state of filters to allow them to remain paused when refreshing the page`,
+          736: `Fix a bug that deletes settings if saving a preset with some filters paused`,
+          735: `Convert old presets to the new system`,
+          734: `Fix a bug in Endless Scrolling`,
+          731: `Fix a bug that does not apply presets`
+        }
       },
       {
         date: `May 27, 2018`,
         version: `7.20.3`,
-        changelog: `
-          <ul>
-            <li><a href="https://github.com/revilheart/ESGST/issues/730">#730</a> Possible fix to massive CPU usage spikes</li>
-            <li><a href="https://github.com/revilheart/ESGST/issues/728">#728</a> Increase max-height of filters area</li>
-            <li><a href="https://github.com/revilheart/ESGST/issues/727">#727</a> Fix a bug that happens when backing up to Google Drive</li>
-            <li><a href="https://github.com/revilheart/ESGST/issues/726">#726</a> Fix a bug in the filters</li>
-            <li><a href="https://github.com/revilheart/ESGST/issues/723">#723</a> Change color of AND/OR filter buttons</li>
-            <li><a href="https://github.com/revilheart/ESGST/issues/721">#721</a> Fix a bug that happens in Giveaway Encrypter/Decrypter because of filters</li>
-            <li><a href="https://github.com/revilheart/ESGST/issues/720">#720</a> Bring back the core of the basic filters as an opt-out option</li>
-            <li><a href="https://github.com/revilheart/ESGST/issues/718">#718</a> Add button to pause filter rules/groups to advanced filters</li>
-          </ul>
-        `
+        changelog: {
+          730: `Possible fix to massive CPU usage spikes`,
+          728: `Increase max-height of filters area`,
+          727: `Fix a bug that happens when backing up to Google Drive`,
+          726: `Fix a bug in the filters`,
+          723: `Change color of AND/OR filter buttons`,
+          721: `Fix a bug that happens in Giveaway Encrypter/Decrypter because of filters`,
+          720: `Bring back the core of the basic filters as an opt-out option`,
+          718: `Add button to pause filter rules/groups to advanced filters`
+        }
       },
       {
         date: `May 27, 2018`,
         version: `7.20.2`,
-        changelog: `
-          <ul>
-            <li>Hotfix for v7.20.1.</li>
-          </ul>
-        `
+        changelog: {
+          0: `Hotfix for v7.20.1.`
+        }
       },
       {
         date: `May 26, 2018`,
         version: `7.20.1`,
-        changelog: `
-          <ul>
-            <li>Hotfix for v7.20.0.</li>
-          </ul>
-        `
+        changelog: {
+          0: `Hotfix for v7.20.0.`
+        }
       },
       {
         date: `May 26, 2018`,
         version: `7.20.0`,
-        changelog: `
-          <ul>
-            <li><a href="https://github.com/revilheart/ESGST/issues/709">#709</a> Use jQuery QueryBuilder to configure filters</li>
-            <li><a href="https://github.com/revilheart/ESGST/issues/715">#715</a> Add a feature: Narrow Sidebar</li>
-            <li><a href="https://github.com/revilheart/ESGST/issues/708">#708</a> Fix a bug that does not load features correctly in new tabs</li>
-            <li><a href="https://github.com/revilheart/ESGST/issues/667">#667</a> Fix a bug that does not load endless features correctly in some pages</li>
-            <li><a href="https://github.com/revilheart/ESGST/issues/678">#678</a> Display ? instead of negative CV in Game Categories - Giveaway Info and get the price from the giveaway points when available</li>
-            <li><a href="https://github.com/revilheart/ESGST/issues/707">#707</a> Do not go to comment in Quick Inbox View</li>
-            <li><a href="https://github.com/revilheart/ESGST/issues/665">#665</a> Add other found replies to the comment instead of showing them in a popup in Reply From Inbox</li>
-            <li><a href="https://github.com/revilheart/ESGST/issues/703">#703</a> Improve description variables explanation in Multiple Giveaway Creator</li>
-            <li><a href="https://github.com/revilheart/ESGST/issues/706">#706</a> Fix a bug that reverses the pages of a discussion when there is a hash in the URL</li>
-            <li><a href="https://github.com/revilheart/ESGST/issues/705">#705</a> Fix a bug that does not manage items inside of Grid View popouts in Multi-Manager</li>
-            <li><a href="https://github.com/revilheart/ESGST/issues/704">#704</a> Add option to hide games to Multi-Manager</li>
-          </ul>
-        `
+        changelog: {
+          709: `Use jQuery QueryBuilder to configure filters`,
+          715: `Add a feature: Narrow Sidebar`,
+          708: `Fix a bug that does not load features correctly in new tabs`,
+          667: `Fix a bug that does not load endless features correctly in some pages`,
+          678: `Display ? instead of negative CV in Game Categories - Giveaway Info and get the price from the giveaway points when available`,
+          707: `Do not go to comment in Quick Inbox View`,
+          665: `Add other found replies to the comment instead of showing them in a popup in Reply From Inbox`,
+          703: `Improve description variables explanation in Multiple Giveaway Creator`,
+          706: `Fix a bug that reverses the pages of a discussion when there is a hash in the URL`,
+          705: `Fix a bug that does not manage items inside of Grid View popouts in Multi-Manager`,
+          704: `Add option to hide games to Multi-Manager`
+        }
       },
       {
         date: `May 20, 2018`,
         version: `7.19.0`,
-        changelog: `
-          <ul>
-            <li><a href="https://github.com/revilheart/ESGST/issues/701">#701</a> Remove min-height requirement from Fixed Sidebar</li>
-            <li><a href="https://github.com/revilheart/ESGST/issues/700">#700</a> Fix a bug that does not fix the sidebar after scrolling down a second time from the top</li>
-            <li><a href="https://github.com/revilheart/ESGST/issues/699">#699</a> Fix a bug that does not display the sync page</li>
-            <li><a href="https://github.com/revilheart/ESGST/issues/698">#698</a> Add option to choose the key combination to trigger the Custom Header/Footer Links editor</li>
-            <li><a href="https://github.com/revilheart/ESGST/issues/695">#695</a> Fix a bug where sorting fails after hiding a single giveaway</li>
-            <li><a href="https://github.com/revilheart/ESGST/issues/694">#694</a> Fix a style issue that does not position popouts above/below correctly</li>
-            <li><a href="https://github.com/revilheart/ESGST/issues/693">#693</a> Fix a style issue that does not position popouts correctly if the window is scrolled horizontally</li>
-            <li><a href="https://github.com/revilheart/ESGST/issues/692">#692</a> Remove min-height requirement from Fixed Main Page Heading</li>
-            <li><a href="https://github.com/revilheart/ESGST/issues/691">#691</a> Change Giveaway Popup button to red if giveaway cannot be accessed</li>
-            <li><a href="https://github.com/revilheart/ESGST/issues/689">#689</a> Add a button to clear the current query to the search field in the settings menu</li>
-            <li><a href="https://github.com/revilheart/ESGST/issues/688">#688</a> Extend giveaway features to the archive page</li>
-            <li><a href="https://github.com/revilheart/ESGST/issues/686">#686</a> Changes to how emojis are stored</li>
-            <li><a href="https://github.com/revilheart/ESGST/issues/685">#685</a> Compress data when backing up</li>
-            <li><a href="https://github.com/revilheart/ESGST/issues/684">#684</a> Add &quot;Last Bundled&quot; default link to Custom Header/Footer Links</li>
-            <li><a href="https://github.com/revilheart/ESGST/issues/683">#683</a> Allow selected emojis to be re-ordered</li>
-            <li><a href="https://github.com/revilheart/ESGST/issues/682">#682</a> Add option to retrieve game names when syncing</li>
-            <li><a href="https://github.com/revilheart/ESGST/issues/681">#681</a> Fix a bug where filtering is applied when changing any filter options despite filtering being disabled</li>
-            <li><a href="https://github.com/revilheart/ESGST/issues/680">#680</a> Add a feature: Visible Real CV</li>
-            <li><a href="https://github.com/revilheart/ESGST/issues/679">#679</a> Add &quot;Previously Won&quot; game category</li>
-            <li><a href="https://github.com/revilheart/ESGST/issues/677">#677</a> Fix a bug that does not persist some settings</li>
-            <li><a href="https://github.com/revilheart/ESGST/issues/676">#676</a> Fix a bug that auto-backups to computer on every page load</li>
-            <li><a href="https://github.com/revilheart/ESGST/issues/674">#674</a> Change how the NEW indicator works on Quick Inbox View</li>
-          </ul>
-        `
+        changelog: {
+          701: `Remove min-height requirement from Fixed Sidebar`,
+          700: `Fix a bug that does not fix the sidebar after scrolling down a second time from the top`,
+          699: `Fix a bug that does not display the sync page`,
+          698: `Add option to choose the key combination to trigger the Custom Header/Footer Links editor`,
+          695: `Fix a bug where sorting fails after hiding a single giveaway`,
+          694: `Fix a style issue that does not position popouts above/below correctly`,
+          693: `Fix a style issue that does not position popouts correctly if the window is scrolled horizontally`,
+          692: `Remove min-height requirement from Fixed Main Page Heading`,
+          691: `Change Giveaway Popup button to red if giveaway cannot be accessed`,
+          689: `Add a button to clear the current query to the search field in the settings menu`,
+          688: `Extend giveaway features to the archive page`,
+          686: `Changes to how emojis are stored`,
+          685: `Compress data when backing up`,
+          684: `Add &quot;Last Bundled&quot; default link to Custom Header/Footer Links`,
+          683: `Allow selected emojis to be re-ordered`,
+          682: `Add option to retrieve game names when syncing`,
+          681: `Fix a bug where filtering is applied when changing any filter options despite filtering being disabled`,
+          680: `Add a feature: Visible Real CV`,
+          679: `Add &quot;Previously Won&quot; game category`,
+          677: `Fix a bug that does not persist some settings`,
+          676: `Fix a bug that auto-backups to computer on every page load`,
+          674: `Change how the NEW indicator works on Quick Inbox View`
+        }
       },
       {
         date: `May 11, 2018`,
         version: `7.18.3`,
-        changelog: `
-          <ul>
-            <li><a href="https://github.com/revilheart/ESGST/issues/675">#675</a> Remove Comment History from SteamTrades</li>
-            <li><a href="https://github.com/revilheart/ESGST/issues/673">#673</a> Fix a bug that happens when creating giveaways through either Giveaway Templates or Multiple Giveaway Creator</li>
-            <li><a href="https://github.com/revilheart/ESGST/issues/670">#670</a> Fix a bug that does not return Endless Scrolling to a paused state after continuously loading pages</li>
-            <li><a href="https://github.com/revilheart/ESGST/issues/667">#667</a> Fix a bug that does not load endless features correctly in some pages</li>
-          </ul>
-        `
+        changelog: {
+          675: `Remove Comment History from SteamTrades`,
+          673: `Fix a bug that happens when creating giveaways through either Giveaway Templates or Multiple Giveaway Creator`,
+          670: `Fix a bug that does not return Endless Scrolling to a paused state after continuously loading pages`,
+          667: `Fix a bug that does not load endless features correctly in some pages`
+        }
       },
       {
         date: `May 07, 2018`,
         version: `7.18.2`,
-        changelog: `
-          <ul>
-            <li><a href="https://github.com/revilheart/ESGST/issues/668">#668</a> Hotfix for v7.18.1</li>
-          </ul>
-        `
+        changelog: {
+          668: `Hotfix for v7.18.1`
+        }
       },
       {
         date: `May 07, 2018`,
         version: `7.18.1`,
-        changelog: `
-          <ul>
-            <li><a href="https://github.com/revilheart/ESGST/issues/666">#666</a> Hotfix for v7.18.0</li>
-          </ul>
-        `
+        changelog: {
+          666: `Hotfix for v7.18.0`
+        }
       },
       {
         date: `May 07, 2018`,
         version: `7.18.0`,
-        changelog: `
-          <ul>
-            <li><a href="https://github.com/revilheart/ESGST/issues/664">#664</a> Fix a bug that does not decrypt giveaways containing the word bot in their name</li>
-            <li><a href="https://github.com/revilheart/ESGST/issues/663">#663</a> Fix a bug that happens when importing giveaways with a description template for a train in Multiple Giveaway Creator</li>
-            <li><a href="https://github.com/revilheart/ESGST/issues/662">#662</a> Fixate the Comment Formatting Helper panel without limiting the height of the text area</li>
-            <li><a href="https://github.com/revilheart/ESGST/issues/661">#661</a> Fix a bug in Comment Formatting Helper that does not add a scrolling bar to the text area in the edit discussion page</li>
-            <li><a href="https://github.com/revilheart/ESGST/issues/660">#660</a> Fix a bug that removes all games when syncing if both the store and the API methods failed</li>
-            <li><a href="https://github.com/revilheart/ESGST/issues/659">#659</a> Fix a style issue that sometimes does not overlap popups/popouts correctly</li>
-            <li><a href="https://github.com/revilheart/ESGST/issues/658">#658</a> Fix a bug that does not refresh Quick Inbox View correctly</li>
-            <li><a href="https://github.com/revilheart/ESGST/issues/657">#657</a> Add infinite max filters to Giveaway/Discussion Filters</li>
-            <li><a href="https://github.com/revilheart/ESGST/issues/655">#655</a> Fix a bug that does not load endless features correctly</li>
-            <li><a href="https://github.com/revilheart/ESGST/issues/654">#654</a> Make SGTools link draggable in Giveaway Extractor</li>
-            <li><a href="https://github.com/revilheart/ESGST/issues/653">#653</a> Add missing Steam and search links to SGTools giveaways in Giveaway Extractor</li>
-            <li><a href="https://github.com/revilheart/ESGST/issues/651">#651</a> Update FontAwesome links</li>
-            <li><a href="https://github.com/revilheart/ESGST/issues/650">#650</a> Limit requests to the Steam store when syncing to 1 per second</li>
-            <li><a href="https://github.com/revilheart/ESGST/issues/647">#647</a> Changes to the structure of the code</li>
-            <li><a href="https://github.com/revilheart/ESGST/issues/645">#645</a> Add a SGTools filter to Giveaway Filters</li>
-            <li><a href="https://github.com/revilheart/ESGST/issues/644">#644</a> Fix a bug that does not delete table rows in Comment Formatting Helper</li>
-            <li><a href="https://github.com/revilheart/ESGST/issues/642">#642</a> Add option to group all keys for the same game in Multiple Giveaway Creator</li>
-            <li><a href="https://github.com/revilheart/ESGST/issues/641">#641</a> Add a new section to the settings menu: Themes</li>
-            <li><a href="https://github.com/revilheart/ESGST/issues/640">#640</a> Fix tooltip in Multiple Giveaway Creator</li>
-            <li><a href="https://github.com/revilheart/ESGST/issues/639">#639</a> Convert checkboxes from circles to squares</li>
-            <li><a href="https://github.com/revilheart/ESGST/issues/638">#638</a> Fix some bugs that happen when marking comments as unread</li>
-            <li><a href="https://github.com/revilheart/ESGST/issues/608">#608</a> Add a feature: Multi-Manager (remove Giveaway Manager and Multi-Tag)</li>
-            <li><a href="https://github.com/revilheart/ESGST/issues/332">#332</a> Fix a bug that fails to create multiple giveaways for the same game in Multiple Giveaway Creator</li>
-          </ul>
-        `
+        changelog: {
+          664: `Fix a bug that does not decrypt giveaways containing the word bot in their name`,
+          663: `Fix a bug that happens when importing giveaways with a description template for a train in Multiple Giveaway Creator`,
+          662: `Fixate the Comment Formatting Helper panel without limiting the height of the text area`,
+          661: `Fix a bug in Comment Formatting Helper that does not add a scrolling bar to the text area in the edit discussion page`,
+          660: `Fix a bug that removes all games when syncing if both the store and the API methods failed`,
+          659: `Fix a style issue that sometimes does not overlap popups/popouts correctly`,
+          658: `Fix a bug that does not refresh Quick Inbox View correctly`,
+          657: `Add infinite max filters to Giveaway/Discussion Filters`,
+          655: `Fix a bug that does not load endless features correctly`,
+          654: `Make SGTools link draggable in Giveaway Extractor`,
+          653: `Add missing Steam and search links to SGTools giveaways in Giveaway Extractor`,
+          651: `Update FontAwesome links`,
+          650: `Limit requests to the Steam store when syncing to 1 per second`,
+          647: `Changes to the structure of the code`,
+          645: `Add a SGTools filter to Giveaway Filters`,
+          644: `Fix a bug that does not delete table rows in Comment Formatting Helper`,
+          642: `Add option to group all keys for the same game in Multiple Giveaway Creator`,
+          641: `Add a new section to the settings menu: Themes`,
+          640: `Fix tooltip in Multiple Giveaway Creator`,
+          639: `Convert checkboxes from circles to squares`,
+          638: `Fix some bugs that happen when marking comments as unread`,
+          608: `Add a feature: Multi-Manager (remove Giveaway Manager and Multi-Tag)`,
+          332: `Fix a bug that fails to create multiple giveaways for the same game in Multiple Giveaway Creator`
+        }
       },
       {
         date: `April 19, 2018`,
         version: `7.17.8`,
-        changelog: `
-          <ul>
-            <li><a href="https://github.com/revilheart/ESGST/issues/637">#637</a> Fix a style issue in pages generated by ESGST open in a new tab</li>
-            <li><a href="https://github.com/revilheart/ESGST/issues/636">#636</a> Fix a bug that calculates the wrong chance per point if a giveaway has 0 points</li>
-            <li><a href="https://github.com/revilheart/ESGST/issues/635">#635</a> Bypass bot protections when extracting giveaways</li>
-            <li><a href="https://github.com/revilheart/ESGST/issues/634">#634</a> Fix a bug that does not switch the colors of game category icons for alt accounts when moving them</li>
-            <li><a href="https://github.com/revilheart/ESGST/issues/633">#633</a> Fix a bug that does not turn the decrypted giveaways icon to green when new giveaways are found</li>
-            <li><a href="https://github.com/revilheart/ESGST/issues/628">#628</a> Add option to only search for comments in a specific page range to Comment Searcher</li>
-            <li><a href="https://github.com/revilheart/ESGST/issues/599">#599</a> Extend Giveaways Sorter to popups</li>
-            <li><a href="https://github.com/revilheart/ESGST/issues/567">#567</a> Add description variables to Multiple Giveaway Creator</li>
-          </ul>
-        `
+        changelog: {
+          637: `Fix a style issue in pages generated by ESGST open in a new tab`,
+          636: `Fix a bug that calculates the wrong chance per point if a giveaway has 0 points`,
+          635: `Bypass bot protections when extracting giveaways`,
+          634: `Fix a bug that does not switch the colors of game category icons for alt accounts when moving them`,
+          633: `Fix a bug that does not turn the decrypted giveaways icon to green when new giveaways are found`,
+          628: `Add option to only search for comments in a specific page range to Comment Searcher`,
+          599: `Extend Giveaways Sorter to popups`,
+          567: `Add description variables to Multiple Giveaway Creator`
+        }
       },
       {
         date: `April 14, 2018`,
         version: `7.17.7`,
-        changelog: `
-          <ul>
-            <li><a href="https://github.com/revilheart/ESGST/issues/632">#632</a> Add option to limit how many SGTools giveaways are opened when extracting</li>
-            <li><a href="https://github.com/revilheart/ESGST/issues/631">#631</a> Add option to allow manipulation of cookies for Firefox containers</li>
-            <li><a href="https://github.com/revilheart/ESGST/issues/630">#630</a> Add more details to error messages during alt accounts sync</li>
-            <li><a href="https://github.com/revilheart/ESGST/issues/629">#629</a> Cancel backup when canceling file name input</li>
-            <li><a href="https://github.com/revilheart/ESGST/issues/627">#627</a> Implement a method to make the process of adding new filters easier</li>
-            <li><a href="https://github.com/revilheart/ESGST/issues/626">#626</a> Fix a bug that does not sync games if the user does not have alt accounts set</li>
-            <li><a href="https://github.com/revilheart/ESGST/issues/625">#625</a> Integrate SGTools giveaways into Giveaway Extractor</li>
-            <li><a href="https://github.com/revilheart/ESGST/issues/624">#624</a> Fix a bug that opens duplicate SGTools links when extracting giveaways</li>
-            <li><a href="https://github.com/revilheart/ESGST/issues/623">#623</a> Add option to save backups without asking for a file name</li>
-            <li><a href="https://github.com/revilheart/ESGST/issues/593">#593</a> Add Groups and Creators giveaway filters and Authors discussion filter</li>
-            <li><a href="https://github.com/revilheart/ESGST/issues/592">#592</a> Fix a bug that does not load more pages in Endless Scrolling if there are deleted giveaways in the current page with the ended filter set to hide all</li>
-          </ul>
-        `
+        changelog: {
+          632: `Add option to limit how many SGTools giveaways are opened when extracting`,
+          631: `Add option to allow manipulation of cookies for Firefox containers`,
+          630: `Add more details to error messages during alt accounts sync`,
+          629: `Cancel backup when canceling file name input`,
+          627: `Implement a method to make the process of adding new filters easier`,
+          626: `Fix a bug that does not sync games if the user does not have alt accounts set`,
+          625: `Integrate SGTools giveaways into Giveaway Extractor`,
+          624: `Fix a bug that opens duplicate SGTools links when extracting giveaways`,
+          623: `Add option to save backups without asking for a file name`,
+          593: `Add Groups and Creators giveaway filters and Authors discussion filter`,
+          592: `Fix a bug that does not load more pages in Endless Scrolling if there are deleted giveaways in the current page with the ended filter set to hide all`
+        }
       },
       {
         date: `April 11, 2018`,
         version: `7.17.6`,
-        changelog: `
-          <ul>
-            <li><a href="https://github.com/revilheart/ESGST/issues/620">#620</a> Add more reliable methods of syncing and backing up</li>
-            <li><a href="https://github.com/revilheart/ESGST/issues/619">#619</a> Fix a bug that does not add an Enter button when extracting giveaways with few points</li>
-            <li><a href="https://github.com/revilheart/ESGST/issues/618">#618</a> Add option to open SGTools links when extracting giveaways</li>
-            <li><a href="https://github.com/revilheart/ESGST/issues/617">#617</a> Fix a bug that does not sync owned games in alt accounts</li>
-            <li><a href="https://github.com/revilheart/ESGST/issues/616">#616</a> Allow users to sync their games through the Steam API alone if the store method is unavailable</li>
-            <li><a href="https://github.com/revilheart/ESGST/issues/615">#615</a> Fix a bug that does not reverse a discussion if endless scrolling is paused</li>
-            <li><a href="https://github.com/revilheart/ESGST/issues/614">#614</a> Add option to reverse comments in a discussion by indicating it through a hash in the URL</li>
-            <li><a href="https://github.com/revilheart/ESGST/issues/613">#613</a> Make blacklist checks an opt-out instead of an opt-in by default in Whitelist/Blacklist Checker</li>
-            <li><a href="https://github.com/revilheart/ESGST/issues/611">#611</a> Add option to specify non-region restricted giveaways when importing in Multiple Giveaway Creator</li>
-            <li><a href="https://github.com/revilheart/ESGST/issues/610">#610</a> Fix a bug that duplicates the permalink icon</li>
-            <li><a href="https://github.com/revilheart/ESGST/issues/609">#609</a> Fix a bug that does not retrieve game names when syncing</li>
-            <li><a href="https://github.com/revilheart/ESGST/issues/607">#607</a> Fix a bug that does not include the .zip download when notifying a new version in non-Firefox browsers</li>
-            <li><a href="https://github.com/revilheart/ESGST/issues/604">#604</a> Fix a bug that prevents the script from loading</li>
-            <li><a href="https://github.com/revilheart/ESGST/issues/603">#603</a> Fix a bug that can prevent some elements in the giveaway columns/panel from being moved</li>
-            <li><a href="https://github.com/revilheart/ESGST/issues/600">#600</a> Fix a bug that does not show SG popups found when requesting data if static popups are enabled</li>
-          </ul>
-        `
+        changelog: {
+          620: `Add more reliable methods of syncing and backing up`,
+          619: `Fix a bug that does not add an Enter button when extracting giveaways with few points`,
+          618: `Add option to open SGTools links when extracting giveaways`,
+          617: `Fix a bug that does not sync owned games in alt accounts`,
+          616: `Allow users to sync their games through the Steam API alone if the store method is unavailable`,
+          615: `Fix a bug that does not reverse a discussion if endless scrolling is paused`,
+          614: `Add option to reverse comments in a discussion by indicating it through a hash in the URL`,
+          613: `Make blacklist checks an opt-out instead of an opt-in by default in Whitelist/Blacklist Checker`,
+          611: `Add option to specify non-region restricted giveaways when importing in Multiple Giveaway Creator`,
+          610: `Fix a bug that duplicates the permalink icon`,
+          609: `Fix a bug that does not retrieve game names when syncing`,
+          607: `Fix a bug that does not include the .zip download when notifying a new version in non-Firefox browsers`,
+          604: `Fix a bug that prevents the script from loading`,
+          603: `Fix a bug that can prevent some elements in the giveaway columns/panel from being moved`,
+          600: `Fix a bug that does not show SG popups found when requesting data if static popups are enabled`
+        }
       },
       {
         date: `April 05, 2018`,
         version: `7.17.5`,
-        changelog: `
-          <ul>
-            <li><a href="https://github.com/revilheart/ESGST/issues/605">#605</a> Fix a bug that does not set the correct default values for some settings</li>
-            <li><a href="https://github.com/revilheart/ESGST/issues/602">#602</a> Add option to clean duplicate data to the data cleaner menu</li>
-            <li><a href="https://github.com/revilheart/ESGST/issues/598">#598</a> Implement a method to automatically detect and highlight new features/options in the settings menu with the [NEW] tag</li>
-            <li><a href="https://github.com/revilheart/ESGST/issues/597">#597</a> Fix a bug that shows Inifity% chance per point on the entered page</li>
-            <li><a href="https://github.com/revilheart/ESGST/issues/596">#596</a> Replace the terms &quot;Import&quot; and &quot;Export&quot; with &quot;Restore&quot; and &quot;Backup&quot; and change the icons to avoid any confusion</li>
-            <li><a href="https://github.com/revilheart/ESGST/issues/584">#584</a> Fix a bug that does not reload the extension in Chrome when updating</li>
-            <li><a href="https://github.com/revilheart/ESGST/issues/555">#555</a> Add SteamGifts filters to Giveaway Filters</li>
-            <li><a href="https://github.com/revilheart/ESGST/issues/538">#538</a> Add options to allow users to specify the format of the tab indicators in Header Refresher</li>
-            <li><a href="https://github.com/revilheart/ESGST/issues/524">#524</a> Fix a but that shows the new version popup twice</li>
-            <li><a href="https://github.com/revilheart/ESGST/issues/299">#299</a> Implement a method to better handle marking discussions as visited across multiple tabs</li>
-          </ul>
-        `
+        changelog: {
+          605: `Fix a bug that does not set the correct default values for some settings`,
+          602: `Add option to clean duplicate data to the data cleaner menu`,
+          598: `Implement a method to automatically detect and highlight new features/options in the settings menu with the [NEW] tag`,
+          597: `Fix a bug that shows Inifity% chance per point on the entered page`,
+          596: `Replace the terms &quot;Import&quot; and &quot;Export&quot; with &quot;Restore&quot; and &quot;Backup&quot; and change the icons to avoid any confusion`,
+          584: `Fix a bug that does not reload the extension in Chrome when updating`,
+          555: `Add SteamGifts filters to Giveaway Filters`,
+          538: `Add options to allow users to specify the format of the tab indicators in Header Refresher`,
+          524: `Fix a but that shows the new version popup twice`,
+          299: `Implement a method to better handle marking discussions as visited across multiple tabs`
+        }
       },
       {
         date: `March 25, 2018`,
         version: `7.17.4`,
-        changelog: `
-          <ul>
-            <li><a href="https://github.com/revilheart/ESGST/issues/590">#590</a> Speed up retrieval of Game Categories for users that do not have ratings, removed and user-defined tags enabled</li>
-            <li><a href="https://github.com/revilheart/ESGST/issues/588">#588</a> Fix a conflict between whitelist/blacklist/rule checks and Quick Inbox View</li>
-            <li><a href="https://github.com/revilheart/ESGST/issues/587">#587</a> Prevent main page heading from being fixed if the page is too small</li>
-            <li><a href="https://github.com/revilheart/ESGST/issues/586">#586</a> Add option to filter giveaways by chance per point</li>
-            <li><a href="https://github.com/revilheart/ESGST/issues/585">#585</a> Fix a bug that duplicates user notes when importing and merging</li>
-            <li><a href="https://github.com/revilheart/ESGST/issues/582">#582</a> Fix a couple bugs that prevent Game Categories from being retrieved correctly</li>
-          </ul>
-        `
+        changelog: {
+          590: `Speed up retrieval of Game Categories for users that do not have ratings, removed and user-defined tags enabled`,
+          588: `Fix a conflict between whitelist/blacklist/rule checks and Quick Inbox View`,
+          587: `Prevent main page heading from being fixed if the page is too small`,
+          586: `Add option to filter giveaways by chance per point`,
+          585: `Fix a bug that duplicates user notes when importing and merging`,
+          582: `Fix a couple bugs that prevent Game Categories from being retrieved correctly`
+        }
       },
       {
         date: `March 20, 2018`,
         version: `7.17.3`,
-        changelog: `
-          <ul>
-            <li><a href="https://github.com/revilheart/ESGST/issues/583">#583</a> Revert #565</li>
-            <li><a href="https://github.com/revilheart/ESGST/issues/580">#580</a> Fix a bug in Tables Sorter that does not sort sent/received group columns correctly</li>
-            <li><a href="https://github.com/revilheart/ESGST/issues/579">#579</a> Rename Whitelist/Blacklist Links to Profile Links and add more options</li>
-          </ul>
-        `
+        changelog: {
+          583: `Revert #565`,
+          580: `Fix a bug in Tables Sorter that does not sort sent/received group columns correctly`,
+          579: `Rename Whitelist/Blacklist Links to Profile Links and add more options`
+        }
       },
       {
         date: `March 15, 2018`,
         version: `7.17.2`,
-        changelog: `
-          <ul>
-            <li>Split jQuery, jQuery UI and Parsedown into separate files</li>
-          </ul>
-        `
+        changelog: {
+          0: `Split jQuery, jQuery UI and Parsedown into separate files`
+        }
       },
       {
         date: `March 14, 2018`,
         version: `7.17.1`,
-        changelog: `
-          <ul>
-            <li>Add extension to the Mozilla store</li>
-          </ul>
-        `
+        changelog: {
+          0: `Add extension to the Mozilla store`
+        }
       },
       {
         date: `March 14, 2018`,
         version: `7.17.0`,
-        changelog: `
-          <ul>
-            <li><a href="https://github.com/revilheart/ESGST/issues/562">#562</a> Add descriptions to the precise options in Giveaway Templates</li>
-            <li><a href="https://github.com/revilheart/ESGST/issues/563">#563</a> Add an option to specify the game when importing with Multiple Giveaway Creator</li>
-            <li><a href="https://github.com/revilheart/ESGST/issues/564">#564</a> Fix a bug that does not extract the giveaway from the current page</li>
-            <li><a href="https://github.com/revilheart/ESGST/issues/565">#565</a> Add minified version and set it as default</li>
-            <li><a href="https://github.com/revilheart/ESGST/issues/566">#566</a> Add option to specify separate details for each imported giveaway in Multiple Giveaway Creator</li>
-            <li><a href="https://github.com/revilheart/ESGST/issues/568">#568</a> Add an option to enable Giveaway Recreator for all created giveaways</li>
-            <li><a href="https://github.com/revilheart/ESGST/issues/570">#570</a> Fix a bug in Chrome that does not open the giveaway extractor on first click</li>
-            <li><a href="https://github.com/revilheart/ESGST/issues/571">#571</a> Include whether the giveaway is for a gift or a key in the template when using Giveaway Templates</li>
-            <li><a href="https://github.com/revilheart/ESGST/issues/574">#574</a> Add a feature: Element Filters (remove Hidden Feature Container and Hidden Pinned Giveaways)</li>
-            <li><a href="https://github.com/revilheart/ESGST/issues/575">#575</a> Move "Click here to see your review for this user" to the top of the page in Reply Box On Top on SteamTrades</li>
-            <li><a href="https://github.com/revilheart/ESGST/issues/576">#576</a> Fix a bug that does not load features correctly in discussions that contain polls</li>
-            <li><a href="https://github.com/revilheart/ESGST/issues/578">#578</a> Optimize the extension performance (Ongoing)</li>
-            <li><a href="https://github.com/revilheart/ESGST/issues/353">#353</a> Convert all callback functions into promises and use async/await to deal with them (Ongoing)</li>
-          </ul>
-        `
+        changelog: {
+          562: `Add descriptions to the precise options in Giveaway Templates`,
+          563: `Add an option to specify the game when importing with Multiple Giveaway Creator`,
+          564: `Fix a bug that does not extract the giveaway from the current page`,
+          565: `Add minified version and set it as default`,
+          566: `Add option to specify separate details for each imported giveaway in Multiple Giveaway Creator`,
+          568: `Add an option to enable Giveaway Recreator for all created giveaways`,
+          570: `Fix a bug in Chrome that does not open the giveaway extractor on first click`,
+          571: `Include whether the giveaway is for a gift or a key in the template when using Giveaway Templates`,
+          574: `Add a feature: Element Filters (remove Hidden Feature Container and Hidden Pinned Giveaways)`,
+          575: `Move "Click here to see your review for this user" to the top of the page in Reply Box On Top on SteamTrades`,
+          576: `Fix a bug that does not load features correctly in discussions that contain polls`,
+          578: `Optimize the extension performance (Ongoing)`,
+          353: `Convert all callback functions into promises and use async/await to deal with them (Ongoing)`
+        }
       },
       {
         date: `March 4, 2018`,
         version: `7.16.5`,
-        changelog: `
-          <ul>
-            <li><a href="https://github.com/revilheart/ESGST/issues/353">#353</a> Convert all callback functions into promises and use async/await to deal with them (ongoing)</li>
-            <li><a href="https://github.com/revilheart/ESGST/issues/552">#552</a> Fix a bug that does not allow the Giveaway Extractor button to be moved</li>
-            <li><a href="https://github.com/revilheart/ESGST/issues/556">#556</a> Only load Attached Images Carouself for images that are actually in the page</li>
-            <li><a href="https://github.com/revilheart/ESGST/issues/558">#558</a> Fix a bug that does not extract giveaways in a new tab</li>
-            <li><a href="https://github.com/revilheart/ESGST/issues/560">#560</a> Fix a bug that does not load ESGST sometimes</li>
-            <li><a href="https://github.com/revilheart/ESGST/issues/561">#561</a> Fix a bug that happens when performing requests in the userscript version</li>
-          </ul>
-        `
+        changelog: {
+          353: `Convert all callback functions into promises and use async/await to deal with them (ongoing)`,
+          552: `Fix a bug that does not allow the Giveaway Extractor button to be moved`,
+          556: `Only load Attached Images Carouself for images that are actually in the page`,
+          558: `Fix a bug that does not extract giveaways in a new tab`,
+          560: `Fix a bug that does not load ESGST sometimes`,
+          561: `Fix a bug that happens when performing requests in the userscript version`
+        }
       },
       {
         date: `March 2, 2018`,
         version: `7.16.4`,
-        changelog: `
-          <ul>
-            <li>Hotfix for v7.16.3 (Userscript version was still not working)</li>
-          </ul>
-        `
+        changelog: {
+          0: `Hotfix for v7.16.3 (Userscript version was still not working)`
+        }
       },
       {
         date: `March 2, 2018`,
         version: `7.16.3`,
-        changelog: `
-          <ul>
-            <li>Hotfix for v7.16.2 (Userscript version was not working)</li>
-          </ul>
-        `
+        changelog: {
+          0: `Hotfix for v7.16.2 (Userscript version was not working)`
+        }
       },
       {
         date: `March 2, 2018`,
         version: `7.16.2`,
-        changelog: `
-          <ul>
-            <li>Hotfix for v7.16.1 (Forgot to change the version)</li>
-          </ul>
-        `
+        changelog: {
+          0: `Hotfix for v7.16.1 (Forgot to change the version)`
+        }
       },
       {
         date: `March 2, 2018`,
         version: `7.16.1`,
-        changelog: `
-          <ul>
-            <li><a href="https://github.com/revilheart/ESGST/issues/527">#527</a> Fix a bug that happens when loading highlighted discussions</li>
-            <li><a href="https://github.com/revilheart/ESGST/issues/537">#537</a> Add option to delete days from Entry Tracker history</li>
-            <li><a href="https://github.com/revilheart/ESGST/issues/539">#539</a> Fix a bug that happens when sending unsent gifts with the options to check if the winner is whitelisted/blacklisted</li>
-            <li><a href="https://github.com/revilheart/ESGST/issues/540">#540</a> Fix some bugs with the reordering of heading buttons</li>
-            <li><a href="https://github.com/revilheart/ESGST/issues/541">#541</a> Extend Inbox Winner Highlighter to Quick Inbox View</li>
-            <li><a href="https://github.com/revilheart/ESGST/issues/542">#542</a> Add options to specify image border width when highlighting a giveaway with Giveaway Winning Chance/Ratio</li>
-            <li><a href="https://github.com/revilheart/ESGST/issues/543">#543</a> Fix a bug that does not load some features correctly</li>
-            <li><a href="https://github.com/revilheart/ESGST/issues/544">#544</a> Change the order of the elements in the Giveaway Bookmarks popup</li>
-            <li><a href="https://github.com/revilheart/ESGST/issues/548">#548</a> Fix a bug that decrypts giveaway links from the Quick Inbox View popout</li>
-            <li><a href="https://github.com/revilheart/ESGST/issues/549">#549</a> Add domain instructions to adding a Steam API key</li>
-            <li><a href="https://github.com/revilheart/ESGST/issues/550">#550</a> Optimize storage usage in the script version</li>
-          </ul>
-        `
+        changelog: {
+          527: `Fix a bug that happens when loading highlighted discussions`,
+          537: `Add option to delete days from Entry Tracker history`,
+          539: `Fix a bug that happens when sending unsent gifts with the options to check if the winner is whitelisted/blacklisted`,
+          540: `Fix some bugs with the reordering of heading buttons`,
+          541: `Extend Inbox Winner Highlighter to Quick Inbox View`,
+          542: `Add options to specify image border width when highlighting a giveaway with Giveaway Winning Chance/Ratio`,
+          543: `Fix a bug that does not load some features correctly`,
+          544: `Change the order of the elements in the Giveaway Bookmarks popup`,
+          548: `Fix a bug that decrypts giveaway links from the Quick Inbox View popout`,
+          549: `Add domain instructions to adding a Steam API key`,
+          550: `Optimize storage usage in the script version`
+        }
       }
     ];
+    let index = 0;
     if (version) {
-      for (i = 0, n = changelog.length; i < n && changelog[i].version !== version; ++i);
+      let i, n;
+      for (i = 0, n = changelog.length; i < n && changelog[i].version !== version; i++);
       index = i < n ? i - 1 : n - 1;
-    } else {
-      index = 0;
     }
-    html = [];
-    while (index >= 0) {
-      html.unshift(`
-        <p class="esgst-bold">v${changelog[index].version} (${changelog[index].date})</p>
-        ${changelog[index].changelog}
-      `);
-      --index;
+    const html = [];
+    while (index > -1) {
+      const items = [];
+      for (const key in changelog[index].changelog) {
+        const item = {
+          type: `li`,
+          children: []
+        };
+        if (key == 0) {
+          item.children.push({
+            text: changelog[index].changelog[key],
+            type: `node`
+          });
+        } else {
+          item.children.push({
+            attributes: {
+              href: `https://github.com/revilheart/ESGST/issues/${key}`
+            },
+            text: `#${key}`,
+            type: `a`
+          }, {
+            text: ` ${changelog[index].changelog[key]}`,
+            type: `node`
+          });
+        }        
+        items.push(item);
+      }
+      html.unshift({
+        attributes: {
+          class: `esgst-bold`
+        },
+        text: `v${changelog[index].version} (${changelog[index].date})`,
+        type: `p`
+      }, {
+        type: `ul`,
+        children: items
+      });
+      index -= 1;
     }
-    popup = new Popup(`fa-file-text-o`, `Changelog`, true);
-    popup.scrollable.insertAdjacentHTML(`afterBegin`, `
-      <div class="esgst-text-left markdown">
-        ${html.join(``)}
-      </div>
-    `);
+    const popup = new Popup(`fa-file-text-o`, `Changelog`, true);
+    createElements(popup.scrollable, `afterBegin`, [{
+      attributes: {
+        class: `esgst-text-left markdown`
+      },
+      type: `div`,
+      children: html
+    }]);
     popup.open();
+  }
+
+  function createElements(context, position, items) {
+    if (!items.length) {
+      return;
+    }
+    const fragment = document.createDocumentFragment();
+    let element = null;
+    buildElements(fragment, items);
+    switch (position) {
+      case `beforeBegin`:
+        context.parentElement.insertBefore(fragment, context);
+        element = context.previousElementSibling;
+        break;
+      case `afterBegin`:
+        context.insertBefore(fragment, context.firstElementChild);
+        element = context.firstElementChild;
+        break;
+      case `beforeEnd`:
+        context.appendChild(fragment);
+        element = context.lastElementChild;
+        break;
+      case `afterEnd`:
+        context.parentElement.insertBefore(fragment, context.nextElementSibling);
+        element = context.nextElementSibling;
+        break;
+      case `inner`:
+        context.innerHTML = ``;
+        context.appendChild(fragment);
+        element = context.firstElementChild;
+        break;
+    }
+    return element;
+  }
+
+  function buildElements(context, items) {
+    for (const item of items) {
+      if (!item) {
+        continue;
+      }
+      if (item.context) {
+        context.appendChild(item.context);
+        continue;
+      }
+      if (item.type === `node`) {
+        const node = document.createTextNode(item.text);
+        context.appendChild(node);
+        continue;
+      }
+      const element = document.createElement(item.type);
+      if (item.attributes) {
+        for (const key in item.attributes) {
+          element.setAttribute(key, item.attributes[key]);
+        }
+      }
+      if (item.text) {
+        element.textContent = item.text;
+      }
+      if (item.children) {
+        buildElements(element, item.children);
+      }
+      if (item.events) {
+        for (const key in item.events) {
+          element.addEventListener(key, item.events[key]);
+        }
+      }
+      context.appendChild(element);
+    }
   }
   
   // initialize esgst
