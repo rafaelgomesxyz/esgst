@@ -72,14 +72,14 @@
   if (theme) {
     const style = document.createElement(`style`);
     style.id = `esgst-theme`;
-    style.innerHTML = theme;
+    style.textContent = theme;
     document.documentElement.appendChild(style);
   }
   const customTheme = getLocalValue(`customTheme`);
   if (customTheme) {
     const style = document.createElement(`style`);
     style.id = `esgst-custom-theme`;
-    style.innerHTML = customTheme;
+    style.textContent = customTheme;
     document.documentElement.appendChild(style);
   }
 
@@ -167,16 +167,23 @@
       }
       this.index = index + 1;
       this.button.title = getFeatureTooltip(this.id, this.titles[index]);
-      this.button.innerHTML = `
-        <i class="fa ${this.icons[index]}"></i>
-      `;
+      createElements(this.button, `inner`, [{
+        attributes: {
+          class: `fa ${this.icons[index]}`
+        },
+        type: `i`
+      }]);
       if (mainCallback) {
         if (await mainCallback(event)) {
           this.change();
         } else {
-          this.button.innerHTML = `
-            <i class="fa fa-times esgst-red" title="Unable to perform action"></i>
-          `;
+          createElements(this.button, `inner`, [{
+            attributes: {
+              class: `fa fa-times esgst-red`,
+              title: `Unable to perform action`
+            },
+            type: `i`
+          }]);
         }
       } else if (this.callbacks[index]) {
         this.button.firstElementChild.addEventListener(`click`, this.change.bind(this, this.callbacks[index], undefined));
@@ -196,16 +203,35 @@
       };
       this.set = document.createElement(`div`);
       this.set.className = `esgst-button-set`;
-      this.set.innerHTML = `
-        <div class="${classes[color1]} btn_action ${color1}">
-          <i class="fa ${icon1}"></i>
-          <span>${title1}</span>
-        </div>
-        <div class="${classes[color2]} btn_action ${color2} is-disabled is_disabled esgst-hidden">
-          <i class="fa ${icon2}"></i>
-          <span>${title2}</span>
-        </div>
-      `;
+      createElements(this.set, `inner`, [{
+        attributes: {
+          class: `${classes[color1]} btn_action ${color1}`
+        },
+        type: `div`,
+        children: [{
+          attributes: {
+            class: `fa ${icon1}`
+          },
+          type: `i`
+        }, {
+          text: title1,
+          type: `span`
+        }]
+      },{
+        attributes: {
+          class: `${classes[color2]} btn_action ${color2} is-disabled is_disabled esgst-hidden`
+        },
+        type: `div`,
+        children: [{
+          attributes: {
+            class: `fa ${icon2}`
+          },
+          type: `i`
+        }, {
+          text: title2,
+          type: `span`
+        }]
+      }]);
       this.button1 = this.set.firstElementChild;
       this.button2 = this.set.lastElementChild;
       this.callback1 = callback1;
@@ -246,16 +272,35 @@
         this.set = document.createElement(`div`);
         this.set.className = `esgst-button-set`;
       }
-      this.set.innerHTML = `
-        <div class="${classes[details.color1]} btn_action ${details.color1}">
-          <i class="fa ${details.icon1}"></i>
-          <span>${details.title1}</span>
-        </div>
-        <div class="${classes[details.color2]} btn_action ${details.color2} is-disabled is_disabled esgst-hidden">
-          <i class="fa ${details.icon2}"></i>
-          <span>${details.title2}</span>
-        </div>
-      `;
+      createElements(this.set, `inner`, [{
+        attributes: {
+          class: `${classes[details.color1]} btn_action ${details.color1}`
+        },
+        type: `div`,
+        children: [{
+          attributes: {
+            class: `fa ${details.icon1}`
+          },
+          type: `i`
+        }, {
+          text: details.title1,
+          type: `span`
+        }]
+      },{
+        attributes: {
+          class: `${classes[details.color2]} btn_action ${details.color2} is-disabled is_disabled esgst-hidden`
+        },
+        type: `div`,
+        children: [{
+          attributes: {
+            class: `fa ${details.icon2}`
+          },
+          type: `i`
+        }, {
+          text: details.title2,
+          type: `span`
+        }]
+      }]);
       this.button1 = this.set.firstElementChild;
       this.button2 = this.set.lastElementChild;
       this.callback1 = details.callback1;
@@ -771,7 +816,7 @@
       }
     }
     setTitle(title) {
-      this.title.innerHTML = title;
+      this.title.textContent = title;
       if (this.minimizeLink) {
         this.minimizeLink.textContent = title;
       }
@@ -970,19 +1015,29 @@
       return insertHtml(this.scrollable, `beforeEnd`, `<div>${html}</div>`);
     }
     setError(message) {
-      this.progress.innerHTML = `
-        <i class="fa fa-times-circle"></i>
-        <span>${message}</span>
-      `;
+      createElements(this.progress, `inner`, [{
+        attributes: {
+          class: `fa fa-times-circle`
+        },
+        type: `i`
+      }, {
+        text: `${message}`,
+        type: `span`
+      }]);
     }
     setProgress(message) {
       if (this.progressMessage) {
         this.progressMessage.textContent = message;
       } else {
-        this.progress.innerHTML = `
-          <i class="fa fa-circle-o-notch fa-spin"></i>
-          <span>${message}</span>
-        `;
+        createElements(this.progress, `inner`, [{
+          attributes: {
+            class: `fa fa-circle-o-notch fa-spin`
+          },
+          type: `i`
+        }, {
+          text: `${message}`,
+          type: `span`
+        }]);
         this.progressMessage = this.progress.lastElementChild;
       }
     }
@@ -1162,10 +1217,17 @@
     constructor(values) {
       this.table = document.createElement(`div`);
       this.table.className = `table esgst-ugd-table`;
-      this.table.innerHTML = `
-        <div class="table__heading"></div>
-        <div class="table__rows"></div>
-      `;
+      createElements(this.table, `inner`, [{
+        attributes: {
+          class: `table__heading`
+        },
+        type: `div`
+      }, {
+        attributes: {
+          class: `table__rows`
+        },
+        type: `div`
+      }]);
       this.heading = this.table.firstElementChild;
       this.rows = this.heading.nextElementSibling;
       this.rowGroups = {};
@@ -1360,7 +1422,13 @@
           `);
           await setSetting(key, setting);
           message.classList.add(`esgst-green`);
-          message.innerHTML = `<i class="fa fa-check" title="Saved!"></i>`;
+          createElements(message, `inner`, [{
+            attributes: {
+              class: `fa fa-check`,
+              title: `Saved!`
+            },
+            type: `i`
+          }]);
           setTimeout(() => message.remove(), 2500);
         }
       }
@@ -1895,7 +1963,7 @@
       sg: location.hostname.match(/www.steamgifts.com/),
       st: location.hostname.match(/www.steamtrades.com/),
       currentVersion: `7.24.1`,
-      devVersion: `7.25.0 (Dev.1)`,
+      devVersion: `7.25.0 (Dev.2)`,
       icon: `data:image/x-icon;base64,AAABAAEAEBAAAAEAIABoBAAAFgAAACgAAAAQAAAAIAAAAAEAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAqv8DCbP/Hgeq+CQIrf8iCK3/Igit/yIIrf8iB6//Iwit9x8Aqv8DAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAKr0GAa2/c0DvfzfA7f83QO3/N0Dt/zdA7f83QO+/d4Gs/3OAKP1GQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACm/xQFs/n2Bcf//wW///8FwP//BcD//wW///8Fx///BbP69gC2/xUAAAAAAAAAAAAAAAAA/1UDFptOFxSZMxkLpJktAq720QW1+ugEsfvjA7b92wO2/dsEsfvjBbX66Aau/dEoiO4tUlLWGU5k3hdVVf8DEJxKHxWqT8cVrU7uE6VN0guqny0Apv8XAJfQGwBAVywAQFcsAJfQGwCx/xcogugtS2Lk0lBl6u5Qae7ISmPeHxagSSMVr07jF7lV/xOiSu0brgATAAAAAAAAAA8AAAC/AAAAwAAAABAAAAAAYznjEkth4OxWb/3/T2jv40lf4iMXnksiEq1O3RayUv8UpEnkEo0+HQAAABkAAABBAAAA8QAAAPEAAABBAAAAGUBSvxxOYeDjU2v0/05m7d1LYuEiF55LIhKtTt0Ws1L/FahN2gU1FTAAAADAAAAA7AAAAP0AAAD9AAAA7AAAAMAVG0owUGPm2lNr9P9OZu3dS2LhIheeSyISrU7dFrNS/xWoTdoFNRswAAAAvwAAAOsAAAD9AAAA/QAAAOsAAADAFRtKMFBj6NpTa/T/Tmbt3Uti4SIXnksiEq1O3RayUv8UpEnkEo0+HQAAABgAAABAAAAA8QAAAPEAAABBAAAAGT5PuR1OYeDjU2v0/05m7d1LYuEiFqBJIxWuT+QXuVX/E6JL7QC8XhMAAAAAAAAADwAAAL8AAAC/AAAAEAAAAAAOR/8SSWLh7FZv/f9PaO/jSV/iIxCUSh8Vrk7HFqxN7ROlS9JskzMt1XULGK12EhxGLgYsRy8GK612EhzVgAsYgmxxLU1i39JNZ+vtT2fwx0pj1h8AqlUDF65GFgqZUhlsiC0txH0T0s5/EujJgBPkz4QR28+EEdvJgBPkzn8Q6Md+E9KLdHosM1LWGUZo6BZVVf8DAAAAAAAAAAAAAAAA/2YAFMl9EvbgjRb/14gV/9eIFf/XiBX/14gV/9+NFv/KgBD254YAFQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAL91FRjKgRHN1IgU3s+EEt3PhBLdz4QS3c+EEt3UiBTezYMRzcJ6FBkAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACqqgADxIARHr18FiO8eA8ivHgPIrx4DyK8eA8ivXwPI8SAER7/VQADAAAAAAAAAAAAAAAA78cAAPA3AAD4FwAABCAAADGOAAAE+AAAkBEAAJ55AACYOQAAlgEAAER4AAAXaAAATnoAAPgXAAD0JwAA69cAAA==`,
       sgIcon: `data:image/x-icon;base64,AAABAAEAEBAAAAEAIABoBAAAFgAAACgAAAAQAAAAIAAAAAEAIAAAAAAAQAQAABMLAAATCwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIUAAAD5AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAPoAAACFAAAAAAAAAAAAAAD8AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA+QAAAAAAAAAAAAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAAAAAAAAAAAAP8AAAD/AAAA/wAAABwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAcAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAcAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAHAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAAAAAAAAAAAAPwAAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD5AAAAAAAAAAAAAACFAAAA+QAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD5AAAAhQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA//8AAP//AADAAwAAwAMAAMfjAADP8wAAz/MAAM/zAADP8wAAz/MAAM/zAADH4wAAwAMAAMADAAD//wAA//8AAA==`,
       stIcon: `data:image/x-icon;base64,AAABAAEAEBAAAAEAIABoBAAAFgAAACgAAAAQAAAAIAAAAAEAIAAAAAAAQAQAABMLAAATCwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABbD6SgWw+ucFsPrkBbD6SgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAWw+uYFsPr/BbD6/wWw+ucAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAFsPrmBbD6/wWw+v8FsPrmAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABbD6SQWw+uYFsPrmBbD6SQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAFKRLShSkS+cUpEvkFKRLSgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAExi4EpMYuDnTGLg5Exi4EoAAAAAAAAAABSkS+YUpEv/FKRL/xSkS+cAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABMYuDmTGLg/0xi4P9MYuDnAAAAAAAAAAAUpEvmFKRL/xSkS/8UpEvmAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAATGLg5kxi4P9MYuD/TGLg5gAAAAAAAAAAFKRLSRSkS+YUpEvmFKRLSQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAExi4ElMYuDmTGLg5kxi4EkAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAMZ9E0rGfRPnxn0T5MZ9E0oAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADGfRPmxn0T/8Z9E//GfRPnAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAxn0T5sZ9E//GfRP/xn0T5gAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAMZ9E0nGfRPmxn0T5sZ9E0kAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA//8AAPw/AAD8PwAA/D8AAPw/AAD//wAAh+EAAIfhAACH4QAAh+EAAP//AAD8PwAA/D8AAPw/AAD8PwAA//8AAA==`,
@@ -2762,13 +2830,14 @@
     if (esgst.menuPath) {
       createElements(document.head, `beforeEnd`, [{
         attributes :{
-          href: `https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.cs`,
+          href: `https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css`,
           rel: `stylesheet`
         },
         type: `link`
       }, {
         attributes :{
-          href: _USER_INFO.extension ? browser.runtime.getURL(`css/steamgifts-v34.min.css`) : await gm.getResourceUrl(`sg`)
+          href: _USER_INFO.extension ? browser.runtime.getURL(`css/steamgifts-v34.min.css`) : await gm.getResourceUrl(`sg`),
+          rel: `stylesheet`
         },
         type: `link`
       }]);
@@ -2877,13 +2946,22 @@
         esgst.favicon.href = esgst.icon;
         let response = await request({method: `GET`, url: `/`});
         let responseHtml = parseHtml(response.responseText);
-        document.body.innerHTML = `
-          ${responseHtml.getElementsByTagName(`header`)[0].outerHTML}
-          <div class="page__outer-wrap">
-            <div class="page__inner-wrap"></div>
-          </div>
-          ${responseHtml.getElementsByClassName(`footer__outer-wrap`)[0].outerHTML}
-        `;
+        createElements(document.body, `inner`, [{
+          context: responseHtml.getElementsByTagName(`header`)[0]
+        }, {
+          attributes: {
+            class: `page__outer-wrap`
+          },
+          type: `div`,
+          children: [{
+            attributes: {
+              class: `page__inner-wrap`
+            },
+            type: `div`
+          }]
+        }, {
+          context: responseHtml.getElementsByClassName(`footer__outer-wrap`)[0]
+        }]);
         esgst.header = document.body.firstElementChild;
         esgst.footer = document.body.lastElementChild;
         esgst.headerNavigationLeft = document.getElementsByClassName(`nav__left-container`)[0];
@@ -3021,18 +3099,24 @@
       hiddenButtonsBefore = document.createElement(`div`);
       hiddenButtonsBefore.className = `esgst-heading-button`;
       hiddenButtonsBefore.title = getFeatureTooltip(`hideButtons`);
-      hiddenButtonsBefore.innerHTML = `
-        <i class="fa fa-ellipsis-v"></i>
-      `;
+      createElements(hiddenButtonsBefore, `inner`, [{
+        attributes: {
+          class: `fa fa-ellipsis-v`
+        },
+        type: `i`
+      }]);
       esgst.leftButtons = insertHtml(new Popout(`esgst-hidden-buttons`, hiddenButtonsBefore, 0, true).popout, `beforeEnd`, `
         <div class="esgst-page-heading"></div>
       `);
       hiddenButtonsAfter = document.createElement(`div`);
       hiddenButtonsAfter.className = `esgst-heading-button`;
       hiddenButtonsAfter.title = getFeatureTooltip(`hideButtons`);
-      hiddenButtonsAfter.innerHTML = `
-        <i class="fa fa-ellipsis-v"></i>
-      `;
+      createElements(hiddenButtonsAfter, `inner`, [{
+        attributes: {
+          class: `fa fa-ellipsis-v`
+        },
+        type: `i`
+      }]);
       esgst.rightButtons = insertHtml(new Popout(`esgst-hidden-buttons`, hiddenButtonsAfter, 0, true).popout, `beforeEnd`, `
         <div class="esgst-page-heading"></div>
       `);
@@ -3195,19 +3279,28 @@
   async function bgl() {
     if (!esgst.giveawayPath) return;
 
-    let backup = esgst.pageOuterWrap.innerHTML;
+    let backup = Array.from(esgst.pageOuterWrap.children).map(x => {
+      return {
+        context: x
+      };
+    });
     let summary = document.getElementsByClassName(`table--summary`)[0];
     summary = summary && summary.lastElementChild.firstElementChild.lastElementChild;
     if (!summary) return;
     let match = summary.textContent.match(/you\s(have\s(been\s)?|previously\s)blacklisted/);
     if (!match) return;
-    esgst.pageOuterWrap.innerHTML = `
-      <i class="fa fa-circle-o-notch fa-spin"></i>
-      <span>Loading giveaway...</span>
-    `;
+    createElements(esgst.pageOuterWrap, `inner`, [{
+      attributes: {
+        class: `fa fa-circle-o-notch fa-spin`
+      },
+      type: `i`
+    }, {
+      text: `Loading giveaway...`,
+      type: `span`
+    }]);
     let responseHtml = parseHtml((await request({anon: true, method: `GET`, url: location.pathname})).responseText);
     if (responseHtml.getElementsByClassName(`table--summary`)[0]) {
-      esgst.pageOuterWrap.innerHTML = backup;
+      createElements(esgst.pageOuterWrap, `inner`, backup);
       createElements(esgst.pageOuterWrap.getElementsByClassName(`table--summary`)[0].lastElementChild.firstElementChild.lastElementChild, `beforeEnd`, [{
         type: `br`
       }, {
@@ -3221,8 +3314,16 @@
       }]);
     } else {
       esgst.featuredContainer = insertHtml(esgst.pageOuterWrap, `beforeBegin`, `<div class="featured__container"></div>`);
-      esgst.featuredContainer.innerHTML = responseHtml.getElementsByClassName(`featured__container`)[0].innerHTML;
-      esgst.pageOuterWrap.innerHTML = responseHtml.getElementsByClassName(`page__outer-wrap`)[0].innerHTML;
+      createElements(esgst.featuredContainer, `inner`, Array.from(responseHtml.getElementsByClassName(`featured__container`)[0].children).map(x => {
+        return {
+          context: x
+        };
+      }));
+      createElements(esgst.pageOuterWrap, `inner`, Array.from(responseHtml.getElementsByClassName(`page__outer-wrap`)[0].children).map(x => {
+        return {
+          context: x
+        };
+      }));
       await getElements();
       createElements(esgst.sidebar, `afterBegin`, [{
         attributes: {
@@ -3331,50 +3432,176 @@
     response1Html = parseHtml((await request({method: `GET`, url: `/discussions`})).responseText);
     response2Html = parseHtml((await request({method: `GET`, url: `/discussions/deals`})).responseText);
     esgst.activeDiscussions.classList.add(`esgst-oadd`);
-    esgst.activeDiscussions.innerHTML = `
-      <div>
-        <div class="page__heading">
-          <div class="esgst-heading-button" title="Switch to Deals">
-            <i class="fa fa-retweet"></i>
-          </div>
-          <div class="page__heading__breadcrumbs">
-            <a href="/discussions">Active Discussions</a>
-          </div>
-          <a class="page__heading__button page__heading__button--green" href="/discussions">
-            More<i class="fa fa-angle-right"></i>
-          </a>
-        </div>
-        <div class="table">
-          <div class="table__heading">
-            <div class="table__column--width-fill">Summary</div>
-            <div class="table__column--width-small text-center">Comments</div>
-            <div class="table__column--width-medium text-right">Last Post</div>
-          </div>
-          <div class="table__rows"></div>
-        </div>
-      </div>
-      <div class="esgst-hidden">
-        <div class="page__heading">
-          <div class="esgst-heading-button" title="Switch to Discussions">
-            <i class="fa fa-retweet"></i>
-          </div>
-          <div class="page__heading__breadcrumbs">
-            <a href="/discussions/deals">Active Deals</a>
-          </div>
-          <a class="page__heading__button page__heading__button--green" href="/discussions/deals">
-            More<i class="fa fa-angle-right"></i>
-          </a>
-        </div>
-        <div class="table">
-          <div class="table__heading">
-            <div class="table__column--width-fill">Summary</div>
-            <div class="table__column--width-small text-center">Comments</div>
-            <div class="table__column--width-medium text-right">Last Post</div>
-          </div>
-          <div class="table__rows"></div>
-        </div>
-      </div>
-    `;
+    createElements(esgst.activeDiscussions, `inner`, [{
+      type: `div`,
+      children: [{
+        attributes: {
+          class: `page__heading`
+        },
+        type: `div`,
+        children: [{
+          attributes: {
+            class: `esgst-heading-button`,
+            title: `Switch to Deals`
+          },
+          type: `div`,
+          children: [{
+            attributes: {
+              class: `fa fa-retweet`
+            },
+            type: `i`
+          }]
+        }, {
+          attributes: {
+            class: `page__heading__breadcrumbs`
+          },
+          type: `div`,
+          children: [{
+            attributes: {
+              href: `/discussions`
+            },
+            text: `Active Discussions`,
+            type: `a`
+          }]
+        }, {
+          attributes: {
+            class: `page__heading__button page__heading__button--green`,
+            href: `/discussions`
+          },
+          type: `a`,
+          children: [{
+            text: `More`,
+            type: `node`
+          }, {
+            attributes: {
+              class: `fa fa-angle-right`
+            },
+            type: `i`
+          }]
+        }]
+      }, {
+        attributes: {
+          class: `table`
+        },
+        type: `div`,
+        children: [{
+          attributes: {
+            class: `table__heading`
+          },
+          type: `div`,
+          children: [{
+            attributes: {
+              class: `table__column--width-fill`
+            },
+            text: `Summary`,
+            type: `div`
+          }, {
+            attributes: {
+              class: `table__column--width-small text-center`
+            },
+            text: `Comments`,
+            type: `div`
+          }, {
+            attributes: {
+              class: `table__column--width-medium text-right`
+            },
+            text: `Last Post`,
+            type: `div`
+          }]
+        }, {
+          attributes: {
+            class: `table__rows`
+          },
+          type: `div`
+        }]
+      }]
+    }, {
+      attributes: {
+        class: `esgst-hidden`
+      },
+      type: `div`,
+      children: [{
+        attributes: {
+          class: `page__heading`
+        },
+        type: `div`,
+        children: [{
+          attributes: {
+            class: `esgst-heading-button`,
+            title: `Switch to Discussions`
+          },
+          type: `div`,
+          children: [{
+            attributes: {
+              class: `fa fa-retweet`
+            },
+            type: `i`
+          }]
+        }, {
+          attributes: {
+            class: `page__heading__breadcrumbs`
+          },
+          type: `div`,
+          children: [{
+            attributes: {
+              href: `/discussions/deals`
+            },
+            text: `Active Deals`,
+            type: `a`
+          }]
+        }, {
+          attributes: {
+            class: `page__heading__button page__heading__button--green`,
+            href: `/discussions/deals`
+          },
+          type: `a`,
+          children: [{
+            text: `More`,
+            type: `node`
+          }, {
+            attributes: {
+              class: `fa fa-angle-right`
+            },
+            type: `i`
+          }]
+        }]
+      }, {
+        attributes: {
+          class: `table`
+        },
+        type: `div`,
+        children: [{
+          attributes: {
+            class: `table__heading`
+          },
+          type: `div`,
+          children: [{
+            attributes: {
+              class: `table__column--width-fill`
+            },
+            text: `Summary`,
+            type: `div`
+          }, {
+            attributes: {
+              class: `table__column--width-small text-center`
+            },
+            text: `Comments`,
+            type: `div`
+          }, {
+            attributes: {
+              class: `table__column--width-medium text-right`
+            },
+            text: `Last Post`,
+            type: `div`
+          }]
+        }, {
+          attributes: {
+            class: `table__rows`
+          },
+          type: `div`
+        }]
+      }]
+    }]);
     discussions = esgst.activeDiscussions.firstElementChild;
     deals = discussions.nextElementSibling;
     discussionsSwitch = discussions.firstElementChild.firstElementChild;
@@ -3795,27 +4022,70 @@
     if (esgst.ail) {
       attachedImage.image.setAttribute(`src`, attachedImage.url);
     }
-    carousel.innerHTML = `
-      <div class="esgst-aic-panel">
-        <div class="esgst-aic-left-button">
-          <i class="fa fa-chevron-left"></i>
-        </div>
-        <div class="esgst-aic-right-button">
-          <i class="fa fa-chevron-right"></i>
-        </div>
-        <div>
-          ${i + 1}/${n}
-        </div>
-        ${attachedImage.source ? `
-          <div class="esgst-aic-source">
-            <a href="#${attachedImage.source}">Source</a>
-          </div>
-        ` : ``}
-      </div>
-      <a href="${attachedImage.url}" rel="nofollow noreferrer" target="_blank">
-        ${attachedImage.image.outerHTML.replace(/is_hidden|is-hidden/, ``)}
-      </a>
-    `;
+    const items = [{
+      attributes: {
+        class: `esgst-aic-left-button`
+      },
+      type: `div`,
+      children: [{
+        attributes: {
+          class: `fa fa-chevron-left`
+        },
+        type: `i`
+      }]
+    }, {
+      attributes: {
+        class: `esgst-aic-right-button`
+      },
+      type: `div`,
+      children: [{
+        attributes: {
+          class: `fa fa-chevron-right`
+        },
+        type: `i`
+      }]
+    }, {
+      text: `${i + 1}/${n}`,
+      type: `div`
+    }];
+    if (attachedImage.source) {
+      items.push({
+        attributes: {
+          class: `esgst-aic-source`
+        },
+        type: `div`,
+        children: [{
+          attributes: {
+            href: `#${attachedImage.source}`
+          },
+          text: `Source`,
+          type: `a`
+        }]
+      });      
+    }
+    const imageNode = attachedImage.image.cloneNode(true);
+    imageNode.classList.remove(`is_hidden`, `is-hidden`);
+    const imageClass = imageNode.querySelector(`.is_hidden, .is-hidden`);
+    if (imageClass) {
+      imageNode.classList.remove(`is_hidden`, `is-hidden`);
+    }
+    createElements(carousel, `inner`, [{
+      attributes: {
+        class: `esgst-aic-panel`
+      },
+      type: `div`,
+      children: items
+    }, {
+      attributes: {
+        href: attachedImage.url,
+        rel: `nofollow noreferrer`,
+        target: `_blank`
+      },
+      type: `a`,
+      children: [{
+        context: imageNode
+      }]
+    }]);
     panel = carousel.firstElementChild;
     image = panel.nextElementSibling;
     height = panel.offsetHeight + 25;
@@ -4882,17 +5152,30 @@
     if (!button) {
       button = insertHtml(comment.actions, `beforeEnd`, `<div class="esgst-ct-comment-button" title="${getFeatureTooltip(`ct`, `Mark all comments from this comment upwards as read`)}"></div>`);
     }
-    button.innerHTML = `
-      <span>
-        <i class="fa fa-eye"></i>
-        <i class="fa fa-angle-up"></i>
-      </span>
-    `;
+    createElements(button, `inner`, [{
+      type: `span`,
+      children: [{
+        attributes: {
+          class: `fa fa-eye`
+        },
+        type: `i`
+      }, {
+        attributes: {
+          class: `fa fa-angle-up`
+        },
+        type: `i`
+      }]
+    }]);
     button.firstElementChild.addEventListener(`click`, ct_readUntilHere.bind(null, button, comment));
   }
 
   async function ct_readUntilHere(button, comment) {
-    button.innerHTML = `<i class="fa fa-circle-o-notch fa-spin"></i>`;
+    createElements(button, `inner`, [{
+      attributes: {
+        class: `fa fa-circle-o-notch fa-spin`
+      },
+      type: `i`
+    }]);
     await ct_getComments(0, esgst.mainComments, comment.index, false, true, false);
     ct_addReadUntilHereButton(button, comment);
   }
@@ -4901,17 +5184,30 @@
     if (!button) {
       button = insertHtml(comment.actions, `beforeEnd`, `<div class="esgst-ct-comment-button" title="${getFeatureTooltip(`ct`, `Mark all comments from this comment upwards as unread`)}"></div>`);
     }
-    button.innerHTML = `
-      <span>
-        <i class="fa fa-eye-slash"></i>
-        <i class="fa fa-angle-up"></i>
-      </span>
-    `;
+    createElements(button, `inner`, [{
+      type: `span`,
+      children: [{
+        attributes: {
+          class: `fa fa-eye-slash`
+        },
+        type: `i`
+      }, {
+        attributes: {
+          class: `fa fa-angle-up`
+        },
+        type: `i`
+      }]
+    }]);
     button.firstElementChild.addEventListener(`click`, ct_unreadUntilHere.bind(null, button, comment));
   }
 
   async function ct_unreadUntilHere(button, comment) {
-    button.innerHTML = `<i class="fa fa-circle-o-notch fa-spin"></i>`;
+    createElements(button, `inner`, [{
+      attributes: {
+        class: `fa fa-circle-o-notch fa-spin`
+      },
+      type: `i`
+    }]);
     await ct_getComments(0, esgst.mainComments, comment.index, false, false, true);
     ct_addUnreadUntilHereButton(button, comment);
   }
@@ -4920,26 +5216,52 @@
     if (!button) {
       button = insertHtml(comment.actions, `beforeEnd`, `<div class="esgst-ct-comment-button"></div>`);
     }
-    button.innerHTML = `
-      <i class="fa fa-eye" title="${getFeatureTooltip(`ct`, `Mark this comment as read`)}"></i>
-      <span title="${getFeatureTooltip(`ct`, `Mark this comment as read and go to the next unread comment`)}">
-        <i class="fa fa-eye"></i>
-        <i class="fa fa-angle-double-right"></i>
-      </span>
-    `;
+    createElements(button, `inner`, [{
+      attributes: {
+        class: `fa fa-eye`,
+        title: getFeatureTooltip(`ct`, `Mark this comment as read`)
+      },
+      type: `i`
+    }, {
+      attributes: {
+        title: getFeatureTooltip(`ct`, `Mark this comment as read and go to the next unread comment`)
+      },
+      type: `span`,
+      children: [{
+        attributes: {
+          class: `fa fa-eye`
+        },
+        type: `i`
+      }, {
+        attributes: {
+          class: `fa fa-angle-double-right`
+        },
+        type: `i`
+      }]
+    }]);
     button.firstElementChild.addEventListener(`click`, ct_readComment.bind(null, button, comment));
     button.lastElementChild.addEventListener(`click`, ct_readCommentAndGo.bind(null, button, comment));
   }
 
   async function ct_readComment(button, comment) {
-    button.innerHTML = `<i class="fa fa-circle-o-notch fa-spin"></i>`;
+    createElements(button, `inner`, [{
+      attributes: {
+        class: `fa fa-circle-o-notch fa-spin`
+      },
+      type: `i`
+    }]);
     await ct_markCommentRead(comment, null, true);
     button.innerHTML = ``;
     ct_addUnreadCommentButton(button, comment);
   }
 
   async function ct_readCommentAndGo(button, comment) {
-    button.innerHTML = `<i class="fa fa-circle-o-notch fa-spin"></i>`;
+    createElements(button, `inner`, [{
+      attributes: {
+        class: `fa fa-circle-o-notch fa-spin`
+      },
+      type: `i`
+    }]);
     await ct_markCommentRead(comment, null, true);
     button.innerHTML = ``;
     ct_addUnreadCommentButton(button, comment);
@@ -4950,12 +5272,23 @@
     if (!button) {
       button = insertHtml(comment.actions, `beforeEnd`, `<div class="esgst-ct-comment-button"></div>`);
     }
-    button.innerHTML = `<i class="fa fa-eye-slash" title="${getFeatureTooltip(`ct`, `Mark comment as unread`)}">`;
+    createElements(button, `inner`, [{
+      attributes: {
+        class: `fa fa-eye-slash`,
+        title: `${getFeatureTooltip(`ct`, `Mark comment as unread`)}`
+      },
+      type: `i`
+    }]);
     button.firstElementChild.addEventListener(`click`, ct_unreadComment.bind(null, button, comment));
   }
 
   async function ct_unreadComment(button, comment) {
-    button.innerHTML = `<i class="fa fa-circle-o-notch fa-spin"></i>`;
+    createElements(button, `inner`, [{
+      attributes: {
+        class: `fa fa-circle-o-notch fa-spin`
+      },
+      type: `i`
+    }]);
     await ct_markCommentUnread(comment, null, true);
     button.innerHTML = ``;
     ct_addReadCommentButton(button, comment);
@@ -5009,36 +5342,54 @@
   }
 
   async function ct_goToUnread(goToUnread) {
-    goToUnread.innerHTML = `
-      <i class="fa fa-circle-o-notch fa-spin"></i>
-    `;
+    createElements(goToUnread, `inner`, [{
+      attributes: {
+        class: `fa fa-circle-o-notch fa-spin`
+      },
+      type: `i`
+    }]);
     const found = await ct_getComments(0, esgst.mainComments, null, true, false, false);
-    goToUnread.innerHTML = `
-      <i class="fa fa-comments-o"></i>
-    `;
+    createElements(goToUnread, `inner`, [{
+      attributes: {
+        class: `fa fa-comments-o`
+      },
+      type: `i`
+    }]);
     if (!found) {
       createAlert(`No unread comments were found.`);
     }
   }
 
   async function ct_markCommentsRead(markRead) {
-    markRead.innerHTML = `
-      <i class="fa fa-circle-o-notch fa-spin"></i>
-    `;
+    createElements(markRead, `inner`, [{
+      attributes: {
+        class: `fa fa-circle-o-notch fa-spin`
+      },
+      type: `i`
+    }]);
     await ct_getComments(0, esgst.mainComments, null, false, true, false);
-    markRead.innerHTML = `
-      <i class="fa fa-eye"></i>
-    `;
+    createElements(markRead, `inner`, [{
+      attributes: {
+        class: `fa fa-eye`
+      },
+      type: `i`
+    }]);
   }
 
   async function ct_markCommentsUnread(markUnread) {
-    markUnread.innerHTML = `
-      <i class="fa fa-circle-o-notch fa-spin"></i>
-    `;
+    createElements(markUnread, `inner`, [{
+      attributes: {
+        class: `fa fa-circle-o-notch fa-spin`
+      },
+      type: `i`
+    }]);
     await ct_getComments(0, esgst.mainComments, null, false, false, true);
-    markUnread.innerHTML = `
-      <i class="fa fa-eye-slash"></i>
-    `;
+    createElements(markUnread, `inner`, [{
+      attributes: {
+        class: `fa fa-eye-slash`
+      },
+      type: `i`
+    }]);
   }
 
   function ct_addDiscussionPanel(code, comments, container, context, count, diff, url, type, dh, discussion) {
@@ -5387,15 +5738,26 @@
       }
       comments.remove();
       obj.set.changeButton(1).setTitle(`Confirm`);
-      obj.status.innerHTML = `
-        <span class="esgst-bold esgst-warning">
-          Somebody beat you to it!
-          <br>
-          There are other replies to this comment.
-          <br>
-          You can review them below before confirming your reply.
-        </span>
-      `;
+      createElements(obj.status, `inner`, [{
+        attributes: {
+          class: `esgst-bold esgst-warning`
+        },
+        type: `span`,
+        children: [{
+          text: `Somebody beat you to it!`,
+          type: `node`
+        }, {
+          type: `br`
+        }, {
+          text: `There are other replies to this comment.`,
+          type: `node`
+        }, {
+          type: `br`
+        }, {
+          text: `You can review them below before confirming your reply.`,
+          type: `node`
+        }]
+      }]);
       obj.checked = true;
     } else {
       saveComment(
@@ -5678,7 +6040,12 @@
   async function egh_unhighlightGame(id, type, event) {
     let icon = event.currentTarget;
     if (icon.classList.contains(`fa-spin`)) return;
-    icon.innerHTML = `<i class="fa fa-circle-o-notch fa-spin"></i>`;
+    createElements(icon, `inner`, [{
+      attributes: {
+        class: `fa fa-circle-o-notch fa-spin`
+      },
+      type: `i`
+    }]);
     let deleteLock = await createLock(`gameLock`, 300);
     let games = JSON.parse(await getValue(`games`));
     delete games[type][id].entered;
@@ -5912,9 +6279,12 @@
 
   async function et_deleteEntry(button, date, popup) {
     if (! confirm(`Are you sure you want to delete entries for ${date}? Your entire history for that day will be deleted.`)) return;
-    button.innerHTML = `
-      <i class="fa fa-circle-o-notch fa-spin"></i>
-    `;
+    createElements(button, `inner`, [{
+      attributes: {
+        class: `fa fa-circle-o-notch fa-spin`
+      },
+      type: `i`
+    }]);
     let entries = JSON.parse(await getValue(`entries`, `[]`));
     for (let i = entries.length - 1; i > -1; i--) {
       let entry = entries[i];
@@ -7245,13 +7615,34 @@
             anchors[j].classList.add(`giveaway__icon`);
           }
           let headingName = heading.firstElementChild;
-          headingName.outerHTML = `<a class="giveaway__heading__name" href="${url}">${headingName.innerHTML}</a>`;
+          createElements(headingName, `outer`, [{
+            attributes: {
+              class: `giveaway__heading__name`,
+              href: url
+            },
+            type: `a`,
+            children: [...(Array.from(headingName.childNodes).map(x => {
+              return {
+                context: x
+              };
+            }))]
+          }]);
           let thinHeadings = heading.getElementsByClassName(`featured__heading__small`);
           numT = thinHeadings.length
           info.firstElementChild.textContent = parseInt(info.firstElementChild.textContent) + parseInt(thinHeadings[numT - 1].textContent.match(/\d+/)[0]);
           info.lastElementChild.textContent = parseInt(info.lastElementChild.textContent) + 1;
           for (j = 0; j < numT; ++j) {
-            thinHeadings[0].outerHTML = `<span class="giveaway__heading__thin">${thinHeadings[0].innerHTML}</span>`;
+            createElements(thinHeadings[0], `outer`, [{
+              attributes: {
+                class: `giveaway__heading__thin`
+              },
+              type: `span`,
+              children: [...(Array.from(thinHeadings[0].childNodes).map(x => {
+                return {
+                  context: x
+                };
+              }))]
+            }]);
           }
           remaining.classList.remove(`featured__column`);
           let created = remaining.nextElementSibling;
@@ -8552,11 +8943,21 @@
             panel.previousElementSibling.style.display = `inline-block`;
             panel.classList.add(`esgst-gc-panel-inline`);
           }
-          panel.innerHTML = `
-            <span class="esgst-bold esgst-red">
-              <i class="fa fa-exclamation"></i> Error while loading game categories.
-            </span>
-          `;
+          createElements(panel, `inner`, [{
+            attributes: {
+              class: `esgst-bold esgst-red`
+            },
+            type: `span`,
+            children: [{
+              attributes: {
+                class: `fa fa-exclamation`
+              },
+              type: `i`
+            }, {
+              text: ` Error while loading game categories.`,
+              type: `node`
+            }]
+          }]);
         }
       }
     }
@@ -8652,68 +9053,188 @@
         switch (category) {
           case `gc_fcv`:
             if ((savedGame && !savedGame.reducedCV && !savedGame.noCV) || !savedGame) {
-              elements.push(`
-                <a class="esgst-gc esgst-gc-fullCV" data-id="gc_fcv" href="https://www.steamgifts.com/bundle-games/search?q=${encodedName}" title="${getFeatureTooltip(`gc_fcv`, `Full CV`)}">${esgst.gc_fcv_s ? (esgst.gc_fcv_s_i ? `<i class="fa fa-${esgst.gc_fcvIcon}"></i>` : `FCV`) : esgst.gc_fcvLabel}</a>
-              `);
+              elements.push({
+                attributes: {
+                  class: `esgst-gc esgst-gc-fullCV`,
+                  [`data-id`]: `gc_fcv`,
+                  href: `https://www.steamgifts.com/bundle-games/search?q=${encodedName}`,
+                  title: getFeatureTooltip(`gc_fcv`, `Full CV`)
+                },
+                text: esgst.gc_fcv_s ? (esgst.gc_fcv_s_i ? `` : `FCV`) : esgst.gc_fcvLabel,
+                type: `a`,
+                children: esgst.gc_fcv_s && esgst.gc_fcv_s_i ? [{
+                  attributes: {
+                    class: `fa fa-${esgst.gc_fcvIcon}`
+                  },
+                  type: `i`
+                }] : null
+              });
             }
             break;
           case `gc_rcv`:
             if (savedGame && savedGame.reducedCV && (!esgst.gc_ncv_o || !savedGame.noCV)) {
-              elements.push(`
-                <a class="esgst-gc esgst-gc-reducedCV" data-id="gc_rcv" href="https://www.steamgifts.com/bundle-games/search?q=${encodedName}" title="${getFeatureTooltip(`gc_rcv`, `Reduced CV since ${savedGame.reducedCV}`)}">${esgst.gc_rcv_s ? (esgst.gc_rcv_s_i ? `<i class="fa fa-${esgst.gc_rcvIcon}"></i>` : `RCV`) : esgst.gc_rcvLabel}</a>
-              `);
+              elements.push({
+                attributes: {
+                  class: `esgst-gc esgst-gc-reducedCV`,
+                  [`data-id`]: `gc_rcv`,
+                  href: `https://www.steamgifts.com/bundle-games/search?q=${encodedName}`,
+                  title: getFeatureTooltip(`gc_rcv`, `Reduced CV since ${savedGame.reducedCV}`)
+                },
+                text: esgst.gc_rcv_s ? (esgst.gc_rcv_s_i ? `` : `RCV`) : esgst.gc_rcvLabel,
+                type: `a`,
+                children: esgst.gc_rcv_s && esgst.gc_rcv_s_i ? [{
+                  attributes: {
+                    class: `fa fa-${esgst.gc_rcvIcon}`
+                  },
+                  type: `i`
+                }] : null
+              });
             }
             break;
           case `gc_ncv`:
             if (savedGame && savedGame.noCV) {
-              elements.push(`
-                <a class="esgst-gc esgst-gc-noCV" data-id="gc_ncv" href="https://www.steamgifts.com/bundle-games/search?q=${encodedName}" title="${getFeatureTooltip(`gc_ncv`, `No CV since ${savedGame.noCV}`)}">${esgst.gc_ncv_s ? (esgst.gc_ncv_s_i ? `<i class="fa fa-${esgst.gc_ncvIcon}"></i>` : `NCV`) : esgst.gc_ncvLabel}</a>
-              `);
+              elements.push({
+                attributes: {
+                  class: `esgst-gc esgst-gc-noCV`,
+                  [`data-id`]: `gc_ncv`,
+                  href: `https://www.steamgifts.com/bundle-games/search?q=${encodedName}`,
+                  title: getFeatureTooltip(`gc_ncv`, `No CV since ${savedGame.noCV}`)
+                },
+                text: esgst.gc_ncv_s ? (esgst.gc_ncv_s_i ? `` : `NCV`) : esgst.gc_ncvLabel,
+                type: `a`,
+                children: esgst.gc_ncv_s && esgst.gc_ncv_s_i ? [{
+                  attributes: {
+                    class: `fa fa-${esgst.gc_ncvIcon}`
+                  },
+                  type: `i`
+                }] : null
+              });
             }
             break;
           case `gc_h`:
             if (savedGame && savedGame.hidden) {
-              elements.push(`
-                <a class="esgst-gc esgst-gc-hidden" data-id="gc_h" href="https://www.steamgifts.com/account/settings/giveaways/filters/search?q=${encodedName}" title="${getFeatureTooltip(`gc_h`, `Hidden`)}">${esgst.gc_h_s ? (esgst.gc_h_s_i ? `<i class="fa fa-${esgst.gc_hIcon}"></i>` : `H`) : esgst.gc_hLabel}</a>
-              `);
+              elements.push({
+                attributes: {
+                  class: `esgst-gc esgst-gc-hidden`,
+                  [`data-id`]: `gc_h`,
+                  href: `https://www.steamgifts.com/account/settings/giveaways/filters/search?q=${encodedName}`,
+                  title: getFeatureTooltip(`gc_h`, `Hidden`)
+                },
+                text: esgst.gc_h_s ? (esgst.gc_h_s_i ? `` : `H`) : esgst.gc_hLabel,
+                type: `a`,
+                children: esgst.gc_h_s && esgst.gc_h_s_i ? [{
+                  attributes: {
+                    class: `fa fa-${esgst.gc_hIcon}`
+                  },
+                  type: `i`
+                }] : null
+              });
             }
             break;
           case `gc_i`:
             if (savedGame && savedGame.ignored) {
-              elements.push(`
-                <a class="esgst-gc esgst-gc-ignored" data-id="gc_i" href="http://store.steampowered.com/${singularType}/${id}" title="${getFeatureTooltip(`gc_i`, `Ignored`)}">${esgst.gc_i_s ? (esgst.gc_i_s_i ? `<i class="fa fa-${esgst.gc_iIcon}"></i>` : `I`) : esgst.gc_iLabel}</a>
-              `);
+              elements.push({
+                attributes: {
+                  class: `esgst-gc esgst-gc-ignored`,
+                  [`data-id`]: `gc_i`,
+                  href: `http://store.steampowered.com/${singularType}/${id}`,
+                  title: getFeatureTooltip(`gc_i`, `Ignored`)
+                },
+                text: esgst.gc_i_s ? (esgst.gc_i_s_i ? `` : `I`) : esgst.gc_iLabel,
+                type: `a`,
+                children: esgst.gc_i_s && esgst.gc_i_s_i ? [{
+                  attributes: {
+                    class: `fa fa-${esgst.gc_iIcon}`
+                  },
+                  type: `i`
+                }] : null
+              });
             }
             break;
           case `gc_o`:
             if (savedGame && savedGame.owned) {
-              elements.push(`
-                <a class="esgst-gc esgst-gc-owned" data-id="gc_o" href="https://www.steamgifts.com/account/steam/games/search?q=${encodedName}" title="${getFeatureTooltip(`gc_o`, `Owned`)}">${esgst.gc_o_s ? (esgst.gc_o_s_i ? `<i class="fa fa-${esgst.gc_oIcon}"></i>` : `O`) : esgst.gc_oLabel}</a>
-              `);
+              elements.push({
+                attributes: {
+                  class: `esgst-gc esgst-gc-owned`,
+                  [`data-id`]: `gc_o`,
+                  href: `https://www.steamgifts.com/account/steam/games/search?q=${encodedName}`,
+                  title: getFeatureTooltip(`gc_o`, `Owned`)
+                },
+                text: esgst.gc_o_s ? (esgst.gc_o_s_i ? `` : `O`) : esgst.gc_oLabel,
+                type: `a`,
+                children: esgst.gc_o_s && esgst.gc_o_s_i ? [{
+                  attributes: {
+                    class: `fa fa-${esgst.gc_oIcon}`
+                  },
+                  type: `i`
+                }] : null
+              });
             }
             if (esgst.gc_o_a) {
-              esgst.gc_o_altAccounts.forEach(account => {
+              for (const account of esgst.gc_o_altAccounts) {
                 let game = account.games[type][id];
                 if (game && game.owned) {
-                  elements.push(`
-                    <a class="esgst-gc esgst-gc-owned" data-bgColor="${account.bgColor}" data-color="${account.color}" data-id="gc_o" href="http://steamcommunity.com/profiles/${account.steamId}/games" style="background-color: ${account.bgColor}; color: ${account.color};" title="${getFeatureTooltip(`gc_o_a`, `Owned by ${account.name}`)}">${esgst.gc_o_s ? (esgst.gc_o_s_i ? `<i class="fa fa-${account.icon}"></i>` : `O`) : account.label}</a>
-                  `);
+                  elements.push({
+                    attributes: {
+                      class: `esgst-gc esgst-gc-owned`,
+                      [`data-bgColor`]: account.bgColor,
+                      [`data-color`]: account.color,
+                      [`data-id`]: `gc_o`,
+                      href: `http://steamcommunity.com/profiles/${account.steamId}/games`,
+                      style: `background-color: ${account.bgColor}; color: ${account.color};`,
+                      title: getFeatureTooltip(`gc_o`, `Owned by ${account.name}`)
+                    },
+                    text: esgst.gc_o_s ? (esgst.gc_o_s_i ? `` : `O`) : account.label,
+                    type: `a`,
+                    children: esgst.gc_o_s && esgst.gc_o_s_i ? [{
+                      attributes: {
+                        class: `fa fa-${account.icon}`
+                      },
+                      type: `i`
+                    }] : null
+                  });
                 }
-              });
+              }
             }
             break;
           case `gc_w`:
             if (savedGame && savedGame.wishlisted) {
-              elements.push(`
-                <a class="esgst-gc esgst-gc-wishlisted" data-id="gc_w" href="https://www.steamgifts.com/account/steam/wishlist/search?q=${encodedName}" title="${getFeatureTooltip(`gc_w`, `Wishlisted${typeof savedGame.wishlisted === `number` ? ` since ${gc_formatDate(savedGame.wishlisted * 1e3)}` : ``}`)}">${esgst.gc_w_s ? (esgst.gc_w_s_i ? `<i class="fa fa-${esgst.gc_wIcon}"></i>` : `W`) : esgst.gc_wLabel}</a>
-              `);
+              elements.push({
+                attributes: {
+                  class: `esgst-gc esgst-gc-wishlisted`,
+                  [`data-id`]: `gc_w`,
+                  href: `https://www.steamgifts.com/account/steam/wishlist/search?q=${encodedName}`,
+                  title: getFeatureTooltip(`gc_w`, `Wishlisted${typeof savedGame.wishlisted === `number` ? ` since ${gc_formatDate(savedGame.wishlisted * 1e3)}` : ``}`)
+                },
+                text: esgst.gc_w_s ? (esgst.gc_w_s_i ? `` : `W`) : esgst.gc_wLabel,
+                type: `a`,
+                children: esgst.gc_w_s && esgst.gc_w_s_i ? [{
+                  attributes: {
+                    class: `fa fa-${esgst.gc_wIcon}`
+                  },
+                  type: `i`
+                }] : null
+              });
             }
             break;
           case `gc_pw`:
             if (savedGame && savedGame.won && (!esgst.gc_pw_o || !esgst.gc_o || !savedGame.owned)) {
-              elements.push(`
-                <a class="esgst-gc esgst-gc-won" data-id="gc_pw" href="https://www.steamgifts.com/user/${esgst.usename}/won/search?q=${encodedName}" title="${getFeatureTooltip(`gc_pw`, `Previously Won`)}">${esgst.gc_pw_s ? (esgst.gc_pw_s_i ? `<i class="fa fa-${esgst.gc_pwIcon}"></i>` : `PW`) : esgst.gc_pwLabel}</a>
-              `);
+              elements.push({
+                attributes: {
+                  class: `esgst-gc esgst-gc-won`,
+                  [`data-id`]: `gc_pw`,
+                  href: `https://www.steamgifts.com/user/${esgst.usename}/won/search?q=${encodedName}`,
+                  title: getFeatureTooltip(`gc_pw`, `Previously Won`)
+                },
+                text: esgst.gc_pw_s ? (esgst.gc_pw_s_i ? `` : `PW`) : esgst.gc_pwLabel,
+                type: `a`,
+                children: esgst.gc_pw_s && esgst.gc_pw_s_i ? [{
+                  attributes: {
+                    class: `fa fa-${esgst.gc_pwIcon}`
+                  },
+                  type: `i`
+                }] : null
+              });
             }
             break;
           case `gc_gi`:
@@ -8787,9 +9308,32 @@
                     }
                     cv = Math.round(value * 100) / 100;
                   }
-                  elements.push(`
-                    <a class="esgst-gc esgst-gc-giveawayInfo" data-id="gc_gi" href="https://www.steamgifts.com/user/${esgst.username}" title="${getFeatureTooltip(`gc_gi`, `You have sent ${count} copies of this game (${sent} of which added to your CV)${active ? `\nYou currently have ${active} open giveaways for this game` : ``}\n\n${price !== -1 ? `You should get $${cv} real CV for sending a new copy of this game\nA giveaway for this game is worth ${Math.min(Math.ceil(price), 50)}P` : `ESGST was unable to retrieve the price of this game (most likely because the game was removed from the Steam store)`}`)}"><i class="fa fa-info"></i> ${count} <i class="fa fa-dollar"></i> ${price !== -1 ? cv : `?`}</a>
-                  `);
+                  elements.push({
+                    attributes: {
+                      class: `esgst-gc esgst-gc-giveawayInfo`,
+                      [`data-id`]: `gc_gi`,
+                      href: `https://www.steamgifts.com/user/${esgst.username}`,
+                      title: getFeatureTooltip(`gc_gi`, `You have sent ${count} copies of this game (${sent} of which added to your CV)${active ? `\nYou currently have ${active} open giveaways for this game` : ``}\n\n${price !== -1 ? `You should get $${cv} real CV for sending a new copy of this game\nA giveaway for this game is worth ${Math.min(Math.ceil(price), 50)}P` : `ESGST was unable to retrieve the price of this game (most likely because the game was removed from the Steam store)`}`)
+                    },
+                    type: `a`,
+                    children: [{
+                      attributes: {
+                        class: `fa fa-info`
+                      },
+                      type: `i`
+                    }, {
+                      text: ` ${count} `,
+                      type: `node`
+                    }, {
+                      attributes: {
+                        class: `fa fa-dollar`
+                      },
+                      type: `i`
+                    }, {
+                      text: ` ${price !== -1 ? cv : `?`}`,
+                      type: `node`
+                    }]
+                  });
                 }
               }
             }
@@ -8815,51 +9359,153 @@
               if (match) {
                 cache.rating = cache.rating.replace(/\(\d+\)/, `(${parseInt(match[1]).toLocaleString()})`);
               }
-              elements.push(`
-                <a class="esgst-gc esgst-gc-rating" data-bgColor="${colors.bgColor}" data-color="${colors.color}" data-id="gc_r" href="http://store.steampowered.com/${singularType}/${id}" style="background-color: ${colors.bgColor}; color: ${colors.color};" title="${getFeatureTooltip(`gc_r`, cache.rating)}">${colors.icon.match(/\w/) ? `<i class="fa fa-${colors.icon}"></i>` : `<span style="font-size: 14px;">${colors.icon}</span>`}${esgst.gc_r_s ? ` ${cache.rating}` : ``}</a>
-              `);
+              elements.push({
+                attributes: {
+                  class: `esgst-gc esgst-gc-rating`,
+                  [`data-bgColor`]: colors.bgColor,
+                  [`data-color`]: colors.color,
+                  [`data-id`]: `gc_r`,
+                  href: `http://store.steampowered.com/${singularType}/${id}`,
+                  style: `background-color: ${colors.bgColor}; color: ${colors.color};`,
+                  title: getFeatureTooltip(`gc_r`, cache.rating)
+                },
+                type: `a`,
+                children: [colors.icon.match(/\w/) ? {
+                  attributes: {
+                    class: `fa fa-${colors.icon}`
+                  },
+                  type: `i`
+                } : {
+                  attributes: {
+                    style: `font-size: 14px;`
+                  },
+                  text: colors.icon,
+                  type: `span`
+                }, {
+                  text: esgst.gc_r_s ? ` ${cache.rating}` : ``,
+                  type: `node`
+                }]
+              });
             }
             break;
           case `gc_a`:
             if (cache && cache.achievements) {
-              elements.push(`
-                <a class="esgst-gc esgst-gc-achievements" data-id="gc_a" href="http://steamcommunity.com/stats/${id}/achievements" title="${getFeatureTooltip(`gc_a`, `Achievements (${cache.achievements})`)}">${esgst.gc_a_s ? (esgst.gc_a_s_i ? `<i class="fa fa-${esgst.gc_aIcon}"></i>` : `A`) : esgst.gc_aLabel}</a>
-              `);
+              elements.push({
+                attributes: {
+                  class: `esgst-gc esgst-gc-achievements`,
+                  [`data-id`]: `gc_a`,
+                  href: `http://steamcommunity.com/stats/${id}/achievements`,
+                  title: getFeatureTooltip(`gc_a`, `Achievements (${cache.achievements})`)
+                },
+                text: esgst.gc_a_s ? (esgst.gc_a_s_i ? `` : `A`) : esgst.gc_aLabel,
+                type: `a`,
+                children: esgst.gc_a_s && esgst.gc_a_s_i ? [{
+                  attributes: {
+                    class: `fa fa-${esgst.gc_aIcon}`
+                  },
+                  type: `i`
+                }] : null
+              });
             }
             break;
           case `gc_mp`:
             if (cache && cache.multiplayer) {
-              elements.push(`
-                <a class="esgst-gc esgst-gc-multiplayer" data-id="gc_mp" href="http://store.steampowered.com/${singularType}/${id}" title="${getFeatureTooltip(`gc_mp`, `Multiplayer`)}">${esgst.gc_mp_s ? (esgst.gc_mp_s_i ? `<i class="fa fa-${esgst.gc_mpIcon}"></i>` : `MP`) : esgst.gc_mpLabel}</a>
-              `);
+              elements.push({
+                attributes: {
+                  class: `esgst-gc esgst-gc-multiplayer`,
+                  [`data-id`]: `gc_mp`,
+                  href: `http://store.steampowered.com/${singularType}/${id}`,
+                  title: getFeatureTooltip(`gc_mp`, `Multiplayer`)
+                },
+                text: esgst.gc_mp_s ? (esgst.gc_mp_s_i ? `` : `MP`) : esgst.gc_mpLabel,
+                type: `a`,
+                children: esgst.gc_mp_s && esgst.gc_mp_s_i ? [{
+                  attributes: {
+                    class: `fa fa-${esgst.gc_mpIcon}`
+                  },
+                  type: `i`
+                }] : null
+              });
             }
             break;
           case `gc_sc`:
             if (cache && cache.steamCloud) {
-              elements.push(`
-                <a class="esgst-gc esgst-gc-steamCloud" data-id="gc_sc" href="http://store.steampowered.com/${singularType}/${id}" title="${getFeatureTooltip(`gc_sc`, `Steam Cloud`)}">${esgst.gc_sc_s ? (esgst.gc_sc_s_i ? `<i class="fa fa-${esgst.gc_scIcon}"></i>` : `SC`) : esgst.gc_scLabel}</a>
-              `);
+              elements.push({
+                attributes: {
+                  class: `esgst-gc esgst-gc-steamCloud`,
+                  [`data-id`]: `gc_sc`,
+                  href: `http://store.steampowered.com/${singularType}/${id}`,
+                  title: getFeatureTooltip(`gc_sc`, `Steam Cloud`)
+                },
+                text: esgst.gc_sc_s ? (esgst.gc_sc_s_i ? `` : `SC`) : esgst.gc_scLabel,
+                type: `a`,
+                children: esgst.gc_sc_s && esgst.gc_sc_s_i ? [{
+                  attributes: {
+                    class: `fa fa-${esgst.gc_scIcon}`
+                  },
+                  type: `i`
+                }] : null
+              });
             }
             break;
           case `gc_tc`:
             if (cache && cache.tradingCards) {
-              elements.push(`
-                <a class="esgst-gc esgst-gc-tradingCards" data-id="gc_tc" href="http://www.steamcardexchange.net/index.php?gamepage-${singularType}id-${id}" title="${getFeatureTooltip(`gc_tc`, `Trading Cards`)}">${esgst.gc_tc_s ? (esgst.gc_tc_s_i ? `<i class="fa fa-${esgst.gc_tcIcon}"></i>` : `TC`) : esgst.gc_tcLabel}</a>
-              `);
+              elements.push({
+                attributes: {
+                  class: `esgst-gc esgst-gc-tradingCards`,
+                  [`data-id`]: `gc_tc`,
+                  href: `http://www.steamcardexchange.net/index.php?gamepage-${singularType}id-${id}`,
+                  title: getFeatureTooltip(`gc_tc`, `Trading Cards`)
+                },
+                text: esgst.gc_tc_s ? (esgst.gc_tc_s_i ? `` : `TC`) : esgst.gc_tcLabel,
+                type: `a`,
+                children: esgst.gc_tc_s && esgst.gc_tc_s_i ? [{
+                  attributes: {
+                    class: `fa fa-${esgst.gc_tcIcon}`
+                  },
+                  type: `i`
+                }] : null
+              });
             }
             break;
           case `gc_l`:
             if (cache && cache.linux) {
-              elements.push(`
-                <a class="esgst-gc esgst-gc-linux" data-id="gc_l" href="http://store.steampowered.com/${singularType}/${id}" title="${getFeatureTooltip(`gc_l`, `Linux`)}">${esgst.gc_l_s ? (esgst.gc_l_s_i ? `<i class="fa fa-${esgst.gc_lIcon}"></i>` : `L`) : esgst.gc_lLabel}</a>
-              `);
+              elements.push({
+                attributes: {
+                  class: `esgst-gc esgst-gc-linux`,
+                  [`data-id`]: `gc_l`,
+                  href: `http://store.steampowered.com/${singularType}/${id}`,
+                  title: getFeatureTooltip(`gc_l`, `Linux`)
+                },
+                text: esgst.gc_l_s ? (esgst.gc_l_s_i ? `` : `L`) : esgst.gc_lLabel,
+                type: `a`,
+                children: esgst.gc_l_s && esgst.gc_l_s_i ? [{
+                  attributes: {
+                    class: `fa fa-${esgst.gc_lIcon}`
+                  },
+                  type: `i`
+                }] : null
+              });
             }
             break;
           case `gc_m`:
             if (cache && cache.mac) {
-              elements.push(`
-                <a class="esgst-gc esgst-gc-mac" data-id="gc_m" href="http://store.steampowered.com/${singularType}/${id}" title="${getFeatureTooltip(`gc_m`, `Mac`)}">${esgst.gc_m_s ? (esgst.gc_m_s_i ? `<i class="fa fa-${esgst.gc_mIcon}"></i>` : `M`) : esgst.gc_mLabel}</a>
-              `);
+              elements.push({
+                attributes: {
+                  class: `esgst-gc esgst-gc-mac`,
+                  [`data-id`]: `gc_m`,
+                  href: `http://store.steampowered.com/${singularType}/${id}`,
+                  title: getFeatureTooltip(`gc_m`, `Mac`)
+                },
+                text: esgst.gc_m_s ? (esgst.gc_m_s_i ? `` : `M`) : esgst.gc_mLabel,
+                type: `a`,
+                children: esgst.gc_m_s && esgst.gc_m_s_i ? [{
+                  attributes: {
+                    class: `fa fa-${esgst.gc_mIcon}`
+                  },
+                  type: `i`
+                }] : null
+              });
             }
             break;
           case `gc_dlc`:
@@ -8870,79 +9516,222 @@
                   baseOwned = esgst.games.apps[cache.base].owned;
                 }
               }
-              elements.push(`
-                <a class="esgst-gc esgst-gc-dlc" data-id="gc_dlc" href="http://store.steampowered.com/${singularType}/${id}" title="${getFeatureTooltip(`gc_dlc`, `DLC${esgst.gc_dlc_b && typeof cache.freeBase !== `undefined` ? (cache.freeBase ? ` (the base game of this DLC is free)` : ` (the base game of this DLC is not free)`) : ``}`)}">
-                  ${esgst.gc_dlc_s ? (
-                    esgst.gc_dlc_s_i ? `
-                      <i class="fa fa-${esgst.gc_dlcIcon}"></i>
-                      ${esgst.gc_dlc_o && baseOwned ? `
-                        <i class="fa fa-${esgst.gc_oIcon} esgst-gc-dlcOwned"></i>
-                      `: ``}
-                      ${esgst.gc_dlc_b && typeof cache.freeBase !== `undefined` ? (
-                        cache.freeBase ? `
-                          <i class="fa fa-certificate esgst-gc-dlcFree"></i>
-                        ` : `
-                          <i class="fa fa-money esgst-gc-dlcNonFree"></i>
-                        `
-                      ) : ``}
-                    ` : `
-                      DLC
-                      ${esgst.gc_dlc_o && baseOwned ? `
-                        <span class="esgst-gc-dlcOwned">(O)</span>
-                      `: ``}
-                      ${esgst.gc_dlc_b && typeof cache.freeBase !== `undefined` ? (
-                        cache.freeBase ? `
-                          <span class="esgst-gc-dlcFree">(F)</span>
-                        ` : `
-                          <span class="esgst-gc-dlcNonFree">(NF)</span>
-                        `
-                      ) : ``}
-                    `
-                  ) : `
-                    ${esgst.gc_dlcLabel}
-                    ${esgst.gc_dlc_o && baseOwned ? `
-                      <span class="esgst-gc-dlcOwned">(Owned)</span>
-                    `: ``}
-                    ${esgst.gc_dlc_b && typeof cache.freeBase !== `undefined` ? (
-                      cache.freeBase ? `
-                        <span class="esgst-gc-dlcFree">(Free)</span>
-                      ` : `
-                        <span class="esgst-gc-dlcNonFree">(Not Free)</span>
-                      `
-                    ) : ``}
-                  `}
-                </a>
-              `);
+              const children = [];
+              if (esgst.gc_dlc_s) {
+                if (esgst.gc_dlc_s_i) {
+                  children.push({
+                    attributes: {
+                      class: `fa fa-${esgst.gc_dlcIcon}`
+                    },
+                    type: `i`
+                  });
+                  if (esgst.gc_dlc_o && baseOwned) {
+                    children.push({
+                      attributes: {
+                        class: `fa fa-${esgst.gc_oIcon} esgst-gc-dlcOwned`
+                      },
+                      type: `i`
+                    });
+                  }
+                  if (esgst.gc_dlc_b && typeof cache.freeBase !== `undefined`) {
+                    if (cache.freeBase) {
+                      children.push({
+                        attributes: {
+                          class: `fa fa-certificate esgst-gc-dlcFree`
+                        },
+                        type: `i`
+                      });
+                    } else {                      
+                      children.push({
+                        attributes: {
+                          class: `fa fa-money esgst-gc-dlcNonFree`
+                        },
+                        type: `i`
+                      });
+                    }
+                  }
+                } else {
+                  children.push({
+                    text: `DLC`,
+                    type: `node`
+                  });
+                  if (esgst.gc_dlc_o && baseOwned) {
+                    children.push({
+                      attributes: {
+                        class: `esgst-gc-dlcOwned`
+                      },
+                      text: `(O)`,
+                      type: `span`
+                    });
+                  }
+                  if (esgst.gc_dlc_b && typeof cache.freeBase !== `undefined`) {
+                    if (cache.freeBase) {
+                      children.push({
+                        attributes: {
+                          class: `esgst-gc-dlcFree`
+                        },
+                        text: `(F)`,
+                        type: `span`
+                      });
+                    } else {
+                      children.push({
+                        attributes: {
+                          class: `esgst-gc-dlcNonFree`
+                        },
+                        text: `(NF)`,
+                        type: `span`
+                      });
+                    }
+                  }
+                }
+              } else {
+                children.push({
+                  text: esgst.gc_dlcLabel,
+                  type: `node`
+                });
+                if (esgst.gc_dlc_o && baseOwned) {
+                  children.push({
+                    attributes: {
+                      class: `esgst-gc-dlcOwned`
+                    },
+                    text: `(Owned)`,
+                    type: `span`
+                  });
+                }
+                if (esgst.gc_dlc_b && typeof cache.freeBase !== `undefined`) {
+                  if (cache.freeBase) {
+                    children.push({
+                      attributes: {
+                        class: `esgst-gc-dlcFree`
+                      },
+                      text: `(Free)`,
+                      type: `span`
+                    });
+                  } else {
+                    children.push({
+                      attributes: {
+                        class: `esgst-gc-dlcNonFree`
+                      },
+                      text: `(Not Free)`,
+                      type: `span`
+                    });
+                  }
+                }
+              }
+              elements.push({
+                attributes: {
+                  class: `esgst-gc esgst-gc-dlc`,
+                  [`data-id`]: `gc_dlc`,
+                  href: `http://store.steampowered.com/${singularType}/${id}`,
+                  title: getFeatureTooltip(`gc_dlc`, `DLC${esgst.gc_dlc_b && typeof cache.freeBase !== `undefined` ? (cache.freeBase ? ` (the base game of this DLC is free)` : ` (the base game of this DLC is not free)`) : ``}`)
+                },
+                type: `a`,
+                children
+              });
             }
             break;
           case `gc_p`:
             if (type === `subs`) {
-              elements.push(`
-                <a class="esgst-gc esgst-gc-package" data-id="gc_p" href="http://store.steampowered.com/${singularType}/${id}" title="${getFeatureTooltip(`gc_p`, `Package${savedGame && savedGame.apps ? ` (${savedGame.apps.length})` : ``}${packageCount ? ` (${packageCount.num} owned)` : ``}`)}">${esgst.gc_p_s ? (esgst.gc_p_s_i ? `<i class="fa fa-${esgst.gc_pIcon}"></i>` : `P`) : esgst.gc_pLabel}${packageCount ? ` (${packageCount.num}/${packageCount.total})` : ``}</a>
-              `);
+              const children = [];
+              if (esgst.gc_p_s) {
+                if (esgst.gc_p_s_i) {
+                  children.push({
+                    attributes: {
+                      class: `fa fa-${esgst.gc_pIcon}`
+                    },
+                    type: `i`
+                  });
+                } else {
+                  children.push({
+                    text: `P`,
+                    type: `node`
+                  });
+                }
+              } else {
+                children.push({
+                  text: esgst.gc_pLabel,
+                  type: `node`
+                });
+              }
+              if (packageCount) {
+                children.push({
+                  text: ` (${packageCount.num}/${packageCount.total})`,
+                  type: `node`
+                });
+              }
+              elements.push({
+                attributes: {
+                  class: `esgst-gc esgst-gc-package`,
+                  [`data-id`]: `gc_p`,
+                  href: `http://store.steampowered.com/${singularType}/${id}`,
+                  title: getFeatureTooltip(`gc_p`, `Package${savedGame && savedGame.apps ? ` (${savedGame.apps.length})` : ``}${packageCount ? ` (${packageCount.num} owned)` : ``}`)
+                },
+                type: `a`,
+                children
+              });
             }
             break;
           case `gc_ea`:
             if (cache && cache.earlyAccess) {
-              elements.push(`
-                <a class="esgst-gc esgst-gc-earlyAccess" data-id="gc_ea" href="http://store.steampowered.com/${singularType}/${id}" title="${getFeatureTooltip(`gc_ea`, `Early Access`)}">${esgst.gc_ea_s ? (esgst.gc_ea_s_i ? `<i class="fa fa-${esgst.gc_eaIcon}"></i>` : `EA`) : esgst.gc_eaLabel}</a>
-              `);
+              elements.push({
+                attributes: {
+                  class: `esgst-gc esgst-gc-earlyAccess`,
+                  [`data-id`]: `gc_ea`,
+                  href: `http://store.steampowered.com/${singularType}/${id}`,
+                  title: getFeatureTooltip(`gc_ea`, `Early Access`)
+                },
+                text: esgst.gc_ea_s ? (esgst.gc_ea_s_i ? `` : `EA`) : esgst.gc_eaLabel,
+                type: `a`,
+                children: esgst.gc_ea_s && esgst.gc_ea_s_i ? [{
+                  attributes: {
+                    class: `fa fa-${esgst.gc_eaIcon}`
+                  },
+                  type: `i`
+                }] : null
+              });
             }
             break;
           case `gc_rm`:
             if (cache && cache.removed === 1) {
-              elements.push(`
-                <a class="esgst-gc esgst-gc-removed" data-id="gc_rm" href="http://steamdb.info/${singularType}/${id}" title="${getFeatureTooltip(`gc_rm`, `Removed`)}">${esgst.gc_rm_s ? (esgst.gc_rm_s_i ? `<i class="fa fa-${esgst.gc_rmIcon}"></i>` : `RM`) : esgst.gc_rmLabel}</a>
-              `);
+              elements.push({
+                attributes: {
+                  class: `esgst-gc esgst-gc-removed`,
+                  [`data-id`]: `gc_rm`,
+                  href: `http://steamdb.info/${singularType}/${id}`,
+                  title: getFeatureTooltip(`gc_rm`, `Removed`)
+                },
+                text: esgst.gc_rm_s ? (esgst.gc_rm_s_i ? `` : `RM`) : esgst.gc_rmLabel,
+                type: `a`,
+                children: esgst.gc_rm_s && esgst.gc_rm_s_i ? [{
+                  attributes: {
+                    class: `fa fa-${esgst.gc_rmIcon}`
+                  },
+                  type: `i`
+                }] : null
+              });
             }
             break;
           case `gc_rd`:
             if (cache && cache.releaseDate) {
-              elements.push(`
-                <a class="esgst-gc esgst-gc-releaseDate" data-id="gc_rd" data-timestamp="${cache.releaseDate === `?` ? cache.releaseDate : (cache.releaseDate / 1e3)}" href="http://store.steampowered.com/${singularType}/${id}" title="${getFeatureTooltip(`gc_rd`, `Release Date`)}">
-                  <i class="fa fa-${esgst.gc_rdIcon}"></i> ${gc_formatDate(cache.releaseDate)}
-                </a>
-              `);
+              elements.push({
+                attributes: {
+                  class: `esgst-gc esgst-gc-releaseDate`,
+                  [`data-id`]: `gc_rd`,
+                  [`data-timestamp`]: cache.releaseDate === `?` ? cache.releaseDate : cache.releaseDate / 1e3,
+                  href: `http://store.steampowered.com/${singularType}/${id}`,
+                  title: getFeatureTooltip(`gc_rd`, `Release Date`)
+                },
+                type: `a`,
+                children: [{
+                  attributes: {
+                    class: `fa fa-${esgst.gc_rdIcon}`
+                  },
+                  type: `i`
+                }, {
+                  text: ` ${gc_formatDate(cache.releaseDate)}`,
+                  type: `node`
+                }]
+              });
             }
             break;
           case `gc_g`:
@@ -8951,7 +9740,6 @@
               genres = esgst.gc_g_udt && cache.tags ? `${cache.genres}, ${cache.tags}` : cache.genres;
               genreList = sortArray(Array.from(new Set(genres.split(/,\s/))));
               genres = genreList.join(`, `);
-              colored = [];
               if (esgst.gc_g_filters.trim()) {
                 filters = esgst.gc_g_filters.trim().toLowerCase().split(/\s*,\s*/);
               }
@@ -8961,44 +9749,83 @@
                   for (k = esgst.gc_g_colors.length - 1; k >= 0 && esgst.gc_g_colors[k].genre.toLowerCase() !== genre; --k);
                   if (k >= 0) {
                     if (esgst.gc_g_s) {
-                      colored.push(`
-                        <a class="esgst-gc esgst-gc-genres" href="http://store.steampowered.com/${singularType}/${id}" style="background-color: ${esgst.gc_g_colors[k].bgColor}; color: ${esgst.gc_g_colors[k].color};" title="${getFeatureTooltip(`gc_g_s`, genreList[j])}">${genreList.splice(j, 1)}</a>
-                      `);
+                      genreList[j] = {
+                        attributes: {
+                          class: `esgst-gc esgst-gc-genres`,
+                          href: `http://store.steampowered.com/${singularType}/${id}`,
+                          style: `background-color: ${esgst.gc_g_colors[k].bgColor}; color: ${esgst.gc_g_colors[k].color};`,
+                          title: getFeatureTooltip(`gc_g_s`, genreList[j])
+                        },
+                        text: genreList[j],
+                        type: `a`
+                      };
                     } else {
-                      colored.push(`
-                        <span style="color: ${esgst.gc_g_colors[k].color}">${genreList.splice(j, 1)}</span>
-                      `);
+                      genreList[j] = {
+                        attributes: {
+                          style: `color: ${esgst.gc_g_colors[k].color}`
+                        },
+                        text: genreList[j],
+                        type: `span`
+                      };
+                      if (j < genreList.length - 1) {
+                        genreList.splice(j + 1, 0, {
+                          text: `, `,
+                          type: `node`
+                        });
+                      }
                     }
                   } else if (esgst.gc_g_s) {
-                    genreList[j] = `
-                      <a class="esgst-gc esgst-gc-genres" href="http://store.steampowered.com/${singularType}/${id}" title="${getFeatureTooltip(`gc_g_s`, genreList[j])}">${genreList[j]}</a>
-                    `;
+                    genreList[j] = {
+                      attributes: {
+                        class: `esgst-gc esgst-gc-genres`,
+                        href: `http://store.steampowered.com/${singularType}/${id}`,
+                        title: getFeatureTooltip(`gc_g_s`, genreList[j])
+                      },
+                      text: genreList[j],
+                      type: `a`
+                    };
+                  } else {
+                    genreList[j] = {
+                      text: genreList[j],
+                      type: `node`
+                    };
+                    if (j < genreList.length - 1) {
+                      genreList.splice(j + 1, 0, {
+                        text: `, `,
+                        type: `node`
+                      });
+                    }
                   }
                 } else {
                   genreList.splice(j, 1);
                 }
               }
-              if (colored.length) {
-                colored = sortArray(colored);
-                for (j = colored.length - 1; j >= 0; --j) {
-                  genreList.unshift(colored[j]);
-                }
-              }
               if (esgst.gc_g_s) {
-                elements.push(`
-                  <span class="esgst-gc-genres" data-id="gc_g">${genreList.join(``)}</span>
-                `);
+                elements.push({
+                  attributes: {
+                    class: `esgst-gc esgst-gc-genres`,
+                    [`data-id`]: `gc_g`
+                  },
+                  type: `span`,
+                  children: genreList
+                });
               } else if (genreList.length > 0) {
-                elements.push(`
-                  <a class="esgst-gc esgst-gc-genres" data-id="gc_g" href="http://store.steampowered.com/${singularType}/${id}" title="${getFeatureTooltip(`gc_g`, genres)}">${genreList.join(`, `)}</a>
-                `);
+                elements.push({
+                  attributes: {
+                    class: `esgst-gc esgst-gc-genres`,
+                    [`data-id`]: `gc_g`,
+                    href: `http://store.steampowered.com/${singularType}/${id}`,
+                    title: getFeatureTooltip(`gc_g`, genres)
+                  },
+                  type: `a`,
+                  children: genreList
+                });
               }
             }
             break;
         }
       }
     }
-    html = elements.join(``);
     let gc = {
       categoryKey: games[0].grid ? `gc_categories_gv` : `gc_categories`,
       indexKey: games[0].grid ? `gc_indexes_gv` : `gc_indexes`,
@@ -9011,7 +9838,7 @@
           panel.previousElementSibling.style.display = `inline-block`;
           panel.classList.add(`esgst-gc-panel-inline`);
         }
-        panel.innerHTML = html;
+        createElements(panel, `inner`, elements);
         if (!esgst.gc_lp || (!esgst.gc_lp_gv && games[i].grid)) {
           for (j = panel.children.length - 1; j > -1; --j) {
             panel.children[j].removeAttribute(`href`);
@@ -9339,11 +10166,22 @@
     if (!button) {
       button = insertHtml(context, `afterBegin`, `<div class="esgst-gdttt-button page_heading_btn"><div>`);
     }
-    button.innerHTML = `<i class="fa fa-check" title="${getFeatureTooltip(`gdttt`, `Mark as visited`)}"></i>`;
+    createElements(button, `inner`, [{
+      attributes: {
+        class: `fa fa-check`,
+        title: `${getFeatureTooltip(`gdttt`, `Mark as visited`)}`
+      },
+      type: `i`
+    }]);
     button.addEventListener(`click`, async () => {
       if (!busy) {
         busy = true;
-        button.innerHTML = `<i class="fa fa-circle-o-notch fa-spin"></i>`;
+        createElements(button, `inner`, [{
+          attributes: {
+            class: `fa fa-circle-o-notch fa-spin`
+          },
+          type: `i`
+        }]);
         let deleteLock = await createLock(`commentLock`, 300);
         comments = JSON.parse(await getValue(type));
         if (!comments[code]) {
@@ -9369,11 +10207,22 @@
     if (!button) {
       button = insertHtml(context, `afterBegin`, `<div class="esgst-gdttt-button page_heading_btn"><div>`);
     }
-    button.innerHTML = `<i class="fa fa-times" title="${getFeatureTooltip(`gdttt`, `Mark as unvisited`)}"></i>`;
+    createElements(button, `inner`, [{
+      attributes: {
+        class: `fa fa-times`,
+        title: `${getFeatureTooltip(`gdttt`, `Mark as unvisited`)}`
+      },
+      type: `i`
+    }]);
     button.addEventListener(`click`, async () => {
       if (!busy) {
         busy = true;
-        button.innerHTML = `<i class="fa fa-circle-o-notch fa-spin"></i>`;
+        createElements(button, `inner`, [{
+          attributes: {
+            class: `fa fa-circle-o-notch fa-spin`
+          },
+          type: `i`
+        }]);
         let deleteLock = await createLock(`commentLock`, 300);
         comments = JSON.parse(await getValue(type));
         if (esgst.ct_s) {
@@ -9516,10 +10365,18 @@
         if (ge.button) {
           ge.button.classList.add(`esgst-busy`);
         }
-        ge.progress.innerHTML = `
-          <i class="fa fa-circle-o-notch fa-spin"></i>
-          <span>${ge.total}</span> giveaways extracted.
-        `;
+        createElements(ge.progress, `inner`, [{
+          attributes: {
+            class: `fa fa-circle-o-notch fa-spin`
+          },
+          type: `i`
+        }, {
+          text: ge.total,
+          type: `span`
+        }, {
+          text: ` giveaways extracted.`,
+          type: `node`
+        }]);
         createElements(ge.results, `beforeEnd`, [{
           type: `div`
         }]);
@@ -9594,10 +10451,18 @@
             ge.points += giveaway.points;
             ge.count += 1;
             ge.total += 1;
-            ge.progress.innerHTML = `
-              <i class="fa fa-circle-o-notch fa-spin"></i>
-              <span>${ge.total}</span> giveaways extracted.
-            `;
+            createElements(ge.progress, `inner`, [{
+              attributes: {
+                class: `fa fa-circle-o-notch fa-spin`
+              },
+              type: `i`
+            }, {
+              text: ge.total,
+              type: `span`
+            }, {
+              text: ` giveaways extracted.`,
+              type: `node`
+            }]);
             ge.extracted.push(code);
             if (sgTools) {
               callback();
@@ -9627,10 +10492,18 @@
             }
             ge.count += 1;
             ge.total += 1;
-            ge.progress.innerHTML = `
-              <i class="fa fa-circle-o-notch fa-spin"></i>
-              <span>${ge.total}</span> giveaways extracted.
-            `;
+            createElements(ge.progress, `inner`, [{
+              attributes: {
+                class: `fa fa-circle-o-notch fa-spin`
+              },
+              type: `i`
+            }, {
+              text: ge.total,
+              type: `span`
+            }, {
+              text: ` giveaways extracted.`,
+              type: `node`
+            }]);
             ge.extracted.push(code);
             if (!ge.bumpLink) {
               bumpLink = responseHtml.querySelector(`[href*="/discussion/"]`);
@@ -9809,9 +10682,15 @@
       ged.context = ged.popup.scrollable;
       ged.popup.open();
     }
-    ged.context.innerHTML = `
-      <i class="fa fa-circle-o-notch fa-spin"></i> Loading...
-    `;
+    createElements(ged.context, `inner`, [{
+      attributes: {
+        class: `fa fa-circle-o-notch fa-spin`
+      },
+      type: `i`
+    }, {
+      text: `Loading...`,
+      type: `node`
+    }]);
     await ged_getGiveaways(ged);
     ged.context.innerHTML = ``;
     if (esgst.gas || (esgst.gf && esgst.gf_m) || esgst.mm) {
@@ -11945,10 +12824,18 @@
     const headingButton = document.createElement(`div`);
     headingButton.className = `esgst-heading-button esgst-gf-heading-button`;
     headingButton.id = `esgst-${obj.id}`;
-    headingButton.innerHTML = `
-      <span class="esgst-gf-toggle-switch"></span>
-      <i class="fa fa-sliders" title="${getFeatureTooltip(obj.id, `Manage presets`)}"></i>
-    `;
+    createElements(headingButton, `inner`, [{
+      attributes: {
+        class: `esgst-gf-toggle-switch`
+      },
+      type: `span`
+    }, {
+      attributes: {
+        class: `fa fa-sliders`,
+        title: getFeatureTooltip(obj.id, `Manage presets`)
+      },
+      type: `i`
+    }]);
     const toggleSwitch = new ToggleSwitch(
       headingButton.firstElementChild,
       `${obj.id}_enable${obj.type}`,
@@ -13291,12 +14178,22 @@
 
   async function filters_deletePreset(obj, deleted, preset, row, undoButton, event) {
     const deleteButton = event.currentTarget;
-    deleteButton.innerHTML = `<i class="fa fa-circle-o-notch fa-spin"></i>`;
+    createElements(deleteButton, `inner`, [{
+      attributes: {
+        class: `fa fa-circle-o-notch fa-spin`
+      },
+      type: `i`
+    }]);
     let i;
     for (i = esgst[obj.key].length - 1; i > -1 && esgst[obj.key][i].name !== preset.name; i--);
     esgst[obj.key].splice(i, 1);
     await setSetting(obj.key, esgst[obj.key]);
-    deleteButton.innerHTML = `<i class="fa fa-trash"></i>`;
+    createElements(deleteButton, `inner`, [{
+      attributes: {
+        class: `fa fa-trash`
+      },
+      type: `i`
+    }]);
     row.classList.add(`esgst-hidden`);
     deleted.push({
       details: preset,
@@ -13614,10 +14511,15 @@
 
   async function glwc_getUsers(glwc, nextPage) {
     if (glwc.isCanceled) return;
-    glwc.progress.innerHTML = `
-      <i class="fa fa-circle-o-notch fa-spin"></i>
-      <span>Retrieving users (page ${nextPage})...</span>
-    `;
+    createElements(glwc.progress, `inner`, [{
+      attributes: {
+        class: `fa fa-circle-o-notch fa-spin`
+      },
+      type: `i`
+    }, {
+      text: `Retrieving users (page ${nextPage})...`,
+      type: `span`
+    }]);
     let elements, i, n, pagination, responseHtml;
     responseHtml = parseHtml((await request({method: `GET`, url: `/${glwc.url}/search?page=${nextPage}`})).responseText);
     elements = responseHtml.querySelectorAll(`.table__row-inner-wrap:not(.is-faded)`);
@@ -13638,10 +14540,15 @@
   async function glwc_getSteamIds(glwc, i, n) {
     if (glwc.isCanceled) return;
     if (i < n) {
-      glwc.progress.innerHTML = `
-        <i class="fa fa-circle-o-notch fa-spin"></i>
-        <span>Retrieving Steam ids (${i + 1} of ${n})...</span>
-      `;
+      createElements(glwc.progress, `inner`, [{
+        attributes: {
+          class: `fa fa-circle-o-notch fa-spin`
+        },
+        type: `i`
+      }, {
+        text: `Retrieving Steam ids (${i + 1} of ${n})...`,
+        type: `span`
+      }]);
       let steamId = esgst.users.steamIds[glwc.users[i].username];
       if (steamId) {
         glwc.users[i].steamId = steamId;
@@ -13660,10 +14567,15 @@
   async function glwc_getGames(glwc, i, n) {
     if (glwc.isCanceled) return;
     if (i < n) {
-      glwc.progress.innerHTML = `
-        <i class="fa fa-circle-o-notch fa-spin"></i>
-        <span>Retrieving libraries/wishlists (${i + 1} of ${n})...</span>
-      `;
+      createElements(glwc.progress, `inner`, [{
+        attributes: {
+          class: `fa fa-circle-o-notch fa-spin`
+        },
+        type: `i`
+      }, {
+        text: `Retrieving libraries/wishlists (${i + 1} of ${n})...`,
+        type: `span`
+      }]);
       if (!glwc.id || glwc.members.indexOf(glwc.users[i].steamId) >= 0) {
         try {
           glwc.users[i].library = [];
@@ -13728,34 +14640,117 @@
   function glwc_showResults(glwc) {
     let game, i, id, j, library, libraryInput, libraryResults, librarySearch, n, user, users, wishlist, wishlistInput, wishlistResults, wishlistSearch;
     glwc.context.classList.add(`esgst-glwc-results`);
-    glwc.context.innerHTML = `
-      <div>
-        <div class="esgst-glwc-heading">Libraries</div>
-        <input placeholder="Search by game name or app id..." type="text"/>
-        <div class="table">
-          <div class="table__heading">
-            <div class="table__column--width-small text-center">Rank</div>
-            <div class="table__column--width-fill">Game</div>
-            <div class="table__column--width-small text-center">Libraries</div>
-          </div>
-          <div class="table__rows"></div>
-          <div class="table__rows"></div>
-        </div>
-      </div>
-      <div>
-        <div class="esgst-glwc-heading">Wishlists</div>
-        <input placeholder="Search by game name or app id..." type="text"/>
-        <div class="table">
-          <div class="table__heading">
-            <div class="table__column--width-small text-center">Rank</div>
-            <div class="table__column--width-fill">Game</div>
-            <div class="table__column--width-small text-center">Wishlists</div>
-          </div>
-          <div class="table__rows"></div>
-          <div class="table__rows"></div>
-        </div>
-      </div>
-    `;
+    createElements(glwc.context, `inner`, [{
+      type: `div`,
+      children: [{
+        attributes: {
+          class: `esgst-glwc-heading`
+        },
+        text: `Libraries`,
+        type: `div`
+      }, {
+        attribute: {
+          placeholder: `Search by game name or app id...`,
+          type: `text`
+        },
+        type: `input`
+      }, {
+        attributes: {
+          class: `table`
+        },
+        type: `div`,
+        children: [{
+          attributes: {
+            class: `table__heading`
+          },
+          type: `div`,
+          children: [{
+            attributes: {
+              class: `table__column--width-small text-center`
+            },
+            text: `Rank`,
+            type: `div`
+          }, {
+            attributes: {
+              class: `table__column--width-fill`
+            },
+            text: `Game`,
+            type: `div`
+          }, {
+            attributes: {
+              class: `table__column--width-small text-center`
+            },
+            text: `Libraries`,
+            type: `div`
+          }]
+        }, {
+          attributes: {
+            class: `table__rows`
+          },
+          type: `div`
+        }, {
+          attributes: {
+            class: `table__rows`
+          },
+          type: `div`
+        }]
+      }]
+    }, {
+      type: `div`,
+      children: [{
+        attributes: {
+          class: `esgst-glwc-heading`
+        },
+        text: `Wishlists`,
+        type: `div`
+      }, {
+        attribute: {
+          placeholder: `Search by game name or app id...`,
+          type: `text`
+        },
+        type: `input`
+      }, {
+        attributes: {
+          class: `table`
+        },
+        type: `div`,
+        children: [{
+          attributes: {
+            class: `table__heading`
+          },
+          type: `div`,
+          children: [{
+            attributes: {
+              class: `table__column--width-small text-center`
+            },
+            text: `Rank`,
+            type: `div`
+          }, {
+            attributes: {
+              class: `table__column--width-fill`
+            },
+            text: `Game`,
+            type: `div`
+          }, {
+            attributes: {
+              class: `table__column--width-small text-center`
+            },
+            text: `Wishlists`,
+            type: `div`
+          }]
+        }, {
+          attributes: {
+            class: `table__rows`
+          },
+          type: `div`
+        }, {
+          attributes: {
+            class: `table__rows`
+          },
+          type: `div`
+        }]
+      }]
+    }]);
     libraryInput = glwc.context.firstElementChild.firstElementChild.nextElementSibling;
     libraryResults = libraryInput.nextElementSibling.lastElementChild;
     librarySearch = libraryResults.previousElementSibling;
@@ -13815,7 +14810,10 @@
         `).firstElementChild.lastElementChild.firstElementChild, users.join(`, `));
       }
     } else {
-      libraryResults.innerHTML = `To get libraries data you must have a Steam API key set in the settings menu.`;
+      createElements(libraryResults, `inner`, [{
+        text: `To get libraries data you must have a Steam API key set in the settings menu.`,
+        type: `node`
+      }]);
     }
     wishlist = wishlist.sort((a, b) => {
       if (a.wishlists.length > b.wishlists.length) {
@@ -13869,30 +14867,82 @@
               user = glwc.users[k];
               users.push(`<a href="http://steamcommunity.com/profiles/${user.steamId}/games?tab=all">${user.username}</a>`);
             });
-            librarySearch.innerHTML = `
-              <div class="table__row-outer-wrap">
-                <div class="table__row-inner-wrap">
-                  <div class="table__column--width-small text-center">
-                    <span class="table__column__rank">-</span>
-                  </div>
-                  <div>
-                    <div class="table_image_thumbnail" style="background-image:url(${game.logo});"></div>
-                  </div>
-                  <div class="table__column--width-fill">
-                    <p class="table__column__heading">${game.name}</p>
-                    <p>
-                      <a class="table__column__secondary-link" href="http://store.steampowered.com/app/${game.id}" rel="nofollow" target="_blank">http://store.steampowered.com/app/${game.id}</a>
-                    </p>
-                  </div>
-                  <div class="table__column--width-small text-center">
-                    <span class="table__column__secondary-link esgst-clickable">${game.libraries.length} (${Math.round(game.libraries.length / glwc.memberCount * 10000) / 100}%)</span>
-                  </div>
-                </div>
-              </div>
-            `;
+            createElements(librarySearch, `inner`, [{
+              attributes: {
+                class: `table__row-outer-wrap`
+              },
+              type: `div`,
+              children: [{
+                attributes: {
+                  class: `table__row-inner-wrap`
+                },
+                type: `div`,
+                children: [{
+                  attributes: {
+                    class: `table__column--width-small text-center`
+                  },
+                  type: `div`,
+                  children: [{
+                    attributes: {
+                      class: `table__column__rank`
+                    },
+                    text: `-`,
+                    type: `span`
+                  }]
+                }, {
+                  type: `div`,
+                  children: [{
+                    attributes: {
+                      class: `table_image_thumbnail`,
+                      style: `background-image:url(${game.logo});`
+                    },
+                    type: `div`
+                  }]
+                }, {
+                  attributes: {
+                    class: `table__column--width-fill`
+                  },
+                  type: `div`,
+                  children: [{
+                    attributes: {
+                      class: `table__column__heading`
+                    },
+                    text: game.name,
+                    type: `p`
+                  }, {
+                    type: `p`,
+                    children: [{
+                      attributes: {
+                        class: `table__column__secondary-link`,
+                        href: `http://store.steampowered.com/app/${game.id}`,
+                        rel: `nofollow`,
+                        target: `_blank`
+                      },
+                      text: `http://store.steampowered.com/app/${game.id}`,
+                      type: `a`
+                    }]
+                  }]
+                }, {
+                  attributes: {
+                    class: `table__column--width-small text-center`
+                  },
+                  type: `div`,
+                  children: [{
+                    attributes: {
+                      class: `table__column__secondary-link esgst-clickable`
+                    },
+                    text: `${game.libraries.length} (${Math.round(game.libraries.length / glwc.memberCount * 10000) / 100}%)`,
+                    type: `span`
+                  }]
+                }]
+              }]
+            }]);
             createTooltip(librarySearch.firstElementChild.firstElementChild.lastElementChild.firstElementChild, users.join(`, `));
           } else {
-            librarySearch.innerHTML = `Nothing found...`;
+            createElements(librarySearch, `inner`, [{
+              text: `Nothing found...`,
+              type: `node`
+            }]);
           }
         } else {
           librarySearch.innerHTML = ``;
@@ -13929,7 +14979,10 @@
             }
           }
           if (!librarySearch.innerHTML) {
-            librarySearch.innerHTML = `Nothing found...`;
+            createElements(librarySearch, `inner`, [{
+              text: `Nothing found...`,
+              type: `node`
+            }]);
           }
         }
         librarySearch.classList.remove(`esgst-hidden`);
@@ -13950,30 +15003,82 @@
               user = glwc.users[k];
               users.push(`<a href="http://store.steampowered.com/wishlist/profiles/${user.steamId}">${user.username}</a>`);
             });
-            wishlistSearch.innerHTML = `
-              <div class="table__row-outer-wrap">
-                <div class="table__row-inner-wrap">
-                  <div class="table__column--width-small text-center">
-                    <span class="table__column__rank">-</span>
-                  </div>
-                  <div>
-                    <div class="table_image_thumbnail" style="background-image:url(${game.logo});"></div>
-                  </div>
-                  <div class="table__column--width-fill">
-                    <p class="table__column__heading">${game.name}</p>
-                    <p>
-                      <a class="table__column__secondary-link" href="http://store.steampowered.com/app/${game.id}" rel="nofollow" target="_blank">http://store.steampowered.com/app/${game.id}</a>
-                    </p>
-                  </div>
-                  <div class="table__column--width-small text-center">
-                    <span class="table__column__secondary-link esgst-clickable">${game.wishlists.length} (${Math.round(game.wishlists.length / glwc.memberCount * 10000) / 100}%)</span>
-                  </div>
-                </div>
-              </div>
-            `;
+            createElements(wishlistSearch, `inner`, [{
+              attributes: {
+                class: `table__row-outer-wrap`
+              },
+              type: `div`,
+              children: [{
+                attributes: {
+                  class: `table__row-inner-wrap`
+                },
+                type: `div`,
+                children: [{
+                  attributes: {
+                    class: `table__column--width-small text-center`
+                  },
+                  type: `div`,
+                  children: [{
+                    attributes: {
+                      class: `table__column__rank`
+                    },
+                    text: `-`,
+                    type: `span`
+                  }]
+                }, {
+                  type: `div`,
+                  children: [{
+                    attributes: {
+                      class: `table_image_thumbnail`,
+                      style: `background-image:url(${game.logo});`
+                    },
+                    type: `div`
+                  }]
+                }, {
+                  attributes: {
+                    class: `table__column--width-fill`
+                  },
+                  type: `div`,
+                  children: [{
+                    attributes: {
+                      class: `table__column__heading`
+                    },
+                    text: game.name,
+                    type: `p`
+                  }, {
+                    type: `p`,
+                    children: [{
+                      attributes: {
+                        class: `table__column__secondary-link`,
+                        href: `http://store.steampowered.com/app/${game.id}`,
+                        rel: `nofollow`,
+                        target: `_blank`
+                      },
+                      text: `http://store.steampowered.com/app/${game.id}`,
+                      type: `a`
+                    }]
+                  }]
+                }, {
+                  attributes: {
+                    class: `table__column--width-small text-center`
+                  },
+                  type: `div`,
+                  children: [{
+                    attributes: {
+                      class: `table__column__secondary-link esgst-clickable`
+                    },
+                    text: `${game.wishlists.length} (${Math.round(game.wishlists.length / glwc.memberCount * 10000) / 100}%)`,
+                    type: `span`
+                  }]
+                }]
+              }]
+            }]);
             createTooltip(wishlistSearch.firstElementChild.firstElementChild.lastElementChild.firstElementChild, users.join(`, `));
           } else {
-            wishlistSearch.innerHTML = `Nothing found...`;
+            createElements(wishlistSearch, `inner`, [{
+              text: `Nothing found...`,
+              type: `node`
+            }]);
           }
         } else {
           wishlistSearch.innerHTML = ``;
@@ -14010,7 +15115,10 @@
             }
           }
           if (!wishlistSearch.innerHTML) {
-            wishlistSearch.innerHTML = `Nothing found...`;
+            createElements(wishlistSearch, `inner`, [{
+              text: `Nothing found...`,
+              type: `node`
+            }]);
           }
         }
         wishlistSearch.classList.remove(`esgst-hidden`);
@@ -14058,7 +15166,12 @@
   }
 
   async function gr_recreateGiveaway(button, giveaway) {
-    button.innerHTML = `<i class="fa fa-circle-o-notch fa-spin"></i>`;
+    createElements(button, `inner`, [{
+      attributes: {
+        class: `fa fa-circle-o-notch fa-spin`
+      },
+      type: `i`
+    }]);
     if (esgst.createdPath) {
       let response = await request({method: `GET`, url: giveaway.url});
       gr_saveTemplate(button, (await giveaways_get(parseHtml(response.responseText), false, response.finalUrl, false, `giveaway`))[0] || giveaway);
@@ -14482,26 +15595,31 @@
     popup.close();
   }
 
+  function gt_template(text) {
+    return {
+      attributes: {
+        class: `global__image-outer-wrap author_avatar is_icon`
+      },
+      text,
+      type: `span`
+    };
+  }
+
   async function gt_addTags(games, id, tags, type) {
-    let prefix = `<span class="global__image-outer-wrap author_avatar is_icon">`;
-    let suffix = `</span>`;
-    let html = tags.length && tags[0] ? `${prefix}${tags.join(`${suffix}${prefix}`)}${suffix}` : ``;
     if (!games) {
       games = games_get(document, true, JSON.parse(await getValue(`games`)))[type][id];
     }
     if (!games) {
       return;
     }
-    for (let i = 0, n = games.length; i < n; ++i) {
-      let game = games[i];
-      let button = game.container.getElementsByClassName(`esgst-gt-button`)[0];
-      button.classList[html ? `remove` : `add`](`esgst-faded`);
-      let tagsContainer = button.lastElementChild;
-      tagsContainer.innerHTML = html;
-      let children = tagsContainer.children;
-      for (let j = 0, numTags = children.length; j < numTags; ++j) {
-        let tagsBox = children[j],
-          colors = esgst.gt_colors[tagsBox.textContent];
+    const items = tags.length && tags[0] ? tags.map(x => gt_template(x)) : null;
+    for (const game of games) {
+      const button = game.container.getElementsByClassName(`esgst-gt-button`)[0];
+      button.classList[items ? `remove` : `add`](`esgst-faded`);
+      const tagsContainer = button.lastElementChild;
+      createElements(tagsContainer, `inner`, items);
+      for (const tagsBox of tagsContainer.children) {
+        const colors = esgst.gt_colors[tagsBox.textContent];
         if (!colors) {
           continue;
         }
@@ -14868,9 +15986,12 @@
       popup.close();
     });
     deleteButton.addEventListener(`click`, async () => {
-      deleteButton.innerHTML = `
-        <i class="fa fa-circle-o-notch fa-spin"></i>
-      `;
+      createElements(deleteButton, `inner`, [{
+        attributes: {
+          class: `fa fa-circle-o-notch fa-spin`
+        },
+        type: `i`
+      }]);
       let deleteLock = await createLock(`templateLock`, 300),
         savedTemplates = JSON.parse(await getValue(`templates`, `[]`)),
         i = 0;
@@ -14878,9 +15999,12 @@
       savedTemplates.splice(i, 1);
       await setValue(`templates`, JSON.stringify(savedTemplates));
       deleteLock();
-      deleteButton.innerHTML = `
-        <i class="fa fa-trash"></i>
-      `;
+      createElements(deleteButton, `inner`, [{
+        attributes: {
+          class: `fa fa-trash`
+        },
+        type: `i`
+      }]);
       template.classList.add(`esgst-hidden`);
       gts.deletedTemplates.push({
         template: template,
@@ -15288,7 +16412,7 @@
 
     // create a new graph without the blacklist points
     let script = document.createElement(`script`);
-    script.innerHTML = chart.previousElementSibling.textContent.replace(/,{name:\s"Blacklists".+?}/, ``);
+    script.textContent = chart.previousElementSibling.textContent.replace(/,{name:\s"Blacklists".+?}/, ``);
     document.body.appendChild(script);
     script.remove();
   }
@@ -15375,11 +16499,22 @@
     hgr.canceled = false;
     hgr.lastPage = ``;
     hgr.button.classList.add(`esgst-busy`);
-    hgr.progress.innerHTML = `
-      <i class="fa fa-circle-o-notch fa-spin"></i>
-      <span>Removing games...</span>
-    `;
-    hgr.removed.innerHTML = `<span class="esgst-bold">Removed Games:</span>`;
+    createElements(hgr.progress, `inner`, [{
+      attributes: {
+        class: `fa fa-circle-o-notch fa-spin`
+      },
+      type: `i`
+    }, {
+      text: `Removing games...`,
+      type: `span`
+    }]);
+    createElements(hgr.removed, `inner`, [{
+      attributes: {
+        class: `esgst-bold`
+      },
+      text: `Removed Games:`,
+      type: `span`
+    }]);
     let url = `/account/settings/giveaways/filters/search?page=`;
     let nextPage = 1;
     let pagination = null;
@@ -15397,10 +16532,15 @@
         hgr.lastPage = lpl_getLastPage(context);
         hgr.lastPage = hgr.lastPage === 999999999 ? `` : ` of ${hgr.lastPage}`;
       }
-      hgr.progress.innerHTML = `
-        <i class="fa fa-circle-o-notch fa-spin"></i>
-        <span>Removing games (page ${nextPage}${hgr.lastPage})...</span>
-      `;
+      createElements(hgr.progress, `inner`, [{
+        attributes: {
+          class: `fa fa-circle-o-notch fa-spin`
+        },
+        type: `i`
+      }, {
+        text: `Removing games (page ${nextPage}${hgr.lastPage})...`,
+        type: `span`
+      }]);
       let elements = context.getElementsByClassName(`table__row-outer-wrap`)
       for (let i = 0, n = elements.length; i < n; i++) {
         let element = elements[i];
@@ -15428,7 +16568,13 @@
     hgr.button.classList.remove(`esgst-busy`);
     hgr.progress.innerHTML = ``;
     if (hgr.removed.children.length === 1) {
-      hgr.removed.innerHTML = `<span class="esgst-bold">0 games removed.</span>`;
+      createElements(hgr.removed, `inner`, [{
+        attributes: {
+          class: `esgst-bold`
+        },
+        text: `0 games removed.`,
+        type: `span`
+      }]);
     }
   }
 
@@ -15692,12 +16838,20 @@
 
   async function hr_refreshHeader(cache, hr, notify) {
     await hr_refreshHeaderElements(document);
-    esgst.mainButton.outerHTML = cache.mainButton;
+    createElements(esgst.mainButton, `outer`, [{
+      context: parseHtml(cache.mainButton).body.firstElementChild
+    }]);
     if (esgst.sg) {
-      esgst.createdButton.outerHTML = cache.createdButton;
-      esgst.wonButton.outerHTML = cache.wonButton;
+      createElements(esgst.createdButton, `outer`, [{
+        context: parseHtml(cache.createdButton).body.firstElementChild
+      }]);
+      createElements(esgst.wonButton, `outer`, [{
+        context: parseHtml(cache.wonButton).body.firstElementChild
+      }]);
     }
-    esgst.inboxButton.outerHTML = cache.inboxButton;
+    createElements(esgst.inboxButton, `outer`, [{
+      context: parseHtml(cache.inboxButton).body.firstElementChild
+    }]);
     if (esgst.nm) {
       // refresh notification merger
       nm_getNotifications();
@@ -16317,7 +17471,10 @@
       if (section === `textArea` || obj.sections[key][section].innerHTML) {
         continue;
       }
-      obj.sections[key][section].innerHTML = `None.`;
+      createElements(obj.sections[key][section], `inner`, [{
+        text: `None.`,
+        type: `node`
+      }]);
     }
     const query = getLocalValue(`hwlc_${key}`);
     if (query) {
@@ -16374,7 +17531,10 @@
     }
     createElements(obj.sections[key].matches, `beforeEnd`, items);
     if (!obj.sections[key].matches.innerHTML) {
-      obj.sections[key].matches.innerHTML = `None.`;
+      createElements(obj.sections[key].matches, `inner`, [{
+        text: `None.`,
+        type: `node`
+      }]);
     }
   }
 
@@ -16635,7 +17795,7 @@
     if (!esgst.lpvStyle) {
       esgst.lpvStyle = insertHtml(esgst.style, `afterEnd`, `<style id="esgst-lpv-style"></style>`);
     }
-    esgst.lpvStyle.innerHTML = `
+    esgst.lpvStyle.textContent = `
       .esgst-lpv-container {
         background-image: linear-gradient(to right, var(--esgst-lpv-bar, #609f60) ${firstBar}, var(--esgst-lpv-bar-projected, rgba(96, 159, 96, 0.5)) ${firstBar}, var(--esgst-lpv-bar-projected, rgba(96, 159, 96, 0.5)) ${projectedFirstBar}, transparent ${firstBar}), var(--esgst-lpv-button, linear-gradient(#8a92a1 0px, #757e8f 8px, #4e5666 100%)) !important;
       }
@@ -17055,13 +18215,13 @@
       input.addEventListener(`input`, () => {
         if (key === `counter`) {
           counterOutputCode.textContent = `[ESGST-C]${input.value}[/ESGST-C]`;
-          counterOutputPreview.innerHTML = parseMarkdown(`1${input.value}10`);
+          createElements(counterOutputPreview, `inner`, parseMarkdown(`1${input.value}10`));
         } else if (key === `bump`) {
           bumpOutputCode.textContent = `[ESGST-B]${input.value}[/ESGST-B]`;
-          bumpOutputPreview.innerHTML = parseMarkdown(`[${input.value}](#)`);
+          createElements(bumpOutputPreview, `inner`, parseMarkdown(`[${input.value}](#)`));
         } else if (key === `train`) {
           trainOutputCode.textContent = `[ESGST-B]${input.value}[/ESGST-B]`;
-          trainOutputPreview.innerHTML = parseMarkdown(`[${input.value}](#)`);
+          createElements(trainOutputPreview, `inner`, parseMarkdown(`[${input.value}](#)`));
         } else {
           let markdown = ``;
           let text = ``;
@@ -17084,7 +18244,7 @@
             markdown += `[${inputs.next.value}](#)`;
           }
           outputCode.textContent = text;
-          outputPreview.innerHTML = parseMarkdown(markdown);
+          createElements(outputPreview, `inner`, parseMarkdown(markdown));
         }
         input.style.width = `${input.value.length + 75}px`;
       });
@@ -19855,7 +21015,7 @@
     if (!esgst.pvStyle) {
       esgst.pvStyle = insertHtml(esgst.style, `afterEnd`, `<style id="esgst-pv-style"></style>`);
     }
-    esgst.pvStyle.innerHTML = `
+    esgst.pvStyle.textContent = `
       .esgst-lpv-container {
         background-image: linear-gradient(to right, var(--esgst-lpv-bar, #609f60) ${firstBar}, transparent ${firstBar}), var(--esgst-lpv-button, linear-gradient(#8a92a1 0px, #757e8f 8px, #4e5666 100%)) !important;
       }
@@ -20719,11 +21879,37 @@
         name: `Link`,
         setPopout: popout => {
           let title, url;
-          popout.popout.innerHTML = `
-            <div>URL: <input placeholder="http://www.example.com" type="text"/></div>
-            <div>Title: <input placeholder="Cat" type="text"/></div>
-            <div class="form__saving-button btn_action white">Add</div>
-          `;
+          createElements(popout.popout, `inner`, [{
+            type: `div`,
+            children: [{
+              text: `URL: `,
+              type: `node`
+            }, {
+              attributes: {
+                placeholder: `http://www.example.com`,
+                type:  `text`
+              },
+              tpe: `input`
+            }]
+          }, {
+            type: `div`,
+            children: [{
+              text: `Title: `,
+              type: `node`
+            }, {
+              attributes: {
+                placeholder: `Cat`,
+                type: `text`
+              },
+              tpe: `input`
+            }]
+          }, {
+            attributes :{
+              class: `form__saving-button btn_action white`
+            },
+            text: `Add`,
+            type: `div`
+          }]);
           url = popout.popout.firstElementChild.firstElementChild;
           title = popout.popout.firstElementChild.nextElementSibling.firstElementChild;
           popout.popout.lastElementChild.addEventListener(`click`, () => {
@@ -20745,11 +21931,42 @@
         name: `Image`,
         setPopout: popout => {
           let title, url;
-          popout.popout.innerHTML = `
-            <div>URL: <input placeholder="http://www.example.com/image.jpg" type="text"/> <i class="fa fa-upload esgst-clickable" title="Upload image to Imgur and use it"></i></div>
-            <div>Title: <input placeholder="Cat" type="text"/></div>
-            <div class="form__saving-button btn_action white">Add</div>
-          `;
+          createElements(popout.popout, `inner`, [{
+            type: `div`,
+            children: [{
+              text: `URL: `,
+              type: `node`
+            }, {
+              attributes: {
+                placeholder: `http://www.example.com/image.jpg`,
+                type: `text`
+              },
+              tpe: `input`
+            }, {
+              attributes: {
+                class: `fa fa-upload esgst-clickable`,
+                title: `Upload image to Imgur and use it`
+              }
+            }]
+          }, {
+            type: `div`,
+            children: [{
+              text: `Title: `,
+              type: `node`
+            }, {
+              attributes: {
+                placeholder: `Cat`,
+                type: `text`
+              },
+              tpe: `input`
+            }]
+          }, {
+            attributes :{
+              class: `form__saving-button btn_action white`
+            },
+            text: `Add`,
+            type: `div`
+          }]);
           url = popout.popout.firstElementChild.firstElementChild;
           let imgur = url.nextElementSibling;
           title = popout.popout.firstElementChild.nextElementSibling.firstElementChild;
@@ -20788,12 +22005,27 @@
         setPopup: popup => {
           let context, insertColumn, insertRow, table;
           context = popup.scrollable;
-          context.innerHTML = `
-            <table></table>
-            <div class="form__saving-button btn_action white">Insert Row</div>
-            <div class="form__saving-button btn_action white">Insert Column</div>
-            <div class="form__saving-button btn_action white">Add</div>
-          `;
+          createElements(context, `inner`, [{
+            type: `table`
+          }, {
+            attributs: {
+              class: `form__saving-button btn_action white`
+            },
+            title: `Insert Row`,
+            type: `div`
+          }, {
+            attributs: {
+              class: `form__saving-button btn_action white`
+            },
+            title: `Insert Column`,
+            type: `div`
+          }, {
+            attributs: {
+              class: `form__saving-button btn_action white`
+            },
+            title: `Add`,
+            type: `div`
+          }]);
           table = context.firstElementChild;
           insertRow = table.nextElementSibling;
           insertColumn = insertRow.nextElementSibling;
@@ -20941,10 +22173,22 @@
         icons: [`fa-star`],
         name: `Giveaway Encrypter`,
         setPopout: popout => {
-          popout.popout.innerHTML = `
-            Giveaway Code: <input placeholder="XXXXX" type="text"/>
-            <div class="form__saving-button btn_action white">Add</div>
-          `;
+          createElements(popout.popout, `inner`, [{
+            text: `Giveaway Code: `,
+            type: `node`
+          }, {
+            attributes: {
+              placeholder: `XXXXX`,
+              type: `text`
+            },
+            type: `input`
+          }, {
+            attributes: {
+              class: `form__saving-button btn_action white`
+            },
+            text: `Add`,
+            type: `div`
+          }]);
           let code = popout.popout.firstElementChild;
           code.nextElementSibling.addEventListener(`click`, () => {
             if (code.value.match(/^[\d\w]{5}$/)) {
@@ -20971,18 +22215,47 @@
           let addButton, filter, i, n, replies, saveButton, savedReplies;
           esgst.cfh.deletedReplies = [];
           savedReplies = JSON.parse(await getValue(`savedReplies`, `[]`));
-          popout.popout.innerHTML = `
-            <div>
-              <input placeholder="Filter replies..." type="text"/>
-            </div>
-            <div class="esgst-cfh-sr-container"></div>
-            <div class="form__saving-button btn_action white">Add New Reply</div>
-            <div class="form__saving-button btn_action white">Save Reply</div>
-            <div class="esgst-clickable esgst-hidden">
-              <i class="fa fa-rotate-left"></i>
-              <span>Undo Delete</span>
-            </div>
-          `;
+          createElements(popout.popout, `inner`, [{
+            type: `div`,
+            children: [{
+              attributes: {
+                placeholder: `Filter replies...`,
+                type: `text`
+              },
+              type: `input`
+            }]
+          }, {
+            attributes: {
+              class: `esgst-cfh-sr-container`
+            },
+            type: `div`
+          }, {
+            attributes: {
+              class: `form__saving-button btn_action white`
+            },
+            text: `Add New Reply`,
+            type: `div`
+          }, {
+            attributes: {
+              class: `form__saving-button btn_action white`
+            },
+            text: `Save Reply`,
+            type: `div`
+          }, {
+            attributes: {
+              class: `esgst-clickable esgst-hidden`
+            },
+            type: `div`,
+            children: [{
+              attributes: {
+                class: `fa fa-rotate-left`
+              },
+              type: `i`
+            }, {
+              text: `Undo Delete`,
+              type: `span`
+            }]
+          }]);
           filter = popout.popout.firstElementChild.firstElementChild;
           esgst.cfh.undoDelete = popout.popout.lastElementChild;
           saveButton = esgst.cfh.undoDelete.previousElementSibling;
@@ -21114,7 +22387,7 @@
           <i class="fa fa-eye"></i>
         </div>
       `).addEventListener(`click`, () => {
-        esgst.cfh.preview.innerHTML = parseMarkdown(esgst.cfh.textArea.value);
+        createElements(esgst.cfh.preview, `inner`, parseMarkdown(esgst.cfh.textArea.value));
         cfh_formatImages(esgst.cfh.preview);
       });
     }
@@ -23610,7 +24883,7 @@
       textArea.parentElement.insertBefore(esgst.cfh.preview, textArea.nextElementSibling);
       if (esgst.cfh_p_a) {
         textArea.oninput = () => {
-          esgst.cfh.preview.innerHTML = parseMarkdown(textArea.value);
+          createElements(esgst.cfh.preview, `inner`, parseMarkdown(textArea.value));
           cfh_formatImages(esgst.cfh.preview);
         };
       }
@@ -23649,7 +24922,7 @@
     esgst.cfh.textArea.setSelectionRange(range, range);
     esgst.cfh.textArea.focus();
     if (esgst.cfh_p && esgst.cfh_p_a) {
-      esgst.cfh.preview.innerHTML = parseMarkdown(esgst.cfh.textArea.value);
+      createElements(esgst.cfh.preview, `inner`, parseMarkdown(esgst.cfh.textArea.value));
       cfh_formatImages(esgst.cfh.preview);
     }
   }
@@ -23672,7 +24945,7 @@
     }
     esgst.cfh.textArea.focus();
     if (esgst.cfh_p && esgst.cfh_p_a) {
-      esgst.cfh.preview.innerHTML = parseMarkdown(esgst.cfh.textArea.value);
+      createElements(esgst.cfh.preview, `inner`, parseMarkdown(esgst.cfh.textArea.value));
       cfh_formatImages(esgst.cfh.preview);
     }
   }
@@ -23741,15 +25014,26 @@
       n = table.rows.length;
       row = table.insertRow(n);
       for (i = 0, j = table.rows[0].cells.length - 1; i < j; ++i) {
-        row.insertCell(0).innerHTML = `<input placeholder="Value" type="text"/>`;
+        createElements(row.insertCell(0), `inner`, [{
+          attributes: {
+            placeholder: `Value`,
+            type: `text`
+          },
+          type: `input`
+        }]);
       }
       deleteRow = row.insertCell(0);
       if (n > 2) {
-        deleteRow.innerHTML = `
-          <a>
-            <i class="fa fa-times-circle" title="Delete row"></i>
-          </a>
-        `;
+        createElements(deleteRow, `inner`, [{
+          type: `a`,
+          children: [{
+            attributes: {
+              class: `fa fa-times-circle`,
+              title: `Delete row`
+            },
+            type: `i`
+          }]
+        }]);
         deleteRow.firstElementChild.addEventListener(`click`, () => {
           if (table.rows.length > 4) {
             deleteRow.remove();
@@ -23769,23 +25053,55 @@
       rows = table.rows;
       n = rows[0].cells.length;
       for (i = 3, j = rows.length; i < j; ++i) {
-        rows[i].insertCell(n).innerHTML = `<input placeholder="Value" type="text"/>`;
+        createElements(rows[i].insertCell(n), `inner`, [{
+          attributes: {
+            placeholder: `Value`,
+            type: `text`
+          },
+          type: `input`
+        }]);
       }
-      rows[2].insertCell(n).innerHTML = `
-        <select>
-          <option value=":-">Left</option>
-          <option value=":-:">Center</option>
-          <option value="-:">Right</option>
-        </select>
-      `;
+      createElements(rows[2].insertCell(n), `inner`, [{
+        type: `select`,
+        children: [{
+          attributes: {
+            value: `:-`
+          },
+          text: `Left`,
+          type: `option`
+        }, {
+          attributes: {
+            value: `:-:`
+          },
+          text: `Center`,
+          type: `option`
+        }, {
+          attributes: {
+            value: `-:`
+          },
+          text: `Right`,
+          type: `option`
+        }]
+      }]);
       column = rows[1].insertCell(n);
-      column.innerHTML = `<input placeholder="Header" type="text"/>`;
+      createElements(column, `inner`, [{
+        attributes: {
+          placeholder: `Header`,
+          type: `text`
+        },
+        type: `input`
+      }]);
       deleteColumn = rows[0].insertCell(n);
-      deleteColumn.innerHTML = `
-        <a>
-          <i class="fa fa-times-circle" title="Delete column"></i>
-        </a>
-      `;
+      createElements(deleteColumn, `inner`, [{
+        type: `a`,
+        children: [{
+          attributes: {
+            class: `fa fa-times-circle`,
+            title: `Delete column`
+          },
+          type: `i`
+        }]
+      }]);
       deleteColumn.firstElementChild.addEventListener(`click`, () => {
         rows = table.rows;
         n = rows[1].cells.length;
@@ -24057,14 +25373,28 @@
       const image = images[0];
       context.appendChild(image);
       image.classList.add(`is-hidden`, `is_hidden`);
-      image.outerHTML = `
-        <div>
-          <div class="${esgst.sg ? `comment__toggle-attached` : `view_attached`}">View attached image.</div>
-          <a href="${image.getAttribute(`src`)}" rel="nofollow noreferrer" target="_blank">
-            ${image.outerHTML}
-          </a>
-        </div>
-      `;
+      createElements(image, `outer`, [{
+        type: `div`,
+        children: [{
+          attributes: {
+            class: `${esgst.sg ? `comment__toggle-attached` : `view_attached`}`
+          },
+          text: `View attached image.`,
+          type: `div`
+        }, {
+          attributes: {
+            href: image.getAttribute(`src`),
+            rel: `nofollow noreferrer`,
+            target: `_blank`
+          },
+          type: `a`,
+          children: [...(Array.from(image.childNodes).map(x => {
+            return {
+              context: x
+            };
+          }))]
+        }]
+      }]);
     }
   }
 
@@ -24674,16 +26004,26 @@
           sks.lastPage = maxPage ? ` of ${maxPage - 1}` : (sks.lastPage === 999999999 ? `` : ` of ${sks.lastPage}`);
         }
       }
-      sks.overallProgress.innerHTML = `
-        <i class="fa fa-circle-o-notch fa-spin"></i>
-        <span>Searching for ${sks.count} keys (page ${nextPage}${sks.lastPage})...</span>
-      `;
+      createElements(sks.overallProgress, `inner`, [{
+        attributes: {
+          class: `fa fa-circle-o-notch fa-spin`
+        },
+        type: `i`
+      }, {
+        text: `Searching for ${sks.count} keys (page ${nextPage}${sks.lastPage})...`,
+        type: `span`
+      }]);
       let elements = context.getElementsByClassName(`trigger-popup--keys`);
       for (let i = 0, n = elements.length; !sks.canceled && i < n; i++) {
-        sks.progress.innerHTML = `
-          <i class="fa fa-circle-o-notch fa-spin"></i>
-          <span>Retrieving keys (${i + 1} of ${n})...</span>
-        `;
+        createElements(sks.progress, `inner`, [{
+          attributes: {
+            class: `fa fa-circle-o-notch fa-spin`
+          },
+          type: `i`
+        }, {
+          text: `Retrieving keys (${i + 1} of ${n})...`,
+          type: `span`
+        }]);
         let element = elements[i];
         let endDate = parseInt(element.closest(`.table__row-inner-wrap`).querySelector(`[data-timestamp]`).getAttribute(`data-timestamp`)) * 1e3;
         if (minDate && maxDate) {
@@ -24957,18 +26297,24 @@
   function tb_getTrades(button, context, callback) {
     let elements, n;
     if (button) {
-      button.innerHTML = `
-        <i class="fa fa-circle-o-notch fa-spin"></i>
-      `;
+      createElements(button, `inner`, [{
+        attributes: {
+          class: `fa fa-circle-o-notch fa-spin`
+        },
+        type: `i`
+      }]);
     }
     elements = context.querySelectorAll(`.row_inner_wrap:not(.is_faded)`);
     n = elements.length;
     if (n > 0) {
       tb_bumpTrades(button, elements, 0, n, callback);
     } else if (button) {
-      button.innerHTML = `
-        <i class="fa fa-chevron-circle-up"></i>
-      `;
+      createElements(button, `inner`, [{
+        attributes: {
+          class: `fa fa-chevron-circle-up`
+        },
+        type: `i`
+      }]);
     }
   }
 
@@ -24978,9 +26324,12 @@
       tb_bumpTrades(button, elements, ++i, n, callback);
     } else {
       if (button) {
-        button.innerHTML = `
-          <i class="fa fa-chevron-circle-up"></i>
-        `;
+        createElements(button, `inner`, [{
+          attributes: {
+            class: `fa fa-chevron-circle-up`
+          },
+          type: `i`
+        }]);
       }
       if (callback) {
         callback();
@@ -25111,15 +26460,20 @@
     ugs.results.classList.add(`esgst-hidden`);
     ugs.sent.classList.add(`esgst-hidden`);
     ugs.unsent.classList.add(`esgst-hidden`);
-    ugs.sentGifts.innerHTML = ugs.unsentGifts.innerHTML = ``;
+    ugs.sentGifts.innerHTML = ``;
+    ugs.unsentGifts.innerHTML = ``;
     ugs.sentCount.textContent = ugs.unsentCount.textContent = `0`;
-    ugs.progress.innerHTML = ugs.overallProgress.textContent = ``;
+    ugs.progress.innerHTML = ``;
+    ugs.overallProgress.textContent = ``;
 
     let unsent = esgst.createdButton.getElementsByClassName(`nav__notification`)[0];
     if (!unsent) {
       // there are no unsent giveaways
       ugs.button.classList.remove(`esgst-busy`);
-      ugs.progress.innerHTML = `You do not have any unsent gifts.`;
+      createElements(ugs.progress, `inner`, [{
+        text: `You do not have any unsent gifts.`,
+        type: `node`
+      }]);
       return;
     }
 
@@ -25145,10 +26499,15 @@
         ugs.lastPage = lpl_getLastPage(context);
         ugs.lastPage = ugs.lastPage === 999999999 ? `` : ` of ${ugs.lastPage}`;
       }
-      ugs.progress.innerHTML = `
-        <i class="fa fa-circle-o-notch fa-spin"></i>
-        <span>Searching for unsent gifts (page ${nextPage}${ugs.lastPage})...</span>
-      `;
+      createElements(ugs.progress, `inner`, [{
+        attributes: {
+          class: `fa fa-circle-o-notch fa-spin`
+        },
+        type: `i`
+      }, {
+        text: `Searching for unsent gifts (page ${nextPage}${ugs.lastPage})...`,
+        type: `span`
+      }]);
       ugs.continue = false;
       let elements = context.getElementsByClassName(`table__row-outer-wrap`);
       for (let i = 0, n = elements.length; i < n; i++) {
@@ -25192,10 +26551,15 @@
           ugs.lastWinnersPage = lpl_getLastPage(context);
           ugs.lastWinnersPage = ugs.lastWinnersPage === 999999999 ? `` : ` of ${ugs.lastWinnersPage}`;
         }
-        ugs.progress.innerHTML = `
-          <i class="fa fa-circle-o-notch fa-spin"></i>
-          <span>Retrieving winners (page ${nextPage}${ugs.lastWinnersPage})...</span>
-        `;
+        createElements(ugs.progress, `inner`, [{
+          attributes: {
+            class: `fa fa-circle-o-notch fa-spin`
+          },
+          type: `i`
+        }, {
+          text: `Retrieving winners (page ${nextPage}${ugs.lastWinnersPage})...`,
+          type: `span`
+        }]);
         let elements = context.getElementsByClassName(`table__row-outer-wrap`);
         for (let i = 0, n = elements.length; i < n; i++) {
           let element = elements[i];
@@ -25229,10 +26593,15 @@
             ugs.lastGroupsPage = lpl_getLastPage(context);
             ugs.lastGroupsPage = ugs.lastGroupsPage === 999999999 ? `` : ` of ${ugs.lastGroupsPage}`;
           }
-          ugs.progress.innerHTML = `
-            <i class="fa fa-circle-o-notch fa-spin"></i>
-            <span>Retrieving groups (page ${nextPage}${ugs.lastGroupsPage})...</span>
-          `;
+          createElements(ugs.progress, `inner`, [{
+            attributes: {
+              class: `fa fa-circle-o-notch fa-spin`
+            },
+            type: `i`
+          }, {
+            text: `Retrieving groups (page ${nextPage}${ugs.lastGroupsPage})...`,
+            type: `span`
+          }]);
           let elements = context.getElementsByClassName(`table__row-outer-wrap`);
           for (let i = 0, n = elements.length; i < n; i++) {
             let element = elements[i];
@@ -25284,10 +26653,15 @@
           } else {
             if (esgst.ugs_checkRules) {
               // check if winner has not activated/multiple wins
-              ugs.progress.innerHTML = `
-                <i class="fa fa-circle-o-notch fa-spin"></i>
-                <span>Checking if ${winner.username} has not activated/multiple wins...</span>
-              `;
+              createElements(ugs.progress, `inner`, [{
+                attributes: {
+                  class: `fa fa-circle-o-notch fa-spin`
+                },
+                type: `i`
+              }, {
+                text: `Checking if ${winner.username} has not activated/multiple wins...`,
+                type: `span`
+              }]);
               winner.values.namwc = {
                 lastCheck: Date.now(),
                 results: {}
@@ -25307,10 +26681,15 @@
 
             if (esgst.ugs_checkMember && giveaway.group && !winner.error) {
               // check if winner is still a group member
-              ugs.progress.innerHTML = `
-                <i class="fa fa-circle-o-notch fa-spin"></i>
-                <span>Checking if ${winner.username} is a member of one of the groups...</span>
-              `;
+              createElements(ugs.progress, `inner`, [{
+                attributes: {
+                  class: `fa fa-circle-o-notch fa-spin`
+                },
+                type: `i`
+              }, {
+                text: `Checking if ${winner.username} is a member of one of the groups...`,
+                type: `span`
+              }]);
               await getSteamId(null, false, esgst.users, winner);
               let member = false;
               for (let k = 0, numGroups = giveaway.groups.length; k < numGroups; k++) {
@@ -25349,10 +26728,15 @@
                 }
 
                 // check winner's gift difference
-                ugs.progress.innerHTML = `
-                  <i class="fa fa-circle-o-notch fa-spin"></i>
-                  <span>Checking if ${winner.username} has a gift difference higher than the one set...</span>
-                `;
+                createElements(ugs.progress, `inner`, [{
+                  attributes: {
+                    class: `fa fa-circle-o-notch fa-spin`
+                  },
+                  type: `i`
+                }, {
+                  text: `Checking if ${winner.username} has a gift difference higher than the one set...`,
+                  type: `span`
+                }]);
                 let element = parseHtml((await request({method: `GET`, url: `/group/${code}/${group.urlName}/users/search?q=${winner.username}`})).responseText).getElementsByClassName(`table__row-outer-wrap`)[0];
                 if (element && element.getElementsByClassName(`table__column__heading`)[0].textContent === winner.username) {
                   let difference = parseFloat(element.getElementsByClassName(`table__column--width-small`)[2].textContent);
@@ -25504,10 +26888,15 @@
           savedUsers.push(ugs.giveaways[key].winners[i]);
         }
       }
-      ugs.progress.innerHTML = `
-        <i class="fa fa-circle-o-notch fa-spin"></i>
-        <span>Saving data...</span>
-      `;
+      createElements(ugs.progress, `inner`, [{
+        attributes: {
+          class: `fa fa-circle-o-notch fa-spin`
+        },
+        type: `i`
+      }, {
+        text: `Saving data...`,
+        type: `span`
+      }]);
       ugs.overallProgress.textContent = ``;
       await Promise.all([setValue(`winners`, JSON.stringify(winners)), saveUsers(savedUsers), setValue(`groups`, JSON.stringify(esgst.groups))]);
       ugs.button.classList.remove(`esgst-busy`);
@@ -25515,7 +26904,10 @@
     } else {
       // there are no unsent gifts
       ugs.button.classList.remove(`esgst-busy`);
-      ugs.progress.innerHTML = `You do not have any unsent gifts.`;
+      createElements(ugs.progress, `inner`, [{
+        text: `You do not have any unsent gifts.`,
+        type: `node`
+      }]);
     }
   }
 
@@ -25582,7 +26974,12 @@
 
   async function ust_sendAll() {
     esgst.ustButton.removeEventListener(`click`, ust_sendAll);
-    esgst.ustButton.innerHTML =  `<i class="fa fa-circle-o-notch fa-spin"></i>`;
+    createElements(esgst.ustButton, `inner`, [{
+      attributes: {
+        class: `fa fa-circle-o-notch fa-spin`
+      },
+      type: `i`
+    }]);
     let n = Object.keys(esgst.ustCheckboxes).length;
     let numError = 0;
     let promises = [];
@@ -25614,7 +27011,12 @@
     if (n === esgst.numUstTickets) {
       esgst.ustButton.remove();
     } else {
-      esgst.ustButton.innerHTML = `<i class="fa fa-paper-plane"></i>`;
+      createElements(esgst.ustButton, `inner`, [{
+        attributes: {
+          class: `fa fa-paper-plane`
+        },
+        type: `i`
+      }]);
       esgst.ustButton.addEventListener(`click`, ust_sendAll);
     }
     esgst.ustCheckboxes = [];
@@ -25631,7 +27033,12 @@
   async function ust_send() {
     let code = location.href.match(/\/ticket\/(.+?)\//)[1];
     esgst.ustButton.removeEventListener(`click`, ust_send);
-    esgst.ustButton.innerHTML =  `<i class="fa fa-circle-o-notch fa-spin"></i>`;
+    createElements(esgst.ustButton, `inner`, [{
+      attributes: {
+        class: `fa fa-circle-o-notch fa-spin`
+      },
+      type: `i`
+    }]);
     let error = JSON.parse(
       (await request({
         data: `${code}=${encodeURIComponent(parseHtml(
@@ -25653,7 +27060,12 @@
       esgst.ustButton.remove();
       new Popup(``, `Ticket sent! It will be analyzed and, if accepted, added to the database in 48 hours at most.`, true).open();
     } else {
-      esgst.ustButton.innerHTML = `<i class="fa fa-paper-plane"></i>`;
+      createElements(esgst.ustButton, `inner`, [{
+        attributes: {
+          class: `fa fa-paper-plane`
+        },
+        type: `i`
+      }]);
       esgst.ustButton.addEventListener(`click`, ust_send);
       new Popup(``, `An error ocurred. Please try again later.`, true).open();
     }
@@ -25959,7 +27371,8 @@
 
   async function wbc_setCheck(WBC, skip, Callback) {
     let SavedUsers, I, N;
-    WBC.Progress.innerHTML = WBC.OverallProgress.innerHTML = ``;
+    WBC.Progress.innerHTML = ``;
+    WBC.OverallProgress.innerHTML = ``;
     WBC.whitelisted.classList.add(`esgst-hidden`);
     WBC.blacklisted.classList.add(`esgst-hidden`);
     WBC.none.classList.add(`esgst-hidden`);
@@ -25967,7 +27380,12 @@
     WBC.unknown.classList.add(`esgst-hidden`);
     WBC.skipped.classList.add(`esgst-hidden`);
     WBC.whitelistedCount.textContent = WBC.blacklistedCount.textContent = WBC.noneCount.textContent = WBC.notBlacklistedCount.textContent = WBC.unknownCount.textContent = WBC.skippedCount.textContent = `0`;
-    WBC.whitelistedUsers.innerHTML = WBC.blacklistedUsers.innerHTML = WBC.noneUsers.innerHTML = WBC.notBlacklistedUsers.innerHTML = WBC.unknownUsers.innerHTML = WBC.skippedUsers.innerHTML = ``;
+    WBC.whitelistedUsers.innerHTML = ``;
+    WBC.blacklistedUsers.innerHTML = ``;
+    WBC.noneUsers.innerHTML = ``;
+    WBC.notBlacklistedUsers.innerHTML = ``;
+    WBC.unknownUsers.innerHTML = ``;
+    WBC.skippedUsers.innerHTML = ``;
     WBC.Users = [];
     WBC.Canceled = false;
     if (WBC.Update) {
@@ -26171,10 +27589,15 @@
     if (!WBC.Canceled) {
       Key = wbc.result;
       Type = Key.match(/(.+)ed/)[1];
-      WBC.Progress.innerHTML = `
-        <i class="fa fa-circle-o-notch fa-spin"></i>
-        <span>Returning ${Type} for ${username}...</span>
-      `;
+      createElements(WBC.Progress, `inner`, [{
+        attributes: {
+          class: `fa fa-circle-o-notch fa-spin`
+        },
+        type: `i`
+      }, {
+        text: `Returning ${Type} for ${username}...`,
+        type: `span`
+      }]);
       if (location.pathname.match(new RegExp(`^/user/${username}`))) {
         document.getElementsByClassName(`sidebar__shortcut__${Type}`)[0].click();
         if (esgst.wbc_n) {
@@ -26332,10 +27755,15 @@
             WBC.lastPage = lpl_getLastPage(Context, false, false, true);
             WBC.lastPage = WBC.lastPage === 999999999 ? `` : ` of ${WBC.lastPage}`;
           }
-          WBC.Progress.innerHTML = `
-            <i class="fa fa-circle-o-notch fa-spin"></i>
-            <span>Retrieving ${username}'s giveaways (page ${NextPage - 1}${WBC.lastPage})...</span>
-          `;
+          createElements(WBC.Progress, `inner`, [{
+            attributes: {
+              class: `fa fa-circle-o-notch fa-spin`
+            },
+            type: `i`
+          }, {
+            text: `Retrieving ${username}'s giveaways (page ${NextPage - 1}${WBC.lastPage})...`,
+            type: `span`
+          }]);
           if (!wbc.ga) {
             Giveaway = Context.querySelector(`[class="giveaway__heading__name"][href*="/giveaway/"]`);
             wbc.ga = Giveaway ? Giveaway.getAttribute(`href`).match(/\/giveaway\/(.+?)\//)[1] : null;
@@ -26441,10 +27869,15 @@
         if (WBC.manualSkip) {
           callback();
         } else {
-          WBC.Progress.innerHTML = `
-            <i class="fa fa-circle-o-notch"></i>
-            <span>Retrieving ${username}'s group giveaways (${I + 1} of ${N})...</span>
-          `;
+          createElements(WBC.Progress, `inner`, [{
+            attributes: {
+              class: `fa fa-circle-o-notch`
+            },
+            type: `i`
+          }, {
+            text: `Retrieving ${username}'s group giveaways (${I + 1} of ${N})...`,
+            type: `span`
+          }]);
           if (wbc.groupGiveaways && wbc.groupGiveaways[WBC.GroupGiveaways[I]]) {
             setTimeout(() => wbc_getGroupGiveaways(WBC, ++I, N, wbc, username, callback), 0);
           } else {
@@ -26513,10 +27946,15 @@
         WBC.lastPage = lpl_getLastPage(Context, true);
         WBC.lastPage = WBC.lastPage === 999999999 ? `` : ` of ${WBC.lastPage}`;
       }
-      WBC.Progress.innerHTML = `
-        <i class="fa fa-circle-o-notch fa-spin"></i>
-        <span>Retrieving users (page ${NextPage}${WBC.lastPage})...</span>
-      `;
+      createElements(WBC.Progress, `inner`, [{
+        attributes: {
+          class: `fa fa-circle-o-notch fa-spin`
+        },
+        type: `i`
+      }, {
+        text: `Retrieving users (page ${NextPage}${WBC.lastPage})...`,
+        type: `span`
+      }]);
       Matches = Context.querySelectorAll(`a[href*="/user/"]`);
       for (I = 0, N = Matches.length; I < N; ++I) {
         Match = Matches[I].getAttribute(`href`).match(/\/user\/(.+)/);
@@ -26800,10 +28238,15 @@
 
   async function wbm_insertUsers(wbm, list, i, n, callback) {
     if (wbm.isCanceled) return;
-    wbm.message.innerHTML = `
-      <i class="fa fa-circle-o-notch fa-spin"></i>
-      <span>Importing list (${i} of ${n})...</span>
-    `;
+    createElements(wbm.message, `inner`, [{
+      attributes: {
+        class: `fa fa-circle-o-notch fa-spin`
+      },
+      type: `i`
+    }, {
+      text: `Importing list (${i} of ${n})...`,
+      type: `span`
+    }]);
     if (i < n) {
       await request({data: `xsrf_token=${esgst.xsrfToken}&do=${wbm.key}&action=insert&child_user_id=${list[i]}`, method: `POST`, url: `/ajax.php`});
       setTimeout(() => wbm_insertUsers(wbm, list, ++i, n, callback), 0);
@@ -26826,10 +28269,15 @@
       createFadeMessage(wbm.message, `List exported with success!`);
       callback();
     } else {
-      wbm.message.innerHTML = `
-        <i class="fa fa-circle-o-notch fa-spin"></i>
-        <span>Retrieving list (page ${nextPage})...</span>
-      `;
+      createElements(wbm.message, `inner`, [{
+        attributes: {
+          class: `fa fa-circle-o-notch fa-spin`
+        },
+        type: `i`
+      }, {
+        text: `Retrieving list (page ${nextPage})...`,
+        type: `span`
+      }]);
       let elements, i, n, pagination, responseHtml;
       responseHtml = parseHtml((await request({method: `GET`, url: `https://www.steamgifts.com/account/manage/${wbm.key}/search?page=${nextPage}`})).responseText);
       elements = responseHtml.querySelectorAll(`[name="child_user_id"]`);
@@ -26870,10 +28318,15 @@
       }
       wbm_deleteUsers(wbm, list, 0, list.length, callback);
     } else {
-      wbm.message.innerHTML = `
-        <i class="fa fa-circle-o-notch fa-spin"></i>
-        <span>Retrieving list (page ${nextPage})...</span>
-      `;
+      createElements(wbm.message, `inner`, [{
+        attributes: {
+          class: `fa fa-circle-o-notch fa-spin`
+        },
+        type: `i`
+      }, {
+        text: `Retrieving list (page ${nextPage})...`,
+        type: `span`
+      }]);
       let element, elements, i, n, pagination, responseHtml;
       responseHtml = parseHtml((await request({method: `GET`, url: `https://www.steamgifts.com/account/manage/${wbm.key}/search?page=${nextPage}`})).responseText);
       elements = responseHtml.querySelectorAll(`[name="child_user_id"]`);
@@ -26909,19 +28362,32 @@
 
   async function wbm_deleteUsers(wbm, list, i, n, callback) {
     if (wbm.isCanceled) return;
-    wbm.message.innerHTML = `
-      <i class="fa fa-circle-o-notch fa-spin"></i>
-      <span>Clearing list (${i} of ${n})...</span>
-    `;
+    createElements(wbm.message, `inner`, [{
+      attributes: {
+        class: `fa fa-circle-o-notch fa-spin`
+      },
+      type: `i`
+    }, {
+      text: `Clearing list (${i} of ${n})...`,
+      type: `span`
+    }]);
     if (i < n) {
       await request({data: `xsrf_token=${esgst.xsrfToken}&do=${wbm.key}&action=delete&child_user_id=${list[i]}`, method: `POST`, url: `/ajax.php`});
       setTimeout(() => wbm_deleteUsers(wbm, list, ++i, n, callback), 0);
     } else {
       createFadeMessage(wbm.message, `List cleared with success!`);
-      wbm.results.innerHTML = `
-        <span class="esgst-bold">Users cleared (${wbm.usernames.length}):</span>
-        <span class="esgst-popup-actions"></span>
-      `;
+      createElements(wbm.results, `inner`, [{
+        attributes: {
+          class: `esgst-bold`
+        },
+        text: `Users cleared (${wbm.usernames.length}):`,
+        type: `span`
+      }, {
+        attributes: {
+          class: `esgst-popup-actions`
+        },
+        type: `span`
+      }]);
       wbm.usernames.forEach(username => {
         createElements(wbm.results.lastElementChild, `beforeEnd`, [{
           attributes: {
@@ -27250,34 +28716,29 @@
   }
 
   function ut_addTags(key, tags) {
-    let button, children, colors, container, context, elements, html, i, n, prefix, suffix, tagsBox, tagsContainer;
-    elements = esgst.currentUsers[key].elements;
-    prefix = `<span class="global__image-outer-wrap author_avatar is_icon">`;
-    suffix = `</span>`;
-    html = tags.length && tags[0] ? `${prefix}${tags.join(`${suffix}${prefix}`)}${suffix}` : ``;
-    for (i = 0, n = elements.length; i < n; ++i) {
-      context = elements[i];
-      container = context.parentElement;
-      if (container) {
-        if (container.classList.contains(`comment__username`)) {
-          context = container;
-        }
-        button = context.parentElement.getElementsByClassName(`esgst-ut-button`)[0];
-        if (html) {
-          button.classList.remove(`esgst-faded`);
-        } else {
-          button.classList.add(`esgst-faded`);
-        }
-        tagsContainer = button.lastElementChild;
-        tagsContainer.innerHTML = html;
-        children = tagsContainer.children;
-        for (let j = 0, numTags = children.length; j < numTags; ++j) {
-          tagsBox = children[j];
-          colors = esgst.ut_colors[tagsBox.textContent];
-          if (colors) {
-            tagsBox.style.color = colors.color;
-            tagsBox.style.backgroundColor = colors.bgColor;
-          }
+    const elements = esgst.currentUsers[key].elements;
+    const items = tags.length && tags[0] ? tags.map(x => gt_template(x)) : null;
+    for (let context of elements) {
+      const container = context.parentElement;
+      if (!container) {
+        continue;
+      }
+      if (container.classList.contains(`comment__username`)) {
+        context = container;
+      }
+      const button = context.parentElement.getElementsByClassName(`esgst-ut-button`)[0];
+      if (items) {
+        button.classList.remove(`esgst-faded`);
+      } else {
+        button.classList.add(`esgst-faded`);
+      }
+      const tagsContainer = button.lastElementChild;
+      createElements(tagsContainer, `inner`, items);
+      for (const tagsBox of tagsContainer.children) {
+        const colors = esgst.ut_colors[tagsBox.textContent];
+        if (colors) {
+          tagsBox.style.color = colors.color;
+          tagsBox.style.backgroundColor = colors.bgColor;
         }
       }
     }
@@ -27379,12 +28840,22 @@
             } else {
               title = ``;
             }
-            video.outerHTML = `
-              <div>
-                ${title}
-                <iframe width="640" height="360" src="${embedUrl}" frameborder="0" allowfullscreen></iframe>
-              </div>
-            `;
+            createElements(video, `outer`, [{
+              type: `div`,
+              children: [{
+                text: title,
+                type: `node`
+              }, {
+                attributes: {
+                  allowfullscreen: `0`,
+                  frameborder: `0`,
+                  height: `360`,
+                  src: embedUrl,
+                  width: `640`
+                },
+                type: `iframe`
+              }]
+            }]);
           }
         }
       }
@@ -27775,7 +29246,20 @@
       if (n > 0) {
         if (n > 1) {
           winner = details.winners[0].username;
-          winnersColumn.innerHTML = `<a class="table__column__secondary-link" href="/user/${winner}">${winner}</a> <span class="esgst-clickable table__column__secondary-link">(+${n - 1} more)</span>`;
+          createElements(winnersColumn, `inner`, [{
+            attributes: {
+              class: `table__column__secondary-link`,
+              href: `/user/${winner}`
+            },
+            text: winner,
+            type: `a`
+          }, {
+            attributes: {
+              class: `esgst-clickable table__column__secondary-link`
+            },
+            text: ` (+${n - 1} more)`,
+            type: `span`
+          }]);
           winnersColumn.lastElementChild.addEventListener(`click`, cewgd_openWinnersPopup.bind(null, details));
           let received = 0;
           for (const winner of details.winners) {
@@ -27786,7 +29270,14 @@
           giveaway.innerWrap.lastElementChild.insertAdjacentText(`beforeEnd`, ` (${received}/${n})`);
         } else {
           winner = details.winners[0].username;
-          winnersColumn.innerHTML = `<a class="table__column__secondary-link" href="/user/${winner}">${winner}</a>`;
+          createElements(winnersColumn, `inner`, [{
+            attributes: {
+              class: `table__column__secondary-link`,
+              href: `/user/${winner}`
+            },
+            text: winner,
+            type: `a`
+          }]);
         }
       } else {
         winnersColumn.textContent = `-`;
@@ -27993,18 +29484,35 @@
                 container = context.popout;
                 context.open(giveaway.regionRestricted);
               }
-              container.innerHTML = `
-                <i class="fa fa-circle-o-notch fa-spin"></i>
-                <span>Loading countries...</span>
-              `;
+              createElements(container, `inner`, [{
+                attributes: {
+                  class: `fa fa-circle-o-notch fa-spin`
+                },
+                type: `i`
+              }, {
+                text: `Loading countries...`,
+                type: `span`
+              }]);
               const countries = await gcl_getCountries(1, `${giveaway.url}/region-restrictions/search?page=`);
               if (countries) {
-                container.innerHTML = `
-                  <input placeholder="Search country..." type="text"/>
-                  <div class="esgst-text-left table">
-                    <div class="table__rows"></div>
-                  </div>
-                `;
+                createElements(container, `inner`, [{
+                  attributes: {
+                    placeholder: `Search country...`,
+                    type: `text`
+                  },
+                  type: `input`
+                }, {
+                  attributes: {
+                    class: `esgst-text-left table`
+                  },
+                  type: `div`,
+                  children: [{
+                    attributes: {
+                      class: `table__rows`
+                    },
+                    type: `div`
+                  }]
+                }]);
                 container.firstElementChild.addEventListener(`input`, () => {
                   let elements, i, value;
                   value = container.firstElementChild.value.toLowerCase();
@@ -28041,10 +29549,15 @@
                 }
                 context.reposition();
               } else {
-                container.innerHTML = `
-                  <i class="fa fa-times-circle"></i>
-                  <span>An error ocurred.</span>
-                `;
+                createElements(container, `inner`, [{
+                  attributes: {
+                    class: `fa fa-times-circle`
+                  },
+                  type: `i`
+                }, {
+                  text: `An error ocurred.`,
+                  type: `span`
+                }]);
                 if (esgst.gcl_index === 1) {
                   createElements(container, `afterBegin`, [{
                     attributes: {
@@ -28225,10 +29738,66 @@
     if (esgst.enteredPath) {
       giveaway.gwcContext.style.display = `inline-block`;
     }
-    giveaway.gwcContext.innerHTML = `
-      ${esgst.enteredPath ? `` : `<i class="fa fa-area-chart"></i>`}
-      <span>${esgst.gwc_a && advancedChance ? (esgst.gwc_a_b ? `<span${basicColor ? ` style="color: ${basicColor}; font-weight: bold;"` : ``}>${basicChance}%</span> (<span${advancedColor ? ` style="color: ${advancedColor}; font-weight: bold;"` : ``}>${advancedChance}%</span>)` : `<span${advancedColor ? ` style="color: ${advancedColor}; font-weight: bold;"` : ``}>${advancedChance}%</span>`) : `<span${basicColor ? ` style="color: ${basicColor}; font-weight: bold;"` : ``}>${basicChance}%</span>`}${esgst.enteredPath && esgst.gwr ? ` / ` : ``}</span>
-    `;
+    const items = [];
+    if (!esgst.enteredPath) {
+      items.push({
+        attributes: {
+          class: `fa fa-area-chart`
+        },
+        type: `i`
+      });
+    }
+    const children = [];
+    const basicAttributes = {};
+    if (basicColor) {
+      basicAttributes.style = `color: ${basicColor}; font-weight: bold;`
+    }
+    const advancedAttributes = {};
+    if (advancedColor) {
+      advancedAttributes.style = `color: ${advancedColor}; font-weight: bold;`
+    }
+    if (esgst.gwc_a && advancedChance) {
+      if (esgst.gwc_a_b) {
+        children.push({
+          basicAttributes,
+          text: `${basicChance}%`,
+          type: `span`        
+        }, {
+          text: ` (`,
+          type: `node`
+        }, {
+          advancedAttributes,
+          text: `${advancedChance}%`,
+          type: `span`        
+        }, {
+          text: `)`,
+          type: `node`
+        });
+      } else {
+        children.push({
+          advancedAttributes,
+          text: `${advancedChance}%`,
+          type: `span`        
+        });     
+      }
+    } else {
+      children.push({
+        basicAttributes,
+        text: `${basicChance}%`,
+        type: `span`        
+      });
+    }
+    items.push({
+      type: `span`,
+      children
+    });
+    if (esgst.enteredPath && esgst.gwr) {
+      items.push({
+        text: ` / `,
+        type: `node`
+      });
+    }
+    createElements(giveaway.gwcContext, `inner`, items);
   }
 
   function gwc_addHeading(context, main, source, endless) {
@@ -28375,11 +29944,67 @@
     }
     if (esgst.enteredPath) {
       context.style.display = `inline-block`;
+    }    
+    const items = [];
+    if (!esgst.enteredPath) {
+      items.push({
+        attributes: {
+          class: `fa fa-pie-chart`
+        },
+        type: `i`
+      });
     }
-    context.innerHTML = `
-      ${esgst.enteredPath ? `` : `<i class="fa fa-pie-chart"></i>`}
-      <span>${esgst.gwr_a && advancedRatio ? (esgst.gwr_a_b ? `<span${basicColor ? ` style="color: ${basicColor}; font-weight: bold;"` : ``}>${basicRatio}:1</span> (<span${advancedColor ? ` style="color: ${advancedColor}; font-weight: bold;"` : ``}>${advancedRatio}:1</span>)` : `<span${advancedColor ? ` style="color: ${advancedColor}; font-weight: bold;"` : ``}>${advancedRatio}:1</span>`) : `<span${basicColor ? ` style="color: ${basicColor}; font-weight: bold;"` : ``}>${basicRatio}:1</span>`}${esgst.gptw && esgst.enteredPath ? ` / ` : ``}</span>      
-    `;
+    const children = [];
+    const basicAttributes = {};
+    if (basicColor) {
+      basicAttributes.style = `color: ${basicColor}; font-weight: bold;`
+    }
+    const advancedAttributes = {};
+    if (advancedColor) {
+      advancedAttributes.style = `color: ${advancedColor}; font-weight: bold;`
+    }
+    if (esgst.gwr_a && advancedRatio) {
+      if (esgst.gwr_a_b) {
+        children.push({
+          basicAttributes,
+          text: `${basicRatio}:1`,
+          type: `span`        
+        }, {
+          text: ` (`,
+          type: `node`
+        }, {
+          advancedAttributes,
+          text: `${advancedRatio}:1`,
+          type: `span`        
+        }, {
+          text: `)`,
+          type: `node`
+        });
+      } else {
+        children.push({
+          advancedAttributes,
+          text: `${advancedRatio}:1`,
+          type: `span`        
+        });     
+      }
+    } else {
+      children.push({
+        basicAttributes,
+        text: `${basicRatio}:1`,
+        type: `span`        
+      });
+    }
+    items.push({
+      type: `span`,
+      children
+    });
+    if (esgst.enteredPath && esgst.gptw) {
+      items.push({
+        text: ` / `,
+        type: `node`
+      });
+    }
+    createElements(context, `inner`, items);
   }
   
   // [GPTW]
@@ -28454,10 +30079,25 @@
     if (esgst.enteredPath) {
       giveaway.gptwContext.style.display = `inline-block`;
     }
-    giveaway.gptwContext.innerHTML = `
-      ${esgst.enteredPath ? `` : `<i class="fa fa-rub"></i>`}
-      <span${color ? ` style="color: ${color}; font-weight: bold;"` : ``}>${giveaway.pointsToWin}</span>
-    `;
+    const items = [];
+    if (!esgst.enteredPath) {
+      items.push({
+        attributes: {
+          class: `fa fa-rub`
+        },
+        type: `i`
+      });
+    }
+    const attributes = {};
+    if (color) {
+      attributes.style = `color: ${color}; font-weight: bold;`
+    }
+    items.push({
+      attributes,
+      text: giveaway.pointsToWin,
+      type: `span`
+    });
+    createElements(giveaway.gptwContext, `inner`, items);
   }
 
   // [GETH]
@@ -29015,10 +30655,15 @@
             location.hash = id;
           }
         } else {
-          DEDStatus.innerHTML = `
-            <i class="fa fa-times"></i>
-            <span>Failed!</span>
-          `;
+          createElements(DEDStatus, `inner`, [{
+            attributes: {
+              class: `fa fa-times`
+            },
+            type: `i`
+          }, {
+            text: `Failed!`,
+            type: `span`
+          }]);
         }
       } else {
         if (id) {
@@ -29035,10 +30680,15 @@
             location.hash = id;
           }
         } else {
-          DEDStatus.innerHTML = `
-            <i class="fa fa-times"></i>
-            <span>Failed!</span>
-          `;
+          createElements(DEDStatus, `inner`, [{
+            attributes: {
+              class: `fa fa-times`
+            },
+            type: `i`
+          }, {
+            text: `Failed!`,
+            type: `span`
+          }]);
         }
       }
     });
@@ -29106,21 +30756,47 @@
           if (esgst.rfi && esgst.rfi_s) {
             let reply = MR.Comment.cloneNode(true);
             if (esgst.sg) {
-              reply.innerHTML = `
-                <div class="ajax comment__child">${ResponseHTML.body.innerHTML}</div>
-                <div class="comment__children"></div>
-              `;
+              createElements(reply, `inner`, [{
+                attributes: {
+                  class: `ajax comment__child`
+                },
+                type: `div`,
+                children: [...(Array.from(ResponseHTML.body.childNodes).map(x => {
+                  return {
+                    context: x
+                  };
+                }))]
+              }, {
+                attributes: {
+                  class: `comment__children`
+                },
+                type: `div`
+              }]);
             } else {
-              reply.innerHTML = `
-                ${ResponseHTML.body.innerHTML}
-                <div class="comment_children"></div>
-              `;
+              createElements(reply, `inner`, [...(Array.from(ResponseHTML.body.childNodes).map(x => {
+                return {
+                  context: x
+                };
+              })), {
+                attributes: {
+                  class: `comment__children`
+                },
+                type: `div`
+              }]);
             }
             await rfi_saveReply(MR.url.match(/\/comment\/(.+)/)[1], reply.outerHTML, null, true);
           }
-          DisplayState.innerHTML = ResponseHTML.getElementsByClassName(esgst.sg ? `comment__display-state` : `comment_body_default`)[0].innerHTML;
+          createElements(DisplayState, `inner`, [...(Array.from(ResponseHTML.getElementsByClassName(esgst.sg ? `comment__display-state` : `comment_body_default`)[0].childNodes).map(x => {
+            return {
+              context: x
+            };
+          }))]);
           EditState.classList.add(esgst.sg ? `is-hidden` : `is_hidden`);
-          MR.Timestamp.innerHTML = ResponseHTML.getElementsByClassName(esgst.sg ? `comment__actions` : `action_list`)[0].firstElementChild.innerHTML;
+          createElements(MR.Timestamp, `inner`, [...(Array.from(ResponseHTML.getElementsByClassName(esgst.sg ? `comment__actions` : `action_list`)[0].firstElementChild.childNodes).map(x => {
+            return {
+              context: x
+            };
+          }))]);
           if (esgst.at) {
             at_getTimestamps(MR.Timestamp);
           }
@@ -29201,22 +30877,48 @@
     if (responseJson.type === `success` || responseJson.success) {
       responseHtml = parseHtml(responseJson[esgst.sg ? `comment` : `html`]);
       if (esgst.sg) {
-        mr.Container.innerHTML = responseHtml.getElementsByClassName(`comment__summary`)[0].innerHTML;
+        createElements(mr.Container, `inner`, [...(Array.from(responseHtml.getElementsByClassName(`comment__summary`)[0].childNodes).map(x => {
+          return {
+            context: x
+          };
+        }))]);
       } else {
-        mr.Container.innerHTML = responseHtml.getElementsByClassName(`comment_inner`)[0].innerHTML;
+        createElements(mr.Container, `inner`, [...(Array.from(responseHtml.getElementsByClassName(`comment_inner`)[0].childNodes).map(x => {
+          return {
+            context: x
+          };
+        }))]);
       }
       if (esgst.rfi && esgst.rfi_s) {
         let reply = mr.Comment.cloneNode(true);
         if (esgst.sg) {
-          reply.innerHTML = `
-            <div class="ajax comment__child">${responseHtml.body.innerHTML}</div>
-            <div class="comment__children"></div>
-          `;
+          createElements(reply, `inner`, [{
+            attributes: {
+              class: `ajax comment__child`
+            },
+            type: `div`,
+            children: [...(Array.from(responseHtml.body.childNodes).map(x => {
+              return {
+                context: x
+              };
+            }))]
+          }, {
+            attributes: {
+              class: `comment__children`
+            },
+            type: `div`
+          }]);
         } else {
-          reply.innerHTML = `
-            ${responseHtml.body.innerHTML}
-            <div class="comment_children"></div>
-          `;
+          createElements(reply, `inner`, [...(Array.from(responseHtml.body.childNodes).map(x => {
+            return {
+              context: x
+            };
+          })), {
+            attributes: {
+              class: `comment__children`
+            },
+            type: `div`
+          }]);
         }
         await rfi_saveReply(mr.url.match(/\/comment\/(.+)/)[1], reply.outerHTML, null, true);
       }
@@ -29742,10 +31444,15 @@
               }
             } else {
               esgst.apPopouts[id] = popout = new Popout(`esgst-ap-popout`, null, 1000, onClick);
-              popout.popout.innerHTML = `
-                <i class="fa fa-circle-o-notch fa-spin"></i>
-                <span>Loading ${type}...</span>
-              `;
+              createElements(popout.popout, `inner`, [{
+                attributes: {
+                  class: `fa fa-circle-o-notch fa-spin`
+                },
+                type: `i`
+              }, {
+                text: `Loading ${type}...`,
+                type: `span`
+              }]);
               popout.open(apAvatar);
               let avatar, columns, i, link, n, reportButton, responseHtml, table;
               responseHtml = parseHtml((await request({method: `GET`, url})).responseText);
@@ -30696,9 +32403,15 @@
             }
           }
           giveaway.ttec.classList.remove(`esgst-hidden`);
-          giveaway.ttec.innerHTML = `
-            <i class="fa fa-clock-o"></i> ${ttec_getTime(Math.round((nextRefresh + (15 * Math.floor((giveaway.points - esgst.points) / 6))) * 100) / 100)}
-          `;
+          createElements(giveaway.ttec, `inner`, [{
+            attributes: {
+              class: `fa fa-clock-o`
+            },
+            type: `i`
+          }, {
+            text: ` ${ttec_getTime(Math.round((nextRefresh + (15 * Math.floor((giveaway.points - esgst.points) / 6))) * 100) / 100)}`,
+            type: `node`
+          }]);
         } else if (giveaway.ttec) {
           giveaway.ttec.classList.add(`esgst-hidden`);
         }
@@ -30844,10 +32557,15 @@
               container = context.popout;
               context.open(giveaway.group);
             }
-            container.innerHTML = `
-              <i class="fa fa-circle-o-notch fa-spin"></i>
-              <span>Loading groups...</span>
-            `;
+            createElements(container, `inner`, [{
+              attributes: {
+                class: `fa fa-circle-o-notch fa-spin`
+              },
+              type: `i`
+            }, {
+              text: `Loading groups...`,
+              type: `span`
+            }]);
             newGiveaways = {};
             newGroups = {};
             let values = await getValues({
@@ -30859,11 +32577,18 @@
             ggl_loadGroups([giveaway], 0, 1, newGiveaways, newGroups, savedGiveaways, savedGroups, groups => {
               let className, code, group, groupCount, i, j, n, link;
               if (groups) {
-                container.innerHTML = `
-                  <div class="esgst-text-left table esgst-hidden">
-                    <div class="table__rows"></div>
-                  </div>
-                `;
+                createElements(container, `inner`, [{
+                  attributes: {
+                    class: `esgst-text-left table esgst-hidden`
+                  },
+                  type: `div`,
+                  children: [{
+                    attributes: {
+                      class: `table__rows`
+                    },
+                    type: `div`
+                  }]
+                }]);
                 groupCount = 0;
                 for (i = 0, n = groups.length; i < n; ++i) {
                   code = groups[i];
@@ -30899,10 +32624,15 @@
                   }
                 }
                 if (groupCount === 0) {
-                  container.innerHTML = `
-                    <i class="fa fa-exclamation-mark"></i>
-                    <span>You are not a member of any group in this giveaway.</span>
-                  `;
+                  createElements(container, `inner`, [{
+                    attributes: {
+                      class: `fa fa-exclamation-mark`
+                    },
+                    type: `i`
+                  }, {
+                    text: `You are not a member of any group in this giveaway.`,
+                    type: `span`
+                  }]);
                 } else {
                   container.firstElementChild.classList.remove(`esgst-hidden`);
                   endless_load(container);
@@ -30922,10 +32652,15 @@
                 }
                 context.reposition();
               } else {
-                container.innerHTML = `
-                  <i class="fa fa-times-circle"></i>
-                  <span>An error ocurred.</span>
-                `;
+                createElements(container, `inner`, [{
+                  attributes: {
+                    class: `fa fa-times-circle`
+                  },
+                  type: `i`
+                }, {
+                  text: `An error ocurred.`,
+                  type: `span`
+                }]);
                 if (esgst.ggl_index === 2) {
                   createElements(container, `afterBegin`, [{
                     type: `div`,
@@ -31468,13 +33203,28 @@
     giveaway.touhouBox = giveaway.outerWrap.querySelector(`.touhou_giveaway_points`);
     if (!main || !esgst.giveawayPath) {
       if (giveaway.inviteOnly) {
-        giveaway.inviteOnly.innerHTML = `<i class="fa fa-lock"></i>`;
+        createElements(giveaway.inviteOnly, `inner`, [{
+          attributes: {
+            class: `fa fa-lock`
+          },
+          type: `i`
+        }]);
       }
       if (giveaway.group) {
-        giveaway.group.innerHTML = `<i class="fa fa-user"></i>`;
+        createElements(giveaway.group, `inner`, [{
+          attributes: {
+            class: `fa fa-user`
+          },
+          type: `i`
+        }]);
       }
       if (giveaway.whitelist) {
-        giveaway.whitelist.innerHTML = `<i class="fa fa-heart"></i>`;
+        createElements(giveaway.whitelist, `inner`, [{
+          attributes: {
+            class: `fa fa-heart`
+          },
+          type: `i`
+        }]);
       }
     }
     if (source === `ge`) {
@@ -31523,9 +33273,13 @@
           hideButton = hideButton.parentElement;
         }
         let temp = hideButton.previousElementSibling;
-        hideButton.outerHTML = `
-          <i class="fa fa-eye-slash giveaway__hide giveaway__icon" title="${getFeatureTooltip(null, `Hide all giveaways for this game`)}"></i>
-        `;
+        createElements(hideButton, `outer`, [{
+          attributes: {
+            class: `fa fa-eye-slash giveaway__hide giveaway__icon`,
+            title: getFeatureTooltip(null, `Hide all giveaways for this game`)
+          },
+          type: `i`
+        }])
         hideButton = temp.nextElementSibling;
         hideButton.addEventListener(`click`, hideGame.bind(null, hideButton, giveaway.gameId, giveaway.name, giveaway.id, giveaway.type));
       } else if (esgst.updateHiddenGames) {
@@ -32268,9 +34022,18 @@
         }
         if (esgst.wishlistPath && main && esgst.cwsl) {
           let giveawayCount = game.heading.parentElement.nextElementSibling.nextElementSibling;
-          giveawayCount.innerHTML = `
-            <a class="table__column__secondary-link" href="/giveaways/search?${type.slice(0, -1)}=${id}">${giveawayCount.innerHTML}</a>
-          `;
+          createElements(giveawayCount, `inner`, [{
+            attributes: {
+              class: `table__column__secondary-link`,
+              href: `/giveaways/search?${type.slice(0, -1)}=${id}`
+            },
+            type: `a`,
+            children: [...(Array.from(giveawayCount.childNodes).map(x => {
+              return {
+                context: x
+              };
+            }))]
+          }]);
         }
         if (esgst.egh) {
           if (esgst.giveawayPath) {
@@ -32581,23 +34344,35 @@
   }
 
   function ts_addAscButton(button, columnName, i, table, tsTable) {
-    button.innerHTML = `
-      <i class="fa fa-sort-desc" title="${getFeatureTooltip(`ts`, `Currently sorted descending. Click to sort ascending.`)}"></i>
-    `;
+    createElements(button, `inner`, [{
+      attributes: {
+        class: `fa fa-sort-desc`,
+        title: `${getFeatureTooltip(`ts`, `Currently sorted descending. Click to sort ascending.`)}`
+      },
+      type: `i`
+    }]);
     button.firstElementChild.addEventListener(`click`, ts_sortTable.bind(null, button, columnName, i, `asc`, table, tsTable));
   }
 
   function ts_addDescButton(button, columnName, i, table, tsTable) {
-    button.innerHTML = `
-      <i class="fa fa-sort" title="${getFeatureTooltip(`ts`, `Currently sorted by default. Click to sort descending.`)}"></i>
-    `;
+    createElements(button, `inner`, [{
+      attributes: {
+        class: `fa fa-sort`,
+        title: `${getFeatureTooltip(`ts`, `Currently sorted by default. Click to sort descending.`)}`
+      },
+      type: `i`
+    }]);
     button.firstElementChild.addEventListener(`click`, ts_sortTable.bind(null, button, columnName, i, `desc`, table, tsTable));
   }
 
   function ts_addDefButton(button, columnName, i, table, tsTable) {
-    button.innerHTML = `
-      <i class="fa fa-sort-asc" title="${getFeatureTooltip(`ts`, `Currently sorted ascending. Click to sort by default.`)}"></i>
-    `;
+    createElements(button, `inner`, [{
+      attributes: {
+        class: `fa fa-sort-asc`,
+        title: `${getFeatureTooltip(`ts`, `Currently sorted ascending. Click to sort by default.`)}`
+      },
+      type: `i`
+    }]);
     button.firstElementChild.addEventListener(`click`, ts_sortTable.bind(null, button, columnName, i, `def`, table, tsTable));
   }
 
@@ -32780,13 +34555,27 @@
   async function uh_toggle(box, profile, list) {
     box.classList.toggle(`esgst-hidden`);
     if (!list.innerHTML) {
-      list.innerHTML = `
-        <div>
-          <i class="fa fa-circle-o-notch fa-spin"></i>
-          <span>Loading username history...</span>
-        </div>
-      `;
-      list.innerHTML = `<li>${JSON.parse((await request({method: `GET`, url: `https://script.google.com/macros/s/AKfycbzvOuHG913mRIXOsqHIeAuQUkLYyxTHOZim5n8iP-k80iza6g0/exec?Action=1&SteamID64=${profile.steamId}&Username=${profile.username}`})).responseText).Usernames.join(`</li><li>`)}</li>`;
+      createElements(list, `inner`, [{
+        type: `div`,
+        children: [{
+          attributes: {
+            class: `fa fa-circle-o-notch fa-spin`
+          },
+          type: `i`
+        }, {
+          text: `Loading username history...`,
+          type: `span`
+        }]
+      }]);
+      createElements(list, `inner`, JSON.parse((await request({
+        method: `GET`,
+        url: `https://script.google.com/macros/s/AKfycbzvOuHG913mRIXOsqHIeAuQUkLYyxTHOZim5n8iP-k80iza6g0/exec?Action=1&SteamID64=${profile.steamId}&Username=${profile.username}`
+      })).responseText).Usernames.map(x => {
+        return {
+          text: x,
+          type: `li`
+        };
+      }));
     }
   }
 
@@ -33050,9 +34839,19 @@
       extraCount = 0;
     }
     if (count) {
-      count.innerHTML = `
-        (<span class="esgst-bold">${parseInt(count.firstElementChild.textContent) + 1 + extraCount}</span> filtered by User Filters)
-      `;
+      createElements(count, `inner`, [{
+        text: `(`,
+        type: `node`
+      }, {
+        attributes: {
+          class: `esgst-bold`
+        },
+        text: parseInt(count.firstElementChild.textContent) + 1 + extraCount,
+        type: `span`
+      }, {
+        text: ` filtered by User Filters)`,
+        type: `node`
+      }]);
     } else {
       createElements(context, `beforeEnd`, [{
         attributes: {
@@ -33196,9 +34995,10 @@
         });
         profile.sgcPublic.classList.remove(`esgst-hidden`);
       } else {
-        profile.sgcPublic.outerHTML = `
-          <div>No shared public groups found.</div>
-        `;
+        createElements(profile.sgcPublic, `outer`, [{
+          text: `No shared public groups found.`,
+          type: `div`
+        }]);
       }
       if (n2 > 0) {
         sortArrayByKey(privateGroups, `name`).map(x => {
@@ -33206,14 +35006,18 @@
         });
         profile.sgcPrivate.classList.remove(`esgst-hidden`);
       } else {
-        profile.sgcPrivate.outerHTML = `
-          <div>No shared private groups found.</div>
-        `;
+        createElements(profile.sgcPrivate, `outer`, [{
+          text: `No shared private groups found.`,
+          type: `div`
+        }]);
       }
       profile.sgcProgress.remove();
       profile.sgcProgress = null;
     } else {
-      profile.sgcProgress.innerHTML = `No shared groups found.`;
+      createElements(profile.sgcProgress, `inner`, [{
+        text: `No shared groups found.`,
+        type: `node`
+      }]);
     }
     endless_load(profile.sgcResults);
   }
@@ -33251,12 +35055,26 @@
       wonUrl += `/newestfirst`;
       sentUrl += `/newestfirst`;
     }
-    profile.wonRowLeft.innerHTML = `
-      <a class="esgst-rwscvl-link" href="${wonUrl}" target="_blank" title="${getFeatureTooltip(`rwscvl`)}">Gifts Won</a>
-    `;
-    profile.sentRowLeft.innerHTML = `
-      <a class="esgst-rwscvl-link" href="${sentUrl}" target="_blank" title="${getFeatureTooltip(`rwscvl`)}">Gifts Sent</a>
-    `;
+    createElements(profile.wonRowLeft, `inner`, [{
+      attributes: {
+        class: `esgst-rwscvl-link`,
+        href: wonUrl,
+        target: `_blank`,
+        title: getFeatureTooltip(`rwscvl`)
+      },
+      text: `Gifts Won`,
+      type: `a`
+    }]);
+    createElements(profile.sentRowLeft, `inner`, [{
+      attributes: {
+        class: `esgst-rwscvl-link`,
+        href: sentUrl,
+        target: `_blank`,
+        title: getFeatureTooltip(`rwscvl`)
+      },
+      text: `Gifts Sent`,
+      type: `a`
+    }]);
   }
   
   // [UGD]
@@ -34341,14 +36159,19 @@
   async function namwc_start(obj) {
     obj.isCanceled = false;
     obj.button.classList.add(`esgst-busy`);
-    obj.popup.progress.innerHTML = obj.popup.overallProgress.innerHTML = ``;
+    obj.popup.progress.innerHTML = ``;
+    obj.popup.overallProgress.innerHTML = ``;
     obj.popup.activated.classList.add(`esgst-hidden`);
     obj.popup.notMultiple.classList.add(`esgst-hidden`);
     obj.popup.notActivated.classList.add(`esgst-hidden`);
     obj.popup.multiple.classList.add(`esgst-hidden`);
     obj.popup.unknown.classList.add(`esgst-hidden`);
     obj.popup.activatedCount.textContent = obj.popup.notMultipleCount.textContent = obj.popup.notActivatedCount.textContent = obj.popup.multipleCount.textContent = obj.popup.unknownCount.textContent = `0`;
-    obj.popup.activatedUsers.innerHTML = obj.popup.notMultipleUsers.textContent = obj.popup.notActivatedUsers.innerHTML = obj.popup.multipleUsers.innerHTML = obj.popup.unknownUsers.innerHTML = ``;
+    obj.popup.activatedUsers.innerHTML = ``;
+    obj.popup.notMultipleUsers.textContent = ``;
+    obj.popup.notActivatedUsers.innerHTML = ``;
+    obj.popup.multipleUsers.innerHTML = ``;
+    obj.popup.unknownUsers.innerHTML = ``;
 
     // get users
     let users = [];
@@ -34528,10 +36351,15 @@
     if (obj.isCanceled) return;
 
     if (obj.popup.progress) {
-      obj.popup.progress.innerHTML = `
-        <i class="fa fa-circle-o-notch fa-spin"></i>
-        <span>Retrieving ${user.username}'s not activated wins...</span>
-      `;
+      createElements(obj.popup.progress, `inner`, [{
+        attributes: {
+          class: `fa fa-circle-o-notch fa-spin`
+        },
+        type: `i`
+      }, {
+        text: `Retrieving ${user.username}'s not activated wins...`,
+        type: `span`
+      }]);
     }
     let responseText = (await request({method: `GET`, queue: true, url: `http://www.sgtools.info/nonactivated/${user.username}`})).responseText;
     if (responseText.match(/has a private profile/)) {
@@ -34555,10 +36383,15 @@
     if (obj.isCanceled) return;
 
     if (obj.popup.progress) {
-      obj.popup.progress.innerHTML = `
-        <i class="fa fa-circle-o-notch fa-spin"></i>
-        <span>Retrieving ${user.username}'s multiple wins...</span>
-      `;
+      createElements(obj.popup.progress, `inner`, [{
+        attributes: {
+          class: `fa fa-circle-o-notch fa-spin`
+        },
+        type: `i`
+      }, {
+        text: `Retrieving ${user.username}'s multiple wins...`,
+        type: `span`
+      }]);
     }
     user.values.namwc.results.multiple = [];
     let elements = parseHtml((await request({method: `GET`, queue: true, url: `http://www.sgtools.info/multiple/${user.username}`})).responseText).getElementsByClassName(`multiplewins`);
@@ -34659,7 +36492,9 @@
   }
 
   async function nrf_setSearch(NRF, profile, Callback) {
-    NRF.Progress.innerHTML = NRF.OverallProgress.innerHTML = NRF.Results.innerHTML = ``;
+    NRF.Progress.innerHTML = ``;
+    NRF.OverallProgress.innerHTML = ``;
+    NRF.Results.innerHTML = ``;
     NRF.Canceled = false;
     let user = {
       steamId: profile.steamId,
@@ -34694,8 +36529,15 @@
         Callback();
       });
     } else {
-      NRF.Results.innerHTML = nrf.results;
-      NRF.OverallProgress.innerHTML = `${nrf.found} of ${nrf.total} not received giveaways found...`;
+      createElements(NRF.Results, `inner`, [...(Array.from(parseHtml(nrf.results).body.childNodes).map(x => {
+        return {
+          context: x
+        };
+      }))]);
+      createElements(NRF.OverallProgress, `inner`, [{
+        text: `${nrf.found} of ${nrf.total} not received giveaways found...`,
+        type: `node`
+      }]);
       await endless_load(NRF.Results);
       Callback();
     }
@@ -34709,16 +36551,24 @@
         NRF.lastPage = lpl_getLastPage(Context, false, false, true);
         NRF.lastPage = NRF.lastPage === 999999999 ? `` : ` of ${NRF.lastPage}`;
       }
-      NRF.Progress.innerHTML = `
-        <i class="fa fa-circle-o-notch fa-spin"></i>
-        <span>Searching ${username}'s giveaways (page ${NextPage - 1}${NRF.lastPage})...</span>
-      `;
+      createElements(NRF.Progress, `inner`, [{
+        attributes: {
+          class: `fa fa-circle-o-notch fa-spin`
+        },
+        type: `i`
+      }, {
+        text: `Searching ${username}'s giveaways (page ${NextPage - 1}${NRF.lastPage})...`,
+        type: `span`
+      }]);
       Matches = Context.querySelectorAll(`div.giveaway__column--negative`);
       for (I = 0, N = Matches.length; I < N; ++I) {
         NRF.I += Matches[I].querySelectorAll(`a[href*="/user/"]`).length;
         NRF.Results.appendChild(Matches[I].closest(`.giveaway__row-outer-wrap`).cloneNode(true));
       }
-      NRF.OverallProgress.innerHTML = `${NRF.I} of ${NRF.N} not received giveaways found...`;
+      createElements(NRF.OverallProgress, `inner`, [{
+        text: `${NRF.I} of ${NRF.N} not received giveaways found...`,
+        type: `node`
+      }]);
       if (NRF.I < NRF.N) {
         if (esgst.nrf_searchMultiple) {
           Matches = Context.getElementsByClassName(`giveaway__heading__thin`);
@@ -34747,10 +36597,15 @@
 
   function nrf_searchMultiple(NRF, I, N, Callback) {
     if (!NRF.Canceled) {
-      NRF.Progress.innerHTML = `
-        <i class="fa fa-circle-o-notch fa-spin"></i>
-        <span>Searching inside giveaways with multiple copies (${I + 1} of ${N})...</span>
-      `;
+      createElements(NRF.Progress, `inner`, [{
+        attributes: {
+          class: `fa fa-circle-o-notch fa-spin`
+        },
+        type: `i`
+      }, {
+        text: `Searching inside giveaways with multiple copies (${I + 1} of ${N})...`,
+        type: `span`
+      }]);
       if (I < N) {
         nrf_searchGiveaway(NRF, `${NRF.Multiple[I].getElementsByClassName(`giveaway__heading__name`)[0].getAttribute(`href`)}/winners/search?page=`, 1, Found => {
           if (Found) {
@@ -34777,7 +36632,10 @@
       if (Matches[I].textContent.match(/Not Received/)) {
         Found = true;
         ++NRF.I;
-        NRF.OverallProgress.innerHTML = `${NRF.I} of ${NRF.N} not received giveaways found...`;
+        createElements(NRF.OverallProgress, `inner`, [{
+          text: `${NRF.I} of ${NRF.N} not received giveaways found...`,
+          type: `node`
+        }]);
         if (NRF.I >= NRF.N) {
           break;
         }
@@ -35832,7 +37690,11 @@
     let paginationNavigation = pagination.getElementsByClassName(esgst.paginationNavigationClass)[0];
     if (es.reversePages) {
       es.paginations[0] = paginationNavigation.innerHTML;
-      esgst.paginationNavigation.innerHTML = es.paginations[0];
+      createElements(esgst.paginationNavigation, `inner`, [...(Array.from(parseHtml(es.paginations[0]).body.childNodes).map(x => {
+        return {
+          context: x
+        };
+      }))]);
       if (esgst.paginationNavigation) {
         let lastLink = esgst.paginationNavigation.lastElementChild;
         if (esgst.lastPageLink && esgst.lastPage !== es.pageIndex && !lastLink.classList.contains(`is-selected`) && !lastLink.textContent.match(/Last/)) {
@@ -35899,10 +37761,17 @@
         es.check.count += 1;
       } else {
         es.refreshButton.addEventListener(`click`, esgst.es_refresh);
-        es.refreshButton.innerHTML = `
-          <i class="fa fa-refresh"></i>
-          <i class="fa fa-map-marker"></i>
-        `;
+        createElements(es.refreshButton, `inner`, [{
+          attributes: {
+            class: `fa fa-refresh`
+          },
+          type: `i`
+        }, {
+          attributes: {
+            class: `fa fa-map-marker`
+          },
+          type: `i`
+        }]);
       }
     } else {
       if (es.divisors) {
@@ -36005,7 +37874,11 @@
   function es_changePagination(es, index) {
     const pagination = es.paginations[index - 1];
     if (pagination && esgst.paginationNavigation.innerHTML !== pagination) {
-      esgst.paginationNavigation.innerHTML = pagination;
+      createElements(esgst.paginationNavigation, `inner`, [...(Array.from(parseHtml(pagination).body.childNodes).map(x => {
+        return {
+          context: x
+        };
+      }))]);
       let lastLink = esgst.paginationNavigation.lastElementChild;
       if (esgst.lastPageLink && esgst.lastPage !== es.pageIndex && !lastLink.classList.contains(`is-selected`) && !lastLink.textContent.match(/Last/)) {
         createElements(esgst.paginationNavigation, `beforeEnd`, esgst.lastPageLink);
@@ -36016,7 +37889,12 @@
 
   async function es_stepNext(es) {
     if (es.step) return;
-    es.nextButton.innerHTML = `<i class="fa fa-circle-o-notch fa-spin"></i>`;
+    createElements(es.nextButton, `inner`, [{
+      attributes: {
+        class: `fa fa-circle-o-notch fa-spin`
+      },
+      type: `i`
+    }]);
     es.step = true;
     const wasPaused = es.paused;
     await es_resume(es);
@@ -36027,13 +37905,23 @@
       } else {
         await es_resume(es);
       }
-      es.nextButton.innerHTML = `<i class="fa fa-step-forward"></i>`;
+      createElements(es.nextButton, `inner`, [{
+        attributes: {
+          class: `fa fa-step-forward`
+        },
+        type: `i`
+      }]);
     });
   }
 
   async function es_continuouslyLoad(es) {
     if (es.continuous) return;
-    es.continuousButton.innerHTML = `<i class="fa fa-circle-o-notch fa-spin"></i>`;
+    createElements(es.continuousButton, `inner`, [{
+      attributes: {
+        class: `fa fa-circle-o-notch fa-spin`
+      },
+      type: `i`
+    }]);
     es.continuous = true;
     const wasPaused = es.paused;
     await es_resume(es);
@@ -36044,7 +37932,12 @@
       } else {
         await es_resume(es);
       }
-      es.continuousButton.innerHTML = `<i class="fa fa-fast-forward"></i>`;
+      createElements(es.continuousButton, `inner`, [{
+        attributes: {
+          class: `fa fa-fast-forward`
+        },
+        type: `i`
+      }]);
     });
   }
 
@@ -36056,7 +37949,12 @@
       await setValue(`esPause`, es.paused);
     }
     es.continuous = false;
-    es.continuousButton.innerHTML = `<i class="fa fa-fast-forward"></i>`;
+    createElements(es.continuousButton, `inner`, [{
+      attributes: {
+        class: `fa fa-fast-forward`
+      },
+      type: `i`
+    }]);
   }
 
   async function es_resume(es, firstRun) {
@@ -36073,9 +37971,12 @@
 
   async function es_refresh(es) {
     es.refreshButton.removeEventListener(`click`, esgst.es_refresh);
-    es.refreshButton.innerHTML = `
-      <i class="fa fa-circle-o-notch fa-spin"></i>
-    `;
+    createElements(es.refreshButton, `inner`, [{
+      attributes: {
+        class: `fa fa-circle-o-notch fa-spin`
+      },
+      type: `i`
+    }]);
     let response = await request({method: `GET`, url: `${esgst.searchUrl}${es.pageIndex}`});
     es_getNext(es, true, false, null, response);
     if (esgst.giveawaysPath && esgst.es_rd) {
@@ -36086,7 +37987,11 @@
       }
     }
     if (esgst.pinnedGiveaways) {
-      esgst.pinnedGiveaways.innerHTML = parseHtml(response.responseText).getElementsByClassName(`pinned-giveaways__outer-wrap`)[0].innerHTML;
+      createElements(esgst.pinnedGiveaways, `inner`, [...(Array.from(parseHtml(response.responseText).getElementsByClassName(`pinned-giveaways__outer-wrap`)[0].childNodes).map(x => {
+        return {
+          context: x
+        };
+      }))]);
       await endless_load(esgst.pinnedGiveaways, true);
       pgb();
     }
@@ -36098,17 +38003,23 @@
 
   async function es_refreshAll(es) {
     es.refreshAllButton.removeEventListener(`click`, esgst.es_refreshAll);
-    es.refreshAllButton.innerHTML = `
-      <i class="fa fa-circle-o-notch fa-spin"></i>
-    `;
+    createElements(es.refreshAllButton, `inner`, [{
+      attributes: {
+        class: `fa fa-circle-o-notch fa-spin`
+      },
+      type: `i`
+    }]);
     es.check = new CompletionCheck(es.paginations.length, async () => {
       es_purgeRemovedElements();
       await endless_load(es.mainContext, true);
       es_setRemoveEntry(es.mainContext);
       es.refreshAllButton.addEventListener(`click`, esgst.es_refreshAll);
-      es.refreshAllButton.innerHTML = `
-        <i class="fa fa-refresh"></i>
-      `;
+      createElements(es.refreshAllButton, `inner`, [{
+        attributes: {
+          class: `fa fa-refresh`
+        },
+        type: `i`
+      }]);
       if (esgst.gf && esgst.gf.filteredCount) {
         filters_updateCount(esgst.gf);
       }
@@ -36129,7 +38040,11 @@
         }
       }
       if (esgst.pinnedGiveaways) {
-        esgst.pinnedGiveaways.innerHTML = parseHtml(response.responseText).getElementsByClassName(`pinned-giveaways__outer-wrap`)[0].innerHTML;
+        createElements(esgst.pinnedGiveaways, `inner`, [...(Array.from(parseHtml(response.responseText).getElementsByClassName(`pinned-giveaways__outer-wrap`)[0].childNodes).map(x => {
+          return {
+            context: x
+          };
+        }))]);
         await endless_load(esgst.pinnedGiveaways, true);
         pgb();
       }
@@ -36260,9 +38175,13 @@
   async function addNoCvGames(games) {
     let button = esgst.noCvButton;
     esgst.noCvButton = null;
-    button.innerHTML= `
-      <i class="fa fa-circle-o-notch fa-spin" title="Adding no CV games to the database..."></i>
-    `;
+    createElements(button, `inner`, [{
+      attributes: {
+        class: `fa fa-circle-o-notch fa-spin`,
+        title: `Adding no CV games to the database...`
+      },
+      type: `i`
+    }]);
     await request({data: JSON.stringify(games), method: `POST`, url: `https://script.google.com/macros/s/AKfycbym0nzeyr3_b93ViuiZRivkBMl9PBI2dTHQxNC0rtgeQSlCTI-P/exec`});
     for (let id in games.apps) {
       delete games.apps[id].name;
@@ -36374,10 +38293,15 @@
         if (mainCallback) {
           mainCallback(null, null, status);
         } else {
-          status.innerHTML = `
-            <i class="fa fa-times-circle"></i>
-            <span>Failed!</span>
-          `;
+          createElements(status, `inner`, [{
+            attributes: {
+              class: `fa fa-times-circle`
+            },
+            type: `i`
+          }, {
+            text: `Failed!`,
+            type: `span`
+          }]);
         }
       }
     } else {
@@ -36407,10 +38331,15 @@
         if (mainCallback) {
           mainCallback(null, null, status);
         } else {
-          status.innerHTML = `
-            <i class="fa fa-times-circle"></i>
-            <span>Failed!</span>
-          `;
+          createElements(status, `inner`, [{
+            attributes: {
+              class: `fa fa-times-circle`
+            },
+            type: `i`
+          }, {
+            text: `Failed!`,
+            type: `span`
+          }]);
         }
       }
     }
@@ -36912,9 +38841,27 @@
         }], true);
         popup.open();
         await checkSync(true, true);
-        popup.title.innerHTML = `
-          <i class="fa fa-check"></i> Thanks for installing ESGST, <span>${esgst.username}</span>. You are ready to go! Click on the <span>Settings</span> link below to choose which features you want to use.
-        `;
+        createElements(popup.title, `inner`, [{
+          attributes: {
+            class: `fa fa-check`
+          },
+          type: `i`
+        }, {
+          text: ` Thanks for installing ESGST, `,
+          type: `node`
+        }, {
+          text: esgst.username,
+          type: `span`
+        }, {
+          text: `. You are ready to go! Click on the `,
+          type: `node`
+        }, {
+          text : `Settings`,
+          type: `span`
+        }, {
+          text: ` link below to choose which features you want to use.`,
+          type: `node`
+        }]);
       } else {
         if (esgst.showChangelog) {
           loadChangelog(esgst.version);
@@ -36959,7 +38906,14 @@
   }
 
   function parseMarkdown(string) {
-    return esgst.markdownParser.text(string);
+    return [{
+      type: `div`,
+      children: [...Array.from(parseHtml(esgst.markdownParser.text(string)).body.children)].map(x => {
+        return {
+          context: x
+        };
+      })
+    }];
   }
 
   async function addGiveawayToStorage() {
@@ -37872,10 +39826,14 @@
       await setSetting(`lastSync`, Date.now());
       syncer.results.innerHTML = ``;
       syncer.progress.classList.remove(`esgst-hidden`);
-      syncer.progress.innerHTML = `
-        <i class="fa fa-circle-o-notch fa-spin"></i>
-        <span></span>
-      `;
+      createElements(syncer.progress, `inner`, [{
+        attributes: {
+          class: `fa fa-circle-o-notch fa-spin`
+        },
+        type: `i`
+      }, {
+        type: `span`
+      }]);
     }
 
     // if this is the user's fist time using the script, only sync steam id and stop
@@ -38201,12 +40159,23 @@
             await setSetting(`lastSync${key}`, currentTime);
             esgst[`lastSync${key}`] = currentTime;
             if (syncer.switches && syncer.switches[id]) {
-              syncer.switches[id].date.innerHTML = `<i class="fa fa-check-circle"></i> Last synced ${string}`;
+              createElements(syncer.switches[id].date, `inner`, [{
+                attributes: {
+                  class: `fa fa-check-circle`
+                },
+                type: `i`
+              }, {
+                text: ` Last synced ${string}`,
+                type: `node`
+              }]);
             }
           }
         }
       }
-      syncer.progress.innerHTML = `Synced!`;
+      createElements(syncer.progress, `inner`, [{
+        text: `Synced!`,
+        type: `node`
+      }]);
       delLocalValue(`isSyncing`);
     }
     if (syncer.set && syncer.autoSync) {
@@ -38813,10 +40782,14 @@
   function loadMenu(tab) {
     let Container, SMManageFilteredUsers, SMAPIKey, popup, fixed;
     if (tab) {
-      esgst.mainContext.innerHTML = `
-        <div></div>
-        <div class="esgst-popup-scrollable"></div>
-      `;
+      createElements(esgst.mainContext, `inner`, [{
+        type: `div`
+      }, {
+        attributes: {
+          class: `esgst-popup-scrollable`
+        },
+        type: `div`
+      }]);
       fixed = esgst.mainContext.firstElementChild;
       Container = fixed.nextElementSibling;
     } else {
@@ -39048,20 +41021,91 @@
       popup.open();
       if (esgst.firstInstall) {
         let pp = new Popup(`fa-check`, `Getting Started`, true);
-        pp.scrollable.innerHTML = `
-          <div class="esgst-bold">Here are some things you should know to help you get started:</div>
-          <br/>
-          <div class="markdown">
-            <ul>
-              <li>Bugs and suggestions should be reported on the <a href="https://github.com/revilheart/ESGST/issues">GitHub page</a>.</li>
-              <li>Make sure you backup your data using the backup button at the top of the menu every once in a while to prevent any data loss that might occur. It's also probably a good idea to disable automatic updates, since ESGST is in constant development.</li>
-              <li>Hover over the <i class="fa fa-question-circle"></i> icon next to each option that has it to learn more about it and how to use it. Some options are currently missing documentation, so feel free to ask about them in the official ESGST thread.</li>
-              <li>Some features rely on sync to work properly. These features have a <i class="fa fa-refresh esgst-negative"></i> icon next to their names, and when you hover over the icon you can see what type of data you have to sync. You should sync often to keep your data up-to-date. ESGST offers an option to automatically sync your data for you every amount of days so you don't have to do it manually. To enable the automatic sync, simply go to the sync section of the menu (section 1) and select the number of days in the dropdown.</li>
-              <li>ESGST uses 2 terms to define a window opened in the same page: <strong>popout</strong> is when the window opens up, down, left or right from the element you clicked/hovered over (like the one you get with the description of the features) and <strong>popup</strong> is when the window opens in the center of the screen with a modal background behind it (like this one).</li>
-              <li>That's all for now, you can close this.</li>
-            </ul>
-          </div>
-        `;
+        createElements(pp.scrollable, `inner`, [{
+          attributes: {
+            class: `esgst-bold`
+          },
+          text: `Here are some things you should know to help you get started:`,
+          type: `div`
+        }, {
+          type: `br`
+        }, {
+          attributes: {
+            class: `markdown`
+          },
+          type: `div`,
+          children: [{
+            type: `ul`,
+            children: [{
+              type: `li`,
+              children: [{
+                text: `Bugs and suggestions should be reported on the `,
+                type: `node`
+              }, {
+                attributes: {
+                  href: `https://github.com/revilheart/ESGST/issues`
+                },
+                text: `GitHub page`,
+                type: `a`
+              }, {
+                text: `.`,
+                type: `node`
+              }]
+            }, {
+              type: `Make sure you backup your data using the backup button at the top of the menu every once in a while to prevent any data loss that might occur. It's also probably a good idea to disable automatic updates, since ESGST is in constant development.`,
+              type: `node`
+            }, {
+              type: `li`,
+              children: [{
+                text: `Hover over the `,
+                type: `node`
+              }, {
+                attributes: {
+                  class: `fa fa-question-circle`
+                },
+                type: `i`
+              }, {
+                text: ` icon next to each option that has it to learn more about it and how to use it. Some options are currently missing documentation, so feel free to ask about them in the official ESGST thread.`,
+                type: `node`
+              }]
+            }, {
+              type: `li`,
+              children: [{
+                text: `Some features rely on sync to work properly. These features have a `,
+                type: `node`
+              }, {
+                attributes: {
+                  class: `fa fa-refresh esgst-negative`
+                },
+                type: `i`
+              }, {
+                text: ` icon next to their names, and when you hover over the icon you can see what type of data you have to sync. You should sync often to keep your data up-to-date. ESGST offers an option to automatically sync your data for you every amount of days so you don't have to do it manually. To enable the automatic sync, simply go to the sync section of the menu (section 1) and select the number of days in the dropdown.`,
+                type: `node`
+              }]
+            }, {
+              type: `li`,
+              children: [{
+                text: `ESGST uses 2 terms to define a window opened in the same page: `,
+                type: `node`
+              }, {
+                text: `popout`,
+                type: `strong`
+              }, {
+                text: ` is when the window opens up, down, left or right from the element you clicked/hovered over (like the one you get with the description of the features) and `,
+                type: `node`
+              }, {
+                text: `popup`,
+                type: `strong`
+              }, {
+                text: ` is when the window opens in the center of the screen with a modal background behind it (like this one).`,
+                type: `node`
+              }]
+            }, {
+              text: `That's all for now, you can close this.`,
+              type: `li`
+            }]
+          }]
+        }]);
         pp.open();
         esgst.firstInstall = false;
       }
@@ -39311,7 +41355,11 @@
           popout = new Popout(`esgst-feature-description markdown`, tooltip, 100);
           popout.popout.style.maxHeight = `300px`;
           popout.popout.style.overflow = `auto`;
-          popout.popout.innerHTML = Feature.description.replace(/\[id=(.+?)\]/g, getFeatureName);
+          createElements(popout.popout, `inner`, [...(Array.from(parseHtml(Feature.description.replace(/\[id=(.+?)\]/g, getFeatureName)).body.childNodes).map(x => {
+            return {
+              context: x
+            };
+          }))]);
           popout.open(tooltip);
         }
       });
@@ -39603,12 +41651,21 @@
         setThemeVersion(ID, version);
         button.addEventListener(`click`, async () => {
           let url = await getThemeUrl(ID, Feature.theme);
-          button.innerHTML = `
-            <i class="fa fa-circle-o-notch fa-spin"></i> Updating...
-          `;
+          createElements(button, `inner`, [{
+            attributes: {
+              class: `fa fa-circle-o-notch fa-spin`
+            },
+            type: `i`
+          }, {
+            text: ` Updating...`,
+            type: `node`
+          }]);
           let theme = JSON.stringify((await request({method: `GET`, url})).responseText);
           await setValue(ID, theme);
-          button.innerHTML = `Update`;
+          createElements(button, `inner`, [{
+            text: `Update`,
+            type: `node`
+          }]);
           setThemeVersion(ID, version, theme);
           setTheme();
         });
@@ -40396,28 +42453,51 @@
 
   function setSMRecentUsernameChanges(SMRecentUsernameChanges) {
     SMRecentUsernameChanges.addEventListener(`click`, async () => {
-      let popup;
-      popup = new Popup(`fa-comments`, `Recent Username Changes`);
-      popup.Progress = insertHtml(popup.description, `beforeEnd`, `
-        <div>
-          <i class="fa fa-circle-o-notch fa-spin"></i>
-          <span>Loading recent username changes...</span>
-        </div>
-      `);
-      popup.Results = insertHtml(popup.scrollable, `beforeEnd`, `
-        <div class="esgst-uh-popup"></div>
-      `);
+      const popup = new Popup(`fa-comments`, `Recent Username Changes`);
+      popup.progress = createElements(popup.description, `beforeEnd`, [{
+        type: `div`,
+        children: [{
+          attributes: {
+            class: `fa fa-circle-o-notch fa-spin`
+          },
+          type: `i`
+        }, {
+          text: `Loading recent username changes...`,
+          type: `span`
+        }]
+      }]);
+      popup.results = createElements(popup.scrollable, `beforeEnd`, [{
+        attributes: {
+          class: `esgst-uh-popup`
+        },
+        type: `div`
+      }]);
       popup.open();
-      let RecentChanges, HTML, I, N;
-      RecentChanges = JSON.parse((await request({method: `GET`, url: `https://script.google.com/macros/s/AKfycbzvOuHG913mRIXOsqHIeAuQUkLYyxTHOZim5n8iP-k80iza6g0/exec?Action=2`})).responseText).RecentChanges;
-      popup.Progress.innerHTML = ``;
-      HTML = ``;
-      for (I = 0, N = RecentChanges.length; I < N; ++I) {
-        HTML += `<div>${RecentChanges[I][0]} changed to <a class="esgst-bold" href="/user/${RecentChanges[I][1]}">${RecentChanges[I][1]}</a></div>`;
+      const recentChanges = JSON.parse((await request({
+        method: `GET`,
+        url: `https://script.google.com/macros/s/AKfycbzvOuHG913mRIXOsqHIeAuQUkLYyxTHOZim5n8iP-k80iza6g0/exec?Action=2`
+      })).responseText).RecentChanges;
+      popup.progress.innerHTML = ``;
+      const items = [];
+      for (const change of recentChanges) {
+        items.push({
+          type: `div`,
+          children: [{
+            text: `${change[0]} changed to `,
+            type: `node`
+          }, {
+            attributes: {
+              class: `esgst-bold`,
+              href: `/user/${change[1]}`
+            },
+            text: change[1],
+            type: `a`
+          }]
+        });
       }
-      popup.Results.innerHTML = HTML;
+      createElements(popup.results, `inner`, items);
       if (esgst.sg) {
-        endless_load(popup.Results);
+        endless_load(popup.results);
       }
     });
   }
@@ -42651,7 +44731,15 @@
     esgst.settings[key] = esgst.defaultValues[key];
     await setValue(`settings`, JSON.stringify(esgst.settings));
     message.classList.add(`esgst-green`);
-    message.innerHTML = `<i class="fa fa-check"></i> Saved!`;
+    createElements(message, `inner`, [{
+      attributes: {
+        class: `fa fa-check`
+      },
+      type: `i`
+    }, {
+      text: ` Saved!`,
+      type: `node`
+    }]);
     setTimeout(() => message.remove(), 2500);
   }
 
@@ -42819,7 +44907,13 @@
       `);
       await setValue(`settings`, JSON.stringify(esgst.settings));
       message.classList.add(`esgst-green`);
-      message.innerHTML = `<i class="fa fa-check" title="Saved!"></i>`;
+      createElements(message, `inner`, [{
+        attributes: {
+          class: `fa fa-check`,
+          title: `Saved!`
+        },
+        type: `i`
+      }]);
       setTimeout(() => message.remove(), 2500);
     }
     if (callback) {
@@ -45658,9 +47752,13 @@
       callback();
       popup.close();
     }).set);
-    popup.actions.firstElementChild.outerHTML = `
-      <a href="/account/settings/giveaways/filters">View Hidden Games</a>
-    `;
+    createElements(popup.actions.firstElementChild, `outer`, [{
+      attributes: {
+        href: `/account/settings/giveaways/filters`
+      },
+      text: `View Hidden Games`,
+      type: `a`
+    }]);
     popup.open();
   }
 
@@ -45686,9 +47784,13 @@
       callback();
       popup.close();
     }).set);
-    popup.actions.firstElementChild.outerHTML = `
-      <a href="/account/settings/giveaways/filters">View Hidden Games</a>
-    `;
+    createElements(popup.actions.firstElementChild, `outer`, [{
+      attributes: {
+        href: `/account/settings/giveaways/filters`
+      },
+      text: `View Hidden Games`,
+      type: `a`
+    }]);
     popup.open();
   }
 
@@ -45698,7 +47800,20 @@
     if (esgst.username) {
       await request({data: `username=${esgst.username}`, method: `POST`, url: `https://script.google.com/macros/s/AKfycbw0odO9iXZBJmK54M_MUQ_IEv5l4RNzj7cEx_FWCZbrtNBNmQ/exec`});
       popup.icon.className = `fa fa-check`;
-      popup.title.innerHTML = `Request sent! If you have not done so already, you also need to send a request from the <a class="esgst-bold" href="http://steamcommunity.com/groups/esgst">Steam group</a> page. After that you should be accepted in 24 hours at most.`;
+      createElements(popup.title, `inner`, [{
+        text: `Request sent! If you have not done so already, you also need to send a request from the `,
+        type: `node`
+      }, {
+        attributes: {
+          class: `esgst-bold`,
+          href: `http://steamcommunity.com/groups/esgst`
+        },
+        text: `Steam group`,
+        type: `a`
+      }, {
+        text: ` page. After that you should be accepted in 24 hours at most.`,
+        type: `node`
+      }]);
     } else {
       popup.icon.className = `fa-times-circle`;
       popup.title.textContent = `Something went wrong, please try again later. If it continues to happen, please report the issue.`;
@@ -46169,7 +48284,11 @@
     popout = new Popout(`esgst-feature-description markdown`, context, 100);
     popout.popout.style.maxHeight = `300px`;
     popout.popout.style.overflow = `auto`;
-    popout.popout.innerHTML = message;
+    createElements(popout.popout, `inner`, [...(Array.from(parseHtml(message).body.childNodes).map(x => {
+      return {
+        context: x
+      };
+    }))]);
   }
 
   function createOptions(options) {
@@ -46366,10 +48485,31 @@
         icons[i].classList.add(`giveaway__icon`);
       }
       headingName = heading.firstElementChild;
-      headingName.outerHTML = `<a class="giveaway__heading__name" href="${url}">${headingName.innerHTML}</a>`;
+      createElements(headingName, `outer`, [{
+        attributes: {
+          class: `giveaway__heading__name`,
+          href: url
+        },
+        type: `a`,
+        children: [...(Array.from(headingName.childNodes).map(x => {
+          return {
+            context: x
+          };
+        }))]
+      }]);
       thinHeadings = heading.getElementsByClassName(`featured__heading__small`);
       for (i = 0, n = thinHeadings.length; i < n; ++i) {
-        thinHeadings[0].outerHTML = `<span class="giveaway__heading__thin">${thinHeadings[0].innerHTML}</span>`;
+        createElements(thinHeadings[0], `outer`, [{
+          attributes: {
+            class: `giveaway__heading__thin`
+          },
+          type: `span`,
+          children: [...(Array.from(thinHeadings[0].childNodes).map(x => {
+            return {
+              context: x
+            };
+          }))]
+        }]);
       }
       columns = heading.nextElementSibling;
       endTimeColumn = columns.firstElementChild;
@@ -46407,7 +48547,24 @@
         }
         let date = new Date(`${endTimeColumn.lastElementChild.textContent}Z`).getTime();
         let ended = Date.now() > date;
-        endTimeColumn.lastElementChild.outerHTML = `${ended ? `Ended ` : ``}<span data-timestamp="${date / 1e3}">${ended ? getTimeSince(date) : getTimeSince(date, true)}</span>${ended ? ` ago` : ` remaining `}`;
+        const items = [];
+        if (ended) {
+          items.push({
+            text: `Ended`,
+            type: `node`
+          });
+        }
+        items.push({
+          attributes: {
+            [`data-timestamp`]: date / 1e3
+          },
+          text: ended ? getTimeSince(date) : getTimeSince(date, true),
+          type: `span`
+        }, {
+          text: ended ? ` ago ` : ` remaining `,
+          type: `node`
+        });
+        createElements(endTimeColumn.lastElementChild, `outer`, items);
       }
       endTime = parseInt(endTimeColumn.lastElementChild.getAttribute(`data-timestamp`)) * 1000;
       startTimeColumn = endTimeColumn.nextElementSibling;
@@ -46415,7 +48572,24 @@
       startTimeColumn.classList.add(`giveaway__column--width-fill`);
       if (sgTools) {
         let date = new Date(`${startTimeColumn.firstElementChild.textContent}Z`).getTime();
-        startTimeColumn.firstElementChild.outerHTML = `<span data-timestamp="${date / 1e3}">${getTimeSince(date)}</span> ago `;
+        const items = [];
+        if (ended) {
+          items.push({
+            text: `Ended`,
+            type: `node`
+          });
+        }
+        items.push();
+        createElements(startTimeColumn.firstElementChild, `outer`, [{
+          attributes: {
+            [`data-timestamp`]: date / 1e3
+          },
+          text: getTimeSince(date),
+          type: `span`
+        }, {
+          text: ` ago `,
+          type: `node`
+        }]);
       }
       avatar = columns.lastElementChild;
       if (sgTools) {
@@ -46563,30 +48737,116 @@
 
   function setMissingDiscussion(context) {
     if (context) {
-      context.outerWrap.innerHTML = `
-        <div class="table__row-outer-wrap" style="padding: 15px 0;">
-          <div class="table__row-inner-wrap">
-            <div>
-              <a class="table_image_avatar" href="/user/${context.author}" style="background-image:${context.avatar.style.backgroundImage.replace(/"/g, `'`)};"></a>
-            </div>
-            <div class="table__column--width-fill">
-              <h3 style="margin-bottom: 2px;">
-                <a class="homepage_table_column_heading" href="${context.url}">${context.title}</a>
-              </h3>
-              <p>
-                ${context.lastPostTime ? `
-                  <a class="table__column__secondary-link" href="${context.url}">${context.comments} Comments</a> - Last post <span data-timestamp="${context.lastPostTimestamp}">${context.lastPostTime}</span> ago by <a class="table__column__secondary-link" href="/user/${context.lastPostAuthor}">${context.lastPostAuthor}</a>
-                  <a class="icon-green table__last-comment-icon" href="/go/comment/${context.lastPostCode}">
-                    <i class="fa fa-chevron-circle-right"></i>
-                  </a>
-                ` : `
-                  <a class="table__column__secondary-link" href="${context.url}">${context.comments} Comments</a> - Created <span data-timestamp="${context.createdTimestamp}">${context.createdTime}</span> ago by <a class="table__column__secondary-link" href="/user/${context.author}">${context.author}</a>
-                `}
-              </p>
-            </div>
-          </div>
-        </div>
-      `;
+      createElements(context.outerWrap, `inner`, [{
+        attributes: {
+          class: `table__row-outer-wrap`,
+          style: `padding: 15px 0;`
+        },
+        type: `div`,
+        children: [{
+          attributes: {
+            class: `table__row-inner-wrap`
+          },
+          type: `div`,
+          children: [{
+            type: `div`,
+            children: [{
+              attributes: {
+                class: `table_image_avatar`,
+                href: `/user/${context.author}`,
+                style: `background-image:${context.avatar.style.backgroundImage.replace(/"/g, `'`)};`
+              },
+              type: `a`
+            }]
+          }, {
+            attributes: {
+              class: `table__column--width-fill`
+            },
+            type: `div`,
+            children: [{
+              attributes: {
+                style: `margin-bottom: 2px;`
+              },
+              type: `h3`,
+              children: [{
+                attributes: {
+                  class: `homepage_table_column_heading`,
+                  href: context.url
+                },
+                text: context.title,
+                type: `a`
+              }]
+            }, {
+              type: `p`,
+              children: context.lastPostTime ? [{
+                attributes: {
+                  class: `table__column__secondary-link`,
+                  href: context.url
+                },
+                text: `${context.comments} Comments`,
+                type: `a`
+              }, {
+                text: ` - Last post `,
+                type: `node`
+              }, {
+                attributes: {
+                  [`data-timestamp`]: context.lastPostTimestamp
+                },
+                text: context.lastPostTime,
+                type: `span`
+              }, {
+                text: ` ago by `,
+                type: `node`
+              }, {
+                attributes: {
+                  class: `table__column__secondary-link`,
+                  href: `/user/${context.lastPostAuthor}`
+                },
+                text: context.lastPostAuthor,
+                type: `a`
+              }, {
+                attributes: {
+                  class: `icon-green table__last-comment-icon`,
+                  href: `/go/comment/${context.lastPostCode}`
+                },
+                type: `a`,
+                children: [{
+                  attributes: {
+                    class: `fa fa-chevron-circle-right`
+                  },
+                  type: `i`
+                }]
+              }] : [{
+                attributes: {
+                  class: `table__column__secondary-link`,
+                  href: context.url
+                },
+                text: `${context.comments} Comments`,
+                type: `a`
+              }, {
+                text: ` - Created `,
+                type: `node`
+              }, {
+                attributes: {
+                  [`data-timestamp`]: context.createdTimestamp
+                },
+                text: context.createdTime,
+                type: `span`
+              }, {
+                text: ` ago by `,
+                type: `node`
+              }, {
+                attributes: {
+                  class: `table__column__secondary-link`,
+                  href: `/user/${context.author}`
+                },
+                text: context.author,
+                type: `a`
+              }]
+            }]
+          }]
+        }]
+      }]);
       context.outerWrap = context.outerWrap.firstElementChild;
     }
   }
@@ -46943,11 +49203,23 @@
       button.addEventListener(`click`, () => {
         if (isExpanded) {
           container.classList.add(`esgst-hidden`);
-          button.innerHTML = `<i class="fa fa-plus-square" title="Expand section"></i>`;
+          createElements(button, `inner`, [{
+            attributes: {
+              class: `fa fa-plus-square`,
+              title: `Expand section`
+            },
+            type: `i`
+          }]);
           isExpanded = false;
         } else {
           container.classList.remove(`esgst-hidden`);
-          button.innerHTML = `<i class="fa fa-minus-square" title="Collapse section"></i>`;
+          createElements(button, `inner`, [{
+            attributes: {
+              class: `fa fa-minus-square`,
+              title: `Collapse section`
+            },
+            type: `i`
+          }]);
           isExpanded = true;
         }
       });
@@ -47689,6 +49961,11 @@
         context.innerHTML = ``;
         context.appendChild(fragment);
         element = context.firstElementChild;
+        break;
+      case `outer`:
+        context.parentElement.insertBefore(fragment, context);
+        element = context.previousElementSibling;
+        context.remove();
         break;
     }
     return element;
