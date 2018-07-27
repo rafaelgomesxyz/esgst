@@ -682,7 +682,7 @@
             },
             text: typeof title === `string` ? title : ``,
             type: `div`,
-            children: typeof title === `object` ? title : null
+            children: typeof title === `string` ? null : title
           }]
         }, {
           attributes: {
@@ -833,19 +833,54 @@
     constructor(details) {
       this.isCreated = details.popup ? false : true;
       this.temp = details.isTemp;
-      this.popup = details.popup || insertHtml(document.body, `beforeEnd`, `
-        <div class="esgst-hidden esgst-popup">
-          <div class="esgst-popup-heading">
-            <i class="fa ${details.icon} esgst-popup-icon${details.icon ? `` : ` esgst-hidden`}"></i>
-            <div class="esgst-popup-title${details.title ? `` : ` esgst-hidden`}">${details.title}</div>
-          </div>
-          <div class="esgst-popup-description"></div>
-          <div class="esgst-popup-actions">
-            <span class="esgst-hidden">Settings</span>
-            <span class="esgst-popup-close">Close</span>
-          </div>
-        </div>
-      `);
+      this.popup = details.popup || createElements(document.body, `beforeEnd`, [{
+        attributes: {
+          class: `esgst-hidden esgst-popup`
+        },
+        type: `div`,
+        children: [{
+          attributes: {
+            class: `esgst-popup-heading`
+          },
+          type: `div`,
+          children: [{
+            attributes: {
+              class: `fa ${details.icon} esgst-popup-icon${details.icon ? `` : ` esgst-hidden`}`
+            },
+            type: `i`
+          }, {
+            attributes: {
+              class: `esgst-popup-title${details.title ? `` : ` esgst-hidden`}`
+            },
+            text: typeof details.title === `string` ? details.title : ``,
+            type: `div`,
+            children: typeof details.title === `string` ? null : details.title
+          }]
+        }, {
+          attributes: {
+            class: `esgst-popup-description`
+          },
+          type: `div`
+        }, {
+          attributes: {
+            class: `esgst-popup-actions`
+          },
+          type: `div`,
+          children: [{
+            attributes: {
+              class: `esgst-hidden`
+            },
+            text: `Settings`,
+            type: `span`
+          }, {
+            attributes: {
+              class: `esgst-popup-close`
+            },
+            text: `Close`,
+            type: `span`
+          }]
+        }]
+      }]);
       this.onClose = details.onClose;
       if (this.isCreated) {
         this.icon = this.popup.firstElementChild.firstElementChild;
@@ -876,9 +911,21 @@
       if (details.textInputs) {
         this.textInputs = [];
         details.textInputs.forEach(textInput => {
-          let input = insertHtml(this.description, `beforeEnd`, `
-            ${textInput.title || ``}<input placeholder="${textInput.placeholder || ``}" type="text">
-          `);
+          const items = [];
+          if (textInput.title) {
+            items.push({
+              text: textInput.title,
+              type: `node`
+            });
+          }
+          items.push({
+            attributes: {
+              placeholder: textInput.placeholder || ``,
+              type: `text`
+            },
+            type: `input`
+          });
+          let input = createElements(this.description, `beforeEnd`, items);
           input.addEventListener(`keydown`, this.triggerButton.bind(this, 0));
           this.textInputs.push(input);
         });
@@ -1275,10 +1322,19 @@
             isCollapsible: true,
             row: row
           };
-          const expand = insertHtml(row, `afterBegin`, `
-            <i class="fa fa-plus-square esgst-clickable" title="${expandMessage}"></i>
-            <i class="fa fa-minus-square esgst-clickable esgst-hidden" title="${collapseMessage}"></i>
-          `);
+          const expand = createElements(row, `afterBegin`, [{
+            attributes: {
+              class: `fa fa-plus-square esgst-clickable`,
+              title: expandMessage
+            },
+            type: `i`
+          }, {
+            attributes: {
+              class: `fa fa-minus-square esgst-clickable esgst-hidden`,
+              title: collapseMessage
+            },
+            type: `i`
+          }]);
           const collapse = expand.nextElementSibling;
           collapse.addEventListener(`click`, this.collapseRows.bind(this, collapse, expand, name));
           expand.addEventListener(`click`, this.expandRows.bind(this, collapse, expand, name));
@@ -1424,11 +1480,19 @@
         esgst.settings[key] = setting;
         esgst[this.id] = this.value;
         if (!settings) {
-          let message = insertHtml(this.container, `beforeEnd`, `
-            <div class="esgst-description esgst-bold">
-              <i class="fa fa-circle-o-notch fa-spin" title="Saving..."></i>
-            </div>
-          `);
+          let message = createElements(this.container, `beforeEnd`, [{
+            attributes: {
+              class: `esgst-description esgst-bold`
+            },
+            type: `div`,
+            children: [{
+              attributes: {
+                class: `fa fa-circle-o-notch fa-spin`,
+                title: `Saving...`
+              },
+              type: `i`
+            }]
+          }]);
           await setSetting(key, setting);
           message.classList.add(`esgst-green`);
           createElements(message, `inner`, [{
@@ -1972,7 +2036,7 @@
       sg: location.hostname.match(/www.steamgifts.com/),
       st: location.hostname.match(/www.steamtrades.com/),
       currentVersion: `7.24.1`,
-      devVersion: `7.25.0 (Dev.3)`,
+      devVersion: `7.25.0 (Dev.4)`,
       icon: `data:image/x-icon;base64,AAABAAEAEBAAAAEAIABoBAAAFgAAACgAAAAQAAAAIAAAAAEAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAqv8DCbP/Hgeq+CQIrf8iCK3/Igit/yIIrf8iB6//Iwit9x8Aqv8DAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAKr0GAa2/c0DvfzfA7f83QO3/N0Dt/zdA7f83QO+/d4Gs/3OAKP1GQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACm/xQFs/n2Bcf//wW///8FwP//BcD//wW///8Fx///BbP69gC2/xUAAAAAAAAAAAAAAAAA/1UDFptOFxSZMxkLpJktAq720QW1+ugEsfvjA7b92wO2/dsEsfvjBbX66Aau/dEoiO4tUlLWGU5k3hdVVf8DEJxKHxWqT8cVrU7uE6VN0guqny0Apv8XAJfQGwBAVywAQFcsAJfQGwCx/xcogugtS2Lk0lBl6u5Qae7ISmPeHxagSSMVr07jF7lV/xOiSu0brgATAAAAAAAAAA8AAAC/AAAAwAAAABAAAAAAYznjEkth4OxWb/3/T2jv40lf4iMXnksiEq1O3RayUv8UpEnkEo0+HQAAABkAAABBAAAA8QAAAPEAAABBAAAAGUBSvxxOYeDjU2v0/05m7d1LYuEiF55LIhKtTt0Ws1L/FahN2gU1FTAAAADAAAAA7AAAAP0AAAD9AAAA7AAAAMAVG0owUGPm2lNr9P9OZu3dS2LhIheeSyISrU7dFrNS/xWoTdoFNRswAAAAvwAAAOsAAAD9AAAA/QAAAOsAAADAFRtKMFBj6NpTa/T/Tmbt3Uti4SIXnksiEq1O3RayUv8UpEnkEo0+HQAAABgAAABAAAAA8QAAAPEAAABBAAAAGT5PuR1OYeDjU2v0/05m7d1LYuEiFqBJIxWuT+QXuVX/E6JL7QC8XhMAAAAAAAAADwAAAL8AAAC/AAAAEAAAAAAOR/8SSWLh7FZv/f9PaO/jSV/iIxCUSh8Vrk7HFqxN7ROlS9JskzMt1XULGK12EhxGLgYsRy8GK612EhzVgAsYgmxxLU1i39JNZ+vtT2fwx0pj1h8AqlUDF65GFgqZUhlsiC0txH0T0s5/EujJgBPkz4QR28+EEdvJgBPkzn8Q6Md+E9KLdHosM1LWGUZo6BZVVf8DAAAAAAAAAAAAAAAA/2YAFMl9EvbgjRb/14gV/9eIFf/XiBX/14gV/9+NFv/KgBD254YAFQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAL91FRjKgRHN1IgU3s+EEt3PhBLdz4QS3c+EEt3UiBTezYMRzcJ6FBkAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACqqgADxIARHr18FiO8eA8ivHgPIrx4DyK8eA8ivXwPI8SAER7/VQADAAAAAAAAAAAAAAAA78cAAPA3AAD4FwAABCAAADGOAAAE+AAAkBEAAJ55AACYOQAAlgEAAER4AAAXaAAATnoAAPgXAAD0JwAA69cAAA==`,
       sgIcon: `data:image/x-icon;base64,AAABAAEAEBAAAAEAIABoBAAAFgAAACgAAAAQAAAAIAAAAAEAIAAAAAAAQAQAABMLAAATCwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIUAAAD5AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAPoAAACFAAAAAAAAAAAAAAD8AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA+QAAAAAAAAAAAAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAAAAAAAAAAAAP8AAAD/AAAA/wAAABwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAcAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAcAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAHAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAAAAAAAAAAAAPwAAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD5AAAAAAAAAAAAAACFAAAA+QAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD5AAAAhQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA//8AAP//AADAAwAAwAMAAMfjAADP8wAAz/MAAM/zAADP8wAAz/MAAM/zAADH4wAAwAMAAMADAAD//wAA//8AAA==`,
       stIcon: `data:image/x-icon;base64,AAABAAEAEBAAAAEAIABoBAAAFgAAACgAAAAQAAAAIAAAAAEAIAAAAAAAQAQAABMLAAATCwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABbD6SgWw+ucFsPrkBbD6SgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAWw+uYFsPr/BbD6/wWw+ucAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAFsPrmBbD6/wWw+v8FsPrmAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABbD6SQWw+uYFsPrmBbD6SQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAFKRLShSkS+cUpEvkFKRLSgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAExi4EpMYuDnTGLg5Exi4EoAAAAAAAAAABSkS+YUpEv/FKRL/xSkS+cAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABMYuDmTGLg/0xi4P9MYuDnAAAAAAAAAAAUpEvmFKRL/xSkS/8UpEvmAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAATGLg5kxi4P9MYuD/TGLg5gAAAAAAAAAAFKRLSRSkS+YUpEvmFKRLSQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAExi4ElMYuDmTGLg5kxi4EkAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAMZ9E0rGfRPnxn0T5MZ9E0oAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADGfRPmxn0T/8Z9E//GfRPnAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAxn0T5sZ9E//GfRP/xn0T5gAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAMZ9E0nGfRPmxn0T5sZ9E0kAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA//8AAPw/AAD8PwAA/D8AAPw/AAD//wAAh+EAAIfhAACH4QAAh+EAAP//AAD8PwAA/D8AAPw/AAD8PwAA//8AAA==`,
@@ -2364,7 +2428,10 @@
           message = `A new ESGST version is available.`;
         }
         popup = new Popup(`fa-exclamation`, message, true);
-        insertHtml(popup.actions, `afterBegin`, `<span>Update</span>`).addEventListener(`click`, checkUpdate);
+        createElements(popup.actions, `afterBegin`, [{
+          text: `Update`,
+          type: `span`
+        }]).addEventListener(`click`, checkUpdate);
         popup.onClose = () => {
           esgst.isNotifying = false;
           setValue(`dismissedVersion`, version);
@@ -3071,11 +3138,19 @@
       return;
     }
 
-    popup.minimizeItem = insertHtml(esgst.minimizeList, `beforeEnd`, `
-      <li class="esgst-minimize-item">
-        <a href="javascript:void(0);">${popup.title.textContent.replace(/:$/, ``)}</a>
-      </li>
-    `);
+    popup.minimizeItem = createElements(esgst.minimizeList, `beforeEnd`, [{
+      attributes: {
+        class: `esgst-minimize-item`
+      },
+      type: `li`,
+      children: [{
+        attributes: {
+          href: `javascript:void(0);`
+        },
+        text: popup.title.textContent.replace(/:$/, ``),
+        type: `a`
+      }]
+    }]);
     popup.minimizeLink = popup.minimizeItem.firstElementChild;
     popup.minimizeItem.addEventListener(`click`, minimizePanel_openItem.bind(null, popup));
   }
@@ -5366,11 +5441,21 @@
       button = document.querySelector(`.js__submit-form, .js_mark_as_read`);
       if (button) {
         if (esgst.sg) {
-          newButton = insertHtml(button, `afterEnd`, `
-            <div class="sidebar__action-button">
-              <i class="fa fa-check-circle"></i> Mark as Read
-            </div>
-          `);
+          newButton = createElements(button, `afterEnd`, [{
+            attributes: {
+              class: `sidebar__action-button`
+            },
+            type: `div`,
+            children: [{
+              attributes: {
+                class: `fa fa-check-circle`
+              },
+              type: `i`
+            }, {
+              text: ` Mark as Read`,
+              type: `node`
+            }]
+          }]);
           key = `read_messages`;
           url = `/messages`;
         } else {
@@ -6783,12 +6868,23 @@
       resetButton.addEventListener(`click`, createConfirmation.bind(null, `Are you sure you want to reset the links? Any custom links you added will be deleted.`, chfl_resetLinks.bind(null, chfl, key), null));
       for (const subKey in source.elements) {
         const element = source.elements[subKey],
-            panel = insertHtml(element, `beforeEnd`, `
-              <div class="esgst-chfl-panel">
-                <i class="esgst-chfl-edit-button fa fa-edit icon-grey"></i>
-                <i class="esgst-chfl-remove-button fa fa-trash icon-grey"></i>
-              </div>
-            `);
+            panel = createElements(element, `beforeEnd`, [{
+              attributes: {
+                class: `esgst-chfl-panel`
+              },
+              type: `div`,
+              children: [{
+                attributes: {
+                  class: `esgst-chfl-edit-button fa fa-edit icon-grey`,
+                },
+                type: `i`
+              }, {
+                attributes: {
+                  class: `esgst-chfl-remove-button fa fa-trash icon-grey`,
+                },
+                type: `i`
+              }]
+            }]);
         panel.firstElementChild.addEventListener(`click`, chfl_openPopup.bind(null, chfl, subKey, key));
         panel.lastElementChild.addEventListener(`click`, chfl_removeLink.bind(null, chfl, subKey, key));
       }
@@ -7443,13 +7539,25 @@
     esgst.giveawayFeatures.push(gb_getGiveaways);
     let button = null;
     if (!esgst.gbPath) {
-      button = insertHtml(document.getElementsByClassName(`nav__left-container`)[0], `beforeEnd`, `
-        <div class="nav__button-container esgst-hidden" title="${getFeatureTooltip(`gb`, `View your bookmarked giveaways`)}">
-          <div class="nav__button">
-            <i class="fa fa-bookmark"></i>
-          </div>
-        </div>
-      `);
+      button = createElements(document.getElementsByClassName(`nav__left-container`)[0], `beforeEnd`, [{
+        attributes: {
+          class: `nav__button-container esgst-hidden`,
+          title: getFeatureTooltip(`gb`, `View your bookmarked giveaways`)
+        },
+        type: `div`,
+        children: [{
+          attributes: {
+            class: `nav__button`
+          },
+          type: `div`,
+          children: [{
+            attributes: {
+              class: `fa fa-bookmark`
+            },
+            type: `i`
+          }]
+        }]
+      }]);
     }
     gb_addButton(button);
     if (esgst.gb_ue && esgst.enterGiveawayButton) {
@@ -7556,7 +7664,9 @@
       }
     }
     if (esgst.gbPath) {
-      gb_loadGibs(bookmarked, esgst.mainContext, insertHtml(esgst.mainContext, `beforeEnd`, `<div></div>`));
+      gb_loadGibs(bookmarked, esgst.mainContext, createElements(esgst.mainContext, `beforeEnd`, [{
+        type: `div`
+      }]));
     }
     if (!esgst.gbPath && button) {
       button.addEventListener(`mousedown`, event => {
@@ -7598,11 +7708,22 @@
     if (popup) {
       popup.open();
     }
-    info = insertHtml(context, `beforeBegin`, `
-      <div>
-        <span>0</span>P required to enter all <span>0</span> giveaways.
-      </div>
-    `);
+    info = createElements(context, `beforeBegin`, [{
+      type: `div`,
+      children: [{
+        text: `0`,
+        type: `span`
+      }, {
+        text: `P required to enter all `,
+        type: `node`
+      }, {
+        text: `0`,
+        type: `span`
+      }, {
+        text: ` giveaways.`,
+        type: `node`
+      }]
+    }]);
     if (esgst.gas || (esgst.gf && esgst.gf_m) || esgst.mm) {
       let heading = createElements(context, `beforeBegin`, [{
         attributes: {
@@ -10764,13 +10885,25 @@
     if (esgst.gedPath) {
       ged_openPopup(ged);
     } else {
-      ged.button = insertHtml(esgst.headerNavigationLeft, `beforeEnd`, `
-        <div class="nav__button-container esgst-hidden" title="${getFeatureTooltip(`ged`, `View your decrypted giveaways`)}">
-          <div class="nav__button">
-            <i class="fa fa-star"></i>
-          </div>
-        </div>
-      `);
+      ged.button = createElements(esgst.headerNavigationLeft, `beforeEnd`, [{
+        attributes: {
+          class: `nav__button-container esgst-hidden`,
+          title: getFeatureTooltip(`ged`, `View your decrypted giveaways`)
+        },
+        type: `div`,
+        children: [{
+          attributes: {
+            class: `nav__button`
+          },
+          type: `div`,
+          children: [{
+            attributes: {
+              class: `fa fa-star`
+            },
+            type: `i`
+          }]
+        }]
+      }]);
       ged.button.addEventListener(`mousedown`, ged_openPopup.bind(null, ged));
       ged_getGiveaways(ged, true);
     }
@@ -13087,11 +13220,22 @@
     obj.presetDisplay.textContent = obj.presetInput.value = name;
 
     if (!obj.popup && esgst.pagination) {
-      obj.paginationFilteredCount = insertHtml(esgst.pagination.firstElementChild, `beforeEnd`, `
-        <span>
-          (<span class="esgst-bold">0</span> filtered by ${obj.id === `gf` ? `Giveaway` : (obj.id === `df` ? `Discussion` : `Comment`)} Filters)
-        </span>
-      `).firstElementChild;
+      obj.paginationFilteredCount = createElements(esgst.pagination.firstElementChild, `beforeEnd`, [{
+        type: `span`,
+        children: [{
+          text: `(`,
+          type: `node`
+        }, {
+          attributes: {
+            class: `esgst-bold`
+          },
+          text: `0`,
+          type: `span`
+        }, {
+          text: ` filtered by ${obj.id === `gf` ? `Giveaway` : (obj.id === `df` ? `Discussion` : `Comment`)} Filters)`,
+          type: `node`
+        }]
+      }]).firstElementChild;
     }
 
     presetButton.addEventListener(`click`, filters_openPresetPopup.bind(null, obj));
@@ -14160,12 +14304,21 @@
       type: `div`
     }]);
     let deleted = [];
-    const undoButton = insertHtml(popup.description, `beforeEnd`, `
-      <div class="esgst-clickable esgst-hidden">
-        <i class="fa fa-rotate-left"></i>
-        <span>Undo Delete</span>
-      </div>
-    `);
+    const undoButton = createElements(popup.description, `beforeEnd`, [{
+      attributes: {
+        class: `esgst-clickable esgst-hidden`
+      },
+      type: `div`,
+      children: [{
+        attributes: {
+          class: `fa fa-rotate-left`,
+        },
+        type: `i`
+      }, {
+        text: `Undo Delete`,
+        type: `span`
+      }]
+    }]);
     undoButton.addEventListener(`click`, filters_undoDeletePreset.bind(null, obj, deleted, undoButton));
     const table = createElements(popup.scrollable, `beforeEnd`, [{
       attributes: {
@@ -15492,7 +15645,13 @@
       },
       type: `input`
     }]);
-    insertHtml(popup.description, `beforeEnd`, `<i class="esgst-ut-existing-button esgst-clickable fa fa-list" title="Select from existing tags"></i>`).addEventListener(`click`, gt_showExistingTags.bind(null, popup));
+    createElements(popup.description, `beforeEnd`, [{
+      attributes: {
+        class: `esgst-ut-existing-button esgst-clickable fa fa-list`,
+        title: `Select from existing tags`
+      },
+      type: `i`
+    }]).addEventListener(`click`, gt_showExistingTags.bind(null, popup));
     popup.input.addEventListener(`keydown`, triggerSetOnEnter.bind(null, set));
     popup.input.addEventListener(`input`, gt_createTags.bind(null, popup));
     createElements(popup.description, `beforeEnd`, [{
@@ -15564,11 +15723,15 @@
     tags.forEach(tag => {
       let checkbox, item;
       tag = tag.tag;
-      item = insertHtml(list, `beforeEnd`, `
-        <div>
-          <span></span> ${tag}
-        </div>
-      `);
+      item = createElements(list, `beforeEnd`, [{
+        type: `div`,
+        children: [{
+          type: `span`
+        }, {
+          text: ` ${tag}`,
+          type: `node`
+        }]
+      }]);
       if (esgst.gt_colors[tag]) {
         item.style.color = esgst.gt_colors[tag].color;
         item.style.backgroundColor = esgst.gt_colors[tag].bgColor;
@@ -16007,12 +16170,21 @@
       text: `Drag and drop templates to move them.`,
       type: `div`
     }]);
-    gts.undo = insertHtml(popup.description, `beforeEnd`, `
-      <div class="esgst-clickable esgst-hidden">
-        <i class="fa fa-rotate-left"></i>
-        <span>Undo Delete</span>
-      </div>
-    `);
+    gts.undo = createElements(popup.description, `beforeEnd`, [{
+      attributes: {
+        class: `esgst-clickable esgst-hidden`
+      },
+      type: `div`,
+      children: [{
+        attributes: {
+          class: `fa fa-rotate-left`,
+        },
+        type: `i`
+      }, {
+        text: `Undo Delete`,
+        type: `span`
+      }]
+    }]);
     gts.undo.addEventListener(`click`, gts_undoDelete.bind(null, gts));
     let templates = createElements(popup.scrollable, `beforeEnd`, [{
       attributes: {
@@ -16421,12 +16593,15 @@
         button = createHeadingButton({id: `gv`, icons: [`fa-th-large`], title: `Set Grid View spacing`});
         popout = new Popout(`esgst-gv-spacing`, button, 0, true);
         spacing = esgst.gv_spacing;
-        element = insertHtml(popout.popout, `beforeEnd`, `
-          <div>
-            <div></div>
-            <div>${spacing}px</div>
-          </div>
-        `);
+        element = createElements(popout.popout, `beforeEnd`, [{
+          type: `div`,
+          children: [{
+            type: `div`
+          }, {
+            text: `${spacing}px`,
+            type: `div`
+          }]
+        }]);
         slider = element.firstElementChild;
         display = slider.nextElementSibling;
         $(slider).slider({
@@ -16516,11 +16691,16 @@
       giveaway.startTimeColumn.classList.add(`esgst-hidden`);
       giveaway.entriesLink.lastElementChild.textContent = giveaway.entriesLink.textContent.replace(/[^\d,]+/g, ``);
       giveaway.commentsLink.lastElementChild.textContent = giveaway.commentsLink.textContent.replace(/[^\d,]+/g, ``);
-      let creator = insertHtml(giveaway.links, `beforeBegin`, `
-        <div class="esgst-gv-creator">
-          <span>by</span>
-        </div>
-      `);
+      let creator = createElements(giveaway.links, `beforeBegin`, [{
+        attributes: {
+          class: `esgst-gv-creator`
+        },
+        type: `div`,
+        children: [{
+          text: `by`,
+          type: `span`
+        }]
+      }]);
       creator.appendChild(giveaway.creatorContainer);
       new Popout(``, giveaway.outerWrap, 100, false, giveaway.summary);
     });
@@ -18217,11 +18397,27 @@
       section.appendChild(attachButton.set);
       section.appendChild(createButton.set);
       section.appendChild(viewButton.set);
-      mgc.discussionPanel = insertHtml(section, `beforeEnd`, `
-        <div class="esgst-hidden">
-          <span class="esgst-bold">Discussion Attached:</span> <a></a> <i class="esgst-clickable fa fa-times" title="Detach discussion"></i>
-        </div>
-      `);
+      mgc.discussionPanel = createElements(section, `beforeEnd`, [{
+        attributes: {
+          class: `esgst-hidden`
+        },
+        type: `div`,
+        children: [{
+          attributes: {
+            class: `esgst-bold`
+          },
+          text: `Discussion Attached:`,
+          type: `span`
+        }, {
+          type: `a`
+        }, {
+          attributes: {
+            class: `esgst-clickable fa fa-times`,
+            title: `Detach discussion`
+          },
+          type: `i`
+        }]
+      }]);
       detach = mgc.discussionPanel.lastElementChild;
       detach.addEventListener(`click`, mgc_detachDiscussion.bind(null, mgc));
       mgc.discussionLink = detach.previousElementSibling;
@@ -18556,9 +18752,15 @@
     } else {
       mgc.datas.push(data);
       mgc.values.push(values);
-      mgc_setGiveaway(insertHtml(mgc.giveaways, `beforeEnd`, `
-        <div class="esgst-gm-giveaway" draggable="true" title="${details}">${mgc.datas.length}</div>
-      `), mgc);
+      mgc_setGiveaway(createElements(mgc.giveaways, `beforeEnd`, [{
+        attributes: {
+          class: `esgst-gm-giveaway`,
+          draggable: true,
+          title: details
+        },
+        text: mgc.datas.length,
+        type: `div`
+      }]), mgc);
     }
   }
 
@@ -18720,9 +18922,9 @@
     } else if (esgst.mgc_groupAllKeys) {
       groupKeys.container.classList.add(`esgst-hidden`);
     }
-    textArea = insertHtml(popup.scrollable, `beforeEnd`, `
-      <textarea></textarea>
-    `);
+    textArea = createElements(popup.scrollable, `beforeEnd`, [{
+      type: `textarea`
+    }]);
     progressPanel = insertHtml(popup.description, `beforeEnd`, `
       <div>
         <div class="esgst-progress-bar"></div>
@@ -18994,7 +19196,9 @@
       });
       context = conflictPopup.getScrollable();
       matches.forEach(match => {
-        let element = insertHtml(context, `beforeEnd`, match.outerHTML);
+        let element = createElements(context, `beforeEnd`, [{
+          context: match.cloneNode(true)
+        }]);
         element.classList.remove(`is-clickable`);
         button = new ButtonSet_v2({color1: `green`, color2: ``, icon1: `fa-arrow-circle-right`, icon2: ``, title1: `Select`, title2: ``, callback1: () => {
           conflictPopup.close();
@@ -19726,28 +19930,48 @@
   function mm_openPopout(obj, items, itemsKey) {
     if (obj.popout) return;
     obj.popout = new Popout(`esgst-mm-popout`, obj.button, 0, true);
-    obj.headings = insertHtml(obj.popout.popout, `afterBegin`, `
-      <div class="esgst-mm-headings"></div>
-      <div class="esgst-mm-sections"></div>
-    `);
+    obj.headings = createElements(obj.popout.popout, `afterBegin`, [{
+      attributes: {
+        class: `esgst-mm-headings`
+      },
+      type: `div`
+    }, {
+      attributes: {
+        class: `esgst-mm-sections`
+      },
+      type: `div`
+    }]);
     obj.sections = obj.headings.nextElementSibling;
     let activeIndex = 0;
     Object.keys(obj.checkboxes).forEach((key, i) => {
       if (!esgst.sg && key !== `Users`) return;
-      let heading = insertHtml(obj.headings, `beforeEnd`, `
-        <div>
-          <span></span> ${key}
-          <br/>
-          <span class="esgst-bold">${obj.counters[key]}</span> selected
-        </div>
-      `);
+      let heading = createElements(obj.headings, `beforeEnd`, [{
+        type: `div`,
+        children: [{
+          type: `span`
+        }, {
+          text: ` ${key}`,
+          type: `node`
+        }, {
+          type: `br`
+        }, {
+          attributes: {
+            class: `esgst-bold`
+          },
+          text: obj.counters[key],
+          type: `span`
+        }, {
+          text: ` selected`,
+          type: `node`
+        }]
+      }]);
       obj.counterElements[key] = heading.lastElementChild;
       let toggleSwitch = new ToggleSwitch(heading.firstElementChild, `mm_enable${key}`, true, ``, false, false, null, esgst[`mm_enable${key}`]);
       toggleSwitch.onEnabled = mm_enable.bind(null, obj, itemsKey === key ? items : null, key);
       toggleSwitch.onDisabled = mm_disable.bind(null, obj, itemsKey === key ? items : null, key);
-      mm_setSection(obj, insertHtml(obj.sections, `beforeEnd`, `
-        <div></div>
-      `), itemsKey === key ? items : null, key);
+      mm_setSection(obj, createElements(obj.sections, `beforeEnd`, [{
+        type: `div`
+      }]), itemsKey === key ? items : null, key);
       if (esgst.sg) {
         heading.addEventListener(`click`, mm_changeActiveSection.bind(null, obj, i));
       }
@@ -19777,9 +20001,12 @@
     items.forEach(item => {
       let checkbox = getChildByClassName(item.innerWrap, `esgst-mm-checkbox`) || getChildByClassName(item.innerWrap.parentElement, `esgst-mm-checkbox`);
       if (checkbox) return;
-      checkbox = new Checkbox(insertHtml(item.innerWrap, key.match(/Giveaways|Discussions/) ? `afterBegin` : `beforeBegin`, `
-        <div class="esgst-mm-checkbox"></div>
-      `), false, false, {
+      checkbox = new Checkbox(createElements(item.innerWrap, key.match(/Giveaways|Discussions/) ? `afterBegin` : `beforeBegin`, [{
+        attributes: {
+          class: `esgst-mm-checkbox`
+        },
+        type: `div`
+      }]), false, false, {
         select: `Add item to Multi-Manager selection`,
         unselect: `Remove item from Multi-Manager selection`
       });
@@ -20034,21 +20261,31 @@
       ],
     };
     sections.default.forEach((section, i) => {
-      let group = insertHtml(context, `beforeEnd`, `
-        <div class="esgst-button-group">
-          <span>${section.name}</span>
-        </div>
-      `);
+      let group = createElements(context, `beforeEnd`, [{
+        attributes: {
+          class: `esgst-button-group`
+        },
+        type: `div`,
+        children: [{
+          text: `${section.name}`,
+          type: `span`
+        }]
+      }]);
       let buttons = sections[key][i].concat(section.buttons);
       buttons.forEach(button => {
         if (!button.check) return;
         let element = new ButtonSet_v2(button).set;
         if (group.children.length === 4) {
-          group = insertHtml(context, `beforeEnd`, `
-            <div class="esgst-button-group">
-              <span>${section.name}</span>
-            </div>
-          `);
+          group = createElements(context, `beforeEnd`, [{
+            attributes: {
+              class: `esgst-button-group`
+            },
+            type: `div`,
+            children: [{
+              text: `${section.name}`,
+              type: `span`
+            }]
+          }]);
         }
         group.appendChild(element);
         if (button.key === `searchReplace`) {
@@ -20097,11 +20334,21 @@
         }
       });
     });
-    createTooltip(insertHtml(context, `beforeEnd`, `
-      <div class="esgst-description">
-        Enter the custom format below. <i class="fa fa-question-circle"></i>
-      </div>
-    `).lastElementChild, `
+    createTooltip(createElements(context, `beforeEnd`, [{
+      attributes: {
+        class: `esgst-description`
+      },
+      type: `div`,
+      children: [{
+        text: `Enter the custom format below. `,
+        type: `node`
+      }, {
+        attributes: {
+          class: `fa fa-question-circle`
+        },
+        type: `i`
+      }]
+    }]).lastElementChild, `
       <div>Delimit the line to be replaced and duplicated (in case more than one items were selected) with [line][/line]. If you want the lines to be sorted in ascending order use [line-asc][/line] instead, and for descending order use [line-desc][/line]. Then build your custom format between [line] and [/line] using the templates below. Some templates are not available depending on which page you are on.</div>
       <br/>
       <div class="esgst-bold">Giveaways:</div>
@@ -20176,11 +20423,15 @@
       <br/>
       <br/>
     `);
-    obj[`textArea${key}`] = insertHtml(context, `beforeEnd`, `
-      <div class="page_outer_wrap">
-        <textarea></textarea>
-      </div>
-    `).firstElementChild;
+    obj[`textArea${key}`] = createElements(context, `beforeEnd`, [{
+      attributes: {
+        class: `page_outer_wrap`
+      },
+      type: `div`,
+      children: [{
+        type: `textarea`
+      }]
+    }]).firstElementChild;
     if (esgst.cfh) {
       cfh_addPanel(obj[`textArea${key}`]);
     }
@@ -20600,9 +20851,12 @@
       },
       type: `div`
     }]);
-    obj.tPopup.input = insertHtml(obj.tPopup.description, `beforeEnd`, `
-      <input type="text">
-    `);
+    obj.tPopup.input = createElements(obj.tPopup.description, `beforeEnd`, [{
+      attributes: {
+        type: `text`
+      },
+      type: `input`
+    }]);
     createElements(obj.tPopup.description, `beforeEnd`, [{
       attributes: {
         class: `esgst-description`
@@ -21170,11 +21424,18 @@
     const container = button.previousElementSibling;
     container.classList.add(`esgst-pgb-container`);
     button.remove();
-    button = insertHtml(container, `afterEnd`, `
-      <div class="esgst-pgb-button">
-        <i class="esgst-pgb-icon fa fa-angle-down"></i>
-      </div>
-    `);
+    button = createElements(container, `afterEnd`, [{
+      attributes: {
+        class: `esgst-pgb-button`
+      },
+      type: `div`,
+      children: [{
+        attributes: {
+          class: `esgst-pgb-icon fa fa-angle-down`
+        },
+        type: `i`
+      }]
+    }]);
     const icon = button.firstElementChild;
     button.addEventListener(`click`, pgb_toggle.bind(null, container, icon));
   }
@@ -21315,12 +21576,26 @@
   });
 
   function qgs() {
-    let container = insertHtml(document.getElementsByClassName(`nav__left-container`)[0], `afterBegin`, `
-      <div class="esgst-qgs-container" title="${getFeatureTooltip(`qgs`)}">
-        <input class="esgst-qgs-input" placeholder="Search..." type="text">
-        <i class="fa fa-search"></i>
-      </div>
-    `);
+    let container = createElements(document.getElementsByClassName(`nav__left-container`)[0], `afterBegin`, [{
+      attributes: {
+        class: `esgst-qgs-container`,
+        title: getFeatureTooltip(`qgs`)
+      },
+      type: `div`,
+      children: [{
+        attributes: {
+          class: `esgst-qgs-input`,
+          placeholder: `Search...`,
+          type: `text`
+        },
+        type: `input`
+      }, {
+        attributes: {
+          class: `fa fa-search`
+        },
+        type: `i`
+      }]
+    }]);
     container.addEventListener(`mouseenter`, qgs_expand);
     container.addEventListener(`mouseleave`, qgs_collapse);
     container.firstElementChild.addEventListener(`keypress`, qgs_trigger);
@@ -21380,9 +21655,14 @@
       qgs
     };
     context.firstElementChild.remove();
-    obj.input = insertHtml(context, `afterBegin`, `
-      <input class="${qgs ? `esgst-qgs-input` : `sidebar__search-input`}" placeholder="Search..." type="text">
-    `);
+    obj.input = createElements(context, `afterBegin`, [{
+      attributes: {
+        class: `${qgs ? `esgst-qgs-input` : `sidebar__search-input`}`,
+        placeholder: `Search...`,
+        type: `text`
+      },
+      type: `input`
+    }]);
     let icon = obj.input.nextElementSibling;
     icon.classList.add(`esgst-clickable`);
     icon.title = getFeatureTooltip(`ags`, `Use advanced search`);
@@ -21519,11 +21799,16 @@
       return;
     }
     if (details.type === `checkbox`) {
-      let element = insertHtml(obj.panel, `beforeEnd`, `
-          <div class="esgst-ags-checkbox-filter">
-            <span>${details.name}</span>
-          </div>
-        `),
+      let element = createElements(obj.panel, `beforeEnd`, [{
+          attributes: {
+            class: `esgst-ags-checkbox-filter`
+          },
+          type: `div`,
+          children: [{
+            text: details.name,
+            type: `span`
+          }]
+        }]),
         filter = new Checkbox(
           element,
           esgst[details.key]
@@ -21535,20 +21820,35 @@
         parameter: details.parameter
       });
     } else if (details.options) {
-      let html = `
-        <select>
-      `;
+      let html = [{
+        type: `select`,
+        children: []
+      }];
       details.options.forEach(option => {
-        html += `
-          <option value="${option.value}">${option.name}</option>
-        `;
+        html[0].children.push({
+          attributes: {
+            value: option.value
+          },
+          text: option.name,
+          type: `option`
+         });
       });
-      html += `
-        </select>
-      `;
-      let element = insertHtml(obj.panel, `beforeEnd`, `
-          <div style="display: block;">${details.name} <div class="esgst-ags-filter">${html}</div></div>
-        `),
+      let element = createElements(obj.panel, `beforeEnd`, [{
+          attributes: {
+            style: `display: block;`
+          },
+          type: `div`,
+          children: [{
+            text: `${details.name} `,
+            type: `node`
+          }, {
+            attributes: {
+              class: `esgst-ags-filter`
+            },
+            type: `class`,
+            children: html
+          }]
+        }]),
         filter = element.firstElementChild.firstElementChild;
       filter.value = esgst[details.key];
       observeNumChange(filter, details.key);
@@ -21712,11 +22012,19 @@
     let elements, i;
     elements = esgst.activeDiscussions.querySelectorAll(`.homepage_heading, .esgst-heading-button`);
     for (i = elements.length - 1; i > -1; --i) {
-      insertHtml(elements[i], `beforeBegin`, `
-        <div class="esgst-radb-button${esgst.oadd ? `` : ` homepage_heading`}" title="${getFeatureTooltip(`radb`, `Refresh active discussions/deals`)}">
-          <i class="fa fa-refresh"></i>
-        </div>
-      `).addEventListener(`click`, event => {
+      createElements(elements[i], `beforeBegin`, [{
+        attributes: {
+          class: `esgst-radb-button${esgst.oadd ? `` : ` homepage_heading`}`,
+          title: getFeatureTooltip(`radb`, `Refresh active discussions/deals`)
+        },
+        type: `div`,
+        children: [{
+          attributes: {
+            class: `fa fa-refresh`
+          },
+          type: `i`
+        }]
+      }]).addEventListener(`click`, event => {
         let icon = event.currentTarget.firstElementChild;
         icon.classList.add(`fa-spin`);
         if (esgst.oadd) {
@@ -21755,9 +22063,12 @@
 
     let button = createHeadingButton({id: `rbp`, icons: [`fa-comment`], title: `Add a comment`});
     let popup = new Popup(`fa-comment`, `Add a comment:`);
-    popup.textArea = insertHtml(popup.scrollable, `beforeEnd`, `
-      <textarea name="description"></textarea>
-    `);
+    popup.textArea = createElements(popup.scrollable, `beforeEnd`, [{
+      attributes: {
+        name: `Description`
+      },
+      type: `textarea`
+    }]);
     popup.description.appendChild(new ButtonSet(`green`, `grey`, `fa-check`, `fa-circle-o-notch fa-spin`, `Save`, `Saving...`, Callback => {
       popup.progress.innerHTML = ``;
       saveComment(esgst.sg ? `` : document.querySelector(`[name="trade_code"]`).value, ``, popup.textArea.value, esgst.sg ? location.href.match(/(.+?)(#.+?)?$/)[1] : `/ajax.php`, popup.progress,
@@ -22657,11 +22968,17 @@
       }]);
     }
     if (esgst.cfh_p && !esgst.cfh_p_a) {
-      insertHtml(esgst.cfh.panel, `beforeEnd`, `
-        <div title="${getFeatureTooltip(`cfh_p`, `Preview`)}">
-          <i class="fa fa-eye"></i>
-        </div>
-      `).addEventListener(`click`, () => {
+      createElements(esgst.cfh.panel, `beforeEnd`, [{
+        attributes: {
+          title: getFeatureTooltip(`cfh_p`, `Preview`)
+        },
+        type: `div`,
+        children: [{
+          attributes: {
+            class: `fa fa-eye`
+          }
+        }]
+      }]).addEventListener(`click`, () => {
         createElements(esgst.cfh.preview, `inner`, parseMarkdown(esgst.cfh.textArea.value));
         cfh_formatImages(esgst.cfh.preview);
       });
@@ -26212,10 +26529,15 @@
       return;
     }
     sks.popup = new Popup(`fa-key`, `Search for keys:`);
-    sks.textArea = insertHtml(sks.popup.scrollable, `beforeEnd`, `
-      <div class="esgst-description">Insert the keys below, one per line.</div>
-      <textarea></textarea>
-    `);
+    sks.textArea = createElements(sks.popup.scrollable, `beforeEnd`, [{
+      attributes: {
+        class: `esgst-description`
+      },
+      text: `Insert the keys below, one per line.`,
+      type: `div`
+    }, {
+      type: `textarea`
+    }]);
     new ToggleSwitch(sks.popup.description, `sks_exportKeys`, false, `Export all keys ever sent.`, false, false, `This will search all your giveaways and export a file with all keys ever sent. You don't need to enter any keys if this option is enabled.`, esgst.sks_exportKeys);
     let searchCurrent = new ToggleSwitch(sks.popup.description, `sks_searchCurrent`, false, `Only search the current page.`, false, false, null, esgst.sks_searchCurrent);
     let minDate = new ToggleSwitch(sks.popup.description, `sks_limitDate`, false, `Limit search by date, from <input class="esgst-switch-input esgst-switch-input-large" type="date" value="${esgst.sks_minDate}"> to <input class="esgst-switch-input esgst-switch-input-large" type="date" value="${esgst.sks_maxDate}">.`, false, false, null, esgst.sks_limitDate).name.firstElementChild;
@@ -26455,11 +26777,19 @@
     let button;
     switch (esgst.stbb_index) {
       case 0:
-        button = insertHtml(document.body, `beforeEnd`, `
-          <div class="esgst-stbb-button esgst-stbb-button-fixed" title="${getFeatureTooltip(`stbb`, `Scroll to bottom`)}">
-            <i class="fa fa-chevron-down"></i>
-          </div>
-        `);
+        button = createElements(document.body, `beforeEnd`, [{
+          attributes: {
+            class: `esgst-stbb-button esgst-stbb-button-fixed`,
+            title: `${getFeatureTooltip(`stbb`, `Scroll to bottom`)}`
+          },
+          type: `div`,
+          children: [{
+            attributes: {
+              class: `fa fa-chevron-down`
+            },
+            type: `i`
+          }]
+        }]);
         addEventListener(`scroll`, () => {
           if (document.documentElement.offsetHeight -  innerHeight >=  scrollY + 100) {
             button.classList.remove(`esgst-hidden`);
@@ -26511,11 +26841,19 @@
     let button;
     switch (esgst.sttb_index) {
       case 0:
-        button = insertHtml(document.body, `beforeEnd`, `
-          <div class="esgst-sttb-button esgst-sttb-button-fixed" title="${getFeatureTooltip(`sttb`, `Scroll to top`)}">
-            <i class="fa fa-chevron-up"></i>
-          </div>
-        `);
+        button = createElements(document.body, `beforeEnd`, [{
+          attributes: {
+            class: `esgst-sttb-button esgst-sttb-button-fixed`,
+            title: `${getFeatureTooltip(`sttb`, `Scroll to top`)}`
+          },
+          type: `div`,
+          children: [{
+            attributes: {
+              class: `fa fa-chevron-up`
+            },
+            type: `i`
+          }]
+        }]);
         button.classList.add(`esgst-hidden`);
         addEventListener(`scroll`, () => {
           if (scrollY > 100) {
@@ -27257,11 +27595,19 @@
       code = location.pathname.match(/\/ticket\/(.+?)\//)[1];
       tickets = JSON.parse(esgst.storage.tickets);
       if (!tickets[code] || !tickets[code].sent) {
-        esgst.ustButton = insertHtml(document.getElementsByClassName(`page__heading`)[0].lastElementChild, `beforeBegin`, `
-          <div class="esgst-heading-button" title="${getFeatureTooltip(`ust`, `Send ticket to the User Suspension Tracker database`)}">
-            <i class="fa fa-paper-plane"></i>
-          </div>
-        `);
+        esgst.ustButton = createElements(document.getElementsByClassName(`page__heading`)[0].lastElementChild, `beforeBegin`, [{
+          attributes: {
+            class: `esgst-heading-button`,
+            title: `${getFeatureTooltip(`ust`, `Send ticket to the User Suspension Tracker database`)}`
+          },
+          type: `div`,
+          children: [{
+            attributes: {
+              class: `fa fa-paper-plane`
+            },
+            type: `i`
+          }]
+        }]);
         esgst.ustButton.addEventListener(`click`, ust_send);
       }
     }
@@ -27632,24 +27978,40 @@
       if (WBCButton.getAttribute(`data-mm`)) {
         if (!esgst.wbc_checkSelected) {
           if (esgst.wbc_checkSingle && checkSingleSwitch) {
-            let element = insertHtml(checkSingleSwitch.container, `afterBegin`, `
-              <span class="esgst-bold esgst-red">Disable this --></span>
-            `);
+            let element = createElements(checkSingleSwitch.container, `afterBegin`, [{
+              attributes: {
+                class: `esgst-bold esgst-red`
+              },
+              text: `Disable this -->`,
+              type: `span`
+            }]);
             setTimeout(() => element.remove(), 5000);
           } else if (esgst.wbc_checkAll) {
-            let element = insertHtml(checkAllSwitch.container, `afterBegin`, `
-              <span class="esgst-bold esgst-red">Disable this --></span>
-            `);
+            let element = createElements(checkAllSwitch.container, `afterBegin`, [{
+              attributes: {
+                class: `esgst-bold esgst-red`
+              },
+              text: `Disable this -->`,
+              type: `span`
+            }]);
             setTimeout(() => element.remove(), 5000);
           } else if (esgst.wbc_checkPages) {
-            let element = insertHtml(checkPagesSwitch.container, `afterBegin`, `
-              <span class="esgst-bold esgst-red">Disable this --></span>
-            `);
+            let element = createElements(checkPagesSwitch.container, `afterBegin`, [{
+              attributes: {
+                class: `esgst-bold esgst-red`
+              },
+              text: `Disable this -->`,
+              type: `span`
+            }]);
             setTimeout(() => element.remove(), 5000);
           }
-          let element = insertHtml(checkSelectedSwitch.container, `afterBegin`, `
-            <span class="esgst-bold esgst-red">Enable this --></span>
-          `);
+          let element = createElements(checkSelectedSwitch.container, `afterBegin`, [{
+            attributes: {
+              class: `esgst-bold esgst-red`
+            },
+            text: `Enable this -->`,
+            type: `span`
+          }]);
           setTimeout(() => element.remove(), 5000);
         }
         WBCButton.removeAttribute(`data-mm`);
@@ -28501,7 +28863,9 @@
       wbm.popup.description.appendChild(new ButtonSet(`green`, `grey`, `fa-arrow-up`, `fa-times`, `Import`, `Cancel`, wbm_start.bind(null, wbm, wbm_importList.bind(null, wbm)), wbm_cancel.bind(null, wbm)).set);
       wbm.popup.description.appendChild(new ButtonSet(`green`, `grey`, `fa-arrow-down`, `fa-times`, `Export`, `Cancel`, wbm_start.bind(null, wbm, wbm_exportList.bind(null, wbm, [], 1)), wbm_cancel.bind(null, wbm)).set);
       wbm.popup.description.appendChild(new ButtonSet(`green`, `grey`, `fa-trash`, `fa-times`, `Clear`, `Cancel`, wbm_start.bind(null, wbm, wbm_clearList.bind(null, wbm, [], 1)), wbm_cancel.bind(null, wbm)).set);
-      wbm.results = insertHtml(wbm.popup.scrollable,  `beforeEnd`, `<div></div>`);
+      wbm.results = createElements(wbm.popup.scrollable,  `beforeEnd`, [{
+        type: `div`
+      }]);
     }
     wbm.popup.open();
   }
@@ -28752,12 +29116,24 @@
     if (container.classList.contains(`comment__username`)) {
       context = container;
     }
-    insertHtml(isHeading ? container : context, isHeading ? `beforeEnd` : `afterEnd`, `
-      <a class="esgst-ut-button esgst-faded" title="${getFeatureTooltip(`ut`, `Edit user tags`)}">
-        <i class="fa fa-tag"></i>
-        <span class="esgst-ut-tags"></span>
-      </a>
-    `).addEventListener(`click`, ut_openPopup.bind(null, key, steamId, username));
+    createElements(isHeading ? container : context, isHeading ? `beforeEnd` : `afterEnd`, [{
+      attributes: {
+        class: `esgst-ut-button esgst-faded`,
+        title: getFeatureTooltip(`ut`, `Edit user tags`)
+      },
+      type: `a`,
+      children: [{
+        attributes: {
+          class: `fa fa-tag`
+        },
+        type: `i`
+      }, {
+        attributes: {
+          class: `esgst-ut-tags`
+        },
+        type: `span`
+      }]
+    }]).addEventListener(`click`, ut_openPopup.bind(null, key, steamId, username));
   }
 
   function ut_openPopup(key, steamId, username) {
@@ -28804,7 +29180,13 @@
       },
       type: `input`
     }]);
-    insertHtml(popup.description, `beforeEnd`, `<i class="esgst-ut-existing-button esgst-clickable fa fa-list" title="Select from existing tags"></i>`).addEventListener(`click`, ut_showExistingTags.bind(null, popup));
+    createElements(popup.description, `beforeEnd`, [{
+      attributes: {
+        class: `esgst-ut-existing-button esgst-clickable fa fa-list`,
+        title: `Select from existing tags`
+      },
+      type: `i`
+    }]).addEventListener(`click`, ut_showExistingTags.bind(null, popup));
     popup.input.addEventListener(`keydown`, triggerSetOnEnter.bind(null, set));
     popup.input.addEventListener(`input`, ut_createTags.bind(null, popup));
     createElements(popup.description, `beforeEnd`, [{
@@ -28852,11 +29234,15 @@
     tags.forEach(tag => {
       let checkbox, item;
       tag = tag.tag;
-      item = insertHtml(list, `beforeEnd`, `
-        <div>
-          <span></span> ${tag}
-        </div>
-      `);
+      item = createElements(list, `beforeEnd`, [{
+        type: `div`,
+        children: [{
+          type: `span`
+        }, {
+          text: ` ${tag}`,
+          type: `node`
+        }]
+      }]);
       if (esgst.ut_colors[tag]) {
         item.style.color = esgst.ut_colors[tag].color;
         item.style.backgroundColor = esgst.ut_colors[tag].bgColor;
@@ -29689,9 +30075,13 @@
     const elements = context.querySelectorAll(`${endless ? `.esgst-es-page-${endless} .form__key-btn-delete, .esgst-es-page-${endless}.form__key-btn-delete` : `.form__key-btn-delete`}`);
     for (let i = elements.length - 1; i > -1; --i) {
       const element = elements[i];
-          newElement = insertHtml(element, `afterEnd`, `
-            <span class="table__column__secondary-link esgst-clickable">Delete</span>
-          `);
+          newElement = createElements(element, `afterEnd`, [{
+            attributes: {
+              class: `table__column__secondary-link esgst-clickable`
+            },
+            text: `Delete`,
+            tpe: `span`
+          }]);
       element.remove();
       newElement.addEventListener(`click`, createConfirmation.bind(null, `Are you sure you want to delete this key?`, dkc_deleteKey.bind(null, newElement), null));
     }
@@ -30539,19 +30929,27 @@
   function sal_addLink(element, match) {
     let link, textArea;
     if ((element.nextElementSibling && !element.nextElementSibling.classList.contains(`esgst-sal`)) || !element.nextElementSibling) {
-      link = insertHtml(element, `afterEnd`, `
-        <span></span>
-      `);
+      link = createElements(element, `afterEnd`, [{
+        type: `span`
+      }]);
       switch (esgst.sal_index) {
         case 0:
-          insertHtml(link, `beforeEnd`, `
-            <span class="esgst-sal esgst-clickable" title="${getFeatureTooltip(`sal`, `Activate on Steam (client)`)}">
-              <i class="fa fa-steam"></i>
-            </span>
-          `).addEventListener(`click`, () => {
-            textArea = insertHtml(document.body, `beforeEnd`, `
-              <textarea></textarea>
-            `);
+          createElements(link, `beforeEnd`, [{
+            attributes: {
+              class: `esgst-sal esgst-clickable`,
+              title: getFeatureTooltip(`sal`, `Activate on Steam (client)`)
+            },
+            type: `span`,
+            children: [{
+              attributes: {
+                class: `fa fa-steam`
+              },
+              type: `i`
+            }]
+          }]).addEventListener(`click`, () => {
+            textArea = createElements(document.body, `beforeEnd`, [{
+              type: `textarea`
+            }]);
             textArea.value = match;
             textArea.select();
             document.execCommand(`copy`);
@@ -30585,9 +30983,9 @@
               <i class="fa fa-globe"></i>
             </a>
           `).previousElementSibling.addEventListener(`click`, () => {
-            textArea = insertHtml(document.body, `beforeEnd`, `
-              <textarea></textarea>
-            `);
+            textArea = createElements(document.body, `beforeEnd`, [{
+              type: `textarea`
+            }]);
             textArea.value = match;
             textArea.select();
             document.execCommand(`copy`);
@@ -32360,11 +32758,21 @@
     if (game && game.itadi && game.itadi.version === 2 && (currentTime - game.itadi.lastCheck < 86400000)) {
       itadi = game.itadi;
     } else {
-      const loading = insertHtml(esgst.sidebar, `beforeEnd`, `
-        <h3 class="sidebar__heading">
-          <i class="fa fa-circle-o-notch fa-spin"></i> Loading IsThereAnyDeal info...
-        </h3>
-      `);
+      const loading = createElements(esgst.sidebar, `beforeEnd`, [{
+        attributes: {
+          class: `sidebar__heading`
+        },
+        type: `h3`,
+        children: [{
+          attributes: {
+            class: `fa fa-circle-o-notch fa-spin`
+          },
+          type: `i`
+        }, {
+          text: ` Loading IsThereAnyDeal info...`,
+          type: `node`
+        }]
+      }]);
       itadi = await itadi_loadInfo(giveaway, plain);
       loading.remove();
     }
@@ -32537,15 +32945,24 @@
       let hideButton = giveaway.innerWrap.querySelector(`.giveaway__hide, .featured__giveaway__hide`);
       if (!hideButton && (!main || esgst.giveawaysPath || esgst.giveawayPath)) {
         if (esgst.giveawayPath && main) {
-          hideButton = insertHtml(giveaway.headingName.parentElement, `beforeEnd`, `
-            <a>
-              <i class="fa fa-eye giveaway__hide" title="${getFeatureTooltip(`ugb`, `Unhide all giveaways for this game`)}"></i>
-            </a>
-          `);
+          hideButton = createElements(giveaway.headingName.parentElement, `beforeEnd`, [{
+            type: `a`,
+            children: [{
+              attributes: {
+                class: `fa fa-eye giveaway__hide`,
+                title: getFeatureTooltip(`ugb`, `Unhide all giveaways for this game`)
+              },
+              type: `i`
+            }]
+          }]);
         } else {
-          hideButton = insertHtml(giveaway.headingName.parentElement, `beforeEnd`, `
-            <i class="fa fa-eye giveaway__hide giveaway__icon" title="${getFeatureTooltip(`ugb`, `Unhide all giveaways for this game`)}"></i>
-          `);
+          hideButton = createElements(giveaway.headingName.parentElement, `beforeEnd`, [{
+            attributes: {
+              class: `fa fa-eye giveaway__hide giveaway__icon`,
+              title: getFeatureTooltip(`ugb`, `Unhide all giveaways for this game`)
+            },
+            type: `i`
+          }]);
         }
         hideButton.addEventListener(`click`, unhideGame.bind(null, hideButton, giveaway.gameId, giveaway.name, giveaway.id, giveaway.type));
       }
@@ -32728,7 +33145,14 @@
       giveaways.forEach(giveaway => {
         if (!giveaway.ended && !giveaway.entered && giveaway.points > esgst.points) {
           if (!giveaway.ttec) {
-            giveaway.ttec = insertHtml(giveaway.panel, (esgst.gv && ((main && esgst.giveawaysPath) || (source === `gb` && esgst.gv_gb) || (source === `ged` && esgst.gv_ged) || (source === `ge` && esgst.gv_ge))) ? `beforeEnd` : `afterBegin`, `<div class="${esgst.giveawayPath ? `featured__column` : ``} esgst-ttec" data-columnId="ttec" title="${getFeatureTooltip(`ttec`, `Time to wait until you have enough points to enter this giveaway`)}"></div>`);
+            giveaway.ttec = createElements(giveaway.panel, (esgst.gv && ((main && esgst.giveawaysPath) || (source === `gb` && esgst.gv_gb) || (source === `ged` && esgst.gv_ged) || (source === `ge` && esgst.gv_ge))) ? `beforeEnd` : `afterBegin`, [{
+              attributes: {
+                class: `${esgst.giveawayPath ? `featured__column` : ``} esgst-ttec`,
+                [`data-columnId`]: `ttec`,
+                title: getFeatureTooltip(`ttec`, `Time to wait until you have enough points to enter this giveaway`)
+              },
+              type: `div`
+            }]);
             if (!esgst.lockGiveawayColumns && (!main || esgst.giveawaysPath || esgst.userPath || esgst.groupPath)) {
               giveaway.ttec.setAttribute(`draggable`, true);
               giveaway.ttec.addEventListener(`dragstart`, giveaways_setSource.bind(null, giveaway));
@@ -33116,12 +33540,25 @@
           groupCount += 1;
         }
         if (className !== `esgst-hidden`) {
-          link = insertHtml(panel, `beforeEnd`, `
-            <div class="${className}">
-              <a class="table_image_avatar" href="/group/${group.code}/"  style="background-image:url(http://cdn.edgecast.steamstatic.com/steamcommunity/public/images/avatars/${group.avatar}_medium.jpg)"></a>
-              <a href="/group/${group.code}/"></a>
-            </div>
-          `).lastElementChild;
+          link = createElements(panel, `beforeEnd`, [{
+            attributes: {
+              class: className
+            },
+            type: `div`,
+            children: [{
+              attributes: {
+                class: `table_image_avatar`,
+                href: `/group/${group.code}/`,
+                style: `background-image:url(http://cdn.edgecast.steamstatic.com/steamcommunity/public/images/avatars/${group.avatar}_medium.jpg)`
+              },
+              type: `a`
+            }, {
+              attributes: {
+                href: `/group/${group.code}/`
+              },
+              type: `a`
+            }]
+          }]).lastElementChild;
           link.textContent = group.name;
           if (esgst.ap) {
             ap_getAvatars(panel);
@@ -33496,10 +33933,17 @@
     giveaway.panel = giveaway.innerWrap.getElementsByClassName(`esgst-giveaway-panel`)[0];
     if (!giveaway.panel && (esgst.gwc || esgst.gwr || esgst.gptw || esgst.gp || esgst.elgb || esgst.cewgd)) {
       if (giveaway.links) {
-        giveaway.panel = insertHtml(giveaway.links, `afterEnd`, `
-          <div class="giveaway__columns esgst-giveaway-panel"></div>
-          <div style="clear: both;"></div>
-        `);
+        giveaway.panel = createElements(giveaway.links, `afterEnd`, [{
+          attributes: {
+            class: `giveaway__columns esgst-giveaway-panel`
+          },
+          type: `div`
+        }, {
+          attributes: {
+            style: `clear: both;`
+          },
+          type: `div`
+        }]);
       } else if (giveaway.columns) {
         if (esgst.archivePath) {
           giveaway.columns.style.justifyContent = `right`;
@@ -33527,11 +33971,21 @@
       }
     }
     if (giveaway.sgTools && !giveaway.summary.getElementsByClassName(`esgst-ge-sgt-button`)[0]) {
-      const sgTools = insertHtml(giveaway.summary, `beforeEnd`, `
-        <a class="esgst-ge-sgt-button esgst-giveaway-column-button" href="https://www.sgtools.info/giveaways/${giveaway.code}" target="_blank">
-          <div class="form__submit-button">SGTools</div>
-        </a>
-      `);
+      const sgTools = createElements(giveaway.summary, `beforeEnd`, [{
+        attributes: {
+          class: `esgst-ge-sgt-button esgst-giveaway-column-button`,
+          href: `https://www.sgtools.info/giveaways/${giveaway.code}`,
+          target: `_blank`
+        },
+        type: `a`,
+        children: [{
+          attributes: {
+            class: `form__submit-button`
+          },
+          text: `SGTools`,
+          type: `div`
+        }]
+      }]);
       sgTools.setAttribute(`data-columnId`, `sgTools`);
       if (!esgst.lockGiveawayColumns && (!main || esgst.giveawaysPath || esgst.userPath || esgst.groupPath)) {
         sgTools.setAttribute(`draggable`, true);
@@ -33612,11 +34066,19 @@
     giveaway.pointsToWin = pointsToWin ? parseFloat(pointsToWin.getAttribute(`data-pointsToWin`)) : 0;
     if (main) {
       if (esgst.gr && giveaway.creator === esgst.username && (esgst.gr_a || (giveaway.ended && (giveaway.entries === 0 || giveaway.entries < giveaway.copies))) && (!esgst.gr_r || !esgst.giveaways[giveaway.code] || !esgst.giveaways[giveaway.code].recreated) && !giveaway.headingName.parentElement.getElementsByClassName(`esgst-gr-button`)[0]) {
-        let button = insertHtml(giveaway.headingName, `beforeBegin`, `
-          <div class="esgst-gr-button" title="${getFeatureTooltip(`gr`, `Recreate giveaway`)}">
-            <i class="fa fa-rotate-left"></i>
-          </div>
-        `);
+        let button = createElements(giveaway.headingName, `beforeBegin`, [{
+          attributes: {
+            class: `esgst-gr-button`,
+            title: `${getFeatureTooltip(`gr`, `Recreate giveaway`)}`
+          },
+          type: `div`,
+          children: [{
+            attributes: {
+              class: `fa fa-rotate-left`
+            },
+            type: `i`
+          }]
+        }]);
         button.firstElementChild.addEventListener(`click`, gr_recreateGiveaway.bind(null, button, giveaway));
       }
     }
@@ -34397,21 +34859,41 @@
             }
           }
           if (!esgst.menuPath && savedGames[type][id] && savedGames[type][id].entered && !game.container.getElementsByClassName(`esgst-egh-button`)[0]) {
-            insertHtml((game.container.closest(`.poll`) && game.container.getElementsByClassName(`table__column__heading`)[0]) || game.headingName, `beforeBegin`, `
-              <a class="esgst-egh-button" title="${getFeatureTooltip(`egh`, `You have entered giveaways for this game before. Click to unhighlight it`)}">
-                <i class="fa fa-star esgst-egh-icon"></i>
-              </a>
-            `).addEventListener(`click`, egh_unhighlightGame.bind(null, id, type));
+            createElements((game.container.closest(`.poll`) && game.container.getElementsByClassName(`table__column__heading`)[0]) || game.headingName, `beforeBegin`, [{
+              attributes: {
+                class: `esgst-egh-button`,
+                title: getFeatureTooltip(`egh`, `You have entered giveaways for this game before. Click to unhighlight it`)
+              },
+              type: `a`,
+              children: [{
+                attributes: {
+                  class: `fa fa-star esgst-egh-icon`
+                },
+                type: `i`
+              }]
+            }]).addEventListener(`click`, egh_unhighlightGame.bind(null, id, type));
           }
         }
         if (esgst.gt) {
           if (!game.container.getElementsByClassName(`esgst-gt-button`)[0]) {
-            insertHtml((game.container.closest(`.poll`) && game.container.getElementsByClassName(`table__column__heading`)[0]) || game.heading.lastElementChild || game.heading, `afterEnd`, `
-              <a class="esgst-faded esgst-gt-button" title="${getFeatureTooltip(`gt`, `Edit game tags`)}">
-                <i class="fa fa-tag"></i>
-                <span class="esgst-gt-tags"></span>
-              </a>
-            `).addEventListener(`click`, gt_openPopup.bind(null, id, game.name, type));
+            createElements((game.container.closest(`.poll`) && game.container.getElementsByClassName(`table__column__heading`)[0]) || game.heading.lastElementChild || game.heading, `afterEnd`, [{
+              attributes: {
+                class: `esgst-faded esgst-gt-button`,
+                title: getFeatureTooltip(`gt`, `Edit game tags`)
+              },
+              type: `a`,
+              children: [{
+                attributes: {
+                  class: `fa fa-tag`
+                },
+                type: `i`
+              }, {
+                attributes: {
+                  class: `esgst-gt-tags`
+                },
+                type: `span`
+              }]
+            }]).addEventListener(`click`, gt_openPopup.bind(null, id, game.name, type));
           }
           if (savedGames[type][id] && savedGames[type][id].tags) {
             gt_addTags([game], id, savedGames[type][id].tags, type);
@@ -34689,9 +35171,12 @@
       let column = columns[i];
       columnName = column.textContent.trim();
       if (!columnName.match(/^(Keys|Key|Not\sReceived|Remove)$/) && (!esgst.wonPath || !columnName.match(/^Received$/)) && !column.getElementsByClassName(`esgst-ts-button`)[0]) {
-        button = insertHtml(column, `beforeEnd`, `
-          <span class="esgst-ts-button esgst-clickable"></span>
-        `);
+        button = createElements(column, `beforeEnd`, [{
+          attributes: {
+            class: `esgst-ts-button esgst-clickable`
+          },
+          type: `span`
+        }]);
         ts_addDescButton(button, columnName, i, table, tsTable);
       }
     }
@@ -34984,11 +35469,19 @@
     } else {
       position = `afterBegin`;
     }
-    profile.unButton = insertHtml(profile.heading, position, `
-      <a class="esgst-un-button" title="${getFeatureTooltip(`un`, `Edit user notes`)}">
-        <i class="fa"></i>
-      </a>
-    `);
+    profile.unButton = createElements(profile.heading, position, [{
+      attributes: {
+        class: `esgst-un-button`,
+        title: getFeatureTooltip(`un`, `Edit user notes`)
+      },
+      type: `a`,
+      children: [{
+        attributes: {
+          class: `fa`
+        },
+        type: `i`
+      }]
+    }]);
     profile.unIcon = profile.unButton.firstElementChild;
     if (savedUser && savedUser.notes) {
       profile.unIcon.classList.add(`fa-sticky-note`);
@@ -35010,9 +35503,9 @@
       text: `:`,
       type: `node`
     }], true);
-    profile.unTextArea = insertHtml(profile.unPopup.scrollable, `beforeEnd`, `
-      <textarea></textarea>
-    `);
+    profile.unTextArea = createElements(profile.unPopup.scrollable, `beforeEnd`, [{
+      type: `textarea`
+    }]);
     set = new ButtonSet_v2({color1: `green`, color2: `grey`, icon1: `fa-check`, icon2: `fa-circle-o-notch fa-spin`, title1: `Save`, title2: `Saving...`, callback1: un_save.bind(null, profile)});
     profile.unTextArea.addEventListener(`keydown`, event => {
       if (event.ctrlKey && event.key === `Enter`) {
@@ -35093,11 +35586,19 @@
 
   function uf_add(profile, savedUser) {
     if (profile.username !== esgst.username) {
-      profile.ufButton = insertHtml(profile.heading, `beforeEnd`, `
-        <a class="esgst-uf-button" title="${getFeatureTooltip(`uf`, `Edit user filters`)}">
-          <i class="fa"></i>
-        </a>
-      `);
+      profile.ufButton = createElements(profile.heading, `beforeEnd`, [{
+        attributes: {
+          class: `esgst-uf-button`,
+          title: getFeatureTooltip(`uf`, `Edit user filters`)
+        },
+        type: `a`,
+        children: [{
+          attributes: {
+            class: `fa`
+          },
+          type: `i`
+        }]
+      }]);
       profile.ufIcon = profile.ufButton.firstElementChild;
       if (savedUser) {
         profile.ufValues = savedUser.uf;
@@ -35255,11 +35756,19 @@
       // no point in checking which groups a user shares with themselves
       return;
     }
-    profile.sgcButton = insertHtml(profile.heading, `beforeEnd`, `
-      <a class="esgst-sgc-button" title="${getFeatureTooltip(`sgc`, `Check shared groups`)}">
-        <i class="fa fa-users"></i>
-      </a>
-    `);
+    profile.sgcButton = createElements(profile.heading, `beforeEnd`, [{
+      attributes: {
+        class: `esgst-sgc-button`,
+        title: getFeatureTooltip(`sgc`, `Check shared groups`)
+      },
+      type: `a`,
+      children: [{
+        attributes: {
+          class: `fa fa-users`
+        },
+        type: `i`
+      }]
+    }]);
     profile.sgcButton.addEventListener(`click`, sgc_open.bind(null, profile));
   }
 
@@ -35268,12 +35777,18 @@
       profile.sgcPopup.open();
     } else {
       profile.sgcPopup = new Popup(`fa-users`, `Shared Groups`);
-      profile.sgcProgress = insertHtml(profile.sgcPopup.description, `beforeEnd`, `
-        <div>
-          <i class="fa fa-circle-o-notch fa-spin"></i>
-          <span>Checking shared groups...</span>
-        </div>
-      `);
+      profile.sgcProgress = insertHtml(profile.sgcPopup.description, `beforeEnd`, [{
+        type: `div`,
+        children: [{
+          attributes: {
+            class: `fa fa-circle-o-notch fa-spin`
+          },
+          type: `i`
+        }, {
+          text: `Checking shared groups...`,
+          type: `span`
+        }]
+      }]);
       profile.sgcResults = insertHtml(profile.sgcPopup.scrollable, `beforeEnd`, `
         <div class="esgst-sgc-results esgst-glwc-results esgst-text-left">
           <div>
@@ -37797,11 +38312,21 @@
     let key, url;
     if (esgst.qiv.markReadButton) return;
     if (esgst.sg) {
-      esgst.qiv.markReadButton = insertHtml(esgst.qiv.popout.popout, `afterBegin`, `
-        <div class="sidebar__action-button">
-          <i class="fa fa-check-circle"></i> Mark as Read
-        </div>
-      `);
+      esgst.qiv.markReadButton = createElements(esgst.qiv.popout.popout, `afterBegin`, [{
+        attributes: {
+          class: `sidebar__action-button`
+        },
+        type: `div`,
+        children: [{
+          attributes: {
+            class: `fa fa-check-circle`
+          },
+          type: `i`
+        }, {
+          text: ` Mark as Read`,
+          type: `node`
+        }]
+      }]);
       key = `read_messages`;
       url = `/messages`;
     } else {
@@ -41364,10 +41889,33 @@
         i += 1;
       }
     }
-    createMenuSection(SMMenu, `
-      <input class="esgst-steam-api-key" type="text"/>
-      <div class="esgst-description">This is optional for syncing owned games faster and required for syncing alt accounts. Get a Steam API Key <a class="esgst-bold" href="https://steamcommunity.com/dev/apikey" target="_blank">here</a>. You can enter any domain in there, it is irrelevant, for example, "https://www.steamgifts.com".</div>
-    `, i, `Steam API Key`);
+    createMenuSection(SMMenu, [{
+      attributes: {
+        class: `esgst-steam-api-key`,
+        type: `text`
+      },
+      type: `input`
+    }, {
+      attributes: {
+        class: `esgst-description`
+      },
+      type: `div`,
+      children: [{
+        text: `This is optional for syncing owned games faster and required for syncing alt accounts. Get a Steam API Key `,
+        type: `node`
+      }, {
+        attributes: {
+          class: `esgst-bold`,
+          href: `https://steamcommunity.com/dev/apikey`,
+          target: `_blank`
+        },
+        text: `here`,
+        type: `a`
+      }, {
+        text: `. You can enter any domain in there, it is irrelevant, for example, "https://www.steamgifts.com".`,
+        type: `node`
+      }]
+    }], i, `Steam API Key`);
     SMManageFilteredUsers = fixed.getElementsByClassName(`SMManageFilteredUsers`)[0];
     let SMManageFilteredGiveaways = fixed.getElementsByClassName(`SMManageFilteredGiveaways`)[0];
     let SMManageFilteredDiscussions = fixed.getElementsByClassName(`SMManageFilteredDiscussions`)[0];
@@ -41569,17 +42117,29 @@
       type: `div`
     }]);
     item.switch = new ToggleSwitch(item.container, null, true, ``, false, false, null, path.enabled);
-    item.input = insertHtml(item.container, `beforeEnd`, `
-      <input class="esgst-switch-input esgst-switch-input-large" type="text">
-    `);
+    item.input = createElements(item.container, `beforeEnd`, [{
+      attributes: {
+        class: `esgst-switch-input esgst-switch-input-large`,
+        type: `text`
+      },
+      type: `input`
+    }]);
     item.input.value = path.pattern;
     item.input.addEventListener(`input`, validatePathRegex.bind(null, item));
-    insertHtml(item.container, `beforeEnd`, `
-      <i class="fa fa-times-circle esgst-clickable" title="Remove"></i>
-    `).addEventListener(`click`, removePath.bind(null, item, key, obj));
-    item.invalid = insertHtml(item.container, `beforeEnd`, `
-      <i class="fa fa-exclamation esgst-hidden esgst-red" title="Invalid Regular Expression"></i>
-    `);
+    createElements(item.container, `beforeEnd`, [{
+      attributes: {
+        class: `fa fa-times-circle esgst-clickable`,
+        title: `Remove`
+      },
+      type: `i`
+    }]).addEventListener(`click`, removePath.bind(null, item, key, obj));
+    item.invalid = createElements(item.container, `beforeEnd`, [{
+      attributes: {
+        class: `fa fa-exclamation esgst-hidden esgst-red`,
+        title: `Invalid Regular Expression`
+      },
+      type: `i`
+    }]);
     obj[`${key}Items`].push(item);
     item.input.focus();
   }
@@ -41645,7 +42205,13 @@
       set1 = getFeaturePath(Feature, ID, `sg`);
       val1 = set1.enabled;
       siwtchSg = new ToggleSwitch(Menu, ID, true, esgst.settings.esgst_st ? `[SG]` : ``, true, false, null, val1);
-      insertHtml(Menu, `beforeEnd`, `<i class="fa fa-gear esgst-clickable" title="Customize where the feature runs"></i>`).addEventListener(`click`, openPathsPopup.bind(null, Feature, ID, `sg`));
+      createElements(Menu, `beforeEnd`, [{
+        attributes: {
+          class: `fa fa-gear esgst-clickable`,
+          title: `Customize where the feature runs`
+        },
+        type: `i`
+      }]).addEventListener(`click`, openPathsPopup.bind(null, Feature, ID, `sg`));
       if (Feature.conflicts) {
         siwtchSg.onEnabled = () => {
           for (let ci = 0, cn = Feature.conflicts.length; ci < cn; ++ci) {
@@ -41691,7 +42257,13 @@
       set2 = getFeaturePath(Feature, ID, `st`);
       val2 = set2.enabled;
       siwtchSt = new ToggleSwitch(Menu, ID, true, `[ST]`, false, true, null, val2);
-      insertHtml(Menu, `beforeEnd`, `<i class="fa fa-gear esgst-clickable" title="Customize where the feature runs"></i>`).addEventListener(`click`, openPathsPopup.bind(null, Feature, ID, `st`));
+      createElements(Menu, `beforeEnd`, [{
+        attributes: {
+          class: `fa fa-gear esgst-clickable`,
+          title: `Customize where the feature runs`
+        },
+        type: `i`
+      }]).addEventListener(`click`, openPathsPopup.bind(null, Feature, ID, `st`));
       if (Feature.conflicts) {
         siwtchSt.onEnabled = () => {
           for (let ci = 0, cn = Feature.conflicts.length; ci < cn; ++ci) {
@@ -41736,9 +42308,14 @@
     }
     isMainNew = esgst.dismissedOptions.indexOf(ID) < 0 && (!set1 || set1.new) && (!set2 || set2.new);
     if (isMainNew) {
-      insertHtml(Menu.firstElementChild, `afterEnd`, `
-        <span class="esgst-bold esgst-red esgst-clickable" title="This is a new feature/option. Click to dismiss.">[NEW]</span>
-      `).addEventListener(`click`, dismissNewOption.bind(null, ID));
+      createElements(Menu.firstElementChild, `afterEnd`, [{
+        attributes: {
+          class: `esgst-bold esgst-red esgst-clickable`,
+          title: `This is a new feature/option. Click to dismiss.`
+        },
+        title: `[NEW]`,
+        type: `span`
+      }]).addEventListener(`click`, dismissNewOption.bind(null, ID));
     }
     val = val1 || val2;
     createElements(Menu, `beforeEnd`, [{
@@ -41857,20 +42434,53 @@
       addGcAltMenuPanel(SMFeatures);
       SMFeatures.classList.remove(`esgst-hidden`);
     } else if (ID === `lockGiveawayColumns`) {
-      let select = insertHtml(SMFeatures, `beforeEnd`, `
-        <div class="esgst-sm-colors">
-          Select an option below and click on the button to reset the order:
-          <br>
-          <select>
-            <option value="giveawayColumns">Giveaway Columns [${esgst.giveawayColumns.join(`, `)}]</option>
-            <option value="giveawayPanel">Giveaway Panel [${esgst.giveawayPanel.join(`, `)}]</option>
-            <option value="giveawayColumns_gv">Giveaway Columns (Grid View) [${esgst.giveawayColumns_gv.join(`, `)}]</option>
-            <option value="giveawayPanel_gv">Giveaway Panel (Grid View) [${esgst.giveawayPanel_gv.join(`, `)}]</option>
-          </select>
-          <br>
-          <div class="form__saving-button esgst-sm-colors-default">Reset Order</div>
-        </div>
-      `).firstElementChild.nextElementSibling;
+      let select = createElements(SMFeatures, `beforeEnd`, [{
+        attributes: {
+          class: `esgst-sm-colors`,
+        },
+        type: `div`,
+        children: [{
+          text: `Select an option below and click on the button to reset the order:`,
+          type: `node`
+        }, {
+          type: `br`
+        }, {
+          type: `select`,
+          children: [{
+            attributes: {
+              value: `giveawayColumns`
+            },
+            text: `Giveaway Columns [${esgst.giveawayColumns.join(`, `)}]`,
+            type: `option`
+          }, {
+            attributes: {
+              value: `giveawayPanel`
+            },
+            text: `Giveaway Panel [${esgst.giveawayPanel.join(`, `)}]`,
+            type: `option`
+          }, {
+            attributes: {
+              value: `giveawayColumns_gv`
+            },
+            text: `Giveaway Columns (Grid View) [${esgst.giveawayColumns_gv.join(`, `)}]`,
+            type: `option`
+          }, {
+            attributes: {
+              value: `giveawayPanel_gv`
+            },
+            text: `Giveaway Panel (Grid View) [${esgst.giveawayPanel_gv.join(`, `)}]`,
+            type: `option`
+          }]
+        }, {
+          type: `br`
+        }, {
+          attributes: {
+            class: `form__saving-button esgst-sm-colors-default`
+          },
+          text: `Reset Order`,
+          type: `div`
+        }]
+      }]).firstElementChild.nextElementSibling;
       select.nextElementSibling.nextElementSibling.addEventListener(`click`, resetOrder.bind(null, select));
       SMFeatures.classList.remove(`esgst-hidden`);
     } else if (Feature.colors || Feature.background) {
@@ -41997,9 +42607,14 @@
         }
         if (typeof esgst.settings[item.id] === `undefined` && esgst.dismissedOptions.indexOf(item.id) < 0) {
           isMainNew = true;
-          insertHtml(context, `afterBegin`, `
-            <span class="esgst-bold esgst-red esgst-clickable" title="This is a new feature/option. Click to dismiss.">[NEW]</span>
-          `).addEventListener(`click`, dismissNewOption.bind(null, item.id));
+          createElements(context, `afterBegin`, [{
+            attributes: {
+              class: `esgst-bold esgst-red esgst-clickable`,
+              title: `This is a new feature/option. Click to dismiss.`
+            },
+            text: `[NEW]`,
+            type: `span`
+          }]).addEventListener(`click`, dismissNewOption.bind(null, item.id));
         }
         input.addEventListener(item.event || `change`, event => {
           if (item.shortcutKey) {
@@ -42109,18 +42724,26 @@
     }
     if (Feature.options) {
       let index = esgst[`${ID}_index`];
-      let options = ``;
+      let options = [];
       for (let j = 0, jj = Feature.options.values.length; j < jj; ++j) {
-        options += `<option>${Feature.options.values[j]}</option>`;
+        options.push({
+          text: Feature.options.values[j],
+          type: `option`
+        });
       }
-      let select = insertHtml(SMFeatures, `beforeEnd`, `
-        <div class="esgst-sm-colors">
-          ${Feature.options.title}
-          <select>
-            ${options}
-          </select>
-        </div>
-      `);
+      let select = createElements(SMFeatures, `beforeEnd`, [{
+        attributes: {
+          class: `esgst-sm-colors`
+        },
+        type: `div`,
+        children: [{
+          text: Feature.options.title,
+          type: `node`
+        }, {
+          type: `select`,
+          children: options
+        }]
+      }]);
       select.firstElementChild.selectedIndex = index;
       observeNumChange(select.firstElementChild, `${ID}_index`, `selectedIndex`);
       if (siwtchSg) {
@@ -42144,131 +42767,456 @@
     for (let i = 0, n = esgst[categoryKey].length; i < n; i++) {
       switch (esgst[categoryKey][i]) {
         case `gc_fcv`:
-          elements.push(`
-            <div class="esgst-clickable esgst-gc esgst-gc-fullCV ${esgst.gc_fcv ? `` : `esgst-hidden`}" draggable="true" id="gc_fcv" title="Full CV">${esgst.gc_fcv_s ? (esgst.gc_fcv_s_i ? `<i class="fa fa-${esgst.gc_fcvIcon}"></i>` : `FCV`) : esgst.gc_fcvLabel}</div>
-          `);
+          elements.push({
+            attributes: {
+              class: `esgst-clickable esgst-gc esgst-gc-fullCV ${esgst.gc_fcv ? `` : `esgst-hidden`}`,
+              draggable: true,
+              id: `gc_fcv`,
+              title: `Full CV`
+            },
+            text: esgst.gc_fcv_s ? (esgst.gc_fcv_s_i ? `` : `FCV`) : esgst.gc_fcvLabel,
+            type: `div`,
+            children: esgst.gc_fcv_s && esgst.gc_fcv_s_i ? [{
+              attributes: {
+                class: `fa fa-${esgst.gc_fcvIcon}`
+              },
+              type: `i`
+            }] : null
+          });
           break;
         case `gc_rcv`:
-          elements.push(`
-            <div class="esgst-clickable esgst-gc esgst-gc-reducedCV ${esgst.gc_rcv ? `` : `esgst-hidden`}" draggable="true" id="gc_rcv" title="Reduced CV">${esgst.gc_rcv_s ? (esgst.gc_rcv_s_i ? `<i class="fa fa-${esgst.gc_rcvIcon}"></i>` : `RCV`) : esgst.gc_rcvLabel}</div>
-          `);
+          elements.push({
+            attributes: {
+              class: `esgst-clickable esgst-gc esgst-gc-reducedCV ${esgst.gc_rcv ? `` : `esgst-hidden`}`,
+              draggable: true,
+              id: `gc_rcv`,
+              title: `Reduced CV`
+            },
+            text: esgst.gc_rcv_s ? (esgst.gc_rcv_s_i ? `` : `RCV`) : esgst.gc_rcvLabel,
+            type: `div`,
+            children: esgst.gc_rcv_s && esgst.gc_rcv_s_i ? [{
+              attributes: {
+                class: `fa fa-${esgst.gc_rcvIcon}`
+              },
+              type: `i`
+            }] : null
+          });
           break;
         case `gc_ncv`:
-          elements.push(`
-            <div class="esgst-clickable esgst-gc esgst-gc-noCV ${esgst.gc_ncv ? `` : `esgst-hidden`}" draggable="true" id="gc_ncv" title="No CV">${esgst.gc_ncv_s ? (esgst.gc_ncv_s_i ? `<i class="fa fa-${esgst.gc_ncvIcon}"></i>` : `NCV`) : esgst.gc_ncvLabel}</div>
-          `);
+          elements.push({
+            attributes: {
+              class: `esgst-clickable esgst-gc esgst-gc-noCV ${esgst.gc_ncv ? `` : `esgst-hidden`}`,
+              draggable: true,
+              id: `gc_ncv`,
+              title: `No CV`
+            },
+            text: esgst.gc_ncv_s ? (esgst.gc_ncv_s_i ? `` : `NCV`) : esgst.gc_ncvLabel,
+            type: `div`,
+            children: esgst.gc_ncv_s && esgst.gc_ncv_s_i ? [{
+              attributes: {
+                class: `fa fa-${esgst.gc_ncvIcon}`
+              },
+              type: `i`
+            }] : null
+          });
           break;
         case `gc_h`:
-          elements.push(`
-            <div class="esgst-clickable esgst-gc esgst-gc-hidden ${esgst.gc_h ? `` : `esgst-hidden`}" draggable="true" id="gc_h" title="Hidden">${esgst.gc_h_s ? (esgst.gc_h_s_i ? `<i class="fa fa-${esgst.gc_hIcon}"></i>` : `H`) : esgst.gc_hLabel}</div>
-          `);
+          elements.push({
+            attributes: {
+              class: `esgst-clickable esgst-gc esgst-gc-hidden ${esgst.gc_h ? `` : `esgst-hidden`}`,
+              draggable: true,
+              id: `gc_h`,
+              title: `Hidden`
+            },
+            text: esgst.gc_h_s ? (esgst.gc_h_s_i ? `` : `H`) : esgst.gc_hLabel,
+            type: `div`,
+            children: esgst.gc_h_s && esgst.gc_h_s_i ? [{
+              attributes: {
+                class: `fa fa-${esgst.gc_hIcon}`
+              },
+              type: `i`
+            }] : null
+          });
           break;
         case `gc_i`:
-          elements.push(`
-            <div class="esgst-clickable esgst-gc esgst-gc-ignored ${esgst.gc_i ? `` : `esgst-hidden`}" draggable="true" id="gc_i" title="Ignored">${esgst.gc_i_s ? (esgst.gc_i_s_i ? `<i class="fa fa-${esgst.gc_iIcon}"></i>` : `I`) : esgst.gc_iLabel}</div>
-          `);
+          elements.push({
+            attributes: {
+              class: `esgst-clickable esgst-gc esgst-gc-ignored ${esgst.gc_i ? `` : `esgst-hidden`}`,
+              draggable: true,
+              id: `gc_i`,
+              title: `Ignored`
+            },
+            text: esgst.gc_i_s ? (esgst.gc_i_s_i ? `` : `I`) : esgst.gc_iLabel,
+            type: `div`,
+            children: esgst.gc_i_s && esgst.gc_i_s_i ? [{
+              attributes: {
+                class: `fa fa-${esgst.gc_iIcon}`
+              },
+              type: `i`
+            }] : null
+          });
           break;
         case `gc_o`:
-          elements.push(`
-            <div class="esgst-clickable esgst-gc esgst-gc-owned ${esgst.gc_o ? `` : `esgst-hidden`}" draggable="true" id="gc_o" title="Owned">${esgst.gc_o_s ? (esgst.gc_o_s_i ? `<i class="fa fa-${esgst.gc_oIcon}"></i>` : `O`) : esgst.gc_oLabel}</div>
-          `);
+          elements.push({
+            attributes: {
+              class: `esgst-clickable esgst-gc esgst-gc-owned ${esgst.gc_o ? `` : `esgst-hidden`}`,
+              draggable: true,
+              id: `gc_o`,
+              title: `Owned`
+            },
+            text: esgst.gc_o_s ? (esgst.gc_o_s_i ? `` : `O`) : esgst.gc_oLabel,
+            type: `div`,
+            children: esgst.gc_o_s && esgst.gc_o_s_i ? [{
+              attributes: {
+                class: `fa fa-${esgst.gc_oIcon}`
+              },
+              type: `i`
+            }] : null
+          });
           esgst.gc_o_altAccounts.forEach(account => {
-            elements.push(`
-              <div class="esgst-clickable esgst-gc esgst-gc-owned ${esgst.gc_o_a ? `` : `esgst-hidden`}" draggable="true" id="gc_o" style="background-color: ${account.bgColor}; color: ${account.color};" title="Owned by ${account.name}">${esgst.gc_o_s ? (esgst.gc_o_s_i ? `<i class="fa fa-${account.icon}"></i>` : `O`) : account.label}</div>
-            `);
+            elements.push({
+              attributes: {
+                class: `esgst-clickable esgst-gc esgst-gc-owned ${esgst.gc_o_a ? `` : `esgst-hidden`}`,
+                draggable: true,
+                id: `gc_o`,
+                style: `background-color: ${account.bgColor}; color: ${account.color};`,
+                title: `Owned by ${account.name}`
+              },
+              text: esgst.gc_o_s ? (esgst.gc_o_s_i ? `` : `O`) : account.label,
+              type: `div`,
+              children: esgst.gc_o_s && esgst.gc_o_s_i ? [{
+                attributes: {
+                  class: `fa fa-${account.icon}`
+                },
+                type: `i`
+              }] : null
+            });
           });
           break;
         case `gc_w`:
-          elements.push(`
-            <div class="esgst-clickable esgst-gc esgst-gc-wishlisted ${esgst.gc_w ? `` : `esgst-hidden`}" draggable="true" id="gc_w" title="Wishlisted">${esgst.gc_w_s ? (esgst.gc_w_s_i ? `<i class="fa fa-${esgst.gc_wIcon}"></i>` : `W`) : esgst.gc_wLabel}</div>
-          `);
+          elements.push({
+            attributes: {
+              class: `esgst-clickable esgst-gc esgst-gc-wishlisted ${esgst.gc_w ? `` : `esgst-hidden`}`,
+              draggable: true,
+              id: `gc_w`,
+              title: `Wishlisted`
+            },
+            text: esgst.gc_w_s ? (esgst.gc_w_s_i ? `` : `W`) : esgst.gc_wLabel,
+            type: `div`,
+            children: esgst.gc_w_s && esgst.gc_w_s_i ? [{
+              attributes: {
+                class: `fa fa-${esgst.gc_wIcon}`
+              },
+              type: `i`
+            }] : null
+          });
           break;
         case `gc_pw`:
-          elements.push(`
-            <div class="esgst-clickable esgst-gc esgst-gc-won ${esgst.gc_pw ? `` : `esgst-hidden`}" draggable="true" id="gc_pw" title="Previously Won">${esgst.gc_pw_s ? (esgst.gc_pw_s_i ? `<i class="fa fa-${esgst.gc_pwIcon}"></i>` : `PW`) : esgst.gc_pwLabel}</div>
-          `);
+          elements.push({
+            attributes: {
+              class: `esgst-clickable esgst-gc esgst-gc-won ${esgst.gc_pw ? `` : `esgst-hidden`}`,
+              draggable: true,
+              id: `gc_pw`,
+              title: `Previously Won`
+            },
+            text: esgst.gc_pw_s ? (esgst.gc_pw_s_i ? `` : `PW`) : esgst.gc_pwLabel,
+            type: `div`,
+            children: esgst.gc_pw_s && esgst.gc_pw_s_i ? [{
+              attributes: {
+                class: `fa fa-${esgst.gc_pwIcon}`
+              },
+              type: `i`
+            }] : null
+          });
           break;
         case `gc_gi`:
-          elements.push(`
-            <div class="esgst-clickable esgst-gc esgst-gc-giveawayInfo ${esgst.gc_gi ? `` : `esgst-hidden`}" draggable="true" id="gc_gi" title="Giveaway Info"><i class="fa fa-info"></i> 0 <i class="fa fa-dollar"></i> 0</div>
-          `);
+          elements.push({
+            attributes: {
+              class: `esgst-clickable esgst-gc esgst-gc-giveawayInfo ${esgst.gc_gi ? `` : `esgst-hidden`}`,
+              draggable: true,
+              id: `gc_gi`,
+              title: `Giveaway Info`
+            },
+            type: `div`,
+            children: [{
+              attributes: {
+                class: `fa fa-info`
+              },
+              type: `i`
+            }, {
+              text: ` 0 `,
+              type: `node`
+            }, {
+              attributes: {
+                class: `fa fa-dollar`
+              },
+              type: `i`
+            }, {
+              text: ` 0`,
+              type: `node`
+            }]
+          });
           break;
         case `gc_r`:
-          elements.push(`
-            <div class="esgst-clickable esgst-gc esgst-gc-rating esgst-gc-rating-positive ${esgst.gc_r ? `` : `esgst-hidden`}" draggable="true" id="gc_r" title="Rating"><i class="fa fa-thumbs-up"></i>${esgst.gc_r_s ? ` 0% (0)` : ``}</div>
-          `);
+          elements.push({
+            attributes: {
+              class: `esgst-clickable esgst-gc esgst-gc-rating esgst-gc-rating-positive ${esgst.gc_r ? `` : `esgst-hidden`}`,
+              draggable: true,
+              id: `gc_r`,
+              title: `Rating`
+            },
+            type: `div`,
+            children: [{
+              attributes: {
+                class: `fa fa-thumbs-up`
+              },
+              type: `i`
+            }, {
+              text: ` 0% (0)`,
+              type: `node`
+            }]
+          });
           break;
         case `gc_a`:
-          elements.push(`
-            <div class="esgst-clickable esgst-gc esgst-gc-achievements ${esgst.gc_a ? `` : `esgst-hidden`}" draggable="true" id="gc_a" title="Achievements">${esgst.gc_a_s ? (esgst.gc_a_s_i ? `<i class="fa fa-${esgst.gc_aIcon}"></i>` : `A`) : esgst.gc_aLabel}</div>
-          `);
+          elements.push({
+            attributes: {
+              class: `esgst-clickable esgst-gc esgst-gc-achievements ${esgst.gc_a ? `` : `esgst-hidden`}`,
+              draggable: true,
+              id: `gc_a`,
+              title: `Achievements`
+            },
+            text: esgst.gc_a_s ? (esgst.gc_a_s_i ? `` : `A`) : esgst.gc_aLabel,
+            type: `div`,
+            children: esgst.gc_a_s && esgst.gc_a_s_i ? [{
+              attributes: {
+                class: `fa fa-${esgst.gc_aIcon}`
+              },
+              type: `i`
+            }] : null
+          });
           break;
         case `gc_mp`:
-          elements.push(`
-            <div class="esgst-clickable esgst-gc esgst-gc-multiplayer ${esgst.gc_mp ? `` : `esgst-hidden`}" draggable="true" id="gc_mp" title="Multiplayer">${esgst.gc_mp_s ? (esgst.gc_mp_s_i ? `<i class="fa fa-${esgst.gc_mpIcon}"></i>` : `MP`) : esgst.gc_mpLabel}</div>
-          `);
+          elements.push({
+            attributes: {
+              class: `esgst-clickable esgst-gc esgst-gc-multiplayer ${esgst.gc_mp ? `` : `esgst-hidden`}`,
+              draggable: true,
+              id: `gc_mp`,
+              title: `Multiplayer`
+            },
+            text: esgst.gc_mp_s ? (esgst.gc_mp_s_i ? `` : `MP`) : esgst.gc_mpLabel,
+            type: `div`,
+            children: esgst.gc_mp_s && esgst.gc_mp_s_i ? [{
+              attributes: {
+                class: `fa fa-${esgst.gc_mpIcon}`
+              },
+              type: `i`
+            }] : null
+          });
           break;
         case `gc_sc`:
-          elements.push(`
-            <div class="esgst-clickable esgst-gc esgst-gc-steamCloud ${esgst.gc_sc ? `` : `esgst-hidden`}" draggable="true" id="gc_sc" title="Steam Cloud">${esgst.gc_sc_s ? (esgst.gc_sc_s_i ? `<i class="fa fa-${esgst.gc_scIcon}"></i>` : `SC`) : esgst.gc_scLabel}</div>
-          `);
+          elements.push({
+            attributes: {
+              class: `esgst-clickable esgst-gc esgst-gc-steamCloud ${esgst.gc_sc ? `` : `esgst-hidden`}`,
+              draggable: true,
+              id: `gc_sc`,
+              title: `Steam Cloud`
+            },
+            text: esgst.gc_sc_s ? (esgst.gc_sc_s_i ? `` : `SC`) : esgst.gc_scLabel,
+            type: `div`,
+            children: esgst.gc_sc_s && esgst.gc_sc_s_i ? [{
+              attributes: {
+                class: `fa fa-${esgst.gc_scIcon}`
+              },
+              type: `i`
+            }] : null
+          });
           break;
         case `gc_tc`:
-          elements.push(`
-            <div class="esgst-clickable esgst-gc esgst-gc-tradingCards ${esgst.gc_tc ? `` : `esgst-hidden`}" draggable="true" id="gc_tc" title="Trading Cards">${esgst.gc_tc_s ? (esgst.gc_tc_s_i ? `<i class="fa fa-${esgst.gc_tcIcon}"></i>` : `TC`) : esgst.gc_tcLabel}</div>
-          `);
+          elements.push({
+            attributes: {
+              class: `esgst-clickable esgst-gc esgst-gc-tradingCards ${esgst.gc_tc ? `` : `esgst-hidden`}`,
+              draggable: true,
+              id: `gc_tc`,
+              title: `Trading Cards`
+            },
+            text: esgst.gc_tc_s ? (esgst.gc_tc_s_i ? `` : `TC`) : esgst.gc_tcLabel,
+            type: `div`,
+            children: esgst.gc_tc_s && esgst.gc_tc_s_i ? [{
+              attributes: {
+                class: `fa fa-${esgst.gc_tcIcon}`
+              },
+              type: `i`
+            }] : null
+          });
           break;
         case `gc_l`:
-          elements.push(`
-            <div class="esgst-clickable esgst-gc esgst-gc-linux ${esgst.gc_l ? `` : `esgst-hidden`}" draggable="true" id="gc_l" title="Linux">${esgst.gc_l_s ? (esgst.gc_l_s_i ? `<i class="fa fa-${esgst.gc_lIcon}"></i>` : `L`) : esgst.gc_lLabel}</div>
-          `);
+          elements.push({
+            attributes: {
+              class: `esgst-clickable esgst-gc esgst-gc-linux ${esgst.gc_l ? `` : `esgst-hidden`}`,
+              draggable: true,
+              id: `gc_l`,
+              title: `Linux`
+            },
+            text: esgst.gc_l_s ? (esgst.gc_l_s_i ? `` : `L`) : esgst.gc_lLabel,
+            type: `div`,
+            children: esgst.gc_l_s && esgst.gc_l_s_i ? [{
+              attributes: {
+                class: `fa fa-${esgst.gc_lIcon}`
+              },
+              type: `i`
+            }] : null
+          });
           break;
         case `gc_m`:
-          elements.push(`
-            <div class="esgst-clickable esgst-gc esgst-gc-mac ${esgst.gc_m ? `` : `esgst-hidden`}" draggable="true" id="gc_m" title="Mac">${esgst.gc_m_s ? (esgst.gc_m_s_i ? `<i class="fa fa-${esgst.gc_mIcon}"></i>` : `M`) : esgst.gc_mLabel}</div>
-          `);
+          elements.push({
+            attributes: {
+              class: `esgst-clickable esgst-gc esgst-gc-mac ${esgst.gc_m ? `` : `esgst-hidden`}`,
+              draggable: true,
+              id: `gc_m`,
+              title: `Mac`
+            },
+            text: esgst.gc_m_s ? (esgst.gc_m_s_i ? `` : `M`) : esgst.gc_mLabel,
+            type: `div`,
+            children: esgst.gc_m_s && esgst.gc_m_s_i ? [{
+              attributes: {
+                class: `fa fa-${esgst.gc_mIcon}`
+              },
+              type: `i`
+            }] : null
+          });
           break;
         case `gc_dlc`:
-          elements.push(`
-            <div class="esgst-clickable esgst-gc esgst-gc-dlc ${esgst.gc_dlc ? `` : `esgst-hidden`}" draggable="true" id="gc_dlc" title="DLC">${esgst.gc_dlc_s ? (esgst.gc_dlc_s_i ? `<i class="fa fa-${esgst.gc_dlcIcon}"></i>` : `DLC`) : esgst.gc_dlcLabel}</div>
-          `);
+          elements.push({
+            attributes: {
+              class: `esgst-clickable esgst-gc esgst-gc-dlc ${esgst.gc_dlc ? `` : `esgst-hidden`}`,
+              draggable: true,
+              id: `gc_dlc`,
+              title: `DLC`
+            },
+            text: esgst.gc_dlc_s ? (esgst.gc_dlc_s_i ? `` : `DLC`) : esgst.gc_dlcLabel,
+            type: `div`,
+            children: esgst.gc_dlc_s && esgst.gc_dlc_s_i ? [{
+              attributes: {
+                class: `fa fa-${esgst.gc_dlcIcon}`
+              },
+              type: `i`
+            }] : null
+          });
           break;
         case `gc_p`:
-          elements.push(`
-            <div class="esgst-clickable esgst-gc esgst-gc-package ${esgst.gc_p ? `` : `esgst-hidden`}" draggable="true" id="gc_p" title="Package">${esgst.gc_p_s ? (esgst.gc_p_s_i ? `<i class="fa fa-${esgst.gc_pIcon}"></i>` : `P`) : esgst.gc_pLabel}</div>
-          `);
+          elements.push({
+            attributes: {
+              class: `esgst-clickable esgst-gc esgst-gc-package ${esgst.gc_p ? `` : `esgst-hidden`}`,
+              draggable: true,
+              id: `gc_p`,
+              title: `Package`
+            },
+            text: esgst.gc_p_s ? (esgst.gc_p_s_i ? `` : `P`) : esgst.gc_pLabel,
+            type: `div`,
+            children: esgst.gc_p_s && esgst.gc_p_s_i ? [{
+              attributes: {
+                class: `fa fa-${esgst.gc_pIcon}`
+              },
+              type: `i`
+            }] : null
+          });
           break;
         case `gc_ea`:
-          elements.push(`
-            <div class="esgst-clickable esgst-gc esgst-gc-earlyAccess ${esgst.gc_ea ? `` : `esgst-hidden`}" draggable="true" id="gc_ea" title="Early Access">${esgst.gc_ea_s ? (esgst.gc_ea_s_i ? `<i class="fa fa-${esgst.gc_eaIcon}"></i>` : `EA`) : esgst.gc_eaLabel}</div>
-          `);
+          elements.push({
+            attributes: {
+              class: `esgst-clickable esgst-gc esgst-gc-earlyAccess ${esgst.gc_ea ? `` : `esgst-hidden`}`,
+              draggable: true,
+              id: `gc_ea`,
+              title: `Early Access`
+            },
+            text: esgst.gc_ea_s ? (esgst.gc_ea_s_i ? `` : `EA`) : esgst.gc_eaLabel,
+            type: `div`,
+            children: esgst.gc_ea_s && esgst.gc_ea_s_i ? [{
+              attributes: {
+                class: `fa fa-${esgst.gc_eaIcon}`
+              },
+              type: `i`
+            }] : null
+          });
           break;
         case `gc_rm`:
-          elements.push(`
-            <div class="esgst-clickable esgst-gc esgst-gc-removed ${esgst.gc_rm ? `` : `esgst-hidden`}" draggable="true" id="gc_rm" title="Removed">${esgst.gc_rm_s ? (esgst.gc_rm_s_i ? `<i class="fa fa-${esgst.gc_rmIcon}"></i>` : `RM`) : esgst.gc_rmLabel}</div>
-          `);
+          elements.push({
+            attributes: {
+              class: `esgst-clickable esgst-gc esgst-gc-removed ${esgst.gc_rm ? `` : `esgst-hidden`}`,
+              draggable: true,
+              id: `gc_rm`,
+              title: `Removed`
+            },
+            text: esgst.gc_rm_s ? (esgst.gc_rm_s_i ? `` : `RM`) : esgst.gc_rmLabel,
+            type: `div`,
+            children: esgst.gc_rm_s && esgst.gc_rm_s_i ? [{
+              attributes: {
+                class: `fa fa-${esgst.gc_rmIcon}`
+              },
+              type: `i`
+            }] : null
+          });
           break;
         case `gc_rd`:
-          elements.push(`
-            <div class="esgst-clickable esgst-gc esgst-gc-releaseDate ${esgst.gc_rd ? `` : `esgst-hidden`}" draggable="true" id="gc_rd" title="Release Date">
-              <i class="fa fa-${esgst.gc_rdIcon}"></i> ${gc_formatDate(Date.now())}
-            </div>
-          `);
+          elements.push({
+            attributes: {
+              class: `esgst-clickable esgst-gc esgst-gc-releaseDate ${esgst.gc_rd ? `` : `esgst-hidden`}`,
+              draggable: true,
+              id: `gc_rd`,
+              title: `Release Date`
+            },
+            type: `div`,
+            children: [{
+              attributes: {
+                class: `fa fa-${esgst.gc_rdIcon}`
+              },
+              type: `i`
+            }, {
+              text: ` ${gc_formatDate(Date.now())}`,
+              type: `node`
+            }]
+          });
           break;
         case `gc_g`:
-          elements.push(`
-            <div class="esgst-clickable esgst-gc esgst-gc-genres ${esgst.gc_g ? `` : `esgst-hidden`}" draggable="true" id="gc_g" title="Genres">Genres</div>
-          `);
+          elements.push({
+            attributes: {
+              class: `esgst-clickable esgst-gc esgst-gc-genres ${esgst.gc_g ? `` : `esgst-hidden`}`,
+              draggable: true,
+              id: `gc_g`,
+              title: `Genres`
+            },
+            text: `Genres`,
+            type: `div`
+          });
           break;
       }
     }
+    const items = [];
+    if (categoryKey === `gc_categories_gv`) {
+      items.push({
+        attributes: {
+          class: `esgst-description esgst-bold`
+        },
+        text: `Grid View`,
+        type: `div`
+      });
+    }
+    items.push({
+      attributes: {
+        class: `esgst-description`
+      },
+      text: `Drag the categories to sort them.`,
+      type: `div`
+    }, {
+      attributes: {
+        class: `esgst-gc-panel`
+      },
+      type: `div`,
+      children: elements
+    });
     let sm = {
       categoryKey,
-      panel: insertHtml(context, `beforeEnd`, `
-        ${categoryKey === `gc_categories_gv` ? `<div class="esgst-description esgst-bold">Grid View</div>` : ``}
-        <div class="esgst-description">Drag the categories to sort them.</div>
-        <div class="esgst-gc-panel">${elements.join(``)}</div>
-      `)
+      panel: createElements(context, `beforeEnd`, items)
     };
     for (let i = 0, n = sm.panel.children.length; i < n; i++) {
       let child = sm.panel.children[i];
@@ -42343,14 +43291,28 @@
 
   function addGwcrMenuPanel(context, id, key, background) {
     let button, colors, i, n, panel;
-    panel = insertHtml(context, `beforeEnd`, `
-      <div class="esgst-sm-colors">
-        <div class="form__saving-button esgst-sm-colors-default">
-          <span>Add Color Setting</span>
-        </div>
-        <i class="fa fa-question-circle" title="Allows you to set different colors for different ${key} ranges."></i>
-      </div>
-    `);
+    panel = createElements(context, `beforeEnd`, [{
+      attributes: {
+        class: `esgst-sm-colors`
+      },
+      type: `div`,
+      children: [{
+        attributes: {
+          class: `form__saving-button esgst-sm-colors-default`
+        },
+        type: `div`,
+        children: [{
+          text: `Add Color Setting`,
+          type: `span`
+        }]
+      }, {
+        attributes: {
+          class: `fa fa-question-circle`,
+          title: `Allows you to set different colors for different ${key} ranges.`
+        },
+        type: `i`
+      }]
+    }]);
     button = panel.firstElementChild;
     for (i = 0, n = esgst[id].length; i < n; ++i) {
       addGwcColorSetting(esgst[id][i], id, key, panel, background);
@@ -42416,14 +43378,28 @@
   }
 
   function addGcRatingPanel(context) {
-    let panel = insertHtml(context, `beforeEnd`, `
-      <div class="esgst-sm-colors">
-        <div class="form__saving-button esgst-sm-colors-default">
-          <span>Add Rating Setting</span>
-        </div>
-        <i class="fa fa-question-circle" title="Allows you to set different colors/icons for different rating ranges."></i>
-      </div>
-    `);
+    let panel = createElements(context, `beforeEnd`, [{
+      attributes: {
+        class: `esgst-sm-colors`
+      },
+      type: `div`,
+      children: [{
+        attributes: {
+          class: `form__saving-button esgst-sm-colors-default`
+        },
+        type: `div`,
+        children: [{
+          text: `Add Rating Setting`,
+          type: `span`
+        }]
+      }, {
+        attributes: {
+          class: `fa fa-question-circle`,
+          title: `Allows you to set different colors/icons for different rating ranges.`
+        },
+        type: `i`
+      }]
+    }]);
     let button = panel.firstElementChild;
     for (let i = 0, n = esgst.gc_r_colors.length; i < n; ++i) {
       addGcRatingColorSetting(esgst.gc_r_colors[i], panel);
@@ -42490,14 +43466,28 @@
 
   function addGcMenuPanel(context) {
     let button, colorSetting, i, n, panel;
-    panel = insertHtml(context, `beforeEnd`, `
-      <div class="esgst-sm-colors">
-        <div class="form__saving-button esgst-sm-colors-default">
-          <span>Add Custom Genre Color</span>
-        </div>
-        <i class="fa fa-question-circle" title="Allows you to color genres (colored genres will appear at the beginning of the list)."></i>
-      </div>
-    `);
+    panel = createElements(context, `beforeEnd`, [{
+      attributes: {
+        class: `esgst-sm-colors`
+      },
+      type: `div`,
+      children: [{
+        attributes: {
+          class: `form__saving-button esgst-sm-colors-default`
+        },
+        type: `div`,
+        children: [{
+          text: `Add Custom Genre Setting`,
+          type: `span`
+        }]
+      }, {
+        attributes: {
+          class: `fa fa-question-circle`,
+          title: `Allows you to color genres (colored genres will appear at the beginning of the list).`
+        },
+        type: `i`
+      }]
+    }]);
     button = panel.firstElementChild;
     for (i = 0, n = esgst.gc_g_colors.length; i < n; ++i) {
       addGcColorSetting(esgst.gc_g_colors[i], panel);
@@ -42550,13 +43540,22 @@
 
   function addGcAltMenuPanel(context) {
     let altSetting, button, i, n, panel;
-    panel = insertHtml(context, `beforeEnd`, `
-      <div class="esgst-sm-colors">
-        <div class="form__saving-button esgst-sm-colors-default">
-          <span>Add Alt Account</span>
-        </div>
-      </div>
-    `);
+    panel = createElements(context, `beforeEnd`, [{
+      attributes: {
+        class: `esgst-sm-colors`
+      },
+      type: `div`,
+      children: [{
+        attributes: {
+          class: `form__saving-button esgst-sm-colors-default`
+        },
+        type: `div`,
+        children: [{
+          text: `Add Alt Account`,
+          type: `span`
+        }]
+      }]
+    }]);
     button = panel.firstElementChild;
     createTooltip(insertHtml(panel, `beforeEnd`, `<i class="fa fa-question-circle"></i>`), `
       <div>You must sync your owned games normally for the script to pick up the games owned by your alt accounts. Syncing with alt accounts only works with a Steam API Key though, so make sure one is set at the last section of this menu.</div>
@@ -42758,11 +43757,22 @@
     for (const steamId in savedUsers.users) {
       savedUser = savedUsers.users[steamId];
       if (savedUser.tags && (savedUser.tags.length > 1 || (savedUser.tags[0] && savedUser.tags[0].trim()))) {
-        context = insertHtml(popup.scrollable, `beforeEnd`, `
-          <div>
-            <a ${savedUser.username ? `data-sg="true" href="https://www.steamgifts.com` : `data-st="true" href="https://www.steamtrades.com`}/user/${savedUser.username || steamId}">${savedUser.username || steamId}</a>
-          </div>
-        `);
+        const attributes = {};
+        if (savedUser.username) {
+          attributes[`data-sg`] = true;
+          attributes.href = `https://www.steamgifts.com/user/${savedUser.username}`;
+        } else {
+          attributes[`data-st`] = true;
+          attributes.href = `https://www.steamtrades.com/user/${steamId}`;
+        }
+        context = createElements(popup.scrollable, `beforeEnd`, [{
+          type: `div`,
+          children: [{
+            attributes,
+            text: savedUser.username || steamId,
+            type: `a`
+          }]
+        }]);
         current[savedUser.username || steamId] = {
           elements: [context.firstElementChild]
         };
@@ -42833,11 +43843,20 @@
     for (const id in savedGames.apps) {
       savedGame = savedGames.apps[id];
       if (savedGame.tags && (savedGame.tags.length > 1 || savedGame.tags[0].trim())) {
-        context = insertHtml(popup.scrollable, `beforeEnd`, `
-          <div class="table__row-outer-wrap">
-            <a class="table__column__heading" href="http://store.steampowered.com/app/${id}">App - ${id}</a>
-          </div>
-        `);
+        context = createElements(popup.scrollable, `beforeEnd`, [{
+          attributes: {
+            class: `table__row-outer-wrap`
+          },
+          type: `div`,
+          children: [{
+            attributes: {
+              class: `table__column__heading`,
+              href: `http://store.steampowered.com/app/${id}`
+            },
+            text: `App - ${id}`,
+            type: `a`
+          }]
+        }]);
         current.apps[id] = [{
           heading: context
         }];
@@ -42849,11 +43868,20 @@
     for (const id in savedGames.subs) {
       savedGame = savedGames.subs[id];
       if (savedGame.tags && (savedGame.tags.length > 1 || savedGame.tags[0].trim())) {
-        context = insertHtml(popup.scrollable, `beforeEnd`, `
-          <div class="table__row-outer-wrap">
-            <a class="table__column__heading" href="http://store.steampowered.com/sub/${id}">Sub - ${id}</a>
-          </div>
-        `);
+        context = createElements(popup.scrollable, `beforeEnd`, [{
+          attributes: {
+            class: `table__row-outer-wrap`
+          },
+          type: `div`,
+          children: [{
+            attributes: {
+              class: `table__column__heading`,
+              href: `http://store.steampowered.com/sub/${id}`
+            },
+            text: `Sub - ${id}`,
+            type: `a`
+          }]
+        }]);
         current.subs[id] = [{
           heading: context
         }];
@@ -43037,9 +44065,24 @@
       container = popup.description;
     }
     if (!dm.autoBackup) {
-      dm.computerSpace = insertHtml(container, `afterBegin`, `
-        <div>Total: <span class="esgst-bold"></span> <i class="esgst-clickable fa fa-refresh" title="Calculate/refresh data sizes"></i></div>
-      `);
+      dm.computerSpace = createElements(container, `afterBegin`, [{
+        type: `div`,
+        children: [{
+          text: `Total: `,
+          type: `node`
+        }, {
+          attributes: {
+            class: `esgst-bold`
+          },
+          type: `span`
+        }, {
+          attributes: {
+            class: `esgst-clickable fa fa-refresh`,
+            title: `Calculate/refresh data sizes`
+          },
+          type: `i`
+        }]
+      }]);
       dm.computerSpaceCount = dm.computerSpace.firstElementChild;
       dm.computerSpaceCount.nextElementSibling.addEventListener(`click`, getDataSizes.bind(null, dm));
       section = createMenuSection(context, null, 1, title1);
@@ -43731,8 +44774,41 @@
       const newSize = await manageData(dm, false, false, false, true);
       const successPopup = new Popup_v2({
         icon: `fa-check`,
-        title: `Success! The selected data was cleaned.<br><br>Size before cleaning: <span class="esgst-bold">${convertBytes(oldSize)}</span><br>Size after cleaning: <span class="esgst-bold">${convertBytes(newSize)}</span><br><br>${Math.round((100 - (newSize / oldSize * 100)) * 100) / 100}% reduction`,
-        temp: true
+        title: [{
+          text: `Success! The selected data was cleaned.`,
+          type: `node`
+        }, {
+          type: `<br>`
+        }, {
+          type: `<br>`
+        }, {
+          text: `Size before cleaning: `,
+          type: `node`
+        }, {
+          attributes: {
+            class: `esgst-bold`
+          },
+          text: convertBytes(oldSize),
+          type: `span`
+        }, {
+          type: `br`
+        }, {
+          text: `Size after cleaning: `,
+          type: `node`
+        }, {
+          attributes: {
+            class: `esgst-bold`
+          },
+          text: convertBytes(newSize),
+          type: `span`
+        }, {
+          type: `br`
+        }, {
+          type: `br`
+        }, {
+          text: `${Math.round((100 - (newSize / oldSize * 100)) * 100) / 100}% reduction`,
+          type: `node`
+        }]
       });
       successPopup.open();
     }}).set);
@@ -45230,11 +46306,21 @@
   }
 
   async function resetOrder(select, event) {
-    let message = insertHtml(event.currentTarget, `afterEnd`, `
-      <div class="esgst-description esgst-bold">
-        <i class="fa fa-circle-o-notch fa-spin"></i> Saving...
-      </div>
-    `);
+    let message = createElements(event.currentTarget, `afterEnd`, [{
+      attributes: {
+        class: `esgst-description esgst-bold`
+      },
+      type: `div`,
+      children: [{
+        attributes: {
+          class: `fa fa-circle-o-notch fa-spin`
+        },
+        type: `i`
+      }, {
+        text: ` Saving...`,
+        type: `node`
+      }]
+    }]);
     let key = select.value;
     esgst.settings[key] = esgst.defaultValues[key];
     await setValue(`settings`, JSON.stringify(esgst.settings));
@@ -45272,17 +46358,48 @@
             return 1;
           }
         });
-        let table = insertHtml(popup.scrollable, `beforeEnd`, `
-          <div class="table">
-            <div class="table__heading">
-              <div class="table__column--width-fill">Username</div>
-              <div class="table__column--width-small">Posts Hidden</div>
-              <div class="table__column--width-small">Discussions Hidden</div>
-              <div class="table__column--width-small">Giveaways Hidden</div>
-            </div>
-            <div class="table__rows"></div>
-          </div>
-        `);
+        let table = createElements(popup.scrollable, `beforeEnd`, [{
+          attributes: {
+            class: `table`
+          },
+          type: `div`,
+          children: [{
+            attributes: {
+              class: `table__heading`
+            },
+            type: `div`,
+            children: [{
+              attributes: {
+                class: `table__column--width-fill`
+              },
+              text: `Username`,
+              type: `div`
+            }, {
+              attributes: {
+                class: `table__column--width-small`
+              },
+              text: `Posts Hidden`,
+              type: `div`
+            }, {
+              attributes: {
+                class: `table__column--width-small`
+              },
+              text: `Discussions Hidden`,
+              type: `div`
+            }, {
+              attributes: {
+                class: `table__column--width-small`
+              },
+              text: `Giveaways Hidden`,
+              type: `div`
+            }]
+          }, {
+            attributes: {
+              class: `table__rows`
+            },
+            type: `div`
+          }]
+        }]);
         for (let i = 0, n = filtered.length; i < n; ++i) {
           const postsIcon = filtered[i].uf.posts ? `fa fa-check` : ``;
           const discussionsIcon = filtered[i].uf.discussions ? `fa fa-check` : ``;
@@ -45408,11 +46525,19 @@
       }
     }
     if (settings) {
-      let message = insertHtml(settings, `beforeEnd`, `
-        <div class="esgst-description esgst-bold">
-          <i class="fa fa-circle-o-notch fa-spin" title="Saving..."></i>
-        </div>
-      `);
+      let message = createElements(settings, `beforeEnd`, [{
+        attributes: {
+          class: `esgst-description esgst-bold`
+        },
+        type: `div`,
+        children: [{
+          attributes: {
+            class: `fa fa-circle-o-notch fa-spin`,
+            title: `Saving...`
+          },
+          type: `i`
+        }]
+      }]);
       await setValue(`settings`, JSON.stringify(esgst.settings));
       message.classList.add(`esgst-green`);
       createElements(message, `inner`, [{
@@ -48399,11 +49524,18 @@
   }
 
   function draggable_setTrash(obj) {
-    obj.trash = insertHtml(obj.context, `afterEnd`, `
-      <div class="esgst-draggable-trash">
-        <i class="fa fa-trash"></i>
-      </div>
-    `);
+    obj.trash = createElements(obj.context, `afterEnd`, [{
+      attributes: {
+        class: `esgst-draggable-trash`
+      },
+      type: `div`,
+      children: [{
+        attributes: {
+          class: `fa fa-trash`
+        },
+        type: `i`
+      }]
+    }]);
     obj.trash.style.width = `${obj.context.offsetWidth}px`;
     obj.trash.addEventListener(`dragenter`, () => {
       if (!obj.dragging) return;
@@ -48825,7 +49957,7 @@
     options.forEach(option => {
       if (option.check) {
         id = option.id;
-        createElements(elements[id], context, `beforeEnd`, [{
+        elements[id] = createElements(context, `beforeEnd`, [{
           type: `div`
         }]);
         switches[id] = new ToggleSwitch(elements[id], id, false, option.description, false, false, option.tooltip, esgst[id]);
@@ -49239,9 +50371,9 @@
   }
 
   function copyValue(icon, value) {
-    let textArea = insertHtml(document.body, `beforeEnd`, `
-      <textarea></textarea>
-    `);
+    let textArea = createElements(document.body, `beforeEnd`, [{
+      type: `textarea`
+    }]);
     textArea.value = value;
     textArea.select();
     document.execCommand(`copy`);
@@ -49676,11 +50808,15 @@
       <div class="esgst-sm-colors"></div>
     `).firstElementChild;
     obj.options[key].forEach(option => {
-      option.select = insertHtml(context, `beforeEnd`, `
-        <div>
-          ${option.name} <select></select>
-        </div>
-      `).lastElementChild;
+      option.select = createElemens(context, `beforeEnd`, [{
+        type: `div`,
+        children: [{
+          text: `${option.name} `,
+          type: `node`
+        }, {
+          type: `select`
+        }]
+      }]).lastElementChild;
       (option.options || binaryOptions).forEach(subOption => {
         createElements(option.select, `beforeEnd`, [{
           attributes: {
@@ -49707,22 +50843,57 @@
   }
 
   function createMenuSection(context, html, number, title, type) {
-    let section = insertHtml(context, `beforeEnd`, `
-      <div class="esgst-form-row" id="esgst_${type}">
-        <div class="esgst-form-heading">
-          <div class="esgst-form-heading-number">${number}.</div>
-          <div class="esgst-form-heading-text">${title}</div>
-        </div>
-        <div class="esgst-form-row-indent">${html ? html : ``}</div>
-      </div>
-    `);
+    let section = createElements(context, `beforeEnd`, [{
+      attributes: {
+        class: `esgst-form-row`,
+        id: `esgst_${type}`
+      },
+      type: `div`,
+      children: [{
+        attributes: {
+          class: `esgst-form-heading`
+        },
+        type: `div`,
+        children: [{
+          attributes: {
+            class: `esgst-form-heading-number`
+          },
+          text: `${number}.`,
+          type: `div`
+        }, {
+          attributes: {
+            class: `esgst-form-heading-text`
+          },
+          type: `div`,
+          children: [{
+            text: title,
+            type: `span`
+          }]
+        }]
+      }, {
+        attributes: {
+          class: `esgst-form-row-indent`
+        },
+        type: `div`,
+        children: html
+      }]
+    }]);
     if (esgst.collapseSections && !title.match(/Backup|Restore|Delete/)) {
       let button, container, isExpanded;
-      button = insertHtml(section.firstElementChild, `afterBegin`, `
-        <span class="esgst-clickable" style="margin-right: 5px;">
-          <i class="fa fa-plus-square" title="Expand section"></i>
-        </span>
-      `);
+      button = createElements(section.firstElementChild, `afterBegin`, [{
+        attributes: {
+          class: `esgst-clickable`,
+          style: `margin-right: 5px;`
+        },
+        type: `span`,
+        children: [{
+          attributes: {
+            class: `fa fa-plus-square`,
+            title: `Expand section`
+          },
+          type: `i`
+        }]
+      }]);
       container = section.lastElementChild;
       container.classList.add(`esgst-hidden`);
       isExpanded = false;
