@@ -236,65 +236,69 @@ To learn more about each feature you have to install ESGST.
 
 ## Changelog
 
+**7.25.0 (July 27, 2018)**
+
+* [#845](https://github.com/revilheart/ESGST/issues/845) Fix the extension to comply with Mozilla requirements
+
 **7.24.1 (July 24, 2018)**
 
-* [#844](https://github.com/revilheart/ESGST/issues/844)Show error message in the giveaway if game categories failed to load
-* [#843](https://github.com/revilheart/ESGST/issues/843)Fix a bug that re-retrieves categories for games that were already recently retrieved
-* [#842](https://github.com/revilheart/ESGST/issues/842)Fix Is There Any Deal? Info
-* [#841](https://github.com/revilheart/ESGST/issues/841)Extend "Most sent to" list to other users in User Giveaway Data
-* [#840](https://github.com/revilheart/ESGST/issues/840)Prevent User Giveaway Data from making useless requests if a giveaway has less than or equal to 3 winners
-* [#839](https://github.com/revilheart/ESGST/issues/839)Fix a bug that happens sometimes when hovering over the input field in Quick Giveaway Search
-* [#838](https://github.com/revilheart/ESGST/issues/838)Fix a bug that colors ended giveaways as green the first time they are found in Giveaway Encrypter/Decrypter
-* [#836](https://github.com/revilheart/ESGST/issues/836)Open links from the header menu in a new tab
-* [#834](https://github.com/revilheart/ESGST/issues/834)Enhance cookie manipulation in the extension to bypass age checks in requests to the Steam store
-* [#833](https://github.com/revilheart/ESGST/issues/833)Fix a bug that happens when showing game categories in real time
-* [#832](https://github.com/revilheart/ESGST/issues/832)Fix changelog link in the header menu
-* [#828](https://github.com/revilheart/ESGST/issues/828)Add option to show the Giveaway Encrypter/Decrypter header button even if there are only ended giveaways in the page
-* [#803](https://github.com/revilheart/ESGST/issues/803)Fix a bug that doesn't show groups containing HTML entities in Multiple Giveaway Creator
+* [#844](https://github.com/revilheart/ESGST/issues/844) Show error message in the giveaway if game categories failed to load
+* [#843](https://github.com/revilheart/ESGST/issues/843) Fix a bug that re-retrieves categories for games that were already recently retrieved
+* [#842](https://github.com/revilheart/ESGST/issues/842) Fix Is There Any Deal? Info
+* [#841](https://github.com/revilheart/ESGST/issues/841) Extend "Most sent to" list to other users in User Giveaway Data
+* [#840](https://github.com/revilheart/ESGST/issues/840) Prevent User Giveaway Data from making useless requests if a giveaway has less than or equal to 3 winners
+* [#839](https://github.com/revilheart/ESGST/issues/839) Fix a bug that happens sometimes when hovering over the input field in Quick Giveaway Search
+* [#838](https://github.com/revilheart/ESGST/issues/838) Fix a bug that colors ended giveaways as green the first time they are found in Giveaway Encrypter/Decrypter
+* [#836](https://github.com/revilheart/ESGST/issues/836) Open links from the header menu in a new tab
+* [#834](https://github.com/revilheart/ESGST/issues/834) Enhance cookie manipulation in the extension to bypass age checks in requests to the Steam store
+* [#833](https://github.com/revilheart/ESGST/issues/833) Fix a bug that happens when showing game categories in real time
+* [#832](https://github.com/revilheart/ESGST/issues/832) Fix changelog link in the header menu
+* [#828](https://github.com/revilheart/ESGST/issues/828) Add option to show the Giveaway Encrypter/Decrypter header button even if there are only ended giveaways in the page
+* [#803](https://github.com/revilheart/ESGST/issues/803) Fix a bug that doesn't show groups containing HTML entities in Multiple Giveaway Creator
 
 **7.24.0 (July 22, 2018)**
 
-* [#829](https://github.com/revilheart/ESGST/issues/829)Add options to limit requests to the Steam store and show categories in real time to Game Categories
-* [#831](https://github.com/revilheart/ESGST/issues/831)Fix a bug that does not calculate average entries correctly in Entry Tracker
-* [#830](https://github.com/revilheart/ESGST/issues/830)Fix a bug that identifies non-owned games as owned in Game Categories
-* [#827](https://github.com/revilheart/ESGST/issues/827)Add a feature: Giveaway Points To Win
-* [#826](https://github.com/revilheart/ESGST/issues/826)Add "Projected Chance", "Projected Chance Per Point" and "Projected Ratio" to Giveaways Sorter
-* [#805](https://github.com/revilheart/ESGST/issues/805)Add "Projected Chance", "Projected Chance Per Point" and "Projected Ratio" giveaway filters
-* [#808](https://github.com/revilheart/ESGST/issues/808)Fix a bug that does not remember the position of the winners column in group pages when dragging
-* [#825](https://github.com/revilheart/ESGST/issues/825)Fix a style issue that shows two scrollbars in the settings menu
+* [#829](https://github.com/revilheart/ESGST/issues/829) Add options to limit requests to the Steam store and show categories in real time to Game Categories
+* [#831](https://github.com/revilheart/ESGST/issues/831) Fix a bug that does not calculate average entries correctly in Entry Tracker
+* [#830](https://github.com/revilheart/ESGST/issues/830) Fix a bug that identifies non-owned games as owned in Game Categories
+* [#827](https://github.com/revilheart/ESGST/issues/827) Add a feature: Giveaway Points To Win
+* [#826](https://github.com/revilheart/ESGST/issues/826) Add "Projected Chance", "Projected Chance Per Point" and "Projected Ratio" to Giveaways Sorter
+* [#805](https://github.com/revilheart/ESGST/issues/805) Add "Projected Chance", "Projected Chance Per Point" and "Projected Ratio" giveaway filters
+* [#808](https://github.com/revilheart/ESGST/issues/808) Fix a bug that does not remember the position of the winners column in group pages when dragging
+* [#825](https://github.com/revilheart/ESGST/issues/825) Fix a style issue that shows two scrollbars in the settings menu
 
 **7.23.0 (July 20, 2018)**
 
-* [#824](https://github.com/revilheart/ESGST/issues/824)Add enhancements to User Giveaway Data
-* [#823](https://github.com/revilheart/ESGST/issues/823)Fix a bug that does not change SteamGifts filters through Giveaway Filters correctly
-* [#822](https://github.com/revilheart/ESGST/issues/822)Fix a bug that does not pin highlighted discussions after sorting
-* [#821](https://github.com/revilheart/ESGST/issues/821)Make SGTools filter ignore the Chance, Chance Per Point, Comments, Entries and Ratio filters
-* [#820](https://github.com/revilheart/ESGST/issues/820)Fix the "Add Current" button for includes/excludes in the main page
-* [#819](https://github.com/revilheart/ESGST/issues/819)Possible fix for endless spawning issue with Steam Activation Links
-* [#818](https://github.com/revilheart/ESGST/issues/818)Use the featured heading of a user's profile page instead of the page heading
-* [#817](https://github.com/revilheart/ESGST/issues/817)Add option to choose custom colors for Giveaway Copy Highlighter
-* [#816](https://github.com/revilheart/ESGST/issues/816)Add option to automatically mark a user's own comments as read
-* [#815](https://github.com/revilheart/ESGST/issues/815)Add option to enable tracking controls for a user's own comments
-* [#814](https://github.com/revilheart/ESGST/issues/814)Add option to fade out read comments in Comment Tracker
-* [#813](https://github.com/revilheart/ESGST/issues/813)Fix a bug that happens when refreshing active discussions on the sidebar
-* [#812](https://github.com/revilheart/ESGST/issues/812)Fix a bug that happens when retrieving categories of discussions in the sidebar
-* [#790](https://github.com/revilheart/ESGST/issues/790)Add option to automatically update hidden games adding/removing a game to/from the list
-* [#811](https://github.com/revilheart/ESGST/issues/811)Show success message when cleaning data
-* [#795](https://github.com/revilheart/ESGST/issues/795)Fix a bug that happens when cleaning data for features that the user hasn't used yet
-* [#810](https://github.com/revilheart/ESGST/issues/810)Automatically detect username changes when visiting a user's profile page
-* [#804](https://github.com/revilheart/ESGST/issues/804)Change resource references to the current version in the userscript version
-* [#802](https://github.com/revilheart/ESGST/issues/802)Make the settings search bar stay always visible when scrolling
-* [#797](https://github.com/revilheart/ESGST/issues/797)Add Public giveaway filter
-* [#801](https://github.com/revilheart/ESGST/issues/801)Add a feature: Comment Filters
-* [#147](https://github.com/revilheart/ESGST/issues/147)Add extension support for Microsoft Edge
-* [#796](https://github.com/revilheart/ESGST/issues/796)Add countdown to the duplicate giveaway waiting period in Multiple Giveaway Creator
-* [#794](https://github.com/revilheart/ESGST/issues/794)Add Patreon as an additional form of donation
-* [#785](https://github.com/revilheart/ESGST/issues/785)Detect packages that contain owned/wishlisted games through Game Categories
-* [#792](https://github.com/revilheart/ESGST/issues/792)Fix a bug that does not update the list of reduced CV games if a game was removed
-* [#784](https://github.com/revilheart/ESGST/issues/784)Load themes faster
-* [#646](https://github.com/revilheart/ESGST/issues/646)Extend header/footer to ESGST-generated pages
-* [#672](https://github.com/revilheart/ESGST/issues/672)Add option to clean discussion (remove deleted comments from the database) to Comment Tracker
-* [#783](https://github.com/revilheart/ESGST/issues/783)Open SGTools links in new tabs on Giveaway Extractor
+* [#824](https://github.com/revilheart/ESGST/issues/824) Add enhancements to User Giveaway Data
+* [#823](https://github.com/revilheart/ESGST/issues/823) Fix a bug that does not change SteamGifts filters through Giveaway Filters correctly
+* [#822](https://github.com/revilheart/ESGST/issues/822) Fix a bug that does not pin highlighted discussions after sorting
+* [#821](https://github.com/revilheart/ESGST/issues/821) Make SGTools filter ignore the Chance, Chance Per Point, Comments, Entries and Ratio filters
+* [#820](https://github.com/revilheart/ESGST/issues/820) Fix the "Add Current" button for includes/excludes in the main page
+* [#819](https://github.com/revilheart/ESGST/issues/819) Possible fix for endless spawning issue with Steam Activation Links
+* [#818](https://github.com/revilheart/ESGST/issues/818) Use the featured heading of a user's profile page instead of the page heading
+* [#817](https://github.com/revilheart/ESGST/issues/817) Add option to choose custom colors for Giveaway Copy Highlighter
+* [#816](https://github.com/revilheart/ESGST/issues/816) Add option to automatically mark a user's own comments as read
+* [#815](https://github.com/revilheart/ESGST/issues/815) Add option to enable tracking controls for a user's own comments
+* [#814](https://github.com/revilheart/ESGST/issues/814) Add option to fade out read comments in Comment Tracker
+* [#813](https://github.com/revilheart/ESGST/issues/813) Fix a bug that happens when refreshing active discussions on the sidebar
+* [#812](https://github.com/revilheart/ESGST/issues/812) Fix a bug that happens when retrieving categories of discussions in the sidebar
+* [#790](https://github.com/revilheart/ESGST/issues/790) Add option to automatically update hidden games adding/removing a game to/from the list
+* [#811](https://github.com/revilheart/ESGST/issues/811) Show success message when cleaning data
+* [#795](https://github.com/revilheart/ESGST/issues/795) Fix a bug that happens when cleaning data for features that the user hasn't used yet
+* [#810](https://github.com/revilheart/ESGST/issues/810) Automatically detect username changes when visiting a user's profile page
+* [#804](https://github.com/revilheart/ESGST/issues/804) Change resource references to the current version in the userscript version
+* [#802](https://github.com/revilheart/ESGST/issues/802) Make the settings search bar stay always visible when scrolling
+* [#797](https://github.com/revilheart/ESGST/issues/797) Add Public giveaway filter
+* [#801](https://github.com/revilheart/ESGST/issues/801) Add a feature: Comment Filters
+* [#147](https://github.com/revilheart/ESGST/issues/147) Add extension support for Microsoft Edge
+* [#796](https://github.com/revilheart/ESGST/issues/796) Add countdown to the duplicate giveaway waiting period in Multiple Giveaway Creator
+* [#794](https://github.com/revilheart/ESGST/issues/794) Add Patreon as an additional form of donation
+* [#785](https://github.com/revilheart/ESGST/issues/785) Detect packages that contain owned/wishlisted games through Game Categories
+* [#792](https://github.com/revilheart/ESGST/issues/792) Fix a bug that does not update the list of reduced CV games if a game was removed
+* [#784](https://github.com/revilheart/ESGST/issues/784) Load themes faster
+* [#646](https://github.com/revilheart/ESGST/issues/646) Extend header/footer to ESGST-generated pages
+* [#672](https://github.com/revilheart/ESGST/issues/672) Add option to clean discussion (remove deleted comments from the database) to Comment Tracker
+* [#783](https://github.com/revilheart/ESGST/issues/783) Open SGTools links in new tabs on Giveaway Extractor
 
 **7.22.0 (June 24, 2018)**
 
